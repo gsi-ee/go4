@@ -665,12 +665,6 @@
       <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
     </connection>
     <connection>
-      <sender>fxQCanvas</sender>
-      <signal>CanvasStatusEvent(const char*)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>CanvasStatusEventSlot(const char*)</slot>
-    </connection>
-    <connection>
       <sender>GetConditionBtn</sender>
       <signal>clicked()</signal>
       <receiver>TGo4ViewPanel</receiver>

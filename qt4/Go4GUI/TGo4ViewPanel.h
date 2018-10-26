@@ -247,7 +247,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void PadClickedSlot( TPad * pad );
       virtual void PadDoubleClickedSlot( TPad * pad );
       virtual void CanvasDropEventSlot( QDropEvent * event, TPad * pad );
-      virtual void CanvasStatusEventSlot( const char * message );
       virtual void ProcessPadDoubleClick();
       virtual void MenuCommandExecutedSlot( TObject * obj, const char * cmdname );
       virtual void CanvasUpdatedSlot();
@@ -284,7 +283,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       TPad* fxActivePad;
       int fiSkipRedrawCounter;
       bool fbCanvasCrosshair;
-      bool fbCanvasEventstatus;
       QAction *fxCanvasEventstatusChk;
       QStatusBar *CanvasStatus;
       bool fbApplyToAllFlag;

@@ -61,6 +61,7 @@ class QAction;
 class QTimer;
 class QRootWindow;
 class QFrame;
+class QStatusBar;
 
 /** This canvas uses Qt eventloop to handle user input
   *   @short Graphic Qt Widget based Canvas
@@ -93,6 +94,11 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              resizeEditor();
       void              actiavteEditor(TPad *pad, TObject *obj);
       void              cleanupEditor();
+
+      void              setStatusBar(QStatusBar *bar) { fStatusBar = bar; }
+      void              showStatusMessage(const char *msg);
+      void              setStatusBarVisible(bool flag);
+      bool              isStatusBarVisible();
 
    signals:
       /** signal which will be emitted when root selected pad is changed
@@ -230,6 +236,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       QRootWindow*      fxRooteditor;        // QtRoot window to embed ROOT editor
       TH1*              fDummyHisto;         // dummy histogram used for editor cleanup
 
+      QStatusBar       *fStatusBar;
+
    private:
       bool              fMaskDoubleClick;
       double            fMousePosX;    // mouse position in user coordinate when activate menu
@@ -239,7 +247,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       TList*            fMenuMethods;  // list of menu methods
       bool              fxShowEventStatus;
 
-      double fQtScalingfactor;
+      double            fQtScalingfactor;
 };
 
 #endif

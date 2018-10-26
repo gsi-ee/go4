@@ -110,7 +110,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fbApplyToAllFlag = false;
    fbAutoZoomFlag = false;
    fbCanvasCrosshair = false;
-   fbCanvasEventstatus = false;
 
    fbCloneFlag = true;
    fbModifiedSignalFlag = false;
@@ -165,9 +164,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
                    fxQCanvas->isEditorVisible(), this, SLOT(StartRootEditor()));
    act->setEnabled(fxQCanvas->isEditorAllowed());
 
-   // must get fbCanvasEventstatus from
-   fbCanvasEventstatus = go4sett->getPadEventStatus();
-   fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", fbCanvasEventstatus, this,
+   bool status_flag = go4sett->getPadEventStatus();
+   fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", status_flag, this,
             SLOT(ShowEventStatus()));
 
    editMenu->addAction("Start &condition editor", this,
@@ -231,6 +229,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    CanvasStatus = new QStatusBar(this);
    gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
    CanvasStatus->setVisible(false);
+   fxQCanvas->setStatusBar(CanvasStatus);
+   fxQCanvas->setStatusBarVisible(status_flag);
 
    connect(GetQCanvas(), SIGNAL(SelectedPadChanged(TPad*)), this,
          SLOT(SetActivePad(TPad*)));
@@ -1577,12 +1577,6 @@ void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
    emit widgetService(this, service_DropEvent, (const char*) pad, event);
 }
 
-void TGo4ViewPanel::CanvasStatusEventSlot(const char* message)
-{
-   if (CanvasStatus != 0)
-      CanvasStatus->showMessage(message);
-}
-
 void TGo4ViewPanel::ProcessPadDoubleClick()
 {
    if (fxDoubleClickTimerPad == 0) return;
@@ -2050,12 +2044,12 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 
 void TGo4ViewPanel::ShowEventStatus()
 {
-   fbCanvasEventstatus = !fbCanvasEventstatus;
+   bool flag = !fxQCanvas->isStatusBarVisible();
 
-   fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
-   CanvasStatus->setVisible(fbCanvasEventstatus);
-   fxCanvasEventstatusChk->setChecked(fbCanvasEventstatus);
-   if (!fbCanvasEventstatus)
+   fxQCanvas->setStatusBarVisible(flag);
+
+   fxCanvasEventstatusChk->setChecked(flag);
+   if (!flag)
       DisplayPadStatus(GetActivePad());
 }
 
@@ -4428,7 +4422,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
    if (go4sett->getOptStatH()>0) gStyle->SetStatH(go4sett->getOptStatH()*0.01);
 
    fbCanvasCrosshair = go4sett->getPadCrosshair();
-   fbCanvasEventstatus = go4sett->getPadEventStatus();
+   bool show_status = go4sett->getPadEventStatus();
 
    int fiPadcolorR, fiPadcolorG, fiPadcolorB;
    go4sett->getCanvasColor(fiPadcolorR, fiPadcolorG, fiPadcolorB);
@@ -4489,8 +4483,8 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
    pad->SetCrosshair(fbCanvasCrosshair);
    pad->SetFillColor(padfillcolor);
 
-   fbCanvasEventstatus = !fbCanvasEventstatus;
-   ShowEventStatus(); // will toggle fbCanvasEventstatus back and show
+   if (show_status != fxQCanvas->isStatusBarVisible())
+      ShowEventStatus();
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt != 0) {
@@ -4507,18 +4501,18 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
 {
    if (pad == 0)
       return;
-   QString output = pad->GetName();
-   output.append(": ");
+   TString output = pad->GetName();
+   output.Append(": ");
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt != 0)
       if (padopt->IsSuperimpose())
-         output.append(" SuperImpose:");
+         output.Append(" SuperImpose:");
 
    if (IsApplyToAllFlag())
-      output.append(" All Pads:");
-   output.append(" Ready");
-   if (CanvasStatus != 0)
-      CanvasStatus->showMessage(output);
+      output.Append(" All Pads:");
+   output.Append(" Ready");
+
+   fxQCanvas->showStatusMessage(output.Data());
 }
 
 void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int zaction)

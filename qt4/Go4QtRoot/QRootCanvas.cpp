@@ -36,6 +36,7 @@
 #include <QDateTime>
 #include <QFrame>
 #include <QVBoxLayout>
+#include <QStatusBar>
 
 #include "TPad.h"
 #include "TCanvas.h"
@@ -121,6 +122,8 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fxPeditor = 0;
    fxRooteditor = 0;
    fDummyHisto = 0;
+
+   fStatusBar = 0;
 }
 
 QRootCanvas::~QRootCanvas()
@@ -200,7 +203,10 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  y = ";
         buffer += QString::number(py);
      }
+
      emit CanvasStatusEvent(buffer.toLatin1().constData());
+
+     if (fStatusBar) fStatusBar->showMessage(buffer.toLatin1().constData());
   }
    e->accept();
 #if QT_VERSION > QT_VERSION_CHECK(5,0,0)
@@ -1218,3 +1224,21 @@ void QRootCanvas::cleanupEditor()
 #endif
 }
 
+
+void QRootCanvas::showStatusMessage(const char *msg)
+{
+   if (fStatusBar) fStatusBar->showMessage(msg);
+}
+
+bool QRootCanvas::isStatusBarVisible()
+{
+   return fStatusBar ? fStatusBar->isVisible() : false;
+}
+
+void QRootCanvas::setStatusBarVisible(bool flag)
+{
+   if (!fStatusBar) return;
+
+   setShowEventStatus(flag);
+   fStatusBar->setVisible(flag);
+}
