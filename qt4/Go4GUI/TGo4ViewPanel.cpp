@@ -286,6 +286,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       connect(fxWCanvas, SIGNAL(PadClicked(TPad*,int,int)), this,
                SLOT(PadClickedSlot(TPad*,int,int)));
 
+      connect(fxWCanvas, SIGNAL(PadDblClicked(TPad*,int,int)), this,
+               SLOT(PadDoubleClickedSlot(TPad*,int,int)));
+
 #endif
    } else {
       CanvasStatus = new QStatusBar(this);
@@ -1640,7 +1643,7 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
    return res;
 }
 
-void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad)
+void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad, int, int)
 {
    if (CompleteMarkerEdit(pad)) return;
    if (fxDoubleClickTimerPad != 0) return;

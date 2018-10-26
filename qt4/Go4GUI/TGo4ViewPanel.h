@@ -245,7 +245,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void LoadMarkers();
       virtual void SetActivePad( TPad * pad );
       virtual void PadClickedSlot(TPad * pad, int evx = -1, int evy = -1);
-      virtual void PadDoubleClickedSlot( TPad * pad );
+      virtual void PadDoubleClickedSlot( TPad * pad, int evx = -1, int evy = -1 );
       virtual void CanvasDropEventSlot( QDropEvent * event, TPad * pad );
       virtual void ProcessPadDoubleClick();
       virtual void MenuCommandExecutedSlot( TObject * obj, const char * cmdname );
