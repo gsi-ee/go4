@@ -155,7 +155,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot * GetSuperimposeSlot(TGo4Slot* slot);
       virtual TObject * GetPadMainObject( TPad * pad );
       virtual TCanvas * GetCanvas();
-      virtual QRootCanvas * GetQCanvas();
       virtual TPad * GetActivePad();
       virtual void AllocatePadOptions(TPad* pad);
       virtual TGo4Picture * GetPadOptions( TPad * pad );
@@ -315,6 +314,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TObject * GetActiveObj( TPad * pad, int kind );
       virtual QString GetActiveObjName( TPad * pad, int kind );
       virtual int GetAutoColor(int indx);
+
+      void CanvasUpdate(bool modify = false);
 };
 
 #endif

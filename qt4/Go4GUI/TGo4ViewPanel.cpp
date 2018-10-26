@@ -137,6 +137,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxQCanvas = 0;
    fxWCanvas = 0;
 
+   CanvasStatus = 0;
+
 #ifdef GO4_WEBGUI
    if (go4sett->getWebBasedCanvas() && false)  {
       fxWCanvas = new QWebCanvas(this);
@@ -158,8 +160,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxQCanvas->setSizePolicy(sizePolicy3);
 
       fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
-
-      QObject::connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
 
       fxQCanvas->setObjectName(GetPanelName());
       fxQCanvas->getCanvas()->SetName(GetPanelName());
@@ -197,9 +197,16 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    AddChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible, this,
          SLOT(SetMarkerPanel()));
 
+   bool ed_visible = false, ed_allowed = true;
+
+   if (!fxWCanvas) {
+      ed_visible = fxQCanvas->isEditorVisible();
+      ed_allowed = fxQCanvas->isEditorAllowed();
+   }
+
    QAction* act = AddChkAction(editMenu, "Show &ROOT attributes editor",
-                   fxQCanvas->isEditorVisible(), this, SLOT(StartRootEditor()));
-   act->setEnabled(fxQCanvas->isEditorAllowed());
+                         ed_visible, this, SLOT(StartRootEditor()));
+   act->setEnabled(ed_allowed);
 
    bool status_flag = go4sett->getPadEventStatus();
    fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", status_flag, this,
@@ -263,24 +270,34 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxGridLayout->addLayout(menugrid, 0, 0, 1, 2);
 
    // status widget
-   CanvasStatus = new QStatusBar(this);
-   fxGridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
-   CanvasStatus->setVisible(false);
-   fxQCanvas->setStatusBar(CanvasStatus);
-   fxQCanvas->setStatusBarVisible(status_flag);
 
-   connect(GetQCanvas(), SIGNAL(SelectedPadChanged(TPad*)), this,
-         SLOT(SetActivePad(TPad*)));
-   connect(GetQCanvas(), SIGNAL(PadClicked(TPad*)), this,
-         SLOT(PadClickedSlot(TPad*)));
-   connect(GetQCanvas(), SIGNAL(PadDoubleClicked(TPad*)), this,
-         SLOT(PadDoubleClickedSlot(TPad*)));
-   connect(GetQCanvas(), SIGNAL(MenuCommandExecuted(TObject*, const char*)),
-         this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
-   connect(GetQCanvas(), SIGNAL(CanvasLeaveEvent()), this,
-         SLOT(RefreshButtons()));
-   connect(GetQCanvas(), SIGNAL(CanvasUpdated()), this,
-         SLOT(CanvasUpdatedSlot()));
+   if (fxWCanvas) {
+      // TODO: one can get status from webcanvas here
+#ifdef GO4_WEBGUI
+      fxWCanvas->setStatusBarVisible(status_flag);
+#endif
+   } else {
+      CanvasStatus = new QStatusBar(this);
+      fxGridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
+      CanvasStatus->setVisible(false);
+      fxQCanvas->setStatusBar(CanvasStatus);
+      fxQCanvas->setStatusBarVisible(status_flag);
+
+      connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
+              SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+      connect(fxQCanvas, SIGNAL(SelectedPadChanged(TPad*)), this,
+              SLOT(SetActivePad(TPad*)));
+      connect(fxQCanvas, SIGNAL(PadClicked(TPad*)), this,
+              SLOT(PadClickedSlot(TPad*)));
+      connect(fxQCanvas, SIGNAL(PadDoubleClicked(TPad*)), this,
+              SLOT(PadDoubleClickedSlot(TPad*)));
+      connect(fxQCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
+              this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
+      connect(fxQCanvas, SIGNAL(CanvasLeaveEvent()), this,
+               SLOT(RefreshButtons()));
+      connect(fxQCanvas, SIGNAL(CanvasUpdated()), this,
+              SLOT(CanvasUpdatedSlot()));
+   }
 }
 
 TGo4ViewPanel::~TGo4ViewPanel()
@@ -470,7 +487,7 @@ void TGo4ViewPanel::CompleteInitialization()
    // resize(go4sett->lastPanelSize());
 
    // adjust canvas size before any drawing will be done
-   GetQCanvas()->Resize();
+   if (fxQCanvas) fxQCanvas->Resize();
 
    SetActivePad(GetCanvas());
 
@@ -847,7 +864,8 @@ void TGo4ViewPanel::RefreshButtons()
    TGo4LockGuard lock;
 
    MarkerPanel->setVisible(fbMarkEditorVisible);
-   fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
+   if (fxQCanvas)
+      fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
 
 //   if(!fbMarkEditorVisible) return;
 
@@ -1194,7 +1212,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    if (pad == 0) {
       GetCanvas()->SetSelected(0);
       GetCanvas()->SetSelectedPad(0);
-      GetQCanvas()->Update();
+      CanvasUpdate();
       return;
    }
 
@@ -1205,7 +1223,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    TGo4MdiArea::Instance()->SetSelectedPad(fxActivePad);
 
    BlockPanelRedraw(true);
-   GetQCanvas()->Update();
+   CanvasUpdate();
    BlockPanelRedraw(false);
 
    DisplayPadStatus(fxActivePad);
@@ -1872,15 +1890,21 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor()
 {
-   if (!fxQCanvas->isEditorAllowed()) return;
+   if (fxQCanvas) {
 
-   if (!fxQCanvas->isEditorVisible())
+      if (!fxQCanvas->isEditorAllowed()) return;
+
+      if (!fxQCanvas->isEditorVisible())
+         SetActivePad(GetCanvas());
+
+      fxQCanvas->toggleEditor();
+
+     if (fxQCanvas->isEditorVisible())
+         ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+   } else if (fxWCanvas) {
       SetActivePad(GetCanvas());
-
-   fxQCanvas->toggleEditor();
-
-   if (fxQCanvas->isEditorVisible())
       ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+   }
 
    show();
 
@@ -2081,9 +2105,17 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 
 void TGo4ViewPanel::ShowEventStatus()
 {
-   bool flag = !fxQCanvas->isStatusBarVisible();
+   bool flag = true;
 
-   fxQCanvas->setStatusBarVisible(flag);
+   if (fxQCanvas) {
+      flag = !fxQCanvas->isStatusBarVisible();
+      fxQCanvas->setStatusBarVisible(flag);
+   } else if (fxWCanvas) {
+#ifdef GO4_WEBGUI
+      flag = !fxWCanvas->isStatusBarVisible();
+      fxWCanvas->setStatusBarVisible(flag);
+#endif
+   }
 
    fxCanvasEventstatusChk->setChecked(flag);
    if (!flag)
@@ -2984,12 +3016,26 @@ TObject* TGo4ViewPanel::GetPadMainObject(TPad* pad)
 
 TCanvas* TGo4ViewPanel::GetCanvas()
 {
-   return fxQCanvas->getCanvas();
+   if (fxQCanvas)
+      return fxQCanvas->getCanvas();
+#ifdef GO4_WEBGUI
+   if (fxWCanvas)
+      return fxWCanvas->getCanvas();
+#endif
+   return 0;
 }
 
-QRootCanvas* TGo4ViewPanel::GetQCanvas()
+void TGo4ViewPanel::CanvasUpdate(bool modify)
 {
-   return fxQCanvas;
+   if (fxQCanvas) {
+      if (modify) fxQCanvas->Modified();
+      fxQCanvas->Update();
+   } else if (fxWCanvas) {
+#ifdef GO4_WEBGUI
+      if (modify) fxWCanvas->Modified();
+      fxWCanvas->Update();
+#endif
+   }
 }
 
 TPad * TGo4ViewPanel::GetActivePad()
@@ -3703,22 +3749,24 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    // must be done once before pad->Clear in ProcessPadRedraw, so we do it here instead for each subpad
 #ifdef GLOBALESCAPE
-   gROOT->SetEscape();
-   fxQCanvas->HandleInput(kButton1Up, 0, 0);
-   fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
-   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
-   gROOT->SetEscape(kFALSE);
+   if (fxQCanvas) {
+      gROOT->SetEscape();
+      fxQCanvas->HandleInput(kButton1Up, 0, 0);
+      fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+      // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
+      gROOT->SetEscape(kFALSE);
+   }
 
 #else
    // JAM 2016: only reset crucial static arrays in TGraph subclasses, do not escape complete root...
    // turned out to have strange side effects with TBox which also has static variables reacting on escape flag :(
-   if(true){ // just for the scope to delete dummy graph on stack
-     gPad = pad;
-     Bool_t oldmodified=gPad->IsModified();
-     TGraph dummy(1);
-     gROOT->SetEscape();
-     dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
-     gPad->Modified(oldmodified); // probably not necessary, since we only use escape mode in event handler. But who knows what future root brings?
+   if(fxQCanvas) { // just for the scope to delete dummy graph on stack
+      gPad = pad;
+      Bool_t oldmodified = gPad->IsModified();
+      TGraph dummy(1);
+      gROOT->SetEscape();
+      dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
+      gPad->Modified(oldmodified); // probably not necessary, since we only use escape mode in event handler. But who knows what future root brings?
    }
 #endif
 
@@ -3743,7 +3791,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
       // here pad->Update should redraw only modified subpad
       if (isanychildmodified) {
-         GetQCanvas()->Update();
+         CanvasUpdate();
          ispadupdatecalled = true;
       }
 
@@ -3759,7 +3807,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    // to correctly select active pad, one should call canvas->Update()
    if (!ispadupdatecalled)
-      GetQCanvas()->Update();
+      CanvasUpdate();
 
    SetApplyToAllFlag(fbApplyToAllFlag);
 
@@ -4520,8 +4568,10 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
    pad->SetCrosshair(fbCanvasCrosshair);
    pad->SetFillColor(padfillcolor);
 
-   if (show_status != fxQCanvas->isStatusBarVisible())
-      ShowEventStatus();
+
+   if (fxQCanvas)
+      if (show_status != fxQCanvas->isStatusBarVisible())
+         ShowEventStatus();
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt != 0) {
@@ -4549,7 +4599,11 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
       output.Append(" All Pads:");
    output.Append(" Ready");
 
-   fxQCanvas->showStatusMessage(output.Data());
+   if (fxQCanvas) {
+      fxQCanvas->showStatusMessage(output.Data());
+   } else if (fxWCanvas) {
+      printf("Implement display pad status\n");
+   }
 }
 
 void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int zaction)
@@ -5413,21 +5467,27 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
    }
 }
 
-
 void TGo4ViewPanel::ResizeGedEditor()
 {
-   fxQCanvas->resizeEditor();
+   if (fxQCanvas) fxQCanvas->resizeEditor();
 }
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
-      fxQCanvas->actiavteEditor(GetActivePad(), obj);
+      if (fxQCanvas) {
+         fxQCanvas->actiavteEditor(GetActivePad(), obj);
+      } else if (fxWCanvas) {
+#ifdef GO4_WEBGUI
+         fxWCanvas->actiavteEditor(GetActivePad(), obj);
+#endif
+      }
 }
 
 void TGo4ViewPanel::CleanupGedEditor()
 {
-   fxQCanvas->cleanupEditor();
+   if (fxQCanvas)
+      fxQCanvas->cleanupEditor();
 }
 
 void TGo4ViewPanel::ShootRepaintTimer()
@@ -5609,8 +5669,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          }
 #endif
 
-         GetQCanvas()->Modified();
-         GetQCanvas()->Update();
+         CanvasUpdate(true);
          CallPanelFunc(panel_Updated, GetCanvas());
          break;
       }

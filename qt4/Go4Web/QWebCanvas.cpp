@@ -23,6 +23,7 @@
 #include "rooturlschemehandler.h"
 #include <QGridLayout>
 #include <QApplication>
+#include <QTimer>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,6 +63,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    setCursor( Qt::CrossCursor );
 
    setAcceptDrops(true);
+
+   fRepaintTimer = new QTimer;
+   fRepaintTimer->setSingleShot(true);
+   connect(fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
 
    // disable option that at least background is redrawn immediately
    // and canvas content after 100 ms timeout
@@ -127,11 +132,23 @@ void QWebCanvas::dropView(QDropEvent* event)
    emit CanvasDropEvent(event, fCanvas);
 }
 
-void QWebCanvas::activateGed(TObject *obj)
+void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
 {
    TCanvasImp *cimp = fCanvas->GetCanvasImp();
    if (cimp) cimp->ShowEditor(kTRUE);
 }
+
+bool QWebCanvas::isStatusBarVisible()
+{
+   return fCanvas->GetShowEventStatus();
+}
+
+void QWebCanvas::setStatusBarVisible(bool flag)
+{
+   if (fCanvas->GetShowEventStatus() != flag)
+      fCanvas->ToggleEventStatus();
+}
+
 
 void QWebCanvas::activateStatusLine()
 {
@@ -139,3 +156,18 @@ void QWebCanvas::activateStatusLine()
    if (cimp) cimp->ShowStatusBar(kTRUE);
 }
 
+void QWebCanvas::processRepaintTimer()
+{
+    fCanvas->Update();
+}
+
+void QWebCanvas::Modified()
+{
+   fCanvas->Modified();
+}
+
+void QWebCanvas::Update()
+{
+   fRepaintTimer->setSingleShot(true);
+   fRepaintTimer->start(100);
+}

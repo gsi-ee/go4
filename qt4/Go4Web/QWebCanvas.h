@@ -19,6 +19,7 @@
 class TCanvas;
 class TPad;
 class TObject;
+class QTimer;
 
 class QWebCanvas : public QWidget {
 
@@ -31,18 +32,27 @@ public:
    /// returns canvas shown in the widget
    TCanvas *getCanvas() { return fCanvas; }
 
+   bool isStatusBarVisible();
+
+   void Modified();
+   void Update();
+
 signals:
 
    void CanvasDropEvent(QDropEvent*, TPad*);
 
 public slots:
 
-   void activateGed(TObject *obj = 0);
+   void actiavteEditor(TPad *pad = 0, TObject *obj = 0);
    void activateStatusLine();
+
+   void setStatusBarVisible(bool flag);
 
 protected slots:
 
    void dropView(QDropEvent* event);
+
+   void processRepaintTimer();
 
 protected:
 
@@ -53,6 +63,8 @@ protected:
    RootWebView *fView;  ///< qt webwidget to show
 
    TCanvas *fCanvas;
+
+   QTimer *fRepaintTimer;
 };
 
 #endif
