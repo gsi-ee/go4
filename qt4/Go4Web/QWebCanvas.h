@@ -26,6 +26,8 @@ public:
    QWebCanvas(QWidget *parent = 0);
    virtual ~QWebCanvas();
 
+   TCanvas *getCanvas() { return fCanvas; }
+
 protected:
 
    RootWebView *fView;  ///< qt webwidget to show

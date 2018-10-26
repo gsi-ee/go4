@@ -46,6 +46,7 @@ GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets"
 GO4GUI4_QMAKEFLAGS += "LIBS += -lWebGui -lRHTTP" 
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
+GO4WEBGUI4_PUBH       = $(patsubst $(GO4WEBGUI4_DIR)/%.h, include/%.h, $(GO4WEBGUI4_H))
 endif
 
 
@@ -83,7 +84,7 @@ QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 
 # used in the main Makefile
 
-GO4QT4HEADS += $(GO4GUI4_PUBH) $(QT4ROOT_PUBH)
+GO4QT4HEADS += $(GO4GUI4_PUBH) $(QT4ROOT_PUBH) $(GO4WEBGUI4_PUBH)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH) 
@@ -105,6 +106,10 @@ include/%.h: $(QT4ROOT_DIR)/%.h
 	@cp -f $< $@
 
 include/%.h: $(GO4GUI4_DIR)/%.h
+	@echo "Copy header $@ ..." 
+	@cp -f $< $@
+
+include/%.h: $(GO4WEBGUI4_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
@@ -155,6 +160,6 @@ endif
 
 clean-qt4-GUI: clean-qt4-GUI-bin
 	@$(RM) $(GO4GUI4_EXE)
-	@$(RM) $(GO4GUI4_UI_PUBH) $(GO4GUI4_PUBH) $(QT4ROOT_PUBH)
+	@$(RM) $(GO4GUI4_UI_PUBH) $(GO4GUI4_PUBH) $(QT4ROOT_PUBH) $(GO4WEBGUI4_PUBH)
 	@echo "Clean qt4 gui done"
 
