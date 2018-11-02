@@ -205,6 +205,7 @@ ifndef CFG_WITHOUT_QT
        GO4_QT = 4
        QTCXXFLAGS += -DQT_SHARED
     endif
+    endif
     ifeq ($(GO4_OS),Win32)
       QTCXXFLAGS  += -I$(shell cygpath -w $(QTDIR)/include)
     else
