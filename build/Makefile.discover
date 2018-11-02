@@ -149,6 +149,11 @@ endif
 
 #try to detect which QT version is configured if any
 
+# when building WebEngine, Qt5 is required
+ifdef withweb
+withqt=5
+endif
+
 ifndef WITHQT
 ifdef withqt
 WITHQT=$(withqt)
@@ -202,11 +207,11 @@ ifndef CFG_WITHOUT_QT
   
   else
   
-  ifeq ($(shell pkg-config --exists QtCore --print-errors),)
-    WITHQT = 4
-  else
   ifeq ($(shell pkg-config --exists Qt5Core Qt5Network --print-errors),)
     WITHQT = 5
+  else
+  ifeq ($(shell pkg-config --exists QtCore --print-errors),)
+    WITHQT = 4
   else
   ifeq ($(shell pkg-config --exists qt-mt --print-errors),)
     WITHQT = 3
