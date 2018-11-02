@@ -151,7 +151,9 @@ endif
 
 # when building WebEngine, Qt5 is required
 ifdef withweb
+ifndef QTDIR
 withqt=5
+endif
 endif
 
 ifndef WITHQT
@@ -195,6 +197,10 @@ ifndef CFG_WITHOUT_QT
     ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt 3."),)
        GO4_QT = 3
        QTCXXFLAGS += -DQT_SHARED -DQT_THREAD_SUPPORT -D_REENTRANT
+    else
+    ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt version 5."),)
+       GO4_QT = 5
+       QTCXXFLAGS += -DQT_SHARED
     else
        GO4_QT = 4
        QTCXXFLAGS += -DQT_SHARED
