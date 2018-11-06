@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,6 +15,7 @@
 
 #ifndef WITHOUT_DABC
 
+#include "RVersion.h"
 #include "TROOT.h"
 #include "TGraph.h"
 #include "TClass.h"
@@ -34,8 +35,12 @@
 #include "dabc/Publisher.h"
 #include "dabc/Configuration.h"
 
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,12,0)
+#include "RZip.h"
+#else
 extern "C" int R__unzip_header(int *nin, unsigned char *bufin, int *lout);
 extern "C" void R__unzip(int  *nin, unsigned char* bufin, int *lout, unsigned char *bufout, int *nout);
+#endif
 
 bool IsRateHistory(const dabc::Hierarchy& item)
 {
@@ -58,17 +63,29 @@ TString GetRootClassName(const dabc::Hierarchy& item)
 
 // we use fake file only to correctly reconstruct streamer infos
 class TFakeFile : public TMemFile {
-   public:
+   protected:
       TList*  mylist;
 
-      TFakeFile(TList* sinfo) : TMemFile("dummy.file", "RECREATE"), mylist(sinfo)
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,15,0)
+
+      InfoListRet GetStreamerInfoListImpl(bool) override
+      {
+         ROOT::Internal::RConcurrentHashColl::HashValue hash;
+         return { (TList*) mylist->Clone(), 0, hash};
+      }
+#else
+      virtual TList* GetStreamerInfoList() { return (TList*) mylist->Clone(); }
+
+#endif
+
+   public:
+
+      TFakeFile(TList *sinfo) : TMemFile("dummy.file", "RECREATE"), mylist(sinfo)
       {
          gROOT->GetListOfFiles()->Remove(this);
       }
 
       virtual ~TFakeFile() {}
-
-      virtual TList* GetStreamerInfoList() { return (TList*) mylist->Clone(); }
 
 };
 
