@@ -325,6 +325,7 @@ ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(ROOTLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
 endif
 	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
+	@echo 'export ROOT_INCLUDE_PATH=$(GO4TOPPATH):$(GO4INCPATH):$(ROOTINCPATH):$$ROOT_INCLUDE_PATH' >> $@
 	@echo 'export PYTHONPATH=$(ROOTLIBPATH):$$PYTHONPATH' >> $@
 	@echo '' >> $@
 ifdef USEDABC
