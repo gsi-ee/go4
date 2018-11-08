@@ -159,9 +159,7 @@ elif [ "$GO4_OS" = "Darwin" ]; then
       $LN $LIBDIR/$LIBNAME.$FULLSUFIX $LIBDIR/$LIBNAME.so
    fi
 else
-
    echo Linking $LIBNAME.$SOSUFFIX
-   echo SET = $MAKELIB_SET
    
    echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX $MAKELIB_SET
 
