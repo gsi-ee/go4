@@ -137,6 +137,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
 QWebCanvas::~QWebCanvas()
 {
+   gPad = nullptr;
+
+   delete fCanvas;
+   fCanvas = nullptr;
 }
 
 void QWebCanvas::resizeEvent(QResizeEvent *event)
