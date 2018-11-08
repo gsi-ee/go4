@@ -67,6 +67,9 @@ int go4_usage() {
    std::cout << "   go4 -admin hostname port" << std::endl;
    std::cout << "   go4 -prepare                - prepare for analysis client connection" << std::endl;
    std::cout << "   go4 -usergui                - activate usergui" << std::endl;
+#ifdef GO4_WEBGUI
+   std::cout << "   go4 -web                    - activate web-based canvas" << std::endl;
+#endif
    if (TGo4DabcProxy::GetDabcVersion())
        std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << std::endl;
    std::cout << "   go4 http://server[:port]    - connect with ROOT-based HTTP server" << std::endl;
