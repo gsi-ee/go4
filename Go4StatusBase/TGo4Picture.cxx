@@ -13,6 +13,7 @@
 
 #include "TGo4Picture.h"
 
+#include "RConfigure.h"
 #include "TClass.h"
 #include "TObjArray.h"
 #include "TObjString.h"
@@ -1100,7 +1101,6 @@ Bool_t TGo4Picture::HasTitleAttr()
           (FindOptPos(PictureIndex, op_TitleY2)>=0);
 }
 
-
 Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
 {
    if (titl==0) return kFALSE;
@@ -1124,7 +1124,6 @@ Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
 
    return kTRUE;
 }
-
 
 void TGo4Picture::SetTitleTime(Bool_t on)
 {
@@ -1464,12 +1463,13 @@ Long_t TGo4Picture::GetI(Short_t index, Short_t typ, Long_t def) const
 void TGo4Picture::SetOptionF(Short_t index, Short_t typ, Float_t value)
 {
    Long_t buf;
-   if (sizeof(Long_t)==sizeof(Float_t))
-      memcpy(&buf, &value, sizeof(Long_t));
-   else {
-      Double_t v(value);
-      memcpy(&buf, &v, sizeof(Long_t));
-   }
+
+#ifdef R__B64
+   Double_t v(value);
+   memcpy(&buf, &v, sizeof(Long_t));
+#else
+   memcpy(&buf, &value, sizeof(Long_t));
+#endif
    SetOption(index, typ, buf);
 }
 
@@ -1478,14 +1478,14 @@ Bool_t TGo4Picture::GetOptionF(Short_t index, Short_t typ, Float_t& value)
    Long_t buf;
    Bool_t res = GetOption(index, typ, buf);
 
-   if (res){
-      if (sizeof(Long_t)==sizeof(Float_t))
-         memcpy(&value, &buf, sizeof(Long_t));
-      else {
-         Double_t v;
-         memcpy(&v, &buf, sizeof(Long_t));
-         value = v;
-      }
+   if (res) {
+#ifdef R__B64
+      Double_t v;
+      memcpy(&v, &buf, sizeof(Long_t));
+      value = v;
+#else
+      memcpy(&value, &buf, sizeof(Long_t));
+#endif
    }
    return res;
 }
@@ -1493,11 +1493,12 @@ Bool_t TGo4Picture::GetOptionF(Short_t index, Short_t typ, Float_t& value)
 void TGo4Picture::SetOptionD(Short_t index, Short_t typ, Double_t value)
 {
    Long_t buf;
-   if (sizeof(Long_t)==sizeof(Float_t))  {
-      Float_t v(value);
-      memcpy(&buf, &v, sizeof(Long_t));
-   } else
-      memcpy(&buf, &value, sizeof(Long_t));
+#ifdef R__B64
+   memcpy(&buf, &value, sizeof(Long_t));
+#else
+   Float_t v(value);
+   memcpy(&buf, &v, sizeof(Long_t));
+#endif
    SetOption(index, typ, buf);
 }
 
@@ -1506,13 +1507,14 @@ Bool_t TGo4Picture::GetOptionD(Short_t index, Short_t typ, Double_t& value)
    Long_t buf;
    Bool_t res = GetOption(index, typ, buf);
 
-   if (res){
-      if (sizeof(Long_t)==sizeof(Float_t)) {
-         Float_t v;
-         memcpy(&v, &buf, sizeof(Long_t));
-         value = v;
-      } else
-         memcpy(&value, &buf, sizeof(Long_t));
+   if (res) {
+#ifdef R__B64
+      memcpy(&value, &buf, sizeof(Long_t));
+#else
+      Float_t v;
+      memcpy(&v, &buf, sizeof(Long_t));
+      value = v;
+#endif
    }
    return res;
 }
@@ -1523,7 +1525,6 @@ Double_t TGo4Picture::GetD(Short_t index, Short_t typ, Double_t def)
    if (!GetOptionD(index, typ, value)) return def;
    return value;
 }
-
 
 void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
 {
