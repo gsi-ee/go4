@@ -96,6 +96,23 @@ const char* NoStackDrawOption = "nostack, ";
 #include "QWebCanvas.h"
 #endif
 
+class TPadLock {
+   TVirtualPad *fSave;
+public:
+
+   TPadLock(TVirtualPad *repl = nullptr)
+   {
+      fSave = gPad;
+      gPad = repl;
+   }
+
+   ~TPadLock()
+   {
+      gPad = fSave;
+   }
+};
+
+
 TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QGo4Widget(parent, name)
 {
@@ -3141,6 +3158,8 @@ TH1* TGo4ViewPanel::GetPadHistogram(TPad *pad)
 
    if (obj->InheritsFrom(TH1::Class()))
       return (TH1*) obj;
+
+   TPadLock lock(fxWCanvas ? nullptr : gPad); // replace gPad to avoid redrawing of canvas
 
    if (obj->InheritsFrom(TGraph::Class())) {
       TGraph* gr = dynamic_cast<TGraph*>(obj);
