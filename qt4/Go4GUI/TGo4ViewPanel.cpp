@@ -4575,9 +4575,10 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
 
    if (pad == 0) return;
 
-   TVirtualPad *gg = gPad; gPad = 0; // workaround to avoid canvas update
-   gStyle->SetOptStat(go4sett->getOptStat());
-   gPad = gg;
+   {
+      TPadLock lock; // workaround to avoid canvas update
+      gStyle->SetOptStat(go4sett->getOptStat());
+   }
 
    if (go4sett->getOptStatW()>0) gStyle->SetStatW(go4sett->getOptStatW()*0.01);
    if (go4sett->getOptStatH()>0) gStyle->SetStatH(go4sett->getOptStatH()*0.01);
