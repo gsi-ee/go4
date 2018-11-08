@@ -123,7 +123,6 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawDateFlagSlot();
       void ChangeDrawItemFlagSlot();
       void ChangeSaveWhiteBackgroundSlot();
-      void ChangeWebBasedCanvasSlot();
 
       void ChangeTerminalTimeStampSlot();
       void ChangeTerminalTimeStampFormatSlot();

@@ -40,6 +40,8 @@ class TGo4QSettings {
       /** This is the name of the file with settings, if empty - default qt location will be used */
       QString fSettFileName;
 
+      bool fUseWeb;
+
       /** Read settings from the file/registry */
 
       void Open();
@@ -231,8 +233,8 @@ class TGo4QSettings {
       void    setMoveSubwindowRubberBand(bool on = true);
       bool    getMoveSubwindowRubberBand();
 
-      void    setWebBasedCanvas(bool on = true);
-      bool    getWebBasedCanvas();
+      void    setWebBasedCanvas(bool on = true) { fUseWeb = on; }
+      bool    getWebBasedCanvas() { return fUseWeb; }
 
       void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
       void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);

@@ -108,7 +108,7 @@ int main(int argc, char **argv)
    int logport = 5000;
    const char* logpass = 0;
 
-   bool prepare_for_client(false), traceon(false), usergui(false);
+   bool prepare_for_client(false), traceon(false), usergui(false), useweb(false);
 
    QString hotstart(""), dabcnode("");
    QStringList files, httpnodes;
@@ -119,12 +119,14 @@ int main(int argc, char **argv)
       QString curr(argv[narg]);
 
       if (argv[narg][0]=='-') {
-         if (curr == "-debug") {
+         if ((curr == "--web") || (curr == "-web")) {
+            useweb = true;
+         } else if (curr == "-debug") {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
          } else if (curr == "-gdebug") {
             if ((narg+1 < argc) && (strlen(argv[narg+1]) > 0) && (argv[narg+1][0]!='-'))
-                gDebug = TString(argv[++narg]).Atoi();
+               gDebug = TString(argv[++narg]).Atoi();
             else
                gDebug = 1;
          } else if ((curr == "-observer") || (curr == "-controller") || (curr == "-admin")) {
@@ -189,6 +191,9 @@ int main(int argc, char **argv)
    }
 
    go4sett = new TGo4QSettings(settfile);
+#ifdef GO4_WEBGUI
+   go4sett->setWebBasedCanvas(useweb);
+#endif
 
    ////// end settings setup ///////////////////////////////
    if(traceon) TGo4Log::SetIgnoreLevel(0);

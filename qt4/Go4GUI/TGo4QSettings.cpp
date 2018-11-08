@@ -845,17 +845,6 @@ bool TGo4QSettings::getMoveSubwindowRubberBand()
    return getBool("/preferences/MoveSubwindowRubberBand", true);
 }
 
-void TGo4QSettings::setWebBasedCanvas(bool on)
-{
-   setBool("/preferences/WebBasedCanvas", on);
-}
-
-bool TGo4QSettings::getWebBasedCanvas()
-{
-   return getBool("/preferences/WebBasedCanvas", false);
-}
-
-
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
    setStr( "/OpenRemoteFile/Host", hostname);

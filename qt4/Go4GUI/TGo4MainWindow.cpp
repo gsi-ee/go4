@@ -496,12 +496,6 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
-#ifdef GO4_WEBGUI
-   faWebCanvas = AddChkAction(panelMenu, "Web-based canvas",
-          go4sett->getWebBasedCanvas(), this, SLOT(ChangeWebBasedCanvasSlot()));
-
-#endif
-
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
 
    faSaveWhite = AddChkAction(panelMenu, "White canvas for saved images",
@@ -1635,11 +1629,6 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 void TGo4MainWindow::ChangeSaveWhiteBackgroundSlot()
 {
   go4sett->setSavePadWhiteBackground(faSaveWhite->isChecked());
-}
-
-void TGo4MainWindow::ChangeWebBasedCanvasSlot()
-{
-   go4sett->setWebBasedCanvas(faWebCanvas->isChecked());
 }
 
 void TGo4MainWindow::DrawLineWidthSlot()
