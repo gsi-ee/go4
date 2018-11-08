@@ -16,8 +16,8 @@
 #include "TCanvas.h"
 #include "TWebCanvas.h"
 #include "THttpServer.h"
-#include "TTimer.h"
 #include "TROOT.h"
+#include "TClass.h"
 
 #include <QGridLayout>
 #include <QApplication>
@@ -25,6 +25,7 @@
 #include <QDropEvent>
 
 #include <stdlib.h>
+#include <stdio.h>
 
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
@@ -88,6 +89,14 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fCanvas->SetCanvasImp(web);
 
+   Long_t offset = TCanvas::Class()->GetDataMemberOffset("fCanvasID");
+   if (offset > 0) {
+      Int_t *id = (Int_t *)((char*) fCanvas + offset);
+      if ((*id == fCanvas->GetCanvasID()) && (*id == -1)) *id = 111222333;
+   } else {
+      printf("ERROR: Cannot modify fCanvasID data member\n");
+   }
+
    web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 
    web->SetActivePadChangedHandler([this](TPad *pad){ ProcessActivePadChanged(pad); });
@@ -106,7 +115,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fView = findChild<QWebEngineView*>("RootWebView");
    if (!fView) {
-      printf("FAIL TO FIND VIEW!!!!!\n");
+      printf("FAIL TO FIND QWebEngineView - ROOT Qt5Web plugin does not work properly !!!!!\n");
       exit(11);
    }
 
@@ -132,7 +141,7 @@ QWebCanvas::~QWebCanvas()
 
 void QWebCanvas::resizeEvent(QResizeEvent *event)
 {
-   printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
+   // printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
@@ -165,7 +174,6 @@ void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
 {
    TWebCanvas *cimp = dynamic_cast<TWebCanvas*> (fCanvas->GetCanvasImp());
    if (cimp) {
-      printf("QWebCanvas:: Activate editor\n");
       cimp->ShowEditor(kTRUE);
       cimp->ActivateInEditor(pad, obj);
    }
@@ -201,7 +209,7 @@ void QWebCanvas::activateStatusLine()
 
 void QWebCanvas::processRepaintTimer()
 {
-    fCanvas->Update();
+   fCanvas->Update();
 }
 
 void QWebCanvas::Modified()
