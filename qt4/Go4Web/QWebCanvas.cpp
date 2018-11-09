@@ -97,6 +97,14 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
       printf("ERROR: Cannot modify fCanvasID data member\n");
    }
 
+   offset = TCanvas::Class()->GetDataMemberOffset("fMother");
+   if (offset > 0) {
+      TPad **moth = (TPad **)((char*) fCanvas + offset);
+      if ((*moth == fCanvas->GetMother()) && (*moth == nullptr)) *moth = fCanvas;
+   } else {
+      printf("ERROR: Cannot set fMother data member in canvas\n");
+   }
+
    web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 
    web->SetActivePadChangedHandler([this](TPad *pad){ ProcessActivePadChanged(pad); });
