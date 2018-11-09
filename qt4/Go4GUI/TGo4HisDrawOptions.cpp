@@ -90,6 +90,9 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          int ErrorStyle = 0, CoordStyle = 0, DrawStyle = 0;
          DecodeDrawOption(drawopt, ErrorStyle, CoordStyle, DrawStyle);
 
+         Coordinates->setEnabled(!panel->IsWebCanvas());
+         if (panel->IsWebCanvas()) CoordStyle = 0;
+
          DrawOption->setCurrentIndex(DrawStyle);
          ErrorBars->setCurrentIndex(ErrorStyle);
          Coordinates->setCurrentIndex(CoordStyle);
