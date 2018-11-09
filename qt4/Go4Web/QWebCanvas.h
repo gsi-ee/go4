@@ -78,6 +78,8 @@ protected:
       return (double) p * fQtScalingfactor;
    }
 
+   void SetPrivateCanvasFields(bool on_init);
+
    void ProcessCanvasUpdated() { emit CanvasUpdated(); }
 
    void ProcessActivePadChanged(TPad *pad) { emit SelectedPadChanged(pad); }

@@ -89,21 +89,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fCanvas->SetCanvasImp(web);
 
-   Long_t offset = TCanvas::Class()->GetDataMemberOffset("fCanvasID");
-   if (offset > 0) {
-      Int_t *id = (Int_t *)((char*) fCanvas + offset);
-      if ((*id == fCanvas->GetCanvasID()) && (*id == -1)) *id = 111222333;
-   } else {
-      printf("ERROR: Cannot modify fCanvasID data member\n");
-   }
+   SetPrivateCanvasFields(true);
 
-   offset = TCanvas::Class()->GetDataMemberOffset("fMother");
-   if (offset > 0) {
-      TPad **moth = (TPad **)((char*) fCanvas + offset);
-      if ((*moth == fCanvas->GetMother()) && (*moth == nullptr)) *moth = fCanvas;
-   } else {
-      printf("ERROR: Cannot set fMother data member in canvas\n");
-   }
+
 
    web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 
@@ -147,9 +135,37 @@ QWebCanvas::~QWebCanvas()
 {
    gPad = nullptr;
 
-   delete fCanvas;
-   fCanvas = nullptr;
+   if (fCanvas) {
+      SetPrivateCanvasFields(false);
+
+      gROOT->GetListOfCanvases()->Remove(fCanvas);
+
+      fCanvas->Close();
+      delete fCanvas;
+      fCanvas = nullptr;
+   }
 }
+
+void QWebCanvas::SetPrivateCanvasFields(bool on_init)
+{
+   Long_t offset = TCanvas::Class()->GetDataMemberOffset("fCanvasID");
+   if (offset > 0) {
+      Int_t *id = (Int_t *)((char*) fCanvas + offset);
+      if (*id == fCanvas->GetCanvasID()) *id = on_init ? 111222333 : -1;
+   } else {
+      printf("ERROR: Cannot modify fCanvasID data member\n");
+   }
+
+   offset = TCanvas::Class()->GetDataMemberOffset("fMother");
+   if (offset > 0) {
+      TPad **moth = (TPad **)((char*) fCanvas + offset);
+      if (*moth == fCanvas->GetMother()) *moth = on_init ? fCanvas : nullptr;
+   } else {
+      printf("ERROR: Cannot set fMother data member in canvas\n");
+   }
+
+}
+
 
 void QWebCanvas::resizeEvent(QResizeEvent *event)
 {
