@@ -133,8 +133,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
 QWebCanvas::~QWebCanvas()
 {
-   gPad = nullptr;
-
    if (fCanvas) {
       SetPrivateCanvasFields(false);
 
