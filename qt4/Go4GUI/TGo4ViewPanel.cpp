@@ -355,8 +355,9 @@ TGo4ViewPanel::~TGo4ViewPanel()
    CallPanelFunc(panel_Deleted);
 
    if (gPad != 0)
-      if (IsPanelPad((TPad*) gPad))
+      if (IsPanelPad((TPad*) gPad)) {
          gPad = 0;
+      }
 
    if (gROOT->GetSelectedPad() != 0)
       if (IsPanelPad((TPad*) gROOT->GetSelectedPad()))
