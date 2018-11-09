@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,6 +15,7 @@
 
 #include "TPad.h"
 #include "TROOT.h"
+#include "TCanvas.h"
 
 #include <QMdiSubWindow>
 
@@ -45,13 +46,12 @@ TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
 
 TGo4MdiArea::~TGo4MdiArea()
 {
-   if (fInstance==this) fInstance = 0;
+   if (fInstance==this) fInstance = nullptr;
 }
-
 
 TPad* TGo4MdiArea::GetSelectedPad()
 {
-    return fxSelectedPad;
+   return fxSelectedPad;
 }
 
 void TGo4MdiArea::SetSelectedPad(TPad* pad)
@@ -66,44 +66,54 @@ TGo4ViewPanel* TGo4MdiArea::GetActivePanel()
    return fxActivePanel;
 }
 
-QMdiSubWindow* TGo4MdiArea::AddGo4SubWindow(QWidget * widget, Qt::WindowFlags flags)
+QMdiSubWindow *TGo4MdiArea::AddGo4SubWindow(QWidget *widget, Qt::WindowFlags flags)
 {
-  QMdiSubWindow*sub=addSubWindow(widget, flags);
-// JAM make window behaviour configurable in Go4 for all Qt versions.
-  if(go4sett->getMoveSubwindowRubberBand())
-    {
+   QMdiSubWindow *sub = addSubWindow(widget, flags);
+   // JAM make window behaviour configurable in Go4 for all Qt versions.
+   if (go4sett->getMoveSubwindowRubberBand()) {
       sub->setOption(QMdiSubWindow::RubberBandResize);
       sub->setOption(QMdiSubWindow::RubberBandMove); // JAM required for qt5 performance
-    }
+   }
    return sub;
 }
 
-
 void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 {
-   TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (sub ? sub->widget() : 0);
+   TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *>(sub ? sub->widget() : nullptr);
 
-   if ((panel!=0) && (fxActivePanel != panel))
-     panel->SetActivePad(panel->GetActivePad());
+   if ((panel != 0) && (fxActivePanel != panel))
+      panel->SetActivePad(panel->GetActivePad());
+}
+
+TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
+{
+   QList<QMdiSubWindow *> windows = subWindowList();
+   for (int i=0; i<windows.count(); ++i ) {
+      TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
+      if (panel && (panel != not_this)) return panel;
+   }
+
+   return nullptr;
 }
 
 void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad)
 {
-   if (panel==0) return;
+   if (!panel)
+      return;
 
    switch (funcid) {
       case QGo4Widget::panel_Activated: {
-        if ((fxActivePanel!=panel) && (fxActivePanel!=0))
-          fxActivePanel->SetActivePad(0);
+         if ((fxActivePanel != panel) && (fxActivePanel != 0))
+            fxActivePanel->SetActivePad(0);
 
-        bool changed = (fxActivePanel != panel) || (fxActivePad != pad);
-        fxActivePanel = panel;
-        fxActivePad = pad;
+         bool changed = (fxActivePanel != panel) || (fxActivePad != pad);
+         fxActivePanel = panel;
+         fxActivePad = pad;
 
-        if (changed)
-           emit panelSignal(panel, pad, QGo4Widget::panel_Activated);
+         if (changed)
+            emit panelSignal(panel, pad, QGo4Widget::panel_Activated);
 
-        break;
+         break;
       }
 
       case QGo4Widget::panel_Modified: {
@@ -113,28 +123,42 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
 
       case QGo4Widget::panel_Updated: {
          emit panelSignal(panel, pad, QGo4Widget::panel_Updated);
-         if ((panel==fxActivePanel) && (pad==fxActivePad))
-           emit panelSignal(panel, pad, QGo4Widget::panel_ActiveUpdated);
+         if ((panel == fxActivePanel) && (pad == fxActivePad))
+            emit panelSignal(panel, pad, QGo4Widget::panel_ActiveUpdated);
          break;
       }
 
       case QGo4Widget::panel_PadDeleted: {
-         if (GetSelectedPad()==pad) SetSelectedPad(0);
-         if (fxActivePad==pad) fxActivePad=0;
+         if (GetSelectedPad() == pad)
+            SetSelectedPad(nullptr);
+         if (fxActivePad == pad)
+            fxActivePad = nullptr;
          emit panelSignal(panel, pad, QGo4Widget::panel_PadDeleted);
          break;
       }
 
       case QGo4Widget::panel_Deleted: {
-        if (GetSelectedPad()!=0)
-          if (panel->IsPanelPad(GetSelectedPad()))
-             SetSelectedPad(0);
-        if (fxActivePanel==panel) {
-           fxActivePanel = 0;
-           fxActivePad = 0;
-        }
-        emit panelSignal(panel, pad, QGo4Widget::panel_Deleted);
-        break;
+         if (GetSelectedPad())
+            if (panel->IsPanelPad(GetSelectedPad()))
+               SetSelectedPad(nullptr);
+
+         if (fxActivePanel == panel) {
+            fxActivePanel = nullptr;
+            fxActivePad = nullptr;
+         }
+
+#ifdef GO4_WEBGUI
+         // try to keep gPad - nullptr can have problem when running TWebCanvas
+         if (!gPad || panel->IsPanelPad((TPad *)gPad)) {
+            TGo4ViewPanel *other = FindOtherPanel(panel);
+
+            SetSelectedPad(other ? other->GetCanvas() : nullptr);
+         }
+#endif
+
+         emit panelSignal(panel, pad, QGo4Widget::panel_Deleted);
+
+         break;
       }
    }
 }
