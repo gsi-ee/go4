@@ -2779,9 +2779,6 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
                  histo->SetLineWidth(go4sett->getDrawLineWidth());
          }
 
-
-
-
          histo->GetXaxis()->UnZoom();
 
          const char* drawopt = padopt->GetDrawOption(n);
@@ -2860,8 +2857,9 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          legend->SetBorderSize(2);
          legend->SetName("fitlegend");
          legslot->SetProxy(new TGo4ObjectProxy(legend, kTRUE));
-      } else
-      legend->Clear();
+      } else {
+         legend->Clear();
+      }
 
       for(int n=0;n<=objs->GetLast();n++) {
          TObject* stob = objs->At(n);
@@ -4141,6 +4139,9 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
       drawopt.Prepend(NoStackDrawOption);
 
    hs->Draw(drawopt.Data());
+   // do not access histogram in web canvas - causes redraw of the complete canvas
+   if (IsWebCanvas()) return;
+
    TH1* framehisto = hs->GetHistogram();
    if (framehisto == 0) return;
 
@@ -4680,7 +4681,7 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
    if (fxQCanvas) {
       fxQCanvas->showStatusMessage(output.Data());
    } else if (fxWCanvas) {
-      printf("Implement display pad status\n");
+      printf("Implement display pad status in web canvas\n");
    }
 }
 
@@ -5552,8 +5553,6 @@ void TGo4ViewPanel::ResizeGedEditor()
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
-   printf("TGo4ViewPanel::ActivateInGedEditor %s %p\n", obj ? obj->GetName() : "---", obj);
-
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
       if (fxQCanvas) {
          fxQCanvas->actiavteEditor(GetActivePad(), obj);
