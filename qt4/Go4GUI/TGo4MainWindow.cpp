@@ -940,7 +940,14 @@ void TGo4MainWindow::UserPanelSlot()
    // check from standard LD_LIBRARY_PATHS
    if (startUserGUI(0)) return;
 
-   if (startUserGUI(TGo4Log::subGO4SYS("qt4/Go4UserGUI").Data())) return;
+   TString usergui;
+
+   if (go4sett->getWebBasedCanvas())
+      usergui = TGo4Log::subGO4SYS("qt4/WebUserGUI");
+   else
+      usergui = TGo4Log::subGO4SYS("qt4/Go4UserGUI");
+
+   if (startUserGUI(usergui.Data())) return;
 
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }
