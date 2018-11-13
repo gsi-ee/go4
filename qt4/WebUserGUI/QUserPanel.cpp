@@ -143,7 +143,7 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
          break;
       case 1:
          if (cl==0) {
-            PrintLbl->setText("Can not drop item of uncknown class");
+            PrintLbl->setText("Can not drop item of unknown class");
          } else {
             PrintLbl->setText(QString("Print item: ") + itemname);
             RemoveLink("PrintItem");
@@ -197,20 +197,6 @@ void QUserPanel::EditBtn_clicked()
 void QUserPanel::DrawBtn_clicked()
 {
    DrawItem(DragItemLbl->text());
-
-   return;
-
-   printf("Create histogram\n");
-   TH1F *h1 = new TH1F("h1", "histo from a gaussian", 100, -5, 5);
-   h1->FillRandom("gaus", 10000);
-
-   fxDrawCanvas->getCanvas()->Clear();
-   fxDrawCanvas->getCanvas()->cd();
-   h1->Draw("");
-   h1->SetDirectory(0);
-
-   fxDrawCanvas->getCanvas()->Modified();
-   fxDrawCanvas->getCanvas()->Update();
 }
 
 void QUserPanel::PrintObject(TObject* obj)

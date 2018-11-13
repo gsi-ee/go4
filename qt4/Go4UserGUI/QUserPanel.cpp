@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -133,7 +133,7 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
          break;
       case 1:
          if (cl==0) {
-            PrintLbl->setText("Can not drop item of uncknown class");
+            PrintLbl->setText("Can not drop item of unknown class");
          } else {
             PrintLbl->setText(QString("Print item: ") + itemname);
             RemoveLink("PrintItem");
