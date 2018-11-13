@@ -319,6 +319,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual int GetAutoColor(int indx);
 
       void CanvasUpdate(bool modify = false);
+
+      TH1 *Get_fHistogram(TObject *obj, bool force = false);
 };
 
 #endif

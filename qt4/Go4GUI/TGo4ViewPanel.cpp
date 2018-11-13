@@ -1702,6 +1702,32 @@ void TGo4ViewPanel::ProcessPadDoubleClick()
    newpanel->ShootRepaintTimer();
 }
 
+
+TH1 *TGo4ViewPanel::Get_fHistogram(TObject *obj, bool force)
+{
+   // return fHistogram member of THStack, TMultiGraph, TGraph
+   if (!obj) return nullptr;
+
+   Long_t offset =obj->IsA()->GetDataMemberOffset("fHistogram");
+   if (offset <= 0) return 0;
+
+   TH1 **hist = (TH1 **)((char*) obj + offset);
+
+   if (!force || IsWebCanvas()) return *hist;
+
+   if (obj->IsA()==THStack::Class())
+      return ((THStack *)obj)->GetHistogram();
+
+   if (obj->IsA() == TMultiGraph::Class())
+      return ((TMultiGraph *)obj)->GetHistogram();
+
+   TGraph *gr = dynamic_cast<TGraph *> (obj);
+   if (gr) return gr->GetHistogram();
+
+   return *hist;
+}
+
+
 void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
 {
    TPad* pad = dynamic_cast<TPad*>(obj);
@@ -1732,10 +1758,10 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
             continue;
 
          THStack* hs = dynamic_cast<THStack*>(sislot->GetAssignedObject());
-         if(hs==0) continue;
 
-         TH1* framehisto = hs->GetHistogram();
-         if (framehisto == 0) continue;
+         // prevent creation of histogram when not exists
+         TH1 *framehisto = Get_fHistogram(hs);
+         if (!framehisto) continue;
 
          if (framehisto->GetXaxis() != obj) continue;
 
@@ -2521,8 +2547,8 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
       TH1* h1 = dynamic_cast<TH1*>(link->GetObject());
       // access axis properties of graphs
       if(h1==0) {
-         TGraph* gr=dynamic_cast<TGraph*> (link->GetObject());
-         if(gr) h1=gr->GetHistogram();
+         TGraph* gr = dynamic_cast<TGraph*> (link->GetObject());
+         if(gr) h1 = Get_fHistogram(gr);
       }
 
       if (h1 != 0) {
@@ -3160,29 +3186,26 @@ TH1* TGo4ViewPanel::GetPadHistogram(TPad *pad)
 
    TPadGuard lock(fxWCanvas ? nullptr : gPad); // replace gPad to avoid redrawing of canvas
 
-   if (obj->InheritsFrom(TGraph::Class())) {
-      TGraph* gr = dynamic_cast<TGraph*>(obj);
-      if (gr != 0)
-         return gr->GetHistogram();
-   }
+   if (obj->InheritsFrom(TGraph::Class()))
+      // return graph histogram - if need create them in not web case
+      return Get_fHistogram(obj, true);
 
-   if (obj->InheritsFrom(THStack::Class())) {
-      THStack* hs = dynamic_cast<THStack*>(obj);
-      if (hs != 0)
-         return hs->GetHistogram();
-   }
+   if (obj->InheritsFrom(THStack::Class()))
+      return Get_fHistogram(obj, true);
 
    if (obj->InheritsFrom(TMultiGraph::Class())) {
       TMultiGraph* mg = dynamic_cast<TMultiGraph*>(obj);
       if (mg) {
-         if (mg->GetHistogram())
-            return mg->GetHistogram();
+         // do not force here, otherwise never come to the TGraph
+         TH1 *h = Get_fHistogram(mg);
+         if (h) return h;
 
          TGraph* gr = 0;
          TIter iter(mg->GetListOfGraphs());
-         while ((gr = (TGraph*) iter()) != 0)
-            if (gr->GetHistogram())
-               return gr->GetHistogram();
+         while ((gr = (TGraph*) iter()) != 0) {
+            h = Get_fHistogram(gr, true);
+            if (h) return h;
+         }
       }
    }
 
@@ -3746,17 +3769,17 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
 
       if (dynamic_cast<TGraph*>(obj) != 0) {
          kind = 2;
-         h1 = ((TGraph*) obj)->GetHistogram();
+         h1 = Get_fHistogram(obj);
       } else
 
       if (dynamic_cast<THStack*>(obj) != 0) {
          kind = 3;
-         h1 = ((THStack*) obj)->GetHistogram();
+         h1 = Get_fHistogram(obj);
       } else
 
       if (dynamic_cast<TMultiGraph*>(obj) != 0) {
          kind = 4;
-         h1 = ((TMultiGraph*) obj)->GetHistogram();
+         h1 = Get_fHistogram(obj);
       } else {
 //         std::cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << std::endl;
       }
@@ -4140,9 +4163,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
    hs->Draw(drawopt.Data());
    // do not access histogram in web canvas - causes redraw of the complete canvas
-   if (IsWebCanvas()) return;
-
-   TH1* framehisto = hs->GetHistogram();
+   TH1* framehisto = Get_fHistogram(hs, true);
    if (framehisto == 0) return;
 
    framehisto->SetStats(false);
@@ -4191,24 +4212,27 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
            gr->SetFillColor(go4sett->getDrawFillColor());
          if ((go4sett->getDrawFillStyle()!=1001) && (gr->GetFillStyle()==1001))
            gr->SetFillStyle(go4sett->getDrawFillStyle());
-
-
-
    }
 
    if (drawopt.Length() == 0)
       drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
-   TH1* framehisto = gr->GetHistogram();
-   if (framehisto == 0) {
-      gr->Draw(drawopt.Data());
-      framehisto = gr->GetHistogram();
-   }
-   if (framehisto != 0) {
+   TH1* framehisto = Get_fHistogram(gr);
+   if (framehisto) {
       framehisto->SetStats(padopt->IsHisStats());
       framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    }
+
    gr->Draw(drawopt.Data());
+
+   if (!framehisto && !IsWebCanvas()) {
+      framehisto = gr->GetHistogram();
+      if (framehisto && ((framehisto->TestBit(TH1::kNoStats) == padopt->IsHisStats()) || (framehisto->TestBit(TH1::kNoTitle) == padopt->IsHisTitle()))) {
+         framehisto->SetStats(padopt->IsHisStats());
+         framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
+         gr->Draw(drawopt.Data());
+      }
+   }
 
    SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 }
@@ -4237,6 +4261,11 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
       drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
    if (dosuperimpose)
       drawopt = "";
+
+   if (IsWebCanvas()) {
+      mg->Draw(drawopt.Data());
+      return;
+   }
 
    TH1* framehisto = (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() : mg->GetHistogram();
 
