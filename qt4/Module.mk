@@ -9,6 +9,17 @@ include qt4/Go4GUI/Module.mk
 
 include qt4/Go4UserGUI/Makefile
 
+ifdef withweb
+
+include qt4/WebUserGUI/Makefile
+
+else
+
+clean-qt5webusergui:
+
+all-qt5webusergui:
+
+endif
 
 ifndef GO4_WIN32
 
@@ -33,9 +44,9 @@ GO4QTHEADS += $(GO4QT4HEADS)
 
 LIBDEPENDENC += $(GO4QT4DEP)
 
-.PHONY: qt4-GUI qt4-heads all-qt4usergui clean-qt4-GUI clean-qt4usergui all-qt4plugin
+.PHONY: qt4-GUI qt4-heads all-qt4usergui all-qt5webusergui clean-qt4-GUI clean-qt4usergui clean-qt5webusergui all-qt4plugin
 
-gui:: libs qt4-GUI qt4-heads all-qt4usergui
+gui:: libs qt4-GUI qt4-heads all-qt4usergui all-qt5webusergui
 
 plugin:: all-qt4plugin
 

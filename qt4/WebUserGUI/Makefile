@@ -7,89 +7,90 @@ include $(GO4SYS)/Makefile.config
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-USERGUI4_DIR         = qt4/Go4UserGUI
-USERGUI4_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
-USERGUI4_DEPRULES    = | qt4-GUI qt4-heads
+WEBUSERGUI_DIR         = qt4/WebUserGUI
+WEBUSERGUI_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
+WEBUSERGUI_DEPRULES    = | qt4-GUI qt4-heads
 else
-USERGUI4_DIR         = $(CURDIR)
-USERGUI4_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
+WEBUSERGUI_DIR         = $(CURDIR)
+WEBUSERGUI_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
 endif
 
-USERGUI4_LIBDIR      = $(USERGUI4_DIR)
-USERGUI4_QTLIBNAME   = libGo4UserGui
-USERGUI4_QTPRO       = Go4UserGui.pro
-USERGUI4_QTMAKE      = Makefile.qt
+WEBUSERGUI_LIBDIR      = $(WEBUSERGUI_DIR)
+WEBUSERGUI_QTLIBNAME   = libGo4UserGui
+WEBUSERGUI_QTPRO       = Go4UserGui.pro
+WEBUSERGUI_QTMAKE      = Makefile.qt
 
-USERGUI4_NOTLIBF     =
+WEBUSERGUI_NOTLIBF     =
 
 ## must be similar for every module
 
-USERGUI4_FORMS      := $(wildcard $(USERGUI4_DIR)/*.ui)
-USERGUI4_FH         := $(USERGUI4_FORMS:.ui=.h)
-USERGUI4_FS         := $(USERGUI4_FORMS:.ui=.cpp)
+WEBUSERGUI_FORMS      := $(wildcard $(WEBUSERGUI_DIR)/*.ui)
+WEBUSERGUI_FH         := $(WEBUSERGUI_FORMS:.ui=.h)
+WEBUSERGUI_FS         := $(WEBUSERGUI_FORMS:.ui=.cpp)
 
 
-USERGUI4_QTLIB       = $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)
+WEBUSERGUI_QTLIB       = $(WEBUSERGUI_LIBDIR)/$(WEBUSERGUI_QTLIBNAME).$(DllSuf)
 
 
 # used in the main Makefile
 
 ifdef DOPACKAGE
-DISTRFILES         += $(USERGUI4_FORMS) $(USERGUI4_FS) $(USERGUI4_FH)
-DISTRFILES         += $(USERGUI4_DIR)/$(USERGUI4_QTPRO) $(USERGUI4_DIR)/README.txt
-DISTRFILES         += $(USERGUI4_DIR)/Makefile
+DISTRFILES         += $(WEBUSERGUI_FORMS) $(WEBUSERGUI_FS) $(WEBUSERGUI_FH)
+DISTRFILES         += $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTPRO) $(WEBUSERGUI_DIR)/README.txt
+DISTRFILES         += $(WEBUSERGUI_DIR)/Makefile
 endif
 
 ##### local rules #####
 
 ifneq ($(GO4_QT), 3)
 
-all:: all-qt4usergui
+all:: all-qt5webusergui
 
-clean-bin:: clean-qt4usergui-bin
+clean-bin:: clean-qt5webusergui-bin
 
-clean:: clean-qt4usergui
+clean:: clean-qt5webusergui
 
 endif
 
 
-$(USERGUI4_DIR)/$(USERGUI4_QTMAKE): $(USERGUI4_DIR)/$(USERGUI4_QTPRO) $(USERGUI4_FORMS) $(USERGUI4_DEPRULES) 
-	@echo "Generating $(USERGUI4_QTMAKE)..."
-	cd $(USERGUI4_DIR); $(QMAKE) $(USERGUI4_QTPRO) -o $(USERGUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
+$(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTPRO) $(WEBUSERGUI_FORMS) $(WEBUSERGUI_DEPRULES) 
+	@echo "Generating $(WEBUSERGUI_QTMAKE)..."
+	cd $(WEBUSERGUI_DIR); $(QMAKE) $(WEBUSERGUI_QTPRO) -o $(WEBUSERGUI_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
 
-$(USERGUI4_QTLIB): $(USERGUI4_DIR)/$(USERGUI4_QTMAKE) $(USERGUI4_FH) $(USERGUI4_FS) $(USERGUI4_DEPRULES)  
+$(WEBUSERGUI_QTLIB): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE) $(WEBUSERGUI_FH) $(WEBUSERGUI_FS) $(WEBUSERGUI_DEPRULES)  
 	@echo "Generating Qt part of the User GUI..."
-	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) $(USERGUI4_QFLAGS)
+	+cd $(WEBUSERGUI_DIR); $(MAKEFORQT) -f $(WEBUSERGUI_QTMAKE) $(WEBUSERGUI_QFLAGS)
 ifeq ($(GO4_OS),Win32)
-	$(MV) $(USERGUI4_DIR)/release/$(USERGUI4_QTLIBNAME).* $(USERGUI4_DIR)
+	$(MV) $(WEBUSERGUI_DIR)/release/$(WEBUSERGUI_QTLIBNAME).* $(WEBUSERGUI_DIR)
 endif
 
 
 ifneq ($(GO4_OS),Darwin)
 
-all-qt4usergui:  $(USERGUI4_QTLIB)
+all-qt5webusergui:  $(WEBUSERGUI_QTLIB)
 
 else
-all-qt4usergui:
+
+all-qt5webusergui:
 	@echo "No user gui (yet) under Darwin"
+
 endif
 
 
-
-clean-qt4usergui-bin:
-ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)
-	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean $(USERGUI4_QFLAGS)
+clean-qt5webusergui-bin:
+ifneq ($(wildcard $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE)),)
+	cd $(WEBUSERGUI_DIR); $(MAKEFORQT) -f $(WEBUSERGUI_QTMAKE) clean $(WEBUSERGUI_QFLAGS)
 endif
-	@$(RM) $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)*
-	@$(RM) $(USERGUI4_DIR)/*.o $(USERGUI4_DIR)/moc_*.* $(USERGUI4_DIR)/ui_*.h *.json
+	@$(RM) $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE)*
+	@$(RM) $(WEBUSERGUI_DIR)/*.o $(WEBUSERGUI_DIR)/moc_*.* $(WEBUSERGUI_DIR)/ui_*.h *.json
 ifeq ($(GO4_OS),Win32)
-	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).exp $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).lib
-	@$(RMDIR) $(USERGUI4_DIR)/release $(USERGUI4_DIR)/debug 
+	@$(RM) $(WEBUSERGUI_LIBDIR)/$(WEBUSERGUI_QTLIBNAME).exp $(WEBUSERGUI_LIBDIR)/$(WEBUSERGUI_QTLIBNAME).lib
+	@$(RMDIR) $(WEBUSERGUI_DIR)/release $(WEBUSERGUI_DIR)/debug 
 endif
 
-clean-qt4usergui: clean-qt4usergui-bin
-	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).* $(USERGUI4_LIBDIR)/.qmake.stash
+clean-qt5webusergui: clean-qt5webusergui-bin
+	@$(RM) $(WEBUSERGUI_LIBDIR)/$(WEBUSERGUI_QTLIBNAME).* $(WEBUSERGUI_LIBDIR)/.qmake.stash
 
-clean-qt4:: clean-qt4usergui
+clean-qt4:: clean-qt5webusergui
 
 include $(GO4SYS)/Makefile.rules
