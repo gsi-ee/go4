@@ -205,7 +205,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
          Add(entry);
         //std::cout <<"BBBBBBBBBBBBBBB                after Add to queue. "<<std::endl;
       }
-   catch(TGo4RuntimeException ex)
+   catch(TGo4RuntimeException &ex)
       {
          std::cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << std::endl;
          if(entryisnew)

@@ -320,7 +320,7 @@ frombegin:
                      fflush(stdout);
                      goto frombegin;
                   }
-               } catch (TGo4EventErrorException e) {
+               } catch (TGo4EventErrorException &ex) {
                }
                printf("Retry %d failed\n", cnt);
                fflush(stdout);
