@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -228,13 +228,16 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
 
    if(fgbLogfileEnabled) {
       // message format for logfile is different:
-      snprintf(fgcMessagetext,fguMESLEN,"%s %s",prefix,txtbuf);
+      int resf = snprintf(fgcMessagetext, fguMESLEN, "%s %s", prefix, txtbuf);
       WriteLogfile(fgcMessagetext);
+
+      // this is just because of gcc8 warnings
+      if (resf >= fguMESLEN) (void)resf;
    }
 
    // we compose the full messagetext anyway, for further use outside
-   snprintf(fgcMessagetext,fguMESLEN, "%s%s> %s %s",
-         fgcLEFT, prefix, txtbuf,fgcRIGHT);
+   int res = snprintf(fgcMessagetext, fguMESLEN, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
+   if (res >= fguMESLEN) (void)res;
 
    if(fgbOutputEnabled) {
 
