@@ -32,8 +32,12 @@
 #include "TGo4MbsEventServerParameter.h"
 #include "TGo4MbsRandomParameter.h"
 
+
+
+
+
 #ifdef __GO4HDF5__
-#include "H5Cpp.h"
+//#include "H5Cpp.h"
 #include "TGo4HDF5StoreParameter.h"
 #endif
 
@@ -90,6 +94,11 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    fBlocked = 0;
    fExtra = false;
    ExtraBtn->setText(fExtra ? "-" : "+");
+
+#ifndef __GO4HDF5__
+   OutputCombo->removeItem(2);
+#endif
+
 }
 
 TGo4ConfigStep::~TGo4ConfigStep()
@@ -596,7 +605,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
    if(k==2) {
 #ifdef __GO4HDF5__
       StoreNameEdit->setDisabled(false);
-      TGo4HDF5StoreParameter* newpar2 = new TGo4HDF5StoreParameter(StoreNameEdit->text().toLatin1().constData(), H5F_ACC_TRUNC);
+      TGo4HDF5StoreParameter* newpar2 = new TGo4HDF5StoreParameter(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
       fStepStatus->SetStorePar(newpar2);
       delete newpar2;
       StoreOverwriteMode->setDisabled(false);
@@ -685,11 +694,10 @@ void TGo4ConfigStep::StoreOverWrite( bool overwrite)
       if(overwrite)StorePar->SetOverwriteMode(kTRUE);
       else StorePar->SetOverwriteMode(kFALSE);
    }
-
 #ifdef __GO4HDF5__
    else if(fStepStatus->GetStorePar()->InheritsFrom(TGo4HDF5StoreParameter::Class())){
      TGo4HDF5StoreParameter *StorePar=dynamic_cast <TGo4HDF5StoreParameter *> (fStepStatus->GetStorePar());
-     StorePar->SetHDF5Flags(overwrite ? H5F_ACC_TRUNC : H5F_ACC_RDWR);
+     StorePar->SetHDF5Flags(overwrite ? GO4_H5F_ACC_TRUNC : GO4_H5F_ACC_RDWR);
    }
 #endif
 }
@@ -980,7 +988,7 @@ void TGo4ConfigStep::SetHDF5Store(QString name, int flags)
    StoreNameEdit->setText(name);
    OutputCombo->setCurrentIndex(2);
    StoreOverwriteMode->setEnabled(true);
-   StoreOverwriteMode->setChecked(flags==H5F_ACC_TRUNC ? true : false);
+   StoreOverwriteMode->setChecked(flags==GO4_H5F_ACC_TRUNC ? true : false);
 // JAM2019: here evaluate the file access flags
 //   Valid values of flags include://
 //       H5F_ACC_TRUNC - Truncate file, if it already exists, erasing all data previously stored in the file.

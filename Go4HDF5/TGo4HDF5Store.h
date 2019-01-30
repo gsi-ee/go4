@@ -17,9 +17,9 @@
 
 
 #include "TGo4EventStore.h"
+#include "TGo4HDF5StoreParameter.h"
 
 #include "H5Cpp.h"
-//using namespace H5;
 
 class TFile;
 class TTree;
@@ -39,7 +39,7 @@ class TGo4HDF5Store : public TGo4EventStore {
     TGo4HDF5Store();
 
     TGo4HDF5Store(const char* name,
-                  Int_t flags=H5F_ACC_TRUNC);
+                  UInt_t flags=H5F_ACC_TRUNC);
 
     TGo4HDF5Store(TGo4HDF5StoreParameter* par);
 
@@ -96,6 +96,10 @@ class TGo4HDF5Store : public TGo4EventStore {
 
     /** evaluate total memory size of event object regarding composite subevents*/
     size_t ScanEventSize(TGo4EventElement* event);
+
+
+    /** Convert common go4 filemode flags to hdf5 flags: **/
+    UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
 
   private:

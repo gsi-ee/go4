@@ -50,7 +50,7 @@ TGo4HDF5Store::TGo4HDF5Store() :
 }
 
 TGo4HDF5Store::TGo4HDF5Store(const char* name,
-                             Int_t flags) :
+                             UInt_t flags) :
    TGo4EventStore(name),
    fxFile(0),
    fxDataSet(),fxType(0), fxDataSpace(0),
@@ -81,7 +81,7 @@ TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par) :
       return;
    }
    SetName(par->GetName());
-   fiFlags=par->GetHDF5Flags();
+   fiFlags=ConvertFileMode(par->GetHDF5Flags());
    OpenFile();
 }
 
@@ -428,14 +428,30 @@ void TGo4HDF5Store::WriteToStore(TNamed* ob)
    if (ob==0) return;
    TGo4Log::Info("TGo4HDF5Store: WriteToStore not yet implemented for auxiliary objects of class %s (name:%s)\n",ob->Class()->GetName(), ob->GetName());
 
-//   TDirectory* dsav=gDirectory;
-//   TString oldname = ob->GetName();
-//   ob->SetName(Form("%s_%d" , oldname.Data(), fiFillCount));
-//   if(fxTree) fxFile = fxTree->GetCurrentFile();
-//   if (fxFile) fxFile->cd();
-//   ob->Write(0, TObject::kOverwrite);
-//   ob->SetName(oldname.Data());
-//   if (dsav) dsav->cd();
 }
 
+UInt_t TGo4HDF5Store::ConvertFileMode(Go4_H5_File_Flags flags)
+{
+ UInt_t h5flags=0;
 
+ switch(flags)
+ {
+   case GO4_H5F_ACC_NONE:
+   case GO4_H5F_ACC_TRUNC:
+     h5flags=H5F_ACC_TRUNC;
+     break;
+   case GO4_H5F_ACC_EXCL:
+     h5flags=H5F_ACC_EXCL;
+     break;
+   case GO4_H5F_ACC_RDONLY:
+     h5flags=H5F_ACC_RDONLY;
+     break;
+   case GO4_H5F_ACC_RDWR:
+     h5flags=H5F_ACC_RDWR;
+   break;
+   default:
+     h5flags=H5F_ACC_TRUNC;
+     break;
+ }
+ return h5flags;
+}

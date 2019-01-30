@@ -18,7 +18,7 @@
 #include "Go4EventServerTypes.h"
 
 TGo4HDF5StoreParameter::TGo4HDF5StoreParameter(const char* name,
-                                               UInt_t flags)
+    Go4_H5_File_Flags  flags)
 : TGo4EventStoreParameter(name, GO4EV_HDF5),
    fiFlags(flags)
 {
@@ -28,7 +28,7 @@ TGo4HDF5StoreParameter::TGo4HDF5StoreParameter(const char* name,
 
 TGo4HDF5StoreParameter::TGo4HDF5StoreParameter()
 : TGo4EventStoreParameter("Default Go4 HDF5 Store", GO4EV_HDF5),
-   fiFlags(0)  //(H5F_ACC_TRUNC)
+   fiFlags(GO4_H5F_ACC_NONE)
 {
    GO4TRACE((14,"TGo4HDF5StoreParameter::TGo4HDF5StoreParameter()", __LINE__, __FILE__));
    SetTitle("Go4HDF5Store");

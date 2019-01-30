@@ -17,14 +17,22 @@
 #include "TGo4EventStoreParameter.h"
 //#include "H5Cpp.h"
 
+/** to decouple parameter from hdf5 library we use own definitions for file modes*/
+typedef enum Go4_H5_File_Flags{
+  GO4_H5F_ACC_NONE,
+  GO4_H5F_ACC_TRUNC,
+  GO4_H5F_ACC_EXCL,
+  GO4_H5F_ACC_RDONLY,
+  GO4_H5F_ACC_RDWR
+}  Go4_H5_File_Flags;
+
 class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
 
    public:
       TGo4HDF5StoreParameter() ;
 
       TGo4HDF5StoreParameter(const char* name,
-                             UInt_t flags);
-      //=H5F_ACC_TRUNC);
+                  Go4_H5_File_Flags flags=GO4_H5F_ACC_TRUNC);
 
       virtual ~TGo4HDF5StoreParameter();
 
@@ -35,14 +43,14 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
       /** update contents of paramter class with external object. */
       virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
 
-      UInt_t GetHDF5Flags() const { return fiFlags; }
-      void SetHDF5Flags(UInt_t flags) { fiFlags=flags; }
+      Go4_H5_File_Flags GetHDF5Flags() const { return fiFlags; }
+      void SetHDF5Flags(Go4_H5_File_Flags flags) { fiFlags=flags; }
 
 
    private:
 
       /** Flags for HDF5 file mode*/
-      UInt_t fiFlags;
+      Go4_H5_File_Flags fiFlags;
 
 
    ClassDef(TGo4HDF5StoreParameter,1)
