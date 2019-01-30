@@ -25,6 +25,11 @@
 #include "TGo4BackStoreParameter.h"
 #include "TGo4TreeStoreParameter.h"
 
+#ifdef __GO4HDF5__
+#include "TGo4HDF5StoreParameter.h"
+#include "TGo4HDF5Store.h"
+#endif
+
 #include "TGo4EventSource.h"
 #include "TGo4FileSource.h"
 #include "TGo4TreeSource.h"
@@ -97,6 +102,12 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
       {
          rev = new TGo4BackStore(dynamic_cast<TGo4BackStoreParameter* > (par));
       }
+#ifdef __GO4HDF5__
+      else if(!strcmp(par->ClassName(),"TGo4HDF5StoreParameter"))
+       {
+               rev = new TGo4HDF5Store(dynamic_cast<TGo4HDF5StoreParameter* > (par));
+       }
+#endif
    }
 
    if(rev)

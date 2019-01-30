@@ -56,6 +56,7 @@ GO4ANBASE_DDEP       =  $(GO4ANBASE_DICT).$(DepSuf)
 
 GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
               $(EVENTSERVPAR_H) \
+              $(HDFPAR_H) \
               $(CONDBASE_H)     \
               $(DYNLIST_H)      \
               $(STATANAL_H)     \
@@ -71,6 +72,7 @@ endif
 GO4ANBASE_O+= $(MBSAPIBASE_O)  \
               $(GO4EVENTPAR_O) \
               $(EVENTSERVPAR_O) \
+              $(HDFPAR_O) \
               $(CONDBASE_O) \
               $(DYNLIST_O) \
               $(STATANAL_O) \
@@ -89,6 +91,7 @@ GO4AN_DDEP       =  $(GO4AN_DICT).$(DepSuf)
 
 GO4AN_H   = $(GO4EVENT_H)  \
             $(EVENTSERV_H) \
+            $(HDF_H) \
             $(HISTSERV_H)  \
             $(GO4ANAL_H)   \
             $(CMDANAL_H)   \
@@ -98,6 +101,7 @@ GO4AN_O   = $(MBSAPI_O)    \
             $(RAWAPI_O)    \
             $(GO4EVENT_O)  \
             $(EVENTSERV_O) \
+            $(HDF_O)\
             $(HISTSERV_O)  \
             $(GO4ANAL_O)   \
             $(CMDANAL_O)   \

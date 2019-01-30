@@ -33,7 +33,8 @@ enum
    GO4EV_MBS_REVSERV,           // remote event server (input only)
    GO4EV_BACK,            // backstore in memory (pseudo-ringbuffer?)
    GO4EV_USER,             // user defined source class
-   GO4EV_MBS_RANDOM            // random generated mbs event
+   GO4EV_MBS_RANDOM,            // random generated mbs event
+   GO4EV_HDF5                // HDF5 file format
 };
 
 

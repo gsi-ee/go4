@@ -76,6 +76,7 @@
 #include "TGo4EventTimeoutException.h"
 #include "TGo4EventEndException.h"
 #include "TGo4AnalysisStepException.h"
+#include "TGo4EventStoreException.h"
 #include "TGo4TreeStructure.h"
 
 
@@ -530,6 +531,17 @@ Int_t TGo4Analysis::Process()
       //return 0;
    }
 
+
+   catch(TGo4EventStoreException& ex)
+     {
+        Message(3,"Event store throws exception: %s",ex.GetErrMess());
+        if(IsErrorStopEnabled()) {
+           if(fxAnalysisSlave) fxAnalysisSlave->Stop();
+           rev=-1;
+        }
+        //return 0;
+     }
+
    catch(TGo4DynamicListException& ex)
    {
       {
@@ -754,6 +766,20 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             ex.Handle(); // just show timeout message, continue event loop
          }
 
+         catch (TGo4EventStoreException& ex)
+          {
+            Message(3, ex.GetErrMess());
+            PostLoop();
+            if (iswebserver)
+            {
+              fxDoWorkingFlag = flagPause;    // errors: stop event loop
+              ex.Handle();
+            }
+            else
+            {
+              throw;    // return to shell if not remotely controlled
+            }
+          }
          catch(...)
          {
             PostLoop(); // make sure that postloop is executed for all exceptions

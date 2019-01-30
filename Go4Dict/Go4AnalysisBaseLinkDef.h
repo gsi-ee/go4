@@ -49,6 +49,8 @@
 #pragma link C++ class TGo4RevServParameter+;
 #pragma link C++ class TGo4MbsRandomParameter+;
 
+
+
 #pragma link C++ class TGo4TreeSourceParameter+;
 #pragma link C++ class TGo4TreeStoreParameter+;
 #pragma link C++ class TGo4FileSourceParameter+;
@@ -57,6 +59,8 @@
 #pragma link C++ class TGo4UserSourceParameter+;
 #pragma link C++ class TGo4UserStoreParameter+;
 
+#pragma link C++ class TGo4HDF5SourceParameter+;
+#pragma link C++ class TGo4HDF5StoreParameter+;
 
 #pragma link C++ class TGo4DynamicEntry+;
 #pragma link C++ class TGo4HistogramEntry+;

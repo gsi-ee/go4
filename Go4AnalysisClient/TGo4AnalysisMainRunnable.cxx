@@ -26,6 +26,7 @@
 #include "TGo4CommandInvoker.h"
 #include "TGo4EventErrorException.h"
 #include "TGo4EventTimeoutException.h"
+#include "TGo4EventStoreException.h"
 #include "TGo4AnalysisStepException.h"
 #include "TGo4UserException.h"
 #include "TGo4EventEndException.h"
@@ -184,7 +185,15 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
       }
       return 0;
    }
-
+   catch(TGo4EventStoreException& ex)
+        {
+             fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(
+                 "Event Store %s throws exception: %s - %s",
+                 ex.GetStoreClass(),
+                 ex.GetStoreName(),ex.GetErrMess()));
+             if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
+          return 0;
+        }
    catch(TGo4DynamicListException& ex)
    {
       ex.Handle();
