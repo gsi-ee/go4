@@ -98,8 +98,13 @@ MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4EventServer Go4Exceptions \
            Go4Display Go4Proxies \
            Go4ObjectManager \
-           Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
+           Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase Go4HDF5\
            Go4Http Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
+
+#ifdef USEHDF5
+#	MODULES += Go4HDF5
+#endif
+           
            
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \

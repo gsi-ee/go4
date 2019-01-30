@@ -31,6 +31,12 @@
 #include "TGo4MbsTransportParameter.h"
 #include "TGo4MbsEventServerParameter.h"
 #include "TGo4MbsRandomParameter.h"
+
+#ifdef __GO4HDF5__
+#include "H5Cpp.h"
+#include "TGo4HDF5StoreParameter.h"
+#endif
+
 #include "Go4EventServerTypes.h"
 #include "TGo4AnalysisConfiguration.h"
 
@@ -287,6 +293,16 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
                          bstor->GetSplitlevel());
             break;
          }
+
+#ifdef __GO4HDF5__
+         case GO4EV_HDF5: {
+           TGo4HDF5StoreParameter* hstor = dynamic_cast<TGo4HDF5StoreParameter*>(StorePar);
+           SetHDF5Store(hstor->GetName(), hstor->GetHDF5Flags());
+                     break;
+                  }
+#endif
+
+
          default:
             break;
       } // switch StorePar->GetID()
@@ -576,13 +592,46 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
       TreeAutosave->setDisabled(true);
-    }
+    } else
+   if(k==2) {
+#ifdef __GO4HDF5__
+      StoreNameEdit->setDisabled(false);
+      TGo4HDF5StoreParameter* newpar2 = new TGo4HDF5StoreParameter(StoreNameEdit->text().toLatin1().constData(), H5F_ACC_TRUNC);
+      fStepStatus->SetStorePar(newpar2);
+      delete newpar2;
+      StoreOverwriteMode->setDisabled(false);
+      FileNameOutput->setDisabled(false);
+      CompLevel->setDisabled(true);
+      TreeAutosave->setDisabled(true);
+      SplitLevel->setDisabled(true);
+      BufferSize->setDisabled(true);
+#endif
+   }
+
 }
 
 void TGo4ConfigStep::OutputFileDialog()
 {
+
+  QString filters;
+  if(fStepStatus!=0) {
+        TGo4EventStoreParameter* storepar = fStepStatus->GetStorePar();
+        if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
+           filters = "Go4FileSource  (*.root)";
+
+#ifdef __GO4HDF5__
+        else if (storepar->InheritsFrom(TGo4HDF5StoreParameter::Class())) {
+           filters="Go4HDF5 (*.h5)";
+        }
+#endif
+        else
+           std::cout <<"Unknown storepar " <<storepar->ClassName() << std::endl;
+    }
+
+
+
    QFileDialog fd( this, "Select file name for step output",
-         fxPanel->GetStorePath(), "Go4FileStore  (*.root)");
+         fxPanel->GetStorePath(), filters);
    fd.setFileMode( QFileDialog::AnyFile);
    if ( fd.exec() != QDialog::Accepted ) return;
 
@@ -590,8 +639,10 @@ void TGo4ConfigStep::OutputFileDialog()
    if (flst.isEmpty()) return;
 
    QString fileName = flst[0];
+   std::cout << "output file is "<<fileName.toLatin1().constData() << std::endl;
    fxPanel->SetStorePath(fd.directory().path());
-   if(!fileName.endsWith(".root")) fileName.append(".root");
+   if(!fileName.endsWith(".h5")) fileName.append(".h5");
+   std::cout << "output file is now "<<fileName.toLatin1().constData() << std::endl;
    StoreNameEdit->setText(fileName);
 }
 
@@ -634,6 +685,13 @@ void TGo4ConfigStep::StoreOverWrite( bool overwrite)
       if(overwrite)StorePar->SetOverwriteMode(kTRUE);
       else StorePar->SetOverwriteMode(kFALSE);
    }
+
+#ifdef __GO4HDF5__
+   else if(fStepStatus->GetStorePar()->InheritsFrom(TGo4HDF5StoreParameter::Class())){
+     TGo4HDF5StoreParameter *StorePar=dynamic_cast <TGo4HDF5StoreParameter *> (fStepStatus->GetStorePar());
+     StorePar->SetHDF5Flags(overwrite ? H5F_ACC_TRUNC : H5F_ACC_RDWR);
+   }
+#endif
 }
 
 
@@ -914,6 +972,26 @@ void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
    FileNameOutput->setEnabled(false);
    StoreComboHighlighted(1);
 }
+
+void TGo4ConfigStep::SetHDF5Store(QString name, int flags)
+{
+#ifdef __GO4HDF5__
+   StoreNameEdit->setEnabled(false);
+   StoreNameEdit->setText(name);
+   OutputCombo->setCurrentIndex(2);
+   StoreOverwriteMode->setEnabled(true);
+   StoreOverwriteMode->setChecked(flags==H5F_ACC_TRUNC ? true : false);
+// JAM2019: here evaluate the file access flags
+//   Valid values of flags include://
+//       H5F_ACC_TRUNC - Truncate file, if it already exists, erasing all data previously stored in the file.
+//       H5F_ACC_EXCL - Fail if file already exists. H5F_ACC_TRUNC and H5F_ACC_EXCL are mutually exclusive
+//       H5F_ACC_RDONLY - Open file as read-only, if it already exists, and fail, otherwise
+//       H5F_ACC_RDWR - Open file for read/write, if it already exists, and fail, otherwise
+   FileNameOutput->setEnabled(true);
+   StoreComboHighlighted(2);
+#endif
+}
+
 
 QString TGo4ConfigStep::GetBackStoreName()
 {

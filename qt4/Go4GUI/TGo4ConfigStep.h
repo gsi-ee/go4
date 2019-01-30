@@ -55,7 +55,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual int GetStoreSetup( QString & name );
       virtual void GetFileStore( bool & overwrite, int & bufsize, int & splitlevel, int & compression, int & autosaveinterval );
       virtual void GetBackStore( int & bufsize, int & splitlevel );
-
+      virtual void SetHDF5Store(QString name, int flags);
 
    public slots:
 

@@ -191,7 +191,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>:/icons/mbslogo.png</iconset>
+           <iconset>
+            <normaloff>:/icons/mbslogo.png</normaloff>:/icons/mbslogo.png</iconset>
           </property>
          </widget>
         </item>
@@ -255,7 +256,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>:/icons/findfile.png</iconset>
+           <iconset>
+            <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
           </property>
          </widget>
         </item>
@@ -596,6 +598,11 @@
           <string>Go4BackStore</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Go4HDF5</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="0">
@@ -650,7 +657,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>:/icons/findfile.png</iconset>
+           <iconset>
+            <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
           </property>
          </widget>
         </item>
