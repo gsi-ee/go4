@@ -147,6 +147,15 @@ DABCINCPATH = $(DABCSYS)/include
 endif
 endif
 
+# set this to HDF5 installation, or redefine environment before building go4 
+#HDF5INSTALL = /misc/adamczew/Go4user/hdf5
+
+ifdef HDF5INSTALL
+USEHDF5  = true
+HDF5LIBPATH = $(HDF5INSTALL)/lib
+HDF5INCLUDEPATH=$(HDF5INSTALL)/include
+endif
+
 #try to detect which QT version is configured if any
 
 # when building WebEngine, Qt5 is required
@@ -338,6 +347,16 @@ endif
 	@echo 'export LD_LIBRARY_PATH=$(DABCLIBPATH):$$LD_LIBRARY_PATH' >> $@
 	@echo '' >> $@
 endif
+
+ifdef USEHDF5
+	@echo '##### HDF5-related settings ###########' >> $@
+ifeq ($(GO4_OS),Darwin)
+	@echo 'export DYLD_LIBRARY_PATH=$(HDF5LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
+endif
+	@echo 'export LD_LIBRARY_PATH=$(HDF5LIBPATH):$$LD_LIBRARY_PATH' >> $@
+	@echo '' >> $@
+endif
+
 ifdef QTDIR
 ifeq ($(QTDIR),$(QTPATH))
 	@echo '##### qt-relevant settings ###########' >> $@
@@ -507,6 +526,13 @@ ifdef USEDABC
 	@echo "DABCINCPATH = $(DABCINCPATH)" >> $@
 	@echo "" >> $@
 endif
+
+ifdef USEHDF5
+	@echo "USEHDF5     = true" >> $@
+	@echo "HDF5LIBPATH = $(HDF5LIBPATH)" >> $@
+	@echo "HDF5INCLUDEPATH = $(HDF5INCLUDEPATH)" >> $@
+endif
+
 ifndef CFG_WITHOUT_QT
 	@echo "### Qt relevant settings" >> $@
 	@echo "GO4_QT     = $(GO4_QT)" >> $@
