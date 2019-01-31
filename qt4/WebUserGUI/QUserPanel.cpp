@@ -113,9 +113,9 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 
    switch (TabWidget->currentIndex()) {
       case 0:
-        DragLbl->setText("Go4 GUI asks if widget accept dragged item");
+        DragLbl->setText(QString("Go4 GUI asks if widget accept dragged item "));
         DragItemLbl->setText(itemname);
-        DragClassLbl->setText(QString("Class: ") + (cl==0 ? "not exists (known)" : cl->GetName()));
+        DragClassLbl->setText(QString("Class: ") + (!cl ? "not exists (known)" : cl->GetName()));
         DragKindLbl->setText(kindString(kind));
         res = cl!=0;
         break;
@@ -125,7 +125,7 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
         res = cl!=0;
         break;
      case 2:
-        // res = cl!=0;
+        res = cl!=0;
         break;
    }
    // we will accept only items with known classes
