@@ -16,6 +16,7 @@ include qt4/WebUserGUI/Makefile
 else
 
 clean-qt5webusergui:
+	rm -rf qt4/WebUserGUI/*.so qt4/WebUserGUI/moc_*.* qt4/WebUserGUI/*.o qt4/WebUserGUI/ui_QUserPanel.h qt4/WebUserGUI/Makefile.qt
 
 all-qt5webusergui:
 
@@ -53,7 +54,7 @@ plugin:: all-qt4plugin
 endif
 endif
 
-clean-qt4:: clean-qt4-GUI clean-qt4usergui
+clean-qt4:: clean-qt4-GUI clean-qt4usergui clean-qt5webusergui
 	@rm -f build/Makefile.gener
 
 clean:: clean-qt4

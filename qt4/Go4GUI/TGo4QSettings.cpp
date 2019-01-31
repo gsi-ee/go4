@@ -41,6 +41,8 @@ TGo4QSettings::TGo4QSettings(const QString& filename)
 {
    fSettFileName = filename;
 
+   fUseWeb = false;
+
    Open();
 }
 
