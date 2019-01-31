@@ -233,8 +233,12 @@ and then just drag &amp; drop object to this label (not to output window).</stri
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-    <include location="local">QRootCanvas.h</include>
-  </includes>
+  <customwidgets>
+    <customwidget>
+      <class>QGo4Widget</class>
+    </customwidget>
+    <customwidget>
+      <class>QRootCanvas</class>
+    </customwidget>
+  </customwidgets>
 </ui>

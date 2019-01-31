@@ -275,11 +275,11 @@ and then just drag &amp; drop object to this label (not to output window).</stri
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <customwidgets>
-     <customwidget>
-        <class>QGo4Widget</class>
-     </customwidget>
-     <customwidget>
-        <class>QWebCanvas</class>
-     </customwidget>
-   </customwidgets>
+    <customwidget>
+      <class>QGo4Widget</class>
+    </customwidget>
+    <customwidget>
+      <class>QWebCanvas</class>
+    </customwidget>
+  </customwidgets>
 </ui>
