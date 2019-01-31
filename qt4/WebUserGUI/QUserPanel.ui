@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QUserPanel</class>
-  <widget class="QGo4Widget" name="QUserPanel" >
+  <widget class="QGo4Widget" name="QUserPanel" native="false" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -274,8 +274,12 @@ and then just drag &amp; drop object to this label (not to output window).</stri
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-    <include location="local">QWebCanvas.h</include>
-  </includes>
+  <customwidgets>
+     <customwidget>
+        <class>QGo4Widget</class>
+     </customwidget>
+     <customwidget>
+        <class>QWebCanvas</class>
+     </customwidget>
+   </customwidgets>
 </ui>

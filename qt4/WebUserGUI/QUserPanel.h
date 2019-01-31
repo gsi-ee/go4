@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -14,8 +14,10 @@
 #ifndef QUSERPANEL_H
 #define QUSERPANEL_H
 
-#include "ui_QUserPanel.h"
 #include <QGo4Widget.h>
+#include <QWebCanvas.h>
+
+#include "ui_QUserPanel.h"
 
 class QUserPanel : public QGo4Widget, public Ui::QUserPanel
 {
@@ -32,7 +34,7 @@ public:
     virtual void PrintObject(TObject* obj);
     virtual void DrawObjectOnCanvas(const char* itemname);
 
-    
+
 public slots:
     virtual void InfoBtn_clicked();
     virtual void EditBtn_clicked();

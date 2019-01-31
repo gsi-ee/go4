@@ -9,7 +9,7 @@ include $(GO4SYS)/Makefile.config
 ifdef GO4PACKAGE
 WEBUSERGUI_DIR         = qt4/WebUserGUI
 WEBUSERGUI_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
-WEBUSERGUI_DEPRULES    = | qt4-GUI qt4-heads
+WEBUSERGUI_DEPRULES    = qt4-GUI qt4-heads
 else
 WEBUSERGUI_DIR         = $(CURDIR)
 WEBUSERGUI_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
