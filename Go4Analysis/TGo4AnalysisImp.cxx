@@ -2166,9 +2166,6 @@ TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
   return elli;
 }
 
-
-
-
 TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
                                            const char* classname,
                                            const char* newcmd)
@@ -2232,6 +2229,17 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    return param;
 }
+
+void TGo4Analysis::SetSortedOrder(Bool_t on)
+{
+   fxObjectManager->SetSortedOrder(on);
+}
+
+Bool_t TGo4Analysis::IsSortedOrder() const
+{
+   return fxObjectManager->IsSortedOrder();
+}
+
 
 Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
 {

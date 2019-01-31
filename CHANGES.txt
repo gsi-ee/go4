@@ -21,6 +21,11 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v5.9.x (2019)
+1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options  
+     cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
+2. Let configure sorting order for created folders (default off)     
+
 Changes in Go4 v5.3.2 (October 2018)
 1. Add Output of current filename to GUI log indow in case of MBS listmode list event source.
 2. GUI local command execution: Provide catching std exceptions from ROOT in case of errors. 

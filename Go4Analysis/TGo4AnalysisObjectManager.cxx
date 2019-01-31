@@ -89,7 +89,7 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
    fxAnalysisDir(0), fxTempFolder(0),
    fxMatchList(0), fxMatchIterator(0),
    fiDynListCount(0), fiDynListInterval(0),
-   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
+   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
 {
    fxDirMutex = new TMutex(kTRUE);
    fxGo4Dir = gROOT->GetRootFolder()->AddFolder(fgcTOPFOLDER,"The Go4 Object folder");
@@ -137,7 +137,7 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager() :
    fxStoreDir(0), fxSourceDir(0), fxProcessorDir(0), fxEventDir(0),
    fxAnalysisDir(0), fxTempFolder(0),
    fiDynListCount(0), fiDynListInterval(0),
-   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
+   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
 {
    // ctor for streamer only!
 
@@ -532,7 +532,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
 Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char* subfolder, Bool_t replace)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
-   Bool_t rev = AddObjectToFolder(his,fxHistogramDir,subfolder,replace,kTRUE);
+   Bool_t rev = AddObjectToFolder(his, fxHistogramDir, subfolder, replace, kTRUE);
    // for histograms: add with unique object names within histogramdir
    // to avoid errors in TTree::Draw()
    if(rev && his) his->SetDirectory(gROOT); // assign histo to the top dir, no file!
@@ -1446,9 +1446,9 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::FindSubFolder(TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
-   TFolder* result=0;
-   if(parent==0) return 0;
-   if(subfolder==0) return parent;
+   TFolder* result = 0;
+   if (parent==0) return 0;
+   if (subfolder==0) return parent;
    const char* separ = strchr(subfolder,'/'); // find end of first subfolder string
    if(separ!=0) {
       // we have subfolder of subfolder, process recursively
@@ -1460,15 +1460,32 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
    } else {
       // only one level of subfolder, find it directly
       TIter listiter(parent->GetListOfFolders());
-      TObject* entry;
-      while((entry=listiter()) !=0)
-         if(entry->InheritsFrom(TFolder::Class()))
-            if(!strcmp(subfolder,entry->GetName())) {
-               result= dynamic_cast<TFolder*>(entry);
+      TObject *entry, *bigger_entry = 0;
+      while ((entry = listiter()) != 0) {
+         if (entry->InheritsFrom(TFolder::Class())) {
+            int cmp = strcmp(subfolder, entry->GetName());
+            if (cmp == 0) {
+               result = dynamic_cast<TFolder *>(entry);
                break;
             }
-      if(result==0 && create)
-         result=parent->AddFolder(subfolder,"UserFolder"); // create new subfolder if not found
+            if ((cmp < 0) && !bigger_entry && IsSortedOrder()) {
+               bigger_entry = entry;
+               break;
+            }
+         }
+      }
+
+      if(!result && create) {
+         TList *lst = 0;
+         if (IsSortedOrder() && bigger_entry)
+            lst = dynamic_cast<TList *> (parent->GetListOfFolders());
+         if (lst) {
+            result = new TFolder(subfolder,"UserFolder");
+            lst->AddBefore(bigger_entry, result);
+         } else {
+            result = parent->AddFolder(subfolder,"UserFolder"); // create new subfolder if not found
+         }
+      }
    } // if (endname!=0)
    return result;
 }
@@ -1538,10 +1555,10 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
       }
    }
 
-   TFolder* addDir(0);
+   TFolder* addDir = 0;
    if(subfolder)
       addDir = FindSubFolder(fold, subname, kTRUE);
-   if(addDir==0) addDir = fold;
+   if(!addDir) addDir = fold;
    // if(subfolder)
    addDir->Add(ob);
 

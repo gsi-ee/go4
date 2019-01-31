@@ -832,6 +832,12 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
                                  const char* classname,
                                  const char* cmd = 0);
 
+    /** Configure sorting order for newly created sub-folders */
+    void SetSortedOrder(Bool_t on = kTRUE);
+
+    /** Returns true if sub-folders will be created in sorted order */
+    Bool_t IsSortedOrder() const;
+
     /** Executes ROOT script.
      * Returns -1 when script was not found, or result of script execution */
     Long_t ExecuteScript(const char* script_name);

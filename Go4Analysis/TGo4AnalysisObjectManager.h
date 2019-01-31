@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -72,7 +72,7 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       /**
        * Add any external object to the user object folder.
-       * Object is owned by go4 aferwards and will be saved automatically.
+       * Object is owned by go4 afterwards and will be saved automatically.
        * Object is accessible by name from the go4 display and from the
        * analysis itself. Subfolder of UserObjects may be specified.
        * If replace is true, old object of same name will be deleted and
@@ -190,7 +190,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If type of existing histogram does not match with provided, old histogram
        * will be removed and new proper will be created.
        * Parameters are:
-       *    histotype = "C", "D", "F", "I", "S" corresonds to different TH1* types
+       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1* types
        *    folderame - name of folder, where histogram should be created
        *    histoname - name of histogram
        *    nbinsx    - number of histogram bins
@@ -581,8 +581,6 @@ class TGo4AnalysisObjectManager : public TNamed {
             const char* cevx=0, const char* cmemx=0,
             const char* cevy=0, const char* cmemy=0);
 
-
-
       /**
        * Add Histogram into the dynamic list which is linked to a tree.
        * If Histogram of hisname already exists, this histogram will taken.
@@ -651,6 +649,12 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder* fold = 0);
 
       Bool_t CreatedInMake() const { return fbCreatedinMake; }
+
+      /** Configure sorting order for newly created sub-folders */
+      void SetSortedOrder(Bool_t on = kTRUE) { fbSortedOrder = on; }
+
+      /** Returns true if sub-folders will be created in sorted order */
+      Bool_t IsSortedOrder() const { return fbSortedOrder; }
 
       /** Method used in case when object is cleaned up by the ROOT */
       virtual void RecursiveRemove(TObject* obj);
@@ -824,6 +828,11 @@ class TGo4AnalysisObjectManager : public TNamed {
        * appear in the Pictures folder
        */
       Bool_t fbSuppressLoadHistograms;    //!
+
+      /**
+       * Is sub-folder created is sorted order
+       */
+      Bool_t fbSortedOrder;    //!
 
       /**
        * Add any named object to a folder. Used by AddHistogram, AddParameter etc. methods.
