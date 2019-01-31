@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -105,12 +105,12 @@ void QGo4Widget::closeEvent(QCloseEvent* e)
 
 void QGo4Widget::dragEnterEvent(QDragEnterEvent *e)
 {
-   emit widgetService(this, service_DragEnter, 0, e);
+   emit widgetService(this, service_DragEnter, 0, dynamic_cast<QDragMoveEvent *> (e));
 }
 
-void QGo4Widget::dragMoveEvent(QDragMoveEvent*)
+void QGo4Widget::dragMoveEvent(QDragMoveEvent* e)
 {
-   // emit widgetService(this, service_DragMove, "", e);
+   emit widgetService(this, service_DragEnter, "", e);
 }
 
 void QGo4Widget::dropEvent(QDropEvent* e)

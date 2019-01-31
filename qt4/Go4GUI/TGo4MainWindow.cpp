@@ -3072,15 +3072,15 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
    switch (serviceid) {
       case QGo4Widget::service_DragEnter: {
-         QDragEnterEvent* event = (QDragEnterEvent*) par;
-         if ((event==0) || !event->mimeData()->hasText()) return;
+         QDragMoveEvent *event = (QDragMoveEvent *) par;
+         if (!event || !event->mimeData()->hasText()) return;
 
          QString eventstr = event->mimeData()->text();
 
          bool accept = false;
-         if (event->source()==FindGo4Widget("Browser",false)) {
+         if (event->source() == FindGo4Widget("Browser",false)) {
             int kind = Browser()->ItemKind(eventstr.toLatin1().constData());
-            TClass* cl = Browser()->ItemClass(eventstr.toLatin1().constData());
+            TClass *cl = Browser()->ItemClass(eventstr.toLatin1().constData());
             accept = editor->IsAcceptDrag(eventstr.toLatin1().constData(), cl, kind);
          }
 
