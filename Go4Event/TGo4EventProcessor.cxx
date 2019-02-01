@@ -263,6 +263,29 @@ TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char* fullname,
 }
 
 
+TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeListCond(fullname, num, values,  HistoName);
+}
+
+
+
+
+TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step,  const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeListCond(fullname, start, stop, step,HistoName);
+
+}
+
+
+TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const char* title, const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeListCond(fullname, title, HistoName);
+}
+
+
+
+
 TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
                                                  const char* classname,
                                                  const char* newcmd)

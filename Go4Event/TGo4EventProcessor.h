@@ -38,6 +38,7 @@ class TGo4Condition;
 class TGo4WinCond;
 class TGo4PolyCond;
 class TGo4ShapedCond;
+class TGo4ListCond;
 
 #ifndef TGo4EllipseCond
 #define TGo4EllipseCond TGo4ShapedCond
@@ -327,6 +328,37 @@ class TGo4EventProcessor: public TGo4EventSource {
                                            Int_t npoints,
                                            Double_t (*points) [2],
                                            const char* HistoName = 0);
+
+
+           /** Create "whitlelist" condition with separate values to test against
+             * condition is true if any of the values matches
+                * fullname specifies name of condition (optionally with subfolder name)
+                * num - number of values in array
+                * values - 1d array with values
+                * HistoName - name of histogram, to which condition is assigned
+                */
+               TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName = 0);
+
+
+
+               /** Create "whitlelist" condition with separate values to test against
+                   * condition is true if any of the values matches
+                      * fullname specifies name of condition (optionally with subfolder name)
+                      * start - first value in list
+                      * stop - last value in list
+                      * step - distance between list entries
+                      * HistoName - name of histogram, to which condition is assigned
+                      */
+                     TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char* HistoName = 0);
+
+
+              /** Create "whitlelist" condition with separate values to tes against
+              * condition is true if any of the values matches
+              * This method creates empty list condition of specified name and title to be set by the user,
+              * or already defined condition from previous autosave*/
+             TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = 0);
+
+
 
 
       /** Create parameter of specified class,
