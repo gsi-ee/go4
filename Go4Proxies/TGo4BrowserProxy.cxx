@@ -58,6 +58,7 @@
 #include "TGo4PolyCond.h"
 #include "TGo4WinCond.h"
 #include "TGo4ShapedCond.h"
+#include "TGo4ListCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4HistogramEntry.h"
 #include "TGo4TreeHistogramEntry.h"
@@ -2046,6 +2047,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4WinCond::Class())) { cando = 101011; pixmap = "windcond.png"; } else
         if (cl->InheritsFrom(TGo4PolyCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
         if (cl->InheritsFrom(TGo4ShapedCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
+        if (cl->InheritsFrom(TGo4ListCond::Class())) { cando = 101011; pixmap = "windcond.png"; } else
         if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = "windcondarray.png"; } else
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
