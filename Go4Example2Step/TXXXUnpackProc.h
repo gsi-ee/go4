@@ -51,6 +51,7 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TGo4ShapedCond  *fCircleCond;
       TGo4ShapedCond  *fBoxCond;
       TGo4ShapedCond  *fFreestyleCond;
+      TGo4ListCond     *fWhitelistCon;
       TXXXParameter *fParam;
       TGo4Picture   *fPicture1;
       TGo4Picture   *fcondSet;

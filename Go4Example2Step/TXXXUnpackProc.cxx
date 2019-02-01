@@ -31,6 +31,7 @@
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
+#include "TGo4ListCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
 
@@ -56,6 +57,7 @@ TXXXUnpackProc::TXXXUnpackProc() :
    fCircleCond(0),
    fBoxCond(0),
    fFreestyleCond(0),
+   fWhitelistCon(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -85,6 +87,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fCircleCond(0),
    fBoxCond(0),
    fFreestyleCond(0),
+   fWhitelistCon(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -141,6 +144,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fBoxCond= MakeBoxCond("boxcond",2000,2000,400,100, 30, "Cr1Ch1x2");
 
       fFreestyleCond = MakeFreeShapeCond("freecon", 3, cutpnts, "Cr1Ch1x2");
+
+      fWhitelistCon=MakeListCond("Whitelist",1,42,2,"His1");
 
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
@@ -283,6 +288,10 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          AddPicture(fPicture1);
       }
    } // create histograms
+
+   //ExecuteLine("$blabla.py"); // JAM test internal python call
+   //ExecutePython("blabla.py");
+
 }
 //-----------------------------------------------------------
 TXXXUnpackProc::~TXXXUnpackProc()
@@ -396,6 +405,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                   {
                      if(fconHis1->Test(*pdata)) fHis1gate->Fill(*pdata);
                      fHis1->Fill(*pdata);
+                     fWhitelistCon->Test(*pdata);
                   }
                   if(i == 1)
                   {
