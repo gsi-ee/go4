@@ -270,12 +270,21 @@ void TGo4Condition::Print(Option_t* opt) const
       }
       else
       {
+        // JAM2019: use this kludge to avoid changing the baseclass api...
+        if(localthis->InheritsFrom("TGo4ListCond"))
+        {
+          textbuffer+=" (Whitelist type, 1-dim)";
+        }
+        else
+        {
+
          textbuffer+=" (Window type,";
          if(localthis->GetActiveCondition()->GetDimension()>1)
             textbuffer+=" 2-dim)";
          else
             textbuffer+=" 1-dim)";
-      }
+        }
+     }
 
 
       //textbuffer+="\n";

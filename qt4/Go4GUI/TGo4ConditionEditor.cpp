@@ -31,6 +31,7 @@
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
+#include "TGo4ListCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4BrowserProxy.h"
@@ -248,6 +249,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
    TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (cond);
+   TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (cond);
 
    if (wcond != 0)
   {
@@ -269,6 +271,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
   }
     else if (pcond != 0)
     CondClassLbl->setText("Polygon  ");
+    else if (lcond != 0)
+       CondClassLbl->setText("Value list  ");
 
   else
     CondClassLbl->setText("");
@@ -373,14 +377,20 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
   if ((econd==0) && (pcond!=0) &&  (CondTabs->currentIndex()==2))
       CondTabs->setCurrentIndex(1); // switch to polycond defaults when changing from shape type
 
+  if(lcond!=0)
+    CondTabs->setCurrentIndex(1);
 
-   CondTabs->setTabEnabled(1, (pcond!=0));
+   CondTabs->setTabEnabled(1, (pcond!=0 || (lcond!=0)));
    CondTabs->setTabEnabled(2, (econd!=0));
 
+   CondTabs->setTabEnabled(3, (lcond==0));
+   CondTabs->setTabEnabled(4, (lcond==0));
+   CondTabs->setTabEnabled(5, (lcond==0));
 
   if (pcond != 0)
   {
     FillCutWidget(pcond->GetCut(kFALSE));
+    CondTabs->setTabText(1,"Cut");
     if (econd != 0)
     {
       FillEllipseWidget(econd);
@@ -390,6 +400,12 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
     {
       if (fbNewWindow) CondTabs->setCurrentIndex(1);
     }
+  }
+  else if (lcond !=0)
+  {
+    FillListWidget(lcond);
+    CondTabs->setTabText(1,"Values");
+    if (fbNewWindow) CondTabs->setCurrentIndex(1);
   }
   else
   {
@@ -806,7 +822,7 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
 {
    bool old = fbTypingMode;
    fbTypingMode = false;
-
+   CutTable->setColumnCount(2);
    if (cut==0) {
       CutTable->setRowCount(0);
       NPointsSpin->setValue(0);
@@ -886,14 +902,38 @@ void TGo4ConditionEditor::ShowEllipseWidget(bool show)
 
 }
 
+void TGo4ConditionEditor::FillListWidget(TGo4ListCond* lcon)
+{
+   bool old = fbTypingMode;
+   fbTypingMode = false;
+   CutTable->setColumnCount(1);
+   if (lcon==0) {
+      CutTable->setRowCount(0);
+      NPointsSpin->setValue(0);
+   } else {
+      int points=lcon->GetNumValues();
+      CutTable->setRowCount(points);
+      NPointsSpin->setValue(points);
+      for (int n=0;n<points;n++) {
+         int val=lcon->GetValue(n);
+         CutTable->setItem(n, 0, new QTableWidgetItem(QString::number(val)));
+         //CutTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
+         CutTable->setVerticalHeaderItem(n, new QTableWidgetItem(QString::number(n)));
+      }
+   }
+
+   fbTypingMode = old;
+}
+
 
 void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
 {
    if (!fbTypingMode) return;
-
+   //printf ("NPointsSpin_valueChanged with npoint= %d \n",npoint);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
-   if (pcond==0) return;
-
+   TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
+   if (pcond)
+   {
    TCutG* cut = pcond->GetCut(kFALSE);
 
    if (cut==0) {
@@ -919,36 +959,63 @@ void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
          cut->SetPoint(npoint-1, x, y);
       }
    }
-
    PleaseUpdateSlot();
-
    FillCutWidget(cut);
 
+
+   }
+   else if(lcond)
+   {
+       lcond->Resize(npoint);
+       PleaseUpdateSlot();
+       FillListWidget(lcond);
+   }
    RedrawCondition();
 }
 
 void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
 {
    if (!fbTypingMode) return;
-
+   //printf ("CutTable_valueChanged\n");
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
-   TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
-   if (cut==0) return;
-
+   TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
    bool ok;
    double zn = CutTable->item(nrow, ncol)->text().toDouble(&ok);
-
    if (!ok) return;
-   if (ncol==0) cut->GetX()[nrow] = zn;
-           else cut->GetY()[nrow] = zn;
-   if ((nrow==0) || (nrow==cut->GetN()-1)) {
-      int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
-      fbTypingMode = false;
-      CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
-      if (ncol==0) cut->GetX()[nrow1] = zn;
-              else cut->GetY()[nrow1] = zn;
-      fbTypingMode = true;
+
+   if(pcond)
+   {
+     TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
+     if (cut==0) return;
+     if (ncol==0) cut->GetX()[nrow] = zn;
+             else cut->GetY()[nrow] = zn;
+     if ((nrow==0) || (nrow==cut->GetN()-1)) {
+        int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
+        fbTypingMode = false;
+        CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
+        if (ncol==0) cut->GetX()[nrow1] = zn;
+                else cut->GetY()[nrow1] = zn;
+        fbTypingMode = true;
+     }
    }
+   else if (lcond)
+   {
+    // printf ("CutTable_valueChanged- listcondition for row %d and value %f\n",nrow,zn);
+      lcond->SetValue(nrow,zn);
+      int numvals=lcond->GetNumValues();
+      if ((nrow==0) || (nrow==numvals-1)) {
+        int nrow1 = (nrow==0) ? numvals-1 : 0;
+        fbTypingMode = false;
+        CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
+        lcond->SetValue(nrow1,zn);
+        fbTypingMode = true;
+           }
+   }
+   else
+   {
+     return;
+   }
+
 
    PleaseUpdateSlot();
 
@@ -959,20 +1026,35 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
 void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 {
    if (!fbTypingMode) return;
-
+   //printf ("CutTable_contextMenuRequested \n");
    QTableWidgetItem* item = CutTable->itemAt (pos);
-
+   if (item==0) return;
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
-   TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
-   if ((cut==0) || (item==0)) return;
+   TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
+   if((pcond==0) && (lcond == 0)) return;
 
-   int nrow = CutTable->row(item);
 
+  int maxn=0;
+   if(pcond)
+   {
+     TCutG* cut = pcond->GetCut(kFALSE);
+     if (cut==0)return;
+     maxn=cut->GetN();
+   // only internal points should be allowed to deleted
+   }
+   else if(lcond)
+   {
+     maxn=lcond->GetNumValues();
+   }
+   else
+   {
+     return;
+   }
+ int nrow = CutTable->row(item);
    QMenu menu(this);
    QSignalMapper map(this);
    AddIdAction(&menu, &map, "Insert point", nrow);
-   // only internal points should be allowed to deleted
-   AddIdAction(&menu, &map, "Delete point", nrow+1000000, (nrow>0) && (nrow<cut->GetN()-1));
+   AddIdAction(&menu, &map, "Delete point", nrow+1000000, (nrow>0) && (nrow<maxn-1));
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuSlot(int)));
    menu.exec(CutTable->mapToGlobal(pos));
 }
@@ -980,6 +1062,10 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 void TGo4ConditionEditor::ContextMenuSlot(int id)
 {
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
+   TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
+
+   if(pcond)
+   {
    TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
    if (cut==0) return;
 
@@ -1007,8 +1093,22 @@ void TGo4ConditionEditor::ContextMenuSlot(int id)
 
    FillCutWidget(cut);
 
+   }
+   else if(lcond)
+   {
+     if (id>=1000000) { // delete point
+          id-=1000000;
+          lcond->RemoveValue(id);
+       } else {           // insert point
+         Int_t npoints = lcond->GetNumValues();
+         if (id>=npoints) return;
+         int x1=lcond->GetValue(id);
+         int x2=lcond->GetValue(id-1);
+         lcond->InsertValue(id,((x1+x2)/2));
+       }
+     FillListWidget(lcond);
+   }
    PleaseUpdateSlot();
-
    RedrawCondition();
 }
 

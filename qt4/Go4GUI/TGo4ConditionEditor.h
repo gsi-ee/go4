@@ -20,6 +20,7 @@
 class TGo4Condition;
 class TGo4ShapedCond;
 class TCutG;
+class TGo4ListCond;
 
 
 class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
@@ -47,6 +48,7 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual bool PrepareForAnalysis();
     virtual void FillCutWidget( TCutG * cut );
     virtual void FillEllipseWidget(TGo4ShapedCond* elli);
+    virtual void FillListWidget(TGo4ListCond* lcon);
     virtual void ShowEllipseWidget(bool show);
     virtual void UpdateEllipse();
 

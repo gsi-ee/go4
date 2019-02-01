@@ -48,6 +48,7 @@
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
+#include "TGo4ListCond.h"
 
 #include "TGo4Version.h"
 #include "TGo4AnalysisStepManager.h"
@@ -2165,6 +2166,65 @@ TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
   elli->SetFreeShape();
   return elli;
 }
+
+TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char* title, const char* HistoName)
+{
+  fbObjMade = kFALSE;
+     TString foldername, condname;
+
+     if ((fullname==0) || (strlen(fullname)==0)) {
+        TGo4Log::Error("Condition name not specified, can be a hard error");
+        return 0;
+     }
+     const char* separ = strrchr(fullname, '/');
+     if (separ!=0) {
+        condname = separ + 1;
+        foldername.Append(fullname, separ - fullname);
+     } else
+        condname = fullname;
+
+     TGo4Condition* cond = GetAnalysisCondition(fullname);
+
+     if (cond!=0) {
+        if (cond->InheritsFrom(TGo4ListCond::Class()) && fbMakeWithAutosave) {
+           cond->ResetCounts();
+           return (TGo4ListCond*) cond;
+        }
+        RemoveAnalysisCondition(fullname);
+     }
+
+     TGo4ListCond* lcond = new TGo4ListCond(condname.Data(), title);
+     lcond->SetHistogram(HistoName);
+     lcond->Enable();
+
+     if (foldername.Length() > 0)
+        AddAnalysisCondition(lcond, foldername.Data());
+     else
+        AddAnalysisCondition(lcond);
+
+     fbObjMade = kTRUE;
+
+     return lcond;
+}
+
+
+TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName)
+{
+  TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+  if(fbObjMade) lcond->SetValues(num,values);
+  return lcond;
+}
+
+
+TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step,  const char* HistoName)
+{
+  TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+  if(fbObjMade) lcond->SetValues(start,stop,step);
+   return lcond;
+}
+
+
+
 
 TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
                                            const char* classname,

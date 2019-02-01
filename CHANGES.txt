@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v5.3.2 (build 50302)
-                      26-October-2018
+         Go4 Release Package v5.9.0 (build 50900)
+                      January-2019
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,10 +21,17 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+
 Changes in Go4 v5.9.x (2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options  
      cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
 2. Let configure sorting order for created folders (default off)     
+3. First implemention of Go4 eventstore into hdf5 file format. Needs to specifiy HDF5INSTALL directory when 
+   compiling go4 installation. Currently only simple datatypes and arrays of these are supported in the output event
+   structure
+4. New Condition class TGo4ListCondition. Handles tests of a variable against a list of "good" values: if any of these
+   matches the value, the condition becomes true (whitelist condition, invert condition to get a blacklist). New analysis api functions
+   MakeListCond(...) are provided. Implementation idea by Sven Augustin. 
 
 Changes in Go4 v5.3.2 (October 2018)
 1. Add Output of current filename to GUI log indow in case of MBS listmode list event source.

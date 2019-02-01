@@ -148,7 +148,7 @@ void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
    } else {
        PropertyBox->item(CONX)->setText("X:-");
        PropertyBox->item(CONY)->setText("Y:-");
-       dimension = 2;
+       dimension=cond->GetDimension();
    }
 
    str.Form("Dim:%d", dimension);
