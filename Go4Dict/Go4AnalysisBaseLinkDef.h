@@ -23,7 +23,9 @@
 #pragma link C++ class TGo4WinCond+;
 #pragma link C++ class TGo4PolyCond+;
 #pragma link C++ class TGo4ShapedCond+;
+#pragma link C++ class TGo4ListCond+;
 #pragma link C++ class TGo4CondArray+;
+//#pragma link C++ class std::vector<Int_t>+;
 
 #pragma link C++ class TGo4Label+;
 #pragma link C++ class TGo4LabelConnector+;
