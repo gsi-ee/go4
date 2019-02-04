@@ -21,6 +21,8 @@
 class TH1;
 class TH2;
 class TTree;
+class TGraph;
+class TF1;
 class TCanvas;
 class TFolder;
 class TNamed;
@@ -43,6 +45,7 @@ class TGo4WinCond;
 class TGo4PolyCond;
 class TGo4ShapedCond;
 class TGo4ListCond;
+class TGo4RollingGraph;
 class TGo4Parameter;
 class TGo4ParameterStatus;
 class TGo4Picture;
@@ -820,33 +823,50 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
 
 
     /** Create "whitlelist" condition with separate values to test against
-     * condition is true if any of the values matches
-        * fullname specifies name of condition (optionally with subfolder name)
-        * num - number of values in array
-        * values - 1d array with values
-        * HistoName - name of histogram, to which condition is assigned
-        */
-       TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName = 0);
+   * condition is true if any of the values matches
+   * fullname specifies name of condition (optionally with subfolder name)
+   * num - number of values in array
+   * values - 1d array with values
+   * HistoName - name of histogram, to which condition is assigned
+   */
+  TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values, const char* HistoName = 0);
+
+  /** Create "whitlelist" condition with separate values to test against
+   * condition is true if any of the values matches
+   * fullname specifies name of condition (optionally with subfolder name)
+   * start - first value in list
+   * stop - last value in list
+   * step - distance between list entries
+   * HistoName - name of histogram, to which condition is assigned
+   */
+  TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,
+      const char* HistoName = 0);
+
+  /** Create "whitlelist" condition with separate values to tes against
+   * condition is true if any of the values matches
+   * This method creates empty list condition of specified name and title to be set by the user,
+   * or already defined condition from previous autosave*/
+  TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = 0);
 
 
 
-       /** Create "whitlelist" condition with separate values to test against
-           * condition is true if any of the values matches
-              * fullname specifies name of condition (optionally with subfolder name)
-              * start - first value in list
-              * stop - last value in list
-              * step - distance between list entries
-              * HistoName - name of histogram, to which condition is assigned
-              */
-             TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char* HistoName = 0);
+  /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
+   * If theses parameters are missing, an empty graph is created to be specified by the user.
+   * If a graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGraph* MakeGraph(const char* fullname, const char* title, Int_t points = 0, Double_t* xvalues = 0,
+      Double_t* yvalues = 0);
 
+  /** Create a TGraph with values initialized by a function object TF1l.
+   * If a graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGraph* MakeGraph(const char* fullname, const char* title, TF1* function);
 
-      /** Create "whitlelist" condition with separate values to tes against
-      * condition is true if any of the values matches
-      * This method creates empty list condition of specified name and title to be set by the user,
-      * or already defined condition from previous autosave*/
-     TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = 0);
-
+  /** Create a go4 rolling graph (generic trending plot) with properties points and average.
+   * If theses parameters are missing, an empty graph is created to be specified by the user.
+   * If a rolling graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char* title, Int_t points = 0, Int_t average = 1);
 
 
 
@@ -866,6 +886,9 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     TGo4Parameter* MakeParameter(const char* fullname,
                                  const char* classname,
                                  const char* cmd = 0);
+
+
+
 
     /** Configure sorting order for newly created sub-folders */
     void SetSortedOrder(Bool_t on = kTRUE);
@@ -939,6 +962,12 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     Int_t ProcessAnalysisSteps();
 
   private:
+
+
+    /** Helper function to figure out object name and folder path from full path.
+     * Returns false if something is wrong with given fullname*/
+    Bool_t EvaluateFolderpath(const char* fullname, TString& object, TString& folder);
+
 
     /** Create a tree that is filled with one single event sample.
       * Event is taken from analysis step of name. If isoutput

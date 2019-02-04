@@ -34,6 +34,7 @@
 #include "TGo4ListCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
+#include "TGo4RollingGraph.h"
 
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
@@ -122,6 +123,11 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 1., 5001.);
       fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
       fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
+
+
+      fRollingGraph1 = MakeRollingGraph("myrollinggraphs/rolling1","Test of a rolling graph 1",10000,10);
+      fRollingGraph2 = MakeRollingGraph("myrollinggraphs/rolling2","Test of a rolling graph 2",1000,100);
+      fGraph = MakeGraph("sinus","graph from a function",new TF1("sinus","sin(x)",0, 4*TMath::Pi()));
 
       TGo4Log::Info("TXXXUnpackProc: Produce conditions");
       // fWinCon1->PrintCondition(true);
@@ -406,6 +412,8 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                      if(fconHis1->Test(*pdata)) fHis1gate->Fill(*pdata);
                      fHis1->Fill(*pdata);
                      fWhitelistCon->Test(*pdata);
+                     fRollingGraph1->Fill(*pdata);
+                     fRollingGraph2->Fill(*pdata);
                   }
                   if(i == 1)
                   {

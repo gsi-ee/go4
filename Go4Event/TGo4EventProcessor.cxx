@@ -208,6 +208,25 @@ TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* ti
                                             xtitle, ytitle, ztitle);
 }
 
+
+TGraph*TGo4EventProcessor:: MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues,
+    Double_t* yvalues)
+{
+  return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
+}
+
+TGraph* TGo4EventProcessor::MakeGraph(const char* fullname, const char* title, TF1* function)
+{
+  return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
+}
+
+TGo4RollingGraph* TGo4EventProcessor::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
+{
+  return TGo4Analysis::Instance()->MakeRollingGraph(fullname, title, points, average);
+}
+
+
+
 TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
                                              Double_t xmin, Double_t xmax,
                                              const char* HistoName)

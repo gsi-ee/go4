@@ -32,6 +32,7 @@ class TH2S;
 class TH2I;
 class TGraph;
 class TMultiGraph;
+class TF1;
 class TCanvas;
 
 class TGo4Condition;
@@ -39,6 +40,7 @@ class TGo4WinCond;
 class TGo4PolyCond;
 class TGo4ShapedCond;
 class TGo4ListCond;
+class TGo4RollingGraph;
 
 #ifndef TGo4EllipseCond
 #define TGo4EllipseCond TGo4ShapedCond
@@ -218,7 +220,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * nbinsx, xlow, xup - range arguments for X axis
        * xtitle, ytitle - title for X and Y axis of histogram
        * If histogram exactly with same name and type already exists in  autosave file,
-       * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+       * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
       TH1* MakeTH1(char type, const char* fullname, const char* title,
             Int_t nbinsx, Double_t xlow, Double_t xup,
@@ -236,12 +238,32 @@ class TGo4EventProcessor: public TGo4EventSource {
        * nbinsy, ylow, yup - range arguments for Y axis
        * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
        * If histogram exactly with same name and type already exists in  autosave file,
-       * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+       * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
       TH2* MakeTH2(char type, const char* fullname, const char* title,
             Int_t nbinsx, Double_t xlow, Double_t xup,
             Int_t nbinsy, Double_t ylow, Double_t yup,
             const char* xtitle = 0, const char* ytitle = 0, const char* ztitle =0);
+
+  /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
+   * If theses parameters are missing, an empty graph is created to be specified by the user.
+   * If a graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGraph* MakeGraph(const char* fullname, const char* title, Int_t points = 0, Double_t* xvalues = 0,
+      Double_t* yvalues = 0);
+
+  /** Create a TGraph with values initialized by a function object TF1l.
+   * If a graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGraph* MakeGraph(const char* fullname, const char* title, TF1* function);
+
+  /** Create a go4 rolling graph (generic trending plot) with properties points and average.
+   * If theses parameters are missing, an empty graph is created to be specified by the user.
+   * If a rolling graph of this name already exists in the autosave file,
+   * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
+  TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char* title, Int_t points = 0, Int_t average = 1);
+
+
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)

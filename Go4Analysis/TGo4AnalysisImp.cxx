@@ -24,6 +24,8 @@
 #include "TApplication.h"
 #include "TH1.h"
 #include "TH2.h"
+#include "TGraph.h"
+
 #include "TTree.h"
 #include "TCanvas.h"
 #include "TFolder.h"
@@ -49,6 +51,7 @@
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
 #include "TGo4ListCond.h"
+#include "TGo4RollingGraph.h"
 
 #include "TGo4Version.h"
 #include "TGo4AnalysisStepManager.h"
@@ -1778,23 +1781,38 @@ void TGo4Analysis::SetAdministratorPassword(const char* passwd)
    fServerAdminPass = passwd ? passwd : "";
 }
 
+
+Bool_t  TGo4Analysis::EvaluateFolderpath(const char* fullname, TString& objectname, TString& foldername)
+{
+  if ((fullname==0) || (strlen(fullname)==0)) return kFALSE;
+  const char* separ = strrchr(fullname, '/');
+    if (separ!=0) {
+       objectname = separ + 1;
+       foldername.Append(fullname, separ - fullname);
+   } else
+       objectname = fullname;
+    return kTRUE;
+}
+
+
+
+
 TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            const char* xtitle, const char* ytitle)
 {
    fbObjMade = kFALSE;
    TString foldername, histoname;
-
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!EvaluateFolderpath(fullname, histoname, foldername)) {
       TGo4Log::Error("Histogram name not specified, can be a hard error");
       return 0;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
-      histoname = separ + 1;
-      foldername.Append(fullname, separ - fullname);
-   } else
-      histoname = fullname;
+//   const char* separ = strrchr(fullname, '/');
+//   if (separ!=0) {
+//      histoname = separ + 1;
+//      foldername.Append(fullname, separ - fullname);
+//   } else
+//      histoname = fullname;
 
    int itype = 0;
    const char* sclass = "TH1I";
@@ -1866,16 +1884,18 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
    fbObjMade = kFALSE;
    TString foldername, histoname;
 
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!EvaluateFolderpath(fullname, histoname, foldername)) {
       TGo4Log::Error("Histogram name not specified, can be a hard error");
       return 0;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
-      histoname = separ + 1;
-      foldername.Append(fullname, separ - fullname);
-   } else
-      histoname = fullname;
+
+
+//   const char* separ = strrchr(fullname, '/');
+//   if (separ!=0) {
+//      histoname = separ + 1;
+//      foldername.Append(fullname, separ - fullname);
+//   } else
+//      histoname = fullname;
 
    int itype = 0;
    const char* sclass = "TH2I";
@@ -1948,17 +1968,10 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    fbObjMade = kFALSE;
    TString foldername, condname;
 
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
-      condname = separ + 1;
-      foldername.Append(fullname, separ - fullname);
-   } else
-      condname = fullname;
-
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
    if (cond!=0) {
@@ -1992,17 +2005,10 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    fbObjMade = kFALSE;
    TString foldername, condname;
 
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
-      condname = separ + 1;
-      foldername.Append(fullname, separ - fullname);
-   } else
-      condname = fullname;
-
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
    if (cond!=0) {
@@ -2037,16 +2043,10 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
    fbObjMade = kFALSE;
    TString foldername, condname;
 
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
-      condname = separ + 1;
-      foldername.Append(fullname, separ - fullname);
-   } else
-      condname = fullname;
 
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
@@ -2102,16 +2102,10 @@ TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
     fbObjMade = kFALSE;
      TString foldername, condname;
 
-     if ((fullname==0) || (strlen(fullname)==0)) {
+     if (!EvaluateFolderpath(fullname, condname, foldername)) {
         TGo4Log::Error("Condition name not specified, can be a hard error");
         return 0;
      }
-     const char* separ = strrchr(fullname, '/');
-     if (separ!=0) {
-        condname = separ + 1;
-        foldername.Append(fullname, separ - fullname);
-     } else
-        condname = fullname;
 
      TGo4Condition* cond = GetAnalysisCondition(fullname);
 
@@ -2172,16 +2166,10 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char* title
   fbObjMade = kFALSE;
      TString foldername, condname;
 
-     if ((fullname==0) || (strlen(fullname)==0)) {
+     if (!EvaluateFolderpath(fullname, condname, foldername)) {
         TGo4Log::Error("Condition name not specified, can be a hard error");
         return 0;
      }
-     const char* separ = strrchr(fullname, '/');
-     if (separ!=0) {
-        condname = separ + 1;
-        foldername.Append(fullname, separ - fullname);
-     } else
-        condname = fullname;
 
      TGo4Condition* cond = GetAnalysisCondition(fullname);
 
@@ -2221,6 +2209,82 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start
   TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
   if(fbObjMade) lcond->SetValues(start,stop,step);
    return lcond;
+}
+
+
+
+TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues, Double_t* yvalues)
+{
+  fbObjMade = kFALSE;
+  TString foldername, graphname;
+  if (!EvaluateFolderpath(fullname, graphname, foldername)) {
+            TGo4Log::Error("TGraph name not specified, can be a hard error");
+            return 0;
+         }
+
+  TGraph* graph = dynamic_cast<TGraph*> (GetObject( fullname ) );
+  if(graph) return graph;
+  if (points==0)
+    graph = new TGraph ();
+  else
+    graph = new TGraph (points, xvalues, yvalues);
+  graph->SetName(graphname.Data());
+  graph->SetTitle(title);
+
+  if (foldername.Length() > 0)
+    AddObject(graph, foldername.Data());
+  else
+    AddObject(graph);
+
+  fbObjMade = kTRUE;
+  return graph;
+}
+
+TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, TF1* function)
+{
+  fbObjMade = kFALSE;
+  TString foldername, graphname;
+  if (!EvaluateFolderpath(fullname, graphname, foldername))
+  {
+    TGo4Log::Error("TGraph name not specified, can be a hard error");
+    return 0;
+  }
+
+  TGraph* graph = dynamic_cast<TGraph*>(GetObject(fullname));
+  if (graph)
+    return graph;
+  graph = new TGraph(function);
+  graph->SetName(graphname.Data());
+  graph->SetTitle(title);
+  if (foldername.Length() > 0)
+    AddObject(graph, foldername.Data());
+  else
+    AddObject(graph);
+  fbObjMade = kTRUE;
+  return graph;
+}
+
+TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
+{
+  fbObjMade = kFALSE;
+  TString foldername, graphname;
+  if (!EvaluateFolderpath(fullname, graphname, foldername))
+  {
+    TGo4Log::Error("TGraph name not specified, can be a hard error");
+    return 0;
+  }
+  TGo4RollingGraph* graph = dynamic_cast<TGo4RollingGraph*>(GetObject(fullname));
+  if (graph)
+    return graph;
+  graph = new TGo4RollingGraph(points, average);
+  graph->SetName(graphname.Data());
+  graph->SetTitle(title);
+  if (foldername.Length() > 0)
+    AddObject(graph, foldername.Data());
+  else
+    AddObject(graph);
+  fbObjMade = kTRUE;
+  return graph;
 }
 
 

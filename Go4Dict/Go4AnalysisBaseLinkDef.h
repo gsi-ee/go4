@@ -25,7 +25,7 @@
 #pragma link C++ class TGo4ShapedCond+;
 #pragma link C++ class TGo4ListCond+;
 #pragma link C++ class TGo4CondArray+;
-//#pragma link C++ class std::vector<Int_t>+;
+
 
 #pragma link C++ class TGo4Label+;
 #pragma link C++ class TGo4LabelConnector+;
@@ -77,6 +77,8 @@
 #pragma link C++ class TGo4AnalysisObjectResult+;
 #pragma link C++ class TGo4FitterEnvelope+;
 #pragma link C++ class TGo4ObjEnvelope+;
+#pragma link C++ class TGo4RollingGraph+;
+
 
 #pragma link C++ class TGo4Ratemeter+;
 
