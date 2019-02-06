@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5Store.cxx 2130 2018-08-14 10:13:11Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -29,9 +29,9 @@
 #include "TGo4Fitter.h"
 #include "TGo4HDF5StoreParameter.h"
 
-const char* TGo4HDF5Store::fgcTREESUF = "xTree";
+//const char* TGo4HDF5Store::fgcTREESUF = "xTree";
 const char* TGo4HDF5Store::fgcFILESUF = ".h5";
-const char* TGo4HDF5Store::fgcEVBRANCHNAME = "Go4DataSet.";
+//const char* TGo4HDF5Store::fgcEVBRANCHNAME = "Go4DataSet.";
 
 
 TGo4HDF5Store::TGo4HDF5Store() :

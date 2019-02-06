@@ -51,8 +51,10 @@
 #pragma link C++ class TGo4FileStore+;
 #pragma link C++ class TGo4BackStore+;
 
+#ifdef __GO4HDF5__
 #pragma link C++ class TGo4HDF5Source+;
 #pragma link C++ class TGo4HDF5Store+;
+#endif
 
 #pragma link C++ class TGo4EventServerFactory+;
 #pragma link C++ class TGo4StepFactory+;

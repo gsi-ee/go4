@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5SourceParameter.h 478 2009-10-29 12:26:09Z linev $
+// $Id: TGo4HDF5SourceParameter.h $
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -16,6 +16,7 @@
 
 
 #include "TGo4EventSourceParameter.h"
+#include "Go4HDF5.h"
 
 class TGo4HDF5SourceParameter : public TGo4EventSourceParameter {
 

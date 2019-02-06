@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5Store.h 1636 2015-06-24 12:05:31Z adamczew $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -19,7 +19,9 @@
 #include "TGo4EventStore.h"
 #include "TGo4HDF5StoreParameter.h"
 
+#ifndef __CINT__
 #include "H5Cpp.h"
+#endif
 
 class TFile;
 class TTree;
@@ -39,7 +41,7 @@ class TGo4HDF5Store : public TGo4EventStore {
     TGo4HDF5Store();
 
     TGo4HDF5Store(const char* name,
-                  UInt_t flags=H5F_ACC_TRUNC);
+                  UInt_t flags);
 
     TGo4HDF5Store(TGo4HDF5StoreParameter* par);
 
@@ -62,18 +64,18 @@ class TGo4HDF5Store : public TGo4EventStore {
     virtual Int_t Store(TFolder* fold);
 
     /** Set the file compression level. May be changed on the fly. */
-    void SetFlags(Int_t flags);
+   // void SetFlags(Int_t flags);
 
 
     /** Standard go4 name of the branch used in all treestore
       * and treesource implementations. */
-    static const char* fgcEVBRANCHNAME; //!
+   // static const char* fgcEVBRANCHNAME; //!
 
     /** Standard suffix for file name */
     static const char* fgcFILESUF; //!
 
     /** Standard go4 suffix for tree name */
-    static const char* fgcTREESUF; //!
+   // static const char* fgcTREESUF; //!
 
 
 
@@ -104,6 +106,7 @@ class TGo4HDF5Store : public TGo4EventStore {
 
   private:
 
+#ifndef __CINT__
     H5::H5File* fxFile; //!
 
     H5::DataSet fxDataSet; //!
@@ -111,7 +114,7 @@ class TGo4HDF5Store : public TGo4EventStore {
     H5::CompType* fxType; //!
 
     H5::DataSpace* fxDataSpace; //!
-
+#endif
     /** True if branch already exists. Used for automatic creation
       * of new event branch within Store method. */
     Bool_t fbDataSetExists;
@@ -125,9 +128,10 @@ class TGo4HDF5Store : public TGo4EventStore {
     /** size of event structure in bytes, for redefining output dataset*/
     size_t fiEventSize;
 
-
+#ifndef __CINT__
     /** counter of filled events. */
     hsize_t fiFillCount; //!
+#endif
 
   ClassDef(TGo4HDF5Store,1)
 };

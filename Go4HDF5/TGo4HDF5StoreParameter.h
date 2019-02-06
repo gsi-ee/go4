@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5StoreParameter.h 1636 2015-06-24 12:05:31Z adamczew $
+// $Id: TGo4HDF5StoreParameter.h $
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -15,16 +15,8 @@
 #define TGO4HDF5STOREPARAMETER_H
 
 #include "TGo4EventStoreParameter.h"
-//#include "H5Cpp.h"
+#include "Go4HDF5.h"
 
-/** to decouple parameter from hdf5 library we use own definitions for file modes*/
-typedef enum Go4_H5_File_Flags{
-  GO4_H5F_ACC_NONE,
-  GO4_H5F_ACC_TRUNC,
-  GO4_H5F_ACC_EXCL,
-  GO4_H5F_ACC_RDONLY,
-  GO4_H5F_ACC_RDWR
-}  Go4_H5_File_Flags;
 
 class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
 

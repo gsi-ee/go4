@@ -61,8 +61,10 @@
 #pragma link C++ class TGo4UserSourceParameter+;
 #pragma link C++ class TGo4UserStoreParameter+;
 
+#ifdef __GO4HDF5__
 #pragma link C++ class TGo4HDF5SourceParameter+;
 #pragma link C++ class TGo4HDF5StoreParameter+;
+#endif
 
 #pragma link C++ class TGo4DynamicEntry+;
 #pragma link C++ class TGo4HistogramEntry+;

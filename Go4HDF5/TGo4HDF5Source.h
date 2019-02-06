@@ -1,9 +1,9 @@
-// $Id: TGo4HDF5Source.h 2130 2018-08-14 10:13:11Z linev $
+// $Id: $
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum f�r Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fuer Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -20,20 +20,23 @@
 
 #include "TString.h"
 
+#include "TGo4HDF5SourceParameter.h"
+
+#ifndef __CINT__
+#include "H5Cpp.h"
+#endif
+
 class TFile;
-class TTree;
 class TList;
 class TGo4HDF5SourceParameter;
 class TGo4EventElement;
 
 /**
- * Raw event source which reads entries from a root TTree in a TFile.
- * File is opened by ctor; method BuildEvent() iterates over tree. Needs pointer to external
- * reference to event structure class which must match the structure of the tree entry
- * New since 10/2004: Name of event element defines tree subbranch
- * to be activated as partial input
- * @author J. Adamczewski
- * @since 1/2001
+ *
+ * Event source which reads entries from a dataset in a hdf5 formatted file
+ * names of elements in hdf5 data must match the members of the input event class
+ *  * @author J. Adamczewski-Musch
+ * @since 01/2019
  */
 class TGo4HDF5Source : public TGo4EventSource {
 
@@ -54,27 +57,56 @@ class TGo4HDF5Source : public TGo4EventSource {
 
     static TList* ProducesFilesList(const char* mask);
 
+
+  protected:
+
+
+    /** opens the hdf5 file of given name for reading */
+       void OpenFile(const char* fname);
+
+       /** opens the hdf5 file depending on the setup */
+       void CloseFile();
+
+       /** initialize dataset from event structure*/
+       void BuildDataSet(TGo4EventElement* event, size_t parentoffset=0);
+
+       /** delete dataset resource*/
+       void DeleteDataSet();
+
+       /** evaluate total memory size of event object regarding composite subevents*/
+       size_t ScanEventSize(TGo4EventElement* event);
+
+
   private:
 
-    TFile* fxFile; //!
+#ifndef __CINT__
 
-    TTree * fxTree; //!
+    H5::H5File* fxFile; //!
 
-    /** Number of events stored in the Tree. Used to check if
-      * the complete tree is already read. */
-    Long64_t fiMaxEvents;
+       H5::DataSet fxDataSet; //!
 
-    /** Event number in current tree. */
-    Long64_t fiCurrentEvent;
+       H5::CompType* fxType; //!
 
-    /** Global event number, starting from the first tree. */
-    long int fiGlobalEvent;   //!
+       H5::DataSpace* fxMemorySpace; //!
 
-    /** This flag is used for lazy init of tree in Eventbuilding methods. */
-    Bool_t fbActivated; //!
+       H5::DataSpace* fxFileSpace; //!
+#endif
 
-    /** pointer to top branch event */
-    TGo4EventElement* fxTopEvent; //!
+       /** True if branch already exists. Used for automatic creation
+         * of new event branch within Store method. */
+       Bool_t fbDataSetExists;
+
+       /** Points to event structure to be filled into dataset. */
+       TGo4EventElement * fxEvent; //!
+
+
+       /** size of event structure in bytes, for redefining output dataset*/
+       size_t fiEventSize;
+
+#ifndef __CINT__
+       /** counter of filled events. */
+       hsize_t fiFillCount; //!
+#endif
 
     /** list of files names */
     TList* fxFilesNames; //!

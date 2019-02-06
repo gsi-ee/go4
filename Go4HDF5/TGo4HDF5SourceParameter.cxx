@@ -17,13 +17,13 @@
 #include "Go4EventServerTypes.h"
 
 TGo4HDF5SourceParameter::TGo4HDF5SourceParameter(const char* name)
-: TGo4EventSourceParameter(name, GO4EV_FILE)
+: TGo4EventSourceParameter(name,  GO4EV_HDF5)
 {
   GO4TRACE((14,"TGo4HDF5SourceParameter::TGo4HDF5SourceParameter(const char*,...)", __LINE__, __FILE__));
 }
 
 TGo4HDF5SourceParameter::TGo4HDF5SourceParameter()
-: TGo4EventSourceParameter("Default Go4 FileSource", GO4EV_FILE)
+: TGo4EventSourceParameter("Default Go4 HDF5 source",  GO4EV_HDF5)
 {
   GO4TRACE((14,"TGo4HDF5SourceParameter::TGo4HDF5SourceParameter()", __LINE__, __FILE__));
 }

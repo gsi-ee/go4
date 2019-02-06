@@ -1,4 +1,4 @@
-// $Id: Go4EventServer.h 478 2009-10-29 12:26:09Z linev $
+// $Id: Go4HDF5.h $
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -11,18 +11,20 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-// master include file to get all go4 event class services
+// common definitions for go4 hdf5 plugins
 
 #ifndef GO4HDF5_H
 #define GO4HDF5_H
 
-#ifdef __GO4HDF5__
 
-#include "TGo4HDF5Source.h"
-#include "TGo4HDF5Store.h"
-#include "TGo4HDF5SourceParameter.h"
-#include "TGo4HDF5StoreParameter.h"
+/** to decouple parameter from hdf5 library we use own definitions for file modes*/
+typedef enum Go4_H5_File_Flags{
+  GO4_H5F_ACC_NONE,
+  GO4_H5F_ACC_TRUNC,
+  GO4_H5F_ACC_EXCL,
+  GO4_H5F_ACC_RDONLY,
+  GO4_H5F_ACC_RDWR
+}  Go4_H5_File_Flags;
 
-#endif
 
 #endif //GO4EVENTSERVER_H
