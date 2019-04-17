@@ -8,5 +8,6 @@
 #pragma link C++ class TWebObjectOptions1+;
 #pragma link C++ class TWebPadRange1+;
 #pragma link C++ class TWebPadClick1+;
+#pragma link C++ class TWebGuiFactoryFull+;
 
 #endif

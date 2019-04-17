@@ -1,5 +1,5 @@
-#ifndef TWEBCANVASFULL_H
-#define TWEBCANVASFULL_H
+#ifndef ROOT_TWebCanvasFull
+#define ROOT_TWebCanvasFull
 
 #include "TWebCanvas.h"
 
