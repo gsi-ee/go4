@@ -15,7 +15,6 @@
 
 #include "TCanvas.h"
 #include "TWebCanvas.h"
-#include "THttpServer.h"
 #include "TROOT.h"
 #include "TClass.h"
 

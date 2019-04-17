@@ -27,7 +27,6 @@
 #include "TCanvas.h"
 #include "TH1F.h"
 #include "TGo4Proxy.h"
-#include "QRootCanvas.h"
 
 #include <sstream>
 
