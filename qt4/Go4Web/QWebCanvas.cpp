@@ -14,7 +14,7 @@
 #include "QWebCanvas.h"
 
 #include "TCanvas.h"
-#include "TWebCanvas.h"
+#include "TWebCanvasFull.h"
 #include "TROOT.h"
 #include "TClass.h"
 
@@ -84,13 +84,11 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gPad = fCanvas;
 
-   TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600);
+   TWebCanvasFull *web = new TWebCanvasFull(fCanvas, "title", 0, 0, 800, 600);
 
    fCanvas->SetCanvasImp(web);
 
    SetPrivateCanvasFields(true);
-
-
 
    web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 

@@ -17,7 +17,6 @@
 #include <QWidget>
 #include <QWebEngineView>
 
-
 class TCanvas;
 class TPad;
 class TObject;
