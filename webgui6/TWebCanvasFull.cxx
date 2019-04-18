@@ -55,18 +55,20 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
       if (click && IsFirstConn(connid) && !IsReadOnly()) {
 
-         TPad *pad = dynamic_cast<TPad*> (FindPrimitive(click->padid.c_str()));
+         TPad *pad = dynamic_cast<TPad *>(FindPrimitive(click->padid.c_str()));
          if (pad && (pad != gPad)) {
             Info("ProcessData", "Activate pad %s", pad->GetName());
             gPad = pad;
             Canvas()->SetClickSelectedPad(pad);
-            if (fActivePadChangedSignal) fActivePadChangedSignal(pad);
+            if (fActivePadChangedSignal)
+               fActivePadChangedSignal(pad);
          }
 
          if (!click->objid.empty()) {
             TObject *selobj = FindPrimitive(click->objid.c_str());
             Canvas()->SetClickSelected(selobj);
-            if (pad && selobj && fObjSelectSignal) fObjSelectSignal(pad, selobj);
+            if (pad && selobj && fObjSelectSignal)
+               fObjSelectSignal(pad, selobj);
          }
 
          if ((click->x >= 0) && (click->y >= 0)) {
