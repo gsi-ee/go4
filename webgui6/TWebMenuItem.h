@@ -16,6 +16,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class TClass;
 
@@ -112,14 +113,14 @@ public:
 class TWebMenuItems {
 protected:
    std::string fId;                    ///< object identifier
-   std::vector<TWebMenuItem *> fItems; ///< list of items in the menu
+   std::vector<std::unique_ptr<TWebMenuItem>> fItems; ///< list of items in the menu
 public:
    TWebMenuItems() = default;
    TWebMenuItems(const std::string &snapid) : fId(snapid) {}
 
-   ~TWebMenuItems() { Cleanup(); }
+   ~TWebMenuItems() {}
 
-   void Add(TWebMenuItem *item) { fItems.push_back(item); }
+   void Add(TWebMenuItem *item) { fItems.emplace_back(item); }
 
    void AddMenuItem(const std::string &name, const std::string &title, const std::string &exec, TClass *cl = nullptr)
    {
@@ -138,8 +139,6 @@ public:
    }
 
    std::size_t Size() const { return fItems.size(); }
-
-   void Cleanup();
 
    void PopulateObjectMenu(void *obj, TClass *cl);
 };

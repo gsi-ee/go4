@@ -26,7 +26,7 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
       TWebMenuItems items(arg.c_str() + 8);
       items.PopulateObjectMenu(obj, obj->IsA());
       std::string buf = "MENU:";
-      buf.append(TBufferJSON::ToJSON(&items, 3).Data());
+      buf.append(TBufferJSON::ToJSON(&items, 103).Data());
 
       AddToSendQueue(connid, buf);
    }

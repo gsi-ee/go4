@@ -17,17 +17,9 @@
 #include "TMethodArg.h"
 #include "TMethodCall.h"
 
-void TWebMenuItems::Cleanup()
-{
-   for (auto &&item : fItems)
-      delete item;
-
-   fItems.clear();
-}
-
 void TWebMenuItems::PopulateObjectMenu(void *obj, TClass *cl)
 {
-   Cleanup();
+   fItems.clear();
 
    TList *lst = new TList;
    cl->GetMenuItems(lst);
@@ -83,7 +75,7 @@ void TWebMenuItems::PopulateObjectMenu(void *obj, TClass *cl)
             TIter args_iter(args);
             TMethodArg *arg = nullptr;
 
-            while ((arg = dynamic_cast<TMethodArg *>(args_iter())) != 0) {
+            while ((arg = dynamic_cast<TMethodArg *>(args_iter())) != nullptr) {
                const char *dflt = arg->GetDefault();
                if (!dflt) dflt = "";
                item->GetArgs().emplace_back(arg->GetName(), arg->GetTitle(), arg->GetFullTypeName(), dflt);
