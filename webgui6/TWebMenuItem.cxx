@@ -16,7 +16,6 @@
 #include "TMethod.h"
 #include "TMethodArg.h"
 #include "TMethodCall.h"
-#include "TBufferJSON.h"
 
 void TWebMenuItems::Cleanup()
 {
@@ -96,9 +95,4 @@ void TWebMenuItems::PopulateObjectMenu(void *obj, TClass *cl)
    }
 
    delete lst;
-}
-
-TString TWebMenuItems::ProduceJSON()
-{
-   return TBufferJSON::ToJSON(&fItems);
 }

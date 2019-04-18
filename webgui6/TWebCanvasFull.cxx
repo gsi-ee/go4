@@ -2,6 +2,8 @@
 
 #include "TWebMenuItem.h"
 #include "TCanvas.h"
+#include "TBufferJSON.h"
+
 
 TWebCanvasFull::TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height) :
    TWebCanvas(c,name,x,y,width,height)
@@ -21,12 +23,10 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
       if (!obj)
          obj = Canvas();
 
-      TWebMenuItems items;
+      TWebMenuItems items(arg.c_str() + 8);
       items.PopulateObjectMenu(obj, obj->IsA());
       std::string buf = "MENU:";
-      buf.append(arg.c_str() + 8);
-      buf.append(":");
-      buf.append(items.ProduceJSON().Data());
+      buf.append(TBufferJSON::ToJSON(&items, 3).Data());
 
       AddToSendQueue(connid, buf);
    }

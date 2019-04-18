@@ -111,8 +111,12 @@ public:
 
 class TWebMenuItems {
 protected:
+   std::string fId;                    ///< object identifier
    std::vector<TWebMenuItem *> fItems; ///< list of items in the menu
 public:
+   TWebMenuItems() = default;
+   TWebMenuItems(const std::string &snapid) : fId(snapid) {}
+
    ~TWebMenuItems() { Cleanup(); }
 
    void Add(TWebMenuItem *item) { fItems.push_back(item); }
@@ -138,8 +142,6 @@ public:
    void Cleanup();
 
    void PopulateObjectMenu(void *obj, TClass *cl);
-
-   TString ProduceJSON();
 };
 
 #endif
