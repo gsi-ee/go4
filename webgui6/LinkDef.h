@@ -10,10 +10,11 @@
 #pragma link C++ class TWebArgsMenuItem+;
 #pragma link C++ class TWebMenuItems+;
 
+#pragma link C++ class TWebObjectOptions+;
+#pragma link C++ class TWebPadOptions+;
+#pragma link C++ class TWebPadClick+;
+
 #pragma link C++ class TWebCanvasFull+;
-#pragma link C++ class TWebObjectOptions1+;
-#pragma link C++ class TWebPadRange1+;
-#pragma link C++ class TWebPadClick1+;
 #pragma link C++ class TWebGuiFactoryFull+;
 
 #endif
