@@ -98,8 +98,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    web->SetPadDblClickedHandler([this](TPad *pad, int x, int y) { ProcessPadDblClicked(pad, x, y); });
 
-   web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
-
    ROOT::Experimental::RWebDisplayArgs args("qt5");
    args.SetDriverData(this);
    args.SetUrlOpt("noopenui");
@@ -117,15 +115,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());
-
-   // QString fullurl = UrlSchemeHandler::installHandler(QString(url.Data()), web->GetServer());
-
-   // disable openui completely from canvas - use only graphics
-   // fullurl.append("&noopenui");
-
-   // fView->load(QUrl(fullurl));
-
-   // fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
 
 QWebCanvas::~QWebCanvas()
