@@ -4,11 +4,15 @@
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TPave.h"
+#include "TH1.h"
 #include "TFrame.h"
 #include "TBufferJSON.h"
 #include "TError.h"
 
 #include <sstream>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/// constructor
 
 TWebCanvasFull::TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height) :
    TWebCanvas(c,name,x,y,width,height)
@@ -16,6 +20,77 @@ TWebCanvasFull::TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, U
    printf("CREATING FULL CANVAS\n");
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/// search of object with given id in list of primitives
+/// One could specify pad where search could be start
+/// Also if object is in list of primitives, one could ask for entry link for such object,
+/// This can allow to change draw option
+
+TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLink **padlnk, TPad **objpad)
+{
+
+   if (!pad)
+      pad = Canvas();
+
+   std::string kind;
+   auto separ = sid.find("#");
+   long unsigned id = 0;
+
+   if (separ == std::string::npos) {
+      id = std::stoul(sid);
+   } else {
+      kind = sid.substr(separ + 1);
+      id = std::stoul(sid.substr(0, separ));
+   }
+
+   if (TString::Hash(&pad, sizeof(pad)) == id)
+      return pad;
+
+   TObjLink *lnk = pad->GetListOfPrimitives()->FirstLink();
+   while (lnk) {
+      TObject *obj = lnk->GetObject();
+      if (!obj) {
+         lnk = lnk->Next();
+         continue;
+      }
+      TH1 *h1 = obj->InheritsFrom(TH1::Class()) ? static_cast<TH1 *>(obj) : nullptr;
+      if (TString::Hash(&obj, sizeof(obj)) == id) {
+         if (objpad)
+            *objpad = pad;
+         if (h1 && (kind == "x"))
+            return h1->GetXaxis();
+         if (h1 && (kind == "y"))
+            return h1->GetYaxis();
+         if (h1 && (kind == "z"))
+            return h1->GetZaxis();
+         if (padlnk)
+            *padlnk = lnk;
+         return obj;
+      }
+      if (h1) {
+         TIter fiter(h1->GetListOfFunctions());
+         TObject *fobj = nullptr;
+         while ((fobj = fiter()) != nullptr)
+            if (TString::Hash(&fobj, sizeof(fobj)) == id) {
+               if (objpad)
+                  *objpad = pad;
+               return fobj;
+            }
+      } else if (obj->InheritsFrom(TPad::Class())) {
+         obj = FindPrimitive(sid, (TPad *)obj, padlnk, objpad);
+         if (objpad && !*objpad)
+            *objpad = pad;
+         if (obj)
+            return obj;
+      }
+      lnk = lnk->Next();
+   }
+
+   return nullptr;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/// Process reply from client, which is not processed by basic TWebCanvas
 
 Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 {
@@ -24,7 +99,7 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
    if (arg.compare(0, 8, "GETMENU:") == 0) {
 
-      TObject *obj = FindPrimitive(arg.c_str() + 8);
+      TObject *obj = FindPrimitive(arg.substr(8));
       if (!obj)
          obj = Canvas();
 
@@ -56,7 +131,7 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
       if (click && IsFirstConn(connid) && !IsReadOnly()) {
 
-         TPad *pad = dynamic_cast<TPad *>(FindPrimitive(click->padid.c_str()));
+         TPad *pad = dynamic_cast<TPad *>(FindPrimitive(click->padid));
          if (pad && (pad != gPad)) {
             Info("ProcessData", "Activate pad %s", pad->GetName());
             gPad = pad;
@@ -66,7 +141,7 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
          }
 
          if (!click->objid.empty()) {
-            TObject *selobj = FindPrimitive(click->objid.c_str());
+            TObject *selobj = FindPrimitive(click->objid);
             Canvas()->SetClickSelected(selobj);
             if (pad && selobj && fObjSelectSignal)
                fObjSelectSignal(pad, selobj);
@@ -82,24 +157,22 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
    } else if (arg.compare(0, 8, "OBJEXEC:") == 0) {
 
-     TString buf(arg.c_str() + 8);
-     Int_t pos = buf.First(':');
+     auto buf = arg.substr(8);
+     auto pos = buf.find(":");
 
      if ((pos > 0) && IsFirstConn(connid) && !IsReadOnly()) { // only first client can execute commands
-        TString sid(buf, pos);
-        buf.Remove(0, pos + 1);
+        auto sid = buf.substr(0, pos);
+        buf.erase(0, pos + 1);
 
-        TObject *obj = FindPrimitive(sid.Data());
-        if (obj && (buf.Length() > 0)) {
+        TObject *obj = FindPrimitive(sid);
+        if (obj && !buf.empty()) {
            std::stringstream exec;
            exec << "((" << obj->ClassName() << " *) " << std::hex << std::showbase << (size_t)obj
-                << ")->" << buf.Data() << ";";
+                << ")->" << buf << ";";
            Info("ProcessData", "Obj %s Execute %s", obj->GetName(), exec.str().c_str());
            gROOT->ProcessLine(exec.str().c_str());
 
-           // PerformUpdate(); // check that canvas was changed
-           if (IsAnyPadModified(Canvas()))
-              fCanvVersion++;
+           CheckPadModified(Canvas());
         }
      }
 
@@ -107,41 +180,41 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
       // execute method and send data, used by drawing projections
 
-      TString buf(arg.c_str() + 12), reply;
+      std::string buf = arg.substr(12);
+      std::string reply;
       TObject *obj = nullptr;
 
-      Int_t pos = buf.First(':');
+      auto pos = buf.find(":");
 
       if ((pos > 0) && IsFirstConn(connid) && !IsReadOnly()) {
          // only first client can execute commands
-         reply.Append(buf, pos);
-         buf.Remove(0, pos + 1);
-         pos = buf.First(':');
+         reply.append(buf, pos);
+         buf.erase(0, pos + 1);
+         pos = buf.find(":");
          if (pos > 0) {
-            TString sid(buf, pos);
-            buf.Remove(0, pos + 1);
-            obj = FindPrimitive(sid.Data());
+            auto sid = buf.substr(0, pos);
+            buf.erase(0, pos + 1);
+            obj = FindPrimitive(sid);
          }
       }
 
-      if (obj && (buf.Length() > 0) && (reply.Length() > 0)) {
+      if (obj && !buf.empty() && !reply.empty()) {
          std::stringstream exec;
          exec << "((" << obj->ClassName() << " *) " << std::hex << std::showbase << (size_t)obj
-              << ")->" << buf.Data() << ";";
+              << ")->" << buf << ";";
          if (gDebug > 1)
             Info("ProcessData", "Obj %s Exec %s", obj->GetName(), exec.str().c_str());
 
          Long_t res = gROOT->ProcessLine(exec.str().c_str());
          TObject *resobj = (TObject *)res;
          if (resobj) {
-            std::string send = reply.Data();
+            std::string send = reply;
             send.append(":");
             send.append(TBufferJSON::ToJSON(resobj, 23).Data());
             AddToSendQueue(connid, send);
             if (reply[0] == 'D')
                delete resobj; // delete object if first symbol in reply is D
          }
-
       }
 
    }
@@ -149,7 +222,10 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
    return kTRUE;
 }
 
-Bool_t TWebCanvasFull::DecodePadOptions(const char * msg)
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/// Decode all pad options, which includes ranges plus objects options
+
+Bool_t TWebCanvasFull::DecodePadOptions(const char *msg)
 {
    if (!msg || !*msg)
       return kFALSE;
@@ -161,7 +237,7 @@ Bool_t TWebCanvasFull::DecodePadOptions(const char * msg)
 
    for (unsigned n = 0; n < arr->size(); ++n) {
       auto &r = arr->at(n);
-      TPad *pad = dynamic_cast<TPad *>(FindPrimitive(r.snapid.c_str()));
+      TPad *pad = dynamic_cast<TPad *>(FindPrimitive(r.snapid));
 
       if (!pad)
          continue;
@@ -224,7 +300,7 @@ TPad *TWebCanvasFull::ProcessObjectOptions(TWebObjectOptions &item, TPad *pad)
 {
    TObjLink *lnk = nullptr;
    TPad *objpad = nullptr;
-   TObject *obj = FindPrimitive(item.snapid.c_str(), pad, &lnk, &objpad);
+   TObject *obj = FindPrimitive(item.snapid, pad, &lnk, &objpad);
 
    if (item.fcust.compare("exec") == 0) {
       auto pos = item.opt.find("(");

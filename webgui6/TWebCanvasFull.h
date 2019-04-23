@@ -5,17 +5,18 @@
 //                                                                      //
 // TWebCanvasFull                                                       //
 //                                                                      //
-// Complete implementation of TCanvasImp ABI,                           //
+// Complete implementation of web-based TCanvasImp,                     //
 // including all kind of interactivity                                  //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
-
 
 #include "TWebCanvas.h"
 
 #include "TWebPadOptions.h"
 
 #include <vector>
+
+class TObjLink;
 
 class TWebCanvasFull : public TWebCanvas {
 public:
@@ -29,16 +30,19 @@ public:
    using ObjectSelectSignal_t = std::function<void(TPad *, TObject *)>;
 
 protected:
+
+   PadSignal_t fActivePadChangedSignal;     ///<! signal emitted when active pad changed in the canvas
+   PadClickedSignal_t fPadClickedSignal;    ///<! signal emitted when simple mouse click performed on the pad
+   PadClickedSignal_t fPadDblClickedSignal; ///<! signal emitted when simple mouse click performed on the pad
+   ObjectSelectSignal_t fObjSelectSignal;   ///<! signal emitted when new object selected in the pad
+
    virtual Bool_t ProcessData(unsigned connid, const std::string &arg);
 
    virtual Bool_t DecodePadOptions(const char *);
 
    TPad *ProcessObjectOptions(TWebObjectOptions &item, TPad *pad);
 
-   PadSignal_t fActivePadChangedSignal;     ///<! signal emitted when active pad changed in the canvas
-   PadClickedSignal_t fPadClickedSignal;    ///<! signal emitted when simple mouse click performed on the pad
-   PadClickedSignal_t fPadDblClickedSignal; ///<! signal emitted when simple mouse click performed on the pad
-   ObjectSelectSignal_t fObjSelectSignal;   ///<! signal emitted when new object selected in the pad
+   TObject *FindPrimitive(const std::string &id, TPad *pad = nullptr, TObjLink **padlnk = nullptr, TPad **objpad = nullptr);
 
 public:
    TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height);
@@ -53,7 +57,7 @@ public:
 
    void SetObjSelectHandler(ObjectSelectSignal_t func) { fObjSelectSignal = func; }
 
-   ClassDef(TWebCanvasFull, 0) // Full implementation of web-based canvas
+   ClassDef(TWebCanvasFull, 0) // Web-based implementation for TCanvasImp, full interactive mode
 };
 
 
