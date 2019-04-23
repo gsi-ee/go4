@@ -1,3 +1,13 @@
+// Author: Sergey Linev, GSI   7/12/2016
+
+/*************************************************************************
+ * Copyright (C) 1995-2019, Rene Brun and Fons Rademakers.               *
+ * All rights reserved.                                                  *
+ *                                                                       *
+ * For the licensing terms see $ROOTSYS/LICENSE.                         *
+ * For the list of contributors see $ROOTSYS/README/CREDITS.             *
+ *************************************************************************/
+
 #ifndef ROOT_TWebCanvasFull
 #define ROOT_TWebCanvasFull
 
@@ -14,9 +24,8 @@
 
 #include "TWebPadOptions.h"
 
-#include <vector>
-
 class TObjLink;
+class TPad;
 
 class TWebCanvasFull : public TWebCanvas {
 public:
@@ -36,9 +45,9 @@ protected:
    PadClickedSignal_t fPadDblClickedSignal; ///<! signal emitted when simple mouse click performed on the pad
    ObjectSelectSignal_t fObjSelectSignal;   ///<! signal emitted when new object selected in the pad
 
-   virtual Bool_t ProcessData(unsigned connid, const std::string &arg);
+   Bool_t ProcessData(unsigned connid, const std::string &arg) override;
 
-   virtual Bool_t DecodePadOptions(const char *);
+   Bool_t DecodePadOptions(const char *) override;
 
    TPad *ProcessObjectOptions(TWebObjectOptions &item, TPad *pad);
 
@@ -47,7 +56,7 @@ protected:
 public:
    TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height);
 
-   virtual Bool_t IsReadOnly() const { return kFALSE; }
+   Bool_t IsReadOnly() const override { return kFALSE; }
 
    void SetActivePadChangedHandler(PadSignal_t func) { fActivePadChangedSignal = func; }
 
@@ -57,7 +66,7 @@ public:
 
    void SetObjSelectHandler(ObjectSelectSignal_t func) { fObjSelectSignal = func; }
 
-   ClassDef(TWebCanvasFull, 0) // Web-based implementation for TCanvasImp, full interactive mode
+   ClassDefOverride(TWebCanvasFull, 0) // Web-based implementation for TCanvasImp, full interactive mode
 };
 
 
