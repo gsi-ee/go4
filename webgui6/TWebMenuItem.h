@@ -112,13 +112,11 @@ public:
 
 class TWebMenuItems {
 protected:
-   std::string fId;                    ///< object identifier
+   std::string fId;                                   ///< object identifier
    std::vector<std::unique_ptr<TWebMenuItem>> fItems; ///< list of items in the menu
 public:
    TWebMenuItems() = default;
    TWebMenuItems(const std::string &snapid) : fId(snapid) {}
-
-   ~TWebMenuItems() {}
 
    void Add(TWebMenuItem *item) { fItems.emplace_back(item); }
 
