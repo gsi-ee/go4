@@ -188,7 +188,7 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
       if ((pos > 0) && IsFirstConn(connid) && !IsReadOnly()) {
          // only first client can execute commands
-         reply.append(buf, pos);
+         reply = buf.substr(0, pos);
          buf.erase(0, pos + 1);
          pos = buf.find(":");
          if (pos > 0) {
