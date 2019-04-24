@@ -90,6 +90,8 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    SetPrivateCanvasFields(true);
 
+   web->SetCanCreateObjects(kFALSE); // not yet create objects on server side
+
    web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 
    web->SetActivePadChangedHandler([this](TPad *pad){ ProcessActivePadChanged(pad); });

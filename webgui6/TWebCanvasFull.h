@@ -44,6 +44,7 @@ protected:
    PadClickedSignal_t fPadClickedSignal;    ///<! signal emitted when simple mouse click performed on the pad
    PadClickedSignal_t fPadDblClickedSignal; ///<! signal emitted when simple mouse click performed on the pad
    ObjectSelectSignal_t fObjSelectSignal;   ///<! signal emitted when new object selected in the pad
+   Bool_t fCanCreateObjects{kTRUE};         ///<! indicates if canvas allowed to create extra objects for interactive painting
 
    Bool_t ProcessData(unsigned connid, const std::string &arg) override;
 
@@ -53,10 +54,14 @@ protected:
 
    TObject *FindPrimitive(const std::string &id, TPad *pad = nullptr, TObjLink **padlnk = nullptr, TPad **objpad = nullptr);
 
+   Bool_t CanCreateObject(const char *) override { return fCanCreateObjects; }
+
 public:
    TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height);
 
    Bool_t IsReadOnly() const override { return kFALSE; }
+
+   void SetCanCreateObjects(Bool_t on = kTRUE) { fCanCreateObjects = on; }
 
    void SetActivePadChangedHandler(PadSignal_t func) { fActivePadChangedSignal = func; }
 
