@@ -342,7 +342,7 @@ TPad *TWebCanvasFull::ProcessObjectOptions(TWebObjectOptions &item, TPad *pad)
       if (obj && obj->InheritsFrom(TPave::Class())) {
          TPave *pave = static_cast<TPave *>(obj);
          if ((item.fopt.size() >= 4) && objpad) {
-            auto *save = gPad;
+            auto save = gPad;
             gPad = objpad;
 
             // first time need to overcome init problem
@@ -352,8 +352,6 @@ TPad *TWebCanvasFull::ProcessObjectOptions(TWebObjectOptions &item, TPad *pad)
             pave->SetY1NDC(item.fopt[1]);
             pave->SetX2NDC(item.fopt[2]);
             pave->SetY2NDC(item.fopt[3]);
-
-            // printf("Setting %s %s %f %f %f %f\n", pave->GetName(), pave->ClassName(), item.fopt[0], item.fopt[1], item.fopt[2], item.fopt[3]);
             modified = true;
 
             pave->ConvertNDCtoPad();
