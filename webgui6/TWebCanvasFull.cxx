@@ -5,6 +5,7 @@
 #include "TROOT.h"
 #include "TPave.h"
 #include "TH1.h"
+#include "TGraph.h"
 #include "TFrame.h"
 #include "TBufferJSON.h"
 #include "TError.h"
@@ -54,9 +55,19 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
          continue;
       }
       TH1 *h1 = obj->InheritsFrom(TH1::Class()) ? static_cast<TH1 *>(obj) : nullptr;
+      TGraph *gr = obj->InheritsFrom(TGraph::Class()) ? static_cast<TGraph *>(obj) : nullptr;
       if (TString::Hash(&obj, sizeof(obj)) == id) {
          if (objpad)
             *objpad = pad;
+
+         if (gr && (kind.find("hist")==0)) {
+            // access to graph histogram
+            obj = h1 = gr->GetHistogram();
+            kind.erase(0,4);
+            if (!kind.empty() && (kind[0]=='#')) kind.erase(0,1);
+            padlnk = nullptr;
+         }
+
          if (h1 && (kind == "x"))
             return h1->GetXaxis();
          if (h1 && (kind == "y"))
@@ -67,8 +78,8 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
             *padlnk = lnk;
          return obj;
       }
-      if (h1) {
-         TIter fiter(h1->GetListOfFunctions());
+      if (h1 || gr) {
+         TIter fiter(h1 ? h1->GetListOfFunctions() : gr->GetListOfFunctions());
          TObject *fobj = nullptr;
          while ((fobj = fiter()) != nullptr)
             if (TString::Hash(&fobj, sizeof(fobj)) == id) {

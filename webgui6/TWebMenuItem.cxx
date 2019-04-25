@@ -38,6 +38,9 @@ void TWebMenuItems::PopulateObjectMenu(void *obj, TClass *cl)
       if (strcmp(m->GetClass()->GetName(), "TH1") == 0) {
          if (strcmp(m->GetName(), "SetHighlight") == 0) continue;
          if (strcmp(m->GetName(), "DrawPanel") == 0) is_editor = kTRUE;
+      } else if (strcmp(m->GetClass()->GetName(), "TGraph") == 0) {
+         if (strcmp(m->GetName(), "SetHighlight") == 0) continue;
+         if (strcmp(m->GetName(), "DrawPanel") == 0) is_editor = kTRUE;
       } else if (strcmp(m->GetClass()->GetName(), "TAttFill") == 0) {
          if (strcmp(m->GetName(), "SetFillAttributes") == 0) is_editor = kTRUE;
       } else if (strcmp(m->GetClass()->GetName(), "TAttLine") == 0) {
