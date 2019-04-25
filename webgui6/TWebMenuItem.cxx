@@ -27,7 +27,36 @@ void TWebMenuItems::PopulateObjectMenu(void *obj, TClass *cl)
    TIter iter(lst);
    TMethod *m = nullptr;
 
+   Bool_t has_editor = kFALSE;
+
+   TClass *last_class = nullptr;
+
    while ((m = (TMethod *)iter()) != nullptr) {
+
+      Bool_t is_editor = kFALSE;
+
+      if (strcmp(m->GetClass()->GetName(), "TH1") == 0) {
+         if (strcmp(m->GetName(), "SetHighlight") == 0) continue;
+         if (strcmp(m->GetName(), "DrawPanel") == 0) is_editor = kTRUE;
+      } else if (strcmp(m->GetClass()->GetName(), "TAttFill") == 0) {
+         if (strcmp(m->GetName(), "SetFillAttributes") == 0) is_editor = kTRUE;
+      } else if (strcmp(m->GetClass()->GetName(), "TAttLine") == 0) {
+         if (strcmp(m->GetName(), "SetLineAttributes") == 0) is_editor = kTRUE;
+      } else if (strcmp(m->GetClass()->GetName(), "TAttMarker") == 0) {
+         if (strcmp(m->GetName(), "SetMarkerAttributes") == 0) is_editor = kTRUE;
+      } else if (strcmp(m->GetClass()->GetName(), "TAttText") == 0) {
+         if (strcmp(m->GetName(), "SetTextAttributes") == 0) is_editor = kTRUE;
+      }
+
+      if (is_editor) {
+         if (!has_editor) {
+            AddMenuItem("Editor", "Attributes editor", "Show:Editor", last_class ? last_class : m->GetClass());
+            has_editor = kTRUE;
+         }
+         continue;
+      }
+
+      last_class = m->GetClass();
 
       if (m->IsMenuItem() == kMenuToggle) {
          TString getter;
