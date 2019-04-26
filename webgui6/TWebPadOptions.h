@@ -37,6 +37,7 @@ public:
    double px1{0}, py1{0}, px2{0}, py2{0};     ///< pad range
    double ux1{0}, uy1{0}, ux2{0}, uy2{0};     ///< pad axis range
    unsigned bits{0};                          ///< canvas status bits like tool editor
+   double zx1{0}, zx2{0}, zy1{0}, zy2{0}, zz1{0}, zz2{0}; ///< zooming ranges
    std::vector<TWebObjectOptions> primitives; ///< drawing options for primitives
 };
 

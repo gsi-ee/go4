@@ -6,6 +6,7 @@
 #include "TPave.h"
 #include "TH1.h"
 #include "TGraph.h"
+#include "TClass.h"
 #include "TFrame.h"
 #include "TBufferJSON.h"
 #include "TError.h"
@@ -36,15 +37,18 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
    std::string kind;
    auto separ = sid.find("#");
    long unsigned id = 0;
+   bool search_hist = false;
 
-   if (separ == std::string::npos) {
+   if (sid == "histogram") {
+      search_hist = true;
+   } else if (separ == std::string::npos) {
       id = std::stoul(sid);
    } else {
       kind = sid.substr(separ + 1);
       id = std::stoul(sid.substr(0, separ));
    }
 
-   if (TString::Hash(&pad, sizeof(pad)) == id)
+   if (!search_hist && TString::Hash(&pad, sizeof(pad)) == id)
       return pad;
 
    TObjLink *lnk = pad->GetListOfPrimitives()->FirstLink();
@@ -56,6 +60,22 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
       }
       TH1 *h1 = obj->InheritsFrom(TH1::Class()) ? static_cast<TH1 *>(obj) : nullptr;
       TGraph *gr = obj->InheritsFrom(TGraph::Class()) ? static_cast<TGraph *>(obj) : nullptr;
+
+      if (search_hist) {
+         if (h1) return h1;
+         if (gr) {
+            auto offset = TGraph::Class()->GetDataMemberOffset("fHistogram");
+            if (offset > 0) {
+               return *((TH1 **)((char*) gr + offset));
+            } else {
+               printf("ERROR: Cannot access fHistogram data member in TGraph\n");
+               return nullptr;
+            }
+         }
+         lnk = lnk->Next();
+         continue;
+      }
+
       if (TString::Hash(&obj, sizeof(obj)) == id) {
          if (objpad)
             *objpad = pad;
@@ -288,6 +308,41 @@ Bool_t TWebCanvasFull::DecodePadOptions(const char *msg)
             if (gDebug > 1)
                Info("DecodeAllRanges", "Change ranges for pad %s", pad->GetName());
          }
+      }
+
+      TH1 *hist = static_cast<TH1 *>(FindPrimitive("histogram", pad));
+
+      if (hist) {
+         double hmin = 0, hmax = 0;
+
+         if (r.zx1 == r.zx2)
+            hist->GetXaxis()->SetRange(0,0);
+         else
+            hist->GetXaxis()->SetRangeUser(r.zx1, r.zx2);
+
+         if (hist->GetDimension() == 1) {
+            hmin = r.zy1;
+            hmax = r.zy2;
+         } else if (r.zy1 == r.zy2) {
+            hist->GetYaxis()->SetRange(0,0);
+         } else {
+            hist->GetYaxis()->SetRangeUser(r.zy1, r.zy2);
+         }
+
+         if (hist->GetDimension() == 2) {
+            hmin = r.zz1;
+            hmax = r.zz2;
+         } else if (hist->GetDimension() == 3) {
+            if (r.zz1 == r.zz2) {
+               hist->GetZaxis()->SetRange(0,0);
+            } else {
+              hist->GetZaxis()->SetRangeUser(r.zz1, r.zz2);
+            }
+         }
+
+         if (hmin == hmax) { hist->SetMinimum(); hist->SetMaximum(); }
+                      else { hist->SetMinimum(hmin); hist->SetMaximum(hmax); }
+
       }
 
       for (auto &item : r.primitives)
