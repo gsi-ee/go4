@@ -48,13 +48,13 @@ protected:
 
    Bool_t ProcessData(unsigned connid, const std::string &arg) override;
 
-   Bool_t DecodePadOptions(const char *) override;
+   Bool_t DecodePadOptions(const std::string &) override;
 
    TPad *ProcessObjectOptions(TWebObjectOptions &item, TPad *pad);
 
    TObject *FindPrimitive(const std::string &id, TPad *pad = nullptr, TObjLink **padlnk = nullptr, TPad **objpad = nullptr);
 
-   Bool_t CanCreateObject(const char *) override { return fCanCreateObjects; }
+   Bool_t CanCreateObject(const std::string &) override { return fCanCreateObjects; }
 
 public:
    TWebCanvasFull(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height);

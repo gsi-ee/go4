@@ -94,6 +94,7 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
             return h1->GetYaxis();
          if (h1 && (kind == "z"))
             return h1->GetZaxis();
+
          if (padlnk)
             *padlnk = lnk;
          return obj;
@@ -256,9 +257,9 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /// Decode all pad options, which includes ranges plus objects options
 
-Bool_t TWebCanvasFull::DecodePadOptions(const char *msg)
+Bool_t TWebCanvasFull::DecodePadOptions(const std::string &msg)
 {
-   if (!msg || !*msg)
+   if (msg.empty())
       return kFALSE;
 
    auto arr = TBufferJSON::FromJSON<std::vector<TWebPadOptions>>(msg);
@@ -386,10 +387,15 @@ TPad *TWebCanvasFull::ProcessObjectOptions(TWebObjectOptions &item, TPad *pad)
    bool modified = false;
 
    if (obj && lnk) {
+      auto pos = item.opt.find(";;use_"); // special coding of extra options
+      if (pos != std::string::npos) item.opt.resize(pos);
+
       if (gDebug > 1)
-         Info("DecodeAllRanges", "Set draw option \"%s\" for object %s %s", item.opt.c_str(),
+         Info("ProcessObjectOptions", "Set draw option %s for object %s %s", item.opt.c_str(),
                obj->ClassName(), obj->GetName());
+
       lnk->SetOption(item.opt.c_str());
+
       modified = true;
    }
 
