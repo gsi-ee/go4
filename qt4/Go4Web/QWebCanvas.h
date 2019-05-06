@@ -53,7 +53,7 @@ signals:
 
 public slots:
 
-   void actiavteEditor(TPad *pad = 0, TObject *obj = 0);
+   void activateEditor(TPad *pad = 0, TObject *obj = 0);
    void activateStatusLine();
 
    void setStatusBarVisible(bool flag = true);

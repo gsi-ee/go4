@@ -92,7 +92,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       bool              isEditorVisible();
       void              toggleEditor();
       void              resizeEditor();
-      void              actiavteEditor(TPad *pad, TObject *obj);
+      void              activateEditor(TPad *pad, TObject *obj);
       void              cleanupEditor();
 
       void              setStatusBar(QStatusBar *bar) { fStatusBar = bar; }
@@ -193,6 +193,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      ToggleEventStatus();
       virtual void      ToggleAutoExec();
       virtual void      Update();
+
+      void 				BuildEditorWindow();
 
       void              executeMenu(int id);
       void              processRepaintTimer();

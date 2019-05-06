@@ -516,6 +516,9 @@ void TGo4ViewPanel::CompleteInitialization()
 
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
 
+   // JAM 5-2019 construct top window for ged editor already here, otherwise problems with Qt4
+   if (fxQCanvas) fxQCanvas->BuildEditorWindow();
+
    //    fMenuBar
    connect(TGo4MdiArea::Instance(),
          SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)), this,
@@ -1782,7 +1785,8 @@ void TGo4ViewPanel::CanvasUpdatedSlot()
       fxCanvasEventstatusChk->setChecked(imp->HasStatusBar());
       fxCanvasEditorChk->setChecked(imp->HasEditor());
    } else {
-      ResizeGedEditor();
+
+     ResizeGedEditor();
    }
 }
 
@@ -1971,7 +1975,6 @@ void TGo4ViewPanel::PrintCanvas()
 void TGo4ViewPanel::StartRootEditor()
 {
    bool visible = false;
-
    if (fxQCanvas) {
 
       if (!fxQCanvas->isEditorAllowed()) return;
@@ -1982,7 +1985,6 @@ void TGo4ViewPanel::StartRootEditor()
          SetActivePad(GetCanvas());
 
       fxQCanvas->toggleEditor();
-
    } else if (fxWCanvas) {
 
 #ifdef GO4_WEBGUI
@@ -5577,6 +5579,7 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 
 void TGo4ViewPanel::ResizeGedEditor()
 {
+  //std::cout<< "TGo4ViewPanel::ResizeGedEditor is called with canvas" << (long) fxQCanvas <<std::endl;
    if (fxQCanvas) fxQCanvas->resizeEditor();
 }
 
@@ -5584,10 +5587,10 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
       if (fxQCanvas) {
-         fxQCanvas->actiavteEditor(GetActivePad(), obj);
+         fxQCanvas->activateEditor(GetActivePad(), obj);
       } else if (fxWCanvas) {
 #ifdef GO4_WEBGUI
-         fxWCanvas->actiavteEditor(GetActivePad(), obj);
+         fxWCanvas->activateEditor(GetActivePad(), obj);
 #endif
       }
 }

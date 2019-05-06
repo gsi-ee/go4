@@ -184,7 +184,7 @@ void QWebCanvas::dropView(QDropEvent* event)
    emit CanvasDropEvent(event, pad ? pad : fCanvas);
 }
 
-void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
+void QWebCanvas::activateEditor(TPad *pad, TObject *obj)
 {
    TWebCanvas *cimp = dynamic_cast<TWebCanvas*> (fCanvas->GetCanvasImp());
    if (cimp) {

@@ -1169,11 +1169,13 @@ void QRootCanvas::toggleEditor()
       fEditorFrame->setMinimumWidth( fEditorFrame->minimumWidth()/scalefactor);
 #endif
 
-      fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
-      QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
-      gedlayout->setContentsMargins(0, 0, 0, 0);
-      gedlayout->addWidget(fxRooteditor);
-
+// JAM 5-2019: this part was moved to BuildEditorWindow() because of init problems with Qt 4
+//      std::cout<< "QRootCanvas::toggleEditor() will create Rooteditor" <<std::endl;
+//      fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
+//      QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
+//      gedlayout->setContentsMargins(0, 0, 0, 0);
+//      gedlayout->addWidget(fxRooteditor);
+//////////////////
       TGo4LockGuard lock;
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
@@ -1195,7 +1197,7 @@ void QRootCanvas::resizeEditor()
 }
 
 
-void QRootCanvas::actiavteEditor(TPad *pad, TObject *obj)
+void QRootCanvas::activateEditor(TPad *pad, TObject *obj)
 {
 #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
@@ -1209,7 +1211,7 @@ void QRootCanvas::actiavteEditor(TPad *pad, TObject *obj)
 void QRootCanvas::cleanupEditor()
 {
 #ifndef __NOGO4GED__
-//   std::cout << "TGo4ViewPanel::CleanupGedEditor()" << std::endl;
+//   std::cout << "QRootCanvas::CleanupGedEditor()" << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if (!ed) return;
    if (fDummyHisto == 0) {
@@ -1241,4 +1243,15 @@ void QRootCanvas::setStatusBarVisible(bool flag)
 
    setShowEventStatus(flag);
    fStatusBar->setVisible(flag);
+}
+
+
+// JAM2019 test order of creation for ged parent window in qt4:
+void QRootCanvas::BuildEditorWindow()
+{
+  //std::cout<< "QRootCanvas::BuildEditorWindow() will create Root window" <<std::endl;
+  fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
+  QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
+  gedlayout->setContentsMargins(0, 0, 0, 0);
+  gedlayout->addWidget(fxRooteditor);
 }
