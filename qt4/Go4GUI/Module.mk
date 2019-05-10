@@ -40,7 +40,6 @@ endif
 
 
 ifdef withweb
-GO4GUI4_QMAKEFLAGS += "CONFIG += c++14"
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
