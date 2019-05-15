@@ -1076,8 +1076,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
            int flags=0;
            stepconf->GetHDF5Store(flags);
            fs << "go4->StepHDF5Store(\"" << stepconf->GetStepName().toLatin1().constData() << "\", \""
+                                         << storename.toLatin1().constData() << "\", "
                                          << flags << ");" << std::endl;
-
            break;
          }
 
