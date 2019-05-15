@@ -134,6 +134,11 @@
             <string>User Source</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>Go4HDF5 (*.h5)</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>

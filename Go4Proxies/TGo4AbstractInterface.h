@@ -473,6 +473,12 @@ class TGo4AbstractInterface : public TObject {
                           int port,
                           const char* expr) {}
 
+      /** Set hdf5 data source as step data source */
+      virtual void StepHDF5Source(const char* stepname,
+                              const char* sourcename,
+                              int timeout) {}
+
+
       /** Set file as step data storage */
       virtual void StepFileStore(const char* stepname,
                          const char* storename,
@@ -487,6 +493,12 @@ class TGo4AbstractInterface : public TObject {
                          const char* storename,
                          int bufsize,
                          int splitlevel) {}
+
+      /** Set hdf5 data source as step data storage*/
+          virtual void StepHDF5Store(const char* stepname,
+                                  const char* storename,
+                                  int flags) {}
+
 
       // windows management
 

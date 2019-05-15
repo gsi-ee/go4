@@ -39,6 +39,7 @@
 #ifdef __GO4HDF5__
 //#include "H5Cpp.h"
 #include "TGo4HDF5StoreParameter.h"
+#include "TGo4HDF5SourceParameter.h"
 #endif
 
 #include "Go4EventServerTypes.h"
@@ -57,7 +58,8 @@ enum SourceComboKinds {
    kind_MbsEvent = 4,
    kind_MbsREvent = 5,
    kind_MbsRandom = 6,
-   kind_UserSource = 7
+   kind_UserSource = 7,
+   kind_HDF5 = 8
 };
 
 
@@ -67,7 +69,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    setObjectName( name ? name : "Go4ConfigStep");
 
    setupUi(this);
-
+   fStepNumber=0;
    fxPanel = 0;
    fStepStatus = 0;
 
@@ -97,6 +99,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
 
 #ifndef __GO4HDF5__
    OutputCombo->removeItem(2);
+   EventSourceCombo->removeItem(8);
 #endif
 
 }
@@ -338,6 +341,7 @@ int TGo4ConfigStep::CurrentSourceKind()
       case GO4EV_MBS_REVSERV: return kind_MbsREvent;
       case GO4EV_MBS_RANDOM: return kind_MbsRandom;
       case GO4EV_USER: return kind_UserSource;
+      case GO4EV_HDF5: return kind_HDF5;
    } // SourcePar->GetID()
 
    return kind_MbsFile;
@@ -370,6 +374,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
    switch(srcpar->GetID()) {
       case GO4EV_FILE:
       case GO4EV_MBS_FILE:
+      case GO4EV_HDF5:
          filename = srcpar->GetName();
          break;
 
@@ -423,6 +428,12 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
       case kind_UserSource:
          newpar = new TGo4UserSourceParameter(filename,"",port);
          break;
+#ifdef __GO4HDF5__
+      case kind_HDF5:
+        newpar = new TGo4HDF5SourceParameter(filename);
+        break;
+#endif
+
    }
 
    TGo4MbsSourceParameter* newmbspar = dynamic_cast<TGo4MbsSourceParameter*> (newpar);
@@ -568,6 +579,10 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          TextLabelTimeout->setVisible(fExtra);
          SpinBoxTimeout->setVisible(fExtra);
          break;
+
+      case kind_HDF5:            // hdf5 file
+        FileNameBtn->setEnabled(true);
+        break;
    }
 
    fBlocked--;
@@ -793,6 +808,11 @@ void TGo4ConfigStep::InputFileDialog()
        if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())) {
           filters = "all files  (*.*)";
        }
+#ifdef __GO4HDF5__
+        else if (sourcepar->InheritsFrom(TGo4HDF5SourceParameter::Class())) {
+           filters="Go4HDF5 (*.h5)";
+        }
+#endif
        else
           std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
    }
@@ -915,6 +935,15 @@ void TGo4ConfigStep::SetUserSource(int port, QString expr)
    LineEditArgs->setText(expr);
 }
 
+void TGo4ConfigStep::SetHDF5Source(QString name)
+{
+#ifdef __GO4HDF5__
+   EventSourceCombo->setCurrentIndex(kind_HDF5);
+   LineEditArgs->setText(name);
+#endif
+}
+
+
 int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval, int& nport, int & nretry)
 {
    name = SourceNameEdit->text();
@@ -1029,6 +1058,13 @@ void TGo4ConfigStep::GetBackStore(int& bufsize, int& splitlevel)
 {
    bufsize = BufferSize->value() * 1000;
    splitlevel = SplitLevel->value();
+}
+
+void TGo4ConfigStep::GetHDF5Store( int & flags)
+{
+#ifdef __GO4HDF5__
+  StoreOverwriteMode->isChecked() ? flags=GO4_H5F_ACC_TRUNC : flags=0;
+#endif
 }
 
 void TGo4ConfigStep::MbsMonitorBtn_clicked()

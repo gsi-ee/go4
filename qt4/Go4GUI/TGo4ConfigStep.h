@@ -45,6 +45,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void SetMbsPort(int port);
       virtual void SetMbsRetryCnt(int retry);
       virtual void SetRandomSource();
+      virtual void SetHDF5Source(QString name);
       virtual void SetUserSource( int port, QString expr );
       virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port, int & nretry);
       virtual void GetMbsFileSource( QString & TagFile );
@@ -56,7 +57,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void GetFileStore( bool & overwrite, int & bufsize, int & splitlevel, int & compression, int & autosaveinterval );
       virtual void GetBackStore( int & bufsize, int & splitlevel );
       virtual void SetHDF5Store(QString name, int flags);
-
+      virtual void GetHDF5Store( int & flags);
    public slots:
 
       virtual void InputArguments( const QString & Arg );
@@ -92,7 +93,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       int fBlocked;    // indicates if all value-modified slots are blocked
       bool fExtra;     // show extra properties for event source
 
-      enum { ParsSize = 8 };
+      enum { ParsSize = 9 };
 
       TGo4EventSourceParameter* fPars[ParsSize]; // array of parameters which are used to preserved once edited values
 

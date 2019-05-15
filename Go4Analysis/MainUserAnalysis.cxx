@@ -39,6 +39,14 @@
 #include "TGo4AnalysisClient.h"
 #include "Go4EventServer.h"
 #include "Go4EventServerTypes.h"
+
+#ifdef __GO4HDF5__
+#include "TGo4HDF5SourceParameter.h"
+#include "TGo4HDF5StoreParameter.h"
+
+#endif
+
+
 #include "TGo4FileStore.h"
 
 #define PROCESSLOOPDELAY 20
@@ -61,6 +69,9 @@ void printsources()
    std::cout << "  -evserv server       :  connect to MBS event server (short: -ev)" << std::endl;
    std::cout << "  -revserv server [port] :  connect to remote event server (short: -rev)" << std::endl;
    std::cout << "  -random              :  use random generator as source (short: -rnd)" << std::endl;
+#ifdef __GO4HDF5__
+   std::cout << "  -hdf5 name           :  use HDF5 formatted file (h5) as event source" << std::endl;
+#endif
    std::cout << "  -user name           :  create user-defined event source" << std::endl;
    std::cout << "  -timeout tm          :  specify timeout parameter for event source" << std::endl;
    std::cout << "  -skip num            :  skip num first events in mbs event source" << std::endl;
@@ -182,6 +193,9 @@ void usage(const char* subtopic = 0)
    std::cout << "  -random              :  use random generator as source" << std::endl;
    std::cout << "  -user name           :  create user-defined event source" << std::endl;
    std::cout << "  -source filename     :  read step input from the root file" << std::endl;
+#ifdef __GO4HDF5__
+   std::cout << "  -hdf5 filename :  read step input from hdf5 file (.h5)" << std::endl;
+#endif
    std::cout << "  -skip num            :  skip num first events in mbs event source" << std::endl;
    std::cout << "  -mbs-select first last step : select events interval from mbs source" << std::endl;
    std::cout << "  -timeout tm          :  specify timeout parameter for event source" << std::endl;
@@ -191,6 +205,9 @@ void usage(const char* subtopic = 0)
    std::cout << "  -overwrite-store     :  overwrite file, when store output" << std::endl;
    std::cout << "  -append-store        :  append to file, when store output" << std::endl;
    std::cout << "  -backstore name      :  create backstore for online tree draw" << std::endl;
+#ifdef __GO4HDF5__
+   std::cout << "  -hdf5store filename  :  write step output into hdf5 file (.h5)" << std::endl;
+#endif
    std::cout << "  -enable-store        :  enable step store" << std::endl;
    std::cout << "  -disable-store       :  disable step store" << std::endl;
    std::cout << "  -enable-errstop      :  enable stop-on-error mode" << std::endl;
@@ -891,8 +908,23 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            showerror("MBS Event server name not specified");
-      } else
+            showerror("User source name not specified");
+      }
+#ifdef __GO4HDF5__
+      else
+      if (strcmp(argv[narg],"-hdf5")==0) {
+               if (++narg < argc) {
+                  TGo4HDF5SourceParameter sourcepar(argv[narg++]);
+                  step->SetEventSource(&sourcepar);
+                  step->SetSourceEnabled(kTRUE);
+                  autorun = true;
+               } else
+                  showerror("HDF5 file name not specified");
+            }
+#endif
+
+
+      else
       if ((strcmp(argv[narg],"-revserv")==0) || (strcmp(argv[narg],"-rev")==0)) {
          if (++narg < argc) {
             const char* serv_name = argv[narg++];
@@ -1011,6 +1043,16 @@ int main(int argc, char **argv)
          } else
             showerror("Backstore name not specified");
       } else
+#ifdef __GO4HDF5__
+        if(strcmp(argv[narg],"-hdf5store")==0) {
+                 if (++narg < argc) {
+                    TGo4HDF5StoreParameter storepar(argv[narg++]);
+                    step->SetEventStore(&storepar);
+                    step->SetStoreEnabled(kTRUE);
+                 } else
+                    showerror("HDF5 store name not specified");
+              } else
+#endif
       if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0) || (strcmp(argv[narg],"-num")==0)) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;

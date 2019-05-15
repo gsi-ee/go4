@@ -650,6 +650,18 @@ void TGo4Script::StepUserSource(const char* stepname,
    }
 }
 
+
+void TGo4Script::StepHDF5Source(const char* stepname,
+                                const char* sourcename,
+                                int timeout)
+{
+    TGo4ConfigStep* step = GetStepGUI(stepname);
+     if (step) {
+        step->SetHDF5Source(sourcename);
+        step->SetSourceWidgets(sourcename, timeout);
+     }
+}
+
 void TGo4Script::StepFileStore(const char* stepname,
                                const char* storename,
                                bool overwrite,
@@ -672,6 +684,17 @@ void TGo4Script::StepBackStore(const char* stepname,
    if (step)
       step->SetBackStore(storename, bufsize, splitlevel);
 }
+
+
+void TGo4Script::StepHDF5Store(const char* stepname,
+           const char* storename,
+           int flags)
+{
+  TGo4ConfigStep* step = GetStepGUI(stepname);
+    if (step)
+       step->SetHDF5Store(storename, flags);
+}
+
 
 void TGo4Script::SetMainWindowState(int qtversion, const char* val)
 {
@@ -998,6 +1021,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                        << expr.toLatin1().constData() << "\"";
            break;
          }
+         case 8:
+           fs << "go4->StepHDF5Source" << srcargs;
+           break;
+
 
       } //  switch(nsrc)
       fs << ");" << std::endl;
@@ -1042,7 +1069,18 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                           << bufsize << ", "
                                           << splitlevel << ");" << std::endl;
             break;
+
+
          }
+         case 2:{
+           int flags=0;
+           stepconf->GetHDF5Store(flags);
+           fs << "go4->StepHDF5Store(\"" << stepconf->GetStepName().toLatin1().constData() << "\", \""
+                                         << flags << ");" << std::endl;
+
+           break;
+         }
+
       } // switch
 
       fs << std::endl;

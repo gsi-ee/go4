@@ -185,6 +185,20 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
       }
       return 0;
    }
+  catch (TGo4EventSourceException& ex)
+      {
+        fxAnalysisClient->SendStatusMessage(3, kTRUE,
+            TString::Format("%s throws exception with event source %s ", ex.GetSourceClass(), ex.GetSourceName()));
+        // note: we do not forwa<rd the ex.GetErrMess here, since message from hdf5source may contain class names
+        // with :: characters. These are interpreted in go4 taskhandler message mechanism as separators for message receiver,
+        // i.e. everything before the :: is discarded.
+        // we leave this conflict as is and select what we want to see in log window JAM 5-2019
+
+        if (fxAnalysis->IsErrorStopEnabled())
+          fxAnalysisClient->Stop();
+        return 0;
+      }
+
    catch(TGo4EventStoreException& ex)
         {
              fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(

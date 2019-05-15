@@ -28,6 +28,9 @@
 #ifdef __GO4HDF5__
 #include "TGo4HDF5StoreParameter.h"
 #include "TGo4HDF5Store.h"
+#include "TGo4HDF5SourceParameter.h"
+#include "TGo4HDF5Source.h"
+
 #endif
 
 #include "TGo4EventSource.h"
@@ -162,6 +165,14 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
       {
          rev = new TGo4MbsRandom(dynamic_cast<TGo4MbsRandomParameter* > (par) );
       }
+#ifdef __GO4HDF5__
+      else if(!strcmp(par->ClassName(),"TGo4HDF5SourceParameter"))
+       {
+               rev = new TGo4HDF5Source(dynamic_cast<TGo4HDF5SourceParameter* > (par));
+       }
+#endif
+
+
       else if(!strcmp(par->ClassName(),"TGo4UserSourceParameter"))
       {
          rev = new TGo4MbsRandom(par->GetName());

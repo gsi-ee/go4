@@ -139,6 +139,11 @@ class TGo4Script : public TGo4AbstractInterface {
                           int port,
                           const char* expr);
 
+      void StepHDF5Source(const char* stepname,
+                                 const char* sourcename,
+                                 int timeout);
+
+
       void StepMbsPort(const char* stepname,
                        int port);
 
@@ -158,6 +163,10 @@ class TGo4Script : public TGo4AbstractInterface {
                          const char* storename,
                          int bufsize,
                          int splitlevel);
+
+      void StepHDF5Store(const char* stepname,
+            const char* storename,
+            int flags);
 
       // windows management
 

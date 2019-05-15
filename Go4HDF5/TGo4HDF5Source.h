@@ -89,7 +89,8 @@ class TGo4HDF5Source : public TGo4EventSource {
 
        H5::DataSpace* fxMemorySpace; //!
 
-       H5::DataSpace* fxFileSpace; //!
+       H5::DataSpace fxFileSpace; //!
+
 #endif
 
        /** True if branch already exists. Used for automatic creation
@@ -99,9 +100,15 @@ class TGo4HDF5Source : public TGo4EventSource {
        /** Points to event structure to be filled into dataset. */
        TGo4EventElement * fxEvent; //!
 
+       /** read buffer for hdf5*/
+       Char_t* fxReadBuffer; //!
 
        /** size of event structure in bytes, for redefining output dataset*/
        size_t fiEventSize;
+
+       /** begin of real eventdata payload after event object pointer**/
+       size_t fiReadOffset;
+
 
 #ifndef __CINT__
        /** counter of filled events. */

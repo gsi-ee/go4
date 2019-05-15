@@ -35,7 +35,11 @@ Changes in Go4 v5.9.x (2019)
 5. New class TGo4RollingGraph. Implements a trending plot as TMultiGraph with variable size and averaging. 
    Added corresponding creation methods MakeRollingGraph to analysis API. It also provides now methods MakeGraph()
    for given point arrays, and for a given TF1 function. 
-   Adopted from existing code of the TRemi (reaction microscope) analysis (thanks to Sven Augustin)   
+   Adopted from existing code of the TRemi (reaction microscope) analysis (thanks to Sven Augustin) 
+6. First implementation of Go4 eventsource from hdf5 file format. Needs to specifiy HDF5INSTALL directory when 
+   compiling go4 installation. Such hdf5 files can be read into the input event which have been produced by the corresponding
+   Go4 HDF5 store only. Note: Only simple datatypes and arrays of these are supported in the data structure, no composite events. 
+  
 
 Changes in Go4 v5.3.2 (October 2018)
 1. Add Output of current filename to GUI log indow in case of MBS listmode list event source.

@@ -534,7 +534,15 @@ Int_t TGo4Analysis::Process()
       }
       //return 0;
    }
-
+   catch(TGo4EventSourceException& ex)
+       {
+          Message(3,"Event source throws exception: %s",ex.GetErrMess());
+          if(IsErrorStopEnabled()) {
+             if(fxAnalysisSlave) fxAnalysisSlave->Stop();
+             rev=-1;
+          }
+          //return 0;
+       }
 
    catch(TGo4EventStoreException& ex)
      {
@@ -769,7 +777,20 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          {
             ex.Handle(); // just show timeout message, continue event loop
          }
-
+         catch (TGo4EventSourceException& ex)
+         {
+           Message(3, ex.GetErrMess());
+           PostLoop();
+           if (iswebserver)
+           {
+             fxDoWorkingFlag = flagPause;    // errors: stop event loop
+             ex.Handle();
+           }
+           else
+           {
+             throw;    // return to shell if not remotely controlled
+           }
+         }
          catch (TGo4EventStoreException& ex)
           {
             Message(3, ex.GetErrMess());
