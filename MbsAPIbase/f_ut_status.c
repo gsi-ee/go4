@@ -83,11 +83,6 @@ INTS4 f_ut_status_ini(s_daqst *ps_daqst)
 }
 
 
-
-
-
-
-
 /*****************+***********+****************************************/
 /*                                                                    */
 /*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
@@ -158,9 +153,8 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
 {
   INTS4 l_swap=0, len_64, n_trg, max_proc;
   INTS4 l_cmd;
-  INTS4 i,k;
+  INTS4 k;
   INTS4 l_status;
-  INTU4 *pc;
 
   memset((void *)ps_daqst,0,sizeof(s_daqst));
   l_cmd=1;
@@ -424,7 +418,7 @@ INTS4 f_ut_setup_copy32(s_setup *ps_setup, s_setup_32_receiver* src)
 INTS4 f_ut_setup(s_setup *ps_setup, INTU4 *pl_o, INTS4 l_tcp)
 {
 INTS4 i,l,k,n=0,l_status;
-INTU4 *pl_count,*pl_s,*pl_size;
+INTU4 *pl_count,*pl_size;
 
 l_status = f_ut_setup_ini(ps_setup);
 
@@ -527,7 +521,7 @@ l_cmd=2;
 l_status = f_stc_write (&l_cmd,4,l_tcp);                 if (l_status != STC__SUCCESS) return(-1);
 l_status = f_stc_read (&ps_setup->l_endian,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_setup->l_endian != 1) l_swap = 1;
-if(l_swap == 1) l_status = f_swaplw(&ps_setup->l_endian,4,NULL);
+if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup->l_endian,4,NULL);
 if((ps_setup->l_version != VERSION__SETUP) && (ps_setup->l_version != 1))
 {
   printf ("f_ut_setup_r sees setup version %d, current version is %d", ps_setup->l_version, VERSION__SETUP);
@@ -542,7 +536,7 @@ if(ps_setup->l_fix_lw == 40)
   l_status = f_stc_read (&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
              l_status = f_stc_read (&l_items,4 , l_tcp,-1);
              l_status = f_stc_read (&l_size,4 , l_tcp,-1);
-if(l_swap == 1) l_status = f_swaplw(&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
+if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
 if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
 if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
 
@@ -558,7 +552,7 @@ else if(ps_setup->l_fix_lw == 46)
   l_status = f_stc_read (&ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
                l_status = f_stc_read (&l_items,4 , l_tcp,-1);
                l_status = f_stc_read (&l_size,4 , l_tcp,-1);
-  if(l_swap == 1) l_status = f_swaplw(&ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
+  if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
   if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
   if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
 
@@ -577,7 +571,7 @@ else
 
 pl_b = (INTU4 *) malloc(l_size * l_items * 4);
              l_status = f_stc_read (pl_b,l_size * l_items * 4, l_tcp,-1);
-if(l_swap == 1) l_status = f_swaplw(pl_b,l_size * l_items,NULL);
+if(l_swap == 1) l_status = f_swaplw((INTS4 *) pl_b,l_size * l_items,NULL);
 
 pl_o = pl_b;
 for(i=0;i<l_items;i++)
@@ -686,8 +680,8 @@ return 0;
 /*1- C Procedure *************+****************************************/
 INTS4 f_ut_set_ml(s_set_ml *ps_set_ml, INTU4 *pl_o, INTS4 l_tcp)
 {
-INTS4 i,l,k,n=0,l_status;
-INTU4 *pl_count,*pl_s,*pl_size;
+INTS4 i,l,k,l_status;
+INTU4 *pl_count,*pl_s;
 
 l_status = f_ut_set_ml_ini(ps_set_ml);
 
@@ -748,7 +742,7 @@ l_cmd=3;
 l_status = f_stc_write (&l_cmd,4, l_tcp);                 if (l_status != STC__SUCCESS) return(-1);
 l_status = f_stc_read (&ps_set_ml->l_endian,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_set_ml->l_endian != 1) l_swap = 1;
-if(l_swap == 1) l_status = f_swaplw(&ps_set_ml->l_endian,4,NULL);
+if(l_swap == 1) l_status = f_swaplw((INTS4 *)&ps_set_ml->l_endian,4,NULL);
 if( (ps_set_ml->l_version != VERSION__SET_ML) && (ps_set_ml->l_version != 1)) return -1; // correct legacy MBS version
              l_status = f_stc_read (&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)*4 , l_tcp,-1);
 if(l_swap == 1) l_status = f_swaplw(&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)-4,NULL); /* last 16 byte are char */
@@ -825,12 +819,13 @@ return 0;
 /*1- C Procedure *************+****************************************/
 INTS4 f_ut_set_mo(s_set_mo *ps_set_mo, INTS4 l_tcp)
 {
-INTS4 l,l_status;
+   INTS4 l_status;
 
- l_status=f_ut_set_mo_ini(ps_set_mo);
- if(l_status != 0) return l_status;
-l_status = f_stc_write (ps_set_mo, ps_set_mo->l_set_mo_lw*4, l_tcp);
-return l_status;
+   l_status = f_ut_set_mo_ini(ps_set_mo);
+   if (l_status != 0)
+      return l_status;
+   l_status = f_stc_write(ps_set_mo, ps_set_mo->l_set_mo_lw * 4, l_tcp);
+   return l_status;
 }
 
 
@@ -869,7 +864,7 @@ if(ps_set_mo->l_endian != 1) l_swap=1;
 if(l_swap) l_status = f_swaplw((INTS4*)ps_set_mo,4,NULL);
 
 l_status = f_stc_read (&ps_set_mo->l_max_nodes,(ps_set_mo->l_set_mo_lw-4)*4,  l_tcp,-1);
-if(l_swap) l_status = f_swaplw(&ps_set_mo->l_max_nodes,ps_set_mo->l_swap_lw-4,NULL);
+if(l_swap) l_status = f_swaplw((INTS4*)&ps_set_mo->l_max_nodes,ps_set_mo->l_swap_lw-4,NULL);
 
 return 0;
 }
