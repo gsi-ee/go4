@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -468,10 +468,10 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
     LOUT
     ;
     sprintf (c_line, " l_out_mode _____________%5d l_wr_pipe_base_addr x%16lx", ps_set_ml->l_out_mode,
-        ps_set_ml->l_wr_pipe_base_addr);
+        (long unsigned) ps_set_ml->l_wr_pipe_base_addr);
     LOUT
     ;
-    sprintf (c_line, " l_wr_pipe_len ______x%016lx l_wr_pipe_n_frag _______%5d", ps_set_ml->l_wr_pipe_len,
+    sprintf (c_line, " l_wr_pipe_len ______x%016lx l_wr_pipe_n_frag _______%5d", (long unsigned) ps_set_ml->l_wr_pipe_len,
         ps_set_ml->l_wr_pipe_n_frag);
     LOUT
     ;
@@ -497,7 +497,7 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
       LOUT
       ;
       sprintf (c_line, "  %2d l_rd_pipe_base_addr x%16lx   l_rd_pipe_len _____x%016lx", i,
-          ps_set_ml->l_rd_pipe_base_addr[i], ps_set_ml->l_rd_pipe_len[i]);
+          (long unsigned) ps_set_ml->l_rd_pipe_base_addr[i], (long unsigned) ps_set_ml->l_rd_pipe_len[i]);
       LOUT
       ;
       sprintf (c_line, "  %2d l_rd_pipe_n_frag _______%5d   l_rd_host_flg _________%5d", i,
