@@ -7,9 +7,20 @@ GO4QT4DEP   :=
 
 include qt4/Go4GUI/Module.mk
 
+ifdef GO4_X11
+
 include qt4/Go4UserGUI/Makefile
 
-ifdef withweb
+else
+
+clean-qt4usergui: 
+	rm -rf qt4/Go4UserGUI/*.so qt4/Go4UserGUI/moc_*.* qt4/Go4UserGUI/*.o qt4/Go4UserGUI/ui_QUserPanel.h qt4/Go4UserGUI/Makefile.qt
+
+all-qt4usergui:
+
+endif
+
+ifdef GO4_WEB
 
 include qt4/WebUserGUI/Makefile
 

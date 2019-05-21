@@ -48,9 +48,14 @@ ifndef GO4WITHRPATH
 GO4WITHRPATH = true
 endif
 
-#ifeq ($(GO4_OS),Darwin)
+GO4_X11 = true
+GO4_WEB = 
+
+ifeq ($(GO4_OS),Darwin)
 #GO4WITHRPATH = false
-#endif
+GO4_WEB = true
+GO4_X11 =
+endif
 
 
 ## one can exclude dependency generation, calling "make nodepend=1"
@@ -156,10 +161,17 @@ HDF5LIBPATH = $(HDF5INSTALL)/lib
 HDF5INCLUDEPATH=$(HDF5INSTALL)/include
 endif
 
+
+# let disable X11 compilation
+ifdef nox11
+GO4_X11 = 
+endif
+
 #try to detect which QT version is configured if any
 
 # when building WebEngine, Qt5 is required
 ifdef withweb
+GO4_WEB = true
 ifndef QTDIR
 withqt=5
 endif
@@ -465,6 +477,12 @@ $(GO4SYS)/build/Makefile.gener: Makefile
 	@echo "#### Generated file, not change ###" >> $@
 	@echo "GO4_Configured = true" >> $@
 	@echo "GO4_OS       = $(GO4_OS)" >> $@
+ifdef GO4_X11
+	@echo "GO4_X11      = true" >> $@
+endif
+ifdef GO4_WEB
+	@echo "GO4_WEB      = true" >> $@
+endif
 	@echo "GO4PREFIX    = $(GO4PREFIX)" >> $@
 	@echo "GO4TOPPATH   = $(GO4TOPPATH)" >> $@
 	@echo "GO4EXEPATH   = $(GO4EXEPATH)" >> $@
@@ -490,7 +508,7 @@ endif
 	@echo "" >> $@
 	@echo "#### Available ROOT components" >> $@
 ifdef ISROOT6
-	@echo "ISROOT6   = true" >> $@
+	@echo "ISROOT6       = true" >> $@
 endif
 ifdef USEASIMAGE
 	@echo "USEASIMAGE    = true" >> $@
@@ -508,7 +526,7 @@ ifdef USEHTTPSERVER
 	@echo "USEHTTPSERVER = true" >> $@
 endif
 ifdef USEHTTPSNIFF
-	@echo "USEHTTPSNIFF = true" >> $@
+	@echo "USEHTTPSNIFF  = true" >> $@
 endif
 	@echo "" >> $@
 	@echo "### some other packets" >> $@
@@ -526,7 +544,6 @@ ifdef USEDABC
 	@echo "DABCINCPATH = $(DABCINCPATH)" >> $@
 	@echo "" >> $@
 endif
-
 ifdef USEHDF5
 	@echo "USEHDF5     = true" >> $@
 	@echo "HDF5LIBPATH = $(HDF5LIBPATH)" >> $@

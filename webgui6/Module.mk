@@ -1,4 +1,4 @@
-ifdef withweb
+ifdef GO4_WEB
 
 ## normally should be like this for every module, but can be specific
 

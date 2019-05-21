@@ -39,7 +39,11 @@ GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard
 endif
 
 
-ifdef withweb
+ifdef GO4_X11
+GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_X11"
+endif
+
+ifdef GO4_WEB
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
