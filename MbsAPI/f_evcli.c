@@ -199,10 +199,8 @@ static struct
 int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevents, int l_asample)
 /***************************************************************************/
 {
-  short                 i, i_h, i_m, i_s;
-  char                  arg[80], c_hms[16], c_help[4];
-  int                  l_evtecho,*pl;
-  char                  c_node[32], c_name[32], c_retmsg[256];
+  short                i_h, i_m, i_s;
+  char                 c_node[32], c_retmsg[256];
   int                  l_port;
 
   v_mem_clnup[0] = 0;
@@ -384,7 +382,6 @@ int f_evcli_buf(s_evt_channel *ps_chan)
 /***************************************************************************/
 {
   s_ve10_1 *ps_ve10_1;
-  int ii;
   char *ps_buf;
   /* ++++++++++++++++++++++++++++++ */
   /* +++ send acknowledge buffer +++ */
@@ -556,9 +553,6 @@ struct s_clnt_filter *p_clnt_filter;
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1;
    struct s_flt_descr *p_flt_descr;
-   struct s_pat1      *p_pat1;
-   struct s_pat2      *p_pat2;
-   struct s_pat3      *p_pat3;
 
    short              i_fltdescnt = 0;
    short              i_fltcnt = 0;
@@ -568,15 +562,14 @@ struct s_clnt_filter *p_clnt_filter;
    short              if_newfltblk = 1;
    short              i_next_fltblk = 0; // SL 16.11.2009 add initialization to 0
    short              i_descr;        /* test */
-   int               l_evtdescr, *pl_evtdescr, *pl_sev1descr, *pl_sev2descr;
+   int                l_evtdescr, *pl_evtdescr, *pl_sev1descr, *pl_sev2descr;
    short              i_lasevtflt, i_1stsevflt;
 
-   int unsigned      l_status, l_sts;
-   int unsigned      l_retsts = 0;
+   int unsigned       l_retsts = 0;
 
    /* +++ action +++ */
    if (i_debug == 2)
-      printf("--->D-%s: addr_filter p:%d\n", c_modnam, p_clnt_filter);
+      printf("--->D-%s: addr_filter p:%p\n", c_modnam, p_clnt_filter);
 
    /* init pointer */
    p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[0];
@@ -800,7 +793,7 @@ struct s_clnt_filter *p_clnt_filter;
       for (i = 1; i < i_fltdescnt; i++) {
     p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[i];
     p_filter    = (struct s_filter *)
-                       &p_clnt_filter->filter[p_flt_descr->h_fltblkbeg];
+                       &p_clnt_filter->filter[(int)p_flt_descr->h_fltblkbeg];
     p_opc1      = (struct s_opc1 *)      &p_filter->l_opcode;
 
     if ( (p_opc1->b1_selflt == 1) && (p_opc1->b1_evtsev == 1) )
@@ -847,7 +840,7 @@ struct s_clnt_filter *p_clnt_filter;
      p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[i];
     /* ++ addr of the first filter in the flt blk ++ */
     p_filter    = (struct s_filter *)
-                       &p_clnt_filter->filter[p_flt_descr->h_fltblkbeg];
+                       &p_clnt_filter->filter[(int)p_flt_descr->h_fltblkbeg];
     p_opc1      = (struct s_opc1 *)      &p_filter->l_opcode;
 
          } /* for */
@@ -924,6 +917,7 @@ char                 *c_file;                     /* ptr to file name        */
 
    int unsigned      l_pattern;
    int               l_offset;
+   int unsigned      l_offset_unsigned;
 
    short              i_evtsev,i_selflt,i_selwrt,i_opc,i_lnkf1,
                       i_lnkf2,i_fltspec;
@@ -1014,38 +1008,16 @@ char                 *c_file;                     /* ptr to file name        */
             printf("D-%s: line:%s", c_modnam, c_line);
 
     if_comment = 0;                   /* reset flag                    */
-    p_com = strpbrk(c_line,"!/*");    /* find position of comment      */
-    if (p_com != NULL)
-         {                                 /* found a comment               */
-            if_comment = 1;                /* set flag                      */
-       strcpy(c_comment,p_com);       /* copy comment                  */
+    p_com = strpbrk(c_line, "!/*");   /* find position of comment      */
+    if (p_com != NULL) {              /* found a comment               */
+       if_comment = 1;                /* set flag                      */
+       strcpy(c_comment, p_com);      /* copy comment                  */
        *p_com = '\0';                 /* mark end of str at beg of comm*/
-            if (i_debug == 2)
-               printf(" - D: comment:%s", c_comment);
-
+       if (i_debug == 2)
+          printf(" - D: comment:%s", c_comment);
     }
 
-         l_scan = sscanf(c_line,"%hd %hd %hd %hd %hd %hd %hd %ld %ld",
-                  &i_evtsev,
-        &i_selflt,
-        &i_selwrt,
-        &i_opc,
-                  &i_lnkf1,
-        &i_lnkf2,
-        &i_fltspec,
-        &l_pattern,
-        &l_offset);
-    if_hex = 0;                           /* set flag null             */
-         if (l_scan == 9)
-            goto m_ok_assign;
-
-    if_hex = 1;                           /* set flag null             */
-    p_minus = strchr(c_line,'-');         /* find minus sign in offset */
-
-    if (p_minus != 0)                     /* found minus sign          */
-            *p_minus = ' ';                    /* replace minus with blank  */
-
-         l_scan = sscanf(c_line,"%hd %hd %hd %hd %hd %hd %hd %lx %lx",
+    l_scan = sscanf(c_line,"%hd %hd %hd %hd %hd %hd %hd %u %d",
                   &i_evtsev,
                   &i_selflt,
                   &i_selwrt,
@@ -1055,10 +1027,30 @@ char                 *c_file;                     /* ptr to file name        */
                   &i_fltspec,
                   &l_pattern,
                   &l_offset);
+    if_hex = 0;                           /* set flag null             */
+    if (l_scan == 9)
+        goto m_ok_assign;
 
-    l_offset = (p_minus != NULL) ? -l_offset : l_offset;
+    if_hex = 1;                           /* set flag null             */
+    p_minus = strchr(c_line,'-');         /* find minus sign in offset */
 
-         if (l_scan < 9)
+    if (p_minus != NULL)                  /* found minus sign          */
+            *p_minus = ' ';               /* replace minus with blank  */
+
+         l_scan = sscanf(c_line,"%hd %hd %hd %hd %hd %hd %hd %x %x",
+                  &i_evtsev,
+                  &i_selflt,
+                  &i_selwrt,
+                  &i_opc,
+                  &i_lnkf1,
+                  &i_lnkf2,
+                  &i_fltspec,
+                  &l_pattern,
+                  &l_offset_unsigned);
+
+    l_offset = (p_minus != NULL) ? -1*(int)l_offset_unsigned : l_offset_unsigned;
+
+    if (l_scan < 9)
          {
        if (if_comment)
                goto m_read_nxtline;
@@ -1072,8 +1064,7 @@ char                 *c_file;                     /* ptr to file name        */
     }
 
      m_ok_assign:
-         if (i_debug == 2)
-         {
+     if (i_debug == 2)  {
             sprintf( c_retmsg,
                   "%s es:%d f:%d w:%d opc:%d lf1:%d lf2:%d flt:%d p:%x o:%x",
                   (if_hex) ? "HEX:" : "DEC:",
@@ -1085,18 +1076,18 @@ char                 *c_file;                     /* ptr to file name        */
                   i_lnkf2,
                   i_fltspec,
                   l_pattern,
-                  l_offset);
+                  (unsigned) l_offset);
             printf("D-%s: %s\n", c_modnam, c_retmsg);
          }
 
-     p_filter    = (struct s_filter *)    &p_clnt_filter->filter[i];
+    p_filter    = (struct s_filter *)    &p_clnt_filter->filter[i];
     p_opc1      = (struct s_opc1 *)      &p_filter->l_opcode;
 
     p_opc1->h_next_fltblk = (char) i_fltblklen + i_currflt;
     p_opc1->h_flt_len     = (char) i_fltblklen;
 
-    p_filter->l_pattern   = l_pattern;
-         p_filter->l_offset    = l_offset;
+    p_filter->l_pattern =      l_pattern;
+    p_filter->l_offset  =      l_offset;
 
     p_opc1->b1_evtsev =        i_evtsev;
     p_opc1->b1_selflt =        i_selflt;
