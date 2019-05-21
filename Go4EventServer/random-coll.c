@@ -91,7 +91,7 @@
 #define  _Cons    1
 #define  _Mask    0xFFFF
 #define  _Lo(X)   ((X)&_Mask)      /* the 16 LSB of X */
-#define  _Hi(X)   ((X>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
+#define  _Hi(X)   (((X)>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
 
 
 /*------------------------------------------------------------------------------
