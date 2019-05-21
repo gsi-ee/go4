@@ -176,15 +176,12 @@ static int i_debug = 0;                  /* message level (0-3) */
 
   static int unsigned  lf_swap = 0;                  /* save swap on RX     */
   static int unsigned  l_endian_serv;                /* save endian server  */
-  static int           l_len_lw1 = CLNT__BUFH_LW;    /* len for first swap  */
-  int                  l_len_lw2;                    /* len for 2nd   swap  */
-  int                   i_channel;                    /* TCP/IP channel      */
+  int                  i_channel;                    /* TCP/IP channel      */
   int unsigned         l_clnt_sts;                   /* status for ackn.    */
-  int         l_status, l_sts;
-  static char           c_modnam[] = "f_evcli";
-  short         if_typevt, i_sign = 1, i_len;
+  int                  l_status;
+  static char          c_modnam[] = "f_evcli";
+  short                i_sign = 1;
   int                  l_timeout;
-  int         l_retval;
   static struct s_tcpcomm s_tcpcomm_ec = {0,0,0};
 static struct
 {
@@ -202,6 +199,7 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
   short                i_h, i_m, i_s;
   char                 c_node[32], c_retmsg[256];
   int                  l_port;
+  int                  l_len_lw2, l_sts, l_retval;                /* len for 2nd   swap  */
 
   v_mem_clnup[0] = 0;
 
@@ -383,6 +381,8 @@ int f_evcli_buf(s_evt_channel *ps_chan)
 {
   s_ve10_1 *ps_ve10_1;
   char *ps_buf;
+  int  l_len_lw2, l_sts,  l_retval;                    /* len for 2nd   swap  */
+
   /* ++++++++++++++++++++++++++++++ */
   /* +++ send acknowledge buffer +++ */
   /* ++++++++++++++++++++++++++++++ */
@@ -903,21 +903,17 @@ char                 *c_file;                     /* ptr to file name        */
    static char        c_modnam[] = "f_fltrd";
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1;
-   struct s_flt_descr *p_flt_descr;
-   struct s_pat1      *p_pat1;
-   struct s_pat2      *p_pat2;
-   struct s_pat3      *p_pat3;
 
    char               c_retmsg[256];
    char               c_line[80], c_comment[80], *c_fsts, *p_com, *p_minus;
    short              i_fltblklen = 0;
-   short         i_currflt = 0;
+   short              i_currflt = 0;
    short              i, j;
-   int               l, l_scan=0;
+   int                l_scan=0;
 
-   int unsigned      l_pattern;
-   int               l_offset;
-   int unsigned      l_offset_unsigned;
+   int unsigned       l_pattern;
+   int                l_offset;
+   int unsigned       l_offset_unsigned;
 
    short              i_evtsev,i_selflt,i_selwrt,i_opc,i_lnkf1,
                       i_lnkf2,i_fltspec;
@@ -1180,7 +1176,7 @@ struct s_clnt_filter *p_clnt_filter;
    for (i = 0; i < i_fltdescnt; i++) {
       p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[i];
       p_filter    = (struct s_filter *)
-                    &p_clnt_filter->filter[p_flt_descr->h_fltblkbeg];
+                    &p_clnt_filter->filter[(int)p_flt_descr->h_fltblkbeg];
       p_opc1      = (struct s_opc1 *)      &p_filter->l_opcode;
 
     if ( (i_debug == 1) || (i_debug == 2) )
@@ -1200,9 +1196,9 @@ struct s_clnt_filter *p_clnt_filter;
       if (p_opc1->b1_evtsev == 0 && p_opc1->b1_selflt == 1)
       {
     p_filter = (struct s_filter *)
-                    &p_clnt_filter->filter[p_flt_descr->h_fltblkbeg];
-         if ( (i_debug == 1) || (i_debug == 2) )
-    printf(
+                    &p_clnt_filter->filter[(int)p_flt_descr->h_fltblkbeg];
+    if ( (i_debug == 1) || (i_debug == 2) )
+       printf(
          "   Filter set id is fltspec:%d == mask:H%x  (see 1st filt. below)\n",
           p_opc1->h_fltspec,
           p_filter->l_pattern);
@@ -1462,15 +1458,14 @@ int             l_timeout;
 int              i_chan;
 {
   /* ++++ declarations ++++ */
-int             l_maxbytes;
+  int            l_maxbytes;
   int            l_status,ii,im,*pl;                              /* !!! */
-  int           l_bytrec, l_2ndbuf_byt;
-  int           l_buftord, l_buffertype;
+  int            l_bytrec, l_2ndbuf_byt;
+  int            l_buftord, l_buffertype;
   static char    c_modnam[] = "f_read_server";
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
-  s_ve10_1 *ps_ve10_1;
 
   /* ++++ action       ++++ */
 
@@ -1480,12 +1475,11 @@ int             l_maxbytes;
   /* + + + read first buffer + + + */
   /* + + + + + + + + + + + + + + + */
   if (i_debug == 2)
-     printf(
-     "D-%s: **Rd 1st Buf: at %8x to %8x = %d bytes\n",
-            c_modnam,
-            (char *) p_clntbuf,
-            ((char *) p_clntbuf) + (CLNT__SMALLBUF - 1),
-            CLNT__SMALLBUF);
+     printf("D-%s: **Rd 1st Buf: at %p to %p = %d bytes\n",
+             c_modnam,
+             (char *) p_clntbuf,
+             ((char *) p_clntbuf) + (CLNT__SMALLBUF - 1),
+             CLNT__SMALLBUF);
 
 
   *p_bytrd = CLNT__SMALLBUF;
@@ -1556,16 +1550,15 @@ int             l_maxbytes;
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
      {
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
-
         printf("\n");
      }
-     printf("D-%s: **Rd 2nd Buf: at %8x (buf[%d]) to %8x = %d b\n",
+     printf("D-%s: **Rd 2nd Buf: at %p (buf[%d]) to %p = %d b\n",
             c_modnam,
             (char *) &p_clntbuf->c_buffer[CLNT__RESTBUF],
             CLNT__RESTBUF,
@@ -1621,11 +1614,11 @@ int             l_maxbytes;
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
      {
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
-        printf("%8x:%8x ",pl,*(pl));
+        printf("%p:%8x ",pl,*(pl));
         pl++;
 
         printf("\n");
@@ -1820,15 +1813,11 @@ int *p_keyb;
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
-  static char     c_modnam[] = "f_clnup";
   short    i;
-  int     l_status;
 
   for (i = 1; i <= v_mem[0]; i++)
   {
-    /*    printf("free %d of %d: %8x",i,v_mem[0],v_mem[i]);fflush(stdout);*/
      if(v_mem[i] != 0) free((int *) v_mem[i]);
-     /*     printf(" done\n");fflush(stdout);*/
      v_mem[i]=0;
   }
   v_mem[0]=0;
@@ -1840,13 +1829,8 @@ int *p_keyb;
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
-  static char     c_modnam[] = "f_clnup";
   short    i;
-  int     l_status;
 
-  /*  printf("all  %d:",v_mem[0]);fflush(stdout);*/
   v_mem[++v_mem[0]] = (long) p_keyb; /* was (int) before JA */
-
-  /*  printf("  %d: %8x\n",v_mem[0],(int)p_keyb);fflush(stdout);*/
 }
 /* ------------------------------------------------------------------------- */
