@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -294,10 +294,9 @@ uint32_t Items){
 }
 
 //===============================================================
-uint32_t fLmdPutClose(
-sLmdControl *pLmdControl){
-  int32_t iReturn,i;
-  lmdoff_t current,c;
+uint32_t fLmdPutClose(sLmdControl *pLmdControl)
+{
+  int32_t iReturn;
 
   if(pLmdControl->iBufferWords > pLmdControl->iLeftWords){ // write last buffer
     iReturn=fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
@@ -344,7 +343,7 @@ uint32_t fLmdConnectMbs(sLmdControl *pLmdControl,
       printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
    if(pLmdControl->iPort==PORT__STREAM)
       printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
-   stat=f_stc_connectserver(Nodename,pLmdControl->iPort,&pLmdControl->iTCP,pLmdControl->pTCP);
+   stat = f_stc_connectserver(Nodename,pLmdControl->iPort,(INTS4*) &pLmdControl->iTCP,pLmdControl->pTCP);
    if (stat != STC__SUCCESS) {
       printf ("fLmdConnectMbs: Error connect to %s \n",Nodename);
       fLmdCleanup(pLmdControl);
@@ -387,8 +386,6 @@ uint32_t fLmdInitMbs(sLmdControl *pLmdControl,
                      uint32_t iPort,
                      uint32_t iTimeout)
 {
-  int32_t stat;
-
   if(iBuffers > 1){printf("fLmdInitMbs: Event spanning not supported!\n");return(LMD__FAILURE);}
   if(iStreams > 0){printf("fLmdInitMbs: MBS not in DABC mode!\n");return(LMD__FAILURE);}
   pLmdControl->iPort=iPort;
@@ -449,9 +446,8 @@ uint32_t iBytes,
 uint32_t *iElements,
 uint32_t *iBytesUsed){
 
-  sMbsHeader *pm;
   sMbsBufferHeader *pBuf;
-  uint32_t *ps, *pd, i,ii, elem=0, size=0, usedBytes=0,leftBytes=0;
+  uint32_t usedBytes=0,leftBytes=0;
   int32_t iReturn;
   char cRequest[12];;
 
@@ -465,10 +461,10 @@ uint32_t *iBytesUsed){
     printf("fLmdGetMbsBuffer: Need buffer to read\n");
     return(LMD__FAILURE);
   }
-  if(leftBytes < sizeof(sMbsBufferHeader)){
-    printf("fLmdGetMbsBuffer: %s buffer size %d too small for %d bytes\n",
-     pLmdControl->cFile,leftBytes,sizeof(sMbsBufferHeader));
-    return(LMD__FAILURE);
+  if (leftBytes < sizeof(sMbsBufferHeader)) {
+     printf("fLmdGetMbsBuffer: %s buffer size %d too small for %d bytes\n", pLmdControl->cFile, leftBytes,
+            (int)sizeof(sMbsBufferHeader));
+     return (LMD__FAILURE);
   }
   // send request buffer for stream server
   if(pLmdControl->iPort == PORT__STREAM) {
@@ -481,8 +477,8 @@ uint32_t *iBytesUsed){
   if(iReturn != STC__SUCCESS) return(LMD__FAILURE);
   if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)pBuf,sizeof(sMbsBufferHeader)/4);
   if(leftBytes < (sizeof(sMbsBufferHeader)+2*pBuf->iUsedWords)){
-    printf("fLmdGetMbsBuffer: %s buffer size %d too small for %d bytes\n",
-     pLmdControl->cFile,leftBytes,sizeof(sMbsBufferHeader)+2*pBuf->iMaxWords);
+    printf("fLmdGetMbsBuffer: %s buffer size %d too small for %lu bytes\n",
+     pLmdControl->cFile,leftBytes,(long unsigned) (sizeof(sMbsBufferHeader)+2*pBuf->iMaxWords));
     return(LMD__FAILURE);
   }
   usedBytes=pBuf->iUsedWords*2;
@@ -509,8 +505,7 @@ uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
                      uint32_t iUseOffset)      // LMD__[NO_]INDEX
 {
    int32_t iReturn;
-   uint32_t l=0,i,bufferBytes=0,h[12];
-   lmdoff_t to;
+   uint32_t bufferBytes=0;
 
    memset(pLmdControl,0,sizeof(sLmdControl));
    if(pBuffHead == LMD__INTERNAL_HEADER){
@@ -526,7 +521,7 @@ uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
    strcpy(pLmdControl->cFile,Filename);
    if((pLmdControl->fFile=(FILE *)fopen64(Filename,"r"))== NULL)
    {
-      printf("fLmdGetOpen: File not found: %d\n",Filename);
+      printf("fLmdGetOpen: File not found: %s\n",Filename);
       fLmdCleanup(pLmdControl);
       return(GETLMD__NOFILE);
    }
@@ -595,54 +590,52 @@ uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
    return(LMD__SUCCESS);
 }
 //===============================================================
-uint32_t fLmdGetBuffer(
-sLmdControl *pLmdControl,
-sMbsHeader *pMbsHeader,
-uint32_t iBytes,
-uint32_t *iElements,
-uint32_t *iBytesUsed){
+uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_t iBytes, uint32_t *iElements,
+                       uint32_t *iBytesUsed)
+{
 
-  sMbsHeader *pm;
-  uint32_t *ps, *pd, i,ii, elem=0, size=0, leftBytes=0, used, elem_sz;
-  int32_t iReturn;
+   sMbsHeader *pm;
+   uint32_t elem = 0, leftBytes = 0, used, elem_sz;
+   int32_t iReturn;
 
-  if(iBytes < pLmdControl->pMbsFileHeader->iMaxWords){
-     printf("fLmdGetBuffer: %s buffer size %d too small for %d bytes\n",
-     pLmdControl->cFile,iBytes,pLmdControl->pMbsFileHeader->iMaxWords);
-    return(LMD__FAILURE);
-  }
-  if(pMbsHeader == NULL){
-    printf("fLmdGetBuffer: Need buffer to read\n");
-    return(LMD__FAILURE);
-  }
-  *iBytesUsed=0;
-  *iElements=0;
-  if(pLmdControl->iElements == pLmdControl->pMbsFileHeader->iElements) return(GETLMD__EOFILE);
+   if (iBytes < pLmdControl->pMbsFileHeader->iMaxWords) {
+      printf("fLmdGetBuffer: %s buffer size %d too small for %d bytes\n", pLmdControl->cFile, iBytes,
+             pLmdControl->pMbsFileHeader->iMaxWords);
+      return (LMD__FAILURE);
+   }
+   if (pMbsHeader == NULL) {
+      printf("fLmdGetBuffer: Need buffer to read\n");
+      return (LMD__FAILURE);
+   }
+   *iBytesUsed = 0;
+   *iElements = 0;
+   if (pLmdControl->iElements == pLmdControl->pMbsFileHeader->iElements)
+      return (GETLMD__EOFILE);
 
-  // Offset table
-  if(pLmdControl->iOffsetEntries){ // use offsets to read elements fitting in buffer
-    fLmdOffsetElements(pLmdControl,iBytes, &elem, &used);
-    //printf("Read %d bytes of %d, elements %d\n",used,iBytes,elem);
-    iReturn=fLmdReadBuffer(pLmdControl,(char *)pMbsHeader,used);
-    if(iReturn <= 0){
-      printf("fLmdGetBuffer: EOF: %s\n",pLmdControl->cFile);
-      return(GETLMD__EOFILE);
-    }
-    if(iReturn!=used) {
-      printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s %u %u\n",
-                 pLmdControl->cFile, iReturn, used);
-      return(GETLMD__NOLMDFILE);
-    }
-    *iBytesUsed=used;
-    *iElements=elem;
-    if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)pMbsHeader,iReturn/4);
-    pLmdControl->iBytes+=iReturn;
-    return(LMD__SUCCESS);
-  }
-  // no offset table
-  // do we have fragment stored?
-  leftBytes = pLmdControl->iLeftWords*2;
-  if(leftBytes>0) {
+   // Offset table
+   if (pLmdControl->iOffsetEntries) { // use offsets to read elements fitting in buffer
+      fLmdOffsetElements(pLmdControl, iBytes, &elem, &used);
+      // printf("Read %d bytes of %d, elements %d\n",used,iBytes,elem);
+      iReturn = fLmdReadBuffer(pLmdControl, (char *)pMbsHeader, used);
+      if (iReturn <= 0) {
+         printf("fLmdGetBuffer: EOF: %s\n", pLmdControl->cFile);
+         return (GETLMD__EOFILE);
+      }
+      if (iReturn != used) {
+         printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s %u %u\n", pLmdControl->cFile, iReturn, used);
+         return (GETLMD__NOLMDFILE);
+      }
+      *iBytesUsed = used;
+      *iElements = elem;
+      if (pLmdControl->iSwap)
+         fLmdSwap4((uint32_t *)pMbsHeader, iReturn / 4);
+      pLmdControl->iBytes += iReturn;
+      return (LMD__SUCCESS);
+   }
+   // no offset table
+   // do we have fragment stored?
+   leftBytes = pLmdControl->iLeftWords * 2;
+   if (leftBytes > 0) {
       if (leftBytes > iBytes) {
          printf("fLmdGetBuffer: stored piece of data (%u) larger than provided buffer (%u)\n",
                     leftBytes, iBytes);
@@ -707,9 +700,10 @@ uint32_t *iBytesUsed){
   return(LMD__SUCCESS);
 }
 //===============================================================
-uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **event){
+uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **event)
+{
   sMbsHeader *pM;
-  uint32_t *ps, *pd, i, evsz;
+  uint32_t i, evsz;
   int32_t iReturn;
   *event=NULL;
 
@@ -995,7 +989,6 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
 //===============================================================
 uint32_t fLmdOffsetSet(sLmdControl *pLmdControl, uint32_t lwords)
 {
-  int32_t iReturn;
   if(pLmdControl->iElements >= pLmdControl->iOffsetEntries)fLmdOffsetResize(pLmdControl,0);
   if(pLmdControl->pOffset8){
     *(pLmdControl->pOffset8+pLmdControl->iElements)=
@@ -1008,12 +1001,13 @@ uint32_t fLmdOffsetSet(sLmdControl *pLmdControl, uint32_t lwords)
   return(LMD__SUCCESS);
 }
 //===============================================================
-lmdoff_t fLmdOffsetGet(sLmdControl *pLmdControl, uint32_t index){
-  if(pLmdControl->pOffset8)
-    return(*(pLmdControl->pOffset8+index));
-  if(pLmdControl->pOffset4)
-    return((lmdoff_t)*(pLmdControl->pOffset4+index));
-  return 0;
+lmdoff_t fLmdOffsetGet(sLmdControl *pLmdControl, uint32_t index)
+{
+   if (pLmdControl->pOffset8)
+      return (*(pLmdControl->pOffset8 + index));
+   if (pLmdControl->pOffset4)
+      return ((lmdoff_t) * (pLmdControl->pOffset4 + index));
+   return 0;
 }
 //===============================================================
 void fLmdOffsetResize(sLmdControl *pLmdControl, uint32_t firstValue){
@@ -1053,90 +1047,73 @@ void fLmdOffsetResize(sLmdControl *pLmdControl, uint32_t firstValue){
 //===============================================================
 void fLmdPrintBufferHeader(uint32_t iVerbose, sMbsBufferHeader *pMbsBufferHeader)
 {
-  if(iVerbose){
-    if(pMbsBufferHeader){
-    printf("BfHd: # %d, DataWords:%d Type:%08x Elements:%d sec:%d.%d MaxWords:%d\n",
-      pMbsBufferHeader->iBuffer,
-      pMbsBufferHeader->iUsedWords,
-      pMbsBufferHeader->iType,
-      pMbsBufferHeader->iElements,
-      pMbsBufferHeader->iTimeSpecSec,
-      pMbsBufferHeader->iTimeSpecNanoSec/1000,
-      pMbsBufferHeader->iMaxWords);
-}}}
+   if (iVerbose) {
+      if (pMbsBufferHeader) {
+         printf("BfHd: # %d, DataWords:%d Type:%08x Elements:%d sec:%d.%d MaxWords:%d\n", pMbsBufferHeader->iBuffer,
+                pMbsBufferHeader->iUsedWords, pMbsBufferHeader->iType, pMbsBufferHeader->iElements,
+                pMbsBufferHeader->iTimeSpecSec, pMbsBufferHeader->iTimeSpecNanoSec / 1000, pMbsBufferHeader->iMaxWords);
+      }
+   }
+}
 //===============================================================
 void fLmdPrintFileHeader(uint32_t iVerbose, sMbsFileHeader *pMbsFileHeader)
 {
-  if(iVerbose){
-    if(pMbsFileHeader){
-    printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %llx[%d]\n",
-      pMbsFileHeader->iUsedWords,
-      pMbsFileHeader->iType&0xffff,
-      pMbsFileHeader->iType>>16,
-      pMbsFileHeader->iElements,
-      pMbsFileHeader->iTimeSpecSec,
-      pMbsFileHeader->iTimeSpecNanoSec/1000,
-      pMbsFileHeader->iMaxWords,
-      pMbsFileHeader->iTableOffset,
-      pMbsFileHeader->iOffsetSize);
-}}}
+   if (iVerbose) {
+      if (pMbsFileHeader) {
+         printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %llx[%d]\n",
+                pMbsFileHeader->iUsedWords, pMbsFileHeader->iType & 0xffff, pMbsFileHeader->iType >> 16,
+                pMbsFileHeader->iElements, pMbsFileHeader->iTimeSpecSec, pMbsFileHeader->iTimeSpecNanoSec / 1000,
+                pMbsFileHeader->iMaxWords, pMbsFileHeader->iTableOffset, pMbsFileHeader->iOffsetSize);
+      }
+   }
+}
 //===============================================================
 void fLmdPrintHeader(uint32_t iVerbose, sMbsHeader *pMbsHeader)
 {
-  if(iVerbose){
-    if(pMbsHeader){
-    printf("ElHd: words:%d type:%08x\n",
-      pMbsHeader->iWords,
-      pMbsHeader->iType);
-}}}
+   if (iVerbose) {
+      if (pMbsHeader) {
+         printf("ElHd: words:%d type:%08x\n", pMbsHeader->iWords, pMbsHeader->iType);
+      }
+   }
+}
 //===============================================================
 void fLmdPrintEvent(uint32_t iVerbose, sMbsEventHeader *pMbsEventHeader)
 {
-  if(iVerbose){
-    if(pMbsEventHeader){
-    printf("EvHd: words:%6d type:%08x trigger:%2d #:%4d\n",
-      pMbsEventHeader->iWords,
-      pMbsEventHeader->iType,
-      pMbsEventHeader->iTrigger>>16,
-      pMbsEventHeader->iEventNumber);
-}}}
+   if (iVerbose) {
+      if (pMbsEventHeader) {
+         printf("EvHd: words:%6d type:%08x trigger:%2d #:%4d\n", pMbsEventHeader->iWords, pMbsEventHeader->iType,
+                pMbsEventHeader->iTrigger >> 16, pMbsEventHeader->iEventNumber);
+      }
+   }
+}
 //===============================================================
 void fLmdPrintControl(uint32_t iVerbose, sLmdControl *pLmdControl)
 {
-  if(iVerbose){
-    printf("Ctrl: file:%s words:%d left:%d bytes read:%lld elements:%d\n",
-      pLmdControl->cFile,
-      pLmdControl->iBufferWords,
-      pLmdControl->iLeftWords,
-           pLmdControl->iBytes,
-           pLmdControl->iElements
-    );
-    fLmdPrintFileHeader(iVerbose,pLmdControl->pMbsFileHeader);
-    fLmdPrintEvent(iVerbose,(sMbsEventHeader *)pLmdControl->pMbsHeader);
-}}
+   if (iVerbose) {
+      printf("Ctrl: file:%s words:%d left:%d bytes read:%lld elements:%d\n", pLmdControl->cFile,
+             pLmdControl->iBufferWords, pLmdControl->iLeftWords, pLmdControl->iBytes, pLmdControl->iElements);
+      fLmdPrintFileHeader(iVerbose, pLmdControl->pMbsFileHeader);
+      fLmdPrintEvent(iVerbose, (sMbsEventHeader *)pLmdControl->pMbsHeader);
+   }
+}
 //===============================================================
-void fLmdSwap4(uint32_t *array, uint32_t items){
-  uint32_t i, *pp;
-  pp=array;
-  for(i=0;i<items;i++){
-    //printf("Swap 4 %08x ",*pp);
-     *pp =
-     (*pp >> 24) +
-    ((*pp >>  8)&0x0000ff00) +
-    ((*pp <<  8)&0x00ff0000) +
-     (*pp << 24);
-     //printf("to %08x \n",*pp);
-     pp++;
-  }}
+void fLmdSwap4(uint32_t *array, uint32_t items)
+{
+   uint32_t i, *pp;
+   pp = array;
+   for (i = 0; i < items; i++) {
+      *pp = (*pp >> 24) + ((*pp >> 8) & 0x0000ff00) + ((*pp << 8) & 0x00ff0000) + (*pp << 24);
+      pp++;
+   }
+}
 //===============================================================
-void fLmdSwap8(uint64_t *array, uint32_t items){
-  uint64_t *pp;
-  uint32_t i,x;
-  pp=array;
-  for(i=0;i<items;i++){
-    //printf("Swap 8 %016llx ",*pp);
-    *pp = (*pp << 32) + (*pp >> 32);
-    //printf("to %016llx\n",*pp,*(pp+1));
-     pp++;
-  }}
-
+void fLmdSwap8(uint64_t *array, uint32_t items)
+{
+   uint64_t *pp;
+   uint32_t i;
+   pp = array;
+   for (i = 0; i < items; i++) {
+      *pp = (*pp << 32) + (*pp >> 32);
+      pp++;
+   }
+}
