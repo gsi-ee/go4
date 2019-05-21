@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -182,7 +182,6 @@ INTS4 f_ut_utime(INTS4, INTS4, CHARS *);
 static struct s_tcpcomm s_tcpcomm_st_evt;
 static CHARS c_temp[MAX_BUF_LGTH];
 static int l_gl_source_port = 0;
-static int l_gl_evt_check = 0;
 
 /*1+ C Procedure *************+****************************************/
 /*                                                                    */
@@ -244,7 +243,7 @@ INTS4 f_evt_get_subevent(s_ve10_1 *ps_ve10_1, INTS4 l_subevent, INTS4 **pl_se, I
 {
   s_ves10_1 *ps_ves10_1;
   INTS4      l_total,l_sub,l_sum;
-  INTS4      l,ll,l_status,*pl_next;
+  INTS4      ll,*pl_next;
 
   if(ps_ve10_1 == NULL) return(GETEVT__FAILURE);
   pl_next = (INTS4 *) (ps_ve10_1 + 1);
@@ -306,12 +305,11 @@ INTS4 f_evt_get_subevent(s_ve10_1 *ps_ve10_1, INTS4 l_subevent, INTS4 **pl_se, I
 INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,INTS4 l_hex,INTS4 l_data)
 {
    s_ves10_1 *ps_ves10_1;
-   s_ve10_1  *ps_ve10_1;
+   s_ve10_1 *ps_ve10_1;
    s_filhe *ps_filhe;
-   INTS2     *pi_data;
-   INTS4     *pl_data;
-   INTS4      l_mode,l_s;
-   INTS4      l,ll,l_status,l_ldata,l_used;
+   INTS4 *pl_data;
+   INTS4 l_s;
+   INTS4 l, ll, l_status, l_ldata, l_used;
    CHARS c_line[132];
    CHARS c_full[132];
    CHARS c_time[32];
@@ -563,15 +561,9 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 {
 
    INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_header_size, l_port;
-   INTS2 *pi;
    CHARS c_file[256], *pc_temp;
    s_filhe *ps_filhe;
-   struct s_varstr
-   {
-     INTS2 i_varstr;
-     CHARS c_varstr[128];
-   } s_varstr_file;
-   INTS4 l_status,ll;
+   INTS4 l_status;
 
    l_port = l_gl_source_port;
 
@@ -924,8 +916,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
 {
    INTS4 l_temp,l_prev_ok=1, l_stat, l_used;
    s_bufhe *ps_bufhe_cur;
-   s_ve10_1 *ps_ve10_1;
-   sMbsHeader *pevt;
+   sMbsHeader *pevt = NULL;
 
 // DABC
    if(ps_chan->pLmd != NULL){
@@ -937,7 +928,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
        l_stat=fLmdGetElement(ps_chan->pLmd,LMD__NO_INDEX, &pevt);
 
 // any error, then pointer is null
-if(pevt==NULL){
+   if(pevt==NULL){
      if (ps_chan->l_server_type == GETEVT__FILE){
          if(l_stat == GETLMD__NOMORE) return(GETEVT__NOMORE);
          if(l_stat == GETLMD__EOFILE) return(GETEVT__NOMORE);
@@ -1113,7 +1104,6 @@ if(pevt==NULL){
 INTS4 f_evt_get_close(s_evt_channel * ps_chan)
 {
    INTS4 l_close_failure;
-   INTS4 l_status;
 
 // DABC
    if(ps_chan->pLmd != NULL){
@@ -1207,17 +1197,12 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
 {
    s_filhe *ps_file_head;
    INTS4 l_write_size;
-   INTS4 l_status,ll;
+   INTS4 l_status;
    time_t s_timet;
    struct timeb s_timeb;
    /* because "timeb" is not "typedef", so we must use "struct" */
    CHARS c_mode[80];
    CHARS c_file[256], *pc_temp;
-   struct s_varstr
-   {
-     INTS2 i_varstr;
-     CHARS c_varstr[128];
-   } s_varstr_file;
 
 // DABC
    ps_chan->pLmd=NULL;
@@ -1250,9 +1235,9 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
     if((strcmp(pc_temp,".LMD") != 0) &&
       (strcmp(pc_temp,".lmd") != 0)) strcat(c_file,".lmd");
   }
-   if((ps_chan->l_channel_no=open(c_file,PUT__OPEN_APD_FLAG) )!= -1)
+   if((ps_chan->l_channel_no=open(c_file,PUT__OPEN_APD_FLAG) )!= -1) {
       return(PUTEVT__FILE_EXIST);
-   else
+   } else
    {
       if((ps_chan->l_channel_no=open(c_file,PUT__CRT_FLAG,
          DEF_FILE_ACCE) )== -1)
@@ -1263,16 +1248,13 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
          /* output file header */
          ps_file_head=(s_filhe *)ps_chan->pc_io_buf;
          /* if user specify file header */
-    if(ps_filhe != NULL)
-    {
-            memcpy(ps_file_head, ps_filhe,ps_chan->l_buf_size );
-         }
-         else
-    {
-            memset( ps_file_head, '\0', ps_chan->l_buf_size);
-            sprintf(ps_file_head->filhe_run, "Pid %d\0", getpid());
-            ps_file_head->filhe_run_l=strlen(ps_file_head->filhe_run);
-         }
+    if(ps_filhe != NULL) {
+       memcpy(ps_file_head, ps_filhe,ps_chan->l_buf_size );
+    } else {
+       memset( ps_file_head, '\0', ps_chan->l_buf_size);
+       sprintf(ps_file_head->filhe_run, "Pid %d%c", getpid(),'\0');
+       ps_file_head->filhe_run_l=strlen(ps_file_head->filhe_run);
+    }
             ps_file_head->filhe_dlen=ps_chan->l_buf_size/2;
             ps_file_head->filhe_subtype=1;
             ps_file_head->filhe_type=2000;
@@ -1469,9 +1451,8 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
 
 INTS4 f_evt_put_buffer(s_evt_channel *ps_chan, s_bufhe *ps_bufhe)
 {
-   INTS4 l_write_size, l_temp, l_free;
+   INTS4 l_write_size;
    INTS4 l_status;
-   CHARS *pc_addr;
 
 // DABC
    if(ps_chan->pLmd != NULL){
@@ -1517,7 +1498,6 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
 {
    INTS4 l_write_size, l_temp, l_temp2;
    INTS4 l_status;
-   CHARS *pc_addr;
 
 // DABC
    if(ps_chan->pLmd != NULL){
@@ -1804,7 +1784,6 @@ INTS4 f_evt_skip_buffer(s_evt_channel *ps_chan, INTS4 l_buffer)
 {
    INTS4 l_temp;
    CHARS * pc_temp;
-   INTS4 l_status,ii;
 
    pc_temp=(CHARS *)ps_chan->pc_io_buf;
    switch(ps_chan->l_server_type)
@@ -1914,7 +1893,6 @@ INTS4 f_evt_swap(CHARS * pc_source, INTS4 l_length)
 /*1- C Procedure ***********+******************************************/
 INTS4 f_evt_swap_filhe(s_bufhe *ps_bufhe)
 {
-  CHARS * p_s, * p_d;
   INTS4 ii;
   INTS2 *pi;
   s_filhe *ps_filhe;
@@ -1930,15 +1908,14 @@ INTS4 f_evt_swap_filhe(s_bufhe *ps_bufhe)
       ps_filhe->filhe_run_l  =ps_filhe->filhe_run_l  >>8;
       ps_filhe->filhe_exp_l  =ps_filhe->filhe_exp_l  >>8;
       pi=(INTS2 *)&ps_filhe->s_strings;
-      for(ii=0;ii<ps_filhe->filhe_lines;ii++)
-      {
-   *pi=*pi>>8;
-   pi += 40;
+      for(ii=0;ii<ps_filhe->filhe_lines;ii++) {
+         *pi=*pi>>8;
+         pi += 40;
       }
-      }
+   }
 
-      return(0);
-    } /* end of f_evt_swap */
+  return(0);
+} /* end of f_evt_swap */
 
 /*1- C Main ****************+******************************************/
 /*+ Module      : f_evt_get_buffer_ptr                                    */
@@ -2233,11 +2210,10 @@ return(1);
 INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
 {
   INTS4 ii,l_take_it,l_temp,l_chan,l_out,l_file_pos=0,l_bufnr=0,l_events=0;
-  INTS4 l_firste,*pl,l_len,l_last=-1,l_lin=0,l_fragsize, la_head[2];
-  INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_evsize,l_evt_buf_size=0;
-  INTS2 *pi;
+  INTS4 l_firste,*pl,l_len,l_last=-1,l_lin=0,l_fragsize;
+  INTS4 l_swap=0, l_swap_head, l_is_goosybuf, l_filehead=0, l_size=0, l_size_head, l_dummy, l_evsize,l_evt_buf_size=0;
   INTU4 *ps,*pd;
-  CHARS c_lmd[128], c_tag[128], *pc_temp,*pc_evt_buf=NULL;
+  CHARS *pc_evt_buf=NULL;
   s_ve10_1 *ps_ve10_1;
   s_bufhe *ps_bufhe;
   s_taghe s_taghe;
@@ -2259,7 +2235,7 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
     {
      printf("LMD format error: swap=%d, header=%d, isLMD=%d, size=%d\n",l_swap_head,l_filehead,l_is_goosybuf,l_size_head);
      close(l_chan);
-          return(GETEVT__NOLMDFILE);
+     return(GETEVT__NOLMDFILE);
     }
   /* read file header and first buffer and check for goosy header */
   if(l_filehead == 1)
@@ -2494,7 +2470,7 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_get_tagopen(s_evt_channel *ps_chan,CHARS *pc_tag,CHARS *pc_lmd, CHARS **ps_head, INTS4 l_prihe)
 {
-  INTS4 l_temp,ii;
+  INTS4 ii;
   s_bufhe *ps_bufhe;
 
   ps_chan->ps_tag = NULL; /* tagfile buffer */
@@ -2667,15 +2643,13 @@ INTS4 f_evt_get_tagnext(s_evt_channel *ps_chan,INTS4 l_skip, INTS4 **pl_event)
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_get_tagevent(s_evt_channel *ps_chan,INTS4 l_value, INTS4 l_type, INTS4 **pl_event)
 {
-  INTS4 l_temp,l_chan,l_tag,ii,kk,lb,l_tagbufs,l_tagrest,l_evt,l_off,l_typ,l_val,l_evsize,l_fragsize;
+  INTS4 ii,kk,l_evt,l_off,l_typ,l_val,l_evsize,l_fragsize;
   INTS4 la_head[2],*pl;
   CHARS *pc;
   s_ve10_1 *ps_ve10_1;
   s_bufhe *ps_bufhe;
   s_tag *ps_tag;
   s_tag s_tag_l;
-  s_filhe *ps_filhe;
-  s_evt_channel s_chan_i;
 
   l_typ=l_type;
   l_val=l_value;
