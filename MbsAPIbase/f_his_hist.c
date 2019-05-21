@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -82,13 +82,13 @@ s_his_comm s_his_comm_serv;
 INTS4 f_his_getbas(CHARS *pc_server, INTS4 l_port, CHARS *pc_base, CHARS *pc_access,INTS4 **p_buffer)
 {
 s_his_comm s_his_comm_cli;
-s_his_head *ps_his_head;
-INTS4 i_j,i_l,l_status,l_chan,l_swap,l_buffer,l_histos,l_size;
+INTS4 i_j,i_l,l_status,l_chan,l_swap,l_buffer;
 INTS4 *pl_all,*pl_l;
 s_compress               *ps_compress;
 struct s_tcpcomm *ps_tcpcli;
 
 ps_tcpcli = (struct s_tcpcomm *) malloc (sizeof( struct s_tcpcomm));
+pl_all = NULL;
 
 /* get base ***************************************************/
 s_his_comm_cli.lu_endian=1;
@@ -109,7 +109,7 @@ l_swap = (s_his_comm_cli.lu_endian > 1);
 if(l_swap) l_status = f_swaplw((INTS4 *)&s_his_comm_cli,5,NULL);
 if(s_his_comm_cli.l_status != COMM__SUCCESS) {l_status=s_his_comm_cli.l_status;goto g_return;}
 
-/* allocate buffer for comporessed base */
+/* allocate buffer for compressed base */
 pl_all  = (INTS4 *)malloc(s_his_comm_cli.lu_size);
 l_buffer = s_his_comm_cli.lu_size;
 /* break total buffer in TCP buffers */
