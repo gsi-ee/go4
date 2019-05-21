@@ -60,23 +60,14 @@ $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTPRO) $(
 	cd $(WEBUSERGUI_DIR); $(QMAKE) $(WEBUSERGUI_QTPRO) -o $(WEBUSERGUI_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) 
 
 $(WEBUSERGUI_QTLIB): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE) $(WEBUSERGUI_FH) $(WEBUSERGUI_FS) $(WEBUSERGUI_DEPRULES)  
-	@echo "Generating Qt part of the User GUI..."
+	@echo "Generating Qt part of the Web User GUI..."
 	+cd $(WEBUSERGUI_DIR); $(MAKEFORQT) -f $(WEBUSERGUI_QTMAKE) $(WEBUSERGUI_MFLAGS)
 ifeq ($(GO4_OS),Win32)
 	$(MV) $(WEBUSERGUI_DIR)/release/$(WEBUSERGUI_QTLIBNAME).* $(WEBUSERGUI_DIR)
 endif
 
 
-ifneq ($(GO4_OS),Darwin)
-
 all-qt5webusergui:  $(WEBUSERGUI_QTLIB)
-
-else
-
-all-qt5webusergui:
-	@echo "No user gui (yet) under Darwin"
-
-endif
 
 
 clean-qt5webusergui-bin:
