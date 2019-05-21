@@ -11,8 +11,8 @@ ExeSuf        =
 DllSuf        = so
 
 #### Compilers: ####
-CXX           = g++
-CC            = gcc
+CXX           = clang++
+CC            = clang
 
 #### Compiler optimisation flags: ####
 OPTIONS       = -fPIC
@@ -32,6 +32,7 @@ OPTIMIZEMODE  = -O2
 #### File system operations: ####
 LN            = ln -sf
 RM            = rm -f
+RMDIR         = rm -rf
 MV            = mv
 
 #### Linker definitions: ####
