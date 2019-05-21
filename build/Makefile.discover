@@ -57,6 +57,10 @@ GO4_WEB = true
 GO4_X11 =
 endif
 
+# let disable X11 compilation
+ifdef nox11
+GO4_X11 = 
+endif
 
 ## one can exclude dependency generation, calling "make nodepend=1"
 
@@ -102,17 +106,20 @@ ifeq ($(firstword $(subst ., ,$(ROOTVERSION))),6)
 ISROOT6 = true
 endif
 
-ifneq ($(wildcard $(ROOTLIBPATH)/libASImage.*),)
-USEASIMAGE    = true
-endif
 ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
 USESPECTRUM   = true
+endif
+ifneq ($(wildcard $(ROOTLIBPATH)/libXMLIO.*),)
+USEXMLIO      = true
+endif
+
+ifneq ($(GO4_X11),)
+ifneq ($(wildcard $(ROOTLIBPATH)/libASImage.*),)
+USEASIMAGE    = true
 endif
 ifneq ($(wildcard $(ROOTLIBPATH)/libGed.*),)
 USEGEDEDITOR  = true
 endif
-ifneq ($(wildcard $(ROOTLIBPATH)/libXMLIO.*),)
-USEXMLIO      = true
 endif
 
 # detecting right ROOT version to compile HTTP support
@@ -159,12 +166,6 @@ ifdef HDF5INSTALL
 USEHDF5  = true
 HDF5LIBPATH = $(HDF5INSTALL)/lib
 HDF5INCLUDEPATH=$(HDF5INSTALL)/include
-endif
-
-
-# let disable X11 compilation
-ifdef nox11
-GO4_X11 = 
 endif
 
 #try to detect which QT version is configured if any

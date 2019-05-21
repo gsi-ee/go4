@@ -117,6 +117,15 @@ int main(int argc, char **argv)
 
    bool prepare_for_client(false), traceon(false), usergui(false), useweb(false);
 
+#ifndef GO4_X11
+#ifdef GO4_WEBGUI
+   useweb = true;
+#else
+   std::cerr << "Failure, go4 build without x11 and without web support" << std::endl;
+   return -1;
+#endif
+#endif
+
    QString hotstart(""), dabcnode("");
    QStringList files, httpnodes;
 

@@ -93,5 +93,4 @@ LDFLAGS       += $(LDFLAGS_RPATH) -O
 OutPutOpt     = -o 
 
 GO4_WITH_RFIO = false
-LINKX11 = true
 USERT  = false

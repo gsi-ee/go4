@@ -45,6 +45,9 @@ OutPutOpt     = -o
 GO4_WITH_RFIO = true
 
 # required for new Linux to get X11 errors
+ifdef GO4_X11
 LINKX11 = true
+endif
+
 USERT  = true
 
