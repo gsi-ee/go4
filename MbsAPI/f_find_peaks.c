@@ -55,11 +55,10 @@ int f_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, double *
 #define LOW  2
 #define WIDTH  8
 
-  double r_sig_f     ;
-  int I,J,K,L     ;
-  double d_sum_prod  ;
-  double l_max_chan  ;
-  double *pl_data,d_max    ;
+  double r_sig_f;
+  int J;
+  double d_sum_prod;
+  double *pl_data,d_max;
 
   /* 2.0E2*SQRT(2.0E0*LOG(2.0E0))/100. */;
   r_sig_f      = 55.4518;

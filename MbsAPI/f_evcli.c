@@ -908,7 +908,7 @@ char                 *c_file;                     /* ptr to file name        */
    char               c_line[80], c_comment[80], *c_fsts, *p_com, *p_minus;
    short              i_fltblklen = 0;
    short              i_currflt = 0;
-   short              i, j;
+   short              i;
    int                l_scan=0;
 
    int unsigned       l_pattern;
@@ -1829,8 +1829,6 @@ int *p_keyb;
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
-  short    i;
-
   v_mem[++v_mem[0]] = (long) p_keyb; /* was (int) before JA */
 }
 /* ------------------------------------------------------------------------- */

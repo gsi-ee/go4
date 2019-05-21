@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -31,10 +31,9 @@
 //*************************************************************
 int f_radware_out1d(char *pc_file, char *pc_name, float *pr_data, int l_chan, int l_over)
 {
-  char c_retmsg[128];
   int  i32_fd, i32_bytes, i32_hislen;
-  int  l_status,ll,l_head[6],l_bytes;
-  char *pc,c_str[128];
+  int  l_status,l_head[6];
+  char c_str[128];
 
   if(l_over) // delete old file
 {
@@ -89,9 +88,9 @@ return(0);
 //*************************************************************
 int f_radware_out2d(char *pc_file, char *pc_name, int *pl_data, int l_chan, int l_over)
 {
-  int   i32_fd, i32_bytes, i32_hislen;
-  int   l_status,ll,l_head[6],l_bytes;
-  char  *pc,c_str[128];
+  int   i32_fd, i32_bytes;
+  int   l_status;
+  char  c_str[128];
 
 if(l_over)
 {

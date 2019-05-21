@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -20,7 +20,7 @@
 
 INTS4 f_ut_wild(CHARS *pc_test, CHARS *pc_wild)
 {
-INTS4 l_wild,l_test,l_len;
+INTS4 l_test,l_len;
 CHARS c_wild[256],c_test[256];
 CHARS *pc_h,*pc_n,*pc_w,*pc_s;
 strcpy(c_wild,pc_wild);
