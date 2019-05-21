@@ -313,8 +313,8 @@ INTS4 f_his_gethis(CHARS *pc_server, INTS4 l_port, CHARS *pc_base, CHARS *pc_acc
 {
 s_his_comm s_his_comm_cli;
 s_his_head *ps_his_head;
-INTS4 i_j,i_l,l_status,l_chan,l_swap,l_buffer,l_histos,l_size;
-INTS4 *pl_all,*pl_head,*pl_l;
+INTS4 i_j,i_l,l_status,l_chan,l_swap,l_buffer,l_size;
+INTS4 *pl_all,*pl_l;
 struct s_tcpcomm *ps_tcpcli;
 
 ps_tcpcli = (struct s_tcpcomm *) malloc (sizeof( struct s_tcpcomm));
@@ -417,7 +417,7 @@ return(l_status);
 /*1- C Main ****************+******************************************/
 INTS4 f_his_server(CHARS *pc_base, CHARS *pc_access, INTS4 *pl_port)
 {
-INTS4 *pl_l,i_j,i_l,ll,l_buffer,l_status;
+INTS4 l_status;
 
 ps_tcpserv  = (struct s_tcpcomm *) malloc (sizeof( struct s_tcpcomm));
 l_gl_serv_port=PORT__HIST_SERV;
@@ -477,7 +477,7 @@ return(0);
 /*1- C Main ****************+******************************************/
 INTS4 f_his_wait(INTS4 *pl_action, CHARS *pc_histo)
 {
-INTS4 *pl_l,i_j,i_l,ll,l_buffer,l_status;
+INTS4 l_status;
 /* Wait for client to connect */
     if(l_gl_serv_verb == 1) {printf("Waiting for client on port %d [%s] \n",l_gl_serv_port,c_gl_serv_access);}
     l_status = f_stc_acceptclient (ps_tcpserv, &l_gl_serv_chan);
@@ -562,7 +562,7 @@ return(COMM__SUCCESS);
 /*1- C Main ****************+******************************************/
 INTS4 f_his_senddir(s_his_head *ps_head, INTS4 l_histos)
 {
-INTS4 *pl_l,i_j,i_l,ll,l_buffer,l_status;
+INTS4 *pl_l,i_j,i_l,l_buffer,l_status;
 
 if(l_gl_serv_verb == 1) {printf("Send directory %s. \n",s_his_comm_serv.c_histo);}
 s_his_comm_serv.lu_histos=l_histos;
@@ -643,7 +643,7 @@ for(ll=0;ll<l_histos;ll++)
    l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
    if(l_status != STC__SUCCESS)
         { printf("error writing comm to client\n"); f_stc_discclient(l_gl_serv_chan); return(COMM__ERROR);}
-   if(l_gl_serv_verb == 1) {printf("%-32s %8d\n",ps_his_head->c_name,s_his_comm_serv.lu_size-sizeof(s_his_head));}
+   if(l_gl_serv_verb == 1) {printf("%-32s %8lu\n",ps_his_head->c_name, (long unsigned) s_his_comm_serv.lu_size-sizeof(s_his_head));}
    l_status = f_stc_write (ps_his_head,sizeof(s_his_head), l_gl_serv_chan);
    if(l_status != STC__SUCCESS)
    { printf("error writing header to client\n"); f_stc_discclient(l_gl_serv_chan); return(COMM__ERROR); }
