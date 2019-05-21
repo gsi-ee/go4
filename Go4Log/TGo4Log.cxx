@@ -260,10 +260,10 @@ void TGo4Log::Printf(Bool_t _stdout, const char* text)
    ProcessRedirection(1); // disable redirection
 
    if (_stdout) {
-      fprintf(stdout, text);
+      fprintf(stdout, "%s", text);
       fflush(stdout);
    } else {
-      fprintf(stderr, text);
+      fprintf(stderr, "%s", text);
       fflush(stderr);
    }
 
