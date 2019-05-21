@@ -115,8 +115,8 @@ unsigned p_iUniform(unsigned *seed)
 unsigned lo, hi;
 
 lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
-hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
-    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
+hi= _Lo(_Hi(*seed) * _Lo(_Mult)) + _Lo(_Hi(_Mult) * _Lo(*seed)) +
+    _Hi((_Lo(*seed) * _Lo(_Mult)) + _Cons);
 
 *seed= (hi<<16 | lo);
 return( *seed );
@@ -128,8 +128,8 @@ double p_dUniform(unsigned* seed)
 unsigned lo, hi;
 
 lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
-hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
-    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
+hi= _Lo(_Hi(*seed) * _Lo(_Mult)) + _Lo(_Hi(_Mult) * _Lo(*seed)) +
+    _Hi((_Lo(*seed) * _Lo(_Mult)) + _Cons);
 
 *seed= (hi<<16 | lo);
 return( ((double)*seed)/Scal );
