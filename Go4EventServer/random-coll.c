@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -87,11 +87,11 @@
 
 #define BETA_TURNING_POINT 2
 
-#define      _Mult   1664525
-#define      _Cons   1
-#define    _Mask   0xFFFF
-#define      _Lo(X)   (X&_Mask)      /* the 16 LSB of X */
-#define      _Hi(X)   ((X>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
+#define  _Mult    1664525
+#define  _Cons    1
+#define  _Mask    0xFFFF
+#define  _Lo(X)   ((X)&_Mask)      /* the 16 LSB of X */
+#define  _Hi(X)   ((X>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
 
 
 /*------------------------------------------------------------------------------
