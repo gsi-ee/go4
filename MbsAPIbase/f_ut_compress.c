@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -78,12 +78,10 @@
 /*1- C Procedure ***********+******************************************/
 INTS4 f_ut_compr_size(INTU1 *pc_input,INTS4 l_inlen)
 {
-INTU4 I,J,K,L,M,N;
 INTU4 l_bytes;
 INTU4 l_masks;
 INTU4 *pl_mask,*pl_end;
-INTU1 *pc_out,*pc_in;
-s_compress  *ps_compress;
+INTU1 *pc_in;
 
 pc_in =pc_input;
 l_bytes=0;
@@ -136,12 +134,9 @@ return(l_bytes+4*l_masks+sizeof(s_compress));
 /*1- C Procedure ***********+******************************************/
 INTS4 f_ut_compr_zeros(INTU1 *pc_input,INTS4 l_inlen)
 {
-INTU4 I,J,K,L,M,N;
+INTU4 I;
 INTU4 l_bytes;
-INTU4 l_mask;
-INTU4 *pl_mask;
-INTU1 *pc_out,*pc_in;
-s_compress  *ps_compress;
+INTU1 *pc_in;
 
 pc_in =pc_input;
 l_bytes=0;
@@ -227,7 +222,7 @@ return (l_bytes*100/l_inlen);
 /*1- C Procedure ***********+******************************************/
 INTS4 f_ut_compr_pack(INTU1 *pc_input,INTS4 l_inlen,INTU1 *pc_output,INTS4 l_outlen)
 {
-INTU4 I,J,K,L,M,N;
+INTU4 I;
 INTU4 l_bytes;
 INTU4 l_mask,l_masks;
 INTU4 *pl_mask;
@@ -350,9 +345,9 @@ return (l_bytes+4*l_masks+sizeof(s_compress));
 /*1- C Procedure ***********+******************************************/
 INTS4 f_ut_compr_unpack(INTU1 *pc_input,INTU1 *pc_output,INTS4 l_outlen)
 {
-INTU4 I,J,K,L,M,N;
+INTU4 L;
 INTU4 l_mask;
-INTU4 *pl_mask,*pl_tmp,*pl_out;
+INTU4 *pl_mask;
 INTU1 *pc_out,*pc_in;
 s_compress  *ps_compress;
 
