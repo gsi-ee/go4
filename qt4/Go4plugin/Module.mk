@@ -69,18 +69,18 @@ clean-qt4plugin:
 ifneq ($(wildcard $(PLUGIN4_DIR)/Makefile.qt),)
 	cd $(PLUGIN4_DIR); $(MAKE) -f Makefile.qt distclean 
 endif
-	@rm -f $(PLUGIN4_DIR)/*.o $(PLUGIN4_DIR)/*.so $(PLUGIN4_DIR)/Makefile.qt
-	@rm -fr $(PLUGIN4_DIR)/debug $(PLUGIN4_DIR)/release
-	@rm -f $(PLUGIN4_DIR)/QGo4LineEdit.*
-	@rm -f $(PLUGIN4_DIR)/QGo4BrowserTreeWidget.*
-	@rm -f $(PLUGIN4_DIR)/QGo4Widget.*
-	@rm -f $(PLUGIN4_DIR)/QFitItem.h $(PLUGIN4_DIR)/TGo4FitPanel.h $(PLUGIN4_DIR)/ui_TGo4FitPanel.h
-	@rm -f $(PLUGIN4_DIR)/QFitWidget.*
-	@rm -f $(PLUGIN4_DIR)/QFitNamedWidget.*
-	@rm -f $(PLUGIN4_DIR)/QFitModelWidget.*
-	@rm -f $(PLUGIN4_DIR)/QGo4CommandsHistory.*
-	@rm -f $(PLUGIN4_DIR)/QRootCanvas.*
-	@rm -f $(PLUGIN4_DIR)/QRootDialog.*
-	@rm -f $(PLUGIN4_DIR)/QRootWindow.*
+	@$(RM) $(PLUGIN4_DIR)/*.o $(PLUGIN4_DIR)/*.so $(PLUGIN4_DIR)/Makefile.qt
+	@$(RMDIR) $(PLUGIN4_DIR)/debug $(PLUGIN4_DIR)/release
+	@$(RM) $(PLUGIN4_DIR)/QGo4LineEdit.*
+	@$(RM) $(PLUGIN4_DIR)/QGo4BrowserTreeWidget.*
+	@$(RM) $(PLUGIN4_DIR)/QGo4Widget.*
+	@$(RM) $(PLUGIN4_DIR)/QFitItem.h $(PLUGIN4_DIR)/TGo4FitPanel.h $(PLUGIN4_DIR)/ui_TGo4FitPanel.h
+	@$(RM) $(PLUGIN4_DIR)/QFitWidget.*
+	@$(RM) $(PLUGIN4_DIR)/QFitNamedWidget.*
+	@$(RM) $(PLUGIN4_DIR)/QFitModelWidget.*
+	@$(RM) $(PLUGIN4_DIR)/QGo4CommandsHistory.*
+	@$(RM) $(PLUGIN4_DIR)/QRootCanvas.*
+	@$(RM) $(PLUGIN4_DIR)/QRootDialog.*
+	@$(RM) $(PLUGIN4_DIR)/QRootWindow.*
 
 clean-qt4:: clean-qt4plugin

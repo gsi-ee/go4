@@ -32,4 +32,4 @@ all-qt3plugin:
 	@echo "$(QTDIR)/plugins/designer directory"
 
 clean-qt3plugin:
-	@cd $(PLUGIN3_DIR); rm -f QGo4*.* QFit*.* moc_*.* *.o *.so Makefile
+	@cd $(PLUGIN3_DIR); $(RM) QGo4*.* QFit*.* moc_*.* *.o *.so Makefile

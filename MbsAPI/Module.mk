@@ -29,7 +29,7 @@ include/%.h: $(MBSAPI_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(MBSAPI_O) $(MBSAPI_DEP)
+	@$(RM) $(MBSAPI_O) $(MBSAPI_DEP)
 
 $(MBSAPI_DIR)/fLmd.$(ObjSuf) : DEFINITIONS += -D_LARGEFILE64_SOURCE
 

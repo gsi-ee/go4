@@ -41,5 +41,5 @@ endif
 endif
 
 clean-bin::
-	@rm -f $(GO4LOG_O) $(GO4LOG_DEP) 
+	@$(RM) $(GO4LOG_O) $(GO4LOG_DEP) 
 

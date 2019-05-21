@@ -31,4 +31,4 @@ include/%.h: $(GO4DISPL_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(GO4DISPL_O) $(GO4DISPL_DEP)
+	@$(RM) $(GO4DISPL_O) $(GO4DISPL_DEP)

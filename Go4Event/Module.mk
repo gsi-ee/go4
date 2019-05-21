@@ -41,5 +41,5 @@ include/%.h: $(GO4EVENT_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(GO4EVENT_O) $(GO4EVENT_DEP)
-	@rm -f $(GO4EVENTPAR_O) $(GO4EVENTPAR_DEP)
+	@$(RM) $(GO4EVENT_O) $(GO4EVENT_DEP)
+	@$(RM) $(GO4EVENTPAR_O) $(GO4EVENTPAR_DEP)

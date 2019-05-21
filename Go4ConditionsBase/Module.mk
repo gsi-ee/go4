@@ -35,4 +35,4 @@ include/%.h: $(CONDBASE_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(CONDBASE_O) $(CONDBASE_DEP)
+	@$(RM) $(CONDBASE_O) $(CONDBASE_DEP)

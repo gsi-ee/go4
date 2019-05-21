@@ -42,4 +42,4 @@ include/%.h: $(RAWAPI_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(RAWAPI_O) $(RAWAPI_DEP)
+	@$(RM) $(RAWAPI_O) $(RAWAPI_DEP)

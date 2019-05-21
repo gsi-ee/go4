@@ -24,7 +24,7 @@ plugin:: all-qt3plugin
 endif
 
 clean-qt3: clean-qt3-GUI clean-qt3usergui clean-qt3plugin
-	@rm -f build/Makefile.gener
+	@$(RM) build/Makefile.gener
 
 clean:: clean-qt3
 

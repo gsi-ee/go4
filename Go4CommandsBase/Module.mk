@@ -33,4 +33,4 @@ include/%.h: $(COMBASE_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(COMBASE_O) $(COMBASE_DEP)
+	@$(RM) $(COMBASE_O) $(COMBASE_DEP)

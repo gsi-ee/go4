@@ -32,4 +32,4 @@ include/%.h: $(GO4SOCKET_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(GO4SOCKET_O) $(GO4SOCKET_DEP)
+	@$(RM) $(GO4SOCKET_O) $(GO4SOCKET_DEP)

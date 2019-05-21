@@ -59,13 +59,13 @@ $(USERGUI3_QTLIB): $(USERGUI3_DIR)/$(USERGUI3_QTMAKE) $(USERGUI3_FORMSI) $(USERG
 all-qt3usergui:  $(USERGUI3_QTLIB)
 
 clean-qt3usergui-bin:
-	@rm -f $(USERGUI3_DIR)/*.o
+	@$(RM) $(USERGUI3_DIR)/*.o
 ifneq ($(wildcard $(USERGUI3_DIR)/$(USERGUI3_QTMAKE)),)
 	cd $(USERGUI3_DIR); $(MAKE) -f $(USERGUI3_QTMAKE) clean $(USERGUI3_QFLAGS)
 endif
-	@rm -f $(USERGUI3_DIR)/$(USERGUI3_QTMAKE)
+	@$(RM) $(USERGUI3_DIR)/$(USERGUI3_QTMAKE)
 
 clean-qt3usergui: clean-qt3usergui-bin
-	@rm -f $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf)*
+	@$(RM) $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf)*
 
 include $(GO4SYS)/Makefile.rules

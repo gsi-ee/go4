@@ -32,4 +32,4 @@ include/%.h: $(LOCKGRD_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(LOCKGRD_O) $(LOCKGRD_DEP) 
+	@$(RM) $(LOCKGRD_O) $(LOCKGRD_DEP) 

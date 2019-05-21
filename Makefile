@@ -59,7 +59,7 @@ Go4_Makefile_Rules = included
 
 ifdef GO4_WIN32
   GO4SYS = .
-endif   
+endif
 
 # new staff concerning big libraries
 

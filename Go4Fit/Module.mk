@@ -56,7 +56,6 @@ $(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DEPLIB)
 clean-mainlibs::
 	@$(CleanLib) $(GO4FIT_LIBNAME) $(GO4DLLPATH)
 
-
 clean-bin::
-	@rm -f $(GO4FIT_O) $(GO4FIT_DO)
-	@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)
+	@$(RM) $(GO4FIT_O) $(GO4FIT_DO)
+	@$(RM) $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)

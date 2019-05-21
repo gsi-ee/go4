@@ -32,4 +32,4 @@ include/%.h: $(STATBASE_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(STATBASE_O) $(STATBASE_DEP)
+	@$(RM) $(STATBASE_O) $(STATBASE_DEP)

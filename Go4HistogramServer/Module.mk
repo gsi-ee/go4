@@ -45,8 +45,8 @@ $(HISTSERV_EXE): $(HISTSERV_EXEO) $(GO4AN_LIB)
 all:: $(HISTSERV_EXE)
 
 clean-bin::
-	@rm -f $(HISTSERV_O) $(HISTSERV_DEP) 
-	@rm -f $(HISTSERV_EXEO) $(HISTSERV_EDEP)
+	@$(RM) $(HISTSERV_O) $(HISTSERV_DEP) 
+	@$(RM) $(HISTSERV_EXEO) $(HISTSERV_EDEP)
 
 clean::
-	@rm -f $(HISTSERV_EXE)
+	@$(RM) $(HISTSERV_EXE)

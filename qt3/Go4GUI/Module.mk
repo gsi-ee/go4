@@ -114,14 +114,14 @@ qt3-GUI: $(GO4QT3HEADS) libs $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)
 qt3-heads: $(GO4GUI3_FPUBH)
 
 clean-qt3-GUI-bin:
-	@rm -f $(GO4GUI3_DIR)/.obj/*.o
+	@$(RM) $(GO4GUI3_DIR)/.obj/*.o
 ifneq ($(wildcard $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)),)
 	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) clean "GO4SYS=../.."
 endif
-	@rm -f $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(FITGUI3_FH)
-	@rm -rf $(GO4GUI3_DIR)/.obj $(GO4GUI3_DIR)/.moc
+	@$(RM) $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(FITGUI3_FH)
+	@$(RMDIR) $(GO4GUI3_DIR)/.obj $(GO4GUI3_DIR)/.moc
 
 clean-qt3-GUI: clean-qt3-GUI-bin
-	@rm -f $(GO4SYS)/bin/go4
-	@rm -f $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
+	@$(RM) $(GO4SYS)/bin/go4
+	@$(RM) $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
 	@echo "Clean qt3 gui done"

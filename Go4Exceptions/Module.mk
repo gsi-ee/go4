@@ -33,4 +33,4 @@ include/%.h: $(EXCEPT_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(EXCEPT_O) $(EXCEPT_DEP)
+	@$(RM) $(EXCEPT_O) $(EXCEPT_DEP)

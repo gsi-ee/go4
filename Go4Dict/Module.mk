@@ -198,5 +198,4 @@ clean-mainlibs::
 
 
 clean-bin::
-	@rm -f $(GO4BASE_DICT).* $(GO4TSKH_DICT).* $(GO4ANBASE_DICT).* $(GO4AN_DICT).* $(GO4BGUI_DICT).* 
-	
+	@$(RM) $(GO4BASE_DICT).* $(GO4TSKH_DICT).* $(GO4ANBASE_DICT).* $(GO4AN_DICT).* $(GO4BGUI_DICT).* 

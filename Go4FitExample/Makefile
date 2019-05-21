@@ -220,12 +220,12 @@ endif
 fitexampletargets: $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean-bin::
-	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*
+	@$(RM) $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*
 
 clean:: clean-bin
-	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_DIR)/*.$(DllSuf)
+	@$(RM) $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_DIR)/*.$(DllSuf)
 	@$(CleanLib) $(FITEX2_LIBNAME) $(FITEX_DIR)
 	@$(CleanLib) $(FITEX4_LIBNAME) $(FITEX_DIR)
-	@rm -f $(FITEX_DIR)/*.bak $(FITEX_DIR)/Example*.root 
+	@$(RM) $(FITEX_DIR)/*.bak $(FITEX_DIR)/Example*.root 
 
 include $(GO4SYS)/Makefile.rules

@@ -58,7 +58,7 @@ libs::    $(BUILDGO4LIBS) go4login bin/go4-config
 examples:  $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
 clean:: clean-bin clean-mainlibs
-	@rm -f $(GO4MAP)
+	@$(RM) $(GO4MAP)
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@echo "Clean go4 threadmanager done"
 

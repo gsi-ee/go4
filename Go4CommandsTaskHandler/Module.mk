@@ -32,5 +32,5 @@ include/%.h: $(CMDTASKHANDL_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(CMDTASKHANDL_O) $(CMDTASKHANDL_DEP)
+	@$(RM) $(CMDTASKHANDL_O) $(CMDTASKHANDL_DEP)
 

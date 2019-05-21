@@ -14,7 +14,7 @@ include qt4/Go4UserGUI/Makefile
 else
 
 clean-qt4usergui: 
-	rm -rf qt4/Go4UserGUI/*.so qt4/Go4UserGUI/moc_*.* qt4/Go4UserGUI/*.o qt4/Go4UserGUI/ui_QUserPanel.h qt4/Go4UserGUI/Makefile.qt
+	@$(RM) qt4/Go4UserGUI/*.so qt4/Go4UserGUI/moc_*.* qt4/Go4UserGUI/*.o qt4/Go4UserGUI/ui_QUserPanel.h qt4/Go4UserGUI/Makefile.qt
 
 all-qt4usergui:
 
@@ -27,7 +27,7 @@ include qt4/WebUserGUI/Makefile
 else
 
 clean-qt5webusergui:
-	rm -rf qt4/WebUserGUI/*.so qt4/WebUserGUI/moc_*.* qt4/WebUserGUI/*.o qt4/WebUserGUI/ui_QUserPanel.h qt4/WebUserGUI/Makefile.qt
+	@$(RM) qt4/WebUserGUI/*.so qt4/WebUserGUI/moc_*.* qt4/WebUserGUI/*.o qt4/WebUserGUI/ui_QUserPanel.h qt4/WebUserGUI/Makefile.qt
 
 all-qt5webusergui:
 
@@ -66,7 +66,7 @@ endif
 endif
 
 clean-qt4:: clean-qt4-GUI clean-qt4usergui clean-qt5webusergui
-	@rm -f build/Makefile.gener
+	@$(RM) build/Makefile.gener
 
 clean:: clean-qt4
 

@@ -44,7 +44,7 @@ include/%.h: $(HDF_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(HDF_O) $(HDF_DEP) 
-	@rm -f $(HDFPAR_O) $(HDFPAR_DEP)
+	@$(RM) $(HDF_O) $(HDF_DEP) 
+	@$(RM) $(HDFPAR_O) $(HDFPAR_DEP)
 	
 endif	

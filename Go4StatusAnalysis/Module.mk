@@ -32,5 +32,5 @@ include/%.h: $(STATANAL_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(STATANAL_O) $(STATANAL_DEP)
+	@$(RM) $(STATANAL_O) $(STATANAL_DEP)
 

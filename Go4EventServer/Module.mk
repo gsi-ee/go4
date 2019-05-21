@@ -43,5 +43,5 @@ include/%.h: $(EVENTSERV_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(EVENTSERV_O) $(EVENTSERV_DEP) 
-	@rm -f $(EVENTSERVPAR_O) $(EVENTSERVPAR_DEP)
+	@$(RM) $(EVENTSERV_O) $(EVENTSERV_DEP) 
+	@$(RM) $(EVENTSERVPAR_O) $(EVENTSERVPAR_DEP)

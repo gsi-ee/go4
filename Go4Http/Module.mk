@@ -77,8 +77,8 @@ endif
 endif
 
 clean-bin::
-	@rm -f $(GO4HTTP_O) $(GO4HTTP_DEP)
-	@rm -f $(GO4HTTP_DH) $(GO4HTTP_DS) $(GO4HTTP_DO) $(GO4HTTP_DDEP) 
+	@$(RM) $(GO4HTTP_O) $(GO4HTTP_DEP)
+	@$(RM) $(GO4HTTP_DH) $(GO4HTTP_DS) $(GO4HTTP_DO) $(GO4HTTP_DDEP) 
 
 clean::
 

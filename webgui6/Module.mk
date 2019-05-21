@@ -65,8 +65,8 @@ $(WEBGUI6_LIB):  $(WEBGUI6_O) $(WEBGUI6_DO)
 
 
 clean-bin::
-	@rm -f $(WEBGUI6_O) $(WEBGUI6_DO)
-	@rm -f $(WEBGUI6_DEP) $(WEBGUI6_DDEP) $(WEBGUI6_DS) $(WEBGUI6_DH)
+	@$(RM) $(WEBGUI6_O) $(WEBGUI6_DO)
+	@$(RM) $(WEBGUI6_DEP) $(WEBGUI6_DDEP) $(WEBGUI6_DS) $(WEBGUI6_DH)
 
 clean:: clean-bin
 	@$(CleanLib) $(WEBGUI6_LIBNAME) $(WEBGUI6_DIR)

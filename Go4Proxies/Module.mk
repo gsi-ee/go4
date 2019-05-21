@@ -40,4 +40,4 @@ include/%.h: $(GO4PROX_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(GO4PROX_O) $(GO4PROX_DEP)
+	@$(RM) $(GO4PROX_O) $(GO4PROX_DEP)

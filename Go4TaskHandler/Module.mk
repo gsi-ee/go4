@@ -33,5 +33,5 @@ include/%.h: $(TASKHAND_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(TASKHAND_O) $(TASKHAND_DEP)
+	@$(RM) $(TASKHAND_O) $(TASKHAND_DEP)
 

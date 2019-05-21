@@ -31,5 +31,5 @@ include/%.h: $(CMDANAL_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(CMDANAL_O) $(CMDANAL_DEP)
+	@$(RM) $(CMDANAL_O) $(CMDANAL_DEP)
 

@@ -30,4 +30,4 @@ include/%.h: $(MBSAPIBASE_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(MBSAPIBASE_O) $(MBSAPIBASE_DEP)
+	@$(RM) $(MBSAPIBASE_O) $(MBSAPIBASE_DEP)

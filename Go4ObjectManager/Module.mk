@@ -32,4 +32,4 @@ include/%.h: $(GO4OBJM_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(GO4OBJM_O) $(GO4OBJM_DEP)
+	@$(RM) $(GO4OBJM_O) $(GO4OBJM_DEP)

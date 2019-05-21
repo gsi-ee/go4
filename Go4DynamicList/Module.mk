@@ -31,5 +31,5 @@ include/%.h: $(DYNLIST_DIR)/%.h
 	@cp -f $< $@
 
 clean-bin::
-	@rm -f $(DYNLIST_O) $(DYNLIST_DEP)
+	@$(RM) $(DYNLIST_O) $(DYNLIST_DEP)
 
