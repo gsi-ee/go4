@@ -161,7 +161,7 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
   l_status = f_stc_write (&l_cmd,4,l_tcp);                 if (l_status != STC__SUCCESS) return(-1);
   l_status = f_stc_read (&ps_daqst->l_endian,28,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
   if(ps_daqst->l_endian != 1) l_swap = 1;
-  if(l_swap == 1) l_status = f_swaplw(&ps_daqst->l_endian,7,NULL);
+  if(l_swap == 1) l_status = f_swaplw((INTS4 *)&ps_daqst->l_endian,7,NULL);
   len_64=ps_daqst->l_sbs__str_len_64;
   n_trg=ps_daqst->l_sbs__n_trg_typ;
   max_proc=ps_daqst->l_sys__n_max_procs;
@@ -182,14 +182,14 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
       l_status = f_stc_read (&ps_daqst->c_out_chan[0], len_64 , l_tcp,-1);
       ps_daqst->l_fix_lw += n_trg*3 + 212 + len_64/4*3;
       if(l_swap == 1)
-    	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
+    	  l_status = f_swaplw((INTS4 *)&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
   // MBS v51 and v62/v63
   if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62) || (ps_daqst->l_version == 63))
     {
       l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7)*4 , l_tcp,-1);
       if(l_swap == 1)
-    	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
+    	  l_status = f_swaplw((INTS4 *)&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
 
   //l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * len_64, l_tcp,-1);
@@ -745,7 +745,7 @@ if(ps_set_ml->l_endian != 1) l_swap = 1;
 if(l_swap == 1) l_status = f_swaplw((INTS4 *)&ps_set_ml->l_endian,4,NULL);
 if( (ps_set_ml->l_version != VERSION__SET_ML) && (ps_set_ml->l_version != 1)) return -1; // correct legacy MBS version
              l_status = f_stc_read (&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)*4 , l_tcp,-1);
-if(l_swap == 1) l_status = f_swaplw(&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)-4,NULL); /* last 16 byte are char */
+if(l_swap == 1) l_status = f_swaplw((INTS4 *)&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)-4,NULL); /* last 16 byte are char */
 for(i=0;i<ps_set_ml->l_n_rd_pipe;i++)
 {
    l_status = f_stc_read (&ps_set_ml->c_rd_hostname[i],   ps_set_ml->l_short_len, l_tcp,-1);

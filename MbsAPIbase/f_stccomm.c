@@ -668,7 +668,7 @@ INTS4 f_stc_acceptclient(struct s_tcpcomm *ps_server, INTS4 *pi_channel)
 #else
    *pi_channel = accept( ps_server->sock_rw,
          ( struct sockaddr *) &ps_server->sock_name,
-         &ps_server->namelength);
+         (socklen_t *) &ps_server->namelength);
 #endif
 if( *pi_channel == -1)
 {
