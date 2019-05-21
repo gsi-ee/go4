@@ -62,7 +62,13 @@
 
 #include <QTimer>
 
+#ifdef GO4_X11
 #include "QRootCanvas.h"
+#endif
+#ifdef GO4_WEBGUI
+#include "QWebCanvas.h"
+#endif
+
 #include "QRootApplication.h"
 
 #include "TGo4Log.h"
@@ -91,10 +97,6 @@
 #include "TGo4QSettings.h"
 
 const char* NoStackDrawOption = "nostack, ";
-
-#ifdef GO4_WEBGUI
-#include "QWebCanvas.h"
-#endif
 
 class TPadGuard {
    TVirtualPad *fSave;
@@ -173,6 +175,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    }
 #endif
 
+#ifdef GO4_X11
    if (!fxWCanvas) {
       fxQCanvas = new QRootCanvas(this);
       // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
@@ -186,6 +189,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxQCanvas->getCanvas()->SetName(GetPanelName());
       fxQCanvas->setEditorFrame(EditorFrame);
    }
+#endif
 
 //   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
 //   resize(go4sett->lastPanelSize());
@@ -220,10 +224,12 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    bool ed_visible = false, ed_allowed = true;
 
+#ifdef GO4_X11
    if (!fxWCanvas) {
       ed_visible = fxQCanvas->isEditorVisible();
       ed_allowed = fxQCanvas->isEditorAllowed();
    }
+#endif
 
    fxCanvasEditorChk = AddChkAction(editMenu, "Show &ROOT attributes editor",
                          ed_visible, this, SLOT(StartRootEditor()));
@@ -314,6 +320,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
 #endif
    } else {
+#ifdef GO4_X11
       CanvasStatus = new QStatusBar(this);
       fxGridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
       CanvasStatus->setVisible(false);
@@ -334,6 +341,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
                SLOT(RefreshButtons()));
       connect(fxQCanvas, SIGNAL(CanvasUpdated()), this,
               SLOT(CanvasUpdatedSlot()));
+#endif
    }
 }
 
@@ -516,8 +524,13 @@ void TGo4ViewPanel::CompleteInitialization()
 
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
 
+#ifdef GO4_X11
    // JAM 5-2019 construct top window for ged editor already here, otherwise problems with Qt4
    if (fxQCanvas) fxQCanvas->BuildEditorWindow();
+
+   // adjust canvas size before any drawing will be done
+   if (fxQCanvas) fxQCanvas->Resize();
+#endif
 
    //    fMenuBar
    connect(TGo4MdiArea::Instance(),
@@ -526,9 +539,6 @@ void TGo4ViewPanel::CompleteInitialization()
 
    // printf("Resize again x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
    // resize(go4sett->lastPanelSize());
-
-   // adjust canvas size before any drawing will be done
-   if (fxQCanvas) fxQCanvas->Resize();
 
    SetActivePad(GetCanvas());
 
@@ -905,8 +915,11 @@ void TGo4ViewPanel::RefreshButtons()
    TGo4LockGuard lock;
 
    MarkerPanel->setVisible(fbMarkEditorVisible);
+
+#ifdef GO4_X11
    if (fxQCanvas)
       fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
+#endif
 
 //   if(!fbMarkEditorVisible) return;
 
@@ -1976,7 +1989,7 @@ void TGo4ViewPanel::StartRootEditor()
 {
    bool visible = false;
    if (fxQCanvas) {
-
+#ifdef GO4_X11
       if (!fxQCanvas->isEditorAllowed()) return;
 
       visible = !fxQCanvas->isEditorVisible();
@@ -1985,6 +1998,7 @@ void TGo4ViewPanel::StartRootEditor()
          SetActivePad(GetCanvas());
 
       fxQCanvas->toggleEditor();
+#endif
    } else if (fxWCanvas) {
 
 #ifdef GO4_WEBGUI
@@ -2203,8 +2217,10 @@ void TGo4ViewPanel::ShowEventStatus()
    bool flag = true;
 
    if (fxQCanvas) {
+#ifdef GO4_X11
       flag = !fxQCanvas->isStatusBarVisible();
       fxQCanvas->setStatusBarVisible(flag);
+#endif
    } else if (fxWCanvas) {
 #ifdef GO4_WEBGUI
       flag = !fxWCanvas->isStatusBarVisible();
@@ -3109,20 +3125,26 @@ TObject* TGo4ViewPanel::GetPadMainObject(TPad* pad)
 
 TCanvas* TGo4ViewPanel::GetCanvas()
 {
+#ifdef GO4_X11
    if (fxQCanvas)
       return fxQCanvas->getCanvas();
+#endif
+
 #ifdef GO4_WEBGUI
    if (fxWCanvas)
       return fxWCanvas->getCanvas();
 #endif
+
    return 0;
 }
 
 void TGo4ViewPanel::CanvasUpdate(bool modify)
 {
    if (fxQCanvas) {
+#ifdef GO4_X11
       if (modify) fxQCanvas->Modified();
       fxQCanvas->Update();
+#endif
    } else if (fxWCanvas) {
 #ifdef GO4_WEBGUI
       if (modify) fxWCanvas->Modified();
@@ -3838,6 +3860,8 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
+#ifdef GO4_X11
+
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    // must be done once before pad->Clear in ProcessPadRedraw, so we do it here instead for each subpad
 #ifdef GLOBALESCAPE
@@ -3860,6 +3884,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
       dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
       gPad->Modified(oldmodified); // probably not necessary, since we only use escape mode in event handler. But who knows what future root brings?
    }
+#endif
 #endif
 
    bool isanychildmodified = false;
@@ -4678,10 +4703,11 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
    pad->SetCrosshair(fbCanvasCrosshair);
    pad->SetFillColor(padfillcolor);
 
-
+#ifdef GO4_X11
    if (fxQCanvas)
       if (show_status != fxQCanvas->isStatusBarVisible())
          ShowEventStatus();
+#endif
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt != 0) {
@@ -4710,7 +4736,9 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
    output.Append(" Ready");
 
    if (fxQCanvas) {
+#ifdef GO4_X11
       fxQCanvas->showStatusMessage(output.Data());
+#endif
    } else if (fxWCanvas) {
       printf("Implement display pad status in web canvas\n");
    }
@@ -5580,14 +5608,18 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 void TGo4ViewPanel::ResizeGedEditor()
 {
   //std::cout<< "TGo4ViewPanel::ResizeGedEditor is called with canvas" << (long) fxQCanvas <<std::endl;
+#ifdef GO4_X11
    if (fxQCanvas) fxQCanvas->resizeEditor();
+#endif
 }
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
       if (fxQCanvas) {
+#ifdef GO4_X11
          fxQCanvas->activateEditor(GetActivePad(), obj);
+#endif
       } else if (fxWCanvas) {
 #ifdef GO4_WEBGUI
          fxWCanvas->activateEditor(GetActivePad(), obj);
@@ -5597,8 +5629,10 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 
 void TGo4ViewPanel::CleanupGedEditor()
 {
+#ifdef GO4_X11
    if (fxQCanvas)
       fxQCanvas->cleanupEditor();
+#endif
 }
 
 void TGo4ViewPanel::ShootRepaintTimer()

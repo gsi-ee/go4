@@ -35,6 +35,7 @@
 #include <QtCore/QTimer>
 
 #ifndef WIN32
+#ifdef GO4_X11
 
 #include <X11/Xlib.h>
 
@@ -64,9 +65,7 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
   return 0;
 }
 
-
-
-
+#endif
 #endif
 
 bool QRootApplication::fDebug = false; //false;
@@ -158,7 +157,9 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
   // under Windows one should explicit enable these methods
   fRootCanvasMenusEnabled = (flag == 1);
 #else
+#ifdef GO4_X11
    XSetErrorHandler( qt_x11_errhandler );
+#endif
    // under Unix one should explicit disable these methods
    fRootCanvasMenusEnabled = (flag != -1);
 #endif

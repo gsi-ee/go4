@@ -5,7 +5,7 @@ QT += widgets
 }
 
 
-TEMPLATE	= app 
+TEMPLATE	= app
 LANGUAGE	= C++
 MOC_DIR     =.moc
 OBJECTS_DIR =.obj
@@ -167,7 +167,7 @@ FORMS += TGo4ViewPanel.ui \
 	TGo4UserCommands.ui \
 	TGo4UserCommandsDialog.ui
 
-	
+
 
 SOURCES	+= ../Go4FitGUI/TGo4FitPanel.cpp \
             ../Go4FitGUI/QFitItem.cpp \
@@ -252,18 +252,11 @@ FORMS	+= ../Go4FitGUI/TGo4FitPanel.ui \
 	../Go4FitGUI/QFitPeakFinderWidget.ui \
 	../Go4FitGUI/QFitRangeCutWidget.ui
 
-SOURCES += ../Go4QtRoot/QRootApplication.cpp \
-           ../Go4QtRoot/QRootCanvas.cpp \
-           ../Go4QtRoot/QRootDialog.cpp \
-           ../Go4QtRoot/QRootWindow.cpp 
+SOURCES += ../Go4QtRoot/QRootApplication.cpp
 
-HEADERS += ../Go4QtRoot/QRootApplication.h \
-           ../Go4QtRoot/QRootCanvas.h \
-           ../Go4QtRoot/QRootDialog.h \
-           ../Go4QtRoot/QRootWindow.h
+HEADERS += ../Go4QtRoot/QRootApplication.h
 
 SOURCES += TGo4DrawCloneProxy.cxx \
            TGo4DrawObjProxy.cxx \
            TGo4Script.cxx \
            TGo4WidgetProxy.cxx
-	

@@ -40,8 +40,10 @@
 
 
 #ifndef WIN32
+#ifdef GO4_X11
 #include "TGX11.h"
 //extern void qt_x11_set_global_double_buffer(bool);
+#endif
 #endif
 
 int print_go4_version()
@@ -87,7 +89,9 @@ int main(int argc, char **argv)
    setlocale(LC_ALL, "C");
 
 #ifndef WIN32
+#ifdef GO4_X11
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
+#endif
    //    qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
    bool iswin32 = false;
 #else

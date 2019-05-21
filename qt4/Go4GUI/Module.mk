@@ -41,6 +41,8 @@ endif
 
 ifdef GO4_X11
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_X11"
+GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4QtRoot/QRootCanvas.h ../Go4QtRoot/QRootDialog.h ../Go4QtRoot/QRootWindow.h"
+GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4QtRoot/QRootCanvas.cpp ../Go4QtRoot/QRootDialog.cpp ../Go4QtRoot/QRootWindow.cpp"
 endif
 
 ifdef GO4_WEB
