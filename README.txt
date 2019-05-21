@@ -46,19 +46,18 @@ ROOT INSTALLATION
      3) Install ROOT from RPM packages. There are Linux distributions, where ROOT
         is available in form of precompiled package. Normally it should be enough
         to install such package on the system.
-  To use http connection to the go4 analysis, http plugin of ROOT should be
-  compiled. To enable its compilation, one should call:
+  To use web-based graphics (required for Mac) qt5web option should be enabled:
 
-     shell> ./configure --enable-http
+     shell> cmake -Droot7=ON -Dqt5web=ON /path/to/sources/of/root/
 
   Check, that ROOT installed correctly, by calling:
 
      shell> root-config --version
 
   If actual version is printed, such ROOT installation can be used for go4.
-  If command fails, one should add path to that script into PATH environment variable like
+  If command fails, one should configure environment call
 
-     shell> export PATH=$PATH:/usr/local/bin
+     shell> source /path/to/root/bin/thisroot.sh
 
 
 QT INSTALLATION
@@ -73,8 +72,8 @@ QT INSTALLATION
   and will compile either correspondent version of Go4 GUI.
   If several Qt versions are installed, use "withqt" makefile flag to select
   preferred version of qt. It is especially necessary for systems, where Qt3 installation
-  automatically sets QTDIR variable. In that case call "make withqt=4" to compile
-  go4 with Qt4. It is recommended to use Qt4 version of GUI.
+  automatically sets QTDIR variable. In that case call "make withqt=5" to compile
+  go4 with Qt5. It is recommended to use Qt5 version of GUI.
 
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
@@ -101,22 +100,29 @@ QT INSTALLATION
 QT installation on Mac OS X
 
   Go4 QtROOT GUI does not work for Qt build with native MacOSX graphics
-  like carbon or cocoa. One need to install Qt4 using X11 graphics on Mac
-  (fink package qt4-x11). Go4 was tested with Mac OS X 10.6 (Darwin) and Qt 4.5.2.
-  Qt3 is not supported for MacOS!
-  On Mac OS shell variable name is DYLD_LIBRARY_PATH instead LD_LIBRARY_PATH.
-  Starting from Mac OS X 10.7 qt4-x11 package is not available
+  like carbon or cocoa. The only possibility now - install qt5 with QWebEngine support.
+  Most simple way is to use brew (see http://macappstore.org/qt5/):
+
+     shell> brew install qt5
+
+  Qt5 should be installed before ROOT and ROOT compilation should include -Dqt5web=ON flag.
+  After installing Qt5 libraries, one should following shell variables:
+
+     shell> export Qt5_DIR=/usr/local/opt/qt5/
+     shell> export QTDIR=/usr/local/opt/qt5/
+     shell> export PATH=$QTDIR/bin:$PATH
+     shell> export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 
 GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
 
-     shell> tar xzf go4-4.9.8.tar.gz
+     shell> tar xzf go4-5.9.x.tar.gz
 
-  This will create sub-directory go4-4.9.8. To compile go4, do:
+  This will create sub-directory go4-5.9.x. To compile go4, do:
 
-     shell> cd go4-4.9.8
+     shell> cd go4-5.9.x
      shell> make all
 
   In most cases it will be enough to compile go4 libraries, gui and
@@ -169,7 +175,7 @@ ADVANCED MAKE OPTIONS
      be tried to used by go4.
 
   withweb=true
-     Enable building of web-based canvas. Required latest ROOT 6.18 version
+     Enable building of web-based canvas. Required ROOT 6.18 version
      build with -Droot7=ON -Dqt5web=ON build options.
 
   nox11=true
