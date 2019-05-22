@@ -2475,13 +2475,12 @@ int rfio_endfile(int iFileId)                             /* file id */
 
       if (iRC > HEAD_LEN)
       {
-         if (iStatus == STA_CACHE_COPY)
-            fprintf(fLogClient, sStatus.cStatus);
-         else
-         {
+         if (iStatus == STA_CACHE_COPY) {
+            fprintf(fLogClient, "%s", sStatus.cStatus);
+         } else {
             fprintf(fLogClient,
                "-W- %s: message received from server:\n", cModule);
-            fprintf(fLogClient, sStatus.cStatus);
+            fprintf(fLogClient, "%s", sStatus.cStatus);
 
             if (iStatus != STA_CACHE_COPY_ERROR)
             {
@@ -2596,21 +2595,21 @@ ssize_t rfio_read(int iFileId,                            /* file id */
    {
       printf("    remote file control block %d selected\n", ii);
       printf("    file %d, buffer %d: read %d bytes\n",
-             iFileId, iBufnoServ, iItems);
+             iFileId, iBufnoServ, (int) iItems);
    }
 
    iBufsizeRead = pcurAPIFile->iBufsizeAct;
    if (iDebug)
    {
       if (iBufsizeRead != iItems)
-         printf( "    new buffer size %d\n", iItems);
+         printf( "    new buffer size %d\n", (int) iItems);
       printf("    send request for new buffer\n");
    }
 
    iSockMover = pcurAPIFile->iSockMover;
    iSeekMode = pcurAPIFile->iSeekMode;
    iOffset = pcurAPIFile->iOffset;
-   iRC = rawSendRequest(iSockMover, iSeekMode, iOffset, (signed) iItems);
+   iRC = rawSendRequest(iSockMover, iSeekMode, iOffset, (int) iItems);
    if (iRC != 0)
    {
       fprintf(fLogClient, "-E- %s: sending request for next data buffer\n",
@@ -2774,10 +2773,10 @@ gRetryLen:
    {
       if (iDebug)
       {
-         if (iBufsizeRecv) printf(
-            "-W- requested %d bytes, received buffer length %d bytes\n",
-            iItems, iBufsizeRecv);
-         else printf("-W- EOF reached\n");
+         if (iBufsizeRecv)
+            printf("-W- requested %d bytes, received buffer length %d bytes\n", (int)iItems, iBufsizeRecv);
+         else
+            printf("-W- EOF reached\n");
       }
       iItems = (size_t) iBufsizeRecv;
    }
@@ -2870,7 +2869,7 @@ ssize_t rfio_write(int iFileId,                           /* file id */
    if (iItems <= 0)
    {
       fprintf(fLogClient,
-         "-W- invalid no. of bytes to write: %d\n", iItems);
+         "-W- invalid no. of bytes to write: %d\n", (int) iItems);
       return 0;
    }
 
@@ -2910,7 +2909,7 @@ ssize_t rfio_write(int iFileId,                           /* file id */
    {
       printf("    remote file control block %d selected\n", ii);
       printf("    file %d, buffer %d: write %d bytes\n",
-             iFileId, iBufnoServ, iItems);
+             iFileId, iBufnoServ, (int) iItems);
    }
 
    if (iItems > pCommAPI->iBufsizeFile)
@@ -2922,7 +2921,7 @@ ssize_t rfio_write(int iFileId,                           /* file id */
    if (iDebug)
    {
       if (pcurAPIFile->iBufsizeAct != iItems)
-         printf( "    new buffer size %d\n", iItems);
+         printf( "    new buffer size %d\n", (int) iItems);
       printf("    send new buffer\n");
    }
 
@@ -2956,7 +2955,7 @@ ssize_t rfio_write(int iFileId,                           /* file id */
 
       if (iDebug == 2)
       {
-         printf("%d(%d)_", iRC, iItems);
+         printf("%d(%d)_", iRC, (int) iItems);
          fflush(stdout);
       }
 
@@ -4786,8 +4785,8 @@ char * rfio_serror()
       "\n-D- begin %s: error (len %d byte):\n",
       cModule, (int) strlen(rfio_errmsg));
 
-   printf(rfio_errmsg);
-   fprintf(fLogClient, rfio_errmsg);
+   printf("%s", rfio_errmsg);
+   fprintf(fLogClient, "%s", rfio_errmsg);
 
    if (iDebug)
       printf("-D- end %s\n", cModule);
@@ -5142,7 +5141,7 @@ int rfio_stat(const char *pcFile, struct stat *pStatBuf)
       if (iDebug)
       {
          printf("    remote fileId %d:\n", iFileId);
-         printf("    object %s%s%s, filesize %ld byte\n",
+         printf("    object %s%s%s, filesize %u byte\n",
             pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
             pComm->iFileSize);
       }
@@ -5278,7 +5277,7 @@ int rfio_cache_stat(const char *pcFile)
       if (iDebug)
       {
          printf("    remote fileId %d:\n", iFileId);
-         printf("    object %s%s%s, size %ld byte, cache status %d\n",
+         printf("    object %s%s%s, size %u byte, cache status %d\n",
             pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
             pComm->iFileSize, iCache);
          if (pComm->iStageFSid > 0)

@@ -1059,7 +1059,7 @@ void fLmdPrintFileHeader(uint32_t iVerbose, sMbsFileHeader *pMbsFileHeader)
 {
    if (iVerbose) {
       if (pMbsFileHeader) {
-         printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %llx[%d]\n",
+         printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %lx[%d]\n",
                 pMbsFileHeader->iUsedWords, pMbsFileHeader->iType & 0xffff, pMbsFileHeader->iType >> 16,
                 pMbsFileHeader->iElements, pMbsFileHeader->iTimeSpecSec, pMbsFileHeader->iTimeSpecNanoSec / 1000,
                 pMbsFileHeader->iMaxWords, pMbsFileHeader->iTableOffset, pMbsFileHeader->iOffsetSize);
@@ -1089,7 +1089,7 @@ void fLmdPrintEvent(uint32_t iVerbose, sMbsEventHeader *pMbsEventHeader)
 void fLmdPrintControl(uint32_t iVerbose, sLmdControl *pLmdControl)
 {
    if (iVerbose) {
-      printf("Ctrl: file:%s words:%d left:%d bytes read:%lld elements:%d\n", pLmdControl->cFile,
+      printf("Ctrl: file:%s words:%d left:%d bytes read:%lu elements:%d\n", pLmdControl->cFile,
              pLmdControl->iBufferWords, pLmdControl->iLeftWords, pLmdControl->iBytes, pLmdControl->iElements);
       fLmdPrintFileHeader(iVerbose, pLmdControl->pMbsFileHeader);
       fLmdPrintEvent(iVerbose, (sMbsEventHeader *)pLmdControl->pMbsHeader);

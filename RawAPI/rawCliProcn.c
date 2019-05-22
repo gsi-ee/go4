@@ -14,7 +14,7 @@
  *                   reorder according to restore parameter
  * rawDelFile:       delete single file in GSI mass storage
  * rawDelList:       delete list of files in GSI mass storage
- * rawGetFilelistEntries: get filelist entries from input file 
+ * rawGetFilelistEntries: get filelist entries from input file
  * rawGetWSInfo:     get workspace and pool info from master
  * rawGetFullFile:   get full file name from generic input & ll name
  * rawQueryPrint:    print query results for one object to stdout
@@ -91,7 +91,7 @@
  * 10.12.2009, H.G.: rawDelFile: handle enhanced structure srawObjAttr
  *                   old version info also available in new structure
  * 29. 1.2010, H.G.: replace MAX_FILE -> MAX_FULL_FILE in:
- *                      static string cPath 
+ *                      static string cPath
  *                      rawGetFilelistEntries:
  *                         cPath, cEntry, cTemp, cFileName
  *                      rawGetWSInfo: pcGenFile
@@ -100,9 +100,9 @@
  *                   rawDelFile: provide correct objId in command buffer
  *                   rawDelList: fix bug setting local ptr to ll name
  *  4. 2.2010, H.G.: rawDelList: provide all infos for rawDelFile
- *                   rawDelFile: no more query for obj needed  
+ *                   rawDelFile: no more query for obj needed
  *  5. 2.2010, H.G.: move rawQueryPrint,rawQueryString from rawProcn.c
- * 10. 2.2010, H.G.: rawQueryPrint, rawQueryString: remove 
+ * 10. 2.2010, H.G.: rawQueryPrint, rawQueryString: remove
  *                      filetype, buffersize from output
  * 26. 2.2010, H.G.: rawQueryString: add parameter (len output string)
  *                      handle too short output string
@@ -257,15 +257,15 @@ int rawCheckFilelist(char **pcFileList, char **pcObjList,
             if (iRC == 0)                      /* file archived */
             {
               if (iDebug) fprintf(fLogFile,
-                 "       %s%s%s already archived in gStore\n", 
+                 "       %s%s%s already archived in gStore\n",
                  pcArchive, psObj->cNamehl, pcFilell);
               else fprintf(fLogFile,
-                 "-W- %s%s%s already archived in gStore\n", 
+                 "-W- %s%s%s already archived in gStore\n",
                  pcArchive, psObj->cNamehl, pcFilell);
 
                strncpy(psFile->cFile, "\n", 1);
                ifile--;
-               if (ifile == 0) 
+               if (ifile == 0)
                {
                   if (iDebug) fprintf(fLogFile,
                       "    last file, comparison finished\n");
@@ -279,10 +279,10 @@ int rawCheckFilelist(char **pcFileList, char **pcObjList,
          } /* object loop */
 
          piptr = (int **) psObj;
-         if (*piptr == NULL) 
+         if (*piptr == NULL)
          {
             bLastBuf = bTrue;
-            if (iDebug > 1) 
+            if (iDebug > 1)
                fprintf(fLogFile, "    %d: last obj buffer\n", iobjBuf);
             if (iDebug)
                fprintf(fLogFile, "*** %d: %s (%s) to be archived\n",
@@ -295,7 +295,7 @@ int rawCheckFilelist(char **pcFileList, char **pcObjList,
             iobj = *pinext++;
             psObj = (srawRetrList *) pinext;
             if (iDebug > 1) fprintf(fLogFile,
-               "\n*** new buffer %d: %d objs, first obj '%s'\n", 
+               "\n*** new buffer %d: %d objs, first obj '%s'\n",
                iobjBuf, iobj, psObj->cNamell);
          }
 
@@ -323,7 +323,7 @@ gEndCompare:
          /* fprintf(fLogFile, "%d: %s\n", ii, psFile->cFile); */
          iRC = strncmp(psFile->cFile, "\n", 1);
          if (iRC != 0)                            /* file found */
-         { 
+         {
             if (iif >= ifile0)
                break;
 
@@ -334,11 +334,11 @@ gEndCompare:
          else
          {                                    /* compress action */
             for (jj = ii+1; jj <= ifile0; jj++)
-            { 
+            {
                psFile++;
                iif++;
                iRC = strncmp(psFile->cFile, "\n", 1);
-               if (iRC == 0) 
+               if (iRC == 0)
                {
                   if (iif >= ifile0)
                      break;
@@ -347,7 +347,7 @@ gEndCompare:
                {
                   strcpy(psFile0->cFile, psFile->cFile);
                   if (iDebug > 1) fprintf(fLogFile,
-                     "*** %d: %s\n", iif, psFile0->cFile); 
+                     "*** %d: %s\n", iif, psFile0->cFile);
                   if (iif >= ifile0)
                      break;
 
@@ -355,7 +355,7 @@ gEndCompare:
                }
             } /* for (jj...) */
 
-         } /* compress action */ 
+         } /* compress action */
       } /* for (ii...) */
 
       if (iDebug)
@@ -397,7 +397,7 @@ gEndCompare:
  *    remove files/objs with 0 length ll names from obj + file lists
  *    (retrieve only)
  *
- *    reorder remaining files/objs according to 
+ *    reorder remaining files/objs according to
  *       (1) read cache
  *       (2) write cache
  *       (3) 5 restore parameters
@@ -408,7 +408,7 @@ gEndCompare:
  */
 
 int rawCheckObjlist(
-       int iFileComp, 
+       int iFileComp,
        int iSort,         /* =0: only compress of obj list (unstage) */
        char **pcObjList,       /* chained buffer list with obj names */
        char **pcFileList,                  /* buffer with file names */
@@ -428,9 +428,9 @@ int rawCheckObjlist(
    int iaValue[MAX_FILE_NO][6];
       /* for sorting relevant values of all objs
        * 1st index: file/object no.
-       * 2nd index 0: = 0: ignore (file 
-       *              = 1: file in read cache 
-       *              = 2: file in write cache 
+       * 2nd index 0: = 0: ignore (file
+       *              = 1: file in read cache
+       *              = 2: file in write cache
        *              = 3: sort according to up to 5 TSM restore params
        * 2nd index 1 - 5: value of corresponing TSM restore parameters
        */
@@ -495,7 +495,7 @@ int rawCheckObjlist(
    int iobj0 = 0,   /* number of objects in current buffer pcObjList */
        iobj = 0;
 
-   int iFileBufComp,      /* size of buffer with compressed filelist */ 
+   int iFileBufComp,      /* size of buffer with compressed filelist */
        iObjBufComp;        /* size of buffer with compressed objlist */
    /*    pcObjComp in arg list */
    char *pcFileComp;         /* local file buffer: filled in sorting */
@@ -586,7 +586,7 @@ int rawCheckObjlist(
       for (jj=1; jj<=iFileAll; jj++)
       {
          fprintf(fLogFile,
-            "DDDD %d: file %s (%d)\n", jj, psFile->cFile, psFile);
+            "DDDD %d: file %s (%p)\n", jj, psFile->cFile, psFile);
          psFile++;
       }
       psFile = psFile0; /* reset */
@@ -616,7 +616,7 @@ int rawCheckObjlist(
          if (iDebug) fprintf(fLogFile,
             "%d(%d): obj %s%s copied (Comp)\n", iiObj, jj,
             psObjComp->cNamehl, psObjComp->cNamell);
-            
+
          psObjComp++;
 
 gNextObjUnstage:
@@ -716,7 +716,7 @@ gNextObjUnstage:
    piolsort[0] = iFileComp;          /* compressed number of objects */
    psObjSort = (srawRetrList *) ++piolsort;          /* first object */
    psObjSort0 = psObjSort;
- 
+
    /************** scan ALL objects to get sort criteria *************/
 
    for (jj=1; jj<=iFileAll; jj++)
@@ -745,7 +745,7 @@ gNextObjUnstage:
       iiObj++;                      /* counter all objects in buffer */
 
       if (iDebug == 2) fprintf(fLogFile,
-         "DDD %d (comp %d): obj %s (%d), file %s (%d)\n",
+         "DDD %d (comp %d): obj %s (%p), file %s (%p)\n",
          iiObj, jj, psObj->cNamell, psObj, psFile->cFile, psFile);
 
       if (strlen(psObj->cNamell) < 2)
@@ -777,10 +777,10 @@ gNextObjUnstage:
                iReadCache, psObjComp->cNamehl, psObjComp->cNamell,
                psObjComp->iObjHigh, psObjComp->iObjLow);
             fprintf(fLogFile,
-               "    orig file name %s (%d)\n",
+               "    orig file name %s (%p)\n",
                psFile->cFile, psFile);
             fprintf(fLogFile,
-               "    file name %s copied (Comp: %d)\n",
+               "    file name %s copied (Comp: %p)\n",
                psFileComp->cFile, psFileComp);
             if (jj == iFileAll) fprintf(fLogFile,
                "       in last buffer %d: last obj (no. %d) handled\n",
@@ -813,7 +813,7 @@ gNextObjUnstage:
                "%d: write cache obj %s%s (%u-%u) copied (Sort)\n",
                iWriteCache, psObjSort->cNamehl, psObjSort->cNamell,
                psObjSort->iObjHigh, psObjSort->iObjLow);
-            
+
             if (jj == iFileAll) fprintf(fLogFile,
                "       in last buffer %d: last obj (no. %d) handled\n",
                iiBuf, iiObj);
@@ -959,7 +959,7 @@ gNextValue:
       goto gEndCheckObjlist;
 
    /*********** create compressed arrays and obj/file buffers ********/
-   
+
    iFileSort = iFileComp - iReadCache - iWriteCache;
    psObjSort = (srawRetrList *) piolsort;            /* first object */
    psFileSort = (srawFileList *) piflsort;             /* first file */
@@ -1103,7 +1103,7 @@ gNextObjCompress:
    if (iRestoTop)
    {
       iRC = rawSortValues(iaValTop, iFileSort, iisort1, iisort2,
-                          iaIndex, iaIndNew); 
+                          iaIndex, iaIndNew);
 
       /* rearrange other restore fields */
       iDiff = 0;
@@ -1211,7 +1211,7 @@ gNextObjCompress:
             if (iitop2 - iitop1)
             {
                iRC = rawSortValues(iaValHiLo, iFileSort, iitop1, iitop2,
-                          iaIndex, iaIndNew); 
+                          iaIndex, iaIndNew);
 
                /* rearrange other restore fields */
                iDiff = 0;
@@ -1267,7 +1267,7 @@ gNextObjCompress:
                if (iDebug) fprintf(fLogFile,
                   "       %d different hilo restore values\n", iRestoHiLoValues);
 
-            } /* (iitop2 - iitop1) */ 
+            } /* (iitop2 - iitop1) */
             else
                iRestoHiLoValues = 1;
 
@@ -1324,7 +1324,7 @@ gNextObjCompress:
                   if (iihilo2 - iihilo1)
                   {
                      iRC = rawSortValues(iaValLoLo, iFileSort,
-                               iihilo1, iihilo2, iaIndex, iaIndNew); 
+                               iihilo1, iihilo2, iaIndex, iaIndNew);
 
                      /* rearrange other restore fields */
                      iDiff = 0;
@@ -1442,7 +1442,7 @@ gNextObjCompress:
          goto gNextCopy2Temp;
       }
 
-      iiObj++; 
+      iiObj++;
       icount++;
 
       memcpy((char *) psObjSort, (char *) psObj, iRetrList);
@@ -1633,18 +1633,18 @@ int rawDelFile( int iSocket, srawComm *psComm)
 
    if (iDebug)
    {
-      printf("    object %s%s%s found (objId %u-%u)", 
-         psComm->cNamefs, psComm->cNamehl, psComm->cNamell, 
+      printf("    object %s%s%s found (objId %u-%u)",
+         psComm->cNamefs, psComm->cNamehl, psComm->cNamell,
          ntohl(psComm->iObjHigh), ntohl(psComm->iObjLow));
       if (iFSidRC) printf(
          ", on %s in read cache FS %d\n", psComm->cNodeRC, iFSidRC);
       else
-         printf( "\n"); 
+         printf( "\n");
       if (iFSidWC) printf(
          "     on %s in write cache FS %d\n", psComm->cNodeWC, iFSidWC);
    }
 
-   psComm->iAction = htonl(REMOVE); 
+   psComm->iAction = htonl(REMOVE);
 
    pcc = (char *) psComm;
    if ( (iRC = send( iSocket, pcc, (unsigned) iBufComm, 0 )) < iBufComm)
@@ -1692,11 +1692,11 @@ int rawDelFile( int iSocket, srawComm *psComm)
    printf("-I- Object %s%s%s successfully deleted",
           psComm->cNamefs, psComm->cNamehl, psComm->cNamell);
    if (iFSidRC)
-      printf( " (staged)\n"); 
+      printf( " (staged)\n");
    else
-      printf( "\n"); 
+      printf( "\n");
    if (iFSidWC)
-      printf( "    was in write cache\n"); 
+      printf( "    was in write cache\n");
 
    if (iDebug)
       printf("-D- end %s\n\n", cModule);
@@ -1718,7 +1718,7 @@ int rawDelList( int iSocketMaster,
                 srawDataMoverAttr *pDataMover0,
                 srawComm *psComm,
                 char **pcFileList,
-                char **pcObjList) 
+                char **pcObjList)
 {
    char cModule[32] = "rawDelList";
    int iDebug = 0;
@@ -1754,7 +1754,7 @@ int rawDelList( int iSocketMaster,
       printf("\n-D- begin %s\n", cModule);
       printf("    initial %d files, first file %s\n",
              ifile, psFile0->cFile);
-   } 
+   }
 
    pDataMover = pDataMover0;
    pcol = *pcObjList;
@@ -1977,7 +1977,7 @@ int rawGetFilelistEntries( char *pcFileName,
    int iGlobalDir = 0;       /* =1: global dir in 1st line specified */
    int iDataFS = 0;                   /* =1: path in central data FS */
    int imax = MAX_FULL_FILE - 1;
-   char cPath[MAX_FULL_FILE] = ""; 
+   char cPath[MAX_FULL_FILE] = "";
    char cEntry[MAX_FULL_FILE] = "";
    char cTemp[MAX_FULL_FILE] = "";
    char cFileName[MAX_FULL_FILE] = "";
@@ -1985,8 +1985,8 @@ int rawGetFilelistEntries( char *pcFileName,
    const char *pcLeading = "@";
    char *pcc;
    char *ploc;
-   char *pccT = NULL; 
-   char *pccE; 
+   char *pccT = NULL;
+   char *pccE;
 
    int iRemove = 0;
    int iGeneric = 0;                 /* = 1: generic file name found */
@@ -2098,7 +2098,7 @@ int rawGetFilelistEntries( char *pcFileName,
       {
          /* remove blanks, line feeds, and so on */
          ii = strlen(pccE);
-         memset(cTemp, '\0', strlen(cTemp)); 
+         memset(cTemp, '\0', strlen(cTemp));
          pccT = cTemp;
          iDelCount = 0;
          while (ii-- > 0)
@@ -2254,7 +2254,7 @@ int rawGetFilelistEntries( char *pcFileName,
          {
             iFilesIgnored++;
             if (iFilesIgnored == 1) fprintf(fLogFile,
-               "-W- file-specific path not yet implemented in filelist\n"); 
+               "-W- file-specific path not yet implemented in filelist\n");
             fprintf(fLogFile, "-W- %s ignored\n", cTemp);
             continue;
          }
@@ -2312,7 +2312,7 @@ int rawGetFilelistEntries( char *pcFileName,
             {
                if (iDebug)
                   fprintf(fLogFile, "-W- duplicate entry %s removed\n",
-                          pFilelistco->cFile); 
+                          pFilelistco->cFile);
                strcpy(pFilelistco->cFile, "");
                iRemove++;
             }
@@ -2336,7 +2336,7 @@ int rawGetFilelistEntries( char *pcFileName,
          fprintf(fLogFile, "    no valid entries found in list\n");
       goto gEndFilelist;
    }
-   
+
    pFilelistc = pFilelist;
    if (iDebug)
    {
@@ -2545,7 +2545,7 @@ gErrorFilelist:
 
 int rawGetWSInfo( srawCliActionComm *pCliActionComm,
                   srawPoolStatus *pPoolInfo,
-                  srawWorkSpace **ppWorkSpace) 
+                  srawWorkSpace **ppWorkSpace)
 {
    char cModule[32] = "rawGetWSInfo";
    int iDebug = 0;
@@ -2589,7 +2589,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
    int iPoolTempCheck;
                   /* min work space check size for temp pool (MByte) */
    int iTempSizeUnavail = 0;
-               /* temp pool space currently allocated by other pools */ 
+               /* temp pool space currently allocated by other pools */
 
    int iWorkSizeNew;
               /* still to be staged for requested work space (MByte) */
@@ -2616,7 +2616,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
    char cMisc[128] = "";
    char pcGenFile[MAX_FULL_FILE] = "";   /* full (generic) file name */
 
-   srawWorkSpace *pWorkSpace; 
+   srawWorkSpace *pWorkSpace;
    srawPoolStatusData *pPoolInfoData, *pPoolInfoData0;
 
    if (iDebug)
@@ -2625,7 +2625,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
    piBuffer = pCliActionComm->piBuffer;      /* area to receive data */
    iSocket = pCliActionComm->iSocket;
    iAction = pCliActionComm->iAction;
-  
+
    iPoolInfo = 1;
    if (iAction == QUERY_POOL)
    {
@@ -2699,14 +2699,14 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
 
             } /* (iStatus == STA_ERROR) || (iStatus == STA_ERROR_EOF) */
             else
-            { 
+            {
                printf(
                   "-E- unexpected status (type %d) received from server\n",
                   iStatus);
             }
          } /* iIdent == IDENT_STATUS */
          else
-         { 
+         {
             printf(
                "-E- unexpected header (%d) received from server\n",
                iIdent);
@@ -2841,7 +2841,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
             } /* (iPoolMode == 2) */
          } /* (iAction == QUERY_POOL) || (iAction == QUERY_WORKSPACE) */
 
-         if ( (iPoolMode == 2) && 
+         if ( (iPoolMode == 2) &&
               ((iAction == STAGE) || (iAction == QUERY_WORKSPACE)) )
          {
             iPoolTempMax = ntohl(pPoolInfoData->iMaxSize);
@@ -2903,14 +2903,14 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
 
             } /* (iStatus == STA_ERROR) || (iStatus == STA_ERROR_EOF) */
             else
-            { 
+            {
                printf(
                   "-E- unexpected status (%d) received from server\n",
                   iStatus);
             }
          } /* iIdent == IDENT_WORKSPACE */
          else
-         { 
+         {
             printf(
                "-E- unexpected header (%d) received from server\n",
                iIdent);
@@ -2941,7 +2941,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
             perror("-E- receiving work space info");
 
             return -1;
-         } 
+         }
 
          iBuf -= iRC;
          pcc += iRC;
@@ -3016,7 +3016,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
             = 1: overall size ws > free size StagePool
             = 2: overall size ws > allowed size of ws
             = 3: needed size ws > size StagePool
-            = 9: needed size ws > clean limit, but available: no sleep 
+            = 9: needed size ws > clean limit, but available: no sleep
             =10: needed size ws partially available,
                  sleep 10 min before start staging
             =20: needed size ws partially available,
@@ -3171,7 +3171,7 @@ char *rawGetFullFile(char *pcFile, char *pcNamell)
    char cModule[32] = "rawGetFullFile";
    int iDebug = 0;
 
-   char cname1[MAX_FULL_FILE] = "";    /* name structure assumed:    */ 
+   char cname1[MAX_FULL_FILE] = "";    /* name structure assumed:    */
    int ilen;
    int iRC;
 
@@ -3188,7 +3188,7 @@ char *rawGetFullFile(char *pcFile, char *pcNamell)
       strncpy(pdelim, "\0", 1);
       strcpy(cname1, ++pdelim);
    }
-   else 
+   else
    {
 #ifdef VMS
       pdelim2 = strrchr(cPath, *pcFileDelim2);
@@ -3229,7 +3229,7 @@ char *rawGetFullFile(char *pcFile, char *pcNamell)
          "    path: %s, name1: %s (len %d)\n", cPath, cname1, ilen);
 #endif
    }
-  
+
    pc = &cname1[0];
    pcll = pcNamell;
    iRC = strncmp(pcll, pcObjDelim, 1);
@@ -3237,9 +3237,9 @@ char *rawGetFullFile(char *pcFile, char *pcNamell)
 	else
 	{
       iRC = strncmp(pcll, pcObjDelimAlt, 1);
-      if (iRC == 0) pcll++;               /* skip object delimiter */      
+      if (iRC == 0) pcll++;               /* skip object delimiter */
 	}
-   
+
    if (strlen(cPath) > 0)
    {
 #ifdef VMS
@@ -3258,8 +3258,8 @@ char *rawGetFullFile(char *pcFile, char *pcNamell)
 } /* rawGetFullFile */
 
 /*********************************************************************
- * rawQueryPrint: print query results for one object 
- * created 19. 2.1996, Horst Goeringer 
+ * rawQueryPrint: print query results for one object
+ * created 19. 2.1996, Horst Goeringer
  *********************************************************************
  */
 
@@ -3279,7 +3279,7 @@ void rawQueryPrint(
 
    int ii;
    int iStage = 0;                         /* StagePool (read cache) */
-   int iCache = 0;                      /* ArchivePool (write cache) */ 
+   int iCache = 0;                      /* ArchivePool (write cache) */
    int iATLServer = 0;     /* =1: aixtsm1(AIX), =2: gsitsma(Windows) */
    int iFileType = -1;
    int iMediaClass = 0;
@@ -3396,8 +3396,8 @@ void rawQueryPrint(
    if (strlen(pQAttr->cDateCreate) == 16)       /* no trailing blank */
       strcat(pQAttr->cDateCreate, " ");
    strcpy(cPath, (char *) rawGetPathName(pQAttr->cNamehl));
-   fprintf(fLogFile, "%s%s%s  %s  %s  %s", 
-      pQAttr->cNamefs, cPath, pQAttr->cNamell, 
+   fprintf(fLogFile, "%s%s%s  %s  %s  %s",
+      pQAttr->cNamefs, cPath, pQAttr->cNamell,
       pQAttr->cOwner, pQAttr->cDateCreate, cMClass);
 
    pQAttr->iFileSize = ntohl(pQAttr->iFileSize);
@@ -3409,7 +3409,7 @@ void rawQueryPrint(
    {
       if ( (pQAttr->iFileSize2 == 0) ||
            (sizeof(long) == 8) )
-         fprintf(fLogFile, "  %12lu", lFileSize); 
+         fprintf(fLogFile, "  %12lu", lFileSize);
       else
          fprintf(fLogFile, "    %s   ", cTooBig);
    }
@@ -3451,7 +3451,7 @@ void rawQueryPrint(
 } /* rawQueryPrint */
 
 /*********************************************************************/
-/* rawQueryString: print query results for one object to string */      
+/* rawQueryString: print query results for one object to string */
 /* created 19. 2.96, Horst Goeringer */
 /*********************************************************************/
 
@@ -3462,7 +3462,7 @@ int rawQueryString(
                        = 10: default print mode, stage status unknown
                        = 11: debug print mode, stage status unknown  */
         int iOut,                            /* length output string */
-        char *pcOut) 
+        char *pcOut)
 {
    char cModule[32] = "rawQueryString";
    int iDebug = 0;
@@ -3584,8 +3584,8 @@ int rawQueryString(
       strcat(pQAttr->cDateCreate, " ");
    strcpy(cPath, (char *) rawGetPathName(pQAttr->cNamehl));
 
-   sprintf(cMsg, "%s%s%s  %s  %s  %s", 
-      pQAttr->cNamefs, cPath, pQAttr->cNamell, 
+   sprintf(cMsg, "%s%s%s  %s  %s  %s",
+      pQAttr->cNamefs, cPath, pQAttr->cNamell,
       pQAttr->cOwner, pQAttr->cDateCreate, cMClass);
 
    pQAttr->iFileSize = ntohl(pQAttr->iFileSize);
@@ -3597,13 +3597,13 @@ int rawQueryString(
    pQAttr->iFileSize = htonl(pQAttr->iFileSize);
    pQAttr->iFileSize2 = htonl(pQAttr->iFileSize2);
 
-   if (lFileSize) 
+   if (lFileSize)
    {
       if ( (pQAttr->iFileSize2 == 0) ||
            (sizeof(long) == 8) )
          sprintf(cMsg1, "  %12lu", lFileSize);
       else
-         sprintf(cMsg1, "    %s   ", cTooBig); 
+         sprintf(cMsg1, "    %s   ", cTooBig);
       strcat(cMsg, cMsg1);
    }
    if (iStage)
@@ -3656,7 +3656,7 @@ int rawQueryString(
         cModule, iOut, iMsg);
       strncpy(pcOut, cMsg, (unsigned) iOut-1);
       strcat(pcOut, "\0");
-      
+
       fprintf(fLogFile,
          "-W- %s: query information incomplete:\n%s\n", cModule, pcOut);
 
@@ -3932,7 +3932,7 @@ unsigned long ielpst( unsigned long iScale,
 
 /* FORTRAN entry */
 unsigned long ielpst_( unsigned long *iScale,
-                       unsigned long *iBuf ) 
+                       unsigned long *iBuf )
 {
    return( ielpst( *iScale, iBuf ) );
 } /* ielpst_ */
