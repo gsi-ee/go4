@@ -40,7 +40,6 @@ TGo4BufferQueue::TGo4BufferQueue() :
    fxBufferList(0),
    fxFreeList(0),
    fxBufferMutex(0),
-   fiOverflowcount(0),
    fiMaxBuffers(10)
 {
    GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue()", __LINE__, __FILE__));
@@ -53,7 +52,6 @@ TGo4BufferQueue::TGo4BufferQueue(const char* name) :
    fxBufferList(0),
    fxFreeList(0),
    fxBufferMutex(0),
-   fiOverflowcount(0),
    fiMaxBuffers(10)
 {
    GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
