@@ -64,18 +64,12 @@ class TGo4BrowserItem : public TFolder {
       virtual void SetTitle(const char* title = "");
       virtual void ls(Option_t* option = "*") const;
 
-#ifdef WIN32
-
-      virtual void SaveAs(const char* filename = "", Option_t *option = "");
-
-#else
-
 #if ROOT_VERSION_CODE < ROOT_VERSION(5,13,6)
       virtual void SaveAs(const char* filename = "");
 #else
-      virtual void SaveAs(const char* filename = "", Option_t *option = "");
+      virtual void SaveAs(const char* filename = "", Option_t *option = "") const; // *MENU*
 #endif
-#endif
+
       virtual void DrawClass() const;
       virtual TObject* DrawClone(Option_t* option = "") const;
       virtual void Dump() const;
