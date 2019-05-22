@@ -16,7 +16,6 @@
 #define TGO4ROLLINGGRAPH_H
 
 #include "TGraphErrors.h"
-#include "Rtypes.h"
 
 /** \brief Graphs that renew themselves iteratively to monitor a value
 *
