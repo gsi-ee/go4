@@ -974,7 +974,7 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
   if(pLmdControl->pOffset4)
     pLmdControl->pMbsFileHeader->iTableOffset = *(pLmdControl->pOffset4+pLmdControl->iElements);
   if(current/4 != pLmdControl->pMbsFileHeader->iTableOffset){
-    printf("Table offset mismatch: current:%lld calculated:%lld, cur-cal %lld\n",
+    printf("Table offset mismatch: current:%lu calculated:%lu, cur-cal %lu\n",
       current/4,pLmdControl->pMbsFileHeader->iTableOffset,
       current/4-pLmdControl->pMbsFileHeader->iTableOffset);
     return(LMD__FAILURE);
