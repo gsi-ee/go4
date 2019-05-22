@@ -6,8 +6,13 @@ ExeSuf        =
 DllSuf        = so
 
 #### Compilers: ####
+ifdef clang
+CXX           = clang++
+CC            = clang
+else
 CXX           = g++
 CC            = gcc
+endif
 
 #### Compiler optimization flags: ####
 OPTIONS       = -fPIC
