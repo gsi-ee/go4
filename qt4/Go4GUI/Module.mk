@@ -27,6 +27,11 @@ GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += -Wl,-arch,i386"
 endif
 endif
 
+ifdef clang
+GO4GUI4_QMAKEFLAGS += "QMAKE_CXX = clang++"
+GO4GUI4_QMAKEFLAGS += "QMAKE_LINK = clang++"
+endif
+
 
 ifdef USEDIM
 GO4GUI4_FORMS       = $(wildcard $(GO4GUI4_DIR)/*.ui)

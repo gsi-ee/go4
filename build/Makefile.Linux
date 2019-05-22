@@ -36,13 +36,19 @@ RMDIR         = rm -rf
 MV            = mv
 
 #### Linker definitions: ####
-LD            = g++
 ifeq ($(GO4WITHRPATH),true)
 LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
-#LDFLAGS       += $(LDFLAGS_RPATH) -O 
+
+ifdef clang
+LD            = clang++
+LDFLAGS       += $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O
+SOFLAGS       = -shared -Wl,-soname,
+else
+LD            = g++
 LDFLAGS       += $(LDFLAGS_RPATH) -Wl,--no-as-needed $(LDFLAGS_EXTRA) -O
 SOFLAGS       = -shared -Wl,-soname,
+endif
 
 #### Other options: ####
 OutPutOpt     = -o 
