@@ -270,7 +270,7 @@ void TGo4Picture::SetPosition(Int_t posy, Int_t posx)
   fiPosX = posx; fiPosY = posy;
 }
 
-Bool_t TGo4Picture::CheckPosition(Int_t posy, Int_t posx)
+Bool_t TGo4Picture::CheckPosition(Int_t posy, Int_t posx) const
 {
    return (fiPosX == posx) && (fiPosY == posy);
 }
@@ -393,7 +393,7 @@ void TGo4Picture::SetRangeX(Double_t min, Double_t max)
   SetOptionD(PictureIndex, op_RangeXMax, max);
 }
 
-Bool_t TGo4Picture::GetRangeX(Double_t& min, Double_t& max)
+Bool_t TGo4Picture::GetRangeX(Double_t& min, Double_t& max)  const
 {
    min = 0.; max = 0;
    return GetOptionD(PictureIndex, op_RangeXMin, min) &&
@@ -412,7 +412,7 @@ void TGo4Picture::SetRangeY(Double_t min, Double_t max)
   SetOptionD(PictureIndex, op_RangeYMax, max);
 }
 
-Bool_t TGo4Picture::GetRangeY(Double_t& min, Double_t& max)
+Bool_t TGo4Picture::GetRangeY(Double_t& min, Double_t& max) const
 {
    min = 0.; max = 0;
    return GetOptionD(PictureIndex, op_RangeYMin, min) &&
@@ -431,7 +431,7 @@ void TGo4Picture::SetRangeZ(Double_t min, Double_t max)
   SetOptionD(PictureIndex, op_RangeZMax, max);
 }
 
-Bool_t TGo4Picture::GetRangeZ(Double_t& min, Double_t& max)
+Bool_t TGo4Picture::GetRangeZ(Double_t& min, Double_t& max) const
 {
    min = 0.; max = 0;
    return GetOptionD(PictureIndex, op_RangeZMin, min) &&
@@ -453,7 +453,7 @@ void TGo4Picture::SetRange(Int_t naxis, Double_t min, Double_t max)
    }
 }
 
-Bool_t TGo4Picture::GetRange(Int_t naxis, Double_t& min, Double_t& max)
+Bool_t TGo4Picture::GetRange(Int_t naxis, Double_t& min, Double_t& max) const
 {
    switch (naxis) {
       case 0: return GetRangeX(min, max); break;
@@ -1473,7 +1473,7 @@ void TGo4Picture::SetOptionF(Short_t index, Short_t typ, Float_t value)
    SetOption(index, typ, buf);
 }
 
-Bool_t TGo4Picture::GetOptionF(Short_t index, Short_t typ, Float_t& value)
+Bool_t TGo4Picture::GetOptionF(Short_t index, Short_t typ, Float_t& value) const
 {
    Long_t buf;
    Bool_t res = GetOption(index, typ, buf);
@@ -1502,7 +1502,7 @@ void TGo4Picture::SetOptionD(Short_t index, Short_t typ, Double_t value)
    SetOption(index, typ, buf);
 }
 
-Bool_t TGo4Picture::GetOptionD(Short_t index, Short_t typ, Double_t& value)
+Bool_t TGo4Picture::GetOptionD(Short_t index, Short_t typ, Double_t& value) const
 {
    Long_t buf;
    Bool_t res = GetOption(index, typ, buf);
@@ -1519,7 +1519,7 @@ Bool_t TGo4Picture::GetOptionD(Short_t index, Short_t typ, Double_t& value)
    return res;
 }
 
-Double_t TGo4Picture::GetD(Short_t index, Short_t typ, Double_t def)
+Double_t TGo4Picture::GetD(Short_t index, Short_t typ, Double_t def) const
 {
    Double_t value;
    if (!GetOptionD(index, typ, value)) return def;
@@ -1546,11 +1546,11 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
    }
 }
 
-TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ)
+TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
 {
-   if (typ<op_ObjsBound) return 0;
+   if (typ<op_ObjsBound) return nullptr;
    Int_t pos = FindOptPos(index, typ);
-   if (pos<0) return 0;
+   if (pos<0) return nullptr;
    return fxOptObjects->At(fxOptValue[pos]);
 }
 
@@ -1560,10 +1560,10 @@ void TGo4Picture::SetStrOption(Short_t index, Short_t typ, const char* value)
   SetObjOption(index, typ, new TObjString(value));
 }
 
-const char* TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char* defvalue)
+const char* TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char *defvalue) const
 {
-  TObjString* ostr = dynamic_cast<TObjString*> (GetObjOption(index, typ));
-  if (ostr==0) return defvalue;
+  TObjString *ostr = dynamic_cast<TObjString*> (GetObjOption(index, typ));
+  if (!ostr) return defvalue;
   return ostr->String().Data();
 }
 
@@ -1574,7 +1574,7 @@ void TGo4Picture::SetDrawOption(Option_t* option, Int_t index)
              else SetStrOption(index, op_Draw, option);
 }
 
-Option_t* TGo4Picture::GetDrawOption(Int_t index)
+Option_t* TGo4Picture::GetDrawOption(Int_t index) const
 {
    CheckIndex(index);
    return (Option_t*) GetStrOption(index, op_Draw);
@@ -1636,12 +1636,14 @@ void TGo4Picture::ClearOption(Int_t pos)
   fiOptSize--;
 }
 
-void TGo4Picture::CheckIndex(Int_t& index)
+void TGo4Picture::CheckIndex(Int_t &index) const
 {
-  if(index==UndefIndex){
-    if (fiLastIndex>=PictureIndex) index = fiLastIndex;
-                              else index = PictureIndex;
-  }
+   if (index == UndefIndex) {
+      if (fiLastIndex >= PictureIndex)
+         index = fiLastIndex;
+      else
+         index = PictureIndex;
+   }
 }
 
 void TGo4Picture::ClearAllOptions(Short_t index)

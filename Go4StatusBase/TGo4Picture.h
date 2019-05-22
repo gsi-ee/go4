@@ -90,13 +90,13 @@ class TGo4Picture : public TNamed {
 
       // sets viewable range for X and Y axis
       void SetRangeX(Double_t min, Double_t max);
-      Bool_t GetRangeX(Double_t& min, Double_t& max);
+      Bool_t GetRangeX(Double_t& min, Double_t& max) const;
       void ClearRangeX();
       void SetRangeY(Double_t min, Double_t max);
-      Bool_t GetRangeY(Double_t& min, Double_t& max);
+      Bool_t GetRangeY(Double_t& min, Double_t& max) const;
       void ClearRangeY();
       void SetRangeZ(Double_t min, Double_t max);
-      Bool_t GetRangeZ(Double_t& min, Double_t& max);
+      Bool_t GetRangeZ(Double_t& min, Double_t& max) const;
       void ClearRangeZ();
 
       // set logarithmic scale for selected axis
@@ -105,7 +105,7 @@ class TGo4Picture : public TNamed {
       void GetLogScales(TVirtualPad* pad);
       void ClearLogScales();
 
-      // select index from object list, to which followinf options will be applied
+      // select index from object list, to which following options will be applied
       void SetSelectedIndex(Int_t index = PictureIndex) { fiLastIndex = index; }
 
       // sets line attributes
@@ -146,12 +146,12 @@ class TGo4Picture : public TNamed {
 
       virtual void SetDrawOption(Option_t* option, Int_t index);
 
-      virtual Option_t* GetDrawOption()
+      virtual Option_t* GetDrawOption() const
       {
          return GetDrawOption(UndefIndex);
       }
 
-      virtual Option_t* GetDrawOption(Int_t index);
+      virtual Option_t* GetDrawOption(Int_t index) const;
 
       // set draw style (Go4GUI index like)
       void SetHisStats(Bool_t on);
@@ -315,7 +315,7 @@ class TGo4Picture : public TNamed {
       void ClearFullRange(Int_t naxis = -1);
 
       void SetRange(Int_t naxis, Double_t min, Double_t max);
-      Bool_t GetRange(Int_t naxis, Double_t& min, Double_t& max);
+      Bool_t GetRange(Int_t naxis, Double_t& min, Double_t& max) const;
       void ClearRange(Int_t naxis = -1);
 
       void ChangeDrawOption(Int_t kind, Int_t value);
@@ -332,27 +332,28 @@ class TGo4Picture : public TNamed {
       Int_t GetObjAttIndex(TObject* obj);
 
       void SetPosition(Int_t posy, Int_t posx);
-      Bool_t CheckPosition(Int_t posy, Int_t posx);
+      Bool_t CheckPosition(Int_t posy, Int_t posx) const;
 
       Int_t FindOptPos(Short_t index, Short_t typ) const;
       Int_t ExtendOptPos(Short_t index, Short_t typ);
 
       void SetOption(Short_t index, Short_t typ, Long_t value);
+      using TObject::GetOption;
       Bool_t GetOption(Short_t index, Short_t typ, Long_t& value) const;
       Long_t GetI(Short_t index, Short_t typ, Long_t def = 0) const;
 
       void SetOptionF(Short_t index, Short_t typ, Float_t value);
-      Bool_t GetOptionF(Short_t index, Short_t typ, Float_t& value);
+      Bool_t GetOptionF(Short_t index, Short_t typ, Float_t& value) const;
 
       void SetOptionD(Short_t index, Short_t typ, Double_t value);
-      Bool_t GetOptionD(Short_t index, Short_t typ, Double_t& value);
-      Double_t GetD(Short_t index, Short_t typ, Double_t def = 0.);
+      Bool_t GetOptionD(Short_t index, Short_t typ, Double_t& value) const;
+      Double_t GetD(Short_t index, Short_t typ, Double_t def = 0.) const;
 
       void SetObjOption(Short_t index, Short_t typ, TObject* obj);
-      TObject* GetObjOption(Short_t index, Short_t typ);
+      TObject *GetObjOption(Short_t index, Short_t typ) const;
 
       void SetStrOption(Short_t index, Short_t typ, const char* value);
-      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = 0);
+      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = nullptr) const;
 
       void ClearOption(Short_t index, Short_t typ);
       void ClearOption(Int_t pos);
@@ -360,7 +361,7 @@ class TGo4Picture : public TNamed {
 
       void* Cast(TObject* obj, TClass* cl);
 
-      void CheckIndex(Int_t& index);
+      void CheckIndex(Int_t &index) const;
 
       void DrawPic(TVirtualPad* pad);
 
