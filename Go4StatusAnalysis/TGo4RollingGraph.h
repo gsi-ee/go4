@@ -1,4 +1,4 @@
-// $Id:$
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -10,7 +10,6 @@
 // This software can be used under the license agreements as stated
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
-
 
 
 #ifndef TGO4ROLLINGGRAPH_H
@@ -25,28 +24,28 @@
 */
 class TGo4RollingGraph : public TGraphErrors
 {
-	public :
-		TGo4RollingGraph();
-		TGo4RollingGraph(Int_t NumPoints, Int_t UpdateInterval = 1);
-		
-		virtual ~TGo4RollingGraph();
-		
-		virtual void	Fill (Double_t value, Double_t xerror=-1, Double_t yerror=-1);
-		void	Clear ();
-		
-		Int_t	GetNumPoints () const	{ return fiNumPoints; }	///< Returns number of displayed points
-		Int_t	GetUpdateInterval () const	{ return fiUpdateInterval; }	///< Returns interval of entries when a new bin is opened
-		
-	protected :
-		void	NextBin ();
-		
-		Int_t	fiNumPoints;	///< Nominal size of the graph, i.e. number of points to display
-		Int_t	fiUpdateInterval;	///< Number of Fill() functions to call before a new average is started
-		Long64_t	fiCounter;	///< No. of values filled in total
-		Double_t	fdSum;	///< Summed total value in the current Bin
-		Double_t	fdSumAveraged;	///< Averaged summed total value in the current Bin
-	
-	ClassDef(TGo4RollingGraph, 1);
+   public :
+      TGo4RollingGraph();
+      TGo4RollingGraph(Int_t NumPoints, Int_t UpdateInterval = 1);
+
+      virtual ~TGo4RollingGraph();
+
+      virtual void   Fill (Double_t value, Double_t xerror=-1, Double_t yerror=-1);
+      virtual void   Clear (Option_t *option = "");
+
+      Int_t   GetNumPoints () const   { return fiNumPoints; }   ///< Returns number of displayed points
+      Int_t   GetUpdateInterval () const   { return fiUpdateInterval; }   ///< Returns interval of entries when a new bin is opened
+
+   protected :
+      void   NextBin ();
+
+      Int_t      fiNumPoints;   ///< Nominal size of the graph, i.e. number of points to display
+      Int_t      fiUpdateInterval;   ///< Number of Fill() functions to call before a new average is started
+      Long64_t   fiCounter;   ///< No. of values filled in total
+      Double_t   fdSum;   ///< Summed total value in the current Bin
+      Double_t   fdSumAveraged;   ///< Averaged summed total value in the current Bin
+
+   ClassDef(TGo4RollingGraph, 1);
 };
 
 #endif
