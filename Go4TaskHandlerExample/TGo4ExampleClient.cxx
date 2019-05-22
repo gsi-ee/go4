@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -63,34 +63,37 @@ TGo4TaskStatus * TGo4ExampleClient::CreateStatus()
    return stat;
 
 }
-void TGo4ExampleClient::UpdateStatus(TGo4ClientStatus* state)
+void TGo4ExampleClient::UpdateStatus(TGo4TaskStatus* state)
 {
    GO4TRACE((12,"TGo4ExampleClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
    TGo4ClientTask::UpdateStatus(state); // fill superclass attributes
-   TGo4ExampleClientStatus* exstate= (TGo4ExampleClientStatus*) state;
-   exstate->SetHistoStatus(GetApplication()->GetHistogram());
-   exstate->SetNames(fcMainName.Data(), fcWatchName.Data());
-
+   TGo4ExampleClientStatus* exstate= dynamic_cast<TGo4ExampleClientStatus*> (state);
+   if (exstate) {
+      exstate->SetHistoStatus(GetApplication()->GetHistogram());
+      exstate->SetNames(fcMainName.Data(), fcWatchName.Data());
+   }
 }
 
 void TGo4ExampleClient::Stop()
 {
    GO4TRACE((12,"TGo4ExampleClient::Stop()",__LINE__, __FILE__));
-   std::cout << "Stop of example client!"<<std::endl;
+   std::cout << "Stop of example client!" << std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Stop(): stop main thread",GetName());
    fxWorkHandler->Stop(fcMainName.Data());
 }
+
 void TGo4ExampleClient::Start()
 {
    GO4TRACE((12,"TGo4ExampleClient::Start()",__LINE__, __FILE__));
-   std::cout << "Start of example client!"<<std::endl;
+   std::cout << "Start of example client!" << std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Start(): start main thread",GetName());
    fxWorkHandler->Start(fcMainName.Data());
 }
+
 TGo4ExampleApplication* TGo4ExampleClient::GetApplication()
 {
-  GO4TRACE((12,"TGo4ExampleClient::GetApplication()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClient::GetApplication()",__LINE__, __FILE__));
    return fxApplication;
 }
