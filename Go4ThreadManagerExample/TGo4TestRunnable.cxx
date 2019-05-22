@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -30,20 +30,20 @@
 #include "TGo4LogicException.h"
 
 TGo4TestRunnable::TGo4TestRunnable()
-:TGo4Runnable("dummy",0),fxPad(0),fxCanvas(0),fxHisto(0)
+:TGo4Runnable("dummy",0)
 {
   GO4TRACE((14,"TGo4TestRunnable::TGo4Runnable() constructor",__LINE__, __FILE__));
 }
 
 TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right)
-   :TGo4Runnable(right),fxPad(0),fxCanvas(0),fxHisto(0)
+   :TGo4Runnable(right)
 {
    GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable() copy ctor",__LINE__, __FILE__));
    fiMode=right.fiMode;
 }
 
 TGo4TestRunnable::TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode)
-  :TGo4Runnable(name,man),fxPad(0),fxCanvas(0),fxHisto(0)
+  :TGo4Runnable(name,man)
 {
   GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
   fiMode=mode;
@@ -63,9 +63,9 @@ Int_t TGo4TestRunnable::Run (void* ptr)
    static Int_t t=0;
    static Int_t loops=0;
    Axis_t x=0;
-   TGo4ThreadHandler* han=0;
-   TGo4TestRunnable* th1run=0;
-   TGo4Thread* go4thr=0;
+   TGo4ThreadHandler *han=nullptr;
+   TGo4TestRunnable* th1run = nullptr;
+   TGo4Thread* go4thr = nullptr;
    TCanvas* can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
    TPad* pad1=((TGo4TestThreadManager*)fxManager)->GetPad1();
    TPad* pad2=((TGo4TestThreadManager*)fxManager)->GetPad2();
@@ -141,7 +141,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
                   GetName(),fiMode);
          fxGo4Thread->Sleep(2000);
          TGo4Log::Debug("\t ''%s'' creating histogram", GetName());
-         if(fxHisto==0)
+         if(!fxHisto)
             {
                fxHisto = new TH1D(GetName(),"histogram",2048,0,100);
             }
@@ -176,7 +176,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
             {
                TGo4Log::Debug("\t ''%s'' deleting histogram", GetName());
                delete fxHisto;
-               fxHisto=0;
+               fxHisto=nullptr;
             }
          else
             {
@@ -278,7 +278,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          TGo4Log::Debug("\t ''%s'' creating histogram", GetName());
-         if(fxHisto==0)
+         if(!fxHisto)
             {
                fxHisto = new TH1D(GetName(),"histogram",2048,0,100);
             }
@@ -301,7 +301,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          fxGo4Thread->Sleep(5000);
          TGo4Log::Debug("\t ''%s'' deleting histogram %d", GetName(),loops++);
          delete fxHisto;
-         fxHisto=0;
+         fxHisto = nullptr;
          }
          break;
       default:
