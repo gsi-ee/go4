@@ -1,5 +1,5 @@
 --------------------------------------------------------------
-         Go4 Release Package v5.3.2 (build 50302)
+         Go4 Release Package v5.3.x (build 5030x)
                       26-October-2018
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
@@ -21,36 +21,33 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 This package was tested on
-    Suse 13.x (x86_64), openSUSE Leap 42.2
+    Suse 13.x (x86_64), openSUSE Leap 42.2, openSUSE Tumblweed 5.2019
     Debian 6.0, Debian 7.0,  Debian 8.10 (32 bit and 64bit), Debian 9
-    compilers: gcc 4.7.2, gcc 4.8.5, gcc 4.9.2, gcc 6.3.0
-    Windows 7
+    Mac OS
+    compilers: gcc 4.7.2, gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2
 
-REQUIREMENTS: ROOT5 or ROOT6 and Qt4 or Qt5 or Qt3
+REQUIREMENTS: ROOT6 or ROOT5 and Qt5 or Qt4 or Qt3
 
 
 ROOT INSTALLATION
 
-  Install the ROOT framework Version >=5.34/30 (older version up to 5.34/02
+  Install the ROOT framework Version >=6.18/00 (older version up to 5.34/02
   can also be used, but not recommended).
   See instruction how download and compile ROOT on http://root.cern.ch.
-  There are several ways to install ROOT framework on the machine:
-     1) Keep compiled ROOT executables and libraries where they are and
-        correctly setup ROOTSYS, LD_LIBRARY_PATH and PATH variables.
-        Typically one uses thisroot.sh script from $ROOTSYS/bin directory like:
-           . your_root_directory/bin/thisroot.sh
-     2) Install ROOT binaries, includes and libraries in some default locations
-        like /usr/local/bin, /usr/local/lib, /usr/local/include.
-        For that "./configure --prefix=/usr/local" should be called.
-        Prefix location depends from the Linux distribution.
-     3) Install ROOT from RPM packages. There are Linux distributions, where ROOT
-        is available in form of precompiled package. Normally it should be enough
-        to install such package on the system.
+  Recomended way to build ROOT - compile it and use from compilation path:
+
+     [shell] tar xzf root_v6.18.00.source.tar.gz
+     [shell] mkdir build_618
+     [shell] cd build_618
+     [shell] cmake ../root_v6.18.00
+     [shell] make -j
+     [shell] source bin/thisroot.sh
+
   To use web-based graphics (required for Mac) qt5web option should be enabled:
 
-     shell> cmake -Droot7=ON -Dqt5web=ON /path/to/sources/of/root/
+     shell> cmake ../root_v6.18.00 -Droot7=ON
 
-  Check, that ROOT installed correctly, by calling:
+  Check after ROOT compilation that everything is fine by calling:
 
      shell> root-config --version
 
@@ -63,34 +60,21 @@ ROOT INSTALLATION
 QT INSTALLATION
 
   This Go4 distribution can be built with following Qt versions:
+     qt5 - Qt 5.6.x and higher (recommended)
+     qt4 - Qt 4.6.x and higher
      qt3 - Qt 3.3.x and higher
-     qt4 - Qt 4.6.x and higher (recommended)
-     qt5 - Qt 5.2.x and higher
   Most modern Linux distributions provide Qt libraries, utilities and include files.
-  Typically one should install libqt4-devel packages (or libqt3-devel).
+  Typically one should install libqt5-devel packages.
   Normally Go4 able to detect major version of such Qt installation
-  and will compile either correspondent version of Go4 GUI.
+  and will compile correspondent version of Go4 GUI.
   If several Qt versions are installed, use "withqt" makefile flag to select
   preferred version of qt. It is especially necessary for systems, where Qt3 installation
   automatically sets QTDIR variable. In that case call "make withqt=5" to compile
   go4 with Qt5. It is recommended to use Qt5 version of GUI.
 
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
-  one should compile Qt from the source package. For that download from
-  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.8.2.tar.gz
-  Configure it with following flags:
-
-     shell> ./configure -prefix $PWD
-
-  To compile Qt, call:
-
-     shell> gmake
-
-  Optionally, one can cleanup all intermediate files to save at least 1.5G disk space:
-
-     shell> gmake clean
-
-  After compilation set environment variables e.g.
+  one should download it from https://www.qt.io/download anf follow instruction how it should be
+  installed. After compilation set environment variables e.g.
 
      shell> export QTDIR=$PWD
      shell> export PATH=$PATH:$QTDIR/bin
@@ -99,8 +83,8 @@ QT INSTALLATION
 
 QT installation on Mac OS X
 
-  Go4 QtROOT GUI does not work for Qt build with native MacOSX graphics
-  like carbon or cocoa. The only possibility now - install qt5 with QWebEngine support.
+  Go4 QtROOT GUI on Mac works only with web-based ROOT graphics.
+  For that one requires latest qt5 with QWebEngine support.
   Most simple way is to use brew (see http://macappstore.org/qt5/):
 
      shell> brew install qt5
@@ -123,7 +107,7 @@ GO4 COMPILATION
   This will create sub-directory go4-5.9.x. To compile go4, do:
 
      shell> cd go4-5.9.x
-     shell> make all
+     shell> make -j
 
   In most cases it will be enough to compile go4 libraries, gui and
   several analysis examples, included in distribution. Go4 makefile
@@ -142,7 +126,7 @@ RUNNING GO4 GUI
   It can be copied in any suitable location (accessible via PATH variable)
   and called:
 
-     shell> . go4login
+     shell> source ./go4login
 
   After that go4 gui and user analysis can be started from any directory.
 
