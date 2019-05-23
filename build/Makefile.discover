@@ -345,8 +345,9 @@ endif
 	@echo 'export PATH=$(ROOTEXEPATH)/bin:$$PATH' >> $@
 ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(ROOTLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
-endif
+else
 	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
+endif
 	@echo 'export ROOT_INCLUDE_PATH=$(GO4TOPPATH):$(GO4INCPATH):$(ROOTINCPATH):$$ROOT_INCLUDE_PATH' >> $@
 	@echo 'export PYTHONPATH=$(ROOTLIBPATH):$$PYTHONPATH' >> $@
 	@echo '' >> $@
@@ -356,8 +357,9 @@ ifdef USEDABC
 	@echo 'export PATH=$(DABCBINPATH):$$PATH' >> $@
 ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(DABCLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
-endif
+else
 	@echo 'export LD_LIBRARY_PATH=$(DABCLIBPATH):$$LD_LIBRARY_PATH' >> $@
+endif
 	@echo '' >> $@
 endif
 
@@ -365,8 +367,9 @@ ifdef USEHDF5
 	@echo '##### HDF5-related settings ###########' >> $@
 ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(HDF5LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
-endif
+else
 	@echo 'export LD_LIBRARY_PATH=$(HDF5LIBPATH):$$LD_LIBRARY_PATH' >> $@
+endif
 	@echo '' >> $@
 endif
 
@@ -377,8 +380,9 @@ ifeq ($(QTDIR),$(QTPATH))
 	@echo 'export PATH=$(QTDIR)/bin:$$PATH' >> $@
 ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(QTDIR)/lib:$$DYLD_LIBRARY_PATH' >> $@
-endif
+else
 	@echo 'export LD_LIBRARY_PATH=$(QTDIR)/lib:$$LD_LIBRARY_PATH' >> $@
+endif
 	@echo '' >> $@
 endif
 endif
@@ -388,8 +392,9 @@ endif
 	@echo 'export PYTHONPATH=$(GO4TOPPATH)/python:$$PYTHONPATH' >> $@
 ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=.:$(GO4LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
-endif
+else
 	@echo 'export LD_LIBRARY_PATH=.:$(GO4LIBPATH):$$LD_LIBRARY_PATH' >> $@	
+endif
 	@chmod 755 $@
 
 go4login.bat:
