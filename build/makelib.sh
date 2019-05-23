@@ -33,22 +33,22 @@ if [ "$GO4_OS" = "Win32" ]; then
   rootlibs="libCore.lib libCint.lib libMatrix.lib \
             libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
             libGpad.lib libThread.lib libTree.lib libXMLIO.lib"
-  
+
   if [[ -a $ROOTLIBDIR/libSpectrum.lib ]]; then
      rootlibs="$rootlibs libSpectrum.lib"
   fi
-  
+
   if [[ -a $ROOTLIBDIR/libRIO.lib ]]; then
      rootlibs="$rootlibs libRIO.lib"
   fi
-  
+
   if [[ -a $ROOTLIBDIR/libNet.lib ]]; then
      rootlibs="$rootlibs libNet.lib"
   fi
-  
+
   extralibs=""
   isgo4lib="true"
-  
+
   if [ "$LIBNAME" = "libGo4Fit" ]; then
     extralibs=""
   elif [ "$LIBNAME" = "libGo4Base" ]; then
@@ -75,23 +75,23 @@ if [ "$GO4_OS" = "Win32" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Analysis.lib"
   fi
-  
+
   rm -f $LIBDIR/$LIBNAME.*
-  
+
   #echo bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
   echo Produce $LIBDIR/${LIBNAME}.def
-  
+
   bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
-  
+
   #echo /cygdrive/f/Serg/MVC/bin/link -LIB -nologo -MACHINE:IX86 \
   #      -out:$LIBDIR/${LIBNAME}.lib $LIBOBJS -def:$LIBDIR/${LIBNAME}.def
-  
+
   link -LIB -nologo -MACHINE:IX86 \
         -out:$LIBDIR/${LIBNAME}.lib $LIBOBJS -def:$LIBDIR/${LIBNAME}.def
-  
+
   #echo link $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
   #      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
-  
+
   echo Link $LIBDIR/${LIBNAME}.dll
 
   link /MANIFEST $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
@@ -108,7 +108,7 @@ if [ "$GO4_OS" = "Win32" ]; then
      $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
      echo $LIBNAME.rootmap 'done'
   fi
-  
+
   if [ "$LIBDIR" == "lib" ]; then
     if [ "$isgo4lib" == "true" ]; then
       echo Copy $LIBDIR/${LIBNAME}.dll to bin directory
@@ -118,7 +118,7 @@ if [ "$GO4_OS" = "Win32" ]; then
       fi
     fi
   fi
-  
+
   exit 0
 
 fi
@@ -144,7 +144,7 @@ if [ "$GO4_OS" = "Solaris" ]; then
 
    $LD $SOFLAGS $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX
 elif [ "$GO4_OS" = "Darwin" ]; then
-echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBNAME.$FULLSUFIX
+   echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBNAME.$FULLSUFIX
 
    $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS \
             -o $LIBDIR/$LIBNAME.$FULLSUFIX
@@ -179,5 +179,5 @@ if [ "x$LINKDEF" != "x" ]; then
    $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
    echo $LIBNAME.rootmap 'done'
 fi
-   
+
 exit 0
