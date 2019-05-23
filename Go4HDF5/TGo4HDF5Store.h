@@ -19,9 +19,8 @@
 #include "TGo4EventStore.h"
 #include "TGo4HDF5StoreParameter.h"
 
-#ifndef __CINT__
-#include "H5Cpp.h"
-#endif
+#include "TGo4HDF5Adapter.h"
+
 
 class TFile;
 class TTree;
@@ -35,7 +34,7 @@ class TGo4HDF5StoreParameter;
  *  * @author J. Adamczewski-Musch
  * @since 12/2018
  */
-class TGo4HDF5Store : public TGo4EventStore {
+class TGo4HDF5Store : public TGo4EventStore, TGo4HDF5Adapter {
   public:
 
     TGo4HDF5Store();
@@ -63,75 +62,24 @@ class TGo4HDF5Store : public TGo4EventStore {
     /** Saves a complete objects folder correllated with the current event into the storage. */
     virtual Int_t Store(TFolder* fold);
 
-    /** Set the file compression level. May be changed on the fly. */
-   // void SetFlags(Int_t flags);
-
-
-    /** Standard go4 name of the branch used in all treestore
-      * and treesource implementations. */
-   // static const char* fgcEVBRANCHNAME; //!
-
-    /** Standard suffix for file name */
-    static const char* fgcFILESUF; //!
-
-    /** Standard go4 suffix for tree name */
-   // static const char* fgcTREESUF; //!
-
 
 
   protected:
 
     /** opens the hdf5 file depending on the setup */
-    void OpenFile();
+    virtual void OpenFile(const char* name=0);
 
     /** opens the hdf5 file depending on the setup */
-    void CloseFile();
+//    virtual void CloseFile();
 
     /** used by all Store methods to write with referencing event number in name */
     void WriteToStore(TNamed* ob);
 
     /** initialize dataset from event structure*/
-    void BuildDataSet(TGo4EventElement* event, size_t parentoffset=0);
-
-    /** delete dataset resource*/
-    void DeleteDataSet();
-
-    /** evaluate total memory size of event object regarding composite subevents*/
-    size_t ScanEventSize(TGo4EventElement* event);
+    virtual void BuildDataSet(TGo4EventElement* event);
 
 
-    /** Convert common go4 filemode flags to hdf5 flags: **/
-    UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
-
-  private:
-
-#ifndef __CINT__
-    H5::H5File* fxFile; //!
-
-    H5::DataSet fxDataSet; //!
-
-    H5::CompType* fxType; //!
-
-    H5::DataSpace* fxDataSpace; //!
-#endif
-    /** True if branch already exists. Used for automatic creation
-      * of new event branch within Store method. */
-    Bool_t fbDataSetExists;
-
-    /** Points to event structure to be filled into dataset. */
-    TGo4EventElement * fxEvent; //!
-
-    /** remember file property flags?. */
-    UInt_t fiFlags;
-
-    /** size of event structure in bytes, for redefining output dataset*/
-    size_t fiEventSize;
-
-#ifndef __CINT__
-    /** counter of filled events. */
-    hsize_t fiFillCount; //!
-#endif
 
   ClassDef(TGo4HDF5Store,1)
 };

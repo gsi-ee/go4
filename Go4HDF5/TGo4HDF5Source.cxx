@@ -37,14 +37,7 @@
 
 
 TGo4HDF5Source::TGo4HDF5Source(const char* name) :
-   TGo4EventSource(name),
-   fxFile(0),
-   fxDataSet(),fxType(0), fxMemorySpace(0), fxFileSpace(0),
-   fbDataSetExists(kFALSE),
-   fxEvent(0),fxReadBuffer(0),
-   fiEventSize(0), fiReadOffset(0),
-   fiFillCount(0),
-   fxFilesNames(0)
+   TGo4EventSource(name), TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    fxFilesNames = ProducesFilesList(GetName());
 
@@ -53,15 +46,7 @@ TGo4HDF5Source::TGo4HDF5Source(const char* name) :
 }
 
 TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
-   TGo4EventSource(par->GetName()),
-   fxFile(0),
-   fxDataSet(),fxType(0), fxMemorySpace(0),
-   //fxFileSpace(0),
-   fbDataSetExists(kFALSE),
-   fxEvent(0),fxReadBuffer(0),
-   fiEventSize(0), fiReadOffset(0),
-   fiFillCount(0),
-   fxFilesNames(0)
+   TGo4EventSource(par->GetName()), TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    // TODO: all file regexp magic into base class for all eventsources
    fxFilesNames = ProducesFilesList(GetName());
@@ -72,15 +57,7 @@ TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
 
 
 TGo4HDF5Source::TGo4HDF5Source() :
-   TGo4EventSource("Go4HDF5Source"),
-   fxFile(0),
-   fxDataSet(),fxType(0), fxMemorySpace(0),
-   //fxFileSpace(0),
-   fbDataSetExists(kFALSE),
-   fxEvent(0),fxReadBuffer(0),
-   fiEventSize(0), fiReadOffset(0),
-   fiFillCount(0),
-   fxFilesNames(0)
+   TGo4EventSource("Go4HDF5Source"),TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    // for streamer, do not open here!
 }
@@ -104,8 +81,8 @@ TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
    if (!basename.MaybeWildcard()) {
 
       // add default suffix
-      if(strstr(basename.Data(),TGo4HDF5Store::fgcFILESUF)==0)
-         basename += TGo4HDF5Store::fgcFILESUF;
+      if(strstr(basename.Data(),TGo4HDF5Adapter::fgcFILESUF)==0)
+         basename += TGo4HDF5Adapter::fgcFILESUF;
 
       TList* lst = new TList();
       lst->SetOwner(kTRUE);
@@ -194,8 +171,8 @@ Bool_t TGo4HDF5Source::CloseCurrentFile()
 void TGo4HDF5Source::OpenFile(const char* fname)
 {
   TString buffer(fname);
-  if (strstr(buffer.Data(), TGo4HDF5Store::fgcFILESUF) == 0)
-    buffer.Append(TGo4HDF5Store::fgcFILESUF);
+  if (strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF) == 0)
+    buffer.Append(TGo4HDF5Adapter::fgcFILESUF);
 
 try{
   CloseFile();
@@ -213,219 +190,37 @@ catch(H5::Exception& ex)
 
 }
 
-void TGo4HDF5Source::CloseFile()
-{
-  if(fxFile==0) return;
-  delete fxFile;
-  fxFile=0;
-}
-
-size_t TGo4HDF5Source::ScanEventSize(TGo4EventElement* event)
-{
-  if (event==0) return 0;
-  TClass* evclass=event->Class();
-  TClass* actualclass=evclass->GetActualClass(event);
-  size_t rev=actualclass->Size();
-
-//////// TODO later JAM2019
-//  if(actualclass->InheritsFrom("TGo4CompositeEvent"));
-//  {
-//    TGo4CompositeEvent* theComp= dynamic_cast<TGo4CompositeEvent*>(event);
-//    for(Short_t i=0; (theComp && i<theComp->getNElements()) ;++i)
-//       {
-//         TGo4EventElement* subev=dynamic_cast<TGo4EventElement*>(theComp->getEventElement(i));
-//         rev+=ScanEventSize(subev);
-//       }
-//  }
-  printf("TGo4HDF5Source: ScanEventSize for class %s with object size %ld\n",
-       actualclass->GetName(), rev);
-  return rev;
-}
 
 
-void TGo4HDF5Source::BuildDataSet(TGo4EventElement* event, size_t parentoffset)
+void TGo4HDF5Source::BuildDataSet(TGo4EventElement* event)
 {
   // TODO: all hdf5 file and dataset treatment in adapter class common to source and store
  if(fbDataSetExists) return;
  if (event==0 || fxFile==0) return;
- TClass* evclass=event->Class();
- if(!evclass)
-   {
-     TGo4Log::Error("TGo4HDF5Source: BuildDataSet can not find an event class\n");
-     return;
-   }
- TClass* actualclass=evclass->GetActualClass(event);
- printf("TGo4HDF5Source: BuildDataSet for class %s with parentoffset is %ld\n",
-     actualclass->GetName(), parentoffset);
 
-try {
+ try{
 
- if(fxType==0)
+   TString classname=BuildDataType(event);
 
- {
-   fiEventSize=ScanEventSize(event);
-   printf("TGo4HDF5Source: BuildDataSet creates new type of size %ld\n",fiEventSize);
-   fxType = new H5::CompType(fiEventSize);
- }
-
-
-// JAM 2019 iterate over class member description and tranlate to hdf5 type:
-
- // TODO: in case of go4 composite events, get child class and  recursively scan this types:
- if(actualclass->InheritsFrom("TGo4CompositeEvent"))
- {
-   TGo4Log::Warn("TGo4HDF5Source: BuildDataSet - TGo4CompositeEvent is currently not yet supported properly!\n");
-
-   //JAM2019 The problem with composite event is that the components are all located on the heap and
-   // do not build a coherent data structure that can be stored in a single dataset type
-   // we would need to treat several dataspaces in the same file for each subcomponent
-   // TODO later!
-
-//   TGo4CompositeEvent* theComp= dynamic_cast<TGo4CompositeEvent*>(event);
-//   Short_t max=theComp->getNElements();
-//   for(Short_t i=0; i<max;++i)
-//   {
-//     TGo4EventElement* subev=dynamic_cast<TGo4EventElement*>(theComp->getEventElement(i));
-//     if(subev==0) continue;
-//     size_t compoffset=(char*) subev - (char*) event; // try to figure out distance to master object on heap?
-//     printf("TGo4HDF5Source::BuildDataSet sees composite event %s, offset to parent is =%ld \n", subev->GetName(),
-//         compoffset);
-//     BuildDataSet(subev, parentoffset+compoffset);
-//   }
- }
-
- TIter iter(actualclass->GetListOfDataMembers());
-
-   TObject* obj = 0;
-   while ((obj=iter()) != 0) {
-      TDataMember* member = dynamic_cast<TDataMember*>(obj);
-      if (member==0) continue;
-      const char* memtypename = member->GetFullTypeName();
-      TString fullname=    TString::Format("%s_%s",event->GetName(),member->GetName());
-      const char* membername = fullname.Data();
-      size_t memberoffset = member->GetOffset() + parentoffset;
-
-      printf("TGo4HDF5Source::BuildDataSet sees member %s of type %s, offset=%ld \n", membername, memtypename, memberoffset);
-      //continue; // DEBUG IT
-      Int_t arraydim = member->GetArrayDim();
-      if (arraydim>2) continue;
-
-
-      H5::DataType theType;
-      // do not edit IsA info
-      if(strstr(memtypename,"TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
-        continue;
-      if(strstr(membername,"fgIsA")!=0) // paranoidly redundant, never come here
-        continue;
-
-
-
-
-      else if (strcmp(memtypename,"Char_t")==0)
-             theType=H5::PredType::NATIVE_CHAR;
-      else if (strcmp(memtypename,"UChar_t")==0)
-        theType=H5::PredType::NATIVE_UCHAR;
-      else if (strcmp(memtypename,"Short_t")==0)
-        theType=H5::PredType::NATIVE_SHORT;
-      else if (strcmp(memtypename,"UShort_t")==0)
-             theType=H5::PredType::NATIVE_USHORT;
-      else if (strcmp(memtypename,"Int_t")==0)
-        theType=H5::PredType::NATIVE_INT;
-      else if (strcmp(memtypename,"UInt_t")==0)
-             theType=H5::PredType::NATIVE_UINT;
-      else if (strcmp(memtypename,"Double_t")==0)
-             theType=H5::PredType::NATIVE_DOUBLE;
-      else if (strcmp(memtypename,"Float_t")==0)
-                 theType=H5::PredType::NATIVE_FLOAT;
-      else if (strcmp(memtypename,"Bool_t")==0)
-                  theType=H5::PredType::NATIVE_HBOOL;
-
-       // TODO here std::vector<Double_t>  etc
-      else if (strcmp(memtypename," std::vector<Double_t>")==0)
-            {
-                 theType=H5::PredType::NATIVE_DOUBLE;
-                 if(arraydim>0) continue; // do not support arrays of vectors yet
-                 arraydim=1;
-            }
-
-
-      else continue;
-      // skip for a moment all types which are not basic types
-
-
-      // have to add parent name to membername for composite events:
-
-      const H5std_string theMEMBER(membername);
-      hsize_t maxindex1(1), maxindex2(1);
-
-
-      switch(arraydim) {
-        case 1:
-        {
-          maxindex1 = member->GetMaxIndex(0);
-          hsize_t dims[1]={maxindex1};
-          H5::ArrayType theArray(theType, arraydim, dims);
-          printf("TGo4HDF5Source::BuildDataSet inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-              membername,memtypename, arraydim,maxindex1, memberoffset);
-          fxType->insertMember( theMEMBER, memberoffset, theArray);
-          break;
-        }
-        case 2:
-        {
-          maxindex1 = member->GetMaxIndex(0);
-          maxindex2 = member->GetMaxIndex(1);
-          hsize_t dims[2]={maxindex1, maxindex2};
-          H5::ArrayType theArray(theType, arraydim, dims);
-          printf("TGo4HDF5Source::BuildDataSet inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-                   membername,memtypename, arraydim,maxindex1, memberoffset);
-
-          fxType->insertMember( theMEMBER, memberoffset, theArray);
-          break;
-
-        }
-        default:
-          printf("TGo4HDF5Source::BuildDataSet inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
-                   membername, memtypename, arraydim,maxindex1, memberoffset);
-
-          fxType->insertMember( theMEMBER, memberoffset, theType);
-          break;
-
-        } // switch()
-     // printf("TGo4HDF5Source::BuildDataSet has array dimension %d with max indexes %d %d\n", arraydim, maxindex1, maxindex2);
-
-
-
-      printf("TGo4HDF5Source::BuildDataSet inserted member %s \n", membername);
-      if (fiReadOffset ==0) fiReadOffset = memberoffset; // remember position of first real data member
-
-   }
-
-if(parentoffset!=0) return; // only top event level will create the data set in the end
 
 
 Int_t rank=1; // entries of the ntuple/tree
 hsize_t      dims[1]  = { 1};  // dataset dimensions at creation
 hsize_t      maxdims[1] = {H5S_UNLIMITED}; // 1 ? only one entry maps to current event object -
-fxMemorySpace= new H5::DataSpace(rank, dims, maxdims);
+fxDataSpace= new H5::DataSpace(rank, dims, maxdims);
 
 // dataspace in memory covers only the current input event structure
 hsize_t onerow[1] ={1};
 hsize_t offset[1]= {0};
-fxMemorySpace->selectHyperslab( H5S_SELECT_SET, onerow, offset );
+fxDataSpace->selectHyperslab( H5S_SELECT_SET, onerow, offset );
 
 
 
-/// this was used for creation
-//H5::DSetCreatPropList cparms;
-//hsize_t      chunk_dims[1] ={1};
-//cparms.setChunk( rank, chunk_dims );
-//cparms.setFillValue(*fxType, event);
-//fxDataSet =  fxFile->createDataSet( actualclass->GetName(), *fxType, *fxDataSpace, cparms);
 
-// TODO: get existing dataset from file and compare data with type of the target event
+// get existing dataset from file and compare data with type of the target event
 // we only allow datasets that match the memory structure concerning member names etc,
 
-fxDataSet = fxFile->openDataSet(actualclass->GetName());
+fxDataSet = fxFile->openDataSet(classname.Data());
 
 H5T_class_t type_class = fxDataSet.getTypeClass();
 if( type_class != H5T_COMPOUND)
@@ -477,11 +272,12 @@ printf("TGo4HDF5Source::BuildDataSet file dataspace has rank %d, dimensions:%d, 
 
 
 
+#ifdef GO4HDF5_DEBUG
 // check consistency of file dataset with input event structure:
 int nfilemembers= intype.getNmembers ();
 int neventmembers= fxType->getNmembers ();
 
-#ifdef GO4HDF5_DEBUG
+
 printf("Type comparison: number of compound members: file  %d, event %d\n",nfilemembers, neventmembers);
 
 printf("Dump Type from file:\n");
@@ -563,12 +359,8 @@ catch(H5::Exception& ex)
 
 void TGo4HDF5Source::DeleteDataSet()
 {
-  if(fbDataSetExists) fxDataSet.close();
-  //delete fxFileSpace;
-  delete fxMemorySpace;
-  delete fxType;
   delete fxReadBuffer;
-  fbDataSetExists=kFALSE;
+  TGo4HDF5Adapter::DeleteDataSet();
 }
 
 
@@ -584,12 +376,6 @@ Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
 
   try{
     //printf("TGo4HDF5Source: BuildEvent entering try block... \n");
-
-
-
-
-
-
      // extend dataset for next event:
      hsize_t offset[1]= {fiFillCount++};
      hsize_t onerow[1] ={1};
@@ -630,7 +416,7 @@ Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
 
           // printf("TGo4HDF5Source: BuildEvent before read on data pointer 0x%lx \n",data);
 
-         fxDataSet.read( data, *fxType, *fxMemorySpace, fxFileSpace );
+         fxDataSet.read( data, *fxType, *fxDataSpace, fxFileSpace );
 
 #ifdef GO4HDF5_DEBUG
          printf("raw buffer dump without offset \n");

@@ -17,6 +17,7 @@
 
 
 #include "TGo4EventSource.h"
+#include "TGo4HDF5Adapter.h"
 
 #include "TString.h"
 
@@ -38,7 +39,7 @@ class TGo4EventElement;
  *  * @author J. Adamczewski-Musch
  * @since 01/2019
  */
-class TGo4HDF5Source : public TGo4EventSource {
+class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
 
   public:
 
@@ -62,58 +63,26 @@ class TGo4HDF5Source : public TGo4EventSource {
 
 
     /** opens the hdf5 file of given name for reading */
-       void OpenFile(const char* fname);
-
-       /** opens the hdf5 file depending on the setup */
-       void CloseFile();
+       virtual void OpenFile(const char* fname);
 
        /** initialize dataset from event structure*/
-       void BuildDataSet(TGo4EventElement* event, size_t parentoffset=0);
+       virtual void BuildDataSet(TGo4EventElement* event);
 
        /** delete dataset resource*/
-       void DeleteDataSet();
-
-       /** evaluate total memory size of event object regarding composite subevents*/
-       size_t ScanEventSize(TGo4EventElement* event);
+       virtual void DeleteDataSet();
 
 
   private:
 
-#ifndef __CINT__
-
-    H5::H5File* fxFile; //!
-
-       H5::DataSet fxDataSet; //!
-
-       H5::CompType* fxType; //!
-
-       H5::DataSpace* fxMemorySpace; //!
-
+//
        H5::DataSpace fxFileSpace; //!
-
-#endif
-
-       /** True if branch already exists. Used for automatic creation
-         * of new event branch within Store method. */
-       Bool_t fbDataSetExists;
-
-       /** Points to event structure to be filled into dataset. */
-       TGo4EventElement * fxEvent; //!
 
        /** read buffer for hdf5*/
        Char_t* fxReadBuffer; //!
 
-       /** size of event structure in bytes, for redefining output dataset*/
-       size_t fiEventSize;
-
        /** begin of real eventdata payload after event object pointer**/
        size_t fiReadOffset;
 
-
-#ifndef __CINT__
-       /** counter of filled events. */
-       hsize_t fiFillCount; //!
-#endif
 
     /** list of files names */
     TList* fxFilesNames; //!
