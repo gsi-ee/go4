@@ -972,13 +972,13 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
   if(pLmdControl->pOffset8)
     pLmdControl->pMbsFileHeader->iTableOffset = *(pLmdControl->pOffset8+pLmdControl->iElements);
   if(pLmdControl->pOffset4)
-    pLmdControl->pMbsFileHeader->iTableOffset = *(pLmdControl->pOffset4+pLmdControl->iElements);
-  if(current/4 != pLmdControl->pMbsFileHeader->iTableOffset){
-    printf("Table offset mismatch: current:%lu calculated:%lu, cur-cal %lu\n",
-      current/4,pLmdControl->pMbsFileHeader->iTableOffset,
-      current/4-pLmdControl->pMbsFileHeader->iTableOffset);
-    return(LMD__FAILURE);
-    }
+     pLmdControl->pMbsFileHeader->iTableOffset = *(pLmdControl->pOffset4 + pLmdControl->iElements);
+  if (current / 4 != pLmdControl->pMbsFileHeader->iTableOffset) {
+     printf("Table offset mismatch: current:%llu calculated:%llu, cur-cal %llu\n", (long long unsigned)current / 4,
+            (long long unsigned)pLmdControl->pMbsFileHeader->iTableOffset,
+            (long long unsigned)(current / 4 - pLmdControl->pMbsFileHeader->iTableOffset));
+     return (LMD__FAILURE);
+  }
   if(iReturn != (pLmdControl->iElements+1)*pLmdControl->iOffsetSize){
     printf("Table write error \n");
     return(LMD__FAILURE);
@@ -1059,10 +1059,10 @@ void fLmdPrintFileHeader(uint32_t iVerbose, sMbsFileHeader *pMbsFileHeader)
 {
    if (iVerbose) {
       if (pMbsFileHeader) {
-         printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %lx[%d]\n",
+         printf("FiHd: DataWords:%d Type:%d.%d Elements:%d sec:%d.%d MaxWords:%d Index: %llx[%d]\n",
                 pMbsFileHeader->iUsedWords, pMbsFileHeader->iType & 0xffff, pMbsFileHeader->iType >> 16,
                 pMbsFileHeader->iElements, pMbsFileHeader->iTimeSpecSec, pMbsFileHeader->iTimeSpecNanoSec / 1000,
-                pMbsFileHeader->iMaxWords, pMbsFileHeader->iTableOffset, pMbsFileHeader->iOffsetSize);
+                pMbsFileHeader->iMaxWords, (long long unsigned) pMbsFileHeader->iTableOffset, pMbsFileHeader->iOffsetSize);
       }
    }
 }
@@ -1089,8 +1089,8 @@ void fLmdPrintEvent(uint32_t iVerbose, sMbsEventHeader *pMbsEventHeader)
 void fLmdPrintControl(uint32_t iVerbose, sLmdControl *pLmdControl)
 {
    if (iVerbose) {
-      printf("Ctrl: file:%s words:%d left:%d bytes read:%lu elements:%d\n", pLmdControl->cFile,
-             pLmdControl->iBufferWords, pLmdControl->iLeftWords, pLmdControl->iBytes, pLmdControl->iElements);
+      printf("Ctrl: file:%s words:%d left:%d bytes read:%llu elements:%d\n", pLmdControl->cFile,
+             pLmdControl->iBufferWords, pLmdControl->iLeftWords, (long long unsigned) pLmdControl->iBytes, pLmdControl->iElements);
       fLmdPrintFileHeader(iVerbose, pLmdControl->pMbsFileHeader);
       fLmdPrintEvent(iVerbose, (sMbsEventHeader *)pLmdControl->pMbsHeader);
    }
