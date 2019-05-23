@@ -1470,7 +1470,7 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
             }
             if ((cmp < 0) && !bigger_entry && IsSortedOrder()) {
                bigger_entry = entry;
-               break;
+               // break;  // we cannot break loop while folders may exists in non-sorted order
             }
          }
       }
