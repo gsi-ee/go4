@@ -214,6 +214,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    setCentralWidget(fxMdiArea);
    fxMdiArea->setFocus();
 
+   menuBar()->setNativeMenuBar(kFALSE);
+
    AddFileMenu();
    AddFileToolBar();
 
