@@ -21,12 +21,6 @@ $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) : LDRPATHS += $(if $(USEDIM), $(DIMLIBPATH),)
 
 GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += $(LDFLAGS_RPATH)" 
 
-ifdef force32
-ifeq ($(GO4_OS),Darwin)
-GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += -Wl,-arch,i386"
-endif
-endif
-
 ifdef clang
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXX = clang++"
 GO4GUI4_QMAKEFLAGS += "QMAKE_LINK = clang++"

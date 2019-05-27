@@ -16,9 +16,6 @@ CC            = clang
 
 #### Compiler optimisation flags: ####
 OPTIONS       = -fPIC
-ifdef force32
-OPTIONS      += -m32 
-endif
 
 DEFINITIONS   = -DDarwin
 EXTRACOPTIONS = -Wall
