@@ -385,6 +385,8 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    gridLayout->setMargin(3);
    gridLayout->setSpacing(1);
    UpdateActivePage();
+
+   MenuBar->setMinimumHeight(MenuFrame->height());
 }
 
 TGo4FitPanel::~TGo4FitPanel()
