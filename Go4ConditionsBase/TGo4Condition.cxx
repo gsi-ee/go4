@@ -15,6 +15,7 @@
 
 
 #include "TH1.h"
+#include "TH2.h"
 #include "TROOT.h"
 #include "TList.h"
 #include "TObjArray.h"
@@ -130,10 +131,8 @@ TGo4Condition::~TGo4Condition()
       delete fxPainter;
       fxPainter = 0;
    }
-   if(fxCutHis) {
-      delete fxCutHis;
-      fxCutHis = 0;
-   }
+
+   SetCutHis();
 
    if (fxUrlOptionArray) {
       fxUrlOptionArray->Delete();
@@ -700,12 +699,18 @@ void TGo4Condition::ResetLabel(Option_t* opt)
    }
 }
 
+void TGo4Condition::SetCutHis(TH2 *his)
+{
+   if (fxCutHis)
+      delete fxCutHis;
+   fxCutHis = his;
+}
+
+
 void TGo4Condition::SetWorkHistogram(TH1* histo)
 {
    fxHisto=histo;
-   //std::cout <<"TGo4Condition "<<(long) this <<" ::SetWorkHistogram deletes cuthistogram"<< (long) fxCutHis<<", new histogram is:"<<(long) histo << std::endl;
-   delete fxCutHis; // discard internal cut histogram
-   fxCutHis=0;
+   SetCutHis(); // discard internal cut histogram
 }
 
 void TGo4Condition::DeletePainter()

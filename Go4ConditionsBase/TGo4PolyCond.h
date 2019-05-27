@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -138,10 +138,8 @@ class TGo4PolyCond : public TGo4Condition {
         * Used internally by UpdateFrom. */
       TCutG * CloneCut(TGo4PolyCond * source);
 
-      /** Create clone of source histogram that only has
-        * contents for bins inside the current TCutG.
-        * For calculation of statistical values. */
-      TH2* CreateCutHistogram(TH1* source);
+      /** Returns true if fxCutHis can be used */
+      Bool_t IsCutHis(TH1* source);
 
       /** Cut pointer. */
       TCutG* fxCut;

@@ -20,6 +20,7 @@
 #include "Riostream.h"
 
 class TH1;
+class TH2;
 class TVirtualPad;
 class TCutG;
 class TObjArray;
@@ -27,7 +28,6 @@ class TObjArray;
 class TGo4HistogramEntry;
 class TGo4EventElement;
 class TGo4ConditionPainter;
-
 
 enum ConditionsKind {
    kGO4CONDWINDOW  = 1,
@@ -407,11 +407,13 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** temporary histogram used to calculate statistics on
       * polygon cuts. Will be recalculated only if boundaries
       * habe changed.*/
-    TH1* fxCutHis;   //!
+    TH2* fxCutHis;   //!
 
 
     /** array with TObjStrings evaluated by UpdateFromUrl*/
     TObjArray* fxUrlOptionArray; //!
+
+    void SetCutHis(TH2 *his = 0);
 
     /** re-build the list of url options from string*/
     void BuildUrlOptionArray(const char* rest_url_opt);
