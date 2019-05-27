@@ -2262,7 +2262,7 @@ int rawGetFilelistEntries( char *pcFileName,
          if (iGlobalDir)
          {
             strcpy(pFilelistc->cFile, cPath);
-            strncat(pFilelistc->cFile, "/", 1);
+            strcat(pFilelistc->cFile, "/");
          }
          strcat(pFilelistc->cFile, cTemp);
          iEntries++;

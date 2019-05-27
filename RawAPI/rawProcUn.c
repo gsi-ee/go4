@@ -1094,7 +1094,7 @@ int rawGetFileAttr(char *pcFile, unsigned long *plFileSize)
       for (ii = 1; ii <= ilen; ii++)
       {
          iloc = strncmp(pcc, pcDollar, 1);
-         if (iloc == 0) strncat(cCmd, "\\", 1);        /* $ found */
+         if (iloc == 0) strcat(cCmd, "\\");        /* $ found */
          strncat(cCmd, pcc++, 1);
       }
    } /* ploc != NULL, $ in file name */
@@ -1300,7 +1300,7 @@ int rawGetFileList( char *pcFile,
       for (ii=1; ii<=ilen; ii++)
       {
          iloc = strncmp(pcc, pcDollar, 1);
-         if (iloc == 0) strncat(cCmd, "\\", 1);           /* $ found */
+         if (iloc == 0) strcat(cCmd, "\\");           /* $ found */
          strncat(cCmd, pcc++, 1);
       }
    } /* ploc != NULL, $ in file name */

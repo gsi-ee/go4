@@ -250,7 +250,7 @@ int rawAddStrings(char *pcMsg1,       /* 1st string, always complete */
       else
       {
          strncat(pcMsg1, pcMsg2, iMaxLength1-iString1-1);
-         strncat(pcMsg1, "\n", 1);
+         strcat(pcMsg1, "\n");
          iRC = iString -iMaxLength1;
          if (iDebug)
          {
