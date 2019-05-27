@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -23,7 +23,7 @@
  * master to slave via inter-process transport. Master
  * Only has to know this command (Go4CommandsBase package),
  * thus decoupling from Slave libraries
- * @author J. Adamczewski, gsi
+ * @author J. Adamczewski, GSI
  * @since 27-Apr-2005
  **/
 class TGo4RemoteCommand : public TGo4Command {
@@ -82,7 +82,7 @@ class TGo4RemoteCommand : public TGo4Command {
        * passwords, etc.. */
       TString fxParameter[__REMCOMPARS__];
 
-      /** Numerical parameters for command, otpional*/
+      /** Numerical parameters for command, optional*/
       Int_t fiValue[__REMCOMPARS__];
 
       /** Optional aggregated parameter object. May be a condition,

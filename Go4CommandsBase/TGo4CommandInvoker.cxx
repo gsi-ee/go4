@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -56,7 +56,7 @@ TGo4CommandInvoker::TGo4CommandInvoker() :
    fxCommand = 0;
    fxArray = new TObjArray(10);
    fxMutex = new TMutex(kTRUE);
-   fxCommandList=new TGo4CommandProtoList("Go4 base commandlist");
+   fxCommandList = new TGo4CommandProtoList("Go4 base commandlist");
    Register("CommandInvoker",this); // we are ourselves receiver for remote commands
 }
 
