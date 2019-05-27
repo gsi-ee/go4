@@ -72,8 +72,7 @@ Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    } else {
       if (size > buflen - 1)
          size = buflen - 1;
-      int sz = strncpy(buffer, localbuf, size);
-      if (sz >= size) (void) sz; // gcc8 warning
+      strncpy(buffer, localbuf, size);
    }
    return size;
 }

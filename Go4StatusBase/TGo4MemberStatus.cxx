@@ -53,8 +53,7 @@ Int_t TGo4MemberStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    } else {
       if (size > buflen - 1)
          size = buflen - 1;
-      int res = strncpy(buffer, localbuf, size);
-      if (res >= size) (void) res; // just for gcc8 warnings suppression
+      strncpy(buffer, localbuf, size);
    }
    return size;
 }
