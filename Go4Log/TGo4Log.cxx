@@ -211,33 +211,34 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
    Instance();
    //TGo4LockGuard(fxMutex);
    if(prio>-1 && prio<fgiIgnoreLevel) return 0;
-   char txtbuf[fguMESLEN];
+   char txtbuf[fguMESLEN-20];
    va_list args;
    va_start(args, text);
-   vsnprintf(txtbuf, fguMESLEN, text, args);
+   vsnprintf(txtbuf, fguMESLEN-20, text, args);
    va_end(args);
-   const char* prefix(fgcINFO);
+   const char* prefix = fgcINFO;
    switch(prio) {
       // info output independent of current ignorelevel
-      case -1: prefix=fgcINFO;  break;
-      case  0: prefix=fgcDEBUG; break;
-      case  1: prefix=fgcINFO;  break;
-      case  2: prefix=fgcWARN;  break;
-      case  3: prefix=fgcERR;   break;
+      case -1: prefix = fgcINFO;  break;
+      case  0: prefix = fgcDEBUG; break;
+      case  1: prefix = fgcINFO;  break;
+      case  2: prefix = fgcWARN;  break;
+      case  3: prefix = fgcERR;   break;
    } // switch()
 
    if(fgbLogfileEnabled) {
       // message format for logfile is different:
-      int resf = snprintf(fgcMessagetext, fguMESLEN - 1, "%s %s", prefix, txtbuf);
+      int resf = snprintf(fgcMessagetext, __MESSAGETEXTLENGTH__, "%s %s", prefix, txtbuf);
       WriteLogfile(fgcMessagetext);
 
       // this is just because of gcc8 warnings
-      if (resf >= fguMESLEN) (void)resf;
+      if (resf < 0) (void)resf;
    }
 
    // we compose the full messagetext anyway, for further use outside
-   int res = snprintf(fgcMessagetext, fguMESLEN - 1, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
-   if (res >= fguMESLEN) (void)res;
+   int res = snprintf(fgcMessagetext, __MESSAGETEXTLENGTH__, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
+   // this is just because of gcc8 warnings
+   if (res < 0) (void)res;
 
    if(fgbOutputEnabled) {
 
