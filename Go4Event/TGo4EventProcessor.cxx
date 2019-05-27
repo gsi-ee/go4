@@ -288,12 +288,9 @@ TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t
 }
 
 
-
-
 TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step,  const char* HistoName)
 {
   return TGo4Analysis::Instance()->MakeListCond(fullname, start, stop, step,HistoName);
-
 }
 
 
@@ -301,8 +298,6 @@ TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const char*
 {
   return TGo4Analysis::Instance()->MakeListCond(fullname, title, HistoName);
 }
-
-
 
 
 TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,

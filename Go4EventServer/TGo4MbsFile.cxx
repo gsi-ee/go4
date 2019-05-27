@@ -350,7 +350,7 @@ Int_t TGo4MbsFile::NextFile()
          fuStartEvent=0;
          fuStopEvent=0;
          fuEventInterval=0;
-         strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN);
+         strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN - 1);
       }
       //     std::cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << std::endl;
       //     std::cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
@@ -413,8 +413,6 @@ Int_t TGo4MbsFile::OpenFile()
    }
    return status;
 }
-
-
 
 Int_t TGo4MbsFile::CloseFile()
 {

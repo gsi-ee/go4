@@ -345,7 +345,7 @@ Int_t TGo4MbsSource::Open()
    // open connection/file
 
    char name[5000];
-   strncpy(name, GetName(), sizeof(name));
+   strncpy(name, GetName(), sizeof(name) - 1);
    int nport = fiPort;
 
    char* separ = strrchr(name, ':');

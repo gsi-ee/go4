@@ -228,7 +228,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
 
    if(fgbLogfileEnabled) {
       // message format for logfile is different:
-      int resf = snprintf(fgcMessagetext, fguMESLEN, "%s %s", prefix, txtbuf);
+      int resf = snprintf(fgcMessagetext, fguMESLEN - 1, "%s %s", prefix, txtbuf);
       WriteLogfile(fgcMessagetext);
 
       // this is just because of gcc8 warnings
@@ -236,7 +236,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
    }
 
    // we compose the full messagetext anyway, for further use outside
-   int res = snprintf(fgcMessagetext, fguMESLEN, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
+   int res = snprintf(fgcMessagetext, fguMESLEN - 1, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
    if (res >= fguMESLEN) (void)res;
 
    if(fgbOutputEnabled) {
