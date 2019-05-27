@@ -168,7 +168,7 @@ int rawCheckFilelist(char **pcFileList, char **pcObjList,
    char cModule[32] = "rawCheckFilelist";
    int iDebug = 0;
 
-   char cDelimiter[1] = "";
+   char cDelimiter[2] = "";
    char *pcfl, *pcol;
    int *pifl, *piol;
    int ifile0, ifile;
