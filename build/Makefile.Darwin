@@ -27,7 +27,6 @@ EXTRACOPTIONS = -Wall
 ## When DOOPTIMIZATION = false, first is used otherwise second 
 DEBUGMODE     = -g -O2
 OPTIMIZEMODE  = -O2 
-# OPTIMIZEMODE  = -O3 fails for some gcc (TString seekoff overload)
 
 #### File system operations: ####
 LN            = ln -sf
