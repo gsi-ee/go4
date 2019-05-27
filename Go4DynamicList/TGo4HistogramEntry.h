@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -126,7 +126,6 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
       * the data members to be tested  with the x,y
       * coordinates of the condition. */
     TString fxConEventName[__MAXCONDIM__];
-
 
     /** The (histogram) object kept by this entry. */
     TH1* fxHistogram; //!

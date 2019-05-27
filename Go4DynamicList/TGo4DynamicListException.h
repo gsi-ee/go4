@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -23,9 +23,9 @@ class TGo4DynamicListException : public TGo4RuntimeException {
 
   public:
 
-    TGo4DynamicListException (TGo4DynamicEntry* entry, const char* message,...);
+    TGo4DynamicListException (TGo4DynamicEntry* entry, const char *message);
 
-    virtual ~TGo4DynamicListException();
+    virtual ~TGo4DynamicListException() {}
 
     Int_t Handle ();
 
@@ -51,8 +51,7 @@ class TGo4DynamicListException : public TGo4RuntimeException {
     TString fxEntryName;
 
     TString fxEntryClass;
-  private:
-    TGo4DynamicListException();
+
 };
 
 #endif // #define TGO4TASKHANDLEREXCEPTION_H

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -103,14 +103,13 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
          }
       } // while
       //if(processtrees) TGo4Analysis::Instance()->ResetBackStores(kTRUE); // clear backstore reset bits
-      // note: the above call is redundant in current usage, becaus in processtrees case the
+      // note: the above call is redundant in current usage, because in processtrees case the
       // backstore is immediately reset again for the next time
       // (buffer reset interval equals treedraw interval)
    }
    catch(std::exception& ex) { // treat standard library exceptions
       throw TGo4DynamicListException(errorentry,
-                 "!!!STD exception %s was raised processing dynamic entry!!!",
-                   ex.what());
+                 Form("!!!STD exception %s was raised processing dynamic entry!!!", ex.what()));
    }
 }
 
@@ -184,8 +183,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       else
       {
          throw TGo4DynamicListException(0,
-               "Index %d for array member:%s out of range %s[%d]",
-               indexoffset, memname, tname, maxindex);
+               Form("Index %ld for array member:%s out of range %s[%d]", indexoffset, memname, tname, maxindex));
       }
       // for now, we only handle 1d arrays
       // root allows to check higher dimensions, maybe later...?
@@ -275,7 +273,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    TTree* tree = TGo4Analysis::Instance()->GetTree(tentry->GetTreeName());
    if (tree==0) {
       throw TGo4DynamicListException(tentry,
-            "Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName());
+            Form("Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName()));
       return kFALSE;
    }
 
@@ -283,7 +281,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    //if(!histo) std::cout <<"ProcessTEntry do did not find histo "<<hname << std::endl;
    if (!tentry->fbNewHistogram && (histo==0)) {
       throw TGo4DynamicListException(tentry,
-            "Tree Histogram Entry: !!! Could not find Histogram %s ",hname);
+            Form("Tree Histogram Entry: !!! Could not find Histogram %s ",hname));
       return kFALSE;
    }
 

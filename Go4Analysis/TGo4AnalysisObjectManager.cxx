@@ -43,7 +43,6 @@
 #include "TGo4PolyCond.h"
 #include "TGo4HistogramEntry.h"
 #include "TGo4TreeHistogramEntry.h"
-#include "TGo4DynamicListException.h"
 #include "TGo4DynamicList.h"
 #include "TGo4MainTree.h"
 #include "TGo4AnalysisObjectNames.h"
