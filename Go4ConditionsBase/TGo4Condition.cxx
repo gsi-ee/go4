@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -56,9 +56,6 @@ TString TGo4Condition::fgxURL_YRMS="yrmsdraw";
 TString TGo4Condition::fgxURL_XMAX="xmaxdraw";
 TString TGo4Condition::fgxURL_YMAX="ymaxdraw";
 TString TGo4Condition::fgxURL_CMAX="cmaxdraw";
-
-
-
 
 // -----------------------------------------------
 // Constructors
@@ -130,22 +127,21 @@ TGo4Condition::~TGo4Condition()
    //std::cout <<"TGo4Condition "<<(long) this <<" dtor " << std::endl;
    //UnDraw("reset");
    if(fxPainter) {
-     //std::cout <<"TGo4Condition "<<(long) this <<" dtor deletes painter"<< (long) fxPainter << std::endl;
       delete fxPainter;
       fxPainter = 0;
    }
    if(fxCutHis) {
-     //std::cout <<"TGo4Condition "<<(long) this <<" dtor deletes cuthistogram"<< (long) fxCutHis << std::endl;
       delete fxCutHis;
       fxCutHis = 0;
    }
 
-   if(fxUrlOptionArray) {
-       fxUrlOptionArray->Delete();
-       delete fxUrlOptionArray;
-     }
-
+   if (fxUrlOptionArray) {
+      fxUrlOptionArray->Delete();
+      delete fxUrlOptionArray;
+      fxUrlOptionArray = 0;
+   }
 }
+
 // ---------------------------------------------------------
 Bool_t TGo4Condition::Test()
 {
@@ -254,81 +250,66 @@ void TGo4Condition::Print(Option_t* opt) const
    TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
    TString option=opt;
    option.ToLower();
-   if(option.IsNull() || option=="*")
-   {
+   if (option.IsNull() || option == "*") {
       // old default: we print bar graphics to std::cout
       localthis->PrintBar();
-   }
-   else
-   {
+   } else {
       // new printout of condition with different options:
-      TString textbuffer="\nCondition ";
-      textbuffer+=localthis->GetName();
-      if(localthis->IsPolygonType())
-      {
-         textbuffer+=" (Polygon type, 2-dim)";
+      TString textbuffer = "\nCondition ";
+      textbuffer.Append(GetName());
+      if (localthis->IsPolygonType()) {
+         textbuffer.Append(" (Polygon type, 2-dim)");
+      } else {
+         // JAM2019: use this kludge to avoid changing the baseclass api...
+         if (InheritsFrom("TGo4ListCond")) {
+            textbuffer.Append(" (Whitelist type, 1-dim)");
+         } else {
+
+            textbuffer.Append(" (Window type,");
+            if (localthis->GetActiveCondition()->GetDimension() > 1)
+               textbuffer.Append(" 2-dim)");
+            else
+               textbuffer.Append(" 1-dim)");
+         }
       }
-      else
-      {
-        // JAM2019: use this kludge to avoid changing the baseclass api...
-        if(localthis->InheritsFrom("TGo4ListCond"))
-        {
-          textbuffer+=" (Whitelist type, 1-dim)";
-        }
-        else
-        {
 
-         textbuffer+=" (Window type,";
-         if(localthis->GetActiveCondition()->GetDimension()>1)
-            textbuffer+=" 2-dim)";
-         else
-            textbuffer+=" 1-dim)";
-        }
-     }
+      // textbuffer+="\n";
+      if (option.Contains("limits"))
+         textbuffer.Append(
+            TString::Format("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
+                            localthis->GetXLow(), localthis->GetXUp(), localthis->GetYLow(), localthis->GetYUp()));
 
+      if (option.Contains("flags"))
+         textbuffer.Append(TString::Format(
+            "\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
+            localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue, localthis->Counts(),
+            localthis->TrueCounts()));
 
-      //textbuffer+="\n";
-      if(option.Contains("limits"))
-         textbuffer +=
-           TString::Format("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
-                           localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
-
-      if(option.Contains("flags"))
-         textbuffer +=
-               TString::Format("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
-                     localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
-                     localthis->Counts(), localthis->TrueCounts());
-
-      if(option.Contains("stats"))
-      {
+      if (option.Contains("stats")) {
          // output of region statistics
 
-         textbuffer+="\n!  with";
-         TH1* hist=localthis->GetWorkHistogram();
-         if(hist)
-         {
-            textbuffer+=" histogram: ";
-            textbuffer+=hist->GetName();
-            textbuffer +=
-                  TString::Format("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
-                        localthis->GetIntegral(hist), localthis->GetXMax(hist),localthis->GetYMax(hist), localthis->GetCMax(hist),
-                        localthis->GetMean(hist,1), localthis->GetMean(hist,2), localthis->GetRMS(hist,1), localthis->GetRMS(hist,2));
-         }
-         else
-         {
-            textbuffer+="out histogram";
+         textbuffer.Append("\n!  with");
+         TH1 *hist = localthis->GetWorkHistogram();
+         if (hist) {
+            textbuffer.Append(" histogram: ");
+            textbuffer.Append(hist->GetName());
+            textbuffer.Append(
+               TString::Format("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    "
+                               "%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
+                               localthis->GetIntegral(hist), localthis->GetXMax(hist), localthis->GetYMax(hist),
+                               localthis->GetCMax(hist), localthis->GetMean(hist, 1), localthis->GetMean(hist, 2),
+                               localthis->GetRMS(hist, 1), localthis->GetRMS(hist, 2)));
+         } else {
+            textbuffer.Append("out histogram");
          }
       }
       // now check output mode:
-      if(option.Contains("go4log"))
-      {
-         TGo4Log::Message(1,textbuffer.Data());
-      }
-      else
-      {
+      if (option.Contains("go4log")) {
+         TGo4Log::Message(1, textbuffer.Data());
+      } else {
          std::cout << textbuffer.Data() << std::endl;
       }
-   } //if(option.IsNull())
+   } // if(option.IsNull())
 }
 
 // ---------------------------------------------------------
@@ -365,9 +346,8 @@ Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        fbMarkReset = false;
     }
 
-return kTRUE;
+    return kTRUE;
 }
-
 
 void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
 {
@@ -376,64 +356,54 @@ void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
     delete fxUrlOptionArray;
     fxUrlOptionArray=0; // bad implementation of Tokenize, many memory leak dangers!
   }
-  TString options=rest_url_opt;
-  fxUrlOptionArray=options.Tokenize("&");
-
-
+  TString options = rest_url_opt;
+  fxUrlOptionArray = options.Tokenize("&");
 }
-
 
 Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
 {
-  TObjArrayIter iter(fxUrlOptionArray);
-  TObject* cursor = 0;
-  while ((cursor = iter.Next()) != 0)
-  {
-    TObjString* curopt = dynamic_cast<TObjString*>(cursor);
-    if (curopt)
-    {
-      TString theOption = curopt->GetString();
-      if (theOption.Contains(key))
-      {
-        return kTRUE;
+   TObjArrayIter iter(fxUrlOptionArray);
+   TObject *cursor = 0;
+   while ((cursor = iter.Next()) != 0) {
+      TObjString *curopt = dynamic_cast<TObjString *>(cursor);
+      if (curopt) {
+         TString theOption = curopt->GetString();
+         if (theOption.Contains(key)) {
+            return kTRUE;
+         }
       }
-    }
-  }    // while
-  return kFALSE;
+   } // while
+   return kFALSE;
 }
 
 TString TGo4Condition::GetUrlOptionAsString(const char* key, TString def_value)
 {
-  TObjArrayIter iter(fxUrlOptionArray);
-      TObject* cursor=0;
-      TObjArray* valuearray;
-      while((cursor=iter.Next()) !=0)
-      {
-        TObjString* curopt=dynamic_cast<TObjString*>(cursor);
-            if(curopt)
-              {
-                  TString theOption=curopt->GetString();
-                  if(theOption.Contains(key)){
-                    valuearray=theOption.Tokenize("=");
-                    TString theValue=  valuearray->Last()->GetName();
-                    valuearray->Delete();
-                    delete valuearray; // bad implementation of Tokenize, many memory leak dangers!
-                    return theValue;
-                  }
-              }
-      } // while
-      return def_value;
+   TObjArrayIter iter(fxUrlOptionArray);
+   TObject *cursor = 0;
+   TObjArray *valuearray;
+   while ((cursor = iter.Next()) != 0) {
+      TObjString *curopt = dynamic_cast<TObjString *>(cursor);
+      if (curopt) {
+         TString theOption = curopt->GetString();
+         if (theOption.Contains(key)) {
+            valuearray = theOption.Tokenize("=");
+            TString theValue = valuearray->Last()->GetName();
+            valuearray->Delete();
+            delete valuearray; // bad implementation of Tokenize, many memory leak dangers!
+            return theValue;
+         }
+      }
+   } // while
+   return def_value;
 }
-
-
 
 Int_t TGo4Condition::GetUrlOptionAsInt(const char* key, Int_t def_value)
 {
-  TString valstring=GetUrlOptionAsString(key,"");
-  if(valstring.IsNull())
-    return def_value;
-  else
-    return valstring.Atoi();
+   TString valstring = GetUrlOptionAsString(key, "");
+   if (valstring.IsNull())
+      return def_value;
+   else
+      return valstring.Atoi();
 }
 
 Double_t TGo4Condition::GetUrlOptionAsDouble(const char* key, Double_t def_value)
@@ -446,7 +416,8 @@ Double_t TGo4Condition::GetUrlOptionAsDouble(const char* key, Double_t def_value
 }
 
 
-Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
+Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt)
+{
   TString message;
   message.Form("TGo4Condition::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
   TGo4Log::Message(1,message.Data());
@@ -454,7 +425,6 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
 
 
   // all keywords are defined as static class variables of condition class
-
 
   Int_t resetcounters=GetUrlOptionAsInt(TGo4Condition::fgxURL_RESET.Data(), -1);
 
@@ -472,105 +442,76 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
   Int_t ymaxdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_YMAX.Data(), -1);
   Int_t cmaxdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_CMAX.Data(), -1);
 
-
-
-
   message.Form("Set condition %s:", GetName());
 
-  if (resetcounters > 0)
-   {
-      ResetCounts();
-      message.Append(TString::Format(", resetcounters=%d", resetcounters));
-   }
-
-  if (resultmode >= 0)
-  {
-    // same as in Go4 GUI condition editor:
-    switch (resultmode)
-    {
-      case 0:
-        Enable();
-        break;
-      case 1:
-        Disable(kTRUE);
-        break;
-      case 2:
-        Disable(kFALSE);
-        break;
-      default:
-        Enable();
-        break;
-    };
-    message.Append(TString::Format(", resultmode=%d", resultmode));
+  if (resetcounters > 0) {
+     ResetCounts();
+     message.Append(TString::Format(", resetcounters=%d", resetcounters));
   }
 
-
-
-  if (invertmode >= 0)
-  {
-    // same as in Go4 GUI condition editor:
-    Invert(invertmode == 1);
-    message.Append(TString::Format(", invertmode=%d", invertmode));
+  if (resultmode >= 0) {
+     // same as in Go4 GUI condition editor:
+     switch (resultmode) {
+        case 0: Enable(); break;
+        case 1: Disable(kTRUE); break;
+        case 2: Disable(kFALSE); break;
+        default: Enable(); break;
+     };
+     message.Append(TString::Format(", resultmode=%d", resultmode));
   }
 
-  if (visible >= 0)
-  {
-    SetVisible(visible == 1);
-    message.Append(TString::Format(", visible=%d", visible));
-  }
-  if (labeldraw >= 0)
-  {
-    SetLabelDraw(labeldraw == 1);
-    message.Append(TString::Format(", labeldraw=%d", labeldraw));
-  }
-  if (limitsdraw >= 0)
-  {
-    SetLimitsDraw(limitsdraw == 1);
-    message.Append(TString::Format(", limitsdraw=%d", limitsdraw));
-  }
-  if (integraldraw >= 0)
-  {
-    SetIntDraw(integraldraw == 1);
-    message.Append(TString::Format(", intdraw=%d", integraldraw));
-  }
-  if (xmeandraw >= 0)
-  {
-    SetXMeanDraw(xmeandraw == 1);
-    message.Append(TString::Format(", xmeandraw=%d", xmeandraw));
-  }
-  if (xrmsdraw >= 0)
-  {
-    SetXRMSDraw(xrmsdraw == 1);
-    message.Append(TString::Format(", xrmsdraw=%d", xrmsdraw));
-  }
-  if (ymeandraw >= 0)
-  {
-    SetYMeanDraw(ymeandraw == 1);
-    message.Append(TString::Format(", ymeandraw=%d", ymeandraw));
-  }
-  if (yrmsdraw >= 0)
-  {
-    SetYRMSDraw(yrmsdraw == 1);
-    message.Append(TString::Format(", yrmsdraw=%d", yrmsdraw));
-  }
-  if (xmaxdraw >= 0)
-  {
-    SetXMaxDraw(xmaxdraw == 1);
-    message.Append(TString::Format(", xmaxdraw=%d", xmaxdraw));
-  }
-  if (ymaxdraw >= 0)
-  {
-    SetYMaxDraw(ymaxdraw == 1);
-    message.Append(TString::Format(", ymaxdraw=%d", ymaxdraw));
-  }
-  if (cmaxdraw >= 0)
-  {
-    SetCMaxDraw(cmaxdraw == 1);
-    message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
+  if (invertmode >= 0) {
+     // same as in Go4 GUI condition editor:
+     Invert(invertmode == 1);
+     message.Append(TString::Format(", invertmode=%d", invertmode));
   }
 
+  if (visible >= 0) {
+     SetVisible(visible == 1);
+     message.Append(TString::Format(", visible=%d", visible));
+  }
+  if (labeldraw >= 0) {
+     SetLabelDraw(labeldraw == 1);
+     message.Append(TString::Format(", labeldraw=%d", labeldraw));
+  }
+  if (limitsdraw >= 0) {
+     SetLimitsDraw(limitsdraw == 1);
+     message.Append(TString::Format(", limitsdraw=%d", limitsdraw));
+  }
+  if (integraldraw >= 0) {
+     SetIntDraw(integraldraw == 1);
+     message.Append(TString::Format(", intdraw=%d", integraldraw));
+  }
+  if (xmeandraw >= 0) {
+     SetXMeanDraw(xmeandraw == 1);
+     message.Append(TString::Format(", xmeandraw=%d", xmeandraw));
+  }
+  if (xrmsdraw >= 0) {
+     SetXRMSDraw(xrmsdraw == 1);
+     message.Append(TString::Format(", xrmsdraw=%d", xrmsdraw));
+  }
+  if (ymeandraw >= 0) {
+     SetYMeanDraw(ymeandraw == 1);
+     message.Append(TString::Format(", ymeandraw=%d", ymeandraw));
+  }
+  if (yrmsdraw >= 0) {
+     SetYRMSDraw(yrmsdraw == 1);
+     message.Append(TString::Format(", yrmsdraw=%d", yrmsdraw));
+  }
+  if (xmaxdraw >= 0) {
+     SetXMaxDraw(xmaxdraw == 1);
+     message.Append(TString::Format(", xmaxdraw=%d", xmaxdraw));
+  }
+  if (ymaxdraw >= 0) {
+     SetYMaxDraw(ymaxdraw == 1);
+     message.Append(TString::Format(", ymaxdraw=%d", ymaxdraw));
+  }
+  if (cmaxdraw >= 0) {
+     SetCMaxDraw(cmaxdraw == 1);
+     message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
+  }
 
-  TGo4Log::Message(1,message.Data());
+  TGo4Log::Message(1, message.Data());
 
   return kTRUE;
 }
@@ -585,25 +526,6 @@ void TGo4Condition::GetValues(Int_t & dim, Double_t & xmin, Double_t & xmax, Dou
    dim = GetDimension();
 
 }
-Double_t TGo4Condition::GetXLow(){return 0;}
-Double_t TGo4Condition::GetXUp(){return 0;}
-Double_t TGo4Condition::GetYLow(){return 0;}
-Double_t TGo4Condition::GetYUp(){return 0;}
-TCutG* TGo4Condition::GetCut(Bool_t owner){ return 0;}
-Bool_t TGo4Condition::IsPolygonType(){return kFALSE;}
-Bool_t TGo4Condition::IsArrayType(){return kFALSE;}
-TGo4Condition* TGo4Condition::GetActiveCondition(){return this;}
-
-void TGo4Condition::SetCurrentIndex(Int_t) { }
-Int_t TGo4Condition::GetCurrentIndex()
-{
-   return 0;
-}
-
-Int_t TGo4Condition::GetNumberOfConditions()
-{
-   return 1;
-}
 
 Int_t TGo4Condition::GetMemorySize()
 {
@@ -617,68 +539,32 @@ void TGo4Condition::MarkReset(Bool_t on)
 {
    fbMarkReset = on;
 }
-void TGo4Condition::Clear(Option_t* opt){
-ResetCounts();
+
+void TGo4Condition::Clear(Option_t *)
+{
+   ResetCounts();
 }
 
-void TGo4Condition::GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
-                   Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue)
+void TGo4Condition::GetFlags(Bool_t *enabled, Bool_t *lastresult, Bool_t *markreset, Bool_t *result, Bool_t *truevalue,
+                             Bool_t *falsevalue)
 {
-  *enabled=fbEnabled;
-  *lastresult=fbLastResult;
-  *markreset=fbMarkReset;
-  *result=fbResult;
-  *truevalue=fbTrue;
-  *falsevalue=fbFalse;
-}
-void TGo4Condition::SetFlags(Bool_t enabled, Bool_t lastresult, Bool_t markreset,
-                   Bool_t result, Bool_t truevalue, Bool_t falsevalue)
-{
-  fbEnabled=enabled;
-  fbLastResult=lastresult;
-  fbMarkReset=markreset;
-  fbResult=result;
-  fbTrue=truevalue;
-  fbFalse=falsevalue;
+   *enabled = fbEnabled;
+   *lastresult = fbLastResult;
+   *markreset = fbMarkReset;
+   *result = fbResult;
+   *truevalue = fbTrue;
+   *falsevalue = fbFalse;
 }
 
-
-
-Double_t TGo4Condition::GetIntegral(TH1* histo, Option_t* opt)
+void TGo4Condition::SetFlags(Bool_t enabled, Bool_t lastresult, Bool_t markreset, Bool_t result, Bool_t truevalue,
+                             Bool_t falsevalue)
 {
-   return 0;
-}
-
-Double_t TGo4Condition::GetMean(TH1* histo, Int_t axis)
-{
-   return 0;
-}
-Double_t TGo4Condition::GetRMS(TH1* histo, Int_t axis)
-{
-   return 0;
-}
-
-Double_t TGo4Condition::GetSkewness(TH1* histo, Int_t axis)
-{
-   return 0;
-}
-
-Double_t TGo4Condition::GetCurtosis(TH1* histo, Int_t axis)
-{
-   return 0;
-}
-
-Double_t TGo4Condition::GetXMax(TH1* histo)
-{
-   return 0;
-}
-Double_t TGo4Condition::GetYMax(TH1* histo)
-{
-   return 0;
-}
-Double_t TGo4Condition::GetCMax(TH1* histo)
-{
-   return 0;
+   fbEnabled = enabled;
+   fbLastResult = lastresult;
+   fbMarkReset = markreset;
+   fbResult = result;
+   fbTrue = truevalue;
+   fbFalse = falsevalue;
 }
 
 void TGo4Condition::Disable(Bool_t result)
@@ -691,122 +577,6 @@ void TGo4Condition::Enable()
 {
    fbEnabled=kTRUE;
 }
-
-
-void TGo4Condition::SetVisible(Bool_t on)
-{
-   fbVisible=on;
-}
-
-Bool_t TGo4Condition::IsVisible()
-{
-   return fbVisible;
-}
-
-void TGo4Condition::SetHistogramLink(Bool_t on)
-{
-  fbHistogramLink=on;
-}
-
-Bool_t TGo4Condition::IsHistogramLink()
-{
-   return (Bool_t) fbHistogramLink;
-}
-
-void TGo4Condition::SetLabelDraw(Bool_t on)
-{
-fbLabelDraw=on;
-}
-
-Bool_t TGo4Condition::IsLabelDraw()
-{
-return fbLabelDraw;
-}
-
-void TGo4Condition::SetLimitsDraw(Bool_t on)
-{
-fbLimitsDraw=on;
-}
-
-Bool_t TGo4Condition::IsLimitsDraw()
-{
-return fbLimitsDraw;
-}
-
-void TGo4Condition::SetIntDraw(Bool_t on)
-{
-fbIntDraw=on;
-}
-Bool_t TGo4Condition::IsIntDraw()
-{
-return fbIntDraw;
-}
-void TGo4Condition::SetXMeanDraw(Bool_t on)
-{
-fbXMeanDraw=on;
-}
-Bool_t TGo4Condition::IsXMeanDraw()
-{
-return fbXMeanDraw;
-}
-void TGo4Condition::SetXRMSDraw(Bool_t on)
-{
-fbXRMSDraw=on;
-}
-Bool_t TGo4Condition::IsXRMSDraw()
-{
-return fbXRMSDraw;
-}
-void TGo4Condition::SetYMeanDraw(Bool_t on)
-{
-fbYMeanDraw=on;
-}
-Bool_t TGo4Condition::IsYMeanDraw()
-{
-return fbYMeanDraw;
-}
-void TGo4Condition::SetYRMSDraw(Bool_t on)
-{
-fbYRMSDraw=on;
-}
-Bool_t TGo4Condition::IsYRMSDraw()
-{
-return fbYRMSDraw;
-}
-void TGo4Condition::SetXMaxDraw(Bool_t on)
-{
-fbXMaxDraw=on;
-}
-Bool_t TGo4Condition::IsXMaxDraw()
-{
-return fbXMaxDraw;
-}
-void TGo4Condition::SetYMaxDraw(Bool_t on)
-{
-fbYMaxDraw=on;
-}
-Bool_t TGo4Condition::IsYMaxDraw()
-{
-return fbYMaxDraw;
-}
-void TGo4Condition::SetCMaxDraw(Bool_t on)
-{
-fbCMaxDraw=on;
-}
-Bool_t TGo4Condition::IsCMaxDraw()
-{
-   return fbCMaxDraw;
-}
-
-const char* TGo4Condition::GetLabelNumFormat()
-{
-   return fxNumFormat.Data();
-}
-void TGo4Condition::SetLabelNumFormat(const char* fmt)
-{
-   fxNumFormat=fmt;
-}
-
 
 void TGo4Condition::SetHistogram(const char* name)
 {
@@ -828,23 +598,23 @@ void TGo4Condition::SetPainter(TGo4ConditionPainter*)
 {
 // delete old painter, replace by the new one
 // overwritten method in subclass may check if painter is correct type
-
 }
 
 
 void TGo4Condition::Paint(Option_t* opt)
 {
- /////// check for streamed canvas markers that were not Draw()n:
-if(fbStreamedCondition) {
-    SetPainted(kTRUE);
-    fbStreamedCondition=kFALSE;
-}
+   /////// check for streamed canvas markers that were not Draw()n:
+   if (fbStreamedCondition) {
+      SetPainted(kTRUE);
+      fbStreamedCondition = kFALSE;
+   }
 
-if(!IsPainted()) return;
-if(fxPainter==0) fxPainter=CreatePainter();
-// condition subclass may not provide a real painter, then we skip painting:
-if(fxPainter!=0)
-   {
+   if (!IsPainted())
+      return;
+   if (fxPainter == 0)
+      fxPainter = CreatePainter();
+   // condition subclass may not provide a real painter, then we skip painting:
+   if (fxPainter != 0) {
       fxPainter->SetCondition(this); // JAM2016
       fxPainter->PaintCondition(opt);
       fxPainter->PaintLabel(opt);
@@ -853,18 +623,18 @@ if(fxPainter!=0)
 
 void TGo4Condition::Draw(Option_t* opt)
 {
+   // std::cout<<"TGo4Condition::Draw of instance:"<<(long) this  << " with visible="<< TGo4Condition::IsVisible()<<
+   // std::endl;
+   if (TGo4Condition::IsVisible()) {
+      if (gPad && gPad->GetListOfPrimitives()->FindObject(this) == 0) {
 
-  //std::cout<<"TGo4Condition::Draw of instance:"<<(long) this  << " with visible="<< TGo4Condition::IsVisible()<< std::endl;
-   if(TGo4Condition::IsVisible()) {
-      if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==0) {
-
-         //UnDraw(); // JAM2016: do we need this? for switching condition between different pads...? no!
+         // UnDraw(); // JAM2016: do we need this? for switching condition between different pads...? no!
          AppendPad(opt);
       }
       SetPainted(kTRUE);
-   } else{
-     //std::cout<<"TGo4Condition::Draw does undraw"<< std::endl;
-       UnDraw(opt);
+   } else {
+      // std::cout<<"TGo4Condition::Draw does undraw"<< std::endl;
+      UnDraw(opt);
    }
 }
 

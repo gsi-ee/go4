@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -167,39 +167,39 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
 
     virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
-    virtual Double_t GetXLow();
-    virtual Double_t GetXUp();
-    virtual Double_t GetYLow();
-    virtual Double_t GetYUp();
-    virtual TCutG* GetCut(Bool_t owner);
+    virtual Double_t GetXLow() { return 0.; }
+    virtual Double_t GetXUp() { return 0.; }
+    virtual Double_t GetYLow() { return 0.; }
+    virtual Double_t GetYUp() { return 0.; }
+    virtual TCutG* GetCut(Bool_t owner) { return 0; }
 
     /** Calculate value for histogram inside condition limits.
       * Option may specify "width" to scale channel sum with axes*/
-    virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
+    virtual Double_t GetIntegral(TH1*, Option_t* = "") { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetMean(TH1* histo, Int_t axis=1);
+    virtual Double_t GetMean(TH1*, Int_t=1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetRMS(TH1* histo, Int_t axis=1);
+    virtual Double_t GetRMS(TH1*, Int_t=1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetSkewness(TH1* histo, Int_t axis=1);
+    virtual Double_t GetSkewness(TH1*, Int_t=1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCurtosis(TH1* histo, Int_t axis=1);
+    virtual Double_t GetCurtosis(TH1*, Int_t=1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetXMax(TH1* histo);
+    virtual Double_t GetXMax(TH1*)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetYMax(TH1* histo);
+    virtual Double_t GetYMax(TH1*)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCMax(TH1* histo);
+    virtual Double_t GetCMax(TH1*)  { return 0.; }
 
     /** To be overwritten for condition array. By default, it returns this. */
-    virtual TGo4Condition* GetActiveCondition();
+    virtual TGo4Condition* GetActiveCondition() { return this; }
 
     /** defines if condition counters shall be reset in UpdateFrom method*/
     virtual void MarkReset(Bool_t on);
@@ -217,16 +217,16 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
                    Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue);
 
     /** Set/Unset visibility. Overloaded for subclasses!*/
-    virtual void SetVisible(Bool_t on);
+    virtual void SetVisible(Bool_t on) { fbVisible=on; }
 
     /** Visibility property for gui display in editor */
-    virtual Bool_t IsVisible();
+    virtual Bool_t IsVisible() { return fbVisible; }
 
     /** Define if this condition has association with an analysis histogram */
-    void SetHistogramLink(Bool_t on);
+    void SetHistogramLink(Bool_t on) { fbHistogramLink = on; }
 
     /** True if the histogram of given name is linked to this*/
-    Bool_t IsHistogramLink();
+    Bool_t IsHistogramLink() { return fbHistogramLink; }
 
     /** Define the name of the associated histogram. */
     void SetHistogram(const char* name);
@@ -262,68 +262,74 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void InitLabelStyle();
 
     /** Will reset label position to defaults
-      * with other option than reset, just pop label to front*/
-    void ResetLabel(Option_t* opt="reset");
+     * with other option than reset, just pop label to front*/
+    void ResetLabel(Option_t *opt = "reset");
 
-    virtual void SetLabelDraw(Bool_t on);
-    virtual Bool_t IsLabelDraw();
+    virtual void SetLabelDraw(Bool_t on) { fbLabelDraw = on; }
+    virtual Bool_t IsLabelDraw() { return fbLabelDraw; }
 
-    virtual void SetLimitsDraw(Bool_t on);
-    virtual Bool_t IsLimitsDraw();
+    virtual void SetLimitsDraw(Bool_t on) { fbLimitsDraw = on; }
+    virtual Bool_t IsLimitsDraw() { return fbLimitsDraw; }
 
-    virtual void SetIntDraw(Bool_t on);
-    virtual Bool_t IsIntDraw();
+    virtual void SetIntDraw(Bool_t on) { fbIntDraw = on; }
+    virtual Bool_t IsIntDraw() { return fbIntDraw; }
 
-    virtual void SetXMeanDraw(Bool_t on);
-    virtual Bool_t IsXMeanDraw();
+    virtual void SetXMeanDraw(Bool_t on) { fbXMeanDraw = on; }
+    virtual Bool_t IsXMeanDraw() { return fbXMeanDraw; }
 
-    virtual void SetXRMSDraw(Bool_t on);
-    virtual Bool_t IsXRMSDraw();
+    virtual void SetXRMSDraw(Bool_t on) { fbXRMSDraw = on; }
+    virtual Bool_t IsXRMSDraw() { return fbXRMSDraw; }
 
-    virtual void SetYMeanDraw(Bool_t on);
-    virtual Bool_t IsYMeanDraw();
+    virtual void SetYMeanDraw(Bool_t on) { fbYMeanDraw = on; }
+    virtual Bool_t IsYMeanDraw() { return fbYMeanDraw; }
 
-    virtual void SetYRMSDraw(Bool_t on);
-    virtual Bool_t IsYRMSDraw();
+    virtual void SetYRMSDraw(Bool_t on) { fbYRMSDraw = on; }
+    virtual Bool_t IsYRMSDraw() { return fbYRMSDraw; }
 
-    virtual void SetXMaxDraw(Bool_t on);
-    virtual Bool_t IsXMaxDraw();
+    virtual void SetXMaxDraw(Bool_t on) { fbXMaxDraw = on; }
+    virtual Bool_t IsXMaxDraw() { return fbXMaxDraw; }
 
-    virtual void SetYMaxDraw(Bool_t on);
-    virtual Bool_t IsYMaxDraw();
-    virtual void SetCMaxDraw(Bool_t on);
-    virtual Bool_t IsCMaxDraw();
+    virtual void SetYMaxDraw(Bool_t on) { fbYMaxDraw = on; }
+    virtual Bool_t IsYMaxDraw() { return fbYMaxDraw; }
 
-    virtual const char* GetLabelNumFormat();
-    virtual void SetLabelNumFormat(const char* fmt);
+    virtual void SetCMaxDraw(Bool_t on) { fbCMaxDraw = on; }
+    virtual Bool_t IsCMaxDraw() { return fbCMaxDraw; }
 
+    virtual void SetLabelNumFormat(const char *fmt) { fxNumFormat = fmt; }
+    virtual const char *GetLabelNumFormat() { return fxNumFormat.Data(); }
 
-    virtual void SetChanged(Bool_t on) { if (on) fiIsChanged++; else fiIsChanged = 0; }
+    virtual void SetChanged(Bool_t on)
+    {
+       if (on)
+          fiIsChanged++;
+       else
+          fiIsChanged = 0;
+    }
     virtual Int_t IsChanged() { return fiIsChanged; }
 
-    void SetMultiEdit(Bool_t on){fbMultiEdit=on;}
-    virtual Bool_t IsMultiEdit(){return fbMultiEdit;}
+    void SetMultiEdit(Bool_t on) { fbMultiEdit = on; }
+    virtual Bool_t IsMultiEdit() { return fbMultiEdit; }
 
-    void SetDimension(Int_t d) { fiDim=d; }
+    void SetDimension(Int_t d) { fiDim = d; }
     Int_t GetDimension() { return fiDim; }
 
-    void SetOwnedByEditor(Bool_t on){fbOwnedByEditor=on;}
-    Bool_t IsOwnedByEditor(){return fbOwnedByEditor;}
+    void SetOwnedByEditor(Bool_t on) { fbOwnedByEditor = on; }
+    Bool_t IsOwnedByEditor() { return fbOwnedByEditor; }
 
     /** set index for array type subclasses */
-    virtual void SetCurrentIndex(Int_t ix);
+    virtual void SetCurrentIndex(Int_t) {}
 
     /** get index for array type subclasses */
-    virtual Int_t GetCurrentIndex();
+    virtual Int_t GetCurrentIndex() { return 0; }
 
     /** for condition aggregates: return total number of conditions,
       * i.e.size of condition array */
-    virtual Int_t GetNumberOfConditions();
+    virtual Int_t GetNumberOfConditions() { return 1; }
 
     virtual Int_t GetMemorySize();
 
-    virtual Bool_t IsPolygonType();
-    virtual Bool_t IsArrayType();
+    virtual Bool_t IsPolygonType() { return kFALSE; }
+    virtual Bool_t IsArrayType() { return kFALSE; }
 
     void DeletePainter();
 

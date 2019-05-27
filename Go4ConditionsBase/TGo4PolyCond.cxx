@@ -317,7 +317,8 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 }
 
 
-Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt){
+Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
+{
   if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE;
   TString message;
   message.Form("TGo4PolyCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
@@ -380,64 +381,66 @@ Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)
    else
       return-1;
 }
+
 Double_t TGo4PolyCond::GetRMS(TH1* histo, Int_t axis)
 {
-   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
+   if(fxCutHis==0) fxCutHis = CreateCutHistogram(histo);
    if(fxCutHis!=0)
       return (fxCutHis->GetRMS(axis));
    else
       return -1;
 }
+
 Double_t TGo4PolyCond::GetSkewness(TH1* histo, Int_t axis)
 {
-   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
+   if(fxCutHis==0) fxCutHis = CreateCutHistogram(histo);
    if(fxCutHis!=0)
       return (fxCutHis->GetSkewness(axis));
    else
       return -1;
 }
+
 Double_t TGo4PolyCond::GetCurtosis(TH1* histo, Int_t axis)
 {
-   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
+   if(fxCutHis==0) fxCutHis = CreateCutHistogram(histo);
    if(fxCutHis!=0)
       return (fxCutHis->GetKurtosis(axis));
    else
       return -1;
 }
+
 Double_t TGo4PolyCond::GetXMax(TH1* histo)
 {
-   Double_t result=0;
-   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
-   if(fxCutHis!=0)
-      {
-          TAxis* xax=fxCutHis->GetXaxis();
-          Int_t maxbin=fxCutHis->GetMaximumBin();
-          Int_t xmaxbin=maxbin%(fxCutHis->GetNbinsX()+2);
-          result=xax->GetBinCenter(xmaxbin);
-      }
-   else
-      {
-         result=-1;
-      }
+   Double_t result = 0;
+   if (fxCutHis == 0)
+      fxCutHis = CreateCutHistogram(histo);
+   if (fxCutHis != 0) {
+      TAxis *xax = fxCutHis->GetXaxis();
+      Int_t maxbin = fxCutHis->GetMaximumBin();
+      Int_t xmaxbin = maxbin % (fxCutHis->GetNbinsX() + 2);
+      result = xax->GetBinCenter(xmaxbin);
+   } else {
+      result = -1;
+   }
    return result;
 }
+
 Double_t TGo4PolyCond::GetYMax(TH1* histo)
 {
-   Double_t result=0;
-   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
-   if(fxCutHis!=0)
-      {
-         TAxis* yax=fxCutHis->GetYaxis();
-         Int_t maxbin=fxCutHis->GetMaximumBin();
-         Int_t maxybin=maxbin/(fxCutHis->GetNbinsX()+2);
-         result=yax->GetBinCenter(maxybin);
-      }
-   else
-      {
-         result=-1;
-      }
+   Double_t result = 0;
+   if (fxCutHis == 0)
+      fxCutHis = CreateCutHistogram(histo);
+   if (fxCutHis != 0) {
+      TAxis *yax = fxCutHis->GetYaxis();
+      Int_t maxbin = fxCutHis->GetMaximumBin();
+      Int_t maxybin = maxbin / (fxCutHis->GetNbinsX() + 2);
+      result = yax->GetBinCenter(maxybin);
+   } else {
+      result = -1;
+   }
    return result;
 }
+
 Double_t TGo4PolyCond::GetCMax(TH1* histo)
 {
    if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
@@ -449,20 +452,16 @@ Double_t TGo4PolyCond::GetCMax(TH1* histo)
 
 void TGo4PolyCond::SetPainter(TGo4ConditionPainter* painter)
 {
-if(painter==0) return;
-if(painter->InheritsFrom(TGo4PolyCondPainter::Class()))
-   {
-      if(fxPainter) delete fxPainter;
-      fxPainter=painter;
+   if (painter == 0)
+      return;
+   if (painter->InheritsFrom(TGo4PolyCondPainter::Class())) {
+      if (fxPainter)
+         delete fxPainter;
+      fxPainter = painter;
       fxPainter->SetCondition(this);
+   } else {
+      TGo4Log::Warn("Could not set painter of class %s for TGo4PolyCond %s", painter->ClassName(), GetName());
    }
-else
-   {
-      TGo4Log::Warn("Could not set painter of class %s for TGo4PolyCond %s",
-         painter->ClassName(),GetName());
-   }
-
-
 }
 
 
