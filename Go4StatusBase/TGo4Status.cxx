@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -59,9 +59,9 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
    Int_t size = 0;
    TString localbuf = TString::Format("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
 
-   if(buffer==0)
+   if(buffer==0) {
       std::cout << localbuf << std::endl;
-   else {
+   } else {
       size = localbuf.Length();
       if(size>buflen-1) size = buflen-1;
       strncpy(buffer,localbuf.Data(), size);
@@ -73,11 +73,10 @@ Text_t* TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
 {
    if(buflen<0 && buffer!=0) return 0;
    Int_t restlen=buflen;
-   Text_t* cursor=buffer;
-   for (int i = 0; (i < TROOT::GetDirLevel()) && (i< buflen); i++)
-      {
-         cursor=PrintBuffer(cursor,restlen," ");
-      }
+   Text_t *cursor = buffer;
+   for (int i = 0; (i < TROOT::GetDirLevel()) && (i < buflen); i++) {
+      cursor = PrintBuffer(cursor, restlen, " ");
+   }
    buflen=restlen;
    return cursor;
 }

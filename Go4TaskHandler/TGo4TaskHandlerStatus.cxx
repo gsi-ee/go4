@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -58,7 +58,7 @@ Int_t TGo4TaskHandlerStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    Text_t localbuf[4096];
    Text_t* current=localbuf;
    Int_t restlen=locallen;
-   Int_t size=0;
+   Int_t size = 0;
    current=PrintBuffer(current,restlen, "G-OOOO-> TaskHandler Status Class %s Printout: <-OOOO-G\n",GetName());
    current=PrintBuffer(current,restlen, "G-OOOO-> --------------------------------------------------------------------- <-OOOO-G\n");
    current=PrintBuffer(current,restlen, "G-OOOO-> Remote Server: %s\n",GetHostName());
@@ -68,27 +68,21 @@ Int_t TGo4TaskHandlerStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> Data Thread: %s\n",GetDatName());
    current=PrintBuffer(current,restlen, "G-OOOO-> Data Port: %d\n",fiDatPort);
    current=PrintBuffer(current,restlen, "G-OOOO-> Status Thread: %s\n",GetStatName());
-   current=PrintBuffer(current,restlen, "G-OOOO-> Status Port: %d\n",fiStatPort);
-   if(fbIsAborting)
-      {
-         current=PrintBuffer(current,restlen, "G-OOOO-> Aborting State: TRUE\n");
-      }
-   else
-      {
-         current=PrintBuffer(current,restlen, "G-OOOO-> Aborting State: FALSE\n");
-      }
-   current=PrintBuffer(current,restlen, "G-OOOO-> END TaskHandler Status Class Printout END <-OOOO-G\n");
-   if(buffer==0)
-         {
-             std::cout << localbuf << std::endl;
-         }
-      else
-         {
-            size=locallen-restlen;
-            if(size>buflen-1)
-               size=buflen-1;
-            strncpy(buffer,localbuf,size);
-         }
+   current = PrintBuffer(current, restlen, "G-OOOO-> Status Port: %d\n", fiStatPort);
+   if (fbIsAborting) {
+      current = PrintBuffer(current, restlen, "G-OOOO-> Aborting State: TRUE\n");
+   } else {
+      current = PrintBuffer(current, restlen, "G-OOOO-> Aborting State: FALSE\n");
+   }
+   current = PrintBuffer(current, restlen, "G-OOOO-> END TaskHandler Status Class Printout END <-OOOO-G\n");
+   if (buffer == 0) {
+      std::cout << localbuf << std::endl;
+   } else {
+      size = locallen - restlen;
+      if (size > buflen - 1)
+         size = buflen - 1;
+      strncpy(buffer, localbuf, size);
+   }
    return size;
 }
 

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -193,7 +193,7 @@ Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
       return 0;
    Int_t locallen=128000;
    Text_t localbuf[128000];
-   Int_t size=0;
+   Int_t size = 0;
    Text_t* current=localbuf;
    Int_t restlen=locallen;
    Int_t delta= TGo4ObjectStatus::PrintStatus(current,restlen);
@@ -229,8 +229,6 @@ Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
          current=PrintIndent(current,restlen);
          current=PrintBuffer(current,restlen, " Y rms: \t\t%f\n",GetYrms());
       }
-   else
-      { }
    if(GetDimension()>2)
       {
          current=PrintIndent(current,restlen);
@@ -244,22 +242,17 @@ Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
          current=PrintIndent(current,restlen);
          current=PrintBuffer(current,restlen, " Z rms: \t\t%f\n",GetZrms());
       }
-   else
-      { }
    current=PrintIndent(current,restlen);
    current=PrintBuffer(current,restlen, " N Entries: \t%f\n",GetEntries());
    current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-  if(buffer==0)
-      {
-     std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-               size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+   current = PrintBuffer(current, restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
+   if (buffer == 0) {
+      std::cout << localbuf << std::endl;
+   } else {
+      size = locallen - restlen;
+      if (size > buflen - 1)
+         size = buflen - 1;
+      strncpy(buffer, localbuf, size);
+   }
    return size;
 }

@@ -51,6 +51,7 @@ Int_t TGo4MemberStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    if (buffer == 0) {
       std::cout << localbuf << std::endl;
    } else {
+      size = locallen - restlen;
       if (size > buflen - 1)
          size = buflen - 1;
       strncpy(buffer, localbuf, size);

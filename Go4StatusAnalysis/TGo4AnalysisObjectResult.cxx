@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -76,17 +76,14 @@ Int_t TGo4AnalysisObjectResult::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintIndent(current,restlen);
    current=PrintBuffer(current,restlen, " Message: \t%s\n",GetMessage());
    current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Action: \t%d\n",Action());
-   if(buffer==0)
-      {
-          std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+   current = PrintBuffer(current, restlen, " Action: \t%d\n", Action());
+   if (buffer == 0) {
+      std::cout << localbuf << std::endl;
+   } else {
+      size = locallen - restlen;
+      if (size > buflen - 1)
+         size = buflen - 1;
+      strncpy(buffer, localbuf, size);
+   }
    return size;
 }
