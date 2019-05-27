@@ -353,7 +353,7 @@ class TGo4Picture : public TNamed {
       TObject *GetObjOption(Short_t index, Short_t typ) const;
 
       void SetStrOption(Short_t index, Short_t typ, const char* value);
-      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = nullptr) const;
+      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = 0) const;
 
       void ClearOption(Short_t index, Short_t typ);
       void ClearOption(Int_t pos);

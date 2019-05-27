@@ -102,7 +102,7 @@ class TPadGuard {
    TVirtualPad *fSave;
 public:
 
-   TPadGuard(TVirtualPad *repl = nullptr)
+   TPadGuard(TVirtualPad *repl = 0)
    {
       fSave = gPad;
       gPad = repl;
@@ -1719,7 +1719,7 @@ void TGo4ViewPanel::ProcessPadDoubleClick()
 TH1 *TGo4ViewPanel::Get_fHistogram(TObject *obj, bool force)
 {
    // return fHistogram member of THStack, TMultiGraph, TGraph
-   if (!obj) return nullptr;
+   if (!obj) return 0;
 
    Long_t offset =obj->IsA()->GetDataMemberOffset("fHistogram");
    if (offset <= 0) return 0;
@@ -3205,7 +3205,7 @@ TH1* TGo4ViewPanel::GetPadHistogram(TPad *pad)
    if (obj->InheritsFrom(TH1::Class()))
       return (TH1*) obj;
 
-   TPadGuard lock(fxWCanvas ? nullptr : gPad); // replace gPad to avoid redrawing of canvas
+   TPadGuard lock(fxWCanvas ? 0 : gPad); // replace gPad to avoid redrawing of canvas
 
    if (obj->InheritsFrom(TGraph::Class()))
       // return graph histogram - if need create them in not web case

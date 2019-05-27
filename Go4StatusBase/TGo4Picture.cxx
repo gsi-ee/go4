@@ -1548,9 +1548,9 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
 
 TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
 {
-   if (typ<op_ObjsBound) return nullptr;
+   if (typ<op_ObjsBound) return 0;
    Int_t pos = FindOptPos(index, typ);
-   if (pos<0) return nullptr;
+   if (pos<0) return 0;
    return fxOptObjects->At(fxOptValue[pos]);
 }
 
