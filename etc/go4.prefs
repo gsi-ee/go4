@@ -92,9 +92,11 @@ shellinitcmd:%asguiinitcmd%
 
 execinitcmd:%asisinitcmd%
 
-os=mac: asguiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}; export PATH=${PATH};
+os=mac: asguiinitcmd:%asisinitcmd%
 
 asguiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH};
+
+os=mac: asisinitcmd: export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}; export PATH=${PATH};
 
 asisinitcmd:
 
