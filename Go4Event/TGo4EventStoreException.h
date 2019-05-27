@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -23,7 +23,7 @@ class TGo4EventStoreException : public TGo4RuntimeException {
 
   public:
 
-      TGo4EventStoreException (TGo4EventStore* eventsource, const char* msg=0);
+      TGo4EventStoreException (TGo4EventStore* eventsource, const char* msg = 0);
 
       virtual ~TGo4EventStoreException();
 
@@ -32,7 +32,6 @@ class TGo4EventStoreException : public TGo4RuntimeException {
       TGo4EventStoreException(const TGo4EventStoreException &right);
 
       TGo4EventStoreException & operator = (const TGo4EventStoreException & right);
-
 
 
       /** Status/ error message of the last event. */
@@ -58,8 +57,6 @@ class TGo4EventStoreException : public TGo4RuntimeException {
       /** Class of the throwing event source*/
       TString fxStoreClass; //!
 
-  private:
-      TGo4EventStoreException();
 };
 
 #endif // #define TGO4TASKHANDLEREXCEPTION_H
