@@ -48,20 +48,6 @@ ifndef GO4WITHRPATH
 GO4WITHRPATH = true
 endif
 
-# configure X11 compilation
-ifndef nox11
-ifneq ($(shell $(CFG_ROOT_BIN)root-config --has-x11),no)
-GO4_X11 = true 
-endif
-endif
-
-# configure WebGui compilation
-ifndef noweb
-ifeq ($(shell $(CFG_ROOT_BIN)root-config --has-qt5web),yes)
-GO4_WEB = true 
-endif
-endif
-
 ## one can exclude dependency generation, calling "make nodepend=1"
 
 ifdef nodep
@@ -105,6 +91,32 @@ ROOTGLIBS   := $(shell $(CFG_ROOT_BIN)root-config --glibs)
 ifeq ($(firstword $(subst ., ,$(ROOTVERSION))),6)
 ISROOT6 = true
 endif
+
+
+ifeq ($(ISROOT6),true)
+
+# configure X11 compilation
+ifndef nox11
+ifneq ($(shell $(CFG_ROOT_BIN)root-config --has-x11),no)
+GO4_X11 = true 
+endif
+endif
+
+# configure WebGui compilation
+ifndef noweb
+ifeq ($(shell $(CFG_ROOT_BIN)root-config --has-qt5web),yes)
+GO4_WEB = true 
+endif
+endif
+
+else
+
+# in case of ROOT5 enable only X11 part - not really tested
+GO4_X11 = true 
+
+endif
+
+
 
 ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
 USESPECTRUM   = true
