@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -319,12 +319,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
             this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
    MenuBar = new QMenuBar(MenuFrame);
-   // MenuBar->setMinimumWidth(100);
+   MenuBar->setMinimumWidth(100);
    // MenuBar->setFrameShape(QMenuBar::NoFrame);
-#if (QT_VERSION >= 0x040600)
    MenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
-#endif
-
 
    FitterMap = new QSignalMapper(this);
    connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));

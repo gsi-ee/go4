@@ -199,10 +199,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    fMenuBar = new QMenuBar(MenuFrame);
    fMenuBar->setMinimumWidth(50);
-
-#if (QT_VERSION >= 0x040600)
    fMenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
-#endif
 
    QMenu* fileMenu = fMenuBar->addMenu("F&ile");
    fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
