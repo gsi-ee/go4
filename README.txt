@@ -45,7 +45,7 @@ ROOT INSTALLATION
 
   To use web-based graphics (required for Mac) qt5web option should be enabled:
 
-     shell> cmake ../root_v6.18.00 -Droot7=ON
+     shell> cmake ../root_v6.18.00 -Droot7=ON -Dqt5web=ON
 
   Check after ROOT compilation that everything is fine by calling:
 
@@ -155,14 +155,14 @@ ADVANCED MAKE OPTIONS
      Specifies version of qt, which should be used for gui compilation.
      Qt installation will be tested with pkg-config utility.
      If 'withqt' not specified, QTDIR variable will be tested.
-     If none 'withqt' and QTDIR are set, first Qt4 and than Qt3 will
+     If none 'withqt' and QTDIR are set, first Qt5 and than Qt3 will
      be tried to used by go4.
 
-  withweb=true
-     Enable building of web-based canvas. Required ROOT 6.18 version
-     build with -Droot7=ON -Dqt5web=ON build options.
+  noweb=1
+     Disables building of web-based canvas. Normally web canvas build for ROOT 6.18,
+     which is build with -Droot7=ON -Dqt5web=ON build options.
 
-  nox11=true
+  nox11=1
      Build go4 gui without use of X11. Default for Mac and Windows. Required
      web support in ROOT.
 
@@ -187,9 +187,6 @@ ADVANCED MAKE OPTIONS
   nodepend=1
      Build go4 without dependencies - makes build process faster.
 
-  force32=1
-     Forces 32-bit compilation and linking on 64-bit platform. Implemented
-     for such kind of MacOS machines, not tested (probably, not required) on Linux.
 
   All flags, specified to the make, will be stored together with some environment settings
   in build/Makefile.gener. This allow to reuse same settings for user analysis compilation.
