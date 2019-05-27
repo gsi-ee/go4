@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -37,6 +37,7 @@ TGo4Command::TGo4Command(const char* name, const char* description, Int_t id) :
    fbIsLocal = kFALSE;
    fiProtection=kGo4ComModeObserver;
    fiMode=kGo4ComModeRefused;
+   fxReceiverBase = 0;
 }
 
 TGo4Command::TGo4Command() : TNamed()
@@ -53,6 +54,7 @@ TGo4Command::TGo4Command() : TNamed()
   fbIsLocal = kFALSE;
   fiProtection=kGo4ComModeObserver;
   fiMode=kGo4ComModeRefused;
+  fxReceiverBase = 0;
 }
 
 TGo4Command::~TGo4Command()

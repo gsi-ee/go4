@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -19,13 +19,12 @@
  */
 
 #include "TNamed.h"
-#include "TString.h"
 
 class TGo4CommandReceiver;
 class TGo4RemoteCommand;
 
 /** These values define command execution rights */
-enum Go4CommandMode_t{
+enum Go4CommandMode_t {
    kGo4ComModeRefused,     // no rights
    kGo4ComModeObserver,    // client may only observe
    kGo4ComModeController,  // client has full control as user
@@ -40,7 +39,7 @@ class TGo4Command  : public TNamed {
 
       TGo4Command(const char* name, const char* description, Int_t id);
 
-      virtual ~TGo4Command ();
+      virtual ~TGo4Command();
 
       /** Do the command action */
       virtual Int_t ExeCom();
@@ -88,7 +87,7 @@ class TGo4Command  : public TNamed {
 
    protected:
 
-      Bool_t fbIsEnabled;   // comand can be executed
+      Bool_t fbIsEnabled;   // command can be executed
       Bool_t fbIsExclusive; // command can be executed only by ReceiverName
       Bool_t fbIsSynchron;  // command is queued = synchronous
       Bool_t fbIsLocal;     // command is to be executed by local command thread
