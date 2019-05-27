@@ -48,18 +48,18 @@ ifndef GO4WITHRPATH
 GO4WITHRPATH = true
 endif
 
-GO4_X11 = true
-GO4_WEB = 
-
-ifeq ($(GO4_OS),Darwin)
-#GO4WITHRPATH = false
-GO4_WEB = true
-GO4_X11 =
+# configure X11 compilation
+ifndef nox11
+ifneq ($(shell $(CFG_ROOT_BIN)root-config --has-x11),no)
+GO4_X11 = true 
+endif
 endif
 
-# let disable X11 compilation
-ifdef nox11
-GO4_X11 = 
+# configure WebGui compilation
+ifndef noweb
+ifeq ($(shell $(CFG_ROOT_BIN)root-config --has-qt5web),yes)
+GO4_WEB = true 
+endif
 endif
 
 ## one can exclude dependency generation, calling "make nodepend=1"
@@ -171,8 +171,7 @@ endif
 #try to detect which QT version is configured if any
 
 # when building WebEngine, Qt5 is required
-ifdef withweb
-GO4_WEB = true
+ifdef GO4_WEB
 ifndef QTDIR
 withqt=5
 endif
