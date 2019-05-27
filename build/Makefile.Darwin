@@ -87,7 +87,8 @@ LD            = g++
 ifeq ($(GO4WITHRPATH),true)
 LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
-LDFLAGS       += $(LDFLAGS_RPATH) -O 
+
+LDFLAGS       += $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O 
 
 #### Other options: ####
 OutPutOpt     = -o 
