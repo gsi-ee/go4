@@ -35,60 +35,16 @@ RMDIR         = rm -rf
 MV            = mv
 
 #### Linker definitions: ####
-LD            = g++
-ifeq ($(GO4WITHRPATH),true)
-LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
-endif
+LD            = clang++
 
-LDFLAGS       += $(LDFLAGS_RPATH)
-ifdef force32
-LDFLAGS       += -Wl,-arch,i386
-endif
-
-
-FORCELINK     = yes
-NEEDFINK      = yes
-
-
-MACOSXTARGET := MACOSX_DEPLOYMENT_TARGET=10.$(MACOSX_MINOR)
-
-
-ifeq ($(subst $(MACOSX_MINOR),,1234),1234)
-SOFLAGS       = -dynamiclib -single_module \
-                -undefined dynamic_lookup -install_name 
-FORCELINK     = no
-NEEDFINK      = no
-else
-ifeq ($(subst $(MACOSX_MINOR),,123),123)
-SOFLAGS       = -dynamiclib -single_module \
-                -undefined dynamic_lookup -install_name 
-FORCELINK     = no
-NEEDFINK      = no
-else
-ifeq ($(MACOSX_MINOR),3)
-SOFLAGS       = -dynamiclib -single_module \
-                -undefined dynamic_lookup -install_name 
-LDFLAGS      += -bind_at_load
-else
-SOFLAGS       = -dynamiclib -single_module \
-                -undefined suppress -install_name 
-LDFLAGS      += -bind_at_load
-endif
-endif
-endif
-
-ifeq ($(subst $(MACOSX_MINOR),,1234),1234)
+SOFLAGS       = -dynamiclib -single_module -undefined dynamic_lookup -install_name 
 DllSuf        = so
-else
-DllSuf        = dylib
-endif
 
-LD            = g++
 ifeq ($(GO4WITHRPATH),true)
 LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
 
-LDFLAGS       += $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O 
+LDFLAGS       = $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O 
 
 #### Other options: ####
 OutPutOpt     = -o 
