@@ -399,13 +399,14 @@ endif
 endif
 	@echo '##### Go4-related settings ###########' >> $@
 	@echo 'export GO4SYS=$(GO4TOPPATH)' >> $@
-	@echo 'export PATH=$(GO4EXEPATH):$$PATH' >> $@
-	@echo 'export PYTHONPATH=$(GO4TOPPATH)/python:$$PYTHONPATH' >> $@
 ifeq ($(GO4_OS),Darwin)
+	@echo 'export PATH=$(GO4EXEPATH):$(GO4EXEPATH)/go4.app/Contents/MacOS:$$PATH' >> $@
 	@echo 'export DYLD_LIBRARY_PATH=.:$(GO4LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
 else
+	@echo 'export PATH=$(GO4EXEPATH):$$PATH' >> $@
 	@echo 'export LD_LIBRARY_PATH=.:$(GO4LIBPATH):$$LD_LIBRARY_PATH' >> $@	
 endif
+	@echo 'export PYTHONPATH=$(GO4TOPPATH)/python:$$PYTHONPATH' >> $@
 	@chmod 755 $@
 
 go4login.bat:
