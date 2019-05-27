@@ -41,43 +41,34 @@ TObject* TGo4ObjectQueue::WaitObject()
 
 void TGo4ObjectQueue::AddObject(TObject * object, Bool_t clone)
 {
-   GO4TRACE((12,"TGo4ObjectQueue::AddObject(TObject*, Bool_t)", __LINE__, __FILE__));
-   TObject* entry=0;
-   if(clone && (object!=0))
-      {
-         entry=object->Clone();
-      }
-   else
-      {
-         entry=object;
-      }
+   GO4TRACE((12, "TGo4ObjectQueue::AddObject(TObject*, Bool_t)", __LINE__, __FILE__));
+   TObject *entry = 0;
+   if (clone && (object != 0)) {
+      entry = object->Clone();
+   } else {
+      entry = object;
+   }
    Add(entry);
-
 }
 
 void TGo4ObjectQueue::AddObjectFromBuffer(TBuffer* buffer)
 {
    GO4TRACE((12,"TGo4ObjectQueue::AddObjectFromBuffer(TBuffer*)", __LINE__, __FILE__));
-   TObject* entry=0;
-   if(buffer!=0)
-      {
-         buffer->SetReadMode();
-         buffer->Reset();
-         buffer->InitMap();
-         TClass* cl= buffer->ReadClass();
-//         std::cout <<"object queue: read class "  << cl << std::endl;
-//         if(cl)
-//            std::cout <<"object queue: class name "  << cl->GetName() << std::endl;
-         buffer->Reset();
-         entry = buffer->ReadObject(cl);
+   TObject *entry = 0;
+   if (buffer != 0) {
+      buffer->SetReadMode();
+      buffer->Reset();
+      buffer->InitMap();
+      TClass *cl = buffer->ReadClass();
+      //         std::cout <<"object queue: read class "  << cl << std::endl;
+      //         if(cl)
+      //            std::cout <<"object queue: class name "  << cl->GetName() << std::endl;
+      buffer->Reset();
+      entry = buffer->ReadObject(cl);
 
-//         std::cout <<"object queue: read object "  << entry << std::endl;
-//         if(entry)
-//            std::cout <<"object queue: classname "  << entry->ClassName() << std::endl;
-      }
-   else
-      {
-//              std::cout <<"object queue: zero buffer"  << std::endl;
-      }
+      //         std::cout <<"object queue: read object "  << entry << std::endl;
+      //         if(entry)
+      //            std::cout <<"object queue: classname "  << entry->ClassName() << std::endl;
+   }
    Add(entry);
 }

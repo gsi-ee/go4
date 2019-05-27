@@ -117,7 +117,7 @@ class TGo4BufferQueue : public TGo4Queue {
        * List of preallocated buffer TBuffers which
        * are used when TBuffer added to queue should
        * be "cloned". Each AddBuffer with option clone
-       * will memcopy the input buffer char field to
+       * will memcpy the input buffer char field to
        * the next TBuffer field in this list. Output buffer
        * after WaitBuffer is then this internal TBuffer,
        * not the input TBuffer. If all buffer buffers are in

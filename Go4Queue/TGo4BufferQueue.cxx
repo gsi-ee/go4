@@ -21,7 +21,6 @@
 #include "RVersion.h"
 #include "Riostream.h"
 
-
 #include "TGo4Socket.h"
 #include "TGo4RuntimeException.h"
 #include "TGo4Log.h"
