@@ -1,9 +1,9 @@
 # ----------- go4.prefs file ------------
-# Syntax is 
-#    param_name: paramerer_value 
+# Syntax is
+#    param_name: paramerer_value
 #
 # For value one can use other parameters like
-#    param_name: %param2_name% paramerer_value 
+#    param_name: %param2_name% paramerer_value
 #
 # One can set condition, based on some parameters values like os, hostname:
 #    hostname=lxi*: ssh: ssh -x -P 235 user@%hostname% "%hostcmd%" &
@@ -12,12 +12,12 @@
 # One can create go4.prefs file in current gui directory and redefine some of parameters
 # For instance, file with following content allows to start analysis on SuSE 11 node:
 #
-#     hostname=suse11host: shellinitcmd:. go4login; 
+#     hostname=suse11host: shellinitcmd:. go4login;
 #     hostname=suse11host: konsole_options:
 #     hostname=suse11host: workdir:/usr/local/go4/head/Go4ExampleSimple
 #     hostname=suse11host: exekind:1
 #     hostname=suse11host: libname:/usr/local/go4/head/Go4ExampleSimple/libGo4UserAnalysis.so
-# 
+#
 
 ######################################################################
 # here is remote shell settings
@@ -28,21 +28,23 @@ ssh: ssh -x %hostname% "%hostcmd%"
 # this is command for ssh with X enabled
 sshX: ssh -X %hostname% "%hostcmd%" &
 
-# this is common command for rsh (with and without X) 
+# this is common command for rsh (with and without X)
 rsh: rsh -n %hostname% "%hostcmd%" &
 
-# this is execution on local node without any remote shell  
-# for window program itself must be executed, no shell variable or other options will be set   
+# this is execution on local node without any remote shell
+# for window program itself must be executed, no shell variable or other options will be set
 os=win32: exec: %hostcmd%
 
-# in normal case execution in gui runs via /bin/sh    
+# in normal case execution in gui runs via /bin/sh
 exec: sh -c "%hostcmd%" &
 
 ######################################################################
-# here is terminal settings, it defines "hostcmd", 
-# which depend from terminal kind: qtwindow/xterm/konsole  
+# here is terminal settings, it defines "hostcmd",
+# which depend from terminal kind: qtwindow/xterm/konsole
 
 qtwindow: %initcmd% %cd_workdir% %progcmd%
+
+os=mac: xterm: %initcmd% %cd_workdir% xterm -T %clientkind%:%analysisname%@%hostname% -e \"export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH; %progcmd%\"
 
 xterm: %initcmd% %cd_workdir% xterm -T %clientkind%:%analysisname%@%hostname% -e \"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH; %progcmd%\"
 
@@ -55,7 +57,7 @@ konsole_options:-caption %clientkind%:%analysisname%
 # here is program execution section, defined if analysis should be started as server or client
 #for linux use always localhost for guihost
 
-#for exec mode (and ssh localhost) always use loop-back address for connection with gui 
+#for exec mode (and ssh localhost) always use loop-back address for connection with gui
 shellkind=exec: guihost: 127.0.0.1
 shellkind=ssh*: hostname=localhost: guihost: 127.0.0.1
 
@@ -72,7 +74,7 @@ clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %userargs%
 # two variants of analysis - as executable and as library
 # defined by parameter 'exekind' (specified in gui)  0-executable, 1-library
 # if executable parameter 'exename' is configured via gui, for library - 'libname'
-# if appropriate name parameter empty, default executable name will be taken 
+# if appropriate name parameter empty, default executable name will be taken
 
 analysis_exe:%exename%
 
@@ -83,20 +85,22 @@ analysis_lib:go4analysis -lib %libname%
 analysis_default_lib:go4analysis
 
 ##################################################################
-# here is initialization sequence is defined, depending if execution performed in 
-# remote shell or in gui context (via exec) 
+# here is initialization sequence is defined, depending if execution performed in
+# remote shell or in gui context (via exec)
 
 shellinitcmd:%asguiinitcmd%
 
 execinitcmd:%asisinitcmd%
 
-asguiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH}; 
+os=mac: asguiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}; export PATH=${PATH};
+
+asguiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH};
 
 asisinitcmd:
 
 cd_workdir:cd %workdir%;
 
 ####################################################################
-# this is kill cmd, will be combined together with shell login to kill application 
+# this is kill cmd, will be combined together with shell login to kill application
 
 kill:killall %killexename%
