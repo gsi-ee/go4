@@ -47,7 +47,8 @@ TString TGo4PolyCond::NextAvailableName()
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond() :
    TGo4Condition(),
-   fxCut(0)
+   fxCut(0),
+   fxCutHis(0)
 {
    SetDimension(2);
    //SetBit(kCanDelete, kFALSE);
@@ -56,7 +57,8 @@ TGo4PolyCond::TGo4PolyCond() :
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
    TGo4Condition(name,title),
-   fxCut(0)
+   fxCut(0),
+   fxCutHis(0)
 {
    SetDimension(2);
    //SetBit(kCanDelete, kFALSE);
@@ -65,16 +67,34 @@ TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
 // ----------------------------------------------------------
 TGo4PolyCond::~TGo4PolyCond()
 {
-   //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<", threadid="<< (long) pthread_self()<< std::endl;
-   //UnDraw(); // JAM 2016 - do it before cut has vanished!
-   if(fxCut != 0)
-     {
-       //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<" deletes the cut "<< (long) fxCut << std::endl;
-       delete fxCut;
-       fxCut=0; // JAM2016: reset for Unpaint in PolyCondView?
-     }
+   // std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<", threadid="<< (long) pthread_self()<< std::endl;
+   // UnDraw(); // JAM 2016 - do it before cut has vanished!
+
+   ClearCutHis();
+
+   if (fxCut != 0) {
+      delete fxCut;
+      fxCut = 0; // JAM2016: reset for Unpaint in PolyCondView?
+   }
 }
 
+// ----------------------------------------------------------
+void TGo4PolyCond::SetWorkHistogram(TH1* histo)
+{
+   TGo4Condition::SetWorkHistogram(histo);
+   ClearCutHis(); // discard internal cut histogram
+}
+
+// ----------------------------------------------------------
+void TGo4PolyCond::ClearCutHis()
+{
+   if (fxCutHis) {
+      delete fxCutHis;
+      fxCutHis = 0;
+   }
+}
+
+// ----------------------------------------------------------
 Double_t TGo4PolyCond::GetXLow()
 {
    if(fxCut==0) return 0;
@@ -122,8 +142,7 @@ TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
 
    if(changeowner) {
       fxCut = 0;
-      SetCutHis(); // discard internal histogram
-
+      ClearCutHis(); // discard internal histogram
    }
    return tempcut;
 }
@@ -182,7 +201,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
    SetFillColor(newcut->GetFillColor());
    SetFillStyle(newcut->GetFillStyle());
 
-   SetCutHis(); // fxCut changed, so discard previous fxCut histogram
+   ClearCutHis(); // fxCut changed, so discard previous fxCut histogram
 }
  // ----------------------------------------------------------
 void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
@@ -201,7 +220,7 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
    SetFillColor(newcut->GetFillColor());
    SetFillStyle(newcut->GetFillStyle());
 
-   SetCutHis(); // fxCut changed, so discard previous fxCut histogram
+   ClearCutHis(); // fxCut changed, so discard previous fxCut histogram
 }
 
 
@@ -216,7 +235,7 @@ void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
    //fxCut->SetBit(kCanDelete,kFALSE);
    TGo4PolyCond::CleanupSpecials(); // JAM2016
 
-   SetCutHis(); // discard previous fxCut histogram
+   ClearCutHis(); // discard previous fxCut histogram
 }
 // ----------------------------------------------------------
 Bool_t TGo4PolyCond::Test(Double_t x, Double_t y)
@@ -266,7 +285,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
              TCutG* old=fxCut; // JAM2016 change cut before deleting the old one!
              fxCut=temp;
              if(old != 0) delete old;
-             SetCutHis();
+             ClearCutHis();
              return kTRUE;
           }
        else
@@ -291,7 +310,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        }
 
        // still need this to reassign the bins of statistics histogram:
-       SetCutHis();
+       ClearCutHis();
 
       return kTRUE;
 #endif
@@ -454,11 +473,11 @@ Bool_t TGo4PolyCond::IsCutHis(TH1* source)
    if (!his)
       return kFALSE;
 
-   TH2 *work = (TH2 *) his->Clone();
-   Int_t nx = work->GetNbinsX();
-   Int_t ny = work->GetNbinsY();
-   TAxis *xaxis = work->GetXaxis();
-   TAxis *yaxis = work->GetYaxis();
+   fxCutHis = (TH2 *) his->Clone();
+   Int_t nx = fxCutHis->GetNbinsX();
+   Int_t ny = fxCutHis->GetNbinsY();
+   TAxis *xaxis = fxCutHis->GetXaxis();
+   TAxis *yaxis = fxCutHis->GetYaxis();
    xaxis->SetRange(0, 0); // expand work histogram to full range
    yaxis->SetRange(0, 0);
    // set all bins outside fxCut to zero:
@@ -467,17 +486,15 @@ Bool_t TGo4PolyCond::IsCutHis(TH1* source)
       for (Int_t j = 0; j < ny; ++j) {
          Double_t y = yaxis->GetBinCenter(j);
          if (fxCut && !(fxCut->IsInside(x, y)))
-            work->SetBinContent(i, j, 0);
+            fxCutHis->SetBinContent(i, j, 0);
       }
    }
    // prepare statistics:
    Stat_t s[11] = {0};    // dimension is kNstat of TH1.cxx
-   work->PutStats(s);     // reset previous stats
-   work->GetStats(s);     // recalculate
-   work->PutStats(s);     // put back
-   work->SetDirectory(0); // important for first draw from marker setup file!
-
-   SetCutHis(work);
+   fxCutHis->PutStats(s);     // reset previous stats
+   fxCutHis->GetStats(s);     // recalculate
+   fxCutHis->PutStats(s);     // put back
+   fxCutHis->SetDirectory(0); // important for first draw from marker setup file!
 
    return kTRUE;
 }

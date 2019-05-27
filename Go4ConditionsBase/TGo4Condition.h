@@ -20,7 +20,6 @@
 #include "Riostream.h"
 
 class TH1;
-class TH2;
 class TVirtualPad;
 class TCutG;
 class TObjArray;
@@ -236,10 +235,10 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** Set reference to work histogram for statistics functions. Note
       * that this method does not change the histogram link definitions! */
-    void SetWorkHistogram(TH1* histo);
+    virtual void SetWorkHistogram(TH1* histo) { fxHisto = histo; }
 
     /** access work histogram reference */
-    TH1* GetWorkHistogram(){return fxHisto;}
+    TH1* GetWorkHistogram() { return fxHisto; }
 
     /** Replace default painter of this condition by external one.
       * if different views of this condition shall exist for different TPads,
@@ -404,16 +403,8 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
       * all TObjects appended to the pad. */
     TGo4ConditionPainter* fxPainter;
 
-    /** temporary histogram used to calculate statistics on
-      * polygon cuts. Will be recalculated only if boundaries
-      * habe changed.*/
-    TH2* fxCutHis;   //!
-
-
     /** array with TObjStrings evaluated by UpdateFromUrl*/
     TObjArray* fxUrlOptionArray; //!
-
-    void SetCutHis(TH2 *his = 0);
 
     /** re-build the list of url options from string*/
     void BuildUrlOptionArray(const char* rest_url_opt);

@@ -13,9 +13,7 @@
 
 #include "TGo4Condition.h"
 
-
 #include "TH1.h"
-#include "TH2.h"
 #include "TROOT.h"
 #include "TList.h"
 #include "TObjArray.h"
@@ -66,7 +64,6 @@ TGo4Condition::TGo4Condition() :
    TAttLine(),
    TAttFill(),
    fxPainter(0),
-   fxCutHis(0),
    fxUrlOptionArray(0),
    fxHisto(0),
    fiIsChanged(0)
@@ -96,11 +93,9 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
    TAttLine(),
    TAttFill(),
    fxPainter(0),
-   fxCutHis(0),
    fxUrlOptionArray(0),
    fxHisto(0),
    fiIsChanged(0)
-
 {
    GO4TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
    fiDim=0;
@@ -131,8 +126,6 @@ TGo4Condition::~TGo4Condition()
       delete fxPainter;
       fxPainter = 0;
    }
-
-   SetCutHis();
 
    if (fxUrlOptionArray) {
       fxUrlOptionArray->Delete();
@@ -697,20 +690,6 @@ void TGo4Condition::ResetLabel(Option_t* opt)
       fxPainter->UnPaintLabel(opt);
       fxPainter->PaintLabel();
    }
-}
-
-void TGo4Condition::SetCutHis(TH2 *his)
-{
-   if (fxCutHis)
-      delete fxCutHis;
-   fxCutHis = his;
-}
-
-
-void TGo4Condition::SetWorkHistogram(TH1* histo)
-{
-   fxHisto=histo;
-   SetCutHis(); // discard internal cut histogram
 }
 
 void TGo4Condition::DeletePainter()

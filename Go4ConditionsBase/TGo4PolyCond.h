@@ -27,6 +27,9 @@ class TGo4PolyCond : public TGo4Condition {
 
       virtual ~TGo4PolyCond();
 
+      /** Set reference to work histogram for statistics functions */
+      virtual void SetWorkHistogram(TH1* histo);
+
       /** Factory method to generate the subclass implementation for painter */
       virtual TGo4ConditionPainter* CreatePainter();
 
@@ -85,8 +88,6 @@ class TGo4PolyCond : public TGo4Condition {
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
 
-
-
       /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
 
@@ -138,11 +139,20 @@ class TGo4PolyCond : public TGo4Condition {
         * Used internally by UpdateFrom. */
       TCutG * CloneCut(TGo4PolyCond * source);
 
-      /** Returns true if fxCutHis can be used */
+      /** Set new cut histogram */
+      void ClearCutHis();
+
+      /** Returns true if fxCutHis can be used, create if possible */
       Bool_t IsCutHis(TH1* source);
 
       /** Cut pointer. */
       TCutG* fxCut;
+
+      /** temporary histogram used to calculate statistics on
+        * polygon cuts. Will be recalculated only if boundaries
+        * habe changed.*/
+      TH2* fxCutHis;   //!
+
 
    ClassDef(TGo4PolyCond,7)
 };
