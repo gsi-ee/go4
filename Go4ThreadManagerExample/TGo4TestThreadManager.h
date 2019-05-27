@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -34,40 +34,35 @@ class TGo4TestThreadManager : public TGo4ThreadManager
 {
 
   public:
-      TGo4TestThreadManager(const TGo4TestThreadManager &right);
-
       TGo4TestThreadManager (const char* name);
 
       virtual ~TGo4TestThreadManager();
 
-       /**
-         *   general testfunction which can be called from any
-         *   thread runnable
-        **/
-      virtual Int_t TestAction ();
+      /**
+       *   general testfunction which can be called from any
+       *   thread runnable
+       **/
+      virtual Int_t TestAction();
 
+      TCanvas* GetCanvas () { return fxCanvas; }
 
-      TCanvas* GetCanvas ();
+      TPad* GetPad1 () { return fxPad1; }
 
-      TPad* GetPad1 ();
-
-      TPad* GetPad2 ();
+      TPad* GetPad2 () { return fxPad1; }
 
 
   protected:
     // Data Members for Associations
 
-      TGo4TestRunnable *fxControlRunnable;
+      TGo4TestRunnable *fxControlRunnable; //!
 
   private:
-    //## Constructors (generated)
-      TGo4TestThreadManager();
 
-      TCanvas *fxCanvas;
-      TPad *fxPad1;
-      TPad *fxPad2;
+      TCanvas *fxCanvas;   //!
+      TPad *fxPad1;        //!
+      TPad *fxPad2;        //!
 
-ClassDef(TGo4TestThreadManager,0)
+   ClassDef(TGo4TestThreadManager,1)
 };
 
 

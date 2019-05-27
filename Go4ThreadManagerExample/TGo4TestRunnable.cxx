@@ -29,26 +29,22 @@
 #include "TGo4RestartException.h"
 #include "TGo4LogicException.h"
 
-TGo4TestRunnable::TGo4TestRunnable()
-:TGo4Runnable("dummy",0)
+TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", 0), fiMode(0), fxHisto(0)
 {
-  GO4TRACE((14,"TGo4TestRunnable::TGo4Runnable() constructor",__LINE__, __FILE__));
+   GO4TRACE((14, "TGo4TestRunnable::TGo4Runnable() constructor", __LINE__, __FILE__));
 }
 
-TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right)
-   :TGo4Runnable(right)
+TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right) : TGo4Runnable(right), fiMode(right.fiMode), fxHisto(0)
 {
-   GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable() copy ctor",__LINE__, __FILE__));
-   fiMode=right.fiMode;
+   GO4TRACE((14, "TGo4TestRunnable::TGo4TestRunnable() copy ctor", __LINE__, __FILE__));
 }
 
-TGo4TestRunnable::TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode)
-  :TGo4Runnable(name,man)
+TGo4TestRunnable::TGo4TestRunnable(const char *name, TGo4ThreadManager *man, Int_t mode)
+   : TGo4Runnable(name, man), fiMode(mode), fxHisto(0)
 {
-  GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
-  fiMode=mode;
+   GO4TRACE(
+      (14, "TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor", __LINE__, __FILE__));
 }
-
 
 TGo4TestRunnable::~TGo4TestRunnable()
 {

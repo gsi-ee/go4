@@ -72,7 +72,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
 
       TGo4TestRunnable(const TGo4TestRunnable &right);
 
-      TGo4TestRunnable (const char* name, TGo4ThreadManager* man, Int_t mode = 0);
+      TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode = 0);
 
       virtual ~TGo4TestRunnable();
 
@@ -85,7 +85,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
       virtual Int_t Run (void* ptr);
 
        /**
-         *   catch for exceptions occuring in workfunc
+         *   catch for exceptions occurring in workfunc
         **/
       virtual void ThreadCatch (TGo4Exception& ex);
 
@@ -103,10 +103,12 @@ class TGo4TestRunnable : public TGo4Runnable  {
       *   with different actions in Workfunc; useful for testing
       *   without creating new subclasses of runnable...
       */
-      Int_t fiMode{0};
+      Int_t fiMode;    //!
 
     // Additional Private Declarations
-      TH1D* fxHisto{nullptr};
+      TH1D* fxHisto;    //!
+
+   ClassDef(TGo4TestRunnable,1)
 };
 
 
