@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -21,6 +21,7 @@
 #include "TObjString.h"
 #include "THStack.h"
 #include "TH1.h"
+#include "TCanvas.h"
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
@@ -141,7 +142,7 @@ TGo4CanvasProxy::~TGo4CanvasProxy()
 
 Int_t TGo4CanvasProxy::GetObjectKind()
 {
-   return (fCanvas!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fCanvas ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4CanvasProxy::GetContainedClassName()

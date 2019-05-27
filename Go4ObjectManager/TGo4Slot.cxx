@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -362,18 +362,17 @@ Bool_t TGo4Slot::AssignObject(TObject* obj, Bool_t owner)
 {
    fAssignCnt++;
    fAssignFlag = kFALSE;
-   if (fProxy!=0)
+   if (fProxy != 0)
       fAssignFlag = fProxy->AssignObject(this, obj, owner);
-   else
-      if (owner) delete obj;
+   else if (owner)
+      delete obj;
 
    return (fAssignFlag == (Int_t) kTRUE);
 }
 
 TObject* TGo4Slot::GetAssignedObject()
 {
-   if (fProxy==0) return 0;
-   return fProxy->GetAssignedObject();
+   return fProxy ? fProxy->GetAssignedObject() : 0;
 }
 
 void TGo4Slot::Update(Bool_t strong)
