@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -32,10 +32,9 @@ class TGo4Display : public TGo4Master {
 
     void SetAnalysis(TGo4AnalysisProxy* an) { fxAnalysis = an; }
 
- /** Add functionality to reset gui appereance here:*/
+ /** Add functionality to reset gui appearance here:*/
     virtual Bool_t DisconnectSlave(const char* name=0,
                                    Bool_t waitforslave=kTRUE );
-
 
   private:
 

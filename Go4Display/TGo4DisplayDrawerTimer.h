@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -31,15 +31,13 @@ class TGo4DisplayDrawerTimer : public TTimer {
 
       TGo4DisplayDrawerTimer (TGo4Display* display, Long_t msperiod = 3000);
 
-      virtual ~TGo4DisplayDrawerTimer();
+      virtual ~TGo4DisplayDrawerTimer() {}
 
       virtual Bool_t Notify ();
 
     private:
 
       TGo4Display* fxDisplay;   //!
-
-      TGo4DisplayDrawerTimer();
 };
 
 #endif //TGO4DISPLAYDRAWERTIMER_H

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -74,45 +74,33 @@ void TGo4Display::DisplayData(TObject* data)
       delete data;
 }
 
-void TGo4Display::DisplayLog(TGo4Status * Status)
+void TGo4Display::DisplayLog(TGo4Status * status)
 {
-   if (fxAnalysis!=0)
-     fxAnalysis->ReceiveStatus(Status);
+   if (fxAnalysis != 0)
+      fxAnalysis->ReceiveStatus(status);
    else
-     delete Status;
+      delete status;
 }
 
 Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
 {
-   // std::cout <<"+++++++++ TGo4Display::DisconnectSlave..." << std::endl;
 
+   // Note: taskhandlerabortexception and shutdown of analysis server
+   // both will schedule a TGo4ComDisconnectSlave into local command queue
+   // of master task, calling TGo4Master::DisconnectSlave()
+   // here we override this method to inform gui about this
+   ///////////////////////////////////////////////////
+   //
+   // before disconnecting, gui might stop monitoring timers here....
+   //...
+   Bool_t rev = TGo4Master::DisconnectSlave(name, waitforslave); // should do all required things for disconnection
+   // after disconnecting, gui might react on result by cleaning up browser, window caption etc.
+   // for example:
+   if (rev) {
+      if (fxAnalysis != 0)
+         fxAnalysis->DisplayDisconnected(this);
+   }
 
-// Note: taskhandlerabortexception and shutdown of analysis server
-// both will schedule a TGo4ComDisconnectSlave into local command queue
-// of master task, calling TGo4Master::DisconnectSlave()
-// here we override this method to inform gui about this
-///////////////////////////////////////////////////
-//
-// before disconnecting, gui might stop monitoring timers here....
-//...
-  Bool_t rev=TGo4Master::DisconnectSlave(name,waitforslave); // should do all required things for disconnection
-  // after disconnecting, gui might react on result by cleaning up browser, window caption etc.
-  // for example:
-  if(rev)
-     {
-       if (fxAnalysis!=0)
-
-          fxAnalysis->DisplayDisconnected(this);
-
-//        std::cout <<"+++++++++ TGo4Display::DisconnectSlave success on disconnect!!!" << std::endl;
-//        std::cout <<"+++++++++ Please add something to inform GUI here about disconnected analysis!!!" << std::endl;
-     }
-   else
-     {
-//        std::cout <<"+++++++++ TGo4Display::DisconnectSlave failed!!!" << std::endl;
-//        std::cout <<"+++++++++ Please add something to inform GUI here..." << std::endl;
-     }
-
-  return rev;
+   return rev;
 }
 
