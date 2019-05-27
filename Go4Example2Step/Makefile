@@ -4,8 +4,6 @@ endif
 
 include $(GO4SYS)/Makefile.config
 
-DOOPTIMIZATION=false
-
 ##ANAL_LIB_DEP+=$(ROOTLIBPATH)/libMathMore.so
 #LDFLAGS += $(LIBS_FULLSET) -lMathMore
 
