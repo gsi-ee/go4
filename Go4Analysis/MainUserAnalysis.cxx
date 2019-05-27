@@ -1122,7 +1122,7 @@ int main(int argc, char **argv)
          long long maxtreesize = 1900000000;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             char sbuf[1000];
-            strncpy(sbuf, argv[narg], sizeof(sbuf));
+            strncpy(sbuf, argv[narg], sizeof(sbuf)-1);
             long long mult(1), val(1);
             int len = strlen(sbuf);
             if ((sbuf[len-1]=='g') || (sbuf[len-1]=='G')) { mult = 1000000000; sbuf[len-1] = 0; } else
