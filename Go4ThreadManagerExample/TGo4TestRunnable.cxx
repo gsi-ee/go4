@@ -59,9 +59,9 @@ Int_t TGo4TestRunnable::Run (void* ptr)
    static Int_t t=0;
    static Int_t loops=0;
    Axis_t x=0;
-   TGo4ThreadHandler *han=nullptr;
-   TGo4TestRunnable* th1run = nullptr;
-   TGo4Thread* go4thr = nullptr;
+   TGo4ThreadHandler *han = 0;
+   TGo4TestRunnable* th1run = 0;
+   TGo4Thread* go4thr = 0;
    TCanvas* can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
    TPad* pad1=((TGo4TestThreadManager*)fxManager)->GetPad1();
    TPad* pad2=((TGo4TestThreadManager*)fxManager)->GetPad2();
@@ -172,7 +172,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
             {
                TGo4Log::Debug("\t ''%s'' deleting histogram", GetName());
                delete fxHisto;
-               fxHisto=nullptr;
+               fxHisto = 0;
             }
          else
             {
@@ -297,7 +297,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          fxGo4Thread->Sleep(5000);
          TGo4Log::Debug("\t ''%s'' deleting histogram %d", GetName(),loops++);
          delete fxHisto;
-         fxHisto = nullptr;
+         fxHisto = 0;
          }
          break;
       default:
