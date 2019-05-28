@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -19,12 +19,6 @@
 #include "TGo4Log.h"
 #include "TGo4AnalysisClient.h"
 
-void usage()
-{
-   std::cout << "usage: MainGo4AnalysisClient clientname serverhostname connectorport"<<std::endl;
-}
-
-
 int main(int argc, char **argv)
 {
    TApplication theApp("App", &argc, argv);
@@ -35,37 +29,28 @@ int main(int argc, char **argv)
                                // set this to 3 to get errors only
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
 
+   if (argc < 4) {
+      std::cout << "usage: MainGo4AnalysisClient clientname serverhostname connectorport" << std::endl;
+      return 0;
+   }
 
-   if(argc<4)
-      {
-         usage();
+   const char *name = argv[1];
+   const char *hostname = argv[2];
+   const char *connector = argv[3];
+   UInt_t con = atoi(connector);
+   std::cout << "Client:" << name << ",\tHost:" << hostname << ",\tConnector:" << con << std::endl;
 
-      }
-   else
-      {
-         const char* name=argv[1];
-         const char* hostname=argv[2];
-         const char* connector=argv[3];
-         UInt_t con=atoi(connector);
-         std::cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<std::endl;
+   // variant 1: use demo with internal plain analysis base class
+   TGo4AnalysisClient *myclient = new TGo4AnalysisClient(name, 0, hostname, con);
 
-         // variant 1: use demo with internal plain analysis base class
-         TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,0,hostname,con);
+   // variant 2: create user analysis and pass it to client, client adopts it
+   //         TEbAnalysis* myanalysis= new TEbAnalysis;
+   //         myanalysis->SetAutoSaveFile("EbAutoSave");
+   //         myanalysis->SetAutoSaveInterval(200000);
+   //         TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
 
-         // variant 2: create user analysis and pass it to client, client adopts it
-//         TEbAnalysis* myanalysis= new TEbAnalysis;
-//         myanalysis->SetAutoSaveFile("EbAutoSave");
-//         myanalysis->SetAutoSaveInterval(200000);
-//         TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
+   std::cout << "Created AnalysisClient Instance: " << myclient->GetName() << std::endl; // dummy action for warnings
+   theApp.Run();
 
-
-         std::cout << "Created AnalysisClient Instance: "<<myclient->GetName()<<std::endl; // dummy action for warnings
-         theApp.Run();
-
-         return 0;
-
-   } // if(argc<4)
-
-//} // if (rev)
-
+   return 0;
 }

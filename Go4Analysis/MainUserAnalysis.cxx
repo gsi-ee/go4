@@ -95,7 +95,7 @@ void usage(const char* subtopic = 0)
       if ((strcmp(subtopic, "sources")==0) || (strcmp(subtopic, "src")==0) || (strcmp(subtopic, "src")==0)) {
          std::cout << "These are arguments of go4analysis which allows to specify event source" << std::endl;
          printsources();
-         exit(0);
+         return;
       } else
       if ((strcmp(sub, "print")==0) || (strcmp(sub, "pr")==0) ||
           (strcmp(sub, "type")==0) || (strcmp(sub, "ty")==0)) {
@@ -127,11 +127,11 @@ void usage(const char* subtopic = 0)
          std::cout << "  Print 5 events with subevent id=1 in decimal form from MBS transport server" << std::endl;
          std::cout << "     go4analysis -tr r2-2 -num 5 -ty dec sub=1 " << std::endl;
          std::cout << std::endl;
-         exit(0);
+         return;
       } else {
          std::cout << "No help for topic: \""<< subtopic << "\"" << std::endl;
          std::cout << "Available: print, sources" << std::endl;
-         exit(0);
+         return;
       }
    }
 
@@ -219,8 +219,6 @@ void usage(const char* subtopic = 0)
    std::cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << std::endl;
    std::cout << "                          all following arguments will be provided as array of strings, first argument - analysis name" << std::endl;
    std::cout << std::endl;
-
-   exit(0);
 }
 
 class TGo4PrintProcessor : public TGo4EventProcessor {
@@ -607,12 +605,16 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   if (argc==1) usage();
+   if (argc==1) {
+      usage();
+      return 0;
+   }
 
    int phelp = FindArg(argc, argv, "-help");
    if (phelp < 0) phelp = FindArg(argc, argv, "-h") > 0;
    if (phelp > 0) {
       usage(phelp < argc-1 ? argv[phelp+1] : 0);
+      return 0;
    }
 
    int user_argc = 0;

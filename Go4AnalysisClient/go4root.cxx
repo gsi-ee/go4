@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -16,8 +16,6 @@
 #include "TRint.h"
 #include "TGo4AnalysisClient.h"
 
-void usage();
-
 /**
 * This nice executable starts a rootcint session with a
 * go4 slave server ("analysisclient" in server mode) in the
@@ -27,8 +25,6 @@ void usage();
 * @author Joern Adamczewski
 * @since 06-apr-2005
 */
-
-
 
 int main(int argc, char **argv)
 {
@@ -55,8 +51,3 @@ int main(int argc, char **argv)
     theApp.Run();
     return 0;
 }
-
-
-
-
-

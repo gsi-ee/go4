@@ -23,9 +23,11 @@
 #include "RVersion.h"
 #include "TEnv.h"
 #include "TApplication.h"
-#include "QRootApplication.h"
 #include "TInterpreter.h"
+#include "TROOT.h"
+#include "Riostream.h"
 
+#include "QRootApplication.h"
 #include "TGo4Log.h"
 #include "TGo4Version.h"
 #include "TGo4MainWindow.h"
@@ -34,10 +36,6 @@
 #include "TGo4BufferQueue.h"
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
-
-#include "TROOT.h"
-#include "Riostream.h"
-
 
 #ifndef WIN32
 #ifdef GO4_X11

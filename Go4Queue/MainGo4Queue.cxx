@@ -22,13 +22,6 @@
 #include "TGo4BufferQueue.h"
 #include "TGo4ObjectQueue.h"
 
-
-void usage(char **args)
-{
-  std::cout << "Usage: " << args[0] << " \n";
-  exit(1);
-}
-
 //______________________________________________________________________________
 int main(int argc, char **argv)
 {

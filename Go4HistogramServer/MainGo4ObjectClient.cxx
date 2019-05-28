@@ -62,6 +62,11 @@
 
 int main(int argc, char **argv)
 {
+   if (argc < 6) {
+      std::cout << "usage: MainGo4ObjectClient hostname port base passwd command "<<std::endl;
+      return 0;
+   }
+
    TApplication theApp("App", 0, 0);
    TCanvas *mycanvas = 0;
    TGo4Log::Instance(); // init logger object
@@ -69,11 +74,6 @@ int main(int argc, char **argv)
                                // set this to 2 to get warnings and errors only
                                // set this to 3 to get errors only
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
-
-   if (argc < 6) {
-      std::cout << "usage: MainGo4ObjectClient hostname port base passwd command "<<std::endl;
-      return 0;
-   }
 
    const char *hostname = argv[1];
    const char *connector = argv[2];
