@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -105,22 +105,20 @@ UnPaintConnector(opt);
 
 Bool_t TGo4MarkerPainter::CheckConnector()
 {
-   if(fbIsConStreamed && fxConnector!=0) {
-       // case of Connector was streamed from file: not yet in cleanup list!
-       fxConnector->SetOwner(this);
-       fbIsConStreamed=kFALSE;
-       return kTRUE;
+   if (fbIsConStreamed && fxConnector != 0) {
+      // case of Connector was streamed from file: not yet in cleanup list!
+      fxConnector->SetOwner(this);
+      fbIsConStreamed = kFALSE;
+      return kTRUE;
    }
-    if(TGo4LabelConnector::fxLastDeleted==(char*) fxConnector)
-      {
-         // our label was deleted by user mouse menu just before
-         TGo4LabelConnector::fxLastDeleted=0;
-         fxConnector=0; // reset reference, will re-create label on next paint
-         return kFALSE;
-      }
+   if (TGo4LabelConnector::fxLastDeleted == fxConnector) {
+      // our label was deleted by user mouse menu just before
+      TGo4LabelConnector::fxLastDeleted = 0;
+      fxConnector = 0; // reset reference, will re-create label on next paint
+      return kFALSE;
+   }
 
-
-   return fxConnector!=0;
+   return fxConnector != 0;
 }
 
 void TGo4MarkerPainter::PaintConnector(Option_t* opt)
@@ -237,22 +235,23 @@ else
 
 void TGo4MarkerPainter::UnPaintConnector(Option_t* opt)
 {
-   TString option=opt;
-   if(option.Contains("reset")) {
+   TString option = opt;
+   if (option.Contains("reset")) {
       // case of reset option: discard old connector line style
-      if(CheckConnector()) {
+      if (CheckConnector()) {
          delete fxConnector;
-         fxConnector=0;
+         fxConnector = 0;
       }
    }
 }
 
 void TGo4MarkerPainter::DisplayToFront(Option_t* opt)
 {
-UnPaintConnector();
-PaintConnector(); // pop line to front if enabled
-if(fxMarker) fxMarker->TObject::Pop(); // then pop marker
-TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
+   UnPaintConnector();
+   PaintConnector(); // pop line to front if enabled
+   if (fxMarker)
+      fxMarker->TObject::Pop();           // then pop marker
+   TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
 }
 
 
