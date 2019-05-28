@@ -26,14 +26,6 @@
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
-   const Int_t TGo4BufferQueue::fgiISOWNER = TBuffer::kIsOwner;
-#else
-   const Int_t TGo4BufferQueue::fgiISOWNER = BIT(14);
-// we emulate the protected owner flag of the TBuffer class, needed for reallocation!
-#endif
-
-
 TGo4BufferQueue::TGo4BufferQueue() :
    TGo4Queue("Default buffer queue"),
    fxBufferList(0),
@@ -324,13 +316,11 @@ void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
                                            (newsize+extraspace),
                                            (oldsize+extraspace));
   //std::cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< std::endl;
-   buffer->ResetBit(fgiISOWNER);
-//#if ROOT_VERSION_CODE > ROOT_VERSION(5,23,2)
-//   buffer->SetBuffer(memfield, newsize + extraspace);
-//#else
+   buffer->ResetBit(TBuffer::kIsOwner);
+
    buffer->SetBuffer(memfield, newsize);
-//#endif
-   buffer->SetBit(fgiISOWNER);
+
+   buffer->SetBit(TBuffer::kIsOwner);
    // <- here we avoid the ownership of TBuffer for the internal buffer
    // (new feature of ROOT versions > 3.02/04)
    // problem: SetBuffer will delete previous buffer in adopt mode (isowner=true)

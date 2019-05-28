@@ -91,12 +91,6 @@ class TGo4BufferQueue : public TGo4Queue {
        */
       static Int_t DecodeValueBuffer(TBuffer* buf);
 
-
-      /**
-       *.we emulate the protected owner flag of the TBuffer class, needed for reallocation!
-       */
-      static const Int_t fgiISOWNER;
-
    private:
       /**
        * Initialization of internal queue buffer.
