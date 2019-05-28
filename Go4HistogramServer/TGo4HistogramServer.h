@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -27,7 +27,7 @@ class TGo4Socket;
  * Handles a histogram server (mbs histogram protocol) for the
  * histograms registered in the analysis.
  * Optionally, object server for root may be started using
- * Go4 protocoll style. This was disabled for V3 by default 09/2005
+ * Go4 protocol style. This was disabled for V3 by default 09/2005
  * @author J. Adamczewski
  * @since 23-Sep-2002, reduced 14-Jan-2003
  */
@@ -38,14 +38,14 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
    public:
 
-      virtual ~TGo4HistogramServer();
+      TGo4HistogramServer();
 
       TGo4HistogramServer(TGo4AnalysisClient* owner,
                           const char* servername="localhost",
                           const char* password="go4",
                           Bool_t useobjectserver=kFALSE);
 
-      TGo4HistogramServer();
+      virtual ~TGo4HistogramServer();
 
       /**  Used by object connector runnable to serve client request */
       Int_t ServeObjectClient();
