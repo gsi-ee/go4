@@ -163,16 +163,3 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
    }
 }
 
-
-void TGo4MdiArea::CloseWidget(QWidget *widget)
-{
-   QList<QMdiSubWindow *> windows = subWindowList();
-   for (int i=0; i < windows.count(); ++i ) {
-      if (windows.at(i)->widget() == widget) {
-         windows.at(i)->close();
-         return;
-      }
-   }
-
-   printf("Do not find widget\n");
-}

@@ -548,9 +548,8 @@ void TGo4ViewPanel::CompleteInitialization()
 
 void TGo4ViewPanel::ClosePanel()
 {
-   TGo4MdiArea::Instance()->CloseWidget(this);
+   parentWidget()->close();
 }
-
 
 void TGo4ViewPanel::SetMouseMode(int mode)
 {

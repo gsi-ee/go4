@@ -2148,7 +2148,7 @@ void TGo4FitPanel::FitterMenuItemSelected(int id)
       case 24: Fitter_UpdateReferences(); break;
       case 25: Fitter_PrintParameters(); break;
       case 26: Fitter_RollbackParameters(); break;
-      case 99: TGo4MdiArea::Instance()->CloseWidget(this); break;
+      case 99: parentWidget()->close(); break;
    }
 }
 
