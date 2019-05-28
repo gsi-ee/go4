@@ -15,7 +15,6 @@
 #define TGO4ANALYSISOBJECTMANAGER_H
 
 #include "TNamed.h"
-#include "Htypes.h"
 
 class TCanvas;
 class TTree;

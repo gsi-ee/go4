@@ -490,7 +490,7 @@ Int_t TGo4Analysis::Process()
          // only display message if debug output enabled
          Message(2,"Analysis %s TIMEOUT for eventsource %s:%s.",
                GetName(), ex.GetSourceClass(), ex.GetSourceName());
-      } else{}
+      }
       //return 0;
    }
    catch(TGo4EventEndException& ex)

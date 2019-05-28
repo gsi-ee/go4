@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -23,21 +23,19 @@ class TGo4HistogramServer;
  * @stereotype thread
  */
 class TGo4ObjConnectorRunnable : public TGo4Runnable {
-   public:
+public:
+   virtual ~TGo4ObjConnectorRunnable();
 
-      virtual ~TGo4ObjConnectorRunnable();
+   TGo4ObjConnectorRunnable();
 
-      TGo4ObjConnectorRunnable();
+   TGo4ObjConnectorRunnable(const char *name, TGo4HistogramServer *hserv);
 
-      TGo4ObjConnectorRunnable(const char* name, TGo4HistogramServer* hserv);
+   virtual Int_t Run(void *);
 
-     virtual Int_t Run(void*);
-
-   private:
-
-      /** @supplierCardinality 1
-       * @clientCardinality 1*/
-      TGo4HistogramServer * fxHistogramServer;//!
+private:
+   /** @supplierCardinality 1
+    * @clientCardinality 1*/
+   TGo4HistogramServer *fxHistogramServer; //!
 };
 
 #endif //TGO4OBJCONNECTORRUNNABLE_H

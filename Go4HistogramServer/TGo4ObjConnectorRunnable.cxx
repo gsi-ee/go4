@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -20,33 +20,26 @@
 #include "TGo4HistogramServer.h"
 #include "TGo4AnalysisClientImp.h"
 
-TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable(const char* name, TGo4HistogramServer* hserv)
-: TGo4Runnable(name, hserv->GetAnalysisClient()->GetTask())
+TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable(const char *name, TGo4HistogramServer *hserv)
+   : TGo4Runnable(name, hserv->GetAnalysisClient()->GetTask())
 {
-  fxHistogramServer=hserv;
+   fxHistogramServer = hserv;
 }
 
-TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable() : TGo4Runnable(0,0)
-{
-}
+TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable() : TGo4Runnable(0, 0) {}
 
-TGo4ObjConnectorRunnable::~TGo4ObjConnectorRunnable()
-{
-}
+TGo4ObjConnectorRunnable::~TGo4ObjConnectorRunnable() {}
 
-Int_t TGo4ObjConnectorRunnable::Run(void*)
+Int_t TGo4ObjConnectorRunnable::Run(void *)
 {
-   if(!fxHistogramServer)
-   {
-      std::cerr <<"error, no histogram server!!" << std::endl;
+   if (!fxHistogramServer) {
+      std::cerr << "error, no histogram server!!" << std::endl;
       fxGo4Thread->Stop();
       return -1;
    }
-   Int_t rev=fxHistogramServer->ServeObjectClient();
-   if(rev< -1)
-   {
+   Int_t rev = fxHistogramServer->ServeObjectClient();
+   if (rev < -1) {
       fxGo4Thread->Stop(); // stop runnable for termination
    }
-   else{}
    return 0;
 }

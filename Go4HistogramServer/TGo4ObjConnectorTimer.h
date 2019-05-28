@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -25,21 +25,16 @@ class TGo4HistogramServer;
 
 class TGo4ObjConnectorTimer : public TTimer {
 
-  public:
+public:
+   TGo4ObjConnectorTimer(TGo4HistogramServer *server, Long_t msperiod = 3000);
 
-      TGo4ObjConnectorTimer (TGo4HistogramServer* server, Long_t msperiod = 3000);
+   virtual ~TGo4ObjConnectorTimer();
 
-      virtual ~TGo4ObjConnectorTimer();
+   virtual Bool_t Notify();
 
-      virtual Bool_t Notify ();
-
-  protected:
-
-      /** the object server to which this timer belongs */
-      TGo4HistogramServer* fxServer; //!
-
-  private:
-      TGo4ObjConnectorTimer();
+protected:
+   /** the object server to which this timer belongs */
+   TGo4HistogramServer *fxServer; //!
 };
 
 #endif //TGO4TASKCONNECTORTIMER_H
