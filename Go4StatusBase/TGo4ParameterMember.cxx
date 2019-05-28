@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,7 +15,6 @@
 
 #include <stdlib.h>
 
-#include "RVersion.h"
 #include "Riostream.h"
 #include "TROOT.h"
 #include "TDataType.h"
@@ -130,9 +129,7 @@ void TGo4ParameterMember::SetToZero()
       case kShort_t:
       case kUChar_t:
       case kChar_t:
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
       case kBool_t:
-#endif
       case kFloat_t:
       case kDouble_t:
       case kDouble32_t: fValue = "0"; break;
@@ -155,9 +152,7 @@ void TGo4ParameterMember::SetValue(char* addr)
       case kShort_t:    fValue.Form("%hd", *((Short_t*)addr)); break;
       case kUChar_t:    fValue.Form("%u", *((UChar_t*)addr)); break;
       case kChar_t:     fValue.Form("%d", *((Char_t*)addr)); break;
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
       case kBool_t:     fValue.Form("%d", *((Bool_t*)addr)); break;
-#endif
       case kFloat_t:    fValue.Form("%.7g", *((Float_t*)addr)); break;
       case kDouble_t:   fValue.Form("%.16g", *((Double_t*)addr)); break;
       case kDouble32_t: fValue.Form("%.16g", *((Double32_t*)addr)); break;
@@ -185,9 +180,7 @@ void TGo4ParameterMember::GetValue(char* addr)
      case kShort_t:    *((Short_t*)addr) = atoi(value); break;
      case kUChar_t:    *((UChar_t*)addr) = atoi(value); break;
      case kChar_t:     *((Char_t*)addr) = atoi(value); break;
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
      case kBool_t:     *((Bool_t*)addr) = atoi(value); break;
-#endif
      case kFloat_t:    *((Float_t*)addr) = atof(value); break;
      case kDouble_t:   *((Double_t*)addr) = atof(value); break;
      case kDouble32_t: *((Double32_t*)addr) = atof(value); break;
@@ -214,11 +207,12 @@ Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
 
    name += " = ";
 
-   if (fObject) name += TString::Format("Obj:%p Class:%s", fObject, fObject->ClassName()); else
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
-      if (fTypeId==kBool_t) name += ((fValue=="0") ? "kFALSE" : "kTRUE"); else
-#endif
-         name += fValue;
+   if (fObject)
+      name += TString::Format("Obj:%p Class:%s", fObject, fObject->ClassName());
+   else if (fTypeId == kBool_t)
+      name += ((fValue == "0") ? "kFALSE" : "kTRUE");
+   else
+      name += fValue;
 
    if ((GetTitle() != 0) && (strlen(GetTitle())>0)) { name += " // "; name += GetTitle(); }
 
@@ -234,9 +228,7 @@ Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
    }
 
    return size;
-
 }
-
 
 void TGo4ParameterMember::Clear(Option_t* opt)
 {

@@ -223,7 +223,7 @@ class TGo4Picture : public TNamed {
 
       // ====== end of USER FUNCTIONS ========================
 
-      // add name of any object, which should be drawn in picture or subpcture
+      // add name of any object, which should be drawn in picture or sub-picture
       void AddObjName(const char* name, Option_t* DrawOption = 0);
       void AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption = 0);
 

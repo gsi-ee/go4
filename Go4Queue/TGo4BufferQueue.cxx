@@ -18,7 +18,6 @@
 #include "TMutex.h"
 #include "TFile.h"
 #include "TGo4Buffer.h"
-#include "RVersion.h"
 #include "Riostream.h"
 
 #include "TGo4Socket.h"
@@ -250,44 +249,27 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
          std::cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << std::endl;
          delete entry;
       }
-
- }
-
-void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
-{
-   GO4TRACE((19,"TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
-  //std::cout << "BBBBBBBBBBBBBBB  TGo4BufferQueue::FreeBuffer before  taking buffer mutex "<< fxBufferMutex<< std::endl;
-   TGo4LockGuard qguard(fxBufferMutex);
-  //std::cout << "                  bufferlock acquired by bufferqueue: freebuffer"<< std::endl;
-   // does buffer belong to our internal buffers?
-   if (fxBufferList->FindObject(buffer)!=0)
-            {
-               // yes, put it back into the free list
-                // new: we allocate the buffersize back to the initial size to
-                // avoid extended memory consumption:
-                Int_t memsize=buffer->BufferSize();
-                if (memsize>TGo4Socket::fgiBUFINITSIZE)
-                  {
-                     Realloc(buffer,memsize, TGo4Socket::fgiBUFINITSIZE);
-                  }
-                fxFreeList->AddLast(buffer);
-               //std::cout <<"freed buffer"<< buffer <<" of bufferqueue "<< GetName() << std::endl;
-            }
-         else
-            {
-               // no, we delete it to avoid leakage
-               delete buffer;
-               //std::cout <<" Buffer  queue FB deleted buffer "<<buffer << std::endl;
-              //std::cout <<"deleted external buffer of bufferqueue "<< GetName() << std::endl;
-               // TGo4Log::Debug(" Buffer Queue : deleted external buffer !!! ");
-
-            }
-
-
-
-
 }
 
+void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
+{
+   GO4TRACE((19, "TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
+   TGo4LockGuard qguard(fxBufferMutex);
+   // does buffer belong to our internal buffers?
+   if (fxBufferList->FindObject(buffer) != 0) {
+      // yes, put it back into the free list
+      // new: we allocate the buffersize back to the initial size to
+      // avoid extended memory consumption:
+      Int_t memsize = buffer->BufferSize();
+      if (memsize > TGo4Socket::fgiBUFINITSIZE) {
+         Realloc(buffer, memsize, TGo4Socket::fgiBUFINITSIZE);
+      }
+      fxFreeList->AddLast(buffer);
+   } else {
+      // no, we delete it to avoid leakage
+      delete buffer;
+   }
+}
 
 void TGo4BufferQueue::Clear(Option_t* opt)
 {

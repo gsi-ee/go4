@@ -2184,18 +2184,15 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
          clon->SetDirectory(0);
          Bool_t rebinres = kFALSE;
 
-         if (histo->GetDimension()==1) {
+         if (histo->GetDimension() == 1) {
             clon->Rebin(rebinx);
             rebinres = UpdateObjectContent(histo, clon);
-         }
-#if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
-         else
-         if (histo->GetDimension()==2) {
-            TH2* h2 = dynamic_cast<TH2*>(clon);
-            if (h2!=0) h2->Rebin2D(rebinx, rebiny);
+         } else if (histo->GetDimension() == 2) {
+            TH2 *h2 = dynamic_cast<TH2 *>(clon);
+            if (h2 != 0)
+               h2->Rebin2D(rebinx, rebiny);
             rebinres = UpdateObjectContent(histo, h2);
          }
-#endif
          delete clon;
 
          if (rebinres) {
@@ -2233,7 +2230,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       histo->SetEntries(sum);
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
       TArrayD *sumw_tgt = 0, *sumw_src = 0;
 
       if (histo2->GetSumw2N()>0)
@@ -2255,7 +2251,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       if (sumw_src && sumw_tgt)
          sumw_tgt->Set(sz, sumw_src->GetArray());
-#endif
 
       return kTRUE;
    } else
@@ -2282,13 +2277,11 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       for (Int_t n=0;n<npoints;n++) {
         newgr->GetPoint(n,xp,yp);
         gr->SetPoint(n,xp,yp);
-#if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
         exh = newgr->GetErrorXhigh(n);
         exl = newgr->GetErrorXlow(n);
         eyh = newgr->GetErrorYhigh(n);
         eyl = newgr->GetErrorYlow(n);
         gr->SetPointError(n, exl, exh, eyl, eyh);
-#endif
       }
 
       UpdateListOfFunctions(gr,newgr);

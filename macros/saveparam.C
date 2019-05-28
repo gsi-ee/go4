@@ -9,7 +9,7 @@
 //     saveparam.C(wildcard,prefix)
 // Wildcard applies only to parameter name without folders
 // H.G.Essel July 2006
-// Use TGo4Parameter::MakeScript method to convert parameter values into macro 
+// Use TGo4Parameter::MakeScript method to convert parameter values into macro
 // S.Linev October 2009
 
 #ifndef __GO4MACRO__
@@ -21,8 +21,6 @@
 #include <fstream.h>
 #include "Riostream.h"
 using namespace std;
-
-#include "RVersion.h"
 
 // Recursive iterator to build a TList of all found objects
 // In case of CINT full names are in the TList (needed for Get)
@@ -141,5 +139,3 @@ void saveparam(const char* wildcard = "*", const char* prefix = "set")
 
   lst.Clear();
 }
-
-

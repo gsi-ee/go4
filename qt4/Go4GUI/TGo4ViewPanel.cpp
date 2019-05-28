@@ -5210,10 +5210,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
                }
 
             } else {
-               Double_t yMARGIN = 0.05;
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,0,9)
-               yMARGIN = gStyle->GetHistTopMargin();
-#endif
+               Double_t yMARGIN = gStyle->GetHistTopMargin();
                Double_t dymin = yMARGIN * (selmax - selmin);
                if ((selmin >= 0) && (selmin - dymin < 0))
                   selmin = 0;

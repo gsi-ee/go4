@@ -13,14 +13,13 @@
 
 #include "TGo4HistogramEntry.h"
 
-#include "RVersion.h"
-#include "Riostream.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TROOT.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Status.h"
@@ -164,9 +163,7 @@ Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void* ptr)
        case kShort_t:    return *((Short_t*)ptr);
        case kUChar_t:    return *((UChar_t*)ptr);
        case kChar_t:     return *((Char_t*)ptr);
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
        case kBool_t:     return *((Bool_t*)ptr);
-#endif
        case kFloat_t:    return *((Float_t*)ptr);
        case kDouble_t:   return *((Double_t*)ptr);
        case kDouble32_t: return *((Double32_t*)ptr);

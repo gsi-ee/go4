@@ -21,17 +21,22 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 This package was tested on
-    Suse 13.x (x86_64), openSUSE Leap 42.2, openSUSE Tumblweed 5.2019
-    Debian 6.0, Debian 7.0,  Debian 8.10 (32 bit and 64bit), Debian 9
-    Mac OS
+    openSUSE Leap 42.2, openSUSE Tumblweed 5.2019
+    Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
+    macOS 10.14.6
     compilers: gcc 4.7.2, gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2
 
-REQUIREMENTS: ROOT6 or ROOT5 and Qt5 or Qt4 or Qt3
+REQUIREMENTS:
+    ROOT  either 6.12 or higher (recommended 6.18)
+              or 5.34-36 or higher
+    Qt    either qt5.6 or higher (recommended 5.12)
+              or qt4.8 or higher
+              or qt3 (deprectaed)
 
 
 ROOT INSTALLATION
 
-  Install the ROOT framework Version >=6.18/00 (older version up to 5.34/02
+  Install the ROOT framework Version >=6.18/00 (older version up to 5.34/36
   can also be used, but not recommended).
   See instruction how download and compile ROOT on http://root.cern.ch.
   Recomended way to build ROOT - compile it and use from compilation path:

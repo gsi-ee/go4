@@ -75,9 +75,6 @@ class TGo4Socket {
      /** First connection string, we are told to go on... */
      static const char* fgcGOON;   //!
 
-     /** We emulate the protected owner flag of the TBuffer class, needed for reallocation! */
-     static const Int_t fgiISOWNER;
-
   protected:
     TGo4Socket();  // not implemented, only for compiler to avoid calling of default
 

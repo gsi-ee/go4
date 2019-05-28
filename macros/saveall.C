@@ -21,8 +21,6 @@
 #include "Riostream.h"
 using namespace std;
 
-#include "RVersion.h"
-
 // Recursive iterator to build a TList of all found objects
 // In case of CINT objects taken from the file (file must be open)
 // In case of GO4 GUI objects fetched from analysis

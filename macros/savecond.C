@@ -26,8 +26,6 @@
 #include <Riostream.h>
 using namespace std;
 
-#include "RVersion.h"
-
 // Recursive iterator to build a TList of all found objects
 // In case of CINT full names are in the TList (needed for Get)
 // File must be open

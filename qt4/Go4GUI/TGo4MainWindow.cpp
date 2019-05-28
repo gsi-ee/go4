@@ -85,7 +85,6 @@
 #include "TGo4WidgetProxy.h"
 
 
-
 //////// Go4 includes from Go4GUI package:
 #include "QGo4Widget.h"
 #include "TGo4QSettings.h"
@@ -2894,12 +2893,10 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    flt << SVG;
    flt << GIF;
 
-   #if ROOT_VERSION_CODE >= ROOT_VERSION(4,4,2)
    flt << XPM;
    flt << PNG;
    flt << JPG;
    flt << TIFF;
-   #endif
 
    flt << CXXM;
    flt << ROOTM;

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,6 +15,7 @@
 
 #include "TUrl.h"
 #include "TClass.h"
+#include "RVersion.h"
 
 #include "TGo4AnalysisStepStatus.h"
 
@@ -61,7 +62,6 @@ TString TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE = "saveprefs";
 #if ROOT_VERSION_CODE < ROOT_VERSION(5,34,20)
 #define HasOption(x) GetValueFromOptions(x)!=0
 #endif
-
 
 
 Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)

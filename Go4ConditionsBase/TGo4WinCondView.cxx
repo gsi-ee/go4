@@ -13,7 +13,6 @@
 
 #include "TGo4WinCondView.h"
 
-#include "RVersion.h"
 #include "Buttons.h"
 #include "TPad.h"
 
@@ -76,17 +75,11 @@ if(event==kButton1Up && fxWinCondition)
    fxWinCondition->GetValues(dim,xmin,xmax,ymin, ymax);
 
    // note: newer root versions treat log scale correctly in TBox
-#if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
-   Double_t X1 = gPad->PadtoX(GetX1()); // regard the log scale!
-   Double_t X2 = gPad->PadtoX(GetX2());
-   Double_t Y1 = gPad->PadtoY(GetY1());
-   Double_t Y2 = gPad->PadtoY(GetY2());
-#else
    Double_t X1 = GetX1();
    Double_t X2 = GetX2();
    Double_t Y1 = GetY1();
    Double_t Y2 = GetY2();
-#endif
+
    if(dim>1)
          {
             // check if update is needed:

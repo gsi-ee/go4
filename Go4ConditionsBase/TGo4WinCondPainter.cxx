@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -14,7 +14,6 @@
 #include "TGo4WinCondPainter.h"
 
 #include "TVirtualPad.h"
-#include "RVersion.h"
 #include "TList.h"
 #include "TROOT.h"
 
@@ -75,44 +74,24 @@ if(wconny && wconny->IsVisible())
                   wconny->SetValues(xpmin, xpmax, ypmax, ypmin );
             }
 
-//      std::cout <<"\nBefore toPad:"<< std::endl;
-//      std::cout <<" xpmin="<<xpmin << std::endl;
-//      std::cout <<" xpmax="<<xpmax << std::endl;
-//      std::cout <<" ypmin="<<ypmin << std::endl;
-//      std::cout <<" ypmax="<<ypmax << std::endl;
+            //      std::cout <<"\nBefore toPad:"<< std::endl;
+            //      std::cout <<" xpmin="<<xpmin << std::endl;
+            //      std::cout <<" xpmax="<<xpmax << std::endl;
+            //      std::cout <<" ypmin="<<ypmin << std::endl;
+            //      std::cout <<" ypmax="<<ypmax << std::endl;
 
-// note: newer root versions treat log scale correctly in TBox
-#if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
+            if (dim == 1) {
+               ypmin = gPad->PadtoY(gPad->GetUymin());
+               ypmax = gPad->PadtoY(gPad->GetUymax());
+            }
 
-      xpmin = gPad->XtoPad(xpmin); // for case of log scale
-      xpmax = gPad->XtoPad(xpmax);
-      if(dim==1)
-         {
-            ypmin =gPad->GetUymin();
-            ypmax =gPad->GetUymax();
-         }
-      else
-         {
-            ypmin=gPad->YtoPad(ypmin);
-            ypmax=gPad->YtoPad(ypmax);
-         }
-
-#else
-      if(dim==1)
-         {
-            ypmin=gPad->PadtoY(gPad->GetUymin());
-            ypmax=gPad->PadtoY(gPad->GetUymax());
-         }
-#endif // ROOT_VERSION < 4.3.2
-
-        //if(fxBox==0 || boxinpad==0)
-        // user might have deleted box from pad by mouse even if fxBox!=0
-        // JAM 2016: this is a memory leak! for each condition update we get new condition view
-        // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
-        if(fxBox==0)
-        {
-            fxBox= new TGo4WinCondView(xpmin,ypmin,xpmax, ypmax);
-            //std::cout <<"TGo4WinCondPainter::PaintCondition creates new fxBox." <<std::endl;
+            // if(fxBox==0 || boxinpad==0)
+            // user might have deleted box from pad by mouse even if fxBox!=0
+            // JAM 2016: this is a memory leak! for each condition update we get new condition view
+            // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
+            if (fxBox == 0) {
+               fxBox = new TGo4WinCondView(xpmin, ypmin, xpmax, ypmax);
+               // std::cout <<"TGo4WinCondPainter::PaintCondition creates new fxBox." <<std::endl;
          }
       else
          {

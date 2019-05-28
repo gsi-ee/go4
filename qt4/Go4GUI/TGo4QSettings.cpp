@@ -510,7 +510,6 @@ void TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
 #endif
 }
 
-
 void TGo4QSettings::setCloneFlag(bool on)
 {
    setBool("/ViewPanel/CloneFlag", on);

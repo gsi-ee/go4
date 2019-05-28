@@ -361,8 +361,6 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
 
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 {
-//// root >4.00/08 only:
-#if ROOT_VERSION_CODE >= ROOT_VERSION(4,0,8)
    if(fxCut)
    #if ROOT_VERSION_CODE >= ROOT_VERSION(5,25,1)
       return (fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt));
@@ -370,11 +368,6 @@ Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
       return (fxCut->Integral(dynamic_cast<TH2*>(histo),opt));
    #endif
    return 0;
-#else
-   if(IsCutHis(histo))
-      return (fxCutHis->Integral(opt));
-   return-1;
-#endif // 40008
 }
 
 Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)

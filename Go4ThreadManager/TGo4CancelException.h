@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -23,28 +23,25 @@
  * @author Germany
  * @version 0.9
  * @since jul 2000-oct 2001*/
-class TGo4CancelException : public TGo4ThreadException
-{
-  public:
-      TGo4CancelException(const TGo4CancelException &right);
+class TGo4CancelException : public TGo4ThreadException {
+public:
+   TGo4CancelException(const TGo4CancelException &right);
 
-      TGo4CancelException (TGo4Runnable* runnable, const char* threadname = 0);
+   TGo4CancelException(TGo4Runnable *runnable, const char *threadname = 0);
 
-      virtual ~TGo4CancelException();
+   virtual ~TGo4CancelException();
 
-      TGo4CancelException & operator=(const TGo4CancelException &right);
+   TGo4CancelException &operator=(const TGo4CancelException &right);
 
-     /**
-       * This is a default handler function for the respective exception type.
-       */
-      virtual Int_t Handle ();
+   /**
+    * This is a default handler function for the respective exception type.
+    */
+   virtual Int_t Handle();
 
+private:
 
-  private:
-      TGo4CancelException();
-
+   TGo4CancelException();
 };
-
 
 #endif
 
