@@ -16,7 +16,6 @@
 #include "TROOT.h"
 #include "TList.h"
 #include "TVirtualPad.h"
-#include "snprintf.h"
 
 #include "TGo4Marker.h"
 #include "TH1.h"

@@ -21,7 +21,6 @@
 #include "TCutG.h"
 #include "TVirtualPad.h"
 #include "Riostream.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4ConditionPainter.h"

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,17 +15,14 @@
 
 #include "Riostream.h"
 #include "TH1.h"
-#include "snprintf.h"
 
 #include "TGo4WinCondPainter.h"
 #include "TGo4Log.h"
-
 
 TString TGo4WinCond::fgxURL_XLOW="xmin";
 TString TGo4WinCond::fgxURL_XUP="xmax";
 TString TGo4WinCond::fgxURL_YLOW="ymin";
 TString TGo4WinCond::fgxURL_YUP="ymax";
-
 
 
 // -----------------------------------------------
