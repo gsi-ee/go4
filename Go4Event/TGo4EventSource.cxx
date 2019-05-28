@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -47,7 +47,7 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
 {
    //
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
-   char* txtbuf = new char[lbuflen];
+   char *txtbuf = new char[lbuflen];
    va_list args;
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);
@@ -63,9 +63,8 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
 
 void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message,...)
 {
-   //
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
-   char* txtbuf = new char[lbuflen];
+   char *txtbuf = new char[lbuflen];
    va_list args;
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);

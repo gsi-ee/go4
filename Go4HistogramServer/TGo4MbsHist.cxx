@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -22,7 +22,6 @@
 #include "TFolder.h"
 #include "TTimeStamp.h"
 #include "TRegexp.h"
-#include "snprintf.h"
 
 #include "TGo4ThreadManager.h"
 #include "TGo4AnalysisObjectManager.h"

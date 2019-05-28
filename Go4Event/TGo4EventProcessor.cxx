@@ -13,7 +13,6 @@
 
 #include "TGo4EventProcessor.h"
 
-#include <snprintf.h>
 #include <string.h>
 
 #include "TH1.h"
@@ -22,6 +21,7 @@
 #include "TArrayD.h"
 #include "TAxis.h"
 #include "TROOT.h"
+#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
@@ -212,19 +212,18 @@ TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* ti
 TGraph*TGo4EventProcessor:: MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues,
     Double_t* yvalues)
 {
-  return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
+   return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
 }
 
 TGraph* TGo4EventProcessor::MakeGraph(const char* fullname, const char* title, TF1* function)
 {
-  return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
+   return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
 }
 
 TGo4RollingGraph* TGo4EventProcessor::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
 {
-  return TGo4Analysis::Instance()->MakeRollingGraph(fullname, title, points, average);
+   return TGo4Analysis::Instance()->MakeRollingGraph(fullname, title, points, average);
 }
-
 
 
 TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
@@ -257,20 +256,20 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
 TGo4ShapedCond* TGo4EventProcessor::MakeEllipseCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t a1, Double_t a2, Double_t theta, const char* HistoName)
 {
-  return TGo4Analysis::Instance()->MakeEllipseCond(fullname, npoints, cx, cy, a1, a2, theta, HistoName);
+   return TGo4Analysis::Instance()->MakeEllipseCond(fullname, npoints, cx, cy, a1, a2, theta, HistoName);
 }
 
 TGo4ShapedCond* TGo4EventProcessor::MakeCircleCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t r, const char* HistoName)
 {
-  return TGo4Analysis::Instance()->MakeCircleCond(fullname, npoints, cx, cy, r, HistoName);
+   return TGo4Analysis::Instance()->MakeCircleCond(fullname, npoints, cx, cy, r, HistoName);
 }
 
 TGo4ShapedCond* TGo4EventProcessor::MakeBoxCond(const char* fullname,
                Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char* HistoName )
 {
-  return TGo4Analysis::Instance()->MakeBoxCond(fullname, cx, cy, a1, a2, theta,HistoName);
+   return TGo4Analysis::Instance()->MakeBoxCond(fullname, cx, cy, a1, a2, theta,HistoName);
 }
 
 TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char* fullname,
@@ -278,13 +277,13 @@ TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char* fullname,
                                           Double_t (*points) [2],
                                           const char* HistoName)
 {
-  return TGo4Analysis::Instance()->MakeFreeShapeCond(fullname,npoints,points,HistoName);
+   return TGo4Analysis::Instance()->MakeFreeShapeCond(fullname,npoints,points,HistoName);
 }
 
 
 TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName)
 {
-  return TGo4Analysis::Instance()->MakeListCond(fullname, num, values,  HistoName);
+   return TGo4Analysis::Instance()->MakeListCond(fullname, num, values,  HistoName);
 }
 
 
@@ -314,11 +313,10 @@ Long_t TGo4EventProcessor::ExecuteScript(const char* macro_name)
 
 Long_t TGo4EventProcessor::ExecutePython(const char* macro_name, Int_t* errcode)
 {
-  return TGo4Analysis::Instance()->ExecutePython(macro_name, errcode);
+   return TGo4Analysis::Instance()->ExecutePython(macro_name, errcode);
 }
 
 Long_t TGo4EventProcessor::ExecuteLine(const char* command, Int_t* errcode)
 {
-  return TGo4Analysis::Instance()->ExecuteLine(command, errcode);
+   return TGo4Analysis::Instance()->ExecuteLine(command, errcode);
 }
-

@@ -83,14 +83,11 @@
 #include "TGo4EventStoreException.h"
 #include "TGo4TreeStructure.h"
 
-
-
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
 #include "TCint.h"
 #endif
 #endif
-
 
 class TGo4InterruptHandler : public TSignalHandler {
    public:
@@ -119,7 +116,6 @@ namespace {
 
 
 // _________________________________________________________________________________
-
 
 TGo4Analysis* TGo4Analysis::fxInstance = 0;
 Bool_t TGo4Analysis::fbExists = kFALSE;
@@ -169,8 +165,6 @@ void TGo4Analysis::SetRunningMode(int mode)
 {
    fiRunningMode = mode;
 }
-
-
 
 TGo4Analysis::TGo4Analysis(const char* name) :
    TObject(),TGo4CommandReceiver(),
