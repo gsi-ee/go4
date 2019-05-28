@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -22,63 +22,71 @@
 #include "TAttText.h"
 
 /**
-* Text label that knows its author. Required to suppress
-* orphaned copies of marker and condition labels after canvas
-* reconstruction by streamer.
-* @since 8/2004
-* @author J. Adamczewski
-*/
+ * Text label that knows its author. Required to suppress
+ * orphaned copies of marker and condition labels after canvas
+ * reconstruction by streamer.
+ * @since 8/2004
+ * @author J. Adamczewski
+ */
 class TGo4Label : public TPaveText {
 
-  public:
-    TGo4Label(): TPaveText(), fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/}
-    TGo4Label(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Option_t* option = "br")
-    : TPaveText(x1,y1,x2,y2,option),fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/}
+public:
+   TGo4Label() : TPaveText(), fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/ }
+   TGo4Label(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Option_t *option = "br")
+      : TPaveText(x1, y1, x2, y2, option), fxOwner(0)
+   {
+      SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/
+   }
 
-    virtual ~TGo4Label(){fxLastDeleted=(char*) this;}
-    void SetOwner(TObject* ob){fxOwner=ob;}
+   virtual ~TGo4Label() { fxLastDeleted = this; }
 
-    virtual void Paint(Option_t* opt="");
+   void SetOwner(TObject *ob) { fxOwner = ob; }
 
-    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
+   virtual void Paint(Option_t *opt = "");
 
-    /** set this to pointer of last deleted instance before*/
-    static char* fxLastDeleted;
+   virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
-  private:
-    /** the owner of this label */
-    TObject* fxOwner;//!
-  ClassDef(TGo4Label,7)
+   /** set this to pointer of last deleted instance before*/
+   static const void *fxLastDeleted;
+
+private:
+   /** the owner of this label */
+   TObject *fxOwner; //!
+
+   ClassDef(TGo4Label, 7)
 };
 
 /**
-* Conncetion line for labels that knows its author. Required to suppress
-* orphaned copies of marker and condition label connectors after canvas
-* reconstruction by streamer.
-* @since 8/2004
-* @author J. Adamczewski
-*/
+ * Connection line for labels that knows its author. Required to suppress
+ * orphaned copies of marker and condition label connectors after canvas
+ * reconstruction by streamer.
+ * @since 8/2004
+ * @author J. Adamczewski
+ */
 class TGo4LabelConnector : public TLine {
 
-  public:
-    TGo4LabelConnector(): TLine(), fxOwner(0) { SetBit(kMustCleanup); }
-    TGo4LabelConnector(Double_t x1, Double_t y1, Double_t x2, Double_t y2)
-    : TLine(x1,y1,x2,y2),fxOwner(0) { SetBit(kMustCleanup); }
+public:
+   TGo4LabelConnector() : TLine(), fxOwner(0) { SetBit(kMustCleanup); }
+   TGo4LabelConnector(Double_t x1, Double_t y1, Double_t x2, Double_t y2) : TLine(x1, y1, x2, y2), fxOwner(0)
+   {
+      SetBit(kMustCleanup);
+   }
 
-    virtual ~TGo4LabelConnector(){fxLastDeleted=(char*) this;};
-    void SetOwner(TObject* ob){fxOwner=ob;}
+   virtual ~TGo4LabelConnector() { fxLastDeleted = this; };
 
-    virtual void Paint(Option_t* opt="");
+   void SetOwner(TObject *ob) { fxOwner = ob; }
 
-     /** set this to pointer of last deleted instance before*/
-    static char* fxLastDeleted;
+   virtual void Paint(Option_t *opt = "");
 
-  private:
-    /** the owner of this connector line */
-    TObject* fxOwner;//!
-  ClassDef(TGo4LabelConnector,6)
+   /** set this to pointer of last deleted instance before*/
+   static const void *fxLastDeleted;
+
+private:
+   /** the owner of this connector line */
+   TObject *fxOwner; //!
+
+   ClassDef(TGo4LabelConnector, 6)
 };
-
 
 /**
 * Base class for painters providing a textlabel for
