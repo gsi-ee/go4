@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -128,7 +128,7 @@ if(event==kButton1Up && fxWinCondition)
 const char* TGo4WinCondView::GetName() const
 {
    if(fxWinCondition)
-      return (fxWinCondition->GetName());
+      return fxWinCondition->GetName();
    else
       return 0;
 }
@@ -141,13 +141,13 @@ void TGo4WinCondView::SetName(const char* nam)
 
 void TGo4WinCondView::SetToLimits(Double_t x1, Double_t x2, Double_t y1, Double_t y2)
 {
-if(fxWinCondition==0) return;
-if(fxWinCondition->GetDimension()>1)
-   fxWinCondition->SetValues(x1,x2,y1,y2);
-else
-   fxWinCondition->SetValues(x1,x2);
+   if (fxWinCondition == 0)
+      return;
+   if (fxWinCondition->GetDimension() > 1)
+      fxWinCondition->SetValues(x1, x2, y1, y2);
+   else
+      fxWinCondition->SetValues(x1, x2);
 }
-
 
 void TGo4WinCondView::SetLabelDraw(Bool_t on)
 {

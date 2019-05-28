@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -53,18 +53,17 @@ public:
     /** Will reset label position to defaults */
     void ResetLabel();// *MENU*
 
-
     Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
 
 private:
 
-    /** JAM this one will supress condition repaint during execution of mouse events*/
+    /** JAM this one will suppress condition repaint during execution of mouse events*/
     Bool_t fbExecutesMouseEvent;
-
 
     /** pointer to viewed condition for update after graphical action */
     TGo4WinCond* fxWinCondition; //!
 
     ClassDef(TGo4WinCondView,7)
 };
+
 #endif //TGO4WINCONDVIEW_H

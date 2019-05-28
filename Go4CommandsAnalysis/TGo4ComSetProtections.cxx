@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -52,27 +52,19 @@ void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)
 
 Int_t TGo4ComSetProtections::ExeCom()
 {
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-   {
-      TGo4Analysis* ana=TGo4Analysis::Instance();
-      if(ana->ProtectObjects(GetObjectName(),(const Option_t*) fxFlags.Data()))
-      {
-         cli->SendStatusMessage(1, kFALSE,TString::Format(
-               "Changed object or folder %s protections: %s ",
-               GetObjectName(),fxFlags.Data()));
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
+   if (cli != 0) {
+      if (TGo4Analysis::Instance()->ProtectObjects(GetObjectName(), (const Option_t *)fxFlags.Data())) {
+         cli->SendStatusMessage(
+            1, kFALSE,
+            TString::Format("Changed object or folder %s protections: %s ", GetObjectName(), fxFlags.Data()));
+      } else {
+         cli->SendStatusMessage(
+            2, kFALSE,
+            TString::Format("Could not change object/folder %s protections, no such object", GetObjectName()));
       }
-      else
-      {
-         cli->SendStatusMessage(2, kFALSE,TString::Format(
-               "Could not change object/folder %s protections, no such object",
-               GetObjectName()));
-      }
-   }
-   else
-
-   {
-      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
+   } else {
+      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!", GetName());
       return 1;
    }
 

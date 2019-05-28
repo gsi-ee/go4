@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -112,15 +112,13 @@ void TGo4PolyCondPainter::UnPaintCondition(Option_t* opt)
 
 void TGo4PolyCondPainter::DisplayToFront(Option_t* opt)
 {
-if(fxCutView) fxCutView->Pop(); // box to front
-TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
+   if(fxCutView) fxCutView->Pop(); // box to front
+   TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
 }
-
-
 
 void TGo4PolyCondPainter::SetCondition(TGo4Condition* con)
 {
-    fxCondition=con;
-    if(fxCutView)
-       fxCutView->SetCondition(dynamic_cast<TGo4PolyCond*>(con));
+   fxCondition = con;
+   if (fxCutView)
+      fxCutView->SetCondition(dynamic_cast<TGo4PolyCond *>(con));
 }

@@ -63,30 +63,40 @@ GO4TRACE((15,"TGo4WinCond::~TGo4WinCond()",__LINE__, __FILE__));
 }
 
 // -----------------------------------------------
-Bool_t TGo4WinCond::Test(Double_t v1, Double_t v2){
-IncCounts();
-if(!IsEnabled()){
-  if(FixedResult()) IncTrueCounts();
-  return FixedResult();
-}
-if(v1 <  fLow1) return IsFalse();
-if(v1 >= fUp1)  return IsFalse();
-if(v2 <  fLow2) return IsFalse();
-if(v2 >= fUp2)  return IsFalse();
-IncTrueCounts();
-return IsTrue();
+Bool_t TGo4WinCond::Test(Double_t v1, Double_t v2)
+{
+   IncCounts();
+   if (!IsEnabled()) {
+      if (FixedResult())
+         IncTrueCounts();
+      return FixedResult();
+   }
+   if (v1 < fLow1)
+      return IsFalse();
+   if (v1 >= fUp1)
+      return IsFalse();
+   if (v2 < fLow2)
+      return IsFalse();
+   if (v2 >= fUp2)
+      return IsFalse();
+   IncTrueCounts();
+   return IsTrue();
 }
 // -----------------------------------------------
-Bool_t TGo4WinCond::Test(Double_t v1){
-IncCounts();
-if(!IsEnabled()){
-  if(FixedResult()) IncTrueCounts();
-  return FixedResult();
-}
-if(v1 <  fLow1) return IsFalse();
-if(v1 >= fUp1)  return IsFalse();
-IncTrueCounts();
-return IsTrue();
+Bool_t TGo4WinCond::Test(Double_t v1)
+{
+   IncCounts();
+   if (!IsEnabled()) {
+      if (FixedResult())
+         IncTrueCounts();
+      return FixedResult();
+   }
+   if (v1 < fLow1)
+      return IsFalse();
+   if (v1 >= fUp1)
+      return IsFalse();
+   IncTrueCounts();
+   return IsTrue();
 }
 // -----------------------------------------------
 void TGo4WinCond::SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2)
@@ -114,22 +124,17 @@ void TGo4WinCond::GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t 
    dim = GetDimension();
 }
 
-Bool_t TGo4WinCond::IsPolygonType()
-{
-   return kFALSE;
-}
 // -----------------------------------------------
 void TGo4WinCond::PrintCondition(Bool_t limits)
 {
    TGo4Condition::PrintCondition();
-   if(limits) {
-      char line[128];
-      if(GetDimension()==1) snprintf(line,127,"[%8.2f,%8.2f]",fLow1,fUp1);
-                       else snprintf(line,127,"[%8.2f,%8.2f][%8.2f,%8.2f]",fLow1,fUp1,fLow2,fUp2);
-      std::cout << line     << std::endl;
+   if (limits) {
+      if (GetDimension() == 1)
+         std::cout << TString::Format("[%8.2f,%8.2f]", fLow1, fUp1) << std::endl;
+      else
+         std::cout << TString::Format("[%8.2f,%8.2f][%8.2f,%8.2f]", fLow1, fUp1, fLow2, fUp2) << std::endl;
    }
 }
-
 
 Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 {

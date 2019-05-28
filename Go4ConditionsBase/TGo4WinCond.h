@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -34,18 +34,11 @@ class TGo4WinCond : public TGo4Condition {
         * the painter (i.e. view) can be exchanged before pad is updated. */
       virtual void SetPainter(TGo4ConditionPainter* painter);
 
-//      virtual void SetValues() {}
-//      virtual void SetValues(TCutG * newcut) {}
-//      virtual void SetValues(Double_t * x, Double_t * y, Int_t len) {}
-
       /** Set limits and internal dimension to 1 */
       virtual void SetValues(Double_t low1, Double_t up1);
 
       /** Set limits and internal dimension to 2 */
       virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2);
-
-//      virtual Bool_t Test() { return true; }
-//      virtual Bool_t Test(Bool_t on) { return true; }
 
       /** Test v1 versus first limits: includes lower, excludes upper. */
       virtual Bool_t Test(Double_t v1);
@@ -71,7 +64,6 @@ class TGo4WinCond : public TGo4Condition {
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
 
-
       /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
 
@@ -96,24 +88,21 @@ class TGo4WinCond : public TGo4Condition {
       /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetCMax(TH1* histo);
 
-      virtual Bool_t IsPolygonType();
+      virtual Bool_t IsPolygonType() { return kFALSE; }
 
       virtual Int_t GetMemorySize();
 
       /** Standard way to store parameter in form of macro */
       virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
 
-
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_XLOW;
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_XUP;
-
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_YLOW;
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_YUP;
-
 
    private:
 

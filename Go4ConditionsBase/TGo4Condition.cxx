@@ -196,43 +196,37 @@ fbFalse = on ^ false;
 // ---------------------------------------------------------
 void TGo4Condition::PrintCondition(Bool_t full)
 {
-   Float_t perc;
-   char line[128];
-   char num[64];
-   if(fiCounts==0)perc=0.0;
-   else perc=100.0/fiCounts*fiTrueCounts;
-   std::cout << "Name:" << GetName()
-             << " type:" << ClassName()
-             << " title:" << GetTitle() << std::endl;
-   if(fbHistogramLink)
+   std::cout << "Name:" << GetName() << " type:" << ClassName() << " title:" << GetTitle() << std::endl;
+   if (fbHistogramLink)
       std::cout << "Connected to histogram " << fxHistoName << std::endl;
-   if(fbEnabled) {
-      strcpy(line,"Is Checked   ");
-   } else {
-      if(fbResult) strcpy(line,"Always True  ");
-      else         strcpy(line,"Always False ");
-   }
-   if(fbTrue) strcat(line,"normal  ");
-   else       strcat(line,"inverse ");
-   snprintf(num,63,", tested: %8d true: %8d is %3.0f%%",fiCounts,fiTrueCounts,perc);
-   strcat(line,num);
-   std::cout << line     << std::endl;
+
+   Float_t perc = (fiCounts == 0) ? 0.0 : 100.0 / fiCounts * fiTrueCounts;
+
+   TString line;
+   if (fbEnabled)
+      line = "Is Checked   ";
+   else if (fbResult)
+      line = "Always True  ";
+   else
+      line = "Always False ";
+   line.Append(fbTrue ? "normal  " : "inverse ");
+   line.Append(TString::Format(", tested: %8d true: %8d is %3.0f%s", fiCounts, fiTrueCounts, perc, "%"));
+   std::cout << line << std::endl;
 }
 // ---------------------------------------------------------
 void TGo4Condition::PrintBar()
 {
-   Float_t perc;
-   char line[128];
+   Float_t perc = (fiCounts==0) ? 0. : 100.0/fiCounts*fiTrueCounts;
+   if (perc < 0)
+      perc = 0;
+   else if (perc>100)
+      perc = 100;
+
    char num[64];
    strcpy(num,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-   Char_t *pc;
-   if(fiCounts==0) perc=0.0;
-   else            perc=100.0/fiCounts*fiTrueCounts;
-   pc=num + (Int_t)perc/2;
-   *pc=0;
-   snprintf(line,127,"%-24s %8d %3.0f%% |%-50s|",GetName(),fiCounts,perc,num);
-   *pc='+';
-   std::cout << line << std::endl;
+   char *pc = num + (Int_t)perc/2;
+   *pc = 0;
+   std::cout << TString::Format("%-24s %8d %3.0f%s |%-50s|",GetName(),fiCounts,perc,"%",num) << std::endl;
 }
 // -----------------------------------------------
 void TGo4Condition::Print(Option_t* opt) const
