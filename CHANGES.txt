@@ -42,6 +42,7 @@ Changes in Go4 v5.9.x (2019)
 7. Add nox11 build flag. Automatically enables withweb flag. Used on Mac platform by default.
 8. Provide support of modern Mac platform. Required latest ROOT with qt5web option build.
 9. Remove force32 build option, was only used for old Mac platforms
+10.Fix problem with closing view panel via File/Close menu. Now works!
 
 
 Changes in Go4 v5.3.2 (October 2018)

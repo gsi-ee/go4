@@ -2148,7 +2148,7 @@ void TGo4FitPanel::FitterMenuItemSelected(int id)
       case 24: Fitter_UpdateReferences(); break;
       case 25: Fitter_PrintParameters(); break;
       case 26: Fitter_RollbackParameters(); break;
-      case 99: close(); break;
+      case 99: TGo4MdiArea::Instance()->CloseWidget(this); break;
    }
 }
 
@@ -5167,7 +5167,7 @@ void TGo4FitPanel::RemoveDrawObjects()
 void TGo4FitPanel::CloseDrawPanel()
 {
    if (fxDrawNewPanel!=0) {
-      fxDrawNewPanel->close();
+      fxDrawNewPanel->ClosePanel();
       fxDrawNewPanel = 0;
    }
 }

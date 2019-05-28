@@ -272,6 +272,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void AutoScaleToggled(bool);
       virtual void SuperImposeToggled(bool);
       virtual void panelSlot(TGo4ViewPanel * panel, TPad * pad, int signalid);
+      virtual void ClosePanel();
 
    protected:
 

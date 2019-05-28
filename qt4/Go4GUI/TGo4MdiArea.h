@@ -44,6 +44,8 @@ class TGo4MdiArea : public QMdiArea {
 
       void ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad);
 
+      void CloseWidget(QWidget *widget);
+
       static TGo4MdiArea* Instance();
 
    signals:

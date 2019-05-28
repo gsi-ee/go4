@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -84,8 +84,8 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
 #if QT_VERSION > QT_VERSION_CHECK(5,6,0)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-#endif 
-      
+#endif
+
    }
 }
 
@@ -212,7 +212,7 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
    return QWidget::eventFilter( o, e );
 }
 
-void  QRootWindow::closeEvent( QCloseEvent * e)
+void QRootWindow::closeEvent(QCloseEvent *e)
 {
    if (fxRootwindow) {
       delete fxRootwindow;
@@ -234,15 +234,12 @@ TGCompositeFrame* QRootWindow::GetRootFrame()
    return fxRootwindow;
 }
 
-
-
 double QRootWindow::ScaledWidth()
 {
     return fQtScalingfactor * width();
 }
-      
+
 double QRootWindow::ScaledHeight()
 {
-    return fQtScalingfactor * height();    
+    return fQtScalingfactor * height();
 }
-

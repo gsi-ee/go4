@@ -843,7 +843,7 @@ void QRootCanvas::Update()
    activateRepaint(act_Update);
 }
 
-void  QRootCanvas::closeEvent( QCloseEvent * e)
+void  QRootCanvas::closeEvent(QCloseEvent * e)
 {
     if (fCanvas) {
        delete fCanvas;

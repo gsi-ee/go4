@@ -69,7 +69,7 @@ TGo4ViewPanel* TGo4MdiArea::GetActivePanel()
 QMdiSubWindow *TGo4MdiArea::AddGo4SubWindow(QWidget *widget, Qt::WindowFlags flags)
 {
    QMdiSubWindow *sub = addSubWindow(widget, flags);
-   // JAM make window behaviour configurable in Go4 for all Qt versions.
+   // JAM make window behavior configurable in Go4 for all Qt versions.
    if (go4sett->getMoveSubwindowRubberBand()) {
       sub->setOption(QMdiSubWindow::RubberBandResize);
       sub->setOption(QMdiSubWindow::RubberBandMove); // JAM required for qt5 performance
@@ -88,7 +88,7 @@ void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
 {
    QList<QMdiSubWindow *> windows = subWindowList();
-   for (int i=0; i<windows.count(); ++i ) {
+   for (int i=0; i < windows.count(); ++i ) {
       TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
       if (panel && (panel != not_this)) return panel;
    }
@@ -163,3 +163,16 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
    }
 }
 
+
+void TGo4MdiArea::CloseWidget(QWidget *widget)
+{
+   QList<QMdiSubWindow *> windows = subWindowList();
+   for (int i=0; i < windows.count(); ++i ) {
+      if (windows.at(i)->widget() == widget) {
+         windows.at(i)->close();
+         return;
+      }
+   }
+
+   printf("Do not find widget\n");
+}

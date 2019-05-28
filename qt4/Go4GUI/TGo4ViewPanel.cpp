@@ -121,7 +121,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    setupUi(this);
 
    // TODO: viewpanel does not closed when press close button
-   // setAttribute(Qt::WA_DeleteOnClose, true);
+   setAttribute(Qt::WA_DeleteOnClose);
 
    fPanelName = objectName();
 
@@ -211,7 +211,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 //   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
 //   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
 //   fileMenu->addAction("Save &marker setup...", this, SLOT(SaveMarkers()));
-   fileMenu->addAction("Cl&ose", this, SLOT(close()));
+   fileMenu->addAction("Cl&ose", this, SLOT(ClosePanel()));
 
    //Edit Menu
    QMenu* editMenu = fMenuBar->addMenu("&Edit");
@@ -545,6 +545,12 @@ void TGo4ViewPanel::CompleteInitialization()
 
    fbCloneFlag = go4sett->getCloneFlag();
 }
+
+void TGo4ViewPanel::ClosePanel()
+{
+   TGo4MdiArea::Instance()->CloseWidget(this);
+}
+
 
 void TGo4ViewPanel::SetMouseMode(int mode)
 {

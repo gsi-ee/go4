@@ -53,7 +53,6 @@ class QApplication;
    * @version 1.0
    * @since 15.05.2002 */
 
-
 class TGo4MainWindow : public QMainWindow {
    Q_OBJECT
 
@@ -157,7 +156,7 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewConditionSlot(bool forothereditor = false);
       void CreateNewDynEntrySlot(bool forothereditor = false);
 
-      // modify default highdpi scaling
+      // modify default high-dpi scaling
       void ScaleFactorSlot();
 
       // starting editors slots

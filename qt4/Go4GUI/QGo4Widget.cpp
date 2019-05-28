@@ -40,8 +40,9 @@ QGo4Widget::~QGo4Widget()
 }
 
 void QGo4Widget::ObjectCreatedByWidget(const char* itemname, TClass* cl)
-// this method calls by maingui when object created by one of editor
 {
+   // this method calls by maingui when object created by one of editor
+
    if (fWaitsForObjectCreation) {
       fWaitsForObjectCreation = false;
       requestedObjectCreated(itemname, cl);
@@ -77,7 +78,7 @@ void QGo4Widget::ShootCloseWidget(bool closeparent)
 
 void QGo4Widget::CloseMDIParentSlot()
 {
-  ShootCloseWidget(true);
+   ShootCloseWidget(true);
 }
 
 void QGo4Widget::ResetWidgetSlot()
