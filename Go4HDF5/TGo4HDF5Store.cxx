@@ -126,22 +126,10 @@ void TGo4HDF5Store::BuildDataSet(TGo4EventElement* event)
  if (event==0 || fxFile==0) return;
  try{
 
-   TString classname=BuildDataType(event);
-
-    Int_t rank=1; // entries of the ntuple/tree
-    hsize_t      dims[1]  = { 1};  // dataset dimensions at creation
-    hsize_t      maxdims[1] = {H5S_UNLIMITED};
-    fxDataSpace= new H5::DataSpace(rank, dims, maxdims);
-
-    H5::DSetCreatPropList cparms;
-    hsize_t      chunk_dims[1] ={1};
-    cparms.setChunk( rank, chunk_dims );
-    cparms.setFillValue(*fxType, event);
-
-    fxDataSet =  fxFile->createDataSet( classname.Data(), *fxType, *fxDataSpace, cparms);
-    std::cout << std::endl;
-
-}
+     BuildDataType(event);
+     fxHandle->BuildWriteDataset(fxFile);
+     fbDataSetExists=kTRUE;
+  }
 
 catch(H5::Exception& ex)
 {
@@ -151,10 +139,6 @@ catch(H5::Exception& ex)
 
 }
 
-
-
-
-fbDataSetExists=kTRUE;
 }
 
 
@@ -167,26 +151,10 @@ Int_t TGo4HDF5Store::Store(TGo4EventElement* event)
    BuildDataSet(event);
 
 try{
-   // extend dataset for next event:
-   hsize_t offset[1]= {fiFillCount};
-   hsize_t nextsize[1]  = {++fiFillCount};
-   fxDataSet.extend(nextsize);
 
+    fxHandle->SetObjectPointer(event); // this will recursively update all subpointers and properties of vector (hopefully...)
+    fxHandle->Write(fiFillCount++);
 
-   // write current dataset to file:
-
-   H5::DataSpace fspace = fxDataSet.getSpace (); // dataspace in file
-   hsize_t onerow[1] ={1};
-   fspace.selectHyperslab( H5S_SELECT_SET, onerow, offset ); // one row of event object at last entry (offset is nextsize-1)
-   // idea: the go4 event is always at same location in memory, so we use the original data space as defined in BuildDataSet
-   // the data space in file for each event is of course increasing, so we need to extend the dataset and select
-   // a hyperslab to the write destination in the file.
-
-
-   const void* data= (void*)(event);
-   // we rely on ROOT here that all offsets given by streamer info are relative to the begin of the object
-
-   fxDataSet.write(data, *fxType, *fxDataSpace, fspace);
 }
 catch(H5::Exception& ex)
 {

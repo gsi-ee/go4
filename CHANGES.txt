@@ -38,7 +38,7 @@ Changes in Go4 v5.9.x (2019)
    Adopted from existing code of the TRemi (reaction microscope) analysis (thanks to Sven Augustin)
 6. First implementation of Go4 eventsource from hdf5 file format. Needs to specifiy HDF5INSTALL directory when
    compiling go4 installation. Such hdf5 files can be read into the input event which have been produced by the corresponding
-   Go4 HDF5 store only. Note: Only simple datatypes and arrays of these are supported in the data structure, no composite events.
+   Go4 HDF5 store only. Note: Only simple datatypes, std::vectors and arrays of these are supported in the data structure, no composite events.
 7. Add nox11 build flag. Automatically enables withweb flag. Used on Mac platform by default.
 8. Provide support of modern Mac platform. Required latest ROOT with qt5web option build.
 9. Remove force32 build option, was only used for old Mac platforms
