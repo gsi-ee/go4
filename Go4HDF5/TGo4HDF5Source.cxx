@@ -244,7 +244,6 @@ Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
 #endif
 
     //fxHandle->SetObjectPointer(dest); // do it here to account dynamic changes in structure
-    fxHandle->SetTopEvent(dest);
     fxHandle->Read(fiFillCount++);
 
 #ifdef GO4HDF5_DEBUG

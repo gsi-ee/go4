@@ -45,6 +45,7 @@
 
 
 class TClass;
+class TDataMember;
 class TGo4EventElement;
 class TGo4HDF5Source;
 
@@ -68,7 +69,8 @@ class TGo4HDF5DataHandle {
       GO4HDF5_COLL_NONE,
       GO4HDF5_COLL_STDVEC,
       GO4HDF5_COLL_CARRAY,
-      GO4HDF5_COLL_ROOT
+      GO4HDF5_COLL_ROOT,
+      GO4HDF5_COLL_COMPEVENT
   };
 
 
@@ -81,13 +83,17 @@ public:
    /** return handle for type descriptor. Currently this is filled from external routine of adapter class*/
    H5::CompType* GetType(){return fxType;}
 
+   const char* GetTypeName(){return fxTypeName.Data();}
+
    void* Data() {return fxData;}
 
    /** wrapper function to define contained structure member. Will also keep the offset to first assigned member*/
    void InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member);
 
-   /** remember location of this object relative to upper level object. Required to dynamically assign event memory*/
-   void SetParentOffset(size_t off) {fiParentOffset=off;}
+   /** remember location of this object relative to upper level object.*/
+   void SetParentOffset(size_t off) {
+     fiParentOffset=off;
+   }
 
    /** remember size of a single element (structure) in this collection, if it is one. Otherwise this is size of this class itself*/
    void SetElementSize(size_t len) {fiElementSize=len;}
@@ -96,19 +102,22 @@ public:
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
    void SetObjectPointer(void* memptr);
 
-   /** pass the top level event element down the member hierarchy*/
+   /** pass the top level event element down the member hierarchy.
+    * Note that this is the "local" top event, e.g. the current Go4 composite subevent that owns the member*/
    void SetTopEvent(TGo4EventElement* eve);
 
-   /** pass the top level event element class down the member hierarchy*/
+   //TGo4EventElement* GetTopEvent(){return fxEvent;}
+
+   /** pass the top level event element class down the member hierarchy.
+    *  Note that this is the "local" top event, e.g. the current Go4 composite subevent that owns the member*/
    void SetTopEventClass(const char* classname);
 
-   /** identifier for the member to access from outside*/
+   /** identifier for the member to access from outside using the top event handle*/
    void SetMemberName(const char* name) {fxMemberHandle=name;}
 
    /** type of the member to access from outside*/
    void SetMemberClass(const char* clname) {fxMemberClass=clname;}
 
-   //void SetCollectionSize(size_t size){fxVarHandle.p=fxData; fxVarHandle.len=size;}
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
@@ -262,8 +271,9 @@ protected:
     virtual void DeleteDataSet();
 
     /** Prepare data type from event structure for hdf5.
-     * Return value is name of ROOT class that was used to compose the hdf5 type*/
-     void BuildDataType(TGo4EventElement* event);
+     * Return value is name of ROOT class that was used to compose the hdf5 type.
+     * In case of composite subevents, the current parent data handle and the index in array may be passed.*/
+     void BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent=0, Int_t index=0);
 
     /** evaluate total memory size of event object regarding composite subevents*/
     size_t ScanEventSize(TGo4EventElement* event);
@@ -271,6 +281,10 @@ protected:
     /** evaluate h5 type information from root class streamer*/
     void FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename=0);
 
+    /** evaluate h5 type information for basic types of memtypename*/
+    void FillTypeInfo(TGo4HDF5DataHandle* handle,
+          const char* membername, const char* memtypename, size_t memberoffset=0,
+          Int_t arraydim=0, TDataMember* member=0);
 
     /** Convert common go4 filemode flags to hdf5 flags: **/
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);

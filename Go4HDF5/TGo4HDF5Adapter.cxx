@@ -24,6 +24,7 @@
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
+#include "TGo4CompositeEvent.h"
 #include "TGo4EventSourceException.h"
 #include "TGo4HDF5Source.h"
 
@@ -31,7 +32,7 @@
  TGo4HDF5DataHandle::TGo4HDF5DataHandle(const char* name, size_t datasize, const char* collectiontype) : fxTypeName(name),
  fxType(0),fxCollection(0), fxDataSet(), fxDataSpace(0), fxFileSpace(0), fiEntries(0),
  fxData(0), fiParentOffset(0), fiElementSize(0), fxReadBuffer(0), fiDataSize(datasize), fiReadOffset(0),
- fiCollectionType(GO4HDF5_COLL_NONE), fxEvent(0)
+ fiCollectionType(GO4HDF5_COLL_NONE), fxEvent(0), fxParentSource(0)
 
  {
    fxType = new H5::CompType(datasize);
@@ -49,10 +50,24 @@
              //fxCollection = new H5::VarLenType(fxType); // this does not work, file is corrupt afterwards JAM 27-may-2019
              fxCollection = new H5::CompType(sizeof(TGo4HDF5VarContainer));
 
-             fxCollection -> insertMember( fxTypeName.Data(), HOFFSET(TGo4HDF5VarContainer, fxArray), H5::VarLenType(fxType));
-             go4hdfdbg("TGo4HDF5DataHandle ctor for collection type %s, use std::vector\n", collectiontype);
+             //fxCollection -> insertMember( fxTypeName.Data(), HOFFSET(TGo4HDF5VarContainer, fxArray), H5::VarLenType(fxType));
+             fxCollection -> insertMember( theCollection.Data(), HOFFSET(TGo4HDF5VarContainer, fxArray), H5::VarLenType(fxType));
+
+             go4hdfdbg("TGo4HDF5DataHandle ctor for collection type %s, use std::vector, typename is %s\n",
+                 collectiontype, fxTypeName.Data());
          }
          // TODO: parse other collections here.
+         else if (strstr(collectiontype,"Go4Comp")!=0)
+         {
+           fiCollectionType=GO4HDF5_COLL_COMPEVENT;
+             go4hdfdbg("TGo4HDF5DataHandle ctor for collection type %s, use go4 composite event component\n", collectiontype);
+
+         }
+         else
+         {
+           fiCollectionType=GO4HDF5_COLL_NONE;
+         }
+
        }
 
    go4hdfdbg("TGo4HDF5DataHandle  DDD created %s for size %ld \n", fxTypeName.Data(), datasize);
@@ -93,6 +108,10 @@
  void TGo4HDF5DataHandle::SetObjectPointer(void* memptr)
 {
   fxData = (char*) (memptr) + fiParentOffset;
+  go4hdfdbg(
+          "TGo4HDF5DataHandle SetObjectPointer for %s with memptr 0x%lx and parentoffset 0x%lx has fxData:0x%lx\n",
+          fxTypeName.Data(), (unsigned long) memptr, (unsigned long) fiParentOffset, (unsigned long) fxData);
+
 
   // in case of collection/vector, evaluate the real location of it and update variable lenght stubs:
   if (fiCollectionType == GO4HDF5_COLL_STDVEC)
@@ -113,6 +132,7 @@
     //                           T *end_capacity; // First non-valid address
     //                           // Allocator state might be stored here (most allocators are stateless)
     //                         };
+
     char** p_collection = (char**) fxData;
     char** p_begin_ptr = p_collection;
     char** p_end_ptr = p_collection + 1;
@@ -128,17 +148,25 @@
     static unsigned debugcount = 0;
     char** p_cap_ptr = p_collection + 2;
     size_t cap = (*p_cap_ptr - *p_begin_ptr) / fiElementSize;
-    if (debugcount < 10)
+    if (debugcount < 10000)
     {
       go4hdfdbg(
-          "TGo4HDF5DataHandle SetObjectPointer for event %d has collection size: %ld capacity: %ld pointer to buffer 0x%lx\n",
+          "TGo4HDF5DataHandle SetObjectPointer for count %d has collection size: %ld capacity: %ld pointer to buffer 0x%lx\n",
           debugcount, len, cap, (unsigned long) *p_begin_ptr);
       debugcount++;
     }
 
 #endif
-
   }    //GO4HDF5_COLL_STDVEC
+
+
+// this is done already in BuildDataType recursively using parentoffset to heap!
+//  // TODO: for composite event components, have to figure out the location of the subevents
+//  else if (fiCollectionType == GO4HDF5_COLL_COMPEVENT)
+//   {
+//      // we get the top level event
+//
+//   }
 
   // now recursively do it for our components:
   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
@@ -152,7 +180,9 @@
  void TGo4HDF5DataHandle::SetTopEvent(TGo4EventElement* eve)
  {
    fxEvent=eve;
-
+   go4hdfdbg(
+            "TTTTTTTT TGo4HDF5DataHandle %s  - SetTopEvent sets pointer to %ld \n",
+            fxTypeName.Data(), (unsigned long) eve);
    // now recursively do it for our components:
     for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
     {
@@ -165,7 +195,7 @@
   {
 
     fxEventClass=txt;
-    go4hdfdbg("TGo4HDF5DataHandle::SetTopEventClass TTTTTTTT to %s \n",fxEventClass.Data());
+    //go4hdfdbg("TGo4HDF5DataHandle::SetTopEventClass TTTTTTTT to %s \n",fxEventClass.Data());
     // now recursively do it for our components:
      for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
      {
@@ -196,6 +226,13 @@
    // get existing dataset from file and compare data with type of the target event
    // we only allow datasets that match the memory structure concerning member names etc,
 
+   // NOTE that for reading back data, we first have to figure out our subcomponents from the file dataspace by name!
+   // TODO: when reading, scan all datasets in file
+   // for composite events, configgure the input event according the information in hdf5 file ????
+   // this means BuildDataType has to be done after we have scanned the input file and reconstructed the substructure setup
+   // not so easy, so constraint is currently that all substructures in code must match the status when hdf5 file was recorded
+
+   go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet will open set %s\n", fxTypeName.Data());
    fxDataSet = file->openDataSet(fxTypeName.Data());
 
    H5T_class_t type_class = fxDataSet.getTypeClass();
@@ -204,7 +241,7 @@
    {
       intype= fxDataSet.getCompType();
 //      size_t size = intype.getSize();
-      go4hdfdbg("TGo4HDF5DataHandle::BuildDataSet finds in file compound type of size %ld \n",  intype.getSize());
+      go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet finds in file compound type of size %ld \n",  intype.getSize());
    }
    else if( type_class == H5T_VLEN)
      {
@@ -214,7 +251,7 @@
          //size_t size = entrytype.getSize();
          //size_t vsize = vtype.getSize();
          H5T_class_t entry_class =  entrytype.getClass();
-         go4hdfdbg("TGo4HDF5DataHandle::BuildDataSet finds in file vlen type of size %ld, with entry class %d , size %ld \n",
+         go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet finds in file vlen type of size %ld, with entry class %d , size %ld \n",
              vtype.getSize(), entry_class, entrytype.getSize());
          if( entry_class == H5T_COMPOUND)
            {
@@ -223,7 +260,7 @@
              H5::CompType* entrycomp = static_cast<H5::CompType*>(ptype); // dynamic cast fails here?
              if (entrycomp){
                  intype = *entrycomp;
-                 go4hdfdbg("TGo4HDF5DataHandle::BuildDataSet uses compound entry of vlen dtype %d \n", entry_class );
+                 go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet uses compound entry of vlen dtype %d \n", entry_class );
              }
              else
              {
@@ -315,6 +352,9 @@
 
    AllocReadBuffer(fiDataSize);
 
+
+   // NOTE that for reading back data, we first have to figure out our subcomponents from the file dataspace by name!
+
    // now recursively do it for our components:
    for(unsigned int i=0; i<fxSubcomponents.size();++i) // raterecord index
      {
@@ -333,7 +373,7 @@
    delete fxReadBuffer;
    fxReadBuffer= new Char_t[size];
    fiDataSize=size;
-   go4hdfdbg("TGo4HDF5DataHandle: AllocReadBuffer has created read buffer 0x%x for  size %ld \n",
+   go4hdfdbg("TGo4HDF5DataHandle: AllocReadBuffer has created read buffer 0x%lx for  size %ld \n",
           (unsigned long) fxReadBuffer, fiDataSize);
  }
 
@@ -361,7 +401,7 @@
    }
    else if (fiCollectionType == GO4HDF5_COLL_STDVEC)
    {
-     go4hdfdbg("TGo4HDF5DataHandle: BuildWriteDataset  for collection set %s using rank 2 \n",fxTypeName.Data());
+     go4hdfdbg("TGo4HDF5DataHandle: BuildWriteDataset  for collection set %s \n",fxTypeName.Data());
 
      Int_t rank=1; // entries of the ntuple/tree. vector dimension is handled by variable size type?
      hsize_t      dims[1]  = { 1};  // dataset dimensions at creation
@@ -381,6 +421,25 @@
 //////// the above works with rank=1 JAM 27-may-2019
 
    }
+   else if(fiCollectionType == GO4HDF5_COLL_COMPEVENT)
+     {
+       // same as plain set here. do we need different treatment?
+       go4hdfdbg("TGo4HDF5DataHandle: BuildWriteDataset  for composite event set %s\n", fxTypeName.Data());
+        Int_t rank=1; // entries of the ntuple/tree
+        hsize_t      dims[1]  = { 1};  // dataset dimensions at creation
+        hsize_t      maxdims[1] = {H5S_UNLIMITED};
+        fxDataSpace= new H5::DataSpace(rank, dims, maxdims);
+
+        H5::DSetCreatPropList cparms;
+        hsize_t      chunk_dims[1] ={1};
+        cparms.setChunk( rank, chunk_dims );
+        cparms.setFillValue(*fxType, fxData);
+
+       fxDataSet =  file->createDataSet( fxTypeName.Data(), *fxType, *fxDataSpace, cparms);
+
+     }
+
+
    else
    {
      go4hdfdbg("TGo4HDF5DataHandle: BuildWriteDataset : collection type %d not supported yet\n",
@@ -442,9 +501,9 @@
 
           fxVarHandle.fxArray.p=0; //note: read will allocate the necessary buffer memory automatically!
           fxDataSet.read(&fxVarHandle.fxArray, H5::VarLenType(fxType), *fxDataSpace, fxFileSpace);
-          go4hdfdbg("TGo4HDF5DataHandle::Read LLLL length after reading is %ld, buffer is 0x%x \n",
+          go4hdfdbg("TGo4HDF5DataHandle::Read LLLL length after reading is %ld, buffer is 0x%lx \n",
               fxVarHandle.fxArray.len,
-              fxVarHandle.fxArray.p);
+              (unsigned long) fxVarHandle.fxArray.p);
 
 
 /////////////// First attempt: resize vector via interpreter and do memcpy from read buffer
@@ -527,7 +586,7 @@
 ////////////// end alternative approach with insert.
 
       }
-   else  if(fiCollectionType == GO4HDF5_COLL_NONE)
+   else  if((fiCollectionType == GO4HDF5_COLL_NONE) || (fiCollectionType == GO4HDF5_COLL_COMPEVENT))
       {
 
 
@@ -608,12 +667,6 @@ void TGo4HDF5DataHandle::Write(hsize_t sequencenum)
   hsize_t offset[1] = { sequencenum };
   hsize_t nextsize[1] = { sequencenum + 1 };
 
-
-//  int ref=fxDataSet.getCounter()>0;
-//  //printf("TGo4HDF5DataHandle::Write %s has dataset refcounter %d\n", fxTypeName.Data(), ref);
-//  if(ref)
-//  {
-
   fxDataSet.extend(nextsize);
   H5::DataSpace fspace = fxDataSet.getSpace();    // dataspace in file
   hsize_t onerow[1] = { 1 };
@@ -622,7 +675,6 @@ void TGo4HDF5DataHandle::Write(hsize_t sequencenum)
   // the data space in file for each event is of course increasing, so we need to extend the dataset and select
   // a hyperslab to the write destination in the file.
 
-//}
 
   if (fiCollectionType == GO4HDF5_COLL_STDVEC)
   {
@@ -713,6 +765,15 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
     if(strcmp(rootclass->GetName(),"TNamed")==0) return;
     if(strcmp(rootclass->GetName(),"TGo4EventElement")==0) return;
 
+    if(strcmp(rootclass->GetName(),"TGo4CompositeEvent")==0)
+    {
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  COMP detects go4 composite event, ignore internal members! \n");
+      return; // avoid that reading back the event will overwrite our objectarray pointers, since it is inside the fiReadOffset range!
+    }
+
+
+
+
   // follows the members of our class
   TIter iter(rootclass->GetListOfDataMembers());
 
@@ -724,17 +785,26 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
        TString fullname= (basename ?    TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
        const char* membername = fullname.Data();
        size_t memberoffset = member->GetOffset();
-       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld \n", membername, memtypename, memberoffset);
+        Int_t arraydim = member->GetArrayDim();
+       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld , arraydim=%d\n",
+           membername, memtypename, memberoffset, arraydim);
        //continue; // DEBUG IT
-       Int_t arraydim = member->GetArrayDim();
+
        if (arraydim>2) continue;
-       hsize_t maxindex1(1), maxindex2(1);
-       H5::DataType theType;
+//       hsize_t maxindex1(1), maxindex2(1);
+//       H5::DataType theType;
        // do not edit IsA info
        if(strstr(memtypename,"TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
          continue;
        if(strstr(membername,"fgIsA")!=0) // paranoidly redundant, never come here
          continue;
+
+       if(member->Property() & kIsStatic)
+           {
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo ignored static member.\n");
+             continue;
+           }
+
 
        // first check if we have a collection member.
        TClass* innerclass=TClass::GetClass(memtypename);
@@ -743,114 +813,240 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
        {
             TClass* collectionclass=cprox->GetCollectionClass();
             TClass* valueclass=cprox->GetValueClass();
-           if(valueclass==0) continue;
-           size_t innersize=valueclass->Size();
-           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for type %d, collectionclass %s, class %s, size:%ld\n",
-               collectionclass->GetCollectionType(), collectionclass->GetName(), valueclass->GetName(), innersize);//, cprox->Size() needs real collection object set to proxy);
+            EDataType valuetype=cprox->GetType();
+            Int_t colltype=cprox->GetCollectionType();
+            go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** has collection proxy, type:%d, valueclass=0x%lx, valuetype=%d\n",
+                colltype, (unsigned long) valueclass, valuetype);
+            size_t innersize=0;
+            size_t collsize=0;
+            TString typenm;
+            TString colltypnm;
 
-           TGo4HDF5DataHandle* subhandle=handle->AddSubMember(membername, innersize, collectionclass->GetName());
-           subhandle->SetParentOffset(memberoffset);
-           subhandle->SetElementSize(valueclass->Size());
-           subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
-           subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
-           subhandle->SetMemberClass(valueclass->GetName());
-           FillTypeInfo(subhandle, valueclass, membername);
-           continue; // everything is done in subhandle, continue with next member of our level
-        }
-
-       // now test simple members:
-       else if ((strcmp(memtypename,"Char_t")==0) || (strcmp(memtypename,"char")==0))
-              theType=H5::PredType::NATIVE_CHAR;
-       else if ((strcmp(memtypename,"UChar_t")==0) || (strcmp(memtypename,"unsigned char")==0))
-         theType=H5::PredType::NATIVE_UCHAR;
-       else if ((strcmp(memtypename,"Short_t")==0) || (strcmp(memtypename,"short")==0))
-         theType=H5::PredType::NATIVE_SHORT;
-       else if ((strcmp(memtypename,"UShort_t")==0) || (strcmp(memtypename,"unsigned short")==0))
-              theType=H5::PredType::NATIVE_USHORT;
-       else if ((strcmp(memtypename,"Int_t")==0) || (strcmp(memtypename,"int")==0))
-         theType=H5::PredType::NATIVE_INT;
-       else if ((strcmp(memtypename,"UInt_t")==0) || (strcmp(memtypename,"unsigned int")==0))
-              theType=H5::PredType::NATIVE_UINT;
-       else if ((strcmp(memtypename,"Double_t")==0)|| (strcmp(memtypename,"double")==0))
-              theType=H5::PredType::NATIVE_DOUBLE;
-       else if ((strcmp(memtypename,"Float_t")==0) ||  (strcmp(memtypename,"float")==0))
-                  theType=H5::PredType::NATIVE_FLOAT;
-       else if ((strcmp(memtypename,"Bool_t")==0)|| (strcmp(memtypename,"bool")==0))
-                   theType=H5::PredType::NATIVE_HBOOL;
+            //continue; // JAM DEBUG - leave out collections to test composite event io first! OK, this works
 
 
-       else if((strcmp(memtypename,"TString")==0) || (strstr(memtypename,"string")!=0))
-       {
-           continue; // skip for the moment names and text information TODO!
+           if(valueclass)
+           {
+             collsize=collectionclass->Size();
+             innersize=valueclass->Size();
+             typenm=valueclass->GetName();
+             colltypnm= collectionclass->GetName();
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for type %d, collectionclass %s, class %s, size:%ld, collsize:%ld\n",
+               collectionclass->GetCollectionType(), colltypnm.Data(), typenm.Data(), innersize, collsize);//, cprox->Size() needs real collection object set to proxy);
+
+           }
+           else if (valuetype)
+           {
+             TDataType* datatype=TDataType::GetDataType(valuetype);
+             typenm=datatype->GetTypeName();
+             innersize=datatype->Size();
+
+             // will not work, since basic type do not have class object in ROOT!
+             //valueclass=TClass::GetClass(typenm.Data());
+             //go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo sees valueclass %s\n",(valueclass? valueclass->GetName() :"NO CLASS"));
+
+             colltypnm=memtypename; // get  the vector<double> here!
+             collectionclass=TClass::GetClass(memtypename);
+             if(collectionclass)
+               collsize= collectionclass->Size();
+             else
+               go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo could not get class for collection %s \n",memtypename);
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for value %d, type %s, size:%ld, collsize:%ld\n",
+                        collectionclass->GetCollectionType(), typenm.Data(), innersize, collsize);
+           }
+           else
+           {
+             continue;
+           }
+
+           ///// arraydim=0; // JAM DEBUG: check if we can handle the first vector in array only
+
+           // now evaluate the subhandles depending on the array dimension:
+           // here treat special case of array of vectors (poland example)
+                 Int_t maxindex1=0, maxindex2=0;
+                 switch(arraydim)
+                 {
+
+                   default:
+                     // plain collection that is not part of another array:
+                     // TODO: following stuff is a nices subfunction-
+                     {
+                       TGo4HDF5DataHandle* subhandle=handle->AddSubMember(membername, innersize, colltypnm.Data());
+                       subhandle->SetParentOffset(memberoffset);
+                       subhandle->SetElementSize(innersize);
+                       //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
+                       subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
+                       subhandle->SetMemberClass(typenm.Data());
+                       if(valueclass)
+                         FillTypeInfo(subhandle, valueclass, membername); // probably better subhandle->GetTypeName instead membername here?
+                       else
+                         FillTypeInfo(subhandle, membername, typenm);
+                     }
+                     break;
+
+
+
+                   case 1:
+                     maxindex1 = member->GetMaxIndex(0);
+                     for(int x=0; x<maxindex1; ++x)
+                         {
+                           TString arraymember=TString::Format("%s[%d]",membername,x); // contains supermembers as prefix for full name
+                           TString memberhandle=TString::Format("%s[%d]",member->GetName(),x); // only local member for pointer handle
+                           // TODO: following stuff is a nices subfunction-
+                           {
+                           TGo4HDF5DataHandle* subhandle=handle->AddSubMember(arraymember.Data(), innersize, colltypnm.Data());
+                            subhandle->SetParentOffset(memberoffset);
+                            subhandle->SetElementSize(innersize);
+                            //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
+                            //subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
+
+                            subhandle->SetMemberName(memberhandle.Data());
+                            subhandle->SetMemberClass(typenm.Data());
+                            if(valueclass)
+                              FillTypeInfo(subhandle, valueclass, arraymember.Data());
+                            else
+                              FillTypeInfo(subhandle, arraymember.Data(), typenm);
+
+                           }
+                            memberoffset+=collsize;
+                         }
+                     break;
+
+                   case 2:
+                     maxindex1 = member->GetMaxIndex(0);
+                     maxindex2 = member->GetMaxIndex(1);
+                     for(int x=0; x<maxindex1; ++x)
+                       for(int y=0; y<maxindex2; ++y)
+                           {
+                             TString arraymember=TString::Format("%s[%d][%d]",membername,x,y); // contains supermembers as prefix for full name
+                             TString memberhandle=TString::Format("%s[%d][%d]",member->GetName(),x,y); // only local member for pointer handle
+
+                             // TODO: following stuff is a nices subfunction-
+                             {
+                             TGo4HDF5DataHandle* subhandle=handle->AddSubMember(arraymember.Data(), innersize, colltypnm.Data());
+                              subhandle->SetParentOffset(memberoffset);
+                              subhandle->SetElementSize(innersize);
+                              //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
+                              //subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
+
+                              subhandle->SetMemberName(memberhandle.Data());
+                              subhandle->SetMemberClass(typenm.Data());
+                              if(valueclass)
+                                FillTypeInfo(subhandle, valueclass, arraymember.Data());
+                              else
+                                FillTypeInfo(subhandle, arraymember.Data(), typenm);
+                             }
+                              memberoffset+=collsize;
+                           }
+                     break;
+
+
+                 }; // switch(arraydim)
+         continue;
        }
 
-       // TODO: pointer component on heap. should be also possible
 
+       FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
 
-       // TODO: go4 composite event. probably more easy than vector?
-
-
-       else   {
-         // evaluate structure components here
-         TClass* innerclass=TClass::GetClass(memtypename);
-         if(innerclass==0) continue;
-         go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n",memtypename);
-
-         size_t innersize=innerclass->Size();
-         // temporary datahandle just to extract the type components
-         TGo4HDF5DataHandle innercomp(memtypename,innersize);
-         FillTypeInfo(&innercomp, innerclass, membername);
-         theType= *(innercomp.GetType());
-       }
-
-       const H5std_string theMEMBER(membername);
-
-       switch(arraydim) {
-         case 1:
-         {
-           maxindex1 = member->GetMaxIndex(0);
-           hsize_t dims[1]={maxindex1};
-           H5::ArrayType theArray(theType, arraydim, dims);
-           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-               membername,memtypename, arraydim,maxindex1, memberoffset);
- //          handle->GetType()->insertMember( theMEMBER, memberoffset, theArray);
-           handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
-           break;
-         }
-         case 2:
-         {
-           maxindex1 = member->GetMaxIndex(0);
-           maxindex2 = member->GetMaxIndex(1);
-           hsize_t dims[2]={maxindex1, maxindex2};
-           H5::ArrayType theArray(theType, arraydim, dims);
-           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-                    membername,memtypename, arraydim,maxindex1, memberoffset);
-
-          //handle->GetType()->insertMember( theMEMBER, memberoffset, theArray);
-           handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
-           break;
-
-         }
-
-
-         default:
-           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
-                    membername, memtypename, arraydim,maxindex1, memberoffset);
-
-           //handle->GetType()->insertMember( theMEMBER, memberoffset, theType);
-           handle->InsertTypeMember(theMEMBER, memberoffset, theType);
-           break;
-
-         } // switch()
-       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserted member %s \n", membername);
-
-    }
+    } // while ((obj=iter()) != 0) {
 
 }
 
 
+ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle,
+       const char* membername, const char* memtypename, size_t memberoffset,
+       Int_t arraydim, TDataMember* member)
+ {
+   H5::DataType theType;
+   hsize_t maxindex1(1), maxindex2(1);
 
-void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event)
+
+
+
+   if ((strcmp(memtypename,"Char_t")==0) || (strcmp(memtypename,"char")==0))
+                theType=H5::PredType::NATIVE_CHAR;
+         else if ((strcmp(memtypename,"UChar_t")==0) || (strcmp(memtypename,"unsigned char")==0))
+           theType=H5::PredType::NATIVE_UCHAR;
+         else if ((strcmp(memtypename,"Short_t")==0) || (strcmp(memtypename,"short")==0))
+           theType=H5::PredType::NATIVE_SHORT;
+         else if ((strcmp(memtypename,"UShort_t")==0) || (strcmp(memtypename,"unsigned short")==0))
+                theType=H5::PredType::NATIVE_USHORT;
+         else if ((strcmp(memtypename,"Int_t")==0) || (strcmp(memtypename,"int")==0))
+           theType=H5::PredType::NATIVE_INT;
+         else if ((strcmp(memtypename,"UInt_t")==0) || (strcmp(memtypename,"unsigned int")==0))
+                theType=H5::PredType::NATIVE_UINT;
+         else if ((strcmp(memtypename,"Double_t")==0)|| (strcmp(memtypename,"double")==0))
+                theType=H5::PredType::NATIVE_DOUBLE;
+         else if ((strcmp(memtypename,"Float_t")==0) ||  (strcmp(memtypename,"float")==0))
+                    theType=H5::PredType::NATIVE_FLOAT;
+         else if ((strcmp(memtypename,"Bool_t")==0)|| (strcmp(memtypename,"bool")==0))
+                     theType=H5::PredType::NATIVE_HBOOL;
+
+
+         else if((strcmp(memtypename,"TString")==0) || (strstr(memtypename,"string")!=0))
+         {
+             return; // skip for the moment names and text information TODO!
+         }
+
+         // TODO: pointer component on heap. should be also possible
+
+
+
+
+         else   {
+           // evaluate structure components here
+           TClass* innerclass=TClass::GetClass(memtypename);
+           if(innerclass==0) return;
+           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n",memtypename);
+
+           size_t innersize=innerclass->Size();
+           // temporary datahandle just to extract the type components
+           TGo4HDF5DataHandle innercomp(memtypename,innersize);
+           FillTypeInfo(&innercomp, innerclass, membername);
+           theType= *(innercomp.GetType());
+         }
+
+         const H5std_string theMEMBER(membername);
+
+         switch(arraydim) {
+           case 1:
+           {
+             maxindex1 = member->GetMaxIndex(0);
+             hsize_t dims[1]={maxindex1};
+             H5::ArrayType theArray(theType, arraydim, dims);
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+                 membername,memtypename, arraydim,maxindex1, memberoffset);
+             handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
+             break;
+           }
+           case 2:
+           {
+             maxindex1 = member->GetMaxIndex(0);
+             maxindex2 = member->GetMaxIndex(1);
+             hsize_t dims[2]={maxindex1, maxindex2};
+             H5::ArrayType theArray(theType, arraydim, dims);
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+                      membername,memtypename, arraydim,maxindex1, memberoffset);
+
+             handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
+             break;
+
+           }
+
+
+           default:
+             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
+                      membername, memtypename, arraydim,maxindex1, memberoffset);
+
+             handle->InsertTypeMember(theMEMBER, memberoffset, theType);
+             break;
+
+           } // switch()
+ }
+
+
+
+void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent, Int_t index)
 {
   TClass* evclass=event->Class();
   if(!evclass)
@@ -859,17 +1055,63 @@ void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event)
       return;
     }
   TClass* actualclass=evclass->GetActualClass(event);
-  //fiEventSize=actualclass->Size();
+  TString actualclassname= actualclass->GetName();
+  size_t eventsize=ScanEventSize(event);
+  TGo4HDF5DataHandle* theHandle=0;
   go4hdfdbg("TGo4HDF5Adapter::BuildDataType for class %s\n",
-      actualclass->GetName());
-
-    fxHandle=new TGo4HDF5DataHandle(actualclass->GetName(), ScanEventSize(event));
+      actualclassname.Data());
+  if(parent==0)
+  {
+    // top level event, components are scanned recursively:
+    fxHandle=new TGo4HDF5DataHandle(actualclassname.Data(), eventsize);
     fxHandle->SetObjectPointer(event);
-    FillTypeInfo(fxHandle, actualclass, actualclass->GetName());
-
-
+    FillTypeInfo(fxHandle, actualclass, actualclassname.Data());
+    theHandle=fxHandle;
     fxHandle->SetTopEvent(event);
-    fxHandle->SetTopEventClass(actualclass->GetName());
+    fxHandle->SetTopEventClass(actualclassname.Data());
+
+  }
+  else
+  {
+    // component of a composite event: belongs to the parent handle
+    TString compname=TString::Format("%s_%s(%d)",parent->GetTypeName(), actualclassname.Data(), index);
+    TString comptype="Go4CompEv"; // do we need to tag the subhandles here?
+    theHandle=parent->AddSubMember(compname.Data(), eventsize, comptype.Data());
+    void* super=parent->Data(); // everything is relative to immediate mother element
+    size_t delta= (char*) event - (char*) super;
+    go4hdfdbg("TGo4HDF5Adapter::BuildDataType sets parent offset %ld (event:0x%lx, super:0x%lx)\n",
+         delta, (unsigned long) event, (unsigned long) super);
+    theHandle->SetParentOffset(delta);
+    theHandle->SetObjectPointer(super);
+    // prepend here the parent name to our subhandle:
+    FillTypeInfo(theHandle, actualclass, theHandle->GetTypeName());
+
+    // for reading back component data, each composite subevent has to override the top level parent event:
+    theHandle->SetTopEvent(event);
+    theHandle->SetTopEventClass(actualclassname.Data());
+
+  }
+
+// need to scan components of composite event here:
+    TGo4CompositeEvent* comp= dynamic_cast<TGo4CompositeEvent*>(event);
+    if(comp)
+    {
+      go4hdfdbg("TGo4HDF5Adapter::BuildDataType evaluates members of Go4 composite event %s\n",
+           comp->GetName());
+      Short_t numSubEvents=comp->getNElements();
+      for (int i = 0; i < numSubEvents ; ++i)
+         {
+          TGo4EventElement* sub = comp->getEventElement(i);
+          if(sub==0) continue;
+          BuildDataType(sub,theHandle, i);
+         }
+    }
+
+    // finally, set reference pointers for all evaluated subcomponents:
+    if(parent==0)
+     {
+      theHandle->SetObjectPointer(event); // set it here, because parentoffsets of subcomponents may have changed at recursive evaluation
+     }
 
 }
 
