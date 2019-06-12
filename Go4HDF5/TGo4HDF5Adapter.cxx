@@ -282,9 +282,11 @@
    fxFileSpace = fxDataSet.getSpace();
    int frank = fxFileSpace.getSimpleExtentNdims();
    hsize_t dims_out[frank];
-   int ndims = fxFileSpace.getSimpleExtentDims( dims_out, NULL);
-   go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet file dataspace has rank %d, dimensions:%d, #1. dimension=%ld \n", frank , ndims,
-            (unsigned long)(dims_out[0]));
+//   int ndims = fxFileSpace.getSimpleExtentDims( dims_out, NULL);
+   go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet file dataspace has rank %d, dimensions:%d, #1. dimension=%ld \n",
+       frank ,
+       fxFileSpace.getSimpleExtentDims( dims_out, NULL),
+       (unsigned long)(dims_out[0]));
    fiEntries=dims_out[0]; // events filled in this file, for leaving the read loop later.
 
 #ifdef GO4HDF5_DEBUG
@@ -767,8 +769,18 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
     if(strcmp(rootclass->GetName(),"TGo4CompositeEvent")==0)
     {
-      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  COMP detects go4 composite event, ignore internal members! \n");
-      return; // avoid that reading back the event will overwrite our objectarray pointers, since it is inside the fiReadOffset range!
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  COMP detects go4 composite event. Assign fMaxIndex member...\n");
+      TDataMember* member=rootclass->GetDataMember("fMaxIndex");
+      if (member==0) return;
+      size_t memberoffset = member->GetOffset();
+      const char* memtypename = member->GetFullTypeName();
+      TString fullname= (basename ?    TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
+      const char* membername = fullname.Data();
+      Int_t arraydim = member->GetArrayDim();
+      FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
+      return;
+      // avoid that reading back the event will overwrite our objectarray pointers, since it is inside the fiReadOffset range!
+      // for composite events without own members, however, need the fMaxIndex as dummy to produce a hdf5 dataset
     }
 
 
@@ -814,9 +826,10 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
             TClass* collectionclass=cprox->GetCollectionClass();
             TClass* valueclass=cprox->GetValueClass();
             EDataType valuetype=cprox->GetType();
-            Int_t colltype=cprox->GetCollectionType();
+           // Int_t colltype=cprox->GetCollectionType();
             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** has collection proxy, type:%d, valueclass=0x%lx, valuetype=%d\n",
-                colltype, (unsigned long) valueclass, valuetype);
+                cprox->GetCollectionType(),
+                (unsigned long) valueclass, valuetype);
             size_t innersize=0;
             size_t collsize=0;
             TString typenm;
