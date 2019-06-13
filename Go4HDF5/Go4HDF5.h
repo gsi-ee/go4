@@ -17,6 +17,26 @@
 #define GO4HDF5_H
 
 
+// following define will switch on detailed dumps of hdf5 io data:
+//#define GO4HDF5_DEBUG 1
+
+#ifdef GO4HDF5_DEBUG
+#define go4hdfdbg( args... )  printf( args );
+#else
+#define  go4hdfdbg( args...) ;
+
+#endif
+
+
+#define go4hdfdatahandlethrow( args ... ) \
+ TString msg=   TString::Format( args ); \
+                 TGo4Log::Error("TGo4HDF5DataHandle: %s", msg.Data()); \
+                 fxParentSource->SetErrMess(msg.Data()); \
+                 throw TGo4EventSourceException(fxParentSource);  \
+
+
+
+
 /** to decouple parameter from hdf5 library we use own definitions for file modes*/
 typedef enum Go4_H5_File_Flags{
   GO4_H5F_ACC_NONE,

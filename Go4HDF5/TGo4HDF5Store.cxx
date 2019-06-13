@@ -39,7 +39,7 @@ TGo4HDF5Store::TGo4HDF5Store() :
 {
    GO4TRACE((15,"TGo4HDF5Store::TGo4HDF5Store()", __LINE__, __FILE__));
 
-   printf("TGo4HDF5Store::TGo4HDF5Store() default ctor\n");
+   //printf("TGo4HDF5Store::TGo4HDF5Store() default ctor\n");
    // public default ctor for streamer
 
 }
@@ -52,7 +52,7 @@ TGo4HDF5Store::TGo4HDF5Store(const char* name,
 
 
    GO4TRACE((15,"TGo4HDF5Store::TGo4HDF5Store(char*,...)", __LINE__, __FILE__));
-   printf("TGo4HDF5Store::TGo4HDF5Store(char*,...)\n");
+   //printf("TGo4HDF5Store::TGo4HDF5Store(char*,...)\n");
    OpenFile();
 }
 
@@ -61,7 +61,7 @@ TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par) :
          TGo4EventStore("dummy"),TGo4HDF5Adapter()
 {
    GO4TRACE((15,"TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par)", __LINE__, __FILE__));
-   printf("TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par)\n");
+   //printf("TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par)\n");
    if (par==0) {
       TGo4Log::Error("TGo4HDF5Store::TGo4HDF5Store(.., TGo4HDF5StoreParameter* is not specified");
       return;
@@ -75,7 +75,7 @@ TGo4HDF5Store::TGo4HDF5Store(TGo4HDF5StoreParameter* par) :
 TGo4HDF5Store::~TGo4HDF5Store()
 {
    GO4TRACE((15,"TGo4HDF5Store::~TGo4HDF5Store()", __LINE__, __FILE__));
-   printf("TGo4HDF5Store::~TGo4HDF5Store()\n");
+   //printf("TGo4HDF5Store::~TGo4HDF5Store()\n");
    DeleteDataSet();
    CloseFile();
 }
