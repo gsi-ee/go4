@@ -18,6 +18,7 @@
 #include "Go4HDF5.h"
 #include "Rtypes.h"
 #include "TString.h"
+#include "TObject.h"
 
 #ifndef __CINT__
 #include "H5Cpp.h"
@@ -106,10 +107,10 @@ public:
 
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum);
+   virtual void Read(hsize_t sequencenum,  H5::H5File* file);
 
    /** Write event of sequence number from file*/
-    virtual void Write(hsize_t sequencenum);
+    virtual void Write(hsize_t sequencenum,  H5::H5File* file);
 
    /** create new subhandle for complex member component on heap.
     * Each complex component has separate dataset in file. returns the currently added handle to submember.
@@ -120,14 +121,20 @@ public:
 
    TGo4HDF5DataHandle* GetSubMember(UInt_t ix){ return (ix< fxSubcomponents.size() ? fxSubcomponents[ix] : 0);}
 
+   /** lookup if subcomponent of name already is in list. returns 0 pointer if no match of name, otherwise th matching subhandle*/
+   TGo4HDF5DataHandle* FindSubMember(const char* name);
+
+   void SetActive(Bool_t on){fbDataSetActive=on;}
+
+   void SetAllSubMembersActive(Bool_t on);
+
+
    static TGo4HDF5DataHandleFactory fxFactory;
 
 
 protected:
 
 
-   /** (Re-)allocate read buffer depending on the object size read from file*/
-     void AllocReadBuffer(size_t size);
 
 
 
@@ -162,17 +169,16 @@ protected:
        size_t fiParentOffset; //!
 
 
+       /** size of data structure in bytes, for redefining output dataset*/
+       size_t fiDataSize;
+
+
+       /** begin of real eventdata payload after event object pointer**/
+       size_t fiReadOffset;
 
 
 
-    /** secondary read bounce buffer for hdf5 */
-    Char_t* fxReadBuffer; //!
 
-    /** size of data structure in bytes, for redefining output dataset*/
-      size_t fiDataSize;
-
-    /** begin of real eventdata payload after event object pointer**/
-     size_t fiReadOffset;
 
 
 
@@ -194,6 +200,13 @@ protected:
 
     /** backpointer to parent source for exceptions*/
     TGo4HDF5Source* fxParentSource; //!
+
+    /** check on the fly if this handle has already created a dataset*/
+    Bool_t fbDataSetExists; //!
+
+    /** we may disable this dataset temporarily from writing or reading
+     * usefule for dynamic vector of vvector components*/
+    Bool_t fbDataSetActive; //!
 
 };
 
@@ -232,13 +245,21 @@ public:
 
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum);
+   virtual void Read(hsize_t sequencenum, H5::H5File*file);
 
    /** Write event of sequence number from file*/
-   virtual void Write(hsize_t sequencenum);
+   virtual void Write(hsize_t sequencenum, H5::H5File*file);
 
 
 protected:
+
+   /** (Re-)allocate read buffer depending on the object size read from file*/
+      void AllocReadBuffer(size_t size);
+
+
+   /** secondary read bounce buffer for hdf5 */
+     Char_t* fxReadBuffer; //!
+
 
 
 
@@ -271,9 +292,6 @@ class TGo4HDF5CompositeDataHandle : public TGo4HDF5BasicDataHandle
 
 {
 
-
-
-
 public:
 
    /** create new data handle*/
@@ -291,15 +309,10 @@ public:
 
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum);
+   virtual void Read(hsize_t sequencenum, H5::H5File* file);
 
    /** Write event of sequence number from file*/
-   virtual void Write(hsize_t sequencenum);
-
-
-protected:
-
-
+   virtual void Write(hsize_t sequencenum, H5::H5File* file);
 
 
 
@@ -327,7 +340,7 @@ struct TGo4HDF5VarContainer
  *  * @author J. Adamczewski-Musch
  * @since 5/2019
  */
-class TGo4HDF5VectorDataHandle : public TGo4HDF5DataHandle
+class TGo4HDF5VectorDataHandle : public TGo4HDF5BasicDataHandle
 
 {
 
@@ -347,17 +360,17 @@ public:
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   virtual void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
 
    /** create datasets for writing memory structure of type into file.*/
-   void BuildWriteDataset(H5::H5File* file);
+   virtual void BuildWriteDataset(H5::H5File* file);
 
 
    /** Read event of sequence number from file*/
-   void Read(hsize_t sequencenum);
+   virtual void Read(hsize_t sequencenum, H5::H5File* file);
 
    /** Write event of sequence number from file*/
-    void Write(hsize_t sequencenum);
+    virtual void Write(hsize_t sequencenum, H5::H5File* ile);
 
 
 protected:
@@ -382,7 +395,66 @@ protected:
 };
 
 
+class TGo4HDF5VectorProxy
+{
+public:
 
+  unsigned long  fx_Begin_ptr;
+  unsigned long  fx_End_ptr;
+  unsigned long  fx_Cap_ptr;
+};
+
+
+
+
+/**
+ * Handle object to access  datasets in hdf5 formatted file with go4 event data
+ * trial implementation for std::vectors of std::vector collections
+ * may not work...
+ *  * @author J. Adamczewski-Musch
+ * @since 6/2019
+ */
+class TGo4HDF5SubVectorDataHandle : public TGo4HDF5VectorDataHandle
+
+{
+
+
+public:
+
+   /** create new data handle*/
+   TGo4HDF5SubVectorDataHandle(const char* name, size_t datasize);
+   virtual ~TGo4HDF5SubVectorDataHandle();
+
+
+
+    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
+     virtual void SetObjectPointer(void* memptr);
+
+   /** create datasets and buffers for reading this structure from hdf5 file.
+    * parent pointer is given for error handling case*/
+   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+
+   /** create datasets for writing memory structure of type into file.*/
+   void BuildWriteDataset(H5::H5File* file);
+
+
+   /** Read event of sequence number from file*/
+   void Read(hsize_t sequencenum, H5::H5File* file);
+
+   /** Write event of sequence number from file*/
+    void Write(hsize_t sequencenum, H5::H5File* file);
+
+    void SetInnerClassName(const char* nm) {fxInnerClassName=nm;}
+
+
+protected:
+
+
+    /** class that is contained in innermost vector*/
+      TString fxInnerClassName;
+
+
+};
 
 
 

@@ -42,6 +42,7 @@ class TGo4EventElement;
 class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
 
   friend class TGo4HDF5DataHandle;
+  friend class TGo4HDF5BasicDataHandle;
 
   public:
 

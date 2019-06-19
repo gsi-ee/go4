@@ -62,6 +62,30 @@ size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
   return rev;
 }
 
+void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char* name, const char* type, size_t size,
+    size_t memberoffset, const char* membername, const char* classname, TClass* valueclass)
+{
+  TGo4HDF5DataHandle* subhandle = handle->AddSubMember(name, size, type);
+  subhandle->SetParentOffset(memberoffset);
+  subhandle->SetMemberName(membername);
+   subhandle->SetMemberClass(classname);
+  TGo4HDF5SubVectorDataHandle* subvector = dynamic_cast<TGo4HDF5SubVectorDataHandle*> (subhandle);
+  if(subvector)
+  {
+    TString containerclass = "TGo4HDF5VectorProxy";
+    FillTypeInfo(subhandle, name, containerclass.Data());
+
+  }
+  else
+  {
+    if (valueclass)
+      FillTypeInfo(subhandle, valueclass, name);
+    else
+      FillTypeInfo(subhandle, name, classname);
+  }
+}
+
+
 
 
 void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename)
@@ -203,22 +227,8 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
                    default:
                      // plain collection that is not part of another array:
-                     // TODO: following stuff is a nices subfunction-
-                     {
-                       TGo4HDF5DataHandle* subhandle=handle->AddSubMember(membername, innersize, colltypnm.Data());
-                       subhandle->SetParentOffset(memberoffset);
-                       //subhandle->SetElementSize(innersize);
-                       //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
-                       subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
-                       subhandle->SetMemberClass(typenm.Data());
-                       if(valueclass)
-                         FillTypeInfo(subhandle, valueclass, membername); // probably better subhandle->GetTypeName instead membername here?
-                       else
-                         FillTypeInfo(subhandle, membername, typenm);
-                     }
+                     AddSubHandle(handle, membername, colltypnm.Data(), innersize, memberoffset, member->GetName(), typenm.Data(), valueclass);
                      break;
-
-
 
                    case 1:
                      maxindex1 = member->GetMaxIndex(0);
@@ -226,23 +236,8 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
                          {
                            TString arraymember=TString::Format("%s[%d]",membername,x); // contains supermembers as prefix for full name
                            TString memberhandle=TString::Format("%s[%d]",member->GetName(),x); // only local member for pointer handle
-                           // TODO: following stuff is a nices subfunction-
-                           {
-                           TGo4HDF5DataHandle* subhandle=handle->AddSubMember(arraymember.Data(), innersize, colltypnm.Data());
-                            subhandle->SetParentOffset(memberoffset);
-                            //subhandle->SetElementSize(innersize);
-                            //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
-                            //subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
-
-                            subhandle->SetMemberName(memberhandle.Data());
-                            subhandle->SetMemberClass(typenm.Data());
-                            if(valueclass)
-                              FillTypeInfo(subhandle, valueclass, arraymember.Data());
-                            else
-                              FillTypeInfo(subhandle, arraymember.Data(), typenm);
-
-                           }
-                            memberoffset+=collsize;
+                           AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset, memberhandle.Data(), typenm.Data(), valueclass);
+                           memberoffset+=collsize;
                          }
                      break;
 
@@ -254,23 +249,8 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
                            {
                              TString arraymember=TString::Format("%s[%d][%d]",membername,x,y); // contains supermembers as prefix for full name
                              TString memberhandle=TString::Format("%s[%d][%d]",member->GetName(),x,y); // only local member for pointer handle
-
-                             // TODO: following stuff is a nices subfunction-
-                             {
-                             TGo4HDF5DataHandle* subhandle=handle->AddSubMember(arraymember.Data(), innersize, colltypnm.Data());
-                              subhandle->SetParentOffset(memberoffset);
-                              //subhandle->SetElementSize(innersize);
-                              //subhandle->SetObjectPointer(handle->Data()); // offset to our parent will be accounted internally here!
-                              //subhandle->SetMemberName(member->GetName()); // put plain name of the data member here first. will be exended later to format access expression
-
-                              subhandle->SetMemberName(memberhandle.Data());
-                              subhandle->SetMemberClass(typenm.Data());
-                              if(valueclass)
-                                FillTypeInfo(subhandle, valueclass, arraymember.Data());
-                              else
-                                FillTypeInfo(subhandle, arraymember.Data(), typenm);
-                             }
-                              memberoffset+=collsize;
+                             AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset, memberhandle.Data(), typenm.Data(), valueclass);
+                             memberoffset+=collsize;
                            }
                      break;
 
@@ -278,7 +258,6 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
                  }; // switch(arraydim)
          continue;
        }
-
 
        FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
 
@@ -294,7 +273,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
    H5::DataType theType;
    hsize_t maxindex1(1), maxindex2(1);
 
-
+   go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  begins for type %s ...\n",memtypename);
 
 
    if ((strcmp(memtypename,"Char_t")==0) || (strcmp(memtypename,"char")==0))
@@ -309,6 +288,8 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
            theType=H5::PredType::NATIVE_INT;
          else if ((strcmp(memtypename,"UInt_t")==0) || (strcmp(memtypename,"unsigned int")==0))
                 theType=H5::PredType::NATIVE_UINT;
+         else if ((strcmp(memtypename,"ULong_t")==0) || (strcmp(memtypename,"unsigned long")==0))
+                     theType=H5::PredType::NATIVE_ULONG;
          else if ((strcmp(memtypename,"Double_t")==0)|| (strcmp(memtypename,"double")==0))
                 theType=H5::PredType::NATIVE_DOUBLE;
          else if ((strcmp(memtypename,"Float_t")==0) ||  (strcmp(memtypename,"float")==0))
@@ -322,7 +303,21 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
              return; // skip for the moment names and text information TODO!
          }
 
-         // TODO: pointer component on heap. should be also possible
+         else if(strcmp(memtypename,"TGo4HDF5VectorProxy")==0)
+                 {
+                   // this is dummy class to represent vector of vector entry, handle it manually without root
+                 go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  handles explicitly vector entry  %s\n",memtypename);
+
+                   TString innermemname;
+                   TGo4HDF5DataHandle innercomp(memtypename,sizeof(TGo4HDF5VectorProxy));
+                   innermemname= TString::Format("%s_fx_Begin_ptr",membername);
+                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_Begin_ptr), H5::PredType::NATIVE_ULONG);
+                   innermemname= TString::Format("%s_fx_End_ptr",membername);
+                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_End_ptr), H5::PredType::NATIVE_ULONG);
+                   innermemname= TString::Format("%s_fx_Cap_ptr",membername);
+                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_Cap_ptr), H5::PredType::NATIVE_ULONG);
+                   theType= *(innercomp.GetType());
+                 }
 
 
 
@@ -330,6 +325,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
          else   {
            // evaluate structure components here
            TClass* innerclass=TClass::GetClass(memtypename);
+
            if(innerclass==0) return;
            go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n",memtypename);
 

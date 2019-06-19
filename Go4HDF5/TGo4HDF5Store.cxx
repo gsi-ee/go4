@@ -153,7 +153,7 @@ Int_t TGo4HDF5Store::Store(TGo4EventElement* event)
 try{
 
     fxHandle->SetObjectPointer(event); // this will recursively update all subpointers and properties of vector (hopefully...)
-    fxHandle->Write(fiFillCount++);
+    fxHandle->Write(fiFillCount++, fxFile);
 
 }
 catch(H5::Exception& ex)

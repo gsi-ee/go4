@@ -244,7 +244,7 @@ Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
 #endif
 
     //fxHandle->SetObjectPointer(dest); // do it here to account dynamic changes in structure
-    fxHandle->Read(fiFillCount++);
+    fxHandle->Read(fiFillCount++, fxFile);
 
 #ifdef GO4HDF5_DEBUG
          printf("Go4 event has eventsource pointer 0x%lx  \n",(long) fxEvent->GetEventSource());
