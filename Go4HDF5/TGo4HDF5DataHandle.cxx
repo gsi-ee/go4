@@ -648,7 +648,9 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 
 #endif
 
-
+//    printf(
+//             "TGo4HDF5VectorDataHandle %s - SetObjectPointer  has collection size: %ld capacity: %ld pointer to buffer 0x%lx, fxData=0x%x\n",
+//             fxTypeName.Data(), len, cap, (unsigned long) *p_begin_ptr, fxData);
 
 }
 
@@ -662,7 +664,7 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 
  void TGo4HDF5VectorDataHandle::BuildWriteDataset(H5::H5File* file)
  {
-   if(!fbDataSetExists) // && fbDataSetActive) // && fxVarHandle.fxArray.p != 0)
+   if(!fbDataSetExists) // && fbDataSetActive)
    {
       go4hdfdbg("TGo4HDF5VectorDataHandle: BuildWriteDataset  for collection set %s \n",fxTypeName.Data());
 
@@ -803,21 +805,16 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 
 void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 {
+  SetActive(((fxVarHandle.fxArray.p!=0) &&  (fxVarHandle.fxArray.len>0)) ? true : false); // disable writing out empty vector
 
   BuildWriteDataset(file); // dataset is no sooner created than we have really data to write in vector
   TGo4HDF5DataHandle::Write(sequencenum, file);
 
-  SetActive(((fxVarHandle.fxArray.p!=0) &&  (fxVarHandle.fxArray.len>0)) ? true : false); // disable writing out empty vector
-
-//  if(!fbDataSetActive) return;
-//  if (fxVarHandle.fxArray.p != 0)
-
-
-
-
   if(fbDataSetActive)
   {
+       //printf("TGo4HDF5VectorDataHandle::Write %s collection \n", fxTypeName.Data());
        go4hdfdbg("TGo4HDF5VectorDataHandle::Write %s collection \n", fxTypeName.Data());
+       //TGo4HDF5DataHandle::Write(sequencenum, file);
        fxDataSet.write(&fxVarHandle.fxArray, H5::VarLenType(fxType), *fxDataSpace, fxFileSpace);
   //       fxDataSet.write(fxVarHandle.fxArray.p, *fxType, *fxDataSpace, fspace); // test if we can write at lease first element in array? yes!
      }
@@ -888,6 +885,9 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
               "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s , inner class is %s\n",
               fullname.Data(), fxInnerClassName.Data());
 
+//    printf(
+//                 "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s , inner class is %s\n",
+//                 fullname.Data(), fxInnerClassName.Data());
 
     TString memberclass = TString::Format("vector<%s>",fxInnerClassName.Data());
     TString searchname = TString::Format("%s[%s]",fullname.Data(), memberclass.Data());
