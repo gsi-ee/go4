@@ -789,9 +789,44 @@
 
       this.pave.AddText("Counts = " + this.cond.fiCounts);
 
+// ComputeRange has disappeared from JSROOTcore since 2015 JAM      
+//      if ((obj_typename.indexOf("TGraph") == 0) || (obj_typename == "TCutG")) {
+//          obj['ComputeRange'] = function() {
+//             // Compute the x/y range of the points in this graph
+//             var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
+//             if (this['fNpoints'] > 0) {
+//                res.xmin = res.xmax = this['fX'][0];
+//                res.ymin = res.ymax = this['fY'][0];
+//                for (var i=1; i<this['fNpoints']; i++) {
+//                   if (this['fX'][i] < res.xmin) res.xmin = this['fX'][i];
+//                   if (this['fX'][i] > res.xmax) res.xmax = this['fX'][i];
+//                   if (this['fY'][i] < res.ymin) res.ymin = this['fY'][i];
+//                   if (this['fY'][i] > res.ymax) res.ymax = this['fY'][i];
+//                }
+//             }
+//             return res;
+// };
+// }      
+      
+      
       if (this.cond.fbLimitsDraw)
          if (this.isPolyCond()) {
-            var r = this.cond.fxCut.ComputeRange();
+            //var r = this.cond.fxCut.ComputeRange();
+          // ComputeRange has disappeared from JSROOTcore since 2015 JAM2019
+          // we implement it here explicitely:	 
+          var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
+          if (this.cond.fxCut['fNpoints'] > 0) {
+             res.xmin = res.xmax = this.cond.fxCut['fX'][0];
+             res.ymin = res.ymax = this.cond.fxCut['fY'][0];
+             for (var i=1; i<this.cond.fxCut['fNpoints']; i++) {
+                if (this.cond.fxCut['fX'][i] < res.xmin) res.xmin = this.cond.fxCut['fX'][i];
+                if (this.cond.fxCut['fX'][i] > res.xmax) res.xmax = this.cond.fxCut['fX'][i];
+                if (this.cond.fxCut['fY'][i] < res.ymin) res.ymin = this.cond.fxCut['fY'][i];
+                if (this.cond.fxCut['fY'][i] > res.ymax) res.ymax = this.cond.fxCut['fY'][i];
+             }
+          }
+            var r=res;
+          // end workaround for ComputeRange  
             this.pave.AddText("Xmin = " + r.xmin);
             this.pave.AddText("Xmax = " + r.xmax);
             this.pave.AddText("Ymin = " + r.ymin);

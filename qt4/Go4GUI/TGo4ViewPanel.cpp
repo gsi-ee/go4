@@ -553,6 +553,7 @@ void TGo4ViewPanel::ClosePanel()
 
 void TGo4ViewPanel::SetMouseMode(int mode)
 {
+  //  std::cout <<"TGo4ViewPanel::SetMouseMode sets mouse mode: "<< mode << std::endl;
    fiMouseMode = mode;
 }
 
@@ -845,6 +846,8 @@ void TGo4ViewPanel::SwitchMarkerButton(int kind, bool on)
 {
    if (!fbTypingMode)
       return;
+ //  std::cout <<"TGo4ViewPanel::SwitchMarkerButton for kind:"<<kind<<", on:"<< on << std::endl;
+
    CompleteMarkerEdit(GetActivePad());
    if (!on) {
       SetMouseMode(kMouseROOT);
@@ -1302,14 +1305,15 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
    if (pad == 0)
       return;
-
    if ((px<0) || (py<0)) {
       px = pad->GetEventX();
       py = pad->GetEventY();
    }
+   //std::cout <<"TGo4ViewPanel:PadClickedSlot() begins with mouse mode: "<< fiMouseMode << ", px:"<<px<<", py:"<<py << std::endl;
 
    Double_t x = pad->PadtoX(pad->AbsPixeltoX(px));
    Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
+   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has x: "<< x << ", y:"<<y << std::endl;
 
    bool docreate = GetSelectedMarkerName(pad).length() == 0;
    bool docheck = false;
@@ -1330,6 +1334,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
       case kMousePickCursor: {
          // we have a click on our working pad, get coordinates:
          gROOT->SetEditorMode("");
+         //std::cout <<"TGo4ViewPanel:PadClickedSlot() picks cursor with docreate: "<< docreate <<std::endl;
 
          if (docreate) {
             TGo4Marker* mark = new TGo4Marker(x, y, 28);
@@ -1348,8 +1353,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             }
             if (!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
          }
-         pad->Modified();
-         pad->Update();
+         CanvasUpdate(true);
 
 //        RedrawPanel(pad, true);
          break;
@@ -1414,21 +1418,23 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          conny->SetChanged(kTRUE);
          if (iscreated)
             conny->Draw("");
+         CanvasUpdate(true);
+        // std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for windowr"<<std::endl;
 
-         pad->Modified();
-         pad->Update();
+
          // RedrawPanel(pad, true);
          break;
       }
 
       case kMousePickPolygon: {
-        //std::cout <<"TGo4ViewPanel:PadClickedSlot() in kMousePickPolygon" << std::endl;
+       // std::cout <<"TGo4ViewPanel:PadClickedSlot() in kMousePickPolygon, fiPickCounter="<<fiPickCounter << std::endl;
          gROOT->SetEditorMode("");
          TGo4PolyCond* cond = 0;
 
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
             if (docreate) {
+        	// std::cout <<"TGo4ViewPanel:PadClickedSlot() creates polygon" << std::endl;
                TH1* hist = GetPadHistogram(pad);
                int ix = GetNumMarkers(pad, kind_Poly);
                QString name = "Polygon " + QString::number(ix + 1);
@@ -1437,6 +1443,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                AddMarkerObj(pad, kind_Poly, cond);
                cond->SetWorkHistogram(hist);
             } else {
+        //	std::cout <<"TGo4ViewPanel:PadClickedSlot() works on existing polygon" << std::endl;
+
                cond = dynamic_cast<TGo4PolyCond*>(GetActiveObj(pad, kind_Poly));
                // start region from the beginning
                if (cond!=0) {
@@ -1454,14 +1462,15 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
          if (cond != 0) {
             TCutG* cut = cond->GetCut(kFALSE);
-
             // this insert point in last mouse position
             if (cut == 0) {
                cut = new TCutG(TGo4PolyCond::NextAvailableName(), 1);
                cut->SetPoint(0, x, y);
+               cut->SetPoint(1, x, y); // JAM2019- otherwise we will lose first point to zero when defining next ones
                cond->SetValuesDirect(cut);
             } else {
-               cut->InsertPoint();
+               //cut->InsertPoint(); // JAM2019 - this gives ROOT6 error also without webcanvas
+        	cut->SetPoint(fiPickCounter, x, y);
             }
 
             cond->SetChanged(kTRUE);
@@ -1483,9 +1492,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
          if (iscreated)
             cond->Draw("");
+         CanvasUpdate(true);
+//         std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for polygon"<<std::endl;
 
-         pad->Modified();
-         pad->Update();
+
          // RedrawPanel(pad, true);
          break;
       }
@@ -1518,8 +1528,13 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          if (!fbPickAgain)
             fiMouseMode = kMouseROOT; // reset pick
 
-         pad->Modified();
-         pad->Update();
+//         pad->Modified();
+//         pad->Update();
+
+         CanvasUpdate(true);
+     //    std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for latex"<<std::endl;
+
+
 //        RedrawPanel(pad, true);
          break;
       }
@@ -1544,14 +1559,18 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             std::cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << std::endl;
             return;
          }
-         // do not change original condition dimension
-         pad->Modified();
-         pad->Update();
+         // do not change original arrow dimension
+//         pad->Modified();
+//         pad->Update();
+
+         CanvasUpdate(true);
+      //    std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for arrow"<<std::endl;
 
          // RedrawPanel(pad, true);
          break;
       }
    }
+ //  std::cout <<"TGo4ViewPanel:PadClickedSlot() has docheck: "<< docheck <<std::endl;
 
    if (docheck)
       CheckActionAtTheEnd(pad);
@@ -1559,6 +1578,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
 void TGo4ViewPanel::CheckActionAtTheEnd(TPad* pad)
 {
+   // std::cout <<"TGo4ViewPanel::CheckActionAtTheEnd"<< std::endl;
+
    bool goback = true;
 
 // uncomment this code to have loop mode for array of conditions
@@ -1595,9 +1616,10 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
    bool res = false;
    bool needredraw = false; // complete repaint
    bool needupdate = false; // only pad update
-   bool needrefresh = false; // refresh buttons
+   bool needrefresh = true; //false; // refresh buttons
    bool docheck = false;
    bool candelete = !IsConditionSelected(pad);
+  // std::cout <<"TGo4ViewPanel::CompleteMarkerEdit begins with mouse mode: "<< fiMouseMode <<  std::endl;
 
    switch (fiMouseMode) {
       case kMousePickLimits: {
@@ -1672,8 +1694,9 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
       RedrawPanel(pad, true);
    else {
       if (needupdate) {
-         pad->Modified();
-         pad->Update();
+	  CanvasUpdate(true);
+//         pad->Modified();
+//         pad->Update();
       }
       if (needrefresh)
          RefreshButtons();
@@ -1687,6 +1710,7 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
 
 void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad, int, int)
 {
+   // std::cout <<"TGo4ViewPanel::PadDoubleClickedSlot"<< std::endl;
    if (CompleteMarkerEdit(pad)) return;
    if (fxDoubleClickTimerPad != 0) return;
 
@@ -1795,6 +1819,7 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
 
 void TGo4ViewPanel::CanvasUpdatedSlot()
 {
+    //std::cout <<"UUUUUUUU TGo4ViewPanel::CanvasUpdatedSlot()"<< std::endl;
    if (fxWCanvas) {
       TCanvasImp *imp = GetCanvas()->GetCanvasImp();
       fxCanvasEventstatusChk->setChecked(imp->HasStatusBar());
@@ -1990,6 +2015,7 @@ void TGo4ViewPanel::PrintCanvas()
 void TGo4ViewPanel::StartRootEditor()
 {
    bool visible = false;
+   std::cout << "DDDDDDDDD TGo4ViewPanel::StartRootEditor()" << std::endl;
    if (fxQCanvas) {
 #ifdef GO4_X11
       if (!fxQCanvas->isEditorAllowed()) return;
@@ -2217,7 +2243,6 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 void TGo4ViewPanel::ShowEventStatus()
 {
    bool flag = true;
-
    if (fxQCanvas) {
 #ifdef GO4_X11
       flag = !fxQCanvas->isStatusBarVisible();
@@ -3142,6 +3167,8 @@ TCanvas* TGo4ViewPanel::GetCanvas()
 
 void TGo4ViewPanel::CanvasUpdate(bool modify)
 {
+   // std::cout <<"TGo4ViewPanel::CanvasUpdate with modify: "<< modify << std::endl;
+
    if (fxQCanvas) {
 #ifdef GO4_X11
       if (modify) fxQCanvas->Modified();
