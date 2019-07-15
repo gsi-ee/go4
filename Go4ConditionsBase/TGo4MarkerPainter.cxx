@@ -96,9 +96,9 @@ else
 
 void TGo4MarkerPainter::UnPaintLabel(Option_t* opt)
 {
-if(gPad==0) return;
-TGo4LabelPainter::UnPaintLabel(opt);
-UnPaintConnector(opt);
+   if(gPad==0) return;
+   TGo4LabelPainter::UnPaintLabel(opt);
+   UnPaintConnector(opt);
 }
 
 
