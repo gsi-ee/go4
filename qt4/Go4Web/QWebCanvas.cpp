@@ -17,6 +17,10 @@
 #include "TWebCanvasFull.h"
 #include "TROOT.h"
 #include "TClass.h"
+#include "RVersion.h"
+#include "THttpServer.h"
+
+#include "TGo4Log.h"
 
 #include <QGridLayout>
 #include <QApplication>
@@ -85,6 +89,22 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    gPad = fCanvas;
 
    TWebCanvasFull *web = new TWebCanvasFull(fCanvas, "title", 0, 0, 800, 600);
+
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,19,0)
+
+   // this is Go4-special part to provide support of custom classes
+   static std::string go4script;
+
+   if (go4script.empty()) {
+      TString fname = TGo4Log::subGO4SYS("html/go4canvas.js");
+      go4script = THttpServer::ReadFileContent(fname.Data());
+   }
+
+   web->SetCustomScripts(go4script);
+   web->AddCustomClass("TGo4Marker");
+   // this is end of Go4-special part
+
+#endif
 
    fCanvas->SetCanvasImp(web);
 
