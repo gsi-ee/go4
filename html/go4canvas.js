@@ -22,24 +22,35 @@
 
    GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
-   GO4.MarkerPainter.prototype.drawMarker = function() {
-      var marker = this.GetObject(),
-          att = new JSROOT.TAttMarkerHandler(marker),
-          isndc = false;
+   GO4.MarkerPainter.prototype.drawMarker = function(grx, gry) {
+      if ((grx !== undefined) && (gry !== undefined)) {
 
-      //  create svg:g container for box drawing
-      this.CreateG();
+         this.draw_g.selectAll('*').remove();
 
-      var x = this.AxisToSvg("x", marker.fX, isndc),
-          y = this.AxisToSvg("y", marker.fY, isndc),
-          path = att.create(x,y);
+         this.grx = grx;
 
-      console.log("Drawing marker");
+         this.gry = gry;
+
+      } else {
+
+         this.CreateG(); // can draw in complete pad
+
+         var marker = this.GetObject();
+
+         this.createAttMarker({ attr: marker });
+
+         console.error('size ' + this.markeratt.GetFullSize());
+
+         this.grx = this.AxisToSvg("x", marker.fX);
+         this.gry = this.AxisToSvg("y", marker.fY);
+      }
+
+      var path = this.markeratt.create(this.grx,this.gry);
 
       if (path)
           this.draw_g.append("svg:path")
              .attr("d", path)
-             .call(att.func);
+             .call(this.markeratt.func);
    }
 
    GO4.MarkerPainter.prototype.drawLabel = function() {
@@ -53,6 +64,68 @@
    GO4.MarkerPainter.prototype.Redraw = function() {
       this.drawMarker();
       this.drawLabel();
+   }
+
+   GO4.MarkerPainter.prototype.ProcessTooltip = function(pnt) {
+      var hint = this.ExtractTooltip(pnt);
+      if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
+      return hint;
+   }
+
+   GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
+      if (!pnt) return null;
+
+      var marker = this.GetObject();
+
+      var hint = { name: marker.fName,
+                   title: marker.fTitle,
+                   x: this.grx - (this.frame_x() || 0),
+                   y: this.gry - (this.frame_y() || 0),
+                   color1: this.markeratt.color,
+                   lines: ["first", "second"] };
+
+      var dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
+
+      if (dist < 2.5 * this.markeratt.GetFullSize()) hint.exact = true;
+      // res.menu = res.exact; // activate menu only when exactly locate bin
+      // res.menu_dist = 3; // distance always fixed
+
+      if (pnt.click_handler && hint.exact)
+         hint.click_handler = this.InvokeClickHandler.bind(this);
+
+      return hint;
+   }
+
+   GO4.MarkerPainter.prototype.movePntHandler = function() {
+      var pos = d3.mouse(this.svg_frame().node());
+
+      this.drawMarker(pos[0] + this.delta_x, pos[1] + this.delta_y);
+   }
+
+   GO4.MarkerPainter.prototype.endPntHandler = function() {
+      if (this.snapid) {
+         console.log('EXEC BACK!!!!');
+      }
+
+      d3.select(window).on("mousemove.markerPnt", null)
+                       .on("mouseup.markerPnt", null);
+   }
+
+   GO4.MarkerPainter.prototype.InvokeClickHandler = function(hint) {
+      if (!hint.exact) return; //
+
+      d3.select(window).on("mousemove.markerPnt", this.movePntHandler.bind(this))
+                       .on("mouseup.markerPnt", this.endPntHandler.bind(this), true);
+
+      // coordinate in the frame
+      var pos = d3.mouse(this.svg_frame().node());
+
+      this.delta_x = this.grx - pos[0];
+      this.delta_y = this.gry - pos[1];
+   }
+
+
+   GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
    }
 
 
