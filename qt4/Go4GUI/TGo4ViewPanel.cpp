@@ -15,10 +15,6 @@
 // otherwise, escape mode will reset global arrays of TGraph painter class only
 //#define GLOBALESCAPE 1
 
-// JAM2018: following define enables a workaround to transform the wrong coordinates from mouse pick delivered by webcanvas
-// it can be disabled when this problem is solved in ROOT
-#define GO4_WEBGUI_FIXPICKCOORDS 1
-
 
 #include "TGo4ViewPanel.h"
 
@@ -1316,65 +1312,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
    }
   // std::cout <<"TGo4ViewPanel:PadClickedSlot() begins with mouse mode: "<< fiMouseMode << ", px:"<<px<<", py:"<<py << std::endl;
 
-   Double_t x=0;
-   Double_t y=0;
-#ifdef GO4_X11
-   if(fxQCanvas)
-       {
-	   x = pad->PadtoX(pad->AbsPixeltoX(px));
-	   y = pad->PadtoY(pad->AbsPixeltoY(py));
-       }
-   #endif
-#ifdef GO4_WEBGUI
-   if(fxWCanvas)
-       {
-	   x =  pad->AbsPixeltoX(px);
-	   y =  pad->AbsPixeltoY(py);
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has x: "<<x << ", y:"<<y << std::endl;
-	   x=pad->PadtoX(x);
-	   y=pad->PadtoY(y);
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() after PadtoX has x: "<<x << ", y:"<<y << std::endl;
-
-#ifdef GO4_WEBGUI_FIXPICKCOORDS
-	   // JAM Jul-2019: following code tries to correct the wrong pad coordinates dellivered by the webcanvas
-	   // Conversion   AbsPixeltoX returns values for the case that there are no pad margins defined
-	   // The correction approach evaluates the ndc coordinates with respect to the range
-	   // and scales them appropriate to the actually given margins
-	   // the corrected ndc coordinates are than converted back to actual pixels and from them to the user coordinate values
-	   Double_t leftm = pad->GetLeftMargin();
-	   Double_t rightm = pad->GetRightMargin();
-	   Double_t topm = pad->GetTopMargin();
-	   Double_t botm = pad->GetBottomMargin();
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has margins x -left: "<<leftm << ", x- right:"<<rightm;
-	   //std::cout <<", y -top:"<<topm<<", bottom:"<<botm << std::endl;
-
-	   Double_t x_ndc= (x -  pad->GetX1())/(pad->GetX2() - pad->GetX1());
-	   Double_t y_ndc= (y -  pad->GetY1())/(pad->GetY2() - pad->GetY1());
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has xndc: "<<x_ndc << ", yndc:"<<y_ndc << std::endl;
-
-	   Double_t x_corr_ndc= (x_ndc - leftm)/(1-rightm-leftm);
-	   Double_t y_corr_ndc= (y_ndc - botm)/(1-topm-botm);
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has corrected xndc: "<<x_corr_ndc << ", yndc:"<<y_corr_ndc << std::endl;
-
-	   Int_t x_corr_pix = pad->UtoAbsPixel(x_corr_ndc);
-	   Int_t y_corr_pix = pad->VtoAbsPixel(y_corr_ndc);
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has corrected pixel px_corr: "<<x_corr_pix << ", py_corr:"<<y_corr_pix << std::endl;
-
-	   // following would also work, but only for single pad in canvas:
-//	   Double_t xcorr = pad->PixeltoX(x_corr_pix); // AbsPixeltoX
-//	   Double_t ycorr = pad->PixeltoY(y_corr_pix - pad->GetWh()); // AbsPixeltoY
-
-	   Double_t xcorr = pad->AbsPixeltoX(x_corr_pix); // AbsPixeltoX
-	   Double_t ycorr = pad->AbsPixeltoY(y_corr_pix); // AbsPixeltoY
-	   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has xcorr: "<<xcorr << ", ycorr:"<<ycorr << std::endl;
-	   x=xcorr;
-	   y=ycorr;
-#endif
-
-
-       }
-#endif
-   //std::cout <<"TGo4ViewPanel:PadClickedSlot() has x: "<< x << ", y:"<<y << std::endl;
+   Double_t x = pad->PadtoX(pad->AbsPixeltoX(px));
+   Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
 
    bool docreate = GetSelectedMarkerName(pad).length() == 0;
    bool docheck = false;
