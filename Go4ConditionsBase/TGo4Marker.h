@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -63,42 +63,38 @@ public:
     /** Re-implement TObject method to pop all our views to front*/
     virtual void Pop();
 
-
    /** Reimplemented to pop our labels to front when selected */
    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
-
-
    /** Factory method to generate (optional subclass) implementation for painter */
-   virtual TGo4MarkerPainter* CreatePainter();
+   virtual TGo4MarkerPainter *CreatePainter();
 
+   void DeletePainter();
 
-   void SetVisible(Bool_t on){fbVisible=on;}
-   Bool_t IsVisible(){return fbVisible;}
-   virtual void SetName(const char* name){fxName=name;} // *MENU*
-   //void DeleteMarker(); // *MENU*
+   void SetVisible(Bool_t on) { fbVisible = on; }
+   Bool_t IsVisible() { return fbVisible; }
+   virtual void SetName(const char *name) { fxName = name; } // *MENU*
+   // void DeleteMarker(); // *MENU*
 
    /** Set marker to position according to work histogram axis.  */
-   void SetToBin(Int_t xbin, Int_t ybin=0); // *MENU*
-   void SetLabelDraw(Bool_t on){fbHasLabel=on;} // *MENU*
-   Bool_t HasLabel(){return fbHasLabel;}
-   void SetLineDraw(Bool_t on){fbHasConnector=on;} // *MENU*
-   Bool_t HasConnector(){return fbHasConnector;}
-   void SetXDraw(Bool_t on){fbXDraw=on;}// *MENU*
-   Bool_t IsXDraw(){return fbXDraw;}
-   void SetYDraw(Bool_t on){fbYDraw=on;}// *MENU*
-   Bool_t IsYDraw(){return fbYDraw;}
-   void SetXbinDraw(Bool_t on){fbXbinDraw=on;}// *MENU*
-   Bool_t IsXbinDraw(){return fbXbinDraw;}
-   void SetYbinDraw(Bool_t on){fbYbinDraw=on;}// *MENU*
-   Bool_t IsYbinDraw(){return fbYbinDraw;}
-   void SetContDraw(Bool_t on){fbContDraw=on;}// *MENU*
-   Bool_t IsContDraw(){return fbContDraw;}
+   void SetToBin(Int_t xbin, Int_t ybin = 0);        // *MENU*
+   void SetLabelDraw(Bool_t on) { fbHasLabel = on; } // *MENU*
+   Bool_t HasLabel() { return fbHasLabel; }
+   void SetLineDraw(Bool_t on) { fbHasConnector = on; } // *MENU*
+   Bool_t HasConnector() { return fbHasConnector; }
+   void SetXDraw(Bool_t on) { fbXDraw = on; } // *MENU*
+   Bool_t IsXDraw() { return fbXDraw; }
+   void SetYDraw(Bool_t on) { fbYDraw = on; } // *MENU*
+   Bool_t IsYDraw() { return fbYDraw; }
+   void SetXbinDraw(Bool_t on) { fbXbinDraw = on; } // *MENU*
+   Bool_t IsXbinDraw() { return fbXbinDraw; }
+   void SetYbinDraw(Bool_t on) { fbYbinDraw = on; } // *MENU*
+   Bool_t IsYbinDraw() { return fbYbinDraw; }
+   void SetContDraw(Bool_t on) { fbContDraw = on; } // *MENU*
+   Bool_t IsContDraw() { return fbContDraw; }
 
    const char* GetNumFormat(){return fxNumFormat.Data();}
    void SetNumFormat(const char* fmt="%.4E"){fxNumFormat=fmt;}// *MENU*
-
-
 
    /** This will save draw flags into  static default setup */
    void SaveLabelStyle();// *MENU*
@@ -115,6 +111,12 @@ public:
    /** TMarker is not TNamed, so we implement name ourself*/
    virtual const char* GetName() const {return fxName.Data();}
 
+   void SetXY(Double_t x, Double_t y)
+   {
+      SetX(x);
+      SetY(y);
+   }
+
    /** Deliver x axis bin number of work histogram at marker position */
    Int_t GetXbin();
    /** Deliver y axis bin number of work histogram at marker position */
@@ -130,12 +132,12 @@ public:
 
    TVirtualPad* GetDrawPad(){return fxDrawPad;}
 
-   /** True if current draw pad is still exisiting */
+   /** True if current draw pad is still existing */
    Bool_t CheckDrawPad();
-   /** True if current histogram  is still exisiting */
+   /** True if current histogram  is still existing */
    Bool_t CheckHistogram();
 
-   void DeletePainter();
+
 
    /** default setting for all markers of label on/off flag. */
    static Bool_t fgbHASLABEL;
