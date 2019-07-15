@@ -119,7 +119,10 @@ void TGo4Marker::UnDraw(Option_t* opt)
    SetPainted(kFALSE);
    SetDrawPad(0);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
-   if(fxPainter==0) fxPainter = CreatePainter();
+
+   // Sergey: 15.07.2019.  Not sure if painter has to be created to remove marker (from pad where it never was drawn?)
+   // if(fxPainter==0) fxPainter = CreatePainter();
+
    // marker subclass may not provide a real painter, then we skip unpainting:
    if(fxPainter!=0) fxPainter->UnPaintLabel();
 }
