@@ -303,13 +303,16 @@ Bool_t TWebCanvasFull::DecodePadOptions(const std::string &msg)
                            (r.px1 == px1_) && (r.px2 == px2_) && (r.py1 == py1_) && (r.py2 == py2_);
 
          if (!same_range) {
-            pad->Range(r.px1, r.py1, r.px2, r.py2);
             pad->RangeAxis(r.ux1, r.uy1, r.ux2, r.uy2);
+
+            pad->Range(r.px1, r.py1, r.px2, r.py2);
 
             if (gDebug > 1)
                Info("DecodeAllRanges", "Change ranges for pad %s", pad->GetName());
          }
       }
+
+      pad->SetPad(r.mleft, r.mbottom, 1-r.mright, 1-r.mtop);
 
       TH1 *hist = static_cast<TH1 *>(FindPrimitive("histogram", pad));
 
