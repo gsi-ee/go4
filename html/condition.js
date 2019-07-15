@@ -775,10 +775,14 @@
 
       var pave_painter = this.FindPainterFor(this.pave);
 
-      if (pave_painter == null) {
+      if (!pave_painter) {
          this.pave = JSROOT.Create("TPaveStats");
          this.pave.fName = "stats_" + this.cond.fName;
          JSROOT.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+
+         var st = JSROOT.gStyle;
+         JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
+                                    fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont});
       } else {
          this.pave.Clear();
       }
@@ -866,7 +870,7 @@
          if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.FFormat(stat.ymax, "6.4g"));
       if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
 
-      if (pave_painter == null)
+      if (!pave_painter)
          pave_painter = JSROOT.draw(this.divid, this.pave, "");
       else
          pave_painter.Redraw();

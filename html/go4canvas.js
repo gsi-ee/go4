@@ -22,30 +22,21 @@
 
    GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
-   GO4.MarkerPainter.prototype.drawMarker = function(grx, gry) {
-      if ((grx !== undefined) && (gry !== undefined)) {
-
+   GO4.MarkerPainter.prototype.drawMarker = function(interactive) {
+      if (interactive && this.draw_g) {
          this.draw_g.selectAll('*').remove();
-
-         this.grx = grx;
-
-         this.gry = gry;
-
       } else {
-
          this.CreateG(); // can draw in complete pad
-
-         var marker = this.GetObject();
-
-         this.createAttMarker({ attr: marker });
-
-         console.error('size ' + this.markeratt.GetFullSize());
-
-         this.grx = this.AxisToSvg("x", marker.fX);
-         this.gry = this.AxisToSvg("y", marker.fY);
       }
 
-      var path = this.markeratt.create(this.grx,this.gry);
+      var marker = this.GetObject();
+
+      this.createAttMarker({ attr: marker });
+
+      this.grx = this.AxisToSvg("x", marker.fX);
+      this.gry = this.AxisToSvg("y", marker.fY);
+
+      var path = this.markeratt.create(this.grx, this.gry);
 
       if (path)
           this.draw_g.append("svg:path")
@@ -54,11 +45,70 @@
    }
 
    GO4.MarkerPainter.prototype.drawLabel = function() {
+
+      var marker = this.GetObject();
+
+      if (!marker.fbHasLabel) return;
+
+      var pave_painter = this.FindPainterFor(this.pave);
+
+      if (!pave_painter) {
+         this.pave = JSROOT.Create("TPaveStats");
+         this.pave.fName = "stats_" + marker.fName;
+
+         var px = this.grx / this.pad_width() + 0.1,
+             py = this.gry / this.pad_height() - 0.1;
+         JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.3, fX2NDC: px + 0.3, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+
+         var st = JSROOT.gStyle;
+         JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
+                                    fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont});
+      } else {
+         this.pave.Clear();
+      }
+
+      var main = this.main_painter(), hint = null;
+      if (main && typeof main.ProcessTooltip == 'function')
+         hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
+
+      this.pave.AddText(marker.fxName + (hint && hint.name ? " : " + hint.name : ""));
+
+      if (marker.fbXDraw)
+          this.pave.AddText("X = " + JSROOT.FFormat(marker.fX, "6.4g"));
+
+      if (marker.fbYDraw)
+         this.pave.AddText("Y = " + JSROOT.FFormat(marker.fY, "6.4g"));
+
+      if (hint && hint.user_info) {
+         if (marker.fbXbinDraw)
+            this.pave.AddText("Xbin = " + hint.user_info.bin);
+
+         if (marker.fbContDraw)
+            this.pave.AddText("Cont = " + hint.user_info.cont);
+      }
+
+      if (pave_painter)
+         pave_painter.Redraw();
+      else
+         JSROOT.draw(this.divid, this.pave, "", function(p) {
+           if (p) p.$secondary = true
+         });
    }
 
    GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
       if (this.UpdateObject(obj))
          this.Redraw(); // no need to redraw complete pad
+   }
+
+   GO4.MarkerPainter.prototype.Cleanup = function(arg) {
+      if (this.pave) {
+         var pp = this.FindPainterFor(this.pave);
+         if (pp) pp.DeleteThis();
+         delete this.pave;
+      }
+
+      JSROOT.TObjectPainter.prototype.Cleanup.call(this, arg);
+
    }
 
    GO4.MarkerPainter.prototype.Redraw = function() {
@@ -97,18 +147,30 @@
    }
 
    GO4.MarkerPainter.prototype.movePntHandler = function() {
-      var pos = d3.mouse(this.svg_frame().node());
+      var pos = d3.mouse(this.svg_frame().node()),
+          main = this.frame_painter(),
+          marker = this.GetObject();
 
-      this.drawMarker(pos[0] + this.delta_x, pos[1] + this.delta_y);
+      marker.fX = main.RevertX(pos[0] + this.delta_x);
+      marker.fY = main.RevertY(pos[1] + this.delta_y);
+
+      this.drawMarker(true);
    }
 
    GO4.MarkerPainter.prototype.endPntHandler = function() {
-      if (this.snapid) {
-         console.log('EXEC BACK!!!!');
-      }
-
       d3.select(window).on("mousemove.markerPnt", null)
                        .on("mouseup.markerPnt", null);
+
+      var canp = this.canv_painter(),
+          marker = this.GetObject();
+
+      if (marker && this.snapid && canp) {
+         var exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
+         console.log('EXEC BACK!!!! ' + exec);
+         canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
+      }
+
+      this.drawLabel();
    }
 
    GO4.MarkerPainter.prototype.InvokeClickHandler = function(hint) {
@@ -119,9 +181,8 @@
 
       // coordinate in the frame
       var pos = d3.mouse(this.svg_frame().node());
-
-      this.delta_x = this.grx - pos[0];
-      this.delta_y = this.gry - pos[1];
+      this.delta_x = this.grx - pos[0] - this.frame_x();
+      this.delta_y = this.gry - pos[1] - this.frame_y();
    }
 
 
