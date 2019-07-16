@@ -142,26 +142,19 @@
    GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
       var marker = this.GetObject();
       menu.add("header:"+ marker._typename + "::" + marker.fxName);
-      menu.addchk(marker.fbXDraw, 'Draw X', function() {
-         marker.fbXDraw = !marker.fbXDraw;
+      function select(name,exec) {
+         var marker = this.GetObject();
+         marker[name] = !marker[name];
+         this.execServer(exec + (marker[name] ? '(true)' : '(false)'));
          this.Redraw();
-      });
-      menu.addchk(marker.fbYDraw, 'Draw Y', function() {
-         marker.fbYDraw = !marker.fbYDraw;
-         this.Redraw();
-      });
-      menu.addchk(marker.fbXbinDraw, 'Draw X bin', function() {
-         marker.fbXbinDraw = !marker.fbXbinDraw;
-         this.Redraw();
-      });
-      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', function() {
-         marker.fbYbinDraw = !marker.fbYbinDraw;
-         this.Redraw();
-      });
-      menu.addchk(marker.fbContDraw, 'Draw content', function() {
-         marker.fbContDraw = !marker.fbContDraw;
-         this.Redraw();
-      });
+      }
+      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
+      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
+      menu.addchk(marker.fbXDraw, 'Draw X', select.bind(this, 'fbXDraw', 'SetXDraw'));
+      menu.addchk(marker.fbYDraw, 'Draw Y', select.bind(this, 'fbYDraw', 'SetYDraw'));
+      menu.addchk(marker.fbXbinDraw, 'Draw X bin', select.bind(this, 'fbXbinDraw', 'SetXbinDraw'));
+      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', select.bind(this, 'fbYbinDraw', 'SetYbinDraw'));
+      menu.addchk(marker.fbContDraw, 'Draw content', select.bind(this, 'fbContDraw', 'SetContDraw'));
       return true;
    }
 
@@ -207,19 +200,21 @@
       this.drawMarker(true);
    }
 
+   GO4.MarkerPainter.prototype.execServer = function(exec) {
+      if (this.snapid && exec) {
+         var canp = this.canv_painter();
+         if (canp && (typeof canp.SendWebsocket == 'function'))
+            canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
+      }
+   }
+
    GO4.MarkerPainter.prototype.endPntHandler = function() {
       d3.select(window).on("mousemove.markerPnt", null)
                        .on("mouseup.markerPnt", null);
 
-      var canp = this.canv_painter(),
-          marker = this.GetObject();
-
-      if (marker && this.snapid && canp) {
-         var exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
-         console.log('EXEC BACK!!!! ' + exec);
-         canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
-      }
-
+      var marker = this.GetObject();
+      if (marker)
+         this.execServer("SetXY(" + marker.fX + "," + marker.fY + ")");
       this.drawLabel();
    }
 
