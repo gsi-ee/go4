@@ -1,4 +1,4 @@
-(function(){
+(function( factory ) {
 
    // this is code for web canvas to support Go4 classes like
    // TGo4Marker or TGo4Condition in the go4 gui
@@ -10,10 +10,13 @@
       throw e1;
    }
 
-   var GO4 = {};
+   var myGO4 = { version: "5.3.x", web_canvas: true };
 
-   GO4.version = "5.3.x";
+   factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
 
+} (function(JSROOT, GO4) {
+
+   "use strict";
 
    GO4.MarkerPainter = function(marker) {
       JSROOT.TObjectPainter.call(this, marker);
@@ -51,7 +54,7 @@
       if (main && typeof main.ProcessTooltip == 'function')
          hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
 
-      lbls.push(marker.fxName + (hint && hint.name ? " : " + hint.name : ""));
+      lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
       if (marker.fbXDraw)
           lbls.push("X = " + JSROOT.FFormat(marker.fX, "6.4g"));
@@ -234,7 +237,6 @@
    GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
    }
 
-
    GO4.drawGo4Marker = function(divid, obj, option) {
       var painter = new GO4.MarkerPainter(obj);
       painter.SetDivId(divid);
@@ -243,6 +245,10 @@
       return painter.DrawingReady();
    }
 
-   JSROOT.addDrawFunc("TGo4Marker", GO4.drawGo4Marker, "");
+   if (GO4.web_canvas) {
+      JSROOT.addDrawFunc("TGo4Marker", GO4.drawGo4Marker, "");
+   }
 
-})();
+   return GO4;
+
+}));
