@@ -29,7 +29,7 @@
       return "";
    }();
 
-   
+
    if (!JSROOT.TBasePainter.prototype.get_main_id)
       JSROOT.TBasePainter.prototype.get_main_id = function() {
          var elem = this.select_main();
@@ -177,9 +177,9 @@
       var url = hpainter.GetOnlineItemUrl(itemname);
       var frame = hpainter.GetDisplay().FindFrame(itemname, true);
       if (!url || !frame) return null;
-      
+
       var divid = d3.select(frame).attr('id');
-      
+
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
@@ -231,7 +231,7 @@
 
       player.ClickScroll = function() {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
-         var disp = $("#anaterm_output_container").children(":first"); 
+         var disp = $("#anaterm_output_container").children(":first");
          disp.scrollTop(disp[0].scrollHeight - disp.height());
       }
 
@@ -268,7 +268,7 @@
             .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
           var pthis = this;
-          
+
           $("#go4_anaterm_cmd_form").submit(
               function(event) {
                  var command = pthis.itemname.replace("Terminal", "CmdExecute");
@@ -289,7 +289,7 @@
       player.CheckResize = function(force) {
          // console.log("CheckResize..., force=" + force);
       }
-      
+
       $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", player.fillDisplay.bind(player, divid));
 
       return player;
@@ -298,9 +298,12 @@
 
    // ==============================================================================
 
-   JSROOT.addDrawFunc("TGo4WinCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
-   JSROOT.addDrawFunc("TGo4PolyCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
-   JSROOT.addDrawFunc("TGo4ShapedCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   var canvsrc = GO4.source_dir + 'html/go4canvas.js;';
+
+   JSROOT.addDrawFunc("TGo4WinCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   JSROOT.addDrawFunc("TGo4PolyCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   JSROOT.addDrawFunc("TGo4ShapedCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   JSROOT.addDrawFunc("TGo4Marker", { script: canvsrc, func: 'GO4.drawGo4Marker' }, "");
 
    JSROOT.addDrawFunc("TGo4AnalysisWebStatus", { script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus' }, "editor");
 
