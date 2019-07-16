@@ -102,6 +102,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    web->SetCustomScripts(go4script);
    web->AddCustomClass("TGo4Marker");
+   web->AddCustomClass("TGo4Condition", true);
    // this is end of Go4-special part
 
 #endif
