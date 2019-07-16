@@ -249,7 +249,6 @@
 
    GO4.ConditionPainter = function(cond) {
       JSROOT.TObjectPainter.call(this, cond);
-      this.cond = cond;
       this.pave = null; // drawing of stat
    }
 
@@ -257,7 +256,7 @@
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
     // JAM: need to put this here, since condition object will lose internal definition after cloning it again!
-    var cond=this.cond;
+    var cond = this.GetObject();
     if (!cond.fbEnabled) return cond.fbResult;
 
        if (cond.fxCut)
@@ -272,26 +271,23 @@
     }
 
 
-   GO4.ConditionPainter.prototype.GetObject = function() {
-      return this.cond;
-   }
-
    GO4.ConditionPainter.prototype.isPolyCond = function() {
-      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4ShapedCond"));
+      return this.MatchObjectType("TGo4PolyCond") || this.MatchObjectType("TGo4ShapedCond");
    }
 
    GO4.ConditionPainter.prototype.isEllipseCond = function() {
-      return (this.cond._typename == "TGo4ShapedCond");
+      return this.MatchObjectType("TGo4ShapedCond");
    }
-
 
    GO4.ConditionPainter.prototype.drawCondition = function() {
 
+      var cond = this.GetObject();
+
       if (this.isPolyCond()) {
-         if (this.cond.fxCut != null) {
+         if (cond.fxCut != null) {
             // look here if cut is already drawn in divid:
             var cutfound=false;
-            var cut=this.cond.fxCut;
+            var cut = cond.fxCut;
             this.ForEachPainter(function(p) {
                 if (p.obj_typename != "TCutG") return;
                 console.log("Find TCutG painter");
@@ -301,9 +297,9 @@
              });
             if(cutfound) return;
             // only redraw if previous cut display was not there:
-            this.cond.fxCut.fFillStyle = 3006;
-            this.cond.fxCut.fFillColor = 2;
-            JSROOT.draw(this.divid, this.cond.fxCut, "LF");
+            cond.fxCut.fFillStyle = 3006;
+            cond.fxCut.fFillColor = 2;
+            JSROOT.draw(this.divid, cond.fxCut, "LF");
          }
          return;
       }
@@ -316,35 +312,38 @@
 
       if (!main.grx || !main.gry) main = this.frame_painter();
 
-      if ((this.cond.fFillStyle==1001) && (this.cond.fFillColor==19)) {
-         this.cond.fFillStyle = 3006;
-         this.cond.fFillColor = 2;
+      if ((cond.fFillStyle==1001) && (cond.fFillColor==19)) {
+         cond.fFillStyle = 3006;
+         cond.fFillColor = 2;
       }
 
-      var fill = this.createAttFill(this.cond);
-      var line = this.createAttLine(this.cond);
+      var fill = this.createAttFill(cond);
+      var line = this.createAttLine(cond);
 
       this.draw_g.attr("class","cond_container");
 
-      var ndim = this.cond.fiDim;
+      var ndim = cond.fiDim;
 
       this.draw_g.append("svg:rect")
-             .attr("x", main.grx(this.cond.fLow1))
-             .attr("y", (ndim==1) ? 0 : main.gry(this.cond.fUp2))
-             .attr("width", main.grx(this.cond.fUp1) - main.grx(this.cond.fLow1))
-             .attr("height", (ndim==1) ? h : main.gry(this.cond.fLow2) - main.gry(this.cond.fUp2))
+             .attr("x", main.grx(cond.fLow1))
+             .attr("y", (ndim==1) ? 0 : main.gry(cond.fUp2))
+             .attr("width", main.grx(cond.fUp1) - main.grx(cond.fLow1))
+             .attr("height", (ndim==1) ? h : main.gry(cond.fLow2) - main.gry(cond.fUp2))
              .call(line.func)
              .call(fill.func);
    }
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
-      if (!this.cond.fbLabelDraw) return;
+
+      var cond = this.GetObject(), painter = this;
+
+      if (!cond.fbLabelDraw) return;
 
       var pave_painter = this.FindPainterFor(this.pave);
 
       if (!pave_painter) {
          this.pave = JSROOT.Create("TPaveStats");
-         this.pave.fName = "stats_" + this.cond.fName;
+         this.pave.fName = "stats_" + cond.fName;
          JSROOT.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
          var st = JSROOT.gStyle;
@@ -354,88 +353,54 @@
          this.pave.Clear();
       }
 
-      this.pave.AddText(this.cond.fName);
+      this.pave.AddText(cond.fName);
 
-      this.pave.AddText("Counts = " + this.cond.fiCounts);
+      this.pave.AddText("Counts = " + cond.fiCounts);
 
-// ComputeRange has disappeared from JSROOTcore since 2015 JAM
-//      if ((obj_typename.indexOf("TGraph") == 0) || (obj_typename == "TCutG")) {
-//          obj['ComputeRange'] = function() {
-//             // Compute the x/y range of the points in this graph
-//             var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
-//             if (this['fNpoints'] > 0) {
-//                res.xmin = res.xmax = this['fX'][0];
-//                res.ymin = res.ymax = this['fY'][0];
-//                for (var i=1; i<this['fNpoints']; i++) {
-//                   if (this['fX'][i] < res.xmin) res.xmin = this['fX'][i];
-//                   if (this['fX'][i] > res.xmax) res.xmax = this['fX'][i];
-//                   if (this['fY'][i] < res.ymin) res.ymin = this['fY'][i];
-//                   if (this['fY'][i] > res.ymax) res.ymax = this['fY'][i];
-//                }
-//             }
-//             return res;
-// };
-// }
-
-
-      if (this.cond.fbLimitsDraw)
+      if (cond.fbLimitsDraw)
          if (this.isPolyCond()) {
-            //var r = this.cond.fxCut.ComputeRange();
-          // ComputeRange has disappeared from JSROOTcore since 2015 JAM2019
-          // we implement it here explicitely:
-          var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
-          if (this.cond.fxCut['fNpoints'] > 0) {
-             res.xmin = res.xmax = this.cond.fxCut['fX'][0];
-             res.ymin = res.ymax = this.cond.fxCut['fY'][0];
-             for (var i=1; i<this.cond.fxCut['fNpoints']; i++) {
-                if (this.cond.fxCut['fX'][i] < res.xmin) res.xmin = this.cond.fxCut['fX'][i];
-                if (this.cond.fxCut['fX'][i] > res.xmax) res.xmax = this.cond.fxCut['fX'][i];
-                if (this.cond.fxCut['fY'][i] < res.ymin) res.ymin = this.cond.fxCut['fY'][i];
-                if (this.cond.fxCut['fY'][i] > res.ymax) res.ymax = this.cond.fxCut['fY'][i];
-             }
-          }
-            var r=res;
-          // end workaround for ComputeRange
-            this.pave.AddText("Xmin = " + r.xmin);
-            this.pave.AddText("Xmax = " + r.xmax);
-            this.pave.AddText("Ymin = " + r.ymin);
-            this.pave.AddText("Ymax = " + r.ymax);
-         } else {
-            this.pave.AddText("Xmin = " + this.cond.fLow1);
-            this.pave.AddText("Xmax = " + this.cond.fUp1);
-            if (this.cond.fiDim==2) {
-               this.pave.AddText("Ymin = " + this.cond.fLow2);
-               this.pave.AddText("Ymax = " + this.cond.fUp2);
+            var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
+            if (cond.fxCut['fNpoints'] > 0) {
+               res.xmin = res.xmax = cond.fxCut['fX'][0];
+               res.ymin = res.ymax = cond.fxCut['fY'][0];
+               for (var i=1; i<cond.fxCut['fNpoints']; i++) {
+                  if (cond.fxCut['fX'][i] < res.xmin) res.xmin = cond.fxCut['fX'][i];
+                  if (cond.fxCut['fX'][i] > res.xmax) res.xmax = cond.fxCut['fX'][i];
+                  if (cond.fxCut['fY'][i] < res.ymin) res.ymin = cond.fxCut['fY'][i];
+                  if (cond.fxCut['fY'][i] > res.ymax) res.ymax = cond.fxCut['fY'][i];
+               }
             }
-         }
-
-      var painter = this;
-      var cond = this.cond;
-
-      if (!('FFormat' in JSROOT))
-         JSROOT.FFormat = function(value, fmt) {
-            if (fmt == '14.7g') return value.toFixed(1);
-            return value.toFixed(4);
+            this.pave.AddText("Xmin = " + res.xmin);
+            this.pave.AddText("Xmax = " + res.xmax);
+            this.pave.AddText("Ymin = " + res.ymin);
+            this.pave.AddText("Ymax = " + res.ymax);
+         } else {
+            this.pave.AddText("Xmin = " + cond.fLow1);
+            this.pave.AddText("Xmax = " + cond.fUp1);
+            if (cond.fiDim==2) {
+               this.pave.AddText("Ymin = " + cond.fLow2);
+               this.pave.AddText("Ymax = " + cond.fUp2);
+            }
          }
 
       var stat = this.main_painter().CountStat(function(x,y) { return painter.Test(x,y); });
 
-      if (this.cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.FFormat(stat.integral, "14.7g"));
+      if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.FFormat(stat.integral, "14.7g"));
 
-      if (this.cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.FFormat(stat.meanx, "6.4g"));
+      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.FFormat(stat.meanx, "6.4g"));
 
-      if (this.cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.FFormat(stat.rmsx, "6.4g"));
+      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.FFormat(stat.rmsx, "6.4g"));
 
-      if (this.cond.fiDim==2) {
-         if (this.cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.FFormat(stat.meany, "6.4g"));
-         if (this.cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.FFormat(stat.rmsy, "6.4g"));
+      if (cond.fiDim==2) {
+         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.FFormat(stat.meany, "6.4g"));
+         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.FFormat(stat.rmsy, "6.4g"));
       }
 
-      if (this.cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.FFormat(stat.xmax, "6.4g"));
+      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.FFormat(stat.xmax, "6.4g"));
 
-      if (this.cond.fiDim==2)
-         if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.FFormat(stat.ymax, "6.4g"));
-      if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
+      if (cond.fiDim==2)
+         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.FFormat(stat.ymax, "6.4g"));
+      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
 
       if (!pave_painter)
          pave_painter = JSROOT.draw(this.divid, this.pave, "");
@@ -448,12 +413,14 @@
          this.Redraw(); // no need to redraw complete pad
    }
 
-   GO4.ConditionPainter.prototype.UpdateObject = function(obj) {
-      if (obj._typename != this.cond._typename) return false;
+   GO4.ConditionPainter.prototype.Cleanup = function(arg) {
+      if (this.pave) {
+         var pp = this.FindPainterFor(this.pave);
+         if (pp) pp.DeleteThis();
+         delete this.pave;
+      }
 
-      this.cond = JSROOT.clone(obj);
-
-      return true;
+      JSROOT.TObjectPainter.prototype.Cleanup.call(this, arg);
    }
 
    GO4.ConditionPainter.prototype.Redraw = function() {
@@ -473,7 +440,7 @@
 
       // from here normal code for plain THttpServer
 
-      if ((cond.fxHistoName=="") || (option=='editor')) {
+      if (((cond.fxHistoName=="") || (option=='editor')) && GO4.ConditionEditor) {
          // $('#'+divid).append("<br/>Histogram name not specified");
          var h = $("#"+divid).height(), w = $("#"+divid).width();
          if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
