@@ -44,6 +44,40 @@
              .call(this.markeratt.func);
    }
 
+   GO4.MarkerPainter.prototype.fillLabels = function(marker) {
+      var lbls = [];
+
+      var main = this.main_painter(), hint = null;
+      if (main && typeof main.ProcessTooltip == 'function')
+         hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
+
+      lbls.push(marker.fxName + (hint && hint.name ? " : " + hint.name : ""));
+
+      if (marker.fbXDraw)
+          lbls.push("X = " + JSROOT.FFormat(marker.fX, "6.4g"));
+
+      if (marker.fbYDraw)
+         lbls.push("Y = " + JSROOT.FFormat(marker.fY, "6.4g"));
+
+      if (hint && hint.user_info) {
+         if (marker.fbXbinDraw) {
+            var bin = "<undef>";
+            if (hint.user_info.binx !== undefined) bin = hint.user_info.binx; else
+            if (hint.user_info.bin !== undefined) bin = hint.user_info.bin;
+            lbls.push("Xbin = " + bin);
+         }
+
+         if (marker.fbYbinDraw) {
+            lbls.push("Ybin = " + ((hint.user_info.biny !== undefined) ? hint.user_info.biny : "<undef>"));
+         }
+
+         if (marker.fbContDraw)
+            lbls.push("Cont = " + hint.user_info.cont);
+      }
+
+      return lbls;
+   }
+
    GO4.MarkerPainter.prototype.drawLabel = function() {
 
       var marker = this.GetObject();
@@ -56,9 +90,9 @@
          this.pave = JSROOT.Create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
 
-         var px = this.grx / this.pad_width() + 0.1,
-             py = this.gry / this.pad_height() - 0.1;
-         JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.3, fX2NDC: px + 0.3, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+         var px = this.grx / this.pad_width() + 0.02,
+             py = this.gry / this.pad_height() - 0.02;
+         JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
          var st = JSROOT.gStyle;
          JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
@@ -67,25 +101,9 @@
          this.pave.Clear();
       }
 
-      var main = this.main_painter(), hint = null;
-      if (main && typeof main.ProcessTooltip == 'function')
-         hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
-
-      this.pave.AddText(marker.fxName + (hint && hint.name ? " : " + hint.name : ""));
-
-      if (marker.fbXDraw)
-          this.pave.AddText("X = " + JSROOT.FFormat(marker.fX, "6.4g"));
-
-      if (marker.fbYDraw)
-         this.pave.AddText("Y = " + JSROOT.FFormat(marker.fY, "6.4g"));
-
-      if (hint && hint.user_info) {
-         if (marker.fbXbinDraw)
-            this.pave.AddText("Xbin = " + hint.user_info.bin);
-
-         if (marker.fbContDraw)
-            this.pave.AddText("Cont = " + hint.user_info.cont);
-      }
+      var lbls = this.fillLabels(marker);
+      for (var k=0;k<lbls.length;++k)
+         this.pave.AddText(lbls[k]);
 
       if (pave_painter)
          pave_painter.Redraw();
@@ -108,7 +126,6 @@
       }
 
       JSROOT.TObjectPainter.prototype.Cleanup.call(this, arg);
-
    }
 
    GO4.MarkerPainter.prototype.Redraw = function() {
@@ -122,6 +139,32 @@
       return hint;
    }
 
+   GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
+      var marker = this.GetObject();
+      menu.add("header:"+ marker._typename + "::" + marker.fxName);
+      menu.addchk(marker.fbXDraw, 'Draw X', function() {
+         marker.fbXDraw = !marker.fbXDraw;
+         this.Redraw();
+      });
+      menu.addchk(marker.fbYDraw, 'Draw Y', function() {
+         marker.fbYDraw = !marker.fbYDraw;
+         this.Redraw();
+      });
+      menu.addchk(marker.fbXbinDraw, 'Draw X bin', function() {
+         marker.fbXbinDraw = !marker.fbXbinDraw;
+         this.Redraw();
+      });
+      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', function() {
+         marker.fbYbinDraw = !marker.fbYbinDraw;
+         this.Redraw();
+      });
+      menu.addchk(marker.fbContDraw, 'Draw content', function() {
+         marker.fbContDraw = !marker.fbContDraw;
+         this.Redraw();
+      });
+      return true;
+   }
+
    GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
 
@@ -129,14 +172,21 @@
 
       var hint = { name: marker.fName,
                    title: marker.fTitle,
+                   painter: this,
+                   menu: true,
                    x: this.grx - (this.frame_x() || 0),
                    y: this.gry - (this.frame_y() || 0),
-                   color1: this.markeratt.color,
-                   lines: ["first", "second"] };
+                   color1: this.markeratt.color };
 
       var dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
 
+      hint.menu_dist = dist;
+
       if (dist < 2.5 * this.markeratt.GetFullSize()) hint.exact = true;
+
+      if (hint.exact)
+         hint.lines = this.fillLabels(marker);
+
       // res.menu = res.exact; // activate menu only when exactly locate bin
       // res.menu_dist = 3; // distance always fixed
 
