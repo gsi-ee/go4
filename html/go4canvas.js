@@ -138,7 +138,7 @@
 
    GO4.MarkerPainter.prototype.ProcessTooltip = function(pnt) {
       var hint = this.ExtractTooltip(pnt);
-      if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
+      // if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
       return hint;
    }
 
@@ -166,8 +166,8 @@
 
       var marker = this.GetObject();
 
-      var hint = { name: marker.fName,
-                   title: marker.fTitle,
+      var hint = { name: marker.fxName,
+                   title: marker.fxName,
                    painter: this,
                    menu: true,
                    x: this.grx - (this.frame_x() || 0),
@@ -408,6 +408,69 @@
          pave_painter = JSROOT.draw(this.divid, this.pave, "");
       else
          pave_painter.Redraw();
+   }
+
+   GO4.ConditionPainter.prototype.ProcessTooltip = function(pnt) {
+      var hint = this.ExtractTooltip(pnt);
+      // if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
+      return hint;
+   }
+
+   GO4.ConditionPainter.prototype.execServer = function(exec) {
+      if (this.snapid && exec) {
+         var canp = this.canv_painter();
+         if (canp && (typeof canp.SendWebsocket == 'function'))
+            canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
+      }
+   }
+
+   GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
+      var cond = this.GetObject();
+      menu.add("header:"+ cond._typename + "::" + cond.fName);
+      function select(name,exec) {
+         var cond = this.GetObject();
+         cond[name] = !cond[name];
+         this.execServer(exec + (cond[name] ? '(true)' : '(false)'));
+         this.Redraw();
+      }
+      menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
+      menu.addchk(cond.fbLimitsDraw, 'Limits', select.bind(this, 'fbLimitsDraw', 'SetLimitsDraw'));
+      menu.addchk(cond.fbIntDraw, 'Integral', select.bind(this, 'fbIntDraw', 'SetIntDraw'));
+      menu.addchk(cond.fbXMeanDraw, 'X mean', select.bind(this, 'fbXMeanDraw', 'SetXMeanDraw'));
+      menu.addchk(cond.fbXRMSDraw, 'X rms', select.bind(this, 'fbXRMSDraw', 'SetXRMSDraw'));
+      menu.addchk(cond.fbXMaxDraw, 'X max', select.bind(this, 'fbXMaxDraw', 'SetXMaxDraw'));
+      menu.addchk(cond.fbYMeanDraw, 'Y mean', select.bind(this, 'fbYMeanDraw', 'SetYMeanDraw'));
+      menu.addchk(cond.fbYRMSDraw, 'Y rms', select.bind(this, 'fbYRMSDraw', 'SetYRMSDraw'));
+      menu.addchk(cond.fbYMaxDraw, 'Y max', select.bind(this, 'fbYMaxDraw', 'SetYMaxDraw'));
+      return true;
+   }
+
+
+   GO4.ConditionPainter.prototype.ExtractTooltip = function(pnt) {
+      if (!pnt) return null;
+
+      var cond = this.GetObject();
+
+      var hint = { name: cond.fName,
+                   title: cond.fTitle,
+                   painter: this,
+                   menu: true,
+                   x: pnt.x,
+                   y: pnt.y,
+                   color1: this.fillatt.color,
+                   color2: this.lineatt.color };
+
+      if (this.isPolyCond) {
+
+      } else {
+         hint.menu_dist = Math.sqrt(Math.pow(pnt.x - (this.grx1 + this.grx2)/2, 2) + Math.pow(pnt.y - (this.gry1 + this.gry2)/2, 2));
+         hint.exact = (this.grx1 <= pnt.x) && (pnt.x <= this.grx2) && (this.gry1 <= pnt.y) && (pnt.y <= this.gry2);
+      }
+
+      if (hint.exact)
+         hint.lines = ["condition", cond.fName ];
+
+      return hint;
    }
 
    GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
