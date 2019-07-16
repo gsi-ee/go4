@@ -48,12 +48,18 @@ class TGo4WinCond : public TGo4Condition {
       virtual Bool_t Test(Double_t v1, Double_t v2);
 
       /** Returns limits. */
-      virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
+      virtual void GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2);
 
-      inline virtual Double_t GetXLow(){return fLow1;}
-      inline virtual Double_t GetXUp() {return fUp1;}
-      inline virtual Double_t GetYLow(){return fLow2;}
-      inline virtual Double_t GetYUp() {return fUp2;}
+      inline virtual Double_t GetXLow() { return fLow1; }
+      inline virtual Double_t GetXUp() { return fUp1; }
+      inline virtual Double_t GetYLow() { return fLow2; }
+      inline virtual Double_t GetYUp() { return fUp2; }
+
+      void SetXLow(Double_t v) { fLow1 = v; }
+      void SetXUp(Double_t v) { fUp1 = v; }
+      void SetYLow(Double_t v) { fLow2 = v; }
+      void SetYUp(Double_t v) { fUp2 = v; }
+
 
       /** Printout. If limits is true, print limits too. */
       virtual void PrintCondition(Bool_t full = kTRUE);

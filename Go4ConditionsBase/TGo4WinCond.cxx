@@ -82,6 +82,7 @@ Bool_t TGo4WinCond::Test(Double_t v1, Double_t v2)
    IncTrueCounts();
    return IsTrue();
 }
+
 // -----------------------------------------------
 Bool_t TGo4WinCond::Test(Double_t v1)
 {
@@ -107,6 +108,7 @@ void TGo4WinCond::SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t
   fUp2  = up2;
   SetDimension(2);
 }
+
 // -----------------------------------------------
 void TGo4WinCond::SetValues(Double_t low1, Double_t up1)
 {
@@ -114,6 +116,7 @@ void TGo4WinCond::SetValues(Double_t low1, Double_t up1)
    fUp1  = up1;
    SetDimension(1);
 }
+
 // -----------------------------------------------
 void TGo4WinCond::GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2)
 {
@@ -136,6 +139,7 @@ void TGo4WinCond::PrintCondition(Bool_t limits)
    }
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 {
    if(histo==0) return 0;
@@ -146,6 +150,7 @@ Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
 {
    if(histo==0) return 0;
@@ -156,6 +161,7 @@ Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
 {
    if(histo==0) return 0;
@@ -166,6 +172,7 @@ Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
 {
    if(histo==0) return 0;
@@ -176,6 +183,7 @@ Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
 {
    if(histo==0) return 0;
@@ -186,6 +194,7 @@ Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetXMax(TH1* histo)
 {
    if(histo==0) return 0;
@@ -210,6 +219,8 @@ Double_t TGo4WinCond::GetXMax(TH1* histo)
    RestoreHistogramRanges(histo);
    return result;
 }
+
+// -----------------------------------------------
 Double_t TGo4WinCond::GetYMax(TH1* histo)
 {
    if(histo==0) return 0;
@@ -234,6 +245,7 @@ Double_t TGo4WinCond::GetYMax(TH1* histo)
    return result;
 }
 
+// -----------------------------------------------
 Double_t TGo4WinCond::GetCMax(TH1* histo)
 {
    if(histo==0) return 0;
@@ -244,6 +256,7 @@ Double_t TGo4WinCond::GetCMax(TH1* histo)
    return result;
 }
 
+// -----------------------------------------------
 void TGo4WinCond::SetHistogramRanges(TH1* histo)
 {
    if(histo==0) return;
@@ -272,6 +285,7 @@ void TGo4WinCond::SetHistogramRanges(TH1* histo)
       yax->SetRange(yminbin,ymaxbin);
 }
 
+// -----------------------------------------------
 void TGo4WinCond::RestoreHistogramRanges(TH1* histo)
 {
    if(histo==0) return;
@@ -280,11 +294,7 @@ void TGo4WinCond::RestoreHistogramRanges(TH1* histo)
    xax->SetRange(fiSaveXMin,fiSaveXMax);
    if(yax&& histo->GetDimension()>1)
       yax->SetRange(fiSaveYMin,fiSaveYMax);
-
-
 }
-
-
 
 // -----------------------------------------------
 Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
@@ -299,6 +309,8 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
    SetDimension(dimension);
    return kTRUE;
 }
+
+// -----------------------------------------------
 
 Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
 {
