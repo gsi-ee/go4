@@ -192,33 +192,12 @@
       return hint;
    }
 
-   GO4.MarkerPainter.prototype.movePntHandler = function() {
-      var pos = d3.mouse(this.svg_frame().node()),
-          main = this.frame_painter(),
-          marker = this.GetObject();
-
-      marker.fX = main.RevertX(pos[0] + this.delta_x);
-      marker.fY = main.RevertY(pos[1] + this.delta_y);
-
-      this.drawMarker(true);
-   }
-
    GO4.MarkerPainter.prototype.execServer = function(exec) {
       if (this.snapid && exec) {
          var canp = this.canv_painter();
          if (canp && (typeof canp.SendWebsocket == 'function'))
             canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
       }
-   }
-
-   GO4.MarkerPainter.prototype.endPntHandler = function() {
-      d3.select(window).on("mousemove.markerPnt", null)
-                       .on("mouseup.markerPnt", null);
-
-      var marker = this.GetObject();
-      if (marker)
-         this.execServer("SetXY(" + marker.fX + "," + marker.fY + ")");
-      this.drawLabel();
    }
 
    GO4.MarkerPainter.prototype.InvokeClickHandler = function(hint) {
@@ -233,6 +212,26 @@
       this.delta_y = this.gry - pos[1] - this.frame_y();
    }
 
+   GO4.MarkerPainter.prototype.movePntHandler = function() {
+      var pos = d3.mouse(this.svg_frame().node()),
+          main = this.frame_painter(),
+          marker = this.GetObject();
+
+      marker.fX = main.RevertX(pos[0] + this.delta_x);
+      marker.fY = main.RevertY(pos[1] + this.delta_y);
+
+      this.drawMarker(true);
+   }
+
+   GO4.MarkerPainter.prototype.endPntHandler = function() {
+      d3.select(window).on("mousemove.markerPnt", null)
+                       .on("mouseup.markerPnt", null);
+
+      var marker = this.GetObject();
+      if (marker)
+         this.execServer("SetXY(" + marker.fX + "," + marker.fY + ")");
+      this.drawLabel();
+   }
 
    GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
    }
@@ -279,7 +278,7 @@
       return this.MatchObjectType("TGo4ShapedCond");
    }
 
-   GO4.ConditionPainter.prototype.drawCondition = function() {
+   GO4.ConditionPainter.prototype.drawCondition = function(interactive) {
 
       var cond = this.GetObject();
 
@@ -303,7 +302,11 @@
          return;
       }
 
-      this.CreateG(true);
+      if (interactive && this.draw_g) {
+         this.draw_g.selectAll('*').remove();
+      } else {
+         this.CreateG(true);
+      }
 
       if ((cond.fFillStyle==1001) && (cond.fFillColor==19)) {
          cond.fFillStyle = 3006;
@@ -460,17 +463,66 @@
                    color1: this.fillatt.color,
                    color2: this.lineatt.color };
 
-      if (this.isPolyCond) {
+      if (this.isPolyCond()) {
 
       } else {
          hint.menu_dist = Math.sqrt(Math.pow(pnt.x - (this.grx1 + this.grx2)/2, 2) + Math.pow(pnt.y - (this.gry1 + this.gry2)/2, 2));
          hint.exact = (this.grx1 <= pnt.x) && (pnt.x <= this.grx2) && (this.gry1 <= pnt.y) && (pnt.y <= this.gry2);
+         if (Math.abs(this.grx1 - pnt.x) < 5) hint.side = "left";
+         if (Math.abs(this.grx2 - pnt.x) < 5) hint.side = "right";
       }
 
       if (hint.exact)
          hint.lines = ["condition", cond.fName ];
 
+      if (pnt.click_handler && hint.exact && hint.side)
+         hint.click_handler = this.InvokeClickHandler.bind(this);
+
       return hint;
+   }
+
+   GO4.ConditionPainter.prototype.InvokeClickHandler = function(hint) {
+      if (!hint.exact) return; //
+
+      d3.select(window).on("mousemove.condLmt", this.movePntHandler.bind(this))
+                       .on("mouseup.condLmt", this.endPntHandler.bind(this), true);
+
+      // coordinate in the frame
+      var pos = d3.mouse(this.svg_frame().node());
+      this.move_side = hint.side;
+
+      switch (this.move_side) {
+         case "left": this.delta = this.grx1 - pos[0]; break;
+         case "right": this.delta = this.grx2 - pos[0]; break;
+      }
+   }
+
+   GO4.ConditionPainter.prototype.movePntHandler = function() {
+      var pos = d3.mouse(this.svg_frame().node()),
+          main = this.frame_painter(),
+          cond = this.GetObject();
+
+      switch (this.move_side) {
+        case "left": cond.fLow1 = main.RevertX(pos[0] + this.delta); break;
+        case "right": cond.fUp1 = main.RevertX(pos[0] + this.delta); break;
+      }
+
+      this.drawCondition(true);
+   }
+
+   GO4.ConditionPainter.prototype.endPntHandler = function() {
+      d3.select(window).on("mousemove.condLmt", null)
+                       .on("mouseup.condLmt", null);
+      var cond = this.GetObject();
+      switch (this.move_side) {
+         case "left": this.execServer("SetXLow(" + cond.fLow1 + ")"); break;
+         case "right": this.execServer("SetXUp(" + cond.fUp1  + ")"); break;
+      }
+
+      delete this.move_side;
+      delete this.delta;
+
+      this.drawLabel();
    }
 
    GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
