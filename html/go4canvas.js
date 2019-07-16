@@ -255,20 +255,20 @@
    GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
-    // JAM: need to put this here, since condition object will lose internal definition after cloning it again!
-    var cond = this.GetObject();
-    if (!cond.fbEnabled) return cond.fbResult;
+      //  JAM: need to put this here, since condition object will lose internal definition after cloning it again!
+      var cond = this.GetObject();
+      if (!cond.fbEnabled)
+         return cond.fbResult;
 
-       if (cond.fxCut)
-          return cond.fxCut.IsInside(x,y) ? cond.fbTrue : cond.fbFalse;
+      if (cond.fxCut)
+         return cond.fxCut.IsInside(x,y) ? cond.fbTrue : cond.fbFalse;
 
-       if ((x < cond.fLow1) || (x > cond.fUp1)) return cond.fbFalse;
+      if ((x < cond.fLow1) || (x > cond.fUp1)) return cond.fbFalse;
 
-       if (cond.fiDim==2)
-          if ((y < cond.fLow2) || (y > cond.fUp2)) return cond.fbFalse;
+      if ((cond.fiDim==2) && ((y < cond.fLow2) || (y > cond.fUp2))) return cond.fbFalse;
 
-       return cond.fbTrue;
-    }
+      return cond.fbTrue;
+   }
 
 
    GO4.ConditionPainter.prototype.isPolyCond = function() {
@@ -284,53 +284,55 @@
       var cond = this.GetObject();
 
       if (this.isPolyCond()) {
-         if (cond.fxCut != null) {
+         if (cond.fxCut) {
             // look here if cut is already drawn in divid:
-            var cutfound=false;
-            var cut = cond.fxCut;
+            var cutfound = false;
             this.ForEachPainter(function(p) {
-                if (p.obj_typename != "TCutG") return;
-                console.log("Find TCutG painter");
-                p.UpdateObject(cut);
+                if (!p.MatchObjectType("TCutG")) return;
+                p.UpdateObject(cond.fxCut);
                 p.Redraw();
-                cutfound=true;
+                cutfound = true;
              });
-            if(cutfound) return;
-            // only redraw if previous cut display was not there:
-            cond.fxCut.fFillStyle = 3006;
-            cond.fxCut.fFillColor = 2;
-            JSROOT.draw(this.divid, cond.fxCut, "LF");
+            if(!cutfound) {
+               // only redraw if previous cut display was not there:
+               cond.fxCut.fFillStyle = 3006;
+               cond.fxCut.fFillColor = 2;
+               JSROOT.draw(this.divid, cond.fxCut, "LF");
+            }
          }
          return;
       }
 
       this.CreateG(true);
 
-      var w = this.frame_width(),
-          h = this.frame_height(),
-          main = this.main_painter();
-
-      if (!main.grx || !main.gry) main = this.frame_painter();
-
       if ((cond.fFillStyle==1001) && (cond.fFillColor==19)) {
          cond.fFillStyle = 3006;
          cond.fFillColor = 2;
       }
 
-      var fill = this.createAttFill(cond);
-      var line = this.createAttLine(cond);
+      this.createAttFill({attr: cond});
+      this.createAttLine({attr: cond});
 
-      this.draw_g.attr("class","cond_container");
+      var main = this.frame_painter();
 
-      var ndim = cond.fiDim;
+      this.grx1 = main.grx(cond.fLow1);
+      this.grx2 = main.grx(cond.fUp1);
+
+      if (cond.fiDim == 2) {
+         this.gry1 = main.gry(cond.fUp2);
+         this.gry2 = main.gry(cond.fLow2);
+      } else {
+         this.gry1 = 0;
+         this.gry2 = this.frame_height();
+      }
 
       this.draw_g.append("svg:rect")
-             .attr("x", main.grx(cond.fLow1))
-             .attr("y", (ndim==1) ? 0 : main.gry(cond.fUp2))
-             .attr("width", main.grx(cond.fUp1) - main.grx(cond.fLow1))
-             .attr("height", (ndim==1) ? h : main.gry(cond.fLow2) - main.gry(cond.fUp2))
-             .call(line.func)
-             .call(fill.func);
+             .attr("x", this.grx1)
+             .attr("y", this.gry1)
+             .attr("width", this.grx2 - this.grx1)
+             .attr("height", this.gry2 - this.gry1)
+             .call(this.lineatt.func)
+             .call(this.fillatt.func);
    }
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
@@ -360,14 +362,14 @@
       if (cond.fbLimitsDraw)
          if (this.isPolyCond()) {
             var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
-            if (cond.fxCut['fNpoints'] > 0) {
-               res.xmin = res.xmax = cond.fxCut['fX'][0];
-               res.ymin = res.ymax = cond.fxCut['fY'][0];
-               for (var i=1; i<cond.fxCut['fNpoints']; i++) {
-                  if (cond.fxCut['fX'][i] < res.xmin) res.xmin = cond.fxCut['fX'][i];
-                  if (cond.fxCut['fX'][i] > res.xmax) res.xmax = cond.fxCut['fX'][i];
-                  if (cond.fxCut['fY'][i] < res.ymin) res.ymin = cond.fxCut['fY'][i];
-                  if (cond.fxCut['fY'][i] > res.ymax) res.ymax = cond.fxCut['fY'][i];
+            if (cond.fxCut.fNpoints > 0) {
+               res.xmin = res.xmax = cond.fxCut.fX[0];
+               res.ymin = res.ymax = cond.fxCut.fY[0];
+               for (var i=1; i<cond.fxCut.fNpoints; i++) {
+                  res.xmin = Math.min(res.xmin, cond.fxCut.fX[i]);
+                  res.xmax = Math.max(res.xmax, cond.fxCut.fX[i]);
+                  res.ymin = Math.min(res.ymin, cond.fxCut.fY[i]);
+                  res.ymax = Math.max(res.ymax, cond.fxCut.fY[i]);
                }
             }
             this.pave.AddText("Xmin = " + res.xmin);
