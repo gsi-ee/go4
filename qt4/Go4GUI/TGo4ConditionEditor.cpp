@@ -648,7 +648,7 @@ void TGo4ConditionEditor::enterEvent( QEvent * )
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
 
-   if (cond && (fiLastChangeValue != cond->IsChanged())
+   if (cond && (fiLastChangeValue != cond->IsChanged()))
       RefreshWidget(true);
 }
 
@@ -670,7 +670,7 @@ void TGo4ConditionEditor::DisplayPressed()
 void TGo4ConditionEditor::SetChangeFlag(bool changed)
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
-   if (cond!=0) cond->SetChanged(changed);
+   if (cond) cond->SetChanged(changed);
 }
 
 void TGo4ConditionEditor::UpdatePressed()
