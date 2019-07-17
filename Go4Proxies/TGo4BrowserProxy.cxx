@@ -886,10 +886,10 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TS
 Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
-   if (obj==0) obj = GetBrowserObject(itemname, 0);
-   if (obj==0) return kFALSE;
+   if (!obj) obj = GetBrowserObject(itemname, 0);
+   if (!obj) return kFALSE;
 
    const char* analysisname = 0;
    TGo4Slot* anslot = 0;
@@ -900,16 +900,13 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
       anslot = fxOM->FindSlot(slotname.Data(), &analysisname);
    }
 
-   if (anslot==0) {
+   if (!anslot) {
       analysisname = 0;
       anslot = FindServerSlot(kTRUE, 1);
    }
 
-   TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy());
-   if (serv!=0) return serv->UpdateAnalysisObject(analysisname, obj);
-
-   return kFALSE;
-
+   TGo4ServerProxy* serv = anslot ? dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy()) : 0;
+   return serv ? serv->UpdateAnalysisObject(analysisname, obj) : kFALSE;
 }
 
 void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
