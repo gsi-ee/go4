@@ -470,6 +470,10 @@
          hint.exact = (this.grx1 <= pnt.x) && (pnt.x <= this.grx2) && (this.gry1 <= pnt.y) && (pnt.y <= this.gry2);
          if (Math.abs(this.grx1 - pnt.x) < 5) hint.side = "left";
          if (Math.abs(this.grx2 - pnt.x) < 5) hint.side = "right";
+         if (cond.fiDim == 2) {
+            if (Math.abs(this.gry1 - pnt.y) < 5) hint.side = "top";
+            if (Math.abs(this.gry2 - pnt.y) < 5) hint.side = "bottom";
+         }
       }
 
       if (hint.exact)
@@ -494,6 +498,8 @@
       switch (this.move_side) {
          case "left": this.delta = this.grx1 - pos[0]; break;
          case "right": this.delta = this.grx2 - pos[0]; break;
+         case "top": this.delta = this.gry1 - pos[1]; break;
+         case "bottom": this.delta = this.gry2 - pos[1]; break;
       }
    }
 
@@ -503,9 +509,11 @@
           cond = this.GetObject();
 
       switch (this.move_side) {
-        case "left": cond.fLow1 = main.RevertX(pos[0] + this.delta); break;
-        case "right": cond.fUp1 = main.RevertX(pos[0] + this.delta); break;
-      }
+         case "left": cond.fLow1 = main.RevertX(pos[0] + this.delta); break;
+         case "right": cond.fUp1 = main.RevertX(pos[0] + this.delta); break;
+         case "top": cond.fUp2 = main.RevertY(pos[1] + this.delta); break;
+         case "bottom": cond.fLow2 = main.RevertY(pos[1] + this.delta); break;
+    }
 
       this.drawCondition(true);
    }
@@ -517,6 +525,8 @@
       switch (this.move_side) {
          case "left": this.execServer("SetXLow(" + cond.fLow1 + ")"); break;
          case "right": this.execServer("SetXUp(" + cond.fUp1  + ")"); break;
+         case "top": this.execServer("SetYUp(" + cond.fUp2  + ")"); break;
+         case "bottom": this.execServer("SetYLow(" + cond.fLow2  + ")"); break;
       }
 
       delete this.move_side;
