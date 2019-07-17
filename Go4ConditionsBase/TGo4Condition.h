@@ -264,34 +264,34 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
      * with other option than reset, just pop label to front*/
     void ResetLabel(Option_t *opt = "reset");
 
-    virtual void SetLabelDraw(Bool_t on) { fbLabelDraw = on; }
+    virtual void SetLabelDraw(Bool_t on) { fbLabelDraw = on; } // *TOGGLE* *GETTER=IsLabelDraw
     virtual Bool_t IsLabelDraw() { return fbLabelDraw; }
 
-    virtual void SetLimitsDraw(Bool_t on) { fbLimitsDraw = on; }
+    virtual void SetLimitsDraw(Bool_t on) { fbLimitsDraw = on; } // *TOGGLE* *GETTER=IsLimitsDraw
     virtual Bool_t IsLimitsDraw() { return fbLimitsDraw; }
 
-    virtual void SetIntDraw(Bool_t on) { fbIntDraw = on; }
+    virtual void SetIntDraw(Bool_t on) { fbIntDraw = on; } // *TOGGLE* *GETTER=IsIntDraw
     virtual Bool_t IsIntDraw() { return fbIntDraw; }
 
-    virtual void SetXMeanDraw(Bool_t on) { fbXMeanDraw = on; }
+    virtual void SetXMeanDraw(Bool_t on) { fbXMeanDraw = on; } // *TOGGLE* *GETTER=IsXMeanDraw
     virtual Bool_t IsXMeanDraw() { return fbXMeanDraw; }
 
-    virtual void SetXRMSDraw(Bool_t on) { fbXRMSDraw = on; }
+    virtual void SetXRMSDraw(Bool_t on) { fbXRMSDraw = on; } // *TOGGLE* *GETTER=IsXRMSDraw
     virtual Bool_t IsXRMSDraw() { return fbXRMSDraw; }
 
-    virtual void SetYMeanDraw(Bool_t on) { fbYMeanDraw = on; }
+    virtual void SetYMeanDraw(Bool_t on) { fbYMeanDraw = on; } // *TOGGLE* *GETTER=IsYMeanDraw
     virtual Bool_t IsYMeanDraw() { return fbYMeanDraw; }
 
-    virtual void SetYRMSDraw(Bool_t on) { fbYRMSDraw = on; }
+    virtual void SetYRMSDraw(Bool_t on) { fbYRMSDraw = on; } // *TOGGLE* *GETTER=IsYRMSDraw
     virtual Bool_t IsYRMSDraw() { return fbYRMSDraw; }
 
-    virtual void SetXMaxDraw(Bool_t on) { fbXMaxDraw = on; }
+    virtual void SetXMaxDraw(Bool_t on) { fbXMaxDraw = on; } // *TOGGLE* *GETTER=IsXMaxDraw
     virtual Bool_t IsXMaxDraw() { return fbXMaxDraw; }
 
-    virtual void SetYMaxDraw(Bool_t on) { fbYMaxDraw = on; }
+    virtual void SetYMaxDraw(Bool_t on) { fbYMaxDraw = on; } // *TOGGLE* *GETTER=IsYMaxDraw
     virtual Bool_t IsYMaxDraw() { return fbYMaxDraw; }
 
-    virtual void SetCMaxDraw(Bool_t on) { fbCMaxDraw = on; }
+    virtual void SetCMaxDraw(Bool_t on) { fbCMaxDraw = on; } // *TOGGLE* *GETTER=IsCMaxDraw
     virtual Bool_t IsCMaxDraw() { return fbCMaxDraw; }
 
     virtual void SetLabelNumFormat(const char *fmt) { fxNumFormat = fmt; }

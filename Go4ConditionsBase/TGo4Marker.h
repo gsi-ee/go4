@@ -78,19 +78,19 @@ public:
 
    /** Set marker to position according to work histogram axis.  */
    void SetToBin(Int_t xbin, Int_t ybin = 0);        // *MENU*
-   void SetLabelDraw(Bool_t on) { fbHasLabel = on; } // *MENU*
+   void SetLabelDraw(Bool_t on) { fbHasLabel = on; } // // *TOGGLE* *GETTER=HasLabel
    Bool_t HasLabel() { return fbHasLabel; }
-   void SetLineDraw(Bool_t on) { fbHasConnector = on; } // *MENU*
+   void SetLineDraw(Bool_t on) { fbHasConnector = on; } // *TOGGLE* *GETTER=HasConnector
    Bool_t HasConnector() { return fbHasConnector; }
-   void SetXDraw(Bool_t on) { fbXDraw = on; } // *MENU*
+   void SetXDraw(Bool_t on) { fbXDraw = on; } // *TOGGLE* *GETTER=IsXDraw
    Bool_t IsXDraw() { return fbXDraw; }
-   void SetYDraw(Bool_t on) { fbYDraw = on; } // *MENU*
+   void SetYDraw(Bool_t on) { fbYDraw = on; } // *TOGGLE* *GETTER=IsYDraw
    Bool_t IsYDraw() { return fbYDraw; }
-   void SetXbinDraw(Bool_t on) { fbXbinDraw = on; } // *MENU*
+   void SetXbinDraw(Bool_t on) { fbXbinDraw = on; } // *TOGGLE* *GETTER=IsXbinDraw
    Bool_t IsXbinDraw() { return fbXbinDraw; }
-   void SetYbinDraw(Bool_t on) { fbYbinDraw = on; } // *MENU*
+   void SetYbinDraw(Bool_t on) { fbYbinDraw = on; } // *TOGGLE* *GETTER=IsYbinDraw
    Bool_t IsYbinDraw() { return fbYbinDraw; }
-   void SetContDraw(Bool_t on) { fbContDraw = on; } // *MENU*
+   void SetContDraw(Bool_t on) { fbContDraw = on; } // *TOGGLE* *GETTER=IsContDraw
    Bool_t IsContDraw() { return fbContDraw; }
 
    const char* GetNumFormat(){return fxNumFormat.Data();}
@@ -191,7 +191,7 @@ private:
    /** Switch marker label on or off. */
    Bool_t fbHasLabel;
 
-   /** Switch connectionline between marker and label on or off. */
+   /** Switch connection line between marker and label on or off. */
    Bool_t fbHasConnector;
 
    /** If true, draw corresponding value as label on working pad */

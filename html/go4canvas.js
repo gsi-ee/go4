@@ -142,24 +142,24 @@
       return hint;
    }
 
-   GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
-      var marker = this.GetObject();
-      menu.add("header:"+ marker._typename + "::" + marker.fxName);
-      function select(name,exec) {
-         var marker = this.GetObject();
-         marker[name] = !marker[name];
-         this.WebCanvasExec(exec + (marker[name] ? '(true)' : '(false)'));
-         this.Redraw();
-      }
-      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
-      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
-      menu.addchk(marker.fbXDraw, 'Draw X', select.bind(this, 'fbXDraw', 'SetXDraw'));
-      menu.addchk(marker.fbYDraw, 'Draw Y', select.bind(this, 'fbYDraw', 'SetYDraw'));
-      menu.addchk(marker.fbXbinDraw, 'Draw X bin', select.bind(this, 'fbXbinDraw', 'SetXbinDraw'));
-      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', select.bind(this, 'fbYbinDraw', 'SetYbinDraw'));
-      menu.addchk(marker.fbContDraw, 'Draw content', select.bind(this, 'fbContDraw', 'SetContDraw'));
-      return true;
-   }
+//   GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
+//      var marker = this.GetObject();
+//      menu.add("header:"+ marker._typename + "::" + marker.fxName);
+//      function select(name,exec) {
+//         var marker = this.GetObject();
+//         marker[name] = !marker[name];
+//         this.WebCanvasExec(exec + (marker[name] ? '(true)' : '(false)'));
+//         this.Redraw();
+//      }
+//      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
+//      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
+//      menu.addchk(marker.fbXDraw, 'Draw X', select.bind(this, 'fbXDraw', 'SetXDraw'));
+//      menu.addchk(marker.fbYDraw, 'Draw Y', select.bind(this, 'fbYDraw', 'SetYDraw'));
+//      menu.addchk(marker.fbXbinDraw, 'Draw X bin', select.bind(this, 'fbXbinDraw', 'SetXbinDraw'));
+//      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', select.bind(this, 'fbYbinDraw', 'SetYbinDraw'));
+//      menu.addchk(marker.fbContDraw, 'Draw content', select.bind(this, 'fbContDraw', 'SetContDraw'));
+//      return true;
+//   }
 
    GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
@@ -412,27 +412,26 @@
       return hint;
    }
 
-   GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
-      var cond = this.GetObject();
-      menu.add("header:"+ cond._typename + "::" + cond.fName);
-      function select(name,exec) {
-         var cond = this.GetObject();
-         cond[name] = !cond[name];
-         this.WebCanvasExec(exec + (cond[name] ? '(true)' : '(false)'));
-         this.Redraw();
-      }
-      menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
-      menu.addchk(cond.fbLimitsDraw, 'Limits', select.bind(this, 'fbLimitsDraw', 'SetLimitsDraw'));
-      menu.addchk(cond.fbIntDraw, 'Integral', select.bind(this, 'fbIntDraw', 'SetIntDraw'));
-      menu.addchk(cond.fbXMeanDraw, 'X mean', select.bind(this, 'fbXMeanDraw', 'SetXMeanDraw'));
-      menu.addchk(cond.fbXRMSDraw, 'X rms', select.bind(this, 'fbXRMSDraw', 'SetXRMSDraw'));
-      menu.addchk(cond.fbXMaxDraw, 'X max', select.bind(this, 'fbXMaxDraw', 'SetXMaxDraw'));
-      menu.addchk(cond.fbYMeanDraw, 'Y mean', select.bind(this, 'fbYMeanDraw', 'SetYMeanDraw'));
-      menu.addchk(cond.fbYRMSDraw, 'Y rms', select.bind(this, 'fbYRMSDraw', 'SetYRMSDraw'));
-      menu.addchk(cond.fbYMaxDraw, 'Y max', select.bind(this, 'fbYMaxDraw', 'SetYMaxDraw'));
-      return true;
-   }
-
+//   GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
+//      var cond = this.GetObject();
+//      menu.add("header:"+ cond._typename + "::" + cond.fName);
+//      function select(name,exec) {
+//         var cond = this.GetObject();
+//         cond[name] = !cond[name];
+//         this.WebCanvasExec(exec + (cond[name] ? '(true)' : '(false)'));
+//         this.Redraw();
+//      }
+//      menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
+//      menu.addchk(cond.fbLimitsDraw, 'Limits', select.bind(this, 'fbLimitsDraw', 'SetLimitsDraw'));
+//      menu.addchk(cond.fbIntDraw, 'Integral', select.bind(this, 'fbIntDraw', 'SetIntDraw'));
+//      menu.addchk(cond.fbXMeanDraw, 'X mean', select.bind(this, 'fbXMeanDraw', 'SetXMeanDraw'));
+//      menu.addchk(cond.fbXRMSDraw, 'X rms', select.bind(this, 'fbXRMSDraw', 'SetXRMSDraw'));
+//      menu.addchk(cond.fbXMaxDraw, 'X max', select.bind(this, 'fbXMaxDraw', 'SetXMaxDraw'));
+//      menu.addchk(cond.fbYMeanDraw, 'Y mean', select.bind(this, 'fbYMeanDraw', 'SetYMeanDraw'));
+//      menu.addchk(cond.fbYRMSDraw, 'Y rms', select.bind(this, 'fbYRMSDraw', 'SetYRMSDraw'));
+//      menu.addchk(cond.fbYMaxDraw, 'Y max', select.bind(this, 'fbYMaxDraw', 'SetYMaxDraw'));
+//      return true;
+//   }
 
    GO4.ConditionPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
