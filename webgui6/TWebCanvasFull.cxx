@@ -95,6 +95,16 @@ TObject *TWebCanvasFull::FindPrimitive(const std::string &sid, TPad *pad, TObjLi
          if (h1 && (kind == "z"))
             return h1->GetZaxis();
 
+         if (!kind.empty() && (kind.compare(0,7,"member_") == 0)) {
+            auto member = kind.substr(7);
+            auto offset = obj->IsA()->GetDataMemberOffset(member.c_str());
+            if (offset > 0) {
+               TObject **mobj = (TObject **)((char*) obj + offset);
+               return *mobj;
+            }
+            return nullptr;
+         }
+
          if (padlnk)
             *padlnk = lnk;
          return obj;
