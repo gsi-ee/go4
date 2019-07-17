@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4PANELCONTAINER_H
-#define TGO4PANELCONTAINER_H
+#ifndef TGO4BROWSERPROXY_H
+#define TGO4BROWSERPROXY_H
 
 #include "TGo4Proxy.h"
 
@@ -20,14 +20,14 @@
 
 class TList;
 class TTimer;
+class TAxis;
+class TGraph;
 
 class TGo4ObjectManager;
 class TGo4AnalysisProxy;
 class TGo4ServerProxy;
 class TGo4Picture;
-class TAxis;
 class TVirtualTreePlayer;
-class TGraph;
 
 class TGo4BrowserProxy : public TGo4Proxy {
    public:

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -26,8 +26,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       Bool_t           fbAnalysisSettingsReady; // true when settings are specified
       Int_t            fAnalysisLaunched;       //! 0 - not launched, 1 - external shell, 2 - in qt shell
 
-      TString         fNodeName; // name of remote node
-      TString         fInfoStr;
+      TString          fNodeName; // name of remote node
+      TString          fInfoStr;
    public:
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
