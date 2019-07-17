@@ -208,11 +208,24 @@ Bool_t TWebCanvasFull::ProcessData(unsigned connid, const std::string &arg)
 
         TObject *obj = FindPrimitive(sid);
         if (obj && !buf.empty()) {
-           std::stringstream exec;
-           exec << "((" << obj->ClassName() << " *) " << std::hex << std::showbase << (size_t)obj
-                << ")->" << buf << ";";
-           Info("ProcessData", "Obj %s Execute %s", obj->GetName(), exec.str().c_str());
-           gROOT->ProcessLine(exec.str().c_str());
+
+           while (!buf.empty()) {
+              std::string sub = buf;
+              auto pos = buf.find(";;");
+              if (pos == std::string::npos) {
+                 sub = buf;
+                 buf.clear();
+              } else {
+                 sub = buf.substr(0,pos);
+                 buf = buf.substr(pos+2);
+              }
+              if (sub.empty()) continue;
+
+              std::stringstream exec;
+              exec << "((" << obj->ClassName() << " *) " << std::hex << std::showbase << (size_t)obj << ")->" << sub << ";";
+              Info("ProcessData", "Obj %s Execute %s", obj->GetName(), exec.str().c_str());
+              gROOT->ProcessLine(exec.str().c_str());
+           }
 
            CheckPadModified(Canvas());
         }
