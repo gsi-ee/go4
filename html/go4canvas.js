@@ -148,7 +148,7 @@
       function select(name,exec) {
          var marker = this.GetObject();
          marker[name] = !marker[name];
-         this.execServer(exec + (marker[name] ? '(true)' : '(false)'));
+         this.WebCanvasExec(exec + (marker[name] ? '(true)' : '(false)'));
          this.Redraw();
       }
       menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
@@ -192,14 +192,6 @@
       return hint;
    }
 
-   GO4.MarkerPainter.prototype.execServer = function(exec) {
-      if (this.snapid && exec) {
-         var canp = this.canv_painter();
-         if (canp && (typeof canp.SendWebsocket == 'function'))
-            canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
-      }
-   }
-
    GO4.MarkerPainter.prototype.InvokeClickHandler = function(hint) {
       if (!hint.exact) return; //
 
@@ -228,8 +220,7 @@
                        .on("mouseup.markerPnt", null);
 
       var marker = this.GetObject();
-      if (marker)
-         this.execServer("SetXY(" + marker.fX + "," + marker.fY + ")");
+      this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
       this.drawLabel();
    }
 
@@ -285,7 +276,7 @@
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
-            var cutfound = false;
+            var cutfound = false, pthis = this;
             this.ForEachPainter(function(p) {
                 if (!p.MatchObjectType("TCutG")) return;
                 p.UpdateObject(cond.fxCut);
@@ -296,7 +287,9 @@
                // only redraw if previous cut display was not there:
                cond.fxCut.fFillStyle = 3006;
                cond.fxCut.fFillColor = 2;
-               JSROOT.draw(this.divid, cond.fxCut, "LF");
+               JSROOT.draw(this.divid, cond.fxCut, "LF", function(p) {
+                  if (p) p.snapid = pthis.snapid + "#member_fxCut";
+               });
             }
          }
          return;
@@ -419,21 +412,13 @@
       return hint;
    }
 
-   GO4.ConditionPainter.prototype.execServer = function(exec) {
-      if (this.snapid && exec) {
-         var canp = this.canv_painter();
-         if (canp && (typeof canp.SendWebsocket == 'function'))
-            canp.SendWebsocket("OBJEXEC:" + this.snapid + ":" + exec);
-      }
-   }
-
    GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
       var cond = this.GetObject();
       menu.add("header:"+ cond._typename + "::" + cond.fName);
       function select(name,exec) {
          var cond = this.GetObject();
          cond[name] = !cond[name];
-         this.execServer(exec + (cond[name] ? '(true)' : '(false)'));
+         this.WebCanvasExec(exec + (cond[name] ? '(true)' : '(false)'));
          this.Redraw();
       }
       menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
@@ -459,13 +444,15 @@
                    painter: this,
                    menu: true,
                    x: pnt.x,
-                   y: pnt.y,
-                   color1: this.fillatt.color,
-                   color2: this.lineatt.color };
+                   y: pnt.y };
 
       if (this.isPolyCond()) {
 
       } else {
+
+         hint.color1 = this.fillatt.color;
+         hint.color2 = this.lineatt.color;
+
          hint.menu_dist = Math.sqrt(Math.pow(pnt.x - (this.grx1 + this.grx2)/2, 2) + Math.pow(pnt.y - (this.gry1 + this.gry2)/2, 2));
          hint.exact = (this.grx1 <= pnt.x) && (pnt.x <= this.grx2) && (this.gry1 <= pnt.y) && (pnt.y <= this.gry2);
          if (Math.abs(this.grx1 - pnt.x) < 5) hint.sidex = -1;
@@ -493,8 +480,8 @@
 
       // coordinate in the frame
       var pos = d3.mouse(this.svg_frame().node());
-      this.sidex = hint.sidex;
-      this.sidey = hint.sidey;
+      this.sidex = hint.sidex || 0;
+      this.sidey = hint.sidey || 0;
       this.fullset = false;
 
       if (this.sidex < 0)
@@ -540,22 +527,16 @@
    GO4.ConditionPainter.prototype.endPntHandler = function() {
       d3.select(window).on("mousemove.condLmt", null)
                        .on("mouseup.condLmt", null);
-      var cond = this.GetObject();
-
-      if ((this.sidex && this.sidey) || this.fullset) {
-         this.execServer("SetValues(" + cond.fLow1 + "," + cond.fUp1 + "," + cond.fLow2 + "," + cond.fUp2 + ")");
-      } else {
-         if (this.sidex < 0) {
-            this.execServer("SetXLow(" + cond.fLow1 + ")");
-         } else if (this.sidex > 0) {
-            this.execServer("SetXUp(" + cond.fUp1 + ")");
-         }
-         if (this.sidey < 0) {
-            this.execServer("SetYLow(" + cond.fLow2 + ")");
-         } else if (this.sidey > 0) {
-            this.execServer("SetYUp(" + cond.fUp2 + ")");
-         }
-      }
+      var cond = this.GetObject(), exec = "";
+      if ((this.sidex < 0) || this.fullset)
+         exec += ";;SetXLow(" + cond.fLow1 + ")";
+      if ((this.sidex > 0) || this.fullset)
+         exec += ";;SetXUp(" + cond.fUp1 + ")";
+      if ((this.sidey < 0) || this.fullset)
+         exec += ";;SetYLow(" + cond.fLow2 + ")";
+      if ((this.sidey > 0) || this.fullset)
+         exec += ";;SetYUp(" + cond.fUp2 + ")";
+      if (exec) this.WebCanvasExec(exec);
 
       this.sidex = this.sidey = this.deltax = this.deltay = 0;
 
