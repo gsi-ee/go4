@@ -468,18 +468,18 @@
       } else {
          hint.menu_dist = Math.sqrt(Math.pow(pnt.x - (this.grx1 + this.grx2)/2, 2) + Math.pow(pnt.y - (this.gry1 + this.gry2)/2, 2));
          hint.exact = (this.grx1 <= pnt.x) && (pnt.x <= this.grx2) && (this.gry1 <= pnt.y) && (pnt.y <= this.gry2);
-         if (Math.abs(this.grx1 - pnt.x) < 5) hint.side = "left";
-         if (Math.abs(this.grx2 - pnt.x) < 5) hint.side = "right";
+         if (Math.abs(this.grx1 - pnt.x) < 5) hint.sidex = -1;
+         if (Math.abs(this.grx2 - pnt.x) < 5) hint.sidex = 1;
          if (cond.fiDim == 2) {
-            if (Math.abs(this.gry1 - pnt.y) < 5) hint.side = "top";
-            if (Math.abs(this.gry2 - pnt.y) < 5) hint.side = "bottom";
+            if (Math.abs(this.gry1 - pnt.y) < 5) hint.sidey = 1;
+            if (Math.abs(this.gry2 - pnt.y) < 5) hint.sidey = -1;
          }
       }
 
       if (hint.exact)
          hint.lines = ["condition", cond.fName ];
 
-      if (pnt.click_handler && hint.exact && hint.side)
+      if (pnt.click_handler && (hint.sidex || hint.sidey))
          hint.click_handler = this.InvokeClickHandler.bind(this);
 
       return hint;
@@ -493,14 +493,18 @@
 
       // coordinate in the frame
       var pos = d3.mouse(this.svg_frame().node());
-      this.move_side = hint.side;
+      this.sidex = hint.sidex;
+      this.sidey = hint.sidey;
+      this.fullset = false;
 
-      switch (this.move_side) {
-         case "left": this.delta = this.grx1 - pos[0]; break;
-         case "right": this.delta = this.grx2 - pos[0]; break;
-         case "top": this.delta = this.gry1 - pos[1]; break;
-         case "bottom": this.delta = this.gry2 - pos[1]; break;
-      }
+      if (this.sidex < 0)
+         this.deltax = this.grx1 - pos[0];
+      else if (this.sidex > 0)
+         this.deltax = this.grx2 - pos[0];
+      if (this.sidey < 0)
+         this.deltay = this.gry2 - pos[1];
+      else if (this.sidey > 0)
+         this.deltay = this.gry1 - pos[1];
    }
 
    GO4.ConditionPainter.prototype.movePntHandler = function() {
@@ -508,12 +512,27 @@
           main = this.frame_painter(),
           cond = this.GetObject();
 
-      switch (this.move_side) {
-         case "left": cond.fLow1 = main.RevertX(pos[0] + this.delta); break;
-         case "right": cond.fUp1 = main.RevertX(pos[0] + this.delta); break;
-         case "top": cond.fUp2 = main.RevertY(pos[1] + this.delta); break;
-         case "bottom": cond.fLow2 = main.RevertY(pos[1] + this.delta); break;
-    }
+      if (this.sidex < 0) {
+         cond.fLow1 = main.RevertX(pos[0] + this.deltax);
+      } else if (this.sidex > 0) {
+         cond.fUp1 = main.RevertX(pos[0] + this.deltax);
+      }
+
+      if (this.sidex && (cond.fLow1 > cond.fUp1)) {
+         this.sidex = -this.sidex; this.fullset = true;
+         var d = cond.fLow1; cond.fLow1 = cond.fUp1; cond.fUp1 = d;
+      }
+
+      if (this.sidey < 0) {
+         cond.fLow2 = main.RevertY(pos[1] + this.deltay);
+      } else if (this.sidey > 0) {
+         cond.fUp2 = main.RevertY(pos[1] + this.deltay);
+      }
+
+      if (this.sidey && (cond.fLow2 > cond.fUp2)) {
+         this.sidey = -this.sidey; this.fullset = true;
+         var d = cond.fLow2; cond.fLow2 = cond.fUp2; cond.fUp2 = d;
+      }
 
       this.drawCondition(true);
    }
@@ -522,15 +541,23 @@
       d3.select(window).on("mousemove.condLmt", null)
                        .on("mouseup.condLmt", null);
       var cond = this.GetObject();
-      switch (this.move_side) {
-         case "left": this.execServer("SetXLow(" + cond.fLow1 + ")"); break;
-         case "right": this.execServer("SetXUp(" + cond.fUp1  + ")"); break;
-         case "top": this.execServer("SetYUp(" + cond.fUp2  + ")"); break;
-         case "bottom": this.execServer("SetYLow(" + cond.fLow2  + ")"); break;
+
+      if ((this.sidex && this.sidey) || this.fullset) {
+         this.execServer("SetValues(" + cond.fLow1 + "," + cond.fUp1 + "," + cond.fLow2 + "," + cond.fUp2 + ")");
+      } else {
+         if (this.sidex < 0) {
+            this.execServer("SetXLow(" + cond.fLow1 + ")");
+         } else if (this.sidex > 0) {
+            this.execServer("SetXUp(" + cond.fUp1 + ")");
+         }
+         if (this.sidey < 0) {
+            this.execServer("SetYLow(" + cond.fLow2 + ")");
+         } else if (this.sidey > 0) {
+            this.execServer("SetYUp(" + cond.fUp2 + ")");
+         }
       }
 
-      delete this.move_side;
-      delete this.delta;
+      this.sidex = this.sidey = this.deltax = this.deltay = 0;
 
       this.drawLabel();
    }
