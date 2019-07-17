@@ -287,6 +287,8 @@
 
       var cond = this.GetObject();
 
+      if (!cond || !cond.fbVisible) return;
+
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
@@ -345,7 +347,7 @@
 
       var cond = this.GetObject(), painter = this;
 
-      if (!cond.fbLabelDraw) return;
+      if (!cond.fbLabelDraw || !cond.fbVisible) return;
 
       var pave_painter = this.FindPainterFor(this.pave);
 
@@ -635,6 +637,13 @@
       return condpainter;
    }
 
+   GO4.drawCondArray = function(divid, obj, option) {
+      var arr = obj.condarr.arr;
+      var num = obj.fiNumCond;
+      for (var k=0;k<num;++k)
+         GO4.drawGo4Cond(divid, arr[k], "");
+   }
+
 
    // =======================================================================
 
@@ -643,6 +652,7 @@
       JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, "");
       JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, "");
       JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, "");
+      JSROOT.addDrawFunc("TGo4CondArray", GO4.drawCondArray, "");
    }
 
    return GO4;
