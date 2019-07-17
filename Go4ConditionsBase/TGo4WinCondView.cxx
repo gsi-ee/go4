@@ -49,81 +49,63 @@ if(fxWinCondition) TBox::Paint(opt);
 }
 void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-// note: This method is never called in ROOT>=4.03/02 when
-// logscale is enabled on pad.
-// So no mouse modifications of condition possible
-// TO BE INVESTIGATED!  JA
-if(gPad==0) return;
+   // note: This method is never called in ROOT>=4.03/02 when
+   // logscale is enabled on pad.
+   // So no mouse modifications of condition possible
+   // TO BE INVESTIGATED!  JA
+   if (!gPad)
+      return;
 
-if(event==kButton1Down && fxWinCondition)
-{
-  fbExecutesMouseEvent=kTRUE; // only lock painting if we really touch the box JAM
-}
+   if (event == kButton1Down && fxWinCondition) {
+      fbExecutesMouseEvent = kTRUE; // only lock painting if we really touch the box JAM
+   }
 
-TBox::ExecuteEvent(event,px,py);
-if(event==kButton1Up && fxWinCondition)
-   {
-   Pop(); // do condition under edit into foreground, for condarray
-   fxWinCondition->ResetLabel("pop"); // always pop our label to foreground
-   // here we update the condition values if necessary:
-   Double_t epsilon=fxWinCondition->GetUpdateEpsilon();
-   Double_t xmin=0;
-   Double_t xmax=0;
-   Double_t ymin=0;
-   Double_t ymax=0;
-   Int_t dim=0;
-   fxWinCondition->GetValues(dim,xmin,xmax,ymin, ymax);
+   TBox::ExecuteEvent(event, px, py);
+   if (event == kButton1Up && fxWinCondition) {
+      Pop();                             // do condition under edit into foreground, for condarray
+      fxWinCondition->ResetLabel("pop"); // always pop our label to foreground
+      // here we update the condition values if necessary:
+      Double_t epsilon = fxWinCondition->GetUpdateEpsilon();
+      Double_t xmin = 0, xmax = 0, ymin = 0, ymax = 0;
+      Int_t dim = 0;
+      fxWinCondition->GetValues(dim, xmin, xmax, ymin, ymax);
 
-   // note: newer root versions treat log scale correctly in TBox
-   Double_t X1 = GetX1();
-   Double_t X2 = GetX2();
-   Double_t Y1 = GetY1();
-   Double_t Y2 = GetY2();
+      // note: newer root versions treat log scale correctly in TBox
+      Double_t X1 = GetX1(), X2 = GetX2(), Y1 = GetY1(), Y2 = GetY2();
 
-   if(dim>1)
-         {
-            // check if update is needed:
-           if((TMath::Abs(xmin-X1) > epsilon) ||
-               (TMath::Abs(xmax-X2) > epsilon) ||
-               (TMath::Abs(ymin-Y1) > epsilon) ||
-               (TMath::Abs(ymax-Y2) > epsilon) )
-               {
-                  //std::cout <<"ExecuteEvent modified 2d condition with colors, epsilon="<<epsilon << std::endl;
-                  fxWinCondition->SetValues(X1, X2, Y1, Y2 );
-                  fxWinCondition->SetLineColor(GetLineColor());
-                  fxWinCondition->SetLineWidth(GetLineWidth());
-                  fxWinCondition->SetLineStyle(GetLineStyle());
-                  fxWinCondition->SetFillColor(GetFillColor());
-                  fxWinCondition->SetFillStyle(GetFillStyle());
-                  fxWinCondition->SetChanged(kTRUE);
-               }
+      if (dim > 1) {
+         // check if update is needed:
+         if ((TMath::Abs(xmin - X1) > epsilon) || (TMath::Abs(xmax - X2) > epsilon) ||
+             (TMath::Abs(ymin - Y1) > epsilon) || (TMath::Abs(ymax - Y2) > epsilon)) {
+            // std::cout <<"ExecuteEvent modified 2d condition with colors, epsilon="<<epsilon << std::endl;
+            fxWinCondition->SetValues(X1, X2, Y1, Y2);
+            fxWinCondition->SetLineColor(GetLineColor());
+            fxWinCondition->SetLineWidth(GetLineWidth());
+            fxWinCondition->SetLineStyle(GetLineStyle());
+            fxWinCondition->SetFillColor(GetFillColor());
+            fxWinCondition->SetFillStyle(GetFillStyle());
+            fxWinCondition->SetChanged();
          }
-      else
-         {
-            if((TMath::Abs(xmin-X1) > epsilon) ||
-               (TMath::Abs(xmax-X2) > epsilon) )
-               {
-                  //std::cout <<"ExecuteEvent modified 1d condition with colors, epsilon="<<epsilon << std::endl;
-                  fxWinCondition->SetValues(X1, X2);
-                  fxWinCondition->SetLineColor(GetLineColor());
-                  fxWinCondition->SetLineWidth(GetLineWidth());
-                  fxWinCondition->SetLineStyle(GetLineStyle());
-                  fxWinCondition->SetFillColor(GetFillColor());
-                  fxWinCondition->SetFillStyle(GetFillStyle());
-                  fxWinCondition->SetChanged(kTRUE);
-               }
-         }// if(dim>1)
-   fbExecutesMouseEvent=kFALSE; // only release execute event lock when we finish the move JAM
+      } else {
+         if ((TMath::Abs(xmin - X1) > epsilon) || (TMath::Abs(xmax - X2) > epsilon)) {
+            // std::cout <<"ExecuteEvent modified 1d condition with colors, epsilon="<<epsilon << std::endl;
+            fxWinCondition->SetValues(X1, X2);
+            fxWinCondition->SetLineColor(GetLineColor());
+            fxWinCondition->SetLineWidth(GetLineWidth());
+            fxWinCondition->SetLineStyle(GetLineStyle());
+            fxWinCondition->SetFillColor(GetFillColor());
+            fxWinCondition->SetFillStyle(GetFillStyle());
+            fxWinCondition->SetChanged();
+         }
+      }                              // if(dim>1)
+      fbExecutesMouseEvent = kFALSE; // only release execute event lock when we finish the move JAM
 
    } // if(event==...)
 }
 
 const char* TGo4WinCondView::GetName() const
 {
-   if(fxWinCondition)
-      return fxWinCondition->GetName();
-   else
-      return 0;
+   return fxWinCondition ? fxWinCondition->GetName() : 0;
 }
 
 

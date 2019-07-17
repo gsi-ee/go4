@@ -297,7 +297,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void SetLabelNumFormat(const char *fmt) { fxNumFormat = fmt; }
     virtual const char *GetLabelNumFormat() { return fxNumFormat.Data(); }
 
-    virtual void SetChanged(Bool_t on)
+    virtual void SetChanged(Bool_t on = kTRUE)
     {
        if (on)
           fiIsChanged++;

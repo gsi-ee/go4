@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -647,10 +647,9 @@ void TGo4ConditionEditor::SetCondVisible(bool on)
 void TGo4ConditionEditor::enterEvent( QEvent * )
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return;
-   if (fiLastChangeValue==cond->IsChanged()) return;
 
-   RefreshWidget(true);
+   if (cond && (fiLastChangeValue != cond->IsChanged())
+      RefreshWidget(true);
 }
 
 void TGo4ConditionEditor::leaveEvent( QEvent * )

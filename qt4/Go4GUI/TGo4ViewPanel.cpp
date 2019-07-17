@@ -1412,10 +1412,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
                   dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
-            if (maincond!=0) maincond->SetChanged(kTRUE);
+            if (maincond) maincond->SetChanged();
          }
 
-         conny->SetChanged(kTRUE);
+         conny->SetChanged();
          if (iscreated)
             conny->Draw("");
          CanvasUpdate(true);
@@ -1473,7 +1473,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
         	cut->SetPoint(fiPickCounter, x, y);
             }
 
-            cond->SetChanged(kTRUE);
+            cond->SetChanged();
 
             int ix = GetNumMarkers(pad, kind_Poly);
 
@@ -1487,7 +1487,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
                   dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
-            if (maincond!=0) maincond->SetChanged(kTRUE);
+            if (maincond) maincond->SetChanged();
          }
 
          if (iscreated)

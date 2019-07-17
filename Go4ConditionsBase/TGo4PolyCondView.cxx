@@ -173,13 +173,13 @@ void TGo4PolyCondView::UpdateCondition()
    TCutG* ccut = CreateCut();
    fxPolyCondition->SetValues(ccut);
    delete ccut;
-   //std::cout<< "TGo4PolyCondView::UpdateCondition has deleted intermediat TCutG "<< (long) ccut<< std::endl;
+   //std::cout<< "TGo4PolyCondView::UpdateCondition has deleted intermediate TCutG "<< (long) ccut<< std::endl;
 //   fxPolyCondition->SetValuesDirect(ccut); // change ownership of ccut
    TGo4PolyCond::CleanupSpecials();
 #else
    fxPolyCondition->SetValues(this); // probably this is problematic if update with cloning is enabled in condition class!
 #endif
-   fxPolyCondition->SetChanged(kTRUE);
+   fxPolyCondition->SetChanged();
 }
 
 

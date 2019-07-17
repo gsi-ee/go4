@@ -528,14 +528,14 @@
                        .on("mouseup.condLmt", null);
       var cond = this.GetObject(), exec = "";
       if ((this.sidex < 0) || this.fullset)
-         exec += ";;SetXLow(" + cond.fLow1 + ")";
+         exec += "SetXLow(" + cond.fLow1 + ");;";
       if ((this.sidex > 0) || this.fullset)
-         exec += ";;SetXUp(" + cond.fUp1 + ")";
+         exec += "SetXUp(" + cond.fUp1 + ");;";
       if ((this.sidey < 0) || this.fullset)
-         exec += ";;SetYLow(" + cond.fLow2 + ")";
+         exec += "SetYLow(" + cond.fLow2 + ");;";
       if ((this.sidey > 0) || this.fullset)
-         exec += ";;SetYUp(" + cond.fUp2 + ")";
-      if (exec) this.WebCanvasExec(exec);
+         exec += "SetYUp(" + cond.fUp2 + ");;";
+      if (exec) this.WebCanvasExec(exec + "SetChanged()");
 
       this.sidex = this.sidey = this.deltax = this.deltay = 0;
 
