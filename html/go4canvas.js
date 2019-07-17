@@ -269,6 +269,20 @@
       return this.MatchObjectType("TGo4ShapedCond");
    }
 
+   GO4.ConditionPainter.prototype.afterCutDraw = function(p) {
+      if (!p || !this.snapid) return;
+      p.snapid = this.snapid + "#member_fxCut";
+
+      // catch TCutG exec and mark condition as modified
+      p._oldexec = p.WebCanvasExec;
+      p._condpainter = this;
+
+      p.WebCanvasExec = function(exec, arg) {
+         this._oldexec(exec, arg);
+         p._condpainter.WebCanvasExec("SetChanged()");
+      }
+   }
+
    GO4.ConditionPainter.prototype.drawCondition = function(interactive) {
 
       var cond = this.GetObject();
@@ -276,20 +290,16 @@
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
-            var cutfound = false, pthis = this;
-            this.ForEachPainter(function(p) {
-                if (!p.MatchObjectType("TCutG")) return;
-                p.UpdateObject(cond.fxCut);
-                p.Redraw();
-                cutfound = true;
-             });
-            if(!cutfound) {
-               // only redraw if previous cut display was not there:
+
+            var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
+
+            if (cutpaint) {
+               if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.Redraw();
+               this.afterCutDraw(cutpaint);
+            } else {
                cond.fxCut.fFillStyle = 3006;
                cond.fxCut.fFillColor = 2;
-               JSROOT.draw(this.divid, cond.fxCut, "LF", function(p) {
-                  if (p) p.snapid = pthis.snapid + "#member_fxCut";
-               });
+               JSROOT.draw(this.divid, cond.fxCut, "LF", this.afterCutDraw.bind(this));
             }
          }
          return;
