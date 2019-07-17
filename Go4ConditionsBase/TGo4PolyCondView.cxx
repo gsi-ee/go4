@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -17,9 +17,7 @@
 #include "TPad.h"
 #include "Buttons.h"
 
-#include "TGo4PolyCond.h"
-
-/** JAM2016: like for polygon condition we may supress intermediate streaming when updating
+/** JAM2016: like for polygon condition we may suppress intermediate streaming when updating
  * the condition from view by disabling the following define:*/
 //#define POLYCONDVIEW_UPDATE_WITHCLONE 1
 
@@ -136,43 +134,33 @@ if(event==kButton1Up && fxPolyCondition)
 
 Bool_t TGo4PolyCondView::IsCutChanged()
 {
-if(fxPolyCondition==0) return kFALSE;
-Bool_t needsupdate=kFALSE;
-Double_t epsilon=fxPolyCondition->GetUpdateEpsilon();
-TCutG* concut=fxPolyCondition->GetCut(kFALSE);
-// check if update is needed:
-if(concut)
-   {
-      Int_t oldmaxpoints=concut->GetN();
-      Int_t newmaxpoints=GetN();
-      if(oldmaxpoints!=newmaxpoints)
-         {
-             needsupdate=kTRUE;
-         }
-      else
-         {
-            for(Int_t point=0; point<oldmaxpoints; ++point)
-               {
-                 Double_t xn=0;
-                 Double_t yn=0;
-                 Double_t xo=0;
-                 Double_t yo=0;
-                 concut->GetPoint(point,xo,yo);
-                 GetPoint(point,xn,yn);
-                 if(TMath::Abs(xo-xn) > epsilon)
-                     {
-                        needsupdate=kTRUE;
-                        break;
-                     }
-                 if(TMath::Abs(yo-yn) > epsilon)
-                     {
-                        needsupdate=kTRUE;
-                        break;
-                     }
-               }//for
-         } // if(oldmaxpoints!=...)
-   }// if(concut)
-return needsupdate;
+   if (!fxPolyCondition)
+      return kFALSE;
+   Bool_t needsupdate = kFALSE;
+   Double_t epsilon = fxPolyCondition->GetUpdateEpsilon();
+   TCutG *concut = fxPolyCondition->GetCut(kFALSE);
+   // check if update is needed:
+   if (concut) {
+      Int_t oldmaxpoints = concut->GetN(), newmaxpoints = GetN();
+      if (oldmaxpoints != newmaxpoints) {
+         needsupdate = kTRUE;
+      } else {
+         for (Int_t point = 0; point < oldmaxpoints; ++point) {
+            Double_t xn = 0, yn = 0, xo = 0, yo = 0;
+            concut->GetPoint(point, xo, yo);
+            GetPoint(point, xn, yn);
+            if (TMath::Abs(xo - xn) > epsilon) {
+               needsupdate = kTRUE;
+               break;
+            }
+            if (TMath::Abs(yo - yn) > epsilon) {
+               needsupdate = kTRUE;
+               break;
+            }
+         } // for
+      }    // if(oldmaxpoints!=...)
+   }       // if(concut)
+   return needsupdate;
 }
 
 void TGo4PolyCondView::UpdateCondition()
@@ -197,38 +185,33 @@ void TGo4PolyCondView::UpdateCondition()
 
 void TGo4PolyCondView::SetCut(TCutG* source)
 {
-  // std::cout<< "TGo4PolyCondView "<< (long) this <<" ::SetCut from cut"<< (long) source<< std::endl;
-
-   if(source==0)
-   {
-     Set(0); // clear array of points
-     SetPoint(0,0,0); //dummy to suppress empty graph warnings
-   }
-   else {
-      Int_t pn=source->GetN();
+   if (source == 0) {
+      Set(0);            // clear array of points
+      SetPoint(0, 0, 0); // dummy to suppress empty graph warnings
+   } else {
+      Int_t pn = source->GetN();
       Set(pn); // set to new number of points
-      Double_t xp=0;
-      Double_t yp=0;
-      for(Int_t i=0; i<pn; ++i) {
-         source->GetPoint(i,xp,yp);
-         SetPoint(i,xp,yp);
+      Double_t xp = 0;
+      Double_t yp = 0;
+      for (Int_t i = 0; i < pn; ++i) {
+         source->GetPoint(i, xp, yp);
+         SetPoint(i, xp, yp);
       }
    }
 }
 
-
 TCutG* TGo4PolyCondView::CreateCut()
 {
-   TCutG* result = new TCutG;
+   TCutG *result = new TCutG;
    result->SetBit(kMustCleanup);
-   //result->SetBit(kCanDelete,kFALSE);
+   // result->SetBit(kCanDelete,kFALSE);
    TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
    Int_t pn = GetN();
-   Double_t xp=0;
-   Double_t yp=0;
-   for(Int_t i=0; i<pn; ++i) {
-      GetPoint(i,xp,yp);
-      result->SetPoint(i,xp,yp);
+   Double_t xp = 0;
+   Double_t yp = 0;
+   for (Int_t i = 0; i < pn; ++i) {
+      GetPoint(i, xp, yp);
+      result->SetPoint(i, xp, yp);
    }
    result->SetLineColor(GetLineColor());
    result->SetLineWidth(GetLineWidth());
@@ -241,64 +224,15 @@ TCutG* TGo4PolyCondView::CreateCut()
 const char* TGo4PolyCondView::GetName() const
 {
    if(fxPolyCondition)
-      return (fxPolyCondition->GetName());
-   else
-      return (TCutG::GetName()); // JAM2016
+      return fxPolyCondition->GetName();
+
+   return TCutG::GetName(); // JAM2016
 }
 
 void TGo4PolyCondView::SetName(const char* nam)
 {
    if(fxPolyCondition) fxPolyCondition->SetName(nam);
    TCutG::SetName(nam); // JAM2016
-}
-
-void TGo4PolyCondView::SetLabelDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetLabelDraw(on);
-}
-void TGo4PolyCondView::SetLimitsDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetLimitsDraw(on);
-}
-
-void TGo4PolyCondView::SetIntDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetIntDraw(on);
-}
-
-void TGo4PolyCondView::SetXMeanDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetXMeanDraw(on);
-}
-
-void TGo4PolyCondView::SetYMeanDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetYMeanDraw(on);
-}
-
-void TGo4PolyCondView::SetXRMSDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetXRMSDraw(on);
-}
-
-void TGo4PolyCondView::SetYRMSDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetYRMSDraw(on);
-}
-
-void TGo4PolyCondView::SetXMaxDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetXMaxDraw(on);
-}
-
-void TGo4PolyCondView::SetYMaxDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetYMaxDraw(on);
-}
-
-void TGo4PolyCondView::SetCMaxDraw(Bool_t on)
-{
-   if(fxPolyCondition) fxPolyCondition->SetCMaxDraw(on);
 }
 
 void TGo4PolyCondView::DeleteRegion()
