@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -17,14 +17,11 @@
 #include "QFitNamedWidget.h"
 #include "ui_QFitRangeCutWidget.h"
 
-
 class TGo4FitComponent;
 class TCutG;
 
-
 class QFitRangeCutWidget : public QFitNamedWidget, public Ui::QFitRangeCutWidget
  {
-
     Q_OBJECT
 
 public:
@@ -39,8 +36,6 @@ public slots:
     virtual void NumPointsSpin_valueChanged( int );
     virtual void ExcludeCutChk_toggled( bool );
     virtual void XYTable_valueChanged( int, int );
-
-
 };
 
 #endif // QFITRANGECUTWIDGET_H

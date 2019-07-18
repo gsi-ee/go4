@@ -53,11 +53,7 @@ class TGo4FitComponent;
 class TGo4FitModel;
 class TGo4FitData;
 class TGo4Fitter;
-
-class TGo4Fitter;
-class TGo4FitGuiArrow;
 class TGo4FitPeakFinder;
-
 class TGo4FitPanel;
 
 class TGo4FitGuiArrow : public TArrow {
