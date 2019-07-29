@@ -58,8 +58,6 @@
 #include "TVirtualPadEditor.h"
 #endif
 
-#include "TGX11.h"
-
 #include "TGo4LockGuard.h"
 //#define TGo4LockGuard int JAMDEBUG
 
