@@ -36,3 +36,6 @@ OutPutOpt     = -o
 
 GO4_WITH_RFIO = false
 USERT  = false
+
+##### Never try to build designer plugin #######
+GO4_NODESIGN := true
