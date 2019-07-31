@@ -342,16 +342,38 @@
              .call(this.lineatt.func)
              .call(this.fillatt.func);
 
+      this.swap = function(n1,n2) { var d = this[n1]; this[n1] = this[n2]; this[n2] = d; }
+
       this.AddMove({
          begin: function(x,y) {
+            this.swapx = this.swapy = false;
+            this.dx1 = Math.abs(x-this.grx1) < 5;
+            this.dx2 = Math.abs(x-this.grx2) < 5;
+            this.dy1 = Math.abs(y-this.gry1) < 5;
+            this.dy2 = Math.abs(y-this.gry2) < 5;
+            if (!this.dx1 && !this.dx2 && !this.dy1 && !this.dy2)
+               this.dx1 = this.dx2 = this.dy1 = this.dy2 = true;
          }.bind(this),
          move: function(dx,dy) {
-            this.grx1 += dx;
-            this.gry1 += dy;
-            d3.select(this.draw_g.node().lastChild).attr("x",this.grx1).attr("y", this.gry1);
+            if (this.dx1) this.grx1 += dx;
+            if (this.dx2) this.grx2 += dx;
+            if (this.grx1 > this.grx2) { this.swapx = true; this.swap('grx1', 'grx2'); this.swap('dx1', 'dx2'); }
+            if (this.dy1) this.gry1 += dy;
+            if (this.dy2) this.gry2 += dy;
+            if (this.gry1 > this.gry2) { this.swapy = true; this.swap('gry1', 'gry2'); this.swap('dy1', 'dy2'); }
+            this.draw_g.select('rect').attr("x",this.grx1).attr("y", this.gry1)
+                       .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
          }.bind(this),
          complete: function() {
-            console.log('moving completed');
+            var cond = this.GetObject(), exec = "", main = this.frame_painter();
+            if (this.dx1 || this.swapx) { cond.fLow1 = main.RevertX(this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
+            if (this.dx2 || this.swapx) { cond.fUp1 = main.RevertX(this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
+            if (this.dy2 || this.swapy) { cond.fLow2 = main.RevertY(this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
+            if (this.dy1 || this.swapy) { cond.fUp2 = main.RevertY(this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
+            if (exec) {
+               this.WebCanvasExec(exec + "SetChanged()");
+               this.drawLabel();
+            }
          }.bind(this)});
    }
 
@@ -489,81 +511,7 @@
       if (hint.exact)
          hint.lines = ["condition", cond.fName ];
 
-      if (pnt.click_handler && (hint.sidex || hint.sidey))
-         hint.click_handler = this.InvokeClickHandler.bind(this);
-
       return hint;
-   }
-
-   GO4.ConditionPainter.prototype.InvokeClickHandler = function(hint) {
-      if (!hint.exact) return; //
-
-      d3.select(window).on("mousemove.condLmt", this.movePntHandler.bind(this))
-                       .on("mouseup.condLmt", this.endPntHandler.bind(this), true);
-
-      // coordinate in the frame
-      var pos = d3.mouse(this.svg_frame().node());
-      this.sidex = hint.sidex || 0;
-      this.sidey = hint.sidey || 0;
-      this.fullset = false;
-
-      if (this.sidex < 0)
-         this.deltax = this.grx1 - pos[0];
-      else if (this.sidex > 0)
-         this.deltax = this.grx2 - pos[0];
-      if (this.sidey < 0)
-         this.deltay = this.gry2 - pos[1];
-      else if (this.sidey > 0)
-         this.deltay = this.gry1 - pos[1];
-   }
-
-   GO4.ConditionPainter.prototype.movePntHandler = function() {
-      var pos = d3.mouse(this.svg_frame().node()),
-          main = this.frame_painter(),
-          cond = this.GetObject();
-
-      if (this.sidex < 0) {
-         cond.fLow1 = main.RevertX(pos[0] + this.deltax);
-      } else if (this.sidex > 0) {
-         cond.fUp1 = main.RevertX(pos[0] + this.deltax);
-      }
-
-      if (this.sidex && (cond.fLow1 > cond.fUp1)) {
-         this.sidex = -this.sidex; this.fullset = true;
-         var d = cond.fLow1; cond.fLow1 = cond.fUp1; cond.fUp1 = d;
-      }
-
-      if (this.sidey < 0) {
-         cond.fLow2 = main.RevertY(pos[1] + this.deltay);
-      } else if (this.sidey > 0) {
-         cond.fUp2 = main.RevertY(pos[1] + this.deltay);
-      }
-
-      if (this.sidey && (cond.fLow2 > cond.fUp2)) {
-         this.sidey = -this.sidey; this.fullset = true;
-         var d = cond.fLow2; cond.fLow2 = cond.fUp2; cond.fUp2 = d;
-      }
-
-      this.drawCondition(true);
-   }
-
-   GO4.ConditionPainter.prototype.endPntHandler = function() {
-      d3.select(window).on("mousemove.condLmt", null)
-                       .on("mouseup.condLmt", null);
-      var cond = this.GetObject(), exec = "";
-      if ((this.sidex < 0) || this.fullset)
-         exec += "SetXLow(" + cond.fLow1 + ");;";
-      if ((this.sidex > 0) || this.fullset)
-         exec += "SetXUp(" + cond.fUp1 + ");;";
-      if ((this.sidey < 0) || this.fullset)
-         exec += "SetYLow(" + cond.fLow2 + ");;";
-      if ((this.sidey > 0) || this.fullset)
-         exec += "SetYUp(" + cond.fUp2 + ");;";
-      if (exec) this.WebCanvasExec(exec + "SetChanged()");
-
-      this.sidex = this.sidey = this.deltax = this.deltay = 0;
-
-      this.drawLabel();
    }
 
    GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
