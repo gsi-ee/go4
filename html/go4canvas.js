@@ -341,6 +341,18 @@
              .attr("height", this.gry2 - this.gry1)
              .call(this.lineatt.func)
              .call(this.fillatt.func);
+
+      this.AddMove({
+         begin: function(x,y) {
+         }.bind(this),
+         move: function(dx,dy) {
+            this.grx1 += dx;
+            this.gry1 += dy;
+            d3.select(this.draw_g.node().lastChild).attr("x",this.grx1).attr("y", this.gry1);
+         }.bind(this),
+         complete: function() {
+            console.log('moving completed');
+         }.bind(this)});
    }
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
