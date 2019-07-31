@@ -63,10 +63,10 @@
 
 #include <QTimer>
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
 #include "QRootCanvas.h"
 #endif
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
 #include "QWebCanvas.h"
 #endif
 
@@ -161,7 +161,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    CanvasStatus = 0;
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    if (go4sett->getWebBasedCanvas())  {
       fxWCanvas = new QWebCanvas(this);
 
@@ -176,7 +176,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    }
 #endif
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (!fxWCanvas) {
       fxQCanvas = new QRootCanvas(this);
       // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
@@ -222,7 +222,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    bool ed_visible = false, ed_allowed = true;
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (!fxWCanvas) {
       ed_visible = fxQCanvas->isEditorVisible();
       ed_allowed = fxQCanvas->isEditorAllowed();
@@ -298,7 +298,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    if (fxWCanvas) {
       // TODO: one can get status from webcanvas here
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
       fxWCanvas->setStatusBarVisible(status_flag);
 
       connect(fxWCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
@@ -318,7 +318,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
 #endif
    } else {
-#ifdef GO4_X11
+#ifdef __GO4X11__
       CanvasStatus = new QStatusBar(this);
       fxGridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
       CanvasStatus->setVisible(false);
@@ -522,7 +522,7 @@ void TGo4ViewPanel::CompleteInitialization()
 
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
    // JAM 5-2019 construct top window for ged editor already here, otherwise problems with Qt4
    if (fxQCanvas) fxQCanvas->BuildEditorWindow();
 
@@ -922,7 +922,7 @@ void TGo4ViewPanel::RefreshButtons()
 
    MarkerPanel->setVisible(fbMarkEditorVisible);
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (fxQCanvas)
       fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
 #endif
@@ -2017,7 +2017,7 @@ void TGo4ViewPanel::StartRootEditor()
    bool visible = false;
    std::cout << "DDDDDDDDD TGo4ViewPanel::StartRootEditor()" << std::endl;
    if (fxQCanvas) {
-#ifdef GO4_X11
+#ifdef __GO4X11__
       if (!fxQCanvas->isEditorAllowed()) return;
 
       visible = !fxQCanvas->isEditorVisible();
@@ -2029,7 +2029,7 @@ void TGo4ViewPanel::StartRootEditor()
 #endif
    } else if (fxWCanvas) {
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
 
       // SetActivePad(GetCanvas());
 
@@ -2244,12 +2244,12 @@ void TGo4ViewPanel::ShowEventStatus()
 {
    bool flag = true;
    if (fxQCanvas) {
-#ifdef GO4_X11
+#ifdef __GO4X11__
       flag = !fxQCanvas->isStatusBarVisible();
       fxQCanvas->setStatusBarVisible(flag);
 #endif
    } else if (fxWCanvas) {
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
       flag = !fxWCanvas->isStatusBarVisible();
       fxWCanvas->setStatusBarVisible(flag);
 #endif
@@ -3152,12 +3152,12 @@ TObject* TGo4ViewPanel::GetPadMainObject(TPad* pad)
 
 TCanvas* TGo4ViewPanel::GetCanvas()
 {
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (fxQCanvas)
       return fxQCanvas->getCanvas();
 #endif
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    if (fxWCanvas)
       return fxWCanvas->getCanvas();
 #endif
@@ -3170,12 +3170,12 @@ void TGo4ViewPanel::CanvasUpdate(bool modify)
    // std::cout <<"TGo4ViewPanel::CanvasUpdate with modify: "<< modify << std::endl;
 
    if (fxQCanvas) {
-#ifdef GO4_X11
+#ifdef __GO4X11__
       if (modify) fxQCanvas->Modified();
       fxQCanvas->Update();
 #endif
    } else if (fxWCanvas) {
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
       if (modify) fxWCanvas->Modified();
       fxWCanvas->Update();
 #endif
@@ -3889,7 +3889,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
 
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    // must be done once before pad->Clear in ProcessPadRedraw, so we do it here instead for each subpad
@@ -4732,7 +4732,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
    pad->SetCrosshair(fbCanvasCrosshair);
    pad->SetFillColor(padfillcolor);
 
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (fxQCanvas)
       if (show_status != fxQCanvas->isStatusBarVisible())
          ShowEventStatus();
@@ -4765,7 +4765,7 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
    output.Append(" Ready");
 
    if (fxQCanvas) {
-#ifdef GO4_X11
+#ifdef __GO4X11__
       fxQCanvas->showStatusMessage(output.Data());
 #endif
    } else if (fxWCanvas) {
@@ -5634,7 +5634,7 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 void TGo4ViewPanel::ResizeGedEditor()
 {
   //std::cout<< "TGo4ViewPanel::ResizeGedEditor is called with canvas" << (long) fxQCanvas <<std::endl;
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (fxQCanvas) fxQCanvas->resizeEditor();
 #endif
 }
@@ -5643,11 +5643,11 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
       if (fxQCanvas) {
-#ifdef GO4_X11
+#ifdef __GO4X11__
          fxQCanvas->activateEditor(GetActivePad(), obj);
 #endif
       } else if (fxWCanvas) {
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
          fxWCanvas->activateEditor(GetActivePad(), obj);
 #endif
       }
@@ -5655,7 +5655,7 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 
 void TGo4ViewPanel::CleanupGedEditor()
 {
-#ifdef GO4_X11
+#ifdef __GO4X11__
    if (fxQCanvas)
       fxQCanvas->cleanupEditor();
 #endif

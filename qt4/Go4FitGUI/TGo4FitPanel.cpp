@@ -278,7 +278,7 @@ void TGo4FitGuiArrow::TestNewPosition()
    }
 }
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
 Bool_t TGo4FitGuiArrow::Notify()
 {
    if (fxPanel && fxPanel->ActivePanel() && fxPanel->ActivePanel()->IsWebCanvas())

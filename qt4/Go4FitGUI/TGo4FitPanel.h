@@ -87,7 +87,7 @@ public:
 
    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    virtual Bool_t Notify();
 #endif
 

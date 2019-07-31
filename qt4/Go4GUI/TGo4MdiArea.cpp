@@ -147,7 +147,7 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
             fxActivePad = 0;
          }
 
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
          // try to keep gPad - nullptr can have problem when running TWebCanvas
          if (!gPad || panel->IsPanelPad((TPad *)gPad)) {
             TGo4ViewPanel *other = FindOtherPanel(panel);

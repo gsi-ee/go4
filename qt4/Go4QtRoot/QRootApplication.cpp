@@ -35,7 +35,7 @@
 #include <QtCore/QTimer>
 
 #ifndef WIN32
-#ifdef GO4_X11
+#ifdef __GO4X11__
 
 #include <X11/Xlib.h>
 
@@ -157,7 +157,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
   // under Windows one should explicit enable these methods
   fRootCanvasMenusEnabled = (flag == 1);
 #else
-#ifdef GO4_X11
+#ifdef __GO4X11__
    XSetErrorHandler( qt_x11_errhandler );
 #endif
    // under Unix one should explicit disable these methods

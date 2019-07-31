@@ -38,7 +38,7 @@
 #include "TGo4AbstractInterface.h"
 
 #ifndef WIN32
-#ifdef GO4_X11
+#ifdef __GO4X11__
 #include "TGX11.h"
 //extern void qt_x11_set_global_double_buffer(bool);
 #endif
@@ -67,7 +67,7 @@ int go4_usage() {
    std::cout << "   go4 -admin hostname port" << std::endl;
    std::cout << "   go4 -prepare                - prepare for analysis client connection" << std::endl;
    std::cout << "   go4 -usergui                - activate usergui" << std::endl;
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    std::cout << "   go4 -web                    - activate web-based canvas" << std::endl;
 #endif
    if (TGo4DabcProxy::GetDabcVersion())
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
    setlocale(LC_ALL, "C");
 
 #ifndef WIN32
-#ifdef GO4_X11
+#ifdef __GO4X11__
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
 #endif
    //    qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
@@ -115,8 +115,8 @@ int main(int argc, char **argv)
 
    bool prepare_for_client(false), traceon(false), usergui(false), useweb(false);
 
-#ifndef GO4_X11
-#ifdef GO4_WEBGUI
+#ifndef __GO4X11__
+#ifdef __GO4WEB__
    useweb = true;
 #else
    std::cerr << "Failure, go4 build without x11 and without web support" << std::endl;
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
    }
 
    go4sett = new TGo4QSettings(settfile);
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    go4sett->setWebBasedCanvas(useweb);
 #endif
 
@@ -228,7 +228,7 @@ int main(int argc, char **argv)
 
    char* argv2[3];
    argv2[0] = argv[0];
-#ifdef GO4_WEBGUI
+#ifdef __GO4WEB__
    argv2[argc++] = "--ignore-gpu-blacklist";
 #endif
    argv2[argc] = 0;
