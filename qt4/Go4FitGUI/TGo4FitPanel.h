@@ -87,9 +87,9 @@ public:
 
    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
+#ifdef GO4_WEBGUI
    virtual Bool_t Notify();
-
-   void TestNewPosition();
+#endif
 
 private:
    Int_t fxType;                    //!
@@ -102,6 +102,8 @@ private:
    Double_t fdShiftX;               //!
    QFitItem* fxItem;                //!
    TGo4FitPanel* fxPanel;           //!
+
+   void TestNewPosition();
 };
 
 // =======================================================================================
@@ -252,13 +254,11 @@ public:
     virtual void UpdateWizModelsBtns();
     virtual void UpdateWizStackWidget();
     virtual void UpdateWizPaint(int mode);
-    virtual void FillParsTable( QTableWidget* table, TGo4Fitter * fitter, TGo4FitModel * model, bool LinesView, TObjArray
- * TableList );
+    virtual void FillParsTable(QTableWidget *table, TGo4Fitter *fitter, TGo4FitModel *model, bool LinesView, TObjArray *TableList);
     virtual void FillNamedWidget(QFitNamedWidget* w);
     virtual void ChangeObjectName(QFitNamedWidget* w, const char* newname);
     virtual void ChangeObjectTitle(QFitNamedWidget* w, const char* newtitle);
     virtual void ChangeModelPar(QFitModelWidget* w, int npar, int value);
-
 
 public slots:
     virtual void panelSlot(TGo4ViewPanel*, TPad*, int);
@@ -336,7 +336,6 @@ public:
    QFitItem* CurrFitItem;
 
 protected:
-
     QMenuBar* MenuBar;
     QMenu* FitterMenu;
     QSignalMapper* FitterMap;
@@ -346,7 +345,6 @@ protected:
     QSignalMapper* SettMap;
     QMenu* ItemMenu;
     QSignalMapper* ItemMap;
-
 
     bool fbFillingWidget;
     int fiPaintMode;
@@ -384,14 +382,6 @@ protected:
     virtual void focusInEvent( QFocusEvent * event );
     virtual void changeEvent (  QEvent *event  );
     //virtual void windowActivationChange( bool OldActive );
-
-
-
 };
 
-#endif // TGO4FITPANEL_H
-
-
-
-
-
+#endif

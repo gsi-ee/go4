@@ -278,13 +278,15 @@ void TGo4FitGuiArrow::TestNewPosition()
    }
 }
 
+#ifdef GO4_WEBGUI
 Bool_t TGo4FitGuiArrow::Notify()
 {
-   // used in web interface to notify changes
-   TestNewPosition();
+   if (fxPanel && fxPanel->ActivePanel() && fxPanel->ActivePanel()->IsWebCanvas())
+      TestNewPosition();
 
    return TObject::Notify();
 }
+#endif
 
 // *************************************************************************
 
