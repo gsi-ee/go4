@@ -34,7 +34,7 @@ class QFitItem;
 class TGo4Fitter;
 class TGo4FitPanel;
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class QFitWidget : public QWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

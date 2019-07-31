@@ -19,7 +19,7 @@
 class QGo4LineEdit;
 class QLabel;
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class QFitNamedWidget : public QFitWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

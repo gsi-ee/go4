@@ -37,16 +37,7 @@ else
 GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
 
-ifdef GO4_NODESIGN
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
-else
-ifeq ($(GO4_OS),Wiin32)
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
-endif
-endif
-
 ifdef GO4_X11
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_X11"
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4QtRoot/QRootCanvas.h ../Go4QtRoot/QRootDialog.h ../Go4QtRoot/QRootWindow.h"
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4QtRoot/QRootCanvas.cpp ../Go4QtRoot/QRootDialog.cpp ../Go4QtRoot/QRootWindow.cpp"
 endif
@@ -56,7 +47,6 @@ GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h"
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
 GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6 -lWebGui6Full" 
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_WEBGUI"
 
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)

@@ -31,7 +31,7 @@
 
 #endif
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 #define QDESIGNER_WIDGET_EXPORT GO4_CLASS_EXPORT
 #else
 #include <QtDesigner/QDesignerExportWidget>

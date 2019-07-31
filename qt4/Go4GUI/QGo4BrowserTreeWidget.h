@@ -16,7 +16,7 @@
 
 #include <QTreeWidget>
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class QGo4BrowserTreeWidget : public QTreeWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

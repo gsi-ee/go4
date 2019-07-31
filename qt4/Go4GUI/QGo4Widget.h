@@ -47,7 +47,7 @@ class QSignalMapper;
 
 #endif
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

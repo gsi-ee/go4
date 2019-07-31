@@ -25,7 +25,7 @@
  * @since 14.11.2001
  */
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class QGo4LineEdit : public QLineEdit {
 #else
 #include <QtDesigner/QDesignerExportWidget>

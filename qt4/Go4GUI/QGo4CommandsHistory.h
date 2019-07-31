@@ -18,7 +18,7 @@
 
 #include <QtCore/QStringList>
 
-#ifdef GO4_NODESIGN
+#ifdef __GO4NODESIGN__
 class QGo4CommandsHistory : public QComboBox {
 #else
 #include <QtDesigner/QDesignerExportWidget>
