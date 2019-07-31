@@ -237,6 +237,7 @@ ifndef CFG_WITHOUT_QT
     else
        GO4_QT = 4
        QTCXXFLAGS += -DQT_SHARED
+       GO4_WEB :=
     endif
     endif
     ifeq ($(GO4_OS),Win32)
@@ -292,6 +293,7 @@ ifndef CFG_WITHOUT_QT
     GO4_QT     = 4
     QTPATH     = $(shell pkg-config --variable=prefix QtCore)
     QTCXXFLAGS = $(shell pkg-config --cflags QtCore)
+    GO4_WEB :=
     ifneq ($(wildcard $(QTPATH)/bin/qmake-qt4),)
       QMAKE      = $(QTPATH)/bin/qmake-qt4
     else

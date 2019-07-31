@@ -45,7 +45,6 @@ GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4QtRoot/QRootCanvas.cpp ../Go4QtRoot/QRoo
 endif
 
 ifdef GO4_WEB
-ifeq ($(GO4_QT),5)
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
@@ -55,7 +54,6 @@ GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_WEBGUI"
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
 GO4WEBGUI4_PUBH       = $(patsubst $(GO4WEBGUI4_DIR)/%.h, include/%.h, $(GO4WEBGUI4_H))
-endif
 endif
 
 GO4GUI4_PACKAGE_FORMS = $(wildcard $(GO4GUI4_DIR)/*.ui)
