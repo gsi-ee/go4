@@ -219,52 +219,62 @@ void TGo4FitGuiArrow::Delete(Option_t* option)
 
 void TGo4FitGuiArrow::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-    TArrow::ExecuteEvent(event,px,py);
-    if (event!=kButton1Up) return;
+   TArrow::ExecuteEvent(event,px,py);
 
-    switch (fxType) {
+   if (event != kButton1Up)
+      return;
+
+   switch (fxType) {
 
       case at_pos: {
          fxModel->SetPosition(0, GetX2());
-         fdLineAmpl = (GetY1()>GetY2()) ? GetY1() : GetY2();
-         if (fxPanel) fxPanel->ArrowChanged(this);
-         break; }
+         fdLineAmpl = (GetY1() > GetY2()) ? GetY1() : GetY2();
+         if (fxPanel)
+            fxPanel->ArrowChanged(this);
+         break;
+      }
 
       case at_width: {
-        Double_t width = 0;
-        fxModel->GetWidth(0,width);
-        Double_t pos = fxOther->GetX2();
+         Double_t width = 0;
+         fxModel->GetWidth(0, width);
+         Double_t pos = fxOther->GetX2();
 
-        Double_t w0 = (GetX2()-GetX1())/2;
-        Double_t w1 = pos-GetX1();
-        Double_t w2 = GetX2()-pos;
+         Double_t w0 = (GetX2() - GetX1()) / 2;
+         Double_t w1 = pos - GetX1();
+         Double_t w2 = GetX2() - pos;
 
-        if (TMath::Abs(w0-width)>1e-10) {
-           Double_t w = width;
-           if (TMath::Abs(w1-width)>1e-10) w=w1; else w=w2;
-           if (w>0) {
-             width=w;
-             fxModel->SetWidth(0,width);
-             if (fxPanel) fxPanel->ArrowChanged(this);
-           }
-        }
-        break; }
+         if (TMath::Abs(w0 - width) > 1e-10) {
+            Double_t w = width;
+            if (TMath::Abs(w1 - width) > 1e-10)
+               w = w1;
+            else
+               w = w2;
+            if (w > 0) {
+               width = w;
+               fxModel->SetWidth(0, width);
+               if (fxPanel)
+                  fxPanel->ArrowChanged(this);
+            }
+         }
+         break;
+      }
 
       case at_range: {
-        Int_t typ, naxis;
-        Double_t left, right;
-        fxComp->GetRangeCondition(fiRangeNum,typ,naxis,left,right);
+         Int_t typ, naxis;
+         Double_t left, right;
+         fxComp->GetRangeCondition(fiRangeNum, typ, naxis, left, right);
 
-        left = GetX1()<GetX2() ? GetX1() : GetX2();
-        right = GetX1()>GetX2() ? GetX1() : GetX2();
+         left = GetX1() < GetX2() ? GetX1() : GetX2();
+         right = GetX1() > GetX2() ? GetX1() : GetX2();
 
-        fxComp->SetRangeCondition(fiRangeNum,typ,naxis,left,right);
+         fxComp->SetRangeCondition(fiRangeNum, typ, naxis, left, right);
 
-        if (fxPanel) fxPanel->ArrowChanged(this);
+         if (fxPanel)
+            fxPanel->ArrowChanged(this);
 
-        break; }
-
-    }
+         break;
+      }
+   }
 }
 
 // *************************************************************************
@@ -449,9 +459,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
       CreateFitSlotLink(slot, itemname);
 
       UpdateActivePage();
-   } else
-
-   if(w == (QWidget*)FitList->viewport()) {
+   } else if(w == (QWidget*)FitList->viewport()) {
       QPoint pnt = FitList->viewport()->mapFrom(this, event->pos());
       QFitItem* item = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
       if ((item==0) || (item->ObjectType()!=FitGui::ot_slot)) return;
@@ -466,7 +474,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
    }
 }
 
-void TGo4FitPanel::linkedObjectUpdated( const char * linkname, TObject * obj )
+void TGo4FitPanel::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    UpdateObjectReferenceInSlots();
 
@@ -494,7 +502,6 @@ void TGo4FitPanel::linkedObjectRemoved( const char * linkname )
 void TGo4FitPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
 {
 }
-
 
 void TGo4FitPanel::WorkWithFitter(const char* itemname, TGo4ViewPanel* panel, TPad* pad)
 {
@@ -751,7 +758,6 @@ void TGo4FitPanel::Fitter_UseWorkspace()
   UpdateObjectReferenceInSlots();
   UpdateActivePage();
 }
-
 
 void TGo4FitPanel::Fitter_UpdateReferences()
 {
@@ -1460,15 +1466,16 @@ void  TGo4FitPanel::Cmd_AddNewModel(QFitItem * item, int id)
 
 void TGo4FitPanel::Cmd_ClearAssigment(QFitItem* item)
 {
-  if (item==0) return;
-  TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (item->Parent()->Object());
-  if (model==0) return;
+   if (item == 0) return;
 
-  model->ClearAssignmentTo(item->text(0).toLatin1().constData());
+   TGo4FitModel *model = dynamic_cast<TGo4FitModel *>(item->Parent()->Object());
+   if (model == 0) return;
 
-  UpdateItemsOfType(FitGui::ot_parslist, item->Parent()->Parent());
+   model->ClearAssignmentTo(item->text(0).toLatin1().constData());
 
-  UpdateItem(item->Parent(), true);
+   UpdateItemsOfType(FitGui::ot_parslist, item->Parent()->Parent());
+
+   UpdateItem(item->Parent(), true);
 }
 
 void TGo4FitPanel::Cmd_ClearAssigments(QFitItem* item)
@@ -1576,8 +1583,7 @@ void TGo4FitPanel::Cmd_AddRangeCondition(QFitItem* item, int id)
    if (pad) {
       minx = pad->GetUxmin(); maxx = pad->GetUxmax();
       miny = pad->GetUymin(); maxy = pad->GetUymax();
-   } else
-   if (data!=0) {
+   } else if (data) {
      data->DefineScaleMinMax(0,minx,maxx);
      data->DefineScaleMinMax(1,miny,maxy);
      Double_t ddx = 0.1*(maxx-minx);
