@@ -15,7 +15,6 @@
 
 #include <stdio.h>
 
-
 #include "qevent.h"
 #include "qheaderview.h"
 
@@ -114,7 +113,6 @@
 #include "QFitMatrixTransWidget.h"
 #include "TGo4FitGuiTypes.h"
 
-
 // ********************************************************************
 
 TGo4FitGuiArrow::TGo4FitGuiArrow() :
@@ -123,7 +121,7 @@ TGo4FitGuiArrow::TGo4FitGuiArrow() :
 {
 }
 
-TGo4FitGuiArrow::TGo4FitGuiArrow(Float_t arrowsize, Option_t* option) :
+TGo4FitGuiArrow::TGo4FitGuiArrow(Float_t arrowsize, Option_t *option) :
     TArrow(0.,0.,0.,0.,arrowsize,option), fxType(at_none), fxModel(0), fxOther(0), fdLineAmpl(0.), fxComp(0), fiRangeNum(0),
     fdRangeY(0.), fdShiftX(0.), fxItem(0), fxPanel(0)
 {
@@ -170,60 +168,63 @@ void TGo4FitGuiArrow::SetItem(QFitItem* item, TGo4FitPanel* panel)
 
 Bool_t TGo4FitGuiArrow::Locate()
 {
-  Double_t x1 = GetX1(), x2 = GetX2();
-  Double_t y1 = GetY1(), y2 = GetY2();
+   Double_t x1 = GetX1(), x2 = GetX2(), y1 = GetY1(), y2 = GetY2();
 
-  switch (fxType) {
-    case at_pos:
-      Double_t pos;
-      if (fxModel->GetPosition(0,pos)) {
-         SetX1(pos); SetX2(pos); SetY1(fdLineAmpl/2); SetY2(fdLineAmpl);
-      }
-      break;
-    case at_width:
-      Double_t width, ppp;
-      if ((fxModel->GetWidth(0,width)) && (fxModel->GetPosition(0,ppp))) {
-         SetX1(ppp-width); SetX2(ppp+width);
-         SetY1(fxOther->GetY1());
-         SetY2(fxOther->GetY1());
-      }
-      break;
-    case at_range:
-      Int_t typ, naxis;
-      Double_t left, right;
-      fxComp->GetRangeCondition(fiRangeNum, typ, naxis, left, right);
-      switch (typ) {
-        case 0: SetX1(left); SetX2(right); break;
-        case 1: SetX1(left); SetX2(right); break;
-        case 2: SetX1(left); SetX2(left+fdShiftX); break;
-        case 3: SetX1(right-fdShiftX); SetX2(right); break;
-      }
-      SetY1(fdRangeY); SetY2(fdRangeY);
+   switch (fxType) {
+      case at_pos:
+         Double_t pos;
+         if (fxModel->GetPosition(0,pos)) {
+            SetX1(pos); SetX2(pos); SetY1(fdLineAmpl/2); SetY2(fdLineAmpl);
+         }
+         break;
+      case at_width:
+         Double_t width, ppp;
+         if ((fxModel->GetWidth(0,width)) && (fxModel->GetPosition(0,ppp))) {
+            SetX1(ppp-width); SetX2(ppp+width);
+            SetY1(fxOther->GetY1());
+            SetY2(fxOther->GetY1());
+         }
+         break;
+      case at_range:
+         Int_t typ, naxis;
+         Double_t left, right;
+         fxComp->GetRangeCondition(fiRangeNum, typ, naxis, left, right);
+         switch (typ) {
+            case 0: SetX1(left); SetX2(right); break;
+            case 1: SetX1(left); SetX2(right); break;
+            case 2: SetX1(left); SetX2(left+fdShiftX); break;
+            case 3: SetX1(right-fdShiftX); SetX2(right); break;
+         }
+         SetY1(fdRangeY); SetY2(fdRangeY);
 
-      break;
-  }
+         break;
+   }
 
-  return (x1 != GetX1()) || (x2 != GetX2()) || (y1 != GetY1()) || (y2 != GetY2());
+   return (x1 != GetX1()) || (x2 != GetX2()) || (y1 != GetY1()) || (y2 != GetY2());
 }
 
-Bool_t TGo4FitGuiArrow::IsAssignTo(TObject* obj)
+Bool_t TGo4FitGuiArrow::IsAssignTo(TObject *obj)
 {
    return (obj!=0) && ((obj==fxModel) || (obj==fxComp));
 }
 
 void TGo4FitGuiArrow::Delete(Option_t* option)
 {
-  if ((fxType==at_pos) && (fxPanel!=0))
-    fxPanel->DeleteModelWithPrimit(this);
+   printf("Delete %p\n", this);
+   if ((fxType==at_pos) && (fxPanel!=0))
+      fxPanel->DeleteModelWithPrimit(this);
 }
 
 void TGo4FitGuiArrow::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
    TArrow::ExecuteEvent(event,px,py);
 
-   if (event != kButton1Up)
-      return;
+   if (event == kButton1Up)
+      TestNewPosition();
+}
 
+void TGo4FitGuiArrow::TestNewPosition()
+{
    switch (fxType) {
 
       case at_pos: {
@@ -275,6 +276,14 @@ void TGo4FitGuiArrow::ExecuteEvent(Int_t event, Int_t px, Int_t py)
          break;
       }
    }
+}
+
+Bool_t TGo4FitGuiArrow::Notify()
+{
+   // used in web interface to notify changes
+   TestNewPosition();
+
+   return TObject::Notify();
 }
 
 // *************************************************************************
@@ -4803,13 +4812,13 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
 
       bool res = false;
       for (Int_t k=0;k<=lst.GetLast();k++) {
-        TGo4FitGuiArrow* a = dynamic_cast<TGo4FitGuiArrow*> (lst[k]);
-        if (a==0) continue;
-        if (a->Locate()) res = true;
+         TGo4FitGuiArrow* a = dynamic_cast<TGo4FitGuiArrow*> (lst[k]);
+         if (a==0) continue;
+         if (a->Locate()) res = true;
       }
       if (res) {
-        ActivePanel()->MarkPadModified(pad);
-        ismodified = true;
+         ActivePanel()->MarkPadModified(pad);
+         ismodified = true;
       }
     }
    if (ismodified)

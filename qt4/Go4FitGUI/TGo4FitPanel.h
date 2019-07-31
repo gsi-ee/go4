@@ -87,6 +87,10 @@ public:
 
    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
+   virtual Bool_t Notify();
+
+   void TestNewPosition();
+
 private:
    Int_t fxType;                    //!
    TGo4FitModel* fxModel;           //!
