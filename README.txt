@@ -171,6 +171,9 @@ ADVANCED MAKE OPTIONS
      Build go4 gui without use of X11. Default for Mac and Windows. Required
      web support in ROOT.
 
+  nodesign=1
+     Should be provided when Qt-designer tools are not installed
+
   GO4_OS=Linux|Solaris|Win32|Darwin
      Defines platform, on which go4 will be compiled.
      If not defined, tested via 'uname'. Default is Linux.

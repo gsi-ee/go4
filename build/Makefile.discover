@@ -116,7 +116,9 @@ GO4_X11 = true
 
 endif
 
-
+ifdef nodesign
+GO4_NODESIGN = true 
+endif
 
 ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
 USESPECTRUM   = true
@@ -502,6 +504,9 @@ ifdef GO4_X11
 endif
 ifdef GO4_WEB
 	@echo "GO4_WEB      = true" >> $@
+endif
+ifdef GO4_NODESIGN
+	@echo "GO4_NODESIGN = true" >> $@
 endif
 	@echo "GO4PREFIX    = $(GO4PREFIX)" >> $@
 	@echo "GO4TOPPATH   = $(GO4TOPPATH)" >> $@

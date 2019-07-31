@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -20,7 +20,7 @@ class QLabel;
 class QSpinBox;
 class QCheckBox;
 
-#ifdef WIN32
+#ifdef GO4_NODESIGN
 class QFitModelWidget : public QFitNamedWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

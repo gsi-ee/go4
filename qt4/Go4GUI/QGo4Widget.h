@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -47,8 +47,7 @@ class QSignalMapper;
 
 #endif
 
-
-#ifdef WIN32
+#ifdef GO4_NODESIGN
 class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>

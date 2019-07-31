@@ -37,6 +37,13 @@ else
 GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
 
+ifdef GO4_NODESIGN
+GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
+else
+ifeq ($(GO4_OS),Wiin32)
+GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
+endif
+endif
 
 ifdef GO4_X11
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_X11"
