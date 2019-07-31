@@ -31,14 +31,6 @@ USERGUI4_FS         := $(USERGUI4_FORMS:.ui=.cpp)
 
 USERGUI4_QTLIB       = $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)
 
-ifdef GO4_NODESIGN
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
-else
-ifeq ($(GO4_OS),Win32)
-GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_NODESIGN"
-endif
-endif
-
 # used in the main Makefile
 
 ifdef DOPACKAGE
