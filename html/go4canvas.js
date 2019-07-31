@@ -26,11 +26,7 @@
    GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
    GO4.MarkerPainter.prototype.drawMarker = function(interactive) {
-      if (interactive && this.draw_g) {
-         this.draw_g.selectAll('*').remove();
-      } else {
-         this.CreateG(); // can draw in complete pad
-      }
+      this.CreateG(); // can draw in complete pad
 
       var marker = this.GetObject();
 
@@ -307,11 +303,7 @@
          return;
       }
 
-      if (interactive && this.draw_g) {
-         this.draw_g.selectAll('*').remove();
-      } else {
-         this.CreateG(true);
-      }
+      this.CreateG(true); // drawing performed inside frame
 
       if ((cond.fFillStyle==1001) && (cond.fFillColor==19)) {
          cond.fFillStyle = 3006;
@@ -321,14 +313,12 @@
       this.createAttFill({attr: cond});
       this.createAttLine({attr: cond});
 
-      var main = this.frame_painter();
-
-      this.grx1 = main.grx(cond.fLow1);
-      this.grx2 = main.grx(cond.fUp1);
+      this.grx1 = this.AxisToSvg("x", cond.fLow1);
+      this.grx2 = this.AxisToSvg("x", cond.fUp1);
 
       if (cond.fiDim == 2) {
-         this.gry1 = main.gry(cond.fUp2);
-         this.gry2 = main.gry(cond.fLow2);
+         this.gry1 = this.AxisToSvg("y", cond.fUp2);
+         this.gry2 = this.AxisToSvg("y", cond.fLow2);
       } else {
          this.gry1 = 0;
          this.gry2 = this.frame_height();
@@ -365,11 +355,11 @@
                        .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
          }.bind(this),
          complete: function() {
-            var cond = this.GetObject(), exec = "", main = this.frame_painter();
-            if (this.dx1 || this.swapx) { cond.fLow1 = main.RevertX(this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
-            if (this.dx2 || this.swapx) { cond.fUp1 = main.RevertX(this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
-            if (this.dy2 || this.swapy) { cond.fLow2 = main.RevertY(this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
-            if (this.dy1 || this.swapy) { cond.fUp2 = main.RevertY(this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
+            var cond = this.GetObject(), exec = "";
+            if (this.dx1 || this.swapx) { cond.fLow1 = this.SvgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
+            if (this.dx2 || this.swapx) { cond.fUp1 = this.SvgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
+            if (this.dy2 || this.swapy) { cond.fLow2 = this.SvgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
+            if (this.dy1 || this.swapy) { cond.fUp2 = this.SvgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
             if (exec) {
                this.WebCanvasExec(exec + "SetChanged()");
                this.drawLabel();
