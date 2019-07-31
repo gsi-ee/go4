@@ -60,6 +60,10 @@ LIBDEPENDENC += $(GO4QT4DEP)
 
 gui:: libs qt4-GUI qt4-heads all-qt4usergui all-qt5webusergui
 
+ifdef GO4_DESIGNER
+gui:: all-qt4plugin
+endif
+
 plugin:: all-qt4plugin
 
 endif

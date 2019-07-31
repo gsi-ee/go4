@@ -31,10 +31,10 @@
 
 #endif
 
-#ifdef __GO4NODESIGN__
-#define QDESIGNER_WIDGET_EXPORT GO4_CLASS_EXPORT
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
+#else
+#define QDESIGNER_WIDGET_EXPORT GO4_CLASS_EXPORT
 #endif
 
 #include "Rtypes.h"

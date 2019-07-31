@@ -47,11 +47,11 @@ class QSignalMapper;
 
 #endif
 
-#ifdef __GO4NODESIGN__
-class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
+#else
+class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
 #endif
 
    Q_OBJECT

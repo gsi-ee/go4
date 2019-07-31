@@ -18,12 +18,11 @@
 
 #include <QtCore/QStringList>
 
-#ifdef __GO4NODESIGN__
-class QGo4CommandsHistory : public QComboBox {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QGo4CommandsHistory : public QComboBox {
-
+#else
+class QGo4CommandsHistory : public QComboBox {
 #endif
 
    Q_OBJECT

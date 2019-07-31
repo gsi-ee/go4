@@ -34,11 +34,11 @@ class QFitItem;
 class TGo4Fitter;
 class TGo4FitPanel;
 
-#ifdef __GO4NODESIGN__
-class QFitWidget : public QWidget {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
+#else
+class QFitWidget : public QWidget {
 #endif
 
    Q_OBJECT

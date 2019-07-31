@@ -16,11 +16,11 @@
 
 #include <QTreeWidget>
 
-#ifdef __GO4NODESIGN__
-class QGo4BrowserTreeWidget : public QTreeWidget {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QGo4BrowserTreeWidget : public QTreeWidget {
+#else
+class QGo4BrowserTreeWidget : public QTreeWidget {
 #endif
    Q_OBJECT
 

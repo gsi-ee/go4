@@ -20,11 +20,11 @@ class QLabel;
 class QSpinBox;
 class QCheckBox;
 
-#ifdef __GO4NODESIGN__
-class QFitModelWidget : public QFitNamedWidget {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QFitModelWidget : public QFitNamedWidget {
+#else
+class QFitModelWidget : public QFitNamedWidget {
 #endif
 
   Q_OBJECT

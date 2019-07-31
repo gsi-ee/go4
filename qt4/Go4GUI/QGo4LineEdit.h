@@ -25,12 +25,11 @@
  * @since 14.11.2001
  */
 
-#ifdef __GO4NODESIGN__
-class QGo4LineEdit : public QLineEdit {
-#else
+#ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QGo4LineEdit : public QLineEdit {
-
+#else
+class QGo4LineEdit : public QLineEdit {
 #endif
    Q_OBJECT
 
