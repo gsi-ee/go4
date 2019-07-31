@@ -186,6 +186,8 @@ class TGo4Script : public TGo4AbstractInterface {
       void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE);
       void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE);
 
+      void StartFitPanel();
+
       Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0);

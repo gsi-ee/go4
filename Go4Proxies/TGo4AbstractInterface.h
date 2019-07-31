@@ -495,10 +495,9 @@ class TGo4AbstractInterface : public TObject {
                          int splitlevel) {}
 
       /** Set hdf5 data source as step data storage*/
-          virtual void StepHDF5Store(const char* stepname,
+      virtual void StepHDF5Store(const char* stepname,
                                   const char* storename,
                                   int flags) {}
-
 
       // windows management
 
@@ -573,6 +572,8 @@ class TGo4AbstractInterface : public TObject {
       /** Provide item name, drawn in the view panel.
        *  Optional cnt parameter could specify sequence number in panel, including all subpads */
       virtual const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return 0; }
+
+      virtual void StartFitPanel() {}
 
    ClassDef(TGo4AbstractInterface, 1);
 };

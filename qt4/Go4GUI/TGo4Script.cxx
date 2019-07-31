@@ -835,6 +835,11 @@ const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
    return panel ? panel->GetDrawItemName(cnt) : 0;
 }
 
+void TGo4Script::StartFitPanel()
+{
+   fMainWin->StartFitPanel();
+}
+
 TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* account, const char* pass)
 {
    if ((servername==0) || (*servername==0)) return 0;
@@ -1180,8 +1185,6 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    }
 
    fs << std::endl;
-
-
 
    TGo4Iter iter(br->BrowserTopSlot(), kFALSE);
    Bool_t goinside = kTRUE;
