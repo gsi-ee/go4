@@ -25,7 +25,7 @@
 
    GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
-   GO4.MarkerPainter.prototype.drawMarker = function(interactive) {
+   GO4.MarkerPainter.prototype.drawMarker = function() {
       this.CreateG(); // can draw in complete pad
 
       var marker = this.GetObject();
@@ -41,6 +41,22 @@
           this.draw_g.append("svg:path")
              .attr("d", path)
              .call(this.markeratt.func);
+
+      this.AddMove({
+         begin: function(x,y) {
+         }.bind(this),
+         move: function(dx,dy) {
+            this.grx += dx;
+            this.gry += dy;
+            this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
+         }.bind(this),
+         complete: function() {
+            var marker = this.GetObject();
+            marker.fX = this.SvgToAxis("x", this.grx);
+            marker.fY = this.SvgToAxis("y", this.gry);
+            this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
+            this.drawLabel();
+         }.bind(this)});
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
@@ -182,42 +198,7 @@
       // res.menu = res.exact; // activate menu only when exactly locate bin
       // res.menu_dist = 3; // distance always fixed
 
-      if (pnt.click_handler && hint.exact)
-         hint.click_handler = this.InvokeClickHandler.bind(this);
-
       return hint;
-   }
-
-   GO4.MarkerPainter.prototype.InvokeClickHandler = function(hint) {
-      if (!hint.exact) return; //
-
-      d3.select(window).on("mousemove.markerPnt", this.movePntHandler.bind(this))
-                       .on("mouseup.markerPnt", this.endPntHandler.bind(this), true);
-
-      // coordinate in the frame
-      var pos = d3.mouse(this.svg_frame().node());
-      this.delta_x = this.grx - pos[0] - this.frame_x();
-      this.delta_y = this.gry - pos[1] - this.frame_y();
-   }
-
-   GO4.MarkerPainter.prototype.movePntHandler = function() {
-      var pos = d3.mouse(this.svg_frame().node()),
-          main = this.frame_painter(),
-          marker = this.GetObject();
-
-      marker.fX = main.RevertX(pos[0] + this.delta_x);
-      marker.fY = main.RevertY(pos[1] + this.delta_y);
-
-      this.drawMarker(true);
-   }
-
-   GO4.MarkerPainter.prototype.endPntHandler = function() {
-      d3.select(window).on("mousemove.markerPnt", null)
-                       .on("mouseup.markerPnt", null);
-
-      var marker = this.GetObject();
-      this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
-      this.drawLabel();
    }
 
    GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
@@ -335,7 +316,6 @@
              .call(this.fillatt.func);
 
       this.swap = function(n1,n2) { var d = this[n1]; this[n1] = this[n2]; this[n2] = d; }
-
 
       this.AddMove({
          begin: function(x,y) {
