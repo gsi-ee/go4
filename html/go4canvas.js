@@ -319,9 +319,11 @@
       if (cond.fiDim == 2) {
          this.gry1 = this.AxisToSvg("y", cond.fUp2);
          this.gry2 = this.AxisToSvg("y", cond.fLow2);
+         this.candy = true;
       } else {
          this.gry1 = 0;
          this.gry2 = this.frame_height();
+         this.candy = false;
       }
 
       this.draw_g.append("svg:rect")
@@ -334,6 +336,7 @@
 
       this.swap = function(n1,n2) { var d = this[n1]; this[n1] = this[n2]; this[n2] = d; }
 
+
       this.AddMove({
          begin: function(x,y) {
             this.swapx = this.swapy = false;
@@ -343,6 +346,7 @@
             this.dy2 = Math.abs(y-this.gry2) < 5;
             if (!this.dx1 && !this.dx2 && !this.dy1 && !this.dy2)
                this.dx1 = this.dx2 = this.dy1 = this.dy2 = true;
+            if (!this.candy) this.dy1 = this.dy2 = false;
          }.bind(this),
          move: function(dx,dy) {
             if (this.dx1) this.grx1 += dx;
