@@ -247,7 +247,7 @@
    }
 
    GO4.ConditionPainter.prototype.afterCutDraw = function(p) {
-      if (!p || !this.snapid) return;
+      if (!p || !this.snapid || p._oldexec) return;
       p.snapid = this.snapid + "#member_fxCut";
 
       // catch TCutG exec and mark condition as modified
