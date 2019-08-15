@@ -10,7 +10,7 @@
       throw e1;
    }
 
-   var myGO4 = { version: "5.3.x", web_canvas: true };
+   var myGO4 = { version: "5.9.x", web_canvas: true };
 
    factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
 
@@ -24,6 +24,20 @@
    }
 
    GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+
+   GO4.MarkerPainter.prototype.moveDrag = function(dx,dy) {
+      this.grx += dx;
+      this.gry += dy;
+      this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
+   }
+
+   GO4.MarkerPainter.prototype.moveEnd = function() {
+      var marker = this.GetObject();
+      marker.fX = this.SvgToAxis("x", this.grx);
+      marker.fY = this.SvgToAxis("y", this.gry);
+      this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
+      this.drawLabel();
+   }
 
    GO4.MarkerPainter.prototype.drawMarker = function() {
       this.CreateG(); // can draw in complete pad
@@ -42,21 +56,7 @@
              .attr("d", path)
              .call(this.markeratt.func);
 
-      this.AddMove({
-         begin: function(x,y) {
-         }.bind(this),
-         move: function(dx,dy) {
-            this.grx += dx;
-            this.gry += dy;
-            this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
-         }.bind(this),
-         complete: function() {
-            var marker = this.GetObject();
-            marker.fX = this.SvgToAxis("x", this.grx);
-            marker.fY = this.SvgToAxis("y", this.gry);
-            this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
-            this.drawLabel();
-         }.bind(this)});
+      this.AddMove();
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
@@ -315,40 +315,48 @@
              .call(this.lineatt.func)
              .call(this.fillatt.func);
 
-      this.swap = function(n1,n2) { var d = this[n1]; this[n1] = this[n2]; this[n2] = d; }
+      this.AddMove();
+   }
 
-      this.AddMove({
-         begin: function(x,y) {
-            this.swapx = this.swapy = false;
-            this.dx1 = Math.abs(x-this.grx1) < 5;
-            this.dx2 = Math.abs(x-this.grx2) < 5;
-            this.dy1 = Math.abs(y-this.gry1) < 5;
-            this.dy2 = Math.abs(y-this.gry2) < 5;
-            if (!this.dx1 && !this.dx2 && !this.dy1 && !this.dy2)
-               this.dx1 = this.dx2 = this.dy1 = this.dy2 = true;
-            if (!this.candy) this.dy1 = this.dy2 = false;
-         }.bind(this),
-         move: function(dx,dy) {
-            if (this.dx1) this.grx1 += dx;
-            if (this.dx2) this.grx2 += dx;
-            if (this.grx1 > this.grx2) { this.swapx = true; this.swap('grx1', 'grx2'); this.swap('dx1', 'dx2'); }
-            if (this.dy1) this.gry1 += dy;
-            if (this.dy2) this.gry2 += dy;
-            if (this.gry1 > this.gry2) { this.swapy = true; this.swap('gry1', 'gry2'); this.swap('dy1', 'dy2'); }
-            this.draw_g.select('rect').attr("x",this.grx1).attr("y", this.gry1)
-                       .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
-         }.bind(this),
-         complete: function() {
-            var cond = this.GetObject(), exec = "";
-            if (this.dx1 || this.swapx) { cond.fLow1 = this.SvgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
-            if (this.dx2 || this.swapx) { cond.fUp1 = this.SvgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
-            if (this.dy2 || this.swapy) { cond.fLow2 = this.SvgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
-            if (this.dy1 || this.swapy) { cond.fUp2 = this.SvgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
-            if (exec) {
-               this.WebCanvasExec(exec + "SetChanged()");
-               this.drawLabel();
-            }
-         }.bind(this)});
+   GO4.ConditionPainter.prototype.moveStart = function(x,y) {
+      this.swapx = this.swapy = false;
+      this.dx1 = Math.abs(x-this.grx1) < 5;
+      this.dx2 = Math.abs(x-this.grx2) < 5;
+      this.dy1 = Math.abs(y-this.gry1) < 5;
+      this.dy2 = Math.abs(y-this.gry2) < 5;
+      if (!this.dx1 && !this.dx2 && !this.dy1 && !this.dy2)
+         this.dx1 = this.dx2 = this.dy1 = this.dy2 = true;
+      if (!this.candy) this.dy1 = this.dy2 = false;
+   }
+
+
+   GO4.ConditionPainter.prototype.swap = function(n1,n2) {
+      var d = this[n1];
+      this[n1] = this[n2];
+      this[n2] = d;
+   }
+
+   GO4.ConditionPainter.prototype.moveDrag = function(dx,dy) {
+      if (this.dx1) this.grx1 += dx;
+      if (this.dx2) this.grx2 += dx;
+      if (this.grx1 > this.grx2) { this.swapx = true; this.swap('grx1', 'grx2'); this.swap('dx1', 'dx2'); }
+      if (this.dy1) this.gry1 += dy;
+      if (this.dy2) this.gry2 += dy;
+      if (this.gry1 > this.gry2) { this.swapy = true; this.swap('gry1', 'gry2'); this.swap('dy1', 'dy2'); }
+      this.draw_g.select('rect').attr("x",this.grx1).attr("y", this.gry1)
+                 .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
+   }
+
+   GO4.ConditionPainter.prototype.moveEnd = function() {
+      var cond = this.GetObject(), exec = "";
+      if (this.dx1 || this.swapx) { cond.fLow1 = this.SvgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
+      if (this.dx2 || this.swapx) { cond.fUp1 = this.SvgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
+      if (this.dy2 || this.swapy) { cond.fLow2 = this.SvgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
+      if (this.dy1 || this.swapy) { cond.fUp2 = this.SvgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
+      if (exec) {
+         this.WebCanvasExec(exec + "SetChanged()");
+         this.drawLabel();
+      }
    }
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
