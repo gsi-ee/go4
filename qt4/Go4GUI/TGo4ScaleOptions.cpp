@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,12 +13,8 @@
 
 #include "TGo4ScaleOptions.h"
 
-#include "Riostream.h"
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
-#include "TGo4SetScaleValues.h"
-
-#include <QLineEdit>
 
 TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
@@ -101,9 +97,8 @@ void TGo4ScaleOptions::AutoZoomScales()
    MoveScale(5, 5, 5);
 }
 
-
 void TGo4ScaleOptions::MoveScale(int xaction, int yaction, int zaction)
 {
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel!=0) panel->MoveScale(ExpandFactor->value(), xaction, yaction, zaction);
+   if (panel) panel->MoveScale(ExpandFactor->value(), xaction, yaction, zaction);
 }
