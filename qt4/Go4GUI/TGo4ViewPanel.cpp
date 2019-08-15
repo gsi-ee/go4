@@ -4780,9 +4780,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
       return;
 
    TGo4Picture* padopt = GetPadOptions(selpad);
-   if (padopt != 0) {
-//     padopt->MoveScale(expandfactor, xaction, yaction);
-
+   if (padopt) {
       TObject* padhist = GetPadMainObject(selpad);
 
       MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
@@ -5094,8 +5092,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       MoveSingleScale(1., 6, 0, padopt, h1);
       if (ndim>1) MoveSingleScale(1., 6, 1, padopt, h1);
       if (ndim>2) MoveSingleScale(1., 6, 2, padopt, h1);
-   } else
-   if (padopt->GetRange(0, umin, umax)) {
+   } else if (padopt->GetRange(0, umin, umax)) {
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
       // to prevent this, center of each bin should be used
@@ -5139,6 +5136,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    }
 
    TAxis* az = h1->GetZaxis();
+
    if (padopt->GetRange(2, umin, umax) && (ndim > 1)) {
       if (!autoscale && (ndim == 2)) {
          hmin = umin;
@@ -5302,14 +5300,11 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
    //std::cout<< "SetSelectedRangeToHisto - 1:1 is "<< padopt->IsXYRatioOne()<< std::endl;
-   if (padopt->IsXYRatioOne())
-   {
-     RectangularRatio(pad);
+   if (padopt->IsXYRatioOne()) {
+      RectangularRatio(pad);
+   } else {
+      DefaultPadMargin(pad);
    }
-   else
-   {
-     DefaultPadMargin(pad);
-    }
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
