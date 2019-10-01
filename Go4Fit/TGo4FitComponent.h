@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -233,7 +233,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Returns flag of usage of additional buffers.
        * Buffers can only be created in Initialize procedure..
        */
-      Bool_t GetUseBuffers() { return fbUseBuffers; }
+      Bool_t GetUseBuffers() const { return fbUseBuffers; }
 
       /**
        * Print info about object on standard output.
@@ -255,7 +255,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Returns index of amplitude parameter.
        */
-      Int_t GetAmplIndex() { return fiAmplIndex; }
+      Int_t GetAmplIndex() const { return fiAmplIndex; }
 
       /**
        * Set index of amplitude parameter.

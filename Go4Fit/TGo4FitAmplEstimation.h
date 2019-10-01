@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -32,7 +32,7 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
 
       /**
        * Creates TGo4FitAmplEstimation action with given name.
-       * Optinally, default number of iterations can be sets up (default 1).
+       * Optionally, default number of iterations can be sets up (default 1).
        */
       TGo4FitAmplEstimation(const char* Name, Int_t NumIters = 1);
 
@@ -44,7 +44,7 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
       /**
        * Returns number of iterations.
        */
-      Int_t GetNumIterations() { return fiNumIters; }
+      Int_t GetNumIterations() const { return fiNumIters; }
 
       /**
        * Sets number of iterations.
@@ -63,7 +63,9 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
        * Print information on standard output.
        */
       virtual void Print(Option_t* option) const;
+
     private:
+
        Double_t PointWeight(Int_t niter, Int_t FFtype, Double_t value, Double_t modelvalue, Double_t standdev);
        Bool_t CalculateWithBuffers(TGo4Fitter* fitter);
        Bool_t CalculateWithIterators(TGo4Fitter* fitter);

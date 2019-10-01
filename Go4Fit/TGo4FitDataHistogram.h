@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -40,7 +40,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
        * Pointer on histogram (derived from TH1 class) and ownership flag can be sets up in constructor.
        * Scaling factor for bins (amplitude) can be added.
        */
-      TGo4FitDataHistogram(const char* iName, TH1* = 0, Bool_t iHistogramOwned = kFALSE, Bool_t AddAmpl = kFALSE);
+      TGo4FitDataHistogram(const char* iName, TH1* iHistogram = 0, Bool_t iHistogramOwned = kFALSE, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitDataHistogram object.
@@ -59,7 +59,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       void SetHistogram(TH1 *iHistogram, Bool_t iHistogramOwned = kFALSE);
 
       /**
-       * Create TGo4FitDataHistogramIter iterator, assosiated with given data object..
+       * Create TGo4FitDataHistogramIter iterator, associated with given data object..
        */
       TGo4FitDataIter* MakeIter();
 
