@@ -45,14 +45,14 @@ class TGo4FitModelFormula : public TGo4FitModel {
       virtual ~TGo4FitModelFormula();
 
       /**
-       * Signals that ampltide parameter can be removed from or introdeced to object.
+       * Signals that amplitude parameter can be removed from or introduced to object.
        */
       virtual Bool_t CanAmplTouch() { return kTRUE; }
 
       /**
        * Return formula expression.
        */
-      const char* GetExpression() { return fxExpression.Data(); }
+      const char* GetExpression() const { return fxExpression.Data(); }
 
       /**
        * Sets formula expression.
@@ -60,7 +60,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       void SetExpression(const char* expr) { fxExpression = expr; }
 
       /**
-       * Get number of parameters, which can be used in exprssion.
+       * Get number of parameters, which can be used in expression.
        */
       Int_t GetNumberOfExprPar();
 
@@ -96,7 +96,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       virtual Int_t GetWidthParIndex(Int_t naxis);
 
       /**
-       * String, containig formula expression.
+       * String, containing formula expression.
        */
       TString fxExpression;
 

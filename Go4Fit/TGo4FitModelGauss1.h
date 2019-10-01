@@ -19,7 +19,7 @@
 /**
  * One dimensional gaussian peak.
  *
- * Has foolowing parameters :
+ * Has following parameters :
  *   "Ampl" - amplitude,
  *   "Pos" - position of gaussian peak,
  *   "Width" - width of gaussian.
@@ -51,7 +51,7 @@ class TGo4FitModelGauss1 : public TGo4FitModel {
       /**
        * Return number of axis, where gauss will be build.
        */
-      Int_t GetNumAxis() { return fiNaxis; }
+      Int_t GetNumAxis() const { return fiNaxis; }
 
       /**
        * Sets number of selected axis.

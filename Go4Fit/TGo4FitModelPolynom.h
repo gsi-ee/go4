@@ -63,13 +63,13 @@ class TGo4FitModelPolynom : public TGo4FitModel {
 
       /**
        * Creates TGo4FitModelPolynom object with given name for 2-dim case.
-       * The order of polynom for x and y axises should be specified.
+       * The order of polynom for x and y axes should be specified.
        */
       TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY);
 
       /**
        * Creates TGo4FitModelPolynom object with given name for 3-dim case.
-       * The order of polynom for x, y and z axises should be specified.
+       * The order of polynom for x, y and z axes should be specified.
        */
       TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ);
 

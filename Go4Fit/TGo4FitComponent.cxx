@@ -395,7 +395,7 @@ void TGo4FitComponent::Print(Option_t* option) const
      for (Int_t n=0;n<GetNumRangeCut();n++) {
         TCutG* cut = GetRangeCut(n);
         if (cut->TestBit(kExcludeCut)) std::cout << "  Exclude"; else std::cout << "  Include";
-        std::cout << " axises ranges, using TCutG object " << std::endl;
+        std::cout << " axes ranges, using TCutG object " << std::endl;
         cut->Print(option);
      }
 }

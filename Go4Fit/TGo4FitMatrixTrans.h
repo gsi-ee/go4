@@ -17,14 +17,15 @@
 #include "TGo4FitAxisTrans.h"
 
 /**
- * Matrix transfromation of scale values.
+ * Matrix transformation of scale values.
  *
  * It has full matrix (N x N) to transfrom axis values like:
  *
  *   scale' = Matrix x scale
  *
- * Each matrix element can be changed indvidually
+ * Each matrix element can be changed individually
  */
+
 class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
    public:
       TGo4FitMatrixTrans();
@@ -42,4 +43,5 @@ class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
 
    ClassDef(TGo4FitMatrixTrans,1)
 };
+
 #endif // TGO4FITMATRIXTRANS_H

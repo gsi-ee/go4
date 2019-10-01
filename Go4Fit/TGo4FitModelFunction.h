@@ -52,7 +52,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
        * Creates TGo4FitModelFunction object with specified name.
        * Pointer on function and number of parameters should be specified.
        * Additionally usage of amplitude parameter can be invoked.
-       * !!! Pointer on function, specidied in this method, can not be correctly restored from streamer. Therefore, object can not be directly reused after streaming. SetUserFunction() should be called before.
+       * !!! Pointer on function, specified in this method, can not be correctly restored from streamer. Therefore, object can not be directly reused after streaming. SetUserFunction() should be called before.
        */
       TGo4FitModelFunction(const char* iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude = kFALSE);
 
@@ -79,24 +79,24 @@ class TGo4FitModelFunction : public TGo4FitModel {
 
       /**
        * Set library file name and function name.
-       * Libraray will be loaded during initialization.
+       * Library will be loaded during initialization.
        */
       void SetUserFunction(const char* iLibraryName, const char* iFunctionName);
 
       /**
-       * Returns libraray name.
+       * Returns library name.
        */
-      const char* GetLibraryName() { return fxLibraryName.Data(); }
+      const char* GetLibraryName() const { return fxLibraryName.Data(); }
 
       /**
-       * Sets libraray name.
+       * Sets library name.
        */
       void SetLibraryName(const char* name) { fxLibraryName = name; }
 
       /**
        * Returns function name in library.
        */
-      const char* GetFunctionName() { return fxFunctionName.Data(); }
+      const char* GetFunctionName() const { return fxFunctionName.Data(); }
 
       /**
        * Sets function name in library.
@@ -117,7 +117,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       void SetWidthParIndex(Int_t naxis, Int_t indx = -1);
 
       /**
-       * Preapre object to evaluations.
+       * Prepare object to evaluations.
        * When usage of function from library is specified, library will be loaded at this time.
        */
       virtual Bool_t BeforeEval(Int_t ndim);
@@ -178,4 +178,5 @@ class TGo4FitModelFunction : public TGo4FitModel {
 
    ClassDef(TGo4FitModelFunction,1)
 };
+
 #endif // TGO4FITMODELFUNCTION_H

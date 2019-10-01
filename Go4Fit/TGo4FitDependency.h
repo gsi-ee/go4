@@ -21,7 +21,7 @@ class TFormula;
 
 /**
  * Object, used to store dependency of one parameter from other, calculated via expression.
- * It used in dependencies calculations, in parameters initialization and in resuly calculation.
+ * It used in dependencies calculations, in parameters initialization and in result calculation.
  * Value can be calculated via expression or be just a double constant.
  * The result parameter is sets via it's index in fitter parameters list.
  */
@@ -36,12 +36,12 @@ class TGo4FitDependency : public TObject {
       void SetInitValue(Double_t InitValue);
       void SetExpression(const char* iExpression);
 
-      const TString& GetParameter() { return fxParameter; }
-      const TString& GetExpression() { return fxExpression; }
-      Double_t GetInitValue() { return fdInitValue; }
+      const TString& GetParameter() const { return fxParameter; }
+      const TString& GetExpression() const { return fxExpression; }
+      Double_t GetInitValue() const { return fdInitValue; }
 
-      Bool_t IsResultDepend() { return fxParameter.Length()==0; }
-      Bool_t IsInitValue() { return fxExpression.Length()==0; }
+      Bool_t IsResultDepend() const { return fxParameter.Length()==0; }
+      Bool_t IsInitValue() const { return fxExpression.Length()==0; }
 
       void Initialize(Int_t iNumPar, const char* iFormula);
       Double_t ExecuteDependency(Double_t* Params);

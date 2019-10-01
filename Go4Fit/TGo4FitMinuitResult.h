@@ -72,4 +72,5 @@ class TGo4FitMinuitResult : public TNamed {
 
    ClassDef(TGo4FitMinuitResult,1)
 };
+
 #endif // TGO4FITMINUITRESULT_H

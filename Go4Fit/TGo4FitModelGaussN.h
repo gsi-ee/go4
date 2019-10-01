@@ -54,12 +54,12 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       virtual ~TGo4FitModelGaussN();
 
       /**
-       * Returns number of dimensions (number of axises), where gaussian will be build.
+       * Returns number of dimensions (number of axes), where gaussian will be build.
        */
       Int_t GetAxisNumbers() { return fxIndexes.GetSize(); }
 
       /**
-       * Sets number of axises (dimensions), where gaussian will be build. Should be more than 0.
+       * Sets number of axes (dimensions), where gaussian will be build. Should be more than 0.
        */
       Bool_t SetAxisNumbers(Int_t naxis);
 

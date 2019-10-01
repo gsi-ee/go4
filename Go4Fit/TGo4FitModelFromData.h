@@ -75,7 +75,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
       void SetDataAsModel(TGo4FitData* iData, Bool_t iOwned);
 
       /**
-       * Add ponter on slot, which should contain TGo4FitData object, to a slots list.
+       * Add pointer on slot, which should contain TGo4FitData object, to a slots list.
        */
       virtual void FillSlotList(TSeqCollection* list);
 
@@ -99,7 +99,6 @@ class TGo4FitModelFromData : public TGo4FitModel {
       virtual Bool_t Initialize(Int_t UseBuffers = -1);
 
       Double_t FindDataPoint(Int_t NumIndexes, const Int_t* Indexes);
-
 
       /**
        * Slot for TGo4FitData object, which is used as model component.

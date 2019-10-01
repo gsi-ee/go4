@@ -19,7 +19,7 @@
 #include "TGo4FitParameter.h"
 
 /**
- * The linear transfromation of selected data axis.
+ * The linear transformation of selected data axis.
  *
  * It has two coefficients to transfrom axis values like:
  *
@@ -39,7 +39,7 @@ class TGo4FitLinearTrans : public TGo4FitAxisTrans {
       TGo4FitLinearTrans(const char* iName, const char* iTitle, Int_t iAxis = 0);
       virtual ~TGo4FitLinearTrans();
 
-      Int_t GetAxis() { return fiAxis; }
+      Int_t GetAxis() const { return fiAxis; }
       void SetAxis(Int_t iAxis) { fiAxis = iAxis; }
       Double_t GetCoefK() { return GetPar(0)->GetValue(); }
       void SetCoefK(Double_t k) { GetPar(0)->SetValue(k); }
@@ -62,4 +62,5 @@ class TGo4FitLinearTrans : public TGo4FitAxisTrans {
 
    ClassDef(TGo4FitLinearTrans,1)
 };
+
 #endif // TGO4FITLINEARTRANS_H
