@@ -18,18 +18,19 @@
 #include "TGo4Fitter.h"
 #include "TGo4FitGuiTypes.h"
 
-
 QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
 }
 
-TGo4FitData* QFitDataWidget::GetData() {
+TGo4FitData* QFitDataWidget::GetData()
+{
    return dynamic_cast<TGo4FitData*> (GetObject());
 }
 
-void QFitDataWidget::FillSpecificData() {
+void QFitDataWidget::FillSpecificData()
+{
   QFitNamedWidget::FillSpecificData();
 
   if(GetData()) {
@@ -65,29 +66,28 @@ void QFitDataWidget::FillSpecificData() {
 
 void QFitDataWidget::NumCalibrSpin_valueChanged( int num)
 {
-  if(!fbFillWidget && GetData())
-    if (GetData()->SetNumberOfTransSlots(num)) {
-       if (GetFitter())
-         GetFitter()->SetUpdateSlotList();
-       UpdateWidgetItem(true);
-       UpdateItemsOfType(FitGui::ot_allslots, true);
-    }
+   if (!fbFillWidget && GetData())
+      if (GetData()->SetNumberOfTransSlots(num)) {
+         if (GetFitter())
+            GetFitter()->SetUpdateSlotList();
+         UpdateWidgetItem(true);
+         UpdateItemsOfType(FitGui::ot_allslots, true);
+      }
 }
 
 void QFitDataWidget::UseBinsChk_toggled( bool zn)
 {
- if(!fbFillWidget && GetData())
-    GetData()->SetUseBinScale(zn);
+   if (!fbFillWidget && GetData())
+      GetData()->SetUseBinScale(zn);
 }
 
 void QFitDataWidget::SigmaCmb_activated( int zn)
 {
- if(!fbFillWidget && GetData()) {
-    GetData()->SetSigmaSource(zn, -1.);
-    SigmaEdt->setEnabled(zn==2);
-  }
+   if (!fbFillWidget && GetData()) {
+      GetData()->SetSigmaSource(zn, -1.);
+      SigmaEdt->setEnabled(zn == 2);
+   }
 }
-
 
 void QFitDataWidget::SigmaEdt_textChanged( const QString & value)
 {
@@ -100,26 +100,29 @@ void QFitDataWidget::SigmaEdt_textChanged( const QString & value)
 
 void QFitDataWidget::BinsLimitEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && GetData()) {
-    bool ok = true;
-    double zn = value.toDouble(&ok);
-    if(ok) GetData()->SetExcludeLessThen(zn);
-  }
+   if (!fbFillWidget && GetData()) {
+      bool ok = true;
+      double zn = value.toDouble(&ok);
+      if (ok)
+         GetData()->SetExcludeLessThen(zn);
+   }
 }
 
 void QFitDataWidget::AmplChk_toggled( bool chk)
 {
-  if(!fbFillWidget && GetData() && GetData()->CanAmplTouch()) {
-     bool res = false;
-     if (chk) res = GetData()->MakeAmpl();
-        else  res = GetData()->RemoveAmpl();
-     if (res) UpdateItemsOfType(FitGui::ot_parslist, false);
-  }
+   if (!fbFillWidget && GetData() && GetData()->CanAmplTouch()) {
+      bool res = false;
+      if (chk)
+         res = GetData()->MakeAmpl();
+      else
+         res = GetData()->RemoveAmpl();
+      if (res)
+         UpdateItemsOfType(FitGui::ot_parslist, false);
+   }
 }
-
 
 void QFitDataWidget::UseBuffersChk_toggled(bool zn)
 {
-  if(!fbFillWidget && GetData())
-    GetData()->SetUseBuffers(zn);
+   if (!fbFillWidget && GetData())
+      GetData()->SetUseBuffers(zn);
 }
