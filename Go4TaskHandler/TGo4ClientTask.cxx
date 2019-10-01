@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -159,7 +159,7 @@ if(fbServerConnected)
       }
       ////////UNDER CONSTRUCTION
       WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
-      SendStopBuffers(); // note: this should only be done after disconnect login was succesfull JA
+      SendStopBuffers(); // note: this should only be done after disconnect login was successful JA
       rev=fxTaskHandler->DisConnect();
       /////////
       if(rev) fbServerConnected=kFALSE;
