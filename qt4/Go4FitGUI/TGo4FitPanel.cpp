@@ -1353,7 +1353,7 @@ void TGo4FitPanel::Cmd_DeleteAssosiatedModels(QFitItem * item)
   if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
          QString("Delete models"),
-         QString("Are you sure to delete models, assosiated to ") + data->GetName(),
+         QString("Are you sure to delete models, associated to ") + data->GetName(),
          QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
 
   fitter->DeleteModelsAssosiatedTo(data->GetName());
@@ -3698,7 +3698,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   if(item->PopupMenuType() == FitGui::mt_data) {
      if (!WorkingWithPanel())
         AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 101);
-     AddIdAction(menu, map, "Remove assosiated models", 102);
+     AddIdAction(menu, map, "Remove associated models", 102);
      AddIdAction(menu, map, "Draw", 105);
      AddIdAction(menu, map, "Print", 5);
   }

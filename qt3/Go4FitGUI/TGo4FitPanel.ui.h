@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -1307,7 +1307,7 @@ void TGo4FitPanel::Cmd_DeleteAssosiatedModels(QFitItem * item)
   if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
          QString("Delete models"),
-         QString("Are you sure to delete models, assosiated to ") + data->GetName(),
+         QString("Are you sure to delete models, associated to ") + data->GetName(),
          QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
 
   fitter->DeleteModelsAssosiatedTo(data->GetName());
@@ -3582,7 +3582,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QPopupMenu* menu)
   if(item->PopupMenuType() == FitGui::mt_data) {
      if (!WorkingWithPanel())
        menu->insertItem(QString("Remove ")+item->Object()->GetName(),101);
-     menu->insertItem(QString("Remove assosiated models"),102);
+     menu->insertItem(QString("Remove associated models"),102);
      menu->insertItem(QString("Draw"),105);
      menu->insertItem(QString("Print"),5);
   }
