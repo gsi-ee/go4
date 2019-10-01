@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -147,7 +147,7 @@ class TGo4FitParsList: public TGo4FitNamed {
 
       /**
        * Get range limits for parameter with given name.
-       * If succesfull, return kTRUE.
+       * If successful, return kTRUE.
        */
       virtual Bool_t GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax);
 
@@ -159,7 +159,7 @@ class TGo4FitParsList: public TGo4FitNamed {
 
       /**
        * Get epsilon value for parameter with given name.
-       * Return kTRUE, is succesfull.
+       * Return kTRUE, is successful.
        */
       virtual Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon);
 
@@ -231,14 +231,14 @@ class TGo4FitParsList: public TGo4FitNamed {
       /**
        * Remove parameter from list with given name.
        * If parameter owned by list, parameter will be destroyed.
-       * Return kTRUE if succesfull.
+       * Return kTRUE if successful.
        */
       Bool_t RemovePar(const char* name);
 
       /**
        * Remove parameter from list.
        * If parameter owned by list, parameter will be destroyed.
-       * Return kTRUE if succesfull.
+       * Return kTRUE if successful.
        */
       Bool_t RemovePar(TGo4FitParameter* par);
 
