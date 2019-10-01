@@ -12,15 +12,15 @@
  * 11. 9.1996, H.G.: alternate archive tape device "ARCH_TAPE_2" added
  * 26. 9.1996, H.G.: new archive tape device "ARCH_TAPE_MC" added
  *                 "ARCH_TAPE_2" changed to "ARCH_TAPE_MC_2"
- *  8. 1.1997, H.G.: new parameter MAX_FILE_SIZE            
- * 21. 7.1997, H.G.: new parameter srawComm.cliNode          
+ *  8. 1.1997, H.G.: new parameter MAX_FILE_SIZE
+ * 21. 7.1997, H.G.: new parameter srawComm.cliNode
  * 10. 9.1997, H.G.: new ACTION value STAGE
- * 15. 9.1997, H.G.: new enum RETR_DEVICE                      
- * 26. 9.1997, H.G.: new ACTION value RETRIEVE_STAGE                    
- * 21.10.1997, H.G.: replace ARCHIVE_STAGE by ARCHIVE_OVER       
- * 19. 1.1998, H.G.: new status flag STA_END_OF_FILE_NOT_STAGED   
+ * 15. 9.1997, H.G.: new enum RETR_DEVICE
+ * 26. 9.1997, H.G.: new ACTION value RETRIEVE_STAGE
+ * 21.10.1997, H.G.: replace ARCHIVE_STAGE by ARCHIVE_OVER
+ * 19. 1.1998, H.G.: new status flag STA_END_OF_FILE_NOT_STAGED
  *  8. 7.1998, H.G.: use MBUF_SOCK and MBUF_ADSM; set both to 16384
- *                   new filetype STREAM                             
+ *                   new filetype STREAM
  * 28. 7.1999, H.G.: new ACTION values UNSTAGE, QUERY_UNSTAGE
  * 16. 8.2000, H.G.: new ACTION values QUERY_WORKSPACE, QUERY_POOL
  *                   new structures srawPoolStatus, srawWorkSpace
@@ -87,7 +87,7 @@
  * 24. 6.2004, H.G.: new STATUS value STA_CACHE_FULL
  * 29. 6.2004, H.G.: new ARCH_DEVICE value ARCH_DAQ_DISK for DaqPool
  *  2. 7.2004, H.G.: new definitions: DEF_FILESIZE,
- *                   SLEEP_CACHE_FULL, MAXLOOP_CACHE_FULL 
+ *                   SLEEP_CACHE_FULL, MAXLOOP_CACHE_FULL
  * 18.10.2004, H.G.: new STATUS value STA_CACHE_FILE_AWAY
  * 24.11.2004, H.G.: STATUS value ARCHIVE_AVAILABLE -> STA_ARCHIVE_AVAIL
  *                   new: STA_ARCHIVE_NOT_AVAIL, STA_NO_ACCESS
@@ -100,7 +100,7 @@
  * 15. 3.2006, H.G.: new STATUS value STA_ENTRY_INFO (for HA)
  * 17. 3.2006, H.G.: new entry server lxgstore
  * 28. 4.2006, H.G.: cleanup cNodeMasterxx strings
- *  9. 5.2006, H.G.: new actions for 2nd level DM: QUERY_FILESERVER, 
+ *  9. 5.2006, H.G.: new actions for 2nd level DM: QUERY_FILESERVER,
  *                      SEND_TO_FILESERVER, RECEIVE_FROM_DM
  *                   rename QUERY_RETRIEVE_API -> QUERY_RETRIEVE_RECORD
  *                   new parameters srawComm: iPoolIdRC, cNodeRC,
@@ -108,7 +108,7 @@
  *                      iPoolIdFC, cNodeFC, iFSidFC,
  * 19. 5.2006, H.G.: new idents: IDENT_STAGE_LIST, IDENT_QUERY_FILEDB
  *  2.10.2006, H.G.: new parameters srawObjAttr: iATLServer,
- *                   iRestoHigh2, iRestoHighLow, iRestoHighLow2, 
+ *                   iRestoHigh2, iRestoHighLow, iRestoHighLow2,
  *  5.10.2006, H.G.: new parameter srawComm: iATLServer
  * 28. 9.2006, H.G.: add MAX_ATLSERVER
  * 24.11.2006, H.G.: new ident IDENT_QUERY_DONE
@@ -170,7 +170,7 @@
  *                   srawObjAttr: new mem iDM (for 8 byte padding)
  * 28. 1.2010, H.G.: new definition: MAX_FULL_FILE
  *                   enhance STATUS_LEN 256 -> 512
- * 29. 1.2010, H.G.: srawFileList.cFile: MAX_FILE -> MAX_FULL_FILE 
+ * 29. 1.2010, H.G.: srawFileList.cFile: MAX_FILE -> MAX_FULL_FILE
  *                   srawComm.cDataFS: MAX_FILE -> MAX_FULL_FILE
  *                   srawCopyCache.cCopyPath: MAX_FILE -> MAX_FULL_FILE
  *  5. 2.2010, H.G.: mod. values: MAX_OBJ_HL 112, MAX_OBJ_LL 52
@@ -180,12 +180,12 @@
  * 22. 2.2010, H.G.: srawObjAttr.iFileSize[2]: two int for future 64 bit:
  *                      4 byte padding, ident struct size 32/64 bit env
  *                   if long in 64 bit env: 8 byte padding, diff struct
- *                      sizes (also in V1, V2 metadata structures) 
+ *                      sizes (also in V1, V2 metadata structures)
  * 16. 4.2010, H.G.: srawDataMoverAttr: iSynchId -> iATLServer
  *  9. 6.2010, H.G.: IDENT_PROC_INFO, MAX_ITEM added
  *  3. 9.2010, H.G.: srawComm: enable 8 byte filesize in 64 bit OS
  *                      new iFileSize2, MAX_APPLTYPE: 32 -> 28
- * 10. 9.2010, H.G.: discard SYSTEM64, srawObjAttrOld: 4 byte iFileSize 
+ * 10. 9.2010, H.G.: discard SYSTEM64, srawObjAttrOld: 4 byte iFileSize
  *  6.10.2010, H.G.: srawComm: new iClient32
  *                   new definition: MAX_FILE_SIZE_U
  * 26.11.2010, H.G.: string cTooBig: substitute for filesizes >= 4 GB
@@ -269,7 +269,7 @@ static char cOS[MAX_OS] = "VMS    ";
 #define MAX_OBJ_HL_LEVEL 14
     /* max no. gStore directory levels, if MAX_OBJ_xx fully utilized */
 
-#define MAX_MC       30 
+#define MAX_MC       30
            /* length ManagementClass name:
               limited by TSM (V5.5) to DSM_MAX_MC_NAME_LENGTH = 30
               -> length filespace name (26) + length('TAPE')         */
@@ -313,7 +313,7 @@ static char cOS[MAX_OS] = "VMS    ";
 
 enum ARCH_DEVICE                           /* logical archive device */
 {
-   ARCH_ANY,             /*  0: any device (for query) */ 
+   ARCH_ANY,             /*  0: any device (for query) */
    ARCH_TAPE,            /*  1: standard tape class */
    ARCH_TAPE_MC,         /*  2: user specific tape class for archive */
    MGR_TAPE,             /*  3: tape for system manager: special MC */
@@ -338,7 +338,7 @@ enum FILETYPE                                      /* describes data */
 enum ACTION                                                /* action */
 {
    ARCHIVE,             /*  0: archive files to TSM */
-   ARCHIVE_MGR,         /*  1: archive sysmgr: set owner, special MC */ 
+   ARCHIVE_MGR,         /*  1: archive sysmgr: set owner, special MC */
    ARCHIVE_RECORD,      /*  2: archive file from client program to WC */
    ARCHIVE_OVER,        /*  3: archive file with overwrite (client only)
                                on server: REMOVE + ARCHIVE_TO_CACHE */
@@ -353,7 +353,7 @@ enum ACTION                                                /* action */
    QUERY_ARCHIVE_MGR,   /* 12: query files before ARCHIVE (sysmgr) */
    QUERY_REMOVE,        /* 13: query for files to be deleted */
    QUERY_REMOVE_MGR,    /* 14: query for files to be deleted (sysmgr) */
-   RETRIEVE,            /* 15: retrieve file to client */ 
+   RETRIEVE,            /* 15: retrieve file to client */
    RETRIEVE_RECORD,     /* 16: retrieve file via client api (via RC) */
    RETRIEVE_STAGE,      /* 17: retrieve file to client via read cache */
    STAGE,               /* 18: stage file to read cache */
@@ -417,7 +417,7 @@ typedef struct
    int iWaitTime;         /* time to wait before execution (seconds) */
    int iSynchId;     /* = 1: RFIO write in DAQ mode (1st: select DM) */
                      /* =11: requested action recursive              */
-   char cTapeLib[16];            /* name of ATL: "" default, "*" all */ 
+   char cTapeLib[16];            /* name of ATL: "" default, "*" all */
    char cNodeCacheMgr[MAX_NODE];     /* name of node with cache mgrs */
    int iATLServer;            /* =1: aixtsm1(AIX), =2: gsitsma(Win),
                                  < 0: test system */
@@ -441,7 +441,7 @@ enum STATUS                                      /* status of action */
    STA_BEGIN_TRANS,    /*  0: server ready for data transfer */
    STA_NEXT_BUFFER,    /*  1: API client: request next sequ. buffer */
    STA_END_OF_FILE,    /*  2: okay, handle next file */
-   STA_END_OF_SESSION, /*  3: okay, end session */ 
+   STA_END_OF_SESSION, /*  3: okay, end session */
    STA_ERROR,          /*  4: error, end session */
    STA_ERROR_EOF,      /*  5: error, handle next file */
    STA_FILE_STAGED,    /*  6: file staged (RC) or written to data FS */
@@ -460,7 +460,7 @@ enum STATUS                                      /* status of action */
    STA_SWITCH_ENTRY,   /* 18: switch entry server */
    STA_ENTRY_INFO,     /* 19: info: name of entry server */
    STA_FILE_CACHED,    /* 20: file cached (WC) from central data FS */
-   STA_CACHE_COPY, /* 21: successfull copy from WC to central dataFS */
+   STA_CACHE_COPY, /* 21: successful copy from WC to central dataFS */
    STA_CACHE_COPY_ERROR
              /* 22: error status for copy from WC to central data FS */
 };

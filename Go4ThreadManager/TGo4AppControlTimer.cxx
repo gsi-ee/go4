@@ -60,7 +60,7 @@ Bool_t TGo4AppControlTimer::Notify ()
 
       }
    if(fxManager->Initialization()==0)
-      // init successfull?
+      // init successful?
       {
          GO4TRACE((11,"TGo4AppControlTimer: Successful Initialization",__LINE__, __FILE__));
          if(!fbApplicationRun)

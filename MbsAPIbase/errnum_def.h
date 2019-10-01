@@ -33,7 +33,7 @@
 /* !!! bit1:0 succes, bit1:1 error, i.e. odd numbers are errors! !!! */
 
 /* +++ UTIlity      error numbers start with   0 +++ */
-#define ERR__SUCCESS  0    /* Normal successfull completion && */
+#define ERR__SUCCESS  0    /* Normal successful completion && */
 #define ERR__ERROR    1    /* Error: && */
 /* */
 #define ERR__INFO     2    /* && */ /* only text */

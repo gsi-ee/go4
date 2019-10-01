@@ -38,7 +38,7 @@ Usage and Startup:
       In clientmode, the "LaunchClient" Window of the GUI will just
       accept a node name and the portnumber to connect. Specify
       the same number as printed out from the CINTServer (e.g. 5000)
-   4) After successfull connection, it is possible to request
+   4) After successful connection, it is possible to request
       the list of registered objects from the CINTServer (Refresh
       button in the analysis tab). Unless any object was registered
       to the go4 framework in the CINT Session, this list is of
