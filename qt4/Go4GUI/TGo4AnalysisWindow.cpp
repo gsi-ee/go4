@@ -51,8 +51,8 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     fxOutput = 0;
     outputBuffer = "";
     fiMaxOuputSize = 0;
-    fbShowTimestamps=kFALSE;
-    fxTimeFormat="yyyy-MM-dd�hh:mm:ss";
+    fbShowTimestamps = kFALSE;
+    fxTimeFormat = "yyyy-MM-dd hh:mm:ss";
     fxCmdHist = 0;
     fHasLink = false;
     fTerminateOnClose = false;
@@ -108,7 +108,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
 void TGo4AnalysisWindow::UpdateTimeStampFormat()
 {
-  fbShowTimestamps=go4sett->getTermShowTimestamp();
+  fbShowTimestamps = go4sett->getTermShowTimestamp();
   fxTimeFormat= go4sett->getTermTimeFormat();
 }
 
