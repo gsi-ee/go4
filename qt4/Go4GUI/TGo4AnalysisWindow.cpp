@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fuer Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -52,7 +52,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     outputBuffer = "";
     fiMaxOuputSize = 0;
     fbShowTimestamps=kFALSE;
-    fxTimeFormat="yyyy-MM-dd·hh:mm:ss";
+    fxTimeFormat="yyyy-MM-ddï¿½hh:mm:ss";
     fxCmdHist = 0;
     fHasLink = false;
     fTerminateOnClose = false;

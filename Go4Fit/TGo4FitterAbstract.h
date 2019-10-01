@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fuer Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -77,7 +77,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
 
       /**
        * Return kTRUE, if parameter should be fixed.
-       * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.ÿ
+       * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.ï¿½
        */
       virtual Bool_t GetParFixed(const char* ParName);
 
