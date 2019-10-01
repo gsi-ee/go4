@@ -15,7 +15,7 @@ LIBNAME=""
 
 while [[ "x$7" != "x" ]]; do
    fileext="${7##*.}"
-   if [[ "$fileext" == "h" ]]; then 
+   if [[ "$fileext" == "h" ]]; then
       HEADERS+=" $7"
    elif [[ "$fileext" == "$DLLSUF" && "x$LIBNAME" == "x" ]]; then
       LIBNAME=$7
@@ -28,32 +28,31 @@ done
 
 CINTOPT="-c -p "
 if [[ "$GO4_OS" == "Win32" ]]; then
-  rm -f *._rootcint *_cint 
+  rm -f *._rootcint *_cint
   CINT=$ROOTINTERPRETER
   CINTOPT+=`echo $CXXOPTIONS | tr -d \'`
 else
   CINT=$ROOTEXEPATH/bin/$ROOTINTERPRETER
   CINTOPT+=$CXXOPTIONS
-fi  
+fi
 
 if [[ "$ROOTINTERPRETER" == "rootcint" ]]; then
 
-   echo "Generating root5 dictionary $DICTIONARY ..." 
+   echo "Generating root5 dictionary $DICTIONARY ..."
 
    $CINT -f $DICTIONARY $CINTOPT $HEADERS
-   
+
    exit 0
 fi
 
-echo "Generating root6 dictionary $DICTIONARY ..." 
+echo "Generating root6 dictionary $DICTIONARY ..."
 
-if [[ "x$LIBNAME" == "x" ]]; then 
-  LIBNAME="libGo4UserAnalysis.$DLLSUF" 
-fi   
+if [[ "x$LIBNAME" == "x" ]]; then
+  LIBNAME="libGo4UserAnalysis.$DLLSUF"
+fi
 
 #$CINT -f $DICTIONARY -s $LIBNAME -rml $(basename "$LIBNAME") -c $CXXOPTIONS $HEADERS
 
-$CINT -f $DICTIONARY -s $LIBNAME -c $CXXOPTIONS $HEADERS
+$CINT -f $DICTIONARY -s $LIBNAME $CXXOPTIONS $HEADERS
 
-   
 exit 0
