@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -54,12 +54,12 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Returns type of data source. 0 - histogram, 1 - points (scale values have no width)
        */
-      const Int_t GetDataType() { return fiDataType; }
+      Int_t GetDataType() const { return fiDataType; }
 
       /**
        * Returns kTRUE, if binary numbers used as scale values.
        */
-      Bool_t GetUseBinScale() { return fbUseBinScale; }
+      Bool_t GetUseBinScale() const { return fbUseBinScale; }
 
       /**
        * If kTRUE, binary numbers will be used as scale values.
