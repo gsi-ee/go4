@@ -194,7 +194,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
 
 
       /**
-       * Array of TGo4FitDependency objects, which repersent equations to calculate result values in fitter.
+       * Array of TGo4FitDependency objects, which represent equations to calculate result values in fitter.
        */
       TObjArray fxResults;               // array of dependencies of results calculations
 

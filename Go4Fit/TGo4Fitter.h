@@ -102,7 +102,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        *  0 - no additional memory will be allocated in buffers
        *  1 - buffers will be allocated only for data objects
        *  2 - buffers will be used for all data and models objects
-       *  3 - individual setup for data and model objects will be used for memory allocaions
+       *  3 - individual setup for data and model objects will be used for memory allocations
        */
       void SetMemoryUsage(Int_t iMemoryUsage);
 
@@ -458,7 +458,4 @@ class TGo4Fitter : public TGo4FitterAbstract {
    ClassDef(TGo4Fitter,1)
 };
 
-
 #endif // TGO4FITTER_H
-
-

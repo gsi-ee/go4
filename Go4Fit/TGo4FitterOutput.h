@@ -48,7 +48,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       void Set(const char* Command, const char* Options = 0) { fxCommand = Command; fxOptions = Options; }
 
       /**
-       * Sets pad, hwich can be used for command output.
+       * Sets pad, which can be used for command output.
        */
       void SetPad(TVirtualPad* iPad) { fxPad = iPad; }
 

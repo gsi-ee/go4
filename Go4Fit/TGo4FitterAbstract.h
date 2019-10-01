@@ -41,7 +41,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       TGo4FitterAbstract();
 
       /**
-       * Create TGo4FitterAbstract object with given name and tiile.
+       * Create TGo4FitterAbstract object with given name and title.
        * TGo4FitterAbstract object should not be create directly, because it is abstract class.
        * TGo4Fitter or other implementation class should be used.
        */
@@ -77,7 +77,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
 
       /**
        * Return kTRUE, if parameter should be fixed.
-       * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.�
+       * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.
        */
       virtual Bool_t GetParFixed(const char* ParName);
 

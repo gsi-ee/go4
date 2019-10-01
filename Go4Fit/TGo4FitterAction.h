@@ -42,4 +42,5 @@ class TGo4FitterAction : public TGo4FitNamed {
 
    ClassDef(TGo4FitterAction,1)
 };
+
 #endif // TGO4FITTERACTION_H
