@@ -98,8 +98,8 @@ class TGo4FitSlot : public TGo4FitNamed {
 
       /**
        * Sets object to slot.
-       * First, if before another object was set to slot with ownership flag, it will be destroyd.
-       * Then, if object should always be owned by slot, but object is assigning without ownersip, it will be cloned and clone will be assigned with ownership flag.
+       * First, if before another object was set to slot with ownership flag, it will be destroyed.
+       * Then, if object should always be owned by slot, but object is assigning without ownership, it will be cloned and clone will be assigned with ownership flag.
        * if CheckClass==kTRUE (default), slot will refuse unsuitable object class.
        * If object owned by slot, it always be destroyed by slot.
        */
@@ -109,7 +109,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Connect this slot to provided slot.
        * This means, that objects, containing in slot will be also return by GetObject() of current slot.
        * Class of slots should be compatible
-       * Returns kTRUE, if operation successfull
+       * Returns kTRUE, if operation successful
        */
       Bool_t ConnectToSlot(TGo4FitSlot* slot);
 

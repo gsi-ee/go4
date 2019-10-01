@@ -93,8 +93,6 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       void Set2ChannelSum(Int_t sum) { fi2ChannelSum = sum; }
       Int_t Get2ChannelSum() { return fi2ChannelSum; }
 
-
-
       /**
        * Print information on standard output.
        */

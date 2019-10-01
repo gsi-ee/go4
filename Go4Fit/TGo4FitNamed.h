@@ -53,7 +53,7 @@ class TGo4FitNamed : public TNamed {
 
       /**
        * Sets owner of object.
-       * Owner should be a object of TNamed or derived classes. If owner derived from TGo4FitNamed class, full name of owner used for constracting of full name of object.
+       * Owner should be a object of TNamed or derived classes. If owner derived from TGo4FitNamed class, full name of owner used for constructing of full name of object.
        */
       void SetOwner(TNamed* iOwner) { fxOwner = iOwner; }
 

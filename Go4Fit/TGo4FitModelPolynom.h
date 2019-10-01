@@ -21,7 +21,7 @@ class TArrayD;
 /**
  * Model objects, which reproduce component of polynomial function.
  *
- * Expession can be written like:
+ * Expression can be written like:
  *
  * Ampl * x^nx * y^ny * z^nz * ...
  *
@@ -33,7 +33,8 @@ class TArrayD;
  *   Orders[0] = 1.; Orders[1] = 0.; ...
  *   TGo4FitModelPolynom *p2 = new TGo4FitModelPolynom("Pol2",Orders);
  *
- * According to number of parameters in constructor TGo4FitModelPolynom has set of parameters "Order0", "Order1" and so on, representing polynom orders for axis x, y and so on correspondently. By default, these parameters are fixed and not fitted in optimizations. To change this default behavior, use:
+ * According to number of parameters in constructor TGo4FitModelPolynom has set of parameters "Order0", "Order1" and so on, representing polynom orders for axis x, y and so on correspondently.
+ * By default, these parameters are fixed and not fitted in optimizations. To change this default behavior, use:
  *
  * p1->FindPar("Order0")->SetFixed(kFALSE);
  *

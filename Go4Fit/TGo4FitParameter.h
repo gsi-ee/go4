@@ -149,7 +149,7 @@ class TGo4FitParameter : public TGo4FitNamed {
       void ChangeRangeMin(Double_t iRangeMin) { if (fbRange) fdRangeMin = iRangeMin; }
 
       /**
-       * Cahnge value of range maximum.
+       * Change value of range maximum.
        */
       void ChangeRangeMax(Double_t iRangeMax) { if (fbRange) fdRangeMax = iRangeMax; }
 
@@ -164,7 +164,7 @@ class TGo4FitParameter : public TGo4FitNamed {
       Double_t GetRangeMax() { return fdRangeMax; }
 
       /**
-       * Clear status, that range was psecified.
+       * Clear status, that range was specified.
        * Equivalent to SetRangeUse(kFALSE).
        */
       void ClearRange() { fbRange = kFALSE; fdRangeMin = 0.; fdRangeMax = 0.; }
@@ -175,7 +175,7 @@ class TGo4FitParameter : public TGo4FitNamed {
       void MemorizeValue() { fdRememberedValue = fdValue; }
 
       /**
-       * Restore value, which was previosly memorized.
+       * Restore value, which was previously memorized.
        */
       void RememberValue() { fdValue = fdRememberedValue; }
 
