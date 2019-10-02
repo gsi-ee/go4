@@ -106,7 +106,7 @@ class TGo4AbstractInterface : public TObject {
    public:
 
       /** method to set initial list of shared libraries,
-       * which than will not be included in hostart file */
+       * which than will not be included in hotstart file */
       static void SetInitSharedLibs(const char* libs = 0);
 
       /** destructor */

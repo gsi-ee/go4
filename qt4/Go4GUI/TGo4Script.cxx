@@ -82,7 +82,7 @@ Bool_t TGo4Script::StartScriptExecution(const char* fname)
    fiWaitForGUIReaction = 0;
    fiWaitCounter = getCounts(0.1);
 
-   doOutput("Start hostart script execution");
+   doOutput("Start hotstart script execution");
 
    return kTRUE;
 }
