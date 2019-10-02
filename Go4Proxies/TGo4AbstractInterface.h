@@ -193,7 +193,7 @@ class TGo4AbstractInterface : public TObject {
         *    1 - request to data source only first time, no waiting
         *    2 - request to data source in any case, no waiting
         *   >9 - request to data source and wait as many milliseconds as specified by updatelevel
-        * Wating required, when object requested from the analysis */
+        * Waiting required, when object requested from the analysis */
       virtual TObject* GetObject(const char* itemname, Int_t updatelevel = 1);
 
       /** Save object in browser workspace.
