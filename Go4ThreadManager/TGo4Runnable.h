@@ -59,10 +59,10 @@ class TGo4Runnable : public TNamed {
       /** Function which is called once after the Run()method on threadstop */
       virtual Int_t PostRun (void* ptr);
 
-      /** catch for exceptions occuring in workfunc */
+      /** catch for exceptions occurring in workfunc */
       virtual void ThreadCatch(TGo4Exception& ex);
 
-      /** catch for all unexcpected exceptions happening in workfunc */
+      /** catch for all unexpected exceptions happening in workfunc */
       virtual void UnexpectedCatch ();
 
       /** The threadmanager which is responsible for our thread.

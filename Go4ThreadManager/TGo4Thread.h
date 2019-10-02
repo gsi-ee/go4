@@ -104,7 +104,7 @@ class TGo4Thread : public TNamed {
 
       void SetWaiting(Bool_t mode=kTRUE) { fbIsWaiting=mode; }
 
-      /** specifes whether thread is internal thread of handlerr
+      /** specifies whether thread is internal thread of handler
         *   (true) or is owned by external class (false).
         * In the latter case,
         *   thread instance and its runnable  are not deleted when
