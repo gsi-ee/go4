@@ -16,7 +16,6 @@
 
 #include "qwidget.h"
 #include "Rtypes.h"
-#include "Gtypes.h"
 #include "Buttons.h"
 #include "TVirtualX.h"
 

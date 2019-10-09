@@ -19,7 +19,7 @@
 #include "TArrayF.h"
 #include "Riostream.h"
 #include "RVersion.h"
-#include "Gtypes.h"
+#include "Rtypes.h"
 
 class TVirtualPad;
 class TPad;
