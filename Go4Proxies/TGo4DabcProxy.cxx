@@ -66,7 +66,7 @@ class TFakeFile : public TMemFile {
    protected:
       TList*  mylist;
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,14,2)
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,14,4)
 
       InfoListRet GetStreamerInfoListImpl(bool) override
       {
