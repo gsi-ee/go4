@@ -921,7 +921,10 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
 //    char* subvector = *psubvector;
 //       size_t delta= (char*) subvector - (char*) super;
 
+
+#ifdef GO4HDF5_DEBUG
        char* subvector = cursor;
+#endif       
        size_t delta= (char*) cursor - (char*) super;
        go4hdfdbg("TGo4HDF5SubVectorDataHandle SetObjectPointer sets parent offset %ld (subvector:0x%lx, super:0x%lx) cursor was 0x%lx\n",
                delta, (unsigned long) subvector, (unsigned long) super, (unsigned long) cursor);

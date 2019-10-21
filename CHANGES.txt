@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v5.9.0 (build 50900)
-                      January-2019
+         Go4 Release Package v6.0.0 (build 60000)
+                      October-2019
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -22,7 +22,7 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 
-Changes in Go4 v5.9.x (2019)
+Changes in Go4 v6.0.0 (October 2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options
      cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
 2. Let configure sorting order for created folders (default off)
