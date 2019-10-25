@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v6.0.0 (build 60000)
-                      October-2019
+         Go4 Release Package v6.0.x (build 60001)
+                      2019/2020
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,6 +21,13 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+
+Changes in Go4 v6.0.x (2019/2020)
+1. Added docker container for Go4 V6.0 on OpenSuse Leap 15.0 Linux. Go4 is build with ROOT 6.18/04, Qt5 webcanvas and HDF5 support.
+   Docker files are located in subfolder $GO4SYS/docker. Such container may be executed with a docker server on any Linux, 
+   or using the Docker Desktop/Docker Toolbox  environment on Windows or MacOS. Please see docker/go4v6.0_leap_15.0/README.txt 
+   for further information. Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for creating the full Go4/DABC/trb3 docker 
+   that has been used as template!
 
 Changes in Go4 v6.0.0 (October 2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options
