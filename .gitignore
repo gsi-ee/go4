@@ -23,7 +23,7 @@ include/*
 .rootmap
 *.hotstart
 *.json
-
+packages/*
 
 # qt generated files
 
@@ -41,7 +41,6 @@ qt4/Go4UserGUI/*.so
 qt4/Go4UserGUI/moc_*.cpp
 qt4/Go4UserGUI/moc_*.h
 qt4/Go4UserGUI/ui_*.h
-
 
 qt4/WebUserGUI/.qmake.stash
 qt4/WebUserGUI/Makefile.qt
