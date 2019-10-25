@@ -31,6 +31,8 @@ DISTRFILES         += $(PLUGIN4_DIR)/root.png
 DISTRFILES         += $(PLUGIN4_DIR)/scale.png
 endif
 
+ifndef GO4_WIN32
+
 all-qt4plugin:
 	cp -f qt4/Go4GUI/QGo4LineEdit.h $(PLUGIN4_DIR)
 	cp -f qt4/Go4GUI/QGo4LineEdit.cpp $(PLUGIN4_DIR)
@@ -64,6 +66,14 @@ all-qt4plugin:
 	@echo "Go4 plugin for Qt designer compiled"
 	@echo "Now copy  $(PLUGIN4_DIR)/libgo4plugin.so  to"
 	@echo "$(QTDIR)/plugins/designer directory"
+
+else
+
+all-qt4plugin:
+	@echo "No Qt plugin support for Windows"
+
+endif
+
 
 clean-qt4plugin:
 ifneq ($(wildcard $(PLUGIN4_DIR)/Makefile.qt),)

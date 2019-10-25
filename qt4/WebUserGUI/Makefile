@@ -44,6 +44,10 @@ endif
 
 ##### local rules #####
 
+
+ifdef GO4_WEB
+
+
 ifneq ($(GO4_QT), 3)
 
 all:: all-qt5webusergui
@@ -87,3 +91,14 @@ clean-qt5webusergui: clean-qt5webusergui-bin
 clean-qt4:: clean-qt5webusergui
 
 include $(GO4SYS)/Makefile.rules
+
+else
+
+# case when go4 compiled without webgui support
+
+clean-qt5webusergui:
+	@$(RM) qt4/WebUserGUI/*.so qt4/WebUserGUI/moc_*.* qt4/WebUserGUI/*.o qt4/WebUserGUI/ui_QUserPanel.h qt4/WebUserGUI/Makefile.qt
+
+all-qt5webusergui:
+
+endif

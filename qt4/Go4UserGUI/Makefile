@@ -41,6 +41,10 @@ endif
 
 ##### local rules #####
 
+
+ifdef GO4_X11
+
+
 ifdef GO4_QT
 ifneq ($(GO4_QT), 3)
 
@@ -93,4 +97,16 @@ clean-qt4usergui: clean-qt4usergui-bin
 
 clean-qt4:: clean-qt4usergui
 
+
 include $(GO4SYS)/Makefile.rules
+
+else
+
+# case when no X11 support provided on the machine
+
+clean-qt4usergui: 
+	@$(RM) qt4/Go4UserGUI/*.so qt4/Go4UserGUI/moc_*.* qt4/Go4UserGUI/*.o qt4/Go4UserGUI/ui_QUserPanel.h qt4/Go4UserGUI/Makefile.qt
+
+all-qt4usergui:
+
+endif
