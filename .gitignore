@@ -20,6 +20,8 @@ lib/*
 bin/*
 build/Makefile.gener
 go4login
+go4.bat
+go4login.bat
 include/*
 .rootmap
 *.hotstart
@@ -32,8 +34,11 @@ qt4/Go4GUI/.moc/*
 qt4/Go4GUI/.obj/*
 qt4/Go4GUI/.qmake.stash
 qt4/Go4GUI/Makefile.qt
+qt4/Go4GUI/Makefile.qt.Debug
+qt4/Go4GUI/Makefile.qt.Release
 qt4/Go4GUI/qrc_go4icons.cpp
 qt4/Go4GUI/ui_*.h
+qt4/Go4GUI/release/*
 
 qt4/Go4UserGUI/.qmake.stash
 qt4/Go4UserGUI/Makefile.qt
