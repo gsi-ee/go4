@@ -36,25 +36,25 @@ if [ "$GO4_OS" = "Win32" ]; then
 
   syslibs="ws2_32.lib"
 
-  rootlibs="libCore.lib libCint.lib libMatrix.lib \
+  rootlibs="libCore.lib libCling.lib libMatrix.lib \
             libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
             libGpad.lib libThread.lib libTree.lib libXMLIO.lib"
-  
+
   if [[ -a $ROOTLIBDIR/libSpectrum.lib ]]; then
      rootlibs="$rootlibs libSpectrum.lib"
   fi
-  
+
   if [[ -a $ROOTLIBDIR/libRIO.lib ]]; then
      rootlibs="$rootlibs libRIO.lib"
   fi
-  
+
   if [[ -a $ROOTLIBDIR/libNet.lib ]]; then
      rootlibs="$rootlibs libNet.lib"
   fi
-  
+
   extralibs=""
   isgo4lib="true"
-  
+
   if [ "$LIBNAME" = "libGo4Fit" ]; then
     extralibs=""
   elif [ "$LIBNAME" = "libGo4Base" ]; then
@@ -78,23 +78,23 @@ if [ "$GO4_OS" = "Win32" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Analysis.lib"
   fi
-  
+
   rm -f $LIBDIR/$LIBNAME.*
-  
+
   #echo bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
   echo Produce $LIBDIR/${LIBNAME}.def
-  
+
   bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
-  
+
   #echo /cygdrive/f/Serg/MVC/bin/link -LIB -nologo -MACHINE:IX86 \
   #      -out:$LIBDIR/${LIBNAME}.lib $LIBOBJS -def:$LIBDIR/${LIBNAME}.def
-  
+
   link -LIB -nologo -MACHINE:IX86 \
         -out:$LIBDIR/${LIBNAME}.lib $LIBOBJS -def:$LIBDIR/${LIBNAME}.def
-  
+
   #echo link $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
   #      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
-  
+
   echo Link $LIBDIR/${LIBNAME}.dll
 
   link /MANIFEST $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
@@ -111,17 +111,17 @@ if [ "$GO4_OS" = "Win32" ]; then
 #     $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
 #     echo $LIBNAME.rootmap 'done'
 #  fi
-  
+
   if [[ "x$LINKDEF" != "x" ]]; then
     if [[ "x$DICTIONARY" != "x" && "x$HEADERS" != "x" ]]; then
        rootcling -r $DICTIONARY -rml $LIBNAME.$SOSUFFIX -rmf $LIBDIR/$LIBNAME.rootmap -s $LIBDIR/$LIBNAME.$SOSUFFIX $CXXOPTIONS $HEADERS $LINKDEF
        echo $LIBNAME.rootmap done
     else
        echo "Not enough information to produce $LIBNAME.rootmap file"
-       echo "Please update your Makefile" 
+       echo "Please update your Makefile"
     fi
   fi
-  
+
   if [[ "$LIBDIR" == "lib" && "$isgo4lib" == "true" ]]; then
       echo Copy $LIBDIR/${LIBNAME}.dll to bin directory
       $MV $LIBDIR/${LIBNAME}.dll bin/${LIBNAME}.dll
@@ -129,7 +129,7 @@ if [ "$GO4_OS" = "Win32" ]; then
          cp $LIBDIR/${LIBNAME}.rootmap bin/${LIBNAME}.rootmap
       fi
   fi
-  
+
   exit 0
 
 fi
@@ -151,16 +151,16 @@ if [ "$GO4_OS" = "Solaris" ]; then
    $LD $SOFLAGS $LDFLAGS $LIBOBJS $MAKELIB_SET -o $LIBDIR/$LIBNAME.$FULLSUFIX
 
 elif [ "$GO4_OS" = "Darwin" ]; then
-   echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBNAME.$FULLSUFIX $MAKELIB_SET 
+   echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBNAME.$FULLSUFIX $MAKELIB_SET
 
-   $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX $MAKELIB_SET 
+   $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX $MAKELIB_SET
 
    if [ "$SOSUFFIX" = "dylib" ]; then
       $LN $LIBDIR/$LIBNAME.$FULLSUFIX $LIBDIR/$LIBNAME.so
    fi
 else
    echo Linking $LIBNAME.$SOSUFFIX
-   
+
    echo $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX $MAKELIB_SET
 
    $LD $SOFLAGS$LIBNAME.$FULLSUFIX $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$FULLSUFIX $MAKELIB_SET
@@ -180,7 +180,7 @@ if [[ "x$LINKDEF" != "x" ]]; then
       echo $LIBNAME.rootmap done
    else
       echo "Not enough information to produce $LIBNAME.rootmap file"
-      echo "Please update your Makefile" 
+      echo "Please update your Makefile"
    fi
 fi
 
