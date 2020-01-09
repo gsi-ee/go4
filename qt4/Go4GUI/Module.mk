@@ -46,7 +46,11 @@ ifdef GO4_WEB
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
-GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6 -lWebGui6Full" 
+ifeq ($(GO4_OS),Win32)
+GO4GUI4_QMAKEFLAGS += "LIBS += libRHTTP.lib lROOTWebDisplay.lib lROOTQt5WebDisplaylib libWebGui6.lib ../../lib/libWebGui6Full.lib"
+else
+GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6 -lWebGui6Full"
+endif 
 
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
