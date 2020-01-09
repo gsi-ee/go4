@@ -3,6 +3,7 @@
 # object and dependency files
 
 */*.o
+*/*.obj
 */*.d
 
 
