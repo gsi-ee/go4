@@ -666,9 +666,15 @@ INTS4 f_stc_acceptclient(struct s_tcpcomm *ps_server, INTS4 *pi_channel)
          ( struct sockaddr *) &ps_server->sock_name,
          (socklen_t *) &ps_server->namelength);
 #else
+#ifdef GSI__WINNT
+   *pi_channel = accept( ps_server->sock_rw,
+         ( struct sockaddr *) &ps_server->sock_name,
+         (int *) &ps_server->namelength);
+#else
    *pi_channel = accept( ps_server->sock_rw,
          ( struct sockaddr *) &ps_server->sock_name,
          (socklen_t *) &ps_server->namelength);
+#endif
 #endif
 if( *pi_channel == -1)
 {
