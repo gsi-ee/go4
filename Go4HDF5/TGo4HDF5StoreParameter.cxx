@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5StoreParameter.cxx 1636 2015-06-24 12:05:31Z adamczew $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
