@@ -9,7 +9,7 @@ include $(GO4SYS)/Makefile.config
 ifdef GO4PACKAGE
 WEBUSERGUI_DIR         = qt4/WebUserGUI
 WEBUSERGUI_MFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
-WEBUSERGUI_DEPRULES    = qt4-GUI qt4-heads
+WEBUSERGUI_DEPRULES    = $(GO4GUI4_EXE)
 else
 WEBUSERGUI_DIR         = $(CURDIR)
 WEBUSERGUI_MFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
@@ -48,9 +48,9 @@ ifdef GO4_WEB
 ifneq ($(GO4_OS),Win32)
 ifneq ($(GO4_QT), 3)
 
-all:: all-qt5webusergui
+all:: $(WEBUSERGUI_QTLIB)
 
-gui:: all-qt5webusergui
+gui:: $(WEBUSERGUI_QTLIB)
 
 clean-bin:: clean-qt5webusergui-bin
 
@@ -69,9 +69,6 @@ $(WEBUSERGUI_QTLIB): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE) $(WEBUSERGUI_FH) $(W
 ifeq ($(GO4_OS),Win32)
 	$(MV) $(WEBUSERGUI_DIR)/release/$(WEBUSERGUI_QTLIBNAME).* $(WEBUSERGUI_DIR)
 endif
-
-
-all-qt5webusergui:  $(WEBUSERGUI_QTLIB)
 
 
 clean-qt5webusergui-bin:
@@ -98,7 +95,5 @@ else
 
 clean-qt5webusergui:
 	@$(RM) qt4/WebUserGUI/*.so qt4/WebUserGUI/moc_*.* qt4/WebUserGUI/*.o qt4/WebUserGUI/ui_QUserPanel.h qt4/WebUserGUI/Makefile.qt
-
-all-qt5webusergui:
 
 endif

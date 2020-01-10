@@ -9,7 +9,7 @@ include $(GO4SYS)/Makefile.config
 ifdef GO4PACKAGE
 USERGUI4_DIR         = qt4/Go4UserGUI
 USERGUI4_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
-USERGUI4_DEPRULES    = qt4-GUI qt4-heads
+USERGUI4_DEPRULES    = $(GO4GUI4_EXE)
 else
 USERGUI4_DIR         = $(CURDIR)
 USERGUI4_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
@@ -49,9 +49,9 @@ ifdef GO4_QT
 ifneq ($(GO4_QT), 3)
 ifneq ($(GO4_OS),Win32)
 
-all:: all-qt4usergui
+all:: $(USERGUI4_QTLIB)
 
-gui:: all-qt4usergui
+gui:: $(USERGUI4_QTLIB)
 
 clean-bin:: clean-qt4usergui-bin
 
@@ -70,18 +70,6 @@ $(USERGUI4_QTLIB): $(USERGUI4_DIR)/$(USERGUI4_QTMAKE) $(USERGUI4_FH) $(USERGUI4_
 	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) $(USERGUI4_QFLAGS)
 ifeq ($(GO4_OS),Win32)
 	$(MV) $(USERGUI4_DIR)/release/$(USERGUI4_QTLIBNAME).* $(USERGUI4_DIR)
-endif
-
-
-ifneq ($(GO4_OS),Darwin)
-
-all-qt4usergui:  $(USERGUI4_QTLIB)
-
-else
-
-all-qt4usergui:
-	@echo "No user gui (yet) under Darwin"
-	
 endif
 
 
@@ -110,7 +98,5 @@ else
 
 clean-qt4usergui: 
 	@$(RM) qt4/Go4UserGUI/*.so qt4/Go4UserGUI/moc_*.* qt4/Go4UserGUI/*.o qt4/Go4UserGUI/ui_QUserPanel.h qt4/Go4UserGUI/Makefile.qt
-
-all-qt4usergui:
 
 endif

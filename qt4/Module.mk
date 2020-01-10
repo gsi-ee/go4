@@ -30,7 +30,7 @@ GO4QTHEADS += $(GO4QT4HEADS)
 
 LIBDEPENDENC += $(GO4QT4DEP)
 
-.PHONY: qt4-GUI qt4-heads all-qt4usergui all-qt5webusergui clean-qt4-GUI clean-qt4usergui clean-qt5webusergui all-qt4plugin
+.PHONY: qt4-GUI qt4-heads clean-qt4-GUI clean-qt4usergui clean-qt5webusergui all-qt4plugin
 
 gui:: libs qt4-GUI qt4-heads
 
