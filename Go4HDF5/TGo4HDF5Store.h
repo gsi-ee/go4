@@ -14,8 +14,6 @@
 #ifndef TGO4HDF5STORE_H
 #define TGO4HDF5STORE_H
 
-
-
 #include "TGo4EventStore.h"
 #include "TGo4HDF5StoreParameter.h"
 

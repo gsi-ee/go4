@@ -1,4 +1,4 @@
-// $Id: TGo4HDF5Source.cxx 2130 2018-08-14 10:13:11Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

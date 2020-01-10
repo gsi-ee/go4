@@ -17,7 +17,6 @@
 #include "TGo4EventStoreParameter.h"
 #include "Go4HDF5.h"
 
-
 class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
 
    public:
