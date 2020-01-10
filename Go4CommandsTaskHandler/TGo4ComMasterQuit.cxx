@@ -27,7 +27,6 @@ TGo4ComMasterQuit::TGo4ComMasterQuit() :
 
 TGo4ComMasterQuit::~TGo4ComMasterQuit()
 {
-
 }
 
 Int_t TGo4ComMasterQuit::ExeCom()

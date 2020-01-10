@@ -37,8 +37,3 @@ class TYYYParameter : public TGo4Parameter {
 };
 
 #endif //TYYYParameter_H
-
-
-
-
-

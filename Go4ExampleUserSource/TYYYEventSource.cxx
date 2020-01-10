@@ -143,8 +143,11 @@ Int_t TYYYEventSource::Close()
 {
    if(!fbIsOpen) return -1;
    TGo4Log::Info("Close of TYYYEventSource");
-   Int_t status=0; // closestatus of source
-   delete fxFile;
-   fbIsOpen=kFALSE;
+   Int_t status = 0; // closestatus of source
+   if (fxFile) {
+      delete fxFile;
+      fxFile = 0;
+   }
+   fbIsOpen = kFALSE;
    return status;
 }

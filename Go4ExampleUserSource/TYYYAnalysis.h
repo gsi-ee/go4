@@ -39,7 +39,5 @@ class TYYYAnalysis : public TGo4Analysis {
 
    ClassDef(TYYYAnalysis,1)
 };
+
 #endif //TYYYANALYSIS_H
-
-
-
