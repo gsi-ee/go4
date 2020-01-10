@@ -15,8 +15,6 @@ WEBUSERGUI_DIR         = $(CURDIR)
 WEBUSERGUI_MFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
 endif
 
-
-
 WEBUSERGUI_LIBDIR      = $(WEBUSERGUI_DIR)
 WEBUSERGUI_QTLIBNAME   = libGo4UserGui
 WEBUSERGUI_QTPRO       = Go4UserGui.pro
@@ -47,7 +45,7 @@ endif
 
 ifdef GO4_WEB
 
-
+ifneq ($(GO4_OS),Win32)
 ifneq ($(GO4_QT), 3)
 
 all:: all-qt5webusergui
@@ -57,7 +55,7 @@ clean-bin:: clean-qt5webusergui-bin
 clean:: clean-qt5webusergui
 
 endif
-
+endif
 
 $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTPRO) $(WEBUSERGUI_FORMS) $(WEBUSERGUI_DEPRULES) 
 	@echo "Generating $(WEBUSERGUI_QTMAKE)..."
