@@ -47,13 +47,17 @@ ifdef GO4_X11
 
 ifdef GO4_QT
 ifneq ($(GO4_QT), 3)
+ifneq ($(GO4_OS),Win32)
 
 all:: all-qt4usergui
+
+gui:: all-qt4usergui
 
 clean-bin:: clean-qt4usergui-bin
 
 clean:: clean-qt4usergui
 
+endif
 endif
 endif
 

@@ -50,6 +50,8 @@ ifneq ($(GO4_QT), 3)
 
 all:: all-qt5webusergui
 
+gui:: all-qt5webusergui
+
 clean-bin:: clean-qt5webusergui-bin
 
 clean:: clean-qt5webusergui
