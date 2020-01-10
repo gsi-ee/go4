@@ -36,7 +36,7 @@ if [ "$GO4_OS" = "Win32" ]; then
 
   syslibs="ws2_32.lib"
 
-  rootlibs="libCore.lib libCling.lib libMatrix.lib \
+  rootlibs="libCore.lib libMatrix.lib \
             libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
             libGpad.lib libThread.lib libTree.lib libXMLIO.lib"
 
@@ -68,9 +68,11 @@ if [ "$GO4_OS" = "Win32" ]; then
   elif [ "$LIBNAME" = "libGo4Analysis" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib"
+  elif [ "$LIBNAME" = "libWebGui6Full" ]; then
+    extralibs="libRHTTP.lib libWebGui6.lib"
   elif [ "$LIBNAME" = "libGo4Http" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
-               libGo4TaskHandler.lib libGo4AnalBase.lib libRHTTP.lib libRHTTPSniff.lib"
+               libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Analysis.lib libRHTTP.lib libRHTTPSniff.lib"
   elif [ "$LIBNAME" = "libGo4GUI" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGui.lib"
