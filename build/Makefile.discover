@@ -110,10 +110,10 @@ endif
 
 # workaround, MultiProc is not build on Windows, should be fixed by Bertrand soon
 ifeq ($(GO4_OS),Win32)
-ROOTLIBS = $(filter-out $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib), $(ROOTLIBS))
-ROOTGLIBS = $(filter-out $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib), $(ROOTGLIBS))
+ROOT6_MULTIPROC_LIB = $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib)
+ROOTLIBS := $(filter-out '$(ROOT6_MULTIPROC_LIB)', $(ROOTLIBS))
+ROOTGLIBS := $(filter-out '$(ROOT6_MULTIPROC_LIB)', $(ROOTGLIBS))
 endif
-
 
 else
 
