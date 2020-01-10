@@ -92,7 +92,6 @@ ifeq ($(firstword $(subst ., ,$(ROOTVERSION))),6)
 ISROOT6 = true
 endif
 
-
 ifeq ($(ISROOT6),true)
 
 # configure X11 compilation
@@ -108,6 +107,13 @@ ifeq ($(shell $(CFG_ROOT_BIN)root-config --has-qt5web),yes)
 GO4_WEB = true 
 endif
 endif
+
+# workaround, MultiProc is not build on Windows, should be fixed by Bertrand soon
+ifeq ($(GO4_OS),Win32)
+ROOTLIBS = $(filter-out $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib), $(ROOTLIBS))
+ROOTGLIBS = $(filter-out $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib), $(ROOTGLIBS))
+endif
+
 
 else
 
