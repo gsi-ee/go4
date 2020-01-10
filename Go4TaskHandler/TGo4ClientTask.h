@@ -20,14 +20,13 @@
 #include "TString.h"
 
 class TMutex;
-
 class TGo4Command;
 class TGo4BufferQueue;
 class TGo4TaskHandler;
 
 /**
  * This class controls a client application running in a task which is controlled
- *  by another server task via transport channels which are held by a task handler object.
+ * by another server task via transport channels which are held by a task handler object.
  * Apart from the transport threads, the application class which inherits from client task
  * may provide working threads to serve the data queues and do the actual work
  */

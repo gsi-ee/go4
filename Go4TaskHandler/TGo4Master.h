@@ -15,11 +15,10 @@
 #define TGO4MASTER_H
 
 #include "TGo4TaskOwner.h"
-
 #include "TString.h"
-#include "TGo4Command.h"
 #include "Go4EmergencyCommands.h"
 
+class TGo4Command;
 class TGo4TaskHandlerCommandList;
 
 class TGo4Master :  public TGo4TaskOwner {

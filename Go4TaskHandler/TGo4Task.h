@@ -17,7 +17,6 @@
 #include "TGo4ThreadManager.h"
 #include "TGo4CommandReceiver.h"
 #include "Go4EmergencyCommands.h"
-
 #include "TString.h"
 
 class TMutex;
@@ -337,7 +336,7 @@ public:
      /** this buffer is used for quit command  */
     TBuffer* fxQuitBuffer; //!
 
-     /** this buffer is used for emergeny socket aborting  */
+     /** this buffer is used for emergency socket aborting  */
     TBuffer* fxAbortBuffer; //!
 
     /** Id number of dummy command that wakes the command queue on termination */

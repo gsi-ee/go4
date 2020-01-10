@@ -47,7 +47,6 @@ class TGo4EventStoreException : public TGo4RuntimeException {
       /** @supplierCardinality 1 */
       TGo4EventStore * fxEventStore;     //!
 
-
       /** Error message at exception throw time*/
       TString fxErrMess; //!
 
@@ -60,6 +59,3 @@ class TGo4EventStoreException : public TGo4RuntimeException {
 };
 
 #endif // #define TGO4TASKHANDLEREXCEPTION_H
-
-
-
