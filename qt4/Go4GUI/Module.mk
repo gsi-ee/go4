@@ -49,7 +49,7 @@ GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets"
 ifeq ($(GO4_OS),Win32)
 GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libROOTWebDisplay.lib) \
-                               $(shell cygpath -w $(ROOTSYS)/lib/libROOTQt5WebDisplaylib) \
+                               $(shell cygpath -w $(ROOTSYS)/lib/libROOTQt5WebDisplay.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libWebGui6.lib) \
                                 ../../lib/libWebGui6Full.lib"
 else
