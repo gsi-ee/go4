@@ -69,29 +69,29 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       // You should use Setup... routines to configure specific peakfinder
 
       void SetUsePolynom(Bool_t use) { fbUsePolynom = use; }
-      Bool_t GetUsePolynom() { return fbUsePolynom; }
+      Bool_t GetUsePolynom() const { return fbUsePolynom; }
       void SetPolynomOrder(Int_t order) { fiPolynomOrder = order; }
-      Int_t GetPolynomOrder() { return fiPolynomOrder; }
+      Int_t GetPolynomOrder() const { return fiPolynomOrder; }
 
       void SetPeakFinderType(Int_t typ) { fiPeakFinderType = typ; }
-      Int_t GetPeakFinderType() { return fiPeakFinderType; }
+      Int_t GetPeakFinderType() const { return fiPeakFinderType; }
 
       void Set0MaxAmplFactor(Double_t factor) { fd0MaxAmplFactor = factor; }
-      Double_t Get0MaxAmplFactor() { return fd0MaxAmplFactor; }
+      Double_t Get0MaxAmplFactor() const { return fd0MaxAmplFactor; }
       void Set0MinWidth(Double_t min) { fd0MinWidth = min; }
-      Double_t Get0MinWidth() { return fd0MinWidth; }
+      Double_t Get0MinWidth() const { return fd0MinWidth; }
       void Set0MaxWidth(Double_t max) { fd0MaxWidth = max; }
-      Double_t Get0MaxWidth() { return fd0MaxWidth; }
+      Double_t Get0MaxWidth() const { return fd0MaxWidth; }
 
       void Set1LineWidth(Double_t width) { fd1LineWidth = width; }
-      Double_t Get1LineWidth() { return fd1LineWidth; }
+      Double_t Get1LineWidth() const { return fd1LineWidth; }
 
       void Set2NoiseFactor(Double_t factor) { fd2NoiseFactor = factor; }
-      Double_t Get2NoiseFactor() { return fd2NoiseFactor; }
+      Double_t Get2NoiseFactor() const { return fd2NoiseFactor; }
       void Set2NoiseMinimum(Double_t min) { fd2NoiseMinimum = min; }
-      Double_t Get2NoiseMinimum() { return fd2NoiseMinimum; }
+      Double_t Get2NoiseMinimum() const { return fd2NoiseMinimum; }
       void Set2ChannelSum(Int_t sum) { fi2ChannelSum = sum; }
-      Int_t Get2ChannelSum() { return fi2ChannelSum; }
+      Int_t Get2ChannelSum() const { return fi2ChannelSum; }
 
       /**
        * Print information on standard output.

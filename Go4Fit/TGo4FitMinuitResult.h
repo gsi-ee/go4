@@ -13,11 +13,13 @@
 
 #ifndef TGO4FITMINUITRESULT_H
 #define TGO4FITMINUITRESULT_H
+
 #include "TNamed.h"
-#include "TArrayD.h"
-#include "TArrayC.h"
 #include "TMatrixD.h"
-#include "TMinuit.h"
+
+class TMinuit;
+class TArrayD;
+class TArrayC;
 
 /**
  * Result values, taken from Minuit object.

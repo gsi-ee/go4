@@ -12,6 +12,11 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4FitMinuitResult.h"
+
+#include "TMinuit.h"
+#include "TArrayC.h"
+#include "TArrayD.h"
+
 #include "Riostream.h"
 
 TGo4FitMinuitResult::TGo4FitMinuitResult() :

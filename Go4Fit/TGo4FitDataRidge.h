@@ -18,7 +18,7 @@
 #include "TGo4FitSlot.h"
 
 /**
- * Special object to approxiamte ridges on multi-dimensional histograms.
+ * Special object to approximate ridges on multi-dimensional histograms.
  *
  * Ridge means that some coordinate in multidimensional histograms can be represented as function of another coordinate(s) like y = f(x). If one has histogram, build in (x,y) space, one can try to approximate function f by several way.
  *
