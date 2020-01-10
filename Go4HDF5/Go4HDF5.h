@@ -1,4 +1,4 @@
-// $Id: Go4HDF5.h $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
