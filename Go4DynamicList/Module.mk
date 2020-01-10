@@ -4,8 +4,6 @@ DYNLIST_NAME        = Go4DynamicList
 
 DYNLIST_DIR         = $(DYNLIST_NAME)
 
-DYNLIST_NOTLIBF     = $(DYNLIST_DIR)/TGo4HistoFillAction.h
-
 ## must be similar for every module
 
 DYNLIST_H           = $(filter-out $(DYNLIST_NOTLIBF) $(OLD_DICT), $(wildcard $(DYNLIST_DIR)/*.$(HedSuf)))
