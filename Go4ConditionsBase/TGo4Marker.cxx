@@ -33,6 +33,12 @@ Bool_t TGo4Marker::fgbCONTDRAW=kTRUE;
 TString TGo4Marker::fgxNUMFORMAT="%.4E";
 
 
+Int_t TGo4Marker::GetInstances()
+{
+   return fguInstanceCounter;
+}
+
+
 TGo4Marker::TGo4Marker(Double_t x, Double_t y, Int_t style)
 : TMarker(x,y,style),fxPainter(0),
    fbIsPainted(kFALSE), fbVisible(kTRUE), fbHasLabel(kTRUE), fbHasConnector(kTRUE),

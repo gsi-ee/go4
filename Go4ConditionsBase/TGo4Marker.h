@@ -109,7 +109,7 @@ public:
    TH1* GetHistogram() const { return fxHisto; }
 
    /** TMarker is not TNamed, so we implement name ourself*/
-   virtual const char* GetName() const {return fxName.Data();}
+   virtual const char* GetName() const { return fxName.Data(); }
 
    void SetXY(Double_t x, Double_t y)
    {
@@ -128,16 +128,14 @@ public:
    /** Calculate initial label coordinate from marker position */
    Double_t GetLabelY();
 
-   static Int_t GetInstances(){return fguInstanceCounter;}
+   static Int_t GetInstances();
 
-   TVirtualPad* GetDrawPad(){return fxDrawPad;}
+   TVirtualPad* GetDrawPad() { return fxDrawPad; }
 
    /** True if current draw pad is still existing */
    Bool_t CheckDrawPad();
    /** True if current histogram  is still existing */
    Bool_t CheckHistogram();
-
-
 
    /** default setting for all markers of label on/off flag. */
    static Bool_t fgbHASLABEL;
