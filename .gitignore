@@ -33,28 +33,30 @@ packages/*
 qt4/Go4GUI/.moc/*
 qt4/Go4GUI/.obj/*
 qt4/Go4GUI/.qmake.stash
-qt4/Go4GUI/Makefile.qt
-qt4/Go4GUI/Makefile.qt.Debug
-qt4/Go4GUI/Makefile.qt.Release
+qt4/Go4GUI/Makefile.qt*
 qt4/Go4GUI/qrc_go4icons.cpp
 qt4/Go4GUI/ui_*.h
 qt4/Go4GUI/release/*
 
 qt4/Go4UserGUI/.qmake.stash
-qt4/Go4UserGUI/Makefile.qt
+qt4/Go4UserGUI/Makefile.qt*
 qt4/Go4UserGUI/*.o
 qt4/Go4UserGUI/*.so
 qt4/Go4UserGUI/moc_*.cpp
 qt4/Go4UserGUI/moc_*.h
 qt4/Go4UserGUI/ui_*.h
+qt4/Go4UserGUI/release/*
+qt4/Go4UserGUI/debug/*
 
 qt4/WebUserGUI/.qmake.stash
-qt4/WebUserGUI/Makefile.qt
+qt4/WebUserGUI/Makefile.qt*
 qt4/WebUserGUI/*.o
 qt4/WebUserGUI/*.so
 qt4/WebUserGUI/moc_*.cpp
 qt4/WebUserGUI/moc_*.h
 qt4/WebUserGUI/ui_*.h
+qt4/WebUserGUI/release/*
+qt4/WebUserGUI/debug/*
 
 # Go4Fit examples
 
