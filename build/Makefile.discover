@@ -111,13 +111,10 @@ endif
 ifeq ($(GO4_OS),Win32)
 # workaround, exclude MultiProc and -include directives from libs, should be solved by Bertrand soon
 FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
-ROOTLIBS := $(call FILTER_OUT,-include, $(ROOTLIBS))
-ROOTGLIBS := $(call FILTER_OUT,-include,$(ROOTGLIBS))
+# ROOTLIBS := $(call FILTER_OUT,-include, $(ROOTLIBS))
+# ROOTGLIBS := $(call FILTER_OUT,-include,$(ROOTGLIBS))
 ROOTLIBS := $(call FILTER_OUT,MultiProc, $(ROOTLIBS))
 ROOTGLIBS := $(call FILTER_OUT,MultiProc,$(ROOTGLIBS))
-# ROOT6_MULTIPROC_LIB = $(shell cygpath -w $(ROOTLIBPATH)/libMultiProc.lib)
-# ROOTLIBS := $(filter-out '$(ROOT6_MULTIPROC_LIB)', $(ROOTLIBS))
-# ROOTGLIBS := $(filter-out '$(ROOT6_MULTIPROC_LIB)', $(ROOTGLIBS))
 endif
 
 else

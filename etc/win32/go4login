@@ -29,7 +29,7 @@ else
 fi
 
 # one could set MAIN_DIR directely
-# MAIN_DIR=/cygdrive/d/Soft/
+# MAIN_DIR=/cygdrive/c/Soft
 
 export GO4_OS=Win32
 
@@ -49,14 +49,14 @@ echo "   ROOTSYS = $ROOTSYS"
 echo "   GO4SYS = $GO4SYS"
 
 # specify actual location of qt5 here
-QTDIR=/cygdrive/c/Soft/qt542/5.4/msvc2013
+QTDIR=/cygdrive/c/Qt/5.2.16/msvc2017
 
 if [ -d $QTDIR ]; then
   echo "   QTDIR = $QTDIR"
   export QTDIR
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
   export PATH=$PATH:$QTDIR/bin
-  export QMAKESPEC=win32-msvc2013
+  export QMAKESPEC=win32-msvc
   QT_PATH=`cygpath $QTDIR`
   export LIB="$LIB;$QT_PATH\lib;"
 fi

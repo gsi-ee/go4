@@ -11,7 +11,7 @@ CC            = $(GO4SYS)/build/cxx.sh
 
 #### Compiler optimisation flags: ####
 OPTIONS       = -GR -EHsc -nologo
-DEFINITIONS   = -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL -D_CRT_SECURE_NO_DEPRECATE
+DEFINITIONS   = -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL
 EXTRACOPTIONS = -MD
 EXTRACXXOPTIONS =
 
