@@ -2401,7 +2401,10 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    }
 
    TGo4Log::Info("Executing ROOT script %s", macro_name);
-   return gROOT->ProcessLineSync(Form(".x %s", macro_name)); // here faster than ExecuteLine...
+   int error = 0;
+   Long_t res = gROOT->ProcessLineSync(Form(".x %s", macro_name), &error); // here faster than ExecuteLine...
+   if (error) res = -1;
+   return res;
 }
 
 Long_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
