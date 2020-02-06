@@ -109,7 +109,29 @@ Optionally, you may just build the container without starting the vncserver by u
 $ ./build_and_shell.sh
 You will end up in a plain shell in the docker environment which might be sufficient for batch analysis.
 
+##################################################
+##             for Windows 10 users             ##
+##################################################
+
+Please install and start DockerDesktop as explained at
+	https://docs.docker.com/docker-for-windows/install/
+	
+		
+To run Go4 on Docker Desktop , please use following script in the
+Windows command line terminal:  
+D:\docker\go4v6.0_leap_15.0> build_and_run.bat
 
 
---- JAM(j.adamczewski@gsi.de) 24-Oct-2019
+Connection to the VNC server of the go4 container can be done locally by
+a Windows VNC viewer, e.g. UltraVNC - https://www.uvnc.com/
+
+Please note 1: 
+	Connection may require to set a valid vnc_password by editing file  conf/conf.sh before starting the Go4 container
+Please note 2: 
+	in the UltraVnc connection dialogue, the servername of the docker machine is not "localhost:5903", 
+but just ":5903"
+
+
+
+--- JAM(j.adamczewski@gsi.de) 6-Feb-2020
 
