@@ -17,6 +17,7 @@
 #include "GuiTypes.h"
 #include "TGFrame.h"
 #include "Riostream.h"
+#include "TVirtualX.h"
 
 #include <QPainter>
 #include <QMouseEvent>
