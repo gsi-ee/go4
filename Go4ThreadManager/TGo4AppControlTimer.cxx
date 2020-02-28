@@ -16,6 +16,7 @@
 #include "TCondition.h"
 #include "TApplication.h"
 #include "TThread.h"
+#include "TSystem.h"
 
 #include "TGo4Log.h"
 #include "TGo4ThreadManager.h"
