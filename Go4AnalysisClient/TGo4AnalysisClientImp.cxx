@@ -21,6 +21,7 @@
 #include "TTimeStamp.h"
 #include "TDataType.h"
 #include "TROOT.h"
+#include "TDatime.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
