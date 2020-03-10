@@ -26,6 +26,7 @@
 #include "TROOT.h"
 #include "THStack.h"
 #include "TArrayD.h"
+#include "TBuffer.h"
 
 #include "TGo4FitData.h"
 #include "TGo4FitDataHistogram.h"

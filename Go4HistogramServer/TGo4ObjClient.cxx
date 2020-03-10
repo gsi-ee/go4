@@ -19,6 +19,7 @@
 #include "TROOT.h"
 #include "TClass.h"
 #include "TDirectory.h"
+#include "TBuffer.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
