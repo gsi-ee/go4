@@ -17,6 +17,7 @@
 #include "TROOT.h"
 #include "TObjArray.h"
 #include "TDirectory.h"
+#include "TBranch.h"
 
 #include "TGo4Log.h"
 

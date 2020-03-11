@@ -15,6 +15,7 @@
 
 #include "TFile.h"
 #include "TTree.h"
+#include "TBranch.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
