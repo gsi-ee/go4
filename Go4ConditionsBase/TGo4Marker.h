@@ -15,6 +15,7 @@
 #define TGO4MARKER_H
 
 #include "TMarker.h"
+#include "TString.h"
 
 class TGo4MarkerPainter;
 class TH1;
