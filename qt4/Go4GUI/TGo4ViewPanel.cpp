@@ -48,6 +48,7 @@
 #include "TMath.h"
 #include "TClass.h"
 #include "TSystem.h"
+#include "TCanvasImp.h"
 
 #include "TGCanvas.h"
 #include "TGTab.h"

@@ -764,6 +764,7 @@
     <include location="local" impldecl="in implementation">TMultiGraph.h</include>
     <include location="local" impldecl="in implementation">TColor.h</include>
     <include location="local" impldecl="in implementation">TCanvas.h</include>
+    <include location="local" impldecl="in implementation">TCanvasImp.h</include>
     <include location="local" impldecl="in implementation">TPad.h</include>
     <include location="local" impldecl="in implementation">TFrame.h</include>
     <include location="local" impldecl="in implementation">TCutG.h</include>
