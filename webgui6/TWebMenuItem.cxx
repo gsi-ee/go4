@@ -10,7 +10,6 @@
 
 #include "TWebMenuItem.h"
 
-#include "TROOT.h"
 #include "TClass.h"
 #include "TList.h"
 #include "TMethod.h"

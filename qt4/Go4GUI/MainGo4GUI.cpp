@@ -24,7 +24,6 @@
 #include "TEnv.h"
 #include "TApplication.h"
 #include "TInterpreter.h"
-#include "TROOT.h"
 #include "Riostream.h"
 
 #include "QRootApplication.h"

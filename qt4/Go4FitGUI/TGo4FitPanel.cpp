@@ -36,7 +36,6 @@
 #include "TObject.h"
 #include "TObjArray.h"
 #include "TArrayI.h"
-#include "TROOT.h"
 #include "TClass.h"
 #include "TMath.h"
 #include "Buttons.h"
