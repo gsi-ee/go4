@@ -20,7 +20,6 @@
 #include "TCutG.h"
 #include "TArrayD.h"
 #include "TAxis.h"
-#include "TROOT.h"
 #include "snprintf.h"
 
 #include "TGo4Log.h"

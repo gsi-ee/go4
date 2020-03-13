@@ -16,7 +16,6 @@
 #include "Riostream.h"
 
 #include "TMath.h"
-#include "TROOT.h"
 #include "TH2.h"
 #include "TList.h"
 #include "TCutG.h"

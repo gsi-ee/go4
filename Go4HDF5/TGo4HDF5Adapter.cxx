@@ -14,26 +14,16 @@
 
 #include "TGo4HDF5Adapter.h"
 
-//#include "TFolder.h"
-//#include "TFile.h"
-//#include "TTree.h"
 #include "TList.h"
 #include "TDataMember.h"
 #include "TVirtualCollectionProxy.h"
 #include "TBaseClass.h"
-//#include "TROOT.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
 #include "TGo4CompositeEvent.h"
-//#include "TGo4EventSourceException.h"
-//#include "TGo4HDF5Source.h"
-
-
 
 const char* TGo4HDF5Adapter::fgcFILESUF = ".h5";
-
-
 
 
 void TGo4HDF5Adapter::CloseFile()

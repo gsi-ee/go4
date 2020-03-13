@@ -13,7 +13,6 @@
 
 #include "TGo4MarkerPainter.h"
 
-#include "TROOT.h"
 #include "TList.h"
 #include "TVirtualPad.h"
 
