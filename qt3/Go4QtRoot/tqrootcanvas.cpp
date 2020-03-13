@@ -22,6 +22,8 @@
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TString.h"
+#include "TObjString.h"
+#include "TObjArray.h"
 #include "TH1.h"
 
 #include "TGo4LockGuard.h"
