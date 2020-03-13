@@ -17,7 +17,6 @@
 
 #include "TMutex.h"
 #include "TObjArray.h"
-#include "TROOT.h"
 #include "TUrl.h"
 
 #include "TGo4LockGuard.h"

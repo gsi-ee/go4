@@ -13,9 +13,9 @@
 
 #include "TGo4CanvasProxy.h"
 
-#include "TROOT.h"
 #include "TObjArray.h"
 #include "TClass.h"
+#include "TDirectory.h"
 #include "TFrame.h"
 #include "TPaveText.h"
 #include "TObjString.h"
