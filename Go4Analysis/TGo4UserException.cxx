@@ -14,6 +14,7 @@
 #include "TGo4UserException.h"
 
 #include "snprintf.h"
+#include "stdarg.h"
 
 #include "TGo4Log.h"
 #include "TGo4AnalysisImp.h"
