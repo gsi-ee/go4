@@ -15,6 +15,7 @@
 
 #include "Riostream.h"
 #include "TROOT.h"
+#include "TList.h"
 #include "TFolder.h"
 #include "TGo4Log.h"
 
