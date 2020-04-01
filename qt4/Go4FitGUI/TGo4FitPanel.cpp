@@ -3131,16 +3131,20 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
           if (m->GetPosition(naxis,zn) || m->GetWidth(naxis,zn)) MaxAxis = naxis;
      }
 
-     int nfcol = (fiIntegralMode>0) ? 2 : 1;
+     int nfcol = (fiIntegralMode>0) ? 3 : 1;
      table->setColumnCount(nfcol+(MaxAxis+1)*2);
      table->setHorizontalHeaderItem(0, new QTableWidgetItem("Amplitude"));
 
      QString capt;
-     if (fiIntegralMode==1) capt = "Counts"; else
-     if (fiIntegralMode==2) capt = "Integral"; else
-     if (fiIntegralMode==3) capt = "Gauss Int";
-     if (!capt.isEmpty())
+     switch (fiIntegralMode) {
+        case 1: capt = "Counts"; break;
+        case 2: capt = "Integral"; break;
+        case 3: capt = "Gauss Int"; break;
+     }
+     if (!capt.isEmpty()) {
        table->setHorizontalHeaderItem(1, new QTableWidgetItem(capt));
+       table->setHorizontalHeaderItem(2, new QTableWidgetItem("Error"));
+     }
 
      for (int naxis=0;naxis<=MaxAxis;naxis++) {
         capt = QString("Position ") + QString::number(naxis);
@@ -3168,7 +3172,9 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
         table->setVerticalHeaderItem(n, new QTableWidgetItem(m->GetName()));
 
         QTableWidgetItem* item0 = new QTableWidgetItem(QString::number(m->GetAmplValue()));
-        if (!m->GetAmplPar())
+
+        TGo4FitParameter *amplpar = m->GetAmplPar();
+        if (!amplpar)
            item0->setFlags(item0->flags() & ~Qt::ItemIsEnabled);
         table->setItem(n, 0, item0);
 
@@ -3199,6 +3205,14 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
              item1 = new QTableWidgetItem(QString::number(v));
            item1->setFlags(item1->flags() & ~Qt::ItemIsEnabled);
            table->setItem(n, 1, item1);
+
+           QTableWidgetItem* item2;
+           if (!amplpar || (amplpar->GetValue() == 0) || (amplpar->GetError() == 0) || ((v<=0.) && (fiIntegralMode==3)))
+             item2 = new QTableWidgetItem("---");
+           else
+             item2 = new QTableWidgetItem(QString::number(amplpar->GetError() / amplpar->GetValue() * v));
+           item2->setFlags(item2->flags() & ~Qt::ItemIsEnabled);
+           table->setItem(n, 2, item2);
         }
 
         for (int naxis=0;naxis<=MaxAxis;naxis++) {
