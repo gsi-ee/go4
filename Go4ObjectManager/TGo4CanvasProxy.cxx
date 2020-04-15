@@ -23,7 +23,6 @@
 #include "TH1.h"
 #include "TCanvas.h"
 
-#include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4HStackProxy.h"
 #include "TGo4ObjectManager.h"

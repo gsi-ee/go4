@@ -13,7 +13,7 @@
 
 #include "TGo4Proxy.h"
 
-#include <string.h>
+#include <cstring>
 
 #include "TROOT.h"
 

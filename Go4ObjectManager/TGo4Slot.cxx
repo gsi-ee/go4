@@ -13,9 +13,9 @@
 
 #include "TGo4Slot.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 #include "TROOT.h"
 #include "TClass.h"
 

@@ -14,7 +14,6 @@
 #include "TGo4FolderProxy.h"
 
 #include "TROOT.h"
-#include "TClass.h"
 #include "TTree.h"
 #include "TFolder.h"
 #include "TCanvas.h"

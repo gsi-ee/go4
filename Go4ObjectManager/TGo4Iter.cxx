@@ -14,7 +14,6 @@
 #include "TGo4Iter.h"
 
 #include "TGo4Slot.h"
-#include "TGo4Proxy.h"
 
 TGo4Iter::TGo4Iter() :
    TGo4AccessWrapper(),

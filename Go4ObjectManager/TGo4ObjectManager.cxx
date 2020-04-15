@@ -18,7 +18,6 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TString.h"
-#include "TTimer.h"
 #include "TFolder.h"
 
 #include "TGo4ObjectProxy.h"

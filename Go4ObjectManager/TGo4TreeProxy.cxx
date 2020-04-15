@@ -16,7 +16,6 @@
 #include "TTree.h"
 #include "TBranch.h"
 #include "TIterator.h"
-#include "TObjArray.h"
 
 #include "TGo4ObjectProxy.h"
 

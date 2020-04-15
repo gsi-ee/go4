@@ -13,9 +13,6 @@
 
 #include "TGo4LinkProxy.h"
 
-#include "TH1.h"
-#include "TString.h"
-
 #include "TGo4Slot.h"
 #include "TGo4ObjectManager.h"
 

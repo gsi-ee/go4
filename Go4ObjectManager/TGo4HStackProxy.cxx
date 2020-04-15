@@ -15,12 +15,7 @@
 
 #include "TROOT.h"
 #include "TList.h"
-#include "TObjArray.h"
-#include "TClass.h"
-#include "TFrame.h"
-#include "TPaveText.h"
 #include "THStack.h"
-#include "TH1.h"
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
