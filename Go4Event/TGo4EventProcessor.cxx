@@ -13,7 +13,8 @@
 
 #include "TGo4EventProcessor.h"
 
-#include <string.h>
+#include <cstring>
+#include <stdarg.h>
 
 #include "TH1.h"
 #include "TH2.h"

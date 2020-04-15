@@ -18,6 +18,8 @@
 #include <fcntl.h>
 #endif
 
+#include <stdarg.h>
+
 #include "Riostream.h"
 #include "TDataType.h"
 #include "TDatime.h"

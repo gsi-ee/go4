@@ -13,6 +13,8 @@
 
 #include "TGo4Task.h"
 
+#include <stdarg.h>
+
 #include "TFile.h"
 #include "TMutex.h"
 #include "TROOT.h"

@@ -13,6 +13,8 @@
 
 #include "TGo4EventSource.h"
 
+#include <stdarg.h>
+
 #include "TClass.h"
 #include "snprintf.h"
 
