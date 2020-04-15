@@ -13,6 +13,7 @@
 
 #include "TGo4Status.h"
 
+#include <stdarg.h>
 #include <iostream>
 
 #include "snprintf.h"

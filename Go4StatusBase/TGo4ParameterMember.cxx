@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "TROOT.h"
+#include "TDataType.h"
 
 TGo4ParameterMember::TGo4ParameterMember() :
    TNamed(),

@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "TROOT.h"
+#include "TObjArray.h"
 
 #include "TGo4Log.h"
 #include "TGo4Parameter.h"

@@ -18,8 +18,12 @@
 
 #include "TROOT.h"
 #include "TUrl.h"
+#include "TList.h"
+#include "TObjArray.h"
 #include "TDataMember.h"
 #include "TBaseClass.h"
+#include "TDataType.h"
+#include "TDatime.h"
 #include "TArrayI.h"
 #include "TArrayD.h"
 
