@@ -15,7 +15,6 @@
 #define TGO4OBJECTSTATUS_H
 
 #include "TGo4Status.h"
-#include "TString.h"
 
 /**
  * One entry of the object names folder. Contains the go4 object structural information,

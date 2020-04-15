@@ -33,9 +33,8 @@
 #include "TAttFill.h"
 #include "TAttMarker.h"
 #include "TPaveStats.h"
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,9,0)
 #include "TBufferXML.h"
-#endif
+
 enum OptionsIdentifiers {
    op_RangeXMin   = 1,
    op_RangeXMax   = 2,
@@ -1791,10 +1790,8 @@ void TGo4Picture::AddSpecialObject(TObject* obj, Option_t* drawopt)
 
 void TGo4Picture::AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt)
 {
-   #if ROOT_VERSION_CODE > ROOT_VERSION(5,9,0)
    TObject* obj = TBufferXML::ConvertFromXML(xmlcode);
-   if (obj!=0) AddSpecialObject(obj, drawopt);
-   #endif
+   if (obj) AddSpecialObject(obj, drawopt);
 }
 
 Long_t TGo4Picture::GetTotalSize()
@@ -1841,11 +1838,7 @@ Long_t TGo4Picture::GetTotalSize()
 }
 
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,11,6)
 void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t*)
-#else
-void TGo4Picture::SavePrimitive(std::ofstream& fs, Option_t*)
-#endif
 {
    fs << "TGo4Picture *" << GetName() << " = new TGo4Picture(\"" << GetName()
       << "\", \"" << GetTitle() << "\");" << std::endl;
@@ -2081,7 +2074,6 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
          fs << name << "SetRebinY(" << GetRebinY(indx) << ", " << indx << ");" << std::endl;
    }
 
-   #if ROOT_VERSION_CODE > ROOT_VERSION(5,9,0)
    TListIter iter(fxSpecialObjects);
    TObject* obj = 0;
    while ((obj=iter())!=0) {
@@ -2124,7 +2116,6 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
          fs << ", \"" << opt << "\"";
       fs << ");" << std::endl;
    }
-   #endif
 
    if (IsDivided()) {
       fs << name << "SetDivision(" << GetDivY() << ", " << GetDivX() << ");" << std::endl;
@@ -2140,5 +2131,3 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
         }
    }
 }
-
-

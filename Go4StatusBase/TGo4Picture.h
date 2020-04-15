@@ -16,10 +16,7 @@
 
 #include "TNamed.h"
 #include "TArrayL.h"
-#include "TArrayF.h"
-#include "Riostream.h"
-#include "RVersion.h"
-#include "Rtypes.h"
+#include <iostream>
 
 class TVirtualPad;
 class TPad;
@@ -212,13 +209,7 @@ class TGo4Picture : public TNamed {
       virtual void Print(Option_t* option = "") const;    //  *MENU*
 
 #ifndef __CINT__
-
-      #if ROOT_VERSION_CODE > ROOT_VERSION(5,11,6)
       virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
-      #else
-      virtual void SavePrimitive(std::ofstream& fs, Option_t* = "");
-      #endif
-
 #endif
 
       // ====== end of USER FUNCTIONS ========================
