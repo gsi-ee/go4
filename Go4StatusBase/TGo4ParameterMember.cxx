@@ -13,11 +13,10 @@
 
 #include "TGo4ParameterMember.h"
 
-#include <stdlib.h>
+#include <cstdlib>
+#include <iostream>
 
-#include "Riostream.h"
 #include "TROOT.h"
-#include "TDataType.h"
 
 TGo4ParameterMember::TGo4ParameterMember() :
    TNamed(),

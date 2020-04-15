@@ -13,11 +13,10 @@
 
 #include "TGo4Status.h"
 
-#include <stdarg.h>
-#include "Riostream.h"
+#include <iostream>
 
-#include "TROOT.h"
 #include "snprintf.h"
+#include "TROOT.h"
 
 #include "TGo4Log.h"
 

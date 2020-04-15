@@ -13,18 +13,13 @@
 
 #include "TGo4Parameter.h"
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
-#include "TList.h"
-#include "TObjArray.h"
-#include "TClass.h"
 #include "TROOT.h"
 #include "TUrl.h"
 #include "TDataMember.h"
-#include "TDataType.h"
 #include "TBaseClass.h"
-#include "TDatime.h"
 #include "TArrayI.h"
 #include "TArrayD.h"
 

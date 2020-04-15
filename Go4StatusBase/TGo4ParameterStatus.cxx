@@ -13,10 +13,9 @@
 
 #include "TGo4ParameterStatus.h"
 
-#include "Riostream.h"
-#include "TObjArray.h"
+#include <iostream>
+
 #include "TROOT.h"
-#include "TClass.h"
 
 #include "TGo4Log.h"
 #include "TGo4Parameter.h"
