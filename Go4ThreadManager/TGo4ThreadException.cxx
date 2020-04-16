@@ -15,7 +15,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4ThreadManager.h"
-#include "TGo4ThreadHandler.h"
 #include "TGo4Runnable.h"
 
 TGo4ThreadException::TGo4ThreadException(const TGo4ThreadException &right)

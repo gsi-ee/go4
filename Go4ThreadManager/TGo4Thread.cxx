@@ -19,7 +19,6 @@
 
 #include "TGo4Runnable.h"
 #include "TGo4Log.h"
-#include "TGo4LockGuard.h"
 #include "Go4Exceptions.h"
 
 TGo4Thread::TGo4Thread(const TGo4Thread &right)

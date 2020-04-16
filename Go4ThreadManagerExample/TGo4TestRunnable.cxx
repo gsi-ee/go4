@@ -11,9 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "TGo4TestThreadManager.h"
+#include "TGo4TestRunnable.h"
 
-#include "TApplication.h"
 #include "TH1.h"
 #include "TRandom.h"
 #include "TCanvas.h"
@@ -22,11 +21,12 @@
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4ThreadHandler.h"
-#include "TGo4TestRunnable.h"
 
 #include "TGo4TerminateException.h"
 #include "TGo4RestartException.h"
 #include "TGo4LogicException.h"
+
+#include "TGo4TestThreadManager.h"
 
 TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", 0), fiMode(0), fxHisto(0)
 {

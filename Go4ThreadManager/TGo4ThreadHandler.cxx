@@ -14,7 +14,6 @@
 #include "TGo4ThreadHandler.h"
 
 #include "TGo4Thread.h"
-#include "TIterator.h"
 #include "TObjArray.h"
 #include "TMutex.h"
 

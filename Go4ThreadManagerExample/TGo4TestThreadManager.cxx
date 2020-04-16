@@ -13,6 +13,8 @@
 
 #include "TGo4TestThreadManager.h"
 
+#include "TCanvas.h"
+
 #include "TGo4Log.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4TestRunnable.h"

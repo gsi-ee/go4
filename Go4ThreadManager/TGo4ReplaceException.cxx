@@ -17,7 +17,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
-#include "TGo4ThreadManager.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4Runnable.h"
 

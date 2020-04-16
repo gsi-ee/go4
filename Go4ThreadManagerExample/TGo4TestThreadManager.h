@@ -15,8 +15,10 @@
 #define TGo4TestThreadManager_h
 
 #include "TGo4ThreadManager.h"
-#include "TGo4TestRunnable.h"
-#include "TCanvas.h"
+
+class TPad;
+class TCanvas;
+class TGo4TestRunnable;
 
 /**
  * Example of a user subclass of the threadmanager. This test threadmanager

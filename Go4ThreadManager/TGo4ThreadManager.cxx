@@ -13,7 +13,6 @@
 
 #include "TGo4ThreadManager.h"
 
-#include "TApplication.h"
 #include "TSystem.h"
 #include "TCondition.h"
 
