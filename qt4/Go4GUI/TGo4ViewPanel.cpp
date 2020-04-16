@@ -32,7 +32,6 @@
 #include "TMultiGraph.h"
 #include "TColor.h"
 #include "TCanvas.h"
-#include "TPad.h"
 #include "TFrame.h"
 #include "TArrayD.h"
 #include "TCutG.h"

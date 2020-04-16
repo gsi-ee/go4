@@ -38,7 +38,6 @@
 #include <QVBoxLayout>
 #include <QStatusBar>
 
-#include "TPad.h"
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TString.h"

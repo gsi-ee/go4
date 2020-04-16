@@ -20,7 +20,6 @@
 #include "TVirtualPad.h"
 #include "TFrame.h"
 #include "TList.h"
-#include "TPad.h"
 #include "TCanvas.h"
 #include "TH1.h"
 #include "TGraph.h"

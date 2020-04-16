@@ -21,7 +21,6 @@
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
-#include "TPad.h"
 #include "TCanvas.h"
 #include "TStopwatch.h"
 

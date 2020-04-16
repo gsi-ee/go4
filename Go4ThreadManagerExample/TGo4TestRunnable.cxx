@@ -17,7 +17,6 @@
 #include "TH1.h"
 #include "TRandom.h"
 #include "TCanvas.h"
-#include "TPad.h"
 #include "TThread.h"
 
 #include "TGo4Log.h"

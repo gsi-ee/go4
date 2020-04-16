@@ -13,7 +13,6 @@
 
 #include "TGo4MdiArea.h"
 
-#include "TPad.h"
 #include "TROOT.h"
 #include "TCanvas.h"
 

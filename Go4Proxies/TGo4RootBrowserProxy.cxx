@@ -17,7 +17,6 @@
 #include "RVersion.h"
 
 #include "TROOT.h"
-#include "TPad.h"
 #include "TCanvas.h"
 #include "TClass.h"
 #include "TH1.h"

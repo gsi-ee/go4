@@ -13,7 +13,6 @@
 
 #include "TGo4WidgetProxy.h"
 
-#include "TPad.h"
 #include "TGo4Slot.h"
 #include "QGo4Widget.h"
 

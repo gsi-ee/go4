@@ -16,7 +16,6 @@
 
 #include "TGo4ThreadManager.h"
 #include "TGo4TestRunnable.h"
-#include "TPad.h"
 #include "TCanvas.h"
 
 /**
