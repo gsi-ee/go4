@@ -15,6 +15,7 @@
 
 #include "TROOT.h"
 #include "TList.h"
+#include "TClass.h"
 #include "THStack.h"
 
 #include "TGo4ObjectProxy.h"

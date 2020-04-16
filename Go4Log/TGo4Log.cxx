@@ -23,6 +23,7 @@
 #include <iostream>
 
 #include "TDatime.h"
+#include "TDataType.h"
 #include "TMutex.h"
 #include "TSystem.h"
 

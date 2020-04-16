@@ -15,6 +15,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <map>
 
 #include "TRegexp.h"
 #include "TSystem.h"

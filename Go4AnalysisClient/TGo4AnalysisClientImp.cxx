@@ -16,6 +16,7 @@
 #include "TApplication.h"
 #include "TROOT.h"
 #include "TDatime.h"
+#include "TDataType.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"

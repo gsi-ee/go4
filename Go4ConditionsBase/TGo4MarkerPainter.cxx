@@ -14,9 +14,10 @@
 #include "TGo4MarkerPainter.h"
 
 #include "TVirtualPad.h"
+#include "TH1.h"
+#include "TList.h"
 
 #include "TGo4Marker.h"
-#include "TH1.h"
 
 TGo4MarkerPainter::TGo4MarkerPainter() :
    TGo4LabelPainter(),

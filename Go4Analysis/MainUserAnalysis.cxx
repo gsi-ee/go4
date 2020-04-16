@@ -16,15 +16,16 @@
 #include <cstdio>
 #include <iostream>
 
+#include "RVersion.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "TClassTable.h"
+#include "TDataType.h"
 #include "TMethod.h"
 #include "TMethodArg.h"
 #include "TRint.h"
 #include "TSystem.h"
 #include "TObjString.h"
-#include "RVersion.h"
 #include "TInterpreter.h"
 #include "TStyle.h"
 
@@ -727,6 +728,7 @@ int main(int argc, char **argv)
    http_args.SetOwner(kTRUE);
    TString auth_file;                    // authentication file for http server
    const char* auth_domain = "go4";      // default authentication domain http server
+   (void) auth_domain; // prevent compiler warning
 
    Bool_t batchMode(kTRUE);              // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
