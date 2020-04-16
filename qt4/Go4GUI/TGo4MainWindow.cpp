@@ -45,20 +45,14 @@
 #include "TMath.h"
 #include "TStyle.h"
 #include "TH1.h"
-//#include "TH2.h"
-//#include "TTree.h"
-//#include "TColor.h"
+#include "TClass.h"
 #include "TCanvas.h"
-//#include "TList.h"
 
 /////// Go4 includes, other packages:
-//#include "QRootApplication.h"
 #include "TGo4Version.h"
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
-//#include "TGo4Condition.h"
-//#include "TGo4Marker.h"
 #include "TGo4MdiArea.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitPanel.h"
@@ -72,9 +66,7 @@
 #include "TGo4AnalysisProxy.h"
 #include "TGo4WidgetProxy.h"
 
-
 //////// Go4 includes from Go4GUI package:
-//#include "QGo4Widget.h"
 #include "TGo4QSettings.h"
 #include "TGo4TreeViewer.h"
 #include "TGo4Browser.h"
@@ -114,9 +106,8 @@
 
 
 #ifdef __GO4DIM__
-//#include "TGo4DabcMonitor.h"
+#include "TGo4DabcMonitor.h"
 #endif
-
 
 #include "TGo4Script.h"
 
