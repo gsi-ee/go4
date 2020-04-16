@@ -13,8 +13,6 @@
 
 #include "TMeshParameter.h"
 
-#include <iostream>
-
 #include "TGo4AnalysisStep.h"
 #include "TGo4Analysis.h"
 

@@ -15,10 +15,7 @@
 
 #include "TGo4Log.h"
 
-#include "Go4EventServer.h"
-
 Int_t TGo4SimpleSubEvent::fgiZeroField[]={0};
-
 
 TGo4SimpleSubEvent::TGo4SimpleSubEvent()
 :  fsProcid(0), fiFieldLen(0)

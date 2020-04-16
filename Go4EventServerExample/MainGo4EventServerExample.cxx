@@ -26,13 +26,8 @@
 *
 **/
 
-#include <cstdlib>
-#include <iostream>
-
-
 #include "TApplication.h"
 #include "TH1.h"
-#include "TBrowser.h"
 #include "TCanvas.h"
 #include "TBenchmark.h"
 

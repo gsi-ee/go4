@@ -13,20 +13,10 @@
 
 #include "TMeshAnalysis.h"
 
-#include <cstdlib>
-
-extern "C" {
-   #include "s_filhe_swap.h"
-   #include "s_bufhe_swap.h"
-   #include "f_ut_utime.h"
-}
-
 #include "TH1.h"
 
-#include "TGo4Log.h"
 #include "TGo4Version.h"
 #include "TMeshParameter.h"
-#include "Go4EventServer.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
 

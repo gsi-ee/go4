@@ -13,12 +13,8 @@
 
 #include "TXXXAnlProc.h"
 
-#include <math.h>
-
 #include "TH1.h"
-#include "TH2.h"
 #include "TGraph.h"
-#include "TMultiGraph.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"

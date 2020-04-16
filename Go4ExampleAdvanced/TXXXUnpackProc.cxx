@@ -12,16 +12,12 @@
 //-----------------------------------------------------------------------
 
 #include "TXXXUnpackProc.h"
-#include "TGo4EventEndException.h"
-
-#include <time.h>
 
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
 #include "TArrow.h"
 #include "TLatex.h"
-#include "TLine.h"
 
 #include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
@@ -33,12 +29,6 @@
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
 #include "TXXXCalibPar.h"
-
-extern "C" {
-   #include "s_filhe_swap.h"
-   #include "s_bufhe_swap.h"
-   #include "f_ut_utime.h"
-}
 
 //***********************************************************
 TXXXUnpackProc::TXXXUnpackProc() :

@@ -13,29 +13,15 @@
 
 #include "TXXXAnalysis.h"
 
-#include <cstdlib>
-
 #include "TH1.h"
-#include "TFile.h"
-#include "TSystem.h"
-
-extern "C" {
-   #include "s_filhe_swap.h"
-   #include "s_bufhe_swap.h"
-   #include "f_ut_utime.h"
-}
 
 #include "TGo4Log.h"
-#include "TGo4Fitter.h"
-#include "TGo4FitterEnvelope.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4StepFactory.h"
-#include "TXXXParameter.h"
+
 #include "TXXXUnpackEvent.h"
 #include "TXXXAnlEvent.h"
 #include "TGo4Version.h"
-
-#include "Go4EventServer.h"
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :

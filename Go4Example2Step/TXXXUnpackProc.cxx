@@ -12,24 +12,15 @@
 //-----------------------------------------------------------------------
 
 #include "TXXXUnpackProc.h"
-#include "TGo4UserException.h"
 
-#include <time.h>
-
-#include "TMath.h"
 #include "TH1.h"
 #include "TF1.h"
 #include "TH2.h"
 #include "TCutG.h"
-#include "TArc.h"
-
-#include "s_filhe_swap.h"
-#include "s_bufhe_swap.h"
 
 #include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
-#include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
 #include "TGo4ListCond.h"
 #include "TGo4CondArray.h"
@@ -327,7 +318,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 	////////////////////////////////////////////////////
 	// Some examples how to skip event processing or stop analysis by exception
 	// for convenience, we provide  GO4_ macros to invoke appropriate exception throws
-	// NOTE: You need to #include "TGo4UserException.h" for this feature
+	// NOTE: You need to //#include "TGo4UserException.h" for this feature
     //	 static UInt_t count=0;
 	//	 if((count++ % 100000)==0 && count>1) // user may put a real analysis condition here
 	//		 {
