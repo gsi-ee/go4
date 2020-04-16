@@ -13,8 +13,6 @@
 
 #include "TGo4Proxy.h"
 
-#include <cstring>
-
 #include "TROOT.h"
 
 #include "TGo4ObjectManager.h"

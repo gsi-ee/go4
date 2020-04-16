@@ -13,7 +13,6 @@
 
 #include "TGo4LinkProxy.h"
 
-#include "TGo4Slot.h"
 #include "TGo4ObjectManager.h"
 
 TGo4LinkProxy::TGo4LinkProxy() :

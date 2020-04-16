@@ -17,7 +17,6 @@
 #include "TSystem.h"
 #include "TFile.h"
 #include "TTree.h"
-#include "TString.h"
 #include "TFolder.h"
 
 #include "TGo4ObjectProxy.h"

@@ -18,7 +18,6 @@
 #include "TClass.h"
 #include "TTree.h"
 
-#include "TGo4Slot.h"
 #include "TGo4Picture.h"
 #include "TGo4ObjectManager.h"
 

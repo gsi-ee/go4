@@ -19,15 +19,12 @@
 #endif
 
 #include <stdarg.h>
+#include <fstream>
+#include <iostream>
 
-#include "Riostream.h"
-#include "TDataType.h"
 #include "TDatime.h"
 #include "TMutex.h"
 #include "TSystem.h"
-#include "snprintf.h"
-
-#include "TGo4LockGuard.h"
 
 
 const char* TGo4Log::fgcLEFT = "GO4-";

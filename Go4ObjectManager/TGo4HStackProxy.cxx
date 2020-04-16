@@ -17,7 +17,6 @@
 #include "TList.h"
 #include "THStack.h"
 
-#include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4ObjectManager.h"
 

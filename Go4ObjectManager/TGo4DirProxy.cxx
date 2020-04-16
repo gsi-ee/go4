@@ -13,7 +13,6 @@
 
 #include "TGo4DirProxy.h"
 
-#include "TDirectory.h"
 #include "TKey.h"
 #include "TROOT.h"
 #include "TH1.h"
