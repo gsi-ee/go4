@@ -16,7 +16,6 @@
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4ExampleServer.h"
-#include "TGo4ExampleController.h"
 
 TGo4LoggingRunnable::TGo4LoggingRunnable(const char* name, TGo4ExampleServer* serv)
 : TGo4Runnable(name,serv)

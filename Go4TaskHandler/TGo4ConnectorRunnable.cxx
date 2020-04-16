@@ -13,7 +13,6 @@
 
 #include "TGo4ConnectorRunnable.h"
 
-#include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4ServerTask.h"
 #include "TGo4TaskManager.h"

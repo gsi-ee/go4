@@ -13,14 +13,13 @@
 
 #include "TGo4ExampleClient.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TGo4Log.h"
 #include "TGo4TaskHandler.h"
 #include "TGo4ThreadHandler.h"
 
 #include "TGo4ExampleClientStatus.h"
-#include "TGo4ExampleApplication.h"
 #include "TGo4MainRunnable.h"
 #include "TGo4WatchRunnable.h"
 

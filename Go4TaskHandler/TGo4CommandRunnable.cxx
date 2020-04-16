@@ -13,7 +13,8 @@
 
 #include "TGo4CommandRunnable.h"
 
-#include <signal.h>
+#include <sstream>
+#include <iostream>
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
@@ -26,8 +27,6 @@
 #include "TGo4ClientTask.h"
 #include "TGo4ComQuit.h"
 
-#include <sstream>
-#include "Riostream.h"
 
 
 TGo4CommandRunnable::TGo4CommandRunnable(const char* name, TGo4ThreadManager* man,

@@ -13,9 +13,7 @@
 
 #include "TGo4TaskHandlerStatus.h"
 
-#include "Riostream.h"
-
-#include "TGo4Log.h"
+#include <iostream>
 
 TGo4TaskHandlerStatus::TGo4TaskHandlerStatus() :
    TGo4Status(),

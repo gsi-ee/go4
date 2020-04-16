@@ -14,10 +14,8 @@
 #include "TGo4ClientTask.h"
 
 #include "TGo4Log.h"
-#include "TGo4LockGuard.h"
 
 #include "TGo4BufferQueue.h"
-#include "TGo4Command.h"
 #include "TGo4ClientStatus.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4TaskHandler.h"

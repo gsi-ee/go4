@@ -11,10 +11,10 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <stdlib.h>
+
+#include <iostream>
 
 #include "TApplication.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4ExampleClient.h"

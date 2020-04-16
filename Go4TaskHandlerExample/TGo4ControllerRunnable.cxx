@@ -16,7 +16,6 @@
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4ExampleServer.h"
-#include "TGo4ExampleController.h"
 
 const UInt_t TGo4ControllerRunnable::fguCOMMANDINTERVAL=10000;
 

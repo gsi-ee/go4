@@ -13,10 +13,6 @@
 
 #include "TGo4Master.h"
 
-#include "TSystem.h"
-
-#include "TGo4Log.h"
-#include "TGo4Task.h"
 #include "TGo4ServerTask.h"
 #include "TGo4ClientTask.h"
 #include "TGo4CommandInvoker.h"

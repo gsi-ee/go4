@@ -29,7 +29,6 @@
 #include "TGo4TaskManager.h"
 #include "TGo4TaskHandler.h"
 #include "TGo4ConnectorRunnable.h"
-#include "TGo4Master.h"
 #include "TGo4Slave.h"
 #include "TGo4TaskConnectorTimer.h"
 

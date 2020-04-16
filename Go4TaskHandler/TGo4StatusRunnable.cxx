@@ -13,8 +13,6 @@
 
 #include "TGo4StatusRunnable.h"
 
-#include <signal.h>
-
 #include "TGo4Log.h"
 #include "TGo4ThreadManager.h"
 #include "TGo4Thread.h"

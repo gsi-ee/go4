@@ -13,13 +13,11 @@
 
 #include "TGo4ExampleController.h"
 
-#include "Riostream.h"
-#include "TObject.h"
+#include <iostream>
 #include "TCanvas.h"
 
 #include "TGo4Log.h"
 #include "TGo4Status.h"
-#include "TGo4Command.h"
 
 #include "TGo4ComAction1.h"
 

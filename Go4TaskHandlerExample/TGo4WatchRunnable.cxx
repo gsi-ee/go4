@@ -15,7 +15,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
-#include "TGo4ClientStatus.h"
 
 const UInt_t TGo4WatchRunnable::fguWATCHINTERVAL=5000;
 

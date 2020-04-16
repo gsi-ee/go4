@@ -13,8 +13,6 @@
 
 #include "TGo4DataRunnable.h"
 
-#include <signal.h>
-
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4BufferQueue.h"

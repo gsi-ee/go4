@@ -18,7 +18,6 @@
 #include "TFile.h"
 #include "TMutex.h"
 #include "TROOT.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4Buffer.h"

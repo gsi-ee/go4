@@ -13,7 +13,6 @@
 
 #include "TGo4TaskHandlerException.h"
 
-#include "TGo4Log.h"
 #include "TGo4TaskHandler.h"
 #include "TGo4TaskHandlerRunnable.h"
 

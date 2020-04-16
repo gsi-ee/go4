@@ -13,8 +13,7 @@
 
 #include "TGo4ClientStatus.h"
 
-#include "Riostream.h"
-#include "TGo4Log.h"
+#include <iostream>
 
 
 TGo4ClientStatus::TGo4ClientStatus() :

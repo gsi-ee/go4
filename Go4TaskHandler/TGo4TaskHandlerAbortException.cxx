@@ -21,7 +21,6 @@
 #include "TGo4TaskHandler.h"
 #include "TGo4TaskHandlerRunnable.h"
 #include "TGo4Slave.h"
-#include "TGo4Master.h"
 #include "TGo4ComRemoveClient.h"
 #include "TGo4ComDisconnectSlave.h"
 

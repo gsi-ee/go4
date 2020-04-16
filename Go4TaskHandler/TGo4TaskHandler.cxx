@@ -13,9 +13,6 @@
 
 #include "TGo4TaskHandler.h"
 
-#include <stdlib.h>
-#include <stdarg.h>
-
 #include "TSystem.h"
 
 #include "TGo4Log.h"

@@ -16,8 +16,8 @@
 
 #include "TGo4Runnable.h"
 
-#include "TGo4ExampleController.h"
-#include "TGo4ExampleServer.h"
+class TGo4ExampleController;
+class TGo4ExampleServer;
 
 /**
  * runnable performing control watcher functions of example client task:

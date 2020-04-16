@@ -14,8 +14,6 @@
 #ifndef TGO4EXAMPLECONTROLLER_H
 #define TGO4EXAMPLECONTROLLER_H
 
-#include "Rtypes.h"
-
 class TObject;
 class TCanvas;
 
