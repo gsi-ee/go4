@@ -13,7 +13,8 @@
 
 #include "TGo4HisConnectorRunnable.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TH1.h"
 #include "TGraph.h"
 

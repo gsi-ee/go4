@@ -13,8 +13,9 @@
 
 #include "TGo4AnalysisClientStatus.h"
 
+#include <iostream>
+
 #include "TDatime.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 

@@ -27,8 +27,8 @@
 #include <QTimer>
 #include <QDropEvent>
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)

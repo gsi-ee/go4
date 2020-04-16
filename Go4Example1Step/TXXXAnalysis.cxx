@@ -13,7 +13,7 @@
 
 #include "TXXXAnalysis.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "TGo4Version.h"
 #include "TGo4Log.h"

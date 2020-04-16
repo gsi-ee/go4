@@ -13,7 +13,7 @@
 
 #include "TXXXAnalysis.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "TH1.h"
 #include "TFile.h"

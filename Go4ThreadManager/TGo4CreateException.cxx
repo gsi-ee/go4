@@ -13,7 +13,7 @@
 
 #include "TGo4CreateException.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"

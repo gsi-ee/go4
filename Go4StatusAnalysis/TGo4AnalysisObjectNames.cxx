@@ -13,7 +13,8 @@
 
 #include "TGo4AnalysisObjectNames.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TROOT.h"
 #include "TList.h"
 #include "TFolder.h"

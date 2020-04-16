@@ -13,8 +13,9 @@
 
 #include "TGo4ExampleClientStatus.h"
 
+#include <iostream>
+
 #include "TH1.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 

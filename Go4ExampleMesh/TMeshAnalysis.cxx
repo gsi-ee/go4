@@ -13,7 +13,7 @@
 
 #include "TMeshAnalysis.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 extern "C" {
    #include "s_filhe_swap.h"

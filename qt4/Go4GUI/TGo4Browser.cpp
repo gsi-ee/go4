@@ -13,6 +13,8 @@
 
 #include "TGo4Browser.h"
 
+#include <iostream>
+
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTimer>
@@ -23,7 +25,6 @@
 #include <QDrag>
 #include <QMimeData>
 
-#include "Riostream.h"
 #include "TClass.h"
 #include "TClassTable.h"
 #include "TROOT.h"

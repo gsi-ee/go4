@@ -13,7 +13,8 @@
 
 #include "TGo4ExampleApplication.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TRandom.h"
 
 #include "TGo4LockGuard.h"

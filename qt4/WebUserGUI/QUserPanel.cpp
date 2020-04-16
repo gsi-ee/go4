@@ -14,21 +14,21 @@
 
 #include "QUserPanel.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
+#include <sstream>
+
 #ifndef WIN32
 #include <unistd.h>
 #endif
 
 #include <QMimeData>
 
-#include "Riostream.h"
 #include "TClass.h"
 #include "TCanvas.h"
 #include "TH1F.h"
 #include "TGo4Proxy.h"
-
-#include <sstream>
 
 // this function called by Go4 GUI to start user panel
 extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
@@ -44,12 +44,7 @@ extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
 
 }
 
-
-
-
-
 // *********************************************************
-
 
 /*
  *  Constructs a QUserPanel which is a child of 'parent', with the
