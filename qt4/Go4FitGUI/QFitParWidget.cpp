@@ -13,10 +13,7 @@
 
 #include "QFitParWidget.h"
 
-#include "QFitItem.h"
 #include "TGo4FitParameter.h"
-#include "TGo4FitParsList.h"
-
 
 QFitParWidget::QFitParWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)

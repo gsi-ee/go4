@@ -13,14 +13,10 @@
 
 #include "QFitPrintWidget.h"
 
-#include "Riostream.h"
-#include "Rstrstream.h"
-#include "TObject.h"
-
+#include <iostream>
 #include <sstream>
-using namespace std;
 
-
+#include "TObject.h"
 
 QFitPrintWidget::QFitPrintWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)

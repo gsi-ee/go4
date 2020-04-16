@@ -14,13 +14,11 @@
 #include "QFitWidget.h"
 
 #include <QContextMenuEvent>
-#include <QCloseEvent>
 #include <QtCore/QSignalMapper>
 #include <QMenu>
 
 #include "QFitItem.h"
 
-#include "TObject.h"
 #include "TGo4FitPanel.h"
 
 QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WindowFlags fl ) :

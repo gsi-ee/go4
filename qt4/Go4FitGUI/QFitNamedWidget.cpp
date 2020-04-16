@@ -16,7 +16,6 @@
 #include <QLabel>
 
 #include "QGo4LineEdit.h"
-#include "QFitItem.h"
 #include "TGo4FitPanel.h"
 
 QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char* name )

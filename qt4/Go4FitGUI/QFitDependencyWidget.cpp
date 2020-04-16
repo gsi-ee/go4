@@ -16,9 +16,6 @@
 #include "QFitItem.h"
 #include "TObjArray.h"
 #include "TGo4FitDependency.h"
-#include "QFitItem.h"
-#include "TObjArray.h"
-#include "TGo4FitDependency.h"
 
 QFitDependencyWidget::QFitDependencyWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)

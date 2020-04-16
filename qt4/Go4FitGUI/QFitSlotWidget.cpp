@@ -14,8 +14,7 @@
 #include "QFitSlotWidget.h"
 
 #include "TClass.h"
-#include "QFitItem.h"
-#include "QGo4LineEdit.h"
+
 #include "TGo4FitSlot.h"
 #include "TGo4FitPanel.h"
 

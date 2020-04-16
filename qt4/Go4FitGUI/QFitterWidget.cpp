@@ -13,11 +13,9 @@
 
 #include "QFitterWidget.h"
 
-#include "QFitItem.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitData.h"
 #include "TGo4FitModel.h"
-
 
 QFitterWidget::QFitterWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)

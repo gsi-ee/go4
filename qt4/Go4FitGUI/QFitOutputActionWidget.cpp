@@ -13,7 +13,6 @@
 
 #include "QFitOutputActionWidget.h"
 
-#include "QFitItem.h"
 #include "TGo4FitterOutput.h"
 
 QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char* name)

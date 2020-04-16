@@ -13,9 +13,9 @@
 
 #include "QFitModelWidget.h"
 
-#include "qcheckbox.h"
-#include "qlabel.h"
-#include "qspinbox.h"
+#include <QCheckBox>
+#include <QLabel>
+#include <QSpinBox>
 
 #include "TGo4FitPanel.h"
 

@@ -13,40 +13,30 @@
 
 #include "TGo4FitPanel.h"
 
-#include <stdio.h>
-
-#include "qevent.h"
-#include "qheaderview.h"
+#include <iostream>
 
 #include <QtCore/QSignalMapper>
 
+#include <QMenu>
 #include <QMenuBar>
-#include <QFocusEvent>
 #include <QDropEvent>
 #include <QMessageBox>
 #include <QApplication>
-#include <QToolTip>
-#include <QMenu>
-#include <QMenuBar>
 #include <QFileDialog>
 #include <QInputDialog>
 
 #include "TStyle.h"
-#include "TString.h"
-#include "TObject.h"
 #include "TObjArray.h"
-#include "TArrayI.h"
+#include "TString.h"
 #include "TClass.h"
 #include "TMath.h"
 #include "Buttons.h"
 #include "TH1.h"
 #include "TCutG.h"
-#include "TPad.h"
 #include "TCanvas.h"
 #include "TPaveStats.h"
 #include "TLegend.h"
 #include "TFile.h"
-#include "Riostream.h"
 
 #include "TGo4LockGuard.h"
 #include "TGo4Slot.h"
@@ -59,8 +49,6 @@
 #include "TGo4FitPeakFinder.h"
 #include "TGo4FitParsList.h"
 #include "TGo4FitParameter.h"
-#include "TGo4FitComponent.h"
-#include "TGo4FitModel.h"
 #include "TGo4FitModelPolynom.h"
 #include "TGo4FitModelGauss1.h"
 #include "TGo4FitModelGauss2.h"
@@ -68,15 +56,12 @@
 #include "TGo4FitModelFormula.h"
 #include "TGo4FitModelFunction.h"
 #include "TGo4FitModelFromData.h"
-#include "TGo4FitData.h"
 #include "TGo4FitDataHistogram.h"
 #include "TGo4FitDataGraph.h"
 #include "TGo4FitDataProfile.h"
 #include "TGo4FitDataRidge.h"
 #include "TGo4FitDependency.h"
 #include "TGo4FitMinuitResult.h"
-#include "TGo4FitSlot.h"
-#include "TGo4FitAxisTrans.h"
 #include "TGo4FitLinearTrans.h"
 #include "TGo4FitMatrixTrans.h"
 #include "TGo4Log.h"
@@ -84,15 +69,12 @@
 #include "TGo4MdiArea.h"
 #include "TGo4QSettings.h"
 #include "QFitItem.h"
-#include "QFitWidget.h"
-#include "QFitNamedWidget.h"
 #include "QFitRangeWidget.h"
 #include "QFitRangeCutWidget.h"
 #include "QFitParWidget.h"
 #include "QFitDependencyWidget.h"
 #include "QFitParCfgWidget.h"
 #include "QFitDataWidget.h"
-#include "QFitModelWidget.h"
 #include "QFitModelPolynomWidget.h"
 #include "QFitModelGauss1Widget.h"
 #include "QFitModelGauss2Widget.h"

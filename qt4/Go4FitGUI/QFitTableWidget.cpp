@@ -13,8 +13,6 @@
 
 #include "QFitTableWidget.h"
 
-#include "Riostream.h"
-
 #include "QFitItem.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitGuiTypes.h"
