@@ -19,10 +19,8 @@
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TROOT.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
-#include "TGo4Status.h"
 #include "TGo4Condition.h"
 #include "TGo4DynamicListException.h"
 
