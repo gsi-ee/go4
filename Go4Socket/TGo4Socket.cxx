@@ -13,14 +13,11 @@
 
 #include "TGo4Socket.h"
 
-#include <string.h>
-
 #ifndef WIN32
 #include <sys/types.h>
 #include <sys/socket.h>
 #endif
 
-#include "TMutex.h"
 #include "TMessage.h"
 #include "TSystem.h"
 #include "TSocket.h"

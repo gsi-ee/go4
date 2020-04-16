@@ -17,7 +17,6 @@
 #include "TMutex.h"
 #include "TCondition.h"
 
-#include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4RuntimeException.h"
 

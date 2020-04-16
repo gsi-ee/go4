@@ -11,9 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <stdlib.h>
+#include <iostream>
 
-#include "Riostream.h"
 #include "TApplication.h"
 #include "TH1.h"
 #include "TClass.h"

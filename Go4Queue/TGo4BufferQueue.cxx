@@ -13,12 +13,12 @@
 
 #include "TGo4BufferQueue.h"
 
+#include <iostream>
+
 #include "TROOT.h"
-#include "TClass.h"
 #include "TMutex.h"
 #include "TFile.h"
 #include "TGo4Buffer.h"
-#include "Riostream.h"
 
 #include "TGo4Socket.h"
 #include "TGo4RuntimeException.h"
