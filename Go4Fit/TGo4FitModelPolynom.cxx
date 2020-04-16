@@ -14,7 +14,6 @@
 #include "TGo4FitModelPolynom.h"
 
 #include "TMath.h"
-#include "TArrayD.h"
 
 #include "TGo4FitParameter.h"
 

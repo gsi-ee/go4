@@ -13,11 +13,8 @@
 
 #include "TGo4FitDataGraph.h"
 
-#include "Riostream.h"
+#include <iostream>
 #include "TGraph.h"
-#include "TGraphErrors.h"
-#include "TGraphAsymmErrors.h"
-#include "TArrayD.h"
 
 TGo4FitDataGraph::TGo4FitDataGraph() :
    TGo4FitData(),

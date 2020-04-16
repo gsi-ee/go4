@@ -13,10 +13,9 @@
 
 #include "TGo4FitDataHistogram.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TH1.h"
-#include "TArrayD.h"
-#include "TArrayF.h"
 
 TGo4FitDataHistogram::TGo4FitDataHistogram() :
   TGo4FitData(), fxHistogram(this, TH1::Class()) {

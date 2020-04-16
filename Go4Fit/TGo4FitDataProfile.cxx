@@ -13,9 +13,9 @@
 
 #include "TGo4FitDataProfile.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TProfile.h"
-#include "TArrayD.h"
 
 TGo4FitDataProfile::TGo4FitDataProfile() :
   TGo4FitData(), fxProfile(this, TProfile::Class()) {

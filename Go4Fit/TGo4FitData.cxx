@@ -13,19 +13,16 @@
 
 #include "TGo4FitData.h"
 
-#include "Riostream.h"
-#include "TBuffer.h"
+#include <iostream>
 
+#include "TBuffer.h"
 #include "TMath.h"
-#include "TObjArray.h"
-#include "TArrayC.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
 #include "TGraph.h"
 #include "TClass.h"
 
-#include "TGo4FitSlot.h"
 #include "TGo4FitAxisTrans.h"
 
 

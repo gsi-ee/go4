@@ -23,7 +23,6 @@
 
 #include "TGo4Fitter.h"
 #include "TGo4FitData.h"
-#include "TGo4FitModelPolynom.h"
 
 TGo4FitPeakFinder::TGo4FitPeakFinder() : TGo4FitterAction() {
 

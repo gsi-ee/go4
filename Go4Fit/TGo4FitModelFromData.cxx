@@ -13,11 +13,8 @@
 
 #include "TGo4FitModelFromData.h"
 
-#include "Riostream.h"
-#include "TH1.h"
-#include "TArrayI.h"
+#include <iostream>
 
-#include "TGo4FitData.h"
 #include "TGo4FitDataHistogram.h"
 
 TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()), fxIter(0) {

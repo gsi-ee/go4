@@ -13,8 +13,7 @@
 
 #include "TGo4FitParameter.h"
 
-#include "Riostream.h"
-#include "TGo4FitParsList.h"
+#include <iostream>
 
 TGo4FitParameter::TGo4FitParameter() : TGo4FitNamed() {
     Reset();

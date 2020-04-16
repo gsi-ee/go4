@@ -13,7 +13,8 @@
 
 #include "TGo4FitLinearTrans.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TGo4FitParameter.h"
 
 TGo4FitLinearTrans::TGo4FitLinearTrans() : TGo4FitAxisTrans() {}

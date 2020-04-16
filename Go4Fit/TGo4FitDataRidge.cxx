@@ -13,9 +13,7 @@
 
 #include "TGo4FitDataRidge.h"
 
-#include "Riostream.h"
-#include "TArrayD.h"
-#include "TArrayF.h"
+#include <iostream>
 
 TGo4FitDataRidge::TGo4FitDataRidge() :
   TGo4FitData(), fxData(this, TGo4FitData::Class()), fiSelectedAxis(0) {

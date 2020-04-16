@@ -13,13 +13,11 @@
 
 #include "TGo4FitModelFunction.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #ifndef _WINDOWS
 #include <dlfcn.h>
 #endif
-
-#include "TString.h"
 
 #include "TGo4FitParameter.h"
 

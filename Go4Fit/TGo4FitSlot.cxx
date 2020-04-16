@@ -13,12 +13,11 @@
 
 #include "TGo4FitSlot.h"
 
-#include "Riostream.h"
-#include "TBuffer.h"
+#include <iostream>
 
+#include "TBuffer.h"
 #include "TClass.h"
 #include "TH1.h"
-#include "TSeqCollection.h"
 #include "TObjArray.h"
 
 TGo4FitSlot::TGo4FitSlot() :

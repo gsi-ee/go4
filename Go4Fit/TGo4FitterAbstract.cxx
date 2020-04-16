@@ -13,7 +13,8 @@
 
 #include "TGo4FitterAbstract.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TBuffer.h"
 #include "TArrayD.h"
 #include "TArrayI.h"
@@ -22,15 +23,12 @@
 #include "TClass.h"
 #include "TString.h"
 #include "TObjString.h"
-#include "TVirtualPad.h"
 
 #include "TGo4FitterConfig.h"
 #include "TGo4FitDependency.h"
-#include "TGo4FitterAction.h"
 #include "TGo4FitterOutput.h"
 #include "TGo4FitMinuit.h"
 #include "TGo4FitParameter.h"
-
 
 TGo4FitterAbstract::TGo4FitterAbstract() :
    TGo4FitParsList(), TGo4FitSlotList(),

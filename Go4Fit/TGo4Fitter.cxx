@@ -13,9 +13,10 @@
 
 #include "TGo4Fitter.h"
 
-#include <stdlib.h>
+#include <cstdlib>
+#include <iostream>
+#include <iomanip>
 
-#include "Riostream.h"
 #include "TClass.h"
 #include "TMath.h"
 #include "TH1.h"
@@ -28,16 +29,12 @@
 #include "TArrayD.h"
 #include "TBuffer.h"
 
-#include "TGo4FitData.h"
 #include "TGo4FitDataHistogram.h"
 #include "TGo4FitDataGraph.h"
-#include "TGo4FitModel.h"
 #include "TGo4FitModelGauss1.h"
-#include "TGo4FitModelGauss2.h"
 #include "TGo4FitModelPolynom.h"
 #include "TGo4FitAmplEstimation.h"
 #include "TGo4FitSlot.h"
-#include "TGo4FitMinuit.h"
 
 TGo4Fitter::TGo4Fitter() :
    TGo4FitterAbstract(),

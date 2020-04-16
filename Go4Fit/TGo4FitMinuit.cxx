@@ -13,11 +13,9 @@
 
 #include "TGo4FitMinuit.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TMinuit.h"
-#include "TArrayD.h"
-#include "TMatrixD.h"
 #include "TObjString.h"
 
 #include "TGo4FitterAbstract.h"

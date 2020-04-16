@@ -13,9 +13,9 @@
 
 #include "TGo4FitModel.h"
 
-#include "Riostream.h"
-#include "TBuffer.h"
+#include <iostream>
 
+#include "TBuffer.h"
 #include "TArrayD.h"
 #include "TArrayI.h"
 #include "TClass.h"

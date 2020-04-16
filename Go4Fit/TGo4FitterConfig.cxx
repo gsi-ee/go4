@@ -13,8 +13,7 @@
 
 #include "TGo4FitterConfig.h"
 
-#include "Riostream.h"
-#include "TString.h"
+#include <iostream>
 
 #include "TGo4FitterAbstract.h"
 #include "TGo4FitParameter.h"
