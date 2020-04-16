@@ -19,7 +19,6 @@
 #include <QMdiSubWindow>
 
 #include "TGo4ViewPanel.h"
-#include "QGo4Widget.h"
 #include "TGo4QSettings.h"
 
 TGo4MdiArea* TGo4MdiArea::fInstance = 0;

@@ -14,20 +14,13 @@
 #include "TGo4ParaEdit.h"
 
 #include <QMenu>
-#include <QLabel>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QToolTip>
-#include <QHeaderView>
 
 #include "TROOT.h"
 #include "TFile.h"
 #include "TObjArray.h"
-#include "TList.h"
 #include "TClass.h"
-#include "TDataMember.h"
-#include "TDataType.h"
-#include "TBaseClass.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
 #include "TGo4ParameterMember.h"

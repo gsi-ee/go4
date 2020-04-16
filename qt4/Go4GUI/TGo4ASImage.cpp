@@ -16,7 +16,6 @@
 #ifndef __NOGO4ASI__
 
 #include "TH2.h"
-#include "TGo4Log.h"
 #include "TGo4ViewPanel.h"
 
 TGo4ASImage::TGo4ASImage() :

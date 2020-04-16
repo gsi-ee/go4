@@ -16,10 +16,7 @@
 #include "TStyle.h"
 #include "TMath.h"
 
-#include "TGo4Condition.h"
-#include "TGo4Marker.h"
 #include "TGo4QSettings.h"
-
 
 TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget* parent ) :
    QDialog( parent )
