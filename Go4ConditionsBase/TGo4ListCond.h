@@ -10,6 +10,7 @@
 // This software can be used under the license agreements as stated
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
+
 #ifndef TGO4LISTCOND_H
 #define TGO4LISTCOND_H
 

@@ -10,6 +10,7 @@
 // This software can be used under the license agreements as stated
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
+
 #include "TGo4ListCond.h"
 
 //#include "TMath.h"
@@ -18,7 +19,7 @@
 TGo4ListCond::TGo4ListCond() :
 	TGo4Condition()
 {
-  SetDimension(1);
+   SetDimension(1);
 }
 
 TGo4ListCond::TGo4ListCond(const char* name, const char* title) :
