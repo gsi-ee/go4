@@ -25,13 +25,8 @@
 
 #include "QRootApplication.h"
 
-#include <stdlib.h>
-
 #include "TSystem.h"
-#include "Riostream.h"
-//#include "TTimer.h"
 
-#include <QtCore/QObject>
 #include <QtCore/QTimer>
 
 #ifndef WIN32

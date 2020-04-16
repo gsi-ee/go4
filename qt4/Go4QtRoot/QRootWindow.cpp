@@ -13,16 +13,13 @@
 
 #include "QRootWindow.h"
 
-#include "TSystem.h"
-#include "GuiTypes.h"
+#include <iostream>
+
 #include "TGFrame.h"
-#include "Riostream.h"
 #include "TVirtualX.h"
 
-#include <QPainter>
 #include <QMouseEvent>
 #include <QCloseEvent>
-#include <QPaintEvent>
 
 #include "TGo4LockGuard.h"
 

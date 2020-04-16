@@ -17,30 +17,25 @@
 
 #include "QRootCanvas.h"
 
-#include <QtCore/QEvent>
+#include <iostream>
+
 #include <QtCore/QSignalMapper>
 #include <QtCore/QTimer>
 
-#include <QPainter>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QResizeEvent>
 #include <QMouseEvent>
-#include <QPaintEvent>
 #include <QCloseEvent>
 #include <QInputDialog>
 #include <QColorDialog>
 #include <QMenu>
 #include <QAction>
 #include <QMimeData>
-#include <QDateTime>
-#include <QFrame>
 #include <QVBoxLayout>
 #include <QStatusBar>
 
 #include "TCanvas.h"
 #include "TROOT.h"
-#include "TString.h"
 #include "TObjString.h"
 #include "TObjArray.h"
 #include "TH1.h"
@@ -52,8 +47,7 @@
 #include "TMethodArg.h"
 #include "TColor.h"
 #include "TLatex.h"
-#include "Riostream.h"
-#include "TMath.h"
+
 #ifndef __NOGO4GED__
 #include "TGedEditor.h"
 #include "TVirtualPadEditor.h"
@@ -65,9 +59,6 @@
 #include "QRootDialog.h"
 #include "QRootWindow.h"
 #include "QRootApplication.h"
-
-#include <cstring>
-
 
 QRootCanvas::QRootCanvas(QWidget *parent) :
    QWidget(parent),
