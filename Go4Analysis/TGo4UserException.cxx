@@ -13,11 +13,9 @@
 
 #include "TGo4UserException.h"
 
-#include "snprintf.h"
-#include "stdarg.h"
+#include <stdarg.h>
 
 #include "TGo4Log.h"
-#include "TGo4AnalysisImp.h"
 
 TGo4UserException::TGo4UserException() :
    TGo4RuntimeException(),
@@ -44,8 +42,7 @@ TGo4UserException::TGo4UserException (Int_t prio, const char* text,...) :
 
 TGo4UserException::~TGo4UserException()
 {
- GO4TRACE((14,"TGo4UserException:~TGo4UserException", __LINE__, __FILE__));
-
+   GO4TRACE((14,"TGo4UserException:~TGo4UserException", __LINE__, __FILE__));
 }
 
 TGo4UserException & TGo4UserException::operator= (const TGo4UserException & right)

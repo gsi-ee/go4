@@ -11,31 +11,28 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
 
 #include "TROOT.h"
 #include "TClass.h"
-#include "TCanvas.h"
 #include "TClassTable.h"
 #include "TMethod.h"
 #include "TMethodArg.h"
-#include "TDataType.h"
 #include "TRint.h"
 #include "TSystem.h"
 #include "TObjString.h"
-#include "Riostream.h"
 #include "RVersion.h"
-#include "TSysEvtHandler.h"
 #include "TInterpreter.h"
 #include "TStyle.h"
-#include "TApplication.h"
 
 #include "TGo4Version.h"
+#include "TGo4Log.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
-#include "TGo4Analysis.h"
+#include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisClient.h"
 #include "Go4EventServer.h"
 #include "Go4EventServerTypes.h"
@@ -43,9 +40,7 @@
 #ifdef __GO4HDF5__
 #include "TGo4HDF5SourceParameter.h"
 #include "TGo4HDF5StoreParameter.h"
-
 #endif
-
 
 #include "TGo4FileStore.h"
 

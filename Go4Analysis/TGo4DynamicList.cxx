@@ -14,18 +14,16 @@
 #include "TGo4DynamicList.h"
 
 #include <stdexcept>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "TFolder.h"
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TBaseClass.h"
-#include "TClass.h"
 #include "TH1.h"
 #include "TList.h"
 #include "TROOT.h"
 
-#include "TGo4Log.h"
 #include "TGo4DynamicListException.h"
 #include "TGo4HistogramEntry.h"
 #include "TGo4TreeHistogramEntry.h"

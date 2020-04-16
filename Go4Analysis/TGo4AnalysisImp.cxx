@@ -14,21 +14,18 @@
 #include "TGo4AnalysisImp.h"
 
 #include <stdexcept>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
 
-#include "Riostream.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
-#include "TNamed.h"
 #include "TApplication.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TGraph.h"
 
 #include "TTree.h"
-#include "TCanvas.h"
-#include "TFolder.h"
 #include "TFile.h"
 #include "TKey.h"
 #include "TThread.h"
@@ -37,16 +34,13 @@
 #include "TCutG.h"
 #include "TStopwatch.h"
 #include "TTimeStamp.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Thread.h"
 #include "TGo4CommandInvoker.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4AnalysisCommandList.h"
 #include "TGo4UserException.h"
-#include "TGo4TaskHandler.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
@@ -65,23 +59,14 @@
 #include "TGo4DynamicListException.h"
 #include "TGo4Condition.h"
 #include "TGo4Parameter.h"
-#include "TGo4Picture.h"
-#include "TGo4Fitter.h"
-#include "TGo4ObjectStatus.h"
 #include "TGo4ObjEnvelope.h"
-#include "TGo4EventStoreParameter.h"
-#include "TGo4EventSourceParameter.h"
-#include "TGo4EventProcessorParameter.h"
 #include "TGo4EventElement.h"
-#include "TGo4EventStore.h"
-#include "TGo4EventSource.h"
 #include "TGo4EventProcessor.h"
 #include "TGo4EventErrorException.h"
 #include "TGo4EventTimeoutException.h"
 #include "TGo4EventEndException.h"
 #include "TGo4AnalysisStepException.h"
 #include "TGo4EventStoreException.h"
-#include "TGo4TreeStructure.h"
 
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)

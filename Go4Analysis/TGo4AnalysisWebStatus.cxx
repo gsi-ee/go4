@@ -14,14 +14,12 @@
 #include "TGo4AnalysisWebStatus.h"
 
 #include "TUrl.h"
-#include "TClass.h"
 #include "RVersion.h"
 
 #include "TGo4AnalysisStepStatus.h"
 
 #include "TGo4Analysis.h"
 #include "TGo4AnalysisClient.h"
-//#include "TGo4LockGuard.h"
 
 TString TGo4AnalysisWebStatus::fgxURL_STARTRUN = "start";
 TString TGo4AnalysisWebStatus::fgxURL_CLOSE = "close";

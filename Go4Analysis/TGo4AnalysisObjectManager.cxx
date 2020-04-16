@@ -13,7 +13,6 @@
 
 #include "TGo4AnalysisObjectManager.h"
 
-#include "Riostream.h"
 #include "TRegexp.h"
 #include "TMultiGraph.h"
 #include "TKey.h"
@@ -22,7 +21,6 @@
 #include "TFolder.h"
 #include "TFile.h"
 #include "TList.h"
-#include "TThread.h"
 #include "TMutex.h"
 #include "TBranch.h"
 
@@ -45,7 +43,6 @@
 #include "TGo4HistogramEntry.h"
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4DynamicList.h"
-#include "TGo4MainTree.h"
 #include "TGo4AnalysisObjectNames.h"
 #include "TGo4HistogramStatus.h"
 #include "TGo4TreeStructure.h"

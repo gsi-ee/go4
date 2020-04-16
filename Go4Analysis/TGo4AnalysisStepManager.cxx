@@ -14,26 +14,15 @@
 #include "TGo4AnalysisStepManager.h"
 
 #include "TObjArray.h"
-#include "TFolder.h"
-#include "TList.h"
-#include "TThread.h"
-#include "TH1.h"
-#include "TTree.h"
 
 #include "TGo4Log.h"
-#include "TGo4LockGuard.h"
-#include "TGo4Condition.h"
 #include "TGo4MainTree.h"
 #include "TGo4AnalysisStep.h"
-#include "TGo4TreeStructure.h"
 
 #include "TGo4AnalysisStepException.h"
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisImp.h"
-#include "TGo4EventErrorException.h"
 #include "TGo4EventProcessor.h"
-#include "TGo4EventTimeoutException.h"
-#include "TGo4BackStore.h"
 
 TGo4AnalysisStepManager::TGo4AnalysisStepManager(const char* name) :
    TNamed(name,"The Go4 Analysis Step Manager"),
@@ -321,7 +310,6 @@ Int_t TGo4AnalysisStepManager::Store(const char * name, TFolder* folder)
    return (step!=0) ? step->Store(folder) : 1;
 }
 
-
 TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char* stepname)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
@@ -329,8 +317,7 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char* stepname)
    TGo4AnalysisStep* step=GetAnalysisStep(stepname);
    if(step) {
       TGo4EventProcessor* pro=step->GetEventProcessor();
-      if(pro)
-         rev=pro->GetInputEvent(); // get true input event
+      if(pro) rev = pro->GetInputEvent(); // get true input event
    } else {
       rev=0;
    }
@@ -344,7 +331,7 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
    TGo4AnalysisStep* step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(stepindex) );
    if(step) {
       TGo4EventProcessor* pro = step->GetEventProcessor();
-      if(pro) rev=pro->GetInputEvent(); // get true input event
+      if(pro) rev = pro->GetInputEvent(); // get true input event
       //rev=step->GetInputEvent();
    } else {
       rev=0;
