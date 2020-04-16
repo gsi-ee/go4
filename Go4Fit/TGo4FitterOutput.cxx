@@ -13,7 +13,8 @@
 
 #include "TGo4FitterOutput.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TVirtualPad.h"
 
 #include "TGo4FitterAbstract.h"

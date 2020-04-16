@@ -13,7 +13,7 @@
 
 #include "TGo4CommandProtoList.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TMutex.h"
 #include "TObjArray.h"

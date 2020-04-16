@@ -13,7 +13,8 @@
 
 #include "TGo4FitModelGaussN.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TMath.h"
 #include "TGo4FitParameter.h"
 

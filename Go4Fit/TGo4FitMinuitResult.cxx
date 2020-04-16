@@ -13,11 +13,11 @@
 
 #include "TGo4FitMinuitResult.h"
 
+#include <iostream>
+
 #include "TMinuit.h"
 #include "TArrayC.h"
 #include "TArrayD.h"
-
-#include "Riostream.h"
 
 TGo4FitMinuitResult::TGo4FitMinuitResult() :
     TNamed(),

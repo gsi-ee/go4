@@ -13,7 +13,8 @@
 
 #include "TGo4TreeHistogramEntry.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TTree.h"
 #include "TROOT.h"
 

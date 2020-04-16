@@ -13,7 +13,8 @@
 
 #ifndef __CINT__
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TH1.h"
 #include "TH2.h"
 #include "TFile.h"

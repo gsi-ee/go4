@@ -13,7 +13,7 @@
 
 #include "TGo4FitNamed.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 TGo4FitNamed::TGo4FitNamed() : TNamed(), fxOwner(0), fxFullName() {
 }
@@ -30,7 +30,6 @@ const char* TGo4FitNamed::GetOwnerFullName() {
    if(full) return full->GetFullName();
    if (GetOwner()) return GetOwner()->GetName();
               else return 0;
-
 }
 
 const char* TGo4FitNamed::GetFullName() {

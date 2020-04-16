@@ -15,7 +15,7 @@
 
 #ifndef __CINT__
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TMath.h"
 #include "TH1.h"

@@ -27,8 +27,9 @@
 **/
 
 #include <stdlib.h>
+#include <iostream>
 
-#include "Riostream.h"
+
 #include "TApplication.h"
 #include "TH1.h"
 #include "TBrowser.h"

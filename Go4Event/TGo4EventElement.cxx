@@ -13,11 +13,12 @@
 
 #include "TGo4EventElement.h"
 
+#include <iostream>
+
 #include "TTree.h"
 #include "TDirectory.h"
 #include "TROOT.h"
 #include "TBranch.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventSource.h"

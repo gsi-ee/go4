@@ -13,7 +13,8 @@
 
 #include "TGo4FitDependency.h"
 
-#include "Riostream.h"
+#include <iostream>
+
 #include "TFormula.h"
 
 TGo4FitDependency::TGo4FitDependency() :
