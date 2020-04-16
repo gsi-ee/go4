@@ -15,18 +15,14 @@
 // otherwise, escape mode will reset global arrays of TGraph painter class only
 //#define GLOBALESCAPE 1
 
-
 #include "TGo4ViewPanel.h"
 
-#include <math.h>
+#include "RVersion.h"
 
 #include "TF1.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TH3.h"
 #include "TVirtualX.h"
-#include "RVersion.h"
-#include "Riostream.h"
 #include "THStack.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"
@@ -41,7 +37,6 @@
 #include "TPaveStats.h"
 #include "TPaveLabel.h"
 #include "TLegend.h"
-#include "TLegendEntry.h"
 #include "TStyle.h"
 #include "TROOT.h"
 #include "TMath.h"
@@ -49,17 +44,13 @@
 #include "TSystem.h"
 #include "TCanvasImp.h"
 
-#include "TGCanvas.h"
-#include "TGTab.h"
-
+#include <QMenu>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QFileDialog>
 #include <QTimer>
 #include <QInputDialog>
-#include <QToolTip>
 #include <QTime>
-#include <QMenu>
 #include <QtCore/QSignalMapper>
 
 #include <QTimer>
@@ -71,13 +62,12 @@
 #include "QWebCanvas.h"
 #endif
 
-#include "QRootApplication.h"
+//#include "QRootApplication.h"
 
 #include "TGo4Log.h"
 #include "TGo4Picture.h"
 #include "TGo4Fitter.h"
 #include "TGo4Marker.h"
-#include "TGo4Condition.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4CondArray.h"
@@ -87,14 +77,12 @@
 #include "TGo4MdiArea.h"
 #include "TGo4ASImage.h"
 #include "TGo4PrintWidget.h"
-#include "TGo4Proxy.h"
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4LinkProxy.h"
 #include "TGo4DrawObjProxy.h"
 #include "TGo4DrawCloneProxy.h"
 #include "TGo4Iter.h"
-#include "TGo4ObjectManager.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4QSettings.h"
 

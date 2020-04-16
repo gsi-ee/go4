@@ -12,12 +12,11 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4UserCommandsDialog.h"
-#include "TGo4QSettings.h"
 
+#include "TGo4QSettings.h"
 #include "TGo4UserCommands.h"
-#include <QToolTip>
+
 #include <QPushButton>
-#include <iostream>
 
 TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
     : QDialog( parent )

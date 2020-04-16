@@ -12,17 +12,12 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4UserCommands.h"
+
 #include "TGo4QSettings.h"
-#include "TGo4MainWindow.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4ServerProxy.h"
 
-#include <QMessageBox>
-#include <QInputDialog>
-
 #include "TGo4UserCommandsDialog.h"
-
-#include <iostream>
 
 TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QGo4Widget( parent, name , fl)

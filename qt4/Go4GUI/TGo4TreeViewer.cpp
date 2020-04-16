@@ -12,15 +12,14 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4TreeViewer.h"
+
 #include "TObjArray.h"
 #include "TObjString.h"
-
-#include <QApplication>
-#include <QToolTip>
-
 #include "TH1.h"
 #include "TClass.h"
-#include "TGo4Slot.h"
+
+#include <QApplication>
+
 #include "TGo4BrowserProxy.h"
 
 TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char* name)

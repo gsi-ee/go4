@@ -13,14 +13,11 @@
 
 #include "TGo4Script.h"
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <fstream>
 
 #include "TString.h"
 #include "TROOT.h"
 #include "TSystem.h"
-#include "TInterpreter.h"
 #include "TCanvas.h"
 #include "TStopwatch.h"
 
@@ -32,7 +29,6 @@
 #include "TGo4DabcProxy.h"
 #include "TGo4HttpProxy.h"
 #include "TGo4Iter.h"
-#include "TGo4Log.h"
 
 #include "TGo4AnalysisConfiguration.h"
 #include "TGo4ConfigStep.h"
@@ -41,11 +37,8 @@
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4MainWindow.h"
-#include "TGo4Slot.h"
 
 #include <QMdiSubWindow>
-
-#include <QNetworkAccessManager>
 
 
 TGo4Script* TGo4Script::ScriptInstance()

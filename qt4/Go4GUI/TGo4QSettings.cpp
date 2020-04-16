@@ -13,18 +13,13 @@
 
 #include "TGo4QSettings.h"
 
-#include <stdlib.h>
-
-#include "Riostream.h"
 #include "TSystem.h"
-#include "RVersion.h"
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
 #include "TGo4MdiArea.h"
 
 #include <QtCore/QSettings>
-#include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QFont>
 #include <QApplication>
