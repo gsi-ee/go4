@@ -15,8 +15,6 @@
 
 #include "TMath.h"
 
-#include <cstring>
-
 /** \brief Default constructor
  *
  * Creates a rolling graph with an update interval of 1, i.e. no averaging of the input values

@@ -13,9 +13,8 @@
 
 #include "TGo4ExportManager.h"
 
-#include <stdexcept>
+#include <iostream>
 
-#include "Riostream.h"
 #include "TSystem.h"
 #include "TFolder.h"
 #include "TDirectory.h"

@@ -13,14 +13,10 @@
 
 #include "TGo4AnalysisStatus.h"
 
-#include "Riostream.h"
-
 #include "TMutex.h"
 #include "TObjArray.h"
-#include "TUrl.h"
 
 #include "TGo4LockGuard.h"
-#include "TGo4Log.h"
 #include "TGo4AnalysisStepStatus.h"
 
 #include "TGo4Analysis.h"

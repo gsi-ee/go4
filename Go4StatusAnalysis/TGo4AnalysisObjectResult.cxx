@@ -13,10 +13,9 @@
 
 #include "TGo4AnalysisObjectResult.h"
 
-#include "Riostream.h"
-#include "TROOT.h"
+#include <iostream>
 
-#include "TGo4Log.h"
+#include "TROOT.h"
 
 #include "TGo4AnalysisObjectNames.h"
 
