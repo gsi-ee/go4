@@ -13,8 +13,6 @@
 
 #include "TGo4AnalysisMainRunnable.h"
 
-#include <stdexcept>
-
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Thread.h"

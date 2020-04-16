@@ -13,16 +13,11 @@
 
 #include "TGo4AnalysisWatchRunnable.h"
 
-#include "TGo4Log.h"
-#include "TGo4LockGuard.h"
 #include "TGo4Thread.h"
 #include "TGo4Task.h"
 
-#include "TGo4ClientStatus.h"
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
-
-#include "Riostream.h"
 
 const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=1000;
 //const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=50;

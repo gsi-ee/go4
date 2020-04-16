@@ -13,13 +13,7 @@
 
 #include "TGo4AnalysisClientImp.h"
 
-#include "Riostream.h"
-
-#include <stdlib.h>
-
 #include "TApplication.h"
-#include "TTimeStamp.h"
-#include "TDataType.h"
 #include "TROOT.h"
 #include "TDatime.h"
 
@@ -30,10 +24,8 @@
 #include "TGo4AnalysisCommandList.h"
 #include "TGo4ComServerQuit.h"
 #include "TGo4ThreadHandler.h"
-#include "TGo4ThreadManager.h"
 #include "TGo4Task.h"
 #include "TGo4TaskHandler.h"
-#include "TGo4ClientStatus.h"
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4AnalysisObjectNames.h"
 #include "TGo4AnalysisSniffer.h"
@@ -45,7 +37,6 @@
 #include "TGo4AnalysisMainRunnable.h"
 #include "TGo4AnalysisWatchRunnable.h"
 #include "TGo4Ratemeter.h"
-#include "TGo4TaskStatus.h"
 
 const char* TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
 const char* TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
@@ -250,7 +241,7 @@ Int_t TGo4AnalysisClient::Initialization()
 
 void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
 {
-   GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus*)",__LINE__, __FILE__));
    TGo4Slave::UpdateStatus(state); // fill superclass attributes
    TGo4AnalysisClientStatus* anstate= dynamic_cast<TGo4AnalysisClientStatus*> (state);
    if (anstate) {
