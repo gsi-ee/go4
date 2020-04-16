@@ -17,7 +17,6 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QtCore/QSignalMapper>
-#include <QToolTip>
 
 #include "TH1.h"
 #include "TMath.h"
@@ -25,8 +24,6 @@
 #include "TClass.h"
 #include "TPad.h"
 #include "TArrayD.h"
-#include "TGo4Log.h"
-#include "TGo4Condition.h"
 #include "TGo4Slot.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"

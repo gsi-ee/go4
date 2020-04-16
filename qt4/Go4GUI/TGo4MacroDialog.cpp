@@ -13,8 +13,6 @@
 
 #include "TGo4MacroDialog.h"
 
-#include <QToolTip>
-
 TGo4MacroDialog::TGo4MacroDialog( QWidget* parent )
     : QDialog( parent )
 {

@@ -13,15 +13,15 @@
 
 #include "TGo4CommandLine.h"
 
-#include "Riostream.h"
-#include "TROOT.h"
+#include <iostream>
 
-#include <QFileDialog>
+#include "TROOT.h"
 
 #include "TGo4Log.h"
 #include "TGo4QSettings.h"
 #include "TGo4MacroDialog.h"
-#include <exception>
+
+#include <QFileDialog>
 
 TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
    QGo4Widget(parent, name),fbPythonBound(false)

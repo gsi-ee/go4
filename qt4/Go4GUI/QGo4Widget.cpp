@@ -12,6 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "QGo4Widget.h"
+
 #include <QtCore/QTimer>
 #include <QAction>
 #include <QMenu>
@@ -19,7 +20,6 @@
 
 #include <QDragMoveEvent>
 #include <QCloseEvent>
-#include <QDropEvent>
 #include <QDragEnterEvent>
 
 QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WindowFlags f) :

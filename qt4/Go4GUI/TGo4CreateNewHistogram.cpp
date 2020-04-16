@@ -18,7 +18,9 @@
 #include "TH3.h"
 #include "TDirectory.h"
 #include "TROOT.h"
+
 #include "TGo4QSettings.h"
+
 #include <QButtonGroup>
 
 TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)

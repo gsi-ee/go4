@@ -12,15 +12,11 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4AnalysisStatusMonitor.h"
-#include <math.h>
 
-#include <qstatusbar.h>
-//#include <iostream>
+#include <QStatusBar>
 
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4Ratemeter.h"
-#include "TGo4BrowserProxy.h"
-#include "TSystem.h"
 
 
 TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name) :

@@ -17,7 +17,6 @@
 #include <QInputDialog>
 #include <QTimer>
 #include <QApplication>
-#include <QToolTip>
 #include <QMenu>
 #include <QSignalMapper>
 #include <QHeaderView>
@@ -31,15 +30,10 @@
 #include "TObjString.h"
 #include "TCanvas.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Proxy.h"
 #include "TGo4Slot.h"
 #include "TGo4Iter.h"
 #include "TGo4BrowserProxy.h"
-#include "QGo4BrowserTreeWidget.h"
 #include "TGo4ServerProxy.h"
-#include "TGo4AnalysisProxy.h"
-#include "TGo4HServProxy.h"
-#include "TGo4DabcProxy.h"
 #include "TGo4QSettings.h"
 #include "TGo4ViewPanel.h"
 

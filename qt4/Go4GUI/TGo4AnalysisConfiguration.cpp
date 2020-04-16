@@ -14,12 +14,11 @@
 #include "TGo4AnalysisConfiguration.h"
 
 #include <QFileDialog>
-#include "TClass.h"
+
 #include "TGo4ConfigStep.h"
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisStepStatus.h"
 #include "TGo4ServerProxy.h"
-#include "TGo4AnalysisProxy.h"
 
 
 TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name) :

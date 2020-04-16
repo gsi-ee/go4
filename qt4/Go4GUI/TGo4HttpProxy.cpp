@@ -13,8 +13,6 @@
 
 #include "TGo4HttpProxy.h"
 
-#include <string.h>
-
 #include "TROOT.h"
 #include "TClass.h"
 #include "TList.h"
@@ -27,17 +25,14 @@
 #include "TGo4Slot.h"
 #include "TGo4Iter.h"
 #include "TGo4ObjectProxy.h"
-#include "TGo4ObjectManager.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4AnalysisStatus.h"
-#include "TGo4HistogramStatus.h"
 
 #include <QtNetwork>
 #include <QTime>
 #include <QApplication>
 #include <QEventLoop>
 #include <QInputDialog>
-
 
 QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
    QObject(),

@@ -19,10 +19,9 @@
 #include "TClass.h"
 #include "TH1.h"
 #include "TTree.h"
-#include "QGo4LineEdit.h"
+
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4HistogramEntry.h"
-#include "TGo4DynamicEntry.h"
 #include "TGo4Condition.h"
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"

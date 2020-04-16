@@ -15,11 +15,9 @@
 
 #include "TClass.h"
 #include "TDatime.h"
-#include "TH1.h"
-#include "TGo4Log.h"
-#include "TGo4Condition.h"
-#include "TGo4WinCond.h"
 
+#include "TGo4Log.h"
+#include "TGo4WinCond.h"
 
 
 TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)

@@ -13,7 +13,6 @@
 
 #include "TGo4HisDrawOptions.h"
 
-#include "Riostream.h"
 #include "TROOT.h"
 #include "TColor.h"
 #include "TAttLine.h"

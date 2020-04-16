@@ -11,20 +11,15 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <qglobal.h>
-#include <locale.h>
 #include <QDir>
 #include <QStringList>
+#include <iostream>
 
-#include "TSystem.h"
 #include "RVersion.h"
+#include "TSystem.h"
 #include "TEnv.h"
 #include "TApplication.h"
 #include "TInterpreter.h"
-#include "Riostream.h"
 
 #include "QRootApplication.h"
 #include "TGo4Log.h"
@@ -32,7 +27,6 @@
 #include "TGo4MainWindow.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4DabcProxy.h"
-#include "TGo4BufferQueue.h"
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
 

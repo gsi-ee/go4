@@ -13,12 +13,10 @@
 
 #include "TGo4CreateNewCondition.h"
 
-#include "TGo4Condition.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4ShapedCond.h"
 #include "TGo4CondArray.h"
-
 
 TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
          : QDialog( parent )

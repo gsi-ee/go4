@@ -13,7 +13,6 @@
 
 #include "TGo4CreateNewDynEntry.h"
 
-#include "TGo4DynamicEntry.h"
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4HistogramEntry.h"
 

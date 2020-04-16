@@ -13,7 +13,6 @@
 
 #include "TGo4LogInfo.h"
 
-#include "TObject.h"
 #include "TList.h"
 
 #include <QFileDialog>
