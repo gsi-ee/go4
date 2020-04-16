@@ -13,14 +13,11 @@
 
 #include "TYYYEventSource.h"
 
-#include <stdlib.h>
-
 #include "TClass.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventErrorException.h"
 #include "TGo4EventEndException.h"
-#include "TGo4EventTimeoutException.h"
 #include "TGo4UserSourceParameter.h"
 #include "TYYYRawEvent.h"
 

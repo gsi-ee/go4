@@ -18,8 +18,6 @@
 #include "TMath.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TCutG.h"
-#include "TMath.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"

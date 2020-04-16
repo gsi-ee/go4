@@ -13,13 +13,9 @@
 
 #include "TYYYAnalysis.h"
 
-#include <stdlib.h>
-
 #include "TCanvas.h"
 #include "TH1.h"
-#include "TFile.h"
 
-#include "Go4EventServer.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4Version.h"
 
