@@ -13,7 +13,7 @@
 
 #include "TGo4ExportManager.h"
 
-#include <iostream>
+#include <fstream>
 
 #include "TSystem.h"
 #include "TFolder.h"
