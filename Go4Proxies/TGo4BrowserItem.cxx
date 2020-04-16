@@ -13,18 +13,12 @@
 
 #include "TGo4BrowserItem.h"
 
-#include "TCanvas.h"
-#include "TH1.h"
-
 #include "TGo4BrowserProxy.h"
 #include "TGo4RootBrowserProxy.h"
 #include "TGo4Iter.h"
 #include "TGo4Slot.h"
-#include "TGo4Proxy.h"
 #include "TGo4ServerProxy.h"
 
-#include "TGo4Condition.h"
-#include "TGo4Picture.h"
 #include "TGo4Interface.h"
 
 TGo4BrowserItem::TGo4BrowserItem() :

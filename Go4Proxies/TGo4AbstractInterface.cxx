@@ -13,18 +13,16 @@
 
 #include "TGo4AbstractInterface.h"
 
-#include <string.h>
+#include <iostream>
+#include <fstream>
 
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
 #include "TObjString.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Iter.h"
-#include "TGo4Slot.h"
-#include "TGo4ObjectManager.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4ServerProxy.h"
 

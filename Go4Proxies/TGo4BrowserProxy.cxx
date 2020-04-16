@@ -13,9 +13,6 @@
 
 #include "TGo4BrowserProxy.h"
 
-#include <math.h>
-#include <string.h>
-
 #include "RVersion.h"
 
 #include "TF1.h"
@@ -39,23 +36,20 @@
 #include "TROOT.h"
 #include "TObjString.h"
 #include "TDatime.h"
-#include "TObjectTable.h"
 #include "TLatex.h"
+#include "TVirtualTreePlayer.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4DirProxy.h"
 #include "TGo4LinkProxy.h"
 #include "TGo4Iter.h"
 #include "TGo4ObjectManager.h"
 
-#include "TGo4Condition.h"
 #include "TGo4Fitter.h"
 #include "TGo4Parameter.h"
 #include "TGo4Picture.h"
-#include "TGo4Condition.h"
 #include "TGo4PolyCond.h"
 #include "TGo4WinCond.h"
 #include "TGo4ShapedCond.h"
@@ -70,7 +64,6 @@
 #include "TGo4AnalysisStatus.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"
-#include "TVirtualTreePlayer.h"
 
 // required for ROOT browser
 // #include "TGo4BrowserItem.h"

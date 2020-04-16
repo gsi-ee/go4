@@ -13,12 +13,9 @@
 
 #include "TGo4AnalysisProxy.h"
 
-#include <stdlib.h>
-
 #include "TH1.h"
 #include "TFolder.h"
 #include "TTree.h"
-#include "TLeaf.h"
 #include "TTime.h"
 #include "TSystem.h"
 
@@ -26,7 +23,6 @@
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
-#include "TGo4ObjectManager.h"
 
 #include "TGo4RemoteCommand.h"
 #include "TGo4AnalysisObjectResult.h"
@@ -39,18 +35,13 @@
 #include "TGo4ClientTask.h"
 #include "TGo4ServerTask.h"
 #include "TGo4BufferQueue.h"
-#include "TGo4LockGuard.h"
 
 #include "TGo4Parameter.h"
-#include "TGo4ObjectStatus.h"
 
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4AnalysisObjectNames.h"
 #include "TGo4TreeStructure.h"
-#include "TGo4DynamicEntry.h"
-#include "TGo4HistogramEntry.h"
-#include "TGo4TreeHistogramEntry.h"
 #include "TGo4BranchStatus.h"
 #include "TGo4ParameterStatus.h"
 #include "TGo4MemberStatus.h"

@@ -13,13 +13,11 @@
 
 #include "TGo4ServerProxy.h"
 
-#include <string>
-#include <map>
-#include <stdlib.h>
+#include <fstream>
+#include <iostream>
 
 #include "TRegexp.h"
 #include "TSystem.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Slot.h"

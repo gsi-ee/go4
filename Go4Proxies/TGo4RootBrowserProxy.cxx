@@ -13,9 +13,6 @@
 
 #include "TGo4RootBrowserProxy.h"
 
-#include "Riostream.h"
-#include "RVersion.h"
-
 #include "TROOT.h"
 #include "TCanvas.h"
 #include "TClass.h"
@@ -33,11 +30,6 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4BrowserItem.h"
-
-#if ROOT_VERSION_CODE <= ROOT_VERSION(5,17,4)
-#include "TRootBrowser.h"
-#include "TGStatusBar.h"
-#endif
 
 Int_t TGo4RootBrowserProxy::fCanvasCounter = 0;
 
@@ -83,22 +75,8 @@ void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blo
    TBrowser* br = 0;
 
    while ((br = dynamic_cast<TBrowser*> (iter())) !=0 ) {
-
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,17,4)
       br->SetStatusText(str1, 0);
       br->SetStatusText(str2, 1);
-#else
-      TRootBrowser* imp = dynamic_cast<TRootBrowser*> (br->GetBrowserImp());
-      if (imp==0) continue;
-
-      imp->ShowStatusBar(kTRUE);
-
-      TGStatusBar* status = imp->GetStatusBar();
-      if (status!=0) {
-         status->SetText(str1, 0);
-         status->SetText(str2, 1);
-      }
-#endif
    }
 
    if (blockdelay>0) {

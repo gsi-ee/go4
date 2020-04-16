@@ -15,7 +15,6 @@
 
 #include "TROOT.h"
 #include "TSystem.h"
-#include "TInterpreter.h"
 #include "TCanvas.h"
 #include "TStopwatch.h"
 #include "TTimer.h"
@@ -23,8 +22,6 @@
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisStepStatus.h"
 
-#include "TGo4EventStoreParameter.h"
-#include "TGo4EventSourceParameter.h"
 #include "TGo4UserSourceParameter.h"
 #include "TGo4RevServParameter.h"
 #include "TGo4FileStoreParameter.h"
