@@ -16,7 +16,7 @@
 
 #include "TGo4EventSource.h"
 
-#include <math.h>
+#include <cmath>
 
 class TH1;
 class TH1D;

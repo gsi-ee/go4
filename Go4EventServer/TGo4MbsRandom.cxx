@@ -15,7 +15,7 @@
 
 
 #include "TRandom.h"
-#include <math.h>
+#include <cmath>
 
 #include "TGo4Log.h"
 #include "TGo4MbsRandomParameter.h"

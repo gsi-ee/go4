@@ -16,16 +16,7 @@
 #include <cstring>
 #include <stdarg.h>
 
-#include "TH1.h"
-#include "TH2.h"
-#include "TCutG.h"
-#include "TArrayD.h"
-#include "TAxis.h"
-#include "snprintf.h"
-
 #include "TGo4Log.h"
-#include "TGo4WinCond.h"
-#include "TGo4PolyCond.h"
 #include "TGo4EventElement.h"
 #include "TGo4EventCalibration.h"
 #include "TGo4AnalysisImp.h"

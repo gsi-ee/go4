@@ -19,7 +19,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
-#include "TGo4EventCalibration.h"
 #include "TGo4Parameter.h"
 #include "TGo4TreeStoreParameter.h"
 #include "TGo4MainTree.h"
@@ -155,7 +154,7 @@ Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 
 Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
 {
-   GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventCalibration*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStore::Store(TGo4Parameter*)", __LINE__, __FILE__));
    if(cali) {
       TString oldname = cali->GetName();
       cali->SetName(Form("%s_%d", oldname.Data(), fxSingletonTree->GetCurrentIndex()));

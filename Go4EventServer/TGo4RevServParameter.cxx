@@ -13,7 +13,6 @@
 
 #include "TGo4RevServParameter.h"
 
-#include "TGo4Status.h"
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 

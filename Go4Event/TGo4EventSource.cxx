@@ -16,7 +16,6 @@
 #include <stdarg.h>
 
 #include "TClass.h"
-#include "snprintf.h"
 
 #include "TGo4EventElement.h"
 #include "TGo4EventErrorException.h"

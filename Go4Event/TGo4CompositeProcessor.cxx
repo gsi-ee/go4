@@ -14,8 +14,6 @@
 #include "TGo4CompositeProcessor.h"
 
 #include "TGo4MbsEvent.h"
-#include "TGo4MbsSubEvent.h"
-
 
 TGo4CompositeProcessor::TGo4CompositeProcessor():
    TGo4EventProcessor(),

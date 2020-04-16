@@ -14,7 +14,7 @@
 #include "TGo4EventStore.h"
 
 #include "TGo4Log.h"
-#include "Go4Exceptions.h"
+
 
 TGo4EventStore::TGo4EventStore(const char* name) :
    TNamed(name, "This is a Go4 Event Store")

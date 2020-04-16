@@ -15,8 +15,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4MbsSource.h"
-#include "TGo4Log.h"
-#include "Go4Exceptions.h"
 
 TGo4MbsSubEvent::TGo4MbsSubEvent() :
    TGo4EventElement(),

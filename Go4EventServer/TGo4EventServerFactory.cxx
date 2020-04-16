@@ -14,28 +14,22 @@
 #include "TGo4EventServerFactory.h"
 
 #include "TGo4Log.h"
-
 #include "TGo4MbsEvent.h"
-
 #include "TGo4EventStore.h"
 #include "TGo4FileStore.h"
 #include "TGo4BackStore.h"
-#include "TGo4TreeStore.h"
 #include "TGo4FileStoreParameter.h"
 #include "TGo4BackStoreParameter.h"
-#include "TGo4TreeStoreParameter.h"
 
 #ifdef __GO4HDF5__
 #include "TGo4HDF5StoreParameter.h"
 #include "TGo4HDF5Store.h"
 #include "TGo4HDF5SourceParameter.h"
 #include "TGo4HDF5Source.h"
-
 #endif
 
 #include "TGo4EventSource.h"
 #include "TGo4FileSource.h"
-#include "TGo4TreeSource.h"
 #include "TGo4MbsFile.h"
 #include "TGo4MbsStream.h"
 #include "TGo4MbsTransport.h"
@@ -43,7 +37,6 @@
 #include "TGo4RevServ.h"
 #include "TGo4MbsRandom.h"
 #include "TGo4FileSourceParameter.h"
-#include "TGo4TreeSourceParameter.h"
 #include "TGo4MbsFileParameter.h"
 #include "TGo4MbsStreamParameter.h"
 #include "TGo4MbsTransportParameter.h"
@@ -89,7 +82,7 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
 {
    GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
 
-   TGo4EventStore* rev(0);
+   TGo4EventStore* rev = 0;
 
    if(par) {
       if(!strcmp(par->ClassName(),"TGo4FileStoreParameter"))
@@ -107,9 +100,9 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
       }
 #ifdef __GO4HDF5__
       else if(!strcmp(par->ClassName(),"TGo4HDF5StoreParameter"))
-       {
-               rev = new TGo4HDF5Store(dynamic_cast<TGo4HDF5StoreParameter* > (par));
-       }
+      {
+         rev = new TGo4HDF5Store(dynamic_cast<TGo4HDF5StoreParameter* > (par));
+      }
 #endif
    }
 

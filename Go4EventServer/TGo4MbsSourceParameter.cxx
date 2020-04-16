@@ -15,7 +15,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4Status.h"
-#include "Go4EventServerTypes.h"
 
 TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
     TGo4EventSourceParameter("MbsSource", 0),

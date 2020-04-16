@@ -16,8 +16,6 @@
 
 #include "TGo4EventSourceParameter.h"
 
-#include "TString.h"
-
 class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
   public:
      TGo4MbsSourceParameter() ;

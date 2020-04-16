@@ -13,7 +13,6 @@
 
 #include "TGo4EventStoreException.h"
 
-#include "TGo4ControlException.h"
 #include "TGo4EventStore.h"
 #include "TGo4Log.h"
 

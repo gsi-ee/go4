@@ -20,7 +20,6 @@
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
-#include "TGo4Parameter.h"
 #include "TGo4Condition.h"
 #include "TGo4Fitter.h"
 #include "TGo4FileStoreParameter.h"

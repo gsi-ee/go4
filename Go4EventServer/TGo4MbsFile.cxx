@@ -13,9 +13,7 @@
 
 #include "TGo4MbsFile.h"
 
-#include <string.h>
-
-#include "Riostream.h"
+#include <cstring>
 #include "RVersion.h"
 #if ROOT_VERSION_CODE <= ROOT_VERSION(6,8,0)
 #include "Riosfwd.h"
@@ -31,7 +29,6 @@
 
 #include "TGo4MbsFileParameter.h"
 #include "TGo4EventErrorException.h"
-#include "TGo4EventTimeoutException.h"
 #include "TGo4EventEndException.h"
 #include "TGo4FileSource.h"
 #include "TGo4AnalysisImp.h"

@@ -17,10 +17,8 @@
 #include "TFile.h"
 
 #include "TGo4Log.h"
-#include "Go4Exceptions.h"
 
-
-TGo4MainTree * TGo4MainTree::fxInstance= 0;
+TGo4MainTree * TGo4MainTree::fxInstance = 0;
 
 const char* TGo4MainTree::fgcTREENAME = "Main";
 const char* TGo4MainTree::fgcFILENAME = "Go4MainTree.root";
