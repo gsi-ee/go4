@@ -25,6 +25,8 @@
 
 #include "QRootApplication.h"
 
+#include <iostream>
+
 #include "TSystem.h"
 
 #include <QtCore/QTimer>
