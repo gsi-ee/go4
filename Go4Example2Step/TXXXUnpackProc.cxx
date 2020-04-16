@@ -17,6 +17,7 @@
 #include "TF1.h"
 #include "TH2.h"
 #include "TCutG.h"
+#include "TMath.h"
 
 #include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
