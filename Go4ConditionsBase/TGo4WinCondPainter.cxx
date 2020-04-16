@@ -14,7 +14,6 @@
 #include "TGo4WinCondPainter.h"
 
 #include "TVirtualPad.h"
-#include "TList.h"
 #include "TROOT.h"
 
 #include "TGo4WinCond.h"

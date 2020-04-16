@@ -13,8 +13,7 @@
 
 #include "TGo4WinCondView.h"
 
-#include "Buttons.h"
-#include "TPad.h"
+#include "TVirtualPad.h"
 
 #include "TGo4WinCond.h"
 

@@ -14,11 +14,9 @@
 #include "TGo4PolyCondPainter.h"
 
 #include "TVirtualPad.h"
-#include "TList.h"
 #include "TROOT.h"
 
 #include "TGo4PolyCondView.h"
-#include "TGo4PolyCond.h"
 
 TGo4PolyCondPainter::TGo4PolyCondPainter() :
    TGo4ConditionPainter(),

@@ -13,7 +13,6 @@
 
 #include "TGo4WinCond.h"
 
-#include "Riostream.h"
 #include "TH1.h"
 
 #include "TGo4WinCondPainter.h"

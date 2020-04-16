@@ -13,12 +13,7 @@
 
 #include "TGo4ShapedCond.h"
 
-#include "Riostream.h"
-
 #include "TMath.h"
-#include "TH2.h"
-#include "TList.h"
-#include "TCutG.h"
 
 #include "TGo4Log.h"
 

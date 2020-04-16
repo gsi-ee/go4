@@ -17,7 +17,6 @@
 #include "TCutG.h"
 #include "TH1.h"
 
-#include "TGo4Condition.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 

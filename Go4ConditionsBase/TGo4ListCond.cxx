@@ -13,9 +13,6 @@
 
 #include "TGo4ListCond.h"
 
-//#include "TMath.h"
-#include <algorithm>
-
 TGo4ListCond::TGo4ListCond() :
 	TGo4Condition()
 {

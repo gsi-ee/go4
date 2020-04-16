@@ -16,8 +16,6 @@
 #include "TVirtualPad.h"
 
 #include "TGo4WinCond.h"
-#include "TGo4WinCondPainter.h"
-#include "TGo4PolyCondPainter.h"
 #include "TGo4CondArray.h"
 
 TGo4CondArrayPainter::TGo4CondArrayPainter()

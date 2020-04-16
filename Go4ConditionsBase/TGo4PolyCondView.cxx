@@ -13,9 +13,7 @@
 
 #include "TGo4PolyCondView.h"
 
-#include "TCutG.h"
-#include "TPad.h"
-#include "Buttons.h"
+#include "TVirtualPad.h"
 
 /** JAM2016: like for polygon condition we may suppress intermediate streaming when updating
  * the condition from view by disabling the following define:*/

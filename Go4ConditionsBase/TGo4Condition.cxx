@@ -15,13 +15,10 @@
 
 #include "TH1.h"
 #include "TROOT.h"
-#include "TList.h"
 #include "TObjArray.h"
 #include "TObjString.h"
-#include "TCutG.h"
 #include "TVirtualPad.h"
 #include "TDatime.h"
-#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4ConditionPainter.h"

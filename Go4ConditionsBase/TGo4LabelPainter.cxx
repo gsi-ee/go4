@@ -15,7 +15,6 @@
 
 #include "TROOT.h"
 #include "TVirtualPad.h"
-#include "Riostream.h"
 
 TGo4LabelPainter::TGo4LabelPainter() :
    TNamed(),

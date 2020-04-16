@@ -16,10 +16,6 @@
 
 #include "TPaveText.h"
 #include "TLine.h"
-#include "TNamed.h"
-#include "TAttLine.h"
-#include "TAttFill.h"
-#include "TAttText.h"
 
 /**
  * Text label that knows its author. Required to suppress
