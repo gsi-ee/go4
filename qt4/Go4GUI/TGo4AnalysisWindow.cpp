@@ -13,13 +13,10 @@
 
 #include "TGo4AnalysisWindow.h"
 
+#include <iostream>
+
 #include "TSystem.h"
 #include "TList.h"
-#include "Riostream.h"
-
-#include "qimage.h"
-#include "qlabel.h"
-#include "qpushbutton.h"
 
 #include <QtCore/QTimer>
 #include <QtCore/QTextStream>
@@ -28,12 +25,10 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QTextEdit>
-#include <QToolTip>
-#include <QMessageBox>
 #include <QFileDialog>
 #include <QToolButton>
 #include <QDateTime>
-#include <QString>
+#include <QLabel>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
