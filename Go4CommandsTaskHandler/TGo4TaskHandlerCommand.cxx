@@ -13,7 +13,6 @@
 
 #include "TGo4TaskHandlerCommand.h"
 
-#include "TGo4Log.h"
 #include "TGo4Task.h"
 
 TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* description) :

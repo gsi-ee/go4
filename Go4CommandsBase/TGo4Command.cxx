@@ -13,10 +13,9 @@
 
 #include "TGo4Command.h"
 
-#include "Riostream.h"
+#include <iostream>
 
 #include "TGo4Log.h"
-#include "TGo4CommandReceiver.h"
 
 const char* TGo4Command::fgcMODEDESCRIPTION[]=
    {"NOMODE","Observer","Controller","Administrator"};

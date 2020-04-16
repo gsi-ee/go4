@@ -14,12 +14,10 @@
 #include "TGo4CommandInvoker.h"
 
 #include "TMutex.h"
-#include "TString.h"
 #include "TObjArray.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Command.h"
 #include "TGo4CommandProtoList.h"
 #include "TGo4RemoteCommand.h"
 

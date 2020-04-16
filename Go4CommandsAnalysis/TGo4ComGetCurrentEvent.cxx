@@ -13,8 +13,6 @@
 
 #include "TGo4ComGetCurrentEvent.h"
 
-#include <stdio.h>
-
 #include "TTree.h"
 
 #include "TGo4Log.h"

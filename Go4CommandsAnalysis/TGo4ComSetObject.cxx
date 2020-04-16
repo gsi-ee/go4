@@ -19,7 +19,6 @@
 #include "TGo4Log.h"
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
-#include "TGo4AnalysisObjectManager.h"
 #include "TGo4RemoteCommand.h"
 #include "TGo4AnalysisObjectResult.h"
 #include "TGo4Parameter.h"

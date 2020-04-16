@@ -17,7 +17,6 @@
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4RuntimeException.h"
 #include "TGo4AnalysisImp.h"
-#include "TGo4AnalysisClientImp.h"
 #include "TGo4RemoteCommand.h"
 
 TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings) :

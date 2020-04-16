@@ -13,8 +13,6 @@
 
 #include "TGo4TaskHandlerCommandList.h"
 
-#include "TGo4Log.h"
-
 #include "TGo4ComQuit.h"
 #include "TGo4ComStart.h"
 #include "TGo4ComStop.h"
