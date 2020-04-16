@@ -13,8 +13,6 @@
 
 #include "TGo4MbsHist.h"
 
-#include <string.h>
-
 #include "TGraph.h"
 #include "TH1.h"
 #include "TH2.h"

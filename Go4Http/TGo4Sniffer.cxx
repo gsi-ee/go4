@@ -13,21 +13,18 @@
 
 #include "TGo4Sniffer.h"
 
-#include <string.h>
+#include <cstring>
 
 #include "TFolder.h"
 #include "THttpServer.h"
 #include "TBufferJSON.h"
-#include "TClass.h"
 #include "TGraph.h"
-#include "TAxis.h"
 #include "TDatime.h"
 #include "TTimeStamp.h"
 #include "TROOT.h"
 #include "TH1F.h"
 #include "TFile.h"
 #include "TMethodCall.h"
-#include "TMethod.h"
 #include "TGo4HistogramStatus.h"
 
 #include "TGo4AnalysisImp.h"

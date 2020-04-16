@@ -13,11 +13,9 @@
 
 #include "TGo4ObjClient.h"
 
-#include <signal.h>
-#include "Riostream.h"
+#include <iostream>
 
 #include "TROOT.h"
-#include "TClass.h"
 #include "TDirectory.h"
 #include "TBuffer.h"
 

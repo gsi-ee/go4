@@ -48,10 +48,8 @@
 * Typing "exit" will finish the object client.
 **********************************************************************/
 
-#include <string>
-#include <stdlib.h>
+#include <iostream>
 
-#include "Riostream.h"
 #include "TROOT.h"
 #include "TApplication.h"
 #include "TCanvas.h"

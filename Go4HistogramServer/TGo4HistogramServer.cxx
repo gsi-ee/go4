@@ -13,7 +13,7 @@
 
 #include "TGo4HistogramServer.h"
 
-#include "Riostream.h"
+#include <iostream>
 #include "TFile.h"
 
 #include "TGo4Log.h"
@@ -29,7 +29,6 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectNames.h"
 #include "TGo4Task.h"
-#include "TGo4TaskManager.h"
 #include "TGo4Thread.h"
 #include "TGo4ThreadManager.h"
 #include "TGo4ThreadHandler.h"
