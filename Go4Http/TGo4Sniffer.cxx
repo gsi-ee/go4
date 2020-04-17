@@ -15,6 +15,7 @@
 
 #include <cstring>
 
+#include "TClass.h"
 #include "TFolder.h"
 #include "THttpServer.h"
 #include "TBufferJSON.h"
@@ -37,7 +38,6 @@
 #include "TGo4EventElement.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4DynamicEntry.h"
-
 
 THttpServer* TGo4Sniffer::gHttpServer = 0;
 
