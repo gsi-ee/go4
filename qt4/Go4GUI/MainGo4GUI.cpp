@@ -35,6 +35,8 @@
 #include "TGX11.h"
 //extern void qt_x11_set_global_double_buffer(bool);
 #endif
+#else
+#include "TGo4BufferQueue.h"
 #endif
 
 int print_go4_version()
