@@ -56,7 +56,6 @@
 #include "TGo4CompositeEvent.h"
 #include "TGo4ParameterStatus.h"
 #include "TGo4MemberStatus.h"
-#include "TGo4PolyCond.h"
 #include "TGo4AnalysisImp.h"
 
 const char* TGo4AnalysisObjectManager::fgcTOPDYNAMICLIST = "Go4DynamicList";
