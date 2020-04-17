@@ -17,10 +17,6 @@
 #include "QFitModelWidget.h"
 #include "ui_QFitModelPolynomWidget.h"
 
-
-#include <qvariant.h>
-#include <QFitModelWidget.h>
-
 class TGo4FitModelPolynom;
 
 class QFitModelPolynomWidget : public QFitModelWidget, public Ui::QFitModelPolynomWidget
@@ -35,8 +31,6 @@ public slots:
     virtual TGo4FitModelPolynom * GetPolynom();
     virtual void FillSpecificData();
     virtual void AxisSpin_valueChanged( int );
-
-
 };
 
 #endif // QFITMODELPOLYNOMWIDGET_H

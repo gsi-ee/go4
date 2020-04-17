@@ -53,8 +53,6 @@
 #include <QTime>
 #include <QtCore/QSignalMapper>
 
-#include <QTimer>
-
 #ifdef __GO4X11__
 #include "QRootCanvas.h"
 #endif
