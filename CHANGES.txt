@@ -7,7 +7,7 @@
 ---------------------------------------------------------------
 Authors: Joern Adamczewski-Musch      (1999-)
          Mohammad Al-Turany           (2000-2004)
-         Sven Augustin [Python]	      (2015-)
+         Sven Augustin [Python]       (2015-)
          Denis Bertini                (2001-2004)
          Hans Georg Essel             (1999-2010)
          Marc Hemberger               (1999-2000)
@@ -24,9 +24,9 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v6.0.x (2019/2020)
 1. Added docker container for Go4 V6.0 on OpenSuse Leap 15.0 Linux. Go4 is build with ROOT 6.18/04, Qt5 webcanvas and HDF5 support.
-   Docker files are located in subfolder $GO4SYS/docker. Such container may be executed with a docker server on any Linux, 
-   or using the Docker Desktop/Docker Toolbox  environment on Windows or MacOS. Please see docker/go4v6.0_leap_15.0/README.txt 
-   for further information. Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for creating the full Go4/DABC/trb3 docker 
+   Docker files are located in subfolder $GO4SYS/docker. Such container may be executed with a docker server on any Linux,
+   or using the Docker Desktop/Docker Toolbox  environment on Windows or MacOS. Please see docker/go4v6.0_leap_15.0/README.txt
+   for further information. Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for creating the full Go4/DABC/trb3 docker
    that has been used as template!
 
 Changes in Go4 v6.0.0 (October 2019)
@@ -34,7 +34,7 @@ Changes in Go4 v6.0.0 (October 2019)
      cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
 2. Let configure sorting order for created folders (default off)
 3. First implemention of Go4 eventstore into hdf5 file format. Needs to specifiy HDF5INSTALL directory when
-   compiling go4 installation. Supports simple datatypes, std::vectors, and arrays of these. 
+   compiling go4 installation. Supports simple datatypes, std::vectors, and arrays of these.
    Also supports Go4 composite events with unlimited sublevels.
 4. New Condition class TGo4ListCondition. Handles tests of a variable against a list of "good" values: if any of these
    matches the value, the condition becomes true (whitelist condition, invert condition to get a blacklist). New analysis api functions
@@ -45,7 +45,7 @@ Changes in Go4 v6.0.0 (October 2019)
    Adopted from existing code of the TRemi (reaction microscope) analysis (thanks to Sven Augustin)
 6. First implementation of Go4 eventsource from hdf5 file format. Needs to specifiy HDF5INSTALL directory when
    compiling go4 installation. Such hdf5 files can be read into the input event which have been produced by the corresponding
-   Go4 HDF5 store only. Supports simple datatypes, std::vectors, and arrays of these. 
+   Go4 HDF5 store only. Supports simple datatypes, std::vectors, and arrays of these.
    Also supports Go4 composite events with unlimited sublevels.
 7. Add nox11 build flag. Automatically enables withweb flag. Used on Mac platform by default.
 8. Provide support of modern Mac platform. Required latest ROOT with qt5web option build.
@@ -310,11 +310,11 @@ Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
 2. Adjustments for new root versions >5.99 (wrapper go4iostream.h)
 3. Added some keyboard shortcuts for histogram display manipulation:
     Ctrl-Left/Ctrl-Right: Expand/Unexpand range on x axis
-	Left/Right:  Move Histogram left/right on x axis (only if range was expanded)
-	Up/Down: Expand/Unexpand range on y axis (toggles autoscale off)
-	Shift-Up/Shift-Down: Move Histogram up/down on y axis (only if range was expanded)
-	Ctrl-End/Ctrl-Home: Expand/Unexpand range on z axis (toggles autoscale off)
-	Shift-Home/Shift-End: Move Histogram up/down on z axis (only if range was expanded)
+    Left/Right:  Move Histogram left/right on x axis (only if range was expanded)
+    Up/Down: Expand/Unexpand range on y axis (toggles autoscale off)
+    Shift-Up/Shift-Down: Move Histogram up/down on y axis (only if range was expanded)
+    Ctrl-End/Ctrl-Home: Expand/Unexpand range on z axis (toggles autoscale off)
+    Shift-Home/Shift-End: Move Histogram up/down on z axis (only if range was expanded)
     Ctrl-Minus: Unzoom ranges totally
     Ctrl-Plus: Show/hide range settings window
     Ctrl-Page Up: Y axis in logarithmic scale
@@ -503,8 +503,8 @@ Changes in Go4 v4.4.2 (October 2010)
 17. Analysis configuration window: automatic clear of eventsource names when switching
     type of source. Bugfix: filename filter for listmode files did not work.
 18. Bugfix: when disconnecting analysis task,
-	added Quit() method in analysis client which closes analysis first
-	to avoid hanging analysis thread (see 16.)
+    added Quit() method in analysis client which closes analysis first
+    to avoid hanging analysis thread (see 16.)
 
 
 Changes in Go4 v4.4.1 (May 2010)
@@ -762,7 +762,6 @@ by setting environment variable Go4SETTINGS="ACCOUNT".
 
 
 
-
 Changes in Go4 v4.00.03 (June08)
 
 1. Viewpanel menu: "File/Produce Graph From Markers" will generate
@@ -823,7 +822,6 @@ framework DABC. Some minor bugfixes.
 
 
 
-
 Changes in Go4 v3.03.01 (Nov07)
 
 1. Correct work of marker class in case of superimposed histograms.
@@ -879,7 +877,6 @@ Changes in Go4 v3.02.7 (Feb07)
 subrange of histogram
 
 2. Autoscale checkbox as shortcut on top of each viewpanel
-
 
 
 Changes in Go4 v3.02.6 (Feb07)
