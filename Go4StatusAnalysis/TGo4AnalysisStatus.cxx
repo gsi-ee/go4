@@ -18,8 +18,8 @@
 
 #include "TGo4LockGuard.h"
 #include "TGo4AnalysisStepStatus.h"
-
-#include "TGo4Analysis.h"
+#include "TGo4Log.h"
+#include "TROOT.h"
 
 
 TGo4AnalysisStatus::TGo4AnalysisStatus() :
