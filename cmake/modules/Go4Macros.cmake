@@ -47,10 +47,11 @@ endfunction()
 #                           LINKDEF linkdef            : 
 #                           HEADERS header1 header2    : 
 #                           SOURCES src1 src2          : 
+#                           DEPENDENCIES lib1 lib2     : dependend go4 libraries
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
-  cmake_parse_arguments(ARG "" "LINKDEF;DEPENDENCIES" "HEADERS;SOURCES" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES" ${ARGN})
 
   ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
                           MODULE ${libname}
@@ -61,8 +62,14 @@ function(GO4_STANDARD_LIBRARY libname)
 
   add_dependencies(${libname} G__${libname} move_headers)
 
-  target_link_libraries(${libname} ROOT::Core)
+#  target_link_libraries(${libname} ROOT::Core)
+
+  target_link_libraries(${libname} ${LIBS_BASESET})
   
   target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR})
+  
+  if (ARG_DEPENDENCIES)
+    target_link_libraries(${libname} ${ARG_DEPENDENCIES})
+  endif()
 
 endfunction()

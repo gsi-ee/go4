@@ -33,6 +33,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 #--- Load some basic macros ---
+include(Go4Configuration)
 include(Go4Macros)
 include(Go4InstallDirs)
 
@@ -40,7 +41,8 @@ include(Go4InstallDirs)
 #--- Adding build directories ---
 add_subdirectory(Go4Fit)
 
-# Go4Base library
+# ================= Go4Base library ======================
+
 add_subdirectory(Go4LockGuard)
 add_subdirectory(Go4Log)
 add_subdirectory(Go4Exceptions)
@@ -54,6 +56,26 @@ GO4_STANDARD_LIBRARY(Go4Base
                      LINKDEF Go4Dict/Go4BaseLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources})
+
+# ================= Go4ThreadManager library ======================
+
+add_subdirectory(Go4ThreadManager)
+
+# ================== Go4TaskHandler library ================= 
+
+add_subdirectory(Go4Socket)
+add_subdirectory(Go4Queue)
+add_subdirectory(Go4TaskHandler)
+add_subdirectory(Go4CommandsTaskHandler)
+
+get_property(__headers GLOBAL PROPERTY Go4TaskHandler_headers)
+get_property(__sources GLOBAL PROPERTY Go4TaskHandler_sources)
+
+GO4_STANDARD_LIBRARY(Go4TaskHandler
+                     LINKDEF Go4Dict/Go4TaskHandlerLinkDef.h
+                     HEADERS ${__headers}
+                     SOURCES ${__sources}
+                     DEPENDENCIES Go4Base)
 
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
