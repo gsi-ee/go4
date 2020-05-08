@@ -21,6 +21,28 @@ function(GO4_INSTALL_HEADERS)
 endfunction()
 
 #---------------------------------------------------------------------------------------------------
+#---GO4_SOURCES(libname
+#               HEADERS header1 header2    : 
+#               SOURCES src1 src2          : 
+#)
+#---------------------------------------------------------------------------------------------------
+function(GO4_SOURCES libname)
+  cmake_parse_arguments(ARG "" "" "HEADERS;SOURCES" ${ARGN})
+
+  file(GLOB dir RELATIVE ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+  
+  foreach(hdr ${ARG_HEADERS})
+     set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${dir}/${hdr})
+  endforeach()
+
+  foreach(src ${ARG_SOURCES})
+     set_property(GLOBAL APPEND PROPERTY ${libname}_sources ${dir}/${src})
+  endforeach()
+endfunction()
+
+
+
+#---------------------------------------------------------------------------------------------------
 #---GO4_STANDARD_LIBRARY(libname
 #                           LINKDEF linkdef            : 
 #                           HEADERS header1 header2    : 
@@ -41,7 +63,6 @@ function(GO4_STANDARD_LIBRARY libname)
 
   target_link_libraries(${libname} ROOT::Core)
   
-  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include)
-
+  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR})
 
 endfunction()

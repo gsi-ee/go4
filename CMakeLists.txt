@@ -37,7 +37,23 @@ include(Go4Macros)
 include(Go4InstallDirs)
 
 
+#--- Adding build directories ---
 add_subdirectory(Go4Fit)
+
+# Go4Base library
+add_subdirectory(Go4LockGuard)
+add_subdirectory(Go4Log)
+add_subdirectory(Go4Exceptions)
+add_subdirectory(Go4CommandsBase)
+add_subdirectory(Go4StatusBase)
+
+get_property(__headers GLOBAL PROPERTY Go4Base_headers)
+get_property(__sources GLOBAL PROPERTY Go4Base_sources)
+
+GO4_STANDARD_LIBRARY(Go4Base
+                     LINKDEF Go4Dict/Go4BaseLinkDef.h
+                     HEADERS ${__headers}
+                     SOURCES ${__sources})
 
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
