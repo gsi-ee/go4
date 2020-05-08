@@ -27,7 +27,7 @@
  *                   rfio_access, rfio_fwrite, rfio_open, rfio_open64,
  *                   rfio_unlink, rfio_write
  * 11. 2.2009, H.G.: new entries rfio_open_gsidaq, rfio_fopen_gsidaq
- * 26. 6.2009, H.G.: for 64 bit client: replace int args: 
+ * 26. 6.2009, H.G.: for 64 bit client: replace int args:
  *                   rfio_fread: return, args 2, 3 by size_t
  *                   rfio_fwrite: return, args 2, 3 by size_t
  *                   rfio_read: arg 3 by size_t, return by ssize_t
@@ -112,7 +112,7 @@ int rfio_fstat64(int, struct stat64 *);
 #ifdef __cplusplus
 extern "C" {
 #endif
-int rfio_preseek64(int, const struct iovec64 *, int);
+int rfio_preseek64(int, const void *, int);
    /* move read/write pointer */
 #ifdef __cplusplus
 }

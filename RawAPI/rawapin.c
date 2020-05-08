@@ -3854,7 +3854,7 @@ int rfio_close(int iFileId)                              /* file id */
 
 int rfio_preseek64(
       int iFileId,
-      const struct iovec64 *piov,
+      const void *piov,
       int iBufferNumber)
 {
    char cModule[32] = "rfio_preseek64";
@@ -3864,7 +3864,7 @@ int rfio_preseek64(
    if (iDebug) fprintf(fLogClient,
       "\n-D- begin %s: iFileId %d\n", cModule, iFileId);
 
-   ii = sizeof(long);
+   int ii = sizeof(long);
    if (ii < 8)
    {
       fprintf(fLogClient,
@@ -4963,7 +4963,6 @@ int rfio_stat64(const char *pcFile, struct stat64 *pStatBuf64)
 
    int iMapFound = 0;             /* =1: specified file already open */
    int iFileId = -1;
-   int iRC;
    int ii;
    char *pcc;
    char cObject[MAX_FULL_FILE] = "";
