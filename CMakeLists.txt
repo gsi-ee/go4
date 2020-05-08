@@ -102,6 +102,22 @@ GO4_STANDARD_LIBRARY(Go4AnalysisBase
 
 # ================== Go4Analysis library ================= 
 
+add_subdirectory(MbsAPI)
+add_subdirectory(RawAPI)
+add_subdirectory(Go4HistogramServer)
+add_subdirectory(Go4CommandsAnalysis)
+add_subdirectory(Go4AnalysisClient)
+
+
+get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
+get_property(__sources GLOBAL PROPERTY Go4Analysis_sources)
+
+GO4_STANDARD_LIBRARY(Go4Analysis
+                     LINKDEF Go4Dict/Go4AnalysisLinkDef.h
+                     HEADERS ${__headers}
+                     SOURCES ${__sources}
+                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     DEFINITIONS Linux _LARGEFILE64_SOURCE SYSTEM64 RFIO)
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})

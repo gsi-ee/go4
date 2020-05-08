@@ -1,0 +1,55 @@
+set(MbsAPI_headers
+   clnt_buf_def.h
+   f_evcli.h
+   f_evt.h
+   f_find_peaks.h
+   fLmd.h
+   f_radware.h
+   f_ut_utime.h
+   f_ut_wild.h
+   gps_sc_def.h
+   mo_def.h
+   s_bufhe.h
+   s_bufhe_swap.h
+   s_clntbuf.h
+   s_clnt_filter.h
+   s_clnt_filter_swap.h
+   s_errstat.h
+   s_evhe.h
+   s_evhe_swap.h
+   s_filhe.h
+   s_filhe_swap.h
+   s_filter.h
+   s_flt_descr.h
+   s_flt_descr_swap.h
+   sMbs.h
+   s_opc1.h
+   s_pat.h
+   s_pol_cond.h
+   s_spe.h
+   s_ve10_1.h
+   s_ve10_1_swap.h
+   s_ves10_1.h
+   s_ves10_1_swap.h
+   s_win_cond.h
+)
+
+set(MbsAPI_sources
+   f_evcli.c
+   f_evt.c
+   f_find_peaks.c
+   fLmd.c
+   f_radware.c
+   f_ut_utime.c
+   f_ut_wild.c
+   m_histo_conv.c
+)
+
+GO4_INSTALL_HEADERS(${MbsAPI_headers})
+
+GO4_SOURCES(Go4Analysis SOURCES ${MbsAPI_sources})
+
+set_source_files_properties(fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEFILE64_SOURCE)
+
+set_source_files_properties(${MbsAPI_sources} PROPERTIES COMPILE_DEFINITIONS RFIO)
+    
