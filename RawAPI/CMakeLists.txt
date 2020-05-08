@@ -24,4 +24,8 @@ GO4_INSTALL_HEADERS(${RawAPI_headers})
 
 GO4_SOURCES(Go4Analysis SOURCES ${RawAPI_sources})
 
-set_source_files_properties(${RawAPI_sources} PROPERTIES COMPILE_DEFINITIONS SYSTEM64)
+# special variable, need to specify definitions
+foreach(src ${RawAPI_sources})
+   list(APPEND lst RawAPI/${src})
+endforeach()
+set(RawAPI_allsources ${lst} PARENT_SCOPE)

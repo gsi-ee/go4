@@ -48,8 +48,3 @@ set(MbsAPI_sources
 GO4_INSTALL_HEADERS(${MbsAPI_headers})
 
 GO4_SOURCES(Go4Analysis SOURCES ${MbsAPI_sources})
-
-set_source_files_properties(fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEFILE64_SOURCE)
-
-set_source_files_properties(${MbsAPI_sources} PROPERTIES COMPILE_DEFINITIONS RFIO)
-    

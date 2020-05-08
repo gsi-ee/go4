@@ -112,12 +112,18 @@ add_subdirectory(Go4AnalysisClient)
 get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
 get_property(__sources GLOBAL PROPERTY Go4Analysis_sources)
 
+# special definitions
+set_source_files_properties(MbsAPI/f_evt.c PROPERTIES COMPILE_DEFINITIONS RFIO)
+set_source_files_properties(MbsAPI/fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEFILE64_SOURCE)
+set_source_files_properties(${RawAPI_allsources} PROPERTIES COMPILE_DEFINITIONS SYSTEM64)
+
+
 GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
-                     DEFINITIONS Linux _LARGEFILE64_SOURCE SYSTEM64 RFIO)
+                     DEFINITIONS Linux)
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
