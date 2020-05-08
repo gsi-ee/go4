@@ -31,15 +31,18 @@ function(GO4_SOURCES libname)
 
   file(GLOB dir RELATIVE ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
   
-  foreach(hdr ${ARG_HEADERS})
-     set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${dir}/${hdr})
-  endforeach()
+  if(ARG_HEADERS)
+    foreach(hdr ${ARG_HEADERS})
+      set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${dir}/${hdr})
+    endforeach()
+  endif()
 
-  foreach(src ${ARG_SOURCES})
-     set_property(GLOBAL APPEND PROPERTY ${libname}_sources ${dir}/${src})
-  endforeach()
+  if(ARG_SOURCES)
+    foreach(src ${ARG_SOURCES})
+      set_property(GLOBAL APPEND PROPERTY ${libname}_sources ${dir}/${src})
+    endforeach()
+  endif()
 endfunction()
-
 
 
 #---------------------------------------------------------------------------------------------------
@@ -48,10 +51,11 @@ endfunction()
 #                           HEADERS header1 header2    : 
 #                           SOURCES src1 src2          : 
 #                           DEPENDENCIES lib1 lib2     : dependend go4 libraries
+#                           DEFINITIONS def1 def2      : library definitions 
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS" ${ARGN})
 
   ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
                           MODULE ${libname}
@@ -70,6 +74,12 @@ function(GO4_STANDARD_LIBRARY libname)
   
   if (ARG_DEPENDENCIES)
     target_link_libraries(${libname} ${ARG_DEPENDENCIES})
+  endif()
+  
+  if (ARG_DEFINITIONS)
+    foreach(def ${ARG_DEFINITIONS})
+      target_compile_definitions(${libname} PRIVATE ${def})
+    endforeach()
   endif()
 
 endfunction()

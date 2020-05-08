@@ -75,7 +75,32 @@ GO4_STANDARD_LIBRARY(Go4TaskHandler
                      LINKDEF Go4Dict/Go4TaskHandlerLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
-                     DEPENDENCIES Go4Base)
+                     DEPENDENCIES Go4Base Go4ThreadManager)
+
+# ================== Go4AnalysisBase library ================= 
+
+add_subdirectory(MbsAPIbase)
+add_subdirectory(Go4Event)
+add_subdirectory(Go4EventServer)
+if(hdf5)
+   add_subdirectory(Go4HDF5)
+endif()
+add_subdirectory(Go4ConditionsBase)
+add_subdirectory(Go4DynamicList)
+add_subdirectory(Go4StatusAnalysis)
+add_subdirectory(Go4Analysis)
+
+get_property(__headers GLOBAL PROPERTY Go4AnalysisBase_headers)
+get_property(__sources GLOBAL PROPERTY Go4AnalysisBase_sources)
+
+GO4_STANDARD_LIBRARY(Go4AnalysisBase
+                     LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
+                     HEADERS ${__headers}
+                     SOURCES ${__sources}
+                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
+                     DEFINITIONS Linux)
+
+# ================== Go4Analysis library ================= 
 
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
