@@ -1,0 +1,23 @@
+# Go4 CMake Configuration File for External Projects
+# Also used to compile all examples in the Go4
+
+#-----------------------------------------------------------------------
+# Provide *recommended* compiler flags used by this build of Go4
+# Don't mess with the actual CMAKE_CXX_FLAGS!!!
+# It's up to the user what to do with these
+#
+set(GO4_DEFINITIONS "@GO4_DEFINITIONS@")
+set(GO4_CXX_FLAGS "@GO4_CXX_FLAGS@")
+set(GO4_C_FLAGS "@GO4_C_FLAGS@")
+
+#
+# ROOT configured for use from the build tree - absolute paths are used.
+set(GO4_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/include)
+
+# ROOT configured for use from the build tree - absolute paths are used.
+set(GO4_LIBRARY_DIR ${CMAKE_CURRENT_LIST_DIR}/lib)
+
+# Deprecated value, please don't use it and use ROOT_BINDIR instead.
+set(GO4_BINARY_DIR ${CMAKE_CURRENT_LIST_DIR}/bin)
+
+set(GO4_USE_FILE ${CMAKE_CURRENT_LIST_DIR}/Go4UseFile.cmake)
