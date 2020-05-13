@@ -117,9 +117,26 @@ set_source_files_properties(MbsAPI/f_evt.c PROPERTIES COMPILE_DEFINITIONS RFIO)
 set_source_files_properties(MbsAPI/fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEFILE64_SOURCE)
 set_source_files_properties(${RawAPI_allsources} PROPERTIES COMPILE_DEFINITIONS SYSTEM64)
 
-
 GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
+                     HEADERS ${__headers}
+                     SOURCES ${__sources}
+                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     DEFINITIONS Linux)
+
+# ================== Go4Gui library ================= 
+
+add_subdirectory(Go4ObjectManager)
+add_subdirectory(Go4Display)
+add_subdirectory(Go4Proxies)
+
+get_property(__headers GLOBAL PROPERTY Go4Gui_headers)
+get_property(__sources GLOBAL PROPERTY Go4Gui_sources)
+
+set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
+
+GO4_STANDARD_LIBRARY(Go4Gui
+                     LINKDEF Go4Dict/Go4GuiLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
