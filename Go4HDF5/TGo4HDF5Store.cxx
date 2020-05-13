@@ -158,7 +158,7 @@ try{
 }
 catch(H5::Exception& ex)
 {
-   TString msg=   TString::Format( "Store() with HDF5 exception in %s : %s\n", ex.getCFuncName (), ex.getCDetailMsg ());
+   TString msg = TString::Format( "Store() with HDF5 exception in %s : %s\n", ex.getCFuncName (), ex.getCDetailMsg ());
    TGo4Log::Error("TGo4HDF5Store: %s", msg.Data());
    throw TGo4EventStoreException(this, msg.Data());
 }

@@ -14,18 +14,10 @@
 #ifndef TGO4HDF5SOURCE_H
 #define TGO4HDF5SOURCE_H
 
-
-
 #include "TGo4EventSource.h"
 #include "TGo4HDF5Adapter.h"
 
 #include "TString.h"
-
-#include "TGo4HDF5SourceParameter.h"
-
-#ifndef __CINT__
-#include "H5Cpp.h"
-#endif
 
 class TFile;
 class TList;
@@ -77,14 +69,12 @@ class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
 
   private:
 
-//
-       H5::DataSpace fxFileSpace; //!
 
-       /** read buffer for hdf5*/
-       Char_t* fxReadBuffer; //!
+    /** read buffer for hdf5*/
+    Char_t* fxReadBuffer; //!
 
-       /** begin of real eventdata payload after event object pointer**/
-       size_t fiReadOffset;
+    /** begin of real eventdata payload after event object pointer**/
+    size_t fiReadOffset;
 
 
     /** list of files names */

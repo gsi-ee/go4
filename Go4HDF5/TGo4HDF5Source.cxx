@@ -35,7 +35,7 @@
 
 
 TGo4HDF5Source::TGo4HDF5Source(const char* name) :
-   TGo4EventSource(name), TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
+   TGo4EventSource(name), TGo4HDF5Adapter(), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    fxFilesNames = ProducesFilesList(GetName());
 
@@ -44,7 +44,7 @@ TGo4HDF5Source::TGo4HDF5Source(const char* name) :
 }
 
 TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
-   TGo4EventSource(par->GetName()), TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
+   TGo4EventSource(par->GetName()), TGo4HDF5Adapter(), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    // TODO: all file regexp magic into base class for all eventsources
    fxFilesNames = ProducesFilesList(GetName());
@@ -55,7 +55,7 @@ TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
 
 
 TGo4HDF5Source::TGo4HDF5Source() :
-   TGo4EventSource("Go4HDF5Source"),TGo4HDF5Adapter(), fxFileSpace(0), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
+   TGo4EventSource("Go4HDF5Source"),TGo4HDF5Adapter(), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    // for streamer, do not open here!
 }

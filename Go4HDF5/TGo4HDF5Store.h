@@ -15,10 +15,7 @@
 #define TGO4HDF5STORE_H
 
 #include "TGo4EventStore.h"
-#include "TGo4HDF5StoreParameter.h"
-
 #include "TGo4HDF5Adapter.h"
-
 
 class TFile;
 class TTree;
