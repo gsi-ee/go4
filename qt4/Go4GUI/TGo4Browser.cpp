@@ -1075,7 +1075,7 @@ void TGo4Browser::SaveSelectedItems()
 void TGo4Browser::ExportSelectedItems(const char* filtername)
 {
    QFileDialog fd(this, QString("Select directory to export to ") + filtername);
-   fd.setFileMode(QFileDialog::DirectoryOnly);
+   fd.setOption(QFileDialog::ShowDirsOnly, true);
 
    if (fd.exec() != QDialog::Accepted) return;
 

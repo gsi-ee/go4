@@ -25,8 +25,8 @@ QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
    setMaxCount(GO4_COMHIS_MAX);
    setInsertPolicy(InsertAtTop);
    setDuplicatesEnabled(false);
-   setAutoCompletion(true);
    setEditable(true);
+   // setAutoCompletion(true); // not needed, by default is auto-completion is enabled, this is deprecated method
 }
 
 QGo4CommandsHistory::~QGo4CommandsHistory()
