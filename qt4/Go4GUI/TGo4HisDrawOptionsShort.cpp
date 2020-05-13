@@ -184,7 +184,7 @@ void TGo4HisDrawOptionsShort::ChangeColor(int kind)
    panel->ActivateInGedEditor(obj);
 }
 
-void TGo4HisDrawOptionsShort::SetDrawOpt(int kind, int value, char *dropt)
+void TGo4HisDrawOptionsShort::SetDrawOpt(int kind, int value, const char *dropt)
 {
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel!=0) panel->ChangeDrawOption(kind, value,dropt);

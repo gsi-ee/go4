@@ -356,11 +356,8 @@ void TGo4MBSViewer::NodeEditEnter()
 
 void TGo4MBSViewer::NodeChanged( const QString & txt )
 {
-   fxNode=txt;
-   fxNode.trimmed();
+   fxNode = txt.trimmed();
 }
-
-
 
 
 void TGo4MBSViewer::ShowStatus()

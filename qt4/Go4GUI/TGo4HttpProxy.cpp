@@ -632,7 +632,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
 
    if ((curr==0) || (name==0) || (*name==0)) return curr;
 
-   const char* slash = strchr(name,'\/');
+   const char* slash = strchr(name,'/');
    bool doagain = false;
 
    do {
@@ -651,7 +651,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
 
       // we try to process situation when item name contains slashes
       doagain = slash!=0;
-      if (slash) slash = strchr(slash+1,'\/');
+      if (slash) slash = strchr(slash+1,'/');
 
    } while (doagain);
 
