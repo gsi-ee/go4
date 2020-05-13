@@ -1,6 +1,6 @@
 set(LIBS_BASESET ${ROOT_LIBRARIES} XMLIO)
 
-set(GO4_DEFINITIONS "Linux" CACHE STRING "Go4 definitions")
+set(GO4_DEFINITIONS "-DLinux" CACHE STRING "Go4 definitions")
 set(GO4_CXX_FLAGS "" CACHE STRING "Go4 CXX flags")
 set(GO4_C_FLAGS "" CACHE STRING "Go4 C flags")
 

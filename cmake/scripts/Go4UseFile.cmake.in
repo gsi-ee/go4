@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
-inculde(@GO4_ROOTDIR@/ROOTConfigure.cmake)
+include(@GO4_ROOTDIR@/ROOTConfig.cmake)
 
-inculde(@GO4_ROOTDIR@/ROOTUseFile.cmake)
+include(@GO4_ROOTDIR@/ROOTUseFile.cmake)
 
 #---Define the Standard Go4 macros 
 include(${CMAKE_CURRENT_LIST_DIR}/Go4Macros.cmake)

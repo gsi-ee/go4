@@ -1,0 +1,51 @@
+if(NOT CMAKE_PROJECT_NAME STREQUAL "Go4")
+   cmake_minimum_required(VERSION 3.9)
+   project(Go4ExampleMesh)
+   find_package(Go4)
+   include(${GO4_USE_FILE})
+endif()
+
+GO4_USER_ANALYSIS(
+   LINKDEF
+      MeshLinkDef.h
+   HEADERS
+      TMeshAnalysis.h
+      TMeshB12AnlProc.h
+      TMeshB12OutputEvent.h
+      TMeshB1AnlProc.h
+      TMeshB1InputEvent.h
+      TMeshB1OutputEvent.h
+      TMeshB2AnlProc.h
+      TMeshB2InputEvent.h
+      TMeshB2OutputEvent.h
+      TMeshB3AnlProc.h
+      TMeshB3InputEvent.h
+      TMeshB3OutputEvent.h
+      TMeshDummyEvent.h
+      TMeshFinalEvent.h
+      TMeshFinalProc.h
+      TMeshParameter.h
+      TMeshProviderProc.h
+      TMeshRawEvent.h
+      TMeshUnpackProc.h
+   SOURCES
+      TMeshAnalysis.cxx
+      TMeshB12AnlProc.cxx
+      TMeshB12OutputEvent.cxx
+      TMeshB1AnlProc.cxx
+      TMeshB1InputEvent.cxx
+      TMeshB1OutputEvent.cxx
+      TMeshB2AnlProc.cxx
+      TMeshB2InputEvent.cxx
+      TMeshB2OutputEvent.cxx
+      TMeshB3AnlProc.cxx
+      TMeshB3InputEvent.cxx
+      TMeshB3OutputEvent.cxx
+      TMeshDummyEvent.cxx
+      TMeshFinalEvent.cxx
+      TMeshFinalProc.cxx
+      TMeshParameter.cxx
+      TMeshProviderProc.cxx
+      TMeshRawEvent.cxx
+      TMeshUnpackProc.cxx
+)

@@ -12,7 +12,7 @@
 
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
-project(go4)
+project(Go4)
 
 # include ROOT project
 # try to use standard macros
@@ -161,4 +161,7 @@ add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 add_subdirectory(Go4Example1Step)
 add_subdirectory(Go4Example2Step)
 add_subdirectory(Go4ExampleAdvanced)
+add_subdirectory(Go4ExampleMesh)
+add_subdirectory(Go4ExampleSimple)
+add_subdirectory(Go4ExampleUserSource)
 

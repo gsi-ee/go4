@@ -1,6 +1,12 @@
+if(NOT CMAKE_PROJECT_NAME STREQUAL "Go4")
+   cmake_minimum_required(VERSION 3.9)
+   project(Go4Example2Step)
+   find_package(Go4)
+   include(${GO4_USE_FILE})
+endif()
 
 GO4_USER_ANALYSIS(
-   LINKDEF 
+   LINKDEF
       XXXLinkDef.h
    HEADERS
       TXXXAnalysis.h
@@ -9,7 +15,7 @@ GO4_USER_ANALYSIS(
       TXXXParameter.h
       TXXXUnpackEvent.h
       TXXXUnpackProc.h
-   SOURCES 
+   SOURCES
       TXXXAnalysis.cxx
       TXXXAnlEvent.cxx
       TXXXAnlProc.cxx

@@ -87,7 +87,9 @@ endfunction()
 #-------------------------------------------------------------------------------
 function(GO4_TARGETNAME_FROM_FILE resultvar)
   string(REPLACE "${CMAKE_SOURCE_DIR}"   "" relativepath ${CMAKE_CURRENT_SOURCE_DIR})
-  string(REPLACE "/" "-" targetname ${relativepath})
+  if(relativepath)
+     string(REPLACE "/" "-" targetname ${relativepath})
+  endif()
   set(${resultvar} "${targetname}" PARENT_SCOPE)
 endfunction(GO4_TARGETNAME_FROM_FILE)
 
@@ -115,17 +117,22 @@ function(GO4_USER_ANALYSIS)
 
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+  
+  if(CMAKE_PROJECT_NAME STREQUAL "Go4")
+     set(dict_depend ${depend})
+  endif()
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}
                           LINKDEF ${ARG_LINKDEF}
-                          DEPENDENCIES ${depend})
+                          DEPENDENCIES ${dict_depend}
+                          NOINSTALL)
 
   add_library(${libname}${tgt} SHARED ${ARG_SOURCES} G__${libname}${tgt}.cxx)
   
   set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
   
-  add_dependencies(${libname}${tgt} G__${libname}${tgt} move_headers)
+  add_dependencies(${libname}${tgt} G__${libname}${tgt})
 
   target_link_libraries(${libname}${tgt} ${depend})
   
