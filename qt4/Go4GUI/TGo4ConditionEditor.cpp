@@ -332,7 +332,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
      ratio = 1.*cond->TrueCounts() / cond->Counts();
    QString sratio;
    if ((ratio>=0.) && (ratio<=100.))
-      sratio.sprintf("%4.2f%s",ratio*100.,"%");
+      sratio = QString("%1%2").arg(ratio*100,4,'f',2).arg("%");
    else
       sratio = "?.?? %";
    PercentLabel->setText(sratio);

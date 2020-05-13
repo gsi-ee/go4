@@ -4782,8 +4782,7 @@ QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
      }
   } else {
       int slotindex = GetPadIndexForSlot(slot);
-      QString linkname;
-      linkname.sprintf("FitSlotLink_%d", slotindex);
+      QString linkname = QString("FitSlotLink_%1").arg(slotindex);
       const char* itemname = GetLinkedName(linkname.toLatin1().constData());
 
       if (itemname!=0) res = itemname;
@@ -5063,8 +5062,7 @@ void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
 
    if (slotindex<0) return;
 
-   QString linkname;
-   linkname.sprintf("FitSlotLink_%d", slotindex);
+   QString linkname = QString("FitSlotLink_%1").arg(slotindex);
 
    RemoveLink(linkname.toLatin1().constData());
 
@@ -5100,8 +5098,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
       }
    } else {
       int slotindex = GetPadIndexForSlot(slot);
-      QString linkname;
-      linkname.sprintf("FitSlotLink_%d", slotindex);
+      QString linkname = QString("FitSlotLink_%1").arg(slotindex);
       obj = GetLinked(linkname.toLatin1().constData(), 0);
    }
 

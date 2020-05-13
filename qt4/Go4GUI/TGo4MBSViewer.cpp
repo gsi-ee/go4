@@ -205,8 +205,7 @@ void TGo4MBSViewer::Refresh()
    if(fxNode.isEmpty()) return;
    int state=f_mbs_status(const_cast<char*>(fxNode.toLatin1().constData()), &fxDaqStat);
    if(state!=STC__SUCCESS) {
-      fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
-            fxNode.toLatin1().constData(), state);
+      fxMessage = QString("MBS Status refresh node %1 returned error %2 at ").arg(fxNode).arg(state);
       fxMessage += QDateTime::currentDateTime().toString();
       fbWarningState = true;
    } else
@@ -263,8 +262,8 @@ void TGo4MBSViewer::Refresh()
 
    if(fxDaqStat.bh_running[SYS__stream_serv])
    {
-      fxServerLabel.sprintf("streamserver %d%s",
-            (fxDaqStat.bl_strsrv_scale!=0 ? 100/fxDaqStat.bl_strsrv_scale : 0),"%");
+      fxServerLabel = QString("streamserver %1%2").arg((int)(fxDaqStat.bl_strsrv_scale!=0 ? 100/fxDaqStat.bl_strsrv_scale : 0)).arg("%");
+
       if(fbIsMonitoring)
       {
          // own rate calculation for monitoring on:
@@ -299,9 +298,9 @@ void TGo4MBSViewer::Refresh()
    {
       // calculate momentary rate for eventserver:
 
-      fxServerLabel.sprintf("eventserver %s %d%s",
-            (fxDaqStat.bh_event_serv_ready ? "R" : "S"),
-            (fxDaqStat.bl_evtsrv_scale!=0 ? 100/fxDaqStat.bl_evtsrv_scale : 0),"%");
+      fxServerLabel = QString("eventserver %1 %2%3")
+            .arg(fxDaqStat.bh_event_serv_ready ? "R" : "S")
+            .arg((int)(fxDaqStat.bl_evtsrv_scale!=0 ? 100/fxDaqStat.bl_evtsrv_scale : 0)).arg("%");
       if(fbIsMonitoring)
       {
          // own rate calculation for monitoring on:
@@ -406,9 +405,8 @@ void TGo4MBSViewer::PrintStatus()
       int state=f_mbs_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetup);
       if(state!=0)
       {
-         fxMessage.sprintf("MBS Setup refresh returned error %d at ",state);
-         fxMessage+=QDateTime::currentDateTime().toString();
-         fbWarningState=true;
+         fxMessage = QString("MBS Setup refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
+         fbWarningState = true;
       }
       else
          fbWarningState=false;
@@ -420,12 +418,11 @@ void TGo4MBSViewer::PrintStatus()
       int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupML);
       if(state!=0)
       {
-         fxMessage.sprintf("MBS Setup ML refresh returned error %d at",state);
-         fxMessage+=QDateTime::currentDateTime().toString();
-         fbWarningState=true;
+         fxMessage = QString("MBS Setup ML refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
+         fbWarningState = true;
       }
       else
-         fbWarningState=false;
+         fbWarningState = false;
    }
    else if(fbGetSetMO)
    {
@@ -433,12 +430,11 @@ void TGo4MBSViewer::PrintStatus()
       int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupMO);
       if(state!=0)
       {
-         fxMessage.sprintf("MBS Setup MO refresh returned error %d at",state);
-         fxMessage+=QDateTime::currentDateTime().toString();
-         fbWarningState=true;
+         fxMessage = QString("MBS Setup MO refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
+         fbWarningState = true;
       }
       else
-         fbWarningState=false;
+         fbWarningState = false;
    }
 
    else {}
