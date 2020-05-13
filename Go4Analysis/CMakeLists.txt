@@ -27,7 +27,3 @@ set(Go4Analysis_sources
 GO4_SOURCES(Go4Analysis HEADERS ${Go4Analysis_headers} SOURCES ${Go4Analysis_sources})
 
 GO4_INSTALL_HEADERS(TGo4Version.h ${Go4Analysis_headers})
-
-add_executable(go4analysis MainUserAnalysis.cxx)
-target_link_libraries(go4analysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
-target_include_directories(go4analysis PRIVATE ${CMAKE_BINARY_DIR}/include)

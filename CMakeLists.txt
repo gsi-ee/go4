@@ -39,6 +39,7 @@ include(Go4InstallDirs)
 
 #--- Search for external packages ---
 find_package(DABC)
+find_package(HDF5 QUIET)
 
 # ================= Go4Fit library ======================
 
@@ -85,8 +86,12 @@ GO4_STANDARD_LIBRARY(Go4TaskHandler
 add_subdirectory(MbsAPIbase)
 add_subdirectory(Go4Event)
 add_subdirectory(Go4EventServer)
-if(hdf5)
+if(HDF5_FOUND)
    add_subdirectory(Go4HDF5)
+   set(hdf5_lib hdf5 hdf5_cpp)
+   set(hdf5_def __GO4HDF5__)
+   #FIXME: this is only due to dictionary generation, one need to find better way
+   add_definitions(-D__GO4HDF5__)
 endif()
 add_subdirectory(Go4ConditionsBase)
 add_subdirectory(Go4DynamicList)
@@ -101,7 +106,8 @@ GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      HEADERS ${__headers}
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
-                     DEFINITIONS Linux)
+                     LIBRARIES ${hdf5_lib}
+                     DEFINITIONS Linux ${hdf5_def})
 
 # ================== Go4Analysis library ================= 
 
@@ -125,7 +131,15 @@ GO4_STANDARD_LIBRARY(Go4Analysis
                      HEADERS ${__headers}
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
-                     DEFINITIONS Linux)
+                     LIBRARIES ${hdf5_lib}
+                     DEFINITIONS Linux ${hdf5_def})
+
+# ================== go4analysis executable ================= 
+
+add_executable(go4analysis Go4Analysis/MainUserAnalysis.cxx)
+target_link_libraries(go4analysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
+target_include_directories(go4analysis PRIVATE ${CMAKE_BINARY_DIR}/include)
+target_compile_definitions(go4analysis PRIVATE ${hdf5_def})
 
 # ================== Go4Gui library ================= 
 

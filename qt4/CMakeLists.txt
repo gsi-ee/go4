@@ -295,6 +295,10 @@ if(ROOT_spectrum_FOUND)
    list(APPEND extra_libs Spectrum)
 endif()
 
+if(HDF5_FOUND)
+   list(APPEND gui_defines -D__GO4HDF5__)
+endif()
+
 
 set(Go4GUI_root_sources
    Go4GUI/TGo4DrawCloneProxy.cxx
