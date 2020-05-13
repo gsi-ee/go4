@@ -51,29 +51,38 @@ endfunction()
 #                           HEADERS header1 header2    : 
 #                           SOURCES src1 src2          : 
 #                           DEPENDENCIES lib1 lib2     : dependend go4 libraries
-#                           DEFINITIONS def1 def2      : library definitions 
+#                           LIBRARIES lib1 lib2        : direct linked libraries
+#                           DEFINITIONS def1 def2      : library definitions
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
 
-  ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
-                          MODULE ${libname}
-                          LINKDEF ${ARG_LINKDEF}
-                          DEPENDENCIES ${ARG_DEPENDENCIES})
+  if(ARG_LINKDEF)
+     ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
+                              MODULE ${libname}
+                              LINKDEF ${ARG_LINKDEF}
+                              DEPENDENCIES ${ARG_DEPENDENCIES})
+     set(dict_src G__${libname}.cxx)
+     set(dict_tgt G__${libname})
+  endif()
 
-  add_library(${libname} SHARED ${ARG_SOURCES} G__${libname}.cxx)
+  add_library(${libname} SHARED ${ARG_SOURCES} ${dict_src})
 
-  add_dependencies(${libname} G__${libname} move_headers)
+  add_dependencies(${libname} ${dict_tgt} move_headers ${ARG_DEPENDENCIES})
 
 #  target_link_libraries(${libname} ROOT::Core)
 
   target_link_libraries(${libname} ${LIBS_BASESET})
   
-  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR})
+  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
   
   if (ARG_DEPENDENCIES)
     target_link_libraries(${libname} ${ARG_DEPENDENCIES})
+  endif()
+
+  if (ARG_LIBRARIES)
+    target_link_libraries(${libname} ${ARG_LIBRARIES})
   endif()
   
   if (ARG_DEFINITIONS)

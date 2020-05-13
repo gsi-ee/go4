@@ -150,12 +150,6 @@ else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
 endif()
 
-
-
-get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
-add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
-
-
 # ================== Go4 examples ================= 
 
 add_subdirectory(Go4Example1Step)
@@ -164,4 +158,16 @@ add_subdirectory(Go4ExampleAdvanced)
 add_subdirectory(Go4ExampleMesh)
 add_subdirectory(Go4ExampleSimple)
 add_subdirectory(Go4ExampleUserSource)
+
+# ================== Go4 Gui ================= 
+if(ROOT_qt5web_FOUND)
+   add_subdirectory(webgui6)
+endif()
+
+add_subdirectory(qt4)
+
+
+get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
+add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
+
 
