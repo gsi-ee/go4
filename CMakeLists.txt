@@ -37,8 +37,11 @@ include(Go4Configuration)
 include(Go4Macros)
 include(Go4InstallDirs)
 
+#--- Search for external packages ---
+find_package(DABC)
 
-#--- Adding build directories ---
+# ================= Go4Fit library ======================
+
 add_subdirectory(Go4Fit)
 
 # ================= Go4Base library ======================
@@ -133,14 +136,21 @@ add_subdirectory(Go4Proxies)
 get_property(__headers GLOBAL PROPERTY Go4Gui_headers)
 get_property(__sources GLOBAL PROPERTY Go4Gui_sources)
 
-set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
-
 GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
                      DEFINITIONS Linux)
+
+if(DABC_FOUND)
+   target_link_libraries(Go4Gui ${DABC_LIBRARY})
+   target_include_directories(Go4Gui PRIVATE ${DABC_INCLUDE_DIR})
+else()
+   set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
+endif()
+
+
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
