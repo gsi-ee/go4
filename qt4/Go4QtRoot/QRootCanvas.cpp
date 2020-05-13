@@ -1034,7 +1034,7 @@ void QRootCanvas::executeMenu(int id)
             TLatex *fxLatex = new TLatex();
             text = QInputDialog::getText(this, tr( "Qt Root" ),
                                          tr( "Please enter your text" ),
-                                         QLineEdit::Normal, QString::null, &ok);
+                                         QLineEdit::Normal, QString(), &ok);
             //if (ok && !text.isEmpty())
             fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toLatin1().constData());
             emit MenuCommandExecuted(fxLatex, "DrawLatex");

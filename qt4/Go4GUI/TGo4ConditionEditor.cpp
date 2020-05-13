@@ -122,8 +122,8 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
         QString("Current condition %1 is modified!\n"
                 "New condition %2 is selected.").arg(conditemname).arg(itemname),
         QString("Continue with current"),
-        QString("Start with new"), QString::null, 0);
-//        (BrowserItemRemote(conditemname) ? QString("Update in analysis and start new") : QString::null), 0);
+        QString("Start with new"), QString(), 0);
+//        (BrowserItemRemote(conditemname) ? QString("Update in analysis and start new") : QString()), 0);
       if (res==0) return;
 //      if (res==2) UpdateItemInAnalysis(conditemname);
    }

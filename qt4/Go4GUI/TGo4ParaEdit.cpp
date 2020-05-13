@@ -97,8 +97,8 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
              QString("Current parameter %1 is modified!\n"
                      "New parameter %2 is selected.").arg(previtem).arg(itemname),
              QString("Continue with current"),
-             QString("Start with new"), QString::null, 0);
-//            (BrowserItemRemote(previtem) ? QString("Update current in analysis and start with new") : QString::null), 0);
+             QString("Start with new"), QString(), 0);
+//            (BrowserItemRemote(previtem) ? QString("Update current in analysis and start with new") : QString()), 0);
           if (res==0) return;
 //          if (res==2) UpdateItemInAnalysis(previtem);
        }

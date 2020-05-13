@@ -1237,7 +1237,7 @@ void TGo4FitPanel::Cmd_SaveFitter(bool ask)
                                          "Save fitter dialog",
                                          fname,
                                          "Root file (*.root)");
-    if (fname==QString::null) return;
+    if (fname.isNull()) return;
   }
 
   fitter->SetSaveFlagForObjects(fbSaveWithReferences);

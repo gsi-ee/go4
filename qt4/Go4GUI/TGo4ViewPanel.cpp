@@ -553,7 +553,7 @@ int TGo4ViewPanel::GetMouseMode()
 QString TGo4ViewPanel::GetSelectedMarkerName(TPad* pad)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
-   if (padslot == 0) return QString::null;
+   if (padslot == 0) return QString();
    return QString(padslot->GetPar("::SelMarker"));
 }
 
@@ -1495,7 +1495,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             bool ok;
             QString txt = QInputDialog::getText(this,
                   "Enter new LaTeX label text:", name, QLineEdit::Normal,
-                  QString::null, &ok);
+                  QString(), &ok);
             if (ok && (txt.length() > 0)) {
                TLatex* latex = new TLatex(x, y, name.toLatin1().constData());
                latex->SetName(name.toLatin1().constData());

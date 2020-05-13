@@ -981,7 +981,7 @@ void TGo4Browser::ContextMenuActivated(int id)
                                       "Create folder in workspace",
                                       "Input folder name",
                                       QLineEdit::Normal,
-                                      QString::null,
+                                      QString(),
                                       &ok);
                if (ok) br->CreateMemorySubfolder(itemname.toLatin1().constData(), folder.toLatin1().constData());
                break;
@@ -995,7 +995,7 @@ void TGo4Browser::ContextMenuActivated(int id)
                                       "Rename item in workspace",
                                       "Input new item name",
                                       QLineEdit::Normal,
-                                      shortitemname, //QString::null,
+                                      shortitemname,
                                       &ok);
                if (ok) br->RenameMemoryItem(itemname.toLatin1().constData(), newname.toLatin1().constData());
                break;
@@ -1059,7 +1059,7 @@ void TGo4Browser::SaveSelectedItems()
       bool ok = false;
       title = QInputDialog::getText(this,
          "Save slected objects to file", "Provide file title",
-         QLineEdit::Normal, QString::null, &ok);
+         QLineEdit::Normal, QString(), &ok);
       if (!ok) return;
       if (fname.indexOf(".root", 0, Qt::CaseInsensitive)<0) fname+=".root";
    } else {

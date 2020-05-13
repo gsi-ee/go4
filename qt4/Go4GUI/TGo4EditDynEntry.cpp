@@ -205,8 +205,8 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
         QString("Current entry ")+oldname+" is modified!\n New entry" +
         itemname+ " selected.",
         QString("Continue with current"),
-        QString("Start with new"), QString::null, 0);
-//        (BrowserItemRemote(oldname) ? QString("Update current in analysis and work with new") : QString::null), 0);
+        QString("Start with new"), QString(), 0);
+//        (BrowserItemRemote(oldname) ? QString("Update current in analysis and work with new") : QString()), 0);
       if (res==0) return;
 //      if (res==2) UpdateItemInAnalysis(oldname);
    }

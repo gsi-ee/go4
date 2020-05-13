@@ -1125,7 +1125,7 @@ void TGo4MainWindow::ConnectDabcSlot()
    bool ok = false;
    QString dabcnode = QInputDialog::getText(
       this, "Establish connection with DABC", "Provide dabc server name",
-      QLineEdit::Normal, QString::null, &ok);
+      QLineEdit::Normal, QString(), &ok);
    if (!ok) return;
 
    if (!Browser()->ConnectDabc(dabcnode.toLatin1().constData()))
@@ -2234,7 +2234,7 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
                     QString("Really disconnect from analysis task?"),
                     QString("Disconnect"),
                     QString("Cancel"),
-                    QString::null, 0)!=0) return;
+                    QString(), 0) != 0) return;
       }
    }
    RemoveAnalysisProxy(30, shutdown);
@@ -2248,7 +2248,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
                 QString("Really shutdown analysis task?"),
                 QString("Shutdown"),
                 QString("Cancel"),
-                QString::null, 0);
+                QString(), 0);
       if (res!=0) return;
    }
    TGo4ServerProxy* srv = Browser()->FindServer();
@@ -2333,7 +2333,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
                 QString("Kill analysis by shell command: ") +fKillCommand + " ?",
                 QString("Kill"),
                 QString("Cancel"),
-                QString::null, 0);
+                QString(), 0);
       if (res!=0) return;
    }
 

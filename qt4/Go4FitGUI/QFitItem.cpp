@@ -21,8 +21,8 @@
 QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
    QTreeWidgetItem()
 {
-   setText(0, QString::null);
-   setText(1, QString::null);
+   setText(0, QString());
+   setText(1, QString());
 
    fxPanel = panel;
    fxObj = iObj;
