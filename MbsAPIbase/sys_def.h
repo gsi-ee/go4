@@ -17,8 +17,14 @@
  * Lynx specific definitions
  */
 
+#ifndef FALSE
 #define FALSE              0
+#endif
+
+#ifndef TRUE
 #define TRUE               1
+#endif
+
 #define SYS__N_MAX_PROCS   30
 #define SYS__SEGM_BLK_SIZE 0x1000
 /* index in daqst-> bh_running[] */

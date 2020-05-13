@@ -351,9 +351,14 @@ struct s_comm_portserv {
                                  strcpy(name.dsc$a_pointer,string);
 #endif /* VMS */
 
-
+#ifndef FALSE
 #define FALSE                    0
+#endif
+
+#ifndef TRUE
 #define TRUE                     1
+#endif
+
 #define f_stc_nosig( ps_server ) (ps_server)->i_signals = 100;
 
 /* ********************************************************************** */
