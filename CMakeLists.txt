@@ -156,6 +156,8 @@ get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 
 
+# ================== Go4 examples ================= 
 
+add_subdirectory(Go4Example2Step)
 
 

@@ -83,3 +83,42 @@ function(GO4_STANDARD_LIBRARY libname)
   endif()
 
 endfunction()
+
+
+#---------------------------------------------------------------------------------------------------
+#---GO4_USER_ANALYSIS(
+#                     LINKDEF linkdef            : 
+#                     HEADERS header1 header2    : 
+#                     SOURCES src1 src2          : 
+#                     DEPENDENCIES lib1 lib2     : dependend go4 libraries
+#                     DEFINITIONS def1 def2      : library definitions 
+#)
+#---------------------------------------------------------------------------------------------------
+function(GO4_USER_ANALYSIS)
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS" ${ARGN})
+  
+  set(libname Go4UserAnalysis)
+  
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
+  set(depend Go4Analysis ${ARG_DEPENDENCIES})
+
+  add_definitions(-DLinux ${ARG_DEFINITIONS})
+
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+  ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
+                          MODULE ${libname}
+                          LINKDEF ${ARG_LINKDEF}
+                          DEPENDENCIES ${depend})
+
+  add_library(${libname} SHARED ${ARG_SOURCES} G__${libname}.cxx)
+  
+  add_dependencies(${libname} G__${libname} move_headers)
+
+  target_link_libraries(${libname} ${depend})
+  
+  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
+
+endfunction()

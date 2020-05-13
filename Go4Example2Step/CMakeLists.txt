@@ -1,0 +1,19 @@
+
+GO4_USER_ANALYSIS(
+   LINKDEF 
+      XXXLinkDef.h
+   HEADERS
+      TXXXAnalysis.h
+      TXXXAnlEvent.h
+      TXXXAnlProc.h
+      TXXXParameter.h
+      TXXXUnpackEvent.h
+      TXXXUnpackProc.h
+   SOURCES 
+      TXXXAnalysis.cxx
+      TXXXAnlEvent.cxx
+      TXXXAnlProc.cxx
+      TXXXParameter.cxx
+      TXXXUnpackEvent.cxx
+      TXXXUnpackProc.cxx
+)
