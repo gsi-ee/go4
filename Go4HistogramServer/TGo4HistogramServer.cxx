@@ -132,7 +132,7 @@ TGo4HistogramServer::~TGo4HistogramServer()
    s_his_head *ps_his_head = NULL;
    INTS4 l_size = 0;
    f_his_gethis((char *)"localhost", fiServerPort, (char *)fxServerName.Data(), (char *)fxServerPass.Data(),
-                (char *)fgcSHUTDOWNNAME, (s_his_head **)&ps_his_head, (INTS4 **)&pl_all, (INTS4 *)&l_size);
+                (char *)fgcSHUTDOWNNAME, (s_his_head **)&ps_his_head, &pl_all, &l_size);
 
    if (fxThreadHandler) {
       fxThreadHandler->RemoveThread(ConnectorName());

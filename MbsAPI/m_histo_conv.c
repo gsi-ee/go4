@@ -21,9 +21,7 @@
 #include "f_his_hist.h"
 #include "f_radware.h"
 /**************************************************************************/
-main(argc,argv)
-int argc;
-char *argv[];
+int main(int argc, char *argv[])
 {
 s_his_head *ps_his_head,*ps_his_head_dir;
 INTS4 i_j,ii,l_status,l_port,l_int;
@@ -56,7 +54,7 @@ pl_all=NULL;
        c_histo,c_server,l_port,c_base);
      ps_his_head_dir=NULL;
      pl_dir=NULL;
-     l_status = f_his_getdir(c_server,l_port,c_base,c_access,c_histo,(INTS4 **)&pl_dir,(INTS4 **)&l_histos);
+     l_status = f_his_getdir(c_server,l_port,c_base,c_access,c_histo, &pl_dir, &l_histos);
      if(l_status == COMM__SUCCESS)
        {
     printf("Histograms: %d, slot size: %d b, Total: %d b\n",
@@ -77,7 +75,7 @@ pl_all=NULL;
    c_histo,c_server,l_port,c_base);
  ps_his_head_dir=NULL;
  pl_dir=NULL;
- l_status = f_his_getdir(c_server,l_port,c_base,c_access,c_histo,(INTS4 **)&pl_dir,(INTS4 **)&l_histos);
+ l_status = f_his_getdir(c_server,l_port,c_base,c_access,c_histo, &pl_dir, &l_histos);
  if(l_status != COMM__SUCCESS)
    {
      printf("Error %d getting histograms %s\n",l_status,c_histo);
@@ -91,7 +89,7 @@ pl_all=NULL;
     ps_his_head=NULL;
     pl_all=NULL;
     l_status = f_his_gethis(c_server,l_port,c_base,c_access,ps_his_head_dir->c_name,
-             (s_his_head **)&ps_his_head,(INTS4 **)&pl_all,(INTS4 **)&l_size);
+             (s_his_head **)&ps_his_head, &pl_all, &l_size);
     if(l_status != COMM__SUCCESS)
       {
         printf("Error %d getting histogram %s\n",l_status,ps_his_head_dir->c_name);
@@ -101,7 +99,7 @@ pl_all=NULL;
     /* process histogram ******************************************************/
     pl_l =         pl_all;
     pr_l =(REAL4 *)pl_all;
-    if(ps_his_head->c_dtype == 'i') l_int=1; else l_int=0;
+    if(strstr(ps_his_head->c_dtype, "i")==0) l_int=1; else l_int=0;
 
     /* print histogram ******************************************************/
     if(strstr(argv[6],"-p") != NULL)
@@ -169,5 +167,7 @@ pl_all=NULL;
        }
      ps_his_head_dir++;
    }
+
+   return 0;
 }
 

@@ -42,7 +42,6 @@ set(MbsAPI_sources
    f_radware.c
    f_ut_utime.c
    f_ut_wild.c
-   m_histo_conv.c
 )
 
 GO4_INSTALL_HEADERS(${MbsAPI_headers})
