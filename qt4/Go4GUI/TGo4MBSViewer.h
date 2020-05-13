@@ -18,7 +18,7 @@
 #include "ui_TGo4MBSViewer.h"
 
 #include <QMovie>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "sys_def.h"
 #include "sbs_def.h"
@@ -136,7 +136,7 @@ protected:
     int fiCalcedServDataRate;
     int fiDataDelta;
     int fiServDataDelta;
-    QTime fxDeltaClock;
+    QElapsedTimer fxDeltaClock;
     QButtonGroup* StateGroup;
 
 

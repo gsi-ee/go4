@@ -29,7 +29,8 @@
 #include "TGo4AnalysisStatus.h"
 
 #include <QtNetwork>
-#include <QTime>
+#include <QTimer>
+#include <QElapsedTimer>
 #include <QApplication>
 #include <QEventLoop>
 #include <QInputDialog>
@@ -738,7 +739,7 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 
    if (!sync) return kTRUE;
 
-   QTime t;
+   QElapsedTimer t;
    t.start();
 
    // wait several seconds
@@ -950,7 +951,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    }
 
    QEventLoop loop;
-   QTime myTimer;
+   QElapsedTimer myTimer;
    myTimer.start();
 // JAM: just disable this if qt is too old (special for gsi installation 26-06-15)
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
@@ -1058,7 +1059,7 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    }
 
    QEventLoop loop;
-   QTime myTimer;
+   QElapsedTimer myTimer;
    myTimer.start();
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    while (!netReply->isFinished()) {

@@ -4,7 +4,7 @@ set(CMAKE_AUTOUIC ON)
 
 if(qt4)
    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-   find_package(Qt4 4.8 REQUIRED QtGui QtXml QtNetwork)
+   find_package(Qt4 4.7 REQUIRED QtGui QtXml QtNetwork)
    if(NOT Qt4_FOUND)
       message(FATAL_ERROR "Could NOT find Qt4")
    endif()
