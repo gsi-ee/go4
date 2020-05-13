@@ -2,19 +2,23 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-if(ROOT_qt5web_FOUND)
-   set(qt5comp WebEngine WebEngineWidgets)
+if(qt4)
+   set(CMAKE_INCLUDE_CURRENT_DIR ON)
+   find_package(Qt4 4.8 REQUIRED QtGui QtXml QtNetwork)
+   if(NOT Qt4_FOUND)
+      message(FATAL_ERROR "Could NOT find Qt4")
+   endif()
+   set(qt_libs Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+else()
+   find_package(Qt5 COMPONENTS Widgets Network ${qt5comp} REQUIRED)
+   if(NOT Qt5_FOUND)
+      message(FATAL_ERROR "Could NOT find Qt5")
+   endif()
+   if(ROOT_qt5web_FOUND)
+      set(qt5comp WebEngine WebEngineWidgets)
+   endif()
+   set(qt_libs Qt5::Widgets Qt5::Network)
 endif()
-
-
-find_package(Qt5 COMPONENTS Widgets Network ${qt5comp} REQUIRED)
-
-if(NOT Qt5_FOUND)
-   message(FATAL_ERROR "Could NOT find Qt5")
-endif()
-
-
-find_package(Qt5Network)
 
 
 #if(ROOT_x11_FOUND)
@@ -263,7 +267,6 @@ set(QtRoot_headers
 )
 
 set(extra_libs Minuit Ged TreePlayer)
-set(qt_libs Qt5::Widgets Qt5::Network)
 set(gui_defines)
 
 if(ROOT_x11_FOUND)
@@ -276,7 +279,7 @@ if(ROOT_x11_FOUND)
    list(APPEND gui_defines -D__GO4X11__)
 endif()
 
-if(ROOT_qt5web_FOUND)
+if(Qt5_FOUND AND ROOT_qt5web_FOUND)
    set(Go4Web_sources
       Go4Web/QWebCanvas.cpp
    )
