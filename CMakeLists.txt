@@ -158,6 +158,7 @@ add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 
 # ================== Go4 examples ================= 
 
+add_subdirectory(Go4Example1Step)
 add_subdirectory(Go4Example2Step)
-
+add_subdirectory(Go4ExampleAdvanced)
 

@@ -84,6 +84,12 @@ function(GO4_STANDARD_LIBRARY libname)
 
 endfunction()
 
+#-------------------------------------------------------------------------------
+function(GO4_TARGETNAME_FROM_FILE resultvar)
+  string(REPLACE "${CMAKE_SOURCE_DIR}"   "" relativepath ${CMAKE_CURRENT_SOURCE_DIR})
+  string(REPLACE "/" "-" targetname ${relativepath})
+  set(${resultvar} "${targetname}" PARENT_SCOPE)
+endfunction(GO4_TARGETNAME_FROM_FILE)
 
 #---------------------------------------------------------------------------------------------------
 #---GO4_USER_ANALYSIS(
@@ -98,6 +104,8 @@ function(GO4_USER_ANALYSIS)
   cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS" ${ARGN})
   
   set(libname Go4UserAnalysis)
+
+  GO4_TARGETNAME_FROM_FILE(tgt)
   
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -108,17 +116,19 @@ function(GO4_USER_ANALYSIS)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-  ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
-                          MODULE ${libname}
+  ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
+                          MODULE ${libname}${tgt}
                           LINKDEF ${ARG_LINKDEF}
                           DEPENDENCIES ${depend})
 
-  add_library(${libname} SHARED ${ARG_SOURCES} G__${libname}.cxx)
+  add_library(${libname}${tgt} SHARED ${ARG_SOURCES} G__${libname}${tgt}.cxx)
   
-  add_dependencies(${libname} G__${libname} move_headers)
+  set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
+  
+  add_dependencies(${libname}${tgt} G__${libname}${tgt} move_headers)
 
-  target_link_libraries(${libname} ${depend})
+  target_link_libraries(${libname}${tgt} ${depend})
   
-  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
+  target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
 
 endfunction()
