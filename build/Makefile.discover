@@ -164,14 +164,6 @@ endif
 
 endif
 
-ifdef DIMDIR
-ifneq ($(wildcard $(DIMDIR)/linux/libdim.so),)
-USEDIM  = true
-DIMLIBPATH = $(DIMDIR)/linux
-DIMINCPATH = $(DIMDIR)/dim
-endif
-endif
-
 ifneq ($(withdabc),no)
 ifdef DABCSYS
 USEDABC = true
@@ -561,12 +553,6 @@ endif
 	@echo "" >> $@
 	@echo "### some other packets" >> $@
 	@echo "" >> $@
-ifdef USEDIM
-	@echo "USEDIM      = true" >> $@
-	@echo "DIMLIBPATH  = $(DIMLIBPATH)" >> $@
-	@echo "DIMINCPATH  = $(DIMINCPATH)" >> $@
-	@echo "" >> $@
-endif
 ifdef USEDABC 
 	@echo "USEDABC     = true" >> $@
 	@echo "DABCLIBPATH = $(DABCLIBPATH)" >> $@

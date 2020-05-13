@@ -104,11 +104,6 @@
 
 #include "TGo4UserCommands.h"
 
-
-#ifdef __GO4DIM__
-#include "TGo4DabcMonitor.h"
-#endif
-
 #include "TGo4Script.h"
 
 #include "TGo4HServerConnection.h"
@@ -248,23 +243,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QAction* MBSDockAction=MBSDockWin->toggleViewAction();
    MBSDockAction->setShortcut(QKeySequence("F8"));
-
-
-#ifdef __GO4DIM__
-   QDockWidget* DABCDockWin = new QDockWidget("DABC monitor", this);
-   DABCDockWin->setObjectName("DABCMonitorDock");
-   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(DABCDockWin, "DabcMonitor");
-   dabc->setWindowFlags(Qt::Widget);
-   ConnectGo4Widget(dabc);
-   DABCDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
-   DABCDockWin->setWidget(dabc);
-   DABCDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-   addDockWidget(Qt::BottomDockWidgetArea, DABCDockWin);
-   QAction* DABCDockWinAction=DABCDockWin->toggleViewAction();
-   DABCDockWinAction->setShortcut(QKeySequence("F9"));
-
-
-#endif
 
    QToolBar* DividePanelBar = addToolBar("Canvas Tools");
    DividePanelBar->setObjectName("DividePadDock");

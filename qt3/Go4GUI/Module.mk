@@ -14,19 +14,7 @@ GO4GUI3_NOTLIBF     =
 
 ## must be similar for every module
 
-$(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) : LDRPATHS += $(if $(USEDIM), $(DIMLIBPATH),)
-
 GO4GUI3_QMAKEFLAGS = "QMAKE_LFLAGS += $(LDFLAGS_RPATH)" 
-
-ifdef USEDIM
-GO4GUI3_FORMS       = $(wildcard $(GO4GUI3_DIR)/*.ui)
-GO4GUI3_FORMSI      = $(wildcard $(GO4GUI3_DIR)/*.ui.h)
-GO4GUI3_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 
-GO4GUI3_QMAKEFLAGS += "INCLUDEPATH += $(DIMINCPATH)"
-else
-GO4GUI3_FORMS       = $(filter-out $(GO4GUI3_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI3_DIR)/*.ui))
-GO4GUI3_FORMSI      = $(filter-out $(GO4GUI3_DIR)/TGo4DabcMonitor.ui.h, $(wildcard $(GO4GUI3_DIR)/*.ui.h))
-endif
 
 GO4GUI3_FH          = $(GO4GUI3_FORMS:.ui=.h)
 GO4GUI3_FS          = $(GO4GUI3_FORMS:.ui=.cpp)
@@ -82,9 +70,6 @@ DISTRFILES         += $(FITGUI3_QTH) $(FITGUI3_QTS)
 DISTRFILES         += $(FITGUI3_DIR)/TGo4FitGuiTypes.h
 DISTRFILES         += $(QT3ROOT_H) $(QT3ROOT_S)
 DISTRFILES         += $(QT3ROOT_DIR)/CHANGELOG.txt
-ifndef USEDIM
-DISTRFILES         += $(GO4GUI3_DIR)/TGo4DabcMonitor.ui $(GO4GUI3_DIR)/TGo4DabcMonitor.ui.h
-endif
 endif
 
 ##### local rules #####

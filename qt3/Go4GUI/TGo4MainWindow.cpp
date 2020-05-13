@@ -128,10 +128,6 @@
 #include "TGo4HServerConnection.h"
 #include "TGo4MBSViewer.h"
 
-#ifdef __GO4DIM__
-#include "TGo4DabcMonitor.h"
-#endif
-
 #include "TGo4SetScaleValues.h"
 #include "TGo4CommandLine.h"
 #include "TGo4MarkerSettings.h"
@@ -262,19 +258,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    MBSDockWin->setWidget(mbs);
    addDockWindow(MBSDockWin, Qt::DockBottom);
    MBSDockWin->show();
-
-
-#ifdef __GO4DIM__
-   QDockWindow* DABCDockWin = new QDockWindow();
-   DABCDockWin->setResizeEnabled(TRUE);
-   DABCDockWin->setCaption("DABC monitor");
-   setAppropriate(DABCDockWin, true);
-   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(DABCDockWin, "DABCMonitor");
-   ConnectGo4Widget(dabc);
-   DABCDockWin->setWidget(dabc);
-   addDockWindow(DABCDockWin, Qt::DockBottom);
-   DABCDockWin->show();
-#endif
 
    QToolBar* DividePanelBar = new QToolBar (this, "Canvas Tools");
    addDockWindow(DividePanelBar, "Canvas Tools", Qt::DockTop, TRUE );
@@ -1469,7 +1452,7 @@ void TGo4MainWindow::PaletteSettingsSlot()
      QString str = QInputDialog::getText("Default Palette options",
                        "Input - MinIndex:DefaultIndex:MaxIndex",
                        QLineEdit::Normal, palvals, &ok, this);
-     
+
   if (ok) {
        QStringList parts=QStringList::split(":",str);
        min=parts[0].toInt();

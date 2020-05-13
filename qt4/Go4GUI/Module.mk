@@ -17,8 +17,6 @@ GO4GUI4_NOTLIBF     = $(GO4GUI4_GEN_QRC) $(wildcard $(GO4GUI4_DIR)/$(DICT_PREFIX
 
 ## must be similar for every module
 
-$(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) : LDRPATHS += $(if $(USEDIM), $(DIMLIBPATH),)
-
 ifneq ($(GO4_OS),Win32)
 GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += $(LDFLAGS_RPATH)"
 endif 
@@ -26,17 +24,6 @@ endif
 ifdef clang
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXX = clang++"
 GO4GUI4_QMAKEFLAGS += "QMAKE_LINK = clang++"
-endif
-
-
-ifdef USEDIM
-GO4GUI4_FORMS       = $(wildcard $(GO4GUI4_DIR)/*.ui)
-GO4GUI4_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 
-GO4GUI4_QMAKEFLAGS += "HEADERS += TGo4DabcMonitor.h" 
-GO4GUI4_QMAKEFLAGS += "SOURCES += TGo4DabcMonitor.cpp" 
-GO4GUI4_QMAKEFLAGS += "INCLUDEPATH += $(DIMINCPATH)"
-else
-GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
 
 ifdef GO4_X11

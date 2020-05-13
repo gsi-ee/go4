@@ -28,6 +28,9 @@ Changes in Go4 v6.0.x (2019/2020)
    or using the Docker Desktop/Docker Toolbox  environment on Windows or MacOS. Please see docker/go4v6.0_leap_15.0/README.txt
    for further information. Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for creating the full Go4/DABC/trb3 docker
    that has been used as template!
+2. Provide preliminary cmake files for compilation of Go4 and user analysis
+3. Fully remove out-of-date DIM component for DABC v1.0 monitoring
+
 
 Changes in Go4 v6.0.0 (October 2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options
