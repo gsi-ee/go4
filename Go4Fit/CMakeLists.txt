@@ -1,3 +1,10 @@
+if(NOT CMAKE_PROJECT_NAME STREQUAL "Go4")
+   cmake_minimum_required(VERSION 3.9)
+   project(Go4Fit)
+   find_package(ROOT REQUIRED)
+   include(${ROOT_USE_FILE})
+endif()
+
 set(Go4Fit_headers
       TGo4FitAmplEstimation.h
       TGo4FitAxisTrans.h
@@ -66,10 +73,21 @@ set(Go4Fit_sources
       TGo4FitterOutput.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4Fit_headers})
+if(NOT CMAKE_PROJECT_NAME STREQUAL "Go4")
+   ROOT_LINKER_LIBRARY(Go4Fit ${Go4Fit_sources} 
+                       TYPE SHARED 
+                       LIBRARIES Minuit Spectrum)
 
-GO4_STANDARD_LIBRARY(Go4Fit
-                     LINKDEF Go4FitLinkDef.h
-                     HEADERS ${Go4Fit_headers}
-                     SOURCES ${Go4Fit_sources}
-                     LIBRARIES Minuit Spectrum)
+   ROOT_GENERATE_DICTIONARY(G__Go4Fit ${Go4Fit_headers}
+                            LINKDEF Go4FitLinkDef.h
+                            MODULE Go4Fit)
+else()
+   GO4_INSTALL_HEADERS(${Go4Fit_headers})
+
+   GO4_STANDARD_LIBRARY(Go4Fit
+                        LINKDEF Go4FitLinkDef.h
+                        HEADERS ${Go4Fit_headers}
+                        SOURCES ${Go4Fit_sources}
+                        LIBRARIES Minuit Spectrum)
+endif()
+

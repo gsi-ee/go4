@@ -61,7 +61,9 @@ function(GO4_STANDARD_LIBRARY libname)
 
   add_library(${libname} SHARED ${ARG_SOURCES})
 
-  add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
+  if(CMAKE_PROJECT_NAME STREQUAL "Go4")
+     add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
+  endif()
 
   target_compile_definitions(${libname} PUBLIC -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
