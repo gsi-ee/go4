@@ -1,0 +1,6 @@
+# DANC CMake Configuration File for External Projects
+# temporary here until DABC do not have cmake support
+
+set(DABC_INCLUDE_DIR @DABC_INCLUDE_DIR@)
+
+set(DABC_LIBRARY @DABC_LIBRARY@)

@@ -38,8 +38,13 @@ include(Go4Macros)
 include(Go4InstallDirs)
 
 #--- Search for external packages ---
-find_package(DABC)
+find_package(DABC QUIET)
 find_package(HDF5 QUIET)
+
+if(DABC_FOUND)
+   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/DABCConfig.cmake.in
+                  ${CMAKE_BINARY_DIR}/DABCConfig.cmake @ONLY NEWLINE_STYLE UNIX)
+endif()
 
 # ================= Go4Fit library ======================
 
@@ -186,16 +191,25 @@ endif()
 
 # ================== Go4 examples ================= 
 
-add_subdirectory(Go4Example1Step)
-add_subdirectory(Go4Example2Step)
-add_subdirectory(Go4ExampleAdvanced)
-add_subdirectory(Go4ExampleMesh)
-add_subdirectory(Go4ExampleSimple)
-add_subdirectory(Go4ExampleUserSource)
-
+list(APPEND examples Go4Example1Step Go4Example2Step Go4ExampleAdvanced Go4ExampleMesh Go4ExampleSimple Go4ExampleUserSource)
 if(DABC_FOUND)
-   add_subdirectory(Go4ExampleDabc)
+   list(APPEND examples Go4ExampleDabc)
 endif()
+
+include(ExternalProject)
+foreach(ex ${examples})
+   ExternalProject_Add(${ex}
+                       DEPENDS Go4Analysis
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
+                       BINARY_DIR ${ex}
+                       INSTALL_COMMAND "")
+endforeach()
+
+# this is direct include of the examples
+# foreach(ex ${examples})
+#    add_subdirectory(${ex})
+# endforeach()
 
 # ================== Go4 Gui ================= 
 if(ROOT_qt5web_FOUND)
@@ -204,6 +218,8 @@ endif()
 
 add_subdirectory(qt4)
 
+
+# ================== Produce Go4 headers ==========
 
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})

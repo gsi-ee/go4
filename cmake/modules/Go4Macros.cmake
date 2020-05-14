@@ -81,7 +81,6 @@ function(GO4_STANDARD_LIBRARY libname)
                               MODULE ${libname}
                               LINKDEF ${ARG_LINKDEF}
                               DEPENDENCIES ${ARG_DEPENDENCIES})
-     add_dependencies(${libname} G__${libname})
   endif()
 
 endfunction()
@@ -139,7 +138,7 @@ function(GO4_USER_ANALYSIS)
                           LINKDEF ${ARG_LINKDEF}
                           DEPENDENCIES ${dict_depend}
                           NOINSTALL)
-                          
+
    if(ARG_COPY)
       foreach(f ${ARG_COPY})
          file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${f} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
