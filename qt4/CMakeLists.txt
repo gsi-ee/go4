@@ -2,7 +2,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-if(qt4)
+if(GO4_QTVERSION STREQUAL Qt4)
    set(CMAKE_INCLUDE_CURRENT_DIR ON)
    find_package(Qt4 4.7 REQUIRED QtGui QtXml QtNetwork)
    if(NOT Qt4_FOUND)
@@ -35,8 +35,6 @@ set(Go4GUI_headers
    Go4GUI/TGo4QSettings.h
    Go4GUI/TGo4AnalysisWindow.h
    Go4GUI/TGo4MdiArea.h
-   Go4GUI/QGo4LineEdit.h
-   Go4GUI/QGo4Widget.h
    Go4GUI/QGo4BrowserTreeWidget.h
    Go4GUI/TGo4ASImage.h
    Go4GUI/TGo4MainWindow.h
@@ -84,8 +82,6 @@ set(Go4GUI_sources
    Go4GUI/TGo4HttpProxy.cpp
    Go4GUI/TGo4AnalysisWindow.cpp
    Go4GUI/TGo4MdiArea.cpp
-   Go4GUI/QGo4LineEdit.cpp
-   Go4GUI/QGo4Widget.cpp
    Go4GUI/QGo4BrowserTreeWidget.cpp
    Go4GUI/TGo4ASImage.cpp
    Go4GUI/TGo4MainWindow.cpp
@@ -266,6 +262,8 @@ set(QtRoot_headers
    Go4QtRoot/QRootApplication.h
 )
 
+add_subdirectory(Go4GUI)
+
 set(extra_libs Minuit Ged TreePlayer)
 set(gui_defines)
 
@@ -275,17 +273,36 @@ if(ROOT_x11_FOUND)
       Go4QtRoot/QRootDialog.cpp
       Go4QtRoot/QRootWindow.cpp
    )
-   list(APPEND extra_libs Gui X11)
+   list(APPEND extra_libs Gui X11 Go4QtRoot)
    list(APPEND gui_defines -D__GO4X11__)
+   
+   add_subdirectory(Go4QtRoot)
+
+   ExternalProject_Add(Go4UserGUIX11
+                       DEPENDS Go4Widgets Go4QtRoot
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Go4UserGUI
+                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI
+                       INSTALL_COMMAND "")
 endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND)
    set(Go4Web_sources
       Go4Web/QWebCanvas.cpp
    )
-   list(APPEND extra_libs RHTTP ROOTWebDisplay ROOTQt5WebDisplay WebGui6 WebGui6Full)
+   list(APPEND extra_libs RHTTP ROOTWebDisplay ROOTQt5WebDisplay WebGui6 WebGui6Full Go4WebRoot)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
+
+   add_subdirectory(Go4Web)
+   
+   ExternalProject_Add(Go4UserGUIWeb
+                       DEPENDS Go4Widgets Go4WebRoot
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/WebUserGUI
+                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/WebUserGUI
+                       INSTALL_COMMAND "")
+
 endif()
 
 if(ROOT_asimage_FOUND)
@@ -315,8 +332,6 @@ add_executable(go4
     ${Go4FitGUI_forms}
     ${Go4GUI_forms}
     ${QtRoot_app_sources}
-    ${QtRoot_sources}
-    ${Go4Web_sources}
     ${Go4FitGUI_sources}
     ${Go4GUI_root_sources}
     ${Go4GUI_sources}
@@ -338,7 +353,7 @@ target_link_libraries(go4
    ${qt_libs}
    ${ROOT_LIBRARIES}
    ${extra_libs}
-   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui
+   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui Go4Widgets
 )
 
 target_compile_definitions(go4 PRIVATE -D${GO4_PLATFROM} ${GO4_DEFINITIONS} ${gui_defines})
