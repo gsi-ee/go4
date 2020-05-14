@@ -831,13 +831,14 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    if ((usergui!=0) && (strlen(usergui)>0)) {
       QFileInfo info(usergui);
-      if (info.exists())
+      if (info.exists()) {
          if (info.isFile()) {
             dirname = info.path();
             libname = info.fileName();
          } else if (info.isDir()) {
             dirname = usergui;
          }
+      }
       if ((dirname.length()>0) && (dirname[dirname.length()-1]!='/')) dirname+="/";
    }
 
@@ -1890,7 +1891,7 @@ TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, boo
         anw = 0;
      }
 
-   if (anw==0)
+   if (anw==0) {
       if (needoutput) {
          anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
          QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
@@ -1906,6 +1907,7 @@ TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, boo
         ConnectGo4Widget(anw);
         dock->addWidget(anw);
      }
+   }
 
    return anw;
 }
@@ -1972,13 +1974,14 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
        anw = 0;
     }
 
-   if(anw==0)
+   if(anw==0) {
      if (needoutput) {
         anw = EstablishAnalysisWindow(true);
         if (anw) anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
      } else {
         UpdateDockAnalysisWindow();
      }
+   }
 
    return anal;
 }
@@ -2009,13 +2012,14 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
    if ((anw!=0) && anw->HasOutput()) return;
 
    bool shouldexists = false;
-   if (anal!=0)
+   if (anal!=0) {
      if (anal->IsAnalysisServer()) {
        if (anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
          shouldexists = true;
      } else {
        shouldexists = true;
      }
+   }
 
    if (shouldexists && (anw==0)) {
       anw = EstablishAnalysisWindow(false, !anal->IsAnalysisServer());
@@ -2588,7 +2592,7 @@ void TGo4MainWindow::CloseAnalysisWindow()
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
 
-   if (anw)
+   if (anw) {
      if (anw->HasOutput()) {
         anw->parentWidget()->close();
       } else {
@@ -2596,6 +2600,7 @@ void TGo4MainWindow::CloseAnalysisWindow()
          removeToolBar(bar);
          delete bar;
       }
+   }
 
    // try to reestablish window for other server
    QTimer::singleShot(250, this, SLOT(EstablishAnalysisWindowForHttp()));
@@ -2753,11 +2758,12 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4View
       panel->ShootRepaintTimer();
    }
 
-   if (updatelevel<0)
+   if (updatelevel<0) {
       if (go4sett->getFetchDataWhenDraw())
          updatelevel = 2;
       else
          updatelevel = 1;
+   }
 
    br->GetBrowserObject(itemname, updatelevel);
 
@@ -3071,15 +3077,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_CreateItem: {
          TClass* cl = (TClass*) par;
          int id = str!=0 ? QString(str).toInt() : 0;
-         if (cl!=0)
+         if (cl!=0) {
            if (cl->InheritsFrom(TH1::Class()))
               CreateNewHistSlot(id);
-           else
-           if (cl->InheritsFrom(TGo4Condition::Class()) && (id!=0))
+           else if (cl->InheritsFrom(TGo4Condition::Class()) && (id!=0))
               CreateNewConditionSlot(id==1);
-           else
-           if (cl->InheritsFrom(TGo4DynamicEntry::Class()) && (id!=0))
+           else if (cl->InheritsFrom(TGo4DynamicEntry::Class()) && (id!=0))
               CreateNewDynEntrySlot(id==1);
+         }
          break;
       }
       case QGo4Widget::service_DrawItem: {

@@ -604,11 +604,12 @@ TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
             }
             drawkind = kind_None;
             obj = selcond;
-            if (selcond != 0)
+            if (selcond != 0) {
                if (selcond->InheritsFrom(TGo4WinCond::Class()))
                   drawkind = kind_Window;
                else if (selcond->InheritsFrom(TGo4PolyCond::Class()))
                   drawkind = kind_Poly;
+            }
          }
          if (selkind != 0)
             *selkind = drawkind;
@@ -2320,11 +2321,12 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
    for (int n = slot->NumChilds() - 1; n >= 0; n--) {
       TGo4Slot* subslot = slot->GetChild(n);
       TPad* subpad = GetSlotPad(subslot);
-      if (subpad != 0)
+      if (subpad != 0) {
          if (pad->GetListOfPrimitives()->FindObject(subpad) == 0)
             delete subslot;
          else
             issubpads = true;
+      }
    }
 
    if (setdefaults)
@@ -2639,13 +2641,14 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot,
    TGo4Picture* pic = GetPadOptions(padslot);
 
    TPad* pad = GetSlotPad(padslot);
-   if ((pad != 0) && (pic != 0))
+   if ((pad != 0) && (pic != 0)) {
       if (padslot->GetPar("::DrawOptAssigned") != 0) {
          pic->SetDrawAttributes(pad, TGo4Picture::PictureIndex);
       } else if (!onlyscan) {
          pic->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
          padslot->SetPar("::DrawOptAssigned", "1");
       }
+   }
 
    if ((padslot == 0) || (pic == 0) || (objs == 0) || (objslots == 0))
       return;
@@ -3505,15 +3508,13 @@ void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
          if (objs.FindObject(oldhisto) == 0)
             oldhisto = 0;
 
-      if (oldhisto == 0)
-         if (cond != 0)
-         {
-           //std::cout<< "CheckObjectsAssigments sets work histogram:"<<(long) selhisto<<"("<<selhisto->GetName()<<") to condition:"<<(long) cond<<" ("<<cond->GetName()<<")" << std::endl;
+      if (oldhisto == 0) {
+         if (cond != 0) {
            cond->SetWorkHistogram(selhisto);
-
-         }
-         else if (mark != 0)
+         } else if (mark != 0) {
             mark->SetHistogram(selhisto);
+         }
+      }
    }
 }
 
@@ -3826,7 +3827,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
 
       // only first object is added,
       // make superimpose only for histos and graphs
-      if ((kind > 0) && ((mainkind == 0) || (kind == mainkind) && (kind < 3))) {
+      if ((kind > 0) && ((mainkind == 0) || ((kind == mainkind) && (kind < 3)))) {
 
          if (drawopt != 0)
             padopt->SetDrawOption(drawopt, nmain);
@@ -4151,13 +4152,14 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       TakeFullRangeFromHisto(his, padopt, true);
 
    TString drawopt(padopt->GetDrawOption(0));
-   if (drawopt.Length() == 0)
+   if (drawopt.Length() == 0) {
       if (his->GetDimension() == 1)
          drawopt = go4sett->getTH1DrawOpt().toLatin1().constData();
       else if (his->GetDimension() == 2)
          drawopt = go4sett->getTH2DrawOpt().toLatin1().constData();
       else if (his->GetDimension() == 3)
          drawopt = go4sett->getTH3DrawOpt().toLatin1().constData();
+   }
 
    drawopt.ToUpper();
 
@@ -5623,7 +5625,7 @@ void TGo4ViewPanel::ResizeGedEditor()
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
-   if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
+   if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class())) {
       if (fxQCanvas) {
 #ifdef __GO4X11__
          fxQCanvas->activateEditor(GetActivePad(), obj);
@@ -5633,6 +5635,7 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
          fxWCanvas->activateEditor(GetActivePad(), obj);
 #endif
       }
+   }
 }
 
 void TGo4ViewPanel::CleanupGedEditor()

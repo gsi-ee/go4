@@ -2447,11 +2447,17 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
        if (selindx<0) fxWizModelName = "";
 //                 else Wiz_ModelList->ensureCurrentVisible();
 
-    } else fxWizModelName = "";
+    } else {
+       fxWizModelName = "";
+    }
 
-    if (changestack)
-      if (selindx>=0) fiWizPageIndex = 1; else
-       if (fiWizPageIndex==1) fiWizPageIndex = 0;
+    if (changestack) {
+      if (selindx>=0) {
+         fiWizPageIndex = 1;
+      } else if (fiWizPageIndex==1) {
+         fiWizPageIndex = 0;
+      }
+    }
 
     UpdateWizModelsBtns();
 
@@ -3498,9 +3504,10 @@ void TGo4FitPanel::Wiz_BackgroundChk_toggled( bool chk)
   if (fbFillingWidget) return;
 
   TGo4FitModel* model = Wiz_SelectedModel();
-  if (model!=0)
+  if (model!=0) {
     if (chk) model->SetBackgroundGroupIndex();
         else model->SetGroupIndex(-1);
+  }
 }
 
 void TGo4FitPanel::PF_MinWidthEdt_returnPressed()
@@ -3698,13 +3705,14 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
      AddIdAction(menu, map, "Print", 5);
   }
 
-  if(item->PopupMenuType() == FitGui::mt_datalist)
+  if(item->PopupMenuType() == FitGui::mt_datalist) {
     if (WorkingWithPanel()) {
        AddIdAction(menu, map, "Rebuild data list", 108);
     } else {
        AddIdAction(menu, map, "Delete all data", 107);
        FillDataTypesList(menu, map, 110);
     }
+  }
 
   if(item->PopupMenuType() == FitGui::mt_model) {
     AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 201);
@@ -4832,11 +4840,12 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
       if(current) current->FillWidget();
    }
 
-   if (fiPanelMode==FitGui::pm_Wizard)
+   if (fiPanelMode==FitGui::pm_Wizard) {
      if (fbParsWidgetShown)
        FillParsWidget();
      else
        UpdateWizStackWidget();
+   }
 }
 
 void TGo4FitPanel::DeleteModelWithPrimit(TGo4FitGuiArrow* arr)

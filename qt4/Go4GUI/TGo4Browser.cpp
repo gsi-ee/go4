@@ -627,7 +627,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
            TClass* cl = gROOT->GetClass(itemclassname);
-           if (cl!=0)
+           if (cl!=0) {
               if (cl->InheritsFrom("TH1")) {
                  if (!cl->InheritsFrom("TH2") && !cl->InheritsFrom("TH3")) {
                     if ((si_kind<0) || (si_kind==1)) {
@@ -650,8 +650,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                     nsuperimpose++;
                   }
                 }
-
-
+           }
          }
 
          if (TGo4BrowserProxy::CanEditItem(cando))

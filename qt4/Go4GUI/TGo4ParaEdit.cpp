@@ -450,7 +450,7 @@ void TGo4ParaEdit::saveFile()
 
       TFile* f = TFile::Open(flst[0].toLatin1().constData(),"UPDATE");
       if (f!=0) {
-         f->WriteTObject(par, par->GetName(), "WriteDelete") > 0;
+         f->WriteTObject(par, par->GetName(), "WriteDelete");
          delete f;
       }
    }
@@ -475,9 +475,10 @@ void TGo4ParaEdit::ApplyClicked()
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
-   if (UpdateItemInAnalysis(fItemName.toLatin1().constData(), &status))
+   if (UpdateItemInAnalysis(fItemName.toLatin1().constData(), &status)) {
      if (BrowserItemRemote(fItemName.toLatin1().constData()))
         RefreshClicked();
      else
         PleaseUpdateLabel->setVisible(false);
+   }
 }

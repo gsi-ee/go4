@@ -101,10 +101,13 @@ void QFitParCfgWidget::RangeMaxEdit_textChanged( const QString &)
 
 void QFitParCfgWidget::EpsilonEdit_textChanged( const QString & value)
 {
-    if(!fbFillWidget && GetPar())
-      if (value.length()==0) GetPar()->SetEpsilonUse(kFALSE); else {
-          bool res = false;
-          double zn = value.toDouble(&res);
-          if(res) GetPar()->SetEpsilon(zn);
-      }
+  if(!fbFillWidget && GetPar()) {
+    if (value.length()==0) {
+       GetPar()->SetEpsilonUse(kFALSE);
+    } else {
+        bool res = false;
+        double zn = value.toDouble(&res);
+        if(res) GetPar()->SetEpsilon(zn);
+    }
+  }
 }
