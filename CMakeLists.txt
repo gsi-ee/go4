@@ -86,13 +86,13 @@ GO4_STANDARD_LIBRARY(Go4TaskHandler
 add_subdirectory(MbsAPIbase)
 add_subdirectory(Go4Event)
 add_subdirectory(Go4EventServer)
+
 if(HDF5_FOUND)
    add_subdirectory(Go4HDF5)
    set(hdf5_lib hdf5 hdf5_cpp)
    set(hdf5_def __GO4HDF5__)
-   #FIXME: this is only due to dictionary generation, one need to find better way
-   add_definitions(-D__GO4HDF5__)
 endif()
+
 add_subdirectory(Go4ConditionsBase)
 add_subdirectory(Go4DynamicList)
 add_subdirectory(Go4StatusAnalysis)
@@ -116,10 +116,16 @@ add_subdirectory(RawAPI)
 add_subdirectory(Go4HistogramServer)
 add_subdirectory(Go4CommandsAnalysis)
 add_subdirectory(Go4AnalysisClient)
+
 if(ROOT_http_FOUND)
    add_subdirectory(Go4Http)
-   set(http_def -DWITH_HTTP)
+   set(http_def WITH_HTTP)
 endif()
+
+if(DABC_FOUND)
+   set(dabc_def WITH_DABC)
+endif()
+
 
 
 get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
@@ -143,7 +149,7 @@ GO4_STANDARD_LIBRARY(Go4Analysis
 add_executable(go4analysis Go4Analysis/MainUserAnalysis.cxx)
 target_link_libraries(go4analysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
 target_include_directories(go4analysis PRIVATE ${CMAKE_BINARY_DIR}/include)
-target_compile_definitions(go4analysis PRIVATE ${http_def} ${hdf5_def})
+target_compile_definitions(go4analysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
 
 # ================== Go4Gui library ================= 
 
@@ -176,6 +182,10 @@ add_subdirectory(Go4ExampleAdvanced)
 add_subdirectory(Go4ExampleMesh)
 add_subdirectory(Go4ExampleSimple)
 add_subdirectory(Go4ExampleUserSource)
+
+if(DABC_FOUND)
+   add_subdirectory(Go4ExampleDabc)
+endif()
 
 # ================== Go4 Gui ================= 
 if(ROOT_qt5web_FOUND)

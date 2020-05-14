@@ -10,8 +10,6 @@ set(Go4Http_sources
 
 GO4_INSTALL_HEADERS(${Go4Http_headers})
 
-add_definitions(-DSNIFFER_FULL)
-
 GO4_STANDARD_LIBRARY(Go4Http
                      LINKDEF LinkDef.h
                      HEADERS ${Go4Http_headers}
