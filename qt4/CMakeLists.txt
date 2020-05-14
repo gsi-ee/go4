@@ -341,7 +341,7 @@ target_link_libraries(go4
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui
 )
 
-target_compile_definitions(go4 PRIVATE ${GO4_DEFINITIONS} ${gui_defines})
+target_compile_definitions(go4 PRIVATE -D${GO4_PLATFROM} ${GO4_DEFINITIONS} ${gui_defines})
 
 add_dependencies(go4 move_headers)
 

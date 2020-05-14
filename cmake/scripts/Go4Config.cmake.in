@@ -6,6 +6,7 @@
 # Don't mess with the actual CMAKE_CXX_FLAGS!!!
 # It's up to the user what to do with these
 #
+set(GO4_PLATFORM "@GO4_PLATFORM@")
 set(GO4_DEFINITIONS "@GO4_DEFINITIONS@")
 set(GO4_CXX_FLAGS "@GO4_CXX_FLAGS@")
 set(GO4_C_FLAGS "@GO4_C_FLAGS@")

@@ -1,3 +1,4 @@
+set(LIBS_BASESET ${ROOT_LIBRARIES} XMLIO)
 
 #---------------------------------------------------------------------------------------------------
 #---GO4_INSTALL_HEADERS([hdr1 hdr2 ...])
@@ -62,7 +63,7 @@ function(GO4_STANDARD_LIBRARY libname)
 
   add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
 
-  target_compile_definitions(${libname} PUBLIC ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
+  target_compile_definitions(${libname} PUBLIC -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   target_link_libraries(${libname} ${LIBS_BASESET})
   
@@ -114,7 +115,7 @@ function(GO4_USER_ANALYSIS)
   
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-  set(go4_libs Go4Analysis)
+  set(go4_libs Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
 
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -127,11 +128,11 @@ function(GO4_USER_ANALYSIS)
 
   set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
 
-  target_link_libraries(${libname}${tgt} ${go4_libs} ${ARG_LIBRARIES})
+  target_link_libraries(${libname}${tgt} ${LIBS_BASESET} ${go4_libs} ${ARG_LIBRARIES})
 
   target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
 
-  target_compile_definitions(${libname}${tgt} PUBLIC ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
+  target_compile_definitions(${libname}${tgt} PUBLIC -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}

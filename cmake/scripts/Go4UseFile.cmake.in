@@ -12,6 +12,6 @@ include_directories(${GO4_INCLUDE_DIR})
 link_directories(${GO4_LIBRARY_DIR})
 
 #---Set Flags---
-add_definitions(${GO4_DEFINITIONS})
+add_definitions(-D${GO4_PLATFORM} ${GO4_DEFINITIONS})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GO4_CXX_FLAGS}")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GO4_C_FLAGS}")

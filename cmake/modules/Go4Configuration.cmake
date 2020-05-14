@@ -1,16 +1,14 @@
-set(LIBS_BASESET ${ROOT_LIBRARIES} XMLIO)
-
 set(GO4_WITH_RFIO)
 
+set(_platfrom Linux)
 if(APPLE)
-   set(GO4_DEFINITIONS "Darwin" CACHE STRING "Go4 platform definitions")
+   set(_platform Darwin)
 elseif(MSVC)
-   set(GO4_DEFINITIONS "WIN32" CACHE STRING "Go4 platform definitions")
-else()
-   set(GO4_DEFINITIONS "Linux" CACHE STRING "Go4 platform definitions")
-   set(GO4_WITH_RFIO ON)
+   set(_platform WIN32)
 endif()
 
+set(GO4_PLATFORM "${_platform}" CACHE STRING "Go4 platform definitions")
+set(GO4_DEFINITIONS "" CACHE STRING "Go4 extra definitions")
 set(GO4_CXX_FLAGS "" CACHE STRING "Go4 CXX flags")
 set(GO4_C_FLAGS "" CACHE STRING "Go4 C flags")
 
