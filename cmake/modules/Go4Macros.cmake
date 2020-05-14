@@ -58,20 +58,13 @@ endfunction()
 function(GO4_STANDARD_LIBRARY libname)
   cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
 
-  if(ARG_LINKDEF)
-     ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
-                              MODULE ${libname}
-                              LINKDEF ${ARG_LINKDEF}
-                              DEPENDENCIES ${ARG_DEPENDENCIES})
-     set(dict_src G__${libname}.cxx)
-     set(dict_tgt G__${libname})
+  add_library(${libname} SHARED ${ARG_SOURCES})
+
+  add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
+
+  if (ARG_DEFINITIONS)
+     target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
   endif()
-
-  add_library(${libname} SHARED ${ARG_SOURCES} ${dict_src})
-
-  add_dependencies(${libname} ${dict_tgt} move_headers ${ARG_DEPENDENCIES})
-
-#  target_link_libraries(${libname} ROOT::Core)
 
   target_link_libraries(${libname} ${LIBS_BASESET})
   
@@ -84,13 +77,12 @@ function(GO4_STANDARD_LIBRARY libname)
   if (ARG_LIBRARIES)
     target_link_libraries(${libname} ${ARG_LIBRARIES})
   endif()
-  
-  if (ARG_DEFINITIONS)
-     set_target_properties(${libname} PROPERTIES COMPILE_DEFINITIONS "${ARG_DEFINITIONS}")
-#    foreach(def ${ARG_DEFINITIONS})
-#      target_compile_definitions(${libname} PRIVATE ${def})
-#      target_compile_definitions(${libname} PUBLIC $<BUILD_INTERFACE:${def}>)
-#    endforeach()
+
+  if(ARG_LINKDEF)
+     ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
+                              MODULE ${libname}
+                              LINKDEF ${ARG_LINKDEF}
+                              DEPENDENCIES ${ARG_DEPENDENCIES})
   endif()
 
 endfunction()
@@ -110,11 +102,13 @@ endfunction(GO4_TARGETNAME_FROM_FILE)
 #                     HEADERS header1 header2    : 
 #                     SOURCES src1 src2          : 
 #                     DEPENDENCIES lib1 lib2     : dependend go4 libraries
-#                     DEFINITIONS def1 def2      : library definitions 
+#                     DEFINITIONS def1 def2      : library definitions
+#                     LIBRARIES lib1 lib2        : linked libraries
+#                     INCLUDE_DIRS dir1 dir2     : extra include directories
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_USER_ANALYSIS)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS" ${ARGN})
   
   set(libname Go4UserAnalysis)
 
@@ -124,8 +118,6 @@ function(GO4_USER_ANALYSIS)
 
   set(depend Go4Analysis ${ARG_DEPENDENCIES})
 
-  add_definitions(-DLinux ${ARG_DEFINITIONS})
-
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
   
@@ -133,20 +125,20 @@ function(GO4_USER_ANALYSIS)
      set(dict_depend ${depend})
   endif()
 
+  add_library(${libname}${tgt} SHARED ${ARG_SOURCES})
+
+  set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
+
+  target_link_libraries(${libname}${tgt} ${depend} ${ARG_LIBRARIES})
+
+  target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
+
+  target_compile_definitions(${libname}${tgt} PUBLIC Linux ${ARG_DEFINITIONS})
+
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}
                           LINKDEF ${ARG_LINKDEF}
                           DEPENDENCIES ${dict_depend}
                           NOINSTALL)
-
-  add_library(${libname}${tgt} SHARED ${ARG_SOURCES} G__${libname}${tgt}.cxx)
-  
-  set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
-  
-  add_dependencies(${libname}${tgt} G__${libname}${tgt})
-
-  target_link_libraries(${libname}${tgt} ${depend})
-  
-  target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
 
 endfunction()
