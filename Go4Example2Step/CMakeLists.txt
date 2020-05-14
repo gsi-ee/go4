@@ -22,4 +22,6 @@ GO4_USER_ANALYSIS(
       TXXXParameter.cxx
       TXXXUnpackEvent.cxx
       TXXXUnpackProc.cxx
+   COPY
+      set_Par.C
 )

@@ -24,4 +24,12 @@ GO4_USER_ANALYSIS(
       TXXXParameter.cxx
       TXXXUnpackEvent.cxx
       TXXXUnpackProc.cxx
+   COPY
+      calilines.txt
+      browse.C
+      convert.C
+      convertfile.C
+      findobjects.C
+      plothistos.C
+      setup.C
 )

@@ -101,14 +101,14 @@ endfunction(GO4_TARGETNAME_FROM_FILE)
 #                     LINKDEF linkdef            : 
 #                     HEADERS header1 header2    : 
 #                     SOURCES src1 src2          : 
-#                     DEPENDENCIES lib1 lib2     : dependend go4 libraries
 #                     DEFINITIONS def1 def2      : library definitions
 #                     LIBRARIES lib1 lib2        : linked libraries
 #                     INCLUDE_DIRS dir1 dir2     : extra include directories
+#                     COPY file1 file2           : copy files to destination directory
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_USER_ANALYSIS)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS;COPY" ${ARGN})
   
   set(libname Go4UserAnalysis)
 
@@ -116,20 +116,20 @@ function(GO4_USER_ANALYSIS)
   
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-  set(depend Go4Analysis ${ARG_DEPENDENCIES})
+  set(go4_libs Go4Analysis)
 
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
   
   if(CMAKE_PROJECT_NAME STREQUAL "Go4")
-     set(dict_depend ${depend})
+     set(dict_depend ${go4_libs})
   endif()
 
   add_library(${libname}${tgt} SHARED ${ARG_SOURCES})
 
   set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
 
-  target_link_libraries(${libname}${tgt} ${depend} ${ARG_LIBRARIES})
+  target_link_libraries(${libname}${tgt} ${go4_libs} ${ARG_LIBRARIES})
 
   target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
 
@@ -140,5 +140,11 @@ function(GO4_USER_ANALYSIS)
                           LINKDEF ${ARG_LINKDEF}
                           DEPENDENCIES ${dict_depend}
                           NOINSTALL)
+                          
+   if(ARG_COPY)
+      foreach(f ${ARG_COPY})
+         file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${f} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+      endforeach()
+   endif()
 
 endfunction()

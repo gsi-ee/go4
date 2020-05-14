@@ -22,4 +22,7 @@ GO4_USER_ANALYSIS(
       TYYYRawEvent.cxx
       TYYYUnpackEvent.cxx
       TYYYUnpackProc.cxx
+   COPY
+      befoil50.scf
+      tafoil50.scf
 )

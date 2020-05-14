@@ -198,4 +198,15 @@ add_subdirectory(qt4)
 get_property(__allHeaders GLOBAL PROPERTY GO4_HEADER_TARGETS)
 add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 
+# ================== Copy files, create old support files ==========
 
+file(COPY ${CMAKE_SOURCE_DIR}/icons DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/html DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/macros DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/python DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/etc/go4.prefs DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4LaunchPrefs.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ClientStartup.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ServerStartup.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ShowPdf.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/etc/htdigest.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)

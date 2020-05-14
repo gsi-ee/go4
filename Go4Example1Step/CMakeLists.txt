@@ -18,4 +18,6 @@ GO4_USER_ANALYSIS(
       TXXXControl.cxx
       TXXXEvent.cxx
       TXXXProc.cxx
+   COPY
+      histofill.C
 )
