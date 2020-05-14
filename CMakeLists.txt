@@ -116,6 +116,10 @@ add_subdirectory(RawAPI)
 add_subdirectory(Go4HistogramServer)
 add_subdirectory(Go4CommandsAnalysis)
 add_subdirectory(Go4AnalysisClient)
+if(ROOT_http_FOUND)
+   add_subdirectory(Go4Http)
+   set(http_def -DWITH_HTTP)
+endif()
 
 
 get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
@@ -139,7 +143,7 @@ GO4_STANDARD_LIBRARY(Go4Analysis
 add_executable(go4analysis Go4Analysis/MainUserAnalysis.cxx)
 target_link_libraries(go4analysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
 target_include_directories(go4analysis PRIVATE ${CMAKE_BINARY_DIR}/include)
-target_compile_definitions(go4analysis PRIVATE ${hdf5_def})
+target_compile_definitions(go4analysis PRIVATE ${http_def} ${hdf5_def})
 
 # ================== Go4Gui library ================= 
 
