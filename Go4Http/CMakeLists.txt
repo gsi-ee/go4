@@ -16,4 +16,4 @@ GO4_STANDARD_LIBRARY(Go4Http
                      SOURCES ${Go4Http_sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis
                      LIBRARIES RHTTP RHTTPSniff
-                     DEFINITIONS Linux SNIFFER_FULL)
+                     DEFINITIONS SNIFFER_FULL)

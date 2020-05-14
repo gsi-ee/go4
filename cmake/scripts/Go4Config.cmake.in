@@ -9,7 +9,6 @@
 set(GO4_DEFINITIONS "@GO4_DEFINITIONS@")
 set(GO4_CXX_FLAGS "@GO4_CXX_FLAGS@")
 set(GO4_C_FLAGS "@GO4_C_FLAGS@")
-
 #
 # ROOT configured for use from the build tree - absolute paths are used.
 set(GO4_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/include)

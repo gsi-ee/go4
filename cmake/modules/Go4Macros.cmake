@@ -62,9 +62,7 @@ function(GO4_STANDARD_LIBRARY libname)
 
   add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
 
-  if (ARG_DEFINITIONS)
-     target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
-  endif()
+  target_compile_definitions(${libname} PUBLIC ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   target_link_libraries(${libname} ${LIBS_BASESET})
   
@@ -133,7 +131,7 @@ function(GO4_USER_ANALYSIS)
 
   target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
 
-  target_compile_definitions(${libname}${tgt} PUBLIC Linux ${ARG_DEFINITIONS})
+  target_compile_definitions(${libname}${tgt} PUBLIC ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}

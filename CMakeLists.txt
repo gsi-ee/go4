@@ -107,12 +107,14 @@ GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
                      LIBRARIES ${hdf5_lib}
-                     DEFINITIONS Linux ${hdf5_def})
+                     DEFINITIONS ${hdf5_def})
 
 # ================== Go4Analysis library ================= 
 
 add_subdirectory(MbsAPI)
-add_subdirectory(RawAPI)
+if(GO4_WITH_RFIO)
+   add_subdirectory(RawAPI)
+endif()
 add_subdirectory(Go4HistogramServer)
 add_subdirectory(Go4CommandsAnalysis)
 add_subdirectory(Go4AnalysisClient)
@@ -132,9 +134,15 @@ get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
 get_property(__sources GLOBAL PROPERTY Go4Analysis_sources)
 
 # special definitions
-set_source_files_properties(MbsAPI/f_evt.c PROPERTIES COMPILE_DEFINITIONS RFIO)
+
+if(GO4_WITH_RFIO)
+   set_source_files_properties(MbsAPI/f_evt.c PROPERTIES COMPILE_DEFINITIONS RFIO)
+   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+      set_source_files_properties(${RawAPI_allsources} PROPERTIES COMPILE_DEFINITIONS SYSTEM64)
+   endif()
+endif()
+
 set_source_files_properties(MbsAPI/fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEFILE64_SOURCE)
-set_source_files_properties(${RawAPI_allsources} PROPERTIES COMPILE_DEFINITIONS SYSTEM64)
 
 GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
@@ -142,7 +150,7 @@ GO4_STANDARD_LIBRARY(Go4Analysis
                      SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
                      LIBRARIES ${hdf5_lib}
-                     DEFINITIONS Linux ${hdf5_def})
+                     DEFINITIONS ${hdf5_def})
 
 # ================== go4analysis executable ================= 
 
@@ -164,8 +172,7 @@ GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
-                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
-                     DEFINITIONS Linux)
+                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase)
 
 if(DABC_FOUND)
    target_link_libraries(Go4Gui ${DABC_LIBRARY})
