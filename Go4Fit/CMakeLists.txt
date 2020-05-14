@@ -71,4 +71,5 @@ GO4_INSTALL_HEADERS(${Go4Fit_headers})
 GO4_STANDARD_LIBRARY(Go4Fit
                      LINKDEF Go4FitLinkDef.h
                      HEADERS ${Go4Fit_headers}
-                     SOURCES ${Go4Fit_sources})
+                     SOURCES ${Go4Fit_sources}
+                     LIBRARIES Minuit Spectrum)

@@ -148,16 +148,18 @@ GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
-                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
 
 # ================== go4analysis executable ================= 
 
-add_executable(go4analysis Go4Analysis/MainUserAnalysis.cxx)
-target_link_libraries(go4analysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
-target_include_directories(go4analysis PRIVATE ${CMAKE_BINARY_DIR}/include)
-target_compile_definitions(go4analysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
+add_executable(MainUserAnalysis Go4Analysis/MainUserAnalysis.cxx)
+target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
+target_include_directories(MainUserAnalysis PRIVATE ${CMAKE_BINARY_DIR}/include)
+target_compile_definitions(MainUserAnalysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
+set_target_properties(MainUserAnalysis PROPERTIES OUTPUT_NAME go4analysis)
+
 
 # ================== Go4Gui library ================= 
 
@@ -172,7 +174,8 @@ GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
                      HEADERS ${__headers}
                      SOURCES ${__sources}
-                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase)
+                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     LIBRARIES Gui)
 
 if(DABC_FOUND)
    target_link_libraries(Go4Gui ${DABC_LIBRARY})

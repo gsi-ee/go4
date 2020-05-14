@@ -81,6 +81,7 @@ function(GO4_STANDARD_LIBRARY libname)
                               MODULE ${libname}
                               LINKDEF ${ARG_LINKDEF}
                               DEPENDENCIES ${ARG_DEPENDENCIES})
+     add_dependencies(${libname} G__${libname})
   endif()
 
 endfunction()
