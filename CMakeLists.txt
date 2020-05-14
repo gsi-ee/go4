@@ -191,7 +191,19 @@ endif()
 
 # ================== Go4 examples ================= 
 
-list(APPEND examples Go4FitExample Go4Example1Step Go4Example2Step Go4ExampleAdvanced Go4ExampleMesh Go4ExampleSimple Go4ExampleUserSource)
+list(APPEND examples
+   Go4FitExample
+   Go4ThreadManagerExample
+   Go4TaskHandlerExample
+   Go4EventServerExample
+   Go4Example1Step
+   Go4Example2Step
+   Go4ExampleAdvanced
+   Go4ExampleMesh
+   Go4ExampleSimple
+   Go4ExampleUserSource
+)
+
 if(DABC_FOUND)
    list(APPEND examples Go4ExampleDabc)
 endif()

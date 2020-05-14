@@ -61,7 +61,7 @@ function(GO4_STANDARD_LIBRARY libname)
 
   add_library(${libname} SHARED ${ARG_SOURCES})
 
-  if(CMAKE_PROJECT_NAME STREQUAL "Go4")
+  if(CMAKE_PROJECT_NAME STREQUAL Go4)
      add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
   endif()
 
@@ -98,7 +98,7 @@ function(GO4_TARGETNAME_FROM_FILE resultvar)
 endfunction(GO4_TARGETNAME_FROM_FILE)
 
 #---------------------------------------------------------------------------------------------------
-#---GO4_USER_ANALYSIS(
+#---GO4_USER_ANALYSIS([NAME libname]             : library name, default Go4UserAnalysis
 #                     LINKDEF linkdef            : 
 #                     HEADERS header1 header2    : 
 #                     SOURCES src1 src2          : 
@@ -109,9 +109,12 @@ endfunction(GO4_TARGETNAME_FROM_FILE)
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_USER_ANALYSIS)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS;COPY" ${ARGN})
+  cmake_parse_arguments(ARG "" "NAME;LINKDEF" "HEADERS;SOURCES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS;COPY" ${ARGN})
   
   set(libname Go4UserAnalysis)
+  if(ARG_NAME)
+    set(libname ${ARG_NAME})
+  endif()
 
   GO4_TARGETNAME_FROM_FILE(tgt)
   
@@ -122,7 +125,7 @@ function(GO4_USER_ANALYSIS)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
   
-  if(CMAKE_PROJECT_NAME STREQUAL "Go4")
+  if(CMAKE_PROJECT_NAME STREQUAL Go4)
      set(dict_depend ${go4_libs})
   endif()
 

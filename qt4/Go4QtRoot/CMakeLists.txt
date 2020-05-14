@@ -10,7 +10,13 @@ add_library(Go4QtRoot SHARED
    QRootWindow.cpp
 )
 
-target_link_libraries(Go4QtRoot Qt5::Core Qt5::Widgets Gui X11)
+if(GO4_QTVERSION STREQUAL Qt4)
+   set(qt_libs Qt4::QtGui)
+else()
+   set(qt_libs Qt5::Widgets)
+endif()
+
+target_link_libraries(Go4QtRoot ${qt_libs} Gui X11)
 
 target_include_directories(Go4QtRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
 

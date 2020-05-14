@@ -4,7 +4,7 @@ set(CMAKE_AUTOUIC ON)
 
 if(GO4_QTVERSION STREQUAL Qt4)
    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-   find_package(Qt4 4.7 REQUIRED QtGui QtXml QtNetwork)
+   find_package(Qt4 4.7 REQUIRED QtGui QtNetwork)
    if(NOT Qt4_FOUND)
       message(FATAL_ERROR "Could NOT find Qt4")
    endif()
@@ -20,14 +20,6 @@ else()
    set(qt_libs Qt5::Widgets Qt5::Network)
 endif()
 
-
-#if(ROOT_x11_FOUND)
-#   add_subdirectory(Go4QtRoot)
-#endif()
-
-#if(ROOT_qt5web_FOUND)
-#   add_subdirectory(Go4Web)
-#endif()
 
 set(Go4GUI_headers
    Go4GUI/TGo4HServerConnection.h
@@ -268,11 +260,7 @@ set(extra_libs Minuit Ged TreePlayer)
 set(gui_defines)
 
 if(ROOT_x11_FOUND)
-   set(QtRoot_sources
-      Go4QtRoot/QRootCanvas.cpp
-      Go4QtRoot/QRootDialog.cpp
-      Go4QtRoot/QRootWindow.cpp
-   )
+
    list(APPEND extra_libs Gui X11 Go4QtRoot)
    list(APPEND gui_defines -D__GO4X11__)
    
@@ -284,12 +272,11 @@ if(ROOT_x11_FOUND)
                        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Go4UserGUI
                        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI
                        INSTALL_COMMAND "")
+
 endif()
 
-if(Qt5_FOUND AND ROOT_qt5web_FOUND)
-   set(Go4Web_sources
-      Go4Web/QWebCanvas.cpp
-   )
+if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
+
    list(APPEND extra_libs RHTTP ROOTWebDisplay ROOTQt5WebDisplay WebGui6 WebGui6Full Go4WebRoot)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)

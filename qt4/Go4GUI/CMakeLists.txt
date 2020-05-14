@@ -9,9 +9,9 @@ add_library(Go4Widgets SHARED
 )
 
 if(GO4_QTVERSION STREQUAL Qt4)
-   set(qt_libs Qt4::QtCore Qt4::QtGui)
+   set(qt_libs Qt4::QtGui)
 else()
-   set(qt_libs Qt5::Widgets Qt5::Network)
+   set(qt_libs Qt5::Widgets)
 endif()
 
 
