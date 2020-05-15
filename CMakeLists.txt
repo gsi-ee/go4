@@ -58,6 +58,8 @@ add_subdirectory(Go4Exceptions)
 add_subdirectory(Go4CommandsBase)
 add_subdirectory(Go4StatusBase)
 
+set_source_files_properties(Go4Log/TGo4Log.cxx PROPERTIES COMPILE_DEFINITIONS "COMP_GO4SYS=\"${CMAKE_BINARY_DIR}\";COMP_GO4INC=\"${CMAKE_BINARY_DIR}/include\"")
+
 get_property(__headers GLOBAL PROPERTY Go4Base_headers)
 get_property(__sources GLOBAL PROPERTY Go4Base_sources)
 
