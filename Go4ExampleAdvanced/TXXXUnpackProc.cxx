@@ -308,12 +308,13 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 
 						   if(i == 0) // fill first channel
 						   {
-							  if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
+							  if(fconHis1->Test((Double_t)*pdata))
+                                                             fHis1gate->Fill((Float_t)(*pdata));
 							  fHis1->Fill((Float_t)(*pdata));
 						   }
 						   if(i == 1)
 						   {
-							  if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
+							  if(fconHis2->Test((Double_t)*pdata))fHis2gate->Fill((Float_t)(*pdata));
 							  fHis2->Fill((Float_t)(*pdata));
 							  // fill Cr1Ch1x2 for three polygons:
 							  if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);

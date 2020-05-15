@@ -401,7 +401,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                if(fParam->fbHisto) { // fill histograms
                   if(i == 0) // fill first channel
                   {
-                     if(fconHis1->Test(*pdata)) fHis1gate->Fill(*pdata);
+                     if(fconHis1->Test((Double_t) *pdata)) fHis1gate->Fill(*pdata);
                      fHis1->Fill(*pdata);
                      fWhitelistCon->Test(*pdata);
                      fRollingGraph1->Fill(*pdata);
@@ -409,7 +409,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                   }
                   if(i == 1)
                   {
-                     if(fconHis2->Test(*pdata)) fHis2gate->Fill(*pdata);
+                     if(fconHis2->Test((Double_t) *pdata)) fHis2gate->Fill(*pdata);
                      fHis2->Fill(*pdata);
                      // fill Cr1Ch1x2 for three polygons:
                      if(fPolyCon1->Test(*pdata,lastvalue))        fCr1Ch1x2->Fill(*pdata, lastvalue);
