@@ -95,11 +95,15 @@ add_subdirectory(Go4DynamicList)
 add_subdirectory(Go4StatusAnalysis)
 add_subdirectory(Go4Analysis)
 
+if(MSVC)
+   set(_win_def BUILDING_GO4BASE_DLL)
+endif()
+
 GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
                      LIBRARIES ${hdf5_lib}
-                     DEFINITIONS ${hdf5_def})
+                     DEFINITIONS ${hdf5_def} ${_win_def})
 
 # ================== Go4Analysis library ================= 
 

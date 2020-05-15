@@ -10,10 +10,14 @@ set(Go4Http_sources
 
 GO4_INSTALL_HEADERS(${Go4Http_headers})
 
+if(MSVC)
+   set(windeff GO4_EXPORT)
+endif()
+
 GO4_STANDARD_LIBRARY(Go4Http
                      LINKDEF LinkDef.h
                      HEADERS ${Go4Http_headers}
                      SOURCES ${Go4Http_sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis
                      LIBRARIES ${ROOT_RHTTP_LIBRARY} ${ROOT_RHTTPSniff_LIBRARY}
-                     DEFINITIONS SNIFFER_FULL)
+                     DEFINITIONS SNIFFER_FULL ${windeff})

@@ -254,6 +254,10 @@ set(QtRoot_headers
    Go4QtRoot/QRootApplication.h
 )
 
+if(MSVC)
+   add_definitions(-DGO4_EXPORT)
+endif()
+
 add_subdirectory(Go4GUI)
 
 set(extra_libs ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY})
