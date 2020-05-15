@@ -33,7 +33,9 @@ class
 
 #ifndef __CINT__
 #ifdef WIN32
-#ifndef BUILDING_GO4BASE_DLL
+#ifdef BUILDING_GO4BASE_DLL
+__declspec(dllexport)
+#else
 __declspec(dllimport)
 #endif
 #endif

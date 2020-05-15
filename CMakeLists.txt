@@ -44,6 +44,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Go4Configuration)
 include(Go4Macros)
 include(Go4InstallDirs)
+include(ExternalProject)
 
 #--- Search for external packages ---
 find_package(DABC QUIET)
@@ -178,6 +179,13 @@ else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
 endif()
 
+# ================== Go4 Gui ================= 
+if(ROOT_qt5web_FOUND)
+   add_subdirectory(webgui6)
+endif()
+
+add_subdirectory(qt4)
+
 # ================== Go4 examples ================= 
 
 list(APPEND examples
@@ -197,7 +205,6 @@ if(DABC_FOUND)
    list(APPEND examples Go4ExampleDabc)
 endif()
 
-include(ExternalProject)
 foreach(ex ${examples})
    ExternalProject_Add(${ex}
                        DEPENDS Go4Analysis
@@ -211,14 +218,6 @@ endforeach()
 # foreach(ex ${examples})
 #    add_subdirectory(${ex})
 # endforeach()
-
-# ================== Go4 Gui ================= 
-if(ROOT_qt5web_FOUND)
-   add_subdirectory(webgui6)
-endif()
-
-add_subdirectory(qt4)
-
 
 # ================== Produce Go4 headers ==========
 
