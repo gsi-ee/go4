@@ -318,7 +318,7 @@ frombegin:
                      fflush(stdout);
                      goto frombegin;
                   }
-               } catch (TGo4EventErrorException &ex) {
+               } catch (TGo4EventErrorException &) {
                }
                printf("Retry %d failed\n", cnt);
                fflush(stdout);

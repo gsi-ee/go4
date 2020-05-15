@@ -15,15 +15,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #include "f_radware.h"
 #include "typedefs.h"
 
 #ifdef GSI__WINNT
-#include <errno.h>
+#include <io.h>
 #else
-#include <errno.h>
 #include <unistd.h>
 #endif
 
