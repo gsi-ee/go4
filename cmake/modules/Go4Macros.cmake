@@ -1,5 +1,25 @@
 set(LIBS_BASESET ${ROOT_LIBRARIES} ${ROOT_XMLIO_LIBRARY})
 
+if(WIN32)
+  set(libprefix lib)
+  set(libsuffix .dll)
+elseif(APPLE)
+  set(libprefix ${CMAKE_SHARED_LIBRARY_PREFIX})
+  if(CMAKE_PROJECT_NAME STREQUAL Go4)
+    set(libsuffix .so)
+  else()
+    set(libsuffix ${CMAKE_SHARED_LIBRARY_SUFFIX})
+  endif()
+else()
+  set(libprefix ${CMAKE_SHARED_LIBRARY_PREFIX})
+  set(libsuffix ${CMAKE_SHARED_LIBRARY_SUFFIX})
+endif()
+
+set(GO4_LIBRARY_PROPERTIES
+    SUFFIX ${libsuffix}
+    PREFIX ${libprefix}
+    IMPORT_PREFIX ${libprefix})
+
 #---------------------------------------------------------------------------------------------------
 #---GO4_INSTALL_HEADERS([hdr1 hdr2 ...])
 #---------------------------------------------------------------------------------------------------
@@ -60,10 +80,12 @@ function(GO4_LINK_LIBRARY libname)
    if(MSVC)
       set_target_properties(${libname} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
    endif()
+   
+   set_target_properties(${libname} PROPERTIES ${GO4_LIBRARY_PROPERTIES})
 
-  target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
+   target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
 
-  target_link_libraries(${libname} ${ARG_LIBRARIES})
+   target_link_libraries(${libname} ${ARG_LIBRARIES})
 endfunction()
 
 
