@@ -17,9 +17,6 @@ endif()
 set(qt_libs Qt5::Widgets)
 
 
-add_library(Go4UserGui SHARED
-   QUserPanel.cpp
-   QUserPanel.ui
-)
-
-target_link_libraries(Go4UserGui Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})
+GO4_LINK_LIBRARY(Go4UserGui 
+                 SOURCES QUserPanel.cpp QUserPanel.ui
+                 LIBRARIES Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})

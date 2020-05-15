@@ -47,6 +47,27 @@ endfunction()
 
 
 #---------------------------------------------------------------------------------------------------
+#---GO4_LINK_LIBRARY(libname
+#                     SOURCES src1 src2          : 
+#                     LIBRARIES lib1 lib2        : direct linked libraries
+#                     DEFINITIONS def1 def2      : library definitions
+#)
+function(GO4_LINK_LIBRARY libname)
+   cmake_parse_arguments(ARG "" "" "SOURCES;LIBRARIES;DEFINITIONS" ${ARGN})
+
+   add_library(${libname} SHARED ${ARG_SOURCES})
+
+   if(MSVC)
+      set_target_properties(${libname} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+   endif()
+
+  target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
+
+  target_link_libraries(${libname} ${ARG_LIBRARIES})
+endfunction()
+
+
+#---------------------------------------------------------------------------------------------------
 #---GO4_STANDARD_LIBRARY(libname
 #                           LINKDEF linkdef            : 
 #                           HEADERS header1 header2    : 
@@ -64,27 +85,18 @@ function(GO4_STANDARD_LIBRARY libname)
      get_property(ARG_SOURCES GLOBAL PROPERTY ${libname}_sources)
   endif()
 
-  add_library(${libname} SHARED ${ARG_SOURCES})
+  GO4_LINK_LIBRARY(${libname} 
+                   SOURCES ${ARG_SOURCES}
+                   DEFINITIONS -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS}
+                   LIBRARIES ${LIBS_BASESET} ${ARG_DEPENDENCIES} ${ARG_LIBRARIES})
 
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
      add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
   endif()
 
-  target_compile_definitions(${libname} PUBLIC -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
-
-  target_link_libraries(${libname} ${LIBS_BASESET})
-  
   target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-  
-  if (ARG_DEPENDENCIES)
-    target_link_libraries(${libname} ${ARG_DEPENDENCIES})
-  endif()
 
-  if (ARG_LIBRARIES)
-    target_link_libraries(${libname} ${ARG_LIBRARIES})
-  endif()
-
-  if(ARG_LINKDEF)
+  if(ARG_LINKDEF AND ARG_HEADERS)
      ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
                               MODULE ${libname}
                               LINKDEF ${ARG_LINKDEF}
@@ -115,7 +127,7 @@ endfunction(GO4_TARGETNAME_FROM_FILE)
 #---------------------------------------------------------------------------------------------------
 function(GO4_USER_ANALYSIS)
   cmake_parse_arguments(ARG "" "NAME;LINKDEF" "HEADERS;SOURCES;DEFINITIONS;LIBRARIES;INCLUDE_DIRS;COPY" ${ARGN})
-  
+
   set(libname Go4UserAnalysis)
   if(ARG_NAME)
     set(libname ${ARG_NAME})
@@ -125,7 +137,6 @@ function(GO4_USER_ANALYSIS)
   
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
      set(go4_libs Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
      set(dict_depend ${go4_libs})
@@ -134,15 +145,14 @@ function(GO4_USER_ANALYSIS)
      
   endif()
 
-  add_library(${libname}${tgt} SHARED ${ARG_SOURCES})
+  GO4_LINK_LIBRARY(${libname}${tgt}
+                   SOURCES ${ARG_SOURCES}
+                   LIBRARIES ${LIBS_BASESET} ${go4_libs} ${ARG_LIBRARIES}
+                   DEFINITIONS -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
 
-  target_link_libraries(${libname}${tgt} ${LIBS_BASESET} ${go4_libs} ${ARG_LIBRARIES})
-
   target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
-
-  target_compile_definitions(${libname}${tgt} PUBLIC -D${GO4_PLATFORM} ${GO4_DEFINITIONS} ${ARG_DEFINITIONS})
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}
