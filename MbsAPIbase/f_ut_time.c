@@ -65,7 +65,9 @@ CHARS     *f_ut_time (CHARS *pc_time)
 
   struct timeb tp;
   struct tm st_time;
+#ifndef WIN32
   struct tm buf_time;
+#endif
 
   ftime (&tp);
 

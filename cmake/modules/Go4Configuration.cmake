@@ -34,6 +34,9 @@ configure_file(${CMAKE_SOURCE_DIR}/README.txt
                ${CMAKE_BINARY_DIR}/README.txt COPYONLY)
 
 set(GO4_ROOTDIR $ENV{ROOTSYS})
+if(MSVC)
+   string(REGEX REPLACE "\\\\" "/" GO4_ROOTDIR ${GO4_ROOTDIR})
+endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)

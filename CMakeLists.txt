@@ -25,6 +25,14 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+if(MSVC)
+  foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
+    string( TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG )
+    set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} )
+    set( CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} )
+    set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY} )
+  endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+endif()
 
 #--- Enable Folders in IDE like Visual Studio ---
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -104,7 +112,7 @@ endif()
 GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
-                     LIBRARIES ${hdf5_lib} ${ws2_32.lib}
+                     LIBRARIES ${hdf5_lib} ${_win_lib}
                      DEFINITIONS ${hdf5_def} ${_win_def})
 
 # ================== Go4Analysis library ================= 

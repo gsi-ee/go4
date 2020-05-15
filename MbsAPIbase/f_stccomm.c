@@ -28,8 +28,8 @@ CHARS c_msg[80];
 /*+ Module      : f_stc_read                                          */
 /*                                                                    */
 /*--------------------------------------------------------------------*/
-/*+ CALLING     : f_stc_read( INTS1 p_buffer  , INTS4 i_buflen ,         */
-/*                            INTS4  i_channel , INTS4 i_timeout )        */
+/*+ CALLING     : f_stc_read( INTS1 p_buffer  , INTS4 i_buflen ,      */
+/*                            INTS4  i_channel , INTS4 i_timeout )    */
 /*                                                                    */
 /*--------------------------------------------------------------------*/
 /*                                                                    */
