@@ -3631,7 +3631,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QPopupMenu* menu)
   if(item->PopupMenuType() == FitGui::mt_rangelist) {
      TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
      if(comp) {
-        if (comp->IsAnyRangeLimits()>0) {
+        if (comp->IsAnyRangeLimits()) {
            menu->insertItem(QString("Clear all ranges"), 402);
            menu->insertSeparator();
         }
