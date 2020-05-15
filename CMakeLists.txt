@@ -60,13 +60,8 @@ add_subdirectory(Go4StatusBase)
 
 set_source_files_properties(Go4Log/TGo4Log.cxx PROPERTIES COMPILE_DEFINITIONS "COMP_GO4SYS=\"${CMAKE_BINARY_DIR}\";COMP_GO4INC=\"${CMAKE_BINARY_DIR}/include\"")
 
-get_property(__headers GLOBAL PROPERTY Go4Base_headers)
-get_property(__sources GLOBAL PROPERTY Go4Base_sources)
-
-GO4_STANDARD_LIBRARY(Go4Base
-                     LINKDEF Go4Dict/Go4BaseLinkDef.h
-                     HEADERS ${__headers}
-                     SOURCES ${__sources})
+GO4_STANDARD_LIBRARY(Go4Base 
+                     LINKDEF Go4Dict/Go4BaseLinkDef.h)
 
 # ================= Go4ThreadManager library ======================
 
@@ -79,13 +74,8 @@ add_subdirectory(Go4Queue)
 add_subdirectory(Go4TaskHandler)
 add_subdirectory(Go4CommandsTaskHandler)
 
-get_property(__headers GLOBAL PROPERTY Go4TaskHandler_headers)
-get_property(__sources GLOBAL PROPERTY Go4TaskHandler_sources)
-
 GO4_STANDARD_LIBRARY(Go4TaskHandler
                      LINKDEF Go4Dict/Go4TaskHandlerLinkDef.h
-                     HEADERS ${__headers}
-                     SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager)
 
 # ================== Go4AnalysisBase library ================= 
@@ -105,13 +95,8 @@ add_subdirectory(Go4DynamicList)
 add_subdirectory(Go4StatusAnalysis)
 add_subdirectory(Go4Analysis)
 
-get_property(__headers GLOBAL PROPERTY Go4AnalysisBase_headers)
-get_property(__sources GLOBAL PROPERTY Go4AnalysisBase_sources)
-
 GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
-                     HEADERS ${__headers}
-                     SOURCES ${__sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
@@ -135,11 +120,6 @@ if(DABC_FOUND)
    set(dabc_def WITH_DABC)
 endif()
 
-
-
-get_property(__headers GLOBAL PROPERTY Go4Analysis_headers)
-get_property(__sources GLOBAL PROPERTY Go4Analysis_sources)
-
 # special definitions
 
 if(GO4_WITH_RFIO)
@@ -153,8 +133,6 @@ set_source_files_properties(MbsAPI/fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEF
 
 GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
-                     HEADERS ${__headers}
-                     SOURCES ${__sources}
                      DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
@@ -174,13 +152,8 @@ add_subdirectory(Go4ObjectManager)
 add_subdirectory(Go4Display)
 add_subdirectory(Go4Proxies)
 
-get_property(__headers GLOBAL PROPERTY Go4Gui_headers)
-get_property(__sources GLOBAL PROPERTY Go4Gui_sources)
-
 GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
-                     HEADERS ${__headers}
-                     SOURCES ${__sources}
                      DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
                      LIBRARIES Gui)
 

@@ -58,6 +58,11 @@ endfunction()
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
   cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
+  
+  if(NOT ARG_SOURCES AND NOT ARG_HEADERS)
+     get_property(ARG_HEADERS GLOBAL PROPERTY ${libname}_headers)
+     get_property(ARG_SOURCES GLOBAL PROPERTY ${libname}_sources)
+  endif()
 
   add_library(${libname} SHARED ${ARG_SOURCES})
 
