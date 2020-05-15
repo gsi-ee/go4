@@ -50,11 +50,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <process.h>
 #define DEF_FILE_ACCE S_IREAD|S_IWRITE  /* rw */
 #define GET__OPEN_FLAG O_RDONLY|O_BINARY
 #define PUT__OPEN_APD_FLAG O_RDWR|O_APPEND
 #define PUT__CRT_FLAG O_CREAT|O_RDWR
 #define PUT__CRT_OPT ""
+
 
 #include <winsock.h>
 #define    WS_VERSION_REQD     0x0101
@@ -162,6 +164,11 @@
 #define RFIO_lseek lseek
 #endif
 
+#ifdef GSI__WINNT
+#define own_getpid _getpid
+#else
+#define own_getpid getpid
+#endif
 
 
 // DABC
@@ -1252,7 +1259,7 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
        memcpy(ps_file_head, ps_filhe,ps_chan->l_buf_size );
     } else {
        memset( ps_file_head, '\0', ps_chan->l_buf_size);
-       sprintf(ps_file_head->filhe_run, "Pid %d%c", getpid(),'\0');
+       sprintf(ps_file_head->filhe_run, "Pid %d%c", own_getpid(),'\0');
        ps_file_head->filhe_run_l=strlen(ps_file_head->filhe_run);
     }
             ps_file_head->filhe_dlen=ps_chan->l_buf_size/2;
