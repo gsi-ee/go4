@@ -8,7 +8,8 @@ GO4_LINK_LIBRARY(Go4WebRoot
                  LIBRARIES 
                     Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets
                     ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} 
-                    ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full)
+                    ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full
+                    Go4Base)
 
 target_include_directories(Go4WebRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
 

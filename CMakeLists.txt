@@ -97,12 +97,14 @@ add_subdirectory(Go4Analysis)
 
 if(MSVC)
    set(_win_def BUILDING_GO4BASE_DLL)
+   set(_win_lib ws2_32.lib)
+#   $<$<PLATFORM_ID:Windows>:ws2_32.lib>
 endif()
 
 GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
-                     LIBRARIES ${hdf5_lib}
+                     LIBRARIES ${hdf5_lib} ${ws2_32.lib}
                      DEFINITIONS ${hdf5_def} ${_win_def})
 
 # ================== Go4Analysis library ================= 
