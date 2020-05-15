@@ -256,12 +256,12 @@ set(QtRoot_headers
 
 add_subdirectory(Go4GUI)
 
-set(extra_libs Minuit Ged TreePlayer)
+set(extra_libs ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY})
 set(gui_defines)
 
 if(ROOT_x11_FOUND)
 
-   list(APPEND extra_libs Gui X11 Go4QtRoot)
+   list(APPEND extra_libs ${ROOT_Gui_LIBRARY} X11 Go4QtRoot)
    list(APPEND gui_defines -D__GO4X11__)
    
    add_subdirectory(Go4QtRoot)
@@ -277,7 +277,7 @@ endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
-   list(APPEND extra_libs RHTTP ROOTWebDisplay ROOTQt5WebDisplay WebGui6 WebGui6Full Go4WebRoot)
+   list(APPEND extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full Go4WebRoot)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 
@@ -292,14 +292,14 @@ if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
 endif()
 
-if(ROOT_asimage_FOUND)
-   list(APPEND extra_libs ASImage)
+if(ROOT_ASImage_LIBRARY)
+   list(APPEND extra_libs ${ROOT_ASImage_LIBRARY})
 else()
    list(APPEND gui_defines -D__NOGO4ASI__)
 endif()
 
-if(ROOT_spectrum_FOUND)
-   list(APPEND extra_libs Spectrum)
+if(ROOT_Spectrum_LIBRARY)
+   list(APPEND extra_libs ${ROOT_Spectrum_LIBRARY})
 endif()
 
 if(HDF5_FOUND)

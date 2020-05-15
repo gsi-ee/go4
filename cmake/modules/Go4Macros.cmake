@@ -1,4 +1,4 @@
-set(LIBS_BASESET ${ROOT_LIBRARIES} XMLIO)
+set(LIBS_BASESET ${ROOT_LIBRARIES} ${ROOT_XMLIO_LIBRARY})
 
 #---------------------------------------------------------------------------------------------------
 #---GO4_INSTALL_HEADERS([hdr1 hdr2 ...])
@@ -125,13 +125,13 @@ function(GO4_USER_ANALYSIS)
   
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-  set(go4_libs Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
 
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-  
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
+     set(go4_libs Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
      set(dict_depend ${go4_libs})
+  else()
+     set(go4_libs ${Go4Fit_LIBRARY} ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY} ${Go4TaskHandler_LIBRARY} ${Go4AnalysisBase_LIBRARY} ${Go4Analysis_LIBRARY})
+     
   endif()
 
   add_library(${libname}${tgt} SHARED ${ARG_SOURCES})

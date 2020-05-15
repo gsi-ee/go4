@@ -22,4 +22,4 @@ add_library(Go4UserGui SHARED
    QUserPanel.ui
 )
 
-target_link_libraries(Go4UserGui Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets Go4Widgets Go4WebRoot)
+target_link_libraries(Go4UserGui Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})

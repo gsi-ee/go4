@@ -31,4 +31,4 @@ add_library(Go4UserGui SHARED
    QUserPanel.ui
 )
 
-target_link_libraries(Go4UserGui ${qt_libs} Go4Widgets Go4QtRoot)
+target_link_libraries(Go4UserGui ${qt_libs} ${Go4Widgets_LIBRARY} ${Go4QtRoot_LIBRARY})

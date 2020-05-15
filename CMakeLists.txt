@@ -155,7 +155,7 @@ add_subdirectory(Go4Proxies)
 GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
                      DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
-                     LIBRARIES Gui)
+                     LIBRARIES ${ROOT_Gui_LIBRARY})
 
 if(DABC_FOUND)
    target_link_libraries(Go4Gui ${DABC_LIBRARY})

@@ -80,11 +80,11 @@ if(CMAKE_PROJECT_NAME STREQUAL Go4)
                         LINKDEF Go4FitLinkDef.h
                         HEADERS ${Go4Fit_headers}
                         SOURCES ${Go4Fit_sources}
-                        LIBRARIES Minuit Spectrum)
+                        LIBRARIES ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY})
 else()
    ROOT_LINKER_LIBRARY(Go4Fit ${Go4Fit_sources} 
                        TYPE SHARED 
-                       LIBRARIES Minuit Spectrum)
+                       LIBRARIES ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY})
 
    ROOT_GENERATE_DICTIONARY(G__Go4Fit ${Go4Fit_headers}
                             LINKDEF Go4FitLinkDef.h
