@@ -38,9 +38,7 @@ class TGo4PolyCond : public TGo4Condition {
         * the painter (i.e. view) can be exchanged before pad is updated. */
       virtual void SetPainter(TGo4ConditionPainter* painter);
 
-//      virtual void SetValues() {}
-//      virtual void SetValues(Double_t low1, Double_t up1) {}
-//      virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2) {}
+      using TGo4Condition::SetValues;
 
       /** Delete old cut and create a new cut with X,Y values. */
       virtual void SetValues(Double_t * x, Double_t * y, Int_t len);
@@ -51,9 +49,7 @@ class TGo4PolyCond : public TGo4Condition {
       /** Delete old cut and get ownership over newcut. */
       void SetValuesDirect(TCutG * newcut);
 
-//      virtual Bool_t Test() { return true; }
-//      virtual Bool_t Test(Double_t x) { return true; }
-//      virtual Bool_t Test(Bool_t on) { return true; }
+      using TGo4Condition::Test;
 
       /** Test if X,Y are inside. */
       virtual Bool_t Test(Double_t x, Double_t y);

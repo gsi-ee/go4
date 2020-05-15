@@ -71,9 +71,7 @@ class TGo4CondArray : public TGo4Condition {
      */
     TGo4Condition * operator[](Int_t i);
 
-   /** Noop, return true. */
-//    virtual Bool_t Test() { return true; }
-
+    using TGo4Condition::Test;
     /**
      * Test currently selected condition(single edit mode). In multi edit mode,
      * all conditions are tested with values and counters are incremented according result.
@@ -99,6 +97,8 @@ class TGo4CondArray : public TGo4Condition {
 
     /** Noop */
 //    virtual void SetValues() {}
+
+    using TGo4Condition::SetValues;
 
     /** Calls SetValues for all conditions (multi edit mode) or for currently selected (single edit mode). Window conditions only. */
     virtual void SetValues(Double_t low1, Double_t up1);

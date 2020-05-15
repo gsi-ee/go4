@@ -78,6 +78,7 @@ public:
     /** Will reset label position to defaults */
     void ResetLabel();// *MENU*
 
+    using TCutG::RemovePoint;
     virtual Int_t InsertPoint(); // *MENU*
     virtual Int_t RemovePoint(); // *MENU*
 

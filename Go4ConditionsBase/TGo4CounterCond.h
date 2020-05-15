@@ -23,15 +23,10 @@ class TGo4CounterCond : public TGo4Condition {
     virtual ~TGo4CounterCond();
 
     /** Noop */
+    using TGo4Condition::SetValues;
     virtual void SetValues() {}
-//    virtual void SetValues(Double_t low1, Double_t up1) {}
-//    virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2) {}
-//    virtual void SetValues(TCutG * newcut) {}
-//    virtual void SetValues(Double_t * x, Double_t * y, Int_t len) {}
 
-//    virtual Bool_t Test() { return true; }
-//    virtual Bool_t Test(Double_t x) { return true; }
-//    virtual Bool_t Test(Double_t x, Double_t y) { return true; }
+    using TGo4Condition::Test;
     virtual Bool_t Test(Bool_t result);
 
     void PrintCondition(Bool_t full);

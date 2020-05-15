@@ -34,11 +34,15 @@ class TGo4WinCond : public TGo4Condition {
         * the painter (i.e. view) can be exchanged before pad is updated. */
       virtual void SetPainter(TGo4ConditionPainter* painter);
 
+      using TGo4Condition::SetValues;
+
       /** Set limits and internal dimension to 1 */
       virtual void SetValues(Double_t low1, Double_t up1);
 
       /** Set limits and internal dimension to 2 */
       virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2);
+
+      using TGo4Condition::Test;
 
       /** Test v1 versus first limits: includes lower, excludes upper. */
       virtual Bool_t Test(Double_t v1);
