@@ -119,6 +119,13 @@ GO4 COMPILATION
   has additional capabilities, which are listed in the end of this README.
 
 
+GO4 COMPILATION WITH CMAKE
+
+ Create build directory and call
+
+     shell> cmake "path_to_source_dir"
+     shell> make -jN
+
 
 RUNNING GO4 GUI
 

@@ -1,0 +1,18 @@
+case "$-" in *i*) # Shell is interactive
+  echo Configure Go4 @GO4_VERSION@ at @CMAKE_BINARY_DIR@
+esac
+
+##### ROOT-related settings ###########
+export ROOTSYS=@GO4_ROOTDIR@
+export PATH=@GO4_ROOTDIR@/bin:$PATH
+export LD_LIBRARY_PATH=@GO4_ROOTDIR@/lib:$LD_LIBRARY_PATH
+export ROOT_INCLUDE_PATH=@CMAKE_BINARY_DIR@:@CMAKE_BINARY_DIR@/include:@GO4_ROOTDIR@/include:$ROOT_INCLUDE_PATH
+export PYTHONPATH=@GO4_ROOTDIR@/lib:$PYTHONPATH
+export CMAKE_PREFIX_PATH=@GO4_ROOTDIR@:$CMAKE_PREFIX_PATH
+
+##### Go4-related settings ###########
+export GO4SYS=@CMAKE_BINARY_DIR@
+export PATH=@CMAKE_BINARY_DIR@/bin:$PATH
+export LD_LIBRARY_PATH=.:@CMAKE_BINARY_DIR@/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=@CMAKE_BINARY_DIR@/python:$PYTHONPATH
+export CMAKE_PREFIX_PATH=@CMAKE_BINARY_DIR@:$CMAKE_PREFIX_PATH
