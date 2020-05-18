@@ -10,5 +10,6 @@ else()
 endif()
 
 GO4_LINK_LIBRARY(Go4Widgets
-                 SOURCES QGo4Widget.cpp QGo4LineEdit.cpp
-                 LIBRARIES ${qt_libs})
+                 SOURCES QGo4Widget.h QGo4Widget.cpp QGo4LineEdit.h QGo4LineEdit.cpp
+                 LIBRARIES ${qt_libs}
+                 DEFINITIONS GO4_BUILD_WIDGETS_LIB)

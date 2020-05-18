@@ -73,11 +73,11 @@ endfunction()
 #                     DEFINITIONS def1 def2      : library definitions
 #)
 function(GO4_LINK_LIBRARY libname)
-   cmake_parse_arguments(ARG "" "" "SOURCES;LIBRARIES;DEFINITIONS" ${ARGN})
+   cmake_parse_arguments(ARG "NOEXPORT" "" "SOURCES;LIBRARIES;DEFINITIONS" ${ARGN})
 
    add_library(${libname} SHARED ${ARG_SOURCES})
 
-   if(MSVC)
+   if(MSVC AND NOT ARG_NOEXPORT)
       set_target_properties(${libname} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
    endif()
    

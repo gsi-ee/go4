@@ -30,12 +30,12 @@ class QSignalMapper;
 
 #ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
-#define GO4_WIDGET_EXPORT QDESIGNER_WIDGET_EXPORT
+#define GO4_QWIDGET_EXPORT QDESIGNER_WIDGET_EXPORT
 #else
-#define GO4_WIDGET_EXPORT
+#define GO4_QWIDGET_EXPORT
 #endif
 
-class GO4_WIDGET_EXPORT  QGo4Widget : public QWidget {
+class GO4_QWIDGET_EXPORT  QGo4Widget : public QWidget {
 
    Q_OBJECT
 
