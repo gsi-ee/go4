@@ -3,8 +3,6 @@ GO4_INSTALL_HEADERS(
    QRootDialog.h
    QRootWindow.h
 )
-
-
 if(GO4_QTVERSION STREQUAL Qt4)
    set(qt_libs Qt4::QtGui)
 else()

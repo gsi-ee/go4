@@ -192,7 +192,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      ToggleAutoExec();
       virtual void      Update();
 
-      void 				BuildEditorWindow();
+      void              BuildEditorWindow();
 
       void              executeMenu(int id);
       void              processRepaintTimer();
