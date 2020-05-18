@@ -105,7 +105,6 @@ add_subdirectory(Go4StatusAnalysis)
 add_subdirectory(Go4Analysis)
 
 if(MSVC)
-   set(_win_def BUILDING_GO4BASE_DLL)
    set(_win_lib ws2_32.lib)
 #   $<$<PLATFORM_ID:Windows>:ws2_32.lib>
 endif()

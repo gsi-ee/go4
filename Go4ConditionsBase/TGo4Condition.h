@@ -33,20 +33,7 @@ enum ConditionsKind {
    kGO4CONDPOLYGON = 2
 };
 
-class
-
-#ifndef __CINT__
-#ifdef WIN32
-#ifdef BUILDING_GO4BASE_DLL
-__declspec(dllexport)
-#else
-__declspec(dllimport)
-#endif
-#endif
-#endif
-
-
-TGo4Condition : public TNamed, public TAttLine, public TAttFill {
+class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
   friend class TGo4CondArray;
 
