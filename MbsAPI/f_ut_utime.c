@@ -49,63 +49,36 @@
 /*-               14-apr-97 : POSIX now OK on Lynx /HE                */
 /*                            gcc -mposix4d9 -mthreads -DLynx         */
 /*1- C Procedure *************+****************************************/
-#ifdef Lynx
-#include <sys/types.h>
-#include <timeb.h>
-#else
-#include <sys/types.h>
-#include <sys/timeb.h>
-#endif
+
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
 
 INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
 {
-  struct timeb tp;
+  // struct timeb tp;
+  struct timespec tp;
   struct tm st_time;
   struct tm buf_time;
   CHARS c_allmon[37]="JanFebMarAprMayJunJulAugSepOctNovDec";
   CHARS c_mon[4];
   CHARS *pc_mon;
 
-  if(l_sec == 0)
-  {
+  if(l_sec == 0) {
     strcpy(pc_time,"no valid date");
-#ifdef VMS
-    return(1);
-#else
     return(0);
-#endif
   }
   *pc_time=0;
-  ftime(&tp);
-  if(l_sec > 0)
-  {
-    tp.time = l_sec;
-/*
-#ifdef VMS
-    tp.time = l_sec + 7200;
-#endif
-*/
-#ifdef Lynx
-    tp.time = l_sec + 86400; /* one day */
-#endif
-    tp.millitm = l_msec;
+  if (l_sec < 0) {
+     clock_gettime(CLOCK_REALTIME, &tp);
+     l_msec = tp.tv_nsec / 1000000;
+  } else {
+    tp.tv_sec = l_sec;
   }
-#ifdef Lynx
-  localtime_r(&st_time,&tp.time);
-  if(st_time.tm_mon > 2 && st_time.tm_mon < 9)    /* daylight saving ? */
-  {
-    tp.time+=3600;
-    localtime_r(&st_time,&tp.time);
-  }
-#else
 #ifdef WIN32
-  st_time=*localtime(&tp.time);
+  st_time=*localtime(&tp.tv_sec);
 #else
-  st_time = *localtime_r(&tp.time, &buf_time);
-#endif
+  st_time = *localtime_r(&tp.tv_sec, &buf_time);
 #endif
   pc_mon = (CHARS *) &c_allmon;
   pc_mon += (st_time.tm_mon * 3);
@@ -129,9 +102,5 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
     ,st_time.tm_min
     ,st_time.tm_sec
     ,l_msec/10);
-#ifdef VMS
-  return(1);
-#else
   return(0);
-#endif
 }
