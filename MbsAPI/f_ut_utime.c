@@ -51,8 +51,8 @@
 /*1- C Procedure *************+****************************************/
 
 #include <stdio.h>
-#include <time.h>
 #include <string.h>
+#include "f_ut_time.h"
 
 INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
 {

@@ -15,7 +15,6 @@
 #include <fcntl.h>
 #include <string.h>
 #include <memory.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -28,33 +27,21 @@
 #ifdef Linux /* Linux */
 #include <unistd.h>
 #include <pwd.h>
-#include <sys/timeb.h>
 #endif
 
 #ifdef Solaris /* Solaris */
 #include <unistd.h>
 #include <pwd.h>
-#include <sys/timeb.h>
 #endif
 
 #ifdef Darwin /* Max OS X */
 #include <unistd.h>
 #include <pwd.h>
-#include <sys/timeb.h>
 #define fgetpos64 fgetpos
 #define fopen64 fopen
 #define fseeko64 fseek
 #define fpos64_t fpos_t
-
-/* just some dummies for compilation, we will never write lmd with time header in go4
- * seems to be, no longer needed in actual MacOS */
-// #define CLOCK_REALTIME 1
-// int clock_gettime(int clockid, struct timespec *tp)
-// { return 0; }
-
 #endif
-
-
 
 #ifdef WIN32
 #include <WTypes.h>
@@ -64,46 +51,11 @@
 #define fopen64 fopen
 #define fseeko64 fseek
 #define fpos64_t fpos_t
-
-// No longer needed on Windows 10, MSVC 2019, SL: 9.01.2020
-// struct timespec {
-//   long   tv_sec;        /* seconds */
-//   long   tv_nsec;       /* nanoseconds */
-//};
-
-#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
-  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
-#else
-  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
-#endif
-
-#define CLOCK_REALTIME 1
-
-int clock_gettime(int clockid, struct timespec *tp)
-{
-   FILETIME ft;
-   unsigned __int64 tmpres = 0;
-
-   tp->tv_sec = 0;
-   tp->tv_nsec = 0;
-
-   GetSystemTimeAsFileTime(&ft);
-
-   tmpres |= ft.dwHighDateTime;
-   tmpres <<= 32;
-   tmpres |= ft.dwLowDateTime;
-
-   /*converting file time to unix epoch*/
-   tmpres /= 10;  /*convert into microseconds*/
-   tmpres -= DELTA_EPOCH_IN_MICROSECS;
-   tp->tv_sec = (long)(tmpres / 1000000UL);
-   tp->tv_nsec = (long)(tmpres % 1000000UL) * 1000;
-
-   return 0;
-}
 #endif
 
 #include "fLmd.h"
+#include "f_ut_time.h"
+
 
 int32_t  fLmdWriteBuffer(sLmdControl *, char *, uint32_t);
 uint32_t fLmdCleanup(sLmdControl *);

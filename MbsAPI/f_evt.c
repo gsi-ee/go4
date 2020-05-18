@@ -13,8 +13,7 @@
 
 #include "typedefs.h"
 #include "f_stccomm.h"
-
-
+#include "f_ut_time.h"
 
 #ifdef GSI__LYNX
 #undef unix
@@ -40,7 +39,6 @@
 #endif
 
 #ifdef GSI__WINNT
-#include <time.h>
 #include <memory.h>
 #include <sys/timeb.h>
 #include <sys/types.h>
@@ -74,7 +72,6 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -92,7 +89,6 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -110,7 +106,6 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -130,7 +125,6 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <time.h>
 #include <sys/types.h>
 #include <sys/mode.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */

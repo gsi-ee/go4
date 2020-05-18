@@ -8,6 +8,7 @@ set(MbsAPIbase_headers
    f_swaplw.h
    f_ut_compress.h
    f_ut_status.h
+   f_ut_time.h
    ml_def.h
    portnum_def.h
    sbs_def.h

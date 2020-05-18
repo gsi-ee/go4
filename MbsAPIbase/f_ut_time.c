@@ -51,8 +51,44 @@
 /*-             : 03-apr-97 : support VMS, AIX, DECunix, Lynx         */
 /*1- C Procedure *************+****************************************/
 
+#include "f_ut_time.h"
+
 #include <stdio.h>
-#include <time.h>
+
+#ifdef WIN32
+
+#include <sysinfoapi.h>
+
+#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
+#else
+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
+#endif
+
+int clock_gettime(int clockid, struct timespec *tp)
+{
+   FILETIME ft;
+   unsigned __int64 tmpres = 0;
+
+   tp->tv_sec = 0;
+   tp->tv_nsec = 0;
+
+   GetSystemTimeAsFileTime(&ft);
+
+   tmpres |= ft.dwHighDateTime;
+   tmpres <<= 32;
+   tmpres |= ft.dwLowDateTime;
+
+   /*converting file time to unix epoch*/
+   tmpres /= 10;  /*convert into microseconds*/
+   tmpres -= DELTA_EPOCH_IN_MICROSECS;
+   tp->tv_sec = (long)(tmpres / 1000000UL);
+   tp->tv_nsec = (long)(tmpres % 1000000UL) * 1000;
+
+   return 0;
+}
+
+#endif
 
 CHARS *f_ut_time (CHARS *pc_time)
 {
