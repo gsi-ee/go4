@@ -50,45 +50,26 @@
 /*+ Updates     : Date        Purpose                                 */
 /*-             : 03-apr-97 : support VMS, AIX, DECunix, Lynx         */
 /*1- C Procedure *************+****************************************/
-#ifdef Lynx
-#include <types.h>
-#include <timeb.h>
-#else
-#include <sys/types.h>
-#include <sys/timeb.h>
-#endif
+
 #include <stdio.h>
 #include <time.h>
 
-CHARS     *f_ut_time (CHARS *pc_time)
+CHARS *f_ut_time (CHARS *pc_time)
 {
-
-  struct timeb tp;
+  struct timespec tp;
   struct tm st_time;
 #ifndef WIN32
   struct tm buf_time;
 #endif
 
-  ftime (&tp);
+  clock_gettime(CLOCK_REALTIME, &tp);
 
-#ifdef Lynx
-/* Note: due to an error in POSIX Version of localtime, 1 day has to be */
-/* added to get the correct date. During daylight saving period 1 hour */
-/* has to be added additionally                                         */
-  tp.time+=86400; /* add 1 day */
-  localtime_r(&st_time,&tp.time);
-  if(st_time.tm_mon > 2 && st_time.tm_mon < 9)    /* daylight saving ? */
-  {
-    tp.time+=3600;
-    localtime_r(&st_time,&tp.time);
-  }
-#else
 #ifdef WIN32
-  st_time=*localtime(&tp.time);
+  st_time = *localtime(&tp.tv_sec);
 #else
-  st_time=*localtime_r(&tp.time, &buf_time);
+  st_time = *localtime_r(&tp.tv_sec, &buf_time);
 #endif
-#endif
+
   strftime(pc_time,30,"%d-%h-%y %T",&st_time);
   return ((CHARS *) pc_time);
 }
