@@ -17,7 +17,7 @@ else()
    if(NOT Qt5_FOUND)
       message(FATAL_ERROR "Could NOT find Qt5")
    endif()
-   set(qt_libs Qt5::Widgets Qt5::Network)
+   set(qt_libs Qt5::Core Qt5::Widgets Qt5::Network)
 endif()
 
 

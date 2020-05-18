@@ -14,11 +14,9 @@ find_package(Qt5 COMPONENTS Widgets WebEngine WebEngineWidgets)
 if(NOT Qt5_FOUND)
   message(FATAL_ERROR "Could NOT find Qt5")
 endif()
-set(qt_libs Qt5::Widgets)
-
 
 GO4_LINK_LIBRARY(Go4UserGui 
                  SOURCES QUserPanel.cpp QUserPanel.ui
                  LIBRARIES 
-                     Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets 
+                     Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets 
                      ${ROOT_LIBRARIES} ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})

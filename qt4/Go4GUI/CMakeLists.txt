@@ -4,9 +4,9 @@ GO4_INSTALL_HEADERS(
 )
 
 if(GO4_QTVERSION STREQUAL Qt4)
-   set(qt_libs Qt4::QtGui)
+   set(qt_libs Qt4::QtCore Qt4::QtGui)
 else()
-   set(qt_libs Qt5::Widgets)
+   set(qt_libs Qt5::Core Qt5::Widgets)
 endif()
 
 GO4_LINK_LIBRARY(Go4Widgets
