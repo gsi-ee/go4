@@ -675,6 +675,41 @@ void TGo4Condition::InitLabelStyle()
    fxNumFormat=TGo4Condition::fgxNUMFORMAT;
 }
 
+void TGo4Condition::SetGlobalStyle(Bool_t LABELDRAW, Bool_t LIMITSDRAW, Bool_t INTDRAW,
+                           Bool_t XMEANDRAW, Bool_t YMEANDRAW, Bool_t XRMSDRAW, Bool_t YRMSDRAW,
+                           Bool_t XMAXDRAW, Bool_t YMAXDRAW, Bool_t CMAXDRAW, const char *NUMFORMAT)
+{
+   TGo4Condition::fgbLABELDRAW = LABELDRAW;
+   TGo4Condition::fgbLIMITSDRAW = LIMITSDRAW;
+   TGo4Condition::fgbINTDRAW = INTDRAW;
+   TGo4Condition::fgbXMEANDRAW = XMEANDRAW;
+   TGo4Condition::fgbYMEANDRAW = YMEANDRAW;
+   TGo4Condition::fgbXRMSDRAW = XRMSDRAW;
+   TGo4Condition::fgbYRMSDRAW = YRMSDRAW;
+   TGo4Condition::fgbXMAXDRAW = XMAXDRAW;
+   TGo4Condition::fgbYMAXDRAW = YMAXDRAW;
+   TGo4Condition::fgbCMAXDRAW = CMAXDRAW;
+   TGo4Condition::fgxNUMFORMAT = NUMFORMAT;
+}
+
+void TGo4Condition::GetGlobalStyle(Bool_t &LABELDRAW, Bool_t &LIMITSDRAW, Bool_t &INTDRAW,
+                                   Bool_t &XMEANDRAW, Bool_t &YMEANDRAW, Bool_t &XRMSDRAW, Bool_t &YRMSDRAW,
+                                   Bool_t &XMAXDRAW, Bool_t &YMAXDRAW, Bool_t &CMAXDRAW, TString &NUMFORMAT)
+{
+   LABELDRAW = TGo4Condition::fgbLABELDRAW;
+   LIMITSDRAW = TGo4Condition::fgbLIMITSDRAW;
+   INTDRAW = TGo4Condition::fgbINTDRAW;
+   XMEANDRAW = TGo4Condition::fgbXMEANDRAW;
+   YMEANDRAW = TGo4Condition::fgbYMEANDRAW;
+   XRMSDRAW = TGo4Condition::fgbXRMSDRAW;
+   YRMSDRAW = TGo4Condition::fgbYRMSDRAW;
+   XMAXDRAW = TGo4Condition::fgbXMAXDRAW;
+   YMAXDRAW = TGo4Condition::fgbYMAXDRAW;
+   CMAXDRAW = TGo4Condition::fgbCMAXDRAW;
+   NUMFORMAT = TGo4Condition::fgxNUMFORMAT;
+}
+
+
 void TGo4Condition::ResetLabel(Option_t* opt)
 {
    if(fxPainter) {

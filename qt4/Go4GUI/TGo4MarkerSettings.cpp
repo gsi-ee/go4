@@ -19,22 +19,27 @@ TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
    setObjectName("Go4MarkerSettings");
    setupUi(this);
     // regions:
-    DrawLabelButton->setChecked(TGo4Condition::fgbLABELDRAW);
-    DrawIntButton->setChecked(TGo4Condition::fgbINTDRAW);
-    DrawLimButton->setChecked(TGo4Condition::fgbLIMITSDRAW);
-    DrawCountsButton->setChecked(TGo4Condition::fgbCMAXDRAW);
-    DrawYrmsButton->setChecked(TGo4Condition::fgbYRMSDRAW);
-    DrawXrmsButton->setChecked(TGo4Condition::fgbXRMSDRAW);
-    DrawXmaxButton->setChecked(TGo4Condition::fgbXMAXDRAW);
-    DrawYmaxButton->setChecked(TGo4Condition::fgbYMAXDRAW);
-    DrawXmeanButton->setChecked(TGo4Condition::fgbXMEANDRAW);
-    DrawYmeanButton->setChecked(TGo4Condition::fgbYMEANDRAW);
-
-    WLabelFormatEdit->setText(TGo4Condition::fgxNUMFORMAT.Data());
+   Bool_t LABELDRAW, LIMITSDRAW, INTDRAW,
+          XMEANDRAW, YMEANDRAW, XRMSDRAW, YRMSDRAW,
+          XMAXDRAW, YMAXDRAW, CMAXDRAW;
+   TString NUMFORMAT;
+   TGo4Condition::GetGlobalStyle(LABELDRAW, LIMITSDRAW, INTDRAW,
+                                 XMEANDRAW, YMEANDRAW, XRMSDRAW, YRMSDRAW,
+                                 XMAXDRAW, YMAXDRAW, CMAXDRAW, NUMFORMAT);
+    DrawLabelButton->setChecked(LABELDRAW);
+    DrawLimButton->setChecked(LIMITSDRAW);
+    DrawIntButton->setChecked(INTDRAW);
+    DrawXmeanButton->setChecked(XMEANDRAW);
+    DrawYmeanButton->setChecked(YMEANDRAW);
+    DrawXrmsButton->setChecked(XRMSDRAW);
+    DrawYrmsButton->setChecked(YRMSDRAW);
+    DrawXmaxButton->setChecked(XMAXDRAW);
+    DrawYmaxButton->setChecked(YMAXDRAW);
+    DrawCountsButton->setChecked(CMAXDRAW);
+    WLabelFormatEdit->setText(NUMFORMAT.Data());
 
     // point markers:
     Bool_t HASLABEL, HASCONNECTOR, XDRAW, YDRAW, XBINDRAW, YBINDRAW, CONTDRAW;
-    TString NUMFORMAT;
     TGo4Marker::GetGlobalStyle(HASLABEL, HASCONNECTOR, XDRAW, YDRAW,
                                XBINDRAW, YBINDRAW, CONTDRAW, NUMFORMAT);
 
@@ -51,17 +56,17 @@ TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
 
 void TGo4MarkerSettings::setFlags()
 {
-    TGo4Condition::fgbLABELDRAW=DrawLabelButton->isChecked();
-    TGo4Condition::fgbINTDRAW=DrawIntButton->isChecked();
-    TGo4Condition::fgbLIMITSDRAW=DrawLimButton->isChecked();
-    TGo4Condition::fgbCMAXDRAW=DrawCountsButton->isChecked();
-    TGo4Condition::fgbYRMSDRAW=DrawYrmsButton->isChecked();
-    TGo4Condition::fgbXRMSDRAW=DrawXrmsButton->isChecked();
-    TGo4Condition::fgbXMAXDRAW=DrawXmaxButton->isChecked();
-    TGo4Condition::fgbYMAXDRAW=DrawYmaxButton->isChecked();
-    TGo4Condition::fgbXMEANDRAW=DrawXmeanButton->isChecked();
-    TGo4Condition::fgbYMEANDRAW=DrawYmeanButton->isChecked();
-    TGo4Condition::fgxNUMFORMAT = WLabelFormatEdit->text().toLatin1().constData();
+   TGo4Condition::SetGlobalStyle(DrawLabelButton->isChecked(),
+                                 DrawLimButton->isChecked(),
+                                 DrawIntButton->isChecked(),
+                                 DrawXmeanButton->isChecked(),
+                                 DrawYmeanButton->isChecked(),
+                                 DrawXrmsButton->isChecked(),
+                                 DrawYrmsButton->isChecked(),
+                                 DrawXmaxButton->isChecked(),
+                                 DrawYmaxButton->isChecked(),
+                                 DrawCountsButton->isChecked(),
+                                 WLabelFormatEdit->text().toLatin1().constData());
 
     TGo4Marker::SetGlobalStyle(DrawPLabelButton->isChecked(),
                                DrawPConnectorButton->isChecked(),

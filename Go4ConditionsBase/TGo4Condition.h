@@ -397,6 +397,13 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
    /** web condition editor keyword used in UpdateFromUrl. */
    static TString fgxURL_CMAX;
 
+   static void SetGlobalStyle(Bool_t LABELDRAW, Bool_t LIMITSDRAW, Bool_t INTDRAW,
+                              Bool_t XMEANDRAW, Bool_t YMEANDRAW, Bool_t XRMSDRAW, Bool_t YRMSDRAW,
+                              Bool_t XMAXDRAW, Bool_t YMAXDRAW, Bool_t CMAXDRAW, const char *NUMFORMAT);
+
+   static void GetGlobalStyle(Bool_t &LABELDRAW, Bool_t &LIMITSDRAW, Bool_t &INTDRAW,
+                              Bool_t &XMEANDRAW, Bool_t &YMEANDRAW, Bool_t &XRMSDRAW, Bool_t &YRMSDRAW,
+                              Bool_t &XMAXDRAW, Bool_t &YMAXDRAW, Bool_t &CMAXDRAW, TString &NUMFORMAT);
 
   protected:
 

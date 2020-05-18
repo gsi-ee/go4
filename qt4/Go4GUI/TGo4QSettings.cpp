@@ -131,17 +131,23 @@ void TGo4QSettings::setBasicSettings()
    setBool("/markers/ShowBinContent", CONTDRAW);
    setStr("/markers/LabelNumberFormat", NUMFORMAT.Data());
 
-   setBool("/conditions/Conditionlabel", TGo4Condition::fgbLABELDRAW);
-   setBool("/conditions/ShowLimits", TGo4Condition::fgbLIMITSDRAW);
-   setBool("/conditions/ShowIntegral", TGo4Condition::fgbINTDRAW);
-   setBool("/conditions/ShowXmean", TGo4Condition::fgbXMEANDRAW);
-   setBool("/conditions/ShowYmean", TGo4Condition::fgbYMEANDRAW);
-   setBool("/conditions/ShowXrms", TGo4Condition::fgbXRMSDRAW);
-   setBool("/conditions/ShowYrms", TGo4Condition::fgbYRMSDRAW);
-   setBool("/conditions/ShowXmax", TGo4Condition::fgbXMAXDRAW);
-   setBool("/conditions/ShowYmax", TGo4Condition::fgbYMAXDRAW);
-   setBool("/conditions/ShowCmax", TGo4Condition::fgbCMAXDRAW);
-   setStr("/conditions/LabelNumberFormat", TGo4Condition::fgxNUMFORMAT.Data());
+   Bool_t LABELDRAW, LIMITSDRAW, INTDRAW,
+          XMEANDRAW, YMEANDRAW, XRMSDRAW, YRMSDRAW,
+          XMAXDRAW, YMAXDRAW, CMAXDRAW;
+   TGo4Condition::GetGlobalStyle(LABELDRAW, LIMITSDRAW, INTDRAW,
+                                 XMEANDRAW, YMEANDRAW, XRMSDRAW, YRMSDRAW,
+                                 XMAXDRAW, YMAXDRAW, CMAXDRAW, NUMFORMAT);
+   setBool("/conditions/Conditionlabel", LABELDRAW);
+   setBool("/conditions/ShowLimits", LIMITSDRAW);
+   setBool("/conditions/ShowIntegral", INTDRAW);
+   setBool("/conditions/ShowXmean", XMEANDRAW);
+   setBool("/conditions/ShowYmean", YMEANDRAW);
+   setBool("/conditions/ShowXrms", XRMSDRAW);
+   setBool("/conditions/ShowYrms", YRMSDRAW);
+   setBool("/conditions/ShowXmax", XMAXDRAW);
+   setBool("/conditions/ShowYmax", YMAXDRAW);
+   setBool("/conditions/ShowCmax", CMAXDRAW);
+   setStr("/conditions/LabelNumberFormat", NUMFORMAT.Data());
 }
 
 void TGo4QSettings::getBasicSettings()
@@ -162,17 +168,17 @@ void TGo4QSettings::getBasicSettings()
                               getBool("/markers/ShowBinContent", 1),
                               getStr("/markers/LabelNumberFormat", "%.4E").toLatin1().constData());
 
-   TGo4Condition::fgbLABELDRAW = getBool("/conditions/Conditionlabel", 1);
-   TGo4Condition::fgbLIMITSDRAW= getBool("/conditions/ShowLimits", 1);
-   TGo4Condition::fgbINTDRAW   = getBool("/conditions/ShowIntegral", 1);
-   TGo4Condition::fgbXMEANDRAW = getBool("/conditions/ShowXmean", 1);
-   TGo4Condition::fgbYMEANDRAW = getBool("/conditions/ShowYmean", 0);
-   TGo4Condition::fgbXRMSDRAW  = getBool("/conditions/ShowXrms", 1);
-   TGo4Condition::fgbYRMSDRAW  = getBool("/conditions/ShowYrms", 0);
-   TGo4Condition::fgbXMAXDRAW  = getBool("/conditions/ShowXmax", 1);
-   TGo4Condition::fgbYMAXDRAW  = getBool("/conditions/ShowYmax", 0);
-   TGo4Condition::fgbCMAXDRAW  = getBool("/conditions/ShowCmax", 1);
-   TGo4Condition::fgxNUMFORMAT = getStr("/conditions/LabelNumberFormat", "%.4E").toLatin1().constData();
+   TGo4Condition::SetGlobalStyle(getBool("/conditions/Conditionlabel", 1),
+                                 getBool("/conditions/ShowLimits", 1),
+                                 getBool("/conditions/ShowIntegral", 1),
+                                 getBool("/conditions/ShowXmean", 1),
+                                 getBool("/conditions/ShowYmean", 0),
+                                 getBool("/conditions/ShowXrms", 1),
+                                 getBool("/conditions/ShowYrms", 0),
+                                 getBool("/conditions/ShowXmax", 1),
+                                 getBool("/conditions/ShowYmax", 0),
+                                 getBool("/conditions/ShowCmax", 1),
+                                 getStr("/conditions/LabelNumberFormat", "%.4E").toLatin1().constData());
 }
 
 
