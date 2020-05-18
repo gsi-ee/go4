@@ -22,16 +22,16 @@
 #include "TGo4MarkerPainter.h"
 #include "TGo4Log.h"
 
-UInt_t TGo4Marker::fguInstanceCounter=0;
+UInt_t TGo4Marker::fguInstanceCounter = 0;
 
-Bool_t TGo4Marker::fgbHASLABEL=kTRUE;
-Bool_t TGo4Marker::fgbHASCONNECTOR=kTRUE;
-Bool_t TGo4Marker::fgbXDRAW=kTRUE;
-Bool_t TGo4Marker::fgbYDRAW=kTRUE;
-Bool_t TGo4Marker::fgbXBINDRAW=kFALSE;
-Bool_t TGo4Marker::fgbYBINDRAW=kFALSE;
-Bool_t TGo4Marker::fgbCONTDRAW=kTRUE;
-TString TGo4Marker::fgxNUMFORMAT="%.4E";
+Bool_t TGo4Marker::fgbHASLABEL = kTRUE;
+Bool_t TGo4Marker::fgbHASCONNECTOR = kTRUE;
+Bool_t TGo4Marker::fgbXDRAW = kTRUE;
+Bool_t TGo4Marker::fgbYDRAW = kTRUE;
+Bool_t TGo4Marker::fgbXBINDRAW = kFALSE;
+Bool_t TGo4Marker::fgbYBINDRAW = kFALSE;
+Bool_t TGo4Marker::fgbCONTDRAW = kTRUE;
+TString TGo4Marker::fgxNUMFORMAT = "%.4E";
 
 
 Int_t TGo4Marker::GetInstances()
@@ -278,6 +278,34 @@ void TGo4Marker::InitLabelStyle()
    fbContDraw = TGo4Marker::fgbCONTDRAW;
    fxNumFormat = TGo4Marker::fgxNUMFORMAT;
 }
+
+void TGo4Marker::SetGlobalStyle(Bool_t HASLABEL, Bool_t HASCONNECTOR, Bool_t XDRAW, Bool_t YDRAW,
+                                Bool_t XBINDRAW, Bool_t YBINDRAW, Bool_t CONTDRAW, const char *NUMFORMAT)
+{
+   TGo4Marker::fgbHASLABEL = HASLABEL;
+   TGo4Marker::fgbHASCONNECTOR = HASCONNECTOR;
+   TGo4Marker::fgbXDRAW = XDRAW;
+   TGo4Marker::fgbYDRAW = YDRAW;
+   TGo4Marker::fgbXBINDRAW = XBINDRAW;
+   TGo4Marker::fgbYBINDRAW = YBINDRAW;
+   TGo4Marker::fgbCONTDRAW = CONTDRAW;
+   TGo4Marker::fgxNUMFORMAT = NUMFORMAT;
+
+}
+
+void TGo4Marker::GetGlobalStyle(Bool_t &HASLABEL, Bool_t &HASCONNECTOR, Bool_t &XDRAW, Bool_t &YDRAW,
+                                Bool_t &XBINDRAW, Bool_t &YBINDRAW, Bool_t &CONTDRAW, TString &NUMFORMAT)
+{
+   HASLABEL = TGo4Marker::fgbHASLABEL;
+   HASCONNECTOR = TGo4Marker::fgbHASCONNECTOR;
+   XDRAW = TGo4Marker::fgbXDRAW;
+   YDRAW = TGo4Marker::fgbYDRAW;
+   XBINDRAW = TGo4Marker::fgbXBINDRAW;
+   YBINDRAW = TGo4Marker::fgbYBINDRAW;
+   CONTDRAW = TGo4Marker::fgbCONTDRAW;
+   NUMFORMAT = TGo4Marker::fgxNUMFORMAT;
+}
+
 
 void TGo4Marker::ResetLabel()
 {

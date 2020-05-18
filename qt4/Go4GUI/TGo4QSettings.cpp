@@ -117,15 +117,19 @@ double TGo4QSettings::getDouble(const QString& name, double def)
 void TGo4QSettings::setBasicSettings()
 {
    //writeEntry( "/Font", QApplication::font().toString() );
+   Bool_t HASLABEL, HASCONNECTOR, XDRAW, YDRAW, XBINDRAW, YBINDRAW, CONTDRAW;
+   TString NUMFORMAT;
+   TGo4Marker::GetGlobalStyle(HASLABEL, HASCONNECTOR, XDRAW, YDRAW,
+                              XBINDRAW, YBINDRAW, CONTDRAW, NUMFORMAT);
 
-   setBool("/markers/Markerlabel", TGo4Marker::fgbHASLABEL);
-   setBool("/markers/Connectorline", TGo4Marker::fgbHASCONNECTOR);
-   setBool("/markers/ShowX", TGo4Marker::fgbXDRAW);
-   setBool("/markers/ShowY", TGo4Marker::fgbYDRAW);
-   setBool("/markers/ShowXbin", TGo4Marker::fgbXBINDRAW);
-   setBool("/markers/ShowYbin", TGo4Marker::fgbYBINDRAW);
-   setBool("/markers/ShowBinContent", TGo4Marker::fgbCONTDRAW);
-   setStr("/markers/LabelNumberFormat", TGo4Marker::fgxNUMFORMAT.Data());
+   setBool("/markers/Markerlabel", HASLABEL);
+   setBool("/markers/Connectorline", HASCONNECTOR);
+   setBool("/markers/ShowX", XDRAW);
+   setBool("/markers/ShowY", YDRAW);
+   setBool("/markers/ShowXbin", XBINDRAW);
+   setBool("/markers/ShowYbin", YBINDRAW);
+   setBool("/markers/ShowBinContent", CONTDRAW);
+   setStr("/markers/LabelNumberFormat", NUMFORMAT.Data());
 
    setBool("/conditions/Conditionlabel", TGo4Condition::fgbLABELDRAW);
    setBool("/conditions/ShowLimits", TGo4Condition::fgbLIMITSDRAW);
@@ -138,7 +142,6 @@ void TGo4QSettings::setBasicSettings()
    setBool("/conditions/ShowYmax", TGo4Condition::fgbYMAXDRAW);
    setBool("/conditions/ShowCmax", TGo4Condition::fgbCMAXDRAW);
    setStr("/conditions/LabelNumberFormat", TGo4Condition::fgxNUMFORMAT.Data());
-
 }
 
 void TGo4QSettings::getBasicSettings()
@@ -150,14 +153,14 @@ void TGo4QSettings::getBasicSettings()
    //   font.fromString(readEntry( "/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
    //   QApplication::setFont(font, true );
 
-   TGo4Marker::fgbHASLABEL     = getBool("/markers/Markerlabel", 1);
-   TGo4Marker::fgbHASCONNECTOR = getBool("/markers/Connectorline", 1);;
-   TGo4Marker::fgbXDRAW        = getBool("/markers/ShowX", 1);
-   TGo4Marker::fgbYDRAW        = getBool("/markers/ShowY", 0);
-   TGo4Marker::fgbXBINDRAW     = getBool("/markers/ShowXbin", 0);
-   TGo4Marker::fgbYBINDRAW     = getBool("/markers/ShowYbin", 0);
-   TGo4Marker::fgbCONTDRAW     = getBool("/markers/ShowBinContent", 1);
-   TGo4Marker::fgxNUMFORMAT    = getStr("/markers/LabelNumberFormat", "%.4E").toLatin1().data();
+   TGo4Marker::SetGlobalStyle(getBool("/markers/Markerlabel", 1),
+                              getBool("/markers/Connectorline", 1),
+                              getBool("/markers/ShowX", 1),
+                              getBool("/markers/ShowY", 0),
+                              getBool("/markers/ShowXbin", 0),
+                              getBool("/markers/ShowYbin", 0),
+                              getBool("/markers/ShowBinContent", 1),
+                              getStr("/markers/LabelNumberFormat", "%.4E").toLatin1().constData());
 
    TGo4Condition::fgbLABELDRAW = getBool("/conditions/Conditionlabel", 1);
    TGo4Condition::fgbLIMITSDRAW= getBool("/conditions/ShowLimits", 1);
@@ -169,7 +172,7 @@ void TGo4QSettings::getBasicSettings()
    TGo4Condition::fgbXMAXDRAW  = getBool("/conditions/ShowXmax", 1);
    TGo4Condition::fgbYMAXDRAW  = getBool("/conditions/ShowYmax", 0);
    TGo4Condition::fgbCMAXDRAW  = getBool("/conditions/ShowCmax", 1);
-   TGo4Condition::fgxNUMFORMAT   = getStr("/conditions/LabelNumberFormat", "%.4E").toLatin1().data();
+   TGo4Condition::fgxNUMFORMAT = getStr("/conditions/LabelNumberFormat", "%.4E").toLatin1().constData();
 }
 
 

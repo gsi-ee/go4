@@ -33,18 +33,19 @@ TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
     WLabelFormatEdit->setText(TGo4Condition::fgxNUMFORMAT.Data());
 
     // point markers:
-    DrawPLabelButton->setChecked(TGo4Marker::fgbHASLABEL);
-    DrawPConnectorButton->setChecked(TGo4Marker::fgbHASCONNECTOR);
-    DrawPXButton->setChecked(TGo4Marker::fgbXDRAW);
-    DrawPYButton->setChecked(TGo4Marker::fgbYDRAW);
-    DrawPXbinButton->setChecked(TGo4Marker::fgbXBINDRAW);
-    DrawPYbinButton->setChecked(TGo4Marker::fgbYBINDRAW);
-    DrawPCountsButton->setChecked(TGo4Marker::fgbCONTDRAW);
+    Bool_t HASLABEL, HASCONNECTOR, XDRAW, YDRAW, XBINDRAW, YBINDRAW, CONTDRAW;
+    TString NUMFORMAT;
+    TGo4Marker::GetGlobalStyle(HASLABEL, HASCONNECTOR, XDRAW, YDRAW,
+                               XBINDRAW, YBINDRAW, CONTDRAW, NUMFORMAT);
 
-    PLabelFormatEdit->setText(TGo4Marker::fgxNUMFORMAT.Data());
-
-
-
+    DrawPLabelButton->setChecked(HASLABEL);
+    DrawPConnectorButton->setChecked(HASCONNECTOR);
+    DrawPXButton->setChecked(XDRAW);
+    DrawPYButton->setChecked(YDRAW);
+    DrawPXbinButton->setChecked(XBINDRAW);
+    DrawPYbinButton->setChecked(YBINDRAW);
+    DrawPCountsButton->setChecked(CONTDRAW);
+    PLabelFormatEdit->setText(NUMFORMAT.Data());
 }
 
 
@@ -60,18 +61,15 @@ void TGo4MarkerSettings::setFlags()
     TGo4Condition::fgbYMAXDRAW=DrawYmaxButton->isChecked();
     TGo4Condition::fgbXMEANDRAW=DrawXmeanButton->isChecked();
     TGo4Condition::fgbYMEANDRAW=DrawYmeanButton->isChecked();
+    TGo4Condition::fgxNUMFORMAT = WLabelFormatEdit->text().toLatin1().constData();
 
-    TGo4Condition::fgxNUMFORMAT=(const char*)  (WLabelFormatEdit->text().toLatin1());
-
-    TGo4Marker::fgbHASLABEL=DrawPLabelButton->isChecked();
-    TGo4Marker::fgbHASCONNECTOR=DrawPConnectorButton->isChecked();
-    TGo4Marker::fgbXDRAW=DrawPXButton->isChecked();
-    TGo4Marker::fgbYDRAW=DrawPYButton->isChecked();
-    TGo4Marker::fgbXBINDRAW=DrawPXbinButton->isChecked();
-    TGo4Marker::fgbYBINDRAW=DrawPYbinButton->isChecked();
-    TGo4Marker::fgbCONTDRAW=DrawPCountsButton->isChecked();
-
-    TGo4Marker::fgxNUMFORMAT=(const char*) (PLabelFormatEdit->text().toLatin1());
-
+    TGo4Marker::SetGlobalStyle(DrawPLabelButton->isChecked(),
+                               DrawPConnectorButton->isChecked(),
+                               DrawPXButton->isChecked(),
+                               DrawPYButton->isChecked(),
+                               DrawPXbinButton->isChecked(),
+                               DrawPYbinButton->isChecked(),
+                               DrawPCountsButton->isChecked(),
+                               PLabelFormatEdit->text().toLatin1().constData());
 
 }

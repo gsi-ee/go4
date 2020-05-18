@@ -164,6 +164,12 @@ public:
    /** default setting for all conditions with format string for numbers. */
    static TString fgxNUMFORMAT;
 
+   static void SetGlobalStyle(Bool_t HASLABEL, Bool_t HASCONNECTOR, Bool_t XDRAW, Bool_t YDRAW,
+                              Bool_t XBINDRAW,Bool_t YBINDRAW,Bool_t CONTDRAW, const char *NUMFORMAT);
+
+   static void GetGlobalStyle(Bool_t &HASLABEL, Bool_t &HASCONNECTOR, Bool_t &XDRAW, Bool_t &YDRAW,
+                              Bool_t &XBINDRAW, Bool_t &YBINDRAW, Bool_t &CONTDRAW, TString &NUMFORMAT);
+
 protected:
 
    /** Painter instance to display the condition in root pad. To
