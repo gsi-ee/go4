@@ -44,15 +44,7 @@ class TLogTimer;
  */
 
 
-#ifdef __CINT__
 class TGo4Log {
-#else
-#ifdef GO4_EXPORT
-class __declspec(dllimport) TGo4Log {
-#else
-class TGo4Log {
-#endif
-#endif
 
    public:
       static TGo4Log *Instance();
