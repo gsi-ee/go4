@@ -16,25 +16,11 @@
 
 #include <QWidget>
 
-
-#ifdef WIN32
-
-#ifdef GO4_EXPORT
-#define GO4_CLASS_EXPORT  __declspec(dllexport)
-#else
-#define GO4_CLASS_EXPORT  __declspec(dllimport)
-#endif
-
-#else
-
-#define GO4_CLASS_EXPORT
-
-#endif
-
 #ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
+#define GO4_WIDGET_EXPORT QDESIGNER_WIDGET_EXPORT
 #else
-#define QDESIGNER_WIDGET_EXPORT GO4_CLASS_EXPORT
+#define GO4_WIDGET_EXPORT
 #endif
 
 #include "Rtypes.h"
@@ -68,7 +54,7 @@ class QStatusBar;
   * @version 2.0
   */
 
-class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
+class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
    Q_OBJECT
 

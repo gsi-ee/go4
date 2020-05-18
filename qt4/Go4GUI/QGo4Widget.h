@@ -33,26 +33,14 @@ class QMenu;
 class QAction;
 class QSignalMapper;
 
-#ifdef WIN32
-
-#ifdef GO4_EXPORT
-#define GO4_CLASS_EXPORT  __declspec(dllexport)
-#else
-#define GO4_CLASS_EXPORT  __declspec(dllimport)
-#endif
-
-#else
-
-#define GO4_CLASS_EXPORT
-
-#endif
-
 #ifdef __GO4DESIGNER__
 #include <QtDesigner/QDesignerExportWidget>
-class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
+#define GO4_WIDGET_EXPORT QDESIGNER_WIDGET_EXPORT
 #else
-class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
+#define GO4_WIDGET_EXPORT
 #endif
+
+class GO4_WIDGET_EXPORT  QGo4Widget : public QWidget {
 
    Q_OBJECT
 
