@@ -261,6 +261,8 @@ if(MSVC)
 endif()
 
 set(gui_install_headers)
+set(gui_extra_libs)
+set(gui_defines)
 
 if(_plain_gui)
   list(APPEND Go4GUI_headers Go4GUI/QGo4Widget.h Go4GUI/QGo4LineEdit.h)
@@ -268,15 +270,12 @@ if(_plain_gui)
   list(APPEND gui_install_headers Go4GUI/QGo4Widget.h Go4GUI/QGo4LineEdit.h)
 else()
   add_subdirectory(Go4GUI)
-  list(APPEND extra_libs Go4Widgets)
+  list(APPEND gui_extra_libs Go4Widgets)
 endif()
 
-set(extra_libs ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY})
-set(gui_defines)
 
 if(ROOT_x11_FOUND)
-
-   list(APPEND extra_libs ${ROOT_Gui_LIBRARY} X11)
+   list(APPEND gui_extra_libs ${ROOT_Gui_LIBRARY} X11)
    list(APPEND gui_defines -D__GO4X11__)
    
    if(_plain_gui)
@@ -286,14 +285,14 @@ if(ROOT_x11_FOUND)
       set(_qtroot_depend go4)
    else()
       add_subdirectory(Go4QtRoot)
-      list(APPEND extra_libs Go4QtRoot)
+      list(APPEND gui_extra_libs Go4QtRoot)
       set(_qtroot_depend Go4Widgets Go4QtRoot)
    endif()
 endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
-   list(APPEND extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full)
+   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 
@@ -304,19 +303,19 @@ if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
       set(_webroot_depend go4)
    else()
       add_subdirectory(Go4Web)
-      list(APPEND extra_libs Go4WebRoot)
+      list(APPEND gui_extra_libs Go4WebRoot)
       set(_webroot_depend Go4Widgets Go4WebRoot)
    endif()
 endif()
 
 if(ROOT_ASImage_LIBRARY)
-   list(APPEND extra_libs ${ROOT_ASImage_LIBRARY})
+   list(APPEND gui_extra_libs ${ROOT_ASImage_LIBRARY})
 else()
    list(APPEND gui_defines -D__NOGO4ASI__)
 endif()
 
 if(ROOT_Spectrum_LIBRARY)
-   list(APPEND extra_libs ${ROOT_Spectrum_LIBRARY})
+   list(APPEND gui_extra_libs ${ROOT_Spectrum_LIBRARY})
 endif()
 
 if(HDF5_FOUND)
@@ -357,7 +356,8 @@ link_directories(${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(go4
    ${qt_libs}
    ${ROOT_LIBRARIES}
-   ${extra_libs}
+   ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY}
+   ${gui_extra_libs}
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui
 )
 
