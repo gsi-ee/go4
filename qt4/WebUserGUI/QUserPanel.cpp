@@ -24,6 +24,7 @@
 #endif
 
 #include <QMimeData>
+#include <QDropEvent>
 
 #include "TClass.h"
 #include "TCanvas.h"

@@ -29,6 +29,7 @@
 #include <QToolButton>
 #include <QDateTime>
 #include <QLabel>
+#include <QCloseEvent>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"

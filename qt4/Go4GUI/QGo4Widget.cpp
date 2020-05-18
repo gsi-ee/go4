@@ -405,7 +405,7 @@ void QGo4Widget::ServiceCall(const char* name, void* par)
    CallServiceFunc(service_General, name, par);
 }
 
-QAction* AddChkAction(QMenu* menu,
+QAction* QGo4Widget::AddChkAction(QMenu* menu,
                       const QString& text, bool checked,
                       QObject* recv, const char* member)
 {
@@ -417,7 +417,7 @@ QAction* AddChkAction(QMenu* menu,
    return act;
 }
 
-QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
                    const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(text, menu);
@@ -433,7 +433,7 @@ QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
    return act;
 }
 
-QAction* SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
+QAction* QGo4Widget::SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
 {
    QAction* act = (QAction*) map->mapping(id);
    if (act==0) return 0;
@@ -446,7 +446,7 @@ QAction* SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
    return act;
 }
 
-QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
       const QIcon& icon, const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(icon, text, menu);

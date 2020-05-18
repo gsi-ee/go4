@@ -14,6 +14,7 @@
 #include "TGo4AnalysisConfiguration.h"
 
 #include <QFileDialog>
+#include <QCloseEvent>
 
 #include "TGo4ConfigStep.h"
 #include "TGo4AnalysisStatus.h"

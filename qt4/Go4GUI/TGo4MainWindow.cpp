@@ -430,22 +430,22 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
-   faFetchWhenDraw = AddChkAction(prefMenu, "Fetch when drawing",
+   faFetchWhenDraw = QGo4Widget::AddChkAction(prefMenu, "Fetch when drawing",
                       go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
 
-   faFetchWhenCopy = AddChkAction(prefMenu, "Fetch when copying",
+   faFetchWhenCopy = QGo4Widget::AddChkAction(prefMenu, "Fetch when copying",
                     go4sett->getFetchDataWhenCopy(), this, SLOT(ChangeFetchWhenCopySlot()));
 
-   faFetchWhenSave = AddChkAction(prefMenu, "Fetch when saving",
+   faFetchWhenSave = QGo4Widget::AddChkAction(prefMenu, "Fetch when saving",
                     go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
 
-   faHideEventElement = AddChkAction(prefMenu, "Hide TGo4EventElement",
+   faHideEventElement = QGo4Widget::AddChkAction(prefMenu, "Hide TGo4EventElement",
                     go4sett->getHideTGo4EventElement(), this, SLOT(ChangeHideEventElement()));
 
-   faDrawOnce = AddChkAction(prefMenu, "Draw item once",
+   faDrawOnce = QGo4Widget::AddChkAction(prefMenu, "Draw item once",
                              go4sett->getDrawOnceFlag(), this, SLOT(ChangeDrawOnceSlot()));
 
-   faWindowRubberBand = AddChkAction(prefMenu, "Rubberband when moving windows",
+   faWindowRubberBand = QGo4Widget::AddChkAction(prefMenu, "Rubberband when moving windows",
                                 go4sett->getMoveSubwindowRubberBand(), this, SLOT(ChangeWindowRubberBandSlot()));
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
@@ -456,33 +456,33 @@ void TGo4MainWindow::AddSettingMenu()
 
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
 
-   faSaveWhite = AddChkAction(panelMenu, "White canvas for saved images",
+   faSaveWhite = QGo4Widget::AddChkAction(panelMenu, "White canvas for saved images",
           go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
 
    panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
    panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
-   faSuperimpose = AddChkAction(panelMenu, "&Superimpose mode",
+   faSuperimpose = QGo4Widget::AddChkAction(panelMenu, "&Superimpose mode",
                    go4sett->getPadSuperimpose(), this, SLOT(SuperimposeSlot()));
 
-   faCrosshair = AddChkAction(panelMenu, "Cross(&X)hair mode",
+   faCrosshair = QGo4Widget::AddChkAction(panelMenu, "Cross(&X)hair mode",
                    go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
 
-   faEventstatus = AddChkAction(panelMenu, "Show Event Status",
+   faEventstatus = QGo4Widget::AddChkAction(panelMenu, "Show Event Status",
                    go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
 
-   faClone = AddChkAction(panelMenu, "Objects cloning",
+   faClone = QGo4Widget::AddChkAction(panelMenu, "Objects cloning",
             go4sett->getCloneFlag(), this, SLOT(ChangeCloneFlagSlot()));
 
-   faDrawTime = AddChkAction(panelMenu, "Draw time",
+   faDrawTime = QGo4Widget::AddChkAction(panelMenu, "Draw time",
            go4sett->getDrawTimeFlag(), this, SLOT(ChangeDrawTimeFlagSlot()));
    faDrawTime->setEnabled(go4sett->getCloneFlag());
 
-   faDrawDate = AddChkAction(panelMenu, "Draw date",
+   faDrawDate = QGo4Widget::AddChkAction(panelMenu, "Draw date",
                  go4sett->getDrawDateFlag(), this, SLOT(ChangeDrawDateFlagSlot()));
    faDrawDate->setEnabled(go4sett->getCloneFlag());
 
-   faDrawItem = AddChkAction(panelMenu, "Draw item name",
+   faDrawItem = QGo4Widget::AddChkAction(panelMenu, "Draw item name",
             go4sett->getDrawItemFlag(), this, SLOT(ChangeDrawItemFlagSlot()));
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
@@ -502,7 +502,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
    QMenu* termMenu = settMenu->addMenu("&Terminal");
-   faTermTimeStamp = AddChkAction(termMenu, "Print timestamps",
+   faTermTimeStamp = QGo4Widget::AddChkAction(termMenu, "Print timestamps",
                          go4sett->getTermShowTimestamp(), this, SLOT(ChangeTerminalTimeStampSlot()));
    termMenu->addAction("&Timestamp Format...", this, SLOT(ChangeTerminalTimeStampFormatSlot()));
    termMenu->addAction("&History...", this, SLOT(InputTerminalParametersSlot()));

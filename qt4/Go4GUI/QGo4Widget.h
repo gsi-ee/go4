@@ -15,11 +15,6 @@
 #define QGO4WIDGET_H
 
 #include <QWidget>
-
-#include <QDragMoveEvent>
-#include <QCloseEvent>
-#include <QDropEvent>
-#include <QDragEnterEvent>
 #include <QIcon>
 
 class TObject;
@@ -45,6 +40,14 @@ class GO4_WIDGET_EXPORT  QGo4Widget : public QWidget {
    Q_OBJECT
 
    friend class TGo4MainWindow;
+
+private:
+   bool   fWaitsForObjectCreation;
+   bool   fCanDestroyWidget;     //! indicate that widget can be destroyed
+   bool   fResetWidgetShooted;   //! indicates that reset widget timer is shoot
+   bool   fBlockUpdate;          //! set when automatic reset must be blocked
+
+   TGo4BrowserProxy* fBrowserProxy; //! pointer on browser proxy
 
    public:
       enum { service_DragEnter        = 1,
@@ -101,6 +104,18 @@ class GO4_WIDGET_EXPORT  QGo4Widget : public QWidget {
       void ObjectCreatedByWidget(const char* itemname, TClass* cl);
 
       void ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot);
+
+      static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+            const QString& text, int id, int enabled = -1, int checked = -1);
+
+      static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+            const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
+
+      static QAction* AddChkAction(QMenu* menu,
+            const QString& text, bool checked,
+            QObject* recv, const char* member);
+
+      static QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 
    signals:
       void widgetService(QGo4Widget* editor, int serviceid, const char* str, void* par);
@@ -191,26 +206,6 @@ class GO4_WIDGET_EXPORT  QGo4Widget : public QWidget {
 
       bool IsUpdateBlocked() const { return fBlockUpdate; }
 
-   private:
-      bool   fWaitsForObjectCreation;
-      bool   fCanDestroyWidget;     //! indicate that widget can be destroyed
-      bool   fResetWidgetShooted;   //! indicates that reset widget timer is shoot
-      bool   fBlockUpdate;          //! set when automatic reset must be blocked
-
-      TGo4BrowserProxy* fBrowserProxy; //! pointer on browser proxy
 };
-
-extern QAction* AddChkAction(QMenu* menu,
-      const QString& text, bool checked,
-      QObject* recv, const char* member);
-
-extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-      const QString& text, int id, int enabled = -1, int checked = -1);
-
-extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-      const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
-
-QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
-
 
 #endif
