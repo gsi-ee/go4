@@ -2820,9 +2820,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 {
    if (panel==0) return;
 
-   TCanvas* can= panel->GetCanvas();
-   TCanvas* cansav;
-
+   TCanvas* can = panel->GetCanvas();
 
    QFileDialog fd( this, QString("Save ") + panel->objectName() + " As", fLastFileDir);
    fd.setFileMode( QFileDialog::AnyFile );
