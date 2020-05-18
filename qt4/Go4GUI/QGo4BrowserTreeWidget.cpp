@@ -54,6 +54,10 @@ void QGo4BrowserTreeWidget::mouseMoveEvent(QMouseEvent *event)
        emit RequestDragObject(&drag);
 
       if (drag)
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+         drag->exec(Qt::CopyAction | Qt::MoveAction);
+#else
          drag->start(Qt::CopyAction | Qt::MoveAction);
+#endif
    }
 }
