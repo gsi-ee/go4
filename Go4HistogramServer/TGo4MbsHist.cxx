@@ -177,20 +177,20 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const
          // found subfolder, process it recursively
          const char *foldname = entry->GetName();
          // filter out folders without histograms or graphs:
-         if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcDYNFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcCONDFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcPARAFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcTREEFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcPICTFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcCANVFOLDER)) {
-            ;
-         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::fgcANALYSISFOLDER)) {
-            ;
+         if (!strcmp(foldname, TGo4AnalysisObjectManager::GetDYNFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetCONDFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetPARAFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetTREEFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetPICTFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetCANVFOLDER())) {
+
+         } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetANALYSISFOLDER())) {
+
          } else {
             // std::cout <<"##### parsing folder "<< foldname << std::endl;
             snprintf(cursor, edge, "%s", foldname);

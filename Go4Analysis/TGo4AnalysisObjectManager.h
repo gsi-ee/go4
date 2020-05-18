@@ -51,15 +51,7 @@ class TGo4ParameterStatus;
  * @since 07-May-2002
  */
 
-#ifdef __CINT__
 class TGo4AnalysisObjectManager : public TNamed {
-#else
-#ifdef GO4_EXPORT
-class __declspec(dllimport) TGo4AnalysisObjectManager : public TNamed {
-#else
-class TGo4AnalysisObjectManager : public TNamed {
-#endif
-#endif
 
    public:
 
@@ -705,6 +697,23 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       /** Temporary dummy folder name */
       static const char* fgcTMPFOLDER;
+
+      static const char* GetTOPDYNAMICLIST();
+      static const char* GetTOPFOLDER();
+      static const char* GetHISTFOLDER();
+      static const char* GetDYNFOLDER();
+      static const char* GetCONDFOLDER();
+      static const char* GetPARAFOLDER();
+      static const char* GetTREEFOLDER();
+      static const char* GetPICTFOLDER();
+      static const char* GetCANVFOLDER();
+      static const char* GetANALYSISFOLDER();
+      static const char* GetEVENTFOLDER();
+      static const char* GetSRCFOLDER();
+      static const char* GetSTOREFOLDER();
+      static const char* GetPROCFOLDER();
+      static const char* GetUSRFOLDER();
+      static const char* GetTMPFOLDER();
 
    private:
 

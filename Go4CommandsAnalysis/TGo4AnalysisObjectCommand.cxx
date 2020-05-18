@@ -21,7 +21,7 @@ TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() :
    TGo4AnalysisCommand()
 {
    GO4TRACE((12,"TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() ctor",__LINE__, __FILE__));
-   SetFolderName(TGo4AnalysisObjectManager::fgcTOPFOLDER);
+   SetFolderName(TGo4AnalysisObjectManager::GetTOPFOLDER());
 }
 
 TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand(const char* comname,
@@ -31,7 +31,7 @@ TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand(const char* comname,
 {
    GO4TRACE((12,"TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() ctor",__LINE__, __FILE__));
    SetObjectName(obname);
-   SetFolderName(TGo4AnalysisObjectManager::fgcTOPFOLDER);
+   SetFolderName(TGo4AnalysisObjectManager::GetTOPFOLDER());
 }
 
 TGo4AnalysisObjectCommand::~TGo4AnalysisObjectCommand()

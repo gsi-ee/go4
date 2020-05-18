@@ -75,6 +75,25 @@ const char* TGo4AnalysisObjectManager::fgcPROCFOLDER     = "EventProcessors";
 const char* TGo4AnalysisObjectManager::fgcUSRFOLDER      = "UserObjects";
 const char* TGo4AnalysisObjectManager::fgcTMPFOLDER      = "Go4-tmp";
 
+const char* TGo4AnalysisObjectManager::GetTOPDYNAMICLIST() { return fgcTOPDYNAMICLIST; }
+const char* TGo4AnalysisObjectManager::GetTOPFOLDER() { return fgcTOPFOLDER; }
+const char* TGo4AnalysisObjectManager::GetHISTFOLDER() { return fgcHISTFOLDER; }
+const char* TGo4AnalysisObjectManager::GetDYNFOLDER() { return fgcDYNFOLDER; }
+const char* TGo4AnalysisObjectManager::GetCONDFOLDER() { return fgcCONDFOLDER; }
+const char* TGo4AnalysisObjectManager::GetPARAFOLDER() { return fgcPARAFOLDER; }
+const char* TGo4AnalysisObjectManager::GetTREEFOLDER() { return fgcTREEFOLDER; }
+const char* TGo4AnalysisObjectManager::GetPICTFOLDER() { return fgcPICTFOLDER; }
+const char* TGo4AnalysisObjectManager::GetCANVFOLDER() { return fgcCANVFOLDER; }
+const char* TGo4AnalysisObjectManager::GetANALYSISFOLDER() { return fgcANALYSISFOLDER; }
+const char* TGo4AnalysisObjectManager::GetEVENTFOLDER() { return fgcEVENTFOLDER; }
+const char* TGo4AnalysisObjectManager::GetSRCFOLDER() { return fgcSRCFOLDER; }
+const char* TGo4AnalysisObjectManager::GetSTOREFOLDER() { return fgcSTOREFOLDER; }
+const char* TGo4AnalysisObjectManager::GetPROCFOLDER() { return fgcPROCFOLDER; }
+const char* TGo4AnalysisObjectManager::GetUSRFOLDER() { return fgcUSRFOLDER; }
+const char* TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
+
+
+
 #define fguSUBFOLDERMAXLEN 1024
 
 TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
