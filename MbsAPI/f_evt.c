@@ -1249,7 +1249,7 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
     } else {
        memset( ps_file_head, '\0', ps_chan->l_buf_size);
        sprintf(ps_file_head->filhe_run, "Pid %d%c", own_getpid(),'\0');
-       ps_file_head->filhe_run_l=strlen(ps_file_head->filhe_run);
+       ps_file_head->filhe_run_l = (INTS2) strlen(ps_file_head->filhe_run);
     }
             ps_file_head->filhe_dlen=ps_chan->l_buf_size/2;
             ps_file_head->filhe_subtype=1;
@@ -1258,10 +1258,10 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
             ps_file_head->filhe_stime[0] = (INTS4) s_timespec.tv_sec;
             ps_file_head->filhe_stime[1] = (INTS4) s_timespec.tv_nsec/1000000;
             ps_file_head->filhe_free[0] = 1;
-            ps_file_head->filhe_file_l=strlen(c_file);/* not include \0 */
+            ps_file_head->filhe_file_l = (INTS2) strlen(c_file);/* not include \0 */
             strcpy(ps_file_head->filhe_file, c_file);
             strcpy(ps_file_head->filhe_user, getenv("USER"));/* user name */
-            ps_file_head->filhe_user_l=strlen(ps_file_head->filhe_user);
+            ps_file_head->filhe_user_l = (INTS2) strlen(ps_file_head->filhe_user);
             time(&s_timet);/* get calendar time */
        strcpy(c_mode, ctime(&s_timet));
             strcpy(ps_file_head->filhe_time, &c_mode[4]);

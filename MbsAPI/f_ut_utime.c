@@ -59,7 +59,9 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
   // struct timeb tp;
   struct timespec tp;
   struct tm st_time;
+#ifndef WIN32
   struct tm buf_time;
+#endif
   CHARS c_allmon[37]="JanFebMarAprMayJunJulAugSepOctNovDec";
   CHARS c_mon[4];
   CHARS *pc_mon;
