@@ -247,7 +247,7 @@ set(Go4FitGUI_forms
    Go4FitGUI/QFitRangeCutWidget.ui
 )
 
-set(QtRoot_app_sources
+set(QtRoot_sources
    Go4QtRoot/QRootApplication.cpp
 )
 
@@ -255,42 +255,58 @@ set(QtRoot_headers
    Go4QtRoot/QRootApplication.h
 )
 
-add_subdirectory(Go4GUI)
+# plain means everything build without extra libs 
+if(MSVC)
+  set(_plain_gui ON)
+endif()
+
+set(gui_install_headers)
+
+if(_plain_gui)
+  list(APPEND Go4GUI_headers Go4GUI/QGo4Widget.h Go4GUI/QGo4LineEdit.h)
+  list(APPEND Go4GUI_sources Go4GUI/QGo4Widget.cpp Go4GUI/QGo4LineEdit.cpp)
+  list(APPEND gui_install_headers Go4GUI/QGo4Widget.h Go4GUI/QGo4LineEdit.h)
+else()
+  add_subdirectory(Go4GUI)
+  list(APPEND extra_libs Go4Widgets)
+endif()
 
 set(extra_libs ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY})
 set(gui_defines)
 
 if(ROOT_x11_FOUND)
 
-   list(APPEND extra_libs ${ROOT_Gui_LIBRARY} X11 Go4QtRoot)
+   list(APPEND extra_libs ${ROOT_Gui_LIBRARY} X11)
    list(APPEND gui_defines -D__GO4X11__)
    
-   add_subdirectory(Go4QtRoot)
-
-   ExternalProject_Add(Go4UserGUIX11
-                       DEPENDS Go4Widgets Go4QtRoot
-                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
-                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Go4UserGUI
-                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI
-                       INSTALL_COMMAND "")
-
+   if(_plain_gui)
+      list(APPEND QtRoot_sources Go4QtRoot/QRootCanvas.cpp Go4QtRoot/QRootDialog.cpp Go4QtRoot/QRootWindow.cpp)
+      list(APPEND QtRoot_headers Go4QtRoot/QRootCanvas.h Go4QtRoot/QRootDialog.h Go4QtRoot/QRootWindow.h)
+      list(APPEND gui_install_headers Go4QtRoot/QRootCanvas.h Go4QtRoot/QRootDialog.h Go4QtRoot/QRootWindow.h)
+      set(_qtroot_depend go4)
+   else()
+      add_subdirectory(Go4QtRoot)
+      list(APPEND extra_libs Go4QtRoot)
+      set(_qtroot_depend Go4Widgets Go4QtRoot)
+   endif()
 endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
-   list(APPEND extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full Go4WebRoot)
+   list(APPEND extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 
-   add_subdirectory(Go4Web)
-   
-   ExternalProject_Add(Go4UserGUIWeb
-                       DEPENDS Go4Widgets Go4WebRoot
-                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
-                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/WebUserGUI
-                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/WebUserGUI
-                       INSTALL_COMMAND "")
-
+   if(_plain_gui)
+      list(APPEND QtRoot_sources Go4Web/QWebCanvas.cpp)
+      list(APPEND QtRoot_headers Go4Web/QWebCanvas.h)
+      list(APPEND gui_install_headers Go4Web/QWebCanvas.h)
+      set(_webroot_depend go4)
+   else()
+      add_subdirectory(Go4Web)
+      list(APPEND extra_libs Go4WebRoot)
+      set(_webroot_depend Go4Widgets Go4WebRoot)
+   endif()
 endif()
 
 if(ROOT_ASImage_LIBRARY)
@@ -319,7 +335,8 @@ set(Go4GUI_root_sources
 add_executable(go4
     ${Go4FitGUI_forms}
     ${Go4GUI_forms}
-    ${QtRoot_app_sources}
+    ${QtRoot_headers}
+    ${QtRoot_sources}
     ${Go4FitGUI_sources}
     ${Go4GUI_root_sources}
     ${Go4GUI_sources}
@@ -341,10 +358,29 @@ target_link_libraries(go4
    ${qt_libs}
    ${ROOT_LIBRARIES}
    ${extra_libs}
-   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui Go4Widgets
+   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui
 )
 
 target_compile_definitions(go4 PRIVATE -D${GO4_PLATFROM} ${GO4_DEFINITIONS} ${gui_defines})
 
+GO4_INSTALL_HEADERS(${gui_install_headers})
+
 add_dependencies(go4 move_headers)
 
+if(_qtroot_depend)
+   ExternalProject_Add(Go4UserGUIX11
+                       DEPENDS ${_qtroot_depend}
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Go4UserGUI
+                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/Go4UserGUI
+                       INSTALL_COMMAND "")
+endif()
+
+if(_webroot_depend)
+   ExternalProject_Add(Go4UserGUIWeb
+                       DEPENDS ${_webroot_depend}
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/WebUserGUI
+                       BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/WebUserGUI
+                       INSTALL_COMMAND "")
+endif()
