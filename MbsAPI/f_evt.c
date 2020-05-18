@@ -74,8 +74,7 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <sys/time.h>
-#include <sys/timeb.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -93,8 +92,7 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <sys/time.h>
-#include <sys/timeb.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -112,8 +110,7 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <sys/time.h>
-#include <sys/timeb.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -133,8 +130,7 @@
 #include <unistd.h>
 #include <memory.h>
 #include <pwd.h>
-#include <sys/time.h>
-#include <sys/timeb.h>
+#include <time.h>
 #include <sys/types.h>
 #include <sys/mode.h>
 #define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
@@ -1206,8 +1202,7 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
    INTS4 l_write_size;
    INTS4 l_status;
    time_t s_timet;
-   struct timeb s_timeb;
-   /* because "timeb" is not "typedef", so we must use "struct" */
+   struct timespec s_timespec;
    CHARS c_mode[80];
    CHARS c_file[256], *pc_temp;
 
@@ -1265,10 +1260,10 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
             ps_file_head->filhe_dlen=ps_chan->l_buf_size/2;
             ps_file_head->filhe_subtype=1;
             ps_file_head->filhe_type=2000;
-            ftime(&s_timeb);
-            ps_file_head->filhe_stime[0]=(INTS4)s_timeb.time;
-            ps_file_head->filhe_stime[1]=(INTS4)s_timeb.millitm;
-            ps_file_head->filhe_free[0]=1;
+            clock_gettime(CLOCK_REALTIME, &s_timespec);
+            ps_file_head->filhe_stime[0] = (INTS4) s_timespec.tv_sec;
+            ps_file_head->filhe_stime[1] = (INTS4) s_timespec.tv_nsec/1000000;
+            ps_file_head->filhe_free[0] = 1;
             ps_file_head->filhe_file_l=strlen(c_file);/* not include \0 */
             strcpy(ps_file_head->filhe_file, c_file);
             strcpy(ps_file_head->filhe_user, getenv("USER"));/* user name */
@@ -2143,7 +2138,7 @@ INTS4 f_evt_check_buf(CHARS *pc_head, INTS4 *pl_size, INTS4 *pl_is_goosybuf, INT
 INTS4 f_evt_ini_bufhe(s_evt_channel *ps_chan)
 {
    INTS4 l_temp;
-   struct timeb s_timeb;
+   struct timespec s_timespec;
 
    /* because "timeb" is not "typedef", so we must use "struct" */
 
@@ -2159,9 +2154,9 @@ INTS4 f_evt_ini_bufhe(s_evt_channel *ps_chan)
       ps_chan->ps_bufhe->l_buf = ps_chan->l_buf_no; ps_chan->l_buf_no++;
       ps_chan->ps_bufhe->l_evt = 0;
       ps_chan->ps_bufhe->l_current_i = 0;
-      ftime(&s_timeb);
-      ps_chan->ps_bufhe->l_time[0]=(INTS4)s_timeb.time;
-      ps_chan->ps_bufhe->l_time[1]=(INTS4)s_timeb.millitm;
+      clock_gettime(CLOCK_REALTIME, &s_timespec);
+      ps_chan->ps_bufhe->l_time[0] = (INTS4) s_timespec.tv_sec;
+      ps_chan->ps_bufhe->l_time[1] = (INTS4) s_timespec.tv_nsec/1000000;
       ps_chan->ps_bufhe->l_free[0] = 1; /* for swap flag */
       ps_chan->ps_bufhe->l_free[1] = 0;
       ps_chan->ps_bufhe->l_free[2] = 0;
