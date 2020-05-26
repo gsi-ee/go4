@@ -21,6 +21,11 @@ set(GO4_CXX_FLAGS "" CACHE STRING "Go4 CXX flags")
 set(GO4_C_FLAGS "" CACHE STRING "Go4 C flags")
 set(GO4_QTVERSION "${_qtvers}" CACHE STRING "Go4 qt version")
 
+set(GO4_ROOT_DIR $ENV{ROOTSYS})
+if(MSVC)
+   string(REGEX REPLACE "\\\\" "/" GO4_ROOT_DIR ${GO4_ROOT_DIR})
+endif()
+
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
 
@@ -32,11 +37,6 @@ configure_file(${CMAKE_SOURCE_DIR}/Go4License.txt
 
 configure_file(${CMAKE_SOURCE_DIR}/README.txt
                ${CMAKE_BINARY_DIR}/README.txt COPYONLY)
-
-set(GO4_ROOTDIR $ENV{ROOTSYS})
-if(MSVC)
-   string(REGEX REPLACE "\\\\" "/" GO4_ROOTDIR ${GO4_ROOTDIR})
-endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)

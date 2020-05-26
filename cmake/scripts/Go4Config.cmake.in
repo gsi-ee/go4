@@ -11,7 +11,7 @@ set(GO4_DEFINITIONS "@GO4_DEFINITIONS@")
 set(GO4_CXX_FLAGS "@GO4_CXX_FLAGS@")
 set(GO4_C_FLAGS "@GO4_C_FLAGS@")
 set(GO4_QTVERSION "@GO4_QTVERSION@")
-
+set(GO4_ROOT_DIR "@GO4_ROOT_DIR@")
 
 # ROOT configured for use from the build tree - absolute paths are used.
 set(GO4_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/include)
@@ -23,6 +23,11 @@ set(GO4_LIBRARY_DIR ${CMAKE_CURRENT_LIST_DIR}/lib)
 set(GO4_BINARY_DIR ${CMAKE_CURRENT_LIST_DIR}/bin)
 
 set(GO4_USE_FILE ${CMAKE_CURRENT_LIST_DIR}/Go4UseFile.cmake)
+
+#------------ reuse ROOT configurations  -------------------------------------------
+
+include(${GO4_ROOT_DIR}/ROOTConfig.cmake)
+set(ROOT_FOUND 1)
 
 #----------------------------------------------------------------------------
 if(MSVC)
