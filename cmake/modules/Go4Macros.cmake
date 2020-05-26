@@ -177,7 +177,7 @@ function(GO4_USER_ANALYSIS)
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
      target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
   else()
-     target_include_directories(${libname}${tgt} PRIVATE ${GO4_INCLUDE_DIR} ${ARG_INCLUDE_DIRS})
+     target_include_directories(${libname}${tgt} PRIVATE ${GO4_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
   endif()    
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
