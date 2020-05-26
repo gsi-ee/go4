@@ -174,7 +174,11 @@ function(GO4_USER_ANALYSIS)
 
   set_target_properties(${libname}${tgt} PROPERTIES LIBRARY_OUTPUT_NAME ${libname})
 
-  target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
+  if(CMAKE_PROJECT_NAME STREQUAL Go4)
+     target_include_directories(${libname}${tgt} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR} ${ARG_INCLUDE_DIRS})
+  else()
+     target_include_directories(${libname}${tgt} PRIVATE ${GO4_INCLUDE_DIR} ${ARG_INCLUDE_DIRS})
+  endif()    
 
   ROOT_GENERATE_DICTIONARY(G__${libname}${tgt} ${ARG_HEADERS}
                           MODULE ${libname}${tgt}
@@ -182,10 +186,10 @@ function(GO4_USER_ANALYSIS)
                           DEPENDENCIES ${dict_depend}
                           NOINSTALL)
 
-   if(ARG_COPY)
-      foreach(f ${ARG_COPY})
-         file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${f} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-      endforeach()
-   endif()
+  if(ARG_COPY)
+     foreach(f ${ARG_COPY})
+        file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/${f} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+     endforeach()
+  endif()
 
 endfunction()
