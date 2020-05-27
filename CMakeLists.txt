@@ -40,20 +40,31 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 #--- where to search for cmake modules ----
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-#--- Load some basic macros ---
+#--- Load basic macros ---
+include(Go4BuildOptions)
 include(Go4Configuration)
 include(Go4Macros)
 include(Go4InstallDirs)
 include(ExternalProject)
 
 #--- Search for external packages ---
-find_package(DABC QUIET)
-find_package(HDF5 QUIET)
-
-if(DABC_FOUND)
-   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/DABCConfig.cmake.in
-                  ${CMAKE_BINARY_DIR}/DABCConfig.cmake @ONLY NEWLINE_STYLE UNIX)
+if(dabc)
+   find_package(DABC QUIET)
+   if(DABC_FOUND)
+      configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/DABCConfig.cmake.in
+                     ${CMAKE_BINARY_DIR}/DABCConfig.cmake @ONLY NEWLINE_STYLE UNIX)
+   else()
+      set(dabc OFF)
+   endif()
 endif()
+
+if(hdf5)
+   find_package(HDF5 QUIET)
+   if(NOT HDF5_FOUND)
+      set(hdf5 OFF)
+   endif()
+endif()
+
 
 # ================= Go4Fit library ======================
 
@@ -235,3 +246,5 @@ file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ClientStartup.sh DESTINATION ${CMAKE_BINARY
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ServerStartup.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ShowPdf.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/htdigest.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)
+
+GO4_SHOW_ENABLED_OPTIONS()
