@@ -50,10 +50,7 @@ include(ExternalProject)
 #--- Search for external packages ---
 if(dabc)
    find_package(DABC QUIET)
-   if(DABC_FOUND)
-      configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/DABCConfig.cmake.in
-                     ${CMAKE_BINARY_DIR}/DABCConfig.cmake @ONLY NEWLINE_STYLE UNIX)
-   else()
+   if(NOT DABC_FOUND)
       set(dabc OFF)
    endif()
 endif()
@@ -183,7 +180,7 @@ GO4_STANDARD_LIBRARY(Go4Gui
                      LIBRARIES ${ROOT_Gui_LIBRARY})
 
 if(DABC_FOUND)
-   target_link_libraries(Go4Gui ${DABC_LIBRARY})
+   target_link_libraries(Go4Gui ${DabcBase_LIBRARY})
    target_include_directories(Go4Gui PRIVATE ${DABC_INCLUDE_DIR})
 else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
