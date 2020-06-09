@@ -94,7 +94,7 @@ private:
              panel_PadDeleted        = 105,
              panel_Deleted           = 106 };
 
-      QGo4Widget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0 );
+      QGo4Widget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = Qt::Widget );
       virtual ~QGo4Widget();
 
       virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);

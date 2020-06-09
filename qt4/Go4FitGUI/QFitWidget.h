@@ -44,7 +44,7 @@ class QFitWidget : public QWidget {
    Q_OBJECT
 
    public:
-      QFitWidget( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
+      QFitWidget( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
       ~QFitWidget();
 
       virtual QFitItem* GetItem();

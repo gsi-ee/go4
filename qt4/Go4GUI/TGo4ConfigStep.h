@@ -27,7 +27,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
    Q_OBJECT
 
    public:
-      TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
+      TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
       virtual ~TGo4ConfigStep();
       virtual void SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus, int number = -1 );
       virtual QString GetStepName();
