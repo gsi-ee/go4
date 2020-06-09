@@ -50,9 +50,11 @@ FILE *fLogFile;                      /* external in some C functions */
 
 #else  /* not Lynx */
 
-#ifndef __cplusplus
-FILE *fLogFile;                      /* external in some C functions */
-#endif
+
+// Sergey Linev: no need here, declared external in each source where used
+//#ifndef __cplusplus
+//FILE *fLogFile;                      /* external in some C functions */
+//#endif
 
 #ifndef _STDINT_H
 #include <stdint.h>
