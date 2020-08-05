@@ -320,7 +320,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    while ((obj = iter()) != 0) {
       TClass* cl = TClass::GetClass(obj->GetName());
 
-      if (cl==0) continue;
+      // all relevant go4 classes inherited from TObject
+      if ((cl==0) || !cl->IsStartingWithTObject()) continue;
 
       if (cl->InheritsFrom(TGo4EventProcessor::Class())) {
          // if several processor classes are existing, take higher in hierarchy
@@ -912,16 +913,15 @@ int main(int argc, char **argv)
 #ifdef __GO4HDF5__
       else
       if (strcmp(argv[narg],"-hdf5")==0) {
-               if (++narg < argc) {
-                  TGo4HDF5SourceParameter sourcepar(argv[narg++]);
-                  step->SetEventSource(&sourcepar);
-                  step->SetSourceEnabled(kTRUE);
-                  autorun = true;
-               } else
-                  showerror("HDF5 file name not specified");
-            }
+         if (++narg < argc) {
+            TGo4HDF5SourceParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+            autorun = true;
+         } else
+            showerror("HDF5 file name not specified");
+      }
 #endif
-
 
       else
       if ((strcmp(argv[narg],"-revserv")==0) || (strcmp(argv[narg],"-rev")==0)) {
