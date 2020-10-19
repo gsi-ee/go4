@@ -973,7 +973,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
                  console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
                   if(result) {
                      editor.ClearChanges();
-                     if ((JSROOT.hpainter != null) && ('reload' in JSROOT.hpainter)) JSROOT.hpainter.reload();
+                     if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
                   }
                });
          })
@@ -998,7 +998,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
                   console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
                  if(result) {
                     editor.ClearChanges();
-                  if ((JSROOT.hpainter != null) && ('reload' in JSROOT.hpainter)) JSROOT.hpainter.reload();
+                  if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
                  }
                  // todo: start analysis only after submission was successful?
                  // for the moment, try to handle everythingin UpdateFromUrl

@@ -328,17 +328,14 @@
 
       $(id).children().eq(0).width(width - 4).height(height - 4);
 
-
       $(id+" .buttonGetParameter")
       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}).click(function() {
           console.log("update item = " + editor.GetItemName());
           if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
-          else  console.log("dabc object not found!");
+                          else console.log("dabc object not found!");
        })
       .children(":first") // select first button element, used for images
       .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
-
-
 
       $(id+" .buttonSetParameter")
       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle" }})
