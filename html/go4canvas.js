@@ -10,7 +10,7 @@
       throw e1;
    }
 
-   var myGO4 = { version: "5.9.x", web_canvas: true };
+   var myGO4 = { version: "6.1.x", web_canvas: true };
 
    factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
 
@@ -18,12 +18,15 @@
 
    "use strict";
 
+   // adding support of JSROOT v6
+   let ObjectPainter = JSROOT.ObjectPainter || JSROOT.TObjectPainter;
+
    GO4.MarkerPainter = function(marker) {
-      JSROOT.TObjectPainter.call(this, marker);
+      ObjectPainter.call(this, marker);
       this.pave = null; // drawing of stat
    }
 
-   GO4.MarkerPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+   GO4.MarkerPainter.prototype = Object.create(ObjectPainter.prototype);
 
    GO4.MarkerPainter.prototype.moveDrag = function(dx,dy) {
       this.grx += dx;
@@ -144,7 +147,7 @@
          delete this.pave;
       }
 
-      JSROOT.TObjectPainter.prototype.Cleanup.call(this, arg);
+      ObjectPainter.prototype.Cleanup.call(this, arg);
    }
 
    GO4.MarkerPainter.prototype.Redraw = function() {
@@ -219,11 +222,11 @@
    // =========================================================================
 
    GO4.ConditionPainter = function(cond) {
-      JSROOT.TObjectPainter.call(this, cond);
+      ObjectPainter.call(this, cond);
       this.pave = null; // drawing of stat
    }
 
-   GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+   GO4.ConditionPainter.prototype = Object.create(ObjectPainter.prototype);
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
       //  JAM: need to put this here, since condition object will lose internal definition after cloning it again!
@@ -516,7 +519,7 @@
          delete this.pave;
       }
 
-      JSROOT.TObjectPainter.prototype.Cleanup.call(this, arg);
+      ObjectPainter.prototype.Cleanup.call(this, arg);
    }
 
    GO4.ConditionPainter.prototype.Redraw = function() {
