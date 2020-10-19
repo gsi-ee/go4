@@ -57,8 +57,8 @@
                   .html(html);
 
       // use height of child element
-     if (JSROOT.hpainter && JSROOT.hpainter.brlayout)
-         JSROOT.hpainter.brlayout.AdjustSeparator(null, $('#'+divid+' div').height()+4, true);
+      var brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null;
+      if (brlayout) brlayout.AdjustSeparator(null, $('#'+divid+' div').height()+4, true);
 
       var xreq = null, was_running = null;
 

@@ -56,7 +56,11 @@
              .attr("d", path)
              .call(this.markeratt.func);
 
-      this.AddMove();
+      if (typeof this.AddMove == 'function')
+         this.AddMove();
+      else
+          JSROOT.require(['interactive'])
+               .then(inter => inter.DragMoveHandler.AddMove(this));
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
@@ -315,7 +319,11 @@
              .call(this.lineatt.func)
              .call(this.fillatt.func);
 
-      this.AddMove();
+      if (typeof this.AddMove == 'function')
+         this.AddMove();
+      else
+          JSROOT.require(['interactive'])
+               .then(inter => inter.DragMoveHandler.AddMove(this));
    }
 
    GO4.ConditionPainter.prototype.moveStart = function(x,y) {
@@ -551,6 +559,7 @@
             return true;
          }
       });
+
 
       if (histofullpath == null) {
          $('#'+divid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
