@@ -14,14 +14,16 @@
 
    // =========================================================================================
 
+   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
+
    GO4.ConditionEditor = function(cond) {
-      JSROOT.TBasePainter.call(this, cond);
+      BasePainter.call(this, cond);
       this.cond = cond;
       this.changes = ["dummy", "init"];
       this.ClearChanges();
    }
 
-   GO4.ConditionEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
+   GO4.ConditionEditor.prototype = Object.create(BasePainter.prototype);
 
    GO4.ConditionEditor.prototype.isPolyCond = function() {
        return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4ShapedCond"));

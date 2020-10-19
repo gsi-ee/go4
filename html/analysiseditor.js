@@ -12,6 +12,8 @@
       throw e1;
    }
 
+   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
+
    GO4.EvIOType = {
           GO4EV_NULL: 0,                // no event store/source
           GO4EV_FILE: 1,                // root file with own tree
@@ -27,7 +29,7 @@
       }
 
    GO4.AnalysisStatusEditor = function(stat) {
-      JSROOT.TBasePainter.call(this, stat);
+      BasePainter.call(this, stat);
       this.stat = stat;
       this.step;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
@@ -37,7 +39,7 @@
    }
 
 
-   GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
+   GO4.AnalysisStatusEditor.prototype = Object.create(BasePainter.prototype);
 
    GO4.AnalysisStatusEditor.prototype.DabcCommand = function(cmd, option, callback) {
       var pre="";
@@ -1130,9 +1132,9 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
    }
 
    GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid) {
-      
+
       this.SetDivId(divid);
-      
+
       var pthis = this;
 
       $("#"+divid).empty();
@@ -1168,4 +1170,4 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       return status.drawEditor(divid);
    }
 
-})(); // function
+})(); // factory function

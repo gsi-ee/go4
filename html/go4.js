@@ -6,9 +6,15 @@
       throw e1;
    }
 
+  if (typeof GO4 == "object") {
+      var e1 = new Error("GO4 already defined when loading go4.js");
+      e1.source = "go4.js";
+      throw e1;
+   }
+
    GO4 = {};
 
-   GO4.version = "5.3.x";
+   GO4.version = "6.1.0";
 
    // use location to load all other scripts when required
    GO4.source_dir = function() {
@@ -29,12 +35,22 @@
       return "";
    }();
 
+   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
-   if (!JSROOT.TBasePainter.prototype.get_main_id)
-      JSROOT.TBasePainter.prototype.get_main_id = function() {
+   if (!BasePainter.prototype.get_main_id) {
+      GO4.id_counter = 1;
+      // method removed from JSROOT v6, is not required there, therefore reintroduce it here
+      BasePainter.prototype.get_main_id = function() {
          var elem = this.select_main();
-         return elem.empty() ? "" : elem.attr("id");
+         if (elem.empty()) return "";
+         var id = elem.attr("id");
+         if (!id) {
+            id = "go4_element_" + GO4.id_counter++;
+            elem.attr("id", id);
+         }
+         return id;
       }
+   }
 
    // ==================================================================================
 
@@ -125,14 +141,14 @@
 
 
    GO4.MsgListPainter = function(lst) {
-      JSROOT.TBasePainter.call(this);
+      BasePainter.call(this);
 
       this.lst = lst;
 
       return this;
    }
 
-   GO4.MsgListPainter.prototype = Object.create( JSROOT.TBasePainter.prototype );
+   GO4.MsgListPainter.prototype = Object.create( BasePainter.prototype );
 
    GO4.MsgListPainter.prototype.RedrawObject = function(obj) {
       this.lst = obj;
@@ -184,7 +200,7 @@
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
-      var player = new JSROOT.TBasePainter();
+      var player = new BasePainter();
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
@@ -254,8 +270,6 @@
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
 
-
-
           $(id + " .go4_printhistos")
           .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
           .click(this.ClickCommand.bind(this,"@PrintHistograms()"))
@@ -313,4 +327,4 @@
    JSROOT.addDrawFunc({ name: "TGo4MbsEvent", noinspect: true });
    JSROOT.addDrawFunc({ name: "TGo4EventElement", noinspect: true });
 
-})();
+})(); // factory

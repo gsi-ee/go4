@@ -14,13 +14,15 @@
 
    // ===========================================================================================
 
+   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
+
    GO4.ParameterEditor = function(par) {
-      JSROOT.TBasePainter.call(this);
+      BasePainter.call(this);
       this.par = par;
       this.changes = ["dummy", "init"]; // TODO: put to common "base class" of condition and parameter editor
    }
 
-   GO4.ParameterEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
+   GO4.ParameterEditor.prototype = Object.create(BasePainter.prototype);
 
    GO4.ParameterEditor.prototype.CheckResize = function() {
    }
@@ -53,7 +55,7 @@
       var id = "#" + this.get_main_id();
       $(id+" .buttonChangeLabel").show();// show warning sign
    }
-    
+
   // TODO: put to common "base class" of condition and parameter editor
    GO4.ParameterEditor.prototype.ClearChanges = function() {
       var index;
@@ -396,7 +398,7 @@
    }
 
    GO4.ParameterEditor.prototype.SetItemName = function(name) {
-      JSROOT.TBasePainter.prototype.SetItemName.call(this, name);
+      BasePainter.prototype.SetItemName.call(this, name);
       this.fillComments();
    }
 
