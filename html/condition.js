@@ -677,9 +677,9 @@
       return true;
    }
 
-   // JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
-   // JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
-   // JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
+   // JSROOT.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond, opt: ";editor" });
+   // JSROOT.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond, opt: ";editor" });
+   // JSROOT.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond, opt: ";editor" });
 
 
 })(); // function

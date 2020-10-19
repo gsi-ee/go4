@@ -300,14 +300,14 @@
 
    var canvsrc = GO4.source_dir + 'html/go4canvas.js;';
 
-   JSROOT.addDrawFunc("TGo4WinCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
-   JSROOT.addDrawFunc("TGo4PolyCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
-   JSROOT.addDrawFunc("TGo4ShapedCond", { script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
-   JSROOT.addDrawFunc("TGo4Marker", { script: canvsrc, func: 'GO4.drawGo4Marker' }, "");
+   JSROOT.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
+   JSROOT.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
+   JSROOT.addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
+   JSROOT.addDrawFunc({ name: "TGo4Marker", script: canvsrc, func: 'GO4.drawGo4Marker' });
 
-   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", { script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus' }, "editor");
+   JSROOT.addDrawFunc({ name: "TGo4AnalysisWebStatus", script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
 
-   JSROOT.addDrawFunc("TGo4MsgList", GO4.DrawMsgList, "");
+   JSROOT.addDrawFunc({ name: "TGo4MsgList", func: GO4.DrawMsgList });
 
    JSROOT.addDrawFunc({ name: "TGo4MbsEvent", noinspect: true });
    JSROOT.addDrawFunc({ name: "TGo4EventElement", noinspect: true });
