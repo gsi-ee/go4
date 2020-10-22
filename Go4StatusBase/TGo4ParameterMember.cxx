@@ -180,7 +180,14 @@ void TGo4ParameterMember::GetValue(char* addr)
      case kShort_t:    *((Short_t*)addr) = atoi(value); break;
      case kUChar_t:    *((UChar_t*)addr) = atoi(value); break;
      case kChar_t:     *((Char_t*)addr) = atoi(value); break;
-     case kBool_t:     *((Bool_t*)addr) = atoi(value); break;
+     case kBool_t:
+        if (!strcmp(value,"true"))
+           *((Bool_t*)addr) = kTRUE;
+        else if (!strcmp(value,"false"))
+           *((Bool_t*)addr) = kFALSE;
+        else
+           *((Bool_t*)addr) = atoi(value);
+        break;
      case kFloat_t:    *((Float_t*)addr) = atof(value); break;
      case kDouble_t:   *((Double_t*)addr) = atof(value); break;
      case kDouble32_t: *((Double32_t*)addr) = atof(value); break;
