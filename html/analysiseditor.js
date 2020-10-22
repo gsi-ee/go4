@@ -38,23 +38,7 @@
       this.ClearShowstates();
    }
 
-
    GO4.AnalysisStatusEditor.prototype = Object.create(BasePainter.prototype);
-
-   GO4.AnalysisStatusEditor.prototype.DabcCommand = function(cmd, option, callback) {
-      var pre="";
-      if (this.GetItemName()!="") { // note: check against !=null does not work here!
-           pre = this.GetItemName() + "/"; // suppress / if item name is empty
-            //console.log("Found non null itemname= -"+this.GetItemName()+"-");
-      }
-      pre +="exe.json\?method=";
-      var fullcom = pre + cmd + (option || "&"); // send any arguments otherwise ROOT refuse to process it
-
-      GO4.httpRequest(fullcom, 'text')
-         .then(() => callback(true))
-         .catch(() => callback(false))
-         .finally(() => console.log('Command is completed ' + cmd));
-   }
 
    GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
       // first avoid duplicate keys:
@@ -969,7 +953,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
              var options=""; // do not need to use name here
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
                console.log("submit analysis "+ editor.GetItemName()+ ", options="+options);
-               editor.DabcCommand("UpdateFromUrl",options,function(result) {
+               GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                  console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
                   if(result) {
                      editor.ClearChanges();
@@ -994,7 +978,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
                options +="&start";
                console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options);
-               editor.DabcCommand("UpdateFromUrl",options,function(result) {
+               GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                   console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
                  if(result) {
                     editor.ClearChanges();
@@ -1013,7 +997,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
              var options="&close";
         //    options=editor.EvaluateChanges(options); // complete option string from all changed elements
             console.log("close analysis "+ editor.GetItemName()+ ", options="+options);
-            editor.DabcCommand("UpdateFromUrl",options,function(
+            GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(
                  result) {
                      console.log(result ? "closing down analyis done. "
                    : "set analysis FAILED.");
@@ -1047,11 +1031,9 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 
                console.log("Writing autosave file: "+content);
                var options="&saveasf="+content;
-               editor.DabcCommand("UpdateFromUrl",options,function(
-                          result) {
-                              console.log(result ? "Writing autosave file done. "
-                            : "Writing autosave file FAILED.");
-                    });
+               GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
+                   console.log(result ? "Writing autosave file done. " : "Writing autosave file FAILED.");
+               });
                event.preventDefault(); // do not send automatic request to server!
             });
 
@@ -1092,17 +1074,17 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
              var content= $(id + " .anaprefs_name")[0].value;
              content=content.trim();
              var requestmsg = "Really load analysis preferences: "+ content;
-            var response = confirm(requestmsg);
-            if (!response) return;
+             var response = confirm(requestmsg);
+             if (!response) return;
              console.log("Loading analysis Prefs from "+content);
              var options="&loadprefs="+content;
-              editor.DabcCommand("UpdateFromUrl",options,function(result) {
-              if(result){
-                  if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
-                  else  console.log("dabc object not found!");
-              }
-              console.log("Loading preferences " + (result ? "done" : "FAILED."));
-            });
+             GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
+                if(result){
+                   if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
+                                   else console.log("dabc object not found!");
+                }
+                console.log("Loading preferences " + (result ? "done" : "FAILED."));
+             });
          })
         .children(":first") // select first button element, used for images
         .css('background-image', "url(" + GO4.source_dir + "icons/fileopen.png)");
@@ -1121,9 +1103,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
                var response = confirm(requestmsg);
                if (!response)   return;
                console.log("Saving analysis Prefs to "+content);
-
                  var options="&saveprefs="+content;
-                 editor.DabcCommand("UpdateFromUrl",options,function(result) {
+                 GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                      console.log(result ? "Saving preferences done. " : "Saving preferences  FAILED.");
                  });
             });

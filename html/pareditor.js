@@ -27,22 +27,6 @@
    GO4.ParameterEditor.prototype.CheckResize = function() {
    }
 
-   // TODO: put to common "base class" of condition and parameter editor
-   GO4.ParameterEditor.prototype.DabcCommand = function(cmd, option, callback) {
-      var pre="";
-      if (this.GetItemName()!="") { // note: check against !=null does not work here!
-         pre = this.GetItemName() + "/"; // suppress / if item name is empty
-         //console.log("Found non null itemname= -"+this.GetItemName()+"-");
-      }
-      pre +="exe.json\?method=";
-
-      var fullcom = pre + cmd + (option || "&"); // send any arguments otherwise ROOT refuse to process it
-
-      GO4.httpRequest(fullcom, 'text')
-         .then(() => callback(true))
-         .catch(() => callback(false))
-         .finally(() => console.log('Command is completed ' + cmd));
-   }
 
    // TODO: put to common "base class" of condition and parameter editor
    // add identifier of changed element to list, make warning sign visible
@@ -342,9 +326,9 @@
          var options=""; // do not need to use name here
            options = editor.EvaluateChanges(options); // complete option string from all changed elements
            console.log("set - condition "+ editor.GetItemName()+ ", options="+options);
-           editor.DabcCommand("UpdateFromUrl",options,function(result) {
-            console.log(result ? "set parameter done. " : "set parameter FAILED.");
-            if(result) editor.ClearChanges();
+           GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
+               console.log(result ? "set parameter done. " : "set parameter FAILED.");
+               if(result) editor.ClearChanges();
           });
       })
       .children(":first") // select first button element, used for images

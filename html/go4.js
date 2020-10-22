@@ -68,6 +68,19 @@
          });
       }
 
+   GO4.ExecuteMethod = function(item, method, options, callback) {
+      var prefix = "";
+      if (item.GetItemName())
+         prefix = item.GetItemName() + "/"; // suppress / if item name is empty
+      prefix += "exe.json\?method=";
+
+      var fullcom = prefix + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
+
+      GO4.httpRequest(fullcom, 'text')
+         .then(() => callback(true))
+         .catch(() => callback(false))
+         .finally(() => console.log('Command is completed ' + prefix + method));
+   }
 
    // ==================================================================================
 

@@ -33,20 +33,6 @@
        return (this.cond._typename == "TGo4ShapedCond");
    }
 
-   GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
-      var pre="";
-      if (this.GetItemName())
-         pre = this.GetItemName() + "/"; // suppress / if item name is empty
-
-      pre += "exe.json\?method=";
-      var fullcom = pre + cmd + (option || "&"); // send any arguments otherwise ROOT refuse to process it
-
-      GO4.httpRequest(fullcom, 'text')
-         .then(() => callback(true))
-         .catch(() => callback(false))
-         .finally(() => console.log('Command is completed ' + cmd));
-   }
-
    // add identifier of changed element to list, make warning sign visible
    GO4.ConditionEditor.prototype.MarkChanged = function(key) {
       // first avoid duplicate keys:
@@ -561,7 +547,7 @@
          var options=""; // do not need to use name here
          options=editor.EvaluateChanges(options); // complete option string from all changed elements
          console.log("set - condition "+ editor.GetItemName()+ ", options="+options);
-         editor.DabcCommand("UpdateFromUrl",options,function(result) {
+         GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
             console.log(result ? "set condition done. " : "set condition FAILED.");
             if(result) editor.ClearChanges();
          });
@@ -619,7 +605,7 @@
         .click(function() {
          console.log("clearing counters...");
          var options="&resetcounters=1";
-         editor.DabcCommand("UpdateFromUrl",options,function(result) {
+         GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
             console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
             if (result) {
                if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
