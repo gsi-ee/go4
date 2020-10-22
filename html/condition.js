@@ -39,12 +39,12 @@
          pre = this.GetItemName() + "/"; // suppress / if item name is empty
 
       pre += "exe.json\?method=";
-      var fullcom = pre + cmd + option;
+      var fullcom = pre + cmd + (option || "&"); // send any arguments otherwise ROOT refuse to process it
 
-      JSROOT.NewHttpRequest(fullcom, 'text', function(res) {
-         console.log("DabcCommand completed.");
-         callback(res!=null);
-      }).send(null);
+      GO4.httpRequest(fullcom, 'text')
+         .then(() => callback(true))
+         .catch(() => callback(false))
+         .finally(() => console.log('Command is completed ' + cmd));
    }
 
    // add identifier of changed element to list, make warning sign visible

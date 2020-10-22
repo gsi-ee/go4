@@ -52,6 +52,23 @@
       }
    }
 
+   if (typeof JSROOT.httpRequest == 'function')
+      GO4.httpRequest = JSROOT.httpRequest;
+   else
+      GO4.httpRequest = function(url, kind, post_data) {
+         return new Promise((resolveFunc,rejectFunc) => {
+            let req = JSROOT.NewHttpRequest(url,kind, (res) => {
+               if (res === null)
+                  rejectFunc(Error(`Fail to request ${url}`));
+               else
+                  resolveFunc(res);
+            });
+
+            req.send(post_data || null);
+         });
+      }
+
+
    // ==================================================================================
 
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {
@@ -76,20 +93,16 @@
       var brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null;
       if (brlayout) brlayout.AdjustSeparator(null, $('#'+divid+' div').height()+4, true);
 
-      var xreq = null, was_running = null;
+      var xreq = false, was_running = null;
 
       function UpdateRatemeter() {
-         if (xreq!=null) return;
-
-         xreq = JSROOT.NewHttpRequest(itemname+"/root.json.gz", 'object', function(res) {
-            xreq = null;
-
-            if (res==null)
-               return $('#'+divid + " .event_rate").css('background-color','grey');
-
+         if (xreq) return;
+         xreq = true;
+         GO4.httpRequest(itemname+"/root.json.gz", 'object').then(res => {
             $('#'+divid + " .event_rate").css('background-color', res.fbRunning ? 'lightgreen' : 'red');
             if (was_running != res.fbRunning)
                $('#'+divid + " .go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');
+
             was_running = res.fbRunning;
 
             $('#'+divid + " .event_source").text(res.fxEventSource == "" ? "<source>" : res.fxEventSource);
@@ -98,9 +111,11 @@
             $('#'+divid + " .run_time").text(res.fdTime.toFixed(1));
             $('#'+divid + " .total_events").text(res.fuCurrentCount);
             $('#'+divid + " .analysis_time").text(res.fxDateString == "" ? "<datime>" : res.fxDateString);
+         }).catch(() => {
+            $('#'+divid + " .event_rate").css('background-color','grey');
+         }).finally(() => {
+            xreq = false;
          });
-
-         xreq.send(null);
       }
 
       setInterval(UpdateRatemeter, 2000);

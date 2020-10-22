@@ -35,12 +35,13 @@
          //console.log("Found non null itemname= -"+this.GetItemName()+"-");
       }
       pre +="exe.json\?method=";
-      var fullcom = pre + cmd + option;
 
-      JSROOT.NewHttpRequest(fullcom, 'text', function(res) {
-         console.log("DabcCommand completed.");
-         callback(res!=null);
-      }).send(null);
+      var fullcom = pre + cmd + (option || "&"); // send any arguments otherwise ROOT refuse to process it
+
+      GO4.httpRequest(fullcom, 'text')
+         .then(() => callback(true))
+         .catch(() => callback(false))
+         .finally(() => console.log('Command is completed ' + cmd));
    }
 
    // TODO: put to common "base class" of condition and parameter editor
@@ -128,10 +129,9 @@
       var editor = this;
       if (editor.xreq || !this.GetItemName()) return; // avoid double requests
       var pre = this.GetItemName() + "/";
+      editor.xreq = true;
 
-      editor.xreq = JSROOT.NewHttpRequest(pre+"h.json?more", 'object', function(res) {
-         editor.xreq = null;
-         if (!res) return;
+      GO4.httpRequest(pre+"h.json?more", 'object').then(res => {
          var id = "#" + editor.get_main_id();
          $(id + " .par_values tbody").find("tr").each( function(i,tr) {
             var name = $(tr).find("td:first").text();
@@ -168,9 +168,8 @@
                 }
 
          });
+      }).finally(() => { editor.xreq = false; });
 
-      });
-      editor.xreq.send(null);
    }
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
