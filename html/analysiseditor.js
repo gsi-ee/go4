@@ -983,7 +983,8 @@
 
 
        $(id+" .buttonCloseAnalysis")
-         .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}}).click(function() {
+          .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}})
+          .click(function() {
              var options="&close";
         //    options=editor.EvaluateChanges(options); // complete option string from all changed elements
             console.log("close analysis "+ editor.GetItemName()+ ", options="+options);

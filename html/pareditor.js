@@ -343,9 +343,10 @@
    }
 
    GO4.ParameterEditor.prototype.RedrawObject = function(obj) {
+      if (!this.UpdateObject(obj)) return false;
       console.log("ParemeterEditor RedrawObject...");
-      if (this.UpdateObject(obj))
-         this.Redraw(); // no need to redraw complete pad
+      this.Redraw(); // no need to redraw complete pad
+      return true;
    }
 
    GO4.ParameterEditor.prototype.UpdateObject = function(obj) {

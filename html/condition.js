@@ -557,45 +557,46 @@
 
 
       $(id+" .buttonChangeLabel")
-      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}).click()
-      .children(":first") // select first button element, used for images
-      .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+         .click()
+         .children(":first") // select first button element, used for images
+         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
 
       $(id+" .buttonDrawCondition")
-      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-      .click(function() {
-         // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
+         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+         .click(function() {
+            // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
 
-         if (JSROOT.hpainter) {
-            editor.EvaluateChanges("");
+            if (JSROOT.hpainter) {
+               editor.EvaluateChanges("");
 
-            if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
+               if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
 
-            JSROOT.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
+               JSROOT.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
 
-            return;
-         }
+               return;
+            }
 
-         //if (JSROOT.hpainter){
-         //var onlineprop = JSROOT.hpainter.GetOnlineProp(editor.GetItemName());
-         //var baseurl = onlineprop.server + onlineprop.itemname + "/";
-         var baseurl = editor.GetItemName() + "/";
-         var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
-         console.log("draw condition to next window with url="+drawurl);
-         //window.open(drawurl);
-         window.open(drawurl,'_blank');
-//       }
-//       else
-//       {
-//       console.log("hpainter object not found!");
-//       }
-//       problem: we do not have method to get currently selected pad...
-//       var nextid="#"+(editor.divid + 1); // does not work, id is string and not number here
-//       console.log("draw condition to id="+nextid);
-//       GO4.drawGo4Cond(nextid, editor.cond, "");
+            //if (JSROOT.hpainter){
+            //var onlineprop = JSROOT.hpainter.GetOnlineProp(editor.GetItemName());
+            //var baseurl = onlineprop.server + onlineprop.itemname + "/";
+            var baseurl = editor.GetItemName() + "/";
+            var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
+            console.log("draw condition to next window with url="+drawurl);
+            //window.open(drawurl);
+            window.open(drawurl,'_blank');
+   //       }
+   //       else
+   //       {
+   //       console.log("hpainter object not found!");
+   //       }
+   //       problem: we do not have method to get currently selected pad...
+   //       var nextid="#"+(editor.divid + 1); // does not work, id is string and not number here
+   //       console.log("draw condition to id="+nextid);
+   //       GO4.drawGo4Cond(nextid, editor.cond, "");
 
 
-      })
+         })
       .children(":first") // select first button element, used for images
       .css('background-image', "url(" + GO4.source_dir + "icons/chart.png)");
 

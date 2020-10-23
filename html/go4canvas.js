@@ -136,8 +136,9 @@
    }
 
    GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
-      if (this.UpdateObject(obj))
-         this.Redraw(); // no need to redraw complete pad
+      if (!this.UpdateObject(obj)) return false;
+      this.Redraw(); // no need to redraw complete pad
+      return true;
    }
 
    GO4.MarkerPainter.prototype.Cleanup = function(arg) {
@@ -508,8 +509,9 @@
    }
 
    GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
-      if (this.UpdateObject(obj))
-         this.Redraw(); // no need to redraw complete pad
+      if (!this.UpdateObject(obj)) return false;
+      this.Redraw(); // no need to redraw complete pad
+      return true;
    }
 
    GO4.ConditionPainter.prototype.Cleanup = function(arg) {
