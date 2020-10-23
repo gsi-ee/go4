@@ -118,7 +118,7 @@
 
          var st = JSROOT.gStyle;
          JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
-                                    fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont});
+                                    fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont });
       } else {
          this.pave.Clear();
       }
@@ -440,7 +440,7 @@
       if (cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
 
       if (!pave_painter)
-         pave_painter = JSROOT.draw(this.divid, this.pave, "");
+         JSROOT.draw(this.divid, this.pave, "");
       else
          pave_painter.Redraw();
    }
@@ -563,8 +563,7 @@
          }
       });
 
-
-      if (histofullpath == null) {
+      if (histofullpath === null) {
          $('#'+divid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;

@@ -72,144 +72,134 @@
          this.showmore.pop();
    }
 
-//scan changed value list and return optionstring to be send to server
-GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
-   var id = "#" + this.get_main_id();
-   var editor=this;
-   var index;
-   var numsteps=this.changes.length;
-   for   (step = 0; step < numsteps ; step++) {
-      var len=this.changes[step].length;
-      var stepoptions="";
-      for   (index = 0; index < len ; index++) {
+   //scan changed value list and return optionstring to be send to server
+   GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
+      var id = "#" + this.get_main_id();
+      var editor=this;
+      var index;
+      var numsteps=this.changes.length;
+      for   (step = 0; step < numsteps ; step++) {
+         var len=this.changes[step].length;
+         var stepoptions="";
+         for   (index = 0; index < len ; index++) {
 
-      var key=this.changes[step][index];
-      //console.log("Evaluate change key:%s", key);
+            var key=this.changes[step][index];
+            //console.log("Evaluate change key:%s", key);
 
-      var theElement=editor.stat.fxStepArray.arr[step];
-      // here mapping of key to editor field:
-      if(key=="stepenabled")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fbProcessEnabled;
-      }
-      else if(key=="sourceenabled")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fbSourceEnabled;
-      }
-      else if(key=="storeenabled")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fbStoreEnabled;
-      }
-      else if(key=="sourcesel")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiID;
-      }
-      else if(key=="sourcename")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fName;
-      }
-      else if(key=="sourceport")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiPort;
-      }
-      else if(key=="sourcetmout")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiTimeout;
-      }
-      else if(key=="sourceretry")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiRetryCnt;
-      }
-      else if(key=="sourcefirst")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStartEvent;
-      }
-      else if(key=="sourcelast")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStopEvent;
-      }
-      else if(key=="sourceskip")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuEventInterval;
-      }
-      else if(key=="storesel")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiID;
-      }
-      else if(key=="storename")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fName;
-      }
-      else if(key=="storesplit")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiSplit;
-      }
-      else if(key=="storebuf")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiBufsize;
-      }
-      else if(key=="storecomp")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiCompression;
-      }
-      else if(key=="storeasf")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiAutosavesize;
-      }
-      else if(key=="storeover")
-      {
-         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fbOverwrite;
-      }
-      // non step specific options are in step 0 options too:
+            var theElement=editor.stat.fxStepArray.arr[step];
+            // here mapping of key to editor field:
+            if(key=="stepenabled")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fbProcessEnabled;
+            }
+            else if(key=="sourceenabled")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fbSourceEnabled;
+            }
+            else if(key=="storeenabled")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fbStoreEnabled;
+            }
+            else if(key=="sourcesel")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiID;
+            }
+            else if(key=="sourcename")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fName;
+            }
+            else if(key=="sourceport")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiPort;
+            }
+            else if(key=="sourcetmout")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiTimeout;
+            }
+            else if(key=="sourceretry")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiRetryCnt;
+            }
+            else if(key=="sourcefirst")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStartEvent;
+            }
+            else if(key=="sourcelast")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStopEvent;
+            }
+            else if(key=="sourceskip")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuEventInterval;
+            }
+            else if(key=="storesel")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiID;
+            }
+            else if(key=="storename")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fName;
+            }
+            else if(key=="storesplit")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiSplit;
+            }
+            else if(key=="storebuf")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiBufsize;
+            }
+            else if(key=="storecomp")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiCompression;
+            }
+            else if(key=="storeasf")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiAutosavesize;
+            }
+            else if(key=="storeover")
+            {
+               stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fbOverwrite;
+            }
+            // non step specific options are in step 0 options too:
 
-      else if(key=="asfname")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fxAutoFileName;
-      }
+            else if(key=="asfname")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fxAutoFileName;
+            }
 
-      else if(key=="asfenabled")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOn;
-      }
+            else if(key=="asfenabled")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOn;
+            }
 
-      else if(key=="asftime")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fiAutoSaveInterval;
-      }
-      else if(key=="asfcomp")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fiAutoSaveCompression;
-      }
-      else if(key=="asfoverwrite")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOverwrite;
-      }
-      else if(key=="anaprefsname")
-      {
-         stepoptions+="&"+key+"="+editor.stat.fxConfigFileName;
-      }
+            else if(key=="asftime")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fiAutoSaveInterval;
+            }
+            else if(key=="asfcomp")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fiAutoSaveCompression;
+            }
+            else if(key=="asfoverwrite")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOverwrite;
+            }
+            else if(key=="anaprefsname")
+            {
+               stepoptions+="&"+key+"="+editor.stat.fxConfigFileName;
+            }
 
-      else{
-         console.log("Warning: EvaluateChanges found unknown key:%s", key);
-      }
+            else{
+               console.log("Warning: EvaluateChanges found unknown key:%s", key);
+            }
 
+         }// for index
 
-
-   }// for index
-
-
-      optionstring+=stepoptions;
-   } // for step
-   console.log("Resulting option string:%s", optionstring);
-   return optionstring;
-}
-
-
-
-
-
-
-
+         optionstring+=stepoptions;
+      } // for step
+      console.log("Resulting option string:%s", optionstring);
+      return optionstring;
+   }
 
    GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
    {

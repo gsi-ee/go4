@@ -27,7 +27,6 @@
    GO4.ParameterEditor.prototype.CheckResize = function() {
    }
 
-
    // TODO: put to common "base class" of condition and parameter editor
    // add identifier of changed element to list, make warning sign visible
    GO4.ParameterEditor.prototype.MarkChanged = function(key) {
@@ -201,8 +200,7 @@
                     // +"'/></td><td></td></tr>");
                     $(id + " ." + arraytableclass + " tbody").append(
                             "<tr><td class='par_key'>"
-                                + key
-                                    .toString()
+                                + key.toString()
                                 + "["
                                 + i
                                 + "]["
@@ -288,15 +286,14 @@
               $(id + " .par_values > tbody").append("<tr><td class='par_key'>" + key.toString() + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value + "' class='"+classname+"'/></td><td class='par_comment'></td></tr>");
            }
 
-
         }
      // here set callbacks; referred classname must be evaluated dynamically in function!:
-         $(id + " .par_values tbody input").change(function(){ editor.MarkChanged($(this).attr('class'))});
-         $(id + " .par_values tbody td").addClass("par_membertable_style");
-         $(id + " .par_values > thead th").addClass("par_memberheader_style");
-         $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
+      $(id + " .par_values tbody input").change(function(){ editor.MarkChanged($(this).attr('class'))});
+      $(id + " .par_values tbody td").addClass("par_membertable_style");
+      $(id + " .par_values > thead th").addClass("par_memberheader_style");
+      $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
 
-       this.ClearChanges();
+      this.ClearChanges();
    }
 
    GO4.ParameterEditor.prototype.fillEditor = function() {

@@ -660,7 +660,7 @@
    GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.cond._typename) return false;
 
-      this.cond= JSROOT.clone(obj); // does this also work with polygon condition?
+      this.cond = JSROOT.clone(obj); // does this also work with polygon condition?
 
       return true;
    }
@@ -668,6 +668,5 @@
    // JSROOT.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond, opt: ";editor" });
    // JSROOT.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond, opt: ";editor" });
    // JSROOT.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond, opt: ";editor" });
-
 
 })(); // function
