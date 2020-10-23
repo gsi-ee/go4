@@ -263,14 +263,12 @@
 
       player.ClickCommand = function(kind) {
          var pthis = this;
-         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal",
-               "CmdExecute"), function() {
-            pthis.needscroll = true
+         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdExecute"), function() {
+            pthis.needscroll = true;
          }, kind);
       }
 
       player.ClickClear = function() {
-         // console.log("Clear terminal");
          document.getElementById("anaterm_output_container").firstChild.innerHTML = "";
       }
 
@@ -282,8 +280,11 @@
 
 
       player.fillDisplay = function(id) {
+
           this.SetDivId(id);
           this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
+
+          id = "#" + id; // to use in jQuery
 
           $(id + " .go4_clearterm")
               .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
@@ -291,24 +292,23 @@
               .children(":first") // select first button element, used for images
               .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
-
           $(id + " .go4_endterm")
-          .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-          .click(this.ClickScroll.bind(this))
+            .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+            .click(this.ClickScroll.bind(this))
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
 
           $(id + " .go4_printhistos")
-          .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-          .click(this.ClickCommand.bind(this,"@PrintHistograms()"))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
+             .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+             .click(this.ClickCommand.bind(this,"@PrintHistograms()"))
+             .children(":first") // select first button element, used for images
+             .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
 
-          $(id + " .go4_printcond").button()
-          .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-          .click(this.ClickCommand.bind(this,"@PrintConditions()"))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
+          $(id + " .go4_printcond")
+             .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+             .click(this.ClickCommand.bind(this,"@PrintConditions()"))
+             .children(":first") // select first button element, used for images
+             .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
           var pthis = this;
 
@@ -317,17 +317,15 @@
                  var command = pthis.itemname.replace("Terminal", "CmdExecute");
                  var cmdpar=document.getElementById("go4_anaterm_command").value;
                  console.log("submit command - " + cmdpar);
-                 pthis.hpainter.ExecuteCommand(command,  function(){pthis.needscroll=true}, cmdpar);
+                 pthis.hpainter.ExecuteCommand(command,  function() { pthis.needscroll=true; }, cmdpar);
                  event.preventDefault();
               });
 
-
-          $(id + " .go4_executescript").button()
-           .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+         $(id + " .go4_executescript")
+            .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
-
 
       player.CheckResize = function(force) {
          // console.log("CheckResize..., force=" + force);
