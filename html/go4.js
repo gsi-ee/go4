@@ -219,14 +219,17 @@
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      var url = "";
+      var url = "", mdi;
       // FIXME: only for short backward compatibility with jsroot5
-      if (hpainter.GetOnlineItemUrl)
+      if (hpainter.GetOnlineItemUrl) {
          url = hpainter.GetOnlineItemUrl(itemname);
-      else
+         mdi = hpainter.GetDisplay();
+      } else {
          url = hpainter.getOnlineItemUrl(itemname);
+         mdi = hpainter.getDisplay();
+      }
 
-      var frame = hpainter.GetDisplay().FindFrame(itemname, true);
+      var frame = mdi ? mdi.FindFrame(itemname, true) : null;
       if (!url || !frame) return null;
 
       var divid = d3.select(frame).attr('id');
