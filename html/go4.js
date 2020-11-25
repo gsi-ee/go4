@@ -221,12 +221,12 @@
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
       var url = "", mdi;
       // FIXME: only for short backward compatibility with jsroot5
-      if (hpainter.GetOnlineItemUrl) {
-         url = hpainter.GetOnlineItemUrl(itemname);
-         mdi = hpainter.GetDisplay();
-      } else {
+      if (JSROOT._) {
          url = hpainter.getOnlineItemUrl(itemname);
          mdi = hpainter.getDisplay();
+      } else {
+         url = hpainter.GetOnlineItemUrl(itemname);
+         mdi = hpainter.GetDisplay();
       }
 
       var frame = mdi ? mdi.FindFrame(itemname, true) : null;
@@ -267,7 +267,10 @@
 
          this.draw_ready = false;
 
-         this.hpainter.display(msgitem, "divid:" + subid, this.DrawReady.bind(this));
+         if (JSROOT._)
+            this.hpainter.display(msgitem, "divid:" + subid).then(() => this.DrawReady());
+         else
+            this.hpainter.display(msgitem, "divid:" + subid, this.DrawReady.bind(this));
       }
 
       player.ClickCommand = function(kind) {

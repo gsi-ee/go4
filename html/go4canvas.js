@@ -581,13 +581,18 @@
 
       var condpainter = new GO4.ConditionPainter(cond);
 
-      JSROOT.hpainter.display(histofullpath, "divid:" + divid, function(res) {
-         if (res==null) return console.log("fail to get histogram " + histofullpath);
+      function drawCond(hpainter) {
+         if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
          condpainter.DrawingReady();
-      });
+      }
+
+      if (JSROOT._)
+         JSROOT.hpainter.display(histofullpath, "divid:" + divid).then(drawCond);
+      else
+         JSROOT.hpainter.display(histofullpath, "divid:" + divid, drawCond);
 
       return condpainter;
    }
