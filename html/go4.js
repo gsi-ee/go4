@@ -219,7 +219,13 @@
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      var url = hpainter.GetOnlineItemUrl(itemname);
+      var url = "";
+      // FIXME: only for short backward compatibility with jsroot5
+      if (hpainter.GetOnlineItemUrl)
+         url = hpainter.GetOnlineItemUrl(itemname);
+      else
+         url = hpainter.getOnlineItemUrl(itemname);
+
       var frame = hpainter.GetDisplay().FindFrame(itemname, true);
       if (!url || !frame) return null;
 
