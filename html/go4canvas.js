@@ -573,7 +573,9 @@
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;
 
-         JSROOT.hpainter.Find({ name: histofullpath, force: true})['_kind'] = "ROOT.TH1I";
+         let hitem = JSROOT._ ? JSROOT.hpainter.findItem({ name: histofullpath, force: true }) : JSROOT.hpainter.Find({ name: histofullpath, force: true });
+
+         htime._kind = "ROOT.TH1I";
 
          console.log("Try histogram" + histofullpath);
       }
