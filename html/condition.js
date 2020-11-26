@@ -575,7 +575,7 @@
             }
 
             //if (JSROOT.hpainter){
-            //var onlineprop = JSROOT.hpainter.GetOnlineProp(editor.GetItemName());
+            //var onlineprop = JSROOT.hpainter.getOnlineProp(editor.GetItemName());
             //var baseurl = onlineprop.server + onlineprop.itemname + "/";
             var baseurl = editor.GetItemName() + "/";
             var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";

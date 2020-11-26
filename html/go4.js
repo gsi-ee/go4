@@ -86,50 +86,70 @@
 
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {
 
-      var html = "<div style='padding-top:2px'>";
-      html += "<img class='go4_logo' style='vertical-align:middle;margin-left:5px;margin-right:5px;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
-      html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>file.lmd</label> ";
-      html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'; padding-left:3px; padding-right:3px;>---</label> Ev/s ";
-      html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Ev/s ";
-      html += "<label class='run_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> s ";
-      html += "<label class='total_events' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Events ";
-      html += "<label class='analysis_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>time</label>";
-      html += "</div>";
+      function CreateHTML() {
+         var elem = d3.select('#'+divid);
 
-      $('#'+divid).css('overflow','hidden')
-                  .css('padding-left','5px')
-                  .css('display', 'inline-block')
-                  .css('white-space', 'nowrap')
-                  .html(html);
+         if (elem.size() == 0) return null;
+         if (elem.select(".event_rate").size() > 0) return elem;
 
-      // use height of child element
-      var brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null;
-      if (brlayout) brlayout.AdjustSeparator(null, $('#'+divid+' div').height()+4, true);
+         var html = "<div style='padding-top:2px'>";
+         html += "<img class='go4_logo' style='vertical-align:middle;margin-left:5px;margin-right:5px;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
+         html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>file.lmd</label> ";
+         html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'; padding-left:3px; padding-right:3px;>---</label> Ev/s ";
+         html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Ev/s ";
+         html += "<label class='run_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> s ";
+         html += "<label class='total_events' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Events ";
+         html += "<label class='analysis_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>time</label>";
+         html += "</div>";
+
+         elem.style('overflow','hidden')
+             .style('padding-left','5px')
+             .style('display', 'inline-block')
+             .style('white-space', 'nowrap')
+             .html(html);
+
+         // use height of child element
+         var brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null,
+             sz = $('#'+divid + " div").height() + 4; // use jquery to get height
+
+         if (brlayout)
+            if (JSROOT._)
+               brlayout.adjustSeparators(null, sz, true);
+            else
+               brlayout.AdjustSeparator(null, sz, true);
+         return elem;
+      }
 
       var xreq = false, was_running = null;
 
       function UpdateRatemeter() {
          if (xreq) return;
+
+         let elem = CreateHTML();
+         if (!elem) return;
+
          xreq = true;
          GO4.httpRequest(itemname+"/root.json.gz", 'object').then(res => {
-            $('#'+divid + " .event_rate").css('background-color', res.fbRunning ? 'lightgreen' : 'red');
+            elem.select(".event_rate").style('background-color', res.fbRunning ? 'lightgreen' : 'red');
             if (was_running != res.fbRunning)
-               $('#'+divid + " .go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');
+               elem.select(".go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');
 
             was_running = res.fbRunning;
 
-            $('#'+divid + " .event_source").text(res.fxEventSource == "" ? "<source>" : res.fxEventSource);
-            $('#'+divid + " .event_rate").text(res.fdRate.toFixed(1));
-            $('#'+divid + " .aver_rate").text((res.fdTime > 0 ? res.fuCurrentCount / res.fdTime : 0).toFixed(1));
-            $('#'+divid + " .run_time").text(res.fdTime.toFixed(1));
-            $('#'+divid + " .total_events").text(res.fuCurrentCount);
-            $('#'+divid + " .analysis_time").text(res.fxDateString == "" ? "<datime>" : res.fxDateString);
+            elem.select(".event_source").text(res.fxEventSource == "" ? "<source>" : res.fxEventSource);
+            elem.select(".event_rate").text(res.fdRate.toFixed(1));
+            elem.select(".aver_rate").text((res.fdTime > 0 ? res.fuCurrentCount / res.fdTime : 0).toFixed(1));
+            elem.select(".run_time").text(res.fdTime.toFixed(1));
+            elem.select(".total_events").text(res.fuCurrentCount);
+            elem.select(".analysis_time").text(res.fxDateString == "" ? "<datime>" : res.fxDateString);
          }).catch(() => {
-            $('#'+divid + " .event_rate").css('background-color','grey');
+            elem.select(".event_rate").style('background-color','grey');
          }).finally(() => {
             xreq = false;
          });
       }
+
+      CreateHTML();
 
       setInterval(UpdateRatemeter, 2000);
    }
@@ -276,9 +296,11 @@
 
       player.ClickCommand = function(kind) {
          var pthis = this;
-         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdExecute"), function() {
-            pthis.needscroll = true;
-         }, kind);
+         var command = this.itemname.replace("Terminal", "CmdExecute");
+         if (JSROOT._)
+            this.hpainter.executeCommand(command, null, kind). then(() => { pthis.needscroll = true; });
+         else
+            this.hpainter.ExecuteCommand(command, function() { pthis.needscroll = true; }, kind);
       }
 
       player.ClickClear = function() {
@@ -328,9 +350,12 @@
           $("#go4_anaterm_cmd_form").submit(
               function(event) {
                  var command = pthis.itemname.replace("Terminal", "CmdExecute");
-                 var cmdpar=document.getElementById("go4_anaterm_command").value;
+                 var cmdpar = document.getElementById("go4_anaterm_command").value;
                  console.log("submit command - " + cmdpar);
-                 pthis.hpainter.ExecuteCommand(command,  function() { pthis.needscroll=true; }, cmdpar);
+                 if (JSROOT._)
+                    pthis.hpainter.executeCommand(command,  null, cmdpar).then(() => { pthis.needscroll = true; });
+                 else
+                    pthis.hpainter.ExecuteCommand(command,  function() { pthis.needscroll = true; }, cmdpar);
                  event.preventDefault();
               });
 

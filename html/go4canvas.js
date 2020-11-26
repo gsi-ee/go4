@@ -558,12 +558,15 @@
 
       var histofullpath = null;
 
-      JSROOT.hpainter.ForEach(function(h) {
-         if ((h['_name'] == cond.fxHistoName) && (h['_kind'].indexOf("ROOT.TH")==0)) {
+      function TestItem(h) {
+         if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf("ROOT.TH")==0))
             histofullpath = JSROOT.hpainter.itemFullName(h);
-            return true;
-         }
-      });
+      }
+
+      if (JSROOT._)
+         JSROOT.hpainter.forEachItem(TestItem);
+      else
+         JSROOT.hpainter.ForEach(TestItem);
 
       if (histofullpath === null) {
          $('#'+divid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
