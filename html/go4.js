@@ -219,17 +219,18 @@
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      var url = "", mdi;
+      var url = "", mdi, frame;
       // FIXME: only for short backward compatibility with jsroot5
       if (JSROOT._) {
          url = hpainter.getOnlineItemUrl(itemname);
          mdi = hpainter.getDisplay();
+         if (mdi) frame = mdi.findFrame(itemname, true);
       } else {
          url = hpainter.GetOnlineItemUrl(itemname);
          mdi = hpainter.GetDisplay();
+         if (mdi) frame = mdi.FindFrame(itemname, true);
       }
 
-      var frame = mdi ? mdi.FindFrame(itemname, true) : null;
       if (!url || !frame) return null;
 
       var divid = d3.select(frame).attr('id');
@@ -339,9 +340,7 @@
             .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
 
-      player.CheckResize = function(force) {
-         // console.log("CheckResize..., force=" + force);
-      }
+      player.CheckResize = player.checkResize = function() {}
 
       $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", player.fillDisplay.bind(player, divid));
 

@@ -24,8 +24,8 @@
 
    GO4.ParameterEditor.prototype = Object.create(BasePainter.prototype);
 
-   GO4.ParameterEditor.prototype.CheckResize = function() {
-   }
+   GO4.ParameterEditor.prototype.CheckResize = function() {}
+   GO4.ParameterEditor.prototype.checkResize = function() {}
 
    // TODO: put to common "base class" of condition and parameter editor
    // add identifier of changed element to list, make warning sign visible

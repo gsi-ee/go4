@@ -204,8 +204,8 @@
       return optionstring;
    }
 
-   GO4.ConditionEditor.prototype.CheckResize = function() {
-   }
+   GO4.ConditionEditor.prototype.CheckResize = function() {}
+   GO4.ConditionEditor.prototype.checkResize = function() {}
 
 
    GO4.ConditionEditor.prototype.ChangePolygonDimension = function() {
@@ -467,10 +467,7 @@
       console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
 
-      this.CheckResize();
-
       $(id+" .cond_tabs").tabs();
-
 
       $(id + " .cond_execmode").selectmenu({
          change : function(event, ui) {
