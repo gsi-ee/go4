@@ -362,10 +362,16 @@
    }
 
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
+      this.SetDivId(divid, -1);
+      let main = $(this.select_main().node());
+
+      var h = main.height(), w = main.width();
+      if ((h<10) && (w>10)) main.height(w*0.4);
+
       var pthis = this;
 
-      $("#"+divid).empty();
-      $("#"+divid).load( GO4.source_dir + "html/pareditor.htm", "", function() {
+      main.empty();
+      main.load( GO4.source_dir + "html/pareditor.htm", "", function() {
          pthis.SetDivId(divid);
          pthis.fillEditor();
          pthis.fillComments();
@@ -380,9 +386,7 @@
       this.fillComments();
    }
 
-   GO4.drawParameter = function(divid, par, option) {
-      var h = $("#"+divid).height(), w = $("#"+divid).width();
-      if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
+   GO4.drawParameter = function(divid, par /*, option */) {
       var editor = new GO4.ParameterEditor(par);
       return editor.drawEditor(divid);
    }
