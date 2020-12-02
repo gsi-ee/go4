@@ -531,8 +531,11 @@
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
+      var condpainter = new GO4.ConditionPainter(cond);
+      condpainter.SetDivId(divid, -1);
+      let realid = condpainter.get_main_id();
+
       if (GO4.web_canvas || (option=='same')) {
-         var condpainter = new GO4.ConditionPainter(cond);
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
@@ -541,18 +544,19 @@
 
       // from here normal code for plain THttpServer
 
+
       if (((cond.fxHistoName=="") || (option=='editor')) && GO4.ConditionEditor) {
          // $('#'+divid).append("<br/>Histogram name not specified");
-         var h = $("#"+divid).height(), w = $("#"+divid).width();
-         if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
+         var h = $("#"+realid).height(), w = $("#"+realid).width();
+         if ((h<10) && (w>10)) $("#"+realid).height(w*0.4);
          var editor = new GO4.ConditionEditor(cond);
-         return editor.drawEditor(divid);
+         return editor.drawEditor(realid);
       }
 
-      // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
+      // $('#'+realid).append("<br/>Histogram name is " + cond.fxHistoName);
 
       if (!JSROOT.hpainter) {
-         $('#'+divid).append("<br/>Error - did not found hierarchy painter");
+         $('#'+realid).append("<br/>Error - did not found hierarchy painter");
          return;
       }
 
@@ -569,7 +573,7 @@
          JSROOT.hpainter.ForEach(TestItem);
 
       if (histofullpath === null) {
-         $('#'+divid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
+         $('#'+realid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;
 
@@ -580,11 +584,9 @@
          console.log("Try histogram" + histofullpath);
       }
 
-      $('#'+divid).append("<br/>Drawing histogram " + histofullpath);
 
-      $('#'+divid).empty();
-
-      var condpainter = new GO4.ConditionPainter(cond);
+      $('#'+realid).append("<br/>Drawing histogram " + histofullpath);
+      $('#'+realid).empty();
 
       function drawCond(hpainter) {
          if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
@@ -595,9 +597,9 @@
       }
 
       if (JSROOT._)
-         JSROOT.hpainter.display(histofullpath, "divid:" + divid).then(drawCond);
+         JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(drawCond);
       else
-         JSROOT.hpainter.display(histofullpath, "divid:" + divid, drawCond);
+         JSROOT.hpainter.display(histofullpath, "divid:" + realid, drawCond);
 
       return condpainter;
    }

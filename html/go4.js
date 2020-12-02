@@ -28,7 +28,7 @@
 
          var pos = src.indexOf("html/go4.js");
          if (pos<0) continue;
-         if (src.indexOf("JSRootCore")>=0) continue;
+         if ((src.indexOf("JSRootCore") >= 0) || (src.indexOf("JSRoot.core") >= 0)) continue;
          console.log('Set GO4.source_dir to ' + src.substr(0, pos));
          return src.substr(0, pos);
       }
@@ -380,6 +380,7 @@
    JSROOT.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
    JSROOT.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
    JSROOT.addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
+   JSROOT.addDrawFunc({ name: "TGo4CondArray", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawCondArray', opt: ";editor" });
    JSROOT.addDrawFunc({ name: "TGo4Marker", script: canvsrc, func: 'GO4.drawGo4Marker' });
 
    JSROOT.addDrawFunc({ name: "TGo4AnalysisWebStatus", script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });

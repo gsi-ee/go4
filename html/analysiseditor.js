@@ -1136,10 +1136,12 @@
 
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       //console.log("Draw analysis status");
-      var h = $("#"+divid).height(), w = $("#"+divid).width();
-      if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
       var status = new GO4.AnalysisStatusEditor(stat);
-      return status.drawEditor(divid);
+      status.SetDivId(divid, -1);
+      var realid = status.get_main_id();
+      var h = $("#"+realid).height(), w = $("#"+realid).width();
+      if ((h<10) && (w>10)) $("#"+realid).height(w*0.7);
+      return status.drawEditor(realid);
    }
 
 })(); // factory function
