@@ -193,17 +193,10 @@
                               $(id + " ." + arraytableclass + " tbody").append(
                                  "<tr><td class='par_key'>"
                                  + key.toString()
-                                 + "["
-                                 + i
-                                 + "]["
-                                 + j
-                                 + "]["
-                                 + k
-                                 + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
+                                 + "[" + i + "][" + j + "][" + k + "]"
+                                 + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
                                  + subsubvalue[k]
-                                 + "' class='"
-                                 + classname
-                                 + "'/></td><td class='par_comment'></td></tr>");
+                                 + "' class='" + classname + "'/></td><td class='par_comment'></td></tr>");
 
                            } // for k
                         }
@@ -348,6 +341,7 @@
    GO4.ParameterEditor.prototype.Redraw = function() {
       console.log("ParemeterEditor Redraw...");
       this.fillMemberTable();
+      this.fillComments();
    }
 
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
