@@ -21,6 +21,24 @@
    // adding support of JSROOT v6
    let ObjectPainter = JSROOT.ObjectPainter || JSROOT.TObjectPainter;
 
+   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
+
+   if (!BasePainter.prototype.get_main_id) {
+      GO4.id_counter = 1;
+      // method removed from JSROOT v6, is not required there, therefore reintroduce it here
+      BasePainter.prototype.get_main_id = function() {
+         var elem = this.select_main();
+         if (elem.empty()) return "";
+         var id = elem.attr("id");
+         if (!id) {
+            id = "go4_element_" + GO4.id_counter++;
+            elem.attr("id", id);
+         }
+         return id;
+      }
+   }
+
+
    GO4.MarkerPainter = function(marker) {
       ObjectPainter.call(this, marker);
       this.pave = null; // drawing of stat
@@ -539,11 +557,10 @@
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
-         return condpainter.DrawingReady();
+         return JSROOT._ ? Promise.resolve(condpainter) : condpainter.DrawingReady();
       }
 
       // from here normal code for plain THttpServer
-
 
       if (((cond.fxHistoName=="") || (option=='editor')) && GO4.ConditionEditor) {
          // $('#'+divid).append("<br/>Histogram name not specified");
@@ -593,22 +610,25 @@
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
-         condpainter.DrawingReady();
+         return JSROOT._ ? condpainter : condpainter.DrawingReady();
       }
 
       if (JSROOT._)
-         JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(drawCond);
-      else
-         JSROOT.hpainter.display(histofullpath, "divid:" + realid, drawCond);
+         return JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(drawCond);
 
+      JSROOT.hpainter.display(histofullpath, "divid:" + realid, drawCond);
       return condpainter;
    }
 
    GO4.drawCondArray = function(divid, obj, option) {
       var arr = obj.condarr.arr;
       var num = obj.fiNumCond;
-      for (var k=0;k<num;++k)
-         GO4.drawGo4Cond(divid, arr[k], "");
+      var first;
+      for (var k=0;k<num;++k) {
+         var p = GO4.drawGo4Cond(divid, arr[k], "");
+         if (k == 0) first = p;
+      }
+      return first; // return first condition as result of drawing
    }
 
 
