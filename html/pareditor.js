@@ -353,15 +353,22 @@
 
       var pthis = this;
 
-      main.empty();
-      main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
-         pthis.SetDivId(divid);
-         pthis.fillEditor();
-         pthis.fillComments();
-         pthis.DrawingReady();
-      });
+      function loadEditor(resolve) {
+         main.empty();
+         main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
+            pthis.SetDivId(divid);
+            pthis.fillEditor();
+            pthis.fillComments();
+            if (resolve) resolve(pthis);
+                    else pthis.DrawingReady();
+        });
+        return phis;
+     }
 
-      return this;
+     if (JSROOT._)
+       return new Promise(resolve => loadEditor(resolve));
+
+     return loadEditor();
    }
 
    GO4.ParameterEditor.prototype.SetItemName = function(name) {

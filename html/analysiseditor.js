@@ -1103,7 +1103,7 @@
       this.refreshEditor();
    }
 
-   GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid) {
+   GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid, resolve) {
 
       this.SetDivId(divid);
 
@@ -1118,7 +1118,8 @@
          $("#"+ divid+" .steptabs").html(html);
          pthis.SetDivId(divid);
          pthis.fillEditor();
-         pthis.DrawingReady();
+         if (resolve) resolve(pthis);
+                 else pthis.DrawingReady();
       });
       return this;
    }
@@ -1141,6 +1142,9 @@
       var realid = status.get_main_id();
       var h = $("#"+realid).height(), w = $("#"+realid).width();
       if ((h<10) && (w>10)) $("#"+realid).height(w*0.7);
+
+      if (JSROOT._) return new Promise(resolve => status.drawEditor(realid, resolve));
+
       return status.drawEditor(realid);
    }
 

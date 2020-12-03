@@ -235,7 +235,7 @@
       painter.SetDivId(divid);
       painter.drawMarker();
       painter.drawLabel();
-      return painter.DrawingReady();
+      return JSROOT._ ? Promise.resolve(painter) : painter.DrawingReady();
    }
 
    // =========================================================================
@@ -567,6 +567,7 @@
          var h = $("#"+realid).height(), w = $("#"+realid).width();
          if ((h<10) && (w>10)) $("#"+realid).height(w*0.4);
          var editor = new GO4.ConditionEditor(cond);
+         if (JSROOT._) return new Promise(resolve => editor.drawEditor(realid, resolve));
          return editor.drawEditor(realid);
       }
 
@@ -614,7 +615,7 @@
       }
 
       if (JSROOT._)
-         return JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(drawCond);
+         return JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(hp => drawCond(hp));
 
       JSROOT.hpainter.display(histofullpath, "divid:" + realid, drawCond);
       return condpainter;

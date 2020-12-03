@@ -459,9 +459,9 @@
 
 
   //////////////////////////////////////////////////////////
-   GO4.ConditionEditor.prototype.fillEditor = function(divid) {
+   GO4.ConditionEditor.prototype.fillEditor = function(divid, resolve) {
       this.SetDivId(divid);
-      var id = "#" + this.get_main_id();
+      var id = "#" + divid;
       var editor = this;
       var cond = this.cond;
       console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
@@ -638,16 +638,17 @@
 
       this.refreshEditor();
 
-      this.DrawingReady();
+      if (resolve) resolve(this);
+              else this.DrawingReady();
 
       //$(document).tooltip();
       //$(id).tooltip(); // NOTE: jquery ui tooltips will change title information, currently conflict with jsroot!
    }
 
-   GO4.ConditionEditor.prototype.drawEditor = function(divid) {
+   GO4.ConditionEditor.prototype.drawEditor = function(divid, resolve) {
       $("#"+divid)
          .empty()
-         .load(GO4.source_dir + "html/condeditor.htm", "", this.fillEditor.bind(this, divid));
+         .load(GO4.source_dir + "html/condeditor.htm", "", this.fillEditor.bind(this, divid, resolve));
       return this;
    }
 

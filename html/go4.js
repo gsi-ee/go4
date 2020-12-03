@@ -235,7 +235,7 @@
       var painter = new GO4.MsgListPainter(lst);
       painter.SetDivId(divid);
       painter.Draw();
-      return painter.DrawingReady();
+      return JSROOT._ ? Promise.resolve(painter) : painter.DrawingReady();
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
