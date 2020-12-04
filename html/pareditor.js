@@ -345,7 +345,6 @@
    }
 
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
-      this.SetDivId(divid, -1);
       let main = $(this.select_main().node());
 
       var h = main.height(), w = main.width();
@@ -356,9 +355,9 @@
       function loadEditor(resolve) {
          main.empty();
          main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
-            pthis.SetDivId(divid);
             pthis.fillEditor();
             pthis.fillComments();
+            pthis.SetDivId(divid);
             if (resolve) resolve(pthis);
                     else pthis.DrawingReady();
         });
@@ -378,6 +377,7 @@
 
    GO4.drawParameter = function(divid, par /*, option */) {
       var editor = new GO4.ParameterEditor(par);
+      editor.SetDivId(divid);
       return editor.drawEditor(divid);
    }
 

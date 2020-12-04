@@ -554,9 +554,9 @@
       let realid = condpainter.get_main_id();
 
       if (GO4.web_canvas || (option=='same')) {
-         condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
+         condpainter.SetDivId(divid);
          return JSROOT._ ? Promise.resolve(condpainter) : condpainter.DrawingReady();
       }
 
@@ -597,7 +597,7 @@
 
          let hitem = JSROOT._ ? JSROOT.hpainter.findItem({ name: histofullpath, force: true }) : JSROOT.hpainter.Find({ name: histofullpath, force: true });
 
-         htime._kind = "ROOT.TH1I";
+         hitem._kind = "ROOT.TH1I";
 
          console.log("Try histogram" + histofullpath);
       }
@@ -608,9 +608,9 @@
 
       function drawCond(hpainter) {
          if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
-         condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
+         condpainter.SetDivId(divid);
          return JSROOT._ ? condpainter : condpainter.DrawingReady();
       }
 

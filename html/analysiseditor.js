@@ -1138,7 +1138,7 @@
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       //console.log("Draw analysis status");
       var status = new GO4.AnalysisStatusEditor(stat);
-      status.SetDivId(divid, -1);
+      status.SetDivId(divid);
       var realid = status.get_main_id();
       var h = $("#"+realid).height(), w = $("#"+realid).width();
       if ((h<10) && (w>10)) $("#"+realid).height(w*0.7);
