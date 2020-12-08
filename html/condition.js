@@ -16,8 +16,9 @@
 
    let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
-   GO4.ConditionEditor = function(cond) {
-      BasePainter.call(this);
+   GO4.ConditionEditor = function(divid, cond) {
+      BasePainter.call(this, divid);
+      if (this.SetDivId) this.SetDivId(divid);
       this.cond = cond;
       this.changes = ["dummy", "init"];
       this.ClearChanges();
@@ -461,7 +462,6 @@
   //////////////////////////////////////////////////////////
    GO4.ConditionEditor.prototype.fillEditor = function(divid, resolve) {
       if (resolve) {
-         this.setDom(divid);
          this.setTopPainter();
       } else {
          this.SetDivId(divid); // old
@@ -653,7 +653,7 @@
    GO4.ConditionEditor.prototype.drawEditor = function(divid, resolve) {
       $("#"+divid)
          .empty()
-         .load(GO4.source_dir + "html/condeditor.htm", "", this.fillEditor.bind(this, divid, resolve));
+         .load(GO4.source_dir + "html/condeditor.htm", "", () => this.fillEditor(divid, resolve));
       return this;
    }
 

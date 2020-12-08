@@ -188,8 +188,9 @@
    }
 
 
-   GO4.MsgListPainter = function(lst) {
-      BasePainter.call(this);
+   GO4.MsgListPainter = function(divid, lst) {
+      BasePainter.call(this, divid);
+      if (this.SetDivId) this.SetDivId(divid); // old
 
       this.lst = lst;
 
@@ -229,18 +230,14 @@
    }
 
    GO4.DrawMsgList = function(divid, lst, opt) {
-      var painter = new GO4.MsgListPainter(lst);
+      var painter = new GO4.MsgListPainter(divid, lst);
+      painter.Draw();
       if (JSROOT._) {
-         painter.setDom(divid);
-         painter.Draw();
          painter.setTopPainter();
          return Promise.resolve(painter);
-
       }
-      painter.SetDivId(divid); // old
-      painter.Draw();
       // (re) set painter to first child element
-      this.SetDivId(this.divid); // old
+      painter.SetDivId(divid); // old
       return painter.DrawingReady();
    }
 
@@ -264,7 +261,7 @@
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
-      var player = new BasePainter();
+      var player = new BasePainter(divid);
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
@@ -321,9 +318,7 @@
 
 
       player.fillDisplay = function(id) {
-
           if (JSROOT._) {
-             this.setDom(id);
              this.setTopPainter();
           } else {
              this.SetDivId(id); // old
@@ -378,7 +373,7 @@
 
       player.CheckResize = player.checkResize = function() {}
 
-      $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", player.fillDisplay.bind(player, divid));
+      $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", () => player.fillDisplay(divid));
 
       return player;
    }

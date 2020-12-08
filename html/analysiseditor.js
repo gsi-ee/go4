@@ -28,8 +28,9 @@
           GO4EV_MBS_RANDOM: 10            // random generated mbs event
       }
 
-   GO4.AnalysisStatusEditor = function(stat) {
-      BasePainter.call(this);
+   GO4.AnalysisStatusEditor = function(divid, stat) {
+      BasePainter.call(this, divid);
+      if (this.SetDivId) this.SetDivId(divid);
       this.stat = stat;
       this.step;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
@@ -1103,28 +1104,23 @@
       this.refreshEditor();
    }
 
-   GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid, resolve) {
-
-      if (resolve)
-         this.setDom(divid);
-      else
-         this.SetDivId(divid); // old
+   GO4.AnalysisStatusEditor.prototype.drawEditor = function(jqmain, resolve) {
 
       var pthis = this;
 
-      $("#"+divid).empty();
-      $("#"+divid).load(GO4.source_dir + "html/analysiseditor.htm", "", function() {
+      jqmain.empty();
+      jqmain.load(GO4.source_dir + "html/analysiseditor.htm", "", function() {
          var html = "<ul>";
          for (var i=0;i<8;i++)
             html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
          html+="</ul>";
-         $("#"+ divid+" .steptabs").html(html);
+         jqmain.find(".steptabs").html(html);
          pthis.fillEditor();
          if (resolve) {
             pthis.setTopPainter();
             resolve(pthis);
          } else {
-            pthis.SetDivId(divid); // old
+            pthis.SetDivId(this.divid); // old
             pthis.DrawingReady();
          }
       });
@@ -1143,19 +1139,15 @@
    }
 
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
-      //console.log("Draw analysis status");
-      var status = new GO4.AnalysisStatusEditor(stat);
-      if (JSROOT._)
-         status.setDom(divid);
-      else
-         status.SetDivId(divid); // old
+      var status = new GO4.AnalysisStatusEditor(divid, stat);
       var realid = status.get_main_id();
-      var h = $("#"+realid).height(), w = $("#"+realid).width();
-      if ((h<10) && (w>10)) $("#"+realid).height(w*0.7);
+      var jqmain = $("#"+realid);
+      var h = jqmain.height(), w = jqmain.width();
+      if ((h<10) && (w>10)) jqmain.height(w*0.7);
 
-      if (JSROOT._) return new Promise(resolve => status.drawEditor(realid, resolve));
+      if (JSROOT._) return new Promise(resolve => status.drawEditor(jqmain, resolve));
 
-      return status.drawEditor(realid);
+      return status.drawEditor(jqmain);
    }
 
 })(); // factory function

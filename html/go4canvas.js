@@ -580,7 +580,7 @@
          // $('#'+divid).append("<br/>Histogram name not specified");
          var h = $("#"+realid).height(), w = $("#"+realid).width();
          if ((h<10) && (w>10)) $("#"+realid).height(w*0.4);
-         var editor = new GO4.ConditionEditor(cond);
+         var editor = new GO4.ConditionEditor(realid, cond);
          if (JSROOT._) return new Promise(resolve => editor.drawEditor(realid, resolve));
          return editor.drawEditor(realid);
       }
