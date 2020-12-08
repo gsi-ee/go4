@@ -18,8 +18,9 @@
 
    let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
-   GO4.ParameterEditor = function(par) {
-      BasePainter.call(this);
+   GO4.ParameterEditor = function(divid, par) {
+      BasePainter.call(this, divid);
+      if (this.SetDivId) this.SetDivId(divid);
       this.par = par;
       this.changes = ["dummy", "init"]; // TODO: put to common "base class" of condition and parameter editor
    }
@@ -346,7 +347,7 @@
       this.fillComments();
    }
 
-   GO4.ParameterEditor.prototype.drawEditor = function(divid) {
+   GO4.ParameterEditor.prototype.drawEditor = function() {
 
       var sel = JSROOT._ ? this.selectDom() : this.select_main();
 
@@ -366,7 +367,7 @@
                pthis.setTopPainter();
                resolve(pthis);
             } else {
-               pthis.SetDivId(divid); // old
+               pthis.SetDivId(this.divid); // old
                pthis.DrawingReady();
             }
         });
@@ -385,10 +386,8 @@
    }
 
    GO4.drawParameter = function(divid, par /*, option */) {
-      var editor = new GO4.ParameterEditor(par);
-      if (JSROOT._) editor.setDom(divid);
-               else editor.SetDivId(divid); // old
-      return editor.drawEditor(divid);
+      var editor = new GO4.ParameterEditor(divid, par);
+      return editor.drawEditor();
    }
 
 })();
