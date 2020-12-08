@@ -534,8 +534,8 @@
       $(id+" .buttonGetCondition")
       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
       .click(function() {
-         console.log("update item = " + editor.GetItemName());
-         if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
+         console.log("update item = " + editor.getItemName());
+         if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
          else  console.log("hierarhy painter object not found!");
       })
       .children(":first") // select first button element, used for images
@@ -548,7 +548,7 @@
       .click(function() {
          var options=""; // do not need to use name here
          options=editor.EvaluateChanges(options); // complete option string from all changed elements
-         console.log("set - condition "+ editor.GetItemName()+ ", options="+options);
+         console.log("set - condition "+ editor.getItemName()+ ", options="+options);
          GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
             console.log(result ? "set condition done. " : "set condition FAILED.");
             if(result) editor.ClearChanges();
@@ -580,9 +580,9 @@
             }
 
             //if (JSROOT.hpainter){
-            //var onlineprop = JSROOT.hpainter.getOnlineProp(editor.GetItemName());
+            //var onlineprop = JSROOT.hpainter.getOnlineProp(editor.getItemName());
             //var baseurl = onlineprop.server + onlineprop.itemname + "/";
-            var baseurl = editor.GetItemName() + "/";
+            var baseurl = editor.getItemName() + "/";
             var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
             console.log("draw condition to next window with url="+drawurl);
             //window.open(drawurl);
@@ -611,7 +611,7 @@
          GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
             console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
             if (result) {
-               if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
+               if(JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
                else console.log("hpainter object not found!");
             }
          });

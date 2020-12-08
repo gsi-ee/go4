@@ -930,7 +930,7 @@
       $(id+" .buttonGetAnalysis")
          .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
          .click(function() {
-              if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
+              if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
                              else  console.log("dabc object not found!");
          })
         .children(":first") // select first button element, used for images
@@ -943,7 +943,7 @@
          .click(function() {
              var options=""; // do not need to use name here
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
-               console.log("submit analysis "+ editor.GetItemName()+ ", options="+options);
+               console.log("submit analysis "+ editor.getItemName()+ ", options="+options);
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                  console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
                   if(result) {
@@ -968,7 +968,7 @@
              var options=""; // do not need to use name here
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
                options +="&start";
-               console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options);
+               console.log("submit and start analysis "+ editor.getItemName()+ ", options="+options);
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                   console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
                  if(result) {
@@ -988,7 +988,7 @@
           .click(function() {
              var options="&close";
         //    options=editor.EvaluateChanges(options); // complete option string from all changed elements
-            console.log("close analysis "+ editor.GetItemName()+ ", options="+options);
+            console.log("close analysis "+ editor.getItemName()+ ", options="+options);
             GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(
                  result) {
                      console.log(result ? "closing down analyis done. "
@@ -1072,7 +1072,7 @@
              var options="&loadprefs="+content;
              GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                 if(result){
-                   if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
+                   if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
                                    else console.log("dabc object not found!");
                 }
                 console.log("Loading preferences " + (result ? "done" : "FAILED."));

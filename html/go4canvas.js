@@ -38,6 +38,8 @@
       }
    }
 
+   if (!BasePainter.prototype.getItemName)
+      BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
 
    GO4.MarkerPainter = function(marker) {
       ObjectPainter.call(this, marker);

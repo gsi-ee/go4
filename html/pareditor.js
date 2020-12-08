@@ -107,8 +107,8 @@
 
    GO4.ParameterEditor.prototype.fillComments = function() {
       var editor = this;
-      if (editor.xreq || !this.GetItemName()) return; // avoid double requests
-      var pre = this.GetItemName() + "/";
+      if (editor.xreq || !this.getItemName()) return; // avoid double requests
+      var pre = this.getItemName() + "/";
       editor.xreq = true;
 
       GO4.httpRequest(pre + "h.json?more", 'object').then(res => {
@@ -295,9 +295,9 @@
 
       $(id + " .buttonGetParameter")
          .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } }).click(function() {
-            console.log("update item = " + editor.GetItemName());
+            console.log("update item = " + editor.getItemName());
             if (JSROOT.hpainter)
-               JSROOT.hpainter.display(editor.GetItemName());
+               JSROOT.hpainter.display(editor.getItemName());
             else
                console.log("dabc object not found!");
          })
@@ -309,7 +309,7 @@
          .click(function() {
             var options = ""; // do not need to use name here
             options = editor.EvaluateChanges(options); // complete option string from all changed elements
-            console.log("set - condition " + editor.GetItemName() + ", options=" + options);
+            console.log("set - condition " + editor.getItemName() + ", options=" + options);
             GO4.ExecuteMethod(editor, "UpdateFromUrl", options, function(result) {
                console.log(result ? "set parameter done. " : "set parameter FAILED.");
                if (result) editor.ClearChanges();
@@ -380,8 +380,8 @@
      return loadEditor();
    }
 
-   GO4.ParameterEditor.prototype.SetItemName = function(name) {
-      BasePainter.prototype.SetItemName.call(this, name);
+   GO4.ParameterEditor.prototype.SetItemName = function(name, opt, hpainter) {
+      BasePainter.prototype.SetItemName.call(this, name, opt, hpainter);
       this.fillComments();
    }
 

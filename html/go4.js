@@ -52,6 +52,9 @@
       }
    }
 
+   if (!BasePainter.prototype.getItemName)
+      BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
+
    if (typeof JSROOT.httpRequest == 'function')
       GO4.httpRequest = JSROOT.httpRequest;
    else
@@ -70,8 +73,8 @@
 
    GO4.ExecuteMethod = function(item, method, options, callback) {
       var prefix = "";
-      if (item.GetItemName())
-         prefix = item.GetItemName() + "/"; // suppress / if item name is empty
+      if (item.getItemName())
+         prefix = item.getItemName() + "/"; // suppress / if item name is empty
       prefix += "exe.json\?method=";
 
       var fullcom = prefix + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
