@@ -249,6 +249,9 @@
 
    // =========================================================================
 
+   if (!ObjectPainter.prototype.matchObjectType)
+      ObjectPainter.prototype.matchObjectType = ObjectPainter.prototype.MatchObjectType
+
    GO4.ConditionPainter = function(cond) {
       ObjectPainter.call(this, cond);
       this.pave = null; // drawing of stat
@@ -274,11 +277,11 @@
 
 
    GO4.ConditionPainter.prototype.isPolyCond = function() {
-      return this.MatchObjectType("TGo4PolyCond") || this.MatchObjectType("TGo4ShapedCond");
+      return this.matchObjectType("TGo4PolyCond") || this.matchObjectType("TGo4ShapedCond");
    }
 
    GO4.ConditionPainter.prototype.isEllipseCond = function() {
-      return this.MatchObjectType("TGo4ShapedCond");
+      return this.matchObjectType("TGo4ShapedCond");
    }
 
    GO4.ConditionPainter.prototype.afterCutDraw = function(p) {
