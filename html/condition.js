@@ -17,7 +17,7 @@
    let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
    GO4.ConditionEditor = function(cond) {
-      BasePainter.call(this, cond);
+      BasePainter.call(this);
       this.cond = cond;
       this.changes = ["dummy", "init"];
       this.ClearChanges();

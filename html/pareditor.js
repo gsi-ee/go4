@@ -347,7 +347,10 @@
    }
 
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
-      let main = $(this.select_main().node());
+
+      var sel = JSROOT._ ? this.selectDom() : this.select_main();
+
+      var main = $(sel.node());
 
       var h = main.height(), w = main.width();
       if ((h < 10) && (w > 10)) main.height(w * 0.4);

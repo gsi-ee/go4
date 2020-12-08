@@ -27,7 +27,7 @@
       GO4.id_counter = 1;
       // method removed from JSROOT v6, is not required there, therefore reintroduce it here
       BasePainter.prototype.get_main_id = function() {
-         var elem = this.select_main();
+         var elem = this.selectDom();
          if (elem.empty()) return "";
          var id = elem.attr("id");
          if (!id) {

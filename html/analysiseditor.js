@@ -29,7 +29,7 @@
       }
 
    GO4.AnalysisStatusEditor = function(stat) {
-      BasePainter.call(this, stat);
+      BasePainter.call(this);
       this.stat = stat;
       this.step;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
