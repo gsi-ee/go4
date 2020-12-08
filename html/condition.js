@@ -460,7 +460,12 @@
 
   //////////////////////////////////////////////////////////
    GO4.ConditionEditor.prototype.fillEditor = function(divid, resolve) {
-      this.SetDivId(divid);
+      if (resolve) {
+         this.setDom(divid);
+         this.setTopPainter();
+      } else {
+         this.SetDivId(divid); // old
+      }
       var id = "#" + divid;
       var editor = this;
       var cond = this.cond;

@@ -226,16 +226,22 @@
       for (var i=this.lst.arr.length-1;i>0;i--)
          main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
 
-      // (re) set painter to first child element
-      this.SetDivId(this.divid);
-
    }
 
    GO4.DrawMsgList = function(divid, lst, opt) {
       var painter = new GO4.MsgListPainter(lst);
-      painter.SetDivId(divid);
+      if (JSROOT._) {
+         painter.setDom(divid);
+         painter.Draw();
+         painter.setTopPainter();
+         return Promise.resolve(painter);
+
+      }
+      painter.SetDivId(divid); // old
       painter.Draw();
-      return JSROOT._ ? Promise.resolve(painter) : painter.DrawingReady();
+      // (re) set painter to first child element
+      this.SetDivId(this.divid); // old
+      return painter.DrawingReady();
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
@@ -316,7 +322,12 @@
 
       player.fillDisplay = function(id) {
 
-          this.SetDivId(id);
+          if (JSROOT._) {
+             this.setDom(id);
+             this.setTopPainter();
+          } else {
+             this.SetDivId(id); // old
+          }
           this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
 
           id = "#" + id; // to use in jQuery

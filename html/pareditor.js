@@ -12,6 +12,8 @@
       throw e1;
    }
 
+  "use strict";
+
    // ===========================================================================================
 
    let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
@@ -293,8 +295,10 @@
       $(id + " .buttonGetParameter")
          .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } }).click(function() {
             console.log("update item = " + editor.GetItemName());
-            if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName());
-            else console.log("dabc object not found!");
+            if (JSROOT.hpainter)
+               JSROOT.hpainter.display(editor.GetItemName());
+            else
+               console.log("dabc object not found!");
          })
          .children(":first") // select first button element, used for images
          .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
@@ -320,8 +324,6 @@
 
 
       this.fillMemberTable();
-      console.log("fillEditor finished");
-
    }
 
    GO4.ParameterEditor.prototype.RedrawObject = function(obj) {
@@ -357,11 +359,15 @@
          main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
             pthis.fillEditor();
             pthis.fillComments();
-            pthis.SetDivId(divid);
-            if (resolve) resolve(pthis);
-                    else pthis.DrawingReady();
+            if (resolve) {
+               pthis.setTopPainter();
+               resolve(pthis);
+            } else {
+               pthis.SetDivId(divid); // old
+               pthis.DrawingReady();
+            }
         });
-        return phis;
+        return pthis;
      }
 
      if (JSROOT._)
@@ -377,7 +383,8 @@
 
    GO4.drawParameter = function(divid, par /*, option */) {
       var editor = new GO4.ParameterEditor(par);
-      editor.SetDivId(divid);
+      if (JSROOT._) editor.setDom(divid);
+               else editor.SetDivId(divid); // old
       return editor.drawEditor(divid);
    }
 

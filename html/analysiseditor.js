@@ -1105,7 +1105,10 @@
 
    GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid, resolve) {
 
-      this.SetDivId(divid);
+      if (resolve)
+         this.setDom(divid);
+      else
+         this.SetDivId(divid); // old
 
       var pthis = this;
 
@@ -1116,10 +1119,14 @@
             html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
          html+="</ul>";
          $("#"+ divid+" .steptabs").html(html);
-         pthis.SetDivId(divid);
          pthis.fillEditor();
-         if (resolve) resolve(pthis);
-                 else pthis.DrawingReady();
+         if (resolve) {
+            pthis.setTopPainter();
+            resolve(pthis);
+         } else {
+            pthis.SetDivId(divid); // old
+            pthis.DrawingReady();
+         }
       });
       return this;
    }
@@ -1138,7 +1145,10 @@
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       //console.log("Draw analysis status");
       var status = new GO4.AnalysisStatusEditor(stat);
-      status.SetDivId(divid);
+      if (JSROOT._)
+         status.setDom(divid);
+      else
+         status.SetDivId(divid); // old
       var realid = status.get_main_id();
       var h = $("#"+realid).height(), w = $("#"+realid).width();
       if ((h<10) && (w>10)) $("#"+realid).height(w*0.7);

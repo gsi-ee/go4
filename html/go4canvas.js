@@ -232,10 +232,17 @@
 
    GO4.drawGo4Marker = function(divid, obj, option) {
       var painter = new GO4.MarkerPainter(obj);
-      painter.SetDivId(divid);
+      if (JSROOT._) {
+         painter.setCanvDom(divid);
+         painter.drawMarker();
+         painter.drawLabel();
+         painter.addToPadPrimitives();
+         return Promise.resolve(painter);
+      }
+      painter.SetDivId(divid); // old
       painter.drawMarker();
       painter.drawLabel();
-      return JSROOT._ ? Promise.resolve(painter) : painter.DrawingReady();
+      return painter.DrawingReady();
    }
 
    // =========================================================================
@@ -550,14 +557,21 @@
    GO4.drawGo4Cond = function(divid, cond, option) {
 
       var condpainter = new GO4.ConditionPainter(cond);
-      condpainter.SetDivId(divid, -1);
+      if (JSROOT._)
+         condpainter.setCanvDom(divid);
+      else
+         condpainter.SetDivId(divid, -1); // old
       let realid = condpainter.get_main_id();
 
       if (GO4.web_canvas || (option=='same')) {
          condpainter.drawCondition();
          condpainter.drawLabel();
-         condpainter.SetDivId(divid);
-         return JSROOT._ ? Promise.resolve(condpainter) : condpainter.DrawingReady();
+         if (JSROOT._) {
+            condpainter.addToPadPrimitives();
+            return Promise.resolve(condpainter);
+         }
+         condpainter.SetDivId(divid); // old
+         return condpainter.DrawingReady();
       }
 
       // from here normal code for plain THttpServer
@@ -610,8 +624,13 @@
          if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
          condpainter.drawCondition();
          condpainter.drawLabel();
-         condpainter.SetDivId(divid);
-         return JSROOT._ ? condpainter : condpainter.DrawingReady();
+         if (JSROOT._) {
+            condpainter.addToPadPrimitives();
+            return condpainter;
+         } else {
+            condpainter.SetDivId(divid); // old
+            return condpainter.DrawingReady();
+         }
       }
 
       if (JSROOT._)
