@@ -43,8 +43,13 @@
       ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
    }
 
-   GO4.MarkerPainter = function(marker) {
-      ObjectPainter.call(this, marker);
+   GO4.MarkerPainter = function(divid, marker) {
+      if (JSROOT._) {
+         ObjectPainter.call(this, divid, marker);
+      } else {
+         ObjectPainter.call(this, marker);
+         this.SetDivId(divid); // old
+      }
       this.pave = null; // drawing of stat
    }
 
@@ -255,15 +260,13 @@
    }
 
    GO4.drawGo4Marker = function(divid, obj, option) {
-      var painter = new GO4.MarkerPainter(obj);
+      var painter = new GO4.MarkerPainter(divid, obj);
       if (JSROOT._) {
-         painter.setCanvDom(divid);
          painter.drawMarker();
          painter.drawLabel();
          painter.addToPadPrimitives();
          return Promise.resolve(painter);
       }
-      painter.SetDivId(divid); // old
       painter.drawMarker();
       painter.drawLabel();
       return painter.DrawingReady();
@@ -274,8 +277,14 @@
    if (!ObjectPainter.prototype.matchObjectType)
       ObjectPainter.prototype.matchObjectType = ObjectPainter.prototype.MatchObjectType
 
-   GO4.ConditionPainter = function(cond) {
-      ObjectPainter.call(this, cond);
+   GO4.ConditionPainter = function(divid, cond) {
+      if (JSROOT._) {
+         ObjectPainter.call(this, divid, cond);
+      } else {
+         ObjectPainter.call(this, cond);
+         this.SetDivId(divid, -1)
+      }
+
       this.pave = null; // drawing of stat
    }
 
@@ -614,11 +623,7 @@
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
-      var condpainter = new GO4.ConditionPainter(cond);
-      if (JSROOT._)
-         condpainter.setCanvDom(divid);
-      else
-         condpainter.SetDivId(divid, -1); // old
+      var condpainter = new GO4.ConditionPainter(divid, cond);
       let realid = condpainter.get_main_id();
 
       if (GO4.web_canvas || (option=='same')) {
