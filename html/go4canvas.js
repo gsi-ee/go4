@@ -41,6 +41,7 @@
    if (!JSROOT._) {
       BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
       ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
+      ObjectPainter.prototype.createG = ObjectPainter.prototype.CreateG;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -70,7 +71,7 @@
    }
 
    GO4.MarkerPainter.prototype.drawMarker = function() {
-      this.CreateG(); // can draw in complete pad
+      let g = this.createG(); // can draw in complete pad
 
       var marker = this.getObject();
 
@@ -82,7 +83,7 @@
       var path = this.markeratt.create(this.grx, this.gry);
 
       if (path)
-          this.draw_g.append("svg:path")
+          g.append("svg:path")
              .attr("d", path)
              .call(this.markeratt.func);
 
@@ -366,7 +367,8 @@
          return;
       }
 
-      this.CreateG(true); // drawing performed inside frame
+
+      let g = this.createG(true); // drawing performed inside frame
 
       if ((cond.fFillStyle==1001) && (cond.fFillColor==19)) {
          cond.fFillStyle = 3006;
@@ -389,7 +391,7 @@
          this.candy = false;
       }
 
-      this.draw_g.append("svg:rect")
+      g.append("svg:rect")
              .attr("x", this.grx1)
              .attr("y", this.gry1)
              .attr("width", this.grx2 - this.grx1)
