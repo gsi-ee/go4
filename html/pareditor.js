@@ -335,6 +335,12 @@
          this.Redraw(); // no need to redraw complete pad
          return true;
       }
+
+      GO4.ParameterEditor.prototype.setItemName = function(name, opt, hpainter) {
+         BasePainter.prototype.setItemName.call(this, name, opt, hpainter);
+         this.fillComments();
+      }
+
    } else {
 
       // old style, new jsroot does not have RedrawPad for BasePainter
@@ -348,6 +354,12 @@
          this.par = JSROOT.clone(obj);
          return true;
       }
+
+      GO4.ParameterEditor.prototype.SetItemName = function(name, opt, hpainter) {
+         BasePainter.prototype.SetItemName.call(this, name, opt, hpainter);
+         this.fillComments();
+      }
+
    }
 
 
@@ -390,10 +402,6 @@
      return loadEditor();
    }
 
-   GO4.ParameterEditor.prototype.SetItemName = function(name, opt, hpainter) {
-      BasePainter.prototype.SetItemName.call(this, name, opt, hpainter);
-      this.fillComments();
-   }
 
    GO4.drawParameter = function(divid, par /*, option */) {
       var editor = new GO4.ParameterEditor(divid, par);
