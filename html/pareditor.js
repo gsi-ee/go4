@@ -327,21 +327,29 @@
       this.fillMemberTable();
    }
 
-   GO4.ParameterEditor.prototype.redrawObject = function(obj) {
-      if (!this.UpdateObject(obj)) return false;
-      this.Redraw(); // no need to redraw complete pad
-      return true;
+   if (JSROOT._) {
+
+      GO4.ParameterEditor.prototype.redrawObject = function(obj) {
+         if (obj._typename != this.par._typename) return false;
+         this.par = JSROOT.clone(obj);
+         this.Redraw(); // no need to redraw complete pad
+         return true;
+      }
+   } else {
+
+      // old style, new jsroot does not have RedrawPad for BasePainter
+      GO4.ParameterEditor.prototype.RedrawPad = function(resize) {
+         this.Redraw();
+      }
+
+      // makes sense only in jsroot v5, in v6 should be defined redrawObject
+      GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
+         if (obj._typename != this.par._typename) return false;
+         this.par = JSROOT.clone(obj);
+         return true;
+      }
    }
 
-   if (!JSROOT._)
-      GO4.ParameterEditor.prototype.RedrawObject = GO4.ParameterEditor.prototype.redrawObject;
-
-   GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
-      if (obj._typename != this.par._typename) return false;
-      console.log("ParemeterEditor UpdateObject...");
-      this.par = JSROOT.clone(obj);
-      return true;
-   }
 
    GO4.ParameterEditor.prototype.Redraw = function() {
       console.log("ParemeterEditor Redraw...");

@@ -1127,15 +1127,24 @@
       return this;
    }
 
-   GO4.AnalysisStatusEditor.prototype.RedrawPad = function(resize) {
-      //console.log("analysis editor: RedrawPad");
-      this.refreshEditor();
-   }
-
-   GO4.AnalysisStatusEditor.prototype.UpdateObject = function(obj) {
-      if (obj._typename != this.stat._typename) return false;
-      this.stat = JSROOT.clone(obj);
-      return true;
+   if (JSROOT._) {
+      GO4.AnalysisStatusEditor.prototype.redrawObject = function(obj /*, opt */) {
+         if (obj._typename != this.stat._typename) return false;
+         this.stat = JSROOT.clone(obj);
+         this.refreshEditor();
+         return true;
+      }
+   } else {
+      // old style, new jsroot does not have RedrawPad for BasePainter
+      GO4.AnalysisStatusEditor.prototype.RedrawPad = function(resize) {
+         this.refreshEditor();
+      }
+      // makes sense only in jsroot v5, in v6 should be defined redrawObject
+      GO4.AnalysisStatusEditor.prototype.UpdateObject = function(obj) {
+         if (obj._typename != this.stat._typename) return false;
+         this.stat = JSROOT.clone(obj);
+         return true;
+      }
    }
 
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {

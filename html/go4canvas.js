@@ -157,14 +157,20 @@
          });
    }
 
-   GO4.MarkerPainter.prototype.redrawObject = function(obj) {
-      if (!this.UpdateObject(obj)) return false;
-      this.Redraw(); // no need to redraw complete pad
-      return true;
+   // should work for both jsroot v5 and v6 up to naming convention
+   if (JSROOT._) {
+      GO4.MarkerPainter.prototype.redrawObject = function(obj) {
+         if (!this.updateObject(obj)) return false;
+         this.Redraw(); // no need to redraw complete pad
+         return true;
+      }
+   } else {
+      GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
+         if (!this.UpdateObject(obj)) return false;
+         this.Redraw(); // no need to redraw complete pad
+         return true;
+      }
    }
-
-   if (!JSROOT._)
-      GO4.MarkerPainter.prototype.RedrawObject = GO4.MarkerPainter.prototype.redrawObject;
 
 
    GO4.MarkerPainter.prototype.Cleanup = function(arg) {
@@ -313,16 +319,29 @@
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
+            if (JSROOT._) {
+               var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
 
-            var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
+               if (cutpaint) {
+                  if (cutpaint.updateObject(cond.fxCut)) cutpaint.Redraw();
+                  this.afterCutDraw(cutpaint);
+               } else {
+                  cond.fxCut.fFillStyle = 3006;
+                  cond.fxCut.fFillColor = 2;
+                  JSROOT.draw(this.divid, cond.fxCut, "LF").then(p => this.afterCutDraw(p));
+               }
 
-            if (cutpaint) {
-               if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.Redraw();
-               this.afterCutDraw(cutpaint);
-            } else {
-               cond.fxCut.fFillStyle = 3006;
-               cond.fxCut.fFillColor = 2;
-               JSROOT.draw(this.divid, cond.fxCut, "LF", this.afterCutDraw.bind(this));
+            } else { // old jsroot v5
+               var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
+
+               if (cutpaint) {
+                  if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.Redraw();
+                  this.afterCutDraw(cutpaint);
+               } else {
+                  cond.fxCut.fFillStyle = 3006;
+                  cond.fxCut.fFillColor = 2;
+                  JSROOT.draw(this.divid, cond.fxCut, "LF", p => this.afterCutDraw(p));
+               }
             }
          }
          return;
@@ -544,14 +563,19 @@
       return hint;
    }
 
-   GO4.ConditionPainter.prototype.redrawObject = function(obj) {
-      if (!this.UpdateObject(obj)) return false;
-      this.Redraw(); // no need to redraw complete pad
-      return true;
+   if (JSROOT._) {
+      GO4.ConditionPainter.prototype.redrawObject = function(obj) {
+         if (!this.updateObject(obj)) return false;
+         this.Redraw(); // no need to redraw complete pad
+         return true;
+      }
+   } else {
+      GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
+         if (!this.UpdateObject(obj)) return false;
+         this.Redraw(); // no need to redraw complete pad
+         return true;
+      }
    }
-
-   if (!JSROOT._)
-      GO4.ConditionPainter.prototype.RedrawObject = GO4.ConditionPainter.prototype.redrawObject;
 
    GO4.ConditionPainter.prototype.Cleanup = function(arg) {
       if (this.pave) {

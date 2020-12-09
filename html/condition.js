@@ -657,16 +657,24 @@
       return this;
    }
 
-   GO4.ConditionEditor.prototype.RedrawPad = function(resize) {
-      this.refreshEditor();
-   }
-
-   GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
-      if (obj._typename != this.cond._typename) return false;
-
-      this.cond = JSROOT.clone(obj); // does this also work with polygon condition?
-
-      return true;
+   if (JSROOT._) {
+      GO4.ConditionEditor.prototype.redrawObject = function(obj/*, opt */) {
+         if (obj._typename != this.cond._typename) return false;
+         this.cond = JSROOT.clone(obj); // does this also work with polygon condition?
+         this.refreshEditor();
+         return true;
+      }
+   } else {
+      // old style, new jsroot does not have RedrawPad for BasePainter
+      GO4.ConditionEditor.prototype.RedrawPad = function(resize) {
+         this.refreshEditor();
+      }
+      // makes sense only in jsroot v5, in v6 should be defined redrawObject
+      GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
+         if (obj._typename != this.cond._typename) return false;
+         this.cond = JSROOT.clone(obj); // does this also work with polygon condition?
+         return true;
+      }
    }
 
    // JSROOT.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond, opt: ";editor" });
