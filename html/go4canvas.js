@@ -164,24 +164,34 @@
          this.Redraw(); // no need to redraw complete pad
          return true;
       }
+
+      GO4.MarkerPainter.prototype.cleanup = function(arg) {
+         if (this.pave) {
+            var pp = this.FindPainterFor(this.pave);
+            if (pp) pp.DeleteThis();
+            delete this.pave;
+         }
+
+         ObjectPainter.prototype.cleanup.call(this, arg);
+      }
    } else {
       GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
          if (!this.UpdateObject(obj)) return false;
          this.Redraw(); // no need to redraw complete pad
          return true;
       }
-   }
 
+      GO4.MarkerPainter.prototype.Cleanup = function(arg) {
+         if (this.pave) {
+            var pp = this.FindPainterFor(this.pave);
+            if (pp) pp.DeleteThis();
+            delete this.pave;
+         }
 
-   GO4.MarkerPainter.prototype.Cleanup = function(arg) {
-      if (this.pave) {
-         var pp = this.FindPainterFor(this.pave);
-         if (pp) pp.DeleteThis();
-         delete this.pave;
+         ObjectPainter.prototype.Cleanup.call(this, arg);
       }
-
-      ObjectPainter.prototype.Cleanup.call(this, arg);
    }
+
 
    GO4.MarkerPainter.prototype.Redraw = function() {
       this.drawMarker();
@@ -569,23 +579,33 @@
          this.Redraw(); // no need to redraw complete pad
          return true;
       }
+      GO4.ConditionPainter.prototype.cleanup = function(arg) {
+         if (this.pave) {
+            var pp = this.FindPainterFor(this.pave);
+            if (pp) pp.DeleteThis();
+            delete this.pave;
+         }
+
+         ObjectPainter.prototype.cleanup.call(this, arg);
+      }
+
    } else {
       GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
          if (!this.UpdateObject(obj)) return false;
          this.Redraw(); // no need to redraw complete pad
          return true;
       }
-   }
+      GO4.ConditionPainter.prototype.Cleanup = function(arg) {
+         if (this.pave) {
+            var pp = this.FindPainterFor(this.pave);
+            if (pp) pp.DeleteThis();
+            delete this.pave;
+         }
 
-   GO4.ConditionPainter.prototype.Cleanup = function(arg) {
-      if (this.pave) {
-         var pp = this.FindPainterFor(this.pave);
-         if (pp) pp.DeleteThis();
-         delete this.pave;
+         ObjectPainter.prototype.Cleanup.call(this, arg);
       }
-
-      ObjectPainter.prototype.Cleanup.call(this, arg);
    }
+
 
    GO4.ConditionPainter.prototype.Redraw = function() {
       this.drawCondition();

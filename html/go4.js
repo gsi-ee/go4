@@ -285,6 +285,19 @@
          this.draw_ready = true;
       }
 
+   if (JSROOT._)
+      player.cleanup = function() {
+         if (this.log_painter) {
+            this.log_painter.cleanup();
+            delete this.log_painter;
+         }
+         if (this.interval) {
+            clearInterval(this.interval);
+            delete this.interval;
+         }
+         BasePainter.prototype.cleanup.call(this);
+      }
+   else
       player.Cleanup = function() {
          if (this.log_painter) {
             this.log_painter.Cleanup();
@@ -297,11 +310,12 @@
          BasePainter.prototype.Cleanup.call(this);
       }
 
+
       player.ProcessTimer = function() {
          var subid = "anaterm_output_container";
          if ($("#" + subid).length == 0) {
             // detect if drawing disappear
-            return this.Cleanup();
+            return JSROOT._ ? this.cleanup() : this.Cleanup();
          }
          if (!this.draw_ready) return;
 
