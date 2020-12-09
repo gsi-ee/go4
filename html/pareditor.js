@@ -327,12 +327,14 @@
       this.fillMemberTable();
    }
 
-   GO4.ParameterEditor.prototype.RedrawObject = function(obj) {
+   GO4.ParameterEditor.prototype.redrawObject = function(obj) {
       if (!this.UpdateObject(obj)) return false;
-      console.log("ParemeterEditor RedrawObject...");
       this.Redraw(); // no need to redraw complete pad
       return true;
    }
+
+   if (!JSROOT._)
+      GO4.ParameterEditor.prototype.RedrawObject = GO4.ParameterEditor.prototype.redrawObject;
 
    GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.par._typename) return false;

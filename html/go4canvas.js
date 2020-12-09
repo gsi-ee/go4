@@ -38,8 +38,10 @@
       }
    }
 
-   if (!BasePainter.prototype.getItemName)
+   if (!JSROOT._) {
       BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
+      ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
+   }
 
    GO4.MarkerPainter = function(marker) {
       ObjectPainter.call(this, marker);
@@ -55,7 +57,7 @@
    }
 
    GO4.MarkerPainter.prototype.moveEnd = function() {
-      var marker = this.GetObject();
+      var marker = this.getObject();
       marker.fX = this.SvgToAxis("x", this.grx);
       marker.fY = this.SvgToAxis("y", this.gry);
       this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
@@ -65,7 +67,7 @@
    GO4.MarkerPainter.prototype.drawMarker = function() {
       this.CreateG(); // can draw in complete pad
 
-      var marker = this.GetObject();
+      var marker = this.getObject();
 
       this.createAttMarker({ attr: marker });
 
@@ -122,7 +124,7 @@
 
    GO4.MarkerPainter.prototype.drawLabel = function() {
 
-      var marker = this.GetObject();
+      var marker = this.getObject();
 
       if (!marker.fbHasLabel) return;
 
@@ -155,11 +157,15 @@
          });
    }
 
-   GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
+   GO4.MarkerPainter.prototype.redrawObject = function(obj) {
       if (!this.UpdateObject(obj)) return false;
       this.Redraw(); // no need to redraw complete pad
       return true;
    }
+
+   if (!JSROOT._)
+      GO4.MarkerPainter.prototype.RedrawObject = GO4.MarkerPainter.prototype.redrawObject;
+
 
    GO4.MarkerPainter.prototype.Cleanup = function(arg) {
       if (this.pave) {
@@ -183,10 +189,10 @@
    }
 
 //   GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
-//      var marker = this.GetObject();
+//      var marker = this.getObject();
 //      menu.add("header:"+ marker._typename + "::" + marker.fxName);
 //      function select(name,exec) {
-//         var marker = this.GetObject();
+//         var marker = this.getObject();
 //         marker[name] = !marker[name];
 //         this.WebCanvasExec(exec + (marker[name] ? '(true)' : '(false)'));
 //         this.Redraw();
@@ -204,7 +210,7 @@
    GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
 
-      var marker = this.GetObject();
+      var marker = this.getObject();
 
       var hint = { name: marker.fxName,
                    title: marker.fxName,
@@ -261,7 +267,7 @@
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
       //  JAM: need to put this here, since condition object will lose internal definition after cloning it again!
-      var cond = this.GetObject();
+      var cond = this.getObject();
       if (!cond.fbEnabled)
          return cond.fbResult;
 
@@ -300,7 +306,7 @@
 
    GO4.ConditionPainter.prototype.drawCondition = function(interactive) {
 
-      var cond = this.GetObject();
+      var cond = this.getObject();
 
       if (!cond || !cond.fbVisible) return;
 
@@ -390,7 +396,7 @@
    }
 
    GO4.ConditionPainter.prototype.moveEnd = function() {
-      var cond = this.GetObject(), exec = "";
+      var cond = this.getObject(), exec = "";
       if (this.dx1 || this.swapx) { cond.fLow1 = this.SvgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
       if (this.dx2 || this.swapx) { cond.fUp1 = this.SvgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
       if (this.dy2 || this.swapy) { cond.fLow2 = this.SvgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
@@ -403,7 +409,7 @@
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
 
-      var cond = this.GetObject(), painter = this;
+      var cond = this.getObject(), painter = this;
 
       if (!cond.fbLabelDraw || !cond.fbVisible) return;
 
@@ -483,10 +489,10 @@
    }
 
 //   GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
-//      var cond = this.GetObject();
+//      var cond = this.getObject();
 //      menu.add("header:"+ cond._typename + "::" + cond.fName);
 //      function select(name,exec) {
-//         var cond = this.GetObject();
+//         var cond = this.getObject();
 //         cond[name] = !cond[name];
 //         this.WebCanvasExec(exec + (cond[name] ? '(true)' : '(false)'));
 //         this.Redraw();
@@ -506,7 +512,7 @@
    GO4.ConditionPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
 
-      var cond = this.GetObject();
+      var cond = this.getObject();
 
       var hint = { name: cond.fName,
                    title: cond.fTitle,
@@ -538,11 +544,14 @@
       return hint;
    }
 
-   GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
+   GO4.ConditionPainter.prototype.redrawObject = function(obj) {
       if (!this.UpdateObject(obj)) return false;
       this.Redraw(); // no need to redraw complete pad
       return true;
    }
+
+   if (!JSROOT._)
+      GO4.ConditionPainter.prototype.RedrawObject = GO4.ConditionPainter.prototype.redrawObject;
 
    GO4.ConditionPainter.prototype.Cleanup = function(arg) {
       if (this.pave) {

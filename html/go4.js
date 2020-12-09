@@ -194,19 +194,21 @@
    GO4.MsgListPainter = function(divid, lst) {
       BasePainter.call(this, divid);
       if (this.SetDivId) this.SetDivId(divid); // old
-
       this.lst = lst;
-
       return this;
    }
 
    GO4.MsgListPainter.prototype = Object.create( BasePainter.prototype );
 
-   GO4.MsgListPainter.prototype.RedrawObject = function(obj) {
+   GO4.MsgListPainter.prototype.redrawObject = function(obj) {
+      // if (!obj._typename != 'TList') return false;
       this.lst = obj;
       this.Draw();
       return true;
    }
+
+   if (!JSROOT._)
+      GO4.MsgListPainter.prototype.RedrawObject = GO4.MsgListPainter.prototype.redrawObject;
 
    GO4.MsgListPainter.prototype.Draw = function() {
       if (!this.lst) return;
@@ -233,8 +235,11 @@
    }
 
    GO4.DrawMsgList = function(divid, lst, opt) {
+
       var painter = new GO4.MsgListPainter(divid, lst);
+
       painter.Draw();
+
       if (JSROOT._) {
          painter.setTopPainter();
          return Promise.resolve(painter);
@@ -271,7 +276,8 @@
       player.draw_ready = true;
       player.needscroll = false;
 
-      player.DrawReady = function() {
+      player.LogReady = function(p) {
+         if (p) this.log_painter = p;
          if(this.needscroll) {
             this.ClickScroll();
             this.needscroll = false;
@@ -279,25 +285,36 @@
          this.draw_ready = true;
       }
 
+      player.Cleanup = function() {
+         if (this.log_painter) {
+            this.log_painter.Cleanup();
+            delete this.log_painter;
+         }
+         if (this.interval) {
+            clearInterval(this.interval);
+            delete this.interval;
+         }
+         BasePainter.prototype.Cleanup.call(this);
+      }
+
       player.ProcessTimer = function() {
          var subid = "anaterm_output_container";
          if ($("#" + subid).length == 0) {
             // detect if drawing disappear
-            clearInterval(this.interval);
-            this.interval = null;
-            return;
+            return this.Cleanup();
          }
-         if (!this.draw_ready)
-            return;
+         if (!this.draw_ready) return;
 
          var msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
 
          this.draw_ready = false;
 
-         if (JSROOT._)
-            this.hpainter.display(msgitem, "divid:" + subid).then(() => this.DrawReady());
+         if (this.log_painter)
+            this.hpainter.display(msgitem, "update:divid:" + subid).then(() => this.LogReady());
+         else if (JSROOT._)
+            this.hpainter.display(msgitem, "divid:" + subid).then(p => this.LogReady(p));
          else
-            this.hpainter.display(msgitem, "divid:" + subid, this.DrawReady.bind(this));
+            this.hpainter.display(msgitem, "divid:" + subid, () => this.LogReady());
       }
 
       player.ClickCommand = function(kind) {
