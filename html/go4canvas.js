@@ -42,6 +42,8 @@
       BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
       ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
       ObjectPainter.prototype.createG = ObjectPainter.prototype.CreateG;
+      ObjectPainter.prototype.axisToSvg = ObjectPainter.prototype.AxisToSvg;
+      ObjectPainter.prototype.svgToAxis = ObjectPainter.prototype.SvgToAxis;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -64,8 +66,8 @@
 
    GO4.MarkerPainter.prototype.moveEnd = function() {
       var marker = this.getObject();
-      marker.fX = this.SvgToAxis("x", this.grx);
-      marker.fY = this.SvgToAxis("y", this.gry);
+      marker.fX = this.svgToAxis("x", this.grx);
+      marker.fY = this.svgToAxis("y", this.gry);
       this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
       this.drawLabel();
    }
@@ -77,8 +79,8 @@
 
       this.createAttMarker({ attr: marker });
 
-      this.grx = this.AxisToSvg("x", marker.fX);
-      this.gry = this.AxisToSvg("y", marker.fY);
+      this.grx = this.axisToSvg("x", marker.fX);
+      this.gry = this.axisToSvg("y", marker.fY);
 
       var path = this.markeratt.create(this.grx, this.gry);
 
@@ -378,12 +380,12 @@
       this.createAttFill({attr: cond});
       this.createAttLine({attr: cond});
 
-      this.grx1 = this.AxisToSvg("x", cond.fLow1);
-      this.grx2 = this.AxisToSvg("x", cond.fUp1);
+      this.grx1 = this.axisToSvg("x", cond.fLow1);
+      this.grx2 = this.axisToSvg("x", cond.fUp1);
 
       if (cond.fiDim == 2) {
-         this.gry1 = this.AxisToSvg("y", cond.fUp2);
-         this.gry2 = this.AxisToSvg("y", cond.fLow2);
+         this.gry1 = this.axisToSvg("y", cond.fUp2);
+         this.gry2 = this.axisToSvg("y", cond.fLow2);
          this.candy = true;
       } else {
          this.gry1 = 0;
@@ -437,10 +439,10 @@
 
    GO4.ConditionPainter.prototype.moveEnd = function() {
       var cond = this.getObject(), exec = "";
-      if (this.dx1 || this.swapx) { cond.fLow1 = this.SvgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
-      if (this.dx2 || this.swapx) { cond.fUp1 = this.SvgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
-      if (this.dy2 || this.swapy) { cond.fLow2 = this.SvgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
-      if (this.dy1 || this.swapy) { cond.fUp2 = this.SvgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
+      if (this.dx1 || this.swapx) { cond.fLow1 = this.svgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
+      if (this.dx2 || this.swapx) { cond.fUp1 = this.svgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
+      if (this.dy2 || this.swapy) { cond.fLow2 = this.svgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
+      if (this.dy1 || this.swapy) { cond.fUp2 = this.svgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
       if (exec) {
          this.WebCanvasExec(exec + "SetChanged()");
          this.drawLabel();
