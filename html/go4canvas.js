@@ -44,6 +44,7 @@
       ObjectPainter.prototype.createG = ObjectPainter.prototype.CreateG;
       ObjectPainter.prototype.axisToSvg = ObjectPainter.prototype.AxisToSvg;
       ObjectPainter.prototype.svgToAxis = ObjectPainter.prototype.SvgToAxis;
+      ObjectPainter.prototype.getMainPainter = ObjectPainter.prototype.main_painter;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -99,7 +100,7 @@
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
       var lbls = [];
 
-      var main = this.main_painter(), hint = null;
+      var main = this.getMainPainter(), hint = null;
       if (main && typeof main.ProcessTooltip == 'function')
          hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
 
@@ -499,7 +500,7 @@
             }
          }
 
-      var stat = this.main_painter().CountStat(function(x,y) { return painter.Test(x,y); });
+      var stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
 
       if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.FFormat(stat.integral, "14.7g"));
 
