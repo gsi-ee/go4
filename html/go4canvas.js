@@ -38,6 +38,8 @@
       }
    }
 
+   let FFormat;
+
    if (!JSROOT._) {
       BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
       ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
@@ -46,6 +48,9 @@
       ObjectPainter.prototype.svgToAxis = ObjectPainter.prototype.SvgToAxis;
       ObjectPainter.prototype.getMainPainter = ObjectPainter.prototype.main_painter;
       JSROOT.create = JSROOT.Create;
+      FFormat = JSROOT.FFormat;
+   } else {
+      FFormat = JSROOT.Painter.floatToString;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -108,10 +113,10 @@
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
       if (marker.fbXDraw)
-          lbls.push("X = " + JSROOT.FFormat(marker.fX, "6.4g"));
+          lbls.push("X = " + FFormat(marker.fX, "6.4g"));
 
       if (marker.fbYDraw)
-         lbls.push("Y = " + JSROOT.FFormat(marker.fY, "6.4g"));
+         lbls.push("Y = " + FFormat(marker.fY, "6.4g"));
 
       if (hint && hint.user_info) {
          if (marker.fbXbinDraw) {
@@ -503,22 +508,22 @@
 
       var stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
 
-      if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.FFormat(stat.integral, "14.7g"));
+      if (cond.fbIntDraw) this.pave.AddText("Integral = " + FFormat(stat.integral, "14.7g"));
 
-      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.FFormat(stat.meanx, "6.4g"));
+      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + FFormat(stat.meanx, "6.4g"));
 
-      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.FFormat(stat.rmsx, "6.4g"));
+      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + FFormat(stat.rmsx, "6.4g"));
 
       if (cond.fiDim==2) {
-         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.FFormat(stat.meany, "6.4g"));
-         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.FFormat(stat.rmsy, "6.4g"));
+         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + FFormat(stat.meany, "6.4g"));
+         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + FFormat(stat.rmsy, "6.4g"));
       }
 
-      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.FFormat(stat.xmax, "6.4g"));
+      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + FFormat(stat.xmax, "6.4g"));
 
       if (cond.fiDim==2)
-         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.FFormat(stat.ymax, "6.4g"));
-      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
+         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + FFormat(stat.ymax, "6.4g"));
+      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + FFormat(stat.wmax, "14.7g"));
 
       if (!pave_painter)
          JSROOT.draw(this.divid, this.pave, "");
