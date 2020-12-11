@@ -45,6 +45,7 @@
       ObjectPainter.prototype.axisToSvg = ObjectPainter.prototype.AxisToSvg;
       ObjectPainter.prototype.svgToAxis = ObjectPainter.prototype.SvgToAxis;
       ObjectPainter.prototype.getMainPainter = ObjectPainter.prototype.main_painter;
+      JSROOT.create = JSROOT.Create;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -140,7 +141,7 @@
       var pave_painter = this.FindPainterFor(this.pave);
 
       if (!pave_painter) {
-         this.pave = JSROOT.Create("TPaveStats");
+         this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
 
          var px = this.grx / this.pad_width() + 0.02,
@@ -459,7 +460,7 @@
       var pave_painter = this.FindPainterFor(this.pave);
 
       if (!pave_painter) {
-         this.pave = JSROOT.Create("TPaveStats");
+         this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + cond.fName;
          JSROOT.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
