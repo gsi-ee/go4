@@ -729,11 +729,12 @@
    // =======================================================================
 
    if (GO4.web_canvas) {
-      JSROOT.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
-      JSROOT.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
-      JSROOT.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
-      JSROOT.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
-      JSROOT.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
+      var jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
+      jsrp.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
+      jsrp.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
    }
 
    return GO4;

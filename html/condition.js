@@ -677,8 +677,9 @@
       }
    }
 
-   // JSROOT.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond, opt: ";editor" });
-   // JSROOT.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond, opt: ";editor" });
-   // JSROOT.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond, opt: ";editor" });
+   // done from central go4.js or go4canvas.js scripts
+   // jsrp.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond, opt: ";editor" });
+   // jsrp.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond, opt: ";editor" });
+   // jsrp.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond, opt: ";editor" });
 
 })(); // function
