@@ -148,9 +148,18 @@
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
+         
+         var rect = { width: 10, height: 10 };
+         
+         if (JSROOT._) {
+            rect = this.getPadRect();
+         } else {
+            rect.width = this.pad_width();
+            rect.height = this.pad_height();
+         }
 
-         var px = this.grx / this.pad_width() + 0.02,
-             py = this.gry / this.pad_height() - 0.02;
+         var px = this.grx / rect.width + 0.02,
+             py = this.gry / rect.height - 0.02;
          JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
          var st = JSROOT.gStyle;
