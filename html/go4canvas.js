@@ -183,7 +183,10 @@
       GO4.MarkerPainter.prototype.cleanup = function(arg) {
          if (this.pave) {
             var pp = this.FindPainterFor(this.pave);
-            if (pp) pp.DeleteThis();
+            if (pp) {
+               pp.removeFromPadPrimitives();
+               pp.cleanup();
+            }
             delete this.pave;
          }
 
@@ -602,7 +605,10 @@
       GO4.ConditionPainter.prototype.cleanup = function(arg) {
          if (this.pave) {
             var pp = this.FindPainterFor(this.pave);
-            if (pp) pp.DeleteThis();
+            if (pp) {
+               pp.removeFromPadPrimitives();
+               pp.cleanup();
+            }
             delete this.pave;
          }
 
