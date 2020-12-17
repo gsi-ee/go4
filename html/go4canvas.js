@@ -106,9 +106,18 @@
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
       var lbls = [];
 
-      var main = this.getMainPainter(), hint = null;
+      var main = this.getMainPainter(), hint = null, fx = 0, fy = 0;
+      if (JSROOT._) {
+         let rect = this.frame_painter().getFrameRect();
+         fx = rect.x;
+         fy = rect.y;
+      } else {
+         fx = this.frame_x();
+         fy = this.frame_y();
+      }
+      
       if (main && typeof main.ProcessTooltip == 'function')
-         hint = main.ProcessTooltip({ enabled: false, x: this.grx - this.frame_x(), y: this.gry - this.frame_y() });
+         hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
 
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
@@ -253,14 +262,22 @@
    GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
 
-      var marker = this.getObject();
+      var marker = this.getObject(), fx = 0, fy = 0;
+      if (JSROOT._) {
+         let rect = this.frame_painter().getFrameRect();
+         fx = rect.x;
+         fy = rect.y;
+      } else {
+         fx = this.frame_x();
+         fy = this.frame_y();
+      }
 
       var hint = { name: marker.fxName,
                    title: marker.fxName,
                    painter: this,
                    menu: true,
-                   x: this.grx - (this.frame_x() || 0),
-                   y: this.gry - (this.frame_y() || 0),
+                   x: this.grx - fx,
+                   y: this.gry - fy,
                    color1: this.markeratt.color };
 
       var dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
@@ -408,7 +425,7 @@
          this.candy = true;
       } else {
          this.gry1 = 0;
-         this.gry2 = this.frame_height();
+         this.gry2 = JSROOT._ ? this.frame_painter().getFrameHeight() : this.frame_height();
          this.candy = false;
       }
 
