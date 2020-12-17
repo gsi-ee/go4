@@ -108,7 +108,7 @@
 
       var main = this.getMainPainter(), hint = null, fx = 0, fy = 0;
       if (JSROOT._) {
-         let rect = this.frame_painter().getFrameRect();
+         let rect = this.getFramePainter().getFrameRect();
          fx = rect.x;
          fy = rect.y;
       } else {
@@ -266,7 +266,7 @@
 
       var marker = this.getObject(), fx = 0, fy = 0;
       if (JSROOT._) {
-         let rect = this.frame_painter().getFrameRect();
+         let rect = this.getFramePainter().getFrameRect();
          fx = rect.x;
          fy = rect.y;
       } else {
@@ -427,7 +427,7 @@
          this.candy = true;
       } else {
          this.gry1 = 0;
-         this.gry2 = JSROOT._ ? this.frame_painter().getFrameHeight() : this.frame_height();
+         this.gry2 = JSROOT._ ? this.getFramePainter().getFrameHeight() : this.frame_height();
          this.candy = false;
       }
 
