@@ -115,7 +115,7 @@
          fx = this.frame_x();
          fy = this.frame_y();
       }
-      
+
       if (main && typeof main.ProcessTooltip == 'function')
          hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
 
@@ -157,18 +157,20 @@
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
-         
-         var rect = { width: 10, height: 10 };
-         
+
+         var pad_width = 10, pad_height = 10;
+
          if (JSROOT._) {
-            rect = this.getPadRect();
+            let pp = this.getPadPainter();
+            pad_width = pp.getPadWidth();
+            pad_height = pp.getPadHeight();
          } else {
-            rect.width = this.pad_width();
-            rect.height = this.pad_height();
+            pad_width = this.pad_width();
+            pad_height = this.pad_height();
          }
 
-         var px = this.grx / rect.width + 0.02,
-             py = this.gry / rect.height - 0.02;
+         var px = this.grx / pad_width + 0.02,
+             py = this.gry / pad_height - 0.02;
          JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
          var st = JSROOT.gStyle;
