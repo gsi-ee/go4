@@ -284,14 +284,16 @@
    GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
       if (!pnt) return null;
 
-      var marker = this.getObject(), fx = 0, fy = 0;
+      var marker = this.getObject(), fx = 0, fy = 0, marker_sz = 1;
       if (JSROOT._) {
          let rect = this.getFramePainter().getFrameRect();
          fx = rect.x;
          fy = rect.y;
+         marker_sz = this.markeratt.getFullSize();
       } else {
          fx = this.frame_x();
          fy = this.frame_y();
+         marker_sz = this.markeratt.GetFullSize();
       }
 
       var hint = { name: marker.fxName,
@@ -306,7 +308,7 @@
 
       hint.menu_dist = dist;
 
-      if (dist < 2.5 * this.markeratt.GetFullSize()) hint.exact = true;
+      if (dist < 2.5 * marker_sz) hint.exact = true;
 
       if (hint.exact)
          hint.lines = this.fillLabels(marker);
