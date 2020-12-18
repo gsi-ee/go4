@@ -75,7 +75,11 @@
       var marker = this.getObject();
       marker.fX = this.svgToAxis("x", this.grx);
       marker.fY = this.svgToAxis("y", this.gry);
-      this.WebCanvasExec("SetXY(" + marker.fX + "," + marker.fY + ")");
+      var exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
+      if (JSROOT._)
+         this.submitCanvExec(exec);
+      else
+         this.WebCanvasExec(exec);
       this.drawLabel();
    }
 
@@ -248,7 +252,7 @@
 //      function select(name,exec) {
 //         var marker = this.getObject();
 //         marker[name] = !marker[name];
-//         this.WebCanvasExec(exec + (marker[name] ? '(true)' : '(false)'));
+//         this.submitCanvExec(exec + (marker[name] ? '(true)' : '(false)'));
 //         this.Redraw();
 //      }
 //      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
@@ -359,14 +363,22 @@
    GO4.ConditionPainter.prototype.afterCutDraw = function(p) {
       if (!p || !this.snapid || p._oldexec) return;
       p.snapid = this.snapid + "#member_fxCut";
-
-      // catch TCutG exec and mark condition as modified
-      p._oldexec = p.WebCanvasExec;
       p._condpainter = this;
 
-      p.WebCanvasExec = function(exec, arg) {
-         this._oldexec(exec, arg);
-         p._condpainter.WebCanvasExec("SetChanged()");
+      // catch TCutG exec and mark condition as modified
+      if (JSROOT._) {
+         p._oldexec = p.submitCanvExec;
+         p.submitCanvExec = function(exec, arg) {
+            this._oldexec(exec, arg);
+            p._condpainter.submitCanvExec("SetChanged()");
+         }
+      } else {
+         p._oldexec = p.WebCanvasExec;
+         p.WebCanvasExec = function(exec, arg) {
+            this._oldexec(exec, arg);
+            p._condpainter.WebCanvasExec("SetChanged()");
+         }
+
       }
    }
 
@@ -482,7 +494,10 @@
       if (this.dy2 || this.swapy) { cond.fLow2 = this.svgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
       if (this.dy1 || this.swapy) { cond.fUp2 = this.svgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
       if (exec) {
-         this.WebCanvasExec(exec + "SetChanged()");
+         if (JSROOT._)
+            this.submitCanvExec(exec + "SetChanged()");
+         else
+            this.WebCanvasExec(exec + "SetChanged()");
          this.drawLabel();
       }
    }
@@ -574,7 +589,7 @@
 //      function select(name,exec) {
 //         var cond = this.getObject();
 //         cond[name] = !cond[name];
-//         this.WebCanvasExec(exec + (cond[name] ? '(true)' : '(false)'));
+//         this.submitCanvExec(exec + (cond[name] ? '(true)' : '(false)'));
 //         this.Redraw();
 //      }
 //      menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
