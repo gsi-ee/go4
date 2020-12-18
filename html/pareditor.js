@@ -332,7 +332,7 @@
       GO4.ParameterEditor.prototype.redrawObject = function(obj) {
          if (obj._typename != this.par._typename) return false;
          this.par = JSROOT.clone(obj);
-         this.Redraw(); // no need to redraw complete pad
+         this.redraw(); // no need to redraw complete pad
          return true;
       }
 
@@ -345,7 +345,7 @@
 
       // old style, new jsroot does not have RedrawPad for BasePainter
       GO4.ParameterEditor.prototype.RedrawPad = function(resize) {
-         this.Redraw();
+         this.redraw();
       }
 
       // makes sense only in jsroot v5, in v6 should be defined redrawObject
@@ -363,11 +363,14 @@
    }
 
 
-   GO4.ParameterEditor.prototype.Redraw = function() {
+   GO4.ParameterEditor.prototype.redraw = function() {
       console.log("ParemeterEditor Redraw...");
       this.fillMemberTable();
       this.fillComments();
    }
+
+   // support older jsroot v5
+   if (!JSROOT._) GO4.ParameterEditor.prototype.redraw = GO4.ParameterEditor.prototype.redraw;
 
    GO4.ParameterEditor.prototype.drawEditor = function() {
 

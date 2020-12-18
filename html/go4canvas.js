@@ -195,19 +195,26 @@
       for (var k = 0; k < lbls.length; ++k)
          this.pave.AddText(lbls[k]);
 
-      if (pave_painter)
-         pave_painter.Redraw();
-      else
-         JSROOT.draw(this.divid, this.pave, "", function(p) {
-           if (p) p.$secondary = true
-         });
+      if (JSROOT._) {
+         if (pave_painter)
+            pave_painter.redraw();
+         else
+            JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
+      } else {
+         if (pave_painter)
+            pave_painter.redraw();
+         else
+            JSROOT.draw(this.divid, this.pave, "", function(p) {
+              if (p) p.$secondary = true;
+            });
+      }
    }
 
    // should work for both jsroot v5 and v6 up to naming convention
    if (JSROOT._) {
       GO4.MarkerPainter.prototype.redrawObject = function(obj) {
          if (!this.updateObject(obj)) return false;
-         this.Redraw(); // no need to redraw complete pad
+         this.redraw(); // no need to redraw complete pad
          return true;
       }
 
@@ -226,7 +233,7 @@
    } else {
       GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
          if (!this.UpdateObject(obj)) return false;
-         this.Redraw(); // no need to redraw complete pad
+         this.redraw(); // no need to redraw complete pad
          return true;
       }
 
@@ -242,10 +249,12 @@
    }
 
 
-   GO4.MarkerPainter.prototype.Redraw = function() {
+   GO4.MarkerPainter.prototype.redraw = function() {
       this.drawMarker();
       this.drawLabel();
    }
+
+   if (!JSROOT._) GO4.MarkerPainter.prototype.redraw = GO4.MarkerPainter.prototype.redraw;
 
    GO4.MarkerPainter.prototype.ProcessTooltip = function(pnt) {
       var hint = this.ExtractTooltip(pnt);
@@ -260,7 +269,7 @@
 //         var marker = this.getObject();
 //         marker[name] = !marker[name];
 //         this.submitCanvExec(exec + (marker[name] ? '(true)' : '(false)'));
-//         this.Redraw();
+//         this.redraw();
 //      }
 //      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
 //      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
@@ -402,7 +411,7 @@
 
             if (JSROOT._) {
                if (cutpaint) {
-                  if (cutpaint.updateObject(cond.fxCut)) cutpaint.Redraw();
+                  if (cutpaint.updateObject(cond.fxCut)) cutpaint.redraw();
                   this.afterCutDraw(cutpaint);
                } else {
                   cond.fxCut.fFillStyle = 3006;
@@ -412,7 +421,7 @@
 
             } else { // old jsroot v5
                if (cutpaint) {
-                  if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.Redraw();
+                  if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.redraw();
                   this.afterCutDraw(cutpaint);
                } else {
                   cond.fxCut.fFillStyle = 3006;
@@ -578,8 +587,10 @@
 
       if (!pave_painter)
          JSROOT.draw(this.divid, this.pave, "");
+      else if (JSROOT._)
+         pave_painter.redraw();
       else
-         pave_painter.Redraw();
+         pave_painter.redraw(); // old jsroot v5
    }
 
    GO4.ConditionPainter.prototype.ProcessTooltip = function(pnt) {
@@ -595,7 +606,7 @@
 //         var cond = this.getObject();
 //         cond[name] = !cond[name];
 //         this.submitCanvExec(exec + (cond[name] ? '(true)' : '(false)'));
-//         this.Redraw();
+//         this.redraw();
 //      }
 //      menu.addchk(cond.fbLabelDraw, 'Label', select.bind(this, 'fbLabelDraw', 'SetLabelDraw'));
 //      menu.addchk(cond.fbLimitsDraw, 'Limits', select.bind(this, 'fbLimitsDraw', 'SetLimitsDraw'));
@@ -647,7 +658,7 @@
    if (JSROOT._) {
       GO4.ConditionPainter.prototype.redrawObject = function(obj) {
          if (!this.updateObject(obj)) return false;
-         this.Redraw(); // no need to redraw complete pad
+         this.redraw(); // no need to redraw complete pad
          return true;
       }
       GO4.ConditionPainter.prototype.cleanup = function(arg) {
@@ -664,9 +675,10 @@
       }
 
    } else {
+      // support older jsroot v5 interface
       GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
          if (!this.UpdateObject(obj)) return false;
-         this.Redraw(); // no need to redraw complete pad
+         this.redraw(); // no need to redraw complete pad
          return true;
       }
       GO4.ConditionPainter.prototype.Cleanup = function(arg) {
@@ -681,10 +693,13 @@
    }
 
 
-   GO4.ConditionPainter.prototype.Redraw = function() {
+   GO4.ConditionPainter.prototype.redraw = function() {
       this.drawCondition();
       this.drawLabel();
    }
+
+   // only to support old jsroot v5 interface
+   if (!JSROOT._) GO4.ConditionPainter.prototype.redraw = GO4.ConditionPainter.prototype.redraw;
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
