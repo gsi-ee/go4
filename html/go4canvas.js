@@ -38,7 +38,7 @@
       }
    }
 
-   let FFormat;
+   let FFormat, findPainter;
 
    if (!JSROOT._) {
       BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
@@ -49,8 +49,15 @@
       ObjectPainter.prototype.getMainPainter = ObjectPainter.prototype.main_painter;
       JSROOT.create = JSROOT.Create;
       FFormat = JSROOT.FFormat;
+      findPainter = function(painter, obj, name, typ) {
+         return painter.FindPainterFor(obj, name, typ);
+      }
    } else {
       FFormat = JSROOT.Painter.floatToString;
+      findPainter = (painter, obj, name, typ) => {
+         let pp = painter.getPadPainter();
+         return pp ? pp.findPainterFor(obj, name, typ) : null;
+      }
    }
 
    GO4.MarkerPainter = function(divid, marker) {
@@ -156,7 +163,7 @@
 
       if (!marker.fbHasLabel) return;
 
-      var pave_painter = this.FindPainterFor(this.pave);
+      var pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
@@ -185,7 +192,7 @@
       }
 
       var lbls = this.fillLabels(marker);
-      for (var k=0;k<lbls.length;++k)
+      for (var k = 0; k < lbls.length; ++k)
          this.pave.AddText(lbls[k]);
 
       if (pave_painter)
@@ -206,7 +213,7 @@
 
       GO4.MarkerPainter.prototype.cleanup = function(arg) {
          if (this.pave) {
-            var pp = this.FindPainterFor(this.pave);
+            var pp = findPainter(this, this.pave);
             if (pp) {
                pp.removeFromPadPrimitives();
                pp.cleanup();
@@ -225,7 +232,7 @@
 
       GO4.MarkerPainter.prototype.Cleanup = function(arg) {
          if (this.pave) {
-            var pp = this.FindPainterFor(this.pave);
+            var pp = findPainter(this, this.pave);
             if (pp) pp.DeleteThis();
             delete this.pave;
          }
@@ -246,7 +253,7 @@
       return hint;
    }
 
-//   GO4.MarkerPainter.prototype.FillContextMenu = function(menu) {
+//   GO4.MarkerPainter.prototype.fillContextMenu = function(menu) {
 //      var marker = this.getObject();
 //      menu.add("header:"+ marker._typename + "::" + marker.fxName);
 //      function select(name,exec) {
@@ -391,9 +398,9 @@
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
-            if (JSROOT._) {
-               var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
+            var cutpaint = findPainter(this, null, cond.fName, 'TCutG');
 
+            if (JSROOT._) {
                if (cutpaint) {
                   if (cutpaint.updateObject(cond.fxCut)) cutpaint.Redraw();
                   this.afterCutDraw(cutpaint);
@@ -404,8 +411,6 @@
                }
 
             } else { // old jsroot v5
-               var cutpaint = this.FindPainterFor(null, cond.fName, 'TCutG');
-
                if (cutpaint) {
                   if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.Redraw();
                   this.afterCutDraw(cutpaint);
@@ -508,7 +513,7 @@
 
       if (!cond.fbLabelDraw || !cond.fbVisible) return;
 
-      var pave_painter = this.FindPainterFor(this.pave);
+      var pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
@@ -583,7 +588,7 @@
       return hint;
    }
 
-//   GO4.ConditionPainter.prototype.FillContextMenu = function(menu) {
+//   GO4.ConditionPainter.prototype.fillContextMenu = function(menu) {
 //      var cond = this.getObject();
 //      menu.add("header:"+ cond._typename + "::" + cond.fName);
 //      function select(name,exec) {
@@ -647,7 +652,7 @@
       }
       GO4.ConditionPainter.prototype.cleanup = function(arg) {
          if (this.pave) {
-            var pp = this.FindPainterFor(this.pave);
+            var pp = findPainter(this, this.pave);
             if (pp) {
                pp.removeFromPadPrimitives();
                pp.cleanup();
@@ -666,7 +671,7 @@
       }
       GO4.ConditionPainter.prototype.Cleanup = function(arg) {
          if (this.pave) {
-            var pp = this.FindPainterFor(this.pave);
+            var pp = findPainter(this, this.pave);
             if (pp) pp.DeleteThis();
             delete this.pave;
          }
