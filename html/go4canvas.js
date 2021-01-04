@@ -519,7 +519,7 @@
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
 
-      var cond = this.getObject(), painter = this;
+      var cond = this.getObject(), painter = this, stat = {};
 
       if (!cond.fbLabelDraw || !cond.fbVisible) return;
 
@@ -567,7 +567,11 @@
             }
          }
 
-      var stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
+      if (JSROOT._) {
+         stat = this.getMainPainter().countStat((x,y) => painter.Test(x,y));
+      } else {
+         stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
+      }
 
       if (cond.fbIntDraw) this.pave.AddText("Integral = " + FFormat(stat.integral, "14.7g"));
 
