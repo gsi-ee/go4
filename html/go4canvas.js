@@ -122,13 +122,15 @@
          let rect = this.getFramePainter().getFrameRect();
          fx = rect.x;
          fy = rect.y;
+         if (main && typeof main.processTooltipEvent == 'function')
+            hint = main.processTooltipEvent({ enabled: false, x: this.grx - fx, y: this.gry - fy });
       } else {
          fx = this.frame_x();
          fy = this.frame_y();
+         if (main && typeof main.ProcessTooltip == 'function')
+            hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
       }
 
-      if (main && typeof main.ProcessTooltip == 'function')
-         hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
 
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
@@ -254,14 +256,6 @@
       this.drawLabel();
    }
 
-   if (!JSROOT._) GO4.MarkerPainter.prototype.redraw = GO4.MarkerPainter.prototype.redraw;
-
-   GO4.MarkerPainter.prototype.ProcessTooltip = function(pnt) {
-      var hint = this.ExtractTooltip(pnt);
-      // if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
-      return hint;
-   }
-
 //   GO4.MarkerPainter.prototype.fillContextMenu = function(menu) {
 //      var marker = this.getObject();
 //      menu.add("header:"+ marker._typename + "::" + marker.fxName);
@@ -281,7 +275,7 @@
 //      return true;
 //   }
 
-   GO4.MarkerPainter.prototype.ExtractTooltip = function(pnt) {
+   GO4.MarkerPainter.prototype.processTooltipEvent = function(pnt) {
       if (!pnt) return null;
 
       var marker = this.getObject(), fx = 0, fy = 0, marker_sz = 1;
@@ -317,6 +311,11 @@
       // res.menu_dist = 3; // distance always fixed
 
       return hint;
+   }
+
+   if (!JSROOT._) {
+      GO4.MarkerPainter.prototype.Redraw = GO4.MarkerPainter.prototype.redraw;
+      GO4.MarkerPainter.prototype.ProcessTooltip = GO4.MarkerPainter.prototype.processTooltipEvent;
    }
 
    GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
@@ -595,12 +594,6 @@
          pave_painter.redraw(); // old jsroot v5
    }
 
-   GO4.ConditionPainter.prototype.ProcessTooltip = function(pnt) {
-      var hint = this.ExtractTooltip(pnt);
-      // if (!pnt || !pnt.disabled) this.ShowTooltip(hint);
-      return hint;
-   }
-
 //   GO4.ConditionPainter.prototype.fillContextMenu = function(menu) {
 //      var cond = this.getObject();
 //      menu.add("header:"+ cond._typename + "::" + cond.fName);
@@ -622,7 +615,7 @@
 //      return true;
 //   }
 
-   GO4.ConditionPainter.prototype.ExtractTooltip = function(pnt) {
+   GO4.ConditionPainter.prototype.processTooltipEvent = function(pnt) {
       if (!pnt) return null;
 
       var cond = this.getObject();
@@ -692,6 +685,7 @@
 
          ObjectPainter.prototype.Cleanup.call(this, arg);
       }
+      GO4.ConditionPainter.prototype.ProcessTooltip = GO4.ConditionPainter.prototype.processTooltipEvent;
    }
 
 
