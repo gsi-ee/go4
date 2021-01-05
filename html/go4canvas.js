@@ -111,7 +111,7 @@
          this.AddMove();
       else
           JSROOT.require(['interactive'])
-               .then(inter => inter.DragMoveHandler.AddMove(this));
+               .then(inter => inter.addMoveHandler(this));
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
@@ -470,7 +470,7 @@
          this.AddMove();
       else
           JSROOT.require(['interactive'])
-               .then(inter => inter.DragMoveHandler.AddMove(this));
+               .then(inter => inter.addMoveHandler(this));
    }
 
    GO4.ConditionPainter.prototype.moveStart = function(x,y) {
