@@ -1,4 +1,4 @@
-// $Id: MainGo4GUI.cpp 2819 2020-05-13 12:22:20Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

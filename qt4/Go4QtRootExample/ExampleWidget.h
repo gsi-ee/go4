@@ -32,8 +32,9 @@ class ExampleWidget : public QWidget, public Ui::ExampleWidget
 
    public slots:
 
-   protected:
-      QRootCanvas *fxQCanvas;
+      void InfoButton_clicked();
+      void ExitButton_clicked();
+
 
 };
 

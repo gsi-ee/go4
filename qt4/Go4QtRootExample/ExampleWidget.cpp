@@ -11,14 +11,15 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-// JAM2016: activate this for global ROOT "escape mode" before redraw (NOT RECOMMENDED)
-// otherwise, escape mode will reset global arrays of TGraph painter class only
-//#define GLOBALESCAPE 1
-
 #include "ExampleWidget.h"
 
 #include "QRootCanvas.h"
 #include "TCanvas.h"
+#include "TH1.h"
+
+
+#include <QMessageBox>
+
 
 ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
    QWidget(parent)
@@ -29,22 +30,16 @@ ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
    setAttribute(Qt::WA_DeleteOnClose);
 
    setObjectName(name);
-   setWindowTitle("Example");
-
-   QSizePolicy sizePolicy3(static_cast<QSizePolicy::Policy>(7), static_cast<QSizePolicy::Policy>(7));
-   sizePolicy3.setHorizontalStretch(0);
-   sizePolicy3.setVerticalStretch(20);
-
-   fxQCanvas = new QRootCanvas(this);
-   // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
-   fxQCanvas->setMinimumSize(QSize(50, 50));
-   sizePolicy3.setHeightForWidth(fxQCanvas->sizePolicy().hasHeightForWidth());
-   fxQCanvas->setSizePolicy(sizePolicy3);
-
-   // fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
 
    fxQCanvas->setObjectName("example");
    fxQCanvas->getCanvas()->SetName("example");
+
+   TH1F *h1 = new TH1F("h1","title", 100, -5, 5);
+   h1->FillRandom("gaus", 10000);
+   h1->SetDirectory(nullptr);
+
+   fxQCanvas->getCanvas()->cd();
+   h1->Draw("colz");
    // fxQCanvas->setEditorFrame(EditorFrame);
 
 }
@@ -52,3 +47,16 @@ ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
 ExampleWidget::~ExampleWidget()
 {
 }
+
+void ExampleWidget::InfoButton_clicked()
+{
+   QMessageBox::information(this,"QtRoot standalone example","Demo how QRootCanvas can be inserted into the QWidget");
+}
+
+void ExampleWidget::ExitButton_clicked()
+{
+   // when widget closed, application automatically exit
+   close();
+}
+
+

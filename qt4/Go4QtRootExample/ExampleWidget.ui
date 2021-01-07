@@ -1,5 +1,5 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>ExampleWidget</class>
@@ -39,10 +39,7 @@
       </size>
     </property>
     <property name="windowTitle" >
-      <string>View Panel</string>
-    </property>
-    <property name="windowIcon" >
-      <iconset>:/icons/go4logo2_big.png</iconset>
+      <string>QtRoot example</string>
     </property>
     <property name="mouseTracking" >
       <bool>true</bool>
@@ -60,501 +57,6 @@
       <property name="spacing" >
         <number>1</number>
       </property>
-      <item row="2" column="1" >
-        <widget class="QGroupBox" name="MarkerPanel" >
-          <property name="title" >
-            <string>Marker Modes</string>
-          </property>
-          <layout class="QHBoxLayout" >
-            <property name="margin" >
-              <number>3</number>
-            </property>
-            <property name="spacing" >
-              <number>2</number>
-            </property>
-            <item>
-              <widget class="QPushButton" name="CursorB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="checkable" >
-                  <bool>true</bool>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/cursor.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Set point marker with next click on active pad</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="RegionB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="checkable" >
-                  <bool>true</bool>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/windcond.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Mark Region with next 2 clicks on active pad</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="PolyB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="checkable" >
-                  <bool>true</bool>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/polycond.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Mark Polygon region on active pad. Doubleclick to end editing.</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="LatexB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="checkable" >
-                  <bool>true</bool>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/x_pic.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Set latex object to position of next click on active pad.</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="DrawB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="checkable" >
-                  <bool>true</bool>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/downarrow.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Draw arrow (clicks two times on pad to create arrow)</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QCheckBox" name="FreezeMode" >
-                <property name="text" >
-                  <string>loop</string>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Do not reset cursor pick mode</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QComboBox" name="SelectedMarkerCmb" >
-                <property name="minimumSize" >
-                  <size>
-                    <width>120</width>
-                    <height>25</height>
-                  </size>
-                </property>
-                <item>
-                  <property name="text" >
-                    <string>New</string>
-                  </property>
-                </item>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="DelSelectedMarker" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/delete.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Removes selected marker (or condition)</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="GetConditionBtn" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/right.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Update selected condition from file (analysis)</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="InfoConditionBtn" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/condlist.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Show condition info</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="EditConditionBtn" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/condedit.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Edit selected condition</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="ModifyConditionBtn" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/info1.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Selected condition is modified. Please update</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <widget class="QPushButton" name="SetConditionBtn" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/left.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Update selected condition in analysis</string>
-                </property>
-              </widget>
-            </item>
-            <item>
-              <spacer name="Spacer34_2_2_2" >
-                <property name="sizeHint" >
-                  <size>
-                    <width>20</width>
-                    <height>20</height>
-                  </size>
-                </property>
-                <property name="sizeType" >
-                  <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="orientation" >
-                  <enum>Qt::Horizontal</enum>
-                </property>
-              </spacer>
-            </item>
-            <item>
-              <widget class="QPushButton" name="PrintLogB" >
-                <property name="sizePolicy" >
-                  <sizepolicy>
-                    <hsizetype>0</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                  </sizepolicy>
-                </property>
-                <property name="minimumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="maximumSize" >
-                  <size>
-                    <width>30</width>
-                    <height>30</height>
-                  </size>
-                </property>
-                <property name="text" >
-                  <string/>
-                </property>
-                <property name="icon" >
-                  <iconset>:/icons/log.png</iconset>
-                </property>
-                <property name="toolTip" stdset="0" >
-                  <string>Log marker values to terminal or file.</string>
-                </property>
-              </widget>
-            </item>
-          </layout>
-        </widget>
-      </item>
-      <item rowspan="2" row="1" column="0" colspan="1" >
-        <widget class="QFrame" name="EditorFrame" >
-          <property name="sizePolicy" >
-            <sizepolicy>
-              <hsizetype>0</hsizetype>
-              <vsizetype>7</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-            </sizepolicy>
-          </property>
-          <property name="minimumSize" >
-            <size>
-              <width>175</width>
-              <height>0</height>
-            </size>
-          </property>
-          <property name="frameShape" >
-            <enum>StyledPanel</enum>
-          </property>
-          <property name="frameShadow" >
-            <enum>Sunken</enum>
-          </property>
-          <property name="visible">
-             <bool>false</bool>
-          </property>
-        </widget>
-      </item>
-      <!-- this is now cretaed in the constructor
       <item row="1" column="1" >
         <widget class="QRootCanvas" name="fxQCanvas" >
           <property name="sizePolicy" >
@@ -573,32 +75,70 @@
           </property>
         </widget>
       </item>
-      -->
-      <item rowspan="1" row="0" column="0" colspan="2" >
-        <widget class="QFrame" name="MenuFrame" >
-          <property name="sizePolicy" >
-            <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>1</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-            </sizepolicy>
+      <item row="2" column="1" >
+        <widget class="QGroupBox" name="GroupBox1" >
+          <property name="title" >
+            <string>Group box</string>
           </property>
-          <property name="minimumSize" >
-            <size>
-              <width>0</width>
-              <height>10</height>
-            </size>
-          </property>
-          <property name="frameShape" >
-            <enum>NoFrame</enum>
-          </property>
-          <property name="frameShadow" >
-            <enum>Plain</enum>
-          </property>
+          <layout class="QHBoxLayout" >
+            <property name="margin" >
+              <number>3</number>
+            </property>
+            <property name="spacing" >
+              <number>2</number>
+            </property>
+            <item>
+              <widget class="QPushButton" name="InfoButton">
+                <property name="text" >
+                  <string>Info</string>
+                </property>
+                <property name="toolTip" stdset="0" >
+                  <string>Show demo info</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QCheckBox" name="CheckBox1" >
+                <property name="text" >
+                  <string>CheckBox 1</string>
+                </property>
+                <property name="toolTip" stdset="0" >
+                  <string>CheckBox 1</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QPushButton" name="ExitButton" >
+                <property name="text" >
+                  <string>Exit</string>
+                </property>
+                <property name="toolTip" stdset="0" >
+                  <string>Exit example</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
         </widget>
       </item>
     </layout>
   </widget>
   <layoutdefault spacing="3" margin="3" />
+  <includes>
+    <include location="local">QRootCanvas.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>InfoButton</sender>
+      <signal>clicked()</signal>
+      <receiver>ExampleWidget</receiver>
+      <slot>InfoButton_clicked()</slot>
+    </connection>
+    <connection>
+      <sender>ExitButton</sender>
+      <signal>clicked()</signal>
+      <receiver>ExampleWidget</receiver>
+      <slot>ExitButton_clicked()</slot>
+    </connection>
+  </connections>
+
 </ui>

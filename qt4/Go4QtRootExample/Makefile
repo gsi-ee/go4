@@ -17,11 +17,15 @@ endif
 
 QMAKEOPTFLAGS += "QMAKE_CXXFLAGS+=-D__NOGO4GED__"
 
-Makefile.qt: qtrootexample.pro
+HDRS = ExampleWidget.h 
+SRCS = ExampleWidget.cpp ExampleMain.cpp  
+UIS = ExampleWidget.ui
+
+Makefile.qt: qtrootexample.pro $(UIS)
 	@echo "Generating Makefile.qt"
 	qmake-qt5 qtrootexample.pro -o Makefile.qt $(QMAKEOPTFLAGS) "LIBS+=$(ROOTGLIBS)" "INCLUDEPATH+=$(ROOTINCPATH)" "DEPENDPATH+=$(ROOTINCPATH)" 
 
-qtrootexample : Makefile.qt
+qtrootexample: Makefile.qt $(HDRS) $(SRCS)
 	@echo "Compiling qtrootexample..."
 	$(MAKE) -f Makefile.qt
 
