@@ -30,8 +30,6 @@ class ExampleWidget : public QWidget, public Ui::ExampleWidget
 
       virtual ~ExampleWidget();
 
-      void CompleteInitialization();
-
    protected:
       virtual void resizeEvent(QResizeEvent * e);
 

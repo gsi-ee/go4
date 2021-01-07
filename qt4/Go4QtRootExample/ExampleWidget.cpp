@@ -17,9 +17,7 @@
 #include "TCanvas.h"
 #include "TH1.h"
 
-
 #include <QMessageBox>
-
 
 ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
    QWidget(parent)
@@ -34,7 +32,7 @@ ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
    fxQCanvas->setObjectName("example");
    fxQCanvas->getCanvas()->SetName("example");
    fxQCanvas->setEditorFrame(EditorFrame);
-   // fxQCanvas->BuildEditorWindow();
+   fxQCanvas->buildEditorWindow();
 
    fHisto = new TH1F("h1","title", 100, -5, 5);
    fHisto->FillRandom("gaus", 10000);
@@ -49,15 +47,6 @@ ExampleWidget::~ExampleWidget()
 }
 
 
-void ExampleWidget::CompleteInitialization()
-{
-   fxQCanvas->BuildEditorWindow();
-
-   // adjust canvas size before any drawing will be done
-   fxQCanvas->Resize();
-}
-
-
 void ExampleWidget::InfoButton_clicked()
 {
    QMessageBox::information(this,"QtRoot standalone example","Demo how QRootCanvas can be inserted into the QWidget");
@@ -65,9 +54,6 @@ void ExampleWidget::InfoButton_clicked()
 
 void ExampleWidget::EditorButton_clicked()
 {
-   // std::cout << "StartRootEditor()" << std::endl;
-   // if (!fxQCanvas->isEditorAllowed()) return;
-
    fxQCanvas->toggleEditor();
 
    // actiavte in ged some object
