@@ -21,7 +21,11 @@
 #include <QMouseEvent>
 #include <QCloseEvent>
 
+#ifdef __GO4X11__
 #include "TGo4LockGuard.h"
+#else
+#define TGo4LockGuard int
+#endif
 
 /** Pseudo root mainframe to wrap root composite frames like TGedEditor */
 class TQRootFrame: public TGCompositeFrame {

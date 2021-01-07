@@ -53,8 +53,11 @@
 #include "TVirtualPadEditor.h"
 #endif
 
+#ifdef __GO4X11__
 #include "TGo4LockGuard.h"
-//#define TGo4LockGuard int JAMDEBUG
+#else
+#define TGo4LockGuard int
+#endif
 
 #include "QRootDialog.h"
 #include "QRootWindow.h"
