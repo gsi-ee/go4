@@ -125,6 +125,16 @@
               </widget>
             </item>
             <item>
+              <widget class="QPushButton" name="EditorButton">
+                <property name="text" >
+                  <string>Editor</string>
+                </property>
+                <property name="toolTip" stdset="0" >
+                  <string>Show editor</string>
+                </property>
+              </widget>
+            </item>
+            <item>
               <widget class="QCheckBox" name="CheckBox1" >
                 <property name="text" >
                   <string>CheckBox 1</string>
@@ -159,6 +169,12 @@
       <signal>clicked()</signal>
       <receiver>ExampleWidget</receiver>
       <slot>InfoButton_clicked()</slot>
+    </connection>
+    <connection>
+      <sender>EditorButton</sender>
+      <signal>clicked()</signal>
+      <receiver>ExampleWidget</receiver>
+      <slot>EditorButton_clicked()</slot>
     </connection>
     <connection>
       <sender>ExitButton</sender>

@@ -33,14 +33,15 @@ ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
 
    fxQCanvas->setObjectName("example");
    fxQCanvas->getCanvas()->SetName("example");
+   fxQCanvas->setEditorFrame(EditorFrame);
+   // fxQCanvas->BuildEditorWindow();
 
-   TH1F *h1 = new TH1F("h1","title", 100, -5, 5);
-   h1->FillRandom("gaus", 10000);
-   h1->SetDirectory(nullptr);
+   fHisto = new TH1F("h1","title", 100, -5, 5);
+   fHisto->FillRandom("gaus", 10000);
+   fHisto->SetDirectory(nullptr);
 
    fxQCanvas->getCanvas()->cd();
-   h1->Draw("colz");
-   fxQCanvas->setEditorFrame(EditorFrame);
+   fHisto->Draw("colz");
 }
 
 ExampleWidget::~ExampleWidget()
@@ -60,6 +61,25 @@ void ExampleWidget::CompleteInitialization()
 void ExampleWidget::InfoButton_clicked()
 {
    QMessageBox::information(this,"QtRoot standalone example","Demo how QRootCanvas can be inserted into the QWidget");
+}
+
+void ExampleWidget::EditorButton_clicked()
+{
+   // std::cout << "StartRootEditor()" << std::endl;
+   // if (!fxQCanvas->isEditorAllowed()) return;
+
+   fxQCanvas->toggleEditor();
+
+   // actiavte in ged some object
+   if (fxQCanvas->isEditorVisible()) {
+      fxQCanvas->activateEditor(fxQCanvas->getCanvas(), fHisto);
+      fxQCanvas->resizeEditor();
+   }
+}
+
+void ExampleWidget::resizeEvent(QResizeEvent * e)
+{
+   fxQCanvas->resizeEditor();
 }
 
 void ExampleWidget::ExitButton_clicked()

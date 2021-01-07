@@ -18,6 +18,7 @@
 #include "ui_ExampleWidget.h"
 
 class QRootCanvas;
+class TH1F;
 
 class ExampleWidget : public QWidget, public Ui::ExampleWidget
 {
@@ -31,11 +32,16 @@ class ExampleWidget : public QWidget, public Ui::ExampleWidget
 
       void CompleteInitialization();
 
+   protected:
+      virtual void resizeEvent(QResizeEvent * e);
+
+      TH1F *fHisto;
+
    public slots:
 
       void InfoButton_clicked();
+      void EditorButton_clicked();
       void ExitButton_clicked();
-
 
 };
 

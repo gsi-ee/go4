@@ -17,7 +17,7 @@ endif
 
 WITHGED = yes
 
-ifeq ($(WITHGED),"yes")
+ifneq ($(WITHGED), no)
    ROOTGLIBS += -lGed
 else
    QMAKEOPTFLAGS += "QMAKE_CXXFLAGS+=-D__NOGO4GED__"
