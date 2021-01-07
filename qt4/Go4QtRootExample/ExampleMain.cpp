@@ -28,8 +28,6 @@
 
 int main(int argc, char **argv)
 {
-   if ((argc==2) && (!strcmp(argv[1],"?") || !strcmp(argv[1],"-h")  || !strcmp(argv[1],"-help") || !strcmp(argv[1],"--help"))) return go4_usage();
-
    setlocale(LC_ALL, "C");
 
 #ifndef WIN32
@@ -76,7 +74,7 @@ int main(int argc, char **argv)
    QRootApplication myapp(argc, argv2); // Qt application
 
    // create instance, which should be used everywhere
-   ExampleWidget* widget = new ExampleWidget(&myapp);
+   ExampleWidget* widget = new ExampleWidget();
 
    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
 

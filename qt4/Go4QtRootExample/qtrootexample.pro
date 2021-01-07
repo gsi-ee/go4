@@ -35,4 +35,5 @@ SOURCES += ../Go4QtRoot/QRootApplication.cpp \
            ../Go4QtRoot/QRootCanvas.cpp \
            ../Go4QtRoot/QRootDialog.cpp \
            ../Go4QtRoot/QRootWindow.cpp \
-           ExampleWidget.cpp
+           ExampleWidget.cpp \
+           ExampleMain.cpp

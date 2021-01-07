@@ -2,8 +2,8 @@
   <author></author>
   <comment></comment>
   <exportmacro></exportmacro>
-  <class>TGo4ViewPanel</class>
-  <widget class="QGo4Widget" name="TGo4ViewPanel" >
+  <class>ExampleWidget</class>
+  <widget class="QWidget" name="ExampleWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -49,7 +49,7 @@
     </property>
     <property name="acceptDrops" >
       <bool>true</bool>
-    </property>    
+    </property>
     <property name="sizeGripEnabled" stdset="0" >
       <bool>false</bool>
     </property>
@@ -554,7 +554,7 @@
           </property>
         </widget>
       </item>
-      <!-- this is now cretaed in the constructor   
+      <!-- this is now cretaed in the constructor
       <item row="1" column="1" >
         <widget class="QRootCanvas" name="fxQCanvas" >
           <property name="sizePolicy" >
@@ -573,7 +573,7 @@
           </property>
         </widget>
       </item>
-      --> 
+      -->
       <item rowspan="1" row="0" column="0" colspan="2" >
         <widget class="QFrame" name="MenuFrame" >
           <property name="sizePolicy" >
@@ -601,87 +601,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="3" margin="3" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>CursorB</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetCursorMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>RegionB</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetRegionMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>FreezeMode</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetFreezeMouseMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>LatexB</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetLateXMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>DrawB</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetDrawingMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>PrintLogB</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>LogMarkerValues()</slot>
-    </connection>
-    <connection>
-      <sender>PolyB</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetPolygonMode(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SelectedMarkerCmb</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SelectedMarkerCmb_activated(int)</slot>
-    </connection>
-    <connection>
-      <sender>DelSelectedMarker</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>DelSelectedMarker_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>GetConditionBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>GetConditionBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>InfoConditionBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>InfoConditionBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>EditConditionBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>EditConditionBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>SetConditionBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>SetConditionBtn_clicked()</slot>
-    </connection>
-  </connections>
 </ui>

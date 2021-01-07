@@ -18,6 +18,7 @@
 #include "ExampleWidget.h"
 
 #include "QRootCanvas.h"
+#include "TCanvas.h"
 
 ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
    QWidget(parent)

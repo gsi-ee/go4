@@ -14,7 +14,7 @@
 #ifndef ExampleWidget_h
 #define ExampleWidget_h
 
-#include "QWidget.h"
+#include <QWidget>
 #include "ui_ExampleWidget.h"
 
 class QRootCanvas;
