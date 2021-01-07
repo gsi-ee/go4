@@ -511,7 +511,7 @@ void TGo4ViewPanel::CompleteInitialization()
 
 #ifdef __GO4X11__
    // JAM 5-2019 construct top window for ged editor already here, otherwise problems with Qt4
-   if (fxQCanvas) fxQCanvas->BuildEditorWindow();
+   if (fxQCanvas) fxQCanvas->buildEditorWindow();
 
    // adjust canvas size before any drawing will be done
    if (fxQCanvas) fxQCanvas->Resize();

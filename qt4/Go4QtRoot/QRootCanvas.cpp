@@ -1162,7 +1162,7 @@ void QRootCanvas::toggleEditor()
       fEditorFrame->setMinimumWidth( fEditorFrame->minimumWidth()/scalefactor);
 #endif
 
-// JAM 5-2019: this part was moved to BuildEditorWindow() because of init problems with Qt 4
+// JAM 5-2019: this part was moved to buildEditorWindow() because of init problems with Qt 4
 //      std::cout<< "QRootCanvas::toggleEditor() will create Rooteditor" <<std::endl;
 //      fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
 //      QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
@@ -1240,11 +1240,12 @@ void QRootCanvas::setStatusBarVisible(bool flag)
 
 
 // JAM2019 test order of creation for ged parent window in qt4:
-void QRootCanvas::BuildEditorWindow()
+void QRootCanvas::buildEditorWindow()
 {
-  //std::cout<< "QRootCanvas::BuildEditorWindow() will create Root window" <<std::endl;
-  fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
-  QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
-  gedlayout->setContentsMargins(0, 0, 0, 0);
-  gedlayout->addWidget(fxRooteditor);
+   if (!fxRooteditor) {
+      fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
+      QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
+      gedlayout->setContentsMargins(0, 0, 0, 0);
+      gedlayout->addWidget(fxRooteditor);
+   }
 }

@@ -178,8 +178,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      ToggleAutoExec();
       virtual void      Update();
 
-      void              BuildEditorWindow();
-
+      void              buildEditorWindow();
       void              executeMenu(int id);
       void              processRepaintTimer();
 
