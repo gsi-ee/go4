@@ -37,5 +37,5 @@ qtrootexample: Makefile.qt $(HDRS) $(SRCS)
 
 clean:
 	@echo "Clean generated files"
-	rm -f Makefile.qt ui_ExampleWidget.h .qmake.stash
+	rm -f Makefile.qt ui_ExampleWidget.h .qmake.stash qtrootexample
 	rm -rf .obj .moc 

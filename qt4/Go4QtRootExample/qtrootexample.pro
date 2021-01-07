@@ -9,8 +9,8 @@ OBJECTS_DIR =.obj
 
 CONFIG	+= qt warn_off thread
 
-INCLUDEPATH += . ../Go4QtRoot
-DEPENDPATH  += . ../Go4QtRoot
+INCLUDEPATH += . $$(GO4SYS)/qt4/Go4QtRoot
+DEPENDPATH  += . $$(GO4SYS)/qt4/Go4QtRoot
 
 TARGET      = qtrootexample
 DESTDIR     = .
@@ -25,15 +25,15 @@ unix:QMAKE_CXXFLAGS += -fPIC
 
 FORMS += ExampleWidget.ui
 
-HEADERS += ../Go4QtRoot/QRootApplication.h \
-           ../Go4QtRoot/QRootCanvas.h \
-           ../Go4QtRoot/QRootDialog.h \
-           ../Go4QtRoot/QRootWindow.h \
+HEADERS += $$(GO4SYS)/qt4/Go4QtRoot/QRootApplication.h \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootCanvas.h \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootDialog.h \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootWindow.h \
            ExampleWidget.h
 
-SOURCES += ../Go4QtRoot/QRootApplication.cpp \
-           ../Go4QtRoot/QRootCanvas.cpp \
-           ../Go4QtRoot/QRootDialog.cpp \
-           ../Go4QtRoot/QRootWindow.cpp \
+SOURCES += $$(GO4SYS)/qt4/Go4QtRoot/QRootApplication.cpp \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootCanvas.cpp \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootDialog.cpp \
+           $$(GO4SYS)/qt4/Go4QtRoot/QRootWindow.cpp \
            ExampleWidget.cpp \
            ExampleMain.cpp
