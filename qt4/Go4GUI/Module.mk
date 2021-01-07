@@ -19,7 +19,7 @@ GO4GUI4_NOTLIBF     = $(GO4GUI4_GEN_QRC) $(wildcard $(GO4GUI4_DIR)/$(DICT_PREFIX
 
 ifneq ($(GO4_OS),Win32)
 GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += $(LDFLAGS_RPATH)"
-endif 
+endif
 
 ifdef clang
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXX = clang++"
@@ -32,9 +32,9 @@ GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4QtRoot/QRootCanvas.cpp ../Go4QtRoot/QRoo
 endif
 
 ifdef GO4_WEB
-GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h" 
-GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp" 
-GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
+GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h"
+GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp"
+GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets"
 ifeq ($(GO4_OS),Win32)
 GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libROOTWebDisplay.lib) \
@@ -43,7 +43,7 @@ GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
                                 ../../lib/libWebGui6Full.lib"
 else
 GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6 -lWebGui6Full"
-endif 
+endif
 
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
@@ -87,7 +87,7 @@ QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 GO4QT4HEADS += $(GO4GUI4_PUBH) $(QT4ROOT_PUBH) $(GO4WEBGUI4_PUBH)
 
 ifdef DOPACKAGE
-DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH) 
+DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH)
 DISTRFILES         += $(GO4GUI4_PACKAGE_FORMS) $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_RESOURCES)
 DISTRFILES         += $(GO4GUI4_QTS) $(GO4GUI4_QTH) $(GO4GUI4_EXES)
 DISTRFILES         += $(GO4GUI4_DIR)/Module.mk
@@ -100,18 +100,18 @@ endif
 
 ifneq ($(GO4_QT), 3)
 
-$(GO4GUI4_UI_PRIVH): | qt4-GUI 
+$(GO4GUI4_UI_PRIVH): | qt4-GUI
 
 include/%.h: $(QT4ROOT_DIR)/%.h
-	@echo "Copy header $@ ..." 
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
 include/%.h: $(GO4GUI4_DIR)/%.h
-	@echo "Copy header $@ ..." 
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
 include/%.h: $(GO4WEBGUI4_DIR)/%.h
-	@echo "Copy header $@ ..." 
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
 endif
@@ -126,21 +126,21 @@ endif
 
 $(GO4GUI4_EXE) : $(GO4QT4HEADS) $(BUILDGO4LIBS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) \
                  $(GO4GUI4_FORMS) $(GO4GUI4_S) $(GO4GUI4_EXES) $(GO4GUI4_H) $(GO4GUI4_QTS) $(GO4GUI4_QTH) \
-                 $(QT4ROOT_H) $(QT4ROOT_S) $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS) $(GO4WEBGUI4_H) $(GO4WEBGUI4_S) 
+                 $(QT4ROOT_H) $(QT4ROOT_S) $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS) $(GO4WEBGUI4_H) $(GO4WEBGUI4_S)
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
 qt4-GUI: $(GO4GUI4_EXE)
 
-qt4-heads: $(GO4GUI4_UI_PUBH) 
+qt4-heads: $(GO4GUI4_UI_PUBH)
 
 else
 
-$(GO4GUI4_EXE) :
+$(GO4GUI4_EXE):
 
-qt4-GUI: 
+qt4-GUI:
 
-qt4-heads: 
+qt4-heads:
 
 endif
 
@@ -155,7 +155,7 @@ endif
 	@$(RMDIR) $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
 	@$(RM) $(GO4GUI4_GEN_QRC) $(GO4GUI4_DIR)/.qmake.stash
 ifeq ($(GO4_OS),Win32)
-	@$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
+	@$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug
 	@$(RM) $(GO4GUI4_DIR)/go4_resource.rc
 endif
 

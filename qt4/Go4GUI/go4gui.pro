@@ -28,9 +28,9 @@ win32:QMAKE_CXXFLAGS  += -MD
 # this is necessary to solve error with non-initialized gSystem
 unix:QMAKE_CXXFLAGS += -fPIC
 
-HEADERS	+= \
+HEADERS += \
 	TGo4HServerConnection.h\
-   TGo4HttpProxy.h \
+	TGo4HttpProxy.h \
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
 	TGo4MdiArea.h \
@@ -77,9 +77,9 @@ HEADERS	+= \
 	TGo4UserCommands.h \
 	TGo4UserCommandsDialog.h
 
-SOURCES	+= \
+SOURCES += \
 	TGo4QSettings.cpp \
-   TGo4HttpProxy.cpp \
+	TGo4HttpProxy.cpp \
 	TGo4AnalysisWindow.cpp \
 	TGo4MdiArea.cpp \
 	QGo4LineEdit.cpp \
@@ -166,7 +166,7 @@ FORMS += TGo4ViewPanel.ui \
 
 
 
-SOURCES	+= ../Go4FitGUI/TGo4FitPanel.cpp \
+SOURCES +=  ../Go4FitGUI/TGo4FitPanel.cpp \
             ../Go4FitGUI/QFitItem.cpp \
             ../Go4FitGUI/QFitWidget.cpp \
             ../Go4FitGUI/QFitNamedWidget.cpp \
@@ -195,7 +195,7 @@ SOURCES	+= ../Go4FitGUI/TGo4FitPanel.cpp \
             ../Go4FitGUI/QFitPeakFinderWidget.cpp \
             ../Go4FitGUI/QFitRangeCutWidget.cpp
 
-HEADERS	+= ../Go4FitGUI/TGo4FitPanel.h \
+HEADERS +=  ../Go4FitGUI/TGo4FitPanel.h \
             ../Go4FitGUI/QFitItem.h \
             ../Go4FitGUI/QFitWidget.h \
             ../Go4FitGUI/QFitNamedWidget.h \
@@ -224,7 +224,7 @@ HEADERS	+= ../Go4FitGUI/TGo4FitPanel.h \
             ../Go4FitGUI/QFitPeakFinderWidget.h \
             ../Go4FitGUI/QFitRangeCutWidget.h
 
-FORMS	+= ../Go4FitGUI/TGo4FitPanel.ui \
+FORMS += ../Go4FitGUI/TGo4FitPanel.ui \
 	../Go4FitGUI/QFitModelPolynomWidget.ui \
 	../Go4FitGUI/QFitModelGauss1Widget.ui \
 	../Go4FitGUI/QFitModelGauss2Widget.ui \
