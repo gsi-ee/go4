@@ -15,7 +15,13 @@ ifneq ($(findstring -std=c++17,$(ROOTCFLAGS)),)
     QMAKEOPTFLAGS := "CONFIG+=c++17"
 endif
 
-QMAKEOPTFLAGS += "QMAKE_CXXFLAGS+=-D__NOGO4GED__"
+WITHGED = yes
+
+ifeq ($(WITHGED),"yes")
+   ROOTGLIBS += -lGed
+else
+   QMAKEOPTFLAGS += "QMAKE_CXXFLAGS+=-D__NOGO4GED__"
+endif
 
 HDRS = ExampleWidget.h 
 SRCS = ExampleWidget.cpp ExampleMain.cpp  

@@ -81,6 +81,9 @@ int main(int argc, char **argv)
    widget->ensurePolished();
    widget->show();
 
+   // to configure editor frame after widget is shown
+   widget->CompleteInitialization();
+
    int res = myapp.exec();
    return res;
 }

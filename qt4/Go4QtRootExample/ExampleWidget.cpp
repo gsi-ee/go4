@@ -40,13 +40,22 @@ ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
 
    fxQCanvas->getCanvas()->cd();
    h1->Draw("colz");
-   // fxQCanvas->setEditorFrame(EditorFrame);
-
+   fxQCanvas->setEditorFrame(EditorFrame);
 }
 
 ExampleWidget::~ExampleWidget()
 {
 }
+
+
+void ExampleWidget::CompleteInitialization()
+{
+   fxQCanvas->BuildEditorWindow();
+
+   // adjust canvas size before any drawing will be done
+   fxQCanvas->Resize();
+}
+
 
 void ExampleWidget::InfoButton_clicked()
 {
