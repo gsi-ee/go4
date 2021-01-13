@@ -255,7 +255,7 @@ set(QtRoot_headers
    Go4QtRoot/QRootApplication.h
 )
 
-# plain means everything build without extra libs 
+# plain means everything build without extra libs
 if(MSVC)
   set(_plain_gui ON)
 endif()
@@ -277,7 +277,7 @@ endif()
 if(ROOT_x11_FOUND)
    list(APPEND gui_extra_libs ${ROOT_Gui_LIBRARY} X11)
    list(APPEND gui_defines -D__GO4X11__)
-   
+
    if(_plain_gui)
       list(APPEND QtRoot_sources Go4QtRoot/QRootCanvas.cpp Go4QtRoot/QRootDialog.cpp Go4QtRoot/QRootWindow.cpp)
       list(APPEND QtRoot_headers Go4QtRoot/QRootCanvas.h Go4QtRoot/QRootDialog.h Go4QtRoot/QRootWindow.h)
@@ -292,7 +292,10 @@ endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
-   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full)
+   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
+   if(ROOT_VERSION VERSION_LESS 6.23.00)
+      list(APPEND gui_extra_libs WebGui6Full)
+   endif()
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 

@@ -77,14 +77,14 @@ add_subdirectory(Go4StatusBase)
 
 set_source_files_properties(Go4Log/TGo4Log.cxx PROPERTIES COMPILE_DEFINITIONS "COMP_GO4SYS=\"${CMAKE_BINARY_DIR}\";COMP_GO4INC=\"${CMAKE_BINARY_DIR}/include\"")
 
-GO4_STANDARD_LIBRARY(Go4Base 
+GO4_STANDARD_LIBRARY(Go4Base
                      LINKDEF Go4Dict/Go4BaseLinkDef.h)
 
 # ================= Go4ThreadManager library ======================
 
 add_subdirectory(Go4ThreadManager)
 
-# ================== Go4TaskHandler library ================= 
+# ================== Go4TaskHandler library =================
 
 add_subdirectory(Go4Socket)
 add_subdirectory(Go4Queue)
@@ -95,7 +95,7 @@ GO4_STANDARD_LIBRARY(Go4TaskHandler
                      LINKDEF Go4Dict/Go4TaskHandlerLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager)
 
-# ================== Go4AnalysisBase library ================= 
+# ================== Go4AnalysisBase library =================
 
 add_subdirectory(MbsAPIbase)
 add_subdirectory(Go4Event)
@@ -123,7 +123,7 @@ GO4_STANDARD_LIBRARY(Go4AnalysisBase
                      LIBRARIES ${hdf5_lib} ${_win_lib}
                      DEFINITIONS ${hdf5_def} ${_win_def})
 
-# ================== Go4Analysis library ================= 
+# ================== Go4Analysis library =================
 
 add_subdirectory(MbsAPI)
 if(GO4_WITH_RFIO)
@@ -159,7 +159,7 @@ GO4_STANDARD_LIBRARY(Go4Analysis
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
 
-# ================== go4analysis executable ================= 
+# ================== go4analysis executable =================
 
 add_executable(MainUserAnalysis Go4Analysis/MainUserAnalysis.cxx)
 target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
@@ -168,7 +168,7 @@ target_compile_definitions(MainUserAnalysis PRIVATE ${http_def} ${hdf5_def} ${da
 set_target_properties(MainUserAnalysis PROPERTIES OUTPUT_NAME go4analysis)
 
 
-# ================== Go4Gui library ================= 
+# ================== Go4Gui library =================
 
 add_subdirectory(Go4ObjectManager)
 add_subdirectory(Go4Display)
@@ -186,14 +186,16 @@ else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
 endif()
 
-# ================== Go4 Gui ================= 
-if(ROOT_qt5web_FOUND)
-   add_subdirectory(webgui6)
+# ================== Go4 Gui =================
+if(ROOT_VERSION VERSION_LESS 6.23.00)
+  if(ROOT_qt5web_FOUND)
+    add_subdirectory(webgui6)
+  endif()
 endif()
 
 add_subdirectory(qt4)
 
-# ================== Go4 examples ================= 
+# ================== Go4 examples =================
 
 list(APPEND examples
    Go4FitExample

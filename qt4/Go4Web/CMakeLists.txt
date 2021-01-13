@@ -2,13 +2,17 @@ GO4_INSTALL_HEADERS(
    QWebCanvas.h
 )
 
-GO4_LINK_LIBRARY(Go4WebRoot 
+if(ROOT_VERSION VERSION_LESS 6.23.00)
+   set(GO4_WebGui6Full WebGui6Full)
+endif()
+
+GO4_LINK_LIBRARY(Go4WebRoot
                  SOURCES QWebCanvas.cpp
                  DEFINITIONS -D${GO4_PLATFORM}
-                 LIBRARIES 
+                 LIBRARIES
                     Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets
-                    ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} 
-                    ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} WebGui6Full
+                    ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY}
+                    ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY} ${GO4_WebGui6Full}
                     Go4Base)
 
 target_include_directories(Go4WebRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
