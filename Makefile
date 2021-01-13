@@ -30,7 +30,7 @@ FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
          package $(PACKAGERULES)
 
 
-all::        gui
+all::    gui
 
 
 include build/Makefile.discover
@@ -88,7 +88,7 @@ BUILDGO4LIBS += $(GO4FIT_LIB) \
                 $(GO4ANBASE_LIB) \
                 $(GO4AN_LIB) \
                 $(GO4BGUI_LIB)
-               
+
 MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4Fit Go4Log Go4LockGuard \
            Go4ThreadManager \
@@ -98,10 +98,13 @@ MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4EventServer Go4Exceptions \
            Go4Display Go4Proxies \
            Go4ObjectManager \
-           Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase Go4HDF5 webgui6 \
+           Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase Go4HDF5 \
            Go4Http Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
-           
-           
+
+ifdef NEEDFULLWEBCANVAS
+MODULES += webgui6
+endif
+
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample

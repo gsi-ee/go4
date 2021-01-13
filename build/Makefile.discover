@@ -144,10 +144,11 @@ USEGEDEDITOR  = true
 endif
 endif
 
-# detecting right ROOT version to compile HTTP support
-ifneq ($(wildcard $(ROOTLIBPATH)/libRHTTP.*),)
 ROOTBVERSION = $(subst .,,$(subst /,,$(ROOTVERSION)))
 myeval = $(shell if [ $(1) -gt $(2) ] ; then echo gt ; else echo lt ; fi)
+
+# detecting right ROOT version to compile HTTP support
+ifneq ($(wildcard $(ROOTLIBPATH)/libRHTTP.*),)
 ifeq ($(ISROOT6),true)
 ifeq ($(call myeval,$(ROOTBVERSION),60303),gt)
 USEHTTPSERVER = true
@@ -162,6 +163,13 @@ endif
 endif
 endif
 
+endif
+
+# detecting need to TWebCanvasFull
+ifeq ($(ISROOT6),true)
+ifeq ($(call myeval,$(ROOTBVERSION),62300),lt)
+NEEDFULLWEBCANVAS = true
+endif
 endif
 
 ifneq ($(withdabc),no)
@@ -546,6 +554,9 @@ ifdef USEXMLIO
 endif
 ifdef USEHTTPSERVER
 	@echo "USEHTTPSERVER = true" >> $@
+endif
+ifdef NEEDFULLWEBCANVAS
+   @echo "NEEDFULLWEBCANVAS = true" >> $@
 endif
 ifdef USEHTTPSNIFF
 	@echo "USEHTTPSNIFF  = true" >> $@

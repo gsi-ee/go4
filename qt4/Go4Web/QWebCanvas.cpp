@@ -14,7 +14,6 @@
 #include "QWebCanvas.h"
 
 #include "TCanvas.h"
-#include "TWebCanvasFull.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "RVersion.h"
@@ -29,6 +28,14 @@
 
 #include <cstdlib>
 #include <cstdio>
+
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,23,0)
+// starting from version 6.23 TWebCanvas include all required functionality
+#include "TWebCanvas.h"
+#else
+// before TWebCanvas was not complete and need to be extended with TWebCanvasFull
+#include "TWebCanvasFull.h"
+#endif
 
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
@@ -88,7 +95,12 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gPad = fCanvas;
 
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,23,0)
+   TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
+#else
    TWebCanvasFull *web = new TWebCanvasFull(fCanvas, "title", 0, 0, 800, 600);
+#endif
+
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,19,0)
 
@@ -123,7 +135,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    web->SetPadDblClickedHandler([this](TPad *pad, int x, int y) { ProcessPadDblClicked(pad, x, y); });
 
    ROOT::Experimental::RWebDisplayArgs args("qt5");
-   args.SetDriverData(this);
+   args.SetDriverData(this); // it is parent widget for created QWebEngineView element
    args.SetUrlOpt("noopenui");
 
    web->ShowWebWindow(args);
