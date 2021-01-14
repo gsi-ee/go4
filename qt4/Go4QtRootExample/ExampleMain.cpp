@@ -11,14 +11,7 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <QDir>
-#include <QStringList>
-#include <iostream>
-
-#include "TSystem.h"
-#include "TEnv.h"
 #include "TApplication.h"
-#include "TInterpreter.h"
 
 #include "QRootApplication.h"
 
@@ -30,7 +23,7 @@ int main(int argc, char **argv)
    argc = 1; // hide all additional parameters from ROOT and Qt
    TApplication app("uno", &argc, argv); // ROOT application
 
-   char* argv2[3];
+   char* argv2[2];
    argv2[0] = argv[0];
    argv2[argc] = 0;
 
@@ -41,7 +34,6 @@ int main(int argc, char **argv)
 
    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
 
-   widget->ensurePolished();
    widget->show();
 
    int res = myapp.exec();
