@@ -14,7 +14,6 @@
 #ifndef TGO4CONFIGSTEP_H
 #define TGO4CONFIGSTEP_H
 
-
 #include <QWidget>
 #include "ui_TGo4ConfigStep.h"
 

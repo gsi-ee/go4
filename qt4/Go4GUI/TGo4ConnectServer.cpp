@@ -53,7 +53,6 @@ QString TGo4ConnectServer::getInput()
    return res;
 }
 
-
 void TGo4ConnectServer::DefaultPassCheck_toggled( bool on )
 {
    PasswordEdit->setEnabled(!on);
@@ -61,31 +60,27 @@ void TGo4ConnectServer::DefaultPassCheck_toggled( bool on )
 
 void TGo4ConnectServer::SelectAccount_changed( int index )
 {
-
-    switch(index)
-    {
+    switch(index) {
       case 0:
       default:
         AccountEdit->setText("observer");
         break;
       case 1:
         AccountEdit->setText("controller");
-             break;
+        break;
       case 2:
         AccountEdit->setText("admin");
-             break;
+        break;
       case 3:
         AccountEdit->setText(fLastAccount);
         break;
     };
 
     AccountEdit->setEnabled(index==3);
-
 }
 
 void TGo4ConnectServer::SelectConnection_changed ( int index )
 {
   AccountEdit->setEnabled(index==1);
   AccountEdit->setVisible(index==1);
-
 }

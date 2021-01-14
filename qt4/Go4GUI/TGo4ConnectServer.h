@@ -30,8 +30,6 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
 
  public slots:
 
-
-
    virtual void DefaultPassCheck_toggled( bool on );
 
    virtual void SelectAccount_changed( int index );
@@ -43,6 +41,5 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
    QString fLastAccount;
 
  };
-
 
 #endif
