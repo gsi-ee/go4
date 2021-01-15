@@ -2120,13 +2120,12 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
    }
    // here check if we want web server or regular connection:
 
-   if(go4sett->getClientConnectMode()==0)
-   {
-     if (anal==0) anal = AddAnalysisProxy(true, false);
+   if(go4sett->getClientConnectMode()==0) {
+     if (!anal) anal = AddAnalysisProxy(true, false);
      bool def = go4sett->getClientDefaultPass();
      if (!def) fLastPassword = pass;
 
-     if (anal!=0)
+     if (anal)
        anal->ConnectToServer(go4sett->getClientNode().toLatin1().constData(),
                              go4sett->getClientPort(),
                              go4sett->getClientControllerMode(),
@@ -2137,11 +2136,14 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
      fConnectingCounter = 41;
      UpdateCaptionButtons();
      CheckConnectingCounterSlot();
-   }
-   else
-   {
-     QString portstring;
-     QString fulladdress = go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
+   } else {
+     QString fulladdress = go4sett->getClientNode();
+     if ((go4sett->getClientPort() > 0) && (go4sett->getClientPort() != 80)) {
+        QString portstring;
+        portstring.setNum(go4sett->getClientPort());
+        fulladdress.append(":");
+        fulladdress.append(portstring);
+     }
      //std::cout << " try to connect to server: "<<fulladdress.toLatin1().constData() << std::endl;
      QString msg("Connecting analysis http server at ");
      msg.append(fulladdress).append(QString(", Please wait"));

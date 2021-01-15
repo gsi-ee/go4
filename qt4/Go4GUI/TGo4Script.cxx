@@ -838,7 +838,7 @@ TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* acc
    if ((servername==0) || (*servername==0)) return 0;
 
    TGo4HttpProxy* proxy = new TGo4HttpProxy();
-   if(account) proxy->SetAccount(account,pass);
+   if(account) proxy->SetAccount(account, pass);
    if (!proxy->Connect(servername)) {
       delete proxy;
       return 0;
