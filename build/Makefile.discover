@@ -1,4 +1,4 @@
-# this makefile used to discover go4 environment and 
+# this makefile used to discover go4 environment and
 # generate Makefile.gener file
 # also some other files can be generated here
 # move it out of Makefile.config while it is not used in user code
@@ -97,14 +97,14 @@ ifeq ($(ISROOT6),true)
 # configure X11 compilation
 ifndef nox11
 ifneq ($(shell $(CFG_ROOT_BIN)root-config --has-x11),no)
-GO4_X11 = true 
+GO4_X11 = true
 endif
 endif
 
 # configure WebGui compilation
 ifndef noweb
 ifeq ($(shell $(CFG_ROOT_BIN)root-config --has-qt5web),yes)
-GO4_WEB = true 
+GO4_WEB = true
 endif
 endif
 
@@ -120,12 +120,12 @@ endif
 else
 
 # in case of ROOT5 enable only X11 part - not really tested
-GO4_X11 = true 
+GO4_X11 = true
 
 endif
 
 ifdef designer
-GO4_DESIGNER = true 
+GO4_DESIGNER = true
 endif
 
 ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
@@ -181,7 +181,7 @@ DABCINCPATH = $(DABCSYS)/include
 endif
 endif
 
-# set this to HDF5 installation, or redefine environment before building go4 
+# set this to HDF5 installation, or redefine environment before building go4
 #HDF5INSTALL = /misc/adamczew/Go4user/hdf5
 
 ifdef HDF5INSTALL
@@ -236,7 +236,7 @@ ifndef CFG_WITHOUT_QT
     QMAKE  = $(QTPATH)/bin/qmake
     UIC    = $(QTPATH)/bin/uic
     MOC    = $(QTPATH)/bin/moc
-    QTCXXFLAGS = 
+    QTCXXFLAGS =
     ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt 3."),)
        GO4_QT = 3
        QTCXXFLAGS += -DQT_SHARED -DQT_THREAD_SUPPORT -D_REENTRANT
@@ -255,9 +255,9 @@ ifndef CFG_WITHOUT_QT
     else
       QTCXXFLAGS  += -I$(QTDIR)/include
     endif
-  
+
   else
-  
+
   ifeq ($(shell pkg-config --exists Qt5Core Qt5Network --print-errors),)
     WITHQT = 5
   else
@@ -416,7 +416,7 @@ ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=.:$(GO4LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
 else
 	@echo 'export PATH=$(GO4EXEPATH):$$PATH' >> $@
-	@echo 'export LD_LIBRARY_PATH=.:$(GO4LIBPATH):$$LD_LIBRARY_PATH' >> $@	
+	@echo 'export LD_LIBRARY_PATH=.:$(GO4LIBPATH):$$LD_LIBRARY_PATH' >> $@
 endif
 	@echo 'export PYTHONPATH=$(GO4TOPPATH)/python:$$PYTHONPATH' >> $@
 	@chmod 755 $@
@@ -556,7 +556,7 @@ ifdef USEHTTPSERVER
 	@echo "USEHTTPSERVER = true" >> $@
 endif
 ifdef NEEDFULLWEBCANVAS
-   @echo "NEEDFULLWEBCANVAS = true" >> $@
+	@echo "NEEDFULLWEBCANVAS = true" >> $@
 endif
 ifdef USEHTTPSNIFF
 	@echo "USEHTTPSNIFF  = true" >> $@
@@ -564,7 +564,7 @@ endif
 	@echo "" >> $@
 	@echo "### some other packets" >> $@
 	@echo "" >> $@
-ifdef USEDABC 
+ifdef USEDABC
 	@echo "USEDABC     = true" >> $@
 	@echo "DABCLIBPATH = $(DABCLIBPATH)" >> $@
 	@echo "DABCBINPATH = $(DABCBINPATH)" >> $@
