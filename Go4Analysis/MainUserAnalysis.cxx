@@ -204,6 +204,7 @@ void usage(const char* subtopic = 0)
 #ifdef __GO4HDF5__
    std::cout << "  -hdf5store filename  :  write step output into hdf5 file (.h5)" << std::endl;
 #endif
+   std::cout << "  -userstore name      :  create user-defined store for output data" << std::endl;
    std::cout << "  -enable-store        :  enable step store" << std::endl;
    std::cout << "  -disable-store       :  disable step store" << std::endl;
    std::cout << "  -enable-errstop      :  enable stop-on-error mode" << std::endl;
@@ -315,7 +316,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
    TObjArray evnt_classes; // list of found event classes
 
-   TClass *proc_cl(0), *an_cl(0), *evsrc_cl(0);
+   TClass *proc_cl(0), *an_cl(0), *evsrc_cl(0), *evstore_cl(0);
 
    while ((obj = iter()) != 0) {
       TClass* cl = TClass::GetClass(obj->GetName());
@@ -328,13 +329,16 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          if ((cl!=TGo4EventProcessor::Class()) && ((proc_cl==0) || cl->InheritsFrom(proc_cl))) proc_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventSource::Class())) {
-         if ((cl!=TGo4EventSource::Class()) && (evsrc_cl==0)) evsrc_cl = cl;
+         if ((cl != TGo4EventSource::Class()) && !evsrc_cl) evsrc_cl = cl;
+      } else
+      if (cl->InheritsFrom(TGo4EventStore::Class())) {
+         if ((cl != TGo4EventStore::Class()) && !evstore_cl) evstore_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventElement::Class())) {
-         if (cl!=TGo4EventElement::Class()) evnt_classes.Add(cl);
+         if (cl != TGo4EventElement::Class()) evnt_classes.Add(cl);
       } else
       if (cl->InheritsFrom(TGo4Analysis::Class())) {
-         if ((cl!=TGo4Analysis::Class()) && (an_cl==0)) an_cl = cl;
+         if ((cl != TGo4Analysis::Class()) && !an_cl) an_cl = cl;
       }
    }
 
@@ -567,23 +571,26 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       factory->DefEventProcessor("Processor", proc_cl->GetName());// object name, class name
    }
 
-   if (inpev_cl!=0)
+   if (inpev_cl)
       factory->DefInputEvent("InputEvent", inpev_cl->GetName()); // object name, class name
 
-   if (outev_cl!=0)
+   if (outev_cl)
       factory->DefOutputEvent("OutputEvent", outev_cl->GetName()); // object name, class name
    else
       factory->DefOutputEvent("OutputEvent", "TGo4EventElement"); // object name, class name
 
-   if (evsrc_cl!=0)
+   if (evsrc_cl)
       factory->DefUserEventSource(evsrc_cl->GetName());
+
+   if (evstore_cl)
+      factory->DefUserEventStore(evstore_cl->GetName());
 
    TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter(analysis->GetDefaultTestFileName());
 
    TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
 
    step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(kFALSE);
+   step->SetStoreEnabled(evstore_cl != 0);
    step->SetProcessEnabled(kTRUE);
    step->SetErrorStopEnabled(kTRUE);
 
@@ -1041,6 +1048,14 @@ int main(int argc, char **argv)
             step->SetStoreEnabled(kTRUE);
          } else
             showerror("Backstore name not specified");
+      } else
+      if(strcmp(argv[narg],"-userstore")==0) {
+         if (++narg < argc) {
+            TGo4UserStoreParameter storepar(argv[narg++]);
+            step->SetEventStore(&storepar);
+            step->SetStoreEnabled(kTRUE);
+         } else
+            showerror("User store name not specified");
       } else
 #ifdef __GO4HDF5__
         if(strcmp(argv[narg],"-hdf5store")==0) {
