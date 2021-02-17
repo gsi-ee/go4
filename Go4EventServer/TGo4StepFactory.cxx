@@ -21,6 +21,7 @@
 #include "TGo4EventElement.h"
 #include "TGo4EventSourceParameter.h"
 #include "TGo4UserSourceParameter.h"
+#include "TGo4UserStoreParameter.h"
 
 //***********************************************************
 TGo4StepFactory::TGo4StepFactory() :
@@ -144,6 +145,19 @@ void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 }
 
 //-----------------------------------------------------------
+void TGo4StepFactory::DefUserEventStore(const char *Sclass)
+{
+   #ifdef WIN32
+   const char* ptr_arg = "0x%x";
+   #else
+   const char* ptr_arg = "%p";
+   #endif
+
+   fnewEventStore.Form("new %s((%s*)%s)", Sclass, TGo4UserStoreParameter::Class()->GetName(), ptr_arg);
+}
+
+
+//-----------------------------------------------------------
 TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)
 {
    if ((fnewEventSource.Length()>0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
@@ -152,7 +166,7 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 
       TString arg = TString::Format(fnewEventSource.Data(), par);
 
-      TGo4EventSource* source = (TGo4EventSource*) gROOT->ProcessLineFast(arg.Data());
+      TGo4EventSource *source = (TGo4EventSource *) gROOT->ProcessLineFast(arg.Data());
 
       if (source) return source;
 
@@ -160,4 +174,23 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
    }
 
    return TGo4EventServerFactory::CreateEventSource(par);
+}
+
+//-----------------------------------------------------------
+TGo4EventStore* TGo4StepFactory::CreateEventStore(TGo4EventStoreParameter *par)
+{
+   if ((fnewEventStore.Length() > 0) && par->InheritsFrom(TGo4UserStoreParameter::Class())) {
+
+      TGo4Log::Info("%s: Create input source %s", GetName(), fnewEventStore.Data());
+
+      TString arg = TString::Format(fnewEventStore.Data(), par);
+
+      TGo4EventStore *store = (TGo4EventStore *) gROOT->ProcessLineFast(arg.Data());
+
+      if (store) return store;
+
+      TGo4Log::Error("Cannot create event source with cmd: %s", fnewEventStore.Data());
+   }
+
+   return TGo4EventServerFactory::CreateEventStore(par);
 }

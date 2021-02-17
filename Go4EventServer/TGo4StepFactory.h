@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TUNPACKFACTORY_H
-#define TUNPACKFACTORY_H
+#ifndef TGO4STEPFACTORY_H
+#define TGO4STEPFACTORY_H
 
 #include "TGo4EventServerFactory.h"
 
@@ -23,12 +23,14 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       virtual ~TGo4StepFactory();
       virtual  TGo4EventElement* CreateInputEvent();
       virtual  TGo4EventElement* CreateOutputEvent();
-      virtual  TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter* par);
-      virtual  TGo4EventSource* CreateEventSource(TGo4EventSourceParameter * par);
-      void     DefEventProcessor(const char* Pname, const char* Pclass);
-      void     DefInputEvent(const char* Iname, const char* Iclass);
-      void     DefOutputEvent(const char* Oname, const char* Oclass);
-      void     DefUserEventSource(const char* Sclass);
+      virtual  TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter *par);
+      virtual  TGo4EventSource* CreateEventSource(TGo4EventSourceParameter *par);
+      virtual  TGo4EventStore* CreateEventStore(TGo4EventStoreParameter *par);
+      void     DefEventProcessor(const char *Pname, const char* Pclass);
+      void     DefInputEvent(const char *Iname, const char *Iclass);
+      void     DefOutputEvent(const char *Oname, const char *Oclass);
+      void     DefUserEventSource(const char *Sclass);
+      void     DefUserEventStore(const char *Sclass);
   private:
       TString fnewProcessor;
       TString fProcessorName;
@@ -37,8 +39,9 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       TString fnewInputEvent;
       TString fInputEventName;
       TString fnewEventSource;
+      TString fnewEventStore;
 
-  ClassDef(TGo4StepFactory,2)
+  ClassDef(TGo4StepFactory,3)
 };
 
-#endif //TUNPACKFACTORY_H
+#endif // TGO4STEPFACTORY_H
