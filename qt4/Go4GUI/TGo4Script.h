@@ -164,9 +164,12 @@ class TGo4Script : public TGo4AbstractInterface {
                          int bufsize,
                          int splitlevel);
 
+      void StepUserStore(const char* stepname,
+                         const char* storename);
+
       void StepHDF5Store(const char* stepname,
-            const char* storename,
-            int flags);
+                         const char* storename,
+                         int flags);
 
       // windows management
 

@@ -26,6 +26,7 @@
 #include "TGo4RevServParameter.h"
 #include "TGo4FileStoreParameter.h"
 #include "TGo4BackStoreParameter.h"
+#include "TGo4UserStoreParameter.h"
 #include "TGo4FileSourceParameter.h"
 #include "TGo4MbsFileParameter.h"
 #include "TGo4MbsStreamParameter.h"
@@ -532,6 +533,16 @@ void TGo4Interface::StepBackStore(const char* stepname,
    TGo4BackStoreParameter par(storename);
    par.SetBufsize(bufsize);
    par.SetSplitlevel(splitlevel);
+   step->SetStorePar(&par);
+}
+
+void TGo4Interface::StepUserStore(const char* stepname,
+                   const char* storename)
+{
+   TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
+   if (step==0) return;
+
+   TGo4UserStoreParameter par(storename);
    step->SetStorePar(&par);
 }
 

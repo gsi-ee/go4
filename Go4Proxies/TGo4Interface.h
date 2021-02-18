@@ -139,6 +139,9 @@ class TGo4Interface : public TGo4AbstractInterface {
                          int bufsize,
                          int splitlevel);
 
+      void StepUserStore(const char* stepname,
+                         const char* storename);
+
      // windows management
       ViewPanelHandle StartViewPanel();
       ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = 0);

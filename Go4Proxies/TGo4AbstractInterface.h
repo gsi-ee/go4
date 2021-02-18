@@ -494,6 +494,10 @@ class TGo4AbstractInterface : public TObject {
                          int bufsize,
                          int splitlevel) {}
 
+      /** Set user store as step data storage */
+      virtual void StepUserStore(const char* stepname,
+                         const char* storename) {}
+
       /** Set hdf5 data source as step data storage*/
       virtual void StepHDF5Store(const char* stepname,
                                   const char* storename,

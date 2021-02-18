@@ -678,16 +678,22 @@ void TGo4Script::StepBackStore(const char* stepname,
       step->SetBackStore(storename, bufsize, splitlevel);
 }
 
-
-void TGo4Script::StepHDF5Store(const char* stepname,
-           const char* storename,
-           int flags)
+void TGo4Script::StepUserStore(const char* stepname,
+                               const char* storename)
 {
-  TGo4ConfigStep* step = GetStepGUI(stepname);
-    if (step)
-       step->SetHDF5Store(storename, flags);
+   TGo4ConfigStep* step = GetStepGUI(stepname);
+   if (step)
+      step->SetUserStore(storename);
 }
 
+void TGo4Script::StepHDF5Store(const char* stepname,
+                               const char* storename,
+                               int flags)
+{
+   TGo4ConfigStep* step = GetStepGUI(stepname);
+   if (step)
+      step->SetHDF5Store(storename, flags);
+}
 
 void TGo4Script::SetMainWindowState(int qtversion, const char* val)
 {
@@ -1067,11 +1073,16 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                           << bufsize << ", "
                                           << splitlevel << ");" << std::endl;
             break;
-
-
          }
-         case 2:{
-           int flags=0;
+
+         case 2: {
+            fs << "go4->StepUserStore(\"" << stepconf->GetStepName().toLatin1().constData() << "\", \""
+                                          << storename.toLatin1().constData() << "\");" << std::endl;
+            break;
+         }
+
+         case 3: {
+           int flags = 0;
            stepconf->GetHDF5Store(flags);
            fs << "go4->StepHDF5Store(\"" << stepconf->GetStepName().toLatin1().constData() << "\", \""
                                          << storename.toLatin1().constData() << "\", "
