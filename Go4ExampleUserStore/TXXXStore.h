@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXKSTORE_H
-#define TXXXKSTORE_H
+#ifndef TEXAMPLEUSERSTORE_H
+#define TEXAMPLEUSERSTORE_H
 
 #include "TGo4EventStore.h"
 
@@ -58,4 +58,4 @@ class TXXXStore : public TGo4EventStore {
   ClassDef(TXXXStore,1)
 };
 
-#endif //TGO4BACKSTORE_H
+#endif //TEXAMPLEUSERSTORE_H

@@ -208,6 +208,7 @@ list(APPEND examples
    Go4ExampleMesh
    Go4ExampleSimple
    Go4ExampleUserSource
+   Go4ExampleUserStore
 )
 
 if(DABC_FOUND)

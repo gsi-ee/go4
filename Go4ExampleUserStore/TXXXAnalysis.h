@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TANALYSIS_H
-#define TANALYSIS_H
+#ifndef TSTOREANALYSIS_H
+#define TSTOREANALYSIS_H
 
 #include "TGo4Analysis.h"
 
@@ -35,4 +35,4 @@ class TXXXAnalysis : public TGo4Analysis {
 
    ClassDef(TXXXAnalysis,1)
 };
-#endif //TANALYSIS_H
+#endif //TSTOREANALYSIS_H

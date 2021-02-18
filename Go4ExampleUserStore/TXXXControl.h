@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXControl_H
-#define TXXXControl_H
+#ifndef TSTORECONTROL_H
+#define TSTORECONTROL_H
 
 #include "TGo4Parameter.h"
 
@@ -25,4 +25,4 @@ class TXXXControl : public TGo4Parameter {
    ClassDef(TXXXControl,1)
 };
 
-#endif // TXXXControl_H
+#endif // TSTORECONTROL_H

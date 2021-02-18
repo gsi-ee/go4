@@ -106,7 +106,7 @@ MODULES += webgui6
 endif
 
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
-            Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
+            Go4ExampleUserSource Go4ExampleUserStore Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
 include $(patsubst %,%/Module.mk,$(MODULES))

@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TUNPACKPROCESSOR_H
-#define TUNPACKPROCESSOR_H
+#ifndef TSTOREPROCESSOR_H
+#define TSTOREPROCESSOR_H
 
 #include "TGo4EventProcessor.h"
 
@@ -45,5 +45,5 @@ class TXXXProc : public TGo4EventProcessor {
    ClassDef(TXXXProc,1)
 };
 
-#endif //TUNPACKPROCESSOR_H
+#endif //TSTOREPROCESSOR_H
 
