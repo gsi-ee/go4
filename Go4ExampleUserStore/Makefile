@@ -1,0 +1,60 @@
+ifndef GO4SYS
+GO4SYS = $(shell go4-config --go4sys)
+endif
+
+include $(GO4SYS)/Makefile.config
+
+## normally should be like this for every module, but can be specific
+
+ifdef GO4PACKAGE
+EXAMPLESTORE_DIR         = Go4Example1Step
+else
+EXAMPLESTORE_DIR         = .
+endif
+
+EXAMPLESTORE_LINKDEF     = $(EXAMPLESTORE_DIR)/XXXLinkDef.$(HedSuf)
+EXAMPLESTORE_LIBNAME     = $(GO4_USERLIBNAME)
+
+## must be similar for every module
+
+EXAMPLESTORE_DICT        = $(EXAMPLESTORE_DIR)/$(DICT_PREFIX)XXX
+EXAMPLESTORE_DH          = $(EXAMPLESTORE_DICT).$(HedSuf)
+EXAMPLESTORE_DS          = $(EXAMPLESTORE_DICT).$(SrcSuf)
+EXAMPLESTORE_DO          = $(EXAMPLESTORE_DICT).$(ObjSuf)
+
+EXAMPLESTORE_H           = $(filter-out $(EXAMPLESTORE_DH) $(EXAMPLESTORE_LINKDEF), $(wildcard $(EXAMPLESTORE_DIR)/*.$(HedSuf)))
+EXAMPLESTORE_S           = $(filter-out $(EXAMPLESTORE_DS), $(wildcard $(EXAMPLESTORE_DIR)/*.$(SrcSuf)))
+EXAMPLESTORE_O           = $(EXAMPLESTORE_S:.$(SrcSuf)=.$(ObjSuf))
+
+EXAMPLESTORE_DEP         =  $(EXAMPLESTORE_O:.$(ObjSuf)=.$(DepSuf))
+EXAMPLESTORE_DDEP        =  $(EXAMPLESTORE_DO:.$(ObjSuf)=.$(DepSuf))
+
+EXAMPLESTORE_LIB         =  $(EXAMPLESTORE_DIR)/$(EXAMPLESTORE_LIBNAME).$(DllSuf)
+
+# used in the main Makefile
+
+EXAMPDEPENDENCS    += $(EXAMPLESTORE_DEP) $(EXAMPLESTORE_DDEP)
+
+ifdef DOPACKAGE
+DISTRFILES         += $(EXAMPLESTORE_S) $(EXAMPLESTORE_H) $(EXAMPLESTORE_LINKDEF)
+DISTRFILES         += $(EXAMPLESTORE_DIR)/Readme.txt
+endif
+
+##### local rules #####
+
+all::     $(EXAMPLESTORE_LIB)
+
+$(EXAMPLESTORE_LIB):  $(EXAMPLESTORE_O) $(EXAMPLESTORE_DO) $(ANAL_LIB_DEP)
+	@$(MakeLibrary) $(EXAMPLESTORE_LIBNAME) "$(EXAMPLESTORE_O) $(EXAMPLESTORE_DO)" $(EXAMPLESTORE_DIR) $(EXAMPLESTORE_LINKDEF) "$(ANAL_LIB_DEP)" $(EXAMPLESTORE_DS) "$(EXAMPLESTORE_H)"
+
+$(EXAMPLESTORE_DS): $(EXAMPLESTORE_H)  $(EXAMPLESTORE_LINKDEF)
+	@$(ROOTCINTGO4) $(EXAMPLESTORE_LIB) $(EXAMPLESTORE_H) $(EXAMPLESTORE_LINKDEF)
+
+clean-bin::
+	@$(RM) $(EXAMPLESTORE_O) $(EXAMPLESTORE_DO)
+	@$(RM) $(EXAMPLESTORE_DEP) $(EXAMPLESTORE_DDEP) $(EXAMPLESTORE_DS) $(EXAMPLESTORE_DH)
+
+clean:: clean-bin
+	@$(CleanLib) $(EXAMPLESTORE_LIBNAME) $(EXAMPLESTORE_DIR)
+
+include $(GO4SYS)/Makefile.rules
