@@ -7,7 +7,7 @@ include $(GO4SYS)/Makefile.config
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMPLESTORE_DIR         = Go4Example1Step
+EXAMPLESTORE_DIR         = Go4ExampleUserStore
 else
 EXAMPLESTORE_DIR         = .
 endif
