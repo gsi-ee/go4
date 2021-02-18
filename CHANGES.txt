@@ -22,7 +22,7 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 
-Changes in Go4 v6.0.x (2019/2020)
+Changes in Go4 v6.0.x (2019/2021)
 1. Added docker container for Go4 V6.0 on OpenSuse Leap 15.0 Linux. Go4 is build with ROOT 6.18/04, Qt5 webcanvas and HDF5 support.
    Docker files are located in subfolder $GO4SYS/docker. Such container may be executed with a docker server on any Linux,
    or using the Docker Desktop/Docker Toolbox  environment on Windows or MacOS. Please see docker/go4v6.0_leap_15.0/README.txt
@@ -30,6 +30,9 @@ Changes in Go4 v6.0.x (2019/2020)
    that has been used as template!
 2. Provide preliminary cmake files for compilation of Go4 and user analysis
 3. Fully remove out-of-date DIM component for DABC v1.0 monitoring
+4. Provide example for user-defined event store - Go4ExampleUserStore.
+   It demonstrates how arbitrary event store can be implemented.
+   Add support of user-defined store in go4analysis, GUI and hotstart.
 
 
 Changes in Go4 v6.0.0 (October 2019)
