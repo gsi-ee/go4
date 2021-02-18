@@ -1,4 +1,4 @@
-// $Id: TXXXAnalysis.cxx 2771 2020-04-16 15:24:45Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

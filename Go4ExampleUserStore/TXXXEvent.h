@@ -1,4 +1,4 @@
-// $Id: TXXXEvent.h 2627 2019-10-01 08:02:45Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
