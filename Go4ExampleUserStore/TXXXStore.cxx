@@ -56,11 +56,10 @@ TXXXStore::TXXXStore(TGo4UserStoreParameter *par) :
    if (!fname.Contains(".root")) fname.Append(".root");
 
    fxFile = TFile::Open(fname.Data(), "RECREATE");
-   TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", fname.Data());
+   TGo4Log::Info("TXXXStore: Open file %s RECREATE", fname.Data());
 
    fxTree = new TTree("Custom", "Custom go4 store");
    fxTree->Write();
-
 }
 
 TXXXStore::~TXXXStore()
@@ -75,38 +74,21 @@ TXXXStore::~TXXXStore()
    }
 }
 
-Int_t TXXXStore::Store(TGo4Parameter* cali)
-{
-   return 0;
-}
-
-Int_t TXXXStore::Store(TGo4Condition* conny)
-{
-   return 0;
-}
-
-Int_t TXXXStore::Store(TGo4Fitter* fitty)
-{
-   return 0;
-}
-
-Int_t TXXXStore::Store(TFolder* foldy)
-{
-   return 0;
-}
-
-
 Int_t TXXXStore::Store(TGo4EventElement *event)
 {
    GO4TRACE((12,"TXXXStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
-   fxEvent = dynamic_cast<TXXXEvent *>(event); // address of next event into event pointer
-   if (!fxEvent) return 1; // error
+   TXXXEvent *custom = dynamic_cast<TXXXEvent *>(event); // address of next event into event pointer
+   if (!custom) return 1; // error
 
    if(!fbBranchExists) {
+      fxEvent = custom;
       fxTree->Branch("Crate1", fxEvent->fCrate1, "Create1[8]/F");
       fxTree->Branch("Crate2", fxEvent->fCrate2, "Create2[8]/F");
       fbBranchExists = kTRUE;
+   } else if (fxEvent != custom) {
+      TGo4Log::Info("TXXXStore: Event pointer changed");
+      return 1; // error, should never happen
    }
 
    fxTree->Fill();

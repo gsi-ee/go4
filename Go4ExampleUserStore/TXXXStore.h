@@ -1,4 +1,4 @@
-// $Id: TGo4BackStore.h 2627 2019-10-01 08:02:45Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -38,17 +38,11 @@ class TXXXStore : public TGo4EventStore {
     /** Stores eventelement event into the storage implementation. */
     virtual Int_t Store(TGo4EventElement* event);
 
-    /** Saves a calibration object correllated with the current event into the storage. */
-    virtual Int_t Store(TGo4Parameter *cali);
-
-    /** Saves a condition correllated with the current event into the storage. */
-    virtual Int_t Store(TGo4Condition *conny);
-
-    /** Saves a fitter correllated with the current event into the storage. */
-    virtual Int_t Store(TGo4Fitter* fitter);
-
-    /** Saves a folder correllated with the current event into the storage. */
-    virtual Int_t Store(TFolder* fold);
+    /** Ignore store of parameter or one can provide some action */
+    virtual Int_t Store(TGo4Parameter*) { return 0; }
+    virtual Int_t Store(TGo4Condition*) { return 0; }
+    virtual Int_t Store(TGo4Fitter*) { return 0; }
+    virtual Int_t Store(TFolder*) { return 0; }
 
     /** Access to the Tree structure, for framework */
     virtual TTree* GetTree() { return fxTree; }
