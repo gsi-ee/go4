@@ -19,6 +19,7 @@
 #include "TGo4EventStoreParameter.h"
 #include "TGo4EventSourceParameter.h"
 #include "TGo4UserSourceParameter.h"
+#include "TGo4UserStoreParameter.h"
 #include "TGo4RevServParameter.h"
 #include "TGo4FileStoreParameter.h"
 #include "TGo4BackStoreParameter.h"
@@ -90,7 +91,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    ExtraBtn->setText(fExtra ? "-" : "+");
 
 #ifndef __GO4HDF5__
-   OutputCombo->removeItem(2);
+   OutputCombo->removeItem(3);
    EventSourceCombo->removeItem(8);
 #endif
 
@@ -295,6 +296,11 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
             SetBackStore(bstor->GetName(),
                          bstor->GetBufsize(),
                          bstor->GetSplitlevel());
+            break;
+         }
+         case GO4EV_USER: {
+            TGo4UserStoreParameter *ustor = dynamic_cast<TGo4UserStoreParameter*>(StorePar);
+            SetUserStore(ustor->GetName());
             break;
          }
 
@@ -591,9 +597,10 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
 {
    if(k==0) {
       StoreNameEdit->setDisabled(false);
-      TGo4FileStoreParameter* newpar1 = new TGo4FileStoreParameter(StoreNameEdit->text().toLatin1().constData());
-      fStepStatus->SetStorePar(newpar1);
-      delete newpar1;
+      TGo4FileStoreParameter newpar0(StoreNameEdit->text().toLatin1().constData());
+      fStepStatus->SetStorePar(&newpar0);
+      SplitLevel->setDisabled(false);
+      BufferSize->setDisabled(false);
       CompLevel->setDisabled(false);
       StoreOverwriteMode->setDisabled(false);
       FileNameOutput->setDisabled(false);
@@ -601,20 +608,31 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
    } else
    if(k==1) {
       StoreNameEdit->setDisabled(true);
-      TGo4BackStoreParameter *newpar3 = new TGo4BackStoreParameter(GetBackStoreName().toLatin1().constData());
-      fStepStatus->SetStorePar(newpar3);
-      delete newpar3;
+      TGo4BackStoreParameter newpar1(GetBackStoreName().toLatin1().constData());
+      fStepStatus->SetStorePar(&newpar1);
+      SplitLevel->setDisabled(false);
+      BufferSize->setDisabled(false);
       CompLevel->setDisabled(true);
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
       TreeAutosave->setDisabled(true);
     } else
-   if(k==2) {
+    if(k==2) {
+       StoreNameEdit->setDisabled(false);
+       TGo4UserStoreParameter newpar2(StoreNameEdit->text().toLatin1().constData());
+       fStepStatus->SetStorePar(&newpar2);
+       SplitLevel->setDisabled(true);
+       BufferSize->setDisabled(true);
+       CompLevel->setDisabled(true);
+       StoreOverwriteMode->setDisabled(true);
+       FileNameOutput->setDisabled(false);
+       TreeAutosave->setDisabled(true);
+     } else
+   if(k==3) {
 #ifdef __GO4HDF5__
       StoreNameEdit->setDisabled(false);
-      TGo4HDF5StoreParameter* newpar2 = new TGo4HDF5StoreParameter(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
-      fStepStatus->SetStorePar(newpar2);
-      delete newpar2;
+      TGo4HDF5StoreParameter newpar3(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
+      fStepStatus->SetStorePar(&newpar3);
       StoreOverwriteMode->setDisabled(false);
       FileNameOutput->setDisabled(false);
       CompLevel->setDisabled(true);
@@ -634,7 +652,8 @@ void TGo4ConfigStep::OutputFileDialog()
         TGo4EventStoreParameter* storepar = fStepStatus->GetStorePar();
         if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
            filters = "Go4FileSource  (*.root)";
-
+        else if (storepar->InheritsFrom(TGo4UserStoreParameter::Class()))
+           filters = "Go4UserStore  (*.root)";
 #ifdef __GO4HDF5__
         else if (storepar->InheritsFrom(TGo4HDF5StoreParameter::Class())) {
            filters="Go4HDF5 (*.h5)";
@@ -665,7 +684,7 @@ void TGo4ConfigStep::OutputFileDialog()
 void TGo4ConfigStep::StoreBufferSize(int t)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())){
-       TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
+       TGo4FileStoreParameter *StorePar = (TGo4FileStoreParameter *)fStepStatus->GetStorePar();
        StorePar->SetBufsize(1000*t);
    } else
    if (fStepStatus->GetStorePar()->InheritsFrom(TGo4BackStoreParameter::Class())){
@@ -677,7 +696,7 @@ void TGo4ConfigStep::StoreBufferSize(int t)
 void TGo4ConfigStep::StoreSplitLevel(int t)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
-      TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
+      TGo4FileStoreParameter *StorePar = (TGo4FileStoreParameter *)fStepStatus->GetStorePar();
       StorePar->SetSplitlevel(t);
    } else
    if (fStepStatus->GetStorePar()->InheritsFrom(TGo4BackStoreParameter::Class())) {
@@ -980,6 +999,8 @@ void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int
    OutputCombo->setCurrentIndex(0);
    StoreOverwriteMode->setChecked(overwrite);
    StoreOverwriteMode->setEnabled(true);
+   BufferSize->setEnabled(true);
+   SplitLevel->setEnabled(true);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    CompLevel->setValue(compression);
@@ -994,6 +1015,8 @@ void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
    StoreNameEdit->setEnabled(false);
    StoreNameEdit->setText(GetBackStoreName());
    OutputCombo->setCurrentIndex(1);
+   BufferSize->setEnabled(true);
+   SplitLevel->setEnabled(true);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    StoreOverwriteMode->setEnabled(false);
@@ -1002,12 +1025,27 @@ void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
    StoreComboHighlighted(1);
 }
 
+void TGo4ConfigStep::SetUserStore(QString name)
+{
+   StoreNameEdit->setEnabled(true);
+   StoreNameEdit->setText(name);
+   OutputCombo->setCurrentIndex(2);
+
+   BufferSize->setEnabled(false);
+   SplitLevel->setEnabled(false);
+   StoreOverwriteMode->setEnabled(false);
+   CompLevel->setEnabled(false);
+   FileNameOutput->setEnabled(true);
+
+   StoreComboHighlighted(2);
+}
+
 void TGo4ConfigStep::SetHDF5Store(QString name, int flags)
 {
 #ifdef __GO4HDF5__
    StoreNameEdit->setEnabled(false);
    StoreNameEdit->setText(name);
-   OutputCombo->setCurrentIndex(2);
+   OutputCombo->setCurrentIndex(3);
    StoreOverwriteMode->setEnabled(true);
    StoreOverwriteMode->setChecked(flags==GO4_H5F_ACC_TRUNC ? true : false);
 // JAM2019: here evaluate the file access flags
@@ -1017,7 +1055,7 @@ void TGo4ConfigStep::SetHDF5Store(QString name, int flags)
 //       H5F_ACC_RDONLY - Open file as read-only, if it already exists, and fail, otherwise
 //       H5F_ACC_RDWR - Open file for read/write, if it already exists, and fail, otherwise
    FileNameOutput->setEnabled(true);
-   StoreComboHighlighted(2);
+   StoreComboHighlighted(3);
 #endif
 }
 

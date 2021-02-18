@@ -605,6 +605,11 @@
         </item>
         <item>
          <property name="text">
+          <string>UserStore</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Go4HDF5</string>
          </property>
         </item>
