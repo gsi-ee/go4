@@ -45,14 +45,20 @@ From GUI, objects are loaded from autosave file when Submit button is pressed.
 One can inspect the content of the auto save file with the Go4 GUI.
 
 Custom event store
-Example demonstrates custom event store - just TTree with two branches
+Example demonstrates custom event store - just TTree with two branches.
+Name of custom event store class configured in TXXXAnalysis constructor.
+There one also can specify default name of the created file. In the example
+event store is enabled, but can be changed also in TXXXAnalysis constructor
+bt calling "step->SetStoreEnabled(kFALSE)".
 
 
 Run analysis.
 Analysis can be started from the Go4 GUI or by command line:
-   shell> go4analysis -random
-   shell> go4analysis -random -userstore test -number 1000
-In second case 1000 events will be generated and stored in the output tree
+
+   shell> go4analysis -random -number 1000 -userstore test.root
+
+Here "-number 1000" parameter specifies number of processed events,
+"-userstore test.root" configure name of output file.
 
 Creating a new class
 Provide the definition and implementation files (.h and .cxx)
