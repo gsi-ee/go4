@@ -55,13 +55,12 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    // TGo4EventSourceParameter* sourcepar = new TGo4MbsTransportParameter("r3b");
    TGo4EventSourceParameter* sourcepar = new TGo4MbsFileParameter(GetDefaultTestFileName());
 
-   TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", argv[0]));
-   storepar->SetOverwriteMode(kTRUE);
+   TGo4UserStoreParameter* storepar = new TGo4UserStoreParameter(Form("%sOutput", argv[0]));
 
    TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
 
    step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(kFALSE);
+   step->SetStoreEnabled(kTRUE);
    step->SetProcessEnabled(kTRUE);
    step->SetErrorStopEnabled(kTRUE);
 
