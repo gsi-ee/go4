@@ -181,7 +181,7 @@ TGo4EventStore* TGo4StepFactory::CreateEventStore(TGo4EventStoreParameter *par)
 {
    if ((fnewEventStore.Length() > 0) && par->InheritsFrom(TGo4UserStoreParameter::Class())) {
 
-      TGo4Log::Info("%s: Create input source %s", GetName(), fnewEventStore.Data());
+      TGo4Log::Info("%s: Create event store %s", GetName(), fnewEventStore.Data());
 
       TString arg = TString::Format(fnewEventStore.Data(), par);
 
@@ -189,7 +189,7 @@ TGo4EventStore* TGo4StepFactory::CreateEventStore(TGo4EventStoreParameter *par)
 
       if (store) return store;
 
-      TGo4Log::Error("Cannot create event source with cmd: %s", fnewEventStore.Data());
+      TGo4Log::Error("Cannot create event store with cmd: %s", fnewEventStore.Data());
    }
 
    return TGo4EventServerFactory::CreateEventStore(par);
