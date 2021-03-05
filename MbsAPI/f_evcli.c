@@ -1494,7 +1494,7 @@ read_again:
                          i_chan,
                          _tmout);
 
-  if ((_retry > 0) && (l_status != STC__TIMEOUT)) {
+  if ((_retry > 0) && (l_status == STC__TIMEOUT)) {
      _retry--;
      goto read_again;
   }
