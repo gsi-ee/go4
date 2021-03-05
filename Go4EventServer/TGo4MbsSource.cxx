@@ -389,7 +389,7 @@ Int_t TGo4MbsSource::Open()
        throw TGo4EventErrorException(this);
     }
 
-   fbPollingMode = gbPollingMode && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
+   fbPollingMode = gbPollingMode && (fiTimeout <= 0) && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
    Int_t tmout = fbPollingMode ? 1 : fiTimeout; // use minimal value
    f_evt_timeout(fxInputChannel, tmout); // have to set timeout before open now JAM
 
