@@ -1241,11 +1241,13 @@ int main(int argc, char **argv)
    }
 
    #ifdef WITH_HTTP
-   if (http_args.GetLast()>=0) {
+   if (http_args.GetLast() >= 0) {
       if (gSystem->Load("libGo4Http")!=0)
          showerror("Fail to load libGo4Http.so library");
 
       TGo4Log::EnableRedirection(); // one sniff complete std out
+
+      TGo4MbsSource::SetPollingMode(kTRUE); // allow to process http requests when no events are coming
 
       TString cmd;
       Long_t res(0);
