@@ -20,6 +20,7 @@
 
 #include "TGo4MbsEvent.h"
 #include "TGo4MbsSourceParameter.h"
+#include "TGo4AnalysisImp.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventErrorException.h"
@@ -248,6 +249,12 @@ TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fu
    return target->AddSubEvent(fullID, source, datalength, fbDataCopyMode);
 }
 
+void HandleAnlysisEvents()
+{
+   if (TGo4Analysis::Instance())
+      TGo4Analysis::Instance()->ProcessEvents();
+}
+
 Int_t TGo4MbsSource::NextEvent()
 {
 
@@ -284,7 +291,7 @@ frombegin:
                                          (Int_t **) (void*) &fxEvent,
                                          (Int_t **) (void*) &fxBuffer);
          if (fbPollingMode && (status == GETEVT__TIMEOUT)) {
-            gSystem->ProcessEvents();
+            HandleAnlysisEvents();
             continue;
          }
          SetEventStatus(status);
@@ -377,7 +384,7 @@ Int_t TGo4MbsSource::Open()
     }
 
    fbPollingMode = gbPollingMode && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
-   Int_t tmout = fbPollingMode ? 1 : fiTimeout;
+   Int_t tmout = fbPollingMode ? 1 : fiTimeout; // use minimal value
    f_evt_timeout(fxInputChannel, tmout); // have to set timeout before open now JAM
 
    status = f_evt_get_open(
