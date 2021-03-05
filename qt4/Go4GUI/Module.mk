@@ -46,7 +46,7 @@ endif
 else
 GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6"
 ifdef NEEDFULLWEBCANVAS
-GO4GUI4_QMAKEFLAGS += ""LIBS += -lWebGui6Full"
+GO4GUI4_QMAKEFLAGS += "LIBS += -lWebGui6Full"
 endif                                
 endif
 
