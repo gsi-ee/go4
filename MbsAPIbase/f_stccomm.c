@@ -177,10 +177,10 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
                   case EINTR      : continue;
                   case ECONNRESET : return STC__ECONNRES;
                   default         : sprintf(c_msg,"STC select error channel %d",i_channel);
-                  perror(c_msg);
-                  return STC__FAILURE;
+                                    perror(c_msg);
+                                    return STC__FAILURE;
                }
-                  case 0: return STC__TIMEOUT;
+            case 0: return STC__TIMEOUT;
          }
       }
       /* ------------------------------------------------------- */

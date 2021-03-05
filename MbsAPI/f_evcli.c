@@ -379,37 +379,37 @@ return(STC__SUCCESS);
 int f_evcli_buf(s_evt_channel *ps_chan)
 /***************************************************************************/
 {
-  s_ve10_1 *ps_ve10_1;
-  char *ps_buf;
-  int  l_len_lw2, l_sts,  l_retval;                    /* len for 2nd   swap  */
+   s_ve10_1 *ps_ve10_1;
+   char *ps_buf;
+   int  l_len_lw2, l_sts,  l_retval;                    /* len for 2nd   swap  */
 
-  /* ++++++++++++++++++++++++++++++ */
-  /* +++ send acknowledge buffer +++ */
-  /* ++++++++++++++++++++++++++++++ */
-  l_status = f_send_ackn(1, ps_chan->l_channel_no);
-  if (l_status != TRUE)
-  {
-     printf("E-%s: Error sending acknowledge: f_send_ackn()!\n", c_modnam);
-     f_stc_close(&s_tcpcomm_ec);
-     return(l_status);
-  }
-    /* +++++++++++++++++++++++++ */
-    /* +++ read input buffer +++ */
-    /* +++++++++++++++++++++++++ */
-    p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
-    ps_buf=ps_chan->pc_io_buf; /* save for comparison */
-    memset(p_clntbuf,0, ps_chan->l_io_buf_size);
-    l_status = f_read_server(ps_chan,
-                             &l_retval,
-                             l_timeout,
-                             ps_chan->l_channel_no);
-    /* in case pc_io_buf has been reallocated */
-    if(ps_buf != ps_chan->pc_io_buf)
-    {
-      f_clnup(v_mem_clnup, NULL); /* free all old buffers */
-      p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
-      f_clnup_save(v_mem_clnup, (int *) p_clntbuf);
-    }
+   /* ++++++++++++++++++++++++++++++ */
+   /* +++ send acknowledge buffer +++ */
+   /* ++++++++++++++++++++++++++++++ */
+   l_status = f_send_ackn(1, ps_chan->l_channel_no);
+   if (l_status != TRUE)
+   {
+      printf("E-%s: Error sending acknowledge: f_send_ackn()!\n", c_modnam);
+      f_stc_close(&s_tcpcomm_ec);
+      return(l_status);
+   }
+   /* +++++++++++++++++++++++++ */
+   /* +++ read input buffer +++ */
+   /* +++++++++++++++++++++++++ */
+   p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
+   ps_buf=ps_chan->pc_io_buf; /* save for comparison */
+   memset(p_clntbuf,0, ps_chan->l_io_buf_size);
+   l_status = f_read_server(ps_chan,
+                            &l_retval,
+                            l_timeout,
+                            ps_chan->l_channel_no);
+   /* in case pc_io_buf has been reallocated */
+   if(ps_buf != ps_chan->pc_io_buf)
+   {
+     f_clnup(v_mem_clnup, NULL); /* free all old buffers */
+     p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
+     f_clnup_save(v_mem_clnup, (int *) p_clntbuf);
+   }
     if (l_status != TRUE)
     {
        printf("E-%s: Error reading buffer: f_read_server()!\n", c_modnam);
@@ -460,11 +460,11 @@ int f_evcli_buf(s_evt_channel *ps_chan)
      {
        l_sts=STC__TIMEOUT;
      }
-      }
-    ps_chan->pc_evt_buf = (char *)&p_clntbuf->c_buffer[0];
-    ps_chan->l_evt_buf_posi = 1; /* number of events */
-    ps_ve10_1 = (s_ve10_1 *) ps_chan->pc_evt_buf;
-return(l_sts);
+   }
+   ps_chan->pc_evt_buf = (char *)&p_clntbuf->c_buffer[0];
+   ps_chan->l_evt_buf_posi = 1; /* number of events */
+   ps_ve10_1 = (s_ve10_1 *) ps_chan->pc_evt_buf;
+   return(l_sts);
 }  /*  end f_evcli_buf  */
 
 /***************************************************************************/
@@ -545,11 +545,9 @@ return(STC__SUCCESS);
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int f_fltdscr(p_clnt_filter)           /* read filter, check and         */
-                                           /* constr. flt_descriptor         */
-struct s_clnt_filter *p_clnt_filter;
+int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, check and         */
 {
-   static char               c_modnam[] = "f_fltdscr";
+   static char         c_modnam[] = "f_fltdscr";
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1;
    struct s_flt_descr *p_flt_descr;
@@ -1451,11 +1449,7 @@ struct s_clnt_filter *p_clnt_filter;
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int        f_read_server(ps_chan, p_bytrd, l_timeout, i_chan)
-s_evt_channel *ps_chan;
-int             *p_bytrd;
-int             l_timeout;
-int              i_chan;
+int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, int i_chan)
 {
   /* ++++ declarations ++++ */
   int            l_maxbytes;
