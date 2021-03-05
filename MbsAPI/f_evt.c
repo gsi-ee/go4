@@ -562,8 +562,9 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    s_filhe *ps_filhe;
    INTS4 l_status;
 
-   l_port = l_gl_source_port;
+   ps_chan->cb_polling = NULL;
 
+   l_port = l_gl_source_port;
 
 #ifndef GSI__WINNT
 // disable automatic detection of RFIO on Windows while file name can contain ":"

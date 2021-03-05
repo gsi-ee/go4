@@ -95,6 +95,7 @@ typedef struct
    s_taghe  *ps_taghe;
    s_tag    *ps_tag;
    sLmdControl *pLmd;
+   void     (*cb_polling)();    /* function to call when polling for timeout */
 } s_evt_channel;
 
 INTS4 f_evt_cre_tagfile(CHARS *,CHARS *, INTS4 (*)());

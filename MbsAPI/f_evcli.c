@@ -1465,7 +1465,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   _retry = 0;
   _tmout = l_timeout;
 
-  if (ps_chan->l_timeout == 1) {
+  if ((ps_chan->l_timeout == 1) && ps_chan->cb_polling) {
      _tmout = 1;
      _retry = 100000; // approx 5000 sec
   }
@@ -1494,8 +1494,10 @@ read_again:
                          i_chan,
                          _tmout);
 
-  if ((_retry-- > 0) && (l_status == STC__TIMEOUT))
+  if ((_retry-- > 0) && (l_status == STC__TIMEOUT)) {
+     ps_chan->cb_polling();
      goto read_again;
+  }
 
   if (l_status != STC__SUCCESS)
   {

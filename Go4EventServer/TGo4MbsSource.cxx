@@ -285,6 +285,12 @@ frombegin:
          TGo4Log::Warn("TGo4MbsSource::NextEvent(): Overflow of eventcounter at %d, reset to 0",fuEventCounter),
          fuEventCounter=0;
       }
+
+      if (fbPollingMode)
+         fxInputChannel->cb_polling = &HandleAnlysisEvents;
+      else
+         fxInputChannel->cb_polling = NULL;
+
       while (eventstep > 0) {
          // retrieve the event, skip all events until end of the step
          Int_t status = f_evt_get_event(fxInputChannel,
