@@ -31,6 +31,8 @@ const UInt_t TGo4MbsSource::fguSHORTBYCHAR = sizeof(Short_t) / sizeof(Char_t);
 const UInt_t TGo4MbsSource::fguLONGBYSHORT = sizeof(Int_t) / sizeof(Short_t);
 const UInt_t TGo4MbsSource::fguEVHEBYCHAR  = sizeof(s_evhe) /  sizeof(Char_t);
 
+Bool_t TGo4MbsSource::gbPollingMode = kFALSE;
+
 TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    TGo4EventSource(par->GetName()),
    fiMode(mode),
@@ -42,6 +44,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fuStopEvent(par->GetStopEvent()),
    fuEventInterval(par->GetEventInterval()),
    fiTimeout(par->GetTimeout()),
+   fbPollingMode(kFALSE),
    fiPort(par->GetPort())
 {
    fxInputChannel=f_evt_control();
@@ -59,7 +62,7 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
    fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
-   fiTimeout(-1), fiPort(0)
+   fiTimeout(-1), fbPollingMode(kFALSE), fiPort(0)
 {
    fxInputChannel = f_evt_control();
    GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
@@ -79,7 +82,7 @@ TGo4MbsSource::TGo4MbsSource() :
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
    fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
-   fiTimeout(-1), fiPort(0)
+   fiTimeout(-1), fbPollingMode(kFALSE), fiPort(0)
 {
    fxInputChannel = f_evt_control();
    GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
@@ -90,6 +93,11 @@ TGo4MbsSource::~TGo4MbsSource()
    GO4TRACE((15,"TGo4MbsSource::~TGo4MbsSource()",__LINE__, __FILE__));
    Close();
    if(fxInputChannel)free(fxInputChannel);
+}
+
+void TGo4MbsSource::SetPollingMode(Bool_t on)
+{
+   gbPollingMode = on;
 }
 
 void TGo4MbsSource::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, Int_t dataw)
@@ -275,6 +283,10 @@ frombegin:
          Int_t status = f_evt_get_event(fxInputChannel,
                                          (Int_t **) (void*) &fxEvent,
                                          (Int_t **) (void*) &fxBuffer);
+         if (fbPollingMode && (status == GETEVT__TIMEOUT)) {
+            gSystem->ProcessEvents();
+            continue;
+         }
          SetEventStatus(status);
          if(status!=0) break;
          eventstep--;
@@ -364,17 +376,19 @@ Int_t TGo4MbsSource::Open()
        throw TGo4EventErrorException(this);
     }
 
-   void* headptr= &fxInfoHeader; // suppress type-punned pointer warning
-   f_evt_timeout(fxInputChannel, fiTimeout); // have to set timeout before open now JAM
+   fbPollingMode = gbPollingMode && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
+   Int_t tmout = fbPollingMode ? 1 : fiTimeout;
+   f_evt_timeout(fxInputChannel, tmout); // have to set timeout before open now JAM
+
    status = f_evt_get_open(
          fiMode,
          name,
          fxInputChannel,
-         (Char_t**) headptr,
+         (Char_t**) ((void*) &fxInfoHeader), // suppress type-punned pointer warning
          0,
          0);
    SetCreateStatus(status);
-   if(GetCreateStatus() !=GETEVT__SUCCESS) {
+   if(GetCreateStatus() != GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
       SetErrMess(Form("%s name:%s", buffer, GetName()));

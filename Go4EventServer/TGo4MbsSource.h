@@ -132,7 +132,9 @@ class TGo4MbsSource : public TGo4EventSource {
       * See MbsAPI function f_evt_type().*/
     void SetPrintEvent(Int_t num=1, Int_t sid=-1, Int_t longw=1, Int_t hexw=1, Int_t dataw=0);
 
-    void SetDataCopyMode(Bool_t on) { fbDataCopyMode=on; }
+    void SetDataCopyMode(Bool_t on) { fbDataCopyMode = on; }
+
+    static void SetPollingMode(Bool_t on = kTRUE);
 
   private:
 
@@ -181,11 +183,15 @@ class TGo4MbsSource : public TGo4EventSource {
     /** Timeout in seconds for mbs getevent. If -1, no timeout (default)  */
     Int_t fiTimeout;
 
+    Bool_t fbPollingMode; //! if true, use short timeout to keep gSystem->ProcessEvents() running
+
     /** Optional port parameter, if non-positive default port number for transport will be used  */
     Int_t fiPort;
 
     /** This structure keeps parameters for printevent mode */
     TGo4MbsSourcePrintPar fxPrEventPar; //!
+
+    static Bool_t gbPollingMode;  //! via minimal timeout try to get gSystem->ProcessEvents() running
 
   ClassDef(TGo4MbsSource, 3)
 
