@@ -286,11 +286,6 @@ frombegin:
          fuEventCounter=0;
       }
 
-      if (fbPollingMode)
-         fxInputChannel->cb_polling = &HandleAnlysisEvents;
-      else
-         fxInputChannel->cb_polling = NULL;
-
       while (eventstep > 0) {
          // retrieve the event, skip all events until end of the step
          Int_t status = f_evt_get_event(fxInputChannel,
@@ -389,9 +384,8 @@ Int_t TGo4MbsSource::Open()
        throw TGo4EventErrorException(this);
     }
 
-   fbPollingMode = gbPollingMode && (fiTimeout <= 0) && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
-   Int_t tmout = fbPollingMode ? 1 : fiTimeout; // use minimal value
-   f_evt_timeout(fxInputChannel, tmout); // have to set timeout before open now JAM
+   fbPollingMode = gbPollingMode && ((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT));
+   f_evt_timeout(fxInputChannel, fiTimeout); // have to set timeout before open now JAM
 
    status = f_evt_get_open(
          fiMode,
@@ -411,6 +405,11 @@ Int_t TGo4MbsSource::Open()
       TGo4Log::Debug(" Mbs Source --  opened input from type %d:  %s . Timeout=%d s",
             fiMode, GetName(), fiTimeout);
       fbIsOpen = kTRUE;
+
+      if (fbPollingMode) {
+         f_evt_timeout(fxInputChannel, 1); // set to minimal value
+         fxInputChannel->cb_polling = &HandleAnlysisEvents;
+      }
    }
    return status;
 }
