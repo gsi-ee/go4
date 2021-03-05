@@ -381,7 +381,7 @@ int f_evcli_buf(s_evt_channel *ps_chan)
 {
    s_ve10_1 *ps_ve10_1;
    char *ps_buf;
-   int  l_len_lw2, l_sts,  l_retval;                    /* len for 2nd   swap  */
+   int  l_len_lw2, l_sts,  l_retval;           /* len for 2nd   swap  */
 
    /* ++++++++++++++++++++++++++++++ */
    /* +++ send acknowledge buffer +++ */
@@ -397,7 +397,7 @@ int f_evcli_buf(s_evt_channel *ps_chan)
    /* +++ read input buffer +++ */
    /* +++++++++++++++++++++++++ */
    p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
-   ps_buf=ps_chan->pc_io_buf; /* save for comparison */
+   ps_buf = ps_chan->pc_io_buf; /* save for comparison */
    memset(p_clntbuf,0, ps_chan->l_io_buf_size);
    l_status = f_read_server(ps_chan,
                             &l_retval,
@@ -1460,11 +1460,20 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
+  int _tmout, _retry;
+
+  _retry = 0;
+  _tmout = l_timeout;
+
+  if (ps_chan->l_timeout == 1) {
+     _tmout = 1;
+     _retry = 100000; // approx 5000 sec
+  }
 
   /* ++++ action       ++++ */
 
   p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
-  l_maxbytes=ps_chan->l_io_buf_size;
+  l_maxbytes = ps_chan->l_io_buf_size;
   /* + + + + + + + + + + + + + + + */
   /* + + + read first buffer + + + */
   /* + + + + + + + + + + + + + + + */
@@ -1477,10 +1486,18 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
 
 
   *p_bytrd = CLNT__SMALLBUF;
+
+read_again:
+
   l_status = f_stc_read( (char *) p_clntbuf,
                          (int) CLNT__SMALLBUF,
                          i_chan,
-                         l_timeout);
+                         _tmout);
+
+  if ((_retry > 0) && (l_status != STC__TIMEOUT)) {
+     _retry--;
+     goto read_again;
+  }
 
   if (l_status != STC__SUCCESS)
   {
