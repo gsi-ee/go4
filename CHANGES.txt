@@ -33,6 +33,8 @@ Changes in Go4 v6.0.x (2019/2021)
 4. Provide example for user-defined event store - Go4ExampleUserStore.
    It demonstrates how arbitrary event store can be implemented.
    Add support of user-defined store in go4analysis, GUI and hotstart.
+5. Fix problems of "Remote Event Server" usage together with http/fastcgi servers.
+   In case of low data rates servers were not responsive, now should be fixed.
 
 
 Changes in Go4 v6.0.0 (October 2019)
