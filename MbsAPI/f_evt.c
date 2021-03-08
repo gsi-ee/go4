@@ -917,32 +917,34 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
    sMbsHeader *pevt = NULL;
 
 // DABC
-   if(ps_chan->pLmd != NULL){
-     if(ps_chan->l_server_type == GETEVT__TRANS)
-       l_stat=fLmdGetMbsEvent(ps_chan->pLmd, &pevt);
-     else if(ps_chan->l_server_type == GETEVT__STREAM)
-       l_stat=fLmdGetMbsEvent(ps_chan->pLmd, &pevt);
-     else if(ps_chan->l_server_type == GETEVT__FILE)
-       l_stat=fLmdGetElement(ps_chan->pLmd,LMD__NO_INDEX, &pevt);
+   if(ps_chan->pLmd != NULL) {
+      if(ps_chan->l_server_type == GETEVT__TRANS) {
+         l_stat = fLmdGetMbsEvent(ps_chan->pLmd, &pevt);
+      } else if(ps_chan->l_server_type == GETEVT__STREAM) {
+         l_stat = fLmdGetMbsEvent(ps_chan->pLmd, &pevt);
+      } else if(ps_chan->l_server_type == GETEVT__FILE) {
+         l_stat = fLmdGetElement(ps_chan->pLmd,LMD__NO_INDEX, &pevt);
+      }
 
-// any error, then pointer is null
-   if(pevt==NULL){
-     if (ps_chan->l_server_type == GETEVT__FILE){
-         if(l_stat == GETLMD__NOMORE) return(GETEVT__NOMORE);
-         if(l_stat == GETLMD__EOFILE) return(GETEVT__NOMORE);
-         if(l_stat == GETLMD__NOBUFFER) return(GETEVT__FAILURE);
-        return(GETEVT__RDERR);
-     } else {
-        if(l_stat == LMD__TIMEOUT) return(GETEVT__TIMEOUT);
-        else return (GETEVT__RDERR);
-     }
-}
-// OK
-     if(ppl_goobuf)*ppl_goobuf = NULL;
-     *ppl_buffer = (INTS4 *)pevt;
-     return(GETEVT__SUCCESS);
+     // any error, then pointer is null
+      if(pevt==NULL) {
+         if (ps_chan->l_server_type == GETEVT__FILE){
+            if(l_stat == GETLMD__NOMORE) return GETEVT__NOMORE;
+            if(l_stat == GETLMD__EOFILE) return GETEVT__NOMORE;
+            if(l_stat == GETLMD__NOBUFFER) return GETEVT__FAILURE;
+            return GETEVT__RDERR;
+         } else {
+            if(l_stat == LMD__TIMEOUT) return GETEVT__TIMEOUT;
+            return GETEVT__RDERR;
+         }
+      }
+      // OK
+      if(ppl_goobuf)*ppl_goobuf = NULL;
+      *ppl_buffer = (INTS4 *)pevt;
+      return(GETEVT__SUCCESS);
    }
 // -- DABC
+
    if((ps_chan->l_server_type == GETEVT__EVENT)|(ps_chan->l_server_type == GETEVT__REVSERV))
    {
       *ppl_goobuf = NULL;

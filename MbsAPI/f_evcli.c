@@ -170,28 +170,29 @@ static int i_debug = 0;                  /* message level (0-3) */
 #define FLUSH__TIME 3                    /* flush time interval for MBS event server */
 #define STDOUT_BUFIO_ 1
 
-  struct s_clnt_filter  *p_clnt_filter;
-  struct s_clntbuf      *p_clntbuf;
-  struct s_opc1         *p_opc1;
+struct s_clnt_filter  *p_clnt_filter;
+struct s_clntbuf      *p_clntbuf;
+struct s_opc1         *p_opc1;
 
-  static int unsigned  lf_swap = 0;                  /* save swap on RX     */
-  static int unsigned  l_endian_serv;                /* save endian server  */
-  int                  i_channel;                    /* TCP/IP channel      */
-  int unsigned         l_clnt_sts;                   /* status for ackn.    */
-  int                  l_status;
-  static char          c_modnam[] = "f_evcli";
-  short                i_sign = 1;
-  int                  l_timeout;
-  static struct s_tcpcomm s_tcpcomm_ec = {0,0,0};
-static struct
-{
+static int unsigned  lf_swap = 0;                  /* save swap on RX     */
+static int unsigned  l_endian_serv;                /* save endian server  */
+int                  i_channel;                    /* TCP/IP channel      */
+int unsigned         l_clnt_sts;                   /* status for ackn.    */
+int                  l_status;
+static char          c_modnam[] = "f_evcli";
+short                i_sign = 1;
+int                  l_timeout;
+static struct s_tcpcomm s_tcpcomm_ec = {0,0,0};
+
+static struct {
    int                l_ack_buf;          /* read client buff received  */
    int                l_ack_bytes;        /* read client bytes received */
    int unsigned       l_clnt_sts;         /* client sts 1:o.k. 8:lst buf*/
-}  s_ackn;
+} s_ackn;
 
-  /* ++ vectors of pointer and devices for cleanup */
-  long          v_mem_clnup[8];
+/* ++ vectors of pointer and devices for cleanup */
+long          v_mem_clnup[8];
+
 /***************************************************************************/
 int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevents, int l_asample)
 /***************************************************************************/
@@ -273,6 +274,7 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
      f_stc_close(&s_tcpcomm_ec);
      return(l_status);
   }
+
   ps_chan->l_channel_no=i_channel;
      /* + buffer flushing time + */
      i_h = p_clnt_filter->l_flush_rate / 3600;      /* hours                 */
@@ -352,16 +354,15 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
      }
   }
 
-  /* + + + + + + + + + + + + + + + + + + + + + + + + + */
-  /* +++ first buffer should be a message buffer!  +++ */
-  /* + + + + + + + + + + + + + + + + + + + + + + + + + */
-  if (p_clntbuf->l_buffertype & 16)
-  {
-  }
+   /* + + + + + + + + + + + + + + + + + + + + + + + + + */
+   /* +++ first buffer should be a message buffer!  +++ */
+   /* + + + + + + + + + + + + + + + + + + + + + + + + + */
+   if (p_clntbuf->l_buffertype & 16)
+   {
+   }
 
-  if (p_clntbuf->l_buffertype & 2)
-  {                                          /* buffer contains message   */
-/*
+   if (p_clntbuf->l_buffertype & 2) { /* buffer contains message   */
+   /*
      switch (p_clntbuf->l_msgtyp & 15)
      {
         case 1:
@@ -370,10 +371,12 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
         case 8:  printf("MSG-type:F:  %s\n", p_clntbuf->c_message);  break;
         default: printf("Unknown MSG-type:%d:\n%s\n",p_clntbuf->l_msgtyp,p_clntbuf->c_message);
      }
-*/
-  }
-return(STC__SUCCESS);
+   */
+   }
+
+   return(STC__SUCCESS);
 } /* f_evcli_con */
+
 
 /***************************************************************************/
 int f_evcli_buf(s_evt_channel *ps_chan)
@@ -386,6 +389,7 @@ int f_evcli_buf(s_evt_channel *ps_chan)
    /* ++++++++++++++++++++++++++++++ */
    /* +++ send acknowledge buffer +++ */
    /* ++++++++++++++++++++++++++++++ */
+
    l_status = f_send_ackn(1, ps_chan->l_channel_no);
    if (l_status != TRUE)
    {
@@ -403,6 +407,7 @@ int f_evcli_buf(s_evt_channel *ps_chan)
                             &l_retval,
                             l_timeout,
                             ps_chan->l_channel_no);
+
    /* in case pc_io_buf has been reallocated */
    if(ps_buf != ps_chan->pc_io_buf)
    {
