@@ -291,10 +291,10 @@ frombegin:
          Int_t status = f_evt_get_event(fxInputChannel,
                                          (Int_t **) (void*) &fxEvent,
                                          (Int_t **) (void*) &fxBuffer);
-         if (fbPollingMode && (status == GETEVT__TIMEOUT)) {
+
+         if (fbPollingMode && (status == GETEVT__TIMEOUT))
             HandleAnlysisEvents();
-            continue;
-         }
+
          SetEventStatus(status);
          if(status!=0) break;
          eventstep--;
@@ -406,10 +406,9 @@ Int_t TGo4MbsSource::Open()
             fiMode, GetName(), fiTimeout);
       fbIsOpen = kTRUE;
 
-      if (fbPollingMode) {
-         f_evt_timeout(fxInputChannel, 1); // set to minimal value
+      // only remote event server implement internally polling, stream server makes return timeout itself
+      if (fbPollingMode && (fiMode==GETEVT__REVSERV))
          fxInputChannel->cb_polling = &HandleAnlysisEvents;
-      }
    }
    return status;
 }
