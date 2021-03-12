@@ -883,6 +883,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    if ((serv!=0) && (serv!=anal) && (serv->IsAnalysisLaunched()<=0)) serv = 0;
 
    std::ofstream fs(filename);
+   if (!fs.is_open()) return;
 
    fs << "// Automatically generated startup script" << std::endl;
    fs << "// Do not change it!" << std::endl << std::endl;

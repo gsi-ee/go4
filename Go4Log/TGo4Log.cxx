@@ -434,11 +434,14 @@ void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
    //TGo4LockGuard(fxMutex);
    if((text==0) || !fgbLogfileEnabled || (fgxLogfile==0)) return;
    try {
-      if(withtime) {
-         TDatime now;
-         *((std::ofstream*)fgxLogfile) << now.AsSQLString() << ": ";
+      std::ofstream *lf = static_cast<std::ofstream*>(fgxLogfile);
+      if (lf->is_open()) {
+         if(withtime) {
+            TDatime now;
+            *lf << now.AsSQLString() << ": ";
+         }
+         *lf << text << std::endl;
       }
-      *((std::ofstream*)fgxLogfile) << text << std::endl;
    }// try
    catch(std::exception& ex) // treat standard library exceptions
    {

@@ -765,6 +765,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    TGo4AnalysisProxy* anal = br->FindAnalysis();
 
    std::ofstream fs(filename);
+   if (!fs.is_open()) return;
 
    fs << "// Automatically generated startup script" << std::endl;
    fs << "// Do not change it!" << std::endl << std::endl;
