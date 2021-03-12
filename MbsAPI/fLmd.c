@@ -884,8 +884,7 @@ uint32_t fLmdOffsetRead(sLmdControl *pLmdControl)
           pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize);
   if(iReturn!=pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize) {
     printf("fLmdOffsetTable: LMD format error: no index table: %s\n",pLmdControl->cFile);
-    pLmdControl->iOffsetEntries=0;
-    free(pTableHead);
+    pLmdControl->iOffsetEntries = 0;
     return(GETLMD__NOLMDFILE);
   }
   if(pLmdControl->iSwap){
