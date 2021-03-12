@@ -612,9 +612,10 @@ void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString&
 Bool_t TGo4Sniffer::AddAnalysisObject(TObject* obj)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
-   if (ana==0) {
+   if (!ana) {
       SendStatusMessage(3, kFALSE, "Analysis not exists to set object");
       delete obj;
+      return kFALSE;
    }
 
    Bool_t res = ana->AddHistogram(dynamic_cast<TH1*>(obj));

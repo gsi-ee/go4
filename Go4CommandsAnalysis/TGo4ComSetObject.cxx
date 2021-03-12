@@ -68,7 +68,7 @@ void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
    TObject* ob=remcom->GetAggregate(); // we take over ownership
    if(ob && ob!=fxObject) {
       delete fxObject;
-      fxObject=ob;
+      fxObject = ob;
    }
 }
 
@@ -134,6 +134,7 @@ Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
+   fxObject = 0;
    return 0;
 }
 
@@ -152,6 +153,7 @@ Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
+   fxObject = 0;
    return 0;
 }
 
@@ -170,6 +172,7 @@ Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
+   fxObject = 0;
    return 0;
 }
 
@@ -210,6 +213,7 @@ Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
+   fxObject = 0;
    return 0;
 }
 
@@ -228,6 +232,7 @@ Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
+   fxObject = 0;
    return 0;
 }
 
