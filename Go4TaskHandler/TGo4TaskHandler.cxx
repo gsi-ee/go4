@@ -179,15 +179,10 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
          return 0;
 
       } // else if(!strcmp(localbuffer,fgcOK))
-      return 0;
-
    } //if(fbClientMode)
 
-   else
-   {
-      // we _are_ a server task handler , shall not request to our own Server task
-      return 0;
-   }
+   // we _are_ a server task handler , shall not request to our own Server task
+   return 0;
 }
 
 

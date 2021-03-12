@@ -222,43 +222,31 @@ double TGo4MbsRandom::get_int(double low, double high)
 long TGo4MbsRandom::rand_event(long choice)
 {
    int cnt;
-   switch(choice)
-   {
+   switch(choice) {
       case 1:
          cnt = (int)(get_int(0., (double)NUM_PEAK));
          return ((long)(gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-         break;
       case 2:
          cnt = (int)(get_int(0., (double)NUM_PEAK));
          return ((long)(p_dNormal(fgdPeak2[cnt], fgdSigma2[cnt], &fuSeed)));
-         break;
       case 3:
          return ((long)(4096*p_dUniform(&fuSeed)));
-         break;
       case 4:
          return ((long)(gauss_rnd(0., -.001)));
-         break;
       case 5:
          return ((long)(p_dExponential(100., &fuSeed)));
-         break;
       case 6:
          cnt = (int)(get_int(0., (double)NUM_PEAK));
          return ((long)((p_dExponential(200., &fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-         break;
       case 7:
          cnt = (int)(get_int(3., (double)NUM_PEAK));
          return ((long)((4096*p_dUniform(&fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-         break;
-
-      default:
-         return 0;
-         break;
    }
 
    return 0;
 }
 
-s_bufhe * TGo4MbsRandom::GetBufferHeader()
+s_bufhe *TGo4MbsRandom::GetBufferHeader()
 {
    return 0;
 }

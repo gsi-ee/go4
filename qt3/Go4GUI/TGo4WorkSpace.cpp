@@ -54,15 +54,9 @@ TGo4WorkSpace::~TGo4WorkSpace()
 bool TGo4WorkSpace::eventFilter( QObject *fx , QEvent* e )
 {
    switch (e->type()) {
-      case QEvent::Move:  // Move
-           return false;
-           break;
-      case QEvent::Resize :  //Resize
-           return false;
-           break;
-      case QEvent::Paint :  //Paint
-           return false;
-           break;
+      case QEvent::Move: return false;  // Move
+      case QEvent::Resize : return false;  //Resize
+      case QEvent::Paint :  return false; //Paint
    }
 
    if(e->type()==QEvent::MouseButtonRelease) { // Resize on mouse release

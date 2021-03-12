@@ -78,7 +78,6 @@ Bool_t TGo4ParameterMember::CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t ind
   switch(ndim) {
      case 1: return (fIndex1==indx1) && (fIndex2<0);
      case 2: return (fIndex1==indx1) && (fIndex2==indx2);
-     default: return (fIndex1<0) && (fIndex2<0);
   }
 
   return (fIndex1<0) && (fIndex2<0);

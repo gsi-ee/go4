@@ -147,7 +147,8 @@ QWidget* TGo4QtDesignerPlugin::create( const QString &classname, QWidget* parent
 QString TGo4QtDesignerPlugin::group(const QString& classname) const
 {
    return "Go4 widgets";
-   if ( classname == "QGo4Widget" )
+/*
+  if ( classname == "QGo4Widget" )
       return "Containers";
    if ( classname == "QGo4LineEdit" )
       return "Input";
@@ -165,6 +166,7 @@ QString TGo4QtDesignerPlugin::group(const QString& classname) const
       return "Input";
 
    return QString::null;
+*/
 }
 
 QIconSet TGo4QtDesignerPlugin::iconSet( const QString& ) const
