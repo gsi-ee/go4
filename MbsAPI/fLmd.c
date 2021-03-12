@@ -83,7 +83,11 @@ uint32_t fLmdPutOpen(sLmdControl *pLmdControl,
 
    // allocate header or take extern
    if(pBuffHead == LMD__STANDARD_HEADER){
-      pLmdControl->pMbsFileHeader= (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
+      pLmdControl->pMbsFileHeader = (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
+      if (!pLmdControl->pMbsFileHeader) {
+         printf("fLmdPutOpen: memory allocation error\n");
+         return(LMD__FAILURE);
+      }
       memset(pLmdControl->pMbsFileHeader,0,sizeof(sMbsFileHeader));
       pLmdControl->iInternHeader=1;
    } else {

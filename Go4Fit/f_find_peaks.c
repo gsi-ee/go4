@@ -55,8 +55,12 @@ void go4fit_find_peaks(
 
   *plPeaks=0;
   pdNoise=NULL;
+  plMinimaL = NULL;
   pdData = (double *)malloc(lPoints*8);
   pdNoise = (double *)malloc(lPoints*8);
+  if (!pdData || !pdNoise)
+     goto clear_data;
+
   memset(pdData,0,lPoints*8);
   memset(pdNoise,0,lPoints*8);
   lPrint=PRINT;
@@ -121,6 +125,8 @@ void go4fit_find_peaks(
   lMinIndex=0;
   lIndexMax=lPoints-1;
   plMinimaL = (int *)malloc(lPeaksMax*16);
+  if (!plMinimaL)
+     goto clear_data;
   plMeanL = (int *)(plMinimaL+lPeaksMax);
   plMinimaR = (int *)(plMinimaL+2*lPeaksMax);
   plMeanR = (int *)(plMinimaL+3*lPeaksMax);
@@ -292,6 +298,7 @@ void go4fit_find_peaks(
     }
   if(lPrint)printf("peaks found %d\n",*plPeaks);
 
+clear_data:
   free(plMinimaL);
   free(pdData);
   free(pdNoise);

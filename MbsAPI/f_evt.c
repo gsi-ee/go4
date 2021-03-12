@@ -2815,9 +2815,12 @@ INTS4 f_evt_get_tagclose(s_evt_channel *ps_chan)
   memset((void *)ps_chan, 0, sizeof(s_evt_channel));            /* clear memory                 */
   return(GETEVT__SUCCESS);
 }
- s_evt_channel *f_evt_control(){
+
+s_evt_channel *f_evt_control()
+{
    s_evt_channel *x;
-   x=(s_evt_channel *)malloc(sizeof(s_evt_channel));
-   memset(x,0,sizeof(s_evt_channel));
+   x = (s_evt_channel *)malloc(sizeof(s_evt_channel));
+   if (x != NULL)
+      memset(x,0,sizeof(s_evt_channel));
    return(x);
  }
