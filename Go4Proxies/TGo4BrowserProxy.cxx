@@ -2111,7 +2111,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
       if (rebin==0) return 0;
 
       // support only uniform scale rebinning
-      if ((ax1->GetXbins()->GetSize()!=0) || (ax1->GetXbins()->GetSize()!=0)) return 0;
+      if ((ax1->GetXbins()->GetSize()!=0) || (ax2->GetXbins()->GetSize()!=0)) return 0;
 
       // minimum value on both axis should be the same
       if (!CompareAxisValues(ax1->GetXmin(), ax2->GetXmin(), scale)) return 0;
@@ -2127,7 +2127,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
       return rebin;
    }
 
-   if ((ax1->GetXbins()->GetSize()==0) && (ax1->GetXbins()->GetSize()==0)) {
+   if ((ax1->GetXbins()->GetSize()==0) && (ax2->GetXbins()->GetSize()==0)) {
        if (!CompareAxisValues(ax1->GetXmin(), ax2->GetXmin(), scale)) return 0;
        if (!CompareAxisValues(ax1->GetXmax(), ax2->GetXmax(), scale)) return 0;
    } else
