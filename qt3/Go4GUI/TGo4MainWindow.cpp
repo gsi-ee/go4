@@ -1448,6 +1448,7 @@ void TGo4MainWindow::PaletteSettingsSlot()
   int min=0, def=0, max =0;
   QString palvals;
   go4sett->getPaletteOpt(min,def,max);
+  //  deepcode ignore QtStringApiMigration: it is still qt3
   palvals.sprintf("%d:%d:%d",min,def,max);
      QString str = QInputDialog::getText("Default Palette options",
                        "Input - MinIndex:DefaultIndex:MaxIndex",
