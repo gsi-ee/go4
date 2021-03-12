@@ -32,7 +32,6 @@
       BasePainter.call(this, divid);
       if (this.SetDivId) this.SetDivId(divid);
       this.stat = stat;
-      this.step;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
       this.showmore= [false, false];
       this.ClearChanges();
