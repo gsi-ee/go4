@@ -152,25 +152,6 @@ void TGo4Task::ExecuteString(const char* command)
       gROOT->ProcessLineSync(command);
 }
 
-TGo4TaskHandler* TGo4Task::GetTaskHandler()
-{
-   return 0;
-}
-
-TGo4BufferQueue* TGo4Task::GetCommandQueue(const char*)
-{
-   return 0; // please override
-}
-
-TGo4BufferQueue * TGo4Task::GetStatusQueue(const char*)
-{
-   return 0; // please override
-}
-TGo4BufferQueue * TGo4Task::GetDataQueue(const char*)
-{
-  return 0; // please override
-}
-
 TGo4TaskHandlerCommandList * TGo4Task::GetPrototype()
 {
    // keep this method for compatibility reasons, user should not need access to list
@@ -180,8 +161,8 @@ TGo4TaskHandlerCommandList * TGo4Task::GetPrototype()
 TGo4Status * TGo4Task::NextStatus(Bool_t wait)
 {
    if(!IsMaster()) return 0;
-   TObject* obj=0;
-   TGo4Status* stat=0;
+   TObject* obj = 0;
+   TGo4Status* stat = 0;
    TGo4BufferQueue* statqueue = dynamic_cast<TGo4BufferQueue*> (GetStatusQueue());
    if(statqueue)
    {
@@ -358,9 +339,10 @@ void TGo4Task::UpdateStatusBuffer()
 TGo4Command* TGo4Task::NextCommand()
 {
    if(IsMaster()) return 0;
-   TGo4Command* com=0;
-   TGo4BufferQueue * comq = GetCommandQueue();
-   if(comq==0) return 0;
+   TGo4BufferQueue *comq = GetCommandQueue();
+   if(!comq) return 0;
+
+   TGo4Command *com = 0;
    if(!comq->IsEmpty() || (fxSlave!=0 && !fxSlave->MainIsRunning() ) )
    {
       // put new command out of queue
@@ -578,13 +560,12 @@ void TGo4Task::GetStatus()
 {
    TGo4Log::Debug(" Task ''%s'' Send Status to Command Master ",GetName());
    TGo4BufferQueue* queue = GetStatusQueue();
-   if(queue==0) return;
-   {
-      TGo4LockGuard mainguard;
-      //         std::cout << "Mainlock acquired by clienttask: GetStatus"<< std::endl;
-      TGo4TaskStatus* state=CreateStatus();
-      queue->AddBufferFromObject(state);
-   }
+   if(!queue) return;
+
+   TGo4LockGuard mainguard;
+   //         std::cout << "Mainlock acquired by clienttask: GetStatus"<< std::endl;
+   TGo4TaskStatus* state = CreateStatus();
+   queue->AddBufferFromObject(state);
 }
 
 Int_t TGo4Task::StartWorkThreads()
@@ -602,7 +583,8 @@ Int_t TGo4Task::StopWorkThreads()
 void TGo4Task::SendStopBuffers(const char* taskname)
 {
    TGo4TaskHandler* th = GetTaskHandler();
-   if(th==0) return;
+   if(!th) return;
+
    if(th->IsAborting()) {
       //std::cout <<"Do not SendStopBuffers() when aborting taskhandler" << std::endl;
       return;

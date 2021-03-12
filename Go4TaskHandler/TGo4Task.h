@@ -96,13 +96,13 @@ public:
      *  mode, depending on owner type */
     void SetOwner(TGo4TaskOwner* owner);
 
-    virtual TGo4TaskHandler* GetTaskHandler();
+    virtual TGo4TaskHandler* GetTaskHandler() { return 0; }
 
-    virtual TGo4BufferQueue* GetCommandQueue(const char* task=0);
+    virtual TGo4BufferQueue* GetCommandQueue(const char* task=0) { return 0; }
 
-    virtual TGo4BufferQueue* GetStatusQueue(const char* task=0);
+    virtual TGo4BufferQueue* GetStatusQueue(const char* task=0) { return 0; }
 
-    virtual TGo4BufferQueue* GetDataQueue(const char* task=0);
+    virtual TGo4BufferQueue* GetDataQueue(const char* task=0) { return 0; }
 
    /**
      * Add a user command object to the existing command list. This can be done on the fly.
