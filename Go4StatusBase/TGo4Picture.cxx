@@ -1691,11 +1691,12 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
          str += "  Opt: ";
          str += opt;
       }
+      Int_t numobj = GetNumObjNames();
       TText* txt = new TText(0.1, txt_y, str.Data());
       pad->cd();
       txt->Draw();
-      if (GetNumObjNames()<8) txt_y -= 0.1;
-                         else txt_y -= 0.8/GetNumObjNames();
+      if (numobj < 8) txt_y -= 0.1;
+                 else txt_y -= 0.8/numobj;
    }
 }
 
