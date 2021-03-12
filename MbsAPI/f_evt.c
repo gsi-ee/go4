@@ -991,7 +991,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
             ps_chan->l_io_buf_posi=0;
          } /* end of real read server */
          ps_chan->ps_bufhe = (s_bufhe*) (ps_chan->pc_io_buf+ps_chan->l_io_buf_posi);
-         l_prev_ok = (ps_chan->l_buf_no == (ps_chan->ps_bufhe->l_buf-1));
+         l_prev_ok = (ps_chan->l_buf_no == (ps_chan->ps_bufhe->l_buf-1)) ? 1 : 0;
          ps_chan->l_buf_no = ps_chan->ps_bufhe->l_buf;
          if(ps_chan->ps_bufhe->i_type == 2000) {   /* file header */
             printf("Unsolicited file header found!\n");
