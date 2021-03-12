@@ -47,9 +47,10 @@ int main(int argc, char **argv)
 // routine to read histogram from examples file
 TH1D* GetHistogram(const char* HistogramName)
 {
-   TFile* f1 = TFile::Open("histograms.root");
+   TFile *f1 = TFile::Open("histograms.root");
    if (f1==0) return 0;
-   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   TH1D *histo = 0;
+   f1->GetObject(HistogramName, histo);
    if (histo) histo->SetDirectory(0);
    return histo;
 }
