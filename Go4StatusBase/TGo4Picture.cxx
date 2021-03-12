@@ -454,9 +454,9 @@ void TGo4Picture::SetRange(Int_t naxis, Double_t min, Double_t max)
 Bool_t TGo4Picture::GetRange(Int_t naxis, Double_t& min, Double_t& max) const
 {
    switch (naxis) {
-      case 0: return GetRangeX(min, max); break;
-      case 1: return GetRangeY(min, max); break;
-      case 2: return GetRangeZ(min, max); break;
+      case 0: return GetRangeX(min, max);
+      case 1: return GetRangeY(min, max);
+      case 2: return GetRangeZ(min, max);
    }
    return kFALSE;
 }

@@ -386,8 +386,6 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
          StopTransportThreads(kFALSE);
          CloseChannels("force");
       }
-
-
    } ////if(fbClientMode)
    else
    {

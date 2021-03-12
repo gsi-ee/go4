@@ -370,16 +370,14 @@ return rev;
 
 Bool_t TGo4TaskManager::AddClient(const char* client, const char* host, Go4CommandMode_t role)
 {
-  TGo4TaskHandler* han=NewTaskHandler(client);
-  if (han==0)
-   {
+  TGo4TaskHandler* han = NewTaskHandler(client);
+  if (!han) {
        TGo4Log::Warn(" !!! TaskManager::AddClient ERROR: client of name %s is already exisiting !!! ",client);
        fxTransport->Send(TGo4TaskHandler::Get_fgcERROR()); // tell client we refuse connection
        return kFALSE;
    }
 
-if(han->Connect(host,fxTransport))
-   {
+   if(han->Connect(host,fxTransport)) {
       // successful connection:
       TGo4Log::Info(" TaskManager: Succesfully added new client %s (host %s, ports %d,%d,%d) ",
                client, host, han->GetComPort(), han->GetStatPort(), han->GetDatPort());
@@ -391,13 +389,10 @@ if(han->Connect(host,fxTransport))
          client,client,fxServer->GetName(),TGo4Command::GetModeDescription(han->GetRole()) );
       return kTRUE;
     }
-else
-   {
-      TGo4Log::Error(" TaskManager: ERROR on connecting new client %s (host %s)", client, host);
-      RemoveTaskHandler(client);
-      return kFALSE;
-   }
-return kFALSE;
+
+   TGo4Log::Error(" TaskManager: ERROR on connecting new client %s (host %s)", client, host);
+   RemoveTaskHandler(client);
+   return kFALSE;
 }
 
 
@@ -426,18 +421,11 @@ Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler* han)
 TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char* name)
 {
    TGo4TaskHandler* han=new TGo4TaskHandler(name,fxServer,kFALSE, fxServer->IsMaster());
-   if(AddTaskHandler(han))
-      {
-         // success, taskhandler was not already existing
-         return han;
-      }
-   else
-      {
-      // error, taskhandler of this name was already there
-      delete han;
-      return 0;
+   // success, taskhandler was not already existing
+   if(AddTaskHandler(han)) return han;
 
-      }
+   // error, taskhandler of this name was already there
+   delete han;
    return 0;
 }
 

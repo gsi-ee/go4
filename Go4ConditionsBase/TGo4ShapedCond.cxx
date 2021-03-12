@@ -59,28 +59,25 @@ void TGo4ShapedCond::PrintCondition(Bool_t points)
 // ----------------------------------------------------------
 Bool_t TGo4ShapedCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 {
-  if(!TGo4PolyCond::UpdateFrom(cond,counts)) return kFALSE;
-  if(cond->InheritsFrom(TGo4ShapedCond::Class()))
-     {
-        TGo4ShapedCond* from= (TGo4ShapedCond*)cond;
-        fdCenterX = from->fdCenterX;
-        fdCenterY = from->fdCenterY;
-        fdRadius1 = from->fdRadius1;
-        fdRadius2 = from->fdRadius2;
-        fdTheta   = from->fdTheta;
-        fiResolution   = from->fiResolution;
-
-        fiShapeType   = from->fiShapeType;
-        // TODO: probably later we only update ellipse parameters and render polygon points from that.
-        //PrintCondition();
-        return kTRUE;
-     }
- else
-   {
-      std::cout << "Cannot update " << GetName() << " from " << cond->ClassName() << std::endl;
+   if (!TGo4PolyCond::UpdateFrom(cond, counts))
       return kFALSE;
+   if (cond->InheritsFrom(TGo4ShapedCond::Class())) {
+      TGo4ShapedCond *from = (TGo4ShapedCond*) cond;
+      fdCenterX = from->fdCenterX;
+      fdCenterY = from->fdCenterY;
+      fdRadius1 = from->fdRadius1;
+      fdRadius2 = from->fdRadius2;
+      fdTheta = from->fdTheta;
+      fiResolution = from->fiResolution;
+
+      fiShapeType = from->fiShapeType;
+      // TODO: probably later we only update ellipse parameters and render polygon points from that.
+      //PrintCondition();
+      return kTRUE;
    }
-  return kTRUE;
+   std::cout << "Cannot update " << GetName() << " from " << cond->ClassName()
+         << std::endl;
+   return kFALSE;
 }
 
 
