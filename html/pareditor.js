@@ -1,5 +1,7 @@
 (function() {
 
+   "use strict";
+
    if (typeof JSROOT != "object") {
       var e1 = new Error("pareditor.js requires JSROOT to be already loaded");
       e1.source = "pareditor.js";
@@ -11,8 +13,6 @@
       e1.source = "pareditor.js";
       throw e1;
    }
-
-  "use strict";
 
    // ===========================================================================================
 
