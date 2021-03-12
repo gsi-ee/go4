@@ -247,20 +247,21 @@ TGo4HDF5BasicDataHandle::TGo4HDF5BasicDataHandle(const char* name, size_t datasi
 
  {
   go4hdfdbg("TGo4HDF5BasicDataHandle ctor\n");
- };
+ }
 
 
 TGo4HDF5BasicDataHandle::~TGo4HDF5BasicDataHandle()
  {
    go4hdfdbg("TGo4HDF5BasicDataHandle  is deleted %s \n", fxTypeName.Data());
+   // delete [] fxReadBuffer; ???
  }
 
 
 void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
  {
    if(fxReadBuffer && (size == fiDataSize)) return;
-   delete fxReadBuffer;
-   fxReadBuffer= new Char_t[size];
+   delete [] fxReadBuffer;
+   fxReadBuffer = new Char_t[size];
    fiDataSize=size;
    go4hdfdbg("TGo4HDF5DataHandle: AllocReadBuffer has created read buffer 0x%lx for  size %ld \n",
           (unsigned long) fxReadBuffer, fiDataSize);
