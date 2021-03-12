@@ -524,10 +524,9 @@ void TGo4AnalysisStepManager::AutoSave()
    //
    //TGo4LockGuard  autoguard(fxAutoSaveMutex);
    TGo4Analysis::Instance()->Message(0,"Analysis Step Manager  --  AutoSaving....");
-   TGo4AnalysisStep* step=0;
+   TGo4AnalysisStep* step = 0;
    fxStepIterator->Reset();
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
-   {
+   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0) {
       step->StoreCalibration();
    }
 
@@ -541,5 +540,5 @@ Int_t TGo4AnalysisStepManager::IsErrorStopEnabled()
 {
    return kTRUE; // FIXME: workaround, to be removed later!!! JA
 
-   return (fxCurrentStep!=0) ? fxCurrentStep->IsErrorStopEnabled() : kTRUE;
+   // return (fxCurrentStep!=0) ? fxCurrentStep->IsErrorStopEnabled() : kTRUE;
 }

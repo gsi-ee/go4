@@ -31,16 +31,13 @@ TGo4ComStop::~TGo4ComStop()
 Int_t TGo4ComStop::ExeCom()
 {
    TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli)
-      {
-         cli->SendStatusMessage(1,kFALSE,TString::Format("Client %s working function is stopped...",cli->GetName()));
-         cli->Stop();
-      }
-   else
-      {
-         TGo4Log::Debug(" !!! ComStop ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   if(!cli) {
+      TGo4Log::Debug(" !!! ComStop ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   cli->SendStatusMessage(1,kFALSE,TString::Format("Client %s working function is stopped...",cli->GetName()));
+   cli->Stop();
    return -1;
 
 }

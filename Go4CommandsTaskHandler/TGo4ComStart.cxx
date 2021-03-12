@@ -30,16 +30,12 @@ TGo4ComStart::~TGo4ComStart()
 Int_t TGo4ComStart::ExeCom()
 {
    TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli)
-      {
-         cli->SendStatusMessage(1,kFALSE,TString::Format("Client %s working function is started...",cli->GetName()));
-         cli->Start();
-         return 0;
-      }
-   else
-      {
-         TGo4Log::Debug(" !!! ComStart ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
-   return -1;
+   if(cli) {
+      cli->SendStatusMessage(1,kFALSE,TString::Format("Client %s working function is started...",cli->GetName()));
+      cli->Start();
+      return 0;
+   }
+
+   TGo4Log::Debug(" !!! ComStart ''%s'': NO RECEIVER ERROR!!!",GetName());
+   return 1;
 }

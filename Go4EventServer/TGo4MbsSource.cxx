@@ -311,7 +311,6 @@ frombegin:
    switch(GetEventStatus()) {
       case 0:
          return 0;
-         break;
       case GETEVT__TIMEOUT:
          throw TGo4EventTimeoutException(this);
          break;
