@@ -532,22 +532,30 @@ if((ps_setup->l_version != VERSION__SETUP) && (ps_setup->l_version != 1))
 if(ps_setup->l_fix_lw == 40)
 {
   // data from 32 bit machine.  first use auxiliary structure:
-    ps_setup_32  = (s_setup_32_receiver*) malloc (sizeof( s_setup_32_receiver));
-  l_status = f_stc_read (&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
-             l_status = f_stc_read (&l_items,4 , l_tcp,-1);
-             l_status = f_stc_read (&l_size,4 , l_tcp,-1);
-if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
-if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
-if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
+   ps_setup_32  = (s_setup_32_receiver*) malloc (sizeof( s_setup_32_receiver));
+   if (ps_setup_32 == NULL) {
+      printf ("f_ut_setup_r memory allocation error");
+      return -1;
+   }
+   l_status = f_stc_read (&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
+   l_status = f_stc_read (&l_items,4 , l_tcp,-1);
+   l_status = f_stc_read (&l_size,4 , l_tcp,-1);
+   if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
+   if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
+   if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
 
-// copy values to actual local setup (which can be both 32 or 64 bit, it should work):
-f_ut_setup_copy32(ps_setup,ps_setup_32);
-free(ps_setup_32);
+   // copy values to actual local setup (which can be both 32 or 64 bit, it should work):
+   f_ut_setup_copy32(ps_setup,ps_setup_32);
+   free(ps_setup_32);
 }
 else if(ps_setup->l_fix_lw == 46)
 {
   // 64 bit with mbs >v6.3. use auxiliary structure:
   ps_setup_64   = (s_setup_64_receiver*) malloc (sizeof( s_setup_64_receiver));
+  if (ps_setup_64 == NULL) {
+     printf ("f_ut_setup_r memory allocation error");
+     return -1;
+  }
 
   l_status = f_stc_read (&ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
                l_status = f_stc_read (&l_items,4 , l_tcp,-1);
