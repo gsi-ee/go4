@@ -257,7 +257,7 @@
                   "<tr><td><input type='text' value='" + lastx
                   + "'/></td>  <td> <input type='text' value='"
                   + lasty + "'/>  </td></tr>");
-            console.log("i:" + npoints - 1 + ", X=" + lastx + " Y=" + lasty);
+            console.log("i:" + (npoints - 1) + ", X=" + lastx + " Y=" + lasty);
 
          }
          else
@@ -282,7 +282,7 @@
                   "<tr><td><input type='text' value='" + lastx
                   + "'/></td>  <td> <input type='text' value='"
                   + lasty + "'/>  </td></tr>");
-            console.log("i:" + npoints - 1 + ", X=" + lastx + " Y=" + lasty);
+            console.log("i:" + (npoints - 1) + ", X=" + lastx + " Y=" + lasty);
 
          }
       }
