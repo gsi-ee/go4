@@ -595,7 +595,7 @@
       else if (JSROOT._)
          pave_painter.redraw();
       else
-         pave_painter.redraw(); // old jsroot v5
+         pave_painter.Redraw(); // old jsroot v5
    }
 
 //   GO4.ConditionPainter.prototype.fillContextMenu = function(menu) {

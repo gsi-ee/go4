@@ -370,7 +370,7 @@
    }
 
    // support older jsroot v5
-   if (!JSROOT._) GO4.ParameterEditor.prototype.redraw = GO4.ParameterEditor.prototype.redraw;
+   if (!JSROOT._) GO4.ParameterEditor.prototype.Redraw = GO4.ParameterEditor.prototype.redraw;
 
    GO4.ParameterEditor.prototype.drawEditor = function() {
 
