@@ -406,9 +406,9 @@ Int_t TGo4Task::Initialization()
 
 void TGo4Task::UpdateStatus(TGo4TaskStatus* state)
 {
-   TGo4TaskHandlerStatus* taskhandlerstatus=0;
-   TGo4TaskHandler* th=GetTaskHandler();
-   if(th) taskhandlerstatus=th->CreateStatus();
+   TGo4TaskHandlerStatus *taskhandlerstatus = 0;
+   TGo4TaskHandler *th = GetTaskHandler();
+   if(th) taskhandlerstatus = th->CreateStatus();
    state->SetTaskHandlerStatus(taskhandlerstatus);
    state->SetFlags(fbAppBlocking, fbAutoCreate, fbAutoStart, fbTerminating, fbInitDone);
 }
@@ -542,11 +542,9 @@ Bool_t TGo4Task::SubmitLocalCommand(TGo4Command* com)
 
 void TGo4Task::WakeCommandQueue(Int_t id)
 {
-   if(GetTaskHandler() && GetTaskHandler()->IsAborting())
-   {
-      //std::cout <<"Do not WakeCommandQueue() when aborting taskhandler" << std::endl;
-      return;
-   }
+   TGo4TaskHandler *th = GetTaskHandler();
+   if(th && th->IsAborting()) return;
+
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    TGo4Command* com=new TGo4Command("dummy","this wakes up queue",id);
    SubmitCommand(com); // wake up main command queue (to taskhandler)
@@ -583,12 +581,7 @@ Int_t TGo4Task::StopWorkThreads()
 void TGo4Task::SendStopBuffers(const char* taskname)
 {
    TGo4TaskHandler* th = GetTaskHandler();
-   if(!th) return;
-
-   if(th->IsAborting()) {
-      //std::cout <<"Do not SendStopBuffers() when aborting taskhandler" << std::endl;
-      return;
-   }
+   if(!th || th->IsAborting()) return;
 
    if(IsMaster())
    {
