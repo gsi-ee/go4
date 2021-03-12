@@ -502,6 +502,7 @@ void TGo4AnalysisClient::TerminateFast()
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetStatName());
    }
    delete fxAnalysis;
+   fxAnalysis = 0;
    gApplication->Terminate();
 }
 

@@ -233,7 +233,10 @@ TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
 
    TDirectory* filsav = gDirectory;
    gROOT->cd();
-   if (sample!=0) delete *sample;
+   if (sample!=0) {
+      delete *sample;
+      *sample = 0;
+   }
    TGo4EventElement* clone = (TGo4EventElement*) Clone();
    TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(0);
@@ -247,7 +250,7 @@ TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
 
 void TGo4EventElement::ShowSampleTree()
 {
-   TGo4EventElement* sample = 0;
+   TGo4EventElement *sample = 0;
 
    TTree* tr = CreateSampleTree(&sample);
 
