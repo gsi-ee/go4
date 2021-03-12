@@ -699,7 +699,7 @@
    }
 
    // only to support old jsroot v5 interface
-   if (!JSROOT._) GO4.ConditionPainter.prototype.redraw = GO4.ConditionPainter.prototype.redraw;
+   if (!JSROOT._) GO4.ConditionPainter.prototype.Redraw = GO4.ConditionPainter.prototype.redraw;
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
