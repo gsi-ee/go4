@@ -138,7 +138,7 @@ pl_all=NULL;
       {
         if(argc == 8)strcpy(c_file,argv[7]);
         else         strcpy(c_file,"rad_");
-        strcat(c_file,ps_his_head_dir->c_name); // name from directory call includes path
+        strncat(c_file,ps_his_head_dir->c_name, sizeof(c_file)-1); // name from directory call includes path
         pc=c_file;
         for(ii=0;ii<strlen(c_file);ii++)
           {
@@ -148,7 +148,7 @@ pl_all=NULL;
        if(*pc == ' ')*pc='_';
        pc++;
           }
-        strcat(c_file,".spe");
+        strncat(c_file,".spe", sizeof(c_file)-1);
         if(ps_his_head->l_bins_2 == 1)
           {
        if(l_int == 0)

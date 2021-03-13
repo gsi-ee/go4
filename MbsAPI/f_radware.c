@@ -38,7 +38,7 @@ int f_radware_out1d(char *pc_file, char *pc_name, float *pr_data, int l_chan, in
   if(l_over) // delete old file
 {
   strcpy(c_str,"rm ");
-  strcat(c_str,pc_file);
+  strncat(c_str, pc_file, sizeof(c_str)-1);
   system(c_str);
 }
 i32_fd = open(pc_file, O_WRONLY | O_CREAT | O_EXCL, HIS__BASPERM);
@@ -49,7 +49,7 @@ if (i32_fd < 0)
 }
 //write file
 strcpy(c_str,pc_name);
-strcat(c_str,"        ");
+strncat(c_str,"        ", sizeof(c_str)-1);
 l_head[0]=24;
 l_head[1]=1;
 l_head[2]=1;
@@ -95,7 +95,7 @@ int f_radware_out2d(char *pc_file, char *pc_name, int *pl_data, int l_chan, int 
 if(l_over)
 {
   strcpy(c_str,"rm ");
-  strcat(c_str,pc_file);
+  strncat(c_str,pc_file, sizeof(c_str)-1);
   system(c_str);
 }
 i32_fd = open(pc_file, O_WRONLY | O_CREAT | O_EXCL, HIS__BASPERM);

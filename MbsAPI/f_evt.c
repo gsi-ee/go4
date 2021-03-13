@@ -388,7 +388,7 @@ INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,I
          for(l=0;l<ps_evhe->l_dlen/2;l++)
          {
             sprintf(c_line,"%08x ",*pl_data);
-            strcat(c_full,c_line);
+            strncat(c_full, c_line, sizeof(c_full)-1);
             pl_data++;
             if(l%8 == 7) {
                printf("%s\n",c_full);
@@ -438,7 +438,7 @@ INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,I
                   {
                      if(l_hex != 0) sprintf(c_line,"%04x.%04x ",(*pl_data>>16)&0xffff,*pl_data&0xffff);
                      else           sprintf(c_line,"%8d ",*pl_data);
-                     strcat(c_full,c_line);
+                     strncat(c_full, c_line, sizeof(c_full)-1);
                      pl_data++;
                      if(l%8 == 7)
                      {
@@ -454,7 +454,7 @@ INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,I
                   for(l=0;l<ll;l++)
                   {
                      sprintf(c_line,"%8d%8d",*pl_data&0xffff,(*pl_data>>16)&0xffff);
-                     strcat(c_full,c_line);
+                     strncat(c_full, c_line, sizeof(c_full)-1);
                      pl_data++;
                      if(l%4 == 3)
                      {
@@ -589,11 +589,11 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    switch(l_mode) {
      case GETEVT__FILE :
        strcpy(c_file,pc_server);
-       if(strlen(c_file) < 5) strcat(c_file,".lmd");
+       if(strlen(c_file) < 5) strncat(c_file, ".lmd", sizeof(c_file)-1);
        else {
           pc_temp = (CHARS *) &c_file[strlen(c_file)-4];
           if((strcmp(pc_temp,".LMD") != 0) &&
-             (strcmp(pc_temp,".lmd") != 0)) strcat(c_file,".lmd");
+             (strcmp(pc_temp,".lmd") != 0)) strncat(c_file, ".lmd", sizeof(c_file)-1);
        }
 
        if((ps_chan->l_channel_no=open(c_file,GET__OPEN_FLAG))== -1)
@@ -1227,12 +1227,12 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
    }
 
   strcpy(c_file,pc_file);
-  if(strlen(c_file) < 5) strcat(c_file,".lmd");
+  if(strlen(c_file) < 5) strncat(c_file,".lmd", sizeof(c_file)-1);
   else
   {
     pc_temp = (CHARS *) &c_file[strlen(c_file)-4];
     if((strcmp(pc_temp,".LMD") != 0) &&
-      (strcmp(pc_temp,".lmd") != 0)) strcat(c_file,".lmd");
+      (strcmp(pc_temp,".lmd") != 0)) strncat(c_file, ".lmd", sizeof(c_file)-1);
   }
    if((ps_chan->l_channel_no=open(c_file,PUT__OPEN_APD_FLAG) )!= -1) {
       return(PUTEVT__FILE_EXIST);
