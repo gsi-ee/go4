@@ -913,7 +913,11 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
   char *pbuf;
   lmdoff_t current;
   sMbsHeader *pTableHead;
-  pTableHead=(sMbsHeader *)malloc(16); // header with 8 bytes data for future use.
+  pTableHead = (sMbsHeader *)malloc(16); // header with 8 bytes data for future use.
+  if (!pTableHead) {
+     printf("fLmdOffsetWrite: memory allocation error\n");
+     return (LMD__FAILURE);
+  }
   memset(pTableHead,0,16);
   pTableHead->iWords=(pLmdControl->iElements+1)*pLmdControl->iOffsetSize/2+4;
   pTableHead->iType=LMD__TYPE_FILE_INDEX_101_2;
