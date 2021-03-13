@@ -221,7 +221,7 @@ void TGo4Condition::PrintBar()
       perc = 100;
 
    char num[64];
-   strcpy(num,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+   strncpy(num, "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", sizeof(num));
    char *pc = num + (Int_t)perc/2;
    *pc = 0;
    std::cout << TString::Format("%-24s %8d %3.0f%s |%-50s|",GetName(),fiCounts,perc,"%",num) << std::endl;

@@ -375,8 +375,10 @@ QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject* obj)
 bool QGo4Widget::SaveItemToFile(const char* itemname, const char* subfolder)
 {
    char buf[1000];
-   if (subfolder==0) strcpy(buf, ""); else
-     strcpy(buf, subfolder);
+   if (!subfolder)
+      strcpy(buf, "");
+   else
+      strncpy(buf, subfolder, sizeof(buf));
    emit widgetService(this, service_SaveItem, itemname, (void*) buf);
    return (buf[0]!=0);
 }

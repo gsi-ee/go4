@@ -257,7 +257,7 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
   p_clnt_filter->l_flush_rate = FLUSH__TIME;
 
   l_timeout = TCP__TIMEOUT ;
-  strcpy(c_node,pc_node);
+  strncpy(c_node,pc_node, sizeof(c_node));
   l_port = l_aport;
 
   l_status = (int) f_stc_connectserver(c_node,
@@ -956,11 +956,10 @@ char                 *c_file;                     /* ptr to file name        */
 
       if_comment = 0;                      /* reset flag                    */
       p_com = strpbrk(c_line,"!/*");       /* find position of comment      */
-      if (p_com != NULL)
-      {                                    /* found a comment               */
-         if_comment = 1;                   /* set flag                      */
-    strcpy(c_comment,p_com);          /* copy comment                  */
-    *p_com = '\0';                    /* mark end of str at beg of comm*/
+      if (p_com != NULL) { /* found a comment               */
+         if_comment = 1; /* set flag                      */
+         strncpy(c_comment, p_com, sizeof(c_comment)); /* copy comment                  */
+         *p_com = '\0'; /* mark end of str at beg of comm*/
          if (i_debug == 2)
             printf(" - D: comment:%s", c_comment);
 
@@ -1010,7 +1009,7 @@ char                 *c_file;                     /* ptr to file name        */
     p_com = strpbrk(c_line, "!/*");   /* find position of comment      */
     if (p_com != NULL) {              /* found a comment               */
        if_comment = 1;                /* set flag                      */
-       strcpy(c_comment, p_com);      /* copy comment                  */
+       strncpy(c_comment, p_com, sizeof(c_comment));   /* copy comment                  */
        *p_com = '\0';                 /* mark end of str at beg of comm*/
        if (i_debug == 2)
           printf(" - D: comment:%s", c_comment);
