@@ -132,9 +132,12 @@ void f_find_peaks(
   double dValue,dLow,dHigh,dDelta,dAver,*pdData,*pdNoise,dMax,dMin,dPos,dSig,dSum,*pd;
 
   *plPeaks=0;
-  pdNoise=NULL;
+  pdNoise = NULL;
+  plMinimaL = NULL;
   pdData = (double *)malloc(lPoints*8);
   pdNoise = (double *)malloc(lPoints*8);
+  if (!pdData || !pdNoise)
+     goto free_memory;
   memset(pdData,0,lPoints*8);
   memset(pdNoise,0,lPoints*8);
   lPrint=PRINT;
@@ -199,6 +202,8 @@ void f_find_peaks(
   lMinIndex=0;
   lIndexMax=lPoints-1;
   plMinimaL = (int *)malloc(lPeaksMax*16);
+  if (!plMinimaL)
+     goto free_memory;
   plMaximaL = (int *)(plMinimaL+lPeaksMax);
   plMinimaR = (int *)(plMinimaL+2*lPeaksMax);
   plMaximaR = (int *)(plMinimaL+3*lPeaksMax);
@@ -339,6 +344,7 @@ void f_find_peaks(
     }
   if(lPrint)printf("peaks found %d\n",*plPeaks);
 
+free_memory:
   free(plMinimaL);
   free(pdData);
   free(pdNoise);
