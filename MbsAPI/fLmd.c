@@ -819,10 +819,11 @@ else printf("fLmdGetWrittenEndian: No file header allocated!");
 return(LMD__ENDIAN_UNKNOWN);
 }
 //===============================================================
-sLmdControl * fLmdAllocateControl(){
+sLmdControl * fLmdAllocateControl()
+{
   sLmdControl *x;
-  x=(sLmdControl *)malloc(sizeof(sLmdControl));
-  memset(x,0,sizeof(sLmdControl));
+  x = (sLmdControl *)malloc(sizeof(sLmdControl));
+  if (x) memset(x,0,sizeof(sLmdControl));
   return(x);
 }
 //===============================================================
