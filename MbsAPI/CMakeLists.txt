@@ -2,7 +2,6 @@ set(MbsAPI_headers
    clnt_buf_def.h
    f_evcli.h
    f_evt.h
-   f_find_peaks.h
    fLmd.h
    f_radware.h
    f_ut_utime.h
@@ -37,7 +36,6 @@ set(MbsAPI_headers
 set(MbsAPI_sources
    f_evcli.c
    f_evt.c
-   f_find_peaks.c
    fLmd.c
    f_radware.c
    f_ut_utime.c
