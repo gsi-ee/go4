@@ -84,9 +84,9 @@ char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
   if (argument) {
     snprintf(argTitle, 127, "(%s)  %s", argument->GetTitle(), argument->GetName());
     if (argument->GetDefault() && *(argument->GetDefault())) {
-      strcat(argTitle, "  [default: ");
-      strcat(argTitle, argument->GetDefault());
-      strcat(argTitle, "]");
+      strncat(argTitle, "  [default: ", sizeof(argTitle));
+      strncat(argTitle, argument->GetDefault(), sizeof(argTitle));
+      strncat(argTitle, "]", sizeof(argTitle));
     }
   } else
     *argTitle = 0;
@@ -240,12 +240,12 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
        strncpy(basictype, datatype->GetTypeName(),31);
      } else {
        if (strncmp(type, "enum", 4) != 0)
-    std::cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
-       strcpy(basictype, "int");
-      }
+          std::cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
+          strcpy(basictype, "int");
+       }
 
      if (strchr(argname, '*')) {
-       strcat(basictype, "*");
+       strncat(basictype, "*", sizeof(basictype));
        type = charstar;
      }
 

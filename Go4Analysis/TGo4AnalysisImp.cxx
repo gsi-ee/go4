@@ -928,8 +928,8 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
       strncpy(buffer, filename, sizeof(buffer)-100);
    else
       strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-100);
-   if(!strstr(buffer,fgcDEFAULTFILESUF))
-      strcat(buffer,fgcDEFAULTFILESUF); // file suffix if not given by user
+   if(!strstr(buffer, fgcDEFAULTFILESUF))
+      strncat(buffer, fgcDEFAULTFILESUF, sizeof(buffer)); // file suffix if not given by user
    TFile* statusfile = TFile::Open(buffer,"RECREATE");
    if(statusfile && statusfile->IsOpen()) {
       fxConfigFilename=buffer; // remember name of status
