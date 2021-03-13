@@ -39,31 +39,25 @@ void TGo4ComRemoveClient::SetClient(const char* name)
 
 void TGo4ComRemoveClient::SetWaitForClient(Bool_t wait)
 {
-   fbWaitForClient=wait;
+   fbWaitForClient = wait;
 }
 
 Int_t TGo4ComRemoveClient::ExeCom()
 {
-   TGo4ServerTask* serv=dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
-   if(serv)
-   {
-      TGo4Log::Debug(" removing client %s",fxClientName.Data());
-      Bool_t ret = serv->RemoveClient(fxClientName.Data(), fbWaitForClient);
-      if(!ret)
-      {
-         TGo4Log::Debug(" ComRemoveClient: Sorry, the specified client is not connected ");
-         return 1;
-      }
-      else
-      {
-         TGo4Log::Debug(" ComRemoveClient: Client %s is removed ",fxClientName.Data());
-         return 0;
-      }
-   }
-   else
-   {
-      TGo4Log::Debug(" !!! ComRemoveClient ''%s'': NO RECEIVER ERROR!!!",GetName());
+   TGo4ServerTask *serv = dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
+   if (!serv) {
+      TGo4Log::Debug(" !!! ComRemoveClient ''%s'': NO RECEIVER ERROR!!!",
+            GetName());
       return 1;
    }
-   return -1;
+
+   TGo4Log::Debug(" removing client %s", fxClientName.Data());
+   Bool_t ret = serv->RemoveClient(fxClientName.Data(), fbWaitForClient);
+   if (!ret) {
+      TGo4Log::Debug(" ComRemoveClient: Sorry, the specified client is not connected ");
+      return 1;
+   }
+
+   TGo4Log::Debug(" ComRemoveClient: Client %s is removed ", fxClientName.Data());
+   return 0;
 }
