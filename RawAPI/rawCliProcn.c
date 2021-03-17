@@ -2635,7 +2635,7 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
    }
    else
    {
-      strcpy(pcGenFile, pCliActionComm->pcFile);
+      strncpy(pcGenFile, pCliActionComm->pcFile, MAX_FULL_FILE);
       iPoolId = 2;
       if (pCliActionComm->iStatus)
          iPrintPoolInfo = 1;

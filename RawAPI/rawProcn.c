@@ -123,6 +123,8 @@
  **********************************************************************
  */
 
+/* file deepcode ignore BufferOverflow: <comment the reason here> */
+
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -1552,7 +1554,7 @@ int rawRecvHeadC(int iSocket,
 
          if (errno)
          {
-            sprintf(cMsg1, "    %s\n", strerror(errno));
+            snprintf(cMsg1, sizeof(cMsg1), "    %s\n", strerror(errno));
             strcat(pcMsg, cMsg1);
             errno = 0;
          }
