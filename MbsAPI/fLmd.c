@@ -281,59 +281,6 @@ uint32_t fLmdPutClose(sLmdControl *pLmdControl)
 
 #ifndef FILEONLY
 //===============================================================
-uint32_t fLmdConnectMbs(sLmdControl *pLmdControl,
-                        char    *Nodename,
-                        uint32_t iPort,
-                        uint32_t *iBufferBytes) // LMD__GET_EVENTS (NULL) or address to return buffer size
-{
-
-   int32_t stat;
-   sMbsTransportInfo sMbs;
-
-   if(iPort==0) pLmdControl->iPort=PORT__TRANS;
-   else pLmdControl->iPort=iPort;
-   memset(pLmdControl,0,sizeof(sLmdControl));
-   pLmdControl->pTCP=(struct s_tcpcomm *)malloc(sizeof(struct s_tcpcomm));
-   pLmdControl->iTCPowner=1;
-   if(pLmdControl->iPort==PORT__TRANS)
-      printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
-   if(pLmdControl->iPort==PORT__STREAM)
-      printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
-   stat = f_stc_connectserver(Nodename,pLmdControl->iPort,(INTS4*) &pLmdControl->iTCP,pLmdControl->pTCP);
-   if (stat != STC__SUCCESS) {
-      printf ("fLmdConnectMbs: Error connect to %s \n",Nodename);
-      fLmdCleanup(pLmdControl);
-      return(LMD__FAILURE);
-   }
-   stat=f_stc_read((int32_t *)&sMbs, sizeof(sMbsTransportInfo),pLmdControl->iTCP,3);
-   if (stat != STC__SUCCESS) {
-      printf ("fLmdConnectMbs: Error read info from %s \n",Nodename);
-      fLmdCleanup(pLmdControl);
-      return(LMD__FAILURE);
-   }
-   if(sMbs.iEndian != 1)pLmdControl->iSwap=1;
-   if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)&sMbs,sizeof(sMbsTransportInfo)/4);
-   if(sMbs.iBuffers > 1){
-      printf("fLmdConnectMbs: Event spanning not supported!\n");
-      fLmdCleanup(pLmdControl);
-      return(LMD__FAILURE);
-   }
-   if(sMbs.iStreams > 0){
-      printf("fLmdConnectMbs: MBS not in DABC mode!\n");
-      fLmdCleanup(pLmdControl);
-      return(LMD__FAILURE);
-   }
-   strcpy(pLmdControl->cFile,Nodename);
-   if(iBufferBytes == LMD__GET_EVENTS){ // use internal buffer for fLmdGetMbsEvent
-      pLmdControl->pBuffer = (int16_t *) malloc(sMbs.iMaxBytes);
-      pLmdControl->iBufferWords=sMbs.iMaxBytes/2;
-      pLmdControl->iInternBuffer=1;
-   } else {
-      *iBufferBytes = sMbs.iMaxBytes;
-   }
-   return(LMD__SUCCESS);
-}
-//===============================================================
 uint32_t fLmdInitMbs(sLmdControl *pLmdControl,
                      char    *Nodename,
                      uint32_t iMaxBytes,

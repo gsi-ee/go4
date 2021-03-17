@@ -75,7 +75,6 @@ uint32_t   fLmdPutElement(sLmdControl*,sMbsHeader*);
 uint32_t   fLmdPutBuffer(sLmdControl*, sMbsHeader*,uint32_t);
 uint32_t   fLmdPutClose(sLmdControl*);
 #ifndef FILEONLY
-uint32_t   fLmdConnectMbs(sLmdControl*,char*,uint32_t,uint32_t*);
 uint32_t   fLmdInitMbs(sLmdControl*,char*,uint32_t,uint32_t,uint32_t,uint32_t,uint32_t);
 uint32_t   fLmdGetMbsBuffer(sLmdControl*,sMbsBufferHeader*,uint32_t,uint32_t*,uint32_t*);
 uint32_t   fLmdGetMbsEvent(sLmdControl*,sMbsHeader**);
