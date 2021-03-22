@@ -16,6 +16,7 @@
 #include <stdexcept>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 
 #include "TSystem.h"
@@ -924,17 +925,18 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
    GO4TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    char buffer[1024];
+   memset(buffer, 0, sizeof(buffer));
    if(filename)
-      strncpy(buffer, filename, sizeof(buffer)-100);
+      strncpy(buffer, filename, sizeof(buffer)-10);
    else
-      strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-100);
+      strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-10);
    if(!strstr(buffer, fgcDEFAULTFILESUF))
-      strncat(buffer, fgcDEFAULTFILESUF, sizeof(buffer)); // file suffix if not given by user
+      strncat(buffer, fgcDEFAULTFILESUF, sizeof(buffer)-10); // file suffix if not given by user
    TFile* statusfile = TFile::Open(buffer,"RECREATE");
    if(statusfile && statusfile->IsOpen()) {
       fxConfigFilename=buffer; // remember name of status
       statusfile->cd();
-      TGo4AnalysisStatus* state= CreateStatus();
+      TGo4AnalysisStatus* state = CreateStatus();
       if(state) {
          state->Write();
          delete state;
