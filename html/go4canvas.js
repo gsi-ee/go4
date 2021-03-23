@@ -484,20 +484,21 @@
       if (!this.candy) this.dy1 = this.dy2 = false;
    }
 
-
-   GO4.ConditionPainter.prototype.swap = function(n1,n2) {
-      var d = this[n1];
-      this[n1] = this[n2];
-      this[n2] = d;
-   }
-
    GO4.ConditionPainter.prototype.moveDrag = function(dx,dy) {
       if (this.dx1) this.grx1 += dx;
       if (this.dx2) this.grx2 += dx;
-      if (this.grx1 > this.grx2) { this.swapx = true; this.swap('grx1', 'grx2'); this.swap('dx1', 'dx2'); }
+      if (this.grx1 > this.grx2) {
+         this.swapx = true;
+         let tempx = this.grx1; this.grx1 = this.grx2; this.grx2 = tempx;
+         tempx = this.dx1; this.dx1 = this.dx2; this.dx2 = tempx;
+      }
       if (this.dy1) this.gry1 += dy;
       if (this.dy2) this.gry2 += dy;
-      if (this.gry1 > this.gry2) { this.swapy = true; this.swap('gry1', 'gry2'); this.swap('dy1', 'dy2'); }
+      if (this.gry1 > this.gry2) {
+         this.swapy = true;
+         let tempy = this.gry1; this.gry1 = this.gry2; this.gry2 = tempy;
+         tempy = this.dy1; this.dy1 = this.dy2; this.dy2 = tempy;
+      }
       this.draw_g.select('rect').attr("x",this.grx1).attr("y", this.gry1)
                  .attr("width", this.grx2 - this.grx1).attr("height", this.gry2 - this.gry1);
    }
