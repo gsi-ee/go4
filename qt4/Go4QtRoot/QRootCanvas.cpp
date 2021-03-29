@@ -210,16 +210,19 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 void  QRootCanvas::wheelEvent( QWheelEvent* e)
 {
    TGo4LockGuard threadlock;
- /*int scaledmetric= metric(QPaintDevice::PdmDevicePixelRatioScaled);
- int scaledX=e->x() * scaledmetric/65536; // empiric
- int scaledY=e->y() * scaledmetric/65536; // empiric
- */
-   if (fCanvas==0) return;
+   if (!fCanvas) return;
    e->accept();
-   if (e->delta() > 0)
-      fCanvas->HandleInput(kWheelUp, scaledPosition(e->x()), scaledPosition(e->y()));
-  else
-      fCanvas->HandleInput(kWheelDown, scaledPosition(e->x()), scaledPosition(e->y()));
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   bool positive = (e->delta() > 0);
+   fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(e->x()), scaledPosition(e->y()));
+#else
+   QPoint delta = e->pixelDelta();
+   if (delta.isNull()) delta = e->angleDelta() / 8;
+   bool positive = delta.x() > 0 || delta.y() > 0;
+   fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(e->position().x()), scaledPosition(e->position().y()));
+#endif
+
 }
 
 
