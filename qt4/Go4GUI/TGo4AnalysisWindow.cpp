@@ -64,7 +64,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        resize(700, 400);
        setWindowIcon(QIcon(":/icons/analysiswin.png"));
        QGridLayout* layout = new QGridLayout( this );
-       layout->setMargin(11);
+       layout->setContentsMargins(11,11,11,11);
        layout->setSpacing(6);
 
        fxOutput = new QTextEdit();

@@ -384,7 +384,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
 
    fiPaintMode = 0;
 
-   gridLayout->setMargin(3);
+   gridLayout->setContentsMargins(3,3,3,3);
    gridLayout->setSpacing(1);
    UpdateActivePage();
 

@@ -37,7 +37,7 @@ QRootDialog::QRootDialog() : QDialog()
 {
    QGridLayout *gridLayout = new QGridLayout(this);
    gridLayout->setSpacing(1);
-   gridLayout->setMargin(1);
+   gridLayout->setContentsMargins(1,1,1,1);
 
    QHBoxLayout *buttLayout = new QHBoxLayout();
 

@@ -71,7 +71,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    QGridLayout *gridLayout = new QGridLayout(this);
    gridLayout->setSpacing(10);
-   gridLayout->setMargin(1);
+   gridLayout->setContentsMargins(1,1,1,1);
 
    //fView = new RootWebView(this);
    //QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));

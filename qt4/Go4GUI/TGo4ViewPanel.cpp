@@ -273,7 +273,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
 
    QHBoxLayout* menugrid = new QHBoxLayout(0/*MenuFrame*/);
-   menugrid->setMargin(0);
+   menugrid->setContentsMargins(0,0,0,0);
    menugrid->setSpacing(0);
    menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
    menugrid->addWidget(box1, 1, Qt::AlignRight);
