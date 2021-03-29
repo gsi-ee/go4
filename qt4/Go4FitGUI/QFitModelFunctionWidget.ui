@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitModelFunctionWidget</class>
-  <widget class="QFitModelWidget" name="QFitModelFunctionWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -96,27 +96,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitModelWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>LibNameEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitModelFunctionWidget</receiver>
-      <slot>LibNameEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>FuncNameEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitModelFunctionWidget</receiver>
-      <slot>FuncNameEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>NumParSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelFunctionWidget</receiver>
-      <slot>NumParSpin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

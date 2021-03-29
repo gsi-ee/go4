@@ -20,6 +20,9 @@ QFitModelFormulaWidget::QFitModelFormulaWidget(QWidget *parent, const char* name
          : QFitModelWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(ExprEdt, SIGNAL(textChanged(QString)), this, SLOT(ExprEdt_textChanged(QString)));
+   QObject::connect(NumParSpin, SIGNAL(valueChanged(int)), this, SLOT(NumParSpin_valueChanged(int)));
+
 }
 
 TGo4FitModelFormula * QFitModelFormulaWidget::GetFormula()

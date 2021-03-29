@@ -17,10 +17,7 @@
 #include "QFitModelWidget.h"
 #include "ui_QFitModelFormulaWidget.h"
 
-
 class TGo4FitModelFormula;
-
-
 
 class QFitModelFormulaWidget : public QFitModelWidget, public Ui::QFitModelFormulaWidget
  {
@@ -28,7 +25,6 @@ class QFitModelFormulaWidget : public QFitModelWidget, public Ui::QFitModelFormu
 
 public:
     QFitModelFormulaWidget( QWidget* parent = 0, const char* name = 0 );
-
 
 public slots:
     virtual TGo4FitModelFormula * GetFormula();
@@ -38,9 +34,4 @@ public slots:
 
 };
 
-#endif // QFITMODELFORMULAWIDGET_H
-
-
-
-
-
+#endif

@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitModelFormulaWidget</class>
-  <widget class="QFitModelWidget" name="QFitModelFormulaWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -70,21 +70,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitModelWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>ExprEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitModelFormulaWidget</receiver>
-      <slot>ExprEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>NumParSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelFormulaWidget</receiver>
-      <slot>NumParSpin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

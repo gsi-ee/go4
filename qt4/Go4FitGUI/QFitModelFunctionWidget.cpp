@@ -21,13 +21,19 @@ QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char* na
          : QFitModelWidget(parent, name)
 {
    setupUi(this);
+
+   QObject::connect(LibNameEdt, SIGNAL(textChanged(QString)), this, SLOT(LibNameEdt_textChanged(QString)));
+   QObject::connect(FuncNameEdt, SIGNAL(textChanged(QString)), this, SLOT(FuncNameEdt_textChanged(QString)));
+   QObject::connect(NumParSpin, SIGNAL(valueChanged(int)), this, SLOT(NumParSpin_valueChanged(int)));
 }
 
-TGo4FitModelFunction * QFitModelFunctionWidget::GetFunction() {
+TGo4FitModelFunction * QFitModelFunctionWidget::GetFunction()
+{
    return dynamic_cast<TGo4FitModelFunction*> (GetObject());
 }
 
-void QFitModelFunctionWidget::FillSpecificData() {
+void QFitModelFunctionWidget::FillSpecificData()
+{
     QFitNamedWidget::FillSpecificData();
     if (GetFunction()) {
        LibNameEdt->setText(GetFunction()->GetLibraryName());
