@@ -131,7 +131,7 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
       rev->fState |= kButton1Mask;
    if(e->buttons() & Qt::RightButton)
       rev->fState |= kButton3Mask;
-   if(e->buttons() & Qt::MidButton)
+   if(e->buttons() & Qt::MiddleButton)
       rev->fState |= kButton2Mask;
    if(e->buttons() & Qt::MouseButtonMask)
       rev->fState |= kButton1Mask;
@@ -154,7 +154,7 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
       rev->fCode |= kButton1Mask;
    if(e->button() == Qt::RightButton)
       rev->fCode |= kButton3Mask;
-   if(e->button() == Qt::MidButton)
+   if(e->button() == Qt::MiddleButton)
       rev->fCode |= kButton2Mask;
 
    rev->fUser[0]=0;

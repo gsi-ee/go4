@@ -323,7 +323,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
         break;
      }
-     case Qt::MidButton :
+     case Qt::MiddleButton :
         fCanvas->HandleInput(kButton2Down, scaledX, scaledY);
         emit SelectedPadChanged(pad);   //   that inform the Qt-world that tha pad is changed
                                         // and give the pointer to the new pad as argument
@@ -348,7 +348,7 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
       case Qt::RightButton :
          fCanvas->HandleInput(kButton3Up, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
-      case Qt::MidButton :
+      case Qt::MiddleButton :
          fCanvas->HandleInput(kButton2Up, scaledPosition(e->x()),scaledPosition( e->y()));
          break;
       case  Qt::NoButton :
@@ -377,7 +377,7 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
       case Qt::RightButton :
          fCanvas->HandleInput(kButton3Double, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
-      case Qt::MidButton :
+      case Qt::MiddleButton :
          fCanvas->HandleInput(kButton2Double, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
       case Qt::NoButton :
