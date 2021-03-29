@@ -17,22 +17,26 @@
 QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
-   setupUi(this);
+   ui.setupUi(this);
+
+   QObject::connect(ui.Iterations, SIGNAL(valueChanged(int)), this, SLOT(Iterations_valueChanged(int)));
 }
 
-TGo4FitAmplEstimation * QFitAmplEstimWidget::GetAmplEstim() {
+TGo4FitAmplEstimation * QFitAmplEstimWidget::GetAmplEstim()
+{
    return dynamic_cast<TGo4FitAmplEstimation*> (GetObject());
 }
 
-void QFitAmplEstimWidget::FillSpecificData() {
+void QFitAmplEstimWidget::FillSpecificData()
+{
    QFitNamedWidget::FillSpecificData();
    if (GetAmplEstim())
-      Iterations->setValue(GetAmplEstim()->GetNumIterations());
+      ui.Iterations->setValue(GetAmplEstim()->GetNumIterations());
 }
 
 
-void QFitAmplEstimWidget::Iterations_valueChanged( int num )
+void QFitAmplEstimWidget::Iterations_valueChanged(int num)
 {
-  if (!fbFillWidget && GetAmplEstim())
-    GetAmplEstim()->SetNumIterations(num);
+   if (!fbFillWidget && GetAmplEstim())
+      GetAmplEstim()->SetNumIterations(num);
 }
