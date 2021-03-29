@@ -39,14 +39,16 @@ void QFitMinuitWidget::FillSpecificData()
          if (i<minuit->GetNumCommands()-1) cmds+=s;
       }
       CommandsEdit->setText(cmds);
-   } else CommandsEdit->setText("");
+   } else {
+      CommandsEdit->setText("");
+   }
 }
 
 
 void QFitMinuitWidget::CommandsEdit_textChanged()
 {
    TGo4FitMinuit* minuit = GetMinuit();
-   if (minuit==0) return;
+   if (!minuit) return;
 
    minuit->ClearCommands();
 
