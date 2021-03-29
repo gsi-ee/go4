@@ -21,13 +21,18 @@ QFitDependencyWidget::QFitDependencyWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
 {
    setupUi(this);
+
+   QObject::connect(ParamEdit, SIGNAL(textChanged(QString)), this, SLOT(ParamEdit_textChanged(QString)));
+   QObject::connect(ExpressionEdt, SIGNAL(textChanged(QString)), this, SLOT(ExpressionEdt_textChanged(QString)));
 }
 
-TGo4FitDependency * QFitDependencyWidget::GetDepen() {
+TGo4FitDependency * QFitDependencyWidget::GetDepen()
+{
   return dynamic_cast<TGo4FitDependency*> (GetObject());
 }
 
-void QFitDependencyWidget::FillSpecificData() {
+void QFitDependencyWidget::FillSpecificData()
+{
    if(GetDepen()) {
        if (GetDepen()->IsResultDepend()) {
           TObjArray* lst = dynamic_cast<TObjArray*> (GetItem()->Parent()->Object());
@@ -43,7 +48,6 @@ void QFitDependencyWidget::FillSpecificData() {
                                  else ExpressionEdt->setText(GetDepen()->GetExpression().Data());
    }
 }
-
 
 
 void QFitDependencyWidget::ParamEdit_textChanged( const QString & param)

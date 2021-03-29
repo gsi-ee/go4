@@ -22,6 +22,14 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+
+   QObject::connect(NumCalibrSpin, SIGNAL(valueChanged(int)), this, SLOT(NumCalibrSpin_valueChanged(int)));
+   QObject::connect(UseBinsChk, SIGNAL(toggled(bool)), this, SLOT(UseBinsChk_toggled(bool)));
+   QObject::connect(SigmaCmb, SIGNAL(activated(int)), this, SLOT(SigmaCmb_activated(int)));
+   QObject::connect(SigmaEdt, SIGNAL(textChanged(QString)), this, SLOT(SigmaEdt_textChanged(QString)));
+   QObject::connect(BinsLimitEdt, SIGNAL(textChanged(QString)), this, SLOT(BinsLimitEdt_textChanged(QString)));
+   QObject::connect(AmplChk, SIGNAL(toggled(bool)), this, SLOT(AmplChk_toggled(bool)));
+   QObject::connect(UseBuffersChk, SIGNAL(toggled(bool)), this, SLOT(UseBuffersChk_toggled(bool)));
 }
 
 TGo4FitData* QFitDataWidget::GetData()

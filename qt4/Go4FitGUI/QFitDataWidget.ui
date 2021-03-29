@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitDataWidget</class>
-  <widget class="QFitNamedWidget" name="QFitDataWidget">
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -176,51 +176,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitNamedWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>NumCalibrSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>NumCalibrSpin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>UseBinsChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>UseBinsChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SigmaCmb</sender>
-      <signal>activated(int)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>SigmaCmb_activated(int)</slot>
-    </connection>
-    <connection>
-      <sender>SigmaEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>SigmaEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>BinsLimitEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>BinsLimitEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>AmplChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>AmplChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>UseBuffersChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitDataWidget</receiver>
-      <slot>UseBuffersChk_toggled(bool)</slot>
-    </connection>
-  </connections>
 </ui>

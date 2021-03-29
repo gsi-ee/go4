@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitDependencyWidget</class>
-  <widget class="QFitWidget" name="QFitDependencyWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -70,21 +70,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>ParamEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitDependencyWidget</receiver>
-      <slot>ParamEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>ExpressionEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitDependencyWidget</receiver>
-      <slot>ExpressionEdt_textChanged(QString)</slot>
-    </connection>
-  </connections>
 </ui>
