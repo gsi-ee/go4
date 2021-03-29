@@ -32,8 +32,7 @@ public slots:
     virtual void FillSpecificData();
     virtual void CommandsEdit_textChanged();
 
-
-};
+ };
 
 #endif
 

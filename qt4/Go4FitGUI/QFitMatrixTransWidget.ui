@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
+  <author>Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitMatrixTransWidget</class>
-  <widget class="QFitNamedWidget" name="QFitMatrixTransWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -43,15 +43,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitNamedWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>NumAxisSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitMatrixTransWidget</receiver>
-      <slot>NumAxisSpin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

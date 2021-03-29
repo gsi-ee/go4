@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitMinuitResWidget</class>
-  <widget class="QFitNamedWidget" name="QFitMinuitResWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -36,7 +36,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitNamedWidget.h</include>
-  </includes>
 </ui>

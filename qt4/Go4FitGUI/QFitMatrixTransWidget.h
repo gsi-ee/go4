@@ -14,7 +14,7 @@
 #ifndef QFITMATRIXTRANSWIDGET_H
 #define QFITMATRIXTRANSWIDGET_H
 
-#include "QFitMatrixTransWidget.h"
+#include "QFitNamedWidget.h"
 #include "ui_QFitMatrixTransWidget.h"
 
 class TGo4FitMatrixTrans;

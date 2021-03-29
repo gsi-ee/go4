@@ -19,20 +19,24 @@ QFitMatrixTransWidget::QFitMatrixTransWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(NumAxisSpin, SIGNAL(valueChanged(int)), this, SLOT(NumAxisSpin_valueChanged(int)));
 }
 
-TGo4FitMatrixTrans* QFitMatrixTransWidget::GetMatrixTrans() {
-  return dynamic_cast<TGo4FitMatrixTrans*> (GetObject());
+TGo4FitMatrixTrans* QFitMatrixTransWidget::GetMatrixTrans()
+{
+   return dynamic_cast<TGo4FitMatrixTrans*> (GetObject());
 }
 
-void QFitMatrixTransWidget::FillSpecificData() {
-  QFitNamedWidget::FillSpecificData();
-  TGo4FitMatrixTrans* trans = GetMatrixTrans();
-  if (trans)
-    NumAxisSpin->setValue(trans->GetNumAxis());
+void QFitMatrixTransWidget::FillSpecificData()
+{
+   QFitNamedWidget::FillSpecificData();
+   TGo4FitMatrixTrans* trans = GetMatrixTrans();
+   if (trans)
+      NumAxisSpin->setValue(trans->GetNumAxis());
 }
 
-void QFitMatrixTransWidget::NumAxisSpin_valueChanged( int num ){
+void QFitMatrixTransWidget::NumAxisSpin_valueChanged(int num)
+{
    if (!fbFillWidget && GetMatrixTrans()) {
      GetMatrixTrans()->SetNumAxis(num);
      UpdateWidgetItem(true);

@@ -19,13 +19,16 @@ QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(CommandsEdit, SIGNAL(textChanged()), this, SLOT(CommandsEdit_textChanged()));
 }
 
-TGo4FitMinuit * QFitMinuitWidget::GetMinuit() {
+TGo4FitMinuit * QFitMinuitWidget::GetMinuit()
+{
     return dynamic_cast<TGo4FitMinuit*> (GetObject());
 }
 
-void QFitMinuitWidget::FillSpecificData() {
+void QFitMinuitWidget::FillSpecificData()
+{
   QFitNamedWidget::FillSpecificData();
   TGo4FitMinuit* minuit = GetMinuit();
   if (minuit) {

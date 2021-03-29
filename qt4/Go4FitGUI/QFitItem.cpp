@@ -44,13 +44,13 @@ QFitItem::~QFitItem()
 
 QFitItem* QFitItem::DefineWidgetItem()
 {
-  QFitItem* item = this;
+   QFitItem* item = this;
 
-  while (item!=0) {
-    if (item->WidgetType()!=-1) return item;
-    item = item->Parent();
-  }
-  return 0;
+   while (item!=0) {
+     if (item->WidgetType()!=-1) return item;
+     item = item->Parent();
+   }
+   return 0;
 }
 
 QFitItem* QFitItem::DefineGraphItem()

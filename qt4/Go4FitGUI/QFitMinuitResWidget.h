@@ -29,8 +29,6 @@ public:
 public slots:
     virtual TGo4FitMinuitResult * GetResult();
     virtual void FillSpecificData();
-
-
 };
 
 #endif // QFITMINUITRESWIDGET_H

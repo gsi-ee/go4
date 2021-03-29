@@ -21,11 +21,13 @@ QFitMinuitResWidget::QFitMinuitResWidget(QWidget *parent, const char* name)
    setupUi(this);
 }
 
-TGo4FitMinuitResult * QFitMinuitResWidget::GetResult() {
+TGo4FitMinuitResult * QFitMinuitResWidget::GetResult()
+{
    return dynamic_cast<TGo4FitMinuitResult*> (GetObject());
 }
 
-void QFitMinuitResWidget::FillSpecificData() {
+void QFitMinuitResWidget::FillSpecificData()
+{
    QFitNamedWidget::FillSpecificData();
    if (GetResult()) InfoLabel->setText("this is minuit result object");
 }
