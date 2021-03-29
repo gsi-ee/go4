@@ -6,11 +6,13 @@ GO4_INSTALL_HEADERS(
 
 if(GO4_QTVERSION STREQUAL Qt4)
    set(qt_libs Qt4::QtCore Qt4::QtGui)
+elseif(GO4_QTVERSION STREQUAL Qt6)
+   set(qt_libs Qt6::Core Qt6::Widgets)
 else()
    set(qt_libs Qt5::Core Qt5::Widgets)
 endif()
 
-GO4_LINK_LIBRARY(Go4QtRoot 
+GO4_LINK_LIBRARY(Go4QtRoot
                  SOURCES QRootCanvas.cpp QRootDialog.cpp QRootWindow.cpp
                  LIBRARIES ${qt_libs} ${ROOT_Gui_LIBRARY} X11
                  DEFINITIONS -D${GO4_PLATFORM})

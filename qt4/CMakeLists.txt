@@ -10,6 +10,12 @@ if(GO4_QTVERSION STREQUAL Qt4)
       message(FATAL_ERROR "Could NOT find Qt4")
    endif()
    set(qt_libs Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+elseif(GO4_QTVERSION STREQUAL Qt6)
+   find_package(Qt6 COMPONENTS Widgets Network REQUIRED)
+   if(NOT Qt6_FOUND)
+      message(FATAL_ERROR "Could NOT find Qt6")
+   endif()
+   set(qt_libs Qt6::Core Qt6::Widgets Qt6::Network)
 else()
    if(ROOT_qt5web_FOUND)
       set(qt5comp WebEngine WebEngineWidgets)
@@ -290,6 +296,7 @@ if(ROOT_x11_FOUND)
    endif()
 endif()
 
+
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
    list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
@@ -325,14 +332,12 @@ if(HDF5_FOUND)
    list(APPEND gui_defines -D__GO4HDF5__)
 endif()
 
-
 set(Go4GUI_root_sources
    Go4GUI/TGo4DrawCloneProxy.cxx
    Go4GUI/TGo4DrawObjProxy.cxx
    Go4GUI/TGo4Script.cxx
    Go4GUI/TGo4WidgetProxy.cxx
 )
-
 
 add_executable(go4
     ${Go4FitGUI_forms}

@@ -18,6 +18,12 @@ if(GO4_QTVERSION STREQUAL Qt4)
       message(FATAL_ERROR "Could NOT find Qt4")
    endif()
    set(qt_libs Qt4::QtCore Qt4::QtGui)
+elseif(GO4_QTVERSION STREQUAL Qt6)
+   find_package(Qt6 COMPONENTS Widgets)
+   if(NOT Qt6_FOUND)
+      message(FATAL_ERROR "Could NOT find Qt6")
+   endif()
+   set(qt_libs Qt6::Core Qt6::Widgets)
 else()
    find_package(Qt5 COMPONENTS Widgets)
    if(NOT Qt5_FOUND)
@@ -27,6 +33,6 @@ else()
 endif()
 
 
-GO4_LINK_LIBRARY(Go4UserGui 
+GO4_LINK_LIBRARY(Go4UserGui
                  SOURCES QUserPanel.cpp QUserPanel.ui
                  LIBRARIES ${qt_libs} ${Go4Widgets_LIBRARY} ${Go4QtRoot_LIBRARY})

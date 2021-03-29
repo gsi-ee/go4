@@ -5,6 +5,8 @@ GO4_INSTALL_HEADERS(
 
 if(GO4_QTVERSION STREQUAL Qt4)
    set(qt_libs Qt4::QtCore Qt4::QtGui)
+elseif(GO4_QTVERSION STREQUAL Qt6)
+   set(qt_libs Qt6::Core Qt6::Widgets)
 else()
    set(qt_libs Qt5::Core Qt5::Widgets)
 endif()

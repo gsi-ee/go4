@@ -59,6 +59,7 @@ endfunction()
 #--------------------------------------------------------------------------------------------------
 
 GO4_BUILD_OPTION(qt4 OFF "Use qt4 for GUI build")
+GO4_BUILD_OPTION(qt6 OFF "Use qt6 for GUI build")
 GO4_BUILD_OPTION(hdf5 ON "Enable support of HDF5")
 GO4_BUILD_OPTION(dabc ON "Enable support of DABC")
 

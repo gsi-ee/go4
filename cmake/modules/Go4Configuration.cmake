@@ -9,11 +9,13 @@ else()
    set(_platform Linux)
 endif()
 
-set(_qtvers Qt5)
 if(qt4)
    set(_qtvers Qt4)
+elseif(qt6)
+   set(_qtvers Qt6)
+else()
+   set(_qtvers Qt5)
 endif()
-   
 
 set(GO4_PLATFORM "${_platform}" CACHE STRING "Go4 platform definitions")
 set(GO4_DEFINITIONS "" CACHE STRING "Go4 extra definitions")
