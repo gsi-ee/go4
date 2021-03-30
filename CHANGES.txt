@@ -35,7 +35,7 @@ Changes in Go4 v6.0.x (2019/2021)
    Add support of user-defined store in go4analysis, GUI and hotstart.
 5. Fix problems of "Remote Event Server" usage together with http/fastcgi servers.
    In case of low data rates servers were not responsive, now should be fixed.
-6. Primary adjustments to qt6, only possible to compile with cmake
+6. Code fully ported to qt6, but without webwidgets while qt6 does not provide them yet
 
 
 Changes in Go4 v6.0.0 (October 2019)
