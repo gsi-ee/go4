@@ -19,7 +19,6 @@
 
 class TGo4FitModelGaussN;
 
-
 class QFitModelGaussNWidget : public QFitModelWidget, public Ui::QFitModelGaussNWidget
  {
    Q_OBJECT
@@ -34,13 +33,6 @@ public slots:
    virtual void AxisNumberSpin_valueChanged( int );
    virtual void AxisTable_valueChanged( int, int );
 
-
 };
 
-#endif // QFITMODELGAUSSNWIDGET_H
-
-
-
-
-
-
+#endif

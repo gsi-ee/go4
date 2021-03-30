@@ -44,4 +44,4 @@ class QFitModelWidget : public QFitNamedWidget {
       virtual void GroupSpin_valueChanged( int );
 };
 
-#endif // QFITMODELWIDGET_H
+#endif

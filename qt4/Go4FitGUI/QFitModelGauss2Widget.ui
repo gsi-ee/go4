@@ -1,9 +1,9 @@
-<ui version="4.0" stdsetdef="1" >
+<ui version="4.0" stdsetdef="1">
   <author></author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitModelGauss2Widget</class>
-  <widget class="QFitModelWidget" name="QFitModelGauss2Widget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -69,21 +69,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitModelWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>Axis1Spin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelGauss2Widget</receiver>
-      <slot>Axis1Spin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>Axis2Spin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelGauss2Widget</receiver>
-      <slot>Axis2Spin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

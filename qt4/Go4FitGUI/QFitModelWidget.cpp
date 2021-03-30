@@ -41,9 +41,9 @@ QFitModelWidget::QFitModelWidget( QWidget* parent,  const char* name )
     //clearWState( WState_Polished );
 
     // signals and slots connections
-    connect( AmplChk, SIGNAL( toggled(bool) ), this, SLOT( AmplChk_toggled(bool) ) );
-    connect( BuffersChk, SIGNAL( toggled(bool) ), this, SLOT( BuffersChk_toggled(bool) ) );
-    connect( GroupSpin, SIGNAL( valueChanged(int) ), this, SLOT( GroupSpin_valueChanged(int) ) );
+    QObject::connect( AmplChk, SIGNAL( toggled(bool) ), this, SLOT( AmplChk_toggled(bool) ) );
+    QObject::connect( BuffersChk, SIGNAL( toggled(bool) ), this, SLOT( BuffersChk_toggled(bool) ) );
+    QObject::connect( GroupSpin, SIGNAL( valueChanged(int) ), this, SLOT( GroupSpin_valueChanged(int) ) );
 }
 
 QFitModelWidget::~QFitModelWidget()

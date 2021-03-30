@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitModelPolynomWidget</class>
-  <widget class="QFitModelWidget" name="QFitModelPolynomWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -46,15 +46,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitModelWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>AxisSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelPolynomWidget</receiver>
-      <slot>AxisSpin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

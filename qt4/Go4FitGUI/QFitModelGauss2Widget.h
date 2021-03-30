@@ -34,6 +34,4 @@ public slots:
 
 };
 
-#endif // QFITMODELGAUSS2WIDGET_H
-
-
+#endif

@@ -17,7 +17,6 @@
 #include "QFitModelWidget.h"
 #include "ui_QFitModelGauss1Widget.h"
 
-
 class TGo4FitModelGauss1;
 
 class QFitModelGauss1Widget : public QFitModelWidget, public Ui::QFitModelGauss1Widget
@@ -32,9 +31,6 @@ public slots:
     virtual void FillSpecificData();
     virtual void AxisNumSpin_valueChanged( int );
 
-
-};
-
-
+ };
 
 #endif
