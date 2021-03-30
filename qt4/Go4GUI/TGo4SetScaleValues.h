@@ -16,27 +16,29 @@
 
 #include <QWidget>
 #include "ui_TGo4SetScaleValues.h"
+
 class TGo4ViewPanel;
 class TPad;
 
-class TGo4SetScaleValues : public QWidget, public Ui::TGo4SetScaleValues {
+class TGo4SetScaleValues : public QWidget, public Ui::TGo4SetScaleValues
+{
    Q_OBJECT
 
-   protected:
-      bool fbDoingRefresh;
+protected:
+   bool fbDoingRefresh;
 
-   public:
-      TGo4SetScaleValues( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+public:
+   TGo4SetScaleValues( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
 
-      void refreshView(bool force);
+   void refreshView(bool force);
 
-   public slots:
+public slots:
 
-      virtual void panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid);
+   virtual void panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid);
 
-      virtual void ApplyValues();
+   virtual void ApplyValues();
 
-      virtual void AutoscaleChanged(bool on);
+   virtual void AutoscaleChanged(bool on);
 };
 
 #endif

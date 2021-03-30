@@ -25,6 +25,11 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 {
    setupUi(this);
 
+   QObject::connect(ChooseDir, SIGNAL(clicked()), this, SLOT(SelectDir()));
+   QObject::connect(ChooseExc, SIGNAL(clicked()), this, SLOT(SelectProg()));
+   QObject::connect(ServerModeCombo, SIGNAL(activated(int)), this, SLOT(ServerModeCombo_activated(int)));
+   QObject::connect(ExeModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ExeMode_changed(int)));
+
    setObjectName("Go4StartClient");
 
 #ifdef WIN32
@@ -85,8 +90,6 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    PortNumber->setEnabled(mode == 2);
 
    ExeModeCombo->setCurrentIndex(mode==2 ? 1 : go4sett->getClientExeMode());
-
-
 }
 
 void TGo4StartClient::ExeMode_changed(int id)

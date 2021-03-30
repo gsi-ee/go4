@@ -1,7 +1,7 @@
 <ui version="4.0" stdsetdef="1" >
   <author></author>
   <class>TGo4ScaleOptions</class>
-  <widget class="QGo4Widget" name="TGo4ScaleOptions" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -248,7 +248,7 @@
           </property>
           <property name="shortcut">
                 <string>Down</string>
-          </property>          
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -365,7 +365,7 @@
           </property>
           <property name="shortcut">
                <string>Up</string>
-          </property>          
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -583,7 +583,7 @@
           </property>
           <property name="shortcut">
             <string>Ctrl++</string>
-          </property> 
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -611,7 +611,7 @@
           </property>
           <property name="shortcut">
             <string>Ctrl+*</string>
-          </property> 
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -623,99 +623,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="2" margin="2" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>resize_b</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>resizeall()</slot>
-    </connection>
-    <connection>
-      <sender>SetScale</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SetScaleValues()</slot>
-    </connection>
-    <connection>
-      <sender>AutoZoomBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>AutoZoomScales()</slot>
-    </connection>
-    <connection>
-      <sender>UExpandX</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotUExpandX()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftL</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftL()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftR</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftR()</slot>
-    </connection>
-    <connection>
-      <sender>ExpandX</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotExpandX()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftUp</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftU()</slot>
-    </connection>
-    <connection>
-      <sender>UExpandY</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotUExpandY()</slot>
-    </connection>
-    <connection>
-      <sender>ExpandY</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotExpandY()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftDown</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftD()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftUpZ</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftZU()</slot>
-    </connection>
-    <connection>
-      <sender>UExpandZ</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotUExpandZ()</slot>
-    </connection>
-    <connection>
-      <sender>ExpandZ</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotExpandZ()</slot>
-    </connection>
-    <connection>
-      <sender>ShiftDownZ</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ScaleOptions</receiver>
-      <slot>SlotShiftZD()</slot>
-    </connection>
-  </connections>
 </ui>

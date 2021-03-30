@@ -2,7 +2,7 @@
 <ui version="4.0">
  <author>Mohammad Al-Turany/S Linev/JAM</author>
  <class>TGo4Style</class>
- <widget class="QWidget" name="TGo4Style">
+ <widget class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -165,30 +165,4 @@
  </widget>
  <layoutdefault spacing="0" margin="0"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>Palette</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>TGo4Style</receiver>
-   <slot>SetPalette(int)</slot>
-  </connection>
-  <connection>
-   <sender>PaletteComboBox</sender>
-   <signal>activated(int)</signal>
-   <receiver>TGo4Style</receiver>
-   <slot>SetNamedPalette(int)</slot>
-  </connection>
-  <connection>
-   <sender>ContourSpin</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>TGo4Style</receiver>
-   <slot>SetContourLevels(int)</slot>
-  </connection>
-  <connection>
-   <sender>PadColor</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4Style</receiver>
-   <slot>SetPadColor()</slot>
-  </connection>
- </connections>
 </ui>

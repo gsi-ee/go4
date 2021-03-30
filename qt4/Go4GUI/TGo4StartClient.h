@@ -22,25 +22,25 @@ class QButtonGroup;
 class TGo4StartClient : public QDialog, public Ui::TGo4StartClient {
    Q_OBJECT
 
-   public:
+public:
 
-      TGo4StartClient(QWidget* parent = 0);
-      void getResults();
+   TGo4StartClient(QWidget* parent = 0);
+   void getResults();
 
-   public slots:
+public slots:
 
-      virtual void SelectDir();
+   virtual void SelectDir();
 
-      virtual void SelectProg();
+   virtual void SelectProg();
 
-      virtual void ServerModeCombo_activated(int);
+   virtual void ServerModeCombo_activated(int);
 
-      virtual void ExeMode_changed(int);
+   virtual void ExeMode_changed(int);
 
-   protected:
-      QButtonGroup* ClientShellGroup;
-      QButtonGroup* ClientTermGroup;
-      int fSelectedFilter;
+protected:
+   QButtonGroup* ClientShellGroup;
+   QButtonGroup* ClientTermGroup;
+   int fSelectedFilter;
 };
 
 #endif

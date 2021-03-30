@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author>Mohammad Al-Turany</author>
+ <author>Mohammad Al-Turany/Sergey Linev</author>
  <class>TGo4StartClient</class>
- <widget class="QDialog" name="TGo4StartClient">
+ <widget class="QDialog" name="TGo4StartClientInstance">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,7 +19,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-   
+
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
       <widget class="QLabel" name="textLabel1">
@@ -53,7 +52,7 @@
           </property>
          </item>
         </widget>
-      
+
      </item>
     </layout>
    </item>
@@ -457,62 +456,38 @@
   <connection>
    <sender>PushButtonCancel</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>close()</slot>
   </connection>
   <connection>
    <sender>PushButtonStartClient</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>accept()</slot>
   </connection>
   <connection>
    <sender>LineEditClientNode</sender>
    <signal>returnPressed()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>accept()</slot>
-  </connection>
-  <connection>
-   <sender>ChooseDir</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>SelectDir()</slot>
-  </connection>
-  <connection>
-   <sender>ChooseExc</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>SelectProg()</slot>
   </connection>
   <connection>
    <sender>LineEditClientName</sender>
    <signal>returnPressed()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>accept()</slot>
   </connection>
   <connection>
    <sender>LineEditClientDir</sender>
    <signal>returnPressed()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>accept()</slot>
   </connection>
   <connection>
    <sender>LineEditClientExec</sender>
    <signal>returnPressed()</signal>
-   <receiver>TGo4StartClient</receiver>
+   <receiver>TGo4StartClientInstance</receiver>
    <slot>accept()</slot>
-  </connection>
-  <connection>
-   <sender>ServerModeCombo</sender>
-   <signal>activated(int)</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>ServerModeCombo_activated(int)</slot>
-  </connection>
-  <connection>
-   <sender>ExeModeCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>ExeMode_changed(int)</slot>
   </connection>
  </connections>
 </ui>

@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4SetScaleValues</class>
-  <widget class="QWidget" name="TGo4SetScaleValues" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -161,54 +161,4 @@
     <tabstop>ZmaxV</tabstop>
     <tabstop>SetButton</tabstop>
   </tabstops>
-  <connections>
-    <connection>
-      <sender>AutoScaleButton</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>AutoscaleChanged(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SetButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>XminV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>XmaxV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>YminV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>YmaxV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>ZminV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-    <connection>
-      <sender>ZmaxV</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4SetScaleValues</receiver>
-      <slot>ApplyValues()</slot>
-    </connection>
-  </connections>
 </ui>

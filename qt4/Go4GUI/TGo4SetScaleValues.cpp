@@ -21,6 +21,17 @@ TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::W
 {
    setObjectName( name ? name : "Go4SetScaleValues");
    setupUi(this);
+
+   QObject::connect(AutoScaleButton, SIGNAL(toggled(bool)), this, SLOT(AutoscaleChanged(bool)));
+   QObject::connect(SetButton, SIGNAL(clicked()), this, SLOT(ApplyValues()));
+   QObject::connect(XminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(XmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(YminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(YmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(ZminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(ZmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+
+
    connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
