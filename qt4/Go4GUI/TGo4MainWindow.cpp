@@ -2371,18 +2371,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
       QProcess* killprocess = new QProcess;
       QStringList args;
       QString progname = fKillCommand;
-
-      if ((progname.indexOf("\"") < 0) && (progname.indexOf("ssh") != 0) && (progname.indexOf("rsh")  != 0)) {
-  #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-          args = progname.split(" ", QString::SkipEmptyParts);
-  #else
-          args = progname.split(" ", Qt::SkipEmptyParts);
-  #endif
-          if (args.size() > 0) {
-             progname = args.front();
-             args.pop_front();
-          }
-      }
+      TGo4AnalysisWindow::ExtractProgArgs(progname, args);
       killprocess->start(progname, args);
       QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));
    } else

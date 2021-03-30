@@ -308,6 +308,31 @@ void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value, int prio)
   }
 }
 
+void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
+{
+   QString quoted;
+
+   int first = progname.indexOf("\"");
+   int last = progname.lastIndexOf("\"");
+   if ((first > 0) && (last > first)) {
+      quoted = progname.mid(first+1, last-first-1);
+      progname.resize(first);
+   }
+
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+   args = progname.split(" ",QString::SkipEmptyParts);
+#else
+   args = progname.split(" ",Qt::SkipEmptyParts);
+#endif
+   if (args.size() > 0) {
+      progname = args.front();
+      args.pop_front();
+   }
+   if (quoted.length() > 0)
+      args.push_back(quoted);
+}
+
+
 void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir, bool aschildprocess)
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
@@ -321,30 +346,14 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     fAnalysisProcess->setProcessEnvironment(env);
 
-    QString quoted, progname = text;
-
-    int first = progname.indexOf("\"");
-    int last = progname.lastIndexOf("\"");
-    if ((first > 0) && (last > first)) {
-       quoted = progname.mid(first+1, last-first-1);
-       progname.resize(first);
-    }
-
-#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-    QStringList args = progname.split(" ",QString::SkipEmptyParts);
-#else
-    QStringList args = progname.split(" ",Qt::SkipEmptyParts);
-#endif
-    if (args.size() > 0) {
-       progname = args.front();
-       args.pop_front();
-    }
-    if (quoted.length() > 0)
-       args.push_back(quoted);
-
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
     if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
+
+    QString progname = text;
+    QStringList args;
+
+    TGo4AnalysisWindow::ExtractProgArgs(progname, args);
 
     // std::cout << "prog " << progname.toLocal8Bit().constData() << std::endl;
     // for (int i = 0; i < args.size(); ++i)

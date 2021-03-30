@@ -45,6 +45,8 @@ class TGo4AnalysisWindow : public QGo4Widget {
        bool HasLink() const { return fHasLink; }
        bool TerminateOnClose() const { return fTerminateOnClose; }
 
+       static void ExtractProgArgs(QString &prog, QStringList &args);
+
    public slots:
       void readFromStdout();
       void readFromStderr();
@@ -69,8 +71,6 @@ class TGo4AnalysisWindow : public QGo4Widget {
       virtual void closeEvent(QCloseEvent* e);
       void CreateButtons(QHBoxLayout*, bool);
       void CreateCmdLine(QHBoxLayout*);
-
-
 
       /** prepend timestamp in front of next terminal buffer.
        * Depending on prio, stderr output can be marked as warning*/
