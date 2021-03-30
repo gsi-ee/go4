@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitParWidget</class>
-  <widget class="QFitNamedWidget" name="QFitParWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -139,57 +139,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitNamedWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>ValueEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>ValueEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>ErrorEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>ErrorEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>RangeMinEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>RangeMinEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>RangeMaxEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>RangeMaxEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>EpsilonEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>EpsilonEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>FixedChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>FixedChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>RangeChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>RangeChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>EpsilonChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitParWidget</receiver>
-      <slot>EpsilonChk_toggled(bool)</slot>
-    </connection>
-  </connections>
 </ui>

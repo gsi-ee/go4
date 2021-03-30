@@ -19,9 +19,8 @@
 
 class TGo4FitParameter;
 
-
 class QFitParCfgWidget : public QFitWidget, public Ui::QFitParCfgWidget
- {
+{
 
     Q_OBJECT
 
@@ -39,4 +38,4 @@ public slots:
     virtual void EpsilonEdit_textChanged( const QString & );
 };
 
-#endif // QFITPARCFGWIDGET_H
+#endif

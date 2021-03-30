@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitParCfgWidget</class>
-  <widget class="QFitWidget" name="QFitParCfgWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -135,39 +135,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>ParNameEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParCfgWidget</receiver>
-      <slot>ParNameEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>ParFixedChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitParCfgWidget</receiver>
-      <slot>ParFixedChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>RangeMinEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParCfgWidget</receiver>
-      <slot>RangeMinEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>RangeMaxEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParCfgWidget</receiver>
-      <slot>RangeMaxEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>EpsilonEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitParCfgWidget</receiver>
-      <slot>EpsilonEdit_textChanged(QString)</slot>
-    </connection>
-  </connections>
 </ui>

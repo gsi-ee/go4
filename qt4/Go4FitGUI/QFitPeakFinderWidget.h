@@ -26,7 +26,6 @@ class QFitPeakFinderWidget : public QFitNamedWidget, public Ui::QFitPeakFinderWi
 public:
     QFitPeakFinderWidget( QWidget* parent = 0, const char* name = 0 );
 
-
 public slots:
     virtual TGo4FitPeakFinder * GetPF();
     virtual void FillSpecificData();
@@ -42,10 +41,6 @@ public slots:
     virtual void NoiseFactorEdit_textChanged( const QString & );
     virtual void NoiseMinEdit_textChanged( const QString & );
     virtual void SumUpSpin_valueChanged( int );
-
-
 };
 
-#endif // QFITPEAKFINDERWIDGET_H
-
-
+#endif

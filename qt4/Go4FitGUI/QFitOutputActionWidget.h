@@ -20,8 +20,7 @@
 class TGo4FitterOutput;
 
 class QFitOutputActionWidget : public QFitNamedWidget, public Ui::QFitOutputActionWidget
- {
-
+{
     Q_OBJECT
 
 public:
@@ -35,4 +34,4 @@ public slots:
 
 };
 
-#endif // QFITOUTPUTACTIONWIDGET_H
+#endif

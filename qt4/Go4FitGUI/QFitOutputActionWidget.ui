@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitOutputActionWidget</class>
-  <widget class="QFitNamedWidget" name="QFitOutputActionWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -95,21 +95,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitNamedWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>OptionsEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitOutputActionWidget</receiver>
-      <slot>OptionsEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>CommandCombo</sender>
-      <signal>activated(int)</signal>
-      <receiver>QFitOutputActionWidget</receiver>
-      <slot>CommandCombo_activated(int)</slot>
-    </connection>
-  </connections>
 </ui>

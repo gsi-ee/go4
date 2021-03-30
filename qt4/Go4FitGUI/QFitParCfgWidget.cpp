@@ -22,6 +22,11 @@ QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(ParNameEdit, SIGNAL(textChanged(QString)), this, SLOT(ParNameEdit_textChanged(QString)));
+   QObject::connect(ParFixedChk, SIGNAL(toggled(bool)), this, SLOT(ParFixedChk_toggled(bool)));
+   QObject::connect(RangeMinEdit, SIGNAL(textChanged(QString)), this, SLOT(RangeMinEdit_textChanged(QString)));
+   QObject::connect(RangeMaxEdit, SIGNAL(textChanged(QString)), this, SLOT(RangeMaxEdit_textChanged(QString)));
+   QObject::connect(EpsilonEdit, SIGNAL(textChanged(QString)), this, SLOT(EpsilonEdit_textChanged(QString)));
 }
 
 
@@ -89,7 +94,7 @@ void QFitParCfgWidget::ParFixedChk_toggled( bool chk)
 void QFitParCfgWidget::RangeMinEdit_textChanged( const QString &)
 {
   if(!fbFillWidget && GetPar())
-    AnalyzeRangeValues();
+     AnalyzeRangeValues();
 }
 
 

@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitPeakFinderWidget</class>
-  <widget class="QFitNamedWidget" name="QFitPeakFinderWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -305,81 +305,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitNamedWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>DataNameEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>DataNameEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>ClearModelsChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>ClearModelsChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>UsePolynChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>UsePolynChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>PolynSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>PolynSpin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>FindersTab</sender>
-      <signal>currentChanged(int)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>FindersTab_currentChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>ThresholdEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>ThresholdEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>MinWidthEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>MinWidthEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>MaxWidthEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>MaxWidthEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>WidthEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>WidthEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>NoiseFactorEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>NoiseFactorEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>NoiseMinEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>NoiseMinEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>SumUpSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitPeakFinderWidget</receiver>
-      <slot>SumUpSpin_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>

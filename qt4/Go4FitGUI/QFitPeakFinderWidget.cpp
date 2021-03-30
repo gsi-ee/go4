@@ -19,13 +19,27 @@ QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(DataNameEdt, SIGNAL(textChanged(QString)), this, SLOT(DataNameEdt_textChanged(QString)));
+   QObject::connect(ClearModelsChk, SIGNAL(toggled(bool)), this, SLOT(ClearModelsChk_toggled(bool)));
+   QObject::connect(UsePolynChk, SIGNAL(toggled(bool)), this, SLOT(UsePolynChk_toggled(bool)));
+   QObject::connect(PolynSpin, SIGNAL(valueChanged(int)), this, SLOT(PolynSpin_valueChanged(int)));
+   QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
+   QObject::connect(ThresholdEdt, SIGNAL(textChanged(QString)), this, SLOT(ThresholdEdt_textChanged(QString)));
+   QObject::connect(MinWidthEdt, SIGNAL(textChanged(QString)), this, SLOT(MinWidthEdt_textChanged(QString)));
+   QObject::connect(MaxWidthEdt, SIGNAL(textChanged(QString)), this, SLOT(MaxWidthEdt_textChanged(QString)));
+   QObject::connect(WidthEdit, SIGNAL(textChanged(QString)), this, SLOT(WidthEdit_textChanged(QString)));
+   QObject::connect(NoiseFactorEdit, SIGNAL(textChanged(QString)), this, SLOT(NoiseFactorEdit_textChanged(QString)));
+   QObject::connect(NoiseMinEdit, SIGNAL(textChanged(QString)), this, SLOT(NoiseMinEdit_textChanged(QString)));
+   QObject::connect(SumUpSpin, SIGNAL(valueChanged(int)), this, SLOT(SumUpSpin_valueChanged(int)));
 }
 
-TGo4FitPeakFinder * QFitPeakFinderWidget::GetPF() {
+TGo4FitPeakFinder * QFitPeakFinderWidget::GetPF()
+{
   return dynamic_cast<TGo4FitPeakFinder*> (GetObject());
 }
 
-void QFitPeakFinderWidget::FillSpecificData() {
+void QFitPeakFinderWidget::FillSpecificData()
+{
    QFitNamedWidget::FillSpecificData();
    TGo4FitPeakFinder* finder = GetPF();
    if (finder) {
@@ -60,8 +74,8 @@ void QFitPeakFinderWidget::DataNameEdt_textChanged( const QString & name)
 
 void QFitPeakFinderWidget::ClearModelsChk_toggled( bool zn)
 {
-  if (!fbFillWidget && GetPF())
-    GetPF()->SetClearModels(zn);
+   if (!fbFillWidget && GetPF())
+      GetPF()->SetClearModels(zn);
 }
 
 

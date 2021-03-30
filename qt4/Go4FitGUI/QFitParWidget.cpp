@@ -19,13 +19,23 @@ QFitParWidget::QFitParWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(ValueEdt, SIGNAL(textChanged(QString)), this, SLOT(ValueEdt_textChanged(QString)));
+   QObject::connect(ErrorEdt, SIGNAL(textChanged(QString)), this, SLOT(ErrorEdt_textChanged(QString)));
+   QObject::connect(RangeMinEdt, SIGNAL(textChanged(QString)), this, SLOT(RangeMinEdt_textChanged(QString)));
+   QObject::connect(RangeMaxEdt, SIGNAL(textChanged(QString)), this, SLOT(RangeMaxEdt_textChanged(QString)));
+   QObject::connect(EpsilonEdt, SIGNAL(textChanged(QString)), this, SLOT(EpsilonEdt_textChanged(QString)));
+   QObject::connect(FixedChk, SIGNAL(toggled(bool)), this, SLOT(FixedChk_toggled(bool)));
+   QObject::connect(RangeChk, SIGNAL(toggled(bool)), this, SLOT(RangeChk_toggled(bool)));
+   QObject::connect(EpsilonChk, SIGNAL(toggled(bool)), this, SLOT(EpsilonChk_toggled(bool)));
 }
 
-TGo4FitParameter* QFitParWidget::GetPar() {
+TGo4FitParameter* QFitParWidget::GetPar()
+{
    return dynamic_cast<TGo4FitParameter*> (GetObject());
 }
 
-void QFitParWidget::FillSpecificData() {
+void QFitParWidget::FillSpecificData()
+{
    QFitNamedWidget::FillSpecificData();
    TGo4FitParameter* fxParameter = GetPar();
    if (fxParameter==0) return;
@@ -100,16 +110,13 @@ void QFitParWidget::EpsilonEdt_textChanged( const QString & value)
      double zn = value.toDouble(&ok);
      if(ok) GetPar()->ChangeEpsilon(zn);
   }
-
 }
-
 
 void QFitParWidget::FixedChk_toggled( bool zn)
 {
   if(!fbFillWidget && (GetPar()!=0))
     GetPar()->SetFixed(zn);
 }
-
 
 void QFitParWidget::RangeChk_toggled( bool zn)
 {

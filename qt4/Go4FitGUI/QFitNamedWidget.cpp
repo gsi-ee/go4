@@ -48,8 +48,8 @@ QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char* name )
     //clearWState( WState_Polished );
 
     // signals and slots connections
-    connect( NameEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( NameEdt_textChanged(const QString&) ) );
-    connect( TitleEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( TitleEdt_textChanged(const QString&) ) );
+    QObject::connect( NameEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( NameEdt_textChanged(const QString&) ) );
+    QObject::connect( TitleEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( TitleEdt_textChanged(const QString&) ) );
 }
 
 QFitNamedWidget::~QFitNamedWidget()
@@ -58,24 +58,24 @@ QFitNamedWidget::~QFitNamedWidget()
 
 void QFitNamedWidget::FillSpecificData()
 {
-   if (fxPanel!=0)
+   if (fxPanel)
      fxPanel->FillNamedWidget(this);
 }
 
 void QFitNamedWidget::ChangeName(const QString & name)
 {
-  if (name.length()>0)
+  if (name.length() > 0)
     NameEdt->setText(name);
 }
 
 void QFitNamedWidget::NameEdt_textChanged(const QString & name)
 {
-  if (!fbFillWidget && (fxPanel!=0))
+  if (!fbFillWidget && fxPanel)
     fxPanel->ChangeObjectName(this, name.toLatin1().constData());
 }
 
 void QFitNamedWidget::TitleEdt_textChanged(const QString & title)
 {
-   if(!fbFillWidget && (fxPanel!=0))
+   if(!fbFillWidget && fxPanel)
       fxPanel->ChangeObjectTitle(this, title.toLatin1().constData());
 }

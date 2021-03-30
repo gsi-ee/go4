@@ -19,10 +19,9 @@
 
 class TGo4FitParameter;
 
-
 class QFitParWidget : public QFitNamedWidget, public Ui::QFitParWidget
- {
-    Q_OBJECT
+{
+   Q_OBJECT
 
 public:
     QFitParWidget( QWidget* parent = 0, const char* name = 0 );
@@ -39,9 +38,6 @@ public slots:
     virtual void RangeChk_toggled( bool zn );
     virtual void EpsilonChk_toggled( bool zn );
 
-
 };
 
-#endif // QFITPARWIDGET_H
-
-
+#endif

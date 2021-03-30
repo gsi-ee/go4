@@ -18,8 +18,7 @@
 #include "ui_QFitPrintWidget.h"
 
 class QFitPrintWidget : public QFitWidget, public Ui::QFitPrintWidget
- {
-
+{
     Q_OBJECT
 
 public:
@@ -34,6 +33,4 @@ protected:
 
 };
 
-#endif // QFITPRINTWIDGET_H
-
-
+#endif

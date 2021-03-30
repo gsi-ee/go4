@@ -48,4 +48,4 @@ class QFitNamedWidget : public QFitWidget {
 
 };
 
-#endif // QFITNAMEDWIDGET_H
+#endif
