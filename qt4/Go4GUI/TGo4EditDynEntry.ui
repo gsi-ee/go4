@@ -1068,7 +1068,12 @@
     <tabstop>PrintListButton</tabstop>
     <tabstop>CancelButton</tabstop>
   </tabstops>
-  <includes>
-    <include location="local">QGo4LineEdit.h</include>
-  </includes>
+  <customwidgets>
+    <customwidget>
+      <class>QGo4LineEdit</class>
+      <extends>QLineEdit</extends>
+      <header>QGo4LineEdit.h</header>
+      <container>0</container>
+    </customwidget>
+  </customwidgets>
 </ui>

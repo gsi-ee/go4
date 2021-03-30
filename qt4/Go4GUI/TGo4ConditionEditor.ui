@@ -1429,14 +1429,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QGo4Widget</class>
-   <extends>QWidget</extends>
-   <header>QGo4Widget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>ArrayAllButton</tabstop>
   <tabstop>ArrayElements</tabstop>
