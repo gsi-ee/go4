@@ -2369,7 +2369,21 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
 
    if (fKillCommand.length() > 0) {
       QProcess* killprocess = new QProcess;
-      killprocess->start(fKillCommand);
+      QStringList args;
+      QString progname = fKillCommand;
+
+      if ((progname.indexOf("\"") < 0) && (progname.indexOf("ssh") != 0) && (progname.indexOf("rsh")  != 0)) {
+  #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+          args = progname.split(" ", QString::SkipEmptyParts);
+  #else
+          args = progname.split(" ", Qt::SkipEmptyParts);
+  #endif
+          if (args.size() > 0) {
+             progname = args.front();
+             args.pop_front();
+          }
+      }
+      killprocess->start(progname, args);
       QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));
    } else
       StatusMessage("Can not kill analysis. Do it by OS commands");
