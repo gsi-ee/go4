@@ -2367,7 +2367,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
    else
       StatusMessage(QString("Killing analysis client with: ")+fKillCommand);
 
-   if (fKillCommand.length()>0) {
+   if (fKillCommand.length() > 0) {
       QProcess* killprocess = new QProcess;
       killprocess->start(fKillCommand);
       QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));
@@ -2381,22 +2381,22 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
 
 QGo4Widget* TGo4MainWindow::FindGo4Widget(const char* name, bool activate)
 {
-   if (fxOM==0) return 0;
+   if (!fxOM) return 0;
 
    TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
    TGo4Slot* widgslot = slot==0 ? 0 : slot->FindChild(name);
-   if (widgslot==0) return 0;
+   if (!widgslot) return 0;
 
-   TGo4WidgetProxy* wproxy = (TGo4WidgetProxy*) widgslot->GetProxy();
+   TGo4WidgetProxy *wproxy = (TGo4WidgetProxy*) widgslot->GetProxy();
 
-   QGo4Widget* widg = wproxy->GetWidget();
-   if ((widg!=0) && activate) {
-     if(!widg->isVisible()){
-       widg->raise();
-       widg->show();
-       widg->setFocus();
-     }
+   QGo4Widget *widg = wproxy->GetWidget();
+   if (widg && activate) {
+      if(!widg->isVisible()){
+         widg->raise();
+         widg->show();
+         widg->setFocus();
+      }
    }
 
    return widg;
@@ -2405,9 +2405,9 @@ QGo4Widget* TGo4MainWindow::FindGo4Widget(const char* name, bool activate)
 
 TGo4FitPanel* TGo4MainWindow::StartFitPanel()
 {
-   TGo4FitPanel* fitpanel = (TGo4FitPanel*) FindGo4Widget("FitPanel", true);
+   TGo4FitPanel *fitpanel = (TGo4FitPanel*) FindGo4Widget("FitPanel", true);
 
-   if (fitpanel==0) {
+   if (!fitpanel) {
       fitpanel = new TGo4FitPanel(fxMdiArea,"FitPanel");
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(fitpanel);
       CascadeMdiPosition(sub);
