@@ -165,8 +165,8 @@ FORMS += TGo4ViewPanel.ui \
 	TGo4UserCommandsDialog.ui
 
 
-
 SOURCES +=  ../Go4FitGUI/TGo4FitPanel.cpp \
+            ../Go4FitGUI/TGo4FitGuiArrow.cpp \
             ../Go4FitGUI/QFitItem.cpp \
             ../Go4FitGUI/QFitWidget.cpp \
             ../Go4FitGUI/QFitNamedWidget.cpp \
@@ -196,6 +196,7 @@ SOURCES +=  ../Go4FitGUI/TGo4FitPanel.cpp \
             ../Go4FitGUI/QFitRangeCutWidget.cpp
 
 HEADERS +=  ../Go4FitGUI/TGo4FitPanel.h \
+            ../Go4FitGUI/TGo4FitGuiArrow.h \
             ../Go4FitGUI/QFitItem.h \
             ../Go4FitGUI/QFitWidget.h \
             ../Go4FitGUI/QFitNamedWidget.h \

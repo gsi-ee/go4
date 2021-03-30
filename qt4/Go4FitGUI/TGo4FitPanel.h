@@ -16,7 +16,6 @@
 
 #include "QGo4Widget.h"
 #include "ui_TGo4FitPanel.h"
-#include "TArrow.h"
 
 class QVBoxLayout;
 class QHBoxLayout;
@@ -54,57 +53,7 @@ class TGo4FitModel;
 class TGo4FitData;
 class TGo4Fitter;
 class TGo4FitPeakFinder;
-class TGo4FitPanel;
-
-class TGo4FitGuiArrow : public TArrow {
-
-public:
-
-   enum { at_none, at_pos, at_width, at_range };
-
-   TGo4FitGuiArrow();
-   TGo4FitGuiArrow(Float_t arrowsize, Option_t* option);
-   TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t* option);
-   virtual ~TGo4FitGuiArrow();
-
-   void SetForPosition(TGo4FitModel* model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl);
-   void SetForWidth(TGo4FitModel* model, TGo4FitGuiArrow* forposition);
-   void SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx);
-   void SetItem(QFitItem* item, TGo4FitPanel* panel);
-
-   QFitItem* GetItem() { return fxItem; }
-
-   Bool_t Locate();
-
-   Int_t GetType() { return fxType; }
-   TGo4FitModel* GetModel() { return fxModel; }
-   TGo4FitComponent* GetComp() { return fxComp; }
-
-   Bool_t IsAssignTo(TObject* obj);
-
-   void ClearOther() { fxOther = 0; }
-   virtual void Delete(Option_t* option="");   //  *MENU*
-
-   virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
-
-#ifdef __GO4WEB__
-   virtual Bool_t Notify();
-#endif
-
-private:
-   Int_t fxType;                    //!
-   TGo4FitModel* fxModel;           //!
-   TGo4FitGuiArrow* fxOther;        //!
-   Double_t fdLineAmpl;             //!
-   TGo4FitComponent* fxComp;        //!
-   Int_t fiRangeNum;                //!
-   Double_t fdRangeY;               //!
-   Double_t fdShiftX;               //!
-   QFitItem* fxItem;                //!
-   TGo4FitPanel* fxPanel;           //!
-
-   void TestNewPosition();
-};
+class TGo4FitGuiArrow;
 
 // =======================================================================================
 

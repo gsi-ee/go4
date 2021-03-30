@@ -166,6 +166,7 @@ set(Go4GUI_forms
 
 set(Go4FitGUI_sources
    Go4FitGUI/TGo4FitPanel.cpp
+   Go4FitGUI/TGo4FitGuiArrow.cpp
    Go4FitGUI/QFitItem.cpp
    Go4FitGUI/QFitWidget.cpp
    Go4FitGUI/QFitNamedWidget.cpp
@@ -197,6 +198,7 @@ set(Go4FitGUI_sources
 
 set(Go4FitGUI_headers
    Go4FitGUI/TGo4FitPanel.h
+   Go4FitGUI/TGo4FitGuiArrow.h
    Go4FitGUI/QFitItem.h
    Go4FitGUI/QFitWidget.h
    Go4FitGUI/QFitNamedWidget.h
