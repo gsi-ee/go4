@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitModelGaussNWidget</class>
-  <widget class="QFitModelWidget" name="QFitModelGaussNWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -73,21 +73,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitModelWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>AxisNumberSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitModelGaussNWidget</receiver>
-      <slot>AxisNumberSpin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>AxisTable</sender>
-      <signal>cellChanged(int,int)</signal>
-      <receiver>QFitModelGaussNWidget</receiver>
-      <slot>AxisTable_valueChanged(int,int)</slot>
-    </connection>
-  </connections>
 </ui>
