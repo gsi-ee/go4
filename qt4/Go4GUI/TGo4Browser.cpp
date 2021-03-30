@@ -62,6 +62,9 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
+   QObject::connect(ListView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(ListView_doubleClicked(QTreeWidgetItem*, int)));
+   QObject::connect(ListView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ListView_customContextMenuRequested(const QPoint &)));
+
    setAcceptDrops(false);
    setCanDestroyWidget(false);
 

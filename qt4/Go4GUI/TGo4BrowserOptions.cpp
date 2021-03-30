@@ -23,6 +23,12 @@ TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name) :
    QGo4Widget(parent,name)
 {
    setupUi(this);
+   QObject::connect(RefreshBtn, SIGNAL(clicked()), this, SLOT(RefreshBtn_clicked()));
+   QObject::connect(ClearBtn, SIGNAL(clicked()), this, SLOT(ClearBtn_clicked()));
+   QObject::connect(StartMonitorBtn, SIGNAL(clicked()), this, SLOT(StartMonitorBtn_clicked()));
+   QObject::connect(StopMonitorBtn, SIGNAL(clicked()), this, SLOT(StopMonitorBtn_clicked()));
+   QObject::connect(FilterBox, SIGNAL(activated(int)), this, SLOT(FilterBox_activated(int)));
+
 }
 
 void TGo4BrowserOptions::StartWorking()

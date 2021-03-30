@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4Browser</class>
-  <widget class="QGo4Widget" name="TGo4Browser" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -35,21 +35,6 @@
   </widget>
   <layoutdefault spacing="0" margin="0" />
   <includes>
-    <include location="local">QGo4Widget.h</include>
     <include location="local">QGo4BrowserTreeWidget.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>ListView</sender>
-      <signal>itemDoubleClicked(QTreeWidgetItem*, int)</signal>
-      <receiver>TGo4Browser</receiver>
-      <slot>ListView_doubleClicked(QTreeWidgetItem*, int)</slot>
-    </connection>
-    <connection>
-      <sender>ListView</sender>
-      <signal>customContextMenuRequested(const QPoint &amp;)</signal>
-      <receiver>TGo4Browser</receiver>
-      <slot>ListView_customContextMenuRequested(const QPoint &amp;)</slot>
-    </connection>
-  </connections>
 </ui>

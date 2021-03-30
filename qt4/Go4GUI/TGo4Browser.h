@@ -20,7 +20,8 @@
 
 class TGo4BrowserProxy;
 
-class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser {
+class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
+{
    Q_OBJECT
 
    protected:
@@ -77,7 +78,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser {
 
       void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
 
-      void ListView_customContextMenuRequested(const QPoint&);
+      void ListView_customContextMenuRequested(const QPoint &);
 
       void Header_customContextMenuRequested(const QPoint &);
 

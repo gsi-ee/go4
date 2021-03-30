@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4BrowserOptions</class>
-  <widget class="QGo4Widget" name="TGo4BrowserOptions" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -57,7 +57,7 @@
           </property>
           <property name="shortcut">
               <string>Shift+M</string>
-           </property> 
+           </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -101,7 +101,7 @@
           </property>
           <property name="shortcut">
               <string>Shift+N</string>
-          </property> 
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
@@ -154,39 +154,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>RefreshBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4BrowserOptions</receiver>
-      <slot>RefreshBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>ClearBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4BrowserOptions</receiver>
-      <slot>ClearBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>StartMonitorBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4BrowserOptions</receiver>
-      <slot>StartMonitorBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>StopMonitorBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4BrowserOptions</receiver>
-      <slot>StopMonitorBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>FilterBox</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4BrowserOptions</receiver>
-      <slot>FilterBox_activated(int)</slot>
-    </connection>
-  </connections>
 </ui>
