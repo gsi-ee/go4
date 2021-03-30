@@ -103,7 +103,11 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
          Long64_t tm = TString(msg, separ-msg).Atoll();
 
          QDateTime dt;
+#if QT_VERSION < QT_VERSION_CHECK(5,8,0)
          dt.setTime_t((time_t) tm);
+#else
+         dt.setSecsSinceEpoch(tm);
+#endif
 
          separ++;
          int level = 1;

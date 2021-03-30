@@ -414,7 +414,11 @@ void TGo4HttpAccess::httpFinished()
          const char* value = xml->GetAttr(chld, "value");
          if ((time!=0) && (value!=0)) {
             QDateTime tm = QDateTime::fromString(time, Qt::ISODate);
+#if QT_VERSION < QT_VERSION_CHECK(5,8,0)
             gr->SetPoint(i, tm.toTime_t(), TString(value).Atof());
+#else
+            gr->SetPoint(i, tm.toSecsSinceEpoch(), TString(value).Atof());
+#endif
             i = (i+1) % cnt;
          }
          chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);

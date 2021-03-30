@@ -26,6 +26,7 @@
 #include <QDockWidget>
 #include <QToolBar>
 #include <QAction>
+#include <QActionGroup>
 #include <QStatusBar>
 #include <QStyleFactory>
 #include <QColor>
