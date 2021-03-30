@@ -21,21 +21,29 @@ QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(NumPointsSpin, SIGNAL(valueChanged(int)), this, SLOT(NumPointsSpin_valueChanged(int)));
+   QObject::connect(ExcludeCutChk, SIGNAL(toggled(bool)), this, SLOT(ExcludeCutChk_toggled(bool)));
+   QObject::connect(XYTable, SIGNAL(cellChanged(int,int)), this, SLOT(XYTable_valueChanged(int,int)));
+
 }
 
-TGo4FitComponent* QFitRangeCutWidget::GetComp() {
+TGo4FitComponent* QFitRangeCutWidget::GetComp()
+{
    return dynamic_cast<TGo4FitComponent*> (GetItem()->Parent()->Object());
 }
 
-int QFitRangeCutWidget::GetCutIndex() {
+int QFitRangeCutWidget::GetCutIndex()
+{
   return GetItem()->Tag();
 }
 
-TCutG* QFitRangeCutWidget::GetCut() {
+TCutG* QFitRangeCutWidget::GetCut()
+{
   return dynamic_cast<TCutG*> (GetObject());
 }
 
-void QFitRangeCutWidget::FillSpecificData() {
+void QFitRangeCutWidget::FillSpecificData()
+{
   QFitNamedWidget::FillSpecificData();
   TGo4FitComponent* comp = GetComp();
   TCutG* cut = GetCut();
@@ -46,7 +54,8 @@ void QFitRangeCutWidget::FillSpecificData() {
   }
 }
 
-void QFitRangeCutWidget::FillXYPointsTable() {
+void QFitRangeCutWidget::FillXYPointsTable()
+{
    TCutG* cut = GetCut();
    if (cut==0) return;
 

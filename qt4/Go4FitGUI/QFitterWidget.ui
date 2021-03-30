@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitterWidget</class>
-  <widget class="QFitNamedWidget" name="QFitterWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -89,15 +89,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitNamedWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>FitFunctionTypeCmb</sender>
-      <signal>activated(int)</signal>
-      <receiver>QFitterWidget</receiver>
-      <slot>FitFunctionTypeCmb_activated(int)</slot>
-    </connection>
-  </connections>
 </ui>

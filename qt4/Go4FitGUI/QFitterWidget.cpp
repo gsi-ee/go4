@@ -21,6 +21,7 @@ QFitterWidget::QFitterWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(FitFunctionTypeCmb, SIGNAL(activated(int)), this, SLOT(FitFunctionTypeCmb_activated(int)));
 }
 
 TGo4Fitter * QFitterWidget::GetFitter()

@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitRangeWidget</class>
-  <widget class="QFitWidget" name="QFitRangeWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -129,33 +129,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">QFitWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>AxisNumSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitRangeWidget</receiver>
-      <slot>AxisNumSpin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>RangeTypCmb</sender>
-      <signal>activated(int)</signal>
-      <receiver>QFitRangeWidget</receiver>
-      <slot>RangeTypCmb_activated(int)</slot>
-    </connection>
-    <connection>
-      <sender>LeftEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitRangeWidget</receiver>
-      <slot>LeftEdt_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>RightEdt</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>QFitRangeWidget</receiver>
-      <slot>RightEdt_textChanged(QString)</slot>
-    </connection>
-  </connections>
 </ui>

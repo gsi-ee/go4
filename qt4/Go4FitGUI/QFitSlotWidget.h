@@ -31,6 +31,4 @@ public slots:
     virtual void SaveCmb_activated( int typ );
 };
 
-#endif // QFITSLOTWIDGET_H
-
-
+#endif

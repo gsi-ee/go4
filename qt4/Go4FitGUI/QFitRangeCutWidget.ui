@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitRangeCutWidget</class>
-  <widget class="QFitNamedWidget" name="QFitRangeCutWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -118,27 +118,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitNamedWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>NumPointsSpin</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>QFitRangeCutWidget</receiver>
-      <slot>NumPointsSpin_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>ExcludeCutChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitRangeCutWidget</receiver>
-      <slot>ExcludeCutChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>XYTable</sender>
-      <signal>cellChanged(int,int)</signal>
-      <receiver>QFitRangeCutWidget</receiver>
-      <slot>XYTable_valueChanged(int,int)</slot>
-    </connection>
-  </connections>
 </ui>

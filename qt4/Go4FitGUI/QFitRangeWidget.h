@@ -38,4 +38,4 @@ public slots:
     virtual void RightEdt_textChanged( const QString & );
 };
 
-#endif // QFITRANGEWIDGET_H
+#endif

@@ -20,6 +20,10 @@ QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char* name)
   : QFitWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(AxisNumSpin, SIGNAL(valueChanged(int)), this, SLOT(AxisNumSpin_valueChanged(int)));
+   QObject::connect(RangeTypCmb, SIGNAL(activated(int)), this, SLOT(RangeTypCmb_activated(int)));
+   QObject::connect(LeftEdt, SIGNAL(textChanged(QString)), this, SLOT(LeftEdt_textChanged(QString)));
+   QObject::connect(RightEdt, SIGNAL(textChanged(QString)), this, SLOT(RightEdt_textChanged(QString)));
 }
 
 TGo4FitComponent* QFitRangeWidget::GetComp()
@@ -32,7 +36,8 @@ int QFitRangeWidget::GetNumRange()
    return GetItem()->Tag();
 }
 
-void QFitRangeWidget::FillSpecificData() {
+void QFitRangeWidget::FillSpecificData()
+{
    int num = GetNumRange();
    if ((num<0) || (GetComp()==0)) return;
 

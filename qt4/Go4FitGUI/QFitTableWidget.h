@@ -17,10 +17,8 @@
 #include "QFitWidget.h"
 #include "ui_QFitTableWidget.h"
 
-
-
 class QFitTableWidget : public QFitWidget, public Ui::QFitTableWidget
- {
+{
     Q_OBJECT
 
 public:
@@ -31,6 +29,4 @@ public slots:
 
 };
 
-#endif // QFITTABLEWIDGET_H
-
-
+#endif

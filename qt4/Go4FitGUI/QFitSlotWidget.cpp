@@ -22,6 +22,8 @@ QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
+   QObject::connect(RequirementChk, SIGNAL(toggled(bool)), this, SLOT(RequirementChk_toggled(bool)));
+   QObject::connect(SaveCmb, SIGNAL(activated(int)), this, SLOT(SaveCmb_activated(int)));
 }
 
 TGo4FitSlot* QFitSlotWidget::GetSlot()

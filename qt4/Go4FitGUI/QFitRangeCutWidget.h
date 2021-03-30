@@ -38,5 +38,4 @@ public slots:
     virtual void XYTable_valueChanged( int, int );
 };
 
-#endif // QFITRANGECUTWIDGET_H
-
+#endif

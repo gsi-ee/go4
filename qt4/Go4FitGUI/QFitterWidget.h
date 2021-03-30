@@ -30,10 +30,6 @@ public slots:
     virtual TGo4Fitter * GetFitter();
     virtual void FillSpecificData();
     virtual void FitFunctionTypeCmb_activated( int typ );
-
-
 };
 
-#endif // QFITTERWIDGET_H
-
-
+#endif

@@ -88,18 +88,18 @@ void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
 
 void QFitWidget::UpdateWidgetItem(bool trace)
 {
-   if (fxPanel!=0)
+   if (fxPanel)
      fxPanel->UpdateItem(GetItem(), trace);
 }
 
 void QFitWidget::SetWidgetItemText(bool trace)
 {
-   if (fxPanel!=0)
+   if (fxPanel)
       fxPanel->SetItemText(GetItem(), trace);
 }
 
 void QFitWidget::UpdateItemsOfType(int typ, bool allitems)
 {
-   if (fxPanel!=0)
+   if (fxPanel)
       fxPanel->UpdateItemsOfType(typ, allitems ? 0 : GetItem());
 }

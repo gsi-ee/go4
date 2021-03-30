@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>QFitSlotWidget</class>
-  <widget class="QFitNamedWidget" name="QFitSlotWidget" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -141,21 +141,4 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QFitNamedWidget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>RequirementChk</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>QFitSlotWidget</receiver>
-      <slot>RequirementChk_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SaveCmb</sender>
-      <signal>activated(int)</signal>
-      <receiver>QFitSlotWidget</receiver>
-      <slot>SaveCmb_activated(int)</slot>
-    </connection>
-  </connections>
 </ui>
