@@ -116,6 +116,8 @@ void TGo4StartClient::SelectDir()
 {
    QFileDialog fd(this, "Select your working directory");
    fd.setOption(QFileDialog::ShowDirsOnly, true);
+   fd.setFileMode(QFileDialog::Directory);
+
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    fd.setOption(QFileDialog::DontUseNativeDialog);
 #endif
