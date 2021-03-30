@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4HServerConnection</class>
-  <widget class="QDialog" name="TGo4HServerConnection" >
+  <widget class="QDialog" name="TGo4HServerConnectionInstance" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -244,13 +244,13 @@
     <connection>
       <sender>buttonOk</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4HServerConnection</receiver>
+      <receiver>TGo4HServerConnectionInstance</receiver>
       <slot>accept()</slot>
     </connection>
     <connection>
       <sender>CloseBtn</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4HServerConnection</receiver>
+      <receiver>TGo4HServerConnectionInstance</receiver>
       <slot>reject()</slot>
     </connection>
   </connections>

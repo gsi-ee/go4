@@ -18,18 +18,12 @@
 #include "ui_TGo4HServerConnection.h"
 
 class TGo4HServerConnection : public QDialog, public Ui::TGo4HServerConnection
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
-     TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = Qt::Widget )
-                        : QDialog( parent, fl )
-        {
-           setObjectName(name ? name : "Go4HServConnection");
-           setModal(modal);
+public:
+   TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = Qt::Widget );
 
-          setupUi(this);
-        }
- };
+};
 
 #endif

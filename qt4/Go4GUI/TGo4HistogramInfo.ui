@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4HistogramInfo</class>
-  <widget class="QGo4Widget" name="TGo4HistogramInfo" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -275,33 +275,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>HisInfoButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HistogramInfo</receiver>
-      <slot>HisInfoButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>HisPrintButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HistogramInfo</receiver>
-      <slot>HisPrintButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>HisDrawButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HistogramInfo</receiver>
-      <slot>HisDrawButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>PrintLog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HistogramInfo</receiver>
-      <slot>PrintLog_clicked()</slot>
-    </connection>
-  </connections>
 </ui>

@@ -26,9 +26,26 @@
 
 
 TGo4HisDrawOptionsShort::TGo4HisDrawOptionsShort(QWidget *parent, const char* name)
-         : QGo4Widget(parent,name)
+   : QGo4Widget(parent,name)
 {
    setupUi(this);
+   QObject::connect(Xlin, SIGNAL(clicked()), this, SLOT(SlotXlin()));
+   QObject::connect(Xlog, SIGNAL(clicked()), this, SLOT(SlotXlog()));
+   QObject::connect(Ylin, SIGNAL(clicked()), this, SLOT(SlotYlin()));
+   QObject::connect(Ylog, SIGNAL(clicked()), this, SLOT(SlotYlog()));
+   QObject::connect(Zlin, SIGNAL(clicked()), this, SLOT(SlotZlin()));
+   QObject::connect(Zlog, SIGNAL(clicked()), this, SLOT(SlotZlog()));
+   QObject::connect(D1his, SIGNAL(clicked()), this, SLOT(SlotD1his()));
+   QObject::connect(D1line, SIGNAL(clicked()), this, SLOT(SlotD1line()));
+   QObject::connect(D2scatter, SIGNAL(clicked()), this, SLOT(SlotD2scatter()));
+   QObject::connect(D2pixel, SIGNAL(clicked()), this, SLOT(SlotD2pixel()));
+   QObject::connect(D2surfcol, SIGNAL(clicked()), this, SLOT(SlotD2surfcol()));
+   QObject::connect(D2lego, SIGNAL(clicked()), this, SLOT(SlotD2lego()));
+   QObject::connect(D2contfill, SIGNAL(clicked()), this, SLOT(SlotD2contfill()));
+   QObject::connect(D2contline, SIGNAL(clicked()), this, SLOT(SlotD2contline()));
+   QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SlotLineColor()));
+   QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SlotFillColor()));
+   QObject::connect(MarkerColor, SIGNAL(clicked()), this, SLOT(SlotMarkerColor()));
 }
 
 void TGo4HisDrawOptionsShort::SlotXlin()

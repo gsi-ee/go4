@@ -18,18 +18,17 @@
 #include "ui_TGo4HisDrawOptionsShort.h"
 
 class TGo4HisDrawOptionsShort : public QGo4Widget, public Ui::TGo4HisDrawOptionsShort
- {
-     Q_OBJECT
+{
+    Q_OBJECT
 
- public:
-     TGo4HisDrawOptionsShort(QWidget *parent = 0, const char* name=0);
+public:
+    TGo4HisDrawOptionsShort(QWidget *parent = 0, const char* name=0);
 
    void ChangeColor(int kind);
 
    void SetDrawOpt(int kind, int value, const char *dropt);
 
- public slots:
-
+public slots:
 
    virtual void SlotXlin();
 
@@ -65,6 +64,6 @@ class TGo4HisDrawOptionsShort : public QGo4Widget, public Ui::TGo4HisDrawOptions
 
    virtual void SlotMarkerColor();
 
- };
+};
 
 #endif

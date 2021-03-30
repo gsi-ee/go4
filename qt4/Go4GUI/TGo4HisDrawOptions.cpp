@@ -30,6 +30,19 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
 {
    setObjectName( name ? name : "Go4HisDrawOptions");
    setupUi(this);
+
+   QObject::connect(DrawOption, SIGNAL(activated(int)), this, SLOT(SetDrawOptions(int)));
+   QObject::connect(ErrorBars, SIGNAL(activated(int)), this, SLOT(SetErrorBars(int)));
+   QObject::connect(Coordinates, SIGNAL(activated(int)), this, SLOT(SetCoordinates(int)));
+   QObject::connect(XStyle, SIGNAL(activated(int)), this, SLOT(XaxisStyle(int)));
+   QObject::connect(YStyle, SIGNAL(activated(int)), this, SLOT(YaxisStyle(int)));
+   QObject::connect(ZStyle, SIGNAL(activated(int)), this, SLOT(ZaxisStyle(int)));
+   QObject::connect(AutoScaleBox, SIGNAL(toggled(bool)), this, SLOT(SetAutoScale(bool)));
+   QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
+   QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SetFillColor()));
+   QObject::connect(MarkerColor, SIGNAL(clicked()), this, SLOT(SetMarkerColor()));
+
+
    fbSettingPanelData = true;
 
    connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),

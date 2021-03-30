@@ -21,11 +21,15 @@
 #include "TGo4Log.h"
 #include "TGo4HistogramStatus.h"
 
-
 TGo4HistogramInfo::TGo4HistogramInfo(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+   : QGo4Widget(parent, name)
 {
    setupUi(this);
+   QObject::connect(HisInfoButton, SIGNAL(clicked()), this, SLOT(HisInfoButton_clicked()));
+   QObject::connect(HisPrintButton, SIGNAL(clicked()), this, SLOT(HisPrintButton_clicked()));
+   QObject::connect(HisDrawButton, SIGNAL(clicked()), this, SLOT(HisDrawButton_clicked()));
+   QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintLog_clicked()));
+
    setWindowTitle("Histogram Info:");
    ResetWidget();
 }

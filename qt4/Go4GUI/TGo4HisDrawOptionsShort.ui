@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4HisDrawOptionsShort</class>
-  <widget class="QGo4Widget" name="TGo4HisDrawOptionsShort" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -377,111 +377,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="2" margin="2" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>Xlin</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotXlin()</slot>
-    </connection>
-    <connection>
-      <sender>Xlog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotXlog()</slot>
-    </connection>
-    <connection>
-      <sender>Ylin</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotYlin()</slot>
-    </connection>
-    <connection>
-      <sender>Ylog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotYlog()</slot>
-    </connection>
-    <connection>
-      <sender>Zlin</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotZlin()</slot>
-    </connection>
-    <connection>
-      <sender>Zlog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotZlog()</slot>
-    </connection>
-    <connection>
-      <sender>D1his</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD1his()</slot>
-    </connection>
-    <connection>
-      <sender>D1line</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD1line()</slot>
-    </connection>
-    <connection>
-      <sender>D2scatter</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2scatter()</slot>
-    </connection>
-    <connection>
-      <sender>D2pixel</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2pixel()</slot>
-    </connection>
-    <connection>
-      <sender>D2surfcol</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2surfcol()</slot>
-    </connection>
-    <connection>
-      <sender>D2lego</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2lego()</slot>
-    </connection>
-    <connection>
-      <sender>D2contfill</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2contfill()</slot>
-    </connection>
-    <connection>
-      <sender>D2contline</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotD2contline()</slot>
-    </connection>
-    <connection>
-      <sender>LineColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotLineColor()</slot>
-    </connection>
-    <connection>
-      <sender>FillColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotFillColor()</slot>
-    </connection>
-    <connection>
-      <sender>MarkerColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptionsShort</receiver>
-      <slot>SlotMarkerColor()</slot>
-    </connection>
-  </connections>
 </ui>

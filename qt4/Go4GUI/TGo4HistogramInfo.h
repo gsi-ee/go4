@@ -38,7 +38,7 @@ public:
        HISZSTAT,
        HISSIZE,
        HISTIME
-      };
+    };
 
 
    TGo4HistogramInfo(QWidget *parent = 0, const char* name=0);
@@ -51,12 +51,12 @@ public:
    virtual void RefreshHistogramInfo(TH1* h1);
    virtual void RefreshHistogramInfo(TGo4HistogramStatus* hstate);
 
- public slots:
+public slots:
 
     virtual void HisInfoButton_clicked();
     virtual void HisPrintButton_clicked();
     virtual void HisDrawButton_clicked();
     virtual void PrintLog_clicked();
- };
+};
 
 #endif

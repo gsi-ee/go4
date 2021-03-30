@@ -78,6 +78,7 @@ HEADERS += \
 	TGo4UserCommandsDialog.h
 
 SOURCES += \
+   TGo4HServerConnection.cpp \
 	TGo4QSettings.cpp \
 	TGo4HttpProxy.cpp \
 	TGo4AnalysisWindow.cpp \

@@ -1,6 +1,6 @@
 <ui version="4.0" stdsetdef="1" >
   <class>TGo4HisDrawOptions</class>
-  <widget class="QWidget" name="TGo4HisDrawOptions" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -179,66 +179,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <connections>
-    <connection>
-      <sender>DrawOption</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetDrawOptions(int)</slot>
-    </connection>
-    <connection>
-      <sender>ErrorBars</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetErrorBars(int)</slot>
-    </connection>
-    <connection>
-      <sender>Coordinates</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetCoordinates(int)</slot>
-    </connection>
-    <connection>
-      <sender>XStyle</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>XaxisStyle(int)</slot>
-    </connection>
-    <connection>
-      <sender>YStyle</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>YaxisStyle(int)</slot>
-    </connection>
-    <connection>
-      <sender>ZStyle</sender>
-      <signal>activated(int)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>ZaxisStyle(int)</slot>
-    </connection>
-    <connection>
-      <sender>AutoScaleBox</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetAutoScale(bool)</slot>
-    </connection>
-    <connection>
-      <sender>LineColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetLineColor()</slot>
-    </connection>
-    <connection>
-      <sender>FillColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetFillColor()</slot>
-    </connection>
-    <connection>
-      <sender>MarkerColor</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4HisDrawOptions</receiver>
-      <slot>SetMarkerColor()</slot>
-    </connection>
-  </connections>
 </ui>
