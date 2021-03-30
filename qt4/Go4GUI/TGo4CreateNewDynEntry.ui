@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4CreateNewDynEntry</class>
-  <widget class="QDialog" name="TGo4CreateNewDynEntry" >
+  <widget class="QDialog" name="TGo4CreateNewDynEntryInstance" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -203,13 +203,13 @@
     <connection>
       <sender>CloseWin</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4CreateNewDynEntry</receiver>
+      <receiver>TGo4CreateNewDynEntryInstance</receiver>
       <slot>close()</slot>
     </connection>
     <connection>
       <sender>RemoteBtn</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4CreateNewDynEntry</receiver>
+      <receiver>TGo4CreateNewDynEntryInstance</receiver>
       <slot>accept()</slot>
     </connection>
   </connections>

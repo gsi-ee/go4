@@ -24,10 +24,12 @@
 #include <QButtonGroup>
 
 TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)
-    : QDialog( parent)
+   : QDialog( parent)
 {
    setObjectName("Go4CreateNewHistogram");
    setupUi(this);
+   QObject::connect(CreateHistogram, SIGNAL(clicked()), this, SLOT(CreateLocalHist()));
+   QObject::connect(CreateRemote, SIGNAL(clicked()), this, SLOT(CreateRemoteHis()));
    HisName->setText(go4sett->getHistName());
    HisTitle->setText(go4sett->getHistTitle());
 

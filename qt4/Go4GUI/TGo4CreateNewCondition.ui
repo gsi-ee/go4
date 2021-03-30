@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4CreateNewCondition</class>
- <widget class="QDialog" name="TGo4CreateNewCondition">
+ <widget class="QDialog" name="TGo4CreateNewConditionInstance">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -228,34 +228,14 @@
   <connection>
    <sender>CloseWin</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4CreateNewCondition</receiver>
+   <receiver>TGo4CreateNewConditionInstance</receiver>
    <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>RemoteBtn</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4CreateNewCondition</receiver>
+   <receiver>TGo4CreateNewConditionInstance</receiver>
    <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

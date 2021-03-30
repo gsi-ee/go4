@@ -1,7 +1,7 @@
 <ui version="4.0" >
  <author>Mohammad Al-Turany/Sergey Linev</author>
  <class>TGo4CreateNewHistogram</class>
- <widget class="QDialog" name="TGo4CreateNewHistogram" >
+ <widget class="QDialog" name="TGo4CreateNewHistogramInstance" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -424,20 +424,8 @@
   <connection>
    <sender>Close</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4CreateNewHistogram</receiver>
+   <receiver>TGo4CreateNewHistogramInstance</receiver>
    <slot>reject()</slot>
-  </connection>
-  <connection>
-   <sender>CreateHistogram</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4CreateNewHistogram</receiver>
-   <slot>CreateLocalHist()</slot>
-  </connection>
-  <connection>
-   <sender>CreateRemote</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4CreateNewHistogram</receiver>
-   <slot>CreateRemoteHis()</slot>
   </connection>
  </connections>
 </ui>
