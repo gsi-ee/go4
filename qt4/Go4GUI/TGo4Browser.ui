@@ -34,7 +34,12 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <includes>
-    <include location="local">QGo4BrowserTreeWidget.h</include>
-  </includes>
+  <customwidgets>
+    <customwidget>
+      <class>QGo4BrowserTreeWidget</class>
+      <extends>QTreeWidget</extends>
+      <header>QGo4BrowserTreeWidget.h</header>
+      <container>1</container>
+    </customwidget>
+  </customwidgets>
 </ui>

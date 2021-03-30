@@ -160,9 +160,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="3" margin="3" />
-  <includes>
-    <include location="local">QRootCanvas.h</include>
-  </includes>
   <connections>
     <connection>
       <sender>InfoButton</sender>
@@ -183,5 +180,13 @@
       <slot>ExitButton_clicked()</slot>
     </connection>
   </connections>
+  <customwidgets>
+    <customwidget>
+      <class>QRootCanvas</class>
+      <extends>QWidget</extends>
+      <header>QRootCanvas.h</header>
+      <container>1</container>
+    </customwidget>
+  </customwidgets>
 
 </ui>
