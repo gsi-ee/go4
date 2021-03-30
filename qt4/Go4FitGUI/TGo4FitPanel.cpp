@@ -315,11 +315,16 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
    }
 
    if (!event) return;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   QPoint pos = event->pos();
+#else
+   QPoint pos = event->position().toPoint();
+#endif
 
-   QWidget* w = childAt(event->pos());
+   QWidget* w = childAt(pos);
 
    if (w == Wiz_DataSlotsTable) {
-      QPoint pnt = Wiz_DataSlotsTable->mapFrom(this, event->pos());
+      QPoint pnt = Wiz_DataSlotsTable->mapFrom(this, pos);
       QTableWidgetItem* item = Wiz_DataSlotsTable->itemAt(pnt);
 
       int nrow = item ? item->row() : -1;
@@ -335,7 +340,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
 
       UpdateActivePage();
    } else if(w == (QWidget*)FitList->viewport()) {
-      QPoint pnt = FitList->viewport()->mapFrom(this, event->pos());
+      QPoint pnt = FitList->viewport()->mapFrom(this, pos);
       QFitItem* item = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
       if ((item==0) || (item->ObjectType()!=FitGui::ot_slot)) return;
 
