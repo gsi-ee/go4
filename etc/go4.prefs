@@ -26,10 +26,10 @@
 ssh: ssh -x %hostname% "%hostcmd%"
 
 # this is command for ssh with X enabled
-sshX: ssh -X %hostname% "%hostcmd%" &
+sshX: ssh -X %hostname% "%hostcmd%"
 
 # this is common command for rsh (with and without X)
-rsh: rsh -n %hostname% "%hostcmd%" &
+rsh: rsh -n %hostname% "%hostcmd%"
 
 # this is execution on local node without any remote shell
 # for window program itself must be executed, no shell variable or other options will be set

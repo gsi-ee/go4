@@ -321,52 +321,36 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     fAnalysisProcess->setProcessEnvironment(env);
 
-    QStringList args;
-    QString progname = text;
+    QString quoted, progname = text;
 
-    if ((progname.indexOf("\"") < 0) && (progname.indexOf("ssh") != 0) && (progname.indexOf("rsh")  != 0)) {
+    int first = progname.indexOf("\"");
+    int last = progname.lastIndexOf("\"");
+    if ((first > 0) && (last > first)) {
+       quoted = progname.mid(first+1, last-first-1);
+       progname.resize(first);
+    }
+
 #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-        args = progname.split(" ",QString::SkipEmptyParts);
+    QStringList args = progname.split(" ",QString::SkipEmptyParts);
 #else
-        args = progname.split(" ",Qt::SkipEmptyParts);
+    QStringList args = progname.split(" ",Qt::SkipEmptyParts);
 #endif
-        if (args.size() > 0) {
-           progname = args.front();
-           args.pop_front();
-        }
+    if (args.size() > 0) {
+       progname = args.front();
+       args.pop_front();
     }
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-      else {
-       int first = progname.indexOf("\"");
-       int last = progname.lastIndexOf("\"");
-       QString quoted;
-       if ((first > 0) && (last > first)) {
-          quoted = progname.mid(first+1, last-first-1);
-          progname.resize(first);
-       }
-
-        args = progname.split(" ",Qt::SkipEmptyParts);
-        if (args.size() > 0) {
-           progname = args.front();
-           args.pop_front();
-        }
-        if (quoted.length() > 0)
-           args.push_back(quoted);
-    }
-#endif
+    if (quoted.length() > 0)
+       args.push_back(quoted);
 
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
     if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
 
-    std::cout << "prog " << progname.toLocal8Bit().constData() << std::endl;
-    for (int i = 0; i < args.size(); ++i)
-        std::cout << "arg " << args.at(i).toLocal8Bit().constData() << std::endl;
+    // std::cout << "prog " << progname.toLocal8Bit().constData() << std::endl;
+    // for (int i = 0; i < args.size(); ++i)
+    //    std::cout << "arg " << args.at(i).toLocal8Bit().constData() << std::endl;
 
-    if (args.size() == 0)
-       fAnalysisProcess->start(progname);
-    else
-       fAnalysisProcess->start(progname, args);
+    fAnalysisProcess->start(progname, args);
 
     if (fAnalysisProcess->state() == QProcess::NotRunning) {
        std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
