@@ -1,4 +1,4 @@
-<ui version="4.0" stdsetdef="1" >
+<ui version="4.0">
   <author>Mohammad Al-Turany/Sergey Linev</author>
   <comment>Display the status of the analysis</comment>
   <exportmacro></exportmacro>

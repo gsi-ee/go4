@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>Mohammad Al-Turany/S.Linev/J.Adamczewski-Musch</author>
- <comment>Edit Windows conditions </comment>
+ <comment>Edit Windows conditions</comment>
  <class>TGo4ConditionEditor</class>
  <widget class="QWidget">
   <property name="geometry">

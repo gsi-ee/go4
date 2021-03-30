@@ -1,4 +1,4 @@
-<ui version="4.0" stdsetdef="1" >
+<ui version="4.0">
   <author>Mohammad Al-Turany/S.Linev</author>
   <class>TGo4TreeViewer</class>
   <widget class="QWidget">

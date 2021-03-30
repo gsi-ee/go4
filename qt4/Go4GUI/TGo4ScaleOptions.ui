@@ -1,4 +1,4 @@
-<ui version="4.0" stdsetdef="1" >
+<ui version="4.0">
   <author></author>
   <class>TGo4ScaleOptions</class>
   <widget class="QWidget">
