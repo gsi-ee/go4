@@ -318,11 +318,33 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     // to be terminated when analysis window closed or Ctrl-C is pressed
 
     fAnalysisProcess = new QProcess(aschildprocess ? this : 0);
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    fAnalysisProcess->setProcessEnvironment(env);
+
+    QStringList args;
+    QString progname = text;
+
+    if ((progname.indexOf("\"") < 0) && (progname.indexOf("ssh") != 0) && (progname.indexOf("rsh")  != 0)) {
+#if QT_VERSION < QT_VERSION_CHECK(5,14,0)
+        args = progname.split(" ",QString::SkipEmptyParts);
+#else
+        args = progname.split(" ",Qt::SkipEmptyParts);
+#endif
+        if (args.size() > 0) {
+           progname = args.front();
+           args.pop_front();
+        }
+    }
+
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
     if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
 
-    fAnalysisProcess->start(text);
+    // std::cout << "prog " << progname.toLocal8Bit().constData() << std::endl;
+    // for (int i = 0; i < args.size(); ++i)
+    //     std::cout << "arg " << args.at(i).toLocal8Bit().constData() << std::endl;
+
+    fAnalysisProcess->start(progname, args);
 
     if (fAnalysisProcess->state() == QProcess::NotRunning) {
        std::cerr << "Fatal error. Could not start the Analysis" << std::endl;

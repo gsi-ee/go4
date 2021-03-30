@@ -35,8 +35,8 @@ rsh: rsh -n %hostname% "%hostcmd%" &
 # for window program itself must be executed, no shell variable or other options will be set
 os=win32: exec: %hostcmd%
 
-# in normal case execution in gui runs via /bin/sh
-exec: sh -c "%hostcmd%" &
+# in normal case also use command directly while shell variables are now copied
+exec: %hostcmd%
 
 ######################################################################
 # here is terminal settings, it defines "hostcmd",
