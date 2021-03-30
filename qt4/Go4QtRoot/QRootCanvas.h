@@ -203,6 +203,8 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
             return (double) p * fQtScalingfactor;
         }
 
+      QPoint scaledMousePoint(QMouseEvent *ev);
+
       virtual QPaintEngine * paintEngine () const {return 0;}
 
       void              methodDialog(TObject* object, TMethod* method);
