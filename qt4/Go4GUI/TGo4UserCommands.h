@@ -1,3 +1,4 @@
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -13,7 +14,6 @@
 #ifndef TGO4USERCOMMANDS_H
 #define TGO4USERCOMMANDS_H
 
-
 #include "QGo4Widget.h"
 #include <QString>
 #include <QToolButton>
@@ -22,31 +22,25 @@
 
 #define GO4GUI_MAXMACRONUM 9
 
-
-
 #include "ui_TGo4UserCommands.h"
 #include <vector>
 
 class TGo4UserCommands : public QGo4Widget, public Ui::TGo4UserCommands
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
 protected:
 
-	 /** array to Qt designer buttons*/
-	 std::vector<QToolButton*> fAnalysisMacroButtons;
+    /** array to Qt designer buttons*/
+    std::vector<QToolButton*> fAnalysisMacroButtons;
 
-	 /** command strings to execute*/
-	 std::vector<QString>    fAnalysisMacroCommands;
+    /** command strings to execute*/
+    std::vector<QString>    fAnalysisMacroCommands;
 
-	 /** here we remember if we want automatic timer execution */
-	 std::vector<bool> fAnalysisMacroAutoExecute;
+    /** here we remember if we want automatic timer execution */
+    std::vector<bool> fAnalysisMacroAutoExecute;
 
-
-
-	 QTimer* fAnalysisMacroTimer;
-
-
+    QTimer* fAnalysisMacroTimer;
 
  public:
     TGo4UserCommands( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
@@ -55,10 +49,7 @@ protected:
 
  public slots:
 
-
      void ConfigureAnalysisMacros();
-
-
 
       // default slots for macro buttons:
 
@@ -79,14 +70,8 @@ protected:
       /** activate auto execution state for command of id*/
       void SetAutoExecute(int id, bool on);
 
-
-
       void AnalysisMacroMonitorBtn_clicked();
       void AnalysisMacroMonitorTimeout();
-
-
-
-
 
 };
 

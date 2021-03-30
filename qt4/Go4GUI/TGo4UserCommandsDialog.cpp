@@ -36,16 +36,14 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
       if(tipitem) tipitem->setText(tip);
 
       QTableWidgetItem* autoitem=  CommandsTable->item(id,2);
-      if(autoitem)
-            {
-               autoitem->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-               autoitem->setCheckState( monitor ? Qt::Checked : Qt::Unchecked);
-            }
+      if(autoitem) {
+         autoitem->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+         autoitem->setCheckState( monitor ? Qt::Checked : Qt::Unchecked);
+      }
 
    }
 
    QObject::connect (DialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(ButtonPressed(QAbstractButton*)));
-
 }
 
 QString TGo4UserCommandsDialog::GetCommand(int id)
@@ -91,9 +89,7 @@ void TGo4UserCommandsDialog::ButtonPressed(QAbstractButton* but)
          if(tipitem) tipitem->setText(QString(""));
          QTableWidgetItem* autoitem=  CommandsTable->item(id,2);
          if(autoitem)
-                    {
-                       autoitem->setCheckState(Qt::Unchecked);
-                    }
+            autoitem->setCheckState(Qt::Unchecked);
       }
    } // if Reset
 

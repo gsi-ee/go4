@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4UserCommandsDialog</class>
- <widget class="QDialog" name="TGo4UserCommandsDialog">
+ <widget class="QDialog" name="TGo4UserCommandsDialogInstance">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -240,39 +239,18 @@
    </item>
   </layout>
  </widget>
- <resources/>
  <connections>
   <connection>
    <sender>DialogButtonBox</sender>
    <signal>accepted()</signal>
-   <receiver>TGo4UserCommandsDialog</receiver>
+   <receiver>TGo4UserCommandsDialogInstance</receiver>
    <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>DialogButtonBox</sender>
    <signal>rejected()</signal>
-   <receiver>TGo4UserCommandsDialog</receiver>
+   <receiver>TGo4UserCommandsDialogInstance</receiver>
    <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

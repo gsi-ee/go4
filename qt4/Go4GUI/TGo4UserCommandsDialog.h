@@ -18,13 +18,12 @@
 #include "ui_TGo4UserCommandsDialog.h"
 
 class TGo4UserCommandsDialog : public QDialog, public Ui::TGo4UserCommandsDialog
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
+public:
 
     TGo4UserCommandsDialog( QWidget* parent = 0 );
-
 
     /** read command for index id*/
     QString GetCommand(int id);
@@ -35,15 +34,10 @@ class TGo4UserCommandsDialog : public QDialog, public Ui::TGo4UserCommandsDialog
     /** timer auto execute flag*/
     bool GetAutoExecute(int id);
 
- public slots:
+public slots:
 
-
- virtual void ButtonPressed(QAbstractButton*);
-
- protected:
-
+   virtual void ButtonPressed(QAbstractButton*);
 
 };
 
 #endif
-

@@ -1,7 +1,7 @@
 <ui version="4.0" stdsetdef="1" >
   <author>Mohammad Al-Turany/S.Linev</author>
   <class>TGo4TreeViewer</class>
-  <widget class="QGo4Widget" name="TGo4TreeViewer" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -295,84 +295,9 @@
   </widget>
   <layoutdefault spacing="1" margin="1" />
   <includes>
-    <include location="local">QGo4Widget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>TreeDrawBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>TreeClearBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>TreeClearBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>NewHistBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>NewHistBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>XFieldEdt</sender>
-      <signal>textDropped()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>XFieldEdt_dropped()</slot>
-    </connection>
-    <connection>
-        <sender>XFieldEdt</sender>
-        <signal>returnPressed()</signal>
-        <receiver>TGo4TreeViewer</receiver>
-        <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>YFieldEdt</sender>
-      <signal>textDropped()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>YFieldEdt_dropped()</slot>
-    </connection>
-    <connection>
-        <sender>YFieldEdt</sender>
-        <signal>returnPressed()</signal>
-        <receiver>TGo4TreeViewer</receiver>
-        <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>ZFieldEdt</sender>
-      <signal>textDropped()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>ZFieldEdt_dropped()</slot>
-    </connection>
-    <connection>
-        <sender>ZFieldEdt</sender>
-        <signal>returnPressed()</signal>
-        <receiver>TGo4TreeViewer</receiver>
-        <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>CutEdt</sender>
-      <signal>textDropped()</signal>
-      <receiver>TGo4TreeViewer</receiver>
-      <slot>cutEdit_dropped()</slot>
-    </connection>
-    <connection>
-        <sender>CutEdt</sender>
-        <signal>returnPressed()</signal>
-        <receiver>TGo4TreeViewer</receiver>
-        <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-        <sender>HistNameEdt</sender>
-        <signal>returnPressed()</signal>
-        <receiver>TGo4TreeViewer</receiver>
-        <slot>TreeDrawBtn_clicked()</slot>
-    </connection>
-  </connections>
-<tabstops>
+  <tabstops>
     <tabstop>XFieldEdt</tabstop>
     <tabstop>YFieldEdt</tabstop>
     <tabstop>ZFieldEdt</tabstop>
@@ -380,5 +305,5 @@
     <tabstop>HistNameEdt</tabstop>
     <tabstop>NewHistBtn</tabstop>
     <tabstop>TreeClearBtn</tabstop>
-</tabstops>
+  </tabstops>
 </ui>

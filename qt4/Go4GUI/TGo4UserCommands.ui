@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4UserCommands</class>
- <widget class="QGo4Widget" name="TGo4UserCommands">
+ <widget class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -411,19 +411,7 @@
   <zorder>AutoTimeSpinBox</zorder>
   <zorder>CommandAutoButton</zorder>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QGo4Widget</class>
-   <extends>QWidget</extends>
-   <header>QGo4Widget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local">QGo4Widget.h</include>
- </includes>
  <resources>
   <include location="go4icons.qrc"/>
  </resources>
- <connections/>
 </ui>
