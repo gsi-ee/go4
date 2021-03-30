@@ -557,14 +557,21 @@ void TGo4MainWindow::AddSettingMenu()
    }
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#define CtrlKey(key) (CTRL+key)
+#else
+#define CtrlKey(key) (CTRL|key)
+#endif
+
+
 void TGo4MainWindow::AddFileMenu()
 {
    QMenu* fileMenu = menuBar()->addMenu("&File");
 
    fileMenu->addAction(QIcon( ":/icons/open.png" ), "&Open...",
-             this, SLOT(OpenFileSlot()), CTRL+Key_O );
+             this, SLOT(OpenFileSlot()), CtrlKey(Key_O) );
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
-             this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
+             this, SLOT(OpenRemoteFileSlot()), CtrlKey(Key_R) );
    if (TGo4DabcProxy::GetDabcVersion())
       fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
                 this, SLOT(ConnectDabcSlot()) );
@@ -573,11 +580,11 @@ void TGo4MainWindow::AddFileMenu()
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
              this, SLOT(ConnectHServerSlot()) );
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
-             this, SLOT(SaveFileSlot()), CTRL+Key_Y );
+             this, SLOT(SaveFileSlot()), CtrlKey(Key_Y) );
    fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
-             this, SLOT(CloseAllFilesSlot()), CTRL+Key_Q);
+             this, SLOT(CloseAllFilesSlot()), CtrlKey(Key_Q));
    fileMenu->addAction(QIcon( ":/icons/exit.png" ), "E&xit",
-             this, SLOT(close()), CTRL+Key_X );
+             this, SLOT(close()), CtrlKey(Key_X) );
 }
 
 void TGo4MainWindow::AddFileToolBar()
@@ -616,13 +623,13 @@ void TGo4MainWindow::AddToolsMenu()
    QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
    toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View panel",
-                this, SLOT(MakeNewPanel()), CTRL+Key_V );
+                this, SLOT(MakeNewPanel()), CtrlKey(Key_V) );
    toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit panel...",
-                this, SLOT(StartFitPanel()), CTRL+Key_F );
+                this, SLOT(StartFitPanel()), CtrlKey(Key_F) );
    toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
                this, SLOT(StartHistogramInfo()));
    toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&istogram...",
-               this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
+               this, SLOT(CreateNewHistSlot()), CtrlKey(Key_I) );
    toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
    toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &condition...",
@@ -630,11 +637,11 @@ void TGo4MainWindow::AddToolsMenu()
    toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event printout...",
                this, SLOT(StartEventInfo()));
    toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &dyn. list entry ...",
-               this, SLOT(CreateNewDynEntrySlot()), CTRL+Key_D);
+               this, SLOT(CreateNewDynEntrySlot()), CtrlKey(Key_D) );
    toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load li&braries ...",
-               this, SLOT(LoadLibrarySlot()), CTRL+Key_B);
+               this, SLOT(LoadLibrarySlot()), CtrlKey(Key_B) );
    toolMenu->addAction(QIcon(":/icons/user.png" ), "&User GUI ...",
-               this, SLOT(UserPanelSlot()), CTRL+Key_U);
+               this, SLOT(UserPanelSlot()), CtrlKey(Key_U) );
 }
 
 void TGo4MainWindow::AddToolsBar()
@@ -679,10 +686,10 @@ void TGo4MainWindow::AddAnalysisMenu()
 
    faLaunchAnal =
       anMenu->addAction(QIcon(":/icons/launchanal.png" ), "Lau&nch analysis...",
-           this, SLOT(LaunchClientSlot()), CTRL+Key_N);
+           this, SLOT(LaunchClientSlot()), CtrlKey(Key_N));
    faConnectAnal =
       anMenu->addAction(QIcon(":/icons/connect.png"), "&Connect to running server...",
-             this, SLOT(ConnectServerSlot()), CTRL+Key_C);
+             this, SLOT(ConnectServerSlot()), CtrlKey(Key_C));
 
    faPrepareAnal =
       anMenu->addAction(QIcon(":/icons/connect.png" ), "&Prepare for client connection...",
@@ -690,31 +697,31 @@ void TGo4MainWindow::AddAnalysisMenu()
 
    faDisconnectAnal =
       anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",
-             this, SLOT(DisconnectAnalysisSlot()), CTRL+Key_M);
+             this, SLOT(DisconnectAnalysisSlot()), CtrlKey(Key_M));
 
    faShutdownAnal =
       anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis",
-             this, SLOT(ShutdownAnalysisSlot()), CTRL+Key_M);
+             this, SLOT(ShutdownAnalysisSlot()), CtrlKey(Key_M));
 
    faSumbStartAnal =
       anMenu->addAction(QIcon(":/icons/restart.png"), "Submit+S&tart",
-             this, SLOT(SubmitStartAnalysisSlot()), CTRL+Key_T);
+             this, SLOT(SubmitStartAnalysisSlot()), CtrlKey(Key_T));
 
    faStartAnal =
       anMenu->addAction(QIcon(":/icons/start.png"), "&Start",
-             this, SLOT(StartAnalysisSlot()), CTRL+Key_S);
+             this, SLOT(StartAnalysisSlot()), CtrlKey(Key_S));
 
    faStopAnal =
       anMenu->addAction(QIcon(":/icons/Stop.png"), "Stop (&Halt)",
-             this, SLOT(StopAnalysisSlot()), CTRL+Key_H);
+             this, SLOT(StopAnalysisSlot()), CtrlKey(Key_H));
 
    faAnalConfig =
       anMenu->addAction(QIcon(":/icons/control.png"), "Confi&guration...",
-               this, SLOT(ToggleAnalysisConfiguration()), CTRL+Key_G);
+               this, SLOT(ToggleAnalysisConfiguration()), CtrlKey(Key_G));
 
    faAnalTermin =
       anMenu->addAction(QIcon(":/icons/analysiswin.png"), "Analysis &Window",
-               this, SLOT(ToggleAnalysisWindow()), CTRL+Key_W);
+               this, SLOT(ToggleAnalysisWindow()), CtrlKey(Key_W));
 }
 
 void TGo4MainWindow::AddAnalysisBar()
