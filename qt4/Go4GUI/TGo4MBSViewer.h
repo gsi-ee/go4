@@ -17,7 +17,6 @@
 #include "QGo4Widget.h"
 #include "ui_TGo4MBSViewer.h"
 
-#include <QMovie>
 #include <QElapsedTimer>
 
 #include "sys_def.h"
@@ -28,18 +27,9 @@
 #include "s_set_ml.h"
 #include "s_set_mo.h"
 
-
-extern "C"
-{
-    INTS4 f_mbs_status(CHARS *,s_daqst *);;
-    INTS4 f_mbs_setup(CHARS *,s_setup *);;
-    INTS4 f_mbs_ml_setup(CHARS *,s_set_ml *);;
-    INTS4 f_mbs_mo_setup(CHARS *,s_set_mo *);;
-    INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, s_set_mo *ps_set_mo);;
-}
-
 class QButtonGroup;
 class TH1;
+class QMovie;
 
 class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
  {
@@ -51,10 +41,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
 
     TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
 
-
-
  public slots:
-
 
    virtual void StoreSettings();
 
@@ -138,8 +125,6 @@ protected:
     int fiServDataDelta;
     QElapsedTimer fxDeltaClock;
     QButtonGroup* StateGroup;
-
-
  };
 
 #endif

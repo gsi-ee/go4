@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4OpenRemoteDialog</class>
-  <widget class="QDialog" name="TGo4OpenRemoteDialog" >
+  <widget class="QDialog" name="TGo4OpenRemoteDialogInstance" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -185,32 +185,14 @@
     <connection>
       <sender>buttonOk</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4OpenRemoteDialog</receiver>
+      <receiver>TGo4OpenRemoteDialogInstance</receiver>
       <slot>accept()</slot>
     </connection>
     <connection>
       <sender>buttonCancel</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4OpenRemoteDialog</receiver>
+      <receiver>TGo4OpenRemoteDialogInstance</receiver>
       <slot>reject()</slot>
-    </connection>
-    <connection>
-      <sender>TypeSelectorBox</sender>
-      <signal>activated(QString)</signal>
-      <receiver>TGo4OpenRemoteDialog</receiver>
-      <slot>TypeSelectorBox_activated(QString)</slot>
-    </connection>
-    <connection>
-      <sender>ServerEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>TGo4OpenRemoteDialog</receiver>
-      <slot>ServerEdit_textChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>FileNameEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>TGo4OpenRemoteDialog</receiver>
-      <slot>FileNameEdit_textChanged(QString)</slot>
     </connection>
   </connections>
 </ui>

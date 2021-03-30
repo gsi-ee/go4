@@ -35,6 +35,15 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
+   QObject::connect(MemberTable, SIGNAL(cellChanged(int,int)), this, SLOT(ChangedTable(int,int)));
+   QObject::connect(CancelButton, SIGNAL(pressed()), this, SLOT(CloseMDIParentSlot()));
+   QObject::connect(ApplyButton, SIGNAL(pressed()), this, SLOT(ApplyClicked()));
+   QObject::connect(RefreshButton, SIGNAL(pressed()), this, SLOT(RefreshClicked()));
+   QObject::connect(ClearButton, SIGNAL(pressed()), this, SLOT(clearTextFields()));
+   QObject::connect(MemberTable, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(TableDoubleClick(int,int)));
+   QObject::connect(MemberTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ContextMenu(const QPoint &)));
+   QObject::connect(SavePar, SIGNAL(clicked()), this, SLOT(saveFile()));
+
    fItems = 0;
    PleaseUpdateLabel->setVisible(false);
    parentWidget()->adjustSize();

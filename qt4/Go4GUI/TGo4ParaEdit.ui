@@ -3,7 +3,7 @@
   <comment>Go4 Paramter Editor</comment>
   <exportmacro></exportmacro>
   <class>TGo4ParaEdit</class>
-  <widget class="QGo4Widget" name="TGo4ParaEdit" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -387,57 +387,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="6" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>MemberTable</sender>
-      <signal>cellChanged(int,int)</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>ChangedTable(int,int)</slot>
-    </connection>
-    <connection>
-      <sender>CancelButton</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>CloseMDIParentSlot()</slot>
-    </connection>
-    <connection>
-      <sender>ApplyButton</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>ApplyClicked()</slot>
-    </connection>
-    <connection>
-      <sender>RefreshButton</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>RefreshClicked()</slot>
-    </connection>
-    <connection>
-      <sender>ClearButton</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>clearTextFields()</slot>
-    </connection>
-    <connection>
-      <sender>MemberTable</sender>
-      <signal>cellDoubleClicked(int,int)</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>TableDoubleClick(int,int)</slot>
-    </connection>
-    <connection>
-      <sender>MemberTable</sender>
-      <signal>customContextMenuRequested(const QPoint &amp;)</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>ContextMenu(const QPoint &amp;)</slot>
-    </connection>
-    <connection>
-      <sender>SavePar</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ParaEdit</receiver>
-      <slot>saveFile()</slot>
-    </connection>
-  </connections>
 </ui>

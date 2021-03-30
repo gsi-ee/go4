@@ -18,12 +18,12 @@
 #include "ui_TGo4OpenRemoteDialog.h"
 
 class TGo4OpenRemoteDialog : public QDialog, public Ui::TGo4OpenRemoteDialog
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
  public:
 
-    TGo4OpenRemoteDialog( QWidget* parent = 0 );
+   TGo4OpenRemoteDialog( QWidget* parent = 0 );
 
    virtual ~TGo4OpenRemoteDialog();
 
@@ -35,7 +35,6 @@ class TGo4OpenRemoteDialog : public QDialog, public Ui::TGo4OpenRemoteDialog
 
  public slots:
 
-
    virtual void TypeSelectorBox_activated( const QString & tname);
 
    virtual void ServerEdit_textChanged( const QString &  txt);
@@ -46,8 +45,6 @@ class TGo4OpenRemoteDialog : public QDialog, public Ui::TGo4OpenRemoteDialog
     QString fxServer;
     QString fxFile;
     QString fxType;
-
-
- };
+};
 
 #endif

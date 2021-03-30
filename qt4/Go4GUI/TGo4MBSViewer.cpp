@@ -25,12 +25,35 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QButtonGroup>
+#include <QMovie>
+
+extern "C"
+{
+    INTS4 f_mbs_status(CHARS *,s_daqst *);
+    INTS4 f_mbs_setup(CHARS *,s_setup *);
+    INTS4 f_mbs_ml_setup(CHARS *,s_set_ml *);
+    INTS4 f_mbs_mo_setup(CHARS *,s_set_mo *);
+    INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, s_set_mo *ps_set_mo);
+}
+
 
 TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QGo4Widget(parent,name),
    fxRunMovie(0)
 {
    setupUi(this);
+
+   QObject::connect(FullPrintButton, SIGNAL(clicked()), this, SLOT(PrintStatus()));
+   QObject::connect(MonitorButton, SIGNAL(clicked()), this, SLOT(TimerStart()));
+   QObject::connect(StopButton, SIGNAL(clicked()), this, SLOT(TimerStop()));
+   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshButtonClick()));
+   QObject::connect(NodeEdit, SIGNAL(returnPressed()), this, SLOT(NodeEditEnter()));
+   QObject::connect(NodeEdit, SIGNAL(textChanged(QString)), this, SLOT(NodeChanged(QString)));
+   QObject::connect(TrendCheck, SIGNAL(toggled(bool)), this, SLOT(TrendSwitched(bool)));
+   QObject::connect(FrequencyBox, SIGNAL(valueChanged(int)), this, SLOT(FrequencyBox_valueChanged(int)));
+   QObject::connect(MoreBox, SIGNAL(toggled(bool)), this, SLOT(MoreBox_toggled(bool)));
+   QObject::connect(TrendBinsBox, SIGNAL(valueChanged(int)), this, SLOT(TrendBinsBox_valueChanged(int)));
+
 
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    RateEvents->setDigitCount(7);
@@ -79,7 +102,6 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    StateGroup->addButton(SetupMORadio, 3);
    StateGroup->button(0)->setChecked(true);
    connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
-
 
    fxHistoAccessName = "nosuchobject";
    fxHistokBAccessName = "nosuchobject";

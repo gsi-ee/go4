@@ -19,20 +19,18 @@
 
 class TGo4OptStatsSettings : public QDialog, public Ui::TGo4OptStatsSettings
 {
-     Q_OBJECT
+   Q_OBJECT
 
  public:
    TGo4OptStatsSettings( QWidget* parent = 0 );
 
- public slots:
+public slots:
 
    void setFlags();
 
- protected:
+protected:
    double fStatW;
    double fStatH;
-
-
 };
 
 #endif

@@ -16,19 +16,17 @@
 
 #include <QDialog>
 #include "ui_TGo4MarkerSettings.h"
-#include "TGo4Condition.h"
-#include "TGo4Marker.h"
 
 class TGo4MarkerSettings : public QDialog, public Ui::TGo4MarkerSettings
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
-        TGo4MarkerSettings( QWidget* parent = 0 );
+public:
+   TGo4MarkerSettings( QWidget* parent = 0 );
 
- public slots:
+public slots:
 
    virtual void setFlags();
- };
+};
 
 #endif

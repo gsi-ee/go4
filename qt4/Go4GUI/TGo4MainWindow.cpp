@@ -53,6 +53,7 @@
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
+#include "TGo4Condition.h"
 #include "TGo4MdiArea.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitPanel.h"

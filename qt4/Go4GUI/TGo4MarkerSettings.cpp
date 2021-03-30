@@ -13,11 +13,17 @@
 
 #include "TGo4MarkerSettings.h"
 
+#include "TGo4Condition.h"
+#include "TGo4Marker.h"
+
 TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
     : QDialog( parent )
 {
    setObjectName("Go4MarkerSettings");
    setupUi(this);
+
+   QObject::connect(buttonOk, SIGNAL(clicked()), this, SLOT(setFlags()));
+
     // regions:
    Bool_t LABELDRAW, LIMITSDRAW, INTDRAW,
           XMEANDRAW, YMEANDRAW, XRMSDRAW, YRMSDRAW,

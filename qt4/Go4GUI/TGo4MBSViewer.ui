@@ -2,7 +2,7 @@
   <author></author>
   <comment></comment>
   <class>TGo4MBSViewer</class>
-  <widget class="QGo4Widget" name="TGo4MBSViewer" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -824,70 +824,6 @@
   </widget>
   <layoutdefault spacing="6" margin="11" />
   <includes>
-    <include location="local">qmovie.h</include>
-    <include location="local">QGo4Widget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>FullPrintButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>PrintStatus()</slot>
-    </connection>
-    <connection>
-      <sender>MonitorButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>TimerStart()</slot>
-    </connection>
-    <connection>
-      <sender>StopButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>TimerStop()</slot>
-    </connection>
-    <connection>
-      <sender>RefreshButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>RefreshButtonClick()</slot>
-    </connection>
-    <connection>
-      <sender>NodeEdit</sender>
-      <signal>returnPressed()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>NodeEditEnter()</slot>
-    </connection>
-    <connection>
-      <sender>NodeEdit</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>NodeChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>TrendCheck</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>TrendSwitched(bool)</slot>
-    </connection>
-    <connection>
-      <sender>FrequencyBox</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>FrequencyBox_valueChanged(int)</slot>
-    </connection>
-    <connection>
-      <sender>MoreBox</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>MoreBox_toggled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>TrendBinsBox</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>TrendBinsBox_valueChanged(int)</slot>
-    </connection>
-  </connections>
 </ui>
