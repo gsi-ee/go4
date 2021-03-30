@@ -1,9 +1,9 @@
 <ui version="4.0" stdsetdef="1" >
-  <author>Mohammad Al-Turany</author>
+  <author>Mohammad Al-Turany/Sergey Linev</author>
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4DividePad</class>
-  <widget class="QWidget" name="TGo4DividePad" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -118,12 +118,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <connections>
-    <connection>
-      <sender>DivideCanvas_b</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4DividePad</receiver>
-      <slot>DivideCanvas()</slot>
-    </connection>
-  </connections>
 </ui>

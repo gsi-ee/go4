@@ -21,6 +21,7 @@ TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WindowFlags
 {
    setObjectName( name ? name : "Go4DividePad");
    setupUi(this);
+   QObject::connect(DivideCanvas_b, SIGNAL(clicked()), this, SLOT(DivideCanvas()));
 }
 
 void TGo4DividePad::DivideCanvas()

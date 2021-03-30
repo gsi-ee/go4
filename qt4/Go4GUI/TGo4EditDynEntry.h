@@ -24,21 +24,18 @@ class TGo4DynamicEntry;
 class TGo4HistogramEntry;
 class TGo4TreeHistogramEntry;
 
-
-
-
 class TGo4EditDynEntry : public QGo4Widget, public Ui::TGo4EditDynEntry
- {
-     Q_OBJECT
+{
+    Q_OBJECT
 
- public:
+public:
 
      enum ESelectedType {entry_None = -1, entry_Histogram = 0, entry_Tree = 1};
 
 
      TGo4EditDynEntry(QWidget *parent = 0, const char* name = 0);
 
-   virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
+    virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
     virtual void DropItem( const char * itemname, TClass * cl, int kind );
     virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
     virtual void RefreshWidget();
@@ -54,10 +51,9 @@ class TGo4EditDynEntry : public QGo4Widget, public Ui::TGo4EditDynEntry
     virtual void requestedObjectCreated( const char * itemname, TClass * cl );
     virtual bool PrepareEntryForAnalysis();
 
-
  public slots:
 
-   virtual void RefreshClicked();
+    virtual void RefreshClicked();
     virtual void ApplyClicked();
     virtual void SetPleaseUpdate( bool on );
     virtual void EntryChangedSlot();
@@ -90,7 +86,6 @@ class TGo4EditDynEntry : public QGo4Widget, public Ui::TGo4EditDynEntry
  protected:
     int fiSelectedType;
     bool fbTypingMode;
-
 
 };
 

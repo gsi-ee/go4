@@ -18,16 +18,15 @@
 #include "ui_TGo4DividePad.h"
 
 class TGo4DividePad : public QWidget, public Ui::TGo4DividePad
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
-    TGo4DividePad( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+public:
+   TGo4DividePad( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
 
- public slots:
+public slots:
 
    virtual void DivideCanvas();
-
 };
 
 #endif

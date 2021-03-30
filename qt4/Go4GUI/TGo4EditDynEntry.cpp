@@ -27,11 +27,39 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4AnalysisProxy.h"
 
-
 TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+   : QGo4Widget(parent, name)
 {
    setupUi(this);
+
+   QObject::connect(ApplyButton, SIGNAL(clicked()), this, SLOT(ApplyClicked()));
+   QObject::connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearHistogramClicked()));
+   QObject::connect(PrintListButton, SIGNAL(clicked()), this, SLOT(PrintDynList()));
+   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
+   QObject::connect(SaveEntry, SIGNAL(clicked()), this, SLOT(SaveEntrySlot()));
+   QObject::connect(CancelButton, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
+   QObject::connect(EvXnameEdit, SIGNAL(textDropped()), this, SLOT(EvXnameEdit_dropped()));
+   QObject::connect(EvYnameEdit, SIGNAL(textDropped()), this, SLOT(EvYnameEdit_dropped()));
+   QObject::connect(EvZnameEdit, SIGNAL(textDropped()), this, SLOT(EvZnameEdit_dropped()));
+   QObject::connect(ConXnameEdit, SIGNAL(textDropped()), this, SLOT(ConXnameEdit_dropped()));
+   QObject::connect(ConYnameEdit, SIGNAL(textDropped()), this, SLOT(ConYnameEdit_dropped()));
+   QObject::connect(DrawExprEdit, SIGNAL(textDropped()), this, SLOT(DrawExprEdit_dropped()));
+   QObject::connect(CutExprEdit, SIGNAL(textDropped()), this, SLOT(CutExprEdit_dropped()));
+   QObject::connect(HisCreateButton, SIGNAL(clicked()), this, SLOT(HisCreateButton_clicked()));
+   QObject::connect(HisInfoButton, SIGNAL(clicked()), this, SLOT(HisInfoButton_clicked()));
+   QObject::connect(ConNewButton, SIGNAL(clicked()), this, SLOT(ConNewButton_clicked()));
+   QObject::connect(ConInfoButton, SIGNAL(clicked()), this, SLOT(ConInfoButton_clicked()));
+   QObject::connect(EntryEnabledButton, SIGNAL(toggled(bool)), this, SLOT(EntryEnabledButton_toggled(bool)));
+   QObject::connect(EvXnameEdit, SIGNAL(textChanged(QString)), this, SLOT(EvXnameEdit_textChanged(QString)));
+   QObject::connect(EvYnameEdit, SIGNAL(textChanged(QString)), this, SLOT(EvYnameEdit_textChanged(QString)));
+   QObject::connect(EvZnameEdit, SIGNAL(textChanged(QString)), this, SLOT(EvZnameEdit_textChanged(QString)));
+   QObject::connect(ConXnameEdit, SIGNAL(textChanged(QString)), this, SLOT(ConXnameEdit_textChanged(QString)));
+   QObject::connect(ConYnameEdit, SIGNAL(textChanged(QString)), this, SLOT(ConYnameEdit_textChanged(QString)));
+   QObject::connect(DrawExprEdit, SIGNAL(textChanged(QString)), this, SLOT(DrawExprEdit_textChanged(QString)));
+   QObject::connect(CutExprEdit, SIGNAL(textChanged(QString)), this, SLOT(CutExprEdit_textChanged(QString)));
+   QObject::connect(DynIntervalSpin, SIGNAL(valueChanged(int)), this, SLOT(DynIntervalSpin_valueChanged(int)));
+   QObject::connect(DrawButton, SIGNAL(clicked()), this, SLOT(DrawButton_clicked()));
+   QObject::connect(ConRemoveButton, SIGNAL(clicked()), this, SLOT(ConRemoveButton_clicked()));
 
    fbTypingMode = true;
    fiSelectedType = entry_None;

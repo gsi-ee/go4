@@ -21,8 +21,8 @@ class TGo4EventInfo : public QGo4Widget, public Ui::TGo4EventInfo
  {
      Q_OBJECT
 
- public:
-     TGo4EventInfo(QWidget *parent = 0, const char* name = 0);
+public:
+   TGo4EventInfo(QWidget *parent = 0, const char* name = 0);
 
    bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
 
@@ -36,17 +36,13 @@ class TGo4EventInfo : public QGo4Widget, public Ui::TGo4EventInfo
 
    void linkedObjectRemoved(const char* linkname);
 
-
-
- public slots:
+public slots:
 
    virtual void RefreshClicked();
 
    virtual void PrintEventClicked();
 
    virtual void MbsButton_clicked();
-
-
 
 };
 

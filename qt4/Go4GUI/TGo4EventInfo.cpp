@@ -19,11 +19,13 @@
 
 const char* defMbsEventName = "MbsEvent101";
 
-
 TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+   : QGo4Widget(parent, name)
 {
    setupUi(this);
+   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
+   QObject::connect(PrintEventButton, SIGNAL(clicked()), this, SLOT(PrintEventClicked()));
+   QObject::connect(MbsButton, SIGNAL(clicked()), this, SLOT(MbsButton_clicked()));
    setWindowTitle("Event info");
    ResetWidget();
 }

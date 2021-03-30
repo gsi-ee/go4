@@ -3,7 +3,7 @@
   <comment>Event information </comment>
   <exportmacro></exportmacro>
   <class>TGo4EventInfo</class>
-  <widget class="QGo4Widget" name="TGo4EventInfo" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -325,27 +325,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>RefreshButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4EventInfo</receiver>
-      <slot>RefreshClicked()</slot>
-    </connection>
-    <connection>
-      <sender>PrintEventButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4EventInfo</receiver>
-      <slot>PrintEventClicked()</slot>
-    </connection>
-    <connection>
-      <sender>MbsButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4EventInfo</receiver>
-      <slot>MbsButton_clicked()</slot>
-    </connection>
-  </connections>
 </ui>
