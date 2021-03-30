@@ -20,7 +20,10 @@ TGo4LogSettings::TGo4LogSettings( QWidget* parent )
 {
    setObjectName("Go4LogSettings");
    setupUi(this);
-   bool iswrite=TGo4Log::IsLogfileEnabled();
+
+   QObject::connect(FileNameLog, SIGNAL(clicked()), this, SLOT(LogfileDialog()));
+
+   bool iswrite = TGo4Log::IsLogfileEnabled();
 
    IgnoreCombo->setCurrentIndex(TGo4Log::GetIgnoreLevel());
    ModeCombo->setCurrentIndex(TGo4Log::IsAutoEnabled());

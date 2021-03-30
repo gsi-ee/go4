@@ -29,13 +29,10 @@ class TGo4MacroDialog : public QDialog, public Ui::TGo4MacroDialog
 
  public slots:
 
-
-
    virtual void setCommand( const QString & selection );
 
  protected:
     QString fxCommand;
-
 
 };
 

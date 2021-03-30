@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4LogSettings</class>
-  <widget class="QDialog" name="TGo4LogSettings" >
+  <widget class="QDialog" name="TGo4LogSettingsInstance" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -260,20 +260,14 @@
     <connection>
       <sender>buttonOk</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4LogSettings</receiver>
+      <receiver>TGo4LogSettingsInstance</receiver>
       <slot>accept()</slot>
     </connection>
     <connection>
       <sender>buttonCancel</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4LogSettings</receiver>
+      <receiver>TGo4LogSettingsInstance</receiver>
       <slot>reject()</slot>
-    </connection>
-    <connection>
-      <sender>FileNameLog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4LogSettings</receiver>
-      <slot>LogfileDialog()</slot>
     </connection>
     <connection>
       <sender>LogfileWrite</sender>

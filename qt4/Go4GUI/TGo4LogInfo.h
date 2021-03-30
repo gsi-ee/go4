@@ -21,22 +21,22 @@
 
 class TGo4LogInfo : public QGo4Widget, public Ui::TGo4LogInfo
 {
-      Q_OBJECT
+   Q_OBJECT
 
-   public:
-      TGo4LogInfo(QWidget *parent = 0, const char *name = 0);
+public:
+   TGo4LogInfo(QWidget *parent = 0, const char *name = 0);
 
-      void WorkWithInfo(TGo4Slot* slot);
+   void WorkWithInfo(TGo4Slot* slot);
 
-      void linkedObjectUpdated( const char * linkname, TObject * obj);
+   void linkedObjectUpdated( const char * linkname, TObject * obj);
 
-      void AddMessage(const QDateTime& dt, int level, QString msg);
+   void AddMessage(const QDateTime& dt, int level, QString msg);
 
-   public slots:
+public slots:
 
-      virtual void ClearLogInfo();
+   virtual void ClearLogInfo();
 
-      virtual void SaveLogInfo();
+   virtual void SaveLogInfo();
 
 };
 

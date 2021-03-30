@@ -1,7 +1,7 @@
 <ui version="4.0" >
  <author>S Linev</author>
  <class>TGo4LogInfo</class>
- <widget class="QGo4Widget" name="TGo4LogInfo" >
+ <widget class="QWidget">
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -59,8 +59,5 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <includes>
-  <include location="local">QGo4Widget.h</include>
- </includes>
  <connections/>
 </ui>

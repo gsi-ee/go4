@@ -1,7 +1,7 @@
 <ui version="4.0" >
  <author>Mohammad Al-Turany/S.Linev/J.Adamczewski</author>
  <class>TGo4LoadedLibraries</class>
- <widget class="QDialog" name="TGo4LoadedLibraries" >
+ <widget class="QDialog" name="TGo4LoadedLibrariesInstance" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -218,27 +218,9 @@
  </tabstops>
  <connections>
   <connection>
-   <sender>LoadLibBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4LoadedLibraries</receiver>
-   <slot>LoadNewLibrary()</slot>
-  </connection>
-  <connection>
-   <sender>UnloadLibBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4LoadedLibraries</receiver>
-   <slot>UnloadLibrary()</slot>
-  </connection>
-  <connection>
-   <sender>RefreshBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4LoadedLibraries</receiver>
-   <slot>RefreshLibs()</slot>
-  </connection>
-  <connection>
    <sender>CloseBtn</sender>
    <signal>clicked()</signal>
-   <receiver>TGo4LoadedLibraries</receiver>
+   <receiver>TGo4LoadedLibrariesInstance</receiver>
    <slot>close()</slot>
   </connection>
  </connections>

@@ -26,6 +26,10 @@ TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent )
 {
    setObjectName("Go4LoadedLibraries");
    setupUi(this);
+   QObject::connect(LoadLibBtn, SIGNAL(clicked()), this, SLOT(LoadNewLibrary()));
+   QObject::connect(UnloadLibBtn, SIGNAL(clicked()), this, SLOT(UnloadLibrary()));
+   QObject::connect(RefreshBtn, SIGNAL(clicked()), this, SLOT(RefreshLibs()));
+
    RefreshLibs();
    UnloadLibBtn->hide();
 }

@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4MacroDialog</class>
-  <widget class="QDialog" name="TGo4MacroDialog" >
+  <widget class="QDialog" name="TGo4MacroDialogInstance" >
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -187,26 +187,20 @@
     <connection>
       <sender>buttonOk</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4MacroDialog</receiver>
+      <receiver>TGo4MacroDialogInstance</receiver>
       <slot>accept()</slot>
     </connection>
     <connection>
       <sender>buttonCancel</sender>
       <signal>clicked()</signal>
-      <receiver>TGo4MacroDialog</receiver>
+      <receiver>TGo4MacroDialogInstance</receiver>
       <slot>reject()</slot>
     </connection>
     <connection>
       <sender>MacroListBox</sender>
       <signal>itemDoubleClicked(QListWidgetItem*)</signal>
-      <receiver>TGo4MacroDialog</receiver>
+      <receiver>TGo4MacroDialogInstance</receiver>
       <slot>accept()</slot>
-    </connection>    
-    <connection>
-      <sender>MacroListBox</sender>
-      <signal>currentTextChanged(const QString &amp;)</signal>
-      <receiver>TGo4MacroDialog</receiver>
-      <slot>setCommand(QString)</slot>
     </connection>
   </connections>
 </ui>

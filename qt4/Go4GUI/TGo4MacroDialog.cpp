@@ -18,6 +18,7 @@ TGo4MacroDialog::TGo4MacroDialog( QWidget* parent )
 {
    setObjectName("Go4MacroDialog");
    setupUi(this);
+   QObject::connect(MacroListBox, SIGNAL(currentTextChanged(const QString &)), this, SLOT(setCommand(const QString &)));
    setCommand("Add");
 }
 
