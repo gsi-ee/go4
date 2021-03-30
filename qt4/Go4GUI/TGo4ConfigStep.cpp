@@ -62,6 +62,32 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    setObjectName( name ? name : "Go4ConfigStep");
 
    setupUi(this);
+
+   QObject::connect(EnableStepBox, SIGNAL(stateChanged(int)), this, SLOT(StepStateChanged(int)));
+   QObject::connect(EnableSourceBox, SIGNAL(stateChanged(int)), this, SLOT(InputStateChanged(int)));
+   QObject::connect(EnableStoreBox, SIGNAL(stateChanged(int)), this, SLOT(OutputStateChanged(int)));
+   QObject::connect(SourceNameEdit, SIGNAL(textChanged(QString)), this, SLOT(InputSourceText(QString)));
+   QObject::connect(EventSourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SourceComboHighlighted(int)));
+   QObject::connect(OutputCombo, SIGNAL(activated(int)), this, SLOT(StoreComboHighlighted(int)));
+   QObject::connect(StoreNameEdit, SIGNAL(textChanged(QString)), this, SLOT(OutputNameText(QString)));
+   QObject::connect(FileNameOutput, SIGNAL(clicked()), this, SLOT(OutputFileDialog()));
+   QObject::connect(CompLevel, SIGNAL(valueChanged(int)), this, SLOT(StoreCompLevel(int)));
+   QObject::connect(BufferSize, SIGNAL(valueChanged(int)), this, SLOT(StoreBufferSize(int)));
+   QObject::connect(SplitLevel, SIGNAL(valueChanged(int)), this, SLOT(StoreSplitLevel(int)));
+   QObject::connect(StoreOverwriteMode, SIGNAL(toggled(bool)), this, SLOT(StoreOverWrite(bool)));
+   QObject::connect(LineEditArgs, SIGNAL(textChanged(QString)), this, SLOT(InputArguments(QString)));
+   QObject::connect(LineEditTagfile, SIGNAL(textChanged(QString)), this, SLOT(InputTagfile(QString)));
+   QObject::connect(SpinBoxStartEvent, SIGNAL(valueChanged(int)), this, SLOT(ChangeStartEvent(int)));
+   QObject::connect(SpinBoxStopEvent, SIGNAL(valueChanged(int)), this, SLOT(ChangeStopEvent(int)));
+   QObject::connect(FileNameBtn, SIGNAL(clicked()), this, SLOT(InputFileDialog()));
+   QObject::connect(SpinBoxInterEvent, SIGNAL(valueChanged(int)), this, SLOT(ChangeEventInterval(int)));
+   QObject::connect(SpinBoxTimeout, SIGNAL(valueChanged(int)), this, SLOT(ChangeSourceTimeout(int)));
+   QObject::connect(ExtraBtn, SIGNAL(clicked()), this, SLOT(ExtraBtn_clicked()));
+   QObject::connect(MbsMonitorBtn, SIGNAL(clicked()), this, SLOT(MbsMonitorBtn_clicked()));
+   QObject::connect(SpinBoxPortNumber, SIGNAL(valueChanged(int)), this, SLOT(InputPortChanged(int)));
+   QObject::connect(SpinBoxRetryNumber, SIGNAL(valueChanged(int)), this, SLOT(RetryCntChanged(int)));
+   QObject::connect(TreeAutosave, SIGNAL(valueChanged(int)), this, SLOT(StoreTreeAutoSave(int)));
+
    fStepNumber=0;
    fxPanel = 0;
    fStepStatus = 0;
@@ -605,8 +631,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(false);
       FileNameOutput->setDisabled(false);
       TreeAutosave->setDisabled(false);
-   } else
-   if(k==1) {
+   } else if(k==1) {
       StoreNameEdit->setDisabled(true);
       TGo4BackStoreParameter newpar1(GetBackStoreName().toLatin1().constData());
       fStepStatus->SetStorePar(&newpar1);
@@ -616,8 +641,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
       TreeAutosave->setDisabled(true);
-    } else
-    if(k==2) {
+    } else if(k==2) {
        StoreNameEdit->setDisabled(false);
        TGo4UserStoreParameter newpar2(StoreNameEdit->text().toLatin1().constData());
        fStepStatus->SetStorePar(&newpar2);
@@ -627,8 +651,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
        StoreOverwriteMode->setDisabled(true);
        FileNameOutput->setDisabled(false);
        TreeAutosave->setDisabled(true);
-     } else
-   if(k==3) {
+     } else if(k==3) {
 #ifdef __GO4HDF5__
       StoreNameEdit->setDisabled(false);
       TGo4HDF5StoreParameter newpar3(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
@@ -641,14 +664,12 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       BufferSize->setDisabled(true);
 #endif
    }
-
 }
 
 void TGo4ConfigStep::OutputFileDialog()
 {
-
-  QString filters;
-  if(fStepStatus!=0) {
+   QString filters;
+   if(fStepStatus!=0) {
         TGo4EventStoreParameter* storepar = fStepStatus->GetStorePar();
         if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
            filters = "Go4FileSource  (*.root)";

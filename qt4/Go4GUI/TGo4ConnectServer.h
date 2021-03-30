@@ -18,17 +18,17 @@
 #include "ui_TGo4ConnectServer.h"
 
 class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
- {
-     Q_OBJECT
+{
+    Q_OBJECT
 
- public:
+public:
    TGo4ConnectServer( QWidget* parent = 0 );
 
    void setPassword(const char* pass);
 
    QString getInput();
 
- public slots:
+public slots:
 
    virtual void DefaultPassCheck_toggled( bool on );
 
@@ -36,7 +36,7 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
 
    virtual void SelectConnection_changed ( int index );
 
- protected:
+protected:
 
    QString fLastAccount;
 

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4ConnectServer</class>
- <widget class="QDialog" name="TGo4ConnectServer">
+ <widget class="QDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -314,87 +313,4 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
- <connections>
-  <connection>
-   <sender>CloseBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4ConnectServer</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>310</x>
-     <y>142</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ConnectBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4ConnectServer</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>200</x>
-     <y>142</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>DefaultPassCheck</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>TGo4ConnectServer</receiver>
-   <slot>DefaultPassCheck_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ModeCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TGo4ConnectServer</receiver>
-   <slot>SelectAccount_changed(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>250</x>
-     <y>76</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>187</x>
-     <y>79</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ConnectionCombo</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TGo4ConnectServer</receiver>
-   <slot>SelectConnection_changed(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>167</x>
-     <y>13</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>84</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>
