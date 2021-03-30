@@ -19,11 +19,16 @@
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
 
-
 TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+   : QGo4Widget(parent, name)
 {
    setupUi(this);
+
+   QObject::connect(ConInfoButton, SIGNAL(clicked()), this, SLOT(ConInfoButton_clicked()));
+   QObject::connect(ConPrintButton, SIGNAL(clicked()), this, SLOT(ConPrintButton_clicked()));
+   QObject::connect(ConEditButton, SIGNAL(clicked()), this, SLOT(ConEditButton_clicked()));
+   QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintLog_clicked()));
+
    setWindowTitle("Condition Info:");
 }
 

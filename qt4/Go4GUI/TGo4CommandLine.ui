@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4CommandLine</class>
- <widget class="QGo4Widget" name="TGo4CommandLine">
+ <widget class="QWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -141,34 +140,6 @@
  </widget>
  <layoutdefault spacing="2" margin="2"/>
  <includes>
-  <include location="local">QGo4Widget.h</include>
-  <include location="local">QGo4CommandsHistory.h</include>
+   <include location="local">QGo4CommandsHistory.h</include>
  </includes>
- <resources/>
- <connections>
-  <connection>
-   <sender>InputLine</sender>
-   <signal>enterPressedSingal()</signal>
-   <receiver>TGo4CommandLine</receiver>
-   <slot>enterPressedSlot()</slot>
-  </connection>
-  <connection>
-   <sender>ExecuteBut</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4CommandLine</receiver>
-   <slot>ExecuteSlot()</slot>
-  </connection>
-  <connection>
-   <sender>PredefinedBut</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4CommandLine</receiver>
-   <slot>PredefinedDialog()</slot>
-  </connection>
-  <connection>
-   <sender>FileSearchBut</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4CommandLine</receiver>
-   <slot>FileSearchDialog()</slot>
-  </connection>
- </connections>
 </ui>

@@ -3,7 +3,7 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4ConditionInfo</class>
-  <widget class="QGo4Widget" name="TGo4ConditionInfo" >
+  <widget class="QWidget">
     <property name="geometry" >
       <rect>
         <x>0</x>
@@ -276,33 +276,4 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>ConInfoButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ConditionInfo</receiver>
-      <slot>ConInfoButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>ConPrintButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ConditionInfo</receiver>
-      <slot>ConPrintButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>ConEditButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ConditionInfo</receiver>
-      <slot>ConEditButton_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>PrintLog</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4ConditionInfo</receiver>
-      <slot>PrintLog_clicked()</slot>
-    </connection>
-  </connections>
 </ui>

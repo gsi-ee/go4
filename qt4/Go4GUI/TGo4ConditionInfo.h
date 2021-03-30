@@ -14,17 +14,16 @@
 #ifndef TGO4CONDITIONINFO_H
 #define TGO4CONDITIONINFO_H
 
-
 #include "QGo4Widget.h"
 #include "ui_TGo4ConditionInfo.h"
 
 class TGo4Condition;
 
 class TGo4ConditionInfo : public QGo4Widget, public Ui::TGo4ConditionInfo
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
+public:
 
  enum PropertyIndex {
    CONTITLE,
@@ -39,14 +38,11 @@ class TGo4ConditionInfo : public QGo4Widget, public Ui::TGo4ConditionInfo
    CONTIME
 };
 
+   TGo4ConditionInfo(QWidget *parent = 0, const char* name=0);
 
+public:
 
-
-    TGo4ConditionInfo(QWidget *parent = 0, const char* name=0);
-
- public:
-
-    virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
+   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
 
    virtual void DropItem(const char* itemname, TClass* cl, int kind);
 
@@ -58,8 +54,7 @@ class TGo4ConditionInfo : public QGo4Widget, public Ui::TGo4ConditionInfo
 
    virtual void RefreshWidget(TGo4Condition* cond);
 
- public slots:
-
+public slots:
 
    virtual void ConInfoButton_clicked();
 
@@ -69,9 +64,6 @@ class TGo4ConditionInfo : public QGo4Widget, public Ui::TGo4ConditionInfo
 
    virtual void PrintLog_clicked();
 
-
-
 };
-
 
 #endif

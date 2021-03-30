@@ -27,6 +27,12 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
    QGo4Widget(parent, name),fbPythonBound(false)
 {
    setupUi(this);
+
+   QObject::connect(InputLine, SIGNAL(enterPressedSingal()), this, SLOT(enterPressedSlot()));
+   QObject::connect(ExecuteBut, SIGNAL(clicked()), this, SLOT(ExecuteSlot()));
+   QObject::connect(PredefinedBut, SIGNAL(clicked()), this, SLOT(PredefinedDialog()));
+   QObject::connect(FileSearchBut, SIGNAL(clicked()), this, SLOT(FileSearchDialog()));
+
    LoadHistory();
 }
 
@@ -169,7 +175,6 @@ void TGo4CommandLine::LoadHistory()
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/fft.C").Data()));
-
 }
 
 
