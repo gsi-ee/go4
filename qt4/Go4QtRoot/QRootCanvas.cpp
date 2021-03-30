@@ -174,11 +174,16 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 #endif
 
 
-  if (fCanvas!=0) {
+  if (fCanvas) {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+     int ex = e->x(), ey = e->y();
+#else
+     int ex = e->position().x(), ey = e->position().y();
+#endif
      if (e->buttons() & Qt::LeftButton)
-        fCanvas->HandleInput(kButton1Motion, scaledPosition(e->x()), scaledPosition(e->y()));
+        fCanvas->HandleInput(kButton1Motion, scaledPosition(ex), scaledPosition(ey));
      else
-        fCanvas->HandleInput(kMouseMotion, scaledPosition(e->x()), scaledPosition(e->y()));
+        fCanvas->HandleInput(kMouseMotion, scaledPosition(ex), scaledPosition(ey));
   }
 
   if(fxShowEventStatus) {
@@ -189,7 +194,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
      if (selected!=0) {
         buffer = selected->GetName();
         buffer += "  ";
-        buffer += selected->GetObjectInfo(px,py);
+        buffer += selected->GetObjectInfo(px, py);
      } else {
         buffer = "No selected object x = ";
         buffer += QString::number(px);
@@ -213,16 +218,17 @@ void  QRootCanvas::wheelEvent( QWheelEvent* e)
    if (!fCanvas) return;
    e->accept();
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
    bool positive = (e->delta() > 0);
-   fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(e->x()), scaledPosition(e->y()));
+   int ex = e->x(), ey = e->y();
 #else
    QPoint delta = e->pixelDelta();
    if (delta.isNull()) delta = e->angleDelta() / 8;
    bool positive = delta.x() > 0 || delta.y() > 0;
-   fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(e->position().x()), scaledPosition(e->position().y()));
+   int ex = e->position().x(), ey = e->position().y();
 #endif
 
+   fCanvas->HandleInput(positive ? kWheelUp : kWheelDown, scaledPosition(ex), scaledPosition(ey));
 }
 
 
@@ -232,8 +238,17 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
    TObjLink* pickobj = 0;
    // JAM2016-9 test
 //    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
-   int scaledX=scaledPosition(e->x());
-   int scaledY=scaledPosition(e->y());
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   int scaledX = scaledPosition(e->x());
+   int scaledY = scaledPosition(e->y());
+   QPoint mouse_pnt = e->globalPos();
+#else
+   int scaledX = scaledPosition(e->position().x());
+   int scaledY = scaledPosition(e->position().y());
+   QPoint mouse_pnt = e->globalPosition().toPoint();
+#endif
+
   // std::cout <<"      scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;
 //      std::cout <<"global from event: ("<<e->globalX()<<", "<<  e->globalY()<< std::endl;
 //    QPoint globalp=QWidget::mapToGlobal(e->pos());
@@ -318,7 +333,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
            addMenuAction(&menu, &map, buffer, curId++);
         }
 
-        if (menu.exec(e->globalPos())==0) {
+        if (menu.exec(mouse_pnt)==0) {
            fMenuObj = 0;
            delete fMenuMethods;
            fMenuMethods = 0;
@@ -342,19 +357,27 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
 void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   int scaledX = scaledPosition(e->x());
+   int scaledY = scaledPosition(e->y());
+#else
+   int scaledX = scaledPosition(e->position().x());
+   int scaledY = scaledPosition(e->position().y());
+#endif
+
    TGo4LockGuard threadlock;
 
    switch(e->button()) {
       case Qt::LeftButton :
-         fCanvas->HandleInput(kButton1Up, scaledPosition(e->x()), scaledPosition(e->y()));
+         fCanvas->HandleInput(kButton1Up, scaledX, scaledY);
          break;
       case Qt::RightButton :
-         fCanvas->HandleInput(kButton3Up, scaledPosition(e->x()), scaledPosition(e->y()));
+         fCanvas->HandleInput(kButton3Up, scaledX, scaledY);
          break;
       case Qt::MiddleButton :
-         fCanvas->HandleInput(kButton2Up, scaledPosition(e->x()),scaledPosition( e->y()));
+         fCanvas->HandleInput(kButton2Up, scaledX, scaledY);
          break;
-      case  Qt::NoButton :
+      case Qt::NoButton :
          break;
       default:
          break;
@@ -364,13 +387,21 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 
 void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   int scaledX = scaledPosition(e->x());
+   int scaledY = scaledPosition(e->y());
+#else
+   int scaledX = scaledPosition(e->position().x());
+   int scaledY = scaledPosition(e->position().y());
+#endif
+
    TGo4LockGuard threadlock;
    switch(e->button()) {
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
-            fCanvas->HandleInput(kButton1Double, scaledPosition(e->x()), scaledPosition(e->y()));
+            fCanvas->HandleInput(kButton1Double, scaledX, scaledY);
          TObjLink* pickobj = 0;
-         TPad* pad = fCanvas->Pick(scaledPosition(e->x()), scaledPosition(e->y()), pickobj);
+         TPad* pad = fCanvas->Pick(scaledX, scaledY, pickobj);
          emit PadDoubleClicked(pad);
          // prevent crash on following release event
          // if new canvas will be created in between
@@ -378,10 +409,10 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
          break;
       }
       case Qt::RightButton :
-         fCanvas->HandleInput(kButton3Double, scaledPosition(e->x()), scaledPosition(e->y()));
+         fCanvas->HandleInput(kButton3Double, scaledX, scaledY);
          break;
       case Qt::MiddleButton :
-         fCanvas->HandleInput(kButton2Double, scaledPosition(e->x()), scaledPosition(e->y()));
+         fCanvas->HandleInput(kButton2Double, scaledX, scaledY);
          break;
       case Qt::NoButton :
          break;
@@ -478,11 +509,17 @@ void QRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 
 void QRootCanvas::dropEvent( QDropEvent *event )
 {
-   TObject* obj(0);
-   QPoint pos = event->pos();
-   TPad* pad = Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+   TObject* obj = 0;
 
-   if (pad!=0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   QPoint pos = event->pos();
+#else
+   QPoint pos = event->position().toPoint();
+#endif
+
+   TPad *pad = Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+
+   if (pad)
       emit CanvasDropEvent(event, pad);
 }
 

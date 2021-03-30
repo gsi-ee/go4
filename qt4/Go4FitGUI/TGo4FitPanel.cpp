@@ -307,14 +307,14 @@ bool TGo4FitPanel::IsAcceptDrag( const char* itemname, TClass * cl, int kind )
 
 void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass * cl, int kind)
 {
-   if (cl==0) return;
+   if (!cl) return;
 
    if (cl->InheritsFrom(TGo4Fitter::Class())) {
       WorkWithFitter(itemname, 0, 0);
       return;
    }
 
-   if (event==0) return;
+   if (!event) return;
 
    QWidget* w = childAt(event->pos());
 

@@ -109,12 +109,19 @@ void QRootWindow::SetEditable(bool on)
 
 Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 {
-   if((e==0) || (rev==0)) return kFALSE;
+   if(!e || !rev) return kFALSE;
 
-   rev->fX=e->x();
-   rev->fY=e->y();
-   rev->fXRoot= e->globalX();
-   rev->fYRoot= e->globalY();
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   rev->fX = e->x();
+   rev->fY = e->y();
+   rev->fXRoot = e->globalX();
+   rev->fYRoot = e->globalY();
+#else
+   rev->fX = e->position().x();
+   rev->fY = e->position().y();
+   rev->fXRoot = e->globalPosition().x();
+   rev->fYRoot = e->globalPosition().y();
+#endif
 
    // translate Qt event type:
    if(e->type() == QEvent::MouseButtonPress) rev->fType = kButtonPress;
