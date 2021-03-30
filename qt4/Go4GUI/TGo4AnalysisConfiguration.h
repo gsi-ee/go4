@@ -17,18 +17,15 @@
 #include "QGo4Widget.h"
 #include "ui_TGo4AnalysisConfiguration.h"
 
-
 class TGo4ConfigStep;
 class TGo4ServerProxy;
 
-
 class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConfiguration
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
  public:
-     TGo4AnalysisConfiguration(QWidget *parent = 0, const char* name=0);
-
+   TGo4AnalysisConfiguration(QWidget *parent = 0, const char* name=0);
 
    virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);;
 
@@ -56,7 +53,6 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    void ChangeTabTitle(TGo4ConfigStep* step, int number);
 
-
    TGo4ConfigStep* GetStepConfig(int n);
 
    TGo4ConfigStep* FindStepConfig(QString name);
@@ -78,31 +74,25 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual void GetAnalysisConfigFile(QString& filename);
 
-
    virtual void DisplayMbsMonitor(const QString& mbsname );
-
 
  public slots:
 
    virtual void RequestAnalysisStatus();
 
-
    virtual void FileDialog_ConfFile();
 
    virtual void FileDialog_AutoSave();
 
-
    virtual void LineEdit_AutoSaveFile();
 
    virtual void SetCompressionLevel( int t);
-
 
    virtual void LoadConfiguration();
 
    virtual void SaveConfiguration();
 
    virtual void SubmitConfiguration();
-
 
    virtual void SubmitAndStart();
 
@@ -114,21 +104,17 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual void WriteAutoSave();
 
-
    virtual void EnableAutoSaveSlot( bool disabled);
-
 
 protected:
 
    virtual void closeEvent(QCloseEvent* e);
-
 
    bool fbTypingMode;
     QString fSourcePath;
     QString fStorePath;
     QString fConfigPath;
     QString fAutoSavePath;
-
 
 };
 

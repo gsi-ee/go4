@@ -3,8 +3,8 @@
   <comment></comment>
   <exportmacro></exportmacro>
   <class>TGo4AnalysisConfiguration</class>
-  <widget class="QGo4Widget" name="TGo4AnalysisConfiguration" >
-    <property name="geometry" >
+  <widget class="QWidget">
+    <property name="geometry">
       <rect>
         <x>0</x>
         <y>0</y>
@@ -619,93 +619,4 @@
     <tabstop>AnalysisSaveConf</tabstop>
     <tabstop>ConfigFileName</tabstop>
   </tabstops>
-  <includes>
-    <include location="global">QGo4Widget.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>SubmitPushButton</sender>
-      <signal>pressed()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SubmitConfiguration()</slot>
-    </connection>
-    <connection>
-      <sender>AnalysisSaveConf</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SaveConfiguration()</slot>
-    </connection>
-    <connection>
-      <sender>LoadConfigFileName</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>FileDialog_ConfFile()</slot>
-    </connection>
-    <connection>
-      <sender>LoadAutoSaveFileName</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>FileDialog_AutoSave()</slot>
-    </connection>
-    <connection>
-      <sender>AutoSaveFileName</sender>
-      <signal>textChanged(QString)</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>LineEdit_AutoSaveFile()</slot>
-    </connection>
-    <connection>
-      <sender>GetActiveConfigButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>RequestAnalysisStatus()</slot>
-    </connection>
-    <connection>
-      <sender>CompLevel</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SetCompressionLevel(int)</slot>
-    </connection>
-    <connection>
-      <sender>AnalysisLoadConf</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>LoadConfiguration()</slot>
-    </connection>
-    <connection>
-      <sender>AutoSaveInterval</sender>
-      <signal>valueChanged(int)</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SetAutoSaveInterval(int)</slot>
-    </connection>
-    <connection>
-      <sender>AutoSaveOverwrite</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SetAutoSaveOverwrite(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SaveNowB</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>WriteAutoSave()</slot>
-    </connection>
-    <connection>
-      <sender>AutoSaveEnable</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>EnableAutoSaveSlot(bool)</slot>
-    </connection>
-    <connection>
-      <sender>SubmitAndStartButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>SubmitAndStart()</slot>
-    </connection>
-    <connection>
-      <sender>ClosePushButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>CloseAnalysis()</slot>
-    </connection>
-  </connections>
 </ui>

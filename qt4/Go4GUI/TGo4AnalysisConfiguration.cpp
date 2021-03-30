@@ -27,6 +27,21 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
 {
    setupUi(this);
 
+   QObject::connect(SubmitPushButton, SIGNAL(pressed()), this, SLOT(SubmitConfiguration()));
+   QObject::connect(AnalysisSaveConf, SIGNAL(clicked()), this, SLOT(SaveConfiguration()));
+   QObject::connect(LoadConfigFileName, SIGNAL(clicked()), this, SLOT(FileDialog_ConfFile()));
+   QObject::connect(LoadAutoSaveFileName, SIGNAL(clicked()), this, SLOT(FileDialog_AutoSave()));
+   QObject::connect(AutoSaveFileName, SIGNAL(textChanged(QString)), this, SLOT(LineEdit_AutoSaveFile()));
+   QObject::connect(GetActiveConfigButton, SIGNAL(clicked()), this, SLOT(RequestAnalysisStatus()));
+   QObject::connect(CompLevel, SIGNAL(valueChanged(int)), this, SLOT(SetCompressionLevel(int)));
+   QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
+   QObject::connect(AutoSaveInterval, SIGNAL(valueChanged(int)), this, SLOT(SetAutoSaveInterval(int)));
+   QObject::connect(AutoSaveOverwrite, SIGNAL(toggled(bool)), this, SLOT(SetAutoSaveOverwrite(bool)));
+   QObject::connect(SaveNowB, SIGNAL(clicked()), this, SLOT(WriteAutoSave()));
+   QObject::connect(AutoSaveEnable, SIGNAL(toggled(bool)), this, SLOT(EnableAutoSaveSlot(bool)));
+   QObject::connect(SubmitAndStartButton, SIGNAL(clicked()), this, SLOT(SubmitAndStart()));
+   QObject::connect(ClosePushButton, SIGNAL(clicked()), this, SLOT(CloseAnalysis()));
+
    fSourcePath = ".";
    fStorePath = ".";
    fConfigPath = ".";

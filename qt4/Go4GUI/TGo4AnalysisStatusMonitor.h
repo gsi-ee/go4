@@ -17,25 +17,25 @@
 #include "QGo4Widget.h"
 #include "ui_TGo4AnalysisStatusMonitor.h"
 
-#include <QMovie>
+class QMovie;
 
-class TGo4AnalysisStatusMonitor : public QGo4Widget, public Ui::TGo4AnalysisStatusMonitor {
+class TGo4AnalysisStatusMonitor : public QGo4Widget, public Ui::TGo4AnalysisStatusMonitor
+{
    Q_OBJECT
-   protected:
+protected:
 
-      QMovie* fxRunMovie;
+   QMovie* fxRunMovie;
 
-   public:
-      TGo4AnalysisStatusMonitor(QWidget *parent = 0, const char* name = 0);
+public:
+   TGo4AnalysisStatusMonitor(QWidget *parent = 0, const char* name = 0);
 
-      virtual ~TGo4AnalysisStatusMonitor();
+   virtual ~TGo4AnalysisStatusMonitor();
 
-      virtual void WorkWithRatemeter(TGo4Slot* slot);
+   virtual void WorkWithRatemeter(TGo4Slot* slot);
 
-      virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
 
-      virtual void linkedObjectRemoved(const char* linkname);
-
+   virtual void linkedObjectRemoved(const char* linkname);
 };
 
 #endif

@@ -14,10 +14,10 @@
 #include "TGo4AnalysisStatusMonitor.h"
 
 #include <QStatusBar>
+#include <QMovie>
 
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4Ratemeter.h"
-
 
 TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name) :
    QGo4Widget(parent, name)
