@@ -30,4 +30,4 @@ set(Go4StatusAnalysis_sources
 
 GO4_INSTALL_HEADERS(${Go4StatusAnalysis_headers})
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4StatusAnalysis_headers} SOURCES ${Go4StatusAnalysis_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4StatusAnalysis_headers} SOURCES ${Go4StatusAnalysis_sources})

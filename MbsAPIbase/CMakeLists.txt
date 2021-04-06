@@ -42,4 +42,4 @@ set(MbsAPIbase_sources
 
 GO4_INSTALL_HEADERS(${MbsAPIbase_headers})
 
-GO4_SOURCES(Go4AnalysisBase SOURCES ${MbsAPIbase_sources})
+GO4_SOURCES(Go4AnalBase SOURCES ${MbsAPIbase_sources})

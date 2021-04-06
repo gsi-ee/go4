@@ -10,7 +10,7 @@ set(Go4EventParameter_sources
    TGo4EventStoreParameter.cxx
 )
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4EventParameter_headers} SOURCES ${Go4EventParameter_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4EventParameter_headers} SOURCES ${Go4EventParameter_sources})
 
 set(Go4Event_headers
    TGo4CompositeEvent.h

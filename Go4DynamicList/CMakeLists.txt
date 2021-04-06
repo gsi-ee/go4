@@ -14,4 +14,4 @@ set(Go4DynamicList_sources
 
 GO4_INSTALL_HEADERS(${Go4DynamicList_headers})
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4DynamicList_headers} SOURCES ${Go4DynamicList_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4DynamicList_headers} SOURCES ${Go4DynamicList_sources})

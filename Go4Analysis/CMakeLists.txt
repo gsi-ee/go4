@@ -1,4 +1,4 @@
-GO4_SOURCES(Go4AnalysisBase HEADERS TGo4Version.h SOURCES TGo4Version.cxx)
+GO4_SOURCES(Go4AnalBase HEADERS TGo4Version.h SOURCES TGo4Version.cxx)
 
 set(Go4Analysis_headers
    TGo4Analysis.h

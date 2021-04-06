@@ -32,7 +32,7 @@ set(Go4EventServerParameter_sources
    TGo4UserStoreParameter.cxx
 )
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4EventServerParameter_headers} SOURCES ${Go4EventServerParameter_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4EventServerParameter_headers} SOURCES ${Go4EventServerParameter_sources})
 
 set(Go4EventServer_headers
    TGo4BackStore.h

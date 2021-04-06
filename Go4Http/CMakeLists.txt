@@ -14,6 +14,6 @@ GO4_STANDARD_LIBRARY(Go4Http
                      LINKDEF LinkDef.h
                      HEADERS ${Go4Http_headers}
                      SOURCES ${Go4Http_sources}
-                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis
+                     DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis
                      LIBRARIES ${ROOT_RHTTP_LIBRARY} ${ROOT_RHTTPSniff_LIBRARY}
                      DEFINITIONS SNIFFER_FULL)

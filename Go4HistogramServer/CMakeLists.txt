@@ -21,5 +21,5 @@ GO4_SOURCES(Go4Analysis HEADERS ${Go4HistogramServer_headers} SOURCES ${Go4Histo
 GO4_INSTALL_HEADERS(${Go4HistogramServer_headers})
 
 add_executable(MainGo4ObjectClient MainGo4ObjectClient.cxx)
-target_link_libraries(MainGo4ObjectClient Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
+target_link_libraries(MainGo4ObjectClient Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis)
 target_include_directories(MainGo4ObjectClient PRIVATE ${CMAKE_BINARY_DIR}/include)

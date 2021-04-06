@@ -39,4 +39,4 @@ set(Go4ConditionBase_sources
 
 GO4_INSTALL_HEADERS(${Go4ConditionBase_headers})
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4ConditionBase_headers} SOURCES ${Go4ConditionBase_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4ConditionBase_headers} SOURCES ${Go4ConditionBase_sources})

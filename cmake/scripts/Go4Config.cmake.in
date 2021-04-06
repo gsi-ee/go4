@@ -44,7 +44,7 @@ foreach(_cpt Spectrum Minuit XMLIO HTTP)
 endforeach()
 
 # search for Go4 libraries
-foreach(_cpt Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis Go4Widgets Go4QtRoot Go4WebRoot)
+foreach(_cpt Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis Go4Widgets Go4QtRoot Go4WebRoot)
   find_library(${_cpt}_LIBRARY ${_cpt} HINTS ${GO4_LIBRARY_DIR})
   if(${_cpt}_LIBRARY)
     mark_as_advanced(${_cpt}_LIBRARY)

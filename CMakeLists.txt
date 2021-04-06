@@ -95,7 +95,7 @@ GO4_STANDARD_LIBRARY(Go4TaskHandler
                      LINKDEF Go4Dict/Go4TaskHandlerLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager)
 
-# ================== Go4AnalysisBase library =================
+# ================== Go4AnalBase library =================
 
 add_subdirectory(MbsAPIbase)
 add_subdirectory(Go4Event)
@@ -117,7 +117,7 @@ if(MSVC)
 #   $<$<PLATFORM_ID:Windows>:ws2_32.lib>
 endif()
 
-GO4_STANDARD_LIBRARY(Go4AnalysisBase
+GO4_STANDARD_LIBRARY(Go4AnalBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
                      LIBRARIES ${hdf5_lib} ${_win_lib}
@@ -155,14 +155,14 @@ set_source_files_properties(MbsAPI/fLmd.c PROPERTIES COMPILE_DEFINITIONS _LARGEF
 
 GO4_STANDARD_LIBRARY(Go4Analysis
                      LINKDEF Go4Dict/Go4AnalysisLinkDef.h
-                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
 
 # ================== go4analysis executable =================
 
 add_executable(MainUserAnalysis Go4Analysis/MainUserAnalysis.cxx)
-target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Analysis)
+target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis)
 target_include_directories(MainUserAnalysis PRIVATE ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(MainUserAnalysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
 set_target_properties(MainUserAnalysis PROPERTIES OUTPUT_NAME go4analysis)
@@ -176,7 +176,7 @@ add_subdirectory(Go4Proxies)
 
 GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
-                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase
+                     DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase
                      LIBRARIES ${ROOT_Gui_LIBRARY})
 
 if(DABC_FOUND)

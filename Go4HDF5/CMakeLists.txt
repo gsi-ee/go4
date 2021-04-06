@@ -8,7 +8,7 @@ set(Go4HDF5Parameter_sources
    TGo4HDF5StoreParameter.cxx
 )
 
-GO4_SOURCES(Go4AnalysisBase HEADERS ${Go4HDF5Parameter_headers} SOURCES ${Go4HDF5Parameter_sources})
+GO4_SOURCES(Go4AnalBase HEADERS ${Go4HDF5Parameter_headers} SOURCES ${Go4HDF5Parameter_sources})
 
 set(Go4HDF5_headers
    TGo4HDF5Adapter.h

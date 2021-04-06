@@ -368,7 +368,7 @@ target_link_libraries(go4
    ${ROOT_LIBRARIES}
    ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY}
    ${gui_extra_libs}
-   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalysisBase Go4Gui
+   Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )
 
 target_compile_definitions(go4 PRIVATE -D${GO4_PLATFROM} ${GO4_DEFINITIONS} ${gui_defines})
