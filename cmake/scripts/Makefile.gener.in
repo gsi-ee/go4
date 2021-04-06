@@ -1,0 +1,20 @@
+#### Generated file, not change ###
+GO4_Configured = true
+GO4_OS       = Linux
+GO4TOPPATH   = @CMAKE_BINARY_DIR@
+GO4EXEPATH   = @CMAKE_BINARY_DIR@/bin
+GO4LIBPATH   = @CMAKE_BINARY_DIR@/lib
+GO4INCPATH   = @CMAKE_BINARY_DIR@/include
+GO4WITHRPATH = true
+DOOPTIMIZATION = true
+
+#### ROOT configigurations from root-config
+ROOTVERSION  = @_root_vers_@
+ROOTEXEPATH  = @_root_exec_prefix_@
+ROOTINCPATH  = @ROOT_INCLUDE_DIRS@
+ROOTLIBPATH  = @ROOT_LIBRARY_DIR@
+ROOTCFLAGS   = @_root_cflags_@
+ROOTLIBS     = @_root_libs_@
+
+#### Available ROOT components
+ISROOT6       = true
