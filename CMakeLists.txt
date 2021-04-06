@@ -236,6 +236,12 @@ add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 
 # ================== Copy files, create old support files ==========
 
+file(COPY ${CMAKE_SOURCE_DIR}/Go4License.txt DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/README.txt DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4FitTutorial.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
+file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Introduction.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
+file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Reference.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
+
 file(COPY ${CMAKE_SOURCE_DIR}/icons DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/html DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/macros DESTINATION ${CMAKE_BINARY_DIR})
