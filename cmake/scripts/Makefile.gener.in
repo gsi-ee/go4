@@ -1,6 +1,6 @@
 #### Generated file, not change ###
 GO4_Configured = true
-GO4_OS       = Linux
+GO4_OS       = @GO4_PLATFORM@
 GO4TOPPATH   = @CMAKE_BINARY_DIR@
 GO4EXEPATH   = @CMAKE_BINARY_DIR@/bin
 GO4LIBPATH   = @CMAKE_BINARY_DIR@/lib
