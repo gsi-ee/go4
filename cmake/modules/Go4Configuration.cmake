@@ -40,6 +40,15 @@ configure_file(${CMAKE_SOURCE_DIR}/Go4License.txt
 configure_file(${CMAKE_SOURCE_DIR}/README.txt
                ${CMAKE_BINARY_DIR}/README.txt COPYONLY)
 
+configure_file(${CMAKE_SOURCE_DIR}/docs/Go4FitTutorial.pdf
+               ${CMAKE_BINARY_DIR}/docs/Go4FitTutorial.pdf COPYONLY)
+
+configure_file(${CMAKE_SOURCE_DIR}/docs/Go4Introduction.pdf
+               ${CMAKE_BINARY_DIR}/docs/Go4Introduction.pdf COPYONLY)
+
+configure_file(${CMAKE_SOURCE_DIR}/docs/Go4Reference.pdf
+               ${CMAKE_BINARY_DIR}/docs/Go4Reference.pdf COPYONLY)
+
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)
 
