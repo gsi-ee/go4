@@ -39,7 +39,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
 
 if(MSVC)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
-                  ${CMAKE_BINARY_DIR}/go4login.bat COPYONLY)
+                  ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE WIN32)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
                   ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
 else()
