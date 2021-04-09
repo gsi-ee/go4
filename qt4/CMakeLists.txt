@@ -377,7 +377,7 @@ GO4_INSTALL_HEADERS(${gui_install_headers})
 
 add_dependencies(go4 move_headers)
 
-if(_qtroot_depend)
+if(_qtroot_depend AND NOT MSVC)
    ExternalProject_Add(Go4UserGUIX11
                        DEPENDS ${_qtroot_depend}
                        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
@@ -386,7 +386,7 @@ if(_qtroot_depend)
                        INSTALL_COMMAND "")
 endif()
 
-if(_webroot_depend)
+if(_webroot_depend AND NOT MSVC)
    ExternalProject_Add(Go4UserGUIWeb
                        DEPENDS ${_webroot_depend}
                        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
