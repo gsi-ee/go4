@@ -242,9 +242,21 @@ file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4FitTutorial.pdf DESTINATION ${CMAKE_BINARY
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Introduction.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Reference.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
 
-file(COPY ${CMAKE_SOURCE_DIR}/icons DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/html DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/macros DESTINATION ${CMAKE_BINARY_DIR})
+file(GLOB go4_icons "${CMAKE_SOURCE_DIR}/icons/*.*")
+foreach(_icon ${go4_icons})
+   file(COPY ${_icon} DESTINATION ${CMAKE_BINARY_DIR}/icons)
+endforeach(_icon)
+
+file(GLOB go4_html "${CMAKE_SOURCE_DIR}/html/*.*")
+foreach(_html ${go4_html})
+   file(COPY ${_html} DESTINATION ${CMAKE_BINARY_DIR}/html)
+endforeach(_html)
+
+file(GLOB go4_macros "${CMAKE_SOURCE_DIR}/macros/*.C")
+foreach(_macro ${go4_macros})
+   file(COPY ${_macro} DESTINATION ${CMAKE_BINARY_DIR}/macros)
+endforeach(_macro)
+
 file(COPY ${CMAKE_SOURCE_DIR}/python DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/etc/go4.prefs DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4LaunchPrefs.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)

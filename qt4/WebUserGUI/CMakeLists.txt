@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(Go4UserGui)
+project(WebUserGui)
 
 find_package(Go4)
 
@@ -17,8 +17,8 @@ if(NOT Qt5_FOUND)
   message(FATAL_ERROR "Could NOT find Qt5")
 endif()
 
-GO4_LINK_LIBRARY(Go4UserGui 
+GO4_LINK_LIBRARY(Go4UserGui
                  SOURCES QUserPanel.cpp QUserPanel.ui
-                 LIBRARIES 
-                     Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets 
+                 LIBRARIES
+                     Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets
                      ${ROOT_LIBRARIES} ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})
