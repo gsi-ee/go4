@@ -39,6 +39,11 @@
 #include "TGo4BufferQueue.h"
 #endif
 
+
+#ifdef __GO4WEB__
+#include <QtWebEngine>
+#endif
+
 int print_go4_version()
 {
    const char* dabc_vers = TGo4DabcProxy::GetDabcVersion();
@@ -239,6 +244,11 @@ int main(int argc, char **argv)
 #endif
 
    Q_INIT_RESOURCE(go4icons);
+
+#ifdef __GO4WEB__
+   // must be called before creating QApplication
+   QtWebEngine::initialize();
+#endif
 
    QRootApplication myapp(argc, argv2); // Qt application
 
