@@ -21,22 +21,22 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 This package was tested on
-    openSUSE Leap 42.2, openSUSE Tumblweed 5.2019
+    openSUSE Leap 42.2, openSUSE Tumblweed 3.2021
     Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
     macOS 10.14.6
-    compilers: gcc 4.7.2, gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2
+    compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2
 
 REQUIREMENTS:
-    ROOT  either 6.12 or higher (recommended 6.18)
+    ROOT  either 6.12 or higher (recommended 6.22)
               or 5.34-36 or higher
-    Qt    either qt5.6 or higher (recommended 5.12)
+    Qt    either qt5.6 or higher (recommended 5.15)
               or qt4.8 or higher
-              or qt3 (deprectaed)
+              or qt6.0 or higher (experimental)
 
 
 ROOT INSTALLATION
 
-  Install the ROOT framework Version >=6.18/00 (older version up to 5.34/36
+  Install the ROOT framework Version >=6.22/08 (older version up to 5.34/36
   can also be used, but not recommended).
   See instruction how download and compile ROOT on http://root.cern.ch.
   Recomended way to build ROOT - compile it and use from compilation path:
@@ -67,7 +67,7 @@ QT INSTALLATION
   This Go4 distribution can be built with following Qt versions:
      qt5 - Qt 5.6.x and higher (recommended)
      qt4 - Qt 4.6.x and higher
-     qt3 - Qt 3.3.x and higher
+     qt6 - Qt 6.0.x and higher
   Most modern Linux distributions provide Qt libraries, utilities and include files.
   Typically one should install libqt5-devel packages.
   Normally Go4 able to detect major version of such Qt installation
@@ -76,6 +76,7 @@ QT INSTALLATION
   preferred version of qt. It is especially necessary for systems, where Qt3 installation
   automatically sets QTDIR variable. In that case call "make withqt=5" to compile
   go4 with Qt5. It is recommended to use Qt5 version of GUI.
+  Qt6 version only can be build with cmake
 
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should download it from https://www.qt.io/download anf follow instruction how it should be
@@ -107,11 +108,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
 
-     shell> tar xzf go4-5.9.x.tar.gz
+     shell> tar xzf go4-6.1.0.tar.gz
 
-  This will create sub-directory go4-5.9.x. To compile go4, do:
+  This will create sub-directory go4-6.1.0. To compile go4, do:
 
-     shell> cd go4-5.9.x
+     shell> cd go4-6.1.0
      shell> make -j
 
   In most cases it will be enough to compile go4 libraries, gui and
@@ -215,3 +216,28 @@ ADVANCED MAKE OPTIONS
 
   "make clean-bin"  Cleanup object/dependency files so that only go4 binaries
                     and source files are remained
+
+GO4 ON WINDOWS
+
+ First of all, install Qt5 with WebEngine support on Windows.
+ Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
+
+    set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019\bin
+    mkdir C:\Soft\root
+    cd C:\Soft\root
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dwebgui=ON -Dqt5web=ON
+    cmake --build . --config Release -- /maxcpucount
+
+Then compile Go4:
+
+    call C:\Soft\root\bin\thisroot.bat
+    mkdir C:\Soft\go4
+    cd C:\Soft\go4
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root
+    cmake --build . --config Release -- /maxcpucount
+
+Run go4:
+
+    call C:\Soft\go4\go4login.bat
+    go4.exe
+
