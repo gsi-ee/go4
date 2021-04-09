@@ -1,6 +1,16 @@
-:: detect path where script is located 
+:: detect path where script is located
+
+:: configure Qt5 location
+
+@set QTDIR=@_qt_dir_@
+@set LIB=%QTDIR%/lib;%LIB%
+@set PATH=%QTDIR%/bin;%PATH%
+
+:: configure ROOT
 
 call @ROOT_BINDIR@/thisroot.bat
+
+:: detect current dir
 
 @set OLDPATH=%cd%
 @set THIS=%0
@@ -9,20 +19,17 @@ call @ROOT_BINDIR@/thisroot.bat
 @set GO4SYS=%cd%
 @cd /D %OLDPATH%
 
-@echo Set environment for root and go4
-@echo    GO4SYS = %GO4SYS%
-@echo    ROOTSYS = %ROOTSYS%
 @set PATH=%GO4SYS%\bin;%PATH%
 @set LIB=.;%GO4SYS%\lib;%LIB%
 
+:: show configuration
 
-:: uncommented and adjusted actual location of Qt (required to run go4, compiled from source)
+@echo Set environment for root and go4
+@echo    GO4SYS = %GO4SYS%
+@echo    ROOTSYS = %ROOTSYS%
+@echo    QTDIR = %QTDIR%
 
-:: set QTDIR=C:\Qt5\5.15.2\msvc2019
-:: @set LIB=%LIB%;%QTDIR%\lib
-:: @set PATH=%PATH%;%QTDIR%\bin
-
-:: if one need to compile user analysis, following lines should be 
-:: uncommented and adjusted to actual location of MS Visual 
+:: if one need to compile user analysis, following lines should be
+:: uncommented and adjusted to actual location of MS Visual
 
 :: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"

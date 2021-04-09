@@ -38,6 +38,9 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)
 
 if(MSVC)
+
+   get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
+
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
                   ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE WIN32)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
