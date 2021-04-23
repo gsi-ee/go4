@@ -56,7 +56,7 @@ if(dabc)
 endif()
 
 if(hdf5)
-   find_package(HDF5 QUIET)
+   find_package(HDF5 COMPONENTS CXX QUIET)
    if(NOT HDF5_FOUND)
       set(hdf5 OFF)
    endif()
@@ -103,7 +103,7 @@ add_subdirectory(Go4EventServer)
 
 if(HDF5_FOUND)
    add_subdirectory(Go4HDF5)
-   set(hdf5_lib hdf5 hdf5_cpp)
+   set(hdf5_lib ${HDF5_LIBRARIES} ${HDF5_CXX_LIBRARIES})
    set(hdf5_def __GO4HDF5__)
 endif()
 
