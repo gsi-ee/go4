@@ -80,5 +80,5 @@ set(Go4EventServer_sources
 
 GO4_SOURCES(Go4Analysis HEADERS ${Go4EventServer_headers} SOURCES ${Go4EventServer_sources})
 
-GO4_INSTALL_HEADERS(${Go4EventServerParameter_headers} ${Go4EventServer_headers} Go4EventServer.h Go4EventServerTypes.h)
+GO4_INSTALL_HEADERS(MAKESUB ${Go4EventServerParameter_headers} ${Go4EventServer_headers} Go4EventServer.h Go4EventServerTypes.h)
 

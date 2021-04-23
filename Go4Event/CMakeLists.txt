@@ -46,5 +46,5 @@ set(Go4Event_sources
 
 GO4_SOURCES(Go4Analysis HEADERS ${Go4Event_headers} SOURCES ${Go4Event_sources})
 
-GO4_INSTALL_HEADERS(${Go4EventParameter_headers} ${Go4Event_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4EventParameter_headers} ${Go4Event_headers})
 
