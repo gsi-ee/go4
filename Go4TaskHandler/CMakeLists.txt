@@ -44,6 +44,6 @@ set(Go4TaskHanlder_sources
    TGo4TaskStatus.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4TaskHanlder_headers} Go4EmergencyCommands.h)
+GO4_INSTALL_HEADERS(MAKESUB ${Go4TaskHanlder_headers} Go4EmergencyCommands.h)
 
 GO4_SOURCES(Go4TaskHandler HEADERS ${Go4TaskHanlder_headers} SOURCES ${Go4TaskHanlder_sources})

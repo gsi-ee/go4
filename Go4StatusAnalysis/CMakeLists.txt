@@ -28,6 +28,6 @@ set(Go4StatusAnalysis_sources
    TGo4TreeStructure.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4StatusAnalysis_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4StatusAnalysis_headers})
 
 GO4_SOURCES(Go4AnalBase HEADERS ${Go4StatusAnalysis_headers} SOURCES ${Go4StatusAnalysis_sources})

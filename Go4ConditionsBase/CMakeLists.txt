@@ -37,6 +37,6 @@ set(Go4ConditionBase_sources
    TGo4WinCondView.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4ConditionBase_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4ConditionBase_headers})
 
 GO4_SOURCES(Go4AnalBase HEADERS ${Go4ConditionBase_headers} SOURCES ${Go4ConditionBase_sources})

@@ -26,4 +26,4 @@ set(Go4Analysis_sources
 
 GO4_SOURCES(Go4Analysis HEADERS ${Go4Analysis_headers} SOURCES ${Go4Analysis_sources})
 
-GO4_INSTALL_HEADERS(TGo4Version.h ${Go4Analysis_headers})
+GO4_INSTALL_HEADERS(MAKESUB TGo4Version.h ${Go4Analysis_headers})

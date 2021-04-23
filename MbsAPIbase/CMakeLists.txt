@@ -40,6 +40,6 @@ set(MbsAPIbase_sources
    f_ut_time.c
 )
 
-GO4_INSTALL_HEADERS(${MbsAPIbase_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${MbsAPIbase_headers})
 
 GO4_SOURCES(Go4AnalBase SOURCES ${MbsAPIbase_sources})

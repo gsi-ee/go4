@@ -42,6 +42,6 @@ set(MbsAPI_sources
    f_ut_wild.c
 )
 
-GO4_INSTALL_HEADERS(${MbsAPI_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${MbsAPI_headers})
 
 GO4_SOURCES(Go4Analysis SOURCES ${MbsAPI_sources})

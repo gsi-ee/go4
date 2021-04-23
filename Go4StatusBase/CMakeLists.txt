@@ -20,6 +20,6 @@ set(Go4StatusBase_sources
    TGo4Status.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4StatusBase_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4StatusBase_headers})
 
 GO4_SOURCES(Go4Base HEADERS ${Go4StatusBase_headers} SOURCES ${Go4StatusBase_sources})
