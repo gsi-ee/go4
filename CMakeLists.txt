@@ -123,6 +123,11 @@ GO4_STANDARD_LIBRARY(Go4AnalBase
                      LIBRARIES ${hdf5_lib} ${_win_lib}
                      DEFINITIONS ${hdf5_def} ${_win_def})
 
+if(HDF5_FOUND)
+   target_include_directories(Go4AnalBase PRIVATE ${HDF5_CXX_INCLUDE_DIRS})
+endif()
+
+
 # ================== Go4Analysis library =================
 
 add_subdirectory(MbsAPI)
@@ -158,6 +163,10 @@ GO4_STANDARD_LIBRARY(Go4Analysis
                      DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase
                      LIBRARIES ${hdf5_lib}
                      DEFINITIONS ${hdf5_def})
+
+if(HDF5_FOUND)
+   target_include_directories(Go4Analysis PRIVATE ${HDF5_CXX_INCLUDE_DIRS})
+endif()
 
 # ================== go4analysis executable =================
 
