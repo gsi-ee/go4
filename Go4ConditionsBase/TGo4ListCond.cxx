@@ -73,9 +73,10 @@ TGo4ListCond::~TGo4ListCond()
 {
 }
 
-Bool_t TGo4ListCond::Test(Int_t value)
+Bool_t TGo4ListCond::Test(Double_t dvalue)
 {
-	IncCounts();
+	Int_t value=dvalue; // need this to avoid framework ambiguity
+    IncCounts();
 	if(!IsEnabled()){
 	  if(FixedResult()) IncTrueCounts();
 	  return FixedResult();

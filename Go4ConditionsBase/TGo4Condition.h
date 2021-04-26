@@ -87,7 +87,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Bool_t Test();
     virtual Bool_t Test(Double_t x, Double_t y) { return true; }
     virtual Bool_t Test(Double_t x) { return true; }
-    virtual Bool_t Test(Bool_t result) { return true; }
+    //virtual Bool_t Test(Bool_t result) { return true; }
 
     /** Set values needed, i.e. limits for windows or cuts for polygons */
     virtual void SetValues() {}

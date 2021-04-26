@@ -36,7 +36,9 @@ public:
   virtual void SetValues(const Int_t start, const Int_t stop, const Int_t step);
 
   using TGo4Condition::Test;
-  virtual Bool_t Test(Int_t value);
+  //virtual Bool_t Test(Int_t value);
+  virtual Bool_t Test(Double_t value);
+
 
   void PrintCondition(Bool_t full = kFALSE);
   void PrintValues();
