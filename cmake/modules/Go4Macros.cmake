@@ -137,6 +137,11 @@ function(GO4_STANDARD_LIBRARY libname)
                               DEPENDENCIES ${ARG_DEPENDENCIES})
   endif()
 
+   install(TARGETS ${libname} EXPORT ${CMAKE_PROJECT_NAME}Exports
+                              RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
+                              LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+                              ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)
+
 endfunction()
 
 #-------------------------------------------------------------------------------

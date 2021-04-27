@@ -175,7 +175,8 @@ target_link_libraries(MainUserAnalysis Go4Base Go4ThreadManager Go4TaskHandler G
 target_include_directories(MainUserAnalysis PRIVATE ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(MainUserAnalysis PRIVATE ${http_def} ${hdf5_def} ${dabc_def})
 set_target_properties(MainUserAnalysis PROPERTIES OUTPUT_NAME go4analysis)
-
+install(TARGETS MainUserAnalysis EXPORT ${CMAKE_PROJECT_NAME}Exports
+                                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
 
 # ================== Go4Gui library =================
 
@@ -256,6 +257,8 @@ foreach(_icon ${go4_icons})
    file(COPY ${_icon} DESTINATION ${CMAKE_BINARY_DIR}/icons)
 endforeach(_icon)
 
+install(DIRECTORY icons/  DESTINATION ${CMAKE_INSTALL_ICONSDIR})
+
 file(GLOB go4_html "${CMAKE_SOURCE_DIR}/html/*.*")
 foreach(_html ${go4_html})
    file(COPY ${_html} DESTINATION ${CMAKE_BINARY_DIR}/html)
@@ -265,6 +268,9 @@ file(GLOB go4_macros "${CMAKE_SOURCE_DIR}/macros/*.C")
 foreach(_macro ${go4_macros})
    file(COPY ${_macro} DESTINATION ${CMAKE_BINARY_DIR}/macros)
 endforeach(_macro)
+
+install(DIRECTORY macros/  DESTINATION ${CMAKE_INSTALL_MACROSDIR})
+
 
 file(COPY ${CMAKE_SOURCE_DIR}/python DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/etc/go4.prefs DESTINATION ${CMAKE_BINARY_DIR}/etc)

@@ -371,6 +371,9 @@ target_link_libraries(go4
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )
 
+install(TARGETS go4 EXPORT ${CMAKE_PROJECT_NAME}Exports
+                    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
+
 target_compile_definitions(go4 PRIVATE -D${GO4_PLATFROM} ${GO4_DEFINITIONS} ${gui_defines})
 
 GO4_INSTALL_HEADERS(${gui_install_headers})
