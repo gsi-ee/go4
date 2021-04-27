@@ -37,6 +37,11 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/Go4Macros.cmake
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)
 
+install(FILES ${CMAKE_BINARY_DIR}/Go4Config.cmake
+              ${CMAKE_BINARY_DIR}/Go4Macros.cmake
+              ${CMAKE_BINARY_DIR}/Go4UseFile.cmake
+              DESTINATION ${GO4_INSTALL_MAINDIR})
+
 if(MSVC)
 
 else()
