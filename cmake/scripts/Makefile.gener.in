@@ -1,10 +1,10 @@
 #### Generated file, not change ###
 GO4_Configured = true
 GO4_OS       = @GO4_PLATFORM@
-GO4TOPPATH   = @CMAKE_BINARY_DIR@
-GO4EXEPATH   = @CMAKE_BINARY_DIR@/bin
-GO4LIBPATH   = @CMAKE_BINARY_DIR@/lib
-GO4INCPATH   = @CMAKE_BINARY_DIR@/include
+GO4TOPPATH   = @_go4top_@
+GO4EXEPATH   = @_go4bin_@
+GO4LIBPATH   = @_go4lib_@
+GO4INCPATH   = @_go4inc_@
 GO4WITHRPATH = true
 DOOPTIMIZATION = true
 

@@ -104,7 +104,29 @@ QT installation on Mac OS X
      shell> export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 
-GO4 COMPILATION
+GO4 COMPILATION WITH CMAKE
+
+  Create build directory and call
+
+     shell> cmake "path_to_source_dir"
+     shell> make -j
+
+  One also can specify several options for cmake:
+
+     -Dhdf5=ON - enable HDF5 support, requires installed HDF5 library
+     -DCMAKE_INSTALL_PREFIX=/home/user/custom/dir - configure custom directory for installation
+
+GO4 INSTALLATION AFTER CMAKE BUILD
+
+  If go4 build cmake, it can be used directly from build directory.
+  If required, one can install it with the command:
+
+      shell> make install
+
+  It will copy files to configured installation path
+
+
+GO4 COMPILATION WITH MAKE (deprecated)
 
   Unpack this Go4 distribution in any suitable directory.
 
@@ -120,12 +142,7 @@ GO4 COMPILATION
   has additional capabilities, which are listed in the end of this README.
 
 
-GO4 COMPILATION WITH CMAKE
 
- Create build directory and call
-
-     shell> cmake "path_to_source_dir"
-     shell> make -jN
 
 
 RUNNING GO4 GUI

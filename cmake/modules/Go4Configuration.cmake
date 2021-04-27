@@ -59,8 +59,25 @@ if(NOT MSVC)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --cflags OUTPUT_VARIABLE _root_cflags_)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --libs OUTPUT_VARIABLE _root_libs_)
 
+   set(_go4top_ ${CMAKE_BINARY_DIR})
+   set(_go4bin_ ${CMAKE_BINARY_DIR}/bin)
+   set(_go4lib_ ${CMAKE_BINARY_DIR}/lib)
+   set(_go4inc_ ${CMAKE_BINARY_DIR}/include)
+
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile.gener.in
                   ${CMAKE_BINARY_DIR}/build/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
+
+   if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+      set(_go4top_ ${GO4_INSTALL_MAINDIR})
+   else()
+      set(_go4top_ ${GO4_INSTALL_MAINDIR})
+   endif()
+   set(_go4bin_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
+   set(_go4lib_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+   set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+
+   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile.gener.in
+                  ${CMAKE_BINARY_DIR}/_install/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
 
    file(COPY ${CMAKE_SOURCE_DIR}/Makefile.config DESTINATION ${CMAKE_BINARY_DIR})
    file(COPY ${CMAKE_SOURCE_DIR}/Makefile.rules DESTINATION ${CMAKE_BINARY_DIR})
@@ -72,6 +89,11 @@ if(NOT MSVC)
    file(COPY ${CMAKE_SOURCE_DIR}/build/makemap.sh DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/Makefile.Linux DESTINATION ${CMAKE_BINARY_DIR}/build)
    file(COPY ${CMAKE_SOURCE_DIR}/build/Makefile.Darwin DESTINATION ${CMAKE_BINARY_DIR}/build)
+
+   install(FILES ${CMAKE_BINARY_DIR}/Makefile.config ${CMAKE_BINARY_DIR}/Makefile.rules DESTINATION ${GO4_INSTALL_MAINDIR})
+   install(DIRECTORY ${CMAKE_BINARY_DIR}/build/ DESTINATION ${GO4_INSTALL_BUILDDIR})
+   install(FILES ${CMAKE_BINARY_DIR}/_install/Makefile.gener DESTINATION ${GO4_INSTALL_BUILDDIR})
+
 endif()
 
 
