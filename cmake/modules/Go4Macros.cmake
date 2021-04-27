@@ -39,6 +39,9 @@ function(GO4_INSTALL_HEADERS)
       COMMENT "Copying header ${src} to ${CMAKE_BINARY_DIR}/include"
       DEPENDS ${src})
     list(APPEND dst_list ${dst})
+
+    install(FILES ${dst} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT headers)
+
     if(ARG_MAKESUB)
        set (dst2 ${CMAKE_BINARY_DIR}/include/${subdir}/${include_file})
        add_custom_command(
@@ -47,6 +50,7 @@ function(GO4_INSTALL_HEADERS)
           COMMENT "Copying header ${src} to ${CMAKE_BINARY_DIR}/include/${subdir}"
           DEPENDS ${src})
        list(APPEND dst_list ${dst2})
+       install(FILES ${dst} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${subdir} COMPONENT headers)
     endif()
   endforeach()
   add_custom_target(${tgt} DEPENDS ${dst_list})
