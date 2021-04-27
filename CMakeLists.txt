@@ -248,6 +248,7 @@ add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 
 file(COPY ${CMAKE_SOURCE_DIR}/Go4License.txt DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/README.txt DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/CHANGES.txt DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4FitTutorial.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Introduction.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Reference.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
@@ -257,7 +258,6 @@ foreach(_icon ${go4_icons})
    file(COPY ${_icon} DESTINATION ${CMAKE_BINARY_DIR}/icons)
 endforeach(_icon)
 
-install(DIRECTORY icons/  DESTINATION ${CMAKE_INSTALL_ICONSDIR})
 
 file(GLOB go4_html "${CMAKE_SOURCE_DIR}/html/*.*")
 foreach(_html ${go4_html})
@@ -269,9 +269,6 @@ foreach(_macro ${go4_macros})
    file(COPY ${_macro} DESTINATION ${CMAKE_BINARY_DIR}/macros)
 endforeach(_macro)
 
-install(DIRECTORY macros/  DESTINATION ${CMAKE_INSTALL_MACROSDIR})
-
-
 file(COPY ${CMAKE_SOURCE_DIR}/python DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/etc/go4.prefs DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4LaunchPrefs.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)
@@ -279,5 +276,26 @@ file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ClientStartup.sh DESTINATION ${CMAKE_BINARY
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ServerStartup.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ShowPdf.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/htdigest.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)
+
+# install directories
+
+install(DIRECTORY docs/ DESTINATION ${CMAKE_INSTALL_DOCSDIR})
+install(DIRECTORY etc/ DESTINATION ${CMAKE_INSTALL_ETCDIR})
+install(DIRECTORY html/ DESTINATION ${CMAKE_INSTALL_HTMLDIR})
+install(DIRECTORY icons/ DESTINATION ${CMAKE_INSTALL_ICONSDIR})
+install(DIRECTORY macros/ DESTINATION ${CMAKE_INSTALL_MACROSDIR})
+install(FILES CHANGES.txt
+              Go4License.txt
+              README.txt
+              DESTINATION ${CMAKE_INSTALL_MAINDIR})
+
+if(NOT MSVC)
+   install(DIRECTORY build/ DESTINATION ${CMAKE_INSTALL_BUILDDIR})
+   install(FILES Makefile.config
+                 Makefile.rules
+                 DESTINATION ${CMAKE_INSTALL_MAINDIR})
+endif()
+
+
 
 GO4_SHOW_ENABLED_OPTIONS()
