@@ -20,3 +20,8 @@ GO4_LINK_LIBRARY(Go4QtRoot
 target_include_directories(Go4QtRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
 
 add_dependencies(Go4QtRoot Go4Gui)
+
+install(TARGETS Go4QtRoot EXPORT ${CMAKE_PROJECT_NAME}Exports
+                          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
+                          LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+                          ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)

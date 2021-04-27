@@ -18,3 +18,8 @@ GO4_LINK_LIBRARY(Go4WebRoot
 target_include_directories(Go4WebRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
 
 add_dependencies(Go4WebRoot Go4Gui)
+
+install(TARGETS Go4WebRoot EXPORT ${CMAKE_PROJECT_NAME}Exports
+                           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
+                           LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+                           ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)
