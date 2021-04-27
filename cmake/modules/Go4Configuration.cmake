@@ -39,21 +39,22 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
 
 if(MSVC)
 
+else()
+endif()
+
+
+# ================== Copy support files for plain Makefile ==========
+
+if (MSVC)
    get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
                   ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE WIN32)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
                   ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
+
 else()
-   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.in
-                  ${CMAKE_BINARY_DIR}/go4login @ONLY NEWLINE_STYLE UNIX)
-endif()
 
-
-# ================== Copy support files for plain Makefile ==========
-
-if(NOT MSVC)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --version OUTPUT_VARIABLE _root_vers_)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --exec-prefix OUTPUT_VARIABLE _root_exec_prefix_)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --cflags OUTPUT_VARIABLE _root_cflags_)
@@ -63,6 +64,9 @@ if(NOT MSVC)
    set(_go4bin_ ${CMAKE_BINARY_DIR}/bin)
    set(_go4lib_ ${CMAKE_BINARY_DIR}/lib)
    set(_go4inc_ ${CMAKE_BINARY_DIR}/include)
+
+   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.in
+                  ${CMAKE_BINARY_DIR}/go4login @ONLY NEWLINE_STYLE UNIX)
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile.gener.in
                   ${CMAKE_BINARY_DIR}/build/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
@@ -75,6 +79,9 @@ if(NOT MSVC)
    set(_go4bin_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
    set(_go4lib_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
    set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+
+   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.in
+                  ${CMAKE_BINARY_DIR}/_install/go4login @ONLY NEWLINE_STYLE UNIX)
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile.gener.in
                   ${CMAKE_BINARY_DIR}/_install/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
@@ -93,6 +100,7 @@ if(NOT MSVC)
    install(FILES ${CMAKE_BINARY_DIR}/Makefile.config ${CMAKE_BINARY_DIR}/Makefile.rules DESTINATION ${GO4_INSTALL_MAINDIR})
    install(DIRECTORY ${CMAKE_BINARY_DIR}/build/ DESTINATION ${GO4_INSTALL_BUILDDIR})
    install(FILES ${CMAKE_BINARY_DIR}/_install/Makefile.gener DESTINATION ${GO4_INSTALL_BUILDDIR})
+   install(FILES ${CMAKE_BINARY_DIR}/_install/go4login DESTINATION ${GO4_INSTALL_MAINDIR})
 
 endif()
 

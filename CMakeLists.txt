@@ -258,7 +258,6 @@ foreach(_icon ${go4_icons})
    file(COPY ${_icon} DESTINATION ${CMAKE_BINARY_DIR}/icons)
 endforeach(_icon)
 
-
 file(GLOB go4_html "${CMAKE_SOURCE_DIR}/html/*.*")
 foreach(_html ${go4_html})
    file(COPY ${_html} DESTINATION ${CMAKE_BINARY_DIR}/html)
@@ -284,6 +283,7 @@ install(DIRECTORY etc/ DESTINATION ${GO4_INSTALL_ETCDIR})
 install(DIRECTORY html/ DESTINATION ${GO4_INSTALL_HTMLDIR})
 install(DIRECTORY icons/ DESTINATION ${GO4_INSTALL_ICONSDIR})
 install(DIRECTORY macros/ DESTINATION ${GO4_INSTALL_MACROSDIR})
+install(DIRECTORY python/ DESTINATION ${GO4_INSTALL_PYTHONDIR})
 install(FILES CHANGES.txt
               Go4License.txt
               README.txt
