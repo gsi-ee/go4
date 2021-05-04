@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 # ------------ reuse ROOT configurations ----------
+if(EXISTS ${GO4_ROOT_DIR}/cmake/ROOTUseFile.cmake)
+include(${GO4_ROOT_DIR}/cmake/ROOTUseFile.cmake)
+else()
 include(${GO4_ROOT_DIR}/ROOTUseFile.cmake)
+endif()
 
 #---Define the Standard Go4 macros --------------
 include(${CMAKE_CURRENT_LIST_DIR}/Go4Macros.cmake)

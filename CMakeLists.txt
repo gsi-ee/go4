@@ -42,9 +42,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 #--- Load basic macros ---
 include(Go4BuildOptions)
+include(Go4InstallDirs)
 include(Go4Configuration)
 include(Go4Macros)
-include(Go4InstallDirs)
 include(ExternalProject)
 
 #--- Search for external packages ---

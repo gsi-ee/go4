@@ -24,6 +24,6 @@ set(Go4DProxies_sources
    TGo4WidgetProxyBase.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4DProxies_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4DProxies_headers})
 
 GO4_SOURCES(Go4Gui HEADERS ${Go4DProxies_headers} SOURCES ${Go4DProxies_sources})

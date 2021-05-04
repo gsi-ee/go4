@@ -27,6 +27,6 @@ set(Go4ObjectManager_sources
    TGo4TreeProxy.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4ObjectManager_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4ObjectManager_headers})
 
 GO4_SOURCES(Go4Gui HEADERS ${Go4ObjectManager_headers} SOURCES ${Go4ObjectManager_sources})
