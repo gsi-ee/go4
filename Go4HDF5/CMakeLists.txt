@@ -26,5 +26,5 @@ set(Go4HDF5_sources
 
 GO4_SOURCES(Go4Analysis HEADERS ${Go4HDF5_headers} SOURCES ${Go4HDF5_sources})
 
-GO4_INSTALL_HEADERS(${Go4HDF5Parameter_headers} ${Go4HDF5_headers} Go4HDF5.h)
+GO4_INSTALL_HEADERS(MAKESUB ${Go4HDF5Parameter_headers} ${Go4HDF5_headers} Go4HDF5.h)
 

@@ -24,6 +24,6 @@ set(Go4CommandsTaskHandler_sources
    TGo4TaskHandlerCommandList.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4CommandsTaskHandler_headers})
+GO4_INSTALL_HEADERS(MAKESUB ${Go4CommandsTaskHandler_headers})
 
 GO4_SOURCES(Go4TaskHandler HEADERS ${Go4CommandsTaskHandler_headers} SOURCES ${Go4CommandsTaskHandler_sources})
