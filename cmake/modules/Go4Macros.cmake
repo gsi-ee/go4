@@ -68,9 +68,12 @@ function(GO4_SOURCES libname)
 
   file(GLOB dir RELATIVE ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
+  set_property(GLOBAL APPEND PROPERTY ${libname}_incdirs ${CMAKE_CURRENT_SOURCE_DIR})
+
   if(ARG_HEADERS)
     foreach(hdr ${ARG_HEADERS})
-      set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${dir}/${hdr})
+#      set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${dir}/${hdr})
+      set_property(GLOBAL APPEND PROPERTY ${libname}_headers ${hdr})
     endforeach()
   endif()
 
@@ -108,19 +111,24 @@ endfunction()
 #---------------------------------------------------------------------------------------------------
 #---GO4_STANDARD_LIBRARY(libname
 #                           LINKDEF linkdef            :
-#                           HEADERS header1 header2    :
-#                           SOURCES src1 src2          :
+#                           HEADERS header1 header2    : header files, configured via GO4_SOURCES macro
+#                           SOURCES src1 src2          : source files, configured via GO4_SOURCES macro
+#                           INCDIRS dir1 dir2          : include dirs, configured via GO4_SOURCES macro
 #                           DEPENDENCIES lib1 lib2     : dependend go4 libraries
 #                           LIBRARIES lib1 lib2        : direct linked libraries
 #                           DEFINITIONS def1 def2      : library definitions
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
+  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;INCDIRS;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
 
   if(NOT ARG_SOURCES AND NOT ARG_HEADERS)
      get_property(ARG_HEADERS GLOBAL PROPERTY ${libname}_headers)
      get_property(ARG_SOURCES GLOBAL PROPERTY ${libname}_sources)
+  endif()
+
+  if(NOT ARG_INCDIRS)
+     get_property(ARG_INCDIRS GLOBAL PROPERTY ${libname}_incdirs)
   endif()
 
   GO4_LINK_LIBRARY(${libname}
@@ -132,7 +140,7 @@ function(GO4_STANDARD_LIBRARY libname)
      add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
   endif()
 
-  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+  target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${ARG_INCDIRS})
 
   if(ARG_LINKDEF AND ARG_HEADERS)
      ROOT_GENERATE_DICTIONARY(G__${libname} ${ARG_HEADERS}
