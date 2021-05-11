@@ -89,9 +89,9 @@ RUN mkdir -p /installations/go4; \
 cd /installations/go4; \
 
 # enable this to get most recent developer version
-svn co https://subversion.gsi.de/go4/trunk 601-00/
+#svn co https://subversion.gsi.de/go4/trunk 601-00/
 #enable this for tag 6.1.0
-#svn co https://subversion.gsi.de/go4/tags/601-00 601-00/
+svn co https://subversion.gsi.de/go4/tags/601-00 601-00/
 
 # we change default to build against hdf5 libs here:
 COPY build_files/Makefile.discover /installations/go4/601-00/build/
