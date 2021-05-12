@@ -87,7 +87,6 @@ cmake /installations/root/${ROOTDIR} -DCMAKE_CXX_STANDARD=14 -Droot7=on -Dwebgui
   $( exit $(cat /tmp/root_make_exit_value) )
 RUN mkdir -p /installations/go4; \
 cd /installations/go4; \
-
 # enable this to get most recent developer version
 #svn co https://subversion.gsi.de/go4/trunk 601-00/
 #enable this for tag 6.1.0
