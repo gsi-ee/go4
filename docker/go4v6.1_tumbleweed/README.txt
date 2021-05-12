@@ -68,8 +68,8 @@ $ sudo service docker start
 
 get the Go4V6 Dockerfile tarball at https://go4.gsi.de 
 and unpack it:
-$ tar zxvf go4v6.0_leap_15.0.tar.gz
-$ cd go4v6.0_leap_15.0
+$ tar zxvf go4v6.1_tumbleweed.tar.gz
+$ cd go4v6.1_tumbleweed
 
 In this directory you find:
 

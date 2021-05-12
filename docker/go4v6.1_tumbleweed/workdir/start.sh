@@ -11,7 +11,7 @@ cd /workdir
 
 # open some applications on vnc server:
 sleep 5
-lxpanel & 
+#lxpanel & 
 xterm &
 
 echo "drop user to shell"
