@@ -1,5 +1,3 @@
-ifdef USEHDF5
-
 HDF_NAME        = Go4HDF5
 
 
@@ -26,15 +24,19 @@ HDFPAR_DEP      =  $(HDFPAR_O:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(HDF_DIR)/%.h, include/%.h, $(HDF_H))
-ALLHDRS +=  $(patsubst $(HDF_DIR)/%.h, include/%.h, $(HDFPAR_H))
-
-LIBDEPENDENC       += $(HDF_DEP) $(HDFPAR_DEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(HDF_S) $(HDF_H) $(HDF_NOTLIBF)
 DISTRFILES         += $(HDFPAR_S) $(HDFPAR_H) 
 endif
+
+ifdef USEHDF5
+
+ALLHDRS +=  $(patsubst $(HDF_DIR)/%.h, include/%.h, $(HDF_H))
+ALLHDRS +=  $(patsubst $(HDF_DIR)/%.h, include/%.h, $(HDFPAR_H))
+
+LIBDEPENDENC       += $(HDF_DEP) $(HDFPAR_DEP)
+
 
 
 ##### local rules #####
