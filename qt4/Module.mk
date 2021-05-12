@@ -14,6 +14,9 @@ include qt4/WebUserGUI/Makefile
 include qt4/Go4plugin/Module.mk
 
 DISTRFILES         += qt4/Module.mk
+DISTRFILES         += qt4/CMakeLists.txt
+DISTRFILES         += $(wildcard qt4/*/CMakeLists.txt)
+
 
 DISTRFILES         += qt4/Go4QtRoot/CHANGELOG.txt
 DISTRFILES         += $(wildcard qt4/Go4QtRoot/*.h)
@@ -21,6 +24,9 @@ DISTRFILES         += $(wildcard qt4/Go4QtRoot/*.cpp)
 DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.h)
 DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.ui)
 DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.cpp)
+
+
+
 
 ifdef GO4_QT
 

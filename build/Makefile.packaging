@@ -22,13 +22,16 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%))
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
-	@tar chf $(GO4TAR_NAME) Makefile Makefile.config Makefile.rules
+	@tar chf $(GO4TAR_NAME) Makefile Makefile.config Makefile.rules CMakeLists.txt	
 	@tar rhf $(GO4TAR_NAME) build/go4-config.ini build/*.sh build/Makefile.* --exclude=build/Makefile.gener --exclude=build/Makefile.packaging
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
+	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/CMakeLists.txt,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
+	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/CMakeLists.txt,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc --exclude=*.svn
+	@tar rhf $(GO4TAR_NAME) cmake --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
 	@tar rhf $(GO4TAR_NAME) docs/go4doxygenconfig
 	@tar rhf $(GO4TAR_NAME) macros/*.C 

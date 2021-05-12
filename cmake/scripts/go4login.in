@@ -1,5 +1,5 @@
 case "$-" in *i*) # Shell is interactive
-  echo Configure Go4 @GO4_VERSION@ at @CMAKE_BINARY_DIR@
+  echo Configure Go4 @GO4_VERSION@ at @_go4top_@
 esac
 
 ##### ROOT-related settings ###########

@@ -41,9 +41,11 @@ DISTRFILES         += $(EXAMPADVANC_DIR)/Readme.txt $(EXAMPADVANC_DIR)/Makefile.
 DISTRFILES         += $(EXAMPADVANC_DIR)/calilines.txt
 DISTRFILES         += $(EXAMPADVANC_DIR)/gaussfiles.lml
 DISTRFILES         += $(EXAMPADVANC_DIR)/convertfile.C
+DISTRFILES         += $(EXAMPADVANC_DIR)/convert.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/findobjects.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/browse.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/plothistos.C
+DISTRFILES         += $(EXAMPADVANC_DIR)/setup.C
 endif
 
 ##### local rules #####
