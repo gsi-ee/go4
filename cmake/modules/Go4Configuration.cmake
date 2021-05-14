@@ -1,4 +1,4 @@
-set(GO4_VERSION 6.1.0)
+set(GO4_VERSION 6.1.1)
 
 if(APPLE)
    set(_platform Darwin)
