@@ -89,7 +89,6 @@ GO4AN_DDEP       =  $(GO4AN_DICT).$(DepSuf)
 
 GO4AN_H   = $(GO4EVENT_H)  \
             $(EVENTSERV_H) \
-            $(HDF_H) \
             $(HISTSERV_H)  \
             $(GO4ANAL_H)   \
             $(CMDANAL_H)   \
@@ -99,12 +98,16 @@ GO4AN_O   = $(MBSAPI_O)    \
             $(RAWAPI_O)    \
             $(GO4EVENT_O)  \
             $(EVENTSERV_O) \
-            $(HDF_O)\
             $(HISTSERV_O)  \
             $(GO4ANAL_O)   \
             $(CMDANAL_O)   \
             $(ANALCL_O)    \
             $(GO4AN_DO)
+
+ifdef USEHDF5
+GO4AN_H += $(HDF_H)
+GO4AN_O += $(HDF_O)
+endif
 
 # library used in the GUI
 
