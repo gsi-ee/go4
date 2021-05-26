@@ -56,7 +56,6 @@ GO4ANBASE_DDEP       =  $(GO4ANBASE_DICT).$(DepSuf)
 
 GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
               $(EVENTSERVPAR_H) \
-              $(HDFPAR_H) \
               $(CONDBASE_H)     \
               $(DYNLIST_H)      \
               $(STATANAL_H)     \
@@ -68,13 +67,16 @@ GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
 GO4ANBASE_O+= $(MBSAPIBASE_O)  \
               $(GO4EVENTPAR_O) \
               $(EVENTSERVPAR_O) \
-              $(HDFPAR_O) \
               $(CONDBASE_O) \
               $(DYNLIST_O) \
               $(STATANAL_O) \
               $(VERSION_O) \
               $(GO4ANBASE_DO)
 
+ifdef USEHDF5
+GO4ANBASE_H += $(HDFPAR_H)
+GO4ANBASE_O += $(HDFPAR_O)
+endif
 
 # analysis library (not used in GUI)
 

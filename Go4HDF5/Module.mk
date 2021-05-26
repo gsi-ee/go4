@@ -38,7 +38,6 @@ ALLHDRS +=  $(patsubst $(HDF_DIR)/%.h, include/%.h, $(HDFPAR_H))
 LIBDEPENDENC       += $(HDF_DEP) $(HDFPAR_DEP)
 
 
-
 ##### local rules #####
 
 include/%.h: $(HDF_DIR)/%.h
