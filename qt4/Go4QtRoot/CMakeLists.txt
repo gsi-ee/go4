@@ -14,7 +14,7 @@ endif()
 
 GO4_LINK_LIBRARY(Go4QtRoot
                  SOURCES QRootCanvas.cpp QRootDialog.cpp QRootWindow.cpp
-                 LIBRARIES ${qt_libs} ${ROOT_Gui_LIBRARY} X11
+                 LIBRARIES ${qt_libs} ${ROOT_Gui_LIBRARY} ${ROOT_Ged_LIBRARY} X11
                  DEFINITIONS -D${GO4_PLATFORM})
 
 target_include_directories(Go4QtRoot PRIVATE ${CMAKE_BINARY_DIR}/include)
