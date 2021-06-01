@@ -13,6 +13,11 @@
 
 #include "f_stccomm.h"
 
+// JAM1-6-2021- test if this helps the streamserver problems
+#define DISABLE_POLLING_TIMEOUT 1
+
+
+
 CHARS c_msg[80];
 /*#define DEBUG 1*/
 
@@ -144,10 +149,15 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
    FD_SET(i_channel,&xrmask);
    read_timeout.tv_sec  = i_timeout;
    read_timeout.tv_usec = 0;
+
+   // JAM1-6-2021- test if this helps the streamserver problems
+#ifndef DISABLE_POLLING_TIMEOUT
    if (i_timeout == 1) {
       read_timeout.tv_sec = 0;
       read_timeout.tv_usec = 50000; // 0.05 sec
    }
+#endif
+
 #ifdef DEBUG
    printf("STC: read %6d bytes channel %d ",i_buflen,i_channel);fflush(stdout);
 #endif
@@ -222,14 +232,20 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
          printf("Request %d bytes, read %d, timeout after 100000 retries\n",i_buflen,num_of_bytes_read);
          return STC__NODATA;
       }
-
+      // JAM1-6-2021- test if this helps the streamserver problems
+#ifndef DISABLE_POLLING_TIMEOUT
       if (i_timeout == 1) {
          read_timeout.tv_sec  = 0;
          read_timeout.tv_usec = 50000;
       } else {
+
          read_timeout.tv_sec  = 100;
          read_timeout.tv_usec = 0;
       }
+#else
+      read_timeout.tv_sec  = 100;
+      read_timeout.tv_usec = 0;
+#endif
 
    } /* end while */
 

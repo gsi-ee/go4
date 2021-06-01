@@ -170,6 +170,10 @@ static int i_debug = 0;                  /* message level (0-3) */
 #define FLUSH__TIME 3                    /* flush time interval for MBS event server */
 #define STDOUT_BUFIO_ 1
 
+// JAM1-6-2021- test if this helps the streamserver problems
+#define DISABLE_POLLING_TIMEOUT 1
+
+
 struct s_clnt_filter  *p_clnt_filter;
 struct s_clntbuf      *p_clntbuf;
 struct s_opc1         *p_opc1;
@@ -1464,6 +1468,9 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
+  // JAM1-6-2021- test if this helps the streamserver problems
+  #ifndef DISABLE_POLLING_TIMEOUT
+
   int _tmout, _retry;
 
   _retry = 0;
@@ -1473,7 +1480,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
      _tmout = 1;
      _retry = 100000; // approx 5000 sec
   }
-
+#endif
   /* ++++ action       ++++ */
 
   p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
@@ -1491,6 +1498,8 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
 
   *p_bytrd = CLNT__SMALLBUF;
 
+  // JAM1-6-2021- test if this helps the streamserver problems
+  #ifndef DISABLE_POLLING_TIMEOUT
 read_again:
 
   l_status = f_stc_read( (char *) p_clntbuf,
@@ -1502,6 +1511,12 @@ read_again:
      ps_chan->cb_polling();
      goto read_again;
   }
+#else
+  l_status = f_stc_read( (char *) p_clntbuf,
+                           (int) CLNT__SMALLBUF,
+                           i_chan,
+                           l_timeout);
+#endif
 
   if (l_status != STC__SUCCESS)
   {
