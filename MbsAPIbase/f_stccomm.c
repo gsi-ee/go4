@@ -14,7 +14,7 @@
 #include "f_stccomm.h"
 
 // JAM1-6-2021- test if this helps the streamserver problems
-#define DISABLE_POLLING_TIMEOUT 1
+// #define DISABLE_POLLING_TIMEOUT 1
 
 
 
@@ -152,7 +152,7 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
 
    // JAM1-6-2021- test if this helps the streamserver problems
 #ifndef DISABLE_POLLING_TIMEOUT
-   if (i_timeout == 1) {
+   if (i_timeout == 555555) {
       read_timeout.tv_sec = 0;
       read_timeout.tv_usec = 50000; // 0.05 sec
    }
@@ -234,11 +234,10 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
       }
       // JAM1-6-2021- test if this helps the streamserver problems
 #ifndef DISABLE_POLLING_TIMEOUT
-      if (i_timeout == 1) {
+      if (i_timeout == 555555) {
          read_timeout.tv_sec  = 0;
          read_timeout.tv_usec = 50000;
       } else {
-
          read_timeout.tv_sec  = 100;
          read_timeout.tv_usec = 0;
       }

@@ -171,7 +171,7 @@ static int i_debug = 0;                  /* message level (0-3) */
 #define STDOUT_BUFIO_ 1
 
 // JAM1-6-2021- test if this helps the streamserver problems
-#define DISABLE_POLLING_TIMEOUT 1
+// #define DISABLE_POLLING_TIMEOUT 1
 
 
 struct s_clnt_filter  *p_clnt_filter;
@@ -1468,8 +1468,9 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
-  // JAM1-6-2021- test if this helps the streamserver problems
-  #ifndef DISABLE_POLLING_TIMEOUT
+
+// JAM1-6-2021- test if this helps the streamserver problems
+#ifndef DISABLE_POLLING_TIMEOUT
 
   int _tmout, _retry;
 
@@ -1477,7 +1478,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   _tmout = l_timeout;
 
   if (ps_chan->cb_polling) {
-     _tmout = 1;
+     _tmout = 555555; // special value, should produce 0.05s timeout
      _retry = 100000; // approx 5000 sec
   }
 #endif
@@ -1498,8 +1499,8 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
 
   *p_bytrd = CLNT__SMALLBUF;
 
-  // JAM1-6-2021- test if this helps the streamserver problems
-  #ifndef DISABLE_POLLING_TIMEOUT
+// JAM1-6-2021- test if this helps the streamserver problems
+#ifndef DISABLE_POLLING_TIMEOUT
 read_again:
 
   l_status = f_stc_read( (char *) p_clntbuf,
