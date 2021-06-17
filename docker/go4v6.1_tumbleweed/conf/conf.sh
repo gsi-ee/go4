@@ -26,7 +26,7 @@ vnc_geometry=1500x1024
 #   tmux new-session -d -s x11vnc -n x11vnc "x11vnc -forever -create -rfbport 5902 #(nopasswd)"
 
 # set paths for go4/ 
-. /installations/go4/601-00/go4login
+. /installations/go4/601-02/go4login
 
 
 if [ $provide_vnc == "yes" ]; then

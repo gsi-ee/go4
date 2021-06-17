@@ -103,7 +103,7 @@ RUN . /installations/root/rootbuild/bin/thisroot.sh; \
   wait; \
   echo -e "\n\n---- end of Go4 make log: ----\n\n"; \
   $( exit $(cat /tmp/go4_make_exit_value) )
-RUN echo "Installation of Go4 6.1 and $ROOTDIR done!"
+RUN echo "Installation of Go4 6.1.2 and $ROOTDIR done!"
 #RUN mv /root/.vnc/xstartup /root.vnc/xstartup.old 
 COPY conf/xstartup_lxqt /root/.vnc/xstartup
 
