@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v6.1.0 (build 60100)
-                      12-May-2021
+         Go4 Release Package v6.1.2 (build 60102)
+                      17-June-2021
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,6 +21,9 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v6.1.2 (June 2021)
+1. Bugfix in MbsAPI: new polling mode for remote event server connection could lead to instable stream server socket
+2. Small adjustment of build system for certain configurations
 
 Changes in Go4 v6.1.0 (May 2021)
 1. Added docker container for Go4 V6.0 on OpenSuse Leap 15.0 Linux. Go4 is build with ROOT 6.18/04, Qt5 webcanvas and HDF5 support.
