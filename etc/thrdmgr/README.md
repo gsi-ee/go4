@@ -1,3 +1,4 @@
+```
 --------------------------------------------------------------
               Go4 Threadmanager v4.6.3 (build 40603)
                       23-January-2014
@@ -18,8 +19,9 @@ Contact:            http://go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
-This packages are
-tested on
+```
+
+This packages was tested on
     Linux (LK 2.4.20), RedHat 7.3, Scientific Linux 4
     SuSe 8.1, SuSe 9.2,  SuSe 9.3 (x86_64), SuSe 10.3
     Fedora core 2/ core 3/ core 4 / core 5,
@@ -30,17 +32,17 @@ tested on
 
 --------------------------------------------------------------
 
-This is package contains:
+This package contains:
 
-Go4ThreadManagerExample
-Go4ThreadManager
-Go4LockGuard
-Go4Exceptions
-Go4Log
+- Go4ThreadManagerExample
+- Go4ThreadManager
+- Go4LockGuard
+- Go4Exceptions
+- Go4Log
 libraries of the Go4 Project.
 
 
-INSTALLATION:
+## INSTALLATION:
 -Install ROOT package (see http://root.cern.ch)
  If necessary, set your ROOT environment variables $ROOTSYS,
    $LD_LIBRARY_PATH, $PATH.
@@ -53,24 +55,22 @@ INSTALLATION:
    Compiles all subpackages, creates shared libraries and
    copies the libs into $GO4SYS/lib directory.
 
-________________________________________________________________________
-DESCRIPTION:
+## DESCRIPTION:
 
-------------------------------------------------------------------------
-Package Go4Log:
-   Contains basic mechanism to trace sourcecode and for debug output
-------------------------------------------------------------------------
-Package Go4Exceptions:
-   Contains go4 exception base classes
-------------------------------------------------------------------------
-Package Go4LockGuard:
-   Contains lockguard class (independent from threadmanager):
+### Package Go4Log:
+Contains basic mechanism to trace sourcecode and for debug output
+
+### Package Go4Exceptions:
+Contains go4 exception base classes
+
+### Package Go4LockGuard:
+Contains lockguard class (independent from threadmanager):
+
 TGo4LockGuard:
    Object to guard any critical action by means of a mutex lock.
    Mutex can be external (local), or internal (global).
 
-------------------------------------------------------------------------
-Package Go4ThreadManager:
+### Package Go4ThreadManager:
    The thread manager with framework classes, base classes,
    and exception classes.
 TGo4ThreadManager:
@@ -98,7 +98,7 @@ TGo4TerminateException:
    way.
 
 ----------------------------------------------------------------------------
-USAGE:
+## USAGE
 To apply the package for any user purpose, subclasses of
 TGo4ThreadManager and TGo4Runnable have to be implemented.
 
@@ -128,7 +128,7 @@ Launch();
 must be called to start the threads.
 
 ----------------------------------------------------------------------------
-EXAMPLES:
+## EXAMPLES
 Examples of the thread manager usage are in subdirectory
 Go4ThreadManagerExample.
 
@@ -148,7 +148,3 @@ TGo4TestRunnable (see TGo4TestRunnable.h comments).
 See source code comments for additional information.
 
 31-May-2007   Joern Adamczewski (J.Adamczewski(at)gsi.de)
-
-
-
-

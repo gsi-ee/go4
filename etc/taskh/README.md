@@ -1,3 +1,4 @@
+```
 --------------------------------------------------------------
               Go4 Taskhandler v4.6.3 (build 40603)
                       23-January-2014
@@ -7,7 +8,7 @@
 ------------------------------------------------------------
 authors:
    Joern Adamczewski-Musch   (1999-)
-   Marc Hemberger            (1999-2000)        
+   Marc Hemberger            (1999-2000)
    Sergey Linev              (2002-)
 ---------------------------------------------------------------
 
@@ -18,36 +19,37 @@ Contact:            http://go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
-This packages are
-tested on
+```
+
+This packages was tested on:
     Linux (LK 2.4.20), RedHat 7.3, Scientific Linux 4
     SuSe 8.1, SuSe 9.2,  SuSe 9.3 (x86_64), SuSe 10.3
     Fedora core 2/ core 3/ core 4 / core 5,
     Debian 3.1 (32 bit and AMD 64bit), Debian 4.0, Ubuntu 6.10
         compilers: gcc 3.2, gcc 3.3.5, gcc 3.4.3, gcc 4.1.x, gcc 4.3.x
     SunOS 5.2 (Solaris) with CC 5.8
-    
+
     ROOT: recommended >=4.04; tested for ROOT versions <=5.23-04
 
 --------------------------------------------------------------
 
-This is an example package containing
-Go4ThreadManager
-Go4LockGuard
-Go4Exceptions
-Go4Log
-Go4Queue
-Go4Socket
-Go4StatusBase
-Go4CommandsBase
-Go4CommandsTaskHandler
-Go4TaskHandler
-Go4TaskHandlerExample
+This package contains:
+- Go4ThreadManager
+- Go4LockGuard
+- Go4Exceptions
+- Go4Log
+- Go4Queue
+- Go4Socket
+- Go4StatusBase
+- Go4CommandsBase
+- Go4CommandsTaskHandler
+- Go4TaskHandler
+- Go4TaskHandlerExample
 
 libraries of the Go4 Project.
 
 
-INSTALLATION:
+## INSTALLATION
 -Install ROOT package (see http://root.cern.ch)
  If necessary, set your ROOT environment variables $ROOTSYS,
    $LD_LIBRARY_PATH, $PATH.
@@ -60,50 +62,47 @@ INSTALLATION:
    Compiles all subpackages, creates shared libraries and
    copies the libs into $GO4SYS/lib directory.
 
-________________________________________________________________________
-DESCRIPTION:
+## DESCRIPTION
 
-------------------------------------------------------------------------
-Package Go4Log:
-   Contains basic mechanism to trace sourcecode and for debug output
-------------------------------------------------------------------------
-Package Go4Exceptions:
+### Package Go4Log:
+Contains basic mechanism to trace sourcecode and for debug output
+
+### Package Go4Exceptions:
    Contains go4 exception base classes
-------------------------------------------------------------------------
-Package Go4LockGuard:
+
+### Package Go4LockGuard:
    Contains lockguard class (independent from threadmanager):
-------------------------------------------------------------------------
-Package Go4ThreadManager:
+
+### Package Go4ThreadManager:
    The thread manager with framework classes, base classes,
    and exception classes.
-------------------------------------------------------------------------
-Package Go4Queue:
+
+### Package Go4Queue:
    The threadsafe pointer queues for TObject and TBuffer. Includes
    streaming mechanism for ROOT objects into TBuffers.
-------------------------------------------------------------------------
-Package Go4Socket:
+
+### Package Go4Socket:
    Socket implementation based on ROOT TSocket class.
-------------------------------------------------------------------------
-Package Go4StatusBase:
+
+### Package Go4StatusBase:
    Go4 Status baseclasses.
-------------------------------------------------------------------------
-Package Go4CommandsBase:
+
+### Package Go4CommandsBase:
    Go4 Command pattern base classes.
-------------------------------------------------------------------------
-Package Go4CommandsTaskHandler:
+
+### Package Go4CommandsTaskHandler:
    Commands to communicate between taskhandler server and client
-------------------------------------------------------------------------
-Package Go4TaskHandler:
+
+### Package Go4TaskHandler:
    The taskhandler itself. contains TGo4ClientTask and TGo4ServerTask
    framework base classes. These can be subclassed by the user to
    implement threaded client-server connection.
-------------------------------------------------------------------------
-Package Go4TaskHandlerExample:
+
+### Package Go4TaskHandlerExample:
    Contains example Client and Server classes which communicate
    via the taskhandler framework.
-----------------------------------------------------------------------------
-----------------------------------------------------------------------------
-USAGE:
+
+## USAGE:
    Package TGo4TaskHandler contains the baseclasses of the framework.
    The user should define subclasses of TGo4ServerTask and TGo4ClientTask
    that match his requirements. The server task is meant to control the
@@ -164,9 +163,7 @@ Moreover, methods TGo4ClientTask::Start()  and TGo4ClientTask::Stop() may
 be also overridden in the user subclass to modify the behaviour of the
 taskhandler commands "THStart", and "THStop", respectively.
 
-----------------------------------------------------------------------------
-----------------------------------------------------------------------------
-EXAMPLES:
+## EXAMPLES:
    An Example of special client task and server task implementations
    is in subdirectory TGo4TaskHandlerExample.
    First execute "MainGo4TaskHandlerServer" in one shell. This will start
@@ -225,7 +222,3 @@ EXAMPLES:
 See source code comments for additional information.
 
 31-May-2007   Joern Adamczewski (J.Adamczewski(at)gsi.de)
-
-
-
-

@@ -1,3 +1,4 @@
+```
 --------------------------------------------------------------
          Go4 Release Package v5.0.1 (build 50001)
                       20-July-2015
@@ -19,24 +20,27 @@ Contact:            http://go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+```
+
+## This is obsolete README for compilation of older go4 versions
 
 This package is compiled and tested with CYGWIN on Windows 7
 with Microsoft Visual C++ 12.0 (2013) Express Edition,
 using ROOT 5-34-30 and Qt 5.4.2.
 
 
-1. INSTALLATION
+## INSTALLATION
 
 - Run installation program. Full path name, where package is extracted,
   SHOULD NOT content any spaces. Therefore location like
-  "C:\Program files" should be avoided. Default installation 
+  "C:\Program files" should be avoided. Default installation
   location is "C:\Users\<username>\go4".
 - Installation includes ROOT binraires, which can be found in "root" subfolder
 
 
-2. STARTING ANALYSIS
+##  STARTING ANALYSIS
 
-- Run windows command prompt with go4 variables set - provided as link 
+- Run windows command prompt with go4 variables set - provided as link
   in go4 program group menu
 - Change to directory with user analysis:
     C:\Users\user1\go4> cd go4\Go4ExampleSimple
@@ -48,25 +52,25 @@ using ROOT 5-34-30 and Qt 5.4.2.
 - Analysis also can be started and connected directly from the Go4 GUI
 
 
-3. STARTING GUI
+##  STARTING GUI
 
 - Installation creates shortcut icon and item in programs for Go4 GUI.
 - After main window appear, one can use "Connect to HTTP server"
   button for connection with analysis, running in http server mode.
-- Or one can start analysis directly from the GUI via 
-  "Launch analysis" menu command.    
-- Go4 GUI in Windows has mostly the same functionality as in Linux 
-  beside the fact that analysis cannot be started from the GUI on 
+- Or one can start analysis directly from the GUI via
+  "Launch analysis" menu command.
+- Go4 GUI in Windows has mostly the same functionality as in Linux
+  beside the fact that analysis cannot be started from the GUI on
   other node as is possible under Linux via ssh
 
 
-4. STARTING GO4 browser in ROOT
+##  STARTING GO4 browser in ROOT
 
 - Run root from command prompt after go4init.bat was called
     C:\> root
 - In CINT shell instantiate TGo4Interface class
     root [0] new TGo4Interface
-  All go4 classes are available in ROOT via rootmap mechanism.  
+  All go4 classes are available in ROOT via rootmap mechanism.
 - After TGo4Interface instance is created, two variables will be accessible:
   go4 (class TGo4Interface) and br (class TGo4BrowserProxy)
 - Connect to running analysis server by command like
@@ -85,38 +89,38 @@ using ROOT 5-34-30 and Qt 5.4.2.
   on htpp://go4.gsi.de site
 
 
-5. COMPILE USER ANALYSIS UNDER WINDOWS
+##  COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
   There is a free edition of Microsoft Visual C++ Express 12.0 (2013) on
        http://msdn.microsoft.com/vstudio/express/visualc/
-  After VC++ is installed, there are two alternatives, 
+  After VC++ is installed, there are two alternatives,
   how example can be compiled.
 
-  5.1. Compile analysis with CYGWIN
+### Compile analysis with CYGWIN
 
   First of all, CYGWIN (http://cygwin.com/) should be installed.
-  This provides Unix like environment and allows to use shell-based 
+  This provides Unix like environment and allows to use shell-based
   build scripts. To be able use VisualC from cygwin, one should call
-  vcvarsall.bat file from the Cygwin.bat before bash is started. 
+  vcvarsall.bat file from the Cygwin.bat before bash is started.
   One should add line like this:
 
      call "C:\Program files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
 
-  One also must ensure that link.exe from VisualC is used. 
+  One also must ensure that link.exe from VisualC is used.
   Problem description and several solutions can be found here:
      https://developer.mozilla.org/en/Windows_build_prerequisites_using_cygwin#Fix_cygwin_path
   Simplest solution - just delete or rename link.exe from cygwin;
-  preferable - change sequence of $PATH. 
+  preferable - change sequence of $PATH.
 
-  After CYGWIN installed and configured, one should adjust "go4login" script, 
+  After CYGWIN installed and configured, one should adjust "go4login" script,
   specifying where ROOT, Qt and Go4 are installed. One must avoid path with spaces,
   therefore location "C:\Program Files\root" will not work.
-   
+
   Than copy your analysis (or one of Go4 examples, for instance, Go4Example2Step) to separate location.
   To compile example:
      /cygdrive/q> cd /cygdrive/f/user/app1
-     /cygdrive/f/user/app1> make clean 
+     /cygdrive/f/user/app1> make clean
      /cygdrive/f/user/app1> make all
   This should compile user analysis library. To start analysis, just call:
      /cygdrive/f/user/app1> go4analysis -random -http 8090
@@ -127,7 +131,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
   (as described before) and prepare special Makefile for nmake tool.
   There is example: $GO4SYS\Go4Example2Step\Makefile.win, which
   is written for Go4Example2Step. To adopt it for other user analysis,
-  one should specify correct list of source files in this Makefile. 
+  one should specify correct list of source files in this Makefile.
   To run compilation, just do:
      C:\Soft\> F:
      F:\> cd \User\App1
@@ -136,7 +140,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
      F:\User\App1> go4analysis -random -http 8090
 
 
-6. COMPILATION OF GO4 FROM SOURCE
+## COMPILATION OF GO4 FROM SOURCE
 
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
@@ -144,7 +148,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
 - Install Qt 4.8.x binaries package for MS VC compiler like
     https://download.qt.io/archive/qt/5.4/5.4.2/qt-opensource-windows-x86-msvc2013-5.4.2.exe
 - Download go4 sources from http://go4.gsi.de web site.
-- Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 
+- Find and modify $GO4SYS/etc/win32/go4login file to actual location of all
   components, copy it to home cygwin directory
 - Run Cygwin shell, call ". go4login", change to go4 directory and call "make"
 - Hopefully, this will compile Go4 under Windows!
