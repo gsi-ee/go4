@@ -1,0 +1,52 @@
+# This file is configured at cmake time, and loaded at cpack time.
+# To pass variables to cpack from cmake, they must be configured
+# in this file.
+
+set(CPACK_PACKAGE_NAME "Go4")
+set(CPACK_PACKAGE_VENDOR "GSI")
+set(CPACK_PACKAGE_DESCRIPTION "GSI Object Oriented Online Offline framework")
+set(CPACK_PACKAGE_HOMEPAGE_URL "https://go4.gsi.de")
+set(CPACK_PACKAGE_CONTACT "Go4 Developers <go4@gsi.de>")
+
+if(CPACK_GENERATOR STREQUAL "DEB")
+  set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
+  set(CPACK_DEBIAN_PACKAGE_SECTION "science")
+  set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS TRUE)
+  set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS TRUE)
+  set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY "=")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "g++")
+  set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "python3")
+  set(CPACK_DEBIAN_PACKAGE_SUGGESTS "cmake, make")
+endif()
+
+if(CPACK_GENERATOR STREQUAL "RPM")
+  set(CPACK_RPM_PACKAGE_AUTOREQ TRUE)
+  set(CPACK_RPM_PACKAGE_AUTOPROV TRUE)
+  set(CPACK_RPM_PACKAGE_REQUIRES "gcc-c++, python3")
+  set(CPACK_RPM_PACKAGE_REQUIRES_PRE "epel-release")
+  if (NOT gnuinstall)
+    set(CPACK_RPM_PACKAGE_RELOCATABLE TRUE)
+  else()
+    set(CPACK_RPM_PACKAGE_RELOCATABLE FALSE)
+  endif()
+endif()
+
+if(CPACK_GENERATOR MATCHES "NSIS")
+  # There is a bug in NSI that does not handle full unix paths properly. Make
+  # sure there is at least one set of four (4) backlasshes.
+  set(CPACK_NSIS_MUI_ICON "@CMAKE_SOURCE_DIR@\\icons\\go4logo2.ico")
+  set(CPACK_NSIS_MUI_UNIICON "@CMAKE_SOURCE_DIR@\\icons\\go4logo2.ico")
+  set(CPACK_NSIS_DISPLAY_NAME "Go4 @GO4_VERSION@")
+  set(CPACK_NSIS_PACKAGE_NAME "Go4 @GO4_VERSION@")
+  set(CPACK_NSIS_HELP_LINK "https:\\\\go4.gsi.de")
+  set(CPACK_NSIS_URL_INFO_ABOUT "https:\\\\go4.gsi.de")
+  set(CPACK_NSIS_CONTACT "go4@gsi.de")
+  set(CPACK_NSIS_MODIFY_PATH ON)
+  set(CPACK_NSIS_INSTALL_ROOT "C:")
+elseif(CPACK_GENERATOR MATCHES "productbuild")
+  set(CPACK_PACKAGING_INSTALL_PREFIX "/Applications/${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+  set(CPACK_PACKAGE_DEFAULT_LOCATION "/")
+elseif(NOT CPACK_GENERATOR MATCHES "^(RPM|DEB)$")
+  set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY 0)
+  set(CPACK_PACKAGING_INSTALL_PREFIX "/go4/")
+endif()

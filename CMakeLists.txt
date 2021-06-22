@@ -292,6 +292,7 @@ install(FILES CHANGES.txt
 if(NOT MSVC)
 endif()
 
-
-
 GO4_SHOW_ENABLED_OPTIONS()
+
+#---Packaging-----------------------------
+include(Go4CPack)
