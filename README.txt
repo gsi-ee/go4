@@ -7,7 +7,7 @@
 --------------------------------------------------------------
 Authors: Joern Adamczewski-Musch      (1999-)
          Mohammad Al-Turany           (2000-2004)
-         Sven Augustin [Python]	      (2015-)
+         Sven Augustin [Python]       (2015-)
          Denis Bertini                (2001-2004)
          Hans Georg Essel             (1999-2010)
          Marc Hemberger               (1999-2000)
@@ -21,13 +21,13 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 This package was tested on
-    openSUSE Leap 42.2, openSUSE Tumblweed 3.2021
+    openSUSE Leap 42.2, openSUSE Tumblweed 6.2021
     Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
     macOS 10.14.6
-    compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2
+    compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.1
 
 REQUIREMENTS:
-    ROOT  either 6.12 or higher (recommended 6.22)
+    ROOT  either 6.12 or higher (recommended 6.24)
               or 5.34-36 or higher
     Qt    either qt5.6 or higher (recommended 5.15)
               or qt4.8 or higher
@@ -124,6 +124,52 @@ GO4 INSTALLATION AFTER CMAKE BUILD
       shell> make install
 
   It will copy files to configured installation path
+
+
+GO4 INSTALLATION ON WINDOWS (experimental)
+
+There will be special installer files fot root and go4.
+We need to provide special ROOT installation while it should includes
+qt5web component used in the Go4 now.
+
+It is recommended to install both in directory like "C:\Soft".
+After installation one have to edit go4login.bat and Go4Config.cmake
+In both files one should provide actual location of ROOT installation.
+If directory called "C:\Soft\root", no changes are required.
+
+To compile any user analysis, start "x86 Native Tools Command Prompt VS 2019" and:
+
+    call C:\Soft\go4\go4login.bat
+    mkdir C:\Soft\analysis
+    cd C:\Soft\analysis
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4\Go4ExampleSimple
+    cmake --build . --config Release -- /maxcpucount
+
+To run GUI and analysis:
+    go4
+    Launch Analysis in gui
+    Select "C:\Soft\analysis\Release" directory for analysis lib
+
+
+GO4 COMPILATION IN WINDOWS
+
+First of all, install Qt5 with WebEngine support on Windows.
+Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
+
+    set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019\bin
+    mkdir C:\Soft\root
+    cd C:\Soft\root
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dwebgui=ON -Dqt5web=ON
+    cmake --build . --config Release -- /maxcpucount
+
+Then compile Go4:
+
+    call C:\Soft\root\bin\thisroot.bat
+    mkdir C:\Soft\go4
+    cd C:\Soft\go4
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4
+    cmake --build . --config Release -- /maxcpucount
+
 
 
 GO4 COMPILATION WITH MAKE (deprecated)
@@ -233,28 +279,3 @@ ADVANCED MAKE OPTIONS
 
   "make clean-bin"  Cleanup object/dependency files so that only go4 binaries
                     and source files are remained
-
-GO4 ON WINDOWS
-
- First of all, install Qt5 with WebEngine support on Windows.
- Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
-
-    set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019\bin
-    mkdir C:\Soft\root
-    cd C:\Soft\root
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dwebgui=ON -Dqt5web=ON
-    cmake --build . --config Release -- /maxcpucount
-
-Then compile Go4:
-
-    call C:\Soft\root\bin\thisroot.bat
-    mkdir C:\Soft\go4
-    cd C:\Soft\go4
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root
-    cmake --build . --config Release -- /maxcpucount
-
-Run go4:
-
-    call C:\Soft\go4\go4login.bat
-    go4.exe
-
