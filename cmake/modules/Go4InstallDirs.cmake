@@ -19,11 +19,24 @@ set(GO4_INSTALL_BUILDDIR "${_go4sys}build" CACHE PATH "go4 build support (build/
 set(GO4_INSTALL_HTMLDIR "${_go4sys}html" CACHE PATH "go4 html/js files (html/)")
 set(GO4_INSTALL_PYTHONDIR "${_go4sys}python" CACHE PATH "go4 python files (python/)")
 
+
+# Result directories
+#
+foreach(dir MAINDIR)
+  if(NOT IS_ABSOLUTE ${GO4_INSTALL_${dir}})
+    set(GO4_INSTALL_FULL_${dir} "${CMAKE_INSTALL_PREFIX}/${GO4_INSTALL_${dir}}")
+  else()
+    set(GO4_INSTALL_FULL_${dir} "${CMAKE_INSTALL_${dir}}")
+  endif()
+endforeach()
+
+
 mark_as_advanced(
   CMAKE_INSTALL_BINDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_INCLUDEDIR
   GO4_INSTALL_MAINDIR
+  GO4_INSTALL_FULL_MAINDIR
   GO4_INSTALL_ICONSDIR
   GO4_INSTALL_MACROSDIR
   GO4_INSTALL_ETCDIR

@@ -80,11 +80,7 @@ else()
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Makefile.gener.in
                   ${CMAKE_BINARY_DIR}/build/Makefile.gener @ONLY NEWLINE_STYLE UNIX)
 
-   if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-      set(_go4top_ ${GO4_INSTALL_MAINDIR})
-   else()
-      set(_go4top_ ${GO4_INSTALL_MAINDIR})
-   endif()
+   set(_go4top_ ${GO4_INSTALL_FULL_MAINDIR})
    set(_go4bin_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
    set(_go4lib_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
    set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
