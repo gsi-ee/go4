@@ -46,28 +46,9 @@ install(FILES ${CMAKE_BINARY_DIR}/Go4Config.cmake
               ${CMAKE_BINARY_DIR}/Go4UseFile.cmake
               DESTINATION ${GO4_INSTALL_MAINDIR})
 
-if(MSVC)
-
-else()
-endif()
-
-
 # ================== Copy support files for plain Makefile ==========
 
-if (MSVC)
-   get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
-
-   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
-                  ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE WIN32)
-   configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
-                  ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
-
-   install(FILES ${CMAKE_BINARY_DIR}/go4login.bat
-                 ${CMAKE_BINARY_DIR}/go4.bat
-                 DESTINATION ${GO4_INSTALL_MAINDIR})
-
-else()
-
+if (NOT MSVC)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --version OUTPUT_VARIABLE _root_vers_)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --exec-prefix OUTPUT_VARIABLE _root_exec_prefix_)
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --cflags OUTPUT_VARIABLE _root_cflags_)
@@ -111,10 +92,7 @@ else()
    install(DIRECTORY ${CMAKE_BINARY_DIR}/build/ DESTINATION ${GO4_INSTALL_BUILDDIR})
    install(DIRECTORY ${CMAKE_BINARY_DIR}/build/ DESTINATION ${GO4_INSTALL_BUILDDIR} FILES_MATCHING PATTERN "*.sh" PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
    install(FILES ${CMAKE_BINARY_DIR}/_install/go4login DESTINATION ${GO4_INSTALL_MAINDIR})
-
 endif()
-
-
 
 
 # search for extra ROOT libraries
