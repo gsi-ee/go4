@@ -1,8 +1,42 @@
 include(GNUInstallDirs)
 
+if(NOT DEFINED CMAKE_INSTALL_BINDIR)
+  set(CMAKE_INSTALL_BINDIR "bin" CACHE PATH "user executables (bin)")
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+  if(gnuinstall)
+    set(CMAKE_INSTALL_LIBDIR "lib/root" CACHE PATH "object code libraries (lib/root)")
+  else()
+    set(CMAKE_INSTALL_LIBDIR "lib" CACHE PATH "object code libraries (lib)")
+  endif()
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_INCLUDEDIR)
+  if(gnuinstall)
+    set(CMAKE_INSTALL_INCLUDEDIR "include/go4" CACHE PATH "C header files (include/go4)")
+  else()
+    set(CMAKE_INSTALL_INCLUDEDIR "include" CACHE PATH "C header files (include)")
+  endif()
+endif()
+
+if(NOT DEFINED CMAKE_INSTALL_DATADIR)
+  set(CMAKE_INSTALL_DATADIR "" CACHE PATH "read-only architecture-independent data")
+  if(gnuinstall)
+    set(CMAKE_INSTALL_DATADIR "${CMAKE_INSTALL_DATAROOTDIR}/go4")
+  else()
+    set(CMAKE_INSTALL_DATADIR ".")
+  endif()
+endif()
+
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-   set(GO4_INSTALL_MAINDIR "${CMAKE_INSTALL_DATADIR}" CACHE PATH "main go4 dir (DATADIR)")
-   set(_go4sys "${CMAKE_INSTALL_DATADIR}/")
+   if(MSVC)
+      set(GO4_INSTALL_MAINDIR "." CACHE PATH "main go4 dir (DATADIR)")
+      set(_go4sys "")
+   else()
+      set(GO4_INSTALL_MAINDIR "${CMAKE_INSTALL_DATADIR}" CACHE PATH "main go4 dir (DATADIR)")
+      set(_go4sys "${CMAKE_INSTALL_DATADIR}/")
+   endif()
 else()
    set(CMAKE_INSTALL_BINDIR "bin" CACHE PATH "go4 executables (bin)")
    set(CMAKE_INSTALL_LIBDIR "lib" CACHE PATH "go4 code libraries (lib)")
@@ -30,11 +64,11 @@ foreach(dir MAINDIR)
   endif()
 endforeach()
 
-
 mark_as_advanced(
   CMAKE_INSTALL_BINDIR
   CMAKE_INSTALL_LIBDIR
   CMAKE_INSTALL_INCLUDEDIR
+  CMAKE_INSTALL_DATADIR
   GO4_INSTALL_MAINDIR
   GO4_INSTALL_FULL_MAINDIR
   GO4_INSTALL_ICONSDIR

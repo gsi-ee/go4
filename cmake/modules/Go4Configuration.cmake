@@ -62,6 +62,10 @@ if (MSVC)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
                   ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
 
+   install(FILES ${CMAKE_BINARY_DIR}/go4login.bat
+                 ${CMAKE_BINARY_DIR}/go4.bat
+                 DESTINATION ${GO4_INSTALL_MAINDIR})
+
 else()
 
    execute_process(COMMAND ${ROOT_BINDIR}/root-config --version OUTPUT_VARIABLE _root_vers_)
