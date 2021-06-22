@@ -22,7 +22,7 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%))
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
-	@tar chf $(GO4TAR_NAME) Makefile Makefile.config Makefile.rules CMakeLists.txt	
+	@tar chf $(GO4TAR_NAME) Makefile Makefile.config Makefile.rules CMakeLists.txt
 	@tar rhf $(GO4TAR_NAME) build/go4-config.ini build/*.sh build/Makefile.* --exclude=build/Makefile.gener --exclude=build/Makefile.packaging
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/CMakeLists.txt,$(MODULES))
@@ -34,7 +34,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) cmake --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
 	@tar rhf $(GO4TAR_NAME) docs/go4doxygenconfig
-	@tar rhf $(GO4TAR_NAME) macros/*.C 
+	@tar rhf $(GO4TAR_NAME) macros/*.C
 	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) html --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) python --exclude=*.svn --exclude=*.pyc
@@ -50,7 +50,7 @@ go4-package:
 	@rmdir $(DISTR_DIR)
 	@echo "Package $(GO4TAR_NAME).gz done in $(PACKAGE_DIR)"
 
-win-bin: 
+win-bin:
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)
 	cp -f etc/win32/go4init.bat ..
@@ -70,7 +70,7 @@ endif
 	go4init.bat go4.bat go4login README.txt go4/README.txt go4/Go4License.txt \
 	go4/include/*.h go4/build/* go4/icons/* \
 	go4/etc/go4.prefs go4/bin/* go4/lib/* go4/docs/* go4/macros/* go4/html/* \
-	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt 
+	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt
 	cd ..; $(WINZIP_CMD) root -r
 	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
 	rm -rf bin/Qt5Core.dll bin/Qt5Gui.dll bin/Qt5Widgets.dll bin/Qt5Network.dll bin/icu*53.dll bin/platforms bin/msvcr100.dll bin/msvcp100.dll build/Makefile.gener
@@ -106,7 +106,7 @@ fit-package:
 THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager Go4Dict
 THRDMODULESEX = Go4ThreadManagerExample
 THRDDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
-                 $(THRDMNGR_DISTRFILES) $(THREADMGR_DICT) $(THREADMGR_DICT_DISTR) 
+                 $(THRDMNGR_DISTRFILES) $(THREADMGR_DICT) $(THREADMGR_DICT_DISTR)
 
 thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."

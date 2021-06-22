@@ -1,4 +1,4 @@
-## basic settings for Solaris 
+## basic settings for Solaris
 
 #### File suffixes: ####
 ObjSuf        = o
@@ -13,12 +13,12 @@ CC            = cc
 OPTIONS       = -KPIC -errtags=yes
 DEFINITIONS   = -DSolaris
 #EXTRACOPTIONS =
-EXTRACXXOPTIONS = -features=extensions -erroff=hidevf 
+EXTRACXXOPTIONS = -features=extensions -erroff=hidevf
 
-## This two compiler flags are alternative. 
-## When DOOPTIMIZATION = false, first is used otherwise second 
-DEBUGMODE     = -g 
-OPTIMIZEMODE  = -O 
+## This two compiler flags are alternative.
+## When DOOPTIMIZATION = false, first is used otherwise second
+DEBUGMODE     = -g
+OPTIMIZEMODE  = -O
 
 #### File system operations: ####
 LN            = ln -sf
@@ -32,7 +32,7 @@ LDFLAGS       = -O
 SOFLAGS       = -G
 
 #### Other options: ####
-OutPutOpt     = -o 
+OutPutOpt     = -o
 
 GO4_WITH_RFIO = false
 USERT  = true

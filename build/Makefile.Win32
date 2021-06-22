@@ -15,8 +15,8 @@ DEFINITIONS   = -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL
 EXTRACOPTIONS = -MD
 EXTRACXXOPTIONS =
 
-## This two copiler flags are alternative. 
-## When DOOPTIMIZATION = false, first is used otherwise second 
+## This two copiler flags are alternative.
+## When DOOPTIMIZATION = false, first is used otherwise second
 DEBUGMODE     = -Z7
 OPTIMIZEMODE  = -Ox
 
@@ -32,7 +32,7 @@ LDFLAGS       = /NOLOGO /INCREMENTAL:NO
 SOFLAGS       = /DLL
 
 #### Other options: ####
-OutPutOpt     = -o 
+OutPutOpt     = -o
 
 GO4_WITH_RFIO = false
 USERT  = false

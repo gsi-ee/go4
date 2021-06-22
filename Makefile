@@ -7,14 +7,14 @@ GO4PACKAGE = go4
 # rules which are used to produce packages
 PACKAGERULES    = compress go4-package fit-package \
                   thrd-package task-package win-bin \
-                  fast-packages packages 
+                  fast-packages packages
 
 ifneq ($(findstring $(MAKECMDGOALS), $(PACKAGERULES)),)
 DOPACKAGE = true
 endif
 
 # rules which are used to produce packages
-DOCRULES    = docs clean-docs go4-doxygen clean-go4-doxygen 
+DOCRULES    = docs clean-docs go4-doxygen clean-go4-doxygen
 
 ifneq ($(findstring $(MAKECMDGOALS), $(DOCRULES)),)
 DODOCS = true
@@ -44,7 +44,7 @@ endif
 include Makefile.config
 
 
-# scan old dict to exclude them from makefile 
+# scan old dict to exclude them from makefile
 OLD_DICT =  $(wildcard */$(DICT_PREFIX)*.*)
 
 
@@ -139,7 +139,7 @@ $(GO4SYS)/build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 
 libs::    $(BUILDGO4LIBS) $(GO4_GENERATED_FILES)
 
-gui::    libs 
+gui::    libs
 ifdef GO4PREFIX
 	@echo Call make install to copy all binary files into $(GO4PREFIX)
 endif
@@ -204,7 +204,7 @@ clean-dep:
 
 clean-prefix:
 	@rm -f Go4Log/TGo4Log.o Go4Log/TGo4Log.d
-	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt 
+	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt
 	@rm -f build/Makefile.gener go4login go4login.bat go4.bat
 	@rm -f bin/*
 	@echo "Clean prefix-dependend files done"

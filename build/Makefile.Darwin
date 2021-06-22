@@ -1,4 +1,4 @@
-## basic settings for MacOS X 
+## basic settings for MacOS X
 
 # OS version
 MACOSX_MINOR := $(shell sw_vers | sed -n 's/ProductVersion://p' | cut -d . -f 2)
@@ -20,8 +20,8 @@ OPTIONS       = -fPIC
 DEFINITIONS   = -DDarwin
 EXTRACOPTIONS = -Wall
 
-## This two copiler flags are alternative. 
-## When DOOPTIMIZATION = false, first is used otherwise second 
+## This two copiler flags are alternative.
+## When DOOPTIMIZATION = false, first is used otherwise second
 DEBUGMODE     = -g -O2
 OPTIMIZEMODE  = -O3
 
@@ -34,17 +34,17 @@ MV            = mv
 #### Linker definitions: ####
 LD            = clang++
 
-SOFLAGS       = -dynamiclib -single_module -undefined dynamic_lookup -install_name 
+SOFLAGS       = -dynamiclib -single_module -undefined dynamic_lookup -install_name
 DllSuf        = so
 
 ifeq ($(GO4WITHRPATH),true)
 LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
 
-LDFLAGS       = $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O 
+LDFLAGS       = $(LDFLAGS_RPATH) $(LDFLAGS_EXTRA) -O
 
 #### Other options: ####
-OutPutOpt     = -o 
+OutPutOpt     = -o
 
 GO4_WITH_RFIO = false
 USERT  = false

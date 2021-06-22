@@ -20,8 +20,8 @@ OPTIONS       = -fPIC
 DEFINITIONS   = -DLinux
 EXTRACXXOPTIONS = -Wall
 
-## This two compiler flags are alternative. 
-## When DOOPTIMIZATION = false, first is used otherwise second 
+## This two compiler flags are alternative.
+## When DOOPTIMIZATION = false, first is used otherwise second
 DEBUGMODE     = -g -O2
 OPTIMIZEMODE  = -O2
 
@@ -47,7 +47,7 @@ SOFLAGS       = -shared -Wl,-soname,
 endif
 
 #### Other options: ####
-OutPutOpt     = -o 
+OutPutOpt     = -o
 
 GO4_WITH_RFIO = true
 
@@ -57,4 +57,3 @@ LINKX11 = true
 endif
 
 USERT  = true
-
