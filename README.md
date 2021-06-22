@@ -1,3 +1,4 @@
+```
 --------------------------------------------------------------
          Go4 Release Package v6.1.2 (build 60102)
                       17-June-2021
@@ -20,115 +21,147 @@ Contact:            http://go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+```
+
+# GO4 PACKAGE
+
 This package was tested on
-    openSUSE Leap 42.2, openSUSE Tumblweed 6.2021
-    Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
-    macOS 10.14.6
-    compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.1
+* openSUSE Leap 42.2, openSUSE Tumblweed 6.2021
+* Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
+* macOS 10.14.6
+* compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.1
 
-REQUIREMENTS:
-    ROOT  either 6.12 or higher (recommended 6.24)
-              or 5.34-36 or higher
-    Qt    either qt5.6 or higher (recommended 5.15)
-              or qt4.8 or higher
-              or qt6.0 or higher (experimental)
+## REQUIREMENTS
+* ROOT
+  * either 6.12 or higher (recommended 6.24)
+  * or 5.34-36 or higher
+* Qt
+  * either qt5.6 or higher (recommended 5.15)
+  * or qt4.8 or higher
+  * or qt6.0 or higher (experimental)
 
 
-ROOT INSTALLATION
+## ROOT INSTALLATION
 
-  Install the ROOT framework Version >=6.22/08 (older version up to 5.34/36
-  can also be used, but not recommended).
-  See instruction how download and compile ROOT on http://root.cern.ch.
-  Recomended way to build ROOT - compile it and use from compilation path:
+Install the ROOT framework Version >=6.22/08 (older version up to 5.34/36
+can also be used, but not recommended).
+See instruction how download and compile ROOT on http://root.cern.ch.
+Recomended way to build ROOT - compile it and use from compilation path:
 
-     [shell] tar xzf root_v6.18.00.source.tar.gz
-     [shell] mkdir build_618
-     [shell] cd build_618
-     [shell] cmake ../root_v6.18.00
+     [shell] tar xzf root_v6.24.00.source.tar.gz
+     [shell] mkdir build_624
+     [shell] cd build_624
+     [shell] cmake ../root_v6.24.00
      [shell] make -j
      [shell] source bin/thisroot.sh
 
-  To use web-based graphics (required for Mac) qt5web option should be enabled:
+To use web-based graphics (required for Mac) qt5web option should be enabled:
 
-     shell> cmake ../root_v6.18.00 -Droot7=ON -Dqt5web=ON
+     shell> cmake ../root_v6.24.00 -Droot7=ON -Dqt5web=ON
 
-  Check after ROOT compilation that everything is fine by calling:
+Check after ROOT compilation that everything is fine by calling:
 
      shell> root-config --version
 
-  If actual version is printed, such ROOT installation can be used for go4.
-  If command fails, one should configure environment call
+If actual version is printed, such ROOT installation can be used for go4.
+If command fails, one should configure environment call
 
      shell> source /path/to/root/bin/thisroot.sh
 
 
-QT INSTALLATION
+## QT INSTALLATION
 
-  This Go4 distribution can be built with following Qt versions:
-     qt5 - Qt 5.6.x and higher (recommended)
-     qt4 - Qt 4.6.x and higher
-     qt6 - Qt 6.0.x and higher
-  Most modern Linux distributions provide Qt libraries, utilities and include files.
-  Typically one should install libqt5-devel packages.
-  Normally Go4 able to detect major version of such Qt installation
-  and will compile correspondent version of Go4 GUI.
-  If several Qt versions are installed, use "withqt" makefile flag to select
-  preferred version of qt. It is especially necessary for systems, where Qt3 installation
-  automatically sets QTDIR variable. In that case call "make withqt=5" to compile
-  go4 with Qt5. It is recommended to use Qt5 version of GUI.
-  Qt6 version only can be build with cmake
+This Go4 distribution can be built with following Qt versions:
+* qt5 - Qt 5.6.x and higher (recommended 5.15.2)
+* qt4 - Qt 4.6.x and higher
+* qt6 - Qt 6.0.x and higher
+Most modern Linux distributions provide Qt libraries, utilities and include files.
+Typically one should install libqt5-devel packages.
+Normally Go4 able to detect major version of such Qt installation
+and will compile correspondent version of Go4 GUI.
+If several Qt versions are installed, use "withqt" makefile flag to select
+preferred version of qt. It is especially necessary for systems, where Qt3 installation
+automatically sets QTDIR variable. In that case call "make withqt=5" to compile
+go4 with Qt5. It is recommended to use Qt5 version of GUI.
+Qt6 version only can be build with cmake
 
-  If there is no Qt installed on your system, or Go4 is not able to use it correctly,
-  one should download it from https://www.qt.io/download anf follow instruction how it should be
-  installed. After compilation set environment variables e.g.
+If there is no Qt installed on your system, or Go4 is not able to use it correctly,
+one should download it from https://www.qt.io/download anf follow instruction how it should be
+installed. After compilation set environment variables e.g.
 
-     shell> export QTDIR=$PWD
-     shell> export PATH=$PATH:$QTDIR/bin
-     shell> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
-
-
-QT installation on Mac OS X
-
-  Go4 QtROOT GUI on Mac works only with web-based ROOT graphics.
-  For that one requires latest qt5 with QWebEngine support.
-  Most simple way is to use brew (see http://macappstore.org/qt5/):
-
-     shell> brew install qt5
-
-  Qt5 should be installed before ROOT and ROOT compilation should include -Dqt5web=ON flag.
-  After installing Qt5 libraries, one should following shell variables:
-
-     shell> export Qt5_DIR=/usr/local/opt/qt5/
-     shell> export QTDIR=/usr/local/opt/qt5/
-     shell> export PATH=$QTDIR/bin:$PATH
-     shell> export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
+    shell> export QTDIR=$PWD
+    shell> export PATH=$PATH:$QTDIR/bin
+    shell> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
 
 
-GO4 COMPILATION WITH CMAKE
+### QT installation on Mac OS X
 
-  Create build directory and call
+Go4 QtROOT GUI on Mac works only with web-based ROOT graphics.
+For that one requires latest qt5 with QWebEngine support.
+Most simple way is to use brew (see http://macappstore.org/qt5/):
 
-     shell> cmake "path_to_source_dir"
-     shell> make -j
+    shell> brew install qt5
 
-  One also can specify several options for cmake:
+Qt5 should be installed before ROOT and ROOT compilation should include -Dqt5web=ON flag.
+After installing Qt5 libraries, one should following shell variables:
 
-     -Dhdf5=ON - enable HDF5 support, requires installed HDF5 library
-     -DCMAKE_INSTALL_PREFIX=/home/user/custom/dir - configure custom directory for installation
-
-GO4 INSTALLATION AFTER CMAKE BUILD
-
-  If go4 build cmake, it can be used directly from build directory.
-  If required, one can install it with the command:
-
-      shell> make install
-
-  It will copy files to configured installation path
+    shell> export Qt5_DIR=/usr/local/opt/qt5/
+    shell> export QTDIR=/usr/local/opt/qt5/
+    shell> export PATH=$QTDIR/bin:$PATH
+    shell> export DYLD_LIBRARY_PATH=$QTDIR/lib:$DYLD_LIBRARY_PATH
 
 
-GO4 INSTALLATION ON WINDOWS (experimental)
+## GO4 COMPILATION WITH CMAKE
 
-There will be special installer files fot root and go4.
+Create build directory and call
+
+    shell> cmake "path_to_source_dir"
+    shell> make -j
+
+One also can specify several options for cmake:
+
+    -Dhdf5=ON - enable HDF5 support, requires installed HDF5 library
+    -DCMAKE_INSTALL_PREFIX=/home/user/custom/dir - configure custom directory for installation
+
+
+## RUNNING GO4 GUI
+
+After compilation completed, go4 can be started just like:
+
+    shell> bin/go4
+
+During compilation "go4login" script is generated, where
+all necessary environment variables for ROOT, Qt and Go4 are set.
+It can be copied in any suitable location (accessible via PATH variable)
+and called:
+
+    shell> source ./go4login
+
+After that go4 gui and user analysis can be started from any directory.
+
+Please read the Go4 Manual $GO4SYS/docs/Go4Introduction.pdf for further
+information on adopting your analysis and how to use the GUI.
+
+Please read the ROOT Users guide (available at https://root.cern)
+for any questions concerning the ROOT system itself.
+
+Please contact the Go4 developer team for any bug reports and wishes!
+
+
+## GO4 INSTALLATION AFTER CMAKE BUILD
+
+If go4 build cmake, it can be used directly from build directory.
+If required, one can install it with the command:
+
+    shell> make install
+
+It will copy files to configured installation path
+
+
+
+## GO4 INSTALLATION ON WINDOWS (experimental)
+
+There  __will be__  special installer files fot root and go4.
 We need to provide special ROOT installation while it should includes
 qt5web component used in the Go4 now.
 
@@ -146,12 +179,13 @@ To compile any user analysis, start "x86 Native Tools Command Prompt VS 2019" an
     cmake --build . --config Release -- /maxcpucount
 
 To run GUI and analysis:
+
     go4
     Launch Analysis in gui
     Select "C:\Soft\analysis\Release" directory for analysis lib
 
 
-GO4 COMPILATION IN WINDOWS
+### GO4 COMPILATION ON WINDOWS
 
 First of all, install Qt5 with WebEngine support on Windows.
 Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
@@ -172,7 +206,7 @@ Then compile Go4:
 
 
 
-GO4 COMPILATION WITH MAKE (deprecated)
+## GO4 COMPILATION WITH MAKE (deprecated)
 
   Unpack this Go4 distribution in any suitable directory.
 
@@ -188,34 +222,7 @@ GO4 COMPILATION WITH MAKE (deprecated)
   has additional capabilities, which are listed in the end of this README.
 
 
-
-
-
-RUNNING GO4 GUI
-
-  After compilation completed, go4 can be started just like:
-
-     shell> bin/go4
-
-  During compilation "go4login" script is generated, where
-  all necessary environment variables for ROOT, Qt and Go4 are set.
-  It can be copied in any suitable location (accessible via PATH variable)
-  and called:
-
-     shell> source ./go4login
-
-  After that go4 gui and user analysis can be started from any directory.
-
-  Please read the Go4 Manual $GO4SYS/docs/Go4Introduction.pdf for further
-  information on adopting your analysis and how to use the GUI.
-
-  Please read the ROOT Users guide (available at http://root.cern.ch)
-  for any questions concerning the ROOT system itself.
-
-  Please contact the Go4 developer team for any bug reports and wishes!
-
-
-ADVANCED MAKE OPTIONS
+### ADVANCED MAKE OPTIONS
 
   Compare to default options, there are additional flags, which can be specified
   to the make:
