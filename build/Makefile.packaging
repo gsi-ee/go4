@@ -29,7 +29,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/CMakeLists.txt,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
-	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
+	@tar rhf $(GO4TAR_NAME) README.md CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) cmake --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
@@ -56,7 +56,7 @@ win-bin:
 	cp -f etc/win32/go4init.bat ..
 	cp -f etc/win32/go4.bat ..
 	cp -f etc/win32/go4login ..
-	cp -f etc/win32/README.txt ..
+	cp -f etc/win32/README.md ..
 	cp -f etc/win32/Makefile.gener build/
 ifneq ($(wildcard /cygdrive/c/WINDOWS/system32/msvcr100.dll),)
 	cp -f /cygdrive/c/WINDOWS/system32/msvcr100.dll /cygdrive/c/WINDOWS/system32/msvcp100.dll bin
@@ -67,12 +67,12 @@ endif
 	@cd ..; $(WINZIP_CMD) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do echo "pack $$MMM"; rm -f $$MMM/G__*.* $$MMM/*.obj $$MMM/*.d; cd ..; $(WINZIP_CMD) go4/$$MMM/*; cd go4; done
 	cd ..; $(WINZIP_CMD) \
-	go4init.bat go4.bat go4login README.txt go4/README.txt go4/Go4License.txt \
+	go4init.bat go4.bat go4login README.md go4/README.md go4/Go4License.txt \
 	go4/include/*.h go4/build/* go4/icons/* \
 	go4/etc/go4.prefs go4/bin/* go4/lib/* go4/docs/* go4/macros/* go4/html/* \
-	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt
+	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.md
 	cd ..; $(WINZIP_CMD) root -r
-	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
+	rm -f ../go4init.bat ../go4.bat ../go4login ../README.md
 	rm -rf bin/Qt5Core.dll bin/Qt5Gui.dll bin/Qt5Widgets.dll bin/Qt5Network.dll bin/icu*53.dll bin/platforms bin/msvcr100.dll bin/msvcp100.dll build/Makefile.gener
 	@echo "Binary package $(WINBIN_NAME) done"
 
@@ -125,7 +125,7 @@ thrd-package:
 	@touch -f $(DISTR_DIR)/include/.dummy
 	@cp -f etc/thrdmgr/Makefile $(DISTR_DIR)
 	@cp -f etc/thrdmgr/thrdmgr.init $(DISTR_DIR)/go4.init
-	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
+	@cp -f etc/thrdmgr/README.md $(DISTR_DIR)
 	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(THRDTAR_NAME).gz $(PACKAGE_DIR)
@@ -162,7 +162,7 @@ task-package:
 	@cd $(DISTR_DIR); tar xf $(TASKTAR_NAME)
 	@cp -f etc/taskh/Makefile $(DISTR_DIR)
 	@cp -f etc/taskh/taskh.init $(DISTR_DIR)/go4.init
-	@cp -f etc/taskh/README.txt $(DISTR_DIR)
+	@cp -f etc/taskh/README.md $(DISTR_DIR)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(TASKTAR_NAME) . --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)

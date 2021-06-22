@@ -28,8 +28,8 @@ string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\2" CXX_MINOR ${CMAKE_CXX_COMPI
 
 #---Resource Files-----------------------------------------------------------------------------------
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_BINARY_DIR}/Go4License.txt")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_BINARY_DIR}/README.txt")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_BINARY_DIR}/README.txt")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_BINARY_DIR}/README.md")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_BINARY_DIR}/README.md")
 
 #---Source package settings--------------------------------------------------------------------------
 set(CPACK_SOURCE_IGNORE_FILES

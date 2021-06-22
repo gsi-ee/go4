@@ -247,7 +247,7 @@ add_custom_target(move_headers ALL DEPENDS ${__allHeaders})
 # ================== Copy files, create old support files ==========
 
 file(COPY ${CMAKE_SOURCE_DIR}/Go4License.txt DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${CMAKE_SOURCE_DIR}/README.txt DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/README.md DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/CHANGES.txt DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4FitTutorial.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
 file(COPY ${CMAKE_SOURCE_DIR}/docs/Go4Introduction.pdf DESTINATION ${CMAKE_BINARY_DIR}/docs)
@@ -286,7 +286,7 @@ install(DIRECTORY macros/ DESTINATION ${GO4_INSTALL_MACROSDIR})
 install(DIRECTORY python/ DESTINATION ${GO4_INSTALL_PYTHONDIR})
 install(FILES CHANGES.txt
               Go4License.txt
-              README.txt
+              README.md
               DESTINATION ${GO4_INSTALL_MAINDIR})
 
 if(MSVC)
