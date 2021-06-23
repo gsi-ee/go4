@@ -127,7 +127,7 @@ endif()
 # Finally, generate the CPack per-generator options file and include the
 # base CPack configuration.
 #
-configure_file(cmake/modules/Go4CPackOptions.cmake.in Go4CPackOptions.cmake @ONLY)
+configure_file(cmake/scritps/Go4CPackOptions.cmake.in Go4CPackOptions.cmake @ONLY)
 set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_BINARY_DIR}/Go4CPackOptions.cmake)
 include(CPack)
 
