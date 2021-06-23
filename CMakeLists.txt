@@ -278,16 +278,13 @@ file(COPY ${CMAKE_SOURCE_DIR}/etc/htdigest.txt DESTINATION ${CMAKE_BINARY_DIR}/e
 
 # install directories
 
-install(DIRECTORY docs/ DESTINATION ${GO4_INSTALL_DOCSDIR})
-install(DIRECTORY etc/ DESTINATION ${GO4_INSTALL_ETCDIR})
-install(DIRECTORY html/ DESTINATION ${GO4_INSTALL_HTMLDIR})
-install(DIRECTORY icons/ DESTINATION ${GO4_INSTALL_ICONSDIR})
-install(DIRECTORY macros/ DESTINATION ${GO4_INSTALL_MACROSDIR})
-install(DIRECTORY python/ DESTINATION ${GO4_INSTALL_PYTHONDIR})
-install(FILES CHANGES.txt
-              Go4License.txt
-              README.md
-              DESTINATION ${GO4_INSTALL_MAINDIR})
+install(DIRECTORY docs/ DESTINATION ${GO4_INSTALL_DOCSDIR} COMPONENT applications)
+install(DIRECTORY etc/ DESTINATION ${GO4_INSTALL_ETCDIR} COMPONENT applications)
+install(DIRECTORY html/ DESTINATION ${GO4_INSTALL_HTMLDIR} COMPONENT applications)
+install(DIRECTORY icons/ DESTINATION ${GO4_INSTALL_ICONSDIR} COMPONENT applications)
+install(DIRECTORY macros/ DESTINATION ${GO4_INSTALL_MACROSDIR} COMPONENT applications)
+install(DIRECTORY python/ DESTINATION ${GO4_INSTALL_PYTHONDIR} COMPONENT applications)
+install(FILES CHANGES.txt Go4License.txt README.md DESTINATION ${GO4_INSTALL_MAINDIR} COMPONENT applications)
 
 if(MSVC)
    get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
@@ -299,12 +296,12 @@ if(MSVC)
 
    install(FILES ${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat
                  ${CMAKE_BINARY_DIR}/go4.bat
-                 COMPONENT applications
-                 DESTINATION ${GO4_INSTALL_MAINDIR})
+                 DESTINATION ${GO4_INSTALL_MAINDIR}
+                 COMPONENT applications)
 
    # install full ROOT distribution, ROOT_DIR pointing to cmake/ subdir of ROOT installation
    get_filename_component(_root_dir_ "${ROOT_DIR}/.." ABSOLUTE)
-   install(DIRECTORY ${_root_dir_}/ COMPONENT root DESTINATION ${GO4_INSTALL_MAINDIR}/root)
+   install(DIRECTORY ${_root_dir_}/ DESTINATION ${GO4_INSTALL_MAINDIR}/root COMPONENT root)
 
    # install selected files from Qt5 - only run go4gui
 
@@ -327,12 +324,12 @@ if(MSVC)
                  ${_qt_dir_}/bin/Qt5Widgets.dll
                  ${_qt_dir_}/bin/QtWebEngineProcess.exe
                  ${_qt_dir_}/bin/QtWebEngineProcessd.exe
-                 COMPONENT qt5
-                 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin)
+                 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin
+                 COMPONENT qt5)
 
-   install(DIRECTORY ${_qt_dir_}/plugins/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins)
-   install(DIRECTORY ${_qt_dir_}/resources/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources)
-   install(DIRECTORY ${_qt_dir_}/translations/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations)
+   install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins COMPONENT qt5)
+   install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
+   install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
 
 endif()
 

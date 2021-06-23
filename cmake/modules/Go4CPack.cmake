@@ -127,7 +127,7 @@ endif()
 # Finally, generate the CPack per-generator options file and include the
 # base CPack configuration.
 #
-configure_file(cmake/scritps/Go4CPackOptions.cmake.in Go4CPackOptions.cmake @ONLY)
+configure_file(cmake/scripts/Go4CPackOptions.cmake.in Go4CPackOptions.cmake @ONLY)
 set(CPACK_PROJECT_CONFIG_FILE ${CMAKE_BINARY_DIR}/Go4CPackOptions.cmake)
 include(CPack)
 
@@ -161,7 +161,7 @@ cpack_add_component(libraries
      INSTALL_TYPES full minimal developer)
 
 cpack_add_component(headers
-    DISPLAY_NAME "C++ Headers"
+    DISPLAY_NAME "C++ headers and cmake files"
     DESCRIPTION "These are needed to do any development"
      INSTALL_TYPES full developer)
 
