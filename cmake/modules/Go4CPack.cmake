@@ -138,6 +138,11 @@ cpack_add_install_type(full      DISPLAY_NAME "Full Installation")
 cpack_add_install_type(minimal   DISPLAY_NAME "Minimal Installation")
 cpack_add_install_type(developer DISPLAY_NAME "Developer Installation")
 
+cpack_add_component(root
+    DISPLAY_NAME "ROOT framework"
+    DESCRIPTION "ROOT compiled with Qt5Web support"
+     INSTALL_TYPES full developer)
+
 cpack_add_component(applications
     DISPLAY_NAME "Go4 Applications"
     DESCRIPTION "Go4 executables such as go4.exe"
