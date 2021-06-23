@@ -299,7 +299,7 @@ if(MSVC)
 
    install(FILES ${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat
                  ${CMAKE_BINARY_DIR}/go4.bat
-                 COMPONENT application
+                 COMPONENT applications
                  DESTINATION ${GO4_INSTALL_MAINDIR})
 
    # install full ROOT distribution, ROOT_DIR pointing to cmake/ subdir of ROOT installation

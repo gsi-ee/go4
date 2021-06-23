@@ -138,15 +138,17 @@ cpack_add_install_type(full      DISPLAY_NAME "Full Installation")
 cpack_add_install_type(minimal   DISPLAY_NAME "Minimal Installation")
 cpack_add_install_type(developer DISPLAY_NAME "Developer Installation")
 
-cpack_add_component(root
-    DISPLAY_NAME "ROOT framework"
-    DESCRIPTION "ROOT compiled with Qt5Web support"
-     INSTALL_TYPES full developer)
+if(MSVC)
+  cpack_add_component(root
+      DISPLAY_NAME "ROOT framework"
+      DESCRIPTION "ROOT compiled with Qt5Web support"
+      INSTALL_TYPES full developer)
 
-cpack_add_component(qt5
-    DISPLAY_NAME "Qt5.15.2 libs"
-    DESCRIPTION "Subset of Qt5.15.2 only to run Go4 and ROOT webgui"
-     INSTALL_TYPES full developer)
+  cpack_add_component(qt5
+      DISPLAY_NAME "Qt5.15.2 libs"
+      DESCRIPTION "Subset of Qt5.15.2 only to run Go4 and ROOT webgui"
+      INSTALL_TYPES full developer)
+endif()
 
 cpack_add_component(applications
     DISPLAY_NAME "Go4 Applications"
