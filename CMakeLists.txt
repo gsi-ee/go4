@@ -297,9 +297,13 @@ if(MSVC)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
                   ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
 
-   install(FILES ${CMAKE_BINARY_DIR}/go4login.bat
+   install(FILES ${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat
                  ${CMAKE_BINARY_DIR}/go4.bat
                  DESTINATION ${GO4_INSTALL_MAINDIR})
+
+   # install full ROOT distribution, ROOT_DIR pointing to cmake/ subdir of ROOT installation
+   get_filename_component(_root_dir_ "${ROOT_DIR}/.." ABSOLUTE)
+   install(DIRECTORY ${_root_dir_}/ DESTINATION ${GO4_INSTALL_MAINDIR}/root)
 
 endif()
 
