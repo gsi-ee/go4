@@ -159,33 +159,29 @@ It will copy files to configured installation path
 
 
 
-## GO4 INSTALLATION ON WINDOWS (experimental)
+## GO4 ON WINDOWS
 
-There  __will be__  special installer files fot root and go4.
-We need to provide special ROOT installation while it should includes
-qt5web component used in the Go4 now.
+### Instal using binary distribution
 
-It is recommended to install both in directory like "C:\Soft".
-After installation one have to edit go4login.bat and Go4Config.cmake
-In both files one should provide actual location of ROOT installation.
-If directory called "C:\Soft\root", no changes are required.
+There is installer file, which provides Go4 with correspondent ROOT and Qt5 libraries.
+It is recommended to install it in directory without spaces like "C:\Soft\go4".
+After installation Go4 icon created by default - it runs go4 gui.
+
+### User analysis compilation
 
 To compile any user analysis, start "x86 Native Tools Command Prompt VS 2019" and:
 
     call C:\Soft\go4\go4login.bat
     mkdir C:\Soft\analysis
     cd C:\Soft\analysis
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4\Go4ExampleSimple
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\Soft\go4\examples\Go4ExampleSimple
     cmake --build . --config Release -- /maxcpucount
 
-To run GUI and analysis:
-
-    go4
-    Launch Analysis in gui
-    Select "C:\Soft\analysis\Release" directory for analysis lib
+To run it, one should specify directory "C:\Soft\analysis\Release" as analysis directory in
+"Launch Analysis" widget.
 
 
-### GO4 COMPILATION ON WINDOWS
+### Compilation of Go4 from sources on Windows
 
 First of all, install Qt5 with WebEngine support on Windows.
 Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
@@ -203,6 +199,7 @@ Then compile Go4:
     cd C:\Soft\go4
     cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4
     cmake --build . --config Release -- /maxcpucount
+
 
 
 
