@@ -266,6 +266,8 @@ set(QtRoot_headers
 # plain means everything build without extra libs
 if(MSVC)
   set(_plain_gui ON)
+  # prevent creation of console app
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -SUBSYSTEM:WINDOWS -ENTRY:mainCRTStartup")
 endif()
 
 set(gui_install_headers)
