@@ -166,6 +166,6 @@ cpack_add_component(headers
      INSTALL_TYPES full developer)
 
 cpack_add_component(tests
-    DISPLAY_NAME "Go4 Tests and Tutorials"
-    DESCRIPTION "These are needed to do any test and tutorial"
-     INSTALL_TYPES full developer)
+    DISPLAY_NAME "Go4 Examples"
+    DESCRIPTION "These are go4 examples like Go4ExampleSimple"
+    INSTALL_TYPES full developer)

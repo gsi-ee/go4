@@ -300,6 +300,7 @@ if(MSVC)
                  COMPONENT applications)
 
    # install full ROOT distribution, ROOT_DIR pointing to cmake/ subdir of ROOT installation
+
    get_filename_component(_root_dir_ "${ROOT_DIR}/.." ABSOLUTE)
    install(DIRECTORY ${_root_dir_}/ DESTINATION ${GO4_INSTALL_MAINDIR}/root COMPONENT root)
 
@@ -330,6 +331,10 @@ if(MSVC)
    install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins COMPONENT qt5)
    install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
    install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
+
+   foreach(ex ${examples})
+      install(DIRECTORY ${ex}/ DESTINATION ${GO4_INSTALL_MAINDIR}/examples/${ex} COMPONENT tests)
+   endforeach()
 
 endif()
 
