@@ -1,10 +1,10 @@
 :: detect path where script is located
 
-:: configure Qt5 location
+:: configure external Qt5 location
 
-@set QTDIR=C:/Qt5/5.15.2/msvc2019
-@set LIB=%QTDIR%/lib;%LIB%
-@set PATH=%QTDIR%/bin;%PATH%
+:: @set QTDIR=C:/Qt5/5.15.2/msvc2019
+:: @set LIB=%QTDIR%/lib;%LIB%
+:: @set PATH=%QTDIR%/bin;%PATH%
 
 :: detect current dir
 
@@ -15,9 +15,16 @@
 @set GO4SYS=%cd%
 @cd /D %OLDPATH%
 
+:: configure Qt5 distributed with go4
+
+@set QTDIR=%GO4SYS%/qt5
+@set PATH=%QTDIR%/bin;%PATH%
+
 :: configure ROOT distributed with go4
 
 call %GO4SYS%/root/bin/thisroot.bat
+
+:: configure Go4 pathes
 
 @set PATH=%GO4SYS%\bin;%PATH%
 @set LIB=.;%GO4SYS%\lib;%LIB%

@@ -299,11 +299,40 @@ if(MSVC)
 
    install(FILES ${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat
                  ${CMAKE_BINARY_DIR}/go4.bat
+                 COMPONENT application
                  DESTINATION ${GO4_INSTALL_MAINDIR})
 
    # install full ROOT distribution, ROOT_DIR pointing to cmake/ subdir of ROOT installation
    get_filename_component(_root_dir_ "${ROOT_DIR}/.." ABSOLUTE)
-   install(DIRECTORY ${_root_dir_}/ DESTINATION ${GO4_INSTALL_MAINDIR}/root)
+   install(DIRECTORY ${_root_dir_}/ COMPONENT root DESTINATION ${GO4_INSTALL_MAINDIR}/root)
+
+   # install selected files from Qt5 - only run go4gui
+
+   install(FILES ${_qt_dir_}/bin/libEGL.dll
+                 ${_qt_dir_}/bin/libGLESv2.dll
+                 ${_qt_dir_}/bin/qt.conf
+                 ${_qt_dir_}/bin/Qt5Core.dll
+                 ${_qt_dir_}/bin/Qt5Gui.dll
+                 ${_qt_dir_}/bin/Qt5Network.dll
+                 ${_qt_dir_}/bin/Qt5Positioning.dll
+                 ${_qt_dir_}/bin/Qt5PrintSupport.dll
+                 ${_qt_dir_}/bin/Qt5Qml.dll
+                 ${_qt_dir_}/bin/Qt5QmlModels.dll
+                 ${_qt_dir_}/bin/Qt5Quick.dll
+                 ${_qt_dir_}/bin/Qt5QuickWidgets.dll
+                 ${_qt_dir_}/bin/Qt5WebChannel.dll
+                 ${_qt_dir_}/bin/Qt5WebEngine.dll
+                 ${_qt_dir_}/bin/Qt5WebEngineCore.dll
+                 ${_qt_dir_}/bin/Qt5WebEngineWidgets.dll
+                 ${_qt_dir_}/bin/Qt5Widgets.dll
+                 ${_qt_dir_}/bin/QtWebEngineProcess.exe
+                 ${_qt_dir_}/bin/QtWebEngineProcessd.exe
+                 COMPONENT qt5
+                 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin)
+
+   install(DIRECTORY ${_qt_dir_}/plugins/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins)
+   install(DIRECTORY ${_qt_dir_}/resources/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources)
+   install(DIRECTORY ${_qt_dir_}/translations/ COMPONENT qt5 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations)
 
 endif()
 
