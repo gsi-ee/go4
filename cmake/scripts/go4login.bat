@@ -6,6 +6,10 @@
 :: @set LIB=%QTDIR%/lib;%LIB%
 :: @set PATH=%QTDIR%/bin;%PATH%
 
+:: configure external ROOT
+
+:: call C:/Soft/root/bin/thisroot.bat
+
 :: detect current dir
 
 @set OLDPATH=%cd%
