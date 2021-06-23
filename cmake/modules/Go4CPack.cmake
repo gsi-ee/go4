@@ -140,8 +140,8 @@ cpack_add_install_type(developer DISPLAY_NAME "Developer Installation")
 
 if(MSVC)
   cpack_add_component(root
-      DISPLAY_NAME "ROOT framework"
-      DESCRIPTION "ROOT compiled with Qt5Web support"
+      DISPLAY_NAME "ROOT 6.25 framework"
+      DESCRIPTION "ROOT 6.25.01 compiled with qt5web support"
       INSTALL_TYPES full developer)
 
   cpack_add_component(qt5
