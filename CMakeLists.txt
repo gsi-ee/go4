@@ -332,9 +332,13 @@ if(MSVC)
    install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
    install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
 
+   # add all tests sources
    foreach(ex ${examples})
       install(DIRECTORY ${ex}/ DESTINATION ${GO4_INSTALL_MAINDIR}/examples/${ex} COMPONENT tests)
    endforeach()
+
+   # and add binaries of Go4ExampleSimple to have test application
+   install(DIRECTORY ${CMAKE_BINARY_DIR}/Go4ExampleSimple/Release/ DESTINATION ${GO4_INSTALL_MAINDIR}/test COMPONENT tests)
 
 endif()
 
