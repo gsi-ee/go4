@@ -73,8 +73,8 @@ class TGo4Slot : public TNamed  {
       Bool_t GetIntPar(const char* name, Int_t& value);
       void PrintPars(Int_t level = 3);
 
-      Int_t NumChilds() const { return (fChilds!=0) ? fChilds->GetLast()+1 : 0; }
-      TGo4Slot* GetChild(Int_t n) const { return (fChilds!=0) ? (TGo4Slot*) fChilds->At(n) : 0; }
+      Int_t NumChilds() const { return fChilds ? fChilds->GetLast()+1 : 0; }
+      TGo4Slot* GetChild(Int_t n) const { return fChilds ? (TGo4Slot*) fChilds->At(n) : 0; }
       TGo4Slot* FindChild(const char* name);
       Int_t GetIndexOf(TGo4Slot* child);
       TGo4Slot* GetNextChild(TGo4Slot* child);
