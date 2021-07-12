@@ -32,8 +32,15 @@ if(MSVC)
    string(REGEX REPLACE "\\\\" "/" GO4_ROOT_DIR ${GO4_ROOT_DIR})
 endif()
 
+set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \"${GO4_ROOT_DIR}\")")
+
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
+
+set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \$ENV{ROOTSYS})")
+
+configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
+               ${CMAKE_BINARY_DIR}/_install/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/Go4Macros.cmake
                ${CMAKE_BINARY_DIR}/Go4Macros.cmake COPYONLY)
@@ -41,7 +48,7 @@ configure_file(${CMAKE_SOURCE_DIR}/cmake/modules/Go4Macros.cmake
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4UseFile.cmake.in
                ${CMAKE_BINARY_DIR}/Go4UseFile.cmake @ONLY NEWLINE_STYLE UNIX)
 
-install(FILES ${CMAKE_BINARY_DIR}/Go4Config.cmake
+install(FILES ${CMAKE_BINARY_DIR}/_install/Go4Config.cmake
               ${CMAKE_BINARY_DIR}/Go4Macros.cmake
               ${CMAKE_BINARY_DIR}/Go4UseFile.cmake
               DESTINATION ${GO4_INSTALL_MAINDIR}
