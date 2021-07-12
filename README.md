@@ -163,9 +163,15 @@ It will copy files to configured installation path
 
 ### Instal using binary distribution
 
-There is installer file, which provides Go4 with correspondent ROOT and Qt5 libraries.
+To use ROOT6 and Go4 on Windows, it is necessary to install Microsoft Visual Studio.
+There is free "Community" version which can be found on
+https://visualstudio.microsoft.com/downloads/ website. During installation C++ components
+should be installed.
+
+For the go4 there is windows installer file, which provides Go4 with correspondent ROOT and Qt5 libraries.
 It is recommended to install it in directory without spaces like "C:\Soft\go4".
-After installation Go4 icon created by default - it runs go4 gui.
+After installation Go4 icon created in the windows menu and on desktop - it runs go4 gui.
+
 
 ### User analysis compilation
 
@@ -199,7 +205,6 @@ Then compile Go4:
     cd C:\Soft\go4
     cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\go4
     cmake --build . --config Release -- /maxcpucount
-
 
 
 
