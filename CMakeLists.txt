@@ -339,6 +339,13 @@ if(MSVC)
 
    # and add binaries of Go4ExampleSimple to have test application
    install(DIRECTORY ${CMAKE_BINARY_DIR}/Go4ExampleSimple/Release/ DESTINATION ${GO4_INSTALL_MAINDIR}/test COMPONENT tests)
+   install(FILES ${CMAKE_BINARY_DIR}/Go4ExampleSimple/libGo4UserAnalysis.rootmap
+                 ${CMAKE_BINARY_DIR}/Go4ExampleSimple/libGo4UserAnalysis_rdict.pcm
+                 ${CMAKE_BINARY_DIR}/Go4ExampleSimple/module.modulemap
+                 ${CMAKE_SOURCE_DIR}/Go4ExampleSimple/TXXXProc.h
+                 ${CMAKE_SOURCE_DIR}/Go4ExampleSimple/TXXXParam.h
+                 DESTINATION ${GO4_INSTALL_MAINDIR}/test COMPONENT tests)
+
 
 endif()
 
