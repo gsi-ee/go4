@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v6.1.2 (build 60102)
-                      17-June-2021
+         Go4 Release Package v6.1.x (build 60102)
+                      Summer 2021
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,6 +20,11 @@ Contact:            http://Go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+
+Changes in Go4 v6.1.x (Summer 2021)
+1. Bugfix in TGo4BufferQueue: use again native TBuffer::Expand() for queue of streamed objects 
+instead of custom implementation. Avoids byte count warnings when transferring parameters objects
+
 
 Changes in Go4 v6.1.2 (June 2021)
 1. Bugfix in MbsAPI: new polling mode for remote event server connection could lead to instable stream server socket
