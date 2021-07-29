@@ -22,8 +22,9 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 Changes in Go4 v6.1.x (Summer 2021)
-1. Bugfix in TGo4BufferQueue: use again native TBuffer::Expand() for queue of streamed objects 
+1. Bugfix in TGo4BufferQueue: use again native TBuffer::Expand() for queue of streamed objects
 instead of custom implementation. Avoids byte count warnings when transferring parameters objects
+2. Support correct update of TProfile and TProfile2D objects, add them to Go4Example1Step
 
 
 Changes in Go4 v6.1.2 (June 2021)
