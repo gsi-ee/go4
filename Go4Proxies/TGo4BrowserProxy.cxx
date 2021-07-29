@@ -2022,6 +2022,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
    if (kind==TGo4Access::kndObject) {
       if (cl!=0) {
         if (cl->InheritsFrom(TProfile::Class())) { cando = 1110; pixmap = "profile_t.png"; } else
+        if (cl->InheritsFrom(TProfile2D::Class())) { cando = 1110; pixmap = "col.png"; } else
         if (cl->InheritsFrom(TGo4Picture::Class())) { cando = 110; pixmap = "picture.png"; } else
         if (cl->InheritsFrom(TGo4Parameter::Class())) { cando = 1011; pixmap = "parameter.png"; } else
         if (cl->InheritsFrom(TMultiGraph::Class())) { cando = 1110; pixmap = "superimpose.png"; } else

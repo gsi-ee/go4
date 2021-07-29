@@ -90,6 +90,7 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
              (strstr(classname,"TH3")==classname) ||
              (strstr(classname,"TGraph")==classname) ||
              !strcmp(classname,"TProfile") ||
+             !strcmp(classname,"TProfile2D") ||
              !strcmp(classname,"TCanvas") ||
              !strcmp(classname,"TTree") ||
              !strcmp(classname,"THStack");
