@@ -15,6 +15,8 @@
 
 #include "TH1.h"
 #include "TH2.h"
+#include "TProfile.h"
+#include "TProfile2D.h"
 #include "TCutG.h"
 
 #include "TGo4Log.h"
@@ -32,11 +34,13 @@ TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
    TGo4Log::Info("TXXXProc: Create instance");
 }
+
 //***********************************************************
 TXXXProc::~TXXXProc()
 {
    TGo4Log::Info("TXXXProc: Delete instance");
 }
+
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
@@ -135,6 +139,20 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
       fPicture->LPic(3,0)->SetDrawOption("CONT");
       AddPicture(fPicture);
    }
+
+   fProfile = dynamic_cast<TProfile*>(GetObject("profile"));
+   if (!fProfile) {
+      fProfile = new TProfile("profile","Example of TProfile usage", 5000, 1., 5001., 1., 5001.);
+      fProfile->SetDirectory(0);
+      AddObject(fProfile);
+   }
+
+   fProfile2D = dynamic_cast<TProfile2D*>(GetObject("profile2d"));
+   if (!fProfile2D) {
+      fProfile2D = new TProfile2D("profile2d","Example of TProfile2D usage", 200, 1., 5001., 200, 1., 5001., 1., 5001.);
+      fProfile2D->SetDirectory(0);
+      AddObject(fProfile2D);
+   }
 }
 //-----------------------------------------------------------
 // event function
@@ -191,8 +209,13 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
       }
       Float_t value1 = XXXEvent->fCrate1[0];
       Float_t value2 = XXXEvent->fCrate1[1];
+      Float_t value3 = XXXEvent->fCrate1[3];
       fHis1->Fill(value1); //fill histograms without gate
       fHis2->Fill(value2);
+
+      fProfile->Fill(value1, value2, 1);
+      fProfile2D->Fill(value1, value2, value3, 1);
+
       if (fconHis1->Test(value1)) fHis1gate->Fill(value1); //fill histograms with gate
       if (fconHis2->Test(value2)) fHis2gate->Fill(value2);
       // fill Cr1Ch1x2 for three polygons:

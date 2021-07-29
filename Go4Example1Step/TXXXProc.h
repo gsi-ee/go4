@@ -17,6 +17,8 @@
 #include "TGo4EventProcessor.h"
 
 class TXXXControl;
+class TProfile;
+class TProfile2D;
 
 class TXXXProc : public TGo4EventProcessor {
    public:
@@ -41,6 +43,8 @@ class TXXXProc : public TGo4EventProcessor {
       TXXXControl   *fControl;
       TGo4Picture   *fPicture;
       TGo4Picture   *fcondSet;
+      TProfile      *fProfile;
+      TProfile2D    *fProfile2D;
 
    ClassDef(TXXXProc,1)
 };
