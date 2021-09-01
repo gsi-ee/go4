@@ -27,6 +27,9 @@ set(GO4_USE_FILE ${CMAKE_CURRENT_LIST_DIR}/Go4UseFile.cmake)
 
 #------------ reuse ROOT configurations  -------------------------------------------
 
+# need to be defined to avoid error with some cmake version
+set(ROOT_FIND_COMPONENTS "")
+
 if(EXISTS ${GO4_ROOT_DIR}/cmake/ROOTConfig.cmake)
 include(${GO4_ROOT_DIR}/cmake/ROOTConfig.cmake)
 else()
