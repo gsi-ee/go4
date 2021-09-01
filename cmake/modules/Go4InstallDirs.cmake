@@ -64,7 +64,7 @@ foreach(dir MAINDIR)
   if(NOT IS_ABSOLUTE ${GO4_INSTALL_${dir}})
     set(GO4_INSTALL_FULL_${dir} "${CMAKE_INSTALL_PREFIX}/${GO4_INSTALL_${dir}}")
   else()
-    set(GO4_INSTALL_FULL_${dir} "${CMAKE_INSTALL_${dir}}")
+    set(GO4_INSTALL_FULL_${dir} "${GO4_INSTALL_${dir}}")
   endif()
 endforeach()
 
