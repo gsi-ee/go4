@@ -117,10 +117,11 @@ endfunction()
 #                           DEPENDENCIES lib1 lib2     : dependend go4 libraries
 #                           LIBRARIES lib1 lib2        : direct linked libraries
 #                           DEFINITIONS def1 def2      : library definitions
+#                           NOINSTALL                  : avoid installation, used for go4 internal examples
 #)
 #---------------------------------------------------------------------------------------------------
 function(GO4_STANDARD_LIBRARY libname)
-  cmake_parse_arguments(ARG "" "LINKDEF" "HEADERS;SOURCES;INCDIRS;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
+  cmake_parse_arguments(ARG "NOINSTALL" "LINKDEF" "HEADERS;SOURCES;INCDIRS;DEPENDENCIES;LIBRARIES;DEFINITIONS" ${ARGN})
 
   if(NOT ARG_SOURCES AND NOT ARG_HEADERS)
      get_property(ARG_HEADERS GLOBAL PROPERTY ${libname}_headers)
@@ -149,10 +150,12 @@ function(GO4_STANDARD_LIBRARY libname)
                               DEPENDENCIES ${ARG_DEPENDENCIES})
   endif()
 
-   install(TARGETS ${libname} EXPORT ${CMAKE_PROJECT_NAME}Exports
-                              RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
-                              LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
-                              ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)
+  if (NOT ARG_NOINSTALL)
+    install(TARGETS ${libname} EXPORT ${CMAKE_PROJECT_NAME}Exports
+                               RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT libraries
+                               LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+                               ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries)
+  endif()
 
 endfunction()
 

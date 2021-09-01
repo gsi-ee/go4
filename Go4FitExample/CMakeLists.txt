@@ -17,8 +17,9 @@ target_link_libraries(Example2 ${ROOT_LIBRARIES} ${ROOT_Minuit_LIBRARY} ${ROOT_S
 # target_link_libraries(Example3 ${ROOT_LIBRARIES} ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY} ${Go4Fit_LIBRARY})
 
 GO4_STANDARD_LIBRARY(Example4Model
-                     LINKDEF Example4LinkDef.h 
-                     HEADERS TModelTemplate.h 
+                     NOINSTALL
+                     LINKDEF Example4LinkDef.h
+                     HEADERS TModelTemplate.h
                      SOURCES TModelTemplate.cxx
                      LIBRARIES ${ROOT_Minuit_LIBRARY} ${ROOT_Spectrum_LIBRARY} ${Go4Fit_LIBRARY})
 

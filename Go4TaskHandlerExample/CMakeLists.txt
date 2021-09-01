@@ -36,6 +36,7 @@ set(lib_sources
 )
 
 GO4_STANDARD_LIBRARY(Go4TaskHandlerExampleLib
+                     NOINSTALL
                      LINKDEF Go4TaskHandlerExampleLinkDef.h
                      HEADERS ${lib_headers}
                      SOURCES ${lib_sources}

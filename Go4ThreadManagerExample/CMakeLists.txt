@@ -4,6 +4,7 @@ find_package(Go4)
 include(${GO4_USE_FILE})
 
 GO4_STANDARD_LIBRARY(Go4ThreadManagerExampleLib
+                     NOINSTALL
                      LINKDEF Go4ThreadManagerExampleLinkDef.h
                      HEADERS TGo4TestRunnable.h TGo4TestThreadManager.h
                      SOURCES TGo4TestRunnable.cxx TGo4TestThreadManager.cxx
