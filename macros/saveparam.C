@@ -18,8 +18,8 @@
 #endif
 #endif
 
-#include <fstream.h>
-#include "Riostream.h"
+
+#include <iostream>
 using namespace std;
 
 // Recursive iterator to build a TList of all found objects
@@ -73,7 +73,7 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
 #endif
 }
 
-TString MakeFuncName(const char* main, const char* objname)
+TString MakeParamFuncName(const char* main, const char* objname)
 {
    TString subfunc = Form("%s_%s", main, objname);
    subfunc.ReplaceAll("#","_");
@@ -94,7 +94,7 @@ Bool_t save1param(TObject* obj, const char* prefix)
 
   TGo4Parameter* param = (TGo4Parameter*) obj;
 
-  TString funcname = MakeFuncName(prefix, param->GetName());
+  TString funcname = MakeParamFuncName(prefix, param->GetName());
 
   std::cout << "Write macro " << funcname << std::endl;
   std::ofstream xout(funcname+".C");

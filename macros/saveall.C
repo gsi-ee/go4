@@ -17,8 +17,7 @@
 #endif
 #endif
 
-#include <fstream.h>
-#include "Riostream.h"
+#include <iostream>
 using namespace std;
 
 // Recursive iterator to build a TList of all found objects

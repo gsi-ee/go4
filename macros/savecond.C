@@ -22,8 +22,7 @@
 #endif
 #endif
 
-#include <fstream.h>
-#include <Riostream.h>
+#include <iostream>
 using namespace std;
 
 // Recursive iterator to build a TList of all found objects
@@ -78,7 +77,7 @@ void conditer(TDirectory *dir, const char* wildcard, TList* found)
 #endif
 }
 
-TString MakeFuncName(const char* main, const char* objname)
+TString MakeCondFuncName(const char* main, const char* objname)
 {
    TString subfunc = Form("%s_%s", main, objname);
    subfunc.ReplaceAll("#","_");
@@ -98,7 +97,7 @@ Bool_t save1cond(TObject* obj, const char* prefix)
   if((obj==0) || !obj->InheritsFrom("TGo4Condition")) return kFALSE;
   TGo4Condition* cond = (TGo4Condition*) obj;
 
-  TString funcname = MakeFuncName(prefix, cond->GetName());
+  TString funcname = MakeCondFuncName(prefix, cond->GetName());
 
   std::cout << "Write macro " << funcname << std::endl;
   std::ofstream xout(funcname+".C");
