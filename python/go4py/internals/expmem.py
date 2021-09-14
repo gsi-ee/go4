@@ -1,7 +1,7 @@
 
 import ROOT
 from fnmatch import fnmatchcase
-
+from six import string_types
 
 class ExpMem(object):
     """
@@ -32,7 +32,7 @@ class ExpMem(object):
         """
         if folder is None:
             folder = self.root
-        elif isinstance(folder, basestring):
+        elif isinstance(folder, string_types):
             folder = self.root.GetDirectory(folder)
 
         if not folder:
@@ -67,7 +67,7 @@ class ExpMem(object):
         """
         if folder is None:
             folder = self.root
-            print folder.GetName()
+            print(folder.GetName())
 
         diriter = folder.GetListOfKeys().MakeIterator()
         while True:
@@ -77,10 +77,10 @@ class ExpMem(object):
             if key.GetClassName().startswith("TDirectory"):
                 subfolder = key.ReadObj()
                 sfname = subfolder.GetName()
-                print "-"*indent, sfname
+                print("-"*indent, sfname)
                 self.tree(subfolder, indent+1)
             else:
-                print "="*indent, key.ReadObj().GetName()
+                print("="*indent, key.ReadObj().GetName())
 
 
 
