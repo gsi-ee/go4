@@ -14,9 +14,9 @@ except NameError as e:
     e.args = tuple(a)
     raise
 
+try:
+    import __builtin__
+except ImportError:
+    import builtins as __builtin__  # name change in p3
 
-import __builtin__
 __builtin__.go4 = go4
-
-
-
