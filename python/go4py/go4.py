@@ -1,5 +1,11 @@
+import sys
+major, minor = sys.version_info[0:2]
 
-from internals.facade import Facade
+if major == 2:
+    from internals.facade import Facade
+else:
+    from .internals.facade import Facade
+
 from types import ModuleType
 
 
