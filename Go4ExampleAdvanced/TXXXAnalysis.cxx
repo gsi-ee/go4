@@ -164,7 +164,7 @@ Int_t TXXXAnalysis::UserPreLoop()
   fFitEnvSize=(TGo4FitterEnvelope*) GetParameter("sizefitter");
   if(fFitEnvSize==0)
    {
-     TGo4Fitter* fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);;
+      TGo4Fitter* fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted
       fitter->AddH1("data1", fSize, kFALSE);
       // create polynom of first order
@@ -177,7 +177,7 @@ Int_t TXXXAnalysis::UserPreLoop()
    fFitEnvSpectrum=(TGo4FitterEnvelope*) GetParameter("specfitter");
    if(fFitEnvSpectrum==0)
    {
-     TGo4Fitter* fitter=new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);;
+      TGo4Fitter* fitter=new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted
       fitter->AddH1("spectrum", fSize, kFALSE);
       // create polynom of first order

@@ -62,7 +62,7 @@ QGo4CommandsHistoryPlugin::QGo4CommandsHistoryPlugin(QObject *parent)
 
 QString QGo4CommandsHistoryPlugin::whatsThis() const
  {
-     return "ComboBox with command line functionality: enter key will execute command, history of commands is available";;
+     return "ComboBox with command line functionality: enter key will execute command, history of commands is available";
  }
 
 bool QGo4CommandsHistoryPlugin::isContainer() const

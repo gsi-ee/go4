@@ -366,7 +366,7 @@
             for ( var i = 0; i < options.length; i++){
                options[i].selected = (options[i].value == cond.fiShapeType);
             }
-            $(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");;
+            $(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");
 
 
             $(id + " .cond_ellipse_theta_slider")

@@ -1963,10 +1963,8 @@ Bool_t TGo4AnalysisObjectManager::DeleteObject(TObject* ob)
    fxGo4Dir->RecursiveRemove(ob);
    CleanupDynamicLists(ob);
    delete ob;
-   return kTRUE;;
+   return kTRUE;
 }
-
-
 
 Bool_t TGo4AnalysisObjectManager::ProtectFolder(TFolder* fold, const Option_t* flags)
 {

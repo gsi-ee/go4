@@ -121,7 +121,7 @@ void TGo4QSettings::getBasicSettings()
    QApplication::setFont(font, true );
 
    TGo4Marker::fgbHASLABEL     = readNumEntry(GetSettingsName()+"/markers/Markerlabel", 1);
-   TGo4Marker::fgbHASCONNECTOR = readNumEntry(GetSettingsName()+"/markers/Connectorline", 1);;
+   TGo4Marker::fgbHASCONNECTOR = readNumEntry(GetSettingsName()+"/markers/Connectorline", 1);
    TGo4Marker::fgbXDRAW        = readNumEntry(GetSettingsName()+"/markers/ShowX", 1);
    TGo4Marker::fgbYDRAW        = readNumEntry(GetSettingsName()+"/markers/ShowY", 0);
    TGo4Marker::fgbXBINDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowXbin", 0);

@@ -215,8 +215,8 @@ void TGo4MBSViewer::Refresh()
 
       if(fiLastDataNum && deltamilsecs)
       {
-         fiDataDelta=(fxDaqStat.bl_n_kbyte-fiLastDataNum);
-         fiCalcedDataRate=1000.*fiDataDelta/deltamilsecs;;
+         fiDataDelta = (fxDaqStat.bl_n_kbyte-fiLastDataNum);
+         fiCalcedDataRate = 1000.*fiDataDelta/deltamilsecs;
       }
       else
       {

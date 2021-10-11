@@ -27,9 +27,9 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
  public:
    TGo4AnalysisConfiguration(QWidget *parent = 0, const char* name=0);
 
-   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);;
+   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
 
-   virtual void DropItem(const char* itemname, TClass* cl, int kind);;
+   virtual void DropItem(const char* itemname, TClass* cl, int kind);
 
    virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
 

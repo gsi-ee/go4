@@ -142,7 +142,7 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
    // fill histograms:
    fX->Fill(poutevt->fdR[0]);
    fY->Fill(poutevt->fdR[1]);
-   fZ->Fill(poutevt->fdR[2]);;
+   fZ->Fill(poutevt->fdR[2]);
    fVX->Fill(poutevt->fdV[0]);
    fVY->Fill(poutevt->fdV[1]);
    fVZ->Fill(poutevt->fdV[2]);
