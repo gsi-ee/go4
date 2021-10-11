@@ -917,6 +917,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
    sMbsHeader *pevt = NULL;
 
 // DABC
+
    if(ps_chan->pLmd != NULL) {
       if(ps_chan->l_server_type == GETEVT__TRANS) {
          l_stat = fLmdGetMbsEvent(ps_chan->pLmd, &pevt);

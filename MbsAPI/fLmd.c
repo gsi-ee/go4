@@ -342,23 +342,19 @@ uint32_t fLmdGetMbsEvent(sLmdControl *pLmdControl, sMbsHeader** event)
    return(LMD__SUCCESS);
 }
 //===============================================================
-uint32_t fLmdGetMbsBuffer(
-sLmdControl *pLmdControl,
-sMbsBufferHeader *pBuffer,
-uint32_t iBytes,
-uint32_t *iElements,
-uint32_t *iBytesUsed){
+uint32_t fLmdGetMbsBuffer(sLmdControl *pLmdControl, sMbsBufferHeader *pBuffer, uint32_t iBytes, uint32_t *iElements, uint32_t *iBytesUsed)
+{
 
   sMbsBufferHeader *pBuf;
-  uint32_t usedBytes=0,leftBytes=0;
+  uint32_t usedBytes = 0, leftBytes = 0;
   int32_t iReturn;
-  char cRequest[12];;
+  char cRequest[12];
 
-  leftBytes=iBytes;
-  pBuf=pBuffer;
+  leftBytes = iBytes;
+  pBuf = pBuffer;
   if(pBuf == NULL){
-    pBuf=(sMbsBufferHeader *)pLmdControl->pBuffer; // internal buffer
-    leftBytes=pLmdControl->iBufferWords*2; // size of this buffer
+    pBuf = (sMbsBufferHeader *)pLmdControl->pBuffer; // internal buffer
+    leftBytes = pLmdControl->iBufferWords*2; // size of this buffer
   }
   if(pBuf == NULL){
     printf("fLmdGetMbsBuffer: Need buffer to read\n");
@@ -380,12 +376,12 @@ uint32_t *iBytesUsed){
   if(iReturn != STC__SUCCESS) return(LMD__FAILURE);
   if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)pBuf,sizeof(sMbsBufferHeader)/4);
   if(leftBytes < (sizeof(sMbsBufferHeader)+2*pBuf->iUsedWords)){
-    printf("fLmdGetMbsBuffer: %s buffer size %d too small for %lu bytes\n",
+     printf("fLmdGetMbsBuffer: %s buffer size %d too small for %lu bytes\n",
      pLmdControl->cFile,leftBytes,(long unsigned) (sizeof(sMbsBufferHeader)+2*pBuf->iMaxWords));
-    return(LMD__FAILURE);
+     return(LMD__FAILURE);
   }
-  usedBytes=pBuf->iUsedWords*2;
-  if((pBuf->iType&0xffff) == 100)
+  usedBytes = pBuf->iUsedWords*2;
+  if((pBuf->iType & 0xffff) == 100)
     iReturn=f_stc_read((int32_t *)(pBuf+1),usedBytes,pLmdControl->iTCP,-1);
   if(iReturn == STC__TIMEOUT) return(LMD__TIMEOUT);
   if(iReturn != STC__SUCCESS) return(LMD__FAILURE);
@@ -397,8 +393,7 @@ uint32_t *iBytesUsed){
   pLmdControl->pMbsFileHeader = (sMbsFileHeader *)pBuf;
   return(LMD__SUCCESS);
 }
-#endif
-// endif FILEONLY
+#endif // FILEONLY
 
 //===============================================================
 uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
@@ -492,6 +487,7 @@ uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
    pLmdControl->pMbsHeader = NULL;
    return(LMD__SUCCESS);
 }
+
 //===============================================================
 uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_t iBytes, uint32_t *iElements,
                        uint32_t *iBytesUsed)
