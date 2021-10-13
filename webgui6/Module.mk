@@ -38,7 +38,7 @@ ALLHDRS +=  $(patsubst $(WEBGUI6_DIR)/%.h, include/%.h, $(WEBGUI6_H))
 LIBDEPENDENC    += $(WEBGUI6_DEP) $(WEBGUI6_DDEP)
 
 ifdef DOPACKAGE
-DISTRFILES         += $(WEBGUI6_S) $(WEBGUI6_H) $(WEBGUI6_LINKDEF)
+DISTRFILES         += $(WEBGUI6_S) $(WEBGUI6_H) $(WEBGUI6_LINKDEF) $(WEBGUI6_DIR)/rootlogon.C $(WEBGUI6_DIR)/Readme.md 
 endif
 
 ##### local rules #####
