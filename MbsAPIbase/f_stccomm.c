@@ -850,7 +850,7 @@ if( *pi_channel == -1)
 INTS4 f_stc_createserver(INTS4 *pl_port, struct s_tcpcomm *ps_server)
 {
 
-   INTS4 retval , retry , on ;
+   INTS4 retval , retry;
    struct s_tcpcomm s_server;
 
 
@@ -876,8 +876,6 @@ INTS4 f_stc_createserver(INTS4 *pl_port, struct s_tcpcomm *ps_server)
    }
 
 #endif
-
-   on = 1;
 
    if( *pl_port == 0 ) {
       retry = 1 ;
