@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef F_HIS_SWPBAS
-#define F_HIS_SWPBAS
+#ifndef F_HIS_SWPBAS_H
+#define F_HIS_SWPBAS_H
 
 #include "typedefs.h"
 #include "s_head.h"

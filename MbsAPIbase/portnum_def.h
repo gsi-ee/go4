@@ -11,9 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef PORTNUM_DEF_H
+#define PORTNUM_DEF_H
+
 #include "typedefs.h"
 /*
- *   definitons of the port numbers used
+ *   definitions of the port numbers used
  */
 
 #define PORT__TRANSPORT      6000
@@ -31,4 +34,4 @@
                                 * that ports 6100 - 6256 are reserved (if max
                                 * nr of m_ds and m_dr nodes is defined to 16.*/
 
-
+#endif

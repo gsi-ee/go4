@@ -1,4 +1,4 @@
-// $Id: s_daqst.h 478 2009-10-29 12:26:09Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
@@ -10,6 +10,9 @@
 // This software can be used under the license agreements as stated
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
+
+#ifndef S_DAQST_V2_H
+#define S_DAQST_V2_H
 
 #include "typedefs.h"
 /*
@@ -145,3 +148,5 @@ typedef struct
   /* ------------------ end of fixed block --------------------------*/
   CHARS c_pname[SYS__N_MAX_PROCS][SBS__STR_LEN_64]; /* as pprio */
 } s_daqst;
+
+#endif

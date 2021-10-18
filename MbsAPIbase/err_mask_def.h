@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef ERR_MASK_DEF_H
+#define ERR_MASK_DEF_H
+
 #include "typedefs.h"
 /* ++++++++++++++++++++++++++
  * +++   err_mask_def.h   +++
@@ -43,3 +46,5 @@
 #define MASK__PRTOPEN   1                                 /* not implemented */
 #define MASK__PRTCLOSE  2                                 /* not implemented */
 #define MASK__PRTFLUSH  4                                 /* not implemented */
+
+#endif

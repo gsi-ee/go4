@@ -16,8 +16,8 @@
 /* 18.7.95, H.G.: add message no. STC__ECONNREF                          */
 /*************************************************************************/
 
-#ifndef F_STCCOMM
-#define F_STCCOMM
+#ifndef F_STCCOMM_H
+#define F_STCCOMM_H
 
 #include "typedefs.h" /* typedef INTS1, INTS2, ... */
 
@@ -412,7 +412,4 @@ INTS4 f_stc_discclient    (INTS4 i_channel);
 void  f_stc_swap4  (INTS4 *);
 #endif
 
-
 #endif
-
-

@@ -11,10 +11,11 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef F_SWAPLW
-#define F_SWAPLW
+#ifndef F_SWAPLW_H
+#define F_SWAPLW_H
 
 #include "typedefs.h"
+
 INTS4 f_swaplw(INTS4 *pp_source, INTS4 l_len, INTS4 *pp_dest);
 
 #endif

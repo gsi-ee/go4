@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef ML_DEF_H
+#define ML_DEF_H
+
 #include "typedefs.h"
 /*
  * N. Kurz 11-Jan-1996
@@ -22,3 +25,5 @@
 #define ML__SETUP_TAB    "ml_setup"
 #define ML__WR_PIPE_NAME "ml_write_pipe"
 #define ML__RD_PIPE_NAME "ml_read_pipe"
+
+#endif

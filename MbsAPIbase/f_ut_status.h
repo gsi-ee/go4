@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef F_UT_STATUS_H
+#define F_UT_STATUS_H
+
 INTS4 f_ut_setup(s_setup *, INTU4 *, INTS4);
 INTS4 f_ut_set_ml(s_set_ml *, INTU4 *, INTS4);
 INTS4 f_ut_status(s_daqst *, INTS4);
@@ -23,3 +26,5 @@ INTS4 f_ut_set_mo_ini(s_set_mo *);
 INTS4 f_ut_status_ini(s_daqst *);
 INTS4 f_ut_set_mo(s_set_mo *, INTS4);
 INTS4 f_ut_set_mo_r(s_set_mo *, INTS4);
+
+#endif

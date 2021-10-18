@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_HEAD_H
+#define S_HEAD_H
+
 #include "typedefs.h"
 /* s_head.h
  * ========
@@ -73,3 +76,5 @@ typedef struct
   INTS4 l_auto_sec;      /* 123 seconds till next autosave (0 is no autosave)          */
   INTS4 l_spare[5];      /* 5 spare                                  */
 } s_head;
+
+#endif

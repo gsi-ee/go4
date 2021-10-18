@@ -13,6 +13,8 @@
 
 /* This file called in typedefs.h defines data types for NT */
 
+#ifndef TYPEDEF_NT_H
+#define TYPEDEF_NT_H
 
 #include <errno.h>
 
@@ -63,7 +65,7 @@
 
 // these constants not used, but keep them
 
- 
+
 #ifndef EWOULDBLOCK
 #define EWOULDBLOCK             WSAEWOULDBLOCK
 #endif
@@ -166,4 +168,6 @@
 
 #ifndef EREMOTE
 #define EREMOTE                 WSAEREMOTE
+#endif
+
 #endif

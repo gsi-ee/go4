@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef SBS_DEF_H
+#define SBS_DEF_H
+
 #include "typedefs.h"
 /*
  * N. Kurz:
@@ -50,3 +53,5 @@
 
 #define TRIG__REM_SIZE       0x2000L
 #define TRIG__REM_NAME       "rem_trig_mod"
+
+#endif

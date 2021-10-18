@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef SYS_DEF_H
+#define SYS_DEF_H
+
 #include "typedefs.h"
 /*
  * N. Kurz
@@ -49,3 +52,5 @@
 #define SYS__rirec           18
 #define SYS__to              19
 #define SYS__vme_serv        20
+
+#endif

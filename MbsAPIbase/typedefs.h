@@ -126,5 +126,4 @@ typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 #endif
 
-
 #endif

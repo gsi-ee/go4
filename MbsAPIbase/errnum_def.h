@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef ERRNUM_DEF_H
+#define ERRNUM_DEF_H
+
 #include "typedefs.h"
 /* ++++++++++++++++++++++
  * +++ errnum_def.h +++
@@ -161,3 +164,5 @@
 #define ERR__HIS_NHISBAS 631  /* Base && is not a histogram base. */
 #define ERR__HIS_DBLOCK  633  /* Base locked by another user. && */
 /* */
+
+#endif
