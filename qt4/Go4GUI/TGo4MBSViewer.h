@@ -19,13 +19,12 @@
 
 #include <QElapsedTimer>
 
-#include "sys_def.h"
-#include "sbs_def.h"
-#include "s_daqst.h"
-#include "s_setup.h"
-#include "ml_def.h"
-#include "s_set_ml.h"
-#include "s_set_mo.h"
+extern "C" {
+   #include "s_daqst.h"
+   #include "s_setup.h"
+   #include "s_set_ml.h"
+   #include "s_set_mo.h"
+}
 
 class QButtonGroup;
 class TH1;

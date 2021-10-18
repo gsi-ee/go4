@@ -15,6 +15,9 @@
 #define S_SET_ML_H
 
 #include "typedefs.h"
+
+#include "ml_def.h"
+
 /*
  * N. Kurz 10-Jan-1996
  *

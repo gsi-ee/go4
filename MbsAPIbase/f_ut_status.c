@@ -25,9 +25,7 @@
 #include <memory.h>
 #include <sys/types.h>
 #include <ctype.h>
-#include "sbs_def.h"
-#include "sys_def.h"
-#include "ml_def.h"
+
 #include "s_daqst.h"
 #include "s_setup.h"
 #include "s_set_ml.h"

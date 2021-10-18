@@ -16,7 +16,7 @@
 
 #include "typedefs.h"
 
-
+#include "sbs_def.h"
 
 /*
  * N. Kurz

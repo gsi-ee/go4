@@ -15,6 +15,10 @@
 #define S_DAQST_H
 
 #include "typedefs.h"
+
+#include "sbs_def.h"
+#include "sys_def.h"
+
 /*
  * N. Kurz
  * daq status structure
