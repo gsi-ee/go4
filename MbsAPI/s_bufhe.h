@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_BUFHE
-#define S_BUFHE
+#ifndef S_BUFHE_H
+#define S_BUFHE_H
 
 #include "typedefs.h"
 /* Generated from SA$BUFHE.TXT  */

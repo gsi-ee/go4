@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_FLT_DESCR_H
+#define S_FLT_DESCR_H
+
 /* filter descriptor */
 struct s_flt_descr
       {
@@ -25,3 +28,4 @@ struct s_flt_descr
       short                  i_descriptors;     /* number of descriptors     */
       };
 
+#endif

@@ -13,8 +13,8 @@
 
 /* filter structure for CLIENT */
 
-#ifndef S_CINT_FILTER
-#define S_CINT_FILTER
+#ifndef S_CLNT_FILTER_H
+#define S_CLNT_FILTER_H
 
 struct s_clnt_filter
       {

@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_EVHE_SWAP
-#define S_EVHE_SWAP
+#ifndef S_EVHE_SWAP_H
+#define S_EVHE_SWAP_H
 
 #include "s_evhe.h"
 

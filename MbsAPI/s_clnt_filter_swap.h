@@ -11,6 +11,10 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_CLNT_FILTER_SWAP_H
+#define S_CLNT_FILTER_SWAP_H
+
+
 /* filter structure for CLIENT */
 
 struct s_clnt_filter
@@ -31,3 +35,5 @@ struct s_clnt_filter
       short unsigned         if_wrtsev;      /* write subevts (numb of sev)*/
       short unsigned         if_wrtevt;      /* write whole event          */
       };
+
+#endif

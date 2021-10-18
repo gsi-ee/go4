@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef MbsStruct
-#define MbsStruct
+#ifndef MbsStruct_H
+#define MbsStruct_H
 
 #define LMD__TYPE_FILE_HEADER_101_1   0x00010065
 #define LMD__TYPE_EVENT_HEADER_10_1   0x0001000a
@@ -124,4 +124,5 @@ typedef struct{
   uint32_t iType;        // compatible with s_ves10_1, low=type (=10), high=subtype
   uint32_t iSubeventID;  // 2 low bytes=procid, next byte=subcrate, high byte control
 } sMbsSubeventHeader;
+
 #endif

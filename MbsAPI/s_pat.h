@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_PAT
-#define S_PAT
+#ifndef S_PAT_H
+#define S_PAT_H
 
 #include "typedefs.h"
 

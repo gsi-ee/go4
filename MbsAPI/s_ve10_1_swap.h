@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_VE10_1_SWAP
-#define S_VE10_1_SWAP
+#ifndef S_VE10_1_SWAP_H
+#define S_VE10_1_SWAP_H
 
 #include "s_ve10_1.h"
 

@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_FLT_DESCR_SWAP_H
+#define S_FLT_DESCR_SWAP_H
+
 /* filter descriptor */
 /* -------> Swapped <-------- */
 /* --------=========--------- */
@@ -25,3 +28,5 @@ struct s_flt_descr {
       char                   h_dummy;
       char                   h_nextdescr;       /* next descriptor           */
       };
+
+#endif

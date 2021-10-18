@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_FILTER
-#define S_FILTER
+#ifndef S_FILTER_H
+#define S_FILTER_H
 
 #include "typedefs.h"
 /* +++ s_filter.h +++

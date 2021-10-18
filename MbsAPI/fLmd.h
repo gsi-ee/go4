@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef MbsLmdStruct
-#define MbsLmdStruct
+#ifndef MbsLmdStruct_H
+#define MbsLmdStruct_H
 
 #include <stdio.h>
 

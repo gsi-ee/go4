@@ -29,6 +29,9 @@
 /* RSM 19-MAR-1993      */
 /* is a part of s_clntoutbuf */
 
+#ifndef S_CLNTBUF_H
+#define S_CLNTBUF_H
+
 struct s_clntbuf
     {
     /* ------ first part of s_clntoutbuf omitted ----------- */
@@ -67,3 +70,5 @@ struct s_clntbuf
     /* ----------------------------------------------------------------- */
     char            c_buffer[GPS__OUTBUFSIZ];
     };
+
+#endif

@@ -11,8 +11,12 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_POL_COND_H
+#define S_POL_COND_H
+
 #include "typedefs.h"
-typedef struct{
+
+typedef struct {
     CHARS c_name[32];
     CHARS c_desc[80];
     INTU4 lu_used;
@@ -32,4 +36,6 @@ typedef struct{
     REAL4 ra_y2[32];
     REAL4 ra_f[32];
     REAL4 ra_o[32];
-}s_pol;
+} s_pol;
+
+#endif

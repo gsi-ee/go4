@@ -14,6 +14,9 @@
 /* N.Kurz  8-Jun-1998 */
 /* N.Kurz 30-May-2000 updated */
 
+#ifndef MO_DEF_H
+#define MO_DEF_H
+
 #include "typedefs.h"
 
 #define MO__TCP_MSG_DAQSTAT 0x101
@@ -43,3 +46,5 @@
 #define DLEB__TCP_INFO      0x201
 #define DLEB__INFO_SIZE       12
 #define DLEB__CONNECT_RETRY   5
+
+#endif

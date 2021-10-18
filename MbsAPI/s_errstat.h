@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef __S_ERRSTAT__
-#define __S_ERRSTAT__
+#ifndef S_ERRSTAT_H
+#define S_ERRSTAT_H
 
 #include "typedefs.h"
 /*  s_errstat.h

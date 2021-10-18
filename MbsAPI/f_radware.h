@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef F_RADWARE
-#define F_RADWARE
+#ifndef F_RADWARE_H
+#define F_RADWARE_H
 
 // Output functions for Radware
 

@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_VE10_1
-#define S_VE10_1
+#ifndef S_VE10_1_H
+#define S_VE10_1_H
 
 #include "typedefs.h"
 /*  ================= GSI VME Event header =======================  */

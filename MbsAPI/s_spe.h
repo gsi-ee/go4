@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_SPE_H
+#define S_SPE_H
+
 #include "typedefs.h"
 /* s_spe.h
  * =======
@@ -68,3 +71,5 @@ typedef struct
   CHARS c_lettering_1[64];      /* lettering 1st axis             */
   CHARS c_lettering_2[64];      /* lettering 2nd axis             */
 } s_spe ;
+
+#endif

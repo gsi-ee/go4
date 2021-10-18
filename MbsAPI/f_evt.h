@@ -11,9 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-/*****************  f_evt.h ******************************/
-#ifndef F_EVT
-#define F_EVT
+#ifndef F_EVT_H
+#define F_EVT_H
 
 #include "typedefs.h"
 

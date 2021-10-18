@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef F_EVCLI
-#define F_EVCLI
+#ifndef F_EVCLI_H
+#define F_EVCLI_H
 
 #include "f_evt.h"
 

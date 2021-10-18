@@ -23,8 +23,8 @@
  *********************************************************************
  */
 
-#ifndef GPS_SC_DEF
-#define GPS_SC_DEF
+#ifndef GPS_SC_DEF_H
+#define GPS_SC_DEF_H
 
 #define EB__BUFFER_DATA 131072
 #define GPS__OUTBUFSIZ   16384                    /* client output buffer siz*/
@@ -97,6 +97,4 @@
 #define GPS__ENV_ENDIAN  0xFFFFFFFF
 #endif
 
-
 #endif
-

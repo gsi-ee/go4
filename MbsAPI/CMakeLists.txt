@@ -5,7 +5,6 @@ set(MbsAPI_headers
    fLmd.h
    f_radware.h
    f_ut_utime.h
-   f_ut_wild.h
    gps_sc_def.h
    mo_def.h
    s_bufhe.h
@@ -39,7 +38,6 @@ set(MbsAPI_sources
    fLmd.c
    f_radware.c
    f_ut_utime.c
-   f_ut_wild.c
 )
 
 GO4_INSTALL_HEADERS(MAKESUB ${MbsAPI_headers})
