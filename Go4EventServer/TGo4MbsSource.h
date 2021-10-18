@@ -25,11 +25,10 @@ struct s_ve10_1;
 
 #else
 
-extern "C"
-{
-  #include "f_evt.h"
-  #include "s_filhe_swap.h"
-  #include "s_bufhe_swap.h"
+extern "C" {
+   #include "f_evt.h"
+   #include "s_filhe.h"
+   #include "s_bufhe.h"
 }
 
 #endif

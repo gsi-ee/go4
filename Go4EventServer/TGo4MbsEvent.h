@@ -17,9 +17,12 @@
 #include "TGo4EventElement.h"
 
 #include "TGo4EventHeader10.h"
-#include "s_bufhe_swap.h"
-#include "s_filhe_swap.h"
 #include "TGo4MbsSubEvent.h"
+
+extern "C" {
+   #include "s_bufhe.h"
+   #include "s_filhe.h"
+}
 
 class TIterator;
 class TObjArray;
