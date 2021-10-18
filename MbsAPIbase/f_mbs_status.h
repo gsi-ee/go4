@@ -1,4 +1,4 @@
-// $Id: f_stccomm.h 3328 2021-10-18 10:54:44Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
