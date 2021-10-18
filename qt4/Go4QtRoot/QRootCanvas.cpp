@@ -74,6 +74,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    setSizeIncrement( QSize( 100, 100 ) );
 
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
    // set defaults
    setUpdatesEnabled( true );
    setMouseTracking(true);
@@ -169,6 +170,7 @@ QPoint QRootCanvas::scaledMousePoint(QMouseEvent *e)
 void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
   TGo4LockGuard threadlock;
+  (void) threadlock; // suppress compiler warnings
 #if QT_VERSION > QT_VERSION_CHECK(5,0,0)
   // JAM use event timestamp for reduction of events (qt5 bug):
   static ulong lastprocesstime=0;
@@ -224,6 +226,8 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 void  QRootCanvas::wheelEvent( QWheelEvent* e)
 {
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    if (!fCanvas) return;
    e->accept();
 
@@ -244,6 +248,8 @@ void  QRootCanvas::wheelEvent( QWheelEvent* e)
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    TObjLink* pickobj = 0;
    // JAM2016-9 test
 //    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
@@ -366,6 +372,7 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
    QPoint scaled = scaledMousePoint(e);
 
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
 
    switch(e->button()) {
       case Qt::LeftButton :
@@ -390,6 +397,8 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
    QPoint scaled = scaledMousePoint(e);
 
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    switch(e->button()) {
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
@@ -447,8 +456,9 @@ void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
    //std::cout<< " QRootCanvas::processRepaintTimer()"<<std::endl;
-    //printf("processRepaintTimer with fRepaintMode %d\n",fRepaintMode);
-    TGo4LockGuard threadlock;
+   //printf("processRepaintTimer with fRepaintMode %d\n",fRepaintMode);
+   TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
 
    WId newid = winId();
    if(newid != fQtWindowId) {
@@ -477,6 +487,8 @@ void QRootCanvas::leaveEvent( QEvent *e )
    QWidget::leaveEvent(e);
 
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    if (fCanvas!=0)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
 
@@ -885,6 +897,8 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    if ((object==0) || (method==0)) return;
 
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 
@@ -1063,6 +1077,8 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
 void QRootCanvas::executeMenu(int id)
 {
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    QString text("");
    bool ok = false;
    if (id >=100) {
@@ -1203,7 +1219,9 @@ void QRootCanvas::toggleEditor()
 //      gedlayout->setContentsMargins(0, 0, 0, 0);
 //      gedlayout->addWidget(fxRooteditor);
 //////////////////
-      TGo4LockGuard lock;
+      TGo4LockGuard threadlock;
+      (void) threadlock; // suppress compiler warnings
+
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
 
