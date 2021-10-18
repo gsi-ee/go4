@@ -349,6 +349,8 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
      l_len_lw2 = CLNT__REST_LW + p_clntbuf->l_dlen/4; /* <N> !!! */
      l_sts     = F__SWAP(&p_clntbuf->l_inbuf_read_cnt, l_len_lw2, 0);
 
+     (void) l_sts; // fix compiler warning
+
      if (p_clntbuf->l_testbit != GPS__ENV_TESTBIT)  /* <T> */
      {
         printf("F-%s: Error swapping first buffer from client\n",
@@ -386,7 +388,7 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
 int f_evcli_buf(s_evt_channel *ps_chan)
 /***************************************************************************/
 {
-   s_ve10_1 *ps_ve10_1;
+   // s_ve10_1 *ps_ve10_1;
    char *ps_buf;
    int  l_len_lw2, l_sts,  l_retval;           /* len for 2nd   swap  */
 
@@ -454,26 +456,33 @@ int f_evcli_buf(s_evt_channel *ps_chan)
        switch (p_clntbuf->l_msgtyp & 15)
        {
         case 1:
-        case 2:  if((strstr(p_clntbuf->c_message,"no event data") == NULL)&
-                    (strstr(p_clntbuf->c_message,"flushed") == NULL))
-                 printf("MSG-type:W:  %s\n", p_clntbuf->c_message);  break;
-        case 4:  printf("MSG-type:E:  %s\n", p_clntbuf->c_message);  break;
-        case 8:  printf("MSG-type:F:  %s\n", p_clntbuf->c_message);  break;
-        default: printf("Unknown MSG-type:%d:\n%s\n",p_clntbuf->l_msgtyp,p_clntbuf->c_message);
+        case 2:
+           if((strstr(p_clntbuf->c_message, "no event data") == NULL) &&
+              (strstr(p_clntbuf->c_message, "flushed") == NULL))
+                  printf("MSG-type:W:  %s\n", p_clntbuf->c_message);
+           break;
+        case 4:
+           printf("MSG-type:E:  %s\n", p_clntbuf->c_message);
+           break;
+        case 8:
+           printf("MSG-type:F:  %s\n", p_clntbuf->c_message);
+           break;
+        default:
+           printf("Unknown MSG-type:%d:\n%s\n",p_clntbuf->l_msgtyp,p_clntbuf->c_message);
        }
-       l_sts=STC__TIMEOUT; /* buffer without events */
+       l_sts = STC__TIMEOUT; /* buffer without events */
     }
     else
       {
    if(p_clntbuf->l_events == 0)
      {
-       l_sts=STC__TIMEOUT;
+       l_sts = STC__TIMEOUT;
      }
    }
    ps_chan->pc_evt_buf = (char *)&p_clntbuf->c_buffer[0];
    ps_chan->l_evt_buf_posi = 1; /* number of events */
-   ps_ve10_1 = (s_ve10_1 *) ps_chan->pc_evt_buf;
-   return(l_sts);
+   // ps_ve10_1 = (s_ve10_1 *) ps_chan->pc_evt_buf;
+   return l_sts;
 }  /*  end f_evcli_buf  */
 
 /***************************************************************************/
@@ -562,13 +571,13 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
    struct s_flt_descr *p_flt_descr;
 
    short              i_fltdescnt = 0;
-   short              i_fltcnt = 0;
+   // short              i_fltcnt = 0;
    short              i_fltblkcnt = 0;
    short              i, i_flt_len,
                       i_fltblkbeg, i_fltblkend, j;
    short              if_newfltblk = 1;
    short              i_next_fltblk = 0; // SL 16.11.2009 add initialization to 0
-   short              i_descr;        /* test */
+   // short              i_descr;        /* test */
    int                l_evtdescr, *pl_evtdescr, *pl_sev1descr, *pl_sev2descr;
    short              i_lasevtflt, i_1stsevflt;
 
@@ -599,7 +608,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
       if (p_opc1->h_flt_len == 0)
       {
-         i_fltcnt = i;
+         // i_fltcnt = i;
          p_opc1->h_next_fltblk    = 0;    /* no next descriptor              */
          p_flt_descr->h_nextdescr = 0;    /* no next descriptor              */
          break;              /* no more filter                  */
@@ -620,11 +629,10 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
     i_fltblkbeg   = i;
     i_fltblkend   = i_next_fltblk - 1;
 
-    if (p_opc1->b1_selwrt == 1)
-         {                            /* write block               */
-
-            p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[0];
-       i_descr = 0;         /* test */
+    if (p_opc1->b1_selwrt == 1) {
+       /* write block               */
+       p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[0];
+       // i_descr = 0;         /* test */
 
        if (p_flt_descr->hf_wrtdescr == 1 &&
                 p_clnt_filter->flt_descr[0].i_descriptors <= 0)
@@ -645,13 +653,12 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
        p_clnt_filter->if_wrtsev = (p_opc1->b1_evtsev != 1) ? 1 : 0;
     } /* if (p_opc1->b1_selwrt == 1) */
 
-    if (p_opc1->b1_selflt == 1)
-         {                            /* filter block              */
+    if (p_opc1->b1_selflt == 1) {
+       /* filter block              */
        if (i_fltdescnt == 0)
           i_fltdescnt++;
-       i_descr = i_fltdescnt;              /* test */
-            p_flt_descr = (struct s_flt_descr *)
-                          &p_clnt_filter->flt_descr[i_fltdescnt];
+       // i_descr = i_fltdescnt;              /* test */
+       p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[i_fltdescnt];
        p_flt_descr->hf_wrtdescr = 0;
        p_flt_descr->hf_fltdescr = 1;
        p_flt_descr->h_fltblkbeg = i_fltblkbeg;
@@ -689,8 +696,6 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
                      p_opc1->h_fltspec);
          return(FALSE);                /* abort with error                */
       }
-
-
 
       switch (p_opc1->h_fltspec)
       {
@@ -856,8 +861,6 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
    return(l_retsts | 1);
 
 } /* end f_fltdscr */
-
-
 
 
 
