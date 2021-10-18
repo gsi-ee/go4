@@ -20,7 +20,7 @@ set(RawAPI_sources
    rconnect.c
 )
 
-GO4_INSTALL_HEADERS(${RawAPI_headers})
+# GO4_INSTALL_HEADERS(${RawAPI_headers})
 
 GO4_SOURCES(Go4Analysis SOURCES ${RawAPI_sources})
 
