@@ -105,6 +105,13 @@ function(GO4_LINK_LIBRARY libname)
    target_compile_definitions(${libname} PUBLIC ${ARG_DEFINITIONS})
 
    target_link_libraries(${libname} ${ARG_LIBRARIES})
+
+  if(CMAKE_PROJECT_NAME STREQUAL Go4)
+        target_compile_options(${libname} PRIVATE
+         $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall>
+         $<$<CXX_COMPILER_ID:MSVC>: /W4>)
+   endif()
+
 endfunction()
 
 
@@ -139,6 +146,7 @@ function(GO4_STANDARD_LIBRARY libname)
 
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
      add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
+     target_compile_options(${libname} PRIVATE -Wall)
   endif()
 
   target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${ARG_INCDIRS})
@@ -203,7 +211,6 @@ function(GO4_USER_ANALYSIS)
      set(dict_depend ${go4_libs})
   else()
      set(go4_libs ${Go4Fit_LIBRARY} ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY} ${Go4TaskHandler_LIBRARY} ${Go4AnalBase_LIBRARY} ${Go4Analysis_LIBRARY})
-
   endif()
 
   GO4_LINK_LIBRARY(${libname}${tgt}
