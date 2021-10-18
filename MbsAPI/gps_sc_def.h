@@ -26,6 +26,8 @@
 #ifndef GPS_SC_DEF_H
 #define GPS_SC_DEF_H
 
+#include "typedefs.h"
+
 #define EB__BUFFER_DATA 131072
 #define GPS__OUTBUFSIZ   16384                    /* client output buffer siz*/
                                                   /*    bytes                */

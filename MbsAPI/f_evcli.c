@@ -137,14 +137,8 @@
 #include "f_evcli.h"
 #include "f_swaplw.h"
 
-#if MBS_ENDIAN == 1
-#include "s_flt_descr_swap.h"
-#include "s_clnt_filter_swap.h"
-#else
 #include "s_flt_descr.h"
 #include "s_clnt_filter.h"
-#endif
-
 #include "s_opc1.h"
 #include "s_pat.h"
 

@@ -16,6 +16,31 @@
 #ifndef S_CLNT_FILTER_H
 #define S_CLNT_FILTER_H
 
+#include "gps_sc_def.h"
+
+#if MBS_ENDIAN == 1
+
+struct s_clnt_filter
+      {
+/* -------> Swapped <-------- */
+/* --------=========--------- */
+      /* --- control byte ordering and machine type (2LW) ---- */
+      unsigned long          l_testbit;       /* bit pattern               */
+      unsigned long          l_endian;        /* endian of sender          */
+      /*  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+      long                   l_numb_of_evt;   /* numb of events to send    */
+      long                   l_sample_rate;   /* flt match sample rate     */
+      long                   l_flush_rate;    /* buffer flushing rate [sec]*/
+      struct s_filter        filter[GPS__MAXFLT];/* 32 filter express (3LW) */
+      struct s_flt_descr     flt_descr[GPS__MAXFLTDESCR]; /* Filter descriptor*/
+      short unsigned         if_fltsev;      /* filter on subevent         */
+      short unsigned         if_fltevt;      /* filter on event            */
+      short unsigned         if_wrtsev;      /* write subevts (numb of sev)*/
+      short unsigned         if_wrtevt;      /* write whole event          */
+      };
+
+#else
+
 struct s_clnt_filter
       {
       /* --- control byte ordering and machine type (2LW) ---- */
@@ -32,5 +57,7 @@ struct s_clnt_filter
       short unsigned         if_wrtevt;      /* write whole event          */
       short unsigned         if_wrtsev;      /* write subevts (numb of sev)*/
       };
+
+#endif
 
 #endif
