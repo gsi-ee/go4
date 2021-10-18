@@ -16,7 +16,6 @@ set(MbsAPIbase_headers
    sbs_def.h
    s_daqst.h
    s_daqst_v2.h
-   s_endian.h
    s_head.h
    s_his_comm.h
    s_his_head.h
