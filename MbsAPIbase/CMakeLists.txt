@@ -12,6 +12,7 @@ set(MbsAPIbase_headers
    f_ut_status.h
    f_ut_time.h
    ml_def.h
+   mo_def.h
    portnum_def.h
    sbs_def.h
    s_daqst.h
@@ -22,7 +23,6 @@ set(MbsAPIbase_headers
    s_set_ml.h
    s_set_mo.h
    s_setup.h
-   s_stdint.h
    sys_def.h
    typedefs.h
    typedefs_nt.h

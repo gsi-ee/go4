@@ -6,7 +6,6 @@ set(MbsAPI_headers
    f_radware.h
    f_ut_utime.h
    gps_sc_def.h
-   mo_def.h
    s_bufhe.h
    s_bufhe_swap.h
    s_clntbuf.h
@@ -24,6 +23,7 @@ set(MbsAPI_headers
    s_pat.h
    s_pol_cond.h
    s_spe.h
+   s_stdint.h
    s_ve10_1.h
    s_ve10_1_swap.h
    s_ves10_1.h

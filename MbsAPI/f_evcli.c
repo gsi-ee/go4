@@ -150,8 +150,6 @@
 #include "s_opc1.h"
 #include "s_pat.h"
 
-#include "gps_sc_def.h"
-
 void f_clnup(long [], int *);
 void f_clnup_save(long [], int *);
 int f_fltdscr(struct s_clnt_filter *);

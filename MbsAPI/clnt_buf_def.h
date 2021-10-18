@@ -11,7 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "typedefs.h"
+#ifndef CLNT_BUF_DEF_H
+#define CLNT_BUF_DEF_H
+
 /*  CLNT_BUF_DEF.H
  *
  *  definitions MUST be EQUAL for GPS-Server, GPS-Client and SBS-Monitor
@@ -59,3 +61,4 @@
                                                   * s_clntbuf.c_buffer[0]
                                                   */
 
+#endif
