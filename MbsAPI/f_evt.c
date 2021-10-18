@@ -1697,10 +1697,10 @@ INTS4 f_evt_error( INTS4 l_error , CHARS *pc_dest , INTS4 l_out )
 INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
 {
    INTS4 l_temp;
-   CHARS * pc_temp;
+   // CHARS * pc_temp;
    INTS4 l_status;
 
-   pc_temp=(CHARS *)ps_chan->pc_io_buf;
+   // pc_temp=(CHARS *)ps_chan->pc_io_buf;
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
@@ -1783,9 +1783,9 @@ INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
 INTS4 f_evt_skip_buffer(s_evt_channel *ps_chan, INTS4 l_buffer)
 {
    INTS4 l_temp;
-   CHARS * pc_temp;
+   // CHARS * pc_temp;
 
-   pc_temp=(CHARS *)ps_chan->pc_io_buf;
+   // pc_temp=(CHARS *)ps_chan->pc_io_buf;
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
@@ -2643,7 +2643,7 @@ INTS4 f_evt_get_tagnext(s_evt_channel *ps_chan,INTS4 l_skip, INTS4 **pl_event)
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_get_tagevent(s_evt_channel *ps_chan,INTS4 l_value, INTS4 l_type, INTS4 **pl_event)
 {
-  INTS4 ii,kk,l_evt,l_off,l_typ,l_val,l_evsize,l_fragsize;
+  INTS4 ii,kk, /*l_evt,*/ l_off,l_typ,l_val,l_evsize,l_fragsize;
   INTS4 la_head[2],*pl;
   CHARS *pc;
   s_ve10_1 *ps_ve10_1;
@@ -2728,7 +2728,7 @@ INTS4 f_evt_get_tagevent(s_evt_channel *ps_chan,INTS4 l_value, INTS4 l_type, INT
   /* now we have the requested event in ps_tag */
   l_off=ps_tag->l_offset;
   if(l_off < 0) l_off=((-l_off)/ps_chan->ps_taghe->l_bufsize)*ps_chan->ps_taghe->l_bufsize;
-  l_evt=ps_tag->l_event;
+  // l_evt = ps_tag->l_event;
   /* full event in buffer, read */
   if(ps_tag->l_offset > 0)
     {
