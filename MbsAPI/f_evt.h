@@ -18,14 +18,8 @@
 
 /* ++++++++++++++++ include UNIX standard headers +++++++++++++++++++++++++ */
 
-#if MBS_ENDIAN == 1
 #include "s_ve10_1.h"
 #include "s_ves10_1.h"
-#else
-#include "s_ve10_1_swap.h"
-#include "s_ves10_1_swap.h"
-#endif
-
 #include "s_evhe.h"
 #include "s_bufhe.h"
 

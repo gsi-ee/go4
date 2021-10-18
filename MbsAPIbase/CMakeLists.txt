@@ -20,9 +20,11 @@ set(MbsAPIbase_headers
    s_head.h
    s_his_comm.h
    s_his_head.h
+   s_pol_cond.h
    s_set_ml.h
    s_set_mo.h
    s_setup.h
+   s_win_cond.h
    sys_def.h
    typedefs.h
    typedefs_nt.h

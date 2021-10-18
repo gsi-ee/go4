@@ -134,11 +134,7 @@
 #define PUT__CRT_OPT ""
 #endif
 
-#if MBS_ENDIAN == 1
-#include "s_filhe_swap.h"
-#else
 #include "s_filhe.h"
-#endif
 
 
 #ifdef RFIO

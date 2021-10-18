@@ -21,14 +21,12 @@ set(MbsAPI_headers
    sMbs.h
    s_opc1.h
    s_pat.h
-   s_pol_cond.h
    s_spe.h
    s_stdint.h
    s_ve10_1.h
    s_ve10_1_swap.h
    s_ves10_1.h
    s_ves10_1_swap.h
-   s_win_cond.h
 )
 
 set(MbsAPI_sources
