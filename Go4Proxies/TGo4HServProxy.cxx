@@ -16,16 +16,12 @@
 #include "TH1.h"
 #include "TH2.h"
 
-#include "s_his_head.h"
-
 #include "TGo4Slot.h"
 
-extern "C"
-{
-   INTS4 f_his_getdir(const char*, int, const char*, const char*, const char*, INTS4**, INTS4*);
-   INTS4 f_his_gethis(const char*, int, const char*, const char*, const char*, s_his_head**, INTS4**, INTS4*);
+extern "C" {
+   #include "s_his_head.h"
+   #include "f_his_hist.h"
 }
-
 
 class TGo4HServIter : public TGo4LevelIter {
    public:
@@ -187,16 +183,18 @@ void TGo4HServProxy::Update(TGo4Slot* slot, Bool_t strong)
 
 Bool_t TGo4HServProxy::RefreshNamesList()
 {
-   delete fxStructure;
-   fxStructure = 0;
+   if (fxStructure) {
+      delete fxStructure;
+      fxStructure = 0;
+   }
 
    INTS4* pl_all_h = 0;
    INTS4 l_histos = 0;
-   INTS4 result = f_his_getdir(fServerName.Data(),
+   INTS4 result = f_his_getdir((CHARS *) fServerName.Data(),
                                fPortNumber,
-                               fBaseName.Data(),
-                               fUserPass.Data(),
-                               fFilter.Data(),
+                               (CHARS *) fBaseName.Data(),
+                               (CHARS *) fUserPass.Data(),
+                               (CHARS *) fFilter.Data(),
                                &pl_all_h,
                                &l_histos);
 
@@ -243,11 +241,11 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
    INTS4* pl_all = 0;
    INTS4 l_size = 0;
 
-   INTS4 result = f_his_gethis(fServerName.Data(),
+   INTS4 result = f_his_gethis((CHARS *) fServerName.Data(),
                                fPortNumber,
-                               fBaseName.Data(),
-                               fUserPass.Data(),
-                               remotehistoname,
+                               (CHARS *) fBaseName.Data(),
+                               (CHARS *) fUserPass.Data(),
+                               (CHARS *) remotehistoname,
                                &ps_his_head,
                                &pl_all,
                                &l_size);

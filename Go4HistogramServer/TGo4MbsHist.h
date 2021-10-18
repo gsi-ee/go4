@@ -17,7 +17,7 @@
 #include "TObject.h"
 
 extern "C" {
-#include "s_his_head.h"
+   #include "s_his_head.h"
 }
 
 class TFolder;

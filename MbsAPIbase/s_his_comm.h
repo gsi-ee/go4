@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef S_HIS_COMM
-#define S_HIS_COMM
+#ifndef S_HIS_COMM_H
+#define S_HIS_COMM_H
 
 #include "typedefs.h"
 
