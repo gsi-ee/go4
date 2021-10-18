@@ -471,8 +471,8 @@ void QRootCanvas::processRepaintTimer()
       fQtWindowId = newid;
    }
 
-   if (fRepaintMode && act_Resize) fCanvas->Resize();
-                              else fCanvas->Modified(kTRUE);
+   if (fRepaintMode & act_Resize) fCanvas->Resize();
+                             else fCanvas->Modified(kTRUE);
 
    fCanvas->Update();
 
