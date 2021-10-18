@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_SET_MO_H
+#define S_SET_MO_H
+
 /*
  * N.Kurz 8-Jun-1998
  *
@@ -104,3 +107,6 @@ typedef struct
   /* name of dr nodes */
 
 } s_set_mo;
+
+#endif
+

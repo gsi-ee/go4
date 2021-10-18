@@ -7,6 +7,7 @@ set(MbsAPIbase_headers
    f_stccomm.h
    f_swaplw.h
    f_ut_compress.h
+   f_ut_seg_show.h
    f_ut_status.h
    f_ut_time.h
    ml_def.h

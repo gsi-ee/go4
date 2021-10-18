@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_SET_ML_H
+#define S_SET_ML_H
+
 #include "typedefs.h"
 /*
  * N. Kurz 10-Jan-1996
@@ -101,3 +104,5 @@ typedef struct
 
 
 } s_set_ml;
+
+#endif

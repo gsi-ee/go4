@@ -81,9 +81,7 @@ INTS4 f_ut_compr_size(INTU1 *pc_input,INTS4 l_inlen)
 INTU4 l_bytes;
 INTU4 l_masks;
 INTU4 *pl_mask,*pl_end;
-INTU1 *pc_in;
 
-pc_in =pc_input;
 l_bytes=0;
 pl_mask=(INTU4 *)pc_input;
 pl_end=pl_mask+l_inlen/4;

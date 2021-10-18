@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef S_SETUP_H
+#define S_SETUP_H
+
 #include "typedefs.h"
 
 
@@ -627,3 +630,5 @@ INTU4 bl_init_read_len;     /* total length of init and readout CAMAC cnaf list 
 !               |                |                   |                   |    !
 !          0x8000000        0x8180000           0x8380000           0x8580000 !
 !----------------------------------------------------------------------------*/
+
+#endif

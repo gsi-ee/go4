@@ -21,12 +21,10 @@
 #include "sys_def.h"
 #include "sbs_def.h"
 #include "ml_def.h"
-#include "s_setup.h"
-#include "s_set_ml.h"
-#include "s_set_mo.h"
-#include "s_daqst.h"
 #include "err_mask_def.h"
 #include "errnum_def.h"
+#include "f_ut_time.h"
+#include "f_ut_seg_show.h"
 
 #ifdef Linux
 #define LOUT printf("%s\n",c_line);
@@ -45,8 +43,6 @@
 #include "f_ut_error.h"
 #define LOUT f_ut_error("",ERR__MSG_INFO,0,c_line,MASK__PRTTERM);
 #endif
-
-CHARS *f_ut_time(CHARS *);
 
 INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, s_set_mo *ps_set_mo)
 {
