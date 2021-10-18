@@ -177,11 +177,13 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 void QRootWindow::paintEvent( QPaintEvent * e)
 {
    //TGo4LockGuard threadlock;
+   //(void) threadlock; // suppress compiler warnings
 
    if(fxRootwindow) {
       WId nxid = winId();
-      if(fQtWinId!=nxid) {
+      if(fQtWinId != nxid) {
          TGo4LockGuard threadlock;
+         (void) threadlock; // suppress compiler warnings
          // may happen when this window is embedded to Qt workspace...
          std::cout <<"Warning: QRootWindow::paintEvent finds changed X window id: "<< (ULong_t) winId()<<", previous:"<<fQtWinId << std::endl;
          delete fxRootwindow; // should also remove old x windows!
@@ -191,6 +193,7 @@ void QRootWindow::paintEvent( QPaintEvent * e)
       }
       if(fbResizeOnPaint) {
          TGo4LockGuard threadlock;
+         (void) threadlock; // suppress compiler warnings
          //std::cout <<"QRootWindow::paintEvent does TGCompositeFrame Resize ..." << std::endl;
          fxRootwindow->Resize(width(),height());
          gVirtualX->Update(1); // Xsync/flus
@@ -202,6 +205,8 @@ void QRootWindow::paintEvent( QPaintEvent * e)
 bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
    TGo4LockGuard threadlock;
+   (void) threadlock; // suppress compiler warnings
+
    QMouseEvent* me = dynamic_cast<QMouseEvent*>(e);
 
    Event_t root_evnt;
