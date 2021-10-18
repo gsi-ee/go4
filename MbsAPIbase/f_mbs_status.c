@@ -22,12 +22,9 @@
 #include "sys_def.h"
 #include "ml_def.h"
 #include "portnum_def.h"
-#include "s_daqst.h"
-#include "s_setup.h"
-#include "s_set_ml.h"
-#include "s_set_mo.h"
 #include "f_stccomm.h"
 #include "f_ut_status.h"
+#include "f_mbs_status.h"
 
 INTS4 l_gl_tcp_chan;
 

@@ -4,6 +4,7 @@ set(MbsAPIbase_headers
    f_his_hist.h
    f_his_swpbas.h
    f_his_toupper.h
+   f_mbs_status.h
    f_stccomm.h
    f_swaplw.h
    f_ut_compress.h
