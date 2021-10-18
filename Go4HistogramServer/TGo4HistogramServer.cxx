@@ -36,7 +36,7 @@
 #include "TGo4TaskHandler.h"
 
 extern "C" {
-#include "f_his_hist.h"
+   #include "f_his_hist.h"
 }
 
 const char *TGo4HistogramServer::fgcCONTHREADNAME = "HISTOSERV-";

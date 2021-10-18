@@ -14,7 +14,6 @@
 #ifndef PORTNUM_DEF_H
 #define PORTNUM_DEF_H
 
-#include "typedefs.h"
 /*
  *   definitions of the port numbers used
  */

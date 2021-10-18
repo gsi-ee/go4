@@ -410,6 +410,7 @@ INTS4 f_stc_close         (struct s_tcpcomm *ps_tcp);
 INTS4 f_stc_discclient    (INTS4 i_channel);
 
 void  f_stc_swap4  (INTS4 *);
-#endif
+
+#endif /* OSK */
 
 #endif

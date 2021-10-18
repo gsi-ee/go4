@@ -27,7 +27,7 @@
 #include "TGo4MbsHist.h"
 
 extern "C" {
-#include "f_his_hist.h"
+   #include "f_his_hist.h"
 }
 
 TGo4HisConnectorRunnable::TGo4HisConnectorRunnable() : TGo4Runnable(0, 0), fxHistogramServer(0) {}

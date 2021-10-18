@@ -20,7 +20,6 @@
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4QSettings.h"
-#include "f_stccomm.h"
 
 #include <QTimer>
 #include <QDateTime>
@@ -29,6 +28,7 @@
 
 extern "C"
 {
+   #include "f_stccomm.h"
    #include "f_mbs_status.h"
    #include "f_ut_seg_show.h"
 }

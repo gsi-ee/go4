@@ -32,9 +32,7 @@
  * Modification : 20-Jun-2001 : Insert autosave /HE
  */
 
-#ifndef __S_ERRSTAT__
 #include "s_errstat.h"
-#endif
 
 typedef struct
 {

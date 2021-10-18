@@ -15,7 +15,7 @@ set(MbsAPIbase_headers
    portnum_def.h
    sbs_def.h
    s_daqst.h
-   s_daqst_v2.h
+   s_errstat.h
    s_head.h
    s_his_comm.h
    s_his_head.h

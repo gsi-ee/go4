@@ -12,7 +12,6 @@ set(MbsAPI_headers
    s_clntbuf.h
    s_clnt_filter.h
    s_clnt_filter_swap.h
-   s_errstat.h
    s_evhe.h
    s_evhe_swap.h
    s_filhe.h
