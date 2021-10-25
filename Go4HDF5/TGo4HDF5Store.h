@@ -73,11 +73,7 @@ class TGo4HDF5Store : public TGo4EventStore, TGo4HDF5Adapter {
     virtual void BuildDataSet(TGo4EventElement* event);
 
 
-
-
   ClassDef(TGo4HDF5Store,1)
 };
-
-
 
 #endif //TGO4FILESTORE_H

@@ -53,16 +53,16 @@ class TGo4FileStore : public TGo4EventStore {
       * May be a file, a root tree, a socket to a viewer... */
     virtual Int_t Store(TGo4EventElement* event);
 
-    /** Saves a calibration object correllated with the current event into the storage. */
+    /** Saves a calibration object correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Parameter* cali);
 
-    /** Saves a condition correllated with the current event into the storage. */
+    /** Saves a condition correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Condition* conny);
 
-    /** Saves a fitter correllated with the current event into the storage. */
+    /** Saves a fitter correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Fitter* fitter);
 
-    /** Saves a complete objects folder correllated with the current event into the storage. */
+    /** Saves a complete objects folder correlated with the current event into the storage. */
     virtual Int_t Store(TFolder* fold);
 
     /** Set the file compression level. May be changed on the fly. */
