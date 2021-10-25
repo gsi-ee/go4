@@ -1,4 +1,4 @@
-// $Id: TGo4EventStoreException.cxx 999 2013-07-25 11:58:59Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

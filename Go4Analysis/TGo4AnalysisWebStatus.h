@@ -1,4 +1,4 @@
-// $Id: TGo4AnalysisWebStatus.h 1396 2015-02-20 15:11:10Z adamczew $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

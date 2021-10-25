@@ -1,4 +1,4 @@
-// $Id: TGo4UserCommandsDialog.cpp 842 2012-05-30 14:23:51Z adamczew $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI

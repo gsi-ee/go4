@@ -1,4 +1,4 @@
-// $Id: TGo4UserCommandsDialog.h 489 2009-11-04 12:20:26Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
