@@ -90,12 +90,12 @@ cd /installations/go4; \
 # enable this to get most recent developer version
 #svn co https://subversion.gsi.de/go4/trunk 601-00/
 #enable this for tag 6.1.2
-svn co https://subversion.gsi.de/go4/tags/601-02 601-02/
+svn co https://subversion.gsi.de/go4/tags/601-04 601-04/
 
 # we change default to build against hdf5 libs here:
-COPY build_files/Makefile.discover /installations/go4/601-02/build/
+COPY build_files/Makefile.discover /installations/go4/601-04/build/
 RUN . /installations/root/rootbuild/bin/thisroot.sh; \
-    cd /installations/go4/601-02; \
+    cd /installations/go4/601-04; \
     > /tmp/go4_make_exit_value; \
     { make -j6 withweb=1 >>makelog.txt 2>&1;  echo $? > /tmp/go4_make_exit_value; killall tail; } & \ 
   echo -e "\n\n---- display Go4 make log: ----\n\n"; \
