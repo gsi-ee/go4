@@ -211,7 +211,11 @@ void QWebCanvas::dropEvent(QDropEvent* event)
    // TODO: remove, not needed at all
 
    TObject* obj(0);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
    QPoint pos = event->pos();
+#else
+   QPoint pos = event->position().toPoint();
+#endif
    TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    printf("Drop on pad %s\n", pad ? pad->GetName() : "---");
@@ -222,7 +226,11 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 void QWebCanvas::dropView(QDropEvent* event)
 {
    TObject* obj(0);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
    QPoint pos = event->pos();
+#else
+   QPoint pos = event->position().toPoint();
+#endif
    TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    printf("Drop on view %s\n", pad ? pad->GetName() : "---");
