@@ -54,4 +54,4 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
       Int_t fiProcessStatus;
 };
 
-#endif // #define TGO4TASKHANDLEREXCEPTION_H
+#endif

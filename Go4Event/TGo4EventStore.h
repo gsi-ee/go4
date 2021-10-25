@@ -45,19 +45,19 @@ class TGo4EventStore : public TNamed {
       * May be a file, a root tree, a socket to a viewer... */
     virtual Int_t Store(TGo4EventElement* event) = 0;
 
-    /** Saves a parameter (e.g. calibration object) correllated with the current event into the storage.
+    /** Saves a parameter (e.g. calibration object) correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
     virtual Int_t Store(TGo4Parameter* cali);
 
-    /** Saves a condition correllated with the current event into the storage.
+    /** Saves a condition correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
     virtual Int_t Store(TGo4Condition* conny);
 
-    /** Saves a fitter correllated with the current event into the storage.
+    /** Saves a fitter correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
     virtual Int_t Store(TGo4Fitter* fitter);
 
-    /** Saves a folder correllated with the current event into the storage.
+    /** Saves a folder correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
     virtual Int_t Store(TFolder* fold);
 

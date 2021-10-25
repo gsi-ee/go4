@@ -69,7 +69,5 @@ class TGo4EventSourceException : public TGo4RuntimeException {
 
 };
 
-#endif // #define TGO4TASKHANDLEREXCEPTION_H
-
-
+#endif
 

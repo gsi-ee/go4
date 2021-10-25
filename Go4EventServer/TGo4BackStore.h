@@ -40,16 +40,16 @@ class TGo4BackStore : public TGo4EventStore {
     /** Stores eventelement event into the storage implementation. */
     virtual Int_t Store(TGo4EventElement* event);
 
-    /** Saves a calibration object correllated with the current event into the storage. */
+    /** Saves a calibration object correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Parameter* cali);
 
-    /** Saves a condition correllated with the current event into the storage. */
+    /** Saves a condition correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Condition* conny);
 
-    /** Saves a fitter correllated with the current event into the storage. */
+    /** Saves a fitter correlated with the current event into the storage. */
     virtual Int_t Store(TGo4Fitter* fitter);
 
-    /** Saves a folder correllated with the current event into the storage. */
+    /** Saves a folder correlated with the current event into the storage. */
     virtual Int_t Store(TFolder* fold);
 
     /** Access to the Tree structure, for framework */

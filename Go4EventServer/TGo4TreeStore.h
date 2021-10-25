@@ -62,7 +62,7 @@ class TGo4TreeStore : public TGo4EventStore {
     /** Set the file compression level. May be changed on the fly. */
     void SetCompression(Int_t comp);
 
-    /** Saves a calibration object correllated with the current event into the storage.
+    /** Saves a calibration object correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
     virtual Int_t Store(TGo4Parameter* cali);
 

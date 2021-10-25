@@ -54,4 +54,4 @@ class TGo4DynamicListException : public TGo4RuntimeException {
 
 };
 
-#endif // #define TGO4TASKHANDLEREXCEPTION_H
+#endif

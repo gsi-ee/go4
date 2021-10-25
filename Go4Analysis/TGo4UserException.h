@@ -71,4 +71,4 @@ class TGo4UserException : public TGo4RuntimeException {
       TGo4UserException();
 };
 
-#endif // #define
+#endif
