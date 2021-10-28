@@ -738,21 +738,21 @@ int main(int argc, char **argv)
    const char* auth_domain = "go4";      // default authentication domain http server
    (void) auth_domain; // prevent compiler warning
 
-   Bool_t batchMode(kTRUE);              // GUI or Batch
-   Bool_t servermode(kFALSE);            // run analysis as server task
-   Bool_t httpmode(kFALSE);              // run analysis with web server
-   Bool_t hserver(kFALSE);               // enable histogram server
-   Bool_t loadprefs(kTRUE);              // loading preferences by client
-   Bool_t showrate(kFALSE);              // display event rate
-   Double_t process_interv(-1.);         // interval how often system events will be processed by analysis
-   const char* hname  = "";              // namebase for histogram server
-   const char* hpasswd  = "";            // password for histogram server
-   const char* hostname = "localhost";   // gui host name
-   Int_t iport(5000);                    // port number used by GUI
+   Bool_t batchMode = kTRUE;             // GUI or Batch
+   Bool_t servermode = kFALSE;           // run analysis as server task
+   Bool_t httpmode = kFALSE;             // run analysis with web server
+   Bool_t hserver = kFALSE;              // enable histogram server
+   Bool_t loadprefs = kTRUE;             // loading preferences by client
+   Bool_t showrate = kFALSE;             // display event rate
+   Double_t process_interv = -1.;        // interval how often system events will be processed by analysis
+   const char *hname  = "";              // namebase for histogram server
+   const char *hpasswd  = "";            // password for histogram server
+   const char *hostname = "localhost";   // gui host name
+   Int_t iport = 5000;                    // port number used by GUI
 
-   bool autorun(false);    // immediately run analysis on start
-   long  maxevents(-1);    // number of events (batch mode)
-   Int_t canrun(0);        // -1 cannot run, 0 - only if source specify, 1 - always
+   bool autorun = false;    // immediately run analysis on start
+   long  maxevents = -1;    // number of events (batch mode)
+   Int_t canrun = 0;        // -1 cannot run, 0 - only if source specified, 1 - always
 
    if (doprint) {
       maxevents = 1;
@@ -1309,7 +1309,7 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-      int termcounter=0;
+      int termcounter = 0;
 
       while (TGo4Analysis::Exists()) {
          // add this check while at some moments ROOT could reset this pointer

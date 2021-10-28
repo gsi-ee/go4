@@ -315,7 +315,7 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     /** Puts a new analysis condition object in corresponding list.
       * Object is owned by list afterwards. Returns false if object
       * of that name already exists in list. */
-    Bool_t AddAnalysisCondition(TGo4Condition * con, const char* subfolder=0);
+    Bool_t AddAnalysisCondition(TGo4Condition *con, const char* subfolder=0);
 
     /** Set existing analysis condition of name to the values
       * of external condition object con. Used to set condition by command
@@ -440,13 +440,13 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
 
     /** Sets analysis step name as first one to be processed in
       * the chain of steps. First step will read input event from its
-      * event source. If name is nullpointer, takes first step in steplist. */
+      * event source. If name is nullptr, takes first step in steplist. */
     Bool_t SetFirstStep(const char* name);
 
     /** Sets analysis step name as last one to be processed in
       * the chain of steps. Last step will write output event into its
       * event store by default, its output event is accessible in the user
-      * analysis. If name is nullpointer, takes last step in steplist. */
+      * analysis. If name is nullptr, takes last step in steplist. */
     Bool_t SetLastStep(const char* name);
 
     /** Enables analysis step of name to write its output event into
