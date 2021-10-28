@@ -639,7 +639,14 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
       while (fxDoWorkingFlag != flagStop) {
 
-         if ((times>0) && (cnt>=times)) break;
+         if ((times > 0) && (cnt >= times)) {
+            if (!iswebserver)
+               break;
+            if (fxDoWorkingFlag == flagRunning) {
+               PostLoop();
+               fxDoWorkingFlag = flagClosed;
+            }
+         }
 
          if (userate && fxRate->Update(nextcnt)) {
 
