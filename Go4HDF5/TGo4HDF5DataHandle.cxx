@@ -16,6 +16,8 @@
 
 #include "TROOT.h"
 #include "TObjString.h"
+#include "TObjArray.h"
+#include "TDataType.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventSourceException.h"
