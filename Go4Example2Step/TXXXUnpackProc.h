@@ -17,10 +17,9 @@
 
 #include "TGo4EventProcessor.h"
 
-#include "TLatex.h"
-
 class TXXXParameter;
 class TXXXUnpackEvent;
+class TLatex;
 
 #include "TXXXUnpackEvent.h"
 

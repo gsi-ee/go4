@@ -18,6 +18,7 @@
 #include "TH2.h"
 #include "TCutG.h"
 #include "TMath.h"
+#include "TLatex.h"
 
 #include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
