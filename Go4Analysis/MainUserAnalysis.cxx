@@ -163,6 +163,7 @@ void usage(const char* subtopic = 0)
    std::cout << "  -rate                       : display rate information during run" << std::endl;
    std::cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << std::endl;
    std::cout << "  -help [topic]               : show this help or for selected topic" << std::endl;
+   std::cout << "  -version                    : print only go4 version" << std::endl;
    std::cout << "  -graphics                   : enable graphics in the analysis" << std::endl;
    std::cout << "" << std::endl;
    std::cout << "ANALYSIS: common analysis configurations" << std::endl;
@@ -609,8 +610,13 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   if (argc==1) {
+   if (argc == 1) {
       usage();
+      return 0;
+   }
+
+   if ((FindArg(argc, argv, "-version") > 0) || (FindArg(argc, argv, "--version") > 0)) {
+      std::cout << __GO4RELEASE__ << std::endl;
       return 0;
    }
 
