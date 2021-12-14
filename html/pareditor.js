@@ -169,12 +169,12 @@
             var arraytableclass = key.toString() + "_array";
             var isTooBig = false;
             $(id + " .par_values > tbody").append("<tr><td style='width:100%; padding:0px' colspan='4' > <table class='" + arraytableclass + " par_arraytable'><thead><tr><td class='par_key'> <bf>[+]</bf> " + key.toString() + "</td><td class='par_class'></td><td class='par_value' >Click to expand</td><td class='par_comment'></td></tr></thead><tbody></tbody></table></td></tr>");
-            for (i = 0; i < value.length; i++) {
+            for (let i = 0; i < value.length; i++) {
                if (value[i] instanceof Array) {
-                  subvalue = value[i];
-                  for (j = 0; j < subvalue.length; j++) {
+                  let subvalue = value[i];
+                  for (let j = 0; j < subvalue.length; j++) {
                      if (subvalue[j] instanceof Array) {
-                        subsubvalue = subvalue[j];
+                        let subsubvalue = subvalue[j];
                         // here supress display of 3d arrays if too
                         // large:
                         if (subsubvalue.length * subvalue.length * value.length > 1000) {
@@ -182,10 +182,9 @@
                            break;
                         }
                         else {
-                           for (k = 0; k < subsubvalue.length; k++) {
+                           for (let k = 0; k < subsubvalue.length; k++) {
                               // decode 3dim array
-                              classname = key.toString() + "_" + i
-                                 + "_" + j + "_" + k;
+                              classname = key.toString() + "_" + i + "_" + j + "_" + k;
                               // $(id + " .par_values
                               // tbody").append("<tr><td>" +
                               // key.toString() + "[" + i +
