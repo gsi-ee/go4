@@ -97,7 +97,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    //// init user analysis objects:
    // create and load parameter here
    // set_Par.C macro executed after parameter load from auto-save file
-   fParam = (TXXXParameter*) MakeParameter("XXXParameter","TXXXParameter" ,"set_Par.C");
+   fParam = (TXXXParameter*) MakeParameter("XXXParameter", "TXXXParameter", "set_Par.C");
 
    // this one is created in TXXXAnalysis, because it is used in both steps
    fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1", "TGo4WinCond");
@@ -135,17 +135,14 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fEllipseCond = MakeEllipseCond("ellipsecond",0,3000,3000,300,800, 45, "Cr1Ch1x2");
                               //Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta, const char* HistoName
 
-
       fCircleCond = MakeCircleCond("circlecond",24,300,200,100, "Cr1Ch1x2");
                           //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char* HistoName
 
-
-      fBoxCond= MakeBoxCond("boxcond",2000,2000,400,100, 30, "Cr1Ch1x2");
+      fBoxCond = MakeBoxCond("boxcond",2000,2000,400,100, 30, "Cr1Ch1x2");
 
       fFreestyleCond = MakeFreeShapeCond("freecon", 3, cutpnts, "Cr1Ch1x2");
 
-      fWhitelistCon=MakeListCond("Whitelist",1,42,2,"His1");
-
+      fWhitelistCon = MakeListCond("Whitelist",1,42,2,"His1");
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
       if (fConArr1==0) {
@@ -208,7 +205,6 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
          fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
 
-
          /** this is example how arbitrary objects can be add to
           * the picture and than displayed in the gui */
 
@@ -221,9 +217,9 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          AddPicture(fcondSet);
       }
 
-
       fLaText = new TLatex(0.5,0.5,"-- demo text --");
       fLaText->SetName("LatexObjectDemo");
+      fLaText->SetTextAlign(22);
       fLaText->SetNDC();
       AddObject(fLaText); // will replace old one of same name
 
