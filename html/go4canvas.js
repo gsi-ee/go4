@@ -1,3 +1,5 @@
+// $Id$
+
 (function( factory ) {
 
    // this is code for web canvas to support Go4 classes like
@@ -10,7 +12,7 @@
       throw e1;
    }
 
-   var myGO4 = { version: "6.1.x", web_canvas: true };
+   var myGO4 = { version: "6.1.4", web_canvas: true };
 
    factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
 

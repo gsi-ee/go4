@@ -1,4 +1,6 @@
-(function(){
+// $Id$
+
+(function() {
 
    if (typeof JSROOT != "object") {
       var e1 = new Error("go4.js requires JSROOT to be already loaded");
@@ -14,7 +16,7 @@
 
    GO4 = {};
 
-   GO4.version = "6.1.x";
+   GO4.version = "6.1.4";
 
    // use location to load all other scripts when required
    GO4.source_dir = function() {
