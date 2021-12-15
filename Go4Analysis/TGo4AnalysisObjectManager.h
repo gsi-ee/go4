@@ -170,7 +170,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Removes histogram from histogram dir by name. Returns kFALSE if no
        * such histogram. Histogram object is deleted on heap only if del is true.
-       * Otherwise, user owns the histogram afterwords.
+       * Otherwise, user owns the histogram afterwards.
        * Dynamic list entry for that histogram object is also removed.
        */
       Bool_t RemoveHistogram(const char * name, Bool_t del=kTRUE);
@@ -208,7 +208,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If type of existing histogram does not match with provided, old histogram
        * will be removed and new proper will be created.
        * Parameters are:
-       *    histotype = "C", "D", "F", "I", "S" corresonds to different TH1* types
+       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1* types
        *    folderame - name of folder, where histogram should be created
        *    histoname - name of histogram
        *    nbinsx    - number of bins on x axis
@@ -336,14 +336,14 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If conditions exists in autosave file, it will be taken from autosave file.
        * If type of existing condition does not match, condition
        * will be removed and new will be created.
-       * Points of polygon are taken from two dimentional array,
+       * Points of polygon are taken from two dimensional array,
        * which can be declared in program like:
        *   Float_t points[4][2] =
        *           {{    0.,    0.},
        *            {    0., 4000.},
        *            {40000., 4000.},
        *            {40000.,    0.}};
-       * If first and last points will be connected, if they didnot match each other
+       * If first and last points will be connected, if they did not match each other
        *
        * Parameters are:
        *    folderame      - name of folder, where condition should be created
