@@ -74,7 +74,7 @@ class TGo4Ratemeter;
  * @since 19-jan-2001
  */
 
-class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
+class TGo4Analysis : public TObject, public TGo4CommandReceiver {
 
   friend class TGo4AnalysisStep;
   friend class TGo4AnalysisClient;
@@ -246,7 +246,7 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     Bool_t DeleteObjects(const char * name);
 
     /** Clear (reset) the specified objects. Method will first
-      * clear all objects in any folder if it is matching the namestring.
+      * clear all objects in any folder if it is matching the name string.
       * If no such folder exists, object of name is searched and cleared.
       * Returns kFALSE in case of not found objects. */
     Bool_t ClearObjects(const char* name);
@@ -295,7 +295,7 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
       * the tree will be put into general tree folder. */
     Bool_t RemoveTree(TTree * tree, const char* stepname=0);
 
-    /** Add Histogram into the dynamic list wich is linked to a tree.
+    /** Add Histogram into the dynamic list which is linked to a tree.
       * If Histogram of hisname already exists, this histogram will taken.
       * if not, the histogram will be created on first TTree::Draw.
       * Strings varexp and selection are used for applying cuts and variables to plot. */
@@ -494,13 +494,13 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     Int_t UnLockAutoSave();
 
     /**  enable/disable functionality of AutoSave method */
-    void SetAutoSave(Bool_t on=kTRUE) { fbAutoSaveOn=on; }
+    void SetAutoSave(Bool_t on=kTRUE) { fbAutoSaveOn = on; }
 
     /** True if autosaving is enabled */
     Bool_t IsAutoSaveOn() const { return fbAutoSaveOn; }
 
     /**  Set analysis in mode where autosave file switches for each new input file*/
-    void SetAutoSaveFileChange(Bool_t on=kTRUE) {fbAutoSaveFileChange=on;}
+    void SetAutoSaveFileChange(Bool_t on=kTRUE) { fbAutoSaveFileChange = on; }
 
     /** True if autosave file is changed according to the current input file
       * of lmd file list. */
@@ -529,7 +529,7 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     Int_t IsErrorStopEnabled();
 
     /** Set flag that input file has changed */
-    void SetNewInputFile(Bool_t on=kTRUE) { fbNewInputFile=on; }
+    void SetNewInputFile(Bool_t on=kTRUE) { fbNewInputFile = on; }
 
     /** True if input filelist has changed to a new lmd file. */
     Bool_t IsNewInputFile() const { return fbNewInputFile; }

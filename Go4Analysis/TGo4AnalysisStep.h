@@ -275,7 +275,7 @@ class TGo4AnalysisStep : public TNamed {
 
   private:
 
-    /** Points back to the analysis wich keeps this step. */
+    /** Points back to the analysis which keeps this step. */
     TGo4Analysis* fxOwner;                       //!
 
     /** Points to the previous analysis step. Useful to check

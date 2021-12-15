@@ -131,7 +131,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Assign model to specified data object.
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
-       * They means ratio in amplitude of model component in this data to ampltute of this component in data, to wich model was assigned first. By default, this ratio is 1. and not fixed.
+       * They means ratio in amplitude of model component in this data to ampltute of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
        */
       void AssignToData(const char* DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
@@ -223,7 +223,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * By default there is no integration and model uses central positions in each range, where data bins is defined.
        * If model changes much in these ranges, it may cause big error in modeling. In this case integration inside each data bin ranges can highly reduce these errors.
        * To make integration, bin range on each axis divides on (2^depth) segments and value of model calculates in each segments. Thus, if data bins defined on two-dimensional space and depth=3, each bins range were diveded on 8x8=64 squares and model will be calculated 64 times.
-       * MinIntegrDepth and MaxIntegrDepth means minimum and maximum allowed integration depth correspondently. If MaxIntegrDepth not specified, it will be equal to MinIntegrDepth.
+       * MinIntegrDepth and MaxIntegrDepth means minimum and maximum allowed integration depth correspondingly. If MaxIntegrDepth not specified, it will be equal to MinIntegrDepth.
        * If MinIntegrDepth less then MaxIntegrDepth, model will try to use minimum value first. Then it checks, if result value changes not very much. If so, it finish calculation, otherwise it increases depth of integration up to MaxIntegrDepth.
        * IntegrEps sets maximum allowed error in result value. It can be absolute (when AbsoluteEps = kTRUE) or relative to previous calculated value (with depth-1).
        * Value of each bin also can be scaled on volume (IntegrScalink = kTRUE, default = kFALSE).

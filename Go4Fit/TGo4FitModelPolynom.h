@@ -33,7 +33,7 @@ class TArrayD;
  *   Orders[0] = 1.; Orders[1] = 0.; ...
  *   TGo4FitModelPolynom *p2 = new TGo4FitModelPolynom("Pol2",Orders);
  *
- * According to number of parameters in constructor TGo4FitModelPolynom has set of parameters "Order0", "Order1" and so on, representing polynom orders for axis x, y and so on correspondently.
+ * According to number of parameters in constructor TGo4FitModelPolynom has set of parameters "Order0", "Order1" and so on, representing polynom orders for axis x, y and so on correspondingly.
  * By default, these parameters are fixed and not fitted in optimizations. To change this default behavior, use:
  *
  * p1->FindPar("Order0")->SetFixed(kFALSE);
@@ -76,7 +76,9 @@ class TGo4FitModelPolynom : public TGo4FitModel {
 
       /**
        * Creates TGo4FitModelPolynom object with given name for n-dim case.
-       * An array of polynoms orders for appropriate axis should be specified. The size of array will be a dimensions size of polynom. But the n-dim polynom can be used for m-dim case. If n>m, orders for missing axis will be set 0. If n<m, only necessary orders will be used.
+       * An array of polynoms orders for appropriate axis should be specified.
+       * The size of array will be a dimensions size of polynom. But the n-dim polynom can be used for m-dim case.
+       * If n > m, orders for missing axis will be set 0. If n<m, only necessary orders will be used.
        */
       TGo4FitModelPolynom(const char* iName, const TArrayD& iPolynomOrders);
 

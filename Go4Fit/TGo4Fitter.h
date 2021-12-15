@@ -258,7 +258,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Assign model to specified data object.
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
-       * They means ratio in amplitude of model component in this data to amplitude of this component in data, to wich model was assigned first. By default, this ratio is 1. and not fixed.
+       * They means ratio in amplitude of model component in this data to amplitude of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
        */
       void AssignModelTo(const char* ModelName, const char* DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
@@ -445,16 +445,6 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       TObjArray* fxDrawObjs;                 //!
 
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label TObjArray of models*/
-      /*#  TGo4FitModel Models; */
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label TObjArray of data*/
-      /*#  TGo4FitData Datas; */
    ClassDef(TGo4Fitter,1)
 };
 
