@@ -438,10 +438,13 @@
       if (!arr || (k >= arr.length))
          return Promise.resolve(false);
       
-      let n = pic.fxNames.arr[k], itemname = "";
+      let n = pic.fxNames.arr[k], itemname = "", isth2 = false;
          
       JSROOT.hpainter.forEachItem(item => {
-         if (item._name == n.fString) itemname = JSROOT.hpainter.itemFullName(item); 
+         if (item._name == n.fString) { 
+            itemname = JSROOT.hpainter.itemFullName(item);
+            if (item._kind && (item._kind.indexOf("ROOT.TH2") == 0)) isth2 = true;
+         } 
       });
       
       if (!itemname) {
@@ -451,7 +454,8 @@
 
       // console.log('Want to display item', itemname, 'on', divid);
       
-      let opt = k > 0 ? "same" : "";
+      let opt = isth2 ? "col" : "";
+      if (k > 0) opt += " same"; 
       
       return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
          if (!painter) return;
