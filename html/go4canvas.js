@@ -51,28 +51,25 @@
    }
 
    GO4.MarkerPainter.prototype.moveEnd = function() {
-      var marker = this.getObject();
+      let marker = this.getObject();
       marker.fX = this.svgToAxis("x", this.grx);
       marker.fY = this.svgToAxis("y", this.gry);
-      var exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
-      if (JSROOT._)
-         this.submitCanvExec(exec);
-      else
-         this.WebCanvasExec(exec);
+      let exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
+      this.submitCanvExec(exec);
       this.drawLabel();
    }
 
    GO4.MarkerPainter.prototype.drawMarker = function() {
       let g = this.createG(); // can draw in complete pad
 
-      var marker = this.getObject();
+      let marker = this.getObject();
 
       this.createAttMarker({ attr: marker });
 
       this.grx = this.axisToSvg("x", marker.fX);
       this.gry = this.axisToSvg("y", marker.fY);
 
-      var path = this.markeratt.create(this.grx, this.gry);
+      let path = this.markeratt.create(this.grx, this.gry);
 
       if (path)
           g.append("svg:path")
@@ -87,21 +84,14 @@
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
-      var lbls = [];
+      let lbls = [];
 
-      var main = this.getMainPainter(), hint = null, fx = 0, fy = 0;
-      if (JSROOT._) {
-         let rect = this.getFramePainter().getFrameRect();
-         fx = rect.x;
-         fy = rect.y;
-         if (main && typeof main.processTooltipEvent == 'function')
-            hint = main.processTooltipEvent({ enabled: false, x: this.grx - fx, y: this.gry - fy });
-      } else {
-         fx = this.frame_x();
-         fy = this.frame_y();
-         if (main && typeof main.ProcessTooltip == 'function')
-            hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
-      }
+      let main = this.getMainPainter(), hint = null, fx = 0, fy = 0;
+      let rect = this.getFramePainter().getFrameRect();
+      fx = rect.x;
+      fy = rect.y;
+      if (main && typeof main.processTooltipEvent == 'function')
+         hint = main.processTooltipEvent({ enabled: false, x: this.grx - fx, y: this.gry - fy });
 
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
@@ -113,7 +103,7 @@
 
       if (hint && hint.user_info) {
          if (marker.fbXbinDraw) {
-            var bin = "<undef>";
+            let bin = "<undef>";
             if (hint.user_info.binx !== undefined) bin = hint.user_info.binx; else
             if (hint.user_info.bin !== undefined) bin = hint.user_info.bin;
             lbls.push("Xbin = " + bin);
@@ -132,55 +122,39 @@
 
    GO4.MarkerPainter.prototype.drawLabel = function() {
 
-      var marker = this.getObject();
+      let marker = this.getObject();
 
       if (!marker.fbHasLabel) return;
 
-      var pave_painter = findPainter(this, this.pave);
+      let pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
 
-         var pad_width = 10, pad_height = 10;
+         let pp = this.getPadPainter(),
+             pad_width = pp.getPadWidth(),
+             pad_height = pp.getPadHeight();
 
-         if (JSROOT._) {
-            let pp = this.getPadPainter();
-            pad_width = pp.getPadWidth();
-            pad_height = pp.getPadHeight();
-         } else {
-            pad_width = this.pad_width();
-            pad_height = this.pad_height();
-         }
-
-         var px = this.grx / pad_width + 0.02,
+         let px = this.grx / pad_width + 0.02,
              py = this.gry / pad_height - 0.02;
          JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
-         var st = JSROOT.gStyle;
+         let st = JSROOT.gStyle;
          JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
                                     fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont });
       } else {
          this.pave.Clear();
       }
 
-      var lbls = this.fillLabels(marker);
-      for (var k = 0; k < lbls.length; ++k)
+      let lbls = this.fillLabels(marker);
+      for (let k = 0; k < lbls.length; ++k)
          this.pave.AddText(lbls[k]);
 
-      if (JSROOT._) {
-         if (pave_painter)
-            pave_painter.redraw();
-         else
-            JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
-      } else {
-         if (pave_painter)
-            pave_painter.redraw();
-         else
-            JSROOT.draw(this.divid, this.pave, "", function(p) {
-              if (p) p.$secondary = true;
-            });
-      }
+      if (pave_painter)
+         pave_painter.redraw();
+      else
+         JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
    }
 
    GO4.MarkerPainter.prototype.redrawObject = function(obj) {
@@ -191,7 +165,7 @@
 
    GO4.MarkerPainter.prototype.cleanup = function(arg) {
       if (this.pave) {
-         var pp = findPainter(this, this.pave);
+         let pp = findPainter(this, this.pave);
          if (pp) {
             pp.removeFromPadPrimitives();
             pp.cleanup();
@@ -208,10 +182,10 @@
    }
 
 //   GO4.MarkerPainter.prototype.fillContextMenu = function(menu) {
-//      var marker = this.getObject();
+//      let marker = this.getObject();
 //      menu.add("header:"+ marker._typename + "::" + marker.fxName);
 //      function select(name,exec) {
-//         var marker = this.getObject();
+//         let marker = this.getObject();
 //         marker[name] = !marker[name];
 //         this.submitCanvExec(exec + (marker[name] ? '(true)' : '(false)'));
 //         this.redraw();
@@ -229,19 +203,13 @@
    GO4.MarkerPainter.prototype.processTooltipEvent = function(pnt) {
       if (!pnt) return null;
 
-      var marker = this.getObject(), fx = 0, fy = 0, marker_sz = 1;
-      if (JSROOT._) {
-         let rect = this.getFramePainter().getFrameRect();
-         fx = rect.x;
-         fy = rect.y;
-         marker_sz = this.markeratt.getFullSize();
-      } else {
-         fx = this.frame_x();
-         fy = this.frame_y();
-         marker_sz = this.markeratt.GetFullSize();
-      }
+      let marker = this.getObject(),
+          rect = this.getFramePainter().getFrameRect(),
+          fx = rect.x,
+          fy = rect.y,
+          marker_sz = this.markeratt.getFullSize();
 
-      var hint = { name: marker.fxName,
+      let hint = { name: marker.fxName,
                    title: marker.fxName,
                    painter: this,
                    menu: true,
@@ -249,7 +217,7 @@
                    y: this.gry - fy,
                    color1: this.markeratt.color };
 
-      var dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
+      let dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
 
       hint.menu_dist = dist;
 
@@ -264,25 +232,15 @@
       return hint;
    }
 
-   if (!JSROOT._) {
-      GO4.MarkerPainter.prototype.Redraw = GO4.MarkerPainter.prototype.redraw;
-      GO4.MarkerPainter.prototype.ProcessTooltip = GO4.MarkerPainter.prototype.processTooltipEvent;
-   }
-
    GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
    }
 
    GO4.drawGo4Marker = function(divid, obj, option) {
-      var painter = new GO4.MarkerPainter(divid, obj);
-      if (JSROOT._) {
-         painter.drawMarker();
-         painter.drawLabel();
-         painter.addToPadPrimitives();
-         return Promise.resolve(painter);
-      }
+      let painter = new GO4.MarkerPainter(divid, obj);
       painter.drawMarker();
       painter.drawLabel();
-      return painter.DrawingReady();
+      painter.addToPadPrimitives();
+      return Promise.resolve(painter);
    }
 
    // =========================================================================
@@ -296,7 +254,7 @@
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
       //  JAM: need to put this here, since condition object will lose internal definition after cloning it again!
-      var cond = this.getObject();
+      let cond = this.getObject();
       if (!cond.fbEnabled)
          return cond.fbResult;
 
@@ -325,53 +283,33 @@
       p._condpainter = this;
 
       // catch TCutG exec and mark condition as modified
-      if (JSROOT._) {
-         p._oldexec = p.submitCanvExec;
-         p.submitCanvExec = function(exec, arg) {
-            this._oldexec(exec, arg);
-            p._condpainter.submitCanvExec("SetChanged()");
-         }
-      } else {
-         p._oldexec = p.WebCanvasExec;
-         p.WebCanvasExec = function(exec, arg) {
-            this._oldexec(exec, arg);
-            p._condpainter.WebCanvasExec("SetChanged()");
-         }
-
+      p._oldexec = p.submitCanvExec;
+      p.submitCanvExec = function(exec, arg) {
+         this._oldexec(exec, arg);
+         p._condpainter.submitCanvExec("SetChanged()");
       }
    }
 
    GO4.ConditionPainter.prototype.drawCondition = function(interactive) {
 
-      var cond = this.getObject();
+      let cond = this.getObject();
 
       if (!cond || !cond.fbVisible) return;
 
       if (this.isPolyCond()) {
          if (cond.fxCut) {
             // look here if cut is already drawn in divid:
-            var cutpaint = findPainter(this, null, cond.fName, 'TCutG');
+            let cutpaint = findPainter(this, null, cond.fName, 'TCutG');
 
-            if (JSROOT._) {
-               if (cutpaint) {
-                  if (cutpaint.updateObject(cond.fxCut)) cutpaint.redraw();
-                  this.afterCutDraw(cutpaint);
-               } else {
-                  cond.fxCut.fFillStyle = 3006;
-                  cond.fxCut.fFillColor = 2;
-                  JSROOT.draw(this.divid, cond.fxCut, "LF").then(p => this.afterCutDraw(p));
-               }
-
-            } else { // old jsroot v5
-               if (cutpaint) {
-                  if (cutpaint.UpdateObject(cond.fxCut)) cutpaint.redraw();
-                  this.afterCutDraw(cutpaint);
-               } else {
-                  cond.fxCut.fFillStyle = 3006;
-                  cond.fxCut.fFillColor = 2;
-                  JSROOT.draw(this.divid, cond.fxCut, "LF", p => this.afterCutDraw(p));
-               }
+            if (cutpaint) {
+               if (cutpaint.updateObject(cond.fxCut)) cutpaint.redraw();
+               this.afterCutDraw(cutpaint);
+            } else {
+               cond.fxCut.fFillStyle = 3006;
+               cond.fxCut.fFillColor = 2;
+               JSROOT.draw(this.divid, cond.fxCut, "LF").then(p => this.afterCutDraw(p));
             }
+
          }
          return;
       }
@@ -396,7 +334,7 @@
          this.candy = true;
       } else {
          this.gry1 = 0;
-         this.gry2 = JSROOT._ ? this.getFramePainter().getFrameHeight() : this.frame_height();
+         this.gry2 = this.getFramePainter().getFrameHeight();
          this.candy = false;
       }
 
@@ -446,34 +384,31 @@
    }
 
    GO4.ConditionPainter.prototype.moveEnd = function() {
-      var cond = this.getObject(), exec = "";
+      let cond = this.getObject(), exec = "";
       if (this.dx1 || this.swapx) { cond.fLow1 = this.svgToAxis("x", this.grx1); exec += "SetXLow(" + cond.fLow1 + ");;"; }
       if (this.dx2 || this.swapx) { cond.fUp1 = this.svgToAxis("x", this.grx2); exec += "SetXUp(" + cond.fUp1 + ");;"; }
       if (this.dy2 || this.swapy) { cond.fLow2 = this.svgToAxis("y", this.gry2); exec += "SetYLow(" + cond.fLow2 + ");;"; }
       if (this.dy1 || this.swapy) { cond.fUp2 = this.svgToAxis("y", this.gry1); exec += "SetYUp(" + cond.fUp2 + ");;"; }
       if (exec) {
-         if (JSROOT._)
-            this.submitCanvExec(exec + "SetChanged()");
-         else
-            this.WebCanvasExec(exec + "SetChanged()");
+         this.submitCanvExec(exec + "SetChanged()");
          this.drawLabel();
       }
    }
 
    GO4.ConditionPainter.prototype.drawLabel = function() {
 
-      var cond = this.getObject(), painter = this, stat = {};
+      let cond = this.getObject(), painter = this, stat = {};
 
       if (!cond.fbLabelDraw || !cond.fbVisible) return;
 
-      var pave_painter = findPainter(this, this.pave);
+      let pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
          this.pave = JSROOT.create("TPaveStats");
          this.pave.fName = "stats_" + cond.fName;
          JSROOT.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
-         var st = JSROOT.gStyle;
+         let st = JSROOT.gStyle;
          JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
                                     fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont});
       } else {
@@ -486,11 +421,11 @@
 
       if (cond.fbLimitsDraw)
          if (this.isPolyCond()) {
-            var res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
+            let res = { xmin: 0, xmax: 0, ymin: 0, ymax: 0 };
             if (cond.fxCut.fNpoints > 0) {
                res.xmin = res.xmax = cond.fxCut.fX[0];
                res.ymin = res.ymax = cond.fxCut.fY[0];
-               for (var i=1; i<cond.fxCut.fNpoints; i++) {
+               for (let i=1; i<cond.fxCut.fNpoints; i++) {
                   res.xmin = Math.min(res.xmin, cond.fxCut.fX[i]);
                   res.xmax = Math.max(res.xmax, cond.fxCut.fX[i]);
                   res.ymin = Math.min(res.ymin, cond.fxCut.fY[i]);
@@ -510,11 +445,7 @@
             }
          }
 
-      if (JSROOT._) {
-         stat = this.getMainPainter().countStat((x,y) => painter.Test(x,y));
-      } else {
-         stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
-      }
+      stat = this.getMainPainter().countStat((x,y) => painter.Test(x,y));
 
       if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.Painter.floatToString(stat.integral, "14.7g"));
 
@@ -535,17 +466,15 @@
 
       if (!pave_painter)
          JSROOT.draw(this.divid, this.pave, "");
-      else if (JSROOT._)
-         pave_painter.redraw();
       else
-         pave_painter.Redraw(); // old jsroot v5
+         pave_painter.redraw();
    }
 
 //   GO4.ConditionPainter.prototype.fillContextMenu = function(menu) {
-//      var cond = this.getObject();
+//      let cond = this.getObject();
 //      menu.add("header:"+ cond._typename + "::" + cond.fName);
 //      function select(name,exec) {
-//         var cond = this.getObject();
+//         let cond = this.getObject();
 //         cond[name] = !cond[name];
 //         this.submitCanvExec(exec + (cond[name] ? '(true)' : '(false)'));
 //         this.redraw();
@@ -565,9 +494,9 @@
    GO4.ConditionPainter.prototype.processTooltipEvent = function(pnt) {
       if (!pnt) return null;
 
-      var cond = this.getObject();
+      let cond = this.getObject();
 
-      var hint = { name: cond.fName,
+      let hint = { name: cond.fName,
                    title: cond.fTitle,
                    painter: this,
                    menu: true,
@@ -605,7 +534,7 @@
 
    GO4.ConditionPainter.prototype.cleanup = function(arg) {
       if (this.pave) {
-         var pp = findPainter(this, this.pave);
+         let pp = findPainter(this, this.pave);
          if (pp) {
             pp.removeFromPadPrimitives();
             pp.cleanup();
@@ -632,23 +561,18 @@
       if (GO4.web_canvas || (option.indexOf('same') >= 0) || condpainter.getMainPainter()) {
          condpainter.drawCondition();
          condpainter.drawLabel();
-         if (JSROOT._) {
-            condpainter.addToPadPrimitives();
-            return Promise.resolve(condpainter);
-         }
-         condpainter.SetDivId(divid); // old
-         return condpainter.DrawingReady();
+         condpainter.addToPadPrimitives();
+         return Promise.resolve(condpainter);
       }
 
       // from here normal code for plain THttpServer
 
       if (((cond.fxHistoName=="") || (option=='editor')) && GO4.ConditionEditor) {
          // $('#'+divid).append("<br/>Histogram name not specified");
-         var h = $("#"+realid).height(), w = $("#"+realid).width();
+         let h = $("#"+realid).height(), w = $("#"+realid).width();
          if ((h<10) && (w>10)) $("#"+realid).height(w*0.4);
-         var editor = new GO4.ConditionEditor(realid, cond);
-         if (JSROOT._) return new Promise(resolve => editor.drawEditor(realid, resolve));
-         return editor.drawEditor(realid);
+         let editor = new GO4.ConditionEditor(realid, cond);
+         return new Promise(resolve => editor.drawEditor(realid, resolve));
       }
 
       // $('#'+realid).append("<br/>Histogram name is " + cond.fxHistoName);
@@ -658,24 +582,21 @@
          return;
       }
 
-      var histofullpath = null;
+      let histofullpath = null;
 
       function TestItem(h) {
          if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf("ROOT.TH")==0))
             histofullpath = JSROOT.hpainter.itemFullName(h);
       }
 
-      if (JSROOT._)
-         JSROOT.hpainter.forEachItem(TestItem);
-      else
-         JSROOT.hpainter.ForEach(TestItem);
+      JSROOT.hpainter.forEachItem(TestItem);
 
       if (histofullpath === null) {
          $('#'+realid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;
 
-         let hitem = JSROOT._ ? JSROOT.hpainter.findItem({ name: histofullpath, force: true }) : JSROOT.hpainter.Find({ name: histofullpath, force: true });
+         let hitem = JSROOT.hpainter.findItem({ name: histofullpath, force: true });
 
          hitem._kind = "ROOT.TH1I";
 
@@ -690,28 +611,19 @@
          if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
          condpainter.drawCondition();
          condpainter.drawLabel();
-         if (JSROOT._) {
-            condpainter.addToPadPrimitives();
-            return condpainter;
-         } else {
-            condpainter.SetDivId(divid); // old
-            return condpainter.DrawingReady();
-         }
+         condpainter.addToPadPrimitives();
+         return condpainter;
       }
 
-      if (JSROOT._)
-         return JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(hp => drawCond(hp));
-
-      JSROOT.hpainter.display(histofullpath, "divid:" + realid, drawCond);
-      return condpainter;
+      return JSROOT.hpainter.display(histofullpath, "divid:" + realid).then(hp => drawCond(hp));
    }
 
    GO4.drawCondArray = function(divid, obj, option) {
       let arr = obj.condarr.arr,
           num = obj.fiNumCond,
           first;
-      for (var k = 0; k < num; ++k) {
-         var p = GO4.drawGo4Cond(divid, arr[k], "");
+      for (let k = 0; k < num; ++k) {
+         let p = GO4.drawGo4Cond(divid, arr[k], "");
          if (k == 0) first = p;
       }
       return first; // return first condition as result of drawing
@@ -720,12 +632,11 @@
    // =======================================================================
 
    if (GO4.web_canvas) {
-      let jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
-      jsrp.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
-      jsrp.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
-      jsrp.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
-      jsrp.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
-      jsrp.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
+      JSROOT.Painter.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
+      JSROOT.Painter.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
+      JSROOT.Painter.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
+      JSROOT.Painter.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
+      JSROOT.Painter.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
    }
 
    return GO4;
