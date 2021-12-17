@@ -816,7 +816,7 @@
          return drawPictureObjects(divid, pic, k+1);
       }
 
-      console.log('Want to display item', itemname, 'on', divid);
+      // console.log('Want to display item', itemname, 'on', divid);
       
       let opt = k > 0 ? "same" : "";
       
@@ -832,8 +832,28 @@
          
       let subpad_painter = pad_painter.getSubPadPainter(1 + subpic.fiPosY*pic.fiNDivX + subpic.fiPosX);
       
-      console.log('Want to display subpicture', nsub);
+      return drawPicture(subpad_painter, subpic).then(() => drawSubPictures(pad_painter, pic, nsub+1));  
+   }
+   
+   function drawPicture(pad_painter, pic) {
+      if (!pad_painter) 
+         return Promise.resolve(false);
+         
+      let need_divide = pic.fiNDivX * pic.fiNDivY > 1;
       
+      if (need_divide && !pad_painter.divide) {
+         console.log('JSROOT version without PadPainter.divide');
+         return Promise.resolve(false); 
+      }   
+
+      let prev_name = pad_painter.selectCurrentPad(pad_painter.this_pad_name);
+
+      if (need_divide)
+         return pad_painter.divide(pic.fiNDivX, pic.fiNDivY).then(() => drawSubPictures(pad_painter, pic, 0)).then(() => {
+            pad_painter.selectCurrentPad(prev_name);
+            return pad_painter;
+         });
+
       let divid = pad_painter.selectDom().attr('id');
       if (!divid) {
          divid = "go4picture_div_" + GO4.id_counter++;
@@ -841,29 +861,24 @@
          console.error('Drawing must be done on element with id, force ', divid);
       }
       
-      let prev_name = subpad_painter.selectCurrentPad(subpad_painter.this_pad_name);
-      
-      return drawPictureObjects(divid, subpic, 0).then(() => {
-         subpad_painter.selectCurrentPad(prev_name);
-         return drawSubPictures(pad_painter, pic, nsub+1); 
+      return drawPictureObjects(divid, pic, 0).then(() => {
+         pad_painter.selectCurrentPad(prev_name);
+         return pad_painter; 
       });  
    }
 
    GO4.drawGo4Picture = function(dom, pic) {
-      if (!JSROOT._) return null;
+      if (!JSROOT._ || !JSROOT.hpainter) return null;
       
-      let painter = new JSROOT.ObjectPainter(dom, pic),
-          jsrp = JSROOT.Painter, pad_painter = null;
+      let painter = new JSROOT.ObjectPainter(dom, pic);
 
-      return JSROOT.require('gpad').then(() => jsrp.ensureTCanvas(painter, false)).then(() => {
-         if (!pad_painter.divide) return null;
-         
-         pad_painter = painter.getPadPainter();
+      return JSROOT.require('gpad').then(() => JSROOT.Painter.ensureTCanvas(painter, false)).then(() => {  
+         let pad_painter = painter.getPadPainter();
          
          painter.removeFromPadPrimitives();
          
-         return pad_painter.divide(pic.fiNDivX, pic.fiNDivY);
-      }).then(() => drawSubPictures(pad_painter, pic, 0));
+         return drawPicture(pad_painter, pic);
+      }).then(() => painter); // return dummy painter
    }
 
    // =======================================================================
