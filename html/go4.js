@@ -413,6 +413,22 @@
 
       return player;
    }
+   
+   const op_LineColor   = 5,
+         op_LineStyle   = 6,
+         op_LineWidth   = 7,
+         op_FillColor   = 8,
+         op_FillStyle   = 9;
+
+   function getOptValue(pic, indx, typ) {
+      if (!pic || !pic.fxOptIndex) return null;
+      let srch = indx + 1 + (typ << 16);
+      for (let k = 0; k < pic.fxOptIndex.length; ++k)
+         if (pic.fxOptIndex[k] == srch)
+            return pic.fxOptValue[k];
+      return null;
+   }
+
 
    function drawPictureObjects(divid, pic, k) {
       if (!divid || !pic.fxNames)
@@ -437,7 +453,33 @@
       
       let opt = k > 0 ? "same" : "";
       
-      return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(() => drawPictureObjects(divid, pic, k+1));  
+      return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
+         if (!painter) return;
+         let need_redraw = false;
+         
+         if (painter.lineatt) {
+            let lcol = getOptValue(pic, k, op_LineColor),  
+                lwidth = getOptValue(pic, k, op_LineWidth),
+                lstyle = getOptValue(pic, k, op_LineStyle);
+            if ((lcol !== null) && (lwidth !== null) && (lstyle !== null)) {
+               painter.lineatt.change(painter.getColor(lcol), lwidth, lstyle);
+               need_redraw = true;
+            }    
+         }
+            
+         if (painter.fillatt) {
+            let fcol = getOptValue(pic, k, op_FillColor),
+                fstyle = getOptValue(pic, k, op_FillStyle);
+            
+            if ((fcol !== null) && (fstyle !== null)) {
+               painter.fillatt.change(fcol, fstyle, painter.getCanvSvg());
+               need_redraw = true;
+            }
+         }
+               
+         if (need_redraw) return painter.redraw();
+          
+      }).then(() => drawPictureObjects(divid, pic, k+1));  
    }
    
    function drawSubPictures(pad_painter, pic, nsub) {
@@ -459,7 +501,7 @@
       let need_divide = pic.fiNDivX * pic.fiNDivY > 1;
       
       if (need_divide && !pad_painter.divide) {
-         console.log('JSROOT version without PadPainter.divide');
+         console.log('JSROOT version without TPadPainter.divide');
          return Promise.resolve(false); 
       }   
 
