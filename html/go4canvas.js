@@ -787,26 +787,95 @@
    }
 
    GO4.drawCondArray = function(divid, obj, option) {
-      var arr = obj.condarr.arr;
-      var num = obj.fiNumCond;
-      var first;
-      for (var k=0;k<num;++k) {
+      let arr = obj.condarr.arr,
+          num = obj.fiNumCond,
+          first;
+      for (var k = 0; k < num; ++k) {
          var p = GO4.drawGo4Cond(divid, arr[k], "");
          if (k == 0) first = p;
       }
       return first; // return first condition as result of drawing
    }
+   
+   function drawPictureObjects(divid, pic, k) {
+      if (!divid || !pic.fxNames)
+         return Promise.resolve(false);
+      
+      let arr = pic.fxNames ? pic.fxNames.arr : null;
+      if (!arr || (k >= arr.length))
+         return Promise.resolve(false);
+      
+      let n = pic.fxNames.arr[k], itemname = "";
+         
+      JSROOT.hpainter.forEachItem(item => {
+         if (item._name == n.fString) itemname = JSROOT.hpainter.itemFullName(item); 
+      });
+      
+      if (!itemname) {
+         console.log('not found object with name', n.fString);
+         return drawPictureObjects(divid, pic, k+1);
+      }
 
+      console.log('Want to display item', itemname, 'on', divid);
+      
+      let opt = k > 0 ? "same" : "";
+      
+      return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(() => drawPictureObjects(divid, pic, k+1));  
+   }
+   
+   function drawSubPictures(pad_painter, pic, nsub) {
+      let arr = pic && pic.fxSubPictures ? pic.fxSubPictures.arr : null;
+      if (!arr || nsub >= arr.length)
+         return Promise.resolve(pad_painter);
+         
+      let subpic = pic.fxSubPictures.arr[nsub];
+         
+      let subpad_painter = pad_painter.getSubPadPainter(1 + subpic.fiPosY*pic.fiNDivX + subpic.fiPosX);
+      
+      console.log('Want to display subpicture', nsub);
+      
+      let divid = pad_painter.selectDom().attr('id');
+      if (!divid) {
+         divid = "go4picture_div_" + GO4.id_counter++;
+         pad_painter.selectDom().attr('id', divid);
+         console.error('Drawing must be done on element with id, force ', divid);
+      }
+      
+      let prev_name = subpad_painter.selectCurrentPad(subpad_painter.this_pad_name);
+      
+      return drawPictureObjects(divid, subpic, 0).then(() => {
+         subpad_painter.selectCurrentPad(prev_name);
+         return drawSubPictures(pad_painter, pic, nsub+1); 
+      });  
+   }
+
+   GO4.drawGo4Picture = function(dom, pic) {
+      if (!JSROOT._) return null;
+      
+      let painter = new JSROOT.ObjectPainter(dom, pic),
+          jsrp = JSROOT.Painter, pad_painter = null;
+
+      return JSROOT.require('gpad').then(() => jsrp.ensureTCanvas(painter, false)).then(() => {
+         if (!pad_painter.divide) return null;
+         
+         pad_painter = painter.getPadPainter();
+         
+         painter.removeFromPadPrimitives();
+         
+         return pad_painter.divide(pic.fiNDivX, pic.fiNDivY);
+      }).then(() => drawSubPictures(pad_painter, pic, 0));
+   }
 
    // =======================================================================
 
    if (GO4.web_canvas) {
-      var jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
+      let jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
       jsrp.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
       jsrp.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
       jsrp.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
       jsrp.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
       jsrp.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
+      jsrp.addDrawFunc({ name: "TGo4Picture", func: GO4.drawGo4Picture });
    }
 
    return GO4;

@@ -425,6 +425,7 @@
    jsrp.addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4CondArray", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawCondArray', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4Marker", script: canvsrc, func: 'GO4.drawGo4Marker' });
+   jsrp.addDrawFunc({ name: "TGo4Picture", script: canvsrc, func: 'GO4.drawGo4Picture' });
 
    jsrp.addDrawFunc({ name: "TGo4AnalysisWebStatus", script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
 
