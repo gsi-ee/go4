@@ -339,7 +339,7 @@
    // =========================================================================
 
    if (!ObjectPainter.prototype.matchObjectType)
-      ObjectPainter.prototype.matchObjectType = ObjectPainter.prototype.MatchObjectType
+      ObjectPainter.prototype.matchObjectType = ObjectPainter.prototype.MatchObjectType;
 
    GO4.ConditionPainter = function(divid, cond) {
       if (JSROOT._) {
@@ -706,10 +706,12 @@
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
-      var condpainter = new GO4.ConditionPainter(divid, cond);
-      let realid = condpainter.get_main_id();
+      if (!option) option = "";
 
-      if (GO4.web_canvas || (option=='same')) {
+      let condpainter = new GO4.ConditionPainter(divid, cond),
+          realid = condpainter.get_main_id();
+          
+      if (GO4.web_canvas || (option.indexOf('same') >= 0) || condpainter.getMainPainter()) {
          condpainter.drawCondition();
          condpainter.drawLabel();
          if (JSROOT._) {

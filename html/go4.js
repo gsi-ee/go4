@@ -455,7 +455,7 @@
       // console.log('Want to display item', itemname, 'on', divid);
       
       let opt = isth2 ? "col" : "";
-      if (k > 0) opt += " same"; 
+      if (k > 0) opt += "same"; 
       
       return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
          if (!painter) return;
