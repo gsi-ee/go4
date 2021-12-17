@@ -20,11 +20,6 @@
 
    "use strict";
 
-   // adding support of JSROOT v6
-   let ObjectPainter = JSROOT.ObjectPainter || JSROOT.TObjectPainter;
-
-   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
-
    if (!JSROOT.BasePainter.prototype.getDomId)
       JSROOT.BasePainter.prototype.getDomId = function() {
          let elem = this.selectDom();
@@ -37,39 +32,17 @@
          return id;
       }
 
-   let FFormat, findPainter;
-
-   if (!JSROOT._) {
-      BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
-      ObjectPainter.prototype.getObject = ObjectPainter.prototype.GetObject;
-      ObjectPainter.prototype.createG = ObjectPainter.prototype.CreateG;
-      ObjectPainter.prototype.axisToSvg = ObjectPainter.prototype.AxisToSvg;
-      ObjectPainter.prototype.svgToAxis = ObjectPainter.prototype.SvgToAxis;
-      ObjectPainter.prototype.getMainPainter = ObjectPainter.prototype.main_painter;
-      JSROOT.create = JSROOT.Create;
-      FFormat = JSROOT.FFormat;
-      findPainter = function(painter, obj, name, typ) {
-         return painter.FindPainterFor(obj, name, typ);
-      }
-   } else {
-      FFormat = JSROOT.Painter.floatToString;
-      findPainter = (painter, obj, name, typ) => {
-         let pp = painter.getPadPainter();
-         return pp ? pp.findPainterFor(obj, name, typ) : null;
-      }
+   function findPainter(painter, obj, name, typ) {
+      let pp = painter.getPadPainter();
+      return pp ? pp.findPainterFor(obj, name, typ) : null;
    }
 
    GO4.MarkerPainter = function(divid, marker) {
-      if (JSROOT._) {
-         ObjectPainter.call(this, divid, marker);
-      } else {
-         ObjectPainter.call(this, marker);
-         this.SetDivId(divid); // old
-      }
+      JSROOT.ObjectPainter.call(this, divid, marker);
       this.pave = null; // drawing of stat
    }
 
-   GO4.MarkerPainter.prototype = Object.create(ObjectPainter.prototype);
+   GO4.MarkerPainter.prototype = Object.create(JSROOT.ObjectPainter.prototype);
 
    GO4.MarkerPainter.prototype.moveDrag = function(dx,dy) {
       this.grx += dx;
@@ -130,14 +103,13 @@
             hint = main.ProcessTooltip({ enabled: false, x: this.grx - fx, y: this.gry - fy });
       }
 
-
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
       if (marker.fbXDraw)
-          lbls.push("X = " + FFormat(marker.fX, "6.4g"));
+          lbls.push("X = " + JSROOT.Painter.floatToString(marker.fX, "6.4g"));
 
       if (marker.fbYDraw)
-         lbls.push("Y = " + FFormat(marker.fY, "6.4g"));
+         lbls.push("Y = " + JSROOT.Painter.floatToString(marker.fY, "6.4g"));
 
       if (hint && hint.user_info) {
          if (marker.fbXbinDraw) {
@@ -211,44 +183,24 @@
       }
    }
 
-   // should work for both jsroot v5 and v6 up to naming convention
-   if (JSROOT._) {
-      GO4.MarkerPainter.prototype.redrawObject = function(obj) {
-         if (!this.updateObject(obj)) return false;
-         this.redraw(); // no need to redraw complete pad
-         return true;
-      }
-
-      GO4.MarkerPainter.prototype.cleanup = function(arg) {
-         if (this.pave) {
-            var pp = findPainter(this, this.pave);
-            if (pp) {
-               pp.removeFromPadPrimitives();
-               pp.cleanup();
-            }
-            delete this.pave;
-         }
-
-         ObjectPainter.prototype.cleanup.call(this, arg);
-      }
-   } else {
-      GO4.MarkerPainter.prototype.RedrawObject = function(obj) {
-         if (!this.UpdateObject(obj)) return false;
-         this.redraw(); // no need to redraw complete pad
-         return true;
-      }
-
-      GO4.MarkerPainter.prototype.Cleanup = function(arg) {
-         if (this.pave) {
-            var pp = findPainter(this, this.pave);
-            if (pp) pp.DeleteThis();
-            delete this.pave;
-         }
-
-         ObjectPainter.prototype.Cleanup.call(this, arg);
-      }
+   GO4.MarkerPainter.prototype.redrawObject = function(obj) {
+      if (!this.updateObject(obj)) return false;
+      this.redraw(); // no need to redraw complete pad
+      return true;
    }
 
+   GO4.MarkerPainter.prototype.cleanup = function(arg) {
+      if (this.pave) {
+         var pp = findPainter(this, this.pave);
+         if (pp) {
+            pp.removeFromPadPrimitives();
+            pp.cleanup();
+         }
+         delete this.pave;
+      }
+
+      JSROOT.ObjectPainter.prototype.cleanup.call(this, arg);
+   }
 
    GO4.MarkerPainter.prototype.redraw = function() {
       this.drawMarker();
@@ -335,21 +287,12 @@
 
    // =========================================================================
 
-   if (!ObjectPainter.prototype.matchObjectType)
-      ObjectPainter.prototype.matchObjectType = ObjectPainter.prototype.MatchObjectType;
-
    GO4.ConditionPainter = function(divid, cond) {
-      if (JSROOT._) {
-         ObjectPainter.call(this, divid, cond);
-      } else {
-         ObjectPainter.call(this, cond);
-         this.SetDivId(divid, -1)
-      }
-
+      JSROOT.ObjectPainter.call(this, divid, cond);
       this.pave = null; // drawing of stat
    }
 
-   GO4.ConditionPainter.prototype = Object.create(ObjectPainter.prototype);
+   GO4.ConditionPainter.prototype = Object.create(JSROOT.ObjectPainter.prototype);
 
    GO4.ConditionPainter.prototype.Test = function(x,y) {
       //  JAM: need to put this here, since condition object will lose internal definition after cloning it again!
@@ -573,22 +516,22 @@
          stat = this.getMainPainter().CountStat(function(x,y) { return painter.Test(x,y); });
       }
 
-      if (cond.fbIntDraw) this.pave.AddText("Integral = " + FFormat(stat.integral, "14.7g"));
+      if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.Painter.floatToString(stat.integral, "14.7g"));
 
-      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + FFormat(stat.meanx, "6.4g"));
+      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.Painter.floatToString(stat.meanx, "6.4g"));
 
-      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + FFormat(stat.rmsx, "6.4g"));
+      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.Painter.floatToString(stat.rmsx, "6.4g"));
 
       if (cond.fiDim==2) {
-         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + FFormat(stat.meany, "6.4g"));
-         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + FFormat(stat.rmsy, "6.4g"));
+         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.Painter.floatToString(stat.meany, "6.4g"));
+         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.Painter.floatToString(stat.rmsy, "6.4g"));
       }
 
-      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + FFormat(stat.xmax, "6.4g"));
+      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.Painter.floatToString(stat.xmax, "6.4g"));
 
       if (cond.fiDim==2)
-         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + FFormat(stat.ymax, "6.4g"));
-      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + FFormat(stat.wmax, "14.7g"));
+         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.Painter.floatToString(stat.ymax, "6.4g"));
+      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.Painter.floatToString(stat.wmax, "14.7g"));
 
       if (!pave_painter)
          JSROOT.draw(this.divid, this.pave, "");
@@ -654,42 +597,23 @@
       return hint;
    }
 
-   if (JSROOT._) {
-      GO4.ConditionPainter.prototype.redrawObject = function(obj) {
-         if (!this.updateObject(obj)) return false;
-         this.redraw(); // no need to redraw complete pad
-         return true;
-      }
-      GO4.ConditionPainter.prototype.cleanup = function(arg) {
-         if (this.pave) {
-            var pp = findPainter(this, this.pave);
-            if (pp) {
-               pp.removeFromPadPrimitives();
-               pp.cleanup();
-            }
-            delete this.pave;
+   GO4.ConditionPainter.prototype.redrawObject = function(obj) {
+      if (!this.updateObject(obj)) return false;
+      this.redraw(); // no need to redraw complete pad
+      return true;
+   }
+
+   GO4.ConditionPainter.prototype.cleanup = function(arg) {
+      if (this.pave) {
+         var pp = findPainter(this, this.pave);
+         if (pp) {
+            pp.removeFromPadPrimitives();
+            pp.cleanup();
          }
-
-         ObjectPainter.prototype.cleanup.call(this, arg);
+         delete this.pave;
       }
 
-   } else {
-      // support older jsroot v5 interface
-      GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
-         if (!this.UpdateObject(obj)) return false;
-         this.redraw(); // no need to redraw complete pad
-         return true;
-      }
-      GO4.ConditionPainter.prototype.Cleanup = function(arg) {
-         if (this.pave) {
-            var pp = findPainter(this, this.pave);
-            if (pp) pp.DeleteThis();
-            delete this.pave;
-         }
-
-         ObjectPainter.prototype.Cleanup.call(this, arg);
-      }
-      GO4.ConditionPainter.prototype.ProcessTooltip = GO4.ConditionPainter.prototype.processTooltipEvent;
+      JSROOT.ObjectPainter.prototype.cleanup.call(this, arg);
    }
 
 
@@ -697,9 +621,6 @@
       this.drawCondition();
       this.drawLabel();
    }
-
-   // only to support old jsroot v5 interface
-   if (!JSROOT._) GO4.ConditionPainter.prototype.Redraw = GO4.ConditionPainter.prototype.redraw;
 
    GO4.drawGo4Cond = function(divid, cond, option) {
 
