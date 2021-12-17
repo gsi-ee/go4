@@ -2,33 +2,35 @@
 
 (function() {
 
+   "use strict";
+
    if (typeof JSROOT != "object") {
-      var e1 = new Error("go4.js requires JSROOT to be already loaded");
+      let e1 = new Error("go4.js requires JSROOT to be already loaded");
       e1.source = "go4.js";
       throw e1;
    }
 
   if (typeof GO4 == "object") {
-      var e1 = new Error("GO4 already defined when loading go4.js");
+      let e1 = new Error("GO4 already defined when loading go4.js");
       e1.source = "go4.js";
       throw e1;
    }
 
-   GO4 = {};
+   globalThis.GO4 = {};
 
    GO4.version = "6.1.4";
 
    // use location to load all other scripts when required
    GO4.source_dir = function() {
-      var scripts = document.getElementsByTagName('script');
+      let scripts = document.getElementsByTagName('script');
 
-      for (var n in scripts) {
+      for (let n in scripts) {
          if (scripts[n]['type'] != 'text/javascript') continue;
 
-         var src = scripts[n]['src'];
+         let src = scripts[n]['src'];
          if ((src == null) || (src.length == 0)) continue;
 
-         var pos = src.indexOf("html/go4.js");
+         let pos = src.indexOf("html/go4.js");
          if (pos<0) continue;
          if ((src.indexOf("JSRootCore") >= 0) || (src.indexOf("JSRoot.core") >= 0)) continue;
          console.log('Set GO4.source_dir to ' + src.substr(0, pos));
@@ -43,9 +45,9 @@
       GO4.id_counter = 1;
       // method removed from JSROOT v6, is not required there, therefore reintroduce it here
       BasePainter.prototype.get_main_id = function() {
-         var elem = this.selectDom();
+         let elem = this.selectDom();
          if (elem.empty()) return "";
-         var id = elem.attr("id");
+         let id = elem.attr("id");
          if (!id) {
             id = "go4_element_" + GO4.id_counter++;
             elem.attr("id", id);
@@ -74,12 +76,12 @@
       }
 
    GO4.ExecuteMethod = function(item, method, options, callback) {
-      var prefix = "";
+      let prefix = "";
       if (item.getItemName())
          prefix = item.getItemName() + "/"; // suppress / if item name is empty
       prefix += "exe.json\?method=";
 
-      var fullcom = prefix + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
+      let fullcom = prefix + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
 
       GO4.httpRequest(fullcom, 'text')
          .then(() => callback(true))
@@ -92,12 +94,12 @@
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {
 
       function CreateHTML() {
-         var elem = d3.select('#'+divid);
+         let elem = d3.select('#'+divid);
 
          if (elem.size() == 0) return null;
          if (elem.select(".event_rate").size() > 0) return elem;
 
-         var html = "<div style='padding-top:2px'>";
+         let html = "<div style='padding-top:2px'>";
          html += "<img class='go4_logo' style='vertical-align:middle;margin-left:5px;margin-right:5px;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
          html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>file.lmd</label> ";
          html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'; padding-left:3px; padding-right:3px;>---</label> Ev/s ";
@@ -114,7 +116,7 @@
              .html(html);
 
          // use height of child element
-         var brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null,
+         let brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null,
              sz = $('#'+divid + " div").height() + 4; // use jquery to get height
 
          if (brlayout)
@@ -125,7 +127,7 @@
          return elem;
       }
 
-      var xreq = false, was_running = null;
+      let xreq = false, was_running = null;
 
       function UpdateRatemeter() {
          if (xreq) return;
@@ -161,7 +163,7 @@
 
 
    GO4.MakeMsgListRequest = function(hitem, item) {
-      var arg = "&max=2000";
+      let arg = "&max=2000";
       if ('last-id' in item) arg+= "&id="+item['last-id'];
       return 'exe.json.gz?method=Select' + arg;
    }
@@ -179,7 +181,7 @@
       obj._typename = "TGo4MsgList";
 
       if (obj.arr.length>0) {
-         var duplicate = (('last-id' in item) && (item['last-id'] == obj.arr[0].fString));
+         let duplicate = (('last-id' in item) && (item['last-id'] == obj.arr[0].fString));
 
          item['last-id'] = obj.arr[0].fString;
 
@@ -215,30 +217,30 @@
    GO4.MsgListPainter.prototype.Draw = function() {
       if (!this.lst) return;
 
-      var frame = JSROOT._ ? this.selectDom() : this.select_main();
+      let frame = JSROOT._ ? this.selectDom() : this.select_main();
 
-      var main = frame.select("div");
+      let main = frame.select("div");
       if (main.empty())
          main = frame.append("div")
                      .style('max-width','100%')
                      .style('max-height','100%')
                      .style('overflow','auto');
 
-      var old = main.selectAll("pre");
-      var newsize = old.size() + this.lst.arr.length - 1;
+      let old = main.selectAll("pre");
+      let newsize = old.size() + this.lst.arr.length - 1;
 
       // in the browser keep maximum 2000 entries
       if (newsize > 2000)
          old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
 
-      for (var i=this.lst.arr.length-1;i>0;i--)
+      for (let i=this.lst.arr.length-1;i>0;i--)
          main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
 
    }
 
    GO4.DrawMsgList = function(divid, lst, opt) {
 
-      var painter = new GO4.MsgListPainter(divid, lst);
+      let painter = new GO4.MsgListPainter(divid, lst);
 
       painter.Draw();
 
@@ -252,7 +254,7 @@
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      var url = "", mdi, frame;
+      let url = "", mdi, frame;
       // FIXME: only for short backward compatibility with jsroot5
       if (JSROOT._) {
          url = hpainter.getOnlineItemUrl(itemname);
@@ -266,12 +268,12 @@
 
       if (!url || !frame) return null;
 
-      var divid = d3.select(frame).attr('id');
+      let divid = d3.select(frame).attr('id');
 
-      var h = $("#"+divid).height(), w = $("#"+divid).width();
+      let h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
-      var player = new BasePainter(divid);
+      let player = new BasePainter(divid);
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
@@ -314,14 +316,14 @@
 
 
       player.ProcessTimer = function() {
-         var subid = "anaterm_output_container";
+         let subid = "anaterm_output_container";
          if ($("#" + subid).length == 0) {
             // detect if drawing disappear
             return JSROOT._ ? this.cleanup() : this.Cleanup();
          }
          if (!this.draw_ready) return;
 
-         var msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
+         let msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
 
          this.draw_ready = false;
 
@@ -334,8 +336,8 @@
       }
 
       player.ClickCommand = function(kind) {
-         var pthis = this;
-         var command = this.itemname.replace("Terminal", "CmdExecute");
+         let pthis = this;
+         let command = this.itemname.replace("Terminal", "CmdExecute");
          if (JSROOT._)
             this.hpainter.executeCommand(command, null, kind). then(() => { pthis.needscroll = true; });
          else
@@ -348,7 +350,7 @@
 
       player.ClickScroll = function() {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
-         var disp = $("#anaterm_output_container").children(":first");
+         let disp = $("#anaterm_output_container").children(":first");
          disp.scrollTop(disp[0].scrollHeight - disp.height());
       }
 
@@ -387,12 +389,12 @@
              .children(":first") // select first button element, used for images
              .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
-          var pthis = this;
+          let pthis = this;
 
           $("#go4_anaterm_cmd_form").submit(
               function(event) {
-                 var command = pthis.itemname.replace("Terminal", "CmdExecute");
-                 var cmdpar = document.getElementById("go4_anaterm_command").value;
+                 let command = pthis.itemname.replace("Terminal", "CmdExecute");
+                 let cmdpar = document.getElementById("go4_anaterm_command").value;
                  console.log("submit command - " + cmdpar);
                  if (JSROOT._)
                     pthis.hpainter.executeCommand(command,  null, cmdpar).then(() => { pthis.needscroll = true; });
@@ -413,7 +415,7 @@
 
       return player;
    }
-   
+
    const op_LineColor   = 5,
          op_LineStyle   = 6,
          op_LineWidth   = 7,
@@ -433,81 +435,81 @@
    function drawPictureObjects(divid, pic, k) {
       if (!divid || !pic.fxNames)
          return Promise.resolve(false);
-      
+
       let arr = pic.fxNames ? pic.fxNames.arr : null;
       if (!arr || (k >= arr.length))
          return Promise.resolve(false);
-      
+
       let n = pic.fxNames.arr[k], itemname = "", isth2 = false;
-         
+
       JSROOT.hpainter.forEachItem(item => {
-         if (item._name == n.fString) { 
+         if (item._name == n.fString) {
             itemname = JSROOT.hpainter.itemFullName(item);
             if (item._kind && (item._kind.indexOf("ROOT.TH2") == 0)) isth2 = true;
-         } 
+         }
       });
-      
+
       if (!itemname) {
          console.log('not found object with name', n.fString);
          return drawPictureObjects(divid, pic, k+1);
       }
 
       // console.log('Want to display item', itemname, 'on', divid);
-      
+
       let opt = isth2 ? "col" : "";
-      if (k > 0) opt += "same"; 
-      
+      if (k > 0) opt += "same";
+
       return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
          if (!painter) return;
          let need_redraw = false;
-         
+
          if (painter.lineatt) {
-            let lcol = getOptValue(pic, k, op_LineColor),  
+            let lcol = getOptValue(pic, k, op_LineColor),
                 lwidth = getOptValue(pic, k, op_LineWidth),
                 lstyle = getOptValue(pic, k, op_LineStyle);
             if ((lcol !== null) && (lwidth !== null) && (lstyle !== null)) {
                painter.lineatt.change(painter.getColor(lcol), lwidth, lstyle);
                need_redraw = true;
-            }    
+            }
          }
-            
+
          if (painter.fillatt) {
             let fcol = getOptValue(pic, k, op_FillColor),
                 fstyle = getOptValue(pic, k, op_FillStyle);
-            
+
             if ((fcol !== null) && (fstyle !== null)) {
                painter.fillatt.change(fcol, fstyle, painter.getCanvSvg());
                need_redraw = true;
             }
          }
-               
+
          if (need_redraw) return painter.redraw();
-          
-      }).then(() => drawPictureObjects(divid, pic, k+1));  
+
+      }).then(() => drawPictureObjects(divid, pic, k+1));
    }
-   
+
    function drawSubPictures(pad_painter, pic, nsub) {
       let arr = pic && pic.fxSubPictures ? pic.fxSubPictures.arr : null;
       if (!arr || nsub >= arr.length)
          return Promise.resolve(pad_painter);
-         
+
       let subpic = pic.fxSubPictures.arr[nsub];
-         
+
       let subpad_painter = pad_painter.getSubPadPainter(1 + subpic.fiPosY*pic.fiNDivX + subpic.fiPosX);
-      
-      return drawPicture(subpad_painter, subpic).then(() => drawSubPictures(pad_painter, pic, nsub+1));  
+
+      return drawPicture(subpad_painter, subpic).then(() => drawSubPictures(pad_painter, pic, nsub+1));
    }
-   
+
    function drawPicture(pad_painter, pic) {
-      if (!pad_painter) 
+      if (!pad_painter)
          return Promise.resolve(false);
-         
+
       let need_divide = pic.fiNDivX * pic.fiNDivY > 1;
-      
+
       if (need_divide && !pad_painter.divide) {
          console.log('JSROOT version without TPadPainter.divide');
-         return Promise.resolve(false); 
-      }   
+         return Promise.resolve(false);
+      }
 
       let prev_name = pad_painter.selectCurrentPad(pad_painter.this_pad_name);
 
@@ -523,31 +525,31 @@
          pad_painter.selectDom().attr('id', divid);
          console.error('Drawing must be done on element with id, force ', divid);
       }
-      
+
       return drawPictureObjects(divid, pic, 0).then(() => {
          pad_painter.selectCurrentPad(prev_name);
-         return pad_painter; 
-      });  
+         return pad_painter;
+      });
    }
 
    GO4.drawGo4Picture = function(dom, pic) {
       if (!JSROOT._ || !JSROOT.hpainter) return null;
-      
+
       let painter = new JSROOT.ObjectPainter(dom, pic);
 
-      return JSROOT.require('gpad').then(() => JSROOT.Painter.ensureTCanvas(painter, false)).then(() => {  
+      return JSROOT.require('gpad').then(() => JSROOT.Painter.ensureTCanvas(painter, false)).then(() => {
          let pad_painter = painter.getPadPainter();
-         
+
          painter.removeFromPadPrimitives();
-         
+
          return drawPicture(pad_painter, pic);
       }).then(() => painter); // return dummy painter
    }
 
    // ==============================================================================
 
-   var canvsrc = GO4.source_dir + 'html/go4canvas.js;';
-   var jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
+   let canvsrc = GO4.source_dir + 'html/go4canvas.js;';
+   let jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
 
    jsrp.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
