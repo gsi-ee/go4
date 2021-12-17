@@ -28,7 +28,7 @@
           GO4EV_BACK: 8,            // backstore in memory (pseudo-ringbuffer?)
           GO4EV_USER: 9,             // user defined source class
           GO4EV_MBS_RANDOM: 10            // random generated mbs event
-      }
+      };
 
    GO4.AnalysisStatusEditor = function(divid, stat) {
       BasePainter.call(this, divid);
@@ -49,7 +49,7 @@
       }
       this.changes[step].push(key);
       console.log("Mark changed :%s at step %d", key, step);
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
 
       $(id+" .buttonAnaChangeLabel").show();// show warning sign
    }
@@ -65,7 +65,7 @@
             //console.log("Clear changes removed :%s at step %d",removed, step);
          }
       }
-      var id = this.get_main_id();
+      var id = this.getDomId();
       if (id) $("#" + id + " .buttonAnaChangeLabel").hide(); // hide warning sign
    }
 
@@ -76,7 +76,7 @@
 
    //scan changed value list and return optionstring to be send to server
    GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var editor=this;
       var index;
       var numsteps=this.changes.length;
@@ -205,7 +205,7 @@
 
    GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
    {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var editor=this;
       var stat=this.stat;
       var names = "";
@@ -261,7 +261,7 @@
 
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(pthis, theElement, theIndex)
    {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var editor=this;
       var showmore=editor.showmore[theIndex];
       //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
@@ -497,7 +497,7 @@
 
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var editor = this;
 
       $(id +" .steptabs").tabs({
@@ -1150,7 +1150,7 @@
 
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       var status = new GO4.AnalysisStatusEditor(divid, stat);
-      var realid = status.get_main_id();
+      var realid = status.getDomId();
       var jqmain = $("#"+realid);
       var h = jqmain.height(), w = jqmain.width();
       if ((h<10) && (w>10)) jqmain.height(w*0.7);

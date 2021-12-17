@@ -7,12 +7,12 @@
    // it is slightly different to go4.js which is dedicated with usage of THttpServer
 
    if (typeof JSROOT != "object") {
-      var e1 = new Error("go4canvas.js requires JSROOT to be already loaded");
+      let e1 = new Error("go4canvas.js requires JSROOT to be already loaded");
       e1.source = "go4canvas.js";
       throw e1;
    }
 
-   var myGO4 = { version: "6.1.4", web_canvas: true };
+   let myGO4 = { version: "6.1.4", web_canvas: true, id_counter: 1 };
 
    factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
 
@@ -25,20 +25,17 @@
 
    let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
-   if (!BasePainter.prototype.get_main_id) {
-      GO4.id_counter = 1;
-      // method removed from JSROOT v6, is not required there, therefore reintroduce it here
-      BasePainter.prototype.get_main_id = function() {
-         var elem = this.selectDom();
+   if (!JSROOT.BasePainter.prototype.getDomId)
+      JSROOT.BasePainter.prototype.getDomId = function() {
+         let elem = this.selectDom();
          if (elem.empty()) return "";
-         var id = elem.attr("id");
+         let id = elem.attr("id");
          if (!id) {
             id = "go4_element_" + GO4.id_counter++;
             elem.attr("id", id);
          }
          return id;
       }
-   }
 
    let FFormat, findPainter;
 
@@ -709,8 +706,8 @@
       if (!option) option = "";
 
       let condpainter = new GO4.ConditionPainter(divid, cond),
-          realid = condpainter.get_main_id();
-          
+          realid = condpainter.getDomId();
+
       if (GO4.web_canvas || (option.indexOf('same') >= 0) || condpainter.getMainPainter()) {
          condpainter.drawCondition();
          condpainter.drawLabel();

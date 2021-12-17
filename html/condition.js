@@ -44,7 +44,7 @@
       }
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
 
       $(id+" .buttonChangeLabel").show();// show warning sign
    }
@@ -55,13 +55,13 @@
          var removed=this.changes.pop();
          console.log("Clear changes removed :%s", removed);
       }
-      var id = this.get_main_id();
+      var id = this.getDomId();
       if (id) $("#" + id + " .buttonChangeLabel").hide(); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
    GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var index;
       var len=this.changes.length;
       for (index = 0; index < len ; index++) {
@@ -217,7 +217,7 @@
       // local condition copy is unchanged until we can display it somewhere.
 
       if(!this.isPolyCond()) return;
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var oldpoints=this.cond.fxCut.fNpoints;
       var npoints=$(id+" .cut_points")[0].value;
       console.log("ChangePolygonDimension with numpoints="+npoints+", oldpoints="+oldpoints);
@@ -293,7 +293,7 @@
 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       var editor = this;
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var cond = this.cond;
 
       $(id+" .cond_name").text(cond.fName);

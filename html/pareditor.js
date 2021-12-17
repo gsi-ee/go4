@@ -41,7 +41,7 @@
       }
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       $(id + " .buttonChangeLabel").show();// show warning sign
    }
 
@@ -53,13 +53,13 @@
          var removed = this.changes.pop();
          console.log("Clear changes removed :%s", removed);
       }
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       $(id + " .buttonChangeLabel").hide(); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
    GO4.ParameterEditor.prototype.EvaluateChanges = function(optionstring) {
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var len = this.changes.length;
       for (var index = 0; index < len; index++) {
          //var cursor=changes.pop();
@@ -114,7 +114,7 @@
       editor.xreq = true;
 
       GO4.httpRequest(pre + "h.json?more", 'object').then(res => {
-         var id = "#" + editor.get_main_id();
+         var id = "#" + editor.getDomId();
          $(id + " .par_values tbody").find("tr").each(function(i, tr) {
             var name = $(tr).find("td:first").text();
             var title = null;
@@ -155,7 +155,7 @@
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
       var editor = this;
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var par = this.par;
       $(id + " .par_values tbody").html("");
       var found_title = false;
@@ -285,7 +285,7 @@
    GO4.ParameterEditor.prototype.fillEditor = function() {
       var editor = this;
       var par = this.par;
-      var id = "#" + this.get_main_id();
+      var id = "#" + this.getDomId();
       var width = $(id).width();
       var height = $(id).height();
 

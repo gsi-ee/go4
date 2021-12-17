@@ -16,9 +16,7 @@
       throw e1;
    }
 
-   globalThis.GO4 = {};
-
-   GO4.version = "6.1.4";
+   globalThis.GO4 = { version: "6.1.4", id_counter: 1 };
 
    // use location to load all other scripts when required
    GO4.source_dir = function() {
@@ -39,25 +37,16 @@
       return "";
    }();
 
-   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
-
-   if (!BasePainter.prototype.get_main_id) {
-      GO4.id_counter = 1;
-      // method removed from JSROOT v6, is not required there, therefore reintroduce it here
-      BasePainter.prototype.get_main_id = function() {
-         let elem = this.selectDom();
-         if (elem.empty()) return "";
-         let id = elem.attr("id");
-         if (!id) {
-            id = "go4_element_" + GO4.id_counter++;
-            elem.attr("id", id);
-         }
-         return id;
+   JSROOT.BasePainter.prototype.getDomId = function() {
+      let elem = this.selectDom();
+      if (elem.empty()) return "";
+      let id = elem.attr("id");
+      if (!id) {
+         id = "go4_element_" + GO4.id_counter++;
+         elem.attr("id", id);
       }
+      return id;
    }
-
-   if (!BasePainter.prototype.getItemName)
-      BasePainter.prototype.getItemName = BasePainter.prototype.GetItemName;
 
    if (typeof JSROOT.httpRequest == 'function')
       GO4.httpRequest = JSROOT.httpRequest;
@@ -196,13 +185,13 @@
 
 
    GO4.MsgListPainter = function(divid, lst) {
-      BasePainter.call(this, divid);
+      JSROOT.BasePainter.call(this, divid);
       if (this.SetDivId) this.SetDivId(divid); // old
       this.lst = lst;
       return this;
    }
 
-   GO4.MsgListPainter.prototype = Object.create( BasePainter.prototype );
+   GO4.MsgListPainter.prototype = Object.create( JSROOT.BasePainter.prototype );
 
    GO4.MsgListPainter.prototype.redrawObject = function(obj) {
       // if (!obj._typename != 'TList') return false;
@@ -273,7 +262,7 @@
       let h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
-      let player = new BasePainter(divid);
+      let player = new JSROOT.BasePainter(divid);
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
@@ -289,7 +278,6 @@
          this.draw_ready = true;
       }
 
-   if (JSROOT._)
       player.cleanup = function() {
          if (this.log_painter) {
             this.log_painter.cleanup();
@@ -299,19 +287,7 @@
             clearInterval(this.interval);
             delete this.interval;
          }
-         BasePainter.prototype.cleanup.call(this);
-      }
-   else
-      player.Cleanup = function() {
-         if (this.log_painter) {
-            this.log_painter.Cleanup();
-            delete this.log_painter;
-         }
-         if (this.interval) {
-            clearInterval(this.interval);
-            delete this.interval;
-         }
-         BasePainter.prototype.Cleanup.call(this);
+         JSROOT.BasePainter.prototype.cleanup.call(this);
       }
 
 
