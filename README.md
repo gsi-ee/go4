@@ -26,7 +26,7 @@ in Go4License.txt file which is part of the distribution.
 # GO4 PACKAGE
 
 This package was tested on
-* openSUSE Leap 42.2, openSUSE Tumblweed 6.2021
+* openSUSE Leap 42.2, openSUSE Tumblweed 12.2021
 * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
 * macOS 10.14.6
 * compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.1
@@ -46,7 +46,7 @@ This package was tested on
 Install the ROOT framework Version >=6.22/08 (older version up to 5.34/36
 can also be used, but not recommended).
 See instruction how download and compile ROOT on http://root.cern.ch.
-Recomended way to build ROOT - compile it and use from compilation path:
+Recommended way to build ROOT - compile it and use from compilation path:
 
      [shell] tar xzf root_v6.24.00.source.tar.gz
      [shell] mkdir build_624
@@ -126,18 +126,17 @@ One also can specify several options for cmake:
 
 ## RUNNING GO4 GUI
 
-After compilation completed, go4 can be started just like:
-
-    shell> bin/go4
-
 During compilation "go4login" script is generated, where
 all necessary environment variables for ROOT, Qt and Go4 are set.
 It can be copied in any suitable location (accessible via PATH variable)
 and called:
 
-    shell> source ./go4login
+    shell> source <build_path>/go4login
 
 After that go4 gui and user analysis can be started from any directory.
+
+    shell> go4
+
 
 Please read the Go4 Manual $GO4SYS/docs/Go4Introduction.pdf for further
 information on adopting your analysis and how to use the GUI.
@@ -161,7 +160,7 @@ It will copy files to configured installation path
 
 ## GO4 ON WINDOWS
 
-### Instal using binary distribution
+### Install using binary distribution
 
 To use ROOT6 and Go4 on Windows, it is necessary to install Microsoft Visual Studio.
 There is free "Community" version which can be found on

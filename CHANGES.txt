@@ -63,7 +63,7 @@ Changes in Go4 v6.0.0 (October 2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options
      cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
 2. Let configure sorting order for created folders (default off)
-3. First implemention of Go4 eventstore into hdf5 file format. Needs to specifiy HDF5INSTALL directory when
+3. First implementation of Go4 eventstore into hdf5 file format. Needs to specifiy HDF5INSTALL directory when
    compiling go4 installation. Supports simple datatypes, std::vectors, and arrays of these.
    Also supports Go4 composite events with unlimited sublevels.
 4. New Condition class TGo4ListCondition. Handles tests of a variable against a list of "good" values: if any of these
@@ -73,7 +73,7 @@ Changes in Go4 v6.0.0 (October 2019)
    Added corresponding creation methods MakeRollingGraph to analysis API. It also provides now methods MakeGraph()
    for given point arrays, and for a given TF1 function.
    Adopted from existing code of the TRemi (reaction microscope) analysis (thanks to Sven Augustin)
-6. First implementation of Go4 eventsource from hdf5 file format. Needs to specifiy HDF5INSTALL directory when
+6. First implementation of Go4 eventsource from hdf5 file format. Needs to specify HDF5INSTALL directory when
    compiling go4 installation. Such hdf5 files can be read into the input event which have been produced by the corresponding
    Go4 HDF5 store only. Supports simple datatypes, std::vectors, and arrays of these.
    Also supports Go4 composite events with unlimited sublevels.
@@ -84,7 +84,7 @@ Changes in Go4 v6.0.0 (October 2019)
 
 
 Changes in Go4 v5.3.2 (October 2018)
-1. Add Output of current filename to GUI log indow in case of MBS listmode list event source.
+1. Add Output of current filename to GUI log window in case of MBS listmode list event source.
 2. GUI local command execution: Provide catching std exceptions from ROOT in case of errors.
    Added possibility to float histogram results in local macro divhistos.C
 3. Bugfixes in Thread class and interpreter mutex locking (SetProcessLineLock defaults) for ROOT > v6.12
@@ -130,7 +130,7 @@ Changes in Go4 v5.2.0 (January 2017)
    (text labels showed some problems with redefined keyboard shortcuts at Qt5!).
    Added Configuration window for commands, tooltips, and timer execution state. Checkboxes in toolbar
    were replaced by red or green button icon colors to indicate which command is frequently executed by timer.
-10. Qt4 GUI: Added preferences flag to supress background colors of pads and frames when exporting the canvas with
+10. Qt4 GUI: Added preferences flag to suppress background colors of pads and frames when exporting the canvas with
     the Viewpanel "File/SaveAs.." Menu to various image and print formats. This mode can be set by main window menu
     "Settings/PanelDefaults/"White canvas for saved images".
 
@@ -167,7 +167,7 @@ Changes in Go4 v5.1.0 (March 2016)
 2. Allow to use graphics in analysis. With "-gr" or "-graphics" option one enable ROOT graphics.
    User can create and update canvas or any other TG... object.
 3. Support Python Scripting in analysis, either by GUI Analysis terminal command line or in compiled code:
-   A leading '$' in command line will execute python script of given name, occasonally TGo4Analysis object
+   A leading '$' in command line will execute python script of given name, occasionally TGo4Analysis object
    is bound as go4 symbol. New Methods  ExecuteLine and ExecutePython in TGo4Analysis and TGo4EventProcessor to
    invoke regular interpreter commands and python scripts,resp, from compiled code. File search dialog of
    Analysis terminal in GUI will provide also file filters for *.py macros.
@@ -184,7 +184,7 @@ Changes in Go4 v5.1.0 (March 2016)
    can be saved and recovered with hotstart script, or predefined in analysis code by method TGo4Picture::SetXYRatioOne(bool).
    Moved corresponding entry in viewpanel from Edit to Options menu, can be toggled now.
 10. Bug fix in monitoring of polygon conditions: moving condition object with mouse during monitoring refresh
-    could cause severe memory corruptions and a crashing GUI, due to temporary static arrays in ROOT painters not
+    could cause severe memory corruption and a crashing GUI, due to temporary static arrays in ROOT painters not
     treated correctly when redrawing the objects.
 
 
@@ -279,12 +279,12 @@ Changes in Go4 v4.6.0 (November 2013)
    all go4 objects to browser!
 4. Also with DABC classes provide possibility to optionally connect with
    DABC master node, which can export go4 data via http server. By this
-   data from many go4 analysis can be agregated in the same server!
+   data from many go4 analysis can be aggregated in the same server!
 5. To get different DABC functionality to go4, one need to compile go4
    with "make withdabc=1" flag. One should use newest dabc version from
    repository.
 6. Provide go4 analysis view in web browser like in go4gui.
-7. In analysis Launch Panel one can specify arguemtns to start http server
+7. In analysis Launch Panel one can specify arguments to start http server
    or to connect with master DABC application.
 8. In Go4ExampleAdvanced show possibility to recreate histograms with different
    ranges. It could be used when only when in running analysis one could decide
@@ -293,10 +293,10 @@ Changes in Go4 v4.6.0 (November 2013)
    was already destroyed - older TGo4FitSlot::SetObject method tried to cast
    old object. Use it when set histograms or graphs to slot objects.
 10.Provide configurable timeout in hotstart script for time when alalysis configuration
-   is submited. It can be longer as default 20 sec, which now can be changed.
+   is submitted. It can be longer as default 20 sec, which now can be changed.
 11.Add possibility to refresh names list after analysis configuration. Can be used
-   if shortly after analysis start new histograms are created, whcih should be
-   shown in the gui. For that one need to add following lines to the hitstart:
+   if shortly after analysis start new histograms are created, which should be
+   shown in the gui. For that one need to add following lines to the hotstart:
        go4->Wait(10);
        go4->RefreshNamesList();
    First wait defines how long one need to guarantee, that analysis starts.
@@ -332,7 +332,7 @@ Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99
 2. Implement auto-zoom functionality for 1/2/3-dim histogram (qt3/qt4).
    Automatically adjust range selection to non-zero content of the histogram.
-   Can be actiavted also with Ctrl * keys combinations.
+   Can be activated also with Ctrl * keys combinations.
    Thanks to Mixael Traxler for nice idea.
 
 Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
@@ -373,8 +373,8 @@ Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
     will print lmd buffer and/or file headers together with the event headers.
     Additionally, most recent time string from buffer header is printed together with
     event header
-10. Disable SIGPIPE signal for go4 sockets. Signal was generated when oposite
-    communication side stopped or breaked irregulary without sockets closing.
+10. Disable SIGPIPE signal for go4 sockets. Signal was generated when opposite
+    communication side stopped or break irregularly without sockets closing.
     In this case signal was generated and was not treated properly by the framework.
 11. Workaround for ROOT feature in go4analysis - at some point gSystem pointer
     can be set by 0 and can lead to analysis crash. Now this checked and go4
@@ -851,7 +851,6 @@ framework DABC. Some minor bugfixes.
 5. Minor bugfix in TGo4MBSViewer - status record must be cleared in constructor.
 
 
-
 Changes in Go4 v3.03.01 (Nov07)
 
 1. Correct work of marker class in case of superimposed histograms.
@@ -936,7 +935,8 @@ Changes in Go4 v3.02.6 (Feb07)
    is accumulated. Modification in Go4 code were done to
    avoid Sumw2 arrays when it not necessary.
 
-7. Improvment in speed of view panel redraw (up to factor of 2).
+7. Improvement in speed of view panel redraw (up to factor of 2).
+
 
 Changes in Go4 v3.02.5 (Dec06)
 
@@ -949,6 +949,7 @@ Corrected mismatch between first event index and real event number
 
 3. New example macro scalex.C to scale x-axis of histogram with
 linear calibration function
+
 
 Changes in Go4 v3.02.4 (Oct06)
 
@@ -974,7 +975,7 @@ object (text labels, markers) to the picture
 
 7. TGo4MbsFile: now can also read listmode data of old event
 formats type 4,1 and 4,2.
-Event will be converted implicitely into format 10,1 for further processing:
+Event will be converted implicitly into format 10,1 for further processing:
 User unpack processor gets TGo4MbsEvent with one TGo4MbsSubevent that contains
 all event data.
 
@@ -994,7 +995,7 @@ Changes in Go4 v3.02.2 (Sep06)
 1. GUI command interface TGo4AbstractInterface. Added methods:
  - RedrawPanel() - updates viewpanel view
  - RedrawItem() - updates all views of specified items
- - FindViewPanel() - searchs for viewpanel of specified name
+ - FindViewPanel() - search for viewpanel of specified name
  - GetActiveViewPanel() - returns currently active viewpanel
 
 2. Adjusted Go4ThreadManager package due to changes in
@@ -1066,8 +1067,6 @@ in GUI object manager
 versions> 5.02-00
 
 
-
-
 Changes in Go4 v3.01.0 (May06)
 
 1. New script command line widget for GUI:
@@ -1076,7 +1075,7 @@ Moreover, Go4 hotstart scripts may be invoked here at any time.
 The widget offers a file dialog to search for *.C and *.hotstart files.
 It also has a selector dialog of preloaded commodity functions
 for histogram manipulation (rebin, addition, projection, etc.). These function
-template calls may be completed with exisiting histogram names
+template calls may be completed with existing histogram names
 by dragging histogram items from the browser and dropping them on
 the empty command argument.
 The history of the command line may be saved to the current Go4
@@ -1094,7 +1093,7 @@ Example scripts using this interface are at $Go4SYS/macros
 (definitions of the preloaded command line histogram functions)
 
 3. New general marker label settings dialog. In main window menu
-"Settings/Panel Defaults/Markel labels...", a checkbox dialog offers
+"Settings/Panel Defaults/Marker labels...", a checkbox dialog offers
 to switch all label properties of the region and point markers
 (visibility and information displayed in the label). These settings
 have effect on all new markers of the viewpanel marker editor. They are
@@ -1182,7 +1181,7 @@ fetched, and all objects.
 3. New viewpanel.  Improved marker editor with lightweight condition
 editor. Additional options to display date and time of refresh, and
 full object path. Can display same object with different draw styles
-and ranges simultaneuously.  May store current setup as Go4 picture.
+and ranges simultaneously.  May store current setup as Go4 picture.
 
 
 4. New condition editor: More compact layout, shares functionality
@@ -1490,7 +1489,7 @@ New features in Go4 v2.7
 2. MbsEvent classes improvements: Method to check TGo4MbsSuvevent if
    it was filled in the previous mbsevent build. MbsEvent iterator
    NextSubEvent() by default delivers newly filled subevents only,
-   suppressing exisiting subevents in list of non used ids.
+   suppressing existing subevents in list of non used ids.
    Subevent data field re-uses the memory allocated by libgsievent
    instead of copying it to own buffers.
    New method SetPrintEvent to set verbose mode for the next n events.
@@ -1626,7 +1625,7 @@ New features in Go4 v2.6:
 18.Bugfix: avoid log-file crash when Go4 is started in directory without
    write access.
 
-19.Some adjustements to work with ROOT versions > 4.00 in Go4Fit and
+19.Some adjustments to work with ROOT versions > 4.00 in Go4Fit and
    qtroot packages
 
 New features in Go4 v2.5.5 (intermediate installation):
