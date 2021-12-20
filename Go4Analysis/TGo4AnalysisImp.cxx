@@ -18,6 +18,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <iterator>
 
 #include "TSystem.h"
 #include "TInterpreter.h"
@@ -2381,23 +2384,113 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    // exclude arguments which could be specified with macro name
    TString file_name(macro_name);
    Ssiz_t pos = file_name.First('(');
-   if (pos>0) file_name.Resize(pos);
+   if (pos > 0) file_name.Resize(pos);
+   bool has_plus = false;
    pos = file_name.First('+');
-   if (pos>0) file_name.Resize(pos);
-   while ((file_name.Length()>0) && (file_name[file_name.Length()-1] == ' '))
+   if (pos > 0) { file_name.Resize(pos); has_plus = true; }
+   while ((file_name.Length() > 0) && (file_name[file_name.Length()-1] == ' '))
       file_name.Resize(file_name.Length()-1);
-   while ((file_name.Length()>0) && (file_name[0]==' '))
+   while ((file_name.Length() > 0) && (file_name[0] == ' '))
       file_name.Remove(0, 1);
 
    if (gSystem->AccessPathName(file_name.Data())) {
-      TGo4Log::Error("ROOT script %s nof found", file_name.Data());
+      TGo4Log::Error("ROOT script %s not found", file_name.Data());
       return -1;
    }
 
+   Long_t res = 0;
    TGo4Log::Info("Executing ROOT script %s", macro_name);
+
+   TString exec = ". x";
+   exec.Append(macro_name);
    int error = 0;
-   Long_t res = gROOT->ProcessLineSync(Form(".x %s", macro_name), &error); // here faster than ExecuteLine...
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,22,0)
+   res = gROOT->ProcessLineSync(exec.Data(), &error); // here faster than ExecuteLine...
    if (error) res = -1;
+#else
+
+   std::ifstream t(file_name.Data());
+   std::string content = std::string(std::istreambuf_iterator<char>(t), {});
+   if (content.empty()) {
+      TGo4Log::Error("Fail to load content of %s", file_name.Data());
+      return -1;
+   }
+
+   TString func_name = file_name;
+   pos = func_name.Last('/');
+   if (pos != kNPOS) func_name.Remove(0, pos+1);
+   pos = func_name.Index(".C");
+   if (pos == kNPOS) pos = func_name.Index(".cxx");
+   if (pos != kNPOS) func_name.Resize(pos);
+
+   bool fall_back = false;
+   if (has_plus) fall_back = true;
+   if (func_name.Length() == 0) fall_back = true;
+
+   std::string search = func_name.Data(); search += "(";
+   auto name_pos = content.find(search);
+   if (name_pos == std::string::npos) fall_back = true;
+
+   if (fall_back) {
+      res = gROOT->ProcessLineSync(exec.Data(), &error); // here faster than ExecuteLine...
+      return error ? -1 : res;
+   }
+
+   static std::vector<std::string> script_names;
+   static std::vector<std::string> script_contents;
+   static std::vector<std::string> script_func;
+   static int findx = 1;
+
+   int indx = -1;
+
+   for (unsigned n = 0; n < script_names.size(); n++)
+      if (script_names[n] == file_name.Data()) {
+         indx = n; break;
+      }
+
+   if (indx < 0) {
+      // register new code with its func name
+      script_names.push_back(file_name.Data());
+      script_contents.push_back(content);
+      script_func.push_back(func_name.Data());
+      indx = script_names.size() - 1;
+
+      if (!gInterpreter->LoadText(content.c_str())) {
+         TGo4Log::Error("Cannot parse code of %s script", file_name.Data());
+         return -1;
+      }
+   } else if (script_contents[indx] != content) {
+      // script was modified, has to reload with new function name
+      std::string new_name = func_name.Data();
+      new_name += std::to_string(findx++);
+      script_contents[indx] = content;
+      script_func[indx] = new_name;
+
+      content.erase(name_pos, func_name.Length());
+      content.insert(name_pos, new_name);
+
+      if (!gInterpreter->LoadText(content.c_str())) {
+         TGo4Log::Error("Cannot parse modified code of %s script", file_name.Data());
+         return -1;
+      }
+
+      func_name = new_name.c_str();
+
+   } else {
+      // script is same, just call again same function
+      func_name = script_func[indx].c_str();
+   }
+
+   TGo4Log::Error("Execute function %s from script %s", func_name.Data(), file_name.Data());
+
+   // just call function
+   func_name.Append("()");
+   res = gROOT->ProcessLineSync(func_name.Data(), &error); // here faster than ExecuteLine...
+   if (error) res = -1;
+
+#endif
+
    return res;
 }
 
