@@ -66,7 +66,7 @@
       let len=this.changes.length;
       for (index = 0; index < len ; index++) {
          //let cursor=changes.pop();
-         let key=this.changes[index];
+         let key = this.changes[index];
          //console.log("Evaluate change key:%s", key);
 
          // here mapping of key to editor field:
@@ -215,18 +215,18 @@
       // local condition copy is unchanged until we can display it somewhere.
 
       if(!this.isPolyCond()) return;
-      let id = "#" + this.getDomId();
-      let oldpoints=this.cond.fxCut.fNpoints;
-      let npoints=$(id+" .cut_points")[0].value;
-      console.log("changePolygonDimension with numpoints="+npoints+", oldpoints="+oldpoints);
+      let id = "#" + this.getDomId(),
+          oldpoints = this.cond.fxCut.fNpoints,
+          npoints = $(id+" .cut_points")[0].value;
+
       //if(npoints==oldpoints) return; // no dimension change, do nothing - disabled, error if we again go back to original condition dimension
-      if (this.cond.fxCut != null) {
+      if (this.cond.fxCut) {
 
          $(id + " .cut_values tbody").html(""); // clear old contents
          if (npoints > oldpoints) {
             // insert last but one point into table:
             // first points are unchanged:
-            for (i = 0; i < oldpoints - 1; i++) {
+            for (let i = 0; i < oldpoints - 1; i++) {
                let x = this.cond.fxCut.fX[i];
                let y = this.cond.fxCut.fY[i];
                $(id + " .cut_values tbody")
@@ -240,7 +240,7 @@
             // inserted points will reproduce values of last but one point:
             let insx = this.cond.fxCut.fX[oldpoints - 2];
             let insy = this.cond.fxCut.fY[oldpoints - 2];
-            for (i = oldpoints - 1; i < npoints - 1; i++) {
+            for (let i = oldpoints - 1; i < npoints - 1; i++) {
                $(id + " .cut_values tbody")
                .append(
                      "<tr><td><input type='text' value='"
@@ -260,7 +260,7 @@
          else
          {
             // remove last but one point from table:
-            for (i = 0; i < npoints - 1; i++) {
+            for (let i = 0; i < npoints - 1; i++) {
                let x = this.cond.fxCut.fX[i];
                let y = this.cond.fxCut.fY[i];
                $(id + " .cut_values tbody")
@@ -286,9 +286,9 @@
    }
 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
-      let editor = this;
-      let id = "#" + this.getDomId();
-      let cond = this.cond;
+      let editor = this,
+          id = "#" + this.getDomId(),
+          cond = this.cond;
 
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
@@ -324,7 +324,7 @@
       if(this.isPolyCond()) {
          $(id+" .cond_tabs").tabs( "disable", 0 ); // enable/disable by tab index
          $(id+" .cond_tabs").tabs( "enable", 1 ); // enable/disable by tab index
-         if (this.cond.fxCut != null) {
+         if (this.cond.fxCut) {
             let numpoints = this.cond.fxCut.fNpoints;
             $(id+" .cut_points").val(numpoints); //.change(function(){ editor.markChanged("polygon")});
             $(id + " .cut_values tbody").html("");
@@ -351,9 +351,9 @@
             });
 
             let options = $(id+" .cond_ellipse_iscircle")[0].options;
-            for ( let i = 0; i < options.length; i++){
+            for (let i = 0; i < options.length; i++)
                options[i].selected = (options[i].value == cond.fiShapeType);
-            }
+
             $(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");
 
             $(id + " .cond_ellipse_theta_slider")
@@ -440,9 +440,9 @@
    GO4.ConditionEditor.prototype.fillEditor = function(divid, resolveFunc) {
       this.setTopPainter();
 
-      let id = "#" + divid;
-      let editor = this;
-      let cond = this.cond;
+      let id = "#" + divid,
+          editor = this,
+          cond = this.cond;
 
       $(id+" .cond_tabs").tabs();
 
@@ -461,34 +461,25 @@
          $(id+" .cond_ellipse_iscircle").selectmenu({
             change : function(event, ui) {
                cond.fiShapeType = ui.item.value;
-               if(cond.fiShapeType == 2)
-               {
+               if(cond.fiShapeType == 2) {
                   // circle
                   $(id+" .cond_ellipse_a2").prop('disabled', true);
                   $(id+" .cond_ellipse_theta").prop('disabled', true);
                   $(id + " .cond_ellipse_theta_slider").slider("disable");
                   $(id + "cond_ellipse_points").prop('disabled', false);
-               }
-               else if(cond.fiShapeType == 3)
-               {
+               } else if(cond.fiShapeType == 3) {
                   // ellipse
                   $(id+" .cond_ellipse_a2").prop('disabled', false);
                   $(id+" .cond_ellipse_theta").prop('disabled', false);
                   $(id + " .cond_ellipse_theta_slider").slider("enable");
                   $(id + "cond_ellipse_points").prop('disabled', false);
-
-
-               }
-               else if(cond.fiShapeType == 4)
-               {
+               } else if(cond.fiShapeType == 4) {
                   // box
                   $(id+" .cond_ellipse_a2").prop('disabled', false);
                   $(id+" .cond_ellipse_theta").prop('disabled', false);
                   $(id + " .cond_ellipse_theta_slider").slider("enable");
                   $(id + "cond_ellipse_points").prop('disabled', true);
-               }
-               else
-               {
+               } else {
                   // free style
                   $(id+" .cond_ellipse_a2").prop('disabled', true);
                   $(id+" .cond_ellipse_theta").prop('disabled', true);
