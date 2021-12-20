@@ -362,7 +362,10 @@
          op_LineStyle   = 6,
          op_LineWidth   = 7,
          op_FillColor   = 8,
-         op_FillStyle   = 9;
+         op_FillStyle   = 9,
+         op_HisStats    = 24,
+         op_HisTitle    = 25,
+         PictureIndex   = -1;
 
    function getOptValue(pic, indx, typ) {
       if (!pic || !pic.fxOptIndex) return null;
@@ -372,7 +375,6 @@
             return pic.fxOptValue[k];
       return null;
    }
-
 
    function drawPictureObjects(divid, pic, k) {
       if (!divid || !pic.fxNames)
@@ -422,6 +424,22 @@
             if ((fcol !== null) && (fstyle !== null)) {
                painter.fillatt.change(fcol, fstyle, painter.getCanvSvg());
                need_redraw = true;
+            }
+         }
+
+         if (typeof painter.getHisto == 'function' && painter.createHistDrawAttributes && painter.isMainPainter()) {
+            const kNoStats = JSROOT.BIT(9),
+                  kNoTitle = JSROOT.BIT(17);
+
+            let histo = painter.getHisto(),
+                istitle = getOptValue(pic, PictureIndex, op_HisTitle),
+                isstats = getOptValue(pic, PictureIndex, op_HisStats);
+
+            if ((istitle !== null) && (!istitle != histo.TestBit(kNoTitle))) {
+               histo.InvertBit(kNoTitle); need_redraw = true;
+            }
+            if ((isstats !== null) && (!isstats != histo.TestBit(kNoStats))) {
+               histo.InvertBit(kNoStats); need_redraw = true;
             }
          }
 
