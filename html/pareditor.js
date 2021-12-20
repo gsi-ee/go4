@@ -31,11 +31,9 @@
 
    // TODO: put to common "base class" of condition and parameter editor
    // add identifier of changed element to list, make warning sign visible
-   GO4.ParameterEditor.prototype.MarkChanged = function(key) {
+   GO4.ParameterEditor.prototype.markChanged = function(key) {
       // first avoid duplicate keys:
-      for (let index = 0; index < this.changes.length; index++) {
-         if (this.changes[index] == key) return;
-      }
+      if (this.changes.indexOf(key) >= 0) return;
       this.changes.push(key);
       console.log("Mark changed :%s", key);
       let id = "#" + this.getDomId();
@@ -44,18 +42,13 @@
 
    // TODO: put to common "base class" of condition and parameter editor
    GO4.ParameterEditor.prototype.clearChanges = function() {
-      let index;
-      let len = this.changes.length;
-      for (index = 0; index < len; index++) {
-         let removed = this.changes.pop();
-         console.log("Clear changes removed :%s", removed);
-      }
+      this.changes = []; //
       let id = "#" + this.getDomId();
       $(id + " .buttonChangeLabel").hide(); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
-   GO4.ParameterEditor.prototype.EvaluateChanges = function(optionstring) {
+   GO4.ParameterEditor.prototype.evaluateChanges = function(optionstring) {
       let id = "#" + this.getDomId();
       let len = this.changes.length;
       for (let index = 0; index < len; index++) {
@@ -145,9 +138,10 @@
    }
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
-      let editor = this;
-      let id = "#" + this.getDomId();
-      let par = this.par;
+      let editor = this,
+          id = "#" + this.getDomId(),
+          par = this.par;
+
       $(id + " .par_values tbody").html("");
       let found_title = false;
       for (let key in par) {
@@ -265,7 +259,7 @@
 
       }
       // here set callbacks; referred classname must be evaluated dynamically in function!:
-      $(id + " .par_values tbody input").change(function() { editor.MarkChanged($(this).attr('class')) });
+      $(id + " .par_values tbody input").change(function() { editor.markChanged($(this).attr('class')); });
       $(id + " .par_values tbody td").addClass("par_membertable_style");
       $(id + " .par_values > thead th").addClass("par_memberheader_style");
       $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
@@ -274,11 +268,11 @@
    }
 
    GO4.ParameterEditor.prototype.fillEditor = function() {
-      let editor = this;
-      let par = this.par;
-      let id = "#" + this.getDomId();
-      let width = $(id).width();
-      let height = $(id).height();
+      let editor = this,
+          par = this.par,
+          id = "#" + this.getDomId(),
+          width = $(id).width(),
+          height = $(id).height();
 
       $(id + " .par_name").text(par.fName);
       $(id + " .par_type").text(par._typename);
@@ -300,7 +294,7 @@
          .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
          .click(function() {
             let options = ""; // do not need to use name here
-            options = editor.EvaluateChanges(options); // complete option string from all changed elements
+            options = editor.evaluateChanges(options); // complete option string from all changed elements
             console.log("set - condition " + editor.getItemName() + ", options=" + options);
             GO4.ExecuteMethod(editor, "UpdateFromUrl", options, function(result) {
                console.log(result ? "set parameter done. " : "set parameter FAILED.");
@@ -339,24 +333,22 @@
 
    GO4.ParameterEditor.prototype.drawEditor = function() {
 
-      let sel = this.selectDom();
+      let pthis = this,
+          sel = this.selectDom(),
+          main = $(sel.node()),
+          h = main.height(), w = main.width();
 
-      let main = $(sel.node());
-
-      let h = main.height(), w = main.width();
       if ((h < 10) && (w > 10)) main.height(w * 0.4);
 
-      let pthis = this;
-
-     return new Promise(resolveFunc => {
+      return new Promise(resolveFunc => {
          main.empty();
          main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
             pthis.fillEditor();
             pthis.fillComments();
             pthis.setTopPainter();
             resolveFunc(pthis);
-        });
-     });
+         });
+      });
    }
 
 
