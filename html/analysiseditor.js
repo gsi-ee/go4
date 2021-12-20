@@ -3,18 +3,16 @@
 (function(){
 
    if (typeof JSROOT != "object") {
-      var e1 = new Error("analysiseditor.js requires JSROOT to be already loaded");
+      let e1 = new Error("analysiseditor.js requires JSROOT to be already loaded");
       e1.source = "analysiseditor.js";
       throw e1;
    }
 
    if (typeof GO4 != "object") {
-      var e1 = new Error("analysiseditor.js requires GO4 to be already loaded");
+      let e1 = new Error("analysiseditor.js requires GO4 to be already loaded");
       e1.source = "analysiseditor.js";
       throw e1;
    }
-
-   let BasePainter = JSROOT.BasePainter || JSROOT.TBasePainter;
 
    GO4.EvIOType = {
           GO4EV_NULL: 0,                // no event store/source
@@ -31,7 +29,7 @@
       };
 
    GO4.AnalysisStatusEditor = function(divid, stat) {
-      BasePainter.call(this, divid);
+      JSROOT.BasePainter.call(this, divid);
       if (this.SetDivId) this.SetDivId(divid);
       this.stat = stat;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
@@ -40,55 +38,55 @@
       this.ClearShowstates();
    }
 
-   GO4.AnalysisStatusEditor.prototype = Object.create(BasePainter.prototype);
+   GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.BasePainter.prototype);
 
    GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
       // first avoid duplicate keys:
-      for (var index = 0; index < this.changes[step].length; index++) {
+      for (let index = 0; index < this.changes[step].length; index++) {
          if (this.changes[step][index]== key) return;
       }
       this.changes[step].push(key);
       console.log("Mark changed :%s at step %d", key, step);
-      var id = "#" + this.getDomId();
+      let id = "#" + this.getDomId();
 
       $(id+" .buttonAnaChangeLabel").show();// show warning sign
    }
 
    // clear changed elements' list, make warning sign invisible
    GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
-      var index, step;
-      var numsteps=this.changes.length;
+      let index, step;
+      let numsteps=this.changes.length;
       for (step = 0; step < numsteps ; step++) {
-         var len=this.changes[step].length;
+         let len=this.changes[step].length;
          for   (index = 0; index < len ; index++) {
-            var removed=this.changes[step].pop();
+            let removed=this.changes[step].pop();
             //console.log("Clear changes removed :%s at step %d",removed, step);
          }
       }
-      var id = this.getDomId();
+      let id = this.getDomId();
       if (id) $("#" + id + " .buttonAnaChangeLabel").hide(); // hide warning sign
    }
 
    GO4.AnalysisStatusEditor.prototype.ClearShowstates = function() {
-      for (var index = 0; index < this.showmore.length; ++index)
+      for (let index = 0; index < this.showmore.length; ++index)
          this.showmore.pop();
    }
 
    //scan changed value list and return optionstring to be send to server
    GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
-      var id = "#" + this.getDomId();
-      var editor=this;
-      var index;
-      var numsteps=this.changes.length;
+      let id = "#" + this.getDomId();
+      let editor=this;
+      let index;
+      let numsteps=this.changes.length;
       for   (step = 0; step < numsteps ; step++) {
-         var len=this.changes[step].length;
-         var stepoptions="";
+         let len=this.changes[step].length;
+         let stepoptions="";
          for   (index = 0; index < len ; index++) {
 
-            var key=this.changes[step][index];
+            let key=this.changes[step][index];
             //console.log("Evaluate change key:%s", key);
 
-            var theElement=editor.stat.fxStepArray.arr[step];
+            let theElement=editor.stat.fxStepArray.arr[step];
             // here mapping of key to editor field:
             if(key=="stepenabled")
             {
@@ -205,16 +203,16 @@
 
    GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
    {
-      var id = "#" + this.getDomId();
-      var editor=this;
-      var stat=this.stat;
-      var names = "";
+      let id = "#" + this.getDomId();
+      let editor=this;
+      let stat=this.stat;
+      let names = "";
 
       ///////////// ANALYSIS STEPS:
       this.ClearShowstates();
-      var tabelement=$(id+" .steptabs");
+      let tabelement=$(id+" .steptabs");
       tabelement.tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] );
-      for(var j=0; j<8;++j){
+      for(let j=0; j<8;++j){
          $(id +" .steptabs ul:first li:eq("+ j +")").hide(); // disable and hide all tabs
       }
       stat.fxStepArray.arr.forEach(function(element, index, array) {
@@ -261,45 +259,45 @@
 
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(pthis, theElement, theIndex)
    {
-      var id = "#" + this.getDomId();
-      var editor=this;
-      var showmore=editor.showmore[theIndex];
+      let id = "#" + this.getDomId();
+      let editor=this;
+      let showmore=editor.showmore[theIndex];
       //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
-       var storetable=pthis.find(" .step_store");
-       var sourcetable=pthis.find(" .step_source");
-       var enablebox=pthis.find(" .step_box_step_enab");
-       var sourcebox=pthis.find(" .step_box_source_enab");
-       var storebox=pthis.find(" .step_box_store_enab");
+       let storetable=pthis.find(" .step_store");
+       let sourcetable=pthis.find(" .step_source");
+       let enablebox=pthis.find(" .step_box_step_enab");
+       let sourcebox=pthis.find(" .step_box_source_enab");
+       let storebox=pthis.find(" .step_box_store_enab");
 
-       var sourcesel=pthis.find(" .step_source_select");
-       var sourcemore=pthis.find(" .step_source_expand");
-       var sourceform=pthis.find(" .step_source_form");
-       var sourcename=pthis.find(" .step_source_name");
-       var sourcenamelabel=pthis.find(" .step_source_name_label");
-       var sourcetag=pthis.find(" .step_source_tagfile");
-       var sourcetaglabel=pthis.find(" .step_source_tagfile_label");
-       var sourceport=pthis.find(" .step_source_port");
-       var sourceportlabel=pthis.find(" .step_source_port_label");
-       var sourcetmout=pthis.find(" .step_source_tmout");
-       var sourcetmoutlabel=pthis.find(" .step_source_tmout_label");
-       var sourceretry=pthis.find(" .step_source_retry");
-       var sourceretrylabel=pthis.find(" .step_source_retry_label");
-       var sourceargs=pthis.find(" .step_source_args");
-       var sourceargslabel=pthis.find(" .step_source_args_label");
-       var sourcefirst=pthis.find(" .step_source_firstev");
-       var sourcefirstlabel=pthis.find(" .step_source_firstev_label");
-       var sourcelast=pthis.find(" .step_source_lastev");
-       var sourcelastlabel=pthis.find(" .step_source_lastev_label");
-       var sourceskip=pthis.find(" .step_source_stepev");
-       var sourceskiplabel=pthis.find(" .step_source_stepev_label");
+       let sourcesel=pthis.find(" .step_source_select");
+       let sourcemore=pthis.find(" .step_source_expand");
+       let sourceform=pthis.find(" .step_source_form");
+       let sourcename=pthis.find(" .step_source_name");
+       let sourcenamelabel=pthis.find(" .step_source_name_label");
+       let sourcetag=pthis.find(" .step_source_tagfile");
+       let sourcetaglabel=pthis.find(" .step_source_tagfile_label");
+       let sourceport=pthis.find(" .step_source_port");
+       let sourceportlabel=pthis.find(" .step_source_port_label");
+       let sourcetmout=pthis.find(" .step_source_tmout");
+       let sourcetmoutlabel=pthis.find(" .step_source_tmout_label");
+       let sourceretry=pthis.find(" .step_source_retry");
+       let sourceretrylabel=pthis.find(" .step_source_retry_label");
+       let sourceargs=pthis.find(" .step_source_args");
+       let sourceargslabel=pthis.find(" .step_source_args_label");
+       let sourcefirst=pthis.find(" .step_source_firstev");
+       let sourcefirstlabel=pthis.find(" .step_source_firstev_label");
+       let sourcelast=pthis.find(" .step_source_lastev");
+       let sourcelastlabel=pthis.find(" .step_source_lastev_label");
+       let sourceskip=pthis.find(" .step_source_stepev");
+       let sourceskiplabel=pthis.find(" .step_source_stepev_label");
 
-       var storesel=pthis.find(" .step_store_select");
-       var storename=pthis.find(" .step_store_name");
-       var storesplit=pthis.find(" .step_store_split");
-       var storebuf=pthis.find(" .step_store_buf");
-       var storecomp=pthis.find(" .step_store_comp");
-       var storetreeasf=pthis.find(" .step_store_asf");
-       var storeover=pthis.find(" .step_store_overwrite");
+       let storesel=pthis.find(" .step_store_select");
+       let storename=pthis.find(" .step_store_name");
+       let storesplit=pthis.find(" .step_store_split");
+       let storebuf=pthis.find(" .step_store_buf");
+       let storecomp=pthis.find(" .step_store_comp");
+       let storetreeasf=pthis.find(" .step_store_asf");
+       let storeover=pthis.find(" .step_store_overwrite");
 
     // here step control checkboxes and source/store visibility:
       if (theElement.fbProcessEnabled) {
@@ -497,8 +495,8 @@
 
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
-      var id = "#" + this.getDomId();
-      var editor = this;
+      let id = "#" + this.getDomId();
+      let editor = this;
 
       $(id +" .steptabs").tabs({
            heightStyle: "fill",
@@ -512,41 +510,41 @@
               // note that load will also be triggered when activating tab!
               // so we need to backup all changes in local step status theElement!!!
 
-              var theIndex = ui.tab.index();
+              let theIndex = ui.tab.index();
               //console.log("On load function for "  + ui.tab.text() + " index=" + theIndex );
-              var pthis=ui.panel;
-              var theElement=editor.stat.fxStepArray.arr[theIndex];
+              let pthis=ui.panel;
+              let theElement=editor.stat.fxStepArray.arr[theIndex];
 
 //              console.log("process enabled="+theElement.fbProcessEnabled + "for theElement: "+theElement.fName);
 //              console.log("source enabled="+theElement.fbSourceEnabled + "for theElement: "+theElement.fName);
 //              console.log("store enabled="+theElement.fbStoreEnabled + "for theElement: "+theElement.fName);
 
-              var storetable=pthis.find(" .step_store");
-              var sourcetable=pthis.find(" .step_source");
-              var enablebox=pthis.find(" .step_box_step_enab");
-              var sourcebox=pthis.find(" .step_box_source_enab");
-              var storebox=pthis.find(" .step_box_store_enab");
+              let storetable=pthis.find(" .step_store");
+              let sourcetable=pthis.find(" .step_source");
+              let enablebox=pthis.find(" .step_box_step_enab");
+              let sourcebox=pthis.find(" .step_box_source_enab");
+              let storebox=pthis.find(" .step_box_store_enab");
 
-              var sourcesel=pthis.find(" .step_source_select");
-              var sourcemore=pthis.find(" .step_source_expand");
-              var sourceform=pthis.find(" .step_source_form");
-              var sourcename=pthis.find(" .step_source_name");
-              var sourcetag=pthis.find(" .step_source_tagfile");
-              var sourceport=pthis.find(" .step_source_port");
-              var sourcetmout=pthis.find(" .step_source_tmout");
-              var sourceretry=pthis.find(" .step_source_retry");
-              var sourceargs=pthis.find(" .step_source_args");
-              var sourcefirst=pthis.find(" .step_source_firstev");
-              var sourcelast=pthis.find(" .step_source_lastev");
-              var sourceskip=pthis.find(" .step_source_stepev");
+              let sourcesel=pthis.find(" .step_source_select");
+              let sourcemore=pthis.find(" .step_source_expand");
+              let sourceform=pthis.find(" .step_source_form");
+              let sourcename=pthis.find(" .step_source_name");
+              let sourcetag=pthis.find(" .step_source_tagfile");
+              let sourceport=pthis.find(" .step_source_port");
+              let sourcetmout=pthis.find(" .step_source_tmout");
+              let sourceretry=pthis.find(" .step_source_retry");
+              let sourceargs=pthis.find(" .step_source_args");
+              let sourcefirst=pthis.find(" .step_source_firstev");
+              let sourcelast=pthis.find(" .step_source_lastev");
+              let sourceskip=pthis.find(" .step_source_stepev");
 
-              var storesel=pthis.find(" .step_store_select");
-              var storename=pthis.find(" .step_store_name");
-              var storesplit=pthis.find(" .step_store_split");
-              var storebuf=pthis.find(" .step_store_buf");
-              var storecomp=pthis.find(" .step_store_comp");
-              var storetreeasf=pthis.find(" .step_store_asf");
-              var storeover=pthis.find(" .step_store_overwrite");
+              let storesel=pthis.find(" .step_store_select");
+              let storename=pthis.find(" .step_store_name");
+              let storesplit=pthis.find(" .step_store_split");
+              let storebuf=pthis.find(" .step_store_buf");
+              let storecomp=pthis.find(" .step_store_comp");
+              let storetreeasf=pthis.find(" .step_store_asf");
+              let storeover=pthis.find(" .step_store_overwrite");
 
 
               enablebox.prop('checked', theElement.fbProcessEnabled)
@@ -633,7 +631,7 @@
             sourcemore.prop('checked', editor.showmore[theIndex]).click(
                   function(){
                      //console.log("show more clickfunction...");
-                     var doshow=$(this).prop('checked');
+                     let doshow=$(this).prop('checked');
                      if (doshow) {
                      editor.showmore[theIndex]=true;
                } else {
@@ -652,7 +650,7 @@
           sourceform.submit(
                function(event) {
                   event.preventDefault(); // do not send automatic request to server!
-                  var content= sourcename[0].value;
+                  let content= sourcename[0].value;
                   content=content.trim();
                   editor.MarkChanged("sourcename",theIndex);
                   theElement.fxSourceType.fName=content;
@@ -942,7 +940,7 @@
        $(id+" .buttonSetAnalysis")
          .button({text: true, icons: { primary: "ui-icon-blank MyButtonStyle"}})
          .click(function() {
-             var options=""; // do not need to use name here
+             let options=""; // do not need to use name here
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
                console.log("submit analysis "+ editor.getItemName()+ ", options="+options);
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
@@ -966,7 +964,7 @@
        $(id+" .buttonSetStartAnalysis")
          .button({text: true, icons: { primary: "ui-icon-blank MyButtonStyle"}})
          .click(function() {
-             var options=""; // do not need to use name here
+             let options=""; // do not need to use name here
                options=editor.EvaluateChanges(options); // complete option string from all changed elements
                options +="&start";
                console.log("submit and start analysis "+ editor.getItemName()+ ", options="+options);
@@ -987,7 +985,7 @@
        $(id+" .buttonCloseAnalysis")
           .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}})
           .click(function() {
-             var options="&close";
+             let options="&close";
         //    options=editor.EvaluateChanges(options); // complete option string from all changed elements
             console.log("close analysis "+ editor.getItemName()+ ", options="+options);
             GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(
@@ -1010,20 +1008,20 @@
        $(id + " .anaASF_form").submit(
             function(event) {
                //event.preventDefault(); // do not send automatic request to server!
-               var content= $(id + " .anaASF_name")[0].value;
+               let content= $(id + " .anaASF_name")[0].value;
                content=content.trim();
                // before we write immediately, mark name as changed in setup:
                editor.MarkChanged("asfname",0);
                editor.stat.fxAutoFileName=content;
-               var requestmsg = "Really Write autosave file : "+ content;
-               var response = confirm(requestmsg);
+               let requestmsg = "Really Write autosave file : "+ content;
+               let response = confirm(requestmsg);
                if (!response){
                   event.preventDefault(); // do not send automatic request to server!
                   return;
                   }
 
                console.log("Writing autosave file: "+content);
-               var options="&saveasf="+content;
+               let options="&saveasf="+content;
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                    console.log(result ? "Writing autosave file done. " : "Writing autosave file FAILED.");
                });
@@ -1064,13 +1062,13 @@
        $(id+" .buttonLoadAnaConf")
          .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
          .click(function() {
-             var content= $(id + " .anaprefs_name")[0].value;
+             let content= $(id + " .anaprefs_name")[0].value;
              content=content.trim();
-             var requestmsg = "Really load analysis preferences: "+ content;
-             var response = confirm(requestmsg);
+             let requestmsg = "Really load analysis preferences: "+ content;
+             let response = confirm(requestmsg);
              if (!response) return;
              console.log("Loading analysis Prefs from "+content);
-             var options="&loadprefs="+content;
+             let options="&loadprefs="+content;
              GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                 if(result){
                    if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
@@ -1086,17 +1084,17 @@
          $(id + " .anaprefs_form").submit(
             function(event) {
                event.preventDefault(); // do not send automatic request to server!
-               var content= $(id + " .anaprefs_name")[0].value;
+               let content= $(id + " .anaprefs_name")[0].value;
                content=content.trim();
 
                // before we write immediately, mark name as changed in setup:
                editor.MarkChanged("anaprefsname",0);
                editor.stat.fxConfigFileName=content;
-               var requestmsg = "Really save analysis preferences: "+ content;
-               var response = confirm(requestmsg);
+               let requestmsg = "Really save analysis preferences: "+ content;
+               let response = confirm(requestmsg);
                if (!response)   return;
                console.log("Saving analysis Prefs to "+content);
-                 var options="&saveprefs="+content;
+                 let options="&saveprefs="+content;
                  GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                      console.log(result ? "Saving preferences done. " : "Saving preferences  FAILED.");
                  });
@@ -1105,59 +1103,40 @@
       this.refreshEditor();
    }
 
-   GO4.AnalysisStatusEditor.prototype.drawEditor = function(jqmain, resolve) {
+   GO4.AnalysisStatusEditor.prototype.drawEditor = function(jqmain, resolveFunc) {
 
-      var pthis = this;
+      let pthis = this;
 
       jqmain.empty();
       jqmain.load(GO4.source_dir + "html/analysiseditor.htm", "", function() {
-         var html = "<ul>";
-         for (var i=0;i<8;i++)
+         let html = "<ul>";
+         for (let i=0;i<8;i++)
             html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
          html+="</ul>";
          jqmain.find(".steptabs").html(html);
          pthis.fillEditor();
-         if (resolve) {
-            pthis.setTopPainter();
-            resolve(pthis);
-         } else {
-            pthis.SetDivId(this.divid); // old
-            pthis.DrawingReady();
-         }
+         pthis.setTopPainter();
+         resolveFunc(pthis);
       });
       return this;
    }
 
-   if (JSROOT._) {
-      GO4.AnalysisStatusEditor.prototype.redrawObject = function(obj /*, opt */) {
-         if (obj._typename != this.stat._typename) return false;
-         this.stat = JSROOT.clone(obj);
-         this.refreshEditor();
-         return true;
-      }
-   } else {
-      // old style, new jsroot does not have RedrawPad for BasePainter
-      GO4.AnalysisStatusEditor.prototype.RedrawPad = function(resize) {
-         this.refreshEditor();
-      }
-      // makes sense only in jsroot v5, in v6 should be defined redrawObject
-      GO4.AnalysisStatusEditor.prototype.UpdateObject = function(obj) {
-         if (obj._typename != this.stat._typename) return false;
-         this.stat = JSROOT.clone(obj);
-         return true;
-      }
+   GO4.AnalysisStatusEditor.prototype.redrawObject = function(obj /*, opt */) {
+      if (obj._typename != this.stat._typename) return false;
+      this.stat = JSROOT.clone(obj);
+      this.refreshEditor();
+      return true;
    }
 
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
-      var status = new GO4.AnalysisStatusEditor(divid, stat);
-      var realid = status.getDomId();
-      var jqmain = $("#"+realid);
-      var h = jqmain.height(), w = jqmain.width();
-      if ((h<10) && (w>10)) jqmain.height(w*0.7);
+      let status = new GO4.AnalysisStatusEditor(divid, stat),
+          realid = status.getDomId(),
+          jqmain = $("#"+realid),
+          h = jqmain.height(), w = jqmain.width();
 
-      if (JSROOT._) return new Promise(resolve => status.drawEditor(jqmain, resolve));
+      if ((h < 10) && (w > 10)) jqmain.height(w*0.7);
 
-      return status.drawEditor(jqmain);
+      return new Promise(resolveFunc => status.drawEditor(jqmain, resolveFunc));
    }
 
 })(); // factory function
