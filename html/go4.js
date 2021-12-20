@@ -385,7 +385,7 @@
             .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
 
-      player.CheckResize = player.checkResize = function() {}
+      player.checkResize = function() {}
 
       $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", () => player.fillDisplay(divid));
 
