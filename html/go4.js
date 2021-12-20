@@ -365,6 +365,8 @@
          op_FillStyle   = 9,
          op_HisStats    = 24,
          op_HisTitle    = 25,
+         op_HisStatsOpt = 85,
+         op_HisStatsFit = 86,
          PictureIndex   = -1;
 
    function getOptValue(pic, indx, typ) {
@@ -432,14 +434,24 @@
                   kNoTitle = JSROOT.BIT(17);
 
             let histo = painter.getHisto(),
+                stat = painter.findStat(),
                 istitle = getOptValue(pic, PictureIndex, op_HisTitle),
-                isstats = getOptValue(pic, PictureIndex, op_HisStats);
+                isstats = getOptValue(pic, PictureIndex, op_HisStats),
+                statsopt = getOptValue(pic, PictureIndex, op_HisStatsOpt),
+                fitopt = getOptValue(pic, PictureIndex, op_HisStatsFit);
 
             if ((istitle !== null) && (!istitle != histo.TestBit(kNoTitle))) {
                histo.InvertBit(kNoTitle); need_redraw = true;
             }
             if ((isstats !== null) && (!isstats != histo.TestBit(kNoStats))) {
                histo.InvertBit(kNoStats); need_redraw = true;
+            }
+            if (stat && ((statsopt !== null) || (fitopt !== null))) {
+               if (statsopt !== null) stat.fOptStat = statsopt;
+               if (fitopt !== null) stat.fOptFit = fitopt;
+               let pp = painter.getPadPainter(),
+                   statpainter = pp ? pp.findPainterFor(stat) : null;
+               if (statpainter) statpainter.redraw();
             }
          }
 
