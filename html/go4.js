@@ -109,10 +109,7 @@
              sz = $('#'+divid + " div").height() + 4; // use jquery to get height
 
          if (brlayout)
-            if (JSROOT._)
-               brlayout.adjustSeparators(null, sz, true);
-            else
-               brlayout.AdjustSeparator(null, sz, true);
+            brlayout.adjustSeparators(null, sz, true);
          return elem;
       }
 
@@ -196,17 +193,14 @@
    GO4.MsgListPainter.prototype.redrawObject = function(obj) {
       // if (!obj._typename != 'TList') return false;
       this.lst = obj;
-      this.Draw();
+      this.drawList();
       return true;
    }
 
-   if (!JSROOT._)
-      GO4.MsgListPainter.prototype.RedrawObject = GO4.MsgListPainter.prototype.redrawObject;
-
-   GO4.MsgListPainter.prototype.Draw = function() {
+   GO4.MsgListPainter.prototype.drawList = function() {
       if (!this.lst) return;
 
-      let frame = JSROOT._ ? this.selectDom() : this.select_main();
+      let frame = this.selectDom();
 
       let main = frame.select("div");
       if (main.empty())
@@ -222,45 +216,31 @@
       if (newsize > 2000)
          old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
 
-      for (let i=this.lst.arr.length-1;i>0;i--)
+      for (let i = this.lst.arr.length-1; i > 0; i--)
          main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
-
    }
 
    GO4.DrawMsgList = function(divid, lst, opt) {
 
       let painter = new GO4.MsgListPainter(divid, lst);
 
-      painter.Draw();
+      painter.drawList();
 
-      if (JSROOT._) {
-         painter.setTopPainter();
-         return Promise.resolve(painter);
-      }
-      // (re) set painter to first child element
-      painter.SetDivId(divid); // old
-      return painter.DrawingReady();
+      painter.setTopPainter();
+      return Promise.resolve(painter);
    }
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      let url = "", mdi, frame;
-      // FIXME: only for short backward compatibility with jsroot5
-      if (JSROOT._) {
-         url = hpainter.getOnlineItemUrl(itemname);
-         mdi = hpainter.getDisplay();
-         if (mdi) frame = mdi.findFrame(itemname, true);
-      } else {
-         url = hpainter.GetOnlineItemUrl(itemname);
-         mdi = hpainter.GetDisplay();
-         if (mdi) frame = mdi.FindFrame(itemname, true);
-      }
+      let url = hpainter.getOnlineItemUrl(itemname),
+          mdi = hpainter.getDisplay(),
+          frame = mdi ? mdi.findFrame(itemname, true) : null;
 
       if (!url || !frame) return null;
 
       let divid = d3.select(frame).attr('id');
 
       let h = $("#"+divid).height(), w = $("#"+divid).width();
-      if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
+      if ((h < 10) && (w > 10)) $("#"+divid).height(w*0.7);
 
       let player = new JSROOT.BasePainter(divid);
       player.url = url;
@@ -269,10 +249,10 @@
       player.draw_ready = true;
       player.needscroll = false;
 
-      player.LogReady = function(p) {
+      player.logReady = function(p) {
          if (p) this.log_painter = p;
          if(this.needscroll) {
-            this.ClickScroll();
+            this.clickScroll();
             this.needscroll = false;
          }
          this.draw_ready = true;
@@ -290,12 +270,11 @@
          JSROOT.BasePainter.prototype.cleanup.call(this);
       }
 
-
-      player.ProcessTimer = function() {
+      player.processTimer = function() {
          let subid = "anaterm_output_container";
          if ($("#" + subid).length == 0) {
             // detect if drawing disappear
-            return JSROOT._ ? this.cleanup() : this.Cleanup();
+            return this.cleanup();
          }
          if (!this.draw_ready) return;
 
@@ -304,27 +283,21 @@
          this.draw_ready = false;
 
          if (this.log_painter)
-            this.hpainter.display(msgitem, "update:divid:" + subid).then(() => this.LogReady());
-         else if (JSROOT._)
-            this.hpainter.display(msgitem, "divid:" + subid).then(p => this.LogReady(p));
+            this.hpainter.display(msgitem, "update:divid:" + subid).then(() => this.logReady());
          else
-            this.hpainter.display(msgitem, "divid:" + subid, () => this.LogReady());
+            this.hpainter.display(msgitem, "divid:" + subid).then(p => this.logReady(p));
       }
 
       player.ClickCommand = function(kind) {
-         let pthis = this;
          let command = this.itemname.replace("Terminal", "CmdExecute");
-         if (JSROOT._)
-            this.hpainter.executeCommand(command, null, kind). then(() => { pthis.needscroll = true; });
-         else
-            this.hpainter.ExecuteCommand(command, function() { pthis.needscroll = true; }, kind);
+         this.hpainter.executeCommand(command, null, kind). then(() => { this.needscroll = true; });
       }
 
       player.ClickClear = function() {
          document.getElementById("anaterm_output_container").firstChild.innerHTML = "";
       }
 
-      player.ClickScroll = function() {
+      player.clickScroll = function() {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
          let disp = $("#anaterm_output_container").children(":first");
          disp.scrollTop(disp[0].scrollHeight - disp.height());
@@ -332,55 +305,48 @@
 
 
       player.fillDisplay = function(id) {
-          if (JSROOT._) {
-             this.setTopPainter();
-          } else {
-             this.SetDivId(id); // old
-          }
-          this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
+         this.setTopPainter();
+         this.interval = setInterval(() => this.processTimer(), 2000);
 
-          id = "#" + id; // to use in jQuery
+         id = "#" + id; // to use in jQuery
 
-          $(id + " .go4_clearterm")
-              .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-              .click(this.ClickClear.bind(this))
-              .children(":first") // select first button element, used for images
-              .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+         $(id + " .go4_clearterm")
+            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
+            .click(this.ClickClear.bind(this))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
-          $(id + " .go4_endterm")
-            .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-            .click(this.ClickScroll.bind(this))
+         $(id + " .go4_endterm")
+            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
+            .click(this.clickScroll.bind(this))
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
 
-          $(id + " .go4_printhistos")
-             .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-             .click(this.ClickCommand.bind(this,"@PrintHistograms()"))
-             .children(":first") // select first button element, used for images
-             .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
+         $(id + " .go4_printhistos")
+            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
+            .click(this.ClickCommand.bind(this, "@PrintHistograms()"))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
 
-          $(id + " .go4_printcond")
-             .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-             .click(this.ClickCommand.bind(this,"@PrintConditions()"))
-             .children(":first") // select first button element, used for images
-             .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
+         $(id + " .go4_printcond")
+            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
+            .click(this.ClickCommand.bind(this, "@PrintConditions()"))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
-          let pthis = this;
+         let pthis = this;
 
-          $("#go4_anaterm_cmd_form").submit(
-              function(event) {
-                 let command = pthis.itemname.replace("Terminal", "CmdExecute");
-                 let cmdpar = document.getElementById("go4_anaterm_command").value;
-                 console.log("submit command - " + cmdpar);
-                 if (JSROOT._)
-                    pthis.hpainter.executeCommand(command,  null, cmdpar).then(() => { pthis.needscroll = true; });
-                 else
-                    pthis.hpainter.ExecuteCommand(command,  function() { pthis.needscroll = true; }, cmdpar);
-                 event.preventDefault();
-              });
+         $("#go4_anaterm_cmd_form").submit(
+            function(event) {
+               let command = pthis.itemname.replace("Terminal", "CmdExecute");
+               let cmdpar = document.getElementById("go4_anaterm_command").value;
+               console.log("submit command - " + cmdpar);
+               pthis.hpainter.executeCommand(command, null, cmdpar).then(() => { pthis.needscroll = true; });
+               event.preventDefault();
+            });
 
          $(id + " .go4_executescript")
-            .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
@@ -509,7 +475,7 @@
    }
 
    GO4.drawGo4Picture = function(dom, pic) {
-      if (!JSROOT._ || !JSROOT.hpainter) return null;
+      if (!JSROOT.hpainter) return null;
 
       let painter = new JSROOT.ObjectPainter(dom, pic);
 
@@ -525,7 +491,7 @@
    // ==============================================================================
 
    let canvsrc = GO4.source_dir + 'html/go4canvas.js;';
-   let jsrp = JSROOT._ ? JSROOT.Painter : JSROOT;
+   let jsrp = JSROOT.Painter;
 
    jsrp.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
