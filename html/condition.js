@@ -23,7 +23,7 @@
       if (this.SetDivId) this.SetDivId(divid);
       this.cond = cond;
       this.changes = ["dummy", "init"];
-      this.ClearChanges();
+      this.clearChanges();
    }
 
    GO4.ConditionEditor.prototype = Object.create(JSROOT.BasePainter.prototype);
@@ -37,7 +37,7 @@
    }
 
    // add identifier of changed element to list, make warning sign visible
-   GO4.ConditionEditor.prototype.MarkChanged = function(key) {
+   GO4.ConditionEditor.prototype.markChanged = function(key) {
       // first avoid duplicate keys:
       for (let index = 0; index < this.changes.length; index++) {
          if (this.changes[index]== key) return;
@@ -50,9 +50,9 @@
    }
 
    // clear changed elements' ist, make warning sign invisible
-   GO4.ConditionEditor.prototype.ClearChanges = function() {
+   GO4.ConditionEditor.prototype.clearChanges = function() {
       for (let index = 0; index < this.changes.length ; index++) {
-         let removed=this.changes.pop();
+         let removed = this.changes.pop();
          console.log("Clear changes removed :%s", removed);
       }
       let id = this.getDomId();
@@ -60,7 +60,7 @@
    }
 
    // scan changed value list and return optionstring to be send to server
-   GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
+   GO4.ConditionEditor.prototype.evaluateChanges = function(optionstring) {
       let id = "#" + this.getDomId();
       let index;
       let len=this.changes.length;
@@ -90,11 +90,11 @@
             let npoints=$(id+" .cut_points")[0].value;
             optionstring +="&npolygon="+npoints;
             // TODO: set display of polygon points
-            for(i=0; i<npoints; ++i)
+            for(let i=0; i<npoints; ++i)
             {
                let x = $(id + " .cut_values input").eq(2*i)[0].value;
                let y = $(id + " .cut_values input").eq(2*i+1)[0].value;
-               optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
+               optionstring += `&x${i}=${x}&y${i}=${y}`;
             }
          }
          else if (key=="ellinpts"){
@@ -199,7 +199,7 @@
             optionstring +="&"+key+"="+arg;
          }
          else{
-            console.log("Warning: EvaluateChanges found unknown key:%s", key);
+            console.log("Warning: evaluateChanges found unknown key:%s", key);
          }
 
       }// for index
@@ -209,16 +209,16 @@
 
    GO4.ConditionEditor.prototype.checkResize = function() {}
 
-   GO4.ConditionEditor.prototype.ChangePolygonDimension = function() {
+   GO4.ConditionEditor.prototype.changePolygonDimension = function() {
       // this only changes display of condition, not condition itself!
-      // note that condition is still changed in analysis only by EvaluateChanges
+      // note that condition is still changed in analysis only by evaluateChanges
       // local condition copy is unchanged until we can display it somewhere.
 
       if(!this.isPolyCond()) return;
       let id = "#" + this.getDomId();
       let oldpoints=this.cond.fxCut.fNpoints;
       let npoints=$(id+" .cut_points")[0].value;
-      console.log("ChangePolygonDimension with numpoints="+npoints+", oldpoints="+oldpoints);
+      console.log("changePolygonDimension with numpoints="+npoints+", oldpoints="+oldpoints);
       //if(npoints==oldpoints) return; // no dimension change, do nothing - disabled, error if we again go back to original condition dimension
       if (this.cond.fxCut != null) {
 
@@ -247,7 +247,6 @@
                      + insx
                      + "'/></td>  <td> <input type='text' value='"
                      + insy + "'/>  </td></tr>");
-               console.log("i:" + i + ", X=" + insx + " Y=" + insy);
             }
             // final point is kept as last point of old polygon, should
             // match first point for closed tcutg:
@@ -257,8 +256,6 @@
                   "<tr><td><input type='text' value='" + lastx
                   + "'/></td>  <td> <input type='text' value='"
                   + lasty + "'/>  </td></tr>");
-            console.log("i:" + (npoints - 1) + ", X=" + lastx + " Y=" + lasty);
-
          }
          else
          {
@@ -272,7 +269,6 @@
                      + x
                      + "'/></td>  <td> <input type='text' value='"
                      + y + "'/>  </td></tr>");
-               console.log("i:" + i + ", X=" + x + " Y=" + y);
             }
             // final point is kept as last point of old polygon, should
             // match first point for closed tcutg:
@@ -286,7 +282,7 @@
 
          }
       }
-      this.MarkChanged("polygon");
+      this.markChanged("polygon");
    }
 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
@@ -297,16 +293,13 @@
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
 
-
-      if(cond.fbEnabled) {
+      if(cond.fbEnabled)
          $(id+" .cond_execmode").val(0);
-      }
-      else{
-         if(cond.fbResult)
-            $(id+" .cond_execmode").val(1);
-         else
-            $(id+" .cond_execmode").val(2);
-      }
+      else if(cond.fbResult)
+         $(id+" .cond_execmode").val(1);
+      else
+         $(id+" .cond_execmode").val(2);
+
       $(id+" .cond_execmode").selectmenu("refresh");
       $(id+" .cond_execmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
       if(cond.fbTrue)
@@ -318,11 +311,11 @@
       $(id+" .cond_invertmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
 
 
-      $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.MarkChanged("limits")});
-      $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.MarkChanged("limits")});
+      $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.markChanged("limits")});
+      $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.markChanged("limits")});
       if (cond.fiDim==2) {
-         $(id+" .cond_ymin").val(cond.fLow2).change(function(){editor.MarkChanged("limits")});
-         $(id+" .cond_ymax").val(cond.fUp2).change(function(){ editor.MarkChanged("limits")});
+         $(id+" .cond_ymin").val(cond.fLow2).change(function(){editor.markChanged("limits")});
+         $(id+" .cond_ymax").val(cond.fUp2).change(function(){ editor.markChanged("limits")});
       } else {
          $(id+" .cond_ymin").prop('disabled', true);
          $(id+" .cond_ymax").prop('disabled', true);
@@ -332,41 +325,36 @@
          $(id+" .cond_tabs").tabs( "disable", 0 ); // enable/disable by tab index
          $(id+" .cond_tabs").tabs( "enable", 1 ); // enable/disable by tab index
          if (this.cond.fxCut != null) {
-            let numpoints=this.cond.fxCut.fNpoints;
-            console.log("refreshEditor: npoints="+numpoints);
-            $(id+" .cut_points").val(numpoints); //.change(function(){ editor.MarkChanged("polygon")});
+            let numpoints = this.cond.fxCut.fNpoints;
+            $(id+" .cut_points").val(numpoints); //.change(function(){ editor.markChanged("polygon")});
             $(id + " .cut_values tbody").html("");
 
             for(let i = 0; i < numpoints; i++) {
                let x = this.cond.fxCut.fX[i];
                let y = this.cond.fxCut.fY[i];
                $(id + " .cut_values tbody").append("<tr><td><input type='text' value='" + x + "'/></td>  <td> <input type='text' value='" + y + "'/>  </td></tr>");
-               console.log("i:"+i+", X="+x+" Y="+y);
             }
-            $(id + " .cut_values tbody").change(function(){ editor.MarkChanged("polygon")});
+            $(id + " .cut_values tbody").change(function(){ editor.markChanged("polygon")});
 
          }
          if(this.isEllipseCond()) {
             $(id+" .cond_tabs").tabs( "enable", 2 ); // enable/disable by tab index
             let numpoints=this.cond.fiResolution;
             $(id+" .cond_ellipse_points").val(numpoints);
-            $(id+" .cond_ellipse_cx").val(cond.fdCenterX).change(function(){ editor.MarkChanged("ellicx")});
-            $(id+" .cond_ellipse_cy").val(cond.fdCenterY).change(function(){ editor.MarkChanged("ellicy")});
-            $(id+" .cond_ellipse_a1").val(cond.fdRadius1).change(function(){ editor.MarkChanged("ellia1")});
-            $(id+" .cond_ellipse_a2").val(cond.fdRadius2).prop('disabled', cond.fbIsCircle).change(function(){ editor.MarkChanged("ellia2")});
+            $(id+" .cond_ellipse_cx").val(cond.fdCenterX).change(function(){ editor.markChanged("ellicx")});
+            $(id+" .cond_ellipse_cy").val(cond.fdCenterY).change(function(){ editor.markChanged("ellicy")});
+            $(id+" .cond_ellipse_a1").val(cond.fdRadius1).change(function(){ editor.markChanged("ellia1")});
+            $(id+" .cond_ellipse_a2").val(cond.fdRadius2).prop('disabled', cond.fbIsCircle).change(function(){ editor.markChanged("ellia2")});
             $(id+" .cond_ellipse_theta").val(cond.fdTheta).prop('disabled', cond.fbIsCircle).change(function(){
-               editor.MarkChanged("ellith");
+               editor.markChanged("ellith");
                $(id+" .cond_ellipse_theta_slider").slider( "option", "value", $(this)[0].value % 360);
-               console.log("ellipse theta value="+$(this)[0].value);
             });
-
 
             let options = $(id+" .cond_ellipse_iscircle")[0].options;
             for ( let i = 0; i < options.length; i++){
                options[i].selected = (options[i].value == cond.fiShapeType);
             }
             $(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");
-
 
             $(id + " .cond_ellipse_theta_slider")
             .slider({
@@ -376,84 +364,74 @@
                value: cond.fdTheta,
                disabled: cond.fbIsCircle,
                change : function(event, ui) {
-                  editor.MarkChanged("ellith");
+                  editor.markChanged("ellith");
                   $(id + " .cond_ellipse_theta").val(ui.value);
-                  console.log("slider changed to" + ui.value);
                },
                stop : function(event, ui) {
-                  editor.MarkChanged("ellith");
-                  console.log("sliderstopped.");
+                  editor.markChanged("ellith");
                }
-            })
-
-            ;
+            });
 
          }
 
-      }
-      else
-      {
-         console.log("refreshEditor: - NO POLYGON CUT");
+      } else {
          $(id+" .cond_tabs").tabs( "enable", 0 );
          $(id+" .cond_tabs").tabs( "disable", 1 ); // enable/disable by tab index
          $(id+" .cond_tabs").tabs( "disable", 2 ); // enable/disable by tab index
       }
 
-
       $(id+" .cond_counts").text(cond.fiCounts);
       $(id+" .cond_true").text(cond.fiTrueCounts);
       $(id+" .cond_percent").text((cond.fiCounts > 0 ? 100. * cond.fiTrueCounts / cond.fiCounts : 0.).toFixed(2) + "%");
-
 
       // todo: get keywords from condition class definition
       // problem: static letiables are not streamed by default
 
       $(id+" .cond_visible")
       .prop('checked', cond.fbVisible)
-      .click(function() { cond.fbVisible = this.checked; editor.MarkChanged("visible")});
+      .click(function() { cond.fbVisible = this.checked; editor.markChanged("visible")});
+
       $(id+" .cond_limits")
       .prop('checked', cond.fbLimitsDraw)
-      .click(function() { cond.fbLimitsDraw = this.checked; editor.MarkChanged("limitsdraw")});
+      .click(function() { cond.fbLimitsDraw = this.checked; editor.markChanged("limitsdraw")});
 
       $(id+" .cond_label")
       .prop('checked', cond.fbLabelDraw)
-      .click(function() { cond.fbLabelDraw = this.checked; editor.MarkChanged("labeldraw")});
-
+      .click(function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
 
       $(id+" .cond_integr")
       .prop('checked', cond.fbIntDraw)
-      .click(function() { cond.fbIntDraw = this.checked; editor.MarkChanged("intdraw")});
+      .click(function() { cond.fbIntDraw = this.checked; editor.markChanged("intdraw")});
 
       $(id+" .cond_maxx")
       .prop('checked', cond.fbXMaxDraw)
-      .click(function() { cond.fbXMaxDraw = this.checked; editor.MarkChanged("xmaxdraw")});
+      .click(function() { cond.fbXMaxDraw = this.checked; editor.markChanged("xmaxdraw")});
 
       $(id+" .cond_max")
       .prop('checked', cond.fbCMaxDraw)
-      .click(function() { cond.fbCMaxDraw = this.checked; editor.MarkChanged("cmaxdraw")});
+      .click(function() { cond.fbCMaxDraw = this.checked; editor.markChanged("cmaxdraw")});
 
       $(id+" .cond_maxy")
       .prop('checked', cond.fbYMaxDraw)
-      .click(function() { cond.fbYMaxDraw = this.checked; editor.MarkChanged("ymaxdraw")});
+      .click(function() { cond.fbYMaxDraw = this.checked; editor.markChanged("ymaxdraw")});
 
       $(id+" .cond_xmean")
       .prop('checked', cond.fbXMeanDraw)
-      .click(function() { cond.fbXMeanDraw = this.checked; editor.MarkChanged("xmeandraw")});
+      .click(function() { cond.fbXMeanDraw = this.checked; editor.markChanged("xmeandraw")});
 
       $(id+" .cond_xrms")
       .prop('checked', cond.fbXRMSDraw)
-      .click(function() { cond.fbXRMSDraw = this.checked; editor.MarkChanged("xrmsdraw")});
+      .click(function() { cond.fbXRMSDraw = this.checked; editor.markChanged("xrmsdraw")});
 
       $(id+" .cond_ymean")
       .prop('checked', cond.fbYMeanDraw)
-      .click(function() { cond.fbYMeanDraw = this.checked; editor.MarkChanged("ymeandraw")});
+      .click(function() { cond.fbYMeanDraw = this.checked; editor.markChanged("ymeandraw")});
 
       $(id+" .cond_yrms")
       .prop('checked', cond.fbYRMSDraw)
-      .click(function() { cond.fbYRMSDraw = this.checked; editor.MarkChanged("yrmsdraw")});
+      .click(function() { cond.fbYRMSDraw = this.checked; editor.markChanged("yrmsdraw")});
 
-
-      editor.ClearChanges();
+      editor.clearChanges();
    }
   //--------- end refreshEditor
 
@@ -465,19 +443,17 @@
       let id = "#" + divid;
       let editor = this;
       let cond = this.cond;
-      console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
-      // $(id).css("display","table");
 
       $(id+" .cond_tabs").tabs();
 
       $(id + " .cond_execmode").selectmenu({
          change : function(event, ui) {
-            editor.MarkChanged("resultmode");
+            editor.markChanged("resultmode");
          }
       });
       $(id + " .cond_invertmode").selectmenu({
          change : function(event, ui) {
-            editor.MarkChanged("invertmode");
+            editor.markChanged("invertmode");
          }
       });
 
@@ -520,7 +496,7 @@
                   $(id + "cond_ellipse_points").prop('disabled', false);
                }
 
-               editor.MarkChanged("ellishape");
+               editor.markChanged("ellishape");
             }
          })
 
@@ -529,9 +505,8 @@
       $(id+" .buttonGetCondition")
       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
       .click(function() {
-         console.log("update item = " + editor.getItemName());
          if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-         else  console.log("hierarhy painter object not found!");
+                         else console.log("hierarhy painter object not found!");
       })
       .children(":first") // select first button element, used for images
       .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
@@ -540,11 +515,11 @@
       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
       .click(function() {
          let options=""; // do not need to use name here
-         options=editor.EvaluateChanges(options); // complete option string from all changed elements
+         options = editor.evaluateChanges(options); // complete option string from all changed elements
          console.log("set - condition "+ editor.getItemName()+ ", options="+options);
          GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
             console.log(result ? "set condition done. " : "set condition FAILED.");
-            if(result) editor.ClearChanges();
+            if(result) editor.clearChanges();
          });
       })
       .children(":first") // select first button element, used for images
@@ -562,7 +537,7 @@
             // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
 
             if (JSROOT.hpainter) {
-               editor.EvaluateChanges("");
+               editor.evaluateChanges("");
 
                if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
 
@@ -594,11 +569,9 @@
       .children(":first") // select first button element, used for images
       .css('background-image', "url(" + GO4.source_dir + "icons/chart.png)");
 
-
       $(id+" .buttonClearCondition")
         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
         .click(function() {
-         console.log("clearing counters...");
          let options="&resetcounters=1";
          GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
             console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
@@ -616,9 +589,9 @@
          max: 1000,
          step: 1,
          //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
-         change: function( event, ui ) {editor.ChangePolygonDimension();//console.log("cut changed.");
+         change: function( event, ui ) {editor.changePolygonDimension();//console.log("cut changed.");
          },
-         stop: function( event, ui ) {editor.ChangePolygonDimension();//console.log("cut spin stopped.");
+         stop: function( event, ui ) {editor.changePolygonDimension();//console.log("cut spin stopped.");
          }
       });
 
@@ -627,9 +600,9 @@
          max: 1000,
          step: 1,
          //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
-         change: function( event, ui ) {editor.MarkChanged("ellinpts");console.log("ellipse points changed.");
+         change: function( event, ui ) {editor.markChanged("ellinpts");console.log("ellipse points changed.");
          },
-         stop: function( event, ui ) {editor.MarkChanged("ellinpts");console.log("ellipse points stopped.");
+         stop: function( event, ui ) {editor.markChanged("ellinpts");console.log("ellipse points stopped.");
          }
       });
 

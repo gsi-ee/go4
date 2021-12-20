@@ -34,7 +34,7 @@
       this.stat = stat;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
       this.showmore= [false, false];
-      this.ClearChanges();
+      this.clearChanges();
       this.ClearShowstates();
    }
 
@@ -53,7 +53,7 @@
    }
 
    // clear changed elements' list, make warning sign invisible
-   GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
+   GO4.AnalysisStatusEditor.prototype.clearChanges = function() {
       let index, step;
       let numsteps=this.changes.length;
       for (step = 0; step < numsteps ; step++) {
@@ -252,7 +252,7 @@
 
 
       //console.log("analysis editor: refreshEditor");
-      editor.ClearChanges();
+      editor.clearChanges();
 
    }
 
@@ -946,7 +946,7 @@
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                  console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
                   if(result) {
-                     editor.ClearChanges();
+                     editor.clearChanges();
                      if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
                   }
                });
@@ -971,7 +971,7 @@
                GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
                   console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
                  if(result) {
-                    editor.ClearChanges();
+                    editor.clearChanges();
                   if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
                  }
                  // todo: start analysis only after submission was successful?
@@ -992,7 +992,7 @@
                  result) {
                      console.log(result ? "closing down analyis done. "
                    : "set analysis FAILED.");
-                     //if(result) editor.ClearChanges();
+                     //if(result) editor.clearChanges();
 
            });
          });

@@ -43,7 +43,7 @@
    }
 
    // TODO: put to common "base class" of condition and parameter editor
-   GO4.ParameterEditor.prototype.ClearChanges = function() {
+   GO4.ParameterEditor.prototype.clearChanges = function() {
       let index;
       let len = this.changes.length;
       for (index = 0; index < len; index++) {
@@ -270,7 +270,7 @@
       $(id + " .par_values > thead th").addClass("par_memberheader_style");
       $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
 
-      this.ClearChanges();
+      this.clearChanges();
    }
 
    GO4.ParameterEditor.prototype.fillEditor = function() {
@@ -304,7 +304,7 @@
             console.log("set - condition " + editor.getItemName() + ", options=" + options);
             GO4.ExecuteMethod(editor, "UpdateFromUrl", options, function(result) {
                console.log(result ? "set parameter done. " : "set parameter FAILED.");
-               if (result) editor.ClearChanges();
+               if (result) editor.clearChanges();
             });
          })
          .children(":first") // select first button element, used for images
