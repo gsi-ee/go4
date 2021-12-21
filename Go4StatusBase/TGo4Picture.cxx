@@ -108,22 +108,22 @@ enum OptionsIdentifiers {
    op_FrameBottom = 98,
 
    op_ApplyToAll  = 99,
-   op_AutoZoom   = 100,
+   op_AutoZoom    = 100,
 
-   op_TimeAxisX	  = 200,
+   op_TimeAxisX	= 200,
    //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
    	   	   	   	   	   	   // check reason for this later JAM
 
-   op_XYRatioOne  = 300,  // JAM2016: 1:1 coordinate ratio
+   op_XYRatioOne   = 300,  // JAM2016: 1:1 coordinate ratio
    op_DefaultRatio = 301,  // temporary used to reset ratio to default
 
-   op_ObjsBound   = 0x4000,
+   op_ObjsBound    = 0x4000,
 
    op_Style        = op_ObjsBound,
    op_Draw         = op_ObjsBound+1,
    op_HisStatsOptF = op_ObjsBound+2,
    op_HisStatsFitF = op_ObjsBound+3,
-   op_TimeAxisXFmt= op_ObjsBound+4
+   op_TimeAxisXFmt = op_ObjsBound+4
 
 };
 
@@ -205,8 +205,8 @@ Bool_t TGo4Picture::IsDrawHeader()
 
 void TGo4Picture::SetDivision(Int_t ndivy, Int_t ndivx)
 {
-  if (ndivx<1) fiNDivX = 1; else fiNDivX = ndivx;
-  if (ndivy<1) fiNDivY = 1; else fiNDivY = ndivy;
+   fiNDivX = (ndivx < 1) ? 1 : ndivx;
+   fiNDivY = (ndivy < 1) ? 1 : ndivy;
 }
 
 TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
@@ -1084,11 +1084,10 @@ void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y
 
 void TGo4Picture::SetTitleAttr(TPaveText* titl)
 {
-   if (titl!=0) {
+   if (titl)
       SetTitleAttr(titl->GetX1NDC(), titl->GetY1NDC(),
                    titl->GetX2NDC(), titl->GetY2NDC(),
                    titl->GetTextSize());
-   }
 }
 
 Bool_t TGo4Picture::HasTitleAttr()
@@ -1299,7 +1298,6 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
    SetPadModified();
 }
 
-
 void TGo4Picture::SetFullRangeDim(Int_t ndim)
 {
    SetOption(PictureIndex, op_FullDim, ndim);
@@ -1337,10 +1335,10 @@ Bool_t TGo4Picture::GetFullRange(Int_t naxis, Double_t& min, Double_t& max)
 
 void TGo4Picture::ClearFullRange(Int_t naxis)
 {
-   if (naxis<0) {
-     for(int n=0;n<3;n++)
-       ClearFullRange(n);
-     ClearOption(PictureIndex, op_FullDim);
+   if (naxis < 0) {
+      for (int n = 0; n < 3; n++)
+         ClearFullRange(n);
+      ClearOption(PictureIndex, op_FullDim);
    }
    Int_t op;
    switch (naxis) {
@@ -1373,17 +1371,18 @@ void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass* selectedobjclass)
 
    CopyOptionsFrom(source);
 
-   if (source->fxSubPictures!=0) {
-     fxSubPictures = new TObjArray();
-     fxSubPictures->SetOwner(kTRUE);
-     for (Int_t n=0;n<=source->fxSubPictures->GetLast();n++) {
-       TGo4Picture* sub = dynamic_cast<TGo4Picture*> (source->fxSubPictures->At(n));
-       if (sub!=0) {
-         TGo4Picture* newsub = new TGo4Picture;
-         newsub->UpdateFrom(sub, selectedobjclass);
-         fxSubPictures->Add(newsub);
-       }
-     }
+   if (source->fxSubPictures != 0) {
+      fxSubPictures = new TObjArray();
+      fxSubPictures->SetOwner(kTRUE);
+      for (Int_t n = 0; n <= source->fxSubPictures->GetLast(); n++) {
+         TGo4Picture *sub =
+            dynamic_cast<TGo4Picture*>(source->fxSubPictures->At(n));
+         if (sub != 0) {
+            TGo4Picture *newsub = new TGo4Picture;
+            newsub->UpdateFrom(sub, selectedobjclass);
+            fxSubPictures->Add(newsub);
+         }
+      }
    }
 }
 
@@ -1546,9 +1545,9 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
 
 TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
 {
-   if (typ<op_ObjsBound) return 0;
+   if (typ < op_ObjsBound) return 0;
    Int_t pos = FindOptPos(index, typ);
-   if (pos<0) return 0;
+   if (pos < 0) return 0;
    return fxOptObjects->At(fxOptValue[pos]);
 }
 
