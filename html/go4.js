@@ -367,6 +367,8 @@
          op_HisTitle    = 25,
          op_HisStatsOpt = 85,
          op_HisStatsFit = 86,
+         op_Draw        = 0x4001,
+
          PictureIndex   = -1;
 
    function getOptValue(pic, indx, typ) {
@@ -403,7 +405,12 @@
       // console.log('Want to display item', itemname, 'on', divid);
 
       let opt = isth2 ? "col" : "";
-      if (k > 0) opt += "same";
+
+      let iopt = getOptValue(pic, k, op_Draw);
+      if ((iopt !== null) && pic.fxOptObjects)
+         opt = pic.fxOptObjects.arr[iopt].fString;
+
+      if (k > 0) opt += " same";
 
       return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
          if (!painter) return;
