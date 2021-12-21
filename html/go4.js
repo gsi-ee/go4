@@ -363,6 +363,10 @@
          op_LineWidth   = 7,
          op_FillColor   = 8,
          op_FillStyle   = 9,
+         op_HisStatsX1  = 19,
+         op_HisStatsY1  = 20,
+         op_HisStatsX2  = 21,
+         op_HisStatsY2  = 22,
          op_HisStats    = 24,
          op_HisTitle    = 25,
          op_HisStatsOpt = 85,
@@ -378,6 +382,17 @@
          if (pic.fxOptIndex[k] == srch)
             return pic.fxOptValue[k];
       return null;
+   }
+
+   function getOptDouble(pic, indx, typ) {
+      let ivalue = getOptValue(pic, indx, typ);
+      if (ivalue === null) return null;
+      const buffer = new ArrayBuffer(16),
+            view = new DataView(buffer),
+            big = BigInt(ivalue); // to be sure that BigInt is used
+      view.setUint32(0, Number(big >> 32n));
+      view.setUint32(4, Number(big % (2n ** 32n)));
+      return view.getFloat64(0);
    }
 
    function drawPictureObjects(divid, pic, k) {
@@ -442,6 +457,11 @@
 
             let histo = painter.getHisto(),
                 stat = painter.findStat(),
+                sx1 = getOptDouble(pic, PictureIndex, op_HisStatsX1),
+                sy1 = getOptDouble(pic, PictureIndex, op_HisStatsY1),
+                sx2 = getOptDouble(pic, PictureIndex, op_HisStatsX2),
+                sy2 = getOptDouble(pic, PictureIndex, op_HisStatsY2),
+                has_stats_pos = (sx1 !== null) && (sy1 !== null) && (sx2!==null) && (sy2!==null),
                 istitle = getOptValue(pic, PictureIndex, op_HisTitle),
                 isstats = getOptValue(pic, PictureIndex, op_HisStats),
                 statsopt = getOptValue(pic, PictureIndex, op_HisStatsOpt),
@@ -453,11 +473,17 @@
             if ((isstats !== null) && (!isstats != histo.TestBit(kNoStats))) {
                histo.InvertBit(kNoStats); need_redraw = true;
             }
-            if (stat && ((statsopt !== null) || (fitopt !== null))) {
+            if (stat && ((statsopt !== null) || (fitopt !== null) || has_stats_pos)) {
                if (statsopt !== null) stat.fOptStat = statsopt;
                if (fitopt !== null) stat.fOptFit = fitopt;
                let pp = painter.getPadPainter(),
                    statpainter = pp ? pp.findPainterFor(stat) : null;
+               if (has_stats_pos) {
+                  stat.fX1NDC = sx1;
+                  stat.fY1NDC = sy1;
+                  stat.fX2NDC = sx2;
+                  stat.fY2NDC = sy2;
+               }
                if (statpainter) statpainter.redraw();
             }
          }
