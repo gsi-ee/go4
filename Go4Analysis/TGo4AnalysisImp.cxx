@@ -2401,7 +2401,7 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    Long_t res = 0;
    TGo4Log::Info("Executing ROOT script %s", macro_name);
 
-   TString exec = ". x";
+   TString exec = ".x ";
    exec.Append(macro_name);
    int error = 0;
 
