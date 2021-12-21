@@ -395,13 +395,20 @@
       return view.getFloat64(0);
    }
 
+   function drawSpecialObjects(divid, pic, k) {
+      if (!pic.fxSpecialObjects || (k >= pic.fxSpecialObjects.arr.length))
+         return Promise.resolve(false);
+
+      return JSROOT.draw(divid, pic.fxSpecialObjects.arr[k], pic.fxSpecialObjects.opt[k]).then(() => drawSpecialObjects(divid, pic, k+1));
+   }
+
    function drawPictureObjects(divid, pic, k) {
       if (!divid || !pic.fxNames)
          return Promise.resolve(false);
 
       let arr = pic.fxNames ? pic.fxNames.arr : null;
       if (!arr || (k >= arr.length))
-         return Promise.resolve(false);
+         return drawSpecialObjects(divid, pic, 0);
 
       let n = pic.fxNames.arr[k], itemname = "", isth2 = false;
 
@@ -419,12 +426,10 @@
 
       // console.log('Want to display item', itemname, 'on', divid);
 
-      let opt = isth2 ? "col" : "";
-
-      let iopt = getOptValue(pic, k, op_Draw);
+      let opt = isth2 ? "col" : "",
+          iopt = getOptValue(pic, k, op_Draw);
       if ((iopt !== null) && pic.fxOptObjects)
          opt = pic.fxOptObjects.arr[iopt].fString;
-
       if (k > 0) opt += " same";
 
       return JSROOT.hpainter.display(itemname, opt + "divid:" + divid).then(painter => {
