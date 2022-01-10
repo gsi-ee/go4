@@ -75,5 +75,4 @@ class TGo4ParameterMember : public TNamed {
    ClassDef(TGo4ParameterMember, 1);
 };
 
-
 #endif

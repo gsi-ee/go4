@@ -49,7 +49,7 @@ TGo4ParameterMember::TGo4ParameterMember(const char* name, const char* title) :
 
 TGo4ParameterMember::~TGo4ParameterMember()
 {
-   if ((fObject!=0) && fObjectOwner) {
+   if (fObject && fObjectOwner) {
       delete fObject;
       fObject = 0;
    }

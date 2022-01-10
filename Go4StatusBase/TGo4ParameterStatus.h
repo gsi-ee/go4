@@ -46,7 +46,6 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
       Bool_t UpdateParameterValues(TGo4Parameter* par);
       TGo4Parameter* CreateParameter();
 
-
    protected:
       TObjArray*  fxMemberValues;
 

@@ -244,7 +244,6 @@ class TGo4Picture : public TNamed {
       TStyle* FindStyle(Int_t index = UndefIndex);
       TStyle* GetStyle(Int_t index = UndefIndex);
 
-
       void SetAxisLabelFontSize(Int_t naxis, Float_t LabelSize, Int_t index = UndefIndex);
       void SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t index = UndefIndex);
       void SetAxisAtt(Int_t naxis,
