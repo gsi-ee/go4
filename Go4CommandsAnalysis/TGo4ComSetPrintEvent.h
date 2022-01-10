@@ -39,11 +39,11 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
      * for each specific command! */
     virtual void Set(TGo4RemoteCommand* remcon);
 
-    void SetEventNum(Int_t i) {fxPrintPar.fiNum=i;}
-    void SetSubId(Int_t i) {fxPrintPar.fiSid=i;}
-    void SetLong(Bool_t on) {fxPrintPar.fiLong=on;}
-    void SetHex(Bool_t on) {fxPrintPar.fiHex=on; }
-    void SetData(Bool_t on) {fxPrintPar.fiData=on;}
+    void SetEventNum(Int_t i) { fxPrintPar.fiNum = i; }
+    void SetSubId(Int_t i) { fxPrintPar.fiSid = i; }
+    void SetLong(Bool_t on) { fxPrintPar.fiLong = on; }
+    void SetHex(Bool_t on) { fxPrintPar.fiHex = on; }
+    void SetData(Bool_t on) { fxPrintPar.fiData = on; }
 
   private:
 

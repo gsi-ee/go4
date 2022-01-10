@@ -17,7 +17,7 @@
 #include "TGo4AnalysisCommand.h"
 
 /**
- * Printout all histogram statisticx on the local analysis terminal.
+ * Printout all histogram statistic on the local analysis terminal.
  * May send this information to the gui later if option fbLocal is set to kFALSE.
  */
 class TGo4ComPrintHistograms : public TGo4AnalysisCommand {
@@ -31,4 +31,5 @@ class TGo4ComPrintHistograms : public TGo4AnalysisCommand {
 
    ClassDef(TGo4ComPrintHistograms,1)
 };
+
 #endif //TGO4COMPRINTHISTOGRAMS_H

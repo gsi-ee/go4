@@ -44,7 +44,6 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
        * for each specific command! */
       virtual void Set(TGo4RemoteCommand* remcon);
 
-
       Bool_t IsOutputEvent() const { return fbOutputEvent; }
 
       void SetOutputEvent(Bool_t output=kTRUE) { fbOutputEvent=output; }

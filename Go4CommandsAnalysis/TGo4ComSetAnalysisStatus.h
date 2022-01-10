@@ -39,13 +39,12 @@ class TGo4ComSetAnalysisStatus : public TGo4AnalysisCommand {
      * for each specific command! */
     virtual void Set(TGo4RemoteCommand* remcon);
 
-
     void SetStatusObject(TGo4AnalysisStatus* settings);
 
   private:
 
     /** @link aggregationByValue
-           *   @supplierCardinality 1 */
+      *   @supplierCardinality 1 */
     TGo4AnalysisStatus * fxAnalysisStatus;
 
     ClassDef(TGo4ComSetAnalysisStatus,1)

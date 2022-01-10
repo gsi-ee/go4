@@ -47,8 +47,7 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
    /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
-
+    virtual void Set(TGo4RemoteCommand *remcon);
 
   private:
 
