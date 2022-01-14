@@ -106,7 +106,7 @@
 
          // use height of child element
          let brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null,
-             sz = $('#'+divid + " div").height() + 4; // use jquery to get height
+             sz = elem.node().clientHeight + 12; 
 
          if (brlayout)
             brlayout.adjustSeparators(null, sz, true);
