@@ -1,14 +1,15 @@
 <head>
 <style type="text/css">
 
-.MyTermButtonStyle {
-   transform: scale(1.2, 1.2); 
+.go4_terminal_btn {
+   height: 28px;
+   width: 28px;
    background-position: 0 0;
    background-repeat: no-repeat;
    background-size: contain;
 }
 
-#anaterm_terminal_container{
+.anaterm_terminal_container{
 	height:100%; 
 	position: relative;
 	left: 5px;
@@ -19,16 +20,16 @@
 }
 
 #anaterm_output_container {
-			outline: outset thin;
-			position: absolute;
- 			top: 2px; 
-			bottom: 102px;
-			left: 1px;
- 			right: 1px; 
-			overflow-x:hidden; 
-			overflow-y: auto; 
-			background-color:#fff; 
-		}
+	outline: outset thin;
+	position: absolute;
+	top: 2px; 
+	bottom: 102px;
+	left: 1px;
+	right: 1px; 
+	overflow-x:hidden; 
+	overflow-y: auto; 
+	background-color:#fff; 
+}
 
 #anaterm_control_container {
 			outline: outset thin;
@@ -42,58 +43,55 @@
 			background-color:#eee; 		
 		}
 
-
-
 </style>
 
 </head>
 
-
-
 <body>
 
-<div id="anaterm_terminal_container">
+  <div class="anaterm_terminal_container">
 
-<div  id="anaterm_output_container"></div>
+    <div id="anaterm_output_container">
+    </div>
 
-
-<div  id="anaterm_control_container">
-
-
-<table style="width: 100%; height: 50%">
-			
-			<tbody>
- 			<tr>
-				<td colspan=4> <form id="go4_anaterm_cmd_form" accept-charset="utf-8">
-					<label for="go4_anaterm_command" title="Execute interpreter line in the analysis context. '@' means 'TGo4Analysis::Instance()->' ; A leading '$' invokes python skript.">
-							Press enter to execute.  </label><input id="go4_anaterm_command" type="text" size="55"  value="">
-						<button class="go4_executescript" title="Execute analysis script" type="submit">Execute</button>
-					</form> </td>
-				</tr>
-			
-				<tr>
-					<td style="height: 30px">
-						<button class="go4_clearterm"
-							title="Clear Terminal Window">Clear Terminal</button>
-					</td>
-					<td style="height: 30px">
-						<button class="go4_endterm"
-							title="Scroll to end of terminal window">End of Terminal</button>
-					</td>
-					<td style="height: 30px">
-						<button class="go4_printhistos"
-							title="Print Histograms">Print histos</button>
-					</td>
-					<td style="height: 30px">
-						<button class="go4_printcond"
-							title="Print conditions">Print conditions</button>
-					</td>
-			</tbody>
-		</table>
-
-
-
-</div>
-</div>
+    <div id="anaterm_control_container">
+         <table style="width: 100%; height: 50%">
+            <tbody>
+               <tr>
+                  <td colspan=4>
+                     <form class="go4_anaterm_cmd_form"
+                        accept-charset="utf-8">
+                        <label for="go4_anaterm_command"
+                           title="Execute interpreter line in the analysis context. '@' means 'TGo4Analysis::Instance()->' ; A leading '$' invokes python skript.">
+                           Press enter to execute. </label> <input
+                           id="go4_anaterm_command" type="text"
+                           size="55" value="" />
+                        <button
+                           class="go4_executescript go4_terminal_btn"
+                           title="Execute analysis script" type="submit"></button>
+                     </form>
+                  </td>
+               </tr>
+               <tr>
+                  <td style="height: 30px">
+                     <button class="go4_clearterm go4_terminal_btn"
+                        title="Clear Terminal Window"></button>
+                  </td>
+                  <td style="height: 30px">
+                     <button class="go4_endterm go4_terminal_btn"
+                        title="Scroll to end of terminal window"></button>
+                  </td>
+                  <td style="height: 30px">
+                     <button class="go4_printhistos go4_terminal_btn"
+                        title="Print Histograms"></button>
+                  </td>
+                  <td style="height: 30px">
+                     <button class="go4_printcond go4_terminal_btn"
+                        title="Print conditions"></button>
+                  </td>
+            </tbody>
+         </table>
+    </div>
+  </div>
 
 </body>

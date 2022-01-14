@@ -237,12 +237,13 @@
 
       if (!url || !frame) return null;
 
-      let divid = d3.select(frame).attr('id');
+      let elem = d3.select(frame),
+          divid = elem.attr('id');
 
-      let h = $("#"+divid).height(), w = $("#"+divid).width();
-      if ((h < 10) && (w > 10)) $("#"+divid).height(w*0.7);
+      let h = frame.clientHeight, w = frame.clientWidth;
+      if ((h < 10) && (w > 10)) elem.style("height", Math.round(w*0.7)+"px");
 
-      let player = new JSROOT.BasePainter(divid);
+      let player = new JSROOT.BasePainter(frame);
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
@@ -272,10 +273,10 @@
 
       player.processTimer = function() {
          let subid = "anaterm_output_container";
-         if ($("#" + subid).length == 0) {
-            // detect if drawing disappear
+         // detect if drawing disappear
+         if (d3.select("#" + subid).empty()) 
             return this.cleanup();
-         }
+
          if (!this.draw_ready) return;
 
          let msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
@@ -294,66 +295,57 @@
       }
 
       player.ClickClear = function() {
-         document.getElementById("anaterm_output_container").firstChild.innerHTML = "";
+         d3.select("#anaterm_output_container").html("");
       }
 
       player.clickScroll = function() {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
-         let disp = $("#anaterm_output_container").children(":first");
-         disp.scrollTop(disp[0].scrollHeight - disp.height());
+         let nodes = d3.select("#anaterm_output_container").selectAll("pre").nodes();
+         if (nodes) nodes[nodes.length-1].scrollIntoView();
       }
 
-
-      player.fillDisplay = function(id) {
+      player.fillDisplay = function() {
          this.setTopPainter();
          this.interval = setInterval(() => this.processTimer(), 2000);
+         let dom = this.selectDom();
 
-         id = "#" + id; // to use in jQuery
+         dom.select(".go4_clearterm")
+             .on("click", () => this.ClickClear())
+             .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
-         $(id + " .go4_clearterm")
-            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
-            .click(this.ClickClear.bind(this))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+         dom.select(".go4_clearterm")
+            .on("click", () => this.ClickClear())
+            .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
-         $(id + " .go4_endterm")
-            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
-            .click(this.clickScroll.bind(this))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
+         dom.select(".go4_endterm")
+            .on("click", () => this.clickScroll())
+            .style('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
 
-         $(id + " .go4_printhistos")
-            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
-            .click(this.ClickCommand.bind(this, "@PrintHistograms()"))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
+         dom.select(".go4_printhistos")
+            .on("click", () => this.ClickCommand("@PrintHistograms()"))
+            .style('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
 
-         $(id + " .go4_printcond")
-            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
-            .click(this.ClickCommand.bind(this, "@PrintConditions()"))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
+         dom.select(".go4_printcond")
+            .on("click", () => this.ClickCommand("@PrintConditions()"))
+            .style('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
-         let pthis = this;
+         dom.select(".go4_executescript")
+            .style('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
 
-         $("#go4_anaterm_cmd_form").submit(
-            function(event) {
-               let command = pthis.itemname.replace("Terminal", "CmdExecute");
-               let cmdpar = document.getElementById("go4_anaterm_command").value;
-               console.log("submit command - " + cmdpar);
-               pthis.hpainter.executeCommand(command, null, cmdpar).then(() => { pthis.needscroll = true; });
-               event.preventDefault();
-            });
+         dom.select(".go4_anaterm_cmd_form").on("submit", event => {
+            event.preventDefault();
+            let command = this.itemname.replace("Terminal", "CmdExecute");
+            let cmdpar = document.getElementById("go4_anaterm_command").value;
+            console.log("submit command - " + cmdpar);
+            this.hpainter.executeCommand(command, null, cmdpar).then(() => { this.needscroll = true; });
+         });
 
-         $(id + " .go4_executescript")
-            .button({ text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle" } })
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
 
       player.checkResize = function() {}
-
-      $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", () => player.fillDisplay(divid));
+      
+      JSROOT.httpRequest(GO4.source_dir + "html/terminal.htm", "text")
+            .then(code => { elem.html(code); player.fillDisplay(divid); });
 
       return player;
    }
