@@ -106,7 +106,7 @@
 
          // use height of child element
          let brlayout = JSROOT.hpainter ? JSROOT.hpainter.brlayout : null,
-             sz = elem.node().clientHeight + 12; 
+             sz = elem.node().clientHeight + 12;
 
          if (brlayout)
             brlayout.adjustSeparators(null, sz, true);
@@ -274,7 +274,7 @@
       player.processTimer = function() {
          let subid = "anaterm_output_container";
          // detect if drawing disappear
-         if (d3.select("#" + subid).empty()) 
+         if (d3.select("#" + subid).empty())
             return this.cleanup();
 
          if (!this.draw_ready) return;
@@ -344,7 +344,7 @@
       }
 
       player.checkResize = function() {}
-      
+
       JSROOT.httpRequest(GO4.source_dir + "html/terminal.htm", "text")
             .then(code => { elem.html(code); player.fillDisplay(divid); });
 
