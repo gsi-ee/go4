@@ -83,20 +83,19 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                this.cond.fUp2 = ymax;
                optionstring += `&ymin=${ymin}&ymax=${ymax}`;
             }
-         }
-         else if(key=="polygon")
-         {
-            let npoints=$(id+" .cut_points")[0].value;
-            optionstring +="&npolygon="+npoints;
+         } else if(key=="polygon") {
+            let npoints = dom.select(".cut_points").property("value");
+            optionstring += "&npolygon="+npoints;
+            let values = dom.selectAll(".cut_values input").nodes();
             // TODO: set display of polygon points
-            for(let i=0; i<npoints; ++i)
-            {
-               let x = $(id + " .cut_values input").eq(2*i)[0].value;
-               let y = $(id + " .cut_values input").eq(2*i+1)[0].value;
+            if (values.length != npoints*2) return console.error('mismatch', values.length, npoints*2);
+
+            for(let i=0; i < npoints; ++i) {
+               let x = values[2*i].value;
+               let y = values[2*i+1].value;
                optionstring += `&x${i}=${x}&y${i}=${y}`;
             }
-         }
-         else if (key=="ellinpts"){
+         } else if (key=="ellinpts"){
             let val=$(id+" .cond_ellipse_points")[0].value;
             optionstring +="&"+key+"="+val;
          }
@@ -193,8 +192,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       if(!this.isPolyCond()) return;
       let id = "#" + this.getDomId(),
+          dom = this.selectDom(),
           oldpoints = this.cond.fxCut.fNpoints,
-          npoints = $(id+" .cut_points")[0].value;
+          npoints = dom.select(".cut_points").property("value");
 
       //if(npoints==oldpoints) return; // no dimension change, do nothing - disabled, error if we again go back to original condition dimension
       if (this.cond.fxCut) {
@@ -271,7 +271,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       if (btns.length != tabs.length)
          return console.error('mismatch in tabs sizes', btns.length, tabs.length);
 
-      d3.select(btns[indx]).attr('disabled', action=="enable" ? null : "true");
+      d3.select(btns[indx]).attr('disabled', (action=="enable") ? null : "true");
 
       // if that tab selected, find any other suitable
       if ((action == "disable") && !d3.select(tabs[indx]).style("display")) {
@@ -284,6 +284,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             d3.select(tabs[indx]).style("display", "none");
             d3.select(tabs[best]).style("display", null);
          }
+      } else if (action == "enable") {
+         tabs.forEach((tab,i) => d3.select(tab).style('display', i==indx ? null : "none"));
       }
    }
 
@@ -312,20 +314,19 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       }
 
       if(this.isPolyCond()) {
-         this.changeTab( "disable", 0 ); // enable/disable by tab index
-         this.changeTab( "enable", 1 ); // enable/disable by tab index
+         this.changeTab("enable", 1); // enable/disable by tab index
+         this.changeTab("disable", 0); // enable/disable by tab index
          if (this.cond.fxCut) {
             let numpoints = this.cond.fxCut.fNpoints;
-            $(id+" .cut_points").val(numpoints); //.change(function(){ editor.markChanged("polygon")});
-            $(id + " .cut_values tbody").html("");
+            dom.select(".cut_points").property("value", numpoints);
+            let body = dom.select(".cut_values tbody").html("").on("change", () => editor.markChanged("polygon"));
 
             for(let i = 0; i < numpoints; i++) {
                let x = this.cond.fxCut.fX[i];
                let y = this.cond.fxCut.fY[i];
-               $(id + " .cut_values tbody").append("<tr><td><input type='text' value='" + x + "'/></td>  <td> <input type='text' value='" + y + "'/>  </td></tr>");
+               let row = body.append("tr").html(`<td><input type="text" value="${x}"/></td><td><input type="text" value="${y}"/> </td>`);
+               if ((i == numpoints-1) && (numpoints > 1)) row.selectAll("input").property("disabled", true); // disable last row
             }
-            $(id + " .cut_values tbody").change(function(){ editor.markChanged("polygon")});
-
          }
          if(this.isEllipseCond()) {
             this.changeTab( "enable", 2 ); // enable/disable by tab index
@@ -378,48 +379,48 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       // problem: static letiables are not streamed by default
 
       dom.select(".cond_visible")
-      .property('checked', cond.fbVisible)
-      .on("click", function() { cond.fbVisible = this.checked; editor.markChanged("visible")});
+         .property('checked', cond.fbVisible)
+         .on("click", function() { cond.fbVisible = this.checked; editor.markChanged("visible")});
 
       dom.select(".cond_limits")
-      .property('checked', cond.fbLimitsDraw)
-      .on("click", function() { cond.fbLimitsDraw = this.checked; editor.markChanged("limitsdraw")});
+         .property('checked', cond.fbLimitsDraw)
+         .on("click", function() { cond.fbLimitsDraw = this.checked; editor.markChanged("limitsdraw")});
 
       dom.select(".cond_label")
-      .property('checked', cond.fbLabelDraw)
-      .on("click", function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
+         .property('checked', cond.fbLabelDraw)
+         .on("click", function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
 
       dom.select(".cond_integr")
-      .property('checked', cond.fbIntDraw)
-      .on("click", function() { cond.fbIntDraw = this.checked; editor.markChanged("intdraw")});
+         .property('checked', cond.fbIntDraw)
+         .on("click", function() { cond.fbIntDraw = this.checked; editor.markChanged("intdraw")});
 
       dom.select(".cond_maxx")
-      .property('checked', cond.fbXMaxDraw)
-      .on("click", function() { cond.fbXMaxDraw = this.checked; editor.markChanged("xmaxdraw")});
+         .property('checked', cond.fbXMaxDraw)
+         .on("click", function() { cond.fbXMaxDraw = this.checked; editor.markChanged("xmaxdraw")});
 
       dom.select(".cond_max")
-      .property('checked', cond.fbCMaxDraw)
-      .on("click", function() { cond.fbCMaxDraw = this.checked; editor.markChanged("cmaxdraw")});
+         .property('checked', cond.fbCMaxDraw)
+         .on("click", function() { cond.fbCMaxDraw = this.checked; editor.markChanged("cmaxdraw")});
 
       dom.select(".cond_maxy")
-      .property('checked', cond.fbYMaxDraw)
-      .on("click", function() { cond.fbYMaxDraw = this.checked; editor.markChanged("ymaxdraw")});
+         .property('checked', cond.fbYMaxDraw)
+         .on("click", function() { cond.fbYMaxDraw = this.checked; editor.markChanged("ymaxdraw")});
 
       dom.select(".cond_xmean")
-      .property('checked', cond.fbXMeanDraw)
-      .on("click", function() { cond.fbXMeanDraw = this.checked; editor.markChanged("xmeandraw")});
+         .property('checked', cond.fbXMeanDraw)
+         .on("click", function() { cond.fbXMeanDraw = this.checked; editor.markChanged("xmeandraw")});
 
       dom.select(".cond_xrms")
-      .property('checked', cond.fbXRMSDraw)
-      .on("click", function() { cond.fbXRMSDraw = this.checked; editor.markChanged("xrmsdraw")});
+         .property('checked', cond.fbXRMSDraw)
+         .on("click", function() { cond.fbXRMSDraw = this.checked; editor.markChanged("xrmsdraw")});
 
       dom.select(".cond_ymean")
-      .property('checked', cond.fbYMeanDraw)
-      .on("click", function() { cond.fbYMeanDraw = this.checked; editor.markChanged("ymeandraw")});
+         .property('checked', cond.fbYMeanDraw)
+         .on("click", function() { cond.fbYMeanDraw = this.checked; editor.markChanged("ymeandraw")});
 
       dom.select(".cond_yrms")
-      .property('checked', cond.fbYRMSDraw)
-      .on("click", function() { cond.fbYRMSDraw = this.checked; editor.markChanged("yrmsdraw")});
+         .property('checked', cond.fbYRMSDraw)
+         .on("click", function() { cond.fbYRMSDraw = this.checked; editor.markChanged("yrmsdraw")});
 
       editor.clearChanges();
    }
@@ -520,9 +521,6 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                return;
             }
 
-            //if (JSROOT.hpainter){
-            //let onlineprop = JSROOT.hpainter.getOnlineProp(editor.getItemName());
-            //let baseurl = onlineprop.server + onlineprop.itemname + "/";
             let baseurl = editor.getItemName() + "/",
                 drawurl = baseurl + "draw.htm",
                 editorurl = baseurl + "draw.htm?opt=editor";
@@ -545,16 +543,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             })
           });
 
-      $(id+" .cut_points").spinner({
-         min: 0,
-         max: 1000,
-         step: 1,
-         //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
-         change: function( event, ui ) {editor.changePolygonDimension();//console.log("cut changed.");
-         },
-         stop: function( event, ui ) {editor.changePolygonDimension();//console.log("cut spin stopped.");
-         }
-      });
+      dom.select(".cut_points").on("change", () => this.changePolygonDimension());
 
       $(id+" .cond_ellipse_points").spinner({
          min: 0,
