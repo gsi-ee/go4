@@ -1,6 +1,6 @@
 // $Id$
 
-JSROOT.define(["jquery", "jquery-ui"], $ => {
+JSROOT.define([], () => {
 
    "use strict";
 
@@ -15,9 +15,6 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       e1.source = "condition.js";
       throw e1;
    }
-
-   // only during transition
-   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
 
    // =========================================================================================
 
@@ -60,10 +57,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    // scan changed value list and return optionstring to be send to server
    GO4.ConditionEditor.prototype.evaluateChanges = function(optionstring) {
-      let id = "#" + this.getDomId(),
-          dom = this.selectDom(),
-          index, len = this.changes.length;
-      for (index = 0; index < len ; index++) {
+      let dom = this.selectDom(),
+          len = this.changes.length;
+      for (let index = 0; index < len ; index++) {
          //let cursor=changes.pop();
          let key = this.changes[index];
          //console.log("Evaluate change key:%s", key);
@@ -101,81 +97,80 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                optionstring += `&x${i}=${x}&y${i}=${y}`;
             }
          } else if (key == "ellinpts") {
-            let val = $(id + " .cond_ellipse_points").property("value");
-            optionstring += "&" + key + "=" + val;
+            let val = dom.select(".cond_ellipse_points").property("value");
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellicx") {
             let val = dom.select(".cond_ellipse_cx").property("value");
-            optionstring += "&" + key + "=" + val;
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellicy") {
             let val = dom.select(".cond_ellipse_cy").property("value");
-            optionstring += "&" + key + "=" + val;
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellia1") {
             let val = dom.select(".cond_ellipse_a1").property("value");
-            optionstring += "&" + key + "=" + val;
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellia2") {
             let val = dom.select(".cond_ellipse_a2").property("value");
-            optionstring += "&" + key + "=" + val;
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellishape") {
-            let arg = dom.select(".cond_ellipse_iscircle").property("value");
-            optionstring += "&" + key + "=" + arg;
+            let val = dom.select(".cond_ellipse_iscircle").property("value");
+            optionstring += `&${key}=${val}`;
          } else if (key == "ellith") {
             let val = dom.select(".cond_ellipse_theta").property("value");
-            optionstring += "&" + key + "=" + val;
+            optionstring += `&${key}=${val}`;
          } else if (key == "resultmode") {
-            let selected = dom.select(".cond_execmode").property("value");
-            optionstring += "&" + key + "=" + selected;
+            let val = dom.select(".cond_execmode").property("value");
+            optionstring += `&${key}=${val}`;
          } else if (key == "invertmode") {
-            let selected = dom.select(".cond_invertmode").property("value");
-            optionstring += "&" + key + "=" + selected;
+            let val = dom.select(".cond_invertmode").property("value");
+            optionstring += `&${key}=${val}`;
          } else if (key == "visible") {
-            let arg = dom.select(".cond_visible").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_visible").property("checked") ? 1 : 0;
             optionstring += `&${key}=${arg}`;
          } else if (key == "labeldraw") {
-            let arg = dom.select(".cond_label").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_label").property("checked") ? 1 : 0;
             this.cond.fbLabelDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "limitsdraw"){
-            let arg = dom.select(".cond_limits").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_limits").property("checked") ? 1 : 0;
             this.cond.fbLimitsDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "intdraw") {
-            let arg = dom.select(".cond_integr").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_integr").property("checked") ? 1 : 0;
             this.cond.fbIntDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "xmeandraw") {
-            let arg = dom.select(".cond_xmean").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_xmean").property("checked") ? 1 : 0;
             this.cond.fbXMeanDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "xrmsdraw") {
-            let arg = dom.select(".cond_xrms").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_xrms").property("checked") ? 1 : 0;
             this.cond.fbXRMSDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "ymeandraw") {
-            let arg = dom.select(".cond_ymean").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_ymean").property("checked") ? 1 : 0;
             this.cond.fbYMeanDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "yrmsdraw") {
-            let arg = dom.select(".cond_yrms").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_yrms").property("checked") ? 1 : 0;
             this.cond.fbYRMSDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key == "xmaxdraw") {
-            let arg = dom.select(".cond_maxx").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_maxx").property("checked") ? 1 : 0;
             this.cond.fbXMaxDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key=="ymaxdraw") {
-            let arg = dom.select(".cond_maxy").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_maxy").property("checked") ? 1 : 0;
             this.cond.fbYMaxDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else if (key=="cmaxdraw") {
-            let arg = dom.select(".cond_max").property("checked") ? "1" : "0";
+            let arg = dom.select(".cond_max").property("checked") ? 1 : 0;
             this.cond.fbCMaxDraw = arg;
             optionstring += `&${key}=${arg}`;
          } else {
             console.log(`Warning: evaluateChanges found unknown key: ${key}`);
          }
-
-      }// for index
-      console.log("Resulting option string:%s", optionstring);
+      }
+      console.log(`Resulting option string: ${optionstring}`);
       return optionstring;
    }
 
@@ -258,12 +253,11 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       let editor = this,
-          id = "#" + this.getDomId(),
           cond = this.cond,
           dom = this.selectDom();
 
-      $(id+" .cond_name").text(cond.fName);
-      $(id+" .cond_type").text(cond._typename);
+      dom.select(".cond_name").text(cond.fName);
+      dom.select(".cond_type").text(cond._typename);
 
       dom.select(".cond_execmode").node().value = cond.fbEnabled ? 0 : (cond.fbResult ? 1 : 2);
 
@@ -326,9 +320,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          this.changeTab( "disable", 2 ); // enable/disable by tab index
       }
 
-      $(id+" .cond_counts").text(cond.fiCounts);
-      $(id+" .cond_true").text(cond.fiTrueCounts);
-      $(id+" .cond_percent").text((cond.fiCounts > 0 ? 100. * cond.fiTrueCounts / cond.fiCounts : 0.).toFixed(2) + "%");
+      dom.select(".cond_counts").text(cond.fiCounts);
+      dom.select(".cond_true").text(cond.fiTrueCounts);
+      dom.select(".cond_percent").text((cond.fiCounts > 0 ? 100. * cond.fiTrueCounts / cond.fiCounts : 0.).toFixed(2) + "%");
 
       // todo: get keywords from condition class definition
       // problem: static letiables are not streamed by default
@@ -386,8 +380,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    GO4.ConditionEditor.prototype.fillEditor = function() {
       this.setTopPainter();
 
-      let id = "#" + this.getDomId(),
-          editor = this,
+      let editor = this,
           cond = this.cond,
           dom = this.selectDom();
 
@@ -461,6 +454,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             let baseurl = editor.getItemName() + "/",
                 drawurl = baseurl + "draw.htm",
                 editorurl = baseurl + "draw.htm?opt=editor";
+
             console.log("draw condition to next window with url="+drawurl);
             //window.open(drawurl);
             window.open(drawurl,'_blank');
@@ -482,16 +476,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       dom.select(".cut_points").on("change", () => this.changePolygonDimension());
 
-      $(id+" .cond_ellipse_points").spinner({
-         min: 0,
-         max: 1000,
-         step: 1,
-         //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
-         change: function( event, ui ) {editor.markChanged("ellinpts");console.log("ellipse points changed.");
-         },
-         stop: function( event, ui ) {editor.markChanged("ellinpts");console.log("ellipse points stopped.");
-         }
-      });
+      dom.select(".cond_ellipse_points").on("change", () => this.markChanged("ellinpts"));
 
       this.refreshEditor();
    }
