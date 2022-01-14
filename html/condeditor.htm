@@ -10,50 +10,50 @@
 
 .counter_style
 {
-	border: 1px solid gray; 
+	border: 1px solid gray;
 	font-size:large
 }
 
 .cond_modestable
 {
-	position:relative; 
+	position:relative;
 	left: 4px;
-	width:100%; 
+	width:100%;
 	height:100%;
 	table-layout: fixed;
 }
 
 #editor_container{
-	height:100%; 
+	height:100%;
 	position: relative;
 	right: 5px;
-	outline: groove medium; 
-	overflow-x:hidden; 
+	outline: groove medium;
+	overflow-x:hidden;
 	overflow-y: auto
 }
 
 #header_container {
 			outline: outset thin;
-			position: absolute;	
+			position: absolute;
 			top: 2px;
  			height: 100px;
  			left: 5px;
- 			right: 1px; 
-			overflow-x:hidden; 
-			overflow-y: auto; 
-			background-color:#eee; 
+ 			right: 1px;
+			overflow-x:hidden;
+			overflow-y: auto;
+			background-color:#eee;
 		}
 
 #tab_container {
 			outline: outset thin;
 			position: absolute;
- 			top: 105px; 
+ 			top: 105px;
 			bottom: 52px;
 			left: 5px;
- 			right: 1px; 
-			overflow-x:hidden; 
-			overflow-y: auto; 
-			background-color:#eee; 
+ 			right: 1px;
+			overflow-x:hidden;
+			overflow-y: auto;
+			background-color:#eee;
 		}
 
 #button_container {
@@ -62,15 +62,16 @@
 			bottom: 1px;
 			height: 48px;
 			left: 5px;
- 			right: 1px; 
-			overflow-x:hidden; 
-			overflow-y:hidden;	 
-			background-color:#eee; 		
+ 			right: 1px;
+			overflow-x:hidden;
+			overflow-y:hidden;
+			background-color:#eee;
 		}
 
 
-.MyButtonStyle {
-   transform: scale(1.2, 1.2); 
+.go4_condition_btn {
+   height: 28px;
+   width: 28px;
    background-position: 0 0;
    background-repeat: no-repeat;
    background-size: contain;
@@ -84,7 +85,7 @@
 
 <body>
 
-<div  id="editor_container">
+<div id="editor_container">
 
 
 <div id="header_container">
@@ -99,7 +100,7 @@
       <td><select name="execmode" class="cond_execmode" title="Set mode of execution"style="width:50%" >
 	    <option value="0" selected="selected">Return Result</option>
 	    <option value="1">Return Always True</option>
-	    <option value="2">Return Always False</option>      
+	    <option value="2">Return Always False</option>
       </select></td>
       <td><select name="invertmode" class="cond_invertmode" title="Condition return regular or invert result" style="width:50%">
 	    <option  value="0" selected="selected">Regular</option>
@@ -146,7 +147,7 @@
   </div>
   <div id="tabs-2">
   	<label title="Number of polygon points"> NPoints <input class="cut_points" style="float:left; width:50px" type="text"  value="0"></label>
-  
+
    <table class="cut_values" style="position:relative; width:80%; height:100%; border-spacing: 5px 5px; float:right; text-align: center">
       <thead>
        <tr style="border:1px solid black; width:100%">
@@ -156,9 +157,9 @@
       <tbody>
       </tbody>
     </table>
-   
+
   </div>
-  
+
    <div id="tabs-3">
      <table style="position:relative; width:100%; height:100%; border-spacing:5px 5px; text-align: right">
       <tr>
@@ -183,7 +184,7 @@
       </tr>
      </table>
   </div>
-  
+
   <div id="tabs-4" style="align:center">
     <table style="position:relative; width:100%; height:100%; border-spacing: 0px 0px; text-align: left">
       <tr>
@@ -223,44 +224,40 @@
 
 <div id="button_container">
 
-
-
-
 <table style="width: 70px; height: 100%; float: left">
 			<tbody>
 				<tr>
 					<td style="height: 30px">
-						<button class="buttonGetCondition"
+						<button class="buttonGetCondition go4_condition_btn"
 							title="Refresh condition display from analysis server">Get</button>
 					</td>
 					<td style="height: 30px">
-						<button class="buttonSetCondition"
+						<button class="buttonSetCondition go4_condition_btn"
 							title="Send condition valules to analysis server">Set</button>
 					</td>
 					<td style="height: 30px">
-						<button class="buttonChangeLabel"
+						<button class="buttonChangeLabel go4_condition_btn"
 							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
-					</td> 
+					</td>
 				</tr>
 			</tbody>
 		</table>
-		
+
 	<table style="width: 70px; height: 100%; float: right">
 			<tbody>
 				<tr>
 					<td style="height: 30px">
-						<button class="buttonDrawCondition"
+						<button class="buttonDrawCondition go4_condition_btn"
 							title="Display Condition with assigned histogram on next drawpanel">Draw</button>
-					</td> 
+					</td>
 					<td style="height: 30px">
 						<button class="buttonClearCondition"
 							title="Reset all counters to zero">Clear counters</button>
 					</td>
-					
+
 				</tr>
 			</tbody>
-		</table>	
-
+		</table>
 
 </div>
 

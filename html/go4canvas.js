@@ -54,7 +54,7 @@
       let marker = this.getObject();
       marker.fX = this.svgToAxis("x", this.grx);
       marker.fY = this.svgToAxis("y", this.gry);
-      let exec = "SetXY(" + marker.fX + "," + marker.fY + ")";
+      let exec = `SetXY(${marker.fX},${marker.fY})`;
       this.submitCanvExec(exec);
       this.drawLabel();
    }
@@ -550,11 +550,11 @@
       this.drawLabel();
    }
 
-   GO4.drawGo4Cond = function(divid, cond, option) {
+   GO4.drawGo4Cond = function(dom, cond, option) {
 
       if (!option) option = "";
 
-      let condpainter = new GO4.ConditionPainter(divid, cond),
+      let condpainter = new GO4.ConditionPainter(dom, cond),
           elem = condpainter.selectDom();
 
       if (GO4.web_canvas || (option.indexOf('same') >= 0) || condpainter.getMainPainter()) {
@@ -565,13 +565,16 @@
       }
 
       // from here normal code for plain THttpServer
+      if ((option=='editor') || !cond.fxHistoName) {
+         // failure, should never happens!
+         if (!GO4.source_dir) return null;
 
-      if (((cond.fxHistoName=="") || (option=='editor')) && GO4.ConditionEditor) {
          let rect = elem.node().getBoundingClientRect();
-
          if ((rect.height < 10) && (rect.width > 10)) elem.style("height", Math.round(rect.width*0.4) + "px");
-         let editor = new GO4.ConditionEditor(condpainter.getDomId(), cond);
-         return new Promise(resolve => editor.drawEditor(condpainter.getDomId(), resolve));
+         return JSROOT.require(GO4.source_dir + 'html/condition.js').then(() => {
+            let editor = new GO4.ConditionEditor(dom, cond);
+            return editor.drawEditor();
+         });
       }
 
       if (!JSROOT.hpainter) return;
@@ -589,8 +592,6 @@
          let hitem = JSROOT.hpainter.findItem({ name: histofullpath, force: true });
 
          hitem._kind = "ROOT.TH1I";
-
-         console.log("Try histogram" + histofullpath);
       }
 
       function drawCond(hpainter) {

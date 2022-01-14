@@ -28,9 +28,8 @@
           GO4EV_MBS_RANDOM: 10            // random generated mbs event
       };
 
-   GO4.AnalysisStatusEditor = function(divid, stat) {
-      JSROOT.BasePainter.call(this, divid);
-      if (this.SetDivId) this.SetDivId(divid);
+   GO4.AnalysisStatusEditor = function(dom, stat) {
+      JSROOT.BasePainter.call(this, dom);
       this.stat = stat;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
       this.showmore= [false, false];

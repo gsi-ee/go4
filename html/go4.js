@@ -181,9 +181,8 @@
    }
 
 
-   GO4.MsgListPainter = function(divid, lst) {
-      JSROOT.BasePainter.call(this, divid);
-      if (this.SetDivId) this.SetDivId(divid); // old
+   GO4.MsgListPainter = function(dom, lst) {
+      JSROOT.BasePainter.call(this, dom);
       this.lst = lst;
       return this;
    }
@@ -554,10 +553,10 @@
    let canvsrc = GO4.source_dir + 'html/go4canvas.js;';
    let jsrp = JSROOT.Painter;
 
-   jsrp.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
-   jsrp.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
-   jsrp.addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond', opt: ";editor" });
-   jsrp.addDrawFunc({ name: "TGo4CondArray", script: canvsrc + GO4.source_dir + 'html/condition.js', func: 'GO4.drawCondArray', opt: ";editor" });
+   jsrp.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
+   jsrp.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
+   jsrp.addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
+   jsrp.addDrawFunc({ name: "TGo4CondArray", script: canvsrc, func: 'GO4.drawCondArray', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4Marker", script: canvsrc, func: 'GO4.drawGo4Marker' });
 
    jsrp.addDrawFunc({ name: "TGo4AnalysisWebStatus", script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });

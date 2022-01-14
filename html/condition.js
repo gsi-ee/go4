@@ -1,6 +1,6 @@
 // $Id$
 
-(function(){
+JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    "use strict";
 
@@ -16,11 +16,13 @@
       throw e1;
    }
 
+   // only during transition
+   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
+
    // =========================================================================================
 
-   GO4.ConditionEditor = function(divid, cond) {
-      JSROOT.BasePainter.call(this, divid);
-      if (this.SetDivId) this.SetDivId(divid);
+   GO4.ConditionEditor = function(dom, cond) {
+      JSROOT.BasePainter.call(this, dom);
       this.cond = cond;
       this.changes = ["dummy", "init"];
       this.clearChanges();
@@ -44,9 +46,7 @@
       }
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      let id = "#" + this.getDomId();
-
-      $(id+" .buttonChangeLabel").show();// show warning sign
+      this.selectDom().select(".buttonChangeLabel").style("display", null);// show warning sign
    }
 
    // clear changed elements' ist, make warning sign invisible
@@ -55,8 +55,7 @@
          let removed = this.changes.pop();
          console.log("Clear changes removed :%s", removed);
       }
-      let id = this.getDomId();
-      if (id) $("#" + id + " .buttonChangeLabel").hide(); // hide warning sign
+      this.selectDom().select(".buttonChangeLabel").style("display", "none"); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
@@ -437,12 +436,13 @@
 
 
   //////////////////////////////////////////////////////////
-   GO4.ConditionEditor.prototype.fillEditor = function(divid, resolveFunc) {
+   GO4.ConditionEditor.prototype.fillEditor = function() {
       this.setTopPainter();
 
-      let id = "#" + divid,
+      let id = "#" + this.getDomId(),
           editor = this,
-          cond = this.cond;
+          cond = this.cond,
+          dom = this.selectDom();
 
       $(id+" .cond_tabs").tabs();
 
@@ -493,38 +493,30 @@
 
       }
 
-      $(id+" .buttonGetCondition")
-      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-      .click(function() {
-         if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-                         else console.log("hierarhy painter object not found!");
-      })
-      .children(":first") // select first button element, used for images
-      .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
-
-      $(id+" .buttonSetCondition")
-      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-      .click(function() {
-         let options=""; // do not need to use name here
-         options = editor.evaluateChanges(options); // complete option string from all changed elements
-         console.log("set - condition "+ editor.getItemName()+ ", options="+options);
-         GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
-            console.log(result ? "set condition done. " : "set condition FAILED.");
-            if(result) editor.clearChanges();
+      dom.select(".buttonGetCondition")
+         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .on("click", () => {
+            if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
+                            else console.log("hierarhy painter object not found!");
          });
-      })
-      .children(":first") // select first button element, used for images
-      .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
 
-      $(id+" .buttonChangeLabel")
-         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-         .click()
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+      dom.select(".buttonSetCondition")
+         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .on("click", () => {
+            let options = editor.evaluateChanges(""); // complete option string from all changed elements
+            console.log("set - condition "+ editor.getItemName()+ ", options="+options);
+            GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
+               console.log(result ? "set condition done. " : "set condition FAILED.");
+               if(result) editor.clearChanges();
+            });
+         });
 
-      $(id+" .buttonDrawCondition")
-         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-         .click(function() {
+      dom.select(".buttonChangeLabel")
+         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+
+      dom.select(".buttonDrawCondition")
+         .style('background-image', "url(" + GO4.source_dir + "icons/chart.png)")
+         .on("click", () => {
             // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
 
             if (JSROOT.hpainter) {
@@ -540,40 +532,27 @@
             //if (JSROOT.hpainter){
             //let onlineprop = JSROOT.hpainter.getOnlineProp(editor.getItemName());
             //let baseurl = onlineprop.server + onlineprop.itemname + "/";
-            let baseurl = editor.getItemName() + "/";
-            let drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
+            let baseurl = editor.getItemName() + "/",
+                drawurl = baseurl + "draw.htm",
+                editorurl = baseurl + "draw.htm?opt=editor";
             console.log("draw condition to next window with url="+drawurl);
             //window.open(drawurl);
             window.open(drawurl,'_blank');
-   //       }
-   //       else
-   //       {
-   //       console.log("hpainter object not found!");
-   //       }
-   //       problem: we do not have method to get currently selected pad...
-   //       let nextid="#"+(editor.divid + 1); // does not work, id is string and not number here
-   //       console.log("draw condition to id="+nextid);
-   //       GO4.drawGo4Cond(nextid, editor.cond, "");
 
-
-         })
-      .children(":first") // select first button element, used for images
-      .css('background-image', "url(" + GO4.source_dir + "icons/chart.png)");
-
-      $(id+" .buttonClearCondition")
-        .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
-        .click(function() {
-         let options="&resetcounters=1";
-         GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
-            console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
-            if (result) {
-               if(JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-               else console.log("hpainter object not found!");
-            }
          });
-        })
-        .children(":first") // select first button element, used for images
-        .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+
+      dom.select(".buttonClearCondition")
+         .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)")
+         .on("click", ()=> {
+            let options = "&resetcounters=1";
+            GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
+               console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
+               if (result) {
+                   if(JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
+                               else console.log("hpainter object not found!");
+               }
+            })
+          });
 
       $(id+" .cut_points").spinner({
          min: 0,
@@ -598,15 +577,14 @@
       });
 
       this.refreshEditor();
-
-      resolveFunc(this);
    }
 
-   GO4.ConditionEditor.prototype.drawEditor = function(divid, resolveFunc) {
-      $("#"+divid)
-         .empty()
-         .load(GO4.source_dir + "html/condeditor.htm", "", () => this.fillEditor(divid, resolveFunc));
-      return this;
+   GO4.ConditionEditor.prototype.drawEditor = function() {
+      return JSROOT.httpRequest(GO4.source_dir + "html/condeditor.htm", "text").then(src => {
+         this.selectDom().html(src);
+         this.fillEditor();
+         return this;
+      });
    }
 
    GO4.ConditionEditor.prototype.redrawObject = function(obj/*, opt */) {
@@ -616,4 +594,4 @@
       return true;
    }
 
-})(); // function
+}) // function

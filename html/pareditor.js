@@ -18,9 +18,8 @@
 
    // ===========================================================================================
 
-   GO4.ParameterEditor = function(divid, par) {
-      JSROOT.BasePainter.call(this, divid);
-      if (this.SetDivId) this.SetDivId(divid);
+   GO4.ParameterEditor = function(dom, par) {
+      JSROOT.BasePainter.call(this, dom);
       this.par = par;
       this.changes = ["dummy", "init"]; // TODO: put to common "base class" of condition and parameter editor
    }
