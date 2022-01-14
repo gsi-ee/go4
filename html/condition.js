@@ -83,16 +83,21 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                this.cond.fUp2 = ymax;
                optionstring += `&ymin=${ymin}&ymax=${ymax}`;
             }
-         } else if(key=="polygon") {
+         } else if (key == "polygon") {
             let npoints = dom.select(".cut_points").property("value");
             optionstring += "&npolygon="+npoints;
             let values = dom.selectAll(".cut_values input").nodes();
             // TODO: set display of polygon points
-            if (values.length != npoints*2) return console.error('mismatch', values.length, npoints*2);
+            if (values.length != npoints*2)
+               return console.error('mismatch', values.length, npoints*2);
 
-            for(let i=0; i < npoints; ++i) {
-               let x = values[2*i].value;
-               let y = values[2*i+1].value;
+            // always copy last point!
+            values[npoints*2-2].value = values[0].value;
+            values[npoints*2-1].value = values[1].value;
+
+            for(let i = 0; i < npoints; ++i) {
+               let x = values[i*2].value,
+                   y = values[i*2+1].value;
                optionstring += `&x${i}=${x}&y${i}=${y}`;
             }
          } else if (key=="ellinpts"){
@@ -198,65 +203,35 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       //if(npoints==oldpoints) return; // no dimension change, do nothing - disabled, error if we again go back to original condition dimension
       if (this.cond.fxCut) {
-
-         $(id + " .cut_values tbody").html(""); // clear old contents
+         let body = dom.select(".cut_values tbody").html(""); // clear old contents
          if (npoints > oldpoints) {
             // insert last but one point into table:
             // first points are unchanged:
             for (let i = 0; i < oldpoints - 1; i++) {
-               let x = this.cond.fxCut.fX[i];
-               let y = this.cond.fxCut.fY[i];
-               $(id + " .cut_values tbody")
-               .append(
-                     "<tr><td><input type='text' value='"
-                     + x
-                     + "'/></td>  <td> <input type='text' value='"
-                     + y + "'/>  </td></tr>");
-               console.log("i:" + i + ", X=" + x + " Y=" + y);
+               let x = this.cond.fxCut.fX[i], y = this.cond.fxCut.fY[i];
+               body.append("tr").html(`<td><input type="text" value="${x}"/></td><td><input type="text" value="${y}"/></td>`);
             }
             // inserted points will reproduce values of last but one point:
-            let insx = this.cond.fxCut.fX[oldpoints - 2];
-            let insy = this.cond.fxCut.fY[oldpoints - 2];
-            for (let i = oldpoints - 1; i < npoints - 1; i++) {
-               $(id + " .cut_values tbody")
-               .append(
-                     "<tr><td><input type='text' value='"
-                     + insx
-                     + "'/></td>  <td> <input type='text' value='"
-                     + insy + "'/>  </td></tr>");
-            }
+            let insx = this.cond.fxCut.fX[oldpoints - 2],
+                insy = this.cond.fxCut.fY[oldpoints - 2];
+            for (let i = oldpoints - 1; i < npoints - 1; i++)
+               body.append("tr").html(`<td><input type="text" value="${insx}"/></td><td><input type="text" value="${insy}"/></td>`);
             // final point is kept as last point of old polygon, should
             // match first point for closed tcutg:
-            let lastx = this.cond.fxCut.fX[oldpoints - 1];
-            let lasty = this.cond.fxCut.fY[oldpoints - 1];
-            $(id + " .cut_values tbody").append(
-                  "<tr><td><input type='text' value='" + lastx
-                  + "'/></td>  <td> <input type='text' value='"
-                  + lasty + "'/>  </td></tr>");
-         }
-         else
-         {
+            let lastx = this.cond.fxCut.fX[oldpoints - 1],
+                lasty = this.cond.fxCut.fY[oldpoints - 1];
+            body.append("tr").html(`<td><input type="text" value="${lastx}" disabled/></td><td><input type="text" value="${lasty}" disabled/></td>`);
+         } else {
             // remove last but one point from table:
             for (let i = 0; i < npoints - 1; i++) {
-               let x = this.cond.fxCut.fX[i];
-               let y = this.cond.fxCut.fY[i];
-               $(id + " .cut_values tbody")
-               .append(
-                     "<tr><td><input type='text' value='"
-                     + x
-                     + "'/></td>  <td> <input type='text' value='"
-                     + y + "'/>  </td></tr>");
+               let x = this.cond.fxCut.fX[i], y = this.cond.fxCut.fY[i];
+               body.append("tr").html(`<td><input type="text" value="${x}"/></td><td><input type="text" value="${y}"/></td>`);
             }
             // final point is kept as last point of old polygon, should
             // match first point for closed tcutg:
-            let lastx = this.cond.fxCut.fX[oldpoints - 1];
-            let lasty = this.cond.fxCut.fY[oldpoints - 1];
-            $(id + " .cut_values tbody").append(
-                  "<tr><td><input type='text' value='" + lastx
-                  + "'/></td>  <td> <input type='text' value='"
-                  + lasty + "'/>  </td></tr>");
-            console.log("i:" + (npoints - 1) + ", X=" + lastx + " Y=" + lasty);
-
+            let lastx = this.cond.fxCut.fX[oldpoints - 1],
+                lasty = this.cond.fxCut.fY[oldpoints - 1];
+            body.append("tr").html(`<td><input type="text" value="${lastx}" disabled/></td><td><input type="text" value="${lasty}" disabled/> </td>`);
          }
       }
       this.markChanged("polygon");
