@@ -60,9 +60,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    // scan changed value list and return optionstring to be send to server
    GO4.ConditionEditor.prototype.evaluateChanges = function(optionstring) {
-      let id = "#" + this.getDomId();
-      let index;
-      let len=this.changes.length;
+      let id = "#" + this.getDomId(),
+          dom = this.selectDom(),
+          index, len = this.changes.length;
       for (index = 0; index < len ; index++) {
          //let cursor=changes.pop();
          let key = this.changes[index];
@@ -125,12 +125,12 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             optionstring +="&"+key+"="+val;
          }
          else if (key=="resultmode"){
-            let selected=$(id+" .cond_execmode")[0].value;
-            optionstring +="&"+key+"="+selected;
+            let selected = dom.select(".cond_execmode").node().value;
+            optionstring += "&"+key+"="+selected;
          }
          else if (key=="invertmode"){
-            let selected=$(id+" .cond_invertmode")[0].value;
-            optionstring +="&"+key+"="+selected;
+            let selected = dom.select(".cond_invertmode").node().value;
+            optionstring += "&"+key+"="+selected;
          }
          else if (key=="visible"){
             let checked=$(id+" .cond_visible")[0].checked;
@@ -312,27 +312,15 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       let editor = this,
           id = "#" + this.getDomId(),
-          cond = this.cond;
+          cond = this.cond,
+          dom = this.selectDom();
 
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
 
-      if(cond.fbEnabled)
-         $(id+" .cond_execmode").val(0);
-      else if(cond.fbResult)
-         $(id+" .cond_execmode").val(1);
-      else
-         $(id+" .cond_execmode").val(2);
+      dom.select(".cond_execmode").node().value = cond.fbEnabled ? 0 : (cond.fbResult ? 1 : 2);
 
-      $(id+" .cond_execmode").selectmenu("refresh");
-      $(id+" .cond_execmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
-      if(cond.fbTrue)
-         $(id+" .cond_invertmode").val(0);
-      else
-         $(id+" .cond_invertmode").val(1);
-
-      $(id+" .cond_invertmode").selectmenu("refresh");
-      $(id+" .cond_invertmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
+      dom.select(".cond_invertmode").node().value = cond.fbTrue ? 0 : 1;
 
 
       $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.markChanged("limits")});
@@ -469,6 +457,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
           cond = this.cond,
           dom = this.selectDom();
 
+      // assign tabs buttons handlers
       dom.select('.tabs_header').selectAll("button").on("click", function() {
          let btn = d3.select(this);
          dom.selectAll('.tabs_body>div').each(function() {
@@ -477,16 +466,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          });
       });
 
-      $(id + " .cond_execmode").selectmenu({
-         change : function(event, ui) {
-            editor.markChanged("resultmode");
-         }
-      });
-      $(id + " .cond_invertmode").selectmenu({
-         change : function(event, ui) {
-            editor.markChanged("invertmode");
-         }
-      });
+      dom.select(".cond_execmode").on("change", () => this.markChanged("resultmode"));
+
+      dom.select(".cond_invertmode").on("change", () => this.markChanged("invertmode"));
 
       if(this.isEllipseCond()) {
          $(id+" .cond_ellipse_iscircle").selectmenu({
