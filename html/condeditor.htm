@@ -2,82 +2,71 @@
 
 
 <style type="text/css">
-
-.limit_style
-{
-	width:5em;
+.limit_style {
+	width: 5em;
 }
 
-.counter_style
-{
+.counter_style {
 	border: 1px solid gray;
-	font-size:large
+	font-size: large
 }
 
-.cond_modestable
-{
-	position:relative;
+.cond_modestable {
+	position: relative;
 	left: 4px;
-	width:100%;
-	height:100%;
+	width: 100%;
+	height: 100%;
 	table-layout: fixed;
 }
 
-#editor_container{
-	height:100%;
+#editor_container {
+	height: 100%;
 	position: relative;
 	right: 5px;
 	outline: groove medium;
-	overflow-x:hidden;
-	overflow-y: auto
+	overflow-x: hidden;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
 }
 
 #header_container {
-			outline: outset thin;
-			position: absolute;
-			top: 2px;
- 			height: 100px;
- 			left: 5px;
- 			right: 1px;
-			overflow-x:hidden;
-			overflow-y: auto;
-			background-color:#eee;
-		}
-
-#tab_container {
-			outline: outset thin;
-			position: absolute;
- 			top: 105px;
-			bottom: 52px;
-			left: 5px;
- 			right: 1px;
-			overflow-x:hidden;
-			overflow-y: auto;
-			background-color:#eee;
-		}
-
-#button_container {
-			outline: outset thin;
-			position: absolute;
-			bottom: 1px;
-			height: 48px;
-			left: 5px;
- 			right: 1px;
-			overflow-x:hidden;
-			overflow-y:hidden;
-			background-color:#eee;
-		}
-
-
-.go4_condition_btn {
-   height: 28px;
-   width: 28px;
-   background-position: 0 0;
-   background-repeat: no-repeat;
-   background-size: contain;
+	flex-grow: 0;
+   padding: 8px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #eee;
 }
 
+#tab_container {
+   flex-grow: 8;
+   padding: 8px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #eee;
+}
 
+#button_container {
+   flex-grow: 0;
+   padding: 8px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background-color: #eee;
+}
+
+.go4_condition_btn {
+	height: 28px;
+	width: 28px;
+	display: inline-block;
+	margin: 2px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.btn {
+
+}
 </style>
 </head>
 
@@ -229,15 +218,15 @@
 				<tr>
 					<td style="height: 30px">
 						<button class="buttonGetCondition go4_condition_btn"
-							title="Refresh condition display from analysis server">Get</button>
+							title="Refresh condition display from analysis server"></button>
 					</td>
 					<td style="height: 30px">
 						<button class="buttonSetCondition go4_condition_btn"
-							title="Send condition valules to analysis server">Set</button>
+							title="Send condition valules to analysis server"></button>
 					</td>
 					<td style="height: 30px">
 						<button class="buttonChangeLabel go4_condition_btn"
-							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
+							title="This label shows that your current changes have not yet been updated to analysis"></button>
 					</td>
 				</tr>
 			</tbody>
@@ -248,11 +237,11 @@
 				<tr>
 					<td style="height: 30px">
 						<button class="buttonDrawCondition go4_condition_btn"
-							title="Display Condition with assigned histogram on next drawpanel">Draw</button>
+							title="Display Condition with assigned histogram on next drawpanel"></button>
 					</td>
 					<td style="height: 30px">
-						<button class="buttonClearCondition"
-							title="Reset all counters to zero">Clear counters</button>
+						<button class="buttonClearCondition go4_condition_btn"
+							title="Reset all counters to zero"></button>
 					</td>
 
 				</tr>
