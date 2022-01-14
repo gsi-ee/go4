@@ -100,46 +100,37 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                    y = values[i*2+1].value;
                optionstring += `&x${i}=${x}&y${i}=${y}`;
             }
-         } else if (key=="ellinpts"){
-            let val=$(id+" .cond_ellipse_points")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="ellicx"){
-            let val=$(id+" .cond_ellipse_cx")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="ellicy"){
-            let val=$(id+" .cond_ellipse_cy")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="ellia1"){
-            let val=$(id+" .cond_ellipse_a1")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="ellia2"){
-            let val=$(id+" .cond_ellipse_a2")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="ellishape"){
-            let arg=$(id+" .cond_ellipse_iscircle")[0].value;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="ellith"){
-            let val=$(id+" .cond_ellipse_theta")[0].value;
-            optionstring +="&"+key+"="+val;
-         }
-         else if (key=="resultmode"){
-            let selected = dom.select(".cond_execmode").node().value;
-            optionstring += "&"+key+"="+selected;
-         }
-         else if (key=="invertmode"){
-            let selected = dom.select(".cond_invertmode").node().value;
-            optionstring += "&"+key+"="+selected;
-         }
-         else if (key == "visible"){
+         } else if (key == "ellinpts") {
+            let val = $(id + " .cond_ellipse_points").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "ellicx") {
+            let val = dom.select(".cond_ellipse_cx").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "ellicy") {
+            let val = dom.select(".cond_ellipse_cy").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "ellia1") {
+            let val = dom.select(".cond_ellipse_a1").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "ellia2") {
+            let val = dom.select(".cond_ellipse_a2").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "ellishape") {
+            let arg = dom.select(".cond_ellipse_iscircle").property("value");
+            optionstring += "&" + key + "=" + arg;
+         } else if (key == "ellith") {
+            let val = dom.select(".cond_ellipse_theta").property("value");
+            optionstring += "&" + key + "=" + val;
+         } else if (key == "resultmode") {
+            let selected = dom.select(".cond_execmode").property("value");
+            optionstring += "&" + key + "=" + selected;
+         } else if (key == "invertmode") {
+            let selected = dom.select(".cond_invertmode").property("value");
+            optionstring += "&" + key + "=" + selected;
+         } else if (key == "visible") {
             let arg = dom.select(".cond_visible").property("checked") ? "1" : "0";
             optionstring += `&${key}=${arg}`;
-         } else if (key == "labeldraw"){
+         } else if (key == "labeldraw") {
             let arg = dom.select(".cond_label").property("checked") ? "1" : "0";
             this.cond.fbLabelDraw = arg;
             optionstring += `&${key}=${arg}`;
@@ -306,38 +297,27 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          if(this.isEllipseCond()) {
             this.changeTab( "enable", 2 ); // enable/disable by tab index
             let numpoints = this.cond.fiResolution;
-            $(id+" .cond_ellipse_points").val(numpoints);
-            $(id+" .cond_ellipse_cx").val(cond.fdCenterX).change(function(){ editor.markChanged("ellicx")});
-            $(id+" .cond_ellipse_cy").val(cond.fdCenterY).change(function(){ editor.markChanged("ellicy")});
-            $(id+" .cond_ellipse_a1").val(cond.fdRadius1).change(function(){ editor.markChanged("ellia1")});
-            $(id+" .cond_ellipse_a2").val(cond.fdRadius2).prop('disabled', cond.fbIsCircle).change(function(){ editor.markChanged("ellia2")});
-            $(id+" .cond_ellipse_theta").val(cond.fdTheta).prop('disabled', cond.fbIsCircle).change(function(){
-               editor.markChanged("ellith");
-               $(id+" .cond_ellipse_theta_slider").slider( "option", "value", $(this)[0].value % 360);
+            dom.select(".cond_ellipse_points").property("value", numpoints);
+            dom.select(".cond_ellipse_cx").property("value", cond.fdCenterX).on("change", () => this.markChanged("ellicx"));
+            dom.select(".cond_ellipse_cy").property("value", cond.fdCenterY).on("change", () => this.markChanged("ellicy"));
+            dom.select(".cond_ellipse_a1").property("value", cond.fdRadius1).on("change", () => this.markChanged("ellia1"));
+            dom.select(".cond_ellipse_a2").property("value", cond.fdRadius2).property('disabled', cond.fbIsCircle).on("change", () => this.markChanged("ellia2"));
+            dom.select(".cond_ellipse_theta").property("value", cond.fdTheta).property('disabled', cond.fbIsCircle).on("change", () => {
+               this.markChanged("ellith");
+               dom.select(".cond_ellipse_theta_slider").property("value", dom.select(".cond_ellipse_theta").property("value") % 360);
             });
 
-            let options = $(id+" .cond_ellipse_iscircle")[0].options;
+            let options = dom.select(".cond_ellipse_iscircle").node().options;
             for (let i = 0; i < options.length; i++)
                options[i].selected = (options[i].value == cond.fiShapeType);
 
-            $(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");
-
-            $(id + " .cond_ellipse_theta_slider")
-            .slider({
-               min : 0,
-               max : 360,
-               step : 1,
-               value: cond.fdTheta,
-               disabled: cond.fbIsCircle,
-               change : function(event, ui) {
-                  editor.markChanged("ellith");
-                  $(id + " .cond_ellipse_theta").val(ui.value);
-               },
-               stop : function(event, ui) {
-                  editor.markChanged("ellith");
-               }
-            });
-
+            dom.select(".cond_ellipse_theta_slider")
+                .property("value",cond.fdTheta)
+                .attr("disbaled", cond.fbIsCircle)
+                .on("change", () => {
+                  this.markChanged("ellith");
+                  dom.select(".cond_ellipse_theta").property("value", dom.select(".cond_ellipse_theta_slider").property("value"));
+               });
          }
 
       } else {
@@ -425,39 +405,21 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       dom.select(".cond_invertmode").on("change", () => this.markChanged("invertmode"));
 
       if(this.isEllipseCond()) {
-         $(id+" .cond_ellipse_iscircle").selectmenu({
-            change : function(event, ui) {
-               cond.fiShapeType = ui.item.value;
-               if(cond.fiShapeType == 2) {
-                  // circle
-                  $(id+" .cond_ellipse_a2").prop('disabled', true);
-                  $(id+" .cond_ellipse_theta").prop('disabled', true);
-                  $(id + " .cond_ellipse_theta_slider").slider("disable");
-                  $(id + "cond_ellipse_points").prop('disabled', false);
-               } else if(cond.fiShapeType == 3) {
-                  // ellipse
-                  $(id+" .cond_ellipse_a2").prop('disabled', false);
-                  $(id+" .cond_ellipse_theta").prop('disabled', false);
-                  $(id + " .cond_ellipse_theta_slider").slider("enable");
-                  $(id + "cond_ellipse_points").prop('disabled', false);
-               } else if(cond.fiShapeType == 4) {
-                  // box
-                  $(id+" .cond_ellipse_a2").prop('disabled', false);
-                  $(id+" .cond_ellipse_theta").prop('disabled', false);
-                  $(id + " .cond_ellipse_theta_slider").slider("enable");
-                  $(id + "cond_ellipse_points").prop('disabled', true);
-               } else {
-                  // free style
-                  $(id+" .cond_ellipse_a2").prop('disabled', true);
-                  $(id+" .cond_ellipse_theta").prop('disabled', true);
-                  $(id + " .cond_ellipse_theta_slider").slider("disable");
-                  $(id + "cond_ellipse_points").prop('disabled', false);
-               }
-
-               editor.markChanged("ellishape");
+         dom.select(".cond_ellipse_iscircle").on("change", () => {
+            cond.fiShapeType = parseInt(dom.select(".cond_ellipse_iscircle").property("value"));
+            let flags;
+            switch(cond.fiShapeType) {
+               case 2: flags = [true, true, true, null]; break; // circle
+               case 3: flags = [null, null, null, null]; break; // ellipse
+               case 4: flags = [null, null, null, true]; break; // box
+               default: flags = [true, true, true, null]; // free style
             }
+            dom.select(".cond_ellipse_a2").attr('disabled', flags[0]);
+            dom.select(".cond_ellipse_theta").attr('disabled', flags[1]);
+            dom.select(".cond_ellipse_theta_slider").attr('disabled', flags[2]);
+            dom.select(".cond_ellipse_points").attr('disabled', flags[3]);
+            editor.markChanged("ellishape");
          })
-
       }
 
       dom.select(".buttonGetCondition")

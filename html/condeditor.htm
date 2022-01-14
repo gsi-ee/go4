@@ -33,8 +33,6 @@
 #header_container {
 	flex-grow: 0;
    padding: 8px;
-	overflow-x: hidden;
-	overflow-y: auto;
 	background-color: #eee;
 }
 
@@ -42,15 +40,12 @@
    flex-grow: 8;
    padding: 8px;
 	overflow-x: hidden;
-	overflow-y: auto;
 	background-color: #eee;
 }
 
 #button_container {
    flex-grow: 0;
    padding: 8px;
-	overflow-x: hidden;
-	overflow-y: hidden;
 	background-color: #eee;
 }
 
@@ -67,7 +62,6 @@
 
 /* Style the tab */
 .tabs_header {
-  overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
 }
@@ -134,7 +128,7 @@
      <button for="tabs-5">Stats</button>
      <button for="tabs-6">Mean</button>
   </div>
-  <div class="tabs_body" style="flex-grow:1; padding:8px;">
+  <div class="tabs_body" style="flex-grow:1; padding:8px;overflow-y: scroll;">
   <div id="tabs-1" style="height: 100%">
     <div style="display: flex; flex-direction: column; height: 100%">
        <label style="flex-grow:1;">XMin: <input class="cond_xmin limit_style" title="Lower border/extension on X axis. Press enter to set!"/></label>
@@ -143,10 +137,10 @@
        <label style="flex-grow:1;">YMax: <input class="cond_ymax limit_style " title="Upper border/extension on Y Axis. Press Enter to set!"/></label>
     </div>
   </div>
-  <div id="tabs-2" style="display:none">
+  <div id="tabs-2" style="display:none; ">
   	<label title="Number of polygon points"> NPoints <input class="cut_points" style="float:left; width:50px" type="number" value="0" min="1" max="1000"></label>
 
-   <table class="cut_values" style="position:relative; width:80%; height:100%; border-spacing: 5px 5px; float:right; text-align: center">
+   <table class="cut_values" style="position:relative; width:80%; border-spacing: 5px 5px; float:right; text-align: center">
       <thead>
        <tr style="border:1px solid black; width:100%">
           <th>X</th> <th>Y</th>
@@ -167,11 +161,11 @@
       <tr>
          <th><label>Y: <input class="cond_ellipse_cy limit_style" title="Ellipse center y coordinate. Press enter to set!"/></label></th>
          <th><label>A2: <input class="cond_ellipse_a2 limit_style" title="Ellipse half axis 2.  Press Enter to set!"/></label></th>
-   		<th><div class="cond_ellipse_theta_slider" style="width:80%; float:right"></div></th>
+   		<th><input type="range" min="0" max="360" class="cond_ellipse_theta_slider" style="width:80%; float:right"></input></th>
       </tr>
       <tr>
         <th><label title="Polygon resolultion"> NPoints <input class="cond_ellipse_points" style="width:50px" type="text"  value="0"></label></th>
-        <th><select class="cond_ellipse_iscircle" style="width:100%; title="Toggle shape" name="Shape">
+        <th><select class="cond_ellipse_iscircle" style="width:80%; title="Toggle shape" name="Shape">
 					<option selected="selected" value="3" title="Toggle polygon shape">Ellipse</option>
 					<option value="2" title="Toggle polygon shape" >Circle</option>
 					<option value="4" title="Toggle polygon shape" >Rectangular box</option>
@@ -213,43 +207,17 @@
 </div>
 
 
-<div id="button_container">
-
-<table style="width: 70px; height: 100%; float: left">
-			<tbody>
-				<tr>
-					<td style="height: 30px">
-						<button class="buttonGetCondition go4_condition_btn"
-							title="Refresh condition display from analysis server"></button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonSetCondition go4_condition_btn"
-							title="Send condition valules to analysis server"></button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonChangeLabel go4_condition_btn"
-							title="This label shows that your current changes have not yet been updated to analysis"></button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-	<table style="width: 70px; height: 100%; float: right">
-			<tbody>
-				<tr>
-					<td style="height: 30px">
-						<button class="buttonDrawCondition go4_condition_btn"
-							title="Display Condition with assigned histogram on next drawpanel"></button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonClearCondition go4_condition_btn"
-							title="Reset all counters to zero"></button>
-					</td>
-
-				</tr>
-			</tbody>
-		</table>
-
+<div id="button_container" style="width: 100%;">
+   <button class="buttonGetCondition go4_condition_btn" style="margin-left:1em;"
+				title="Refresh condition display from analysis server"></button>
+	<button class="buttonSetCondition go4_condition_btn"
+				title="Send condition valules to analysis server"></button>
+	<button class="buttonChangeLabel go4_condition_btn"
+				title="This label shows that your current changes have not yet been updated to analysis"></button>
+	<button class="buttonClearCondition go4_condition_btn" style="float:right; margin-right: 2em;"
+				title="Reset all counters to zero"></button>
+   <button class="buttonDrawCondition go4_condition_btn" style="float:right"
+           title="Display Condition with assigned histogram on next drawpanel"></button>
 </div>
 
 </div>
