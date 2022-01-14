@@ -253,7 +253,7 @@
       player.logReady = function(p) {
          if (p) this.log_painter = p;
          if(this.needscroll) {
-            this.clickScroll();
+            this.clickScroll(true);
             this.needscroll = false;
          }
          this.draw_ready = true;
@@ -289,19 +289,19 @@
             this.hpainter.display(msgitem, "divid:" + subid).then(p => this.logReady(p));
       }
 
-      player.ClickCommand = function(kind) {
+      player.clickCommand = function(kind) {
          let command = this.itemname.replace("Terminal", "CmdExecute");
          this.hpainter.executeCommand(command, null, kind). then(() => { this.needscroll = true; });
       }
 
-      player.ClickClear = function() {
+      player.clickClear = function() {
          d3.select("#anaterm_output_container").html("");
       }
 
-      player.clickScroll = function() {
+      player.clickScroll = function(last) {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
          let nodes = d3.select("#anaterm_output_container").selectAll("pre").nodes();
-         if (nodes) nodes[nodes.length-1].scrollIntoView();
+         if (nodes) nodes[last ? nodes.length-1 : 0].scrollIntoView();
       }
 
       player.fillDisplay = function() {
@@ -310,23 +310,24 @@
          let dom = this.selectDom();
 
          dom.select(".go4_clearterm")
-             .on("click", () => this.ClickClear())
-             .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
-
-         dom.select(".go4_clearterm")
-            .on("click", () => this.ClickClear())
+            .on("click", () => this.clickClear())
             .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
+
+         dom.select(".go4_startterm")
+            .on("click", () => this.clickScroll(false))
+            .style('background-image', "url(" + GO4.source_dir + "icons/shiftup.png)");
+
          dom.select(".go4_endterm")
-            .on("click", () => this.clickScroll())
+            .on("click", () => this.clickScroll(true))
             .style('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
 
          dom.select(".go4_printhistos")
-            .on("click", () => this.ClickCommand("@PrintHistograms()"))
+            .on("click", () => this.clickCommand("@PrintHistograms()"))
             .style('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
 
          dom.select(".go4_printcond")
-            .on("click", () => this.ClickCommand("@PrintConditions()"))
+            .on("click", () => this.clickCommand("@PrintConditions()"))
             .style('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
          dom.select(".go4_executescript")
