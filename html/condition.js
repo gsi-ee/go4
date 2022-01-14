@@ -143,57 +143,40 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             let arg = dom.select(".cond_limits").property("checked") ? "1" : "0";
             this.cond.fbLimitsDraw = arg;
             optionstring += `&${key}=${arg}`;
-         }
-         else if (key=="intdraw"){
-            let checked=$(id+" .cond_integr")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbIntDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="xmeandraw"){
-            let checked=$(id+" .cond_xmean")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbXMeanDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="xrmsdraw"){
-            let checked=$(id+" .cond_xrms")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbXRMSDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="ymeandraw"){
-            let checked=$(id+" .cond_ymean")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbYMeanDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="yrmsdraw"){
-            let checked=$(id+" .cond_yrms")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbYRMSDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="xmaxdraw"){
-            let checked=$(id+" .cond_maxx")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbXMaxDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="ymaxdraw"){
-            let checked=$(id+" .cond_maxy")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbYMaxDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="cmaxdraw"){
-            let checked=$(id+" .cond_max")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbCMaxDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else{
-            console.log("Warning: evaluateChanges found unknown key:%s", key);
+         } else if (key == "intdraw") {
+            let arg = dom.select(".cond_integr").property("checked") ? "1" : "0";
+            this.cond.fbIntDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "xmeandraw") {
+            let arg = dom.select(".cond_xmean").property("checked") ? "1" : "0";
+            this.cond.fbXMeanDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "xrmsdraw") {
+            let arg = dom.select(".cond_xrms").property("checked") ? "1" : "0";
+            this.cond.fbXRMSDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "ymeandraw") {
+            let arg = dom.select(".cond_ymean").property("checked") ? "1" : "0";
+            this.cond.fbYMeanDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "yrmsdraw") {
+            let arg = dom.select(".cond_yrms").property("checked") ? "1" : "0";
+            this.cond.fbYRMSDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "xmaxdraw") {
+            let arg = dom.select(".cond_maxx").property("checked") ? "1" : "0";
+            this.cond.fbXMaxDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key=="ymaxdraw") {
+            let arg = dom.select(".cond_maxy").property("checked") ? "1" : "0";
+            this.cond.fbYMaxDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key=="cmaxdraw") {
+            let arg = dom.select(".cond_max").property("checked") ? "1" : "0";
+            this.cond.fbCMaxDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else {
+            console.log(`Warning: evaluateChanges found unknown key: ${key}`);
          }
 
       }// for index
@@ -406,37 +389,37 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       .property('checked', cond.fbLabelDraw)
       .on("click", function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
 
-      $(id+" .cond_integr")
-      .prop('checked', cond.fbIntDraw)
-      .click(function() { cond.fbIntDraw = this.checked; editor.markChanged("intdraw")});
+      dom.select(".cond_integr")
+      .property('checked', cond.fbIntDraw)
+      .on("click", function() { cond.fbIntDraw = this.checked; editor.markChanged("intdraw")});
 
-      $(id+" .cond_maxx")
-      .prop('checked', cond.fbXMaxDraw)
-      .click(function() { cond.fbXMaxDraw = this.checked; editor.markChanged("xmaxdraw")});
+      dom.select(".cond_maxx")
+      .property('checked', cond.fbXMaxDraw)
+      .on("click", function() { cond.fbXMaxDraw = this.checked; editor.markChanged("xmaxdraw")});
 
-      $(id+" .cond_max")
-      .prop('checked', cond.fbCMaxDraw)
-      .click(function() { cond.fbCMaxDraw = this.checked; editor.markChanged("cmaxdraw")});
+      dom.select(".cond_max")
+      .property('checked', cond.fbCMaxDraw)
+      .on("click", function() { cond.fbCMaxDraw = this.checked; editor.markChanged("cmaxdraw")});
 
-      $(id+" .cond_maxy")
-      .prop('checked', cond.fbYMaxDraw)
-      .click(function() { cond.fbYMaxDraw = this.checked; editor.markChanged("ymaxdraw")});
+      dom.select(".cond_maxy")
+      .property('checked', cond.fbYMaxDraw)
+      .on("click", function() { cond.fbYMaxDraw = this.checked; editor.markChanged("ymaxdraw")});
 
-      $(id+" .cond_xmean")
-      .prop('checked', cond.fbXMeanDraw)
-      .click(function() { cond.fbXMeanDraw = this.checked; editor.markChanged("xmeandraw")});
+      dom.select(".cond_xmean")
+      .property('checked', cond.fbXMeanDraw)
+      .on("click", function() { cond.fbXMeanDraw = this.checked; editor.markChanged("xmeandraw")});
 
-      $(id+" .cond_xrms")
-      .prop('checked', cond.fbXRMSDraw)
-      .click(function() { cond.fbXRMSDraw = this.checked; editor.markChanged("xrmsdraw")});
+      dom.select(".cond_xrms")
+      .property('checked', cond.fbXRMSDraw)
+      .on("click", function() { cond.fbXRMSDraw = this.checked; editor.markChanged("xrmsdraw")});
 
-      $(id+" .cond_ymean")
-      .prop('checked', cond.fbYMeanDraw)
-      .click(function() { cond.fbYMeanDraw = this.checked; editor.markChanged("ymeandraw")});
+      dom.select(".cond_ymean")
+      .property('checked', cond.fbYMeanDraw)
+      .on("click", function() { cond.fbYMeanDraw = this.checked; editor.markChanged("ymeandraw")});
 
-      $(id+" .cond_yrms")
-      .prop('checked', cond.fbYRMSDraw)
-      .click(function() { cond.fbYRMSDraw = this.checked; editor.markChanged("yrmsdraw")});
+      dom.select(".cond_yrms")
+      .property('checked', cond.fbYRMSDraw)
+      .on("click", function() { cond.fbYRMSDraw = this.checked; editor.markChanged("yrmsdraw")});
 
       editor.clearChanges();
    }

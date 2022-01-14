@@ -134,18 +134,14 @@
      <button for="tabs-5">Stats</button>
      <button for="tabs-6">Mean</button>
   </div>
-  <div class="tabs_body" style="flex-grow:1;padding:8px;">
-  <div id="tabs-1">
-     <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
-      <tr>
-        <th><label>XMin: <input class="cond_xmin limit_style" title="Lower border/extension on X axis. Press enter to set!"/></label></th>
-        <th><label>XMax: <input class="cond_xmax limit_style" title="Upper border/extension on X axis. Press enter to set!"/></label></th>
-      </tr>
-      <tr>
-        <th><label>YMin: <input class="cond_ymin limit_style" title="Lower border/extension on Y Axis. Press Enter to set"/></label></th>
-        <th><label>YMax: <input class="cond_ymax limit_style " title="Upper border/extension on Y Axis. Press Enter to set!"/></label></th>
-     </tr>
-     </table>
+  <div class="tabs_body" style="flex-grow:1; padding:8px;">
+  <div id="tabs-1" style="height: 100%">
+    <div style="display: flex; flex-direction: column; height: 100%">
+       <label style="flex-grow:1;">XMin: <input class="cond_xmin limit_style" title="Lower border/extension on X axis. Press enter to set!"/></label>
+       <label style="flex-grow:1;">XMax: <input class="cond_xmax limit_style" title="Upper border/extension on X axis. Press enter to set!"/></label>
+       <label style="flex-grow:1;">YMin: <input class="cond_ymin limit_style" title="Lower border/extension on Y Axis. Press Enter to set"/></label>
+       <label style="flex-grow:1;">YMax: <input class="cond_ymax limit_style " title="Upper border/extension on Y Axis. Press Enter to set!"/></label>
+    </div>
   </div>
   <div id="tabs-2" style="display:none">
   	<label title="Number of polygon points"> NPoints <input class="cut_points" style="float:left; width:50px" type="text"  value="0"></label>
@@ -186,8 +182,8 @@
      </table>
   </div>
 
-  <div id="tabs-4" style="align:center; display: none;">
-    <div style="display: flex; flex-direction: row;">
+  <div id="tabs-4" style="display: none; height: 100%;">
+    <div style="display: flex; flex-direction: column; height: 100%">
 	     <label style="flex-grow:1;" title="Toggle visibility of condition in viewpanel"><input class="cond_visible" type="checkbox"/> visible</label>
 	     <label style="flex-grow:1;" title="Draw condition limits into label."><input class="cond_limits" type="checkbox"/> limits</label>
 	     <label style="flex-grow:1;" title="Draw label of condition properties on viewpanel."><input class="cond_label" type="checkbox"/> label</label>
@@ -195,29 +191,22 @@
     </div>
   </div>
 
-  <div id="tabs-5" style="display:none">
-    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
-      <tr>
-	<th><label title="Draw value into label on view panel"><input class="cond_integr" type="checkbox"/> Integr: </label></th>
-	<th><label title="Draw value into label on view panel"><input class="cond_maxx" type="checkbox"/> MaxX: </label></th>
-      </tr>
-      <tr>
-	<th><label title="Draw value into label on view panel"><input class="cond_max" type="checkbox"/> Max:</label></th>
-	<th><label title="Draw value into label on view panel"><input class="cond_maxy" type="checkbox"/> MaxY:</label></th>
-      </tr>
-    </table>
+  <div id="tabs-5" style="display:none; height: 100%">
+    <div style="display: flex; flex-direction: column; height: 100%">
+	    <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_integr" type="checkbox"/> Integr: </label>
+	    <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_maxx" type="checkbox"/> MaxX: </label>
+	    <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_max" type="checkbox"/> Max:</label>
+	    <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_maxy" type="checkbox"/> MaxY:</label>
+    </div>
   </div>
-  <div id="tabs-6" style="display:none">
-    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
-      <tr>
-	<th><label title="Draw value into label on view panel"><input class="cond_xmean" type="checkbox"/> XMean:</label></th>
-	<th><label title="Draw value into label on view panel"><input class="cond_xrms" type="checkbox"/> XRMS:</label></th>
-      </tr>
-      <tr>
-	<th><label title="Draw value into label on view panel"><input class="cond_ymean" type="checkbox"/> YMean:</label></th>
-	<th><label title="Draw value into label on view panel"><input class="cond_yrms" type="checkbox"/> YRMS:</label></th>
-      </tr>
-    </table>
+
+  <div id="tabs-6" style="display:none; height: 100%">
+    <div style="display: flex; flex-direction: column; height: 100%">
+      <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_xmean" type="checkbox"/> XMean:</label>
+	   <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_xrms" type="checkbox"/> XRMS:</label>
+	   <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_ymean" type="checkbox"/> YMean:</label>
+	   <label style="flex-grow:1;" title="Draw value into label on view panel"><input class="cond_yrms" type="checkbox"/> YRMS:</label>
+    </div>
   </div>
   </div>
 </div>
