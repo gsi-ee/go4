@@ -71,17 +71,17 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          // here mapping of key to editor field:
          if(key=="limits")
          {
-            let xmin=$(id+" .cond_xmin")[0].value;
-            let xmax=$(id+" .cond_xmax")[0].value;
-            optionstring +="&xmin="+xmin+"&xmax="+xmax;
+            let xmin = dom.select(".cond_xmin").property("value"),
+                xmax = dom.select(".cond_xmax").property("value");
+            optionstring += `&xmin=${xmin}&xmax=${xmax}`;
             this.cond.fLow1 = xmin;
             this.cond.fUp1 = xmax;
-            if (this.cond.fiDim==2) {
-               let ymin=$(id+" .cond_ymin")[0].value;
-               let ymax=$(id+" .cond_ymax")[0].value;
-               this.cond.fLow2 = xmin;
-               this.cond.fUp2 = xmax;
-               optionstring +="&ymin="+ymin+"&ymax="+ymax;
+            if (this.cond.fiDim == 2) {
+               let ymin = dom.select(".cond_ymin").property("value"),
+                   ymax = dom.select(".cond_ymax").property("value");
+               this.cond.fLow2 = ymin;
+               this.cond.fUp2 = ymax;
+               optionstring += `&ymin=${ymin}&ymax=${ymax}`;
             }
          }
          else if(key=="polygon")
@@ -132,22 +132,17 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             let selected = dom.select(".cond_invertmode").node().value;
             optionstring += "&"+key+"="+selected;
          }
-         else if (key=="visible"){
-            let checked=$(id+" .cond_visible")[0].checked;
-            let arg= (checked ? "1" : "0");
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="labeldraw"){
-            let checked=$(id+" .cond_label")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbLabelDraw=arg;
-            optionstring +="&"+key+"="+arg;
-         }
-         else if (key=="limitsdraw"){
-            let checked=$(id+" .cond_limits")[0].checked;
-            let arg= (checked ? "1" : "0");
-            this.cond.fbLimitsDraw=arg;
-            optionstring +="&"+key+"="+arg;
+         else if (key == "visible"){
+            let arg = dom.select(".cond_visible").property("checked") ? "1" : "0";
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "labeldraw"){
+            let arg = dom.select(".cond_label").property("checked") ? "1" : "0";
+            this.cond.fbLabelDraw = arg;
+            optionstring += `&${key}=${arg}`;
+         } else if (key == "limitsdraw"){
+            let arg = dom.select(".cond_limits").property("checked") ? "1" : "0";
+            this.cond.fbLimitsDraw = arg;
+            optionstring += `&${key}=${arg}`;
          }
          else if (key=="intdraw"){
             let checked=$(id+" .cond_integr")[0].checked;
@@ -284,6 +279,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       this.markChanged("polygon");
    }
 
+   /** @summary enable/disable tab by index */
    GO4.ConditionEditor.prototype.changeTab = function(action, indx) {
 
       let dom = this.selectDom(),
@@ -322,15 +318,14 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       dom.select(".cond_invertmode").node().value = cond.fbTrue ? 0 : 1;
 
-
-      $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.markChanged("limits")});
-      $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.markChanged("limits")});
+      dom.select(".cond_xmin").property("value", cond.fLow1).on("change", () => this.markChanged("limits"));
+      dom.select(".cond_xmax").property("value", cond.fUp1).on("change", () => this.markChanged("limits"));
       if (cond.fiDim==2) {
-         $(id+" .cond_ymin").val(cond.fLow2).change(function(){editor.markChanged("limits")});
-         $(id+" .cond_ymax").val(cond.fUp2).change(function(){ editor.markChanged("limits")});
+         dom.select(".cond_ymin").property("value", cond.fLow2).on("change", () => this.markChanged("limits"));
+         dom.select(".cond_ymax").property("value", cond.fUp2).on("change", () => this.markChanged("limits"));
       } else {
-         $(id+" .cond_ymin").prop('disabled', true);
-         $(id+" .cond_ymax").prop('disabled', true);
+         dom.select(".cond_ymin").attr('disabled', true);
+         dom.select(".cond_ymax").attr('disabled', true);
       }
 
       if(this.isPolyCond()) {
@@ -399,17 +394,17 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       // todo: get keywords from condition class definition
       // problem: static letiables are not streamed by default
 
-      $(id+" .cond_visible")
-      .prop('checked', cond.fbVisible)
-      .click(function() { cond.fbVisible = this.checked; editor.markChanged("visible")});
+      dom.select(".cond_visible")
+      .property('checked', cond.fbVisible)
+      .on("click", function() { cond.fbVisible = this.checked; editor.markChanged("visible")});
 
-      $(id+" .cond_limits")
-      .prop('checked', cond.fbLimitsDraw)
-      .click(function() { cond.fbLimitsDraw = this.checked; editor.markChanged("limitsdraw")});
+      dom.select(".cond_limits")
+      .property('checked', cond.fbLimitsDraw)
+      .on("click", function() { cond.fbLimitsDraw = this.checked; editor.markChanged("limitsdraw")});
 
-      $(id+" .cond_label")
-      .prop('checked', cond.fbLabelDraw)
-      .click(function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
+      dom.select(".cond_label")
+      .property('checked', cond.fbLabelDraw)
+      .on("click", function() { cond.fbLabelDraw = this.checked; editor.markChanged("labeldraw")});
 
       $(id+" .cond_integr")
       .prop('checked', cond.fbIntDraw)
