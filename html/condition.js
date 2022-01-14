@@ -284,6 +284,31 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       this.markChanged("polygon");
    }
 
+   GO4.ConditionEditor.prototype.changeTab = function(action, indx) {
+
+      let dom = this.selectDom(),
+          btns = dom.select('.tabs_header').selectAll("button").nodes(),
+          tabs = dom.selectAll('.tabs_body>div').nodes();
+      if (btns.length != tabs.length)
+         return console.error('mismatch in tabs sizes', btns.length, tabs.length);
+
+      d3.select(btns[indx]).attr('disabled', action=="enable" ? null : "true");
+
+      // if that tab selected, find any other suitable
+      if ((action == "disable") && !d3.select(tabs[indx]).style("display")) {
+         let best = -1;
+         btns.forEach((btn,k) => {
+            if (!d3.select(btn).attr('disabled') && (k != indx) && (best < 0)) best = k;
+         });
+
+         if (best >= 0) {
+            d3.select(tabs[indx]).style("display", "none");
+            d3.select(tabs[best]).style("display", null);
+         }
+      }
+   }
+
+
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       let editor = this,
           id = "#" + this.getDomId(),
@@ -321,8 +346,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       }
 
       if(this.isPolyCond()) {
-         $(id+" .cond_tabs").tabs( "disable", 0 ); // enable/disable by tab index
-         $(id+" .cond_tabs").tabs( "enable", 1 ); // enable/disable by tab index
+         this.changeTab( "disable", 0 ); // enable/disable by tab index
+         this.changeTab( "enable", 1 ); // enable/disable by tab index
          if (this.cond.fxCut) {
             let numpoints = this.cond.fxCut.fNpoints;
             $(id+" .cut_points").val(numpoints); //.change(function(){ editor.markChanged("polygon")});
@@ -337,8 +362,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
          }
          if(this.isEllipseCond()) {
-            $(id+" .cond_tabs").tabs( "enable", 2 ); // enable/disable by tab index
-            let numpoints=this.cond.fiResolution;
+            this.changeTab( "enable", 2 ); // enable/disable by tab index
+            let numpoints = this.cond.fiResolution;
             $(id+" .cond_ellipse_points").val(numpoints);
             $(id+" .cond_ellipse_cx").val(cond.fdCenterX).change(function(){ editor.markChanged("ellicx")});
             $(id+" .cond_ellipse_cy").val(cond.fdCenterY).change(function(){ editor.markChanged("ellicy")});
@@ -374,9 +399,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          }
 
       } else {
-         $(id+" .cond_tabs").tabs( "enable", 0 );
-         $(id+" .cond_tabs").tabs( "disable", 1 ); // enable/disable by tab index
-         $(id+" .cond_tabs").tabs( "disable", 2 ); // enable/disable by tab index
+         this.changeTab( "enable", 0 );
+         this.changeTab( "disable", 1 ); // enable/disable by tab index
+         this.changeTab( "disable", 2 ); // enable/disable by tab index
       }
 
       $(id+" .cond_counts").text(cond.fiCounts);
@@ -444,7 +469,13 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
           cond = this.cond,
           dom = this.selectDom();
 
-      $(id+" .cond_tabs").tabs();
+      dom.select('.tabs_header').selectAll("button").on("click", function() {
+         let btn = d3.select(this);
+         dom.selectAll('.tabs_body>div').each(function() {
+            let tab = d3.select(this);
+            tab.style('display', tab.attr('id') == btn.attr("for") ? null : "none");
+         });
+      });
 
       $(id + " .cond_execmode").selectmenu({
          change : function(event, ui) {
