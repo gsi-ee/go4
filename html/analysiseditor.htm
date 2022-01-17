@@ -1,80 +1,85 @@
 <head>
 
 <style type="text/css">
-
-
 .ana_membertable_style {
-    border: 2px solid black collapse; 
-    background-color:#fff;
+	border: 2px solid black collapse;
+	background-color: #fff;
 }
 
 .ana_memberheader_style {
-    border: 1px dotted black collapse; 
-    background-color:#eee;
+	border: 1px dotted black collapse;
+	background-color: #eee;
 }
 
 .ana_steptabs_style {
-position:relative; 
-left: -20px; 
-top:-10px; 
-width:100%; 
-height:100%;
+	position: relative;
+	left: -20px;
+	top: -10px;
+	width: 100%;
+	height: 100%;
 }
 
-#ana_editor_container{
-	height:100%; 
+#ana_editor_container {
+	height: 100%;
 	position: relative;
 	right: 5px;
-	outline: groove medium; 
-	overflow-x:hidden; 
+	outline: groove medium;
+	overflow-x: hidden;
 	overflow-y: auto;
-	background-color:#eee;
+	background-color: #eee;
 }
 
 #ana_step_container {
-			outline: outset thin;
-			position: absolute;	
-			top: 2px;
-			bottom: 40%;
-/*  			height: 250px; */
- 			left: 5px;
- 			right: 1px; 
-			overflow-x: hidden; 
-			overflow-y: hidden;
-		}
+	outline: outset thin;
+	position: absolute;
+	top: 2px;
+	bottom: 40%;
+	left: 5px;
+	right: 1px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
 
 #ana_file_container {
-			outline: outset thin;
-			position: absolute;
-			top: 61%;
-/*  			top: 255px;  */
-/*  			height: 150px; */
-			bottom: 52px;
-			left: 5px;
- 			right: 1px; 
-			overflow-x: auto; 
-			overflow-y: auto; 
-			background-color:#eee;
-		}
+	outline: outset thin;
+	position: absolute;
+	top: 61%;
+	bottom: 52px;
+	left: 5px;
+	right: 1px;
+	overflow-x: auto;
+	overflow-y: auto;
+	background-color: #eee;
+}
 
 #ana_button_container {
-			outline: outset thin;
-			position: absolute;
-			bottom: 1px;
-			height: 48px;
-			left: 5px;
- 			right: 1px; 
-			overflow-x:auto; 
-			overflow-y:hidden;	 
-			background-color:#eee;		
-		}
+	outline: outset thin;
+	position: absolute;
+	bottom: 1px;
+	height: 48px;
+	left: 5px;
+	right: 1px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	background-color: #eee;
+}
 
 .MySpinnerStyle {
-    width: 50px;
+	width: 50px;
 }
 
 .MyButtonStyle {
-   transform: scale(1.2, 1.2); 
+	transform: scale(1.2, 1.2);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.go4_anedit_btn {
+   height: 28px;
+   width: 28px;
+   display: inline-block;
+   margin: 2px;
    background-position: 0 0;
    background-repeat: no-repeat;
    background-size: contain;
@@ -83,129 +88,102 @@ height:100%;
 </style>
 </head>
 
-
-
 <body>
 
-<div  id="ana_editor_container">
+	<div id="ana_editor_container">
 
 
 		<div id="ana_step_container">
-		
-		<div class="steptabs" title="Tab container for steps" style="position:relative; width:100%; height:100%; text-align: left;">
-			<!-- html code for tabs now created in the script itself --> 
+
+			<div class="steptabs" title="Tab container for steps"
+				style="position: relative; width: 100%; height: 100%; text-align: left;">
+				<!-- html code for tabs now created in the script itself -->
+			</div>
+
 		</div>
-		
-		</div>
-		
+
 		<div id="ana_file_container">
-    
-    <table class="ana_autosave" style="position:relative; width:100%; height:45%; text-align: left">
-      <thead>
-       <tr >
-          <th colspan=4>Auto Save File</th> 
-       </tr>
-      </thead>
-      <tbody>
-       <tr >
-      <td colspan=4 style="height: 30px">
-			<form class="anaASF_form" accept-charset="utf-8">
-					<button class="buttonSaveAnaASF" title="Write Autosave file immediately" type="submit">Save</button>	
-					<label title="Input autosave file name">
-					<input class="anaASF_name" type="text" size="35" value="Go4AnalysisASF.root"></label>									
-					</form> 
-					</td>
-	   </tr>
-	   <tr >
-		<td><label style="height: 30px" title="Enable/Disable autosave file">
-							<input class="anaASF_enabled" type="checkbox"> Enabled</label>
-		</td>							
-		<td>
-		<input class="anaASF_time MySpinnerStyle" title="Time Interval for autosave file" type="text" value="442">
-		</td>
-		<td> <input class="anaASF_compression MySpinnerStyle" title="ROOT compression level for autosave file" type="text" value="1"></td>
-		<td> 
-			<label style="height: 30px" title="Overwrite old autosave file">
-							<input class="anaASF_overwrite" type="checkbox"> Overwrite</label>
-		
-		 </td>
-	   
-	   	</tr>		
-      </tbody>
-      </table>
-      
-      <table class="ana_configfile" style="position:relative; width:100%; height:45%; text-align: left">
-      <thead>
-       <tr >
-          <th colspan=2>Analysis Configuration File</th> 
-       </tr>
-      </thead>
-      <tbody>
-      		<tr>
-					<td style="height: 30px">
-						<button class="buttonLoadAnaConf"
-							title="Load Analysis Prefs file">Load</button>
-					</td>
-					<td style="height: 30px">
-					<form class="anaprefs_form" accept-charset="utf-8">
-					<button class="buttonSaveAnaConf" title="Save Analysis Prefs file" type="submit">Save</button>	
-					<label title="Input preference file name">
-					<input 	class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></label>									
-					</form> 
-					</td>
-					
-			</tr>		     
-      </tbody>
-    </table>
-    
-    
-    
-    
-</div>
 
-<div id="ana_button_container">
-<!--     <button title="Get parameter">Get</button> -->
-<!--     <button title="Set parameter">Set</button> -->
-<!--     <button title="Parameter changed in editor">Changed</button> -->
-    
-    <table style="width: 70px; height: 100%; float: left">
-			<tbody>
-				<tr>
-					<td style="height: 30px">
-						<button class="buttonGetAnalysis"
-							title="Refresh analysis setup values from server">Get</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonSetAnalysis"
-							title="Submit configuration to analysis">Submit</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonAnaChangeLabel"
-							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonSetStartAnalysis"
-							title="Submit configuration to analysis and start execution">Submit+Start</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonCloseAnalysis"
-							title="Close analysis - close all input/output files and destroys steps processors">Close</button>
-					</td>
-					
-					 
-				</tr>
-			</tbody>
-		</table>
-		
-	
-    
-    
-    
-    
-</div>
+			<table class="ana_autosave"
+				style="position: relative; width: 100%; height: 45%; text-align: left">
+				<thead>
+					<tr>
+						<th colspan=4>Auto Save File</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan=4 style="height: 30px">
+							<form class="anaASF_form" accept-charset="utf-8">
+								<button class="buttonSaveAnaASF"
+									title="Write Autosave file immediately" type="submit">Save</button>
+								<label title="Input autosave file name"> <input
+									class="anaASF_name" type="text" size="35"
+									value="Go4AnalysisASF.root"></label>
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td><label style="height: 30px"
+							title="Enable/Disable autosave file"> <input
+								class="anaASF_enabled" type="checkbox"> Enabled
+						</label></td>
+						<td><input class="anaASF_time MySpinnerStyle"
+							title="Time Interval for autosave file" type="text" value="442">
+						</td>
+						<td><input class="anaASF_compression MySpinnerStyle"
+							title="ROOT compression level for autosave file" type="text"
+							value="1"></td>
+						<td><label style="height: 30px"
+							title="Overwrite old autosave file"> <input
+								class="anaASF_overwrite" type="checkbox"> Overwrite
+						</label></td>
 
-</div>
+					</tr>
+				</tbody>
+			</table>
 
+			<table class="ana_configfile"
+				style="position: relative; width: 100%; height: 45%; text-align: left">
+				<thead>
+					<tr>
+						<th colspan=2>Analysis Configuration File</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="height: 30px">
+							<button class="buttonLoadAnaConf"
+								title="Load Analysis Prefs file">Load</button>
+						</td>
+						<td style="height: 30px">
+							<form class="anaprefs_form" accept-charset="utf-8">
+								<button class="buttonSaveAnaConf"
+									title="Save Analysis Prefs file" type="submit">Save</button>
+								<label title="Input preference file name"> <input
+									class="anaprefs_name" type="text" size="35"
+									value="Go4AnalysisPrefs.root"></label>
+							</form>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="ana_button_container">
+			<button class="buttonGetAnalysis go4_anedit_btn" style="margin-left:1em;"
+				title="Refresh analysis setup values from server"></button>
+			<button class="buttonSetAnalysis go4_anedit_btn"
+				title="Submit configuration to analysis"></button>
+			<button class="buttonAnaChangeLabel go4_anedit_btn"
+				title="This label shows that your current changes have not yet been updated to analysis"></button>
+			<button class="buttonSetStartAnalysis go4_anedit_btn"
+				title="Submit configuration to analysis and start execution"></button>
+			<button class="buttonCloseAnalysis go4_anedit_btn"
+				title="Close analysis - close all input/output files and destroys steps processors"></button>
+		</div>
+	</div>
 
 </body>
 

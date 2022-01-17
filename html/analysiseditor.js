@@ -50,9 +50,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       }
       this.changes[step].push(key);
       console.log("Mark changed :%s at step %d", key, step);
-      let id = "#" + this.getDomId();
 
-      $(id+" .buttonAnaChangeLabel").show();// show warning sign
+      this.selectDom().select(".buttonAnaChangeLabel").style('display', null); // show warning sign
    }
 
    // clear changed elements' list, make warning sign invisible
@@ -60,8 +59,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       let numsteps = this.changes.length;
       for (let step = 0; step < numsteps ; step++)
          this.changes[step] = [];
-      let id = this.getDomId();
-      if (id) $("#" + id + " .buttonAnaChangeLabel").hide(); // hide warning sign
+      this.selectDom().select(".buttonAnaChangeLabel").style('display', 'none'); // hide warning sign
    }
 
    GO4.AnalysisStatusEditor.prototype.clearShowstates = function() {
@@ -408,7 +406,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
       let id = "#" + this.getDomId(),
-          editor = this;
+          editor = this,
+          dom = this.selectDom();
 
       $(id + " .steptabs").tabs({
          heightStyle: "fill",
@@ -809,75 +808,52 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
 //////////////////////// END ANALYSIS STEP TABS
 
-      $(id + " .buttonGetAnalysis")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .click(function() {
-            if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-            else console.log("dabc object not found!");
-         })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
+      dom.select(".buttonGetAnalysis")
+         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .on("click", () => {
+               if (JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName());
+         });
 
-      $(id + " .buttonSetAnalysis")
-         .button({ text: true, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .click(function() {
-            let options = ""; // do not need to use name here
-            options = editor.evaluateChanges(options); // complete option string from all changed elements
-            console.log("submit analysis " + editor.getItemName() + ", options=" + options);
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
-               if (result) {
-                  editor.clearChanges();
-                  if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
-               }
-            });
-         })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
-
-      $(id + " .buttonAnaChangeLabel")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
-
-      $(id + " .buttonSetStartAnalysis")
-         .button({ text: true, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .click(function() {
-            let options = ""; // do not need to use name here
-            options = editor.evaluateChanges(options); // complete option string from all changed elements
-            options += "&start";
-            console.log("submit and start analysis " + editor.getItemName() + ", options=" + options);
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
-               if (result) {
-                  editor.clearChanges();
-                  if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
-               }
-               // todo: start analysis only after submission was successful?
-               // for the moment, try to handle everythingin UpdateFromUrl
-            });
-         })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/start.png)");
-
-      $(id + " .buttonCloseAnalysis")
-         .button({ text: true, icons: { primary: "ui-icon-closethick MyButtonStyle" } })
-         .click(function() {
-            let options = "&close";
-            //    options=editor.evaluateChanges(options); // complete option string from all changed elements
-            console.log("close analysis " + editor.getItemName() + ", options=" + options);
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "closing down analyis done. "
-                  : "set analysis FAILED.");
-               //if(result) editor.clearChanges();
-
+      dom.select(".buttonSetAnalysis")
+         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .on("click", () => {
+            let options = this.evaluateChanges(""); // complete option string from all changed elements
+            console.log("submit analysis " + this.getItemName() + ", options=" + options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl", options).then(() => {
+               console.log("setting analyis configuration done.");
+               this.clearChanges();
+               if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
             });
          });
 
-      $(id + " .buttonSaveAnaASF")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
+      dom.select(".buttonAnaChangeLabel")
+         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+
+      dom.select(".buttonSetStartAnalysis")
+         .style('background-image', "url(" + GO4.source_dir + "icons/start.png)")
+         .on("click", () => {
+            let options = this.evaluateChanges(""); // complete option string from all changed elements
+            options += "&start";
+            console.log("submit and start analysis " + this.getItemName() + ", options=" + options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl", options).then(() => {
+               console.log("submit and start analyis configuration done. ");
+               this.clearChanges();
+               if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
+            });
+         });
+
+      dom.select(".buttonCloseAnalysis")
+         .style('background-image', "url(" + GO4.source_dir + "icons/close.png)")
+         .on("click", () => {
+            let options = "&close";
+            console.log("close analysis " + editor.getItemName() + ", options=" + options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl", options).then(() => {
+               console.log("closing down analyis done. ");
+            });
+         });
+
+      dom.select(".buttonSaveAnaASF")
+         .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
 
 
       $(id + " .anaASF_form").submit(
@@ -983,8 +959,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    }
 
    GO4.drawGo4AnalysisStatus = function(dom, stat) {
-      let status = new GO4.AnalysisStatusEditor(dom, stat),
-          sel = status.selectDom(),
+      let editor = new GO4.AnalysisStatusEditor(dom, stat),
+          sel = editor.selectDom(),
           h = sel.node().clientHeight,
           w = sel.node().clientWidth;
 
