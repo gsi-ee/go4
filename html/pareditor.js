@@ -1,6 +1,6 @@
 // $Id$
 
-(function() {
+JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    "use strict";
 
@@ -15,6 +15,9 @@
       e1.source = "pareditor.js";
       throw e1;
    }
+
+   // only during transition
+   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
 
    // ===========================================================================================
 
@@ -48,43 +51,41 @@
 
    // scan changed value list and return optionstring to be send to server
    GO4.ParameterEditor.prototype.evaluateChanges = function(optionstring) {
-      let id = "#" + this.getDomId();
-      let len = this.changes.length;
+      let dom = this.selectDom(),
+          len = this.changes.length;
       for (let index = 0; index < len; index++) {
          //let cursor=changes.pop();
          let key = this.changes[index];
          console.log("Evaluate change key:%s", key);
          // here mapping of key to editor field:
          // key will be name of letiable which is class name of input field:
-         let val = $(id + " ." + key.toString())[0].value;
-         //let opt= key.replace(/_/g, "[").replace(/-/g, "]");  // old with other placeholders
-         let arraysplit = key.split("_");
-         let opt = "";
+         let val = dom.select("." + key.toString()).property("value"),
+             arraysplit = key.split("_"), opt = "";
          if (arraysplit.length > 1) {
             // found array with index after separator, reformat it:
             opt = arraysplit[0];
             if (arraysplit.length > 3) {
                // 3dim array:
-               let ix = arraysplit[arraysplit.length - 3]; //
-               let iy = arraysplit[arraysplit.length - 2]; //
-               let iz = arraysplit[arraysplit.length - 1]; //
-               opt += "[" + ix + "][" + iy + "][" + iz + "]";
+               let ix = arraysplit[arraysplit.length - 3], //
+                   iy = arraysplit[arraysplit.length - 2], //
+                   iz = arraysplit[arraysplit.length - 1]; //
+               opt += `[${ix}][${iy}][${iz}]`;
             } else if (arraysplit.length > 2) {
                // 2dim array:
-               let ix = arraysplit[arraysplit.length - 2]; //
-               let iy = arraysplit[arraysplit.length - 1]; //
-               opt += "[" + ix + "][" + iy + "]";
+               let ix = arraysplit[arraysplit.length - 2], //
+                   iy = arraysplit[arraysplit.length - 1]; //
+               opt += `[${ix}][${iy}]`;
             } else {
                // 1dim array:
                opt = arraysplit[0];
                let ix = arraysplit[arraysplit.length - 1]; //
-               opt += "[" + ix + "]";
+               opt += `[${ix}]`;
             }
          } else {
             opt = key;
          }
 
-         optionstring += "&" + opt + "=" + val;
+         optionstring += `&${opt}=${val}`;
       }// for index
       console.log("Resulting option string:%s", optionstring);
       return optionstring;
@@ -332,28 +333,26 @@
 
    GO4.ParameterEditor.prototype.drawEditor = function() {
 
-      let pthis = this,
-          sel = this.selectDom(),
-          main = $(sel.node()),
-          h = main.height(), w = main.width();
+      let sel = this.selectDom(),
+          h = sel.node().clientHeight,
+          w = sel.node().clientWidth;
 
-      if ((h < 10) && (w > 10)) main.height(w * 0.4);
+      if ((h < 10) && (w > 10)) sel.style("height", Math.round(w * 0.4)+"px");
 
-      return new Promise(resolveFunc => {
-         main.empty();
-         main.load(GO4.source_dir + "html/pareditor.htm", "", function() {
-            pthis.fillEditor();
-            pthis.fillComments();
-            pthis.setTopPainter();
-            resolveFunc(pthis);
-         });
+      return JSROOT.httpRequest(GO4.source_dir + "html/pareditor.htm", "text").then(code => {
+         sel.html(code);
+         this.fillEditor();
+         this.fillComments();
+         this.setTopPainter();
+         return this;
       });
    }
 
-
-   GO4.drawParameter = function(divid, par /*, option */) {
-      let editor = new GO4.ParameterEditor(divid, par);
+   GO4.drawParameter = function(dom, par /*, option */) {
+      let editor = new GO4.ParameterEditor(dom, par);
       return editor.drawEditor();
    }
 
-})();
+   return GO4;
+
+});
