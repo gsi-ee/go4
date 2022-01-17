@@ -1,39 +1,39 @@
 <head>
 
 <style type="text/css">
-
 .par_membertable_style {
-    border: 1px inset;
-    background-color:#fff;
-     padding: 5px;
+	border: 1px inset;
+	background-color: #fff;
+	padding: 5px;
 }
 
 .par_memberheader_style {
-    border: 2px inset black;
-    background-color:#eee;
-    padding: 5px;
+	border: 2px inset black;
+	background-color: #eee;
+	padding: 5px;
 }
 
 .par_arrayheader_style {
-    border: 1px inset black;
-    background-color:#eee;
-    padding: 5px;
+	border: 1px inset black;
+	background-color: #eee;
+	padding: 5px;
 }
 
 .par_arraytable {
-	position:relative;
+	position: relative;
 	width: 100%;
 	height: 100%;
 	text-align: left;
 }
 
-
 .par_key {
 	width: 15%;
 }
+
 .par_class {
 	width: 15%;
 }
+
 .par_value {
 	width: 20%;
 }
@@ -42,78 +42,70 @@
 	width: 50%;
 }
 
-
-
-#par_editor_container{
-	height:100%;
+#par_editor_container {
+	height: 100%;
 	position: relative;
 	right: 5px;
 	outline: groove medium;
-	overflow-x:hidden;
+	overflow-x: hidden;
 	overflow-y: auto
 }
 
 #par_header_container {
-			outline: outset thin;
-			position: absolute;
-			top: 2px;
- 			height: 40px;
- 			left: 5px;
- 			right: 1px;
-			overflow-x:hidden;
-			overflow-y: auto;
-			background-color:#eee;
-		}
-
-#par_table_container {
-			outline: outset thin;
-			position: absolute;
- 			top: 45px;
-			bottom: 52px;
-			left: 5px;
- 			right: 1px;
-			overflow-x: auto;
-			overflow-y: auto;
-			background-color:#eee;
-		}
-
-#par_button_container {
-			outline: outset thin;
-			position: absolute;
-			bottom: 1px;
-			height: 48px;
-			left: 5px;
- 			right: 1px;
-			overflow-x:hidden;
-			overflow-y:hidden;
-			background-color:#eee;
-		}
-
-.MyButtonStyle {
-   transform: scale(1.2, 1.2);
-   background-position: 0 0;
-   background-repeat: no-repeat;
-   background-size: contain;
+	outline: outset thin;
+	position: absolute;
+	top: 2px;
+	height: 40px;
+	left: 5px;
+	right: 1px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #eee;
 }
 
+#par_table_container {
+	outline: outset thin;
+	position: absolute;
+	top: 45px;
+	bottom: 52px;
+	left: 5px;
+	right: 1px;
+	overflow-x: auto;
+	overflow-y: auto;
+	background-color: #eee;
+}
+
+#par_button_container {
+	outline: outset thin;
+	position: absolute;
+	bottom: 1px;
+	height: 48px;
+	left: 5px;
+	right: 1px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	background-color: #eee;
+}
+
+.go4_paredit_btn {
+	height: 28px;
+	width: 28px;
+	display: inline-block;
+	margin: 2px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
 
 </style>
 </head>
 
-
-
 <body>
 
-
-
-<div  id="par_editor_container">
-
+	<div id="par_editor_container">
 
 		<div id="par_header_container">
 			<table style="width: 100%">
-<!-- 				<caption> -->
-<!-- 					<h5>Parameter Editor</h5> -->
-<!-- 				</caption> -->
 				<tbody>
 					<tr>
 						<th><label class="par_name" style="float: left"> </label></th>
@@ -124,46 +116,43 @@
 		</div>
 
 		<div id="par_table_container">
-    <table class="par_values" style=" width:100%; text-align: left">
-      <thead>
-       <tr >
-          <th class='par_key'>Name</th>  <th class='par_class'>Type</th><th class='par_value'> Value</th><th class='par_comment'>Comments</th>
-       </tr>
-      </thead>
-      <tbody class="par_value_body">
-      </tbody>
-    </table>
-</div>
+			<table class="par_values" style="width: 100%; text-align: left">
+				<thead>
+					<tr>
+						<th class='par_key'>Name</th>
+						<th class='par_class'>Type</th>
+						<th class='par_value'>Value</th>
+						<th class='par_comment'>Comments</th>
+					</tr>
+				</thead>
+				<tbody class="par_value_body">
+				</tbody>
+			</table>
+		</div>
 
-<div id="par_button_container">
-<!--     <button title="Get parameter">Get</button> -->
-<!--     <button title="Set parameter">Set</button> -->
-<!--     <button title="Parameter changed in editor">Changed</button> -->
+		<div id="par_button_container">
+			<table style="width: 70px; height: 100%; float: left">
+				<tbody>
+					<tr>
+						<td style="height: 30px">
+							<button class="buttonGetParameter go4_paredit_btn"
+								title="Refresh parameter values from analysis server"></button>
+						</td>
+						<td style="height: 30px">
+							<button class="buttonSetParameter go4_paredit_btn"
+								title="Send parameter values to analysis server"></button>
+						</td>
+						<td style="height: 30px">
+							<button class="buttonChangedParameter go4_paredit_btn"
+								title="This label shows that your current changes have not yet been updated to analysis"></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-    <table style="width: 70px; height: 100%; float: left">
-			<tbody>
-				<tr>
-					<td style="height: 30px">
-						<button class="buttonGetParameter"
-							title="Refresh parameter values from analysis server">Get</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonSetParameter"
-							title="Send parameter values to analysis server">Set</button>
-					</td>
-					<td style="height: 30px">
-						<button class="buttonChangeLabel"
-							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		</div>
 
-
-</div>
-
-</div>
-
+	</div>
 
 </body>
 

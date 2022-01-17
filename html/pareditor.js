@@ -38,13 +38,13 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       if (this.changes.indexOf(key) >= 0) return;
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      this.selectDom().select(".buttonChangeLabel").style("display", null);// show warning sign
+      this.selectDom().select(".buttonChangedParameter").style("display", null);// show warning sign
    }
 
    // TODO: put to common "base class" of condition and parameter editor
    GO4.ParameterEditor.prototype.clearChanges = function() {
       this.changes = []; //
-      this.selectDom().select(".buttonChangeLabel").style("display", "none"); // hide warning sign
+      this.selectDom().select(".buttonChangedParameter").style("display", "none"); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
@@ -271,44 +271,37 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    }
 
    GO4.ParameterEditor.prototype.fillEditor = function() {
-      let editor = this,
-          par = this.par,
-          id = "#" + this.getDomId(),
-          dom = this.selectDom(),
-          width = $(id).width(),
-          height = $(id).height();
+      let dom = this.selectDom();
+          //width = dom.node().clientWidth,
+          //height = dom.node().clientHeight;
 
-      $(id + " .par_name").text(par.fName);
-      $(id + " .par_type").text(par._typename);
+      dom.select(".par_name").text(this.par.fName);
+      dom.select(".par_type").text(this.par._typename);
 
-      $(id).children().eq(0).width(width - 4).height(height - 4);
+      // dom.select("div").style("width", (width-4) + "px").style("height", (height-4) + "px");
 
-      $(id + " .buttonGetParameter")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } }).click(function() {
-            console.log("update item = " + editor.getItemName());
+      dom.select(".buttonGetParameter")
+         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .on("click", () => {
+            console.log("update item = " + this.getItemName());
             if (JSROOT.hpainter)
-               JSROOT.hpainter.display(editor.getItemName());
+               JSROOT.hpainter.display(this.getItemName());
             else
-               console.log("dabc object not found!");
-         })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
+               console.log("hpainter not found");
+         });
 
-      $(id + " .buttonSetParameter")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .click(function() {
-            let options = ""; // do not need to use name here
-            options = editor.evaluateChanges(options); // complete option string from all changed elements
-            console.log("set - condition " + editor.getItemName() + ", options=" + options);
-            GO4.ExecuteMethod(editor, "UpdateFromUrl", options, function(result) {
+      dom.select(".buttonSetParameter")
+         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .on("click", () => {
+            let options = this.evaluateChanges(""); // do not need to use name here
+            console.log("set - condition " + this.getItemName() + ", options=" + options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl", options, function(result) {
                console.log(result ? "set parameter done. " : "set parameter FAILED.");
-               if (result) editor.clearChanges();
+               if (result) this.clearChanges();
             });
          })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
 
-      dom.select(".buttonChangeLabel")
+      dom.select(".buttonChangedParameter")
          .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
 
       this.fillMemberTable();
