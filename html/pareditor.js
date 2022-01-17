@@ -38,15 +38,13 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       if (this.changes.indexOf(key) >= 0) return;
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      let id = "#" + this.getDomId();
-      $(id + " .buttonChangeLabel").show();// show warning sign
+      this.selectDom().select(".buttonChangeLabel").style("display", null);// show warning sign
    }
 
    // TODO: put to common "base class" of condition and parameter editor
    GO4.ParameterEditor.prototype.clearChanges = function() {
       this.changes = []; //
-      let id = "#" + this.getDomId();
-      $(id + " .buttonChangeLabel").hide(); // hide warning sign
+      this.selectDom().select(".buttonChangeLabel").style("display", "none"); // hide warning sign
    }
 
    // scan changed value list and return optionstring to be send to server
@@ -91,19 +89,21 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       return optionstring;
    }
 
+   /** @summary fill comments for parameter */
    GO4.ParameterEditor.prototype.fillComments = function() {
-      let editor = this;
-      if (editor.xreq || !this.getItemName()) return; // avoid double requests
-      let pre = this.getItemName() + "/";
-      editor.xreq = true;
+      if (this.xreq || !this.getItemName())
+         return Promise.resolve(this); // avoid double requests
 
-      GO4.httpRequest(pre + "h.json?more", 'object').then(res => {
-         let id = "#" + editor.getDomId();
-         $(id + " .par_values tbody").find("tr").each(function(i, tr) {
-            let name = $(tr).find("td:first").text();
-            let title = null;
-            let arrayinfo = null;
-            let typeinfo = null;
+      let tr_nodes = this.selectDom().select(".par_values tbody").selectAll("tr").nodes();
+
+      this.xreq = true;
+
+      return GO4.httpRequest(this.getItemName() + "/h.json?more", 'object').then(res => {
+
+         tr_nodes.forEach(raw_tr => {
+            let tr = d3.select(raw_tr),
+                name = tr.select("td").text(),
+                title = null, arrayinfo = null, typeinfo = null;
             for (let i in res._childs) {
                let n = res._childs[i]._name;
                let arsplit = name.split("["); // remove array information at the end, if any
@@ -116,25 +116,28 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                   break;
                }
             }
-            if (title != null)
-               $(tr).find("td.par_comment").text(title).css('white-space', 'nowrap'); // comments from class member declaration
-            if (typeinfo != null) {
-               $(tr).find("td.par_class").text(typeinfo).css('white-space', 'nowrap'); // member type
+            if (title !== null)
+               tr.select("td.par_comment").text(title).style('white-space', 'nowrap'); // comments from class member declaration
+            if (typeinfo !== null) {
+               tr.select("td.par_class").text(typeinfo).style('white-space', 'nowrap'); // member type
 
-               $(tr).parents('table.par_arraytable').find('td.par_comment:first').text("Array").css('white-space', 'nowrap');
-               // if we are inside array table, indicate that we are an array
+               let par_table = d3.select(raw_tr.parentNode.parentNode);
 
-               if (arrayinfo != null)
-                  $(tr).parents('table.par_arraytable').find('td.par_class:first').text(typeinfo + " [" + arrayinfo + "]").css('white-space', 'nowrap');
-               else
-                  $(tr).parents('table.par_arraytable').find('td.par_class:first').text(typeinfo).css('white-space', 'nowrap');
+               if (par_table.classed("par_arraytable")) {
 
-               // put type information of array to subtable header
+                  // if we are inside array table, indicate that we are an array
+                  par_table.select('td.par_comment').text("Array").style('white-space', 'nowrap');
+
+                  // put type information of array to subtable header
+                  par_table.selectAll('td.par_class').text(arrayinfo ? `${typeinfo} [${arrayinfo}]` : typeinfo).style('white-space', 'nowrap');
+               }
             }
 
          });
-      }).finally(() => { editor.xreq = false; });
 
+         return this; // return painter
+
+      }).finally(() => { this.xreq = false; });
    }
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
@@ -271,6 +274,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       let editor = this,
           par = this.par,
           id = "#" + this.getDomId(),
+          dom = this.selectDom(),
           width = $(id).width(),
           height = $(id).height();
 
@@ -304,11 +308,8 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          .children(":first") // select first button element, used for images
          .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
 
-      $(id + " .buttonChangeLabel")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } }).click()
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
-
+      dom.select(".buttonChangeLabel")
+         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
 
       this.fillMemberTable();
    }
@@ -341,10 +342,9 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       return JSROOT.httpRequest(GO4.source_dir + "html/pareditor.htm", "text").then(code => {
          sel.html(code);
-         this.fillEditor();
-         this.fillComments();
          this.setTopPainter();
-         return this;
+         this.fillEditor();
+         return this.fillComments();
       });
    }
 
