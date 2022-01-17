@@ -1,6 +1,6 @@
 // $Id$
 
-JSROOT.define(["jquery", "jquery-ui"], $ => {
+JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
 
    if (typeof JSROOT != "object") {
       let e1 = new Error("analysiseditor.js requires JSROOT to be already loaded");
@@ -165,26 +165,36 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       }); // for each
 
       /////////////////// AUTO SAVE FILE:
-      $(id + " .anaASF_name").val(stat.fxAutoFileName);
-      $(id+" .anaASF_enabled")
-                .prop('checked', stat.fbAutoSaveOn)
-                .click(function() {
-                   editor.markChanged("asfenabled",0);
-                    editor.stat.fbAutoSaveOn=this.checked;
-                    });
+      dom.select(".anaASF_name").property("value", stat.fxAutoFileName);
+      dom.select(".anaASF_enabled")
+         .property('checked', stat.fbAutoSaveOn)
+         .on("click", () =>  {
+               this.markChanged("asfenabled",0);
+               this.stat.fbAutoSaveOn = dom.select(".anaASF_enabled").property('checked');
+             });
 
-      $(id +" .anaASF_time").val(stat.fiAutoSaveInterval);
-      $(id +" .anaASF_compression").val(stat.fiAutoSaveCompression);
+      dom.select(".anaASF_time")
+          .property("value", stat.fiAutoSaveInterval)
+          .on("change", () => {
+             this.markChanged("asftime", 0);
+             this.stat.fiAutoSaveInterval = dom.select(".anaASF_time").property("value");
+         });
+      dom.select(".anaASF_compression")
+         .property("value", stat.fiAutoSaveCompression)
+         .on("change", () => {
+            this.markChanged("asfcomp", 0);
+            this.stat.fiAutoSaveCompression = dom.select(".anaASF_compression").property("value");
+         });
 
-      $(id+" .anaASF_overwrite")
-             .prop('checked', stat.fbAutoSaveOverwrite)
-             .click(function() {
-                editor.markChanged("asfoverwrite",0);
-               editor.stat.fbAutoSaveOverwrite= this.checked;
+      dom.select(".anaASF_overwrite")
+         .property('checked', stat.fbAutoSaveOverwrite)
+         .on("click", () => {
+                this.markChanged("asfoverwrite",0);
+                this.stat.fbAutoSaveOverwrite = dom.select(".anaASF_overwrite").property('checked');
              });
 
       ////////////////// PREFS FILE:
-      $(id + " .anaprefs_name").val(stat.fxConfigFileName);
+      dom.select(".anaprefs_name").property("value", stat.fxConfigFileName);
 
       editor.clearChanges();
    }
@@ -856,51 +866,20 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
 
 
-      $(id + " .anaASF_form").submit(
-         function(event) {
-            //event.preventDefault(); // do not send automatic request to server!
-            let content = $(id + " .anaASF_name")[0].value;
-            content = content.trim();
-            // before we write immediately, mark name as changed in setup:
-            editor.markChanged("asfname", 0);
-            editor.stat.fxAutoFileName = content;
-            let requestmsg = "Really Write autosave file : " + content;
-            let response = confirm(requestmsg);
-            if (!response) {
-               event.preventDefault(); // do not send automatic request to server!
-               return;
-            }
+      dom.select(".anaASF_form").on("submit", event => {
+         event.preventDefault(); // do not send automatic request to server!
+         let content = dom.select(".anaASF_name").property("value");
+         content = content.trim();
+         // before we write immediately, mark name as changed in setup:
+         this.markChanged("asfname", 0);
+         this.stat.fxAutoFileName = content;
 
-            console.log("Writing autosave file: " + content);
-            let options = "&saveasf=" + content;
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "Writing autosave file done. " : "Writing autosave file FAILED.");
-            });
-            event.preventDefault(); // do not send automatic request to server!
-         });
-
-      $(id + " .anaASF_time").spinner({
-         min: 0,
-         max: 100000,
-         step: 10,
-         stop: function(event, ui) {
-
-            editor.markChanged("asftime", 0);
-            editor.stat.fiAutoSaveInterval = this.value;
-            //console.log("asftime stop.")
-         }
+         jsrp.createMenu(event, this)
+             .then(menu => menu.runModal("Save auto save file",`<p tabindex="0">${content}</p>`, { btns: true, height: 120, width: 400 }))
+             .then(elem => (elem ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&saveasf=" + content) : null))
+             .then(() => console.log("Writing autosave file done. "));
       });
 
-      $(id + " .anaASF_compression").spinner({
-         min: 0,
-         max: 9,
-         step: 1,
-         stop: function(event, ui) {
-            editor.markChanged("asfcomp", 0);
-            editor.stat.fiAutoSaveCompression = this.value;
-            //console.log("asfcomp stop.")
-         }
-      });
 
       $(id + " .buttonSaveAnaConf")
          .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })

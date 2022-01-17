@@ -88,29 +88,26 @@
 
 		</div>
 
-		<div id="ana_file_container" style="display: flex; flex-direction: column;">
+		<div id="ana_file_container" style="display: flex; flex-direction: column">
 		   <fieldset>
 		      <legend>Auto Save File</legend>
             <div style="display: flex; flex-direction: column; height: 100%">
-					<div style="display: flex; flex-direction: row; width: 100%">
-						<button class="buttonSaveAnaASF"
-							title="Write Autosave file immediately" type="submit">Save</button>
-						<label title="Input autosave file name">
-						   <input class="anaASF_name" type="text" size="35" value="Go4AnalysisASF.root"></input>
-						</label>
-					</div>
-					<div style="display: flex; flex-direction: row; width: 100%">
-						<label style="height: 30px" title="Enable/Disable autosave file">
+					<form class="anaASF_form" style="display: inline; vertical-align: middle;">
+						   <button class="buttonSaveAnaASF go4_anedit_btn"
+							   title="Write Autosave file immediately" type="submit"></button>
+						   <input class="anaASF_name" type="text" size="35" title="Input autosave file name"></input>
+					</form>
+					<div style="display: inline; width: 100%; vertical-align: middle;">
+						<label style="height: 30px; flex-grow: 1" title="Enable/Disable autosave file">
 							<input class="anaASF_enabled" type="checkbox"></input> Enabled
 						</label>
-						<input class="anaASF_time MySpinnerStyle"
-                     title="Time Interval for autosave file" type="number" min="1" max="10000" step="100" value="500">
+						<input style="height: 30px; flex-grow: 1;" class="anaASF_time"
+                     title="Time Interval for autosave file" type="number" min="1" max="10000" step="100">
                   </input>
-                  <input class="anaASF_compression MySpinnerStyle"
-                     title="ROOT compression level for autosave file" type="number" min="0" max="10"
-                     value="1">
+                  <input style="height: 30px; flex-grow: 1;" class="anaASF_compression"
+                     title="ROOT compression level for autosave file" type="number" min="0" max="10">
                   </input>
-                  <label style="height: 30px" title="Overwrite old autosave file">
+                  <label style="height: 30px; flex-grow: 1;" title="Overwrite old autosave file">
                      <input class="anaASF_overwrite" type="checkbox"></input>  Overwrite
                   </label>
 					</div>
@@ -119,10 +116,10 @@
          <fieldset>
             <legend>Analysis Configuration File</legend>
             <div style="display: flex; flex-direction: row; width: 100%">
-               <button class="buttonLoadAnaConf" title="Load Analysis Prefs file"></button>
-               <button class="buttonSaveAnaConf" title="Save Analysis Prefs file"></button>
+               <button class="buttonLoadAnaConf go4_anedit_btn" title="Load Analysis Prefs file"></button>
+               <button class="buttonSaveAnaConf go4_anedit_btn" title="Save Analysis Prefs file"></button>
                <label title="Input preference file name">
-                  <input  class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></input>
+                  <input  class="anaprefs_name" type="text" size="35"></input>
                </label>
             </div>
          </fieldset>
