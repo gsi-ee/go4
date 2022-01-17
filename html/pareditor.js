@@ -143,9 +143,10 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
       let editor = this,
           id = "#" + this.getDomId(),
-          par = this.par;
+          par = this.par,
+          dom = this.selectDom();
 
-      $(id + " .par_values tbody").html("");
+      dom.selectAll(".par_values tbody").html("");
       let found_title = false;
       for (let key in par) {
          if (typeof par[key] == 'function') continue;
@@ -158,7 +159,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
             // (thanks to Jonathan at http://mediaformations.com/accordion-tables-with-jquery/ for this idea!)
             let arraytableclass = key.toString() + "_array";
             let isTooBig = false;
-            $(id + " .par_values > tbody").append("<tr><td style='width:100%; padding:0px' colspan='4' > <table class='" + arraytableclass + " par_arraytable'><thead><tr><td class='par_key'> <bf>[+]</bf> " + key.toString() + "</td><td class='par_class'></td><td class='par_value' >Click to expand</td><td class='par_comment'></td></tr></thead><tbody></tbody></table></td></tr>");
+            dom.select(".par_values > tbody").append("tr").html(`<td style='width:100%; padding:0px' colspan='4' > <table class='${arraytableclass} par_arraytable'><thead><tr><td class='par_key'> <bf>[+]</bf>${key.toString()}</td><td class='par_class'></td><td class='par_value' >Click to expand</td><td class='par_comment'></td></tr></thead><tbody></tbody></table></td>`);
             for (let i = 0; i < value.length; i++) {
                if (value[i] instanceof Array) {
                   let subvalue = value[i];
@@ -174,59 +175,46 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                         else {
                            for (let k = 0; k < subsubvalue.length; k++) {
                               // decode 3dim array
-                              classname = key.toString() + "_" + i + "_" + j + "_" + k;
-                              // $(id + " .par_values
-                              // tbody").append("<tr><td>" +
-                              // key.toString() + "[" + i +
-                              // "]["+j+"]["+k+"]</td><td><input
-                              // type='text' value='" + subsubvalue[k]
-                              // + "' class='"+ classname
-                              // +"'/></td><td></td></tr>");
-                              $(id + " ." + arraytableclass + " tbody").append(
-                                 "<tr><td class='par_key'>"
-                                 + key.toString()
-                                 + "[" + i + "][" + j + "][" + k + "]"
-                                 + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
-                                 + subsubvalue[k]
-                                 + "' class='" + classname + "'/></td><td class='par_comment'></td></tr>");
+                              classname = key.toString() + `_${i}_${j}_${k}`;
+                              dom.select("." + arraytableclass + " tbody").append("tr")
+                                 .html("<td class='par_key'>"
+                                        + key.toString()
+                                        + "[" + i + "][" + j + "][" + k + "]"
+                                        + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
+                                        + subsubvalue[k]
+                                        + "' class='" + classname + "'/></td><td class='par_comment'></td>");
 
                            } // for k
                         }
                      }
                      else {
                         // decode 2dim array
-                        classname = key.toString() + "_" + i + "_" + j;
-                        //$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]</td><td><input type='text' value='" + subvalue[j] + "' class='"+ classname +"'/></td><td></td></tr>");
-                        $(id + " ." + arraytableclass + " tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "][" + j + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + subvalue[j] + "' class='" + classname + "'/></td><td class='par_comment'></td></tr>");
+                        classname = key.toString() + `_${i}_${j}`;
+                        dom.select("." + arraytableclass + " tbody").append("tr").html("<td class='par_key'>" + key.toString() + "[" + i + "][" + j + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + subvalue[j] + "' class='" + classname + "'/></td><td class='par_comment'></td>");
 
                      }
                   } // for j
                }
                else {
                   // decode 1dim array
-                  //classname=key.toString()+"_"+ i+"-"; // old with placeholders instead brackets
-
                   classname = key.toString() + "_" + i;
-                  //$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
-                  $(id + " ." + arraytableclass + " tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value[i] + "' class='" + classname + "'/></td><td class='par_comment'></td></tr>");
-
+                  dom.select("." + arraytableclass + " tbody").append("tr").html("<td class='par_key'>" + key.toString() + "[" + i + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value[i] + "' class='" + classname + "'/></td><td class='par_comment'></td>");
                }
             } // for i
             //
             if (isTooBig) {
-               $(id + " ." + arraytableclass + " tbody")
-                  .append(
-                     "<tr><td class='par_key'>" + key.toString() + "</td><td colspan='3'> Sorry, Array dimension ["
+               dom.select("." + arraytableclass + " tbody")
+                  .append("tr").html(
+                     "<td class='par_key'>" + key.toString() + "</td><td colspan='3'> Sorry, Array dimension ["
                      + value.length
                      + "]["
                      + subvalue.length
                      + "]["
                      + subsubvalue.length
-                     + "] too big to display!</td></tr>");
+                     + "] too big to display!</td>");
             }
 
-
-            $(id + " table." + arraytableclass + " thead tr").click(
+            dom.select("table." + arraytableclass + " thead tr").on("click",
                function() {
                   $(this).parents('table.par_arraytable').children('tbody').toggle();
                   $(this).parents('table.par_arraytable').find('td:first').text(
@@ -257,15 +245,15 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
          } else {
             classname = key.toString();
-            $(id + " .par_values > tbody").append("<tr><td class='par_key'>" + key.toString() + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value + "' class='" + classname + "'/></td><td class='par_comment'></td></tr>");
+            dom.select(".par_values > tbody").append("tr").html("<td class='par_key'>" + key.toString() + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value + "' class='" + classname + "'/></td><td class='par_comment'></td>");
          }
 
       }
       // here set callbacks; referred classname must be evaluated dynamically in function!:
-      $(id + " .par_values tbody input").change(function() { editor.markChanged($(this).attr('class')); });
-      $(id + " .par_values tbody td").addClass("par_membertable_style");
-      $(id + " .par_values > thead th").addClass("par_memberheader_style");
-      $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
+      dom.select(" .par_values tbody").selectAll("input").on("change", function() { editor.markChanged(d3.select(this).attr('class')); });
+      dom.select(".par_values tbody").selectAll("td").classed("par_membertable_style", true);
+      dom.selectAll(".par_values > thead th").classed("par_memberheader_style", true);
+      dom.selectAll(".par_arraytable thead td").classed("par_arrayheader_style", true);
 
       this.clearChanges();
    }
