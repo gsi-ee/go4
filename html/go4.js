@@ -64,18 +64,25 @@
          });
       }
 
-   GO4.ExecuteMethod = function(item, method, options, callback) {
+
+   /** @summary Exactute method for selected painter object
+     * @return {Promise} when done */
+   GO4.ExecuteMethod = function(painter, method, options) {
       let prefix = "";
-      if (item.getItemName())
-         prefix = item.getItemName() + "/"; // suppress / if item name is empty
-      prefix += "exe.json\?method=";
+      if (painter.getItemName())
+         prefix = painter.getItemName() + "/"; // suppress / if item name is empty
 
-      let fullcom = prefix + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
+      let fullcom = prefix + "exe.json?method=" + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
 
-      GO4.httpRequest(fullcom, 'text')
-         .then(() => callback(true))
+      return GO4.httpRequest(fullcom, 'text');
+   }
+
+   GO4.ExecuteMethodOld = function(item, method, options, callback) {
+
+      GO4.ExecuteMethod(item, method, options)
          .catch(() => callback(false))
-         .finally(() => console.log('Command is completed ' + prefix + method));
+         .then(() => callback(true))
+         .finally(() => console.log('Command is completed ' + (item ? item.getItemName() : "") + method));
    }
 
    // ==================================================================================

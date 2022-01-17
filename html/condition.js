@@ -411,27 +411,30 @@ JSROOT.define([], () => {
             dom.select(".cond_ellipse_theta").attr('disabled', flags[1]);
             dom.select(".cond_ellipse_theta_slider").attr('disabled', flags[2]);
             dom.select(".cond_ellipse_points").attr('disabled', flags[3]);
-            editor.markChanged("ellishape");
+            this.markChanged("ellishape");
          })
       }
 
       dom.select(".buttonGetCondition")
          .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
          .on("click", () => {
-            if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
+            if (JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName());
                             else console.log("hierarhy painter object not found!");
          });
 
       dom.select(".buttonSetCondition")
          .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
          .on("click", () => {
-            let options = editor.evaluateChanges(""); // complete option string from all changed elements
-            console.log("set - condition "+ editor.getItemName()+ ", options="+options);
-            GO4.ExecuteMethod(editor,"UpdateFromUrl",options,function(result) {
-               console.log(result ? "set condition done. " : "set condition FAILED.");
-               if(result) editor.clearChanges();
+            let options = this.evaluateChanges(""); // complete option string from all changed elements
+            console.log("set condition " + this.getItemName() + ", options="+options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl",options)
+               .then(() =>  {
+                  console.log("set condition done.");
+                  this.clearChanges();
+               }).catch(err => {
+                  console.log("set condition FAILED.", err);
+               });
             });
-         });
 
       dom.select(".buttonChangeLabel")
          .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
@@ -442,18 +445,17 @@ JSROOT.define([], () => {
             // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
 
             if (JSROOT.hpainter) {
-               editor.evaluateChanges("");
+               this.evaluateChanges("");
 
-               if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
+               if (JSROOT.hpainter.updateOnOtherFrames(this, this.cond)) return;
 
-               JSROOT.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
+               JSROOT.hpainter.drawOnSuitableHistogram(this, this.cond, editor.cond.fiDim==2);
 
                return;
             }
 
             let baseurl = editor.getItemName() + "/",
-                drawurl = baseurl + "draw.htm",
-                editorurl = baseurl + "draw.htm?opt=editor";
+                drawurl = baseurl + "draw.htm";
 
             console.log("draw condition to next window with url="+drawurl);
             //window.open(drawurl);
@@ -463,15 +465,14 @@ JSROOT.define([], () => {
 
       dom.select(".buttonClearCondition")
          .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)")
-         .on("click", ()=> {
-            let options = "&resetcounters=1";
-            GO4.ExecuteMethod(editor, "UpdateFromUrl",options,function(result) {
-               console.log(result ? "reset condition counters done. " : "reset condition counters FAILED.");
-               if (result) {
-                   if(JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-                               else console.log("hpainter object not found!");
-               }
-            })
+         .on("click", () => {
+            GO4.ExecuteMethod(this, "UpdateFromUrl", "&resetcounters=1")
+               .then(() => {
+                  console.log("reset condition counters done.");
+                  if(JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
+               }).catch(err => {
+                  console.log("reset condition counters FAILED.", err);
+               });
           });
 
       dom.select(".cut_points").on("change", () => this.changePolygonDimension());

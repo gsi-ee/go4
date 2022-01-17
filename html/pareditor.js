@@ -294,10 +294,12 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
          .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
          .on("click", () => {
             let options = this.evaluateChanges(""); // do not need to use name here
-            console.log("set - condition " + this.getItemName() + ", options=" + options);
-            GO4.ExecuteMethod(this, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "set parameter done. " : "set parameter FAILED.");
-               if (result) this.clearChanges();
+            console.log("set parameter " + this.getItemName() + ", options=" + options);
+            GO4.ExecuteMethod(this, "UpdateFromUrl", options).then(() => {
+               console.log("set parameter done.");
+               this.clearChanges();
+            }).catch(err => {
+               console.log("Set parameter FAILED.", err);
             });
          })
 
@@ -308,6 +310,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
    }
 
    GO4.ParameterEditor.prototype.redrawObject = function(obj) {
+      console.log('redraw parameter!!!');
       if (obj._typename != this.par._typename) return false;
       this.par = JSROOT.clone(obj);
       this.redraw(); // no need to redraw complete pad
