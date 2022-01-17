@@ -142,7 +142,6 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
       let editor = this,
-          id = "#" + this.getDomId(),
           par = this.par,
           dom = this.selectDom();
 
@@ -177,12 +176,10 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                               // decode 3dim array
                               classname = key.toString() + `_${i}_${j}_${k}`;
                               dom.select("." + arraytableclass + " tbody").append("tr")
-                                 .html("<td class='par_key'>"
-                                        + key.toString()
-                                        + "[" + i + "][" + j + "][" + k + "]"
-                                        + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
-                                        + subsubvalue[k]
-                                        + "' class='" + classname + "'/></td><td class='par_comment'></td>");
+                                 .html(`<td class='par_key'>${key.toString()}[${i}][${j}][${k}]</td>
+                                        <td class='par_class'></td>
+                                        <td class='par_value'><input type='text' size='10'  value='${subsubvalue[k]}' class='${classname}'/></td>
+                                        <td class='par_comment'></td>`);
 
                            } // for k
                         }
@@ -190,7 +187,11 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                      else {
                         // decode 2dim array
                         classname = key.toString() + `_${i}_${j}`;
-                        dom.select("." + arraytableclass + " tbody").append("tr").html("<td class='par_key'>" + key.toString() + "[" + i + "][" + j + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + subvalue[j] + "' class='" + classname + "'/></td><td class='par_comment'></td>");
+                        dom.select("." + arraytableclass + " tbody").append("tr")
+                           .html(`<td class='par_key'>${key.toString()}[${i}][${j}]</td>
+                                  <td class='par_class'></td>
+                                  <td class='par_value'><input type='text' size='10' value='${subvalue[j]}' class='${classname}'/></td>
+                                  <td class='par_comment'></td>`);
 
                      }
                   } // for j
@@ -198,54 +199,55 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
                else {
                   // decode 1dim array
                   classname = key.toString() + "_" + i;
-                  dom.select("." + arraytableclass + " tbody").append("tr").html("<td class='par_key'>" + key.toString() + "[" + i + "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value[i] + "' class='" + classname + "'/></td><td class='par_comment'></td>");
+                  dom.select("." + arraytableclass + " tbody").append("tr")
+                     .html(`<td class='par_key'>${key.toString()}[${i}]</td>
+                            <td class='par_class'></td>
+                            <td class='par_value'><input type='text' size='10' value='${value[i]}' class='${classname}'/></td>
+                            <td class='par_comment'></td>`);
                }
             } // for i
             //
             if (isTooBig) {
                dom.select("." + arraytableclass + " tbody")
                   .append("tr").html(
-                     "<td class='par_key'>" + key.toString() + "</td><td colspan='3'> Sorry, Array dimension ["
-                     + value.length
-                     + "]["
-                     + subvalue.length
-                     + "]["
-                     + subsubvalue.length
-                     + "] too big to display!</td>");
+                     `<td class='par_key'>${key.toString()}</td>
+                      <td colspan='3'> Sorry, Array dimension [${value.length}][${subvalue.length}][${subsubvalue.length}] too big to display!</td>`);
             }
 
             dom.select("table." + arraytableclass + " thead tr").on("click",
                function() {
-                  $(this).parents('table.par_arraytable').children('tbody').toggle();
-                  $(this).parents('table.par_arraytable').find('td:first').text(
-                     function(i, origText) {
-                        let changed = origText;
-                        if (origText.indexOf("[+]") != -1)
-                           changed = origText.replace("[+]", "[-]");
-                        if (origText.indexOf("[-]") != -1)
-                           changed = origText.replace("[-]", "[+]");
-                        //console.log("original text= "+origText+", changed="+changed);
-                        return changed;
-                     });
-                  $(this).parents('table.par_arraytable').find('td.par_value:first').text(
-                     function(i, origText) {
-                        let changed = origText;
-                        if (origText.indexOf("expand") != -1)
-                           changed = origText.replace("expand", "shrink");
-                        if (origText.indexOf("shrink") != -1)
-                           changed = origText.replace("shrink", "expand");
-                        //console.log("original text= "+origText+", changed="+changed);
-                        return changed;
-                     });
+                  let prnt = d3.select(this.parentNode);
+                  while (!prnt.empty() && !prnt.classed('par_arraytable')) prnt = d3.select(prnt.node().parentNode);
 
-                  //console.log("Clicked on table header");
+                  let disp = prnt.select('tbody').style('display');
+                  prnt.select('tbody').style('display', disp == 'none' ? null : 'none');
+
+                  // $(this).parents('table.par_arraytable').children('tbody').toggle();
+
+                  let txt = prnt.select('td').text();
+                  if (txt.indexOf("[+]") >= 0)
+                     txt = txt.replace("[+]", "[-]");
+                  else
+                     txt = txt.replace("[-]", "[+]");
+                  prnt.select('td').text(txt);
+
+                  txt = prnt.select('td.par_value').text();
+                  if (txt.indexOf("expand") != -1)
+                     txt = txt.replace("expand", "shrink");
+                  else
+                     txt = txt.replace("shrink", "expand");
+                  prnt.select('td.par_value').text(txt);
                }
             );
-            $(id + " table." + arraytableclass).children('tbody').hide();
+            dom.select("table." + arraytableclass).select('tbody').style('display', 'none');
 
          } else {
             classname = key.toString();
-            dom.select(".par_values > tbody").append("tr").html("<td class='par_key'>" + key.toString() + "</td><td class='par_class'></td><td class='par_value'><input type='text' size='10' value='" + value + "' class='" + classname + "'/></td><td class='par_comment'></td>");
+            dom.select(".par_values > tbody").append("tr")
+               .html(`<td class='par_key'>${key.toString()}</td>
+                      <td class='par_class'></td>
+                      <td class='par_value'><input type='text' size='10' value='${value}' class='${classname}'/></td>
+                      <td class='par_comment'></td>`);
          }
 
       }
