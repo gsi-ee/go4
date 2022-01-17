@@ -20,48 +20,36 @@
 }
 
 #ana_editor_container {
-	height: 100%;
-	position: relative;
-	right: 5px;
-	outline: groove medium;
-	overflow-x: hidden;
-	overflow-y: auto;
-	background-color: #eee;
+   height: 100%;
+   position: relative;
+   right: 5px;
+   outline: groove medium;
+   overflow-x: hidden;
+   overflow-y: auto;
+   display: flex;
+   flex-direction: column;
 }
 
 #ana_step_container {
 	outline: outset thin;
-	position: absolute;
-	top: 2px;
-	bottom: 40%;
-	left: 5px;
-	right: 1px;
-	overflow-x: hidden;
-	overflow-y: hidden;
+	flex-grow: 1;
+   padding: 8px;
 }
 
 #ana_file_container {
 	outline: outset thin;
-	position: absolute;
-	top: 61%;
-	bottom: 52px;
-	left: 5px;
-	right: 1px;
-	overflow-x: auto;
-	overflow-y: auto;
+	flex-grow: 0;
+   padding: 8px;
+   overflow-x: hidden;
+   overflow-y: auto;
 	background-color: #eee;
 }
 
 #ana_button_container {
 	outline: outset thin;
-	position: absolute;
-	bottom: 1px;
-	height: 48px;
-	left: 5px;
-	right: 1px;
-	overflow-x: auto;
-	overflow-y: hidden;
 	background-color: #eee;
+	flex-grow: 0;
+   padding: 8px;
 }
 
 .MySpinnerStyle {
@@ -100,73 +88,44 @@
 
 		</div>
 
-		<div id="ana_file_container">
-
-			<table class="ana_autosave"
-				style="position: relative; width: 100%; height: 45%; text-align: left">
-				<thead>
-					<tr>
-						<th colspan=4>Auto Save File</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td colspan=4 style="height: 30px">
-							<form class="anaASF_form" accept-charset="utf-8">
-								<button class="buttonSaveAnaASF"
-									title="Write Autosave file immediately" type="submit">Save</button>
-								<label title="Input autosave file name"> <input
-									class="anaASF_name" type="text" size="35"
-									value="Go4AnalysisASF.root"></label>
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td><label style="height: 30px"
-							title="Enable/Disable autosave file"> <input
-								class="anaASF_enabled" type="checkbox"> Enabled
-						</label></td>
-						<td><input class="anaASF_time MySpinnerStyle"
-							title="Time Interval for autosave file" type="text" value="442">
-						</td>
-						<td><input class="anaASF_compression MySpinnerStyle"
-							title="ROOT compression level for autosave file" type="text"
-							value="1"></td>
-						<td><label style="height: 30px"
-							title="Overwrite old autosave file"> <input
-								class="anaASF_overwrite" type="checkbox"> Overwrite
-						</label></td>
-
-					</tr>
-				</tbody>
-			</table>
-
-			<table class="ana_configfile"
-				style="position: relative; width: 100%; height: 45%; text-align: left">
-				<thead>
-					<tr>
-						<th colspan=2>Analysis Configuration File</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="height: 30px">
-							<button class="buttonLoadAnaConf"
-								title="Load Analysis Prefs file">Load</button>
-						</td>
-						<td style="height: 30px">
-							<form class="anaprefs_form" accept-charset="utf-8">
-								<button class="buttonSaveAnaConf"
-									title="Save Analysis Prefs file" type="submit">Save</button>
-								<label title="Input preference file name"> <input
-									class="anaprefs_name" type="text" size="35"
-									value="Go4AnalysisPrefs.root"></label>
-							</form>
-						</td>
-
-					</tr>
-				</tbody>
-			</table>
+		<div id="ana_file_container" style="display: flex; flex-direction: column;">
+		   <fieldset>
+		      <legend>Auto Save File</legend>
+            <div style="display: flex; flex-direction: column; height: 100%">
+					<div style="display: flex; flex-direction: row; width: 100%">
+						<button class="buttonSaveAnaASF"
+							title="Write Autosave file immediately" type="submit">Save</button>
+						<label title="Input autosave file name">
+						   <input class="anaASF_name" type="text" size="35" value="Go4AnalysisASF.root"></input>
+						</label>
+					</div>
+					<div style="display: flex; flex-direction: row; width: 100%">
+						<label style="height: 30px" title="Enable/Disable autosave file">
+							<input class="anaASF_enabled" type="checkbox"></input> Enabled
+						</label>
+						<input class="anaASF_time MySpinnerStyle"
+                     title="Time Interval for autosave file" type="number" min="1" max="10000" step="100" value="500">
+                  </input>
+                  <input class="anaASF_compression MySpinnerStyle"
+                     title="ROOT compression level for autosave file" type="number" min="0" max="10"
+                     value="1">
+                  </input>
+                  <label style="height: 30px" title="Overwrite old autosave file">
+                     <input class="anaASF_overwrite" type="checkbox"></input>  Overwrite
+                  </label>
+					</div>
+				</div>
+         </fieldset>
+         <fieldset>
+            <legend>Analysis Configuration File</legend>
+            <div style="display: flex; flex-direction: row; width: 100%">
+               <button class="buttonLoadAnaConf" title="Load Analysis Prefs file"></button>
+               <button class="buttonSaveAnaConf" title="Save Analysis Prefs file"></button>
+               <label title="Input preference file name">
+                  <input  class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></input>
+               </label>
+            </div>
+         </fieldset>
 		</div>
 
 		<div id="ana_button_container">
