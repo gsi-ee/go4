@@ -1,23 +1,14 @@
 // $Id$
 
-JSROOT.define(["jquery", "jquery-ui"], $ => {
+JSROOT.define([], () => {
 
    "use strict";
-
-   if (typeof JSROOT != "object") {
-      let e1 = new Error("pareditor.js requires JSROOT to be already loaded");
-      e1.source = "pareditor.js";
-      throw e1;
-   }
 
    if (typeof GO4 != "object") {
       let e1 = new Error("pareditor.js requires GO4 to be already loaded");
       e1.source = "pareditor.js";
       throw e1;
    }
-
-   // only during transition
-   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
 
    // ===========================================================================================
 
@@ -31,8 +22,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    GO4.ParameterEditor.prototype.checkResize = function() { }
 
-   // TODO: put to common "base class" of condition and parameter editor
-   // add identifier of changed element to list, make warning sign visible
+   /** @summary add identifier of changed element to list, make warning sign visible */
    GO4.ParameterEditor.prototype.markChanged = function(key) {
       // first avoid duplicate keys:
       if (this.changes.indexOf(key) >= 0) return;
@@ -41,13 +31,13 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       this.selectDom().select(".buttonChangedParameter").style("display", null);// show warning sign
    }
 
-   // TODO: put to common "base class" of condition and parameter editor
+   /** @summary clear changes flag */
    GO4.ParameterEditor.prototype.clearChanges = function() {
       this.changes = []; //
       this.selectDom().select(".buttonChangedParameter").style("display", "none"); // hide warning sign
    }
 
-   // scan changed value list and return optionstring to be send to server
+   /** @summary scan changed value list and return optionstring to be send to server */
    GO4.ParameterEditor.prototype.evaluateChanges = function(optionstring) {
       let dom = this.selectDom(),
           len = this.changes.length;
@@ -140,6 +130,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       }).finally(() => { this.xreq = false; });
    }
 
+   /** @summary fill parameter values in the editor */
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
       let editor = this,
           par = this.par,
@@ -260,15 +251,12 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       this.clearChanges();
    }
 
+   /** @summary fill basic efitor fields */
    GO4.ParameterEditor.prototype.fillEditor = function() {
       let dom = this.selectDom();
-          //width = dom.node().clientWidth,
-          //height = dom.node().clientHeight;
 
       dom.select(".par_name").text(this.par.fName);
       dom.select(".par_type").text(this.par._typename);
-
-      // dom.select("div").style("width", (width-4) + "px").style("height", (height-4) + "px");
 
       dom.select(".buttonGetParameter")
          .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
@@ -299,6 +287,7 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       this.fillMemberTable();
    }
 
+   /** @summary redraw parameter - when object updated from analysis */
    GO4.ParameterEditor.prototype.redrawObject = function(obj) {
       console.log('redraw parameter!!!');
       if (obj._typename != this.par._typename) return false;
@@ -307,20 +296,23 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
       return true;
    }
 
+   /** @summary set item name - used by hpainter */
    GO4.ParameterEditor.prototype.setItemName = function(name, opt, hpainter) {
       JSROOT.BasePainter.prototype.setItemName.call(this, name, opt, hpainter);
       this.fillComments();
    }
 
+   /** @summary readraw editor */
    GO4.ParameterEditor.prototype.redraw = function() {
       console.log("ParemeterEditor Redraw...");
       this.fillMemberTable();
       this.fillComments();
    }
 
-   GO4.ParameterEditor.prototype.drawEditor = function() {
-
-      let sel = this.selectDom(),
+   /** @summary entry function to draw parameter editor */
+   GO4.drawParameter = function(dom, par /*, option */) {
+      let editor = new GO4.ParameterEditor(dom, par),
+          sel = editor.selectDom(),
           h = sel.node().clientHeight,
           w = sel.node().clientWidth;
 
@@ -328,15 +320,10 @@ JSROOT.define(["jquery", "jquery-ui"], $ => {
 
       return JSROOT.httpRequest(GO4.source_dir + "html/pareditor.htm", "text").then(code => {
          sel.html(code);
-         this.setTopPainter();
-         this.fillEditor();
-         return this.fillComments();
+         editor.setTopPainter();
+         editor.fillEditor();
+         return editor.fillComments();
       });
-   }
-
-   GO4.drawParameter = function(dom, par /*, option */) {
-      let editor = new GO4.ParameterEditor(dom, par);
-      return editor.drawEditor();
    }
 
    return GO4;

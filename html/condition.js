@@ -4,12 +4,6 @@ JSROOT.define([], () => {
 
    "use strict";
 
-   if (typeof JSROOT != "object") {
-      let e1 = new Error("condition.js requires JSROOT to be already loaded");
-      e1.source = "condition.js";
-      throw e1;
-   }
-
    if (typeof GO4 != "object") {
       let e1 = new Error("condition.js requires GO4 to be already loaded");
       e1.source = "condition.js";
@@ -35,7 +29,7 @@ JSROOT.define([], () => {
        return (this.cond._typename == "TGo4ShapedCond");
    }
 
-   // add identifier of changed element to list, make warning sign visible
+   /** @summary add identifier of changed element to list, make warning sign visible */
    GO4.ConditionEditor.prototype.markChanged = function(key) {
       // first avoid duplicate keys:
       for (let index = 0; index < this.changes.length; index++) {
@@ -46,7 +40,7 @@ JSROOT.define([], () => {
       this.selectDom().select(".buttonChangeLabel").style("display", null);// show warning sign
    }
 
-   // clear changed elements' ist, make warning sign invisible
+   /** @summary clear changed elements' ist, make warning sign invisible */
    GO4.ConditionEditor.prototype.clearChanges = function() {
       for (let index = 0; index < this.changes.length ; index++) {
          let removed = this.changes.pop();
@@ -55,7 +49,7 @@ JSROOT.define([], () => {
       this.selectDom().select(".buttonChangeLabel").style("display", "none"); // hide warning sign
    }
 
-   // scan changed value list and return optionstring to be send to server
+   /** @summary scan changed value list and return optionstring to be send to server */
    GO4.ConditionEditor.prototype.evaluateChanges = function(optionstring) {
       let dom = this.selectDom(),
           len = this.changes.length;
@@ -176,14 +170,14 @@ JSROOT.define([], () => {
 
    GO4.ConditionEditor.prototype.checkResize = function() {}
 
+   /** @summary change dimension of polygon
+     * @desc this only changes display of condition, not condition itself!
+     * note that condition is still changed in analysis only by evaluateChanges
+     * local condition copy is unchanged until we can display it somewhere. */
    GO4.ConditionEditor.prototype.changePolygonDimension = function() {
-      // this only changes display of condition, not condition itself!
-      // note that condition is still changed in analysis only by evaluateChanges
-      // local condition copy is unchanged until we can display it somewhere.
-
       if(!this.isPolyCond()) return;
-      let id = "#" + this.getDomId(),
-          dom = this.selectDom(),
+
+      let dom = this.selectDom(),
           oldpoints = this.cond.fxCut.fNpoints,
           npoints = dom.select(".cut_points").property("value");
 
@@ -250,7 +244,7 @@ JSROOT.define([], () => {
       }
    }
 
-
+   /** @summary refresh condition editor */
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       let editor = this,
           cond = this.cond,
@@ -373,10 +367,8 @@ JSROOT.define([], () => {
 
       editor.clearChanges();
    }
-  //--------- end refreshEditor
 
-
-  //////////////////////////////////////////////////////////
+   /** @summary fill condition editor */
    GO4.ConditionEditor.prototype.fillEditor = function() {
       this.setTopPainter();
 
