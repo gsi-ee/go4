@@ -1,6 +1,6 @@
 // $Id$
 
-(function(){
+JSROOT.define(["jquery", "jquery-ui"], $ => {
 
    if (typeof JSROOT != "object") {
       let e1 = new Error("analysiseditor.js requires JSROOT to be already loaded");
@@ -13,6 +13,10 @@
       e1.source = "analysiseditor.js";
       throw e1;
    }
+
+   // only during transition
+   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
+
 
    GO4.EvIOType = {
           GO4EV_NULL: 0,                // no event store/source
@@ -971,24 +975,6 @@
       this.refreshEditor();
    }
 
-   GO4.AnalysisStatusEditor.prototype.drawEditor = function(jqmain, resolveFunc) {
-
-      let pthis = this;
-
-      jqmain.empty();
-      jqmain.load(GO4.source_dir + "html/analysiseditor.htm", "", function() {
-         let html = "<ul>";
-         for (let i=0;i<8;i++)
-            html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
-         html+="</ul>";
-         jqmain.find(".steptabs").html(html);
-         pthis.fillEditor();
-         pthis.setTopPainter();
-         resolveFunc(pthis);
-      });
-      return this;
-   }
-
    GO4.AnalysisStatusEditor.prototype.redrawObject = function(obj /*, opt */) {
       if (obj._typename != this.stat._typename) return false;
       this.stat = JSROOT.clone(obj);
@@ -996,15 +982,28 @@
       return true;
    }
 
-   GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
-      let status = new GO4.AnalysisStatusEditor(divid, stat),
-          realid = status.getDomId(),
-          jqmain = $("#"+realid),
-          h = jqmain.height(), w = jqmain.width();
+   GO4.drawGo4AnalysisStatus = function(dom, stat) {
+      let status = new GO4.AnalysisStatusEditor(dom, stat),
+          sel = status.selectDom(),
+          h = sel.node().clientHeight,
+          w = sel.node().clientWidth;
 
-      if ((h < 10) && (w > 10)) jqmain.height(w*0.7);
+      if ((h < 10) && (w > 10)) sel.style("height", Math.round(w * 0.7)+"px");
 
-      return new Promise(resolveFunc => status.drawEditor(jqmain, resolveFunc));
+      return JSROOT.httpRequest(GO4.source_dir + "html/analysiseditor.htm", "text").then(code => {
+         sel.html(code);
+
+         let html = "";
+         for (let i=0;i<8;i++)
+            html += `<li><a href="${GO4.source_dir}html/stepeditor.htm">Step ${i}</a></li>`;
+
+         sel.select(".steptabs").html("<ul>" + html + "</ul>");
+
+         editor.fillEditor();
+         editor.setTopPainter();
+         return editor;
+      });
+
    }
 
-})(); // factory function
+}); // factory function
