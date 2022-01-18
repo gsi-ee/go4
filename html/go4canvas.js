@@ -20,18 +20,6 @@
 
    "use strict";
 
-   if (!JSROOT.BasePainter.prototype.getDomId)
-      JSROOT.BasePainter.prototype.getDomId = function() {
-         let elem = this.selectDom();
-         if (elem.empty()) return "";
-         let id = elem.attr("id");
-         if (!id) {
-            id = "go4_element_" + GO4.id_counter++;
-            elem.attr("id", id);
-         }
-         return id;
-      }
-
    function findPainter(painter, obj, name, typ) {
       let pp = painter.getPadPainter();
       return pp ? pp.findPainterFor(obj, name, typ) : null;
@@ -549,6 +537,18 @@
       this.drawCondition();
       this.drawLabel();
    }
+
+   GO4.ConditionPainter.prototype.getDomId = function() {
+      let elem = this.selectDom();
+      if (elem.empty()) return "";
+      let id = elem.attr("id");
+      if (!id) {
+         id = "go4_element_" + GO4.id_counter++;
+         elem.attr("id", id);
+      }
+      return id;
+   }
+
 
    GO4.drawGo4Cond = function(dom, cond, option) {
 

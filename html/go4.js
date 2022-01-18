@@ -37,34 +37,6 @@
       return "";
    }();
 
-   JSROOT.BasePainter.prototype.getDomId = function() {
-      let elem = this.selectDom();
-      if (elem.empty()) return "";
-      let id = elem.attr("id");
-      if (!id) {
-         id = "go4_element_" + GO4.id_counter++;
-         elem.attr("id", id);
-      }
-      return id;
-   }
-
-   if (typeof JSROOT.httpRequest == 'function')
-      GO4.httpRequest = JSROOT.httpRequest;
-   else
-      GO4.httpRequest = function(url, kind, post_data) {
-         return new Promise((resolveFunc,rejectFunc) => {
-            let req = JSROOT.NewHttpRequest(url,kind, (res) => {
-               if (res === null)
-                  rejectFunc(Error(`Fail to request ${url}`));
-               else
-                  resolveFunc(res);
-            });
-
-            req.send(post_data || null);
-         });
-      }
-
-
    /** @summary Exactute method for selected painter object
      * @return {Promise} when done */
    GO4.ExecuteMethod = function(painter, method, options) {
@@ -74,7 +46,7 @@
 
       let fullcom = prefix + "exe.json?method=" + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
 
-      return GO4.httpRequest(fullcom, 'text');
+      return JSROOT.httpRequest(fullcom, 'text');
    }
 
    // ==================================================================================
@@ -121,7 +93,7 @@
          if (!elem) return;
 
          xreq = true;
-         GO4.httpRequest(itemname+"/root.json.gz", 'object').then(res => {
+         JSROOT.httpRequest(itemname + "/root.json.gz", 'object').then(res => {
             elem.select(".event_rate").style('background-color', res.fbRunning ? 'lightgreen' : 'red');
             if (was_running != res.fbRunning)
                elem.select(".go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');

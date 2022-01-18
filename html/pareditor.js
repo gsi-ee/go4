@@ -88,7 +88,7 @@ JSROOT.define([], () => {
 
       this.xreq = true;
 
-      return GO4.httpRequest(this.getItemName() + "/h.json?more", 'object').then(res => {
+      return JSROOT.httpRequest(this.getItemName() + "/h.json?more", 'object').then(res => {
 
          tr_nodes.forEach(raw_tr => {
             let tr = d3.select(raw_tr),

@@ -1,22 +1,12 @@
 // $Id$
 
-JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
-
-   if (typeof JSROOT != "object") {
-      let e1 = new Error("analysiseditor.js requires JSROOT to be already loaded");
-      e1.source = "analysiseditor.js";
-      throw e1;
-   }
+JSROOT.define(["painter"], jsrp => {
 
    if (typeof GO4 != "object") {
       let e1 = new Error("analysiseditor.js requires GO4 to be already loaded");
       e1.source = "analysiseditor.js";
       throw e1;
    }
-
-   // only during transition
-   JSROOT.loadScript("https://root.cern/js/6.3.2/style/jquery-ui.min.css");
-
 
    GO4.EvIOType = {
           GO4EV_NULL: 0,                // no event store/source
