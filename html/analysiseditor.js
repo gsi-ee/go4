@@ -22,14 +22,15 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
           GO4EV_NULL: 0,                // no event store/source
           GO4EV_FILE: 1,                // root file with own tree
           GO4EV_TREE: 2,                // branch of singleton tree
-          GO4EV_MBS_FILE: 3,             // mbs listmode file (input only)
-          GO4EV_MBS_STREAM: 4,           // mbs stream server (input only)
-          GO4EV_MBS_TRANSPORT: 5,        // mbs transport server (input only)
-          GO4EV_MBS_EVENTSERVER: 6,      // mbs event server  (input only)
-          GO4EV_MBS_REVSERV: 7,           // remote event server (input only)
-          GO4EV_BACK: 8,            // backstore in memory (pseudo-ringbuffer?)
-          GO4EV_USER: 9,             // user defined source class
-          GO4EV_MBS_RANDOM: 10            // random generated mbs event
+          GO4EV_MBS_FILE: 3,            // mbs listmode file (input only)
+          GO4EV_MBS_STREAM: 4,          // mbs stream server (input only)
+          GO4EV_MBS_TRANSPORT: 5,       // mbs transport server (input only)
+          GO4EV_MBS_EVENTSERVER: 6,     // mbs event server  (input only)
+          GO4EV_MBS_REVSERV: 7,         // remote event server (input only)
+          GO4EV_BACK: 8,                // backstore in memory (pseudo-ringbuffer?)
+          GO4EV_USER: 9,                // user defined source class
+          GO4EV_MBS_RANDOM: 10,         // random generated mbs event
+          GO4EV_HDF5: 11                // HDF5 file format
       };
 
    GO4.AnalysisStatusEditor = function(dom, stat) {
@@ -210,14 +211,7 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
           sourcemore = tab.select(".step_source_expand");
 
       let sourceargs = tab.select(" .step_source_args");
-      let sourcefirst = tab.select(" .step_source_firstev");
-      let sourcefirstlabel = tab.select(" .step_source_firstev_label");
-      let sourcelast = tab.select(" .step_source_lastev");
-      let sourcelastlabel = tab.select(" .step_source_lastev_label");
-      let sourceskip = tab.select(" .step_source_stepev");
-      let sourceskiplabel = tab.select(" .step_source_stepev_label");
 
-      let storesel = tab.select(" .step_store_select");
       let storename = tab.select(" .step_store_name");
       let storesplit = tab.select(" .step_store_split");
       let storebuf = tab.select(" .step_store_buf");
@@ -261,12 +255,29 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       tab.select(".step_source_port_args").style('display', show_ports ? null : 'none');
       tab.select(".step_source_number_args").style('display', show_args ? 'inline' : 'none');
 
+      let enbale_store_pars = false, enbale_store_name = true;
+      switch (theElement.fxStoreType.fiID) {
+         case GO4.EvIOType.GO4EV_FILE:
+            enbale_store_pars = true;
+            break;
+         case GO4.EvIOType.GO4EV_BACK:
+            enbale_store_pars = true;
+            enbale_store_name = false;
+            break;
+         case GO4.EvIOType.GO4EV_USER:
+            break;
+         default:
+            break;
+      };
+
+      tab.select(".step_store_pars").selectAll("input").each(function() {
+         d3.select(this).attr("disabled", enbale_store_pars ? null : "true");
+      });
+
+      tab.select(".step_store_name").attr("disabled", enbale_store_name ? null : "true");
 
       return;
 
-
-
-      sourceform.show();
 
       //console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
       switch (theElement.fxSourceType.fiID) {
@@ -437,14 +448,14 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
              sourcetag = tab.select(".step_source_tagfile"),
              sourceport = tab.select(".step_source_port"),
              sourcetmout = tab.select(".step_source_tmout"),
-             sourceretry = tab.select(".step_source_retry");
+             sourceretry = tab.select(".step_source_retry"),
+             sourcefirst = tab.select(" .step_source_firstev"),
+             sourcelast = tab.select(" .step_source_lastev"),
+             sourceskip = tab.select(" .step_source_stepev"),
+             storesel = tab.select(" .step_store_select");
 
          let sourceargs = tab.select(" .step_source_args");
-         let sourcefirst = tab.select(" .step_source_firstev");
-         let sourcelast = tab.select(" .step_source_lastev");
-         let sourceskip = tab.select(" .step_source_stepev");
 
-         let storesel = tab.select(" .step_store_select");
          let storename = tab.select(" .step_store_name");
          let storesplit = tab.select(" .step_store_split");
          let storebuf = tab.select(" .step_store_buf");
@@ -478,17 +489,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
             this.markChanged("sourcesel", theIndex);
 
             theElement.fxSourceType.fiID = parseInt(sourcesel.property("value"));
-
-            // but: we have to set back all values  from GUI to theElement and optionally create new members:
-            // theElement.fxSourceType.fName = sourcename.property("value");
-            // theElement.fxSourceType.fiPort = sourceport.property("value");
-            // theElement.fxSourceType.fiTimeout = sourcetmout.property("value");
-            // theElement.fxSourceType.fiRetryCnt = sourceretry.property("value");
-            // theElement.fxSourceType.fxTagFile = sourcetag.property("value");
-            // theElement.fxSourceType.fuStartEvent = sourcefirst.property("value");
-            // theElement.fxSourceType.fuStopEvent = sourcelast.property("value");
-            // theElement.fxSourceType.fuEventInterval = sourceskip.property("value");
-            // theElement.fxSourceType.fxExpression = sourceargs.property("value");
 
             this.showStepEditor(tab, theElement, theIndex);
          }); // source selectmenu change
@@ -527,66 +527,34 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                         theElement.fxSourceType.fiRetryCnt = parseInt(sourceretry.property("value"));
                      });
 
+         sourcefirst.property("value", theElement.fxSourceType.fuStartEvent || 0)
+                    .on("change", () => {
+                        this.markChanged("sourcefirst", theIndex);
+                        theElement.fxSourceType.fuStartEvent = parseInt(sourcefirst.property("value"));
+                     });
+
+         sourcelast.property("value", theElement.fxSourceType.fuStopEvent || 0)
+                    .on("change", () => {
+                       this.markChanged("sourcelast", theIndex);
+                       theElement.fxSourceType.fuStopEvent = parseInt(sourcelast.property("value"));
+                     });
+
+         sourceskip.property("value", theElement.fxSourceType.fuEventInterval || 0)
+                   .on("change", () => {
+                      this.markChanged("sourceskip", theIndex);
+                      theElement.fxSourceType.fuEventInterval = parseInt(sourceskip.property("value"));
+                   });
+
+         storesel.property("value", theElement.fxStoreType.fiID).on("change", () => {
+            this.markChanged("storesel", theIndex);
+            theElement.fxStoreType.fiID = parseInt(storesel.property("value"));
+            this.showStepEditor(tab, theElement, theIndex);
+         });
+
+
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
-
-
-         sourcefirst.spinner({
-            min: 0,
-            max: 2000000000,
-            step: 1000,
-            stop: function(event, ui) {
-               editor.markChanged("sourcefirst", theIndex);
-               theElement.fxSourceType.fuStartEvent = this.value;
-            }
-         });
-
-         sourcelast.spinner({
-            min: 0,
-            max: 2000000000,
-            step: 1000,
-            stop: function(event, ui) {
-               editor.markChanged("sourcelast", theIndex);
-               theElement.fxSourceType.fuStopEvent = this.value;
-            }
-         });
-
-         sourceskip.spinner({
-            min: 0,
-            max: 999999999,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("sourceskip", theIndex);
-               theElement.fxSourceType.fuEventInterval = this.value;
-            }
-         });
-
-         //// EVENT STORE: /////////////////////////////////////////////////
-         storesel.selectmenu({
-            change: function(event, ui) {
-               editor.markChanged("storesel", theIndex);
-
-               //console.log("store selector with value "+ Number(ui.item.value));
-               switch (Number(ui.item.value)) {
-                  case 1:
-                     theElement.fxStoreType.fiID = GO4.EvIOType.GO4EV_BACK;
-                     break;
-                  case 0:
-                  default:
-                     theElement.fxStoreType.fiID = GO4.EvIOType.GO4EV_FILE;
-                     break;
-               }; // switch
-               theElement.fxStoreType.fName = storename.val();
-               theElement.fxStoreType.fiSplit = storesplit.val();
-               theElement.fxStoreType.fiBufsize = storebuf.val() * 1000.;
-               theElement.fxStoreType.fiCompression = storecomp.val();
-               theElement.fxStoreType.fiAutosavesize = storetreeasf.val();
-
-               editor.showStepEditor(tab, theElement, theIndex);
-            } // change function
-         }); // selectmenu
-
 
          //console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
          storename.val(theElement.fxStoreType.fName)

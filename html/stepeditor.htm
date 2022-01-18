@@ -25,9 +25,9 @@
 			<option value="5">MBS Transport Server</option>
 			<option value="6">MBS Event Server</option>
 			<option value="7">Remote Event Server</option>
-         <option value="8">Back store</option>
 			<option value="9">User Source</option>
          <option value="10">MBS Random</option>
+         <option value="11">HDF5 source</option>
 		</select>
 		<label title="Show/hide extra options for event source">
           <input class="step_source_expand" type="checkbox">more...
@@ -58,14 +58,14 @@
       </label>
    </div>
    <div class="step_source_number_args" style="width: 100%; vertical-align: middle;">
-      <label class="step_source_firstev_label">
-         First:<input class="step_source_firstev MySpinnerStyle" title="Sequence number of first event to process" type="text" value="0">
+      <label>
+         First:<input class="step_source_firstev" title="Sequence number of first event to process" type="number" min="0" max="2000000000" step="1000">
       </label>
-      <label class="step_source_lastev_label">
-         Last:<input class="step_source_lastev MySpinnerStyle" title="Sequence number of last event to process" type="text" value="all">
+      <label>
+         Last:<input class="step_source_lastev" title="Sequence number of last event to process" type="number" min="0" max="2000000000" step="1000">
       </label>
-      <label class="step_source_stepev_label">
-         Step:<input class="step_source_stepev MySpinnerStyle" title="Skipping interval between 2 events to process (1=process all)" type="text" value="1">
+      <label>
+         Step:<input class="step_source_stepev" title="Skipping interval between 2 events to process (1=process all)" type="number" min="1" max="1000000">
       </label>
    </div>
    </div>
@@ -75,13 +75,15 @@
    <legend>Event Store</legend>
 	<div style="display: flex; flex-direction: column; width: 100%;">
 		<select class="step_store_select">
-			<option selected="selected" value="0">Go4FileStore (*.root)</option>
-			<option value="1">Go4 BackStore</option>
+			<option value="1">Go4FileStore (*.root)</option>
+			<option value="8">Go4 BackStore</option>
+         <option value="9">User store</option>
+         <option value="11">HDF5 store</option>
 		</select>
 		<label title="Event store name" class="step_store_name_label">
 			Name: <input class="step_store_name" type="text">
 		</label>
-      <div style="display: inline; width: 100%; vertical-align: middle;">
+      <div class="step_store_pars" style="display: inline; width: 100%; vertical-align: middle;">
 		   <input class="step_store_split MySpinnerStyle"	title="Root TTree split level." type="text" value="99">
 		   <label class="step_store_buf_label">
 		      <input class="step_store_buf MySpinnerStyle" title="Root branch buffer size" type="text" value="32"> kB
