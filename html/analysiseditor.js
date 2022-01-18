@@ -199,24 +199,13 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       editor.clearChanges();
    }
 
-   GO4.AnalysisStatusEditor.prototype.showStepEditor = function(tab, theElement, theIndex)
-   {
-      let id = "#" + this.getDomId(),
-          editor = this;
+   GO4.AnalysisStatusEditor.prototype.showStepEditor = function(tab, theElement, theIndex) {
 
       let sourcebox = tab.select(".step_box_source_enab"),
           storebox = tab.select(".step_box_store_enab"),
           step_source = tab.select(".step_source"),
           step_store = tab.select(".step_store"),
           sourcemore = tab.select(".step_source_expand");
-
-      let sourceargs = tab.select(" .step_source_args");
-
-      let storesplit = tab.select(" .step_store_split");
-      let storebuf = tab.select(" .step_store_buf");
-      let storecomp = tab.select(" .step_store_comp");
-      let storetreeasf = tab.select(" .step_store_asf");
-      let storeover = tab.select(" .step_store_overwrite");
 
     // here step control checkboxes and source/store visibility:
       if (theElement.fbProcessEnabled) {
@@ -274,171 +263,17 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       });
 
       tab.select(".step_store_name").attr("disabled", enbale_store_name ? null : "true");
-
-      return;
-
-
-      //console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
-      switch (theElement.fxSourceType.fiID) {
-         case GO4.EvIOType.GO4EV_FILE:
-         case GO4.EvIOType.GO4EV_MBS_RANDOM:
-            sourceport.hide();
-            sourceportlabel.hide();
-            sourcetmout.hide();
-            sourcetmoutlabel.hide();
-            sourceretry.hide();
-            sourceretrylabel.hide();
-            sourcetag.hide();
-            sourcetaglabel.hide();
-            sourcefirst.hide();
-            sourcefirstlabel.hide();
-            sourcelast.hide();
-            sourcelastlabel.hide()
-            sourceskip.hide();
-            sourceskiplabel.hide();
-            sourceargs.hide();
-            sourceargslabel.hide();
-            break;
-         case GO4.EvIOType.GO4EV_MBS_STREAM:
-         case GO4.EvIOType.GO4EV_MBS_TRANSPORT:
-         case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
-         case GO4.EvIOType.GO4EV_MBS_REVSERV:
-            if (showmore) {
-               sourceport.show();
-               sourceportlabel.show();
-               sourcetmout.show();
-               sourcetmoutlabel.show();
-               sourceretry.show();
-               sourceretrylabel.show();
-               sourcefirst.show();
-               sourcefirstlabel.show();
-               sourcelast.show();
-               sourcelastlabel.show();
-               sourceskip.show();
-               sourceskiplabel.show();
-            } else {
-               sourceport.hide();
-               sourceportlabel.hide();
-               sourcetmout.hide();
-               sourcetmoutlabel.hide();
-               sourceretry.hide();
-               sourceretrylabel.hide();
-               sourcefirst.hide();
-               sourcefirstlabel.hide();
-               sourcelast.hide();
-               sourcelastlabel.hide();
-               sourceskip.hide();
-               sourceskiplabel.hide();
-            }
-            sourcetag.hide();
-            sourcetaglabel.hide();
-            sourceargs.hide();
-            sourceargslabel.hide();
-            break;
-         case GO4.EvIOType.GO4EV_USER:
-            if (showmore) {
-               sourceport.show();
-               sourceportlabel.show();
-               sourcetmout.show();
-               sourcetmoutlabel.show();
-               sourceargs.show();
-               sourceargslabel.show();
-            } else {
-               sourceport.hide();
-               sourceportlabel.hide();
-               sourcetmout.hide();
-               sourcetmoutlabel.hide();
-               sourceargs.hide();
-               sourceargslabel.hide();
-            }
-            sourceretry.hide();
-            sourceretrylabel.hide();
-            sourcetag.hide();
-            sourcetaglabel.hide();
-            sourcefirst.hide();
-            sourcefirstlabel.hide();
-            sourcelast.hide();
-            sourcelastlabel.hide();
-            sourceskip.hide();
-            sourceskiplabel.hide();
-            break;
-         default:
-            console.log("showStepEditor WARNING: unknown event source id: " + theElement.fxSourceType.fiID);
-         case GO4.EvIOType.GO4EV_MBS_FILE:
-            if (showmore) {
-               sourcetag.show();
-               sourcetaglabel.show();
-               sourcefirst.show();
-               sourcefirstlabel.show();
-               sourcelast.show();
-               sourcelastlabel.show();
-               sourceskip.show();
-               sourceskiplabel.show();
-            } else {
-               sourcetag.hide();
-               sourcetaglabel.hide();
-               sourcefirst.hide();
-               sourcefirstlabel.hide();
-               sourcelast.hide();
-               sourcelastlabel.hide();
-               sourceskip.hide();
-               sourceskiplabel.hide();
-            }
-            sourceport.hide();
-            sourceportlabel.hide();
-            sourcetmout.hide();
-            sourcetmoutlabel.hide();
-            sourceretry.hide();
-            sourceretrylabel.hide();
-            sourceargs.hide();
-            sourceargslabel.hide();
-            break;
-      };
-
-      storesplit.show();
-      storebuf.show();
-      storecomp.show();
-      storetreeasf.show();
-      storeover.show();
-      //console.log("show step editor with store id:"+theElement.fxStoreType.fiID);
-      switch (theElement.fxStoreType.fiID) {
-         default:
-            console.log("showStepEditor WARNING: unknown event store id: " + theElement.fxStoreType.fiID);
-         case GO4.EvIOType.GO4EV_FILE:
-            storecomp.spinner("enable");
-            storetreeasf.spinner("enable");
-            storeover.prop('disabled', false);
-            break;
-         case GO4.EvIOType.GO4EV_BACK:
-            storecomp.spinner("disable");
-            storetreeasf.spinner("disable");
-            storeover.prop('disabled', true);
-            break;
-      };
-
-      storesel.selectmenu("option", "width", storetable.width() * 0.8); // expand to table width
-      storesel.selectmenu('refresh', true);
-
-      pthis.css("padding", "5px");
-
-      $(id + " .steptabs").tabs("refresh");
    }
 
-   GO4.AnalysisStatusEditor.prototype.fillEditor = function()
-   {
-      let id = "#" + this.getDomId(),
-          editor = this,
+   GO4.AnalysisStatusEditor.prototype.fillEditor = function() {
+      let editor = this,
           dom = this.selectDom(),
           stat = this.stat;
 
-      stat.fxStepArray.arr.forEach((step, indx) => {
-         let tab = dom.select(".ana_step_tabs_body").select(`.go4_analysis_step_${indx}`);
+      stat.fxStepArray.arr.forEach((theElement, theIndex) => {
+         let tab = dom.select(".ana_step_tabs_body").select(`.go4_analysis_step_${theIndex}`);
 
-         let theIndex = indx, pthis = tab, theElement = step;
-
-         let step_source = tab.select(".step_source"),
-             step_store = tab.select(".step_store"),
-             enablebox = tab.select(".step_box_step_enab"),
+         let enablebox = tab.select(".step_box_step_enab"),
              sourcebox = tab.select(".step_box_source_enab"),
              storebox = tab.select(".step_box_store_enab"),
              sourcesel = tab.select(".step_source_select"),
@@ -452,15 +287,12 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
              sourcelast = tab.select(".step_source_lastev"),
              sourceskip = tab.select(".step_source_stepev"),
              storesel = tab.select(".step_store_select"),
-             storename = tab.select(".step_store_name");
-
-         let sourceargs = tab.select(" .step_source_args");
-
-         let storesplit = tab.select(" .step_store_split");
-         let storebuf = tab.select(" .step_store_buf");
-         let storecomp = tab.select(" .step_store_comp");
-         let storetreeasf = tab.select(" .step_store_asf");
-         let storeover = tab.select(" .step_store_overwrite");
+             storename = tab.select(".step_store_name"),
+             storesplit = tab.select(".step_store_split"),
+             storebuf = tab.select(".step_store_buf"),
+             storecomp = tab.select(".step_store_comp"),
+             storetreeasf = tab.select(".step_store_asf"),
+             storeover = tab.select(" .step_store_overwrite");
 
          enablebox.property('checked', theElement.fbProcessEnabled)
             .on("click", () => {
@@ -556,154 +388,39 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                theElement.fxStoreType.fName = storename.property("value").trim();
             });
 
+         storesplit.property("value", theElement.fxStoreType.fiSplit || 1)
+                   .on("change", () => {
+                      theElement.fxStoreType.fiSplit = parseInt(storesplit.property("value"));
+                      this.markChanged("storesplit", theIndex);
+                   });
+
+         storebuf.property("value", Math.round((theElement.fxStoreType.fiBufsize || 16*1024) / 1024))
+                   .on("change", () => {
+                      theElement.fxStoreType.fiBufsize = parseInt(storebuf.property("value")) * 1024;
+                      this.markChanged("storebuf", theIndex);
+                   });
+
+         storecomp.property("value", theElement.fxStoreType.fiCompression || 0)
+                   .on("change", () => {
+                      theElement.fxStoreType.fiCompression = parseInt(storecomp.property("value"));
+                      this.markChanged("storecomp", theIndex);
+                   });
+
+         storetreeasf.property("value", theElement.fxStoreType.fiAutosavesize || 0)
+                   .on("change", () => {
+                      theElement.fxStoreType.fiAutosavesize = parseInt(storetreeasf.property("value"));
+                      this.markChanged("storeasf", theIndex);
+                   });
+
+         storeover.property("checked", theElement.fxStoreType.fbOverwrite || true)
+                  .on("click", () => {
+                     theElement.fxStoreType.fbOverwrite = storeover.property("checked");
+                     this.markChanged("storeover", theIndex);
+                   });
+
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
-         return;
-
-         //console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
-
-         storesplit.spinner({
-            min: 0,
-            max: 99,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("storesplit", theIndex);
-               theElement.fxStoreType.fiSplit = this.value;
-            }
-         });
-
-         storebuf.spinner({
-            min: 4,
-            max: 256,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("storebuf", theIndex);
-               theElement.fxStoreType.fiBufsize = this.value * 1000;
-            }
-         });
-
-         storecomp.spinner({
-            min: 0,
-            max: 9,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("storecomp", theIndex);
-               theElement.fxStoreType.fiCompression = this.value;
-            }
-         });
-         storetreeasf.spinner({
-            min: 0,
-            max: 99999,
-            step: 100,
-            stop: function(event, ui) {
-               editor.markChanged("storeasf", theIndex);
-               theElement.fxStoreType.fiAutosavesize = this.value;
-            }
-         });
-
-         storeover.click(function() {
-            editor.markChanged("storeover", theIndex);
-            theElement.fxStoreType.fbOverwrite = this.checked;
-         });
-
-         ////////////////// here set event source values:
-
-
-         // set event source selector and special fields:
-         //console.log("load tab "+theIndex+" sees source id:"+theElement.fxSourceType.fiID);
-         switch (theElement.fxSourceType.fiID) {
-            case GO4.EvIOType.GO4EV_FILE:
-               sourcesel.val(0);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_STREAM:
-               sourcesel.val(2);
-               sourceport.val(theElement.fxSourceType.fiPort);
-               sourcetmout.val(theElement.fxSourceType.fiTimeout);
-               sourceretry.val(theElement.fxSourceType.fiRetryCnt);
-               sourcetag.text(theElement.fxSourceType.fxTagFile);
-               sourcefirst.val(theElement.fxSourceType.fuStartEvent);
-               sourcelast.val(theElement.fxSourceType.fuStopEvent);
-               sourceskip.val(theElement.fxSourceType.fuEventInterval);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_TRANSPORT:
-               sourcesel.val(3);
-               sourceport.val(theElement.fxSourceType.fiPort);
-               sourcetmout.val(theElement.fxSourceType.fiTimeout);
-               sourceretry.val(theElement.fxSourceType.fiRetryCnt);
-               sourcetag.text(theElement.fxSourceType.fxTagFile);
-               sourcefirst.val(theElement.fxSourceType.fuStartEvent);
-               sourcelast.val(theElement.fxSourceType.fuStopEvent);
-               sourceskip.val(theElement.fxSourceType.fuEventInterval);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
-               sourcesel.val(4);
-               sourceport.val(theElement.fxSourceType.fiPort);
-               sourcetmout.val(theElement.fxSourceType.fiTimeout);
-               sourceretry.val(theElement.fxSourceType.fiRetryCnt);
-               sourcetag.text(theElement.fxSourceType.fxTagFile);
-               sourcefirst.val(theElement.fxSourceType.fuStartEvent);
-               sourcelast.val(theElement.fxSourceType.fuStopEvent);
-               sourceskip.val(theElement.fxSourceType.fuEventInterval);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_REVSERV:
-               sourcesel.val(5);
-               sourceport.val(theElement.fxSourceType.fiPort);
-               sourcetmout.val(theElement.fxSourceType.fiTimeout);
-               sourceretry.val(theElement.fxSourceType.fiRetryCnt);
-               sourcetag.text(theElement.fxSourceType.fxTagFile);
-               sourcefirst.val(theElement.fxSourceType.fuStartEvent);
-               sourcelast.val(theElement.fxSourceType.fuStopEvent);
-               sourceskip.val(theElement.fxSourceType.fuEventInterval);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_RANDOM:
-               sourcesel.val(6);
-               break;
-            case GO4.EvIOType.GO4EV_USER:
-               sourcesel.val(7);
-               sourceport.val(theElement.fxSourceType.fiPort);
-               sourcetmout.val(theElement.fxSourceType.fiTimeout);
-               sourceargs.text(theElement.fxSourceType.fxExpression);
-               break;
-            case GO4.EvIOType.GO4EV_MBS_FILE:
-               sourcesel.val(1);
-               sourcetag.text(theElement.fxSourceType.fxTagFile);
-               sourcefirst.val(theElement.fxSourceType.fuStartEvent);
-               sourcelast.val(theElement.fxSourceType.fuStopEvent);
-               sourceskip.val(theElement.fxSourceType.fuEventInterval);
-               break;
-            default:
-               console.log("WARNING: unknown event source id: " + theElement.fiID);
-         };
-
-         sourcesel.selectmenu('refresh', true);
-
-
-         // event store properties:
-         storesplit.val(theElement.fxStoreType.fiSplit);
-         storebuf.val(theElement.fxStoreType.fiBufsize / 1000);
-         storecomp.val(theElement.fxStoreType.fiCompression);
-         storetreeasf.val(theElement.fxStoreType.fiAutosavesize);
-
-         // set event store selector and special fields:
-         //console.log("load tab "+theIndex+" sees store id:"+theElement.fxStoreType.fiID);
-         switch (theElement.fxStoreType.fiID) {
-
-            case GO4.EvIOType.GO4EV_BACK:
-               storesel.val(1);
-               break;
-            case GO4.EvIOType.GO4EV_FILE:
-               storeover.prop('checked', theElement.fxStoreType.fbOverwrite);
-            default:
-               storesel.val(0);
-               break;
-         };
-
-         storesel.selectmenu('refresh', true);
-
-
-      });// tabs loop
-
-//////////////////////// END ANALYSIS STEP TABS
+      }); // steps loop
 
       dom.select(".buttonGetAnalysis")
          .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
