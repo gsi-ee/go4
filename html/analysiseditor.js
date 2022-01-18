@@ -88,6 +88,8 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiID;
             } else if (key == "sourcename") {
                stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fName;
+            } else if (key == "sourcetag") {
+               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fxTagFile;
             } else if (key == "sourceport") {
                stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiPort;
             } else if (key == "sourcetmout") {
@@ -201,19 +203,13 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       let id = "#" + this.getDomId(),
           editor = this;
 
-      let enablebox = tab.select(".step_box_step_enab"),
-          sourcebox = tab.select(".step_box_source_enab"),
+      let sourcebox = tab.select(".step_box_source_enab"),
           storebox = tab.select(".step_box_store_enab"),
           step_source = tab.select(".step_source"),
           step_store = tab.select(".step_store"),
-          sourcesel = tab.select(".step_source_select"),
-          sourcemore = tab.select(" .step_source_expand");
+          sourcemore = tab.select(".step_source_expand");
 
-      let sourceform = tab.select(" .step_source_form");
-      let sourcename = tab.select(" .step_source_name");
-      let sourcenamelabel = tab.select(" .step_source_name_label");
-      let sourcetag = tab.select(" .step_source_tagfile");
-      let sourcetaglabel = tab.select(" .step_source_tagfile_label");
+      let sourcetag = tab.select(".step_source_tagfile");
       let sourceport = tab.select(" .step_source_port");
       let sourceportlabel = tab.select(" .step_source_port_label");
       let sourcetmout = tab.select(" .step_source_tmout");
@@ -444,11 +440,10 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
              sourcebox = tab.select(".step_box_source_enab"),
              storebox = tab.select(".step_box_store_enab"),
              sourcesel = tab.select(".step_source_select"),
-             sourcemore = tab.select(".step_source_expand");
+             sourcemore = tab.select(".step_source_expand"),
+             sourcename = tab.select(".step_source_name"),
+             sourcetag = tab.select(".step_source_tagfile");
 
-         let sourceform = tab.select(".step_source_form");
-         let sourcename = tab.select(" .step_source_name");
-         let sourcetag = tab.select(" .step_source_tagfile");
          let sourceport = tab.select(" .step_source_port");
          let sourcetmout = tab.select(" .step_source_tmout");
          let sourceretry = tab.select(" .step_source_retry");
@@ -510,35 +505,21 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
             this.showStepEditor(tab, theElement, theIndex);
          });
 
+         sourcename.property("value", theElement.fxSourceType.fName)
+                   .on("change", () => {
+                        this.markChanged("sourcename", theIndex);
+                        theElement.fxSourceType.fName = sourcename.property("value").trim();
+                    });
+
+         sourcetag.property("value", theElement.fxSourceType.fxTagFile || "")
+                  .on("change", () => {
+                     this.markChanged("sourcetag", theIndex);
+                     theElement.fxSourceType.fxTagFile = sourcetag.property("value").trim();
+                  });
 
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
-
-
-         sourcename.val(theElement.fxSourceType.fName);
-         //          .change(function(){
-         //         editor.markChanged("sourcename",theIndex);
-         //         theElement.fxSourceType.fName=this.value.trim();
-         //         }); ;
-
-         sourceform.submit(
-            function(event) {
-               event.preventDefault(); // do not send automatic request to server!
-               let content = sourcename[0].value;
-               content = content.trim();
-               editor.markChanged("sourcename", theIndex);
-               theElement.fxSourceType.fName = content;
-               console.log("Submitting sourcename form with: " + content);
-            });
-
-
-         //console.log("on tab load finds source name: "+ theElement.fxSourceType.fName);
-         //         sourcename.val(theElement.fxSourceType.fName)
-         //            .change(function(){
-         //               editor.markChanged("sourcename",theIndex);
-         //               theElement.fxSourceType.fName=this.value.trim();
-         //               });
 
          sourceport.spinner({
             min: 0,

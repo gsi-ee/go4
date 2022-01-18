@@ -31,7 +31,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     const char* GetTagName() const { return fxTagFile.Data(); }
 
     /** Name of the Tagfile */
-    void SetTagName(const char* name) { fxTagFile = name; }
+    void SetTagName(const char *name) { fxTagFile = name; }
 
     /** basic method to printout status information
       * on stdout; to be overridden by specific subclass */

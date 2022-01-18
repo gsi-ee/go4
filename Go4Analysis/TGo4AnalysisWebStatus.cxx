@@ -30,6 +30,7 @@ TString TGo4AnalysisWebStatus::fgxURL_ENABLESTORE = "storeenabled";
 
 TString TGo4AnalysisWebStatus::fgxURL_SOURCE_TYPE = "sourcesel";
 TString TGo4AnalysisWebStatus::fgxURL_SOURCE_NAME = "sourcename";
+TString TGo4AnalysisWebStatus::fgxURL_SOURCE_TAG = "sourcetag";
 TString TGo4AnalysisWebStatus::fgxURL_SOURCE_PORT = "sourceport";
 TString TGo4AnalysisWebStatus::fgxURL_SOURCE_TIMEOUT = "sourcetmout";
 TString TGo4AnalysisWebStatus::fgxURL_SOURCE_RETRY = "sourceretry";
@@ -232,14 +233,24 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }    // fgxURL_SOURCE_TYPE
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_NAME.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       TString srcname = url.GetValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%s", theKey.Data(), srcname.Data()));
       TGo4EventSourceParameter* srcpar = step->GetSourcePar();
       srcpar->SetName(srcname.Data());
-
     }    // fgxURL_SOURCE_NAME;
+
+    theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TAG.Data(), stepindex);
+    if (url.HasOption(theKey.Data())) {
+      TString tagname = url.GetValueFromOptions(theKey.Data());
+      message.Append(TString::Format(", %s=%s", theKey.Data(), tagname.Data()));
+      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4MbsFileParameter* mbsfilepar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
+      if (mbsfilepar)
+         mbsfilepar->SetTagName(tagname.Data());
+      else
+         message.Append(TString::Format(" - /!\\ NEVER COME HERE: Could not set tag name to type %s ", srcpar->ClassName()));
+    }    // fgxURL_SOURCE_TAG;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_PORT.Data(), stepindex);
     if (url.HasOption(theKey.Data()))
@@ -254,8 +265,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else if (userpar)
         userpar->SetPort(port);
       else
-        message.Append(
-            TString::Format(" - /!\\ NEVER COME HERE: Could not set port to type %s ", srcpar->ClassName()));
+        message.Append(TString::Format(" - /!\\ NEVER COME HERE: Could not set port to type %s ", srcpar->ClassName()));
     }    //fgxURL_SOURCE_PORT;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TIMEOUT.Data(), stepindex);

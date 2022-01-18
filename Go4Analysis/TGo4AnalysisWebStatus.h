@@ -65,6 +65,7 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
 
     static TString fgxURL_SOURCE_TYPE;
     static TString fgxURL_SOURCE_NAME;
+    static TString fgxURL_SOURCE_TAG;
     static TString fgxURL_SOURCE_PORT;
     static TString fgxURL_SOURCE_TIMEOUT;
     static TString fgxURL_SOURCE_RETRY;
