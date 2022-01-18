@@ -201,15 +201,15 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
 
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(tab, theElement, theIndex)
    {
-      let id = "#" + this.getDomId();
-      let editor = this;
-      let showmore = editor.showmore[theIndex];
-      //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
-      let storetable = tab.select(" .step_store");
-      let sourcetable = tab.select(" .step_source");
-      let enablebox = tab.select(" .step_box_step_enab");
-      let sourcebox = tab.select(" .step_box_source_enab");
-      let storebox = tab.select(" .step_box_store_enab");
+      let id = "#" + this.getDomId(),
+          editor = this,
+          showmore = editor.showmore[theIndex];
+
+      let storetable = tab.select(".step_store");
+      let sourcetable = tab.select(".step_source");
+      let enablebox = tab.select(".step_box_step_enab");
+      let sourcebox = tab.select(".step_box_source_enab");
+      let storebox = tab.select(".step_box_store_enab");
 
       let sourcesel = tab.select(" .step_source_select");
       let sourcemore = tab.select(" .step_source_expand");
@@ -460,26 +460,27 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
          enablebox.property('checked', theElement.fbProcessEnabled)
             .on("click", () => {
                this.markChanged("stepenabled", theIndex);
-               theElement.fbProcessEnabled = this.checked;
+               theElement.fbProcessEnabled = enablebox.property('checked');
+               this.showStepEditor(tab, theElement, theIndex);
+            }); // clickfunction
+
+         sourcebox.property('checked', theElement.fbSourceEnabled)
+            .on("click", () => {
+               this.markChanged("sourceenabled", theIndex);
+               theElement.fbSourceEnabled = sourcebox.property('checked');
+               this.showStepEditor(tab, theElement, theIndex);
+            }); // clickfunction
+
+
+         storebox.property('checked', theElement.fbStoreEnabled)
+            .on("click", () => {
+               this.markChanged("storeenabled", theIndex);
+               theElement.fbStoreEnabled = storebox.property('checked');
                this.showStepEditor(tab, theElement, theIndex);
             }); // clickfunction
 
          return;
 
-         sourcebox.prop('checked', theElement.fbSourceEnabled)
-            .click(function() {
-               editor.markChanged("sourceenabled", theIndex);
-               theElement.fbSourceEnabled = this.checked;
-               editor.showStepEditor(tab, theElement, theIndex);
-            }); // clickfunction
-
-
-         storebox.prop('checked', theElement.fbStoreEnabled)
-            .click(function() {
-               editor.markChanged("storeenabled", theIndex);
-               theElement.fbStoreEnabled = this.checked;
-               editor.showStepEditor(tab, theElement, theIndex);
-            }); // clickfunction
 
          //// EVENT SOURCE: /////////////////////////////////////////////////
          sourcesel.selectmenu({

@@ -1,114 +1,77 @@
 
-		<table class="step_control step_table_style"
-			style="position: relative; width: 100%; height: 10%; text-align: justify">
-			<thead>
-				<tr>
-					<th colspan=3>Step Control</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><label title="Enable analysis step"> <input
-							class="step_box_step_enab" type="checkbox" name="enable box">
-							Enable Step
-					</label></td>
-					<td><label title="Enable event source"> <input
-							class="step_box_source_enab" type="checkbox"> Source
-					</label></td>
-					<td><label title="Enable event store"> <input
-							class="step_box_store_enab" type="checkbox"> Store
-					</label></td>
-				</tr>
-			</tbody>
-		</table>
+<fieldset>
+	<legend>Step Control</legend>
+	<div style="display: flex; flex-direction: row; width: 100%">
+	   <label title="Enable analysis step">
+	      <input class="step_box_step_enab" type="checkbox" name="enable box"> Enable Step
+      </label>
+      <label title="Enable event source">
+         <input class="step_box_source_enab" type="checkbox"> Source
+      </label>
+      <label title="Enable event store">
+         <input class="step_box_store_enab" type="checkbox"> Store
+      </label>
+	</div>
+</fieldset>
 
+<fieldset class="step_source">
+   <legend>Event Source</legend>
+   <div style="display: inline; width: 100%; vertical-align: middle;">
+		<select class="step_source_select">
+			<option selected="selected" value="0">Go4 File Source	(*.root)</option>
+			<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
+			<option value="2">MBS Stream Server</option>
+			<option value="3">MBS Transport Server</option>
+			<option value="4">MBS Event Server</option>
+			<option value="5">Remote Event Server</option>
+			<option value="6">MBS Random</option>
+			<option value="7">User Source</option>
+		</select>
+		<label title="Show/hide extra options for event source">
+          <input class="step_source_expand" type="checkbox">more...
+      </label>
+	</div>
+   <div>
+	   <label title="File name or server node name">
+	      Name: <input class="step_source_name" type="text" size="35" value="Go4AnalysisPrefs.root">
+	   </label>
+	</div>
+   <div>
+     <label title="LMD Tag file" class="step_source_tagfile_label">
+        Tagfile: <input class="step_source_tagfile" type="text">
+     </label>
+   </div>
+   <div class="step_user_args" style="display: inline; width: 100%; vertical-align: middle;">
+      <label title="User arguments" class="step_source_args_label">
+         Args: <input class="step_source_args" type="text">
+      </label>
+      <label class="step_source_port_label">
+         Port: <input class="step_source_port MySpinnerStyle" title="Port Number" type="text" value="dflt">
+      </label>
+      <label class="step_source_tmout_label">
+         Tmout (s): <input class="step_source_tmout MySpinnerStyle" title="Timeout in seconds" type="text" value="1">
+      </label>
+      <label class="step_source_retry_label">
+         Retr (s): <input class="step_source_retry MySpinnerStyle" title="Retry interval in seconds" type="text" value="never">
+      </label>
+   </div>
+   <div class="step_source_args" style="display: inline; width: 100%; vertical-align: middle;">
+      <label class="step_source_firstev_label">
+         First:<input class="step_source_firstev MySpinnerStyle" title="Sequence number of first event to process" type="text" value="0">
+      </label>
+      <label class="step_source_lastev_label">
+         Last:<input class="step_source_lastev MySpinnerStyle" title="Sequence number of last event to process" type="text" value="all">
+      </label>
+      <label class="step_source_stepev_label">
+         Step:<input class="step_source_stepev MySpinnerStyle" title="Skipping interval between 2 events to process (1=process all)" type="text" value="1">
+      </label>
+   </div>
+</fieldset>
 
+<fieldset class="step_store">
+   <legend>Event Store</legend>
+</fieldset>
 
-		<!-- 		</div> -->
-
-		<table class="step_source step_table_style"
-			style="position: relative; width: 100%; height: 60%; text-align: left">
-			<thead>
-				<tr>
-					<th colspan=5>Event Source</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan=3><select class="step_source_select">
-							<option selected="selected" value="0">Go4 File Source
-								(*.root)</option>
-							<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
-							<option value="2">MBS Stream Server</option>
-							<option value="3">MBS Transport Server</option>
-							<option value="4">MBS Event Server</option>
-							<option value="5">Remote Event Server</option>
-							<option value="6">MBS Random</option>
-							<option value="7">User Source</option>
-					</select></td>
-
-
-				</tr>
-				<tr>
-					<td colspan=2>
-						<form class="step_source_form" accept-charset="utf-8">
-							<label title="File name or server node name">Name: <input
-								class="step_source_name" type="text" size="35"
-								value="Go4AnalysisPrefs.root"></label>
-						</form>
-					</td>
-
-					<td><label title="Show/hide extra options for event source">
-							<input class="step_source_expand" type="checkbox">more...
-					</label></td>
-				</tr>
-				<tr>
-					<td colspan=3><label title="LMD Tag file"
-						class="step_source_tagfile_label">Tagfile: <input
-							class="step_source_tagfile" type="text"></label></td>
-				</tr>
-				<tr>
-					<td colspan=3><label title="User arguments"
-						class="step_source_args_label">Args: <input
-							class="step_source_args" type="text"></label></td>
-
-				</tr>
-				<tr>
-					<td><label class="step_source_port_label">Port: <input
-							class="step_source_port MySpinnerStyle" title="Port Number"
-							type="text" value="dflt">
-					</label></td>
-
-					<td><label class="step_source_tmout_label">Tmout (s):
-							<input class="step_source_tmout MySpinnerStyle"
-							title="Timeout in seconds" type="text" value="1">
-					</label></td>
-
-					<td><label class="step_source_retry_label">Retr (s): <input
-							class="step_source_retry MySpinnerStyle"
-							title="Retry interval in seconds" type="text" value="never">
-					</label></td>
-
-
-				</tr>
-
-				<tr>
-					<td><label class="step_source_firstev_label">First:<input
-							class="step_source_firstev MySpinnerStyle"
-							title="Sequence number of first event to process" type="text"
-							value="0"></label></td>
-					<td><label class="step_source_lastev_label">Last:<input
-							class="step_source_lastev MySpinnerStyle"
-							title="Sequence number of last event to process" type="text"
-							value="all"></label></td>
-					<td><label class="step_source_stepev_label">Step:<input
-							class="step_source_stepev MySpinnerStyle"
-							title="Skipping interval between 2 events to process (1=process all)"
-							type="text" value="1"></label></td>
-				</tr>
-
-			</tbody>
-		</table>
 		<table class="step_store step_table_style"
 			style="position: relative; width: 100%; height: 30%; text-align: left">
 			<thead>
