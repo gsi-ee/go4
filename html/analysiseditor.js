@@ -209,6 +209,28 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       let dom = this.selectDom(),
           stat = this.stat;
 
+      let head_html = "", step_html = "";
+      stat.fxStepArray.arr.forEach((step, indx) => {
+         head_html += `<button for="go4_analysis_step_${indx}">${step.fName}</button>`;
+         step_html += `<div class="go4_analysis_step_${indx}" style="display:none">${this.stepPageHtml}</div>`;
+      });
+
+      dom.select(".ana_step_tabs_header").html(head_html);
+
+      dom.select(".ana_step_tabs_body").html(step_html);
+
+       // assign tabs buttons handlers
+      dom.select('.ana_step_tabs_header').selectAll("button").on("click", function() {
+         let btn = d3.select(this);
+         dom.selectAll('.ana_step_tabs_body>div').each(function() {
+            let tab = d3.select(this);
+            tab.style('display', tab.classed(btn.attr("for")) ? null : "none");
+         });
+      });
+
+      // activate first step
+      dom.select(".ana_step_tabs_body").select(".go4_analysis_step_0").style('display', null);
+
       stat.fxStepArray.arr.forEach((theElement, theIndex) => {
          let tab = dom.select(".ana_step_tabs_body").select(`.go4_analysis_step_${theIndex}`);
 
@@ -504,29 +526,9 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
 
       }).then(step_code => {
 
-         let head_html = "", step_html = "";
-         stat.fxStepArray.arr.forEach((step, indx) => {
-            head_html += `<button for="go4_analysis_step_${indx}">${step.fName}</button>`;
-            step_html += `<div class="go4_analysis_step_${indx}" style="display:none">${step_code}</div>`;
-         });
-
-         dom.select(".ana_step_tabs_header").html(head_html);
-
-         dom.select(".ana_step_tabs_body").html(step_html);
-
-          // assign tabs buttons handlers
-         dom.select('.ana_step_tabs_header').selectAll("button").on("click", function() {
-            let btn = d3.select(this);
-            dom.selectAll('.ana_step_tabs_body>div').each(function() {
-               let tab = d3.select(this);
-               tab.style('display', tab.classed(btn.attr("for")) ? null : "none");
-            });
-         });
+         editor.stepPageHtml = step_code;
 
          editor.fillEditor();
-
-         // activate first step
-         dom.select(".ana_step_tabs_body").select(".go4_analysis_step_0").style('display', null);
 
          editor.setTopPainter();
          return editor;
