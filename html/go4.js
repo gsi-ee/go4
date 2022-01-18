@@ -77,14 +77,6 @@
       return GO4.httpRequest(fullcom, 'text');
    }
 
-   GO4.ExecuteMethodOld = function(item, method, options, callback) {
-
-      GO4.ExecuteMethod(item, method, options)
-         .catch(() => callback(false))
-         .then(() => callback(true))
-         .finally(() => console.log('Command is completed ' + (item ? item.getItemName() : "") + method));
-   }
-
    // ==================================================================================
 
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {

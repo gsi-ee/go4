@@ -212,7 +212,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
 
       let sourceargs = tab.select(" .step_source_args");
 
-      let storename = tab.select(" .step_store_name");
       let storesplit = tab.select(" .step_store_split");
       let storebuf = tab.select(" .step_store_buf");
       let storecomp = tab.select(" .step_store_comp");
@@ -449,14 +448,14 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
              sourceport = tab.select(".step_source_port"),
              sourcetmout = tab.select(".step_source_tmout"),
              sourceretry = tab.select(".step_source_retry"),
-             sourcefirst = tab.select(" .step_source_firstev"),
-             sourcelast = tab.select(" .step_source_lastev"),
-             sourceskip = tab.select(" .step_source_stepev"),
-             storesel = tab.select(" .step_store_select");
+             sourcefirst = tab.select(".step_source_firstev"),
+             sourcelast = tab.select(".step_source_lastev"),
+             sourceskip = tab.select(".step_source_stepev"),
+             storesel = tab.select(".step_store_select"),
+             storename = tab.select(".step_store_name");
 
          let sourceargs = tab.select(" .step_source_args");
 
-         let storename = tab.select(" .step_store_name");
          let storesplit = tab.select(" .step_store_split");
          let storebuf = tab.select(" .step_store_buf");
          let storecomp = tab.select(" .step_store_comp");
@@ -551,17 +550,17 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
             this.showStepEditor(tab, theElement, theIndex);
          });
 
+         storename.property("value", theElement.fxStoreType.fName)
+            .on("change", () => {
+               this.markChanged("storename", theIndex);
+               theElement.fxStoreType.fName = storename.property("value").trim();
+            });
 
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
 
          //console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
-         storename.val(theElement.fxStoreType.fName)
-            .change(function() {
-               editor.markChanged("storename", theIndex);
-               theElement.fxStoreType.fName = this.value.trim();
-            }); // change function
 
          storesplit.spinner({
             min: 0,
@@ -769,50 +768,30 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       });
 
 
-      $(id + " .buttonSaveAnaConf")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
+      dom.select(".buttonSaveAnaConf")
+         .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)")
+         .on("click", event => {
+            let content = dom.select(".anaprefs_name").property("value").trim(),
+                requestmsg = "Really save analysis preferences: " + content;
+            jsrp.createMenu(event, this)
+                .then(menu => menu.runModal("Saving analysis preferences",`<p tabindex="0">${requestmsg}</p>`, { btns: true, height: 120, width: 400 }))
+                .then(elem => {
+                     if (!elem) return null;
+                     this.markChanged("anaprefsname", 0);
+                     this.stat.fxConfigFileName = content;
+                     return GO4.ExecuteMethod(this, "UpdateFromUrl", "&saveprefs=" + content);
+                 }).then(res => console.log(res !== null ? "Loading Saving preferences done. " : "Saving preferences  FAILED."));
+         });
 
-      $(id + " .buttonLoadAnaConf")
-         .button({ text: false, icons: { primary: "ui-icon-blank MyButtonStyle" } })
-         .click(function() {
-            let content = $(id + " .anaprefs_name")[0].value;
-            content = content.trim();
-            let requestmsg = "Really load analysis preferences: " + content;
-            let response = confirm(requestmsg);
-            if (!response) return;
-            console.log("Loading analysis Prefs from " + content);
-            let options = "&loadprefs=" + content;
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               if (result) {
-                  if (JSROOT.hpainter) JSROOT.hpainter.display(editor.getItemName());
-                  else console.log("dabc object not found!");
-               }
-               console.log("Loading preferences " + (result ? "done" : "FAILED."));
-            });
-         })
-         .children(":first") // select first button element, used for images
-         .css('background-image', "url(" + GO4.source_dir + "icons/fileopen.png)");
-
-
-      $(id + " .anaprefs_form").submit(
-         function(event) {
-            event.preventDefault(); // do not send automatic request to server!
-            let content = $(id + " .anaprefs_name")[0].value;
-            content = content.trim();
-
-            // before we write immediately, mark name as changed in setup:
-            editor.markChanged("anaprefsname", 0);
-            editor.stat.fxConfigFileName = content;
-            let requestmsg = "Really save analysis preferences: " + content;
-            let response = confirm(requestmsg);
-            if (!response) return;
-            console.log("Saving analysis Prefs to " + content);
-            let options = "&saveprefs=" + content;
-            GO4.ExecuteMethodOld(editor, "UpdateFromUrl", options, function(result) {
-               console.log(result ? "Saving preferences done. " : "Saving preferences  FAILED.");
-            });
+      dom.select(".buttonLoadAnaConf")
+         .style('background-image', "url(" + GO4.source_dir + "icons/fileopen.png)")
+         .on("click", event => {
+            let content = dom.select(".anaprefs_name").property("value").trim(),
+                requestmsg = "Really load analysis preferences: " + content;
+            jsrp.createMenu(event, this)
+                .then(menu => menu.runModal("Loading analysis preferences",`<p tabindex="0">${requestmsg}</p>`, { btns: true, height: 120, width: 400 }))
+                .then(elem => (elem ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&loadprefs=" + content) : null))
+                .then(res => { if ((res!==null) && JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName()); });
          });
 
       this.refreshEditor();
