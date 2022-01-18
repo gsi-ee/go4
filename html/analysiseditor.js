@@ -38,7 +38,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       this.stat = stat;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
       this.clearChanges();
-      this.clearShowstates();
    }
 
    GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.BasePainter.prototype);
@@ -60,9 +59,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       for (let step = 0; step < numsteps ; step++)
          this.changes[step] = [];
       this.selectDom().select(".buttonAnaChangeLabel").style('display', 'none'); // hide warning sign
-   }
-
-   GO4.AnalysisStatusEditor.prototype.clearShowstates = function() {
    }
 
    //scan changed value list and return optionstring to be send to server
@@ -143,62 +139,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       return optionstring;
    }
 
-   GO4.AnalysisStatusEditor.prototype.refreshEditor = function() {
-      let id = "#" + this.getDomId(),
-          editor = this,
-          stat = this.stat,
-          dom = this.selectDom();
-
-      ///////////// ANALYSIS STEPS:
-      this.clearShowstates();
-      let tabelement = $(id+" .steptabs");
-      tabelement.tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] );
-      for(let j=0; j<8;++j){
-         $(id +" .steptabs ul:first li:eq("+ j +")").hide(); // disable and hide all tabs
-      }
-      stat.fxStepArray.arr.forEach(function(element, index) {
-         tabelement.tabs("enable",index);
-         $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
-         $(id +" .steptabs ul:first li:eq("+index+")").show(); // only show what is really there
-         //console.log("refreshEditor for step name:"+ element.fName);
-         tabelement.tabs("load",index); // all magic is in the on load event callback
-      }); // for each
-
-      /////////////////// AUTO SAVE FILE:
-      dom.select(".anaASF_name").property("value", stat.fxAutoFileName);
-      dom.select(".anaASF_enabled")
-         .property('checked', stat.fbAutoSaveOn)
-         .on("click", () =>  {
-               this.markChanged("asfenabled",0);
-               this.stat.fbAutoSaveOn = dom.select(".anaASF_enabled").property('checked');
-             });
-
-      dom.select(".anaASF_time")
-          .property("value", stat.fiAutoSaveInterval)
-          .on("change", () => {
-             this.markChanged("asftime", 0);
-             this.stat.fiAutoSaveInterval = dom.select(".anaASF_time").property("value");
-         });
-      dom.select(".anaASF_compression")
-         .property("value", stat.fiAutoSaveCompression)
-         .on("change", () => {
-            this.markChanged("asfcomp", 0);
-            this.stat.fiAutoSaveCompression = dom.select(".anaASF_compression").property("value");
-         });
-
-      dom.select(".anaASF_overwrite")
-         .property('checked', stat.fbAutoSaveOverwrite)
-         .on("click", () => {
-                this.markChanged("asfoverwrite",0);
-                this.stat.fbAutoSaveOverwrite = dom.select(".anaASF_overwrite").property('checked');
-             });
-
-      ////////////////// PREFS FILE:
-      dom.select(".anaprefs_name").property("value", stat.fxConfigFileName);
-
-      editor.clearChanges();
-   }
-
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(tab, theElement, theIndex) {
 
       let sourcebox = tab.select(".step_box_source_enab"),
@@ -266,8 +206,7 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
    }
 
    GO4.AnalysisStatusEditor.prototype.fillEditor = function() {
-      let editor = this,
-          dom = this.selectDom(),
+      let dom = this.selectDom(),
           stat = this.stat;
 
       stat.fxStepArray.arr.forEach((theElement, theIndex) => {
@@ -459,9 +398,8 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       dom.select(".buttonCloseAnalysis")
          .style('background-image', "url(" + GO4.source_dir + "icons/close.png)")
          .on("click", () => {
-            let options = "&close";
-            console.log("close analysis " + editor.getItemName() + ", options=" + options);
-            GO4.ExecuteMethod(this, "UpdateFromUrl", options).then(() => {
+            console.log("close analysis " + this.getItemName());
+            GO4.ExecuteMethod(this, "UpdateFromUrl", "&close").then(() => {
                console.log("closing down analyis done. ");
             });
          });
@@ -469,6 +407,37 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       dom.select(".buttonSaveAnaASF")
          .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
 
+      dom.select(".anaASF_name").property("value", stat.fxAutoFileName);
+      dom.select(".anaASF_enabled")
+         .property('checked', stat.fbAutoSaveOn)
+         .on("click", () =>  {
+               this.markChanged("asfenabled",0);
+               this.stat.fbAutoSaveOn = dom.select(".anaASF_enabled").property('checked');
+             });
+
+      dom.select(".anaASF_time")
+          .property("value", stat.fiAutoSaveInterval)
+          .on("change", () => {
+             this.markChanged("asftime", 0);
+             this.stat.fiAutoSaveInterval = dom.select(".anaASF_time").property("value");
+         });
+
+      dom.select(".anaASF_compression")
+         .property("value", stat.fiAutoSaveCompression)
+         .on("change", () => {
+            this.markChanged("asfcomp", 0);
+            this.stat.fiAutoSaveCompression = dom.select(".anaASF_compression").property("value");
+         });
+
+      dom.select(".anaASF_overwrite")
+         .property('checked', stat.fbAutoSaveOverwrite)
+         .on("click", () => {
+                this.markChanged("asfoverwrite",0);
+                this.stat.fbAutoSaveOverwrite = dom.select(".anaASF_overwrite").property('checked');
+             });
+
+      ////////////////// PREFS FILE:
+      dom.select(".anaprefs_name").property("value", stat.fxConfigFileName);
 
       dom.select(".anaASF_form").on("submit", event => {
          event.preventDefault(); // do not send automatic request to server!
@@ -510,14 +479,13 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                 .then(elem => (elem ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&loadprefs=" + content) : null))
                 .then(res => { if ((res!==null) && JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName()); });
          });
-
-      this.refreshEditor();
    }
 
    GO4.AnalysisStatusEditor.prototype.redrawObject = function(obj /*, opt */) {
       if (obj._typename != this.stat._typename) return false;
       this.stat = JSROOT.clone(obj);
-      this.refreshEditor();
+      this.clearChanges();
+      this.fillEditor();
       return true;
    }
 
