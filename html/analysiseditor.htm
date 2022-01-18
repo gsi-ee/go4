@@ -30,12 +30,6 @@
    flex-direction: column;
 }
 
-#ana_step_container {
-	outline: outset thin;
-	flex-grow: 1;
-   padding: 8px;
-}
-
 #ana_file_container {
 	outline: outset thin;
 	flex-grow: 0;
@@ -72,6 +66,30 @@
 	background-repeat: no-repeat;
 	background-size: contain;
 }
+
+/* Style the tab */
+.ana_step_tabs_header {
+   border: 1px solid #ccc;
+   background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.ana_step_tabs_header button {
+   background-color: inherit;
+   float: left;
+   border: none;
+   outline: none;
+   cursor: pointer;
+   padding: 14px 16px;
+   transition: 0.3s;
+   font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.ana_step_tabs_header button:hover {
+   background-color: #ddd;
+}
+
 </style>
 </head>
 
@@ -79,16 +97,21 @@
 
 	<div id="ana_editor_container">
 
-		<div id="ana_step_container">
+	   <div class="ana_step_tabs_header" style="flex-grow: 0;">
+	   </div>
+
+	   <div class="ana_step_tabs_body" style="flex-grow: 1; padding: 8px; overflow-y: scroll;">
+	   </div>
+
+		<!-- div id="ana_step_container">
 
 			<div class="steptabs" title="Tab container for steps"
 				style="position: relative; width: 100%; height: 100%; text-align: left;">
-				<!-- html code for tabs now created in the script itself -->
 			</div>
 
-		</div>
+		</div-->
 
-		<div id="ana_file_container" style="display: flex; flex-direction: column">
+		<div id="ana_file_container">
 		   <fieldset>
 		      <legend>Auto Save File</legend>
             <div style="display: flex; flex-direction: column; height: 100%">
@@ -115,7 +138,7 @@
          </fieldset>
          <fieldset>
             <legend>Analysis Configuration File</legend>
-            <div style="display: flex; flex-direction: row; width: 100%">
+            <div style="display: inline; vertical-align: middle; width: 100%">
                <button class="buttonLoadAnaConf go4_anedit_btn" title="Load Analysis Prefs file"></button>
                <button class="buttonSaveAnaConf go4_anedit_btn" title="Save Analysis Prefs file"></button>
                <label title="Input preference file name">
