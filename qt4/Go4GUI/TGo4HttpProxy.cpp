@@ -551,8 +551,8 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          const char* _kind = fXML->GetAttr(fChild,"_kind");
          if ((_kind!=0) && strcmp(_kind,"Command") == 0) return TGo4Access::kndRootCommand;
 
-         const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
-         if ((drawfunc!=0) && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
+         const char *drawfunc = fXML->GetAttr(fChild,"_drawfunc");
+         if (drawfunc && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
          const char* classname = GetClassName();
 
