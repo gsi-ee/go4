@@ -16,6 +16,7 @@
 
 <fieldset class="step_source">
    <legend>Event Source</legend>
+   <div style="display: flex; flex-direction: column; width: 100%;">
    <div style="display: inline; width: 100%; vertical-align: middle;">
 		<select class="step_source_select">
 			<option selected="selected" value="0">Go4 File Source	(*.root)</option>
@@ -66,53 +67,29 @@
          Step:<input class="step_source_stepev MySpinnerStyle" title="Skipping interval between 2 events to process (1=process all)" type="text" value="1">
       </label>
    </div>
+   </div>
 </fieldset>
 
 <fieldset class="step_store">
    <legend>Event Store</legend>
+	<div style="display: flex; flex-direction: column; width: 100%;">
+		<select class="step_store_select">
+			<option selected="selected" value="0">Go4FileStore (*.root)</option>
+			<option value="1">Go4 BackStore</option>
+		</select>
+		<label title="Event store name" class="step_store_name_label">
+			Name: <input class="step_store_name" type="text">
+		</label>
+      <div style="display: inline; width: 100%; vertical-align: middle;">
+		   <input class="step_store_split MySpinnerStyle"	title="Root TTree split level." type="text" value="99">
+		   <label class="step_store_buf_label">
+		      <input class="step_store_buf MySpinnerStyle" title="Root branch buffer size" type="text" value="32"> kB
+		    </label>
+		    <input class="step_store_comp MySpinnerStyle" title="Root TFile compression level" type="text" value="5">
+		    <input class="step_store_asf MySpinnerStyle" title="Root TTree autosave interval (flush each number of entries)" type="text" value="10000">
+		    <label style="height: 30px" class="step_store_overwrite_label" title="Overwrite old file, or append.">
+   		    <input class="step_store_overwrite" type="checkbox"> Overwrite
+		   </label>
+	   </div>
+	</div>
 </fieldset>
-
-		<table class="step_store step_table_style"
-			style="position: relative; width: 100%; height: 30%; text-align: left">
-			<thead>
-				<tr>
-					<th colspan=4>Event store</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan=4><select class="step_store_select">
-							<option selected="selected" value="0">Go4FileStore
-								(*.root)</option>
-							<option value="1">Go4 BackStore</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td colspan=4 style="width: 100%"><label
-						title="Event store name" class="step_store_name_label">Name:
-							<input class="step_store_name" type="text">
-					</label></td>
-				</tr>
-				<tr>
-					<td><input class="step_store_split MySpinnerStyle"
-						title="Root TTree split level." type="text" value="99"></td>
-					<td><label class="step_store_buf_label"><input
-							class="step_store_buf MySpinnerStyle"
-							title="Root branch buffer size" type="text" value="32">
-							kB</label></td>
-					<td><input class="step_store_comp MySpinnerStyle"
-						title="Root TFile compression level" type="text" value="5">
-					</td>
-					<td><input class="step_store_asf MySpinnerStyle"
-						title="Root TTree autosave interval (flush each number of entries)"
-						type="text" value="10000"></td>
-					<td><label style="height: 30px"
-						class="step_store_overwrite_label"
-						title="Overwrite old file, or append."> <input
-							class="step_store_overwrite" type="checkbox"> Overwrite
-					</label></td>
-				</tr>
-
-			</tbody>
-		</table>
-

@@ -205,11 +205,11 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
           editor = this,
           showmore = editor.showmore[theIndex];
 
-      let storetable = tab.select(".step_store");
-      let sourcetable = tab.select(".step_source");
-      let enablebox = tab.select(".step_box_step_enab");
-      let sourcebox = tab.select(".step_box_source_enab");
-      let storebox = tab.select(".step_box_store_enab");
+      let enablebox = tab.select(".step_box_step_enab"),
+          sourcebox = tab.select(".step_box_source_enab"),
+          storebox = tab.select(".step_box_store_enab"),
+          step_source = tab.select(".step_source"),
+          step_store = tab.select(".step_store");
 
       let sourcesel = tab.select(" .step_source_select");
       let sourcemore = tab.select(" .step_source_expand");
@@ -241,28 +241,22 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       let storetreeasf = tab.select(" .step_store_asf");
       let storeover = tab.select(" .step_store_overwrite");
 
-      return;
-
     // here step control checkboxes and source/store visibility:
       if (theElement.fbProcessEnabled) {
-         sourcebox.prop('disabled', false);
-         storebox.prop('disabled', false);
-         if (theElement.fbSourceEnabled) {
-            sourcetable.show();
-         } else {
-            sourcetable.hide();
-         }
-         if (theElement.fbStoreEnabled) {
-            storetable.show();
-         } else {
-            storetable.hide();
-         }
+         sourcebox.attr('disabled', null);
+         storebox.attr('disabled', null);
+         step_source.attr('disabled', theElement.fbSourceEnabled ? null : "true");
+         step_store.style('display', theElement.fbStoreEnabled ? null : "none");
       } else {
-         sourcebox.prop('disabled', true);
-         storebox.prop('disabled', true);
-         sourcetable.hide();
-         storetable.hide();
+         sourcebox.attr('disabled', "true");
+         storebox.attr('disabled', "true");
+         step_source.attr('disabled', "true");
+         step_store.style('display', "none");
       }
+
+      return;
+
+
 
       sourceform.show();
 
@@ -422,16 +416,14 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
           dom = this.selectDom(),
           stat = this.stat;
 
-
       stat.fxStepArray.arr.forEach((step, indx) => {
-         let tab = dom.select("ana_step_tabs_body").select(`.go4_analysis_step_${indx}`);
+         let tab = dom.select(".ana_step_tabs_body").select(`.go4_analysis_step_${indx}`);
 
-         let theIndex = indx;
-         let pthis = tab;
-         let theElement = step;
+         let theIndex = indx, pthis = tab, theElement = step;
 
-         let storetable = tab.select(" .step_store");
-         let sourcetable = tab.select(" .step_source");
+         let step_source = tab.select(".step_source"),
+             step_store = tab.select(".step_store");
+
          let enablebox = tab.select(" .step_box_step_enab");
          let sourcebox = tab.select(" .step_box_source_enab");
          let storebox = tab.select(" .step_box_store_enab");
@@ -471,13 +463,14 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                this.showStepEditor(tab, theElement, theIndex);
             }); // clickfunction
 
-
          storebox.property('checked', theElement.fbStoreEnabled)
             .on("click", () => {
                this.markChanged("storeenabled", theIndex);
                theElement.fbStoreEnabled = storebox.property('checked');
                this.showStepEditor(tab, theElement, theIndex);
             }); // clickfunction
+
+         this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
 
@@ -803,7 +796,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
 
          storesel.selectmenu('refresh', true);
 
-         editor.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
       });// tabs loop
 
