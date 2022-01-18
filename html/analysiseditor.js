@@ -36,7 +36,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
       JSROOT.BasePainter.call(this, dom);
       this.stat = stat;
       this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
-      this.showmore= [false, false];
       this.clearChanges();
       this.clearShowstates();
    }
@@ -63,7 +62,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
    }
 
    GO4.AnalysisStatusEditor.prototype.clearShowstates = function() {
-      this.showmore = [];
    }
 
    //scan changed value list and return optionstring to be send to server
@@ -159,7 +157,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
          tabelement.tabs("enable",index);
          $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
          $(id +" .steptabs ul:first li:eq("+index+")").show(); // only show what is really there
-         editor.showmore.push(false); // prepare showmore array for each step
          //console.log("refreshEditor for step name:"+ element.fName);
          tabelement.tabs("load",index); // all magic is in the on load event callback
       }); // for each
@@ -202,17 +199,16 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(tab, theElement, theIndex)
    {
       let id = "#" + this.getDomId(),
-          editor = this,
-          showmore = editor.showmore[theIndex];
+          editor = this;
 
       let enablebox = tab.select(".step_box_step_enab"),
           sourcebox = tab.select(".step_box_source_enab"),
           storebox = tab.select(".step_box_store_enab"),
           step_source = tab.select(".step_source"),
-          step_store = tab.select(".step_store");
+          step_store = tab.select(".step_store"),
+          sourcesel = tab.select(".step_source_select"),
+          sourcemore = tab.select(" .step_source_expand");
 
-      let sourcesel = tab.select(" .step_source_select");
-      let sourcemore = tab.select(" .step_source_expand");
       let sourceform = tab.select(" .step_source_form");
       let sourcename = tab.select(" .step_source_name");
       let sourcenamelabel = tab.select(" .step_source_name_label");
@@ -253,6 +249,30 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
          step_source.attr('disabled', "true");
          step_store.style('display', "none");
       }
+
+      let show_tag = false, show_ports = false, show_args = false, show_more = sourcemore.property("checked");
+
+      switch (theElement.fxSourceType.fiID) {
+         case GO4.EvIOType.GO4EV_MBS_FILE:
+            show_tag = show_args = show_more; break;
+         case GO4.EvIOType.GO4EV_MBS_STREAM:
+         case GO4.EvIOType.GO4EV_MBS_TRANSPORT:
+         case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
+         case GO4.EvIOType.GO4EV_MBS_REVSERV:
+            show_ports = show_args = show_more; break;
+         case GO4.EvIOType.GO4EV_USER:
+            show_ports = show_more; break;
+         case GO4.EvIOType.GO4EV_FILE:
+         case GO4.EvIOType.GO4EV_MBS_RANDOM:
+         default:
+            // show no extra parameters
+            break;
+      };
+
+      tab.select(".step_source_tagfile_args").style('display', show_tag ? null : 'none');
+      tab.select(".step_source_port_args").style('display', show_ports ? null : 'none');
+      tab.select(".step_source_number_args").style('display', show_args ? 'inline' : 'none');
+
 
       return;
 
@@ -398,9 +418,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
             break;
       };
 
-      sourcesel.selectmenu("option", "width", sourcetable.width() * 0.8); // expand to table width
-      sourcesel.selectmenu('refresh', true);
-
       storesel.selectmenu("option", "width", storetable.width() * 0.8); // expand to table width
       storesel.selectmenu('refresh', true);
 
@@ -422,15 +439,14 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
          let theIndex = indx, pthis = tab, theElement = step;
 
          let step_source = tab.select(".step_source"),
-             step_store = tab.select(".step_store");
+             step_store = tab.select(".step_store"),
+             enablebox = tab.select(".step_box_step_enab"),
+             sourcebox = tab.select(".step_box_source_enab"),
+             storebox = tab.select(".step_box_store_enab"),
+             sourcesel = tab.select(".step_source_select"),
+             sourcemore = tab.select(".step_source_expand");
 
-         let enablebox = tab.select(" .step_box_step_enab");
-         let sourcebox = tab.select(" .step_box_source_enab");
-         let storebox = tab.select(" .step_box_store_enab");
-
-         let sourcesel = tab.select(" .step_source_select");
-         let sourcemore = tab.select(" .step_source_expand");
-         let sourceform = tab.select(" .step_source_form");
+         let sourceform = tab.select(".step_source_form");
          let sourcename = tab.select(" .step_source_name");
          let sourcetag = tab.select(" .step_source_tagfile");
          let sourceport = tab.select(" .step_source_port");
@@ -470,74 +486,34 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                this.showStepEditor(tab, theElement, theIndex);
             }); // clickfunction
 
+         //// EVENT SOURCE: /////////////////////////////////////////////////
+         sourcesel.property("value", theElement.fxSourceType.fiID).on("change", () => {
+            this.markChanged("sourcesel", theIndex);
+
+            theElement.fxSourceType.fiID = parseInt(sourcesel.property("value"));
+
+            // but: we have to set back all values  from GUI to theElement and optionally create new members:
+            // theElement.fxSourceType.fName = sourcename.property("value");
+            // theElement.fxSourceType.fiPort = sourceport.property("value");
+            // theElement.fxSourceType.fiTimeout = sourcetmout.property("value");
+            // theElement.fxSourceType.fiRetryCnt = sourceretry.property("value");
+            // theElement.fxSourceType.fxTagFile = sourcetag.property("value");
+            // theElement.fxSourceType.fuStartEvent = sourcefirst.property("value");
+            // theElement.fxSourceType.fuStopEvent = sourcelast.property("value");
+            // theElement.fxSourceType.fuEventInterval = sourceskip.property("value");
+            // theElement.fxSourceType.fxExpression = sourceargs.property("value");
+
+            this.showStepEditor(tab, theElement, theIndex);
+         }); // source selectmenu change
+
+         sourcemore.on("click", () => {
+            this.showStepEditor(tab, theElement, theIndex);
+         });
+
+
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
-
-
-         //// EVENT SOURCE: /////////////////////////////////////////////////
-         sourcesel.selectmenu({
-            change: function(event, ui) {
-               editor.markChanged("sourcesel", theIndex);
-               // change here eventsource status object?!
-               // in javascript we can just add dynamically any missing members!
-               // so exchange of class object is not necessary hopefully...
-
-               switch (Number(ui.item.value)) {
-                  case 0:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_FILE;
-                     break;
-                  case 2:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_STREAM;
-                     break;
-                  case 3:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_TRANSPORT;
-                     break;
-                  case 4:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_EVENTSERVER;
-                     break;
-                  case 5:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_REVSERV;
-                     break;
-                  case 6:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_RANDOM;
-                     break;
-                  case 7:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_USER;
-                     break;
-                  default:
-                  case 1:
-                     theElement.fxSourceType.fiID = GO4.EvIOType.GO4EV_MBS_FILE;
-                     break;
-               }; // switch
-
-               // but: we have to set back all values  from GUI to theElement and optionally create new members:
-               theElement.fxSourceType.fName = sourcename.val();
-               theElement.fxSourceType.fiPort = sourceport.val();
-               theElement.fxSourceType.fiTimeout = sourcetmout.val();
-               theElement.fxSourceType.fiRetryCnt = sourceretry.val();
-               theElement.fxSourceType.fxTagFile = sourcetag.val();
-               theElement.fxSourceType.fuStartEvent = sourcefirst.val();
-               theElement.fxSourceType.fuStopEvent = sourcelast.val();
-               theElement.fxSourceType.fuEventInterval = sourceskip.val();
-               theElement.fxSourceType.fxExpression = sourceargs.val();
-
-               editor.showStepEditor(tab, theElement, theIndex);
-            }
-         }); // source selectmenu change
-
-
-         sourcemore.prop('checked', editor.showmore[theIndex]).click(
-            function() {
-               //console.log("show more clickfunction...");
-               let doshow = $(this).prop('checked');
-               if (doshow) {
-                  editor.showmore[theIndex] = true;
-               } else {
-                  editor.showmore[theIndex] = false;
-               }
-               editor.showStepEditor(tab, theElement, theIndex);
-            });  // clickfunction
 
 
          sourcename.val(theElement.fxSourceType.fName);
@@ -760,8 +736,6 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                sourcetmout.val(theElement.fxSourceType.fiTimeout);
                sourceargs.text(theElement.fxSourceType.fxExpression);
                break;
-            default:
-               console.log("WARNING: unknown event source id: " + theElement.fiID);
             case GO4.EvIOType.GO4EV_MBS_FILE:
                sourcesel.val(1);
                sourcetag.text(theElement.fxSourceType.fxTagFile);
@@ -769,6 +743,8 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                sourcelast.val(theElement.fxSourceType.fuStopEvent);
                sourceskip.val(theElement.fxSourceType.fuEventInterval);
                break;
+            default:
+               console.log("WARNING: unknown event source id: " + theElement.fiID);
          };
 
          sourcesel.selectmenu('refresh', true);

@@ -19,14 +19,15 @@
    <div style="display: flex; flex-direction: column; width: 100%;">
    <div style="display: inline; width: 100%; vertical-align: middle;">
 		<select class="step_source_select">
-			<option selected="selected" value="0">Go4 File Source	(*.root)</option>
-			<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
-			<option value="2">MBS Stream Server</option>
-			<option value="3">MBS Transport Server</option>
-			<option value="4">MBS Event Server</option>
-			<option value="5">Remote Event Server</option>
-			<option value="6">MBS Random</option>
-			<option value="7">User Source</option>
+			<option value="1">Go4 File Source (*.root)</option>
+			<option value="3">MBS File (*.lmd *.LMD *.lml)</option>
+			<option value="4">MBS Stream Server</option>
+			<option value="5">MBS Transport Server</option>
+			<option value="6">MBS Event Server</option>
+			<option value="7">Remote Event Server</option>
+         <option value="8">Back store</option>
+			<option value="9">User Source</option>
+         <option value="10">MBS Random</option>
 		</select>
 		<label title="Show/hide extra options for event source">
           <input class="step_source_expand" type="checkbox">more...
@@ -37,12 +38,12 @@
 	      Name: <input class="step_source_name" type="text" size="35" value="Go4AnalysisPrefs.root">
 	   </label>
 	</div>
-   <div>
+   <div class="step_source_tagfile_args">
      <label title="LMD Tag file" class="step_source_tagfile_label">
         Tagfile: <input class="step_source_tagfile" type="text">
      </label>
    </div>
-   <div class="step_user_args" style="display: inline; width: 100%; vertical-align: middle;">
+   <div class="step_source_port_args" style="display: inline; width: 100%; vertical-align: middle;">
       <label title="User arguments" class="step_source_args_label">
          Args: <input class="step_source_args" type="text">
       </label>
@@ -56,7 +57,7 @@
          Retr (s): <input class="step_source_retry MySpinnerStyle" title="Retry interval in seconds" type="text" value="never">
       </label>
    </div>
-   <div class="step_source_args" style="display: inline; width: 100%; vertical-align: middle;">
+   <div class="step_source_number_args" style="width: 100%; vertical-align: middle;">
       <label class="step_source_firstev_label">
          First:<input class="step_source_firstev MySpinnerStyle" title="Sequence number of first event to process" type="text" value="0">
       </label>
