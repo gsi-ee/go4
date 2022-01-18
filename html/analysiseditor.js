@@ -209,15 +209,7 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
           step_store = tab.select(".step_store"),
           sourcemore = tab.select(".step_source_expand");
 
-      let sourcetag = tab.select(".step_source_tagfile");
-      let sourceport = tab.select(" .step_source_port");
-      let sourceportlabel = tab.select(" .step_source_port_label");
-      let sourcetmout = tab.select(" .step_source_tmout");
-      let sourcetmoutlabel = tab.select(" .step_source_tmout_label");
-      let sourceretry = tab.select(" .step_source_retry");
-      let sourceretrylabel = tab.select(" .step_source_retry_label");
       let sourceargs = tab.select(" .step_source_args");
-      let sourceargslabel = tab.select(" .step_source_args_label");
       let sourcefirst = tab.select(" .step_source_firstev");
       let sourcefirstlabel = tab.select(" .step_source_firstev_label");
       let sourcelast = tab.select(" .step_source_lastev");
@@ -442,11 +434,11 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
              sourcesel = tab.select(".step_source_select"),
              sourcemore = tab.select(".step_source_expand"),
              sourcename = tab.select(".step_source_name"),
-             sourcetag = tab.select(".step_source_tagfile");
+             sourcetag = tab.select(".step_source_tagfile"),
+             sourceport = tab.select(".step_source_port"),
+             sourcetmout = tab.select(".step_source_tmout"),
+             sourceretry = tab.select(".step_source_retry");
 
-         let sourceport = tab.select(" .step_source_port");
-         let sourcetmout = tab.select(" .step_source_tmout");
-         let sourceretry = tab.select(" .step_source_retry");
          let sourceargs = tab.select(" .step_source_args");
          let sourcefirst = tab.select(" .step_source_firstev");
          let sourcelast = tab.select(" .step_source_lastev");
@@ -517,40 +509,28 @@ JSROOT.define(["painter", "jquery", "jquery-ui"], (jsrp, $) => {
                      theElement.fxSourceType.fxTagFile = sourcetag.property("value").trim();
                   });
 
+         sourceport.property("value", theElement.fxSourceType.fiPort || 0)
+                   .on("change", () => {
+                      this.markChanged("sourceport", theIndex);
+                      theElement.fxSourceType.fiPort = parseInt(sourceport.property("value"));
+                   });
+
+         sourcetmout.property("value", theElement.fxSourceType.fiTimeout || 100)
+                    .on("change", () => {
+                        this.markChanged("sourcetmout", theIndex);
+                        theElement.fxSourceType.fiTimeout = parseInt(sourcetmout.property("value"));
+                    });
+
+         sourceretry.property("value", theElement.fxSourceType.fiRetryCnt || 0)
+                    .on("change", () => {
+                        this.markChanged("sourceretry", theIndex);
+                        theElement.fxSourceType.fiRetryCnt = parseInt(sourceretry.property("value"));
+                     });
+
          this.showStepEditor(tab, theElement, theIndex); // handle all visibility issues here, also refresh tabs
 
          return;
 
-         sourceport.spinner({
-            min: 0,
-            max: 100000,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("sourceport", theIndex);
-               theElement.fxSourceType.fiPort = this.value;
-               //console.log("spinner stop event with thisvalue="+this.value+", ui.value="+ui.value);
-            }
-         });
-
-         sourcetmout.spinner({
-            min: 0,
-            max: 9999,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("sourcetmout", theIndex);
-               theElement.fxSourceType.fiTimeout = this.value;
-            }
-         });
-
-         sourceretry.spinner({
-            min: 0,
-            max: 10000,
-            step: 1,
-            stop: function(event, ui) {
-               editor.markChanged("sourceretry", theIndex);
-               theElement.fxSourceType.fiRetryCnt = this.value;
-            }
-         });
 
          sourcefirst.spinner({
             min: 0,

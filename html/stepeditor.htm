@@ -39,22 +39,22 @@
 	   </label>
 	</div>
    <div class="step_source_tagfile_args">
-     <label title="LMD Tag file" class="step_source_tagfile_label">
+     <label title="LMD Tag file">
         Tagfile: <input class="step_source_tagfile" type="text">
      </label>
    </div>
    <div class="step_source_port_args" style="display: inline; width: 100%; vertical-align: middle;">
-      <label title="User arguments" class="step_source_args_label">
+      <label title="User arguments">
          Args: <input class="step_source_args" type="text">
       </label>
-      <label class="step_source_port_label">
-         Port: <input class="step_source_port MySpinnerStyle" title="Port Number" type="text" value="dflt">
+      <label>
+         Port: <input class="step_source_port" title="Port Number" type="number" min="0" max="99999">
       </label>
-      <label class="step_source_tmout_label">
-         Tmout (s): <input class="step_source_tmout MySpinnerStyle" title="Timeout in seconds" type="text" value="1">
+      <label>
+         Tmout(s): <input class="step_source_tmout" title="Timeout in seconds" type="number" min="0" max="9999">
       </label>
-      <label class="step_source_retry_label">
-         Retr (s): <input class="step_source_retry MySpinnerStyle" title="Retry interval in seconds" type="text" value="never">
+      <label>
+         Retry: <input class="step_source_retry" title="Number of retry to establish connections" type="number" min="0" max="9999">
       </label>
    </div>
    <div class="step_source_number_args" style="width: 100%; vertical-align: middle;">
