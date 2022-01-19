@@ -1,295 +1,286 @@
-<head>
+<div id="editor_container">
 
-<style type="text/css">
+   <style type="text/css">
 
-.limit_style {
-	width: 5em;
-}
+      .limit_style {
+      	width: 5em;
+      }
 
-.counter_style {
-	border: 1px solid gray;
-	font-size: large
-}
+      .counter_style {
+      	border: 1px solid gray;
+      	font-size: large
+      }
 
-.cond_modestable {
-	position: relative;
-	left: 4px;
-	width: 100%;
-	height: 100%;
-	table-layout: fixed;
-}
+      .cond_modestable {
+      	position: relative;
+      	left: 4px;
+      	width: 100%;
+      	height: 100%;
+      	table-layout: fixed;
+      }
 
-#editor_container {
-	height: 100%;
-	position: relative;
-	right: 5px;
-	outline: groove medium;
-	overflow-x: hidden;
-	overflow-y: auto;
-	display: flex;
-	flex-direction: column;
-}
+      #editor_container {
+      	height: 100%;
+      	position: relative;
+      	right: 5px;
+      	outline: groove medium;
+      	overflow-x: hidden;
+      	overflow-y: auto;
+      	display: flex;
+      	flex-direction: column;
+      }
 
-#header_container {
-	flex-grow: 0;
-	padding: 8px;
-	background-color: #eee;
-}
+      #header_container {
+      	flex-grow: 0;
+      	padding: 8px;
+      	background-color: #eee;
+      }
 
-#tab_container {
-	flex-grow: 8;
-	padding: 8px;
-	overflow-x: hidden;
-	background-color: #eee;
-}
+      #tab_container {
+      	flex-grow: 8;
+      	padding: 8px;
+      	overflow-x: hidden;
+      	background-color: #eee;
+      }
 
-#button_container {
-	flex-grow: 0;
-	padding: 8px;
-	background-color: #eee;
-	width: 100%;
-}
+      #button_container {
+      	flex-grow: 0;
+      	padding: 8px;
+      	background-color: #eee;
+      	width: 100%;
+      }
 
-.go4_condition_btn {
-	height: 28px;
-	width: 28px;
-	display: inline-block;
-	margin: 2px;
-	background-position: 0 0;
-	background-repeat: no-repeat;
-	background-size: contain;
-}
+      .go4_condition_btn {
+      	height: 28px;
+      	width: 28px;
+      	display: inline-block;
+      	margin: 2px;
+      	background-position: 0 0;
+      	background-repeat: no-repeat;
+      	background-size: contain;
+      }
 
-/* Style the tab */
-.cond_tabs_header {
-	border: 1px solid #ccc;
-	background-color: #f1f1f1;
-}
+      /* Style the tab */
+      .cond_tabs_header {
+      	border: 1px solid #ccc;
+      	background-color: #f1f1f1;
+      }
 
-/* Style the buttons inside the tab */
-.cond_tabs_header button {
-	background-color: inherit;
-	float: left;
-	border: none;
-	outline: none;
-	cursor: pointer;
-	padding: 14px 16px;
-	transition: 0.3s;
-	font-size: 17px;
-}
+      /* Style the buttons inside the tab */
+      .cond_tabs_header button {
+      	background-color: inherit;
+      	float: left;
+      	border: none;
+      	outline: none;
+      	cursor: pointer;
+      	padding: 14px 16px;
+      	transition: 0.3s;
+      	font-size: 17px;
+      }
 
-/* Change background color of buttons on hover */
-.cond_tabs_header button:hover {
-	background-color: #aaa;
-}
+      /* Change background color of buttons on hover */
+      .cond_tabs_header button:hover {
+      	background-color: #aaa;
+      }
 
-.cond_tabs_header .active_btn {
-   font-weight: bold;
-   background-color: #bbb;
-   text-decoration: underline;
-}
+      .cond_tabs_header .active_btn {
+         font-weight: bold;
+         background-color: #bbb;
+         text-decoration: underline;
+      }
 
-</style>
-</head>
+   </style>
 
-<body>
-
-	<div id="editor_container">
-
-		<div id="header_container"
-			style="display: flex; flex-direction: column">
-			<div style="padding: 5px">
-				<label class="cond_name" style="float: left; font-family: bold">
-				</label> <label class="cond_type" style="float: right; font-family: bold">
-				</label>
-			</div>
-
-			<div style="display: flex; flex-direction: row; width: 100%">
-				<select class="cond_execmode" title="Set mode of execution"
-					style="flex-grow: 1; margin-right: 0.5em;">
-					<option value="0" selected="selected">Return Result</option>
-					<option value="1">Return Always True</option>
-					<option value="2">Return Always False</option>
-				</select> <select class="cond_invertmode"
-					title="Condition return regular or invert result"
-					style="flex-grow: 1; margin-left: 0.5em;">
-					<option value="0" selected="selected">Regular</option>
-					<option value="1">Return invert</option>
-				</select>
-			</div>
-
-			<div
-				style="font-family: Verdana; display: flex; flex-direction: row; width: 100%; padding: 5px">
-				<span style="float: left; flex-grow: 1">All counts: <label
-					class="cond_counts counter_style"
-					title="Number of condition Test() calls">1000</label></span> <span
-					style="flex-grow: 1">True: <label
-					class="cond_true counter_style"
-					title="Number of condition Test() calls returning TRUE">500</label></span>
-				<span style="flex-grow: 1"><label class="cond_percent"
-					style="font-size: large"
-					title="Percentage of condition Test() calls returning TRUE">100%</label></span>
-			</div>
+	<div id="header_container" style="display: flex; flex-direction: column">
+		<div style="padding: 5px">
+			<label class="cond_name" style="float: left; font-family: bold"></label>
+			<label class="cond_type" style="float: right; font-family: bold"></label>
 		</div>
 
-		<div id="tab_container" style="overflow: hidden;">
-			<div class="cond_tabs"
-				style="width: 100%; height: 100%; display: flex; flex-direction: column; background-color: white; border: 1px solid grey">
-				<div class="cond_tabs_header" style="flex-grow: 0;">
-					<button for="tabs-1">Limits</button>
-					<button for="tabs-2">Cut</button>
-					<button for="tabs-3">Shape</button>
-					<button for="tabs-4">Draw</button>
-					<button for="tabs-5">Stats</button>
-					<button for="tabs-6">Mean</button>
-				</div>
-				<div class="tabs_body"
-					style="flex-grow: 1; padding: 8px; overflow-y: scroll;">
-					<div id="tabs-1" style="height: 100%">
-						<div style="display: flex; flex-direction: column; height: 100%">
-							<label style="flex-grow: 1;">XMin: <input
-								class="cond_xmin limit_style"
-								title="Lower border/extension on X axis. Press enter to set!" /></label>
-							<label style="flex-grow: 1;">XMax: <input
-								class="cond_xmax limit_style"
-								title="Upper border/extension on X axis. Press enter to set!" /></label>
-							<label style="flex-grow: 1;">YMin: <input
-								class="cond_ymin limit_style"
-								title="Lower border/extension on Y Axis. Press Enter to set" /></label>
-							<label style="flex-grow: 1;">YMax: <input
-								class="cond_ymax limit_style "
-								title="Upper border/extension on Y Axis. Press Enter to set!" /></label>
-						</div>
-					</div>
-					<div id="tabs-2" style="display: none;">
-						<label title="Number of polygon points"> NPoints <input
-							class="cut_points" style="float: left; width: 50px" type="number"
-							value="0" min="1" max="1000"></label>
-
-						<table class="cut_values"
-							style="position: relative; width: 80%; border-spacing: 5px 5px; float: right; text-align: center">
-							<thead>
-								<tr style="border: 1px solid black; width: 100%">
-									<th>X</th>
-									<th>Y</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-
-					<div id="tabs-3" style="display: none">
-						<table
-							style="position: relative; width: 100%; height: 100%; border-spacing: 5px 5px; text-align: right">
-							<tr>
-								<th><label>X: <input
-										class="cond_ellipse_cx limit_style"
-										title="Ellipse center x coordinate. Press enter to set!" /></label></th>
-								<th><label>A1: <input
-										class="cond_ellipse_a1 limit_style"
-										title="Ellipse half axis 1. Press Enter to set" /></label></th>
-								<th><label>Theta: <input
-										class="cond_ellipse_theta limit_style"
-										title="Ellipse tilt angle. Press Enter to set!" /></label></th>
-							</tr>
-							<tr>
-								<th><label>Y: <input
-										class="cond_ellipse_cy limit_style"
-										title="Ellipse center y coordinate. Press enter to set!" /></label></th>
-								<th><label>A2: <input
-										class="cond_ellipse_a2 limit_style"
-										title="Ellipse half axis 2.  Press Enter to set!" /></label></th>
-								<th><input type="range" min="0" max="360"
-									class="cond_ellipse_theta_slider"
-									style="width: 80%; float: right"></input></th>
-							</tr>
-							<tr>
-								<th><label title="Polygon resolultion"> NPoints <input
-										class="cond_ellipse_points" style="width: 50px" type="number"
-										min="0" max="1000" /></label></th>
-								<th><select class="cond_ellipse_iscircle"
-									style="width: 80%;" Toggle shape" name="Shape">
-										<option selected="selected" value="3"
-											title="Toggle polygon shape">Ellipse</option>
-										<option value="2" title="Toggle polygon shape">Circle</option>
-										<option value="4" title="Toggle polygon shape">Rectangular
-											box</option>
-										<option value="1" title="Select polygon shape">Free
-											Polygon</option>
-								</select></th>
-								<th></th>
-							</tr>
-						</table>
-					</div>
-
-					<div id="tabs-4" style="display: none; height: 100%;">
-						<div style="display: flex; flex-direction: column; height: 100%">
-							<label style="flex-grow: 1;"
-								title="Toggle visibility of condition in viewpanel"><input
-								class="cond_visible" type="checkbox" /> visible</label> <label
-								style="flex-grow: 1;" title="Draw condition limits into label."><input
-								class="cond_limits" type="checkbox" /> limits</label> <label
-								style="flex-grow: 1;"
-								title="Draw label of condition properties on viewpanel."><input
-								class="cond_label" type="checkbox" /> label</label>
-							</tr>
-						</div>
-					</div>
-
-					<div id="tabs-5" style="display: none; height: 100%">
-						<div style="display: flex; flex-direction: column; height: 100%">
-							<label style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_integr" type="checkbox" /> Integr: </label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_maxx" type="checkbox" /> MaxX: </label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_max" type="checkbox" /> Max:</label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_maxy" type="checkbox" /> MaxY:</label>
-						</div>
-					</div>
-
-					<div id="tabs-6" style="display: none; height: 100%">
-						<div style="display: flex; flex-direction: column; height: 100%">
-							<label style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_xmean" type="checkbox" /> XMean:</label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_xrms" type="checkbox" /> XRMS:</label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_ymean" type="checkbox" /> YMean:</label> <label
-								style="flex-grow: 1;"
-								title="Draw value into label on view panel"><input
-								class="cond_yrms" type="checkbox" /> YRMS:</label>
-						</div>
-					</div>
-				</div>
-			</div>
+		<div style="display: flex; flex-direction: row; width: 100%">
+			<select class="cond_execmode" title="Set mode of execution"
+				style="flex-grow: 1; margin-right: 0.5em;">
+				<option value="0" selected="selected">Return Result</option>
+				<option value="1">Return Always True</option>
+				<option value="2">Return Always False</option>
+			</select> <select class="cond_invertmode"
+				title="Condition return regular or invert result"
+				style="flex-grow: 1; margin-left: 0.5em;">
+				<option value="0" selected="selected">Regular</option>
+				<option value="1">Return invert</option>
+			</select>
 		</div>
 
-		<div id="button_container">
-			<button class="buttonGetCondition go4_condition_btn"
-				style="margin-left: 1em;"
-				title="Refresh condition display from analysis server"></button>
-			<button class="buttonSetCondition go4_condition_btn"
-				title="Send condition valules to analysis server"></button>
-			<button class="buttonChangeLabel go4_condition_btn"
-				title="This label shows that your current changes have not yet been updated to analysis"></button>
-			<button class="buttonClearCondition go4_condition_btn"
-				style="float: right; margin-right: 2em;"
-				title="Reset all counters to zero"></button>
-			<button class="buttonDrawCondition go4_condition_btn"
-				style="float: right"
-				title="Display Condition with assigned histogram on next drawpanel"></button>
+		<div
+			style="font-family: Verdana; display: flex; flex-direction: row; width: 100%; padding: 5px">
+			<span style="float: left; flex-grow: 1">All counts: <label
+				class="cond_counts counter_style"
+				title="Number of condition Test() calls">1000</label></span> <span
+				style="flex-grow: 1">True: <label
+				class="cond_true counter_style"
+				title="Number of condition Test() calls returning TRUE">500</label></span>
+			<span style="flex-grow: 1"><label class="cond_percent"
+				style="font-size: large"
+				title="Percentage of condition Test() calls returning TRUE">100%</label></span>
 		</div>
-
 	</div>
 
-</body>
+	<div id="tab_container" style="overflow: hidden;">
+		<div class="cond_tabs"
+			style="width: 100%; height: 100%; display: flex; flex-direction: column; background-color: white; border: 1px solid grey">
+			<div class="cond_tabs_header" style="flex-grow: 0;">
+				<button for="tabs-1">Limits</button>
+				<button for="tabs-2">Cut</button>
+				<button for="tabs-3">Shape</button>
+				<button for="tabs-4">Draw</button>
+				<button for="tabs-5">Stats</button>
+				<button for="tabs-6">Mean</button>
+			</div>
+			<div class="tabs_body"
+				style="flex-grow: 1; padding: 8px; overflow-y: scroll;">
+				<div id="tabs-1" style="height: 100%">
+					<div style="display: flex; flex-direction: column; height: 100%">
+						<label style="flex-grow: 1;">XMin: <input
+							class="cond_xmin limit_style"
+							title="Lower border/extension on X axis. Press enter to set!" /></label>
+						<label style="flex-grow: 1;">XMax: <input
+							class="cond_xmax limit_style"
+							title="Upper border/extension on X axis. Press enter to set!" /></label>
+						<label style="flex-grow: 1;">YMin: <input
+							class="cond_ymin limit_style"
+							title="Lower border/extension on Y Axis. Press Enter to set" /></label>
+						<label style="flex-grow: 1;">YMax: <input
+							class="cond_ymax limit_style "
+							title="Upper border/extension on Y Axis. Press Enter to set!" /></label>
+					</div>
+				</div>
+				<div id="tabs-2" style="display: none;">
+					<label title="Number of polygon points"> NPoints <input
+						class="cut_points" style="float: left; width: 50px" type="number"
+						value="0" min="1" max="1000"></label>
+
+					<table class="cut_values"
+						style="position: relative; width: 80%; border-spacing: 5px 5px; float: right; text-align: center">
+						<thead>
+							<tr style="border: 1px solid black; width: 100%">
+								<th>X</th>
+								<th>Y</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="tabs-3" style="display: none">
+					<table
+						style="position: relative; width: 100%; height: 100%; border-spacing: 5px 5px; text-align: right">
+						<tr>
+							<th><label>X: <input
+									class="cond_ellipse_cx limit_style"
+									title="Ellipse center x coordinate. Press enter to set!" /></label></th>
+							<th><label>A1: <input
+									class="cond_ellipse_a1 limit_style"
+									title="Ellipse half axis 1. Press Enter to set" /></label></th>
+							<th><label>Theta: <input
+									class="cond_ellipse_theta limit_style"
+									title="Ellipse tilt angle. Press Enter to set!" /></label></th>
+						</tr>
+						<tr>
+							<th><label>Y: <input
+									class="cond_ellipse_cy limit_style"
+									title="Ellipse center y coordinate. Press enter to set!" /></label></th>
+							<th><label>A2: <input
+									class="cond_ellipse_a2 limit_style"
+									title="Ellipse half axis 2.  Press Enter to set!" /></label></th>
+							<th><input type="range" min="0" max="360"
+								class="cond_ellipse_theta_slider"
+								style="width: 80%; float: right"></input></th>
+						</tr>
+						<tr>
+							<th><label title="Polygon resolultion"> NPoints <input
+									class="cond_ellipse_points" style="width: 50px" type="number"
+									min="0" max="1000" /></label></th>
+							<th><select class="cond_ellipse_iscircle"
+								style="width: 80%;" Toggle shape" name="Shape">
+									<option selected="selected" value="3"
+										title="Toggle polygon shape">Ellipse</option>
+									<option value="2" title="Toggle polygon shape">Circle</option>
+									<option value="4" title="Toggle polygon shape">Rectangular
+										box</option>
+									<option value="1" title="Select polygon shape">Free
+										Polygon</option>
+							</select></th>
+							<th></th>
+						</tr>
+					</table>
+				</div>
+
+				<div id="tabs-4" style="display: none; height: 100%;">
+					<div style="display: flex; flex-direction: column; height: 100%">
+						<label style="flex-grow: 1;"
+							title="Toggle visibility of condition in viewpanel"><input
+							class="cond_visible" type="checkbox" /> visible</label> <label
+							style="flex-grow: 1;" title="Draw condition limits into label."><input
+							class="cond_limits" type="checkbox" /> limits</label> <label
+							style="flex-grow: 1;"
+							title="Draw label of condition properties on viewpanel."><input
+							class="cond_label" type="checkbox" /> label</label>
+						</tr>
+					</div>
+				</div>
+
+				<div id="tabs-5" style="display: none; height: 100%">
+					<div style="display: flex; flex-direction: column; height: 100%">
+						<label style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_integr" type="checkbox" /> Integr: </label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_maxx" type="checkbox" /> MaxX: </label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_max" type="checkbox" /> Max:</label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_maxy" type="checkbox" /> MaxY:</label>
+					</div>
+				</div>
+
+				<div id="tabs-6" style="display: none; height: 100%">
+					<div style="display: flex; flex-direction: column; height: 100%">
+						<label style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_xmean" type="checkbox" /> XMean:</label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_xrms" type="checkbox" /> XRMS:</label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_ymean" type="checkbox" /> YMean:</label> <label
+							style="flex-grow: 1;"
+							title="Draw value into label on view panel"><input
+							class="cond_yrms" type="checkbox" /> YRMS:</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="button_container">
+		<button class="buttonGetCondition go4_condition_btn"
+			style="margin-left: 1em;"
+			title="Refresh condition display from analysis server"></button>
+		<button class="buttonSetCondition go4_condition_btn"
+			title="Send condition valules to analysis server"></button>
+		<button class="buttonChangeLabel go4_condition_btn"
+			title="This label shows that your current changes have not yet been updated to analysis"></button>
+		<button class="buttonClearCondition go4_condition_btn"
+			style="float: right; margin-right: 2em;"
+			title="Reset all counters to zero"></button>
+		<button class="buttonDrawCondition go4_condition_btn"
+			style="float: right"
+			title="Display Condition with assigned histogram on next drawpanel"></button>
+	</div>
+
+</div>
