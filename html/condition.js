@@ -221,15 +221,16 @@ JSROOT.define([], () => {
    GO4.ConditionEditor.prototype.changeTab = function(action, indx) {
 
       let dom = this.selectDom(),
-          btns = dom.select('.tabs_header').selectAll("button").nodes(),
+          btns = dom.select('.cond_tabs_header').selectAll("button").nodes(),
           tabs = dom.selectAll('.tabs_body>div').nodes();
+
       if (btns.length != tabs.length)
          return console.error('mismatch in tabs sizes', btns.length, tabs.length);
 
       d3.select(btns[indx]).attr('disabled', (action=="enable") ? null : "true");
 
       // if that tab selected, find any other suitable
-      if ((action == "disable") && !d3.select(tabs[indx]).style("display")) {
+      if ((action == "disable") && d3.select(btns[indx]).classed("active_btn")) {
          let best = -1;
          btns.forEach((btn,k) => {
             if (!d3.select(btn).attr('disabled') && (k != indx) && (best < 0)) best = k;
@@ -238,9 +239,9 @@ JSROOT.define([], () => {
          if (best >= 0) {
             d3.select(tabs[indx]).style("display", "none");
             d3.select(tabs[best]).style("display", null);
+            d3.select(btns[indx]).classed("active_btn", false);
+            d3.select(btns[best]).classed("active_btn", true);
          }
-      } else if (action == "enable") {
-         tabs.forEach((tab,i) => d3.select(tab).style('display', i==indx ? null : "none"));
       }
    }
 
@@ -377,13 +378,23 @@ JSROOT.define([], () => {
           dom = this.selectDom();
 
       // assign tabs buttons handlers
-      dom.select('.tabs_header').selectAll("button").on("click", function() {
+      dom.select('.cond_tabs_header').selectAll("button").on("click", function() {
          let btn = d3.select(this);
+
+         dom.select('.cond_tabs_header').selectAll("button").each(function() {
+            d3.select(this).classed("active_btn", false);
+         });
+
+         btn.classed("active_btn", true);
+
          dom.selectAll('.tabs_body>div').each(function() {
             let tab = d3.select(this);
             tab.style('display', tab.attr('id') == btn.attr("for") ? null : "none");
          });
       });
+
+      // mark first tab as active
+      dom.select('.cond_tabs_header').select("button").classed("active_btn", true);
 
       dom.select(".cond_execmode").on("change", () => this.markChanged("resultmode"));
 

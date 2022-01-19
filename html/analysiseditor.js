@@ -212,6 +212,13 @@ JSROOT.define(["painter"], jsrp => {
        // assign tabs buttons handlers
       dom.select('.ana_step_tabs_header').selectAll("button").on("click", function() {
          let btn = d3.select(this);
+
+         dom.select('.ana_step_tabs_header').selectAll("button").each(function() {
+            d3.select(this).classed("active_btn", false);
+         });
+
+         btn.classed("active_btn", true);
+
          dom.selectAll('.ana_step_tabs_body>div').each(function() {
             let tab = d3.select(this);
             tab.style('display', tab.classed(btn.attr("for")) ? null : "none");
@@ -220,6 +227,7 @@ JSROOT.define(["painter"], jsrp => {
 
       // activate first step
       dom.select(".ana_step_tabs_body").select(".go4_analysis_step_0").style('display', null);
+      dom.select('.ana_step_tabs_header').select("button").classed("active_btn", true);
 
       stat.fxStepArray.arr.forEach((theElement, theIndex) => {
          let tab = dom.select(".ana_step_tabs_body").select(`.go4_analysis_step_${theIndex}`);
