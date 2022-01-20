@@ -1,24 +1,12 @@
 // $Id$
 
-(function( factory ) {
+"use strict";
 
-   // this is code for web canvas to support Go4 classes like
-   // TGo4Marker or TGo4Condition in the go4 gui
-   // it is slightly different to go4.js which is dedicated with usage of THttpServer
+JSROOT.require("painter").then(jsrp => {
+   // cannot use JSROOT.define syntax here
 
-   if (typeof JSROOT != "object") {
-      let e1 = new Error("go4canvas.js requires JSROOT to be already loaded");
-      e1.source = "go4canvas.js";
-      throw e1;
-   }
-
-   let myGO4 = { version: "6.1.4", web_canvas: true, id_counter: 1 };
-
-   factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4, JSROOT.Painter);
-
-} (function(JSROOT, GO4, jsrp) {
-
-   "use strict";
+   if (typeof GO4 == 'undefined')
+      globalThis.GO4 = { version: "6.1.4", web_canvas: true, id_counter: 1 };
 
    function findPainter(painter, obj, name, typ) {
       let pp = painter.getPadPainter();
@@ -624,6 +612,4 @@
       jsrp.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
    }
 
-   return GO4;
-
-}));
+});
