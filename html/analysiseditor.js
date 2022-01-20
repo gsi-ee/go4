@@ -56,74 +56,76 @@ JSROOT.define(["painter"], jsrp => {
       let editor = this;
       let numsteps = this.changes.length;
       for (let step = 0; step < numsteps ; step++) {
-         let len = this.changes[step].length;
-         let stepoptions = "";
+         let theElement = editor.stat.fxStepArray.arr[step],
+             stepoptions = "",
+             len = this.changes[step].length;
+
          for (let index = 0; index < len ; index++) {
 
-            let key = this.changes[step][index];
-            //console.log("Evaluate change key:%s", key);
+            let key = this.changes[step][index],
+                preifx = `&${key}=`,
+                step_prefix = `&${key}_${step}=`;
 
-            let theElement = editor.stat.fxStepArray.arr[step];
             // here mapping of key to editor field:
             if (key == "stepenabled") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fbProcessEnabled;
+               stepoptions += step_prefix + theElement.fbProcessEnabled;
             } else if (key == "sourceenabled") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fbSourceEnabled;
+               stepoptions += step_prefix + theElement.fbSourceEnabled;
             } else if (key == "storeenabled") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fbStoreEnabled;
+               stepoptions += step_prefix + theElement.fbStoreEnabled;
             } else if (key == "sourcesel") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiID;
+               stepoptions += step_prefix + theElement.fxSourceType.fiID;
             } else if (key == "sourcename") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fName;
+               stepoptions += step_prefix + theElement.fxSourceType.fName;
             } else if (key == "sourcetag") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fxTagFile;
+               stepoptions += step_prefix + theElement.fxSourceType.fxTagFile;
             } else if (key == "sourceport") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiPort;
+               stepoptions += step_prefix + theElement.fxSourceType.fiPort;
             } else if (key == "sourcetmout") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiTimeout;
+               stepoptions += step_prefix + theElement.fxSourceType.fiTimeout;
             } else if (key == "sourceretry") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fiRetryCnt;
+               stepoptions += step_prefix + theElement.fxSourceType.fiRetryCnt;
             } else if (key == "sourcefirst") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fuStartEvent;
+               stepoptions += step_prefix + theElement.fxSourceType.fuStartEvent;
             } else if (key == "sourcelast") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fuStopEvent;
+               stepoptions += step_prefix + theElement.fxSourceType.fuStopEvent;
             } else if (key == "sourceskip") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxSourceType.fuEventInterval;
+               stepoptions += step_prefix + theElement.fxSourceType.fuEventInterval;
             } else if (key == "storesel") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fiID;
+               stepoptions += step_prefix + theElement.fxStoreType.fiID;
             } else if (key == "storename") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fName;
+               stepoptions += step_prefix + theElement.fxStoreType.fName;
             } else if (key == "storesplit") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fiSplit;
+               stepoptions += step_prefix + theElement.fxStoreType.fiSplit;
             } else if (key == "storebuf") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fiBufsize;
+               stepoptions += step_prefix + theElement.fxStoreType.fiBufsize;
             } else if (key == "storecomp") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fiCompression;
+               stepoptions += step_prefix + theElement.fxStoreType.fiCompression;
             } else if (key == "storeasf") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fiAutosavesize;
+               stepoptions += step_prefix + theElement.fxStoreType.fiAutosavesize;
             } else if (key == "storeover") {
-               stepoptions += "&" + key + "_" + step + "=" + theElement.fxStoreType.fbOverwrite;
+               stepoptions += step_prefix + theElement.fxStoreType.fbOverwrite;
             }
             // non step specific options are in step 0 options too:
             else if (key == "asfname") {
-               stepoptions += "&" + key + "=" + editor.stat.fxAutoFileName;
+               stepoptions += preifx + editor.stat.fxAutoFileName;
             } else if (key == "asfenabled") {
-               stepoptions += "&" + key + "=" + editor.stat.fbAutoSaveOn;
+               stepoptions += preifx + editor.stat.fbAutoSaveOn;
             } else if (key == "asftime") {
-               stepoptions += "&" + key + "=" + editor.stat.fiAutoSaveInterval;
+               stepoptions += preifx + editor.stat.fiAutoSaveInterval;
             } else if (key == "asfcomp") {
-               stepoptions += "&" + key + "=" + editor.stat.fiAutoSaveCompression;
+               stepoptions += preifx + editor.stat.fiAutoSaveCompression;
             } else if (key == "asfoverwrite") {
-               stepoptions += "&" + key + "=" + editor.stat.fbAutoSaveOverwrite;
+               stepoptions += preifx + editor.stat.fbAutoSaveOverwrite;
             } else if (key == "anaprefsname") {
-               stepoptions += "&" + key + "=" + editor.stat.fxConfigFileName;
+               stepoptions += preifx + editor.stat.fxConfigFileName;
             } else {
-               console.log("Warning: evaluateChanges found unknown key:%s", key);
+               console.log(`Warning: evaluateChanges found unknown key: ${key}`);
             }
 
          }// for index
 
-         optionstring+=stepoptions;
+         optionstring += stepoptions;
       } // for step
       console.log("Resulting option string:%s", optionstring);
       return optionstring;
@@ -400,7 +402,8 @@ JSROOT.define(["painter"], jsrp => {
          });
 
       dom.select(".buttonAnaChangeLabel")
-         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)")
+         .style('display', 'none'); // do not show at the begin
 
       dom.select(".buttonSetStartAnalysis")
          .style('background-image', "url(" + GO4.source_dir + "icons/start.png)")
@@ -531,7 +534,6 @@ JSROOT.define(["painter"], jsrp => {
          editor.setTopPainter();
          return editor;
       });
-
    }
 
-}); // factory function
+});
