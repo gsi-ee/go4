@@ -197,6 +197,17 @@ JSROOT.define(["painter"], jsrp => {
       tab.select(".step_store_name").attr("disabled", enbale_store_name ? null : "true");
    }
 
+   function createJSMenu(event, painter) {
+      return jsrp.createMenu(event,painter).then(menu => {
+         if (!menu.confirm)
+            menu.confirm = function(head, msg) {
+               let res = window.confirm(`${head}\n${msg}`);
+               return Promise.resolve(res);
+            }
+         return menu;
+      });
+   }
+
    GO4.AnalysisStatusEditor.prototype.fillEditor = function() {
       let dom = this.selectDom(),
           stat = this.stat;
@@ -470,10 +481,10 @@ JSROOT.define(["painter"], jsrp => {
          this.markChanged("asfname", 0);
          this.stat.fxAutoFileName = content;
 
-         jsrp.createMenu(event, this)
-             .then(menu => menu.runModal("Save auto save file",`<p tabindex="0">${content}</p>`, { btns: true, height: 120, width: 400 }))
-             .then(elem => (elem ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&saveasf=" + content) : null))
-             .then(() => console.log("Writing autosave file done. "));
+         createJSMenu(event, this)
+             .then(menu => menu.confirm("Save auto save file", content))
+             .then(ok => (ok ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&saveasf=" + content) : null))
+             .then(res => console.log(res ? "Writing autosave file done." : "Ignore or failed"));
       });
 
 
@@ -482,10 +493,10 @@ JSROOT.define(["painter"], jsrp => {
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
                 requestmsg = "Really save analysis preferences: " + content;
-            jsrp.createMenu(event, this)
-                .then(menu => menu.runModal("Saving analysis preferences",`<p tabindex="0">${requestmsg}</p>`, { btns: true, height: 120, width: 400 }))
-                .then(elem => {
-                     if (!elem) return null;
+            createJSMenu(event, this)
+                .then(menu => menu.confirm("Saving analysis preferences", requestmsg))
+                .then(ok => {
+                     if (!ok) return null;
                      this.markChanged("anaprefsname", 0);
                      this.stat.fxConfigFileName = content;
                      return GO4.ExecuteMethod(this, "UpdateFromUrl", "&saveprefs=" + content);
@@ -497,9 +508,9 @@ JSROOT.define(["painter"], jsrp => {
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
                 requestmsg = "Really load analysis preferences: " + content;
-            jsrp.createMenu(event, this)
-                .then(menu => menu.runModal("Loading analysis preferences",`<p tabindex="0">${requestmsg}</p>`, { btns: true, height: 120, width: 400 }))
-                .then(elem => (elem ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&loadprefs=" + content) : null))
+            createJSMenu(event, this)
+                .then(menu => menu.confirm("Loading analysis preferences", requestmsg))
+                .then(ok => (ok ? GO4.ExecuteMethod(this, "UpdateFromUrl", "&loadprefs=" + content) : null))
                 .then(res => { if ((res!==null) && JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName()); });
          });
    }
