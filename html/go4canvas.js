@@ -14,9 +14,9 @@
 
    let myGO4 = { version: "6.1.4", web_canvas: true, id_counter: 1 };
 
-   factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4);
+   factory(JSROOT, (typeof GO4 != 'undefined') ? GO4 : myGO4, JSROOT.Painter);
 
-} (function(JSROOT, GO4) {
+} (function(JSROOT, GO4, jsrp) {
 
    "use strict";
 
@@ -72,22 +72,20 @@
    }
 
    GO4.MarkerPainter.prototype.fillLabels = function(marker) {
-      let lbls = [];
+      let lbls = [],
+          rect = this.getFramePainter().getFrameRect(),
+          main = this.getMainPainter(), hint = null;
 
-      let main = this.getMainPainter(), hint = null, fx = 0, fy = 0;
-      let rect = this.getFramePainter().getFrameRect();
-      fx = rect.x;
-      fy = rect.y;
       if (main && typeof main.processTooltipEvent == 'function')
-         hint = main.processTooltipEvent({ enabled: false, x: this.grx - fx, y: this.gry - fy });
+         hint = main.processTooltipEvent({ enabled: false, x: this.grx - rect.x, y: this.gry - rect.y });
 
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
       if (marker.fbXDraw)
-          lbls.push("X = " + JSROOT.Painter.floatToString(marker.fX, "6.4g"));
+          lbls.push("X = " + jsrp.floatToString(marker.fX, "6.4g"));
 
       if (marker.fbYDraw)
-         lbls.push("Y = " + JSROOT.Painter.floatToString(marker.fY, "6.4g"));
+         lbls.push("Y = " + jsrp.floatToString(marker.fY, "6.4g"));
 
       if (hint && hint.user_info) {
          if (marker.fbXbinDraw) {
@@ -435,22 +433,22 @@
 
       stat = this.getMainPainter().countStat((x,y) => painter.Test(x,y));
 
-      if (cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.Painter.floatToString(stat.integral, "14.7g"));
+      if (cond.fbIntDraw) this.pave.AddText("Integral = " + jsrp.floatToString(stat.integral, "14.7g"));
 
-      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.Painter.floatToString(stat.meanx, "6.4g"));
+      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + jsrp.floatToString(stat.meanx, "6.4g"));
 
-      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.Painter.floatToString(stat.rmsx, "6.4g"));
+      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + jsrp.floatToString(stat.rmsx, "6.4g"));
 
       if (cond.fiDim==2) {
-         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.Painter.floatToString(stat.meany, "6.4g"));
-         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.Painter.floatToString(stat.rmsy, "6.4g"));
+         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + jsrp.floatToString(stat.meany, "6.4g"));
+         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + jsrp.floatToString(stat.rmsy, "6.4g"));
       }
 
-      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.Painter.floatToString(stat.xmax, "6.4g"));
+      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + jsrp.floatToString(stat.xmax, "6.4g"));
 
       if (cond.fiDim==2)
-         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.Painter.floatToString(stat.ymax, "6.4g"));
-      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.Painter.floatToString(stat.wmax, "14.7g"));
+         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + jsrp.floatToString(stat.ymax, "6.4g"));
+      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + jsrp.floatToString(stat.wmax, "14.7g"));
 
       if (!pave_painter)
          JSROOT.draw(this.divid, this.pave, "");
@@ -619,11 +617,11 @@
    // =======================================================================
 
    if (GO4.web_canvas) {
-      JSROOT.Painter.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
-      JSROOT.Painter.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
-      JSROOT.Painter.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
-      JSROOT.Painter.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
-      JSROOT.Painter.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
+      jsrp.addDrawFunc({ name: "TGo4Marker", func: GO4.drawGo4Marker });
+      jsrp.addDrawFunc({ name: "TGo4WinCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4PolyCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4ShapedCond", func: GO4.drawGo4Cond });
+      jsrp.addDrawFunc({ name: "TGo4CondArray", func: GO4.drawCondArray });
    }
 
    return GO4;
