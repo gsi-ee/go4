@@ -1,41 +1,20 @@
 // $Id$
 
-(function() {
+const go4Script = document.currentScript;
+
+JSROOT.define(["painter"], jsrp => {
 
    "use strict";
 
-   if (typeof JSROOT != "object") {
-      let e1 = new Error("go4.js requires JSROOT to be already loaded");
-      e1.source = "go4.js";
-      throw e1;
-   }
+   const GO4 = { version: "6.1.4", id_counter: 1, source_dir: "" };
 
-  if (typeof GO4 == "object") {
-      let e1 = new Error("GO4 already defined when loading go4.js");
-      e1.source = "go4.js";
-      throw e1;
-   }
-
-   globalThis.GO4 = { version: "6.1.4", id_counter: 1 };
-
-   // use location to load all other scripts when required
-   GO4.source_dir = function() {
-      let scripts = document.getElementsByTagName('script');
-
-      for (let n in scripts) {
-         if (scripts[n]['type'] != 'text/javascript') continue;
-
-         let src = scripts[n]['src'];
-         if ((src == null) || (src.length == 0)) continue;
-
-         let pos = src.indexOf("html/go4.js");
-         if (pos<0) continue;
-         if ((src.indexOf("JSRootCore") >= 0) || (src.indexOf("JSRoot.core") >= 0)) continue;
-         console.log('Set GO4.source_dir to ' + src.substr(0, pos));
-         return src.substr(0, pos);
+   if (go4Script && (typeof go4Script.src == "string")) {
+      const pos = go4Script.src.indexOf("html/go4.js");
+      if (pos >= 0) {
+         GO4.source_dir = go4Script.src.substr(0, pos);
+         console.log(`Set GO4.source_dir to ${GO4.source_dir}, ${GO4.version}`);
       }
-      return "";
-   }();
+   }
 
    /** @summary Exactute method for selected painter object
      * @return {Promise} when done */
@@ -522,7 +501,6 @@
    // ==============================================================================
 
    let canvsrc = GO4.source_dir + 'html/go4canvas.js;';
-   let jsrp = JSROOT.Painter;
 
    jsrp.addDrawFunc({ name: "TGo4WinCond",  script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
    jsrp.addDrawFunc({ name: "TGo4PolyCond", script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
@@ -538,4 +516,7 @@
    jsrp.addDrawFunc({ name: "TGo4MbsEvent", noinspect: true });
    jsrp.addDrawFunc({ name: "TGo4EventElement", noinspect: true });
 
-})(); // factory
+   globalThis.GO4 = GO4;
+
+   return GO4;
+});
