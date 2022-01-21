@@ -84,17 +84,17 @@ Bool_t TGo4FitDataRidgeIter::StartReset() {
   return ReserveArrays(iter->IndexesSize(), iter->ScalesSize()-1, kFALSE);
 }
 
-Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint() {
+Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint()
+{
   if ((iter==0) || (fxData==0)) return kFALSE;
 
-  if (!GetDeviation())
-   {
-      if (iter->Value()>0.)
-         fdStandardDeviation = 1./iter->Value();
+   if (!GetDeviation()) {
+      if (iter->Value() > 0.)
+         fdStandardDeviation = 1. / iter->Value();
       else
          fdStandardDeviation = 0.;
    }
-  Int_t n1=0;
+  Int_t n1 = 0;
   for (Int_t n=0;n<iter->ScalesSize();n++)
     if (n==fxData->GetSelectedAxis()) fdValue = iter->Scales()[n];
                                  else fxOwnScales[n1++] = iter->Scales()[n];
@@ -102,7 +102,8 @@ Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint() {
   return ProduceScales(iter->Indexes(), fxOwnScales.GetArray(), 0);
 }
 
-Bool_t TGo4FitDataRidgeIter::ShiftToNextPoint() {
+Bool_t TGo4FitDataRidgeIter::ShiftToNextPoint()
+{
   if (iter==0) return kFALSE;
   Bool_t res = iter->Next(kTRUE);
   while (res && (iter->Value()<=0.))

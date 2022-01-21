@@ -24,7 +24,7 @@ TGo4FitDataGraph::TGo4FitDataGraph() :
 
 TGo4FitDataGraph::TGo4FitDataGraph(const char* iName, TGraph *iGraph, Bool_t iGraphOwned, Bool_t AddAmpl) :
    TGo4FitData(iName,"TGraph and derived classes", dtGraph, AddAmpl),
-   fxGraph("Graph","Data object of TGraph class",this, TGraph::Class(), kTRUE, iGraph, iGraphOwned)
+   fxGraph("Graph","Data object of TGraph class", this, TGraph::Class(), kTRUE, iGraph, iGraphOwned)
 {
    SetExcludeLessThen(-1e50);
 }

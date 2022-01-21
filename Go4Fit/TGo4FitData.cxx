@@ -28,28 +28,33 @@
 
 TGo4FitData::TGo4FitData() : TGo4FitComponent(),
     fiDataType(0), fbUseBinScale(kFALSE), fiTakeSigmasFrom(1), fdSigmaValue(1.), fdExcludeLessThen(0.),
-    fxAxisTrans() {
-       ResetAllPoinetrs();
+    fxAxisTrans()
+{
+   ResetAllPoinetrs();
 }
 
 TGo4FitData::TGo4FitData(const char* iName, const char* iTitle, Int_t iDataType, Bool_t AddAmpl) :
     TGo4FitComponent(iName,iTitle), fiDataType(iDataType),
     fbUseBinScale(kFALSE), fiTakeSigmasFrom(1), fdSigmaValue(1.), fdExcludeLessThen(0.),
-    fxAxisTrans()  {
+    fxAxisTrans()
+{
 
-       ResetAllPoinetrs();
+   ResetAllPoinetrs();
 
-       if(AddAmpl) NewAmplitude("Ampl",1.0,kTRUE);
+   if (AddAmpl)
+      NewAmplitude("Ampl", 1.0, kTRUE);
 
-       fxAxisTrans.SetOwner(kTRUE);
+   fxAxisTrans.SetOwner(kTRUE);
 }
 
-TGo4FitData::~TGo4FitData() {
-  ReleaseAllPointers();
+TGo4FitData::~TGo4FitData()
+{
+   ReleaseAllPointers();
 }
 
 
-Bool_t TGo4FitData::SetNumberOfTransSlots(Int_t nslots) {
+Bool_t TGo4FitData::SetNumberOfTransSlots(Int_t nslots)
+{
   Int_t oldnum = GetNumberOfTransSlots();
   if ( (nslots<0) || (nslots == oldnum) ) return kFALSE;
 
@@ -102,14 +107,16 @@ void TGo4FitData::SetAxisTransNeeded(Int_t nslot, Bool_t iNeeded) {
     ((TGo4FitSlot*) (fxAxisTrans[nslot]))->SetNeeded(iNeeded);
 }
 
-Bool_t TGo4FitData::IsAnyDataTransform() {
+Bool_t TGo4FitData::IsAnyDataTransform()
+{
   if (GetUseBinScale() || (GetExcludeLessThen()>0)) return kTRUE;
   for (Int_t n=0;n<GetNumberOfTransSlots();n++)
     if (GetAxisTrans(n)) return kTRUE;
   return kFALSE;
 }
 
-TObject* TGo4FitData::CreateDrawObject(const char* ObjName) {
+TObject* TGo4FitData::CreateDrawObject(const char* ObjName)
+{
    TGo4FitDataIter* iter = MakeIter();
    if (iter==0) return 0;
    TObject* obj = iter->CreateDrawObject(ObjName);
@@ -117,69 +124,77 @@ TObject* TGo4FitData::CreateDrawObject(const char* ObjName) {
    return obj;
 }
 
-Bool_t TGo4FitData::Initialize(Int_t UseBuffers) {
+Bool_t TGo4FitData::Initialize(Int_t UseBuffers)
+{
+   TGo4FitDataIter *iter = MakeIter();
+   if (iter == 0)
+      return kFALSE;
 
-    TGo4FitDataIter* iter = MakeIter();
-    if (iter==0) return kFALSE;
+   fiBinsSize = iter->CountPoints(kTRUE);
 
-    fiBinsSize = iter->CountPoints(kTRUE);
+   fiIndexesSize = iter->IndexesSize();
+   fiScalesSize = iter->ScalesSize();
 
-    fiIndexesSize = iter->IndexesSize();
-    fiScalesSize = iter->ScalesSize();
+   Bool_t use = ((UseBuffers < 0) && GetUseBuffers()) || (UseBuffers > 0);
 
-    Bool_t use = ((UseBuffers<0) && GetUseBuffers()) || (UseBuffers>0);
-
-    if (use)
-      for(Int_t n=0; n<GetNumberOfTransSlots();n++) {
-         TGo4FitAxisTrans* trans = GetAxisTrans(n);
+   if (use)
+      for (Int_t n = 0; n < GetNumberOfTransSlots(); n++) {
+         TGo4FitAxisTrans *trans = GetAxisTrans(n);
          if (trans && !trans->IsAllParsFixed()) {
-           use = kFALSE;
-           break;
+            use = kFALSE;
+            break;
          }
       }
 
-    if (use) {
+   if (use) {
 
-        fxValues = new Double_t[fiBinsSize];
-        fxStandDev = new Double_t[fiBinsSize];
-        fxBinsResult = new Double_t[fiBinsSize];
+      fxValues = new Double_t[fiBinsSize];
+      fxStandDev = new Double_t[fiBinsSize];
+      fxBinsResult = new Double_t[fiBinsSize];
 
-        if (iter->HasIndexes()) fxFullIndex = new Int_t[fiBinsSize*fiIndexesSize];
-        fxFullScale = new Double_t[fiBinsSize*fiScalesSize];
-        if (iter->HasWidths()) fxFullWidth = new Double_t [fiBinsSize*fiScalesSize];
+      if (iter->HasIndexes())
+         fxFullIndex = new Int_t[fiBinsSize * fiIndexesSize];
+      fxFullScale = new Double_t[fiBinsSize * fiScalesSize];
+      if (iter->HasWidths())
+         fxFullWidth = new Double_t[fiBinsSize * fiScalesSize];
 
-        Int_t nbin = 0;
-        if (iter->Reset()) do {
+      Int_t nbin = 0;
+      if (iter->Reset())
+         do {
 
-          fxValues[nbin] = iter->Value();
-          fxStandDev[nbin] = iter->StandardDeviation();
+            fxValues[nbin] = iter->Value();
+            fxStandDev[nbin] = iter->StandardDeviation();
 
-          if(fxFullIndex)
-             for(Int_t n=0;n<fiIndexesSize;n++)
-               fxFullIndex[nbin*fiIndexesSize+n] = iter->Indexes()[n];
+            if (fxFullIndex)
+               for (Int_t n = 0; n < fiIndexesSize; n++)
+                  fxFullIndex[nbin * fiIndexesSize + n] = iter->Indexes()[n];
 
-          if(fxFullScale)
-             for(Int_t naxis = 0;naxis<fiScalesSize;naxis++)
-               fxFullScale[nbin*fiScalesSize+naxis] = iter->Scales()[naxis];
+            if (fxFullScale)
+               for (Int_t naxis = 0; naxis < fiScalesSize; naxis++)
+                  fxFullScale[nbin * fiScalesSize + naxis] =
+                        iter->Scales()[naxis];
 
-          if(fxFullWidth && iter->HasWidths())
-             for(Int_t naxis = 0;naxis<fiScalesSize;naxis++)
-               fxFullWidth[nbin*fiScalesSize+naxis] = iter->Widths()[naxis];
+            if (fxFullWidth && iter->HasWidths())
+               for (Int_t naxis = 0; naxis < fiScalesSize; naxis++)
+                  fxFullWidth[nbin * fiScalesSize + naxis] =
+                        iter->Widths()[naxis];
 
-           nbin++;
-        } while (iter->Next());
-    }
+            nbin++;
+         } while (iter->Next());
+   }
 
-    delete iter;
+   delete iter;
 
-    return kTRUE;
+   return kTRUE;
 }
 
-void TGo4FitData::Finalize() {
+void TGo4FitData::Finalize()
+{
   ReleaseAllPointers();
 }
 
-void TGo4FitData::ResetAllPoinetrs() {
+void TGo4FitData::ResetAllPoinetrs()
+{
    fiBinsSize = 0;
    fiIndexesSize = 0;
    fiScalesSize = 0;
