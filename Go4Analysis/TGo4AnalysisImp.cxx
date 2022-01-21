@@ -2618,7 +2618,7 @@ void TGo4Analysis::StartAnalysis()
 
 namespace {
 
-   static BOOL Go4ConsoleSigHandler(DWORD sig)
+   BOOL WINAPI Go4ConsoleSigHandler(DWORD sig)
    {
       // WinNT signal handler.
 
@@ -2639,7 +2639,7 @@ namespace {
 
    void InstallGo4CtrlCHandler(bool on)
    {
-      ::SetConsoleCtrlHandler((PHANDLER_ROUTINE)Go4ConsoleSigHandler, on);
+      SetConsoleCtrlHandler(Go4ConsoleSigHandler, on);
    }
 
 }
