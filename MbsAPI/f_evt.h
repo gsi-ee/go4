@@ -112,7 +112,7 @@ INTS4 f_evt_timeout(s_evt_channel *, INTS4 );
 INTS4 f_evt_source_port(INTS4 l_port);
 INTS4 f_evt_rev_port(INTS4); /* obsolete */
 INTS4 f_evt_swap(CHARS *, INTS4);
-s_evt_channel * f_evt_control();
+s_evt_channel * f_evt_control(void);
 
 /* ******************************/
 /*  Input selector              */

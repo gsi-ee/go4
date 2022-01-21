@@ -69,7 +69,7 @@ typedef struct
   uint32_t iTCPowner;
 } sLmdControl;
 
-sLmdControl * fLmdAllocateControl();
+sLmdControl * fLmdAllocateControl(void);
 uint32_t   fLmdPutOpen(sLmdControl*,char*,sMbsFileHeader*,uint32_t,uint32_t,uint32_t,uint32_t);
 uint32_t   fLmdPutElement(sLmdControl*,sMbsHeader*);
 uint32_t   fLmdPutBuffer(sLmdControl*, sMbsHeader*,uint32_t);

@@ -148,11 +148,9 @@ int f_fltdscr(struct s_clnt_filter *);
 int f_read_server(s_evt_channel *, int *, int, int);
 int f_send_ackn(int, int);
 
-unsigned short *pi_inbuf;
-unsigned int *pl_inbuf;
-unsigned int l_len_w;
 int swapw(unsigned short *, unsigned short *, unsigned int);
 int swapl(unsigned int *, unsigned int *, unsigned int);
+
 static int i_debug = 0;                  /* message level (0-3) */
 
 #define EVT_MAX 1000
@@ -163,10 +161,6 @@ static int i_debug = 0;                  /* message level (0-3) */
 // JAM1-6-2021- test if this helps the streamserver problems
 // #define DISABLE_POLLING_TIMEOUT 1
 
-
-struct s_clnt_filter  *p_clnt_filter;
-struct s_clntbuf      *p_clntbuf;
-struct s_opc1         *p_opc1;
 
 static int unsigned  lf_swap = 0;                  /* save swap on RX     */
 static int unsigned  l_endian_serv;                /* save endian server  */
@@ -195,6 +189,9 @@ int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevent
   char                 c_node[32], c_retmsg[256];
   int                  l_port;
   int                  l_len_lw2, l_sts, l_retval;                /* len for 2nd   swap  */
+  struct s_opc1         *p_opc1;
+  struct s_clnt_filter  *p_clnt_filter;
+  struct s_clntbuf      *p_clntbuf;
 
   v_mem_clnup[0] = 0;
 
@@ -381,6 +378,8 @@ int f_evcli_buf(s_evt_channel *ps_chan)
    // s_ve10_1 *ps_ve10_1;
    char *ps_buf;
    int  l_len_lw2, l_sts,  l_retval;           /* len for 2nd   swap  */
+   struct s_clntbuf      *p_clntbuf;
+   unsigned int *pl_inbuf;
 
    /* ++++++++++++++++++++++++++++++ */
    /* +++ send acknowledge buffer +++ */
@@ -481,6 +480,8 @@ int f_evcli_evt(s_evt_channel *ps_chan)
 {
   int *ps_int;
   s_ve10_1 *ps_ve10_1;
+  struct s_clntbuf      *p_clntbuf;
+
 
   p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
   if(ps_chan->l_evt_buf_posi < p_clntbuf->l_events)
@@ -892,9 +893,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int f_fltrd(p_clnt_filter, c_file)
-struct s_clnt_filter *p_clnt_filter;
-char                 *c_file;                     /* ptr to file name        */
+int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 {
 
    /* ++++ declaration ++++ */
@@ -1142,8 +1141,7 @@ char                 *c_file;                     /* ptr to file name        */
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int f_typflt(p_clnt_filter)
-struct s_clnt_filter *p_clnt_filter;
+int f_typflt(struct s_clnt_filter *p_clnt_filter)
 {
    static char               c_modnam[] = "f_typflt";
    struct s_filter    *p_filter;
@@ -1461,6 +1459,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
+  struct s_clntbuf      *p_clntbuf;
 
 // JAM1-6-2021- test if this helps the streamserver problems
 #ifndef DISABLE_POLLING_TIMEOUT
