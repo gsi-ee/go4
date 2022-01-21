@@ -3986,13 +3986,14 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       if (!slot->GetIntPar("::LastDrawnPad", lastdrawnpad))
          lastdrawnpad = 0;
 
-   Int_t subpadindx = 0;
+   Int_t subpadindx = 0, numchilds = slot->NumChilds();
 
    // first redraw all subpads
-   for (int n = 0; n < slot->NumChilds(); n++) {
-      subpadindx = (n + lastdrawnpad) % slot->NumChilds();
+   for (int n = 0; n < numchilds; n++) {
+      subpadindx = (n + lastdrawnpad);
+      if (numchilds > 0) subpadindx = subpadindx % numchilds;
       TPad* subpad = GetSlotPad(slot->GetChild(subpadindx));
-      if (subpad == 0) continue;
+      if (!subpad) continue;
       ischilds = true;
       if (ProcessPadRedraw(subpad, force)) {
          ischildmodified = true;
