@@ -319,6 +319,7 @@ Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket* connector, Go4CommandMode_t acco
          connector->Send(fgxADMINISTRATORACCOUNT.GetTitle());
          break;
 
+      case kGo4ComModeRefused:
       default:
          connector->Send(Get_fgcERROR());
          connector->Send(Get_fgcERROR());
@@ -440,7 +441,6 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
 {
    char* revchar=0;
    Int_t waitresult=0;
-   UInt_t port=0;
    TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(fxThreadManager);
    if(server==0)
    {
@@ -474,13 +474,12 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
    {
       // ok, proceed
    }
-   port=WaitGetPort(channel);
-   if (port<0)
+   Int_t port = WaitGetPort(channel);
+   if (port < 0)
    {
       TGo4Log::Debug(" TaskHandler: Channel %s getport TIMEOUT for client %s ",name, client);
       return kFALSE;
    }
-   else {}
    negotiator->Send(TGo4TaskHandler::fgcOK); // tell client we are ready to connect
    TString localbuffer;
    localbuffer.Form("%d",port);
