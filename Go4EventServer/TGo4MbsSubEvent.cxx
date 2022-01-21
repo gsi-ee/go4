@@ -156,10 +156,10 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
          fieldlength=fiAllocLen;
 
       if(fieldlength==0)
-         fiData[0]=0; // clear in case of zero subevents!
+         fiData[0] = 0; // clear in case of zero subevents!
 
-      for(Int_t t=0; t<fieldlength;++t)
-         fiData[t]=0;
+      for(Int_t i=0; i<fieldlength;++i)
+         fiData[i] = 0;
       //std::cout<< std::endl<< "Subevent: cleared "<< fiAllocLen << "int field at "<<fiData << std::endl;
       fxHeader.Clear();
       Set(dleng); // set to default values, but remember last datalength

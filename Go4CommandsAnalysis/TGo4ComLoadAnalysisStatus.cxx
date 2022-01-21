@@ -55,11 +55,10 @@ Int_t TGo4ComLoadAnalysisStatus::ExeCom()
    GO4TRACE((12,"TGo4ComLoadAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli==0) {
+   if (!cli) {
       GO4TRACE((11,"TGo4ComLoadAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ComLoadAnalysisStatus ''%s'': NO RECEIVER ERROR!!!",GetName());
       throw TGo4RuntimeException(); // never come here!
-      return 1;
    }
 
    GO4TRACE((11,"TGo4ComLoadAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
@@ -84,7 +83,6 @@ Int_t TGo4ComLoadAnalysisStatus::ExeCom()
       cli->SendStatusMessage(3, kTRUE, TString::Format(
             " %s ERROR no analysis", GetName()));
    } // if(ana)
-
 
    return -1;
 }

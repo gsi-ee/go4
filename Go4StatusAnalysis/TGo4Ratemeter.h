@@ -53,7 +53,7 @@ class TGo4Ratemeter : public TNamed {
 
       ULong64_t GetCurrentCount() const { return fuCurrentCount; }
 
-      Double_t GetAvRate() const { return (fdTime > 0) ? fuCurrentCount/fdTime : 0.; }
+      Double_t GetAvRate() const { return (fdTime > 0) ? ((Double_t) fuCurrentCount) / fdTime : 0.; }
 
       const char* GetDateTime() const { return fxDateString.Data(); }
 

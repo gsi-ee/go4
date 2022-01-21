@@ -42,40 +42,39 @@ class TGo4SubEventHeader10 : public TObject {
     /** @link aggregationByValue */
     TGo4GSIEventHeader fxGSIHeader;
 
-
     /** union to correctly access full id as one int value */
-    union
-        {
-            /** full id number of procid, subcrate and ctrl */
-            Int_t fiFullid;
-        struct
-            {
-            #if MBS_ENDIAN == 1
+   union {
+      /** full id number of procid, subcrate and ctrl */
+      Int_t fiFullid;
 
-            /** Processor type code. */
-            Char_t fcControl;
+      struct {
 
-            /** Subcrate number */
-            Char_t fcSubcrate;
+      #if MBS_ENDIAN == 1
 
-            /** Processor ID [from setup] */
-            Short_t fsProcid;
+         /** Processor type code. */
+         Char_t fcControl;
 
-            #else
+         /** Subcrate number */
+          Char_t fcSubcrate;
 
-            /** Processor ID [from setup] */
-            Short_t fsProcid;
+         /** Processor ID [from setup] */
+         Short_t fsProcid;
 
-            /** Subcrate number */
-            Char_t fcSubcrate;
+      #else
 
-            /** Processor type code. */
-            Char_t fcControl;
+         /** Processor ID [from setup] */
+         Short_t fsProcid;
 
-            #endif
+         /** Subcrate number */
+         Char_t fcSubcrate;
 
-            };
-        };
+         /** Processor type code. */
+         Char_t fcControl;
+
+      #endif
+
+      };
+   };
 
     TGo4SubEventHeader10() : TObject(), fxGSIHeader(), fsProcid(0), fcSubcrate(0), fcControl(0) { }
 
