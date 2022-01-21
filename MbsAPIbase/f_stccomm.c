@@ -505,7 +505,6 @@ INTS4 f_stc_connectserver(CHARS *c_node, INTS4 l_port, INTS4 *pi_channel, struct
 #ifdef GSI__WINNT
    WORD wVersionRequested;
    WSADATA wsaData;
-   char message1[512];
    wVersionRequested = MAKEWORD( 2, 2 );
    //err = WSAStartup( wVersionRequested, &wsaData );
    if (WSAStartup( wVersionRequested, &wsaData)!=0) {
@@ -857,7 +856,6 @@ INTS4 f_stc_createserver(INTS4 *pl_port, struct s_tcpcomm *ps_server)
 #ifdef GSI__WINNT
    WORD wVersionRequested;
    WSADATA wsaData;
-   char message1[512];
    wVersionRequested = MAKEWORD( 2, 2 );
    //err = WSAStartup( wVersionRequested, &wsaData );
    if (WSAStartup( wVersionRequested, &wsaData)!=0) {

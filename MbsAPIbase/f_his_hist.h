@@ -26,6 +26,6 @@ INTS4 f_his_server(CHARS *, CHARS *, INTS4 *);
 INTS4 f_his_wait(INTS4 *, CHARS *);
 INTS4 f_his_senddir(s_his_head *, INTS4);
 INTS4 f_his_sendhis(s_his_head *, INTS4, CHARS *, INTS4*);
-INTS4 f_his_close();
+INTS4 f_his_close(void);
 
 #endif

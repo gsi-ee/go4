@@ -269,10 +269,9 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    const char* hname = tentry->GetHistogramName();
 
    TTree* tree = TGo4Analysis::Instance()->GetTree(tentry->GetTreeName());
-   if (tree==0) {
+   if (!tree) {
       throw TGo4DynamicListException(tentry,
             Form("Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName()));
-      return kFALSE;
    }
 
    TH1* histo = TGo4Analysis::Instance()->GetHistogram(hname);
@@ -280,10 +279,9 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    if (!tentry->fbNewHistogram && (histo==0)) {
       throw TGo4DynamicListException(tentry,
             Form("Tree Histogram Entry: !!! Could not find Histogram %s ",hname));
-      return kFALSE;
    }
 
-   if (histo!=0)
+   if (histo)
       tentry->fbNewHistogram = kFALSE;
 
    tentry->ProcessTreeNew(tree, TGo4Analysis::Instance()->GetDynListInterval());

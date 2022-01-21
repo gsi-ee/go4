@@ -79,72 +79,68 @@ Export(ob);
 
 void TGo4ExportManager::Export(TObject* myobject)
 {
-  if(myobject==0) return;
-  if(myobject->InheritsFrom(TDirectory::Class()))
-    {
-      TDirectory* subdir=dynamic_cast<TDirectory*>(myobject);
+  if(!myobject) return;
+
+  if (myobject->InheritsFrom(TDirectory::Class())) {
+      TDirectory *subdir = dynamic_cast<TDirectory*>(myobject);
       Export(subdir);
-    }
-  else if (myobject->InheritsFrom(TFolder::Class()))
-    {
-      TFolder* subfold=dynamic_cast<TFolder*> (myobject);
+   } else if (myobject->InheritsFrom(TFolder::Class())) {
+      TFolder *subfold = dynamic_cast<TFolder*>(myobject);
       Export(subfold);
-    }
-  else if (myobject->InheritsFrom(TCollection::Class()))
-    {
-      TCollection* col=dynamic_cast<TCollection*> (myobject);
+   } else if (myobject->InheritsFrom(TCollection::Class())) {
+      TCollection *col = dynamic_cast<TCollection*>(myobject);
       Export(col);
-    }
-  else if(myobject->InheritsFrom(TH1::Class()))
-    {
-      TH1* histo= dynamic_cast<TH1*>(myobject);
+   } else if (myobject->InheritsFrom(TH1::Class())) {
+      TH1 *histo = dynamic_cast<TH1*>(myobject);
       Export(histo);
-    }
-  else if (myobject->InheritsFrom(TGraph::Class()))
-    {
-      TGraph* graph= dynamic_cast<TGraph*>(myobject);
+   } else if (myobject->InheritsFrom(TGraph::Class())) {
+      TGraph *graph = dynamic_cast<TGraph*>(myobject);
       Export(graph);
-    }
-  else
-    switch(fiFilter) {
+   } else {
+      switch (fiFilter) {
       case GO4EX_ROOT:
          ExportRoot(myobject);
          break;
       case GO4EX_XML:
          ExportXML(myobject);
          break;
+      case GO4EX_ASCII:
+      case GO4EX_ASCII_CHANNELS:
+      case GO4EX_RADWARE:
       default:
-         TGo4Log::Message(2,"ExportManager: NOT Converting object %s of class %s",
-           myobject->GetName(),myobject->ClassName());
-    }
+         TGo4Log::Message(2,
+               "ExportManager: NOT Converting object %s of class %s",
+               myobject->GetName(), myobject->ClassName());
+      }
+   }
 }
 
 
 void TGo4ExportManager::Export(TFolder* fold)
 {
-if(fold==0) return;
-TGo4Log::Message(0,"ExportManager: Converting contents of folder %s",fold->GetName());
-if(fiFilter==GO4EX_ROOT)
-   {
-       // root filter will write collection completely into one root file
-       // otherwise, each object would be written separately into flat hierarchy
-       ExportRoot(fold);
-       return;
+   if (fold == 0)
+      return;
+   TGo4Log::Message(0, "ExportManager: Converting contents of folder %s",
+         fold->GetName());
+   if (fiFilter == GO4EX_ROOT) {
+      // root filter will write collection completely into one root file
+      // otherwise, each object would be written separately into flat hierarchy
+      ExportRoot(fold);
+      return;
    }
 
-TString dirname=fold->GetName();
-gSystem->cd(fxCurrentDir.Data()); // create subdirectory in file system
-TString com="mkdir "+dirname;
-gSystem->Exec(com);
-gSystem->cd(dirname.Data());
-fxCurrentDir=gSystem->WorkingDirectory();
-TCollection* folderlist=fold->GetListOfFolders();
-Export(folderlist);
-gSystem->cd(fxCurrentDir.Data());
-gSystem->cd("..");
-fxCurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
-gSystem->cd(fxStartDir.Data());
-
+   TString dirname = fold->GetName();
+   gSystem->cd(fxCurrentDir.Data()); // create subdirectory in file system
+   TString com = "mkdir " + dirname;
+   gSystem->Exec(com);
+   gSystem->cd(dirname.Data());
+   fxCurrentDir = gSystem->WorkingDirectory();
+   TCollection *folderlist = fold->GetListOfFolders();
+   Export(folderlist);
+   gSystem->cd(fxCurrentDir.Data());
+   gSystem->cd("..");
+   fxCurrentDir = gSystem->WorkingDirectory(); // go up one directory level again
+   gSystem->cd(fxStartDir.Data());
 }
 
 void TGo4ExportManager::Export(TDirectory* source)
