@@ -302,56 +302,49 @@ frombegin:
       }
    }
 
-   if(GetEventStatus()!=0) {
-      char buffer[TGo4EventSource::fguTXTLEN];
-      f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
-      SetErrMess(Form("%s name:%s", buffer, GetName()));
-   }
+   if (GetEventStatus()==0)
+      return 0;
 
-   switch(GetEventStatus()) {
-      case 0:
-         return 0;
-      case GETEVT__TIMEOUT:
-         throw TGo4EventTimeoutException(this);
-         break;
-      case GETEVT__NOMORE:
-         throw TGo4EventEndException(this);
-         break;
-      default: {
-         if (((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT)) && (fiRetryCnt>0)) {
+   // provide text message for later output
+   char buffer[TGo4EventSource::fguTXTLEN];
+   f_evt_error(GetEventStatus(),buffer,1);
+   SetErrMess(Form("%s name:%s", buffer, GetName()));
 
-            printf("Error code %d mess %s\n", GetEventStatus(), GetErrMess());
+   if (GetEventStatus() == GETEVT__TIMEOUT)
+      throw TGo4EventTimeoutException(this);
 
-            Close();
-            Int_t cnt = fiRetryCnt;
+   if (GetEventStatus() == GETEVT__NOMORE)
+      throw TGo4EventEndException(this);
 
-            while (cnt-->0) {
-               gSystem->Sleep(1000);
+   if (((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT)) && (fiRetryCnt > 0)) {
 
-               //if (TGo4Analysis::Instance())
-               //   if (TGo4Analysis::Instance()->IsStopWorking()) return GetEventStatus();
-               try {
-                  Open();
-                  if (fbIsOpen) {
-                     printf("Retry %d successful\n", cnt);
-                     fflush(stdout);
-                     goto frombegin;
-                  }
-               } catch (TGo4EventErrorException &) {
-               }
-               printf("Retry %d failed\n", cnt);
+      printf("Error code %d mess %s\n", GetEventStatus(), GetErrMess());
+
+      Close();
+      Int_t cnt = fiRetryCnt;
+
+      while (cnt-->0) {
+         gSystem->Sleep(1000);
+
+         //if (TGo4Analysis::Instance())
+         //   if (TGo4Analysis::Instance()->IsStopWorking()) return GetEventStatus();
+         try {
+            Open();
+            if (fbIsOpen) {
+               printf("Retry %d successful\n", cnt);
                fflush(stdout);
+               goto frombegin;
             }
+         } catch (TGo4EventErrorException &) {
          }
-
-         throw TGo4EventErrorException(this);
-         break;
+         printf("Retry %d failed\n", cnt);
+         fflush(stdout);
       }
    }
 
-   TGo4Log::Error("MbsSource::NextEvent --  NEVER COME HERE");
-   return GetEventStatus();
+   throw TGo4EventErrorException(this);
 }
+
 
 Int_t TGo4MbsSource::Open()
 {
