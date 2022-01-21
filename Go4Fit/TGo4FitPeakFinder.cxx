@@ -330,12 +330,12 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter* fitter,
       fitter->AddPolynomX(data->GetName(), "Pol", Coef);
    }
 
-   Double_t max=0.;
-   for(Int_t i=0;i<size;i++) {
+   Double_t dmax = 0.;
+   for(Int_t i = 0; i < size; i++) {
       Double_t zn = bins[i]-backgr[i];
-      if(zn>max) max = zn;
+      if(zn > dmax) dmax = zn;
    }
-   AmplThreshold = AmplThreshold*max;
+   AmplThreshold = AmplThreshold*dmax;
 
    TArrayC usage(size); usage.Reset(1);
    Char_t* use = usage.GetArray();
@@ -344,59 +344,60 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter* fitter,
 
    do {
 
-   validline = kFALSE;
+      validline = kFALSE;
 
-   Int_t pmax=-1; Double_t max=0.;
-   for(Int_t i=0;i<size;i++)
-     if (use[i]) {
-       Double_t zn = bins[i]-backgr[i];
-       if((pmax<0) || (zn>max)) { pmax = i; max = zn; }
-     }
+      Int_t pmax = -1;
+      Double_t max = 0.;
+      for(Int_t i=0;i<size;i++)
+        if (use[i]) {
+          Double_t zn = bins[i]-backgr[i];
+          if((pmax<0) || (zn>max)) { pmax = i; max = zn; }
+        }
 
-   Double_t sigma = TMath::Sqrt(1./weights[pmax]);
+      Double_t sigma = TMath::Sqrt(1./weights[pmax]);
 
-   if ((max<2.*sigma) || (max<AmplThreshold)) break;
+      if ((max<2.*sigma) || (max<AmplThreshold)) break;
 
-   Int_t lbound = pmax, rbound = pmax;
+      Int_t lbound = pmax, rbound = pmax;
 
-   Bool_t lok = FindValue(bins, backgr, use, size, lbound, -1, max*0.5);
-   Bool_t rok = FindValue(bins, backgr, use, size, rbound, +1, max*0.5);
+      Bool_t lok = FindValue(bins, backgr, use, size, lbound, -1, max*0.5);
+      Bool_t rok = FindValue(bins, backgr, use, size, rbound, +1, max*0.5);
 
-   if(lok || rok) {
+      if(lok || rok) {
 
-     validline = kTRUE;
+        validline = kTRUE;
 
-     Int_t w = (lok && rok) ? (rbound-lbound)/4 : ( lok ? (pmax-lbound)/2 : (rbound-pmax)/2 ) ;
-     if (w<2) w=2;
+        Int_t w = (lok && rok) ? (rbound-lbound)/4 : ( lok ? (pmax-lbound)/2 : (rbound-pmax)/2 ) ;
+        if (w<2) w=2;
 
-     TArrayD Coef1(3), Coef2(2);
-     DefinePolynomEx(size, bins, scales, weights, backgr, pmax-w, pmax+w, Coef1);
-     Double_t middle = -0.5*Coef1[1]/Coef1[2];
-     Double_t amplitude = CalcPolynom(Coef1, middle);
+        TArrayD Coef1(3), Coef2(2);
+        DefinePolynomEx(size, bins, scales, weights, backgr, pmax-w, pmax+w, Coef1);
+        Double_t middle = -0.5*Coef1[1]/Coef1[2];
+        Double_t amplitude = CalcPolynom(Coef1, middle);
 
-     Double_t left = 0, right = 0;
-     if (lok) {
-       DefinePolynomEx(size, bins, scales, weights, backgr, lbound-w, lbound+w, Coef2);
-       left = (amplitude*.5-Coef2[0])/Coef2[1];
-     }
+        Double_t left = 0, right = 0;
+        if (lok) {
+          DefinePolynomEx(size, bins, scales, weights, backgr, lbound-w, lbound+w, Coef2);
+          left = (amplitude*.5-Coef2[0])/Coef2[1];
+        }
 
-     if (rok) {
-       DefinePolynomEx(size, bins, scales, weights, backgr, rbound-w, rbound+w, Coef2);
-       right = (amplitude*.5-Coef2[0])/Coef2[1];
-     }
+        if (rok) {
+          DefinePolynomEx(size, bins, scales, weights, backgr, rbound-w, rbound+w, Coef2);
+          right = (amplitude*.5-Coef2[0])/Coef2[1];
+        }
 
-     if (!lok) left = 2*middle-right; else
-     if (!rok) right = 2*middle-left;
+        if (!lok) left = 2*middle-right; else
+        if (!rok) right = 2*middle-left;
 
-     Double_t width = (right-left)*0.5;
+        Double_t width = (right-left)*0.5;
 
-     lbound = pmax-4*w; if (lbound<0) lbound=0;
-     rbound = pmax+4*w; if (rbound>=size) rbound=size-1;
-     for(Int_t i=lbound;i<=rbound;i++) use[i]=0;
+        lbound = pmax-4*w; if (lbound<0) lbound=0;
+        rbound = pmax+4*w; if (rbound>=size) rbound=size-1;
+        for(Int_t i=lbound;i<=rbound;i++) use[i]=0;
 
-     if(lok && rok && (width>=MinWidth) && (width<=MaxWidth) && (amplitude>AmplThreshold) && (amplitude>2*sigma))
-        fitter->AddGauss1(data->GetName(), fitter->FindNextName("Gauss",0), middle, width, amplitude);
-   }
+        if(lok && rok && (width>=MinWidth) && (width<=MaxWidth) && (amplitude>AmplThreshold) && (amplitude>2*sigma))
+           fitter->AddGauss1(data->GetName(), fitter->FindNextName("Gauss",0), middle, width, amplitude);
+      }
 
    } while(validline);
 }

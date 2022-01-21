@@ -15,7 +15,7 @@
 #define Go4EmergencyCommands_H
 
 enum Go4EmergencyCommand_t {
-   kComQuit ,
+   kComQuit,
    kComKillMain,
    kComRestartMain,
    kComCloseInput,

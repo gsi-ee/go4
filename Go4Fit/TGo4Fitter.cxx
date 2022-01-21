@@ -753,7 +753,7 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
 
   TArrayD bins(size), scales(size);
 
-  Int_t pnt=0;
+  Int_t ppnt=0;
 
   if (iter->Reset(UseRanges)) do {
     Double_t value = iter->Value();
@@ -762,9 +762,9 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
       value -= Ampls[n] * model->EvaluateAtPoint(iter);
     }
     value = TMath::Abs(value);
-    bins[pnt] = value;
-    scales[pnt] = iter->x();
-    pnt++;
+    bins[ppnt] = value;
+    scales[ppnt] = iter->x();
+    ppnt++;
   } while (iter->Next(UseRanges));
 
   delete iter;
@@ -777,9 +777,7 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
   Int_t niter=0;
 
   do {
-     Double_t sum00=0.;
-     Double_t sum11=0.;
-     Double_t sum22=0.;
+     Double_t sum00 = 0., sum11 = 0., sum22 = 0.;
      for (Int_t pnt=0;pnt<size;pnt++)
        if ((bins[pnt]>0.) && ((niter==0) || (TMath::Abs(scales[pnt]-first)<second*2.))) {
             sum00 += bins[pnt];
@@ -856,7 +854,9 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
     TObjArray Models;
     if (IsModel) {
       TGo4FitModel* model = FindModel(ModelName);
-      if (model) Models.Add(model); else {
+      if (model) {
+         Models.Add(model);
+      } else {
         Int_t groupindex = -1;
 
         if (ModelName!=0) {
@@ -871,7 +871,7 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
         }
 
         for(Int_t nm=0; nm<GetNumModel(); nm++) {
-          TGo4FitModel* model = GetModel(nm);
+          model = GetModel(nm);
           if (model->IsAssignTo(DataName))
             if ((groupindex<0) || (model->GetGroupIndex()==groupindex))
               Models.Add(model);
@@ -1047,8 +1047,8 @@ void TGo4Fitter::Draw(Option_t* option)
    MoveDrawObjectsToROOT();
    fxDrawObjs = new TObjArray();
 
-   for(Int_t n=0;n<GetNumData();n++) {
-      TGo4FitData* data = GetData(n);
+   for(Int_t nn = 0; nn < GetNumData(); nn++) {
+      TGo4FitData *data = GetData(nn);
       if (selectdata && (data!=selectdata)) continue;
 
       if (drawdata) {
@@ -1056,8 +1056,8 @@ void TGo4Fitter::Draw(Option_t* option)
 
           TAttLine* line = dynamic_cast<TAttLine*> (obj);
           if (line) {
-            line->SetLineColor(1);
-            line->SetLineWidth(1);
+             line->SetLineColor(1);
+             line->SetLineWidth(1);
           }
           if (obj) fxDrawObjs->Add(obj);
       }

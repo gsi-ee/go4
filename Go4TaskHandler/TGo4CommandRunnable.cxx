@@ -28,7 +28,6 @@
 #include "TGo4ComQuit.h"
 
 
-
 TGo4CommandRunnable::TGo4CommandRunnable(const char* name, TGo4ThreadManager* man,
                                          TGo4TaskHandler* hand, Bool_t receivermode) :
    TGo4TaskHandlerRunnable(name,man,hand,receivermode)
@@ -91,11 +90,12 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
                   //                TGo4Log::Debug(" Command runnable executing direct command CLOSE INPUT... ");
                   //                GetThread()->Stop();
                   break;
-               default:
-                  TGo4Log::Debug(" Command runnable direct command value %d UNKNOWN! ",
-                        comvalue);
+               case kComAbortTask:
+                  TGo4Log::Debug("Command runnable kComAbortTask");
                   break;
-
+               default:
+                  TGo4Log::Debug(" Command runnable direct command value %d UNKNOWN!", comvalue);
+                  break;
 
             }
             // end direct command section
