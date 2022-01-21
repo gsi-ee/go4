@@ -45,7 +45,6 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       virtual ~TGo4ShapedCond();
 
-
       /* Delete old cut values and redefine them as elliptical shape.
        * Parameters: center coordinates       cx,cy
        *             half axes                a1,a2
@@ -59,8 +58,6 @@ class TGo4ShapedCond : public TGo4PolyCond {
        *             number of polygon points npoints (0 uses default granularity)*/
       void SetCircle(Double_t cx, Double_t cy, Double_t r, Int_t npoints=0);
 
-
-
       /* Delete old cut values and redefine them as tilted box shape.
        * Parameters: center coordinates       cx,cy
        *             half axes                a1,a2
@@ -68,44 +65,18 @@ class TGo4ShapedCond : public TGo4PolyCond {
        *             number of polygon points is always 5 for box*/
       void SetBox(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0);
 
+      /* mark this ellipse as circle type. useful for condition editor display*/
+      void SetCircle() { fiShapeType = Go4Cond_Shape_Circle; }
+      Bool_t IsCircle() const { return fiShapeType == Go4Cond_Shape_Circle; }
 
+      void SetEllipse() { fiShapeType = Go4Cond_Shape_Ellipse; }
+      Bool_t IsEllipse() const { return fiShapeType == Go4Cond_Shape_Ellipse; }
 
-      /* mark this ellipse as circle type. usefull for condition editor display*/
-      void SetCircle()
-      {
-        fiShapeType=Go4Cond_Shape_Circle;
-      }
-      Bool_t IsCircle()
-      {
-        return (fiShapeType==Go4Cond_Shape_Circle);
-      }
-      void SetEllipse()
-        {
-        fiShapeType=Go4Cond_Shape_Ellipse;
-        }
-      Bool_t IsEllipse()
-      {
-        return (fiShapeType==Go4Cond_Shape_Ellipse);
-      }
+      void SetBox() { fiShapeType = Go4Cond_Shape_Box; }
+      Bool_t IsBox() const { return fiShapeType == Go4Cond_Shape_Box; }
 
-      void SetBox()
-        {
-        fiShapeType=Go4Cond_Shape_Box;
-        }
-      Bool_t IsBox()
-        {
-          return (fiShapeType==Go4Cond_Shape_Box);
-        }
-
-      void SetFreeShape()
-        {
-        fiShapeType=Go4Cond_Shape_Free;
-        }
-      Bool_t IsFreeShape()
-        {
-        return (fiShapeType==Go4Cond_Shape_Free);
-        }
-
+      void SetFreeShape() { fiShapeType = Go4Cond_Shape_Free; }
+      Bool_t IsFreeShape() const { return fiShapeType == Go4Cond_Shape_Free; }
 
       const char* GetShapeName()
       {
@@ -113,29 +84,23 @@ class TGo4ShapedCond : public TGo4PolyCond {
         {
           case Go4Cond_Shape_Free:
             return "Free style polygon";
-            break;
           case Go4Cond_Shape_Circle:
             return "Circle shaped polygon";
-            break;
           case Go4Cond_Shape_Ellipse:
             return "Ellipse shaped polygon";
-            break;
           case Go4Cond_Shape_Box:
             return "Rectangular box shaped polygon";
-            break;
-          default:
+          case Go4Cond_Shape_None:
            return "Shape not defined!";
-           break;
         };
         return 0;
-
       }
 
       /* Retrieve current center coordinates*/
       void GetCenter(Double_t& x, Double_t& y)
       {
-          x=fdCenterX;
-          y=fdCenterY;
+          x = fdCenterX;
+          y = fdCenterY;
       }
 
       /* Set Center coordinates and recalculate polygon*/
@@ -144,15 +109,16 @@ class TGo4ShapedCond : public TGo4PolyCond {
       /* Retrieve ellipse half axis coordinates*/
       void GetRadius(Double_t& a1, Double_t& a2)
       {
-          a1=fdRadius1;
-          a2=fdRadius2;
+          a1 = fdRadius1;
+          a2 = fdRadius2;
       }
 
       /* Set Center coordinates and recalculate polygon*/
       void SetRadius(Double_t a1, Double_t a2);
 
       /* get current ellipse tilt angle in degrees*/
-      Double_t GetTheta(){
+      Double_t GetTheta()
+      {
         return fdTheta;
       }
 
@@ -177,11 +143,12 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       void SetResolution(Int_t npoints)
       {
-        fiResolution=npoints;
+         fiResolution=npoints;
       }
 
-      Int_t GetResolution(){
-        return fiResolution;
+      Int_t GetResolution()
+      {
+         return fiResolution;
       }
 
       /** web condition editor keyword used in UpdateFromUrl. */
