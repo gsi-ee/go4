@@ -580,7 +580,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fEventRate->GetHistogram()->SetDirectory(0);
 }
 
-void TGo4Sniffer::StatusMessage(int level, Bool_t printout, const TString &msg)
+void TGo4Sniffer::StatusMessage(int level, Bool_t, const TString &msg)
 {
    const char* prev = GetItemField("/Status/Message", "value");
    TString res;
