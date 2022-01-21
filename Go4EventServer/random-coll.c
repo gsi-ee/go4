@@ -138,9 +138,7 @@ return( ((double)*seed)/Scal );
 
 
 
-double   p_dBeta (a,b,seed)
-double   a,b;
-unsigned int   *seed;
+double   p_dBeta (double a, double b, unsigned int *seed)
 {
    if (a*b < BETA_TURNING_POINT)
    {
@@ -193,10 +191,7 @@ unsigned int   *seed;
 
 ------------------------------------------------------------------------------*/
 
-int   p_iBinomial (p,n,seed)
-unsigned int   *seed;
-int   n;
-double   p;
+int p_iBinomial (double p, int n, unsigned int *seed)
 {
    int   i,ans=0;
 
@@ -313,9 +308,7 @@ double   p_dGammaInt (int a,unsigned int *seed)
 
 ----------------------------------------------------------------------*/
 
-double p_dGammaGen (A,seed)
-double A;
-unsigned *seed;
+double p_dGammaGen (double A, unsigned *seed)
 {
 if (A <= 5)
    {
