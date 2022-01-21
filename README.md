@@ -194,7 +194,7 @@ Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
     set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019\bin
     mkdir C:\Soft\root
     cd C:\Soft\root
-    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dwebgui=ON -Dqt5web=ON
+    cmake -G"Visual Studio 16 2019" -A Win32 -Thost=x64 c:\git\root -Droot7=ON -DCMAKE_CXX_STANDARD=17 -Dwebgui=ON -Dqt5web=ON
     cmake --build . --config Release -- /maxcpucount
 
 Then compile Go4:
