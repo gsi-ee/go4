@@ -553,7 +553,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    CHARS **ps_info, INTS4 l_sample, INTS4 l_param)
 {
 
-   INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_header_size, l_port;
+   INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_header_size = 0, l_port;
    CHARS c_file[256], *pc_temp;
    s_filhe *ps_filhe;
    INTS4 l_status;
@@ -908,8 +908,8 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_goobuf)
 {
-   INTS4 l_temp,l_prev_ok=1, l_stat, l_used;
-   s_bufhe *ps_bufhe_cur;
+   INTS4 l_temp,l_prev_ok = 1, l_stat = 0, l_used;
+   s_bufhe *ps_bufhe_cur = NULL;
    sMbsHeader *pevt = NULL;
 
 // DABC
@@ -947,7 +947,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
       *ppl_goobuf = NULL;
       if(f_evcli_evt(ps_chan) != STC__SUCCESS) /* no more event, get new buffer */
       {
-		  l_stat=f_evcli_buf(ps_chan);
+		  l_stat = f_evcli_buf(ps_chan);
 		  if(l_stat == STC__TIMEOUT) return(GETEVT__TIMEOUT);
 		  if(l_stat != STC__SUCCESS) return(GETEVT__FAILURE);
       }
@@ -2206,7 +2206,7 @@ return(1);
 INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
 {
   INTS4 ii,l_take_it,l_temp,l_chan,l_out,l_file_pos=0,l_bufnr=0,l_events=0;
-  INTS4 l_firste,*pl,l_len,l_last=-1,l_lin=0,l_fragsize;
+  INTS4 l_firste = 0, *pl, l_len, l_last=-1, l_lin=0, l_fragsize;
   INTS4 l_swap=0, l_swap_head, l_is_goosybuf, l_filehead=0, l_size=0, l_size_head, l_dummy, l_evsize,l_evt_buf_size=0;
   INTU4 *ps,*pd;
   CHARS *pc_evt_buf=NULL;
@@ -2590,7 +2590,7 @@ INTS4 f_evt_get_tagopen(s_evt_channel *ps_chan,CHARS *pc_tag,CHARS *pc_lmd, CHAR
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_get_tagnext(s_evt_channel *ps_chan,INTS4 l_skip, INTS4 **pl_event)
 {
-  INTS4 ii,*pl,kk;
+  INTS4 ii = 0,*pl = NULL,kk;
   /* no tagfile */
   /*=============================================*/
   if(ps_chan->ps_taghe == NULL)
@@ -2598,7 +2598,7 @@ INTS4 f_evt_get_tagnext(s_evt_channel *ps_chan,INTS4 l_skip, INTS4 **pl_event)
       for(kk=0;kk<=l_skip;kk++)
        {
          ii=f_evt_get_event(ps_chan, (INTS4 **) &pl, NULL);
-    if(ii != GETEVT__SUCCESS) break;
+         if(ii != GETEVT__SUCCESS) break;
        }
     }
   /*=============================================*/
@@ -2640,7 +2640,7 @@ INTS4 f_evt_get_tagnext(s_evt_channel *ps_chan,INTS4 l_skip, INTS4 **pl_event)
 INTS4 f_evt_get_tagevent(s_evt_channel *ps_chan,INTS4 l_value, INTS4 l_type, INTS4 **pl_event)
 {
   INTS4 ii,kk, /*l_evt,*/ l_off,l_typ,l_val,l_evsize,l_fragsize;
-  INTS4 la_head[2],*pl;
+  INTS4 la_head[2], *pl = NULL;
   CHARS *pc;
   s_ve10_1 *ps_ve10_1;
   s_bufhe *ps_bufhe;

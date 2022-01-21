@@ -564,7 +564,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
    short              i_fltdescnt = 0;
    // short              i_fltcnt = 0;
    short              i_fltblkcnt = 0;
-   short              i, i_flt_len,
+   short              i, i_flt_len = 0,
                       i_fltblkbeg, i_fltblkend, j;
    short              if_newfltblk = 1;
    short              i_next_fltblk = 0; // SL 16.11.2009 add initialization to 0
@@ -901,7 +901,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 
    static char        c_modnam[] = "f_fltrd";
    struct s_filter    *p_filter;
-   struct s_opc1      *p_opc1;
+   struct s_opc1      *p_opc1 = NULL;
 
    char               c_retmsg[256];
    char               c_line[80], c_comment[80], *c_fsts, *p_com, *p_minus;
