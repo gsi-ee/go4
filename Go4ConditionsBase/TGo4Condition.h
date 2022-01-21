@@ -56,7 +56,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Re-implement TObject method to pop all our views to front*/
     virtual void Pop();
 
-    /** Factory method to generate the subclass implentation for painter */
+    /** Factory method to generate the subclass implementation for painter */
     virtual TGo4ConditionPainter* CreatePainter();
 
     /** Return number of calls of the Test method. */
@@ -100,7 +100,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
      * Add another condition to this one. The newly added condition
      * is added as next condition and may be tested together with
      * the current condition. User may specify the logical connection
-     * between the chained conditions (e.g. a locical "and",
+     * between the chained conditions (e.g. a logical "and",
      * "or", "xor" relationships are all possible). Depends on the
      * implementation of Test() method. The chained conditions are
      * _not_ owned by the top level condition and are not deleted
