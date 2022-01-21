@@ -482,7 +482,6 @@ int f_evcli_evt(s_evt_channel *ps_chan)
   s_ve10_1 *ps_ve10_1;
   struct s_clntbuf      *p_clntbuf;
 
-
   p_clntbuf =  (struct s_clntbuf *) ps_chan->pc_io_buf;
   if(ps_chan->l_evt_buf_posi < p_clntbuf->l_events)
   {
@@ -508,10 +507,11 @@ int f_evcli_close(s_evt_channel *ps_chan)
      printf("E-%s: Error sending acknowledge: f_send_ackn()!\n", c_modnam);
      return(l_status);
   }
-     f_clnup(v_mem_clnup, NULL);
-     f_stc_discclient(ps_chan->l_channel_no);
-     f_stc_close(&s_tcpcomm_ec);
-return(STC__SUCCESS);
+
+  f_clnup(v_mem_clnup, NULL);
+  f_stc_discclient(ps_chan->l_channel_no);
+  f_stc_close(&s_tcpcomm_ec);
+  return(STC__SUCCESS);
 }
 
 
@@ -556,7 +556,7 @@ return(STC__SUCCESS);
 /*1- C Procedure ***********+******************************************/
 int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, check and         */
 {
-   static char         c_modnam[] = "f_fltdscr";
+   static char         flt_modnam[] = "f_fltdscr";
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1;
    struct s_flt_descr *p_flt_descr;
@@ -576,7 +576,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
    /* +++ action +++ */
    if (i_debug == 2)
-      printf("--->D-%s: addr_filter p:%p\n", c_modnam, p_clnt_filter);
+      printf("--->D-%s: addr_filter p:%p\n", flt_modnam, p_clnt_filter);
 
    /* init pointer */
    p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[0];
@@ -589,7 +589,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
       if (i_debug == 2)
          printf("D-%s: i:%d opc:%x flt_len:%d\n",
-                c_modnam,
+                flt_modnam,
                 i,
                 p_filter->l_opcode,
                 p_opc1->h_flt_len);
@@ -607,7 +607,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
 /*      if (p_opc1->b3_opc == 0) {
  *        printf("I-%s: b3_opc == 0. Take all events!\n",
- *           c_modnam);
+ *           flt_modnam);
  *        }
  */
 
@@ -629,7 +629,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
                 p_clnt_filter->flt_descr[0].i_descriptors <= 0)
             {
           printf("W-%s: >1 write blocks, previous one(s) ignored!\n",
-                        c_modnam);
+                        flt_modnam);
           l_retsts = l_retsts | 2;
        }
 
@@ -676,14 +676,14 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
       if ((p_opc1->h_fltspec > 15) && (p_opc1->b1_evtsev == 1))
       {
          printf("E-%s: Filter specification %d invalid for events\n",
-                     c_modnam,
+                     flt_modnam,
                      p_opc1->h_fltspec);
          return(FALSE);                /* abort with error                */
       }
       if ((p_opc1->h_fltspec < 2) && (p_opc1->b1_evtsev != 1))
       {
          printf("E-%s: Filter specification %d invalid for subevents\n",
-                     c_modnam,
+                     flt_modnam,
                      p_opc1->h_fltspec);
          return(FALSE);                /* abort with error                */
       }
@@ -693,7 +693,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
             case 0:                       /* ++++ take all ++++ */
                  if (p_opc1->b3_opc != 0) {
                     printf("W-%s: Take all. Set opcode to 0, next time\n",
-                        c_modnam);
+                        flt_modnam);
                     p_opc1->b3_opc = 0;
           l_retsts = l_retsts | 2;
                     }
@@ -757,7 +757,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
 
        default:
             printf("W-%s: FLTSPEC %d NOT FOUND\n",
-                    c_modnam,
+                    flt_modnam,
           p_opc1->h_fltspec);
        l_retsts = l_retsts | 2;
       }                            /* switch case  */
@@ -769,19 +769,19 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
    p_flt_descr = (struct s_flt_descr *) &p_clnt_filter->flt_descr[0];
    if (p_flt_descr->hf_wrtdescr != 1) {
       printf("E-%s: The write filter is missing! Filter is invalid!\n",
-             c_modnam);
+             flt_modnam);
       return(FALSE);
       }
 
    if (!(p_clnt_filter->if_fltevt || p_clnt_filter->if_fltsev)) {
       printf("E-%s: The filter itself is missing! Filter is invalid!\n",
-             c_modnam);
+             flt_modnam);
       return(FALSE);
       }
 
 /*   printf(
  *     "I-%s: p_clnt:%d: found %d flts in %d blks with %d descript.\n",
- *         c_modnam,
+ *         flt_modnam,
  *         p_clnt_filter,
  *         i_fltcnt,
  *         i_fltblkcnt,
@@ -810,7 +810,7 @@ int f_fltdscr(struct s_clnt_filter * p_clnt_filter)           /* read filter, ch
     if (i_1stsevflt < i_lasevtflt) { /* evt flt after sev flt           */
        printf(
               "W-%s 1stsevflt:%d lastevtflt:%d. Evt flt should come first\n",
-                   c_modnam,
+                   flt_modnam,
          i_1stsevflt,
          i_lasevtflt);
        l_retsts = l_retsts | 2;
@@ -899,7 +899,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
    /* ++++ declaration ++++ */
    FILE               *infile;
 
-   static char        c_modnam[] = "f_fltrd";
+   static char        fltrd_modnam[] = "f_fltrd";
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1 = NULL;
 
@@ -925,7 +925,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
    if ( (infile = fopen(c_file,"r"))  == 0)
    {                                          /* open file for data input   */
       sprintf(c_retmsg,"E-%s: fopen(File=%s) ",
-              c_modnam,
+              fltrd_modnam,
               c_file);
       perror(c_retmsg);
       fclose(infile);
@@ -945,7 +945,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
       {
          if (i_debug == 2)
             printf("D-%s: File=%s: Last input line.\n",
-                   c_modnam,
+                   fltrd_modnam,
                    c_file);
          break;
       }
@@ -975,12 +975,12 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
       if (i_fltblklen + i_currflt >= GPS__MAXFLT)
       {
          printf("E-%s: too long. Last filter block ignored\n",
-               c_modnam);
+               fltrd_modnam);
     fclose(infile);
          return(3);
       }
       if (i_debug == 2)
-         printf("D-%s: Fltblklen:%d\n", c_modnam, i_fltblklen);
+         printf("D-%s: Fltblklen:%d\n", fltrd_modnam, i_fltblklen);
 
       for (i = i_currflt; i < i_fltblklen + i_currflt; i++)
       {
@@ -991,7 +991,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
          if ( (c_fsts = fgets(c_line, sizeof(c_line), infile)) == 0)
          {
             sprintf(c_retmsg,"E-%s: Error reading:fgets(File=%s) ",
-              c_modnam,
+              fltrd_modnam,
               c_file);
             perror(c_retmsg);
             fclose(infile);
@@ -999,7 +999,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
          }
 
          if (i_debug == 2)
-            printf("D-%s: line:%s", c_modnam, c_line);
+            printf("D-%s: line:%s", fltrd_modnam, c_line);
 
     if_comment = 0;                   /* reset flag                    */
     p_com = strpbrk(c_line, "!/*");   /* find position of comment      */
@@ -1051,7 +1051,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 
             printf(
              "E-%s: scanned only %d(of 9) var., last 2 must be dec or hexa\n",
-                c_modnam,
+                fltrd_modnam,
                 l_scan);
        fclose(infile);
        return(FALSE);
@@ -1071,7 +1071,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
                   i_fltspec,
                   l_pattern,
                   (unsigned) l_offset);
-            printf("D-%s: %s\n", c_modnam, c_retmsg);
+            printf("D-%s: %s\n", fltrd_modnam, c_retmsg);
          }
 
     p_filter    = (struct s_filter *)    &p_clnt_filter->filter[i];
@@ -1143,7 +1143,7 @@ int f_fltrd(struct s_clnt_filter *p_clnt_filter, char *c_file)
 /*1- C Procedure ***********+******************************************/
 int f_typflt(struct s_clnt_filter *p_clnt_filter)
 {
-   static char               c_modnam[] = "f_typflt";
+   static char        typflt_modnam[] = "f_typflt";
    struct s_filter    *p_filter;
    struct s_opc1      *p_opc1;
    struct s_flt_descr *p_flt_descr;
@@ -1259,7 +1259,7 @@ int f_typflt(struct s_clnt_filter *p_clnt_filter)
                  if (p_opc1->b3_opc != 0) {
                     p_opc1->b3_opc = 0;
                     printf("W-%s: Take all. Opcode is %d\n",
-                        c_modnam,
+                        typflt_modnam,
                         p_opc1->b3_opc);
           }
                  break;
@@ -1379,13 +1379,13 @@ int f_typflt(struct s_clnt_filter *p_clnt_filter)
        /* ++++ check if Filter specification is valid ++++ */
        if ((p_opc1->h_fltspec > 15) && (p_opc1->b1_evtsev == 1)) {
                printf("E-%s: Filter specification %d invalid for events\n",
-                     c_modnam,
+                     typflt_modnam,
                      p_opc1->h_fltspec);
                return(FALSE);                /* abort with error                */
                }
        if ((p_opc1->h_fltspec < 2) && (p_opc1->b1_evtsev != 1)) {
                printf("E-%s: Filter specification %d invalid for subevents\n",
-                     c_modnam,
+                     typflt_modnam,
                      p_opc1->h_fltspec);
                return(FALSE);                /* abort with error                */
           }
@@ -1410,7 +1410,7 @@ int f_typflt(struct s_clnt_filter *p_clnt_filter)
 /*--------------------------------------------------------------------*/
 /*+ CALLING     : sts = f_read_server(p_clntbuf,                      */
 /*                                       p_bytrd,                     */
-/*                                       l_timeout,                   */
+/*                                       arg_timeout,                 */
 /*                                       i_chan)                      */
 /*                                                                    */
 /*                                                                    */
@@ -1420,14 +1420,14 @@ int f_typflt(struct s_clnt_filter *p_clnt_filter)
 /*                                                                    */
 /*+ ARGUMENTS   :                                                     */
 /*+    p_clntbuf: Pointer to structure s_clntbuf                      */
-/*+    p_bytrd  : Pointer to (int) Number of read bytes              */
-/*+    l_timeout: (int) Timeout in seconds                           */
+/*+    p_bytrd  : Pointer to (int) Number of read bytes               */
+/*+    arg_timeout: (int) Timeout in seconds                          */
 /*+    i_chan   : (int) channel number                                */
 /*                                                                    */
 /*+ FUNCTION    : Read a buffer of the type s_clntbuf from the        */
 /*                server.                                             */
 /*                                                                    */
-/*+ Return type : int (32 bit)                                       */
+/*+ Return type : int (32 bit)                                        */
 /*+ Status codes: 1: success                                          */
 /*                0: fault                                            */
 /*+ Initialize  : -                                                   */
@@ -1448,14 +1448,14 @@ int f_typflt(struct s_clnt_filter *p_clnt_filter)
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, int i_chan)
+int f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int arg_timeout, int i_chan)
 {
   /* ++++ declarations ++++ */
   int            l_maxbytes;
   int            l_status,ii,im,*pl;                              /* !!! */
   int            l_bytrec, l_2ndbuf_byt;
   int            l_buftord, l_buffertype;
-  static char    c_modnam[] = "f_read_server";
+  static char    readserv_modnam[] = "f_read_server";
   char           c_retmsg[256];
   char *pc;
   int *pl_d,*pl_s;
@@ -1467,7 +1467,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   int _tmout, _retry;
 
   _retry = 0;
-  _tmout = l_timeout;
+  _tmout = arg_timeout;
 
   if (ps_chan->cb_polling) {
      _tmout = 555555; // special value, should produce 0.05s timeout
@@ -1483,7 +1483,7 @@ int        f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int l_timeout, in
   /* + + + + + + + + + + + + + + + */
   if (i_debug == 2)
      printf("D-%s: **Rd 1st Buf: at %p to %p = %d bytes\n",
-             c_modnam,
+             readserv_modnam,
              (char *) p_clntbuf,
              ((char *) p_clntbuf) + (CLNT__SMALLBUF - 1),
              CLNT__SMALLBUF);
@@ -1508,12 +1508,12 @@ read_again:
   l_status = f_stc_read( (char *) p_clntbuf,
                            (int) CLNT__SMALLBUF,
                            i_chan,
-                           l_timeout);
+                           arg_timeout);
 #endif
 
   if (l_status != STC__SUCCESS)
   {
-     printf("E-%s: Error reading first buffer. Msg follows:",c_modnam);
+     printf("E-%s: Error reading first buffer. Msg follows:",readserv_modnam);
      f_stc_disperror(l_status,c_retmsg, 0);
      return(FALSE);
   }
@@ -1528,19 +1528,19 @@ read_again:
   {
      if (i_debug == 2)
         printf("D-%s: Need swap to receive from %s to %s ENDIAN\n",
-               c_modnam,
+               readserv_modnam,
                (p_clntbuf->l_endian == 0) ? "LITTLE" : "BIG",
                (GPS__ENV_ENDIAN     == 0) ? "LITTLE" : "BIG");
 
      l_status = F__SWAP(&l_buftord, 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_buftord. l_sts:%d\n", c_modnam,l_status);
+     if (l_status != 0)        printf("E-%s: Error swapping l_buftord. l_sts:%d\n", readserv_modnam,l_status);
      l_status = F__SWAP(&l_bytrec , 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_bytrec l_sts:%d\n", c_modnam,l_status);
+     if (l_status != 0)        printf("E-%s: Error swapping l_bytrec l_sts:%d\n", readserv_modnam,l_status);
      l_status = F__SWAP(&l_buffertype, 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_buffertype l_sts:%d\n", c_modnam,l_status);
+     if (l_status != 0)        printf("E-%s: Error swapping l_buffertype l_sts:%d\n", readserv_modnam,l_status);
      if (i_debug == 2)
         printf("D-%s: buffers:%d, bytes:%d, buffertype:%d\n",
-               c_modnam,
+               readserv_modnam,
                l_buftord,
                l_bytrec,
                l_buffertype);
@@ -1551,7 +1551,7 @@ read_again:
      if (l_bytrec  > CLNT__SMALLBUF)
      {
         printf("E-%s: Buffer sent:%d Bytes_to_rd:%d > %d\n",
-               c_modnam,
+               readserv_modnam,
                l_buftord,
                l_bytrec,
                CLNT__SMALLBUF);
@@ -1569,7 +1569,7 @@ read_again:
   {
      short  j;
      int  *pl;
-     printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", c_modnam);
+     printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", readserv_modnam);
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
      {
@@ -1582,7 +1582,7 @@ read_again:
         printf("\n");
      }
      printf("D-%s: **Rd 2nd Buf: at %p (buf[%d]) to %p = %d b\n",
-            c_modnam,
+            readserv_modnam,
             (char *) &p_clntbuf->c_buffer[CLNT__RESTBUF],
             CLNT__RESTBUF,
             ((char *) &p_clntbuf->c_buffer[CLNT__RESTBUF]) + (l_2ndbuf_byt - 1),
@@ -1614,17 +1614,17 @@ read_again:
   l_2ndbuf_byt=l_2ndbuf_byt%16384;
   for(ii=0;ii<im;ii++)
   {
-    l_status = f_stc_read( pl,16384,i_chan,l_timeout);
+    l_status = f_stc_read( pl,16384,i_chan,arg_timeout);
     pl+=4096;
     if(l_status != STC__SUCCESS)break;
   }
   if(l_2ndbuf_byt > 0)
   {
-    l_status = f_stc_read( pl,l_2ndbuf_byt,i_chan,l_timeout);
+    l_status = f_stc_read( pl,l_2ndbuf_byt,i_chan,arg_timeout);
   }
   if (l_status != STC__SUCCESS)
   {
-     printf("E-%s: Error reading second buffer. Msg follows:",c_modnam);
+     printf("E-%s: Error reading second buffer. Msg follows:",readserv_modnam);
      f_stc_disperror(l_status,c_retmsg, 0);
      return(FALSE);
   }
@@ -1633,7 +1633,7 @@ read_again:
   {
      short  j;
      int  *pl;
-     printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", c_modnam);
+     printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", readserv_modnam);
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
      {
@@ -1707,12 +1707,12 @@ int              i_chan;
 {
   /* ++++ declarations ++++ */
   int            l_status;                              /* !!! */
-  static char    c_modnam[] = "f_send_ackn";
+  static char    sackn_modnam[] = "f_send_ackn";
   char           c_retmsg[256];
 
   if (i_debug == 2)
      printf("I-%s s_ackn.l_clnt_sts:%d l_clnt_sts:%d\n",
-             c_modnam,
+             sackn_modnam,
              s_ackn.l_clnt_sts,
              l_clnt_sts);
 
@@ -1731,7 +1731,7 @@ int              i_chan;
   if (l_status != STC__SUCCESS)
   {
      printf("E-%s: Error in f_stc_write(&s_ackn,...)! Msg follows:",
-            c_modnam);
+           sackn_modnam);
      f_stc_disperror(l_status,c_retmsg, 0);
      return(FALSE);
   }

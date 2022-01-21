@@ -2203,7 +2203,7 @@ return(1);
 //else                  printf("Initialized filter function\n");
 //  return(0);
 }
-INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
+INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)(s_ve10_1 *))
 {
   INTS4 ii,l_take_it,l_temp,l_chan,l_out,l_file_pos=0,l_bufnr=0,l_events=0;
   INTS4 l_firste = 0, *pl, l_len, l_last=-1, l_lin=0, l_fragsize;
@@ -2306,8 +2306,8 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)())
       for(ii=1;ii<ps_bufhe->l_evt;ii++) /* except last element */
    {
      /*printf("Event %10d pos %10d Buffer %6d\n",ps_ve10_1->l_count, l_file_pos,l_bufnr);*/
-          if(e_filter != NULL)l_take_it=(*e_filter)(ps_ve10_1);
-     else l_take_it=1;
+     if(e_filter != NULL) l_take_it=(*e_filter)(ps_ve10_1);
+                     else l_take_it=1;
      l_len = (*pl>>1)+2;
      s_tag.l_event=ps_ve10_1->l_count;
      s_tag.l_offset=l_file_pos;
@@ -2813,7 +2813,7 @@ INTS4 f_evt_get_tagclose(s_evt_channel *ps_chan)
   return(GETEVT__SUCCESS);
 }
 
-s_evt_channel *f_evt_control()
+s_evt_channel *f_evt_control(void)
 {
    s_evt_channel *x;
    x = (s_evt_channel *)malloc(sizeof(s_evt_channel));
