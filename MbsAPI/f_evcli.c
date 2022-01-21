@@ -1452,14 +1452,15 @@ int f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int arg_timeout, int i_c
 {
   /* ++++ declarations ++++ */
   int            l_maxbytes;
-  int            l_status,ii,im,*pl;                              /* !!! */
+  int            l_status1, ii, im, *pl;                              /* !!! */
   int            l_bytrec, l_2ndbuf_byt;
   int            l_buftord, l_buffertype;
   static char    readserv_modnam[] = "f_read_server";
   char           c_retmsg[256];
-  char *pc;
-  int *pl_d,*pl_s;
+  char          *pc;
+  int           *pl_d, *pl_s;
   struct s_clntbuf      *p_clntbuf;
+  short          j;
 
 // JAM1-6-2021- test if this helps the streamserver problems
 #ifndef DISABLE_POLLING_TIMEOUT
@@ -1495,26 +1496,26 @@ int f_read_server(s_evt_channel *ps_chan, int *p_bytrd, int arg_timeout, int i_c
 #ifndef DISABLE_POLLING_TIMEOUT
 read_again:
 
-  l_status = f_stc_read( (char *) p_clntbuf,
+  l_status1 = f_stc_read( (char *) p_clntbuf,
                          (int) CLNT__SMALLBUF,
                          i_chan,
                          _tmout);
 
-  if ((_retry-- > 0) && (l_status == STC__TIMEOUT)) {
+  if ((_retry-- > 0) && (l_status1 == STC__TIMEOUT)) {
      ps_chan->cb_polling();
      goto read_again;
   }
 #else
-  l_status = f_stc_read( (char *) p_clntbuf,
+  l_status1 = f_stc_read( (char *) p_clntbuf,
                            (int) CLNT__SMALLBUF,
                            i_chan,
                            arg_timeout);
 #endif
 
-  if (l_status != STC__SUCCESS)
+  if (l_status1 != STC__SUCCESS)
   {
      printf("E-%s: Error reading first buffer. Msg follows:",readserv_modnam);
-     f_stc_disperror(l_status,c_retmsg, 0);
+     f_stc_disperror(l_status1,c_retmsg, 0);
      return(FALSE);
   }
 
@@ -1532,12 +1533,12 @@ read_again:
                (p_clntbuf->l_endian == 0) ? "LITTLE" : "BIG",
                (GPS__ENV_ENDIAN     == 0) ? "LITTLE" : "BIG");
 
-     l_status = F__SWAP(&l_buftord, 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_buftord. l_sts:%d\n", readserv_modnam,l_status);
-     l_status = F__SWAP(&l_bytrec , 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_bytrec l_sts:%d\n", readserv_modnam,l_status);
-     l_status = F__SWAP(&l_buffertype, 1, 0);
-     if (l_status != 0)        printf("E-%s: Error swapping l_buffertype l_sts:%d\n", readserv_modnam,l_status);
+     l_status1 = F__SWAP(&l_buftord, 1, 0);
+     if (l_status1 != 0)        printf("E-%s: Error swapping l_buftord. l_sts:%d\n", readserv_modnam,l_status1);
+     l_status1 = F__SWAP(&l_bytrec , 1, 0);
+     if (l_status1 != 0)        printf("E-%s: Error swapping l_bytrec l_sts:%d\n", readserv_modnam,l_status1);
+     l_status1 = F__SWAP(&l_buffertype, 1, 0);
+     if (l_status1 != 0)        printf("E-%s: Error swapping l_buffertype l_sts:%d\n", readserv_modnam,l_status1);
      if (i_debug == 2)
         printf("D-%s: buffers:%d, bytes:%d, buffertype:%d\n",
                readserv_modnam,
@@ -1567,8 +1568,6 @@ read_again:
   /* + + + + + + + + + + + + + + */
   if (i_debug == 2)
   {
-     short  j;
-     int  *pl;
      printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", readserv_modnam);
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
@@ -1614,25 +1613,23 @@ read_again:
   l_2ndbuf_byt=l_2ndbuf_byt%16384;
   for(ii=0;ii<im;ii++)
   {
-    l_status = f_stc_read( pl,16384,i_chan,arg_timeout);
+    l_status1 = f_stc_read( pl,16384,i_chan,arg_timeout);
     pl+=4096;
-    if(l_status != STC__SUCCESS)break;
+    if(l_status1 != STC__SUCCESS)break;
   }
   if(l_2ndbuf_byt > 0)
   {
-    l_status = f_stc_read( pl,l_2ndbuf_byt,i_chan,arg_timeout);
+    l_status1 = f_stc_read( pl,l_2ndbuf_byt,i_chan,arg_timeout);
   }
-  if (l_status != STC__SUCCESS)
+  if (l_status1 != STC__SUCCESS)
   {
      printf("E-%s: Error reading second buffer. Msg follows:",readserv_modnam);
-     f_stc_disperror(l_status,c_retmsg, 0);
+     f_stc_disperror(l_status1,c_retmsg, 0);
      return(FALSE);
   }
 
   if (i_debug == 2)
   {
-     short  j;
-     int  *pl;
      printf("D-%s: begin of c_buffer[148] in LW (all hex)\n", readserv_modnam);
      pl = (int *) &p_clntbuf->c_buffer[148];
      for (j=0; j<5; j++)
@@ -1701,12 +1698,10 @@ read_again:
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-int        f_send_ackn(l_clnt_sts, i_chan)
-int             l_clnt_sts;
-int              i_chan;
+int f_send_ackn(int l_clnt_sts1, int i_chan)
 {
   /* ++++ declarations ++++ */
-  int            l_status;                              /* !!! */
+  int            l_status1;                              /* !!! */
   static char    sackn_modnam[] = "f_send_ackn";
   char           c_retmsg[256];
 
@@ -1714,25 +1709,25 @@ int              i_chan;
      printf("I-%s s_ackn.l_clnt_sts:%d l_clnt_sts:%d\n",
              sackn_modnam,
              s_ackn.l_clnt_sts,
-             l_clnt_sts);
+             l_clnt_sts1);
 
   /* +++++++++++++++++++++++++++++++ */
   /* +++ set status of ackn buf  +++ */
   /* +++++++++++++++++++++++++++++++ */
-  s_ackn.l_clnt_sts  = s_ackn.l_clnt_sts | l_clnt_sts; /* success            */
+  s_ackn.l_clnt_sts  = s_ackn.l_clnt_sts | l_clnt_sts1; /* success            */
 
   /* ++++++++++++++++++++++++++++++ */
   /* +++ send acknowledge buffer +++ */
   /* ++++++++++++++++++++++++++++++ */
-  l_status = f_stc_write( (char *) &s_ackn,
+  l_status1 = f_stc_write( (char *) &s_ackn,
                           12,
                           i_chan);
 
-  if (l_status != STC__SUCCESS)
+  if (l_status1 != STC__SUCCESS)
   {
      printf("E-%s: Error in f_stc_write(&s_ackn,...)! Msg follows:",
            sackn_modnam);
-     f_stc_disperror(l_status,c_retmsg, 0);
+     f_stc_disperror(l_status1,c_retmsg, 0);
      return(FALSE);
   }
 
@@ -1777,8 +1772,7 @@ int              i_chan;
 /*                                                                    */
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
-void f_strtoupper(u, l)
-char *u, *l;
+void f_strtoupper(char *u, char *l)
 {
      for ( ; *l != '\0'; ++l, ++u)
          *u = toupper(*l);
@@ -1830,9 +1824,7 @@ char *u, *l;
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-void f_clnup(v_mem, p_keyb)
-long v_mem[];
-int *p_keyb;
+void f_clnup(long v_mem[], int *p_keyb)
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
@@ -1846,9 +1838,7 @@ int *p_keyb;
   v_mem[0]=0;
 }
 /*******************************************************************/
-void f_clnup_save(v_mem, p_keyb)
-long v_mem[];
-int *p_keyb;
+void f_clnup_save(long v_mem[], int *p_keyb)
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */

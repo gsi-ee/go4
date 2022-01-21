@@ -83,7 +83,6 @@ Int_t TGo4ComSetAnalysisStatus::ExeCom()
       GO4TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
       throw TGo4RuntimeException();
-      return 1;
    }
 
    return -1;
