@@ -1004,6 +1004,7 @@ Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
          case kGo4ComModeObserver: accesspass = "go4view"; break;
          case kGo4ComModeController: accesspass = "go4ctrl"; break;
          case kGo4ComModeAdministrator: accesspass = "go4super"; break;
+         case kGo4ComModeRefused:
          default: accesspass = ""; break;
       }
 

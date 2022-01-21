@@ -748,21 +748,24 @@ if(pLmdControl != NULL)
 }
 //===============================================================
 // can be called after PutOpen or before PutClose
-void fLmdSetWrittenEndian(sLmdControl *pLmdControl,uint32_t iE){
+void fLmdSetWrittenEndian(sLmdControl *pLmdControl,uint32_t iE)
+{
 if(pLmdControl->pMbsFileHeader != NULL)
    pLmdControl->pMbsFileHeader->iWrittenEndian=iE;
    else printf("fLmdSetWrittenEndian: No file header allocated!");
 }
 //===============================================================
 // can be called after GetOpen or GetMbsEvent
-uint32_t   fLmdGetWrittenEndian(sLmdControl *pLmdControl){
-if(pLmdControl->pMbsFileHeader != NULL)
-   return(pLmdControl->pMbsFileHeader->iWrittenEndian);
-else printf("fLmdGetWrittenEndian: No file header allocated!");
-return(LMD__ENDIAN_UNKNOWN);
+uint32_t   fLmdGetWrittenEndian(sLmdControl *pLmdControl)
+{
+   if(pLmdControl->pMbsFileHeader != NULL)
+      return(pLmdControl->pMbsFileHeader->iWrittenEndian);
+
+   printf("fLmdGetWrittenEndian: No file header allocated!");
+   return(LMD__ENDIAN_UNKNOWN);
 }
 //===============================================================
-sLmdControl * fLmdAllocateControl()
+sLmdControl * fLmdAllocateControl(void)
 {
   sLmdControl *x;
   x = (sLmdControl *)malloc(sizeof(sLmdControl));
@@ -770,10 +773,8 @@ sLmdControl * fLmdAllocateControl()
   return(x);
 }
 //===============================================================
-void fLmdOffsetElements(sLmdControl *pLmdControl,
-uint32_t bytes,
-uint32_t *elements,
-uint32_t *used){
+void fLmdOffsetElements(sLmdControl *pLmdControl, uint32_t bytes, uint32_t *elements, uint32_t *used)
+{
   lmdoff_t *off1,*off2;
   uint32_t elem=0,i,*iff1,*iff2;
 
