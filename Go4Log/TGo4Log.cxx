@@ -182,11 +182,10 @@ const char* TGo4Log::GO4INCPATH()
 {
    #ifdef COMP_GO4INC
    return COMP_GO4INC;
-   #endif
-
+   #else
    return "";
+   #endif
 }
-
 
 
 TString TGo4Log::subGO4SYS(const char* subdir)

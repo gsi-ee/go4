@@ -277,9 +277,9 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
       }
    } //if(fbClientMode)
 
-   fiComPort=WaitGetPort(fxCommandTransport); // set port numbers for runnables
-   fiStatPort=WaitGetPort(fxStatusTransport);
-   fiDatPort=WaitGetPort(fxDataTransport);
+   fiComPort = WaitGetPort(fxCommandTransport); // set port numbers for runnables
+   fiStatPort = WaitGetPort(fxStatusTransport);
+   fiDatPort = WaitGetPort(fxDataTransport);
    StartTransportThreads();
 
    return kTRUE;
@@ -551,6 +551,7 @@ Bool_t TGo4TaskHandler::ConnectClientChannel(const char* name, TGo4Socket * nego
       //throw TGo4RuntimeException();
    } // if(!strcmp(recvchar,fgcOK))
 }
+
 Int_t TGo4TaskHandler::WaitGetPort(TGo4Socket* sock)
 
 {

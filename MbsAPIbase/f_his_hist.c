@@ -703,10 +703,10 @@ return(COMM__SUCCESS);
 /*+ Updates     : Date        Purpose                                 */
 /*                                                                    */
 /*1- C Main ****************+******************************************/
-INTS4 f_his_close()
+INTS4 f_his_close(void)
 {
-printf("Exit histogram server\n");
-f_stc_close (ps_tcpserv);
-free(ps_tcpserv);
-return(COMM__SUCCESS);
+   printf("Exit histogram server\n");
+   f_stc_close (ps_tcpserv);
+   free(ps_tcpserv);
+   return(COMM__SUCCESS);
 }

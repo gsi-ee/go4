@@ -135,10 +135,11 @@ for(;;) // loop keeps thread alive after exception has occured...
                         {
                         #ifdef WIN32
                            return; // cancel point does not work on windows; escape to root thread framework...
+                        #else
+                           GO4TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
+                           Sleep(500);
+                           TThread::CancelPoint();
                         #endif
-                        GO4TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
-                        Sleep(500);
-                        TThread::CancelPoint();
                         }
                      }
                }

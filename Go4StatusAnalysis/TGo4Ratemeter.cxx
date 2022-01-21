@@ -90,7 +90,7 @@ Bool_t TGo4Ratemeter::Update(Int_t increment)
       return kFALSE;
    }
 
-   fdRate = (fuCurrentCount - fuLastCount + 0.) / dist;
+   fdRate = ((Double_t) (fuCurrentCount - fuLastCount)) / dist;
 
    // accumulate running time only when running flag set
    if (fbRunning)

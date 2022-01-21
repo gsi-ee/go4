@@ -1912,9 +1912,9 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
          TMultiGraph* mg= dynamic_cast<TMultiGraph*>(ob);
          if (mg) {
             TIter liter(mg->GetListOfGraphs());
-            TObject* ob=0;
-            while((ob=liter())!=0)
-               ClearObject(ob);
+            TObject* gr = 0;
+            while((gr=liter())!=0)
+               ClearObject(gr);
          }
       }
       else if(ob->InheritsFrom(TGo4EventElement::Class()))
