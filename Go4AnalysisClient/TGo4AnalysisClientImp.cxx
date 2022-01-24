@@ -415,12 +415,16 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
       if (sniff) sniff->RatemeterUpdate(fxRatemeter);
 
       if (fbShowRate) {
-         TString ratefmt;
-         ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t), "%5.*f");
-         int width(1);
-         if (fxRatemeter->GetRate()>1e4) width = 0; else
-         if (fxRatemeter->GetRate()<1.) width = 3;
-         printf(ratefmt.Data(), fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
+         int width = 1;
+         if (fxRatemeter->GetRate() > 1e4)
+            width = 0;
+         else if (fxRatemeter->GetRate() < 1.)
+            width = 3;
+#ifdef R__B64
+         printf("\rCnt = %llu  Rate = %5.*f Ev/s", fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
+#else
+         printf("\rCnt = %lu  Rate = %5.*f Ev/s", fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
+#endif
          fflush(stdout);
       }
    }
