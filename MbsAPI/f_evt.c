@@ -1247,7 +1247,7 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
     if(ps_filhe != NULL) {
        memcpy(ps_file_head, ps_filhe,ps_chan->l_buf_size );
     } else {
-       memset( ps_file_head, '\0', ps_chan->l_buf_size);
+       memset( ps_file_head, 0, ps_chan->l_buf_size);
        snprintf(ps_file_head->filhe_run, sizeof(ps_file_head->filhe_run), "Pid %d%c", own_getpid(),'\0');
        ps_file_head->filhe_run_l = (INTS2) strlen(ps_file_head->filhe_run);
     }
@@ -1333,7 +1333,7 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
 
    if(ps_chan->l_evt_size>l_buf_remain_size)/* output this i/o buffer    */
    {
-      memset(ps_chan->pc_io_buf+ps_chan->l_io_buf_posi, '\0', ps_chan->l_io_buf_size-ps_chan->l_io_buf_posi);
+      memset(ps_chan->pc_io_buf+ps_chan->l_io_buf_posi, 0, ps_chan->l_io_buf_size-ps_chan->l_io_buf_posi);
       /* clear rest of this GOOSY buffer */
       l_temp=(ps_chan->l_io_buf_posi/ps_chan->l_buf_size)*ps_chan->l_buf_size;
       if(ps_chan->l_io_buf_posi%ps_chan->l_buf_size == 0) l_temp -= ps_chan->l_buf_size;
@@ -1508,7 +1508,7 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
    {
       l_temp=(ps_chan->l_io_buf_posi/ps_chan->l_buf_size)*ps_chan->l_buf_size;
       /* l_temp points to start of this GOOSY buf in i/o buf area  */
-      memset(ps_chan->pc_io_buf+ps_chan->l_io_buf_posi, '\0',
+      memset(ps_chan->pc_io_buf+ps_chan->l_io_buf_posi, 0,
          l_temp+ps_chan->l_buf_size-ps_chan->l_io_buf_posi);
       /* clear rest of this GOOSY buffer */
       ps_chan->ps_bufhe=(s_bufhe *)(ps_chan->pc_io_buf + l_temp);
@@ -2215,6 +2215,8 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)(s_ve10_1 
   s_taghe s_taghe;
   s_tag s_tag;
 
+  memset(&s_tag, 0, sizeof(s_tag));
+
   ps_bufhe = (s_bufhe *)c_temp;
   printf("LMD file %s, TAG file %s\n",pc_lmd,pc_tag);
   /* get file attributes */
@@ -2818,6 +2820,6 @@ s_evt_channel *f_evt_control(void)
    s_evt_channel *x;
    x = (s_evt_channel *)malloc(sizeof(s_evt_channel));
    if (x != NULL)
-      memset(x,0,sizeof(s_evt_channel));
+      memset(x, 0, sizeof(s_evt_channel));
    return(x);
  }
