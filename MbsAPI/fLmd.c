@@ -142,9 +142,8 @@ uint32_t fLmdPutOpen(sLmdControl *pLmdControl,
 }
 
 //===============================================================
-uint32_t fLmdPutElement(
-sLmdControl *pLmdControl,
-sMbsHeader *pHeader){
+uint32_t fLmdPutElement(sLmdControl *pLmdControl,sMbsHeader *pHeader)
+{
   uint32_t *ps, *pd, i, elements;
   int64_t fileleft,used;
   int32_t iReturn;
@@ -167,9 +166,9 @@ sMbsHeader *pHeader){
     pLmdControl->pMbsHeader=pHeader;
     iReturn=fLmdWriteBuffer(pLmdControl,(char *)pHeader,(pHeader->iWords+4)*2);
     pLmdControl->iBytes+=iReturn;
-    if(iReturn != (pHeader->iWords+4)*2){
-      printf("fLmdPutElement: Write error \n");
-     return(LMD__FAILURE);
+    if((uint32_t) iReturn != (pHeader->iWords+4)*2){
+       printf("fLmdPutElement: Write error \n");
+       return LMD__FAILURE;
     }
     pLmdControl->pMbsFileHeader->iElements++;
     pLmdControl->iElements++;
@@ -178,10 +177,11 @@ sMbsHeader *pHeader){
 
   } // end no buffer
   if((pHeader->iWords+4) > pLmdControl->iLeftWords){ // flash buffer to file
-    iReturn=fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
-             (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
+    iReturn = fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
+                             (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
     pLmdControl->iBytes+=iReturn;
-    if(iReturn != (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2)return(LMD__FAILURE);
+    if((uint32_t) iReturn != (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2)
+       return LMD__FAILURE;
     pLmdControl->iLeftWords=pLmdControl->iBufferWords; // buffer free
   }
   if((pHeader->iWords+4) > pLmdControl->iLeftWords){ // element too big for buffer
@@ -196,16 +196,14 @@ sMbsHeader *pHeader){
   pLmdControl->pMbsFileHeader->iElements++;
   pLmdControl->iElements++;
   pLmdControl->iLeftWords -= (pHeader->iWords+4);
-  if(pLmdControl->iOffsetEntries)fLmdOffsetSet(pLmdControl,iReturn);
-  return(LMD__SUCCESS);
+  if(pLmdControl->iOffsetEntries)
+     fLmdOffsetSet(pLmdControl,iReturn);
+  return (LMD__SUCCESS);
 }
 
 //===============================================================
-uint32_t fLmdPutBuffer(
-sLmdControl *pLmdControl,
-sMbsHeader *pHeader,
-uint32_t Items){
-
+uint32_t fLmdPutBuffer(sLmdControl *pLmdControl, sMbsHeader *pHeader, uint32_t Items)
+{
   sMbsHeader *pH;
   uint32_t Bytes=0,TotalBytes=0,i, elements;
   int64_t fileleft,used;
@@ -229,7 +227,7 @@ uint32_t Items){
     Bytes=0;
     TotalBytes=0;
   }
-  pH=pHeader;
+  pH = pHeader;
   for(i=0;i<Items;i++)
     {
       pLmdControl->iElements++;
@@ -240,13 +238,13 @@ uint32_t Items){
           pLmdControl->pMbsFileHeader->iMaxWords=pH->iWords+4;
       pH=(sMbsHeader *)((int16_t *)pH+Bytes/2);
     }
-  iReturn=fLmdWriteBuffer(pLmdControl,(char *)pHeader,TotalBytes);
+  iReturn = fLmdWriteBuffer(pLmdControl,(char *)pHeader,TotalBytes);
   pLmdControl->iBytes+=iReturn;
-  if(iReturn != TotalBytes)return(LMD__FAILURE);
-  else {
-    pLmdControl->pMbsFileHeader->iElements += Items;
-    return(LMD__SUCCESS);
-  }
+  if((uint32_t) iReturn != TotalBytes)
+     return LMD__FAILURE;
+
+  pLmdControl->pMbsFileHeader->iElements += Items;
+  return(LMD__SUCCESS);
 }
 
 //===============================================================
@@ -255,10 +253,10 @@ uint32_t fLmdPutClose(sLmdControl *pLmdControl)
   int32_t iReturn;
 
   if(pLmdControl->iBufferWords > pLmdControl->iLeftWords){ // write last buffer
-    iReturn=fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
-             (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
+    iReturn = fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
+                             (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
     pLmdControl->iBytes+=iReturn;
-    if(iReturn != (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2){
+    if((uint32_t)iReturn != (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2) {
       printf("fLmdPutClose: Error writing last buffer. Closing file.\n");
       // rewind file and rewrite header
       rewind(pLmdControl->fFile);  /* rewind file, rewrite header */
@@ -302,7 +300,8 @@ uint32_t fLmdInitMbs(sLmdControl *pLmdControl,
   return(LMD__SUCCESS);
 }
 //===============================================================
-uint32_t fLmdCloseMbs(sLmdControl *pLmdControl){
+uint32_t fLmdCloseMbs(sLmdControl *pLmdControl)
+{
 
   int32_t stat;
   char cClose[12];
@@ -466,7 +465,7 @@ uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
       pLmdControl->cHeader = malloc(pLmdControl->pMbsFileHeader->iUsedWords*2);
       iReturn = fLmdReadBuffer(pLmdControl,pLmdControl->cHeader,
                                pLmdControl->pMbsFileHeader->iUsedWords*2 );
-      if(iReturn!=pLmdControl->pMbsFileHeader->iUsedWords*2) {
+      if((uint32_t) iReturn != pLmdControl->pMbsFileHeader->iUsedWords*2) {
          printf("fLmdGetOpen: LMD format error: no LMD file: %s\n",Filename);
          fLmdGetClose(pLmdControl);
          return(GETLMD__NOLMDFILE);
@@ -520,7 +519,7 @@ uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_
          printf("fLmdGetBuffer: EOF: %s\n", pLmdControl->cFile);
          return (GETLMD__EOFILE);
       }
-      if (iReturn != used) {
+      if ((uint32_t) iReturn != used) {
          printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s %u %u\n", pLmdControl->cFile, iReturn, used);
          return (GETLMD__NOLMDFILE);
       }
@@ -658,11 +657,14 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
     if(iEvent >= pLmdControl->iOffsetEntries)return(GETLMD__OUTOF_RANGE);
     fseeko64(pLmdControl->fFile,fLmdOffsetGet(pLmdControl,iEvent-1)*4,SEEK_SET);
     i=(fLmdOffsetGet(pLmdControl,iEvent)-fLmdOffsetGet(pLmdControl,iEvent-1));
-    iReturn=fLmdReadBuffer(pLmdControl,(char *)pLmdControl->pBuffer,i*4);
-    if(iReturn <= 0) {printf("fLmdGetElement: EOF\n");return(GETLMD__EOFILE);}
-    if(iReturn!=(i*4)) {
-      printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s\n",pLmdControl->cFile);
-      return(GETLMD__EOFILE);
+    iReturn = fLmdReadBuffer(pLmdControl,(char *)pLmdControl->pBuffer,i*4);
+    if(iReturn <= 0) {
+       printf("fLmdGetElement: EOF\n");
+       return(GETLMD__EOFILE);
+    }
+    if((uint32_t) iReturn != (i*4)) {
+       printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s\n",pLmdControl->cFile);
+       return(GETLMD__EOFILE);
     }
     if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)pLmdControl->pBuffer,iReturn/4);
     pLmdControl->pMbsHeader=(sMbsHeader *)pLmdControl->pBuffer;
@@ -705,7 +707,8 @@ int32_t fLmdWriteBuffer(sLmdControl *pLmdControl, char *buffer, uint32_t bytes){
   return(IObytes);
 }
 //===============================================================
-uint64_t fLmdGetBytesWritten(sLmdControl *pLmdControl){
+uint64_t fLmdGetBytesWritten(sLmdControl *pLmdControl)
+{
    uint64_t bytes;
    bytes=pLmdControl->iBytes;
    // add pending data size in current buffer
@@ -714,7 +717,7 @@ uint64_t fLmdGetBytesWritten(sLmdControl *pLmdControl){
     // add table size which will be written at close
    if ((pLmdControl->pOffset4!=NULL)||(pLmdControl->pOffset8!=NULL))
      bytes += (pLmdControl->iElements+1)*pLmdControl->iOffsetSize;
-return(bytes);
+   return bytes;
 }
 //===============================================================
 uint32_t fLmdCleanup(sLmdControl *pLmdControl)
@@ -741,18 +744,20 @@ uint32_t fLmdCleanup(sLmdControl *pLmdControl)
 }
 //===============================================================
 // can be called after GetOpen or ConnectMbs
-uint32_t fLmdGetSwap(sLmdControl *pLmdControl){
-if(pLmdControl != NULL)
-   return(pLmdControl->iSwap);
-   else return(-1);
+uint32_t fLmdGetSwap(sLmdControl *pLmdControl)
+{
+   if(pLmdControl != NULL)
+      return pLmdControl->iSwap;
+   return (uint32_t) -1;
 }
 //===============================================================
 // can be called after PutOpen or before PutClose
 void fLmdSetWrittenEndian(sLmdControl *pLmdControl,uint32_t iE)
 {
-if(pLmdControl->pMbsFileHeader != NULL)
-   pLmdControl->pMbsFileHeader->iWrittenEndian=iE;
-   else printf("fLmdSetWrittenEndian: No file header allocated!");
+   if(pLmdControl->pMbsFileHeader != NULL)
+      pLmdControl->pMbsFileHeader->iWrittenEndian=iE;
+   else
+      printf("fLmdSetWrittenEndian: No file header allocated!\n");
 }
 //===============================================================
 // can be called after GetOpen or GetMbsEvent
@@ -761,7 +766,7 @@ uint32_t   fLmdGetWrittenEndian(sLmdControl *pLmdControl)
    if(pLmdControl->pMbsFileHeader != NULL)
       return(pLmdControl->pMbsFileHeader->iWrittenEndian);
 
-   printf("fLmdGetWrittenEndian: No file header allocated!");
+   printf("fLmdGetWrittenEndian: No file header allocated!\n");
    return(LMD__ENDIAN_UNKNOWN);
 }
 //===============================================================
@@ -770,7 +775,7 @@ sLmdControl * fLmdAllocateControl(void)
   sLmdControl *x;
   x = (sLmdControl *)malloc(sizeof(sLmdControl));
   if (x) memset(x,0,sizeof(sLmdControl));
-  return(x);
+  return x;
 }
 //===============================================================
 void fLmdOffsetElements(sLmdControl *pLmdControl, uint32_t bytes, uint32_t *elements, uint32_t *used)
@@ -811,7 +816,7 @@ uint32_t fLmdOffsetRead(sLmdControl *pLmdControl)
 
   pTableHead=(sMbsHeader *)malloc(16); // header with 8 bytes data for future use.
   fseeko64(pLmdControl->fFile,(lmdoff_t)pLmdControl->pMbsFileHeader->iTableOffset*4,SEEK_SET);
-  iReturn=fLmdReadBuffer(pLmdControl, (char *)pTableHead,16);
+  iReturn = fLmdReadBuffer(pLmdControl, (char *)pTableHead,16);
     if(iReturn!=16) {
       printf("fLmdGetBuffer: LMD read error: unexpected EOF: %s\n",pLmdControl->cFile);
       free(pTableHead);
@@ -828,10 +833,10 @@ uint32_t fLmdOffsetRead(sLmdControl *pLmdControl)
   free(pTableHead);
   pLmdControl->iOffsetEntries=pLmdControl->pMbsFileHeader->iElements+1;
   pLmdControl->pOffset8=(lmdoff_t *)malloc(pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize);
-  iReturn=fLmdReadBuffer(pLmdControl,
-          (char *)pLmdControl->pOffset8,
-          pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize);
-  if(iReturn!=pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize) {
+  iReturn = fLmdReadBuffer(pLmdControl,
+                           (char *)pLmdControl->pOffset8,
+                           pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize);
+  if((uint32_t) iReturn != pLmdControl->iOffsetEntries*pLmdControl->iOffsetSize) {
     printf("fLmdOffsetTable: LMD format error: no index table: %s\n",pLmdControl->cFile);
     pLmdControl->iOffsetEntries = 0;
     return(GETLMD__NOLMDFILE);
@@ -867,12 +872,12 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
   pTableHead->iType=LMD__TYPE_FILE_INDEX_101_2;
 /*   printf("Table: words:%d type:%08x offbytes:%d\n", */
 /*     pTableHead->iWords,pTableHead->iType,pLmdControl->iOffsetSize); */
-  iReturn=fgetpos64(pLmdControl->fFile,(fpos64_t *) &current);
-  iReturn=fLmdWriteBuffer(pLmdControl, (char *)pTableHead,16);
+  iReturn = fgetpos64(pLmdControl->fFile,(fpos64_t *) &current);
+  iReturn = fLmdWriteBuffer(pLmdControl, (char *)pTableHead,16);
   free(pTableHead);
   pbuf=(char *)pLmdControl->pOffset4; // try short table
   if(pbuf == NULL) pbuf=(char *)pLmdControl->pOffset8;
-  iReturn=fLmdWriteBuffer(pLmdControl, pbuf,
+  iReturn = fLmdWriteBuffer(pLmdControl, pbuf,
         (pLmdControl->iElements+1)*pLmdControl->iOffsetSize);
   if(pLmdControl->pOffset8)
     pLmdControl->pMbsFileHeader->iTableOffset = *(pLmdControl->pOffset8+pLmdControl->iElements);
@@ -884,7 +889,7 @@ uint32_t fLmdOffsetWrite(sLmdControl *pLmdControl)
             (long long unsigned)(current / 4 - pLmdControl->pMbsFileHeader->iTableOffset));
      return (LMD__FAILURE);
   }
-  if(iReturn != (pLmdControl->iElements+1)*pLmdControl->iOffsetSize){
+  if((uint32_t) iReturn != (pLmdControl->iElements+1)*pLmdControl->iOffsetSize){
     printf("Table write error \n");
     return(LMD__FAILURE);
   }
