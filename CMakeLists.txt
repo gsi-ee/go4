@@ -14,6 +14,11 @@ cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 project(Go4)
 
+if(MSVC)
+# exclude /EHsc windows compiler options which overwritten by ROOT project
+  string(REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+endif()
+
 # include ROOT project
 # try to use standard macros
 
