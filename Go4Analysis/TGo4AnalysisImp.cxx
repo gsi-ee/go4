@@ -623,19 +623,18 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    if (times < 0) times = fBatchLoopCount;
 
    fxRate = new TGo4Ratemeter();
-   TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
    TString ratestr; // string used for rate output
-   Bool_t userate = showrate || (process_event_interval>0.);
+   Bool_t userate = showrate || (process_event_interval > 0.);
    Bool_t process_events = kFALSE;
    if (userate)
-      fxRate->SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
+      fxRate->SetUpdateInterval(process_event_interval > 0. ? process_event_interval : 1.);
    if (showrate) fxRate->Reset();
 
    TTimeStamp last_update;
 
    try
    {
-      if (times>0)
+      if (times > 0)
          Message(1, "Analysis loop for %d cycles is starting...", times);
       else
          Message(1, "Analysis loop is starting...");
@@ -675,8 +674,12 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                }
 
                if (showrate) {
-                  int width = (fxRate->GetRate()>1e4) ? 0 : (fxRate->GetRate()<1. ? 3 : 1);
-                  ratestr.Form(ratefmt.Data(), fxRate->GetCurrentCount(), width, fxRate->GetRate());
+                  int width = (fxRate->GetRate() > 1e4) ? 0 : (fxRate->GetRate() < 1. ? 3 : 1);
+                  #ifdef R__B64
+                  ratestr.Form("\rCnt = %llu  Rate = %5.*f Ev/s", fxRate->GetCurrentCount(), width, fxRate->GetRate());
+                  #else
+                  ratestr.Form("\rCnt = %lu  Rate = %5.*f Ev/s", fxRate->GetCurrentCount(), width, fxRate->GetRate());
+                  #endif
                   TGo4Log::Printf(kTRUE, ratestr.Data());
                }
                if (fSniffer) fSniffer->RatemeterUpdate(fxRate);
