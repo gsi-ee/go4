@@ -623,7 +623,6 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    if (times < 0) times = fBatchLoopCount;
 
    fxRate = new TGo4Ratemeter();
-   TString ratestr; // string used for rate output
    Bool_t userate = showrate || (process_event_interval > 0.);
    Bool_t process_events = kFALSE;
    if (userate)
@@ -667,18 +666,16 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                fxRate->SetDateTime(dt.AsSQLString());
 
                TGo4AnalysisStep* firststep = GetAnalysisStep(0);
-               if(firststep) {
+               if(firststep)
                   fxRate->SetCurrentSource(firststep->GetEventSourceName());
-               } else {
+               else
                   fxRate->SetCurrentSource("- No event source -");
-               }
 
-               if (showrate) {
-                  int width = (fxRate->GetRate() > 1e4) ? 0 : (fxRate->GetRate() < 1. ? 3 : 1);
-                  ratestr.Form("\rCnt = %llu  Rate = %5.*f Ev/s", fxRate->GetCurrentCount(), width, fxRate->GetRate());
-                  TGo4Log::Printf(kTRUE, ratestr.Data());
-               }
-               if (fSniffer) fSniffer->RatemeterUpdate(fxRate);
+               if (showrate)
+                  TGo4Log::PrintRate(fxRate->GetCurrentCount(), fxRate->GetRate());
+
+               if (fSniffer)
+                  fSniffer->RatemeterUpdate(fxRate);
             }
          }
 

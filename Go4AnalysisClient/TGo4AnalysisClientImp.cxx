@@ -414,11 +414,8 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
       TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
       if (sniff) sniff->RatemeterUpdate(fxRatemeter);
 
-      if (fbShowRate) {
-         int width = (fxRatemeter->GetRate() > 1e4) ? 0 : (fxRatemeter->GetRate() < 1. ? 3 : 1);
-         printf("\rCnt = %llu  Rate = %5.*f Ev/s", fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
-         fflush(stdout);
-      }
+      if (fbShowRate)
+         TGo4Log::PrintRate(fxRatemeter->GetCurrentCount(), fxRatemeter->GetRate());
    }
 }
 

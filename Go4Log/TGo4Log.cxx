@@ -269,6 +269,18 @@ void TGo4Log::Printf(Bool_t _stdout, const char* text)
    ProcessRedirection(-1); // enable again
 }
 
+
+void TGo4Log::PrintRate(ULong64_t cnt, double rate)
+{
+   ProcessRedirection(1); // disable redirection
+
+   int width = (rate > 1e4) ? 0 : (rate < 1. ? 3 : 1);
+   fprintf(stdout, "\rCnt = %llu  Rate = %5.*f Ev/s", cnt, width, rate);
+   fflush(stdout);
+
+   ProcessRedirection(-1); // enable again
+}
+
 void TGo4Log::Debug(const char* text,...)
 {
    if(fgiIgnoreLevel>0) return;
