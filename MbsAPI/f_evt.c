@@ -2215,7 +2215,8 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)(s_ve10_1 
   s_taghe s_taghe;
   s_tag s_tag;
 
-  memset(&s_tag, 0, sizeof(s_tag));
+  s_tag.l_event = 0;
+  s_tag.l_offset = 0;
 
   ps_bufhe = (s_bufhe *)c_temp;
   printf("LMD file %s, TAG file %s\n",pc_lmd,pc_tag);
