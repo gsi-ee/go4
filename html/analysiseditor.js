@@ -417,7 +417,7 @@ JSROOT.define(["painter"], jsrp => {
          .style('display', 'none'); // do not show at the begin
 
       dom.select(".buttonSetStartAnalysis")
-         .style('background-image', "url(" + GO4.source_dir + "icons/start.png)")
+         .style('background-image', "url(" + GO4.source_dir + "icons/restart.png)")
          .on("click", () => {
             let options = this.evaluateChanges(""); // complete option string from all changed elements
             options += "&start";
