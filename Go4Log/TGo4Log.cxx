@@ -39,15 +39,14 @@ const char* TGo4Log::fgcDEFAULTLOG = "go4logfile.txt";
 
 TString TGo4Log::fgsGO4SYS = "";
 
-
 char TGo4Log::fgcMessagetext[__MESSAGETEXTLENGTH__];
 Int_t TGo4Log::fgiIgnoreLevel = 1;
 Bool_t TGo4Log::fgbOutputEnabled = kTRUE;
 Bool_t TGo4Log::fgbLogfileEnabled = kFALSE;
 Bool_t TGo4Log::fgbAutoMode = kFALSE;
-void* TGo4Log::fgxLogfile = 0;
-TMutex* TGo4Log::fgxMutex = 0;
-TGo4Log* TGo4Log::fgxInstance = 0;
+void *TGo4Log::fgxLogfile = 0;
+TMutex *TGo4Log::fgxMutex = 0;
+TGo4Log *TGo4Log::fgxInstance = 0;
 
 TString TGo4Log::fgxLogName = TGo4Log::fgcDEFAULTLOG;
 
@@ -343,25 +342,9 @@ const char* TGo4Log::GetDefaultLogname()
    return fgcDEFAULTLOG;
 }
 
-const char* TGo4Log::GetPrintfArg(Int_t type_id)
-{
-   switch (type_id) {
-      case kInt_t: return "%d";
-      case kUInt_t: return "%u";
-      case kLong_t: return "%ld";
-      case kULong_t: return "%lu";
-      case kLong64_t: return sizeof(long long int)==8 ? "%lld" : "%ld";
-      case kULong64_t: return sizeof(long long unsigned)==8 ? "%llu" : "%lu";
-   }
-
-   return "%d";
-}
-
-
 void TGo4Log::OutputEnable(Bool_t on)
 {
-   //TGo4LockGuard(fxMutex);
-   fgbOutputEnabled=on;
+   fgbOutputEnabled = on;
 }
 
 Bool_t TGo4Log::IsOutputEnabled()
@@ -371,8 +354,7 @@ Bool_t TGo4Log::IsOutputEnabled()
 
 void TGo4Log::LogfileEnable(Bool_t on)
 {
-   //TGo4LockGuard(fxMutex);
-   fgbLogfileEnabled=on;
+   fgbLogfileEnabled = on;
 }
 
 Bool_t TGo4Log::IsLogfileEnabled()
@@ -382,8 +364,7 @@ Bool_t TGo4Log::IsLogfileEnabled()
 
 void TGo4Log::AutoEnable(Bool_t on)
 {
-   //TGo4LockGuard(fxMutex);
-   fgbAutoMode=on;
+   fgbAutoMode = on;
 }
 
 Bool_t TGo4Log::IsAutoEnabled()

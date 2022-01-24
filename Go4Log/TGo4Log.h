@@ -141,10 +141,6 @@ class TGo4Log {
       /** Return default name of log file */
       static const char* GetDefaultLogname();
 
-      /** Return printf specifier for basic types like UInt64_t or Int_t.
-       * As argument, ROOT constants should be provided - kInt_t, kUInt64_t and so on */
-      static const char* GetPrintfArg(Int_t type_id);
-
       /** Prompt character left side */
       static const char* fgcLEFT; //!
 
