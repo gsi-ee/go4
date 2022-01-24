@@ -675,11 +675,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
                if (showrate) {
                   int width = (fxRate->GetRate() > 1e4) ? 0 : (fxRate->GetRate() < 1. ? 3 : 1);
-                  #ifdef R__B64
                   ratestr.Form("\rCnt = %llu  Rate = %5.*f Ev/s", fxRate->GetCurrentCount(), width, fxRate->GetRate());
-                  #else
-                  ratestr.Form("\rCnt = %lu  Rate = %5.*f Ev/s", fxRate->GetCurrentCount(), width, fxRate->GetRate());
-                  #endif
                   TGo4Log::Printf(kTRUE, ratestr.Data());
                }
                if (fSniffer) fSniffer->RatemeterUpdate(fxRate);

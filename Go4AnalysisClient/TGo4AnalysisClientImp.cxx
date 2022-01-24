@@ -416,11 +416,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
 
       if (fbShowRate) {
          int width = (fxRatemeter->GetRate() > 1e4) ? 0 : (fxRatemeter->GetRate() < 1. ? 3 : 1);
-#ifdef R__B64
          printf("\rCnt = %llu  Rate = %5.*f Ev/s", fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
-#else
-         printf("\rCnt = %lu  Rate = %5.*f Ev/s", fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
-#endif
          fflush(stdout);
       }
    }
