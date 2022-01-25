@@ -29,7 +29,7 @@ This package was tested on
 * openSUSE Leap 42.2, openSUSE Tumblweed 12.2021
 * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
 * macOS 10.14.6
-* compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.1
+* compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.2
 
 ## REQUIREMENTS
 * ROOT
@@ -103,7 +103,7 @@ Most simple way is to use brew (see http://macappstore.org/qt5/):
     shell> brew install qt5
 
 Qt5 should be installed before ROOT and ROOT compilation should include -Dqt5web=ON flag.
-After installing Qt5 libraries, one should following shell variables:
+After installing Qt5 libraries, one should set following shell variables:
 
     shell> export Qt5_DIR=/usr/local/opt/qt5/
     shell> export QTDIR=/usr/local/opt/qt5/
@@ -136,7 +136,6 @@ and called:
 After that go4 gui and user analysis can be started from any directory.
 
     shell> go4
-
 
 Please read the Go4 Manual $GO4SYS/docs/Go4Introduction.pdf for further
 information on adopting your analysis and how to use the GUI.
@@ -186,7 +185,7 @@ To run it, one should specify directory "C:\Soft\analysis\Release" as analysis d
 "Launch Analysis" widget.
 
 
-### Compilation of Go4 from sources on Windows
+### Go4 compilation from sources on Windows
 
 First of all, install Qt5 with WebEngine support on Windows.
 Then start "x86 Native Tools Command Prompt VS 2019" and compile ROOT:
