@@ -2388,18 +2388,17 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
    if(oldgr==0 || newgr==0) return;
    TList* theFunctions=oldgr->GetListOfFunctions();
    TObject *obj;
-   while ((obj  = theFunctions->First())) {
+   while ((obj  = theFunctions->First()) != 0) {
       while (theFunctions->Remove(obj)) { }
         //std::cout <<"Removed function object "<<obj->GetName() << std::endl;
         delete obj;
       }
 
-   TList* newFunctions=newgr->GetListOfFunctions();
+   TList* newFunctions = newgr->GetListOfFunctions();
    TListIter fiter(newFunctions);
    TF1* fun=0;
-   while((fun=dynamic_cast<TF1*>(fiter.Next())) !=0)
-   {
-     TF1* fclon=dynamic_cast<TF1*>(fun->Clone());
+   while((fun=dynamic_cast<TF1*>(fiter.Next())) !=0) {
+     TF1* fclon = dynamic_cast<TF1*>(fun->Clone());
      theFunctions->Add(fclon);
      fclon->SetParent(oldgr);
      //std::cout <<"Added function object "<<fclon->GetName() << std::endl;
