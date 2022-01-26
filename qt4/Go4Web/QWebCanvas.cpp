@@ -30,7 +30,7 @@
 #include <cstdio>
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,23,0)
-// starting from version 6.23 TWebCanvas include all required functionality
+// starting from version 6.23 TWebCanvas includes all required functionality
 #include "TWebCanvas.h"
 #else
 // before TWebCanvas was not complete and need to be extended with TWebCanvasFull
@@ -118,6 +118,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    web->AddCustomClass("TGo4CondArray");
    // this is end of Go4-special part
 
+#endif
+
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,26,0)
+   web->SetAsyncMode(kTRUE); // avoid blocking mode
 #endif
 
    fCanvas->SetCanvasImp(web);
