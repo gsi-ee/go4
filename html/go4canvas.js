@@ -13,204 +13,203 @@ JSROOT.require("painter").then(jsrp => {
       return pp ? pp.findPainterFor(obj, name, typ) : null;
    }
 
-   GO4.MarkerPainter = function(divid, marker) {
-      JSROOT.ObjectPainter.call(this, divid, marker);
-      this.pave = null; // drawing of stat
-   }
-
-   GO4.MarkerPainter.prototype = Object.create(JSROOT.ObjectPainter.prototype);
-
-   GO4.MarkerPainter.prototype.moveDrag = function(dx,dy) {
-      this.grx += dx;
-      this.gry += dy;
-      this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
-   }
-
-   GO4.MarkerPainter.prototype.moveEnd = function() {
-      let marker = this.getObject();
-      marker.fX = this.svgToAxis("x", this.grx);
-      marker.fY = this.svgToAxis("y", this.gry);
-      let exec = `SetXY(${marker.fX},${marker.fY})`;
-      this.submitCanvExec(exec);
-      this.drawLabel();
-   }
-
-   GO4.MarkerPainter.prototype.drawMarker = function() {
-      let g = this.createG(); // can draw in complete pad
-
-      let marker = this.getObject();
-
-      this.createAttMarker({ attr: marker });
-
-      this.grx = this.axisToSvg("x", marker.fX);
-      this.gry = this.axisToSvg("y", marker.fY);
-
-      let path = this.markeratt.create(this.grx, this.gry);
-
-      if (path)
-          g.append("svg:path")
-             .attr("d", path)
-             .call(this.markeratt.func);
-
-      if (typeof this.AddMove == 'function')
-         this.AddMove();
-      else
-          JSROOT.require(['interactive'])
-               .then(inter => inter.addMoveHandler(this));
-   }
-
-   GO4.MarkerPainter.prototype.fillLabels = function(marker) {
-      let lbls = [],
-          rect = this.getFramePainter().getFrameRect(),
-          main = this.getMainPainter(), hint = null;
-
-      if (main && typeof main.processTooltipEvent == 'function')
-         hint = main.processTooltipEvent({ enabled: false, x: this.grx - rect.x, y: this.gry - rect.y });
-
-      lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
-
-      if (marker.fbXDraw)
-          lbls.push("X = " + jsrp.floatToString(marker.fX, "6.4g"));
-
-      if (marker.fbYDraw)
-         lbls.push("Y = " + jsrp.floatToString(marker.fY, "6.4g"));
-
-      if (hint && hint.user_info) {
-         if (marker.fbXbinDraw) {
-            let bin = "<undef>";
-            if (hint.user_info.binx !== undefined) bin = hint.user_info.binx; else
-            if (hint.user_info.bin !== undefined) bin = hint.user_info.bin;
-            lbls.push("Xbin = " + bin);
-         }
-
-         if (marker.fbYbinDraw) {
-            lbls.push("Ybin = " + ((hint.user_info.biny !== undefined) ? hint.user_info.biny : "<undef>"));
-         }
-
-         if (marker.fbContDraw)
-            lbls.push("Cont = " + hint.user_info.cont);
+   class MarkerPainter extends JSROOT.ObjectPainter{
+      constructor(dom, marker) {
+         super(dom, marker);
+         this.pave = null; // drawing of stat
       }
 
-      return lbls;
-   }
-
-   GO4.MarkerPainter.prototype.drawLabel = function() {
-
-      let marker = this.getObject();
-
-      if (!marker.fbHasLabel) return;
-
-      let pave_painter = findPainter(this, this.pave);
-
-      if (!pave_painter) {
-         this.pave = JSROOT.create("TPaveStats");
-         this.pave.fName = "stats_" + marker.fName;
-
-         let pp = this.getPadPainter(),
-             pad_width = pp.getPadWidth(),
-             pad_height = pp.getPadHeight();
-
-         let px = this.grx / pad_width + 0.02,
-             py = this.gry / pad_height - 0.02;
-         JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
-
-         let st = JSROOT.gStyle;
-         JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
-                                    fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont });
-      } else {
-         this.pave.Clear();
+      moveDrag(dx,dy) {
+         this.grx += dx;
+         this.gry += dy;
+         this.draw_g.select('path').attr("d",this.markeratt.create(this.grx, this.gry));
       }
 
-      let lbls = this.fillLabels(marker);
-      for (let k = 0; k < lbls.length; ++k)
-         this.pave.AddText(lbls[k]);
+      moveEnd() {
+         let marker = this.getObject();
+         marker.fX = this.svgToAxis("x", this.grx);
+         marker.fY = this.svgToAxis("y", this.gry);
+         let exec = `SetXY(${marker.fX},${marker.fY})`;
+         this.submitCanvExec(exec);
+         this.drawLabel();
+      }
 
-      if (pave_painter)
-         pave_painter.redraw();
-      else
-         JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
-   }
+      drawMarker() {
+         let g = this.createG(); // can draw in complete pad
 
-   GO4.MarkerPainter.prototype.redrawObject = function(obj) {
-      if (!this.updateObject(obj)) return false;
-      this.redraw(); // no need to redraw complete pad
-      return true;
-   }
+         let marker = this.getObject();
 
-   GO4.MarkerPainter.prototype.cleanup = function(arg) {
-      if (this.pave) {
-         let pp = findPainter(this, this.pave);
-         if (pp) {
-            pp.removeFromPadPrimitives();
-            pp.cleanup();
+         this.createAttMarker({ attr: marker });
+
+         this.grx = this.axisToSvg("x", marker.fX);
+         this.gry = this.axisToSvg("y", marker.fY);
+
+         let path = this.markeratt.create(this.grx, this.gry);
+
+         if (path)
+             g.append("svg:path")
+                .attr("d", path)
+                .call(this.markeratt.func);
+
+         if (typeof this.AddMove == 'function')
+            this.AddMove();
+         else
+             JSROOT.require(['interactive'])
+                  .then(inter => inter.addMoveHandler(this));
+      }
+
+      fillLabels(marker) {
+         let lbls = [],
+             rect = this.getFramePainter().getFrameRect(),
+             main = this.getMainPainter(), hint = null;
+
+         if (main && typeof main.processTooltipEvent == 'function')
+            hint = main.processTooltipEvent({ enabled: false, x: this.grx - rect.x, y: this.gry - rect.y });
+
+         lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
+
+         if (marker.fbXDraw)
+             lbls.push("X = " + jsrp.floatToString(marker.fX, "6.4g"));
+
+         if (marker.fbYDraw)
+            lbls.push("Y = " + jsrp.floatToString(marker.fY, "6.4g"));
+
+         if (hint && hint.user_info) {
+            if (marker.fbXbinDraw) {
+               let bin = "<undef>";
+               if (hint.user_info.binx !== undefined) bin = hint.user_info.binx; else
+               if (hint.user_info.bin !== undefined) bin = hint.user_info.bin;
+               lbls.push("Xbin = " + bin);
+            }
+
+            if (marker.fbYbinDraw) {
+               lbls.push("Ybin = " + ((hint.user_info.biny !== undefined) ? hint.user_info.biny : "<undef>"));
+            }
+
+            if (marker.fbContDraw)
+               lbls.push("Cont = " + hint.user_info.cont);
          }
-         delete this.pave;
+
+         return lbls;
       }
 
-      JSROOT.ObjectPainter.prototype.cleanup.call(this, arg);
+      drawLabel() {
+
+         let marker = this.getObject();
+
+         if (!marker.fbHasLabel) return;
+
+         let pave_painter = findPainter(this, this.pave);
+
+         if (!pave_painter) {
+            this.pave = JSROOT.create("TPaveStats");
+            this.pave.fName = "stats_" + marker.fName;
+
+            let pp = this.getPadPainter(),
+                pad_width = pp.getPadWidth(),
+                pad_height = pp.getPadHeight();
+
+            let px = this.grx / pad_width + 0.02,
+                py = this.gry / pad_height - 0.02;
+            JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+
+            let st = JSROOT.gStyle;
+            JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
+                                       fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont });
+         } else {
+            this.pave.Clear();
+         }
+
+         let lbls = this.fillLabels(marker);
+         for (let k = 0; k < lbls.length; ++k)
+            this.pave.AddText(lbls[k]);
+
+         if (pave_painter)
+            pave_painter.redraw();
+         else
+            JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
+      }
+
+      redrawObject(obj) {
+         if (!this.updateObject(obj)) return false;
+         this.redraw(); // no need to redraw complete pad
+         return true;
+      }
+
+      cleanup(arg) {
+         if (this.pave) {
+            let pp = findPainter(this, this.pave);
+            if (pp) {
+               pp.removeFromPadPrimitives();
+               pp.cleanup();
+            }
+            delete this.pave;
+         }
+
+         super.cleanup(arg);
+      }
+
+      redraw() {
+         this.drawMarker();
+         this.drawLabel();
+      }
+
+   //   fillContextMenu(menu) {
+   //      let marker = this.getObject();
+   //      menu.add("header:"+ marker._typename + "::" + marker.fxName);
+   //      function select(name,exec) {
+   //         let marker = this.getObject();
+   //         marker[name] = !marker[name];
+   //         this.submitCanvExec(exec + (marker[name] ? '(true)' : '(false)'));
+   //         this.redraw();
+   //      }
+   //      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
+   //      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
+   //      menu.addchk(marker.fbXDraw, 'Draw X', select.bind(this, 'fbXDraw', 'SetXDraw'));
+   //      menu.addchk(marker.fbYDraw, 'Draw Y', select.bind(this, 'fbYDraw', 'SetYDraw'));
+   //      menu.addchk(marker.fbXbinDraw, 'Draw X bin', select.bind(this, 'fbXbinDraw', 'SetXbinDraw'));
+   //      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', select.bind(this, 'fbYbinDraw', 'SetYbinDraw'));
+   //      menu.addchk(marker.fbContDraw, 'Draw content', select.bind(this, 'fbContDraw', 'SetContDraw'));
+   //      return true;
+   //   }
+
+      processTooltipEvent(pnt) {
+         if (!pnt) return null;
+
+         let marker = this.getObject(),
+             rect = this.getFramePainter().getFrameRect(),
+             fx = rect.x,
+             fy = rect.y,
+             marker_sz = this.markeratt.getFullSize();
+
+         let hint = { name: marker.fxName,
+                      title: marker.fxName,
+                      painter: this,
+                      menu: true,
+                      x: this.grx - fx,
+                      y: this.gry - fy,
+                      color1: this.markeratt.color };
+
+         let dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
+
+         hint.menu_dist = dist;
+
+         if (dist < 2.5 * marker_sz) hint.exact = true;
+
+         if (hint.exact)
+            hint.lines = this.fillLabels(marker);
+
+         // res.menu = res.exact; // activate menu only when exactly locate bin
+         // res.menu_dist = 3; // distance always fixed
+
+         return hint;
+      }
+
+      ShowTooltip(hint) {}
    }
 
-   GO4.MarkerPainter.prototype.redraw = function() {
-      this.drawMarker();
-      this.drawLabel();
-   }
-
-//   GO4.MarkerPainter.prototype.fillContextMenu = function(menu) {
-//      let marker = this.getObject();
-//      menu.add("header:"+ marker._typename + "::" + marker.fxName);
-//      function select(name,exec) {
-//         let marker = this.getObject();
-//         marker[name] = !marker[name];
-//         this.submitCanvExec(exec + (marker[name] ? '(true)' : '(false)'));
-//         this.redraw();
-//      }
-//      menu.addchk(marker.fbHasLabel, 'Label', select.bind(this, 'fbHasLabel', 'SetLabelDraw'));
-//      menu.addchk(marker.fbHasConnector, 'Connector', select.bind(this, 'fbHasConnector', 'SetLineDraw'));
-//      menu.addchk(marker.fbXDraw, 'Draw X', select.bind(this, 'fbXDraw', 'SetXDraw'));
-//      menu.addchk(marker.fbYDraw, 'Draw Y', select.bind(this, 'fbYDraw', 'SetYDraw'));
-//      menu.addchk(marker.fbXbinDraw, 'Draw X bin', select.bind(this, 'fbXbinDraw', 'SetXbinDraw'));
-//      menu.addchk(marker.fbYbinDraw, 'Draw Y bin', select.bind(this, 'fbYbinDraw', 'SetYbinDraw'));
-//      menu.addchk(marker.fbContDraw, 'Draw content', select.bind(this, 'fbContDraw', 'SetContDraw'));
-//      return true;
-//   }
-
-   GO4.MarkerPainter.prototype.processTooltipEvent = function(pnt) {
-      if (!pnt) return null;
-
-      let marker = this.getObject(),
-          rect = this.getFramePainter().getFrameRect(),
-          fx = rect.x,
-          fy = rect.y,
-          marker_sz = this.markeratt.getFullSize();
-
-      let hint = { name: marker.fxName,
-                   title: marker.fxName,
-                   painter: this,
-                   menu: true,
-                   x: this.grx - fx,
-                   y: this.gry - fy,
-                   color1: this.markeratt.color };
-
-      let dist = Math.sqrt(Math.pow(pnt.x - hint.x, 2) + Math.pow(pnt.y - hint.y, 2));
-
-      hint.menu_dist = dist;
-
-      if (dist < 2.5 * marker_sz) hint.exact = true;
-
-      if (hint.exact)
-         hint.lines = this.fillLabels(marker);
-
-      // res.menu = res.exact; // activate menu only when exactly locate bin
-      // res.menu_dist = 3; // distance always fixed
-
-      return hint;
-   }
-
-   GO4.MarkerPainter.prototype.ShowTooltip = function(hint) {
-   }
-
-   GO4.drawGo4Marker = function(divid, obj, option) {
-      let painter = new GO4.MarkerPainter(divid, obj);
+   GO4.drawGo4Marker = function(dom, obj /*, option */) {
+      let painter = new MarkerPainter(dom, obj);
       painter.drawMarker();
       painter.drawLabel();
       painter.addToPadPrimitives();
