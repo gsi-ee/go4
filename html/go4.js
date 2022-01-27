@@ -178,26 +178,17 @@ JSROOT.define(["painter"], jsrp => {
       return Promise.resolve(painter);
    }
 
-   GO4.drawAnalysisTerminal = function(hpainter, itemname) {
-      let url = hpainter.getOnlineItemUrl(itemname),
-          mdi = hpainter.getDisplay(),
-          frame = mdi ? mdi.findFrame(itemname, true) : null;
+   class AnalysisTerminalPainter extends JSROOT.BasePainter {
+      constructor(frame, hpainter, itemname, url) {
+         super(frame);
+         this.hpainter = hpainter;
+         this.itemname = itemname;
+         this.url = url;
+         this.draw_ready = true;
+         this.needscroll = false;
+      }
 
-      if (!url || !frame) return null;
-
-      let elem = d3.select(frame);
-
-      let h = frame.clientHeight, w = frame.clientWidth;
-      if ((h < 10) && (w > 10)) elem.style("height", Math.round(w*0.7)+"px");
-
-      let player = new JSROOT.BasePainter(frame);
-      player.url = url;
-      player.hpainter = hpainter;
-      player.itemname = itemname;
-      player.draw_ready = true;
-      player.needscroll = false;
-
-      player.logReady = function(p) {
+      logReady(p) {
          if (p) this.log_painter = p;
          if(this.needscroll) {
             this.clickScroll(true);
@@ -206,7 +197,9 @@ JSROOT.define(["painter"], jsrp => {
          this.draw_ready = true;
       }
 
-      player.cleanup = function() {
+      checkResize() {}
+
+      cleanup(arg) {
          if (this.log_painter) {
             this.log_painter.cleanup();
             delete this.log_painter;
@@ -215,10 +208,10 @@ JSROOT.define(["painter"], jsrp => {
             clearInterval(this.interval);
             delete this.interval;
          }
-         JSROOT.BasePainter.prototype.cleanup.call(this);
+         super.cleanup(arg);
       }
 
-      player.processTimer = function() {
+      processTimer() {
          let subid = "anaterm_output_container";
          // detect if drawing disappear
          if (d3.select("#" + subid).empty())
@@ -236,22 +229,22 @@ JSROOT.define(["painter"], jsrp => {
             this.hpainter.display(msgitem, "divid:" + subid).then(p => this.logReady(p));
       }
 
-      player.clickCommand = function(kind) {
+      clickCommand(kind) {
          let command = this.itemname.replace("Terminal", "CmdExecute");
          this.hpainter.executeCommand(command, null, kind). then(() => { this.needscroll = true; });
       }
 
-      player.clickClear = function() {
+      clickClear() {
          d3.select("#anaterm_output_container").html("");
       }
 
-      player.clickScroll = function(last) {
+      clickScroll(last) {
          //  inner frame created by hpainter has the scrollbars, i.e. first child
          let nodes = d3.select("#anaterm_output_container").selectAll("pre").nodes();
          if (nodes) nodes[last ? nodes.length-1 : 0].scrollIntoView();
       }
 
-      player.fillDisplay = function() {
+      fillDisplay() {
          this.setTopPainter();
          this.interval = setInterval(() => this.processTimer(), 2000);
          let dom = this.selectDom();
@@ -259,7 +252,6 @@ JSROOT.define(["painter"], jsrp => {
          dom.select(".go4_clearterm")
             .on("click", () => this.clickClear())
             .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
-
 
          dom.select(".go4_startterm")
             .on("click", () => this.clickScroll(false))
@@ -289,13 +281,28 @@ JSROOT.define(["painter"], jsrp => {
          });
 
       }
+   }
 
-      player.checkResize = function() {}
+   GO4.drawAnalysisTerminal = function(hpainter, itemname) {
+      let url = hpainter.getOnlineItemUrl(itemname),
+          mdi = hpainter.getDisplay(),
+          frame = mdi ? mdi.findFrame(itemname, true) : null;
 
-      JSROOT.httpRequest(GO4.source_dir + "html/terminal.htm", "text")
-            .then(code => { elem.html(code); player.fillDisplay(); });
+      if (!url || !frame) return null;
 
-      return player;
+      let elem = d3.select(frame),
+          h = frame.clientHeight,
+          w = frame.clientWidth;
+      if ((h < 10) && (w > 10)) elem.style("height", Math.round(w*0.7)+"px");
+
+      let player = new AnalysisTerminalPainter(frame, hpainter, itemname, url);
+
+      return JSROOT.httpRequest(GO4.source_dir + "html/terminal.htm", "text")
+                   .then(code => {
+                     elem.html(code);
+                     player.fillDisplay();
+                     return player;
+                   });
    }
 
    const op_LineColor   = 5,
