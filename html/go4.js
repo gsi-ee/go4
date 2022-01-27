@@ -130,48 +130,47 @@ JSROOT.define(["painter"], jsrp => {
       }
    }
 
+   class MsgListPainter extends JSROOT.BasePainter {
 
-   GO4.MsgListPainter = function(dom, lst) {
-      JSROOT.BasePainter.call(this, dom);
-      this.lst = lst;
-      return this;
+      constructor(dom, lst) {
+         super(dom);
+         this.lst = lst;
+      }
+
+      redrawObject(obj) {
+         // if (!obj._typename != 'TList') return false;
+         this.lst = obj;
+         this.drawList();
+         return true;
+      }
+
+      drawList() {
+         if (!this.lst) return;
+
+         let frame = this.selectDom();
+
+         let main = frame.select("div");
+         if (main.empty())
+            main = frame.append("div")
+                        .style('max-width','100%')
+                        .style('max-height','100%')
+                        .style('overflow','auto');
+
+         let old = main.selectAll("pre");
+         let newsize = old.size() + this.lst.arr.length - 1;
+
+         // in the browser keep maximum 2000 entries
+         if (newsize > 2000)
+            old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
+
+         for (let i = this.lst.arr.length-1; i > 0; i--)
+            main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
+      }
    }
 
-   GO4.MsgListPainter.prototype = Object.create( JSROOT.BasePainter.prototype );
+   GO4.DrawMsgList = function(dom, lst) {
 
-   GO4.MsgListPainter.prototype.redrawObject = function(obj) {
-      // if (!obj._typename != 'TList') return false;
-      this.lst = obj;
-      this.drawList();
-      return true;
-   }
-
-   GO4.MsgListPainter.prototype.drawList = function() {
-      if (!this.lst) return;
-
-      let frame = this.selectDom();
-
-      let main = frame.select("div");
-      if (main.empty())
-         main = frame.append("div")
-                     .style('max-width','100%')
-                     .style('max-height','100%')
-                     .style('overflow','auto');
-
-      let old = main.selectAll("pre");
-      let newsize = old.size() + this.lst.arr.length - 1;
-
-      // in the browser keep maximum 2000 entries
-      if (newsize > 2000)
-         old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
-
-      for (let i = this.lst.arr.length-1; i > 0; i--)
-         main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
-   }
-
-   GO4.DrawMsgList = function(divid, lst, opt) {
-
-      let painter = new GO4.MsgListPainter(divid, lst);
+      let painter = new MsgListPainter(dom, lst);
 
       painter.drawList();
 
@@ -186,8 +185,7 @@ JSROOT.define(["painter"], jsrp => {
 
       if (!url || !frame) return null;
 
-      let elem = d3.select(frame),
-          divid = elem.attr('id');
+      let elem = d3.select(frame);
 
       let h = frame.clientHeight, w = frame.clientWidth;
       if ((h < 10) && (w > 10)) elem.style("height", Math.round(w*0.7)+"px");
@@ -295,7 +293,7 @@ JSROOT.define(["painter"], jsrp => {
       player.checkResize = function() {}
 
       JSROOT.httpRequest(GO4.source_dir + "html/terminal.htm", "text")
-            .then(code => { elem.html(code); player.fillDisplay(divid); });
+            .then(code => { elem.html(code); player.fillDisplay(); });
 
       return player;
    }
