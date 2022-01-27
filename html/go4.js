@@ -6,7 +6,7 @@ JSROOT.define(["painter"], jsrp => {
 
    "use strict";
 
-   const GO4 = { version: "6.1.4", id_counter: 1, source_dir: "" };
+   const GO4 = { version: "6.2.0", id_counter: 1, source_dir: "" };
 
    if (go4Script && (typeof go4Script.src == "string")) {
       const pos = go4Script.src.indexOf("html/go4.js");
@@ -489,7 +489,7 @@ JSROOT.define(["painter"], jsrp => {
 
       let painter = new JSROOT.ObjectPainter(dom, pic);
 
-      return JSROOT.require('gpad').then(() => JSROOT.Painter.ensureTCanvas(painter, false)).then(() => {
+      return JSROOT.require('gpad').then(() => jsrp.ensureTCanvas(painter, false)).then(() => {
          let pad_painter = painter.getPadPainter();
 
          painter.removeFromPadPrimitives();
