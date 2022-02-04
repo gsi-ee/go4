@@ -63,7 +63,7 @@ Changes in Go4 v6.0.0 (October 2019)
 1. Support web-based ROOT6 canvas in the view panel. Requires ROOT v6.16, compiled with options
      cmake -Droot7=ON -DCMAKE_CXX_STANDARD=14 -Dqt5web=ON
 2. Let configure sorting order for created folders (default off)
-3. First implementation of Go4 eventstore into hdf5 file format. Needs to specifiy HDF5INSTALL directory when
+3. First implementation of Go4 eventstore into hdf5 file format. Needs to specify HDF5INSTALL directory when
    compiling go4 installation. Supports simple datatypes, std::vectors, and arrays of these.
    Also supports Go4 composite events with unlimited sublevels.
 4. New Condition class TGo4ListCondition. Handles tests of a variable against a list of "good" values: if any of these
@@ -733,7 +733,7 @@ Changes in Go4 v4.02.00 (April 09)
    SetTitleAttr(xLeft,yBottom,xRight,yTop);
 
 
-Changes in Go4 v4.01.01 (November08)
+Changes in Go4 v4.01.01 (November 08)
 
 1. Maintenance: code adjustments for compilers gcc 4.3.x
 
@@ -747,7 +747,8 @@ multiple times
 
 4. Several small bugfixes.
 
-Changes in Go4 v4.01.00 (October08)
+
+Changes in Go4 v4.01.00 (October 08)
 
 1. New toolwindow DABC Monitor: Allows to inspect all info services
 registered to any DIM server. Any DABC ratemeter service running on
@@ -792,7 +793,7 @@ by setting environment variable Go4SETTINGS="ACCOUNT".
 
 
 
-Changes in Go4 v4.00.03 (June08)
+Changes in Go4 v4.00.03 (June 08)
 
 1. Viewpanel menu: "File/Produce Graph From Markers" will generate
 new TGraph in local workspace containing the points of all
@@ -801,7 +802,7 @@ manually selected positions.
 2. Bugfix: Fitpanel range display in expert mode.
 
 
-Changes in Go4 v4.00.02 (May08)
+Changes in Go4 v4.00.02 (May 08)
 1. Support of Solaris with CC 5.x (without RFIO)
 2. Modifications in makefiles - now only in one place in Makefile.config
    one should specify platform - Linux, Solaris or Win32.
@@ -811,7 +812,7 @@ Changes in Go4 v4.00.02 (May08)
 5. Bugfix: GUI Viewpanel: "Produce Picture" did not save all draw options to picture
 
 
-Changes in Go4 v4.00.01 (Mar08)
+Changes in Go4 v4.00.01 (Mar 08)
 
 1. Bugfix: Adjustments for modifications in ROOT signal-slot mechanism
    syntax (ROOT >=5.19/02); this caused viewpanel crash.
@@ -821,7 +822,7 @@ Changes in Go4 v4.00.01 (Mar08)
    shift of x axis range on canvas refresh.
 
 
-Changes in Go4 v4.00.00 (Feb08)
+Changes in Go4 v4.00.00 (Feb 08)
 
 1. Ported the Go4 GUI for Qt Version 4. This includes the main Go4GUI, the
 Go4UserGUI example, and the GSI qtroot interface with the Go4 extensions.
@@ -851,7 +852,7 @@ framework DABC. Some minor bugfixes.
 5. Minor bugfix in TGo4MBSViewer - status record must be cleared in constructor.
 
 
-Changes in Go4 v3.03.01 (Nov07)
+Changes in Go4 v3.03.01 (Nov 07)
 
 1. Correct work of marker class in case of superimposed histograms.
    Now newly created marker will be assigned to currently
@@ -873,7 +874,7 @@ Changes in Go4 v3.03.01 (Nov07)
    disconnecting analysis.
 
 
-Changes in Go4 v3.03.00 (May07)
+Changes in Go4 v3.03.00 (May 07)
 
 1. Added missing includes for <math.h>, required by some compilers.
 
@@ -900,7 +901,7 @@ Viewpanel with Go4 markers on subpads crashed when closed or cleared.
 pointers to dereferenced structure members
 
 
-Changes in Go4 v3.02.7 (Feb07)
+Changes in Go4 v3.02.7 (Feb 07)
 
 1. Fitpanel improvement: keep y-scaling when fitting on x
 subrange of histogram
@@ -908,7 +909,7 @@ subrange of histogram
 2. Autoscale checkbox as shortcut on top of each viewpanel
 
 
-Changes in Go4 v3.02.6 (Feb07)
+Changes in Go4 v3.02.6 (Feb 07)
 
 1. Due to changes in ROOT in many Go4 files includes like
    "TROOT.h", "TMath.h", "TList.h" are missing.
@@ -938,7 +939,7 @@ Changes in Go4 v3.02.6 (Feb07)
 7. Improvement in speed of view panel redraw (up to factor of 2).
 
 
-Changes in Go4 v3.02.5 (Dec06)
+Changes in Go4 v3.02.5 (Dec 06)
 
 1. Bugfix in Go4Socket library (missing include)
 because of changes in ROOT version 5.14-00
@@ -951,7 +952,7 @@ Corrected mismatch between first event index and real event number
 linear calibration function
 
 
-Changes in Go4 v3.02.4 (Oct06)
+Changes in Go4 v3.02.4 (Oct 06)
 
 1. Adjustment of Makefile because of changes in default
 libraries for ROOT >= 5.13/04(separated libSpectrum.so)
@@ -981,7 +982,7 @@ all event data.
 
 
 
-Changes in Go4 v3.02.3 (Sep06)
+Changes in Go4 v3.02.3 (Sep 06)
 
 1. Bugfix: Problems with viewpanel scaling functionality when build
 with gcc4.0.x compiler (FC5); fixed.
@@ -990,7 +991,7 @@ with gcc4.0.x compiler (FC5); fixed.
  - GetViewPanelName() - returns viewpanel name
  - SetViewPanelName() - changes viewpanel name
 
-Changes in Go4 v3.02.2 (Sep06)
+Changes in Go4 v3.02.2 (Sep 06)
 
 1. GUI command interface TGo4AbstractInterface. Added methods:
  - RedrawPanel() - updates viewpanel view
@@ -1006,7 +1007,7 @@ ROOT versions 4.08
 
 
 
-Changes in Go4 v3.02.0 (July06)
+Changes in Go4 v3.02.0 (July 06)
 
 1. Analsis framework:
 TGo4EventElement now implements default method Fill() that
@@ -1049,7 +1050,7 @@ rebinning of displayed histogram.
 of polygon condition coordinates
 
 
-Changes in Go4 v3.01.2 (June06)
+Changes in Go4 v3.01.2 (June 06)
 
 1. Some adjustments of project files to build under SuSe Linux 10.1
 
@@ -1067,7 +1068,7 @@ in GUI object manager
 versions> 5.02-00
 
 
-Changes in Go4 v3.01.0 (May06)
+Changes in Go4 v3.01.0 (May 06)
 
 1. New script command line widget for GUI:
 Allows execution of ROOT commands or macros within Go4 GUI task.
@@ -1130,7 +1131,7 @@ replaced by drag and drop.
 
 
 
-Changes in Go4 v3.00.2 (Mar06)
+Changes in Go4 v3.00.2 (Mar 06)
 
 1. Adjustments of includes due to changes in new ROOT version 5.10
 
@@ -1138,7 +1139,7 @@ Changes in Go4 v3.00.2 (Mar06)
 (ranges) were changed in analysis
 
 
-Changes in Go4 v3.00.1 (Jan06)
+Changes in Go4 v3.00.1 (Jan 06)
 
 1. Mbs monitor tool: If monitoring on, calculation of rates now
 done in Go4, averaged over update time. Parameters of mbs monitor
@@ -1161,9 +1162,7 @@ from Go4 master process in the remote slave process
 
 
 
-
-
-Changes in Go4 v3.00.0 (Nov05)
+Changes in Go4 v3.00.0 (Nov 05)
 
 1. Redesign of the GUI with new internal object manager. Decoupling of
 controlling functionality from the  Qt graphics layer. Effects many
@@ -1228,7 +1227,7 @@ canceling of win threads.
 
 
 
-Changes in Go4 v2.10.0 (Jun05)
+Changes in Go4 v2.10.0 (Jun 05)
 
 1. Go4TaskHandler redesign: Decouple client and server tasks from
 master and slave role. This implies that analysis can run in the
@@ -1290,7 +1289,7 @@ entries were sometimes deactivated after reconnecting analysis.
 
 
 
-New features in Go4 v2.9.1 (Apr05)
+New features in Go4 v2.9.1 (Apr 05)
 
 1 . Bugfix: Adjusted reallocation behaviour in TGo4Socket and
 TGo4Buffer to changed definition of TBuffer::kIsOwner flag for
@@ -1300,7 +1299,7 @@ ROOT versions>4.03/02
 
 
 
-New features in Go4 v2.9 (Feb05)
+New features in Go4 v2.9 (Feb 05)
 
 1. Keyboard shortcuts for many functions.
 
@@ -1401,7 +1400,7 @@ stability of the GUI. It will be extended and used for all
 future Go4 updates.
 
 
-New features in Go4 v2.8 (Sep04)
+New features in Go4 v2.8 (Sep 04)
 
 1.  Marker editor in view panel allows for marking
     channels or windows.  Labels and arrows can be created. All
@@ -1550,7 +1549,7 @@ New features in Go4 v2.6.1 (consolidation release):
    when doubleclicking on remote condition icon
 
 
-New features in Go4 v2.6:
+New features in Go4 v2.6
 
 1. New Go4 Hotstart: The current setup of the GUI (analysis name and
    settings, viewpanel geometry, objects in memory and monitor browser,
@@ -1654,6 +1653,7 @@ New features in Go4 v2.5.5 (intermediate installation):
 7. Status messages of object editors appear in bottom status line of
    Go4 main window.
 
+
 New features in Go4 v2.5
 
 1. Histograms may be bound to conditions by method
@@ -1742,7 +1742,8 @@ New features in Go4 v2.5
 27.Reorganisation of the distribution Makefiles.
 
 
-New features in Go4 v2.4:
+New features in Go4 v2.4
+
 1. New Package Go4Log to handle all messages and logfile.
    This replaces the old package Go4Trace. Static method
    TGo4Log::Message(char*, ...) can be called everywhere to
@@ -1819,7 +1820,9 @@ New features in Go4 v2.4:
    "update local objects" and "synchronize with directory"
    have been exchanged to be consistent with analysis pad.
 
-New features in Go4 v2.3:
+
+New features in Go4 v2.3
+
 1. TGraph objects can be registered and displayed correctly.
    Reset of TGraph (clear all points) by "eraser" button
    from GUI possible.
@@ -1853,7 +1856,8 @@ New features in Go4 v2.3:
    files in the same view panel now.
 
 
-New features in Go4 v2.2:
+New features in Go4 v2.2
+
 1. Possibility to select rsh or ssh and analysis output in
    Xterm or GUI window.
 2. Wildcard in input lmd file names.
@@ -1891,6 +1895,3 @@ New features in Go4 v2.2:
    against the makefile variable $(Go4LIBS) only,
    as defined in the Makefile.config of the framework
    (see Makefile of example Go4Example2Step).
-
-________________________________________________________________________
-
