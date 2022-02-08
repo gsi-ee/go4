@@ -49,7 +49,7 @@
 #define TERMCOUNTS 10000
 // x PROCESSLOOPDELAY termination wait time
 
-void showerror(const char* msg)
+void showerror(const TString &msg)
 {
    std::cerr << "Error: " << msg << std::endl;
    std::cerr << "Call  'go4analysis -help'  to see list of available arguments" << std::endl;
@@ -789,7 +789,7 @@ int main(int argc, char **argv)
          narg++;
          httpmode = kTRUE;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
-            http_args.Add(new TObjString(Form("http:%s?top=Go4", argv[narg++])));
+            http_args.Add(new TObjString(TString::Format("http:%s?top=Go4", argv[narg++])));
          else
             http_args.Add(new TObjString("http:8080?top=Go4"));
       } else
@@ -797,12 +797,12 @@ int main(int argc, char **argv)
          narg++;
          httpmode = kTRUE;
          if (narg >= argc) showerror("fastcgi options not specified");
-         http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
+         http_args.Add(new TObjString(TString::Format("fastcgi:%s?top=Go4", argv[narg++])));
       } else
       if (strcmp(argv[narg], "-jsroot")==0) {
          narg++;
          if (narg >= argc) showerror("jsroot location not specified");
-         http_args.Add(new TObjString(Form("jsroot:%s", argv[narg++])));
+         http_args.Add(new TObjString(TString::Format("jsroot:%s", argv[narg++])));
       } else
       if (strcmp(argv[narg], "-auth")==0) {
          narg++;
@@ -824,7 +824,7 @@ int main(int argc, char **argv)
          if (narg >= argc) showerror("Master dabc node not specified");
          const char* hostname = gSystem->HostName();
          if ((hostname==0) || (*hostname==0)) hostname = "localhost";
-         http_args.Add(new TObjString(Form("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
+         http_args.Add(new TObjString(TString::Format"dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
 #endif
 #endif
@@ -956,7 +956,7 @@ int main(int argc, char **argv)
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             unsigned value=0;
             if (sscanf(argv[narg],"%u",&value)!=1)
-               showerror(Form("Value error %s", argv[narg]));
+               showerror(TString::Format("Value error %s", argv[narg]));
             param->SetStartEvent(value);
             narg++;
          }
@@ -966,7 +966,7 @@ int main(int argc, char **argv)
          int port(0);
          if ((narg < argc) && (argv[narg][0]!='-')) {
             if (sscanf(argv[narg],"%d",&port)!=1)
-               showerror(Form("Value error %s", argv[narg]));
+               showerror(TString::Format("Value error %s", argv[narg]));
             narg++;
          }
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
@@ -980,7 +980,7 @@ int main(int argc, char **argv)
          int nretry(0);
          if ((narg < argc) && (argv[narg][0]!='-')) {
             if (sscanf(argv[narg],"%d",&nretry)!=1)
-               showerror(Form("Value error %s", argv[narg]));
+               showerror(TString::Format("Value error %s", argv[narg]));
             narg++;
          }
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
@@ -995,7 +995,7 @@ int main(int argc, char **argv)
             unsigned value(0);
             if ((cnt==1) && (strcmp(argv[narg],"all")==0)) value = 0; else
             if (sscanf(argv[narg],"%u",&value)!=1)
-               showerror(Form("Value error %s", argv[narg]));
+               showerror(TString::Format("Value error %s", argv[narg]));
             if (cnt==0) param->SetStartEvent(value); else
             if (cnt==1) param->SetStopEvent(value); else
             if (cnt==2) param->SetEventInterval(value);
@@ -1014,7 +1014,7 @@ int main(int argc, char **argv)
          while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             int value(0);
             if (sscanf(argv[narg],"%d",&value)!=1)
-               showerror(Form("Value error %s", argv[narg]));
+               showerror(TString::Format("Value error %s", argv[narg]));
             if (cnt==0) splitlevel = value; else
             if (cnt==1) buffersize = value; else
             if (cnt==2) compression = value;
@@ -1030,7 +1030,7 @@ int main(int argc, char **argv)
          if (step->GetEventSource()==0) showerror("No source parameter configured");
          int value(0);
          if (sscanf(argv[narg],"%d",&value)!=1)
-           showerror(Form("Timeout value error %s", argv[narg]));
+            showerror(TString::Format("Timeout value error %s", argv[narg]));
          narg++;
          step->GetEventSource()->SetTimeout(value);
       } else
@@ -1242,7 +1242,7 @@ int main(int argc, char **argv)
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             hpasswd = argv[narg++];
       } else
-         showerror(Form("Unknown argument %d %s", narg, argv[narg]));
+         showerror(TString::Format("Unknown argument %d %s", narg, argv[narg]));
    }
 
    #ifdef WITH_HTTP
