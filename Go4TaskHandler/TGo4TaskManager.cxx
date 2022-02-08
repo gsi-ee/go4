@@ -177,7 +177,7 @@ Int_t TGo4TaskManager::ServeClient()
          // no valid client
          //
       fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
-      TGo4Log::Debug(" TaskManager: ServeClient received invalid login, closing negotiation port ", cliname.Data());
+      TGo4Log::Debug(" TaskManager: client %s received invalid login, closing negotiation port ", cliname.Data());
       fxServer->SetDisConnect(fxTransport); // timer shall do the Close() of negotiation
       //TGo4Log::Debug(" TaskManager: Waiting for timer Close() of negotiation port ... ", cliname);
       fxServer->WaitForClose(); // poll until timer has returned from close

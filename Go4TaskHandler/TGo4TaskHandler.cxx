@@ -378,7 +378,7 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
       else // if(!IsAborting())
       {
          // DisConnect after exception, fast Close without negotiations
-         TGo4Log::Debug(" Client Aborting mode: Fast DisConnect... ",GetName());
+         TGo4Log::Debug(" TaskHandler %s Client Aborting mode: Fast DisConnect... ",GetName());
          StopTransportThreads(kFALSE);
          CloseChannels("force");
       }

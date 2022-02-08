@@ -83,7 +83,7 @@ void TGo4Thread::Threadfunc (void* arg)
    go4th->SetSelfID();
 //   fiThreadPID=gSystem->GetPid(); // set ids
 //   fiThreadSelfID=TThread::SelfId();
-   TGo4Log::Debug(" TThread %d (PID:%d) of Go4Thread ``%s''  started... \n",
+   TGo4Log::Debug(" TThread %ld (PID:%d) of Go4Thread ``%s''  started... \n",
             go4th->GetSelfID(), go4th->GetPID(), go4th->GetName());
 
 for(;;) // loop keeps thread alive after exception has occured...
@@ -191,7 +191,7 @@ Bool_t TGo4Thread::Cancel ()
     if(fbIsCreated)
     // thread existing, then cancel
    {
-      TGo4Log::Debug(" Go4Thread ``%s'' --  Canceling TThread %d (PID:%d) ",
+      TGo4Log::Debug(" Go4Thread ``%s'' --  Canceling TThread %ld (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
       //std::cout << "canceling thread "<<fiThreadSelfID<< std::endl;
       if(fxThread)
@@ -258,7 +258,7 @@ Bool_t TGo4Thread::ReCreate ()
 
     {
     GO4TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
-    TGo4Log::Debug(" Recreating Go4Thread ``%s'' --  old TThread %d (PID:%d) ",
+    TGo4Log::Debug(" Recreating Go4Thread ``%s'' --  old TThread %ld (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
        //std::cout << "recreating thread "<<GetName()<< std::endl;
       if(fxThread)
