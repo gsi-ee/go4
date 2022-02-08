@@ -50,7 +50,7 @@ TGo4QSettings::~TGo4QSettings()
 QString TGo4QSettings::GetSettLoaction()
 {
    if (fSettFileName.length() > 0) return fSettFileName;
-#ifdef WIN32
+#ifdef _MSC_VER
    return QString("Registry (default)");
 #endif
 

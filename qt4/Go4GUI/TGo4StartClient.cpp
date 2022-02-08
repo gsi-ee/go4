@@ -32,8 +32,8 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
    setObjectName("Go4StartClient");
 
-#ifdef WIN32
-   // enable only exec and qtwindow in WIN32 mode
+#ifdef _MSC_VER
+   // enable only exec and qtwindow in Windows
    go4sett->setClientShellMode(0);
    rsh_selected->setEnabled(false);
    ssh_selected->setEnabled(false);
@@ -71,7 +71,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
    int mode = go4sett->getClientIsServer();  // 0 - client, 1 - server, 2 - http
 
-#ifdef WIN32
+#ifdef _MSC_VER
    if (mode == 1) mode = 2;
 
    QModelIndex index = ServerModeCombo->model()->index(1, 0);
@@ -149,7 +149,7 @@ void TGo4StartClient::SelectProg()
 {
    const char* caption = 0;
 
-#ifdef WIN32
+#ifdef _MSC_VER
    QString exe1_filter("User analysis (MainUserAnalysis.exe)");
    QString exe2_filter("Any executable (*.exe)");
    QString dll1_filter("User library (libGo4UserAnalysis.dll)");
@@ -211,7 +211,7 @@ void TGo4StartClient::ServerModeCombo_activated(int id)
 {
    bool windows = false;
 
-#ifdef WIN32
+#ifdef _MSC_VER
    if (id==1) {
       ServerModeCombo->setCurrentIndex(2);
       id = 2;

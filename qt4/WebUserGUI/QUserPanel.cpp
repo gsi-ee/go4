@@ -19,7 +19,7 @@
 #include <iostream>
 #include <sstream>
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include <unistd.h>
 #endif
 
@@ -197,9 +197,9 @@ void QUserPanel::DrawBtn_clicked()
 void QUserPanel::PrintObject(TObject* obj)
 {
     PrintEdit->clear();
-    if (obj==0) return;
+    if (!obj) return;
 
-#ifndef WIN32
+#ifndef _MSC_VER
     int out_pipe[2];
     int saved_stdout = dup(STDOUT_FILENO);  /* save stdout for display later */
 
