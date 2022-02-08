@@ -133,7 +133,7 @@ for(;;) // loop keeps thread alive after exception has occured...
                   while(!(go4th->IsCreated()))
                      {
                         {
-                        #ifdef WIN32
+                        #ifdef _MSC_VER
                            return; // cancel point does not work on windows; escape to root thread framework...
                         #else
                            GO4TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
@@ -220,7 +220,7 @@ Bool_t TGo4Thread::Cancel ()
 
 
 ///////// following deprecated workaround, remove it when above bug is solved
-//#ifndef WIN32
+//#ifndef _MSC_VER
 //            // the following cleanup might fail on win32, better not do it...
 //         if(TThread::GetThread(fiThreadSelfID)!=0)
 //            {

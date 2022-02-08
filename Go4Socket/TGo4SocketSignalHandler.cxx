@@ -42,7 +42,7 @@ void TGo4SocketSignalHandler::Handle(int signum)
    SetSignalAction(signum,1);
 }
 
-#ifndef WIN32
+#ifndef _MSC_VER
 
 #include <signal.h>
 
