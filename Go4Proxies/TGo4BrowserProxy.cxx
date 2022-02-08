@@ -738,15 +738,6 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    }
    dummydir.Clear();
    savdir->cd();
-
-   #if ROOT_VERSION_CODE < ROOT_VERSION(5,13,1)
-
-   // this replace fgCurrent member in TVirtualTreePlayer,
-   // problem was fixed starting from ROOT version 5.13/01
-   if (fDummyTreePlayer!=0) delete fDummyTreePlayer;
-   fDummyTreePlayer =  TVirtualTreePlayer::TreePlayer(0);
-
-   #endif
 }
 
 TGo4Slot* TGo4BrowserProxy::FindServerSlot(Bool_t databranch, Int_t kind)

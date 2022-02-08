@@ -18,9 +18,9 @@
 #include "TFile.h"
 #include "TMutex.h"
 #include "TROOT.h"
+#include "TBufferFile.h"
 
 #include "TGo4Log.h"
-#include "TGo4Buffer.h"
 #include "TGo4LockGuard.h"
 #include "TGo4CommandInvoker.h"
 #include "TGo4RemoteCommand.h"
@@ -45,7 +45,7 @@ TGo4Task::TGo4Task(const char* name, Bool_t blockingmode,
    fbWorkIsStopped(kFALSE),fxStopBuffer(0),fxQuitBuffer(0)
 {
    fxCommandPrototype=0;
-   fxStatusBuffer= new TGo4Buffer(TBuffer::kWrite);
+   fxStatusBuffer= new TBufferFile(TBuffer::kWrite);
    fxStatusMutex= new TMutex(kTRUE);
    fxStopBuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) kComCloseInput);
    fxQuitBuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) kComQuit);

@@ -21,6 +21,12 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v6.3
+1. Adoption to win64
+2. Skip support of old ROOT version everything lower 5.34 is removed
+3. Remove TGo4Buffer.h - one can use TBufferFile class directly
+
+
 Changes in Go4 v6.2.0 (April 2022)
 1. Provide workaround for same ROOT script execution twice.
    In current ROOT there is problem to unload script which uses Go4 libraries. Therefore if same

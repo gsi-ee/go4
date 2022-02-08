@@ -22,10 +22,10 @@
 #include "TSystem.h"
 #include "TSocket.h"
 #include "TServerSocket.h"
+#include "TBufferFile.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Buffer.h"
 #include "TGo4SocketSignalHandler.h"
 
 const Int_t TGo4Socket::fguOPENWAIT=200;
@@ -46,7 +46,7 @@ TGo4Socket::TGo4Socket(Bool_t IsClient) :
 {
    GO4TRACE((14,"TGo4Socket::TGo4Socket(Bool_t)", __LINE__, __FILE__));
 
-   fxBuffer = new TGo4Buffer(TBuffer::kRead, TGo4Socket::fgiBUFINITSIZE);
+   fxBuffer = new TBufferFile(TBuffer::kRead, TGo4Socket::fgiBUFINITSIZE);
 
    // SL: 10-11-12  no idea why this handler was set
    TGo4SocketSignalHandler::SetSigWINCH();

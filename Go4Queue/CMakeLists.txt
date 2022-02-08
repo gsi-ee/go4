@@ -10,7 +10,7 @@ set(Go4Queue_sources
    TGo4Queue.cxx
 )
 
-GO4_INSTALL_HEADERS(${Go4Queue_headers} TGo4Buffer.h)
+GO4_INSTALL_HEADERS(${Go4Queue_headers})
 
 GO4_SOURCES(Go4TaskHandler HEADERS ${Go4Queue_headers} SOURCES ${Go4Queue_sources})
 
