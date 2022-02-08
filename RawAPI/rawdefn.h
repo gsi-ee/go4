@@ -55,7 +55,7 @@ static const char *pcDevDelim = ":";
    static const char *pcObjDelimAlt = "\\";
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
    static const char *pcFileDelim = "\\";
    static const char *pcObjDelim = "\\";
    static const char *pcObjDelimAlt = "/";

@@ -129,7 +129,7 @@
 #include <string.h>
 #include <errno.h>
 
-#ifdef WIN32          /* Windows */
+#ifdef _MSC_VER          /* Windows */
 #include <sys\types.h>
 #include <winsock.h>
 #include <windows.h>
@@ -795,7 +795,7 @@ int rawGetFileSize(char *pcFile,
    int iRecl = 0;
    unsigned long iSize = 0;
 
-#ifdef WIN32          /* Windows */
+#ifdef _MSC_VER          /* Windows */
    struct _stat sFileStatus, *pFileStatus;
 #else                 /* Unix or VMS */
    struct stat sFileStatus, *pFileStatus;
@@ -806,7 +806,7 @@ int rawGetFileSize(char *pcFile,
 
    pFileStatus = &sFileStatus;
 
-#ifdef WIN32          /* Windows */
+#ifdef _MSC_VER          /* Windows */
    iRC = _stat(pcFile, pFileStatus);
 #else                 /* Unix or VMS */
    iRC = stat(pcFile, pFileStatus);
@@ -839,7 +839,7 @@ int rawGetFileSize(char *pcFile,
 #ifdef VMS
       iRecl = pFileStatus->st_fab_mrs;
 #else
-#ifdef WIN32
+#ifdef _MSC_VER
       iRecl = 0;    /* not available in Windows */
 #else
       iRecl = pFileStatus->st_blksize;
@@ -861,7 +861,7 @@ int rawGetFileSize(char *pcFile,
          if (iDebug) fprintf(fLogFile,
             "-W- %s is a directory, size %lu\n", pcFile, iSize);
       }
-#ifndef WIN32
+#ifndef _MSC_VER
 #ifndef VMS
       else if (pFileStatus->st_mode & S_IFLNK)
       {
