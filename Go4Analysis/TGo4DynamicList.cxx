@@ -107,7 +107,7 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
    }
    catch(std::exception& ex) { // treat standard library exceptions
       throw TGo4DynamicListException(errorentry,
-                 Form("!!!STD exception %s was raised processing dynamic entry!!!", ex.what()));
+                   TString::Format("!!!STD exception %s was raised processing dynamic entry!!!", ex.what()).Data());
    }
 }
 
@@ -181,7 +181,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       else
       {
          throw TGo4DynamicListException(0,
-               Form("Index %ld for array member:%s out of range %s[%d]", indexoffset, memname, tname, maxindex));
+               TString::Format("Index %ld for array member:%s out of range %s[%d]", indexoffset, memname, tname, maxindex).Data());
       }
       // for now, we only handle 1d arrays
       // root allows to check higher dimensions, maybe later...?
@@ -260,7 +260,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 
 bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t processtrees, Int_t interval)
 {
-   if (tentry==0) return true;
+   if (!tentry) return true;
 
    tentry->SetDynListInterval(interval);
 
@@ -271,14 +271,14 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    TTree* tree = TGo4Analysis::Instance()->GetTree(tentry->GetTreeName());
    if (!tree) {
       throw TGo4DynamicListException(tentry,
-            Form("Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName()));
+               TString::Format("Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName()).Data());
    }
 
    TH1* histo = TGo4Analysis::Instance()->GetHistogram(hname);
    //if(!histo) std::cout <<"ProcessTEntry do did not find histo "<<hname << std::endl;
    if (!tentry->fbNewHistogram && (histo==0)) {
       throw TGo4DynamicListException(tentry,
-            Form("Tree Histogram Entry: !!! Could not find Histogram %s ",hname));
+               TString::Format("Tree Histogram Entry: !!! Could not find Histogram %s ",hname).Data());
    }
 
    if (histo)

@@ -66,13 +66,13 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, Int_t contype) :
      condarr = new TObjArray(elements);
      fiType = contype;
      for(Int_t i = 0; i < elements; i++)
-       condarr->AddLast(new TGo4WinCond(Form("%s%06d",name,i)));
+       condarr->AddLast(new TGo4WinCond(TString::Format("%s%06d",name,i).Data()));
    } else
    if(contype == kGO4CONDPOLYGON) {
       condarr = new TObjArray(elements);
       fiType = contype;
       for(Int_t i = 0; i < elements; i++)
-         condarr->AddLast(new TGo4PolyCond(Form("%s%06d",name,i)));
+         condarr->AddLast(new TGo4PolyCond(TString::Format("%s%06d",name,i).Data()));
 
       TGo4PolyCond::CleanupSpecials(); // JAM2016
    } else {
@@ -89,13 +89,13 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, const char* type)
       condarr = new TObjArray(elements);
       fiType = kGO4CONDWINDOW;
       for(Int_t i = 0; i < elements; i++)
-         condarr->AddLast(new TGo4WinCond(Form("%s%06d",name,i)));
+         condarr->AddLast(new TGo4WinCond(TString::Format("%s%06d",name,i).Data()));
    } else
    if(strcmp(type,"TGo4PolyCond")==0) {
       condarr = new TObjArray(elements);
       fiType = kGO4CONDPOLYGON;
       for(Int_t i = 0; i < elements; i++)
-         condarr->AddLast(new TGo4PolyCond(Form("%s%06d",name,i)));
+         condarr->AddLast(new TGo4PolyCond(TString::Format("%s%06d",name,i).Data()));
 
       TGo4PolyCond::CleanupSpecials(); // JAM2016
    } else {

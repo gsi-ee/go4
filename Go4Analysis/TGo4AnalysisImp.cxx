@@ -277,7 +277,7 @@ void TGo4Analysis::Constructor()
    theI->SetProcessLineLock(kTRUE); // mandatory for ROOT > 6.12
 
    gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
-   gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
+   gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()).Data());
 }
 
 
@@ -302,8 +302,8 @@ TGo4Analysis::~TGo4Analysis()
    delete fxAutoSaveClock;
    delete fxSampleEvent;
    TGo4CommandInvoker::UnRegister(this);
-   fxInstance = 0; // reset static singleton instance pointer
-   gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
+   fxInstance = nullptr; // reset static singleton instance pointer
+   gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()).Data());
    //std::cout <<"end of dtor" << std::endl;
 }
 
