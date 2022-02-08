@@ -14,7 +14,6 @@
 #include "TGo4AnalysisWebStatus.h"
 
 #include "TUrl.h"
-#include "RVersion.h"
 
 #include "TGo4AnalysisStepStatus.h"
 
@@ -55,12 +54,6 @@ TString TGo4AnalysisWebStatus::fgxURL_ASF_OVERWRITE = "asfoverwrite";
 TString TGo4AnalysisWebStatus::fgxURL_PREFS_NAME = "anaprefsname";
 TString TGo4AnalysisWebStatus::fgxURL_PREFS_LOAD = "loadprefs";
 TString TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE = "saveprefs";
-
-
-// Method TUrl::HasOption is not available for older ROOT versions, use workaround:
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,34,20)
-#define HasOption(x) GetValueFromOptions(x)!=0
-#endif
 
 
 Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)

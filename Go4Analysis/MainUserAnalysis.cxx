@@ -16,7 +16,6 @@
 #include <cstdio>
 #include <iostream>
 
-#include "RVersion.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "TClassTable.h"
@@ -1307,13 +1306,6 @@ int main(int argc, char **argv)
 
       TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
       TGo4Log::Info("Main: Run application loop");
-
-#ifndef _MSC_VER
-#if ROOT_VERSION_CODE <= ROOT_VERSION(5,25,2)
-      // workaround TUnixSystem::DispatchOneEvent problem
-      gSystem->AddFileHandler(new TFileHandler(0, TFileHandler::kRead));
-#endif
-#endif
 
       int termcounter = 0;
 

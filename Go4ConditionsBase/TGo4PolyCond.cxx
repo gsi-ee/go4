@@ -13,7 +13,6 @@
 
 #include "TGo4PolyCond.h"
 
-#include "RVersion.h"
 #include "TMath.h"
 #include "TROOT.h"
 #include "TH2.h"
@@ -359,13 +358,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
 
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 {
-   if(fxCut)
-   #if ROOT_VERSION_CODE >= ROOT_VERSION(5,25,1)
-      return (fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt));
-   #else
-      return (fxCut->Integral(dynamic_cast<TH2*>(histo),opt));
-   #endif
-   return 0;
+   return fxCut ? fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt) : 0;
 }
 
 Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)
@@ -511,13 +504,9 @@ Int_t TGo4PolyCond::GetMemorySize()
    Int_t size = sizeof(*this);
    if (GetName()!=0) size+=strlen(GetName());
    if (GetTitle()!=0) size+=strlen(GetTitle());
-   if (fxCut!=0) {
+   if (fxCut) {
       size += sizeof(*fxCut);
-#if ROOT_VERSION_CODE > ROOT_VERSION(4,0,8)
       size += fxCut->GetMaxSize()*2*sizeof(Double_t);
-#else
-      size += fxCut->GetN()*2*sizeof(Double_t);
-#endif
    }
    return size;
 }
