@@ -95,7 +95,7 @@ class TGo4InterruptHandler : public TSignalHandler {
 };
 
 
-#ifdef WIN32
+#ifdef _MSC_VER
 
 namespace {
    void InstallGo4CtrlCHandler(bool on);
@@ -271,7 +271,7 @@ void TGo4Analysis::Constructor()
       fxInterruptHandler = new TGo4InterruptHandler();
       fxInterruptHandler->Add();
 
-#ifdef WIN32
+#ifdef _MSC_VER
       InstallGo4CtrlCHandler(true);
 #endif
 
@@ -292,7 +292,7 @@ void TGo4Analysis::Constructor()
 TGo4Analysis::~TGo4Analysis()
 {
 
-#ifdef WIN32
+#ifdef _MSC_VER
    InstallGo4CtrlCHandler(false);
 #endif
 
@@ -2607,7 +2607,7 @@ void TGo4Analysis::StartAnalysis()
 }
 
 
-#ifdef WIN32
+#ifdef _MSC_VER
 
 #include "windows.h"
 

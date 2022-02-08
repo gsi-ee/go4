@@ -13,7 +13,7 @@
 
 #include "TGo4Log.h"
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <fcntl.h>
 #endif
@@ -95,7 +95,7 @@ void TGo4Log::EnableRedirection()
 {
    if (fgStdSave > 0) return;
 
-#ifndef WIN32
+#ifndef _MSC_VER
 
    fflush(stdout);
 
@@ -108,7 +108,7 @@ void TGo4Log::EnableRedirection()
    flags |= O_NONBLOCK;
    fcntl(fgStdPipe[0], F_SETFL, flags);
 
-   if (fgTimer==0) {
+   if (!fgTimer) {
       fgTimer = new TLogTimer(200);
       fgTimer->Start(200);
    }
@@ -118,9 +118,9 @@ void TGo4Log::EnableRedirection()
 
 void TGo4Log::ProcessRedirection(int kind)
 {
-   if (fgStdSave<0) return;
+   if (fgStdSave < 0) return;
 
-#ifndef WIN32
+#ifndef _MSC_VER
 
    if (kind>=0) {
 
@@ -165,7 +165,7 @@ const char* TGo4Log::GO4SYS()
 
    fgsGO4SYS = go4sys;
    if (fgsGO4SYS.Length() > 0) {
-#ifdef WIN32
+#ifdef _MSC_VER
       char lastsymbol = '\\';
       fgsGO4SYS.ReplaceAll("/","\\"); // while in cygpath we cannot deliver windows-like slashes
 #else
@@ -195,7 +195,7 @@ TString TGo4Log::subGO4SYS(const char* subdir)
 
    TString res = go4sys;
 
-#ifdef WIN32
+#ifdef _MSC_VER
    res += TString(subdir).ReplaceAll("/","\\");
 #else
    res += subdir;

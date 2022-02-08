@@ -33,7 +33,7 @@ class TGo4Prefs {
       TGo4Prefs(const char* hostname)
       {
          SetPar("hostname", hostname);
-         #if defined(WIN32)
+         #ifdef _MSC_VER
          SetPar("os", "win32");
          #elif defined(Darwin)
          SetPar("os", "mac");
@@ -262,7 +262,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("analysis", executable.c_str());
 
       if (!is_exe) prefs.SetPar("killexename", "go4analysis", false); else {
-         #ifdef WIN32
+         #ifdef _MSC_VER
          char symbol = '\\';
          #else
          char symbol = '/';
