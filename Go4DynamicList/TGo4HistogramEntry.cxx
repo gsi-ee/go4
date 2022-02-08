@@ -237,7 +237,7 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
         break;
      default:
         throw TGo4DynamicListException(this,
-          Form("Dynamic Histogram Entry %s Process error: Wrong histogram dimension %d !!!", GetName(), dimension));
+              TString::Format("Dynamic Histogram Entry %s Process error: Wrong histogram dimension %d !!!", GetName(), dimension).Data());
   } // switch(dimension)
 }
 

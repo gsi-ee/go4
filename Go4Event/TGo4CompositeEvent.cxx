@@ -66,7 +66,7 @@ void TGo4CompositeEvent::makeBranch(TBranch *parent)
       for(Int_t i=0; i<=fEventElements->GetLast();i++) {
          TGo4EventElement** par = (TGo4EventElement**) &((*fEventElements)[i]);
          if (par && *par) {
-            TBranch *b = parent->GetTree()->TTree::Branch(Form("%s.",(*par)->GetName()), (*par)->ClassName(),par,4000,99);
+            TBranch *b = parent->GetTree()->TTree::Branch(TString::Format("%s.",(*par)->GetName()).Data(), (*par)->ClassName(),par,4000,99);
             (*par)->makeBranch(b);
          }
       }

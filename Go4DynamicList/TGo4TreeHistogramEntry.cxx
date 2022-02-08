@@ -52,7 +52,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
    fiLastEvent(0)
 {
    GO4TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char*, const char*, const char*, const char*)",__LINE__, __FILE__));
-   SetName(Form("%s%s",histogramname,fgcENTRYSUF)); // histogram name is different from entryname!
+   SetName(TString::Format("%s%s",histogramname,fgcENTRYSUF).Data()); // histogram name is different from entryname!
    EnableProcessing(kTRUE);
 
    Reset();
@@ -81,7 +81,7 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
 
    if(fiLastEvent==lastentrynumber)
       throw TGo4DynamicListException(this,
-                     Form("Tree Histogram Entry: %s Reached end of tree %s. Draw() is stopped. ", GetName(), tree->GetName()));
+                 TString::Format("Tree Histogram Entry: %s Reached end of tree %s. Draw() is stopped. ", GetName(), tree->GetName()).Data());
    Int_t startindex= lastentrynumber -times;
    //std::cout << "\t -- init startindex: "<< startindex<< std::endl;
    if(startindex<fiLastEvent)

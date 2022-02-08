@@ -40,10 +40,10 @@ protected:
     Bool_t CheckConnector();
 
    /** Marker to be painted.*/
-   TGo4Marker* fxMarker;
+   TGo4Marker* fxMarker{nullptr};
 
    /** Connection line between marker and label */
-   TGo4LabelConnector* fxConnector;
+   TGo4LabelConnector* fxConnector{nullptr};
 
 private:
     /** Flag to handle streamed connector from file correctly*/

@@ -514,7 +514,7 @@ Int_t TGo4PolyCond::GetMemorySize()
 void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
-   TString line, varname = MakeScript(out, Form("polycond%d", cnt++), opt);
+   TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);
 
    if ((fxCut==0) || (fxCut->GetN()==0))
       line.Form("   %s->SetValues(0, 0, 0);", varname.Data());
