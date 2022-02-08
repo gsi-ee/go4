@@ -68,8 +68,6 @@ if [ "$GO4_OS" = "Win32" ]; then
   elif [ "$LIBNAME" = "libGo4Analysis" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib"
-  elif [ "$LIBNAME" = "libWebGui6Full" ]; then
-    extralibs="libRHTTP.lib libWebGui6.lib"
   elif [ "$LIBNAME" = "libGo4Http" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Analysis.lib libRHTTP.lib libRHTTPSniff.lib"

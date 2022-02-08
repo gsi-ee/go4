@@ -206,15 +206,7 @@ endif()
 
 # ================== Go4 Gui =================
 if(gui)
-
-  if(ROOT_VERSION VERSION_LESS 6.23.00)
-    if(ROOT_qt5web_FOUND)
-      add_subdirectory(webgui6)
-    endif()
-  endif()
-
   add_subdirectory(qt4)
-
 endif(gui)
 
 # ================== Go4 examples =================

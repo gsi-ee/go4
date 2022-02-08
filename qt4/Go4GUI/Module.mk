@@ -40,14 +40,8 @@ GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libROOTWebDisplay.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libROOTQt5WebDisplay.lib) \
                                $(shell cygpath -w $(ROOTSYS)/lib/libWebGui6.lib)"
-ifdef NEEDFULLWEBCANVAS
-GO4GUI4_QMAKEFLAGS += "LIBS += ../../lib/libWebGui6Full.lib"
-endif                                
 else
 GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6"
-ifdef NEEDFULLWEBCANVAS
-GO4GUI4_QMAKEFLAGS += "LIBS += -lWebGui6Full"
-endif                                
 endif
 
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
