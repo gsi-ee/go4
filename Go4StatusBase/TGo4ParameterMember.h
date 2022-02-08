@@ -56,23 +56,23 @@ class TGo4ParameterMember : public TNamed {
       void SetToZero();
       Int_t PrintMember(Text_t* buffer = 0, Int_t buflen = 0) const;
 
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt="") override;
 
-      virtual void Print(Option_t* dummy="") const;
+      void Print(Option_t* dummy="") const override;
 
    protected:
 
-      TString   fTypeName;   // type name of data member
-      Int_t     fTypeId;     // type id of data member
-      Int_t     fMemberId;   // data member id (sequence number)
-      TString   fValue;      // value of data member
-      Int_t     fIndex1;     // first array index
-      Int_t     fIndex2;     // second array index
-      TObject*  fObject;     // place for objects like fitter
-      Bool_t    fObjectOwner;//! flag indicating ownership of object
-      Bool_t    fVisible;    //  is visible, used by GUI
+      TString   fTypeName;            ///< type name of data member
+      Int_t     fTypeId{0};           ///< type id of data member
+      Int_t     fMemberId{0};         ///< data member id (sequence number)
+      TString   fValue;               ///< value of data member
+      Int_t     fIndex1{-1};          ///< first array index
+      Int_t     fIndex2{-1};          ///< second array index
+      TObject*  fObject{nullptr};     ///< place for objects like fitter
+      Bool_t    fObjectOwner{kTRUE};  ///<! flag indicating ownership of object
+      Bool_t    fVisible{kTRUE};      ///<  is visible, used by GUI
 
-   ClassDef(TGo4ParameterMember, 1);
+   ClassDefOverride(TGo4ParameterMember, 1);
 };
 
 #endif

@@ -39,7 +39,7 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       /** basic method to printout status information
        * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
 
       TObjArray* GetMemberValues(Bool_t takeit = kFALSE);
 
@@ -47,9 +47,9 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
       TGo4Parameter* CreateParameter();
 
    protected:
-      TObjArray*  fxMemberValues;
+      TObjArray*  fxMemberValues{nullptr};
 
-   ClassDef(TGo4ParameterStatus,1)
+   ClassDefOverride(TGo4ParameterStatus,1)
 };
 
 #endif //TGO4PARAMETERSTATUS_H
