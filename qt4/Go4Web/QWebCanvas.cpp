@@ -29,14 +29,8 @@
 #include <cstdlib>
 #include <cstdio>
 
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,23,0)
 // starting from version 6.23 TWebCanvas includes all required functionality
 #include "TWebCanvas.h"
-#else
-// before TWebCanvas was not complete and need to be extended with TWebCanvasFull
-#include "TWebCanvasFull.h"
-#endif
-
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
@@ -95,14 +89,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gPad = fCanvas;
 
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,23,0)
    TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
-#else
-   TWebCanvasFull *web = new TWebCanvasFull(fCanvas, "title", 0, 0, 800, 600);
-#endif
-
-
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,19,0)
 
    // this is Go4-special part to provide support of custom classes
    static std::string go4script;
@@ -117,8 +104,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    web->AddCustomClass("TGo4Condition", true);
    web->AddCustomClass("TGo4CondArray");
    // this is end of Go4-special part
-
-#endif
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,26,0)
    web->SetAsyncMode(kTRUE); // avoid blocking mode

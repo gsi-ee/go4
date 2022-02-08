@@ -17,8 +17,6 @@
 
 #include "TGo4ViewPanel.h"
 
-#include "RVersion.h"
-
 #include "TF1.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -5433,10 +5431,7 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
                }
 
             } else {
-               Double_t yMARGIN = 0.05;
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,0,9)
-               yMARGIN = gStyle->GetHistTopMargin();
-#endif
+               Double_t yMARGIN = gStyle->GetHistTopMargin();
                Double_t dymin = yMARGIN * (selmax - selmin);
                if ((selmin >= 0) && (selmin - dymin < 0))
                   selmin = 0;
@@ -5827,19 +5822,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
       case CrosshairId: {
          fbCanvasCrosshair = !fbCanvasCrosshair;
          GetCanvas()->SetCrosshair(fbCanvasCrosshair);
-
-#if ROOT_VERSION_CODE < ROOT_VERSION(4,0,8)
-
-         TGo4Iter(GetPadSlot(GetCanvas()), true);
-         while (iter.next()) {
-            TPad* subpad = GetSlotPad(iter.getslot());
-            if (subpad!=0) {
-               subpad->SetCrosshair(fbCanvasCrosshair);
-               subpad->Modified();
-            }
-         }
-#endif
-
          CanvasUpdate(true);
          CallPanelFunc(panel_Updated, GetCanvas());
          break;
