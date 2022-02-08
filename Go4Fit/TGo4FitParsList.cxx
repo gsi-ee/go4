@@ -237,8 +237,8 @@ void TGo4FitParsList::PrintPars() const
 
    TString tt = TString::Format("%s%ds %s%s %s%s","%",maxparlen,"%",gStyle->GetStatFormat(),"%",gStyle->GetStatFormat());
 
-   for(Int_t n=0;n<l->NumPars();n++)
-      std::cout << Form(tt.Data(), l->GetParFullName(n), l->GetPar(n)->GetValue(), l->GetPar(n)->GetError()) << std::endl;
+   for(Int_t n = 0; n < l->NumPars(); n++)
+      std::cout << TString::Format(tt.Data(), l->GetParFullName(n), l->GetPar(n)->GetValue(), l->GetPar(n)->GetError()) << std::endl;
 }
 
 void TGo4FitParsList::SetParsOwner(TGo4FitNamed* iOwner)

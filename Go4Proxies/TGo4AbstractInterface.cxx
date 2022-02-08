@@ -79,36 +79,36 @@ void TGo4AbstractInterface::Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* 
    gROOT->ProcessLineSync("TGo4AbstractInterface* go4 = TGo4AbstractInterface::Instance();", &error);
    gROOT->ProcessLineSync("TGo4ObjectManager* om = TGo4AbstractInterface::Instance()->OM();", &error);
    gROOT->ProcessLineSync("TGo4BrowserProxy* br = TGo4AbstractInterface::Instance()->Browser();", &error);
-   gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/go4macroinit.C").Data()));
+   gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/go4macroinit.C").Data()).Data());
 }
 
 TGo4AbstractInterface::~TGo4AbstractInterface()
 {
    FreeHotStartCmds();
 
-   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/go4macroclose.C").Data()));
+   gROOT->ProcessLine(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/go4macroclose.C").Data()).Data());
 
    gInterpreter->DeleteGlobal(fBrowser);
    gInterpreter->DeleteGlobal(fOM);
    gInterpreter->DeleteGlobal(this);
 
-   fgInstance = 0;
+   fgInstance = nullptr;
 
 }
 
 TGo4AnalysisProxy* TGo4AbstractInterface::Analysis()
 {
-   return Browser() ? Browser()->FindAnalysis() : 0;
+   return Browser() ? Browser()->FindAnalysis() : nullptr;
 }
 
 TGo4ServerProxy* TGo4AbstractInterface::Server()
 {
-   return Browser() ? Browser()->FindServer() : 0;
+   return Browser() ? Browser()->FindServer() : nullptr;
 }
 
 void TGo4AbstractInterface::LoadLibrary(const char* fname)
 {
-   if ((fname==0) || (strlen(fname)==0)) return;
+   if (!fname || (strlen(fname)==0)) return;
 
    TString libs = gInterpreter->GetSharedLibs();
 
@@ -129,7 +129,6 @@ void TGo4AbstractInterface::OpenFile(const char* fname)
 }
 
 
-
 Bool_t TGo4AbstractInterface::SaveToFile(const char* itemname,
                                          const char* filename,
                                          const char* filetitle)
@@ -143,7 +142,7 @@ Bool_t TGo4AbstractInterface::ExportToFile(const char* itemname,
                                            const char* filetitle)
 {
     TGo4Slot* topslot = Browser()->ItemSlot(itemname);
-    if (topslot==0) return kFALSE;
+    if (!topslot) return kFALSE;
 
     TObjArray items;
 

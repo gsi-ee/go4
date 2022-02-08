@@ -245,11 +245,11 @@ Int_t TGo4FileStore::Store(TFolder* fold)
 
 void TGo4FileStore::WriteToStore(TNamed* ob)
 {
-   if (ob==0) return;
+   if (!ob) return;
 
    TDirectory* dsav=gDirectory;
    TString oldname = ob->GetName();
-   ob->SetName(Form("%s_%d" , oldname.Data(), fiFillCount));
+   ob->SetName(TString::Format("%s_%d" , oldname.Data(), fiFillCount).Data());
    if(fxTree) fxFile = fxTree->GetCurrentFile();
    if (fxFile) fxFile->cd();
    ob->Write(0, TObject::kOverwrite);

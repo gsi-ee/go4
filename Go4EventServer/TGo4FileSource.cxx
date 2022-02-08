@@ -41,7 +41,7 @@ TGo4FileSource::TGo4FileSource(const char* name) :
    fxFilesNames = ProducesFilesList(GetName());
 
    if (!OpenNextFile())
-      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
+      ThrowError(66,0, TString::Format("!!! ERROR: Cannot open source %s!!!", GetName()).Data());
 }
 
 TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
@@ -58,7 +58,7 @@ TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
    fxFilesNames = ProducesFilesList(GetName());
 
    if (!OpenNextFile())
-      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
+      ThrowError(66,0, TString::Format("!!! ERROR: Cannot open source %s!!!", GetName()).Data());
 }
 
 
@@ -159,16 +159,16 @@ Bool_t TGo4FileSource::OpenNextFile()
    delete obj;
 
    fxFile = TFile::Open(fxCurrentFileName.Data(), "READ"); // in such way rfio etc is also supported!
-   if(fxFile==0) ThrowError(66,0,Form("!!! ERROR: FILE %s not found !!!", fxCurrentFileName.Data()));
-   if (!fxFile->IsOpen()) ThrowError(66,0,Form("!!! ERROR: FILE %s cannot open !!!", fxCurrentFileName.Data()));
+   if(!fxFile) ThrowError(66,0,TString::Format("!!! ERROR: FILE %s not found !!!", fxCurrentFileName.Data()).Data());
+   if(!fxFile->IsOpen()) ThrowError(66,0, TString::Format("!!! ERROR: FILE %s cannot open !!!", fxCurrentFileName.Data()).Data());
 
-   TKey* kee = 0;
+   TKey* kee = nullptr;
    TIter iter(fxFile->GetListOfKeys());
-   while ( (kee=dynamic_cast<TKey*>(iter())) !=0 ) {
+   while ( (kee = dynamic_cast<TKey*>(iter())) != nullptr ) {
       fxTree = dynamic_cast<TTree*>(kee->ReadObj());
       if (fxTree) break; // we take first Tree in file, disregarding its name...
    }
-   if (fxTree==0) {
+   if (!fxTree) {
       ThrowError(77,0,"!!! ERROR: Tree not found !!!");
    } else {
       SetCreateStatus(0);

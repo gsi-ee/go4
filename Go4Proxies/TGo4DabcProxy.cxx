@@ -195,7 +195,7 @@ class TGo4DabcAccess : public TGo4Access {
             dabc::CmdGetBinary cmd2;
             cmd2.SetStr("Item", fItemName);
             cmd2.SetStr("Kind","hierarchy");
-            cmd2.SetStr("Query", Form("history=%d",fHistoryLength));
+            cmd2.SetStr("Query", TString::Format("history=%d",fHistoryLength).Data());
             cmd2.SetTimeout(10.);
             cmd2.SetReceiver(fNodeName + dabc::Publisher::DfltName());
 
@@ -276,7 +276,7 @@ class TGo4DabcAccess : public TGo4Access {
 
             TGraph* gr = new TGraph(cnt);
             gr->SetName(fObjName.c_str());
-            gr->SetTitle(Form("%s ratemeter", fItemName.c_str()));
+            gr->SetTitle(TString::Format("%s ratemeter", fItemName.c_str()).Data());
             int i = 0;
             while (iter.next()) {
 
