@@ -26,6 +26,8 @@
 *
 **/
 
+#include <iostream>
+
 #include "TApplication.h"
 #include "TH1.h"
 #include "TCanvas.h"
