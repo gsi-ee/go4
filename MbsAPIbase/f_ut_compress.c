@@ -231,7 +231,7 @@ s_compress  *ps_compress;
 l_masks=(l_inlen >> 5);
 if(l_inlen%32 != 0) l_masks++;
 /* on output we need the header, the masks, and maybe all bytes */
-if(l_outlen < 4*l_masks+sizeof(s_compress)+l_inlen) return -1;
+if(l_outlen < (INTS4) (4*l_masks+sizeof(s_compress)+l_inlen)) return -1;
 pc_out=pc_output;
 pc_in =pc_input;
 ps_compress=(s_compress *)pc_out;   /* header */
