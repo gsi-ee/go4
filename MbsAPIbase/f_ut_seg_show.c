@@ -347,32 +347,32 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
         ps_setup->bh_special_meb_trig_type);
     LOUT
     ;
-    sprintf (c_line, " bl_loc_esone_base _______________x%016lx bl_rem_esone_base ______________x%016lx", ps_setup->bl_loc_esone_base,
-        ps_setup->bl_rem_esone_base);
+    sprintf (c_line, " bl_loc_esone_base _______________x%016lx bl_rem_esone_base ______________x%016lx", (unsigned long) ps_setup->bl_loc_esone_base,
+          (unsigned long) ps_setup->bl_rem_esone_base);
     LOUT
     ;
-    sprintf (c_line, " bl_esone_off ____________________________x%08x bl_cvc_crr_off _________________________x%08x", ps_setup->bl_esone_off,
-        ps_setup->bl_cvc_crr_off);
+    sprintf (c_line, " bl_esone_off ____________________________x%08lx bl_cvc_crr_off _________________________x%08lx", (unsigned long) ps_setup->bl_esone_off,
+          (unsigned long) ps_setup->bl_cvc_crr_off);
     LOUT
     ;
-    sprintf (c_line, " bl_cvc_csr_off __________________________x%08x bl_cvc_clb_off _________________________x%08x", ps_setup->bl_cvc_csr_off,
-        ps_setup->bl_cvc_clb_off);
+    sprintf (c_line, " bl_cvc_csr_off __________________________x%08lx bl_cvc_clb_off _________________________x%08lx", (unsigned long) ps_setup->bl_cvc_csr_off,
+          (unsigned long) ps_setup->bl_cvc_clb_off);
     LOUT
     ;
-    sprintf (c_line, " bl_ml_pipe_base_addr ____________x%016lx bl_ml_pipe_seg_len _____________x%016lx", ps_setup->bl_ml_pipe_base_addr,
-        ps_setup->bl_ml_pipe_seg_len);
+    sprintf (c_line, " bl_ml_pipe_base_addr ____________x%016lx bl_ml_pipe_seg_len _____________x%016lx", (unsigned long) ps_setup->bl_ml_pipe_base_addr,
+          (unsigned long) ps_setup->bl_ml_pipe_seg_len);
     LOUT
     ;
-    sprintf (c_line, " bl_special_meb_trig_base ________x%016lx bl_ml_pipe_len _________________________x%08x",
-        ps_setup->bl_special_meb_trig_base, ps_setup->bl_ml_pipe_len);
+    sprintf (c_line, " bl_special_meb_trig_base ________x%016lx bl_ml_pipe_len _________________________x%08lx",
+          (unsigned long) ps_setup->bl_special_meb_trig_base, (unsigned long) ps_setup->bl_ml_pipe_len);
     LOUT
     ;
-    sprintf (c_line, " lp_cvc_irq ______________________________x%08x bl_cvc_irq_len _________________________x%08x", ps_setup->lp_cvc_irq,
-        ps_setup->bl_cvc_irq_len);
+    sprintf (c_line, " lp_cvc_irq ______________________________x%08lx bl_cvc_irq_len _________________________x%08lx", (unsigned long) ps_setup->lp_cvc_irq,
+          (unsigned long) ps_setup->bl_cvc_irq_len);
     LOUT
     ;
-    sprintf (c_line, " bl_cvc_irq_source_off ___________________x%08x bl_cvc_irq_mask_off ____________________x%08x", ps_setup->bl_cvc_irq_source_off,
-        ps_setup->bl_cvc_irq_mask_off);
+    sprintf (c_line, " bl_cvc_irq_source_off ___________________x%08lx bl_cvc_irq_mask_off ____________________x%08lx", (unsigned long) ps_setup->bl_cvc_irq_source_off,
+          (unsigned long) ps_setup->bl_cvc_irq_mask_off);
     LOUT
     ;
     sprintf (c_line, " bl_ev_buf_len ________________%5d bl_n_ev_buf _______________%5d bl_n_stream ______________%5d",
@@ -400,23 +400,23 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
           | (ps_setup->lp_loc_mem_base[i] != 0) | (ps_setup->lp_loc_pipe_base[i] != 0))
       {
         sprintf (c_line, " %2d rem_mem_base __x%016lx rem_mem_off ___x%016lx rem_mem_len __x%016lx", i,
-            ps_setup->lp_rem_mem_base[i], ps_setup->bl_rem_mem_off[i], ps_setup->bl_rem_mem_len[i]);
+              (unsigned long) ps_setup->lp_rem_mem_base[i], (unsigned long) ps_setup->bl_rem_mem_off[i], (unsigned long) ps_setup->bl_rem_mem_len[i]);
         LOUT
         ;
-        sprintf (c_line, " %2d rem_cam_base __x%016lx rem_cam_off ___x%016lx rem_cam_len __________x%08x", i,
-            ps_setup->lp_rem_cam_base[i], ps_setup->bl_rem_cam_off[i], ps_setup->bl_rem_cam_len[i]);
+        sprintf (c_line, " %2d rem_cam_base __x%016lx rem_cam_off ___x%016lx rem_cam_len __________x%08lx", i,
+              (unsigned long) ps_setup->lp_rem_cam_base[i], (unsigned long) ps_setup->bl_rem_cam_off[i], (unsigned long) ps_setup->bl_rem_cam_len[i]);
         LOUT
         ;
         sprintf (c_line, " %2d loc_mem_base __x%016lx loc_mem_len ___x%016lx loc_pipe_base x%016lx", i,
-            ps_setup->lp_loc_mem_base[i], ps_setup->bl_loc_mem_len[i], ps_setup->lp_loc_pipe_base[i]);
+              (unsigned long) ps_setup->lp_loc_mem_base[i], (unsigned long) ps_setup->bl_loc_mem_len[i], (unsigned long) ps_setup->lp_loc_pipe_base[i]);
         LOUT
         ;
         sprintf (c_line, " %2d pipe_off ______x%016lx pipe_seg_len __x%016lx pipe_len _______________%5d", i,
-            ps_setup->bl_pipe_off[i], ps_setup->bl_pipe_seg_len[i], ps_setup->bl_pipe_len[i]);
+              (unsigned long) ps_setup->bl_pipe_off[i], (unsigned long) ps_setup->bl_pipe_seg_len[i], ps_setup->bl_pipe_len[i]);
         LOUT
         ;
-        sprintf (c_line, " %2d init_tab_off __________x%08x init_tab_len __________x%08x", i, ps_setup->bl_init_tab_off[i],
-            ps_setup->bi_init_tab_len[i]);
+        sprintf (c_line, " %2d init_tab_off __________x%08lx init_tab_len __________x%08lx", i,
+              (unsigned long) ps_setup->bl_init_tab_off[i], (unsigned long) ps_setup->bi_init_tab_len[i]);
         LOUT
         ;
         sprintf (c_line, " %2d controller_id _____________%5d sy_asy_flg ________________%5d trig_stat_nr _____________%5d", i,
@@ -435,8 +435,8 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
         {
           if (ps_setup->bi_rd_tab_len[i][j] != 0)
           {
-            sprintf (c_line, "  %2d %2d bl_max_se_len x%08x   bl_rd_tab_off x%08x   bi_rd_tab_len x%08x", i, j,
-                ps_setup->bl_max_se_len[i][j], ps_setup->bl_rd_tab_off[i][j], ps_setup->bi_rd_tab_len[i][j]);
+            sprintf (c_line, "  %2d %2d bl_max_se_len x%08lx   bl_rd_tab_off x%08lx   bi_rd_tab_len x%08lx", i, j,
+                  (unsigned long) ps_setup->bl_max_se_len[i][j], (unsigned long) ps_setup->bl_rd_tab_off[i][j], (unsigned long) ps_setup->bi_rd_tab_len[i][j]);
             LOUT
             ;
           }
