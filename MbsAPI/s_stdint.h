@@ -16,7 +16,7 @@
 
 // this is minimum types set for fixed-size integers
 
-#ifdef WIN32
+#ifdef _MSC_VER
 
 #if _MSC_VER > 1000
 #pragma once

@@ -29,16 +29,19 @@
 #ifdef Linux
 #define LOUT printf("%s\n",c_line);
 #endif
+
 #ifdef Solaris
 #define LOUT printf("%s\n",c_line);
 #endif
+
 #ifdef Darwin
 #define LOUT printf("%s\n",c_line);
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define LOUT printf("%s\n",c_line);
 #endif
+
 #ifdef Lynx
 #include "f_ut_error.h"
 #define LOUT f_ut_error("",ERR__MSG_INFO,0,c_line,MASK__PRTTERM);

@@ -55,15 +55,11 @@
 
 #include <stdio.h>
 
-#ifdef WIN32
+#ifdef _MSC_VER
 
 #include <sysinfoapi.h>
 
-#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
-  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
-#else
-  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL
-#endif
+#define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
 
 int clock_gettime(int clockid, struct timespec *tp)
 {
@@ -94,13 +90,13 @@ CHARS *f_ut_time (CHARS *pc_time)
 {
   struct timespec tp;
   struct tm st_time;
-#ifndef WIN32
+#ifndef _MSC_VER
   struct tm buf_time;
 #endif
 
   clock_gettime(CLOCK_REALTIME, &tp);
 
-#ifdef WIN32
+#ifdef _MSC_VER
   st_time = *localtime(&tp.tv_sec);
 #else
   st_time = *localtime_r(&tp.tv_sec, &buf_time);

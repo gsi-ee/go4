@@ -59,7 +59,7 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
   // struct timeb tp;
   struct timespec tp;
   struct tm st_time;
-#ifndef WIN32
+#ifndef _MSC_VER
   struct tm buf_time;
 #endif
   CHARS c_allmon[37]="JanFebMarAprMayJunJulAugSepOctNovDec";
@@ -77,8 +77,8 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
   } else {
     tp.tv_sec = l_sec;
   }
-#ifdef WIN32
-  st_time=*localtime(&tp.tv_sec);
+#ifdef _MSC_VER
+  st_time = *localtime(&tp.tv_sec);
 #else
   st_time = *localtime_r(&tp.tv_sec, &buf_time);
 #endif
