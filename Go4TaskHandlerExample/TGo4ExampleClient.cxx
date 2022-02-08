@@ -37,8 +37,8 @@ TGo4ExampleClient::TGo4ExampleClient(const char* name,
    SetMaster(kFALSE);
    TGo4Log::Debug(" ExampleClient ''%s'' started ",GetName());
    fxApplication= new TGo4ExampleApplication( (TGo4BufferQueue*) GetTaskHandler()->GetDataQueue());
-   TGo4MainRunnable* mainrun = new TGo4MainRunnable(Form("MainRunnable of %s",GetName()), this);
-   TGo4WatchRunnable* watchrun = new TGo4WatchRunnable(Form("WatchRunnable of %s",GetName()), this);
+   TGo4MainRunnable* mainrun = new TGo4MainRunnable(TString::Format("MainRunnable of %s",GetName()).Data(), this);
+   TGo4WatchRunnable* watchrun = new TGo4WatchRunnable(TString::Format("WatchRunnable of %s",GetName()).Data(), this);
       // adding runnables to thread handler who takes over the responsibility...:
    fcMainName.Form("%s%s", fgcMAINTHREAD, GetName());
    fxWorkHandler->NewThread(fcMainName.Data(), mainrun);

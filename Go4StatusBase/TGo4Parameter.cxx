@@ -417,17 +417,17 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
 
    if (savemacro) {
-      out << Form("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",
+      out << TString::Format("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",
                  ClassName(), varname.Data(), ClassName(), GetName(), ClassName()) << std::endl << std::endl;
-      out << Form("   if (%s==0) {", varname.Data()) << std::endl;
-      out << Form("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << std::endl;
-      out << Form("      return;") << std::endl;
-      out << Form("   }") << std::endl << std::endl;
-      out << Form("   TGo4Log::Info(\"Set parameter %s as saved at %s\");", GetName(), TDatime().AsString()) << std::endl << std::endl;
+      out << TString::Format("   if (%s==0) {", varname.Data()) << std::endl;
+      out << TString::Format("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << std::endl;
+      out << "      return;" << std::endl;
+      out << "   }" << std::endl << std::endl;
+      out << TString::Format("   TGo4Log::Info(\"Set parameter %s as saved at %s\");", GetName(), TDatime().AsString()) << std::endl << std::endl;
    } else {
-      out << Form("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << std::endl;
-      out << Form("   %s->SetName(\"%s\");", varname.Data(), GetName()) << std::endl;
-      out << Form("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << std::endl;
+      out << TString::Format("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << std::endl;
+      out << TString::Format("   %s->SetName(\"%s\");", varname.Data(), GetName()) << std::endl;
+      out << TString::Format("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << std::endl;
    }
 
    TObjArray *fitems = new TObjArray();
@@ -435,7 +435,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    GetMemberValues(fitems);
 
    TIter iter(fitems);
-   TGo4ParameterMember* info = 0;
+   TGo4ParameterMember *info = nullptr;
 
    while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
       if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
@@ -445,19 +445,19 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
 
       switch (info->GetTypeId()) {
          case TGo4ParameterMember::kTString_t:
-            out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
+            out << TString::Format("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
             break;
          case TGo4ParameterMember::kTGo4Fitter_t:
-            out << Form("   // fitter %s->%s ignored", varname.Data(), membername.Data()) << std::endl;
+            out << TString::Format("   // fitter %s->%s ignored", varname.Data(), membername.Data()) << std::endl;
             break;
          case TGo4ParameterMember::kTArray_t:
-            out << Form("   %s->%s.Set(%d);", varname.Data(), membername.Data(), info->GetIntValue()) << std::endl;
+            out << TString::Format("   %s->%s.Set(%d);", varname.Data(), membername.Data(), info->GetIntValue()) << std::endl;
             break;
          case kBool_t:
-            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (info->GetIntValue() ? "kTRUE" : "kFALSE")) << std::endl;
+            out << TString::Format("   %s->%s = %s;", varname.Data(), membername.Data(), (info->GetIntValue() ? "kTRUE" : "kFALSE")) << std::endl;
             break;
          default:
-            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
+            out << TString::Format("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
             break;
       }
    }

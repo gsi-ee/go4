@@ -35,7 +35,8 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
    TGo4Iter iter(go4->Browser()->BrowserSlot("Analysis"), kFALSE);
    while(iter.next()) {
       if(!iter.isfolder() && (TString(iter.getname()).Index(wild) != kNPOS)) {
-         TString itemname = Form("Analysis/%s", iter.getfullname());
+         TString itemname = "Analysis/";
+         itemname.Append(iter.getfullname());
          if (go4->Browser()->ItemKind(itemname.Data()) == TGo4Access::kndGo4Param) {
             go4->FetchItem(itemname.Data(), 1000);
             TObject* obj = go4->GetObject(itemname.Data());
@@ -75,7 +76,8 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
 
 TString MakeParamFuncName(const char* main, const char* objname)
 {
-   TString subfunc = Form("%s_%s", main, objname);
+   TString subfunc;
+   subfunc.Form("%s_%s", main, objname);
    subfunc.ReplaceAll("#","_");
    subfunc.ReplaceAll("(","_");
    subfunc.ReplaceAll(")","_");
@@ -99,13 +101,13 @@ Bool_t save1param(TObject* obj, const char* prefix)
   std::cout << "Write macro " << funcname << std::endl;
   std::ofstream xout(funcname+".C");
 
-  xout << Form("// written by macro saveparam.C at %s",TDatime().AsString()) << std::endl;
-  xout << Form("void %s()", funcname.Data()) << std::endl;
-  xout << Form("{") << std::endl;
-  xout << Form("#ifndef __GO4ANAMACRO__") << std::endl;
-  xout << Form("   std::cout << \"Macro %s can execute only in analysis\" << std::endl;", funcname.Data()) << std::endl;
-  xout << Form("   return;") << std::endl;
-  xout << Form("#endif") << std::endl;
+  xout << "// written by macro saveparam.C at " << TDatime().AsString() << std::endl;
+  xout << TString::Format("void %s()", funcname.Data()) << std::endl;
+  xout << "{" << std::endl;
+  xout << "#ifndef __GO4ANAMACRO__" << std::endl;
+  xout << TString::Format("   std::cout << \"Macro %s can execute only in analysis\" << std::endl;", funcname.Data()) << std::endl;
+  xout << "   return;" << std::endl;
+  xout << "#endif" << std::endl;
 
   param->SavePrimitive(xout, "savemacro");
 
