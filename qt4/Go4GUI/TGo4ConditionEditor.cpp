@@ -105,13 +105,8 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(EllipseBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
    QObject::connect(FreeshapeBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    LCDCounts->setDigitCount(10);
    LCDTrueCounts->setDigitCount(10);
-#else
-   LCDCounts->setNumDigits(10);
-   LCDTrueCounts->setNumDigits(10);
-#endif
 
    setWindowTitle("Condition editor");
    ResetWidget();

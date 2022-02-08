@@ -26,17 +26,10 @@ TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char
    setAcceptDrops(false);
    fxRunMovie = new QMovie(":/icons/go4logorun4.gif");
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    LCDCurrentRate->setDigitCount(8);
    LCDAverageRate->setDigitCount(8);
    LCDTime->setDigitCount(8);
    LCDProcessedEvents->setDigitCount(9);
-#else
-   LCDCurrentRate->setNumDigits(8);
-   LCDAverageRate->setNumDigits(8);
-   LCDTime->setNumDigits(8);
-   LCDProcessedEvents->setNumDigits(9);
-#endif
 }
 
 TGo4AnalysisStatusMonitor::~TGo4AnalysisStatusMonitor()
@@ -85,13 +78,8 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    QString scnt = QString("%1").arg(status ? status->GetCurrentCount() : rate->GetCurrentCount());
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    if (scnt.length() > LCDProcessedEvents->digitCount())
       LCDProcessedEvents->setDigitCount(scnt.length());
-#else
-   if (scnt.length() > LCDProcessedEvents->numDigits())
-      LCDProcessedEvents->setNumDigits(scnt.length());
-#endif
 
    LCDProcessedEvents->display(scnt);
 

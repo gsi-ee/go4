@@ -213,13 +213,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
    addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
-   QAction* BrowserDockAction=BrowserDockWin->toggleViewAction();
+   QAction* BrowserDockAction = BrowserDockWin->toggleViewAction();
    BrowserDockAction->setShortcut(QKeySequence("F6"));
-
-
-#if (QT_VERSION >= 0x040700) && (QT_VERSION <= 0x040909)
-   browser->setMinimumWidth(230);
-#endif
 
    QDockWidget* LogDockWin = new QDockWidget("Log window", this);
    LogDockWin->setObjectName("LogInfoDock");
