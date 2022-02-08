@@ -142,8 +142,8 @@
 #include "s_opc1.h"
 #include "s_pat.h"
 
-void f_clnup(long [], int *);
-void f_clnup_save(long [], int *);
+void f_clnup(ADDRS [], int *);
+void f_clnup_save(ADDRS [], int *);
 int f_fltdscr(struct s_clnt_filter *);
 int f_read_server(s_evt_channel *, int *, int, int);
 int f_send_ackn(int, int);
@@ -179,7 +179,7 @@ static struct {
 } s_ackn;
 
 /* ++ vectors of pointer and devices for cleanup */
-long          v_mem_clnup[8];
+ADDRS          v_mem_clnup[8];
 
 /***************************************************************************/
 int f_evcli_con(s_evt_channel *ps_chan, char *pc_node, int l_aport, int l_aevents, int l_asample)
@@ -1824,7 +1824,7 @@ void f_strtoupper(char *u, char *l)
 /*3+Description***+***********+****************************************/
 /*1- C Procedure ***********+******************************************/
 /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-void f_clnup(long v_mem[], int *p_keyb)
+void f_clnup(ADDRS v_mem[], int *p_keyb)
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
@@ -1832,16 +1832,16 @@ void f_clnup(long v_mem[], int *p_keyb)
 
   for (i = 1; i <= v_mem[0]; i++)
   {
-     if(v_mem[i] != 0) free((int *) v_mem[i]);
+     if(v_mem[i] != 0) free((void *) v_mem[i]);
      v_mem[i]=0;
   }
   v_mem[0]=0;
 }
 /*******************************************************************/
-void f_clnup_save(long v_mem[], int *p_keyb)
+void f_clnup_save(ADDRS v_mem[], int *p_keyb)
 /* cleanup: free allocated memory and dealloc allocated device(s) */
 {
   /* ++++ declaration ++++ */
-  v_mem[++v_mem[0]] = (long) p_keyb; /* was (int) before JA */
+  v_mem[++v_mem[0]] = (ADDRS) p_keyb; /* was (int) before JA */
 }
 /* ------------------------------------------------------------------------- */
