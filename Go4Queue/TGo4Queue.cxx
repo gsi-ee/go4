@@ -35,9 +35,9 @@ TGo4Queue::~TGo4Queue()
 {
 
   //printf ("JAM*************** DTOR of TGo4Queue %s BEGIN\n", GetName());
-   delete fxList; fxList = 0;
-   delete fxCondition; fxCondition = 0;
-   delete fxMutex; fxMutex = 0;
+   delete fxList; fxList = nullptr;
+   delete fxCondition; fxCondition = nullptr;
+   delete fxMutex; fxMutex = nullptr;
   // printf ("JAM*************** DTOR of TGo4Queue %s END\n", GetName());
 }
 

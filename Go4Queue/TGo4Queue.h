@@ -30,11 +30,11 @@ class TMutex;
 
 class TGo4Queue : public TNamed {
    public:
-      TGo4Queue(const char* name = 0);
+      TGo4Queue(const char *name = nullptr);
 
       virtual ~TGo4Queue();
 
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt="") override;
 
       virtual void Wake();
 

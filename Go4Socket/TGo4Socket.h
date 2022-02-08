@@ -76,7 +76,7 @@ class TGo4Socket {
      static const char* fgcGOON;   //!
 
   protected:
-    TGo4Socket();  // not implemented, only for compiler to avoid calling of default
+    TGo4Socket() = delete;  // not implemented, only for compiler to avoid calling of default
 
     /** Reallocate the fixed input buffer if necessary */
     void ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize);

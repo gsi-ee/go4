@@ -38,7 +38,7 @@ class TGo4SocketSignalHandler {
       static void SetLastSignal(Int_t v = 0);
 
    private:
-      TGo4SocketSignalHandler();
+      TGo4SocketSignalHandler() = delete;
 
       static Int_t fgiLastSignal; //! contains last signal handler result
 };
