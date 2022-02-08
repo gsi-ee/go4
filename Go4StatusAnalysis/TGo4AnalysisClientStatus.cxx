@@ -59,7 +59,7 @@ Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen,"G-OOOO-> Analysis Running State: %d\n",IsAnalysisRunning());
    current=PrintBuffer(current,restlen,"G-OOOO-> Current event rate: %f\n",GetRate());
    current=PrintBuffer(current,restlen,"G-OOOO-> Average event rate: %f\n",GetAvRate());
-   current=PrintBuffer(current,restlen,"G-OOOO-> Total event counts: %d\n",GetCurrentCount());
+   current=PrintBuffer(current,restlen,"G-OOOO-> Total event counts: %llu\n", (long long unsigned) GetCurrentCount());
    current=PrintBuffer(current,restlen,"G-OOOO-> Total time: %f\n",GetTime());
    current=PrintBuffer(current,restlen,"G-OOOO-> Current Event source: %s\n",GetCurrentSource());
    current=PrintBuffer(current,restlen,"G-OOOO-> Creation date: %s\n",GetDateTime());
