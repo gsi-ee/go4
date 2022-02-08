@@ -69,31 +69,6 @@ bool QRootApplication::fDebug = false; //false;
 bool QRootApplication::fWarning = false; //false;
 bool QRootApplication::fRootCanvasMenusEnabled = true;
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-void qMessageOutput( QtMsgType type, const char *msg )
-{
-   switch ( type ) {
-      case QtDebugMsg:
-         if(QRootApplication::fDebug)
-            std::cerr << "QtRoot-Debug: " << msg << std::endl;
-         break;
-      case QtWarningMsg:
-         if(QRootApplication::fWarning)
-            std::cerr << "QtRoot-Warning: " << msg << std::endl;
-         break;
-      case QtFatalMsg:
-          std::cerr << "QtRoot-Fatal: " << msg << std::endl;
-          gSystem->Abort();
-      case QtCriticalMsg:
-          std::cerr << "QtRoot-Critical: " << msg << std::endl;
-          break;
-      default:
-          std::cerr << "QtRoot-Other: " << msg << std::endl;
-          break;
-   }
-}
-#else
-
 void q5MessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
@@ -117,7 +92,6 @@ void q5MessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         break;
     }
 }
-#endif
 
 QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
    QApplication(argc,argv, true)
@@ -133,11 +107,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
 
   }
   // install a msg-handler
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-  qInstallMsgHandler( qMessageOutput );
-#else
   qInstallMessageHandler( q5MessageOutput );
-#endif
 
   // install a filter on the parent
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
