@@ -14,6 +14,7 @@
 #include "TGo4MbsSource.h"
 
 #include <cstdlib>
+#include <iostream>
 
 #include "TClass.h"
 #include "TSystem.h"

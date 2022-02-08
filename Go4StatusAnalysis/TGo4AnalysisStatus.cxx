@@ -13,6 +13,8 @@
 
 #include "TGo4AnalysisStatus.h"
 
+#include <iostream>
+
 #include "TMutex.h"
 #include "TObjArray.h"
 

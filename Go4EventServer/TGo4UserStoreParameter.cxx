@@ -13,6 +13,8 @@
 
 #include "TGo4UserStoreParameter.h"
 
+#include <iostream>
+
 #include "TGo4Status.h"
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"

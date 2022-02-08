@@ -30,9 +30,9 @@ class TGo4Status : public TNamed {
       /**
        * basic method to printout status information
        * on stdout; to be overridden by specific subclass  */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      virtual Int_t PrintStatus(Text_t *buffer = nullptr, Int_t buflen = 0);
 
-      virtual void Print(Option_t * dummy="") const;
+      void Print(Option_t * dummy="") const override;
 
       /**
        * Insert indentation blanks into text buffer. Uses TROOT::DirLevel,
@@ -57,7 +57,7 @@ class TGo4Status : public TNamed {
        kGo4BackStoreReset = BIT(22)   // set for tree that belongs to backstore
     };
 
-   ClassDef(TGo4Status,2)
+   ClassDefOverride(TGo4Status,2)
 };
 
 #endif //TGO4STATUS_H

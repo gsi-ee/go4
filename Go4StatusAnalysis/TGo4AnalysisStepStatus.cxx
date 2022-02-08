@@ -13,6 +13,8 @@
 
 #include "TGo4AnalysisStepStatus.h"
 
+#include <iostream>
+
 #include "TROOT.h"
 
 #include "TGo4Log.h"

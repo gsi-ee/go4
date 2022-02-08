@@ -15,6 +15,8 @@
 
 #include <cstring>
 #include <iosfwd>
+#include <iostream>
+#include <fstream>
 
 #include "TSystem.h"
 #include "TROOT.h"

@@ -13,6 +13,8 @@
 
 #include "TGo4TreeStoreParameter.h"
 
+#include <iostream>
+
 #include "Go4EventServerTypes.h"
 #include "TGo4Status.h"
 #include "TGo4Log.h"

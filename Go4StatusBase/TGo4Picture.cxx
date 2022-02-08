@@ -13,6 +13,8 @@
 
 #include "TGo4Picture.h"
 
+#include <iostream>
+
 #include "RConfigure.h"
 #include "TClass.h"
 #include "TObjArray.h"
@@ -127,69 +129,29 @@ enum OptionsIdentifiers {
 
 };
 
-TGo4Picture::TGo4Picture() :
-   TNamed(),
-   fiNDivX(1),
-   fiNDivY(1),
-   fiPosX(0),
-   fiPosY(0),
-   fxNames(0),
-   fxObjects(0),
-   fxSubPictures(0),
-   fiOptSize(0),
-   fxOptIndex(),
-   fxOptValue(),
-   fxOptObjects(0),
-   fxSpecialObjects(0),
-   fiLastIndex(0)
+TGo4Picture::TGo4Picture() : TNamed()
 {
 }
 
 TGo4Picture::TGo4Picture(const char* name, const char* title, Int_t ndivy, Int_t ndivx) :
-   TNamed(name, title),
-   fiNDivX(1),
-   fiNDivY(1),
-   fiPosX(0),
-   fiPosY(0),
-   fxNames(0),
-   fxObjects(0),
-   fxSubPictures(0),
-   fiOptSize(0),
-   fxOptIndex(),
-   fxOptValue(),
-   fxOptObjects(0),
-   fxSpecialObjects(0),
-   fiLastIndex(0)
+   TNamed(name, title)
 {
    SetDivision(ndivy, ndivx);
 }
 
 TGo4Picture::TGo4Picture(TGo4Picture& picture) :
-   TNamed(),
-   fiNDivX(1),
-   fiNDivY(1),
-   fiPosX(0),
-   fiPosY(0),
-   fxNames(0),
-   fxObjects(0),
-   fxSubPictures(0),
-   fiOptSize(0),
-   fxOptIndex(),
-   fxOptValue(),
-   fxOptObjects(0),
-   fxSpecialObjects(0),
-   fiLastIndex(0)
+   TNamed()
 {
    UpdateFrom(&picture);
 }
 
 TGo4Picture::~TGo4Picture()
 {
-   if (fxNames) { delete fxNames; fxNames = 0; }
-   if (fxObjects) { delete fxObjects; fxObjects = 0; }
-   if (fxSubPictures) { delete fxSubPictures; fxSubPictures = 0; }
-   if (fxOptObjects) { delete fxOptObjects; fxOptObjects = 0; }
-   if (fxSpecialObjects) { delete fxSpecialObjects; fxSpecialObjects = 0; }
+   if (fxNames) { delete fxNames; fxNames = nullptr; }
+   if (fxObjects) { delete fxObjects; fxObjects = nullptr; }
+   if (fxSubPictures) { delete fxSubPictures; fxSubPictures = nullptr; }
+   if (fxOptObjects) { delete fxOptObjects; fxOptObjects = nullptr; }
+   if (fxSpecialObjects) { delete fxSpecialObjects; fxSpecialObjects = nullptr; }
 }
 
 void TGo4Picture::SetDrawHeader(Bool_t draw)
