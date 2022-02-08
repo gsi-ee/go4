@@ -115,7 +115,6 @@ const Int_t TGo4Analysis::fgiMACROSTARTPOLL= 1000; //polling time for macro in W
 const char* TGo4Analysis::fgcDEFAULTFILENAME="Go4AutoSave.root";
 const char* TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
 const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
-const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
 const char TGo4Analysis::fgcPYPROMPT = '$';
 const char* TGo4Analysis::fgcPYINIT = "python/go4init.py";
