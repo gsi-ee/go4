@@ -30,6 +30,15 @@ class TLogTimer;
 #define GO4WARN(X) TGo4Log::Warn X ;
 #define GO4ERROR(X) TGo4Log::Error X ;
 
+#if defined(__GNUC__) && !defined(__CINT__)
+#define GO4_PRINTF_ARGS   __attribute__((format(printf, 1, 2)))
+#define GO4_PRINTF2_ARGS   __attribute__((format(printf, 2, 3)))
+#else
+#define GO4_PRINTF_ARGS
+#define GO4_PRINTF2_ARGS
+#endif
+
+
 /**
  * This class handles all logging messages inside Go4.
  * Should replace the previous Trace mechanism.
@@ -99,19 +108,19 @@ class TGo4Log {
        * 2: warning message
        * >=3: error message
        * Method returns formatted message string as printed out for further use */
-      static const char* Message(Int_t prio, const char* text,...);
+      static const char* Message(Int_t prio, const char* text,...) GO4_PRINTF2_ARGS;
 
       /** User shortcut for message with prio 0 */
-      static void Debug(const char* text,...);
+      static void Debug(const char* text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 1 */
-      static void Info(const char* text,...);
+      static void Info(const char* text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 2 */
-      static void Warn(const char* text,...);
+      static void Warn(const char* text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 3 */
-      static void Error(const char* text,...);
+      static void Error(const char* text,...) GO4_PRINTF_ARGS;
 
       /** Make direct printf without log file or logger */
       static void Printf(Bool_t _stdout, const char* text);
@@ -119,8 +128,8 @@ class TGo4Log {
       /** Printout rate and events count, handle redirection */
       static void PrintRate(ULong64_t cnt, double rate);
 
-      /** Write text to current logfile if this is open. Prefix current
-      datime in each line if "withtime" is true */
+      /** Write text to current logfile if this is open.
+        * Prefix current  datime in each line if "withtime" is true */
       static void WriteLogfile(const char* text, Bool_t withtime=kTRUE);
 
       /** dummy for compatibility */
