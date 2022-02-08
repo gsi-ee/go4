@@ -72,12 +72,6 @@
 #include "TGo4AnalysisStepException.h"
 #include "TGo4EventStoreException.h"
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
-#include "TCint.h"
-#endif
-#endif
-
 class TGo4InterruptHandler : public TSignalHandler {
    public:
       TGo4InterruptHandler() :
@@ -279,10 +273,9 @@ void TGo4Analysis::Constructor()
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
    }
    // settings for macro execution
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,12,0)
    TInterpreter* theI = gROOT->GetInterpreter();
    theI->SetProcessLineLock(kTRUE); // mandatory for ROOT > 6.12
-#endif
+
    gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
    gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
 }
@@ -427,16 +420,6 @@ Int_t TGo4Analysis::Process()
 {
    GO4TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
    Int_t rev=0;
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
-   Bool_t unlockedcint=kFALSE;
-   if(gCINTMutex) {
-      gCINTMutex->UnLock();
-      unlockedcint=kTRUE;
-      //std::cout <<"Process() Unlocked cint mutex..." << std::endl;
-   }
-#endif
-#endif
 
    try
    {
@@ -598,15 +581,7 @@ Int_t TGo4Analysis::Process()
    }
    // end catch block
    ////////////////////////////
-#if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
-   /// test: need to unlock cintmutex here to enable streaming!
-   if(gCINTMutex && unlockedcint) {
-      gCINTMutex->Lock();
-      //std::cout <<"PPPProcess() locked cint mutex..." << std::endl;
-   }
-#endif
-#endif
+
    return rev;
 }
 
@@ -1287,17 +1262,6 @@ void TGo4Analysis::SetRunning(Bool_t on)
 
 Int_t TGo4Analysis::WaitForStart()
 {
-   #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-   #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
-   /// test: need to unlock cintmutex here to enable streaming!
-   Bool_t unlockedcint=kFALSE;
-   if(gCINTMutex) {
-      gCINTMutex->UnLock();
-      unlockedcint=kTRUE;
-   }
-   #endif
-   #endif
-   /////////
    Int_t cycles=0;
    while(!IsRunning())
    {
@@ -1313,13 +1277,6 @@ Int_t TGo4Analysis::WaitForStart()
          // would be possible from this wait loop
       }
    }
-   #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-   #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
-   /// test: need to lock cintmutex again
-   if(gCINTMutex && unlockedcint)
-        gCINTMutex->Lock();
-   #endif
-   #endif
    return cycles;
 }
 

@@ -236,17 +236,10 @@ void TGo4BrowserItem::ls(Option_t* option) const
    TFolder::ls(option);
 }
 
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,13,6)
-void TGo4BrowserItem::SaveAs(const char* filename)
-{
-   TFolder::SaveAs(filename);
-}
-#else
 void TGo4BrowserItem::SaveAs(const char* filename, Option_t *option) const
 {
    TFolder::SaveAs(filename, option);
 }
-#endif
 
 void TGo4BrowserItem::DrawClass() const
 {

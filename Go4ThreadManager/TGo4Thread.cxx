@@ -197,40 +197,18 @@ Bool_t TGo4Thread::Cancel ()
       if(fxThread)
          {
          GO4TRACE((13,"TGo4Thread::Cancel() -- canceling existing TThread",__LINE__, __FILE__));
-         fbIsCreated=kFALSE;
-         fbIsRunning=kTRUE; // these settings let Threadfunc enter Cancel loop
+         fbIsCreated = kFALSE;
+         fbIsRunning = kTRUE; // these settings let Threadfunc enter Cancel loop
          fxCondition->Signal();  // unlock condition mutex before deleting it
          Sleep(500); // waitstate for Threadfunc to enter cancel loop after condition
 
-
-
          // JAM2018 bugfix for crashes with ROOT 6 concerning Thread CleanUpPop
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,0,0)
          TThread::Delete(fxThread);
-#else
-// this does not work properly for ROOT versions < 5.17-04
-// due to bug in static Delete() method (see root bug report 31085)
-//         TThread::Delete(fxThread);
-         fxThread->Kill();
-         delete fxThread;
-// note: this will skip the thread Cleanup(), but we do not use this feature in Go4
-#endif
 
 
-
-
-///////// following deprecated workaround, remove it when above bug is solved
-//#ifndef _MSC_VER
-//            // the following cleanup might fail on win32, better not do it...
-//         if(TThread::GetThread(fiThreadSelfID)!=0)
-//            {
-//               //std::cout <<"thread of "<<fiThreadSelfID<<" not yet deleted, do it now:" << std::endl;
-//               delete fxThread; // only delete thread if Cleanup method of TThread::Delete not yet invoked
-//            }
-//#endif
-         fxThread=0;
-         fiThreadPID=0;
-         fiThreadSelfID=0;
+         fxThread = nullptr;
+         fiThreadPID = 0;
+         fiThreadSelfID = 0;
 
          }
       else
