@@ -82,7 +82,8 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
       if(fxFile->eof() || !fxFile->good()) {
          // reached last line or read error?
          SetCreateStatus(1);
-         SetErrMess(Form("End of input file %s", GetName()));
+         TString errmsg = TString::Format("End of input file %s", GetName());
+         SetErrMess(errmsg.Data());
          SetEventStatus(1);
          throw TGo4EventEndException(this);
       }
@@ -126,10 +127,12 @@ Int_t TYYYEventSource::Open()
    TGo4Log::Info("Open of TYYYEventSource %s", GetName());
    // open connection/file
    fxFile = new std::ifstream(GetName());
-   if((fxFile==0) || !fxFile->good()) {
-      delete fxFile; fxFile = 0;
+   if(!fxFile || !fxFile->good()) {
+      delete fxFile;
+      fxFile = nullptr;
+      TString errmsg = TString::Format("Eror opening user file:%s",GetName());
       SetCreateStatus(1);
-      SetErrMess(Form("Eror opening user file:%s",GetName()));
+      SetErrMess(errmsg.Data());
       throw TGo4EventErrorException(this);
    }
    fbIsOpen = kTRUE;
@@ -143,7 +146,7 @@ Int_t TYYYEventSource::Close()
    Int_t status = 0; // closestatus of source
    if (fxFile) {
       delete fxFile;
-      fxFile = 0;
+      fxFile = nullptr;
    }
    fbIsOpen = kFALSE;
    return status;

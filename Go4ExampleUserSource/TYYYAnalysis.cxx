@@ -63,7 +63,8 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    factory1->DefOutputEvent("UnpackEvent", "TYYYUnpackEvent"); // object name, class name
 
    TGo4UserSourceParameter* source1  = new TGo4UserSourceParameter("befoil50.scf");
-   TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(Form("%sOutput", argv[0]));
+   TString parname = TString::Format("%sOutput", argv[0]);
+   TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(parname.Data());
    store1->SetOverwriteMode(kTRUE);
    TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
 

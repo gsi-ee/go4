@@ -129,7 +129,9 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    // check that file setup.C is existing in current directory
 
-   ExecuteScript(Form("setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
+   TString exec = TString::Format("setup.C(\"%s\",\"%s\")", kind.Data(), input.Data());
+
+   ExecuteScript(exec.Data());
 }
 
 //***********************************************************
