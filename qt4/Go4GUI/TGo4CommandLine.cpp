@@ -164,17 +164,24 @@ void TGo4CommandLine::LoadHistory()
     QStringList histlist = go4sett->getCommandsHistoryGUI();
     InputLine->addItems(histlist);
 // prepared pre-loading of system macros:
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/corrhistos.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/hishisto.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/addhistos.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/divhistos.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/profileX.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/profileY.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionX.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionY.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
-    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/fft.C").Data()));
+
+    auto load_macro = [](const char *name) {
+       TString exec = ".L ";
+       exec += TGo4Log::subGO4SYS(name);
+       gROOT->ProcessLineSync(exec.Data());
+    };
+
+    load_macro("macros/corrhistos.C");
+    load_macro("macros/hishisto.C");
+    load_macro("macros/addhistos.C");
+    load_macro("macros/divhistos.C");
+    load_macro("macros/profileX.C");
+    load_macro("macros/profileY.C");
+    load_macro("macros/projectionX.C");
+    load_macro("macros/projectionY.C");
+    load_macro("macros/rebin.C");
+    load_macro("macros/scalex.C");
+    load_macro("macros/fft.C");
 }
 
 
