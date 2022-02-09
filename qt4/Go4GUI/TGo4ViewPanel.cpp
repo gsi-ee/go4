@@ -4690,7 +4690,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
       if (nplanes == 0)
          nplanes = 16;
       TColor *normal = gROOT->GetColor(padfillcolor);
-      if (normal != 0) {
+      if (normal) {
          Float_t h, l, s;
          normal->GetHLS(h, l, s);
          const char* cname = normal->GetName();
@@ -4698,14 +4698,12 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
          Float_t dr, dg, db, lr, lg, lb;
          TColor *dark = gROOT->GetColor(100 + padfillcolor);
          if (dark == 0) {
-            new TColor(100 + padfillcolor, -1, -1, -1,
-                  Form("%s%s", cname, "_dark"));
+            new TColor(100 + padfillcolor, -1, -1, -1, TString::Format("%s%s", cname, "_dark").Data());
             dark = gROOT->GetColor(100 + padfillcolor);
          }
          TColor *light = gROOT->GetColor(150 + padfillcolor);
          if (light == 0) {
-            new TColor(150 + padfillcolor, -1, -1, -1,
-                  Form("%s%s", cname, "_bright"));
+            new TColor(150 + padfillcolor, -1, -1, -1, TString::Format("%s%s", cname, "_bright").Data());
             light = gROOT->GetColor(150 + padfillcolor);
          }
 

@@ -405,14 +405,14 @@ void TGo4HttpAccess::httpFinished()
 
       TGraph* gr = new TGraph(cnt);
       gr->SetName(xml->GetAttr(top, "_name"));
-      gr->SetTitle(Form("%s ratemeter", xml->GetAttr(top, "_name")));
+      gr->SetTitle(TString::Format("%s ratemeter", xml->GetAttr(top, "_name")).Data());
 
       chld = top;
       Int_t i = cnt-1;
       while (chld!=0) {
          const char* time = xml->GetAttr(chld, "time");
          const char* value = xml->GetAttr(chld, "value");
-         if ((time!=0) && (value!=0)) {
+         if (time && value) {
             QDateTime tm = QDateTime::fromString(time, Qt::ISODate);
 #if QT_VERSION < QT_VERSION_CHECK(5,8,0)
             gr->SetPoint(i, tm.toTime_t(), TString(value).Atof());

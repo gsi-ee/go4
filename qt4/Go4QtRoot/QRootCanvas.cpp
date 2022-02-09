@@ -316,7 +316,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         TClass *cl = fMenuObj->IsA();
         int curId = -1;
 
-        QString buffer = Form("%s::%s", cl->GetName(), fMenuObj->GetName());
+        QString buffer = TString::Format("%s::%s", cl->GetName(), fMenuObj->GetName()).Data();
         addMenuAction(&menu, &map, buffer, curId++);
 
         cl->GetMenuItems(fMenuMethods);
@@ -899,11 +899,11 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
    QRootDialog dlg;
 
-   dlg.setWindowTitle(Form("%s:%s", object->GetName(), method->GetName()));
+   dlg.setWindowTitle(TString::Format("%s:%s", object->GetName(), method->GetName()).Data());
 
   // iterate through all arguments and create apropriate input-data objects:
   // inputlines, option menus...
-   TMethodArg *argument = 0;
+   TMethodArg *argument = nullptr;
    TIter next(method->GetListOfMethodArgs());
 
    while ((argument = (TMethodArg *) next())) {

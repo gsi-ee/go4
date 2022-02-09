@@ -87,13 +87,13 @@ Int_t TGo4Script::getCounts(Double_t tm)
 
 void  TGo4Script::doOutput(const char* str)
 {
-   if (fMainWin!=0)
+   if (fMainWin)
      fMainWin->StatusMessage(str);
 }
 
 Bool_t TGo4Script::ContinueExecution()
 {
-   if ((fMainWin==0) || !IsHotStart()) return kFALSE;
+   if (!fMainWin || !IsHotStart()) return kFALSE;
 
    switch (execGUICommands()) {
       case 0:
@@ -114,7 +114,7 @@ Bool_t TGo4Script::ContinueExecution()
    gROOT->ProcessLineSync(nextcmd, &error);
 
    if (error!=0) {
-      doOutput(Form("Error = %d. CMD: %s", error, nextcmd));
+      doOutput(TString::Format("Error = %d. CMD: %s", error, nextcmd).Data());
       return kFALSE;
    }
 
@@ -753,7 +753,7 @@ Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char* newname)
    if ((handle==0) || (newname==0) || (strlen(newname)==0)) return kFALSE;
 
    if (fMainWin->FindViewPanel(newname)) {
-      Message(Form("Viewpanel with name %s already exists",newname));
+      Message(TString::Format("Viewpanel with name %s already exists",newname).Data());
       return kFALSE;
    }
 
