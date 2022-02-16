@@ -67,25 +67,23 @@ class TGo4AnalysisObjectResult : public TGo4Status {
 
       Go4ResultAction_t Action() const { return fiAction; }
 
-      /** basic method to printout status information
-       * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
    private:
 
       /** Last state of the objects in analysis after modification*/
-      TGo4AnalysisObjectNames* fxNamesList; //! not streamed, valid only inside analysis
+      TGo4AnalysisObjectNames* fxNamesList{nullptr}; //! not streamed, valid only inside analysis
 
       /** Full name and path of the object last modified*/
       TString fxFullName;
 
       /** This contains an action token to execute on gui side*/
-      Go4ResultAction_t fiAction;
+      Go4ResultAction_t fiAction{kGo4ActionNul};
 
       /** Optional error or info message*/
       TString fxMessage;
 
-   ClassDef(TGo4AnalysisObjectResult,2)
+   ClassDefOverride(TGo4AnalysisObjectResult,2)
 };
 
 #endif //TGO4ANALYSISOBJECTRESULT_H

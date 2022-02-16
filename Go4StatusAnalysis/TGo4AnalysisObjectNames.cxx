@@ -58,8 +58,6 @@ TFolder* TGo4AnalysisObjectNames::GetNamesFolder(Bool_t chown)
 
 void TGo4AnalysisObjectNames::Print(Option_t *)
 {
-   GO4TRACE((12,"TGo4AnalysisObjectNames::PrintStatus()",__LINE__, __FILE__));
-   //
    gROOT->SetDirLevel(0);
    PrintLine("G-OOOO-> Analysis Object Names Printout <-OOOO-G");
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");

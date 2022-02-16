@@ -36,8 +36,6 @@ TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()
 
 void TGo4AnalysisClientStatus::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4AnalysisClientStatus::PrintStatus()",__LINE__, __FILE__));
-   //
    PrintLine("G-OOOO->    Analysis Client Status Class %s Printout:  <-OOOO-G", GetName());
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
    PrintLine("G-OOOO-> Analysis Running State: %d",IsAnalysisRunning());
