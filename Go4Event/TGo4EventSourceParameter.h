@@ -37,22 +37,20 @@ class TGo4EventSourceParameter : public TGo4Parameter {
 
       void SetTimeout(Int_t out) { fiTimeout=out; }
 
-      /** basic method to printout status information
-        * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
       /** update contents of paramter class with external object. */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
    private:
 
       /** Identity number to specify the kind. Optional, default is 0. */
-      Int_t fiID;
+      Int_t fiID{0};
 
       /** Timeout in seconds. If -1, no timeout (default)  */
-      Int_t fiTimeout;
+      Int_t fiTimeout{1};
 
-   ClassDef(TGo4EventSourceParameter,1)
+   ClassDefOverride(TGo4EventSourceParameter,1)
 };
 
 #endif //TGO4EVENTSOURCEPARAMETER_H

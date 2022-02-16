@@ -13,63 +13,36 @@
 
 #include "TGo4EventStoreParameter.h"
 
-#include <iostream>
-
 #include "TGo4Status.h"
-#include "TGo4Log.h"
 
 TGo4EventStoreParameter::~TGo4EventStoreParameter()
 {
-   GO4TRACE((12,"TGo4EventStoreParameter::~TGo4EventStoreParameter()",__LINE__, __FILE__));
 }
+
 TGo4EventStoreParameter::TGo4EventStoreParameter(const char* name, Int_t id)
 : TGo4Parameter (name), fiID(id)
 {
-   GO4TRACE((12,"TGo4EventStoreParameter::TGo4EventStoreParameter(const char*)",__LINE__, __FILE__));
 }
+
 TGo4EventStoreParameter::TGo4EventStoreParameter()
-: TGo4Parameter ("Default Event Store Parameter"), fiID(0)
+: TGo4Parameter ("Default Event Store Parameter")
 {
-   GO4TRACE((12,"TGo4EventStoreParameter::TGo4EventStoreParameter()",__LINE__, __FILE__));
 }
-Int_t TGo4EventStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
+
+void TGo4EventStoreParameter::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4EventStoreParameter::PrintParameter()",__LINE__, __FILE__));
-    Int_t locallen=64000;
-   Text_t localbuf[64000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size=0;
-   Int_t restlen=locallen;
-   Text_t* current=localbuf;
-   current=TGo4Status::PrintIndent(current,restlen);
-   TString woparam=ClassName();
+   TString woparam = ClassName();
    woparam.ReplaceAll("Parameter","");
-   current=TGo4Status::PrintBuffer(current,restlen, "Eventstore:  \t\t%s \n",woparam.Data());
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Name:  \t\t%s \n",GetName());
-//   current=TGo4Status::PrintIndent(current,restlen);
-//   current=TGo4Status::PrintBuffer(current,restlen, "  ID:  \t\t%d \n",GetID());
-   if(buffer==0)
-      {
-      std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
-   return size;
+   TGo4Status::PrintLine("Eventstore:  \t\t%s",woparam.Data());
+   TGo4Status::PrintLine("  Name:  \t\t%s", GetName());
+   TGo4Status::PrintLine("  ID:  \t\t%d", GetID());
 }
 
 Bool_t TGo4EventStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   GO4TRACE((12,"TGo4EventStoreParameter::UpdateFrom()",__LINE__, __FILE__));
    TGo4EventStoreParameter* storpar=dynamic_cast<TGo4EventStoreParameter*>(rhs);
-   if (storpar==0) return kFALSE;
+   if (!storpar) return kFALSE;
    SetName(storpar->GetName());
-   fiID=storpar->GetID();
+   fiID = storpar->GetID();
    return kTRUE;
 }
