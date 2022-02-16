@@ -14,10 +14,11 @@
 #include "TGo4ParameterMember.h"
 
 #include <cstdlib>
-#include <iostream>
 
 #include "TROOT.h"
 #include "TDataType.h"
+
+#include "TGo4Status.h"
 
 TGo4ParameterMember::TGo4ParameterMember() :
    TNamed()
@@ -180,48 +181,29 @@ void TGo4ParameterMember::GetValue(char* addr)
    }
 }
 
-Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
-{
-   if ((buffer!=0) && (buflen<=0)) return 0;
-
-   Int_t size = 0;
-
-   TString name;
-   if ((fIndex1<0) && (fIndex2<0)) name += GetName(); else
-   if (fIndex2<0) name += TString::Format("%s[%d]", GetName(), fIndex1); else
-      name += TString::Format("%s[%d][%d]", GetName(), fIndex1, fIndex2);
-
-   name += " = ";
-
-   if (fObject)
-      name += TString::Format("Obj:%p Class:%s", fObject, fObject->ClassName());
-   else if (fTypeId == kBool_t)
-      name += ((fValue == "0") ? "kFALSE" : "kTRUE");
-   else
-      name += fValue;
-
-   if ((GetTitle() != 0) && (strlen(GetTitle())>0)) { name += " // "; name += GetTitle(); }
-
-   name += "\n";
-
-   if(buffer==0) {
-      TROOT::IndentLevel();
-      std::cout << name;
-   } else {
-      size = name.Length();
-      if(size>buflen) size = buflen;
-      strncpy(buffer, name.Data(), size);
-   }
-
-   return size;
-}
-
-void TGo4ParameterMember::Clear(Option_t* opt)
+void TGo4ParameterMember::Clear(Option_t*)
 {
    SetToZero();
 }
 
-void TGo4ParameterMember::Print(Option_t* dummy) const
+void TGo4ParameterMember::Print(Option_t*) const
 {
-   PrintMember();
+   TString value = fValue;
+
+   if (fObject)
+      value = TString::Format("Obj:%p Class:%s", fObject, fObject->ClassName());
+   else if (fTypeId == kBool_t)
+      value = ((value == "0") ? "kFALSE" : "kTRUE");
+
+   if (GetTitle() && (strlen(GetTitle()) > 0)) {
+      value += " // ";
+      value += GetTitle();
+   }
+
+   if ((fIndex1 < 0) && (fIndex2 < 0))
+      TGo4Status::PrintLine("%s = %s", GetName(), value.Data());
+   else if (fIndex2 < 0)
+      TGo4Status::PrintLine("%s[%d] = %s", GetName(), fIndex1, value.Data());
+   else
+      TGo4Status::PrintLine("%s[%d][%d] = %s", GetName(), fIndex1, fIndex2, value.Data());
 }

@@ -50,44 +50,24 @@ void TGo4Parameter::Print(Option_t* dummy) const
    localthis->PrintParameter();
 }
 
-Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
+Int_t TGo4Parameter::PrintParameter(Text_t*, Int_t)
 {
-   GO4TRACE((12,"TGo4Parameter ::PrintParameter()",__LINE__, __FILE__));
-   //
-   if(buflen<=0 && buffer!=0) return 0;
-
    TObjArray items;
    GetMemberValues(&items);
 
-   Int_t size = 0;
-   TString localbuf = TString::Format("Parameter name: %s class %s\n", GetName(), ClassName());
-
-   if(buffer==0) {
-      std::cout << localbuf;
-   } else {
-      size = localbuf.Length();
-      if(size>buflen) size = buflen;
-      strncpy(buffer, localbuf.Data(), size);
-      buflen -= size;
-      buffer += size;
-   }
+   TGo4Status::PrintLine("Parameter name: %s class %s", GetName(), ClassName());
 
    TIter iter(&items);
-   TGo4ParameterMember* info = 0;
+   TGo4ParameterMember* info = nullptr;
 
    TROOT::IncreaseDirLevel();
 
-   while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
-      Int_t size1 = info->PrintMember(buffer, buflen);
-
-      size += size1;
-      buflen -= size1;
-      buffer += size1;
-   }
+   while ((info = (TGo4ParameterMember*) iter()) != nullptr)
+      info->Print();
 
    TROOT::DecreaseDirLevel();
 
-   return size;
+   return 0;
 }
 
 TGo4Parameter::~TGo4Parameter()
@@ -97,7 +77,7 @@ TGo4Parameter::~TGo4Parameter()
 
 Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   if (rhs==0) return kFALSE;
+   if (!rhs) return kFALSE;
 
    if (rhs->IsA() != IsA()) {
       std::cout << "GO4> !!! ERROR: Wrong parameter class is used in TGo4Parameter::UpdateFrom() method!!!" << std::endl;
@@ -124,9 +104,9 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
    url.SetOptions(rest_url_opt);
 
    TIter next(&items);
-   TGo4ParameterMember* member = 0;
+   TGo4ParameterMember* member = nullptr;
 
-   while ((member = (TGo4ParameterMember*) next()) != 0) {
+   while ((member = (TGo4ParameterMember*) next()) != nullptr) {
      TString dummy;
       const char* optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
       if (optvalue!=0) {

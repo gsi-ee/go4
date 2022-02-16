@@ -54,11 +54,10 @@ class TGo4ParameterMember : public TNamed {
       void GetValue(char* addr);
 
       void SetToZero();
-      Int_t PrintMember(Text_t* buffer = 0, Int_t buflen = 0) const;
 
       void Clear(Option_t* opt="") override;
 
-      void Print(Option_t* dummy="") const override;
+      void Print(Option_t* = "") const override;
 
    protected:
 
