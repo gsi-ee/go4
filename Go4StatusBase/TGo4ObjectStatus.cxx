@@ -13,8 +13,6 @@
 
 #include "TGo4ObjectStatus.h"
 
-#include <iostream>
-
 #include "TDatime.h"
 #include "TClass.h"
 
@@ -59,42 +57,16 @@ TGo4ObjectStatus::~TGo4ObjectStatus()
 
 }
 
-Int_t TGo4ObjectStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4ObjectStatus::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4ObjectStatus::PrintStatus()",__LINE__, __FILE__));
-   if(buflen<=0 && buffer!=0) return 0;
-   Int_t locallen=2048;
-   Text_t localbuf[2048];
-   Text_t* current=localbuf;
-   Int_t size=0;
-   Int_t restlen=locallen;
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen,"G-OOOO-> Object Status Class Printout <-OOOO-G\n");
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Object name: \t\t%s\n",GetName());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Object title: \t\t%s\n",GetTitle());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Object class: \t\t%s\n",GetObjectClass());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Object size: \t\t%d byte\n",GetObjectSize());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Clear protection: \t\t%d\n",IsResetProtect());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Delete protection: \t\t%d\n",IsDeleteProtect());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Status creation time: \t%s\n",GetTimeString());
-   current=PrintIndent(current,restlen);
-   current = PrintBuffer(current, restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
-   }
-   return size;
+   PrintLine("G-OOOO-> Object Status Class Printout <-OOOO-G");
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
+   PrintLine(" Object name: \t\t%s", GetName());
+   PrintLine(" Object title: \t\t%s", GetTitle());
+   PrintLine(" Object class: \t\t%s", GetObjectClass());
+   PrintLine(" Object size: \t\t%d byte", GetObjectSize());
+   PrintLine(" Clear protection: \t\t%d", IsResetProtect());
+   PrintLine(" Delete protection: \t\t%d", IsDeleteProtect());
+   PrintLine(" Status creation time: \t%s", GetTimeString());
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
 }
