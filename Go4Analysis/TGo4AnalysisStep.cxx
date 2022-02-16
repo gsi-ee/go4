@@ -339,8 +339,8 @@ void TGo4AnalysisStep::NewEventStore(TGo4EventStoreParameter * kind)
             throw TGo4AnalysisStepException(this);
          }
 
-         fxEventStore=fxEventFactory->CreateEventStore(kind);
-         //kind->PrintParameter();
+         fxEventStore = fxEventFactory->CreateEventStore(kind);
+         //kind->Print();
       }
 
       if(fxEventStore) {
