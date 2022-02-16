@@ -53,6 +53,15 @@ class TGo4Status : public TNamed {
       #endif
       ;
 
+      /**
+       * Print single line of debug output with appropriate indent */
+      static void PrintLine(const char *text, ...)
+      #if defined(__GNUC__) && !defined(__CINT__)
+        __attribute__((format(printf, 1, 2)))
+      #endif
+      ;
+
+
     /** Go4 status bits to be used in object manager to suppress
      * resetting or deleting histograms, etc */
     enum {
