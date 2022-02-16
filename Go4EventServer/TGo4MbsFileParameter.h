@@ -33,12 +33,10 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     /** Name of the Tagfile */
     void SetTagName(const char *name) { fxTagFile = name; }
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+    void Print(Option_t* = "") const override;
 
     /** update contents of paramter class with external object. */
-    virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
     /** Add more file names in to the parameter */
     void AddMoreFile(const char* more);
@@ -57,7 +55,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     /** List of extra files names, specified in the go4analysis */
     TObjArray fxMoreFiles;
 
-  ClassDef(TGo4MbsFileParameter, 3)
+  ClassDefOverride(TGo4MbsFileParameter, 3)
 
 };
 

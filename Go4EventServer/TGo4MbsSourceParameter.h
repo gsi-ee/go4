@@ -54,31 +54,30 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     /** Return allowed number of reconnection retries */
     Int_t GetRetryCnt() const { return fiRetryCnt; }
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+    /** basic method to printout object */
+    void Print(Option_t* = "") const override;
 
     /** update contents of paramter class with external object. */
-    virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
   private:
 
     /** Index of first event to process. */
-    UInt_t fuStartEvent;
+    UInt_t fuStartEvent{0};
 
     /** Index of last event to process. */
-    UInt_t fuStopEvent;
+    UInt_t fuStopEvent{0};
 
     /** Number of events to skip from file in between two read events  */
-    UInt_t fuEventInterval;
+    UInt_t fuEventInterval{0};
 
     /** Port number .  */
-    Int_t fiPort;
+    Int_t fiPort{0};
 
     /** Allowed number of retries when connection lost */
-    Int_t fiRetryCnt;
+    Int_t fiRetryCnt{0};
 
-  ClassDef(TGo4MbsSourceParameter,3)
+  ClassDefOverride(TGo4MbsSourceParameter,3)
 
 };
 

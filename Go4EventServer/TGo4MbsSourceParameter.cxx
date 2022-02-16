@@ -13,80 +13,37 @@
 
 #include "TGo4MbsSourceParameter.h"
 
-#include <iostream>
-
-#include "TGo4Log.h"
 #include "TGo4Status.h"
 
 TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
-    TGo4EventSourceParameter("MbsSource", 0),
-    fuStartEvent(0),
-    fuStopEvent(0),
-    fuEventInterval(0),
-    fiPort(0),
-    fiRetryCnt(0)
+    TGo4EventSourceParameter("MbsSource", 0)
 {
-   GO4TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
 
 TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
-   TGo4EventSourceParameter(name, id),
-   fuStartEvent(0),
-   fuStopEvent(0),
-   fuEventInterval(0),
-   fiPort(0),
-   fiRetryCnt(0)
+   TGo4EventSourceParameter(name, id)
 {
-   GO4TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char*,...)", __LINE__, __FILE__));
 }
 
 TGo4MbsSourceParameter::~TGo4MbsSourceParameter()
 {
-   GO4TRACE((14,"TGo4MbsSourceParameter::~TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
 
-Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
+void TGo4MbsSourceParameter::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4MbsSourceParameter::PrintParameter()",__LINE__, __FILE__));
-   Int_t locallen=128000;
-   Text_t localbuf[128000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size=0;
-   Int_t restlen=locallen;
-   Text_t* current=localbuf;
-
-   Int_t delta=TGo4EventSourceParameter::PrintParameter(current,restlen);
-   restlen-=delta;
-   current+= delta;
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Startevent: \t%d",GetStartEvent());
-   current=TGo4Status::PrintBuffer(current,restlen, "\t Stopevent: \t%d \n",GetStopEvent());
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Event interval: \t%d\n",GetEventInterval());
+   TGo4EventSourceParameter::Print();
+   TGo4Status::PrintLine("  Startevent: \t%d",GetStartEvent());
+   TGo4Status::PrintLine("  Stopevent: \t%d" ,GetStopEvent());
+   TGo4Status::PrintLine("  Event interval: \t%d", GetEventInterval());
    if (GetPort()>0)
-      current=TGo4Status::PrintBuffer(current,restlen, "  Server port: \t%d \n",GetPort());
+      TGo4Status::PrintLine("  Server port: \t%d",GetPort());
    if (GetRetryCnt()>0)
-      current=TGo4Status::PrintBuffer(current,restlen, "  Retry cnt: \t%d \n",GetRetryCnt());
-
-   if(buffer==0)
-      {
-          std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
-   return size;
+      TGo4Status::PrintLine("  Retry cnt: \t%d",GetRetryCnt());
 }
 
 Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   GO4TRACE((12,"TGo4MbsSourceParameter::UpdateFrom()",__LINE__, __FILE__));
-   if((rhs!=0) && rhs->InheritsFrom(TGo4MbsSourceParameter::Class())) {
+   if(rhs && rhs->InheritsFrom(TGo4MbsSourceParameter::Class())) {
       TGo4MbsSourceParameter* mbspar=dynamic_cast<TGo4MbsSourceParameter*>(rhs);
       if(!mbspar) return kFALSE;
       if(!TGo4EventSourceParameter::UpdateFrom(rhs)) return kFALSE;

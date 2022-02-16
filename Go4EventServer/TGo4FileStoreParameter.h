@@ -29,12 +29,10 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
 
       virtual ~TGo4FileStoreParameter();
 
-      /** basic method to printout status information
-        * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
       /** update contents of paramter class with external object. */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
       Int_t GetSplitlevel() const { return fiSplit; }
       void SetSplitlevel(Int_t split) { fiSplit=split; }
@@ -54,23 +52,23 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
    private:
 
       /** Splitlevel for Tree. Default is 1.*/
-      Int_t fiSplit;
+      Int_t fiSplit{99};
 
       /** Size of the root io buffer. */
-      Int_t fiBufsize;
+      Int_t fiBufsize{64000};
 
       /** Compression level of the root file. Default is 5. */
-      Int_t fiCompression;
+      Int_t fiCompression{5};
 
       /** Autosave interval for the Tree. */
-      Int_t fiAutosavesize;
+      Int_t fiAutosavesize{10000};
 
       /** True if old filestore of same name shall be overwritten.
         * False if old filestore should be opened in append (update) mode.
         * internally, we use Int_t for root streamer problems.*/
-      Int_t fbOverwrite;
+      Int_t fbOverwrite{1};
 
-   ClassDef(TGo4FileStoreParameter,1)
+   ClassDefOverride(TGo4FileStoreParameter,1)
 };
 
 #endif //TGO4FILESTOREPARAMETER_H

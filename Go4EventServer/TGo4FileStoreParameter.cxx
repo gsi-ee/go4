@@ -13,10 +13,7 @@
 
 #include "TGo4FileStoreParameter.h"
 
-#include <iostream>
-
 #include "TGo4Status.h"
-#include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 
 TGo4FileStoreParameter::TGo4FileStoreParameter(const char* name,
@@ -28,65 +25,33 @@ TGo4FileStoreParameter::TGo4FileStoreParameter(const char* name,
    fiSplit(splitlevel), fiBufsize(bufsize),
    fiCompression(compression), fiAutosavesize(autosave), fbOverwrite(1)
 {
-   GO4TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter(const char*,...)", __LINE__, __FILE__));
    SetTitle(name);
 }
 
 TGo4FileStoreParameter::TGo4FileStoreParameter()
-: TGo4EventStoreParameter("Default Go4 FileStore", GO4EV_FILE),
-   fiSplit(99), fiBufsize(64000),
-   fiCompression(5), fiAutosavesize(10000), fbOverwrite(1)
+: TGo4EventStoreParameter("Default Go4 FileStore", GO4EV_FILE)
 {
-   GO4TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter()", __LINE__, __FILE__));
    SetTitle("Go4FileStore-Tree");
 }
 
 TGo4FileStoreParameter::~TGo4FileStoreParameter()
 {
-   GO4TRACE((14,"TGo4FileStoreParameter::~TGo4FileStoreParameter()", __LINE__, __FILE__));
 }
-Int_t TGo4FileStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
+
+void TGo4FileStoreParameter::Print(Option_t*) const
 {
- GO4TRACE((12,"TGo4FileStoreParameter::PrintParameter()",__LINE__, __FILE__));
-   Int_t locallen=128000;
-   Text_t localbuf[128000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size=0;
-   Int_t restlen=locallen;
-   Text_t* current=localbuf;
-   Int_t delta=TGo4EventStoreParameter::PrintParameter(current,restlen);
-   restlen-=delta;
-   current+=delta;
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Split level: \t%d \n",fiSplit);
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Buffer size: \t%d bytes\n",fiBufsize);
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Compression level: \t%d \n",fiCompression);
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Tree autosave at: \t%d bytes\n",fiAutosavesize);
-   if(buffer==0)
-      {
-      std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
-   return size;
+   TGo4EventStoreParameter::Print();
+   TGo4Status::PrintLine("  Split level: \t%d", fiSplit);
+   TGo4Status::PrintLine("  Buffer size: \t%d bytes", fiBufsize);
+   TGo4Status::PrintLine("  Compression level: \t%d", fiCompression);
+   TGo4Status::PrintLine("  Tree autosave at: \t%d bytes", fiAutosavesize);
 }
 
 
 Bool_t TGo4FileStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   GO4TRACE((12,"TGo4FileStoreParameter::UpdateFrom()",__LINE__, __FILE__));
-
-   TGo4FileStoreParameter* filepar=dynamic_cast<TGo4FileStoreParameter*>(rhs);
-   if (filepar==0) return kFALSE;
+   TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(rhs);
+   if (!filepar) return kFALSE;
 
    if(!TGo4EventStoreParameter::UpdateFrom(rhs)) return kFALSE;
    SetSplitlevel(filepar->GetSplitlevel());

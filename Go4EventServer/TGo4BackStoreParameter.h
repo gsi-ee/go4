@@ -27,12 +27,10 @@ class TGo4BackStoreParameter : public TGo4EventStoreParameter {
 
       virtual ~TGo4BackStoreParameter() ;
 
-      /** basic method to printout status information
-        * on stdout; to be overridden by specific subclass  */
-      virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
       /** update contents of paramter class with external object. */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
       Int_t GetSplitlevel() const { return fiSplit; }
       void SetSplitlevel(Int_t split) { fiSplit=split; }
@@ -43,12 +41,12 @@ class TGo4BackStoreParameter : public TGo4EventStoreParameter {
    private:
 
       /** Splitlevel for Tree. Default is 1. */
-      Int_t fiSplit;
+      Int_t fiSplit{99};
 
       /** Size of the root io buffer. */
-      Int_t fiBufsize;
+      Int_t fiBufsize{64000};
 
-   ClassDef(TGo4BackStoreParameter,1)
+   ClassDefOverride(TGo4BackStoreParameter,1)
 };
 
 #endif //TGO4BACKSTOREPARAMETER_H
