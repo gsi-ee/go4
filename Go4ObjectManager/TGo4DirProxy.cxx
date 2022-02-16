@@ -220,20 +220,12 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 //*************************************************************************
 
 TGo4DirProxy::TGo4DirProxy() :
-   TGo4Proxy(),
-   fDir(0),
-   fOwner(kFALSE),
-   fReadRight(kFALSE),
-   fxParentSlot(0)
+   TGo4Proxy()
 {
 }
 
 TGo4DirProxy::TGo4DirProxy(TDirectory* dir, Bool_t readright, Bool_t owner) :
-   TGo4Proxy(),
-   fDir(0),
-   fOwner(kFALSE),
-   fReadRight(kFALSE),
-   fxParentSlot(0)
+   TGo4Proxy()
 {
    SetDir(dir, readright, owner);
 }
@@ -253,19 +245,19 @@ void TGo4DirProxy::SetDir(TDirectory* dir, Bool_t readright, Bool_t owner)
 
 void TGo4DirProxy::ClearDir()
 {
-   if (fOwner && (fDir!=0)) delete fDir;
-   fDir = 0;
+   if (fOwner && fDir) delete fDir;
+   fDir = nullptr;
    fOwner = kFALSE;
 }
 
 Int_t TGo4DirProxy::GetObjectKind()
 {
-   return (fDir!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fDir ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4DirProxy::GetContainedClassName()
 {
-   return fDir!=0 ? fDir->ClassName() : 0;
+   return fDir ? fDir->ClassName() : nullptr;
 }
 
 const char* TGo4DirProxy::GetContainedObjectInfo()
