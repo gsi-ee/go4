@@ -13,26 +13,22 @@
 
 #include "TGo4TaskStatus.h"
 
-#include <iostream>
-
 #include "TGo4TaskHandlerStatus.h"
 
 TGo4TaskStatus::TGo4TaskStatus() :
-   TGo4Status(),
-   fxTaskHandlerStatus(0)
+   TGo4Status()
 {
 }
 
 TGo4TaskStatus::TGo4TaskStatus(const char* name) :
-   TGo4Status(name),
-   fxTaskHandlerStatus(0)
+   TGo4Status(name)
 {
 }
 
 TGo4TaskStatus::~TGo4TaskStatus()
 {
    delete fxTaskHandlerStatus;
-   fxTaskHandlerStatus = 0;
+   fxTaskHandlerStatus = nullptr;
 }
 
 void TGo4TaskStatus::SetFlags(Bool_t blocking,
@@ -41,46 +37,28 @@ void TGo4TaskStatus::SetFlags(Bool_t blocking,
                                  Bool_t terminating,
                                  Bool_t initdone)
 {
-   fbAppBlocking=blocking;
-   fbAutoCreate=autocreate;
-   fbAutoStart=autostart;
-   fbTerminating=terminating;
-   fbInitDone=initdone;
+   fbAppBlocking = blocking;
+   fbAutoCreate = autocreate;
+   fbAutoStart = autostart;
+   fbTerminating = terminating;
+   fbInitDone = initdone;
 }
+
 void TGo4TaskStatus::SetTaskHandlerStatus(TGo4TaskHandlerStatus* thstate)
 {
    fxTaskHandlerStatus = thstate;
 }
 
-Int_t TGo4TaskStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4TaskStatus::Print(Option_t*) const
 {
-   //
-   if(buflen<=0 && buffer!=0) return 0;
-
-   Int_t locallen=4096;
-   Text_t localbuf[4096];
-   Text_t* current=localbuf;
-   Int_t size = 0;
-   Int_t restlen = locallen;
-   current=PrintBuffer(current,restlen, "G-OOOO->    Client Status Class %s Printout:  <-OOOO-G\n",GetName());
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   current=PrintBuffer(current,restlen, "G-OOOO-> Blockingmode: %d\n",fbAppBlocking);
-   current=PrintBuffer(current,restlen, "G-OOOO-> Autocreate: %d\n",fbAutoCreate);
-   current=PrintBuffer(current,restlen, "G-OOOO-> Autostart: %d\n",fbAutoStart);
-   current=PrintBuffer(current,restlen, "G-OOOO-> InitDone: %d\n",fbInitDone);
-   current=PrintBuffer(current,restlen, "G-OOOO-> IsTerminating: %d\n",fbTerminating);
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   Int_t delta=fxTaskHandlerStatus->PrintStatus(current,restlen);
-   restlen-=delta;
-   current+= delta;
-   current = PrintBuffer(current, restlen, "G-OOOO-> END Client Status Class Printout END <-OOOO-G\n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
-   }
-   return size;
+   PrintLine("G-OOOO->    Client Status Class %s Printout:  <-OOOO-G",GetName());
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
+   PrintLine("G-OOOO-> Blockingmode: %d", fbAppBlocking);
+   PrintLine("G-OOOO-> Autocreate: %d", fbAutoCreate);
+   PrintLine("G-OOOO-> Autostart: %d", fbAutoStart);
+   PrintLine("G-OOOO-> InitDone: %d", fbInitDone);
+   PrintLine("G-OOOO-> IsTerminating: %d", fbTerminating);
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
+   fxTaskHandlerStatus->Print();
+   PrintLine("G-OOOO-> END Client Status Class Printout END <-OOOO-G");
 }

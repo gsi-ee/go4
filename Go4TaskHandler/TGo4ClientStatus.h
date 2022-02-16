@@ -32,7 +32,7 @@ class TGo4ClientStatus : public TGo4TaskStatus {
        * on stdout; to be overridden by specific
        * subclass
        */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
    protected:
 
@@ -45,7 +45,7 @@ class TGo4ClientStatus : public TGo4TaskStatus {
       /** hostname of server machine */
       TString fxServerHostName;
 
-   ClassDef(TGo4ClientStatus,1)
+   ClassDefOverride(TGo4ClientStatus,1)
 };
 
 #endif //TGO4CLIENTSTATUS_H
