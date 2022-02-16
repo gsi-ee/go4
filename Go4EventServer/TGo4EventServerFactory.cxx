@@ -135,7 +135,7 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
       else if(!strcmp(par->ClassName(),"TGo4MbsFileParameter"))
       {
          rev = new TGo4MbsFile(dynamic_cast<TGo4MbsFileParameter* > (par) );
-         //par->PrintParameter();
+         //par->Print();
       }
       else if(!strcmp(par->ClassName(),"TGo4MbsStreamParameter"))
       {

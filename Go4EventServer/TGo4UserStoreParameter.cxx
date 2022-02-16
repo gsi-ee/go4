@@ -13,10 +13,7 @@
 
 #include "TGo4UserStoreParameter.h"
 
-#include <iostream>
-
 #include "TGo4Status.h"
-#include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 
 TGo4UserStoreParameter::TGo4UserStoreParameter(const char* name)
@@ -36,42 +33,21 @@ TGo4UserStoreParameter::~TGo4UserStoreParameter()
 
 }
 
-Int_t TGo4UserStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
+void TGo4UserStoreParameter::Print(Option_t*) const
 {
- GO4TRACE((12,"TGo4UserStoreParameter::PrintParameter()",__LINE__, __FILE__));
-   Int_t locallen=128000;
-   Text_t localbuf[128000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size=0;
-   Int_t restlen=locallen;
-   Text_t* current=localbuf;
-   Int_t delta=TGo4EventStoreParameter::PrintParameter(current,restlen);
-   restlen-=delta;
-   current+=delta;
-   current=TGo4Status::PrintIndent(current,restlen);
-   current=TGo4Status::PrintBuffer(current,restlen, "  Expression: %s\n",GetExpression());
-   if(buffer==0)
-      {
-      std::cout << localbuf << std::endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
-   return size;
+   TGo4EventStoreParameter::Print();
+   TGo4Status::PrintLine("  Expression: %s", GetExpression());
 }
 
 
 Bool_t TGo4UserStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TGo4UserStoreParameter* filepar=dynamic_cast<TGo4UserStoreParameter*>(rhs);
+   auto filepar = dynamic_cast<TGo4UserStoreParameter*>(rhs);
 
-   if(filepar!=0)
-      return TGo4EventStoreParameter::UpdateFrom(rhs);
+   if(filepar && TGo4EventStoreParameter::UpdateFrom(rhs)) {
+      SetExpression(filepar->GetExpression());
+      return kTRUE;
+   }
 
    return kFALSE;
 }
