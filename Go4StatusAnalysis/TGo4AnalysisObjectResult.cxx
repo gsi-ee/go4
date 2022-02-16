@@ -49,7 +49,7 @@ void TGo4AnalysisObjectResult::Print(Option_t*) const
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
 
    if(fxNamesList)
-      fxNamesList->PrintStatus();
+      fxNamesList->Print();
 
    PrintLine(" Full object name: \t%s", GetObjectFullName());
    PrintLine(" Message: \t%s", GetMessage());

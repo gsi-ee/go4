@@ -125,7 +125,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   // first stepwise options here:
 
   ResetStepIterator();
-  TGo4AnalysisStepStatus* step = 0;
+  TGo4AnalysisStepStatus* step = nullptr;
   Int_t stepindex = 0;
   while ((step = NextStepStatus()) != 0)
   {
@@ -494,7 +494,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
                 storepar ? storepar->ClassName() : "nullpointer"));
     }    //fgxURL_STORE_OVERWRITE
 
-    step->PrintStatus();
+    step->Print();
     stepindex++;
   }    // while step
 

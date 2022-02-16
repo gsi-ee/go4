@@ -66,7 +66,7 @@ void TGo4AnalysisStatus::Print(Option_t*) const
    Int_t num = GetNumberOfSteps();
    for (int indx = 0; indx < num; ++indx) {
       auto step = GetStepStatus(indx);
-      if (step) step->PrintStatus();
+      if (step) step->Print();
    }
 
    TROOT::DecreaseDirLevel();

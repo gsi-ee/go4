@@ -98,7 +98,7 @@ int main(int argc, char **argv)
          TGo4AnalysisObjectNames *list = myclient.RequestNamesList();
 
          if (list)
-            list->PrintStatus();
+            list->Print();
          else
             std::cout << "got zero list!!!" << std::endl;
       } else {
