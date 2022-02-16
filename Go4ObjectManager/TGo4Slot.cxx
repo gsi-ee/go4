@@ -59,29 +59,18 @@ class TGo4SlotIter : public TGo4LevelIter {
 
 
 TGo4Slot::TGo4Slot() :
-   TNamed(),
-   fParent(0),
-   fChilds(0),
-   fPars(),
-   fProxy(0),
-   fAssignFlag(-1),
-   fAssignCnt(0)
+   TNamed()
 {
    SetBit(kStartDelete, kFALSE);
 }
 
 TGo4Slot::TGo4Slot(TGo4Slot* parent) :
    TNamed(),
-   fParent(parent),
-   fChilds(0),
-   fPars(),
-   fProxy(0),
-   fAssignFlag(-1),
-   fAssignCnt(0)
+   fParent(parent)
 {
    SetBit(kStartDelete, kFALSE);
 
-   if (parent!=0)
+   if (parent)
      parent->AddChild(this);
 
    Event(this, evCreate);
@@ -89,16 +78,11 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent) :
 
 TGo4Slot::TGo4Slot(TGo4Slot* parent, const char* name, const char* title) :
    TNamed(name, title),
-   fParent(parent),
-   fChilds(0),
-   fPars(),
-   fProxy(0),
-   fAssignFlag(-1),
-   fAssignCnt(0)
+   fParent(parent)
 {
    SetBit(kStartDelete, kFALSE);
 
-   if (parent!=0)
+   if (parent)
      parent->AddChild(this);
 
    Event(this, evCreate);
@@ -108,7 +92,7 @@ TGo4Slot::~TGo4Slot()
 {
    // sequence of calls here is very important
    // First, we emit message from slot itself to inform all dependent slots
-   // that we intend to delete our objects. After that all depenedent slots
+   // that we intend to delete our objects. After that all dependent slots
    // are informed and we can remove object (with clean proxy), delete childs
    // and remove parameters
 
@@ -126,25 +110,25 @@ TGo4Slot::~TGo4Slot()
    DeleteChilds();
 
    if (gDebug>1) Info("~TGo4Slot","%p Detach from parent", this);
-   if (fParent!=0) {
+   if (fParent) {
       fParent->RemoveChild(this);
-      fParent = 0;
+      fParent = nullptr;
    }
 
    if (gDebug>1) Info("~TGo4Slot","%p fPars.Delete()", this);
    fPars.Delete();
 
-   if (fChilds!=0) {
+   if (fChilds) {
       if (gDebug>1) Info("~TGo4Slot","%p Detach rest children", this);
-      for (Int_t n=0;n<=fChilds->GetLast();n++) {
+      for (Int_t n = 0; n <= fChilds->GetLast(); n++) {
          TGo4Slot* child = (TGo4Slot*) fChilds->At(n);
-         if (child==0) continue;
-         child->fParent = 0;
+         if (!child) continue;
+         child->fParent = nullptr;
          fChilds->Remove(child);
       }
 
       delete fChilds;
-      fChilds = 0;
+      fChilds = nullptr;
    }
 
    if (gDebug>1) Info("~TGo4Slot","%p Finish", this);
@@ -194,7 +178,7 @@ void TGo4Slot::Delete(Option_t *)
 Bool_t TGo4Slot::IsParent(const TGo4Slot* slot) const
 {
    TGo4Slot* parent = GetParent();
-   while (parent!=0) {
+   while (parent) {
       if (parent==slot) return kTRUE;
       parent = parent->GetParent();
    }
@@ -209,9 +193,9 @@ void TGo4Slot::DeleteChild(const char* name)
    if (!child->DoingDelete())
       delete child;
 
-   if ((NumChilds()==0) && (fChilds!=0)) {
+   if ((NumChilds()==0) && fChilds) {
       delete fChilds;
-      fChilds = 0;
+      fChilds = nullptr;
    }
 }
 
