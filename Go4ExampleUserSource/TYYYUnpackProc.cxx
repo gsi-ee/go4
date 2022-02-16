@@ -49,7 +49,7 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    //// init user analysis objects:
 
    fParam1 = (TYYYParameter *) GetParameter("YYYPar1");
-   fParam1->PrintParameter(0,0);
+   fParam1->Print();
 
    fX = MakeTH1('D', "Position/Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
    fY = MakeTH1('D', "Position/Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);

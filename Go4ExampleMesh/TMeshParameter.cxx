@@ -13,21 +13,18 @@
 
 #include "TMeshParameter.h"
 
+#include "TGo4Status.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4Analysis.h"
 
 //***********************************************************
 TMeshParameter::TMeshParameter() :
-   TGo4Parameter("MeshParameter"),
-   fbUnpackOn(kTRUE), fbExec1On(kTRUE), fbExec2On(kTRUE),
-   fbExec3On(kTRUE),fbExec12On(kTRUE),fbCollectorOn(kTRUE)
+   TGo4Parameter("MeshParameter")
 {
 }
 //***********************************************************
 TMeshParameter::TMeshParameter(const char* name) :
-   TGo4Parameter(name),
-   fbUnpackOn(kTRUE), fbExec1On(kTRUE), fbExec2On(kTRUE),
-   fbExec3On(kTRUE),fbExec12On(kTRUE),fbCollectorOn(kTRUE)
+   TGo4Parameter(name)
 {
 }
 //***********************************************************
@@ -37,16 +34,15 @@ TMeshParameter::~TMeshParameter()
 //***********************************************************
 
 //-----------------------------------------------------------
-Int_t TMeshParameter::PrintParameter(Text_t * n, Int_t)
+void TMeshParameter::Print(Option_t*) const
 {
-   std::cout << "Parameter " << GetName()<<":" <<std::endl;
-   std::cout << " fbUnpackOn="<<fbUnpackOn<<std::endl;
-   std::cout << " fbExec1On="<<fbExec1On<<std::endl;
-   std::cout << " fbExec2On="<<fbExec2On<<std::endl;
-   std::cout << " fbExec3On="<<fbExec3On<<std::endl;
-   std::cout << " fbExec12On="<<fbExec12On<<std::endl;
-   std::cout << " fbCollectorOn="<<fbCollectorOn<<std::endl;
-   return 0;
+   TGo4Status::PrintLine("Parameter %s:", GetName());
+   TGo4Status::PrintLine(" fbUnpackOn=%s",fbUnpackOn ? "true" : "false");
+   TGo4Status::PrintLine(" fbExec1On=%s",fbExec1On ? "true" : "false");
+   TGo4Status::PrintLine(" fbExec2On=%s",fbExec2On ? "true" : "false");
+   TGo4Status::PrintLine(" fbExec3On=%s",fbExec3On ? "true" : "false");
+   TGo4Status::PrintLine(" fbExec12On=%s",fbExec12On ? "true" : "false");
+   TGo4Status::PrintLine(" fbCollectorOn=%s",fbCollectorOn ? "true" : "false");
 }
 //-----------------------------------------------------------
 Bool_t TMeshParameter::UpdateFrom(TGo4Parameter *pp)

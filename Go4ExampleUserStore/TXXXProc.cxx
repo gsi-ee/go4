@@ -52,7 +52,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    // Macro histofill.C sets histogram fill status in parameter "Control".
    // This macro histofill.C, not the auto save file, will set status.
    ExecuteScript("histofill.C");
-   fControl->PrintParameter(0,0);
+   fControl->Print();
 
    TGo4Log::Info("TXXXProc: Produce histograms");
    // Creation of histograms (or take them from autosave)

@@ -13,20 +13,19 @@
 
 #include "TYYYParameter.h"
 
-#include <iostream>
-
 #include "TGo4Log.h"
+#include "TGo4Status.h"
 #include "TGo4Fitter.h"
 
 TYYYParameter::TYYYParameter() :
    TGo4Parameter("YYYParameter")
 {
-   frP1=0;
-   frP2=0;
+   frP1 = 0;
+   frP2 = 0;
 
    for(Int_t ix=0;ix<__ARRAYSIZE__;ix++) {
-      fiDataArray[ix]=0;
-      fxFitArray[ix]=0;
+      fiDataArray[ix] = 0;
+      fxFitArray[ix] = nullptr;
    }
 }
 
@@ -46,26 +45,25 @@ TYYYParameter::~TYYYParameter()
    for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
      if(fxFitArray[ix]) {
         delete fxFitArray[ix];
-        fxFitArray[ix] = 0;
+        fxFitArray[ix] = nullptr;
      }
 }
 
-Int_t TYYYParameter::PrintParameter(Text_t * n, Int_t)
+void TYYYParameter::Print(Option_t*) const
 {
-  std::cout << "Parameter " << GetName()<<":" <<std::endl;
-  std::cout << " P1="<<frP1<<std::endl;
-  std::cout << " P2="<<frP2<< std::endl;
+  TGo4Status::PrintLine("Parameter %s:", GetName());
+  TGo4Status::PrintLine(" P1 = %f", frP1);
+  TGo4Status::PrintLine(" P2= %f", frP2);
   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix) {
-     std::cout << "fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<std::endl;
+     TGo4Status::PrintLine("fiDataArray[%d] = %d", ix, fiDataArray[ix]);
      if (fxFitArray[ix]) fxFitArray[ix]->PrintLines();
   }
-  return 0;
 }
 
 Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
 {
    TYYYParameter* from = dynamic_cast<TYYYParameter*> (source);
-   if (from==0) {
+   if (!from) {
       TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;
    }
@@ -78,7 +76,7 @@ Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
       // replace old fitters by copy of source fitter:
       if(fxFitArray[ix]) {
          delete fxFitArray[ix];
-         fxFitArray[ix] = 0;
+         fxFitArray[ix] = nullptr;
       }
       if (from->fxFitArray[ix])
          fxFitArray[ix] = (TGo4Fitter*) from->fxFitArray[ix]->Clone();

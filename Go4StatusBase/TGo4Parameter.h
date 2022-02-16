@@ -35,9 +35,10 @@ class TGo4Parameter : public TNamed {
 
       virtual ~TGo4Parameter();
 
-      /** Basic method to printout information on stdout;
+      /** DEPRECATED - please use Print(Option_t*) signature
+        * Basic method to printout parameter on stdout or in text buffer;
         * to be overridden by specific subclass  */
-      virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+      virtual Int_t PrintParameter(Text_t *buffer = nullptr, Int_t buflen = 0);
 
       void Print(Option_t* dummy="") const override;
 

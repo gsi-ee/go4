@@ -43,11 +43,11 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4Log::Info("TXXXUnpackProc: Create %s", name);
 
    //// init user analysis objects:
-   fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
-   fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
-   fParam1->PrintParameter(0,0);
+   fParam1   = (TXXXParameter *) GetParameter("XXXPar1");
+   fParam2   = (TXXXParameter *) GetParameter("XXXPar2");
 
-   fParam2->PrintParameter(0,0);
+   fParam1->Print();
+   fParam2->Print();
 
    TGo4Log::Info("TXXXProc: Produce histograms");
 

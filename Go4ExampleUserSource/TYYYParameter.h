@@ -25,15 +25,16 @@ class TYYYParameter : public TGo4Parameter {
       TYYYParameter();
       TYYYParameter(const char* name);
       virtual ~TYYYParameter();
-      virtual Int_t PrintParameter(Text_t * n, Int_t);
-      virtual Bool_t UpdateFrom(TGo4Parameter *);
 
-      Float_t frP1;
-      Float_t frP2;
+      void Print(Option_t* = "") const override;
+      Bool_t UpdateFrom(TGo4Parameter *) override;
+
+      Float_t frP1{0.};
+      Float_t frP2{0.};
       Int_t fiDataArray[__ARRAYSIZE__];
       TGo4Fitter* fxFitArray[__ARRAYSIZE__];
 
-   ClassDef(TYYYParameter,1)
+   ClassDefOverride(TYYYParameter,1)
 };
 
 #endif //TYYYParameter_H
