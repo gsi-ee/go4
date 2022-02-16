@@ -13,8 +13,6 @@
 
 #include "TGo4ParameterStatus.h"
 
-#include <iostream>
-
 #include "TROOT.h"
 #include "TClass.h"
 #include "TObjArray.h"
