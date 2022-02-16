@@ -24,57 +24,50 @@
 TGo4ExampleController::TGo4ExampleController() :
   fxPreviousData(0), fxCanvas(0)
 {
-  GO4TRACE((15,"TGo4ExampleController::TGo4ExampleController() constructor",__LINE__, __FILE__));
-  fxCanvas=new TCanvas("Example Display","Go4 controller canvas",3);
+   GO4TRACE((15,"TGo4ExampleController::TGo4ExampleController() constructor",__LINE__, __FILE__));
+   fxCanvas=new TCanvas("Example Display","Go4 controller canvas",3);
 }
 
 TGo4ExampleController::~TGo4ExampleController()
 {
-  GO4TRACE((15,"TGo4ExampleController::~TGo4ExampleController() destructor",__LINE__, __FILE__));
-  delete fxPreviousData;
-  delete fxCanvas;
+   GO4TRACE((15,"TGo4ExampleController::~TGo4ExampleController() destructor",__LINE__, __FILE__));
+   delete fxPreviousData;
+   delete fxCanvas;
 }
 
 void TGo4ExampleController::DisplayData(TObject* data)
 {
-   GO4TRACE((12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
-  if(data)
-    {
-     delete fxPreviousData;
-     fxPreviousData=data;
-      std::cout << "ExampleController received data object:"<<std::endl;
-      std::cout << "Classname:"<< data->ClassName()<<", Name:" << data->GetName()<< std::endl;
+   GO4TRACE(
+         (12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
+   if (data) {
+      delete fxPreviousData;
+      fxPreviousData = data;
+      std::cout << "ExampleController received data object:" << std::endl;
+      std::cout << "Classname:" << data->ClassName() << ", Name:"
+            << data->GetName() << std::endl;
       fxCanvas->cd();
       fxPreviousData->Draw();
       fxCanvas->Modified();
       fxCanvas->Update();
-    }
-  else
-    {
-      std::cout << "ExampleController has NULL data object"<<std::endl;
-    }
+   } else {
+      std::cout << "ExampleController has NULL data object" << std::endl;
+   }
 }
 
 void TGo4ExampleController::DisplayLog(TGo4Status* status)
 {
   GO4TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status*)",__LINE__, __FILE__));
-  if(status)
-    {
-      std::cout << "ExampleController received status object:"<<std::endl;
-      if(status->InheritsFrom("TGo4ExampleClientStatus"))
-         {
-            status->PrintStatus(); // display client status object
-         }
-     else
-      {
-            std::cout << status->GetName()<< std::endl; // status message
+   if (status) {
+      std::cout << "ExampleController received status object:" << std::endl;
+      if (status->InheritsFrom("TGo4ExampleClientStatus")) {
+         status->Print(); // display client status object
+      } else {
+         std::cout << status->GetName() << std::endl; // status message
       }
       delete status; // avoid memory leak
-    }
-  else
-    {
-      std::cout << "ExampleController has NULL status object"<<std::endl;
-    }
+   } else {
+      std::cout << "ExampleController has NULL status object" << std::endl;
+   }
 
 }
 
