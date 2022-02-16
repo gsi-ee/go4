@@ -13,247 +13,147 @@
 
 #include "TGo4HistogramStatus.h"
 
-#include <iostream>
-
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
 
 #include "TGo4Log.h"
 
+TGo4HistogramStatus::TGo4HistogramStatus() : TGo4ObjectStatus()
+{
+}
+
 TGo4HistogramStatus::TGo4HistogramStatus(TH1* his, Bool_t allstatistics)
-: TGo4ObjectStatus(his, allstatistics),
-fiDim(0),fiNbinX(0), fiNbinY(0), fiNbinZ(0),
-fdXmin(0), fdXmax(0), fdYmin(0), fdYmax(0), fdZmin(0), fdZmax(0),
-fdEntries(0), fdXmean(0), fdYmean(0), fdZmean(0),
-fdXrms(0), fdYrms(0), fdZrms(0)
+   : TGo4ObjectStatus(his, allstatistics)
+
 {
    GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus(TH1*)",__LINE__, __FILE__));
 
-   if(his!=0)
-      {
-         fiDim=his->GetDimension();
-         fiNbinX=his->GetNbinsX();
-         fiNbinY=his->GetNbinsY();
-         fiNbinZ=his->GetNbinsZ();
-         TAxis* xax=his->GetXaxis();
-         if(xax)
-            {
-               fdXmin=xax->GetXmin();
-               fdXmax=xax->GetXmax();
-            }
-         else
-            { // values already initialized as zero
-            }
-         TAxis* yax=his->GetYaxis();
-         if(yax)
-            {
-               fdYmin=yax->GetXmin();
-               fdYmax=yax->GetXmax();
-            }
-         else
-            { // values already initialized as zero
-            }
-         TAxis* zax=his->GetZaxis();
-         if(zax)
-            {
-               fdZmin=zax->GetXmin();
-               fdZmax=zax->GetXmax();
-            }
-         else
-            { // values already initialized as zero
-            }
-         fdEntries = his->GetEntries();
-         //////////////////////////////////////////////////////
-         ///// correct object size for real size of data array:
-         Int_t fieldsize=0;
-         // because of multiple inheritance of histogram types, we
-         // must check for all types separately to downcast the correct TArray:
-         if(his->InheritsFrom(TH1D::Class()))
-            {
-                TH1D* dhis=dynamic_cast<TH1D*>(his);
-                fieldsize=sizeof(Double_t)*dhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH1F::Class()))
-            {
-                TH1F* fhis=dynamic_cast<TH1F*>(his);
-                fieldsize=sizeof(Float_t)*fhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH1I::Class()))
-            {
-                TH1I* ihis=dynamic_cast<TH1I*>(his);
-                fieldsize=sizeof(Int_t)*ihis->GetSize(); // method of TArray baseclass
-            }
-          else if(his->InheritsFrom(TH1S::Class()))
-            {
-                TH1S* shis=dynamic_cast<TH1S*>(his);
-                fieldsize=sizeof(Short_t)*shis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH1C::Class()))
-            {
-                TH1C* chis=dynamic_cast<TH1C*>(his);
-                fieldsize=sizeof(Char_t)*chis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH2D::Class()))
-            {
-                TH2D* dhis=dynamic_cast<TH2D*>(his);
-                fieldsize=sizeof(Double_t)*dhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH2F::Class()))
-            {
-                TH2F* fhis=dynamic_cast<TH2F*>(his);
-                fieldsize=sizeof(Float_t)*fhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH2I::Class()))
-            {
-                TH2I* ihis=dynamic_cast<TH2I*>(his);
-                fieldsize=sizeof(Int_t)*ihis->GetSize(); // method of TArray baseclass
-            }
-          else if(his->InheritsFrom(TH2S::Class()))
-            {
-                TH2S* shis=dynamic_cast<TH2S*>(his);
-                fieldsize=sizeof(Short_t)*shis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH2C::Class()))
-            {
-                TH2C* chis=dynamic_cast<TH2C*>(his);
-                fieldsize=sizeof(Char_t)*chis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH3D::Class()))
-            {
-                TH3D* dhis=dynamic_cast<TH3D*>(his);
-                fieldsize=sizeof(Double_t)*dhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH3F::Class()))
-            {
-                TH3F* fhis=dynamic_cast<TH3F*>(his);
-                fieldsize=sizeof(Float_t)*fhis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH3I::Class()))
-            {
-                TH3I* ihis=dynamic_cast<TH3I*>(his);
-                fieldsize=sizeof(Int_t)*ihis->GetSize(); // method of TArray baseclass
-            }
-          else if(his->InheritsFrom(TH3S::Class()))
-            {
-                TH3S* shis=dynamic_cast<TH3S*>(his);
-                fieldsize=sizeof(Short_t)*shis->GetSize(); // method of TArray baseclass
-            }
-         else if(his->InheritsFrom(TH3C::Class()))
-            {
-                TH3C* chis=dynamic_cast<TH3C*>(his);
-                fieldsize=sizeof(Char_t)*chis->GetSize(); // method of TArray baseclass
-            }
-         fiObjectSize+=fieldsize; // add heap field to object stack memory size
-         //////////////////////////////////////////////////////////////////
+   if (his) {
+      fiDim = his->GetDimension();
+      fiNbinX = his->GetNbinsX();
+      fiNbinY = his->GetNbinsY();
+      fiNbinZ = his->GetNbinsZ();
+      TAxis *xax = his->GetXaxis();
+      if (xax) {
+         fdXmin = xax->GetXmin();
+         fdXmax = xax->GetXmax();
+      } else { // values already initialized as zero
+      }
+      TAxis *yax = his->GetYaxis();
+      if (yax) {
+         fdYmin = yax->GetXmin();
+         fdYmax = yax->GetXmax();
+      } else { // values already initialized as zero
+      }
+      TAxis *zax = his->GetZaxis();
+      if (zax) {
+         fdZmin = zax->GetXmin();
+         fdZmax = zax->GetXmax();
+      } else { // values already initialized as zero
+      }
+      fdEntries = his->GetEntries();
+      //////////////////////////////////////////////////////
+      ///// correct object size for real size of data array:
+      Int_t fieldsize = 0;
+      // because of multiple inheritance of histogram types, we
+      // must check for all types separately to downcast the correct TArray:
+      if (his->InheritsFrom(TH1D::Class())) {
+         TH1D *dhis = dynamic_cast<TH1D*>(his);
+         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH1F::Class())) {
+         TH1F *fhis = dynamic_cast<TH1F*>(his);
+         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH1I::Class())) {
+         TH1I *ihis = dynamic_cast<TH1I*>(his);
+         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH1S::Class())) {
+         TH1S *shis = dynamic_cast<TH1S*>(his);
+         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH1C::Class())) {
+         TH1C *chis = dynamic_cast<TH1C*>(his);
+         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH2D::Class())) {
+         TH2D *dhis = dynamic_cast<TH2D*>(his);
+         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH2F::Class())) {
+         TH2F *fhis = dynamic_cast<TH2F*>(his);
+         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH2I::Class())) {
+         TH2I *ihis = dynamic_cast<TH2I*>(his);
+         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH2S::Class())) {
+         TH2S *shis = dynamic_cast<TH2S*>(his);
+         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH2C::Class())) {
+         TH2C *chis = dynamic_cast<TH2C*>(his);
+         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH3D::Class())) {
+         TH3D *dhis = dynamic_cast<TH3D*>(his);
+         fieldsize = sizeof(Double_t) * dhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH3F::Class())) {
+         TH3F *fhis = dynamic_cast<TH3F*>(his);
+         fieldsize = sizeof(Float_t) * fhis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH3I::Class())) {
+         TH3I *ihis = dynamic_cast<TH3I*>(his);
+         fieldsize = sizeof(Int_t) * ihis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH3S::Class())) {
+         TH3S *shis = dynamic_cast<TH3S*>(his);
+         fieldsize = sizeof(Short_t) * shis->GetSize(); // method of TArray baseclass
+      } else if (his->InheritsFrom(TH3C::Class())) {
+         TH3C *chis = dynamic_cast<TH3C*>(his);
+         fieldsize = sizeof(Char_t) * chis->GetSize(); // method of TArray baseclass
+      }
+      fiObjectSize += fieldsize; // add heap field to object stack memory size
+      //////////////////////////////////////////////////////////////////
 
-         if(allstatistics)
-         {
+      if (allstatistics) {
          // note: we do not calculate statistic for nameslist
          // slows down when processing empty 2d histos!
          //std::cout <<"\t" <<GetName()<<" calculating mean/rms..." << std::endl;
-         fdXmean=his->GetMean(1);
-         fdYmean=his->GetMean(2);
-         fdZmean=his->GetMean(3);
+         fdXmean = his->GetMean(1);
+         fdYmean = his->GetMean(2);
+         fdZmean = his->GetMean(3);
          //std::cout <<"\t"<<GetName()<<" finished mean." << std::endl;
-         fdXrms=his->GetRMS(1);
-         fdYrms=his->GetRMS(2);
-         fdZrms=his->GetRMS(3);
+         fdXrms = his->GetRMS(1);
+         fdYrms = his->GetRMS(2);
+         fdZrms = his->GetRMS(3);
          //std::cout <<"\t"<<GetName()<<" finished rms." << std::endl;
-         }
       }
-}
-
-
-
-TGo4HistogramStatus::TGo4HistogramStatus() : TGo4ObjectStatus(),
-fiDim(0),fiNbinX(0), fiNbinY(0), fiNbinZ(0),
-fdXmin(0), fdXmax(0), fdYmin(0), fdYmax(0), fdZmin(0), fdZmax(0),
-fdEntries(0), fdXmean(0), fdYmean(0), fdZmean(0),
-fdXrms(0), fdYrms(0), fdZrms(0)
-{
-GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
-
+   }
 }
 
 
 TGo4HistogramStatus::~TGo4HistogramStatus()
 {
-GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
-
+   GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
 }
 
-
-
-
-Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4HistogramStatus::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4HistogramStatus::PrintStatus()",__LINE__, __FILE__));
-   //
-   if(buflen<=0 && buffer!=0)
-      return 0;
-   Int_t locallen=128000;
-   Text_t localbuf[128000];
-   Int_t size = 0;
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-   Int_t delta= TGo4ObjectStatus::PrintStatus(current,restlen);
-   restlen-=delta;
-   current+=delta;
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> Histogram Status Class Printout <-OOOO-G\n");
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
+   TGo4ObjectStatus::Print();
+   PrintLine("G-OOOO-> Histogram Status Class Printout <-OOOO-G");
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
    // put printout of histogram infos here:
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Dimension: \t%d\n",GetDimension());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Bins X: \t%d\n",GetXbins());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " X min: \t\t%f\n",GetXmin());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " X max: \t\t%f\n",GetXmax());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " X mean: \t%f\n",GetXmean());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " X rms: \t\t%f\n",GetXrms());
-   if(GetDimension()>1)
-      {
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Bins Y: \t%d\n",GetYbins());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Y min: \t\t%f\n",GetYmin());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Y max: \t\t%f\n",GetYmax());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Y mean: \t%f\n",GetYmean());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Y rms: \t\t%f\n",GetYrms());
-      }
-   if(GetDimension()>2)
-      {
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Bins Z: \t%d\n",GetZbins());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Z min: \t\t%f\n",GetZmin());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Z max: \t\t%f\n",GetZmax());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Z mean: \t%f\n",GetZmean());
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, " Z rms: \t\t%f\n",GetZrms());
-      }
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " N Entries: \t%f\n",GetEntries());
-   current=PrintIndent(current,restlen);
-   current = PrintBuffer(current, restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
+   PrintLine(" Dimension: \t%d", GetDimension());
+   PrintLine(" Bins X: \t%d", GetXbins());
+   PrintLine(" X min: \t\t%f", GetXmin());
+   PrintLine(" X max: \t\t%f", GetXmax());
+   PrintLine(" X mean: \t%f", GetXmean());
+   PrintLine(" X rms: \t\t%f", GetXrms());
+   if (GetDimension() > 1) {
+      PrintLine(" Bins Y: \t%d", GetYbins());
+      PrintLine(" Y min: \t\t%f", GetYmin());
+      PrintLine(" Y max: \t\t%f", GetYmax());
+      PrintLine(" Y mean: \t%f", GetYmean());
+      PrintLine(" Y rms: \t\t%f", GetYrms());
    }
-   return size;
+   if (GetDimension() > 2) {
+      PrintLine(" Bins Z: \t%d", GetZbins());
+      PrintLine(" Z min: \t\t%f", GetZmin());
+      PrintLine(" Z max: \t\t%f", GetZmax());
+      PrintLine(" Z mean: \t%f", GetZmean());
+      PrintLine(" Z rms: \t\t%f", GetZrms());
+   }
+   PrintLine(" N Entries: \t%f", GetEntries());
 }
