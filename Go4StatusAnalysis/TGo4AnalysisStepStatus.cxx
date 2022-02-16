@@ -42,23 +42,23 @@ void TGo4AnalysisStepStatus::Print(Option_t *) const
    TROOT::IncreaseDirLevel();
    if (IsProcessEnabled()) {
       if (IsSourceEnabled()) {
-         TGo4EventSourceParameter *spar = GetSourcePar();
+         auto spar = GetSourcePar();
          if (spar)
-            spar->PrintParameter();
+            spar->Print();
          else
             PrintLine("EventSource Type: undefined");
       } else {
          PrintLine("EventSource is disabled.");
       }
 
-      TGo4EventProcessorParameter *ppar = GetProcessorPar();
+      auto ppar = GetProcessorPar();
       if (ppar)
-         ppar->PrintParameter();
+         ppar->Print();
 
       if (IsStoreEnabled()) {
-         TGo4EventStoreParameter *tpar = GetStorePar();
+         auto tpar = GetStorePar();
          if (tpar)
-            tpar->PrintParameter();
+            tpar->Print();
          else
             PrintLine("EventStore Type: undefined");
       } else {

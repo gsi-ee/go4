@@ -30,26 +30,27 @@ class TGo4FitterEnvelope : public TGo4Parameter {
 
   public:
     TGo4FitterEnvelope();
-    TGo4FitterEnvelope(const char* name, TGo4Fitter* fitter=0);
+    TGo4FitterEnvelope(const char* name, TGo4Fitter *fitter = nullptr);
     virtual ~TGo4FitterEnvelope();
-    Int_t PrintParameter(Text_t * n, Int_t);
-    Bool_t UpdateFrom(TGo4Parameter *);
 
-    virtual void Clear(Option_t* opt="");
+    void Print(Option_t* = "") const override;
+    Bool_t UpdateFrom(TGo4Parameter *) override;
+
+    void Clear(Option_t* opt="") override;
 
     /** Access to the contained fitter object.
       * If change owner is kTRUE, this fitter envelope will lose
       * its fitter to the invoking client and is empty after
       * this call. */
-    TGo4Fitter* GetFitter(Bool_t chown=kFALSE);
+    TGo4Fitter* GetFitter(Bool_t chown = kFALSE);
 
      /** Set new fitter into envelope. Previous fitter is deleted. */
      void SetFitter(TGo4Fitter* fitter);
 
   private:
-    TGo4Fitter* fxFitter;
+    TGo4Fitter* fxFitter{nullptr};
 
-  ClassDef(TGo4FitterEnvelope,1)
+  ClassDefOverride(TGo4FitterEnvelope,1)
 };
 
 #endif //TGO4FITTERENVELOPE_H

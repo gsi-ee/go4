@@ -22,29 +22,25 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
    public:
       TGo4HDF5StoreParameter() ;
 
-      TGo4HDF5StoreParameter(const char* name,
-                  Go4_H5_File_Flags flags=GO4_H5F_ACC_TRUNC);
+      TGo4HDF5StoreParameter(const char* name, Go4_H5_File_Flags flags = GO4_H5F_ACC_TRUNC);
 
       virtual ~TGo4HDF5StoreParameter();
 
-      /** basic method to printout status information
-        * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+      /** basic method to printout object */
+      void Print(Option_t* = "") const override;
 
-      /** update contents of paramter class with external object. */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      /** update contents of parameter class with external object. */
+      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
       Go4_H5_File_Flags GetHDF5Flags() const { return fiFlags; }
       void SetHDF5Flags(Go4_H5_File_Flags flags) { fiFlags=flags; }
 
-
    private:
 
       /** Flags for HDF5 file mode*/
-      Go4_H5_File_Flags fiFlags;
+      Go4_H5_File_Flags fiFlags{GO4_H5F_ACC_NONE};
 
-
-   ClassDef(TGo4HDF5StoreParameter,1)
+   ClassDefOverride(TGo4HDF5StoreParameter,1)
 };
 
 #endif //TGO4FILESTOREPARAMETER_H
