@@ -24,7 +24,7 @@ class TGo4WidgetProxyBase : public TGo4Proxy {
 
       virtual ~TGo4WidgetProxyBase() {}
 
-      virtual Bool_t Use() const { return kFALSE; }
+      Bool_t Use() const override { return kFALSE; }
 
       void ConnectPad(TPad* pad);
 
@@ -32,8 +32,7 @@ class TGo4WidgetProxyBase : public TGo4Proxy {
 
       virtual void PadModified() {}
 
-
-   ClassDef(TGo4WidgetProxyBase, 1);
+   ClassDefOverride(TGo4WidgetProxyBase, 1);
 };
 
 #endif

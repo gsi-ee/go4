@@ -57,9 +57,7 @@ const char* TGo4ObjectAccess::GetObjectClassName() const
 // ********************************************************************
 
 TGo4ObjectProxy::TGo4ObjectProxy() :
-   TGo4Proxy(),
-   fObject(0),
-   fOwner(kFALSE)
+   TGo4Proxy()
 {
 }
 
@@ -68,8 +66,8 @@ TGo4ObjectProxy::TGo4ObjectProxy(TObject* obj, Bool_t owner) :
    fObject(obj),
    fOwner(owner)
 {
-   if ((fObject!=0) && fOwner && fObject->InheritsFrom(TH1::Class()))
-     ((TH1*) fObject)->SetDirectory(0);
+   if (fObject && fOwner && fObject->InheritsFrom(TH1::Class()))
+     ((TH1*) fObject)->SetDirectory(nullptr);
 }
 
 TGo4ObjectProxy::~TGo4ObjectProxy()
@@ -79,20 +77,20 @@ TGo4ObjectProxy::~TGo4ObjectProxy()
 
 void TGo4ObjectProxy::Initialize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->RegisterObjectWith(fObject, slot);
+   auto om = slot->GetOM();
+   if (om) om->RegisterObjectWith(fObject, slot);
 }
 
 void TGo4ObjectProxy::Finalize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->UnregisterObject(fObject, slot);
+   auto om = slot->GetOM();
+   if (om) om->UnregisterObject(fObject, slot);
 }
 
 Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
 {
    if (fObject==obj) {
-      fObject = 0;
+      fObject = nullptr;
       fOwner = kFALSE;
    }
    return kFALSE;

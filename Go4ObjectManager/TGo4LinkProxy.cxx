@@ -16,8 +16,7 @@
 #include "TGo4ObjectManager.h"
 
 TGo4LinkProxy::TGo4LinkProxy() :
-   TGo4Proxy(),
-   fLink(0)
+   TGo4Proxy()
 {
 }
 
@@ -33,15 +32,15 @@ TGo4LinkProxy::~TGo4LinkProxy()
 
 void TGo4LinkProxy::Initialize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0)
+   auto om = slot->GetOM();
+   if (om)
      om->RegisterLink(fLink, slot);
 }
 
 void TGo4LinkProxy::Finalize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) {
+   auto om = slot->GetOM();
+   if (om) {
       // this is workaround a problem, that in TGo4Slot destructor CleanProxy
       // called before Event(this, evDelete)
       // For that situation we retranslate evDelete message before link will dissaper from OM
@@ -54,55 +53,55 @@ void TGo4LinkProxy::Finalize(TGo4Slot* slot)
 
 TGo4Access* TGo4LinkProxy::ProvideAccess(const char* name)
 {
-   return (fLink!=0)  ? fLink->ProvideSlotAccess(name) : 0;
+   return fLink ? fLink->ProvideSlotAccess(name) : nullptr;
 }
 
 TGo4LevelIter* TGo4LinkProxy::MakeIter()
 {
-   return (fLink!=0)  ? fLink->MakeLevelIter() : 0;
+   return fLink ? fLink->MakeLevelIter() : nullptr;
 }
 
 void TGo4LinkProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       TString linkname;
-      if (fLink!=0)
+      if (fLink)
         fLink->ProduceFullName(linkname);
 
-      slot->SetPar("LinkProxy::LinkName", linkname.Length()>0 ? linkname.Data() : 0);
+      slot->SetPar("LinkProxy::LinkName", linkname.Length() > 0 ? linkname.Data() : nullptr);
    }
 }
 
 void TGo4LinkProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
    const char* linkname = slot->GetPar("LinkProxy::LinkName");
-   if (linkname!=0)
+   if (linkname)
      fLink = slot->GetOM()->GetSlot(linkname);
 }
 
 Int_t TGo4LinkProxy::GetObjectKind()
 {
-   return (fLink!=0) ? fLink->GetSlotKind() : TGo4Access::kndNone;
+   return fLink ? fLink->GetSlotKind() : TGo4Access::kndNone;
 }
 
 const char* TGo4LinkProxy::GetContainedClassName()
 {
-   return (fLink!=0) ? fLink->GetSlotClassName() : 0;
+   return fLink ? fLink->GetSlotClassName() : nullptr;
 }
 
 Bool_t TGo4LinkProxy::IsAcceptObject(TClass* cl)
 {
-   return (fLink!=0) ? fLink->IsAcceptObject(cl) : kFALSE;
+   return fLink ? fLink->IsAcceptObject(cl) : kFALSE;
 }
 
 Bool_t TGo4LinkProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 {
-   return fLink==0 ? kFALSE : fLink->AssignObject(obj, owner);
+   return fLink ? fLink->AssignObject(obj, owner) : kFALSE;
 }
 
 TObject* TGo4LinkProxy::GetAssignedObject()
 {
-   return fLink==0 ? 0 : fLink->GetAssignedObject();
+   return fLink ? fLink->GetAssignedObject() : nullptr;
 }
 
 Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
@@ -117,7 +116,7 @@ Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, v
        // is deleted (file closed), marker cannot access histogram pointer
        // and will be reassigned to null histogram even when master slot is
        // able to provide histogram pointer.
-       fLink = 0;
+       fLink = nullptr;
        slot->Delete();
 //       delete slot;
        // we delete slot with timer afterwards

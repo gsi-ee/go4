@@ -33,15 +33,15 @@ class TGo4Script : public TGo4AbstractInterface {
       virtual ~TGo4Script();
 
       // general purpose
-      void Wait(double tm_sec);
+      void Wait(double tm_sec) override;
 
-      void HotStart(const char* filename);
+      void HotStart(const char* filename) override;
 
-      void Message(const char* msg);
+      void Message(const char* msg) override;
 
       // analysis start and configuration
 
-      void LaunchAnalysis();
+      void LaunchAnalysis() override;
       void LaunchAnalysis(const char* ClientName,
                           const char* ClientDir,
                           const char* ClientExec,
@@ -49,24 +49,24 @@ class TGo4Script : public TGo4AbstractInterface {
                           Int_t ShellMode =  2,      // 0 = exec, 1 = rsh  2 = ssh
                           Int_t TermMode = 1,        // 1 = Qt   2 = Xterm 3 = konsole
                           Int_t ExeMode = 0,         // 0 = exe, 1 = lib
-                          const char* UserArgs = 0);
+                          const char* UserArgs = nullptr) override;
       void ConnectAnalysis(const char* ServerNode,
                            Int_t ServerPort,
                            Int_t ControllerMode,  // 0 - obsrver, 1- controller, 2 - administrator
-                           const char* password = 0);
+                           const char* password = 0)  override;
 
-      void WaitAnalysis(Int_t delay_sec);
-      void DisconnectAnalysis();
-      void ShutdownAnalysis();
+      void WaitAnalysis(Int_t delay_sec) override;
+      void DisconnectAnalysis() override;
+      void ShutdownAnalysis() override;
 
-      void SubmitAnalysisConfig(int tmout = 20);
-      void StartAnalysis();
-      void StopAnalysis();
-      void RefreshNamesList(int tmout = 10);
+      void SubmitAnalysisConfig(int tmout = 20) override;
+      void StartAnalysis() override;
+      void StopAnalysis() override;
+      void RefreshNamesList(int tmout = 10) override;
 
 
-      void SetAnalysisTerminalMode(int mode);  // -1 - close , 0-minimized, 1-normal
-      void SetAnalysisConfigMode(int mode);   // -1 - close , 0-minimized, 1-normal
+      void SetAnalysisTerminalMode(int mode) override;  // -1 - close , 0-minimized, 1-normal
+      void SetAnalysisConfigMode(int mode) override;   // -1 - close , 0-minimized, 1-normal
 
       // steps configuration
 
@@ -74,18 +74,18 @@ class TGo4Script : public TGo4AbstractInterface {
                             Int_t interval,
                             Int_t compression,
                             Bool_t enabled,
-                            Bool_t overwrite);
+                            Bool_t overwrite) override;
 
-      void AnalysisConfigName(const char* filename);
+      void AnalysisConfigName(const char* filename) override;
 
       void ConfigStep(const char* stepname,
                       Bool_t enableprocess,
                       Bool_t enablesource,
-                      Bool_t enablestore);
+                      Bool_t enablestore) override;
 
       void StepFileSource(const char* stepname,
                           const char* sourcename,
-                          int timeout);
+                          int timeout) override;
 
       void StepMbsFileSource(const char* stepname,
                              const char* sourcename,
@@ -93,28 +93,28 @@ class TGo4Script : public TGo4AbstractInterface {
                              const char* TagFile,
                              int start = 0,
                              int stop = 0,
-                             int interval = 0);
+                             int interval = 0) override;
 
       void StepMbsStreamSource(const char* stepname,
                                const char* sourcename,
                                int timeout,
                                int start = 0,
                                int stop = 0,
-                               int interval = 0);
+                               int interval = 0) override;
 
       void StepMbsTransportSource(const char* stepname,
                                   const char* sourcename,
                                   int timeout,
                                   int start = 0,
                                   int stop = 0,
-                                  int interval = 0);
+                                  int interval = 0) override;
 
       void StepMbsEventServerSource(const char* stepname,
                                     const char* sourcename,
                                     int timeout,
                                     int start = 0,
                                     int stop = 0,
-                                    int interval = 0);
+                                    int interval = 0) override;
 
       void StepMbsRevServSource(const char* stepname,
                                 const char* sourcename,
@@ -122,34 +122,33 @@ class TGo4Script : public TGo4AbstractInterface {
                                 int port = 0,
                                 int start = 0,
                                 int stop = 0,
-                                int interval = 0);
+                                int interval = 0) override;
 
       void StepMbsSelection(const char* stepname,
                             int start,
                             int stop,
-                            int interval);
+                            int interval) override;
 
       void StepRandomSource(const char* stepname,
                             const char* sourcename,
-                            int timeout);
+                            int timeout) override;
 
       void StepUserSource(const char* stepname,
                           const char* sourcename,
                           int timeout,
                           int port,
-                          const char* expr);
+                          const char* expr) override;
 
       void StepHDF5Source(const char* stepname,
-                                 const char* sourcename,
-                                 int timeout);
+                          const char* sourcename,
+                          int timeout) override;
 
 
       void StepMbsPort(const char* stepname,
-                       int port);
+                       int port) override;
 
       void StepMbsRetryCnt(const char* stepname,
-                           int cnt);
-
+                           int cnt) override;
 
       void StepFileStore(const char* stepname,
                          const char* storename,
@@ -157,43 +156,43 @@ class TGo4Script : public TGo4AbstractInterface {
                          int bufsize,
                          int splitlevel,
                          int compression,
-                         int autosaveperiod=10000);
+                         int autosaveperiod = 10000) override;
 
       void StepBackStore(const char* stepname,
                          const char* storename,
                          int bufsize,
-                         int splitlevel);
+                         int splitlevel) override;
 
       void StepUserStore(const char* stepname,
-                         const char* storename);
+                         const char* storename) override;
 
       void StepHDF5Store(const char* stepname,
                          const char* storename,
-                         int flags);
+                         int flags) override;
 
       // windows management
 
-      void SetMainWindowState(int qtversion, const char* val);
-      void SetMainWindowGeometry(int qtversion, const char* val);
+      void SetMainWindowState(int qtversion, const char* val) override;
+      void SetMainWindowGeometry(int qtversion, const char* val) override;
 
-      ViewPanelHandle StartViewPanel();
-      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = 0);
-      TString GetViewPanelName(ViewPanelHandle panel);
-      ViewPanelHandle FindViewPanel(const char* name);
-      Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname);
-      ViewPanelHandle GetActiveViewPanel();
-      void RedrawPanel(ViewPanelHandle handle);
-      void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY);
-      TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0);
-      TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0);
-      void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE);
-      void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE);
+      ViewPanelHandle StartViewPanel() override;
+      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = nullptr) override;
+      TString GetViewPanelName(ViewPanelHandle panel) override;
+      ViewPanelHandle FindViewPanel(const char* name) override;
+      Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) override;
+      ViewPanelHandle GetActiveViewPanel() override;
+      void RedrawPanel(ViewPanelHandle handle) override;
+      void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
+      TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
+      TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) override;
+      void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) override;
+      void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE) override;
 
-      void StartFitPanel();
+      void StartFitPanel() override;
 
-      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);
+      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0) override;
 
-      const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0);
+      const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) override;
 
       virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account=0, const char* pass=0);
 
@@ -219,12 +218,12 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void  DoPostProcessing();
 
-      Int_t     fiWaitForGUIReaction;  //!
-      Int_t     fiWaitCounter;         //!
-      TString   fStrBuf;               //!
-      TGo4MainWindow* fMainWin;        //!
-      Bool_t    fErrorFlag;            //!
-      Int_t     fBlockConfigFlag;      //! block configuration until first start/stop command
+      Int_t     fiWaitForGUIReaction;     //!
+      Int_t     fiWaitCounter;            //!
+      TString   fStrBuf;                  //!
+      TGo4MainWindow* fMainWin{nullptr};  //!
+      Bool_t    fErrorFlag;               //!
+      Int_t     fBlockConfigFlag;         //! block configuration until first start/stop command
 };
 
 #endif
