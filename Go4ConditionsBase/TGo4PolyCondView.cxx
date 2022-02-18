@@ -87,17 +87,17 @@ void TGo4PolyCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 // that does not handle the kButton1Up after kButton1Double
 // (temporary coordinates array not allocated for button double,
 // thus crash in button up)
-// we supress the button up event after button double for the moment...
+// we suppress the button up event after button double for the moment...
 static Bool_t ignoreNext=kFALSE;
 if(ignoreNext)
    {
-      //std::cout <<"PolyCondView supressing event "<<event << std::endl;
+      //std::cout <<"PolyCondView suppressing event "<<event << std::endl;
       ignoreNext=kFALSE;
       return;
    }
 if(event==kButton1Double)
    {
-      //std::cout <<"PolyCondView supressing double click" << std::endl;
+      //std::cout <<"PolyCondView suppressing double click" << std::endl;
       ignoreNext=kTRUE;
       fbExecutesMouseEvent=kTRUE;
       return;
