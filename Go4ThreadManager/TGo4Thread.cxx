@@ -56,6 +56,7 @@ TGo4Thread::~TGo4Thread()
    Stop();
    Cancel();
    delete fxCondition;
+   fxCondition = nullptr;
    if(fbIsInternal)
       {
          GO4TRACE((14,"TGo4Thread::~TGo4Thread() internal mode",__LINE__, __FILE__));
@@ -167,21 +168,16 @@ for(;;) // loop keeps thread alive after exception has occured...
 Bool_t TGo4Thread::Create ()
 {
    GO4TRACE((14,"TGo4Thread::Create()",__LINE__, __FILE__));
-   if(!fbIsCreated)
-     // thread not existing, create it
-     {
-       fxThread= new TThread(GetName(),
-                            (void(*) (void *)) &Threadfunc ,
-                            (void*) this);
-       fxThread->Run();
-       fbIsCreated=kTRUE;
-       return kTRUE;
-     }
-   else
-     // thread instance already there...
-     {
-       return kFALSE;
-     }
+   // thread instance already there...
+   if(fbIsCreated)
+      return kFALSE;
+
+   fxThread= new TThread(GetName(),
+                         (void(*) (void *)) &Threadfunc ,
+                         (void*) this);
+   fxThread->Run();
+   fbIsCreated = kTRUE;
+   return kTRUE;
 }
 
 Bool_t TGo4Thread::Cancel ()
@@ -285,20 +281,17 @@ Bool_t TGo4Thread::ReCreate ()
 Bool_t TGo4Thread::Start ()
 {
    GO4TRACE((12,"TGo4Thread::Start()",__LINE__, __FILE__));
-   if(!fbIsCreated)
+   if (!fbIsCreated) {
       // check if thread is up
-      {
-         // not yet created, then do so
-         GO4TRACE((11,"TGo4Thread::Start() -- creating new TThread",__LINE__, __FILE__));
-         Create();
-      }
-   else
-      {
-         // do nothing, thread already there
-         GO4TRACE((11,"TGo4Thread::Start() -- TThread already existing",__LINE__, __FILE__));
-      }
-   Bool_t old=fbIsRunning;
-   fbIsRunning=kTRUE;
+      // not yet created, then do so
+      GO4TRACE((11,"TGo4Thread::Start() -- creating new TThread",__LINE__, __FILE__));
+      Create();
+   } else {
+      // do nothing, thread already there
+      GO4TRACE((11,"TGo4Thread::Start() -- TThread already existing",__LINE__, __FILE__));
+   }
+   Bool_t old = fbIsRunning;
+   fbIsRunning = kTRUE;
    fxCondition->Signal(); // wake up waiting threadfunction
    return old; // old status of workfunc requested by thread list
 }
@@ -306,8 +299,8 @@ Bool_t TGo4Thread::Start ()
 Bool_t TGo4Thread::Stop ()
 {
    GO4TRACE((12,"TGo4Thread::Stop()",__LINE__, __FILE__));
-   Bool_t old=fbIsRunning;
-   fbIsRunning=kFALSE;
+   Bool_t old = fbIsRunning;
+   fbIsRunning = kFALSE;
    return old; // old status of workfunc requested by thread list
 }
 

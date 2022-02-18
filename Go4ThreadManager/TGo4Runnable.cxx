@@ -19,13 +19,6 @@
 #include "TGo4Thread.h"
 #include "TGo4ThreadManager.h"
 
-TGo4Runnable::TGo4Runnable() :
-   TNamed(),
-   fxManager(0),
-   fxGo4Thread(0)
-{
-}
-
 TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
    TNamed(right),
    fxManager(right.fxManager),
@@ -34,11 +27,11 @@ TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
    GO4TRACE((14,"TGo4Runnable::TGo4Runnable() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4Runnable::TGo4Runnable (const char* name, TGo4ThreadManager* man) :
-   TNamed(name,"This is a TGo4Runnable"), fxGo4Thread(0)
+TGo4Runnable::TGo4Runnable(const char* name, TGo4ThreadManager *man) :
+   TNamed(name,"This is a TGo4Runnable")
 {
    GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const char*,TGo4ThreadManager*) constructor",__LINE__, __FILE__));
-   fxManager=man;
+   fxManager = man;
 }
 
 TGo4Runnable::~TGo4Runnable()
