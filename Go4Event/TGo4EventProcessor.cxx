@@ -21,12 +21,7 @@
 #include "TGo4EventCalibration.h"
 #include "TGo4AnalysisImp.h"
 
-TGo4EventProcessor::TGo4EventProcessor(const char* name) :
-   TGo4EventSource(name),
-   fxInputEvent(0),
-   fxCalibration(0),
-   fbKeepInputEvent(kFALSE),
-   fbKeepOutputEvent(kFALSE)
+TGo4EventProcessor::TGo4EventProcessor(const char* name) : TGo4EventSource(name)
 {
 GO4TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
 }
@@ -39,7 +34,7 @@ GO4TRACE((15,"TGo4EventProcessor::~TGo4EventProcessor()",__LINE__, __FILE__));
 Bool_t TGo4EventProcessor::CheckInputEvent(const char* classname)
 {
    GO4TRACE((12,"TGo4EventProcessor::CheckInputEvent()",__LINE__, __FILE__));
-   if(fxInputEvent==0) return kFALSE;
+   if(!fxInputEvent) return kFALSE;
 
    return !strcmp(fxInputEvent->ClassName(),classname);
 }
@@ -47,7 +42,7 @@ Bool_t TGo4EventProcessor::CheckInputEvent(const char* classname)
 Bool_t TGo4EventProcessor::CheckCalibration(const char* classname)
 {
    GO4TRACE((12,"TGo4EventProcessor::CheckCalibration()",__LINE__, __FILE__));
-   if(fxCalibration==0) return kFALSE;
+   if(!fxCalibration) return kFALSE;
 
    return !strcmp(fxCalibration->ClassName(),classname);
 }
