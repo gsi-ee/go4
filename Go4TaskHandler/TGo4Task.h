@@ -88,7 +88,7 @@ public:
      * Execute string command. Uses gInterpreter by default. May be overridden
      * to evaluate go4 command strings in subclass.
      */
-    virtual void ExecuteString(const char* command);
+    virtual void ExecuteString(const char *command);
 
     Bool_t IsMaster() { return fbCommandMaster; }
 
@@ -96,13 +96,13 @@ public:
      *  mode, depending on owner type */
     void SetOwner(TGo4TaskOwner* owner);
 
-    virtual TGo4TaskHandler* GetTaskHandler() { return 0; }
+    virtual TGo4TaskHandler* GetTaskHandler() { return nullptr; }
 
-    virtual TGo4BufferQueue* GetCommandQueue(const char* task=0) { return 0; }
+    virtual TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) { return nullptr; }
 
-    virtual TGo4BufferQueue* GetStatusQueue(const char* task=0) { return 0; }
+    virtual TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) { return nullptr; }
 
-    virtual TGo4BufferQueue* GetDataQueue(const char* task=0) { return 0; }
+    virtual TGo4BufferQueue* GetDataQueue(const char *task = nullptr) { return nullptr; }
 
    /**
      * Add a user command object to the existing command list. This can be done on the fly.
@@ -139,7 +139,7 @@ public:
     /** Send object via data channel to the master. Master name
      * may be specified, if more than one master is connected.
      * By default, object is send to current active task */
-    void SendObject(TObject * obj, const char* receiver=0);
+    void SendObject(TObject * obj, const char *receiver = nullptr);
 
     /** Send status object via status channel to the master. Master name
      * may be specified, if more than one master is connected.
@@ -201,7 +201,7 @@ public:
      * Send emergency command via data channel. For analysis server
      * shutdown, to inform clients about disconnect
      */
-    Bool_t SubmitEmergencyData(Go4EmergencyCommand_t val, const char* receiver=0);
+    Bool_t SubmitEmergencyData(Go4EmergencyCommand_t val, const char *receiver = nullptr);
 
 
     /** Send given command to the current client task. Command object is deleted after

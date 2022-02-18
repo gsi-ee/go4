@@ -29,18 +29,18 @@ class TGo4EventElement;
 class TGo4EventSource : public TNamed {
    public:
 
+      TGo4EventSource();
+
       TGo4EventSource(const char* name);
 
       virtual ~TGo4EventSource();
-
-      TGo4EventSource();
 
       /* We overwrite the default TNamed::Clear that would
        *  erase our name and title!
        * Implement this method in your parameter class
        * if you would like to reset any values with the
        * eraser button in the gui remote browser*/
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt="") override;
 
       /** Status value of server/file open. */
       Int_t GetCreateStatus() const { return fiCreateStatus; }
@@ -73,16 +73,24 @@ class TGo4EventSource : public TNamed {
       void SetErrMess(const char* txt) { fxErrMess = txt; }
 
       /** Status of the last event. */
-      void SetEventStatus(Int_t status) { fiEventStatus=status; }
+      void SetEventStatus(Int_t status) { fiEventStatus = status; }
 
       /** Status value of event source init (file/server open). */
-      void SetCreateStatus(Int_t status) { fiCreateStatus=status; }
+      void SetCreateStatus(Int_t status) { fiCreateStatus = status; }
 
       /** Exception thrower. */
-      void ThrowError(Int_t creastat, Int_t errstat, const char* message,...);
+      void ThrowError(Int_t creastat, Int_t errstat, const char *message,...)
+      #if defined(__GNUC__) && !defined(__CINT__)
+        __attribute__((format(printf, 4, 5)))
+      #endif
+      ;
 
       /** EOF thrower. */
-      void ThrowEOF(Int_t creastat, Int_t errstat, const char* message,...);
+      void ThrowEOF(Int_t creastat, Int_t errstat, const char *message,...)
+      #if defined(__GNUC__) && !defined(__CINT__)
+         __attribute__((format(printf, 4, 5)))
+      #endif
+      ;
 
       /** text length */
       enum { fguTXTLEN = 256 };
@@ -90,15 +98,15 @@ class TGo4EventSource : public TNamed {
    private:
 
       /** Contains return value of eventsource open (e.g. f_evt_get_open) call. May be checked by the creating factory after return from source ctor. */
-      Int_t fiCreateStatus;
+      Int_t fiCreateStatus{0};
 
       /** Contains return value of eventsource getevent (e.g. f_evt_get_event)  call. May be checked by the controlling event loop.*/
-      Int_t fiEventStatus;
+      Int_t fiEventStatus{0};
 
       /** Most recent error message. May be delivered by f_evt_error, for example. */
       TString fxErrMess; //!
 
-      ClassDef(TGo4EventSource,1)
+      ClassDefOverride(TGo4EventSource,1)
 };
 
 #endif //TGO4EVENTSOURCE_H
