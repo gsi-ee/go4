@@ -26,18 +26,18 @@
 class TGo4StartException : public TGo4ThreadException {
 
   public:
+      TGo4StartException() = delete;
+
       TGo4StartException(const TGo4StartException &right);
 
-      TGo4StartException (TGo4Runnable* runnable, const char* threadname = 0);
+      TGo4StartException (TGo4Runnable* runnable, const char *threadname = nullptr);
 
       virtual ~TGo4StartException();
 
       TGo4StartException & operator=(const TGo4StartException &right);
 
-      virtual Int_t Handle ();
+      Int_t Handle() override;
 
-  private:
-      TGo4StartException();
 };
 
 #endif

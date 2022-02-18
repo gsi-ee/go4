@@ -30,6 +30,8 @@
 class TGo4RemoveException : public TGo4ThreadException {
 
   public:
+      TGo4RemoveException() = delete;
+
       TGo4RemoveException(const TGo4RemoveException &right);
 
       TGo4RemoveException (TGo4Runnable* runnable, const char* threadname = 0);
@@ -38,11 +40,7 @@ class TGo4RemoveException : public TGo4ThreadException {
 
       TGo4RemoveException & operator=(const TGo4RemoveException &right);
 
-      virtual Int_t Handle ();
-
-
-  private:
-      TGo4RemoveException();
+      Int_t Handle () override;
 
 };
 

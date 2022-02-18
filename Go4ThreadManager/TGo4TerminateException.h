@@ -30,6 +30,8 @@ class TGo4ThreadManager;
 class TGo4TerminateException : public TGo4ControlException {
 
   public:
+      TGo4TerminateException() = delete;
+
       TGo4TerminateException(const TGo4TerminateException &right);
 
       TGo4TerminateException (TGo4ThreadManager* man);
@@ -40,14 +42,11 @@ class TGo4TerminateException : public TGo4ControlException {
 
       TGo4TerminateException & operator=(const TGo4TerminateException &right);
 
-      virtual Int_t Handle ();
-
-
+      Int_t Handle() override;
 
   private:
-      TGo4TerminateException();
 
-     TGo4ThreadManager *fxThreadManager; //!
+     TGo4ThreadManager *fxThreadManager{nullptr}; //!
 
 };
 

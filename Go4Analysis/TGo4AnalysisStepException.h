@@ -44,7 +44,7 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
 
   protected:
       /** @supplierCardinality 1 */
-      TGo4AnalysisStep * fxStep;     //!
+      TGo4AnalysisStep * fxStep{nullptr};   //!
 
       TString fxStatusMessage;
 

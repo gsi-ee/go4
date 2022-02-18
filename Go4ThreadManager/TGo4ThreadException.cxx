@@ -75,14 +75,14 @@ TGo4ThreadException & TGo4ThreadException::operator=(const TGo4ThreadException &
     }
 }
 
-const char* TGo4ThreadException::GetThreadName ()
+const char* TGo4ThreadException::GetThreadName() const
 {
    GO4TRACE((14,"TGo4ThreadException::GetThreadName ()",__LINE__, __FILE__));
    if(fxThreadName=="0")
       // no, TString was set to zero character:
       {
          GO4TRACE((14,"TGo4ThreadException::GetThreadName () -- name not specified",__LINE__, __FILE__));
-         return 0;
+         return nullptr;
       }
    else
       // yes, TString contains given thread name
@@ -91,8 +91,3 @@ const char* TGo4ThreadException::GetThreadName ()
          return fxThreadName.Data();
       }
 }
-
-
-
-
-

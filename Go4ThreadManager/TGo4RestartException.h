@@ -27,22 +27,23 @@
  * @since jul 2000-oct 2001*/
 class TGo4RestartException : public TGo4ThreadException  {
   public:
+
+      TGo4RestartException() = delete;
+
       TGo4RestartException(const TGo4RestartException &right);
 
       /**
        * Restart thread associated with runnable or with threadname.
        * Old thread will be canceled and created again.
        */
-      TGo4RestartException (TGo4Runnable* runnable, const char* threadname = 0);
+      TGo4RestartException (TGo4Runnable* runnable, const char *threadname = nullptr);
 
       virtual ~TGo4RestartException();
 
       TGo4RestartException & operator=(const TGo4RestartException &right);
 
-      virtual Int_t Handle ();
+      Int_t Handle () override;
 
-  private:
-      TGo4RestartException();
 };
 
 #endif

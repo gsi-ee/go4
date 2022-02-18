@@ -17,13 +17,6 @@
 
 #include "TGo4Log.h"
 
-TGo4UserException::TGo4UserException() :
-   TGo4RuntimeException(),
-   fxMessage(),
-   fiPriority(0)
-{
-}
-
 TGo4UserException::TGo4UserException (Int_t prio, const char* text,...) :
    TGo4RuntimeException(),
    fxMessage(),

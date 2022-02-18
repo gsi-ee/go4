@@ -69,10 +69,10 @@ class TGo4UserException : public TGo4RuntimeException {
       TString fxMessage;
 
       /** Priority of message. 1=info, 2= warning, 3=error.*/
-      Int_t fiPriority;
+      Int_t fiPriority{0};
 
    private:
-      TGo4UserException();
+      TGo4UserException() = delete;
 };
 
 #endif
