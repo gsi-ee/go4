@@ -37,7 +37,7 @@ Bool_t profileY(const char* name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)
    TString finaltitle = TString("Y-Prof.")+soper+" of "+t1;
    TH1* result = his1->ProfileY(finalname.Data(),firstxbin,lastxbin);
    result->SetTitle(finaltitle);
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Profiles", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) {

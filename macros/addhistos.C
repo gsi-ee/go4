@@ -59,7 +59,7 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
    result->SetTitle(finaltitle);
    result->Sumw2();
    result->Add(his2,factor);
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Sums", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) {

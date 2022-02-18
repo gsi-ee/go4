@@ -55,7 +55,7 @@ Bool_t scalex(const char* name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
    delete[] binarray;
 
 
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Scaled", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) {

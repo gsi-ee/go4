@@ -312,7 +312,7 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
    free(pl_start);
    free(ps_his_head);
 
-   h1->SetDirectory(0);
+   h1->SetDirectory(nullptr);
    h1->SetEntries(entries);
    h1->Sumw2();
 

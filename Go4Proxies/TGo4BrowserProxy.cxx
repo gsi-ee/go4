@@ -724,7 +724,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    if (histo==0) { // when new histogram created by Tree::Draw
       histo = dynamic_cast<TH1*> (dummydir.FindObject(hobjectname));
       if(histo!=0) {
-         histo->SetDirectory(0);
+         histo->SetDirectory(nullptr);
          createdhistoname = SaveToMemory(0, histo, kTRUE);
          // do sync immediately to be able draw this item in viewpanel
          SyncBrowserSlots();
@@ -1206,7 +1206,7 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char* itemname, const char* filena
    bool res = dir->WriteTObject(obj, obj->GetName(), "Overwrite") > 0;
 
    if (obj->InheritsFrom(TH1::Class()))
-     ((TH1*) obj)->SetDirectory(0);
+     ((TH1*) obj)->SetDirectory(nullptr);
 
    delete f;
 
@@ -2179,7 +2179,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
          TH1* clon = (TH1*) histo2->Clone("____dummyhisto____");
          if (clon==0) return kFALSE;
-         clon->SetDirectory(0);
+         clon->SetDirectory(nullptr);
          Bool_t rebinres = kFALSE;
 
          if (histo->GetDimension() == 1) {

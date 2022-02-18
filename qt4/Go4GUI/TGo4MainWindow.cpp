@@ -161,13 +161,13 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    TH1I* h1 = new TH1I("histo1","histo title", 100, -10., 10.);
    h1->FillRandom("gaus",10000);
-   h1->SetDirectory(0);
+   h1->SetDirectory(nullptr);
    br->SaveToMemory("", h1, kTRUE);
 
 /*   TH2I* h2 = new TH2I("histo2","histo 2 title", 100, -10., 10., 100, -10., 10.);
    h2->FillRandom("gaus",100000);
    h2->SetDrawOption("hist");
-   h2->SetDirectory(0);
+   h2->SetDirectory(nullptr);
    br->SaveToMemory("", h2, kTRUE);
 */
    // br->OpenFile("asf.root");

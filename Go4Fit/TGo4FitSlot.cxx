@@ -208,7 +208,7 @@ void TGo4FitSlot::Streamer(TBuffer& b)
      if (saveflag) {
        b >> fxObject;
        if (fxObject->InheritsFrom(TH1::Class()))
-          ((TH1*) fxObject)->SetDirectory(0);
+          ((TH1*) fxObject)->SetDirectory(nullptr);
        CheckOwnership();
      }
    } else {

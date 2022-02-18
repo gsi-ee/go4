@@ -50,7 +50,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
 
    fClone = obj->Clone();
    if (fClone->InheritsFrom(TH1::Class()))
-     ((TH1*) fClone)->SetDirectory(0);
+     ((TH1*) fClone)->SetDirectory(nullptr);
    TGo4ObjectManager* om = slot->GetOM();
    if ((om!=0) && (fClone!=0))
      om->RegisterObjectWith(fClone, slot);

@@ -96,7 +96,7 @@ Bool_t divhistos(const char* name1, const char* name2, Bool_t draw, Bool_t float
    result->SetTitle(finalname);
    result->Sumw2();
    result->Divide(his2);
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Divs", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) go4->DrawItem(rname);
