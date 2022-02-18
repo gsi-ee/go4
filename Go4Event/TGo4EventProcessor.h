@@ -78,7 +78,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * the concrete processor to unpack the interesting
        * information.
        */
-      void SetInputEvent(TGo4EventElement * raw) { fxInputEvent = raw; }
+      void SetInputEvent(TGo4EventElement *raw) { fxInputEvent = raw; }
 
       /**
        * Access to external raw event which is set as association member.
@@ -204,7 +204,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Implement this method in your parameter class
        * if you would like to reset any values with the
        * eraser button in the gui remote browser*/
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt = "") override;
 
       /** Set flag to use data from autosave file in Make... methods (default true) */
       void SetMakeWithAutosave(Bool_t on = kTRUE);
@@ -227,8 +227,8 @@ class TGo4EventProcessor: public TGo4EventSource {
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
       TH1* MakeTH1(char type, const char* fullname, const char* title,
-            Int_t nbinsx, Double_t xlow, Double_t xup,
-            const char* xtitle = 0, const char* ytitle = 0);
+                   Int_t nbinsx, Double_t xlow, Double_t xup,
+                   const char* xtitle = nullptr, const char* ytitle = nullptr);
 
       /** Create two dimensional histogram of specified type. Type can be:
        * 'I', 'i' for TH2I - Int_t as bin content (default)
@@ -245,9 +245,9 @@ class TGo4EventProcessor: public TGo4EventSource {
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
       TH2* MakeTH2(char type, const char* fullname, const char* title,
-            Int_t nbinsx, Double_t xlow, Double_t xup,
-            Int_t nbinsy, Double_t ylow, Double_t yup,
-            const char* xtitle = 0, const char* ytitle = 0, const char* ztitle =0);
+                   Int_t nbinsx, Double_t xlow, Double_t xup,
+                   Int_t nbinsy, Double_t ylow, Double_t yup,
+                   const char* xtitle = nullptr, const char* ytitle = nullptr, const char* ztitle = nullptr);
 
       /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
        * If theses parameters are missing, an empty graph is created to be specified by the user.
@@ -273,7 +273,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * HistoName - name of histogram, to which condition is assigned */
       TGo4WinCond* MakeWinCond(const char* fullname,
                                Double_t xmin, Double_t xmax,
-                               const char* HistoName = 0);
+                               const char* HistoName = nullptr);
 
       /** Create 2D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
@@ -281,9 +281,9 @@ class TGo4EventProcessor: public TGo4EventSource {
        * ymin, ymax - Y condition range
        * HistoName - name of histogram, to which condition is assigned */
       TGo4WinCond* MakeWinCond(const char* fullname,
-            Double_t xmin, Double_t xmax,
-            Double_t ymin, Double_t ymax,
-            const char* HistoName = 0);
+                               Double_t xmin, Double_t xmax,
+                               Double_t ymin, Double_t ymax,
+                               const char* HistoName = nullptr);
 
       /** Create polygon condition.
        * fullname specifies name of condition (optionally with subfolder name)
@@ -309,7 +309,7 @@ class TGo4EventProcessor: public TGo4EventSource {
                */
       TGo4ShapedCond* MakeEllipseCond(const char* fullname,
                                       Int_t npoints,
-                                      Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0,
+                                      Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0,
                                       const char* HistoName = nullptr);
 
       /** Create circular shaped polygon condition.
@@ -331,7 +331,7 @@ class TGo4EventProcessor: public TGo4EventSource {
                  * HistoName - name of histogram, to which condition is assigned
                  */
       TGo4ShapedCond* MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
-                                  const char* HistoName = 0);
+                                  const char* HistoName = nullptr);
 
       /** Create free shaped (polygon) condition.
        * in contrast to plain TGo4PolyCond, this one can be converted later
@@ -347,7 +347,7 @@ class TGo4EventProcessor: public TGo4EventSource {
      TGo4ShapedCond* MakeFreeShapeCond(const char* fullname,
                                      Int_t npoints,
                                      Double_t (*points) [2],
-                                     const char* HistoName = 0);
+                                     const char* HistoName = nullptr);
 
      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches
@@ -364,15 +364,14 @@ class TGo4EventProcessor: public TGo4EventSource {
        * start - first value in list
        * stop - last value in list
        * step - distance between list entries
-       * HistoName - name of histogram, to which condition is assigned
-       */
-      TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char* HistoName = 0);
+       * HistoName - name of histogram, to which condition is assigned */
+      TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char* HistoName = nullptr);
 
       /** Create "whitlelist" condition with separate values to tes against
         * condition is true if any of the values matches
         * This method creates empty list condition of specified name and title to be set by the user,
         * or already defined condition from previous autosave*/
-      TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = 0);
+      TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = nullptr);
 
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)
@@ -387,8 +386,8 @@ class TGo4EventProcessor: public TGo4EventSource {
        *       Macro name should be always starting with "set_" like "set_RocPar.C"
        */
       TGo4Parameter* MakeParameter(const char* fullname,
-            const char* classname,
-            const char* newcmd = 0);
+                                   const char* classname,
+                                   const char* newcmd = nullptr);
 
       /** Executes ROOT script.
        * Returns -1 when script was not found or result of script execution */
@@ -403,35 +402,23 @@ class TGo4EventProcessor: public TGo4EventSource {
           *  a leading '$' will try to load and execute python script.
           * Errcode may be used to check ROOT interpreter error code.
           * Return value is result of command execution*/
-      Long_t ExecuteLine(const char* command, Int_t* errcode=0);
+      Long_t ExecuteLine(const char* command, Int_t *errcode = nullptr);
 
       /* if true, processor wants to continue with current content of input event
        * event is not refilled from event source, and all previous analysis steps are suspended*/
-      Bool_t IsKeepInputEvent()
-      {
-         return fbKeepInputEvent;
-      }
+      Bool_t IsKeepInputEvent() const { return fbKeepInputEvent; }
 
       /* Mark current input event for reprocessing in next cycle
        * In this case, all previous analysis steps are skipped until this is done*/
-      void SetKeepInputEvent(Bool_t val=kTRUE)
-      {
-         fbKeepInputEvent = val;
-      }
+      void SetKeepInputEvent(Bool_t val = kTRUE) { fbKeepInputEvent = val; }
 
       /* if true, processor wants to continue filling current output event
        * Event is not stored, and all subsequent analysis steps are skipped*/
-      Bool_t IsKeepOutputEvent()
-      {
-         return fbKeepOutputEvent;
-      }
+      Bool_t IsKeepOutputEvent() const { return fbKeepOutputEvent; }
 
       /* Mark current input event for reprocessing in next cycle
        * In this case, all previous analysis steps are skipped until this is done*/
-      void SetKeepOutputEvent(Bool_t val=kTRUE)
-      {
-         fbKeepOutputEvent = val;
-      }
+      void SetKeepOutputEvent(Bool_t val = kTRUE) { fbKeepOutputEvent = val; }
 
       /** Method called when analysis is created */
       virtual void UserPreLoop() {}
@@ -441,16 +428,15 @@ class TGo4EventProcessor: public TGo4EventSource {
 
    protected:
 
-      /** Default ctor for root streamer. */
       TGo4EventProcessor() {}
 
    private:
 
       /**@supplierCardinality 1 */
-      TGo4EventElement * fxInputEvent{nullptr}; //!
+      TGo4EventElement *fxInputEvent{nullptr}; //!
 
       /** @link aggregation */
-      TGo4EventCalibration * fxCalibration{nullptr};
+      TGo4EventCalibration *fxCalibration{nullptr};
 
       /** flag to steer reprocessing of same input event */
       Bool_t fbKeepInputEvent{kFALSE}; //!
@@ -458,7 +444,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** flag to steer continue filling of same output event */
       Bool_t fbKeepOutputEvent{kFALSE}; //!
 
-      ClassDef(TGo4EventProcessor,3)
+      ClassDefOverride(TGo4EventProcessor,3)
 };
 
 #endif //TGO4EVENTPROCESSOR_H
