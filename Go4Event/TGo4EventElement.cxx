@@ -24,37 +24,21 @@
 #include "TGo4EventSource.h"
 
 TGo4EventElement::TGo4EventElement() :
-   TNamed("Go4Element","This is a Go4 EventElement"),
-   fbIsValid(kTRUE),
-   fxParent(0),
-   fxEventSource(0),
-   fIdentifier(-1),
-   fDebug(kFALSE),
-   fbKeepContents(kFALSE)
+   TNamed("Go4Element","This is a Go4 EventElement")
 {
 
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
 }
 
 TGo4EventElement::TGo4EventElement(const char* name) :
-   TNamed(name,"This is a Go4 EventElement"),
-   fbIsValid(kTRUE),
-   fxParent(0),
-   fxEventSource(0),
-   fIdentifier(-1),
-   fDebug(kFALSE),
-   fbKeepContents(kFALSE)
+   TNamed(name,"This is a Go4 EventElement")
 {
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat) :
    TNamed(aName,aTitle),
-   fbIsValid(kTRUE),
-   fxParent(0),
-   fxEventSource(0),
-   fIdentifier(aBaseCat),
-   fDebug(kFALSE)
+   fIdentifier(aBaseCat)
 {
 }
 
@@ -82,26 +66,26 @@ void TGo4EventElement::PrintEvent()
 
 void TGo4EventElement::Print(Option_t* option) const
 {
-   ((TGo4EventElement*)this) -> PrintEvent();
+   ((TGo4EventElement*)this)->PrintEvent();
 }
 
 TGo4EventElement* TGo4EventElement::GetChild(const char* name)
 {
-   if ((name==0) || (strlen(name)==0)) return this;
+   if (!name || (strlen(name)==0)) return this;
 
    if (strcmp(name,".")==0) return this;
 
    if (strcmp(name,"..")==0) return GetParent();
 
-   return 0;
+   return nullptr;
 }
 
 
 void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {
-   if (tree==0) return;
+   if (!tree) return;
 
-   TBranch* topb = 0;
+   TBranch* topb = nullptr;
    TString searchname = GetName();
    if (searchname.Length()>0) {
       searchname += ".";
@@ -123,13 +107,13 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_p
 
 Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
 {
-   if (branch==0) return 0;
+   if (!branch) return 0;
 
    TString cad = branch->GetName();
 
    TTree* tree = branch->GetTree();
 
-   if (var_ptr!=0) {
+   if (var_ptr) {
       // SL 23.08.2013 - seems to be, at some point TTree::SetBranchAddress() signature was changed
       // now one other need to specify pointer on actual class like
       // UserEvent* ev = (UserEvent*) GetInputEvent();
@@ -137,7 +121,7 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
       // or one need explicitly specify which class we want to set to the branch
       // No idea when it happens, but newest 5.34 ROOT no longer working correctly.
 
-      TClass* cl = *var_ptr ? (*var_ptr)->IsA() : 0;
+      TClass* cl = *var_ptr ? (*var_ptr)->IsA() : nullptr;
       tree->SetBranchAddress(cad.Data(), var_ptr, 0, cl, kOther_t, true);
       //tree->SetBranchAddress(cad.Data(), (void**) var_ptr);
    }
@@ -165,7 +149,7 @@ void TGo4EventElement::Clear(Option_t *)
 
 Int_t TGo4EventElement::Init()
 {
-   Int_t res(0);
+   Int_t res = 0;
    Clear();
    SetValid(kTRUE);
    if (fxEventSource) {
@@ -208,24 +192,24 @@ TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
 
    TDirectory* filsav = gDirectory;
    gROOT->cd();
-   if (sample!=0) {
+   if (sample) {
       delete *sample;
-      *sample = 0;
+      *sample = nullptr;
    }
    TGo4EventElement* clone = (TGo4EventElement*) Clone();
    TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
-   thetree->SetDirectory(0);
+   thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;
    thetree->Branch("Go4EventSample", clone->ClassName(), sample ? sample : &clone, 64000, 99);
    thetree->Fill();
    filsav->cd();
-   if (sample==0) delete clone;
+   if (!sample) delete clone;
    return thetree;
 }
 
 void TGo4EventElement::ShowSampleTree()
 {
-   TGo4EventElement *sample = 0;
+   TGo4EventElement *sample = nullptr;
 
    TTree* tr = CreateSampleTree(&sample);
 
