@@ -30,12 +30,12 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComLoadAnalysisStatus();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      virtual void Set(TGo4RemoteCommand* remcon);
+      void Set(TGo4RemoteCommand* remcon) override;
 
       /** Access to the object name under command. */
       const char* GetFileName() const { return fxFileName.Data(); }
@@ -48,7 +48,7 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
       /** Name of the settings file. */
       TString fxFileName;
 
-   ClassDef(TGo4ComLoadAnalysisStatus,1)
+   ClassDefOverride(TGo4ComLoadAnalysisStatus,1)
 };
 
 #endif //TGO4COMLOADANALYSISSTATUS_H

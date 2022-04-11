@@ -25,9 +25,9 @@ class TGo4ComCloseAnalysis : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComCloseAnalysis();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComCloseAnalysis,1)
+   ClassDefOverride(TGo4ComCloseAnalysis,1)
 };
 
 #endif //TGO4COMCLOSEANALYSIS_H

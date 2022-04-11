@@ -31,9 +31,9 @@ class TGo4ComDeleteObject : public TGo4AnalysisObjectCommand {
 
       virtual ~TGo4ComDeleteObject();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-  ClassDef(TGo4ComDeleteObject,1)
+  ClassDefOverride(TGo4ComDeleteObject,1)
 };
 
 #endif //TGO4COMDELETEOBJECT_H

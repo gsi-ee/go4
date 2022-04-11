@@ -33,11 +33,11 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
 
     virtual ~TGo4ComSetPrintEvent();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
       /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+    void Set(TGo4RemoteCommand* remcon) override;
 
     void SetEventNum(Int_t i) { fxPrintPar.fiNum = i; }
     void SetSubId(Int_t i) { fxPrintPar.fiSid = i; }
@@ -49,7 +49,7 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
 
     TGo4MbsSourcePrintPar fxPrintPar;
 
-  ClassDef(TGo4ComSetPrintEvent,1)
+  ClassDefOverride(TGo4ComSetPrintEvent,1)
 };
 
 #endif //TGO4COMSETPRINTEVENT_H

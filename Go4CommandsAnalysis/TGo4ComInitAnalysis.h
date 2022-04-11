@@ -26,9 +26,9 @@ class TGo4ComInitAnalysis : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComInitAnalysis();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComInitAnalysis,1)
+   ClassDefOverride(TGo4ComInitAnalysis,1)
 };
 
 #endif //TGO4COMINITANALYSIS_H

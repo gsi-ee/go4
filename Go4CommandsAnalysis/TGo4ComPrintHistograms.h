@@ -27,9 +27,9 @@ class TGo4ComPrintHistograms : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComPrintHistograms();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComPrintHistograms,1)
+   ClassDefOverride(TGo4ComPrintHistograms,1)
 };
 
 #endif //TGO4COMPRINTHISTOGRAMS_H

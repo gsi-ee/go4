@@ -27,9 +27,9 @@ class TGo4ComPrintDynList : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComPrintDynList();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComPrintDynList,1)
+   ClassDefOverride(TGo4ComPrintDynList,1)
 };
 
 #endif //TGO4COMPRINTDYNLIST_H

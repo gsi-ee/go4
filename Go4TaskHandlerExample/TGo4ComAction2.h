@@ -27,9 +27,9 @@ class TGo4ComAction2 : public TGo4ExampleCommand {
 
       virtual ~TGo4ComAction2();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComAction2,1)
+   ClassDefOverride(TGo4ComAction2,1)
 };
 
 #endif //TGO4COMACTION2_H

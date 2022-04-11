@@ -37,12 +37,12 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
 
       virtual ~TGo4ComGetCurrentEvent();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      virtual void Set(TGo4RemoteCommand* remcon);
+      void Set(TGo4RemoteCommand* remcon) override;
 
       Bool_t IsOutputEvent() const { return fbOutputEvent; }
 
@@ -50,7 +50,7 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
 
       Bool_t IsPrintoutOnly() const { return fbPrintoutOnly; }
 
-      void SetPrintoutOnly(Bool_t on=kTRUE) { fbPrintoutOnly=on; }
+      void SetPrintoutOnly(Bool_t on = kTRUE) { fbPrintoutOnly = on; }
 
       Bool_t IsTreeMode() const { return fbTreeMode; }
 
@@ -69,7 +69,7 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
         PrintEvent method or send event directly*/
       Bool_t fbTreeMode;
 
-   ClassDef(TGo4ComGetCurrentEvent,1)
+   ClassDefOverride(TGo4ComGetCurrentEvent,1)
 };
 
 

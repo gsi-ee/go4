@@ -42,11 +42,11 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     TGo4ComSetObject();
     TGo4ComSetObject(const char* obname);
     virtual ~TGo4ComSetObject();
-    Int_t ExeCom();
+    Int_t ExeCom() override;
     /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+    void Set(TGo4RemoteCommand* remcon) override;
 
     void SetObject(TObject* ob) { fxObject=ob; }
   private:
@@ -60,16 +60,16 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     Int_t ExeSetObj(TObject* ob);
 
     /**The object to be set. */
-    TObject* fxObject;
+    TObject* fxObject{nullptr};
 
-    TGo4AnalysisClient* fxClient; //!
+    TGo4AnalysisClient* fxClient{nullptr}; //!
 
-    TGo4Analysis* fxAna;//!
+    TGo4Analysis* fxAna{nullptr};//!
 
      /** structure to keep result of setting action */
-    TGo4AnalysisObjectResult* fxResult; //!
+    TGo4AnalysisObjectResult* fxResult{nullptr}; //!
 
-  ClassDef(TGo4ComSetObject,1)
+   ClassDefOverride(TGo4ComSetObject,1)
 };
 
 #endif //TGO4COMSETOBJECT_H

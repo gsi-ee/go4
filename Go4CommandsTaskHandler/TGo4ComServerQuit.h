@@ -28,10 +28,9 @@ class TGo4ComServerQuit : public TGo4TaskHandlerCommand {
 
     virtual ~TGo4ComServerQuit();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
-
-  ClassDef(TGo4ComServerQuit,1)
+  ClassDefOverride(TGo4ComServerQuit,1)
 };
 
 #endif //TGO4COMSERVERQUIT_H

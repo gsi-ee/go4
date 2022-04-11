@@ -30,10 +30,10 @@ class TGo4ComMasterQuit : public TGo4TaskHandlerCommand {
 
     virtual ~TGo4ComMasterQuit();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
 
-  ClassDef(TGo4ComMasterQuit,1);
+  ClassDefOverride(TGo4ComMasterQuit,1);
 };
 
 #endif //TGO4COMMASTERQUIT_H

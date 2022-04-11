@@ -39,7 +39,7 @@ class TGo4RemoteCommand : public TGo4Command {
       /** Remote command will execute on the command invoker at the
        * slave side to create and execute the correct command from
        * the contained information*/
-      Int_t ExeCom();
+      Int_t ExeCom() override;
 
       /** Wrap any object ob into this command container. May
        * be any parameter, condition, or other status object to
@@ -92,7 +92,7 @@ class TGo4RemoteCommand : public TGo4Command {
       static const char* fgxREMCOMEMPTYSTRING; //!
 
 
-   ClassDef(TGo4RemoteCommand,1)
+   ClassDefOverride(TGo4RemoteCommand,1)
 };
 
 #endif //TGO4REMOTECOMMAND_H

@@ -31,9 +31,9 @@ class TGo4ComGetObjectStatus : public TGo4AnalysisObjectCommand {
 
       virtual ~TGo4ComGetObjectStatus();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-  ClassDef(TGo4ComGetObjectStatus,1)
+   ClassDefOverride(TGo4ComGetObjectStatus,1)
 };
 
 #endif //TGO4COMGETOBJECTSTATUS_H

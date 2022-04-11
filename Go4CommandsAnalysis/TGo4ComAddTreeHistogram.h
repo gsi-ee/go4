@@ -39,12 +39,12 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComAddTreeHistogram();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      virtual void Set(TGo4RemoteCommand* remcon);
+      void Set(TGo4RemoteCommand* remcon) override;
 
       /** Set histogram (dynamic entry) name. */
       void SetHistogramName(const char* name) { fxHistoName = name; }
@@ -72,7 +72,7 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
       /** String with cut expression. */
       TString fxCut;
 
-   ClassDef(TGo4ComAddTreeHistogram,1)
+   ClassDefOverride(TGo4ComAddTreeHistogram,1)
 };
 
 #endif //TGO4COMADDTREEHISTOGRAM_H
