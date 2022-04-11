@@ -27,9 +27,9 @@
 
 TGo4BufferQueue::TGo4BufferQueue() :
    TGo4Queue("Default buffer queue"),
-   fxBufferList(0),
-   fxFreeList(0),
-   fxBufferMutex(0),
+   fxBufferList(nullptr),
+   fxFreeList(nullptr),
+   fxBufferMutex(nullptr),
    fiMaxBuffers(10)
 {
    GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue()", __LINE__, __FILE__));
@@ -39,9 +39,9 @@ TGo4BufferQueue::TGo4BufferQueue() :
 
 TGo4BufferQueue::TGo4BufferQueue(const char* name) :
    TGo4Queue(name),
-   fxBufferList(0),
-   fxFreeList(0),
-   fxBufferMutex(0),
+   fxBufferList(nullptr),
+   fxFreeList(nullptr),
+   fxBufferMutex(nullptr),
    fiMaxBuffers(10)
 {
    GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
@@ -74,11 +74,11 @@ TGo4BufferQueue::~TGo4BufferQueue()
    TCollection::EmptyGarbageCollection();
    //printf ("JAM*************** DTOR of TGo4BufferQueue %s after EmptyGarbageCollection \n", GetName());
 
-   delete fxFreeList; fxFreeList = 0;
+   delete fxFreeList; fxFreeList = nullptr;
    //printf ("JAM*************** DTOR of TGo4BufferQueue %s after delete fxFreeList \n", GetName());
-   delete fxBufferList; fxBufferList = 0;
+   delete fxBufferList; fxBufferList = nullptr;
    //printf ("JAM*************** DTOR of TGo4BufferQueue %s after delete fxBufferList \n", GetName());
-   delete fxBufferMutex; fxBufferMutex = 0;
+   delete fxBufferMutex; fxBufferMutex = nullptr;
    //printf ("JAM*************** DTOR of TGo4BufferQueue %s END\n", GetName());
 }
 
@@ -92,7 +92,7 @@ TBuffer * TGo4BufferQueue::WaitBuffer()
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
-   TObject* obj=0;
+   TObject* obj = nullptr;
    TBuffer* buffer = WaitBuffer();
    if(buffer) {
       {
@@ -134,21 +134,21 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 {
    GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
 
-   TBuffer* entry=0;
+   TBuffer* entry = nullptr;
    Bool_t entryisnew=kFALSE;
    if(clone)
       {
     //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before lockguard of buffer mutex "<<fxBufferMutex<<std::endl;
       TGo4LockGuard qguard(fxBufferMutex);
-         entry= dynamic_cast<TBuffer*>(fxFreeList->Remove(fxFreeList->First()));
-                // get next free buffer
-         if(entry==0)
+         entry = dynamic_cast<TBuffer*>(fxFreeList->Remove(fxFreeList->First()));
+         // get next free buffer
+         if(!entry)
           {
             // no buffer entry there, we create one
             TGo4Log::Debug(" Buffer Queue adding new internal buffer... ");
             //std::cout <<"Buffer Queue: creating new internal buffer... "<< GetName();
 
-            entry=NewEntry();
+            entry = NewEntry();
            //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before Add to free list... "<<std::endl;
 
             fxBufferList->Add(entry); // add to list of existing buffers
@@ -272,8 +272,8 @@ void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
 
 void TGo4BufferQueue::Clear(Option_t* opt)
 {
-   TObject* ob=0;
-   while((ob=Next()) !=0) {
+   TObject* ob = nullptr;
+   while((ob=Next()) != nullptr) {
          //std::cout <<"cleared entry "<<ob<<" of queue "<<GetName() << std::endl;
       FreeBuffer(dynamic_cast<TBuffer*> (ob) );
    }
@@ -297,7 +297,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
    TNamed* dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
    TFile *filsav = gFile;
-   gFile = 0;
+   gFile = nullptr;
    buf->WriteObject(dummy);
    gFile = filsav;
    delete dummy;
@@ -317,14 +317,14 @@ TBuffer* TGo4BufferQueue::CreateValueBuffer(UInt_t val)
 
 Int_t TGo4BufferQueue::DecodeValueBuffer(TBuffer* buf)
 {
-   if(buf==0) return -1;
-   UInt_t len= buf->Length();
+   if(!buf) return -1;
+   UInt_t len = buf->Length();
    if(len != (sizeof(UInt_t)+sizeof(UInt_t))) return -2;
       // note: first length is length of encoded type
                                        // second length is always UInt_t
    char* field=buf->Buffer();
    char* temp= field + sizeof(UInt_t); // skip length header
-   UInt_t val=0;
+   UInt_t val = 0;
    frombuf(temp, &val);
    //std::cout <<"DDDDDD DecodeValueBuffer val="<<val << std::endl;
    return (Int_t) val;
