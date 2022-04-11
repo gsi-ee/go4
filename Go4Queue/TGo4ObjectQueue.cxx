@@ -36,14 +36,14 @@ TGo4ObjectQueue::~TGo4ObjectQueue()
 TObject* TGo4ObjectQueue::WaitObject()
 {
    GO4TRACE((12,"TGo4ObjectQueue::WaitObject()", __LINE__, __FILE__));
-   return (Wait());
+   return Wait();
 }
 
 void TGo4ObjectQueue::AddObject(TObject * object, Bool_t clone)
 {
    GO4TRACE((12, "TGo4ObjectQueue::AddObject(TObject*, Bool_t)", __LINE__, __FILE__));
-   TObject *entry = 0;
-   if (clone && (object != 0)) {
+   TObject *entry = nullptr;
+   if (clone && object) {
       entry = object->Clone();
    } else {
       entry = object;
@@ -54,8 +54,8 @@ void TGo4ObjectQueue::AddObject(TObject * object, Bool_t clone)
 void TGo4ObjectQueue::AddObjectFromBuffer(TBuffer* buffer)
 {
    GO4TRACE((12,"TGo4ObjectQueue::AddObjectFromBuffer(TBuffer*)", __LINE__, __FILE__));
-   TObject *entry = 0;
-   if (buffer != 0) {
+   TObject *entry = nullptr;
+   if (buffer) {
       buffer->SetReadMode();
       buffer->Reset();
       buffer->InitMap();

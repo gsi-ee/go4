@@ -50,12 +50,12 @@ class TGo4Queue : public TNamed {
       void Add(TObject* ob);
 
    private:
-      TMutex* fxMutex;           //!
-      TCondition* fxCondition;   //!
-      TList* fxList;             //!
-      Int_t fiEntries;           //!
-      Int_t fiMaxEntries;        //!
-      Bool_t fbWakeUpCall;       //!
+      TMutex* fxMutex{nullptr};          //!
+      TCondition* fxCondition{nullptr};  //!
+      TList* fxList{nullptr};            //!
+      Int_t fiEntries{0};                //!
+      Int_t fiMaxEntries{0};             //!
+      Bool_t fbWakeUpCall{kFALSE};       //!
 };
 
 #endif //TGO4QUEUE_H

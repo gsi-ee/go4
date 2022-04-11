@@ -255,7 +255,7 @@ void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
    GO4TRACE((19, "TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
    TGo4LockGuard qguard(fxBufferMutex);
    // does buffer belong to our internal buffers?
-   if (fxBufferList->FindObject(buffer) != 0) {
+   if (fxBufferList->FindObject(buffer)) {
       // yes, put it back into the free list
       // new: we allocate the buffersize back to the initial size to
       // avoid extended memory consumption:
@@ -273,7 +273,7 @@ void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
 void TGo4BufferQueue::Clear(Option_t* opt)
 {
    TObject* ob = nullptr;
-   while((ob=Next()) != nullptr) {
+   while((ob = Next()) != nullptr) {
          //std::cout <<"cleared entry "<<ob<<" of queue "<<GetName() << std::endl;
       FreeBuffer(dynamic_cast<TBuffer*> (ob) );
    }
