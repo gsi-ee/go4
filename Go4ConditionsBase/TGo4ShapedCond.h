@@ -127,14 +127,14 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
 
       /** Printout values. If points is true, printout polygon points. */
-      virtual void PrintCondition(Bool_t points = kTRUE);
+      void PrintCondition(Bool_t points = kTRUE) override;
 
        /** Copy values from cond to this.
        * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */
-       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts)  override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
-      virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+      Bool_t UpdateFromUrl(const char* rest_url_opt)  override;
 
       Bool_t IsShapedType()
       {
@@ -143,7 +143,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       void SetResolution(Int_t npoints)
       {
-         fiResolution=npoints;
+         fiResolution = npoints;
       }
 
       Int_t GetResolution()
@@ -190,7 +190,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       Double_t fdTheta;    //< ellipse tilt angle
       Go4CondShape_t fiShapeType; //< type of shaped form
 
-   ClassDef(TGo4ShapedCond,1)
+   ClassDefOverride(TGo4ShapedCond,1)
 };
 
 #define TGo4EllipseCond TGo4ShapedCond
