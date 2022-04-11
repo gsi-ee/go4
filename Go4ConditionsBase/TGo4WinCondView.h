@@ -27,12 +27,12 @@ public:
 
     virtual ~TGo4WinCondView();
 
-    virtual void Paint(Option_t* opt="");
-    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
+    void Paint(Option_t* opt="") override;
+    void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
-    void SetCondition(TGo4WinCond* condition) { fxWinCondition=condition; }
+    void SetCondition(TGo4WinCond* condition) { fxWinCondition = condition; }
     TGo4WinCond* GetCondition() { return fxWinCondition; }
-    const char* GetName() const;
+    const char* GetName() const override;
     void SetName(const char* nam); // *MENU*
     /** Delete condition instead of view: */
     //void DeleteRegion(); // *MENU*
@@ -61,9 +61,9 @@ private:
     Bool_t fbExecutesMouseEvent;
 
     /** pointer to viewed condition for update after graphical action */
-    TGo4WinCond* fxWinCondition; //!
+    TGo4WinCond* fxWinCondition{nullptr}; //!
 
-    ClassDef(TGo4WinCondView,7)
+    ClassDefOverride(TGo4WinCondView,7)
 };
 
 #endif //TGO4WINCONDVIEW_H

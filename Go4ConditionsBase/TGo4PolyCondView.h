@@ -25,8 +25,8 @@ public:
     TGo4PolyCondView();
     virtual ~TGo4PolyCondView();
 
-    virtual void Paint(Option_t* opt);
-    virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
+    void Paint(Option_t* opt) override;
+    void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
     /** Check if cut on pad is changed compared with condition */
     Bool_t IsCutChanged();
@@ -35,7 +35,7 @@ public:
 
     void SetCondition(TGo4PolyCond *condition) { fxPolyCondition = condition; }
 
-    TGo4PolyCond* GetCondition(){return fxPolyCondition;}
+    TGo4PolyCond* GetCondition() { return fxPolyCondition; }
 
     /** Set this view to values of cut source*/
     void SetCut(TCutG* source);
@@ -43,8 +43,8 @@ public:
     /** create plain cutg from this view. */
     TCutG* CreateCut();
 
-    virtual const char* GetName() const;
-    void SetName(const char* nam); // *MENU*
+    const char* GetName() const override;
+    void SetName(const char* nam) override; // *MENU*
      /** Delete condition instead of view: */
     void DeleteRegion(); // *MENU*
 
@@ -70,33 +70,30 @@ public:
     Bool_t IsYMaxDraw() { return fxPolyCondition ? fxPolyCondition->IsYMaxDraw() : kFALSE; }
     Bool_t IsCMaxDraw() { return fxPolyCondition ? fxPolyCondition->IsCMaxDraw() : kFALSE; }
 
-
-
-
     /** This will save draw flags into  static default setup */
     void SaveLabelStyle();// *MENU*
     /** Will reset label position to defaults */
     void ResetLabel();// *MENU*
 
     using TCutG::RemovePoint;
-    virtual Int_t InsertPoint(); // *MENU*
-    virtual Int_t RemovePoint(); // *MENU*
+    Int_t InsertPoint() override; // *MENU*
+    Int_t RemovePoint() override; // *MENU*
 
-    Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
-    Bool_t IsAtExecuteMouseMenu(){return fbExecutesMouseMenu;}
+    Bool_t IsAtExecuteMouseEvent() { return fbExecutesMouseEvent; }
+    Bool_t IsAtExecuteMouseMenu() { return fbExecutesMouseMenu; }
 
 private:
 
     /** JAM this one will suppress condition repaint during execution of mouse events*/
-    Bool_t fbExecutesMouseEvent;
+    Bool_t fbExecutesMouseEvent{kFALSE};
 
     /** JAM this one will suppress condition repaint during mouse menu execution*/
-    Bool_t fbExecutesMouseMenu;
+    Bool_t fbExecutesMouseMenu{kFALSE};
 
     /** pointer to viewed condition for update after graphical action */
-    TGo4PolyCond* fxPolyCondition; //!
+    TGo4PolyCond* fxPolyCondition{nullptr}; //!
 
-    ClassDef(TGo4PolyCondView,7)
+    ClassDefOverride(TGo4PolyCondView,7)
 };
 
 #endif //TGO4POLYCONDVIEW_H
