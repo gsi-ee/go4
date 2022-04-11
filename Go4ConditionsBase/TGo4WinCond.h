@@ -27,83 +27,82 @@ class TGo4WinCond : public TGo4Condition {
       virtual ~TGo4WinCond();
 
       /** Factory method to generate the subclass implementation for painter */
-      virtual TGo4ConditionPainter* CreatePainter();
+      TGo4ConditionPainter* CreatePainter() override;
 
       /** Replace default painter of this condition by external one.
         * if different views of this condition shall exist for different TPads,
         * the painter (i.e. view) can be exchanged before pad is updated. */
-      virtual void SetPainter(TGo4ConditionPainter* painter);
+      void SetPainter(TGo4ConditionPainter* painter) override;
 
       using TGo4Condition::SetValues;
 
       /** Set limits and internal dimension to 1 */
-      virtual void SetValues(Double_t low1, Double_t up1);
+      void SetValues(Double_t low1, Double_t up1) override;
 
       /** Set limits and internal dimension to 2 */
-      virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2);
+      void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2) override;
 
       using TGo4Condition::Test;
 
       /** Test v1 versus first limits: includes lower, excludes upper. */
-      virtual Bool_t Test(Double_t v1);
+      Bool_t Test(Double_t v1) override;
 
       /** Test v1 versus first limits and v2 versus second limits
         * Includes lower, excludes upper. */
-      virtual Bool_t Test(Double_t v1, Double_t v2);
+      Bool_t Test(Double_t v1, Double_t v2) override;
 
       /** Returns limits. */
-      virtual void GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2);
+      void GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2) override;
 
-      inline virtual Double_t GetXLow() { return fLow1; }
-      inline virtual Double_t GetXUp() { return fUp1; }
-      inline virtual Double_t GetYLow() { return fLow2; }
-      inline virtual Double_t GetYUp() { return fUp2; }
+      Double_t GetXLow() override { return fLow1; }
+      Double_t GetXUp() override { return fUp1; }
+      Double_t GetYLow() override { return fLow2; }
+      Double_t GetYUp() override { return fUp2; }
 
       void SetXLow(Double_t v) { fLow1 = v; }
       void SetXUp(Double_t v) { fUp1 = v; }
       void SetYLow(Double_t v) { fLow2 = v; }
       void SetYUp(Double_t v) { fUp2 = v; }
 
-
       /** Printout. If limits is true, print limits too. */
-      virtual void PrintCondition(Bool_t full = kTRUE);
+      void PrintCondition(Bool_t full = kTRUE) override;
 
       /** Copy values from cond to this. When counts is true, copy also counters. */
-      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
-      virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+      Bool_t UpdateFromUrl(const char* rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
+      Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetMean(TH1* histo, Int_t axis=1);
+      Double_t GetMean(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetRMS(TH1* histo, Int_t axis=1);
+      Double_t GetRMS(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetSkewness(TH1* histo, Int_t axis=1);
+      Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetCurtosis(TH1* histo, Int_t axis=1);
+      Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetXMax(TH1* histo);
+      Double_t GetXMax(TH1* histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetYMax(TH1* histo);
+      Double_t GetYMax(TH1* histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetCMax(TH1* histo);
+      Double_t GetCMax(TH1* histo) override;
 
-      virtual Bool_t IsPolygonType() { return kFALSE; }
+      Bool_t IsPolygonType()  override { return kFALSE; }
 
-      virtual Int_t GetMemorySize();
+      Int_t GetMemorySize() override;
 
       /** Standard way to store parameter in form of macro */
-      virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
+      void SavePrimitive(std::ostream& fs, Option_t* = "") override;
 
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_XLOW;
@@ -146,7 +145,7 @@ class TGo4WinCond : public TGo4Condition {
       /** Restore original ranges of current histo. */
       void RestoreHistogramRanges(TH1* histo);
 
-   ClassDef(TGo4WinCond,7)
+   ClassDefOverride(TGo4WinCond,7)
 };
 
 #endif //TGO4WINCOND_H
