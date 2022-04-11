@@ -175,7 +175,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
                   }
            char* source= buffer->Buffer();
            char* destination= entry->Buffer();
-            memcpy(destination,source,destsize);
+            memcpy(destination,source,srcsize);
            //std::cout <<"))))))))))Buffer Queue: copied "<< destsize <<"bytes to buffer field" << std::endl;
             Int_t messlen = buffer->Length(); // compatible with root TMessage protocol
             entry->SetBufferOffset(messlen);
