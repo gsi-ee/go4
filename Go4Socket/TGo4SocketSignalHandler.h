@@ -19,7 +19,7 @@
 class TGo4SocketSignalHandler {
    public:
 
-      TGo4SocketSignalHandler(Int_t signum, Bool_t enabled=kTRUE);
+      TGo4SocketSignalHandler(Int_t signum, Bool_t enabled = kTRUE);
 
       virtual ~TGo4SocketSignalHandler();
 
@@ -29,7 +29,7 @@ class TGo4SocketSignalHandler {
 
       static void DisableSigPipe();
 
-      static void SetSignalAction(Int_t signum, Bool_t enabled=kTRUE);
+      static void SetSignalAction(Int_t signum, Bool_t enabled = kTRUE);
 
       static void Handle(int);
 

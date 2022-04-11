@@ -38,11 +38,11 @@ const char* TGo4Socket::fgcGOON = "-I- go on";
 TGo4Socket::TGo4Socket(Bool_t IsClient) :
     fbClientMode(IsClient),
     fbOpen(kFALSE),
-    fxSocket(0),
-    fxServerSocket(0),
+    fxSocket(nullptr),
+    fxServerSocket(nullptr),
     fiPort(0),
-    fxLocalBuffer(0),
-    fxBuffer(0)
+    fxLocalBuffer(nullptr),
+    fxBuffer(nullptr)
 {
    GO4TRACE((14,"TGo4Socket::TGo4Socket(Bool_t)", __LINE__, __FILE__));
 
@@ -65,27 +65,27 @@ TGo4Socket::~TGo4Socket()
 {
    GO4TRACE((14,"TGo4Socket::~TGo4Socket()", __LINE__, __FILE__));
 
-   if (fxBuffer!=0) {
+   if (fxBuffer) {
       // SL: 10-11-12 fix memory leak
       delete fxBuffer;
-      fxBuffer = 0;
+      fxBuffer = nullptr;
    }
 
    if (fxLocalBuffer) {
       delete [] fxLocalBuffer;
-      fxLocalBuffer = 0;
+      fxLocalBuffer = nullptr;
    }
 
    if(fxSocket)  {
       fxSocket->Close();
       delete fxSocket;
-      fxSocket = 0;
+      fxSocket = nullptr;
    }
 
    if(fxServerSocket) {
       fxServerSocket->Close();
       delete fxServerSocket;
-      fxServerSocket = 0;
+      fxServerSocket = nullptr;
    }
 }
 
@@ -95,12 +95,12 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
 
    if(fbOpen) return 1;
 
-   Int_t rev=0;
+   Int_t rev = 0;
 
    if(fbClientMode) {
       // client socket
       fxSocket = new TSocket(host, port);
-      Int_t maxcounter=0;
+      Int_t maxcounter = 0;
       while(!fxSocket->IsValid())
       {
          if(++maxcounter> TGo4Socket::fgiOPENCYCLES)
@@ -119,7 +119,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
       if(!fxSocket->IsValid())
       {
          TGo4Log::Debug(" Socket: Open(const char* host, Int_t port ) as Client failed ");
-         fiPort=0;
+         fiPort = 0;
          return -8;
       }
       else
@@ -164,7 +164,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
          fiPort = fxServerSocket->GetLocalPort(); // success, get real port number
          //std::cout << " ---- Go4 Socket got local port "<< fiPort  << std::endl;
       }
-      fxSocket = 0;
+      fxSocket = nullptr;
       while(1)
       {
          if(!fxSocket)
@@ -185,7 +185,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
                {
                   fxServerSocket->Close();
                   delete fxServerSocket;
-                  fxServerSocket = 0;
+                  fxServerSocket = nullptr;
                }
                else
                {
@@ -194,7 +194,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
                   // idle quickly for repeated client requests
                }// if(!keepservsock)
                fbOpen = kTRUE;
-               rev=0;
+               rev = 0;
                break;
             } // if(!fxSocket || fxSocket==(TSocket*) (-1) )
          }
@@ -242,7 +242,7 @@ Int_t TGo4Socket::SendBuffer(TBuffer* buf)
    UInt_t len = buf->Length();
    char* field = buf->Buffer();
 
-   if(field==0) {
+   if(!field) {
       TGo4Log::Debug(" !!! Socket: SendBuffer() ERROR : no data field !!! ");
       return -5;
     }
@@ -339,7 +339,7 @@ Int_t TGo4Socket::Send(TObject *obj)
 {
    GO4TRACE((12,"TGo4Socket::Send(TObject *obj)", __LINE__, __FILE__));
 
-   Int_t rev=0;
+   Int_t rev = 0;
    if(IsOpen())
    {
 
@@ -355,7 +355,7 @@ Int_t TGo4Socket::Send(TObject *obj)
       }
       else
       {
-         rev=-16;
+         rev = -16;
       } // end if(fxSocket)
    }    // if(IsOpen())
    else {
@@ -373,7 +373,7 @@ Int_t TGo4Socket::Send(const char* name)
 {
    GO4TRACE((12,"TGo4Socket::Send(const char* name)", __LINE__, __FILE__));
 
-   Int_t rev=0;
+   Int_t rev = 0;
    if(IsOpen())
       {
          if(fxSocket)
@@ -388,13 +388,13 @@ Int_t TGo4Socket::Send(const char* name)
             }
          else
             {
-               rev=-16;
+               rev = -16;
             } // end if(fxSocket)
       }    // if(IsOpen())
    else
       {
          // do not send on closed socket
-         rev=-32;
+         rev = -32;
       } // end   if(IsOpen())
 
    if(rev < 0)
@@ -411,12 +411,12 @@ char* TGo4Socket::RecvRaw(const char* name)
 
    if(!IsOpen()) {
       TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : not open or not active !!! ");
-      return 0;
+      return nullptr;
    }
 
    if (!fxSocket) {
       TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
-      return 0;
+      return nullptr;
    }
 #ifdef Linux
    Int_t rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), fxLocalBuffer, TGo4Socket::fgiBUFLENGTH, MSG_NOSIGNAL);
@@ -427,7 +427,7 @@ char* TGo4Socket::RecvRaw(const char* name)
    if(rev<=0) {
       // error on receive
       TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
-      return 0;
+      return nullptr;
    }
 
    return fxLocalBuffer;
@@ -440,18 +440,18 @@ TObject* TGo4Socket::Recv(const char* name)
    // note: optional parameter const char* name is left for compatibility, has no effect!
    GO4TRACE((12,"TGo4Socket::Recv(const char* name)", __LINE__, __FILE__));
 
-   TObject* obj=0;
+   TObject* obj = nullptr;
    if(IsOpen())
    {
       if(fxSocket)
       {
-         TMessage *mess = 0;
+         TMessage *mess = nullptr;
          fxSocket->Recv(mess);
 
-         if(mess == 0)
+         if(!mess)
          {
             //std::cout << "TGo4SocketTransportImp: zero mess" << std::endl;
-            obj=0;
+            obj = nullptr;
          }
          else
          {
@@ -479,7 +479,7 @@ TObject* TGo4Socket::Recv(const char* name)
 
 void TGo4Socket::ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
-   if(buffer==0) return;
+   if(!buffer) return;
    TGo4LockGuard mainguard;
    char* memfield = buffer->Buffer();
    //buffer->Expand(newsize); // is protected! we make it by hand...
