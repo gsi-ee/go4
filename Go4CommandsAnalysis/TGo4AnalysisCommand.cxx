@@ -55,8 +55,8 @@ TGo4AnalysisCommand::TGo4AnalysisCommand(const TGo4AnalysisCommand &right)
 
 Int_t TGo4AnalysisCommand::RefuseCom()
 {
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli!=0)
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if(cli)
       cli->SendStatusMessage(2,kTRUE, TString::Format(
             "%s::Command %s from GUI %s not allowed for %s (mode %d)",
             GetTaskName(), GetName(), GetTaskName(),GetModeDescription(GetMode()), GetMode()));

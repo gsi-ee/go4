@@ -113,9 +113,9 @@ class TGo4Command  : public TNamed {
       TString fxTaskName;     // name of task
 
    protected:
-      TGo4CommandReceiver * fxReceiverBase; //!
+      TGo4CommandReceiver * fxReceiverBase{nullptr}; //!
 
-   ClassDef(TGo4Command , 1)
+   ClassDef(TGo4Command, 1)
 };
 
 #endif //TGO4COMMAND_H
