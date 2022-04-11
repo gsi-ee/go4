@@ -4,7 +4,7 @@ CMDANAL_NAME        = Go4CommandsAnalysis
 
 CMDANAL_DIR         = $(CMDANAL_NAME)
 
-CMDANAL_NOTLIBF     = $(CMDANAL_DIR)/Go4CommandsAnalysis.h
+CMDANAL_NOTLIBF     =
 
 ## must be similar for every module
 
