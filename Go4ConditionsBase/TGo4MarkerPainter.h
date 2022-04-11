@@ -24,15 +24,14 @@ public:
    TGo4MarkerPainter(const char* name, const char* title="Go4 MarkerPainter");
    virtual ~TGo4MarkerPainter();
 
-  /** Display coordinate label for this marker. */
-  virtual void PaintLabel(Option_t* opt="");
-  virtual void UnPaintLabel(Option_t* opt="");
-  void PaintConnector(Option_t* opt="");
-  void UnPaintConnector(Option_t* opt="");
-  virtual void DisplayToFront(Option_t* opt="");
+   /** Display coordinate label for this marker. */
+   void PaintLabel(Option_t* opt="") override;
+   void UnPaintLabel(Option_t* opt="") override;
+   void PaintConnector(Option_t* opt="");
+   void UnPaintConnector(Option_t* opt="");
+   void DisplayToFront(Option_t* opt="") override;
 
-
-  virtual void SetMarker(TGo4Marker* mark) {fxMarker=mark;}
+   virtual void SetMarker(TGo4Marker* mark) { fxMarker=mark; }
 
 protected:
 
@@ -50,7 +49,7 @@ private:
     Bool_t fbIsConStreamed; //!
 
 
-ClassDef(TGo4MarkerPainter,1)
+ClassDefOverride(TGo4MarkerPainter,1)
 };
-#endif //TGO4MARKERPAINTER_H
 
+#endif //TGO4MARKERPAINTER_H

@@ -21,7 +21,7 @@ class TGo4Condition;
 class TGo4ConditionPainter : public TGo4LabelPainter {
   public:
     TGo4ConditionPainter();
-    TGo4ConditionPainter(const char* name, const char* title = 0);
+    TGo4ConditionPainter(const char* name, const char* title = nullptr);
     virtual ~TGo4ConditionPainter();
 
     /** Display condition with plain root canvas and in go4 viewpanel */

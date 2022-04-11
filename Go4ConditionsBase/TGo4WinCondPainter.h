@@ -25,21 +25,21 @@ class TGo4WinCondPainter : public TGo4ConditionPainter {
      virtual ~TGo4WinCondPainter();
 
      /** Display condition with plain root canvas and in go4 viewpanel */
-     virtual void PaintCondition(Option_t* opt="");
+     void PaintCondition(Option_t* opt="") override;
 
      /** Erase condition view  */
-     virtual void UnPaintCondition(Option_t* opt="");
+     void UnPaintCondition(Option_t* opt="") override;
 
      /** pop all components to the front of the pad*/
-     virtual void DisplayToFront(Option_t* opt="");
+     void DisplayToFront(Option_t* opt="") override;
 
 
   private:
 
     /** Window marker box. */
-    TGo4WinCondView* fxBox;
+    TGo4WinCondView* fxBox{nullptr};
 
-    ClassDef(TGo4WinCondPainter,6)
+    ClassDefOverride(TGo4WinCondPainter,6)
 };
 
 #endif //TGO4WINCONDPAINTER_H

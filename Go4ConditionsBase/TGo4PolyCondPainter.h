@@ -26,22 +26,21 @@ class TGo4PolyCondPainter : public TGo4ConditionPainter {
       virtual ~TGo4PolyCondPainter();
 
       /** Display condition with plain root canvas and in go4 viewpanel */
-      virtual void PaintCondition(Option_t* opt="");
+      void PaintCondition(Option_t* opt="") override;
 
       /** Erase condition view */
-      virtual void UnPaintCondition(Option_t* opt="");
+      void UnPaintCondition(Option_t* opt="") override;
 
         /** pop all components to the front of the pad*/
-      virtual void DisplayToFront(Option_t* opt="");
+      void DisplayToFront(Option_t* opt="") override;
 
-
-      virtual void SetCondition(TGo4Condition* con);
+      void SetCondition(TGo4Condition* con) override;
 
    private:
       /** Cut used for polygon display. This is buffered copy of condition cutg*/
-      TGo4PolyCondView* fxCutView; //!
+      TGo4PolyCondView *fxCutView{nullptr}; //!
 
-   ClassDef(TGo4PolyCondPainter,6)
+   ClassDefOverride(TGo4PolyCondPainter,6)
 };
 
 #endif //TGO4POLYCONDPAINTER_H
