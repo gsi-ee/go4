@@ -79,11 +79,11 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
       void SetNeedInitialisation(Bool_t on = kTRUE) { fbNeedInitialisation = on; }
 
       /** Resets this entry to an initial status. */
-      virtual void Reset();
+      void Reset() override;
 
-      virtual void Print(Option_t* = "") const;
+      void Print(Option_t* = "") const override;
 
-      virtual void RecursiveRemove(TObject* obj);
+      void RecursiveRemove(TObject* obj) override;
 
       static const char* Get_fgcNOCONDITION();
 
@@ -128,12 +128,12 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     TString fxConEventName[__MAXCONDIM__];
 
     /** The (histogram) object kept by this entry. */
-    TH1* fxHistogram; //!
+    TH1* fxHistogram{nullptr}; //!
 
     /** Condition to be checked on processing this entry. */
-    TGo4Condition* fxCondition;                  //!
+    TGo4Condition* fxCondition{nullptr};                  //!
 
-    Bool_t fbNeedInitialisation;  //!
+    Bool_t fbNeedInitialisation{kFALSE};  //!
 
     /** Pointer for event objects, class does not known to entry itself */
     TObject* fxHisEvents[__MAXHISDIM__]; //!
@@ -157,7 +157,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     /** Text to indicate that no condition is used */
     static const char* fgcNOEVENT;
 
-  ClassDef(TGo4HistogramEntry,3)
+  ClassDefOverride(TGo4HistogramEntry,3)
 };
 
 #endif //TGO4HISTOGRAMENTRY_H

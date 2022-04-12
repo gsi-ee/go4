@@ -64,9 +64,9 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     Int_t GetDynListInterval() const { return fiDynListInterval; }
 
     /** Resets this entry to an initial status. */
-    virtual void Reset();
+    void Reset() override;
 
-    virtual void Print(Option_t * = "") const;
+    void Print(Option_t * = "") const override;
 
     /** suffix for entryname to differ from histogram name */
     static const char* fgcENTRYSUF; //!
@@ -88,16 +88,16 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
    /** The selection string needed by TTree:Draw() */
    TString fxCutExp;
 
-   Int_t fiDynListInterval;
+   Int_t fiDynListInterval{0};
 
    /** True before Process is called the first time. Then the histogram
      * created by the TTree::Draw is added to the histogram folder once. */
-   Bool_t fbNewHistogram; //!
+   Bool_t fbNewHistogram{kFALSE}; //!
 
    /** index of last tree entry of the previous Process() call */
-   Int_t fiLastEvent;     //!
+   Int_t fiLastEvent{0};     //!
 
-  ClassDef(TGo4TreeHistogramEntry,3)
+  ClassDefOverride(TGo4TreeHistogramEntry,3)
 
 };
 
