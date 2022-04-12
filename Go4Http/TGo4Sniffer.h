@@ -49,7 +49,7 @@ class TGo4Sniffer : public SniffBaseClass,
       /** if true, python binding of go4 has already been done.*/
       Bool_t fbPythonBound;
 
-      virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
+      void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj) override;
 
       /** Send message to gui - need to be implemented */
       virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
@@ -71,20 +71,18 @@ class TGo4Sniffer : public SniffBaseClass,
 
       static THttpServer* gHttpServer;
 
-
    public:
 
       static THttpServer* GetHttpServer() { return gHttpServer; }
 
       static Bool_t CreateEngine(const char* name);
 
-
       TGo4Sniffer(const char* name);
       virtual ~TGo4Sniffer();
 
-      virtual void ScanRoot(TRootSnifferScanRec& rec);
+      void ScanRoot(TRootSnifferScanRec& rec) override;
 
-      virtual void *FindInHierarchy(const char *path, TClass **cl = 0, TDataMember **member = 0, Int_t *chld = 0);
+      void *FindInHierarchy(const char *path, TClass **cl = nullptr, TDataMember **member = nullptr, Int_t *chld = nullptr) override;
 
       // ========= methods registered as command and available from web interface =========
 
@@ -112,19 +110,19 @@ class TGo4Sniffer : public SniffBaseClass,
       TObject* CreateItemStatus(const char* itemname);
 
       /** Method called by logger with every string, going to output */
-      virtual void SetTitle(const char* title = "");
+      void SetTitle(const char* title = "") override;
 
       /** Method from analysis sniffer */
-      virtual void RatemeterUpdate(TGo4Ratemeter*);
+      void RatemeterUpdate(TGo4Ratemeter*) override;
 
       /** Method from analysis sniffer */
-      virtual void StatusMessage(int level, Bool_t printout, const TString&);
+      void StatusMessage(int level, Bool_t printout, const TString&) override;
 
       /** Method called in go4 analysis thread, used to executed server commands */
-      virtual void ProcessSnifferEvents();
+      void ProcessSnifferEvents() override;
 
 
-   ClassDef(TGo4Sniffer, 1); // Sniffer of Go4 analysis objects for THttpServer
+   ClassDefOverride(TGo4Sniffer, 1); // Sniffer of Go4 analysis objects for THttpServer
 };
 
 

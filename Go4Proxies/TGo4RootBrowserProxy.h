@@ -24,11 +24,11 @@ class TCanvas;
 
 class TGo4RootBrowserProxy : public TGo4Proxy {
    public:
-      TGo4RootBrowserProxy(TGo4BrowserProxy* br = 0);
+      TGo4RootBrowserProxy(TGo4BrowserProxy* br = nullptr);
 
       virtual ~TGo4RootBrowserProxy();
 
-      virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param);
+      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
 
       void UnblockStatusOutput();
 
@@ -45,15 +45,15 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
       void UpdateRatemeter(TObject* obj);
       void UpdateLoginfo(TObject* obj);
 
-      TCanvas* MakeCanvas(const char* title = 0);
+      TCanvas* MakeCanvas(const char* title = nullptr);
 
       void SyncRootBrowserSlots();
 
-      TGo4BrowserProxy*  fBrowser; //!
+      TGo4BrowserProxy*  fBrowser{nullptr}; //!
 
-      Bool_t  fLockMessage;  //!
+      Bool_t  fLockMessage{kFALSE};  //!
 
-   ClassDef(TGo4RootBrowserProxy, 1);
+   ClassDefOverride(TGo4RootBrowserProxy, 1);
 
 };
 

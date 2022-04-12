@@ -21,10 +21,10 @@
 
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
-      TGo4Slot*        fxParentSlot;            //!
-      Bool_t           fbAnalysisReady;         // true if analysis is connected and get first info
-      Bool_t           fbAnalysisSettingsReady; // true when settings are specified
-      Int_t            fAnalysisLaunched;       //! 0 - not launched, 1 - external shell, 2 - in qt shell
+      TGo4Slot*        fxParentSlot{nullptr};           //!
+      Bool_t           fbAnalysisReady{kFALSE};         // true if analysis is connected and get first info
+      Bool_t           fbAnalysisSettingsReady{kFALSE}; // true when settings are specified
+      Int_t            fAnalysisLaunched{0};            //! 0 - not launched, 1 - external shell, 2 - in qt shell
 
       TString          fNodeName; // name of remote node
       TString          fInfoStr;
@@ -32,7 +32,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
 
-      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
+      void Initialize(TGo4Slot* slot) override { fxParentSlot = slot; }
 
       TGo4Slot* ParentSlot() { return fxParentSlot; }
       TGo4Slot* SettingsSlot();
@@ -42,7 +42,7 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual const char* GetUserName() const { return ""; }
-      virtual const char* GetContainedObjectInfo();
+      const char* GetContainedObjectInfo() override;
 
       virtual TString FindCommand(const char* name) { return ""; }
       virtual Int_t  NumCommandArgs(const char* name) { return -1; }
@@ -137,7 +137,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                     Int_t exe_kind = 0, // 0 - executable, 1 - user library
                                     const char* exeargs = 0);
 
-   ClassDef(TGo4ServerProxy, 1);
+   ClassDefOverride(TGo4ServerProxy, 1);
 };
 
 

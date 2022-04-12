@@ -36,38 +36,38 @@ class TGo4HServProxy : public TGo4ServerProxy {
       const char* GetUserPass() const { return fUserPass.Data(); }
       const char* GetFilter() const { return fFilter.Data(); }
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
 
-      virtual Bool_t HasSublevels() const;
+      Bool_t HasSublevels() const override;
 
-      virtual TGo4LevelIter* MakeIter();
+      TGo4LevelIter* MakeIter() override;
 
-      virtual TGo4Access* ProvideAccess(const char* name);
+      TGo4Access* ProvideAccess(const char* name) override;
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
 
-      virtual void Update(TGo4Slot* slot, Bool_t strong);
+      void Update(TGo4Slot* slot, Bool_t strong) override;
 
-      virtual const char* GetServerName() const { return fServerName.Data(); }
-      virtual Bool_t RefreshNamesList();
+      const char* GetServerName() const override { return fServerName.Data(); }
+      Bool_t RefreshNamesList() override;
       TH1* GetHistogram(const char* remotehistoname);
 
    protected:
 
-      TString    fServerName;     //!
-      Int_t      fPortNumber;     //!
-      TString    fBaseName;       //!
-      TString    fUserPass;       //!
-      TString    fFilter;         //!
+      TString    fServerName;        //!
+      Int_t      fPortNumber{0};     //!
+      TString    fBaseName;          //!
+      TString    fUserPass;          //!
+      TString    fFilter;            //!
 
-      TGo4Slot*   fxStructure;   //!
+      TGo4Slot*   fxStructure{nullptr};   //!
 
-   ClassDef(TGo4HServProxy, 1);
+   ClassDefOverride(TGo4HServProxy, 1);
 };
 
 #endif

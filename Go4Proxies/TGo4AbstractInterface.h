@@ -78,8 +78,8 @@ enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4
 
 class TGo4AbstractInterface : public TObject {
    private:
-      TGo4ObjectManager* fOM;
-      TGo4BrowserProxy*  fBrowser;
+      TGo4ObjectManager* fOM{nullptr};
+      TGo4BrowserProxy*  fBrowser{nullptr};
       TList              fxCommands;
 
    protected:
@@ -107,7 +107,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** method to set initial list of shared libraries,
        * which than will not be included in hotstart file */
-      static void SetInitSharedLibs(const char* libs = 0);
+      static void SetInitSharedLibs(const char *libs = nullptr);
 
       /** destructor */
       virtual ~TGo4AbstractInterface();
@@ -215,7 +215,7 @@ class TGo4AbstractInterface : public TObject {
         * Only binary ROOT files (extension .root) and XML file (extension .xml) are supported. */
       virtual Bool_t SaveToFile(const char* itemname,
                                 const char* filename,
-                                const char* filetitle = 0);
+                                const char* filetitle = nullptr);
 
       /** Export browser item to different file formats.
         * One, probably, should use FetchItem() before calling this method.
@@ -232,7 +232,7 @@ class TGo4AbstractInterface : public TObject {
       virtual Bool_t ExportToFile(const char* itemname,
                                   const char* dirpath,
                                   const char* format,
-                                  const char* filetitle = 0);
+                                  const char* filetitle = nullptr);
 
       /** Connect to GSI histogram server.
         * Creates appropriate entry in browser and provides access to histogram.
@@ -486,7 +486,7 @@ class TGo4AbstractInterface : public TObject {
                          int bufsize,
                          int splitlevel,
                          int compression,
-                         int autosaveperiod=0) {}
+                         int autosaveperiod = 0) {}
 
       /** Set back store as step data storage */
       virtual void StepBackStore(const char* stepname,
@@ -526,7 +526,7 @@ class TGo4AbstractInterface : public TObject {
         * one can create and configure viewpanel and then create hotstart file.
         * This file will include complete TGo4Picture configuration, which
         * contains attributes like colors, ranges, pad divisions and so on. */
-      virtual ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = 0) { return 0; }
+      virtual ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) { return 0; }
 
       /** Return name of viewpanel. */
       virtual TString GetViewPanelName(ViewPanelHandle panel) { return TString(); }
@@ -536,7 +536,6 @@ class TGo4AbstractInterface : public TObject {
 
       /** Change name of viewpanel. */
       virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) { return kFALSE; }
-
       /** Return handle of last active viewpanel. */
       virtual ViewPanelHandle GetActiveViewPanel() { return 0; }
 
@@ -550,10 +549,10 @@ class TGo4AbstractInterface : public TObject {
         * If number==0, main pad (canvas) will be set as active,
         * otherwise one of subpads will be activated.
         * Most of methods, working with viewpanel, acting with active pad of this panel. */
-      virtual TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) { return 0; }
+      virtual TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
 
       /** Returns pad options for pad with specified number */
-      virtual TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return 0; }
+      virtual TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return nullptr; }
 
       /** Set superimpose flag for active pad of viewpanel. */
       virtual void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) {}
@@ -566,7 +565,7 @@ class TGo4AbstractInterface : public TObject {
         *    itemname - browser item name,
         *    panel    - viewpanel, if panel==0, new viewpanel will be created.
         *    drawopt  - draw options, used in obj->Draw() operation */
-      virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0) { return kFALSE; }
+      virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = nullptr) { return kFALSE; }
 
       /** Redraw item of given name on all viewpanels/editors.
         * Useful for the case, when content of object (histogram, for example)
@@ -575,7 +574,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** Provide item name, drawn in the view panel.
        *  Optional cnt parameter could specify sequence number in panel, including all subpads */
-      virtual const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return 0; }
+      virtual const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return nullptr; }
 
       virtual void StartFitPanel() {}
 
