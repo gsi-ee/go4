@@ -51,18 +51,18 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
        */
       void SetNumIterations(Int_t iNumIters) { fiNumIters = iNumIters; }
 
-      virtual Bool_t NeedBuffers() const { return kTRUE; }
+      Bool_t NeedBuffers() const override { return kTRUE; }
 
       /**
        * Perform amplitude estimations.
        * See Go4Fit tutorial to more details.
        */
-      virtual void DoAction(TGo4FitterAbstract* Fitter);
+      void DoAction(TGo4FitterAbstract* Fitter) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t* option) const override;
 
     private:
 
@@ -73,9 +73,9 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
        /**
         * Number of iterations, used for amplitude estimation.
         */
-       Int_t fiNumIters;
+       Int_t fiNumIters{0};
 
-   ClassDef(TGo4FitAmplEstimation,1)
+   ClassDefOverride(TGo4FitAmplEstimation,1)
 };
 
 #endif // TGO4FITAMPLESTIMATION_H

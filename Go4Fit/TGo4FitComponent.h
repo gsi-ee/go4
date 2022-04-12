@@ -221,9 +221,9 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Not only parameters of TGo4FitComponent copies to list.
        * All parameters, which are situated in encapsulated objects, also will be copied to this list.
        */
-      virtual void CollectParsTo(TGo4FitParsList& list);
+      void CollectParsTo(TGo4FitParsList &list) override;
 
-            /**
+      /**
        * Sets usage of additional buffers.
        * Buffers can only be created in Initialize procedure..
        */
@@ -238,7 +238,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Print info about object on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t* option) const override;
 
    protected:
 
@@ -282,14 +282,14 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Index of amplitude parameter (-1 if none)
        */
-      Int_t fiAmplIndex;
+      Int_t fiAmplIndex{0};
 
       /**
        * Specify usage of buffers after initialization
        */
-      Bool_t fbUseBuffers;
+      Bool_t fbUseBuffers{kFALSE};
 
-   ClassDef(TGo4FitComponent,1)
+   ClassDefOverride(TGo4FitComponent,1)
 };
 
 #endif // TGO4FITCOMPONENT_H

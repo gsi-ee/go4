@@ -61,17 +61,17 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Create TGo4FitDataHistogramIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter();
+      TGo4FitDataIter* MakeIter() override;
 
       /**
        * Add pointer on slot, which should contains histogram, to list.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list) override;
 
       /**
        * Print information to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t* option) const override;
 
    protected:
 
@@ -81,7 +81,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
        */
       TGo4FitSlot fxHistogram;
 
-   ClassDef(TGo4FitDataHistogram,1)
+   ClassDefOverride(TGo4FitDataHistogram,1)
 };
 
 // *****************************************************************************
@@ -93,18 +93,18 @@ class TGo4FitDataHistogramIter : public TGo4FitDataIter {
     ~TGo4FitDataHistogramIter();
 
   protected:
-    virtual TGo4FitData* GetData() const { return fxData; }
-    virtual Bool_t StartReset();
-    virtual Bool_t ReadCurrentPoint();
-    virtual Bool_t ShiftToNextPoint();
+    TGo4FitData* GetData() const override { return fxData; }
+    Bool_t StartReset() override;
+    Bool_t ReadCurrentPoint() override;
+    Bool_t ShiftToNextPoint() override;
 
   private:
-    TGo4FitDataHistogram* fxData;       //!
+    TGo4FitDataHistogram* fxData{nullptr};  //!
     TArrayI fxLimits;                   //!
     TArrayD fxOwnScales;                //!
     TArrayD fxOwnWidths;                //!
 
-  ClassDef(TGo4FitDataHistogramIter,1)
+  ClassDefOverride(TGo4FitDataHistogramIter,1)
 };
 
 #endif // TGO4FITDATAHISTOGRAM_H
