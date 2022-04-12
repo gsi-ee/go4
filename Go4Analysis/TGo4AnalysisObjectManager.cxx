@@ -232,12 +232,12 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* 
    if(searchfold) {
       ob = FindObjectInFolder(searchfold, name);
       //std::cout << "found object in top folder :" << ob  << std::endl;
-      if(ob && ob->InheritsFrom(TTree::Class())) ob=0; // disable sending tree to gui!
-      if(ob && ob->InheritsFrom(TFolder::Class())) ob=0; // disable sending complete folder
-      if(ob && ob->InheritsFrom(TGo4EventElement::Class())) ob=0; // disable events
-      if(ob && ob->InheritsFrom(TGo4EventSource::Class())) ob=0; // disable events
-      if(ob && ob->InheritsFrom(TGo4EventStore::Class())) ob=0; // disable events
-      if(ob && ob->InheritsFrom(TGo4EventProcessor::Class())) ob=0; // disable events
+      if(ob && ob->InheritsFrom(TTree::Class())) ob = nullptr; // disable sending tree to gui!
+      if(ob && ob->InheritsFrom(TFolder::Class())) ob = nullptr; // disable sending complete folder
+      if(ob && ob->InheritsFrom(TGo4EventElement::Class())) ob = nullptr; // disable events
+      if(ob && ob->InheritsFrom(TGo4EventSource::Class())) ob = nullptr; // disable events
+      if(ob && ob->InheritsFrom(TGo4EventStore::Class())) ob = nullptr; // disable events
+      if(ob && ob->InheritsFrom(TGo4EventProcessor::Class())) ob = nullptr; // disable events
    }
    if(ob) {
       TGo4Analysis::Instance()->Message(0,"AnalysisObjectManager - found object %s of class %s",
@@ -250,8 +250,7 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* 
 }
 
 
-
-TNamed * TGo4AnalysisObjectManager::GetObject(const char * name, const char* folder)
+TNamed *TGo4AnalysisObjectManager::GetObject(const char * name, const char* folder)
 {
    return dynamic_cast<TNamed*> (GetAsTObject(name, folder));
 }

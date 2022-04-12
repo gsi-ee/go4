@@ -172,7 +172,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       // JAM: the above shows that event source hierarchy interface is still not optimized
       // however, currently (March 2015) no manpower to improve or redesign Go4 if it is working...
 
-      TGo4EventSourceParameter* newpar = 0;
+      TGo4EventSourceParameter* newpar = nullptr;
       switch (srctype)
       {
         case GO4EV_FILE:
