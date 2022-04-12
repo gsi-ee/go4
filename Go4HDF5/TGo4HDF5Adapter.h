@@ -16,7 +16,7 @@
 
 
 #include "Go4HDF5.h"
-#include "Rtypes.h"
+#include "RtypesCore.h"
 #include "TString.h"
 
 #ifndef __CINT__
@@ -102,7 +102,6 @@ protected:
 
     /** remember file property flags?. */
     UInt_t fiFlags{0};
-
 
 #ifndef __CINT__
     /** counter of filled events. */

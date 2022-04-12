@@ -14,8 +14,8 @@
 #ifndef TGO4ANALYSISIMP_H
 #define TGO4ANALYSISIMP_H
 
-#include "TGo4CommandReceiver.h"
 #include "TObject.h"
+#include "TGo4CommandReceiver.h"
 #include "TString.h"
 
 class TH1;

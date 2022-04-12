@@ -14,7 +14,7 @@
 #ifndef TGO4VERSION_H
 #define TGO4VERSION_H
 
-#include "Rtypes.h"
+#include "RtypesCore.h"
 
 // This central definition will set the current Go4 Build Version
 // will be used by TGo4Analysis (dynamic) and TGo4Version (static) singletons
@@ -47,7 +47,7 @@ class TGo4Version {
         * runtime. */
       static const Int_t fgiGO4VERSION;
 
-      static TGo4Version * fxInstance;
+      static TGo4Version *fxInstance;
 
 };
 

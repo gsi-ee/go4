@@ -16,7 +16,6 @@
 
 
 #include "Go4HDF5.h"
-#include "Rtypes.h"
 #include "TString.h"
 #include "TObject.h"
 

@@ -15,6 +15,7 @@
 #define TGO4TASKOWNER_H
 
 #include "TGo4CommandReceiver.h"
+#include "RtypesCore.h"
 
 class TMutex;
 class TGo4Task;
@@ -75,10 +76,10 @@ class TGo4TaskOwner : public TGo4CommandReceiver {
       /** @link aggregation
         * @supplierCardinality 1
         * @clientCardinality 1*/
-      TGo4Task* fxTask;
+      TGo4Task* fxTask{nullptr};
 
       /** Flag if master uses servertask or client task connection. */
-    Bool_t fbServerMode;
+    Bool_t fbServerMode{kFALSE};
 };
 
 #endif //TGO4TASKOWNER_H
