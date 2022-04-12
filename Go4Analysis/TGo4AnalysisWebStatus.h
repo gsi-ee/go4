@@ -92,7 +92,7 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     static TString fgxURL_PREFS_SAVE;
     static TString fgxURL_CLOSE;
 
-  ClassDef(TGo4AnalysisWebStatus,1)
+  ClassDefOverride(TGo4AnalysisWebStatus,1)
 
 };
 

@@ -56,7 +56,7 @@ class TGo4TaskStatus : public TGo4Status {
 
       /** @link aggregationByValue
        *   @supplierCardinality 1 */
-      TGo4TaskHandlerStatus * fxTaskHandlerStatus{nullptr};
+      TGo4TaskHandlerStatus *fxTaskHandlerStatus{nullptr};
       Bool_t fbInitDone{kFALSE};
 
       TGo4TaskStatus(const char* name);
