@@ -42,24 +42,24 @@ class TGo4TreeSource : public TGo4EventSource {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    Bool_t BuildEvent(TGo4EventElement* dest);
+    Bool_t BuildEvent(TGo4EventElement* dest) override;
 
   private:
 
     /** Reference to external tree singleton wrapper instance.
       * Is initialized once at the start and used to access
       * the singleton member functions. */
-    TGo4MainTree* fxSingletonTree; //!
+    TGo4MainTree *fxSingletonTree{nullptr}; //!
 
     /** Reference to external root tree singleton. */
-    TTree * fxTree;//!
+    TTree *fxTree{nullptr};//!
 
     /** The branch representing our source. */
-    TBranch * fxBranch; //!
+    TBranch *fxBranch{nullptr}; //!
 
     Int_t Open();
 
-  ClassDef(TGo4TreeSource,1)
+  ClassDefOverride(TGo4TreeSource,1)
 };
 
 #endif //TGO4TREESOURCE_H

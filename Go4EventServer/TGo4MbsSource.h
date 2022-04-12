@@ -70,10 +70,10 @@ class TGo4MbsSource : public TGo4EventSource {
     virtual ~TGo4MbsSource();
 
     /** Check that filled event is a proper class */
-    virtual Bool_t CheckEventClass(TClass* cl);
+    Bool_t CheckEventClass(TClass* cl) override;
 
     /** Fill the destination event \param dest */
-    virtual Bool_t BuildEvent(TGo4EventElement* dest);
+    Bool_t BuildEvent(TGo4EventElement *dest) override;
 
     /** Close the file or connection.  */
     virtual Int_t Close();
@@ -138,61 +138,61 @@ class TGo4MbsSource : public TGo4EventSource {
   private:
 
     /** Mode of operation   */
-    Int_t fiMode;
+    Int_t fiMode{0};
 
-    Int_t fiRetryCnt;   //! number of allowed reconnect retries
+    Int_t fiRetryCnt{0};   //! number of allowed reconnect retries
 
     Int_t GetMode() const { return fiMode; }
 
   protected:
 
     /** Event channel structure used by event source. */
-    s_evt_channel* fxInputChannel; //!
+    s_evt_channel *fxInputChannel{nullptr}; //!
 
-    s_ve10_1* fxEvent; //!
+    s_ve10_1 *fxEvent{nullptr}; //!
 
     /** Points to the current gsi buffer structure filled by the event source. */
-    s_bufhe * fxBuffer; //!
+    s_bufhe *fxBuffer{nullptr}; //!
 
     /** Reference to header info delivered by source. */
-    s_filhe * fxInfoHeader; //!
+    s_filhe *fxInfoHeader{nullptr}; //!
 
-    Bool_t fbIsOpen;
+    Bool_t fbIsOpen{kFALSE};
 
     /** switches buildmbs event mode: if true, data buffer is copied
     * to own buffer of subevent. If false (default), mbs subevent uses
     * reference to external data buffer of eventapi. */
-    Bool_t fbDataCopyMode;
+    Bool_t fbDataCopyMode{kFALSE};
 
     /** Current event index counter */
-    ULong_t fuEventCounter;
+    ULong_t fuEventCounter{0};
 
     /** Indicates if first event should be extracted */
-    Bool_t fbFirstEvent;
+    Bool_t fbFirstEvent{kFALSE};
 
     /** Index of first event to process. */
-    ULong_t fuStartEvent;
+    ULong_t fuStartEvent{0};
 
     /** Index of last event to process. */
-    ULong_t fuStopEvent;
+    ULong_t fuStopEvent{0};
 
     /** Number of events to skip from file in between two read events  */
-    ULong_t fuEventInterval;
+    ULong_t fuEventInterval{0};
 
     /** Timeout in seconds for mbs getevent. If -1, no timeout (default)  */
-    Int_t fiTimeout;
+    Int_t fiTimeout{0};
 
-    Bool_t fbPollingMode; //! if true, use short timeout to keep gSystem->ProcessEvents() running
+    Bool_t fbPollingMode{kFALSE}; //! if true, use short timeout to keep gSystem->ProcessEvents() running
 
     /** Optional port parameter, if non-positive default port number for transport will be used  */
-    Int_t fiPort;
+    Int_t fiPort{0};
 
     /** This structure keeps parameters for printevent mode */
     TGo4MbsSourcePrintPar fxPrEventPar; //!
 
     static Bool_t gbPollingMode;  //! via minimal timeout try to get gSystem->ProcessEvents() running
 
-  ClassDef(TGo4MbsSource, 3)
+  ClassDefOverride(TGo4MbsSource, 3)
 
 };
 
