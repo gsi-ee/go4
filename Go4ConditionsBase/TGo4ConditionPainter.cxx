@@ -21,12 +21,12 @@
 #include "TGo4PolyCond.h"
 
 TGo4ConditionPainter::TGo4ConditionPainter()
-: TGo4LabelPainter(), fxCondition(0)
+: TGo4LabelPainter(), fxCondition(nullptr)
 {
 }
 
 TGo4ConditionPainter::TGo4ConditionPainter(const char* name, const char* title)
-: TGo4LabelPainter(name, title ? title : "Go4 ConditionPainter"), fxCondition(0)
+: TGo4LabelPainter(name, title ? title : "Go4 ConditionPainter"), fxCondition(nullptr)
 {
 }
 
@@ -45,7 +45,7 @@ void TGo4ConditionPainter::UnPaintCondition(Option_t*)
 
 void TGo4ConditionPainter::PaintLabel(Option_t* opt)
 {
-if(gPad==0) return;
+if(!gPad) return;
 if(fxCondition && fxCondition->IsVisible())
    {
    //------ find out initial coordinates for labels near condition boundaries:
@@ -150,7 +150,5 @@ else
 
 void TGo4ConditionPainter::SetCondition(TGo4Condition* con)
 {
-   fxCondition=con;
+   fxCondition = con;
 }
-
-

@@ -21,13 +21,13 @@
 
 TGo4WinCondPainter::TGo4WinCondPainter() :
    TGo4ConditionPainter(),
-   fxBox(0)
+   fxBox(nullptr)
 {
 }
 
 TGo4WinCondPainter::TGo4WinCondPainter(const char* name, const char* title) :
    TGo4ConditionPainter(name,title),
-   fxBox(0)
+   fxBox(nullptr)
 {
 }
 
@@ -44,7 +44,7 @@ TGo4WinCondPainter::~TGo4WinCondPainter()
 void TGo4WinCondPainter::PaintCondition(Option_t* opt)
 {
 if(!gPad) return;
-TObject* boxinpad=gPad->GetListOfPrimitives()->FindObject(fxBox);
+TObject* boxinpad = gPad->GetListOfPrimitives()->FindObject(fxBox);
 //std::cout<<"TGo4WinCondPainter::PaintCondition with fxBox= "<<(long) fxBox<<", isatexecutemousevent="<<(fxBox?fxBox->IsAtExecuteMouseEvent():0) << std::endl;
 if(fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent()) return; // JAM suppress resetting coordinates during mouse modification of box
 double xpmin=0;
@@ -110,7 +110,7 @@ if(wconny && wconny->IsVisible())
             fxBox->SetFillColor(wconny->GetFillColor());
             fxBox->SetFillStyle(wconny->GetFillStyle());
          }
-      if(boxinpad==0)
+      if(!boxinpad)
          {
             fxBox->SetLineWidth(wconny->GetLineWidth());
             fxBox->SetLineColor(wconny->GetLineColor());
@@ -138,7 +138,7 @@ void TGo4WinCondPainter::UnPaintCondition(Option_t* opt)
    if(option.Contains("reset")) {
       // case of reset option: discard old label geometry
       delete fxBox;
-      fxBox=0;
+      fxBox = nullptr;
    }
 }
 

@@ -21,7 +21,7 @@ class TGo4Condition;
 class TGo4ConditionPainter : public TGo4LabelPainter {
   public:
     TGo4ConditionPainter();
-    TGo4ConditionPainter(const char* name, const char* title = nullptr);
+    TGo4ConditionPainter(const char *name, const char *title = nullptr);
     virtual ~TGo4ConditionPainter();
 
     /** Display condition with plain root canvas and in go4 viewpanel */
@@ -31,16 +31,16 @@ class TGo4ConditionPainter : public TGo4LabelPainter {
     virtual void UnPaintCondition(Option_t* opt="");
 
     /** Display statistics label for this condition with respect to working histogram */
-    virtual void PaintLabel(Option_t* opt="");
+    void PaintLabel(Option_t* opt="") override;
 
     /** Not inline, because we overwrite this for polygon condition. */
     virtual void SetCondition(TGo4Condition* con);
 
   protected:
     /** Condition to be painted.*/
-    TGo4Condition* fxCondition;
+    TGo4Condition* fxCondition{nullptr};
 
-  ClassDef(TGo4ConditionPainter,6)
+  ClassDefOverride(TGo4ConditionPainter,6)
 };
 
 #endif //TGO4CONDITIONPAINTER_H
