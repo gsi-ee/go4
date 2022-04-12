@@ -27,11 +27,11 @@ class TGo4DynamicListException : public TGo4RuntimeException {
 
     virtual ~TGo4DynamicListException() {}
 
-    Int_t Handle ();
+    Int_t Handle() override;
 
     TGo4DynamicListException(const TGo4DynamicListException &right);
 
-    TGo4DynamicListException & operator = (const TGo4DynamicListException & right);
+    TGo4DynamicListException &operator=(const TGo4DynamicListException & right);
 
     /** Status message of last Process() call. */
     const char* GetStatusMessage() const { return fxStatusMessage.Data(); }
