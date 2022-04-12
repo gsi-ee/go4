@@ -62,7 +62,7 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
       /**
        * Print information on standard output.
        */
-      void Print(Option_t* option) const override;
+      void Print(Option_t* option = "") const override;
 
     private:
 

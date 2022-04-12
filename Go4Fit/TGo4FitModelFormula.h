@@ -47,7 +47,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       /**
        * Signals that amplitude parameter can be removed from or introduced to object.
        */
-      virtual Bool_t CanAmplTouch() { return kTRUE; }
+      Bool_t CanAmplTouch() override { return kTRUE; }
 
       /**
        * Return formula expression.
@@ -72,19 +72,19 @@ class TGo4FitModelFormula : public TGo4FitModel {
       void SetPosParIndex(Int_t naxis, Int_t indx = -1);
       void SetWidthParIndex(Int_t naxis, Int_t indx = -1);
 
-      virtual Bool_t BeforeEval(Int_t ndim);
-      virtual Double_t EvalN(const Double_t* v);
-      virtual void AfterEval();
+      Bool_t BeforeEval(Int_t ndim) override;
+      Double_t EvalN(const Double_t* v) override;
+      void AfterEval() override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
-      virtual Bool_t Initialize(Int_t UseBuffers = -1);
-      virtual void Finalize();
+      Bool_t Initialize(Int_t UseBuffers = -1) override;
+      void Finalize() override;
 
       TGo4FitParameter* GetExprPar(Int_t n);
       TString GetExprParName(Int_t n);
@@ -92,8 +92,8 @@ class TGo4FitModelFormula : public TGo4FitModel {
       Bool_t CompileFormula();
       void CloseFormula();
 
-      virtual Int_t GetPosParIndex(Int_t naxis);
-      virtual Int_t GetWidthParIndex(Int_t naxis);
+      Int_t GetPosParIndex(Int_t naxis) override;
+      Int_t GetWidthParIndex(Int_t naxis) override;
 
       /**
        * String, containing formula expression.
@@ -107,14 +107,15 @@ class TGo4FitModelFormula : public TGo4FitModel {
       /**
        * formula for evaluation expression in EvalN() method.
        */
-      TFormula *fxFormula;               //!
+      TFormula *fxFormula{nullptr};               //!
    private:
 
       /**
        * temporary variable for formula calculation in EvalN() method.
        */
-      Int_t Par_ndim;                  //!
+      Int_t Par_ndim{0};                  //!
 
-   ClassDef(TGo4FitModelFormula,1)
+   ClassDefOverride(TGo4FitModelFormula,1)
 };
+
 #endif // TGO4FITMODELFORMULA_H

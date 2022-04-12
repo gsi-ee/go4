@@ -35,7 +35,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Creates TGo4FitterOutput action with provided command name and options (if required).
        */
-      TGo4FitterOutput(const char* Command, const char* Options = 0);
+      TGo4FitterOutput(const char* Command, const char* Options = nullptr);
 
       /**
        * Destroys TGo4FitterOutput object.
@@ -45,7 +45,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Set command name and options (if required).
        */
-      void Set(const char* Command, const char* Options = 0) { fxCommand = Command; fxOptions = Options; }
+      void Set(const char* Command, const char *Options = nullptr) { fxCommand = Command; fxOptions = Options; }
 
       /**
        * Sets pad, which can be used for command output.
@@ -85,12 +85,12 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Execute proper output of fitter, Print() or Draw(), with specified options.
        */
-      virtual void DoAction(TGo4FitterAbstract* Fitter);
+      void DoAction(TGo4FitterAbstract* Fitter) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
     private:
 
       /**
@@ -106,9 +106,9 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * TPad, which can be used for output.
        */
-      TVirtualPad* fxPad;                   //!
+      TVirtualPad* fxPad{nullptr};                   //!
 
-   ClassDef(TGo4FitterOutput,1)
+   ClassDefOverride(TGo4FitterOutput,1)
 };
 
 #endif // TGO4FITTEROUTPUT_H

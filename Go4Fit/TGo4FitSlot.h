@@ -48,7 +48,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        */
       TGo4FitSlot(const char* iName, const char* iTitle,
                   TNamed* iOwner, TClass* iClass,
-                  Bool_t iNeeded = kFALSE, TObject* iObject = 0, Bool_t iOwned = kFALSE);
+                  Bool_t iNeeded = kFALSE, TObject* iObject = nullptr, Bool_t iOwned = kFALSE);
 
       /**
        * Destroys TFo4FitSlot object.
@@ -147,13 +147,13 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Clone object in slot and returns pointer on new object.
        * Name of new object can be optionally specified.
        */
-      TObject* CloneObject(const char* newname = 0);
+      TObject* CloneObject(const char *newname = nullptr);
 
       /**
        * Clear pointer on object in slot.
        * If object owned, it will be destroyed.
        */
-      virtual void Clear(Option_t* = "") { SetObject(0, kFALSE); }
+      void Clear(Option_t* = "")  override { SetObject(nullptr, kFALSE); }
 
       /**
        * Return ownership flag.
@@ -195,8 +195,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
-
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -218,33 +217,33 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Class of object, which should be assigned to slot.
        */
-      TClass* fxClass;        //!
+      TClass* fxClass{nullptr};        //!
 
       /**
        * Describe saving of object in slot.
        */
-      Int_t fiSaveFlag;       //!   0 - slot save if owned(default), 1 - saved always, 2 - saved never
+      Int_t fiSaveFlag{0};       //!   0 - slot save if owned(default), 1 - saved always, 2 - saved never
 
 
       /**
        * Ownership flag of object.
        */
-      Bool_t fbOwned;         //!
+      Bool_t fbOwned{kFALSE};         //!
 
       /**
        * Flag, is this object should always be set.
        */
-      Bool_t fbNeeded;         //!
+      Bool_t fbNeeded{kFALSE};         //!
 
       /**
        * Pointer on assigned object.
        */
-      TObject* fxObject;       //!
+      TObject* fxObject{nullptr};       //!
 
-      Int_t fiSaveSlot;        //!
-      Int_t fiSaveOwnership;   //!
+      Int_t fiSaveSlot{0};        //!
+      Int_t fiSaveOwnership{0};   //!
 
-   ClassDef(TGo4FitSlot,1)
+   ClassDefOverride(TGo4FitSlot,1)
 };
 
 
@@ -355,7 +354,7 @@ class TGo4FitSlotList {
        * PlaceName define exact slot name or owner name
        * if (PlaceName==0),  flag will be set for all slots in list.
        */
-     void SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceName = 0);
+     void SetSaveFlagForObjects(Int_t iSaveFlag, const char *PlaceName = nullptr);
 
    protected:
 
@@ -366,8 +365,8 @@ class TGo4FitSlotList {
 
      void PrepareSlotsForWriting();
 
-     TObjArray* fxSlotList;     //!
-     Bool_t fbUpdateSlotList;   //!
+     TObjArray* fxSlotList{nullptr};     //!
+     Bool_t fbUpdateSlotList{kFALSE};   //!
 
 
    ClassDef(TGo4FitSlotList,1);

@@ -246,7 +246,7 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Default print method.
        * Call print method for every parameter object in list.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
       /**
        * Print only value and error of all parameters in list.
@@ -284,12 +284,9 @@ class TGo4FitParsList: public TGo4FitNamed {
       /**
        * If true, parameters can be safely rollback
        */
-      Bool_t fbCanRollbackPars;                        //!
+      Bool_t fbCanRollbackPars{kFALSE};                        //!
 
-      /** @link aggregation
-       * @label TOrdCollection
-       * @supplierCardinality 0..**/
-      /*#  TGo4FitParameter lnkTGo4FitParsList; */
-    ClassDef(TGo4FitParsList,1)
+    ClassDefOverride(TGo4FitParsList,1)
 };
+
 #endif // TGO4FITPARSLIST_H

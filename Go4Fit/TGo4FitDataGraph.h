@@ -72,7 +72,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Print information on standard output.
        */
-      void Print(Option_t* option) const override;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -94,16 +94,16 @@ class TGo4FitDataGraphIter : public TGo4FitDataIter {
       ~TGo4FitDataGraphIter();
 
    protected:
-      virtual TGo4FitData* GetData() const { return fxData; }
-      virtual Bool_t StartReset();
-      virtual Bool_t ReadCurrentPoint();
-      virtual Bool_t ShiftToNextPoint();
+      TGo4FitData* GetData() const override { return fxData; }
+      Bool_t StartReset() override;
+      Bool_t ReadCurrentPoint() override;
+      Bool_t ShiftToNextPoint() override;
 
    private:
-      TGo4FitDataGraph* fxData;
-      Int_t fiNumPoints;
+      TGo4FitDataGraph* fxData{nullptr};
+      Int_t fiNumPoints{0};
 
-   ClassDef(TGo4FitDataGraphIter,1)
+   ClassDefOverride(TGo4FitDataGraphIter,1)
 };
 
 #endif // TGO4FITDATAGRAPH_H

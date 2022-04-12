@@ -182,27 +182,27 @@ class TGo4FitParameter : public TGo4FitNamed {
       /**
        * Print TGo4FitParameter object to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
       void Reset();
 
-      Double_t fdValue;
-      Double_t fdError;
-      Bool_t fbFixed;
+      Double_t fdValue{0.};
+      Double_t fdError{0.};
+      Bool_t fbFixed{kFALSE};
 
-      Bool_t fbEpsilon;
-      Double_t fdEpsilon;
+      Bool_t fbEpsilon{kFALSE};
+      Double_t fdEpsilon{0.};
 
-      Bool_t fbRange;
-      Double_t fdRangeMin;
-      Double_t fdRangeMax;
+      Bool_t fbRange{kFALSE};
+      Double_t fdRangeMin{0.};
+      Double_t fdRangeMax{0.};
 
    private:
-      Bool_t fbBlocked;            //!
-      Double_t fdRememberedValue;  //!
+      Bool_t fbBlocked{kFALSE};            //!
+      Double_t fdRememberedValue{0.};  //!
 
-    ClassDef(TGo4FitParameter,1)
+    ClassDefOverride(TGo4FitParameter,1)
 };
 
 #endif // TGO4FITPARAMETER_H

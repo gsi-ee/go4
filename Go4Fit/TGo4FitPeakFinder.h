@@ -60,9 +60,9 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
 
       void SetupForThird(Double_t NoiseFactor, Double_t NoiseMinimum, Int_t ChannelSum);
 
-      virtual void DoAction(TGo4FitterAbstract* Fitter);
+      void DoAction(TGo4FitterAbstract* Fitter) override;
 
-      virtual Bool_t CanChangeFitter() const { return kTRUE; }
+      Bool_t CanChangeFitter() const override { return kTRUE; }
 
       // Following functions directly changes single parameters of peakfinders.
       // Normally you should not use them, because some or all of them can be changed later on
@@ -96,7 +96,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
     private:
 
@@ -132,13 +132,13 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
                                Double_t NoiseMinimum = 10.,
                                Int_t MinimasOrder = -1);
 
-      static void DefinePolynom(Int_t size,              // number of experim points
-                                Double_t* bins,          // arrray of bins
-                                Double_t* scales,        // array of scale values
-                                TArrayD& Coef,           // array of polynomial coefficients
-                                Double_t* weight = 0,    // statistical weight of each bin
-                                Double_t* backgr = 0,    // background values
-                                Char_t* use = 0);        // usage of each points
+      static void DefinePolynom(Int_t size,                    // number of experimental points
+                                Double_t* bins,                // array of bins
+                                Double_t* scales,              // array of scale values
+                                TArrayD& Coef,                 // array of polynomial coefficients
+                                Double_t* weight = nullptr,    // statistical weight of each bin
+                                Double_t* backgr = nullptr,    // background values
+                                Char_t* use = nullptr);        // usage of each points
 
       static void DefinePolynomEx(Int_t size, Double_t* bins, Double_t* scales, Double_t* weight, Double_t* backgr,
                                   Int_t lbound, Int_t rbound, TArrayD& Coef);
@@ -147,26 +147,26 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       static Double_t CalcPolynom(const TArrayD& Coef, Double_t x);
 
 
-      Int_t fiPeakFinderType;   // 0 - by S.Linev,  1 - ROOT TSpectrum , 2 - by H.Essel
+      Int_t fiPeakFinderType{0};   // 0 - by S.Linev,  1 - ROOT TSpectrum , 2 - by H.Essel
 
       TString fxDataName;
 
-      Bool_t fbClearModels;
+      Bool_t fbClearModels{kFALSE};
 
-      Bool_t fbUsePolynom;
-      Int_t  fiPolynomOrder;
+      Bool_t fbUsePolynom{kFALSE};
+      Int_t  fiPolynomOrder{0};
 
-      Double_t fd0MinWidth;
-      Double_t fd0MaxWidth;
-      Double_t fd0MaxAmplFactor;
+      Double_t fd0MinWidth{0};
+      Double_t fd0MaxWidth{0};
+      Double_t fd0MaxAmplFactor{0};
 
-      Double_t fd1LineWidth;
+      Double_t fd1LineWidth{0};
 
-      Double_t fd2NoiseFactor;
-      Double_t fd2NoiseMinimum;
-      Int_t  fi2ChannelSum;
+      Double_t fd2NoiseFactor{0};
+      Double_t fd2NoiseMinimum{0};
+      Int_t  fi2ChannelSum{0};
 
-   ClassDef(TGo4FitPeakFinder,1)
+   ClassDefOverride(TGo4FitPeakFinder,1)
 };
 
 #endif // TGO4FITPEAKFINDER_H

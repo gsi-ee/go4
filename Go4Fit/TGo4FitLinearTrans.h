@@ -51,16 +51,16 @@ class TGo4FitLinearTrans : public TGo4FitAxisTrans {
       void SetCoefByRange(Int_t nbins, Double_t y1, Double_t y2);
       void SetCoefByPoints(Double_t n1, Double_t y1, Double_t n2, Double_t y2);
 
-      virtual void Transformation(Double_t* scales, Int_t naxis);
+      void Transformation(Double_t* scales, Int_t naxis) override;
 
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
-      Int_t fiAxis;
-      Double_t fdCoefK;
-      Double_t fdCoefB;
+      Int_t fiAxis{0};
+      Double_t fdCoefK{0};
+      Double_t fdCoefB{0};
 
-   ClassDef(TGo4FitLinearTrans,1)
+   ClassDefOverride(TGo4FitLinearTrans,1)
 };
 
 #endif // TGO4FITLINEARTRANS_H

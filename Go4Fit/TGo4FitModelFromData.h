@@ -77,26 +77,26 @@ class TGo4FitModelFromData : public TGo4FitModel {
       /**
        * Add pointer on slot, which should contain TGo4FitData object, to a slots list.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
-      virtual Bool_t BeforeEval(Int_t);
-      virtual Double_t EvalN(const Double_t* v) { return 0; }
+      Bool_t BeforeEval(Int_t) override;
+      Double_t EvalN(const Double_t*) override { return 0.; }
+      void AfterEval() override;
 
-      virtual Double_t EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges = kTRUE);
-      virtual Double_t EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges = kTRUE);
-      virtual void AfterEval();
+      Double_t EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges = kTRUE) override;
+      Double_t EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges = kTRUE) override;
 
    protected:
 
       /**
        * Initialize object.
        */
-      virtual Bool_t Initialize(Int_t UseBuffers = -1);
+      Bool_t Initialize(Int_t UseBuffers = -1) override;
 
       Double_t FindDataPoint(Int_t NumIndexes, const Int_t* Indexes);
 
@@ -107,8 +107,8 @@ class TGo4FitModelFromData : public TGo4FitModel {
       TGo4FitSlot fxData;
 
    private:
-     TGo4FitDataIter* fxIter;       //!
+     TGo4FitDataIter* fxIter{nullptr};       //!
 
-   ClassDef(TGo4FitModelFromData,1)
+   ClassDefOverride(TGo4FitModelFromData,1)
 };
 #endif // TGO4FITMODELFROMDATA_H

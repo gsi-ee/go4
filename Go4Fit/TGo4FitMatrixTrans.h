@@ -35,13 +35,11 @@ class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
       Int_t GetNumAxis();
       void SetNumAxis(Int_t NumAxis);
 
-      virtual void Transformation(Double_t* scales, Int_t naxis);
+      void Transformation(Double_t* scales, Int_t naxis) override;
 
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
-   protected:
-
-   ClassDef(TGo4FitMatrixTrans,1)
+   ClassDefOverride(TGo4FitMatrixTrans,1)
 };
 
 #endif // TGO4FITMATRIXTRANS_H

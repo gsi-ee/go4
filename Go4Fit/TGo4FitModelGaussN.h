@@ -94,20 +94,20 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
-      virtual Bool_t BeforeEval(Int_t);
-      virtual Double_t EvalN(const Double_t* v);
+      Bool_t BeforeEval(Int_t) override;
+      Double_t EvalN(const Double_t* v) override;
 
    protected:
       TString GetPosParName(Int_t naxis);
       TString GetWidthParName(Int_t naxis);
       TString GetCovarParName(Int_t naxis1, Int_t naxis2);
 
-      virtual Int_t GetPosParIndex(Int_t naxis);
-      virtual Int_t GetWidthParIndex(Int_t naxis);
+      Int_t GetPosParIndex(Int_t naxis) override;
+      Int_t GetWidthParIndex(Int_t naxis) override;
 
-      virtual void AfterEval();
+      void AfterEval() override;
 
       /**
        * Array of axis indexes, where n-dim gaussian will be build.
@@ -119,38 +119,33 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Temporary variable for EvalN() function.
        */
-      Int_t Par_ndim;                 //!
-
-
-      /**
-       * Temporary variable for EvalN() function.
-       */
-      Int_t* Par_indx;                //!
-
+      Int_t Par_ndim{0};                 //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_mu;          //!
-
-
-      /**
-       * Temporary variable for EvalN() function.
-       */
-      TMatrixD* Matr_sig;         //!
-
+      Int_t* Par_indx{nullptr};                //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_x;           //!
-
+      TVectorD* Vect_mu{nullptr};          //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_dx;          //!
+      TMatrixD* Matr_sig{nullptr};         //!
 
-   ClassDef(TGo4FitModelGaussN,1)
+      /**
+       * Temporary variable for EvalN() function.
+       */
+      TVectorD* Vect_x{nullptr};           //!
+
+      /**
+       * Temporary variable for EvalN() function.
+       */
+      TVectorD* Vect_dx{nullptr};          //!
+
+   ClassDefOverride(TGo4FitModelGaussN,1)
 };
 #endif // TGO4FITMODELGAUSSN_H

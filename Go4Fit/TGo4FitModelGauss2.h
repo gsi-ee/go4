@@ -81,63 +81,57 @@ class TGo4FitModelGauss2 : public TGo4FitModel {
       /**
        * Prints information to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
-      virtual Bool_t BeforeEval(Int_t ndim);
-      virtual Double_t EvalN(const Double_t* v);
+      Bool_t BeforeEval(Int_t ndim) override;
+      Double_t EvalN(const Double_t* v) override;
 
    protected:
-      virtual Int_t GetPosParIndex(Int_t naxis) { return (naxis==fiNaxis1) ? 1 : (naxis==fiNaxis2) ? 2 : -1; }
-      virtual Int_t GetWidthParIndex(Int_t naxis) { return (naxis==fiNaxis1) ? 3 : (naxis==fiNaxis2) ? 4 : -1; }
-
+      Int_t GetPosParIndex(Int_t naxis) override { return (naxis==fiNaxis1) ? 1 : (naxis==fiNaxis2) ? 2 : -1; }
+      Int_t GetWidthParIndex(Int_t naxis) override { return (naxis==fiNaxis1) ? 3 : (naxis==fiNaxis2) ? 4 : -1; }
 
       /**
        * Number of first selected axis.
        */
-      Int_t fiNaxis1;
+      Int_t fiNaxis1{0};
 
       /**
        * Number of second selected axis.
        */
-      Int_t fiNaxis2;
+      Int_t fiNaxis2{0};
 
    private:
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_mu1;                //!
-
-
-      /**
-       * Temporary variable for EvalN() function.
-       */
-      Double_t Par_mu2;                //!
-
+      Double_t Par_mu1{0};                //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_sig1;               //!
-
-
-      /**
-       * Temporary variable for EvalN() function.
-       */
-      Double_t Par_sig2;               //!
-
+      Double_t Par_mu2{0};                //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_ro;                 //!
-
+      Double_t Par_sig1{0};               //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_mult;               //!
+      Double_t Par_sig2{0};               //!
 
-   ClassDef(TGo4FitModelGauss2,1)
+      /**
+       * Temporary variable for EvalN() function.
+       */
+      Double_t Par_ro{0};                 //!
+
+      /**
+       * Temporary variable for EvalN() function.
+       */
+      Double_t Par_mult{0};               //!
+
+   ClassDefOverride(TGo4FitModelGauss2,1)
 };
 #endif // TGO4FITMODELGAUSS2_H

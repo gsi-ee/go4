@@ -32,7 +32,7 @@ class TGo4FitNamed : public TNamed {
       /**
        * Creates TGo4FitNamed object and set name and title.
        */
-      TGo4FitNamed(const char* Name, const char* Title, TNamed* Owner = 0);
+      TGo4FitNamed(const char* Name, const char* Title, TNamed *Owner = nullptr);
 
       /**
        * Destroy TGo4FitNamed object.
@@ -55,27 +55,28 @@ class TGo4FitNamed : public TNamed {
        * Sets owner of object.
        * Owner should be a object of TNamed or derived classes. If owner derived from TGo4FitNamed class, full name of owner used for constructing of full name of object.
        */
-      void SetOwner(TNamed* iOwner) { fxOwner = iOwner; }
+      void SetOwner(TNamed *iOwner) { fxOwner = iOwner; }
 
       /**
        * Return owner of object.
        */
       TNamed* GetOwner() { return fxOwner; }
 
-      void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
     private:
 
       /**
        * Owner of object
        */
-      TNamed* fxOwner;         //!
+      TNamed* fxOwner{nullptr};         //!
 
       /**
        * String, containing full name of object.
        */
       TString fxFullName;      //!
 
-    ClassDef(TGo4FitNamed,1)
+    ClassDefOverride(TGo4FitNamed,1)
 };
+
 #endif // TGO4FITNAMED_H

@@ -47,15 +47,16 @@ class TGo4FitDependency : public TObject {
       Double_t ExecuteDependency(Double_t* Params);
       void Finalize();
 
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
       TString fxParameter;
       TString fxExpression;
-      Double_t fdInitValue;
-      Int_t fiNumPar;                  //!
-      TFormula *fxFormula;             //!
+      Double_t fdInitValue{0.};
+      Int_t fiNumPar{0};                  //!
+      TFormula *fxFormula{nullptr};             //!
 
-   ClassDef(TGo4FitDependency,1)
+   ClassDefOverride(TGo4FitDependency,1)
 };
+
 #endif // TGO4FITDEPENDENCY_H

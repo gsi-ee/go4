@@ -157,12 +157,12 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Do configuration action.
        * Calls TGoFitterAbstract::ApplyConfig(this) method.
        */
-      virtual void DoAction(TGo4FitterAbstract* Fitter);
+      void DoAction(TGo4FitterAbstract* Fitter) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
       TGo4FitParameter* MakeParForProperties(const char* ParName);
@@ -186,46 +186,22 @@ class TGo4FitterConfig : public TGo4FitterAction {
        */
       TObjArray fxParsInit;              // array of dependencies, runs once
 
-
       /**
        * Array of dependencies (TGo4FitDependency) for introducing dependency between fitted parameters.
        */
       TObjArray fxParsDepend;            // array of dependencies, runs every time
-
 
       /**
        * Array of TGo4FitDependency objects, which represent equations to calculate result values in fitter.
        */
       TObjArray fxResults;               // array of dependencies of results calculations
 
-
       /**
        * Determine, if all parameters should be fixed by default.
        */
-      Bool_t fbFixedByDefault;           // is all parameters fixed by default
+      Bool_t fbFixedByDefault{kFALSE};           // is all parameters fixed by default
 
-private:
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label for pars dependency*/
-      /*#  TGo4FitDependency ParsDependency; */
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label TObjArray*/
-      /*#  TGo4FitParMinimization ParsMinimization; */
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label for pars init*/
-      /*#  TGo4FitDependency lnkTGo4FitterConfig; */
-
-      /** @link aggregation
-       * @supplierCardinality 0..**/
-      /*#  TGo4FitParsList lnkTGo4FitterConfig1; */
-protected:
-
-   ClassDef(TGo4FitterConfig,1)
+   ClassDefOverride(TGo4FitterConfig,1)
 };
+
 #endif // TGO4FITTERCONFIG_H

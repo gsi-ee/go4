@@ -47,31 +47,31 @@ class TGo4FitAssignment : public TNamed {
        /**
         * Print information about object on standard output.
         */
-       virtual void Print(Option_t* option) const;
+       void Print(Option_t *option = "") const override;
 
        /**
         * Parameter for ratio value
         */
-       TGo4FitParameter* fxRatio;
+       TGo4FitParameter* fxRatio{nullptr};
 
        /**
         * Pointer on assigned data.
         */
-       TGo4FitData* fxData;         //!
+       TGo4FitData* fxData{nullptr};         //!
 
        /**
         * Array of boolean values, selected model bins.
         */
-       Char_t* fxModelMask;         //!
+       Char_t* fxModelMask{nullptr};         //!
 
        /**
         * Array of model bins for assigned data.
         * Size of models and data bins are the same.
         * According to mask values some of models bins not used for calculation (always 0).
         */
-       Double_t* fxModelBins;       //!
+       Double_t* fxModelBins{nullptr};       //!
 
-       ClassDef(TGo4FitAssignment,1);
+    ClassDefOverride(TGo4FitAssignment,1);
 };
 
 
@@ -170,7 +170,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Print information about model object on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
       /**
        * Calculates value of model for given x value.
@@ -269,14 +269,14 @@ class TGo4FitModel : public TGo4FitComponent {
        */
       Bool_t AddModelToDataResult(TGo4FitData* data);
 
-      virtual Int_t NumPars();
+      Int_t NumPars() override;
 
    protected:
 
       friend class TGo4Fitter;
 
 
-      virtual TGo4FitParameter* Get(Int_t n);
+      TGo4FitParameter *Get(Int_t n) override;
 
       /**
        * Make integration of model inside given point, if integration specified.
@@ -355,27 +355,27 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Minimum depth of integration.
        */
-      Int_t fiMinIntegrDepth;
+      Int_t fiMinIntegrDepth{0};
 
       /**
        * Maximum integration depth.
        */
-      Int_t fiMaxIntegrDepth;
+      Int_t fiMaxIntegrDepth{0};
 
       /**
        * Integration precision.
        */
-      Double_t fdIntegrEps;
+      Double_t fdIntegrEps{0};
 
       /**
        * States, if integration precision absolute or relative.
        */
-      Bool_t fbAbsoluteEps;
+      Bool_t fbAbsoluteEps{kFALSE};
 
       /**
        * Scale integral to integration volume.
        */
-      Bool_t fbIntegrScaling;
+      Bool_t fbIntegrScaling{kFALSE};
 
    private:
 
@@ -408,7 +408,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Store group index of specified model.
        */
-      Int_t fiGroupIndex;
+      Int_t fiGroupIndex{0};
 
       /**
        * Array of values of parameters.
@@ -418,21 +418,21 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Pointer on array of parameters values.
        */
-      Double_t* fxCurrentParsArray;     //!
+      Double_t* fxCurrentParsArray{nullptr};     //!
 
       /**
        * Internal flag. Signals, when object should be rebuild.
        */
-      Bool_t fbNeedToRebuild;                 //!
+      Bool_t fbNeedToRebuild{kFALSE};                 //!
 
       /**
        * List of all parameters, associated not only with component directly but also with encapsulated objects.
        */
-      TGo4FitParsList* fxAllPars;              //!
+      TGo4FitParsList* fxAllPars{nullptr};              //!
 
-      TArrayD* fxAllParsValues;                //!
+      TArrayD* fxAllParsValues{nullptr};                //!
 
-   ClassDef(TGo4FitModel,1)
+   ClassDefOverride(TGo4FitModel,1)
 };
 
 #endif // TGO4FITMODEL_H

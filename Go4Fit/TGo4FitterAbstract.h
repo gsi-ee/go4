@@ -45,7 +45,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * TGo4FitterAbstract object should not be create directly, because it is abstract class.
        * TGo4Fitter or other implementation class should be used.
        */
-      TGo4FitterAbstract(const char * iName, const char * iTitle);
+      TGo4FitterAbstract(const char *iName, const char *iTitle);
 
       /**
        * Destroy TGo4FitterAbstract object.
@@ -56,13 +56,17 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Clear fitter.
        * Removes and delete all actions from actions list.
        */
-      virtual void Clear(Option_t* option = "");
+      void Clear(Option_t* option = "") override;
 
       /**
        * Return total number of parameters, which should be fitted.
        * Parameters are collects from all associated objects like data or models.
        */
-      virtual Int_t NumPars() { CheckParsListChanging(); return TGo4FitParsList::NumPars(); }
+      Int_t NumPars() override
+      {
+         CheckParsListChanging();
+         return TGo4FitParsList::NumPars();
+      }
 
       /**
        * Should be used, when number of parameters are changed.
@@ -79,19 +83,19 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Return kTRUE, if parameter should be fixed.
        * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.
        */
-      virtual Bool_t GetParFixed(const char* ParName);
+      Bool_t GetParFixed(const char* ParName) override;
 
       /**
        * Return kTRUE, if range condition specified for parameter and range boundaries.
        * If configuration object assigned to fitter, range values will be tested there first and only then original parameter configuration will be used.
        */
-      virtual Bool_t GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax);
+      Bool_t GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax) override;
 
       /**
        * Return kTRUE, if epsilon value specified for parameter.
        * If configuration object assigned to fitter, epsilon value will be tested there first and only then original parameter configuration will be used.
        */
-      virtual Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon);
+      Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon) override;
 
       /**
        * Checks, if config object corresponds to fitter parameters.
@@ -242,7 +246,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Print information about fitter to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -272,7 +276,11 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Return pointer on parameter of given index.
        * First check, if parameters should be recollected.
        */
-      virtual TGo4FitParameter* Get(Int_t n) { CheckParsListChanging(); return TGo4FitParsList::Get(n); }
+      TGo4FitParameter* Get(Int_t n) override
+      {
+         CheckParsListChanging();
+         return TGo4FitParsList::Get(n);
+      }
 
       /**
        * If appropriate flag sets (via SetParsListChange() method), function recollect all parameters from all objects, associated to fitter.
@@ -340,32 +348,26 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Pointer on currently activated config object.
        */
-      TGo4FitterConfig* fxCurrentConfig;               //!
-
+      TGo4FitterConfig* fxCurrentConfig{nullptr};               //!
 
       /**
        * Boolean variable, showing that number of parameters is changed.
        */
-      Bool_t fbParsChange;                             //!
-
+      Bool_t fbParsChange{kFALSE};                             //!
 
       /**
        * Flag showing, that initialization was complete.
        */
-      Bool_t fbInitializationDone;                     //!
-
+      Bool_t fbInitializationDone{kFALSE};                     //!
 
       /**
        * Flag, showing, that finalize method should be called before fitter will be destroyed.
        */
-      Bool_t fbNeedToFinalize;                         //!
+      Bool_t fbNeedToFinalize{kFALSE};                         //!
 
-      Bool_t fbParsAsResults;                          //!
+      Bool_t fbParsAsResults{kFALSE};                          //!
 
-      /** @link aggregation
-       * @supplierCardinality 0..**/
-      /*#  TGo4FitterAction lnkTGo4FitterAbstract; */
-
-   ClassDef(TGo4FitterAbstract,1)
+   ClassDefOverride(TGo4FitterAbstract,1)
 };
+
 #endif // TGO4FITTERABSTRACT_H
