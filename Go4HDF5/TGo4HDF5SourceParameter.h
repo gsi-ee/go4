@@ -14,7 +14,6 @@
 #ifndef TGO4HDF5SOURCEPARAMETER_H
 #define TGO4HDF5SOURCEPARAMETER_H
 
-
 #include "TGo4EventSourceParameter.h"
 #include "Go4HDF5.h"
 
@@ -32,4 +31,4 @@ class TGo4HDF5SourceParameter : public TGo4EventSourceParameter {
 };
 
 
-#endif //TGO4FILESOURCEPARAMETER_H
+#endif //TGO4HDF5SOURCEPARAMETER_H

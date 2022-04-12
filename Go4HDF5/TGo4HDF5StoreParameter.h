@@ -43,4 +43,4 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
    ClassDefOverride(TGo4HDF5StoreParameter,1)
 };
 
-#endif //TGO4FILESTOREPARAMETER_H
+#endif //TGO4HDF5STOREPARAMETER_H

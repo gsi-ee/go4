@@ -72,11 +72,7 @@ public:
    void InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member);
 
    /** remember location of this object relative to upper level object.*/
-   void SetParentOffset(size_t off) {
-     fiParentOffset=off;
-   }
-
-
+   void SetParentOffset(size_t off) { fiParentOffset = off; }
 
 
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
@@ -135,10 +131,6 @@ public:
 protected:
 
 
-
-
-
-
    /** identifier of the dataset*/
    TString fxTypeName;
 
@@ -177,11 +169,6 @@ protected:
        size_t fiReadOffset;
 
 
-
-
-
-
-
     /** collect subcomponents of the referenced data object*/
     std::vector<TGo4HDF5DataHandle*> fxSubcomponents;
 
@@ -212,7 +199,6 @@ protected:
 
 
 
-
 ////////////////////////////////////////////////////////////7
 
 
@@ -222,19 +208,13 @@ protected:
  * @since 6/2019
  */
 class TGo4HDF5BasicDataHandle : public TGo4HDF5DataHandle
-
 {
-
-
-
 
 public:
 
    /** create new data handle*/
    TGo4HDF5BasicDataHandle(const char* name, size_t datasize);
    virtual ~TGo4HDF5BasicDataHandle();
-
-
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
@@ -260,21 +240,7 @@ protected:
    /** secondary read bounce buffer for hdf5 */
      Char_t* fxReadBuffer; //!
 
-
-
-
-
-
-
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -314,12 +280,7 @@ public:
    /** Write event of sequence number from file*/
    virtual void Write(hsize_t sequencenum, H5::H5File* file);
 
-
-
-
 };
-
-
 
 
 ////////////////////////////////////////////////
@@ -332,8 +293,6 @@ struct TGo4HDF5VarContainer
 
 
 
-
-
 /**
  * Handle object to access  datasets in hdf5 formatted file with go4 event data
  * implementation for std::vector collections
@@ -341,9 +300,7 @@ struct TGo4HDF5VarContainer
  * @since 5/2019
  */
 class TGo4HDF5VectorDataHandle : public TGo4HDF5BasicDataHandle
-
 {
-
 
 public:
 
@@ -372,7 +329,6 @@ public:
    /** Write event of sequence number from file*/
     virtual void Write(hsize_t sequencenum, H5::H5File* ile);
 
-
 protected:
 
 
@@ -380,7 +336,7 @@ protected:
 
    /** collection type with fxType as entries*/
 
-   H5::CompType* fxCollection; //!
+   H5::CompType* fxCollection{nullptr}; //!
 
 
      /** handle for variable arrays*/
@@ -390,7 +346,7 @@ protected:
 
 
    /** size of the (collection element) structure*/
-       size_t fiElementSize;//
+       size_t fiElementSize{0};//
 
 };
 
@@ -406,7 +362,6 @@ public:
 
 
 
-
 /**
  * Handle object to access  datasets in hdf5 formatted file with go4 event data
  * trial implementation for std::vectors of std::vector collections
@@ -415,9 +370,7 @@ public:
  * @since 6/2019
  */
 class TGo4HDF5SubVectorDataHandle : public TGo4HDF5VectorDataHandle
-
 {
-
 
 public:
 
@@ -425,10 +378,8 @@ public:
    TGo4HDF5SubVectorDataHandle(const char* name, size_t datasize);
    virtual ~TGo4HDF5SubVectorDataHandle();
 
-
-
-    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-     virtual void SetObjectPointer(void* memptr);
+   /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
+    virtual void SetObjectPointer(void* memptr);
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
@@ -449,10 +400,8 @@ public:
 
 protected:
 
-
     /** class that is contained in innermost vector*/
       TString fxInnerClassName;
-
 
 };
 

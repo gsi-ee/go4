@@ -29,13 +29,12 @@ class TGo4HDF5StoreParameter;
  *  * @author J. Adamczewski-Musch
  * @since 12/2018
  */
-class TGo4HDF5Store : public TGo4EventStore, TGo4HDF5Adapter {
+class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
   public:
 
     TGo4HDF5Store();
 
-    TGo4HDF5Store(const char* name,
-                  UInt_t flags);
+    TGo4HDF5Store(const char* name, UInt_t flags);
 
     TGo4HDF5Store(TGo4HDF5StoreParameter* par);
 
@@ -43,25 +42,24 @@ class TGo4HDF5Store : public TGo4EventStore, TGo4HDF5Adapter {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    virtual Int_t Store(TGo4EventElement* event);
+    Int_t Store(TGo4EventElement* event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Parameter* cali);
+    Int_t Store(TGo4Parameter* cali) override;
 
     /** Saves a condition correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Condition* conny);
+    Int_t Store(TGo4Condition* conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Fitter* fitter);
+    Int_t Store(TGo4Fitter* fitter) override;
 
     /** Saves a complete objects folder correlated with the current event into the storage. */
-    virtual Int_t Store(TFolder* fold);
-
+    Int_t Store(TFolder* fold) override;
 
   protected:
 
     /** opens the hdf5 file depending on the setup */
-    virtual void OpenFile(const char* name=0);
+    void OpenFile(const char* name = nullptr) override;
 
     /** opens the hdf5 file depending on the setup */
 //    virtual void CloseFile();
@@ -70,10 +68,10 @@ class TGo4HDF5Store : public TGo4EventStore, TGo4HDF5Adapter {
     void WriteToStore(TNamed* ob);
 
     /** initialize dataset from event structure*/
-    virtual void BuildDataSet(TGo4EventElement* event);
+    void BuildDataSet(TGo4EventElement* event) override;
 
 
-  ClassDef(TGo4HDF5Store,1)
+  ClassDefOverride(TGo4HDF5Store,1)
 };
 
 #endif //TGO4FILESTORE_H

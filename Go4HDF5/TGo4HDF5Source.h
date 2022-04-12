@@ -31,7 +31,7 @@ class TGo4EventElement;
  *  * @author J. Adamczewski-Musch
  * @since 01/2019
  */
-class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
+class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
 
   friend class TGo4HDF5DataHandle;
   friend class TGo4HDF5BasicDataHandle;
@@ -49,36 +49,32 @@ class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    virtual Bool_t BuildEvent(TGo4EventElement* dest);
+    Bool_t BuildEvent(TGo4EventElement* dest) override;
 
     static TList* ProducesFilesList(const char* mask);
 
 
   protected:
 
-
     /** opens the hdf5 file of given name for reading */
-       virtual void OpenFile(const char* fname);
+    void OpenFile(const char* fname) override;
 
-       /** initialize dataset from event structure*/
-       virtual void BuildDataSet(TGo4EventElement* event);
+    /** initialize dataset from event structure*/
+    void BuildDataSet(TGo4EventElement* event) override;
 
-       /** delete dataset resource*/
-       virtual void DeleteDataSet();
-
+    /** delete dataset resource*/
+    void DeleteDataSet() override;
 
   private:
 
-
     /** read buffer for hdf5*/
-    Char_t* fxReadBuffer; //!
+    Char_t* fxReadBuffer{nullptr}; //!
 
     /** begin of real eventdata payload after event object pointer**/
-    size_t fiReadOffset;
-
+    size_t fiReadOffset{0};
 
     /** list of files names */
-    TList* fxFilesNames; //!
+    TList* fxFilesNames{nullptr}; //!
 
     /** current name of the file */
     TString fxCurrentFileName;  //!
@@ -89,8 +85,8 @@ class TGo4HDF5Source : public TGo4EventSource, TGo4HDF5Adapter {
     /** Close currently open file. */
     Bool_t CloseCurrentFile();
 
-  ClassDef(TGo4HDF5Source,2)
+  ClassDefOverride(TGo4HDF5Source,2)
 };
 
 
-#endif //TGO4FILESOURCE_H
+#endif //TGO4HDF5SOURCE_H
