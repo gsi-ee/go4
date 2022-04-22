@@ -39,26 +39,26 @@ class TGo4EventHeader10 : public TObject {
       virtual ~TGo4EventHeader10() {}
 
       /** Reset all members to zero. */
-      virtual void Clear(Option_t* ="")
+      void Clear(Option_t* ="") override
       {
          fxGSIHeader.Clear();
-         fsDummy=0;
-         fsTrigger=0;
-         fiCount=0;
+         fsDummy = 0;
+         fsTrigger = 0;
+         fiCount = 0;
       }
 
       /** @link aggregationByValue */
       TGo4GSIEventHeader fxGSIHeader;
 
       /** not used yet. */
-      Short_t fsDummy;
+      Short_t fsDummy{0};
 
       /** Trigger number */
-      Short_t fsTrigger;
+      Short_t fsTrigger{0};
 
-      Int_t fiCount;
+      Int_t fiCount{0};
 
-   ClassDef(TGo4EventHeader10,1)
+   ClassDefOverride(TGo4EventHeader10,1)
 };
 
 #endif // TGO4EVENTHEADER10_H

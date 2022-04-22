@@ -40,13 +40,13 @@ class TGo4MbsFile : public TGo4MbsSource {
     ~TGo4MbsFile();
 
     /** Close the file or connection. */
-    virtual Int_t Close();
+    Int_t Close() override;
 
     /** Open the file or connection. */
-    virtual Int_t Open();
+    Int_t Open() override;
 
     /** Requests the next event from mbs source. Returns event status value. */
-    virtual Int_t NextEvent();
+    Int_t NextEvent() override;
 
     /** Name of the Tagfile */
     const char* GetTagName() const { return fxTagFile.Data(); }
@@ -56,7 +56,7 @@ class TGo4MbsFile : public TGo4MbsSource {
     const char* GetCurrentFileName() const { return fxCurrentFile.Data(); }
 
     /** interface from eventsource base class to give active file*/
-    virtual const char* GetActiveName();
+    const char* GetActiveName() override;
 
     /** string to indicate that no lmd tagfile is chosen */
     static const char* fgcNOTAGFILE;
@@ -96,15 +96,15 @@ class TGo4MbsFile : public TGo4MbsSource {
 
     /** file that contains the list of mbs filenames.
       * format should be: "filename.lmd tagfilename" for each line. */
-    TList* fxMultiFile; //!
+    TList* fxMultiFile{nullptr}; //!
 
     /** This indicates if the current file is open or not */
-    Bool_t fbFileOpen;
+    Bool_t fbFileOpen{kFALSE};
 
     /** Indicates if mbs file should show information about new open file */
-    Bool_t fbShowInfo; //!
+    Bool_t fbShowInfo{kFALSE}; //!
 
-  ClassDef(TGo4MbsFile, 3)
+  ClassDefOverride(TGo4MbsFile, 3)
 };
 
 #endif //TGO4MBSFILE_H

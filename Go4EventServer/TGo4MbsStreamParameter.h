@@ -24,7 +24,7 @@ class TGo4MbsStreamParameter : public TGo4MbsSourceParameter {
 
     virtual ~TGo4MbsStreamParameter() ;
 
-  ClassDef(TGo4MbsStreamParameter, 2)
+  ClassDefOverride(TGo4MbsStreamParameter, 2)
 };
 
 #endif //TGO4MBSSTREAMPARAMETER_H

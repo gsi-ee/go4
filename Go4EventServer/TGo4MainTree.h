@@ -83,25 +83,25 @@ class TGo4MainTree : public TObject {
     void Update();
 
     /** Write tree content to file. */
-    virtual Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0);
-    virtual Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0) const;
+    Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0) override;
+    Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0) const override;
 
   private:
 
     static TGo4MainTree * fxInstance; //!
 
-    TFile* fxFile; //!
+    TFile* fxFile{nullptr}; //!
 
-    TTree * fxTree; //!
+    TTree * fxTree{nullptr}; //!
 
     /** Number of events stored in the Tree. Used to check if
       * the complete tree is already read. */
-    Int_t fiMaxIndex;
+    Int_t fiMaxIndex{0};
 
     /** Index number of the current event. */
-    Int_t fiCurrentIndex;
+    Int_t fiCurrentIndex{0};
 
-  ClassDef(TGo4MainTree,1)
+  ClassDefOverride(TGo4MainTree,1)
 };
 
 #endif //TGO4MAINTREE_H

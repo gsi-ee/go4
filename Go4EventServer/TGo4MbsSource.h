@@ -44,16 +44,16 @@ class TGo4MbsSourcePrintPar : public TObject {
     TGo4MbsSourcePrintPar() : TObject(), fiNum(0), fiSid(0), fiLong(0), fiHex(0), fiData(0) {}
     virtual ~TGo4MbsSourcePrintPar() {}
     /** Counter for events to be printed */
-    Int_t fiNum;
+    Int_t fiNum{0};
     /** subevent id (-1 is all) */
-    Int_t fiSid;
+    Int_t fiSid{0};
     /** output longwords  */
-    Int_t fiLong;
+    Int_t fiLong{0};
     /** output hex longwords*/
-    Int_t fiHex;
+    Int_t fiHex{0};
     /** output data*/
-    Int_t fiData;
-  ClassDef(TGo4MbsSourcePrintPar, 1)
+    Int_t fiData{0};
+  ClassDefOverride(TGo4MbsSourcePrintPar, 1)
 };
 
 

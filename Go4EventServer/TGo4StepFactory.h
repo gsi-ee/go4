@@ -21,11 +21,11 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       TGo4StepFactory();
       TGo4StepFactory(const char* name);
       virtual ~TGo4StepFactory();
-      virtual  TGo4EventElement* CreateInputEvent();
-      virtual  TGo4EventElement* CreateOutputEvent();
-      virtual  TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter *par);
-      virtual  TGo4EventSource* CreateEventSource(TGo4EventSourceParameter *par);
-      virtual  TGo4EventStore* CreateEventStore(TGo4EventStoreParameter *par);
+      TGo4EventElement* CreateInputEvent() override;
+      TGo4EventElement* CreateOutputEvent() override;
+      TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter *par) override;
+      TGo4EventSource* CreateEventSource(TGo4EventSourceParameter *par) override;
+      TGo4EventStore* CreateEventStore(TGo4EventStoreParameter *par) override;
       void     DefEventProcessor(const char *Pname, const char* Pclass);
       void     DefInputEvent(const char *Iname, const char *Iclass);
       void     DefOutputEvent(const char *Oname, const char *Oclass);
@@ -41,7 +41,7 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       TString fnewEventSource;
       TString fnewEventStore;
 
-  ClassDef(TGo4StepFactory,3)
+  ClassDefOverride(TGo4StepFactory,3)
 };
 
 #endif // TGO4STEPFACTORY_H

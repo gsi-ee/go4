@@ -27,7 +27,7 @@ class TGo4SimpleEventProcessor : public TGo4EventProcessor {
 
       virtual ~TGo4SimpleEventProcessor() ;
 
-  ClassDef(TGo4SimpleEventProcessor,1)
+  ClassDefOverride(TGo4SimpleEventProcessor,1)
 };
 
 #endif //TGO4SIMPLEEVENTPROCESSOR_H

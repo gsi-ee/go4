@@ -62,7 +62,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       virtual ~TGo4MbsEvent();
 
       /** Method called by the event owner (analysis step) to clear the event element. */
-      virtual void Clear(Option_t *t="");
+      void Clear(Option_t *t="") override;
 
       /* Declare this mbs event object as "reference" to another.
        * This will just set event header accordingly and will use
@@ -79,7 +79,7 @@ class TGo4MbsEvent : public TGo4EventElement {
             Short_t dummy=0, Short_t trigger=0, Int_t count=0);
 
       /** Print event with default settings */
-      virtual void PrintEvent();
+      void PrintEvent() override;
 
       /** Print MBS event
        * \param subid - select subevent id, -1 - print all subevents
@@ -170,20 +170,19 @@ class TGo4MbsEvent : public TGo4EventElement {
       TGo4EventHeader10 fxHeader;
 
       /** dynamic array of subevents. */
-      TObjArray* fxSubEvArray;
+      TObjArray* fxSubEvArray{nullptr};
 
       /** Subevent index in array, replacement for Iterator. */
-      Int_t fiSubEvIndex;//!
+      Int_t fiSubEvIndex{0};//!
 
       /** Indicates if this object is mere reference to another mbs event*/
-      Bool_t fbIsReference; //!
+      Bool_t fbIsReference{kFALSE}; //!
 
       /* initialize this event with a simple dummy subevent*/
       void SimpleInit();
 
 
-
-   ClassDef(TGo4MbsEvent,3)
+   ClassDefOverride(TGo4MbsEvent,3)
 };
 
 #endif //TGO4MBSEVENT_H

@@ -36,7 +36,7 @@ class TGo4MbsTransport : public TGo4MbsSource {
 
     ~TGo4MbsTransport();
 
-  ClassDef(TGo4MbsTransport,1)
+  ClassDefOverride(TGo4MbsTransport,1)
 };
 
 #endif //TGO4MBSTRANSPORT_H

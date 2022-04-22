@@ -26,7 +26,7 @@ class TGo4FileSourceParameter : public TGo4EventSourceParameter {
 
       virtual ~TGo4FileSourceParameter();
 
-   ClassDef(TGo4FileSourceParameter,1)
+   ClassDefOverride(TGo4FileSourceParameter,1)
 };
 
 #endif //TGO4FILESOURCEPARAMETER_H

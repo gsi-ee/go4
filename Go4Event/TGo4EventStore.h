@@ -63,21 +63,21 @@ class TGo4EventStore : public TNamed {
 
     /** Access to a tree that might belong to this storage implementation.
       * To be overridden. */
-    virtual TTree* GetTree() { return 0; }
+    virtual TTree* GetTree() { return nullptr; }
 
     /** We overwrite the default TNamed::Clear that would
       *  erase our name and title!
       * Implement this method in your parameter class
       * if you would like to reset any values with the
       * eraser button in the gui remote browser*/
-    virtual void Clear(Option_t* opt="");
+    void Clear(Option_t* opt="") override;
 
   protected:
      /** text length */
 
      enum { fguTXTLEN = 256 };
 
-   ClassDef(TGo4EventStore,1)
+   ClassDefOverride(TGo4EventStore,1)
 };
 
 #endif //TGO4EVENTSTORE_H

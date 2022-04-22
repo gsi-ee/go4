@@ -36,7 +36,7 @@ class TGo4MbsStream : public TGo4MbsSource {
 
     ~TGo4MbsStream();
 
-  ClassDef(TGo4MbsStream,1)
+  ClassDefOverride(TGo4MbsStream,1)
 };
 
 #endif //TGO4MBSSTREAM_H

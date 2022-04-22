@@ -23,31 +23,31 @@
 class TGo4GSIEventHeader : public TObject {
   public:
 
-    TGo4GSIEventHeader() : fiDlen(0), fsType(0), fsSubtype(0) { }
+    TGo4GSIEventHeader() : TObject(), fiDlen(0), fsType(0), fsSubtype(0) { }
 
     virtual ~TGo4GSIEventHeader() { }
 
     /** Reset all members to zero. */
-    virtual void Clear(Option_t* opt="")
+    void Clear(Option_t* opt="") override
       {
-         fiDlen=0;
-         fsType=0;
-         fsSubtype=0;
+         fiDlen = 0;
+         fsType = 0;
+         fsSubtype = 0;
       }
 
     /** Length (16 bit words) of the data field following this header.
       * (i.e. datalenth+2 for events, datalength+4 for subevents).
       * Except for GSIBuffer, here occurs the length of data
       * after the _buffer header_ (bufhe) */
-    Int_t fiDlen;
+    Int_t fiDlen{0};
 
     /** Type number */
-    Short_t fsType;
+    Short_t fsType{0};
 
     /** Subtype */
-    Short_t fsSubtype;
+    Short_t fsSubtype{0};
 
-  ClassDef(TGo4GSIEventHeader,1)
+  ClassDefOverride(TGo4GSIEventHeader,1)
 };
 
 #endif //TGO4GSIEVENTHEADER_H
