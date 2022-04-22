@@ -33,13 +33,13 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
       virtual ~TGo4CompositeProcessor();
 
       /* Can be overwritten by subclass, but is not recommended! use ProcessEvent or ProcessSubevent instead*/
-      virtual Bool_t BuildEvent(TGo4EventElement*);
+      Bool_t BuildEvent(TGo4EventElement*) override;
 
       /* implemented by subclass to assign correct event structures*/
-      virtual void InitEvent(TGo4EventElement*) {}
+      void InitEvent(TGo4EventElement*) override {}
 
       /* implemented by subclass to do actual processing. For second step processors!*/
-      virtual void FinalizeEvent() {}
+      void FinalizeEvent() override {}
 
       /* implemented by subclass to process incoming subevent. For first step processors only! */
       virtual void ProcessSubevent(TGo4MbsSubEvent* subevt);
@@ -55,14 +55,14 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
       void AddSubProcessor(TGo4EventProcessor* );
 
 //      TGo4CompositeEvent  *fBeamtimeEvent; //!
-      TGo4MbsEvent        *fMbsInput; //!
-      Short_t              fMbsTriggerNumber;
-      Int_t                fMbsEventNumber;
+      TGo4MbsEvent        *fMbsInput{nullptr}; //!
+      Short_t              fMbsTriggerNumber{0};
+      Int_t                fMbsEventNumber{0};
 
    private:
       TObjArray   fSubProcessors; //!
 
-      ClassDef(TGo4CompositeProcessor,1)
+      ClassDefOverride(TGo4CompositeProcessor,1)
 };
 
 #endif

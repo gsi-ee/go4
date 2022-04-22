@@ -24,16 +24,16 @@ class TGo4CounterCond : public TGo4Condition {
 
     /** Noop */
     using TGo4Condition::SetValues;
-    virtual void SetValues() {}
+    void SetValues() override {}
 
     using TGo4Condition::Test;
     virtual Bool_t Test(Bool_t result);
 
-    void PrintCondition(Bool_t full);
+    void PrintCondition(Bool_t full) override;
 
-    Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+    Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
-  ClassDef(TGo4CounterCond,1);
+  ClassDefOverride(TGo4CounterCond,1);
 };
 
 #endif //TGO4COUNTERCOND_H
