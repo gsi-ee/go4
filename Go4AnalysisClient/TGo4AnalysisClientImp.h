@@ -59,29 +59,29 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
 
-    virtual void Start();
+    void Start() override;
 
-    virtual void Stop();
+    void Stop() override;
 
-    virtual void Quit();
+    void Quit() override;
 
     /** Kill the main thread; method to be called from
       * command, should be overridden in user implementation */
-    virtual void KillMain();
+    void KillMain() override;
 
     /** Restart the main thread; method to be called from
       * command, should be overridden in user implementation */
-    virtual void RestartMain();
+    void RestartMain() override;
 
     /** create a status object with information on the
       * current client state. this object may be sent to the
       * server or may be used to restore current status by
       * memento mechanism. Overridden from superclass */
-    virtual TGo4TaskStatus* CreateStatus();
+    TGo4TaskStatus* CreateStatus() override;
 
     /** Override the ClientTask/ThreadManager  Initialization used by AppControlTimer
       * to init event classes before the threads are started. */
-    virtual Int_t Initialization();
+    Int_t Initialization() override;
 
     /** Fetch object of name from analysis instance and put
       * it into the data queue of the client. Send an error status
@@ -122,29 +122,29 @@ class TGo4AnalysisClient : public TGo4Slave {
     /**
      * start the working threads of the slave implementation;
      */
-    virtual Int_t StartWorkThreads();
+    Int_t StartWorkThreads() override;
 
     /**
      * stop the working threads of the slave implementation;
      */
-    virtual Int_t StopWorkThreads();
+    Int_t StopWorkThreads() override;
 
     /** Overwrites the Threadmanager Terminate to shutdown the objectserver properly */
-    virtual void Terminate (Bool_t termapp=kTRUE);
+    void Terminate (Bool_t termapp=kTRUE) override;
 
     /** Overwrites the Threadmanager TerminateFast to shutdown the objectserver properly */
-    virtual void TerminateFast ();
+    void TerminateFast() override;
 
     /* submit a analysis server shutdown into local command queue.
      * used by ctrl-c handler of analysis server*/
     void SubmitShutdown();
 
     /** Send message to gui */
-    virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+    void SendStatusMessage(Int_t level, Bool_t printout, const TString& text) override;
 
     /** Execute string command. Overrides base class implementation
       * to decouple some commands from analysis client. */
-    virtual void ExecuteString(const char* command);
+    void ExecuteString(const char *command) override;
 
     void SetCintMode(Bool_t on=kTRUE);
 
@@ -171,9 +171,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     /** Method needed by method CreateStatus of any status subclasses to
       * set the values of the clienttask specific part of the status object. */
-    void UpdateStatus(TGo4TaskStatus * state);
-
-
+    void UpdateStatus(TGo4TaskStatus * state) override;
 
 private:
 
@@ -217,7 +215,7 @@ private:
 
     TGo4AnalysisClient();
 
-  ClassDef(TGo4AnalysisClient,1)
+    ClassDef(TGo4AnalysisClient,1)
 
 };
 

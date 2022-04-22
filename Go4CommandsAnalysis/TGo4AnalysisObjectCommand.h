@@ -47,7 +47,7 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
    /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand *remcon);
+    void Set(TGo4RemoteCommand *remcon) override;
 
   private:
 
@@ -57,7 +57,7 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
     /** Optional subfolder name where the object is located. */
     TString fxFolderName;
 
-  ClassDef(TGo4AnalysisObjectCommand,1)
+  ClassDefOverride(TGo4AnalysisObjectCommand,1)
 };
 
 #endif //TGO4ANALYSISOBJECTCOMMAND_H
