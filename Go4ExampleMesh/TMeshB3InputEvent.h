@@ -24,16 +24,16 @@ class TMeshB3InputEvent : public TGo4EventElement {
       TMeshB3InputEvent();
       TMeshB3InputEvent(const char* name) ;
       virtual ~TMeshB3InputEvent() ;
-      Int_t Fill();
-      void Clear(Option_t *t="");
-      Int_t Init();
+      Int_t Fill() override;
+      void Clear(Option_t *t="") override;
+      Int_t Init() override;
 
       Int_t fiCrate3[16];
    private:
-      TMeshUnpackProc * fxProcessor;  //! Don't put this to file
-      TGo4FileSource * fxFile;  //! Don't put this to file
+      TMeshUnpackProc *fxProcessor{nullptr};  //! Don't put this to file
+      TGo4FileSource  *fxFile{nullptr};  //! Don't put this to file
 
-   ClassDef(TMeshB3InputEvent,1)
+   ClassDefOverride(TMeshB3InputEvent,1)
 };
 
 #endif //TMESHB3INPUTEVENT_H

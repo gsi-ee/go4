@@ -24,21 +24,20 @@ class TMeshAnalysis : public TGo4Analysis {
    public:
       TMeshAnalysis();
       TMeshAnalysis(int argc, char** argv);
-      virtual ~TMeshAnalysis() ;
-      virtual Int_t UserPreLoop();
-      virtual Int_t UserEventFunc();
-      virtual Int_t UserPostLoop();
+      virtual ~TMeshAnalysis();
+      Int_t UserPreLoop() override;
+      Int_t UserEventFunc() override;
+      Int_t UserPostLoop() override;
    private:
 
-      TMeshParameter     *fPar;
-      TGo4MbsEvent       *fMbsEvent;//!
-      TH1D               *fSize;
-      Int_t               fEvents;
-      Int_t               fLastEvent;
+      TMeshParameter     *fPar{nullptr};
+      TGo4MbsEvent       *fMbsEvent{nullptr}; //!
+      TH1D               *fSize{nullptr};
+      Int_t               fEvents{0};
+      Int_t               fLastEvent{0};
 
-      ClassDef(TMeshAnalysis,1)
+      ClassDefOverride(TMeshAnalysis,1)
 };
+
 #endif //TMESHANALYSIS_H
-
-
 

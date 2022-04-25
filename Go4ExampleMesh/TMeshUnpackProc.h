@@ -34,9 +34,9 @@ class TMeshUnpackProc : public TGo4EventProcessor {
       void UnpackBranch3(TMeshB3InputEvent* target);
 
    private:
-      TGo4MbsEvent  *fInput;
+      TGo4MbsEvent  *fInput{nullptr};
 
-   ClassDef(TMeshUnpackProc,1)
+   ClassDefOverride(TMeshUnpackProc,1)
 };
 
 #endif //TXXXUNPACKPROCESSOR_H

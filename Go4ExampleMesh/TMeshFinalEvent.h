@@ -26,12 +26,12 @@ class TMeshFinalProc;
 
 class TMeshFinalEvent : public TGo4EventElement {
    public:
-      TMeshFinalEvent() ;
-      TMeshFinalEvent(const char* name) ;
-      ~TMeshFinalEvent() ;
-      virtual Int_t Init();
-      virtual Int_t Fill();
-      virtual void  Clear(Option_t *t="");
+      TMeshFinalEvent();
+      TMeshFinalEvent(const char* name);
+      ~TMeshFinalEvent();
+      Int_t Init() override;
+      Int_t Fill() override;
+      void  Clear(Option_t *t="") override;
 
       /** in this example, we include just copies of our sources here:*/
       TMeshB1OutputEvent fxB1;
@@ -42,10 +42,10 @@ class TMeshFinalEvent : public TGo4EventElement {
    private:
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
-      TMeshFinalProc     * fxFinalProc;  //! Don't put this to file
-      TGo4FileSource  * fxFile;  //! Don't put this to file
+      TMeshFinalProc    *fxFinalProc{nullptr};  //! Don't put this to file
+      TGo4FileSource    *fxFile{nullptr};  //! Don't put this to file
 
-   ClassDef(TMeshFinalEvent,1)
+   ClassDefOverride(TMeshFinalEvent,1)
 };
 
 #endif //TXXXANLEVENT_H

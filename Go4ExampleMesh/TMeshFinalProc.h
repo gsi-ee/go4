@@ -30,12 +30,12 @@ class TMeshFinalProc : public TGo4EventProcessor {
       void Analysis(TMeshFinalEvent* target);
       virtual ~TMeshFinalProc() ;
 
-      TMeshB1OutputEvent* fxInput1;
-      TMeshB2OutputEvent* fxInput2;
-      TMeshB3OutputEvent* fxInput3;
-      TMeshB12OutputEvent* fxInput12;
+      TMeshB1OutputEvent  *fxInput1{nullptr};
+      TMeshB2OutputEvent  *fxInput2{nullptr};
+      TMeshB3OutputEvent  *fxInput3{nullptr};
+      TMeshB12OutputEvent *fxInput12{nullptr};
 
-   ClassDef(TMeshFinalProc,1)
+   ClassDefOverride(TMeshFinalProc,1)
 };
 
 #endif //TMeshFinalProcESSOR_H
