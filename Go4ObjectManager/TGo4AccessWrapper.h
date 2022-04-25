@@ -21,34 +21,33 @@ class TGo4AccessWrapper {
       TGo4AccessWrapper() {}
       virtual ~TGo4AccessWrapper() {}
 
-      TObject* GetObject(const char* name = 0)
+      TObject* GetObject(const char* name = nullptr)
       {
          TGo4Access* proxy = ProvideAccess(name);
-         TObject* res = 0;
+         TObject* res = nullptr;
          Bool_t owner = kFALSE;
          if (proxy) proxy->GetObject(res, owner);
          delete proxy;
          return res;
       }
 
-      TClass* GetObjectClass(const char* name = 0)
+      TClass* GetObjectClass(const char* name = nullptr)
       {
          TGo4Access* proxy = ProvideAccess(name);
-         TClass* res = proxy ? proxy->GetObjectClass() : 0;
+         TClass* res = proxy ? proxy->GetObjectClass() : nullptr;
          delete proxy;
          return res;
       }
 
-      const char* GetObjectClassName(const char* name = 0)
+      const char* GetObjectClassName(const char* name = nullptr)
       {
          TGo4Access* proxy = ProvideAccess(name);
-         const char* res = proxy ? proxy->GetObjectClassName() : 0;
+         const char* res = proxy ? proxy->GetObjectClassName() : nullptr;
          delete proxy;
          return res;
       }
 
-      virtual TGo4Access* ProvideAccess(const char* name = 0) { return 0; }
-
+      virtual TGo4Access* ProvideAccess(const char *name = nullptr) { return nullptr; }
 
    ClassDef(TGo4AccessWrapper,1);
 };

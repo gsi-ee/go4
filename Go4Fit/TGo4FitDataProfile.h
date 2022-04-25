@@ -37,7 +37,7 @@ class TGo4FitDataProfile : public TGo4FitData {
        * Pointer on TProfile object and ownership flag can be specified.
        * Scaling factor (amplitude) also can be added.
        */
-      TGo4FitDataProfile(const char* iName, TProfile* iProfile = 0, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
+      TGo4FitDataProfile(const char* iName, TProfile* iProfile = nullptr, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitDataProfile object.

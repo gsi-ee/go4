@@ -23,7 +23,7 @@ class QGo4WidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4WidgetPlugin(QObject *parent = 0);
+     QGo4WidgetPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;

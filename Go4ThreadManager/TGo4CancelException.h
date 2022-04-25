@@ -30,7 +30,7 @@ public:
 
    TGo4CancelException(const TGo4CancelException &right);
 
-   TGo4CancelException(TGo4Runnable *runnable, const char *threadname = 0);
+   TGo4CancelException(TGo4Runnable *runnable, const char *threadname = nullptr);
 
    virtual ~TGo4CancelException();
 

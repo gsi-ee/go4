@@ -212,17 +212,17 @@ class TGo4Picture : public TNamed {
       // ====== end of USER FUNCTIONS ========================
 
       // add name of any object, which should be drawn in picture or sub-picture
-      void AddObjName(const char* name, Option_t* DrawOption = 0);
-      void AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption = 0);
+      void AddObjName(const char* name, Option_t* DrawOption = nullptr);
+      void AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption = nullptr);
 
       // adds only name of provided object
-      void AddObject(TObject* obj, Option_t* DrawOption = 0);
-      void AddObject(Int_t posy, Int_t posx, TObject* obj, Option_t* DrawOption = 0);
+      void AddObject(TObject* obj, Option_t* DrawOption = nullptr);
+      void AddObject(Int_t posy, Int_t posx, TObject* obj, Option_t* DrawOption = nullptr);
 
       void Reset() {}
 
       // move content from source picture
-      void UpdateFrom(TGo4Picture* source, TClass* selectedobjclass = 0);
+      void UpdateFrom(TGo4Picture* source, TClass* selectedobjclass = nullptr);
       void CopyOptionsFrom(TGo4Picture* source);
 
       Int_t GetNumObjNames();
@@ -232,8 +232,8 @@ class TGo4Picture : public TNamed {
       // manipulation with special objects,
       // which must be drawn on the panel / canvas
       // This must be objects like markers, labels and so on
-      void AddSpecialObject(TObject* obj, Option_t* drawopt = 0);
-      void AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt = 0);
+      void AddSpecialObject(TObject* obj, Option_t* drawopt = nullptr);
+      void AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt = nullptr);
       TList* GetSpecialObjects() const { return fxSpecialObjects; }
 
       // set style object
@@ -340,7 +340,7 @@ class TGo4Picture : public TNamed {
       TObject *GetObjOption(Short_t index, Short_t typ) const;
 
       void SetStrOption(Short_t index, Short_t typ, const char* value);
-      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = 0) const;
+      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = nullptr) const;
 
       void ClearOption(Short_t index, Short_t typ);
       void ClearOption(Int_t pos);

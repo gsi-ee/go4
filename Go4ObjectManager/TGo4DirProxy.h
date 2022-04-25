@@ -53,7 +53,7 @@ class TGo4DirProxy : public TGo4Proxy {
       const char* GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override;
 
-      static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char* name, TGo4Slot* browser_slot = 0);
+      static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char* name, TGo4Slot* browser_slot = nullptr);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
 
       Bool_t UpdateObjectInFile(const char* filepath, TObject* obj);

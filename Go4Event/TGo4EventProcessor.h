@@ -120,22 +120,22 @@ class TGo4EventProcessor: public TGo4EventSource {
       virtual void FinalizeEvent() {}
 
       /** Register user object to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddObject(TNamed * anything, const char* subfolder = 0);
+      Bool_t AddObject(TNamed * anything, const char* subfolder = nullptr);
 
       /** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddHistogram(TH1* his, const char* subfolder = 0, Bool_t replace = kTRUE);
+      Bool_t AddHistogram(TH1* his, const char* subfolder = nullptr, Bool_t replace = kTRUE);
 
       /** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddParameter(TGo4Parameter* par, const char* subfolder = 0);
+      Bool_t AddParameter(TGo4Parameter* par, const char* subfolder = nullptr);
 
       /** Register condition to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddAnalysisCondition(TGo4Condition* con, const char* subfolder = 0);
+      Bool_t AddAnalysisCondition(TGo4Condition* con, const char* subfolder = nullptr);
 
       /** Register picture to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddPicture(TGo4Picture* pic, const char* subfolder = 0);
+      Bool_t AddPicture(TGo4Picture* pic, const char* subfolder = nullptr);
 
       /** Register TCanvas to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddCanvas(TCanvas* can, const char* subfolder = 0);
+      Bool_t AddCanvas(TCanvas* can, const char* subfolder = nullptr);
 
       /** UnRegister histogram from go4 framework and delete it. Shortcut forwarded to analysis instance */
       Bool_t RemoveHistogram(const char* name);
@@ -153,16 +153,16 @@ class TGo4EventProcessor: public TGo4EventSource {
       Bool_t RemoveCanvas(const char* name);
 
       /** Get any object from go4 framework. Shortcut forwarded to analysis instance */
-      TNamed * GetObject(const char* name, const char* folder = 0);
+      TNamed * GetObject(const char* name, const char* folder = nullptr);
 
       /** Get histogram from go4 framework. Shortcut forwarded to analysis instance */
       TH1* GetHistogram(const char* name);
 
       /** Get parameter from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Parameter* GetParameter(const char* name, const char* par_class = 0);
+      TGo4Parameter* GetParameter(const char* name, const char* par_class = nullptr);
 
       /** Get condition from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Condition* GetAnalysisCondition(const char* name, const char* cond_cl = 0);
+      TGo4Condition* GetAnalysisCondition(const char* name, const char* cond_cl = nullptr);
 
       /** Get picture from go4 framework. Shortcut forwarded to analysis instance */
       TGo4Picture* GetPicture(const char* name);
@@ -320,7 +320,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * HistoName - name of histogram, to which condition is assigned  */
       TGo4ShapedCond* MakeCircleCond(const char* fullname,
                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
-                  const char* HistoName = 0);
+                  const char* HistoName = nullptr);
 
       /** Create tilted rectangular box shaped polygon condition.
                  * fullname specifies name of condition (optionally with subfolder name)
@@ -356,7 +356,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * values - 1d array with values
        * HistoName - name of histogram, to which condition is assigned
        */
-      TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName = 0);
+      TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName = nullptr);
 
      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches

@@ -153,7 +153,7 @@ class TGo4Interface : public TGo4AbstractInterface {
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
       TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
 
-      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = nullptr) override;
+      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
       void RedrawItem(const char* itemname) override;
 
       void ProcessHotStart();

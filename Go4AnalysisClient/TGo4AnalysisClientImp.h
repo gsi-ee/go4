@@ -188,7 +188,7 @@ private:
     TString fcWatchName;                         //!
 
     /** absoulute time of the last status buffer update. Reset by TestBufferUpdateCondition */
-    Double_t fdBufferUpdateTime;
+    Double_t fdBufferUpdateTime{0};
 
     /** @link aggregation
       *   @supplierCardinality 1 */
@@ -201,17 +201,17 @@ private:
 
      /** If true, this slave will initialize and start analysis
       * immediately without waiting for a submit/start command. */
-    Bool_t fbAutoStart;
+    Bool_t fbAutoStart{kFALSE};
 
     /** If true, this slave runs to control CINT macro.
       * Will have effect on some initialization behaviour. */
-    Bool_t fbCintMode;
+    Bool_t fbCintMode{kFALSE};
 
     /** If true, this slave load preferences for analysis from default file. */
-    Bool_t fbLoadPrefs; //!
+    Bool_t fbLoadPrefs{kFALSE}; //!
 
     /** Then enabled, show current rate on the analysis terminal window */
-    Bool_t fbShowRate; //!
+    Bool_t fbShowRate{kFALSE}; //!
 
     TGo4AnalysisClient();
 

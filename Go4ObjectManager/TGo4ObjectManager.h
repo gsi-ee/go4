@@ -42,7 +42,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       TGo4Slot* Add(const char* pathname, TObject* obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
 
-      TGo4Slot* MakeObjSlot(const char* foldername, const char* name = 0, const char* title = 0);
+      TGo4Slot* MakeObjSlot(const char* foldername, const char* name = nullptr, const char* title = nullptr);
 
       TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle);
 
@@ -71,7 +71,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void DeleteSlot(const char* pathname);
 
-      void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot* startslot = 0);
+      void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot* startslot = nullptr);
 
       void ReadDataFromFile(TFile* f);
 

@@ -285,7 +285,7 @@ class TGo4AbstractInterface : public TObject {
                           Int_t ShellMode =  2,     //   0 = exec, 1 = rsh,  2 = ssh
                           Int_t TermMode = 1,       //   1 = Qt,   2 = Xterm, 3 = konsole
                           Int_t ExeMode = 0,        //   0 = exe,  1 = lib
-                          const char* UserArgs = 0) {}
+                          const char* UserArgs = nullptr) {}
 
       /** Connect to running analysis server.
         * Parameters:
@@ -296,7 +296,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void ConnectAnalysis(const char* ServerNode,
                            Int_t ServerPort,
                            Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
-                           const char* password = 0)  {}
+                           const char* password = nullptr)  {}
 
       /** Waits, until connection to analysis is established.
         * Method must be called before any other action like configuration,
