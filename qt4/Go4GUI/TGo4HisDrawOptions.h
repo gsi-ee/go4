@@ -33,7 +33,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
           view_Graph = 4,
           view_Polar = 5 };
 
-    TGo4HisDrawOptions( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+    TGo4HisDrawOptions( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
     virtual void ChangeDrawOptionForCurrentPanel( int kind, int value );
     virtual void DecodeDrawOption( const char * drawopt,
@@ -58,8 +58,8 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
     virtual void SetMarkerColor();
 
 protected:
-    bool fbSettingPanelData;
-    int fiLastView;
+    bool fbSettingPanelData{false};
+    int fiLastView{0};
 
 };
 

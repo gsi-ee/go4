@@ -22,7 +22,7 @@ class TGo4HServerConnection : public QDialog, public Ui::TGo4HServerConnection
    Q_OBJECT
 
 public:
-   TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = Qt::Widget );
+   TGo4HServerConnection( QWidget* parent = nullptr, const char* name = nullptr, bool modal = false, Qt::WindowFlags fl = Qt::Widget );
 
 };
 

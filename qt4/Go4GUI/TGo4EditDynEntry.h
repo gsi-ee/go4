@@ -33,11 +33,11 @@ public:
      enum ESelectedType {entry_None = -1, entry_Histogram = 0, entry_Tree = 1};
 
 
-     TGo4EditDynEntry(QWidget *parent = 0, const char* name = 0);
+    TGo4EditDynEntry(QWidget *parent = nullptr, const char* name = nullptr);
 
-    virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
+    bool IsAcceptDrag( const char * itemname, TClass * cl, int kind ) override;
     virtual void DropItem( const char * itemname, TClass * cl, int kind );
-    virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
+    void linkedObjectUpdated( const char * linkname, TObject * obj ) override;
     virtual void RefreshWidget();
     virtual QString GetEventName( const QString & itemname );
     virtual QString GetEventMember( const QString & itemname );
@@ -84,8 +84,8 @@ public:
     virtual void ConRemoveButton_clicked();
 
  protected:
-    int fiSelectedType;
-    bool fbTypingMode;
+    int fiSelectedType{0};
+    bool fbTypingMode{false};
 
 };
 

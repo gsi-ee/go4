@@ -27,7 +27,7 @@ class QWebCanvas : public QWidget {
    Q_OBJECT
 
 public:
-   QWebCanvas(QWidget *parent = 0);
+   QWebCanvas(QWidget *parent = nullptr);
    virtual ~QWebCanvas();
 
    /// returns canvas shown in the widget
@@ -53,7 +53,7 @@ signals:
 
 public slots:
 
-   void activateEditor(TPad *pad = 0, TObject *obj = 0);
+   void activateEditor(TPad *pad = nullptr, TObject *obj = nullptr);
    void activateStatusLine();
 
    void setStatusBarVisible(bool flag = true);
@@ -68,14 +68,11 @@ protected slots:
 
 protected:
 
-   virtual void resizeEvent(QResizeEvent *event);
+   void resizeEvent(QResizeEvent *event) override;
 
-   virtual void dropEvent(QDropEvent* event);
+   void dropEvent(QDropEvent* event) override;
 
-   double scaledPosition(int p)
-   {
-      return (double) p * fQtScalingfactor;
-   }
+   double scaledPosition(int p) { return (double) p * fQtScalingfactor; }
 
    void SetPrivateCanvasFields(bool on_init);
 
@@ -87,13 +84,13 @@ protected:
 
    void ProcessPadDblClicked(TPad *pad, int x, int y) { emit PadDblClicked(pad,x,y); }
 
-   QWebEngineView *fView;  ///< qt webwidget to show
+   QWebEngineView *fView{nullptr};  ///< qt webwidget to show
 
-   TCanvas *fCanvas;
+   TCanvas *fCanvas{nullptr};
 
-   QTimer *fRepaintTimer;
+   QTimer *fRepaintTimer{nullptr};
 
-   double fQtScalingfactor;
+   double fQtScalingfactor{0};
 };
 
 #endif

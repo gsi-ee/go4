@@ -24,11 +24,11 @@ class TGo4LogInfo : public QGo4Widget, public Ui::TGo4LogInfo
    Q_OBJECT
 
 public:
-   TGo4LogInfo(QWidget *parent = 0, const char *name = 0);
+   TGo4LogInfo(QWidget *parent = nullptr, const char *name = nullptr);
 
    void WorkWithInfo(TGo4Slot* slot);
 
-   void linkedObjectUpdated( const char * linkname, TObject * obj);
+   void linkedObjectUpdated( const char * linkname, TObject * obj) override;
 
    void AddMessage(const QDateTime& dt, int level, QString msg);
 

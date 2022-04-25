@@ -22,7 +22,7 @@ class TGo4EventInfo : public QGo4Widget, public Ui::TGo4EventInfo
      Q_OBJECT
 
 public:
-   TGo4EventInfo(QWidget *parent = 0, const char* name = 0);
+   TGo4EventInfo(QWidget *parent = nullptr, const char* name = nullptr);
 
    bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
 

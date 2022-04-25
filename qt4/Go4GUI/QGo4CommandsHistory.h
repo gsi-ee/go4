@@ -28,7 +28,7 @@ class QGo4CommandsHistory : public QComboBox {
    Q_OBJECT
 
    public:
-      QGo4CommandsHistory(QWidget* w, const char* name = 0);
+      QGo4CommandsHistory(QWidget* w, const char* name = nullptr);
       virtual ~QGo4CommandsHistory();
 
       QStringList getHistory(int max = 50);

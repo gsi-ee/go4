@@ -35,15 +35,15 @@ protected:
     std::vector<QToolButton*> fAnalysisMacroButtons;
 
     /** command strings to execute*/
-    std::vector<QString>    fAnalysisMacroCommands;
+    std::vector<QString> fAnalysisMacroCommands;
 
     /** here we remember if we want automatic timer execution */
     std::vector<bool> fAnalysisMacroAutoExecute;
 
-    QTimer* fAnalysisMacroTimer;
+    QTimer* fAnalysisMacroTimer{nullptr};
 
  public:
-    TGo4UserCommands( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+    TGo4UserCommands( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
     void AssignShortcuts();
 

@@ -24,7 +24,7 @@ class QUserPanel : public QGo4Widget, public Ui::QUserPanel
     Q_OBJECT
 
 public:
-    QUserPanel( QWidget* parent = 0, const char* name = 0 );
+    QUserPanel(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~QUserPanel();
     virtual QString kindString( int kind );
     virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );

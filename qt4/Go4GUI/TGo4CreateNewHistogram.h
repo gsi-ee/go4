@@ -25,7 +25,7 @@ class TGo4CreateNewHistogram : public QDialog, public Ui::TGo4CreateNewHistogram
     Q_OBJECT
 
 public:
-   TGo4CreateNewHistogram( QWidget* parent = 0);
+   TGo4CreateNewHistogram( QWidget* parent = nullptr);
    void SetAnalysisAvaliable(bool on);
 
    void SetLocalAvaliable(bool on);
@@ -41,10 +41,10 @@ public slots:
    virtual void CreateRemoteHis();
 
 protected:
-    int fSelectedCmd;
+    int fSelectedCmd{0};
 
-    QButtonGroup  *HisTypeGrp;
-    QButtonGroup  *HisClassGrp;
+    QButtonGroup  *HisTypeGrp{nullptr};
+    QButtonGroup  *HisClassGrp{nullptr};
 
 };
 #endif

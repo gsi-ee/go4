@@ -22,15 +22,15 @@ class TGo4OptStatsSettings : public QDialog, public Ui::TGo4OptStatsSettings
    Q_OBJECT
 
  public:
-   TGo4OptStatsSettings( QWidget* parent = 0 );
+   TGo4OptStatsSettings( QWidget* parent = nullptr );
 
 public slots:
 
    void setFlags();
 
 protected:
-   double fStatW;
-   double fStatH;
+   double fStatW{0};
+   double fStatH{0};
 };
 
 #endif

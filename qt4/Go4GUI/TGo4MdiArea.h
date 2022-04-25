@@ -29,7 +29,7 @@ class TGo4MdiArea : public QMdiArea {
 
    public:
 
-      TGo4MdiArea(QWidget *parent = 0);
+      TGo4MdiArea(QWidget *parent = nullptr);
       virtual ~TGo4MdiArea();
 
       TGo4ViewPanel* GetActivePanel();
@@ -53,9 +53,9 @@ class TGo4MdiArea : public QMdiArea {
       void subWindowActivatedSlot(QMdiSubWindow * window);
 
    private:
-      TGo4ViewPanel*  fxActivePanel;
-      TPad*           fxActivePad;
-      TPad*           fxSelectedPad;
+      TGo4ViewPanel*  fxActivePanel{nullptr};
+      TPad*           fxActivePad{nullptr};
+      TPad*           fxSelectedPad{nullptr};
 
       static TGo4MdiArea* fInstance;
 };

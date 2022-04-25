@@ -24,7 +24,7 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient {
 
 public:
 
-   TGo4StartClient(QWidget* parent = 0);
+   TGo4StartClient(QWidget* parent = nullptr);
    void getResults();
 
 public slots:
@@ -38,9 +38,9 @@ public slots:
    virtual void ExeMode_changed(int);
 
 protected:
-   QButtonGroup* ClientShellGroup;
-   QButtonGroup* ClientTermGroup;
-   int fSelectedFilter;
+   QButtonGroup* ClientShellGroup{nullptr};
+   QButtonGroup* ClientTermGroup{nullptr};
+   int fSelectedFilter{0};
 };
 
 #endif

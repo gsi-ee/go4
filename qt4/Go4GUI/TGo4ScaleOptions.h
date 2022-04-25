@@ -22,7 +22,7 @@ class TGo4ScaleOptions : public QGo4Widget, public Ui::TGo4ScaleOptions
     Q_OBJECT
 
  public:
-    TGo4ScaleOptions(QWidget *parent = 0, const char *name = 0);
+    TGo4ScaleOptions(QWidget *parent = nullptr, const char *name = nullptr);
     void MoveScale(int xaction, int yaction, int zaction);
 
  public slots:

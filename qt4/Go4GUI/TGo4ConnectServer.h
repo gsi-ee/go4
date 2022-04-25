@@ -22,7 +22,7 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
     Q_OBJECT
 
 public:
-   TGo4ConnectServer( QWidget* parent = 0 );
+   TGo4ConnectServer( QWidget* parent = nullptr );
 
    void setPassword(const char* pass);
 

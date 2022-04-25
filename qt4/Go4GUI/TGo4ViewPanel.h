@@ -95,7 +95,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          kind_ThisPad = 1002,
          kind_PadSlot = 1003 };
 
-      TGo4ViewPanel(QWidget *parent = 0, const char* name = 0);
+      TGo4ViewPanel(QWidget *parent = nullptr, const char* name = nullptr);
 
       virtual ~TGo4ViewPanel();
 
@@ -156,7 +156,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot * GetSuperimposeSlot(TGo4Slot* slot);
       virtual TObject * GetPadMainObject( TPad * pad );
       virtual TCanvas * GetCanvas();
-      virtual bool IsWebCanvas() const { return fxWCanvas != 0; }
+      virtual bool IsWebCanvas() const { return fxWCanvas != nullptr; }
       virtual TPad * GetActivePad();
       virtual void AllocatePadOptions(TPad* pad);
       virtual TGo4Picture * GetPadOptions( TPad * pad );
@@ -200,7 +200,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt, TObject* padhist);
       virtual void TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto);
       virtual void TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst);
-      virtual void SetSelectedRangeToHisto( TPad* pad, TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto );
+      virtual void SetSelectedRangeToHisto( TPad* pad, TH1 * h1, THStack* hs0, TGo4Picture * padopt, bool ishisto );
       virtual bool GetVisibleRange(TPad* pad, int naxis, double & min, double & max);
       virtual void PadRangeAxisChanged( TPad * pad );
       virtual void PadRangeAxisChanged( TPad * pad, double rxmin, double rxmax, double rymin, double rymax );

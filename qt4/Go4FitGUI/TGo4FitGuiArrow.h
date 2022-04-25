@@ -47,26 +47,26 @@ public:
 
    Bool_t IsAssignTo(TObject* obj);
 
-   void ClearOther() { fxOther = 0; }
-   virtual void Delete(Option_t* option="");   //  *MENU*
+   void ClearOther() { fxOther = nullptr; }
+   void Delete(Option_t* option = "") override;   //  *MENU*
 
-   virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
+   void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
 #ifdef __GO4WEB__
    virtual Bool_t Notify();
 #endif
 
 private:
-   Int_t fxType;                    //!
-   TGo4FitModel* fxModel;           //!
-   TGo4FitGuiArrow* fxOther;        //!
-   Double_t fdLineAmpl;             //!
-   TGo4FitComponent* fxComp;        //!
-   Int_t fiRangeNum;                //!
-   Double_t fdRangeY;               //!
-   Double_t fdShiftX;               //!
-   QFitItem* fxItem;                //!
-   TGo4FitPanel* fxPanel;           //!
+   Int_t fxType{0};                          //!
+   TGo4FitModel* fxModel{nullptr};           //!
+   TGo4FitGuiArrow* fxOther{nullptr};        //!
+   Double_t fdLineAmpl{0};                   //!
+   TGo4FitComponent* fxComp{nullptr};        //!
+   Int_t fiRangeNum{0};                      //!
+   Double_t fdRangeY{0};                     //!
+   Double_t fdShiftX{0};                     //!
+   QFitItem* fxItem{nullptr};                //!
+   TGo4FitPanel* fxPanel{nullptr};           //!
 
    void TestNewPosition();
 };

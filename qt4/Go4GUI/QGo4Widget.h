@@ -42,12 +42,12 @@ class GO4_QWIDGET_EXPORT  QGo4Widget : public QWidget {
    friend class TGo4MainWindow;
 
 private:
-   bool   fWaitsForObjectCreation;
-   bool   fCanDestroyWidget;     //! indicate that widget can be destroyed
-   bool   fResetWidgetShooted;   //! indicates that reset widget timer is shoot
-   bool   fBlockUpdate;          //! set when automatic reset must be blocked
+   bool   fWaitsForObjectCreation{false};
+   bool   fCanDestroyWidget{false};     //! indicate that widget can be destroyed
+   bool   fResetWidgetShooted{false};   //! indicates that reset widget timer is shoot
+   bool   fBlockUpdate{false};          //! set when automatic reset must be blocked
 
-   TGo4BrowserProxy* fBrowserProxy; //! pointer on browser proxy
+   TGo4BrowserProxy* fBrowserProxy{nullptr}; //! pointer on browser proxy
 
    public:
       enum { service_DragEnter        = 1,
@@ -94,7 +94,7 @@ private:
              panel_PadDeleted        = 105,
              panel_Deleted           = 106 };
 
-      QGo4Widget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = Qt::Widget );
+      QGo4Widget(QWidget * parent = nullptr, const char * name = nullptr, Qt::WindowFlags f = Qt::Widget );
       virtual ~QGo4Widget();
 
       virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
@@ -166,12 +166,12 @@ private:
 
       /** Function call dialog to create object of appropriate class
         *  isremote == 0 - object should be created localy and widget will be informed
-        *  isremote == 1 - object should be created on analysis side and widget should be informaed
+        *  isremote == 1 - object should be created on analysis side and widget should be informed
         *  isremote == -1 - activate creation dialog without restriction (remote or local), widget will not be informed */
       void AskToCreateObject(TClass* cl, int isremote);
       void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
-      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = 0, TPad* pad = 0, bool activate = true, int updatelevel = -1);
+      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad* pad = nullptr, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char* itemname);
       void HelpWindow(const char* filename, const char* msg = nullptr);
       void UndrawItem(const char* itemname);

@@ -53,7 +53,7 @@ class TGo4Script : public TGo4AbstractInterface {
       void ConnectAnalysis(const char* ServerNode,
                            Int_t ServerPort,
                            Int_t ControllerMode,  // 0 - obsrver, 1- controller, 2 - administrator
-                           const char* password = 0)  override;
+                           const char* password = nullptr)  override;
 
       void WaitAnalysis(Int_t delay_sec) override;
       void DisconnectAnalysis() override;
@@ -190,7 +190,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void StartFitPanel() override;
 
-      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0) override;
+      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) override;
 
