@@ -24,15 +24,15 @@ class TXXXAnalysis : public TGo4Analysis {
       TXXXAnalysis();
       TXXXAnalysis(int argc, char** argv);
       virtual ~TXXXAnalysis() ;
-      virtual Int_t UserPreLoop();
-      virtual Int_t UserEventFunc();
-      virtual Int_t UserPostLoop();
+      Int_t UserPreLoop() override;
+      Int_t UserEventFunc() override;
+      Int_t UserPostLoop() override;
    private:
-      TGo4MbsEvent*  fMbsEvent;
-      TXXXControl*   fCtl;
-      Int_t          fEvents;
-      Int_t          fLastEvent;
+      TGo4MbsEvent*  fMbsEvent{nullptr};
+      TXXXControl*   fCtl{nullptr};
+      Int_t          fEvents{0};
+      Int_t          fLastEvent{0};
 
-   ClassDef(TXXXAnalysis,1)
+   ClassDefOverride(TXXXAnalysis,1)
 };
 #endif //TANALYSIS_H

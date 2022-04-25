@@ -14,7 +14,6 @@
 #ifndef TXXXUNPACKPROCESSOR_H
 #define TXXXUNPACKPROCESSOR_H
 
-
 #include "TGo4EventProcessor.h"
 
 class TXXXParameter;
@@ -29,38 +28,37 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TXXXUnpackProc(const char* name);
       virtual ~TXXXUnpackProc();
 
-      virtual Bool_t BuildEvent(TGo4EventElement* dest);
+      Bool_t BuildEvent(TGo4EventElement* dest) override;
 
    protected:
       TH1           *fCr1Ch[XXX_NUM_CHAN];
       TH1           *fCr2Ch[XXX_NUM_CHAN];
-      TH2           *fCr1Ch1x2;
-      TH1           *fHis1;
-      TH1           *fHis1gate;
-      TH1           *fHis2;
-      TH1           *fHis2gate;
-      TGo4WinCond   *fconHis1;
-      TGo4WinCond   *fconHis2;
-      TGo4WinCond   *fWinCon1;
-      TGo4WinCond   *fWinCon2;
-      TGo4PolyCond  *fPolyCon1;
-      TGo4CondArray *fConArr1;
-      TGo4CondArray *fConArr2;
-      TGo4ShapedCond  *fEllipseCond;
-      TGo4ShapedCond  *fCircleCond;
-      TGo4ShapedCond  *fBoxCond;
-      TGo4ShapedCond  *fFreestyleCond;
-      TGo4ListCond     *fWhitelistCon;
-      TGo4RollingGraph *fRollingGraph1;
-      TGo4RollingGraph *fRollingGraph2;
-      TGraph* fGraph;
-      TXXXParameter *fParam;
-      TGo4Picture   *fPicture1;
-      TGo4Picture   *fcondSet;
-      TLatex        *fLaText;
+      TH2           *fCr1Ch1x2{nullptr};
+      TH1           *fHis1{nullptr};
+      TH1           *fHis1gate{nullptr};
+      TH1           *fHis2{nullptr};
+      TH1           *fHis2gate{nullptr};
+      TGo4WinCond   *fconHis1{nullptr};
+      TGo4WinCond   *fconHis2{nullptr};
+      TGo4WinCond   *fWinCon1{nullptr};
+      TGo4WinCond   *fWinCon2{nullptr};
+      TGo4PolyCond  *fPolyCon1{nullptr};
+      TGo4CondArray *fConArr1{nullptr};
+      TGo4CondArray *fConArr2{nullptr};
+      TGo4ShapedCond  *fEllipseCond{nullptr};
+      TGo4ShapedCond  *fCircleCond{nullptr};
+      TGo4ShapedCond  *fBoxCond{nullptr};
+      TGo4ShapedCond  *fFreestyleCond{nullptr};
+      TGo4ListCond     *fWhitelistCon{nullptr};
+      TGo4RollingGraph *fRollingGraph1{nullptr};
+      TGo4RollingGraph *fRollingGraph2{nullptr};
+      TGraph        *fGraph{nullptr};
+      TXXXParameter *fParam{nullptr};
+      TGo4Picture   *fPicture1{nullptr};
+      TGo4Picture   *fcondSet{nullptr};
+      TLatex        *fLaText{nullptr};
 
-
-   ClassDef(TXXXUnpackProc,1)
+   ClassDefOverride(TXXXUnpackProc,1)
 };
 
 #endif //TXXXUNPACKPROCESSOR_H

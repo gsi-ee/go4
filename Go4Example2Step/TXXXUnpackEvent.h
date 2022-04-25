@@ -28,16 +28,14 @@ class TXXXUnpackEvent : public TGo4EventElement {
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      virtual void Clear(Option_t *t="");
+      void Clear(Option_t *t = "") override;
 
       Int_t fiCrate1[XXX_NUM_CHAN];
       Int_t fiCrate2[XXX_NUM_CHAN];
       Int_t fiCrate3[XXX_NUM_CHAN];
       Int_t fiCrate4[XXX_NUM_CHAN];
 
-   ClassDef(TXXXUnpackEvent,1)
+   ClassDefOverride(TXXXUnpackEvent,1)
 };
+
 #endif //TXXXEVENT_H
-
-
-
