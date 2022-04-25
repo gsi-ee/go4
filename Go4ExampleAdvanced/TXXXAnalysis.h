@@ -28,24 +28,21 @@ class TXXXAnalysis : public TGo4Analysis  {
       TXXXAnalysis();
       TXXXAnalysis(int argc, char** argv);
       virtual ~TXXXAnalysis() ;
-      virtual Int_t UserPreLoop();
-      virtual Int_t UserEventFunc();
-      virtual Int_t UserPostLoop();
+      Int_t UserPreLoop() override;
+      Int_t UserEventFunc() override;
+      Int_t UserPostLoop() override;
    private:
-      TGo4MbsEvent       *fMbsEvent;
-      TXXXUnpackEvent    *fRawEvent;
-      TXXXAnlEvent       *fCalEvent;
-      TXXXParameter      *fPar;
-      TGo4FitterEnvelope *fFitEnvSize;
-      TGo4FitterEnvelope *fFitEnvSpectrum;
-      TH1D               *fSize;
-      Int_t               fEvents;
-      Int_t               fLastEvent;
+      TGo4MbsEvent       *fMbsEvent{nullptr};
+      TXXXUnpackEvent    *fRawEvent{nullptr};
+      TXXXAnlEvent       *fCalEvent{nullptr};
+      TXXXParameter      *fPar{nullptr};
+      TGo4FitterEnvelope *fFitEnvSize{nullptr};
+      TGo4FitterEnvelope *fFitEnvSpectrum{nullptr};
+      TH1D               *fSize{nullptr};
+      Int_t               fEvents{0};
+      Int_t               fLastEvent{0};
 
-   ClassDef(TXXXAnalysis,1)
+   ClassDefOverride(TXXXAnalysis,1)
 };
 
 #endif //TXXXANALYSIS_H
-
-
-

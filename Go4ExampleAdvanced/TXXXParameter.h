@@ -20,29 +20,28 @@
 #define __MEVX__ 5
 #define __MEVY__ 10
 
-
 class TXXXParameter : public TGo4Parameter {
    public:
       TXXXParameter(const char* name = nullptr);
 
-      Float_t frP1;
-      Float_t frP2;
-      Int_t fiNum;
-      Bool_t fbEnab;
-      Double_t fdTest;
-      Short_t fsTest;
-      Char_t fcTest;
-      Long_t flTest;
+      Float_t frP1{0};
+      Float_t frP2{0};
+      Int_t fiNum{0};
+      Bool_t fbEnab{kFALSE};
+      Double_t fdTest{0};
+      Short_t fsTest{0};
+      Char_t fcTest{0};
+      Long_t flTest{0};
       TString fxInputfile;
       Int_t fiDataArray[__ARRAYSIZE__];
       Double_t fdMeV[__MEVX__][__MEVY__];
-      UInt_t fuNum;
+      UInt_t fuNum{0};
       Double_t fdTestarr[__MEVX__];
-      UShort_t fuShort;
-      UChar_t fuChar;
-      ULong_t fuLong;
+      UShort_t fuShort{0};
+      UChar_t fuChar{0};
+      ULong_t fuLong{0};
 
-   ClassDef(TXXXParameter,1)
+   ClassDefOverride(TXXXParameter,1)
 };
 
 #endif
