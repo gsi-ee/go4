@@ -36,26 +36,26 @@ class TXXXStore : public TGo4EventStore {
     virtual ~TXXXStore();
 
     /** Stores eventelement event into the storage implementation. */
-    virtual Int_t Store(TGo4EventElement* event);
+    Int_t Store(TGo4EventElement* event) override;
 
     /** Ignore store of parameter or one can provide some action */
-    virtual Int_t Store(TGo4Parameter*) { return 0; }
-    virtual Int_t Store(TGo4Condition*) { return 0; }
-    virtual Int_t Store(TGo4Fitter*) { return 0; }
-    virtual Int_t Store(TFolder*) { return 0; }
+    Int_t Store(TGo4Parameter*) override { return 0; }
+    Int_t Store(TGo4Condition*) override { return 0; }
+    Int_t Store(TGo4Fitter*) override { return 0; }
+    Int_t Store(TFolder*) override { return 0; }
 
     /** Access to the Tree structure, for framework */
-    virtual TTree* GetTree() { return fxTree; }
+    TTree* GetTree() override { return fxTree; }
 
   private:
 
-    TFile *fxFile; //! file
-    TTree *fxTree; //! tree
+    TFile *fxFile{nullptr}; //! file
+    TTree *fxTree{nullptr}; //! tree
 
-    TXXXEvent *fxEvent; //! current event
-    Bool_t fbBranchExists; //! indicates if branch was created
+    TXXXEvent *fxEvent{nullptr}; //! current event
+    Bool_t fbBranchExists{kFALSE}; //! indicates if branch was created
 
-  ClassDef(TXXXStore,1)
+  ClassDefOverride(TXXXStore,1)
 };
 
 #endif //TEXAMPLEUSERSTORE_H

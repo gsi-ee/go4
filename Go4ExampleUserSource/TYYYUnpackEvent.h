@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TYYYEVENT_H
-#define TYYYEVENT_H
+#ifndef TYYYUNPACKEVENT_H
+#define TYYYUNPACKEVENT_H
 
 #include "TGo4EventElement.h"
 
@@ -26,19 +26,18 @@ class TYYYUnpackEvent : public TGo4EventElement {
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      void Clear(Option_t *t="");
+      void Clear(Option_t *t="") override;
 
       Double_t fdR[3]; // final particle radius vector
       Double_t fdV[3]; // final velocity vector
       Double_t fdGam[2]; // projected divergence angle
-      Int_t fiNumScatt; // number of scatterings
-      Double_t fdEmittX; // pi*x*x'
-      Double_t fdEmittY; // pi*y*y'
-      Double_t fdEmitt4d; //EmittX*Y
+      Int_t fiNumScatt{0}; // number of scatterings
+      Double_t fdEmittX{0}; // pi*x*x'
+      Double_t fdEmittY{0}; // pi*y*y'
+      Double_t fdEmitt4d{0}; //EmittX*Y
 
-   ClassDef(TYYYUnpackEvent,1)
+   ClassDefOverride(TYYYUnpackEvent,1)
 };
-#endif //TYYYEVENT_H
 
-
+#endif //TYYYUNPACKEVENT_H
 

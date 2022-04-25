@@ -11,18 +11,18 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TSTORECONTROL_H
-#define TSTORECONTROL_H
+#ifndef TXXXSTORECONTROL_H
+#define TXXXSTORECONTROL_H
 
 #include "TGo4Parameter.h"
 
 class TXXXControl : public TGo4Parameter {
    public:
-      TXXXControl(const char* name = 0);
+      TXXXControl(const char* name = nullptr);
 
-      Bool_t   fill; // control filling of histograms
+      Bool_t   fill{kFALSE}; // control filling of histograms
 
-   ClassDef(TXXXControl,1)
+   ClassDefOverride(TXXXControl,1)
 };
 
-#endif // TSTORECONTROL_H
+#endif // TXXXSTORECONTROL_H
