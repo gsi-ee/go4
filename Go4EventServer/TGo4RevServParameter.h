@@ -17,16 +17,14 @@
 #include "TGo4MbsSourceParameter.h"
 
 class TGo4RevServParameter : public TGo4MbsSourceParameter {
-  public:
-    TGo4RevServParameter();
+   public:
+      TGo4RevServParameter();
 
-    TGo4RevServParameter(const char* name, Int_t defport = 0);
+      TGo4RevServParameter(const char* name, Int_t defport = 0);
 
-    virtual ~TGo4RevServParameter();
+      virtual ~TGo4RevServParameter();
 
-  private:
-
-  ClassDefOverride(TGo4RevServParameter, 3)
+   ClassDefOverride(TGo4RevServParameter, 3)
 };
 
 #endif //TGO4REVSERVPARAMETER_H

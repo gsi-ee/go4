@@ -27,8 +27,7 @@ class TGo4HDF5SourceParameter : public TGo4EventSourceParameter {
 
       virtual ~TGo4HDF5SourceParameter();
 
-   ClassDef(TGo4HDF5SourceParameter,1)
+   ClassDefOverride(TGo4HDF5SourceParameter,1)
 };
-
 
 #endif //TGO4HDF5SOURCEPARAMETER_H
