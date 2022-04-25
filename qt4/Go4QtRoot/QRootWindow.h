@@ -49,12 +49,12 @@ class QRootWindow : public QWidget {
 
       /** switch root frame resize mode on paint event:
        true=explicit resize, false=no resize of TQRootFrame*/
-      void SetResizeOnPaint(bool on = true) { fbResizeOnPaint=on; }
+      void SetResizeOnPaint(bool on = true) { fbResizeOnPaint = on; }
 
       /** deliver width scaled with Qt5 screen scaling factor*/
       double ScaledWidth();
 
-       /** deliver Heightth scaled with Qt5 screen scaling factor*/
+       /** deliver Height scaled with Qt5 screen scaling factor*/
       double ScaledHeight();
 
    protected:
@@ -63,7 +63,7 @@ class QRootWindow : public QWidget {
         * translating them in MapQMouseEvent. Note that root grabs gui buttons
         * via x11 directly, thus this mechanism is not used for the regular
         *  root widgets! */
-      virtual bool eventFilter( QObject *, QEvent * );
+      bool eventFilter( QObject *, QEvent * ) override;
       void paintEvent( QPaintEvent *e ) override;
       void closeEvent( QCloseEvent * e) override;
 
