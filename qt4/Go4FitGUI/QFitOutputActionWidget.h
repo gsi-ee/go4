@@ -24,11 +24,11 @@ class QFitOutputActionWidget : public QFitNamedWidget, public Ui::QFitOutputActi
     Q_OBJECT
 
 public:
-    QFitOutputActionWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitOutputActionWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitterOutput * GetOutAct();
-    virtual void FillSpecificData();
     virtual void OptionsEdit_textChanged( const QString & str );
     virtual void CommandCombo_activated( int );
 

@@ -22,11 +22,11 @@ class TGo4FitSlot;
 class QFitSlotWidget : public QFitNamedWidget, public Ui::QFitSlotWidget {
 
 public:
-    QFitSlotWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitSlotWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitSlot * GetSlot();
-    virtual void FillSpecificData();
     virtual void RequirementChk_toggled( bool req );
     virtual void SaveCmb_activated( int typ );
 };

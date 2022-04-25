@@ -24,12 +24,12 @@ class QFitRangeWidget : public QFitWidget, public Ui::QFitRangeWidget
     Q_OBJECT
 
 public:
-    QFitRangeWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitRangeWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitComponent *GetComp();
     virtual int GetNumRange();
-    virtual void FillSpecificData();
     virtual void EnableEditsForRangeType( int );
     virtual void GetRangeData();
     virtual void AxisNumSpin_valueChanged( int );

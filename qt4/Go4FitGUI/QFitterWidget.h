@@ -24,11 +24,11 @@ class QFitterWidget : public QFitNamedWidget, public Ui::QFitterWidget
     Q_OBJECT
 
 public:
-    QFitterWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitterWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4Fitter * GetFitter();
-    virtual void FillSpecificData();
     virtual void FitFunctionTypeCmb_activated( int typ );
 };
 

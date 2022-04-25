@@ -25,12 +25,12 @@ class QFitMatrixTransWidget : public QFitNamedWidget, public Ui::QFitMatrixTrans
 
 
 public:
-    QFitMatrixTransWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitMatrixTransWidget(QWidget *parent = nullptr, const char *name = nullptr);
 
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitMatrixTrans * GetMatrixTrans();
-    virtual void FillSpecificData();
     virtual void NumAxisSpin_valueChanged( int );
 
  };

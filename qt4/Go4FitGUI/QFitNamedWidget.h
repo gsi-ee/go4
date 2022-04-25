@@ -29,17 +29,17 @@ class QFitNamedWidget : public QFitWidget {
    Q_OBJECT
 
    public:
-      QFitNamedWidget( QWidget* parent = 0, const char* name = 0 );
+      QFitNamedWidget(QWidget *parent = nullptr, const char *name = nullptr);
       ~QFitNamedWidget();
 
-      virtual void FillSpecificData();
+      void FillSpecificData() override;
 
-      QGo4LineEdit* NameEdt;
-      QLabel* ClassNameLbl;
-      QLabel* TextLabel2;
-      QLabel* TextLabel1;
-      QLabel* FullNameLbl;
-      QGo4LineEdit* TitleEdt;
+      QGo4LineEdit* NameEdt{nullptr};
+      QLabel* ClassNameLbl{nullptr};
+      QLabel* TextLabel2{nullptr};
+      QLabel* TextLabel1{nullptr};
+      QLabel* FullNameLbl{nullptr};
+      QGo4LineEdit* TitleEdt{nullptr};
 
    public slots:
       virtual void ChangeName( const QString & name );

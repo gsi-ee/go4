@@ -24,11 +24,11 @@ class QFitDependencyWidget : public QFitWidget, public Ui::QFitDependencyWidget
      Q_OBJECT
 
 public:
-    QFitDependencyWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitDependencyWidget(QWidget* parent = nullptr, const char* name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitDependency * GetDepen();
-    virtual void FillSpecificData();
     virtual void ParamEdit_textChanged( const QString & );
     virtual void ExpressionEdt_textChanged( const QString & );
 

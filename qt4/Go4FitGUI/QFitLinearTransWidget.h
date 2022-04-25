@@ -24,12 +24,12 @@ class QFitLinearTransWidget : public QFitNamedWidget, public Ui::QFitLinearTrans
      Q_OBJECT
 
 public:
-    QFitLinearTransWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitLinearTransWidget( QWidget* parent = nullptr, const char* name = nullptr);
 
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitLinearTrans * GetLinearTrans();
-    virtual void FillSpecificData();
     virtual void NumAxisSpin_valueChanged( int );
 
  };

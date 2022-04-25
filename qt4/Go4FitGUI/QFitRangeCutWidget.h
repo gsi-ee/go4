@@ -25,13 +25,13 @@ class QFitRangeCutWidget : public QFitNamedWidget, public Ui::QFitRangeCutWidget
     Q_OBJECT
 
 public:
-    QFitRangeCutWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitRangeCutWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitComponent * GetComp();
     virtual int GetCutIndex();
     virtual TCutG * GetCut();
-    virtual void FillSpecificData();
     virtual void FillXYPointsTable();
     virtual void NumPointsSpin_valueChanged( int );
     virtual void ExcludeCutChk_toggled( bool );

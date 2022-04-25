@@ -24,11 +24,11 @@ class QFitMinuitResWidget : public QFitNamedWidget, public Ui::QFitMinuitResWidg
     Q_OBJECT
 
 public:
-    QFitMinuitResWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitMinuitResWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitMinuitResult * GetResult();
-    virtual void FillSpecificData();
 };
 
 #endif // QFITMINUITRESWIDGET_H

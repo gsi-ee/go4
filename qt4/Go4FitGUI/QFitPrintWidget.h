@@ -22,10 +22,10 @@ class QFitPrintWidget : public QFitWidget, public Ui::QFitPrintWidget
     Q_OBJECT
 
 public:
-    QFitPrintWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitPrintWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
-    virtual void FillSpecificData();
     virtual void SetDrawOption( const QString & option );
 
 protected:

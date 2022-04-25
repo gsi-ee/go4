@@ -24,12 +24,12 @@ class QFitModelFunctionWidget : public QFitModelWidget, public Ui::QFitModelFunc
     Q_OBJECT
 
 public:
-    QFitModelFunctionWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitModelFunctionWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 
 public slots:
     virtual TGo4FitModelFunction * GetFunction();
-    virtual void FillSpecificData();
     virtual void LibNameEdt_textChanged( const QString & );
     virtual void FuncNameEdt_textChanged( const QString & );
     virtual void NumParSpin_valueChanged( int );

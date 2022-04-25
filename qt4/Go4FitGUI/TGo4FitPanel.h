@@ -62,7 +62,7 @@ class TGo4FitPanel : public QGo4Widget, public Ui::TGo4FitPanel
     Q_OBJECT
 
 public:
-    TGo4FitPanel( QWidget* parent = 0, const char* name = 0 );
+    TGo4FitPanel(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~TGo4FitPanel();
 
     virtual bool IsAcceptDrag(const char* itemname, TClass * cl, int kind );
