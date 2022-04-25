@@ -24,7 +24,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       TGo4CanvasProxy(TCanvas* c, Bool_t owner = kFALSE);
       virtual ~TGo4CanvasProxy();
 
-      Bool_t HasSublevels() const override { return fCanvas!=0; }
+      Bool_t HasSublevels() const override { return fCanvas != nullptr; }
       Int_t GetObjectKind() override;
       const char* GetContainedClassName() override;
 

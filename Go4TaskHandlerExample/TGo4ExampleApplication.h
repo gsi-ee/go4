@@ -28,7 +28,7 @@ class TGo4ExampleApplication : public TGo4CommandReceiver, public TNamed {
 
   public:
 
-    TGo4ExampleApplication(TGo4BufferQueue* datq=0);
+    TGo4ExampleApplication(TGo4BufferQueue* datq = nullptr);
 
     virtual ~TGo4ExampleApplication();
 

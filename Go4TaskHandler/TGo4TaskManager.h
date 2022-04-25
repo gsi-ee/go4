@@ -27,7 +27,7 @@ class TIterator;
 class TGo4TaskManager : public TNamed {
    public:
 
-      TGo4TaskManager(const char* name, TGo4ServerTask * server, UInt_t negotiationport=0, Bool_t createconnector=kTRUE);
+      TGo4TaskManager(const char* name, TGo4ServerTask *server, UInt_t negotiationport = 0, Bool_t createconnector = kTRUE);
 
       virtual ~TGo4TaskManager();
 
@@ -135,18 +135,18 @@ class TGo4TaskManager : public TNamed {
 
       // private members:
 
-      TGo4ServerTask* fxServer; //!
+      TGo4ServerTask* fxServer{nullptr}; //!
 
-      TGo4Socket* fxTransport; //!
+      TGo4Socket* fxTransport{nullptr}; //!
 
       /** @link aggregation
        *  @supplierCardinality 1..n */
-      TObjArray* fxTaskList;    //!
+      TObjArray* fxTaskList{nullptr};    //!
 
-      TMutex* fxListMutex;      //!
+      TMutex* fxListMutex{nullptr};      //!
 
       /** Iterator over list of tasks.*/
-      TIterator* fxTaskIter; //!
+      TIterator* fxTaskIter{nullptr}; //!
 
       /** @link aggregation
        * @directed
@@ -154,24 +154,24 @@ class TGo4TaskManager : public TNamed {
        * @clientCardinality 1
        * @label TObjArray*/
       /*#  TGo4TaskHandler lnkTGo4TaskHandler1; */
-      UInt_t fuTaskCount;
+      UInt_t fuTaskCount{0};
 
       /**
        * port number for the server client negotiation connections
        */
-      UInt_t fuNegotiationPort;
+      UInt_t fuNegotiationPort{0};
 
       /**
        * True if the last specified client is removed from server.
        * flag is set by connector thread who performs the DisconnectClient
        * of TaskManager; is reset by WaitForClientRemoved method.
        */
-      Bool_t fbClientIsRemoved;
+      Bool_t fbClientIsRemoved{kFALSE};
 
       /** true if this server already has one connection to a
        * master client that has the controller role. Only one
        * controller or administrator taskhandler is allowed per server. */
-      Bool_t fbHasControllerConnection;
+      Bool_t fbHasControllerConnection{kFALSE};
 };
 
 #endif //TGO4TASKMANAGER_H

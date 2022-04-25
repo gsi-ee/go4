@@ -29,12 +29,12 @@ class TGo4ServerTask : public TGo4Task {
    public:
 
       TGo4ServerTask(const char* name,
-            UInt_t negotiationport=0,
-            Bool_t blockingmode=kFALSE,
-            Bool_t standalone=kFALSE,
-            Bool_t autostart=kTRUE,
-            Bool_t autocreate=kTRUE,
-            Bool_t ismaster=kTRUE);
+            UInt_t negotiationport = 0,
+            Bool_t blockingmode = kFALSE,
+            Bool_t standalone = kFALSE,
+            Bool_t autostart = kTRUE,
+            Bool_t autocreate = kTRUE,
+            Bool_t ismaster = kTRUE);
 
       virtual ~TGo4ServerTask();
 
@@ -112,7 +112,7 @@ class TGo4ServerTask : public TGo4Task {
        */
       void SetCurrentTask(const char* name);
 
-      void SetConnect(TGo4Socket * trans, const char* host, UInt_t port, Bool_t keepserv=kFALSE);
+      void SetConnect(TGo4Socket * trans, const char* host, UInt_t port, Bool_t keepserv = kFALSE);
 
       void SetDisConnect(TGo4Socket * trans);
 

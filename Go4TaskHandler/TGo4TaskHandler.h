@@ -45,7 +45,7 @@ class TGo4TaskHandler : public TNamed {
 
     friend class TGo4TaskManager;
 
-    TGo4TaskHandler(const char* name, TGo4ThreadManager* threadmanager, Bool_t clientmode=kFALSE, Bool_t mastermode=kTRUE,UInt_t negotiationport=0);
+    TGo4TaskHandler(const char* name, TGo4ThreadManager* threadmanager, Bool_t clientmode = kFALSE, Bool_t mastermode = kTRUE, UInt_t negotiationport = 0);
 
     virtual ~TGo4TaskHandler();
 
@@ -74,7 +74,7 @@ class TGo4TaskHandler : public TNamed {
     /**
      * establishes the connections of all three transport channels and starts the service threads
      */
-    Bool_t Connect(const char* host="localhost", TGo4Socket* negotiator=0);
+    Bool_t Connect(const char* host="localhost", TGo4Socket* negotiator = nullptr);
 
 
     /**
@@ -83,7 +83,7 @@ class TGo4TaskHandler : public TNamed {
      * for client handshake over negotiation channel
      * before shutting down the sockets.
      */
-    Bool_t DisConnect(Bool_t waitforclient=kTRUE);
+    Bool_t DisConnect(Bool_t waitforclient = kTRUE);
 
     TGo4ThreadManager* GetThreadManager() const { return fxThreadManager; }
 
@@ -237,13 +237,13 @@ class TGo4TaskHandler : public TNamed {
     static const UInt_t fguTRANSPORTCHECKDELAY;  //!
 
     /** Maximum entries allowed for status queue */
-   static const UInt_t  fguSTATUSQUEUESIZE;      //!
+    static const UInt_t  fguSTATUSQUEUESIZE;      //!
 
-   /** Maximum entries allowed for data queue */
-   static const UInt_t fguDATAQUEUESIZE;         //!
+    /** Maximum entries allowed for data queue */
+    static const UInt_t fguDATAQUEUESIZE;         //!
 
-   /** Maximum entries allowed for command queue */
-   static const UInt_t fguCOMMANDQUEUESIZE;      //!
+    /** Maximum entries allowed for command queue */
+    static const UInt_t fguCOMMANDQUEUESIZE;      //!
 
     /** Initial string for connect request (raw transport) */
     static const char* fgcCONNECT;            //!
@@ -304,16 +304,16 @@ class TGo4TaskHandler : public TNamed {
     static const Int_t fgiPORTWAITCYCLES;        //!
 
    /** True if taskhandler runs in client mode */
-    Bool_t fbClientMode;
+    Bool_t fbClientMode{kFALSE};
 
    /** True if taskhandler runs in master mode (sends commands, receives data and status). Otherwise false.*/
-    Bool_t fbMasterMode;
+    Bool_t fbMasterMode{kFALSE};
 
     /** True if taskhandler is being aborted e.g. by remove exception */
-    Bool_t fbIsAborting;
+    Bool_t fbIsAborting{kFALSE};
 
    /** Link to threadmanager that owns the task handler, used for runnable ctors */
-    TGo4ThreadManager* fxThreadManager; //!
+    TGo4ThreadManager* fxThreadManager{nullptr}; //!
 
     /**
      * link to external threadhandler which is used for the transport service threads (runnables);
@@ -321,20 +321,20 @@ class TGo4TaskHandler : public TNamed {
      * over the responsibility for the runnables (threadhandler internal mode threads)
      * @associates <{TGo4ThreadHandler}>
      */
-    TGo4ThreadHandler* fxThreadHandler; //!
+    TGo4ThreadHandler* fxThreadHandler{nullptr}; //!
 
     /** Link to external command invoker instance used for direct command in client mode: */
-    TGo4CommandInvoker* fxInvoker; //!
+    TGo4CommandInvoker* fxInvoker{nullptr}; //!
 
     /** Buffers (queues) for the three transport channels: */
-    TGo4Queue* fxCommandQueue; //!
-    TGo4Queue* fxStatusQueue; //!
-    TGo4Queue* fxDataQueue; //!
+    TGo4Queue* fxCommandQueue{nullptr}; //!
+    TGo4Queue* fxStatusQueue{nullptr}; //!
+    TGo4Queue* fxDataQueue{nullptr}; //!
 
     /** Transport channels (e.g. sockets) for command, status, data */
-    TGo4Socket* fxCommandTransport; //!
-    TGo4Socket* fxStatusTransport;  //!
-    TGo4Socket* fxDataTransport;  //!
+    TGo4Socket* fxCommandTransport{nullptr}; //!
+    TGo4Socket* fxStatusTransport{nullptr};  //!
+    TGo4Socket* fxDataTransport{nullptr};  //!
 
     /** Remember name of command thread */
     TString fxComName;
@@ -349,16 +349,16 @@ class TGo4TaskHandler : public TNamed {
     TString fxHostName;
 
     /** Actual port number of negotiation connection (raw transport) */
-    UInt_t fuNegPort;
+    UInt_t fuNegPort{0};
 
     /** Command connection port number */
-    Int_t fiComPort;
+    Int_t fiComPort{0};
 
     /** Status connection port number */
-    Int_t fiStatPort;
+    Int_t fiStatPort{0};
 
     /** Data connection port number */
-    Int_t fiDatPort;
+    Int_t fiDatPort{0};
 
     /** For server connection to client: This indicates role of
      * connected client, if client is master. Depending on role,
@@ -369,17 +369,17 @@ class TGo4TaskHandler : public TNamed {
     /** link to status runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4StatusRunnable* fxStatusRun; //!
+    TGo4StatusRunnable* fxStatusRun{nullptr}; //!
 
     /** link to data runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4DataRunnable* fxDataRun; //!
+    TGo4DataRunnable* fxDataRun{nullptr}; //!
 
     /** link to command runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4CommandRunnable* fxCommandRun; //!
+    TGo4CommandRunnable* fxCommandRun{nullptr}; //!
 
 };
 

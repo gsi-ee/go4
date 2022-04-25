@@ -254,7 +254,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** Connect to HTTP server. Address like http://host:port/subfolder/
        * authentication may be specified by username account and password pass*/
-      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account=0, const char* pass=0) { return 0; }
+      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account = nullptr, const char* pass = nullptr) { return nullptr; }
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
@@ -565,7 +565,7 @@ class TGo4AbstractInterface : public TObject {
         *    itemname - browser item name,
         *    panel    - viewpanel, if panel==0, new viewpanel will be created.
         *    drawopt  - draw options, used in obj->Draw() operation */
-      virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = nullptr) { return kFALSE; }
+      virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) { return kFALSE; }
 
       /** Redraw item of given name on all viewpanels/editors.
         * Useful for the case, when content of object (histogram, for example)

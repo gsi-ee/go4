@@ -25,7 +25,7 @@ class TGo4Master :  public TGo4TaskOwner {
   public:
     TGo4Master();
 
-    TGo4Master(const char* name, Bool_t isserver=kTRUE, const char* serverhost="localhost", UInt_t negotport=5000);
+    TGo4Master(const char* name, Bool_t isserver = kTRUE, const char* serverhost = "localhost", UInt_t negotport = 5000);
 
     virtual ~TGo4Master();
 
@@ -42,7 +42,7 @@ class TGo4Master :  public TGo4TaskOwner {
     /** factory method for command list; overridden by implementation */
     virtual TGo4TaskHandlerCommandList*  CreateCommandList();
 
-    virtual Bool_t DisconnectSlave(const char* name=0,
+    virtual Bool_t DisconnectSlave(const char* name = nullptr,
                                    Bool_t waitforslave=kTRUE );
 
 private:
@@ -63,4 +63,5 @@ private:
      */
     TString fxSlaveExec;
 };
+
 #endif //TGO4MASTER_H

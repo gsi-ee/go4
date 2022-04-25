@@ -36,7 +36,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
 
       virtual ~TGo4TaskHandlerRunnable();
 
-      virtual Int_t Run(void* ptr) =0;
+      virtual Int_t Run(void* ptr) = 0;
 
       TGo4TaskHandler* GetTaskHandler();
 
@@ -47,26 +47,26 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
         * taskhandler threads into parking position when
         * connection is discarded. Value of buffer is
         * set to external variable result optionally. */
-      Bool_t CheckStopBuffer(TBuffer* buf, Int_t* result=0);
+      Bool_t CheckStopBuffer(TBuffer* buf, Int_t* result = nullptr);
 
       /** Test if socket transport exists and is open.
         * If not open, sleep a while to avoid deadlooping of Run() */
       Bool_t CheckTransportOpen();
 
       /** link to external inter-tasl transport channel */
-      TGo4Socket* fxTransport;//!
+      TGo4Socket* fxTransport{nullptr};//!
 
       /** link to external task handler (for server mode)
         * @supplierCardinality 1
         * @clientCardinality 1 */
-      TGo4TaskHandler* fxTaskHandler; //!
+      TGo4TaskHandler* fxTaskHandler{nullptr}; //!
 
       /** flag indicating operation mode of runnable,
         * depending on client or server mode of task handler */
-      Bool_t fbReceiverMode;
+      Bool_t fbReceiverMode{kFALSE};
 
       /** Link to external buffer queue. For object sending mode. */
-      TGo4BufferQueue * fxBufferQueue; //!
+      TGo4BufferQueue * fxBufferQueue{nullptr}; //!
 
     private:
       TGo4TaskHandlerRunnable();

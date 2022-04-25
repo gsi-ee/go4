@@ -35,14 +35,14 @@ class TGo4ClientTask : public TGo4Task {
    public:
 
       TGo4ClientTask(const char* name,
-                     const char* serverhost="localhost",
-                     UInt_t negotiationport=0,
-                     Bool_t blockingmode=kTRUE,
-                     Bool_t standalone=kFALSE,
-                     Bool_t autostart=kFALSE,
-                     Bool_t autocreate=kTRUE,
-                     Bool_t ismaster=kFALSE,
-                     Bool_t autoconnect=kTRUE);
+                     const char* serverhost = "localhost",
+                     UInt_t negotiationport = 0,
+                     Bool_t blockingmode = kTRUE,
+                     Bool_t standalone = kFALSE,
+                     Bool_t autostart = kFALSE,
+                     Bool_t autocreate = kTRUE,
+                     Bool_t ismaster = kFALSE,
+                     Bool_t autoconnect = kTRUE);
 
       virtual ~TGo4ClientTask();
 
