@@ -69,7 +69,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If replace is true, old object of same name will be deleted and
        * replaced by the added one.
        */
-      Bool_t AddObject(TNamed * anything, const char* subfolder=0, Bool_t replace=kTRUE);
+      Bool_t AddObject(TNamed * anything, const char* subfolder = nullptr, Bool_t replace=kTRUE);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -78,7 +78,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TNamed * GetObject(const char * name, const char* folder=0);
+      TNamed * GetObject(const char * name, const char* folder = nullptr);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -87,7 +87,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TObject* GetAsTObject(const char * name, const char* folder=0);
+      TObject* GetAsTObject(const char * name, const char* folder = nullptr);
 
 
       /**
@@ -160,7 +160,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Add external histogram to go4 histogram directory. Histogram will be owned
        * and streamed by go4 histogram list afterwards.
        */
-      Bool_t AddHistogram(TH1 * his, const char* subfolder=0, Bool_t replace=kTRUE);
+      Bool_t AddHistogram(TH1 * his, const char* subfolder = nullptr, Bool_t replace=kTRUE);
 
       /**
        * Search histogram in histogram list (directory).
@@ -241,7 +241,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to subfolder, e.g. dedicated to analysis step. If subfolder is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t AddTree(TTree* tree, const char* subfolder=0);
+      Bool_t AddTree(TTree* tree, const char* subfolder = nullptr);
 
       /**
        * Search tree in tree folder.
@@ -254,14 +254,14 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to folder dedicated to that step. In stepname is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t RemoveTree(TTree * tree, const char* stepname=0);
+      Bool_t RemoveTree(TTree * tree, const char* stepname = nullptr);
 
       /**
        * Puts a new analysis condition object in corresponding list.
        * Object is owned by list afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddAnalysisCondition(TGo4Condition * con, const char* subfolder=0);
+      Bool_t AddAnalysisCondition(TGo4Condition * con, const char* subfolder = nullptr);
 
       /**
        * Set existing analysis condition of name to the values
@@ -271,7 +271,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * specified. By default, condition is searched relative to Conditions folder.
        */
       Bool_t SetAnalysisCondition(const char * name, TGo4Condition* con,
-            Bool_t counter=kTRUE, TFolder* parent=0);
+            Bool_t counter=kTRUE, TFolder* parent = nullptr);
 
       /**
        * Retrieves an analysis condition  from list by name. Returns 0 if no
@@ -365,7 +365,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddParameter(TGo4Parameter * par, const char* subfolder=0);
+      Bool_t AddParameter(TGo4Parameter * par, const char* subfolder = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -374,7 +374,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameter(const char * name, TGo4Parameter * par, TFolder* parent=0);
+      Bool_t SetParameter(const char * name, TGo4Parameter * par, TFolder* parent = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -383,7 +383,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameterStatus(const char* name, TGo4ParameterStatus* par, TFolder* parent=0);
+      Bool_t SetParameterStatus(const char* name, TGo4ParameterStatus* par, TFolder* parent = nullptr);
 
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
@@ -401,7 +401,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddPicture(TGo4Picture * pic, const char* subfolder=0);
+      Bool_t AddPicture(TGo4Picture * pic, const char* subfolder = nullptr);
 
       /**
        * Set existing picture of name to the values
@@ -410,7 +410,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, picture is searched relative to Pictures folder.
        */
-      Bool_t SetPicture(const char* name, TGo4Picture * pic, TFolder* parent=0);
+      Bool_t SetPicture(const char* name, TGo4Picture * pic, TFolder* parent = nullptr);
 
       /**
        * Retrieves a picture object by name from the object folder. Returns 0 if no
@@ -430,7 +430,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddCanvas(TCanvas * can, const char* subfolder=0);
+      Bool_t AddCanvas(TCanvas * can, const char* subfolder = nullptr);
 
       /**
        * Retrieves a TCanvas by name from the Canvases folder. Returns 0 if no
@@ -448,7 +448,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Find Object of name in the folder structure and create a complete status object of it. Used by GUI command to get updated information on certain object.
        * Optionally, name of search folder may be given.
        */
-      TGo4ObjectStatus * CreateObjectStatus(const char * name, const char* folder=0);
+      TGo4ObjectStatus * CreateObjectStatus(const char * name, const char* folder = nullptr);
 
       /** Create status object for object ob. If fullinfo flag is false,
        * skip time consuming parts of the status (case of nameslist) */
@@ -566,11 +566,11 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t AddDynamicHistogram(const char* name,
             const char* histo,
             const char* hevx, const char* hmemx,
-            const char* hevy=0, const char* hmemy=0,
-            const char* hevz=0, const char* hmemz=0,
-            const char* condition=0,
-            const char* cevx=0, const char* cmemx=0,
-            const char* cevy=0, const char* cmemy=0);
+            const char* hevy = nullptr, const char* hmemy = nullptr,
+            const char* hevz = nullptr, const char* hmemz = nullptr,
+            const char* condition = nullptr,
+            const char* cevx = nullptr, const char* cmemx = nullptr,
+            const char* cevy = nullptr, const char* cmemy = nullptr);
 
       /**
        * Add Histogram into the dynamic list which is linked to a tree.
@@ -852,7 +852,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t AddObjectToFolder(TObject * ob,
             TFolder* fold,
-            const char* subfolder=0,
+            const char* subfolder = nullptr,
             Bool_t replace=kTRUE,
             Bool_t uniquename=kFALSE,
             Bool_t resetbits=kTRUE);
@@ -971,7 +971,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Create a list of objects which names are matching expression expr.
        * optionally, the search can be limited to given subfolder of
        * Go4. By default, all registered objects are compared.*/
-      TList* CreateObjectList(const char* expr, const char* folder=0);
+      TList* CreateObjectList(const char* expr, const char* folder = nullptr);
 
       /** For recursive search for objects in folder fold that match expression. */
       TList* CreateObjectList(const char* expr, TFolder* fold);

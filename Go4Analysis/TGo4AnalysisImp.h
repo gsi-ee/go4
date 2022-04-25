@@ -269,8 +269,8 @@ public:
     * all names with expr. If reset is false, the next object of a
     * previously created matching list is returned. Optionally the
     * search can be limited to a given folder. */
-   TObject* NextMatchingObject(const char *expr = 0,
-                               const char* folder=0,
+   TObject* NextMatchingObject(const char *expr = nullptr,
+                               const char* folder = nullptr,
                                Bool_t reset=kFALSE);
 
    /** Create a tree structure for a certain tree by name */
@@ -278,20 +278,20 @@ public:
 
    /** Add external histogram to go4 histogram directory. Histogram will be owned
     * and streamed by go4 histogram list afterwards. */
-   Bool_t AddHistogram(TH1 *his, const char *subfolder = 0, Bool_t replace = kTRUE);
+   Bool_t AddHistogram(TH1 *his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
    /** Add reference to a tree in the go4 folder structure.
     * If name of subfolder is given, tree will be assigned
     * to subfolder (e.g. subfolder with analysis step name).
     * If subfolder name is zero,
     * the tree will be put into general tree folder. */
-   Bool_t AddTree(TTree *tree, const char *subfolder = 0);
+   Bool_t AddTree(TTree *tree, const char *subfolder = nullptr);
 
    /** Remove reference to a tree in the go4 folder structure.
     * If name of analysis step is given, tree will be assigned
     * to folder dedicated to that step. In stepname is zero,
     * the tree will be put into general tree folder. */
-   Bool_t RemoveTree(TTree *tree, const char *stepname = 0);
+   Bool_t RemoveTree(TTree *tree, const char *stepname = nullptr);
 
    /** Add Histogram into the dynamic list which is linked to a tree.
     * If Histogram of hisname already exists, this histogram will taken.
@@ -313,7 +313,7 @@ public:
    /** Puts a new analysis condition object in corresponding list.
     * Object is owned by list afterwards. Returns false if object
     * of that name already exists in list. */
-   Bool_t AddAnalysisCondition(TGo4Condition *con, const char *subfolder = 0);
+   Bool_t AddAnalysisCondition(TGo4Condition *con, const char *subfolder = nullptr);
 
    /** Set existing analysis condition of name to the values
     * of external condition object con. Used to set condition by command
@@ -324,7 +324,7 @@ public:
    /** Retrieves an analysis condition  from list by name.
     * Optionally, condition could be checked if it inherits from specified class.
     * Returns 0 if no such condition found. */
-   TGo4Condition* GetAnalysisCondition(const char *name, const char *cond_cl = 0);
+   TGo4Condition* GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
    /** Removes analysis condition from list by name. Returns 0 if no
     * such condition. Condition object is deleted on heap. */
@@ -333,7 +333,7 @@ public:
    /** Puts a new parameter object in corresponding folder.
     * Object is owned by folder afterwards. Returns false if object
     * of that name already exists in list. */
-   Bool_t AddParameter(TGo4Parameter *par, const char *subfolder = 0);
+   Bool_t AddParameter(TGo4Parameter *par, const char *subfolder = nullptr);
 
    /** Set existing parameter of name to the values
     * of external parameter object par. Used to set parameter by command
@@ -350,7 +350,7 @@ public:
    /** Retrieves a parameter object by name from the object folder.
     * Optionally expected class of parameter object could be specified.
     * Returns 0 if no such parameter found (or class not match). */
-   TGo4Parameter* GetParameter(const char *name, const char *parameter_class = 0);
+   TGo4Parameter* GetParameter(const char *name, const char *parameter_class = nullptr);
 
    /** Removes parameter by name. Returns 0 if no
     * such parameter. Parameter object is deleted on heap. */
@@ -359,7 +359,7 @@ public:
    /** Puts a new picture object in corresponding folder.
     * Object is owned by folder afterwards. Returns false if object
     * of that name already exists in list. */
-   Bool_t AddPicture(TGo4Picture *pic, const char *subfolder = 0);
+   Bool_t AddPicture(TGo4Picture *pic, const char *subfolder = nullptr);
 
    /** Set existing picture of name to the values
     * of external picture object pic. Used to set picture by command
