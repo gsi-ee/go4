@@ -25,12 +25,12 @@ class TGo4TreeViewer : public QGo4Widget, public Ui::TGo4TreeViewer
 
 public:
 
-   TGo4TreeViewer(QWidget *parent = 0, const char* name=0);
+   TGo4TreeViewer(QWidget *parent = nullptr, const char* name = nullptr);
 
    virtual void ResetWidget();
    virtual void WorkWithLeaf(const char* itemname);
    virtual void ProcessDropEvent(QGo4LineEdit* edt, bool caninit);
-   virtual void requestedObjectCreated(const char* itemname, TClass* cl);
+   void requestedObjectCreated(const char* itemname, TClass* cl) override;
 
 public slots:
 

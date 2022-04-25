@@ -105,10 +105,10 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot* AddNewSlot(const char* name, TGo4Slot* parent);
       virtual void BlockPanelRedraw(bool on);
       virtual void ResetWidget();
-      virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
-      virtual void linkedUpdated(TGo4Slot* slot, TObject* obj);
-      virtual void linkedRemoved(TGo4Slot* slot, TObject* obj);
-      virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
+      void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+      void linkedUpdated(TGo4Slot* slot, TObject* obj) override;
+      void linkedRemoved(TGo4Slot* slot, TObject* obj) override;
+      bool IsAcceptDrag( const char * itemname, TClass * cl, int kind ) override;
       virtual void DropOnPad(TPad* pad, const char * itemname, TClass * cl, int kind );
       virtual void CompleteInitialization();
       virtual void SetMouseMode( int mode );
@@ -189,7 +189,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool IsFreezeTitle();
       virtual void ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int value, const char* drawopt );
       virtual void ChangeDrawOption( int kind, int value, const char* drawopt );
-      virtual void ResetPadFillColors( TPad * pad, int col , TPad* backup=0);
+      virtual void ResetPadFillColors( TPad * pad, int col , TPad* backup = nullptr);
       virtual void ClearPad( TPad * pad, bool removeitems, bool removesubpads );
       virtual void ClearPadItems( TGo4Slot * padslot, TGo4Slot* remain );
       virtual void ProcessPadClear( TPad * pad, bool removeitems, bool removesubpads );
@@ -278,36 +278,36 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
 
       QString fPanelName;
       QByteArray fbaPanelName;
-      bool fbFreezeTitle;
+      bool fbFreezeTitle{false};
       QString fFreezedTitle;
       bool fbMarkEditorVisible;
-      bool fbTypingMode;
-      QMenuBar* fMenuBar;
-      TPad* fxActivePad;
-      int fiSkipRedrawCounter;
-      bool fbCanvasCrosshair;
-      QAction *fxCanvasEventstatusChk;
-      QAction *fxCanvasEditorChk;
-      QStatusBar *CanvasStatus;
-      bool fbApplyToAllFlag;
-      bool fbAutoZoomFlag;
-      TPad* fxRepaintTimerPad;
-      TPad* fxResizeTimerPad;
-      TPad* fxDoubleClickTimerPad;
-      int fiMouseMode;
-      int fiPickCounter;
-      bool fbPickAgain;
-      bool fbCloneFlag;
-      bool fbModifiedSignalFlag;
-      bool fbLeaveFocusAfterCondEnd;
-      QMenu* fSelectMenu;
-      QSignalMapper* fSelectMap;
-      QCheckBox* fAutoScaleCheck;
-      QSignalMapper* fOptionsMap;
-      QMenu* fOptionsMenu;
+      bool fbTypingMode{false};
+      QMenuBar* fMenuBar{nullptr};
+      TPad* fxActivePad{nullptr};
+      int fiSkipRedrawCounter{0};
+      bool fbCanvasCrosshair{false};
+      QAction *fxCanvasEventstatusChk{nullptr};
+      QAction *fxCanvasEditorChk{nullptr};
+      QStatusBar *CanvasStatus{nullptr};
+      bool fbApplyToAllFlag{false};
+      bool fbAutoZoomFlag{false};
+      TPad* fxRepaintTimerPad{nullptr};
+      TPad* fxResizeTimerPad{nullptr};
+      TPad* fxDoubleClickTimerPad{nullptr};
+      int fiMouseMode{0};
+      int fiPickCounter{0};
+      bool fbPickAgain{false};
+      bool fbCloneFlag{false};
+      bool fbModifiedSignalFlag{false};
+      bool fbLeaveFocusAfterCondEnd{false};
+      QMenu* fSelectMenu{nullptr};
+      QSignalMapper* fSelectMap{nullptr};
+      QCheckBox* fAutoScaleCheck{nullptr};
+      QSignalMapper* fOptionsMap{nullptr};
+      QMenu* fOptionsMenu{nullptr};
 
-      QRootCanvas *fxQCanvas; ///< qtroot canvas
-      QWebCanvas *fxWCanvas;  ///< web canvas
+      QRootCanvas *fxQCanvas{nullptr}; ///< qtroot canvas
+      QWebCanvas *fxWCanvas{nullptr};  ///< web canvas
 
       virtual void CheckActionAtTheEnd( TPad * pad );
       virtual bool CompleteMarkerEdit( TPad * pad );

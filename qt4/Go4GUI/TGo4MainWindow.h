@@ -84,7 +84,7 @@ class TGo4MainWindow : public QMainWindow {
       void OpenFileSlot();
       void OpenRemoteFileSlot();
       void ConnectDabcSlot();
-      TGo4ServerProxy* ConnectHttpSlot(const char* addr = 0, const char* user=0, const char* pass=0, bool with_qt_process = false, bool get_analysis_config=false);
+      TGo4ServerProxy* ConnectHttpSlot(const char* addr = nullptr, const char* user = nullptr, const char* pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
       void ConnectHServerSlot();
       void SaveFileSlot();
       void CascadeSubWindows();
@@ -161,7 +161,7 @@ class TGo4MainWindow : public QMainWindow {
 
       // starting editors slots
       TGo4FitPanel* StartFitPanel();
-      TGo4ParaEdit* StartParaEdit(const char* itemname = 0);
+      TGo4ParaEdit* StartParaEdit(const char* itemname = nullptr);
       TGo4HistogramInfo* StartHistogramInfo();
       TGo4ConditionInfo* StartConditionInfo();
       TGo4EditDynEntry* StartEditDynEntry();
@@ -224,60 +224,60 @@ class TGo4MainWindow : public QMainWindow {
 
       void UpdateBrowser();
 
-      QApplication*      fApp;
+      QApplication*      fApp{nullptr};
 
-      QMenu*             windowsMenu;
-      QSignalMapper*     winMapper;
-      TGo4MdiArea*       fxMdiArea;
-      TGo4Style*         fxStyle;
-      TGo4ObjectManager* fxOM;
+      QMenu*             windowsMenu{nullptr};
+      QSignalMapper*     winMapper{nullptr};
+      TGo4MdiArea*       fxMdiArea{nullptr};
+      TGo4Style*         fxStyle{nullptr};
+      TGo4ObjectManager* fxOM{nullptr};
       QString            fOMDataPath;
       QString            fOMBrowserPath;
       QString            fOMEditorsPath;
 
       QString            fKillCommand;
 
-      int                fNewWidgetX;
-      int                fNewWidgetY;
+      int                fNewWidgetX{0};
+      int                fNewWidgetY{0};
 
-      int                fCloseCounter;
-      int                fConnectingCounter; // counter to establish connection
-      bool               fbGetAnalysisConfig; // flag to decide if we want to have analysis config after connect
+      int                fCloseCounter{0};
+      int                fConnectingCounter{0}; // counter to establish connection
+      bool               fbGetAnalysisConfig{false}; // flag to decide if we want to have analysis config after connect
       QString            fConnectingHttp;   // http address (set when doing connection to http)
       QString            fLastPassword;
       QString            fLastFileDir;
 
-      bool               fbPanelTimerActive;
-      bool               fbFullScreen;
+      bool               fbPanelTimerActive{false};
+      bool               fbFullScreen{false};
 
-      QAction*           faFetchWhenDraw;
-      QAction*           faFetchWhenCopy;
-      QAction*           faFetchWhenSave;
-      QAction*           faHideEventElement;
-      QAction*           faDrawOnce;
-      QAction*           faWindowRubberBand;
+      QAction*           faFetchWhenDraw{nullptr};
+      QAction*           faFetchWhenCopy{nullptr};
+      QAction*           faFetchWhenSave{nullptr};
+      QAction*           faHideEventElement{nullptr};
+      QAction*           faDrawOnce{nullptr};
+      QAction*           faWindowRubberBand{nullptr};
 
-      QAction*           faWebCanvas;
-      QAction*           faSuperimpose;
-      QAction*           faCrosshair;
-      QAction*           faEventstatus;
-      QAction*           faClone;
-      QAction*           faDrawTime;
-      QAction*           faDrawDate;
-      QAction*           faDrawItem;
-      QAction*           faSaveWhite;
+      QAction*           faWebCanvas{nullptr};
+      QAction*           faSuperimpose{nullptr};
+      QAction*           faCrosshair{nullptr};
+      QAction*           faEventstatus{nullptr};
+      QAction*           faClone{nullptr};
+      QAction*           faDrawTime{nullptr};
+      QAction*           faDrawDate{nullptr};
+      QAction*           faDrawItem{nullptr};
+      QAction*           faSaveWhite{nullptr};
 
-      QAction*           faLaunchAnal;
-      QAction*           faConnectAnal;
-      QAction*           faPrepareAnal;
-      QAction*           faDisconnectAnal;
-      QAction*           faShutdownAnal;
-      QAction*           faSumbStartAnal;
-      QAction*           faStartAnal;
-      QAction*           faStopAnal;
-      QAction*           faAnalConfig;
-      QAction*           faAnalTermin;
-      QAction*           faTermTimeStamp;
+      QAction*           faLaunchAnal{nullptr};
+      QAction*           faConnectAnal{nullptr};
+      QAction*           faPrepareAnal{nullptr};
+      QAction*           faDisconnectAnal{nullptr};
+      QAction*           faShutdownAnal{nullptr};
+      QAction*           faSumbStartAnal{nullptr};
+      QAction*           faStartAnal{nullptr};
+      QAction*           faStopAnal{nullptr};
+      QAction*           faAnalConfig{nullptr};
+      QAction*           faAnalTermin{nullptr};
+      QAction*           faTermTimeStamp{nullptr};
 };
 
 #endif

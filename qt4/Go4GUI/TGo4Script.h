@@ -194,7 +194,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) override;
 
-      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account=0, const char* pass=0);
+      TGo4ServerProxy* ConnectHttp(const char* servername, const char* account = nullptr, const char* pass = nullptr) override;
 
    protected:
 
@@ -218,12 +218,12 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void  DoPostProcessing();
 
-      Int_t     fiWaitForGUIReaction;     //!
-      Int_t     fiWaitCounter;            //!
-      TString   fStrBuf;                  //!
-      TGo4MainWindow* fMainWin{nullptr};  //!
-      Bool_t    fErrorFlag;               //!
-      Int_t     fBlockConfigFlag;         //! block configuration until first start/stop command
+      Int_t     fiWaitForGUIReaction{0};    //!
+      Int_t     fiWaitCounter{0};           //!
+      TString   fStrBuf;                    //!
+      TGo4MainWindow* fMainWin{nullptr};    //!
+      Bool_t    fErrorFlag{kFALSE};         //!
+      Int_t     fBlockConfigFlag{0};         //! block configuration until first start/stop command
 };
 
 #endif

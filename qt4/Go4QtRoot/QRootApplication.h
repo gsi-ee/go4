@@ -48,7 +48,7 @@ class QRootApplication : public QApplication {
    Q_OBJECT
 
    public:
-      QRootApplication(int& argc, char **argv, int poll=0);
+      QRootApplication(int& argc, char **argv, int poll = 0);
       virtual ~QRootApplication();
 
       void setDebugOn() { fDebug = true; }
@@ -65,7 +65,7 @@ class QRootApplication : public QApplication {
      void quit();
 
    protected:
-     QTimer*   timer;
+     QTimer*   timer{nullptr};
 
      /** Variable defines if menu methods, which creating new canvas, are enabled.
       *  Introduced for win32 version, where sometime new Canvas causes crash :(

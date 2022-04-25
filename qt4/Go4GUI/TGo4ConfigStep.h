@@ -26,7 +26,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
    Q_OBJECT
 
    public:
-      TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+      TGo4ConfigStep( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
       virtual ~TGo4ConfigStep();
       virtual void SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus, int number = -1 );
       virtual QString GetStepName();
@@ -49,7 +49,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port, int & nretry);
       virtual void GetMbsFileSource( QString & TagFile );
       virtual void GetUserSource( int & port, QString & expr );
-      virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave=0 );
+      virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave = 0);
       virtual void SetBackStore( QString name, int bufsize, int splitlevel );
       virtual QString GetBackStoreName();
       virtual int GetStoreSetup( QString & name );
@@ -86,12 +86,12 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void ExtraBtn_clicked();
 
    protected:
-      TGo4AnalysisConfiguration* fxPanel;
-      TGo4AnalysisStepStatus* fStepStatus;
-      int fStepNumber;
-      int fLastSrcKind; // last selected kind of source parameter
-      int fBlocked;    // indicates if all value-modified slots are blocked
-      bool fExtra;     // show extra properties for event source
+      TGo4AnalysisConfiguration* fxPanel{nullptr};
+      TGo4AnalysisStepStatus* fStepStatus{nullptr};
+      int fStepNumber{0};
+      int fLastSrcKind{0}; // last selected kind of source parameter
+      int fBlocked{0};    // indicates if all value-modified slots are blocked
+      bool fExtra{false};     // show extra properties for event source
 
       enum { ParsSize = 9 };
 

@@ -23,13 +23,13 @@ class TGo4BrowserOptions : public QGo4Widget, public Ui::TGo4BrowserOptions
 
 public:
 
-   TGo4BrowserOptions(QWidget *parent = 0, const char* name=0);
+   TGo4BrowserOptions(QWidget *parent = nullptr, const char* name = nullptr);
 
    virtual void StartWorking();
 
    virtual void UpdateView();
 
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
 
 public slots:
 

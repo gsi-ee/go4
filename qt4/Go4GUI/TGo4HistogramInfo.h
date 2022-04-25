@@ -41,11 +41,11 @@ public:
     };
 
 
-   TGo4HistogramInfo(QWidget *parent = 0, const char* name=0);
+   TGo4HistogramInfo(QWidget *parent = nullptr, const char* name = nullptr);
 
-   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
-   virtual void DropItem(const char* itemname, TClass* cl, int kind);
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind) override;
+   void DropItem(const char* itemname, TClass* cl, int kind) override;
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
    virtual void WorkWithHistogram(const char* itemname);
    virtual void ResetWidget();
    virtual void RefreshHistogramInfo(TH1* h1);

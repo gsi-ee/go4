@@ -33,15 +33,15 @@ class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
 
 public:
 
-   enum ParEditColumns { fiColName=0, fiColType=1, fiColValue=2, fiColComment=3 };
+   enum ParEditColumns { fiColName = 0, fiColType = 1, fiColValue = 2, fiColComment = 3 };
 
-   TGo4ParaEdit(QWidget *parent = 0, const char* name=0);
+   TGo4ParaEdit(QWidget *parent = nullptr, const char* name = nullptr);
    virtual ~TGo4ParaEdit();
 
-   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
-   virtual void DropItem(const char* itemname, TClass* cl, int kind);
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
-   virtual void linkedObjectRemoved( const char * linkname );
+   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind) override;
+   void DropItem(const char* itemname, TClass* cl, int kind) override;
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+   void linkedObjectRemoved( const char * linkname ) override;
    virtual void WorkWithParameter(const char* itemname, bool isrefresh);
    virtual void ResetWidget();
    virtual void RefreshWidget(TGo4Parameter* par);
@@ -63,10 +63,10 @@ public slots:
    virtual void ApplyClicked();
 
  protected:
-   int fiCurrentRow;
-   TObjArray* fItems;
+   int fiCurrentRow{0};
+   TObjArray* fItems{nullptr};
    QString fItemName;
-   bool fFillingTable;
+   bool fFillingTable{false};
 };
 
 #endif

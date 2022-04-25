@@ -25,15 +25,15 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
    Q_OBJECT
 
  public:
-   TGo4AnalysisConfiguration(QWidget *parent = 0, const char* name=0);
+   TGo4AnalysisConfiguration(QWidget *parent = nullptr, const char* name = nullptr);
 
-   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
+   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind) override;
 
-   virtual void DropItem(const char* itemname, TClass* cl, int kind);
+   void DropItem(const char* itemname, TClass* cl, int kind) override;
 
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
 
-   virtual void linkedObjectRemoved(const char* linkname);
+   void linkedObjectRemoved(const char* linkname) override;
 
    virtual void WorkWithAnalysis(TGo4ServerProxy* anal);
 
@@ -45,9 +45,9 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual QString GetStorePath();
 
-   virtual void SetSourcePath(const QString & v);
+   virtual void SetSourcePath(const QString &v);
 
-   virtual void SetStorePath(const QString & v);
+   virtual void SetStorePath(const QString &v);
 
    int GetNumSteps();
 
@@ -58,17 +58,16 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
    TGo4ConfigStep* FindStepConfig(QString name);
 
    virtual void SetAutoSaveConfig(QString filename,
-                                                  int interval,
-                                                  int compression,
-                                                  bool enbaled,
-                                                  bool overwrite);
+                                  int interval,
+                                  int compression,
+                                  bool enbaled,
+                                  bool overwrite);
 
    virtual void GetAutoSaveConfig(QString& filename,
-                                                  int& interval,
-                                                  int& compression,
-                                                  bool& enbaled,
-                                                  bool& overwrite);
-
+                                  int& interval,
+                                  int& compression,
+                                  bool& enbaled,
+                                  bool& overwrite);
 
     virtual void SetAnalysisConfigFile(QString filename);
 
@@ -110,11 +109,11 @@ protected:
 
    virtual void closeEvent(QCloseEvent* e);
 
-   bool fbTypingMode;
-    QString fSourcePath;
-    QString fStorePath;
-    QString fConfigPath;
-    QString fAutoSavePath;
+   bool fbTypingMode{false};
+   QString fSourcePath;
+   QString fStorePath;
+   QString fConfigPath;
+   QString fAutoSavePath;
 
 };
 
