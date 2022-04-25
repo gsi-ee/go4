@@ -126,7 +126,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Returns kTRUE, if slot connected to another slot
        */
-      Bool_t IsConnectedToSlot() const { return GetConnectedSlot()!=0; }
+      Bool_t IsConnectedToSlot() const { return GetConnectedSlot() != nullptr; }
 
       /**
        * Clear connection to other slot
@@ -180,12 +180,12 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return kTRUE, if no object in slot.
        */
-      Bool_t IsEmpty() const { return GetObject()==0; }
+      Bool_t IsEmpty() const { return GetObject() == nullptr; }
 
       /**
        * Return kTRUE, if object assigned to slot.
        */
-      Bool_t IsObject() const { return GetObject()!=0; }
+      Bool_t IsObject() const { return GetObject() != nullptr; }
 
       /**
        * Returns kTRUE, if object required, but not yet set.
@@ -374,5 +374,4 @@ class TGo4FitSlotList {
 };
 
 #endif // TGO4FITSLOT_H
-
 

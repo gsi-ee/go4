@@ -40,7 +40,7 @@ class TGo4MbsHist : public TObject {
       /** Create queue object with header information from a folder of histograms.
         * headers of histograms will be put into fiBuffer, the s_his_head is empty.
         * String filter gives expression to filter out histograms by name. */
-      TGo4MbsHist(TFolder* histofolder, const char* filter=0);
+      TGo4MbsHist(TFolder* histofolder, const char* filter = nullptr);
 
       virtual ~TGo4MbsHist();
 
@@ -59,21 +59,21 @@ class TGo4MbsHist : public TObject {
 
       /** Scan go4 folders containing histograms and subfolders of histograms
         *  header information is exctracted to buffer. filter may be applied*/
-      void ScanGo4Folder(TFolder* fold, const char* superfolders=0, const char* filter=0);
+      void ScanGo4Folder(TFolder* fold, const char* superfolders=0, const char* filter = nullptr);
 
       /** set value to adress in histogram buffer. Check
         * histogram format in header for correct cast to int or float */
       void SetValue(char* address, Stat_t value);
 
       s_his_head fxHistoHead;
-      Int_t   fiBufLen;
-      Int_t*  fiBuffer; //!
+      Int_t   fiBufLen{0};
+      Int_t*  fiBuffer{nullptr}; //!
 
       /* Points to next histogram header in buffer in case of nameslist */
-      s_his_head* fxCursor; //!
+      s_his_head* fxCursor{nullptr}; //!
 
       /** Number of histogram headers (1 in case of single his) */
-      Int_t fiHisNum;
+      Int_t fiHisNum{0};
 };
 
 #endif //TGO4MBSHIST_H

@@ -51,24 +51,24 @@ class TGo4HDF5Adapter {
           size_t memberoffset, const char* membername, const char* classname, TClass* valueclass);
 
       /** evaluate h5 type information from root class streamer*/
-      static void FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename=0);
+      static void FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename = nullptr);
 
          /** evaluate h5 type information for basic types of memtypename*/
       static void FillTypeInfo(TGo4HDF5DataHandle* handle,
-               const char* membername, const char* memtypename, size_t memberoffset=0,
-               Int_t arraydim=0, TDataMember* member=0);
+               const char* membername, const char* memtypename, size_t memberoffset = 0,
+               Int_t arraydim = 0, TDataMember* member = nullptr);
 
 
 protected:
 
     /** opens the hdf5 file depending on the setup */
-    virtual void OpenFile(const char* fname=0) =0;
+    virtual void OpenFile(const char* fname = nullptr) = 0;
 
     /** opens the hdf5 file depending on the setup */
     virtual void CloseFile();
 
     /** initialize dataset from event structure*/
-    virtual void BuildDataSet(TGo4EventElement* event) =0;
+    virtual void BuildDataSet(TGo4EventElement* event) = 0;
 
     /** delete dataset resource*/
     virtual void DeleteDataSet();
@@ -76,7 +76,7 @@ protected:
     /** Prepare data type from event structure for hdf5.
      * Return value is name of ROOT class that was used to compose the hdf5 type.
      * In case of composite subevents, the current parent data handle and the index in array may be passed.*/
-     void BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent=0, Int_t index=0);
+     void BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent = nullptr, Int_t index = 0);
 
     /** evaluate total memory size of event object regarding composite subevents*/
     size_t ScanEventSize(TGo4EventElement* event);
@@ -109,7 +109,5 @@ protected:
 #endif
 
 };
-
-
 
 #endif //TGO4HDF5ADAPTER_H

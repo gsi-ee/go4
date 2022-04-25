@@ -61,7 +61,7 @@ class TGo4MainTree : public TObject {
     /** True if instance of tree already exists. Used by framework to check if MainTree
       * was created by any treestore/source instance, before the instance is
       * requested. Otherwise framework would create maintree without need. */
-    static Bool_t Exists() { return fxInstance!=0; }
+    static Bool_t Exists() { return fxInstance != nullptr; }
 
     Int_t GetCurrentIndex() const { return fiCurrentIndex; }
 
@@ -70,7 +70,7 @@ class TGo4MainTree : public TObject {
       * To be used by event loop controlling framework. */
     Int_t IncCurrentIndex() { return (++fiCurrentIndex); }
 
-    void SetCurrentIndex(Int_t number=0) { fiCurrentIndex = number; }
+    void SetCurrentIndex(Int_t number = 0) { fiCurrentIndex = number; }
 
     Int_t GetMaxIndex();
 
@@ -83,8 +83,8 @@ class TGo4MainTree : public TObject {
     void Update();
 
     /** Write tree content to file. */
-    Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0) override;
-    Int_t Write(const char* dummy=0, Int_t option=0, Int_t bufsize=0) const override;
+    Int_t Write(const char* dummy = nullptr, Int_t option=0, Int_t bufsize=0) override;
+    Int_t Write(const char* dummy = nullptr, Int_t option=0, Int_t bufsize=0) const override;
 
   private:
 

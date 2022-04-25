@@ -40,13 +40,13 @@ class TXXXModule : public TGo4EventElement {
 
       void Clear(Option_t *t="") override
       {
-         fiData=0;
-         fiTest=0;
-         fiAux=0;
+         fiData = 0;
+         fiTest = 0;
+         fiAux = 0;
       }
 
-      Int_t GetData() const {return fiData;}
-      void SetData(Int_t dat){fiData=dat;}
+      Int_t GetData() const { return fiData; }
+      void SetData(Int_t dat){ fiData=dat; }
 
       Int_t GetTest() const {return fiTest;}
       void SetTest(Int_t dat){fiTest=dat;}

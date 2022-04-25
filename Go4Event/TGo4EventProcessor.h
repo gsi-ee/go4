@@ -396,7 +396,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** Executes Python script in ROOT interpreter.
        * Will bind TGo4Analysis object to python go4 Symbol
        * Errcode may be used to check ROOT interpreter error code.*/
-      Long64_t ExecutePython(const char* macro_name, Int_t* errcode=0);
+      Long64_t ExecutePython(const char* macro_name, Int_t* errcode = nullptr);
 
       /** Process ROOT command line. Optionally provide pyroot binding:
           *  a leading '$' will try to load and execute python script.

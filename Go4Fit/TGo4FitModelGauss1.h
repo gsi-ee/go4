@@ -56,7 +56,7 @@ class TGo4FitModelGauss1 : public TGo4FitModel {
       /**
        * Sets number of selected axis.
        */
-      void SetNumAxis(Int_t n) { if(n>=0) fiNaxis = n; }
+      void SetNumAxis(Int_t n) { if(n >= 0) fiNaxis = n; }
 
       /**
        * Print information to standard output.

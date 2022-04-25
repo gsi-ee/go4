@@ -272,7 +272,7 @@ class TGo4FitParsList: public TGo4FitNamed {
 
       void ClearParsBlocking();
 
-      virtual TGo4FitParameter* Get(Int_t n) { return (n>=0) && (n<NumPars()) ? (TGo4FitParameter*) fxPars.At(n) : 0 ; }
+      virtual TGo4FitParameter* Get(Int_t n) { return (n >= 0) && (n < NumPars()) ? (TGo4FitParameter*) fxPars.At(n) : nullptr; }
       TGo4FitParameter* Find(const char* ParName);
       TGo4FitParameter* Find(const char* OwnerFullName, const char* ParName);
       TGo4FitParameter* Find(TGo4FitParameter* par);
@@ -284,7 +284,7 @@ class TGo4FitParsList: public TGo4FitNamed {
       /**
        * If true, parameters can be safely rollback
        */
-      Bool_t fbCanRollbackPars{kFALSE};                        //!
+      Bool_t fbCanRollbackPars{kFALSE};      //!
 
     ClassDefOverride(TGo4FitParsList,1)
 };
