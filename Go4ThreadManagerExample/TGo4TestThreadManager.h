@@ -55,20 +55,16 @@ class TGo4TestThreadManager : public TGo4ThreadManager
   protected:
     // Data Members for Associations
 
-      TGo4TestRunnable *fxControlRunnable; //!
+      TGo4TestRunnable *fxControlRunnable{nullptr}; //!
 
   private:
 
-      TCanvas *fxCanvas;   //!
-      TPad *fxPad1;        //!
-      TPad *fxPad2;        //!
+      TCanvas *fxCanvas{nullptr};   //!
+      TPad *fxPad1{nullptr};        //!
+      TPad *fxPad2{nullptr};        //!
 
-   ClassDef(TGo4TestThreadManager,1)
+   ClassDefOverride(TGo4TestThreadManager,1)
 };
 
-
-
 #endif
-
-
 
