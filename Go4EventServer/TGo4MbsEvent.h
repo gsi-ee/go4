@@ -75,8 +75,8 @@ class TGo4MbsEvent : public TGo4EventElement {
        * afterwards, this object will contain new subevtarray*/
       void RemoveReference();
 
-      void Set(Int_t dlen=0, Short_t type=10, Short_t subtype=1,
-            Short_t dummy=0, Short_t trigger=0, Int_t count=0);
+      void Set(Int_t dlen = 0, Short_t type = 10, Short_t subtype = 1,
+               Short_t dummy = 0, Short_t trigger = 0, Int_t count = 0);
 
       /** Print event with default settings */
       void PrintEvent() override;
@@ -158,7 +158,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       void PrintMbsFileHeader();
 
       /** Access to the buffer header of the current event */
-      s_bufhe * GetMbsBufferHeader();
+      s_bufhe *GetMbsBufferHeader();
 
       /** Method to print MBS buffer header */
       void PrintMbsBufferHeader();

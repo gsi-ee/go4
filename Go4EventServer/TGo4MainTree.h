@@ -83,8 +83,8 @@ class TGo4MainTree : public TObject {
     void Update();
 
     /** Write tree content to file. */
-    Int_t Write(const char* dummy = nullptr, Int_t option=0, Int_t bufsize=0) override;
-    Int_t Write(const char* dummy = nullptr, Int_t option=0, Int_t bufsize=0) const override;
+    Int_t Write(const char* dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) override;
+    Int_t Write(const char* dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) const override;
 
   private:
 

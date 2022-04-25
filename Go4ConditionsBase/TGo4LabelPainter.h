@@ -113,10 +113,10 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
     virtual void DisplayToFront(Option_t* opt="");
 
     void SetCaption(const char* txt) { fxCaption=txt; }
-    void SetX0(Double_t x=0) { fdX0=x; }
-    void SetY0(Double_t y=0) { fdY0=y; }
-    void SetWidth(Double_t w=0) { fdWidth=w; }
-    void SetHeight(Double_t h=0) { fdHeight=h; }
+    void SetX0(Double_t x = 0.) { fdX0 = x; }
+    void SetY0(Double_t y = 0.) { fdY0 = y; }
+    void SetWidth(Double_t w = 0.) { fdWidth = w; }
+    void SetHeight(Double_t h = 0.) { fdHeight = h; }
 
     void AddToLabel(const char* txt) { if(fxLabel) fxLabel->AddText(txt); }
 
@@ -140,22 +140,22 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
      TGo4Label* fxLabel{nullptr};
 
     /** initial reference coordinates x */
-    Double_t fdX0;
+    Double_t fdX0{0};
 
     /** initial reference coordinates y */
-    Double_t fdY0;
+    Double_t fdY0{0};
 
     /** initial width relative to whole pad*/
-    Double_t fdWidth;
+    Double_t fdWidth{0};
 
     /** initial height relative to whole pad */
-    Double_t fdHeight;
+    Double_t fdHeight{0};
 
     /** Headline for the label */
     TString fxCaption;
 
     /** Flag to handle streamed label from file correctly*/
-    Bool_t fbIsLabStreamed; //!
+    Bool_t fbIsLabStreamed{kFALSE}; //!
 
     /** Create Label at the window coords. */
     TGo4Label* CreateCurrentLabel(Double_t x, Double_t y);

@@ -181,7 +181,7 @@ class TGo4AbstractInterface : public TObject {
         * If this is file or histogram server, object will be returned immediately.
         * If this is an item from analysis, first request will be send and
         * then interface will wait "wait_time" milliseconds that object is arrived.
-        * If wait_time==0, no waiting will be done and most probably, new object will
+        * If wait_time == 0, no waiting will be done and most probably, new object will
         * be assigned to that item several seconds after method is return */
       virtual void FetchItem(const char* itemname, Int_t wait_time = 2000);
 
@@ -546,7 +546,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) {}
 
       /** Set active pad on viewpanel.
-        * If number==0, main pad (canvas) will be set as active,
+        * If number == 0, main pad (canvas) will be set as active,
         * otherwise one of subpads will be activated.
         * Most of methods, working with viewpanel, acting with active pad of this panel. */
       virtual TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
@@ -563,7 +563,7 @@ class TGo4AbstractInterface : public TObject {
       /** Draw browser item on specified viewpanel.
         * Parameters:
         *    itemname - browser item name,
-        *    panel    - viewpanel, if panel==0, new viewpanel will be created.
+        *    panel    - viewpanel, if panel == nullptr, new viewpanel will be created.
         *    drawopt  - draw options, used in obj->Draw() operation */
       virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) { return kFALSE; }
 

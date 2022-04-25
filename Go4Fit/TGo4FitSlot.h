@@ -309,7 +309,7 @@ class TGo4FitSlotList {
       /**
        * Set object to first suitable slot, which have PlaceName name or owner of which
        * has PlaceName full name with defined ownership flag.
-       * If PlaceName==0, SetObject(TObject*, Bool_t) method will be called.
+       * If PlaceName == 0, SetObject(TObject*, Bool_t) method will be called.
        * If only slot suits to defined condition, object in slot will be overwritten.
        * Return pointer on slot, to which object was assigned
        */
@@ -333,11 +333,11 @@ class TGo4FitSlotList {
 
       /**
        * Clear object from slot(s), which are defined by PlaceName condition.
-       * If PlaceName==0, all slots will be clead.
+       * If PlaceName == 0, all slots will be cleared.
        * If NonOwned = kTRUE, only not owned objects will be cleared (pointer will be set to 0)
        * otherwise all pointers will be cleared and owned objects will be deleted
        */
-     void ClearObjects(const char* PlaceName = 0, Bool_t NonOwned = kTRUE);
+     void ClearObjects(const char* PlaceName = nullptr, Bool_t NonOwned = kTRUE);
 
       /**
        * Clear object in specified slot.
@@ -352,7 +352,7 @@ class TGo4FitSlotList {
        * If save flag set to 1, object(s) will be saved in any case.
        * If save flag set to 2, object(s) will never be saved.
        * PlaceName define exact slot name or owner name
-       * if (PlaceName==0),  flag will be set for all slots in list.
+       * if (PlaceName == 0),  flag will be set for all slots in list.
        */
      void SetSaveFlagForObjects(Int_t iSaveFlag, const char *PlaceName = nullptr);
 

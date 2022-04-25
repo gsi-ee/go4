@@ -109,7 +109,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       /**
        * Perform simple peak finder algorithm.
        * Seeks for gaussians with amplitude more than given threshold (AmplThreshold introduced relative to maximum data value, from 0 to 1),
-       * with width in range between MinWidth and MaxWidth. Polynomial approximation can be applied for background appoximation(PolOrder>=0) or not used (PolOrder<0).
+       * with width in range between MinWidth and MaxWidth. Polynomial approximation can be applied for background appoximation(PolOrder >= 0) or not used (PolOrder<0).
        * Only selected by range conditions data part will be used by peak finder.
        * Appropriate number of gaussians will be placed in list of models and associate with data.
        */

@@ -60,7 +60,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Return kTRUE, if pad required for output.
        */
-      Bool_t NeedPad() { return (fxCommand=="Draw") && ((fxOptions.Length()==0) || (fxOptions[0]!='#')); }
+      Bool_t NeedPad() { return (fxCommand == "Draw") && ((fxOptions.Length() == 0) || (fxOptions[0]!='#')); }
 
       /**
        * Returns command name.

@@ -101,15 +101,15 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Set group index of model.
        * Models, having same group index, can be displayed together
-       * If index=-1, models are not belongs to any group
-       * index=0 reserved for "Background" group.
+       * If index = -1, models are not belongs to any group
+       * index = 0 reserved for "Background" group.
        * All polynoms gets background group index.
        * By default index = -1
        */
       void SetGroupIndex(Int_t index = -1) { fiGroupIndex = index; }
 
       /**
-       * Set group index to background (index=0).
+       * Set group index to background (index = 0).
        */
       void SetBackgroundGroupIndex() { fiGroupIndex = 0; }
 

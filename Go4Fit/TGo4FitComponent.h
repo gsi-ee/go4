@@ -161,10 +161,10 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Return value for specified range condition.
        *
        * Following procedures produces correspondent values:
-       * typ=0: SetRange()
-       * typ=1: ExcludeRange()
-       * typ=2: SetRangeMin()    right not defined
-       * typ=3: SetRangeMax()    left not defined
+       * typ = 0: SetRange()
+       * typ = 1: ExcludeRange()
+       * typ = 2: SetRangeMin()    right not defined
+       * typ = 3: SetRangeMax()    left not defined
        */
       void GetRangeCondition(Int_t n, Int_t& typ, Int_t& naxis, Double_t& left, Double_t& right) const;
 
