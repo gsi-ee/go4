@@ -80,8 +80,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       const char* GetShapeName()
       {
-        switch(fiShapeType)
-        {
+        switch(fiShapeType) {
           case Go4Cond_Shape_Free:
             return "Free style polygon";
           case Go4Cond_Shape_Circle:
@@ -93,7 +92,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
           case Go4Cond_Shape_None:
            return "Shape not defined!";
         };
-        return 0;
+        return nullptr;
       }
 
       /* Retrieve current center coordinates*/

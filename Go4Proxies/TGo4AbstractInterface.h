@@ -514,7 +514,7 @@ class TGo4AbstractInterface : public TObject {
       /** Create new view panel.
         * Handle, returned by this method, must be used for other operation,
         * like DivideViewPanel() or SelectPad() */
-      virtual ViewPanelHandle StartViewPanel() { return 0; }
+      virtual ViewPanelHandle StartViewPanel() { return nullptr; }
 
       /** Create new viewpanel with specified parameters.
         * Returns handle of newly created viewpanel. Parameters:
@@ -526,18 +526,18 @@ class TGo4AbstractInterface : public TObject {
         * one can create and configure viewpanel and then create hotstart file.
         * This file will include complete TGo4Picture configuration, which
         * contains attributes like colors, ranges, pad divisions and so on. */
-      virtual ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) { return 0; }
+      virtual ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) { return nullptr; }
 
       /** Return name of viewpanel. */
       virtual TString GetViewPanelName(ViewPanelHandle panel) { return TString(); }
 
       /** Return handle on viewpanel with specified name. */
-      virtual ViewPanelHandle FindViewPanel(const char* name) { return 0; }
+      virtual ViewPanelHandle FindViewPanel(const char* name) { return nullptr; }
 
       /** Change name of viewpanel. */
       virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) { return kFALSE; }
       /** Return handle of last active viewpanel. */
-      virtual ViewPanelHandle GetActiveViewPanel() { return 0; }
+      virtual ViewPanelHandle GetActiveViewPanel() { return nullptr; }
 
       /** Forces of panel redraw. */
       virtual void RedrawPanel(ViewPanelHandle panel) {}

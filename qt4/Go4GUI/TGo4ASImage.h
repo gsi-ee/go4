@@ -40,9 +40,9 @@ class TGo4ASImage : public TASImage {
 
       void SetSelectedRange(double rxmin, double rxmax, double rymin, double rymax);
 
-      virtual void Zoom(UInt_t offX, UInt_t offY, UInt_t width, UInt_t height); //*MENU*
+      void Zoom(UInt_t offX, UInt_t offY, UInt_t width, UInt_t height) override; //*MENU*
 
-      virtual void UnZoom(); //*MENU*
+      void UnZoom() override; //*MENU*
 
       /** Use this to close palette editor properly */
       void ClosePaletteEditor();
@@ -50,7 +50,7 @@ class TGo4ASImage : public TASImage {
       // old code
       TGo4ASImage(TH2*) {}
 
-      TH2* GetHistogram() const { return 0; }
+      TH2* GetHistogram() const { return nullptr; }
 
       /** sets limits of histo according to current zoom scale of image */
       void SetHistogramRanges(TH2*) {}
@@ -60,17 +60,17 @@ class TGo4ASImage : public TASImage {
 
    private:
 
-      TGo4ViewPanel* fxPanel; //!
+      TGo4ViewPanel* fxPanel{nullptr}; //!
 
-      TPad*         fxPad;   //!
+      TPad*         fxPad{nullptr};   //!
 
-      double        fxMinX;  //!
-      double        fxMaxX;  //!
-      double        fxMinY;  //!
-      double        fxMaxY;  //!
+      double        fxMinX{0};  //!
+      double        fxMaxX{0};  //!
+      double        fxMinY{0};  //!
+      double        fxMaxY{0};  //!
 
-      double        fdWidth;  //!  original width of image (histogram)
-      double        fdHeight; //!  original height of image (histogram)
+      double        fdWidth{0};  //!  original width of image (histogram)
+      double        fdHeight{0}; //!  original height of image (histogram)
 
 };
 

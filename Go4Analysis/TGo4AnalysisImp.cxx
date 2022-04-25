@@ -1823,7 +1823,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
 
    if (oldh) {
       if ((oldh->GetDimension()==1) && fbMakeWithAutosave) newh->Add(oldh);
-      delete oldh; oldh = 0;
+      delete oldh; oldh = nullptr;
    }
 
    if (foldername.Length() > 0)
@@ -1846,7 +1846,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
 
    if (!EvaluateFolderpath(fullname, histoname, foldername)) {
       TGo4Log::Error("Histogram name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
 
 

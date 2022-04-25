@@ -67,7 +67,7 @@ class QRootWindow : public QWidget {
       void paintEvent( QPaintEvent *e ) override;
       void closeEvent( QCloseEvent * e) override;
 
-      //virtual QPaintEngine * paintEngine () const {return 0;}
+      //virtual QPaintEngine * paintEngine () const {return nullptr;}
 
       /** translate Qt mouse event into root event structure. */
       Bool_t MapQMouseEvent(QMouseEvent *e, Event_t* rev);

@@ -162,7 +162,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Creates iterator for data object.
        * For detailed description see TGo4FitDataIter class.
        */
-      virtual TGo4FitDataIter* MakeIter() { return 0; }
+      virtual TGo4FitDataIter* MakeIter() { return nullptr; }
 
       /**
        * Creates object, which can be drawn on canvas by ROOT.
