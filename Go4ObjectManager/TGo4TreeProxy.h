@@ -24,27 +24,26 @@ class TGo4TreeProxy : public TGo4Proxy {
       TGo4TreeProxy(TTree* tree, Bool_t owner = kFALSE);
       virtual ~TGo4TreeProxy();
 
-      virtual Bool_t HasSublevels() const { return fTree!=0; }
+      Bool_t HasSublevels() const override { return fTree!=nullptr; }
 
-      virtual TGo4LevelIter* MakeIter()
-        { return (fTree==0) ? 0 : ProduceIter(fTree); }
+      TGo4LevelIter* MakeIter() override
+        { return !fTree ? nullptr : ProduceIter(fTree); }
 
-      virtual TGo4Access* ProvideAccess(const char* name)
+      TGo4Access* ProvideAccess(const char* name) override
         { return CreateAccess(fTree, name); }
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
 
       static TGo4Access* CreateAccess(TTree* tree, const char* name);
       static TGo4LevelIter* ProduceIter(TTree* tree);
 
    protected:
-      TTree*   fTree;   //!
-      Bool_t   fOwner;  //!
+      TTree*   fTree{nullptr};   //!
+      Bool_t   fOwner{kFALSE};  //!
 
-   ClassDef(TGo4TreeProxy, 1);
+   ClassDefOverride(TGo4TreeProxy, 1);
 };
 
 #endif
-
 

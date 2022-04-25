@@ -27,7 +27,7 @@ class TGo4BrowserItem : public TFolder {
       TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem, const char* name, const char* title);
       virtual ~TGo4BrowserItem();
 
-      virtual void Browse(TBrowser* b);
+      void Browse(TBrowser* b) override;
       virtual void DrawItem();         // *MENU*
       virtual void CopyToWorkspace();  // *MENU*
       virtual void DeleteItem();       // *MENU*
@@ -50,27 +50,27 @@ class TGo4BrowserItem : public TFolder {
       const char* GetItemClass() const { return fItemClass.Data(); }
 
       void SetIsFolder(Bool_t b) { fIsFolder = b; }
-      virtual Bool_t IsFolder() const { return fIsFolder; }
+      Bool_t IsFolder() const override { return fIsFolder; }
 
-      virtual const char* GetIconName() const { return fIconName.Data(); }
+      const char* GetIconName() const override { return fIconName.Data(); }
       void SetIconName(const char* name) { fIconName = name; }
 
       void ProduceFullName(TString& fullname);
       TString GetFullName();
 
-      virtual const char* ClassName() const { return GetItemClass(); }
-      virtual void Delete(Option_t* option = "");
-      virtual void SetName(const char* name);
-      virtual void SetTitle(const char* title = "");
-      virtual void ls(Option_t* option = "*") const;
+      const char* ClassName() const override { return GetItemClass(); }
+      void Delete(Option_t* option = "") override;
+      void SetName(const char* name) override;
+      void SetTitle(const char* title = "") override;
+      void ls(Option_t* option = "*") const override;
 
-      virtual void SaveAs(const char* filename = "", Option_t *option = "") const; // *MENU*
+      void SaveAs(const char* filename = "", Option_t *option = "") const override; // *MENU*
 
-      virtual void DrawClass() const;
-      virtual TObject* DrawClone(Option_t* option = "") const;
-      virtual void Dump() const;
-      virtual void Inspect() const;
-      virtual void SetDrawOption(Option_t* option = "");
+      void DrawClass() const override;
+      TObject* DrawClone(Option_t* option = "") const override;
+      void Dump() const override;
+      void Inspect() const override;
+      void SetDrawOption(Option_t* option = "") override;
    protected:
 
       void SetMonitorFlag(Bool_t on);
@@ -81,10 +81,10 @@ class TGo4BrowserItem : public TFolder {
       TString fIconName; //!
       Bool_t fIsFolder;  //!
 
-      TGo4BrowserProxy* fBrowser; //!
-      TGo4RootBrowserProxy* fRootBrowser; //!
+      TGo4BrowserProxy     *fBrowser{nullptr}; //!
+      TGo4RootBrowserProxy *fRootBrowser{nullptr}; //!
 
-      ClassDef(TGo4BrowserItem,1);
+      ClassDefOverride(TGo4BrowserItem,1);
 };
 
 #endif

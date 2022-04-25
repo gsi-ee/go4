@@ -37,15 +37,15 @@ class TGo4BrowserProxy : public TGo4Proxy {
                        Bool_t withRootBrowser = kFALSE);
       virtual ~TGo4BrowserProxy();
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
 
-      virtual Bool_t Use() const { return kFALSE; }
+      Bool_t Use() const override { return kFALSE; }
 
-      virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param);
-      virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return ClassName(); }
-      virtual TObject* GetAssignedObject() { return this; }
+      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
+      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
+      const char* GetContainedClassName() override { return ClassName(); }
+      TObject* GetAssignedObject() override { return this; }
 
       // browser functionality
 
@@ -207,7 +207,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void SyncBrowserSlots();
 
-      virtual Bool_t HandleTimer(TTimer* timer);
+      Bool_t HandleTimer(TTimer* timer) override;
 
    protected:
 
@@ -234,21 +234,21 @@ class TGo4BrowserProxy : public TGo4Proxy {
       TString            fxDataPath;    //!
       TString            fxBrowserPath; //!
       TString            fxViewPath;    //!
-      Bool_t             fbWithRootBrowser; //!
+      Bool_t             fbWithRootBrowser{kFALSE}; //!
       TString            fxMemoryPath;  //!
-      TGo4ObjectManager* fxOM;          //!
-      TGo4Slot*          fxBrowserSlot; //!
-      Int_t              fiMonitoringPeriod; //!
-      TTimer*            fxMonitorTimer; //!
-      Bool_t             fbBlockMonitoring;  //!
-      Int_t              fiFilterIndex;  //!
-      TList*             fxWaitingList; //!
-      TObjArray*         fxClipboard; //!
-      TTimer*            fxSyncTimer; //!
-      Bool_t             fbBlockSync; //!
-      TVirtualTreePlayer* fDummyTreePlayer; //!  to overcome problem in ROOT
+      TGo4ObjectManager *fxOM{nullptr};          //!
+      TGo4Slot*          fxBrowserSlot{nullptr}; //!
+      Int_t              fiMonitoringPeriod{0}; //!
+      TTimer*            fxMonitorTimer{nullptr}; //!
+      Bool_t             fbBlockMonitoring{kFALSE};  //!
+      Int_t              fiFilterIndex{0};  //!
+      TList*             fxWaitingList{nullptr}; //!
+      TObjArray*         fxClipboard{nullptr}; //!
+      TTimer*            fxSyncTimer{nullptr}; //!
+      Bool_t             fbBlockSync{kFALSE}; //!
+      TVirtualTreePlayer* fDummyTreePlayer{nullptr}; //!  to overcome problem in ROOT
 
-   ClassDef(TGo4BrowserProxy,1);
+   ClassDefOverride(TGo4BrowserProxy,1);
 };
 
 #endif

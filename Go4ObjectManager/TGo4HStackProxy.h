@@ -24,35 +24,35 @@ class TGo4HStackProxy : public TGo4Proxy {
       TGo4HStackProxy(THStack* hs, Bool_t owner = kFALSE);
       virtual ~TGo4HStackProxy();
 
-      virtual Bool_t HasSublevels() const { return fHS!=0; }
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
+      Bool_t HasSublevels() const override { return fHS!=nullptr; }
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
-      virtual Bool_t RemoveRegisteredObject(TObject* obj);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
+      Bool_t RemoveRegisteredObject(TObject* obj) override;
 
-      virtual TGo4LevelIter* MakeIter()
-        { return (fHS==0) ? 0 : ProduceIter(fHS); }
+      TGo4LevelIter* MakeIter() override
+        { return !fHS ? nullptr : ProduceIter(fHS); }
 
-      virtual TGo4Access* ProvideAccess(const char* name)
+      TGo4Access* ProvideAccess(const char* name) override
         { return CreateAccess(fHS, name); }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Bool_t IsAcceptObject(TClass* cl);
-      virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
-      virtual TObject* GetAssignedObject();
+      Bool_t IsAcceptObject(TClass* cl) override;
+      Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override;
+      TObject *GetAssignedObject() override;
 
       static TGo4Access* CreateAccess(THStack* canv, const char* name);
       static TGo4LevelIter* ProduceIter(THStack* canv);
 
    protected:
-      THStack* fHS;              //!
+      THStack* fHS{nullptr};     //!
       Bool_t   fOwner;           //!
 
-   ClassDef(TGo4HStackProxy, 1);
+   ClassDefOverride(TGo4HStackProxy, 1);
 };
 
 

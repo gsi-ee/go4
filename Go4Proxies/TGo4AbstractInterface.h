@@ -578,7 +578,7 @@ class TGo4AbstractInterface : public TObject {
 
       virtual void StartFitPanel() {}
 
-   ClassDef(TGo4AbstractInterface, 1);
+   ClassDefOverride(TGo4AbstractInterface, 1);
 };
 
 

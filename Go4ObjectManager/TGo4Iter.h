@@ -42,22 +42,22 @@ class TGo4Iter : public TGo4AccessWrapper {
       Bool_t isslot() const { return getslot()!=0; }
       TGo4Slot* getslot() const;
 
-      virtual TGo4Access* ProvideAccess(const char* name = nullptr);
+      TGo4Access* ProvideAccess(const char* name = nullptr) override;
 
    protected:
       TGo4Iter();
 
       TGo4LevelIter* currentiter() const
-       { return (fStatus!=0) ? 0 : (TGo4LevelIter*) fLevels.Last(); }
+       { return (fStatus!=0) ? nullptr : (TGo4LevelIter*) fLevels.Last(); }
 
-      TGo4Slot* fSlot;       //!
-      Bool_t    fOnlySlots;  //!
-      TObjArray fLevels;     //!
-      Int_t     fStatus;     //!  -1 start, 0 continue, 1 end
-      TString   fFullName;   //!
-      Int_t     fLevelChange; //!
+      TGo4Slot* fSlot{nullptr};      //!
+      Bool_t    fOnlySlots{kFALSE};  //!
+      TObjArray fLevels;             //!
+      Int_t     fStatus{0};          //!  -1 start, 0 continue, 1 end
+      TString   fFullName;           //!
+      Int_t     fLevelChange{0};     //!
 
-   ClassDef(TGo4Iter,1);
+   ClassDefOverride(TGo4Iter,1);
 };
 
 #endif

@@ -122,7 +122,7 @@ class TGo4Proxy : public TObject {
 
       static TClass* GetClass(const char* classname, Bool_t load = kFALSE);
 
-   ClassDef(TGo4Proxy, 1);
+   ClassDefOverride(TGo4Proxy, 1);
 };
 
 #endif
