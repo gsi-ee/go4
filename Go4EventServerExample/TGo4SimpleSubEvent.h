@@ -124,9 +124,9 @@ public:
 
    void PrintEvent() override;
 
-   TGo4SimpleSubEvent() ;
+   TGo4SimpleSubEvent();
 
-   virtual ~TGo4SimpleSubEvent() ;
+   virtual ~TGo4SimpleSubEvent();
 
    ClassDefOverride(TGo4SimpleSubEvent,1)
 

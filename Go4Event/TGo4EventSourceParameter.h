@@ -29,7 +29,7 @@ class TGo4EventSourceParameter : public TGo4Parameter {
 
       TGo4EventSourceParameter(const char* name, Int_t id = 0);
 
-      virtual ~TGo4EventSourceParameter() ;
+      virtual ~TGo4EventSourceParameter();
 
       Int_t GetID() const { return fiID; }
 

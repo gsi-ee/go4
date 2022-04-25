@@ -18,9 +18,9 @@
 
 class TYYYUnpackEvent : public TGo4EventElement {
    public:
-      TYYYUnpackEvent() ;
-      TYYYUnpackEvent(const char* name) ;
-      virtual ~TYYYUnpackEvent() ;
+      TYYYUnpackEvent();
+      TYYYUnpackEvent(const char* name);
+      virtual ~TYYYUnpackEvent();
 
       /**
        * Method called by the event owner (analysis step) to clear the

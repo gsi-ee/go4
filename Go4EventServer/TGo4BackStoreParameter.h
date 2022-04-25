@@ -19,13 +19,13 @@
 class TGo4BackStoreParameter : public TGo4EventStoreParameter {
 
    public:
-      TGo4BackStoreParameter() ;
+      TGo4BackStoreParameter();
 
       TGo4BackStoreParameter(const char* name,
                               Int_t splitlevel=99,
                               Int_t bufsize=32000);
 
-      virtual ~TGo4BackStoreParameter() ;
+      virtual ~TGo4BackStoreParameter();
 
       void Print(Option_t* = "") const override;
 

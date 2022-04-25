@@ -21,7 +21,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
   friend class TGo4TreeStore;
 
   public:
-    TGo4TreeStoreParameter() ;
+    TGo4TreeStoreParameter();
 
     TGo4TreeStoreParameter(const char* name,
                            Int_t splitlevel=1,
@@ -29,7 +29,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
                            const char* filename=0,
                            Int_t compression=5);
 
-    virtual ~TGo4TreeStoreParameter() ;
+    virtual ~TGo4TreeStoreParameter();
 
     /** basic method to printout object */
     void Print(Option_t* = "") const override;

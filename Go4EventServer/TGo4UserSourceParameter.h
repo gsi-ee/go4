@@ -19,11 +19,11 @@
 class TGo4UserSourceParameter : public TGo4EventSourceParameter {
 
   public:
-    TGo4UserSourceParameter() ;
+    TGo4UserSourceParameter();
 
     TGo4UserSourceParameter(const char* name, const char* expr = "", Int_t port = 0);
 
-    virtual ~TGo4UserSourceParameter() ;
+    virtual ~TGo4UserSourceParameter();
 
     void SetPort(Int_t port) { fiPort=port; }
     Int_t GetPort() const { return fiPort; }

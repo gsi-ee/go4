@@ -367,7 +367,7 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter* fitter,
 
         validline = kTRUE;
 
-        Int_t w = (lok && rok) ? (rbound-lbound)/4 : ( lok ? (pmax-lbound)/2 : (rbound-pmax)/2 ) ;
+        Int_t w = (lok && rok) ? (rbound-lbound)/4 : ( lok ? (pmax-lbound)/2 : (rbound-pmax)/2 );
         if (w<2) w=2;
 
         TArrayD Coef1(3), Coef2(2);

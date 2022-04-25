@@ -25,11 +25,11 @@
  */
 class TGo4EventStoreParameter : public TGo4Parameter {
   public:
-    TGo4EventStoreParameter() ;
+    TGo4EventStoreParameter();
 
     TGo4EventStoreParameter(const char* name, Int_t id = 0);
 
-    virtual ~TGo4EventStoreParameter() ;
+    virtual ~TGo4EventStoreParameter();
 
     Int_t GetID() const { return fiID; }
 

@@ -168,7 +168,7 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
    Bool_t result=kTRUE;
    if(name==0) {
       // reset to defaults:
-      fiLastStepIndex=fxStepList->GetLast() ; // end of steplist
+      fiLastStepIndex=fxStepList->GetLast(); // end of steplist
       if(fiLastStepIndex<0)
          fiLastStepIndex=0; // case of empty steplist
       TGo4Analysis::Instance()->Message(0,"Analysis: Setting last step to end of steplist");

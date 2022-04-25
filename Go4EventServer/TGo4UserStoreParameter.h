@@ -28,7 +28,7 @@ class TGo4UserStoreParameter : public TGo4EventStoreParameter {
 
     TGo4UserStoreParameter(const char* name);
 
-    virtual ~TGo4UserStoreParameter() ;
+    virtual ~TGo4UserStoreParameter();
 
     /** basic method to printout object */
     void Print(Option_t* = "") const override;

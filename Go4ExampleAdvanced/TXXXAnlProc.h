@@ -23,7 +23,7 @@ class TGo4Fitter;
 
 class TXXXAnlProc : public TGo4EventProcessor {
    public:
-      TXXXAnlProc() ;
+      TXXXAnlProc();
       TXXXAnlProc(const char * name);
       virtual ~TXXXAnlProc();
 

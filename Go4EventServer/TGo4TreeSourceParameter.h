@@ -22,7 +22,7 @@ class TGo4TreeSourceParameter : public TGo4EventSourceParameter {
 
      TGo4TreeSourceParameter(const char* name);
 
-     virtual ~TGo4TreeSourceParameter() ;
+     virtual ~TGo4TreeSourceParameter();
 
   ClassDefOverride(TGo4TreeSourceParameter,1)
 };

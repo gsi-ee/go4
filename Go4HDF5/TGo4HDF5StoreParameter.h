@@ -20,7 +20,7 @@
 class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
 
    public:
-      TGo4HDF5StoreParameter() ;
+      TGo4HDF5StoreParameter();
 
       TGo4HDF5StoreParameter(const char* name, Go4_H5_File_Flags flags = GO4_H5F_ACC_TRUNC);
 

@@ -22,7 +22,7 @@ class TProfile2D;
 
 class TXXXProc : public TGo4EventProcessor {
    public:
-      TXXXProc() ;
+      TXXXProc();
       TXXXProc(const char* name);
       virtual ~TXXXProc();
 
