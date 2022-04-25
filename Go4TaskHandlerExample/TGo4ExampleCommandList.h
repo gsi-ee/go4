@@ -24,7 +24,7 @@ class TGo4ExampleCommandList : public TGo4TaskHandlerCommandList {
 
    ~TGo4ExampleCommandList();
 
-   ClassDef(TGo4ExampleCommandList,1)
+   ClassDefOverride(TGo4ExampleCommandList,1)
 };
 #endif //TGO4EXAMPLECOMMANDLIST_H
 

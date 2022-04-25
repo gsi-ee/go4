@@ -50,14 +50,14 @@ class TGo4ClientTask : public TGo4Task {
        * override the ThreadManager Initialization used by AppControlTimer
        *  to let this thing initialize the client transport connection
        */
-      virtual Int_t Initialization();
+      Int_t Initialization() override;
 
       /**
        * Quit the client; method to be called from
        * command object, may be overridden in user
        * implementation
        */
-      virtual void Quit();
+      void Quit() override;
 
       /**
        * create a status object with information on the
@@ -65,20 +65,20 @@ class TGo4ClientTask : public TGo4Task {
        * server or may be used to restore current status by
        * memento mechanism
        */
-      virtual TGo4TaskStatus* CreateStatus();
+      TGo4TaskStatus* CreateStatus() override;
 
-      TGo4TaskHandler* GetTaskHandler();
+      TGo4TaskHandler* GetTaskHandler() override;
 
       /**
        * Put command into the command queue for local execution in main thread
        */
       void AddLocalCommand(TGo4Command * com);
 
-      TGo4BufferQueue* GetCommandQueue(const char* task=0);
+      TGo4BufferQueue* GetCommandQueue(const char* task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char* task=0);
+      TGo4BufferQueue* GetStatusQueue(const char* task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char* task=0);
+      TGo4BufferQueue* GetDataQueue(const char* task = nullptr) override;
 
       /**
        * Connect this client to a waiting server task on node with
@@ -87,7 +87,7 @@ class TGo4ClientTask : public TGo4Task {
        */
       Bool_t ConnectServer(const char* node, UInt_t negport,
                             Go4CommandMode_t role=kGo4ComModeRefused,
-                            const char* passwd=0);
+                            const char* passwd = nullptr);
 
       /**
        * Disconnect the current server task, but do not terminate the client.
@@ -97,7 +97,7 @@ class TGo4ClientTask : public TGo4Task {
        */
       Bool_t DisconnectServer(Bool_t isterminating=kFALSE);
 
-      const char* GetServerHostName(){return fxServerHostname.Data();}
+      const char* GetServerHostName() { return fxServerHostname.Data(); }
 
       Bool_t IsConnected() const { return fbServerConnected; }
 
@@ -109,18 +109,18 @@ class TGo4ClientTask : public TGo4Task {
        * set the values of the clienttask specific
        * part of the status object.
        */
-      virtual void UpdateStatus(TGo4TaskStatus* state);
+      void UpdateStatus(TGo4TaskStatus* state) override;
 
    private:
-      TGo4BufferQueue* fxStatusQ; //!
-      TGo4BufferQueue* fxDataQ; //!
-      TGo4BufferQueue* fxCommandQ; //!
+      TGo4BufferQueue* fxStatusQ{nullptr}; //!
+      TGo4BufferQueue* fxDataQ{nullptr}; //!
+      TGo4BufferQueue* fxCommandQ{nullptr}; //!
 
       /** @link aggregationByValue
        * @directed
        * @clientCardinality 1
        * @supplierCardinality 1*/
-      TGo4TaskHandler* fxTaskHandler; //!
+      TGo4TaskHandler* fxTaskHandler{nullptr}; //!
 
       /** hostname of server machine */
       TString fxServerHostname;
@@ -129,13 +129,13 @@ class TGo4ClientTask : public TGo4Task {
        * at Initialization. This is the previous behaviour with
        * standalone client. If false, connection will be done on ConnectServer method.
        */
-      Bool_t fbAutoConnect;
+      Bool_t fbAutoConnect{kFALSE};
 
       /**
        * true if connection to server is established, otherwise false
        */
-      Bool_t fbServerConnected;
-   ClassDef(TGo4ClientTask,1)
+      Bool_t fbServerConnected{kFALSE};
+   ClassDefOverride(TGo4ClientTask,1)
 };
 
 #endif //TGO4CLIENTTASK_H
