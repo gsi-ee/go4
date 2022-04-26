@@ -33,10 +33,10 @@ class TGo4DisplayLoggerTimer : public TTimer {
 
       virtual ~TGo4DisplayLoggerTimer() {}
 
-      virtual Bool_t Notify ();
+      Bool_t Notify() override;
 
   private:
-      TGo4Display* fxDisplay;    //!
+      TGo4Display* fxDisplay{nullptr};  //!
 
 };
 

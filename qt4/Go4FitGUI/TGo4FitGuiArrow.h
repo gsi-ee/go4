@@ -53,7 +53,7 @@ public:
    void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
 #ifdef __GO4WEB__
-   virtual Bool_t Notify();
+   Bool_t Notify() override;
 #endif
 
 private:
@@ -70,8 +70,5 @@ private:
 
    void TestNewPosition();
 };
-
-
-
 
 #endif

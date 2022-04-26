@@ -33,11 +33,11 @@ class TGo4DisplayDrawerTimer : public TTimer {
 
       virtual ~TGo4DisplayDrawerTimer() {}
 
-      virtual Bool_t Notify ();
+      Bool_t Notify() override;
 
     private:
 
-      TGo4Display* fxDisplay;   //!
+      TGo4Display *fxDisplay{nullptr};   //!
 };
 
 #endif //TGO4DISPLAYDRAWERTIMER_H
