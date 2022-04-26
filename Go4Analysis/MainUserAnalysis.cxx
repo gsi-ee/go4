@@ -823,8 +823,8 @@ int main(int argc, char **argv)
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
          const char* hostname = gSystem->HostName();
-         if ((hostname==0) || (*hostname==0)) hostname = "localhost";
-         http_args.Add(new TObjString(TString::Format"dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
+         if (!hostname || (*hostname==0)) hostname = "localhost";
+         http_args.Add(new TObjString(TString::Format("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
 #endif
 #endif
