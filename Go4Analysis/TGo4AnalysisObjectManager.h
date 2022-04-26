@@ -645,7 +645,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t IsSortedOrder() const { return fbSortedOrder; }
 
       /** Method used in case when object is cleaned up by the ROOT */
-      virtual void RecursiveRemove(TObject* obj);
+      void RecursiveRemove(TObject* obj) override;
 
       /** Default name of the default (toplevel) dynamic list  */
       static const char* fgcTOPDYNAMICLIST;
