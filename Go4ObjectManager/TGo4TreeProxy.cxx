@@ -23,14 +23,14 @@ class TGo4BranchAccess : public TGo4Access {
    public:
       TGo4BranchAccess(TBranch* br) : TGo4Access(), fBranch(br) {}
 
-      virtual const char* GetObjectName() const
+      const char* GetObjectName() const override
         { return fBranch->GetName(); }
 
-      virtual const char* GetObjectClassName() const
+      const char* GetObjectClassName() const override
         { return fBranch->ClassName(); }
 
    private:
-      TBranch*   fBranch;  //!
+      TBranch*   fBranch{nullptr};  //!
 };
 
 // ****************************************************************
@@ -58,49 +58,49 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          do {
             TObject* res = fIter->Next();
-            if (res==0) return kFALSE;
+            if (!res) return kFALSE;
             fCurrent = dynamic_cast<TBranch*> (res);
-         } while (fCurrent==0);
+         } while (!fCurrent);
          return kTRUE;
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
          return fCurrent->GetListOfBranches()->GetEntries() > 0;
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
         return new TGo4TreeLevelIter(fCurrent);
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          return fCurrent->GetName();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->GetClassName();
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          return isfolder() ? TGo4Access::kndTreeBranch : TGo4Access::kndTreeLeaf;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          return fCurrent->ClassName();
       }
 
    protected:
-      TIterator*     fIter;     //!
-      TBranch*       fCurrent;  //!
+      TIterator*     fIter{nullptr};     //!
+      TBranch*       fCurrent{nullptr};  //!
 };
 
 // ***********************************************************************

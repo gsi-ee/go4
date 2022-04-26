@@ -31,26 +31,26 @@ class TGo4HServIter : public TGo4LevelIter {
 
       virtual ~TGo4HServIter() {}
 
-      virtual Bool_t next()
+      Bool_t next() override
          { return (fSlot!=0) && (++fIndex<fSlot->NumChilds()); }
 
-      virtual Bool_t isfolder() { return curSlot()->HasSlotsSubLevels(); }
+      Bool_t isfolder() override { return curSlot()->HasSlotsSubLevels(); }
 
-      virtual TGo4LevelIter* subiterator() { return new TGo4HServIter(curSlot()); }
+      TGo4LevelIter* subiterator() override { return new TGo4HServIter(curSlot()); }
 
-      virtual const char* name() { return curSlot()->GetName();  }
+      const char* name() override { return curSlot()->GetName();  }
 
-      virtual const char* info() { return curSlot()->GetTitle(); }
+      const char* info() override { return curSlot()->GetTitle(); }
 
-      virtual Int_t getflag(const char* flagname)
+      Int_t getflag(const char* flagname) override
       {
          if (strcmp(flagname,"IsRemote")==0) return 1;
          return -1;
       }
 
-      virtual Int_t GetKind() { return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject; }
+      Int_t GetKind() override { return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject; }
 
-      virtual const char* GetClassName() { return curSlot()->GetPar("::HistoClass"); }
+      const char* GetClassName() override { return curSlot()->GetPar("::HistoClass"); }
 
     protected:
        TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }
@@ -77,25 +77,25 @@ class TGo4HServObjectAccess : public TGo4Access {
 
       virtual ~TGo4HServObjectAccess() {}
 
-      virtual Bool_t CanGetObject() const { return fHServ!=0; }
+      Bool_t CanGetObject() const override { return fHServ!=nullptr; }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override
       {
-         if (fHServ==0) return kFALSE;
+         if (!fHServ) return kFALSE;
          obj = fHServ->GetHistogram(fObjName.Data());
-         if (obj!=0) owner = kTRUE;
-         return (obj!=0);
+         if (obj) owner = kTRUE;
+         return obj!=nullptr;
       }
 
-      virtual const char* GetObjectName() const { return fObjName.Data(); }
+      const char* GetObjectName() const override { return fObjName.Data(); }
 
-      virtual const char* GetObjectClassName() const { return fObjClassName.Data(); }
+      const char* GetObjectClassName() const override { return fObjClassName.Data(); }
 
    private:
-      TGo4HServProxy* fHServ;         //!
-      TString             fObjName;       //!
-      TString             fObjFullName;   //!
-      TString             fObjClassName;  //!
+      TGo4HServProxy *fHServ;         //!
+      TString         fObjName;       //!
+      TString         fObjFullName;   //!
+      TString         fObjClassName;  //!
 };
 
 

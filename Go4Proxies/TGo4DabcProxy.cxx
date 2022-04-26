@@ -158,25 +158,25 @@ class TGo4DabcAccess : public TGo4Access {
          //printf("Destroy ACCESS %p\n", this);
       }
 
-      virtual Bool_t IsRemote() const { return kTRUE; }
+      Bool_t IsRemote() const override { return kTRUE; }
 
-      virtual Bool_t CanGetObject() const { return kFALSE; }
+      Bool_t CanGetObject() const override { return kFALSE; }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const { return kFALSE; }
+      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
 
-      virtual TClass* GetObjectClass() const
+      TClass* GetObjectClass() const override
       {
          if (fRootClassName.length() > 0)
             return TGo4Proxy::GetClass(fRootClassName.c_str());
-         return 0;
+         return nullptr;
       }
 
-      virtual const char* GetObjectName() const
+      const char* GetObjectName() const override
       {
          return fObjName.c_str();
       }
 
-      virtual const char* GetObjectClassName() const
+      const char* GetObjectClassName() const override
       {
          if (fRootClassName.length()>0) return fRootClassName.c_str();
 
@@ -184,9 +184,9 @@ class TGo4DabcAccess : public TGo4Access {
       }
 
 
-      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override
       {
-         if (rcv==0) return 0;
+         if (!rcv) return 0;
 
          dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
          if (wrk.null()) return 0;
@@ -434,7 +434,7 @@ class TReplyTimer : public TTimer {
          Add();
       }
 
-      virtual Bool_t Notify()
+      Bool_t Notify() override
       {
          double res_tm = -1.;
 
@@ -511,7 +511,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       virtual ~TGo4DabcLevelIter() {}
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          if (fParent.NumChilds()==0) return kFALSE;
 
@@ -530,26 +530,27 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return !fChild.null();
       }
 
-      virtual Bool_t isfolder() { return fChild.NumChilds()>0; }
+      Bool_t isfolder() override { return fChild.NumChilds()>0; }
 
-      virtual Int_t getflag(const char* flagname)
+      Int_t getflag(const char* flagname) override
       {
          if (strcmp(flagname,"IsRemote")==0) return 1;
          return -1;
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : 0;
       }
 
-      virtual TGo4Slot* getslot() { return 0; }
+      TGo4Slot* getslot() override { return nullptr; }
 
-      virtual const char* name() { return fChild.GetName(); }
-      virtual const char* info() { return "item from dabc"; }
-      virtual Int_t sizeinfo() { return 0; }
+      const char* name() override { return fChild.GetName(); }
+      const char* info() override { return "item from dabc"; }
+      Int_t sizeinfo() override { return 0; }
 
-      virtual Int_t GetKind() {
+      Int_t GetKind() override
+      {
          if (isfolder()) return TGo4Access::kndFolder;
 
          if (IsRateHistory(fChild)) return TGo4Access::kndObject;
@@ -561,7 +562,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          if (IsRateHistory(fChild)) return "TGraph";
 
@@ -587,9 +588,9 @@ TGo4DabcProxy::TGo4DabcProxy() :
 
 TGo4DabcProxy::~TGo4DabcProxy()
 {
-   if (fxHierarchy!=0) {
+   if (fxHierarchy) {
       delete ((dabc::Hierarchy*) fxHierarchy);
-      fxHierarchy = 0;
+      fxHierarchy = nullptr;
    }
 }
 

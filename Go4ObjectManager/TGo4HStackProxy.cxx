@@ -39,38 +39,38 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
          delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          fCurrent = fIter->Next();
          return (fCurrent!=0);
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
          return kFALSE;
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
-         return 0;
+         return nullptr;
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          return fCurrent->GetName();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->ClassName();
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          return TGo4Access::kndObject;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          return fCurrent->ClassName();
       }

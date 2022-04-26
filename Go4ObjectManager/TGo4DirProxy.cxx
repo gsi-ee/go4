@@ -31,14 +31,14 @@ class TGo4KeyAccess : public TGo4Access {
    public:
       TGo4KeyAccess(TDirectory* dir, TKey* key) : TGo4Access(), fDir(dir), fKey(key) {}
 
-      virtual Bool_t CanGetObject() const
+      Bool_t CanGetObject() const override
         { return kTRUE; }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override
       {
          TClass* cl = gROOT->GetClass(fKey->GetClassName());
-         if ((cl!=0) && !cl->IsLoaded()) {
-            obj = 0;
+         if (cl && !cl->IsLoaded()) {
+            obj = nullptr;
             owner = kFALSE;
             return kFALSE;
          }
@@ -53,15 +53,15 @@ class TGo4KeyAccess : public TGo4Access {
          return kTRUE;
       }
 
-      virtual const char* GetObjectName() const
+      const char* GetObjectName() const override
         { return fKey->GetName(); }
 
-      virtual const char* GetObjectClassName() const
+      const char* GetObjectClassName() const override
         { return fKey->GetClassName(); }
 
    private:
-      TDirectory*  fDir;     //!
-      TKey*        fKey;     //!
+      TDirectory*  fDir{nullptr};     //!
+      TKey*        fKey{nullptr};     //!
 };
 
 // ************************************************************************
@@ -91,10 +91,10 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
       virtual ~TGo4DirLevelIter()
       {
-         if (fIter!=0) delete fIter;
+         if (fIter) delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          Bool_t donext = kTRUE;
 
@@ -130,7 +130,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
                 cl->InheritsFrom(THStack::Class());
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
          TClass* cl = 0;
          if (fIsKeyIter) {
@@ -146,7 +146,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return IsContainerClass(cl);
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          TObject* obj = fIsKeyIter ? fDir->Get(fCurrent->GetName()) : fCurrent;
 
@@ -165,7 +165,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return subdir==0 ? 0 : new TGo4DirLevelIter(subdir, fReadRight);
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          if (!fIsKeyIter) return fCurrent->GetName();
          TKey* key = (TKey*) fCurrent;
@@ -174,14 +174,14 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return fNameBuf.Data();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->GetTitle();
       }
 
-      virtual Int_t sizeinfo()
+      Int_t sizeinfo() override
       {
-         TClass* cl = 0;
+         TClass* cl = nullptr;
          Int_t sz = 0;
          if (fIsKeyIter) {
             TKey* key = (TKey*) fCurrent;
@@ -197,7 +197,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return isdir ? 0 : sz;
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          if (isfolder()) return TGo4Access::kndFolder;
 
@@ -211,7 +211,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return TGo4Access::kndObject;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
           return fIsKeyIter ? ((TKey*) fCurrent)->GetClassName() : fCurrent->ClassName();
       }

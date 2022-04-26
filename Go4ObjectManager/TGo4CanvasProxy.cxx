@@ -29,8 +29,8 @@
 
 class TGo4CanvasLevelIter : public TGo4LevelIter {
    protected:
-      TIterator*     fIter;     //!
-      TObject*       fCurrent;  //!
+      TIterator*     fIter{nullptr};     //!
+      TObject*       fCurrent{nullptr};  //!
       TObjArray      fStacks;   //!
    public:
       TGo4CanvasLevelIter(TPad* pad) :
@@ -48,7 +48,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          bool skip = false;
          do {
@@ -82,13 +82,13 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          return (fCurrent!=0);
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
          return (dynamic_cast<TPad*>(fCurrent)!=0) ||
                  (dynamic_cast<THStack*>(fCurrent)!=0);
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          TPad* subpad = dynamic_cast<TPad*>(fCurrent);
          if (subpad!=0) return new TGo4CanvasLevelIter(subpad);
@@ -97,22 +97,22 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          return 0;
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          return fCurrent->GetName();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->ClassName();
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          return fCurrent->ClassName();
       }
