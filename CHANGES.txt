@@ -21,7 +21,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v6.2.0 (Begin 2022)
+Changes in Go4 v6.2.0 (April 2022)
 1. Provide workaround for same ROOT script execution twice.
    In current ROOT there is problem to unload script which uses Go4 libraries. Therefore if same
    script executed in analysis configuration phase, analysis cannot be reconfigured and crashes because of that.
