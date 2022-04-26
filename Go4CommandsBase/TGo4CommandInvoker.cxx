@@ -32,26 +32,26 @@ class TGo4Pair : public TObject {
 
      virtual ~TGo4Pair() {}
 
-     virtual const char* GetName() const { return fxName.Data(); }
+     const char* GetName() const override { return fxName.Data(); }
 
      TGo4CommandReceiver* GetReceiver() const { return fxReceiver; }
 
   private:
      TString fxName;         //!
-     TGo4CommandReceiver* fxReceiver; //!
+     TGo4CommandReceiver* fxReceiver{nullptr}; //!
 };
 
-TMutex * TGo4CommandInvoker::fxMutex = 0;
-TGo4CommandInvoker * TGo4CommandInvoker::fxInstance = 0;
-TGo4CommandProtoList * TGo4CommandInvoker::fxCommandList = 0;
-TObjArray * TGo4CommandInvoker::fxArray = 0;
+TMutex * TGo4CommandInvoker::fxMutex = nullptr;
+TGo4CommandInvoker * TGo4CommandInvoker::fxInstance = nullptr;
+TGo4CommandProtoList * TGo4CommandInvoker::fxCommandList = nullptr;
+TObjArray * TGo4CommandInvoker::fxArray = nullptr;
 
 TGo4CommandInvoker::TGo4CommandInvoker() :
    TObject(),
    TGo4CommandReceiver()
 {
    GO4TRACE((12,"TGo4CommandInvoker::TGo4CommandInvoker()", __LINE__, __FILE__));
-   fxCommand = 0;
+   fxCommand = nullptr;
    fxArray = new TObjArray(10);
    fxMutex = new TMutex(kTRUE);
    fxCommandList = new TGo4CommandProtoList("Go4 base commandlist");
