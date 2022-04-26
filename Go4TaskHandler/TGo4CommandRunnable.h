@@ -37,7 +37,7 @@ class TGo4CommandRunnable : public TGo4TaskHandlerRunnable {
 
       virtual ~TGo4CommandRunnable();
 
-      virtual Int_t Run(void* ptr);
+      Int_t Run(void* ptr) override;
 
    private:
       TGo4CommandRunnable();
@@ -51,7 +51,7 @@ class TGo4CommandRunnable : public TGo4TaskHandlerRunnable {
        * used to execute the async commands before the command queue
        * server mode: not used
        */
-      TGo4CommandInvoker* fxInvoker; //!
+      TGo4CommandInvoker *fxInvoker{nullptr}; //!
 };
 
 #endif //TGO4COMMANDRUNNABLE_H

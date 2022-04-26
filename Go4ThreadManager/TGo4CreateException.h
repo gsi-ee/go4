@@ -38,7 +38,7 @@ class TGo4CreateException : public TGo4ThreadException {
       /**
        * This is a default handler function for the respective exception type.
        */
-      virtual Int_t Handle ();
+      Int_t Handle() override;
 
 };
 

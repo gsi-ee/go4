@@ -38,7 +38,7 @@ class TGo4ConnectorRunnable : public TGo4Runnable {
 
       virtual ~TGo4ConnectorRunnable() {}
 
-      virtual Int_t Run(void* ptr);
+      Int_t Run(void* ptr) override;
 
    private:
       TGo4ConnectorRunnable();
@@ -47,7 +47,7 @@ class TGo4ConnectorRunnable : public TGo4Runnable {
        * @supplierCardinality 1
        * @directed
        */
-      TGo4TaskManager * fxTaskManager; //!
+      TGo4TaskManager * fxTaskManager{nullptr}; //!
 
 };
 

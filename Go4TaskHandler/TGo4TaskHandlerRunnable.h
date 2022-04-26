@@ -36,7 +36,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
 
       virtual ~TGo4TaskHandlerRunnable();
 
-      virtual Int_t Run(void* ptr) = 0;
+      Int_t Run(void* ptr) override = 0;
 
       TGo4TaskHandler* GetTaskHandler();
 

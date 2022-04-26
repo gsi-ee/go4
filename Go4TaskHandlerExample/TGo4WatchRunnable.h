@@ -31,7 +31,7 @@ class TGo4WatchRunnable : public TGo4Runnable {
 
     virtual ~TGo4WatchRunnable();
 
-    virtual Int_t Run(void*);
+    Int_t Run(void *) override;
 
     /** frequency in ms for the watcher runnable to check the application */
     static const UInt_t fguWATCHINTERVAL;//!
@@ -41,7 +41,7 @@ class TGo4WatchRunnable : public TGo4Runnable {
     /** @supplierCardinality 1
      * @directed
      * @clientCardinality 0..1*/
-    TGo4ExampleApplication * fxApplication;//!
+    TGo4ExampleApplication *fxApplication{nullptr};//!
 
     TGo4WatchRunnable();
 };

@@ -31,14 +31,14 @@ class TGo4LoggingRunnable : public TGo4Runnable {
 
     virtual ~TGo4LoggingRunnable();
 
-    virtual Int_t Run(void*);
+    Int_t Run(void *) override;
 
   private:
     /** @supplierCardinality 1
      * @directed*/
-    TGo4ExampleController * fxController; //!
+    TGo4ExampleController *fxController{nullptr}; //!
 
-    TGo4ExampleServer* fxServer; //!
+    TGo4ExampleServer *fxServer{nullptr}; //!
 
     TGo4LoggingRunnable();
 };

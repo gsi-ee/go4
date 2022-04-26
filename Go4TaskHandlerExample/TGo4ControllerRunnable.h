@@ -32,7 +32,7 @@ class TGo4ControllerRunnable : public TGo4Runnable {
 
     virtual ~TGo4ControllerRunnable();
 
-    virtual Int_t Run(void*);
+    Int_t Run(void *) override;
 
    /** frequency in ms to acquire new command from controller instance */
    static const UInt_t fguCOMMANDINTERVAL;//!
@@ -40,8 +40,8 @@ class TGo4ControllerRunnable : public TGo4Runnable {
   private:
 
     /** @supplierCardinality 1 */
-   TGo4ExampleController * fxController; //!
-   TGo4ExampleServer* fxServer; //!
+   TGo4ExampleController *fxController{nullptr}; //!
+   TGo4ExampleServer *fxServer{nullptr}; //!
 
    TGo4ControllerRunnable();
 };

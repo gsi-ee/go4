@@ -29,13 +29,13 @@ class TGo4HisConnectorRunnable : public TGo4Runnable {
 
       virtual ~TGo4HisConnectorRunnable();
 
-      virtual Int_t Run(void*);
+      Int_t Run(void *) override;
 
    private:
 
       /** @supplierCardinality 1
        * @clientCardinality 1*/
-      TGo4HistogramServer * fxHistogramServer;  //!
+      TGo4HistogramServer * fxHistogramServer{nullptr};  //!
 };
 
 #endif //TGO4HISCONNECTORRUNNABLE_H

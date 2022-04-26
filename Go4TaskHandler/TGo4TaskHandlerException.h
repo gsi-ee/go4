@@ -29,7 +29,7 @@ class TGo4TaskHandlerException : public TGo4ControlException {
 
      virtual ~TGo4TaskHandlerException();
 
-     virtual Int_t Handle () = 0;
+     Int_t Handle() override = 0;
 
   protected:
 

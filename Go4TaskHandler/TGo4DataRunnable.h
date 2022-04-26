@@ -35,7 +35,7 @@ class TGo4DataRunnable : public TGo4TaskHandlerRunnable {
 
       virtual ~TGo4DataRunnable();
 
-      virtual Int_t Run(void* ptr);
+      Int_t Run(void *) override;
 
    private:
       TGo4DataRunnable();

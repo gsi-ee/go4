@@ -34,7 +34,7 @@ class TGo4StatusRunnable : public TGo4TaskHandlerRunnable {
 
       virtual ~TGo4StatusRunnable();
 
-      virtual Int_t Run(void* ptr);
+      Int_t Run(void *) override;
 
    private:
       TGo4StatusRunnable();

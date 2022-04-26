@@ -34,11 +34,11 @@ class TGo4AnalysisMainRunnable : public TGo4Runnable {
 
     virtual ~TGo4AnalysisMainRunnable();
 
-    virtual Int_t Run(void*);
+    Int_t Run(void*) override;
 
-    virtual Int_t PreRun(void * );
+    Int_t PreRun(void *) override;
 
-    virtual Int_t PostRun(void * );
+    Int_t PostRun(void *) override;
 
     /** frequency in ms for polling the run flag
       * (server mode without command queue) */

@@ -32,7 +32,7 @@ class TGo4AnalysisWatchRunnable : public TGo4Runnable {
 
      virtual ~TGo4AnalysisWatchRunnable();
 
-     virtual Int_t Run(void*);
+     Int_t Run(void*) override;
 
     /** frequency in ms for the watcher runnable to check the application */
     static const UInt_t fguWATCHINTERVAL;        //!
