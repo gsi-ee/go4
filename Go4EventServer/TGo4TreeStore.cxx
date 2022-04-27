@@ -157,7 +157,7 @@ Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
    GO4TRACE((12,"TGo4TreeStore::Store(TGo4Parameter*)", __LINE__, __FILE__));
    if(cali) {
       TString oldname = cali->GetName();
-      cali->SetName(Form("%s_%d", oldname.Data(), fxSingletonTree->GetCurrentIndex()));
+      cali->SetName(TString::Format("%s_%d", oldname.Data(), fxSingletonTree->GetCurrentIndex()).Data());
       fxSingletonTree->fxFile->cd(); // we are main tree's friend
       cali->Write(0, TObject::kOverwrite);
       cali->SetName(oldname.Data());

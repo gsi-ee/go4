@@ -121,7 +121,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
 
       if (lst==0) {
          SetCreateStatus(GETEVT__NOFILE);
-         SetErrMess(Form("No lmd file with mask %s", GetName()));
+         SetErrMess(TString::Format("No lmd file with mask %s", GetName()).Data());
          throw TGo4EventErrorException(this);
       }
 
@@ -153,7 +153,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
       std::ifstream ff(fname.Data());
       if(!ff) {
          SetCreateStatus(GETEVT__NOFILE);
-         SetErrMess(Form("Error opening multiple file:%s", fname.Data()));
+         SetErrMess(TString::Format("Error opening multiple file:%s", fname.Data()).Data());
          throw TGo4EventErrorException(this);
       }
 
@@ -212,7 +212,7 @@ Int_t TGo4MbsFile::NextEvent()
       if(GetEventStatus()!=0) {
          char buffer[TGo4EventSource::fguTXTLEN];
          f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
-         SetErrMess(Form("%s file:%s", buffer, GetCurrentFileName()));
+         SetErrMess(TString::Format("%s file:%s", buffer, GetCurrentFileName()).Data());
       }
 
       if(GetEventStatus() == GETEVT__NOMORE) throw TGo4EventEndException(this);
@@ -398,7 +398,7 @@ Int_t TGo4MbsFile::OpenFile()
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
-      SetErrMess(Form("%s file:%s", buffer, GetCurrentFileName()));
+      SetErrMess(TString::Format("%s file:%s", buffer, GetCurrentFileName()).Data());
       fbFileOpen = kFALSE;
       throw TGo4EventErrorException(this);
    } else {

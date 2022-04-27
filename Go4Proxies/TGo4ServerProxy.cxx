@@ -106,21 +106,21 @@ class TGo4Prefs {
 
       void SetPar(const char* name, const char* value, bool force = true)
       {
-         std::string dname = Form("%s%s%s", "%", name, "%");
+         std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
          if (force || (fPars.find(dname) == fPars.end()))
             fPars[dname] = value;
       }
 
       const char* GetPar(const char* name)
       {
-         std::string dname = Form("%s%s%s", "%", name, "%");
-         if (fPars.find(dname) == fPars.end()) return 0;
+         std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
+         if (fPars.find(dname) == fPars.end()) return nullptr;
          return fPars[dname].c_str();
       }
 
       bool HasPar(const char* name)
       {
-         return GetPar(name)!=0;
+         return GetPar(name) != nullptr;
       }
 
       void ReplacePars(std::string& str)
@@ -213,8 +213,8 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       if (shellkind==1) shellname = "rsh"; else
       if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
       prefs.SetPar("shellkind", shellname, false);
-      prefs.SetPar("exekind", Form("%d", exe_kind), false);
-      prefs.SetPar("clientkind", serverkind>0 ? "Go4Server" : "Go4Client", false);
+      prefs.SetPar("exekind", TString::Format("%d", exe_kind).Data(), false);
+      prefs.SetPar("clientkind", serverkind > 0 ? "Go4Server" : "Go4Client", false);
 
       prefs.AddFile("go4.prefs", false);
       prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
@@ -225,15 +225,15 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
 
       prefs.SetPar("guihost", serverhost, false);
       //if (!server)
-      prefs.SetPar("guiport", Form("%d", guiport));
+      prefs.SetPar("guiport", TString::Format("%d", guiport).Data());
       prefs.SetPar("guigo4sys", go4sys, false);
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
 
 
-      if ((exe_kind==1) && (exeargs!=0) && (strlen(exeargs)>0))
-         prefs.SetPar("userargs", Form("%s", exeargs), false);
+      if ((exe_kind==1) && exeargs && (strlen(exeargs) > 0))
+         prefs.SetPar("userargs", exeargs, false);
       else
          prefs.SetPar("userargs", "", false);
 

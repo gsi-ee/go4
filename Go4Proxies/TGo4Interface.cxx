@@ -581,10 +581,10 @@ ViewPanelHandle TGo4Interface::FindViewPanel(const char* name)
 Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char* newname)
 {
    TCanvas* c = (TCanvas*) handle;
-   if ((c==0) || (newname==0) || (strlen(newname)==0)) return kFALSE;
+   if (!c || !newname || (strlen(newname)==0)) return kFALSE;
 
    if (gROOT->GetListOfCanvases()->FindObject(newname)) {
-      Message(Form("Canvas with name %s already exists",newname));
+      Message(TString::Format("Canvas with name %s already exists",newname).Data());
       return kFALSE;
    }
 

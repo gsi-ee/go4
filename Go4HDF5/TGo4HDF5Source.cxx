@@ -40,7 +40,7 @@ TGo4HDF5Source::TGo4HDF5Source(const char* name) :
    fxFilesNames = ProducesFilesList(GetName());
 
    if (!OpenNextFile())
-      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
+      ThrowError(66,0, TString::Format("!!! ERROR: Cannot open source %s!!!", GetName()).Data());
 }
 
 TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
@@ -50,7 +50,7 @@ TGo4HDF5Source::TGo4HDF5Source(TGo4HDF5SourceParameter* par) :
    fxFilesNames = ProducesFilesList(GetName());
 
    if (!OpenNextFile())
-      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
+      ThrowError(66,0, TString::Format("!!! ERROR: Cannot open source %s!!!", GetName()).Data());
 }
 
 

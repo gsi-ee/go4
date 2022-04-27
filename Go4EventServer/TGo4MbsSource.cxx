@@ -309,7 +309,7 @@ frombegin:
    // provide text message for later output
    char buffer[TGo4EventSource::fguTXTLEN];
    f_evt_error(GetEventStatus(),buffer,1);
-   SetErrMess(Form("%s name:%s", buffer, GetName()));
+   SetErrMess(TString::Format("%s name:%s", buffer, GetName()).Data());
 
    if (GetEventStatus() == GETEVT__TIMEOUT)
       throw TGo4EventTimeoutException(this);
@@ -373,7 +373,7 @@ Int_t TGo4MbsSource::Open()
    if(GetCreateStatus() != GETEVT__SUCCESS) {
        char buffer[TGo4EventSource::fguTXTLEN];
        f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
-       SetErrMess(Form("%s name:%s port:%d", buffer, name, nport));
+       SetErrMess(TString::Format("%s name:%s port:%d", buffer, name, nport).Data());
        throw TGo4EventErrorException(this);
     }
 
@@ -391,7 +391,7 @@ Int_t TGo4MbsSource::Open()
    if(GetCreateStatus() != GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
-      SetErrMess(Form("%s name:%s", buffer, GetName()));
+      SetErrMess(TString::Format("%s name:%s", buffer, GetName()).Data());
       fbIsOpen = kFALSE;
       throw TGo4EventErrorException(this);
    } else {
