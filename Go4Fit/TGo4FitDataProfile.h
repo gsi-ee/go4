@@ -58,17 +58,17 @@ class TGo4FitDataProfile : public TGo4FitData {
       /**
        * Create TGo4FitDataProfileIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter();
+      TGo4FitDataIter* MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TProfile object, to list of slots.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list)  override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -78,7 +78,7 @@ class TGo4FitDataProfile : public TGo4FitData {
        */
       TGo4FitSlot fxProfile;
 
-   ClassDef(TGo4FitDataProfile,1)
+   ClassDefOverride(TGo4FitDataProfile,1)
 };
 
 // **************************************************************************
@@ -90,16 +90,16 @@ class TGo4FitDataProfileIter : public TGo4FitDataIter {
       ~TGo4FitDataProfileIter();
 
    protected:
-      virtual TGo4FitData* GetData() const { return fxData; }
-      virtual Bool_t StartReset();
-      virtual Bool_t ReadCurrentPoint();
-      virtual Bool_t ShiftToNextPoint();
+      TGo4FitData* GetData() const override { return fxData; }
+      Bool_t StartReset() override;
+      Bool_t ReadCurrentPoint() override;
+      Bool_t ShiftToNextPoint() override;
 
    private:
-      TGo4FitDataProfile* fxData;
-      Int_t fiNumPoints;
+      TGo4FitDataProfile* fxData{nullptr};
+      Int_t fiNumPoints{0};
 
-   ClassDef(TGo4FitDataProfileIter,1)
+   ClassDefOverride(TGo4FitDataProfileIter,1)
 };
 
 

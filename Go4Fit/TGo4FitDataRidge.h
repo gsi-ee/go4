@@ -71,17 +71,17 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Create TGo4FitDataRidgeIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter();
+      TGo4FitDataIter* MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TGo4FitData object, to list of slots.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list) override;
 
       /**
        * Print information to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      virtual void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -93,9 +93,9 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Number of selected as ridge axis.
        */
-      Int_t fiSelectedAxis;
+      Int_t fiSelectedAxis{0};
 
-   ClassDef(TGo4FitDataRidge,1)
+   ClassDefOverride(TGo4FitDataRidge,1)
 };
 
 // *****************************************************************************
@@ -107,17 +107,17 @@ class TGo4FitDataRidgeIter : public TGo4FitDataIter {
     ~TGo4FitDataRidgeIter();
 
   protected:
-    virtual TGo4FitData* GetData() const { return fxData; }
-    virtual Bool_t StartReset();
-    virtual Bool_t ReadCurrentPoint();
-    virtual Bool_t ShiftToNextPoint();
+    TGo4FitData* GetData() const override { return fxData; }
+    Bool_t StartReset() override;
+    Bool_t ReadCurrentPoint() override;
+    Bool_t ShiftToNextPoint() override;
 
   private:
-    TGo4FitDataRidge* fxData;           //!
-    TGo4FitDataIter* iter;              //!
+    TGo4FitDataRidge* fxData{nullptr};           //!
+    TGo4FitDataIter* iter{nullptr};              //!
     TArrayD fxOwnScales;                //!
 
-  ClassDef(TGo4FitDataRidgeIter,1)
+  ClassDefOverride(TGo4FitDataRidgeIter,1)
 };
 
 #endif // TGO4FITDATARIDGE_H

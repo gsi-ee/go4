@@ -115,7 +115,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Remove all data, all models and all actions
        */
-      virtual void Clear(Option_t* option = 0);
+      void Clear(Option_t* option = "") override;
 
       /**
        * Return number of data objects in fitter.
@@ -315,18 +315,18 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * If DataName not specified (default), NDF calculates for all data objects.
        * NDF defined as total number of bins in data object minus number of variable parameters.
        */
-      Int_t CalculateNDF(const char* DataName = 0);
+      Int_t CalculateNDF(const char *DataName = nullptr);
 
       /**
        * Collect all TGo4FitSlot objects, situated in fitter, data and models to givven TObjArray.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection *) override;
 
       /**
        * Print containment of fitter.
        * If option = "**", print also containment of all associated objects like histogram, calibrations and so on.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
       /**
        * Calculates first and second momentum for specified data
@@ -360,7 +360,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        *    Draw("data1,Gauss1,Gauss2") - draw data object "data1", full model and model components with names "Gauss1" and "Gauss2"
        * All objects is created via CreateDrawObject() method and stored in internal list. They will be moved to ROOT when fitter will be destroyed.
        */
-      virtual void Draw(Option_t* option);
+      void Draw(Option_t* option) override;
 
       /**
        * Copy pointer on drawn object after last command to specified TObjArray.
@@ -403,15 +403,15 @@ class TGo4Fitter : public TGo4FitterAbstract {
       void RebuildAll(Bool_t ForceBuild = kFALSE);
 
 
-      virtual void CollectAllPars();
+      void CollectAllPars() override;
 
-      virtual Double_t DoCalculation();
-      virtual Int_t DoNDFCalculation();
-      Double_t CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata = 0);
+      Double_t DoCalculation() override;
+      Int_t DoNDFCalculation() override;
+      Double_t CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata = nullptr);
       Double_t PointFitFunction(Int_t FitFunctionType, Double_t value, Double_t modelvalue, Double_t standdev);
 
-      virtual Bool_t InitFitterData();
-      virtual void FinalizeFitterData();
+      Bool_t InitFitterData() override;
+      void FinalizeFitterData() override;
 
       /**
        * Container for data objects.
@@ -426,12 +426,12 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Defines type of fitted function.
        */
-      Int_t fiFitFunctionType;
+      Int_t fiFitFunctionType{0};
 
       /**
        * Defines use of memory during actions executions.
        */
-      Int_t fiMemoryUsage;
+      Int_t fiMemoryUsage{0};
 
    private:
 
@@ -441,11 +441,11 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Pointer on user fit function.
        */
-      TUserFitFunction fxUserFitFunction;    //!
+      TUserFitFunction fxUserFitFunction{nullptr};    //!
 
-      TObjArray* fxDrawObjs;                 //!
+      TObjArray* fxDrawObjs{nullptr};                //!
 
-   ClassDef(TGo4Fitter,1)
+   ClassDefOverride(TGo4Fitter,1)
 };
 
 #endif // TGO4FITTER_H

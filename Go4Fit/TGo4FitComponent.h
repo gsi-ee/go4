@@ -238,7 +238,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Print info about object on standard output.
        */
-      void Print(Option_t* option) const override;
+      void Print(Option_t *option = "") const override;
 
    protected:
 

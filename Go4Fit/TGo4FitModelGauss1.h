@@ -61,36 +61,35 @@ class TGo4FitModelGauss1 : public TGo4FitModel {
       /**
        * Print information to standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
-      virtual Double_t Integral();
+      Double_t Integral() override;
 
-      virtual Bool_t BeforeEval(Int_t ndim);
-      virtual Double_t EvalN(const Double_t* v);
+      Bool_t BeforeEval(Int_t ndim) override;
+      Double_t EvalN(const Double_t* v) override;
 
    protected:
-      virtual Int_t GetPosParIndex(Int_t naxis) { return (naxis==fiNaxis) ? 1 : -1; }
-      virtual Int_t GetWidthParIndex(Int_t naxis) { return (naxis==fiNaxis) ? 2 : -1; }
-
+      Int_t GetPosParIndex(Int_t naxis) override { return (naxis==fiNaxis) ? 1 : -1; }
+      Int_t GetWidthParIndex(Int_t naxis) override { return (naxis==fiNaxis) ? 2 : -1; }
 
       /**
-       * Number of selected axis, where gaussian wil be build.
+       * Number of selected axis, where gaussian will be build.
        */
-      Int_t fiNaxis;
+      Int_t fiNaxis{0};
 
    private:
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_x0;            //!
-
+      Double_t Par_x0{0.};            //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t Par_k;             //!
+      Double_t Par_k{0.};             //!
 
-   ClassDef(TGo4FitModelGauss1,1)
+   ClassDefOverride(TGo4FitModelGauss1,1)
 };
+
 #endif // TGO4FITMODELGAUSS1_H

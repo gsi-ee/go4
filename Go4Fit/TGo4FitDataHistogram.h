@@ -71,7 +71,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Print information to standard output.
        */
-      void Print(Option_t* option) const override;
+      void Print(Option_t *option = "") const override;
 
    protected:
 

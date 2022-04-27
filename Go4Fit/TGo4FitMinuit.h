@@ -115,17 +115,17 @@ class TGo4FitMinuit : public TGo4FitterAction {
        */
       void ClearResults() { fxResults.Clear(); }
 
-      virtual Bool_t NeedBuffers() const { return kTRUE; }
+      Bool_t NeedBuffers() const  override { return kTRUE; }
 
       /**
        * Execute all Minuit commands.
        */
-      virtual void DoAction(TGo4FitterAbstract* Fitter);
+      void DoAction(TGo4FitterAbstract* Fitter) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -139,14 +139,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
        */
       TObjArray fxResults;
 
-   private:
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label TObjArray*/
-      /*#  TGo4FitMinuitResult ResultArray; */
-
-   ClassDef(TGo4FitMinuit,1)
+   ClassDefOverride(TGo4FitMinuit,1)
 };
 
 #endif // TGO4FITMINUIT_H

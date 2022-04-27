@@ -42,37 +42,35 @@ class TGo4FitMinuitResult : public TNamed {
       void CallMNEMAT(TMinuit* fMinuit, Int_t nPars, Bool_t DoTransform = kTRUE);
       void GetContourPlot(TMinuit* fMinuit);
 
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
       // by MNSTAT command
-      Double_t FMIN;
-      Double_t FEDM;
-      Double_t ERRDEF;
-      Int_t NPARI;
-      Int_t  NPARX;
-      Int_t ISTAT;
+      Double_t FMIN{0.};
+      Double_t FEDM{0.};
+      Double_t ERRDEF{0.};
+      Int_t NPARI{0};
+      Int_t  NPARX{0};
+      Int_t ISTAT{0};
 
       // by MNPOUT command
-      TArrayD* ParValues;
-      TArrayD* ParError;
+      TArrayD* ParValues{nullptr};
+      TArrayD* ParError{nullptr};
 
       // by MNERRS command
-      TArrayD* EPLUS;
-      TArrayD* EMINUS;
-      TArrayD* EPARAB;
-      TArrayD* GLOBCC;
+      TArrayD* EPLUS{nullptr};
+      TArrayD* EMINUS{nullptr};
+      TArrayD* EPARAB{nullptr};
+      TArrayD* GLOBCC{nullptr};
 
       // by MNEMAT command
-      TMatrixD* ERRORMATRIX;
+      TMatrixD* ERRORMATRIX{nullptr};
 
       // contour plot
-      TArrayD* CONTOX;
-      TArrayD* CONTOY;
-      TArrayC* CONTOCH;
+      TArrayD* CONTOX{nullptr};
+      TArrayD* CONTOY{nullptr};
+      TArrayC* CONTOCH{nullptr};
 
-   private:
-
-   ClassDef(TGo4FitMinuitResult,1)
+   ClassDefOverride(TGo4FitMinuitResult,1)
 };
 
 #endif // TGO4FITMINUITRESULT_H

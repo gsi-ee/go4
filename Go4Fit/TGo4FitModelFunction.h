@@ -70,7 +70,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       /**
        * Signals, that amplitude parameter can be removed from or introduced to object.
        */
-      virtual Bool_t CanAmplTouch() { return kTRUE; }
+      Bool_t CanAmplTouch() override { return kTRUE; }
 
       /**
        * Set address to user function.
@@ -120,10 +120,10 @@ class TGo4FitModelFunction : public TGo4FitModel {
        * Prepare object to evaluations.
        * When usage of function from library is specified, library will be loaded at this time.
        */
-      virtual Bool_t BeforeEval(Int_t ndim);
-      virtual void AfterEval();
+      Bool_t BeforeEval(Int_t ndim) override;
+      void AfterEval() override;
 
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t *option = "") const override;
 
    protected:
 
@@ -131,21 +131,21 @@ class TGo4FitModelFunction : public TGo4FitModel {
        * Initialize object.
        * When usage of function from library is specified, library will be loaded at this time.
        */
-      virtual Bool_t Initialize(Int_t UseBuffers = -1);
+      Bool_t Initialize(Int_t UseBuffers = -1) override;
 
       /**
        * Finalize object.
        * Close library, if it was opened.
        */
-      virtual void Finalize();
+      void Finalize() override;
 
       virtual TString GetFuncParName(Int_t n);
       TGo4FitParameter* GetFuncPar(Int_t n);
 
-      virtual Int_t GetPosParIndex(Int_t naxis);
-      virtual Int_t GetWidthParIndex(Int_t naxis);
+      Int_t GetPosParIndex(Int_t naxis) override;
+      Int_t GetWidthParIndex(Int_t naxis) override;
 
-      virtual Double_t UserFunction(Double_t* Coordinates, Double_t* Parameters);
+      Double_t UserFunction(Double_t* Coordinates, Double_t* Parameters) override;
 
       Bool_t LoadLibrary(Bool_t CloseFirst);
       void CloseLibrary();
@@ -169,14 +169,14 @@ class TGo4FitModelFunction : public TGo4FitModel {
       /**
        * Direct pointer on function.
        */
-      TUserFunction fxUserFunction;             //!
+      TUserFunction fxUserFunction{nullptr};             //!
 
       /**
        * Pointer on loaded library descriptor.
        */
-      void* fxLibrary;                          //!
+      void *fxLibrary{nullptr};                          //!
 
-   ClassDef(TGo4FitModelFunction,1)
+   ClassDefOverride(TGo4FitModelFunction,1)
 };
 
 #endif // TGO4FITMODELFUNCTION_H
