@@ -41,7 +41,7 @@ TGo4AnalysisObjectCommand::~TGo4AnalysisObjectCommand()
 
 void TGo4AnalysisObjectCommand::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    SetObjectName(remcom->GetString(0));
    if(strcmp(remcom->GetString(1),TGo4RemoteCommand::Get_fgxREMCOMEMPTYSTRING()))
       SetFolderName(remcom->GetString(1)); // only reset folder if specified!

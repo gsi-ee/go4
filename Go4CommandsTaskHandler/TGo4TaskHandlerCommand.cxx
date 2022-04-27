@@ -18,8 +18,8 @@
 TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* description) :
    TGo4Command(name,description,5)
 {
-   fbIsEnabled=kTRUE;
-   fbIsSynchron=kTRUE;
+   fbIsEnabled = kTRUE;
+   fbIsSynchron = kTRUE;
    SetReceiverName("Task"); // sets the receiver name checked by command invoker
                                   // receiver name neednt be class name!
    SetProtection(kGo4ComModeController); // only controller connection may execute these commands
@@ -28,8 +28,8 @@ TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* des
 TGo4TaskHandlerCommand::TGo4TaskHandlerCommand() :
    TGo4Command()
 {
-   fbIsEnabled=kTRUE;
-   fbIsSynchron=kTRUE;
+   fbIsEnabled = kTRUE;
+   fbIsSynchron = kTRUE;
    SetReceiverName("Task"); // sets the receiver name checked by command invoker
                                   // receiver name neednt be class name!
    SetProtection(kGo4ComModeController);

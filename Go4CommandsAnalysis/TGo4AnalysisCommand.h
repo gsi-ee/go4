@@ -28,9 +28,9 @@ class TGo4AnalysisCommand : public TGo4Command {
     TGo4AnalysisCommand(const TGo4AnalysisCommand &right);
 
     /** Optional action if command is not allowed (warning message e.g.) */
-    virtual Int_t RefuseCom();
+    Int_t RefuseCom() override;
 
-  ClassDef(TGo4AnalysisCommand,1)
+  ClassDefOverride(TGo4AnalysisCommand,1)
 };
 
 #endif //TGO4ANALYSISCOMMAND_H

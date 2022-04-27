@@ -28,9 +28,9 @@ class TGo4TaskHandlerCommand : public TGo4Command {
       virtual ~TGo4TaskHandlerCommand() {}
 
       /** Optional action if command is not allowed (warning message e.g.) */
-      virtual Int_t RefuseCom();
+      Int_t RefuseCom() override;
 
-  ClassDef(TGo4TaskHandlerCommand,1)
+  ClassDefOverride(TGo4TaskHandlerCommand,1)
 };
 
 #endif //TGO4TASKHANDLERCOMMAND_H
