@@ -643,7 +643,7 @@ for(ll=0;ll<l_histos;ll++)
    l_status = f_stc_write (&s_his_comm_serv,sizeof(s_his_comm), l_gl_serv_chan);
    if(l_status != STC__SUCCESS)
         { printf("error writing comm to client\n"); f_stc_discclient(l_gl_serv_chan); return(COMM__ERROR);}
-   if(l_gl_serv_verb == 1) {printf("%-32s %8lu\n",ps_his_head->c_name, (long unsigned) s_his_comm_serv.lu_size-sizeof(s_his_head));}
+   if(l_gl_serv_verb == 1) printf("%-32s %8lu\n",ps_his_head->c_name, (long unsigned) (s_his_comm_serv.lu_size-sizeof(s_his_head)));
    l_status = f_stc_write (ps_his_head,sizeof(s_his_head), l_gl_serv_chan);
    if(l_status != STC__SUCCESS)
    { printf("error writing header to client\n"); f_stc_discclient(l_gl_serv_chan); return(COMM__ERROR); }
