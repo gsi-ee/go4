@@ -24,20 +24,17 @@
 
 const Int_t TGo4EventSource::fgiTIMEOUTDEFAULT=1; // source timeout default in seconds
 
+TGo4EventSource::TGo4EventSource() :
+   TNamed("default eventsource","This is a Go4 EventSource")
+{
+}
+
 TGo4EventSource::TGo4EventSource(const char* name) :
-   TNamed(name, "This is a Go4 Event Source"),
-   fiCreateStatus(0),
-   fiEventStatus(0)
+   TNamed(name, "This is a Go4 Event Source")
 {
    GO4TRACE((15,"TGo4EventSource::TGo4EventSource()",__LINE__, __FILE__));
 }
 
-TGo4EventSource::TGo4EventSource() :
-   TNamed("default eventsource","This is a Go4 EventSource"),
-   fiCreateStatus(0),
-   fiEventStatus(0)
-{
-}
 
 TGo4EventSource::~TGo4EventSource()
 {
