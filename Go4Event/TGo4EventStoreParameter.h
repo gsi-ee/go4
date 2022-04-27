@@ -33,18 +33,16 @@ class TGo4EventStoreParameter : public TGo4Parameter {
 
     Int_t GetID() const { return fiID; }
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+    void Print(Option_t* = "") const override;
 
     /** update contents of paramter class with external object. */
-    virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
   private:
     /** Identity number to specify the kind. Optional, default is 0. */
-     Int_t fiID;
+     Int_t fiID{0};
 
-  ClassDef(TGo4EventStoreParameter,1)
+  ClassDefOverride(TGo4EventStoreParameter,1)
 };
 
 #endif //TGO4EVENTSTOREPARAMETER_H
