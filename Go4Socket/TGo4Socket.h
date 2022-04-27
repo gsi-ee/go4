@@ -84,25 +84,25 @@ class TGo4Socket {
   private:
 
     /** True if instance runs in as client */
-    Bool_t fbClientMode;
+    Bool_t fbClientMode{kFALSE};
 
     /** True if connection is open */
-    Bool_t fbOpen;
+    Bool_t fbOpen{kFALSE};
 
     /** root TSocket class doing the work */
-    TSocket * fxSocket;
+    TSocket * fxSocket{nullptr};
 
     /** Server Socket (server mode only) */
-    TServerSocket * fxServerSocket;
+    TServerSocket * fxServerSocket{nullptr};
 
     /** Connected port number (of server socket which opened with portnumberscan) */
-    Int_t fiPort;
+    Int_t fiPort{0};
 
-    char* fxLocalBuffer; //!
+    char *fxLocalBuffer{nullptr}; //!
 
     /** @link aggregation
      *   @supplierCardinality 1 */
-    TBuffer * fxBuffer;
+    TBuffer *fxBuffer{nullptr};
 };
 
 #endif

@@ -25,10 +25,9 @@ TGo4SocketSignalHandler::~TGo4SocketSignalHandler()
 {
 }
 
-
 void TGo4SocketSignalHandler::Handle(int signum)
 {
-   SetSignalAction(signum,0);
+   SetSignalAction(signum, 0);
    //std::cout << "got a signal " << signum << " ("<< getpid() << ") Id: ";
 // optional part:
 //   if(signum == SIGWINCH)
@@ -110,5 +109,3 @@ void TGo4SocketSignalHandler::SetLastSignal(Int_t v)
 {
    fgiLastSignal = v;
 }
-
-
