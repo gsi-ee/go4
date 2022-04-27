@@ -613,13 +613,13 @@ public:
    virtual void Print(Option_t *opt = "") const;
 
    /** Printout of all histogram statistic counters on the terminal. */
-   void PrintHistograms(const char *expression = 0);
+   void PrintHistograms(const char *expression = nullptr);
 
    /** Print all condition counters to the terminal. */
-   void PrintConditions(const char *expression = 0);
+   void PrintConditions(const char *expression = nullptr);
 
    /** Printout of all parameters on the terminal. */
-   void PrintParameters(const char *expression = 0);
+   void PrintParameters(const char *expression = nullptr);
 
    /** Print entries of current dynamic list. */
    void PrintDynamicList();

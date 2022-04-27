@@ -1189,16 +1189,16 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(const char*, TGo4Parameter*)",__LINE__, __FILE__));
 
-   if (par==0) return kFALSE;
+   if (!par) return kFALSE;
 
    Bool_t rev(kFALSE);
    TFolder* topfolder = parent ? parent : fxParameterDir;
    TGo4Parameter* oldpar= dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
-   if(oldpar!=0) {
+   if(oldpar) {
       // update existing parameter of given name
       rev = oldpar->UpdateFrom(par);
       TGo4Log::Info("Updated parameter %s from parameter %s", name, par->GetName());
-      //oldpar->PrintParameter();
+      //oldpar->Print();
    } else {
       // parameter not yet existing, add external parameter as a copy:
       TGo4Parameter* clonedpar=dynamic_cast<TGo4Parameter*>(par->Clone());

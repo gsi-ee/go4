@@ -585,19 +585,19 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Printout of all histogram statistic counters on the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintHistograms(const char* expression=0);
+      void PrintHistograms(const char* expression = nullptr);
 
       /**
        * Print all condition counters to the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintConditions(const char* expression=0);
+      void PrintConditions(const char* expression = nullptr);
 
       /**
        * Print all parameters to the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintParameters(const char* expression=0);
+      void PrintParameters(const char* expression = nullptr);
 
       /**
        * Print entries of current dynamic list.
