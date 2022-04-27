@@ -39,9 +39,9 @@ class TGo4EventElement : public TNamed {
       TGo4EventElement();
 
       TGo4EventElement(const char* name);
-      TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat=0);
+      TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat = 0);
 
-      virtual ~TGo4EventElement(void);
+      virtual ~TGo4EventElement();
 
       /** Switches the valid state of this event. */
       void SetValid(Bool_t on) { fbIsValid = on; }
@@ -91,21 +91,21 @@ class TGo4EventElement : public TNamed {
       virtual void deactivate();
       virtual void activate();
 
-      virtual void Clear(Option_t *t="");
+      void Clear(Option_t *t="") override;
       virtual void clearAll(Int_t) {}
       virtual Bool_t isComposed() { return kFALSE; }
       virtual Short_t getId() { return fIdentifier; }
       virtual void setDebug (Bool_t debug) { fDebug=debug; }
       virtual TGo4EventElement& operator[](Int_t) { return *this; }
 
-      virtual void Print(Option_t* option = "") const;
+      void Print(Option_t* option = "") const override;
 
       /** Use this method to map event structure with the Tree branch(es) */
-      virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = 0);
+      virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = nullptr);
 
-      virtual Int_t activateBranch(TBranch *branch, Int_t index=0, TGo4EventElement** var_ptr = 0);
+      virtual Int_t activateBranch(TBranch *branch, Int_t index=0, TGo4EventElement** var_ptr = nullptr);
 
-      virtual TTree* CreateSampleTree(TGo4EventElement** sample = 0);
+      virtual TTree* CreateSampleTree(TGo4EventElement** sample = nullptr);
 
       void ShowSampleTree();
 
@@ -114,11 +114,11 @@ class TGo4EventElement : public TNamed {
       /** Indicates if this event is valid or not. If false, the event store
        * will not write the event.
        * We still stream this, since it may be used to flag validity of composite sub events*/
-      Bool_t fbIsValid;
+      Bool_t fbIsValid{kTRUE};
 
       /** The higher level event element that owns this instance
        * @supplierCardinality 1 */
-      TGo4EventElement * fxParent; //!
+      TGo4EventElement *fxParent{nullptr}; //!
 
       /** The external event source  instance which is used to fill this event structure
        * from the raw event. Lazy initialization as zero; the pointer is set by
@@ -126,16 +126,16 @@ class TGo4EventElement : public TNamed {
        * on the fly to switch the unpack of different subevents into the same
        * event structure.
        * @supplierCardinality 0..1*/
-      TGo4EventSource * fxEventSource; //!
+      TGo4EventSource *fxEventSource{nullptr}; //!
 
    protected:
-      Short_t fIdentifier; // Identifier
-      Bool_t fDebug; //! Debug level
+      Short_t fIdentifier{-1}; // Identifier
+      Bool_t fDebug{kFALSE}; //! Debug level
 
       /** helper flag to suppress Clear if event shall be kept*/
-      Bool_t fbKeepContents; //!
+      Bool_t fbKeepContents{kFALSE}; //!
 
-   ClassDef(TGo4EventElement,3)
+   ClassDefOverride(TGo4EventElement,3)
 };
 
 #endif //TGO4EVENTELEMENT_H
