@@ -20,12 +20,12 @@
 
 class TXXXParameter : public TGo4Parameter {
    public:
-      TXXXParameter(const char* name = 0);
+      TXXXParameter(const char* name = nullptr);
       virtual ~TXXXParameter() {}
 
-      Float_t frP1; // Offset for calibration
-      Float_t frP2; // Factor for Calibration
-      Bool_t fbHisto; // Enable Histogramming
+      Float_t frP1{0.}; // Offset for calibration
+      Float_t frP2{0.}; // Factor for Calibration
+      Bool_t fbHisto{kFALSE}; // Enable Histogramming
 
       TArrayI fArr;  // example of usage of TArray in the parameter
 
@@ -33,7 +33,7 @@ class TXXXParameter : public TGo4Parameter {
 
       Int_t fArr3[3][4][5]; // example of 3d array usage (works only with browser)
 
-   ClassDef(TXXXParameter,2)
+   ClassDefOverride(TXXXParameter,2)
 };
 
 #endif
