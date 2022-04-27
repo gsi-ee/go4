@@ -21,38 +21,39 @@ class TYYYParameter;
 
 class TYYYUnpackProc : public TGo4EventProcessor {
    public:
-      TYYYUnpackProc() ;
+      TYYYUnpackProc();
       TYYYUnpackProc(const char* name);
-      virtual ~TYYYUnpackProc() ;
+      virtual ~TYYYUnpackProc();
 
       /** This method checks if event class is suited for the source */
-      virtual Bool_t CheckEventClass(TClass* cl);
+      Bool_t CheckEventClass(TClass* cl) override;
 
-      virtual Bool_t BuildEvent(TGo4EventElement* dest);
+      Bool_t BuildEvent(TGo4EventElement* dest) override;
    private:
-      TH1           *fX;
-      TH1           *fY;
-      TH1           *fZ;
-      TH1           *fVX;
-      TH1           *fVY;
-      TH1           *fVZ;
-      TH1           *fThetaX;
-      TH1           *fThetaY;
-      TH1           *fThetaR;
-      TH1           *fNumScatt;
-      TH2           *fXY;
-      TH2           *fVXVY;
-      TH2           *fXYCond;
-      TH2           *fVXVYCond;
-      TH2           *fEmitX;
-      TH2           *fEmitY;
-      TH1           *fEmitDist;
-      TGo4WinCond   *fWinConR;
-      TGo4WinCond   *fWinConV;
-      TGo4PolyCond  *fPolyConEmit;
-      TYYYParameter *fParam1;
+      TH1           *fX{nullptr};
+      TH1           *fY{nullptr};
+      TH1           *fZ{nullptr};
+      TH1           *fVX{nullptr};
+      TH1           *fVY{nullptr};
+      TH1           *fVZ{nullptr};
+      TH1           *fThetaX{nullptr};
+      TH1           *fThetaY{nullptr};
+      TH1           *fThetaR{nullptr};
+      TH1           *fNumScatt{nullptr};
+      TH2           *fXY{nullptr};
+      TH2           *fVXVY{nullptr};
+      TH2           *fXYCond{nullptr};
+      TH2           *fVXVYCond{nullptr};
+      TH2           *fEmitX{nullptr};
+      TH2           *fEmitY{nullptr};
+      TH1           *fEmitDist{nullptr};
+      TGo4WinCond   *fWinConR{nullptr};
+      TGo4WinCond   *fWinConV{nullptr};
+      TGo4PolyCond  *fPolyConEmit{nullptr};
+      TYYYParameter *fParam1{nullptr};
 
-   ClassDef(TYYYUnpackProc,1)
+   ClassDefOverride(TYYYUnpackProc,1)
 };
 
 #endif //TYYYUNPACKPROCESSOR_H
+

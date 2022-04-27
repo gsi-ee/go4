@@ -25,19 +25,19 @@ class TYYYAnalysis : public TGo4Analysis {
    public:
       TYYYAnalysis();
       TYYYAnalysis(int argc, char** argv);
-      virtual ~TYYYAnalysis() ;
-      virtual Int_t UserPreLoop();
-      virtual Int_t UserEventFunc();
-      virtual Int_t UserPostLoop();
+      virtual ~TYYYAnalysis();
+      Int_t UserPreLoop() override;
+      Int_t UserEventFunc() override;
+      Int_t UserPostLoop() override;
    private:
-      TYYYRawEvent    *fRawEvent;
-      TYYYUnpackEvent *fUnpackEvent;
-      TH1D            *fSize;
-      TYYYParameter   *fPar;
-      Int_t            fEvents;
-      Int_t            fLastEvent;
+      TYYYRawEvent    *fRawEvent{nullptr};
+      TYYYUnpackEvent *fUnpackEvent{nullptr};
+      TH1D            *fSize{nullptr};
+      TYYYParameter   *fPar{nullptr};
+      Int_t            fEvents{0};
+      Int_t            fLastEvent{0};
 
-   ClassDef(TYYYAnalysis,1)
+   ClassDefOverride(TYYYAnalysis,1)
 };
 
 #endif //TYYYANALYSIS_H

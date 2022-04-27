@@ -28,11 +28,10 @@ class TYYYEventSource : public TGo4EventSource {
       /** Create source specifying values directly */
       TYYYEventSource(const char* name, const char* args, Int_t port);
 
-      /** Creat source from setup within usersource parameter object */
+      /** Create source from setup within usersource parameter object */
       TYYYEventSource(TGo4UserSourceParameter* par);
 
       virtual ~TYYYEventSource();
-
 
       /** Open the file or connection. */
       virtual Int_t Open();
@@ -40,9 +39,8 @@ class TYYYEventSource : public TGo4EventSource {
       /** Close the file or connection. */
       virtual Int_t Close();
 
-
       /** This method checks if event class is suited for the source */
-      virtual Bool_t CheckEventClass(TClass* cl);
+      Bool_t CheckEventClass(TClass* cl) override;
 
       /** This methods actually fills the target event class which is passed as pointer.
         * Uses the latest event which is referenced
@@ -50,7 +48,7 @@ class TYYYEventSource : public TGo4EventSource {
         * from source, therefore one source event may be used
         * to fill several TYYYEvent classes. To get a new
         * event call NextEvent() before this method.*/
-      virtual Bool_t BuildEvent(TGo4EventElement* dest);
+      Bool_t BuildEvent(TGo4EventElement* dest) override;
 
       const char* GetArgs() const { return fxArgs.Data(); }
 
@@ -62,18 +60,18 @@ class TYYYEventSource : public TGo4EventSource {
 
    private:
 
-      Bool_t fbIsOpen;
+      Bool_t fbIsOpen{kFALSE};
 
       /** Optional argument string */
       TString fxArgs;
 
       /** Optional port number  */
-      Int_t fiPort;
+      Int_t fiPort{0};
 
       /** file that contains the data in ascii format. */
-      std::ifstream* fxFile; //!
+      std::ifstream* fxFile{nullptr}; //!
 
-   ClassDef(TYYYEventSource, 1)
+   ClassDefOverride(TYYYEventSource, 1)
 };
 
-#endif //TGO4MBSSOURCE_H
+#endif //TYYYEVENTSOURCE_H
