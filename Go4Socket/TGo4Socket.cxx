@@ -13,7 +13,7 @@
 
 #include "TGo4Socket.h"
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #include <sys/types.h>
 #include <sys/socket.h>
 #endif

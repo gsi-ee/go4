@@ -170,7 +170,7 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
          // error: client does not match to server-- connect failed
          connector->Send(Get_fgcERROR()); // send dummy strings, server will come out of receive
          connector->Send(Get_fgcERROR()); // might check the errortext at server later
-#ifdef WIN32
+#ifdef _MSC_VER
          gSystem->Sleep(1000);
 #endif
          connector->Close();
@@ -217,7 +217,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
             // server refuses to connect us, we abort
             TGo4Log::Debug(" TaskHandler %s; Server refuses Connection",GetName());
             connector->Send(fgcOK); // tell server we are through
-#ifdef WIN32
+#ifdef _MSC_VER
             gSystem->Sleep(1000);
 #endif
             connector->Close();
@@ -239,7 +239,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
             throw TGo4RuntimeException();
          }
          connector->Send(fgcOK); // tell server we finish negotiation
-#ifdef WIN32
+#ifdef _MSC_VER
          gSystem->Sleep(1000);
 #endif
          connector->Close();
@@ -360,7 +360,7 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
             // server will close its transport sockets after this
 
             connector->Send(fgcOK); // second ok to let server shutdown connector
-#ifdef WIN32
+#ifdef _MSC_VER
             gSystem->Sleep(1000);
 #endif
             connector->Close();

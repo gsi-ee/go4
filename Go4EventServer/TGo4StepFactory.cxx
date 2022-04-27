@@ -135,7 +135,7 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 {
-   #ifdef WIN32
+   #ifdef _MSC_VER
    const char* ptr_arg = "0x%x";
    #else
    const char* ptr_arg = "%p";
@@ -147,7 +147,7 @@ void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 //-----------------------------------------------------------
 void TGo4StepFactory::DefUserEventStore(const char *Sclass)
 {
-   #ifdef WIN32
+   #ifdef _MSC_VER
    const char* ptr_arg = "0x%x";
    #else
    const char* ptr_arg = "%p";
