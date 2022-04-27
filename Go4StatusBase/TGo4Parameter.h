@@ -15,7 +15,6 @@
 #define TGO4PARAMETER_H
 
 #include "TNamed.h"
-#include "Riostream.h"
 
 class TObjArray;
 class TIterator;
@@ -40,7 +39,7 @@ class TGo4Parameter : public TNamed {
         * to be overridden by specific subclass  */
       virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
 
-      virtual void Print(Option_t* dummy="") const;
+      void Print(Option_t* dummy="") const override;
 
       /** Update contents of parameter class with external object.
         * to be implemented in subclass */
@@ -59,7 +58,7 @@ class TGo4Parameter : public TNamed {
       * Implement this method in your parameter class
       * if you would like to reset any values with the
       * eraser button in the gui remote browser*/
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt="") override;
 
       void GetMemberValues(TObjArray* fItems);
       Bool_t SetMemberValues(TObjArray* fItems);
@@ -67,7 +66,7 @@ class TGo4Parameter : public TNamed {
       /** Standard way to store parameter in form of macro,
        * If \param opt == "savemacro", parameter saved in form of macro,
        * which can be rerun in analysis-  see saveparam.C macro for example */
-      virtual void SavePrimitive(std::ostream& fs, Option_t* opt= "");
+      void SavePrimitive(std::ostream& fs, Option_t* opt= "") override;
 
       /** Creates parameter status object. It should be destroyed by the user */
       TGo4ParameterStatus* CreateStatus();
@@ -83,7 +82,7 @@ class TGo4Parameter : public TNamed {
 
       Int_t FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMember* member);
 
-   ClassDef(TGo4Parameter,1)
+   ClassDefOverride(TGo4Parameter,1)
 };
 
 #endif //TGO4PARAMETER_H

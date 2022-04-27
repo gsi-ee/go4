@@ -16,7 +16,6 @@
 
 #include "TNamed.h"
 #include "TArrayL.h"
-#include <iostream>
 
 class TVirtualPad;
 class TPad;
@@ -67,20 +66,20 @@ class TGo4Picture : public TNamed {
       TGo4Picture* LPic(Int_t nline, Int_t ncol);
 
       // add histogram (name) to picture or subpicture
-      void AddH1(TH1* histo, Option_t* DrawOption = 0);
-      void AddH1(Int_t posy, Int_t posx, TH1* histo, Option_t* DrawOption = 0);
+      void AddH1(TH1* histo, Option_t *DrawOption = nullptr);
+      void AddH1(Int_t posy, Int_t posx, TH1* histo, Option_t* DrawOption = nullptr);
 
       // add stack (name) to picture or subpicture
-      void AddHStack(THStack* st, Option_t* DrawOption = 0);
-      void AddHStack(Int_t posy, Int_t posx, THStack* st, Option_t* DrawOption = 0);
+      void AddHStack(THStack* st, Option_t* DrawOption = nullptr);
+      void AddHStack(Int_t posy, Int_t posx, THStack* st, Option_t* DrawOption = nullptr);
 
       // add TGraph object (name) to picture
-      void AddGraph(TGraph* gr, Option_t* DrawOption = 0);
-      void AddGraph(Int_t posy, Int_t posx, TGraph* gr, Option_t* DrawOption = 0);
+      void AddGraph(TGraph* gr, Option_t* DrawOption = nullptr);
+      void AddGraph(Int_t posy, Int_t posx, TGraph* gr, Option_t* DrawOption = nullptr);
 
       // add condition (name) to picture or subpicture
-      void AddCondition(TNamed* cond = 0);
-      void AddCondition(Int_t posy, Int_t posx, TNamed* cond = 0);
+      void AddCondition(TNamed* cond = nullptr);
+      void AddCondition(Int_t posy, Int_t posx, TNamed* cond = nullptr);
 
       // clear names of any objects (include histos and conditions) from subpicture (may be recursive)
       void ClearObjNames(Bool_t recursive = kFALSE);
@@ -136,14 +135,14 @@ class TGo4Picture : public TNamed {
       void GetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
 
       // set string draw options
-      virtual void SetDrawOption(Option_t* option = "")
+      void SetDrawOption(Option_t* option = "") override
       {
          SetDrawOption(option, UndefIndex);
       }
 
       virtual void SetDrawOption(Option_t* option, Int_t index);
 
-      virtual Option_t* GetDrawOption() const
+      Option_t* GetDrawOption() const  override
       {
          return GetDrawOption(UndefIndex);
       }
@@ -202,15 +201,13 @@ class TGo4Picture : public TNamed {
       void SetAutoZoom(bool on);
       bool IsAutoZoom() const;
 
-      virtual void Draw(Option_t* option = "");     //  *MENU*
+      void Draw(Option_t* option = "") override;     //  *MENU*
 
-      virtual void Clear(Option_t* option = "");    //  *MENU*
+      void Clear(Option_t* option = "") override;    //  *MENU*
 
-      virtual void Print(Option_t* option = "") const;    //  *MENU*
+      void Print(Option_t* option = "") const override;    //  *MENU*
 
-#ifndef __CINT__
-      virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
-#endif
+      void SavePrimitive(std::ostream& fs, Option_t* = "") override;
 
       // ====== end of USER FUNCTIONS ========================
 
@@ -369,28 +366,28 @@ class TGo4Picture : public TNamed {
       void MakeAxisScript(std::ostream& fs, const char* name, Int_t indx, Int_t naxis);
 
    private:
-      Int_t fiNDivX;
-      Int_t fiNDivY;
+      Int_t fiNDivX{1};
+      Int_t fiNDivY{1};
 
-      Int_t fiPosX;
-      Int_t fiPosY;
+      Int_t fiPosX{0};
+      Int_t fiPosY{0};
 
-      TObjArray* fxNames;
+      TObjArray* fxNames{nullptr};
 
-      TObjArray* fxObjects;
+      TObjArray* fxObjects{nullptr};
 
-      TObjArray* fxSubPictures;
+      TObjArray* fxSubPictures{nullptr};
 
-      Int_t fiOptSize;
+      Int_t fiOptSize{0};
       TArrayL fxOptIndex;
       TArrayL fxOptValue;
-      TObjArray* fxOptObjects;
+      TObjArray* fxOptObjects{nullptr};
 
-      TList* fxSpecialObjects;
+      TList* fxSpecialObjects{nullptr};
 
-      Int_t fiLastIndex;        //!
+      Int_t fiLastIndex{0};        //!
 
-   ClassDef(TGo4Picture, 3)
+   ClassDefOverride(TGo4Picture, 3)
 };
 
 #endif //TGO4PICTURE_H

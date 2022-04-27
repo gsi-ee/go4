@@ -13,8 +13,11 @@
 
 #include "TGo4EventProcessorParameter.h"
 
+#include <iostream>
+
 #include "TGo4Status.h"
 #include "TGo4Log.h"
+
 
 TGo4EventProcessorParameter::TGo4EventProcessorParameter(const char* name, Int_t id)
 : TGo4Parameter (name), fiID(id)

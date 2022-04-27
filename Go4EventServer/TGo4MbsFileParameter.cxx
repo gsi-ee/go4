@@ -13,6 +13,8 @@
 
 #include "TGo4MbsFileParameter.h"
 
+#include <iostream>
+
 #include "TObjString.h"
 
 #include "TGo4Log.h"

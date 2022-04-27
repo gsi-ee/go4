@@ -13,6 +13,8 @@
 
 #include "TGo4AnalysisProxy.h"
 
+#include <iostream>
+
 #include "TH1.h"
 #include "TFolder.h"
 #include "TTree.h"

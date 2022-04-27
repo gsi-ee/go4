@@ -13,6 +13,8 @@
 
 #include "TGo4ConfigStep.h"
 
+#include <iostream>
+
 #include <QFileDialog>
 
 #include "TGo4AnalysisStepStatus.h"
