@@ -48,34 +48,34 @@ class TGo4FileSource : public TGo4EventSource {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    virtual Bool_t BuildEvent(TGo4EventElement* dest);
+    Bool_t BuildEvent(TGo4EventElement* dest) override;
 
     static TList* ProducesFilesList(const char* mask);
 
   private:
 
-    TFile* fxFile; //!
+    TFile *fxFile{nullptr}; //!
 
-    TTree * fxTree; //!
+    TTree *fxTree{nullptr}; //!
 
     /** Number of events stored in the Tree. Used to check if
       * the complete tree is already read. */
-    Long64_t fiMaxEvents;
+    Long64_t fiMaxEvents{0};
 
     /** Event number in current tree. */
-    Long64_t fiCurrentEvent;
+    Long64_t fiCurrentEvent{0};
 
     /** Global event number, starting from the first tree. */
-    long int fiGlobalEvent;   //!
+    long int fiGlobalEvent{0};   //!
 
     /** This flag is used for lazy init of tree in Eventbuilding methods. */
-    Bool_t fbActivated; //!
+    Bool_t fbActivated{kFALSE}; //!
 
     /** pointer to top branch event */
-    TGo4EventElement* fxTopEvent; //!
+    TGo4EventElement *fxTopEvent{nullptr}; //!
 
     /** list of files names */
-    TList* fxFilesNames; //!
+    TList *fxFilesNames{nullptr}; //!
 
     /** current name of the file */
     TString fxCurrentFileName;  //!
@@ -86,7 +86,7 @@ class TGo4FileSource : public TGo4EventSource {
     /** Close currently open file. */
     Bool_t CloseCurrentFile();
 
-  ClassDef(TGo4FileSource,2)
+  ClassDefOverride(TGo4FileSource,2)
 };
 
 #endif //TGO4FILESOURCE_H
