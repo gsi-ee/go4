@@ -216,10 +216,10 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
 void TGo4ServerTask::SetCurrentTask(const char* name)
 {
    //std::cout <<"server task setting current task to "<<name << std::endl;
-   TGo4TaskHandler* han=0;
-   if(fxTaskManager==0)
+   TGo4TaskHandler* han = nullptr;
+   if(!fxTaskManager)
       {
-         TGo4Log::Debug(" TGo4ServerTask ''%s'' ERROR- task manager not existing!!! ");
+         TGo4Log::Debug(" TGo4ServerTask ''%s'' ERROR- task manager not existing!!! ", GetName());
       }
    else
       {

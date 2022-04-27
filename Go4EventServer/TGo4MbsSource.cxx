@@ -283,7 +283,7 @@ frombegin:
       // check possible overflow of our counter:
       if(fuEventCounter+eventstep<fuEventCounter)
       {
-         TGo4Log::Warn("TGo4MbsSource::NextEvent(): Overflow of eventcounter at %d, reset to 0",fuEventCounter),
+         TGo4Log::Warn("TGo4MbsSource::NextEvent(): Overflow of eventcounter at %lu, reset to 0",fuEventCounter),
          fuEventCounter=0;
       }
 

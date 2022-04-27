@@ -20,7 +20,7 @@
 TGo4DisplayLoggerTimer::TGo4DisplayLoggerTimer (TGo4Display* display, Long_t msperiod) :
    TTimer(msperiod,kTRUE),fxDisplay(display)
 {
-   TGo4Log::Debug(" Display logger Timer is started with %d ms period.",msperiod);
+   TGo4Log::Debug(" Display logger Timer is started with %ld ms period.",msperiod);
 }
 
 Bool_t TGo4DisplayLoggerTimer::Notify ()
