@@ -164,7 +164,7 @@ class TGo4AnalysisStep : public TNamed {
     /** Reset the stopped-after-error state of this
       * analysis step object. May be used to restart
       * analysis after clearing the situation. */
-    void ResetErrorStop() { fbErrorStopped=0; }
+    void ResetErrorStop() { fbErrorStopped = 0; }
 
     /** Sets reference to external input event. The processor will use
       * this input event at the next call of process. I this analysis

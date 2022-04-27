@@ -36,24 +36,24 @@ class TGo4AnalysisClient : public TGo4Slave {
   public:
     TGo4AnalysisClient(const char* name,
                        TGo4Analysis* analysis,
-                       const char* host="localhost",
-                       UInt_t negport=0,
-                       Bool_t histoserver=kFALSE,
-                       const char* basename="Go4",
-                       const char* passwd="abcd",
-                       Bool_t servermode=kFALSE,
-                       Bool_t autorun=kFALSE,
+                       const char* host = "localhost",
+                       UInt_t negport = 0,
+                       Bool_t histoserver = kFALSE,
+                       const char* basename = "Go4",
+                       const char* passwd = "abcd",
+                       Bool_t servermode = kFALSE,
+                       Bool_t autorun = kFALSE,
                        Bool_t cintmode = kFALSE,
                        Bool_t loadprefs = kTRUE,
                        Bool_t showrate = kFALSE);
 
     TGo4AnalysisClient(int argc, char** argv,
                        TGo4Analysis* analysis,
-                       Bool_t histoserver=kFALSE,
-                       const char* basename="Go4",
-                       const char* passwd="abcd",
-                       Bool_t servermode=kFALSE,
-                       Bool_t autorun=kFALSE);
+                       Bool_t histoserver = kFALSE,
+                       const char* basename = "Go4",
+                       const char* passwd = "abcd",
+                       Bool_t servermode = kFALSE,
+                       Bool_t autorun = kFALSE);
 
     virtual ~TGo4AnalysisClient();
 
