@@ -70,9 +70,10 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
    return size;
 }
 
-Text_t* TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
+Text_t *TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
 {
-   if(buflen<0 && buffer!=0) return 0;
+   if(buflen<0 && buffer)
+      return nullptr;
    Int_t restlen=buflen;
    Text_t *cursor = buffer;
    for (int i = 0; (i < TROOT::GetDirLevel()) && (i < buflen); i++) {
@@ -82,16 +83,18 @@ Text_t* TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
    return cursor;
 }
 
-Text_t* TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,...)
+Text_t *TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,...)
 {
-   if(buffer==0 || buflen<0) return 0;
+   if(!buffer || buflen<0)
+      return nullptr;
    va_list args;
    va_start(args, text);
    Int_t size=vsnprintf(buffer, buflen, text, args);
    va_end(args);
-   if(size>buflen || size<0) return 0;
-   char* current= buffer + size;
-   buflen-=size;
+   if(size>buflen || size<0)
+      return nullptr;
+   char *current = buffer + size;
+   buflen -= size;
    return current;
 }
 

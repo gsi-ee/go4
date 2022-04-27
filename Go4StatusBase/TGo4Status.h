@@ -27,9 +27,9 @@ class TGo4Status : public TNamed {
 
       virtual ~TGo4Status();
 
-      /**
-       * basic method to printout status information
-       * on stdout; to be overridden by specific subclass  */
+      /** DEPRECATED - please use Print(Option_t*) signature
+        * basic method to printout status information
+        * on stdout; to be overridden by specific subclass  */
       virtual Int_t PrintStatus(Text_t *buffer = nullptr, Int_t buflen = 0);
 
       void Print(Option_t * dummy="") const override;
