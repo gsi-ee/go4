@@ -15,7 +15,6 @@
 
 #ifndef WITHOUT_DABC
 
-#include "RVersion.h"
 #include "TROOT.h"
 #include "TGraph.h"
 #include "TClass.h"
@@ -23,6 +22,7 @@
 #include "TTimer.h"
 #include "TBufferFile.h"
 #include "TMemFile.h"
+#include "RZip.h"
 
 #include "TGo4Log.h"
 #include "TGo4Slot.h"
@@ -35,12 +35,6 @@
 #include "dabc/Publisher.h"
 #include "dabc/Configuration.h"
 
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,12,0)
-#include "RZip.h"
-#else
-extern "C" int R__unzip_header(int *nin, unsigned char *bufin, int *lout);
-extern "C" void R__unzip(int  *nin, unsigned char* bufin, int *lout, unsigned char *bufout, int *nout);
-#endif
 
 bool IsRateHistory(const dabc::Hierarchy& item)
 {
@@ -66,17 +60,11 @@ class TFakeFile : public TMemFile {
    protected:
       TList*  mylist;
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,14,4)
-
       InfoListRet GetStreamerInfoListImpl(bool) override
       {
          ROOT::Internal::RConcurrentHashColl::HashValue hash;
          return { (TList*) mylist->Clone(), 0, hash};
       }
-#else
-      virtual TList* GetStreamerInfoList() { return (TList*) mylist->Clone(); }
-
-#endif
 
    public:
 

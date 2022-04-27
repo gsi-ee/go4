@@ -25,6 +25,7 @@ Changes in Go4 v6.3
 1. Adoption to win64
 2. Skip support of old ROOT version older than 6.24
 3. Remove TGo4Buffer.h - one can use TBufferFile class directly
+4. Require at least c++11 - as ROOT6
 
 
 Changes in Go4 v6.2.0 (April 2022)

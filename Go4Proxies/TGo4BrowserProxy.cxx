@@ -13,8 +13,6 @@
 
 #include "TGo4BrowserProxy.h"
 
-#include "RVersion.h"
-
 #include "TF1.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -2208,13 +2206,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         sz = sz*(histo->GetNbinsY()+2);
       if (histo->GetDimension()>2)
         sz = sz*(histo->GetNbinsZ()+2);
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,4,2)
-      Bool_t canrebin = histo->TestBit(TH1::kCanRebin);
-      histo->SetBit(TH1::kCanRebin, kFALSE);
-#else
       Bool_t canrebin = histo->CanExtendAllAxes();
       histo->SetCanExtend(TH1::kNoAxis);
-#endif
       Double_t sum = 0;
       for (int n=0;n<sz;n++) {
          Stat_t value = histo2->GetBinContent(n);
@@ -2222,11 +2215,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
          histo->SetBinContent(n, value);
       }
 
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,4,2)
-      if (canrebin) histo->SetBit(TH1::kCanRebin, kTRUE);
-#else
       if (canrebin) histo->SetCanExtend(TH1::kAllAxes);
-#endif
 
       histo->SetEntries(sum);
 

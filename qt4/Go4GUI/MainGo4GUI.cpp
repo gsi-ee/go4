@@ -15,7 +15,6 @@
 #include <QStringList>
 #include <iostream>
 
-#include "RVersion.h"
 #include "TSystem.h"
 #include "TEnv.h"
 #include "TApplication.h"
@@ -278,18 +277,12 @@ int main(int argc, char **argv)
 
    // SL 11.01.2018 Disable of interpreter locking  makes strange problems with other ROOT components, try to keep it enabled
 
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,12,0)
-   gInterpreter->SetProcessLineLock(kFALSE);
-   // disable cint locking when called via process line
-   // makes problem in multi-threaded environment, where CINT lock
-   // also used for object streaming
-#else
    gInterpreter->SetProcessLineLock(kTRUE); // changed for root 6 problems JAM 9-10-2018
-#endif
 
    TString go4inc = TGo4Log::GO4INCPATH();
-   if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");
-   if (go4inc.Length()>0)
+   if (go4inc.Length() == 0)
+      go4inc = TGo4Log::subGO4SYS("include");
+   if (go4inc.Length() > 0)
       gInterpreter->AddIncludePath(go4inc.Data());
 
    // ShowGuideLines cases crashes - it has stored gpad in static variable

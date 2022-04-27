@@ -17,30 +17,13 @@
 #include <QWidget>
 #include "ui_TGo4Style.h"
 
-#include "RVersion.h"
-
 /** Translate the ROOT palette styles to indices of dropdown menu here:
  * In simplest case this is just an offset by 51*/
 
 /** minimum and maximum ROOT named palette types:*/
 #define GO4NAMEDPAL_MIN 51
 
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
 #define GO4NAMEDPAL_MAX 112
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,4,0)
-#define GO4NAMEDPAL_MAX 111
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,2,0)
-#define GO4NAMEDPAL_MAX 56
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
-#define GO4NAMEDPAL_MAX 55
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,6)
-#define GO4NAMEDPAL_MAX 56
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,4)
-#define GO4NAMEDPAL_MAX 55
-#else
-#define GO4NAMEDPAL_MAX 51 // DeepSea even for old ROOT3
-#endif
-
 
 enum Go4_Palette_t
 {
