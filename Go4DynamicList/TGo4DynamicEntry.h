@@ -46,9 +46,9 @@ class TGo4DynamicEntry : public TNamed {
 
     /** True if object shall be processed by main event loop automatically.
       * For example, histogram autofill from event index values. */
-    Bool_t fbProcessEntry;
+    Bool_t fbProcessEntry{kFALSE};
 
-  ClassDef(TGo4DynamicEntry,3)
+  ClassDefOverride(TGo4DynamicEntry,3)
 };
 
 #endif //TGO4DYNAMICENTRY_H
