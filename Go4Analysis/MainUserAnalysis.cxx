@@ -268,7 +268,7 @@ int FindArg(int argc, char **argv, const char* argname)
    return -1;
 }
 
-const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0, bool incomplete = false)
+const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = nullptr, bool incomplete = false)
 {
    int n = pos ? *pos : 0;
 
@@ -285,10 +285,10 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0
       }
 
    if (pos) *pos = 0;
-   return 0;
+   return nullptr;
 }
 
-TList* GetClassesList(TList* prev = 0)
+TList* GetClassesList(TList* prev = nullptr)
 {
    TClassTable::Init();
    char* name = 0;
@@ -312,13 +312,13 @@ TList* GetClassesList(TList* prev = 0)
 TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
-   TObject* obj(0);
+   TObject* obj = nullptr;
 
    TObjArray evnt_classes; // list of found event classes
 
-   TClass *proc_cl(0), *an_cl(0), *evsrc_cl(0), *evstore_cl(0);
+   TClass *proc_cl = nullptr, *an_cl = nullptr, *evsrc_cl = nullptr, *evstore_cl = nullptr;
 
-   while ((obj = iter()) != 0) {
+   while ((obj = iter()) != nullptr) {
       TClass* cl = TClass::GetClass(obj->GetName());
 
       // all relevant go4 classes inherited from TObject
@@ -343,15 +343,15 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    }
 
    if (doprint) {
-      an_cl = 0;
+      an_cl = nullptr;
    }
 
-   if (an_cl!=0) {
+   if (an_cl) {
 
       TGo4Log::Info("Find user analysis class %s", an_cl->GetName());
 
       TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "int,char**");
-      if (meth!=0) {
+      if (meth) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char**)", an_cl->GetName(), an_cl->GetName());
 
          if ((user_argc>0) && (user_argv!=0))
@@ -372,7 +372,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
-         if ((analysis!=0) && (err==0)) return analysis;
+         if (analysis && (err==0)) return analysis;
 
          TGo4Log::Error("Cannot create analysis class %s instance with (int, char**) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
@@ -381,7 +381,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
 
       meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
-      if (meth!=0) {
+      if (meth) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
 
          TString cmd = TString::Format("new %s(\"%s\")", an_cl->GetName(), name);
@@ -391,7 +391,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
-         if ((analysis!=0) && (err==0)) return analysis;
+         if (analysis && (err==0)) return analysis;
 
          TGo4Log::Error("Cannot create analysis class %s instance with (const char*) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
@@ -400,13 +400,13 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       // search for non-default analysis constructor
       TIter iter(an_cl->GetListOfMethods());
-      while ((meth = (TMethod*) iter()) != 0) {
+      while ((meth = (TMethod*) iter()) != nullptr) {
          if (strcmp(meth->GetName(), an_cl->GetName()) != 0) continue;
          if (meth->GetListOfMethodArgs()->GetSize()==0) continue;
          break;
       }
 
-      if (meth==0) {
+      if (!meth) {
          TGo4Log::Error("Cannot find non-default constructor for class %s", an_cl->GetName());
          TGo4Log::Error("Implement analysis constructor with (const char*) or (int,char**) signature");
          TGo4Log::Error("Or define TGo4Analysis* CreateUserAnalysis(const char*) function in user library");
@@ -415,7 +415,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       TGo4Log::Info("Find constructor with %d arguments", meth->GetListOfMethodArgs()->GetSize());
 
-      TMethodArg *argument = 0;
+      TMethodArg *argument = nullptr;
       TIter next(meth->GetListOfMethodArgs());
 
       TString cmd = TString::Format("new %s(", an_cl->GetName());
@@ -424,7 +424,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       while ((argument = (TMethodArg *) next())) {
 
-         if (counter>0) cmd+=", ";
+         if (counter > 0) cmd+=", ";
          counter++;
 
          TDataType *datatype  = gROOT->GetType(argument->GetTypeName());
@@ -467,7 +467,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       Int_t err = 0;
       TGo4Log::Info("Process: %s", cmd.Data());
       TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
-      if ((analysis!=0) && (err==0)) return analysis;
+      if (analysis && (err==0)) return analysis;
 
       TGo4Log::Error("Cannot create analysis class %s instance", an_cl->GetName());
       TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
@@ -475,14 +475,14 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       exit(1);
    }
 
-   TClass *outev_cl(0), *inpev_cl(0);
+   TClass *outev_cl = nullptr, *inpev_cl = nullptr;
 
    const char* inp_evnt_classname = GetArgValue(user_argc, user_argv, "-inpevt-class");
    const char* out_evnt_classname = GetArgValue(user_argc, user_argv, "-outevt-class");
 
    if (inp_evnt_classname!=0) {
       inpev_cl = gROOT->GetClass(inp_evnt_classname);
-      if (inpev_cl==0) {
+      if (!inpev_cl) {
          TGo4Log::Error("Class %s not exists", inp_evnt_classname);
          exit(1);
       }
@@ -496,9 +496,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       evnt_classes.Compress();
    }
 
-   if (out_evnt_classname!=0) {
+   if (out_evnt_classname) {
       outev_cl = gROOT->GetClass(out_evnt_classname);
-      if (outev_cl==0) {
+      if (!outev_cl) {
          TGo4Log::Error("Class %s not exists", out_evnt_classname);
          exit(1);
       }
@@ -532,37 +532,37 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       delete src;
 
-      if (inpev_cl!=0) {
+      if (inpev_cl) {
          evnt_classes.Remove(inpev_cl);
          evnt_classes.Compress();
       }
    }
 
    // as very last, try to define best-suitable output event
-   if (outev_cl==0)
+   if (!outev_cl)
       for (int n=0; n<=evnt_classes.GetLast(); n++) {
          TClass* cl = (TClass*) evnt_classes.At(n);
-         if ((outev_cl==0) || cl->InheritsFrom(outev_cl)) outev_cl = cl;
+         if (!outev_cl || cl->InheritsFrom(outev_cl)) outev_cl = cl;
       }
 
    if (doprint) {
       TGo4Log::Info("Create default analysis with print-processor class");
-      outev_cl = 0;
+      outev_cl = nullptr;
    } else {
-      if (proc_cl==0) return 0;
+      if (!proc_cl) return nullptr;
       TGo4Log::Info("Create default analysis with processor class %s", proc_cl->GetName());
-      if (outev_cl!=0)
+      if (outev_cl)
          TGo4Log::Info("Use class %s as output event", outev_cl->GetName());
    }
 
 
-   if (inpev_cl!=0)
+   if (inpev_cl)
       TGo4Log::Info("Use class %s as input event", inpev_cl->GetName());
 
    TGo4Analysis* analysis = TGo4Analysis::Instance();
    analysis->SetAnalysisName(name);
 
-   TGo4StepFactory* factory = 0;
+   TGo4StepFactory* factory = nullptr;
 
    if (doprint) {
       factory = new TGo4PrintFactory("Factory");
@@ -590,7 +590,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
 
    step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(evstore_cl != 0);
+   step->SetStoreEnabled(evstore_cl != nullptr);
    step->SetProcessEnabled(kTRUE);
    step->SetErrorStopEnabled(kTRUE);
 
@@ -627,7 +627,7 @@ int main(int argc, char **argv)
    }
 
    int user_argc = 0;
-   char** user_argv = 0;
+   char** user_argv = nullptr;
 
    int userargspos = FindArg(argc, argv, "-args");
    if (userargspos<0) userargspos = FindArg(argc, argv, "-x");
@@ -691,7 +691,7 @@ int main(int argc, char **argv)
 
    int argpos = 0;
    bool isanylib = false;
-   const char* libname = 0;
+   const char* libname = nullptr;
    while ((libname = GetArgValue(argc, argv, "-lib", &argpos))!=0) {
       TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
@@ -707,13 +707,13 @@ int main(int argc, char **argv)
 
    TList* lst1 = GetClassesList(lst0);
 
-   TGo4Analysis* analysis = 0;
+   TGo4Analysis* analysis = nullptr;
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);
           else analysis = CreateDefaultAnalysis(lst1, analysis_name, user_argc, user_argv, doprint);
 
-   if (analysis==0) {
+   if (!analysis) {
       std::cerr << "!!! Analysis instance cannot be created" << std::endl;
       std::cerr << "!!! PLEASE check your analysis library " << libname << std::endl;
       std::cerr << "!!! One requires user subclass for TGo4Analysis class in user library" << std::endl;
@@ -722,8 +722,8 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   delete lst0; lst0 = 0;
-   delete lst1; lst1 = 0;
+   delete lst0; lst0 = nullptr;
+   delete lst1; lst1 = nullptr;
 
    TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
    if (step==0) {
@@ -977,7 +977,7 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-retry")==0) {
          narg++;
-         int nretry(0);
+         int nretry = 0;
          if ((narg < argc) && (argv[narg][0]!='-')) {
             if (sscanf(argv[narg],"%d",&nretry)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
@@ -1294,7 +1294,7 @@ int main(int argc, char **argv)
          TGo4Log::Info("Main: analysis batch done");
       }
    } else {
-      if (hostname==0) hostname = "localhost";
+      if (!hostname) hostname = "localhost";
 
       if(servermode)  TGo4Log::Info("Main: starting analysis in server mode ...");
       else            TGo4Log::Info("Main: starting analysis in slave mode ...");
@@ -1310,7 +1310,7 @@ int main(int argc, char **argv)
 
       while (TGo4Analysis::Exists()) {
          // add this check while at some moments ROOT could reset this pointer
-         if (gSystem==0) {
+         if (!gSystem) {
             // printf("ROOT feature - gSystem==0, break execution\n");
 
             // exit call exit handler and produces even more problems
