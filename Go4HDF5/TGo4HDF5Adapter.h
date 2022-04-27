@@ -34,17 +34,16 @@
 class TGo4HDF5Adapter {
   public:
 
-    TGo4HDF5Adapter() : fxFile(0),fxHandle(0),
-    fbDataSetExists(kFALSE),
-    fxEvent(0),fiFlags(H5F_ACC_TRUNC),
-    fiFillCount(0) {};
+   TGo4HDF5Adapter() :
+         fxFile(nullptr), fxHandle(nullptr), fbDataSetExists(kFALSE), fxEvent(nullptr),
+         fiFlags(H5F_ACC_TRUNC), fiFillCount(0) {
+   }
 
-    virtual ~TGo4HDF5Adapter(){};
+    virtual ~TGo4HDF5Adapter() {}
 
 
     /** Standard suffix for file name */
     static const char* fgcFILESUF; //!
-
 
     /** Add subhandle to handle that represents a containend collection.
        * classname or valueclass, resp, refers to type of element in container,*/
@@ -79,42 +78,35 @@ protected:
      * In case of composite subevents, the current parent data handle and the index in array may be passed.*/
      void BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent=0, Int_t index=0);
 
-
-
-
     /** evaluate total memory size of event object regarding composite subevents*/
     size_t ScanEventSize(TGo4EventElement* event);
-
-
 
     /** Convert common go4 filemode flags to hdf5 flags: **/
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);
 
-
-
 #ifndef __CINT__
 
     /** the currently open hdf5 file*/
-    H5::H5File* fxFile; //!
+    H5::H5File* fxFile{nullptr}; //!
 
     /** handle object to recursively treat the io of nested event components*/
-    TGo4HDF5DataHandle* fxHandle; //!
+    TGo4HDF5DataHandle* fxHandle{nullptr}; //!
 
 #endif
     /** True if branch already exists. Used for automatic creation
       * of new event branch within Store method. */
-    Bool_t fbDataSetExists;
+    Bool_t fbDataSetExists{kFALSE};
 
     /** Points to event structure to be filled into dataset. */
-    TGo4EventElement * fxEvent; //!
+    TGo4EventElement * fxEvent{nullptr}; //!
 
     /** remember file property flags?. */
-    UInt_t fiFlags;
+    UInt_t fiFlags{0};
 
 
 #ifndef __CINT__
     /** counter of filled events. */
-    hsize_t fiFillCount; //!
+    hsize_t fiFillCount{0}; //!
 #endif
 
 };
