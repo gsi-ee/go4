@@ -23,7 +23,7 @@
 #define GO4_WIDGET_EXPORT
 #endif
 
-#include "Rtypes.h"
+#include "RtypesCore.h"
 #include "Buttons.h"
 #include "TVirtualX.h"
 

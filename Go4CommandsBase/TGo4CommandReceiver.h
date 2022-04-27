@@ -16,8 +16,6 @@
 
 /** @author M. Hemberger */
 
-#include "Rtypes.h"
-
 class TGo4CommandReceiver {
    public:
 

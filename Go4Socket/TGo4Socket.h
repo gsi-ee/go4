@@ -14,9 +14,10 @@
 #ifndef TGO4SOCKET_H
 #define TGO4SOCKET_H
 
-#include "Rtypes.h"
+#include "RtypesCore.h"
 
 class TObject;
+class TBuffer;
 class TSocket;
 class TServerSocket;
 
@@ -25,13 +26,13 @@ class TGo4Socket {
      TGo4Socket(Bool_t IsClient);
      virtual ~TGo4Socket();
 
-     virtual Int_t Open(const char* host, Int_t port, Bool_t keepservsock=kFALSE);
-     virtual Int_t Close(Option_t *opt="");
+     virtual Int_t Open(const char* host, Int_t port, Bool_t keepservsock = kFALSE);
+     virtual Int_t Close(Option_t *opt = "");
 
      virtual Int_t Send(TObject *obj);
      virtual Int_t Send(const char* name);
-     virtual TObject* Recv(const char* name=0);
-     virtual char* RecvRaw(const char* name=0);
+     virtual TObject* Recv(const char* name = nullptr);
+     virtual char* RecvRaw(const char* name = nullptr);
 
      Bool_t IsOpen() const { return fbOpen; }
 

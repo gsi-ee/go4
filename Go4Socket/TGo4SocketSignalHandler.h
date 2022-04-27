@@ -14,7 +14,7 @@
 #ifndef TGO4SOCKETSIGNALHANDLER_H
 #define TGO4SOCKETSIGNALHANDLER_H
 
-#include "Rtypes.h"
+#include "RtypesCore.h"
 
 class TGo4SocketSignalHandler {
    public:

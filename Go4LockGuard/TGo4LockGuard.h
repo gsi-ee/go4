@@ -40,7 +40,7 @@ class TMutex;
 class TGo4LockGuard {
    public:
 
-      TGo4LockGuard(TMutex* mutex=0, Bool_t = kFALSE);
+      TGo4LockGuard(TMutex *mutex = nullptr, Bool_t = kFALSE);
 
       virtual ~TGo4LockGuard();
 
@@ -53,14 +53,14 @@ class TGo4LockGuard {
    private:
 
       /** Reference to Mutex associated with this lockguard (external or internal) */
-      TMutex *fxMutex;        //!
+      TMutex *fxMutex{nullptr};        //!
 
       /** We need this flag if first TThread starts in between ctor and dtor. */
-      Bool_t fbIsLocked;      //!
+      Bool_t fbIsLocked{kFALSE};      //!
 
       /** True if the mutex of this lockguard instance is
         * the global go4 main mutex. */
-      Bool_t fbIsMainMutex;   //!
+      Bool_t fbIsMainMutex{kFALSE};   //!
 
       /** Main Mutex of the go4 system. Used to protect
         * any memory critical operations. This mutex is

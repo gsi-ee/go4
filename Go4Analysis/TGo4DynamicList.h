@@ -14,7 +14,7 @@
 #ifndef TGO4DYNAMICLIST_H
 #define TGO4DYNAMICLIST_H
 
-#include "Rtypes.h"
+#include "RtypesCore.h"
 
 class TFolder;
 class TObject;

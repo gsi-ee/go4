@@ -21,6 +21,9 @@ class TGo4TaskStatus;
 class TGo4Command;
 class TGo4ThreadHandler;
 class TMutex;
+class TObject;
+class TString;
+
 /**
  * Baseclass for all slave process entities. A Slave receives commands and may send data and status objects via the TGo4Task connection. This can run either as server or client task.
  */
@@ -31,7 +34,7 @@ class TGo4Slave : public TGo4TaskOwner {
        * True if analysis main loop is running. If false, the slave main thread
        * will just wait on incoming commands without processing main loop.
        */
-      Bool_t fbMainIsRunning;
+      Bool_t fbMainIsRunning{kFALSE};
 
    protected:
 
@@ -133,4 +136,5 @@ class TGo4Slave : public TGo4TaskOwner {
       virtual void ExecuteString(const char* command);
 
 };
+
 #endif //TGO4SLAVE_H
