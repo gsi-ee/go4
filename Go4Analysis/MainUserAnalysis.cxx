@@ -1255,16 +1255,15 @@ int main(int argc, char **argv)
       TGo4MbsSource::SetPollingMode(kTRUE); // allow to process http requests when no events are coming
 
       TString cmd;
-      Long_t res(0);
-      Int_t err(0);
       for (Int_t n=0;n<=http_args.GetLast();n++) {
          TString engine = http_args[n]->GetName();
          if ((engine.Index("http:")==0) && (auth_file.Length()>0))
             engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file.Data(), auth_domain));
 
          cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", engine.Data());
-         res = gROOT->ProcessLineFast(cmd.Data(), &err);
-         if ((res<=0) || (err!=0)) {
+         Int_t err = 0;
+         auto res = gROOT->ProcessLineFast(cmd.Data(), &err);
+         if ((res <= 0) || (err != 0)) {
             printf("Fail to start %s", engine.Data());
             return 1;
          }

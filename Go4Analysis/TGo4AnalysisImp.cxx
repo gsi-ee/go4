@@ -2295,8 +2295,6 @@ TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const cha
 }
 
 
-
-
 TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
                                            const char* classname,
                                            const char* newcmd)
@@ -2306,7 +2304,7 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    if ((fullname==0) || (strlen(fullname)==0)) {
       TGo4Log::Error("Parameter name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
    const char* separ = strrchr(fullname, '/');
    if (separ!=0) {
@@ -2317,29 +2315,29 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    TGo4Parameter* param = GetParameter(fullname);
 
-   if (param!=0) {
+   if (param) {
       if (!param->InheritsFrom(classname)) {
          TGo4Log::Info("There is parameter %s with type %s other than specified %s, rebuild",
                         fullname, param->ClassName(), classname);
          RemoveParameter(fullname);
-         param = 0;
+         param = nullptr;
       }
    }
 
-   if (param==0) {
+   if (!param) {
       paramname = TString("\"") + paramname + TString("\"");
 
       TString cmd;
-      if ((newcmd!=0) && (strstr(newcmd,"new ")==newcmd))
+      if (newcmd && (strstr(newcmd,"new ")==newcmd))
          cmd = TString::Format(newcmd, paramname.Data());
       else
          cmd = TString::Format("new %s(%s)", classname, paramname.Data());
 
-      Long_t res = gROOT->ProcessLineFast(cmd.Data());
+      auto res = gROOT->ProcessLineFast(cmd.Data());
 
       if (res==0) {
          TGo4Log::Error("Cannot create parameter of class %s", classname);
-         return 0;
+         return nullptr;
       }
 
       param = (TGo4Parameter*) res;
@@ -2352,7 +2350,7 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
       fbObjMade = kTRUE;
    }
 
-   if ((newcmd!=0) && (strstr(newcmd,"set_")==newcmd)) {
+   if (newcmd && (strstr(newcmd,"set_")==newcmd)) {
       // executing optional set macro
 
       ExecuteScript(newcmd);
@@ -2372,7 +2370,7 @@ Bool_t TGo4Analysis::IsSortedOrder() const
 }
 
 
-Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
+Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
 {
    if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
 
@@ -2393,17 +2391,11 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
       return -1;
    }
 
-   Long_t res = 0;
    TGo4Log::Info("Executing ROOT script %s", macro_name);
 
    TString exec = ".x ";
    exec.Append(macro_name);
    int error = 0;
-
-#if ROOT_VERSION_CODE < ROOT_VERSION(6,22,0)
-   res = gROOT->ProcessLineSync(exec.Data(), &error); // here faster than ExecuteLine...
-   if (error) res = -1;
-#else
 
    std::ifstream t(file_name.Data());
    std::string content = std::string(std::istreambuf_iterator<char>(t), {});
@@ -2428,7 +2420,7 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    if (name_pos == std::string::npos) fall_back = true;
 
    if (fall_back) {
-      res = gROOT->ProcessLineSync(exec.Data(), &error); // here faster than ExecuteLine...
+      auto res = gROOT->ProcessLineSync(exec.Data(), &error); // here faster than ExecuteLine...
       return error ? -1 : res;
    }
 
@@ -2481,15 +2473,13 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
 
    // just call function
    func_name.Append("()");
-   res = gROOT->ProcessLineSync(func_name.Data(), &error); // here faster than ExecuteLine...
+   auto res = gROOT->ProcessLineSync(func_name.Data(), &error); // here faster than ExecuteLine...
    if (error) res = -1;
-
-#endif
 
    return res;
 }
 
-Long_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
+Long64_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
 {
   if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
   TString comstring=macro_name;
@@ -2498,10 +2488,10 @@ Long_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
 }
 
 
-Long_t TGo4Analysis::ExecuteLine(const char* command, Int_t* errcode)
+Long64_t TGo4Analysis::ExecuteLine(const char* command, Int_t* errcode)
 {
   TString comstring;
-if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::fgcPYPROMPT) == strrchr(command,TGo4Analysis::fgcPYPROMPT))) {
+  if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::fgcPYPROMPT) == strrchr(command,TGo4Analysis::fgcPYPROMPT))) {
     // this one is by Sven Augustin, MPI Heidelberg
     comstring = command;
     comstring = comstring.Strip(TString::kBoth);
@@ -2559,12 +2549,8 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
 //  printf ("gInterpreterMutex: 0x%x gGlobalMutex: 0x%x \n", gInterpreterMutex, gGlobalMutex);
 
 
-  //gROOT->GetInterpreter()->RewindInterpreterMutex();
- // TCling__ResetInterpreterMutex();
-//  theI->SetProcessLineLock(kTRUE);
-  Long_t rev=gROOT->ProcessLineSync(comstring, errcode);
 //  theI->SetProcessLineLock(kFALSE);
-  return rev;
+  return gROOT->ProcessLineSync(comstring, errcode);
  }
 
 void TGo4Analysis::StopAnalysis()
