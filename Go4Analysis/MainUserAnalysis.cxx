@@ -362,7 +362,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
             user_argv = (char**) &name;
          }
 
-	 #ifdef WIN32
+	 #ifdef _MSC_VER
          TString cmd = TString::Format("new %s(%d, (char**)0x%x)", an_cl->GetName(), user_argc, user_argv);
     #else
          TString cmd = TString::Format("new %s(%d, (char**)%p)", an_cl->GetName(), user_argc, user_argv);
@@ -1308,7 +1308,7 @@ int main(int argc, char **argv)
       TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
       TGo4Log::Info("Main: Run application loop");
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #if ROOT_VERSION_CODE <= ROOT_VERSION(5,25,2)
       // workaround TUnixSystem::DispatchOneEvent problem
       gSystem->AddFileHandler(new TFileHandler(0, TFileHandler::kRead));
