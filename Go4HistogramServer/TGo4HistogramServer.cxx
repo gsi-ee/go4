@@ -15,11 +15,11 @@
 
 #include <iostream>
 #include "TFile.h"
+#include "TBufferFile.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Socket.h"
-#include "TGo4Buffer.h"
 
 #include "TGo4HisConnectorRunnable.h"
 #include "TGo4ObjConnectorRunnable.h"
@@ -292,7 +292,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject *object)
    if (object != 0) {
       fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // let client know the object exists
       TGo4LockGuard mainguard;
-      rootbuffer = new TGo4Buffer(TBuffer::kWrite);
+      rootbuffer = new TBufferFile(TBuffer::kWrite);
       TFile *filsav = gFile;
       gFile = 0;
       rootbuffer->WriteObject(object);

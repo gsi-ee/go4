@@ -18,7 +18,7 @@
 #include "TROOT.h"
 #include "TMutex.h"
 #include "TFile.h"
-#include "TGo4Buffer.h"
+#include "TBufferFile.h"
 
 #include "TGo4Socket.h"
 #include "TGo4RuntimeException.h"
@@ -208,13 +208,12 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 {
    GO4TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject*)", __LINE__, __FILE__));
-   if(object==0) return;
+   if(!object) return;
    TGo4LockGuard mainguard;
-   TBuffer* entry = 0;
-   entry = new TGo4Buffer(TBuffer::kWrite);
+   TBuffer* entry = new TBufferFile(TBuffer::kWrite);
    //std::cout <<" Buffer  queue ABFO created buffer "<<entry << std::endl;
    TFile *filsav = gFile;
-   gFile = 0;
+   gFile = nullptr;
    entry->WriteObject(object);
    gFile = filsav;
 ////////DEBUG OUTPUT
@@ -320,7 +319,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
 {
   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" new entry before mainguard"<< std::endl;
    TGo4LockGuard mainguard;
-   TBuffer* buf = new TGo4Buffer(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
+   TBuffer* buf = new TBufferFile(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
    TNamed* dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
    TFile *filsav = gFile;
@@ -333,7 +332,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
 
 TBuffer* TGo4BufferQueue::CreateValueBuffer(UInt_t val)
 {
-   TGo4Buffer* buf= new TGo4Buffer(TBuffer::kWrite);
+   TBuffer* buf = new TBufferFile(TBuffer::kWrite);
    char* field= buf->Buffer() + sizeof(UInt_t);
    tobuf(field ,val);
    buf->SetBufferOffset( sizeof(UInt_t)+ sizeof(UInt_t) ); // set length for receiver check
