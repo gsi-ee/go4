@@ -21,12 +21,12 @@ DODOCS = true
 endif
 
 
-FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
+FASTRULES   += clean-qt4 clean-bak clean-dep \
                clean-plugin clean-bin clean-prefix clean-svn \
                $(PACKAGERULES)
 
 .PHONY:  all includes libs gui plugin install uninstall \
-         clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
+         clean clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
          package $(PACKAGERULES)
 
 
@@ -109,8 +109,6 @@ include $(patsubst %,%/Module.mk,$(MODULES))
 
 include $(patsubst %,%/Makefile, $(EXMODULES))
 
--include qt3/Module.mk
-
 -include qt4/Module.mk
 
 bin/go4-config: Makefile $(GO4SYS)/build/dummy.d
@@ -165,13 +163,8 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH)/html; cp -r html/* $(GO4TOPPATH)/html
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
 	@mkdir -p $(GO4TOPPATH)/docs; cp docs/* $(GO4TOPPATH)/docs
-ifeq ($(GO4_QT), 3)
-	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
-	@mkdir -p $(GO4TOPPATH)/qt3/Go4UserGUI; cp qt3/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt3/Go4UserGUI
-else
 	@mkdir -p $(GO4TOPPATH)/qt4
 	@mkdir -p $(GO4TOPPATH)/qt4/Go4UserGUI; cp qt4/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt4/Go4UserGUI
-endif
 	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
 	@echo "Installation completed"
 endif
@@ -200,7 +193,7 @@ clean-dep:
 
 clean-prefix:
 	@rm -f Go4Log/TGo4Log.o Go4Log/TGo4Log.d
-	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt
+	@rm -f qt4/Go4GUI/Makefile.qt
 	@rm -f build/Makefile.gener go4login go4login.bat go4.bat
 	@rm -f bin/*
 	@echo "Clean prefix-dependend files done"
