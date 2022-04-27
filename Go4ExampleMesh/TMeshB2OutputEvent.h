@@ -24,20 +24,19 @@ class TMeshB2OutputEvent : public TGo4EventElement {
       TMeshB2OutputEvent() ;
       TMeshB2OutputEvent(const char* name) ;
       virtual ~TMeshB2OutputEvent() ;
-      virtual Int_t Init();
-      virtual Int_t Fill();
-      virtual void  Clear(Option_t *t="");
+      Int_t Init() override;
+      Int_t Fill() override;
+      void  Clear(Option_t *t = "") override;
 
       Float_t frData[16];
    private:
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
-      TMeshB2AnlProc     * fxProcessor;  //! Don't put this to file
-      TGo4FileSource  * fxFile;  //! Don't put this to file
+      TMeshB2AnlProc     *fxProcessor{nullptr};  //! Don't put this to file
+      TGo4FileSource     *fxFile{nullptr};  //! Don't put this to file
 
-   ClassDef(TMeshB2OutputEvent,1)
+   ClassDefOverride(TMeshB2OutputEvent,1)
 };
+
 #endif //TMESHB12OUTPUTEVENT_H
-
-
 

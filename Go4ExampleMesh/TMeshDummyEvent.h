@@ -28,14 +28,14 @@ class TMeshDummyEvent : public TGo4EventElement {
       TMeshDummyEvent(const char* name) ;
       virtual ~TMeshDummyEvent() ;
 
-      virtual Int_t Fill();
-      virtual void  Clear(Option_t *t="");
-      virtual Int_t Init();
+      Int_t Fill() override;
+      void  Clear(Option_t *t="") override;
+      Int_t Init() override;
 
    private:
-      TMeshProviderProc* fxProviderProc;//!
+      TMeshProviderProc* fxProviderProc{nullptr};//!
 
-   ClassDef(TMeshDummyEvent,1)
+   ClassDefOverride(TMeshDummyEvent,1)
 };
 
 #endif //TMESHDUMMYANLEVENT_H

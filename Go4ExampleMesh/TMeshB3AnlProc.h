@@ -22,14 +22,15 @@ class TMeshB3OutputEvent;
 class TMeshB3AnlProc : public TGo4EventProcessor {
 
    public:
-      TMeshB3AnlProc() ;
+      TMeshB3AnlProc();
       TMeshB3AnlProc(const char* name);
       void Analysis(TMeshB3OutputEvent* target);
       virtual ~TMeshB3AnlProc() ;
 
-      TMeshB3InputEvent* fxInput;
+      TMeshB3InputEvent* fxInput{nullptr};
 
-   ClassDef(TMeshB3AnlProc,1)
+   ClassDefOverride(TMeshB3AnlProc,1)
 };
 
 #endif //TMeshB3AnlProcESSOR_H
+

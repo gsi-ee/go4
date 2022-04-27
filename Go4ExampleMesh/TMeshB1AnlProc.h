@@ -27,9 +27,10 @@ class TMeshB1AnlProc : public TGo4EventProcessor {
       void Analysis(TMeshB1OutputEvent* target);
       virtual ~TMeshB1AnlProc() ;
 
-      TMeshB1InputEvent* fxInput;
+      TMeshB1InputEvent* fxInput{nullptr};
 
-   ClassDef(TMeshB1AnlProc,1)
+   ClassDefOverride(TMeshB1AnlProc,1)
 };
 
 #endif //TMeshB1AnlProcESSOR_H
+
