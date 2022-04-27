@@ -22,7 +22,7 @@ class TXXXParam : public TGo4Parameter {
 
       Bool_t   fillRaw{kTRUE};  // control filling of raw histograms
 
-   ClassDef(TXXXParam,1)
+   ClassDefOverride(TXXXParam,1)
 };
 
 #endif // TXXXParam_H
