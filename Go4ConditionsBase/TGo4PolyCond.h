@@ -28,43 +28,43 @@ class TGo4PolyCond : public TGo4Condition {
       virtual ~TGo4PolyCond();
 
       /** Set reference to work histogram for statistics functions */
-      virtual void SetWorkHistogram(TH1* histo);
+      void SetWorkHistogram(TH1* histo) override;
 
       /** Factory method to generate the subclass implementation for painter */
-      virtual TGo4ConditionPainter* CreatePainter();
+      TGo4ConditionPainter* CreatePainter() override;
 
       /** Replace default painter of this condition by external one.
         * if different views of this condition shall exist for different TPads,
         * the painter (i.e. view) can be exchanged before pad is updated. */
-      virtual void SetPainter(TGo4ConditionPainter* painter);
+      void SetPainter(TGo4ConditionPainter* painter) override;
 
       using TGo4Condition::SetValues;
 
       /** Delete old cut and create a new cut with X,Y values. */
-      virtual void SetValues(Double_t * x, Double_t * y, Int_t len);
+      void SetValues(Double_t *x, Double_t *y, Int_t len) override;
 
       /** Delete old cut and create new one by cloning newcut. */
-      virtual void SetValues(TCutG * newcut);
+      void SetValues(TCutG *newcut) override;
 
       /** Delete old cut and get ownership over newcut. */
-      void SetValuesDirect(TCutG * newcut);
+      void SetValuesDirect(TCutG *newcut);
 
       using TGo4Condition::Test;
 
       /** Test if X,Y are inside. */
-      virtual Bool_t Test(Double_t x, Double_t y);
+      Bool_t Test(Double_t x, Double_t y) override;
 
       /** minimum extension of polygon in x axis */
-      virtual Double_t GetXLow();
+      Double_t GetXLow() override;
 
       /** maximum extension of polygon in x axis */
-      virtual Double_t GetXUp();
+      Double_t GetXUp() override;
 
       /** minimum extension of polygon in y axis */
-      virtual Double_t GetYLow();
+      Double_t GetYLow() override;
 
       /** maximum extension of polygon in y axis */
-      virtual Double_t GetYUp();
+      Double_t GetYUp() override;
 
       /** Used to return the cut pointer of a TGo4PolyCond.
         * In source, pointer is set to 0, when changeowner is true.
@@ -72,48 +72,48 @@ class TGo4PolyCond : public TGo4Condition {
         * which is now owned by the caller.
         * When changeowner is false, the pointer can only be used to
         * clone a new cut. The cut must not be deleted! */
-      TCutG* GetCut(Bool_t changeowner);
+      TCutG *GetCut(Bool_t changeowner) override;
 
       /** Printout values. If points is true, printout polygon points. */
-      virtual void PrintCondition(Bool_t points = kTRUE);
+      void PrintCondition(Bool_t points = kTRUE) override;
 
       /** Copy values from cond to this.
         * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */
-      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
-      virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+      Bool_t UpdateFromUrl(const char* rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
+      Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetMean(TH1* histo, Int_t axis=1);
+      Double_t GetMean(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetRMS(TH1* histo, Int_t axis=1);
+      Double_t GetRMS(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetSkewness(TH1* histo, Int_t axis=1);
+      Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetCurtosis(TH1* histo, Int_t axis=1);
+      Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetXMax(TH1* histo);
+      Double_t GetXMax(TH1* histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetYMax(TH1* histo);
+      Double_t GetYMax(TH1* histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      virtual Double_t GetCMax(TH1* histo);
+      Double_t GetCMax(TH1* histo) override;
 
-      virtual Bool_t IsPolygonType();
+      Bool_t IsPolygonType() override;
 
-      virtual Int_t GetMemorySize();
+      Int_t GetMemorySize() override;
 
       /** Standard way to store parameter in form of macro */
-      virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
+      void SavePrimitive(std::ostream& fs, Option_t* = "") override;
 
       /** Remove all references to any TCutGs from ROOT list of specials.
         * To be used after loading condition from file, updating contition, or setting of cut. */
@@ -133,7 +133,7 @@ class TGo4PolyCond : public TGo4Condition {
       /** Returns pointer to a cloned cut from source.
         * Name is set to callers name.
         * Used internally by UpdateFrom. */
-      TCutG * CloneCut(TGo4PolyCond * source);
+      TCutG *CloneCut(TGo4PolyCond * source);
 
       /** Set new cut histogram */
       void ClearCutHis();
@@ -142,15 +142,15 @@ class TGo4PolyCond : public TGo4Condition {
       Bool_t IsCutHis(TH1* source);
 
       /** Cut pointer. */
-      TCutG* fxCut;
+      TCutG *fxCut{nullptr};
 
       /** temporary histogram used to calculate statistics on
         * polygon cuts. Will be recalculated only if boundaries
         * habe changed.*/
-      TH2* fxCutHis;   //!
+      TH2 *fxCutHis{nullptr};   //!
 
 
-   ClassDef(TGo4PolyCond,7)
+   ClassDefOverride(TGo4PolyCond,7)
 };
 
 #endif //TGO4POLYCOND_H
