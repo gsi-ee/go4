@@ -202,7 +202,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       QPoint scaledMousePoint(QMouseEvent *ev);
 
-      virtual QPaintEngine * paintEngine () const { return nullptr; }
+      QPaintEngine * paintEngine () const override { return nullptr; }
 
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
