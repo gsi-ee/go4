@@ -114,24 +114,22 @@ public:
           * the source (like myevent.a=GetEventSource()->GetA(); etc ), or by
           * direct copy to the member (like GetEventSource()->FillMemoryAt(&myevent.a);)
           */
-   virtual Int_t Fill();
+   Int_t Fill() override;
 
    /**
     * Method called by the event owner (analysis step) to clear the
     * event element.
     */
-   virtual void Clear(Option_t *t="");
+   void Clear(Option_t *t="") override;
 
-   void PrintEvent();
+   void PrintEvent() override;
 
    TGo4SimpleSubEvent() ;
 
    virtual ~TGo4SimpleSubEvent() ;
 
-   ClassDef(TGo4SimpleSubEvent,1)
+   ClassDefOverride(TGo4SimpleSubEvent,1)
 
 };
+
 #endif //TGO4SIMPLESUBEVENT_H
-
-
-

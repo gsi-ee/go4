@@ -24,7 +24,7 @@ class TGo4TreeSourceParameter : public TGo4EventSourceParameter {
 
      virtual ~TGo4TreeSourceParameter() ;
 
-  ClassDef(TGo4TreeSourceParameter,1)
+  ClassDefOverride(TGo4TreeSourceParameter,1)
 };
 
 #endif //TGO4TREESOURCEPARAMETER_H

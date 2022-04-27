@@ -23,9 +23,9 @@ class TGo4MbsEventServerParameter : public TGo4MbsSourceParameter {
 
     TGo4MbsEventServerParameter(const char* name);
 
-    virtual ~TGo4MbsEventServerParameter() ;
+    virtual ~TGo4MbsEventServerParameter();
 
-  ClassDef(TGo4MbsEventServerParameter, 2)
+  ClassDefOverride(TGo4MbsEventServerParameter, 2)
 };
 
 #endif //TGO4MBSEVENTSERVERPARAMETER_H

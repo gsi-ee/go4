@@ -38,33 +38,33 @@ class TGo4MbsRandom : public TGo4MbsSource {
     virtual ~TGo4MbsRandom();
 
     /** Close the file or connection. */
-    virtual Int_t Close();
+    Int_t Close() override;
 
     /** Open the file or connection. */
-    virtual Int_t Open();
+    Int_t Open() override;
 
     /** Requests the next event from mbs source. Returns
       * event status value. */
-    virtual Int_t NextEvent();
+    Int_t NextEvent() override;
 
     /** User access to current event buffer header. dummy here! */
-    virtual s_bufhe * GetBufferHeader();
+    s_bufhe * GetBufferHeader() override;
 
   private:
 
     /** total length of current random event in words (Short_t) */
-    Int_t fiDLen;
+    Int_t fiDLen{0};
 
     /** Number of subevents per event */
-    Int_t fiNumSub;
+    Int_t fiNumSub{0};
 
     /** Number of data longwords per subevent */
-    Int_t fiNumDat;
+    Int_t fiNumDat{0};
 
     /** Memory allocated for the current random event */
-    Short_t* fxEventMem; //!
+    Short_t* fxEventMem{nullptr}; //!
 
-    UInt_t fuSeed;
+    UInt_t fuSeed{0};
 
     /** obtains seed for generator */
     void get_rand_seed();
@@ -80,7 +80,7 @@ class TGo4MbsRandom : public TGo4MbsSource {
     static double fgdPeak2[];
     static double fgdSigma2[];
 
-  ClassDef(TGo4MbsRandom,1)
+  ClassDefOverride(TGo4MbsRandom,1)
 };
 
 #endif //TGO4MBSRANDOM_H

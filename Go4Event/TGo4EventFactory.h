@@ -54,7 +54,7 @@ class TGo4EventFactory : public TNamed {
 
       virtual TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter* par) = 0;
 
-   ClassDef(TGo4EventFactory,1)
+   ClassDefOverride(TGo4EventFactory,1)
 };
 
 #endif //TGO4EVENTFACTORY_H

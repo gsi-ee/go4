@@ -26,7 +26,7 @@ class TGo4MbsRandomParameter : public TGo4MbsSourceParameter {
 
     virtual ~TGo4MbsRandomParameter() ;
 
-  ClassDef(TGo4MbsRandomParameter, 2)
+  ClassDefOverride(TGo4MbsRandomParameter, 2)
 };
 
 #endif //TGO4MBSRANDOMPARAMETER_H

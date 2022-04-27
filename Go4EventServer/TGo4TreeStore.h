@@ -57,14 +57,14 @@ class TGo4TreeStore : public TGo4EventStore {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    virtual Int_t Store(TGo4EventElement* event);
+    Int_t Store(TGo4EventElement* event) override;
 
     /** Set the file compression level. May be changed on the fly. */
     void SetCompression(Int_t comp);
 
     /** Saves a calibration object correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    virtual Int_t Store(TGo4Parameter* cali);
+    Int_t Store(TGo4Parameter* cali) override;
 
     /** Standard suffix for file name */
     static const char* fgcFILESUF; //!
@@ -73,35 +73,35 @@ class TGo4TreeStore : public TGo4EventStore {
 
     /** Optional file where our branches are located. By
       * default, branches are written to the same file as the main tree. */
-    TFile* fxFile; //!
+    TFile* fxFile{nullptr}; //!
 
     /** Reference to external tree singleton wrapper instance.
       * Is initialized once at the start and used to access
       * the singleton member functions. */
-    TGo4MainTree* fxSingletonTree; //!
+    TGo4MainTree* fxSingletonTree{nullptr}; //!
 
     /** Reference to the external main tree. */
-    TTree * fxTree; //!
+    TTree * fxTree{nullptr}; //!
 
     /** The branch representing our store. */
-    TBranch * fxBranch; //!
+    TBranch * fxBranch{nullptr}; //!
 
     /** Points to event structure to be filled into branch. */
-    TGo4EventElement * fxEvent; //!
+    TGo4EventElement * fxEvent{nullptr}; //!
 
     /** Points to calibration structure to be filled into branch. */
-    TGo4EventCalibration * fxCalibration; //!
+    TGo4EventCalibration * fxCalibration{nullptr}; //!
 
     /** Class name of the event associated with this store. */
     TString fcEventClass; //!
 
     /** TBranch splitlevel. */
-    Int_t fiSplit;
+    Int_t fiSplit{0};
 
     /** buffer size for tree branch. */
-    Int_t fiBufsize;
+    Int_t fiBufsize{0};
 
-  ClassDef(TGo4TreeStore,1)
+  ClassDefOverride(TGo4TreeStore,1)
 };
 
 #endif //TGO4TREESTORE_H

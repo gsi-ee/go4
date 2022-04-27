@@ -38,22 +38,22 @@ class TGo4BackStore : public TGo4EventStore {
     virtual ~TGo4BackStore();
 
     /** Stores eventelement event into the storage implementation. */
-    virtual Int_t Store(TGo4EventElement* event);
+    Int_t Store(TGo4EventElement* event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Parameter* cali);
+    Int_t Store(TGo4Parameter* cali) override;
 
     /** Saves a condition correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Condition* conny);
+    Int_t Store(TGo4Condition* conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
-    virtual Int_t Store(TGo4Fitter* fitter);
+    Int_t Store(TGo4Fitter* fitter) override;
 
     /** Saves a folder correlated with the current event into the storage. */
-    virtual Int_t Store(TFolder* fold);
+    Int_t Store(TFolder* fold) override;
 
     /** Access to the Tree structure, for framework */
-    virtual TTree* GetTree() { return fxTree; }
+    TTree* GetTree() override { return fxTree; }
 
     /** Dynamic list might reset backstore after processing.
      * If onlyclearflag is true, do not reset tree, but just
@@ -73,25 +73,25 @@ class TGo4BackStore : public TGo4EventStore {
 
   private:
 
-    TTree * fxTree; //!
+    TTree * fxTree{nullptr}; //!
 
     /** True if branch already exists. Used for automatic creation
       * of new event branch within Store method. */
-    Bool_t fbBranchExists;
+    Bool_t fbBranchExists{kFALSE};
 
     /** Points to event structure to be filled into branch. */
-    TGo4EventElement * fxEvent; //!
+    TGo4EventElement * fxEvent{nullptr}; //!
 
     /** TBranch splitlevel. */
-    Int_t fiSplit;
+    Int_t fiSplit{0};
 
     /** buffer size for tree branch. */
-    Int_t fiBufsize;
+    Int_t fiBufsize{0};
 
     /** counter of filled events. */
-    Int_t fiFillCount;
+    Int_t fiFillCount{0};
 
-  ClassDef(TGo4BackStore,1)
+  ClassDefOverride(TGo4BackStore,1)
 };
 
 #endif //TGO4BACKSTORE_H

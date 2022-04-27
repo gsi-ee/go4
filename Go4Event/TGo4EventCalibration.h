@@ -32,9 +32,10 @@ class TGo4EventCalibration : public TGo4Parameter {
       virtual ~TGo4EventCalibration();
 
       /** update contents of paramter class with external object. */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
 
-  ClassDef(TGo4EventCalibration,1)
+  ClassDefOverride(TGo4EventCalibration,1)
 };
+
 #endif //TGO4EVENTCALIBRATION_H

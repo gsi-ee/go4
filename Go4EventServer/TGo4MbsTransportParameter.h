@@ -24,7 +24,7 @@ class TGo4MbsTransportParameter : public TGo4MbsSourceParameter {
 
     virtual ~TGo4MbsTransportParameter() ;
 
-  ClassDef(TGo4MbsTransportParameter, 2)
+  ClassDefOverride(TGo4MbsTransportParameter, 2)
 };
 
 #endif //TGO4MBSTRANSPORTPARAMETER_H

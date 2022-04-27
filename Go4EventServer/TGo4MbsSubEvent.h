@@ -35,12 +35,12 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       virtual ~TGo4MbsSubEvent();
 
-      virtual Int_t Fill() { return -1; } // method not used
+      Int_t Fill() override { return -1; } // method not used
 
-      virtual void Clear(Option_t *t="");
+      void Clear(Option_t *t="") override;
 
       /** Print event with default arguments */
-      virtual void PrintEvent();
+      void PrintEvent() override;
 
       /** Print MBS subevent
        * \param longw - data in long format (4 bytes)
@@ -101,11 +101,11 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       /** True if this subevent has already been filled in this event cycle.
        * For subsequent subevents of identical header ids, prevents overwriting. */
-      Bool_t fbIsFilled;
+      Bool_t fbIsFilled{kFALSE};
 
       /** True if subevent owns data field.
        * note that this should not be streamed to root file!*/
-      Bool_t fbIsDataOwner; //!
+      Bool_t fbIsDataOwner{kFALSE}; //!
 
       /** @link aggregationByValue */
       TGo4SubEventHeader10 fxHeader;
@@ -118,15 +118,15 @@ class TGo4MbsSubEvent : public TGo4EventElement {
        * before filling it. If the source data is smaller, we
        * leave the data field as is and use only the first
        * DLen words. */
-      Int_t fiAllocLen;
+      Int_t fiAllocLen{0};
 
       /** Pointer to external integer field containing the
        * subevent data. Length of this field may be changed
        * dynamically depending on the maximum length
        * of the incoming subevent of this type. */
-      Int_t* fiData; //[fiAllocLen]
+      Int_t* fiData{nullptr}; //[fiAllocLen]
 
-   ClassDef(TGo4MbsSubEvent,2)
+   ClassDefOverride(TGo4MbsSubEvent,2)
 };
 
 #endif //TGO4MBSSUBEVENT_H

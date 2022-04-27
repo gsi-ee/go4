@@ -32,15 +32,15 @@ class TGo4EventServerFactory : public TGo4EventFactory {
 
       virtual ~TGo4EventServerFactory();
 
-      virtual TGo4EventElement * CreateInputEvent();
+      TGo4EventElement * CreateInputEvent() override;
 
-      virtual TGo4EventSource * CreateEventSource(TGo4EventSourceParameter *par);
+      TGo4EventSource * CreateEventSource(TGo4EventSourceParameter *par) override;
 
-      virtual TGo4EventElement * CreateOutputEvent() = 0;
+      TGo4EventElement * CreateOutputEvent() override = 0;
 
-      virtual TGo4EventStore * CreateEventStore(TGo4EventStoreParameter *par);
+      TGo4EventStore * CreateEventStore(TGo4EventStoreParameter *par) override;
 
-      virtual TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter *par) = 0;
+      TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter *par) override = 0;
 
       /** For usersubclass: set pointer to user output event. Required by create event store for
         * the TreeStore TTree. */
@@ -48,9 +48,9 @@ class TGo4EventServerFactory : public TGo4EventFactory {
 
    private:
       /** remember pointer to output event for tree store ctor */
-      TGo4EventElement* fxEvent; //!
+      TGo4EventElement* fxEvent{nullptr}; //!
 
-   ClassDef(TGo4EventServerFactory,1)
+   ClassDefOverride(TGo4EventServerFactory,1)
 };
 
 #endif //TGO4EVENTSERVERFACTORY_H

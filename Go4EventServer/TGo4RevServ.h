@@ -35,7 +35,7 @@ class TGo4RevServ : public TGo4MbsSource {
 
     ~TGo4RevServ();
 
-  ClassDef(TGo4RevServ,3)
+  ClassDefOverride(TGo4RevServ,3)
 };
 
 #endif //TGO4REVSERV_H

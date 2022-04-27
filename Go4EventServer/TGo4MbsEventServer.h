@@ -37,7 +37,7 @@ class TGo4MbsEventServer : public TGo4MbsSource {
 
     ~TGo4MbsEventServer();
 
-  ClassDef(TGo4MbsEventServer,1)
+  ClassDefOverride(TGo4MbsEventServer,1)
 };
 
 #endif //TGO4MBSEVENTSERVER_H

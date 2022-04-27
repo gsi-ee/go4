@@ -50,13 +50,13 @@ class TGo4SimpleEvent : public TGo4EventElement {
        * the source (like myevent.a=GetEventSource()->GetA(); etc ), or by
        * direct copy to the member (like GetEventSource()->FillMemoryAt(&myevent.a);)
        */
-      virtual Int_t Fill();
+      Int_t Fill() override;
 
       /**
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      virtual void Clear(Option_t *t="");
+      void Clear(Option_t *t="") override;
       /**
        * Set the internal iterator of the subevent array to the beginning of
        * the array.
@@ -70,7 +70,7 @@ class TGo4SimpleEvent : public TGo4EventElement {
        */
       TGo4SimpleSubEvent* NextSubEvent();
 
-      void PrintEvent();
+      void PrintEvent() override;
 
       /**
        * Access to subevent in list by procid. Returns zero if no
@@ -88,26 +88,26 @@ class TGo4SimpleEvent : public TGo4EventElement {
       Int_t  GetCount() const;
 
    private:
-      Int_t fiCount;
+      Int_t fiCount{0};
 
       /**
        * Index of last used slot in the clonesarray.
        */
-      Int_t fiLastSlot;
+      Int_t fiLastSlot{0};
 
       /**
        * Index of last existing slot in the clonesarray.
        */
-      Int_t fiMaxSlot;
+      Int_t fiMaxSlot{0};
 
       /** @link aggregation
        * @clientCardinality 1
        * @supplierCardinality 1..*
        * @associationAsClass TClonesArray*/
       /*#  TGo4SimpleSubEvent fxSubEventArray1; */
-      TClonesArray* fxSubEventArray;
+      TClonesArray* fxSubEventArray{nullptr};
 
-      Int_t fiArrLen;
+      Int_t fiArrLen{0};
 
       Int_t fiTestArray[10]; //[fiArrLen]
 
@@ -115,13 +115,13 @@ class TGo4SimpleEvent : public TGo4EventElement {
       /**
        * Iterator for array.
        */
-      TIterator * fxIterator; //!
+      TIterator * fxIterator{nullptr}; //!
 
       //   TGo4SimpleSubEvent fxFirstsubevent;
       //   TGo4SimpleSubEvent fxSecondsubevent;
       //   TGo4MbsSubEvent fxTestSub;
 
-   ClassDef(TGo4SimpleEvent,1)
+   ClassDefOverride(TGo4SimpleEvent,1)
 };
 
 #endif //TGO4SIMPLEEVENT_H

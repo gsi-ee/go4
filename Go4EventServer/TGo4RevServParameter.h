@@ -26,7 +26,7 @@ class TGo4RevServParameter : public TGo4MbsSourceParameter {
 
   private:
 
-  ClassDef(TGo4RevServParameter, 3)
+  ClassDefOverride(TGo4RevServParameter, 3)
 };
 
 #endif //TGO4REVSERVPARAMETER_H

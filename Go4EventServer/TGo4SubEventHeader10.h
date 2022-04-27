@@ -30,10 +30,10 @@ class TGo4SubEventHeader10 : public TObject {
   public:
 
     /** Reset all members to zero. */
-    virtual void Clear(Option_t* opt="")
+    void Clear(Option_t* opt="") override
      {
         fxGSIHeader.Clear();
-        fxGSIHeader.fsType=10;
+        fxGSIHeader.fsType = 10;
         //fsProcid=0; // these three values are all unique identifiers
         //fcSubcrate=0;
         //fcControl=0;
@@ -80,7 +80,7 @@ class TGo4SubEventHeader10 : public TObject {
 
     virtual ~TGo4SubEventHeader10() { }
 
-  ClassDef(TGo4SubEventHeader10,2)
+  ClassDefOverride(TGo4SubEventHeader10,2)
 };
 
 #endif // TGO4SUBEVENTHEADER10_H
