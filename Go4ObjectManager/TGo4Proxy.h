@@ -78,14 +78,14 @@ class TGo4LevelIter : public TObject {
       virtual Bool_t isfolder() { return kFALSE; }
       virtual Bool_t isslotsfolder() { return kFALSE; }
       virtual Int_t getflag(const char*) { return -1; }
-      virtual TGo4LevelIter* subiterator() { return 0; }
-      virtual TGo4Slot* getslot() { return 0; }
-      virtual const char* name() { return 0; }
-      virtual const char* info() { return 0; }
+      virtual TGo4LevelIter* subiterator() { return nullptr; }
+      virtual TGo4Slot* getslot() { return nullptr; }
+      virtual const char* name() { return nullptr; }
+      virtual const char* info() { return nullptr; }
       virtual Int_t sizeinfo() { return 0; }
 
       virtual Int_t GetKind() { return -1; }
-      virtual const char* GetClassName() { return 0; }
+      virtual const char* GetClassName() { return nullptr; }
 };
 
 // *************************************************************

@@ -74,16 +74,16 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       virtual ~TGo4AnalysisObjectAccess() {}
 
-      virtual Bool_t IsRemote() const { return kTRUE; }
-      virtual Bool_t CanGetObject() const { return kFALSE; }
-      virtual const char* GetObjectName() const { return fxObjName.Data(); }
-      virtual const char* GetObjectClassName() const { return fxObjClassName.Data(); }
+      Bool_t IsRemote() const override { return kTRUE; }
+      Bool_t CanGetObject() const override { return kFALSE; }
+      const char* GetObjectName() const override { return fxObjName.Data(); }
+      const char* GetObjectClassName() const override { return fxObjClassName.Data(); }
 
       const char* GetPathName() const { return fxFullPath.Data(); }
 
-      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override
       {
-         if ((rcv==0) || (fxAnalProxy==0)) return 0;
+         if (!rcv || !fxAnalProxy) return 0;
          fxReceiver = rcv;
          fxReceiverPath = path;
          if (fxAnalProxy->SubmitProxy(this)) return 2;
@@ -106,10 +106,10 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       {
          if (fProxyKind == cmdDefualtEnvelope) {
             TString path = fxReceiverPath;
-            if ((objfolder!=0) && (strlen(objfolder)!=0)) {
+            if (objfolder && (strlen(objfolder)!=0)) {
                path += objfolder; path += "/";
             }
-            if ((objname!=0) && (strlen(objname)!=0)) path += objname;
+            if (objname && (strlen(objname)!=0)) path += objname;
             DoObjectAssignement(fxReceiver, path.Data(), obj, owner);
 
          } else {
@@ -124,14 +124,14 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       }
 
    protected:
-      TGo4AnalysisProxy*      fxAnalProxy;      //!
-      Int_t                   fProxyKind;       //!
-      TString                 fxObjName;        //!
-      TString                 fxObjClassName;   //!
-      TString                 fxFullPath;       //!
-      TGo4ObjectManager*     fxReceiver;       //!
-      TString                 fxReceiverPath;   //!
-      TTime                   fxSubmitTime;     //!
+      TGo4AnalysisProxy*      fxAnalProxy{nullptr};      //!
+      Int_t                   fProxyKind{0};             //!
+      TString                 fxObjName;                 //!
+      TString                 fxObjClassName;            //!
+      TString                 fxFullPath;                //!
+      TGo4ObjectManager*      fxReceiver{nullptr};       //!
+      TString                 fxReceiverPath;            //!
+      TTime                   fxSubmitTime;              //!
 };
 
 
@@ -139,18 +139,10 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
 class TGo4AnalysisLevelIter : public TGo4LevelIter {
    public:
-      TGo4AnalysisLevelIter() :
-         TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0),
-         fIsTree(kFALSE)
-      {
-      }
+      TGo4AnalysisLevelIter() {}
 
       TGo4AnalysisLevelIter(TFolder* folder, Bool_t istree = kFALSE) :
          TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0),
          fIsTree(istree)
       {
          fIter = folder->GetListOfFolders()->MakeIterator();
@@ -161,64 +153,59 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          fCurrent = fIter->Next();
-         return (fCurrent!=0);
+         return fCurrent != nullptr;
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
-         return ((dynamic_cast<TFolder*>(fCurrent)!=0) ||
-                 (dynamic_cast<TGo4TreeStructure*>(fCurrent)!=0));
+         return ((dynamic_cast<TFolder*>(fCurrent) != nullptr) ||
+                 (dynamic_cast<TGo4TreeStructure*>(fCurrent) != nullptr));
       }
 
-      virtual Int_t getflag(const char* flagname)
+      Int_t getflag(const char* flagname) override
       {
          if (strcmp(flagname,"IsRemote")==0) return 1;
          if (strcmp(flagname,"IsDeleteProtect")==0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
-            if (sts!=0)
+            if (sts)
               return sts->IsDeleteProtect() ? 1 : 0;
          }
          if (strcmp(flagname,"IsResetProtect")==0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
-            if (sts!=0)
+            if (sts)
                return sts->IsResetProtect() ? 1 : 0;
          }
 
          return -1;
       }
 
-      virtual Bool_t isremote()
-      {
-         return kTRUE;
-      }
-
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          TGo4TreeStructure* tr = dynamic_cast<TGo4TreeStructure*>(fCurrent);
-         if (tr!=0) return new TGo4AnalysisLevelIter(tr->GetNamesFolder(), kTRUE);
+         if (tr) return new TGo4AnalysisLevelIter(tr->GetNamesFolder(), kTRUE);
          return new TGo4AnalysisLevelIter((TFolder*)fCurrent, fIsTree);
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          return fCurrent->GetName();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->GetTitle();
       }
 
-      virtual Int_t sizeinfo()
+      Int_t sizeinfo() override
       {
-         TGo4ObjectStatus* status =  dynamic_cast <TGo4ObjectStatus*> (fCurrent);
-         return (status==0) ? 0 : status->GetObjectSize();
+         auto status =  dynamic_cast <TGo4ObjectStatus*> (fCurrent);
+         return status ? status->GetObjectSize() : 0;
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          Int_t kind = TGo4Access::kndNone;
          if (fIsTree)
@@ -239,44 +226,43 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return kind;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          return EntryClassName(fCurrent);
       }
 
     static const char* EntryClassName(TObject* entry)
     {
-       if (entry==0) return 0;
+       if (!entry) return nullptr;
 
        if (entry->InheritsFrom(TGo4TreeStructure::Class()))
           return TTree::Class()->GetName();
 
        if(entry->InheritsFrom(TGo4BranchStatus::Class())) {
           TGo4BranchStatus* status = dynamic_cast <TGo4BranchStatus*> (entry);
-          if (status!=0) return status->GetObjectClass();
+          if (status) return status->GetObjectClass();
        }
 
        if (entry->InheritsFrom(TGo4ParameterStatus::Class())) {
           TGo4ParameterStatus* status = dynamic_cast<TGo4ParameterStatus*> (entry);
-          if (status!=0) return status->GetObjectClass();
+          if (status) return status->GetObjectClass();
        }
 
-       if(entry->InheritsFrom(TGo4AnalysisStatus::Class())) {
+       if(entry->InheritsFrom(TGo4AnalysisStatus::Class()))
            return TGo4AnalysisStatus::Class()->GetName();
-       }
 
        if(entry->InheritsFrom(TGo4ObjectStatus::Class())) {
           TGo4ObjectStatus* status =  dynamic_cast <TGo4ObjectStatus*> (entry);
-          if (status!=0) return status->GetObjectClass();
+          if (status) return status->GetObjectClass();
        }
 
        return entry->ClassName();
     }
 
    protected:
-      TIterator*     fIter;     //!
-      TObject*       fCurrent;  //!
-      Bool_t         fIsTree;   //!
+      TIterator*     fIter{nullptr};     //!
+      TObject*       fCurrent{nullptr};  //!
+      Bool_t         fIsTree{kFALSE};    //!
 };
 
 // **********************************************************************
@@ -549,16 +535,16 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
 {
    // object should be cleaned at the end
 
-   if (obj==0) return;
+   if (!obj) return;
 
    TGo4ObjEnvelope* envelope = dynamic_cast<TGo4ObjEnvelope*> (obj);
-   if (envelope!=0) {
+   if (envelope) {
       TGo4AnalysisObjectAccess* proxy = FindSubmittedProxy(envelope->GetObjFolder(), envelope->GetObjName());
-      if (proxy==0) proxy = fxDefaultProxy;
+      if (!proxy) proxy = fxDefaultProxy;
 
-      if (proxy!=0) {
+      if (proxy) {
          TObject* envelopeobj = envelope->TakeObject();
-         if ((envelopeobj!=0) && envelopeobj->InheritsFrom(TH1::Class()))
+         if (envelopeobj && envelopeobj->InheritsFrom(TH1::Class()))
             ((TH1*) envelopeobj)->SetDirectory(nullptr);
          proxy->ReceiveObject(envelopeobj, envelope->GetObjFolder(), envelope->GetObjName(), kTRUE);
 
@@ -571,14 +557,13 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
 
    TGo4AnalysisObjectNames* objnames = dynamic_cast<TGo4AnalysisObjectNames*> (obj);
    if (objnames) {
-      objnames->Print();
       AssignNewNamesList(objnames);
       return;
    }
 
-   TGo4AnalysisObjectAccess* proxy = FindSubmittedProxy(0, obj->GetName());
-   if (proxy!=0) {
-      proxy->ReceiveObject(obj, 0, obj->GetName(), kTRUE);
+   TGo4AnalysisObjectAccess* proxy = FindSubmittedProxy(nullptr, obj->GetName());
+   if (proxy) {
+      proxy->ReceiveObject(obj, nullptr, obj->GetName(), kTRUE);
       DeleteSubmittedProxy(proxy);
       return;
    }
@@ -594,7 +579,7 @@ void TGo4AnalysisProxy::AssignNewNamesList(TGo4AnalysisObjectNames* objnames)
 
    SetAnalysisReady(kTRUE);
 
-   if (fxParentSlot!=0)
+   if (fxParentSlot)
      fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
 }
 
