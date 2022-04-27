@@ -40,7 +40,7 @@ void TGo4EventStoreParameter::Print(Option_t*) const
 
 Bool_t TGo4EventStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TGo4EventStoreParameter* storpar=dynamic_cast<TGo4EventStoreParameter*>(rhs);
+   auto storpar = dynamic_cast<TGo4EventStoreParameter*>(rhs);
    if (!storpar) return kFALSE;
    SetName(storpar->GetName());
    fiID = storpar->GetID();

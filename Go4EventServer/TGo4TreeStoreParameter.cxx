@@ -50,7 +50,7 @@ void TGo4TreeStoreParameter::Print(Option_t*) const
 Bool_t TGo4TreeStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4TreeStoreParameter::Class())) {
-      TGo4TreeStoreParameter* treepar=dynamic_cast<TGo4TreeStoreParameter*>(rhs);
+      auto treepar = dynamic_cast<TGo4TreeStoreParameter*>(rhs);
       if(!treepar) return kFALSE;
       if(!TGo4EventStoreParameter::UpdateFrom(rhs)) return kFALSE;
       fiSplit = treepar->fiSplit;

@@ -35,8 +35,8 @@ GO4TRACE((15,"TGo4EventCalibration::~TGo4EventCalibration()",__LINE__, __FILE__)
 Bool_t TGo4EventCalibration::UpdateFrom(TGo4Parameter* rhs)
 {
    GO4TRACE((12,"TGo4EventCalibration::UpdateFrom()",__LINE__, __FILE__));
-   TGo4EventCalibration* calipar = dynamic_cast<TGo4EventCalibration*>(rhs);
-   if(calipar==0) return kFALSE;
+   auto calipar = dynamic_cast<TGo4EventCalibration*>(rhs);
+   if(!calipar) return kFALSE;
    SetName(calipar->GetName());
    TGo4Log::Info("WARNING: TGo4EventCalibration::UpdateFrom() not implemented in user calibration class !!!");
    TGo4Log::Info("  Just updated the object name, please overwrite virtual method !!!");

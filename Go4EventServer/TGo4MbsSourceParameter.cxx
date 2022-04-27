@@ -44,7 +44,7 @@ void TGo4MbsSourceParameter::Print(Option_t*) const
 Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4MbsSourceParameter::Class())) {
-      TGo4MbsSourceParameter* mbspar=dynamic_cast<TGo4MbsSourceParameter*>(rhs);
+      auto mbspar = dynamic_cast<TGo4MbsSourceParameter*>(rhs);
       if(!mbspar) return kFALSE;
       if(!TGo4EventSourceParameter::UpdateFrom(rhs)) return kFALSE;
       SetStartEvent(mbspar->GetStartEvent());

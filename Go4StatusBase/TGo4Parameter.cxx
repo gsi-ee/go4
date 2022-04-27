@@ -123,7 +123,7 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
 }
 
 
-void TGo4Parameter::Clear(Option_t* opt)
+void TGo4Parameter::Clear(Option_t *opt)
 {
  // dummy clear, may be implemented by user
   std::cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  std::endl;
@@ -166,7 +166,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
    TObject* obj = nullptr;
-   while ((obj=iter()) != 0) {
+   while ((obj=iter()) != nullptr) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (member==0) continue;
       const char* memtypename = member->GetFullTypeName();

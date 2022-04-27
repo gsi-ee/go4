@@ -43,7 +43,6 @@ void TGo4FitterEnvelope::Print(Option_t*) const
 Bool_t TGo4FitterEnvelope::UpdateFrom(TGo4Parameter *pp)
 {
    auto from = dynamic_cast<TGo4FitterEnvelope *> (pp);
-
    if(!from) return kFALSE;
 
    if(fxFitter) delete fxFitter;
