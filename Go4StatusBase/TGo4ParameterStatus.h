@@ -37,9 +37,7 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4ParameterStatus();
 
-      /** basic method to printout status information
-       * on stdout; to be overridden by specific subclass */
-      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
+      void Print(Option_t* = "") const override;
 
       TObjArray* GetMemberValues(Bool_t takeit = kFALSE);
 
