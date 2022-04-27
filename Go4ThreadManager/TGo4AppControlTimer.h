@@ -39,6 +39,9 @@ class TCondition;
 class TGo4AppControlTimer : public TTimer {
 
   public:
+      TGo4AppControlTimer() = delete;
+
+
       TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msperiod = 3000, Bool_t mode = kTRUE);
 
       virtual ~TGo4AppControlTimer();
@@ -47,7 +50,7 @@ class TGo4AppControlTimer : public TTimer {
       void SetManager (TGo4ThreadManager* parent) { fxManager=parent; }
 
      /** Routine called from TTimer on timeout */
-      virtual Bool_t Notify ();
+      Bool_t Notify () override;
 
       /**
        *   Returns handle for internal condition which is
@@ -91,15 +94,14 @@ class TGo4AppControlTimer : public TTimer {
        * @clientCardinality 1
        * @supplierCardinality 1
        */
-      TGo4ThreadManager *fxManager;     //!
+      TGo4ThreadManager *fxManager{nullptr};     //!
 
   private:
 
-      Bool_t fbApplicationRun;           //!
+      Bool_t fbApplicationRun{kFALSE};           //!
 
-      TCondition *fxCondition;          //!
+      TCondition *fxCondition{nullptr};          //!
 
-      TGo4AppControlTimer();
 };
 
 #endif

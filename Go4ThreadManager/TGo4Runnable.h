@@ -40,7 +40,7 @@ class TGo4Runnable : public TNamed {
 
       virtual ~TGo4Runnable();
 
-      void SetThread (TGo4Thread* gthread) { fxGo4Thread=gthread; }
+      void SetThread (TGo4Thread *gthread) { fxGo4Thread = gthread; }
 
       TGo4Thread* GetThread() const { return fxGo4Thread; }
 
@@ -48,7 +48,7 @@ class TGo4Runnable : public TNamed {
 
    protected:
 
-      TGo4Runnable();
+      TGo4Runnable() {}
 
       /** The working function which runs in the thread */
       virtual Int_t Run (void* ptr) = 0;
@@ -68,12 +68,12 @@ class TGo4Runnable : public TNamed {
       /** The threadmanager which is responsible for our thread.
         * @supplierCardinality 1
         * @clientCardinality 0..*  */
-      TGo4ThreadManager *fxManager; //!
+      TGo4ThreadManager *fxManager{nullptr}; //!
 
       /** Backlink to thread which runs this.
         * @supplierCardinality 1
         * @clientCardinality 1 */
-      TGo4Thread *fxGo4Thread;   //!
+      TGo4Thread *fxGo4Thread{nullptr};   //!
 };
 
 #endif

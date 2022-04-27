@@ -33,6 +33,8 @@ class TGo4Thread : public TNamed {
 
    public:
 
+      TGo4Thread() = delete;
+
       TGo4Thread(const TGo4Thread &right);
 
       /** TGo4Thread constructor parameters:
@@ -109,22 +111,22 @@ class TGo4Thread : public TNamed {
         * In the latter case,
         *   thread instance and its runnable  are not deleted when
         *   it is removed from the thread list **/
-      Bool_t fbIsInternal;
+      Bool_t fbIsInternal{kFALSE};
 
       /** kTRUE if TThread instance exists and pthread is created **/
-      Bool_t fbIsCreated;
+      Bool_t fbIsCreated{kFALSE};
 
       /** Flag that controls Workfunc loop within Threadfunc **/
-      Bool_t fbIsRunning;
+      Bool_t fbIsRunning{kFALSE};
 
       /** Linux process id associated with the pthread */
-      Int_t fiThreadPID;
+      Int_t fiThreadPID{0};
 
       /** self id of the current thread **/
-      Long_t fiThreadSelfID;
+      Long_t fiThreadSelfID{0};
 
       /** true if Threadfunc is suspended to condition wait */
-      Bool_t fbIsWaiting;
+      Bool_t fbIsWaiting{kFALSE};
 
       /**  External class providing the threaded workfunction
         *   and exception routines for workfunction. The threaded
@@ -133,14 +135,11 @@ class TGo4Thread : public TNamed {
         * handling behaviour may be overridden, too.
         * @clientCardinality 1
         * @supplierCardinality 1 **/
-      TGo4Runnable *fxRunnable; //!
+      TGo4Runnable *fxRunnable{nullptr}; //!
 
-      TThread *fxThread;  //!
+      TThread *fxThread{nullptr};  //!
 
-      TCondition *fxCondition;  //!
-
-   private:
-      TGo4Thread();
+      TCondition *fxCondition{nullptr};  //!
 };
 
 #endif
