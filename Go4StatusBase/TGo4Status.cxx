@@ -46,7 +46,7 @@ TGo4Status::~TGo4Status()
 void TGo4Status::Print(Option_t* dummy) const
 {
    // this trick is needed since root defines Print as const function...
-   TGo4Status* localthis= const_cast<TGo4Status*>(this);
+   TGo4Status* localthis = const_cast<TGo4Status*>(this);
    localthis->PrintStatus();
 }
 
@@ -93,3 +93,26 @@ Text_t* TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,..
    buflen-=size;
    return current;
 }
+
+void TGo4Status::PrintLine(const char *text, ...)
+{
+   const int bufsize = 2000;
+   char buffer[bufsize];
+   char *cursor = buffer;
+   int len = bufsize;
+
+   for (int i = 0; (i < TROOT::GetDirLevel()) && (len > 10); i++) {
+      *cursor++ = ' ';
+      len--;
+   }
+
+   va_list args;
+   va_start(args, text);
+   vsnprintf(cursor, len-1, text, args);
+   va_end(args);
+
+   buffer[bufsize-1] = 0; // ensure null-terminated string
+
+   std::cout << buffer << std::endl;
+}
+
