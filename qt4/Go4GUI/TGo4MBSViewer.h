@@ -60,7 +60,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
 
    virtual void StateGroup_clicked( int id);
 
-   virtual void PrintStatus();
+   virtual void PrintState();
 
    virtual void TrendSwitched( bool on );
 

@@ -959,8 +959,8 @@ TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
 void TGo4Analysis::Print(Option_t*) const
 {
    TGo4Analysis* localthis = const_cast<TGo4Analysis*>(this);
-   TGo4AnalysisStatus* state=localthis->CreateStatus();
-   state->PrintStatus();
+   TGo4AnalysisStatus* state = localthis->CreateStatus();
+   state->Print();
    delete state;
 }
 

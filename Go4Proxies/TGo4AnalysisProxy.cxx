@@ -476,7 +476,8 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    }
 
    TGo4AnalysisClientStatus* analstatus = dynamic_cast<TGo4AnalysisClientStatus*> (status);
-   if (analstatus!=0) {
+   if (analstatus) {
+      analstatus->Print();
       fbAnalysisRunning = analstatus->IsAnalysisRunning();
       if(fbAnalysisRunning)
         SetAnalysisSettingsReady(kTRUE); // JAM workaround for go4 server connection: a running analysis must have been configured
@@ -488,18 +489,15 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    }
 
    TGo4AnalysisObjectResult* obres = dynamic_cast<TGo4AnalysisObjectResult*> (status);
-   if (obres!=0) {
-        // put treatment of result object here
-        // for the moment, we just check what we got:
-//        std::cout <<"GOT result object in status channel: "<<obres->GetName() << std::endl;
-//        obres->PrintStatus();
+   if (obres) {
         TGo4AnalysisObjectNames* objnames = obres->GetNamesList(kTRUE);
-        if (objnames!=0)
+
+        if (objnames)
           AssignNewNamesList(objnames);
-        if (UpdateObjectSlot()!=0) {
+        if (UpdateObjectSlot()) {
            TString fullname = obres->GetObjectFullName();
 
-           if (fxParentSlot!=0) {
+           if (fxParentSlot) {
              fullname.Prepend("/");
              fullname.Prepend(fxParentSlot->GetName());
            }
@@ -507,13 +505,13 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
            obres->SetObjectFullName(fullname.Data());
 
            UpdateObjectSlot()->AssignObject(obres, kTRUE);
-           status=0;
+           status = nullptr;
         }
       CallSlotUpdate();
    }
 
 
-   if (status!=0) {
+   if (status) {
      TString message = status->GetName();
 
 //     std::cout << "Message = " <<  message << std::endl;
@@ -532,19 +530,19 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
      // this happens when analysis disconnects itself
      if (message.Contains("is shutting down now!")) {
          fActualRole = -1;
-         TGo4Task* task = fxDisplay==0 ? 0 : fxDisplay->GetTask();
-         TGo4BufferQueue* qu = task==0 ? 0 : task->GetCommandQueue();
-         if(qu!=0) qu->Clear();
+         TGo4Task* task = fxDisplay ? fxDisplay->GetTask() : nullptr;
+         TGo4BufferQueue* qu = task ? task->GetCommandQueue() : nullptr;
+         if(qu) qu->Clear();
      }
 
 
-     if (LoginfoSlot()!=0) {
+     if (LoginfoSlot()) {
         LoginfoSlot()->AssignObject(status, kTRUE);
-        status = 0;
+        status = nullptr;
      }
    }
 
-   if (status!=0) delete status;
+   if (status) delete status;
 }
 
 void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
@@ -572,7 +570,8 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
    }
 
    TGo4AnalysisObjectNames* objnames = dynamic_cast<TGo4AnalysisObjectNames*> (obj);
-   if (objnames!=0) {
+   if (objnames) {
+      objnames->Print();
       AssignNewNamesList(objnames);
       return;
    }

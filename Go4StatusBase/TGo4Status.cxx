@@ -46,6 +46,7 @@ TGo4Status::~TGo4Status()
 void TGo4Status::Print(Option_t* dummy) const
 {
    // this trick is needed since root defines Print as const function...
+   // keep code here to support by chance old objects with implemented PrintStatus
    TGo4Status* localthis = const_cast<TGo4Status*>(this);
    localthis->PrintStatus();
 }

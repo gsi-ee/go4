@@ -40,7 +40,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(FullPrintButton, SIGNAL(clicked()), this, SLOT(PrintStatus()));
+   QObject::connect(FullPrintButton, SIGNAL(clicked()), this, SLOT(PrintState()));
    QObject::connect(MonitorButton, SIGNAL(clicked()), this, SLOT(TimerStart()));
    QObject::connect(StopButton, SIGNAL(clicked()), this, SLOT(TimerStop()));
    QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshButtonClick()));
@@ -404,15 +404,15 @@ void TGo4MBSViewer::StateGroup_clicked( int id)
 }
 
 
-void TGo4MBSViewer::PrintStatus()
+void TGo4MBSViewer::PrintState()
 {
    if(fxNode.isEmpty()) return;
    if(fbGetSetup)
    {
       // request setup if selected
 
-      int state=f_mbs_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetup);
-      if(state!=0)
+      int state = f_mbs_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetup);
+      if(state)
       {
          fxMessage = QString("MBS Setup refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
          fbWarningState = true;

@@ -24,12 +24,12 @@ TCanvas mycanvas("Object client", "Go4 object client test");
 mycanvas.cd();
 TGo4ObjClient myclient("TestClient", "XXX", "demo", "localhost",5001);
 cout <<"getting nameslist" << std::endl;
-TGo4AnalysisObjectNames* list=myclient.RequestNamesList();
+TGo4AnalysisObjectNames* list = myclient.RequestNamesList();
 
 if(list)
- list->PrintStatus();
+   list->Print();
 else
- cout <<"got zero list!!!" << std::endl;
+   cout <<"got zero list!!!" << std::endl;
 
 cout <<"myclient.SetHost('name') sets hostname" << std::endl;
 cout <<"myclient.SetPort(int) sets port" << std::endl;
