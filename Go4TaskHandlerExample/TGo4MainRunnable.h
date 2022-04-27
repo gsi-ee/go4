@@ -32,13 +32,13 @@ class TGo4MainRunnable : public TGo4Runnable {
 
     virtual ~TGo4MainRunnable();
 
-    virtual Int_t Run(void*);
+    Int_t Run(void *) override;
 
   private:
     /** @supplierCardinality 1
      * @directed
      * @clientCardinality 0..1*/
-    TGo4ExampleApplication * fxApplication;//!
+    TGo4ExampleApplication *fxApplication{nullptr};//!
 
     TGo4MainRunnable();
 };

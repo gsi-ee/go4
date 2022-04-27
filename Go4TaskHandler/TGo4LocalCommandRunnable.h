@@ -37,7 +37,7 @@ class TGo4LocalCommandRunnable : public TGo4Runnable {
 
       virtual ~TGo4LocalCommandRunnable();
 
-      virtual Int_t Run(void* ptr);
+      Int_t Run(void *) override;
 
    private:
       TGo4LocalCommandRunnable();
@@ -46,7 +46,7 @@ class TGo4LocalCommandRunnable : public TGo4Runnable {
        * @supplierCardinality 1
        * @directed
        */
-      TGo4Task* fxLocalTask; //!
+      TGo4Task *fxLocalTask{nullptr}; //!
 };
 
 #endif //TGO4LOCALCOMMANDRUNNABLE_H

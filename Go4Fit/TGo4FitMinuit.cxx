@@ -27,11 +27,11 @@ class TMinuitEx : public TMinuit {
     TMinuitEx(Int_t NumPars, TGo4FitterAbstract* fitter);
     virtual ~TMinuitEx();
 
-    virtual Int_t Eval(Int_t npar, Double_t *grad, Double_t &fval, Double_t *pars, Int_t iflag);
+    Int_t Eval(Int_t npar, Double_t *grad, Double_t &fval, Double_t *pars, Int_t iflag) override;
 
   protected:
 
-    TGo4FitterAbstract* fxFitter;    //!
+    TGo4FitterAbstract* fxFitter{nullptr};    //!
 };
 
 TMinuitEx::TMinuitEx(Int_t NumPars, TGo4FitterAbstract* fitter) :

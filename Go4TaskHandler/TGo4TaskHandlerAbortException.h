@@ -34,12 +34,11 @@ class TGo4TaskHandlerAbortException : public TGo4TaskHandlerException {
     * ctor to call exception from within a taskhandler runnable;
     * will find out taskhandler from runnable
     */
-   TGo4TaskHandlerAbortException(TGo4TaskHandlerRunnable * run);
+   TGo4TaskHandlerAbortException(TGo4TaskHandlerRunnable *run);
 
    virtual ~TGo4TaskHandlerAbortException();
 
-   Int_t Handle ();
-
+   Int_t Handle() override;
 
 };
 

@@ -40,7 +40,7 @@ class TGo4ThreadException : public TGo4ControlException {
       TGo4ThreadException & operator=(const TGo4ThreadException &right);
 
       /** This is a default handler function for the respective exception type. */
-      virtual Int_t Handle () = 0;
+      Int_t Handle() override = 0;
 
       const char* GetThreadName() const;
 

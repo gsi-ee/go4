@@ -30,12 +30,12 @@ public:
 
    TGo4ObjConnectorRunnable(const char *name, TGo4HistogramServer *hserv);
 
-   virtual Int_t Run(void *);
+   Int_t Run(void *) override;
 
 private:
    /** @supplierCardinality 1
     * @clientCardinality 1*/
-   TGo4HistogramServer *fxHistogramServer; //!
+   TGo4HistogramServer *fxHistogramServer{nullptr}; //!
 };
 
 #endif //TGO4OBJCONNECTORRUNNABLE_H
