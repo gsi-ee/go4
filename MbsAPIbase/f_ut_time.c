@@ -57,6 +57,7 @@
 
 #ifdef _MSC_VER
 
+#include <windows.h>
 #include <sysinfoapi.h>
 
 #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
