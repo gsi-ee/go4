@@ -107,8 +107,12 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       TGo4Log::Info("TXXXUnpackProc: Produce histograms");
 
       for(int i=0;i<XXX_NUM_CHAN;i++) {
-         fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
-         fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
+         TString hname = TString::Format("Crate1/Cr1Ch%02d", i+1);
+         TString htitle = TString::Format("Crate 1 channel %2d", i+1);
+         fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), 5000, 1., 5001.);
+         hname = TString::Format("Crate2/Cr2Ch%02d",i+1);
+         htitle = TString::Format("Crate 2 channel %2d",i+1);
+         fCr2Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), 5000, 1., 5001.);
       }
 
       fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
