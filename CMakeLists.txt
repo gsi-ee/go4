@@ -302,7 +302,7 @@ if(MSVC)
    get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
-                  ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE WIN32)
+                  ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE CRLF)
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4.bat.in
                   ${CMAKE_BINARY_DIR}/go4.bat COPYONLY)
 

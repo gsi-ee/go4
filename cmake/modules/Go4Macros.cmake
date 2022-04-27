@@ -1,6 +1,6 @@
 set(LIBS_BASESET ${ROOT_LIBRARIES} ${ROOT_XMLIO_LIBRARY})
 
-if(WIN32)
+if(MSVC)
   set(libprefix lib)
   set(libsuffix .dll)
 elseif(APPLE)
