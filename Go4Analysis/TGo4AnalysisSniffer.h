@@ -14,9 +14,10 @@
 #ifndef TGO4ANALYSISSNIFFER_H
 #define TGO4ANALYSISSNIFFER_H
 
-#include "TNamed.h"
+#include "Rtypes.h"
 
 class TGo4Ratemeter;
+class TString;
 
 /** Object to sniff Go4 analysis
  * It can obtain different events like log messages, ratemeter changes and so on
@@ -38,6 +39,5 @@ class TGo4AnalysisSniffer {
 
    ClassDef(TGo4AnalysisSniffer, 1);
 };
-
 
 #endif
