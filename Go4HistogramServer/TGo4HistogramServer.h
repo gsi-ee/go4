@@ -41,9 +41,9 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       TGo4HistogramServer();
 
       TGo4HistogramServer(TGo4AnalysisClient* owner,
-                          const char* servername="localhost",
-                          const char* password="go4",
-                          Bool_t useobjectserver=kFALSE);
+                          const char* servername = "localhost",
+                          const char* password = "go4",
+                          Bool_t useobjectserver = kFALSE);
 
       virtual ~TGo4HistogramServer();
 
@@ -129,9 +129,9 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
         *  Protocol matches TGo4ObjectClient::ReceiveObject() */
       Bool_t SendObject(TObject* obj);
 
-      TGo4AnalysisClient* fxAnalysisClient;//!
-      TGo4Analysis* fxAnalysis;//!
-      TGo4ThreadHandler* fxThreadHandler;//!
+      TGo4AnalysisClient  *fxAnalysisClient{nullptr};//!
+      TGo4Analysis        *fxAnalysis{nullptr};//!
+      TGo4ThreadHandler   *fxThreadHandler{nullptr};//!
 
       /**  contains api server name  */
       TString fxServerName;    //!
@@ -146,56 +146,55 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       TString fxObjectThreadName; //!
 
       /** port number for server socket*/
-      Int_t fiServerPort;
+      Int_t fiServerPort{0};
 
       /** socket for object server **/
-      TGo4Socket* fxTransport; //!
+      TGo4Socket* fxTransport{nullptr}; //!
 
       /** port number for the object server connections */
-      UInt_t fuObjectPort;
+      UInt_t fuObjectPort{0};
 
       /** link to the next TaskHandler transport instance that shall be connected
         * by the Object connector Timer with the client */
-      TGo4Socket * fxConnectTransport; //!
+      TGo4Socket  *fxConnectTransport{nullptr}; //!
 
       /** link to the next TaskHandler transport instance that shall be disconnected
         * by the connector  Timer with the client */
-      TGo4Socket * fxDisConnectTransport; //!
+      TGo4Socket *fxDisConnectTransport{nullptr}; //!
 
       /** hostname for timer connect*/
       TString fcConnectHost; //!
 
       /** port number for timer connect */
-      UInt_t fuConnectPort;
+      UInt_t fuConnectPort{0};
 
       /** True if fxConnectTransport shall be Open() by Timer */
-      Bool_t fbConnectRequest;
+      Bool_t fbConnectRequest{kFALSE};
 
       /** True if fxConnectTransport shall be Close() by Timer */
-      Bool_t fbDisConnectRequest;
+      Bool_t fbDisConnectRequest{kFALSE};
 
       /** True if fxConnectTransport waits in server Open() call  */
-      Bool_t fbConnectIsOpen;
+      Bool_t fbConnectIsOpen{kFALSE};
 
       /** True if fxConnectTransport has returned from Open(),
         * i.e. connection was established */
-      Bool_t fbConnectIsDone;
+      Bool_t fbConnectIsDone{kFALSE};
 
       /** True if fxConnectTransport has returned from Close(),
         * i.e. connection was closed */
-      Bool_t fbConnectIsClose;
+      Bool_t fbConnectIsClose{kFALSE};
 
       /** timer responsible for the connection/disconnection of clients;
        * independent of application control timer
        * @link aggregationByValue
        *   @supplierCardinality 1 */
-      TGo4ObjConnectorTimer * fxConnectorTimer; //!
+      TGo4ObjConnectorTimer *fxConnectorTimer{nullptr}; //!
 
        /** Switches Go4 objectserver option on/off */
-      Bool_t fbUseObjectServer;
+      Bool_t fbUseObjectServer{kFALSE};
 
-
-  ClassDef(TGo4HistogramServer,1)
+   ClassDef(TGo4HistogramServer,1)
 };
 
 #endif //TGO4HISTOGRAMSERVER_H

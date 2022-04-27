@@ -625,7 +625,7 @@ class TGo4FitDataIter : public TObject {
 
      Bool_t fbReachEnd{kFALSE};             //!
 
-   ClassDef(TGo4FitDataIter,1)
+   ClassDefOverride(TGo4FitDataIter,1)
 };
 
 

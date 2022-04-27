@@ -46,11 +46,11 @@ class TGo4RemoteCommand : public TGo4Command {
        * be used for command execution.*/
       void SetAggregate(TObject* ob);
 
-      TObject* GetAggregate(Bool_t chown=kTRUE);
+      TObject* GetAggregate(Bool_t chown = kTRUE);
 
       /** Set Go4 Name of command to be executed on the
        * command receiver side*/
-      void SetCommandName(const char* txt) { fxCommandName=txt; }
+      void SetCommandName(const char* txt) { fxCommandName = txt; }
 
       const char* GetCommandName() const { return fxCommandName.Data(); }
 
