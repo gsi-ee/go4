@@ -12,6 +12,5 @@ GO4_USER_ANALYSIS(
       TXXXParam.h
       TXXXProc.h
    SOURCES
-      TXXXParam.cxx
       TXXXProc.cxx
 )
