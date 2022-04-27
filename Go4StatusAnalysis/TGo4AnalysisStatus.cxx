@@ -25,38 +25,14 @@
 
 
 TGo4AnalysisStatus::TGo4AnalysisStatus() :
-   TGo4Status("Go4 Default Analysis Status","Go4 Analysis Status Object"),
-   fxStepArray(0),
-   fxStepMutex(0),
-   fxStepIterator(0),
-   fbStepCheckingMode(1),
-   fiFirstStepIndex(0),
-   fiLastStepIndex(0),
-   fiAutoSaveInterval(0),
-   fiAutoSaveCompression(5),
-   fbAutoSaveOverwrite(0),
-   fbAutoSaveOn(1),
-   fxAutoFileName(),
-   fxConfigFileName()
+   TGo4Status("Go4 Default Analysis Status","Go4 Analysis Status Object")
 {
-  GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus()",__LINE__, __FILE__));
 }
 
 
 TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
-   TGo4Status(name,"Go4 Analysis Status Object"),
-   fxStepArray(0),
-   fxStepMutex(0),
-   fxStepIterator(0),
-   fbStepCheckingMode(1),
-   fiFirstStepIndex(0),
-   fiLastStepIndex(0),
-   fiAutoSaveInterval(0),
-   fiAutoSaveCompression(5),
-   fbAutoSaveOverwrite(0),
-   fbAutoSaveOn(1),
-   fxAutoFileName(),
-   fxConfigFileName()
+   TGo4Status(name,"Go4 Analysis Status Object")
 {
    GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
    fxStepArray = new TObjArray;
@@ -67,62 +43,40 @@ TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
 TGo4AnalysisStatus::~TGo4AnalysisStatus()
 {
    GO4TRACE((15,"TGo4AnalysisStatus::~TGo4AnalysisStatus()",__LINE__, __FILE__));
-   delete fxStepMutex; fxStepMutex  = 0;
-   delete fxStepIterator; fxStepIterator = 0;
+   delete fxStepMutex; fxStepMutex = nullptr;
+   delete fxStepIterator; fxStepIterator = nullptr;
    if (fxStepArray) fxStepArray->Delete();
-   delete fxStepArray; fxStepArray = 0;
+   delete fxStepArray; fxStepArray = nullptr;
 }
 
-Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4AnalysisStatus::Print(Option_t*) const
 {
-   GO4TRACE((12,"TGo4AnalysisStatus::PrintStatus()",__LINE__, __FILE__));
-   if(buflen<=0 && buffer!=0)
-      {
-         std::cout << "analysis status print has invalid buflen and nonzero buffer"<< std::endl;
-         return 0;
-      }
-   Int_t size=0;
-   Int_t locallen=512000;
-   Text_t localbuf[512000];
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-
-   current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
-   current=PrintBuffer(current,restlen, "++++++ Status of %s ++++++\n", GetName());
-   current=PrintBuffer(current,restlen, "First Analysis Step index: \t%d\n",GetFirstStepIndex());
-   current=PrintBuffer(current,restlen, "Last Analysis Step index: \t%d\n",GetLastStepIndex());
-   current=PrintBuffer(current,restlen, "Autosave Interval: \t\t%d s\n",GetAutoSaveInterval());
-   current=PrintBuffer(current,restlen, "Autosave File: \t\t%s \n",GetAutoFileName());
-   current=PrintBuffer(current,restlen, "Autosave File compression: \t%d \n",GetAutoSaveCompression());
-   current=PrintBuffer(current,restlen, "Autosave overwrite mode: \t%d \n",IsAutoSaveOverwrite());
-   current=PrintBuffer(current,restlen, "Autosave enabled: \t\t%d \n",IsAutoSaveOn());
-   current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
+   PrintLine("----------------------------------------------");
+   PrintLine("++++++ Status of %s ++++++", GetName());
+   PrintLine("First Analysis Step index: \t%d", GetFirstStepIndex());
+   PrintLine("Last Analysis Step index: \t%d", GetLastStepIndex());
+   PrintLine("Autosave Interval: \t\t%d s", GetAutoSaveInterval());
+   PrintLine("Autosave File: \t\t%s", GetAutoFileName());
+   PrintLine("Autosave File compression: \t%d", GetAutoSaveCompression());
+   PrintLine("Autosave overwrite mode: \t%d", IsAutoSaveOverwrite());
+   PrintLine("Autosave enabled: \t\t%d",IsAutoSaveOn());
+   PrintLine("----------------------------------------------");
    TROOT::IncreaseDirLevel();
-   ResetStepIterator();
-   TGo4AnalysisStepStatus* step=0;
-   while((step=NextStepStatus()) != 0)
-      {
-           Int_t delta=step->PrintStatus(current,restlen);
-           restlen-=delta;
-           current+= delta ;
-      }
-   TROOT::DecreaseDirLevel();
-   current = PrintBuffer(current, restlen, "----------------------------------------------  \n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
+
+   Int_t num = GetNumberOfSteps();
+   for (int indx = 0; indx < num; ++indx) {
+      auto step = GetStepStatus(indx);
+      if (step) step->PrintStatus();
    }
-   return size;
+
+   TROOT::DecreaseDirLevel();
+   PrintLine("----------------------------------------------");
 }
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
 {
    GO4TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
-   if(fxStepArray==0) return 0;
+   if(!fxStepArray) return nullptr;
 
    TGo4LockGuard  listguard(fxStepMutex);
    return dynamic_cast<TGo4AnalysisStepStatus*>( fxStepArray->FindObject(name) );
@@ -131,7 +85,7 @@ TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::NextStepStatus()
 {
    GO4TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
-   if(fxStepIterator==0) return 0;
+   if(!fxStepIterator) return nullptr;
    TGo4LockGuard  listguard(fxStepMutex);
    return dynamic_cast<TGo4AnalysisStepStatus*>( fxStepIterator->Next() );
 }
@@ -143,8 +97,7 @@ void TGo4AnalysisStatus::ResetStepIterator()
    if(fxStepArray)
       fxStepIterator = fxStepArray->MakeIterator();
    else
-      fxStepIterator = 0;
-   // fxStepIterator->Reset();
+      fxStepIterator = nullptr;
 }
 
 
@@ -152,20 +105,13 @@ Bool_t  TGo4AnalysisStatus::AddStepStatus(TGo4AnalysisStepStatus * next)
 {
    GO4TRACE((14,"TGo4AnalysisStatus::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
    //
-   if(fxStepArray==0) return kFALSE;
-   Bool_t rev=kFALSE;
-   if(next)
-   {
+   if(!fxStepArray) return kFALSE;
+   if(next) {
       TGo4LockGuard  listguard(fxStepMutex);
       fxStepArray->AddLast(next);
-      rev=kTRUE;
-   } //  if(next) ; TGo4LockGuard
-   else
-   {
-      rev=kFALSE;
-      //         TGo4Log::Debug(" Analysis: WARNING - did not add zero analysis step pointer to steplist ");
+      return kTRUE;
    }
-   return rev;
+   return kFALSE;
 }
 
 void TGo4AnalysisStatus::ClearStepStatus()
@@ -175,17 +121,14 @@ void TGo4AnalysisStatus::ClearStepStatus()
 }
 
 
-Int_t TGo4AnalysisStatus::GetNumberOfSteps()
+Int_t TGo4AnalysisStatus::GetNumberOfSteps() const
 {
-    return fxStepArray==0 ? 0 : fxStepArray->GetLast()+1;
+   return !fxStepArray ? 0 : fxStepArray->GetLast()+1;
 }
 
 
-TGo4AnalysisStepStatus* TGo4AnalysisStatus::GetStepStatus(Int_t indx)
+TGo4AnalysisStepStatus* TGo4AnalysisStatus::GetStepStatus(Int_t indx) const
 {
-   if ((indx<0) || (indx>=GetNumberOfSteps())) return 0;
+   if ((indx < 0) || (indx >= GetNumberOfSteps())) return nullptr;
    return dynamic_cast<TGo4AnalysisStepStatus*> (fxStepArray->At(indx));
 }
-
-
-
