@@ -13,7 +13,6 @@
 
 #include "TGo4BranchStatus.h"
 
-#include <iostream>
 #include "TGo4Log.h"
 
 #include "TBranchElement.h"
@@ -26,46 +25,23 @@ TGo4BranchStatus::TGo4BranchStatus() :
 TGo4BranchStatus::TGo4BranchStatus(TBranch* branch) :
    TGo4ObjectStatus(branch, kFALSE)
 {
-   if (branch)
-      {
-         if(branch->InheritsFrom(TBranchElement::Class()))
-            fxObjectClass = (dynamic_cast<TBranchElement*>(branch))->GetTypeName();
-         else
-            fxObjectClass = branch->GetClassName();
-      }
-   if (fxObjectClass.Length()==0)
-     fxObjectClass = branch ? branch->ClassName() : "BranchElement";
+   if (branch) {
+      if (branch->InheritsFrom(TBranchElement::Class()))
+         fxObjectClass = (dynamic_cast<TBranchElement*>(branch))->GetTypeName();
+      else
+         fxObjectClass = branch->GetClassName();
+   }
+   if (fxObjectClass.Length() == 0)
+      fxObjectClass = branch ? branch->ClassName() : "BranchElement";
 }
 
 TGo4BranchStatus::~TGo4BranchStatus()
 {
 }
 
-Int_t TGo4BranchStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4BranchStatus::Print(Option_t*) const
 {
-   //return 0;
-   GO4TRACE((12,"TGo4BranchStatus::PrintStatus()",__LINE__, __FILE__));
-   if(buflen<=0 && buffer!=0)
-      return 0;
-   Int_t locallen=128000;
-   Text_t localbuf[128000];
-   Int_t size=0;
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-   Int_t delta= TGo4ObjectStatus::PrintStatus(current,restlen);
-   restlen-=delta;
-   current+=delta;
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> TreeBranch Status Class Printout <-OOOO-G\n");
-   current=PrintIndent(current,restlen);
-   current = PrintBuffer(current, restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
-   }
-   return size;
+   TGo4ObjectStatus::Print();
+   PrintLine("G-OOOO-> TreeBranch Status Class Printout <-OOOO-G");
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
 }

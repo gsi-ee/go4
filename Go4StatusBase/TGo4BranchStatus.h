@@ -29,7 +29,7 @@ class TGo4BranchStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4BranchStatus();
 
-      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
+      void Print(Option_t* = "") const override;
 
    ClassDefOverride(TGo4BranchStatus,1)
 };

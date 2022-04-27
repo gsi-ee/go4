@@ -27,7 +27,7 @@ class TGo4MemberStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4MemberStatus();
 
-      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
+      void Print(Option_t* = "") const override;
 
    ClassDefOverride(TGo4MemberStatus,1)
 };
