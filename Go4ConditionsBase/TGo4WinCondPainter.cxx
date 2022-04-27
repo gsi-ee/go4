@@ -34,19 +34,19 @@ TGo4WinCondPainter::TGo4WinCondPainter(const char* name, const char* title) :
 TGo4WinCondPainter::~TGo4WinCondPainter()
 {
    UnPaintCondition();
-   if (fxBox!=0) {
+   if (fxBox) {
       delete fxBox;
-      fxBox = 0;
+      fxBox = nullptr;
    }
 }
 
 
 void TGo4WinCondPainter::PaintCondition(Option_t* opt)
 {
-if(gPad==0) return;
+if(!gPad) return;
 TObject* boxinpad=gPad->GetListOfPrimitives()->FindObject(fxBox);
 //std::cout<<"TGo4WinCondPainter::PaintCondition with fxBox= "<<(long) fxBox<<", isatexecutemousevent="<<(fxBox?fxBox->IsAtExecuteMouseEvent():0) << std::endl;
-if(fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent()) return; // JAM supress resetting coordinates during mouse modification of box
+if(fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent()) return; // JAM suppress resetting coordinates during mouse modification of box
 double xpmin=0;
 double xpmax=0;
 double ypmin=0;

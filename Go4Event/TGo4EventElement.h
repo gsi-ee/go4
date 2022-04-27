@@ -132,7 +132,7 @@ class TGo4EventElement : public TNamed {
       Short_t fIdentifier; // Identifier
       Bool_t fDebug; //! Debug level
 
-      /** helper flag to supress Clear if event shall be kept*/
+      /** helper flag to suppress Clear if event shall be kept*/
       Bool_t fbKeepContents; //!
 
    ClassDef(TGo4EventElement,3)

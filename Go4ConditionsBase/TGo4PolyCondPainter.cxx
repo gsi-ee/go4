@@ -57,7 +57,7 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
    if(pconny && pconny->IsVisible()) {
       TCutG* cutg=pconny->GetCut(kFALSE);
       if(cutg==0) return; // case of empty polygon condition
-      // JAM2016: deletion from canvas is supressed inside Go4 by QtROOT interface. Just create if not already there:
+      // JAM2016: deletion from canvas is suppressed inside Go4 by QtROOT interface. Just create if not already there:
       if(fxCutView==0) {
          // Only set up new view object if not already there
          // necessary to change cut interactively (points, colors, etc...)
@@ -70,11 +70,11 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
          fxCutView->SetFillColor(pconny->GetFillColor());
          fxCutView->SetFillStyle(pconny->GetFillStyle());
       } else {
-          //if(!fxCutView->IsAtExecuteMouseMenu()) // supress exchanging point arrays during insert/remove points menu JAM2016
+          //if(!fxCutView->IsAtExecuteMouseMenu()) // suppress exchanging point arrays during insert/remove points menu JAM2016
            fxCutView->SetCut(cutg); // update view if condition was changed manually
         }
 
-      fxCutView->SetCondition(pconny); // backreference for execute event
+      fxCutView->SetCondition(pconny); // back-reference for execute event
       if(!strcmp(opt,"fixstyle")) {
          // reproduce condition colors always
          // this mode will prevent the user from changing style interactively

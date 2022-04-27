@@ -156,7 +156,7 @@ JSROOT.define([], () => {
                      for (let j = 0; j < subvalue.length; j++) {
                         if (subvalue[j] instanceof Array) {
                            let subsubvalue = subvalue[j];
-                           // here supress display of 3d arrays if too
+                           // here suppress display of 3d arrays if too
                            // large:
                            if (subsubvalue.length * subvalue.length * value.length > 1000) {
                               isTooBig = true;
