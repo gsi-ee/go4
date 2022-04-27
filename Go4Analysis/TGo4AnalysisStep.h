@@ -64,9 +64,9 @@ class TGo4AnalysisStep : public TNamed {
       * i.e. they are deleted by dtor. */
     TGo4AnalysisStep(const char* name,
                      TGo4EventFactory* eventfactory,
-                     TGo4EventSourceParameter* sourcetype = 0,
-                     TGo4EventStoreParameter* storetype = 0,
-                     TGo4EventProcessorParameter* processortype = 0);
+                     TGo4EventSourceParameter* sourcetype = nullptr,
+                     TGo4EventStoreParameter* storetype = nullptr,
+                     TGo4EventProcessorParameter* processortype = nullptr);
 
     virtual ~TGo4AnalysisStep();
 
@@ -276,105 +276,105 @@ class TGo4AnalysisStep : public TNamed {
   private:
 
     /** Points back to the analysis which keeps this step. */
-    TGo4Analysis* fxOwner;                       //!
+    TGo4Analysis *fxOwner{nullptr};                       //!
 
     /** Points to the previous analysis step. Useful to check
       * the corresponding input and output event types, and the event source state. */
-    TGo4AnalysisStep * fxPrevious;               //!
+    TGo4AnalysisStep *fxPrevious{nullptr};               //!
 
     /** The abstract factory implementation which provides the event classes.
       * @link aggregationByValue
       *   @supplierCardinality 1 */
-    TGo4EventFactory * fxEventFactory;
+    TGo4EventFactory *fxEventFactory{nullptr};
 
     /** The storage instance for the unpacked events (detector) structures.
       * @link aggregation
       *   @supplierCardinality 1 */
-     TGo4EventStore * fxEventStore;
+     TGo4EventStore *fxEventStore{nullptr};
 
     /** The source of the input events. Can be a remote event server, or
       * a root file, or anything else.
       * @link aggregation
       *   @supplierCardinality 1 */
-    TGo4EventSource * fxEventSource;
+    TGo4EventSource *fxEventSource{nullptr};
 
     /** The processing class which works on the input event and
       * fills the output event.
       * @link aggregation
       *   @supplierCardinality 1 */
-    TGo4EventProcessor * fxEventProcessor;
+    TGo4EventProcessor *fxEventProcessor{nullptr};
 
     /** points to the last input event delivered from the event source
      * @supplierCardinality 1
      * @link aggregation*/
-    TGo4EventElement * fxInputEvent;
+    TGo4EventElement *fxInputEvent{nullptr};
 
     /** The unpacked event (detector) structure that has been filled  by the
      * analysis step .
      * @supplierCardinality 1
      * @link aggregation*/
-    TGo4EventElement * fxOutputEvent;
+    TGo4EventElement *fxOutputEvent{nullptr};
 
     /** Parameter object of next event source to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventSourceParameter* fxSourceType;
+    TGo4EventSourceParameter *fxSourceType{nullptr};
 
     /** Parameter object of next event storage to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventStoreParameter* fxStoreType;
+    TGo4EventStoreParameter *fxStoreType{nullptr};
 
     /** Parameter object of next event processor to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventProcessorParameter* fxProcessorType;
+    TGo4EventProcessorParameter *fxProcessorType{nullptr};
 
     /** Enables event source.If true,
       * the event source is used to get the input event; otherwise
       * we use the output of the previous step. */
-    Bool_t fbSourceEnabled;
+    Bool_t fbSourceEnabled{kFALSE};
 
     /** Flag for the previous analysis step. If true, the event source instance exists, i.e. a file may be
       * open. Usage is optional so far. */
-    Bool_t fbSourceImplemented;
+    Bool_t fbSourceImplemented{kFALSE};
 
     /** Enables event store. If true,
       * the event store is used as output; otherwise
       * we pass the output to the next step. */
-    Bool_t fbStoreEnabled;
+    Bool_t fbStoreEnabled{kFALSE};
 
     /** Flag for the subsequent analysis step.
       * If true, the event store instance exists, i.e. a file may be open. */
-    Bool_t fbStoreImplemented;
+    Bool_t fbStoreImplemented{kFALSE};
 
     /** Enables processing of the input event. If true,
       * Process method produces an output event from the input; otherwise
       * we do not fill the output. Useful if event source of this step shall be
       * used to pass the input event to another analysis step. If process is
       * disabled, also the eventstore is disabled. */
-    Bool_t fbProcessEnabled;
+    Bool_t fbProcessEnabled{kFALSE};
 
     /** Operation mode switch. If true, the analysis
       * step process method will stop the analysis
       * if the event source returns an error code.
       * Otherwise, the event source may be reset then
       * and the analysis continues from start. */
-    Bool_t fbErrorStopEnabled;
+    Bool_t fbErrorStopEnabled{kFALSE};
 
     /** True if the analysis step has been stopped after input error. */
-    Bool_t fbErrorStopped;
+    Bool_t fbErrorStopped{kFALSE};
 
     /** Contains current analysis step status value. To be checked by framework after Process().*/
-    Int_t fiProcessStatus;
+    Int_t fiProcessStatus{0};
 
     /** Most recent status message. May be delivered by eventsource or eventstore. */
     TString fcStatusMessage;   //!
 
-  ClassDef(TGo4AnalysisStep,1)
+  ClassDefOverride(TGo4AnalysisStep,1)
 };
 
 #endif //TGO4ANALYSISSTEP_H

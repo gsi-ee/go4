@@ -26,7 +26,6 @@
 TGo4EventElement::TGo4EventElement() :
    TNamed("Go4Element","This is a Go4 EventElement")
 {
-
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
 }
 
