@@ -22,8 +22,8 @@ class TH1;
 class TGo4DabcProxy : public TGo4ServerProxy {
    protected:
       TString    fNodeName;
-      void*      fxHierarchy;    //!  pointer on dabc::Hierarchy class
-      TGo4Slot*  fxParentSlot;
+      void*      fxHierarchy{nullptr};    //!  pointer on dabc::Hierarchy class
+      TGo4Slot*  fxParentSlot{nullptr};
 
    public:
       TGo4DabcProxy();
@@ -33,30 +33,30 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
       Bool_t ReplyCommand(void* cmd);
 
-      virtual const char* GetServerName() const { return fNodeName.Data(); }
+      const char* GetServerName() const override { return fNodeName.Data(); }
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
 
-      virtual Bool_t HasSublevels() const;
-      virtual TGo4Access* ProvideAccess(const char* name);
-      virtual TGo4LevelIter* MakeIter();
+      Bool_t HasSublevels() const override;
+      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4LevelIter* MakeIter() override;
 
-      virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return "TGo4DabcProxy"; }
-      virtual const char* GetContainedObjectInfo() { return 0; }
-      virtual Int_t GetObjectSizeInfo() { return -1; }
+      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
+      const char* GetContainedClassName() override { return "TGo4DabcProxy"; }
+      const char* GetContainedObjectInfo() override { return nullptr; }
+      Int_t GetObjectSizeInfo() override { return -1; }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual void Update(TGo4Slot* slot, Bool_t strong);
+      void Update(TGo4Slot* slot, Bool_t strong) override;
 
-      virtual Bool_t RefreshNamesList();
+      Bool_t RefreshNamesList() override;
 
-      static const char* GetDabcVersion();
+      static const char *GetDabcVersion();
 
-   ClassDef(TGo4DabcProxy, 1);
+   ClassDefOverride(TGo4DabcProxy, 1);
 };
 
 #endif

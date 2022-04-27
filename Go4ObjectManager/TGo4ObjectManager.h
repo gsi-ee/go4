@@ -35,8 +35,8 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       virtual ~TGo4ObjectManager();
 
-      virtual void ProduceFullName(TString& name, TGo4Slot* toparent = 0);
-      virtual TGo4ObjectManager* GetOM() const;
+      void ProduceFullName(TString& name, TGo4Slot* toparent = nullptr) override;
+      TGo4ObjectManager* GetOM() const override;
 
       void MakeFolder(const char* pathname);
 
@@ -78,11 +78,11 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       void RegisterLink(TGo4Slot* source, TGo4Slot* target, Bool_t exapndchilds = kFALSE);
       void UnregisterLink(TGo4Slot* target);
 
-      virtual TGo4Access* ProvideAccess(const char* name = 0)
+      TGo4Access* ProvideAccess(const char* name = nullptr) override
           { return ProvideSlotAccess(name); }
 
-      virtual void Event(TGo4Slot* source, Int_t id, void* param = 0);
-      void RetranslateEvent(TGo4Slot* source, Int_t id, void* param = 0);
+      void Event(TGo4Slot* source, Int_t id, void* param = nullptr) override;
+      void RetranslateEvent(TGo4Slot* source, Int_t id, void* param = nullptr);
       void RegisterObjectWith(TObject* obj, TGo4Slot* slot);
       void UnregisterObject(TObject* obj, TGo4Slot* slot);
 
@@ -92,7 +92,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       Int_t RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec = 0);
 
-      virtual void RecursiveRemove(TObject* obj);
+      void RecursiveRemove(TObject* obj) override;
 
    protected:
 
@@ -104,7 +104,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       TObjArray  fCleanups;  //! list of registered cleanups
 
-   ClassDef(TGo4ObjectManager,1);  // Object manager of all Go4 GUI objects
+   ClassDefOverride(TGo4ObjectManager,1);  // Object manager of all Go4 GUI objects
 };
 
 #endif
