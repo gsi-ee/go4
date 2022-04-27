@@ -52,4 +52,4 @@ set(Go4CommandsAnalysis_sources
 
 GO4_SOURCES(Go4Analysis HEADERS ${Go4CommandsAnalysis_headers} SOURCES ${Go4CommandsAnalysis_sources})
 
-GO4_INSTALL_HEADERS(MAKESUB ${Go4CommandsAnalysis_headers} Go4CommandsAnalysis.h)
+GO4_INSTALL_HEADERS(MAKESUB ${Go4CommandsAnalysis_headers})
