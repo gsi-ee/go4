@@ -24,15 +24,15 @@ class TGo4CondArrayPainter : public TGo4ConditionPainter {
     TGo4CondArrayPainter(const char* name);
 
    /** Display condition with plain root canvas and in go4 viewpanel */
-   virtual void PaintCondition(Option_t* opt="");
+   void PaintCondition(Option_t* opt="") override;
 
    /** Erase condition view */
-   virtual void UnPaintCondition(Option_t* opt="");
+   void UnPaintCondition(Option_t* opt="") override;
 
    /** To suppress the label of the array, we overwrite method here. */
-   virtual void PaintLabel(Option_t* opt="");
+   void PaintLabel(Option_t* opt="") override;
 
-  ClassDef(TGo4CondArrayPainter,6)
+  ClassDefOverride(TGo4CondArrayPainter,6)
 };
 
 #endif //TGO4CONDARRAYPAINTER_H

@@ -27,9 +27,10 @@
 class TGo4Label : public TPaveText {
 
 public:
-   TGo4Label() : TPaveText(), fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/ }
+   TGo4Label() : TPaveText(), fxOwner(nullptr) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/ }
+
    TGo4Label(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Option_t *option = "br")
-      : TPaveText(x1, y1, x2, y2, option), fxOwner(0)
+      : TPaveText(x1, y1, x2, y2, option), fxOwner(nullptr)
    {
       SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/
    }
@@ -38,18 +39,18 @@ public:
 
    void SetOwner(TObject *ob) { fxOwner = ob; }
 
-   virtual void Paint(Option_t *opt = "");
+   void Paint(Option_t *opt = "") override;
 
-   virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
+   void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
    /** set this to pointer of last deleted instance before*/
    static const void *fxLastDeleted;
 
 private:
    /** the owner of this label */
-   TObject *fxOwner; //!
+   TObject *fxOwner{nullptr}; //!
 
-   ClassDef(TGo4Label, 7)
+   ClassDefOverride(TGo4Label, 7)
 };
 
 /**
@@ -62,8 +63,9 @@ private:
 class TGo4LabelConnector : public TLine {
 
 public:
-   TGo4LabelConnector() : TLine(), fxOwner(0) { SetBit(kMustCleanup); }
-   TGo4LabelConnector(Double_t x1, Double_t y1, Double_t x2, Double_t y2) : TLine(x1, y1, x2, y2), fxOwner(0)
+   TGo4LabelConnector() : TLine(), fxOwner(nullptr) { SetBit(kMustCleanup); }
+
+   TGo4LabelConnector(Double_t x1, Double_t y1, Double_t x2, Double_t y2) : TLine(x1, y1, x2, y2), fxOwner(nullptr)
    {
       SetBit(kMustCleanup);
    }
@@ -72,16 +74,16 @@ public:
 
    void SetOwner(TObject *ob) { fxOwner = ob; }
 
-   virtual void Paint(Option_t *opt = "");
+   void Paint(Option_t *opt = "") override;
 
    /** set this to pointer of last deleted instance before*/
    static const void *fxLastDeleted;
 
 private:
    /** the owner of this connector line */
-   TObject *fxOwner; //!
+   TObject *fxOwner{nullptr}; //!
 
-   ClassDef(TGo4LabelConnector, 6)
+   ClassDefOverride(TGo4LabelConnector, 6)
 };
 
 /**
@@ -95,7 +97,7 @@ private:
 class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public TAttText {
   public:
     TGo4LabelPainter();
-    TGo4LabelPainter(const char* name, const char* title = 0);
+    TGo4LabelPainter(const char* name, const char* title = nullptr);
     virtual ~TGo4LabelPainter();
 
     /** Draw the label */
@@ -135,7 +137,7 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
 
    private:
      /** the label */
-     TGo4Label* fxLabel;
+     TGo4Label* fxLabel{nullptr};
 
     /** initial reference coordinates x */
     Double_t fdX0;
@@ -164,7 +166,7 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
     /** Check if label is still existing. Uses root list of cleanups. */
     Bool_t CheckLabel();
 
-  ClassDef(TGo4LabelPainter,6)
+  ClassDefOverride(TGo4LabelPainter,6)
 };
 
 #endif //TGO4LABELPAINTER_H
