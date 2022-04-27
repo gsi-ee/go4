@@ -35,8 +35,6 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
 
       TGo4ComGetCurrentEvent(const char* obname);
 
-      virtual ~TGo4ComGetCurrentEvent();
-
       Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
@@ -46,7 +44,7 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
 
       Bool_t IsOutputEvent() const { return fbOutputEvent; }
 
-      void SetOutputEvent(Bool_t output=kTRUE) { fbOutputEvent=output; }
+      void SetOutputEvent(Bool_t output=kTRUE) { fbOutputEvent = output; }
 
       Bool_t IsPrintoutOnly() const { return fbPrintoutOnly; }
 

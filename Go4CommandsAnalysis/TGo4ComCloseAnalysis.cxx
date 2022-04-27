@@ -25,17 +25,12 @@ TGo4ComCloseAnalysis::TGo4ComCloseAnalysis() : TGo4AnalysisCommand("ANClose", "c
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComCloseAnalysis::~TGo4ComCloseAnalysis()
-{
-   GO4TRACE((12, "TGo4ComCloseAnalysis::~TGo4ComCloseAnalysis() dtor", __LINE__, __FILE__));
-}
-
 Int_t TGo4ComCloseAnalysis::ExeCom()
 {
    GO4TRACE((12, "TGo4ComCloseAnalysis::ExeCom() dtor", __LINE__, __FILE__));
 
    TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
-   if (cli == 0) {
+   if (!cli) {
       GO4TRACE((11, "TGo4ComCloseAnalysis::ExeCom() - no receiver specified ERROR!", __LINE__, __FILE__));
       TGo4Log::Debug(" !!! ComCloseAnalysis ''%s'': NO RECEIVER ERROR!!!", GetName());
       return 1;

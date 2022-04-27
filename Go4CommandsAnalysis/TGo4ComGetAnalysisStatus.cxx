@@ -26,11 +26,6 @@ TGo4ComGetAnalysisStatus::TGo4ComGetAnalysisStatus() :
                                        // override default receiver
 }
 
-TGo4ComGetAnalysisStatus::~TGo4ComGetAnalysisStatus()
-{
-   GO4TRACE((12,"TGo4ComGetAnalysisStatus::~TGo4ComGetAnalysisStatus() dtor",__LINE__, __FILE__));
-}
-
 
 Int_t TGo4ComGetAnalysisStatus::ExeCom()
 {

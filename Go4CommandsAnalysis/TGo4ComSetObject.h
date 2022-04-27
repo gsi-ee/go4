@@ -48,7 +48,7 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
      * for each specific command! */
     void Set(TGo4RemoteCommand* remcon) override;
 
-    void SetObject(TObject* ob) { fxObject=ob; }
+    void SetObject(TObject* ob) { fxObject = ob; }
   private:
 
     Int_t ExeSetParStatus(TGo4ParameterStatus* par);
@@ -60,14 +60,14 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     Int_t ExeSetObj(TObject* ob);
 
     /**The object to be set. */
-    TObject* fxObject{nullptr};
+    TObject *fxObject{nullptr};
 
-    TGo4AnalysisClient* fxClient{nullptr}; //!
+    TGo4AnalysisClient *fxClient{nullptr}; //!
 
-    TGo4Analysis* fxAna{nullptr};//!
+    TGo4Analysis *fxAna{nullptr};//!
 
      /** structure to keep result of setting action */
-    TGo4AnalysisObjectResult* fxResult{nullptr}; //!
+    TGo4AnalysisObjectResult *fxResult{nullptr}; //!
 
    ClassDefOverride(TGo4ComSetObject,1)
 };

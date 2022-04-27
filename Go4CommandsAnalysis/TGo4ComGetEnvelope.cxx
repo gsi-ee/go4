@@ -36,11 +36,6 @@ TGo4ComGetEnvelope::TGo4ComGetEnvelope() :
    SetDescription("Get an arbitrary object from analysis");
 }
 
-TGo4ComGetEnvelope::~TGo4ComGetEnvelope()
-{
-   GO4TRACE((12,"TGo4ComGetEnvelope::~TGo4ComGetEnvelope() dtor",__LINE__, __FILE__));
-}
-
 Int_t TGo4ComGetEnvelope::ExeCom()
 {
    GO4TRACE((12,"TGo4ComGetEnvelope::ExeCom()",__LINE__, __FILE__));

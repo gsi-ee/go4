@@ -28,11 +28,9 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
 
     TGo4AnalysisObjectCommand();
 
-    TGo4AnalysisObjectCommand(const char* comname,
-                              const char* description,
-                              const char* obname);
-
-    virtual ~TGo4AnalysisObjectCommand();
+    TGo4AnalysisObjectCommand(const char *comname,
+                              const char *description,
+                              const char *obname);
 
     /** access to the object name under command. */
     const char* GetObjectName() const { return fxObjectName.Data(); }

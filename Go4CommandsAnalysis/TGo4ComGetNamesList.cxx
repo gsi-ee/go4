@@ -28,11 +28,6 @@ TGo4ComGetNamesList::TGo4ComGetNamesList() :TGo4AnalysisCommand()
 
 }
 
-TGo4ComGetNamesList::~TGo4ComGetNamesList()
-{
-   GO4TRACE((12,"TGo4ComGetNamesList::~TGo4ComGetNamesList() dtor",__LINE__, __FILE__));
-}
-
 Int_t TGo4ComGetNamesList::ExeCom()
 {
    GO4TRACE((12,"TGo4ComGetNamesList::ExeCom()",__LINE__, __FILE__));

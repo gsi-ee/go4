@@ -26,8 +26,6 @@ class TGo4ComGetAnalysisStatus : public TGo4AnalysisCommand {
 
       TGo4ComGetAnalysisStatus();
 
-      virtual ~TGo4ComGetAnalysisStatus();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComGetAnalysisStatus,1)

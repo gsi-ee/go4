@@ -37,8 +37,6 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
 
       TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut);
 
-      virtual ~TGo4ComAddTreeHistogram();
-
       Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external

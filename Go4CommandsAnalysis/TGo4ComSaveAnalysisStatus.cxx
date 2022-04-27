@@ -39,16 +39,10 @@ TGo4ComSaveAnalysisStatus::TGo4ComSaveAnalysisStatus() :
    SetProtection(kGo4ComModeController);
 }
 
-
-TGo4ComSaveAnalysisStatus::~TGo4ComSaveAnalysisStatus()
-{
-   GO4TRACE((12,"TGo4ComSaveAnalysisStatus::~TGo4ComSaveAnalysisStatus() dtor",__LINE__, __FILE__));
-}
-
 void TGo4ComSaveAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
-   SetFileName(remcom->GetString(0));
+   if(remcom)
+      SetFileName(remcom->GetString(0));
 }
 
 
@@ -57,7 +51,7 @@ Int_t TGo4ComSaveAnalysisStatus::ExeCom()
    GO4TRACE((12,"TGo4ComSaveAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
+   if (cli)
    {
       GO4TRACE((11,"TGo4ComSaveAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
       //         TGo4Log::Debug(" Executing ComSaveAnalysisStatus...  ");

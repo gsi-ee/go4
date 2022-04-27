@@ -25,11 +25,6 @@ TGo4ComPrintConditions::TGo4ComPrintConditions() :
                                        // override default receiver
 }
 
-TGo4ComPrintConditions::~TGo4ComPrintConditions()
-{
-   GO4TRACE((12,"TGo4ComPrintConditions::~TGo4ComPrintConditions() dtor",__LINE__, __FILE__));
-}
-
 Int_t TGo4ComPrintConditions::ExeCom()
 {
    GO4TRACE((12,"TGo4ComPrintConditions::ExeCom() dtor",__LINE__, __FILE__));

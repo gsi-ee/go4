@@ -28,8 +28,6 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
 
       TGo4ComLoadAnalysisStatus(const char* filename);
 
-      virtual ~TGo4ComLoadAnalysisStatus();
-
       Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external

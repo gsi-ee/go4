@@ -43,12 +43,6 @@ TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent() :
                                        // override default receiver
 }
 
-TGo4ComGetCurrentEvent::~TGo4ComGetCurrentEvent()
-{
-   GO4TRACE((12,"TGo4ComGetCurrentEvent::~TGo4ComGetCurrentEvent() dtor",__LINE__, __FILE__));
-}
-
-
 Int_t TGo4ComGetCurrentEvent::ExeCom()
 {
    GO4TRACE((12,"TGo4ComGetCurrentEvent::ExeCom()",__LINE__, __FILE__));

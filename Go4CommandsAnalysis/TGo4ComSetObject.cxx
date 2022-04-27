@@ -30,11 +30,7 @@
 
 
 TGo4ComSetObject::TGo4ComSetObject() :
-   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object","mypara"),
-   fxObject(0),
-   fxClient(0),
-   fxAna(0),
-   fxResult(0)
+   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object","mypara")
 {
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                                  // override default receiver
@@ -43,11 +39,7 @@ TGo4ComSetObject::TGo4ComSetObject() :
 
 
 TGo4ComSetObject::TGo4ComSetObject(const char* obname) :
-   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object",obname),
-   fxObject(0),
-   fxClient(0),
-   fxAna(0),
-   fxResult(0)
+   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object",obname)
 {
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                                  // override default receiver
@@ -63,9 +55,9 @@ TGo4ComSetObject::~TGo4ComSetObject()
 
 void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);
-   TObject* ob=remcom->GetAggregate(); // we take over ownership
+   TObject* ob = remcom->GetAggregate(); // we take over ownership
    if(ob && ob!=fxObject) {
       delete fxObject;
       fxObject = ob;
@@ -81,7 +73,7 @@ Int_t TGo4ComSetObject::ExeCom()
       return 1;
    }
 
-   if(fxObject==0) {
+   if(!fxObject) {
       fxClient->SendStatusMessage(3, kTRUE, TString::Format("SetObject - ERROR:  no source object specified for  %s", GetObjectName()));
       return 0;
    }
@@ -140,7 +132,7 @@ Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
 
 Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
 {
-   if(par==0) return -1;
+   if(!par) return -1;
    TString buf;
    if(fxAna->SetParameter(GetObjectName(),par)) {
       buf = TString::Format("Parameter %s was set to new values.", GetObjectName());
@@ -159,7 +151,7 @@ Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
 
 Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
 {
-   if(conny==0) return -1;
+   if(!conny) return -1;
    TString buf;
    if(fxAna->SetAnalysisCondition(GetObjectName(),conny, kFALSE)) {
       buf = TString::Format("Condition %s was set to new values.", GetObjectName());
@@ -172,13 +164,13 @@ Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetHis(TH1* his)
 {
-   if(his==0) return -1;
+   if(!his) return -1;
    TString buf;
    if(fxAna->AddHistogram(his)) {
       his->SetBit(TGo4Status::kGo4CanDelete); // dynamic objects may be deleted from gui
@@ -197,7 +189,7 @@ Int_t TGo4ComSetObject::ExeSetHis(TH1* his)
 
 Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
 {
-   if(dyn==0) return -1;
+   if(!dyn) return -1;
    TString buf;
    if(fxAna->AddDynamicEntry((TGo4DynamicEntry*)dyn->Clone())) {
       TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (dyn);
@@ -213,13 +205,13 @@ Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
 {
-   if(pic==0) return -1;
+   if(!pic) return -1;
    TString buf;
    if(fxAna->SetPicture(GetObjectName(),pic)) {
       fxResult->SetAction(kGo4ActionPlot);
@@ -232,7 +224,7 @@ Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    return 0;
 }
 

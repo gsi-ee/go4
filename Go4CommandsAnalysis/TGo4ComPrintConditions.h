@@ -25,8 +25,6 @@ class TGo4ComPrintConditions : public TGo4AnalysisCommand {
 
       TGo4ComPrintConditions();
 
-      virtual ~TGo4ComPrintConditions();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComPrintConditions,1)

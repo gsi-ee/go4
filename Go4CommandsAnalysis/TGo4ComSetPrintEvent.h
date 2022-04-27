@@ -31,8 +31,6 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
 
     TGo4ComSetPrintEvent(const char* obname);
 
-    virtual ~TGo4ComSetPrintEvent();
-
     Int_t ExeCom() override;
       /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded

@@ -29,8 +29,6 @@ class TGo4ComGetObjectStatus : public TGo4AnalysisObjectCommand {
 
       TGo4ComGetObjectStatus(const char* obname);
 
-      virtual ~TGo4ComGetObjectStatus();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComGetObjectStatus,1)

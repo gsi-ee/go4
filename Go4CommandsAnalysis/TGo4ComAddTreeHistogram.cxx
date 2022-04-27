@@ -38,14 +38,9 @@ TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, cons
    SetCut(cut);
 }
 
-TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram()
-{
-   GO4TRACE((12,"TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram() dtor",__LINE__, __FILE__));
-}
-
 void TGo4ComAddTreeHistogram::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    SetHistogramName(remcom->GetString(0));
    SetTreeName(remcom->GetString(1));
    SetVarexp(remcom->GetString(2));

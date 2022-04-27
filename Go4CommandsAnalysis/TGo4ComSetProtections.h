@@ -29,8 +29,6 @@ class TGo4ComSetProtections : public TGo4AnalysisObjectCommand {
 
     TGo4ComSetProtections(const char* obname, const char* flags);
 
-    virtual ~TGo4ComSetProtections();
-
     Int_t ExeCom() override;
 
     /** Set internals of this command from specification of external

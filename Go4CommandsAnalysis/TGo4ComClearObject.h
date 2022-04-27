@@ -30,8 +30,6 @@ class TGo4ComClearObject : public TGo4AnalysisObjectCommand {
 
       TGo4ComClearObject(const char *obname);
 
-      virtual ~TGo4ComClearObject();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComClearObject,1)

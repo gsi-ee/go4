@@ -87,19 +87,19 @@ class TGo4Command  : public TNamed {
 
    protected:
 
-      Bool_t fbIsEnabled;   // command can be executed
-      Bool_t fbIsExclusive; // command can be executed only by ReceiverName
-      Bool_t fbIsSynchron;  // command is queued = synchronous
-      Bool_t fbIsLocal;     // command is to be executed by local command thread
+      Bool_t fbIsEnabled{kFALSE};   // command can be executed
+      Bool_t fbIsExclusive{kFALSE}; // command can be executed only by ReceiverName
+      Bool_t fbIsSynchron{kFALSE};  // command is queued = synchronous
+      Bool_t fbIsLocal{kFALSE};     // command is to be executed by local command thread
 
-      Int_t fiCommandID;    // command number
-      Int_t fiVersion;      // version number
+      Int_t fiCommandID{0};    // command number
+      Int_t fiVersion{0};      // version number
 
       /** mode value for execution rights of sending task*/
-      Go4CommandMode_t fiMode; //
+      Go4CommandMode_t fiMode{kGo4ComModeRefused}; //
       /** Execute protection of this command. If Execution mode
         * is not sufficient, command is not allowed to be executed.*/
-      Go4CommandMode_t fiProtection; //
+      Go4CommandMode_t fiProtection{kGo4ComModeRefused}; //
 
       void SetProtection(Go4CommandMode_t m) { fiProtection = m; }
 

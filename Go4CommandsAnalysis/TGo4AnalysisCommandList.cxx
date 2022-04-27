@@ -72,7 +72,3 @@ TGo4AnalysisCommandList::TGo4AnalysisCommandList() :
     AddCommand (new TGo4ComPrintDynList);
     AddCommand (new TGo4ComAutosave);
 }
-
-TGo4AnalysisCommandList::~TGo4AnalysisCommandList()
-{
-}
