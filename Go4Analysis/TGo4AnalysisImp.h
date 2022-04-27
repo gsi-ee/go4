@@ -193,7 +193,7 @@ public:
     * histogram with existing condition and data.
     * Dynamic entry is specified by name. Histogram histo will be searched in
     * registered histograms folder, condition in conditions folder. If
-    * condition is true or not existing (condition=0), histogram will be filled
+    * condition is true or not existing (condition == nullptr), histogram will be filled
     * from the values that are found in registered eventstructure classes of
     * names  evx, evy, evz at the data members of names memx, memy, memz,
     * for the three coordinate axes, respectively. Histogram dimension is
@@ -201,11 +201,11 @@ public:
    Bool_t AddDynamicHistogram(const char *name,
                               const char *histo,
                               const char *hevx, const char* hmemx,
-                              const char *hevy = 0, const char *hmemy = 0,
-                              const char *hevz = 0, const char *hmemz = 0,
-                              const char *condition = 0,
-                              const char *cevx = 0, const char *cmemx = 0,
-                              const char *cevy = 0, const char *cmemy = 0);
+                              const char *hevy = nullptr, const char *hmemy = nullptr,
+                              const char *hevz = nullptr, const char *hmemz = nullptr,
+                              const char *condition = nullptr,
+                              const char *cevx = nullptr, const char *cmemx = nullptr,
+                              const char *cevy = nullptr, const char *cmemy = nullptr);
 
    /** Set dynamic entry of name "name" to the values specified by external
     * dynamic entry status "state". If no dynamic entry of that name exists, a
@@ -216,7 +216,7 @@ public:
    /** Remove entry of that name from dynamic list of listname.
     * The referred objects (histograms, conditions..) are still on heap, since
     * they are owned by their special folders. */
-   Bool_t RemoveDynamicEntry(const char *entryname, const char *listname = 0);
+   Bool_t RemoveDynamicEntry(const char *entryname, const char *listname = nullptr);
 
    /** Add any external object to the user object folder.
     * Object is owned by go4 afterwards and will be saved automatically.
@@ -224,13 +224,13 @@ public:
     * analysis itself. Subfolder of UserObjects may be specified.
     * If replace is true, old object of same name will be deleted and
     * replaced by the added one. */
-   Bool_t AddObject(TNamed *anything, const char *subfolder = 0, Bool_t replace = kTRUE);
+   Bool_t AddObject(TNamed *anything, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
    /** Searches for object by name in all directories. Returns
     * pointer to object. If
     * object of that name does not exist, null is returned.
     * Optionally, folder may be specified to search in. */
-   TNamed* GetObject(const char *name, const char *folder = 0);
+   TNamed* GetObject(const char *name, const char *folder = nullptr);
 
    /** Removes object from user object folder by name. Returns kFALSE if no
     * such histogram. Object is deleted on heap only if del is true.
@@ -270,7 +270,7 @@ public:
     * previously created matching list is returned. Optionally the
     * search can be limited to a given folder. */
    TObject* NextMatchingObject(const char *expr = nullptr,
-                               const char* folder = nullptr,
+                               const char *folder = nullptr,
                                Bool_t reset=kFALSE);
 
    /** Create a tree structure for a certain tree by name */
@@ -516,7 +516,7 @@ public:
    /** Switch slave process into running state. To be used
     * from analysis macro to start/stop the go4 loop on certain
     * conditions. */
-   void SetRunning(Bool_t on=kTRUE);
+   void SetRunning(Bool_t on = kTRUE);
 
    /** Poll on the IsRunning state with sleep delay, returns number
     * of wait cycles. For slave server controlled cint macros to
@@ -584,7 +584,11 @@ public:
     * 1: local terminal and info message in gui log panel (if gui mode)
     * 2: local terminal and warning message in gui log panel (if gui mode)
     * 3: local terminal and error message in gui log panel (if gui mode) */
-   void Message(Int_t prio, const char *text, ...);
+   void Message(Int_t prio, const char *text, ...)
+   #if defined(__GNUC__) && !defined(__CINT__)
+   __attribute__((format(printf, 3, 4)))
+   #endif
+   ;
 
    /** User May send any named object via data channel to the gui.
     * In batch mode, this method is disabled. */
@@ -673,7 +677,7 @@ public:
     * Analysis steps are owned by the steplist once they have been added. */
    Bool_t AddAnalysisStep(TGo4AnalysisStep *next);
 
-   /** Access to certain analysis step by name. If name=0,
+   /** Access to certain analysis step by name. If name == nullptr,
     * this will return the first active step. */
    TGo4AnalysisStep* GetAnalysisStep(const char *name);
 

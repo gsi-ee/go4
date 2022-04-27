@@ -97,8 +97,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t RemoveObject(const char * name, Bool_t del=kTRUE);
 
-
-
       /**
        * Delete object of name, or all objects in folder name, respectively.
        * Objects are only deleted if delete protection is false. Usually,
@@ -116,8 +114,8 @@ class TGo4AnalysisObjectManager : public TNamed {
        * search can be limited to a given folder.
        */
       TObject* NextMatchingObject(const char* expr,
-            const char* folder,
-            Bool_t reset);
+                                  const char* folder,
+                                  Bool_t reset);
 
       /**
        * Create a folder with subfolders from a list of TBranchElements. For each
@@ -126,10 +124,10 @@ class TGo4AnalysisObjectManager : public TNamed {
        * TGo4ObjectStatus class.
        * Flag istopbranch is used to indicate top level call for composite event.
        */
-      TFolder * CreateBranchFolder(TObjArray* branchlist,
-            const char* name,
-            const char* title,
-            Bool_t istopbranch=kFALSE);
+      TFolder *CreateBranchFolder(TObjArray* branchlist,
+                                  const char* name,
+                                  const char* title,
+                                  Bool_t istopbranch = kFALSE);
 
       /**
        * Create a folder with subfolders from a list of TBranchElements
@@ -154,7 +152,6 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       /** Create a folder with members of this class */
       TFolder* CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl);
-
 
       /**
        * Add external histogram to go4 histogram directory. Histogram will be owned
@@ -198,9 +195,9 @@ class TGo4AnalysisObjectManager : public TNamed {
             Int_t         nbinsx,
             Axis_t        xlow,
             Axis_t        xup,
-            const char* title = 0,
-            const char* xtitle = 0,
-            const char* ytitle = 0);
+            const char* title = nullptr,
+            const char* xtitle = nullptr,
+            const char* ytitle = nullptr);
 
       /**
        * Create 2-dim histogram in histogram folder.
@@ -231,9 +228,9 @@ class TGo4AnalysisObjectManager : public TNamed {
             Int_t         nbinsy,
             Axis_t        ylow,
             Axis_t        yup,
-            const char* title = 0,
-            const char* xtitle = 0,
-            const char* ytitle = 0);
+            const char* title = nullptr,
+            const char* xtitle = nullptr,
+            const char* ytitle = nullptr);
 
       /**
        * Add reference to a tree in the go4 folder structure.
@@ -246,7 +243,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search tree in tree folder.
        */
-      TTree * GetTree(const char * name);
+      TTree * GetTree(const char *name);
 
       /**
        * Remove reference to a tree in the go4 folder structure.
@@ -271,13 +268,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * specified. By default, condition is searched relative to Conditions folder.
        */
       Bool_t SetAnalysisCondition(const char * name, TGo4Condition* con,
-            Bool_t counter=kTRUE, TFolder* parent = nullptr);
+                                  Bool_t counter=kTRUE, TFolder* parent = nullptr);
 
       /**
        * Retrieves an analysis condition  from list by name. Returns 0 if no
        * such condition.
        */
-      TGo4Condition * GetAnalysisCondition(const char * name, const char* cond_cl = 0);
+      TGo4Condition * GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
       /**
        * Removes analysis condition from list by name. Returns 0 if no
@@ -300,11 +297,11 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
 
       TGo4WinCond* MakeWindowCond(const char* foldername,
-            const char* conditionname,
-            Double_t      xlow,
-            Double_t      xup,
-            const char* bindhistogram = 0,
-            Bool_t        invert = kFALSE);
+                                  const char* conditionname,
+                                  Double_t      xlow,
+                                  Double_t      xup,
+                                  const char* bindhistogram = nullptr,
+                                  Bool_t        invert = kFALSE);
 
       /**
        * Create 2-dim window condition in conditions folder.
@@ -328,7 +325,7 @@ class TGo4AnalysisObjectManager : public TNamed {
             Double_t      xup,
             Double_t      ylow,
             Double_t      yup,
-            const char* bindhistogram = 0,
+            const char* bindhistogram = nullptr,
             Bool_t        invert = kFALSE);
 
       /**
@@ -358,7 +355,7 @@ class TGo4AnalysisObjectManager : public TNamed {
             const char* conditionname,
             Int_t         size,
             Float_t       (*points)[2],
-            const char* bindhistogram = 0,
+            const char* bindhistogram = nullptr,
             Bool_t        invert = kFALSE);
       /**
        * Puts a new parameter object in corresponding folder.
@@ -388,7 +385,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
         * Returns 0 if no such parameter found (or class not match). */
-      TGo4Parameter * GetParameter(const char* name, const char* parameter_class = 0);
+      TGo4Parameter * GetParameter(const char* name, const char* parameter_class = nullptr);
 
       /**
        * Removes parameter by name. Returns 0 if no
@@ -547,7 +544,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * process the actions linked to the entries. */
       void ProcessDynamicList();
 
-      void SetDynListInterval(Int_t val) { fiDynListInterval=val; }
+      void SetDynListInterval(Int_t val) { fiDynListInterval = val; }
 
       Int_t GetDynListInterval() const { return fiDynListInterval; }
 
@@ -556,7 +553,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * histogram with existing condition and data.
        * Dynamic entry is specified by name. Histogram histo will be searched in
        * registered histograms folder, condition in conditions folder. If
-       * condition is true or not existing (condition=0), histogram will be filled
+       * condition is true or not existing (condition == nullptr), histogram will be filled
        * from the values that are found in registered eventstructure classes of
        * names  hevx, hevy, hevz at the data members of names hmemx, hmemy, hmemz,
        * for the three coordinate axes, respectively. Histogram dimension is
@@ -637,7 +634,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder* FindSubFolder(TFolder* parent, const char* subfolder, Bool_t create=kTRUE);
 
       /** Return full path name to object, relative to specified folder */
-      Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder* fold = 0);
+      Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder *fold = nullptr);
 
       Bool_t CreatedInMake() const { return fbCreatedinMake; }
 
@@ -720,114 +717,112 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Top level Go4 Directory (root folder)
        */
-      TFolder * fxGo4Dir;
+      TFolder * fxGo4Dir{nullptr};
 
 
       /**
        * Directory containing all histogram objects to be used by dynamic list
        * and user analysis.
        */
-      TFolder * fxHistogramDir;
+      TFolder * fxHistogramDir{nullptr};
 
       /**
        * Directory containing all condition objects to be used by dynamic list
        * and by user analysis.
        */
-      TFolder * fxConditionDir;
+      TFolder * fxConditionDir{nullptr};
 
       /**
        * Directory containing user parameter objects
        */
-      TFolder * fxParameterDir;
+      TFolder * fxParameterDir{nullptr};
 
       /**
        * Directory containing all action objects to be used by dynamic list
        * and by user analysis.
        */
-      TFolder * fxDynListDir;
+      TFolder * fxDynListDir{nullptr};
 
       /**
        * Directory containing all user objects.
        */
-      TFolder * fxUserDir;
+      TFolder * fxUserDir{nullptr};
 
       /**
        * Directory containing references to trees.
        */
-      TFolder * fxTreeDir;
+      TFolder * fxTreeDir{nullptr};
 
       /**
        * Directory containing the pictures.
        */
-      TFolder * fxPictureDir;
+      TFolder * fxPictureDir{nullptr};
 
       /**
        * Directory containing TCanvases.
        */
-      TFolder * fxCanvasDir;
+      TFolder * fxCanvasDir{nullptr};
 
       /**
        * Directory containing references to event stores.
        */
-      TFolder * fxStoreDir;
+      TFolder * fxStoreDir{nullptr};
 
       /**
        * Directory containing references to event sources.
        */
-      TFolder * fxSourceDir;
+      TFolder * fxSourceDir{nullptr};
 
       /**
        * Directory containing references to event processors.
        */
-      TFolder * fxProcessorDir;
+      TFolder * fxProcessorDir{nullptr};
 
       /**
        * Directory containing references to event structures.
        */
-      TFolder * fxEventDir;
+      TFolder * fxEventDir{nullptr};
 
       /**
        * Top Directory for all references to event classes.
        */
-      TFolder * fxAnalysisDir;
+      TFolder * fxAnalysisDir{nullptr};
 
       /**
        * Temporary folder for nameslist objects.
        */
-      TFolder * fxTempFolder;
+      TFolder * fxTempFolder{nullptr};
 
       /**
        * Mutex protecting the object directories.
        */
-      TMutex * fxDirMutex;
-
+      TMutex * fxDirMutex{nullptr};
 
       /**
        * List of matching objects for name expression.
        */
-      TList * fxMatchList;//!
+      TList * fxMatchList{nullptr};//!
 
       /** Iterator for list of matching objects. */
-      TIterator * fxMatchIterator; //!
-
+      TIterator * fxMatchIterator{nullptr}; //!
 
       /**
        * Event counter for dynamic list processing.
        * After each fgiDYNLISTINTERVAL counts the entries in the dynamic list
        * are updated with the previous events (e.g. loop over a tree for this range)
        */
-      Int_t fiDynListCount;
+      Int_t fiDynListCount{0};
 
       /**
        * Interval for dynamic list processing
        */
-      Int_t fiDynListInterval;
+      Int_t fiDynListInterval{0};
 
       /**
        * Boolean flag indicates, if object was created
        * in last calls of one of Make* functions
        */
-      Bool_t fbCreatedinMake;    //!
+      Bool_t fbCreatedinMake{kFALSE};    //!
 
       /**
        * If this is set to true, any found histogram
@@ -835,12 +830,12 @@ class TGo4AnalysisObjectManager : public TNamed {
        * To be used to avoid Picture referenced Histograms to
        * appear in the Pictures folder
        */
-      Bool_t fbSuppressLoadHistograms;    //!
+      Bool_t fbSuppressLoadHistograms{kFALSE};    //!
 
       /**
        * Is sub-folder created is sorted order
        */
-      Bool_t fbSortedOrder;    //!
+      Bool_t fbSortedOrder{kFALSE};    //!
 
       /**
        * Add any named object to a folder. Used by AddHistogram, AddParameter etc. methods.
@@ -850,12 +845,12 @@ class TGo4AnalysisObjectManager : public TNamed {
        * if resetbits is true, go4 deletion and reset protection bits are set to defaults.
        * Otherwise, object bits of ob are not touched.
        */
-      Bool_t AddObjectToFolder(TObject * ob,
-            TFolder* fold,
-            const char* subfolder = nullptr,
-            Bool_t replace=kTRUE,
-            Bool_t uniquename=kFALSE,
-            Bool_t resetbits=kTRUE);
+      Bool_t AddObjectToFolder(TObject *ob,
+                               TFolder *fold,
+                               const char* subfolder = nullptr,
+                               Bool_t replace=kTRUE,
+                               Bool_t uniquename=kFALSE,
+                               Bool_t resetbits=kTRUE);
 
       /**
        * Remove object specified by full name ("subfolder/subssubfolder/name") from folder fold.
@@ -870,21 +865,21 @@ class TGo4AnalysisObjectManager : public TNamed {
        * structure of source is recreated in destination, but existing objects are not
        * replaced/deleted unless replace==kTRUE
        */
-      Bool_t LoadFolder(TFolder* source, TFolder* destination, Bool_t replace=kFALSE);
+      Bool_t LoadFolder(TFolder* source, TFolder* destination, Bool_t replace = kFALSE);
 
       /**
        * Update folder destination with the content of the directory source. Subdirectory
        * structure of source is converted into subfolder of destination, but existing objects are not
        * replaced/deleted unless replace==kTRUE
        */
-      Bool_t LoadFolder(TDirectory* source, TFolder* destination, Bool_t replace=kFALSE);
+      Bool_t LoadFolder(TDirectory* source, TFolder* destination, Bool_t replace = kFALSE);
 
       /**
        * Method used by both LoadFolder variants to assign object ob into destination
        * folder by object type. If replace is kTRUE, previous objects of same name
        * are replaced by ob.
        */
-      Bool_t PutToFolder(TObject* ob, TFolder* destination, Bool_t replace=kFALSE);
+      Bool_t PutToFolder(TObject* ob, TFolder* destination, Bool_t replace = kFALSE);
 
 
       /**
@@ -989,11 +984,10 @@ class TGo4AnalysisObjectManager : public TNamed {
        * it will be returned, otherwise it will be destroyed
        * Used by different Make* functions
        */
-
       TObject* TestObject(TFolder* folder,
-            const char* &pathname,
-            const char* objectname,
-            const TClass* cl);
+                          const char* &pathname,
+                          const char* objectname,
+                          const TClass* cl);
 
 };
 

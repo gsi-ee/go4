@@ -123,14 +123,14 @@ class TGo4Log {
       static void Error(const char* text,...) GO4_PRINTF_ARGS;
 
       /** Make direct printf without log file or logger */
-      static void Printf(Bool_t _stdout, const char* text);
+      static void Printf(Bool_t _stdout, const char *text);
 
       /** Printout rate and events count, handle redirection */
       static void PrintRate(ULong64_t cnt, double rate);
 
       /** Write text to current logfile if this is open.
         * Prefix current  datime in each line if "withtime" is true */
-      static void WriteLogfile(const char* text, Bool_t withtime=kTRUE);
+      static void WriteLogfile(const char* text, Bool_t withtime = kTRUE);
 
       /** dummy for compatibility */
       static void set_trace_level(int) {}
