@@ -59,7 +59,7 @@ class TLogTimer : public TTimer {
    public:
       TLogTimer(Int_t millisec) : TTimer(millisec) {}
 
-      virtual Bool_t Notify() { TGo4Log::ProcessRedirection(); return kTRUE; }
+      Bool_t Notify() override { TGo4Log::ProcessRedirection(); return kTRUE; }
 };
 
 

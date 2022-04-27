@@ -30,11 +30,11 @@ public:
 
    virtual ~TGo4ObjConnectorTimer();
 
-   virtual Bool_t Notify();
+   Bool_t Notify() override;
 
 protected:
    /** the object server to which this timer belongs */
-   TGo4HistogramServer *fxServer; //!
+   TGo4HistogramServer *fxServer{nullptr}; //!
 };
 
 #endif //TGO4TASKCONNECTORTIMER_H

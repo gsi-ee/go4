@@ -31,12 +31,12 @@ class TGo4TaskConnectorTimer : public TTimer {
 
       virtual ~TGo4TaskConnectorTimer();
 
-      virtual Bool_t Notify ();
+      Bool_t Notify() override;
 
   protected:
 
       /** The servertask to which this timer belongs */
-      TGo4ServerTask* fxServer; //!
+      TGo4ServerTask *fxServer{nullptr}; //!
 
   private:
       TGo4TaskConnectorTimer();
