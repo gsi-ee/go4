@@ -514,7 +514,7 @@ Int_t TGo4FitDataIter::CountPoints(Bool_t UseRanges) {
   Int_t cnt=0;
   do {
     cnt+=1;
-  } while (Next(UseRanges)) ;
+  } while (Next(UseRanges));
   return cnt;
 }
 

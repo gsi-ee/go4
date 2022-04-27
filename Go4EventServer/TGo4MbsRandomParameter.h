@@ -20,11 +20,11 @@ class TGo4MbsRandomParameter : public TGo4MbsSourceParameter {
 
   public:
 
-    TGo4MbsRandomParameter() ;
+    TGo4MbsRandomParameter();
 
     TGo4MbsRandomParameter(const char* name);
 
-    virtual ~TGo4MbsRandomParameter() ;
+    virtual ~TGo4MbsRandomParameter();
 
   ClassDefOverride(TGo4MbsRandomParameter, 2)
 };

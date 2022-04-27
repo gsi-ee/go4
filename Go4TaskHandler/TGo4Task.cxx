@@ -445,7 +445,7 @@ Bool_t TGo4Task::SubmitCommand(const char* name)
          com = new TGo4RemoteCommand(name);
          //std::cout <<"submitted remote command of "<<name << std::endl;
       }
-      return (SubmitCommand(com)) ;
+      return (SubmitCommand(com));
    }
 }
 

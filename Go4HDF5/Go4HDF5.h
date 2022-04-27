@@ -23,7 +23,7 @@
 #ifdef GO4HDF5_DEBUG
 #define go4hdfdbg( args... )  printf( args );
 #else
-#define  go4hdfdbg( args...) ;
+#define  go4hdfdbg( args...);
 
 #endif
 

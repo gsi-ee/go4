@@ -375,7 +375,7 @@ void TGo4MainWindow::about()
    GO4STR.append ( __GO4RELEASE__);
    QString GO4STR1 = GO4STR;
    GO4STR1.append("<br>");
-   GO4STR1.append("The Go4 (GSI Object Oriented On-line Off-line system) is based on ROOT<br> with the specific requirements of the low and medium energy nuclear and atomic<br> physics experiments implemented as extensions.<br> See <a href='http://go4.gsi.de'>http://go4.gsi.de</a> for more information") ;
+   GO4STR1.append("The Go4 (GSI Object Oriented On-line Off-line system) is based on ROOT<br> with the specific requirements of the low and medium energy nuclear and atomic<br> physics experiments implemented as extensions.<br> See <a href='http://go4.gsi.de'>http://go4.gsi.de</a> for more information");
 
    QMessageBox AboutGo4(GO4STR, GO4STR1, QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
    AboutGo4.setIconPixmap(QPixmap( ":/icons/go4logo2_big.png"));
@@ -1443,7 +1443,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
    setWindowTitle(capt);
 
    bool flag = false;
-   if (pr==0) flag = (ht==0 ?  true: false) ;
+   if (pr==0) flag = (ht==0 ?  true: false);
    faLaunchAnal->setEnabled(flag);
    // JAM here check again ratemeter connection, if http server was disconnected by browser popup close item:
    EstablishRatemeter(flag? 0: 1);
@@ -1460,7 +1460,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
       }
     }
 
-   if (pr==0) flag = (ht==0 ?  true: false) ;
+   if (pr==0) flag = (ht==0 ?  true: false);
          else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    faConnectAnal->setEnabled(flag);
 

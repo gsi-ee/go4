@@ -28,7 +28,7 @@ class TGo4BufferQueue : public TGo4Queue {
 
    public:
 
-      TGo4BufferQueue() ;
+      TGo4BufferQueue();
 
       TGo4BufferQueue(const char* name);
 

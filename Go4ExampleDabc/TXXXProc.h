@@ -28,7 +28,7 @@ class TXXXProc : public TGo4EventProcessor {
 #endif
 
    public:
-      TXXXProc() ;
+      TXXXProc();
       TXXXProc(const char *name);
       virtual ~TXXXProc();
 

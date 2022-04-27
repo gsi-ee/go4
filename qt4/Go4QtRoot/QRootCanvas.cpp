@@ -588,12 +588,12 @@ void QRootCanvas::UseCurrentStyle()
 
 void QRootCanvas::ForceUpdate()
 {
-   fCanvas->ForceUpdate() ;
+   fCanvas->ForceUpdate();
 }
 
 const char  *QRootCanvas::GetDISPLAY()
 {
-   return fCanvas->GetDISPLAY() ;
+   return fCanvas->GetDISPLAY();
 }
 
 TContextMenu  *QRootCanvas::GetContextMenu()
@@ -623,7 +623,7 @@ Int_t QRootCanvas::GetEventY()
 
 Color_t QRootCanvas::GetHighLightColor()
 {
-   return fCanvas->GetHighLightColor() ;
+   return fCanvas->GetHighLightColor();
 }
 
 TVirtualPad *QRootCanvas::GetPadSave()
@@ -633,7 +633,7 @@ TVirtualPad *QRootCanvas::GetPadSave()
 
 TObject *QRootCanvas::GetSelected()
 {
-   return fCanvas->GetSelected() ;
+   return fCanvas->GetSelected();
 }
 
 Option_t* QRootCanvas::GetSelectedOpt()
@@ -648,7 +648,7 @@ TVirtualPad* QRootCanvas::GetSelectedPad()
 
 Bool_t QRootCanvas::GetShowEventStatus()
 {
-   return fCanvas->GetShowEventStatus() ;
+   return fCanvas->GetShowEventStatus();
 }
 
 Bool_t QRootCanvas::GetAutoExec()
@@ -693,7 +693,7 @@ Int_t QRootCanvas::GetWindowTopY()
 
 UInt_t QRootCanvas::GetWindowWidth()
 {
-   return fCanvas->GetWindowWidth() ;
+   return fCanvas->GetWindowWidth();
 }
 
 UInt_t QRootCanvas::GetWindowHeight()
@@ -708,7 +708,7 @@ UInt_t QRootCanvas::GetWw()
 
 UInt_t QRootCanvas::GetWh()
 {
-   return fCanvas->GetWh() ;
+   return fCanvas->GetWh();
 }
 
 void QRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &wh)
@@ -723,7 +723,7 @@ void QRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
 
 Bool_t QRootCanvas::HasMenuBar()
 {
-   return fCanvas->HasMenuBar() ;
+   return fCanvas->HasMenuBar();
 }
 
 void QRootCanvas::Iconify()
@@ -733,7 +733,7 @@ void QRootCanvas::Iconify()
 
 Bool_t QRootCanvas::IsBatch()
 {
-   return fCanvas->IsBatch() ;
+   return fCanvas->IsBatch();
 }
 
 Bool_t QRootCanvas::IsRetained()
@@ -808,12 +808,12 @@ void QRootCanvas::SetDoubleBuffer(Int_t mode)
 
 void QRootCanvas::SetWindowPosition(Int_t x, Int_t y)
 {
-   fCanvas->SetWindowPosition(x, y) ;
+   fCanvas->SetWindowPosition(x, y);
 }
 
 void QRootCanvas::SetWindowSize(UInt_t ww, UInt_t wh)
 {
-   fCanvas->SetWindowSize(ww,wh) ;
+   fCanvas->SetWindowSize(ww,wh);
 }
 
 void QRootCanvas::SetCanvasSize(UInt_t ww, UInt_t wh)
@@ -999,7 +999,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
       qDebug( "** QString values (first ) :%s \n", s.toLatin1().constData() );
-      tobjlist.AddLast(new TObjString(s.toLatin1().constData())) ;
+      tobjlist.AddLast(new TObjString(s.toLatin1().constData()));
    }
 
    // handle command if existing object

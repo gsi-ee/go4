@@ -22,8 +22,8 @@ class TGo4FileSource;
 class TMeshB3InputEvent : public TGo4EventElement {
    public:
       TMeshB3InputEvent();
-      TMeshB3InputEvent(const char* name) ;
-      virtual ~TMeshB3InputEvent() ;
+      TMeshB3InputEvent(const char* name);
+      virtual ~TMeshB3InputEvent();
       Int_t Fill() override;
       void Clear(Option_t *t="") override;
       Int_t Init() override;

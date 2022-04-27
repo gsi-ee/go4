@@ -128,7 +128,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       Int_t             GetEventY();
       Color_t           GetHighLightColor();
       TVirtualPad      *GetPadSave();
-      TObject          *GetSelected() ;
+      TObject          *GetSelected();
       Option_t         *GetSelectedOpt();
       TVirtualPad      *GetSelectedPad();
       Bool_t            GetShowEventStatus();
@@ -153,8 +153,8 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      ls(Option_t *option="");
       void              Modified(Bool_t=1);
       void              MoveOpaque(Int_t set=1);
-      Bool_t            OpaqueMoving() ;
-      Bool_t            OpaqueResizing() ;
+      Bool_t            OpaqueMoving();
+      Bool_t            OpaqueResizing();
       virtual void      Paint(Option_t *option="");
       virtual TPad     *Pick(Int_t px, Int_t py, TObjLink *&pickobj);
       virtual TPad     *Pick(Int_t px, Int_t py, TObject *prevSelObj);

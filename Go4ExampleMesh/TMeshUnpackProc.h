@@ -24,7 +24,7 @@ class TGo4MbsEvent;
 
 class TMeshUnpackProc : public TGo4EventProcessor {
    public:
-      TMeshUnpackProc() ;
+      TMeshUnpackProc();
       TMeshUnpackProc(const char* name);
       virtual ~TMeshUnpackProc();
 

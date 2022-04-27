@@ -180,9 +180,9 @@ void TGo4MBSViewer::Display()
    if(fxDaqStat.l_open_file)
       OutfileLabel->setText(fxDaqStat.c_file_name);
    else
-      OutfileLabel->setText("- file closed -") ;
+      OutfileLabel->setText("- file closed -");
 
-   ServerLabel->setText(fxServerLabel) ;
+   ServerLabel->setText(fxServerLabel);
    ServerPercent->display((int) fiEvRatio);
    if(fbRunning && !fbWarningState){
       RunPix->clear();

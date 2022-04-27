@@ -39,7 +39,7 @@ class TGo4SimpleEvent : public TGo4EventElement {
 
       TGo4SimpleEvent(Int_t subevtnum);
 
-      virtual ~TGo4SimpleEvent() ;
+      virtual ~TGo4SimpleEvent();
 
       /**
        * Method called by the event owner (analysis step) to fill the
