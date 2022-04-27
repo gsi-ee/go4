@@ -1259,20 +1259,12 @@ void TGo4MainWindow::InputTerminalParametersSlot()
 {
    int size = go4sett->getTermHistorySize();
 
-   bool ok;
+   bool ok = false;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    size = QInputDialog::getInt(this,
                                "Analysis terminal history size in bytes (minimum 10000 bytes)",
                                 "Input 0 if full analysis history should be preserved",
                                 size, 0, 100000000, 10000, &ok);
-#else
-  size = QInputDialog::getInteger(this,
-                               "Analysis terminal history size in bytes (minimum 10000 bytes)",
-                                "Input 0 if full analysis history should be preserved",
-                                size, 0, 100000000, 10000, &ok);
-#endif
-
 
    if ((size>0) && (size<10000)) size = 10000;
 
@@ -1611,17 +1603,10 @@ void TGo4MainWindow::DrawLineWidthSlot()
 
    bool ok = false;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    w = QInputDialog::getInt(this,
                             "Default line width for object drawing",
                             "Input 1 to preserve default value",
                              w, 1, 10, 1, &ok);
-#else
-   w = QInputDialog::getInteger(this,
-                               "Default line width for object drawing",
-                                "Input 1 to preserve default value",
-                                w, 1, 10, 1, &ok);
-#endif
 
    if (ok) go4sett->setDrawLineWidth(w);
 }
@@ -1633,17 +1618,10 @@ void TGo4MainWindow::DrawFillColorSlot()
 
    bool ok = false;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    w = QInputDialog::getInt(this,
                             "Default fill color for 1D objects (histogram and graph) drawing",
                             "Input 0 for no fill",
                              w, 0, 50, 1, &ok);
-#else
-   w = QInputDialog::getInteger(this,
-                               "Default fill color for 1D objects (histogram and graph) drawing",
-                                "Input 0 for no fill",
-                                w, 0, 50, 1, &ok);
-#endif
 
    if (ok) go4sett->setDrawFillColor(w);
 }
@@ -1654,17 +1632,10 @@ void TGo4MainWindow::DrawFillStyleSlot()
 
    bool ok = false;
 
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    w = QInputDialog::getInt(this,
                             "Default fill style for 1D objects (histogram and graph) drawing",
                             "Input 1001 for solid fill",
                              w, 0, 4000, 1, &ok);
-#else
-   w = QInputDialog::getInteger(this,
-                               "Default fill style for 1D objects (histogram and graph) drawing",
-                                "Input 1001 for solid fill",
-                                w, 0, 4000, 1, &ok);
-#endif
 
    if (ok) go4sett->setDrawFillStyle(w);
 }

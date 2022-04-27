@@ -96,7 +96,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
 #if QT_VERSION > QT_VERSION_CHECK(5,6,0)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
-   fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+   fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
 #endif
    //std::cout <<"Found Qt scaling factor:"<<fQtScalingfactor << std::endl;
    // create the context menu
@@ -171,21 +171,18 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
   TGo4LockGuard threadlock;
   (void) threadlock; // suppress compiler warnings
-#if QT_VERSION > QT_VERSION_CHECK(5,0,0)
   // JAM use event timestamp for reduction of events (qt5 bug):
-  static ulong lastprocesstime=0;
-  static ulong delta=100; // maybe ms units?
-  ulong timestamp=e->timestamp();
-  if(timestamp-delta<lastprocesstime)
-       {
-            // just eat too old events
-            e->accept();
-            // std::cout <<"----- EATING timestamp:"<<timestamp<< std::endl;
-            return;
-       }
+  static ulong lastprocesstime = 0;
+  static ulong delta = 100; // maybe ms units?
+  ulong timestamp = e->timestamp();
+  if(timestamp-delta < lastprocesstime) {
+      // just eat too old events
+      e->accept();
+      // std::cout <<"----- EATING timestamp:"<<timestamp<< std::endl;
+      return;
+  }
 
   //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
-#endif
 
 
   if (fCanvas) {
@@ -218,9 +215,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
      if (fStatusBar) fStatusBar->showMessage(buffer.toLatin1().constData());
   }
    e->accept();
-#if QT_VERSION > QT_VERSION_CHECK(5,0,0)
-   lastprocesstime=timestamp;
-#endif
+   lastprocesstime = timestamp;
 }
 
 void  QRootCanvas::wheelEvent( QWheelEvent* e)

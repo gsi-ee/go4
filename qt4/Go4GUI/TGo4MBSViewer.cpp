@@ -51,22 +51,12 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QObject::connect(MoreBox, SIGNAL(toggled(bool)), this, SLOT(MoreBox_toggled(bool)));
    QObject::connect(TrendBinsBox, SIGNAL(valueChanged(int)), this, SLOT(TrendBinsBox_valueChanged(int)));
 
-
-#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    RateEvents->setDigitCount(7);
    SumEvents->setDigitCount(12);
    RateBytes->setDigitCount(7);
    SumBytes->setDigitCount(8);
    ServerPercent->setDigitCount(3);
    SumBytesFile->setDigitCount(9);
-#else
-   RateEvents->setNumDigits(7);
-   SumEvents->setNumDigits(12);
-   RateBytes->setNumDigits(7);
-   SumBytes->setNumDigits(8);
-   ServerPercent->setNumDigits(3);
-   SumBytesFile->setNumDigits(9);
-#endif
 
    fbIsMonitoring=false;
    fbWarningState=false;

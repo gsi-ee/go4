@@ -27,6 +27,7 @@ Changes in Go4 v6.3
 3. Remove TGo4Buffer.h - one can use TBufferFile class directly
 4. Require at least c++11 - as ROOT6
 5. Fully delete out-of-date qt3 part
+6. Remove support of Qt4 - either qt5 or qt6 can be used for compilation
 
 
 Changes in Go4 v6.2.0 (April 2022)
