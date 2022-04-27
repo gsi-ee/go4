@@ -81,7 +81,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    static int wincnt = 1;
 
    fCanvas = new TCanvas(kFALSE);
-   fCanvas->SetName(Form("Canvas%d", wincnt++));
+   fCanvas->SetName(TString::Format("Canvas%d", wincnt++).Data());
    fCanvas->SetTitle("title");
    fCanvas->ResetBit(TCanvas::kShowEditor);
    fCanvas->SetCanvas(fCanvas);
