@@ -92,9 +92,9 @@ class TGo4Log {
        *  defaultname containing pid. Optionally, headercomment text
        *  is set at beginning of file. If appendmode is true, existing
        *  file of same name is reused and extended by new messages.*/
-      static void OpenLogfile(const char* name=0,
-            const char* headercomment=0,
-            Bool_t appendmode=kFALSE);
+      static void OpenLogfile(const char* name = nullptr,
+            const char* headercomment = nullptr,
+            Bool_t appendmode = kFALSE);
 
       /**  Close logfile if existing*/
       static void CloseLogfile();

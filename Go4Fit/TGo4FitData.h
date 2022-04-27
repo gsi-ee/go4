@@ -235,7 +235,7 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Checks, if buffers allocated for data.
        */
-      Bool_t BuffersAllocated() const { return (fxValues!=0) && (fxFullScale!=0); }
+      Bool_t BuffersAllocated() const { return fxValues && fxFullScale; }
 
       /**
        * Return number of data bins in buffers.
@@ -294,29 +294,29 @@ class TGo4FitData : public TGo4FitComponent {
        * Specified type of data:
        *  0 - Histogram, 1 - graphics, 2 and so on - user defined
        */
-      Int_t fiDataType;
+      Int_t fiDataType{0};
 
       /**
        * Use binary numbers as scale values.
        * if this flag set, bin numbers are used as scale values
        */
-      Bool_t fbUseBinScale;
+      Bool_t fbUseBinScale{kFALSE};
 
       /**
        * Specify sigma source.
        * 0 - no sigmas, 1 -  try take from data, 2 - constant value (fdSigmaValue)
        */
-      Int_t fiTakeSigmasFrom;
+      Int_t fiTakeSigmasFrom{0};
 
       /**
        * Value of sigma when fiTakeSigmasFrom = 2
        */
-      Double_t fdSigmaValue;
+      Double_t fdSigmaValue{0};
 
       /**
        * Sets limit for exclude bins, which less then this limit
        */
-      Double_t fdExcludeLessThen;
+      Double_t fdExcludeLessThen{0};
 
       /**
        * Array of slots for scale transformation objects.
