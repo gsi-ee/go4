@@ -45,7 +45,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
     virtual void ChangeColor(int kind);
 
  public slots:
-    virtual void panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid );
+    virtual void panelSlot( TGo4ViewPanel * panel,TPad *pad, int signalid );
     virtual void SetDrawOptions( int t );
     virtual void SetErrorBars( int t );
     virtual void SetCoordinates( int t );

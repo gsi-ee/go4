@@ -117,7 +117,7 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
 
    virtual void SetContourLevels(int nlvl);
 
-   virtual void panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid );
+   virtual void panelSlot( TGo4ViewPanel * panel,TPad *pad, int signalid );
 
 
  protected:

@@ -184,17 +184,17 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
    protected:
 
-      virtual void      dropEvent( QDropEvent *Event );
-      virtual void      dragEnterEvent( QDragEnterEvent *e );
-      virtual void      mousePressEvent( QMouseEvent *e );
-      virtual void      mouseReleaseEvent( QMouseEvent *e );
-      virtual void      resizeEvent( QResizeEvent *e );
-      virtual void      paintEvent( QPaintEvent *e );
-      virtual void      mouseDoubleClickEvent(QMouseEvent* e );
-      virtual void      mouseMoveEvent(QMouseEvent *e);
-      virtual void      wheelEvent( QWheelEvent* e);
-      virtual void      leaveEvent(QEvent *e);
-      virtual void      closeEvent( QCloseEvent * e);
+      void      dropEvent( QDropEvent *Event ) override;
+      void      dragEnterEvent( QDragEnterEvent *e ) override;
+      void      mousePressEvent( QMouseEvent *e ) override;
+      void      mouseReleaseEvent( QMouseEvent *e ) override;
+      void      resizeEvent( QResizeEvent *e ) override;
+      void      paintEvent( QPaintEvent *e ) override;
+      void      mouseDoubleClickEvent(QMouseEvent* e ) override;
+      void      mouseMoveEvent(QMouseEvent *e) override;
+      void      wheelEvent( QWheelEvent* e) override;
+      void      leaveEvent(QEvent *e) override;
+      void      closeEvent( QCloseEvent * e) override;
 
 
       /** returns scaled point coordinate, for high dpi case*/
@@ -202,7 +202,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       QPoint scaledMousePoint(QMouseEvent *ev);
 
-      virtual QPaintEngine * paintEngine () const {return 0;}
+      virtual QPaintEngine * paintEngine () const { return nullptr; }
 
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
