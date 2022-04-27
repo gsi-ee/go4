@@ -115,7 +115,7 @@ class TGo4Command  : public TNamed {
    protected:
       TGo4CommandReceiver *fxReceiverBase{nullptr}; //!
 
-   ClassDef(TGo4Command, 1)
+   ClassDefOverride(TGo4Command, 1)
 };
 
 #endif //TGO4COMMAND_H

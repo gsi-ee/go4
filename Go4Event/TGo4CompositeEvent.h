@@ -24,48 +24,48 @@ class TGo4CompositeEvent : public TGo4EventElement {
   protected:
 
     /** Number of Elements in composite */
-    Short_t fNElements;
+    Short_t fNElements{0};
 
     /** Sub-Events list for this event */
-    TObjArray *fEventElements; //!
+    TObjArray *fEventElements{nullptr}; //!
 
     /** Maximum index (i.e. array size to provide when reading back tree) */
-    Short_t fMaxIndex;
+    Short_t fMaxIndex{0};
 
   public:
      TGo4CompositeEvent();
      TGo4CompositeEvent(const char* aName, const char* aTitle, Short_t aBaseCat=0);
      virtual ~TGo4CompositeEvent();
 
-     virtual TGo4EventElement* GetChild(const char* name);
+     TGo4EventElement* GetChild(const char* name) override;
 
-     virtual void makeBranch(TBranch *parent);
+     void makeBranch(TBranch *parent) override;
 
-     virtual Int_t activateBranch(TBranch *branch, Int_t init = 0, TGo4EventElement** var_ptr = 0);
+     Int_t activateBranch(TBranch *branch, Int_t init = 0, TGo4EventElement** var_ptr = nullptr) override;
 
-     virtual void deactivate();
-     virtual void activate();
+     void deactivate() override;
+     void activate() override;
 
      Bool_t addEventElement(TGo4EventElement* aElement, Bool_t reading = kFALSE);
 
-     virtual TTree* CreateSampleTree(TGo4EventElement** sample = 0);
+     TTree* CreateSampleTree(TGo4EventElement** sample = nullptr) override;
 
      TGo4EventElement *getEventElement(Int_t idx);
      TGo4EventElement *getEventElement(const char* name,Int_t final=0);
-     void Clear(Option_t *opt="");
+     void Clear(Option_t *opt="") override;
      Short_t getNElements() const { return fNElements; }
      Short_t getMaxIndex() const { return fMaxIndex; }
-     virtual Bool_t isComposed() { return kTRUE; }
+     Bool_t isComposed() override { return kTRUE; }
      TObjArray* getElements() { return fEventElements;}
      TObjArray* getListOfComposites(Bool_t toplevel=kTRUE);
-     TGo4EventElement& operator[]( Int_t i );
+     TGo4EventElement& operator[](Int_t i) override;
 
   protected:
 
      void ProvideArray();
 
 
-  ClassDef(TGo4CompositeEvent,2)
+  ClassDefOverride(TGo4CompositeEvent,2)
 };
 
 #endif

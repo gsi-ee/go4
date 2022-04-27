@@ -31,7 +31,7 @@ class TGo4TaskHandlerCommandList : public TGo4CommandProtoList {
   private:
     TGo4TaskHandlerCommandList();
 
-   ClassDef(TGo4TaskHandlerCommandList,1)
+   ClassDefOverride(TGo4TaskHandlerCommandList,1)
 };
 
 #endif //TGO4TASKHANDLERCOMMANDLIST_H

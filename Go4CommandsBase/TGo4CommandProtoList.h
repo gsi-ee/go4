@@ -56,13 +56,13 @@ class TGo4CommandProtoList : public TNamed {
 
     /** @link aggregation
         *   @supplierCardinality 1 */
-    TObjArray * fxCommandList;  //!
+    TObjArray *fxCommandList{nullptr};  //!
 
     /** @link aggregation
      *   @supplierCardinality 1 */
-    TMutex * fxListMutex; //!
+    TMutex *fxListMutex{nullptr}; //!
 
-   ClassDef(TGo4CommandProtoList,1)
+   ClassDefOverride(TGo4CommandProtoList,1)
 };
 
 #endif //TGO4COMMANDPROTOLIST_H
