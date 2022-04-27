@@ -27,26 +27,26 @@ class TGo4SlotIter : public TGo4LevelIter {
 
       virtual ~TGo4SlotIter() {}
 
-      virtual Bool_t next()
-         { return (fSlot!=0) && (++fIndex<fSlot->NumChilds()); }
+      Bool_t next() override
+         { return fSlot && (++fIndex<fSlot->NumChilds()); }
 
-      virtual Bool_t isfolder() { return curSlot()->HasSubLevels(); }
+      Bool_t isfolder() override { return curSlot()->HasSubLevels(); }
 
-      virtual Bool_t isslotsfolder() { return curSlot()->HasSlotsSubLevels(); }
+      Bool_t isslotsfolder() override { return curSlot()->HasSlotsSubLevels(); }
 
-      virtual TGo4LevelIter* subiterator() { return curSlot()->MakeLevelIter(); }
+      TGo4LevelIter* subiterator() override { return curSlot()->MakeLevelIter(); }
 
-      virtual TGo4Slot* getslot() { return curSlot(); }
+      TGo4Slot* getslot() override { return curSlot(); }
 
-      virtual const char* name() { return curSlot()->GetName();  }
+      const char* name() override { return curSlot()->GetName();  }
 
-      virtual const char* info() { return curSlot()->GetInfo(); }
+      const char* info() override { return curSlot()->GetInfo(); }
 
-      virtual Int_t sizeinfo() { return curSlot()->GetSizeInfo(); }
+      Int_t sizeinfo() override { return curSlot()->GetSizeInfo(); }
 
-      virtual Int_t GetKind() { return curSlot()->GetSlotKind(); }
+      Int_t GetKind() override { return curSlot()->GetSlotKind(); }
 
-      virtual const char* GetClassName() { return curSlot()->GetSlotClassName(); }
+      const char* GetClassName() override { return curSlot()->GetSlotClassName(); }
 
     protected:
        TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }

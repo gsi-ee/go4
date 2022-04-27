@@ -75,26 +75,26 @@ class TGo4BrowserObjProxy : public TGo4ObjectProxy {
       TGo4BrowserObjProxy() : TGo4ObjectProxy() {}
       TGo4BrowserObjProxy(TGo4Slot* slot, TObject* obj, Bool_t owner) : TGo4ObjectProxy(obj, owner)
       {
-        if ((slot!=0) && (obj!=0))
+        if (slot && obj)
           TGo4BrowserProxy::SetItemTimeDate(slot);
       }
 
       virtual ~TGo4BrowserObjProxy() {}
 
-      virtual Bool_t Use() const { return kFALSE; }
+      Bool_t Use() const override { return kFALSE; }
 
-      virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
+      Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override
       {
         if (fObject==obj) return kTRUE;
 
         Bool_t updatedone = false;
 
-        if ((fObject!=0) && (obj!=0))
+        if (fObject && obj)
            if ((fObject->IsA()==obj->IsA()) &&
               (strcmp(fObject->GetName(), obj->GetName())==0))
                 updatedone = TGo4BrowserProxy::UpdateObjectContent(fObject, obj);
 
-        if (obj!=0)
+        if (obj)
           TGo4BrowserProxy::SetItemTimeDate(slot);
 
         if (updatedone) {
@@ -106,20 +106,20 @@ class TGo4BrowserObjProxy : public TGo4ObjectProxy {
         return TGo4ObjectProxy::AssignObject(slot, obj, owner);
       }
 
-      virtual void Update(TGo4Slot* slot, Bool_t strong)
+      void Update(TGo4Slot* slot, Bool_t strong) override
       {
          // can not update object which is not there
-         if ((fObject==0) && !strong) return;
+         if (!fObject && !strong) return;
 
          TGo4Slot* parent = slot->GetParent();
-         TGo4BrowserProxy* browser = 0;
+         TGo4BrowserProxy* browser = nullptr;
 
-         while(parent!=0)  {
+         while(parent)  {
             browser = dynamic_cast<TGo4BrowserProxy*> (parent->GetProxy());
             if (browser!=0) break;
             parent = parent->GetParent();
          }
-         if (browser!=0)
+         if (browser)
            browser->RequestBrowserObject(slot);
       }
 };
