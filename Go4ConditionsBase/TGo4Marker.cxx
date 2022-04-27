@@ -13,14 +13,13 @@
 
 #include "TGo4Marker.h"
 
-#include <iostream>
-
 #include "TH1.h"
 #include "TROOT.h"
 #include "TVirtualPad.h"
 
 #include "TGo4MarkerPainter.h"
 #include "TGo4Log.h"
+#include "TGo4Status.h"
 
 UInt_t TGo4Marker::fguInstanceCounter = 0;
 
@@ -40,23 +39,15 @@ Int_t TGo4Marker::GetInstances()
 }
 
 
-TGo4Marker::TGo4Marker(Double_t x, Double_t y, Int_t style)
-: TMarker(x,y,style),fxPainter(0),
-   fbIsPainted(kFALSE), fbVisible(kTRUE), fbHasLabel(kTRUE), fbHasConnector(kTRUE),
-   fbXDraw(kTRUE), fbYDraw(kTRUE), fbXbinDraw(kTRUE), fbYbinDraw(kTRUE), fbContDraw(kTRUE),
-   fxHisto(0),fxDrawPad(0)
+TGo4Marker::TGo4Marker(Double_t x, Double_t y, Int_t style) : TMarker(x,y,style)
 {
-   fxName="Marker ";
-   fxName+=++fguInstanceCounter;
+   fxName = "Marker ";
+   fxName += ++fguInstanceCounter;
    InitLabelStyle();
    SetBit(kMustCleanup);
 }
 
-TGo4Marker::TGo4Marker()
-: TMarker(), fxPainter(0),
-   fbIsPainted(kFALSE), fbVisible(kTRUE), fbHasLabel(kTRUE), fbHasConnector(kTRUE),
-   fbXDraw(kTRUE), fbYDraw(kTRUE), fbXbinDraw(kTRUE), fbYbinDraw(kTRUE), fbContDraw(kTRUE),
-   fxHisto(0),fxDrawPad(0)
+TGo4Marker::TGo4Marker() : TMarker()
 {
 //++fguInstanceCounter; // do not increment instances by streaming
    InitLabelStyle();
@@ -75,19 +66,19 @@ void TGo4Marker::SetDrawPad(TVirtualPad* pad)
    fxDrawPad=pad;
 }
 
-Bool_t TGo4Marker::CheckDrawPad()
+Bool_t TGo4Marker::CheckDrawPad() const
 {
-   return fxDrawPad!=0;
+   return fxDrawPad != nullptr;
 }
 
 void TGo4Marker::SetHistogram(TH1* histo)
 {
-   fxHisto=histo;
+   fxHisto = histo;
 }
 
-Bool_t TGo4Marker::CheckHistogram()
+Bool_t TGo4Marker::CheckHistogram() const
 {
-   return fxHisto!=0;
+   return fxHisto != nullptr;
 }
 
 
@@ -102,15 +93,15 @@ void TGo4Marker::Paint(Option_t* opt)
       }
    if(!IsPainted() || GetDrawPad()!=gPad) return; // supress invisible markers (optional)
    TMarker::Paint(opt);
-   if(fxPainter==0) fxPainter=CreatePainter();
+   if(!fxPainter) fxPainter = CreatePainter();
    // marker subclass may not provide a real painter, then we skip painting:
-   if(fxPainter!=0) fxPainter->PaintLabel(opt);
+   if(fxPainter) fxPainter->PaintLabel(opt);
 }
 
 void TGo4Marker::Draw(Option_t* opt)
 {
    if(IsVisible()) {
-      if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==0) {
+      if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==nullptr) {
          UnDraw();
          AppendPad(opt);
          SetPainted(kTRUE);
@@ -124,36 +115,33 @@ void TGo4Marker::Draw(Option_t* opt)
 void TGo4Marker::UnDraw(Option_t* opt)
 {
    SetPainted(kFALSE);
-   SetDrawPad(0);
+   SetDrawPad(nullptr);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
 
-   // Sergey: 15.07.2019.  Not sure if painter has to be created to remove marker (from pad where it never was drawn?)
-   // if(fxPainter==0) fxPainter = CreatePainter();
-
    // marker subclass may not provide a real painter, then we skip unpainting:
-   if(fxPainter!=0) fxPainter->UnPaintLabel();
+   if(fxPainter) fxPainter->UnPaintLabel();
 }
 
 void TGo4Marker::Pop()
 {
-   if(fxPainter!=0) fxPainter->DisplayToFront();
+   if(fxPainter) fxPainter->DisplayToFront();
 }
 
 
 void TGo4Marker::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-   if (gPad == 0)
+   if (!gPad)
       return;
    TMarker::ExecuteEvent(event, px, py);
    if (event == kButton1Up) {
-      if (fxPainter != 0)
+      if (fxPainter)
          fxPainter->DisplayToFront();
    }
 }
 
 TGo4MarkerPainter* TGo4Marker::CreatePainter()
 {
-   TGo4MarkerPainter* painter=new TGo4MarkerPainter(GetName());
+   TGo4MarkerPainter* painter = new TGo4MarkerPainter(GetName());
    painter->SetMarker(this);
    return painter;
 }
@@ -175,29 +163,26 @@ void TGo4Marker::SetToBin(Int_t xbin, Int_t ybin)
    SetY(y);
 }
 
-Int_t TGo4Marker::GetXbin()
+Int_t TGo4Marker::GetXbin() const
 {
    if (!CheckHistogram() || !CheckDrawPad())
       return -1;
-   Int_t binx = fxHisto->GetXaxis()->FindFixBin(fxDrawPad->PadtoX(GetX()));
-   return binx;
+   return fxHisto->GetXaxis()->FindFixBin(fxDrawPad->PadtoX(GetX()));
 }
 
-Int_t TGo4Marker::GetYbin()
+Int_t TGo4Marker::GetYbin() const
 {
    if (!CheckHistogram() || !CheckDrawPad())
       return -1;
-   Int_t biny = fxHisto->GetYaxis()->FindFixBin(fxDrawPad->PadtoY(GetY()));
-   return biny;
+   return fxHisto->GetYaxis()->FindFixBin(fxDrawPad->PadtoY(GetY()));
 }
 
-Int_t TGo4Marker::GetCont()
+Int_t TGo4Marker::GetCont() const
 {
    if (!CheckHistogram() || !CheckDrawPad())
       return -1;
    Int_t bin = fxHisto->GetBin(GetXbin(), GetYbin());
-   Stat_t content = fxHisto->GetBinContent(bin);
-   return (Int_t)content;
+   return (Int_t) fxHisto->GetBinContent(bin);
 }
 
 Double_t TGo4Marker::GetLabelX()
@@ -224,19 +209,6 @@ Double_t TGo4Marker::GetLabelY()
 
 void TGo4Marker::Print(Option_t *opt) const
 {
-   TGo4Marker *localthis = const_cast<TGo4Marker *>(this);
-   localthis->PrintMarker(opt);
-}
-
-//void TGo4Marker::DeleteMarker()
-//{
-//   Delete("");
-//}
-
-void TGo4Marker::PrintMarker(Option_t *opt)
-{
-   TString option = opt;
-   option.ToLower();
    TString textbuffer = "Marker ";
    textbuffer += GetName();
    textbuffer += " with";
@@ -249,10 +221,13 @@ void TGo4Marker::PrintMarker(Option_t *opt)
 
    textbuffer += TString::Format("\n    X:  \t\tY:  \t\tXbin:\t\tYbin:\t\tCounts:\n    %.2f\t\t%.2f\t\t%d\t\t%d\t\t%d",
                                  GetX(), GetY(), GetXbin(), GetYbin(), GetCont());
+
+   TString option = opt;
+   option.ToLower();
    if (option.Contains("go4log"))
       TGo4Log::Message(1, textbuffer.Data());
    else
-      std::cout << textbuffer.Data() << std::endl;
+      TGo4Status::PrintLine("%s", textbuffer.Data());
 }
 
 void TGo4Marker::SaveLabelStyle()
@@ -309,7 +284,7 @@ void TGo4Marker::GetGlobalStyle(Bool_t &HASLABEL, Bool_t &HASCONNECTOR, Bool_t &
 
 void TGo4Marker::ResetLabel()
 {
-   if (fxPainter != 0) {
+   if (fxPainter) {
       fxPainter->UnPaintLabel("reset");
       fxPainter->PaintLabel();
    }
@@ -317,8 +292,8 @@ void TGo4Marker::ResetLabel()
 
 void TGo4Marker::DeletePainter()
 {
-   if (fxPainter != 0) {
+   if (fxPainter) {
       delete fxPainter;
-      fxPainter = 0;
+      fxPainter = nullptr;
    }
 }
