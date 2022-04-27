@@ -803,14 +803,13 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
       printf("\n"); fflush(stdout);
    }
    delete fxRate;
-   fxRate=0;
+   fxRate = nullptr;
    /////////// end outer catch block
    return cnt;
 }
 
 ////////////////////////////////////////////////////////////
 // dynamic list stuff:
-
 
 Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char* listname)
 {
@@ -841,7 +840,7 @@ void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus* state)
 void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 {
    GO4TRACE((11,"TGo4Analysis::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
-   if(state!=0) {
+   if(state) {
       // first we close down existing  analysis:
       CloseAnalysis();
       SetAutoSaveInterval(state->GetAutoSaveInterval());
@@ -870,12 +869,12 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
             dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( GetName() ) );
       if (state==0) {
          TIter iter(statusfile->GetListOfKeys());
-         TKey* key = 0;
-         while ((key = (TKey*)iter()) != 0) {
+         TKey* key = nullptr;
+         while ((key = (TKey*)iter()) != nullptr) {
             if (strcmp(key->GetClassName(),"TGo4AnalysisStatus")==0) break;
          }
 
-         if (key!=0) state = dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( key->GetName() ) );
+         if (key) state = dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( key->GetName() ) );
       }
 
       // name of status object is name of analysis itself
@@ -957,12 +956,9 @@ TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
    return state;
 }
 
-
-
-
 void TGo4Analysis::Print(Option_t*) const
 {
-   TGo4Analysis* localthis=const_cast<TGo4Analysis*>(this);
+   TGo4Analysis* localthis = const_cast<TGo4Analysis*>(this);
    TGo4AnalysisStatus* state=localthis->CreateStatus();
    state->PrintStatus();
    delete state;
@@ -972,17 +968,17 @@ TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
 
-   return event ? event->CreateSampleTree(&fxSampleEvent) : 0;
+   return event ? event->CreateSampleTree(&fxSampleEvent) : nullptr;
 }
 
 TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
-   TGo4EventElement* event=0;
+   TGo4EventElement* event = nullptr;
    if(isoutput) event = GetOutputEvent(name);
            else event = GetInputEvent(name);
-   if(event==0) event=GetEventStructure(name);
+   if(!event) event = GetEventStructure(name);
 
    return CreateSingleEventTree(event);
 }
