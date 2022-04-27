@@ -79,10 +79,10 @@ public:
      */
     virtual void RestartMain();
 
-    virtual void Terminate (Bool_t termapp=kTRUE);
+    void Terminate (Bool_t termapp=kTRUE) override;
 
     /** Overwrites the Threadmanager TerminateFast to shutdown the objectserver properly */
-    virtual void TerminateFast ();
+    void TerminateFast() override;
 
     /**
      * Execute string command. Uses gInterpreter by default. May be overridden
@@ -177,7 +177,7 @@ public:
      * Overrides the ThreadManager Initialization; is used to setup the
      * client connections on demand; checks for fbConnectRequest flag
      */
-    virtual Int_t Initialization();
+    Int_t Initialization() override;
 
     /**
      * create a status object with information on the
@@ -308,45 +308,44 @@ public:
     void SetSlave(TGo4Slave* s);
 
     /** the command list which holds all command prototypes */
-    TGo4TaskHandlerCommandList * fxCommandPrototype; //!
+    TGo4TaskHandlerCommandList * fxCommandPrototype{nullptr}; //!
 
     /** queue for the server side local commands, submitted by the gui or cli */
-    TGo4ObjectQueue* fxLocalCommandQueue; //!
+    TGo4ObjectQueue* fxLocalCommandQueue{nullptr}; //!
 
     /** This flag indicates the main state of the task: either master
       * (sends commands, receives data and status), or slave
       * (receives commands and may send date and status)  */
-    Bool_t fbCommandMaster;
+    Bool_t fbCommandMaster{kFALSE};
 
     /** remember name of localcommand thread */
     TString fxCommanderName;
 
     /** @supplierCardinality 0..1*/
-    TGo4Master * fxMaster; //!
+    TGo4Master *fxMaster{nullptr}; //!
 
     /** @supplierCardinality 0..1*/
-    TGo4Slave * fxSlave; //!
+    TGo4Slave *fxSlave{nullptr}; //!
 
     /** @supplierCardinality 0..1*/
-    TGo4TaskOwner * fxOwner;//!
+    TGo4TaskOwner *fxOwner{nullptr};//!
 
     /** True if user work threads are stopped for connection change */
-    Bool_t fbWorkIsStopped;
-
+    Bool_t fbWorkIsStopped{kFALSE};
 
     /** this buffer is used for stop message for threads */
-    TBuffer* fxStopBuffer; //!
+    TBuffer* fxStopBuffer{nullptr}; //!
 
      /** this buffer is used for quit command  */
-    TBuffer* fxQuitBuffer; //!
+    TBuffer* fxQuitBuffer{nullptr}; //!
 
      /** this buffer is used for emergency socket aborting  */
-    TBuffer* fxAbortBuffer; //!
+    TBuffer* fxAbortBuffer{nullptr}; //!
 
     /** Id number of dummy command that wakes the command queue on termination */
     static const Int_t fgiTERMID;
 
-  ClassDef(TGo4Task,1)
+  ClassDefOverride(TGo4Task,1)
 };
 
 #endif //TGO4TASK_H

@@ -38,9 +38,9 @@ class TGo4ExampleClient : public TGo4ClientTask {
 
    TGo4ExampleApplication* GetApplication();
 
-   virtual void Start();
+   void Start() override;
 
-   virtual void Stop();
+   void Stop() override;
 
    /** Suffix for main thread name */
    static const char* fgcMAINTHREAD; //!
@@ -56,7 +56,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
      * set the values of the clienttask specific
      * part of the status object.
      */
-    virtual void UpdateStatus(TGo4TaskStatus* state);
+    void UpdateStatus(TGo4TaskStatus* state) override;
 
   public:
     /**
@@ -65,7 +65,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
      * server or may be used to restore current status by
      * memento mechanism. Overridden from superclass
      */
-    virtual TGo4TaskStatus * CreateStatus();
+    TGo4TaskStatus * CreateStatus() override;
 
   private:
 
@@ -74,7 +74,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
     /** @link aggregationByValue
      *   @supplierCardinality 1
      * @clientCardinality 0..1*/
-    TGo4ExampleApplication* fxApplication;//!
+    TGo4ExampleApplication* fxApplication{nullptr};//!
 
     /** Remember name of main thread */
     TString fcMainName; //!
@@ -82,7 +82,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
     /** Remember name of watch thread */
     TString fcWatchName; //!
 
-  ClassDef(TGo4ExampleClient,1)
+  ClassDefOverride(TGo4ExampleClient,1)
 };
 
 #endif //TGO4EXAMPLECLIENT_H

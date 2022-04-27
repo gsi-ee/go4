@@ -42,7 +42,7 @@ class TGo4ServerTask : public TGo4Task {
        * Quit method used by quit command; may be overridden
        * in special application
        */
-      virtual void Quit();
+      void Quit() override;
 
       /**
        * Fast Quit() without waiting for proper disconnection.
@@ -56,31 +56,31 @@ class TGo4ServerTask : public TGo4Task {
       TGo4TaskHandler* GetCurrentTaskHandler();
 
       /** Get task handler for client specified by name */
-      TGo4TaskHandler* GetTaskHandler();
+      TGo4TaskHandler* GetTaskHandler() override;
 
       /** Get task handler for client specified by name */
       TGo4TaskHandler* GetTaskHandler(const char* name);
 
-      TGo4BufferQueue* GetCommandQueue(const char* task=0);
+      TGo4BufferQueue* GetCommandQueue(const char* task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char* task=0);
+      TGo4BufferQueue* GetStatusQueue(const char* task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char* task=0);
+      TGo4BufferQueue* GetDataQueue(const char* task = nullptr) override;
 
       /** Delivers next command. This implementation will poll over
        *  command queues of all existing connections. Command is labeled
        *  with name of ordering task, so data may be returned to
        *  command sender only.*/
-      virtual TGo4Command* NextCommand();
+      TGo4Command* NextCommand() override;
 
 
       /** Send status object via status channel to the master. Master name
        * may be specified, if more than one master is connected.
        * By default, object is send to all connected tasks */
-      virtual void SendStatus(TGo4Status * stat, const char* receiver=0);
+      void SendStatus(TGo4Status * stat, const char* receiver = nullptr) override;
 
       /** Send internal status buffer to the master(s). */
-      virtual void SendStatusBuffer();
+      void SendStatusBuffer() override;
 
       /**
        * starts the thread that listens to the connector port
@@ -260,12 +260,12 @@ private:
 public:
 
       enum ELaunchmodes{
-      kSecureShell    = BIT(0),     // kTRUE=launch client with ssh, otherwise rsh
-      kGuiEmbed       = BIT(1)      // kTRUE=client terminial embedded in gui otherwise in Xterm
+         kSecureShell    = BIT(0),     // kTRUE=launch client with ssh, otherwise rsh
+         kGuiEmbed       = BIT(1)      // kTRUE=client terminial embedded in gui otherwise in Xterm
     };
 
 
-ClassDef(TGo4ServerTask,1)
+ClassDefOverride(TGo4ServerTask,1)
 };
 
 #endif //TGO4SERVERTASK_H

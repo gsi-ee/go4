@@ -30,16 +30,16 @@ class TGo4ObjEnvelope : public TNamed {
 
    protected:
 
-      TObject*  fxObject;
+      TObject*  fxObject{nullptr};
       TString   fxObjName;
       TString   fxObjFolder;
 
       /** this flag true when envelope created via default constructor
         * in this case object, included in envelope should be destroyed in
         * envelope itself */
-      Bool_t    fbOwner;      //!
+      Bool_t    fbOwner{kFALSE};      //!
 
-   ClassDef(TGo4ObjEnvelope, 1);
+   ClassDefOverride(TGo4ObjEnvelope, 1);
 };
 
 

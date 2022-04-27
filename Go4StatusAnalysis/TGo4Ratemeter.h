@@ -23,20 +23,20 @@
  */
 class TGo4Ratemeter : public TNamed {
    private:
-      Bool_t       fbRunning;         // Indicates if analysis running
-      ULong64_t    fuCurrentCount;    // Number of events processed since last start.
-      Double_t     fdRate;            // Current eventrate (events/sec)
-      Double_t     fdTime;            // Time sum since last ratemeter reset. in s.
-      TString      fxDateString;      // Time and date of the last update of this status as sql string.
-      TString      fxEventSource;     // Name of eventsource of first step / current filelist name
+      Bool_t       fbRunning{kFALSE};   // Indicates if analysis running
+      ULong64_t    fuCurrentCount{0};    // Number of events processed since last start.
+      Double_t     fdRate{0};            // Current eventrate (events/sec)
+      Double_t     fdTime{0};            // Time sum since last ratemeter reset. in s.
+      TString      fxDateString;         // Time and date of the last update of this status as sql string.
+      TString      fxEventSource;        // Name of eventsource of first step / current filelist name
 
-      ULong64_t    fuLastCount;       //! Number of events processed at last ratemeter update
-      TTimeStamp   fLastTm;           //! Time when last rate measurement was done
-      Bool_t       fbUpdateDone;      //! True if update has been performed since last TestZero call
+      ULong64_t    fuLastCount{0};       //! Number of events processed at last ratemeter update
+      TTimeStamp   fLastTm;              //! Time when last rate measurement was done
+      Bool_t       fbUpdateDone{kFALSE}; //! True if update has been performed since last TestZero call
 
-      ULong64_t    fuNextCheckCnt;    //! Next counter value when time will be checked
-      ULong64_t    fuCheckInterval;   //! How often time should be checked
-      Double_t     fdUpdateInterval;  //! Configured interval in seconds before two updates
+      ULong64_t    fuNextCheckCnt{0};    //! Next counter value when time will be checked
+      ULong64_t    fuCheckInterval{0};   //! How often time should be checked
+      Double_t     fdUpdateInterval{0};  //! Configured interval in seconds before two updates
 
       static const Double_t fgdUPDATEINTERVAL;
 
@@ -81,7 +81,7 @@ class TGo4Ratemeter : public TNamed {
       /** Set update interval in seconds - default is 1 */
       void SetUpdateInterval(double v) { if (v>0) fdUpdateInterval = v; }
 
-      ClassDef(TGo4Ratemeter, 1)
+      ClassDefOverride(TGo4Ratemeter, 1)
 };
 
 #endif //TGO4RATEMETER_H

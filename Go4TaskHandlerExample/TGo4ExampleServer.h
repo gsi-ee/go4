@@ -27,18 +27,18 @@ class TGo4ExampleServer : public TGo4ServerTask {
   public:
 
     TGo4ExampleServer(const char* name,
-                      UInt_t negotiationport=0,
-                      Bool_t blockingmode=kFALSE);
+                      UInt_t negotiationport = 0,
+                      Bool_t blockingmode = kFALSE);
 
     virtual ~TGo4ExampleServer();
 
     TGo4ExampleController* GetController();
 
-    TGo4TaskHandlerCommandList* CreateCommandList();
+    TGo4TaskHandlerCommandList* CreateCommandList() override;
 
-    virtual Int_t StartWorkThreads();
+    Int_t StartWorkThreads() override;
 
-    virtual Int_t StopWorkThreads();
+    Int_t StopWorkThreads() override;
 
     /** suffix for controller thread name */
     static const char* fgcCONTROLTHREAD; //!
@@ -53,7 +53,7 @@ class TGo4ExampleServer : public TGo4ServerTask {
     /** @link aggregationByValue
      *   @supplierCardinality 1
      * @clientCardinality 0..1*/
-    TGo4ExampleController * fxController;//!
+    TGo4ExampleController * fxController{nullptr};//!
 
     /** remember name of controller thread */
     TString fcControlName; //!
@@ -61,7 +61,7 @@ class TGo4ExampleServer : public TGo4ServerTask {
     /** remember name of logging thread */
     TString fcLoggingName; //!
 
-  ClassDef(TGo4ExampleServer,1)
+  ClassDefOverride(TGo4ExampleServer,1)
 };
 
 #endif //TGO4EXAMPLESERVER_H
