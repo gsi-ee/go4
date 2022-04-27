@@ -25,11 +25,11 @@ class QFitParCfgWidget : public QFitWidget, public Ui::QFitParCfgWidget
     Q_OBJECT
 
 public:
-    QFitParCfgWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitParCfgWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitParameter * GetPar();
-    virtual void FillSpecificData();
     virtual void AnalyzeRangeValues();
     virtual void ParNameEdit_textChanged( const QString & );
     virtual void ParFixedChk_toggled( bool );

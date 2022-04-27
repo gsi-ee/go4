@@ -22,7 +22,7 @@ class QFitTableWidget : public QFitWidget, public Ui::QFitTableWidget
     Q_OBJECT
 
 public:
-    QFitTableWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitTableWidget(QWidget *parent = nullptr, const char *name = nullptr);
 
 public slots:
     virtual void FillSpecificData();

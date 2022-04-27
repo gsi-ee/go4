@@ -38,13 +38,13 @@ class QFitItem : public QTreeWidgetItem {
      bool FindInParents(QFitItem* item);
 
    protected:
-     TGo4FitPanel* fxPanel;
-     TObject*      fxObj;
-     int           fiObjectType;
-     int           fiWidgetType;
-     int           fiPopupMenuType;
-     int           fiGraphType;
-     int           fiTag;
+     TGo4FitPanel* fxPanel{nullptr};
+     TObject*      fxObj{nullptr};
+     int           fiObjectType{0};
+     int           fiWidgetType{0};
+     int           fiPopupMenuType{0};
+     int           fiGraphType{0};
+     int           fiTag{0};
 };
 
 #endif // QFITITEM_H

@@ -24,12 +24,12 @@ class QFitModelGaussNWidget : public QFitModelWidget, public Ui::QFitModelGaussN
    Q_OBJECT
 
 public:
-    QFitModelGaussNWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitModelGaussNWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
    virtual TGo4FitModelGaussN * GetGaussN();
    virtual void SetAxisTable();
-   virtual void FillSpecificData();
    virtual void AxisNumberSpin_valueChanged( int );
    virtual void AxisTable_valueChanged( int, int );
 

@@ -24,11 +24,11 @@ class QFitPeakFinderWidget : public QFitNamedWidget, public Ui::QFitPeakFinderWi
     Q_OBJECT
 
 public:
-    QFitPeakFinderWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitPeakFinderWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitPeakFinder * GetPF();
-    virtual void FillSpecificData();
     virtual void DataNameEdt_textChanged( const QString & );
     virtual void ClearModelsChk_toggled( bool );
     virtual void UsePolynChk_toggled( bool );

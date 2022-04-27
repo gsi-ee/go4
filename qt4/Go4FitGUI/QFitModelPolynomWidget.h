@@ -25,11 +25,11 @@ class QFitModelPolynomWidget : public QFitModelWidget, public Ui::QFitModelPolyn
     Q_OBJECT
 
 public:
-    QFitModelPolynomWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitModelPolynomWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitModelPolynom * GetPolynom();
-    virtual void FillSpecificData();
     virtual void AxisSpin_valueChanged( int );
 };
 

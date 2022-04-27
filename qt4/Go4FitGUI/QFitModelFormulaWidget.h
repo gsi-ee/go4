@@ -24,11 +24,11 @@ class QFitModelFormulaWidget : public QFitModelWidget, public Ui::QFitModelFormu
     Q_OBJECT
 
 public:
-    QFitModelFormulaWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitModelFormulaWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitModelFormula * GetFormula();
-    virtual void FillSpecificData();
     virtual void ExprEdt_textChanged( const QString & );
     virtual void NumParSpin_valueChanged( int );
 

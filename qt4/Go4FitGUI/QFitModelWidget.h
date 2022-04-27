@@ -30,7 +30,7 @@ class QFitModelWidget : public QFitNamedWidget {
   Q_OBJECT
 
   public:
-      QFitModelWidget( QWidget* parent = 0, const char* name = 0 );
+      QFitModelWidget(QWidget *parent = nullptr, const char *name = nullptr);
       ~QFitModelWidget();
 
       QCheckBox* AmplChk;

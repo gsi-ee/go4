@@ -25,11 +25,11 @@ class QFitMinuitWidget : public QFitNamedWidget, public Ui::QFitMinuitWidget
     Q_OBJECT
 
 public:
-    QFitMinuitWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitMinuitWidget(QWidget *parent = nullptr, const char *name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitMinuit * GetMinuit();
-    virtual void FillSpecificData();
     virtual void CommandsEdit_textChanged();
 
  };

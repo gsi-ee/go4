@@ -24,11 +24,12 @@ class QFitAmplEstimWidget : public QFitNamedWidget
      Q_OBJECT
 
  public:
-    QFitAmplEstimWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitAmplEstimWidget( QWidget* parent = nullptr, const char* name = nullptr);
+
+    void FillSpecificData() override;
 
  public slots:
     virtual TGo4FitAmplEstimation * GetAmplEstim();
-    virtual void FillSpecificData();
     virtual void Iterations_valueChanged( int );
 private:
     Ui::QFitAmplEstimWidget ui;

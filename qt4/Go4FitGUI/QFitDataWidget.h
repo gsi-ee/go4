@@ -24,11 +24,11 @@ class QFitDataWidget : public QFitNamedWidget, public Ui::QFitDataWidget
      Q_OBJECT
 
  public:
-    QFitDataWidget( QWidget* parent = 0, const char* name = 0 );
+    QFitDataWidget(QWidget* parent = nullptr, const char* name = nullptr);
+    void FillSpecificData() override;
 
 public slots:
     virtual TGo4FitData * GetData();
-    virtual void FillSpecificData();
     virtual void NumCalibrSpin_valueChanged( int num );
     virtual void UseBinsChk_toggled( bool zn );
     virtual void SigmaCmb_activated( int zn );
