@@ -31,23 +31,22 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
 
     virtual ~TGo4TreeStoreParameter() ;
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
+    /** basic method to printout object */
+    void Print(Option_t* = "") const override;
 
-    /** update contents of paramter class with external object. */
-    virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+    /** update contents of parameter class with external object. */
+    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
   private:
-    Int_t fiSplit;
-    Int_t fiBufsize;
-    Int_t fiCompression;
+    Int_t fiSplit{1};
+    Int_t fiBufsize{64000};
+    Int_t fiCompression{5};
 
     /** Filename for branch file.
       * If Null, the branch is stored in the maintree file. */
     TString fxBranchFile;
 
-  ClassDef(TGo4TreeStoreParameter,1)
+  ClassDefOverride(TGo4TreeStoreParameter,1)
 };
 
 #endif //TGO4TREESTOREPARAMETER_H
