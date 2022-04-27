@@ -24,10 +24,10 @@ class TGo4LogicException : public TGo4Exception {
 
       virtual ~TGo4LogicException();
 
-      TGo4LogicException & operator=(const TGo4LogicException &right);
+      TGo4LogicException &operator=(const TGo4LogicException &right);
 
       /** This is a default handler function for the respective exception type **/
-      virtual Int_t Handle();
+      Int_t Handle() override;
 };
 
 #endif

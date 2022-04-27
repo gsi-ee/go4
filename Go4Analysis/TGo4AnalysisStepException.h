@@ -27,11 +27,11 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
 
      virtual ~TGo4AnalysisStepException();
 
-     Int_t Handle ();
+     Int_t Handle() override;
 
      TGo4AnalysisStepException(const TGo4AnalysisStepException &right);
 
-     TGo4AnalysisStepException & operator = (const TGo4AnalysisStepException & right);
+     TGo4AnalysisStepException &operator=(const TGo4AnalysisStepException & right);
 
      /**  Status of the last event. */
      Int_t GetProcessStatus() const { return fiProcessStatus; }

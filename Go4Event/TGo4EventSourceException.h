@@ -29,11 +29,11 @@ class TGo4EventSourceException : public TGo4RuntimeException {
 
       virtual ~TGo4EventSourceException();
 
-      virtual Int_t Handle();
+      Int_t Handle() override;
 
       TGo4EventSourceException(const TGo4EventSourceException &right);
 
-      TGo4EventSourceException & operator = (const TGo4EventSourceException & right);
+      TGo4EventSourceException &operator=(const TGo4EventSourceException &right);
 
       /** Status value of server/file open. */
       Int_t GetCreateStatus() const { return fiCreateStatus; }

@@ -25,15 +25,15 @@ class TGo4EventStoreException : public TGo4RuntimeException {
 
       TGo4EventStoreException() = delete;
 
-      TGo4EventStoreException (TGo4EventStore* eventsource, const char* msg = nullptr);
+      TGo4EventStoreException (TGo4EventStore *eventsource, const char *msg = nullptr);
 
       virtual ~TGo4EventStoreException();
 
-      virtual Int_t Handle();
+      Int_t Handle() override;
 
       TGo4EventStoreException(const TGo4EventStoreException &right);
 
-      TGo4EventStoreException & operator = (const TGo4EventStoreException & right);
+      TGo4EventStoreException &operator=(const TGo4EventStoreException &right);
 
       /** Status/ error message of the last event. */
       const char* GetErrMess() const { return fxErrMess.Data(); }

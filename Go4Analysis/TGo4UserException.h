@@ -51,11 +51,11 @@ class TGo4UserException : public TGo4RuntimeException {
 
       virtual ~TGo4UserException();
 
-      Int_t Handle ();
+      Int_t Handle() override;
 
       TGo4UserException(const TGo4UserException &right);
 
-      TGo4UserException & operator = (const TGo4UserException & right);
+      TGo4UserException &operator=(const TGo4UserException & right);
 
       /** Message priority */
       Int_t GetPriority() const { return fiPriority; }

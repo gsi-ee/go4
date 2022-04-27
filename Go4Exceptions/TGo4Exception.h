@@ -25,7 +25,7 @@ class TGo4Exception : public TObject {
 
       virtual ~TGo4Exception();
 
-      TGo4Exception & operator=(const TGo4Exception &right);
+      TGo4Exception &operator=(const TGo4Exception &right);
 
       /** Returns string describing the kind of exception **/
       virtual const char* What();

@@ -31,7 +31,7 @@ class TGo4ControlException : public TGo4RuntimeException {
       TGo4ControlException & operator=(const TGo4ControlException &right);
 
       /** This is a default handler function for the respective exception type */
-      virtual Int_t Handle();
+      Int_t Handle() override;
 };
 
 #endif
