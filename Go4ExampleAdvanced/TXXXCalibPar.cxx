@@ -210,7 +210,8 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          printf("fxCalibrator = %p\n", fxCalibrator);
          // finally, copy results of calibration to the parameter fields:
          for(Int_t i=0; i<__POLORDER__;++i) {
-            TGo4FitModel* mod = fxCalibrator->FindModel(Form("A_%d",i));
+            TString modname = TString::Format("A_%d",i);
+            TGo4FitModel* mod = fxCalibrator->FindModel(modname.Data());
             if(mod) {
                // check here if component is active or not
                if(mod->IsAssignTo(__GRAPHNAME__))

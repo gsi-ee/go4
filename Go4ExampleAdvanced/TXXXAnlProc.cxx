@@ -120,7 +120,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    if ((fFitCounter % 500000 == 0) && (fFitter!=0)) {
       TH1* histo1 = GetHistogram("Crate1/Cr1Ch04");
 
-      if (histo1!=0) {
+      if (histo1) {
          fFitter->SetH1("data", histo1, kFALSE);
          fFitter->DoActions();
          // std::cout << "K = " << fFitter->GetParValue("Pol_1.Ampl") << " B = " << fFitter->GetParValue("Pol_0.Ampl") << std::endl;
@@ -132,10 +132,12 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
 
          TH1* histo2 = (TH1*) fFitter->CreateDrawObject("FitResult", "data", kTRUE);
          fFitRes->Reset();
-         if (histo2!=0) {
+         if (histo2) {
             fFitRes->SetBins(histo2->GetNbinsX(), histo2->GetXaxis()->GetXmin(), histo2->GetXaxis()->GetXmax());
             fFitRes->Add(histo2);
-            fFitRes->SetTitle(Form("Result K=%5.3f B=%7.1f", fFitter->GetParValue("Pol_1.Ampl"), fFitter->GetParValue("Pol_0.Ampl")));
+
+            TString title = TString::Format("Result K=%5.3f B=%7.1f", fFitter->GetParValue("Pol_1.Ampl"), fFitter->GetParValue("Pol_0.Ampl"));
+            fFitRes->SetTitle(title.Data());
             delete histo2;
          }
       }

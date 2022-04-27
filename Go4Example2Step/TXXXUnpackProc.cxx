@@ -438,8 +438,10 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    }  // while
 
 
-   if (fLaText)
-      fLaText->SetText(0.5,0.5,Form("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount()));
+   if (fLaText) {
+      TString lbl = TString::Format("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount());
+      fLaText->SetText(0.5,0.5, lbl.Data());
+   }
 
    out_evt->SetValid(isValid); // to store or not to store
    // default calling Fill method will set validity of out_evt to return value!
