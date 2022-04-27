@@ -19,14 +19,14 @@
 class TGo4ObjectAccess : public TGo4Access {
    public:
       TGo4ObjectAccess(TObject* obj);
-      virtual Bool_t CanGetObject() const;
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const;
-      virtual TClass* GetObjectClass() const;
-      virtual const char* GetObjectName() const;
-      virtual const char* GetObjectClassName() const;
+      Bool_t CanGetObject() const override;
+      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override;
+      TClass* GetObjectClass() const override;
+      const char* GetObjectName() const override;
+      const char* GetObjectClassName() const override;
 
    private:
-      TObject*  fObject;    //!
+      TObject*  fObject{nullptr};    //!
 };
 
 // **************************************************************
@@ -37,33 +37,33 @@ class TGo4ObjectProxy : public TGo4Proxy {
       TGo4ObjectProxy(TObject* obj, Bool_t owner = kFALSE);
       virtual ~TGo4ObjectProxy();
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
-      virtual Bool_t RemoveRegisteredObject(TObject* obj);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
+      Bool_t RemoveRegisteredObject(TObject* obj) override;
 
-      virtual TGo4Access* ProvideAccess(const char* name);
-      virtual TGo4LevelIter* MakeIter() { return 0; }
+      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4LevelIter* MakeIter() override { return nullptr; }
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
-      virtual const char* GetContainedObjectInfo();
-      virtual Int_t GetObjectSizeInfo();
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
+      const char* GetContainedObjectInfo() override;
+      Int_t GetObjectSizeInfo() override;
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Bool_t IsAcceptObject(TClass* cl);
-      virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
-      virtual TObject* GetAssignedObject();
+      Bool_t IsAcceptObject(TClass* cl) override;
+      Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override;
+      TObject* GetAssignedObject() override;
 
       static Long_t DefineObjectSize(TObject* obj);
 
    protected:
 
-      TObject*      fObject;   //!
-      Bool_t        fOwner;   //!
+      TObject*      fObject{nullptr}; //!
+      Bool_t        fOwner{kFALSE};   //!
 
-   ClassDef(TGo4ObjectProxy, 1);
+   ClassDefOverride(TGo4ObjectProxy, 1);
 };
 
 #endif

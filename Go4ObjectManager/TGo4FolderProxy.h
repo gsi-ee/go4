@@ -25,30 +25,30 @@ class TGo4FolderProxy : public TGo4Proxy {
       TGo4FolderProxy(TFolder* f, Bool_t owner = kFALSE, const char* roofolder = "");
       virtual ~TGo4FolderProxy();
 
-      virtual Bool_t HasSublevels() const { return fFolder!=0; }
+      Bool_t HasSublevels() const override { return fFolder; }
 
-      virtual TGo4LevelIter* MakeIter()
-        { return (fFolder==0) ? 0 : ProduceIter(fFolder); }
+      TGo4LevelIter* MakeIter() override
+        { return fFolder ? ProduceIter(fFolder) : nullptr; }
 
-      virtual TGo4Access* ProvideAccess(const char* name)
+      TGo4Access* ProvideAccess(const char* name) override
         { return CreateAccess(fFolder, name); }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
 
       static TFolder* LocateROOTFolder(const char* rootfolder);
       static TGo4Access* CreateAccess(TFolder* folder, const char* name);
       static TGo4LevelIter* ProduceIter(TFolder* folder);
 
    protected:
-      TFolder* fFolder;          //!
-      Bool_t   fOwner;           //!
+      TFolder* fFolder{nullptr}; //!
+      Bool_t   fOwner{kFALSE};   //!
       TString  fRootFolderName;  //!
 
-   ClassDef(TGo4FolderProxy, 1);
+   ClassDefOverride(TGo4FolderProxy, 1);
 };
 
 #endif

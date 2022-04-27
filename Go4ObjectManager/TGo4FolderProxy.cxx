@@ -30,9 +30,7 @@
 class TGo4FolderLevelIter : public TGo4LevelIter {
    public:
       TGo4FolderLevelIter(TFolder* folder) :
-         TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0)
+         TGo4LevelIter()
       {
          fIter = folder->GetListOfFolders()->MakeIterator();
       }
@@ -42,66 +40,63 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
          delete fIter;
       }
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
          fCurrent = fIter->Next();
-         return (fCurrent!=0);
+         return fCurrent;
       }
 
-      virtual Bool_t isfolder()
+      Bool_t isfolder() override
       {
-         return (dynamic_cast<TFolder*>(fCurrent)!=0) ||
-                (dynamic_cast<TDirectory*>(fCurrent)!=0) ||
-                (dynamic_cast<TTree*>(fCurrent)!=0) ||
-                (dynamic_cast<TCanvas*>(fCurrent)!=0) ||
-                (dynamic_cast<THStack*>(fCurrent)!=0);
+         return (dynamic_cast<TFolder*>(fCurrent) != nullptr) ||
+                (dynamic_cast<TDirectory*>(fCurrent) != nullptr) ||
+                (dynamic_cast<TTree*>(fCurrent) != nullptr) ||
+                (dynamic_cast<TCanvas*>(fCurrent) != nullptr) ||
+                (dynamic_cast<THStack*>(fCurrent) != nullptr);
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          TTree* tr = dynamic_cast<TTree*>(fCurrent);
-         if (tr!=0) return TGo4TreeProxy::ProduceIter(tr);
+         if (tr) return TGo4TreeProxy::ProduceIter(tr);
          TDirectory* dir = dynamic_cast<TDirectory*>(fCurrent);
-         if (dir!=0) return TGo4DirProxy::ProduceIter(dir, kFALSE);
+         if (dir) return TGo4DirProxy::ProduceIter(dir, kFALSE);
          TCanvas* canv = dynamic_cast<TCanvas*>(fCurrent);
-         if (canv!=0) return TGo4CanvasProxy::ProduceIter(canv);
+         if (canv) return TGo4CanvasProxy::ProduceIter(canv);
          THStack* hs = dynamic_cast<THStack*> (fCurrent);
-         if (hs!=0)  return TGo4HStackProxy::ProduceIter(hs);
+         if (hs)  return TGo4HStackProxy::ProduceIter(hs);
          return new TGo4FolderLevelIter((TFolder*)fCurrent);
       }
 
-      virtual const char* name()
+      const char* name() override
       {
          return fCurrent->GetName();
       }
 
-      virtual const char* info()
+      const char* info() override
       {
          return fCurrent->ClassName();
       }
 
-      virtual Int_t GetKind()
+      Int_t GetKind() override
       {
          return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          return fCurrent->ClassName();
       }
 
    protected:
-      TIterator*     fIter;     //!
-      TObject*       fCurrent;  //!
+      TIterator*     fIter{nullptr};     //!
+      TObject*       fCurrent{nullptr};  //!
 };
 
 // ****************************************************************
 
 TGo4FolderProxy::TGo4FolderProxy() :
-   TGo4Proxy(),
-   fFolder(0),
-   fOwner(kFALSE),
-   fRootFolderName()
+   TGo4Proxy()
 {
 }
 
@@ -120,18 +115,18 @@ TGo4FolderProxy::~TGo4FolderProxy()
 
 Int_t TGo4FolderProxy::GetObjectKind()
 {
-   return (fFolder!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fFolder ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4FolderProxy::GetContainedClassName()
 {
-   return fFolder ? fFolder->ClassName() : 0;
+   return fFolder ? fFolder->ClassName() : nullptr;
 }
 
 void TGo4FolderProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
-      const char* foldername = fRootFolderName.Length()>0 ? fRootFolderName.Data() : 0;
+      const char* foldername = fRootFolderName.Length() > 0 ? fRootFolderName.Data() : nullptr;
       slot->SetPar("FolderProxy::RootFolder", foldername);
    }
 }
@@ -141,15 +136,15 @@ void TGo4FolderProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
    const char* foldername = slot->GetPar("FolderProxy::RootFolder");
 
    fFolder = LocateROOTFolder(foldername);
-   if (fFolder!=0)
+   if (fFolder)
       fRootFolderName = foldername;
    fOwner = kFALSE;
 }
 
 TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 {
-   TFolder* res = 0;
-   if (rootfolder!=0){
+   TFolder* res = nullptr;
+   if (rootfolder) {
      if (strcmp(rootfolder,"//root/")==0)
         res = gROOT->GetRootFolder();
      else
@@ -161,7 +156,7 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 
 TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
 {
-   if (folder==0) return 0;
+   if (!folder) return nullptr;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(folder);
 
    TFolder* curfold = folder;
@@ -171,36 +166,37 @@ TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(curfold->GetListOfFolders());
-      TObject* obj = 0;
-      while ((obj = iter())!=0)
+      TObject* obj = nullptr;
+      while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName())==len) &&
              (strncmp(obj->GetName(), curname, len)==0)) break;
-      if (obj==0) return 0;
+      if (!obj) return nullptr;
 
-      if (slash==0) return new TGo4ObjectAccess(obj);
+      if (!slash)
+         return new TGo4ObjectAccess(obj);
 
       curname = slash+1;
 
       TTree* tr = dynamic_cast<TTree*> (obj);
-      if (tr!=0)
+      if (tr)
          return TGo4TreeProxy::CreateAccess(tr, curname);
 
       TDirectory* dir = dynamic_cast<TDirectory*> (obj);
-      if (dir!=0)
+      if (dir)
          return TGo4DirProxy::CreateAccess(dir, kFALSE, curname);
 
       TCanvas* canv = dynamic_cast<TCanvas*> (obj);
-      if (canv!=0)
+      if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 
       THStack* hs = dynamic_cast<THStack*> (obj);
-      if (hs!=0)
+      if (hs)
          return TGo4HStackProxy::CreateAccess(hs, curname);
 
       curfold = dynamic_cast<TFolder*>(obj);
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4LevelIter* TGo4FolderProxy::ProduceIter(TFolder* folder)
