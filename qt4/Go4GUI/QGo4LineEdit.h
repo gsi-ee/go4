@@ -35,7 +35,7 @@ class QGo4LineEdit : public QLineEdit {
 
 
    public:
-      QGo4LineEdit(QWidget *parent=0, const char *name=0);
+      QGo4LineEdit(QWidget *parent = nullptr, const char *name = nullptr);
       virtual ~QGo4LineEdit();
 
    signals:

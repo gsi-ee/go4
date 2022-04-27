@@ -35,7 +35,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
      Q_OBJECT
 
  public:
-     TGo4MBSViewer(QWidget *parent = 0 , const char* name=0);
+     TGo4MBSViewer(QWidget *parent = nullptr, const char* name = nullptr);
     virtual ~TGo4MBSViewer();
 
     TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
@@ -84,46 +84,46 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
 
 protected:
 
-   bool fbSingleRefresh;
-    int fiLastDataNum;
-    int fiLastEventNum;
-    int fiCalcedEventRate;
+    bool fbSingleRefresh{false};
+    int fiLastDataNum{0};
+    int fiLastEventNum{0};
+    int fiCalcedEventRate{0};
     s_set_mo fxSetupMO;
-    bool fbRunning;
-    bool fbTrendingForward;
+    bool fbRunning{false};
+    bool fbTrendingForward{false};
     QString fxHistokBAccessName;
-    TH1* fxRatekBTrend;
-    bool fbTrendingInit;
+    TH1* fxRatekBTrend{nullptr};
+    bool fbTrendingInit{false};
     QString fxHistoAccessName;
-    bool fbTrending;
-    bool fbGetSetML;
+    bool fbTrending{false};
+    bool fbGetSetML{false};
     QString fxRefTime;
-    bool fbGetSetup;
+    bool fbGetSetup{false};
     QString fxMessage;
-    bool fbWarningState;
-    bool fbIsMonitoring;
+    bool fbWarningState{false};
+    bool fbIsMonitoring{false};
     s_daqst fxDaqStat;
     QString fxNode;
-    QTimer* fxTimer;
+    QTimer* fxTimer{nullptr};
     s_setup fxSetup;
     s_set_ml fxSetupML;
-    QMovie* fxRunMovie;
-    TH1* fxRateTrend;
-    int fiTrendBins;
-    bool fbShowMore;
-    QTimer* fxMovieResetTimer;
-    int fiEvRatio;
+    QMovie* fxRunMovie{nullptr};
+    TH1* fxRateTrend{nullptr};
+    int fiTrendBins{0};
+    bool fbShowMore{false};
+    QTimer* fxMovieResetTimer{nullptr};
+    int fiEvRatio{0};
     QString fxHistoEvRatioAccessName;
-    TH1* fxEvRatio;
+    TH1* fxEvRatio{nullptr};
     QString fxServerLabel;
-    bool fbGetSetMO;
-    int fiCalcedDataRate;
-    int fiLastServDataNum;
-    int fiCalcedServDataRate;
-    int fiDataDelta;
-    int fiServDataDelta;
+    bool fbGetSetMO{false};
+    int fiCalcedDataRate{0};
+    int fiLastServDataNum{0};
+    int fiCalcedServDataRate{0};
+    int fiDataDelta{0};
+    int fiServDataDelta{0};
     QElapsedTimer fxDeltaClock;
-    QButtonGroup* StateGroup;
+    QButtonGroup* StateGroup{nullptr};
  };
 
 #endif

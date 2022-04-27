@@ -22,7 +22,7 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
    Q_OBJECT
 
    public:
-      TGo4CommandLine(QWidget *parent = 0, const char* name=0);
+      TGo4CommandLine(QWidget *parent = nullptr, const char* name = nullptr);
 
    public Q_SLOTS:
 
@@ -39,7 +39,7 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
       virtual void PrintHelp();
 
    protected:
-      bool fbPythonBound;
+      bool fbPythonBound{false};
 
 };
 

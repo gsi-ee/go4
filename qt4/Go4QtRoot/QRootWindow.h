@@ -34,7 +34,7 @@ class QRootWindow : public QWidget {
 
    public:
       /** real ctor*/
-      QRootWindow( QWidget *parent = 0, const char *name = 0, bool designermode=false);
+      QRootWindow( QWidget *parent = nullptr, const char *name = nullptr, bool designermode = false);
 
       virtual ~QRootWindow();
 
@@ -42,14 +42,14 @@ class QRootWindow : public QWidget {
       int GetRootWid() const { return fiWinid; }
 
       /** Add root subframe into this widget */
-      void AddSubFrame(TGFrame* f, TGLayoutHints* l=0);
+      void AddSubFrame(TGFrame* f, TGLayoutHints* l = nullptr);
 
       /** make this frame to current root master frame.*/
       void SetEditable(bool on=true);
 
       /** switch root frame resize mode on paint event:
        true=explicit resize, false=no resize of TQRootFrame*/
-      void SetResizeOnPaint(bool on=true) { fbResizeOnPaint=on; }
+      void SetResizeOnPaint(bool on = true) { fbResizeOnPaint=on; }
 
       /** deliver width scaled with Qt5 screen scaling factor*/
       double ScaledWidth();
@@ -64,8 +64,8 @@ class QRootWindow : public QWidget {
         * via x11 directly, thus this mechanism is not used for the regular
         *  root widgets! */
       virtual bool eventFilter( QObject *, QEvent * );
-      virtual void paintEvent( QPaintEvent *e );
-      virtual void closeEvent( QCloseEvent * e);
+      void paintEvent( QPaintEvent *e ) override;
+      void closeEvent( QCloseEvent * e) override;
 
       //virtual QPaintEngine * paintEngine () const {return 0;}
 
@@ -74,19 +74,19 @@ class QRootWindow : public QWidget {
 
       /** this is the pseudo root window embedded into this widget.
         * is used as parent for subwindows */
-      TQRootFrame *fxRootwindow;
+      TQRootFrame *fxRootwindow{nullptr};
 
       /** ROOT internal window index*/
-      Int_t fiWinid;
+      Int_t fiWinid{0};
       /** Qt window id as received from Qt (may change during runtime?)*/
       WId fQtWinId;
 
       /** switch if paint event does explicit resize of ROOT frame (default)
        * for embedded TGedEditor, we better disable it and resize editor from
        * parent widget*/
-      Bool_t fbResizeOnPaint;
+      Bool_t fbResizeOnPaint{kFALSE};
 
-      double fQtScalingfactor;
+      double fQtScalingfactor{0};
 };
 
 #endif

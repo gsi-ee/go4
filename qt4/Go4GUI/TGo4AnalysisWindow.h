@@ -29,13 +29,13 @@ class TGo4AnalysisWindow : public QGo4Widget {
    Q_OBJECT
 
    public:
-       TGo4AnalysisWindow( QWidget* parent = 0, const char* name = 0, bool needoutput = false, bool needkillbtn = true);
+       TGo4AnalysisWindow(QWidget* parent = nullptr, const char* name = nullptr, bool needoutput = false, bool needkillbtn = true);
        virtual ~TGo4AnalysisWindow();
 
        void SetHistorySize(int sz);
-       void StartAnalysisShell(const char* cmd, const char* workdir = 0, bool aschildprocess = false);
+       void StartAnalysisShell(const char* cmd, const char* workdir = nullptr, bool aschildprocess = false);
        void TerminateAnalysisProcess();
-       void AppendOutputBuffer(const QString& value, int prio=0);
+       void AppendOutputBuffer(const QString& value, int prio = 0);
        void UpdateTimeStampFormat();
        void WorkWithUpdateObjectCmd(TGo4Slot* slot);
        void WorkWithDebugOutput(TGo4Slot* slot);
@@ -64,28 +64,28 @@ class TGo4AnalysisWindow : public QGo4Widget {
 
    protected:
 
-      virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
-      virtual void linkedObjectRemoved(const char* linkname);
+      void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+      void linkedObjectRemoved(const char* linkname) override;
 
-      virtual void resizeEvent(QResizeEvent *);
-      virtual void closeEvent(QCloseEvent* e);
+      void resizeEvent(QResizeEvent *) override;
+      void closeEvent(QCloseEvent* e) override;
       void CreateButtons(QHBoxLayout*, bool);
       void CreateCmdLine(QHBoxLayout*);
 
       /** prepend timestamp in front of next terminal buffer.
        * Depending on prio, stderr output can be marked as warning*/
-      void AddTimeStamp(QString& buf, int prio=0);
+      void AddTimeStamp(QString& buf, int prio = 0);
 
-      QProcess *fAnalysisProcess;
-      QGo4CommandsHistory *fxCmdHist;
+      QProcess *fAnalysisProcess{nullptr};
+      QGo4CommandsHistory *fxCmdHist{nullptr};
       QString outputBuffer;
-      QTextEdit* fxOutput;
-      unsigned int fiMaxOuputSize;
-      bool fbShowTimestamps;
+      QTextEdit* fxOutput{nullptr};
+      unsigned int fiMaxOuputSize{0};
+      bool fbShowTimestamps{false};
       QString fxTimeFormat;
-      bool fNewObjectForEditor;
-      bool fHasLink;
-      bool fTerminateOnClose;
+      bool fNewObjectForEditor{false};
+      bool fHasLink{false};
+      bool fTerminateOnClose{false};
 };
 
 #endif // TGO4ANALYSISWINDOW_H

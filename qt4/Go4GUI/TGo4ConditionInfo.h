@@ -38,15 +38,15 @@ public:
    CONTIME
 };
 
-   TGo4ConditionInfo(QWidget *parent = 0, const char* name=0);
+   TGo4ConditionInfo(QWidget *parent = nullptr, const char* name = nullptr);
 
 public:
 
-   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
+   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind) override;
 
-   virtual void DropItem(const char* itemname, TClass* cl, int kind);
+   void DropItem(const char* itemname, TClass* cl, int kind) override;
 
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
 
    virtual void WorkWithCondition(const char* itemname);
 

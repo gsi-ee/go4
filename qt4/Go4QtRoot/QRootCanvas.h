@@ -61,7 +61,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
    enum { act_Update = 1, act_Resize = 2 };
 
    public:
-      QRootCanvas(QWidget *parent = 0);
+      QRootCanvas(QWidget *parent = nullptr);
       virtual ~QRootCanvas();
 
       TCanvas*          getCanvas() { return fCanvas; }
@@ -107,7 +107,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
    public slots:
 
-      void              cd(Int_t subpadnumber=0);
+      void              cd(Int_t subpadnumber = 0);
       virtual void      Browse(TBrowser *b);
       void              Clear(Option_t *option="");
       void              Close(Option_t *option="");
@@ -170,7 +170,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              SetSelected(TObject *obj);
       void              SetSelectedPad(TPad *pad);
       void              Show();
-      virtual void      Size(Float_t xsizeuser=0, Float_t ysizeuser=0);
+      virtual void      Size(Float_t xsizeuser = 0, Float_t ysizeuser = 0);
       void              SetBatch(Bool_t batch=kTRUE);
       void              SetRetained(Bool_t retained=kTRUE);
       void              SetTitle(const char *title="");
@@ -198,10 +198,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
 
       /** returns scaled point coordinate, for high dpi case*/
-      double scaledPosition(int p)
-        {
-            return (double) p * fQtScalingfactor;
-        }
+      double scaledPosition(int p) { return (double) p * fQtScalingfactor; }
 
       QPoint scaledMousePoint(QMouseEvent *ev);
 
@@ -212,29 +209,29 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              activateRepaint(int act);
 
-      TCanvas*          fCanvas;
-      Int_t             fRootWindowId;
-      WId               fQtWindowId; // current id of embedded canvas (may change in Qt 4.4)
-      QTimer*           fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
-      int               fRepaintMode; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
+      TCanvas*          fCanvas{nullptr};
+      Int_t             fRootWindowId{0};
+      WId               fQtWindowId; // current id of embedded canvas
+      QTimer*           fRepaintTimer{nullptr}; // do not draw canvas immediately, postpone this on few miliseconds
+      int               fRepaintMode{0}; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
 
-      QFrame*           fEditorFrame;        // frame to show editor
-      TVirtualPadEditor* fxPeditor;          // ROOT editor
-      QRootWindow*      fxRooteditor;        // QtRoot window to embed ROOT editor
-      TH1*              fDummyHisto;         // dummy histogram used for editor cleanup
+      QFrame*           fEditorFrame{nullptr};        // frame to show editor
+      TVirtualPadEditor* fxPeditor{nullptr};          // ROOT editor
+      QRootWindow*      fxRooteditor{nullptr};        // QtRoot window to embed ROOT editor
+      TH1*              fDummyHisto{nullptr};         // dummy histogram used for editor cleanup
 
-      QStatusBar       *fStatusBar;
+      QStatusBar       *fStatusBar{nullptr};
 
    private:
-      bool              fMaskDoubleClick;
-      double            fMousePosX;    // mouse position in user coordinate when activate menu
-      double            fMousePosY;    // mouse position in user coordinate when activate menu
+      bool              fMaskDoubleClick{false};
+      double            fMousePosX{0};    // mouse position in user coordinate when activate menu
+      double            fMousePosY{0};    // mouse position in user coordinate when activate menu
 
-      TObject*          fMenuObj;      // object use to fill menu
-      TList*            fMenuMethods;  // list of menu methods
-      bool              fxShowEventStatus;
+      TObject*          fMenuObj{nullptr};      // object use to fill menu
+      TList*            fMenuMethods{nullptr};  // list of menu methods
+      bool              fxShowEventStatus{false};
 
-      double            fQtScalingfactor;
+      double            fQtScalingfactor{0};
 };
 
 #endif

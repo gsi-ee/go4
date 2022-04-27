@@ -27,12 +27,12 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     Q_OBJECT
 
 public:
-    TGo4ConditionEditor(QWidget *parent = 0, const char* name=0);
+    TGo4ConditionEditor(QWidget *parent = nullptr, const char* name = nullptr);
 
-    virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
-    virtual void DropItem( const char * itemname, TClass * cl, int kind );
-    virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
-    virtual void linkedObjectRemoved( const char * linkname );
+    bool IsAcceptDrag(const char * itemname, TClass * cl, int kind ) override;
+    void DropItem(const char * itemname, TClass * cl, int kind ) override;
+    void linkedObjectUpdated(const char * linkname, TObject * obj) override;
+    void linkedObjectRemoved(const char * linkname ) override;
     virtual void WorkWithCondition( const char * itemname );
     virtual void ResetWidget();
     virtual void RefreshWidget( bool checkindex);
@@ -93,12 +93,12 @@ public:
     virtual void EllipseCircleBox_toggled(bool on);
 
 protected:
-    bool fbTypingMode;
-    int fiSelectedIndex;
-    bool fbDrawOnNextRefresh;
-    int fiLastChangeValue;
-    bool fbEllipseAutoRefresh;
-    bool fbNewWindow;
+    bool fbTypingMode{false};
+    int fiSelectedIndex{0};
+    bool fbDrawOnNextRefresh{false};
+    int fiLastChangeValue{0};
+    bool fbEllipseAutoRefresh{false};
+    bool fbNewWindow{false};
 
  };
 

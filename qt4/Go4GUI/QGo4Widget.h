@@ -125,10 +125,10 @@ private:
       void CloseMDIParentSlot();
 
    protected:
-      virtual void closeEvent(QCloseEvent* e);
-      virtual void dragEnterEvent(QDragEnterEvent *e);
-      virtual void dragMoveEvent(QDragMoveEvent* e);
-      virtual void dropEvent(QDropEvent* e);
+      void closeEvent(QCloseEvent* e) override;
+      void dragEnterEvent(QDragEnterEvent *e) override;
+      void dragMoveEvent(QDragMoveEvent* e) override;
+      void dropEvent(QDropEvent* e) override;
 
       /** create link for item with name linkname*/
       void AddLink(const char* itemname, const char* linkname);
@@ -157,7 +157,7 @@ private:
       TObject* GetLinked(const char* linkname, int updatelevel);
       void RemoveLink(const char* linkname, bool blockreset = true);
       void RemoveAllLinks(bool blockreset = true);
-      void RemoveLinksMasked(const char* startedwith = 0, bool blockreset = true);
+      void RemoveLinksMasked(const char* startedwith = nullptr, bool blockreset = true);
 
       bool BrowserItemRemote(const char* itemname);
       TGo4BrowserProxy* Browser();
@@ -165,31 +165,31 @@ private:
       void StatusMessage(const QString& message);
 
       /** Function call dialog to create object of appropriate class
-        *  isremote==0 - object should be created localy and widget will be informed
-        *  isremote==1 - object should be created on analysis side and widget should be informaed
-        *  isremote==-1 - activate creation dialog without restriction (remote or local), widget will not be informed */
+        *  isremote == 0 - object should be created localy and widget will be informed
+        *  isremote == 1 - object should be created on analysis side and widget should be informaed
+        *  isremote == -1 - activate creation dialog without restriction (remote or local), widget will not be informed */
       void AskToCreateObject(TClass* cl, int isremote);
       void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
       TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = 0, TPad* pad = 0, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char* itemname);
-      void HelpWindow(const char* filename, const char* msg = 0);
+      void HelpWindow(const char* filename, const char* msg = nullptr);
       void UndrawItem(const char* itemname);
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
       QString SaveObjectInMemory(const char* foldername, TObject* obj);
-      bool SaveItemToFile(const char* itemname, const char* subfolder = 0);
-      bool UpdateItemInAnalysis(const char* itemname, TObject* obj = 0);
+      bool SaveItemToFile(const char* itemname, const char* subfolder = nullptr);
+      bool UpdateItemInAnalysis(const char* itemname, TObject* obj = nullptr);
       void InformThatObjectCreated(const char* itemname, TClass* cl);
-      TGo4ServerProxy* GetAnalysis(const char* itemname = 0);
+      TGo4ServerProxy* GetAnalysis(const char* itemname = nullptr);
       void StartHotstart(const char* filename);
 
       /** connect pad axis change signals to react on such signals */
       void ConnectPad(TPad* pad);
 
-      void CallServiceFunc(int id, const char* str = 0, void* par = 0);
-      void ServiceCall(const char* name, void* par = 0);
+      void CallServiceFunc(int id, const char* str = nullptr, void *par = nullptr);
+      void ServiceCall(const char* name, void* par = nullptr);
 
       virtual void requestedObjectCreated(const char* itemname, TClass* cl);
       virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
@@ -199,7 +199,7 @@ private:
 
       void setCanDestroyWidget(bool on = true) { fCanDestroyWidget = on; }
 
-      void CallPanelFunc(int id, TPad* pad = 0);
+      void CallPanelFunc(int id, TPad* pad = nullptr);
 
       void ShootResetWidget();
       void ShootCloseWidget(bool closeparent = false);
