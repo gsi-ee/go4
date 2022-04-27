@@ -43,7 +43,7 @@
 #define fpos64_t fpos_t
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #include <WTypes.h>
 #include <wchar.h>
 

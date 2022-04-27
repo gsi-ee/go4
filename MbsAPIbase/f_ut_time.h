@@ -20,7 +20,7 @@
 
 CHARS *f_ut_time (CHARS *pc_time);
 
-#ifdef WIN32
+#ifdef _MSC_VER
 
 #define CLOCK_REALTIME 1
 int clock_gettime(int clockid, struct timespec *tp);

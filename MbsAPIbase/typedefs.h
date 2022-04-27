@@ -32,12 +32,17 @@ typedef          double REAL8;
 
 /* Platform specific definitions */
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #define MBS_ENDIAN 0 /* little endian               */
 #define GSI__WINNT
 #include "typedefs_nt.h"
+#ifdef WIN64
+typedef unsigned long long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
+#else
 typedef unsigned long ADDRS;
 typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
+#endif
 #endif
 
 
