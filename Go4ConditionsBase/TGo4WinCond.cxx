@@ -380,8 +380,8 @@ TGo4ConditionPainter* TGo4WinCond::CreatePainter()
 Int_t TGo4WinCond::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName()!=0) size+=strlen(GetName());
-   if (GetTitle()!=0) size+=strlen(GetTitle());
+   if (GetName()) size += strlen(GetName());
+   if (GetTitle()) size += strlen(GetTitle());
    return size;
 }
 
@@ -389,14 +389,14 @@ void TGo4WinCond::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
 
-   TString varname = MakeScript(out, Form("wincond%d", cnt++), opt);
+   TString varname = MakeScript(out, TString::Format("wincond%d", cnt++), opt);
 
    Int_t dim;
    Double_t  xl,xu,yl,yu;
    GetValues(dim,xl,xu,yl,yu);
 
-   if(dim==1) out << Form("   %s->SetValues(%f, %f);", varname.Data(), xl, xu) << std::endl;
-         else out << Form("   %s->SetValues(%f, %f, %f, %f);", varname.Data(), xl, xu, yl, yu) << std::endl;
+   if(dim==1) out << TString::Format("   %s->SetValues(%f, %f);", varname.Data(), xl, xu) << std::endl;
+         else out << TString::Format("   %s->SetValues(%f, %f, %f, %f);", varname.Data(), xl, xu, yl, yu) << std::endl;
 }
 
 

@@ -21,25 +21,21 @@
 
 TGo4MarkerPainter::TGo4MarkerPainter() :
    TGo4LabelPainter(),
-   fxMarker(0),
-   fxConnector(0),
    fbIsConStreamed(kTRUE)
 {
 }
 
 TGo4MarkerPainter::TGo4MarkerPainter(const char* name, const char* title) :
     TGo4LabelPainter(name, title),
-    fxMarker(0),
-    fxConnector(0),
     fbIsConStreamed(kFALSE)
 {
 }
 
 TGo4MarkerPainter::~TGo4MarkerPainter()
 {
-   if (fxConnector!=0) {
+   if (fxConnector) {
       delete fxConnector;
-      fxConnector = 0;
+      fxConnector = nullptr;
    }
 }
 
@@ -47,9 +43,8 @@ TGo4MarkerPainter::~TGo4MarkerPainter()
 
 void TGo4MarkerPainter::PaintLabel(Option_t* opt)
 {
-if(gPad==0) return;
-if(fxMarker && fxMarker->HasLabel())
-   {
+   if(!gPad) return;
+   if(fxMarker && fxMarker->HasLabel()) {
       //------ find out initial coordinates for labels near marker boundaries:
       Double_t xoff=0.015*(gPad->GetUxmax()-gPad->GetUxmin());
       Double_t yoff=0.015*(gPad->GetUymax()-gPad->GetUymin()); // offset is in pad coordinates
@@ -60,30 +55,35 @@ if(fxMarker && fxMarker->HasLabel())
       Bool_t drxbin=fxMarker->IsXbinDraw();
       Bool_t drybin=fxMarker->IsYbinDraw();
       Bool_t drcont=fxMarker->IsContDraw();
-      TString fmt=fxMarker->GetNumFormat();
+      TString fmt = fxMarker->GetNumFormat();
       SetX0(xpmin);
       SetY0(ypmin); // initial coordinates are real axis coordinates
       SetLineColor(fxMarker->GetMarkerColor());
       //SetTextColor(fxMarker->GetMarkerColor());
-      TString cap=fxMarker->GetName();
-      TH1* his=fxMarker->GetHistogram();
-      if(his)
-         {
-            cap+=":";
-            cap+=his->GetName();
-         }
+      TString cap = fxMarker->GetName();
+      TH1* his = fxMarker->GetHistogram();
+      if(his) {
+         cap+=":";
+         cap+=his->GetName();
+      }
       SetCaption(cap.Data());
       TGo4LabelPainter::PaintLabel();// this creates new label
-      if(drx)
-         AddToLabel(Form(Form("X    = %s",fmt.Data()),fxMarker->GetX()));
-      if(dry)
-         AddToLabel(Form(Form("Y    = %s",fmt.Data()),fxMarker->GetY()));
+      if(drx) {
+         TString fmt1 = "X    = ";
+         fmt1.Append(fmt);
+         AddToLabel(TString::Format(fmt1.Data(), fxMarker->GetX()).Data());
+      }
+      if(dry) {
+         TString fmt2 = "Y    = ";
+         fmt2.Append(fmt);
+         AddToLabel(TString::Format(fmt2.Data(), fxMarker->GetY()).Data());
+      }
       if(drxbin)
-         AddToLabel(Form("Xbin = %d",fxMarker->GetXbin()));
+         AddToLabel(TString::Format("Xbin = %d",fxMarker->GetXbin()).Data());
       if(drybin)
-         AddToLabel(Form("Ybin = %d",fxMarker->GetYbin()));
+         AddToLabel(TString::Format("Ybin = %d",fxMarker->GetYbin()).Data());
       if(drcont)
-         AddToLabel(Form("C    = %d",fxMarker->GetCont()));
+         AddToLabel(TString::Format("C    = %d",fxMarker->GetCont()).Data());
       RePaintLabel();
       PaintConnector();
    }//if(fxMarker && fxMarker->HasLabel())
