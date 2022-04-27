@@ -913,7 +913,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, a filtering expression can be defined. Return value
        * gives total size of all printed objects in bytes (including subfolders).
        */
-      Int_t PrintFolder(TFolder* fold, Option_t* opt, const char* expression=0);
+      Int_t PrintFolder(TFolder *fold, Option_t *opt, const char *expression = nullptr);
 
       /**
        * Clear (reset) all objects in folder fold, e.g. zero the histograms.

@@ -1832,27 +1832,27 @@ void TGo4AnalysisObjectManager::RemoveFromDir(TFolder* fold, TDirectory* dir)
 
 Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const char* expression)
 {
-   if(fold==0) return 0;
+   if(!fold) return 0;
 
    GO4TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    Int_t totalsize=0;
    TROOT::IndentLevel();
    TROOT::IncreaseDirLevel();
-   std::cout <<"+Folder "<<fold->GetName()<<" content:" << std::endl;
+   std::cout << "+Folder " << fold->GetName() << " content:" << std::endl;
    TIter listiter(fold->GetListOfFolders());
-   TObject* ob=0;
-   while((ob=listiter())!=0) {
+   TObject* ob = nullptr;
+   while((ob = listiter()) != nullptr) {
       if(ob->InheritsFrom(TFolder::Class()))
-         totalsize+=PrintFolder(dynamic_cast<TFolder*>(ob),opt,expression);
-      else
-         if(IsMatching(ob->GetName(),expression)) {
-            TROOT::IndentLevel();
-            ob->Print(opt);
-            TGo4ObjectStatus* temp = CreateObjectStatus(ob);
-            if(temp!=0) totalsize += temp->GetObjectSize();
-            delete temp;
-         }
+         totalsize += PrintFolder(dynamic_cast<TFolder*>(ob),opt,expression);
+      else if(IsMatching(ob->GetName(),expression)) {
+         TROOT::IndentLevel();
+         ob->Print(opt);
+         TGo4ObjectStatus *temp = CreateObjectStatus(ob);
+         if (temp)
+            totalsize += temp->GetObjectSize();
+         delete temp;
+      }
    } // while
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
