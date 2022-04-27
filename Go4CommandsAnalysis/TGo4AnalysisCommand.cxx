@@ -21,8 +21,8 @@ TGo4AnalysisCommand::TGo4AnalysisCommand(const char* name, const char* desc) :
 {
    GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char*, const char*) ctor",__LINE__, __FILE__));
 
-   fbIsEnabled=kTRUE;
-   fbIsSynchron=kTRUE;
+   fbIsEnabled = kTRUE;
+   fbIsSynchron = kTRUE;
    SetReceiverName("AnalysisClient");  // sets the receiver name checked by command invoker
                                  // receiver name neednt be class name!
 }
@@ -33,24 +33,10 @@ TGo4AnalysisCommand::TGo4AnalysisCommand() :
 {
    GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() ctor",__LINE__, __FILE__));
 
-   fbIsEnabled=kTRUE;
-   fbIsSynchron=kTRUE;
+   fbIsEnabled = kTRUE;
+   fbIsSynchron = kTRUE;
    SetReceiverName("AnalysisClient");  // sets the receiver name checked by command invoker
                                  // receiver name neednt be class name!
-}
-
-
-TGo4AnalysisCommand::~TGo4AnalysisCommand()
-{
-  GO4TRACE((12,"TGo4AnalysisCommand::~TGo4AnalysisCommand() dtor",__LINE__, __FILE__));
-}
-
-
-TGo4AnalysisCommand::TGo4AnalysisCommand(const TGo4AnalysisCommand &right)
-  :TGo4Command(right)
-{
-   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() copy constructor",__LINE__, __FILE__));
-   //fxReceiver=right.fxReceiver;
 }
 
 Int_t TGo4AnalysisCommand::RefuseCom()
