@@ -26,25 +26,20 @@ in Go4License.txt file which is part of the distribution.
 # GO4 PACKAGE
 
 This package was tested on
-* openSUSE Leap 42.2, openSUSE Tumblweed 12.2021
-* Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
-* macOS 10.14.6
-* compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.2
+  * openSUSE Leap 42.2, openSUSE Tumblweed 04.2022
+  * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
+  * macOS 10.14.6
+  * compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.2
 
 ## REQUIREMENTS
-* ROOT
-  * either 6.12 or higher (recommended 6.24)
-  * or 5.34-36 or higher
-* Qt
-  * either qt5.6 or higher (recommended 5.15)
-  * or qt4.8 or higher
-  * or qt6.0 or higher (experimental)
+   * ROOT 6.24 or higher (recommended 6.26)
+   * Qt5.12 or higher (recommended 5.15)
+   * or Qt6.2 or higher (experimental)
 
 
 ## ROOT INSTALLATION
 
-Install the ROOT framework Version >=6.22/08 (older version up to 5.34/36
-can also be used, but not recommended).
+Install the ROOT framework Version >=6.24/00.
 See instruction how download and compile ROOT on http://root.cern.ch.
 Recommended way to build ROOT - compile it and use from compilation path:
 
@@ -73,7 +68,6 @@ If command fails, one should configure environment call
 
 This Go4 distribution can be built with following Qt versions:
 * qt5 - Qt 5.6.x and higher (recommended 5.15.2)
-* qt4 - Qt 4.6.x and higher
 * qt6 - Qt 6.0.x and higher
 Most modern Linux distributions provide Qt libraries, utilities and include files.
 Typically one should install libqt5-devel packages.
