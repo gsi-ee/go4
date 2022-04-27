@@ -32,6 +32,8 @@ class TGo4BufferQueue : public TGo4Queue {
 
       TGo4BufferQueue(const char* name);
 
+      virtual ~TGo4BufferQueue();
+
       /**
        * Reconstruct a TObject queue entry from a given TBuffer pointer.
        * To be used for streaming the receiving socket contents into the queue.
@@ -56,7 +58,7 @@ class TGo4BufferQueue : public TGo4Queue {
       void FreeBuffer(TBuffer * buffer);
 
       /** Empty the queue and give free buffers back */
-      virtual void Clear(Option_t* opt="");
+      void Clear(Option_t* opt="") override;
 
       /**
        * Wait for buffer object from queue. We Renamed the protected baseclass method
@@ -70,8 +72,6 @@ class TGo4BufferQueue : public TGo4Queue {
        * unknown class.
        */
       TObject * WaitObjectFromBuffer();
-
-      virtual ~TGo4BufferQueue() ;
 
       /**
        * Create a root buffer that contains a single value val.
