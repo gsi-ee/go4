@@ -13,28 +13,18 @@
 
 #include "TGo4AnalysisObjectResult.h"
 
-#include <iostream>
-
 #include "TROOT.h"
 
 #include "TGo4AnalysisObjectNames.h"
 
 
 TGo4AnalysisObjectResult::TGo4AnalysisObjectResult() :
-   TGo4Status(),
-   fxNamesList(0),
-   fxFullName(),
-   fiAction(kGo4ActionNul),
-   fxMessage()
+   TGo4Status()
 {
 }
 
 TGo4AnalysisObjectResult::TGo4AnalysisObjectResult(const char* name) :
-   TGo4Status(name),
-   fxNamesList(0),
-   fxFullName(),
-   fiAction(kGo4ActionNul),
-   fxMessage()
+   TGo4Status(name)
 {
 }
 
@@ -48,41 +38,20 @@ TGo4AnalysisObjectResult::~TGo4AnalysisObjectResult()
 TGo4AnalysisObjectNames* TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)
 {
    TGo4AnalysisObjectNames* reval = fxNamesList;
-   if(chown) fxNamesList=0;
+   if(chown) fxNamesList = nullptr;
    return reval;
 }
 
-Int_t TGo4AnalysisObjectResult::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4AnalysisObjectResult::Print(Option_t*) const
 {
-   if(buflen<=0 && buffer!=0)
-      return 0;
    gROOT->SetDirLevel(0);
-   Int_t locallen=64000;
-   Text_t localbuf[64000];
-   Int_t size=0;
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-   current=PrintBuffer(localbuf,restlen,"G-OOOO-> Analysis Object Result Printout <-OOOO-G\n");
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
+   PrintLine("G-OOOO-> Analysis Object Result Printout <-OOOO-G");
+   PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
 
-   if(fxNamesList) {
-      Int_t delta=fxNamesList->PrintStatus(current,restlen);
-      restlen-=delta;
-      current+= delta;
-   }
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Full object name: \t%s\n",GetObjectFullName());
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, " Message: \t%s\n",GetMessage());
-   current=PrintIndent(current,restlen);
-   current = PrintBuffer(current, restlen, " Action: \t%d\n", Action());
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
-   } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
-   }
-   return size;
+   if(fxNamesList)
+      fxNamesList->PrintStatus();
+
+   PrintLine(" Full object name: \t%s", GetObjectFullName());
+   PrintLine(" Message: \t%s", GetMessage());
+   PrintLine(" Action: \t%d", Action());
 }
