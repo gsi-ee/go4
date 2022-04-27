@@ -28,7 +28,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       TGo4AnalysisClientStatus(const char* name);
 
-      virtual ~TGo4AnalysisClientStatus() ;
+      virtual ~TGo4AnalysisClientStatus();
 
       Double_t GetRate() const { return fdRate; }
 
@@ -42,11 +42,9 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       const char* GetCurrentSource() const { return fxEventSource.Data(); }
 
-      Bool_t IsAnalysisRunning() { return fbAnalysisRunning; }
+      Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
 
-      /** basic method to printout status information
-       * on stdout; to be overridden by specific subclass */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
    private:
       void SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time);
@@ -56,16 +54,16 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
       void SetRunning(Bool_t on) { fbAnalysisRunning = on; }
 
       /** Number of events processed since last start. */
-      ULong64_t fuCurrentCount;
+      ULong64_t fuCurrentCount{0};
 
       /** Current eventrate (events/sec). */
-      Double_t fdRate;
+      Double_t fdRate{0};
 
       /** Average eventrate since last reset (events/sec). */
-      Double_t fdAveRate;
+      Double_t fdAveRate{0};
 
       /** Time sum since last reset. in s. */
-      Double_t fdTime;
+      Double_t fdTime{0};
 
       /** Time and date of the last update of this status as sql string. */
       TString fxDateString;
@@ -74,9 +72,9 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
       TString fxEventSource;
 
       /** True running state of analysis, independent of event rate*/
-      Bool_t fbAnalysisRunning;
+      Bool_t fbAnalysisRunning{kFALSE};
 
-      ClassDef(TGo4AnalysisClientStatus,2)
+      ClassDefOverride(TGo4AnalysisClientStatus,2)
 };
 
 #endif //TGO4ANALYSISCLIENTSTATUS_H

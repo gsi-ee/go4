@@ -41,7 +41,7 @@ class TGo4TaskStatus : public TGo4Status {
       TGo4TaskHandlerStatus* GetTaskHandlerStatus() const { return fxTaskHandlerStatus; }
 
       /** method to printout status information on stdout; */
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
    protected:
 
@@ -49,19 +49,19 @@ class TGo4TaskStatus : public TGo4Status {
 
       void SetTaskHandlerStatus(TGo4TaskHandlerStatus* thstate);
 
-      Bool_t fbAppBlocking;
-      Bool_t fbAutoCreate;
-      Bool_t fbAutoStart;
-      Bool_t fbTerminating;
+      Bool_t fbAppBlocking{kFALSE};
+      Bool_t fbAutoCreate{kFALSE};
+      Bool_t fbAutoStart{kFALSE};
+      Bool_t fbTerminating{kFALSE};
 
       /** @link aggregationByValue
        *   @supplierCardinality 1 */
-      TGo4TaskHandlerStatus * fxTaskHandlerStatus;
-      Bool_t fbInitDone;
+      TGo4TaskHandlerStatus * fxTaskHandlerStatus{nullptr};
+      Bool_t fbInitDone{kFALSE};
 
       TGo4TaskStatus(const char* name);
 
-   ClassDef(TGo4TaskStatus,1)
+   ClassDefOverride(TGo4TaskStatus,1)
 };
 
 #endif //TGO4TASKSTATUS_H
