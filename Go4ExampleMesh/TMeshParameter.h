@@ -23,17 +23,17 @@ class TMeshParameter : public TGo4Parameter {
       TMeshParameter();
       TMeshParameter(const char* name);
       virtual ~TMeshParameter();
-      virtual Int_t PrintParameter(Text_t * n, Int_t);
-      virtual Bool_t UpdateFrom(TGo4Parameter *);
+      void Print(Option_t* = "") const override;
+      Bool_t UpdateFrom(TGo4Parameter *) override;
 
-      Bool_t fbUnpackOn; // switch on unpack step
-      Bool_t fbExec1On;  // switch on branch 1 step
-      Bool_t fbExec2On;  // switch on branch 2 step
-      Bool_t fbExec3On;  // switch on branch 3 step
-      Bool_t fbExec12On; // switch on branch 1+2 combination step
-      Bool_t fbCollectorOn; // switch on final step
+      Bool_t fbUnpackOn{kTRUE}; // switch on unpack step
+      Bool_t fbExec1On{kTRUE};  // switch on branch 1 step
+      Bool_t fbExec2On{kTRUE};  // switch on branch 2 step
+      Bool_t fbExec3On{kTRUE};  // switch on branch 3 step
+      Bool_t fbExec12On{kTRUE}; // switch on branch 1+2 combination step
+      Bool_t fbCollectorOn{kTRUE}; // switch on final step
 
-   ClassDef(TMeshParameter,1)
+   ClassDefOverride(TMeshParameter,1)
 };
 
 #endif //MESHPAR_H

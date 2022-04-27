@@ -107,16 +107,11 @@ TXXXCalibPar::~TXXXCalibPar()
 
 
 //-----------------------------------------------------------
-Int_t TXXXCalibPar::PrintParameter(Text_t * n, Int_t)
-{
-  return 0;
-}
-//-----------------------------------------------------------
 Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 {
 /////////////////////// under const /////////////////
    TXXXCalibPar * from = dynamic_cast<TXXXCalibPar*> (source);
-   if (from==0) {
+   if (!from) {
       TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;
    }
@@ -142,12 +137,12 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       //std::cout <<"updated line:"<<fxLinesNames[ix].Data() << std::endl;
    }
    std::cout <<"Updated Parameter:" << std::endl;
-   //PrintParameter(0,0);
+   //Print();
    // get references to graph and histogram from analysis:
    // note that updatefrom is only used on analysis side here!
    fxCalibCurve = dynamic_cast<TGraph*>(TGo4Analysis::Instance()->GetObject(fxGraphName.Data())) ;
 
-   if(fxCalibCurve==0)
+   if(!fxCalibCurve)
    {
       std::cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< std::endl;
    }

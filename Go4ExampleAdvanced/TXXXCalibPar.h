@@ -32,8 +32,7 @@ class TXXXCalibPar : public TGo4Parameter {
       TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve);
       virtual ~TXXXCalibPar();
 
-      Int_t PrintParameter(Text_t * n, Int_t);
-      Bool_t UpdateFrom(TGo4Parameter *);
+      Bool_t UpdateFrom(TGo4Parameter *) override;
 
       /** Read calibration lines from database (ascii file)  */
       void ReadDatabase();
@@ -76,7 +75,7 @@ class TXXXCalibPar : public TGo4Parameter {
       /** Name of the calibration spectrum histogram */
       TString fxSpectrumName; //Name of the calibration spectrum histogram
 
-   ClassDef(TXXXCalibPar,1)
+   ClassDefOverride(TXXXCalibPar,1)
 };
 
 #endif

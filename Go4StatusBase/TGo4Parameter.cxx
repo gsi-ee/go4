@@ -148,7 +148,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems)
 
 Bool_t TGo4Parameter::SetMemberValues(TObjArray* items)
 {
-   if (items==0) return kFALSE;
+   if (!items) return kFALSE;
 
    Int_t indx(0);
 
@@ -158,14 +158,14 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items)
 
 void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, unsigned long int cloffset)
 {
-   if ((fItems==0) || (cl==0) || (ptr==0)) return;
+   if (!fItems || !cl || !ptr) return;
 
    TIter iter(cl->GetListOfDataMembers());
    Int_t lastmemberid = -1;
    if (fItems->GetLast()>=0)
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
-   TObject* obj = 0;
+   TObject* obj = nullptr;
    while ((obj=iter()) != 0) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (member==0) continue;
