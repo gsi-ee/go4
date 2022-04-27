@@ -20,30 +20,12 @@
 #include "TDataType.h"
 
 TGo4ParameterMember::TGo4ParameterMember() :
-   TNamed(),
-   fTypeName(),
-   fTypeId(0),
-   fMemberId(0),
-   fValue(),
-   fIndex1(-1),
-   fIndex2(-1),
-   fObject(0),
-   fObjectOwner(kTRUE),
-   fVisible(kTRUE)
+   TNamed()
 {
 }
 
 TGo4ParameterMember::TGo4ParameterMember(const char* name, const char* title) :
-   TNamed(name, title),
-   fTypeName(),
-   fTypeId(0),
-   fMemberId(0),
-   fValue(),
-   fIndex1(-1),
-   fIndex2(-1),
-   fObject(0),
-   fObjectOwner(kTRUE),
-   fVisible(kTRUE)
+   TNamed(name, title)
 {
 }
 
@@ -51,7 +33,7 @@ TGo4ParameterMember::~TGo4ParameterMember()
 {
    if (fObject && fObjectOwner) {
       delete fObject;
-      fObject = 0;
+      fObject = nullptr;
    }
 }
 
@@ -100,7 +82,7 @@ const char* TGo4ParameterMember::GetFullName(TString& buf)
 
 void TGo4ParameterMember::SetObject(TObject* obj, Bool_t owner)
 {
-   if ((fObject!=0) && fObjectOwner) delete fObject;
+   if (fObject && fObjectOwner) delete fObject;
 
    fObject = obj;
    fObjectOwner = owner;
@@ -108,13 +90,11 @@ void TGo4ParameterMember::SetObject(TObject* obj, Bool_t owner)
 
 void TGo4ParameterMember::SetToZero()
 {
-   if ((fObject!=0) && fObjectOwner) {
+   if (fObject && fObjectOwner)
       delete fObject;
-      fObject = 0;
-   }
 
    fValue = "";
-   fObject = 0;
+   fObject = nullptr;
    fObjectOwner = kFALSE;
 
    switch (fTypeId) {

@@ -23,16 +23,14 @@
 #include "TGo4Parameter.h"
 
 TGo4ParameterStatus::TGo4ParameterStatus() :
-   TGo4ObjectStatus(),
-   fxMemberValues(0)
+   TGo4ObjectStatus()
 {
 }
 
 TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues) :
-   TGo4ObjectStatus(par),
-   fxMemberValues(0)
+   TGo4ObjectStatus(par)
 {
-   if ((par!=0) && membervalues) {
+   if (par && membervalues) {
       fxMemberValues = new TObjArray();
       fxMemberValues->SetOwner(kTRUE);
       par->GetMemberValues(fxMemberValues);
@@ -40,9 +38,9 @@ TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues
 }
 
 TGo4ParameterStatus::TGo4ParameterStatus(const char* parname, const char* parclass, TObjArray* items) :
-   TGo4ObjectStatus(),
-   fxMemberValues(items)
+   TGo4ObjectStatus()
 {
+   fxMemberValues = items;
    SetName(parname);
    SetTitle("TGo4ParameterStatus title");
    fxObjectClass = parclass;
@@ -51,19 +49,22 @@ TGo4ParameterStatus::TGo4ParameterStatus(const char* parname, const char* parcla
 
 TGo4ParameterStatus::~TGo4ParameterStatus()
 {
-   if (fxMemberValues!=0) delete fxMemberValues;
+   if (fxMemberValues) {
+      delete fxMemberValues;
+      fxMemberValues = nullptr;
+   }
 }
 
 TObjArray* TGo4ParameterStatus::GetMemberValues(Bool_t takeit)
 {
    TObjArray* res = fxMemberValues;
-   if (takeit) fxMemberValues = 0;
+   if (takeit) fxMemberValues = nullptr;
    return res;
 }
 
 Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
 {
-   if ((par==0) || (fxMemberValues==0)) return kFALSE;
+   if (!par || !fxMemberValues) return kFALSE;
    if (strcmp(GetObjectClass(), par->ClassName())!=0) return kFALSE;
 
    if (par->CustomUpdateFrom()) {
@@ -80,12 +81,12 @@ Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
 
 TGo4Parameter* TGo4ParameterStatus::CreateParameter()
 {
-   TClass* parclass = gROOT->GetClass(GetObjectClass());
-   if ((parclass==0) || (fxMemberValues==0)) return 0;
+   auto parclass = gROOT->GetClass(GetObjectClass());
+   if (!parclass || !fxMemberValues) return nullptr;
 
    TGo4Parameter* par = (TGo4Parameter*) parclass->New();
 
-   if (par==0) return 0;
+   if (!par) return nullptr;
 
    par->SetName(GetName());
    par->SetMemberValues(fxMemberValues);

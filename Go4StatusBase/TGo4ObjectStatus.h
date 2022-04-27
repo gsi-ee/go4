@@ -52,17 +52,17 @@ class TGo4ObjectStatus : public TGo4Status {
       /** Creation time string; sql format. */
       const char* GetTimeString() const { return fxStatusTime.Data(); }
 
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
 
    protected:
       /** Size of the described object in byte. */
-      UInt_t fiObjectSize;
+      UInt_t fiObjectSize{0};
 
       /** If true, described object is protected against reset (Clear()) from gui. */
-      Bool_t fbResetProtect;
+      Bool_t fbResetProtect{kFALSE};
 
       /** If true, described object is protected against deletion from gui. */
-      Bool_t fbDeleteProtect;
+      Bool_t fbDeleteProtect{kTRUE};
 
       /** Classname of the described object. */
       TString fxObjectClass;
@@ -70,7 +70,7 @@ class TGo4ObjectStatus : public TGo4Status {
       /** creation time of status object */
       TString fxStatusTime;
 
-   ClassDef(TGo4ObjectStatus,1)
+   ClassDefOverride(TGo4ObjectStatus,1)
 };
 
 #endif //TGO4OBJECTSTATUS_H

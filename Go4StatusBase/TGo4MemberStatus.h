@@ -27,9 +27,9 @@ class TGo4MemberStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4MemberStatus();
 
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0) override;
 
-   ClassDef(TGo4MemberStatus,1)
+   ClassDefOverride(TGo4MemberStatus,1)
 };
 
 #endif //TGO4MEMBERSTATUS_H
