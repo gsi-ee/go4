@@ -25,6 +25,8 @@
 class TGo4CreateException : public TGo4ThreadException {
 
   public:
+      TGo4CreateException() = delete;
+
       TGo4CreateException(const TGo4CreateException &right);
 
       TGo4CreateException (TGo4Runnable* runnable, const char* threadname = 0);
@@ -38,9 +40,6 @@ class TGo4CreateException : public TGo4ThreadException {
        */
       virtual Int_t Handle ();
 
-
-  private:
-      TGo4CreateException();
 
 };
 

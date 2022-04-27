@@ -37,6 +37,8 @@ class TGo4Runnable;
 
 class TGo4ReplaceException : public TGo4ThreadException {
   public:
+      TGo4ReplaceException() = delete;
+
       TGo4ReplaceException(const TGo4ReplaceException &right);
 
       TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable = 0, const char* oldthreadname = 0);
@@ -45,13 +47,11 @@ class TGo4ReplaceException : public TGo4ThreadException {
 
       TGo4ReplaceException & operator=(const TGo4ReplaceException &right);
 
-      virtual Int_t Handle ();
+      Int_t Handle() override;
 
   protected:
-      TGo4Runnable *fxNewRunnable; //!
+      TGo4Runnable *fxNewRunnable{nullptr}; //!
 
-  private:
-      TGo4ReplaceException();
 
 };
 

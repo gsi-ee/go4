@@ -25,6 +25,9 @@
  * @since jul 2000-oct 2001*/
 class TGo4CancelException : public TGo4ThreadException {
 public:
+
+   TGo4CancelException() = delete;
+
    TGo4CancelException(const TGo4CancelException &right);
 
    TGo4CancelException(TGo4Runnable *runnable, const char *threadname = 0);
@@ -36,11 +39,8 @@ public:
    /**
     * This is a default handler function for the respective exception type.
     */
-   virtual Int_t Handle();
+   Int_t Handle() override;
 
-private:
-
-   TGo4CancelException();
 };
 
 #endif

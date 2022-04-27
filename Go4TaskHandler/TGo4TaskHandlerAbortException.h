@@ -23,6 +23,7 @@ class TGo4TaskHandlerAbortException : public TGo4TaskHandlerException {
 
   public:
 
+   TGo4TaskHandlerAbortException() = delete;
    /**
     *   Exception to Disconnect client belonging to taskhandler from server task (servermode)
     *    or shut down the client task (clientmode)
@@ -39,9 +40,7 @@ class TGo4TaskHandlerAbortException : public TGo4TaskHandlerException {
 
    Int_t Handle ();
 
-private:
 
-   TGo4TaskHandlerAbortException();
 };
 
 #endif //TGO4TASKHANDLERABORTEXCEPTION_H

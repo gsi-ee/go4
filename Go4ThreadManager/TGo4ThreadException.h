@@ -29,9 +29,11 @@ class TGo4ThreadHandler;
  * @since jul 2000-oct 2001*/
 class TGo4ThreadException : public TGo4ControlException {
    public:
+      TGo4ThreadException() = delete;
+
       TGo4ThreadException(const TGo4ThreadException &right);
 
-      TGo4ThreadException (TGo4Runnable* runnable, const char* threadname = 0);
+      TGo4ThreadException (TGo4Runnable* runnable, const char* threadname = nullptr);
 
       virtual ~TGo4ThreadException();
 
@@ -40,7 +42,7 @@ class TGo4ThreadException : public TGo4ControlException {
       /** This is a default handler function for the respective exception type. */
       virtual Int_t Handle () = 0;
 
-      const char* GetThreadName ();
+      const char* GetThreadName() const;
 
    protected:
       /** Name of the TGo4Thread  that shall be acted on */
@@ -48,13 +50,11 @@ class TGo4ThreadException : public TGo4ControlException {
 
       /** Link to the runnable connected with the thread
         *   (exception throwing runnable might simply pass its 'this' pointer as argument) **/
-      TGo4Runnable *fxRunnable; //!
+      TGo4Runnable *fxRunnable{nullptr}; //!
 
       /** Link to threadhandler associated with the runnable **/
-      TGo4ThreadHandler *fxThreadHandler; //!
+      TGo4ThreadHandler *fxThreadHandler{nullptr}; //!
 
-   private:
-      TGo4ThreadException();
 };
 
 #endif

@@ -22,6 +22,7 @@ class TGo4ThreadManager;
 
 class TGo4TaskHandlerException : public TGo4ControlException {
    public:
+     TGo4TaskHandlerException() = delete;
      TGo4TaskHandlerException (TGo4TaskHandler* taskhandler);
 
      TGo4TaskHandlerException(TGo4TaskHandlerRunnable* run);
@@ -32,14 +33,11 @@ class TGo4TaskHandlerException : public TGo4ControlException {
 
   protected:
 
-      TGo4TaskHandler * fxTaskHandler; //!
+      TGo4TaskHandler * fxTaskHandler{nullptr}; //!
 
-      TGo4ThreadManager * fxThreadManager; //!
+      TGo4ThreadManager * fxThreadManager{nullptr}; //!
 
-      TGo4TaskHandlerRunnable * fxCaller; //!
-
-  private:
-      TGo4TaskHandlerException();
+      TGo4TaskHandlerRunnable * fxCaller{nullptr}; //!
 };
 
 #endif // #define TGO4TASKHANDLEREXCEPTION_H

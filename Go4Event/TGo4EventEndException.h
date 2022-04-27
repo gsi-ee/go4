@@ -22,6 +22,8 @@ class TGo4EventEndException : public TGo4EventSourceException {
 
   public:
 
+    TGo4EventEndException() = delete;
+
     TGo4EventEndException (TGo4EventSource* eventsource);
 
     virtual ~TGo4EventEndException();
@@ -29,10 +31,6 @@ class TGo4EventEndException : public TGo4EventSourceException {
     TGo4EventEndException(const TGo4EventEndException &right);
 
     TGo4EventEndException & operator = (const TGo4EventEndException & right);
-
-  private:
-
-    TGo4EventEndException();
 };
 
 #endif //TGO4EVENTENDEXCEPTION_H

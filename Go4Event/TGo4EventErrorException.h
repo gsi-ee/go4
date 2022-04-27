@@ -24,7 +24,9 @@ class TGo4EventSource;
     */
 class TGo4EventErrorException : public TGo4EventSourceException {
 
-  public:
+   public:
+
+    TGo4EventErrorException() = delete;
 
 
     TGo4EventErrorException (TGo4EventSource* eventsource, Int_t prio=3);
@@ -39,10 +41,8 @@ class TGo4EventErrorException : public TGo4EventSourceException {
 
   private:
 
-    TGo4EventErrorException();
-
     /* priority of error. 0 means print information only */
-    Int_t fiPriority;
+    Int_t fiPriority{0};
 };
 
 #endif //TGO4EVENTERROREXCEPTION_H
