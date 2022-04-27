@@ -13,163 +13,78 @@
 
 #include "TGo4AnalysisStepStatus.h"
 
-#include <iostream>
-
 #include "TROOT.h"
 
 #include "TGo4Log.h"
 
 TGo4AnalysisStepStatus::TGo4AnalysisStepStatus() :
-   TGo4Status(),
-   fxSourceType(0),
-   fxStoreType(0),
-   fxProcessorType(0),
-   fbSourceEnabled(kFALSE),
-   fbStoreEnabled(kFALSE),
-   fbProcessEnabled(kFALSE),
-   fbErrorStopEnabled(kFALSE),
-   fbErrorStopped(kFALSE),
-   fiProcessStatus(0)
+   TGo4Status()
 {
 }
 
 TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char* name) :
-   TGo4Status(name, "Go4 AnalysisStep Status Object"),
-   fxSourceType(0),
-   fxStoreType(0),
-   fxProcessorType(0),
-   fbSourceEnabled(kFALSE),
-   fbStoreEnabled(kFALSE),
-   fbProcessEnabled(kFALSE),
-   fbErrorStopEnabled(kFALSE),
-   fbErrorStopped(kFALSE),
-   fiProcessStatus(0)
+   TGo4Status(name, "Go4 AnalysisStep Status Object")
 {
    GO4TRACE((15,"TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char*)",__LINE__, __FILE__));
-
 }
 
 TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()
 {
    GO4TRACE((15,"TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()",__LINE__, __FILE__));
-   delete fxSourceType;
-   delete fxStoreType;
-   delete fxProcessorType;
+   delete fxSourceType; fxSourceType = nullptr;
+   delete fxStoreType; fxStoreType = nullptr;
+   delete fxProcessorType; fxProcessorType = nullptr;
 }
 
-Int_t TGo4AnalysisStepStatus::PrintStatus(Text_t* buffer, Int_t buflen)
+void TGo4AnalysisStepStatus::Print(Option_t *) const
 {
-   GO4TRACE((12,"TGo4AnalysisStepStatus::PrintStatus()",__LINE__, __FILE__));
-   //
-
-   Int_t locallen=64000;
-   Text_t localbuf[64000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size=0;
-
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "++++ Analysis Step %s ++++\t \n",GetName());
+   PrintLine("++++ Analysis Step %s ++++", GetName());
    TROOT::IncreaseDirLevel();
-   if(IsProcessEnabled())
-      {
-      if(IsSourceEnabled())
-         {
-         TGo4EventSourceParameter* spar=GetSourcePar();
-         if( spar!=0 )
-            {
-               Int_t delta=spar->PrintParameter(current,restlen);
-               restlen-=delta;
-               current+=delta;
-            }
+   if (IsProcessEnabled()) {
+      if (IsSourceEnabled()) {
+         TGo4EventSourceParameter *spar = GetSourcePar();
+         if (spar)
+            spar->PrintParameter();
          else
-            {
-               current=PrintIndent(current,restlen);
-               current=PrintBuffer(current,restlen, "EventSource Type: undefined \n");
-            } // if( spar!=0 )
-         }
-      else
-         {
-            current=PrintIndent(current,restlen);
-            current=PrintBuffer(current,restlen, "EventSource is disabled. \n");
-         }
-
-      TGo4EventProcessorParameter* ppar=GetProcessorPar();
-      if(ppar !=0)
-         {
-            Int_t delta=ppar->PrintParameter(current,restlen);
-            restlen-=delta;
-            current+=delta;
-         }
-      else
-         {
-            // for the moment, suppress unnecessary confusing output!
-            //  current=PrintIndent(current,restlen);
-            //  current=PrintBuffer(current,restlen, "EventProcessor Type: undefined \n");
-         } // if( ppar!=0 )
-
-
-      if(IsStoreEnabled())
-         {
-            TGo4EventStoreParameter* tpar=GetStorePar();
-            if(tpar!=0)
-               {
-                  Int_t delta=tpar->PrintParameter(current,restlen);
-                  restlen-=delta;
-                  current+=delta;
-               }
-            else
-               {
-                  current=PrintIndent(current,restlen);
-                  current=PrintBuffer(current,restlen, "EventStore Type: undefined \n");
-               } // if( tpar!=0 )
-         }
-      else
-         {
-            current=PrintIndent(current,restlen);
-            current=PrintBuffer(current,restlen, "EventStore is disabled.\n");
-         }
-     //   current=PrintIndent(current,restlen);
-     //   current=PrintBuffer(current,restlen, "Error stop enabled: %d\n",IsErrorStopEnabled());
-     //   current=PrintIndent(current,restlen);
-     //   current=PrintBuffer(current,restlen, "Error stopped: %d\n",IsErrorStopped());
-      current=PrintIndent(current,restlen);
-      current=PrintBuffer(current,restlen, "Process Status: %d\n",GetProcessStatus());
+            PrintLine("EventSource Type: undefined");
+      } else {
+         PrintLine("EventSource is disabled.");
       }
-   else
-      {
-         current=PrintIndent(current,restlen);
-         current=PrintBuffer(current,restlen, "Step is disabled.\n");
+
+      TGo4EventProcessorParameter *ppar = GetProcessorPar();
+      if (ppar)
+         ppar->PrintParameter();
+
+      if (IsStoreEnabled()) {
+         TGo4EventStoreParameter *tpar = GetStorePar();
+         if (tpar)
+            tpar->PrintParameter();
+         else
+            PrintLine("EventStore Type: undefined");
+      } else {
+         PrintLine("EventStore is disabled.");
       }
-   TROOT::DecreaseDirLevel();
-   current=PrintIndent(current,restlen);
-   current = PrintBuffer(current, restlen, "----------------------------------------------  \n");
-   if (buffer == 0) {
-      std::cout << localbuf << std::endl;
+      PrintLine("Process Status: %d", GetProcessStatus());
    } else {
-      size = locallen - restlen;
-      if (size > buflen - 1)
-         size = buflen - 1;
-      strncpy(buffer, localbuf, size);
+      PrintLine("Step is disabled.");
    }
-   return size;
+   TROOT::DecreaseDirLevel();
+   PrintLine("---------------------------------------------- ");
 }
 
 void TGo4AnalysisStepStatus::SetSourcePar(TGo4EventSourceParameter* kind)
 {
     if(fxSourceType) delete fxSourceType;
     if(kind)
-        fxSourceType=dynamic_cast<TGo4EventSourceParameter*>(kind->Clone());
+        fxSourceType = dynamic_cast<TGo4EventSourceParameter*>(kind->Clone());
     else
-        fxSourceType=0;
+        fxSourceType = nullptr;
 }
 
 TGo4EventSourceParameter* TGo4AnalysisStepStatus::TakeSourcePar()
 {
    TGo4EventSourceParameter* res = fxSourceType;
-   fxSourceType = 0;
+   fxSourceType = nullptr;
    return res;
 }
 
@@ -177,16 +92,16 @@ void TGo4AnalysisStepStatus::SetStorePar(TGo4EventStoreParameter* kind)
 {
     if(fxStoreType) delete fxStoreType;
     if(kind)
-        fxStoreType=dynamic_cast<TGo4EventStoreParameter*>(kind->Clone());
+        fxStoreType = dynamic_cast<TGo4EventStoreParameter*>(kind->Clone());
     else
-        fxStoreType=0;
+        fxStoreType = nullptr;
 }
 
 void TGo4AnalysisStepStatus::SetProcessorPar(TGo4EventProcessorParameter* kind)
 {
     if(fxProcessorType) delete fxProcessorType;
     if(kind)
-        fxProcessorType=dynamic_cast<TGo4EventProcessorParameter*>(kind->Clone());
+        fxProcessorType = dynamic_cast<TGo4EventProcessorParameter*>(kind->Clone());
     else
-        fxProcessorType=0;
+        fxProcessorType = nullptr;
 }

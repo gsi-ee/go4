@@ -39,100 +39,96 @@ class TGo4HistogramStatus : public TGo4ObjectStatus {
 
     virtual ~TGo4HistogramStatus() ;
 
+    void Print(Option_t* = "") const override;
 
+    Int_t GetDimension() const { return fiDim; }
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+    Int_t GetXbins() const { return fiNbinX; }
 
-    Int_t GetDimension(){ return fiDim; }
+    Int_t GetYbins() const { return fiNbinY; }
 
-    Int_t GetXbins(){ return fiNbinX; }
+    Int_t GetZbins() const { return fiNbinZ; }
 
-    Int_t GetYbins(){ return fiNbinY; }
+    Axis_t GetXmin() const { return fdXmin; }
 
-    Int_t GetZbins(){ return fiNbinZ; }
+    Axis_t GetXmax() const { return fdXmax; }
 
-    Axis_t GetXmin(){ return fdXmin; }
+    Axis_t GetYmin() const { return fdYmin; }
 
-    Axis_t GetXmax(){ return fdXmax; }
+    Axis_t GetYmax() const { return fdYmax;}
 
-    Axis_t GetYmin(){ return fdYmin; }
+    Axis_t GetZmin() const { return fdZmin;}
 
-    Axis_t GetYmax(){ return fdYmax;}
+    Axis_t GetZmax() const { return fdZmax;}
 
-    Axis_t GetZmin(){ return fdZmin;}
+    Stat_t GetEntries() const { return fdEntries;}
 
-    Axis_t GetZmax(){ return fdZmax;}
+    Stat_t GetXmean() const { return fdXmean; }
 
-    Stat_t GetEntries(){ return fdEntries;}
+    Stat_t GetYmean() const { return fdYmean; }
 
-    Stat_t GetXmean(){ return fdXmean; }
+    Stat_t GetZmean() const { return fdZmean; }
 
-    Stat_t GetYmean(){ return fdYmean; }
+    Stat_t GetXrms() const { return fdXrms; }
 
-    Stat_t GetZmean(){ return fdZmean; }
+    Stat_t GetYrms() const { return fdYrms; }
 
-    Stat_t GetXrms(){ return fdXrms; }
-
-    Stat_t GetYrms(){ return fdYrms; }
-
-    Stat_t GetZrms(){ return fdZrms; }
+    Stat_t GetZrms() const { return fdZrms; }
 
   private:
 
     /** Histogram dimension (1,2,3). */
-    Int_t fiDim;
+    Int_t fiDim{0};
 
     /** Number of bins in x axis. */
-    Int_t fiNbinX;
+    Int_t fiNbinX{0};
 
     /** Number of bins in y axis. */
-    Int_t fiNbinY;
+    Int_t fiNbinY{0};
 
     /** Number of bins in z axis. */
-    Int_t fiNbinZ;
+    Int_t fiNbinZ{0};
 
     /** Lower edge of x axis. */
-    Axis_t fdXmin;
+    Axis_t fdXmin{0};
 
     /** Upper edge of x axis. */
-    Axis_t fdXmax;
+    Axis_t fdXmax{0};
 
     /** Lower edge of y axis. */
-    Axis_t fdYmin;
+    Axis_t fdYmin{0};
 
     /** Upper edge of y axis. */
-    Axis_t fdYmax;
+    Axis_t fdYmax{0};
 
     /** Lower edge of z axis. */
-    Axis_t fdZmin;
+    Axis_t fdZmin{0};
 
     /** Upper edge of z axis. */
-    Axis_t fdZmax;
+    Axis_t fdZmax{0};
 
     /** Number of filled entries. */
-    Stat_t fdEntries;
+    Stat_t fdEntries{0};
 
     /** Mean value in x projection. */
-    Stat_t fdXmean;
+    Stat_t fdXmean{0};
 
     /** Mean value in y projection. */
-    Stat_t fdYmean;
+    Stat_t fdYmean{0};
 
     /** Mean value in z projection. */
-    Stat_t fdZmean;
+    Stat_t fdZmean{0};
 
     /** Root mean square value in x projection. */
-    Stat_t fdXrms;
+    Stat_t fdXrms{0};
 
     /** Root mean square value in y projection. */
-    Stat_t fdYrms;
+    Stat_t fdYrms{0};
 
     /** Root mean square value in z projection. */
-    Stat_t fdZrms;
+    Stat_t fdZrms{0};
 
-  ClassDef(TGo4HistogramStatus,1 )
+  ClassDefOverride(TGo4HistogramStatus, 1)
 };
 
 #endif //TGO4HISTOGRAMSTATUS_H

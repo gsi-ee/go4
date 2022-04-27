@@ -35,9 +35,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     virtual ~TGo4AnalysisStepStatus();
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-   virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+    void Print(Option_t* = "") const override;
 
     /** Sets the event source parameter which is used on intitialization
       * of this step. */
@@ -102,52 +100,52 @@ class TGo4AnalysisStepStatus : public TGo4Status {
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventSourceParameter* fxSourceType;
+    TGo4EventSourceParameter* fxSourceType{nullptr};
 
     /** Parameter object of next event storage to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventStoreParameter* fxStoreType;
+    TGo4EventStoreParameter* fxStoreType{nullptr};
 
     /** Parameter object of next event processor to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventProcessorParameter* fxProcessorType;
+    TGo4EventProcessorParameter* fxProcessorType{nullptr};
 
     /** Enables event source.If true,
       * the event source is used to get the input event; otherwise
       * we use the output of the previous step. */
-    Bool_t fbSourceEnabled;
+    Bool_t fbSourceEnabled{kFALSE};
 
     /** Enables event store. If true,
       * the event store is used as output; otherwise
       * we pass the output to the next step. */
-    Bool_t fbStoreEnabled;
+    Bool_t fbStoreEnabled{kFALSE};
 
     /** Enables processing of the input event. If true,
       * Process method produces an output event from the input; otherwise
       * we do not fill the output. Useful if event source of this step shall be
       * used to pass the input event to another analysis step. If process is
       * disabled, also the eventstore is disabled. */
-    Bool_t fbProcessEnabled;
+    Bool_t fbProcessEnabled{kFALSE};
 
     /** Operation mode switch. If true, the analysis
       * step process method will stop the analysis
       * if the event source returns an error code.
       * Otherwise, the event source may be reset then
       * and the analysis continues from start. */
-    Bool_t fbErrorStopEnabled;
+    Bool_t fbErrorStopEnabled{kFALSE};
 
     /** True if the analysis step has been stopped
       * after input error. */
-    Bool_t fbErrorStopped;
+    Bool_t fbErrorStopped{kFALSE};
 
     /** Contains current analysis step status value. To be checked by framework after Process().*/
-    Int_t fiProcessStatus;
+    Int_t fiProcessStatus{0};
 
-  ClassDef(TGo4AnalysisStepStatus,1)
+  ClassDefOverride(TGo4AnalysisStepStatus,1)
 };
 
 #endif //TGO4ANALYSISSTEPSTATUS_H
