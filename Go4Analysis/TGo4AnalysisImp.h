@@ -107,9 +107,6 @@ public:
    /** filename suffix for object file */
    static const char *fgcDEFAULTFILESUF;     //!
 
-   /** Default name of the default (toplevel) dynamic list */
-   static const char *fgcTOPDYNAMICLIST;     //!
-
    /** leading character indicating python script execution*/
    static const char fgcPYPROMPT;
 
