@@ -295,9 +295,9 @@ TGo4Analysis::~TGo4Analysis()
    InstallGo4CtrlCHandler(false);
 #endif
 
-   if (fxInterruptHandler!=0) {
+   if (fxInterruptHandler) {
       delete fxInterruptHandler;
-      fxInterruptHandler = 0;
+      fxInterruptHandler = nullptr;
    }
 
    GO4TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
@@ -2596,7 +2596,6 @@ void TGo4Analysis::StartAnalysis()
 
 #include "windows.h"
 
-
 namespace {
 
    BOOL WINAPI Go4ConsoleSigHandler(DWORD sig)
@@ -2624,7 +2623,5 @@ namespace {
    }
 
 }
-
-
 
 #endif

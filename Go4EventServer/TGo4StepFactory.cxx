@@ -72,7 +72,7 @@ void TGo4StepFactory::DefEventProcessor(const char* Pname, const char* Pclass)
 //-----------------------------------------------------------
 TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorParameter* par)
 {
-   TGo4EventProcessor * proc = 0;
+   TGo4EventProcessor * proc = nullptr;
 
    // par is the object specified as last argument creating the step in TAnalysis
    // only info we can get is an ID
@@ -82,7 +82,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
    else
       // create event processor by macro
       proc = (TGo4EventProcessor*) gROOT->ProcessLineFast(fnewProcessor.Data());
-   if(proc == 0)
+   if(!proc)
       TGo4Log::Error("Cannot create event processor: %s", fProcessorName.Data());
    return proc;
 }
@@ -98,17 +98,17 @@ void TGo4StepFactory::DefOutputEvent(const char* Oname, const char* Oclass)
 //-----------------------------------------------------------
 TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 {
-   TGo4EventElement * Oevent = 0;
+   TGo4EventElement * event = nullptr;
 
    TGo4Log::Info("%s: Create output event %s", GetName(), fOutputEventName.Data());
 
    if(fnewOutputEvent.Length() == 0)
       TGo4Log::Error("No output event was specified!");
    else
-      Oevent = (TGo4EventElement*) gROOT->ProcessLineFast(fnewOutputEvent.Data());
-   if(Oevent == 0)
+      event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewOutputEvent.Data());
+   if(!event)
       TGo4Log::Error("Cannot create output event: %s", fOutputEventName.Data());
-   return Oevent;
+   return event;
 }
 
 //-----------------------------------------------------------
@@ -126,10 +126,10 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
    if(fnewInputEvent.Length() == 0)
       return TGo4EventServerFactory::CreateInputEvent();
 
-   TGo4EventElement* Ievent = (TGo4EventElement*) gROOT->ProcessLineFast(fnewInputEvent.Data());
-   if(Ievent == 0)
+   TGo4EventElement* event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewInputEvent.Data());
+   if(!event)
       TGo4Log::Error("Cannot create input event: %s", fInputEventName.Data());
-   return Ievent;
+   return event;
 }
 
 //-----------------------------------------------------------
