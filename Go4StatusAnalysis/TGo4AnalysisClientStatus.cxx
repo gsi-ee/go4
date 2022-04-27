@@ -13,11 +13,7 @@
 
 #include "TGo4AnalysisClientStatus.h"
 
-#include <iostream>
-
 #include "TDatime.h"
-
-#include "TGo4Log.h"
 
 TGo4AnalysisClientStatus::TGo4AnalysisClientStatus() :
   TGo4ClientStatus()
@@ -27,7 +23,6 @@ TGo4AnalysisClientStatus::TGo4AnalysisClientStatus() :
 TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char* name) :
   TGo4ClientStatus(name)
 {
-   GO4TRACE((12,"TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()
@@ -52,7 +47,6 @@ void TGo4AnalysisClientStatus::Print(Option_t*) const
 
 void TGo4AnalysisClientStatus::SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time)
 {
-   GO4TRACE((12,"TGo4AnalysisClientStatus::SetRates(...)",__LINE__, __FILE__));
    fdRate = rate;
    fdAveRate = average;
    fuCurrentCount = counts;

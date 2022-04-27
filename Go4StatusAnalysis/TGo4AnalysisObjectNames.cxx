@@ -13,12 +13,9 @@
 
 #include "TGo4AnalysisObjectNames.h"
 
-#include <iostream>
-
 #include "TROOT.h"
 #include "TList.h"
 #include "TFolder.h"
-#include "TGo4Log.h"
 
 TGo4AnalysisObjectNames::TGo4AnalysisObjectNames() :
    TGo4Status()
@@ -28,12 +25,10 @@ TGo4AnalysisObjectNames::TGo4AnalysisObjectNames() :
 TGo4AnalysisObjectNames::TGo4AnalysisObjectNames(const char* name) :
    TGo4Status(name)
 {
-   GO4TRACE((15,"TGo4AnalysisObjectnames::TGo4AnalysisObjectnames(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisObjectNames::~TGo4AnalysisObjectNames()
 {
-   GO4TRACE((15,"TGo4AnalysisObjectnames::~TGo4AnalysisObjectnames()",__LINE__, __FILE__));
    if(fxTopFolder) {
       delete fxTopFolder;
       fxTopFolder = nullptr;
@@ -67,8 +62,7 @@ void TGo4AnalysisObjectNames::Print(Option_t *)
 void TGo4AnalysisObjectNames::PrintFolder(TFolder* fold)
 {
    if (!fold) return;
-   GO4TRACE((12,"TGo4AnalysisObjectNames::PrintFolder()",__LINE__, __FILE__));
-   //
+
    gROOT->IncreaseDirLevel();
 
    PrintLine("G-OOOO-> Status Folder %s Printout <-OOOO-G", fold->GetName());
