@@ -110,7 +110,7 @@ TXXXCalibPar::~TXXXCalibPar()
 Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 {
 /////////////////////// under const /////////////////
-   TXXXCalibPar * from = dynamic_cast<TXXXCalibPar*> (source);
+   auto from = dynamic_cast<TXXXCalibPar *> (source);
    if (!from) {
       TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;

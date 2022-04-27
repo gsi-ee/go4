@@ -60,7 +60,7 @@ void TGo4MbsFileParameter::Print(Option_t*) const
 Bool_t TGo4MbsFileParameter::UpdateFrom(TGo4Parameter* rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4MbsFileParameter::Class())) {
-      TGo4MbsFileParameter* mbspar=dynamic_cast<TGo4MbsFileParameter*>(rhs);
+      auto mbspar = dynamic_cast<TGo4MbsFileParameter*>(rhs);
       if(!mbspar) return kFALSE;
       if(!TGo4MbsSourceParameter::UpdateFrom(rhs)) return kFALSE;
       SetTagName(mbspar->GetTagName());

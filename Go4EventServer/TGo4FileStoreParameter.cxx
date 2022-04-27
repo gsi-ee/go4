@@ -47,10 +47,9 @@ void TGo4FileStoreParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  Tree autosave at: \t%d bytes", fiAutosavesize);
 }
 
-
 Bool_t TGo4FileStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(rhs);
+   auto filepar = dynamic_cast<TGo4FileStoreParameter*>(rhs);
    if (!filepar) return kFALSE;
 
    if(!TGo4EventStoreParameter::UpdateFrom(rhs)) return kFALSE;

@@ -44,7 +44,7 @@ void TGo4BackStoreParameter::Print(Option_t*) const
 
 Bool_t TGo4BackStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TGo4BackStoreParameter* backpar = dynamic_cast<TGo4BackStoreParameter*>(rhs);
+   auto backpar = dynamic_cast<TGo4BackStoreParameter*>(rhs);
    if(!backpar) return kFALSE;
    if(!TGo4EventStoreParameter::UpdateFrom(rhs)) return kFALSE;
    SetSplitlevel(backpar->GetSplitlevel());

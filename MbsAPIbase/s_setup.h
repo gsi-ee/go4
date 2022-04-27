@@ -120,7 +120,7 @@ INTU4 bh_meb_trig_mode;    /* if this is set to NON zero a special mode is reque
          /*    or NOT standard base address (VME)                  */
          /*    or NOT local crate                                  */
          /* if bh_meb_trig_mode is NOT 0 always the following two  */
-         /* setup paramters will be taken for type and base addr.  */
+         /* setup parameters will be taken for type and base addr.  */
          /*                                                        */
          /* NOTE: the fast clear and conversion time will be taken */
          /*       from bl_trig_fct[0] and bl_trig_cvt[0] from this */
@@ -335,7 +335,7 @@ INTU4 bh_meb_trig_mode;    /* if this is set to NON zero a special mode is reque
             /*    or NOT standard base address (VME)                  */
             /*    or NOT local crate                                  */
             /* if bh_meb_trig_mode is NOT 0 always the following two  */
-            /* setup paramters will be taken for type and base addr.  */
+            /* setup parameters will be taken for type and base addr.  */
             /*                                                        */
             /* NOTE: the fast clear and conversion time will be taken */
             /*       from bl_trig_fct[0] and bl_trig_cvt[0] from this */
@@ -544,7 +544,7 @@ INTU4 bh_meb_trig_mode;    /* if this is set to NON zero a special mode is reque
          /*    or NOT standard base address (VME)                  */
          /*    or NOT local crate                                  */
          /* if bh_meb_trig_mode is NOT 0 always the following two  */
-         /* setup paramters will be taken for type and base addr.  */
+         /* setup parameters will be taken for type and base addr.  */
          /*                                                        */
          /* NOTE: the fast clear and conversion time will be taken */
          /*       from bl_trig_fct[0] and bl_trig_cvt[0] from this */

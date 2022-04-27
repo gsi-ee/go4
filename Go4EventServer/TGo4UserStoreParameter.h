@@ -33,7 +33,7 @@ class TGo4UserStoreParameter : public TGo4EventStoreParameter {
     /** basic method to printout object */
     void Print(Option_t* = "") const override;
 
-    /** update contents of paramter class with external object. */
+    /** update contents of parameter class with external object. */
     Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
     /** User expression as string */

@@ -62,7 +62,7 @@ void TYYYParameter::Print(Option_t*) const
 
 Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
 {
-   TYYYParameter* from = dynamic_cast<TYYYParameter*> (source);
+   auto from = dynamic_cast<TYYYParameter*> (source);
    if (!from) {
       TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;

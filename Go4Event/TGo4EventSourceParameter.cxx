@@ -21,7 +21,6 @@ TGo4EventSourceParameter::TGo4EventSourceParameter(const char* name, Int_t id) :
 {
 }
 
-
 TGo4EventSourceParameter::TGo4EventSourceParameter() :
    TGo4Parameter ("Default Event Source Parameter")
 {
@@ -43,7 +42,7 @@ void TGo4EventSourceParameter::Print(Option_t*) const
 
 Bool_t TGo4EventSourceParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TGo4EventSourceParameter* srcpar=dynamic_cast<TGo4EventSourceParameter*>(rhs);
+   auto srcpar = dynamic_cast<TGo4EventSourceParameter*>(rhs);
    if (!srcpar) return kFALSE;
    SetName(srcpar->GetName());
    SetTimeout(srcpar->GetTimeout());

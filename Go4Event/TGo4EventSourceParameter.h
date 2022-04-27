@@ -39,7 +39,7 @@ class TGo4EventSourceParameter : public TGo4Parameter {
 
       void Print(Option_t* = "") const override;
 
-      /** update contents of paramter class with external object. */
+      /** update contents of parameter class with external object. */
       Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
    private:
