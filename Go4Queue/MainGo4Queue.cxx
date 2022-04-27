@@ -32,7 +32,7 @@ int main(int argc, char **argv)
    histo->Fill(0.2);
    TH1F *histo2 = new TH1F("histogram 2", "this is a test histogram", 100, 0., 1.);
    histo2->Fill(0.7);
-   TH1 *histo3 = 0;
+   TH1 *histo3 = nullptr;
    TGo4ObjectQueue objectq("My object queue");
    TGo4BufferQueue bufferq("My buffer queue");
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
    delete histo;
    std::cout << "deleted the first histo after cloning" << std::endl;
    objectq.AddObject(com);
-   TObject *output = 0;
+   TObject *output = nullptr;
    while (!(objectq.IsEmpty())) {
       output = objectq.WaitObject();
       std::cout << "object from object queue:" << std::endl;
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
    bufferq.AddBufferFromObject(com);
    bufferq.AddBufferFromObject(histo3);
 
-   TBuffer *mess = 0;
+   TBuffer *mess = nullptr;
    while (!bufferq.IsEmpty()) {
       mess = bufferq.WaitBuffer();
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
       std::cout << "Reading object from buffer..." << std::endl;
       mess->Reset();
       output = mess->ReadObject(cl);
-      if (output == 0) {
+      if (!output) {
          std::cout << "zero object" << std::endl;
          exit(0);
       }
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
       std::cout << "Reading object from buffer..." << std::endl;
       mess->Reset();
       output = mess->ReadObject(cl);
-      if (output == 0) {
+      if (!output) {
          std::cout << "zero object" << std::endl;
          exit(0);
       }

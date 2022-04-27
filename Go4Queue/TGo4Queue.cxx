@@ -54,7 +54,7 @@ TObject* TGo4Queue::Wait()
       fxCondition->Wait();
       if (fbWakeUpCall) {
          fbWakeUpCall = kFALSE;
-         return 0; // signal by Wake(), give null back!
+         return nullptr; // signal by Wake(), give null back!
       }
    }
    return Next();
@@ -63,7 +63,7 @@ TObject* TGo4Queue::Wait()
 TObject* TGo4Queue::Next()
 {
    TGo4LockGuard qguard(fxMutex);
-   return (fxList->Remove(fxList->LastLink()) );
+   return fxList->Remove(fxList->LastLink());
 }
 
 void TGo4Queue::Add(TObject* ob)
