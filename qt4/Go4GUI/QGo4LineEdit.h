@@ -42,8 +42,8 @@ class QGo4LineEdit : public QLineEdit {
       void textDropped();
 
    protected:
-      virtual void dropEvent(QDropEvent*);
-      virtual void dragEnterEvent(QDragEnterEvent*);
+      void dropEvent(QDropEvent*) override;
+      void dragEnterEvent(QDragEnterEvent*) override;
 };
 
 #endif
