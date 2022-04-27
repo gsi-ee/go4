@@ -62,17 +62,17 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Create TGo4FitDataGraphIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter();
+      TGo4FitDataIter* MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TGraph object, to slots list.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list) override;
 
       /**
        * Print information on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t* option) const override;
 
    protected:
 
@@ -82,7 +82,7 @@ class TGo4FitDataGraph : public TGo4FitData {
        */
       TGo4FitSlot fxGraph;
 
-   ClassDef(TGo4FitDataGraph,1)
+   ClassDefOverride(TGo4FitDataGraph,1)
 };
 
 // **************************************************************************

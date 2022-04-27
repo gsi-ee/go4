@@ -71,7 +71,7 @@ class TGo4FitData : public TGo4FitComponent {
        * This specify that any data object may has or has not amplitude.
        * Amplitude parameter (if exist) will be used to scale bins values.
        */
-      virtual Bool_t CanAmplTouch() { return kTRUE; }
+      Bool_t CanAmplTouch() override { return kTRUE; }
 
       /**
        * Return source of sigma values.
@@ -206,12 +206,12 @@ class TGo4FitData : public TGo4FitComponent {
      /**
        * Copy pointers on all slots of data object to list.
        */
-      virtual void FillSlotList(TSeqCollection* list);
+      void FillSlotList(TSeqCollection* list) override;
 
       /**
        * Display information about data object on standard output.
        */
-      virtual void Print(Option_t* option) const;
+      void Print(Option_t* option) const override;
 
    protected:
 
@@ -343,53 +343,53 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Number of entries in buffers.
        */
-      Int_t fiBinsSize;                       //!
+      Int_t fiBinsSize{0};                       //!
 
       /**
        * Number of indexes for each point.
        */
-      Int_t fiIndexesSize;                    //!
+      Int_t fiIndexesSize{0};                    //!
 
       /**
        * Number of scales values for each point.
        */
-      Int_t fiScalesSize;                    //!
+      Int_t fiScalesSize{0};                    //!
 
       /**
        * Buffer for bins values.
        */
-      Double_t* fxValues;                    //!
+      Double_t *fxValues{nullptr};                    //!
 
       /**
        * Buffer for standard deviations of bins values.
        */
-      Double_t* fxStandDev;                  //!
+      Double_t *fxStandDev{nullptr};                  //!
 
       /**
        * Buffer for complete model of bins values.
        */
-      Double_t* fxBinsResult;                //!
+      Double_t *fxBinsResult{nullptr};                //!
 
       /**
        * Array of axis values for each bins.
        * Used in case of maximum memory usage.
        * Size [BinsSize * AxisNumber]
        */
-      Double_t* fxFullScale;                 //!
+      Double_t *fxFullScale{nullptr};                 //!
 
       /**
        * Array of width values for each bin.
        * Used in case of maximum memory usage.
        * Size [BinsSize * AxisNumber]
        */
-      Double_t* fxFullWidth;                 //!
+      Double_t *fxFullWidth{nullptr};                 //!
 
       /**
        * Store combination of indexes for each data bins.
        * Size of [GetBinsSize()][NumDimension()].
        * Used in case of maximum memory usage.
        */
-      Int_t* fxFullIndex;                     //!
+      Int_t *fxFullIndex{nullptr};                     //!
 
       /** @link aggregation
        * @supplierCardinality 0..**/
@@ -401,7 +401,7 @@ class TGo4FitData : public TGo4FitComponent {
       /*#  TGo4FitSlot lnkTGo4FitData; */
 
 
-    ClassDef(TGo4FitData,1)
+    ClassDefOverride(TGo4FitData,1)
 };
 
  /**
@@ -618,12 +618,12 @@ class TGo4FitDataIter : public TObject {
 
      TArrayD fxScales;                      //!
      TArrayD fxWidths;                      //!
-     Double_t fdValue;                      //!
-     Double_t fdStandardDeviation;          //!
+     Double_t fdValue{0.};                  //!
+     Double_t fdStandardDeviation{0.};      //!
 
-     Int_t fiNumPoint;                      //!
+     Int_t fiNumPoint{0};                   //!
 
-     Bool_t fbReachEnd;                     //!
+     Bool_t fbReachEnd{kFALSE};             //!
 
    ClassDef(TGo4FitDataIter,1)
 };
