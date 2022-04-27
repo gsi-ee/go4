@@ -121,9 +121,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
 // ****************************************************************
 
 TGo4CanvasProxy::TGo4CanvasProxy() :
-   TGo4Proxy(),
-   fCanvas(0),
-   fOwner(kFALSE)
+   TGo4Proxy()
 {
 }
 
@@ -146,25 +144,25 @@ Int_t TGo4CanvasProxy::GetObjectKind()
 
 const char* TGo4CanvasProxy::GetContainedClassName()
 {
-   return fCanvas ? fCanvas->ClassName() : 0;
+   return fCanvas ? fCanvas->ClassName() : nullptr;
 }
 
 void TGo4CanvasProxy::Initialize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->RegisterObjectWith(fCanvas, slot);
+   auto om = slot->GetOM();
+   if (om) om->RegisterObjectWith(fCanvas, slot);
 }
 
 void TGo4CanvasProxy::Finalize(TGo4Slot* slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->UnregisterObject(fCanvas, slot);
+   auto om = slot->GetOM();
+   if (om) om->UnregisterObject(fCanvas, slot);
 }
 
 Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject* obj)
 {
    if (obj==fCanvas) {
-      fCanvas = 0;
+      fCanvas = nullptr;
       fOwner = kFALSE;
    }
    return kFALSE;
@@ -172,14 +170,14 @@ Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject* obj)
 
 void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = 0;
-   if (fCanvas!=0)
+   const char* objname = nullptr;
+   if (fCanvas)
       objname = fCanvas->GetName();
 
    if (!onlyobjs)
      slot->SetPar("CanvasProxy::CanvasName", objname);
 
-   if ((dir==0) || (fCanvas==0)) return;
+   if (!dir || !fCanvas) return;
 
    dir->cd();
 
@@ -189,7 +187,7 @@ void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 void TGo4CanvasProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
    const char* objname = slot->GetPar("CanvasProxy::CanvasName");
-   if ((objname==0) || (dir==0)) return;
+   if (!objname || !dir) return;
 
    dir->cd();
 
@@ -198,24 +196,24 @@ void TGo4CanvasProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 Bool_t TGo4CanvasProxy::IsAcceptObject(TClass* cl)
 {
-   return (cl!=0) && cl->InheritsFrom(TCanvas::Class());
+   return cl && cl->InheritsFrom(TCanvas::Class());
 }
 
 Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 {
    Finalize(slot);
-   if ((fCanvas!=0) && fOwner) delete fCanvas;
+   if (fCanvas && fOwner) delete fCanvas;
 
    fCanvas = dynamic_cast<TCanvas*> (obj);
-   fOwner = owner && (fCanvas!=0);
+   fOwner = owner && fCanvas;
 
-   if ((fCanvas==0) && (obj!=0) && owner) delete obj;
+   if (!fCanvas && obj && owner) delete obj;
 
    Initialize(slot);
 
    slot->ForwardEvent(slot, TGo4Slot::evObjAssigned);
 
-   return fCanvas!=0;
+   return fCanvas;
 }
 
 TObject* TGo4CanvasProxy::GetAssignedObject()
@@ -225,38 +223,36 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
 
 TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
 {
-   if (canv==0) return 0;
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(canv);
+   if (!canv) return nullptr;
+   if (!name || (*name==0)) return new TGo4ObjectAccess(canv);
 
    TPad* curpad = canv;
    const char* curname = name;
 
-   while (curpad!=0) {
+   while (curpad) {
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
-      TObject* obj = 0;
-      while ((obj = iter())!=0)
+      TObject* obj = nullptr;
+      while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName())==len) &&
              (strncmp(obj->GetName(), curname, len)==0)) break;
-      if (obj==0) return 0;
+      if (!obj) return nullptr;
 
-//      std::cout << "Object class = " << obj->ClassName() << std::endl;
-
-      if (slash==0) return new TGo4ObjectAccess(obj);
+      if (!slash) return new TGo4ObjectAccess(obj);
 
       curname = slash+1;
 
       curpad = dynamic_cast<TPad*>(obj);
 
-      if (curpad==0) {
+      if (!curpad) {
          THStack* hs = dynamic_cast<THStack*> (obj);
-         if (hs!=0)
+         if (hs)
             return TGo4HStackProxy::CreateAccess(hs, curname);
       }
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4LevelIter* TGo4CanvasProxy::ProduceIter(TCanvas* canv)

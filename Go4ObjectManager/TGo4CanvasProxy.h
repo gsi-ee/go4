@@ -24,35 +24,35 @@ class TGo4CanvasProxy : public TGo4Proxy {
       TGo4CanvasProxy(TCanvas* c, Bool_t owner = kFALSE);
       virtual ~TGo4CanvasProxy();
 
-      virtual Bool_t HasSublevels() const { return fCanvas!=0; }
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
+      Bool_t HasSublevels() const override { return fCanvas!=0; }
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
-      virtual Bool_t RemoveRegisteredObject(TObject* obj);
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override;
+      Bool_t RemoveRegisteredObject(TObject* obj) override;
 
-      virtual TGo4LevelIter* MakeIter()
-        { return (fCanvas==0) ? 0 : ProduceIter(fCanvas); }
+      TGo4LevelIter* MakeIter() override
+        { return fCanvas ? ProduceIter(fCanvas) : nullptr; }
 
-      virtual TGo4Access* ProvideAccess(const char* name)
+      TGo4Access* ProvideAccess(const char* name) override
         { return CreateAccess(fCanvas, name); }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Bool_t IsAcceptObject(TClass* cl);
-      virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
-      virtual TObject* GetAssignedObject();
+      Bool_t IsAcceptObject(TClass* cl) override;
+      Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override;
+      TObject* GetAssignedObject() override;
 
       static TGo4Access* CreateAccess(TCanvas* canv, const char* name);
       static TGo4LevelIter* ProduceIter(TCanvas* canv);
 
    protected:
-      TCanvas* fCanvas;          //!
-      Bool_t   fOwner;           //!
+      TCanvas* fCanvas{nullptr}; //!
+      Bool_t   fOwner{kFALSE};   //!
 
-   ClassDef(TGo4CanvasProxy, 1);
+   ClassDefOverride(TGo4CanvasProxy, 1);
 };
 
 

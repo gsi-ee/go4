@@ -21,10 +21,10 @@ class TDirectory;
 
 class TGo4DirProxy : public TGo4Proxy {
    protected:
-      TDirectory*  fDir;          //!
-      Bool_t       fOwner;        //!
-      Bool_t       fReadRight;    //!
-      TGo4Slot    *fxParentSlot;  //!
+      TDirectory*  fDir{nullptr};          //!
+      Bool_t       fOwner{kFALSE};         //!
+      Bool_t       fReadRight{kFALSE};     //!
+      TGo4Slot    *fxParentSlot{nullptr};  //!
 
       void SetDir(TDirectory* dir, Bool_t readright, Bool_t owner);
       void ClearDir();
@@ -34,24 +34,24 @@ class TGo4DirProxy : public TGo4Proxy {
       TGo4DirProxy(TDirectory* dir, Bool_t readright, Bool_t owner);
       virtual ~TGo4DirProxy();
 
-      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
-      virtual void Finalize(TGo4Slot* slot) {}
+      void Initialize(TGo4Slot* slot) override { fxParentSlot = slot; }
+      void Finalize(TGo4Slot* slot) override {}
 
-      virtual Bool_t HasSublevels() const { return fDir!=0; }
+      Bool_t HasSublevels() const override { return fDir; }
 
-      virtual TGo4LevelIter* MakeIter()
-        { return (fDir==0) ? 0 : ProduceIter(fDir, fReadRight); }
+      TGo4LevelIter* MakeIter() override
+        { return fDir ? ProduceIter(fDir, fReadRight) : nullptr; }
 
-      virtual TGo4Access* ProvideAccess(const char* name)
+      TGo4Access* ProvideAccess(const char* name) override
         { return CreateAccess(fDir, fReadRight, name, fxParentSlot); }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
-      virtual const char* GetContainedObjectInfo();
-      virtual Int_t GetObjectSizeInfo();
+      Int_t GetObjectKind() override;
+      const char* GetContainedClassName() override;
+      const char* GetContainedObjectInfo() override;
+      Int_t GetObjectSizeInfo() override;
 
       static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char* name, TGo4Slot* browser_slot = 0);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
@@ -61,7 +61,7 @@ class TGo4DirProxy : public TGo4Proxy {
       Bool_t IsFile() const;
       const char* GetFileName() const;
 
-   ClassDef(TGo4DirProxy, 1);
+   ClassDefOverride(TGo4DirProxy, 1);
 };
 
 #endif
