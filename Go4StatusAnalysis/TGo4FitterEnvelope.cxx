@@ -13,17 +13,17 @@
 
 #include "TGo4FitterEnvelope.h"
 
-#include <iostream>
+#include "TGo4Status.h"
 
 TGo4FitterEnvelope::TGo4FitterEnvelope()
-: TGo4Parameter("Fitter envelope"), fxFitter(0)
+: TGo4Parameter("Fitter envelope")
 {
 }
 
 TGo4FitterEnvelope::TGo4FitterEnvelope(const char* name, TGo4Fitter* fitter)
 : TGo4Parameter(name)
 {
-   fxFitter=fitter;
+   fxFitter = fitter;
 }
 
 TGo4FitterEnvelope::~TGo4FitterEnvelope()
@@ -31,37 +31,22 @@ TGo4FitterEnvelope::~TGo4FitterEnvelope()
    if(fxFitter) delete fxFitter;
 }
 
-Int_t TGo4FitterEnvelope::PrintParameter(Text_t * buffer, Int_t buflen)
+void TGo4FitterEnvelope::Print(Option_t*) const
 {
-   Text_t localbuf[128000];
-   if(buflen<0 && buffer!=0)
-      return 0;
-   Int_t size = TGo4Parameter::PrintParameter(localbuf, sizeof(localbuf)-1);
+   TGo4Parameter::Print();
    if(fxFitter)
-      size += snprintf(localbuf+size, sizeof(localbuf) - size, " \t This object contains the fitter: %s \n",fxFitter->GetName());
+      TGo4Status::PrintLine("\n This object contains the fitter: %s",fxFitter->GetName());
    else
-      size += snprintf(localbuf + size, sizeof(localbuf) - size, " \t This object contains no fitter\n");
-   // here we optionally might put printout of fitter if we like...
-   if(buffer==0)
-   {
-      std::cout << localbuf << std::endl;
-   }
-   else
-   {
-      if(size > buflen-1)
-         size = buflen-1;
-      strncpy(buffer,localbuf,size);
-   }
-   return size;
+      TGo4Status::PrintLine(" \t This object contains no fitter");
 }
 
 Bool_t TGo4FitterEnvelope::UpdateFrom(TGo4Parameter *pp)
 {
-   TGo4FitterEnvelope * from = dynamic_cast<TGo4FitterEnvelope *> (pp);
+   auto from = dynamic_cast<TGo4FitterEnvelope *> (pp);
 
    if(!from) return kFALSE;
 
-   if(fxFitter!=0) delete fxFitter;
+   if(fxFitter) delete fxFitter;
    fxFitter = from->GetFitter(kTRUE);// change ownership to us
    return kTRUE;
 }
@@ -74,12 +59,12 @@ void TGo4FitterEnvelope::Clear(Option_t* opt)
 TGo4Fitter* TGo4FitterEnvelope::GetFitter(Bool_t chown)
 {
    TGo4Fitter* rev=fxFitter;
-   if(chown) fxFitter=0;
+   if(chown) fxFitter = nullptr;
    return rev;
 }
 
 void TGo4FitterEnvelope::SetFitter(TGo4Fitter* fitter)
 {
-   if(fxFitter!=0) delete fxFitter;
-   fxFitter=fitter;
+   if(fxFitter) delete fxFitter;
+   fxFitter = fitter;
 }
