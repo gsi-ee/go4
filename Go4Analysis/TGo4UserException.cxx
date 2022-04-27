@@ -23,7 +23,7 @@ TGo4UserException::TGo4UserException (Int_t prio, const char* text,...) :
    fiPriority(prio)
 {
    GO4TRACE((14,"TGo4UserException:TGo4UserException (TGo4TaskHandler*)", __LINE__, __FILE__));
-   fxDescription= "!!!-- Go4 User Exception --!!!";
+   fxDescription =  "!!!-- Go4 User Exception --!!!";
    // put potential printf arguments in text:
    char txtbuf[TGo4Log::fguMESLEN];
    va_list args;
@@ -60,8 +60,8 @@ TGo4UserException::TGo4UserException(const TGo4UserException &right)
   :TGo4RuntimeException(right)
 {
    GO4TRACE((14,"TGo4UserException:TGo4UserException(right)", __LINE__, __FILE__));
-   fxMessage=right.fxMessage;
-   fiPriority=right.fiPriority;
+   fxMessage = right.fxMessage;
+   fiPriority = right.fiPriority;
 }
 
 Int_t TGo4UserException::Handle()

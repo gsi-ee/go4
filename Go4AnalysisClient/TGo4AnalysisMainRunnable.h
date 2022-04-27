@@ -48,12 +48,12 @@ class TGo4AnalysisMainRunnable : public TGo4Runnable {
     /** @supplierCardinality 1
       * @directed
       * @clientCardinality 0..1*/
-    TGo4Analysis * fxAnalysis;                   //!
+    TGo4Analysis *fxAnalysis{nullptr};                   //!
 
     /** @supplierCardinality 1
       * @directed
       * @clientCardinality 0..1*/
-    TGo4AnalysisClient * fxAnalysisClient;                   //!
+    TGo4AnalysisClient * fxAnalysisClient{nullptr};                   //!
 
     TGo4AnalysisMainRunnable();
 };

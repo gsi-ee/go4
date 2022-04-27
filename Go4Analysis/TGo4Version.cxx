@@ -17,11 +17,11 @@
 
 const Int_t TGo4Version::fgiGO4VERSION= __GO4BUILDVERSION__;
 
-TGo4Version* TGo4Version::fxInstance = 0;
+TGo4Version* TGo4Version::fxInstance = nullptr;
 
 TGo4Version* TGo4Version::Instance()
 {
-   if (fxInstance == 0)
+   if (!fxInstance)
      fxInstance = new TGo4Version();
    return fxInstance;
 }
