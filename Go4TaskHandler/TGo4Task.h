@@ -159,7 +159,11 @@ public:
      * Message text may begin with name of receiver for message, followed by "::".
      * If no receiver is defined, all connected masters will receive message (default).
      */
-    void SendStatusMessage(Int_t level, Bool_t printout, const char* text, ...);
+    void SendStatusMessage(Int_t level, Bool_t printout, const char* text, ...)
+    #if defined(__GNUC__) && !defined(__CINT__)
+       __attribute__((format(printf, 4, 5)))
+    #endif
+    ;
 
     /**
      * Create status object and stream it into the

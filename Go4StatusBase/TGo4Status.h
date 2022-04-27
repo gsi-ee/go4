@@ -47,7 +47,11 @@ class TGo4Status : public TNamed {
        * If cursor would exceed buflen, 0 is returned. Bufferlength
        * buflen shall contain buffer size, it will be decremented by the size of
        * printed text.  */
-      static Text_t* PrintBuffer(char* buffer, Int_t& buflen, const char* text,...);
+      static Text_t* PrintBuffer(char* buffer, Int_t& buflen, const char* text, ...)
+      #if defined(__GNUC__) && !defined(__CINT__)
+        __attribute__((format(printf, 3, 4)))
+      #endif
+      ;
 
     /** Go4 status bits to be used in object manager to suppress
      * resetting or deleting histograms, etc */
