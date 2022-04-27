@@ -174,7 +174,7 @@ void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter* fitter, TGo4FitData* data, In
      fitter->AddPolynomX(data->GetName(), "Pol", PolynomOrder);
 
    TH1D histo("ROOTPeakFinder", "ROOTPeakFinder spectrum", size, HScales.GetArray());
-   histo.SetDirectory(0);
+   histo.SetDirectory(nullptr);
    for (Int_t i=0;i<size;i++)
       histo.SetBinContent(i+1, Bins[i]);
 

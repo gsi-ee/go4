@@ -48,7 +48,7 @@ TH1D* GetHistogram(const char* HistogramName)
    if (f1==0) return 0;
    TH1D *histo = 0;
    f1->GetObject(HistogramName, histo);
-   if (histo) histo->SetDirectory(0);
+   if (histo) histo->SetDirectory(nullptr);
    return histo;
 }
 

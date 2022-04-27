@@ -59,7 +59,7 @@ Bool_t fft(const char* name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
       thefft->GetPointComplex(i, re, im);
       result->SetBinContent(i+1,TMath::Sqrt(re*re + im*im));
    }
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
 
    TString rname = go4->SaveToMemory("FFT", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;

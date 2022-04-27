@@ -327,7 +327,7 @@ void TGo4HttpAccess::httpFinished()
          Int_t left = TString(xml->GetAttr(top, "left")).Atof();
          Int_t right = TString(xml->GetAttr(top, "right")).Atof();
          TH1D* h1 = new TH1D(_name, _title, nbins, left, right);
-         h1->SetDirectory(0);
+         h1->SetDirectory(nullptr);
          const char* bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-3; n<nbins+2; n++) {
             const char* separ = strpbrk(bins,",]");
@@ -348,7 +348,7 @@ void TGo4HttpAccess::httpFinished()
          Int_t left2 = TString(xml->GetAttr(top, "left2")).Atof();
          Int_t right2 = TString(xml->GetAttr(top, "right2")).Atof();
          TH2D* h2 = new TH2D(_name, _title, nbins1, left1, right1, nbins2, left2, right2);
-         h2->SetDirectory(0);
+         h2->SetDirectory(nullptr);
          const char* bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-6; n<(nbins1+2)*(nbins2+2); n++) {
             const char* separ = strpbrk(bins,",]");

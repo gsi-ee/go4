@@ -171,7 +171,7 @@ Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
    fOwner = owner;
 
    if ((fObject!=0) && fOwner && fObject->InheritsFrom(TH1::Class()))
-     ((TH1*) fObject)->SetDirectory(0);
+     ((TH1*) fObject)->SetDirectory(nullptr);
 
    Initialize(slot);
 

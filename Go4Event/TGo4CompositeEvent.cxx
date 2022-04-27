@@ -335,7 +335,7 @@ TTree* TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
    if (sample!=0) delete *sample;
    TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();
    TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
-   thetree->SetDirectory(0);
+   thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;
    TBranch *topbranch =
       thetree->Branch("Go4EventSample", clone->ClassName(), sample ? (TGo4CompositeEvent**) sample : &clone, 64000, 99);

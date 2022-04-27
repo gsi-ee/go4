@@ -546,7 +546,7 @@ TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, B
       default: return 0;
    }
 
-   histo->SetDirectory(0);
+   histo->SetDirectory(nullptr);
 
    Double_t* Axises[3];
    for (Int_t n=0;n<NumDim;n++)

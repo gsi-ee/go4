@@ -52,7 +52,7 @@ Bool_t projectionY(const char* name1, const char* polyname, Int_t firstxbin, Int
    TH1* result = his1->ProjectionY(finalname.Data(),firstxbin,lastxbin);
    if(poly) delete cut; // clone
    result->SetTitle(finaltitle);
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Projections", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) {

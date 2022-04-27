@@ -478,7 +478,7 @@ Bool_t TGo4PolyCond::IsCutHis(TH1* source)
    fxCutHis->PutStats(s);     // reset previous stats
    fxCutHis->GetStats(s);     // recalculate
    fxCutHis->PutStats(s);     // put back
-   fxCutHis->SetDirectory(0); // important for first draw from marker setup file!
+   fxCutHis->SetDirectory(nullptr); // important for first draw from marker setup file!
 
    return kTRUE;
 }

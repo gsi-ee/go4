@@ -110,7 +110,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    fEventRate->GetXaxis()->SetTimeDisplay(1);
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
    fEventRate->GetYaxis()->SetTitle("Events/s");
-   fEventRate->GetHistogram()->SetDirectory(0);
+   fEventRate->GetHistogram()->SetDirectory(nullptr);
 
    RegisterObject("/Status", fEventRate);
 
@@ -577,7 +577,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fEventRate->GetXaxis()->SetTimeDisplay(1);
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
    fEventRate->GetYaxis()->SetTitle("Events/s");
-   fEventRate->GetHistogram()->SetDirectory(0);
+   fEventRate->GetHistogram()->SetDirectory(nullptr);
 }
 
 void TGo4Sniffer::StatusMessage(int level, Bool_t, const TString &msg)

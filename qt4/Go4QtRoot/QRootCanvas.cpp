@@ -1257,7 +1257,7 @@ void QRootCanvas::cleanupEditor()
    if (fDummyHisto == 0) {
       fDummyHisto = new TH1I("dummyhisto", "dummyhisto", 100, -10., 10.);
       fDummyHisto->FillRandom("gaus", 1000);
-      fDummyHisto->SetDirectory(0);
+      fDummyHisto->SetDirectory(nullptr);
       fDummyHisto->SetBit(kCanDelete, kFALSE);
    }
    gTQSender = getCanvas();

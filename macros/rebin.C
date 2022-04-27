@@ -48,7 +48,7 @@ Bool_t rebin(const char* name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t dra
       return kFALSE;
    }
 
-   result->SetDirectory(0);
+   result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Rebinned", result, kTRUE);
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw){

@@ -147,14 +147,14 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fProfile = dynamic_cast<TProfile*>(GetObject("profile"));
    if (!fProfile) {
       fProfile = new TProfile("profile","Example of TProfile usage", 5000, 1., 5001., 1., 5001.);
-      fProfile->SetDirectory(0);
+      fProfile->SetDirectory(nullptr);
       AddObject(fProfile);
    }
 
    fProfile2D = dynamic_cast<TProfile2D*>(GetObject("profile2d"));
    if (!fProfile2D) {
       fProfile2D = new TProfile2D("profile2d","Example of TProfile2D usage", 200, 1., 5001., 200, 1., 5001., 1., 5001.);
-      fProfile2D->SetDirectory(0);
+      fProfile2D->SetDirectory(nullptr);
       AddObject(fProfile2D);
    }
 }
