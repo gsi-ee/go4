@@ -28,24 +28,24 @@ class TH1D;
  * runnable classes to the different go4 threads (see Go4TaskHandler package for examples).
  ***********************************************************************************
  * Different actions in this runnable:
- * fiMode=0: Dummy
+ * fiMode == 0: Dummy
  *       printout a message every 5 seconds.
- * fiMode=1: Kill and create
+ * fiMode == 1: Kill and create
  *       sleep 30s, then kill other threads- sleep 5s, then create other threads again
- * fiMode=2: Stop and start
+ * fiMode == 2: Stop and start
  *      sleep 10s, then stop other threads- sleep 10s, then start other threads again
- * fiMode=3: Aborting all
+ * fiMode == 3: Aborting all
  *       sleep 30s, then abort application by means of exception
- * fiMode=4: Histogramming
+ * fiMode == 4: Histogramming
  *      creates histogram, fills it with random gaussian and draws it on pad
  *      depending on the runnable name ("Maker1", "Maker2"), different pads are used
  *      Maker 1 deletes histogram again each time, Maker 2 keeps initial histogram
  *      sleeps of 2s are used to slow down the action
- * fiMode=5: Recreator
+ * fiMode == 5: Recreator
  *       Cancel and recreate one thread by name ("First Thread") every 15 s.
- * fiMode=6: Exception tester
+ * fiMode == 6: Exception tester
  *       sleep 60s, then throw different thread exceptions (latest: Restart exception)
- * fiMode=7: Histogram without drawing
+ * fiMode == 7: Histogram without drawing
  *       create histogram, fill it with random and delete it again
  *      for memory alloc tests independent from root gui
  * fiMode default: Undefined
@@ -108,9 +108,5 @@ class TGo4TestRunnable : public TGo4Runnable  {
    ClassDefOverride(TGo4TestRunnable,1)
 };
 
-
-
 #endif
-
-
 

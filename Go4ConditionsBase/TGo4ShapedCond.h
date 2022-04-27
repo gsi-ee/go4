@@ -50,20 +50,20 @@ class TGo4ShapedCond : public TGo4PolyCond {
        *             half axes                a1,a2
        *             tilt angle               theta
        *             number of polygon points npoints (0 uses default granularity)*/
-      void SetEllipse(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0, Int_t npoints=0);
+      void SetEllipse(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0, Int_t npoints = 0);
 
       /* Delete old cut values and redefine them as circular shape.
        * Parameters: center coordinates       cx,cy
        *             radius                   r
        *             number of polygon points npoints (0 uses default granularity)*/
-      void SetCircle(Double_t cx, Double_t cy, Double_t r, Int_t npoints=0);
+      void SetCircle(Double_t cx, Double_t cy, Double_t r, Int_t npoints = 0);
 
       /* Delete old cut values and redefine them as tilted box shape.
        * Parameters: center coordinates       cx,cy
        *             half axes                a1,a2
        *             tilt angle               theta
        *             number of polygon points is always 5 for box*/
-      void SetBox(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0);
+      void SetBox(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0);
 
       /* mark this ellipse as circle type. useful for condition editor display*/
       void SetCircle() { fiShapeType = Go4Cond_Shape_Circle; }

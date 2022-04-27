@@ -34,9 +34,9 @@ class TGo4SubEventHeader10 : public TObject {
      {
         fxGSIHeader.Clear();
         fxGSIHeader.fsType = 10;
-        //fsProcid=0; // these three values are all unique identifiers
-        //fcSubcrate=0;
-        //fcControl=0;
+        //fsProcid = 0; // these three values are all unique identifiers
+        //fcSubcrate = 0;
+        //fcControl = 0;
      }
 
     /** @link aggregationByValue */
@@ -78,7 +78,7 @@ class TGo4SubEventHeader10 : public TObject {
 
     TGo4SubEventHeader10() : TObject(), fxGSIHeader(), fsProcid(0), fcSubcrate(0), fcControl(0) { }
 
-    virtual ~TGo4SubEventHeader10() { }
+    virtual ~TGo4SubEventHeader10() {}
 
   ClassDefOverride(TGo4SubEventHeader10,2)
 };

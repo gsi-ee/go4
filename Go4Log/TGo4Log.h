@@ -88,13 +88,13 @@ class TGo4Log {
       /** get current user boolean */
       static Bool_t IsAutoEnabled();
 
-      /** Open file of name for logmessage output. If name=0, use
+      /** Open file of name for logmessage output. If name == nullptr, use
        *  defaultname containing pid. Optionally, headercomment text
        *  is set at beginning of file. If appendmode is true, existing
        *  file of same name is reused and extended by new messages.*/
       static void OpenLogfile(const char* name = nullptr,
-            const char* headercomment = nullptr,
-            Bool_t appendmode = kFALSE);
+                              const char* headercomment = nullptr,
+                              Bool_t appendmode = kFALSE);
 
       /**  Close logfile if existing*/
       static void CloseLogfile();

@@ -103,7 +103,7 @@ class TGo4EventElement : public TNamed {
       /** Use this method to map event structure with the Tree branch(es) */
       virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = nullptr);
 
-      virtual Int_t activateBranch(TBranch *branch, Int_t index=0, TGo4EventElement** var_ptr = nullptr);
+      virtual Int_t activateBranch(TBranch *branch, Int_t index = 0, TGo4EventElement** var_ptr = nullptr);
 
       virtual TTree* CreateSampleTree(TGo4EventElement** sample = nullptr);
 

@@ -39,13 +39,13 @@ TGo4CompositeEvent::TGo4CompositeEvent(const char*aName, const char* aTitle, Sho
 
 TGo4CompositeEvent::~TGo4CompositeEvent()
 {
-   if(fEventElements!=0) {
+   if(fEventElements) {
 
       fEventElements->Delete();
 
       delete fEventElements;
 
-      fEventElements = 0;
+      fEventElements = nullptr;
    }
 }
 
@@ -238,7 +238,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 }
 
 
-TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final)
+TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final_element)
 {
    TIter next(fEventElements);
    TGo4EventElement *ev(0);
@@ -249,7 +249,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t fi
          if (inter !=0) return inter;
       }
    }
-   if(final==0)
+   if(final_element == 0)
       TGo4Log::Debug("TGo4CompositeEvent => Element:%s not found in Composite:%s", name, GetName());
    return NULL;
 }
@@ -259,7 +259,7 @@ void TGo4CompositeEvent::deactivate()
    TGo4EventElement::deactivate();
 
    TIter next(fEventElements);
-   TGo4EventElement *ev(0);
+   TGo4EventElement *ev = nullptr;
 
    while ((ev=( TGo4EventElement *)next())!=0)
       ev->deactivate();
@@ -285,7 +285,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 
    TIter next(fEventElements);
    //-- Add top level composite
-   TGo4EventElement *ev(0);
+   TGo4EventElement *ev = nullptr;
    while ((ev=( TGo4EventElement *)next())!=0) {
       if ( ev->isComposed() ) {
          comp->Add( ev );
@@ -332,7 +332,7 @@ TTree* TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
 {
    TDirectory* filsav = gDirectory;
    gROOT->cd();
-   if (sample!=0) delete *sample;
+   if (sample) delete *sample;
    TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();
    TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(nullptr);
@@ -342,6 +342,6 @@ TTree* TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
    clone->makeBranch(topbranch);
    thetree->Fill();
    filsav->cd();
-   if (sample==0) delete clone;
+   if (!sample) delete clone;
    return thetree;
 }

@@ -36,7 +36,7 @@ public:
     void SetName(const char* nam); // *MENU*
     /** Delete condition instead of view: */
     //void DeleteRegion(); // *MENU*
-    void SetToLimits(Double_t x1, Double_t x2,Double_t y1=0, Double_t y2=0); // *MENU*
+    void SetToLimits(Double_t x1, Double_t x2,Double_t y1 = 0, Double_t y2 = 0); // *MENU*
     void SetLabelDraw(Bool_t on); // *MENU*
     void SetLimitsDraw(Bool_t on); // *MENU*
     void SetIntDraw(Bool_t on); // *MENU*
@@ -58,7 +58,7 @@ public:
 private:
 
     /** JAM this one will suppress condition repaint during execution of mouse events*/
-    Bool_t fbExecutesMouseEvent;
+    Bool_t fbExecutesMouseEvent{kFALSE};
 
     /** pointer to viewed condition for update after graphical action */
     TGo4WinCond* fxWinCondition{nullptr}; //!

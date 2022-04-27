@@ -202,10 +202,10 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * NamePrefix sets prefix of model name for each polynom component.
        * MaxOrder sets maximum order of polynom (default =1 )
        * NumAxis sets number of axis, for which polynom will be sets
-       * GroupIndex sets index of models group for all polyn components (default = 0 - background group)
+       * GroupIndex sets index of models group for all polynom components (default = 0 - background group)
        * lbound and rbound sets range, where polynom will be calculated
        */
-      void AddPolynomX(const char* DataName, const char* NamePrefix, Int_t MaxOrder = 1, Int_t GroupIndex = 0, Double_t lrange = 0., Double_t rrange = 0. );
+      void AddPolynomX(const char* DataName, const char* NamePrefix, Int_t MaxOrder = 1, Int_t GroupIndex = 0, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Construct 1-dim polynom with specified polynom coefficients
@@ -236,7 +236,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Clones specified model.
        */
-      TGo4FitModel* CloneModel(const char* ModelName, const char* NewName = 0);
+      TGo4FitModel* CloneModel(const char* ModelName, const char* NewName = nullptr);
 
       /**
        * Remove model component from fitter.
@@ -264,9 +264,9 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       /**
        * Remove assignment to given data (if exists).
-       * If DataName==0, all assignments will be cleared.
+       * If DataName == nullptr, all assignments will be cleared.
        */
-      void ClearModelAssignmentTo(const char* ModelName, const char* DataName = 0);
+      void ClearModelAssignmentTo(const char* ModelName, const char* DataName = nullptr);
 
       /**
        * Change data name in model component assignments.

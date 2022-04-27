@@ -110,11 +110,11 @@ public:
    /** create new subhandle for complex member component on heap.
     * Each complex component has separate dataset in file. returns the currently added handle to submember.
     * If submember is part of a collection like std::vector, the name of collection is also passed.*/
-   TGo4HDF5DataHandle* AddSubMember(const char* name, size_t datasize, const char* collectiontype=0);
+   TGo4HDF5DataHandle* AddSubMember(const char* name, size_t datasize, const char* collectiontype = nullptr);
 
 
 
-   TGo4HDF5DataHandle* GetSubMember(UInt_t ix){ return (ix< fxSubcomponents.size() ? fxSubcomponents[ix] : 0);}
+   TGo4HDF5DataHandle* GetSubMember(UInt_t ix){ return (ix< fxSubcomponents.size() ? fxSubcomponents[ix] : nullptr);}
 
    /** lookup if subcomponent of name already is in list. returns 0 pointer if no match of name, otherwise th matching subhandle*/
    TGo4HDF5DataHandle* FindSubMember(const char* name);
@@ -149,28 +149,27 @@ protected:
    H5::DataSpace fxFileSpace; //!
 
    /** number of event entries found in file dataspace*/
-   ULong_t fiEntries;//!
+   ULong_t fiEntries{0};//!
 
 #endif
 
        /** pointer to begin of data in memory */
-       void* fxData; //!
+       void* fxData{nullptr}; //!
 
        /** offset of this data structure relative to top level event object*/
-       size_t fiParentOffset; //!
+       size_t fiParentOffset{0}; //!
 
 
        /** size of data structure in bytes, for redefining output dataset*/
-       size_t fiDataSize;
+       size_t fiDataSize{0};
 
 
        /** begin of real eventdata payload after event object pointer**/
-       size_t fiReadOffset;
+       size_t fiReadOffset{0};
 
 
     /** collect subcomponents of the referenced data object*/
     std::vector<TGo4HDF5DataHandle*> fxSubcomponents;
-
 
     /** predefined interpreter access command e.g. to operate e.g. on the variable length collection*/
     TString fxMemberHandle;
@@ -179,20 +178,20 @@ protected:
     TString fxMemberClass;
 
     /** the top level event element to access the current data member from outside*/
-    TGo4EventElement* fxEvent; //!
+    TGo4EventElement* fxEvent{nullptr}; //!
 
     /**  the top level event element classname to access the current data member from outside**/
     TString fxEventClass; //!
 
     /** backpointer to parent source for exceptions*/
-    TGo4HDF5Source* fxParentSource; //!
+    TGo4HDF5Source* fxParentSource{nullptr}; //!
 
     /** check on the fly if this handle has already created a dataset*/
-    Bool_t fbDataSetExists; //!
+    Bool_t fbDataSetExists{kFALSE}; //!
 
     /** we may disable this dataset temporarily from writing or reading
-     * usefule for dynamic vector of vvector components*/
-    Bool_t fbDataSetActive; //!
+     * useful for dynamic vector of vector components*/
+    Bool_t fbDataSetActive{kFALSE}; //!
 
 };
 
