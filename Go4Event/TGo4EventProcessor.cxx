@@ -292,17 +292,17 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
    return TGo4Analysis::Instance()->MakeParameter(fullname, classname, newcmd);
 }
 
-Long_t TGo4EventProcessor::ExecuteScript(const char* macro_name)
+Long64_t TGo4EventProcessor::ExecuteScript(const char* macro_name)
 {
    return TGo4Analysis::Instance()->ExecuteScript(macro_name);
 }
 
-Long_t TGo4EventProcessor::ExecutePython(const char* macro_name, Int_t* errcode)
+Long64_t TGo4EventProcessor::ExecutePython(const char* macro_name, Int_t *errcode)
 {
    return TGo4Analysis::Instance()->ExecutePython(macro_name, errcode);
 }
 
-Long_t TGo4EventProcessor::ExecuteLine(const char* command, Int_t* errcode)
+Long64_t TGo4EventProcessor::ExecuteLine(const char* command, Int_t *errcode)
 {
    return TGo4Analysis::Instance()->ExecuteLine(command, errcode);
 }
