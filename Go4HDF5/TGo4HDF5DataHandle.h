@@ -216,17 +216,17 @@ public:
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   virtual void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent)  override;
 
    /** create datasets for writing memory structure of type into file.*/
-   virtual void BuildWriteDataset(H5::H5File* file);
+   void BuildWriteDataset(H5::H5File* file) override;
 
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum, H5::H5File*file);
+   void Read(hsize_t sequencenum, H5::H5File*file) override;
 
    /** Write event of sequence number from file*/
-   virtual void Write(hsize_t sequencenum, H5::H5File*file);
+   void Write(hsize_t sequencenum, H5::H5File*file) override;
 
 
 protected:
@@ -266,17 +266,17 @@ public:
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   virtual void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent) override;
 
    /** create datasets for writing memory structure of type into file.*/
-   virtual void BuildWriteDataset(H5::H5File* file);
+   void BuildWriteDataset(H5::H5File* file) override;
 
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum, H5::H5File* file);
+   void Read(hsize_t sequencenum, H5::H5File* file) override;
 
    /** Write event of sequence number from file*/
-   virtual void Write(hsize_t sequencenum, H5::H5File* file);
+   void Write(hsize_t sequencenum, H5::H5File* file) override;
 
 };
 
@@ -308,24 +308,23 @@ public:
 
 
    /** remember size of a single element (structure) in this collection, if it is one. Otherwise this is size of this class itself*/
-    void SetElementSize(size_t len) {fiElementSize=len;}
+   void SetElementSize(size_t len) {fiElementSize=len;}
 
     /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-     virtual void SetObjectPointer(void* memptr);
+   void SetObjectPointer(void* memptr) override;
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   virtual void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent) override;
 
    /** create datasets for writing memory structure of type into file.*/
-   virtual void BuildWriteDataset(H5::H5File* file);
-
+   void BuildWriteDataset(H5::H5File* file) override;
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum, H5::H5File* file);
+   void Read(hsize_t sequencenum, H5::H5File* file) override;
 
    /** Write event of sequence number from file*/
-    virtual void Write(hsize_t sequencenum, H5::H5File* ile);
+   void Write(hsize_t sequencenum, H5::H5File* ile) override;
 
 protected:
 
@@ -377,21 +376,20 @@ public:
    virtual ~TGo4HDF5SubVectorDataHandle();
 
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-    virtual void SetObjectPointer(void* memptr);
+   void SetObjectPointer(void* memptr) override;
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent) override;
 
    /** create datasets for writing memory structure of type into file.*/
-   void BuildWriteDataset(H5::H5File* file);
-
+   void BuildWriteDataset(H5::H5File* file) override;
 
    /** Read event of sequence number from file*/
-   void Read(hsize_t sequencenum, H5::H5File* file);
+   void Read(hsize_t sequencenum, H5::H5File* file) override;
 
    /** Write event of sequence number from file*/
-    void Write(hsize_t sequencenum, H5::H5File* file);
+    void Write(hsize_t sequencenum, H5::H5File* file) override;
 
     void SetInnerClassName(const char* nm) {fxInnerClassName=nm;}
 
