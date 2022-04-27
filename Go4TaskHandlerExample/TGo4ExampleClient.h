@@ -30,9 +30,9 @@ class TGo4ExampleClient : public TGo4ClientTask {
   public:
 
    TGo4ExampleClient(const char* name,
-                     const char* host="localhost",
-                     UInt_t negport=0,
-                     Bool_t blockingmode=kTRUE);
+                     const char* host = "localhost",
+                     UInt_t negport = 0,
+                     Bool_t blockingmode = kTRUE);
 
    virtual ~TGo4ExampleClient();
 
@@ -65,7 +65,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
      * server or may be used to restore current status by
      * memento mechanism. Overridden from superclass
      */
-    TGo4TaskStatus * CreateStatus() override;
+    TGo4TaskStatus *CreateStatus() override;
 
   private:
 

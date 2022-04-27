@@ -144,7 +144,7 @@ public:
     /** Send status object via status channel to the master. Master name
      * may be specified, if more than one master is connected.
      * By default, object is send to all connected tasks */
-    virtual void SendStatus(TGo4Status * stat, const char* receiver=0);
+    virtual void SendStatus(TGo4Status * stat, const char* receiver = nullptr);
 
     /** Send internal status buffer to the master(s). */
     virtual void SendStatusBuffer();
@@ -226,7 +226,7 @@ public:
      * application can check the command id for special action,
      * e.g. stop thread in case of termination.
      */
-    void WakeCommandQueue(Int_t id=0);
+    void WakeCommandQueue(Int_t id = 0);
 
     /**
      * start the working threads of the task implementation;
@@ -265,7 +265,7 @@ public:
      * wake them from socket receive or queue wait. For multiple
      * client connection, taskname defines which client to stop.
      */
-    void SendStopBuffers(const char* taskname=0);
+    void SendStopBuffers(const char* taskname = nullptr);
 
     /** Use preallocated abort buffer to stop remote socket wait
      * from taskhandler itself */

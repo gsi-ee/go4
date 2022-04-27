@@ -98,10 +98,10 @@ class TGo4Slave : public TGo4TaskOwner {
       TGo4Command* NextCommand();
 
       /** Send object via data channel to the server. */
-      void SendObject(TObject * obj, const char* receiver=0);
+      void SendObject(TObject * obj, const char* receiver = nullptr);
 
       /** Send status object via status channel to the server. */
-      void SendStatus(TGo4Status * stat, const char* receiver=0);
+      void SendStatus(TGo4Status * stat, const char* receiver = nullptr);
 
 
       /**

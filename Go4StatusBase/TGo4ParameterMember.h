@@ -39,9 +39,9 @@ class TGo4ParameterMember : public TNamed {
       Int_t GetIntValue() const { return fValue.Atoi();  };
       Bool_t CanStrEdit() const { return (fTypeId!=kTGo4Fitter_t) && (fTypeId!=kTArray_t); }
 
-      void SetArrayIndexes(Int_t ndim=0, Int_t indx1 = -1, Int_t indx2 = -1);
+      void SetArrayIndexes(Int_t ndim = 0, Int_t indx1 = -1, Int_t indx2 = -1);
       Bool_t CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t indx2);
-      Bool_t IsArrayItem() const { return (fIndex1>=0); }
+      Bool_t IsArrayItem() const { return (fIndex1 >= 0); }
       const char* GetFullName(TString& buf);
 
       void SetVisible(Bool_t on = kTRUE) { fVisible = on; }

@@ -69,7 +69,7 @@ class TGo4TaskOwner : public TGo4CommandReceiver {
 
    protected:
 
-      void SetTask(TGo4Task* task, Bool_t delold=kTRUE);
+      void SetTask(TGo4Task* task, Bool_t delold = kTRUE);
 
    private:
 

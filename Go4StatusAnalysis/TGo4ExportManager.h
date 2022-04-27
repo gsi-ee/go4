@@ -80,15 +80,15 @@ class TGo4ExportManager : public TNamed {
 
     void SetFilter(Go4Export_t format);
 
-    void SetCurrentDir(const char* dir=0);
+    void SetCurrentDir(const char* dir = nullptr);
 
-    void SetStartDir(const char* dir=0);
+    void SetStartDir(const char* dir = nullptr);
 
-    void SetOutFile(const char* filename=0)
-        { fxOutFile = (filename!=0) ? filename : "Go4Export"; }
+    void SetOutFile(const char* filename = nullptr)
+        { fxOutFile = filename ? filename : "Go4Export"; }
 
-    void SetOutFileComment(const char* comment=0)
-        { fxOutFileComment=(comment!=0) ?  comment : "Saved from Go4"; }
+    void SetOutFileComment(const char* comment = nullptr)
+        { fxOutFileComment= comment ?  comment : "Saved from Go4"; }
 
   private:
 

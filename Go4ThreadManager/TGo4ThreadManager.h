@@ -52,8 +52,8 @@ class TGo4ThreadManager : public TNamed {
 
      /** Wakes up the control timer waiting for his condition;
        * parameter mode specifies whether timer will block
-       * again at next turn (mode=0), timer will block when
-       * all threads are up (mode=1), or timer will not block
+       * again at next turn (mode = 0), timer will block when
+       * all threads are up (mode = 1), or timer will not block
        * again unless the next Block call, i.e. applicationrun flag is
        * reset (mode=2) */
       Bool_t UnBlockApp(Int_t mode = 0);
