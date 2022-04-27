@@ -20,7 +20,7 @@
 
 Bool_t TGo4Access::GetObject(TObject* &obj, Bool_t &owner) const
 {
-   obj = 0;
+   obj = nullptr;
    owner = kFALSE;
    return kFALSE;
 }
@@ -28,7 +28,7 @@ Bool_t TGo4Access::GetObject(TObject* &obj, Bool_t &owner) const
 
 const char* TGo4Access::GetObjectName() const
 {
-   return 0;
+   return nullptr;
 }
 
 TClass* TGo4Access::GetObjectClass() const
@@ -38,13 +38,13 @@ TClass* TGo4Access::GetObjectClass() const
 
 const char* TGo4Access::GetObjectClassName() const
 {
-   return 0;
+   return nullptr;
 }
 
 Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 {
    if ((rcv==0) || IsRemote()) return 0;
-   TObject* obj = 0;
+   TObject* obj = nullptr;
    Bool_t owner = kFALSE;
    if (!GetObject(obj, owner)) return 0;
    DoObjectAssignement(rcv, path, obj, owner);
@@ -53,7 +53,7 @@ Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 
 Int_t TGo4Access::AssignObjectToSlot(TGo4Slot* slot)
 {
-   if (slot==0) return 0;
+   if (!slot) return 0;
 
    TString tgtname;
    slot->ProduceFullName(tgtname);
@@ -81,7 +81,7 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
 
    TClass* cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
 
-   if (cl!=0) return cl;
+   if (cl) return cl;
 
    if (!load)
       load = (strstr(classname,"TGo4")==classname) ||
@@ -95,6 +95,6 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
              !strcmp(classname,"TTree") ||
              !strcmp(classname,"THStack");
 
-   return load ? gROOT->GetClass(classname, kTRUE, kTRUE) : 0;
+   return load ? gROOT->GetClass(classname, kTRUE, kTRUE) : nullptr;
 }
 
