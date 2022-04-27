@@ -100,7 +100,7 @@ namespace {
 
 // _________________________________________________________________________________
 
-TGo4Analysis* TGo4Analysis::fxInstance = 0;
+TGo4Analysis* TGo4Analysis::fxInstance = nullptr;
 Bool_t TGo4Analysis::fbExists = kFALSE;
 Int_t TGo4Analysis::fiRunningMode = 0;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
@@ -116,9 +116,9 @@ const char* TGo4Analysis::fgcPYINIT = "python/go4init.py";
 TGo4Analysis* TGo4Analysis::Instance()
 {
    GO4TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
-   if(fxInstance==0) {
-      fxInstance=new TGo4Analysis;
-      fbExists=kTRUE;
+   if(!fxInstance) {
+      fxInstance = new TGo4Analysis;
+      fbExists = kTRUE;
    }
    return fxInstance;
 }
@@ -220,7 +220,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
-   if ((argc>0) && (argv[0]!=0)) SetAnalysisName(argv[0]);
+   if ((argc > 0) && argv[0]) SetAnalysisName(argv[0]);
 
    Constructor();
 }
@@ -419,7 +419,7 @@ void TGo4Analysis::ProcessEvents()
 Int_t TGo4Analysis::Process()
 {
    GO4TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
-   Int_t rev=0;
+   Int_t rev = 0;
 
    try
    {

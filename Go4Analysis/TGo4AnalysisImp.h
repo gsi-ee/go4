@@ -130,7 +130,7 @@ public:
 
    virtual ~TGo4Analysis();
 
-   virtual const char* GetName() const { return fAnalysisName.Data(); }
+   const char* GetName() const override { return fAnalysisName.Data(); }
 
    void SetAnalysisName(const char *name) { fAnalysisName = name; }
 
@@ -378,7 +378,7 @@ public:
    /** Puts a new TCanvas in corresponding folder.
     * Object is owned by folder afterwards. Returns false if object
     * of that name already exist. */
-   Bool_t AddCanvas(TCanvas *can, const char *subfolder = 0);
+   Bool_t AddCanvas(TCanvas *can, const char *subfolder = nullptr);
 
    /** Retrieves a TCanvas by name from the Canvases folder.
     * Returns 0 if no such object. */
@@ -399,7 +399,7 @@ public:
    /** Find Object of name in the folder structure
     * and create a complete status object of it.
     * Used by GUI command to get updated information on certain object. */
-   TGo4ObjectStatus* CreateObjectStatus(const char *name, const char *folder = 0);
+   TGo4ObjectStatus* CreateObjectStatus(const char *name, const char *folder = nullptr);
 
    /** Creates a list of names (keys) of all objects in analysis directories. */
    TGo4AnalysisObjectNames* CreateNamesList();
@@ -422,14 +422,14 @@ public:
 
    /** Load Analysis Status from file and set analysis
     * to these settings. */
-   Bool_t LoadStatus(const char *filename = 0);
+   Bool_t LoadStatus(const char *filename = nullptr);
 
    /** Load analysis objects from file. File is the autosave file by
     * default, but may be specified by name. */
-   Bool_t LoadObjects(const char *filename = 0);
+   Bool_t LoadObjects(const char *filename = nullptr);
 
    /** Save current analysis settings into file of given name. */
-   Bool_t SaveStatus(const char *filename = 0);
+   Bool_t SaveStatus(const char *filename = nullptr);
 
    /** Enable or disable check of subsequent analysis step
     * for io consistency. Default is on, disable for non
@@ -478,9 +478,9 @@ public:
    void SetAutoSaveInterval(Int_t interval = 0) { fiAutoSaveInterval = interval; }
 
    /** Set file for autosave action. */
-   void SetAutoSaveFile(const char *filename = 0,
-                        Bool_t overwrite=kFALSE,
-                        Int_t compression=5);
+   void SetAutoSaveFile(const char *filename = nullptr,
+                        Bool_t overwrite = kFALSE,
+                        Int_t compression = 5);
 
    /** Return kTRUE, if autosave file name set. */
    Bool_t IsAutoSaveFileName() const;
@@ -610,7 +610,7 @@ public:
    void SetObserverPassword(const char *passwd);
 
    /** Printout the analysis (step-) setup. */
-   virtual void Print(Option_t *opt = "") const;
+   void Print(Option_t *opt = "") const override;
 
    /** Printout of all histogram statistic counters on the terminal. */
    void PrintHistograms(const char *expression = nullptr);
@@ -707,7 +707,7 @@ public:
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
    TH1* MakeTH1(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
-                const char *xtitle = 0, const char *ytitle = 0);
+                const char *xtitle = nullptr, const char *ytitle = nullptr);
 
    /** Create two dimensional histogram of specified type. Type can be:
     * 'I', 'i' for TH2I - Int_t as bin content (default)
@@ -725,7 +725,7 @@ public:
    TH2* MakeTH2(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 Int_t nbinsy, Double_t ylow, Double_t yup,
-                const char *xtitle = 0, const char *ytitle = 0, const char *ztitle = 0);
+                const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
 
    /** Create 1D window condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -733,7 +733,7 @@ public:
     * HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond* MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
-                            const char* HistoName = 0);
+                            const char* HistoName = nullptr);
 
    /** Create 2D window condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -743,7 +743,7 @@ public:
    TGo4WinCond* MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             Double_t ymin, Double_t ymax,
-                            const char* HistoName = 0);
+                            const char *HistoName = nullptr);
 
    /** Create polygon condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -757,8 +757,8 @@ public:
    TGo4PolyCond* MakePolyCond(const char *fullname,
                               Int_t npoints,
                               Double_t (*points) [2],
-                              const char* HistoName = 0,
-                              Bool_t shapedcond=kFALSE);
+                              const char *HistoName = nullptr,
+                              Bool_t shapedcond = kFALSE);
 
    /** Create ellipse shaped polygon condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -769,8 +769,8 @@ public:
     * HistoName - name of histogram, to which condition is assigned  */
    TGo4ShapedCond* MakeEllipseCond(const char *fullname,
                                    Int_t npoints,
-                                   Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0,
-                                   const char *HistoName = 0);
+                                   Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0.,
+                                   const char *HistoName = nullptr);
 
    /** Create circular shaped polygon condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -780,7 +780,7 @@ public:
     * HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond* MakeCircleCond(const char *fullname,
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
-                                  const char *HistoName = 0);
+                                  const char *HistoName = nullptr);
 
    /** Create tilted rectangular box shaped polygon condition.
     *  fullname specifies name of condition (optionally with subfolder name)
@@ -790,7 +790,7 @@ public:
     *  HistoName - name of histogram, to which condition is assigned */
    TGo4ShapedCond* MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
                                Double_t a1, Double_t a2, Double_t theta,
-                               const char *HistoName = 0);
+                               const char *HistoName = nullptr);
 
    /** Create free shaped (polygon) condition.
     * in contrast to plain TGo4PolyCond, this one can be converted later
@@ -803,7 +803,7 @@ public:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
    TGo4ShapedCond* MakeFreeShapeCond(const char *fullname, Int_t npoints,
-                                     Double_t (*points)[2], const char *HistoName = 0);
+                                     Double_t (*points)[2], const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
@@ -812,7 +812,7 @@ public:
     * values - 1d array with values
     * HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond* MakeListCond(const char *fullname, const Int_t num,
-                              const Int_t *values, const char *HistoName = 0);
+                              const Int_t *values, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
     * condition is true if any of the values matches
@@ -822,21 +822,21 @@ public:
     * step - distance between list entries
     * HistoName - name of histogram, to which condition is assigned */
    TGo4ListCond* MakeListCond(const char *fullname, const Int_t start,
-                              const Int_t stop, const Int_t step = 1, const char *HistoName = 0);
+                              const Int_t stop, const Int_t step = 1, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to tes against
     * condition is true if any of the values matches
     * This method creates empty list condition of specified name and title to be set by the user,
     * or already defined condition from previous autosave*/
    TGo4ListCond* MakeListCond(const char *fullname, const char *title,
-                              const char *HistoName = 0);
+                              const char *HistoName = nullptr);
 
    /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
     * If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
    TGraph* MakeGraph(const char *fullname, const char *title, Int_t points = 0,
-                     Double_t *xvalues = 0, Double_t *yvalues = 0);
+                     Double_t *xvalues = nullptr, Double_t *yvalues = nullptr);
 
    /** Create a TGraph with values initialized by a function object TF1l.
     * If a graph of this name already exists in the autosave file,
@@ -861,8 +861,8 @@ public:
     *       creation (or loading from auto-save file) and thus overwrites parameters value.
     *       Macro name should be always starting with "set_" */
    TGo4Parameter* MakeParameter(const char *fullname,
-                                 const char* classname,
-                                 const char* cmd = 0);
+                                 const char *classname,
+                                 const char *cmd = nullptr);
 
    /** Configure sorting order for newly created sub-folders */
    void SetSortedOrder(Bool_t on = kTRUE);
@@ -877,13 +877,13 @@ public:
    /** Executes Python script in ROOT interpreter.
     * Will bind TGo4Analysis object to python go4 Symbol
     * Errcode may be used to check ROOT interpreter error code.*/
-   Long64_t ExecutePython(const char *script_name, Int_t *errcode = 0);
+   Long64_t ExecutePython(const char *script_name, Int_t *errcode = nullptr);
 
    /** Process ROOT command line. Optionally provide pyroot binding:
     *  a leading '$' will try to load and execute python script.
     * Errcode may be used to check ROOT interpreter error code.
     * Return value is result of command execution*/
-   Long64_t ExecuteLine(const char *command, Int_t *errcode = 0);
+   Long64_t ExecuteLine(const char *command, Int_t *errcode = nullptr);
 
    /** Method called from Ctrl-C handler */
    void ProcessCrtlCSignal();
@@ -910,14 +910,14 @@ protected:
 
    /** True if analysis framework has been initialized and
     * the event classes are created. */
-   Bool_t fbInitIsDone;
+   Bool_t fbInitIsDone{kFALSE};
 
    /** True if Autosaving is enabled (default).
     * If false, calling AutoSave() will have no effect. */
-   Bool_t fbAutoSaveOn;
+   Bool_t fbAutoSaveOn{kFALSE};
 
    /** Protected constructor for singleton instance. */
-   TGo4Analysis(const char *name = 0);
+   TGo4Analysis(const char *name = nullptr);
 
    /** Another variant for analysis constructor. */
    TGo4Analysis(int argc, char **argv);
@@ -1026,77 +1026,77 @@ private:
    static Int_t fiRunningMode; //!
 
    /** Optional backpointer to analysis client if running in gui mode.*/
-   TGo4AnalysisClient *fxAnalysisSlave;            //!
+   TGo4AnalysisClient *fxAnalysisSlave{nullptr};            //!
 
    /** @link aggregationByValue
     *   @supplierCardinality 1 */
-   TGo4AnalysisStepManager *fxStepManager;      //!
+   TGo4AnalysisStepManager *fxStepManager{nullptr};      //!
 
    /** @link aggregationByValue
     *   @supplierCardinality 1 */
-   TGo4AnalysisObjectManager *fxObjectManager;  //!
+   TGo4AnalysisObjectManager *fxObjectManager{nullptr};  //!
 
    /** Event counter for autosave mechanism. */
-   Int_t fiAutoSaveCount;                       //!
+   Int_t fiAutoSaveCount{0};                       //!
 
    /** Clock for autosave by time mechanism. */
-   TStopwatch *fxAutoSaveClock;                //!
+   TStopwatch *fxAutoSaveClock{nullptr};                //!
 
    /** Implicit Loop cycles in between two autosave actions. Autosave will write
     * calibration objects of steps into event file and will save all histograms into an default
     * root file. */
-   Int_t fiAutoSaveInterval;                    //!
+   Int_t fiAutoSaveInterval{0};                    //!
 
    /** compression level for autosave file */
-   Int_t fiAutoSaveCompression;                 //!
+   Int_t fiAutoSaveCompression{0};                 //!
 
    /** Mutex protecting the autosave file access. On Termination, both the
     * main thread and  the appcontrol timer might try to autosave or delete on
     * the same file. */
-   TMutex *fxAutoSaveMutex;                     //!
+   TMutex *fxAutoSaveMutex{nullptr};                     //!
 
    /** Optional file for autosave of the important objects. */
-   TFile *fxAutoFile;                           //!
+   TFile *fxAutoFile{nullptr};                           //!
 
    /** Name of the autosave file. */
    TString fxAutoFileName;                      //!
 
    /** True if autosave file is in overwrite mode */
-   Bool_t fbAutoSaveOverwrite;                  //!
+   Bool_t fbAutoSaveOverwrite{kFALSE};                  //!
 
    /** name of configuration file used for this setup */
    TString fxConfigFilename;                    //!
 
    /** True if input file of multiple file input has changed.
     *  User analysis may check this and read mbs buffer infos then. */
-   Bool_t fbNewInputFile;                       //!
+   Bool_t fbNewInputFile{kFALSE};                       //!
 
    /** Contains current input file name */
    TString fxCurrentInputFileName;               //!
 
    /** True if autosave name shall be changed when input file of multiple file input has changed.
     *  To be set in user analysis; will be evaluated in TGo4MbsFile */
-   Bool_t fbAutoSaveFileChange;                 //!
+   Bool_t fbAutoSaveFileChange{kFALSE};                 //!
 
    /** this holds event sample for the SingleEventTree. Must be clone
     * of the event in use, since TTree::Show() will modify it! */
-   TGo4EventElement *fxSampleEvent;             //!
+   TGo4EventElement *fxSampleEvent{nullptr};             //!
 
    /** @link aggregation
     *   @supplierCardinality 1 */
-   TGo4AnalysisObjectNames *fxObjectNames;     //!
+   TGo4AnalysisObjectNames *fxObjectNames{nullptr};     //!
 
    /** Indicates analysis runstate */
    enum { flagInit, flagRunning, flagPause, flagClosed, flagStop  } fxDoWorkingFlag; //!
 
    /** use to treat Ctrl-C interrupts */
-   TGo4InterruptHandler *fxInterruptHandler; //!
+   TGo4InterruptHandler *fxInterruptHandler{nullptr}; //!
 
    /** name of analysis object */
    TString fAnalysisName;
 
    /** exact number of loop counts in batch mode */
-   Int_t fBatchLoopCount;
+   Int_t fBatchLoopCount{0};
 
    /** preconfigured password for administrator access */
    TString fServerAdminPass; //!
@@ -1108,27 +1108,27 @@ private:
    TString fServerObserverPass; //!
 
    /** If false, do not use data from autosave file in Make... methods */
-   Bool_t fbMakeWithAutosave; //!
+   Bool_t fbMakeWithAutosave{kFALSE}; //!
 
    /** indicate if object was created by last Make... operation */
-   Bool_t fbObjMade; //!
+   Bool_t fbObjMade{kFALSE}; //!
 
    /** If true, pyroot has already bound TGo4Anylsis object. For lazy initialization at first call of .py macro*/
-   Bool_t fbPythonBound; //!
+   Bool_t fbPythonBound{kFALSE}; //!
 
    /** number Ctrl-C handler called */
-   Int_t fNumCtrlC; //!
+   Int_t fNumCtrlC{0}; //!
 
    /** Sniffer object */
-   TGo4AnalysisSniffer *fSniffer; //!
+   TGo4AnalysisSniffer *fSniffer{nullptr}; //!
 
    /** optional ratemeter object */
-   TGo4Ratemeter *fxRate; //!
+   TGo4Ratemeter *fxRate{nullptr}; //!
 
    /** default file name for distributed test lmd file*/
    TString fxDefaultTestFileName; //!
 
-   ClassDef(TGo4Analysis,5)
+   ClassDefOverride(TGo4Analysis,5)
 };
 
 #endif
