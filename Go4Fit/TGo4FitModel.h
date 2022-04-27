@@ -138,7 +138,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Checks, if model assigned to given data.
        */
-      Bool_t IsAssignTo(const char* DataName) const { return FindAssigment(DataName) != 0; }
+      Bool_t IsAssignTo(const char* DataName) const { return FindAssigment(DataName) != nullptr; }
 
       /**
        * Change name of data in assignments.

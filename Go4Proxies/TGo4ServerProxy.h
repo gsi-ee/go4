@@ -46,7 +46,7 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual TString FindCommand(const char* name) { return ""; }
       virtual Int_t  NumCommandArgs(const char* name) { return -1; }
-      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0) { return kFALSE; }
+      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) { return kFALSE; }
 
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
       virtual Bool_t IsAnalysisServer() const { return kFALSE; }
@@ -135,7 +135,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                     const char* remoteexe,
                                     Int_t guiport,
                                     Int_t exe_kind = 0, // 0 - executable, 1 - user library
-                                    const char* exeargs = 0);
+                                    const char* exeargs = nullptr);
 
    ClassDefOverride(TGo4ServerProxy, 1);
 };

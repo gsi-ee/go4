@@ -308,7 +308,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Calculate value of fit function for given set of parameters and specified type of fit function (it can not correspond to minimized fit function type). If DataName not specified (default), fitfunction calculates for all data objects.
        */
-      Double_t CalculateFitFunction(Double_t* pars = 0, Int_t FitFunctionType = -1, const char* DataName = 0);
+      Double_t CalculateFitFunction(Double_t* pars = nullptr, Int_t FitFunctionType = -1, const char* DataName = nullptr);
 
       /**
        * Calculates number of degree of freedom (NDF).
@@ -338,7 +338,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Calculates integral for data or model (if ModelName is specified)
        * if OnlyCounts specified, only sum of values in bins position are calculated
        */
-      Double_t CalculatesIntegral(const char* DataName, const char* ModelName = 0, Bool_t OnlyCounts = kFALSE);
+      Double_t CalculatesIntegral(const char* DataName, const char* ModelName = nullptr, Bool_t OnlyCounts = kFALSE);
 
       /**
        * Calculates integral of model (if ModelName is specified)
@@ -348,9 +348,9 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       /**
        * Create object (TH1 or TGraph), which can be drawn.
-       * Object can contain data bins (IsModel = kFALSE), full data model (IsModel = kTRUE, ModelName = 0) or specific model component (IsModel = kTRUE, ModelName specify component name)
+       * Object can contain data bins (IsModel = kFALSE), full data model (IsModel = kTRUE, ModelName = nullptr) or specific model component (IsModel = kTRUE, ModelName specify component name)
        */
-      TObject* CreateDrawObject(const char* ObjName, const char* DataName, Bool_t IsModel = kFALSE, const char* ModelName = 0);
+      TObject* CreateDrawObject(const char* ObjName, const char* DataName, Bool_t IsModel = kFALSE, const char* ModelName = nullptr);
 
       /**
        * Draw fitter on current canvas.

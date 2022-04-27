@@ -39,7 +39,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        * Creates TGo4FitPeakFinder action with provided name and, ,
        * (optionally), DataName, clear models mode.
        */
-      TGo4FitPeakFinder(const char* Name, const char* DataName = 0, Bool_t ClearModels = kFALSE, Int_t PolOrder = -1);
+      TGo4FitPeakFinder(const char* Name, const char* DataName = nullptr, Bool_t ClearModels = kFALSE, Int_t PolOrder = -1);
 
       /**
        * Destroys TGo4FitterOutput object.
@@ -105,11 +105,10 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
                           Int_t PolynomOrder,
                           Double_t Sigma);
 
-
       /**
        * Perform simple peak finder algorithm.
        * Seeks for gaussians with amplitude more than given threshold (AmplThreshold introduced relative to maximum data value, from 0 to 1),
-       * with width in range between MinWidth and MaxWidth. Polynomial approximation can be applied for background appoximation(PolOrder >= 0) or not used (PolOrder<0).
+       * with width in range between MinWidth and MaxWidth. Polynomial approximation can be applied for background approximation(PolOrder >= 0) or not used (PolOrder<0).
        * Only selected by range conditions data part will be used by peak finder.
        * Appropriate number of gaussians will be placed in list of models and associate with data.
        */

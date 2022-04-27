@@ -113,7 +113,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Fitter should be initialized before.
        * Instead of using values of parameters (from parameters list) array of values can be sets directly.
        */
-      Double_t CalculateFitFunction(Double_t* pars = 0);
+      Double_t CalculateFitFunction(Double_t* pars = nullptr);
 
       /**
        * Add action to action list.
@@ -160,7 +160,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Alternative array with actions can also be specified to function.
        * In the end Finalize() method close all buffers.
        */
-      void DoActions(Bool_t AllowFitterChange = kFALSE, TObjArray* Actions = 0);
+      void DoActions(Bool_t AllowFitterChange = kFALSE, TObjArray* Actions = nullptr);
 
       /**
        * Executes specified action.
@@ -173,7 +173,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       void DoAction(Int_t indx);
 
 
-      TObjArray* ProcessObjects(TObjArray* objs, Bool_t CloneFitter = kTRUE, Bool_t OnlyRequired = kTRUE, TObjArray* rownames = 0, TObjArray* colnames = 0);
+      TObjArray* ProcessObjects(TObjArray* objs, Bool_t CloneFitter = kTRUE, Bool_t OnlyRequired = kTRUE, TObjArray* rownames = nullptr, TObjArray* colnames = nullptr);
 
       /**
        * Creates and add TGo4FitMinuit object to actions list.
@@ -185,7 +185,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Creates and add TGo4FitterOutput action with given parameters to actions list.
        */
-      TGo4FitterOutput* AddOutputAction(const char* Action, const char* Option = 0);
+      TGo4FitterOutput* AddOutputAction(const char* Action, const char* Option = nullptr);
 
       /**
        * Remove and delete all output actions from actions list.

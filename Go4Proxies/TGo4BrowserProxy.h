@@ -78,8 +78,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void MakeHttpList(TObjArray* arr);
       void MakeHServerList(TObjArray* arr);
 
-      Bool_t ProduceExplicitCopy(const char* itemname, const char* tgtpath = 0, Bool_t forcerequest = kFALSE);
-      Bool_t ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgtpath = 0, Bool_t forcerequest = kFALSE);
+      Bool_t ProduceExplicitCopy(const char* itemname, const char* tgtpath = nullptr, Bool_t forcerequest = kFALSE);
+      Bool_t ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgtpath = nullptr, Bool_t forcerequest = kFALSE);
 
       void ClearClipboard();
       void AddToClipboard(const char* itemname);
@@ -101,14 +101,14 @@ class TGo4BrowserProxy : public TGo4Proxy {
                            TString& createdhistoname);
 
       TString SaveToMemory(const char* pathname, TObject* obj, Bool_t ownership, Bool_t overwrite = kFALSE);
-      void CreateMemoryFolder(const char* foldername = 0);
+      void CreateMemoryFolder(const char* foldername = nullptr);
 
       void Scan_gROOT();
 
       Bool_t SaveBrowserToFile(const char* filename,
                                Bool_t prefetch = kFALSE,
-                               const char* selectedpath = 0,
-                               const char* description = 0);
+                               const char* selectedpath = nullptr,
+                               const char* description = nullptr);
       void ExportItemsTo(TObjArray* items,  // array of TObjString
                          Bool_t fetchitems,
                          const char* filename,
@@ -129,8 +129,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t DefineLeafName(const char* itemname, const char* treename, TString& leafname);
 
       TGo4Slot* FindServerSlot(Bool_t databranch, Int_t kind = 0);
-      TGo4AnalysisProxy* FindAnalysis(const char* itemname = 0);
-      TGo4ServerProxy* FindServer(const char* itemname = 0, Bool_t asanalysis = kTRUE);
+      TGo4AnalysisProxy* FindAnalysis(const char* itemname = nullptr);
+      TGo4ServerProxy* FindServer(const char* itemname = nullptr, Bool_t asanalysis = kTRUE);
       TString FindItemInAnalysis(const char* objname);
       TString FindItem(const char* objname);
       void FetchItem(const char* itemname, Int_t wait_time = 0);
@@ -138,9 +138,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       Bool_t DefineFileObject(const char* itemname, TString& filedataslot, const char** filepath);
       Bool_t UpdateObjectInFile(const char* itemname, const char* fileslotname, const char* filepath);
-      Bool_t SaveItemToFile(const char* itemname, const char* filename, const char* subfolder = 0);
+      Bool_t SaveItemToFile(const char* itemname, const char* filename, const char* subfolder = nullptr);
 
-      Bool_t UpdateAnalysisItem(const char* itemname, TObject* obj = 0);
+      Bool_t UpdateAnalysisItem(const char* itemname, TObject* obj = nullptr);
 
       Bool_t DefineRelatedObject(const char* itemname, const char* objectname, TString& objectitem, Int_t mask = 3);
 
@@ -148,7 +148,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t IsItemRemote(TGo4Slot* slot);
       Bool_t IsAnalysisItem(const char* name);
 
-      static void SetItemTimeDate(TGo4Slot* slot, const char* stime = 0, const char* sdate = 0);
+      static void SetItemTimeDate(TGo4Slot* slot, const char* stime = nullptr, const char* sdate = nullptr);
       static const char* ItemTime(TGo4Slot* slot);
       static const char* ItemDate(TGo4Slot* slot);
 
@@ -189,7 +189,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateAllMonitoredObjects();
 
       TGo4ServerProxy* DefineServerProxy(const char* itemname);
-      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0, Bool_t onlyanalysis = kTRUE);
+      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = nullptr, Bool_t onlyanalysis = kTRUE);
       TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
 
       static bool CanExecuteItem(int cando);
@@ -203,7 +203,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static bool CanEditItem(int cando);
 
       static Int_t DefineItemProperties(Int_t kind, TClass* cl, TString& pixmap);
-      static Bool_t UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx = 0, Int_t* hasrebiny = 0);
+      static Bool_t UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx = nullptr, Int_t* hasrebiny = nullptr);
 
       void SyncBrowserSlots();
 
@@ -213,7 +213,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void UpdateAllCanvases();
 
-      void AddWaitingList(TGo4Slot* itemslot, const char* destination = 0);
+      void AddWaitingList(TGo4Slot* itemslot, const char* destination = nullptr);
       void CheckWaitingList(TGo4Slot* source);
 
       static Int_t CompareAxis(TAxis* ax1, TAxis* ax2);

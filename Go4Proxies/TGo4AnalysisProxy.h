@@ -162,7 +162,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                             const char* remotedir,
                             const char* remoteexe,
                             Int_t exe_kind = 0, //   Go4_exe = 0, Go4_lib = 1
-                            const char* exeargs = 0);
+                            const char* exeargs = nullptr);
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
@@ -174,7 +174,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                                    const char* remotedir,
                                    const char* remoteexe,
                                    Int_t exe_kind = 0,   //   Go4_exe = 0, Go4_lib = 1
-                                   const char* exeargs = 0);
+                                   const char *exeargs = nullptr);
 
       Bool_t ConnectToServer(const char* remotehost,
                              Int_t remoteport,

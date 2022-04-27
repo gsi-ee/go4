@@ -22,7 +22,7 @@ class QGo4LineEditPlugin : public QObject, public QDesignerCustomWidgetInterface
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4LineEditPlugin(QObject *parent = 0);
+     QGo4LineEditPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;

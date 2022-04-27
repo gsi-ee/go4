@@ -51,7 +51,7 @@ class TGo4AnalysisStepManager : public TNamed {
       Int_t ProcessAnalysisSteps();
 
       /** Access to certain analysis step by name. For analysis internal usage.
-       * if name == 0, first step is returned */
+       * if name == nullptr, first step is returned */
       TGo4AnalysisStep* GetAnalysisStep(const char *name);
 
       /** Returns number of analysis steps */

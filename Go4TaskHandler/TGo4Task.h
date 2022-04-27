@@ -40,9 +40,9 @@ public:
     friend class TGo4TaskOwner; // set workisstopped flag
 
     TGo4Task(const char* name, Bool_t blockingmode,
-                               Bool_t autostart=kFALSE,
-                               Bool_t autocreate=kTRUE,
-                               Bool_t ismaster=kFALSE);
+                               Bool_t autostart = kFALSE,
+                               Bool_t autocreate = kTRUE,
+                               Bool_t ismaster = kFALSE);
 
     virtual ~TGo4Task();
 
@@ -115,7 +115,7 @@ public:
      * Add a user command list to the existing command list. This can be done on the fly.
      * Commands of the user list are added to the existing command list.
      */
-    void AddUserCommandList(TGo4CommandProtoList * comlist);
+    void AddUserCommandList(TGo4CommandProtoList *comlist);
 
     /**
      * Delivers next status object  from status queue.
@@ -123,7 +123,7 @@ public:
      * Streamer is decoupled from queue wait and sets global lockguard.
      * If wait=kFALSE, queue will be polled once instead of condition wait.
      */
-    TGo4Status* NextStatus(Bool_t wait=kTRUE);
+    TGo4Status* NextStatus(Bool_t wait = kTRUE);
 
     /**
      * Delivers next object  from data queue.
@@ -131,7 +131,7 @@ public:
      * Streamer is decoupled from queue wait and sets global lockguard.
      * If wait=kFALSE, queue will be polled once instead of condition wait.
      */
-    TObject * NextObject(Bool_t wait=kTRUE);
+    TObject * NextObject(Bool_t wait = kTRUE);
 
     /** Delivers next command from command queue. */
     virtual TGo4Command* NextCommand();
@@ -296,10 +296,10 @@ public:
     void SetWorkIsStopped(Bool_t on) { fbWorkIsStopped=on; }
 
     /** Mutex protecting status buffer between main and  watch thread. */
-    TMutex * fxStatusMutex; //!
+    TMutex *fxStatusMutex{nullptr}; //!
 
     /** Buffer containing the analysis status which is  updated by the main thread */
-    TBuffer* fxStatusBuffer; //!
+    TBuffer* fxStatusBuffer{nullptr}; //!
 
   private:
 

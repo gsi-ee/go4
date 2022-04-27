@@ -69,7 +69,7 @@ class TGo4MbsFile : public TGo4MbsSource {
 
   private:
 
-    void AddFileName(const char* name, const char* tagname = 0, bool isonly = kFALSE);
+    void AddFileName(const char* name, const char* tagname = nullptr, bool isonly = kFALSE);
 
     /** For multiple input mode: Open next file in list. */
     Int_t NextFile();

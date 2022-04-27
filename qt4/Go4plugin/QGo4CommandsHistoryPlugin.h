@@ -22,7 +22,7 @@ class QGo4CommandsHistoryPlugin : public QObject, public QDesignerCustomWidgetIn
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4CommandsHistoryPlugin(QObject *parent = 0);
+     QGo4CommandsHistoryPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;
