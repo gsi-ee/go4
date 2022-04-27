@@ -32,7 +32,8 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
    TGo4Iter iter(go4->Browser()->BrowserSlot("Analysis"), kFALSE);
    while(iter.next()) {
       if(!iter.isfolder() && (TString(iter.getname()).Index(wild) != kNPOS)) {
-         TString itemname = Form("Analysis/%s", iter.getfullname());
+         TString itemname = "Analysis/";
+         itemname.Append(iter.getfullname());
          bool dofetch = false;
 
          if ((classmask / 10) && (go4->Browser()->ItemKind(itemname.Data()) == TGo4Access::kndGo4Param)) dofetch = true; else
@@ -83,7 +84,8 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
 
 TString MakeFuncName(const char* main, const char* objname)
 {
-   TString subfunc = Form("%s_%s", main, objname);
+   TString subfunc;
+   subfunc.Form("%s_%s", main, objname);
    subfunc.ReplaceAll("#","_");
    subfunc.ReplaceAll("(","_");
    subfunc.ReplaceAll(")","_");
@@ -102,28 +104,29 @@ void saveall(const char* file, const char* wildcard = "*", const char* outputnam
 #else
 void saveall(const char* wildcard = "*", const char* outputname = "savemacro", int classmask = 11)
 {
-  TFile *f = 0;
-  const char* file = 0;
+  TFile *f = nullptr;
+  const char* file = nullptr;
 #endif
 
   TList lst;
   namiter(f, wildcard, &lst, classmask);
 
-  TString macroname = Form("%s.C", outputname);
+  TString macroname;
+  macroname.Form("%s.C", outputname);
   std::cout << "Write macro " << macroname.Data() << std::endl;
   std::ofstream xout(macroname.Data());
 
-  xout << Form("// written by macro saveall.C at %s", TDatime().AsString()) << std::endl << std::endl;
-  xout << Form("#include \"Riostream.h\"") << std::endl << std::endl;
+  xout << TString::Format("// written by macro saveall.C at %s", TDatime().AsString()) << std::endl << std::endl;
+  xout << TString::Format("#include \"Riostream.h\"") << std::endl << std::endl;
 
   TIter next(&lst);
 
   TString body;
-  TObject* obj = 0;
+  TObject* obj = nullptr;
   while((obj = next()) != 0) {
      if (obj->InheritsFrom("TGo4Parameter")) {
         TString subname = MakeFuncName(outputname, obj->GetName());
-        xout << Form("Bool_t %s()", subname.Data()) << std::endl;
+        xout << TString::Format("Bool_t %s()", subname.Data()) << std::endl;
         xout << "{" << std::endl;
 
         obj->SavePrimitive(xout, "savemacro");
@@ -132,11 +135,11 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
         xout << "}" << std::endl << std::endl;
 
-        body.Append(Form("   %s();\n", subname.Data()));
+        body.Append(TString::Format("   %s();\n", subname.Data()).Data());
      } else
      if (obj->InheritsFrom("TGo4Condition")) {
         TString subname = MakeFuncName(outputname, obj->GetName());
-        xout << Form("Bool_t %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", subname.Data()) << std::endl;
+        xout << TString::Format("Bool_t %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", subname.Data()) << std::endl;
         xout << "{" << std::endl;
 
         obj->SavePrimitive(xout, "savemacro");
@@ -145,7 +148,7 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
         xout << "}" << std::endl << std::endl;
 
-        body.Append(Form("   %s();\n", subname.Data()));
+        body.Append(TString::Format("   %s();\n", subname.Data()).Data());
      }
   }
 
@@ -153,12 +156,12 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
   if (f!=0) { delete f; f = 0; }
 
-  xout << Form("Bool_t %s()", outputname) << std::endl;
-  xout << Form("{") << std::endl;
-  xout << Form("#ifndef __GO4ANAMACRO__") << std::endl;
-  xout << Form("   std::cout << \"Macro %s can be executed only in analysis\" << std::endl;", macroname.Data()) << std::endl;
-  xout << Form("   return kFALSE;") << std::endl;
-  xout << Form("#endif") << std::endl << std::endl;
+  xout << TString::Format("Bool_t %s()", outputname) << std::endl;
+  xout << "{" << std::endl;
+  xout << "#ifndef __GO4ANAMACRO__" << std::endl;
+  xout << TString::Format("   std::cout << \"Macro %s can be executed only in analysis\" << std::endl;", macroname.Data()) << std::endl;
+  xout << "   return kFALSE;" << std::endl;
+  xout << "#endif" << std::endl << std::endl;
 
   xout << body;
 

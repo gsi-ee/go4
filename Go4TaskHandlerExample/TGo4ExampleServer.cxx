@@ -50,11 +50,11 @@ TGo4ExampleServer::TGo4ExampleServer(const char* name,
 
    fxController = new TGo4ExampleController();
 
-   TGo4ControllerRunnable* controlrun= new TGo4ControllerRunnable(Form("ControllerRunnable of %s",GetName()), this);
+   TGo4ControllerRunnable* controlrun= new TGo4ControllerRunnable(TString::Format("ControllerRunnable of %s",GetName()).Data(), this);
 
-   TGo4LoggingRunnable* logrun = new TGo4LoggingRunnable(Form("LoggerRunnable of %s",GetName()), this);
+   TGo4LoggingRunnable* logrun = new TGo4LoggingRunnable(TString::Format("LoggerRunnable of %s",GetName()).Data(), this);
 
-      // adding runnables to thread handler who takes over the responsibility...:
+   // adding runnables to thread handler who takes over the responsibility...:
 
    fcControlName.Form("%s%s",fgcCONTROLTHREAD,GetName());
    fxWorkHandler->NewThread(fcControlName.Data(), controlrun);
