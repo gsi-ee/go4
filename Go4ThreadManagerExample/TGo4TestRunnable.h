@@ -16,10 +16,7 @@
 
 #include "TGo4Runnable.h"
 
-class TPad;
-class TCanvas;
 class TH1D;
-class TGo4TestThreadManager;
 
 /**
  * Example of a user defined runnable subclass. Method Run() _must_ be implemented.
@@ -82,18 +79,18 @@ class TGo4TestRunnable : public TGo4Runnable  {
       *   The working function which runs in the
       *   thread
       */
-      virtual Int_t Run (void* ptr);
+      Int_t Run (void* ptr) override;
 
        /**
          *   catch for exceptions occurring in workfunc
         **/
-      virtual void ThreadCatch (TGo4Exception& ex);
+      void ThreadCatch (TGo4Exception& ex) override;
 
        /**
          *          catch for all unexcpected exceptions happening in
          *         workfunc
         **/
-      virtual void UnexpectedCatch ();
+      void UnexpectedCatch() override;
 
 
   private:
@@ -103,12 +100,12 @@ class TGo4TestRunnable : public TGo4Runnable  {
       *   with different actions in Workfunc; useful for testing
       *   without creating new subclasses of runnable...
       */
-      Int_t fiMode;    //!
+      Int_t fiMode{0};    //!
 
     // Additional Private Declarations
-      TH1D* fxHisto;    //!
+      TH1D* fxHisto{nullptr};    //!
 
-   ClassDef(TGo4TestRunnable,1)
+   ClassDefOverride(TGo4TestRunnable,1)
 };
 
 

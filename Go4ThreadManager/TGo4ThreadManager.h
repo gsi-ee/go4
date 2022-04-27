@@ -101,50 +101,50 @@ class TGo4ThreadManager : public TNamed {
    protected:
 
       /** is set kTRUE after first Initialize is done */
-      Bool_t fbInitDone;
+      Bool_t fbInitDone{kFALSE};
 
       /** flag showing termination status */
-      Bool_t fbTerminating;
+      Bool_t fbTerminating{kFALSE};
 
       /** If true, terminate complete application. If false,
         * only terminate threadmanager instance. */
-      Bool_t fbTerminateApplication;
+      Bool_t fbTerminateApplication{kFALSE};
 
       /** true if threadmanager shall block root gSystem using
         * the AppControlTimer; false if gSystem shall never be
         * blocked (necessary for gui) */
-      Bool_t fbAppBlocking;
+      Bool_t fbAppBlocking{kFALSE};
 
       /** If true, TThreads of all go4threads in list shall be created automatically
         * on calling Launch(). */
-      Bool_t fbAutoCreate;
+      Bool_t fbAutoCreate{kFALSE};
 
       /** If true, workfunctions (runnable Run()) of all go4threads in list shall be
         * started automatically on Initialization. If false, TThreads may be running, but
         * workfunctions suspend in condition wait. */
-      Bool_t fbAutoStart;
+      Bool_t fbAutoStart{kFALSE};
 
       /* flag that can be set at begin of application quit sequence.
        * Can be optionally used by application to implement a quit timeout
        * that will terminate if regular shutdown hangs up*/
-      Int_t fbBeingQuit;
+      Int_t fbBeingQuit{0};
 
       /** Composition of Application control timer.
         * @link aggregationByValue
         * @clientCardinality 1
         * @supplierCardinality 1 */
-      TGo4AppControlTimer *fxBlocker; //!
+      TGo4AppControlTimer *fxBlocker{nullptr}; //!
 
       /** Thread handler aggregate (threadsafe list of go4 threads)
         * @link aggregationByValue
         * @clientCardinality 1
         * @supplierCardinality 1 */
-      TGo4ThreadHandler *fxWorkHandler;  //!
+      TGo4ThreadHandler *fxWorkHandler{nullptr};  //!
 
   private:
       TGo4ThreadManager();
 
-   ClassDef(TGo4ThreadManager,1)
+   ClassDefOverride(TGo4ThreadManager,1)
 };
 
 #endif
