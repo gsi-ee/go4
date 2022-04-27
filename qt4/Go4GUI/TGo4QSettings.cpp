@@ -509,9 +509,7 @@ void TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
    min = getInt( "/ViewPanel/PaletteMin", 0);
    def = getInt( "/ViewPanel/PaletteDef", 1);
    max = getInt( "/ViewPanel/PaletteMax", 56);
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
-   if (max==56) max = 112; // default values for old ROOT can be overwritten
-#endif
+   if (max == 56) max = 112; // default values for old ROOT can be overwritten
 }
 
 void TGo4QSettings::setCloneFlag(bool on)

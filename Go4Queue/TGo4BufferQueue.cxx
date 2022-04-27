@@ -282,37 +282,11 @@ void TGo4BufferQueue::Clear(Option_t* opt)
 
 void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
-   if(buffer==0) return;
+   if(!buffer) return;
   //std::cout << "TGo4Bufferqueue "<<GetName()<< " Realloc with Expand before mainguard"<< std::endl;
    TGo4LockGuard mainguard;
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,0,0)
 
    buffer->Expand(newsize); // JAM2021- always use framework method to avoid recent check byte count problems
-#else
-   // in history this was protected! we have implemented it by hand...
-   //Int_t current = buffer->Length(); // cursor position
-   char* memfield = buffer->Buffer();
-   Int_t extraspace=TGo4Socket::fgiBUFEXTRASPACE; // =8, constant within TBuffer
-//   memfield = (char *) TStorage::ReAlloc(memfield,
-//                                           (newsize + extraspace) * sizeof(char),
-//                                           (oldsize+ extraspace) * sizeof(char));
-   // this works only for ROOT versions > 3.02/04
-   memfield = TStorage::ReAllocChar(memfield,
-                                           (newsize+extraspace),
-                                           (oldsize+extraspace));
-  //std::cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< std::endl;
-   buffer->ResetBit(TBuffer::kIsOwner);
-
-   buffer->SetBuffer(memfield, newsize);
-
-   buffer->SetBit(TBuffer::kIsOwner);
-   // <- here we avoid the ownership of TBuffer for the internal buffer
-   // (new feature of ROOT versions > 3.02/04)
-   // problem: SetBuffer will delete previous buffer in adopt mode (isowner=true)
-   // which might be at the same location as the new buffer after ReAlloc
-   // ergo SetBuffer would set a buffer which it deleted before itself!
-   buffer->SetBufferOffset(newsize);
-#endif
 }
 
 TBuffer* TGo4BufferQueue::NewEntry()
