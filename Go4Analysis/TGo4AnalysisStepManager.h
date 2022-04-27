@@ -218,39 +218,39 @@ class TGo4AnalysisStepManager : public TNamed {
 
       /** Array containing all analysis steps. The steplist is iterated by
         * the maincycle from start to end index to process the active steps. */
-      TObjArray* fxStepList;
+      TObjArray *fxStepList{nullptr};
 
       /** Iterator used for analysis step list. */
-      TIterator* fxStepIterator; //!
+      TIterator *fxStepIterator{nullptr}; //!
 
       /** Index describing the first analysis step from the steplist
         * to be processed. The first analysis step will use its own event
         * source to get input events. */
-      Int_t fiFirstStepIndex;
+      Int_t fiFirstStepIndex{0};
 
       /** Index describing the last  analysis step from the steplist
         * to be processed. Output event of the last analysis step is
         * accessible by GetEvent method and is used
         * for user event function and dynamic list. */
-      Int_t fiLastStepIndex;
+      Int_t fiLastStepIndex{0};
 
       /** Index describing the current  analysis step.
         * Used to check the first and last step to be processed. */
-      Int_t fiCurrentStepIndex;
+      Int_t fiCurrentStepIndex{0};
 
      /** True if chain of steps is checked for consistency of input and output events.
        * Default is true. Can be disabled for steps working in non-subsequent manner.
        * i.e. intermediate steps may be disabled, event structures of subsequent steps
        * need not match. */
-      Bool_t fbStepCheckingMode;
+      Bool_t fbStepCheckingMode{kFALSE};
 
       /** Points to the currently active analysis step.
        * @supplierCardinality 1 */
-      TGo4AnalysisStep * fxCurrentStep;
+      TGo4AnalysisStep *fxCurrentStep{nullptr};
 
       /** Link to the last output event produced by the event analysis steps.
         * Can be processed further by user event function and dynamic list. */
-      TGo4EventElement* fxOutputEvent;
+      TGo4EventElement *fxOutputEvent{nullptr};
 };
 
 #endif //TGO4ANALYSISSTEPMANAGER_H

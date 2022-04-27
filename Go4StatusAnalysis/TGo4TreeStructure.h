@@ -37,20 +37,20 @@ class TGo4TreeStructure : public TGo4Status {
     virtual ~TGo4TreeStructure();
 
     /** Access to the list of the names folder structure. */
-    TList * GetFolderList();
+    TList *GetFolderList();
 
     /** Access to the folder containing the names objects. */
-    TFolder * GetNamesFolder(Bool_t chown=kFALSE);
+    TFolder *GetNamesFolder(Bool_t chown=kFALSE);
 
   private:
 
     /** Folder containing the tree structure */
-    TFolder * fxTopFolder;
+    TFolder * fxTopFolder{nullptr};
 
     /** private ctor can only invoked by Go4Analysis class, which is friend. */
     TGo4TreeStructure(const char* name);
 
-  ClassDef(TGo4TreeStructure,1)
+  ClassDefOverride(TGo4TreeStructure,1)
 };
 
 #endif //TGO4TREESTRUCTURE_H

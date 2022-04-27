@@ -47,10 +47,10 @@ class TGo4AnalysisObjectNames : public TGo4Status {
 
       /** basic method to printout status information
         * on stdout; to be overridden by specific subclass */
-      void Print(Option_t* = "");
+      void Print(Option_t* = "") const override;
 
       /** Print names of the objects in given nameslist folder into buffer. */
-      void PrintFolder(TFolder* fold);
+      void PrintFolder(TFolder* fold) const;
 
   private:
 
@@ -61,7 +61,7 @@ class TGo4AnalysisObjectNames : public TGo4Status {
       /** private ctor can only invoked by Go4Analysis class, which is friend. */
       TGo4AnalysisObjectNames(const char* name);
 
-   ClassDef(TGo4AnalysisObjectNames,1)
+   ClassDefOverride(TGo4AnalysisObjectNames,1)
 };
 
 #endif //TGO4ANALYSISOBJECTNAMES_H

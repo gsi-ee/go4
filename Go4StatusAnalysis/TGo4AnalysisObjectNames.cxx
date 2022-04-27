@@ -45,13 +45,13 @@ TList* TGo4AnalysisObjectNames::GetFolderList()
 
 TFolder* TGo4AnalysisObjectNames::GetNamesFolder(Bool_t chown)
 {
-   TFolder* reval=fxTopFolder;
-   if(chown) fxTopFolder=0;
+   TFolder* reval = fxTopFolder;
+   if(chown) fxTopFolder = nullptr;
    return reval;
 }
 
 
-void TGo4AnalysisObjectNames::Print(Option_t *)
+void TGo4AnalysisObjectNames::Print(Option_t *) const
 {
    gROOT->SetDirLevel(0);
    PrintLine("G-OOOO-> Analysis Object Names Printout <-OOOO-G");
@@ -59,7 +59,7 @@ void TGo4AnalysisObjectNames::Print(Option_t *)
    PrintFolder(fxTopFolder);
 }
 
-void TGo4AnalysisObjectNames::PrintFolder(TFolder* fold)
+void TGo4AnalysisObjectNames::PrintFolder(TFolder* fold) const
 {
    if (!fold) return;
 
