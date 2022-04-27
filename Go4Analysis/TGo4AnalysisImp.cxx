@@ -79,7 +79,7 @@ class TGo4InterruptHandler : public TSignalHandler {
       {
       }
 
-      virtual Bool_t Notify()
+      Bool_t Notify() override
       {
          if (TGo4Analysis::Exists())
              TGo4Analysis::Instance()->ProcessCrtlCSignal();
