@@ -44,13 +44,13 @@ Int_t TGo4Log::fgiIgnoreLevel = 1;
 Bool_t TGo4Log::fgbOutputEnabled = kTRUE;
 Bool_t TGo4Log::fgbLogfileEnabled = kFALSE;
 Bool_t TGo4Log::fgbAutoMode = kFALSE;
-void *TGo4Log::fgxLogfile = 0;
-TMutex *TGo4Log::fgxMutex = 0;
-TGo4Log *TGo4Log::fgxInstance = 0;
+void *TGo4Log::fgxLogfile = nullptr;
+TMutex *TGo4Log::fgxMutex = nullptr;
+TGo4Log *TGo4Log::fgxInstance = nullptr;
 
 TString TGo4Log::fgxLogName = TGo4Log::fgcDEFAULTLOG;
 
-TNamed* TGo4Log::fgSniffer = 0;
+TNamed* TGo4Log::fgSniffer = nullptr;
 
 int TGo4Log::fgStdPipe[2] = {-1, -1};
 int TGo4Log::fgStdSave = -1;
@@ -63,11 +63,11 @@ class TLogTimer : public TTimer {
 };
 
 
-TLogTimer* TGo4Log::fgTimer = 0;
+TLogTimer* TGo4Log::fgTimer = nullptr;
 
 TGo4Log::TGo4Log()
 {
-   if (fgxMutex == 0) fgxMutex = new TMutex(kTRUE);
+   if (!fgxMutex) fgxMutex = new TMutex(kTRUE);
 
 
    // initialization at first time we call logger
@@ -85,7 +85,7 @@ TGo4Log::~TGo4Log()
 
 TGo4Log *TGo4Log::Instance()
 {
-   if(fgxInstance == 0)
+   if(!fgxInstance)
       fgxInstance = new TGo4Log();
 
    return fgxInstance;
@@ -122,7 +122,7 @@ void TGo4Log::ProcessRedirection(int kind)
 
 #ifndef _MSC_VER
 
-   if (kind>=0) {
+   if (kind >= 0) {
 
       std::cout.flush();
       fflush(stdout);
