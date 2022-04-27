@@ -25,10 +25,10 @@ class TGo4SetScaleValues : public QWidget, public Ui::TGo4SetScaleValues
    Q_OBJECT
 
 protected:
-   bool fbDoingRefresh;
+   bool fbDoingRefresh{false};
 
 public:
-   TGo4SetScaleValues( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+   TGo4SetScaleValues( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
    void refreshView(bool force);
 

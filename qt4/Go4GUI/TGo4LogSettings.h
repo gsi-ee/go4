@@ -22,7 +22,7 @@ class TGo4LogSettings : public QDialog, public Ui::TGo4LogSettings
      Q_OBJECT
 
  public:
-     TGo4LogSettings( QWidget* parent = 0 );
+     TGo4LogSettings(QWidget* parent = nullptr);
 
  public slots:
 

@@ -23,7 +23,7 @@ class TGo4MacroDialog : public QDialog, public Ui::TGo4MacroDialog
 
  public:
 
-    TGo4MacroDialog( QWidget* parent = 0 );
+    TGo4MacroDialog(QWidget* parent = nullptr);
 
    const QString& getCommand();
 

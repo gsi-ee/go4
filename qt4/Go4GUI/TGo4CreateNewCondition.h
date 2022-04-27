@@ -24,7 +24,7 @@ class TGo4CreateNewCondition : public QDialog, public Ui::TGo4CreateNewCondition
     Q_OBJECT
 
 public:
-   TGo4CreateNewCondition(QWidget* parent = 0);
+   TGo4CreateNewCondition(QWidget* parent = nullptr);
 
    TGo4Condition* MakeCondition();
 };

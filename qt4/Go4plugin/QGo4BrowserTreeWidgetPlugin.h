@@ -22,7 +22,7 @@ class QGo4BrowserTreeWidgetPlugin : public QObject, public QDesignerCustomWidget
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4BrowserTreeWidgetPlugin(QObject *parent = 0);
+     QGo4BrowserTreeWidgetPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;

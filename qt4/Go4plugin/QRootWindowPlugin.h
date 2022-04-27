@@ -22,7 +22,7 @@ class QRootWindowPlugin : public QObject, public QDesignerCustomWidgetInterface
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QRootWindowPlugin(QObject *parent = 0);
+     QRootWindowPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;

@@ -220,7 +220,7 @@ class TGo4MainWindow : public QMainWindow {
 
       void SavePanelCanvas(TGo4ViewPanel* panel);
 
-      void HelpWindow(const char* filename, const char* msg = 0);
+      void HelpWindow(const char* filename, const char* msg = nullptr);
 
       void UpdateBrowser();
 

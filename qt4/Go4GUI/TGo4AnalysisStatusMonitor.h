@@ -24,18 +24,18 @@ class TGo4AnalysisStatusMonitor : public QGo4Widget, public Ui::TGo4AnalysisStat
    Q_OBJECT
 protected:
 
-   QMovie* fxRunMovie;
+   QMovie* fxRunMovie{nullptr};
 
 public:
-   TGo4AnalysisStatusMonitor(QWidget *parent = 0, const char* name = 0);
+   TGo4AnalysisStatusMonitor(QWidget *parent = nullptr, const char* name = nullptr);
 
    virtual ~TGo4AnalysisStatusMonitor();
 
    virtual void WorkWithRatemeter(TGo4Slot* slot);
 
-   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
 
-   virtual void linkedObjectRemoved(const char* linkname);
+   void linkedObjectRemoved(const char* linkname) override;
 };
 
 #endif

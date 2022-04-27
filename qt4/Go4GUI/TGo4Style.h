@@ -102,7 +102,7 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
 
  public:
 
-    TGo4Style( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+    TGo4Style( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
     /** Set default palette and minimum maximum indices */
     virtual void SetPaletteRange(int min, int def, int max);
@@ -130,9 +130,9 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
    /** Change selection menu entries according to index range*/
    void RefreshPaletteText(int min, int max);
 
-   bool fbMenuLock;
+   bool fbMenuLock{false};
 
-   bool fbSettingPanelData;
+   bool fbSettingPanelData{false};
 
  };
 

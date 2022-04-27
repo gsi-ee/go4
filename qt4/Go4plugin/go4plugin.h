@@ -24,7 +24,7 @@ class Go4WidgetPlugins: public QObject, public QDesignerCustomWidgetCollectionIn
      Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
 
  public:
-     Go4WidgetPlugins(QObject *parent = 0);
+     Go4WidgetPlugins(QObject *parent = nullptr);
 
      virtual QList<QDesignerCustomWidgetInterface*> customWidgets() const;
 

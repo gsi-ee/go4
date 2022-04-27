@@ -33,9 +33,9 @@ class QHttpProxy : public QObject {
    friend class TGo4HttpAccess;
 
    protected:
-      QNetworkAccessManager qnam;  //! central manager of network requests
-      QNetworkReply *fHReply;      //! used only to receive hierarchy
-      TGo4HttpProxy *fProxy;
+      QNetworkAccessManager qnam;          //! central manager of network requests
+      QNetworkReply *fHReply{nullptr};     //! used only to receive hierarchy
+      TGo4HttpProxy *fProxy{nullptr};
 
    public slots:
       void httpFinished();
@@ -62,8 +62,8 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
    Q_OBJECT
 
    protected:
-      TGo4HttpProxy   *fProxy;
-      XMLNodePointer_t fNode;
+      TGo4HttpProxy   *fProxy{nullptr};
+      XMLNodePointer_t fNode{nullptr};
       TString          fUrlPath;
       // Request kind. Can be:
       //   0 - h.xml request,
@@ -73,13 +73,13 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       //   4 - parameter status request
       //   5 - sample tree
       //   6 - analysis status request
-      Int_t            fKind;
+      Int_t            fKind{0};
       TString          fNameAttr;
       TString          fKindAttr;
       TString          fExtraArg;
-      TGo4ObjectManager* fReceiver;
+      TGo4ObjectManager* fReceiver{nullptr};
       TString          fRecvPath;
-      QNetworkReply   *fReply;
+      QNetworkReply   *fReply{nullptr};
 
    public slots:
       void httpFinished();
@@ -87,7 +87,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char* extra_arg = 0);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char* extra_arg = nullptr);
 
       virtual ~TGo4HttpAccess() { }
 
@@ -110,28 +110,28 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 // -----------------------------------------------------------------------------------
 
 /** Here Go4/ROOT-specific functionality of HttpProxy */
-class TGo4HttpProxy : public TGo4ServerProxy  {
+class TGo4HttpProxy : public TGo4ServerProxy {
 
    friend class QHttpProxy;
    friend class TGo4HttpAccess;
 
    protected:
-      TXMLEngine     *fXML;
-      XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
-      QHttpProxy      fComm;          //!
-      Int_t           fRateCnt;       //! counter for ratemeter updates
-      Int_t           fStatusCnt;     //! counter for status messages updates
-      Int_t           fDebugCnt;      //! counter for debug output updates
-      Bool_t          fbAnalysisRunning; //!
-      TString         fUserName;      //! user name and password -
-      TString         fPassword;      //!
-      Bool_t          fConnected;     //! true if connected
-      QNetworkReply  *fRegularReq;    //! multiple request for rate, log and messages
-      Int_t           fShutdownCnt;    //! counter during shutdown
+      TXMLEngine     *fXML{nullptr};
+      XMLDocPointer_t fxHierarchy{nullptr};    //!  pointer on dabc::Hierarchy class
+      QHttpProxy      fComm;                   //!
+      Int_t           fRateCnt{0};             //! counter for ratemeter updates
+      Int_t           fStatusCnt{0};           //! counter for status messages updates
+      Int_t           fDebugCnt{0};            //! counter for debug output updates
+      Bool_t          fbAnalysisRunning{kFALSE}; //!
+      TString         fUserName;               //! user name and password -
+      TString         fPassword;               //!
+      Bool_t          fConnected{kFALSE};      //! true if connected
+      QNetworkReply  *fRegularReq{nullptr};    //! multiple request for rate, log and messages
+      Int_t           fShutdownCnt{0};         //! counter during shutdown
 
       void GetHReply(QByteArray& res);
 
-      XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
+      XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = nullptr) const;
 
       TString MakeUrlPath(XMLNodePointer_t item);
 
@@ -151,7 +151,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t CheckShutdown(Bool_t force = kFALSE);
 
-      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = 0);
+      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = nullptr);
 
    public:
       TGo4HttpProxy();
@@ -162,88 +162,88 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Bool_t Connect(const char* nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot) {}
+      void Initialize(TGo4Slot* slot) override;
+      void Finalize(TGo4Slot* slot) override {}
 
-      virtual Bool_t HasSublevels() const;
-      virtual TGo4Access* ProvideAccess(const char* name);
-      virtual TGo4LevelIter* MakeIter();
+      Bool_t HasSublevels() const override;
+      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4LevelIter* MakeIter() override;
 
-      virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return ClassName(); }
-      virtual TObject* GetAssignedObject() { return this; }
-      virtual const char* GetContainedObjectInfo();
-      virtual Int_t GetObjectSizeInfo() { return -1; }
+      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
+      const char* GetContainedClassName() override { return ClassName(); }
+      TObject* GetAssignedObject() override { return this; }
+      const char* GetContainedObjectInfo() override;
+      Int_t GetObjectSizeInfo() override { return -1; }
 
-      virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
-      virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
+      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      virtual void Update(TGo4Slot* slot, Bool_t strong);
+      void Update(TGo4Slot* slot, Bool_t strong) override;
 
-      virtual TString FindCommand(const char* name);
-      virtual Int_t  NumCommandArgs(const char* name);
-      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0);
+      TString FindCommand(const char* name) override;
+      Int_t  NumCommandArgs(const char* name) override;
+      Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) override;
 
       virtual const char* GetUserName() const { return fUserName.Data(); }
 
-      virtual Bool_t IsAnalysisServer() const { return kTRUE; }
-      virtual Bool_t IsGo4Analysis() const;
-      virtual Bool_t IsConnected() { return fConnected; }
-      virtual Bool_t IsViewer()  { return CheckUserName("observer", kFALSE); }
-      virtual Bool_t IsController()  { return CheckUserName("controller", kFALSE); }
-      virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kTRUE); }
+      Bool_t IsAnalysisServer() const override { return kTRUE; }
+      Bool_t IsGo4Analysis() const override;
+      Bool_t IsConnected() override { return fConnected; }
+      Bool_t IsViewer() override { return CheckUserName("observer", kFALSE); }
+      Bool_t IsController() override { return CheckUserName("controller", kFALSE); }
+      Bool_t IsAdministrator() override { return CheckUserName("admin", kTRUE); }
 
-      virtual Bool_t CanSubmitObjects();
-      virtual void RequestAnalysisSettings();
-      virtual void SubmitAnalysisSettings();
-      virtual void CloseAnalysisSettings();
+      Bool_t CanSubmitObjects() override;
+      void RequestAnalysisSettings() override;
+      void SubmitAnalysisSettings() override;
+      void CloseAnalysisSettings() override;
 
-      virtual Bool_t NamesListReceived();
-      virtual Bool_t RefreshNamesList();
-      virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
+      Bool_t NamesListReceived() override;
+      Bool_t RefreshNamesList() override;
+      Bool_t DelayedRefreshNamesList(Int_t delay_sec) override;
 
-      virtual Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
-      virtual void StartAnalysis();
-      virtual void StopAnalysis();
+      Bool_t IsAnalysisRunning() const override { return fbAnalysisRunning; }
+      void StartAnalysis() override;
+      void StopAnalysis() override;
 
-      virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
+      Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) override;
 
-      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
+      Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) override;
 
-      virtual void ClearAllAnalysisObjects();
-      virtual void ClearAnalysisObject(const char* fullpath);
+      void ClearAllAnalysisObjects() override;
+      void ClearAnalysisObject(const char* fullpath) override;
 
-      virtual void RemoteTreeDraw(const char* treename,
-                                  const char* varexp,
-                                  const char* cutcond,
-                                  const char* hname);
+      void RemoteTreeDraw(const char* treename,
+                          const char* varexp,
+                          const char* cutcond,
+                          const char* hname) override;
 
-      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
+      void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) override;
 
-      virtual void RemotePrintEvent(const char* evname,
-                                    Int_t evnumber,
-                                    Int_t subid,
-                                    Bool_t ishex,
-                                    Bool_t islong);
+      void RemotePrintEvent(const char* evname,
+                            Int_t evnumber,
+                            Int_t subid,
+                            Bool_t ishex,
+                            Bool_t islong) override;
 
-      virtual void ChageObjectProtection(const char* fullpath, const char* flags);
+      void ChageObjectProtection(const char* fullpath, const char* flags) override;
 
-      virtual void RemoveObjectFromAnalysis(const char* fullpath);
+      void RemoveObjectFromAnalysis(const char* fullpath) override;
 
-      virtual void ExecuteLine(const char* line);
+      void ExecuteLine(const char* line) override;
 
-      virtual void PrintDynListEntry(const char* fullpath);
+      void PrintDynListEntry(const char* fullpath) override;
 
-      virtual void LoadConfigFile(const char* fname);
-      virtual void SaveConfigFile(const char* fname);
+      void LoadConfigFile(const char* fname) override;
+      void SaveConfigFile(const char* fname) override;
 
-      virtual void WriteAutoSave(const char* fname,
-                                 Int_t complevel,
-                                 Bool_t overwrite);
+      void WriteAutoSave(const char* fname,
+                         Int_t complevel,
+                         Bool_t overwrite) override;
 
-      virtual void ResetDebugOutputRequests();
+      void ResetDebugOutputRequests() override;
 
-      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+      void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) override;
 
 
 };

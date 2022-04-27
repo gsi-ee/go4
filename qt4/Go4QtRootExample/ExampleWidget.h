@@ -26,14 +26,14 @@ class ExampleWidget : public QWidget, public Ui::ExampleWidget
 
    public:
 
-      ExampleWidget(QWidget *parent = 0, const char* name = 0);
+      ExampleWidget(QWidget *parent = nullptr, const char* name = nullptr);
 
       virtual ~ExampleWidget();
 
    protected:
-      virtual void resizeEvent(QResizeEvent * e);
+      void resizeEvent(QResizeEvent * e) override;
 
-      TH1F *fHisto;
+      TH1F *fHisto{nullptr};
 
    public slots:
 

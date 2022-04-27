@@ -44,7 +44,7 @@ class QFitWidget : public QWidget {
    Q_OBJECT
 
    public:
-      QFitWidget( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = Qt::Widget );
+      QFitWidget(QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget);
       ~QFitWidget();
 
       virtual QFitItem* GetItem();
@@ -58,9 +58,9 @@ class QFitWidget : public QWidget {
       virtual void UpdateItemsOfType(int typ, bool allitems);
 
    protected:
-      TGo4FitPanel* fxPanel;
-      QFitItem* fxItem;
-      bool fbFillWidget;
+      TGo4FitPanel* fxPanel{nullptr};
+      QFitItem* fxItem{nullptr};
+      bool fbFillWidget{false};
 
       virtual void contextMenuEvent(QContextMenuEvent* e);
 };

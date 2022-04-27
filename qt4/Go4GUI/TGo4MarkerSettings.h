@@ -22,7 +22,7 @@ class TGo4MarkerSettings : public QDialog, public Ui::TGo4MarkerSettings
    Q_OBJECT
 
 public:
-   TGo4MarkerSettings( QWidget* parent = 0 );
+   TGo4MarkerSettings( QWidget* parent = nullptr );
 
 public slots:
 

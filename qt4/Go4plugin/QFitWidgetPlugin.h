@@ -22,7 +22,7 @@ class QFitWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QFitWidgetPlugin(QObject *parent = 0);
+     QFitWidgetPlugin(QObject *parent = nullptr);
 
      bool isContainer() const;
      bool isInitialized() const;
