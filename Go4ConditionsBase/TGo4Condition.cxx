@@ -735,17 +735,17 @@ const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Op
    if (subname != 0) { varname = subname + 5; saveprefix = kFALSE; }
 
    if (saveprefix) {
-      out << Form("   %s* %s = (%s*) go4->GetAnalysisCondition(\"%s\",\"%s\");",
+      out << TString::Format("   %s* %s = (%s*) go4->GetAnalysisCondition(\"%s\",\"%s\");",
                    ClassName(), varname, ClassName(), GetName(), ClassName()) << std::endl;
-      out << Form("   if (%s==0) {", varname) << std::endl;
-      out << Form("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << std::endl;
-      out << Form("      return;") << std::endl;
-      out << Form("   }") << std::endl << std::endl;
-      out << Form("   TGo4Log::Info(\"Set condition %s as saved at %s\");",
+      out << TString::Format("   if (%s==0) {", varname) << std::endl;
+      out << TString::Format("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << std::endl;
+      out << TString::Format("      return;") << std::endl;
+      out << TString::Format("   }") << std::endl << std::endl;
+      out << TString::Format("   TGo4Log::Info(\"Set condition %s as saved at %s\");",
                          GetName(),TDatime().AsString()) << std::endl << std::endl;
    } else
    if (!savemacro && ((opt==0) || (strstr(opt, "nocreate")==0))) {
-      out << Form("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << std::endl << std::endl;
+      out << TString::Format("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << std::endl << std::endl;
    }
 
    if (arrextraargs==0) {
@@ -755,7 +755,7 @@ const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Op
 
       out << "   // SetFlags(enabled,last,mark,result,vtrue,vfalse);" << std::endl;
 
-      out << Form("   %s%s->SetFlags(%s, %s, %s, %s, %s, %s);",
+      out << TString::Format("   %s%s->SetFlags(%s, %s, %s, %s, %s, %s);",
                   savemacro ? "if (flags) " : "", varname,
                   enabled ? "kTRUE" : "kFALSE",
                   last ? "kTRUE" : "kFALSE",
@@ -764,12 +764,12 @@ const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Op
                   vtrue ? "kTRUE" : "kFALSE",
                   vfalse ? "kTRUE" : "kFALSE") << std::endl;
 
-      out << Form("   %s%s->SetCounts(%d, %d);",
+      out << TString::Format("   %s%s->SetCounts(%d, %d);",
                  savemacro ? "if (counters) " : "", varname,
                  TrueCounts(), Counts()) << std::endl;
 
       if (savemacro)
-         out << Form("   if (reset) %s->ResetCounts();", varname) << std::endl;
+         out << TString::Format("   if (reset) %s->ResetCounts();", varname) << std::endl;
    }
 
    return varname;

@@ -140,9 +140,9 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
    fcWatchName = TString::Format("%s%s", fgcWATCHTHREAD, GetName());
 
    TGo4AnalysisMainRunnable* mainrun =
-      new TGo4AnalysisMainRunnable(Form("MainRunnable of %s",GetName()), this);
+      new TGo4AnalysisMainRunnable(TString::Format("MainRunnable of %s",GetName()).Data(), this);
    TGo4AnalysisWatchRunnable* watchrun =
-      new TGo4AnalysisWatchRunnable(Form("WatchRunnable of %s",GetName()), this);
+      new TGo4AnalysisWatchRunnable(TString::Format("WatchRunnable of %s",GetName()).Data(), this);
 
       // adding runnables to thread handler who takes over the responsibility...:
    TGo4ThreadHandler* th = GetThreadHandler();
