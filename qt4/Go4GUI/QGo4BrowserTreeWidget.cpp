@@ -49,15 +49,11 @@ void QGo4BrowserTreeWidget::mouseMoveEvent(QMouseEvent *event)
 {
    // if not left button - return
    if (event->buttons() & Qt::LeftButton) {
-      QDrag *drag = 0;
+      QDrag *drag = nullptr;
       // request from browser drag
        emit RequestDragObject(&drag);
 
       if (drag)
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
          drag->exec(Qt::CopyAction | Qt::MoveAction);
-#else
-         drag->start(Qt::CopyAction | Qt::MoveAction);
-#endif
    }
 }

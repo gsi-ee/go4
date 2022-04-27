@@ -234,14 +234,9 @@ int main(int argc, char **argv)
 #endif
    argv2[argc] = 0;
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #if QT_VERSION < QT_VERSION_CHECK(5,8,0)
    // method only available until qt5.8, then it was deprecated
    QApplication::setColorSpec( QApplication::ManyColor );
-#endif
-#else
-    // JAM for qt4 option "many color" will cause empty ROOT canvas
-   QApplication::setColorSpec( QApplication::NormalColor);
 #endif
 
    Q_INIT_RESOURCE(go4icons);
