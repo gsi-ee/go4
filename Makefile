@@ -101,10 +101,6 @@ MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase Go4HDF5 \
            Go4Http Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
 
-ifdef NEEDFULLWEBCANVAS
-MODULES += webgui6
-endif
-
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
             Go4ExampleUserSource Go4ExampleUserStore Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample

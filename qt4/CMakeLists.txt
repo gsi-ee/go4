@@ -306,9 +306,6 @@ endif()
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
    list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
-   if(ROOT_VERSION VERSION_LESS 6.23.00)
-      list(APPEND gui_extra_libs WebGui6Full)
-   endif()
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 

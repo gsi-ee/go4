@@ -7,9 +7,6 @@ if(GO4_QTVERSION STREQUAL Qt6)
   set(root_qtweb_lib ${ROOT_ROOTQt6WebDisplay_LIBRARY})
 else()
   set(qt_web_libs Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
-  if(ROOT_VERSION VERSION_LESS 6.23.00)
-     set(go4_gui6full_lib WebGui6Full)
-  endif()
   set(root_qtweb_lib ${ROOT_ROOTQt5WebDisplay_LIBRARY})
 endif()
 
@@ -20,7 +17,6 @@ GO4_LINK_LIBRARY(Go4WebRoot
                     ${qt_web_libs}
                     ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY}
                     ${root_qtweb_lib}
-                    ${go4_gui6full_lib}
                     Go4Base)
 
 target_include_directories(Go4WebRoot PRIVATE ${CMAKE_BINARY_DIR}/include)

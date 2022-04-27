@@ -165,13 +165,6 @@ endif
 
 endif
 
-# detecting need to TWebCanvasFull
-ifeq ($(ISROOT6),true)
-ifeq ($(call myeval,$(ROOTBVERSION),62300),lt)
-NEEDFULLWEBCANVAS = true
-endif
-endif
-
 ifneq ($(withdabc),no)
 ifdef DABCSYS
 USEDABC = true
@@ -554,9 +547,6 @@ ifdef USEXMLIO
 endif
 ifdef USEHTTPSERVER
 	@echo "USEHTTPSERVER = true" >> $@
-endif
-ifdef NEEDFULLWEBCANVAS
-	@echo "NEEDFULLWEBCANVAS = true" >> $@
 endif
 ifdef USEHTTPSNIFF
 	@echo "USEHTTPSNIFF  = true" >> $@
