@@ -33,16 +33,16 @@ class TGo4ComRemoveClient : public TGo4TaskHandlerCommand {
 
     void SetWaitForClient(Bool_t wait=kTRUE);
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
   private:
 
     /** name of the client to be removed */
     TString fxClientName;
 
-    Bool_t fbWaitForClient;
+    Bool_t fbWaitForClient{kFALSE};
 
-  ClassDef(TGo4ComRemoveClient,1)
+  ClassDefOverride(TGo4ComRemoveClient,1)
 };
 
 #endif //TGO4COMREMOVECLIENT_H

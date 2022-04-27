@@ -31,12 +31,12 @@ class TGo4ComSetProtections : public TGo4AnalysisObjectCommand {
 
     virtual ~TGo4ComSetProtections();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
     /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+    void Set(TGo4RemoteCommand* remcon) override;
 
     void SetFlags(const char* flags) { fxFlags = flags; }
 
@@ -44,7 +44,7 @@ class TGo4ComSetProtections : public TGo4AnalysisObjectCommand {
 
     TString fxFlags;
 
-   ClassDef(TGo4ComSetProtections,1)
+   ClassDefOverride(TGo4ComSetProtections,1)
 };
 
 

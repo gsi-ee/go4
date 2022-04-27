@@ -36,7 +36,7 @@ class TGo4ComDisconnectSlave : public TGo4TaskHandlerCommand {
 
     void SetWaitForSlave(Bool_t wait=kTRUE) { fbWaitForSlave=wait; }
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
   private:
 
@@ -45,7 +45,7 @@ class TGo4ComDisconnectSlave : public TGo4TaskHandlerCommand {
 
     Bool_t fbWaitForSlave;
 
-   ClassDef(TGo4ComDisconnectSlave,1);
+   ClassDefOverride(TGo4ComDisconnectSlave,1);
 };
 
 #endif //TGO4COMDISCONNECTSLAVE_H

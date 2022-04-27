@@ -32,9 +32,9 @@ class TGo4ComGetEnvelope : public TGo4AnalysisObjectCommand {
 
       virtual ~TGo4ComGetEnvelope();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
-   ClassDef(TGo4ComGetEnvelope,1)
+   ClassDefOverride(TGo4ComGetEnvelope,1)
 };
 
 #endif

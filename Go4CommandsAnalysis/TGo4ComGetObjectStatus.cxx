@@ -45,7 +45,7 @@ Int_t TGo4ComGetObjectStatus::ExeCom()
    GO4TRACE((12,"TGo4ComGetObjectStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli==0) {
+   if (!cli) {
       GO4TRACE((11,"TGo4ComGetObjectStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
       return 1;

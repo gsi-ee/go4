@@ -27,14 +27,14 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
 
       virtual ~TGo4ComAutosave();
 
-      virtual Int_t ExeCom();
+      Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      virtual void Set(TGo4RemoteCommand* remcon);
+      void Set(TGo4RemoteCommand* remcon) override;
 
-      void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression=i; }
+      void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression = i; }
 
       void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
 
@@ -53,7 +53,7 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
       /** Name of the autosave file. Replaces previously set name */
       TString fxAutoFileName;
 
-   ClassDef(TGo4ComAutosave,1)
+   ClassDefOverride(TGo4ComAutosave,1)
 };
 
 #endif //TGO4COMAUTOSAVE_H

@@ -32,12 +32,12 @@ class TGo4ComSetAnalysisStatus : public TGo4AnalysisCommand {
 
     virtual ~TGo4ComSetAnalysisStatus();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
     /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+    void Set(TGo4RemoteCommand* remcon) override;
 
     void SetStatusObject(TGo4AnalysisStatus* settings);
 
@@ -45,9 +45,9 @@ class TGo4ComSetAnalysisStatus : public TGo4AnalysisCommand {
 
     /** @link aggregationByValue
       *   @supplierCardinality 1 */
-    TGo4AnalysisStatus * fxAnalysisStatus;
+    TGo4AnalysisStatus *fxAnalysisStatus{nullptr};
 
-    ClassDef(TGo4ComSetAnalysisStatus,1)
+    ClassDefOverride(TGo4ComSetAnalysisStatus,1)
 };
 
 #endif //TGO4COMSETANALYSISSTATUS_H

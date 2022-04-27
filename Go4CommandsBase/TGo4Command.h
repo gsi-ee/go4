@@ -101,7 +101,7 @@ class TGo4Command  : public TNamed {
         * is not sufficient, command is not allowed to be executed.*/
       Go4CommandMode_t fiProtection; //
 
-      void SetProtection(Go4CommandMode_t m){fiProtection=m;}
+      void SetProtection(Go4CommandMode_t m) { fiProtection = m; }
 
       /** resolve description of command modes here*/
        static const char* fgcMODEDESCRIPTION[];
@@ -113,7 +113,7 @@ class TGo4Command  : public TNamed {
       TString fxTaskName;     // name of task
 
    protected:
-      TGo4CommandReceiver * fxReceiverBase{nullptr}; //!
+      TGo4CommandReceiver *fxReceiverBase{nullptr}; //!
 
    ClassDef(TGo4Command, 1)
 };

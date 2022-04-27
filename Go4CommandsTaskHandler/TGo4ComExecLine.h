@@ -30,7 +30,7 @@ class TGo4ComExecLine : public TGo4TaskHandlerCommand {
 
     virtual ~TGo4ComExecLine();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
     /** access to the passwd. */
     const char* GetLine() const { return fxLine.Data(); }
@@ -40,9 +40,9 @@ class TGo4ComExecLine : public TGo4TaskHandlerCommand {
   private:
 
     /** Contains text of macro. */
-    TString fxLine ;
+    TString fxLine;
 
-  ClassDef(TGo4ComExecLine,1)
+  ClassDefOverride(TGo4ComExecLine,1)
 };
 
 #endif //TGO4COMSTART_H

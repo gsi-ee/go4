@@ -45,8 +45,8 @@ Int_t TGo4ComDeleteObject::ExeCom()
 {
    GO4TRACE((12,"TGo4ComDeleteObject::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli==0) {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if(!cli) {
       GO4TRACE((11,"TGo4ComDeleteObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
       return 1;

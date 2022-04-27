@@ -30,9 +30,9 @@ class TGo4ComStart : public TGo4TaskHandlerCommand {
 
     virtual ~TGo4ComStart();
 
-    Int_t ExeCom();
+    Int_t ExeCom() override;
 
-  ClassDef(TGo4ComStart,1)
+  ClassDefOverride(TGo4ComStart,1)
 };
 
 #endif //TGO4COMSTART_H
