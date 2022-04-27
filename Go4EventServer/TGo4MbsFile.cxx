@@ -14,12 +14,8 @@
 #include "TGo4MbsFile.h"
 
 #include <cstring>
-#include "RVersion.h"
-#if ROOT_VERSION_CODE <= ROOT_VERSION(6,8,0)
-#include "Riosfwd.h"
-#else
 #include <iosfwd>
-#endif
+
 #include "TSystem.h"
 #include "TROOT.h"
 #include "TList.h"
