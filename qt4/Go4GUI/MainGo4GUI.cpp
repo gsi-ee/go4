@@ -30,7 +30,7 @@
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #ifdef __GO4X11__
 #include "TGX11.h"
 //extern void qt_x11_set_global_double_buffer(bool);
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 
    setlocale(LC_ALL, "C");
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #ifdef __GO4X11__
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
 #endif

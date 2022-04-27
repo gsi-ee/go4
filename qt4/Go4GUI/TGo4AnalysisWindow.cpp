@@ -366,7 +366,7 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
        TerminateAnalysisProcess();
     } else {
        fTerminateOnClose = aschildprocess;
-#ifdef WIN32
+#ifdef _MSC_VER
        setWindowTitle("Analysis Terminal [with QProcess]");
 #else
 #if QT_VERSION < QT_VERSION_CHECK(5,3,0)

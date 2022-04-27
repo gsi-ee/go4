@@ -31,7 +31,7 @@
 
 #include <QtCore/QTimer>
 
-#ifndef WIN32
+#ifndef _MSC_VER
 #ifdef __GO4X11__
 
 #include <X11/Xlib.h>
@@ -150,7 +150,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
      if ((strcmp(env,"no")==0) || (strcmp(env,"NO")==0)) flag = -1;
   }
 
-#ifdef WIN32
+#ifdef _MSC_VER
   // under Windows one should explicit enable these methods
   fRootCanvasMenusEnabled = (flag == 1);
 #else
