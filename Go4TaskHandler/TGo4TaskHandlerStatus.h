@@ -43,7 +43,7 @@ class TGo4TaskHandlerStatus : public TGo4Status {
 
       Bool_t IsAborting() const { return fbIsAborting; }
 
-      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      void Print(Option_t* = "") const override;
 
    private:
       TGo4TaskHandlerStatus(const char*);
@@ -67,21 +67,21 @@ class TGo4TaskHandlerStatus : public TGo4Status {
       TString  fxHostName;
 
       /** Actual port number of negotiation connection (raw transport) */
-      UInt_t fuNegPort;
+      UInt_t fuNegPort{0};
 
       /** Command connection port number */
-      Int_t fiComPort;
+      Int_t fiComPort{0};
 
       /** Status connection port number */
-      Int_t fiStatPort;
+      Int_t fiStatPort{0};
 
       /** Data connection port number */
-      Int_t fiDatPort;
+      Int_t fiDatPort{0};
 
       /** true if taskhandler is being aborted e.g. by remove exception */
-      Bool_t fbIsAborting;
+      Bool_t fbIsAborting{kFALSE};
 
-   ClassDef(TGo4TaskHandlerStatus,1)
+   ClassDefOverride(TGo4TaskHandlerStatus,1)
 };
 
 #endif //TGO4TASKHANDLERSTATUS_H

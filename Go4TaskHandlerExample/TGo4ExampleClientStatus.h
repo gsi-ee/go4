@@ -26,16 +26,11 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
 
   public:
 
-     TGo4ExampleClientStatus() {}; // default ctor for streamer
+     TGo4ExampleClientStatus() {} // default ctor for streamer
 
      virtual ~TGo4ExampleClientStatus();
 
-     /**
-      * basic method to printout status information
-      * on stdout; to be overridden by specific
-      * subclass
-      */
-     virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+     void Print(Option_t* = "") const override;
 
   private:
 
@@ -56,7 +51,7 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
 
      TGo4ExampleClientStatus(const char* name);
 
-  ClassDef(TGo4ExampleClientStatus,1)
+   ClassDefOverride(TGo4ExampleClientStatus,1)
 };
 
 #endif //TGO4EXAMPLECLIENTSTATUS_H
