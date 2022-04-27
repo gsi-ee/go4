@@ -33,37 +33,37 @@ class TGo4CondArray : public TGo4Condition {
     virtual ~TGo4CondArray();
 
     /** Factory method to generate the subclass implementation for painter */
-    virtual TGo4ConditionPainter* CreatePainter();
+    TGo4ConditionPainter* CreatePainter() override;
 
     /** Reimplement Draw to set painted flag for all array conditions */
-    virtual void Draw(Option_t* opt="");
+    void Draw(Option_t* opt="") override;
 
     /** Replace default painter of this condition by external one.
     * if different views of this condition shall exist for different TPads,
     * the painter (i.e. view) can be exchanged before pad is updated. */
-    virtual void SetPainter(TGo4ConditionPainter* painter);
+    void SetPainter(TGo4ConditionPainter* painter) override;
 
     /** Access to the currently selected condition. */
-    virtual TGo4Condition* GetActiveCondition();
+    TGo4Condition* GetActiveCondition() override;
 
    /**
      * Returns condition object i from object array.
      * See also Poly and Win.
      */
-    TGo4Condition * At(Int_t i);
+    TGo4Condition *At(Int_t i);
 
    /**
      * Returns window condition object i from object array.
      * If the conditions is no window, returns 0.
      * Must cast for window or polygon condition methods!
      */
-    TGo4WinCond* Win(Int_t i);
+    TGo4WinCond *Win(Int_t i);
 
    /**
      * Returns polygon condition object i from object array.
      * Checks if object is polygon condition, if not return 0.
      */
-    TGo4PolyCond* Poly(Int_t i);
+    TGo4PolyCond *Poly(Int_t i);
 
    /**
      * Returns condition object i from object array. Same as At().
@@ -77,23 +77,19 @@ class TGo4CondArray : public TGo4Condition {
      * all conditions are tested with values and counters are incremented according result.
      * Here return value is logically anded from all results.
      */
-    virtual Bool_t Test(Double_t x, Double_t y);
+    Bool_t Test(Double_t x, Double_t y) override;
 
    /**
      * Test currently selected condition(single edit mode). In multi edit mode,
      * all conditions are tested with values and counters are incremented according result.
      * Here return value is logically anded from all results.
      */
-    virtual Bool_t Test(Double_t x);
+    Bool_t Test(Double_t x) override;
 
-   /** Noop, return true. */
-//    virtual Bool_t Test(Bool_t arg) { return true; }
-
-
-    virtual Double_t GetXLow();
-    virtual Double_t GetXUp();
-    virtual Double_t GetYLow();
-    virtual Double_t GetYUp();
+    Double_t GetXLow() override;
+    Double_t GetXUp() override;
+    Double_t GetYLow() override;
+    Double_t GetYUp() override;
 
     /** Noop */
 //    virtual void SetValues() {}
@@ -101,13 +97,13 @@ class TGo4CondArray : public TGo4Condition {
     using TGo4Condition::SetValues;
 
     /** Calls SetValues for all conditions (multi edit mode) or for currently selected (single edit mode). Window conditions only. */
-    virtual void SetValues(Double_t low1, Double_t up1);
+    void SetValues(Double_t low1, Double_t up1) override;
 
     /** Calls SetValues for all conditions (multi edit mode) or for currently selected (single edit mode). Window conditions only. */
-    virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2);
+    void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2) override;
 
     /** Calls SetValues for all conditions (multi edit mode) or for currently selected (single edit mode). Polygon conditions only. */
-    virtual void SetValues(TCutG * newcut);
+    void SetValues(TCutG * newcut) override;
 
     /** Noop */
 //    virtual void SetValues(Double_t * x, Double_t * y, Int_t len) {}
@@ -118,15 +114,15 @@ class TGo4CondArray : public TGo4Condition {
      * Checks for condition type. If points is true, print Cut or Limits,
      * respectively.
      */
-    void PrintCondition(Bool_t points);
+    void PrintCondition(Bool_t points) override;
 
     /** Prints counters and bar. */
-    virtual void PrintBar();
+    void PrintBar() override;
 
 
     /** for condition aggregates: return total number of conditions,
      * i.e.size of condition array */
-    virtual Int_t GetNumberOfConditions();
+    Int_t GetNumberOfConditions() override;
 
    /**
      * Returns number of conditions in array.
@@ -141,102 +137,102 @@ class TGo4CondArray : public TGo4Condition {
     void GetType(Int_t& type) const;
 
     /** Calls Enable for all conditions (multi edit mode) or for currently selected (single edit mode) */
-    virtual void Enable();
+    void Enable() override;
 
     /** Calls Disable for all conditions (multi edit mode) or for currently selected (single edit mode) */
-    virtual void Disable(Bool_t result);
+    void Disable(Bool_t result) override;
 
     /** Calls Invert for all conditions (multi edit mode) or for currently selected (single edit mode) */
-    virtual void Invert(Bool_t on);
+    void Invert(Bool_t on) override;
 
    /** defines if condition counters shall be reset in UpdateFrom method*/
-    virtual void MarkReset(Bool_t on);
+    void MarkReset(Bool_t on) override;
 
    /** Calls ResetCounts for all conditions (multi edit mode) or for currently selected (single edit mode) */
-    virtual void ResetCounts();
+    void ResetCounts() override;
 
    /** Return number of calls of the Test method.
      * For complete array (multi edit mode) or for currently selected condition (single edit mode) */
-    virtual Int_t Counts();
+    Int_t Counts() override;
 
    /** Return number of true results of the Test method call.
      * For complete array (multi edit mode) or for currently selected condition (single edit mode) */
-    virtual Int_t TrueCounts();
+    Int_t TrueCounts() override;
 
     /** Sets values of internal boolean flags to external variables. */
-    virtual void GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
-                   Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue);
+    void GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
+                  Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue) override;
 
     /** we overwrite single condition visibility setter */
-    virtual void SetVisible(Bool_t on);
+    void SetVisible(Bool_t on) override;
 
     /** we overwrite single condition visibility getter */
-    virtual Bool_t IsVisible();
+    Bool_t IsVisible() override;
 
     /** we overwrite single condition changed property */
-    virtual void SetChanged(Bool_t on = kTRUE);
+    void SetChanged(Bool_t on = kTRUE) override;
 
     /** we overwrite single condition changed property */
-    virtual Int_t IsChanged();
+    Int_t IsChanged() override;
 
-    virtual void SetLabelDraw(Bool_t on);
-    virtual Bool_t IsLabelDraw();
-    virtual void SetLimitsDraw(Bool_t on);
-    virtual Bool_t IsLimitsDraw();
-    virtual void SetIntDraw(Bool_t on);
-    virtual Bool_t IsIntDraw();
-    virtual void SetXMeanDraw(Bool_t on);
-    virtual Bool_t IsXMeanDraw();
-    virtual void SetXRMSDraw(Bool_t on);
-    virtual Bool_t IsXRMSDraw();
-    virtual void SetYMeanDraw(Bool_t on);
-    virtual Bool_t IsYMeanDraw();
-    virtual void SetYRMSDraw(Bool_t on);
-    virtual Bool_t IsYRMSDraw();
-    virtual void SetXMaxDraw(Bool_t on);
-    virtual Bool_t IsXMaxDraw();
-    virtual void SetYMaxDraw(Bool_t on);
-    virtual Bool_t IsYMaxDraw();
-    virtual void SetCMaxDraw(Bool_t on);
-    virtual Bool_t IsCMaxDraw();
+    void SetLabelDraw(Bool_t on) override;
+    Bool_t IsLabelDraw() override;
+    void SetLimitsDraw(Bool_t on) override;
+    Bool_t IsLimitsDraw() override;
+    void SetIntDraw(Bool_t on) override;
+    Bool_t IsIntDraw() override;
+    void SetXMeanDraw(Bool_t on) override;
+    Bool_t IsXMeanDraw() override;
+    void SetXRMSDraw(Bool_t on) override;
+    Bool_t IsXRMSDraw() override;
+    void SetYMeanDraw(Bool_t on) override;
+    Bool_t IsYMeanDraw() override;
+    void SetYRMSDraw(Bool_t on) override;
+    Bool_t IsYRMSDraw() override;
+    void SetXMaxDraw(Bool_t on) override;
+    Bool_t IsXMaxDraw() override;
+    void SetYMaxDraw(Bool_t on) override;
+    Bool_t IsYMaxDraw() override;
+    void SetCMaxDraw(Bool_t on) override;
+    Bool_t IsCMaxDraw() override;
 
    /** Calculate value for histogram inside condition limits.
      * Option may specify "width" to scale channel sum with axes*/
-    virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
+    Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetMean(TH1* histo, Int_t axis=1);
+    Double_t GetMean(TH1* histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetRMS(TH1* histo, Int_t axis=1);
+    Double_t GetRMS(TH1* histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetSkewness(TH1* histo, Int_t axis=1);
+    Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCurtosis(TH1* histo, Int_t axis=1);
+    Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetXMax(TH1* histo);
+    Double_t GetXMax(TH1* histo) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetYMax(TH1* histo);
+    Double_t GetYMax(TH1* histo) override;
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCMax(TH1* histo);
+    Double_t GetCMax(TH1* histo) override;
 
-    virtual Bool_t IsPolygonType();
-    virtual Bool_t IsArrayType();
+    Bool_t IsPolygonType() override;
+    Bool_t IsArrayType() override;
 
-    virtual void SetCurrentIndex(Int_t ix);
-    virtual Int_t GetCurrentIndex();
+    void SetCurrentIndex(Int_t ix) override;
+    Int_t GetCurrentIndex() override;
 
-    virtual Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+    Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
-    virtual Int_t GetMemorySize();
+    Int_t GetMemorySize() override;
 
     /** Standard way to store parameter in form of macro */
-    virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
+    void SavePrimitive(std::ostream& fs, Option_t* = "") override;
 
   private:
     /** The object array of conditions */
@@ -251,7 +247,7 @@ class TGo4CondArray : public TGo4Condition {
     /** Index of selected condition */
     Int_t fiSelectedCond;
 
-  ClassDef(TGo4CondArray,6)
+  ClassDefOverride(TGo4CondArray,6)
 };
 
 #endif //TGO4CONDARRAY_H

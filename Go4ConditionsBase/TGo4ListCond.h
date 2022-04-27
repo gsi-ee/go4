@@ -36,14 +36,12 @@ public:
   virtual void SetValues(const Int_t start, const Int_t stop, const Int_t step);
 
   using TGo4Condition::Test;
-  //virtual Bool_t Test(Int_t value);
-  virtual Bool_t Test(Double_t value);
+  Bool_t Test(Double_t value) override;
 
-
-  void PrintCondition(Bool_t full = kFALSE);
+  void PrintCondition(Bool_t full = kFALSE) override;
   void PrintValues();
 
-  Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts);
+  Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts) override;
 
   UInt_t GetNumValues() const { return fxValues.size(); }
   Int_t GetValue(UInt_t ix) const { return ix < fxValues.size() ? fxValues[ix] : 0; }
@@ -62,16 +60,16 @@ public:
   void Resize(size_t newsize){fxValues.resize(newsize);}
 
   /** For base class displays: minimum value of test list.  */
-  virtual Double_t GetXLow();
+  Double_t GetXLow() override;
 
   /** For base class displays: maximum value of test list */
-  virtual Double_t GetXUp();
+  Double_t GetXUp() override;
 
   /**  For base class displays: not used for 1d list */
-  virtual Double_t GetYLow();
+  Double_t GetYLow() override;
 
   /**  For base class displays: not used for 1d list */
-  virtual Double_t GetYUp();
+  Double_t GetYUp() override;
 
   /** Factory method to generate the subclass implementation for painter
    * TODO: do we need graphical representation of whitelist, e.g. by set of point markers in working histogram?
@@ -87,7 +85,7 @@ private:
 //		/** array with values to test: todo: use vector here?*/
 //		Int_t * fiValues;
 
-   ClassDef(TGo4ListCond, 1);
+   ClassDefOverride(TGo4ListCond, 1);
 };
 
 #endif // TGO4LISTCOND_H
