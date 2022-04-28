@@ -597,7 +597,7 @@ Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char* newna
 
 ViewPanelHandle TGo4Interface::GetActiveViewPanel()
 {
-   if (gPad==0) return 0;
+   if (!gPad) return 0;
    return (ViewPanelHandle) gPad->GetCanvas();
 }
 

@@ -4367,10 +4367,10 @@ void TGo4FitPanel::PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update)
 
 bool TGo4FitPanel::PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item)
 {
-   if ((model==0) || (pad==0) || !fbShowPrimitives) return false;
+   if (!model || !pad || !fbShowPrimitives) return false;
 
    TH1* histo = ActivePanel()->GetPadHistogram(pad);
-   if ((histo==0) || (histo->GetDimension()!=1)) return false;
+   if (!histo || (histo->GetDimension()!=1)) return false;
 
    Double_t pos, width, ampl;
 
@@ -4414,7 +4414,7 @@ bool TGo4FitPanel::PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item)
 
 bool TGo4FitPanel::PaintModelsFor(TGo4Fitter* fitter, TGo4FitData* data, QFitItem* item, bool update)
 {
-   if ((fitter==0) || (data==0)) return false;
+   if (!fitter || !data) return false;
 
    if (data->IsAnyDataTransform()) return false;
 
@@ -4429,11 +4429,11 @@ bool TGo4FitPanel::PaintModelsFor(TGo4Fitter* fitter, TGo4FitData* data, QFitIte
 
 bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFitItem* item)
 {
-   if ((comp==0) || (pad==0) || !fbShowPrimitives) return false;
+   if (!comp || !pad || !fbShowPrimitives) return false;
 
    TH1* histo = ActivePanel()->GetPadHistogram(pad);
 
-   if ((histo==0) || (histo->GetDimension()!=1)) return false;
+   if (!histo || (histo->GetDimension()!=1)) return false;
 
    double range = 0.1 * (histo->GetXaxis()->GetXmax() - histo->GetXaxis()->GetXmin());
 
@@ -4448,7 +4448,7 @@ bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFi
 
    if (naxis!=0) return false;
 
-   TGo4FitGuiArrow* arr = 0;
+   TGo4FitGuiArrow* arr = nullptr;
 
    switch (typ) {
      case 0: arr = new TGo4FitGuiArrow(size,"<|>"); break;
@@ -4457,7 +4457,7 @@ bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFi
      case 3: arr = new TGo4FitGuiArrow(size,">"); break;
    }
 
-   if (arr!=0) {
+   if (arr) {
        arr->SetLineColor(3);
        arr->SetLineWidth(3);
        arr->SetForRange(comp,nrange,ampl,range);
@@ -4468,13 +4468,13 @@ bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFi
 
        ActivePanel()->ShootRepaintTimer();
    }
-   return arr!=0;
+   return arr != nullptr;
 }
 
 TGo4FitPeakFinder* TGo4FitPanel::GetPeakFinder(bool autocreate)
 {
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return 0;
+   if (!fitter) return nullptr;
    for (Int_t n=0;n<fitter->GetNumActions();n++) {
       TGo4FitPeakFinder* finder = dynamic_cast<TGo4FitPeakFinder*> (fitter->GetAction(n));
       if (finder!=0) return finder;

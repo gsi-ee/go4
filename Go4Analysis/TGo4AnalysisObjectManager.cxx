@@ -1399,7 +1399,7 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char* name,
       const char* cevx, const char* cmemx,
       const char* cevy, const char* cmemy)
 {
-   if(name==0 || histo==0 || hevx==0 || hmemx==0) return kFALSE;
+   if(!name || !histo || !hevx || !hmemx) return kFALSE;
    TGo4HistogramEntry* entry = new TGo4HistogramEntry(name);
 
    entry->SetHistogramName(histo);

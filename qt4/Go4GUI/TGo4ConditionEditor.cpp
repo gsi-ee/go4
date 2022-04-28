@@ -282,7 +282,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
            fiSelectedIndex = selindex;
       }
    }
-   if (histo==0) histo = dynamic_cast<TH1*>(GetLinked("Histogram", 0));
+   if (!histo) histo = dynamic_cast<TH1*>(GetLinked("Histogram", 0));
 
    fbTypingMode = false;
 
@@ -290,7 +290,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    ArrayAllButton->setVisible(arr!=0);
    ArrayElements->setVisible(arr!=0);
-   if (arr==0) {
+   if (!arr) {
       fiSelectedIndex = -1;
    } else {
       ArrayElements->setMaximum(arr->GetNumber()-1);
@@ -301,43 +301,38 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       cond = SelectedCondition();
    }
 
-   ModifyButton->setVisible((panel!=0) && ((arr==0) || (fiSelectedIndex>=0)));
+   ModifyButton->setVisible((panel!=0) && (!arr || (fiSelectedIndex>=0)));
 
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
    TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (cond);
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (cond);
 
-   if (wcond != 0)
-  {
-    if (wcond->GetDimension() == 2)
-      CondClassLbl->setText("Win 2-D  ");
-    else
-      CondClassLbl->setText("Win 1-D  ");
-  }
-  else if (econd != 0)
-  {
-    if(econd->IsEllipse())
-      CondClassLbl->setText("Ellipse  ");
-    else if (econd->IsCircle())
-      CondClassLbl->setText("Circle  ");
-    else if (econd->IsBox())
-      CondClassLbl->setText("Box  ");
-    else
-      CondClassLbl->setText("Free shape ");
-  }
-    else if (pcond != 0)
-    CondClassLbl->setText("Polygon  ");
-    else if (lcond != 0)
-       CondClassLbl->setText("Value list  ");
-
-  else
-    CondClassLbl->setText("");
+   if (wcond) {
+      if (wcond->GetDimension() == 2)
+         CondClassLbl->setText("Win 2-D  ");
+      else
+         CondClassLbl->setText("Win 1-D  ");
+   } else if (econd) {
+      if (econd->IsEllipse())
+         CondClassLbl->setText("Ellipse  ");
+      else if (econd->IsCircle())
+         CondClassLbl->setText("Circle  ");
+      else if (econd->IsBox())
+         CondClassLbl->setText("Box  ");
+      else
+         CondClassLbl->setText("Free shape ");
+   } else if (pcond)
+      CondClassLbl->setText("Polygon  ");
+   else if (lcond)
+      CondClassLbl->setText("Value list  ");
+   else
+      CondClassLbl->setText("");
 
    QString infolbl;
 
    const char* hname = cond->GetLinkedHistogram();
-   if ((hname==0) || (*hname==0)) {
+   if (!hname || (*hname==0)) {
       HistogramChk->setChecked(false);
       HistogramChk->setText("null");
       HistogramChk->setEnabled(false);
