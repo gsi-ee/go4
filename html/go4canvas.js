@@ -6,7 +6,7 @@ JSROOT.require("painter").then(jsrp => {
    // cannot use JSROOT.define syntax here
 
    if (typeof GO4 == 'undefined')
-      globalThis.GO4 = { version: "6.1.4", web_canvas: true, id_counter: 1 };
+      globalThis.GO4 = { version: "6.2.99", web_canvas: true, id_counter: 1 };
 
    function findPainter(painter, obj, name, typ) {
       let pp = painter.getPadPainter();

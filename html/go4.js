@@ -6,7 +6,7 @@ JSROOT.define(["painter"], jsrp => {
 
    "use strict";
 
-   const GO4 = { version: "6.2.0", id_counter: 1, source_dir: "" };
+   const GO4 = { version: "6.2.99", id_counter: 1, source_dir: "" };
 
    if (go4Script && (typeof go4Script.src == "string")) {
       const pos = go4Script.src.indexOf("html/go4.js");
