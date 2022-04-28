@@ -60,7 +60,7 @@ TGo4LabelPainter::~TGo4LabelPainter()
 
 void TGo4LabelPainter::PaintLabel(Option_t* opt)
 {
-   if(gPad==0) return;
+   if(!gPad) return;
     Double_t xrange=(gPad->GetUxmax()-gPad->GetUxmin());
    Double_t yrange=(gPad->GetUymax()-gPad->GetUymin());
    if(!CheckLabel()) {
@@ -132,7 +132,7 @@ if(fxLabel)
 
 TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
 {
-   if(gPad==0) return 0;
+   if(!gPad) return 0;
    // buffer external variables, since LabelCoords will change them
    Double_t x0=x, y0=y, xmax=0, ymax=0;
    LabelCoords(x0,y0,xmax,ymax);
@@ -224,7 +224,7 @@ void TGo4Label::Paint(Option_t *opt)
 ///////////// use this to pop the label to front whenever touched
 void TGo4Label::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-if(gPad==0) return;
+if(!gPad) return;
 TPaveText::ExecuteEvent(event,px,py);
 if(event==kButton1Up)
    {
@@ -244,7 +244,7 @@ const void *TGo4LabelConnector::fxLastDeleted = 0;
 ///////////// treat painting of the text label connector:
 void TGo4LabelConnector::Paint(Option_t* opt)
 {
-if(gPad==0) return;
+if(!gPad) return;
 if(fxOwner) TLine::Paint(opt);
 // suppress painting of label connectors without owner. This case
 // happens after insert canvas in go4 (separate cloning

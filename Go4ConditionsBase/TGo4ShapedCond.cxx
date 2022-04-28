@@ -39,9 +39,7 @@ TGo4ShapedCond::TGo4ShapedCond(const char* name, const char* title) :
 // ----------------------------------------------------------
 TGo4ShapedCond::~TGo4ShapedCond()
 {
-
 }
-
 
 // ----------------------------------------------------------
 void TGo4ShapedCond::PrintCondition(Bool_t points)
@@ -53,7 +51,6 @@ void TGo4ShapedCond::PrintCondition(Bool_t points)
    std::cout << "****  Radius:    ("<<fdRadius1<<","<< fdRadius2<<")" << std::endl;
    std::cout << "****  Tilt:       "<<fdTheta<<" deg" << std::endl;
    std::cout << "****  Resolution: "<<fiResolution<<" points" << std::endl;
-
 }
 
 // ----------------------------------------------------------
@@ -133,85 +130,82 @@ Bool_t TGo4ShapedCond::UpdateFromUrl(const char* rest_url_opt){
 
 void TGo4ShapedCond::SetEllipse(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta, Int_t npoints)
 {
-  fiResolution=npoints;
-  fdCenterX=cx;
-  fdCenterY=cy;
-  fdRadius1=a1;
-  fdRadius2=a2;
-  fdTheta=theta;
-  SetEllipse();
-  ResetPolygon();
+   fiResolution = npoints;
+   fdCenterX = cx;
+   fdCenterY = cy;
+   fdRadius1 = a1;
+   fdRadius2 = a2;
+   fdTheta = theta;
+   SetEllipse();
+   ResetPolygon();
 }
-
 
 void TGo4ShapedCond::SetCircle(Double_t cx, Double_t cy, Double_t r, Int_t npoints)
 {
-  fiResolution=npoints;
-  fdCenterX=cx;
-  fdCenterY=cy;
-  fdRadius1=r;
-  fdRadius2=r;
-  fdTheta=0.;
-  SetCircle();
-  ResetPolygon();
+   fiResolution = npoints;
+   fdCenterX = cx;
+   fdCenterY = cy;
+   fdRadius1 = r;
+   fdRadius2 = r;
+   fdTheta = 0.;
+   SetCircle();
+   ResetPolygon();
 }
 
 void TGo4ShapedCond::SetBox(Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta)
 {
-  fiResolution=4;
-  fdCenterX=cx;
-  fdCenterY=cy;
-  fdRadius1=a1;
-  fdRadius2=a2;
-  fdTheta=theta;
-  SetBox();
-  ResetPolygon();
+   fiResolution = 4;
+   fdCenterX = cx;
+   fdCenterY = cy;
+   fdRadius1 = a1;
+   fdRadius2 = a2;
+   fdTheta = theta;
+   SetBox();
+   ResetPolygon();
 }
 
 void TGo4ShapedCond::SetCenter(Double_t x, Double_t y)
 {
-  fdCenterX=x;
-  fdCenterY=y;
-  ResetPolygon();
+   fdCenterX = x;
+   fdCenterY = y;
+   ResetPolygon();
 }
 
 void TGo4ShapedCond::SetRadius(Double_t a1, Double_t a2)
 {
-  fdRadius1=a1;
-  fdRadius2=a2;
-  ResetPolygon();
+   fdRadius1 = a1;
+   fdRadius2 = a2;
+   ResetPolygon();
 }
 
 void TGo4ShapedCond::SetTheta(Double_t angle)
 {
-  fdTheta=angle;
-  ResetPolygon();
+   fdTheta = angle;
+   ResetPolygon();
 }
 
 void TGo4ShapedCond::ResetPolygon()
 {
-  // stolen from ROOT TEllipse rendering code. we use it just to calculate polygon points
-  // thanks to Sven Augustin, MPI Heidelberg, for the idea and first version of the code!
-  if(fiResolution==0) fiResolution=GO4ELLIPSECOND_DEFAULTRESOLUTION;
-  Double_t *x = new Double_t[fiResolution+1];
-  Double_t *y = new Double_t[fiResolution+1];
-  if(IsEllipse() || IsCircle())
-    DefineEllipse(x,y,fiResolution);
-  else if(IsBox())
-    DefineBox(x,y,fiResolution);
-  else
-    {
+   // stolen from ROOT TEllipse rendering code. we use it just to calculate polygon points
+   // thanks to Sven Augustin, MPI Heidelberg, for the idea and first version of the code!
+   if (fiResolution == 0)
+      fiResolution = GO4ELLIPSECOND_DEFAULTRESOLUTION;
+   Double_t *x = new Double_t[fiResolution + 1];
+   Double_t *y = new Double_t[fiResolution + 1];
+   if (IsEllipse() || IsCircle())
+      DefineEllipse(x, y, fiResolution);
+   else if (IsBox())
+      DefineBox(x, y, fiResolution);
+   else {
       delete[] x;
       delete[] y;
       return;
-    }
-  SetValues(x,y, fiResolution+1);
+   }
+   SetValues(x, y, fiResolution + 1);
 
-  delete[] x;
-  delete[] y;
-
+   delete[] x;
+   delete[] y;
 }
-
 
 void TGo4ShapedCond::DefineEllipse(Double_t *x, Double_t *y, Int_t n)
 {

@@ -163,7 +163,7 @@ Bool_t TGo4PolyCondView::IsCutChanged()
 
 void TGo4PolyCondView::UpdateCondition()
 {
-   if(fxPolyCondition==0) return;
+   if(!fxPolyCondition) return;
    //std::cout<< "TGo4PolyCondView "<< (long) this <<" ::UpdateCondition"<< std::endl;
 
 #ifdef POLYCONDVIEW_UPDATE_WITHCLONE
@@ -183,7 +183,7 @@ void TGo4PolyCondView::UpdateCondition()
 
 void TGo4PolyCondView::SetCut(TCutG* source)
 {
-   if (source == 0) {
+   if (!source) {
       Set(0);            // clear array of points
       SetPoint(0, 0, 0); // dummy to suppress empty graph warnings
    } else {

@@ -33,7 +33,6 @@ class TGo4WinCondPainter : public TGo4ConditionPainter {
      /** pop all components to the front of the pad*/
      void DisplayToFront(Option_t* opt="") override;
 
-
   private:
 
     /** Window marker box. */

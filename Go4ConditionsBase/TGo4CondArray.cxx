@@ -109,10 +109,11 @@ TGo4CondArray::~TGo4CondArray()
    if(fxPainter) delete fxPainter; // delete painter before this subclass is gone
                                    // when called in TGo4Condition dtor only, painter
                                    // cannot cast correctly on TGo4CondArray!
-   fxPainter=0;
-   if (condarr!=0) {
+   fxPainter = nullptr;
+   if (condarr) {
        condarr->Delete();
        delete condarr;
+       condarr = nullptr;
    }
 
 }
@@ -123,49 +124,45 @@ Bool_t TGo4CondArray::IsArrayType(){return kTRUE;}
 
 Bool_t TGo4CondArray::Test(Double_t x, Double_t y)
 {
-Bool_t rev=kTRUE;
-if(IsMultiEdit())
-   {
-      Int_t ii = condarr->GetLast()+1;
-      for(Int_t i = 0; i < ii; i++)
-         {
-            IncCounts();
-            TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-            Bool_t result=cond->Test(x,y);
-            if(result) IncTrueCounts();
-            rev&=result;
-         }
+   Bool_t rev = kTRUE;
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         IncCounts();
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         Bool_t result = cond->Test(x, y);
+         if (result)
+            IncTrueCounts();
+         rev &= result;
+      }
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->Test(x, y);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->Test(x,y);
-   }
-return rev;
+   return rev;
 }
 
 // ----------------------------------------------------------
 Bool_t TGo4CondArray::Test(Double_t x)
 {
-Bool_t rev=kTRUE;
-if(IsMultiEdit())
-   {
-      Int_t ii = condarr->GetLast()+1;
-      for(Int_t i = 0; i < ii; i++)
-         {
-            IncCounts();
-            TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-            Bool_t result=cond->Test(x);
-            if(result) IncTrueCounts();
-            rev&=result;
-         }
+   Bool_t rev = kTRUE;
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         IncCounts();
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         Bool_t result = cond->Test(x);
+         if (result)
+            IncTrueCounts();
+         rev &= result;
+      }
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->Test(x);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->Test(x);
-   }
-return rev;
+   return rev;
 }
 
 // ----------------------------------------------------------
@@ -221,823 +218,696 @@ void TGo4CondArray::GetType(Int_t& type) const
   type = fiType;
 }
 // -----------------------------------------------
-void TGo4CondArray::Enable(){
-TGo4Condition::Enable();
-if(IsMultiEdit())
-   {
-   Int_t ii = condarr->GetLast()+1;
-   //std::cout << GetName() << ": Enable " <<ii<<" conditions " << std::endl;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+void TGo4CondArray::Enable()
+{
+   TGo4Condition::Enable();
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      // std::cout << GetName() << ": Enable " <<ii<<" conditions " << std::endl;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Enable();
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->Enable();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->Enable();
    }
 }
 // -----------------------------------------------
 void TGo4CondArray::Disable(Bool_t result)
 {
-TGo4Condition::Disable(result);
-if(IsMultiEdit())
-   {
-   Int_t ii = condarr->GetLast()+1;
-   //std::cout << GetName() << ": Disable " <<ii<<" conditions " << " " << result << std::endl;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   TGo4Condition::Disable(result);
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      // std::cout << GetName() << ": Disable " <<ii<<" conditions " << " " << result << std::endl;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Disable(result);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->Disable(result);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->Disable(result);
    }
 }
 // -----------------------------------------------
 void TGo4CondArray::Invert(Bool_t on)
 {
-TGo4Condition::Invert(on);
-if(IsMultiEdit())
-   {
-   Int_t ii = condarr->GetLast()+1;
-   //std::cout << GetName() << ": Invert " <<ii<<" conditions " << " " << on << std::endl;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   TGo4Condition::Invert(on);
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      // std::cout << GetName() << ": Invert " <<ii<<" conditions " << " " << on << std::endl;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Invert(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->Invert(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->Invert(on);
    }
 }
 
 void TGo4CondArray::MarkReset(Bool_t on)
 {
-TGo4Condition::MarkReset(on);
-if(IsMultiEdit())
-   {
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   TGo4Condition::MarkReset(on);
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->MarkReset(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->MarkReset(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->MarkReset(on);
    }
 }
 
-void TGo4CondArray::GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
-                   Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue)
+void TGo4CondArray::GetFlags(Bool_t *enabled, Bool_t *lastresult, Bool_t *markreset, Bool_t *result, Bool_t *truevalue,
+                             Bool_t *falsevalue)
 {
-if(IsMultiEdit())
-   {
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-         cond->GetFlags(enabled,lastresult,markreset, result, truevalue, falsevalue);
+   if (IsMultiEdit()) {
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         cond->GetFlags(enabled, lastresult, markreset, result, truevalue, falsevalue);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->GetFlags(enabled,lastresult,markreset, result, truevalue, falsevalue);
-
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->GetFlags(enabled, lastresult, markreset, result, truevalue, falsevalue);
    }
 }
-
-
-
-
 
 // -----------------------------------------------
-void TGo4CondArray::ResetCounts(){
-TGo4Condition::ResetCounts();
-if(IsMultiEdit())
-   {
-   //std::cout << GetName() << ": Reset " <<ii<<" conditions " << " " << on << std::endl;
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+void TGo4CondArray::ResetCounts()
+{
+   TGo4Condition::ResetCounts();
+   if (IsMultiEdit()) {
+      // std::cout << GetName() << ": Reset " <<ii<<" conditions " << " " << on << std::endl;
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->ResetCounts();
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->ResetCounts();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->ResetCounts();
    }
 }
 
 Int_t TGo4CondArray::Counts()
 {
-Int_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::Counts();
+   Int_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::Counts();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->Counts();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->Counts();
-   }
-return rev;
+   return rev;
 }
 // ---------------------------------------------------------
 Int_t TGo4CondArray::TrueCounts()
 {
-Int_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::Counts();
+   Int_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::Counts();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->Counts();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->Counts();
-   }
-return rev;
+   return rev;
 }
 
 Double_t TGo4CondArray::GetXLow()
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=-1;
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -1;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetXLow();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetXLow();
-   }
-return rev;
+   return rev;
 }
 
 Double_t TGo4CondArray::GetXUp()
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=-1;
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -1;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetXUp();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetXUp();
-   }
-return rev;
+   return rev;
 }
 
 Double_t TGo4CondArray::GetYLow()
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=-1;
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -1;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetYLow();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetYLow();
-   }
-return rev;
+   return rev;
 }
 
 Double_t TGo4CondArray::GetYUp()
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=-1;
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -1;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetYUp();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetYUp();
-   }
-return rev;
+   return rev;
 }
 
-
 // -----------------------------------------------
-void TGo4CondArray::SetValues(Double_t low1, Double_t up1){
-if(fiType == kGO4CONDWINDOW)
+void TGo4CondArray::SetValues(Double_t low1, Double_t up1)
 {
-   if(IsMultiEdit())
-      {
-      Int_t ii = condarr->GetLast()+1;
-      for(Int_t i = 0; i < ii; i++)
-         {
-            TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-            cond->SetValues(low1,up1);
+   if (fiType == kGO4CONDWINDOW) {
+      if (IsMultiEdit()) {
+         Int_t ii = condarr->GetLast() + 1;
+         for (Int_t i = 0; i < ii; i++) {
+            TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+            cond->SetValues(low1, up1);
          }
+      } else {
+         TGo4Condition *conny = At(GetCurrentIndex());
+         if (conny)
+            conny->SetValues(low1, up1);
       }
-   else
-      {
-         TGo4Condition* conny=At(GetCurrentIndex());
-         if(conny) conny->SetValues(low1,up1);
-      }
-}
+   }
 }
 // -----------------------------------------------
-void TGo4CondArray::SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2){
-if(fiType == kGO4CONDWINDOW)
+void TGo4CondArray::SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2)
 {
-   if(IsMultiEdit())
-      {
-      Int_t ii = condarr->GetLast()+1;
-      for(Int_t i = 0; i < ii; i++)
-         {
-            TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-            cond->SetValues(low1,up1,low2,up2);
+   if (fiType == kGO4CONDWINDOW) {
+      if (IsMultiEdit()) {
+         Int_t ii = condarr->GetLast() + 1;
+         for (Int_t i = 0; i < ii; i++) {
+            TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+            cond->SetValues(low1, up1, low2, up2);
          }
+      } else {
+         TGo4Condition *conny = At(GetCurrentIndex());
+         if (conny)
+            conny->SetValues(low1, up1, low2, up2);
       }
-   else
-      {
-         TGo4Condition* conny=At(GetCurrentIndex());
-         if(conny) conny->SetValues(low1,up1,low2,up2);
-      }
-}
+   }
 }
 // -----------------------------------------------
-void TGo4CondArray::SetValues(TCutG * newcut)
+void TGo4CondArray::SetValues(TCutG *newcut)
 {
-if(fiType == kGO4CONDPOLYGON)
-{
-   if(IsMultiEdit())
-      {
-      Int_t ii = condarr->GetLast()+1;
-      for(Int_t i = 0; i < ii; i++)
-         {
-            TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (fiType == kGO4CONDPOLYGON) {
+      if (IsMultiEdit()) {
+         Int_t ii = condarr->GetLast() + 1;
+         for (Int_t i = 0; i < ii; i++) {
+            TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
             cond->SetValues(newcut);
          }
+      } else {
+         TGo4Condition *conny = At(GetCurrentIndex());
+         if (conny)
+            conny->SetValues(newcut);
       }
-   else
-      {
-         TGo4Condition* conny=At(GetCurrentIndex());
-         if(conny) conny->SetValues(newcut);
-      }
-}
+   }
 }
 
-Bool_t TGo4CondArray::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4CondArray::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
-   TGo4Condition::UpdateFrom(cond,counts); // make sure to copy general flags
-   TGo4Condition *scond; // source member
-   TGo4Condition *dcond; // destination member
-   TGo4CondArray *carr;  // source array
-   if(cond->InheritsFrom(TGo4CondArray::Class()))
-   {
-     Int_t dii = condarr->GetLast()+1; // this is destination
-     Int_t sii = ((TGo4CondArray*)cond)->GetNumber(); // elements in source array
-     if(dii == sii)
-        {
-           Bool_t result=kTRUE;
-           carr = (TGo4CondArray*)cond;
-//           std::cout << GetName() << ": Update " << dii << " from " << cond->GetName() << std::endl;
-           for(Int_t i = 0; i < dii; i++){
-               dcond=(TGo4Condition*) condarr->UncheckedAt(i); // destination is this
-               scond=(TGo4Condition*) (*carr)[i];              // source is from cond
-               result = result && ( dcond->UpdateFrom(scond,counts));
-            }
-           return result;
+   TGo4Condition::UpdateFrom(cond, counts); // make sure to copy general flags
+   TGo4Condition *scond;                    // source member
+   TGo4Condition *dcond;                    // destination member
+   TGo4CondArray *carr;                     // source array
+   if (cond->InheritsFrom(TGo4CondArray::Class())) {
+      Int_t dii = condarr->GetLast() + 1;               // this is destination
+      Int_t sii = ((TGo4CondArray *)cond)->GetNumber(); // elements in source array
+      if (dii == sii) {
+         Bool_t result = kTRUE;
+         carr = (TGo4CondArray *)cond;
+         //           std::cout << GetName() << ": Update " << dii << " from " << cond->GetName() << std::endl;
+         for (Int_t i = 0; i < dii; i++) {
+            dcond = (TGo4Condition *)condarr->UncheckedAt(i); // destination is this
+            scond = (TGo4Condition *)(*carr)[i];              // source is from cond
+            result = result && (dcond->UpdateFrom(scond, counts));
          }
-     else
-        {
-           return kFALSE;
-        }
-   }
-else
-   {
+         return result;
+      } else {
+         return kFALSE;
+      }
+   } else {
       return kFALSE;
    }
 }
 
 void TGo4CondArray::SetVisible(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetVisible(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetVisible(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetVisible(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetVisible(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetVisible(on);
    }
 }
 
 Bool_t TGo4CondArray::IsVisible()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsVisible();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsVisible();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsVisible();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsVisible();
-   }
-return rev;
+   return rev;
 }
 
 void TGo4CondArray::SetLabelDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetLabelDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetLabelDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetLabelDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetLabelDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetLabelDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsLabelDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsLabelDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsLabelDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsLabelDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsLabelDraw();
-   }
-return rev;
+   return rev;
 }
-
 
 void TGo4CondArray::SetLimitsDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetLimitsDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetLimitsDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetLimitsDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetLimitsDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetLimitsDraw(on);
    }
 }
 
 Bool_t TGo4CondArray::IsLimitsDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsLimitsDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsLimitsDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsLimitsDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsLimitsDraw();
-   }
-return rev;
+   return rev;
 }
-
 
 void TGo4CondArray::SetIntDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetIntDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetIntDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetIntDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetIntDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetIntDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsIntDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsIntDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsIntDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsIntDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsIntDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetXMeanDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetXMeanDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetXMeanDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetXMeanDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetXMeanDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetXMeanDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsXMeanDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsXMeanDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsXMeanDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsXMeanDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsXMeanDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetXRMSDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetXRMSDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetXRMSDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetXRMSDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetXRMSDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetXRMSDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsXRMSDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsXRMSDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsXRMSDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsXRMSDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsXRMSDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetYMeanDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetYMeanDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetYMeanDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetYMeanDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetYMeanDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetYMeanDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsYMeanDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsYMeanDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsYMeanDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsYMeanDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsYMeanDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetYRMSDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetYRMSDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetYRMSDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetYRMSDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetYRMSDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetYRMSDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsYRMSDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsYRMSDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsYRMSDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsYRMSDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsYRMSDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetXMaxDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetXMaxDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetXMaxDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetXMaxDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetXMaxDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetXMaxDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsXMaxDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsXMaxDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsXMaxDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsXMaxDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsXMaxDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetYMaxDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetYMaxDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetYMaxDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetYMaxDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetYMaxDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetYMaxDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsYMaxDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsYMaxDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsYMaxDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsYMaxDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsYMaxDraw();
-   }
-return rev;
+   return rev;
 }
 void TGo4CondArray::SetCMaxDraw(Bool_t on)
 {
-if(IsMultiEdit())
-   {
-   TGo4Condition::SetCMaxDraw(on);
-   Int_t ii = condarr->GetLast()+1;
-   for(Int_t i = 0; i < ii; i++)
-      {
-         TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   if (IsMultiEdit()) {
+      TGo4Condition::SetCMaxDraw(on);
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->SetCMaxDraw(on);
       }
-   }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) conny->SetCMaxDraw(on);
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         conny->SetCMaxDraw(on);
    }
 }
 Bool_t TGo4CondArray::IsCMaxDraw()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      rev=TGo4Condition::IsCMaxDraw();
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      rev = TGo4Condition::IsCMaxDraw();
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsCMaxDraw();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsCMaxDraw();
-   }
-return rev;
+   return rev;
 }
 
-Double_t TGo4CondArray::GetIntegral(TH1* histo, Option_t* opt)
+Double_t TGo4CondArray::GetIntegral(TH1 *histo, Option_t *opt)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-         // return sum of all integrals
-         Int_t ii = condarr->GetLast()+1;
-         for(Int_t i = 0; i < ii; i++)
-            {
-               TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-               rev+=cond->GetIntegral(histo,opt);
-            }
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      // return sum of all integrals
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         rev += cond->GetIntegral(histo, opt);
+      }
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetIntegral(histo, opt);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetIntegral(histo,opt);
-   }
-return rev;
+   return rev;
 }
 
-Double_t TGo4CondArray::GetMean(TH1* histo, Int_t axis)
+Double_t TGo4CondArray::GetMean(TH1 *histo, Int_t axis)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-         // give back mean value of means. does this make sense?
-         Int_t ii = condarr->GetLast()+1;
-         Double_t sum=0;
-         for(Int_t i = 0; i < ii; i++)
-            {
-               TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-               sum+=cond->GetMean(histo,axis);
-               rev=sum/ii;
-            }
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      // give back mean value of means. does this make sense?
+      Int_t ii = condarr->GetLast() + 1;
+      Double_t sum = 0;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         sum += cond->GetMean(histo, axis);
+         rev = sum / ii;
+      }
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetMean(histo, axis);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetMean(histo,axis);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetRMS(TH1* histo, Int_t axis)
+Double_t TGo4CondArray::GetRMS(TH1 *histo, Int_t axis)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-       rev=-2; // what is the result RMS of all subconditions?
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -2; // what is the result RMS of all subconditions?
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetRMS(histo, axis);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetRMS(histo,axis);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetSkewness(TH1* histo, Int_t axis)
+Double_t TGo4CondArray::GetSkewness(TH1 *histo, Int_t axis)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-       rev=-2; // what is the result Skewness of all subconditions?
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -2; // what is the result Skewness of all subconditions?
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetSkewness(histo, axis);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetSkewness(histo,axis);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetCurtosis(TH1* histo, Int_t axis)
+Double_t TGo4CondArray::GetCurtosis(TH1 *histo, Int_t axis)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-       rev=-2; // what is the result Curtosis of all subconditions?
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -2; // what is the result Curtosis of all subconditions?
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetCurtosis(histo, axis);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetCurtosis(histo,axis);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetXMax(TH1* histo)
+Double_t TGo4CondArray::GetXMax(TH1 *histo)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-       rev=-2; // would need the xmax of the maximum content of all
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -2; // would need the xmax of the maximum content of all
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetXMax(histo);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetXMax(histo);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetYMax(TH1* histo)
+Double_t TGo4CondArray::GetYMax(TH1 *histo)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-      rev=-2;
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      rev = -2;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetYMax(histo);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetYMax(histo);
-   }
-return rev;
+   return rev;
 }
-Double_t TGo4CondArray::GetCMax(TH1* histo)
+Double_t TGo4CondArray::GetCMax(TH1 *histo)
 {
-Double_t rev=0;
-if(IsMultiEdit())
-   {
-         // return highest channel content of all subconditions
-         Int_t ii = condarr->GetLast()+1;
-         for(Int_t i = 0; i < ii; i++)
-            {
-               TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
-               Double_t lmax=cond->GetCMax(histo);
-               if(lmax>rev) rev=lmax;
-            }
+   Double_t rev = 0;
+   if (IsMultiEdit()) {
+      // return highest channel content of all subconditions
+      Int_t ii = condarr->GetLast() + 1;
+      for (Int_t i = 0; i < ii; i++) {
+         TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
+         Double_t lmax = cond->GetCMax(histo);
+         if (lmax > rev)
+            rev = lmax;
+      }
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->GetCMax(histo);
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->GetCMax(histo);
-   }
-return rev;
+   return rev;
 }
 
-
-TGo4Condition* TGo4CondArray::GetActiveCondition()
+TGo4Condition *TGo4CondArray::GetActiveCondition()
 {
-if(IsMultiEdit())
-   return this;
-else
-   return At(GetCurrentIndex());
+   if (IsMultiEdit())
+      return this;
+   else
+      return At(GetCurrentIndex());
 }
-
 
 void TGo4CondArray::SetChanged(Bool_t on)
 {
-   for(Int_t i = 0; i <= condarr->GetLast(); i++) {
-      TGo4Condition* cond = (TGo4Condition*) condarr->UncheckedAt(i);
+   for (Int_t i = 0; i <= condarr->GetLast(); i++) {
+      TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
       cond->SetChanged(on);
    }
 }
@@ -1045,79 +915,70 @@ void TGo4CondArray::SetChanged(Bool_t on)
 Int_t TGo4CondArray::IsChanged()
 {
    Int_t cnt = 0;
-   for(Int_t i = 0; i <= condarr->GetLast(); i++) {
-      TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
+   for (Int_t i = 0; i <= condarr->GetLast(); i++) {
+      TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
       cnt += cond->IsChanged();
    }
    return cnt;
 }
 
-
 Bool_t TGo4CondArray::IsPolygonType()
 {
-Bool_t rev=kFALSE;
-if(IsMultiEdit())
-   {
-      if(fiType == kGO4CONDPOLYGON)
-         rev=kTRUE;
+   Bool_t rev = kFALSE;
+   if (IsMultiEdit()) {
+      if (fiType == kGO4CONDPOLYGON)
+         rev = kTRUE;
       else
-         rev=kFALSE;
+         rev = kFALSE;
+   } else {
+      TGo4Condition *conny = At(GetCurrentIndex());
+      if (conny)
+         rev = conny->IsPolygonType();
    }
-else
-   {
-      TGo4Condition* conny=At(GetCurrentIndex());
-      if(conny) rev=conny->IsPolygonType();
-   }
-return rev;
+   return rev;
 }
 
 void TGo4CondArray::SetCurrentIndex(Int_t ix)
 {
-   fiSelectedCond=ix;
+   fiSelectedCond = ix;
 }
-
 
 Int_t TGo4CondArray::GetCurrentIndex()
 {
    return fiSelectedCond;
 }
 
-
-void TGo4CondArray::Draw(Option_t* opt)
+void TGo4CondArray::Draw(Option_t *opt)
 {
    TGo4Condition::Draw(opt);
    Int_t selid = -1;
-   if (opt!=0)
-     if (strstr(opt,"sel=")==opt)
-       selid = atoi(opt+4);
-   for(Int_t i=0; i<GetNumber(); ++i) {
-      TGo4Condition* con = At(i);
-      bool selected = (selid<0) || (selid==i);
-      if(con!=0)
+   if (opt != 0)
+      if (strstr(opt, "sel=") == opt)
+         selid = atoi(opt + 4);
+   for (Int_t i = 0; i < GetNumber(); ++i) {
+      TGo4Condition *con = At(i);
+      bool selected = (selid < 0) || (selid == i);
+      if (con != 0)
          con->SetPainted(IsPainted() && selected);
    }
 }
 
-
-
-void TGo4CondArray::SetPainter(TGo4ConditionPainter* painter)
+void TGo4CondArray::SetPainter(TGo4ConditionPainter *painter)
 {
-if(painter==0) return;
-if(painter->InheritsFrom(TGo4CondArrayPainter::Class()))
-   {
-      if(fxPainter) delete fxPainter;
-      fxPainter=painter;
-   }
-else
-   {
-      TGo4Log::Warn("Could not set painter of class %s for TGo4CondArray %s",
-         painter->ClassName(),GetName());
+   if (!painter)
+      return;
+   if (painter->InheritsFrom(TGo4CondArrayPainter::Class())) {
+      if (fxPainter)
+         delete fxPainter;
+      fxPainter = painter;
+   } else {
+      TGo4Log::Warn("Could not set painter of class %s for TGo4CondArray %s", painter->ClassName(), GetName());
    }
 }
 
-TGo4ConditionPainter* TGo4CondArray::CreatePainter()
+TGo4ConditionPainter *TGo4CondArray::CreatePainter()
 {
-   TGo4ConditionPainter* painter=new TGo4CondArrayPainter(GetName());
+   TGo4ConditionPainter *painter = new TGo4CondArrayPainter(GetName());
    painter->SetCondition(this);
    return painter;
 }
@@ -1125,23 +986,24 @@ TGo4ConditionPainter* TGo4CondArray::CreatePainter()
 Int_t TGo4CondArray::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName()!=0) size+=strlen(GetName());
-   if (GetTitle()!=0) size+=strlen(GetTitle());
+   if (GetName() != 0)
+      size += strlen(GetName());
+   if (GetTitle() != 0)
+      size += strlen(GetTitle());
 
-   if (condarr!=0)
-     size+=sizeof(*condarr) + condarr->GetEntriesFast() * sizeof(TObject*);
+   if (condarr)
+      size += sizeof(*condarr) + condarr->GetEntriesFast() * sizeof(TObject *);
 
-   for (Int_t n=0;n<GetNumberOfConditions();n++) {
-       TGo4Condition* cond = At(n);
-       if (cond!=0) size+=cond->GetMemorySize();
-
+   for (Int_t n = 0; n < GetNumberOfConditions(); n++) {
+      TGo4Condition *cond = At(n);
+      if (cond != 0)
+         size += cond->GetMemorySize();
    }
-
 
    return size;
 }
 
-void TGo4CondArray::SavePrimitive(std::ostream& out, Option_t* opt)
+void TGo4CondArray::SavePrimitive(std::ostream &out, Option_t *opt)
 {
    static int cnt = 0;
    TString extraargs = TString::Format(", %d, \"%s\"", GetNumber(), GetType());
@@ -1149,10 +1011,11 @@ void TGo4CondArray::SavePrimitive(std::ostream& out, Option_t* opt)
 
    // exclude name: options
    TString options = opt;
-   const char* subname = strstr(opt, "name:");
-   if (subname!=0) options.Resize(subname - opt);
+   const char *subname = strstr(opt, "name:");
+   if (subname != 0)
+      options.Resize(subname - opt);
 
-   for (int n=0; n<GetNumber(); n++) {
+   for (int n = 0; n < GetNumber(); n++) {
       TString subopt = options + TString::Format(" nocreate name:%s->At(%d)", varname.Data(), n);
       At(n)->SavePrimitive(out, subopt.Data());
       out << std::endl;

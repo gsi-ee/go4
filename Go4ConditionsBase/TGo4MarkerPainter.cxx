@@ -40,62 +40,61 @@ TGo4MarkerPainter::~TGo4MarkerPainter()
 }
 
 
-
 void TGo4MarkerPainter::PaintLabel(Option_t* opt)
 {
-   if(!gPad) return;
-   if(fxMarker && fxMarker->HasLabel()) {
+   if (!gPad)
+      return;
+   if (fxMarker && fxMarker->HasLabel()) {
       //------ find out initial coordinates for labels near marker boundaries:
-      Double_t xoff=0.015*(gPad->GetUxmax()-gPad->GetUxmin());
-      Double_t yoff=0.015*(gPad->GetUymax()-gPad->GetUymin()); // offset is in pad coordinates
-      Double_t xpmin=gPad->PadtoX(gPad->XtoPad(fxMarker->GetLabelX())+xoff);
-      Double_t ypmin=gPad->PadtoY(gPad->YtoPad(fxMarker->GetLabelY())+yoff);
-      Bool_t drx=fxMarker->IsXDraw();
-      Bool_t dry=fxMarker->IsYDraw();
-      Bool_t drxbin=fxMarker->IsXbinDraw();
-      Bool_t drybin=fxMarker->IsYbinDraw();
-      Bool_t drcont=fxMarker->IsContDraw();
+      Double_t xoff = 0.015 * (gPad->GetUxmax() - gPad->GetUxmin());
+      Double_t yoff = 0.015 * (gPad->GetUymax() - gPad->GetUymin()); // offset is in pad coordinates
+      Double_t xpmin = gPad->PadtoX(gPad->XtoPad(fxMarker->GetLabelX()) + xoff);
+      Double_t ypmin = gPad->PadtoY(gPad->YtoPad(fxMarker->GetLabelY()) + yoff);
+      Bool_t drx = fxMarker->IsXDraw();
+      Bool_t dry = fxMarker->IsYDraw();
+      Bool_t drxbin = fxMarker->IsXbinDraw();
+      Bool_t drybin = fxMarker->IsYbinDraw();
+      Bool_t drcont = fxMarker->IsContDraw();
       TString fmt = fxMarker->GetNumFormat();
       SetX0(xpmin);
       SetY0(ypmin); // initial coordinates are real axis coordinates
       SetLineColor(fxMarker->GetMarkerColor());
-      //SetTextColor(fxMarker->GetMarkerColor());
+      // SetTextColor(fxMarker->GetMarkerColor());
       TString cap = fxMarker->GetName();
-      TH1* his = fxMarker->GetHistogram();
-      if(his) {
-         cap+=":";
-         cap+=his->GetName();
+      TH1 *his = fxMarker->GetHistogram();
+      if (his) {
+         cap += ":";
+         cap += his->GetName();
       }
       SetCaption(cap.Data());
-      TGo4LabelPainter::PaintLabel();// this creates new label
-      if(drx) {
+      TGo4LabelPainter::PaintLabel(); // this creates new label
+      if (drx) {
          TString fmt1 = "X    = ";
          fmt1.Append(fmt);
          AddToLabel(TString::Format(fmt1.Data(), fxMarker->GetX()).Data());
       }
-      if(dry) {
+      if (dry) {
          TString fmt2 = "Y    = ";
          fmt2.Append(fmt);
          AddToLabel(TString::Format(fmt2.Data(), fxMarker->GetY()).Data());
       }
-      if(drxbin)
-         AddToLabel(TString::Format("Xbin = %d",fxMarker->GetXbin()).Data());
-      if(drybin)
-         AddToLabel(TString::Format("Ybin = %d",fxMarker->GetYbin()).Data());
-      if(drcont)
-         AddToLabel(TString::Format("C    = %d",fxMarker->GetCont()).Data());
+      if (drxbin)
+         AddToLabel(TString::Format("Xbin = %d", fxMarker->GetXbin()).Data());
+      if (drybin)
+         AddToLabel(TString::Format("Ybin = %d", fxMarker->GetYbin()).Data());
+      if (drcont)
+         AddToLabel(TString::Format("C    = %d", fxMarker->GetCont()).Data());
       RePaintLabel();
       PaintConnector();
-   }//if(fxMarker && fxMarker->HasLabel())
-else
-   {
+   } // if(fxMarker && fxMarker->HasLabel())
+   else {
       UnPaintLabel();
    }
 }
 
 void TGo4MarkerPainter::UnPaintLabel(Option_t* opt)
 {
-   if(gPad==0) return;
+   if(!gPad) return;
    TGo4LabelPainter::UnPaintLabel(opt);
    UnPaintConnector(opt);
 }
@@ -103,7 +102,7 @@ void TGo4MarkerPainter::UnPaintLabel(Option_t* opt)
 
 Bool_t TGo4MarkerPainter::CheckConnector()
 {
-   if (fbIsConStreamed && fxConnector != 0) {
+   if (fbIsConStreamed && fxConnector) {
       // case of Connector was streamed from file: not yet in cleanup list!
       fxConnector->SetOwner(this);
       fbIsConStreamed = kFALSE;
@@ -112,7 +111,7 @@ Bool_t TGo4MarkerPainter::CheckConnector()
    if (TGo4LabelConnector::fxLastDeleted == fxConnector) {
       // our label was deleted by user mouse menu just before
       TGo4LabelConnector::fxLastDeleted = 0;
-      fxConnector = 0; // reset reference, will re-create label on next paint
+      fxConnector = nullptr; // reset reference, will re-create label on next paint
       return kFALSE;
    }
 
@@ -121,7 +120,7 @@ Bool_t TGo4MarkerPainter::CheckConnector()
 
 void TGo4MarkerPainter::PaintConnector(Option_t* opt)
 {
-   if(gPad==0) return;
+   if(!gPad) return;
    if(fxMarker && fxMarker->HasConnector()) {
       Double_t xmark=0;
       Double_t ymark=0;
@@ -238,7 +237,7 @@ void TGo4MarkerPainter::UnPaintConnector(Option_t* opt)
       // case of reset option: discard old connector line style
       if (CheckConnector()) {
          delete fxConnector;
-         fxConnector = 0;
+         fxConnector = nullptr;
       }
    }
 }
@@ -251,5 +250,3 @@ void TGo4MarkerPainter::DisplayToFront(Option_t* opt)
       fxMarker->TObject::Pop();           // then pop marker
    TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
 }
-
-

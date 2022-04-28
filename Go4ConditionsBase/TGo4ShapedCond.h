@@ -179,15 +179,15 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
   private:
 
-      Int_t fiResolution; //< number of polygon points to render
-      Double_t fdCenterX; //< centroid coordinate X
-      Double_t fdCenterY; //< centroid coordinate Y
+      Int_t fiResolution{0}; //< number of polygon points to render
+      Double_t fdCenterX{0}; //< centroid coordinate X
+      Double_t fdCenterY{0}; //< centroid coordinate Y
 
-      Double_t fdRadius1;   //< ellipse/box first half axis
-      Double_t fdRadius2;   //< ellipse/box second half axis
+      Double_t fdRadius1{0};   //< ellipse/box first half axis
+      Double_t fdRadius2{0};   //< ellipse/box second half axis
 
-      Double_t fdTheta;    //< ellipse tilt angle
-      Go4CondShape_t fiShapeType; //< type of shaped form
+      Double_t fdTheta{0};    //< ellipse tilt angle
+      Go4CondShape_t fiShapeType{Go4Cond_Shape_None}; //< type of shaped form
 
    ClassDefOverride(TGo4ShapedCond,1)
 };

@@ -69,9 +69,9 @@ TGo4PolyCond::~TGo4PolyCond()
 
    ClearCutHis();
 
-   if (fxCut != 0) {
+   if (fxCut) {
       delete fxCut;
-      fxCut = 0; // JAM2016: reset for Unpaint in PolyCondView?
+      fxCut = nullptr; // JAM2016: reset for Unpaint in PolyCondView?
    }
 }
 
@@ -87,23 +87,24 @@ void TGo4PolyCond::ClearCutHis()
 {
    if (fxCutHis) {
       delete fxCutHis;
-      fxCutHis = 0;
+      fxCutHis = nullptr;
    }
 }
 
 // ----------------------------------------------------------
 Double_t TGo4PolyCond::GetXLow()
 {
-   if(fxCut==0) return 0;
-   Int_t n=fxCut->GetN();
-   Double_t* xarr=fxCut->GetX();
+   if(!fxCut) return 0;
+   Int_t n = fxCut->GetN();
+   Double_t* xarr = fxCut->GetX();
    fxCut->SetBit(kMustCleanup,0);
-   Int_t nxmin=TMath::LocMin(n,xarr);
-   return (xarr[nxmin]);
+   Int_t nxmin = TMath::LocMin(n,xarr);
+   return xarr[nxmin];
 }
+
 Double_t TGo4PolyCond::GetXUp()
 {
-   if(fxCut==0) return 0;
+   if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
    Double_t* xarr=fxCut->GetX();
    Int_t nxmax=TMath::LocMax(n,xarr);
@@ -111,7 +112,7 @@ Double_t TGo4PolyCond::GetXUp()
 }
 Double_t TGo4PolyCond::GetYLow()
 {
-   if(fxCut==0) return 0;
+   if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
    Double_t* yarr=fxCut->GetY();
    Int_t nymin=TMath::LocMin(n,yarr);
@@ -119,7 +120,7 @@ Double_t TGo4PolyCond::GetYLow()
 }
 Double_t TGo4PolyCond::GetYUp()
 {
-   if(fxCut==0) return 0;
+   if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
    Double_t* yarr=fxCut->GetY();
    Int_t nymax=TMath::LocMax(n,yarr);
@@ -172,7 +173,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
    CleanupSpecials();
 #else
    Int_t pn = newcut->GetN();
-   if(fxCut==0)
+   if(!fxCut)
    {
      fxCut = new TCutG(GetName(),pn);
      fxCut->SetBit(kMustCleanup);
@@ -516,7 +517,7 @@ void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
    static int cnt = 0;
    TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);
 
-   if ((fxCut==0) || (fxCut->GetN()==0))
+   if ((!fxCut) || (fxCut->GetN()==0))
       line.Form("   %s->SetValues(0, 0, 0);", varname.Data());
    else {
       TString xname = varname;
