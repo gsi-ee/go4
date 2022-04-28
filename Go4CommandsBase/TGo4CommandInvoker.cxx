@@ -30,8 +30,6 @@ class TGo4Pair : public TObject {
      {
      }
 
-     virtual ~TGo4Pair() {}
-
      const char* GetName() const override { return fxName.Data(); }
 
      TGo4CommandReceiver* GetReceiver() const { return fxReceiver; }
@@ -41,10 +39,10 @@ class TGo4Pair : public TObject {
      TGo4CommandReceiver* fxReceiver{nullptr}; //!
 };
 
-TMutex * TGo4CommandInvoker::fxMutex = nullptr;
-TGo4CommandInvoker * TGo4CommandInvoker::fxInstance = nullptr;
-TGo4CommandProtoList * TGo4CommandInvoker::fxCommandList = nullptr;
-TObjArray * TGo4CommandInvoker::fxArray = nullptr;
+TMutex *TGo4CommandInvoker::fxMutex = nullptr;
+TGo4CommandInvoker *TGo4CommandInvoker::fxInstance = nullptr;
+TGo4CommandProtoList *TGo4CommandInvoker::fxCommandList = nullptr;
+TObjArray *TGo4CommandInvoker::fxArray = nullptr;
 
 TGo4CommandInvoker::TGo4CommandInvoker() :
    TObject(),

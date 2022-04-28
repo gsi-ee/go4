@@ -28,8 +28,6 @@ class TGo4ComStart : public TGo4TaskHandlerCommand {
 
     TGo4ComStart();
 
-    virtual ~TGo4ComStart();
-
     Int_t ExeCom() override;
 
   ClassDefOverride(TGo4ComStart,1)

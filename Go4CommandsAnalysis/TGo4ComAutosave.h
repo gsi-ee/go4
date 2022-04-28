@@ -32,9 +32,9 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
        * for each specific command! */
       void Set(TGo4RemoteCommand* remcon) override;
 
-      void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression = i; }
+      void SetAutoSaveCompression(Int_t i = 5) { fiAutoSaveCompression = i; }
 
-      void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
+      void SetAutoSaveOverwrite(Bool_t over = kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
 
       void SetAutoFileName(const char* name) { fxAutoFileName = name; }
 

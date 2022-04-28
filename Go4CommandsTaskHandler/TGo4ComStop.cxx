@@ -24,10 +24,6 @@ TGo4ComStop::TGo4ComStop() :
    SetDescription("stops example client's main loop");
 }
 
-TGo4ComStop::~TGo4ComStop()
-{
-}
-
 Int_t TGo4ComStop::ExeCom()
 {
    TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);

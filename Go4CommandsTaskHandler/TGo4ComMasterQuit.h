@@ -28,8 +28,6 @@ class TGo4ComMasterQuit : public TGo4TaskHandlerCommand {
 
     TGo4ComMasterQuit();
 
-    virtual ~TGo4ComMasterQuit();
-
     Int_t ExeCom() override;
 
 

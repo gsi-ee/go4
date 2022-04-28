@@ -22,11 +22,6 @@ TGo4ComQuit::TGo4ComQuit() :
    fbIsSynchron=kFALSE;
 }
 
-TGo4ComQuit::~TGo4ComQuit()
-{
-}
-
-
 Int_t TGo4ComQuit::ExeCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);

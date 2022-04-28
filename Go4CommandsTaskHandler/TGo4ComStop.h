@@ -28,8 +28,6 @@ class TGo4ComStop : public TGo4TaskHandlerCommand {
 
     TGo4ComStop();
 
-    virtual ~TGo4ComStop();
-
     Int_t ExeCom() override;
 
   ClassDefOverride(TGo4ComStop,1)
