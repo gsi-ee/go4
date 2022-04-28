@@ -31,8 +31,6 @@ class TGo4DisplayDrawerTimer : public TTimer {
 
       TGo4DisplayDrawerTimer (TGo4Display* display, Long_t msperiod = 3000);
 
-      virtual ~TGo4DisplayDrawerTimer() {}
-
       Bool_t Notify() override;
 
     private:

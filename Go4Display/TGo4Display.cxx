@@ -29,7 +29,7 @@ TGo4Display::TGo4Display(Bool_t isserver)
                 isserver, // servermode
                 "dummy", //for clientmode only
                 1), // negotiationport
-     fxAnalysis(0)
+     fxAnalysis(nullptr)
 {
    // start gui timers instead of threads
    fxDrawTimer= new TGo4DisplayDrawerTimer(this, 30);
@@ -50,7 +50,7 @@ TGo4Display::~TGo4Display()
       GetTask()->GetWorkHandler()->CancelAll();
    delete fxDrawTimer;
    delete fxLogTimer;
-   if (fxAnalysis != 0) {
+   if (fxAnalysis) {
       fxAnalysis->DisplayDeleted(this); // will also clear back referenc to us
       TGo4Slot* pslot = fxAnalysis->ParentSlot();
       if (pslot) {
@@ -60,14 +60,13 @@ TGo4Display::~TGo4Display()
          //std::cout <<"TGo4Display dtor will delete analysis proxy directly" << std::endl;
          delete fxAnalysis; // regularly, we cleanup the analysis proxy.
       }
-
    }
    TGo4Log::Info("------- TGO4DISPLAY DESTRUCTOR FINISHED. ------");
 }
 
 void TGo4Display::DisplayData(TObject* data)
 {
-   if (fxAnalysis!=0)
+   if (fxAnalysis)
      fxAnalysis->ReceiveObject(dynamic_cast<TNamed*>(data));
    else
       delete data;
@@ -75,7 +74,7 @@ void TGo4Display::DisplayData(TObject* data)
 
 void TGo4Display::DisplayLog(TGo4Status * status)
 {
-   if (fxAnalysis != 0)
+   if (fxAnalysis)
       fxAnalysis->ReceiveStatus(status);
    else
       delete status;
@@ -95,10 +94,8 @@ Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
    Bool_t rev = TGo4Master::DisconnectSlave(name, waitforslave); // should do all required things for disconnection
    // after disconnecting, gui might react on result by cleaning up browser, window caption etc.
    // for example:
-   if (rev) {
-      if (fxAnalysis != 0)
-         fxAnalysis->DisplayDisconnected(this);
-   }
+   if (rev && fxAnalysis)
+      fxAnalysis->DisplayDisconnected(this);
 
    return rev;
 }

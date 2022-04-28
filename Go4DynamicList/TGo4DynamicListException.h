@@ -44,7 +44,7 @@ class TGo4DynamicListException : public TGo4RuntimeException {
 
   protected:
     /** @supplierCardinality 1 */
-    TGo4DynamicEntry * fxEntry;     //!
+    TGo4DynamicEntry *fxEntry{nullptr};     //!
 
     TString fxStatusMessage;
 
