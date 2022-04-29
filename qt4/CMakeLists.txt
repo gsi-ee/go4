@@ -391,6 +391,8 @@ target_link_libraries(go4
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )
 
+# target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-override>)
+
 install(TARGETS go4 EXPORT ${CMAKE_PROJECT_NAME}Exports
                     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
 
