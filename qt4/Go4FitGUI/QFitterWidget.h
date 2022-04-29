@@ -28,7 +28,7 @@ public:
     void FillSpecificData() override;
 
 public slots:
-    virtual TGo4Fitter * GetFitter();
+    TGo4Fitter *GetFitter() override;
     virtual void FitFunctionTypeCmb_activated( int typ );
 };
 

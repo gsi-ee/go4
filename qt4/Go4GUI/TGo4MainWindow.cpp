@@ -3045,10 +3045,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
              TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
              TGo4FitPanel* fitpanel = dynamic_cast<TGo4FitPanel*> (editor);
-             if (panel!=0)
+             if (panel)
                 panel->DropOnPad((TPad*)str, eventstr.toLatin1().constData(), cl, kind);
-             else
-             if (fitpanel!=0)
+             else if (fitpanel)
                 fitpanel->DropOnPanel(event, eventstr.toLatin1().constData(), cl, kind);
              else
                 editor->DropItem(eventstr.toLatin1().constData(), cl, kind);
@@ -3059,7 +3058,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_CreateItem: {
          TClass* cl = (TClass*) par;
          int id = str!=0 ? QString(str).toInt() : 0;
-         if (cl!=0) {
+         if (cl) {
            if (cl->InheritsFrom(TH1::Class()))
               CreateNewHistSlot(id);
            else if (cl->InheritsFrom(TGo4Condition::Class()) && (id!=0))
