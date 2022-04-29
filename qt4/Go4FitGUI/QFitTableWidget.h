@@ -17,16 +17,14 @@
 #include "QFitWidget.h"
 #include "ui_QFitTableWidget.h"
 
-class QFitTableWidget : public QFitWidget, public Ui::QFitTableWidget
-{
-    Q_OBJECT
+class QFitTableWidget : public QFitWidget, public Ui::QFitTableWidget {
+   Q_OBJECT
 
 public:
-    QFitTableWidget(QWidget *parent = nullptr, const char *name = nullptr);
+   QFitTableWidget(QWidget *parent = nullptr, const char *name = nullptr);
 
 public slots:
-    virtual void FillSpecificData();
-
+   void FillSpecificData() override;
 };
 
 #endif

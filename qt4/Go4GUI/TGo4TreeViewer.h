@@ -27,7 +27,7 @@ public:
 
    TGo4TreeViewer(QWidget *parent = nullptr, const char* name = nullptr);
 
-   virtual void ResetWidget();
+   void ResetWidget() override;
    virtual void WorkWithLeaf(const char* itemname);
    virtual void ProcessDropEvent(QGo4LineEdit* edt, bool caninit);
    void requestedObjectCreated(const char* itemname, TClass* cl) override;

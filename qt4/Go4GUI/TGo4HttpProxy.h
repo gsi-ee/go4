@@ -91,19 +91,19 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
       virtual ~TGo4HttpAccess() { }
 
-      virtual Bool_t IsRemote() const { return kTRUE; }
+      Bool_t IsRemote() const override { return kTRUE; }
 
-      virtual Bool_t CanGetObject() const { return kFALSE; }
+      Bool_t CanGetObject() const override { return kFALSE; }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const { return kFALSE; }
+      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
 
-      virtual TClass* GetObjectClass() const;
+      TClass* GetObjectClass() const override;
 
-      virtual const char* GetObjectName() const;
+      const char* GetObjectName() const override;
 
-      virtual const char* GetObjectClassName() const;
+      const char* GetObjectClassName() const override;
 
-      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override;
 
 };
 
@@ -184,7 +184,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       Int_t  NumCommandArgs(const char* name) override;
       Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) override;
 
-      virtual const char* GetUserName() const { return fUserName.Data(); }
+      const char* GetUserName() const override { return fUserName.Data(); }
 
       Bool_t IsAnalysisServer() const override { return kTRUE; }
       Bool_t IsGo4Analysis() const override;

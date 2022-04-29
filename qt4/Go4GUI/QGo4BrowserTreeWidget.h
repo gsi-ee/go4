@@ -28,9 +28,9 @@ class QGo4BrowserTreeWidget : public QTreeWidget {
       QGo4BrowserTreeWidget(QWidget* parent = nullptr);
       virtual ~QGo4BrowserTreeWidget();
 
-      virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
-      virtual QStringList mimeTypes() const;
-      virtual Qt::DropActions supportedDropActions () const;
+      bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action) override;
+      QStringList mimeTypes() const override;
+      Qt::DropActions supportedDropActions() const override;
 
       void mouseMoveEvent(QMouseEvent *event) override;
 

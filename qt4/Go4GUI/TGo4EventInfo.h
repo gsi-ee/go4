@@ -17,24 +17,23 @@
 #include "QGo4Widget.h"
 #include "ui_TGo4EventInfo.h"
 
-class TGo4EventInfo : public QGo4Widget, public Ui::TGo4EventInfo
- {
-     Q_OBJECT
+class TGo4EventInfo : public QGo4Widget, public Ui::TGo4EventInfo {
+   Q_OBJECT
 
 public:
-   TGo4EventInfo(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4EventInfo(QWidget *parent = nullptr, const char *name = nullptr);
 
-   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
 
-   void DropItem(const char* itemname, TClass* cl, int kind);
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
 
-   void WorkWithEvent(const char* itemname);
+   void WorkWithEvent(const char *itemname);
 
-   void ResetWidget();
+   void ResetWidget() override;
 
-   void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
-   void linkedObjectRemoved(const char* linkname);
+   void linkedObjectRemoved(const char *linkname) override;
 
 public slots:
 

@@ -20,24 +20,23 @@
 class TGo4ConfigStep;
 class TGo4ServerProxy;
 
-class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConfiguration
-{
+class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConfiguration {
    Q_OBJECT
 
- public:
-   TGo4AnalysisConfiguration(QWidget *parent = nullptr, const char* name = nullptr);
+public:
+   TGo4AnalysisConfiguration(QWidget *parent = nullptr, const char *name = nullptr);
 
-   bool IsAcceptDrag(const char* itemname, TClass* cl, int kind) override;
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
 
-   void DropItem(const char* itemname, TClass* cl, int kind) override;
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
 
-   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
-   void linkedObjectRemoved(const char* linkname) override;
+   void linkedObjectRemoved(const char *linkname) override;
 
-   virtual void WorkWithAnalysis(TGo4ServerProxy* anal);
+   virtual void WorkWithAnalysis(TGo4ServerProxy *anal);
 
-   virtual void ResetWidget();
+   void ResetWidget() override;
 
    virtual void RefreshWidget();
 
@@ -51,31 +50,23 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    int GetNumSteps();
 
-   void ChangeTabTitle(TGo4ConfigStep* step, int number);
+   void ChangeTabTitle(TGo4ConfigStep *step, int number);
 
-   TGo4ConfigStep* GetStepConfig(int n);
+   TGo4ConfigStep *GetStepConfig(int n);
 
-   TGo4ConfigStep* FindStepConfig(QString name);
+   TGo4ConfigStep *FindStepConfig(QString name);
 
-   virtual void SetAutoSaveConfig(QString filename,
-                                  int interval,
-                                  int compression,
-                                  bool enbaled,
-                                  bool overwrite);
+   virtual void SetAutoSaveConfig(QString filename, int interval, int compression, bool enbaled, bool overwrite);
 
-   virtual void GetAutoSaveConfig(QString& filename,
-                                  int& interval,
-                                  int& compression,
-                                  bool& enbaled,
-                                  bool& overwrite);
+   virtual void GetAutoSaveConfig(QString &filename, int &interval, int &compression, bool &enbaled, bool &overwrite);
 
-    virtual void SetAnalysisConfigFile(QString filename);
+   virtual void SetAnalysisConfigFile(QString filename);
 
-   virtual void GetAnalysisConfigFile(QString& filename);
+   virtual void GetAnalysisConfigFile(QString &filename);
 
-   virtual void DisplayMbsMonitor(const QString& mbsname );
+   virtual void DisplayMbsMonitor(const QString &mbsname);
 
- public slots:
+public slots:
 
    virtual void RequestAnalysisStatus();
 
@@ -85,7 +76,7 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual void LineEdit_AutoSaveFile();
 
-   virtual void SetCompressionLevel( int t);
+   virtual void SetCompressionLevel(int t);
 
    virtual void LoadConfiguration();
 
@@ -103,18 +94,16 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual void WriteAutoSave();
 
-   virtual void EnableAutoSaveSlot( bool disabled);
+   virtual void EnableAutoSaveSlot(bool disabled);
 
 protected:
-
-   virtual void closeEvent(QCloseEvent* e);
+   void closeEvent(QCloseEvent *e) override;
 
    bool fbTypingMode{false};
    QString fSourcePath;
    QString fStorePath;
    QString fConfigPath;
    QString fAutoSavePath;
-
 };
 
 #endif
