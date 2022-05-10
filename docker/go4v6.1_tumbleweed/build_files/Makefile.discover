@@ -152,9 +152,6 @@ ifneq ($(wildcard $(ROOTLIBPATH)/libRHTTP.*),)
 ifeq ($(ISROOT6),true)
 ifeq ($(call myeval,$(ROOTBVERSION),60303),gt)
 USEHTTPSERVER = true
-ifneq ($(wildcard $(ROOTLIBPATH)/libRHTTPSniff.*),)
-USEHTTPSNIFF = true
-endif
 endif
 else
 ifeq ($(call myeval,$(ROOTBVERSION),53429),gt)
@@ -548,9 +545,6 @@ ifdef USEXMLIO
 endif
 ifdef USEHTTPSERVER
 	@echo "USEHTTPSERVER = true" >> $@
-endif
-ifdef USEHTTPSNIFF
-	@echo "USEHTTPSNIFF  = true" >> $@
 endif
 	@echo "" >> $@
 	@echo "### some other packets" >> $@

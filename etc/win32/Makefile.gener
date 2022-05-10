@@ -23,4 +23,3 @@ ROOTGLIBS    = $(shell root-config --glibs)
 USESPECTRUM   = true
 USEXMLIO      = true
 USEHTTPSERVER = true
-USEHTTPSNIFF  = true

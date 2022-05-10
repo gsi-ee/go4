@@ -15,5 +15,4 @@ GO4_STANDARD_LIBRARY(Go4Http
                      HEADERS ${Go4Http_headers}
                      SOURCES ${Go4Http_sources}
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Analysis
-                     LIBRARIES ${ROOT_RHTTP_LIBRARY} ${ROOT_RHTTPSniff_LIBRARY}
-                     DEFINITIONS SNIFFER_FULL)
+                     LIBRARIES ${ROOT_RHTTP_LIBRARY} ${ROOT_RHTTPSniff_LIBRARY})

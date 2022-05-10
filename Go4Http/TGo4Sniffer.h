@@ -14,16 +14,8 @@
 #ifndef TGO4SNIFFER_H
 #define TGO4SNIFFER_H
 
-#ifdef SNIFFER_FULL
 #include "TRootSnifferFull.h"
-typedef TRootSnifferFull SniffBaseClass;
-#else
-#include "TRootSniffer.h"
-typedef TRootSniffer SniffBaseClass;
-#endif
-
 #include "TGo4AnalysisSniffer.h"
-
 #include "TGo4MsgList.h"
 
 class TGo4AnalysisWebStatus;
@@ -31,7 +23,7 @@ class TGraph;
 class TGo4Ratemeter;
 class THttpServer;
 
-class TGo4Sniffer : public SniffBaseClass,
+class TGo4Sniffer : public TRootSnifferFull,
                     public TGo4AnalysisSniffer {
 
    protected:
