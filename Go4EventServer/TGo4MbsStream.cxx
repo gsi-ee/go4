@@ -41,6 +41,6 @@ TGo4MbsStream::TGo4MbsStream()
 
 TGo4MbsStream::~TGo4MbsStream()
 {
-GO4TRACE((15,"TGo4MbsStream::~TGo4MbsStream()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsStream::~TGo4MbsStream()",__LINE__, __FILE__));
    Close();
 }
