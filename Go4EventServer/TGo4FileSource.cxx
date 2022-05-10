@@ -29,14 +29,14 @@
 
 TGo4FileSource::TGo4FileSource(const char* name) :
    TGo4EventSource(name),
-   fxFile(0),
-   fxTree(0),
+   fxFile(nullptr),
+   fxTree(nullptr),
    fiMaxEvents(0),
    fiCurrentEvent(0),
    fiGlobalEvent(0),
    fbActivated(kFALSE),
-   fxTopEvent(0),
-   fxFilesNames(0)
+   fxTopEvent(nullptr),
+   fxFilesNames(nullptr)
 {
    fxFilesNames = ProducesFilesList(GetName());
 
@@ -46,14 +46,14 @@ TGo4FileSource::TGo4FileSource(const char* name) :
 
 TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
    TGo4EventSource(par->GetName()),
-   fxFile(0),
-   fxTree(0),
+   fxFile(nullptr),
+   fxTree(nullptr),
    fiMaxEvents(0),
    fiCurrentEvent(0),
    fiGlobalEvent(0),
    fbActivated(kFALSE),
-   fxTopEvent(0),
-   fxFilesNames(0)
+   fxTopEvent(nullptr),
+   fxFilesNames(nullptr)
 {
    fxFilesNames = ProducesFilesList(GetName());
 
@@ -64,14 +64,14 @@ TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
 
 TGo4FileSource::TGo4FileSource() :
    TGo4EventSource("Go4FileSource"),
-   fxFile(0),
-   fxTree(0),
+   fxFile(nullptr),
+   fxTree(nullptr),
    fiMaxEvents(0),
    fiCurrentEvent(0),
    fiGlobalEvent(0),
    fbActivated(kFALSE),
-   fxTopEvent(0),
-   fxFilesNames(0)
+   fxTopEvent(nullptr),
+   fxFilesNames(nullptr)
 {
    // for streamer, do not open here!
 }
@@ -82,13 +82,13 @@ TGo4FileSource::~TGo4FileSource()
 
    if (fxFilesNames) {
       delete fxFilesNames;
-      fxFilesNames = 0;
+      fxFilesNames = nullptr;
    }
 }
 
 TList* TGo4FileSource::ProducesFilesList(const char* mask)
 {
-   if ((mask==0) || (strlen(mask)==0)) return 0;
+   if (!mask || (strlen(mask)==0)) return nullptr;
 
    TString dirname, basename(mask);
 
@@ -121,13 +121,13 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
 
    void *dir = gSystem->OpenDirectory(gSystem->ExpandPathName(dirname.Data()));
 
-   if (dir==0) return 0;
+   if (!dir) return nullptr;
 
    TList* lst = 0;
 
    TRegexp re(basename, kTRUE);
-   const char* file = 0;
-   while ((file = gSystem->GetDirEntry(dir)) != 0) {
+   const char* file = nullptr;
+   while ((file = gSystem->GetDirEntry(dir)) != nullptr) {
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;
       if ( (basename!=s) && s.Index(re) == kNPOS) continue;
@@ -151,7 +151,7 @@ Bool_t TGo4FileSource::OpenNextFile()
 {
    CloseCurrentFile();
 
-   if ((fxFilesNames==0) || (fxFilesNames->GetSize()==0)) return kFALSE;
+   if (!fxFilesNames || (fxFilesNames->GetSize()==0)) return kFALSE;
 
    TObject* obj = fxFilesNames->First();
    fxCurrentFileName = obj->GetName();
@@ -186,11 +186,11 @@ Bool_t TGo4FileSource::CloseCurrentFile()
       TGo4Log::Info("TGo4FileSource: Close file %s", fxCurrentFileName.Data());
    }
 
-   fxFile = 0;
-   fxTree = 0;
+   fxFile = nullptr;
+   fxTree = nullptr;
    fiMaxEvents = 0;
    fiCurrentEvent = 0;
-   fxTopEvent = 0;
+   fxTopEvent = nullptr;
    fbActivated = kFALSE;
    fxCurrentFileName = "";
 
@@ -199,8 +199,8 @@ Bool_t TGo4FileSource::CloseCurrentFile()
 
 Bool_t TGo4FileSource::BuildEvent(TGo4EventElement* dest)
 {
-   if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
-   if (fxTree==0) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");
+   if(!dest) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
+   if (!fxTree) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");
 
    if(fiCurrentEvent >= fiMaxEvents) {
       if (!OpenNextFile())

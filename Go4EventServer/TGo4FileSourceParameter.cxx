@@ -28,7 +28,6 @@ TGo4FileSourceParameter::TGo4FileSourceParameter()
   GO4TRACE((14,"TGo4FileSourceParameter::TGo4FileSourceParameter()", __LINE__, __FILE__));
 }
 
-
 TGo4FileSourceParameter::~TGo4FileSourceParameter()
 {
    GO4TRACE((14,"TGo4FileSourceParameter::~TGo4FileSourceParameter()", __LINE__, __FILE__));

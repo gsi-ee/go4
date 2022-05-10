@@ -41,7 +41,7 @@ class TGo4MbsSourceParameter;
 class TGo4MbsSourcePrintPar : public TObject {
 
   public:
-    TGo4MbsSourcePrintPar() : TObject(), fiNum(0), fiSid(0), fiLong(0), fiHex(0), fiData(0) {}
+    TGo4MbsSourcePrintPar() : TObject() {}
     virtual ~TGo4MbsSourcePrintPar() {}
     /** Counter for events to be printed */
     Int_t fiNum{0};

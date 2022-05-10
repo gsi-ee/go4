@@ -46,13 +46,13 @@
 
 
 TGo4EventServerFactory::TGo4EventServerFactory(const char* name) :
-   TGo4EventFactory(name), fxEvent(0)
+   TGo4EventFactory(name), fxEvent(nullptr)
 {
    GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventServerFactory::TGo4EventServerFactory() :
-   TGo4EventFactory("Go4 Event Server Factory"),fxEvent(0)
+   TGo4EventFactory("Go4 Event Server Factory"), fxEvent(nullptr)
 {
    GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory()",__LINE__, __FILE__));
 }
@@ -82,7 +82,7 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
 {
    GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
 
-   TGo4EventStore* rev = 0;
+   TGo4EventStore* rev = nullptr;
 
    if(par) {
       if(!strcmp(par->ClassName(),"TGo4FileStoreParameter"))

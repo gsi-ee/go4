@@ -132,8 +132,8 @@ Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement* dest)
 void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
 {
    GO4TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent*)",__LINE__, __FILE__));
-   TGo4MbsSubEvent* subtarget=0;
-   if(fxEvent!=0 && GetEventStatus()==GETEVT__SUCCESS) {
+   TGo4MbsSubEvent* subtarget = nullptr;
+   if(fxEvent && (GetEventStatus() == GETEVT__SUCCESS)) {
       // check for printevent mode here:
       if(fxPrEventPar.fiNum>0) {
          f_evt_type(fxBuffer,
@@ -284,7 +284,7 @@ frombegin:
       if(fuEventCounter+eventstep<fuEventCounter)
       {
          TGo4Log::Warn("TGo4MbsSource::NextEvent(): Overflow of eventcounter at %lu, reset to 0",fuEventCounter),
-         fuEventCounter=0;
+         fuEventCounter = 0;
       }
 
       while (eventstep > 0) {
@@ -297,13 +297,13 @@ frombegin:
             HandleAnlysisEvents();
 
          SetEventStatus(status);
-         if(status!=0) break;
+         if(status != 0) break;
          eventstep--;
          fuEventCounter++;
       }
    }
 
-   if (GetEventStatus()==0)
+   if (GetEventStatus() == 0)
       return 0;
 
    // provide text message for later output
@@ -421,7 +421,7 @@ Int_t TGo4MbsSource::Close()
    return rev;
 }
 
-s_bufhe * TGo4MbsSource::GetBufferHeader()
+s_bufhe *TGo4MbsSource::GetBufferHeader()
 {
-   return (s_bufhe*) f_evt_get_buffer_ptr(fxInputChannel);
+   return (s_bufhe *) f_evt_get_buffer_ptr(fxInputChannel);
 }
