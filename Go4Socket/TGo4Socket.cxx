@@ -448,20 +448,16 @@ TObject* TGo4Socket::Recv(const char* name)
          TMessage *mess = nullptr;
          fxSocket->Recv(mess);
 
-         if(!mess)
-         {
-            //std::cout << "TGo4SocketTransportImp: zero mess" << std::endl;
+         if (!mess) {
+            // std::cout << "TGo4SocketTransportImp: zero mess" << std::endl;
             obj = nullptr;
-         }
-         else
-         {
+         } else {
             TGo4LockGuard socker;
-            if(mess->What() == kMESS_OBJECT)
-            {
+            if (mess->What() == kMESS_OBJECT) {
                obj = mess->ReadObject(mess->GetClass());
             }
             delete mess;
-         } // end if(mess == NULL)
+         }
 
       } // if (fxSocket)
       else

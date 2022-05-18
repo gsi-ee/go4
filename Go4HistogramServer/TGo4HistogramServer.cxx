@@ -128,8 +128,8 @@ TGo4HistogramServer::~TGo4HistogramServer()
       fxThreadHandler->Stop(ConnectorName());
 
    // for clean shutdown, we have to connect one last time to get out of the wait:
-   INTS4 *pl_all = NULL;
-   s_his_head *ps_his_head = NULL;
+   INTS4 *pl_all = nullptr;
+   s_his_head *ps_his_head = nullptr;
    INTS4 l_size = 0;
    f_his_gethis((char *)"localhost", fiServerPort, (char *)fxServerName.Data(), (char *)fxServerPass.Data(),
                 (char *)fgcSHUTDOWNNAME, (s_his_head **)&ps_his_head, &pl_all, &l_size);

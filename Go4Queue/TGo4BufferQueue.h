@@ -68,10 +68,10 @@ class TGo4BufferQueue : public TGo4Queue {
 
       /**
        * Wait for buffer object from queue. When buffer is received, object is
-       * reconstructed out of it (thread mainlock aqcuired!). NULL in case of
+       * reconstructed out of it (thread mainlock aqcuired!). nullptr in case of
        * unknown class.
        */
-      TObject * WaitObjectFromBuffer();
+      TObject *WaitObjectFromBuffer();
 
       /**
        * Create a root buffer that contains a single value val.

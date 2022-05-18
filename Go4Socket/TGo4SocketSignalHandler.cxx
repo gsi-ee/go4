@@ -52,19 +52,19 @@ void TGo4SocketSignalHandler::SetSigWINCH(Bool_t enabled)
 
 void TGo4SocketSignalHandler::SetSignalAction(Int_t signum, Bool_t enabled)
 {
-  struct sigaction new_action, old_action;
+   struct sigaction new_action, old_action;
 
-  /* Set up the structure to specify the new action. */
-  if(enabled)
-    new_action.sa_handler = TGo4SocketSignalHandler::Handle;
-  else
-    new_action.sa_handler = SIG_IGN;
+   /* Set up the structure to specify the new action. */
+   if (enabled)
+      new_action.sa_handler = TGo4SocketSignalHandler::Handle;
+   else
+      new_action.sa_handler = SIG_IGN;
 
-  sigemptyset (&new_action.sa_mask);
-  new_action.sa_flags = 0;
-  sigaction (signum, NULL, &old_action);
-  if(enabled)
-    sigaction (signum, &new_action, NULL);
+   sigemptyset(&new_action.sa_mask);
+   new_action.sa_flags = 0;
+   sigaction(signum, nullptr, &old_action);
+   if (enabled)
+      sigaction(signum, &new_action, nullptr);
 }
 
 void TGo4SocketSignalHandler::DisableSigPipe()
