@@ -148,21 +148,21 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
-   fxAnalysisSlave(0),
-   fxStepManager(0),
-   fxObjectManager(0),
+   fxAnalysisSlave(nullptr),
+   fxStepManager(nullptr),
+   fxObjectManager(nullptr),
    fiAutoSaveCount(0),
    fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS),
    fiAutoSaveCompression(5),
-   fxAutoFile(0),
+   fxAutoFile(nullptr),
    fbAutoSaveOverwrite(kFALSE),
    fbNewInputFile(kFALSE),
    fxCurrentInputFileName(),
    fbAutoSaveFileChange(kFALSE),
-   fxSampleEvent(0),
-   fxObjectNames(0),
+   fxSampleEvent(nullptr),
+   fxObjectNames(nullptr),
    fxDoWorkingFlag(flagInit),
-   fxInterruptHandler(0),
+   fxInterruptHandler(nullptr),
    fAnalysisName(),
    fBatchLoopCount(-1),
    fServerAdminPass(),
@@ -172,12 +172,12 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbObjMade(kFALSE),
    fbPythonBound(kFALSE),
    fNumCtrlC(0),
-   fSniffer(0),
-   fxRate(0)
+   fSniffer(nullptr),
+   fxRate(nullptr)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
-   if (name!=0) SetAnalysisName(name);
+   if (name) SetAnalysisName(name);
 
    Constructor();
 }
@@ -187,21 +187,21 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
-   fxAnalysisSlave(0),
-   fxStepManager(0),
-   fxObjectManager(0),
+   fxAnalysisSlave(nullptr),
+   fxStepManager(nullptr),
+   fxObjectManager(nullptr),
    fiAutoSaveCount(0),
    fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS),
    fiAutoSaveCompression(5),
-   fxAutoFile(0),
+   fxAutoFile(nullptr),
    fbAutoSaveOverwrite(kFALSE),
    fbNewInputFile(kFALSE),
    fxCurrentInputFileName(),
    fbAutoSaveFileChange(kFALSE),
-   fxSampleEvent(0),
-   fxObjectNames(0),
+   fxSampleEvent(nullptr),
+   fxObjectNames(nullptr),
    fxDoWorkingFlag(flagInit),
-   fxInterruptHandler(0),
+   fxInterruptHandler(nullptr),
    fAnalysisName(),
    fBatchLoopCount(-1),
    fServerAdminPass(),
@@ -211,8 +211,8 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fbObjMade(kFALSE),
    fbPythonBound(kFALSE),
    fNumCtrlC(0),
-   fSniffer(0),
-   fxRate(0)
+   fSniffer(nullptr),
+   fxRate(nullptr)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -1112,16 +1112,16 @@ void TGo4Analysis::OpenAutoSaveFile(bool for_writing)
    if (for_writing) {
       delete fxAutoFile;
       fxAutoFile = TFile::Open(fxAutoFileName.Data() ,"RECREATE");
-      if (fxAutoFile==0)
+      if (!fxAutoFile)
          Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
       else
          Message(-1,"Opening AutoSave file %s with RECREATE mode",fxAutoFileName.Data());
       if (fxAutoFile) fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
    } else {
-      if(fxAutoFile==0) {
+      if(!fxAutoFile) {
          if (!gSystem->AccessPathName(fxAutoFileName.Data()))
             fxAutoFile = TFile::Open(fxAutoFileName.Data(), "READ");
-         if (fxAutoFile==0)
+         if (!fxAutoFile)
             Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
          else
             Message(-1,"Opening AutoSave file %s with READ mode",fxAutoFileName.Data());
@@ -1140,7 +1140,7 @@ void TGo4Analysis::CloseAutoSaveFile()
    if(fxAutoFile) {
       TGo4LockGuard  autoguard(fxAutoSaveMutex);
       delete fxAutoFile;
-      fxAutoFile=0;
+      fxAutoFile = nullptr;
       Message(-1,"AutoSave file %s was closed.",fxAutoFileName.Data());
    }
 }
@@ -1216,9 +1216,9 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
 
 void TGo4Analysis::SendObjectToGUI(TObject* ob)
 {
-   if (ob==0) return;
+   if (!ob) return;
 
-   if(fxAnalysisSlave==0) {
+   if(!fxAnalysisSlave) {
       Message(2,"Could not send object %s to GUI in batch mode.", ob->GetName());
       return;
    }
@@ -1245,7 +1245,7 @@ Bool_t TGo4Analysis::IsRunning()
 
 void TGo4Analysis::SetRunning(Bool_t on)
 {
-   if(fxAnalysisSlave==0) return;
+   if(!fxAnalysisSlave) return;
    if(on)
       fxAnalysisSlave->Start();
    else
