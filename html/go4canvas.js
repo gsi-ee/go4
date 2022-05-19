@@ -467,16 +467,9 @@ JSROOT.require("painter").then(jsrp => {
          if (!pnt) return null;
 
          let cond = this.getObject(),
-             hint = { name: cond.fName,
-                      title: cond.fTitle,
-                      painter: this,
-                      menu: true,
-                      x: pnt.x,
-                      y: pnt.y };
+             hint = { name: cond.fName, title: cond.fTitle, painter: this, menu: true, x: pnt.x, y: pnt.y };
 
-         if (this.isPolyCond()) {
-
-         } else {
+         if (!this.isPolyCond()) {
 
             hint.color1 = this.fillatt.color;
             hint.color2 = this.lineatt.color;
@@ -553,7 +546,8 @@ JSROOT.require("painter").then(jsrp => {
          if (!GO4.source_dir) return null;
 
          let rect = elem.node().getBoundingClientRect();
-         if ((rect.height < 10) && (rect.width > 10)) elem.style("height", Math.round(rect.width*0.4) + "px");
+         if ((rect.height < 10) && (rect.width > 10))
+            elem.style("height", Math.round(rect.width*0.4) + "px");
          return JSROOT.require(GO4.source_dir + 'html/condition.js').then(() => {
             let editor = new GO4.ConditionEditor(dom, cond);
             return editor.drawEditor();
