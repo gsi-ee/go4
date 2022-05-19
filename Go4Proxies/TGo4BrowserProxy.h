@@ -37,60 +37,60 @@ class TGo4BrowserProxy : public TGo4Proxy {
                        Bool_t withRootBrowser = kFALSE);
       virtual ~TGo4BrowserProxy();
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
 
       Bool_t Use() const override { return kFALSE; }
 
-      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
-      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
-      const char* GetContainedClassName() override { return ClassName(); }
-      TObject* GetAssignedObject() override { return this; }
+      Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param) override;
+      Int_t GetObjectKind() override { return TGo4Access::kndFolder; }
+      const char *GetContainedClassName() override { return ClassName(); }
+      TObject *GetAssignedObject() override { return this; }
 
       // browser functionality
 
-      void DataSlotName(const char* item, TString& res);
-      void BrowserSlotName(const char* item, TString& res);
-      TGo4Slot* BrowserSlot(const char* item);
-      TGo4Slot* DataSlot(const char* item);
-      TGo4Slot* BrowserMemorySlot();
-      Bool_t BrowserItemName(TGo4Slot* itemslot, TString& res);
+      void DataSlotName(const char *item, TString &res);
+      void BrowserSlotName(const char *item, TString &res);
+      TGo4Slot *BrowserSlot(const char *item);
+      TGo4Slot *DataSlot(const char *item);
+      TGo4Slot *BrowserMemorySlot();
+      Bool_t BrowserItemName(TGo4Slot *itemslot, TString &res);
 
       void UpdateBrowserContent();
       void InformBrowserUpdate();
       void SetItemsFilter(Int_t filter); // 0 - all, 1 - fetched, 2 - monitored
       Int_t GetItemFilter() const { return fiFilterIndex; }
 
-      Int_t RequestBrowserObject(const char* name, Int_t wait_time = 0);
-      Int_t RequestBrowserObject(TGo4Slot* slot, Int_t wait_time = 0);
+      Int_t RequestBrowserObject(const char *name, Int_t wait_time = 0);
+      Int_t RequestBrowserObject(TGo4Slot *slot, Int_t wait_time = 0);
 
-      void AddServerProxy(TGo4ServerProxy* serv, const char* slotname, const char* info);
-      void OpenFile(const char* fname);
+      void AddServerProxy(TGo4ServerProxy *serv, const char *slotname, const char *info);
+      void OpenFile(const char *fname);
       Bool_t ConnectHServer(const char* servername,
                             Int_t portnumber,
                             const char* basename,
                             const char* userpass,
                             const char* filter);
-      Bool_t ConnectDabc(const char* nodename);
+      Bool_t ConnectDabc(const char *nodename);
 
-      void MakeFilesList(TObjArray* arr);
-      void MakeDabcList(TObjArray* arr);
-      void MakeHttpList(TObjArray* arr);
-      void MakeHServerList(TObjArray* arr);
+      void MakeFilesList(TObjArray *arr);
+      void MakeDabcList(TObjArray *arr);
+      void MakeHttpList(TObjArray *arr);
+      void MakeHServerList(TObjArray *arr);
 
-      Bool_t ProduceExplicitCopy(const char* itemname, const char* tgtpath = nullptr, Bool_t forcerequest = kFALSE);
-      Bool_t ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgtpath = nullptr, Bool_t forcerequest = kFALSE);
+      Bool_t ProduceExplicitCopy(const char *itemname, const char *tgtpath = nullptr, Bool_t forcerequest = kFALSE);
+      Bool_t ProduceExplicitCopy(TGo4Slot *itemslot, const char *tgtpath = nullptr, Bool_t forcerequest = kFALSE);
 
       void ClearClipboard();
-      void AddToClipboard(const char* itemname);
+      void AddToClipboard(const char *itemname);
       Bool_t IsClipboard();
-      void CopyClipboard(const char* tgtpath, Bool_t forcerequest = kFALSE);
+      void CopyClipboard(const char *tgtpath, Bool_t forcerequest = kFALSE);
 
-      void CreateMemorySubfolder(const char* itemname, const char* newfoldername);
-      void RenameMemoryItem(const char* itemname, const char* newname);
-      void ClearMemoryItem(const char* itemname);
+      void CreateMemorySubfolder(const char *itemname, const char *newfoldername);
+      void RenameMemoryItem(const char *itemname, const char *newname);
+      void ClearMemoryItem(const char *itemname);
 
-      void RequestObjectStatus(const char* name, TGo4Slot* tgtslot);
+      void RequestObjectStatus(const char *name, TGo4Slot *tgtslot);
 
       void PerformTreeDraw(const char* treename,
                            const char* Xexp,
@@ -100,8 +100,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
                            const char* hname,
                            TString& createdhistoname);
 
-      TString SaveToMemory(const char* pathname, TObject* obj, Bool_t ownership, Bool_t overwrite = kFALSE);
-      void CreateMemoryFolder(const char* foldername = nullptr);
+      TString SaveToMemory(const char *pathname, TObject *obj, Bool_t ownership, Bool_t overwrite = kFALSE);
+      void CreateMemoryFolder(const char *foldername = nullptr);
 
       void Scan_gROOT();
 
@@ -116,71 +116,71 @@ class TGo4BrowserProxy : public TGo4Proxy {
                          const char* format,
                          const char* description);
 
-      TObject* GetBrowserObject(const char* name, Int_t update = 0);
+      TObject *GetBrowserObject(const char *name, Int_t update = 0);
 
-      Bool_t DeleteDataSource(TGo4Slot* itemslot);
+      Bool_t DeleteDataSource(TGo4Slot *itemslot);
 
-      void DoItemMonitor(TGo4Slot* slot);
+      void DoItemMonitor(TGo4Slot *slot);
 
-      TGo4Slot* BrowserTopSlot();
-      TGo4Slot* ItemSlot(const char* itemname);
+      TGo4Slot *BrowserTopSlot();
+      TGo4Slot *ItemSlot(const char *itemname);
 
-      Bool_t DefineTreeName(const char* itemname, TString& treename);
-      Bool_t DefineLeafName(const char* itemname, const char* treename, TString& leafname);
+      Bool_t DefineTreeName(const char *itemname, TString &treename);
+      Bool_t DefineLeafName(const char *itemname, const char *treename, TString &leafname);
 
-      TGo4Slot* FindServerSlot(Bool_t databranch, Int_t kind = 0);
-      TGo4AnalysisProxy* FindAnalysis(const char* itemname = nullptr);
-      TGo4ServerProxy* FindServer(const char* itemname = nullptr, Bool_t asanalysis = kTRUE);
-      TString FindItemInAnalysis(const char* objname);
-      TString FindItem(const char* objname);
-      void FetchItem(const char* itemname, Int_t wait_time = 0);
-      void RedrawItem(const char* itemname);
+      TGo4Slot *FindServerSlot(Bool_t databranch, Int_t kind = 0);
+      TGo4AnalysisProxy *FindAnalysis(const char *itemname = nullptr);
+      TGo4ServerProxy *FindServer(const char *itemname = nullptr, Bool_t asanalysis = kTRUE);
+      TString FindItemInAnalysis(const char *objname);
+      TString FindItem(const char *objname);
+      void FetchItem(const char *itemname, Int_t wait_time = 0);
+      void RedrawItem(const char *itemname);
 
-      Bool_t DefineFileObject(const char* itemname, TString& filedataslot, const char** filepath);
-      Bool_t UpdateObjectInFile(const char* itemname, const char* fileslotname, const char* filepath);
-      Bool_t SaveItemToFile(const char* itemname, const char* filename, const char* subfolder = nullptr);
+      Bool_t DefineFileObject(const char *itemname, TString &filedataslot, const char **filepath);
+      Bool_t UpdateObjectInFile(const char *itemname, const char *fileslotname, const char *filepath);
+      Bool_t SaveItemToFile(const char *itemname, const char *filename, const char *subfolder = nullptr);
 
-      Bool_t UpdateAnalysisItem(const char* itemname, TObject* obj = nullptr);
+      Bool_t UpdateAnalysisItem(const char *itemname, TObject *obj = nullptr);
 
-      Bool_t DefineRelatedObject(const char* itemname, const char* objectname, TString& objectitem, Int_t mask = 3);
+      Bool_t DefineRelatedObject(const char *itemname, const char *objectname, TString &objectitem, Int_t mask = 3);
 
-      Bool_t IsItemRemote(const char* name);
-      Bool_t IsItemRemote(TGo4Slot* slot);
-      Bool_t IsAnalysisItem(const char* name);
+      Bool_t IsItemRemote(const char *name);
+      Bool_t IsItemRemote(TGo4Slot *slot);
+      Bool_t IsAnalysisItem(const char *name);
 
-      static void SetItemTimeDate(TGo4Slot* slot, const char* stime = nullptr, const char* sdate = nullptr);
-      static const char* ItemTime(TGo4Slot* slot);
-      static const char* ItemDate(TGo4Slot* slot);
+      static void SetItemTimeDate(TGo4Slot *slot, const char *stime = nullptr, const char *sdate = nullptr);
+      static const char *ItemTime(TGo4Slot *slot);
+      static const char *ItemDate(TGo4Slot *slot);
 
-      static void SetLinkedName(TGo4Slot* slot, const char* itemname);
-      static const char* GetLinkedName(TGo4Slot* slot);
+      static void SetLinkedName(TGo4Slot *slot, const char *itemname);
+      static const char *GetLinkedName(TGo4Slot *slot);
 
-      void SetCanDelete(TGo4Slot* slot, Bool_t on = kTRUE);
-      Bool_t IsCanDelete(TGo4Slot* slot);
+      void SetCanDelete(TGo4Slot *slot, Bool_t on = kTRUE);
+      Bool_t IsCanDelete(TGo4Slot *slot);
 
-      Int_t ItemKind(const char* name);
-      static Int_t ItemKind(TGo4Slot* slot);
-      void SetItemKind(TGo4Slot* slot, Int_t kind, const char* classname, const char* info, Int_t sizeinfo);
-      static const char* ItemInfo(TGo4Slot* slot);
-      Int_t ItemSizeInfo(TGo4Slot* slot);
+      Int_t ItemKind(const char *name);
+      static Int_t ItemKind(TGo4Slot *slot);
+      void SetItemKind(TGo4Slot *slot, Int_t kind, const char *classname, const char *info, Int_t sizeinfo);
+      static const char *ItemInfo(TGo4Slot *slot);
+      Int_t ItemSizeInfo(TGo4Slot *slot);
 
-      void SetCalcSize(TGo4Slot* slot, Int_t size);
-      Int_t GetCalcSize(TGo4Slot* slot);
+      void SetCalcSize(TGo4Slot *slot, Int_t size);
+      Int_t GetCalcSize(TGo4Slot *slot);
 
-      TClass* ItemClass(const char* name);
-      TClass* ItemClass(TGo4Slot* slot);
-      const char* ItemClassName(const char* name);
-      static const char* ItemClassName(TGo4Slot* slot);
+      TClass *ItemClass(const char *name);
+      TClass *ItemClass(TGo4Slot *slot);
+      const char *ItemClassName(const char *name);
+      static const char *ItemClassName(TGo4Slot *slot);
 
-      Int_t ItemCanDo(const char* name);
-      Int_t ItemCanDo(TGo4Slot* slot);
-      static void SetItemCanDo(TGo4Slot* slot, Int_t cando);
+      Int_t ItemCanDo(const char *name);
+      Int_t ItemCanDo(TGo4Slot *slot);
+      static void SetItemCanDo(TGo4Slot *slot, Int_t cando);
 
-      Bool_t IsItemMonitored(TGo4Slot* slot);
-      void SetItemMonitored(TGo4Slot* slot, Bool_t on = kTRUE);
+      Bool_t IsItemMonitored(TGo4Slot *slot);
+      void SetItemMonitored(TGo4Slot *slot, Bool_t on = kTRUE);
 
-      void SetProtectionBits(TGo4Slot* slot, Int_t delprot, Int_t clearprot);
-      void GetProtectionBits(TGo4Slot* slot, Int_t& delprot, Int_t& clearprot);
+      void SetProtectionBits(TGo4Slot *slot, Int_t delprot, Int_t clearprot);
+      void GetProtectionBits(TGo4Slot *slot, Int_t &delprot, Int_t &clearprot);
 
       void ToggleMonitoring(Int_t period);
       void SetMonitorBlockingFlag(Bool_t blocked = kFALSE) { fbBlockMonitoring = blocked; }
@@ -227,9 +227,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
       static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
 
-      /** preserve fit result functions contained in any graphlike objects*/
+      /** preserve fit result functions contained in any graph-like objects*/
       static void UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr);
-
 
       TString            fxDataPath;    //!
       TString            fxBrowserPath; //!
