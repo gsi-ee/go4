@@ -1244,10 +1244,10 @@ void TGo4MainWindow::SaveFileSlot()
 
    QString fname = flst[0];
    fLastFileDir = fd.directory().path();
-   if (fname.indexOf(".root", 0, Qt::CaseInsensitive)<0) fname+=".root";
+   if (fname.indexOf(".root", 0, Qt::CaseInsensitive)<0) fname += ".root";
 
    if (!Browser()->SaveBrowserToFile(fname.toLatin1().constData(), go4sett->getFetchDataWhenSave()))
-     QMessageBox::warning(this, "Save data to file", "Specified file can not be created");
+      QMessageBox::warning(this, "Save data to file", "Specified file can not be created");
 }
 
 void TGo4MainWindow::CloseAllFilesSlot()
@@ -2802,7 +2802,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
 
 void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 {
-   if (panel==0) return;
+   if (!panel) return;
 
    TCanvas* can = panel->GetCanvas();
 
@@ -2824,6 +2824,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    QString TIFF = "TIFF format (*.tiff)";
 
    QString CXXM = "C++ Macro (*.C)";
+   QString JSONM = "json file (*.json)";
    QString ROOTM = "root file (*.root)";
 
    QStringList flt;
@@ -2843,6 +2844,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    flt << TIFF;
 
    flt << CXXM;
+   flt << JSONM;
    flt << ROOTM;
 
    fd.setNameFilters(flt);
@@ -2850,9 +2852,8 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    if (fd.exec() != QDialog::Accepted) return;
 
 
-   bool blankbg=go4sett->getSavePadWhiteBackground();
-   if(blankbg)
-   {
+   bool blankbg = go4sett->getSavePadWhiteBackground();
+   if(blankbg) {
      can = (TCanvas*) panel->GetCanvas()->Clone();
      can->SetName("PrintoutPad");
      //std::cout << "SavePanelCanvas has cloned panel canvas! "<< can->GetName()<< std::endl;
@@ -2867,61 +2868,66 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    const char* opt = "ps";
 
-   if(filter==EPS) {
+   if (filter == EPS) {
       opt = "eps";
-      if (!filename.endsWith(".eps")) filename.append(".eps");
-   } else
-   if(filter==EPS_Preview) {
+      if (!filename.endsWith(".eps"))
+         filename.append(".eps");
+   } else if (filter == EPS_Preview) {
       opt = "Preview";
-      if (!filename.endsWith(".eps")) filename.append(".eps");
-   } else
-   if(filter==PS) {
+      if (!filename.endsWith(".eps"))
+         filename.append(".eps");
+   } else if (filter == PS) {
       opt = "ps";
-      if (!filename.endsWith(".ps")) filename.append(".ps");
-   } else
-   if(filter==PS_Portrait) {
+      if (!filename.endsWith(".ps"))
+         filename.append(".ps");
+   } else if (filter == PS_Portrait) {
       opt = "Portrait";
-      if (!filename.endsWith(".ps")) filename.append(".ps");
-   } else
-   if(filter==PS_Landscape) {
+      if (!filename.endsWith(".ps"))
+         filename.append(".ps");
+   } else if (filter == PS_Landscape) {
       opt = "Landscape";
-      if (!filename.endsWith(".ps")) filename.append(".ps");
-   } else
-   if(filter==GIF) {
+      if (!filename.endsWith(".ps"))
+         filename.append(".ps");
+   } else if (filter == GIF) {
       opt = "gif";
-      if (!filename.endsWith(".gif")) filename.append(".gif");
-   } else
-   if(filter==PDF) {
+      if (!filename.endsWith(".gif"))
+         filename.append(".gif");
+   } else if (filter == PDF) {
       opt = "pdf";
-      if (!filename.endsWith(".pdf")) filename.append(".pdf");
-   } else
-   if(filter==SVG) {
+      if (!filename.endsWith(".pdf"))
+         filename.append(".pdf");
+   } else if (filter == SVG) {
       opt = "svg";
-      if (!filename.endsWith(".svg")) filename.append(".svg");
-   } else
-   if(filter==XPM) {
+      if (!filename.endsWith(".svg"))
+         filename.append(".svg");
+   } else if (filter == XPM) {
       opt = "xpm";
-      if (!filename.endsWith(".xpm")) filename.append(".xpm");
-   } else
-   if(filter==PNG) {
+      if (!filename.endsWith(".xpm"))
+         filename.append(".xpm");
+   } else if (filter == PNG) {
       opt = "png";
-      if (!filename.endsWith(".png")) filename.append(".png");
-   } else
-   if(filter==JPG) {
+      if (!filename.endsWith(".png"))
+         filename.append(".png");
+   } else if (filter == JPG) {
       opt = "jpg";
-      if (!filename.endsWith(".jpg")) filename.append(".jpg");
-   } else
-   if(filter==TIFF) {
+      if (!filename.endsWith(".jpg"))
+         filename.append(".jpg");
+   } else if (filter == TIFF) {
       opt = "tiff";
-      if (!filename.endsWith(".tiff")) filename.append(".tiff");
-   } else
-   if(filter==CXXM) {
+      if (!filename.endsWith(".tiff"))
+         filename.append(".tiff");
+   } else if (filter == CXXM) {
       opt = "cxx";
-      if (!filename.endsWith(".C")) filename.append(".C");
-   } else
-   if (filter==ROOTM) {
+      if (!filename.endsWith(".C"))
+         filename.append(".C");
+   } else if (filter == JSONM) {
+      opt = "json";
+      if (!filename.endsWith(".json"))
+         filename.append(".json");
+   } else if (filter == ROOTM) {
       opt = "root";
-      if (!filename.endsWith(".root")) filename.append(".root");
+      if (!filename.endsWith(".root"))
+         filename.append(".root");
    }
 
    if(blankbg) {
