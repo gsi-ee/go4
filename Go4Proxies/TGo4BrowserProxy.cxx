@@ -748,18 +748,18 @@ TGo4Slot* TGo4BrowserProxy::FindServerSlot(Bool_t databranch, Int_t kind)
    TGo4Slot* dataslot = fxOM->GetSlot(fxDataPath.Data());
 
    TGo4Iter iter(dataslot, kTRUE);
-   TGo4Slot* res = 0;
+   TGo4Slot* res = nullptr;
 
    while (iter.next()) {
 
       TGo4Slot* slot = iter.getslot();
-      if (slot==0) continue;
+      if (!slot) continue;
 
       if (kind > 0) {
          TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*> (slot->GetProxy());
-         if ((serv==0) || ((kind==1) && !serv->IsGo4Analysis())) continue;
+         if (!serv || ((kind == 1) && !serv->IsGo4Analysis())) continue;
       } else {
-         if (dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy())==0) continue;
+         if (!dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy())) continue;
       }
 
       res = slot;
@@ -781,10 +781,10 @@ TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
    DataSlotName(itemname, slotname);
 
    TGo4Slot* slot = fxOM->FindSlot(slotname.Data());
-   if ((slot==0) || (itemname==0))
+   if (!slot || !itemname)
      slot = FindServerSlot(kTRUE);
 
-   return slot==0 ? 0 : dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy());
+   return slot ? dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy()) : nullptr;
 }
 
 TGo4ServerProxy* TGo4BrowserProxy::FindServer(const char* itemname, Bool_t asanalysis)
@@ -795,24 +795,24 @@ TGo4ServerProxy* TGo4BrowserProxy::FindServer(const char* itemname, Bool_t asana
    DataSlotName(itemname, slotname);
 
    TGo4Slot* slot = fxOM->FindSlot(slotname.Data());
-   if ((slot==0) || (itemname==0))
+   if (!slot || !itemname)
      slot = FindServerSlot(kTRUE, asanalysis ? 1 : 2);
 
-   return slot==0 ? 0 : dynamic_cast<TGo4ServerProxy*>(slot->GetProxy());
+   return !slot ? nullptr : dynamic_cast<TGo4ServerProxy*>(slot->GetProxy());
 }
 
 TString TGo4BrowserProxy::FindItemInAnalysis(const char* objname)
 {
-   TGo4Slot* analslot = FindServerSlot(kTRUE);
-   if ((analslot==0) || (objname==0)) return TString("");
+   TGo4Slot *analslot = FindServerSlot(kTRUE, 1); // any kind of go4 analysis is ok
+   if (!analslot || !objname) return TString("");
 
    TGo4Iter iter(analslot);
    while (iter.next()) {
-      if (strcmp(iter.getname(), objname)!=0) continue;
+      if (strcmp(iter.getname(), objname) != 0) continue;
       TString res;
       analslot->ProduceFullName(res, DataSlot(""));
-      res+="/";
-      res+=iter.getfullname();
+      res += "/";
+      res += iter.getfullname();
       return res;
    }
 
@@ -826,7 +826,7 @@ TString TGo4BrowserProxy::FindItem(const char* objname)
 
    TGo4Iter iter(topslot);
    while (iter.next())
-      if (strcmp(iter.getname(), objname)==0)
+      if (strcmp(iter.getname(), objname) == 0)
          return iter.getfullname();
 
    return TString("");
