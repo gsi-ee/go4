@@ -35,9 +35,8 @@ JSROOT.require("painter").then(jsrp => {
       }
 
       drawMarker() {
-         let g = this.createG(); // can draw in complete pad
-
-         let marker = this.getObject();
+         let g = this.createG(), // can draw in complete pad
+             marker = this.getObject();
 
          this.createAttMarker({ attr: marker });
 
@@ -531,19 +530,24 @@ JSROOT.require("painter").then(jsrp => {
       if (!option) option = "";
 
       let condpainter = new ConditionPainter(dom, cond),
-          elem = condpainter.selectDom();
+          elem = condpainter.selectDom(),
+          main = condpainter.getMainPainter();
 
-      if (GO4.web_canvas || (option.indexOf('same') >= 0) || condpainter.getMainPainter()) {
-         condpainter.drawCondition();
-         condpainter.drawLabel();
-         condpainter.addToPadPrimitives();
+      if (GO4.web_canvas || (option.indexOf('same') >= 0) || main) {
+         if (main) {
+            // draw only when histogram is drawn already
+            condpainter.drawCondition();
+            condpainter.drawLabel();
+            condpainter.addToPadPrimitives();
+         }
          return Promise.resolve(condpainter);
       }
 
       // from here normal code for plain THttpServer
       if ((option=='editor') || !cond.fxHistoName) {
          // failure, should never happens!
-         if (!GO4.source_dir) return null;
+         if (!GO4.source_dir)
+            return Promise.resolve(null);
 
          let rect = elem.node().getBoundingClientRect();
          if ((rect.height < 10) && (rect.width > 10))
