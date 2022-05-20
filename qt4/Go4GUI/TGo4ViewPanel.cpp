@@ -623,7 +623,7 @@ TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
                   drawkind = kind_Poly;
             }
          }
-         if (selkind != 0)
+         if (selkind)
             *selkind = drawkind;
          if (selobj)
             *selobj = obj;
@@ -635,7 +635,7 @@ TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
 
 bool TGo4ViewPanel::IsConditionSelected(TPad* pad)
 {
-   TGo4Slot* slot = GetSelectedSlot(pad, 0, 0);
+   TGo4Slot* slot = GetSelectedSlot(pad, nullptr, nullptr);
    if (!slot)
       return false;
 
@@ -720,7 +720,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
    int oldselindex = GetSelectedMarkerIndex(pad);
    QString oldselname = GetSelectedMarkerName(pad);
 
-   TGo4Slot* oldsel = GetSelectedSlot(pad, 0, 0);
+   TGo4Slot* oldsel = GetSelectedSlot(pad, nullptr, nullptr);
    if (oldsel != 0)
       SetSpecialDrawOption(oldsel, 0);
 
@@ -783,7 +783,7 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
       if (drawkind != kind_Condition) continue;
       TGo4Condition* cond =
             dynamic_cast<TGo4Condition*>(subslot->GetAssignedObject());
-      if (cond==0) continue;
+      if (!cond) continue;
 
       if (strcmp(cond->GetName(), name) == 0) {
          SetSelectedMarker(pad, name, -1);
@@ -823,9 +823,9 @@ void TGo4ViewPanel::StartConditionEditing(TPad* pad)
    TGo4LockGuard lock;
 
    int selectedkind;
-   TGo4Slot* selslot = GetSelectedSlot(GetActivePad(), &selectedkind, 0);
+   TGo4Slot* selslot = GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
 
-   if (selslot == 0)
+   if (!selslot)
       return;
 
    if (selectedkind == kind_Window) {
@@ -875,7 +875,7 @@ void TGo4ViewPanel::SwitchMarkerButton(int kind, bool on)
             break;
       }
       int selectedkind;
-      TGo4Slot* selslot = GetSelectedSlot(GetActivePad(), &selectedkind, 0);
+      TGo4Slot* selslot = GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
       if (selectedkind != kind)
          SetSelectedMarker(GetActivePad(), "", -1);
    }
@@ -937,10 +937,9 @@ void TGo4ViewPanel::RefreshButtons()
    EditConditionBtn->setVisible(iscondition);
    SetConditionBtn->setVisible(iscondition);
    if (iscondition) {
-      TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
-      TGo4Condition* cond =
-            slot == 0 ? 0 : dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
-      ModifyConditionBtn->setVisible((cond != 0) && (cond->IsChanged() != 0));
+      TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
+      TGo4Condition* cond = !slot ? nullptr : dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
+      ModifyConditionBtn->setVisible(cond && (cond->IsChanged() != 0));
 
       QString iconname = ":/icons/right.png";
       QString tooltip = "Refresh condition from analysis";
@@ -1081,9 +1080,9 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
    }
 
    int drawkind = 0;
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), &drawkind, 0);
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), &drawkind, nullptr);
 
-   if ((slot != 0) && (drawkind > 0)) {
+   if (slot && (drawkind > 0)) {
       SetActiveObj(GetActivePad(), drawkind, slot);
       SwitchMarkerButton(drawkind, true);
    } else
@@ -1093,8 +1092,8 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
 void TGo4ViewPanel::DelSelectedMarker_clicked()
 {
    if (!fbTypingMode) return;
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
-   if (slot == 0) return;
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
+   if (!slot) return;
    delete slot;
    SetSelectedMarker(GetActivePad(), "", -1);
    RedrawPanel(GetActivePad(), true);
@@ -1120,14 +1119,14 @@ void TGo4ViewPanel::LogMarkerValues()
       return;
 
    TGo4Slot* slot = GetPadSlot(GetActivePad());
-   if (slot == 0)
+   if (!slot)
       return;
 
    for (int n = 0; n < slot->NumChilds(); n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       int drawkind = GetDrawKind(subslot);
       TObject* obj = subslot->GetAssignedObject();
-      if ((drawkind < kind_Condition) || (obj == 0))
+      if ((drawkind < kind_Condition) || !obj)
          continue;
       switch (drawkind) {
          case kind_Marker:
@@ -1153,7 +1152,7 @@ void TGo4ViewPanel::ClearAllMarkers()
    TGo4LockGuard lock;
 
    TPad* pad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
-   if (pad == 0)
+   if (!pad)
       pad = GetCanvas();
 
    ProcessMarkersClear(pad, IsApplyToAllFlag());
@@ -1173,23 +1172,23 @@ void TGo4ViewPanel::ProcessMarkersClear(TPad *pad, bool withsubpads)
    if (!withsubpads) return;
 
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0) return;
+   if (!slot) return;
 
    TGo4Iter iter(slot, true);
    while (iter.next()) {
       TPad* subpad = GetSlotPad(iter.getslot());
-      if (subpad != 0)
+      if (subpad)
          ProcessMarkersClear(subpad, false);
    }
 }
 
 void TGo4ViewPanel::GetConditionBtn_clicked()
 {
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition)
       return;
    const char* itemname = GetLinkedName(slot);
-   if (itemname == 0)
+   if (!itemname)
       return;
 
    Browser()->GetBrowserObject(itemname, 2);
@@ -1199,32 +1198,32 @@ void TGo4ViewPanel::GetConditionBtn_clicked()
 
 void TGo4ViewPanel::InfoConditionBtn_clicked()
 {
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition)
       return;
    const char* itemname = GetLinkedName(slot);
-   if (itemname != 0)
+   if (itemname)
       ShowItemInfo(itemname);
 }
 
 void TGo4ViewPanel::EditConditionBtn_clicked()
 {
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition) return;
    const char* itemname = GetLinkedName(slot);
-   if (itemname != 0)
+   if (itemname)
       EditItem(itemname);
 }
 
 void TGo4ViewPanel::SetConditionBtn_clicked()
 {
-   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
+   TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition) return;
    const char* itemname = GetLinkedName(slot);
-   if (itemname != 0) {
+   if (itemname) {
       UpdateItemInAnalysis(itemname);
       TGo4Condition* cond = dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
-      if(cond!=0) cond->SetChanged(kFALSE);
+      if(cond) cond->SetChanged(kFALSE);
       RefreshButtons();
    }
 }
@@ -1269,7 +1268,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 
    raise();
 
-   if (pad == 0) {
+   if (!pad) {
       if (!fxWCanvas) {
          GetCanvas()->SetSelected(0);
          GetCanvas()->SetSelectedPad(0);
@@ -1304,7 +1303,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
    TGo4LockGuard lock;
    SetActivePad(pad);
 
-   if (pad == 0)
+   if (!pad)
       return;
    if ((px<0) || (py<0)) {
       px = pad->GetEventX();
@@ -1387,12 +1386,12 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                AddMarkerObj(pad, kind_Window, conny);
             } else
                conny = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
-            if(conny==0) return;
+            if(!conny) return;
             fiPickCounter++;
          } else
             if (fiPickCounter==1) {
                conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
-               if(conny==0) return;
+               if(!conny) return;
                xmin = conny->GetXLow();
                ymin = conny->GetYLow();
                fiPickCounter=0;
@@ -1408,7 +1407,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          else
             conny->SetValues(xmin, xmax);
 
-         TGo4Slot* condslot = GetSelectedSlot(pad, 0, 0);
+         TGo4Slot* condslot = GetSelectedSlot(pad, nullptr, nullptr);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
                   dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
@@ -1429,7 +1428,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
       case kMousePickPolygon: {
        // std::cout <<"TGo4ViewPanel:PadClickedSlot() in kMousePickPolygon, fiPickCounter="<<fiPickCounter << std::endl;
          gROOT->SetEditorMode("");
-         TGo4PolyCond* cond = 0;
+         TGo4PolyCond* cond = nullptr;
 
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
@@ -1447,43 +1446,43 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
                cond = dynamic_cast<TGo4PolyCond*>(GetActiveObj(pad, kind_Poly));
                // start region from the beginning
-               if (cond!=0) {
+               if (cond) {
                   TCutG* cut = cond->GetCut(kTRUE);
                   delete cut;
                }
             }
-            if(cond==0) return;
+            if(!cond) return;
             fiPickCounter++;
          } else {
             cond = dynamic_cast<TGo4PolyCond*> (GetActiveObj(pad, kind_Poly));
-            if(cond==0) return;
+            if(!cond) return;
             fiPickCounter++;
          }
 
-         if (cond != 0) {
-            TCutG* cut = cond->GetCut(kFALSE);
+         if (cond) {
+            TCutG *cut = cond->GetCut(kFALSE);
             // this insert point in last mouse position
-            if (cut == 0) {
+            if (!cut) {
                cut = new TCutG(TGo4PolyCond::NextAvailableName(), 1);
                cut->SetPoint(0, x, y);
                cut->SetPoint(1, x, y); // JAM2019- otherwise we will lose first point to zero when defining next ones
                cond->SetValuesDirect(cut);
             } else {
-               //cut->InsertPoint(); // JAM2019 - this gives ROOT6 error also without webcanvas
-        	cut->SetPoint(fiPickCounter, x, y);
+               // cut->InsertPoint(); // JAM2019 - this gives ROOT6 error also without webcanvas
+               cut->SetPoint(fiPickCounter, x, y);
             }
 
             cond->SetChanged();
 
             int ix = GetNumMarkers(pad, kind_Poly);
 
-            cond->SetLineColor(GetAutoColor(ix%9 + 1));
-            cond->SetFillColor(GetAutoColor(ix%9 + 1));
+            cond->SetLineColor(GetAutoColor(ix % 9 + 1));
+            cond->SetFillColor(GetAutoColor(ix % 9 + 1));
             cond->SetFillStyle(3002);
          }
 
          // mark condition
-         TGo4Slot* condslot = GetSelectedSlot(pad, 0, 0);
+         TGo4Slot* condslot = GetSelectedSlot(pad, nullptr, nullptr);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
                   dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
@@ -1493,10 +1492,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          if (iscreated)
             cond->Draw("");
          CanvasUpdate(true);
-//         std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for polygon"<<std::endl;
-
-
-         // RedrawPanel(pad, true);
          break;
       }
 
@@ -1588,11 +1583,11 @@ void TGo4ViewPanel::CheckActionAtTheEnd(TPad* pad)
 //      QString selname = GetSelectedMarkerName(pad);
 //      int selindex = GetSelectedMarkerIndex(pad);
 //      if (selindex>=0) {
-//         TGo4Slot* slot = GetSelectedSlot(pad, 0, 0);
-//         TGo4CondArray* arr = 0;
-//         if (slot!=0)
+//         TGo4Slot* slot = GetSelectedSlot(pad, nullptr, nullptr);
+//         TGo4CondArray* arr = nullptr;
+//         if (slot)
 //           arr = dynamic_cast<TGo4CondArray*> (slot->GetAssignedObject());
-//         if (arr!=0) {
+//         if (arr) {
 //           if (selindex<arr->GetNumber()-1) {
 //              SetSelectedMarker(pad, selname, selindex+1);
 //              goback = false;
@@ -2591,12 +2586,12 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
 
       TH1* h1 = dynamic_cast<TH1*>(link->GetObject());
       // access axis properties of graphs
-      if(h1==0) {
+      if(!h1) {
          TGraph* gr = dynamic_cast<TGraph*> (link->GetObject());
          if(gr) h1 = Get_fHistogram(gr);
       }
 
-      if (h1 != 0) {
+      if (h1) {
          TPaveStats* stats =
                dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject("stats"));
          if (h1->TestBit(TH1::kNoStats)) {
@@ -2631,9 +2626,8 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
    if (pad == GetCanvas())
       fbCanvasCrosshair = pad->HasCrosshair();
 
-   TPaveText* titl =
-         dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject("title"));
-   if(titl) {
+   TPaveText *titl = dynamic_cast<TPaveText *>(pad->GetListOfPrimitives()->FindObject("title"));
+   if (titl) {
       pic->SetTitleAttr(titl);
       optchanged = true;
    }
@@ -2652,7 +2646,7 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot,
    TGo4Picture* pic = GetPadOptions(padslot);
 
    TPad* pad = GetSlotPad(padslot);
-   if ((pad != 0) && (pic != 0)) {
+   if (pad && pic) {
       if (padslot->GetPar("::DrawOptAssigned") != 0) {
          pic->SetDrawAttributes(pad, TGo4Picture::PictureIndex);
       } else if (!onlyscan) {
@@ -2661,14 +2655,14 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot,
       }
    }
 
-   if ((padslot == 0) || (pic == 0) || (objs == 0) || (objslots == 0))
+   if (!padslot || !pic || !objs || !objslots)
       return;
 
    for (int n = 0; n <= objs->GetLast(); n++) {
       TObject* obj = objs->At(n);
       TGo4Slot* subslot = (TGo4Slot*) objslots->At(n);
 
-      if ((obj == 0) || (subslot == 0))
+      if (!obj || !subslot)
          continue;
 
       if (subslot->GetPar("::DrawOptAssigned") != 0) {
@@ -2686,7 +2680,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
    // modifier == 0 - no objects can be deleted
    //          == 1 - objects of same types should be in the list
    //          == 2 - only last object survive
-   if ((slot == 0) || (objs == 0))
+   if (!slot || !objs)
       return;
 
    TObjArray mainslots;
@@ -2702,7 +2696,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
 
       TObject* obj = subslot->GetAssignedObject();
 
-      if (obj == 0)
+      if (!obj)
          continue;
 
       int objtype = 0;
@@ -2748,11 +2742,10 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
          deletesomething = kTRUE;
       } else {
          objs->Add(obj);
-         if (objslots != 0)
+         if (objslots)
             objslots->Add(subslot);
-         TGo4DrawCloneProxy* pr =
-               dynamic_cast<TGo4DrawCloneProxy*>(subslot->GetProxy());
-         if(pr!=0) {
+         TGo4DrawCloneProxy *pr = dynamic_cast<TGo4DrawCloneProxy *>(subslot->GetProxy());
+         if (pr) {
             pr->UpdateTitle();
             pr->PerformRebin();
          }
@@ -2768,9 +2761,9 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
       Int_t kind = GetDrawKind(subslot);
       if ((kind >= kind_Additional) && (kind < kind_Specials)) {
          TObject* obj = subslot->GetAssignedObject();
-         if (obj != 0) {
+         if (obj) {
             objs->Add(obj);
-            if (objslots != 0)
+            if (objslots)
                objslots->Add(subslot);
          }
       }
@@ -2778,7 +2771,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
 }
 
 int TGo4ViewPanel::GetAutoColor(int indx) {
-   if (indx<0) indx = 0;
+   if (indx < 0) indx = 0;
 
    switch (indx % 10) {
       case 0: return kBlack;
@@ -4890,7 +4883,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
       case 6: { // Auto zoom, but ignore selected range
          TH1* padhist = dynamic_cast<TH1*>(padobj);
 
-         if (padhist==0) break;
+         if (!padhist) break;
 
          if (naxis >= ndim) break;
 
@@ -4902,16 +4895,16 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          Int_t sel_l = sel ? axis->GetFirst() : 0;
          Int_t sel_r = sel ? axis->GetLast() : axis->GetNbins();
 
-         Int_t firstbin(0), lastbin(0);
+         Int_t firstbin = 0, lastbin = 0;
 
          // X axis in case of 1-dim histogram
-         if ((ndim==1) && (naxis==0)) {
+         if ((ndim==1) && (naxis == 0)) {
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++) {
                Double_t v = padhist->GetBinContent(n1);
                if (TMath::Abs(v)<1e-10) continue;
                if ((n1<sel_l) || (n1>sel_r)) continue;
                lastbin = n1;
-               if (firstbin==0) firstbin = n1;
+               if (firstbin == 0) firstbin = n1;
             }
          }
 
@@ -5243,7 +5236,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    if (padopt->IsHisStats() && isthishisto) {
       TPaveStats* stats =
             dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject("stats"));
-      if (stats==0) {
+      if (!stats) {
          stats = new TPaveStats(
                gStyle->GetStatX()-gStyle->GetStatW(),
                gStyle->GetStatY()-gStyle->GetStatH(),
@@ -5262,7 +5255,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       TPaveText* titl =
             dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject("title"));
 
-      if (titl==0) {
+      if (!titl) {
          titl = new TPaveText(gStyle->GetTitleX()-gStyle->GetTitleW(),
                gStyle->GetTitleY()-gStyle->GetTitleH(),
                gStyle->GetTitleX(),
@@ -5775,14 +5768,13 @@ TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
    int selkind;
    TObject* selobj;
    TGo4Slot* selslot = GetSelectedSlot(pad, &selkind, &selobj);
-   if ((kind == selkind) && (selobj != 0))
+   if ((kind == selkind) && selobj)
       return selobj;
 
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0)
-      return 0;
+   if (!slot) return nullptr;
 
-   TObject* lastobj = 0;
+   TObject* lastobj = nullptr;
 
    for (int n = 0; n < slot->NumChilds(); n++) {
       TGo4Slot* subslot = slot->GetChild(n);
@@ -5801,7 +5793,7 @@ TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
 QString TGo4ViewPanel::GetActiveObjName(TPad* pad, int kind)
 {
    TObject* obj = GetActiveObj(pad, kind);
-   return (obj == 0) ? QString("null") : QString(obj->GetName());
+   return !obj ? QString("null") : QString(obj->GetName());
 }
 
 void TGo4ViewPanel::OptionsMenuItemActivated(int id)
