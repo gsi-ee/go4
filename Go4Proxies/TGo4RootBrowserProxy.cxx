@@ -345,18 +345,17 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
 
 void TGo4RootBrowserProxy::DrawCondition(const char* itemname, TGo4Condition* con)
 {
-   if ((con==0) || (fBrowser==0)) return;
+   if (!con || !fBrowser) return;
 
    const char* hname = con->GetLinkedHistogram();
    TString hitemname;
 
-   TH1* h1 = 0;
+   TH1* h1 = nullptr;
 
-   if ((hname!=0) &&
-      fBrowser->DefineRelatedObject(itemname, hname, hitemname))
-      h1 = dynamic_cast<TH1*> (fBrowser->GetBrowserObject(hitemname.Data(), 5000));
+   if (hname && fBrowser->DefineRelatedObject(itemname, hname, hitemname))
+      h1 = dynamic_cast<TH1 *>(fBrowser->GetBrowserObject(hitemname.Data(), 5000));
 
-   if (h1==0) return;
+   if (!h1) return;
 
    TCanvas* c1 = MakeCanvas(TString("Condition ") + con->GetName() + " on histo " + h1->GetName());
 
@@ -372,7 +371,7 @@ void TGo4RootBrowserProxy::DrawCondition(const char* itemname, TGo4Condition* co
 
 void TGo4RootBrowserProxy::DrawItem(const char* itemname)
 {
-   if ((itemname==0) || (fBrowser==0)) return;
+   if (!itemname || !fBrowser) return;
 
    Int_t cando = fBrowser->ItemCanDo(itemname);
 

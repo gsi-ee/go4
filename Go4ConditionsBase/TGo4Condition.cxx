@@ -513,8 +513,8 @@ void TGo4Condition::GetValues(Int_t & dim, Double_t & xmin, Double_t & xmax, Dou
 Int_t TGo4Condition::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName()!=0) size+=strlen(GetName());
-   if (GetTitle()!=0) size+=strlen(GetTitle());
+   if (GetName()) size += strlen(GetName());
+   if (GetTitle()) size += strlen(GetTitle());
    return size;
 }
 
@@ -563,7 +563,7 @@ void TGo4Condition::Enable()
 
 void TGo4Condition::SetHistogram(const char* name)
 {
-   if ((name==0) || (*name==0)) {
+   if (!name || (*name == 0)) {
       fxHistoName = "";
       fbHistogramLink = false;
    } else {
