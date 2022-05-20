@@ -301,7 +301,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       cond = SelectedCondition();
    }
 
-   ModifyButton->setVisible((panel!=0) && (!arr || (fiSelectedIndex>=0)));
+   ModifyButton->setVisible(panel && (!arr || (fiSelectedIndex >= 0)));
 
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
@@ -332,7 +332,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    QString infolbl;
 
    const char* hname = cond->GetLinkedHistogram();
-   if (!hname || (*hname==0)) {
+   if (!hname || (*hname == 0)) {
       HistogramChk->setChecked(false);
       HistogramChk->setText("null");
       HistogramChk->setEnabled(false);
@@ -352,11 +352,11 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    CondVisibleChk->setVisible(true);
    CondVisibleChk->setChecked(cond->IsVisible());
 
-   if (panel!=0) {
-     if (infolbl.length()>0) infolbl+="  ";
+   if (panel) {
+     if (infolbl.length() > 0) infolbl+="  ";
      infolbl += "Drawn: ";
      infolbl += panel->objectName();
-     if ((pad!=0) && (pad!=(TPad*)panel->GetCanvas())) {
+     if (pad && (pad != (TPad*)panel->GetCanvas())) {
         infolbl += ", ";
         infolbl += pad->GetName();
      }
@@ -750,16 +750,17 @@ void TGo4ConditionEditor::SaveCondition()
 void TGo4ConditionEditor::DrawCondition(bool useactive)
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return;
+   if (!cond) return;
 
    const char* conditemname = GetLinkedName("Condition");
-   if (conditemname==0) return;
+   if (!conditemname) return;
 
-   TGo4ViewPanel* panel = 0;
+   TGo4ViewPanel* panel = nullptr;
 
-   if (useactive) panel = LastActivePanel();
-   if (panel!=0) {
-      DrawItem(conditemname, panel, 0, false, 0);
+   if (useactive)
+      panel = LastActivePanel();
+   if (panel) {
+      DrawItem(conditemname, panel, nullptr, false, 0);
       RedrawCondition();
       RefreshWidget(false);
       panel->setFocus();
@@ -768,10 +769,10 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
    }
 
    panel = WhereItemDrawn(conditemname);
-   TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
+   TPad* pad = panel ? panel->FindPadWithItem(conditemname) : nullptr;
 
-   if (panel!=0) {
-      if (pad!=0)
+   if (panel) {
+      if (pad)
          RedrawCondition();
       else {
          DrawItem(conditemname, panel, panel->GetActivePad(), false, 0);
@@ -784,39 +785,39 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
       return;
    }
 
-   const char* hname = 0;
+   const char* hname = nullptr;
    if (cond->IsHistogramLink())
       hname = cond->GetLinkedHistogram();
    TString hitemname;
 
    TGo4BrowserProxy* br = Browser();
 
-   if (hname!=0)
-      if (br->DefineRelatedObject(conditemname, hname, hitemname)) {
-        panel = DrawItem(hitemname.Data(), 0);
-        RemoveLink("Histogram");
-        AddLink(hitemname.Data(), "Histogram");
-        DrawItem(conditemname, panel, 0, false, 0);
-        RefreshWidget(false);
-        RedrawCondition();
-        panel->setFocus();
-        setFocus();
-      }
+   if (hname && br->DefineRelatedObject(conditemname, hname, hitemname)) {
+      panel = DrawItem(hitemname.Data(), nullptr);
+      RemoveLink("Histogram");
+      AddLink(hitemname.Data(), "Histogram");
+      DrawItem(conditemname, panel, nullptr, false, 0);
+      TPad *pad = panel->FindPadWithItem(conditemname);
+      RefreshWidget(false);
+      RedrawCondition();
+      panel->setFocus();
+      setFocus();
+   }
 }
 
 void TGo4ConditionEditor::RedrawCondition()
 {
    const char* conditemname = GetLinkedName("Condition");
-   if (conditemname==0) return;
+   if (!conditemname) return;
 
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return;
+   if (!cond) return;
 
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
-   if (panel==0) return;
+   if (!panel) return;
 
    TPad* pad = panel->FindPadWithItem(conditemname);
-   if (pad==0) return;
+   if (!pad) return;
 
    panel->SetSelectedMarker(pad, cond->GetName(), fiSelectedIndex);
    panel->MarkPadModified(pad);
@@ -825,13 +826,12 @@ void TGo4ConditionEditor::RedrawCondition()
 
 void TGo4ConditionEditor::PrintConditionLog()
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond!=0)
-     {
-       cond->PrintCondition(kFALSE); // JAM want additional output of specific infos, no poly coords
-       cond->Print("go4log-limits-stats");
-     }
+   TGo4Condition *cond = dynamic_cast<TGo4Condition *>(GetLinked("Condition", 0));
+   if (cond) {
+      cond->PrintCondition(kFALSE); // JAM want additional output of specific infos, no poly coords
+      cond->Print("go4log-limits-stats");
    }
+}
 
 bool TGo4ConditionEditor::PrepareForAnalysis()
 {
