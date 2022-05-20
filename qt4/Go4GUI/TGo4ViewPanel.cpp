@@ -431,7 +431,7 @@ void TGo4ViewPanel::linkedUpdated(TGo4Slot* slot, TObject* obj)
          || (kind == kind_Latex) || (kind == kind_Func)) {
       TGo4Picture* padopt = GetPadOptions(padslot);
 
-      if (padopt != 0) {
+      if (padopt) {
          padopt->SetContentModified(true);
          padopt->SetPadModified();
 
@@ -650,12 +650,12 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
          const char* linkname = GetLinkedName(subslot);
-         if (linkname != 0)
+         if (linkname)
             if (strcmp(linkname, itemname) == 0)
                return GetSlotPad(subslot->GetParent());
       }
    }
-   return 0;
+   return nullptr;
 }
 
 const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
@@ -668,13 +668,13 @@ const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition)) {
          const char* linkname = GetLinkedName(subslot);
-         if (linkname != 0) {
+         if (linkname) {
             if (cnt++ == itemcnt) return linkname;
          }
       }
    }
 
-   return 0;
+   return nullptr;
 }
 
 
@@ -690,11 +690,11 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
          const char* linkname = GetLinkedName(subslot);
-         if ((linkname != 0) && (strcmp(linkname, itemname) == 0)) {
+         if (linkname && (strcmp(linkname, itemname) == 0)) {
             delslots.Add(subslot);
             TGo4Slot* padslot = subslot->GetParent();
             TGo4Picture* padopt = GetPadOptions(padslot);
-            if (padopt != 0)
+            if (padopt)
                padopt->SetPadModified();
          }
       }
@@ -711,7 +711,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
    TGo4LockGuard lock;
 
    TGo4Slot* padslot = GetPadSlot(pad);
-   if (padslot == 0)
+   if (!padslot)
       return;
 
    if (selname.length() == 0)
@@ -721,7 +721,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
    QString oldselname = GetSelectedMarkerName(pad);
 
    TGo4Slot* oldsel = GetSelectedSlot(pad, nullptr, nullptr);
-   if (oldsel != 0)
+   if (oldsel)
       SetSpecialDrawOption(oldsel, 0);
 
    if (selname.length() > 0)
@@ -735,10 +735,10 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
       padslot->RemovePar("::SelIndex");
 
    int newselkind = 0;
-   TObject* newselobj = 0;
+   TObject* newselobj = nullptr;
    TGo4Slot* newselslot = GetSelectedSlot(pad, &newselkind, &newselobj);
 
-   if ((selindex >= 0) && (newselslot != 0)) {
+   if ((selindex >= 0) && newselslot) {
       QString drawopt("sel=");
       drawopt += QString::number(selindex);
       SetSpecialDrawOption(newselslot, drawopt.toLatin1().constData());
@@ -748,7 +748,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
          && ((oldselindex >= 0) || (selindex >= 0))) {
       MarkPadModified(pad);
       ShootRepaintTimer(pad);
-   } else if (newselobj != 0) {
+   } else if (newselobj) {
       // this will bring object to the top
       newselobj->Pop();
       // very special case, normally one should not call pad->Update()
@@ -763,7 +763,7 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
 
    if (!fbMarkEditorVisible) return;
    TGo4Slot* padslot = GetPadSlot(pad);
-   if (padslot == 0) return;
+   if (!padslot) return;
 
    bool find = false;
 
@@ -773,7 +773,7 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
       if ((drawkind == kind_Marker) || (drawkind == kind_Window)
             || (drawkind == kind_Poly)) {
          TObject* obj = subslot->GetAssignedObject();
-         if ((obj != 0) && (strcmp(obj->GetName(), name) == 0)) {
+         if (obj && (strcmp(obj->GetName(), name) == 0)) {
             SetSelectedMarker(pad, name, -1);
             SetActiveObj(pad, drawkind, subslot);
             find = true;
@@ -799,7 +799,7 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
       }
 
       TGo4CondArray* arr = dynamic_cast<TGo4CondArray*>(cond);
-      if (arr == 0)
+      if (!arr)
          continue;
 
       for (int ncon = 0; ncon < arr->GetNumber(); ncon++)
@@ -1015,7 +1015,7 @@ void TGo4ViewPanel::RefreshButtons()
    QString selname = GetSelectedMarkerName(GetActivePad());
    int selindex = GetSelectedMarkerIndex(GetActivePad());
 
-   if (slot != 0)
+   if (slot)
       for (int n = 0; n < slot->NumChilds(); n++) {
          TGo4Slot* subslot = slot->GetChild(n);
          int drawkind = GetDrawKind(subslot);
@@ -1065,9 +1065,9 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
 {
    if (!fbTypingMode)
       return;
-   if (indx == 0)
+   if (indx == 0) {
       SetSelectedMarker(GetActivePad(), "", -1);
-   else {
+   } else {
       QString selname = SelectedMarkerCmb->itemText(indx);
       int selindex = -1;
       int p = selname.indexOf("/Sub");
@@ -1321,7 +1321,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
    switch (fiMouseMode) {
       case kMouseROOT: {
          TObject *obj = GetCanvas()->GetSelected();
-         if (obj != 0)
+         if (obj)
             if (obj->InheritsFrom(TGo4Marker::Class())
                   || obj->InheritsFrom(TGo4WinCondView::Class())
                   || obj->InheritsFrom(TGo4PolyCondView::Class()))
@@ -1898,7 +1898,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
          TObject* obj = subslot->GetAssignedObject();
          const char* drawopt = GetSpecialDrawOption(subslot);
 
-         if (obj != 0) {
+         if (obj) {
             if (dynamic_cast<TLatex*>(obj) || dynamic_cast<TF1*>(obj)) {
                // test here if we have local object or monitored remote one
                if (dynamic_cast<TGo4ObjectProxy*>(subslot->GetProxy())) {
@@ -1906,7 +1906,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
                   pic->AddSpecialObject(obj->Clone(), drawopt);
                } else if (dynamic_cast<TGo4LinkProxy*>(subslot->GetProxy())) {
                   const char* itemname = GetLinkedName(subslot);
-                  if (itemname != 0)
+                  if (itemname)
                      pic->AddObjName(itemname, drawopt);
                } else {
                   TGo4Log::Error("MakePictureForPad NEVER COME HERE, unknown proxy type");
@@ -1915,9 +1915,9 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
                obj = obj->Clone();
 
                TGo4Marker* mark = dynamic_cast<TGo4Marker*>(obj);
-               if (mark != 0) mark->DeletePainter();
+               if (mark) mark->DeletePainter();
                TGo4Condition* cond = dynamic_cast<TGo4Condition*>(obj);
-               if (cond != 0) cond->DeletePainter();
+               if (cond) cond->DeletePainter();
 
                pic->AddSpecialObject(obj, drawopt);
             }
@@ -1951,7 +1951,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
    for (int n = 0; n < slot->NumChilds(); n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TPad* subpad = GetSlotPad(subslot);
-      if (subpad != 0)
+      if (subpad)
          pads.Add(subpad);
    }
    if (pads.GetLast() < 0)
@@ -2009,7 +2009,6 @@ void TGo4ViewPanel::PrintCanvas()
 void TGo4ViewPanel::StartRootEditor()
 {
    bool visible = false;
-   std::cout << "DDDDDDDDD TGo4ViewPanel::StartRootEditor()" << std::endl;
    if (fxQCanvas) {
 #ifdef __GO4X11__
       if (!fxQCanvas->isEditorAllowed()) return;
@@ -2045,7 +2044,7 @@ void TGo4ViewPanel::StartRootEditor()
 void TGo4ViewPanel::StartConditionEditor()
 {
    TGo4Slot* padslot = GetPadSlot(GetActivePad());
-   if (padslot == 0)
+   if (!padslot)
       return;
 
    for (int n = 0; n < padslot->NumChilds(); n++) {
@@ -2054,7 +2053,7 @@ void TGo4ViewPanel::StartConditionEditor()
       if (drawkind != kind_Condition)
          continue;
       const char* itemname = GetLinkedName(subslot);
-      if (itemname != 0) {
+      if (itemname) {
          EditItem(itemname);
          return;
       }
@@ -2063,12 +2062,12 @@ void TGo4ViewPanel::StartConditionEditor()
 
 void TGo4ViewPanel::RectangularRatio(TPad *pad)
 {
-   if (pad == 0) return;
+   if (!pad) return;
 
-   double defleft =gStyle->GetPadLeftMargin(); // always refer to ideal margins
-   double defright =gStyle->GetPadRightMargin();
-   double deftop =gStyle->GetPadTopMargin();
-   double defbottom =gStyle->GetPadBottomMargin();
+   double defleft = gStyle->GetPadLeftMargin(); // always refer to ideal margins
+   double defright = gStyle->GetPadRightMargin();
+   double deftop = gStyle->GetPadTopMargin();
+   double defbottom = gStyle->GetPadBottomMargin();
 
    double dx = fabs(pad->AbsPixeltoX(1) - pad->AbsPixeltoX(0));
    double dy = fabs(pad->AbsPixeltoY(1) - pad->AbsPixeltoY(0));
@@ -2145,7 +2144,7 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
 
 void TGo4ViewPanel::DefaultPadMargin(TPad *pad)
 {
-   if (pad == 0) return;
+   if (!pad) return;
    pad->SetLeftMargin(gStyle->GetPadLeftMargin());
    pad->SetRightMargin(gStyle->GetPadRightMargin());
    pad->SetTopMargin(gStyle->GetPadTopMargin());
@@ -2155,7 +2154,7 @@ void TGo4ViewPanel::DefaultPadMargin(TPad *pad)
 void TGo4ViewPanel::ClearActivePad()
 {
    TPad* pad = GetActivePad();
-   if (pad == 0)
+   if (!pad)
       pad = GetCanvas();
 
    ClearPad(pad, true, false);
@@ -2177,7 +2176,7 @@ void TGo4ViewPanel::ClearCanvas()
 void TGo4ViewPanel::AboutToShowOptionsMenu()
 {
    TPad* pad = GetActivePad();
-   if (pad == 0)
+   if (!pad)
       pad = GetCanvas();
 
    TGo4Picture *padopt = GetPadOptions(pad);
@@ -2198,7 +2197,6 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
    SetIdAction(fOptionsMap, AxisTimeDisplayId, true,
          padopt->IsXAxisTimeDisplay());
    SetIdAction(fOptionsMap, SetXYRatioOneId, true, padopt->IsXYRatioOne());
-
 }
 
 void TGo4ViewPanel::SelectMenuItemActivated(int id)
@@ -2218,7 +2216,7 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
       selected = id - FirstSelectId;
 
    TGo4Slot* slot = GetPadSlot(GetActivePad());
-   if (slot == 0)
+   if (!slot)
       return;
 
    int wasselected = GetSelectedObjectIndex(slot);
@@ -2256,7 +2254,7 @@ void TGo4ViewPanel::ShowEventStatus()
 
 void TGo4ViewPanel::UpdatePadStatus(TPad* pad, bool removeitems)
 {
-   if (GetPadSlot(pad) == 0)
+   if (!GetPadSlot(pad))
       return;
 
    BlockPanelRedraw(true);
@@ -2264,23 +2262,22 @@ void TGo4ViewPanel::UpdatePadStatus(TPad* pad, bool removeitems)
    BlockPanelRedraw(false);
 }
 
-void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
-      bool removeitems)
+void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool removeitems)
 {
-   if (pad == 0)
+   if (!pad)
       return;
 
-   TGo4Slot* slot = 0;
+   TGo4Slot* slot = nullptr;
 
    bool setdefaults = false;
-   if (parent == 0) {
+   if (!parent) {
       slot = GetPadSlot(pad);
-      if (slot == 0)
+      if (!slot)
          return;
    } else {
       slot = parent->FindChild(pad->GetName());
       // create slot for subpad if not existing
-      if (slot == 0) {
+      if (!slot) {
          slot = AddNewSlot(pad->GetName(), parent);
          SetDrawKind(slot, kind_PadSlot);
          setdefaults = true;
@@ -2304,12 +2301,12 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
       isdupluicate = false;
       TIter iter(pad->GetListOfPrimitives());
       TObject* obj = 0;
-      while ((obj = iter()) != 0) {
+      while ((obj = iter()) != nullptr) {
          TPad* subpad = dynamic_cast<TPad*>(obj);
-         if (subpad == 0)
+         if (!subpad)
             continue;
          issubpads = true;
-         if (subpads.FindObject(subpad->GetName()) != 0)
+         if (subpads.FindObject(subpad->GetName()))
             isdupluicate = true;
          if (!isdupluicate)
             subpads.Add(subpad);
@@ -2327,8 +2324,8 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
    for (int n = slot->NumChilds() - 1; n >= 0; n--) {
       TGo4Slot* subslot = slot->GetChild(n);
       TPad* subpad = GetSlotPad(subslot);
-      if (subpad != 0) {
-         if (pad->GetListOfPrimitives()->FindObject(subpad) == 0)
+      if (subpad) {
+         if (!pad->GetListOfPrimitives()->FindObject(subpad))
             delete subslot;
          else
             issubpads = true;
@@ -2343,10 +2340,10 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
 
    TIter iter(pad->GetListOfPrimitives());
    TObjArray removedItems;
-   TObject* obj = 0;
-   while ((obj = iter()) != 0) {
+   TObject* obj = nullptr;
+   while ((obj = iter()) != nullptr) {
       TPad* subpad = dynamic_cast<TPad*>(obj);
-      if (subpad != 0)
+      if (subpad)
          ProcessPadStatusUpdate(subpad, slot, removeitems);
       else
          removedItems.Add(obj);
@@ -2363,9 +2360,9 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
 {
    TGo4Slot* padslot = GetPadSlot(pad);
 
-   if (padslot == 0) {
+   if (!padslot) {
       if (owner) delete obj;
-      return 0;
+      return nullptr;
    }
 
    //std::cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << std::endl;
@@ -2374,18 +2371,18 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    if (kind < 100)
       ClearPad(pad, false, true);
 
-   TGo4Slot* tgtslot = 0;
+   TGo4Slot* tgtslot = nullptr;
 
    if (kind == kind_Link) {
       TClass* cl = Browser()->ItemClass(itemname);
-      if ((cl != 0) && cl->InheritsFrom(TGo4Condition::Class()))
+      if (cl && cl->InheritsFrom(TGo4Condition::Class()))
          UndrawItem(itemname);
 
 //      std::cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << std::endl;
 
       TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
 
-      if (brslot != 0) {
+      if (brslot) {
          tgtslot = AddNewSlot(brslot->GetName(), padslot);
          SetLinkedName(tgtslot, itemname);
          if (fbCloneFlag)
@@ -2396,22 +2393,21 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    } else {
 
       QString newslotname = itemname;
-      if ((newslotname.length() == 0)
-            || (padslot->FindChild(newslotname.toLatin1().constData()) != 0)) {
+      if ((newslotname.length() == 0) || padslot->FindChild(newslotname.toLatin1().constData())) {
          int cnt = 0;
          do {
-            if ((itemname == 0) || (*itemname == 0))
+            if (!itemname || (*itemname == 0))
                newslotname = "::SpecialObject_";
             else
                newslotname = itemname;
             newslotname += QString::number(cnt++);
-         } while (padslot->FindChild(newslotname.toLatin1().constData()) != 0);
+         } while (padslot->FindChild(newslotname.toLatin1().constData()));
       }
       tgtslot = AddNewSlot(newslotname.toLatin1().constData(), padslot);
       tgtslot->SetProxy(new TGo4ObjectProxy(obj, owner));
    }
 
-   if (tgtslot == 0) return 0;
+   if (!tgtslot) return nullptr;
 
    if (kind < 100)
       CallPanelFunc(panel_Modified, pad);
@@ -2421,10 +2417,10 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    SetSpecialDrawOption(tgtslot, drawopt);
 
    TGo4Picture* padopt = GetPadOptions(padslot);
-   if (padopt != 0) {
+   if (padopt) {
       padopt->SetContentModified(true);
       padopt->SetPadModified();
-      if ((kind < 100) && (drawopt != 0))
+      if ((kind < 100) && drawopt)
          padopt->SetDrawOption(drawopt, TGo4Picture::PictureIndex);
    }
 
@@ -2435,26 +2431,26 @@ TGo4Slot* TGo4ViewPanel::GetDrawObjectSlot(TPad* pad, const char* name)
 {
    TGo4Slot* slot = GetPadSlot(pad);
 
-   return slot == 0 ? 0 : slot->FindChild(name);
+   return !slot ? nullptr : slot->FindChild(name);
 }
 
 TObject* TGo4ViewPanel::GetDrawObject(TPad* pad, const char* name)
 {
    TGo4Slot* subslot = GetDrawObjectSlot(pad, name);
 
-   return subslot == 0 ? 0 : subslot->GetAssignedObject();
+   return !subslot ? nullptr : subslot->GetAssignedObject();
 }
 
 void TGo4ViewPanel::DeleteDrawObject(TPad* pad, const char* name)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
 
-   TGo4Slot* subslot = padslot == 0 ? 0 : padslot->FindChild(name);
+   TGo4Slot* subslot = !padslot ? nullptr : padslot->FindChild(name);
 
-   if (subslot != 0) {
+   if (subslot) {
       delete subslot;
       TGo4Picture* padopt = GetPadOptions(padslot);
-      if (padopt != 0)
+      if (padopt)
          padopt->SetPadModified();
    }
 }
@@ -2462,7 +2458,7 @@ void TGo4ViewPanel::DeleteDrawObject(TPad* pad, const char* name)
 void TGo4ViewPanel::DeleteDrawObject(TPad* pad, TObject* obj)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
-   if (padslot == 0)
+   if (!padslot)
       return;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot* subslot = padslot->GetChild(n);
@@ -2475,11 +2471,10 @@ void TGo4ViewPanel::DeleteDrawObject(TPad* pad, TObject* obj)
    }
 }
 
-void TGo4ViewPanel::CollectSpecialObjects(TPad* pad, TObjArray* objs,
-      int selectkind)
+void TGo4ViewPanel::CollectSpecialObjects(TPad *pad, TObjArray *objs, int selectkind)
 {
    TGo4Slot* slot = GetPadSlot(pad);
-   if ((slot == 0) || (objs == 0))
+   if (!slot || !objs)
       return;
 
    for (int n = 0; n < slot->NumChilds(); n++) {
@@ -2489,7 +2484,7 @@ void TGo4ViewPanel::CollectSpecialObjects(TPad* pad, TObjArray* objs,
          continue;
       if ((kind != kind_Link) && ((selectkind < 0) || (kind == selectkind))) {
          TObject* obj = subslot->GetAssignedObject();
-         if (obj != 0)
+         if (obj)
             objs->Add(obj);
       }
    }
@@ -2500,7 +2495,7 @@ bool TGo4ViewPanel::DeleteDrawObjects(TPad* pad, int kindtodelete)
    TGo4Slot* slot = GetPadSlot(pad);
    TGo4Picture* padopt = GetPadOptions(slot);
 
-   if ((slot == 0) || (padopt == 0))
+   if (!slot || !padopt)
       return false;
 
    bool res = false;
@@ -2524,7 +2519,7 @@ bool TGo4ViewPanel::DeleteDrawObjects(TPad* pad, int kindtodelete)
 void TGo4ViewPanel::SetPadSuperImpose(TPad* pad, bool on)
 {
    TGo4Picture* padopt = GetPadOptions(pad);
-   if (padopt != 0) {
+   if (padopt) {
       padopt->SetSuperimpose(on);
       padopt->SetPadModified();
    }
@@ -2533,7 +2528,7 @@ void TGo4ViewPanel::SetPadSuperImpose(TPad* pad, bool on)
 void TGo4ViewPanel::ProcessPadModifiedSignal()
 {
    fbModifiedSignalFlag = false;
-   if (GetActivePad() == 0)
+   if (!GetActivePad())
       return;
 
    if (ScanDrawOptions(GetActivePad(), GetPadSlot(GetActivePad()),
@@ -2546,13 +2541,13 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
 {
    TGo4LockGuard lock;
 
-   if ((pad == 0) || (pic == 0) || (padslot == 0))
+   if (!pad || !pic || !padslot)
       return false;
 
    bool optchanged = false;
    TObjLink* link = pad->GetListOfPrimitives()->FirstLink();
 
-   while (link != 0) {
+   while (link) {
       const char* clname = link->GetObject()->ClassName();
       if ((strcmp(clname, "TFrame") == 0) || (strcmp(clname, "TLegend") == 0)) {
 
@@ -2567,11 +2562,10 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
    }
 
    // take draw options from first drawn object
-   if (link != 0) {
+   if (link) {
 
       TString newopt(link->GetOption());
-      Int_t drawoptindx =
-            GetSuperimposeSlot(padslot) == 0 ? 0 : TGo4Picture::PictureIndex;
+      Int_t drawoptindx = !GetSuperimposeSlot(padslot) ? 0 : TGo4Picture::PictureIndex;
       TString oldopt(pic->GetDrawOption(drawoptindx));
 
       while (newopt.BeginsWith(NoStackDrawOption, TString::kIgnoreCase))
@@ -2770,7 +2764,8 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
    }
 }
 
-int TGo4ViewPanel::GetAutoColor(int indx) {
+int TGo4ViewPanel::GetAutoColor(int indx)
+{
    if (indx < 0) indx = 0;
 
    switch (indx % 10) {
@@ -2794,7 +2789,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
                              TGo4Slot* sislot, TGo4Slot* legslot, TObjArray* objs,
                              TObjArray * objslots, bool showitems)
 {
-   if ((sislot == 0) || (objs == 0) || (padopt == 0)) return 0;
+   if (!sislot || !objs || !padopt) return nullptr;
    TObject* oldobj = sislot->GetAssignedObject();
 
    Bool_t ishstack = kFALSE;
