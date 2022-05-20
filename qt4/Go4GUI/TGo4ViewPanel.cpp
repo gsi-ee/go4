@@ -500,7 +500,7 @@ void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl, int
          && !cl->InheritsFrom(TGo4Condition::Class()))
       return;
 
-   if (AddDrawObject(pad, kind_Link, itemname, 0, false, 0) == 0) return;
+   if (!AddDrawObject(pad, kind_Link, itemname, 0, false, nullptr)) return;
 
    SetActivePad(pad);
 
@@ -1022,7 +1022,7 @@ void TGo4ViewPanel::RefreshButtons()
          if ((drawkind == kind_Marker) || (drawkind == kind_Window)
                || (drawkind == kind_Poly) || (drawkind == kind_Condition)) {
             TObject* obj = subslot->GetAssignedObject();
-            if (obj == 0)
+            if (!obj)
                continue;
 
             if (obj->InheritsFrom(TGo4CondArray::Class())) {
@@ -1162,7 +1162,7 @@ void TGo4ViewPanel::ClearAllMarkers()
 
 void TGo4ViewPanel::ProcessMarkersClear(TPad *pad, bool withsubpads)
 {
-   if (pad == 0) return;
+   if (!pad) return;
 
    DeleteDrawObjects(pad, kind_Marker);
    DeleteDrawObjects(pad, kind_Window);
@@ -1720,7 +1720,7 @@ void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
 
 void TGo4ViewPanel::ProcessPadDoubleClick()
 {
-   if (fxDoubleClickTimerPad == 0) return;
+   if (!fxDoubleClickTimerPad) return;
 
    if (GetNumberOfPads(GetCanvas()) <= 1)  {
       MoveScale(1,0,0,0);
@@ -1730,7 +1730,7 @@ void TGo4ViewPanel::ProcessPadDoubleClick()
 
    TGo4Picture pic;
    MakePictureForPad(&pic, fxDoubleClickTimerPad, true);
-   fxDoubleClickTimerPad = 0;
+   fxDoubleClickTimerPad = nullptr;
 
    if (pic.GetNumObjNames() == 0) return;
 
@@ -1852,7 +1852,7 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    // copy marker values to array:
    for (Int_t j = 0; j < npts; ++j) {
       TGo4Marker* mark = dynamic_cast<TGo4Marker*>(markers[j]);
-      if (mark == 0) {
+      if (!mark) {
          std::cout << "NEVER COME HERE: no marker at index " << j << std::endl;
          return;
       }
@@ -1873,7 +1873,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
 {
    TGo4Picture* padopt = GetPadOptions(pad);
    TGo4Slot* slot = GetPadSlot(pad);
-   if ((padopt == 0) || (slot == 0)) return;
+   if (!padopt || !slot) return;
 
    pic->CopyOptionsFrom(padopt);
 
@@ -2955,7 +2955,7 @@ void TGo4ViewPanel::Divide(int numX, int numY)
    TPad* pad = GetActivePad();
 
    TGo4Slot* padslot = GetPadSlot(pad);
-   if ((pad == 0) || (padslot == 0)) return;
+   if (!pad || !padslot) return;
 
    ClearPad(pad, true, true);
    RedrawPanel(pad, true);
@@ -2975,7 +2975,7 @@ void TGo4ViewPanel::Divide(int numX, int numY)
 void TGo4ViewPanel::SetSlotPad(TGo4Slot* padslot, TPad* pad)
 {
    TGo4Slot* tgtslot = padslot->FindChild("::ThisPad");
-   if (tgtslot == 0)
+   if (!tgtslot)
       tgtslot = new TGo4Slot(padslot, "::ThisPad", "Special object");
    tgtslot->SetProxy(new TGo4ObjectProxy(pad, kFALSE));
    SetDrawKind(tgtslot, kind_ThisPad);
@@ -3038,7 +3038,7 @@ bool TGo4ViewPanel::IsPanelPad(TPad* pad)
 
 int TGo4ViewPanel::GetNumberOfPads(TPad* toppad)
 {
-   if (toppad == 0)
+   if (!toppad)
       toppad = GetCanvas();
    int number = 1;
    TGo4Iter iter(GetPadSlot(toppad), kTRUE);
@@ -3056,7 +3056,7 @@ TPad* TGo4ViewPanel::GetSubPad(TPad* toppad, int num, bool onlytoplevel)
       toppad = GetCanvas();
    TGo4Slot* slot = GetPadSlot(toppad);
    if (!slot)
-      return 0;
+      return nullptr;
 
    int cnt = -1;
    if (!onlytoplevel || !IsPadHasSubPads(slot))
@@ -3151,7 +3151,7 @@ TCanvas* TGo4ViewPanel::GetCanvas()
       return fxWCanvas->getCanvas();
 #endif
 
-   return 0;
+   return nullptr;
 }
 
 void TGo4ViewPanel::CanvasUpdate(bool modify)
@@ -3210,7 +3210,7 @@ TH1* TGo4ViewPanel::GetPadHistogram(TPad *pad)
    TGo4Slot* padslot = GetPadSlot(pad);
 
    if (!pad || !padslot)
-      return 0;
+      return nullptr;
 
    TObject* obj = nullptr;
 
@@ -3284,8 +3284,7 @@ void TGo4ViewPanel::UpdatePanelCaption()
 
    int selected = GetSelectedObjectIndex(slot);
 
-   if ((selected > objs.GetLast())
-         || ((selected == TGo4Picture::PictureIndex) && (sislot == 0))) {
+   if ((selected > objs.GetLast()) || ((selected == TGo4Picture::PictureIndex) && !sislot)) {
       SetSelectedObjectIndex(slot, 0);
       selected = 0;
    }
@@ -3381,7 +3380,7 @@ int TGo4ViewPanel::GetDrawKind(TGo4Slot* slot)
 
 const char* TGo4ViewPanel::GetSpecialDrawOption(TGo4Slot* slot)
 {
-   return (slot == 0) ? 0 : slot->GetPar("::DrawOpt");
+   return !slot ? nullptr : slot->GetPar("::DrawOpt");
 }
 
 void TGo4ViewPanel::SetSelectedObjectIndex(TGo4Slot* slot, int indx)
@@ -3420,7 +3419,7 @@ TObject* TGo4ViewPanel::GetSelectedObject(TPad * pad, const char** drawopt)
    CollectMainDrawObjects(slot, &objs, &objslots, 0);
 
    if (objs.GetLast() < 0)
-      return 0;
+      return nullptr;
 
    if ((indx > objs.GetLast()) || (indx < 0))
       indx = 0;
@@ -4186,7 +4185,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    hs->Draw(drawopt.Data());
    // do not access histogram in web canvas - causes redraw of the complete canvas
    TH1* framehisto = Get_fHistogram(hs, true);
-   if (framehisto == 0) return;
+   if (!framehisto) return;
 
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
@@ -4438,7 +4437,7 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
 {
    TGo4LockGuard lock;
    TGo4Picture* subopt = GetPadOptions(padslot);
-   if (subopt == 0) return;
+   if (!subopt) return;
    switch (kind) {
       case 0:
       case 1:
@@ -4759,7 +4758,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
       while (iter.next()) {
          TPad* subpad = GetSlotPad(iter.getslot());
          padopt = GetPadOptions(subpad);
-         if (padopt == 0) continue;
+         if (!padopt) continue;
 
          TObject* padhist = GetPadMainObject(subpad);
 
@@ -4947,7 +4946,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
 void TGo4ViewPanel::TakeFullRangeFromHisto(TH1* h1, TGo4Picture* padopt, bool isfirsthisto)
 {
-   if ((h1 == 0) || (padopt == 0)) return;
+   if (!h1 || !padopt) return;
 
    TAxis* xax = h1->GetXaxis();
    TAxis* yax = h1->GetYaxis();
@@ -5002,7 +5001,7 @@ void TGo4ViewPanel::TakeFullRangeFromHisto(TH1* h1, TGo4Picture* padopt, bool is
 
 void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bool isfirst)
 {
-   if ((gr == 0) || (padopt == 0)) return;
+   if (!gr || !padopt) return;
 
    Double_t minx(0), maxx(0), miny(0), maxy(0), xx, yy;
    if (isfirst) {
@@ -5039,7 +5038,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 {
    // set selected range, stats and title position for histogram
 
-   if ((h1 == 0) || (padopt == 0) || (pad == 0)) return;
+   if (!h1 || !padopt || !pad) return;
 
    int ndim = padopt->GetFullRangeDim();
 
@@ -5072,7 +5071,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (!autoscale && (ndim == 1)) {
          hmin = umin;
          hmax = umax;
-         ay = 0;
+         ay = nullptr;
       }
 
       // note: go4 range was full visible range of histogram
@@ -5445,7 +5444,7 @@ void TGo4ViewPanel::GetSelectedRange(int& ndim, bool& autoscale, double& xmin,
 {
    ndim = 0;
    TGo4Picture* padopt = GetPadOptions(GetActivePad());
-   if (padopt == 0) return;
+   if (!padopt) return;
 
    ndim = padopt->GetFullRangeDim();
    autoscale = padopt->IsAutoScale();
@@ -5536,7 +5535,7 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
       while (iter.next()) {
          TPad* subpad = GetSlotPad(iter.getslot());
          padopt = GetPadOptions(subpad);
-         if (padopt == 0)
+         if (!padopt)
             continue;
          Int_t ndim = padopt->GetFullRangeDim();
          TakeSelectedAxisRange(0, padopt, xmin, xmax, true);
@@ -5810,7 +5809,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
       case SetTimeFormatId: {
          bool ok = false;
          TPad* pad = GetActivePad();
-         if (pad == 0) pad = GetCanvas();
+         if (!pad) pad = GetCanvas();
          TGo4Picture *padopt = GetPadOptions(pad);
          QString oldfmt = padopt->GetXAxisTimeFormat();
          QString text = QInputDialog::getText(this, GetPanelName(),
