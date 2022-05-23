@@ -94,16 +94,14 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
    fCanvas = new TCanvas("Canvas", width(), height(), fRootWindowId);
 
-#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-#endif
    //std::cout <<"Found Qt scaling factor:"<<fQtScalingfactor << std::endl;
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;
-   fMenuMethods = 0;
-   fMenuObj = 0;
+   fMenuMethods = nullptr;
+   fMenuObj = nullptr;
 
    setAcceptDrops(true);
 
@@ -112,12 +110,12 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fRepaintTimer->setSingleShot(true);
    connect(fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
 
-   fEditorFrame = 0;
-   fxPeditor = 0;
-   fxRooteditor = 0;
-   fDummyHisto = 0;
+   fEditorFrame = nullptr;
+   fxPeditor = nullptr;
+   fxRooteditor = nullptr;
+   fDummyHisto = nullptr;
 
-   fStatusBar = 0;
+   fStatusBar = nullptr;
 }
 
 QRootCanvas::~QRootCanvas()
@@ -127,29 +125,29 @@ QRootCanvas::~QRootCanvas()
 
    if (fDummyHisto) {
       delete fDummyHisto;
-      fDummyHisto = 0;
+      fDummyHisto = nullptr;
    }
 
 #ifndef __NOGO4GED__
    if (gTQSender == getCanvas())
-      gTQSender = 0;
+      gTQSender = nullptr;
 
    // prevent problems with root's subeditor cache
    if (fxPeditor != 0) {
       fxPeditor->DeleteEditors();
       delete fxPeditor;
-      fxPeditor = 0;
+      fxPeditor = nullptr;
    }
 #endif
 
    if(fCanvas) {
       delete fCanvas;
-      fCanvas = 0;
+      fCanvas = nullptr;
    }
 
    if (fMenuMethods) {
       delete fMenuMethods;
-      fMenuMethods = 0;
+      fMenuMethods = nullptr;
    }
 
    delete fRepaintTimer;
@@ -245,7 +243,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
    TGo4LockGuard threadlock;
    (void) threadlock; // suppress compiler warnings
 
-   TObjLink* pickobj = 0;
+   TObjLink* pickobj = nullptr;
    // JAM2016-9 test
 //    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
 
@@ -291,12 +289,11 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         break;
      case Qt::RightButton : {
         TString selectedOpt("");
-        if (pad!=0) {
-           if (pickobj==0) {
+        if (pad) {
+           if (!pickobj) {
               fCanvas->SetSelected(pad);
               selected = pad;
-           } else
-           if(selected==0) {
+           } else if(!selected) {
               selected    = pickobj->GetObject();
               selectedOpt = pickobj->GetOption();
            }
@@ -323,27 +320,27 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         menu.addSeparator();
 
         if(!cl->InheritsFrom(TLatex::Class())) {
-           addMenuAction(&menu, &map, "Insert Latex", 100 );
+           addMenuAction(&menu, &map, "Insert Latex", 100);
            menu.addSeparator();
         }
 
         if(cl->InheritsFrom(TH1::Class())) {
-          addMenuAction(&menu, &map, "Qt Hist Line Color ", 101 );
-          addMenuAction(&menu, &map, "Qt Hist Fill Color ", 102 );
+          addMenuAction(&menu, &map, "Qt Hist Line Color ", 101);
+          addMenuAction(&menu, &map, "Qt Hist Fill Color ", 102);
           menu.addSeparator();
         }
 
         TIter iter(fMenuMethods);
-        TMethod *method=0;
-        while ( (method = dynamic_cast<TMethod*>(iter())) != 0) {
+        TMethod *method = nullptr;
+        while ((method = dynamic_cast<TMethod*>(iter())) != nullptr) {
            buffer = method->GetName();
            addMenuAction(&menu, &map, buffer, curId++);
         }
 
-        if (menu.exec(mouse_pnt)==0) {
-           fMenuObj = 0;
+        if (menu.exec(mouse_pnt) == 0) {
+           fMenuObj = nullptr;
            delete fMenuMethods;
-           fMenuMethods = 0;
+           fMenuMethods = nullptr;
         }
 
         break;
@@ -398,7 +395,7 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
             fCanvas->HandleInput(kButton1Double, scaled.x(), scaled.y());
-         TObjLink* pickobj = 0;
+         TObjLink* pickobj = nullptr;
          TPad* pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
          emit PadDoubleClicked(pad);
          // prevent crash on following release event
@@ -441,7 +438,7 @@ void QRootCanvas::paintEvent( QPaintEvent *)
    // therefore fRepaintMode set to -1 to ignore such first event
    // In future behavior may change
 
-   if (fRepaintMode<0)
+   if (fRepaintMode < 0)
       fRepaintMode = 0;
    else
       activateRepaint(act_Update);
@@ -484,7 +481,7 @@ void QRootCanvas::leaveEvent( QEvent *e )
    TGo4LockGuard threadlock;
    (void) threadlock; // suppress compiler warnings
 
-   if (fCanvas!=0)
+   if (fCanvas)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
 
    emit CanvasLeaveEvent();
@@ -881,7 +878,7 @@ void  QRootCanvas::closeEvent(QCloseEvent * e)
 {
     if (fCanvas) {
        delete fCanvas;
-       fCanvas = 0;
+       fCanvas = nullptr;
     }
 
     e->accept();
@@ -889,7 +886,7 @@ void  QRootCanvas::closeEvent(QCloseEvent * e)
 
 void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 {
-   if ((object==0) || (method==0)) return;
+   if (!object || !method) return;
 
    TGo4LockGuard threadlock;
    (void) threadlock; // suppress compiler warnings
@@ -960,7 +957,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
          // Find out whether we have options ...
 
          TList *opt;
-         if ((opt = m->GetOptions()) != 0) {
+         if ((opt = m->GetOptions()) != nullptr) {
             //std::cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << std::endl;
             // should stop dialog
             // workaround JAM: do not stop dialog, use textfield (for time display toggle)
@@ -1028,7 +1025,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
          emit MenuCommandExecuted(object, method->GetName());
       else {
         deletion = true;
-        object = 0;
+        object = nullptr;
       }
    }
 
@@ -1065,7 +1062,6 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
    menu->addAction(act);
    map->setMapping(act, id);
 
-
    return act;
 }
 
@@ -1100,7 +1096,7 @@ void QRootCanvas::executeMenu(int id)
             }
            break;
         }
-        case 102 : {
+        case 102: {
            TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
            if (h1!=0) {
               QColor col = QColorDialog::getColor();
@@ -1149,7 +1145,7 @@ void QRootCanvas::executeMenu(int id)
          if (fMenuObj->TestBit(TObject::kNotDeleted)) {
             emit MenuCommandExecuted(fMenuObj, method->GetName());
          } else {
-            fMenuObj = 0;
+            fMenuObj = nullptr;
          }
 
       }
@@ -1200,12 +1196,10 @@ void QRootCanvas::toggleEditor()
    bool flag = !isEditorVisible();
 
    fEditorFrame->setVisible(flag);
-   if (flag && (fxPeditor == 0)) {
-#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+   if (flag && !fxPeditor) {
       // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
-      double scalefactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+      double scalefactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
       fEditorFrame->setMinimumWidth( fEditorFrame->minimumWidth()/scalefactor);
-#endif
 
 // JAM 5-2019: this part was moved to buildEditorWindow() because of init problems with Qt 4
 //      std::cout<< "QRootCanvas::toggleEditor() will create Rooteditor" <<std::endl;
