@@ -112,9 +112,9 @@ int main(int argc, char **argv)
    int dologin = -1;
    const char* loghost = "localhost";
    int logport = 5000;
-   const char* logpass = 0;
+   const char* logpass = nullptr;
 
-   bool prepare_for_client(false), traceon(false), usergui(false), useweb(false);
+   bool prepare_for_client = false, traceon = false, usergui = false, useweb = false;
 
 #ifndef __GO4X11__
 #ifdef __GO4WEB__
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-   QString hotstart(""), dabcnode("");
+   QString hotstart, dabcnode;
    QStringList files, httpnodes;
 
    for(int narg=1;narg<argc;narg++) {
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
    const char* _env = gSystem->Getenv("GO4SETTINGS");
 
    QString settfile;
-   if (_env!=0) settfile = _env;
+   if (_env) settfile = _env;
 
    if(iswin32 || settfile.isEmpty() || settfile.contains("ACCOUNT")) {
       settfile = "";
