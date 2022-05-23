@@ -392,7 +392,7 @@ void TGo4HttpAccess::httpFinished()
       // printf("History %s\n", res.data());
 
       XMLDocPointer_t doc = xml->ParseString(res.data());
-      if (doc==0) return;
+      if (!doc) return;
 
       XMLNodePointer_t top = xml->DocGetRootElement(doc);
 
@@ -409,16 +409,12 @@ void TGo4HttpAccess::httpFinished()
 
       chld = top;
       Int_t i = cnt-1;
-      while (chld!=0) {
-         const char* time = xml->GetAttr(chld, "time");
-         const char* value = xml->GetAttr(chld, "value");
+      while (chld) {
+         const char *time = xml->GetAttr(chld, "time");
+         const char *value = xml->GetAttr(chld, "value");
          if (time && value) {
             QDateTime tm = QDateTime::fromString(time, Qt::ISODate);
-#if QT_VERSION < QT_VERSION_CHECK(5,8,0)
-            gr->SetPoint(i, tm.toTime_t(), TString(value).Atof());
-#else
             gr->SetPoint(i, tm.toSecsSinceEpoch(), TString(value).Atof());
-#endif
             i = (i+1) % cnt;
          }
          chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);
@@ -433,12 +429,12 @@ void TGo4HttpAccess::httpFinished()
 
       TClass* obj_cl = GetObjectClass();
 
-      if (gDebug>2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
+      if (gDebug > 2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
 
-      if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+      if (!obj_cl || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
 
       obj = (TObject*) obj_cl->New();
-      if (obj==0) {
+      if (!obj) {
          printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
          return;
       }
@@ -449,11 +445,10 @@ void TGo4HttpAccess::httpFinished()
       obj->Streamer(buf);
 
       // workaround - when ratemeter received, check running state
-      if (obj->IsA() == TGo4Ratemeter::Class()) {
+      if (obj->IsA() == TGo4Ratemeter::Class())
          fProxy->fbAnalysisRunning = ((TGo4Ratemeter*) obj)->IsRunning();
-      }
 
-      if ((fKind==6) && (obj!=0))
+      if (fKind == 6)
          fProxy->SetAnalysisReady(kTRUE);
 
    }

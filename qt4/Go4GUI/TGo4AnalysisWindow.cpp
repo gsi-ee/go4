@@ -369,11 +369,7 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
 #ifdef _MSC_VER
        setWindowTitle("Analysis Terminal [with QProcess]");
 #else
-#if QT_VERSION < QT_VERSION_CHECK(5,3,0)
-       setWindowTitle(QString("Analysis Terminal [pid:%1]").arg((qint64)fAnalysisProcess->pid()));
-#else
        setWindowTitle(QString("Analysis Terminal [pid:%1]").arg(fAnalysisProcess->processId()));
-#endif
 #endif
     }
 }
