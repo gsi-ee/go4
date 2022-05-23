@@ -34,12 +34,8 @@
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
-   fQtScalingfactor = 1.0;
-
-#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-#endif
 
    setObjectName( "QWebCanvas");
 

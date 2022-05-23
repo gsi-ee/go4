@@ -82,12 +82,9 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
       //std::cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< std::endl;
       fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       fxRootwindow->Resize();
-      if ( parent ) parent->installEventFilter( this );
-#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
-   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
-   fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-#endif
-
+      if (parent) parent->installEventFilter( this );
+      // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
+      fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
    }
 }
 

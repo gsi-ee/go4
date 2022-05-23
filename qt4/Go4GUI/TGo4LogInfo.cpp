@@ -82,26 +82,22 @@ void TGo4LogInfo::AddMessage(const QDateTime& dt, int level, QString msg)
 void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
 {
    TList* lst = dynamic_cast<TList*>(obj);
-   if (lst != 0) {
+   if (lst) {
       TListIter iter(lst, kFALSE);
-      TObject* obj = 0;
-      while ((obj = iter()) != 0) {
+      TObject* obj = nullptr;
+      while ((obj = iter()) != nullptr) {
          // first item is id of current status message, used to submit next request
-         if (obj==lst->First()) continue;
+         if (obj == lst->First()) continue;
 
          const char* msg = obj->GetName();
 
          const char* separ = strchr(msg,':');
-         if ((separ==0) || (strlen(separ)<3)) continue;
+         if (!separ || (strlen(separ)<3)) continue;
 
          Long64_t tm = TString(msg, separ-msg).Atoll();
 
          QDateTime dt;
-#if QT_VERSION < QT_VERSION_CHECK(5,8,0)
-         dt.setTime_t((time_t) tm);
-#else
          dt.setSecsSinceEpoch(tm);
-#endif
 
          separ++;
          int level = 1;
@@ -130,7 +126,7 @@ void TGo4LogInfo::SaveLogInfo()
     fd.setFileMode( QFileDialog::AnyFile );
     fd.setAcceptMode(QFileDialog::AcceptSave);
 
-    if ( fd.exec() != QDialog::Accepted ) return;
+    if (fd.exec() != QDialog::Accepted) return;
 
     QStringList flst = fd.selectedFiles();
     if (flst.isEmpty()) return;
