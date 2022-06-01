@@ -39,11 +39,11 @@
 #include "TGo4Ratemeter.h"
 #include "TGo4DynamicEntry.h"
 
-THttpServer* TGo4Sniffer::gHttpServer = 0;
+THttpServer* TGo4Sniffer::gHttpServer = nullptr;
 
 Bool_t TGo4Sniffer::CreateEngine(const char* args)
 {
-   if (gHttpServer == 0) {
+   if (!gHttpServer) {
       gHttpServer = new THttpServer("");
 
       gHttpServer->SetSniffer(new TGo4Sniffer("go4_sniffer"));
@@ -65,7 +65,7 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
 
 
 TGo4Sniffer::TGo4Sniffer(const char* name) :
-   SniffBaseClass(name),
+      TRootSnifferFull(name),
    TGo4AnalysisSniffer(),
    fAnalysisStatus(0),
    fEventRate(0),
@@ -234,11 +234,11 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 {
    rec.SetField("_toptitle", "Go4 http server");
 
-   SniffBaseClass::ScanRoot(rec);
+   TRootSnifferFull::ScanRoot(rec);
 
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
 
-   if (om==0) return;
+   if (!om) return;
 
    //TGo4LockGuard mainlock; // JAM now done in top level invocation ProcessEvents
 
@@ -269,7 +269,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 
 void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 {
-   SniffBaseClass::ScanObjectProperties(rec, obj);
+   TRootSnifferFull::ScanObjectProperties(rec, obj);
 
    if (obj && obj->TestBit(TGo4Status::kGo4CanDelete)) {
       rec.SetField("_can_delete", "true");
@@ -316,7 +316,7 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
       return fAnalysisStatus;
    }
 
-   return SniffBaseClass::FindInHierarchy(path, cl, member, chld);
+   return TRootSnifferFull::FindInHierarchy(path, cl, member, chld);
 }
 
 
