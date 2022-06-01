@@ -21,25 +21,23 @@ class QGo4Widget;
 class TGo4WidgetProxy : public TGo4WidgetProxyBase {
    public:
 
-      TGo4WidgetProxy() : TGo4WidgetProxyBase(), fWidget(0) {}
+      TGo4WidgetProxy() : TGo4WidgetProxyBase(), fWidget(nullptr) {}
 
       TGo4WidgetProxy(QGo4Widget* w) : TGo4WidgetProxyBase(), fWidget(w) {}
 
-      virtual ~TGo4WidgetProxy() {}
-
       QGo4Widget*  GetWidget() const { return fWidget; }
 
-      virtual Bool_t Use() const { return kFALSE; }
+      Bool_t Use() const override { return kFALSE; }
 
-      virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param);
+      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
 
-      virtual void PadRangeAxisChanged();
+      void PadRangeAxisChanged() override;
 
-      virtual void PadModified();
+      void PadModified() override;
 
    protected:
 
-      QGo4Widget*  fWidget;   //!
+      QGo4Widget*  fWidget{nullptr};   //!
 };
 
 #endif

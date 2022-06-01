@@ -26,7 +26,7 @@ class TGo4Script : public TGo4AbstractInterface {
    friend class TGo4MainWindow;
 
    protected:
-       void ProcessEvents(Int_t timeout = -1);
+       void ProcessEvents(Int_t timeout = -1) override;
 
    public:
       TGo4Script(TGo4MainWindow* mainwin);

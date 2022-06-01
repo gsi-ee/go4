@@ -62,7 +62,7 @@ class QFitWidget : public QWidget {
       QFitItem* fxItem{nullptr};
       bool fbFillWidget{false};
 
-      virtual void contextMenuEvent(QContextMenuEvent* e);
+      void contextMenuEvent(QContextMenuEvent* e) override;
 };
 
 #endif
