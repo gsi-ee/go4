@@ -216,14 +216,11 @@ int main(int argc, char **argv)
 
    print_go4_version();
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
    // first thing to set is screen scale factor for Qt>5.6
    double scalefactor = go4sett->getScreenScaleFactor();
 
    std::cout << "Use Screen scale factor " << scalefactor << " from settings." << std::endl;
    gSystem->Setenv("QT_SCALE_FACTOR",QString("%1").arg(scalefactor).toLatin1 ().constData ());
-#endif
-
 
    TApplication app("uno", &argc, argv); // ROOT application
 
@@ -232,12 +229,7 @@ int main(int argc, char **argv)
 #ifdef __GO4WEB__
    argv2[argc++] = (char *) "--ignore-gpu-blacklist";
 #endif
-   argv2[argc] = 0;
-
-#if QT_VERSION < QT_VERSION_CHECK(5,8,0)
-   // method only available until qt5.8, then it was deprecated
-   QApplication::setColorSpec( QApplication::ManyColor );
-#endif
+   argv2[argc] = nullptr;
 
    Q_INIT_RESOURCE(go4icons);
 
