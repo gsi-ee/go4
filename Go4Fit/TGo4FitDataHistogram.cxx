@@ -66,9 +66,9 @@ TGo4FitDataHistogramIter::~TGo4FitDataHistogramIter() {
 
 Bool_t TGo4FitDataHistogramIter::StartReset()
 {
-  if (fxData==0) return kFALSE;
+  if (!fxData) return kFALSE;
   TH1* histo = fxData->GetHistogram();
-  if (histo==0) return kFALSE;
+  if (!histo) return kFALSE;
 
   Int_t NumDimen = histo->GetDimension();
   fxLimits.Set(NumDimen);
@@ -84,9 +84,9 @@ Bool_t TGo4FitDataHistogramIter::StartReset()
 
 Bool_t TGo4FitDataHistogramIter::ReadCurrentPoint()
 {
-  if (fxData==0) return kFALSE;
+  if (!fxData) return kFALSE;
   TH1* histo = fxData->GetHistogram();
-  if (histo==0) return kFALSE;
+  if (!histo) return kFALSE;
 
   switch (histo->GetDimension()) {
      case 1: fdValue = histo->GetBinContent(fxIndexes[0]+1); break;

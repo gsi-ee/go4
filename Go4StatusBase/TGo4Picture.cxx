@@ -1664,7 +1664,7 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
 void TGo4Picture::Draw(Option_t* option)
 {
    TCanvas* c = 0;
-   if (gPad==0) {
+   if (!gPad) {
       c = new TCanvas();
       c->cd();
    } else {

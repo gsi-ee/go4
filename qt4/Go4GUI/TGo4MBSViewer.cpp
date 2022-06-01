@@ -472,7 +472,7 @@ void TGo4MBSViewer::UpdateTrending()
 
 void TGo4MBSViewer::IncTrending( TH1 * histo, int value, bool forwards )
 {
-   if(histo==0) return;
+   if(!histo) return;
    int bins=histo->GetNbinsX();
    //bool forwards=true;
    int j,dj;

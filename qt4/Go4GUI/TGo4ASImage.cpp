@@ -39,7 +39,7 @@ TGo4ASImage::~TGo4ASImage()
 
 void TGo4ASImage::SetHistogramContent(TH2* histo)
 {
-   if (histo==0) return;
+   if (!histo) return;
 
    Int_t numx = histo->GetNbinsX();
    Int_t numy = histo->GetNbinsY();
@@ -61,7 +61,7 @@ void TGo4ASImage::SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad)
    fxPanel = panel;
    fxPad = pad;
 
-   if (histo==0) return;
+   if (!histo) return;
 
    fxMinX = histo->GetXaxis()->GetXmin();
    fxMaxX = histo->GetXaxis()->GetXmax();

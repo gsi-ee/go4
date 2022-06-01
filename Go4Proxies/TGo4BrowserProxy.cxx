@@ -681,49 +681,49 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    BrowserSlotName(hname, hslotname);
    TGo4Slot* hslot = fxOM->GetSlot(hslotname.Data());
 
-   TH1* histo = 0;
+   TH1* histo = nullptr;
 
-   if ((hslot!=0) && !IsItemRemote(hslot)) {
+   if (hslot && !IsItemRemote(hslot)) {
        histo = dynamic_cast<TH1*> (GetBrowserObject(hname, 1));
-       if ((histo!=0) && (drawdim!=histo->GetDimension())) {
-          histo = 0;
+       if (histo && (drawdim!=histo->GetDimension())) {
+          histo = nullptr;
           histoname = "";
        }
    }
 
    // find non used entry in memory subfolder
    int cnt = 0;
-   if ((histo==0) && (histoname.Length()==0))
+   if (!histo && (histoname.Length()==0))
      do {
        histoname = fxMemoryPath;
        histoname += "/hTreeDraw_";
        histoname += cnt++;
        BrowserSlotName(histoname, hslotname);
        hslot = fxOM->GetSlot(hslotname.Data());
-     } while (hslot!=0);
+     } while (hslot);
 
    TString hfoldername, hobjectname;
    TGo4Slot::ProduceFolderAndName(histoname.Data(), hfoldername, hobjectname);
 
-   if (histo!=0)
+   if (histo)
      hobjectname  = histo->GetName();
 
    varexp += ">>+";
    varexp += hobjectname;
 
-   TDirectory* oldhisdir = histo ? histo->GetDirectory() : 0;
+   TDirectory* oldhisdir = histo ? histo->GetDirectory() : nullptr;
    TDirectory* savdir = gDirectory;
-   gDirectory = 0;
+   gDirectory = nullptr;
    TDirectory dummydir("DummyTreeDraw","Dummy directory to call tree draw");
    dummydir.cd();
-   if (histo!=0)
+   if (histo)
       histo->SetDirectory(&dummydir);
 
    SelectedTree->Draw(varexp, cutcond, "goff", 10000000, 0);
 
-   if (histo==0) { // when new histogram created by Tree::Draw
+   if (!histo) { // when new histogram created by Tree::Draw
       histo = dynamic_cast<TH1*> (dummydir.FindObject(hobjectname));
-      if(histo!=0) {
+      if(histo) {
          histo->SetDirectory(nullptr);
          createdhistoname = SaveToMemory(0, histo, kTRUE);
          // do sync immediately to be able draw this item in viewpanel

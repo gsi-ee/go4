@@ -259,7 +259,7 @@ switch(fiFilter)
 
 void TGo4ExportManager::ExportASCII(TH1* histo, Bool_t channels)
 {
-if(histo==0) return;
+if(!histo) return;
 try{
    TString objectname=histo->GetName();
    TString outname=objectname;
@@ -336,7 +336,7 @@ catch(...)
 
 void TGo4ExportManager::ExportASCII(TGraph* graph)
 {
-if(graph==0) return;
+if(!graph) return;
 try{
    TString objectname=graph->GetName();
    TString outname=objectname;
@@ -372,12 +372,7 @@ catch(...)
   TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportASCII(TGraph*)!!!");
 } // catch
 
-
-
 }
-
-
-
 
 
 void TGo4ExportManager::ExportRadware(TH1* histo)
