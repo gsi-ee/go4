@@ -366,7 +366,7 @@ class TGo4FitSlotList {
      void PrepareSlotsForWriting();
 
      TObjArray* fxSlotList{nullptr};     //!
-     Bool_t fbUpdateSlotList{kFALSE};   //!
+     Bool_t fbUpdateSlotList{kFALSE};    //!
 
 
    ClassDef(TGo4FitSlotList,1);

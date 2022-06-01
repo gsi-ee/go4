@@ -187,7 +187,7 @@ private:
     /** remember name of watch thread */
     TString fcWatchName;                         //!
 
-    /** absoulute time of the last status buffer update. Reset by TestBufferUpdateCondition */
+    /** absolute time of the last status buffer update. Reset by TestBufferUpdateCondition */
     Double_t fdBufferUpdateTime{0};
 
     /** @link aggregation

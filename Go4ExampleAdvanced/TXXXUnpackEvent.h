@@ -83,7 +83,7 @@ class TXXXUnpackEvent : public TGo4CompositeEvent {
       TXXXUnpackEvent(const char* name);
       virtual ~TXXXUnpackEvent() {}
 
-   ClassDef(TXXXUnpackEvent,1)
+   ClassDefOverride(TXXXUnpackEvent,1)
 };
 
 #endif // TXXXUNPACKEVENT_H

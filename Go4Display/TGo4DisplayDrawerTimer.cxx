@@ -25,7 +25,7 @@ TGo4DisplayDrawerTimer::TGo4DisplayDrawerTimer(TGo4Display *display, Long_t mspe
 
 Bool_t TGo4DisplayDrawerTimer::Notify ()
 {
-   TObject* data=0;
+   TObject* data = nullptr;
    TGo4Task* task = fxDisplay->GetTask();
 
 //   data = task->NextObject(kFALSE);
@@ -34,7 +34,7 @@ Bool_t TGo4DisplayDrawerTimer::Notify ()
 
    Int_t cnt = 100;
 
-   while((data=task->NextObject(kFALSE))!=0) {
+   while((data=task->NextObject(kFALSE)) != nullptr) {
       fxDisplay->DisplayData(data);
       if (cnt--<0) break;
    }
