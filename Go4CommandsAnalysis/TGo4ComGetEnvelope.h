@@ -30,8 +30,6 @@ class TGo4ComGetEnvelope : public TGo4AnalysisObjectCommand {
 
       TGo4ComGetEnvelope(const char* obname, const char* foldername);
 
-      virtual ~TGo4ComGetEnvelope();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComGetEnvelope,1)

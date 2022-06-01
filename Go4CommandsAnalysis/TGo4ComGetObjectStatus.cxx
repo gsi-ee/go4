@@ -26,11 +26,6 @@ TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char* obname)
                                        // override default receiver
 }
 
-TGo4ComGetObjectStatus::~TGo4ComGetObjectStatus()
-{
-   GO4TRACE((12,"TGo4ComGetObjectStatus::~TGo4ComGetObjectStatus() dtor",__LINE__, __FILE__));
-}
-
 TGo4ComGetObjectStatus::TGo4ComGetObjectStatus()
 :TGo4AnalysisObjectCommand("ANObjectStatus","Get an object status from analysis","his")
 

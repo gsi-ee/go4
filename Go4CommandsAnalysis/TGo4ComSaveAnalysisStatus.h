@@ -28,8 +28,6 @@ class TGo4ComSaveAnalysisStatus : public TGo4AnalysisCommand {
 
     TGo4ComSaveAnalysisStatus(const char* filename);
 
-    virtual ~TGo4ComSaveAnalysisStatus();
-
     Int_t ExeCom() override;
 
     /** Set internals of this command from specification of external

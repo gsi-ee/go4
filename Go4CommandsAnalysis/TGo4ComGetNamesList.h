@@ -26,8 +26,6 @@ class TGo4ComGetNamesList : public TGo4AnalysisCommand {
 
       TGo4ComGetNamesList();
 
-      virtual ~TGo4ComGetNamesList();
-
       Int_t ExeCom() override;
 
    ClassDefOverride(TGo4ComGetNamesList,1)

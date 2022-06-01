@@ -38,14 +38,9 @@ TGo4ComSetProtections::TGo4ComSetProtections() :
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComSetProtections::~TGo4ComSetProtections()
-{
-   GO4TRACE((12,"TGo4ComSetProtections::~TGo4ComSetProtections() dtor",__LINE__, __FILE__));
-}
-
 void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);
    SetFlags(remcom->GetString(2));
 }

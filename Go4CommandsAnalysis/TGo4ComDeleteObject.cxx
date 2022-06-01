@@ -36,11 +36,6 @@ TGo4ComDeleteObject::TGo4ComDeleteObject() :
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComDeleteObject::~TGo4ComDeleteObject()
-{
-   GO4TRACE((12,"TGo4ComDeleteObject::~TGo4ComDeleteObject() dtor",__LINE__, __FILE__));
-}
-
 Int_t TGo4ComDeleteObject::ExeCom()
 {
    GO4TRACE((12,"TGo4ComDeleteObject::ExeCom()",__LINE__, __FILE__));

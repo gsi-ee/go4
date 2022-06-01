@@ -33,13 +33,9 @@ TGo4ComSetPrintEvent::TGo4ComSetPrintEvent()
                                                  // override default receiver
 }
 
-TGo4ComSetPrintEvent::~TGo4ComSetPrintEvent()
-{
-}
-
 void TGo4ComSetPrintEvent::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);
    fxPrintPar.fiNum  = remcom->GetValue(0);
    fxPrintPar.fiSid  = remcom->GetValue(1);

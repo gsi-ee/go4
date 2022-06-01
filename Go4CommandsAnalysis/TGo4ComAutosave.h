@@ -25,8 +25,6 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
 
       TGo4ComAutosave();
 
-      virtual ~TGo4ComAutosave();
-
       Int_t ExeCom() override;
 
       /** Set internals of this command from specification of external
@@ -45,10 +43,10 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
    private:
 
       /** compression level for autosave file */
-      Int_t fiAutoSaveCompression;
+      Int_t fiAutoSaveCompression{0};
 
       /** overwrite mode for autosave (true) or append mode (false).*/
-      Int_t fbAutoSaveOverwrite;
+      Int_t fbAutoSaveOverwrite{0};
 
       /** Name of the autosave file. Replaces previously set name */
       TString fxAutoFileName;

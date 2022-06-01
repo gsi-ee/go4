@@ -28,10 +28,6 @@ TGo4ComAutosave::TGo4ComAutosave() :
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComAutosave::~TGo4ComAutosave()
-{
-   GO4TRACE((12,"TGo4ComAutosave::~TGo4ComAutosave() dtor",__LINE__, __FILE__));
-}
 
 void TGo4ComAutosave::Set(TGo4RemoteCommand* remcom)
 {

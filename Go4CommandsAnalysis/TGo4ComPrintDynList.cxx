@@ -24,10 +24,6 @@ TGo4ComPrintDynList::TGo4ComPrintDynList() :
                                        // override default receiver
 }
 
-TGo4ComPrintDynList::~TGo4ComPrintDynList()
-{
-}
-
 Int_t TGo4ComPrintDynList::ExeCom()
 {
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);

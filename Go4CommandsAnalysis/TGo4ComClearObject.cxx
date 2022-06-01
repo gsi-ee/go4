@@ -34,11 +34,6 @@ TGo4ComClearObject::TGo4ComClearObject(const char *name)
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComClearObject::~TGo4ComClearObject()
-{
-   GO4TRACE((12, "TGo4ComClearObject::~TGo4ComClearObject() dtor", __LINE__, __FILE__));
-}
-
 Int_t TGo4ComClearObject::ExeCom()
 {
    GO4TRACE((12, "TGo4ComClearObject::ExeCom()", __LINE__, __FILE__));

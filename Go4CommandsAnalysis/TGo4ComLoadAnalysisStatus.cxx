@@ -39,11 +39,6 @@ TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() :
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComLoadAnalysisStatus::~TGo4ComLoadAnalysisStatus()
-{
-   GO4TRACE((12,"TGo4ComLoadAnalysisStatus::~TGo4ComLoadAnalysisStatus() dtor",__LINE__, __FILE__));
-}
-
 void TGo4ComLoadAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
    if(remcom==0) return;

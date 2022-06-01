@@ -27,11 +27,6 @@ TGo4ComInitAnalysis::TGo4ComInitAnalysis()
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComInitAnalysis::~TGo4ComInitAnalysis()
-{
-   GO4TRACE((12,"TGo4ComInitAnalysis::~TGo4ComInitAnalysis() dtor",__LINE__, __FILE__));
-}
-
 Int_t TGo4ComInitAnalysis::ExeCom()
 {
    GO4TRACE((12,"TGo4ComInitAnalysis::ExeCom()",__LINE__, __FILE__));
