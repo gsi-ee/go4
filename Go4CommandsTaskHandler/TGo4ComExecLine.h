@@ -28,8 +28,6 @@ class TGo4ComExecLine : public TGo4TaskHandlerCommand {
 
     TGo4ComExecLine(const char* macro);
 
-    virtual ~TGo4ComExecLine();
-
     Int_t ExeCom() override;
 
     /** access to the passwd. */

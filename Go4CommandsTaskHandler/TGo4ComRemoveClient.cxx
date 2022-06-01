@@ -28,10 +28,6 @@ TGo4ComRemoveClient::TGo4ComRemoveClient() :
    fbWaitForClient = kTRUE;
 }
 
-TGo4ComRemoveClient::~TGo4ComRemoveClient()
-{
-}
-
 void TGo4ComRemoveClient::SetClient(const char* name)
 {
    fxClientName = name;

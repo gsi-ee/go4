@@ -27,14 +27,14 @@ TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() :
 TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand(const char* comname,
                                                      const char* description,
                                                      const char* obname) :
-   TGo4AnalysisCommand(comname,description)
+   TGo4AnalysisCommand(comname, description)
 {
    GO4TRACE((12,"TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() ctor",__LINE__, __FILE__));
    SetObjectName(obname);
    SetFolderName(TGo4AnalysisObjectManager::GetTOPFOLDER());
 }
 
-void TGo4AnalysisObjectCommand::Set(TGo4RemoteCommand* remcom)
+void TGo4AnalysisObjectCommand::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    SetObjectName(remcom->GetString(0));

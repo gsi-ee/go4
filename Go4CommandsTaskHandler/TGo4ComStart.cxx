@@ -23,10 +23,6 @@ TGo4ComStart::TGo4ComStart() :TGo4TaskHandlerCommand()
    SetDescription("starts example client's main loop");
 }
 
-TGo4ComStart::~TGo4ComStart()
-{
-}
-
 Int_t TGo4ComStart::ExeCom()
 {
    TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);

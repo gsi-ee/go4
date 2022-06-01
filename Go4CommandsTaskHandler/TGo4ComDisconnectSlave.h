@@ -29,12 +29,10 @@ class TGo4ComDisconnectSlave : public TGo4TaskHandlerCommand {
 
     TGo4ComDisconnectSlave();
 
-    virtual ~TGo4ComDisconnectSlave();
-
     /** Specify the name of the client to be removed */
     void SetSlave(const char* name) { fxSlaveName = name; }
 
-    void SetWaitForSlave(Bool_t wait=kTRUE) { fbWaitForSlave=wait; }
+    void SetWaitForSlave(Bool_t wait = kTRUE) { fbWaitForSlave = wait; }
 
     Int_t ExeCom() override;
 
@@ -43,7 +41,7 @@ class TGo4ComDisconnectSlave : public TGo4TaskHandlerCommand {
     /** name of the client to be removed */
     TString fxSlaveName;
 
-    Bool_t fbWaitForSlave;
+    Bool_t fbWaitForSlave{kFALSE};
 
    ClassDefOverride(TGo4ComDisconnectSlave,1);
 };

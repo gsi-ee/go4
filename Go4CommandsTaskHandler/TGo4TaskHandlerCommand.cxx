@@ -33,14 +33,9 @@ TGo4TaskHandlerCommand::TGo4TaskHandlerCommand() :
    SetReceiverName("Task"); // sets the receiver name checked by command invoker
                                   // receiver name neednt be class name!
    SetProtection(kGo4ComModeController);
-   fiCommandID=5;
+   fiCommandID = 5;
 }
 
-
-TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const TGo4TaskHandlerCommand &right) :
-   TGo4Command(right)
-{
-}
 
 Int_t TGo4TaskHandlerCommand::RefuseCom()
 {

@@ -31,10 +31,6 @@ TGo4ComExecLine::TGo4ComExecLine(const char* macro) : TGo4TaskHandlerCommand()
    SetLine(macro);
 }
 
-TGo4ComExecLine::~TGo4ComExecLine()
-{
-}
-
 Int_t TGo4ComExecLine::ExeCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);

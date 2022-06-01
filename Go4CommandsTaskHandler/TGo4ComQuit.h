@@ -25,8 +25,6 @@ class TGo4ComQuit : public TGo4TaskHandlerCommand {
 
     TGo4ComQuit();
 
-    virtual ~TGo4ComQuit();
-
     Int_t ExeCom() override;
 
   ClassDefOverride(TGo4ComQuit,1)

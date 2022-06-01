@@ -26,11 +26,6 @@ TGo4ComDisconnectSlave::TGo4ComDisconnectSlave()
    fbWaitForSlave = kTRUE;
 }
 
-TGo4ComDisconnectSlave::~TGo4ComDisconnectSlave()
-{
-
-}
-
 Int_t TGo4ComDisconnectSlave::ExeCom()
 {
    TGo4Master *master = dynamic_cast<TGo4Master*>(fxReceiverBase);

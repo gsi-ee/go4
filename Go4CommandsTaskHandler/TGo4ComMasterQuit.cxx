@@ -21,19 +21,15 @@ TGo4ComMasterQuit::TGo4ComMasterQuit() :
 {
    SetReceiverName("MasterTask"); // sets the receiver name checked by command invoker
    // receiver name need to be class name!
-   fbIsSynchron=kFALSE;
-   fbIsLocal=kTRUE;
-}
-
-TGo4ComMasterQuit::~TGo4ComMasterQuit()
-{
+   fbIsSynchron = kFALSE;
+   fbIsLocal = kTRUE;
 }
 
 Int_t TGo4ComMasterQuit::ExeCom()
 {
    TGo4Master* master = dynamic_cast<TGo4Master*>(fxReceiverBase);
 
-   if (master!=0) {
+   if (master) {
       master->Quit();
       return 0;
    }
