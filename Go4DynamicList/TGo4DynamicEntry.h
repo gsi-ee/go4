@@ -36,7 +36,7 @@ class TGo4DynamicEntry : public TNamed {
     virtual ~TGo4DynamicEntry();
 
     /** Switch the autoprocessing state of this entry. */
-    void EnableProcessing(Bool_t on=kTRUE) { fbProcessEntry=on; }
+    void EnableProcessing(Bool_t on=kTRUE) { fbProcessEntry = on; }
     Bool_t IsEnabledProcessing() const { return fbProcessEntry; }
 
     /** Resets this entry to an initial status. */
