@@ -45,14 +45,14 @@ const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft
 
 QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
 {
-   if (item==0) return 0;
+   if (!item) return nullptr;
 
    QTreeWidgetItem* prnt = item->parent();
-   if (prnt==0) prnt = item->treeWidget()->invisibleRootItem();
-   if (prnt==0) return 0;
+   if (!prnt) prnt = item->treeWidget()->invisibleRootItem();
+   if (!prnt) return nullptr;
 
    int indx = prnt->indexOfChild(item) + 1;
-   if (indx >= prnt->childCount()) return 0;
+   if (indx >= prnt->childCount()) return nullptr;
    return prnt->child(indx);
 }
 
@@ -81,9 +81,9 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
 
    for(int indx=0;indx<NColumns;indx++) {
       int width = -1;
-      if ((indx==0) || (indx==2)) width = ColumnWidths[indx];
+      if ((indx == 0) || (indx == 2)) width = ColumnWidths[indx];
       width = go4sett->getBrowserColumn(ColumnNames[indx], width);
-      fVisibleColumns[indx] = width>0;
+      fVisibleColumns[indx] = width > 0;
 
       ListView->headerItem()->setText(indx, ColumnNames[indx]);
 
@@ -129,13 +129,11 @@ void TGo4Browser::StartWorking()
 
 void TGo4Browser::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Browser")==0) {
+   if (strcmp(linkname,"Browser") == 0) {
       ShootUpdateTimer();
-   } else
-
-   if (strcmp(linkname,"TGo4Slot::evSubslotUpdated")==0) {
+   } else if (strcmp(linkname,"TGo4Slot::evSubslotUpdated") == 0) {
       TGo4Slot* itemslot = dynamic_cast<TGo4Slot*> (obj);
-      if (itemslot!=0)
+      if (itemslot)
          SetViewItemProperties(itemslot, FindItemFor(itemslot));
    }
 }
@@ -143,9 +141,9 @@ void TGo4Browser::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4Browser::RequestDragObjectSlot(QDrag** res)
 {
-   *res = 0;
+   *res = nullptr;
 
-   if (ListView->currentItem()==0) return;
+   if (!ListView->currentItem()) return;
 
    QString fullname = FullItemName(ListView->currentItem());
 
@@ -168,10 +166,10 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
    TGo4Slot* tgtslot = Browser()->ItemSlot(tgtname.toLatin1().constData());
    TGo4Slot* dropslot = Browser()->ItemSlot(dropname.toLatin1().constData());
 
-   if ((tgtslot==0) || (dropslot==0)) return;
+   if (!tgtslot || !dropslot) return;
    if (Browser()->ItemKind(tgtslot)!=TGo4Access::kndFolder) return;
 
-   if (dropslot->GetParent()==tgtslot) return;
+   if (dropslot->GetParent() == tgtslot) return;
 
    *res = true;
 }
@@ -196,9 +194,9 @@ TGo4BrowserProxy* TGo4Browser::BrowserProxy()
 QString TGo4Browser::FullItemName(QTreeWidgetItem* item)
 {
    QString name;
-   if (item!=0) {
+   if (item) {
       name = item->text(0);
-      while (item->parent()!=0) {
+      while (item->parent()) {
          item = item->parent();
          name = item->text(0) + "/" + name;
       }
@@ -209,10 +207,10 @@ QString TGo4Browser::FullItemName(QTreeWidgetItem* item)
 QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
 {
    TGo4BrowserProxy* br = BrowserProxy();
-   if (br==0) return 0;
+   if (!br) return nullptr;
 
    TString itemname;
-   if (!br->BrowserItemName(slot, itemname)) return 0;
+   if (!br->BrowserItemName(slot, itemname)) return nullptr;
    QString iname = itemname.Data();
 
    QTreeWidgetItemIterator it(ListView);
@@ -220,12 +218,12 @@ QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
       QString fullname = FullItemName(*it);
       if (fullname == iname) return *it;
    }
-   return 0;
+   return nullptr;
 }
 
 void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item)
 {
-   if ((itemslot==0) || (item==0)) return;
+   if (!itemslot || !item) return;
 
    TGo4BrowserProxy* br = BrowserProxy();
 
@@ -239,7 +237,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
    bool visible = false;
 
    switch (br->GetItemFilter()) {
-      case 1: visible = (itemslot->GetAssignedObject()!=0); break;
+      case 1: visible = (itemslot->GetAssignedObject() != nullptr); break;
       case 2: visible = mon; break;
       default: visible = true;
    }
@@ -264,7 +262,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
    // make visible all folders, where item is located
    if (visible && (br->GetItemFilter()>0)) {
       QTreeWidgetItem* parent = item->parent();
-      while (parent!=0) {
+      while (parent) {
          parent->setText(NColumns, "visible");
          parent = parent->parent();
       }
@@ -273,14 +271,16 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
    QString flags;
 
 //   if (kind == TGo4Access::kndObject)
-//     if (itemslot->GetAssignedObject()!=0)
+//     if (itemslot->GetAssignedObject())
 //       flags += "c";
 //     else
 //       flags += "a";
 
    if (remote && (kind == TGo4Access::kndObject)) {
-      if (mon) flags+="m";
-          else flags+="s";
+      if (mon)
+         flags += "m";
+      else
+         flags += "s";
       Int_t delprot, clearprot;
       br->GetProtectionBits(itemslot, delprot, clearprot);
 
@@ -321,20 +321,20 @@ void TGo4Browser::updateListViewItems()
       ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
 
    TGo4BrowserProxy* br = BrowserProxy();
-   if (br==0) return;
+   if (!br) return;
 
    ServiceCall("UpdateGuiLayout");
 
    TGo4Slot* topslot = br->BrowserTopSlot();
-   if (topslot==0) return;
+   if (!topslot) return;
 
    checkVisisbilityFlags(true);
 
 //   slot->Print("");
 
-   QTreeWidgetItem* curfold = 0;
+   QTreeWidgetItem* curfold = nullptr;
    QTreeWidgetItem* curitem = ListView->topLevelItem(0);
-   QTreeWidgetItem* previtem = 0;
+   QTreeWidgetItem* previtem = nullptr;
 
    TGo4Iter iter(topslot, kTRUE);
 
@@ -345,15 +345,15 @@ void TGo4Browser::updateListViewItems()
 
       // go to top folders and remove rest items
       Int_t levelchange = iter.levelchange();
-      while (levelchange++<0) {
+      while (levelchange++ < 0) {
 
-          while (curitem!=0) {
+          while (curitem) {
             QTreeWidgetItem* next = nextSibling(curitem);
             delete curitem;
             curitem = next;
           }
 
-          if (curfold==0) break;
+          if (!curfold) break;
 
           curitem = nextSibling(curfold);
           previtem = curfold;
@@ -363,31 +363,31 @@ void TGo4Browser::updateListViewItems()
       if (!res) break;
 
       // delete all slots in folder, which has another name
-      while ((curitem!=0) && (strcmp(iter.getname(), curitem->text(0).toLatin1().constData())!=0)) {
+      while (curitem && (strcmp(iter.getname(), curitem->text(0).toLatin1().constData()) != 0)) {
          QTreeWidgetItem* next = nextSibling(curitem);
          delete curitem;
          curitem = next;
       }
 
       TGo4Slot* curslot = iter.getslot();
-      if (curslot==0) {
+      if (!curslot) {
          std::cerr << "************* ERROR in gui slots ****************** " << std::endl;
          return;
       }
 
       const char* classname = br->ItemClassName(curslot);
       Int_t itemkind = br->ItemKind(curslot);
-      TClass* itemclass = 0;
+      TClass* itemclass = nullptr;
 
-      if ((classname!=0) && (strlen(classname)>0) && (testedClasses.FindObject(classname)==0)) {
+      if (classname && (strlen(classname) > 0) && (testedClasses.FindObject(classname) == nullptr)) {
 
          itemclass = gROOT->GetClass(classname, kFALSE);
 
          // if dictionary existing (library is loaded) force creation of TClass object
-         if ((itemclass==0) && TClassTable::GetDict(classname))
+         if (!itemclass && TClassTable::GetDict(classname))
             itemclass = gROOT->LoadClass(classname);
 
-         if (itemclass==0)
+         if (!itemclass)
            testedClasses.Add(new TNamed(classname,""));
       }
 
@@ -396,11 +396,11 @@ void TGo4Browser::updateListViewItems()
       if (pixmap.Length()>0) pixmap = TString(":/icons/") + pixmap;
       TGo4BrowserProxy::SetItemCanDo(curslot, cando);
 
-      if (curitem==0) {
-        if (curfold==0)
-           curitem = new QTreeWidgetItem(ListView, previtem);
-        else
-           curitem = new QTreeWidgetItem(curfold, previtem);
+      if (!curitem) {
+         if (!curfold)
+            curitem = new QTreeWidgetItem(ListView, previtem);
+         else
+            curitem = new QTreeWidgetItem(curfold, previtem);
       }
 
       curitem->setText(0, iter.getname());
@@ -418,23 +418,23 @@ void TGo4Browser::updateListViewItems()
       if (iter.isfolder()) {
          curfold = curitem;
          curitem = curfold->child(0);
-         previtem = 0;
+         previtem = nullptr;
       } else {
          // remove any substructures if any
-         while (curitem->child(0)!=0)
+         while (curitem->child(0))
            delete curitem->child(0);
          previtem = curitem;
          curitem = nextSibling(curitem);
       }
    }
 
-   while (curitem!=0) {
+   while (curitem) {
       QTreeWidgetItem* next = nextSibling(curitem);
       delete curitem;
       curitem = next;
    }
 
-   if (br->GetItemFilter()>0)
+   if (br->GetItemFilter() > 0)
      checkVisisbilityFlags(false);
 
    ListView->update();
@@ -448,7 +448,7 @@ void TGo4Browser::checkVisisbilityFlags(bool showall)
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it ) {
       QTreeWidgetItem* item = *it;
-      if (showall || (item->parent()==0))
+      if (showall || !item->parent())
         item->setHidden(false);
       else
         item->setHidden(item->text(NColumns)!="visible");
@@ -469,10 +469,10 @@ void TGo4Browser::DisplaySelectedItems()
            canDrawItem(*it)) npads++;
    }
 
-   if (npads==0) return;
+   if (npads == 0) return;
 
    TGo4ViewPanel* newpanel = CreateViewPanel(npads);
-   TPad* subpad = 0;
+   TPad* subpad = nullptr;
 
    int cnt = 0;
    QTreeWidgetItemIterator it(ListView);
@@ -491,12 +491,12 @@ void TGo4Browser::DisplaySelectedItems()
 
 void TGo4Browser::SuperImposeSelectedItems()
 {
-   TGo4ViewPanel* newpanel = 0;
+   TGo4ViewPanel* newpanel = nullptr;
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
      if ( (*it)->isSelected() && canDrawItem(*it)) {
-        if (newpanel==0) {
+        if (!newpanel) {
            newpanel = CreateViewPanel();
            newpanel->SetPadSuperImpose(newpanel->GetCanvas(), true);
         }
@@ -505,13 +505,13 @@ void TGo4Browser::SuperImposeSelectedItems()
 
         DrawItem(itemname, newpanel, newpanel->GetCanvas(), false);
      }
-   if (newpanel!=0)
+   if (newpanel)
      newpanel->ShootRepaintTimer();
 }
 
 void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 {
-   if (item==0) return;
+   if (!item) return;
 
    QString fullname = FullItemName(item);
 
@@ -523,9 +523,9 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    if (go4sett->getDrawOnceFlag()) {
       TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
 
-      QWidget* mdi = panel ? panel->parentWidget() : 0;
+      QWidget* mdi = panel ? panel->parentWidget() : nullptr;
 
-      if (mdi!=0)  {
+      if (mdi)  {
          if (mdi->isMinimized()) mdi->showNormal();
          mdi->activateWindow();
          mdi->raise();
@@ -533,11 +533,11 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
          mdi->setFocus();
       }
 
-      if (panel!=0) return;
+      if (panel) return;
    }
 
    if (TGo4BrowserProxy::CanDrawItem(cando))
-     DrawItem(fullname, 0, 0, true);
+     DrawItem(fullname, nullptr, nullptr, true);
    else
    if (TGo4BrowserProxy::CanEditItem(cando))
       EditItem(fullname);
@@ -579,7 +579,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    QMenu menu;
    QSignalMapper map;
 
-   if (col!=0) {
+   if (col != 0) {
       for(int indx=1;indx<NColumns;indx++)
         AddIdAction(&menu, &map,
                   ColumnNames[indx], indx, true, fVisibleColumns[indx]);
@@ -595,17 +595,17 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    bool istopmemory = false;
 
-   int nitems(0), nmemory(0), nclose(0), ndraw(0), nsuperimpose(0), si_kind(-1),
-       nremote(0), nanalysis(0), nmonitor(0), nclear(0), nclearlocal(0), nclearproton(0),
-       nclearprotoff(0), ndelprotoff(0), nobjects(0), nfolders(0), nedits(0), ninfo(0),
-       nexport(0), ndelete(0), nassigned(0), nexpand(0), nexecute(0);
+   int nitems = 0, nmemory = 0, nclose = 0, ndraw = 0, nsuperimpose = 0, si_kind = -1,
+       nremote = 0, nanalysis = 0, nmonitor = 0, nclear = 0, nclearlocal = 0, nclearproton = 0,
+       nclearprotoff = 0, ndelprotoff = 0, nobjects = 0, nfolders = 0, nedits = 0, ninfo = 0,
+       nexport = 0, ndelete = 0, nassigned = 0, nexpand = 0, nexecute = 0;
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString fullname = FullItemName(*it);
          TGo4Slot* itemslot = br->ItemSlot(fullname.toLatin1().constData());
-         if (itemslot==0) continue;
+         if (!itemslot) continue;
          nitems++;
 
          int cando = br->ItemCanDo(itemslot);
@@ -630,10 +630,10 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
            TClass* cl = gROOT->GetClass(itemclassname);
-           if (cl!=0) {
+           if (cl) {
               if (cl->InheritsFrom("TH1")) {
                  if (!cl->InheritsFrom("TH2") && !cl->InheritsFrom("TH3")) {
-                    if ((si_kind<0) || (si_kind==1)) {
+                    if ((si_kind < 0) || (si_kind == 1)) {
                        si_kind=1;
                        nsuperimpose++;
                     }
@@ -673,7 +673,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (ismemitem && TGo4BrowserProxy::CanClearItem(cando))
             nclearlocal++;
 
-         if ((kind==TGo4Access::kndObject) && (itemslot->GetAssignedObject()!=0)) {
+         if ((kind==TGo4Access::kndObject) && itemslot->GetAssignedObject()) {
             nassigned++;
             if (TGo4BrowserProxy::CanExportItem(cando))
               nexport++;
@@ -683,9 +683,9 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if (isanalysisitem) nanalysis++;
 
-         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0)) nremote++;
+         if (itemclassname && (strcmp(itemclassname,"TGo4DabcProxy") == 0)) nremote++;
 
-         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4ServerProxy")==0)) nremote++;
+         if (itemclassname && (strcmp(itemclassname,"TGo4ServerProxy") == 0)) nremote++;
 
          if (br->IsItemRemote(itemslot)) {
             nremote++;
@@ -695,9 +695,12 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                if (kind==TGo4Access::kndObject) {
                   Int_t delprot, clearprot;
                   br->GetProtectionBits(itemslot, delprot, clearprot);
-                  if (clearprot==1) nclearproton++; else
-                  if (clearprot==0) nclearprotoff++;
-                  if (delprot==0) ndelprotoff++;
+                  if (clearprot == 1)
+                     nclearproton++;
+                  else if (clearprot == 0)
+                     nclearprotoff++;
+                  if (delprot == 0)
+                     ndelprotoff++;
                }
 
                if (TGo4BrowserProxy::CanClearItem(cando) || (kind==TGo4Access::kndFolder))
@@ -747,16 +750,16 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    QString dellabel = "Delete item";
    QString delbutton = ":/icons/delete.png";
-   if ((nclose>0) && (ndelete==0)) {
+   if ((nclose > 0) && (ndelete == 0)) {
       dellabel = "Close item";
-      if (nclose>1) dellabel+="s";
-      delbutton=":/icons/close.png";
-   } else
-   if ((nclose==0) && (ndelete>0)) {
+      if (nclose > 1)
+         dellabel += "s";
+      delbutton = ":/icons/close.png";
+   } else if ((nclose == 0) && (ndelete > 0)) {
       dellabel = "Delete item";
-      if (ndelete>1) dellabel+="s";
-   } else
-   if ((nclose>0) && (ndelete>0)) {
+      if (ndelete > 1)
+         dellabel += "s";
+   } else if ((nclose > 0) && (ndelete > 0)) {
       dellabel = "Close/delete items";
    }
 
@@ -769,7 +772,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    AddIdAction(&menu, &map, QIcon(":/icons/editcopy.png"),
                   "Copy to clipboard",  20, (nobjects>0) || (nfolders>0));
 
-   if ((nremote>0) || (nanalysis>0)) {
+   if ((nremote > 0) || (nanalysis > 0)) {
 
        menu.addSeparator();
 
@@ -795,7 +798,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                      "Refresh namelist", 27, true);
    }
 
-   if ((nmemory>0) && (nmemory==nitems)) {
+   if ((nmemory > 0) && (nmemory == nitems)) {
        menu.addSeparator();
 
        AddIdAction(&menu, &map, QIcon(":/icons/crefolder.png"),
@@ -833,7 +836,7 @@ void TGo4Browser::HeaderSectionResizedSlot(int, int, int)
       int width = -1;
       if (fVisibleColumns[indx]) {
          width = ListView->columnWidth(ncolumn++);
-         if (width==0) width = ColumnWidths[indx];
+         if (width == 0) width = ColumnWidths[indx];
       }
       go4sett->setBrowserColumn(ColumnNames[indx], width);
    }
@@ -851,12 +854,12 @@ void TGo4Browser::ContextMenuActivated(int id)
 
    TGo4BrowserProxy* br = BrowserProxy();
 
-   TGo4ServerProxy* anrefresh = 0;
-   TGo4ServerProxy* servrefresh = 0;
+   TGo4ServerProxy* anrefresh = nullptr;
+   TGo4ServerProxy* servrefresh = nullptr;
 
-   if (id==20) br->ClearClipboard();
+   if (id == 20) br->ClearClipboard();
 
-   if (id==19)
+   if (id == 19)
      QApplication::setOverrideCursor(Qt::WaitCursor);
 
    QTreeWidgetItemIterator it(ListView);
@@ -864,7 +867,7 @@ void TGo4Browser::ContextMenuActivated(int id)
       if ((*it)->isSelected()) {
          QString itemname = FullItemName(*it);
          TGo4Slot* itemslot = br->ItemSlot(itemname.toLatin1().constData());
-         if (itemslot==0) continue;
+         if (!itemslot) continue;
          int cando = br->ItemCanDo(itemslot);
          int kind = br->ItemKind(itemslot);
 
@@ -915,18 +918,18 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 23: {  // clear
                TString objname;
                TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
-               if (an!=0) {
+               if (an) {
                   an->ClearAnalysisObject(objname.Data());
                   // if clear folder, request all objects which were requested before
                   if (kind==TGo4Access::kndFolder) {
                      TGo4Iter iter(itemslot, kTRUE);
                      while (iter.next()) {
                         TGo4Slot* subslot = iter.getslot();
-                        if (subslot->GetAssignedObject()!=0)
+                        if (subslot->GetAssignedObject())
                            subslot->Update(kFALSE);
                      }
                   } else
-                    if (itemslot->GetAssignedObject()!=0)
+                    if (itemslot->GetAssignedObject())
                        itemslot->Update(kFALSE);
                }
                break;
@@ -936,7 +939,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 25: {   // unset clear protect
                TString objname;
                TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
-               if (an!=0) {
+               if (an) {
                   an->ChageObjectProtection(objname.Data(), (id == 24 ? "+C" : "-C"));
                   anrefresh = an;
                }
@@ -946,7 +949,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 26: {   // delete remote object
                TString objname;
                TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
-               if (an!=0) {
+               if (an) {
                   an->RemoveObjectFromAnalysis(objname.Data());
                   anrefresh = an;
                }
@@ -956,9 +959,9 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 27: { // refresh
                TString objname;
                TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
-               if (an!=0) anrefresh = an;
+               if (an) anrefresh = an;
                TGo4ServerProxy* serv = br->DefineServerProxy(itemname.toLatin1().constData());
-               if (serv!=0) servrefresh = serv;
+               if (serv) servrefresh = serv;
                break;
             }
 
@@ -1016,19 +1019,19 @@ void TGo4Browser::ContextMenuActivated(int id)
          }
       }
 
-   if (anrefresh!=0)
+   if (anrefresh)
       anrefresh->RefreshNamesList();
 
-   if (servrefresh!=0)
+   if (servrefresh)
       servrefresh->RefreshNamesList();
 
-   if (id==19)
-     QApplication::restoreOverrideCursor();
+   if (id == 19)
+      QApplication::restoreOverrideCursor();
 }
 
 bool TGo4Browser::canDrawItem(QTreeWidgetItem* item)
 {
-   if (item==0) return false;
+   if (!item) return false;
    int cando = BrowserProxy()->ItemCanDo(FullItemName(item).toLatin1().constData());
    return TGo4BrowserProxy::CanDrawItem(cando);
 }
@@ -1116,7 +1119,7 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
 
    TGo4ServerProxy* serv = BrowserProxy()->DefineServerObject(itemname.toLatin1().constData(), &objname, kFALSE);
 
-   if ((serv==0) || (objname.Length()==0)) return;
+   if (!serv || (objname.Length() == 0)) return;
 
    Int_t nargs = serv->NumCommandArgs(objname);
    if (nargs<0) return;
@@ -1127,12 +1130,15 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
             QInputDialog::getText(0, "Input command arguments",
                                  QString("Arg%1:").arg(n+1), QLineEdit::Normal, "", &ok);
       if (!ok) return;
-      if (n==0) arg1 = value.toLatin1().constData(); else
-      if (n==1) arg2 = value.toLatin1().constData(); else
-      if (n==2) arg3 = value.toLatin1().constData();
+      if (n == 0)
+         arg1 = value.toLatin1().constData();
+      else if (n == 1)
+         arg2 = value.toLatin1().constData();
+      else if (n == 2)
+         arg3 = value.toLatin1().constData();
    }
 
-   Bool_t res = serv->SubmitCommand(objname, 3, (arg1.Length() > 0 ? arg1.Data() : 0), (arg2.Length() > 0 ? arg2.Data() : 0), (arg3.Length() > 0 ? arg3.Data() : 0));
+   Bool_t res = serv->SubmitCommand(objname, 3, (arg1.Length() > 0 ? arg1.Data() : nullptr), (arg2.Length() > 0 ? arg2.Data() : nullptr), (arg3.Length() > 0 ? arg3.Data() : nullptr));
 
    StatusMessage(QString(" Command execution:") + objname + QString("  result = ") + (res ? "TRUE" : "FALSE"));
 }
