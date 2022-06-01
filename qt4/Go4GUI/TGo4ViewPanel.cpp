@@ -3965,10 +3965,10 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 {
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0) return false;
+   if (!slot) return false;
 
    TGo4Picture* padopt = GetPadOptions(slot);
-   if (padopt == 0) return false;
+   if (!padopt) return false;
 
    bool ischilds = false;
    bool ischildmodified = false;
@@ -4022,8 +4022,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    pad->SetLogz(padopt->GetLogScale(2));
 
    TObjArray objs, objslots;
-   CollectMainDrawObjects(slot, &objs, &objslots,
-         padopt->IsSuperimpose() ? 1 : 2);
+   CollectMainDrawObjects(slot, &objs, &objslots, padopt->IsSuperimpose() ? 1 : 2);
 
    ScanObjectsDrawOptions(false, slot, &objs, &objslots);
 
@@ -4045,17 +4044,16 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       return true;
    }
 
-   TH2* asihisto = 0;
+   TH2* asihisto = nullptr;
 
-   TObject* drawobj = 0;
+   TObject* drawobj = nullptr;
 
    // Bool_t dosuperimpose = padopt->IsSuperimpose() && (objs.GetLast()>0);
    Bool_t dosuperimpose = objs.GetLast() > 0;
 
    const char* drawopt = padopt->GetDrawOption(0);
 
-   Bool_t doasiimage = !dosuperimpose && !fxWCanvas &&
-                        objs.Last()->InheritsFrom(TH2::Class());
+   Bool_t doasiimage = !dosuperimpose && !fxWCanvas && objs.Last()->InheritsFrom(TH2::Class());
 
    if (drawopt && TString(drawopt).Contains("asimage")) {
       if (!doasiimage) { drawopt = "col"; padopt->SetDrawOption("col", 0); }
@@ -4064,45 +4062,44 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    }
 
    if (dosuperimpose) {
-      if (sislot == 0)
+      if (!sislot)
          sislot = new TGo4Slot(slot, "::Superimpose", "place for superimpose object");
       if (padopt->IsLegendDraw()) {
-         if (legslot == 0)
+         if (!legslot)
             legslot = new TGo4Slot(slot, "::Legend", "place for legends object");
-      } else
-      if (legslot != 0) {
+      } else if (legslot) {
          delete legslot;
-         legslot = 0;
+         legslot = nullptr;
       }
 
       drawobj = ProduceSuperimposeObject(slot, padopt, sislot, legslot, &objs,
                                          &objslots, padopt->IsTitleItem());
-      if (drawobj == 0)
+      if (!drawobj)
          dosuperimpose = kFALSE;
    }
 
    if (!dosuperimpose) {
-      if (sislot != 0) {
+      if (sislot) {
          delete sislot;
-         sislot = 0;
+         sislot = nullptr;
       }
-      if (legslot != 0) {
+      if (legslot) {
          delete legslot;
-         legslot = 0;
+         legslot = nullptr;
       }
       drawobj = objs.Last();
    }
 
    if (doasiimage) {
       asihisto = dynamic_cast<TH2*>(drawobj);
-      if (asihisto == 0)
+      if (!asihisto)
          doasiimage = false;
       else {
-         if (asislot == 0)
+         if (!asislot)
             asislot = new TGo4Slot(slot, "::ASImage", "place for Go4 ASI image");
          TGo4ASImage* image =
                dynamic_cast<TGo4ASImage*>(asislot->GetAssignedObject());
-         if(image==0) {
+         if(!image) {
             image = new TGo4ASImage;
             asislot->SetProxy(new TGo4ObjectProxy(image, kTRUE));
             updatecontent = true;
@@ -4114,15 +4111,13 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       }
    }
 
-   if (!doasiimage) {
-      if (asislot != 0) {
-         delete asislot;
-         asislot = 0;
-      }
+   if (!doasiimage && asislot) {
+      delete asislot;
+      asislot = nullptr;
    }
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
-   if (drawobj != 0) {
+   if (drawobj) {
       bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
@@ -4139,13 +4134,13 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       } else if (drawobj->InheritsFrom(TMultiGraph::Class())) {
          TMultiGraph* mg = (TMultiGraph*) drawobj;
          RedrawMultiGraph(pad, padopt, mg, dosuperimpose, updatecontent);
-      } else if (dynamic_cast<TGo4ASImage*>(drawobj) != 0) {
+      } else if (dynamic_cast<TGo4ASImage*>(drawobj)) {
          TGo4ASImage* ai = (TGo4ASImage*) drawobj;
          RedrawImage(pad, padopt, ai, asihisto, updatecontent);
       }
    }
 
-   if (legslot != 0)
+   if (legslot)
       RedrawLegend(pad, padopt, legslot);
 
    if (!doasiimage)
@@ -4409,7 +4404,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
    QString selname = GetSelectedMarkerName(pad);
    TObject* selectedobj = nullptr;
    const char* selectdrawopt = nullptr;
-   Int_t numtf1=0;
+   Int_t numtf1 = 0;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot* subslot = padslot->GetChild(n);
 
@@ -4419,7 +4414,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
          continue;
 
       TObject* obj = subslot->GetAssignedObject();
-      if (obj == 0)
+      if (!obj)
          continue;
 
       TString drawopt = GetSpecialDrawOption(subslot);
@@ -4431,7 +4426,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
          func->SetLineColor(GetAutoColor(((objindx+7) % 9) + 1)); // 9 basic colors for superimpose of tf1, like for other superimpose
       }
 
-      if ((selname == obj->GetName()) && (selectedobj == 0)) {
+      if ((selname == obj->GetName()) && !selectedobj) {
          selectedobj = obj;
          selectdrawopt = drawopt.Data();
       } else {
@@ -4442,11 +4437,10 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
    // if one has selected object on the pad, one should
    // draw it as last to bring it to the front of other
-   if (selectedobj != 0){
+   if (selectedobj) {
        //selectedobj->SetBit(kCanDelete, kFALSE); // jam2016
        selectedobj->Draw(selectdrawopt ? selectdrawopt : "");
    }
-
 }
 
 bool TGo4ViewPanel::IsAutoZoomFlag()
