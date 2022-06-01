@@ -96,7 +96,8 @@ JSROOT.require("painter").then(jsrp => {
 
          let marker = this.getObject();
 
-         if (!marker.fbHasLabel) return;
+         if (!marker.fbHasLabel)
+            return Promise.resolve(this);
 
          let pave_painter = findPainter(this, this.pave);
 
@@ -123,10 +124,9 @@ JSROOT.require("painter").then(jsrp => {
          for (let k = 0; k < lbls.length; ++k)
             this.pave.AddText(lbls[k]);
 
-         if (pave_painter)
-            pave_painter.redraw();
-         else
-            JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
+         let pr = pave_painter ? pave_painter.redraw() :
+                  JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
+         return pr.then(() => this);
       }
 
       redrawObject(obj) {
@@ -150,7 +150,7 @@ JSROOT.require("painter").then(jsrp => {
 
       redraw() {
          this.drawMarker();
-         this.drawLabel();
+         return this.drawLabel();
       }
 
    //   fillContextMenu(menu) {
@@ -210,9 +210,9 @@ JSROOT.require("painter").then(jsrp => {
    GO4.drawGo4Marker = function(dom, obj /*, option */) {
       let painter = new MarkerPainter(dom, obj);
       painter.drawMarker();
-      painter.drawLabel();
       painter.addToPadPrimitives();
-      return Promise.resolve(painter);
+      painter.drawLabel();
+      return painter.drawLabel();
    }
 
    // =========================================================================
@@ -370,7 +370,8 @@ JSROOT.require("painter").then(jsrp => {
 
          let cond = this.getObject(), painter = this, stat = {};
 
-         if (!cond.fbLabelDraw || !cond.fbVisible) return;
+         if (!cond.fbLabelDraw || !cond.fbVisible)
+            return Promise.resolve(this);
 
          let pave_painter = findPainter(this, this.pave);
 
@@ -431,14 +432,15 @@ JSROOT.require("painter").then(jsrp => {
 
          if (cond.fbXMaxDraw) this.pave.AddText("X max = " + jsrp.floatToString(stat.xmax, "6.4g"));
 
-         if (cond.fiDim==2)
+         if (cond.fiDim==2) {
             if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + jsrp.floatToString(stat.ymax, "6.4g"));
+         }
+
          if (cond.fbCMaxDraw) this.pave.AddText("C max = " + jsrp.floatToString(stat.wmax, "14.7g"));
 
-         if (!pave_painter)
-            JSROOT.draw(this.divid, this.pave, "");
-         else
-            pave_painter.redraw();
+        let pr = pave_painter ? pave_painter.redraw() :
+                     JSROOT.draw(this.divid, this.pave, "");
+        return pr.then(() => this); // ensure that condition painter is returned
       }
 
    //   fillContextMenu(menu) {
@@ -509,7 +511,7 @@ JSROOT.require("painter").then(jsrp => {
 
       redraw() {
          this.drawCondition();
-         this.drawLabel();
+         return this.drawLabel();
       }
 
       getDomId() {
@@ -534,13 +536,12 @@ JSROOT.require("painter").then(jsrp => {
           main = condpainter.getMainPainter();
 
       if (GO4.web_canvas || (option.indexOf('same') >= 0) || main) {
-         if (main) {
-            // draw only when histogram is drawn already
-            condpainter.drawCondition();
-            condpainter.drawLabel();
-            condpainter.addToPadPrimitives();
-         }
-         return Promise.resolve(condpainter);
+         // if no hist painter, do nothing, just return dummy
+         if (!main)
+            return Promise.resolve(condpainter);
+         condpainter.drawCondition();
+         condpainter.addToPadPrimitives();
+         return condpainter.drawLabel();
       }
 
       // from here normal code for plain THttpServer
@@ -578,9 +579,8 @@ JSROOT.require("painter").then(jsrp => {
       function drawCond(hpainter) {
          if (!hpainter) return console.log("fail to draw histogram " + histofullpath);
          condpainter.drawCondition();
-         condpainter.drawLabel();
          condpainter.addToPadPrimitives();
-         return condpainter;
+         return condpainter.drawLabel();
       }
 
       return JSROOT.hpainter.display(histofullpath, "divid:" + condpainter.getDomId()).then(hp => drawCond(hp));
