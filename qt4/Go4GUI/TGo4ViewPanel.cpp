@@ -500,7 +500,7 @@ void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl, int
          && !cl->InheritsFrom(TGo4Condition::Class()))
       return;
 
-   if (!AddDrawObject(pad, kind_Link, itemname, 0, false, nullptr)) return;
+   if (!AddDrawObject(pad, kind_Link, itemname, nullptr, false, nullptr)) return;
 
    SetActivePad(pad);
 
@@ -781,9 +781,9 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
          }
       }
       if (drawkind != kind_Condition) continue;
-      TGo4Condition* cond =
-            dynamic_cast<TGo4Condition*>(subslot->GetAssignedObject());
-      if (!cond) continue;
+      TGo4Condition *cond = dynamic_cast<TGo4Condition *>(subslot->GetAssignedObject());
+      if (!cond)
+         continue;
 
       if (strcmp(cond->GetName(), name) == 0) {
          SetSelectedMarker(pad, name, -1);
@@ -1270,8 +1270,8 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 
    if (!pad) {
       if (!fxWCanvas) {
-         GetCanvas()->SetSelected(0);
-         GetCanvas()->SetSelectedPad(0);
+         GetCanvas()->SetSelected(nullptr);
+         GetCanvas()->SetSelectedPad(nullptr);
          CanvasUpdate();
       }
       return;
@@ -3674,7 +3674,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 
       if (brcont->DefineRelatedObject(picitemname, objname, drawname)) {
 
-         TGo4Slot* slot = AddDrawObject(pad, kind_Link, drawname.Data(), 0, false, 0);
+         TGo4Slot* slot = AddDrawObject(pad, kind_Link, drawname.Data(), nullptr, false, nullptr);
 
          brcont->GetBrowserObject(drawname.Data(), go4sett->getFetchDataWhenDraw() ? 2 : 1);
          ndraw++;
@@ -3777,11 +3777,11 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad *tgtpad, TPad *srcpad, const char *s
          ProcessCanvasAdopt(tgtsubpad, srcsubpad, itemname.Data());
       } else if (dynamic_cast<TGo4Condition*>(obj)) {
          TGo4Condition* cond = (TGo4Condition*) obj->Clone();
-         cond->SetWorkHistogram(0);
+         cond->SetWorkHistogram(nullptr);
          AddDrawObject(tgtpad, kind_Condition, cond->GetName(), cond, kTRUE, nullptr);
       } else if (dynamic_cast<TGo4Marker*>(obj)) {
          TGo4Marker* mark = (TGo4Marker*) obj->Clone();
-         mark->SetHistogram(0);
+         mark->SetHistogram(nullptr);
          AddDrawObject(tgtpad, kind_Marker, mark->GetName(), mark, kTRUE, nullptr);
       } else if (dynamic_cast<TLatex *>(obj)) {
          AddDrawObject(tgtpad, kind_Latex, obj->GetName(), obj->Clone(), kTRUE, nullptr);
@@ -4610,7 +4610,7 @@ void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems, bool removesub
       CallPanelFunc(panel_PadDeleted, subpad);
 
       if (GetCanvas()->GetSelectedPad() == subpad)
-         GetCanvas()->SetSelectedPad(0);
+         GetCanvas()->SetSelectedPad(nullptr);
 
       delete subpad;
    }
@@ -5003,7 +5003,7 @@ void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bo
 {
    if (!gr || !padopt) return;
 
-   Double_t minx(0), maxx(0), miny(0), maxy(0), xx, yy;
+   Double_t minx = 0, maxx = 0, miny = 0, maxy = 0, xx, yy;
    if (isfirst) {
       if (gr->GetN() > 0) {
          gr->GetPoint(0, minx, miny);
@@ -5715,7 +5715,7 @@ void TGo4ViewPanel::AddMarkerObj(TPad* pad, int kind, TObject* obj)
       slotname = basename + QString::number(cnt++);
    } while (padslot->FindChild(slotname.toLatin1().constData()));
 
-   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toLatin1().constData(), obj, true, 0);
+   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toLatin1().constData(), obj, true, nullptr);
 
    SetActiveObj(pad, kind, objslot);
 }

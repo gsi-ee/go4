@@ -87,7 +87,7 @@ class TGo4RemoteCommand : public TGo4Command {
 
       /** Optional aggregated parameter object. May be a condition,
         * status, canvas etc. to apply on slave node. */
-      TObject* fxAggregate;
+      TObject* fxAggregate{nullptr};
 
       static const char* fgxREMCOMEMPTYSTRING; //!
 
