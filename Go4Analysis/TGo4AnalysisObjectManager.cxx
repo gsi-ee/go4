@@ -98,11 +98,11 @@ const char* TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
 
 TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
    TNamed(name,"The Go4 Analysis Object Manager"),
-   fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0), fxParameterDir(0),
-   fxDynListDir(0),fxUserDir(0), fxTreeDir(0), fxPictureDir(0), fxCanvasDir(0),
-   fxStoreDir(0), fxSourceDir(0), fxProcessorDir(0), fxEventDir(0),
-   fxAnalysisDir(0), fxTempFolder(0),
-   fxMatchList(0), fxMatchIterator(0),
+   fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr), fxParameterDir(nullptr),
+   fxDynListDir(nullptr),fxUserDir(nullptr), fxTreeDir(nullptr), fxPictureDir(nullptr), fxCanvasDir(nullptr),
+   fxStoreDir(nullptr), fxSourceDir(nullptr), fxProcessorDir(nullptr), fxEventDir(nullptr),
+   fxAnalysisDir(nullptr), fxTempFolder(nullptr),
+   fxMatchList(nullptr), fxMatchIterator(nullptr),
    fiDynListCount(0), fiDynListInterval(0),
    fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
 {
@@ -147,10 +147,11 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
 
 TGo4AnalysisObjectManager::TGo4AnalysisObjectManager() :
    TNamed(),
-   fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0),
-   fxDynListDir(0), fxUserDir(0), fxTreeDir(0), fxPictureDir(0), fxCanvasDir(0),
-   fxStoreDir(0), fxSourceDir(0), fxProcessorDir(0), fxEventDir(0),
-   fxAnalysisDir(0), fxTempFolder(0),
+   fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr),
+   fxDynListDir(0), fxUserDir(0), fxTreeDir(0), fxPictureDir(nullptr), fxCanvasDir(nullptr),
+   fxStoreDir(nullptr), fxSourceDir(nullptr), fxProcessorDir(nullptr), fxEventDir(nullptr),
+   fxAnalysisDir(nullptr), fxTempFolder(nullptr),
+   fxMatchList(nullptr), fxMatchIterator(nullptr),
    fiDynListCount(0), fiDynListInterval(0),
    fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE), fbSortedOrder(kFALSE)
 {
@@ -201,7 +202,7 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
 
 void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
 {
-   if ((obj!=0) && (obj!=this)) {
+   if (obj && (obj!=this)) {
       // remove objects from canvas folder - it may happen that canvas automatically deleted
       if (fxCanvasDir) fxCanvasDir->RecursiveRemove(obj);
    }
@@ -225,9 +226,9 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* 
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
    //
-   TObject* ob(0);
-   TFolder* searchfold(fxGo4Dir);
-   if((folder!=0) && (strcmp(folder,fgcTOPFOLDER)!=0))
+   TObject* ob = 0;
+   TFolder* searchfold = fxGo4Dir;
+   if(folder && (strcmp(folder,fgcTOPFOLDER)!=0))
       searchfold = FindSubFolder(fxGo4Dir, folder, kFALSE);
    if(searchfold) {
       ob = FindObjectInFolder(searchfold, name);
@@ -258,32 +259,29 @@ TNamed *TGo4AnalysisObjectManager::GetObject(const char * name, const char* fold
 
 Bool_t TGo4AnalysisObjectManager::ClearObjects(const char * name)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearObject(char *)",__LINE__, __FILE__));
-   Bool_t rev=kTRUE;
-   TGo4LockGuard  dirguard(fxDirMutex);
-   TObject* ob = fxGo4Dir->FindObjectAny(name);
-   if(ob!=0)
-   {
-      if(ob->InheritsFrom(TFolder::Class()))
-         rev=ClearFolder(dynamic_cast<TFolder*>(ob));
+   GO4TRACE((11, "TGo4AnalysisObjectManager::ClearObject(char *)", __LINE__, __FILE__));
+   Bool_t rev = kTRUE;
+   TGo4LockGuard dirguard(fxDirMutex);
+   TObject *ob = fxGo4Dir->FindObjectAny(name);
+   if (ob) {
+      if (ob->InheritsFrom(TFolder::Class()))
+         rev = ClearFolder(dynamic_cast<TFolder *>(ob));
       else
-         rev=ClearObject(ob);
+         rev = ClearObject(ob);
    }
    return rev;
 }
 
-
 Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char * name)
 {
-   Bool_t rev=kFALSE;
-   TGo4LockGuard  dirguard(fxDirMutex);
-   TObject* ob= fxGo4Dir->FindObjectAny(name);
-   if(ob!=0)
-   {
-      if(ob->InheritsFrom(TFolder::Class()))
-         rev=DeleteFolder(dynamic_cast<TFolder*>(ob));
+   Bool_t rev = kFALSE;
+   TGo4LockGuard dirguard(fxDirMutex);
+   TObject *ob = fxGo4Dir->FindObjectAny(name);
+   if (ob) {
+      if (ob->InheritsFrom(TFolder::Class()))
+         rev = DeleteFolder(dynamic_cast<TFolder *>(ob));
       else
-         rev=DeleteObject(ob);
+         rev = DeleteObject(ob);
    }
    return rev;
 }
@@ -291,14 +289,13 @@ Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char * name)
 Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char* name, const Option_t* flags)
 {
    Bool_t rev = kFALSE;
-   TGo4LockGuard  dirguard(fxDirMutex);
-   TObject* ob= fxGo4Dir->FindObjectAny(name);
-   if(ob!=0)
-   {
-      if(ob->InheritsFrom(TFolder::Class()))
-         rev=ProtectFolder(dynamic_cast<TFolder*>(ob), flags);
+   TGo4LockGuard dirguard(fxDirMutex);
+   TObject *ob = fxGo4Dir->FindObjectAny(name);
+   if (ob) {
+      if (ob->InheritsFrom(TFolder::Class()))
+         rev = ProtectFolder(dynamic_cast<TFolder *>(ob), flags);
       else
-         rev=ProtectObject(ob, flags);
+         rev = ProtectObject(ob, flags);
    }
    return rev;
 }
