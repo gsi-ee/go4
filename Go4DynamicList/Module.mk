@@ -6,7 +6,7 @@ DYNLIST_DIR         = $(DYNLIST_NAME)
 
 ## must be similar for every module
 
-DYNLIST_NOTLIBF     = $(DYNLIST_DIR)/TGo4HistoFillAction.h
+DYNLIST_NOTLIBF     = 
 
 DYNLIST_H           = $(filter-out $(DYNLIST_NOTLIBF) $(OLD_DICT), $(wildcard $(DYNLIST_DIR)/*.$(HedSuf)))
 DYNLIST_S           = $(filter-out $(DYNLIST_NOTLIBF) $(OLD_DICT), $(wildcard $(DYNLIST_DIR)/*.$(SrcSuf)))
