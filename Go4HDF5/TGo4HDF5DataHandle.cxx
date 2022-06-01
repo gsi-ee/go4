@@ -350,10 +350,10 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
      fxFileSpace = fxDataSet.getSpace();
      int frank = fxFileSpace.getSimpleExtentNdims();
      hsize_t dims_out[frank];
-     fxFileSpace.getSimpleExtentDims( dims_out, NULL);
+     fxFileSpace.getSimpleExtentDims( dims_out, nullptr);
      go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet file dataspace has rank %d, dimensions:%d, #1. dimension=%ld \n",
          frank ,
-         fxFileSpace.getSimpleExtentDims( dims_out, NULL),
+         fxFileSpace.getSimpleExtentDims(dims_out, nullptr),
          (unsigned long)(dims_out[0]));
      fiEntries=dims_out[0]; // events filled in this file, for leaving the read loop later.
 

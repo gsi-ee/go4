@@ -303,17 +303,16 @@ Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char* name, const Option_
    return rev;
 }
 
-TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* branchlist,
-      TGo4CompositeEvent* compevent,
-      Int_t startindex, Int_t* skip,
-      const char* name, const char* title)
+TFolder *TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray *branchlist, TGo4CompositeEvent *compevent,
+                                                                Int_t startindex, Int_t *skip, const char *name,
+                                                                const char *title)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray*,...)",__LINE__, __FILE__));
-   if (branchlist==0) return 0;
+   if (!branchlist) return nullptr;
 
-   if (compevent==0) return CreateBranchFolder(branchlist,name,title);
+   if (!compevent) return CreateBranchFolder(branchlist,name,title);
 
-   Int_t lastindex=0;
+   Int_t lastindex = 0;
    if(startindex==1)
       // top event: scan everything
       lastindex = startindex + branchlist->GetLast();
@@ -321,7 +320,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
       // subevent: scan only own members
       lastindex = startindex + compevent->getNElements();
 
-   TFolder* subnames=0;
+   TFolder* subnames = nullptr;
    TList* nameslist = new TList;
    TGo4ObjectStatus* state;
    TObjArray* csubevents = compevent->getListOfComposites();
@@ -330,11 +329,11 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
    Int_t offset=0;
    for(Int_t i=startindex; i<lastindex;i++) {
       //std::cout <<"i+offset="<<i+offset << std::endl;
-      TClass* cl=0;
-      TObject* entry=branchlist->At(i+offset);
+      TClass* cl = nullptr;
+      TObject* entry = branchlist->At(i+offset);
       if((entry!=0) && entry->InheritsFrom(TBranch::Class()))  {
          // found subfolder, process it recursively
-         TBranch* currentbranch= dynamic_cast<TBranch*> (entry);
+         TBranch* currentbranch = dynamic_cast<TBranch*> (entry);
          TObjArray* currentbranchlist=0;
          if (currentbranch!=0) {
             currentbranchlist=currentbranch->GetListOfBranches();
@@ -342,33 +341,28 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
          }
          if((cl!=0)  && cl->InheritsFrom(TGo4CompositeEvent::Class())) {
             // subevent is also composite event, treat next n branches as subbranches:
-            TGo4CompositeEvent* subevent=0;
+            TGo4CompositeEvent *subevent = nullptr;
             TString branchname(currentbranch->GetName());
             Ssiz_t leng = branchname.Length();
             branchname.Resize(leng-1); // strip dot from branchname
             //std::cout <<"searching for composite sub event "<< branchname.Data() << std::endl;
-            if(csubevents!=0)
+            if(csubevents)
             	subevent = dynamic_cast<TGo4CompositeEvent *>(csubevents->FindObject(branchname.Data()));
 
-            if((subevent!=0) && subevent->getNElements()>0) {
+            if(subevent && subevent->getNElements()>0) {
             	//std::cout <<"found composite subevent "<< subevent->GetName() << std::endl;
             	// found subbranch, add it to folder struct
 
-            	subnames=CreateCompositeBranchFolder(branchlist,
-            			subevent,
-						i+offset+1, &skippedentries,
-						subevent->GetName(),
-						subevent->GetTitle());
-            	nameslist->AddLast(subnames);
-            	offset+=skippedentries;
+               subnames = CreateCompositeBranchFolder(branchlist, subevent, i + offset + 1, &skippedentries,
+                                                      subevent->GetName(), subevent->GetTitle());
+               nameslist->AddLast(subnames);
+               offset+=skippedentries;
             	//std::cout <<"skipped:"<<skippedentries<<", i:"<<i << std::endl;
             	//std::cout <<"offset:"<<offset<< std::endl;
             	// now process subbranchlist currentbranchlist of compevent,
             	// add members of this folder to existing folder subnames!
-            	TFolder* temp=CreateBranchFolder(currentbranchlist,
-            			"dummy",
-						"dummy");
-            	subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
+               TFolder *temp = CreateBranchFolder(currentbranchlist, "dummy", "dummy");
+               subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
             }
             else
             {
@@ -376,21 +370,20 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
             	// subevent not in list, normal operation:
             	//state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (entry) );
             	//nameslist->AddLast(state);
-            	if(currentbranchlist!=0)
+            	if(currentbranchlist)
             	{
             		if(currentbranchlist->IsEmpty())
             		{
             			// subbranchlist is empty, add status object to folder
-            			state=new TGo4BranchStatus(currentbranch);
-            			nameslist->AddLast(state);
-            		}
+                     state = new TGo4BranchStatus(currentbranch);
+                     nameslist->AddLast(state);
+                  }
             		else
             		{
-            			subnames=CreateBranchFolder(currentbranchlist,
-            					currentbranch->GetName(),
-								currentbranch->GetTitle());
-            			nameslist->AddLast(subnames);
-            		}
+                     subnames =
+                        CreateBranchFolder(currentbranchlist, currentbranch->GetName(), currentbranch->GetTitle());
+                     nameslist->AddLast(subnames);
+                  }
             	} // if(currentbranchlist)
             } //if(subevent && subevent->getNElements()>0)
          }   //  if(cl  && cl->InheritsFrom(TGo4CompositeEvent))
@@ -399,7 +392,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
             // subevent is not a composite event, normal operation:
             //                  state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (entry) );
             //                  nameslist->AddLast(state);
-            if(currentbranchlist!=0)
+            if(currentbranchlist)
             {
                if(currentbranchlist->IsEmpty())
                {
@@ -409,9 +402,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
                }
                else
                {
-                  subnames=CreateBranchFolder(currentbranchlist,
-                        currentbranch->GetName(),
-                        currentbranch->GetTitle());
+                  subnames = CreateBranchFolder(currentbranchlist, currentbranch->GetName(), currentbranch->GetTitle());
                   nameslist->AddLast(subnames);
                }
             }

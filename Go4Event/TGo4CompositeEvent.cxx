@@ -233,25 +233,26 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 {
    // Returns a pointer to the partial event with array location idx.
 
-   if ((fEventElements==0) || (idx<0) || (idx > fEventElements->GetLast())) return NULL;
-   return ( TGo4EventElement*) fEventElements->At(idx);
+   if (!fEventElements || (idx < 0) || (idx > fEventElements->GetLast()))
+      return nullptr;
+   return (TGo4EventElement *)fEventElements->At(idx);
 }
 
 
 TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final_element)
 {
    TIter next(fEventElements);
-   TGo4EventElement *ev(0);
-   while ((ev=( TGo4EventElement *)next())!=0) {
+   TGo4EventElement *ev = nullptr;
+   while ((ev=(TGo4EventElement *)next()) != nullptr) {
       if(strcmp(name,ev->GetName())==0) return ev;
       if (ev->isComposed()) {
          TGo4EventElement* inter= ((TGo4CompositeEvent*) ev)->getEventElement(name,1);
-         if (inter !=0) return inter;
+         if (inter) return inter;
       }
    }
    if(final_element == 0)
       TGo4Log::Debug("TGo4CompositeEvent => Element:%s not found in Composite:%s", name, GetName());
-   return NULL;
+   return nullptr;
 }
 
 void TGo4CompositeEvent::deactivate()
@@ -261,7 +262,7 @@ void TGo4CompositeEvent::deactivate()
    TIter next(fEventElements);
    TGo4EventElement *ev = nullptr;
 
-   while ((ev=( TGo4EventElement *)next())!=0)
+   while ((ev=(TGo4EventElement *)next()) != nullptr)
       ev->deactivate();
 }
 
@@ -271,9 +272,9 @@ void TGo4CompositeEvent::activate()
    TGo4EventElement::activate();
 
    TIter next(fEventElements);
-   TGo4EventElement *ev(0);
+   TGo4EventElement *ev = nullptr;
 
-   while ((ev = (TGo4EventElement*)next()) != 0)
+   while ((ev = (TGo4EventElement*)next()) != nullptr)
       ev->activate();
 }
 
@@ -286,10 +287,10 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
    TIter next(fEventElements);
    //-- Add top level composite
    TGo4EventElement *ev = nullptr;
-   while ((ev=( TGo4EventElement *)next())!=0) {
-      if ( ev->isComposed() ) {
+   while ((ev=(TGo4EventElement *)next()) != nullptr) {
+      if (ev->isComposed()) {
          comp->Add( ev );
-         TObjArray* dump = ((TGo4CompositeEvent*) ev)->getListOfComposites(kFALSE);
+         TObjArray* dump = ((TGo4CompositeEvent *) ev)->getListOfComposites(kFALSE);
 
          comp->AddAll(dump);
 
@@ -303,7 +304,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 
 TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 {
-   if ((fEventElements==0) || (i<0) || (i>fEventElements->GetLast())) {
+   if (!fEventElements || (i < 0) || (i > fEventElements->GetLast())) {
       TGo4Log::Error("Wrong index %d in TGo4CompositeEvent::operator[]", i);
       return *this;
    }
@@ -314,7 +315,7 @@ TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 
 void TGo4CompositeEvent::ProvideArray()
 {
-   if (fEventElements==0) {
+   if (!fEventElements) {
       Int_t size = fMaxIndex+1;
       fEventElements = new TObjArray(size);
       if (fDebug)

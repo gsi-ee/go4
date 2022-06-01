@@ -114,9 +114,9 @@ void TGo4AbstractInterface::LoadLibrary(const char* fname)
 
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
 
-   while(token != 0) {
+   while(token != nullptr) {
       if (strcmp(token, fname)==0) return;
-      token = strtok(NULL, " ,\t\n");
+      token = strtok(nullptr, " ,\t\n");
    }
 
    gSystem->Load(fname);
@@ -319,7 +319,7 @@ void TGo4AbstractInterface::FreeHotStartCmds()
 void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
 {
    TString rootsys;
-   if (gSystem->Getenv("ROOTSYS") != 0) {
+   if (gSystem->Getenv("ROOTSYS") != nullptr) {
       rootsys = gSystem->Getenv("ROOTSYS");
       if (rootsys[rootsys.Length()-1] != '/') rootsys+="/";
    }
@@ -328,7 +328,7 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
 
    TString libs = gInterpreter->GetSharedLibs();
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
-   while(token != 0) {
+   while(token != nullptr) {
       if ((fInitSharedLibs.Index(token) == kNPOS)
 //           (strstr(token,"libGX11.")==0) &&
 //          (strstr(token,"libGX11TTF.")==0) &&
@@ -344,7 +344,6 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
 
               fs << "\");" << std::endl;
           }
-      token = strtok(NULL, " ,\t\n");
+      token = strtok(nullptr, " ,\t\n");
    }
 }
-
