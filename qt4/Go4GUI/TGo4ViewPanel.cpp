@@ -4158,7 +4158,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
 void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bool scancontent, bool first_draw)
 {
-   if ((pad == 0) || (padopt == 0) || (his == 0)) return;
+   if (!pad || !padopt || !his) return;
 
    if (scancontent)
       TakeFullRangeFromHisto(his, padopt, true);
@@ -4197,13 +4197,13 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
 void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
                                 bool dosuperimpose, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (hs == 0)) return;
+   if (!pad || !padopt || !hs) return;
 
    if (scancontent) {
       TIter iter(hs->GetHists());
-      TH1 *h1 = 0;
+      TH1 *h1 = nullptr;
       bool first = true;
-      while ((h1 = (TH1*) iter()) != 0) {
+      while ((h1 = (TH1*) iter()) != nullptr) {
          TakeFullRangeFromHisto(h1, padopt, first);
          first = false;
       }
@@ -4225,8 +4225,8 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
-   TH1* h1 = dynamic_cast<TH1*>(hs->GetHists() ? hs->GetHists()->First() : 0);
-   if (h1!=0) {
+   TH1* h1 = hs->GetHists() ? dynamic_cast<TH1*>(hs->GetHists()->First()) : nullptr;
+   if (h1) {
       hs->SetTitle(h1->GetTitle());
       framehisto->SetTitle(h1->GetTitle());
       framehisto->GetXaxis()->SetTitle(h1->GetXaxis()->GetTitle());
@@ -4239,7 +4239,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
 void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent, bool first_draw)
 {
-   if ((pad == 0) || (padopt == 0) || (gr == 0)) return;
+   if (!pad || !padopt || !gr) return;
 
    if (scancontent) {
       TakeFullRangeFromGraph(gr, padopt, true);
@@ -4265,10 +4265,10 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
 
 
       // only activate panel defaults if no fill color set by user:
-         if ((go4sett->getDrawFillColor()>0) && (gr->GetFillColor()==0))
-           gr->SetFillColor(go4sett->getDrawFillColor());
-         if ((go4sett->getDrawFillStyle()!=1001) && (gr->GetFillStyle()==1001))
-           gr->SetFillStyle(go4sett->getDrawFillStyle());
+      if ((go4sett->getDrawFillColor() > 0) && (gr->GetFillColor() == 0))
+         gr->SetFillColor(go4sett->getDrawFillColor());
+      if ((go4sett->getDrawFillStyle() != 1001) && (gr->GetFillStyle() == 1001))
+         gr->SetFillStyle(go4sett->getDrawFillStyle());
    }
 
    if (drawopt.Length() == 0)
@@ -4294,15 +4294,15 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
    SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 }
 
-void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
-      TMultiGraph * mg, bool dosuperimpose, bool scancontent)
+void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph *mg, bool dosuperimpose,
+                                     bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (mg == 0)) return;
+   if (!pad || !padopt || !mg) return;
 
    TIter iter(mg->GetListOfGraphs());
-   TGraph *gr(0), *firstgr(0);
+   TGraph *gr = nullptr, *firstgr = nullptr;
    bool first = true;
-   while ((gr = (TGraph*) iter()) != 0) {
+   while ((gr = (TGraph*) iter()) != nullptr) {
       if (scancontent) {
          gr->SetEditable(kFALSE);
          TakeFullRangeFromGraph(gr, padopt, first);
@@ -4326,13 +4326,13 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
 
    TH1* framehisto = (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() : mg->GetHistogram();
 
-   if (framehisto == 0) {
+   if (!framehisto) {
       // this is workaround to prevent recreation of framehistogram in TMultiGraph::Paint
       mg->Draw(drawopt.Data());
       framehisto = (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() : mg->GetHistogram();
    }
 
-   if (framehisto == 0) {
+   if (!framehisto) {
       TGo4Log::Error("Internal problem with MultiGraph drawing - cannot access frame histo");
       return;
    }
@@ -4373,7 +4373,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
                                 TH2* asihisto, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (im == 0)) return;
+   if (!pad || !padopt || !im) return;
 
    im->SetDrawData(asihisto, this, pad);
 
@@ -4392,25 +4392,23 @@ void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
    im->Draw();
 }
 
-void TGo4ViewPanel::RedrawLegend(TPad *pad, TGo4Picture* padopt,
-      TGo4Slot* legslot)
+void TGo4ViewPanel::RedrawLegend(TPad *pad, TGo4Picture *padopt, TGo4Slot *legslot)
 {
-   if (legslot == 0) return;
+   if (!legslot) return;
    TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
    //legend->SetBit(kCanDelete, kFALSE); // jam2016
-   if(legend!=0) legend->Draw();
+   if(legend) legend->Draw();
 }
 
 void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
 {
-   if ((pad == 0) || (padslot == 0))
-      return;
+   if (!pad || !padslot) return;
 
    CheckObjectsAssigments(pad, padslot);
 
    QString selname = GetSelectedMarkerName(pad);
-   TObject* selectedobj = 0;
-   const char* selectdrawopt = 0;
+   TObject* selectedobj = nullptr;
+   const char* selectdrawopt = nullptr;
    Int_t numtf1=0;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot* subslot = padslot->GetChild(n);
