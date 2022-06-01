@@ -28,18 +28,18 @@
 
 #include "TGo4TestThreadManager.h"
 
-TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", 0), fiMode(0), fxHisto(0)
+TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", 0)
 {
    GO4TRACE((14, "TGo4TestRunnable::TGo4Runnable() constructor", __LINE__, __FILE__));
 }
 
-TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right) : TGo4Runnable(right), fiMode(right.fiMode), fxHisto(0)
+TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right) : TGo4Runnable(right), fiMode(right.fiMode)
 {
    GO4TRACE((14, "TGo4TestRunnable::TGo4TestRunnable() copy ctor", __LINE__, __FILE__));
 }
 
 TGo4TestRunnable::TGo4TestRunnable(const char *name, TGo4ThreadManager *man, Int_t mode)
-   : TGo4Runnable(name, man), fiMode(mode), fxHisto(0)
+   : TGo4Runnable(name, man), fiMode(mode)
 {
    GO4TRACE(
       (14, "TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor", __LINE__, __FILE__));
@@ -171,7 +171,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
             {
                TGo4Log::Debug("\t ''%s'' deleting histogram", GetName());
                delete fxHisto;
-               fxHisto = 0;
+               fxHisto = nullptr;
             }
          else
             {
@@ -296,14 +296,13 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          fxGo4Thread->Sleep(5000);
          TGo4Log::Debug("\t ''%s'' deleting histogram %d", GetName(),loops++);
          delete fxHisto;
-         fxHisto = 0;
+         fxHisto = nullptr;
          }
          break;
       default:
          {
          GO4TRACE((11,"TGo4TestRunnable::Run() mode default",__LINE__, __FILE__));
-         TGo4Log::Debug(" TestRunnable ''%s'' --  unspecified Workfunc action! ",
-                  GetName(),fiMode);
+         TGo4Log::Debug(" TestRunnable ''%s'' mode %d --  unspecified Workfunc action! ",  GetName(),fiMode);
          throw TGo4LogicException();
          }
          break;
