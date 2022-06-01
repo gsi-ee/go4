@@ -23,9 +23,7 @@ class TGo4AnalysisCommand : public TGo4Command {
 
     TGo4AnalysisCommand(const char* name, const char* desc);
 
-    virtual ~TGo4AnalysisCommand();
-
-    TGo4AnalysisCommand(const TGo4AnalysisCommand &right);
+    virtual ~TGo4AnalysisCommand() {}
 
     /** Optional action if command is not allowed (warning message e.g.) */
     Int_t RefuseCom() override;
