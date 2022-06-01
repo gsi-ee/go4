@@ -30,8 +30,8 @@ TGo4AnalysisStepManager::TGo4AnalysisStepManager(const char* name) :
    fiLastStepIndex(0),
    fiCurrentStepIndex(0),
    fbStepCheckingMode(kTRUE),
-   fxCurrentStep(0),
-   fxOutputEvent(0)
+   fxCurrentStep(nullptr),
+   fxOutputEvent(nullptr)
 {
    fxStepList = new TObjArray;
    fxStepIterator = fxStepList->MakeIterator();
@@ -48,9 +48,9 @@ void TGo4AnalysisStepManager::CloseAnalysis()
    GO4TRACE((14,"TGo4AnalysisStepManager::CloseAnalysis()",__LINE__, __FILE__));
    //
    TGo4Log::Debug("Analysis Step Manager  --  closing analysis steps...");
-   TGo4AnalysisStep* step=0;
+   TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
+   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
    {
       step->Close();
    }
@@ -65,11 +65,11 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
    Bool_t firststepfound=kFALSE;
    Bool_t laststepfound=kFALSE;
    TGo4Log::Debug("Analysis StepManager --  Initializing EventClasses...");
-   TGo4AnalysisStep* step=0;
+   TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
-   fiCurrentStepIndex=0;
+   fiCurrentStepIndex = 0;
    //std::cout <<"IIIIIIII InitEventClasses with checking: "<<IsStepChecking() << std::endl;
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
+   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
    {
       step->InitEventClasses();
       // last enabled step:
@@ -103,7 +103,7 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
       // Test for steps valid:
       fxStepIterator->Reset();
       fiCurrentStepIndex=0;
-      while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
+      while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          //std::cout << "match testing of analysis step " << step->GetName() << std::endl;
          if(! step->IsMatchingPrevious() )
@@ -129,14 +129,14 @@ Bool_t TGo4AnalysisStepManager::SetFirstStep(const char* name)
    GO4TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char*)",__LINE__, __FILE__));
    //
    Bool_t result=kFALSE;
-   if(name==0) {
+   if(!name) {
       // reset to defaults:
       fiFirstStepIndex=0; // beginning of steplist
       TGo4Analysis::Instance()->Message(0,"Analysis: Setting first step to beginning of steplist");
       result=kTRUE;
    } else {
       TObject* obj=fxStepList->FindObject(name);
-      if(obj==0) {
+      if(!obj) {
          result=kFALSE;
          TGo4Analysis::Instance()->Message(3,"!!! Analysis: SetFirstStep ERROR - no such step %s",
                name);
@@ -166,7 +166,7 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
    GO4TRACE((12,"TGo4AnalysisStepManager::SetLastStep(const char*)",__LINE__, __FILE__));
    //
    Bool_t result=kTRUE;
-   if(name==0) {
+   if(!name) {
       // reset to defaults:
       fiLastStepIndex=fxStepList->GetLast(); // end of steplist
       if(fiLastStepIndex<0)
@@ -176,7 +176,7 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
       result=kTRUE;
    } else {
       TObject* obj=fxStepList->FindObject(name);
-      if(obj==0) {
+      if(!obj) {
          result=kFALSE;
          TGo4Analysis::Instance()->Message(3,"!!! Analysis: SetLastStep ERROR - no such step %s",
                name);
@@ -203,31 +203,28 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
 
 Bool_t TGo4AnalysisStepManager::SetStepStorage(const char* name, Bool_t on)
 {
-GO4TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char*,Bool_t)",__LINE__, __FILE__));
-   Bool_t result=kFALSE;
-   TGo4AnalysisStep* step=GetAnalysisStep(name);
-   if(step)
-      {
-         step->SetStoreEnabled(on);
-         result=kTRUE;
-      }
-   else
-      {
-         result=kFALSE;
-      }
+   GO4TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char*,Bool_t)",__LINE__, __FILE__));
+   Bool_t result = kFALSE;
+   TGo4AnalysisStep *step = GetAnalysisStep(name);
+   if (step) {
+      step->SetStoreEnabled(on);
+      result = kTRUE;
+   } else {
+      result = kFALSE;
+   }
 
    return result;
-
 }
 
 Bool_t TGo4AnalysisStepManager::NewStepStore(const char * name, TGo4EventStoreParameter* par)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepStore(const char *, TGo4EventStoreParameter*)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
-   TGo4AnalysisStep* step=0;
-   if(name==0) {
+   TGo4AnalysisStep* step = nullptr;
+
+   if(!name) {
       // zero name: use last step
-      step=dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(fiLastStepIndex));
+      step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(fiLastStepIndex));
    } else {
       // step specified by name:
       step=GetAnalysisStep(name);
@@ -248,8 +245,8 @@ Bool_t TGo4AnalysisStepManager::NewStepSource(const char * name, TGo4EventSource
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepSource(const char *, TGo4EventSourceParameter *)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
-   TGo4AnalysisStep* step=0;
-   if(name==0) {
+   TGo4AnalysisStep* step = nullptr;
+   if(!name) {
       // zero name: use first step
       step=dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(fiFirstStepIndex));
       //std::cout << "new step source: zero name"<< std::endl;
@@ -274,8 +271,8 @@ Bool_t TGo4AnalysisStepManager::NewStepSource(const char * name, TGo4EventSource
 Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char * name, TGo4EventProcessorParameter * par)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepProcessor(const char *, TGo4EventProcessorParameter *)",__LINE__, __FILE__));
-   Bool_t result=kFALSE;
-   TGo4AnalysisStep* step=GetAnalysisStep(name);
+   Bool_t result = kFALSE;
+   TGo4AnalysisStep* step = GetAnalysisStep(name);
    if(step) {
       //step->SetEventProcessor(par); // remember parameter for next init
       step->NewEventProcessor(par); // create processor now
@@ -295,31 +292,31 @@ Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Parameter* par)
 Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Condition* con)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
-   return (step!=0) ? step->Store(con) : 1;
+   return step ? step->Store(con) : 1;
 }
 
 Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Fitter* fit)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
-   return (step!=0) ? step->Store(fit) : 1;
+   return step ? step->Store(fit) : 1;
 }
 
 Int_t TGo4AnalysisStepManager::Store(const char * name, TFolder* folder)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
-   return (step!=0) ? step->Store(folder) : 1;
+   return step ? step->Store(folder) : 1;
 }
 
 TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char* stepname)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev=0;
-   TGo4AnalysisStep* step=GetAnalysisStep(stepname);
+   TGo4EventElement* rev = nullptr;
+   TGo4AnalysisStep* step = GetAnalysisStep(stepname);
    if(step) {
       TGo4EventProcessor* pro=step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
    } else {
-      rev=0;
+      rev = nullptr;
    }
    return rev;
 }
@@ -327,14 +324,14 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char* stepname)
 TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev = 0;
+   TGo4EventElement* rev = nullptr;
    TGo4AnalysisStep* step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(stepindex) );
    if(step) {
       TGo4EventProcessor* pro = step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
       //rev=step->GetInputEvent();
    } else {
-      rev=0;
+      rev = nullptr;
    }
    return rev;
 }
@@ -342,12 +339,12 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
 TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char* stepname)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char*)",__LINE__, __FILE__));
-   TGo4EventElement* rev=0;
+   TGo4EventElement* rev = nullptr;
    TGo4AnalysisStep* step=GetAnalysisStep(stepname);
    if(step) {
       rev = step->GetOutputEvent();
    } else {
-      rev=0;
+      rev = nullptr;
    }
    return rev;
 }
@@ -355,13 +352,13 @@ TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char* stepname)
 TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(Int_t stepindex)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev=0;
-   TGo4AnalysisStep* step=0;
+   TGo4EventElement* rev = nullptr;
+   TGo4AnalysisStep* step = nullptr;
    step= dynamic_cast<TGo4AnalysisStep*> ( fxStepList->At(stepindex) );
    if(step) {
       rev=step->GetOutputEvent();
    } else {
-      rev=0;
+      rev = nullptr;
    }
    return rev;
 }
@@ -372,7 +369,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
    //
    Bool_t rev=kFALSE;
    if (next) {
-      if(fxStepList->FindObject(next)==0)
+      if(!fxStepList->FindObject(next))
          // is object already in list?
       {
          //no, add the new object
@@ -415,9 +412,9 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
 TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char* name)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
-   TGo4AnalysisStep* step=0;
-   if(name==0)
-      step=dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(fiFirstStepIndex));
+   TGo4AnalysisStep* step = nullptr;
+   if(!name)
+      step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(fiFirstStepIndex));
    else
       step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->FindObject(name) );
    return step;
@@ -481,14 +478,14 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
 void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus* state)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
-   if(state!=0) {
+   if(state) {
       state->SetFirstStepIndex(fiFirstStepIndex);
       state->SetLastStepIndex(fiLastStepIndex);
       state->SetStepChecking(fbStepCheckingMode);
-      fxCurrentStep=0;
+      fxCurrentStep = nullptr;
       fxStepIterator->Reset();
       state->ClearStepStatus();
-      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
+      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          TGo4AnalysisStepStatus* stepstate= fxCurrentStep->CreateStatus();
          state->AddStepStatus(stepstate);
@@ -499,16 +496,16 @@ void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus* state)
 void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
-   if(state!=0) {
+   if(state) {
       fiFirstStepIndex=state->GetFirstStepIndex();
       fiLastStepIndex=state->GetLastStepIndex();
       fbStepCheckingMode=state->IsStepChecking();
       // note: the step indices are not used for
       // initialization of analysis any more!
       // update internal states of steps:
-      fxCurrentStep=0;
+      fxCurrentStep = nullptr;
       fxStepIterator->Reset();
-      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
+      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          const char* name= fxCurrentStep->GetName();
          TGo4AnalysisStepStatus* stepstate= state->GetStepStatus(name);
@@ -524,9 +521,9 @@ void TGo4AnalysisStepManager::AutoSave()
    //
    //TGo4LockGuard  autoguard(fxAutoSaveMutex);
    TGo4Analysis::Instance()->Message(0,"Analysis Step Manager  --  AutoSaving....");
-   TGo4AnalysisStep* step = 0;
+   TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0) {
+   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr) {
       step->StoreCalibration();
    }
 
