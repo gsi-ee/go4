@@ -40,7 +40,7 @@ TGo4MbsFile::TGo4MbsFile() :
    fxTagFile(),
    fxCurrentFile(),
    fxCurrentTag(),
-   fxMultiFile(0),
+   fxMultiFile(nullptr),
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
@@ -52,7 +52,7 @@ TGo4MbsFile::TGo4MbsFile(const char* name) :
    fxTagFile(),
    fxCurrentFile(),
    fxCurrentTag(),
-   fxMultiFile(0),
+   fxMultiFile(nullptr),
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
@@ -71,7 +71,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
    fxTagFile(),
    fxCurrentFile(),
    fxCurrentTag(),
-   fxMultiFile(0),
+   fxMultiFile(nullptr),
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
@@ -95,7 +95,7 @@ TGo4MbsFile::~TGo4MbsFile()
    GO4TRACE((15,"TGo4MbsFile::~TGo4MbsFile()",__LINE__, __FILE__));
    Close();
 
-   if(fxMultiFile) { delete fxMultiFile; fxMultiFile=0; }
+   if(fxMultiFile) { delete fxMultiFile; fxMultiFile = nullptr; }
 }
 
 void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly)
@@ -125,8 +125,8 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
          throw TGo4EventErrorException(this);
       }
 
-      if (fxMultiFile==0) {
-         fxMultiFile=lst;
+      if (!fxMultiFile) {
+         fxMultiFile = lst;
       } else {
          lst->SetOwner(kFALSE);
          fxMultiFile->AddAll(lst);
@@ -137,7 +137,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
    if (!isonly) {
       // only if more file names are expected we will start extra list with files names
 
-      if (fxMultiFile==0) { fxMultiFile = new TList; fxMultiFile->SetOwner(kTRUE); }
+      if (!fxMultiFile) { fxMultiFile = new TList; fxMultiFile->SetOwner(kTRUE); }
 
       if ((tagname!=0) && (strcmp(tagname,fgcNOTAGFILE)!=0)) {
          fname += " ";
@@ -157,7 +157,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
          throw TGo4EventErrorException(this);
       }
 
-      if (fxMultiFile==0) {
+      if (!fxMultiFile) {
          fxMultiFile = new TList;
          fxMultiFile->SetOwner(kTRUE);
       }
@@ -257,7 +257,7 @@ Int_t TGo4MbsFile::Close()
    // close connection/file
    if(CloseFile() == GETEVT__SUCCESS) fbIsOpen = kFALSE;
 
-   if(fxMultiFile) { delete fxMultiFile; fxMultiFile=0; }
+   if(fxMultiFile) { delete fxMultiFile; fxMultiFile = nullptr; }
 
    return rev;
 }
@@ -270,7 +270,7 @@ Int_t TGo4MbsFile::Open()
 
     /////////////////////////////
    // now treat different input modes:
-   if(fxMultiFile!=0) {
+   if(fxMultiFile) {
 
       while(NextFile()<0); // skip invalid filenames
       // note that TGo4EventEndException will break this loop if no valid file in list
@@ -296,9 +296,9 @@ Int_t TGo4MbsFile::Open()
 Int_t TGo4MbsFile::NextFile()
 {
    CloseFile();
-   fuEventCounter=0;
+   fuEventCounter = 0;
    // read next name from namesfile
-   if(fxMultiFile!=0) {
+   if(fxMultiFile) {
       TString nextline;
       char nextfile[TGo4EventSource::fguTXTLEN];
       char nexttag[TGo4EventSource::fguTXTLEN];
@@ -310,7 +310,7 @@ Int_t TGo4MbsFile::NextFile()
       do {
          //std::cout <<"read line "<<cnt++<<" : "<<nextline << std::endl;
          //if(fxMultiFile->rdstate()==ios::eofbit)
-         if((fxMultiFile==0) || (fxMultiFile->GetSize()==0)) {
+         if(!fxMultiFile || (fxMultiFile->GetSize() == 0)) {
             // reached last filename, or read error?
             SetCreateStatus(GETEVT__NOFILE);
             SetErrMess("End of files list");

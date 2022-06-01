@@ -19,17 +19,16 @@
 TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char* name)
 : TGo4EventSourceParameter(name, GO4EV_TREE)
 {
-  GO4TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char*)", __LINE__, __FILE__));
 }
-
 
 TGo4TreeSourceParameter::TGo4TreeSourceParameter()
 : TGo4EventSourceParameter("Default Go4 TreeSource", GO4EV_TREE)
 {
-  GO4TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter()", __LINE__, __FILE__));
 }
 
 TGo4TreeSourceParameter::~TGo4TreeSourceParameter()
 {
-  GO4TRACE((14,"TGo4TreeSourceParameter::~TGo4TreeSourceParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TreeSourceParameter::~TGo4TreeSourceParameter()", __LINE__, __FILE__));
 }

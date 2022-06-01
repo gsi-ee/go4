@@ -28,7 +28,7 @@ TGo4RevServParameter::TGo4RevServParameter(const char* name, Int_t defport) :
 TGo4RevServParameter::TGo4RevServParameter() :
    TGo4MbsSourceParameter("default mbs remote event server", GO4EV_MBS_REVSERV)
 {
-GO4TRACE((14,"TGo4MbsRevServParameter::TGo4MbsRevServParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsRevServParameter::TGo4MbsRevServParameter()", __LINE__, __FILE__));
 }
 
 TGo4RevServParameter::~TGo4RevServParameter()

@@ -39,7 +39,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    TGo4EventSource(par->GetName()),
    fiMode(mode),
    fiRetryCnt(par->GetRetryCnt()),
-   fxEvent(0), fxBuffer(0), fxInfoHeader(0),
+   fxEvent(nullptr), fxBuffer(nullptr), fxInfoHeader(nullptr),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
    fuStartEvent(par->GetStartEvent()) ,
@@ -60,10 +60,10 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    TGo4EventSource(name),
    fiMode(mode),
    fiRetryCnt(0),
-   fxEvent(0), fxBuffer(0), fxInfoHeader(0),
+   fxEvent(nullptr), fxBuffer(nullptr), fxInfoHeader(nullptr),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
-   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
+   fuStartEvent(0), fuStopEvent(0), fuEventInterval(0),
    fiTimeout(-1), fbPollingMode(kFALSE), fiPort(0)
 {
    fxInputChannel = f_evt_control();
@@ -80,10 +80,10 @@ TGo4MbsSource::TGo4MbsSource() :
    TGo4EventSource("default mbs source"),
    fiMode(0),
    fiRetryCnt(0),
-   fxEvent(0), fxBuffer(0), fxInfoHeader(0),
+   fxEvent(nullptr), fxBuffer(nullptr), fxInfoHeader(nullptr),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
-   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
+   fuStartEvent(0), fuStopEvent(0), fuEventInterval(0),
    fiTimeout(-1), fbPollingMode(kFALSE), fiPort(0)
 {
    fxInputChannel = f_evt_control();

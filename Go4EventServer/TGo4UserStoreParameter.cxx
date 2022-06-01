@@ -30,7 +30,6 @@ TGo4UserStoreParameter::TGo4UserStoreParameter()
 
 TGo4UserStoreParameter::~TGo4UserStoreParameter()
 {
-
 }
 
 void TGo4UserStoreParameter::Print(Option_t*) const

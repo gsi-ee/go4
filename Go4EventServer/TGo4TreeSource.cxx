@@ -23,14 +23,14 @@
 #include "TGo4TreeSourceParameter.h"
 
 TGo4TreeSource::TGo4TreeSource(const char* name)
-: TGo4EventSource(name), fxTree(0), fxBranch(0)
+: TGo4EventSource(name), fxTree(nullptr), fxBranch(nullptr)
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));
    Open();
 }
 
 TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter* par)
-: TGo4EventSource(par->GetName()), fxTree(0), fxBranch(0)
+: TGo4EventSource(par->GetName()), fxTree(nullptr), fxBranch(nullptr)
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter*)",__LINE__, __FILE__));
    Open();
@@ -47,21 +47,17 @@ TGo4TreeSource::~TGo4TreeSource()
 {
    GO4TRACE((15,"TGo4TreeSource::~TGo4TreeSource()",__LINE__, __FILE__));
    // we have to readout rest of branch into memory before whole tree is written again
-   Int_t current=fxSingletonTree->GetCurrentIndex();
-   Int_t max=fxSingletonTree->GetMaxIndex();
-   Int_t z=0;
-   for(Int_t ix=current; ix< max; ++ix)
-      {
-         z++;
-         if( fxBranch->GetEntry(ix) == 0)
-            {
-               std::cout << "reached end of branch after "<< z << " dummy event retrieves"<<std::endl;
-               break;
-            }
-         else { }
-
+   Int_t current = fxSingletonTree->GetCurrentIndex();
+   Int_t max = fxSingletonTree->GetMaxIndex();
+   Int_t z = 0;
+   for (Int_t ix = current; ix < max; ++ix) {
+      z++;
+      if (fxBranch->GetEntry(ix) == 0) {
+         std::cout << "reached end of branch after " << z << " dummy event retrieves" << std::endl;
+         break;
       }
-   std::cout << "treesource "<< GetName() << " is destroyed after "<< z <<"dummy retrieves."<< std::endl;
+   }
+   std::cout << "treesource " << GetName() << " is destroyed after " << z << "dummy retrieves." << std::endl;
 }
 
 Int_t TGo4TreeSource::Open()
@@ -89,8 +85,8 @@ Bool_t TGo4TreeSource::BuildEvent(TGo4EventElement* dest)
    GO4TRACE((12,"TGo4TreeSource::BuildEvent(TGo4EventElement*)",__LINE__, __FILE__));
    //
    Bool_t rev=kTRUE;
-   if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
-   if(fxBranch==0) ThrowError(0,23,"!!! ERROR BuildEvent: branch was not initialized !!!");
+   if(!dest) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
+   if(!fxBranch) ThrowError(0,23,"!!! ERROR BuildEvent: branch was not initialized !!!");
    fxBranch->SetAddress(&dest);
    Int_t current=fxSingletonTree->GetCurrentIndex();
    if( fxBranch->GetEntry(current) == 0)

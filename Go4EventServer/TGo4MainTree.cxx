@@ -18,7 +18,7 @@
 
 #include "TGo4Log.h"
 
-TGo4MainTree * TGo4MainTree::fxInstance = 0;
+TGo4MainTree *TGo4MainTree::fxInstance = nullptr;
 
 const char* TGo4MainTree::fgcTREENAME = "Main";
 const char* TGo4MainTree::fgcFILENAME = "Go4MainTree.root";
@@ -28,7 +28,7 @@ const Int_t TGo4MainTree::fgiAUTOSAVESIZE = 10000000;
 
 TGo4MainTree::TGo4MainTree() :
    TObject(),
-   fxTree(0),
+   fxTree(nullptr),
    fiMaxIndex(0),
    fiCurrentIndex(0)
 {
@@ -50,22 +50,17 @@ TGo4MainTree::TGo4MainTree() :
 
 TGo4MainTree::~TGo4MainTree()
 {
-  GO4TRACE((15,"TGo4MainTree::~TGo4MainTree()", __LINE__, __FILE__));
+   GO4TRACE((15, "TGo4MainTree::~TGo4MainTree()", __LINE__, __FILE__));
    Write();
    delete fxFile;
-
 }
-
 
 TGo4MainTree * TGo4MainTree::Instance()
 {
-   GO4TRACE((12,"TGo4MainTree::Instance()", __LINE__, __FILE__));
-      if (fxInstance == 0)
-         {
-            fxInstance = new TGo4MainTree();
-         }
-      else { }
-      return fxInstance;
+   GO4TRACE((12, "TGo4MainTree::Instance()", __LINE__, __FILE__));
+   if (!fxInstance)
+      fxInstance = new TGo4MainTree();
+   return fxInstance;
 }
 
 void TGo4MainTree::SetAutoSave(Int_t bytesinterval)
@@ -93,23 +88,20 @@ Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsi
 
 void TGo4MainTree::Update()
 {
-GO4TRACE((12,"TGo4MainTree::Update()", __LINE__, __FILE__));
-   if( GetCurrentIndex() >= GetMaxIndex() )
-      {
-         // if we are at the end of the tree, increment TTree fEvents counter
-         // without affecting the branches:
-         fxTree->SetBranchStatus("*",0);
-         fxTree->Fill();
-         fxTree->SetBranchStatus("*",1);
-      }
-   else
-      { }
+   GO4TRACE((12, "TGo4MainTree::Update()", __LINE__, __FILE__));
+   if (GetCurrentIndex() >= GetMaxIndex()) {
+      // if we are at the end of the tree, increment TTree fEvents counter
+      // without affecting the branches:
+      fxTree->SetBranchStatus("*", 0);
+      fxTree->Fill();
+      fxTree->SetBranchStatus("*", 1);
+   }
    IncCurrentIndex();
 }
 
 Int_t TGo4MainTree::GetMaxIndex()
 {
-   fiMaxIndex = (fxTree==0) ? 0 : fxTree->GetEntries();
+   fiMaxIndex = !fxTree ? 0 : fxTree->GetEntries();
    return fiMaxIndex;
 }
 

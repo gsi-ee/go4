@@ -25,27 +25,14 @@
 
 //***********************************************************
 TGo4StepFactory::TGo4StepFactory() :
-   TGo4EventServerFactory(),
-   fnewProcessor(),
-   fProcessorName(),
-   fnewOutputEvent(),
-   fOutputEventName(),
-   fnewInputEvent(),
-   fInputEventName(),
-   fnewEventSource()
+   TGo4EventServerFactory()
 {
    TGo4Log::Debug("Create factory");
 }
 
 //***********************************************************
 TGo4StepFactory::TGo4StepFactory(const char* name) :
-   TGo4EventServerFactory(name),
-   fnewProcessor(),
-   fProcessorName(),
-   fnewOutputEvent(),
-   fOutputEventName(),
-   fnewInputEvent(),
-   fInputEventName()
+   TGo4EventServerFactory(name)
 {
    TGo4Log::Debug("Create factory %s", name);
    fnewInputEvent = "";
@@ -160,7 +147,7 @@ void TGo4StepFactory::DefUserEventStore(const char *Sclass)
 //-----------------------------------------------------------
 TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)
 {
-   if ((fnewEventSource.Length()>0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
+   if ((fnewEventSource.Length() > 0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
 
       TGo4Log::Info("%s: Create input source %s", GetName(), fnewEventSource.Data());
 

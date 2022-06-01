@@ -111,7 +111,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
 
 TGo4TreeStore::TGo4TreeStore()
 :TGo4EventStore("Go4 Default Tree Store"),
-   fxBranch(0), fxEvent(0), fiSplit(0), fiBufsize(0)
+   fxBranch(nullptr), fxEvent(nullptr), fiSplit(0), fiBufsize(0)
 {
    GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore()", __LINE__, __FILE__));
    // public default ctor for streamer

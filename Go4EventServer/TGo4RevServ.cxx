@@ -42,6 +42,6 @@ TGo4RevServ::TGo4RevServ()
 
 TGo4RevServ::~TGo4RevServ()
 {
-  GO4TRACE((15,"TGo4RevServ::~TGo4RevServ()",__LINE__, __FILE__));
-  Close();
+   GO4TRACE((15,"TGo4RevServ::~TGo4RevServ()",__LINE__, __FILE__));
+   Close();
 }
