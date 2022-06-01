@@ -236,16 +236,16 @@ class TGo4CondArray : public TGo4Condition {
 
   private:
     /** The object array of conditions */
-    TObjArray* condarr;
+    TObjArray *condarr{nullptr};
 
     /** Number of conditions in array. */
-    Int_t fiNumCond;
+    Int_t fiNumCond{0};
 
     /** Condition type ID (kGO4CONDWINDOW or kGO4CONDPOLYGON) */
-    Int_t fiType;
+    Int_t fiType{0};
 
     /** Index of selected condition */
-    Int_t fiSelectedCond;
+    Int_t fiSelectedCond{0};
 
   ClassDefOverride(TGo4CondArray,6)
 };

@@ -116,28 +116,28 @@ class TGo4WinCond : public TGo4Condition {
    private:
 
       /** inclusive lower limit */
-      Double_t fLow1;
+      Double_t fLow1{0};
 
       /** exclusive upper limit */
-      Double_t fUp1;
+      Double_t fUp1{0};
 
       /** inclusive lower limit */
-      Double_t fLow2;
+      Double_t fLow2{0};
 
       /** exclusive upper limit */
-      Double_t fUp2;
+      Double_t fUp2{0};
 
       /** Saved minimum x-axis bin number for active histogram range. */
-      Int_t fiSaveXMin;
+      Int_t fiSaveXMin{0};
 
       /** Saved maximum x-axis bin number for active histogram range. */
-      Int_t fiSaveXMax;
+      Int_t fiSaveXMax{0};
 
       /** Saved minimum y-axis bin number for active histogram range. */
-      Int_t fiSaveYMin;
+      Int_t fiSaveYMin{0};
 
       /** Saved maximum y-axis bin number for active histogram range. */
-      Int_t fiSaveYMax;
+      Int_t fiSaveYMax{0};
 
       /** Remember ranges of current histo and set range to active window. */
       void SetHistogramRanges(TH1* histo);
