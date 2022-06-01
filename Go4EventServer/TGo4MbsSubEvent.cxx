@@ -22,7 +22,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent() :
    fbIsDataOwner(kTRUE),
    fxHeader(),
    fiAllocLen(0),
-   fiData(0)
+   fiData(nullptr)
 {
    GO4TRACE((12,"TGo4MbstSubEvent::TGo4MbsSubEvent()",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS SubEvent default ctor.");
@@ -34,7 +34,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
    fbIsDataOwner(kTRUE),
    fxHeader(),
    fiAllocLen(0),
-   fiData(0)
+   fiData(nullptr)
 {
    GO4TRACE((12,"TGo4MbsSubEvent::TGo4MbsSubEvent(UInt_t)",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS SubEvent normal ctor.");
@@ -51,7 +51,7 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
    // check if Clear with only the used field elements worked correctly
    //TGo4Log::Info( "MBS SubEvent dtor...");
    Clear();
-   if(fbIsDataOwner && (fiData!=0)) {
+   if(fbIsDataOwner && fiData) {
       for(Int_t t=0; t<GetAllocatedLength(); t++)
          if(fiData[t]!=0)
             TGo4Log::Debug( " MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ",t);
@@ -145,7 +145,7 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 {
    GO4TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
    fbIsFilled = kFALSE;
-   if(fbIsDataOwner && (fiData!=0)) {
+   if(fbIsDataOwner && fiData) {
       // clear array of data
       Int_t dleng = GetDlen();
       if(dleng==0) dleng=2; // default value for dleng is not zero!!
@@ -160,7 +160,6 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 
       for(Int_t i=0; i<fieldlength;++i)
          fiData[i] = 0;
-      //std::cout<< std::endl<< "Subevent: cleared "<< fiAllocLen << "int field at "<<fiData << std::endl;
       fxHeader.Clear();
       Set(dleng); // set to default values, but remember last datalength
    }//if(fbIsDataOwner)
@@ -175,7 +174,6 @@ void TGo4MbsSubEvent::ReAllocate(Int_t newsize)
    } else {
       delete [] fiData;
       fiData = new Int_t[newsize];
-      //std::cout<< "Subevent: Reallocating " << newsize << ", previous:"<< fiAllocLen<< std::endl;
       TGo4Log::Debug(" MbsSubEvent: Reallocating Data field from %d to %d longwords ",fiAllocLen,newsize);
       fiAllocLen = newsize;
       Clear();

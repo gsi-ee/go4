@@ -32,10 +32,10 @@ Long64_t TGo4FileStore::fgiFILESPLITSIZE = 1900000000;
 
 TGo4FileStore::TGo4FileStore() :
    TGo4EventStore("Go4 Default File Store"),
-   fxFile(0),
-   fxTree(0),
+   fxFile(nullptr),
+   fxTree(nullptr),
    fbBranchExists(kFALSE),
-   fxEvent(0),
+   fxEvent(nullptr),
    fiSplit(1),
    fiBufsize(0),
    fiFillCount(0)
@@ -53,10 +53,10 @@ TGo4FileStore::TGo4FileStore(const char* name,
                              Int_t autosavesize,
                              Int_t bufsize) :
    TGo4EventStore(name),
-   fxFile(0),
-   fxTree(0),
+   fxFile(nullptr),
+   fxTree(nullptr),
    fbBranchExists(kFALSE),
-   fxEvent(0),
+   fxEvent(nullptr),
    fiSplit(splitlevel),
    fiBufsize(bufsize),
    fiFillCount(0)
@@ -102,14 +102,14 @@ TGo4FileStore::TGo4FileStore(const char* name,
 TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
          TGo4EventStore("dummy"),
          fbBranchExists(kFALSE),
-         fxEvent(0),
+         fxEvent(nullptr),
          fiSplit(1),
          fiBufsize(0),
          fiFillCount(0)
 {
    GO4TRACE((15,"TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par)", __LINE__, __FILE__));
 
-   if (par==0) {
+   if (!par) {
       TGo4Log::Error("TGo4FileStore::TGo4FileStore(.., TGo4FileStoreParameter* is not specified");
       return;
    }
@@ -158,12 +158,12 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
 TGo4FileStore::~TGo4FileStore()
 {
    GO4TRACE((15,"TGo4FileStore::~TGo4FileStore()", __LINE__, __FILE__));
-   if(fxFile) {
+   if(fxFile && fxTree) {
       fxFile = fxTree->GetCurrentFile(); // for file split after 1.8 Gb!
       fxFile->cd();
       fxTree->Write(0, TObject::kOverwrite);
       delete fxFile; // closes File, fxTree is removed from memory then
-      fxFile = 0;
+      fxFile = nullptr;
    }
 }
 
@@ -240,8 +240,6 @@ Int_t TGo4FileStore::Store(TFolder* fold)
    WriteToStore(fold);
    return 0;
 }
-
-
 
 void TGo4FileStore::WriteToStore(TNamed* ob)
 {
