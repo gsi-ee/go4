@@ -51,7 +51,7 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
       TString fxStepName;
 
       /** Contains current analysis step status value. To be checked by framework after Process().*/
-      Int_t fiProcessStatus;
+      Int_t fiProcessStatus{0};
 };
 
 #endif

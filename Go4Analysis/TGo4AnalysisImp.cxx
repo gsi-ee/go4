@@ -73,21 +73,17 @@
 #include "TGo4EventStoreException.h"
 
 class TGo4InterruptHandler : public TSignalHandler {
-   public:
-      TGo4InterruptHandler() :
-         TSignalHandler(kSigInterrupt, kFALSE)
-      {
-      }
+public:
+   TGo4InterruptHandler() : TSignalHandler(kSigInterrupt, kFALSE) {}
 
-      Bool_t Notify() override
-      {
-         if (TGo4Analysis::Exists())
-             TGo4Analysis::Instance()->ProcessCrtlCSignal();
+   Bool_t Notify() override
+   {
+      if (TGo4Analysis::Exists())
+         TGo4Analysis::Instance()->ProcessCrtlCSignal();
 
-         return kTRUE;
-      }
+      return kTRUE;
+   }
 };
-
 
 #ifdef _MSC_VER
 
