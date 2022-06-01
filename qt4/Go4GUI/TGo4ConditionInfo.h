@@ -50,7 +50,7 @@ public:
 
    virtual void WorkWithCondition(const char* itemname);
 
-   virtual void ResetWidget();
+   void ResetWidget() override;
 
    virtual void RefreshWidget(TGo4Condition* cond);
 

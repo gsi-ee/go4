@@ -35,21 +35,21 @@ public:
 
     TGo4EditDynEntry(QWidget *parent = nullptr, const char* name = nullptr);
 
-    bool IsAcceptDrag( const char * itemname, TClass * cl, int kind ) override;
-    virtual void DropItem( const char * itemname, TClass * cl, int kind );
-    void linkedObjectUpdated( const char * linkname, TObject * obj ) override;
-    virtual void RefreshWidget();
-    virtual QString GetEventName( const QString & itemname );
-    virtual QString GetEventMember( const QString & itemname );
-    virtual void WorkWithEntry( const char * itemname );
-    virtual void DropHistogram( const char * itemname );
-    virtual void DropCondition( const char * itemname );
-    virtual void DropTree( const char * itemname );
-    virtual void ResetWidget();
-    virtual void ProcessDropEvent( QGo4LineEdit * edt );
-    virtual void ProcessTreeDropEvent( QGo4LineEdit * edt );
-    virtual void requestedObjectCreated( const char * itemname, TClass * cl );
+    bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
+    void DropItem(const char *itemname, TClass *cl, int kind) override;
+    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
+    void ResetWidget() override;
+    virtual QString GetEventName(const QString &itemname);
+    virtual QString GetEventMember(const QString &itemname);
+    virtual void WorkWithEntry(const char *itemname);
+    virtual void DropHistogram(const char *itemname);
+    virtual void DropCondition(const char *itemname);
+    virtual void DropTree(const char *itemname);
+    virtual void ProcessDropEvent(QGo4LineEdit *edt);
+    virtual void ProcessTreeDropEvent(QGo4LineEdit *edt);
+    void requestedObjectCreated(const char *itemname, TClass *cl) override;
     virtual bool PrepareEntryForAnalysis();
+    virtual void RefreshWidget();
 
  public slots:
 

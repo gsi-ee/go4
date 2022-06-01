@@ -480,13 +480,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       virtual ~TGo4HttpLevelIter() {}
 
-      virtual Bool_t next()
+      Bool_t next() override
       {
-         if (fParent == 0) return kFALSE;
+         if (!fParent) return kFALSE;
 
          while (true) {
 
-            if (fChild == 0) {
+            if (!fChild) {
                fChild = fXML->GetChild(fParent);
             } else {
                fChild = fXML->GetNext(fChild);
@@ -502,11 +502,12 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return fChild!=0;
       }
 
-      virtual Bool_t isfolder() {
+      Bool_t isfolder() override
+      {
          return fXML->GetChild(fChild)!=0;
       }
 
-      virtual Int_t getflag(const char* flagname)
+      Int_t getflag(const char* flagname) override
       {
          if (strcmp(flagname,"IsRemote")==0) return 1;
 
@@ -524,24 +525,25 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      virtual TGo4LevelIter* subiterator()
+      TGo4LevelIter* subiterator() override
       {
          if (!isfolder()) return 0;
          return new TGo4HttpLevelIter(fXML,fChild);
       }
 
-      virtual TGo4Slot* getslot() { return 0; }
+      TGo4Slot* getslot() override { return nullptr; }
 
-      virtual const char* name()
+      const char* name() override
       {
          const char* real = fXML->GetAttr(fChild,"_realname");
-         return real!=0 ? real : fXML->GetAttr(fChild,"_name");
+         return real? real : fXML->GetAttr(fChild,"_name");
       }
 
-      virtual const char* info() { return fXML->GetAttr(fChild,"_title"); }
-      virtual Int_t sizeinfo() { return 0; }
+      const char* info() override { return fXML->GetAttr(fChild,"_title"); }
+      Int_t sizeinfo() override { return 0; }
 
-      virtual Int_t GetKind() {
+      Int_t GetKind() override
+      {
          if (isfolder()) return TGo4Access::kndFolder;
 
          if (fXML->HasAttr(fChild,"_go4event")) return TGo4Access::kndEventElement;
@@ -563,13 +565,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return TGo4Access::kndObject;
       }
 
-      virtual const char* GetClassName()
+      const char* GetClassName() override
       {
          const char* _kind = fXML->GetAttr(fChild,"_kind");
          const char* res = GetHttpRootClassName(_kind);
-         if (res!=0) return res;
+         if (res) return res;
          if (_kind && !strcmp(_kind,"rate") && fXML->HasAttr(fChild,"_history")) return "TGraph";
-         return isfolder() ? "TFolder" : 0;
+         return isfolder() ? "TFolder" : nullptr;
       }
 };
 
@@ -577,8 +579,8 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
 TGo4HttpProxy::TGo4HttpProxy() :
    TGo4ServerProxy(),
-   fXML(0),
-   fxHierarchy(0),
+   fXML(nullptr),
+   fxHierarchy(nullptr),
    fComm(this),
    fRateCnt(0),
    fStatusCnt(0),
@@ -598,9 +600,9 @@ TGo4HttpProxy::TGo4HttpProxy() :
 TGo4HttpProxy::~TGo4HttpProxy()
 {
    fXML->FreeDoc(fxHierarchy);
-   fxHierarchy = 0;
+   fxHierarchy = nullptr;
 
-   delete fXML; fXML = 0;
+   delete fXML; fXML = nullptr;
 }
 
 void TGo4HttpProxy::SetAccount(const char* username, const char* passwd)

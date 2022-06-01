@@ -104,7 +104,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot* GetPanelSlot();
       virtual TGo4Slot* AddNewSlot(const char* name, TGo4Slot* parent);
       virtual void BlockPanelRedraw(bool on);
-      virtual void ResetWidget();
+      void ResetWidget() override;
       void linkedObjectUpdated(const char* linkname, TObject* obj) override;
       void linkedUpdated(TGo4Slot* slot, TObject* obj) override;
       void linkedRemoved(TGo4Slot* slot, TObject* obj) override;
@@ -309,14 +309,14 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QRootCanvas *fxQCanvas{nullptr}; ///< qtroot canvas
       QWebCanvas *fxWCanvas{nullptr};  ///< web canvas
 
-      virtual void CheckActionAtTheEnd(TPad *pad );
-      virtual bool CompleteMarkerEdit(TPad *pad );
-      virtual void resizeEvent( QResizeEvent * e );
+      void resizeEvent(QResizeEvent *e) override;
+      virtual void CheckActionAtTheEnd(TPad *pad);
+      virtual bool CompleteMarkerEdit(TPad *pad);
       virtual int GetNumMarkers(TPad *pad, int kind );
-      virtual void AddMarkerObj(TPad *pad, int kind, TObject * obj );
-      virtual void SetActiveObj(TPad *pad, int kind, TGo4Slot * activeslot );
-      virtual TObject * GetActiveObj(TPad *pad, int kind );
-      virtual QString GetActiveObjName(TPad *pad, int kind );
+      virtual void AddMarkerObj(TPad *pad, int kind, TObject * obj);
+      virtual void SetActiveObj(TPad *pad, int kind, TGo4Slot *activeslot);
+      virtual TObject * GetActiveObj(TPad *pad, int kind);
+      virtual QString GetActiveObjName(TPad *pad, int kind);
       virtual int GetAutoColor(int indx);
 
       void CanvasUpdate(bool modify = false);

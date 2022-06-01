@@ -193,34 +193,34 @@ class TGo4MainWindow : public QMainWindow {
 
       void AddAnalysisMacrosBar();
 
-      virtual void closeEvent( QCloseEvent * ce );
+      void closeEvent(QCloseEvent *ce) override;
 
-      void ConnectGo4Widget(QGo4Widget* editor);
+      void ConnectGo4Widget(QGo4Widget *editor);
 
-      void CascadeMdiPosition(QWidget* sub);
+      void CascadeMdiPosition(QWidget *sub);
 
       void UpdateCaptionButtons();
 
-      bool startUserGUI(const char*);
-      TGo4AnalysisProxy* AddAnalysisProxy(bool isserver, bool needoutput);
+      bool startUserGUI(const char *);
+      TGo4AnalysisProxy *AddAnalysisProxy(bool isserver, bool needoutput);
       bool RemoveAnalysisProxy(int waittime = 30, bool servershutdown = false);
-      TGo4AnalysisStatusMonitor* EstablishRatemeter(int level);
-      TGo4AnalysisConfiguration* EstablishAnalysisConfiguration(int level);
+      TGo4AnalysisStatusMonitor *EstablishRatemeter(int level);
+      TGo4AnalysisConfiguration *EstablishAnalysisConfiguration(int level);
 
-      QGo4Widget* FindGo4Widget(const char* name, bool activate);
-      TGo4Slot* GetWidgetTopSlot(QGo4Widget* widget, bool force);
+      QGo4Widget *FindGo4Widget(const char *name, bool activate);
+      TGo4Slot *GetWidgetTopSlot(QGo4Widget *widget, bool force);
 
-      bool SaveBrowserItemToFile(const char* itemname, const char* subfolder);
+      bool SaveBrowserItemToFile(const char *itemname, const char *subfolder);
 
       void UpdateDockAnalysisWindow();
       void TerminateAnalysis(bool interactive = true);
 
-      void ToggleMbsMonitor(const char* nodename);
-      TGo4SetScaleValues*  ToggleScaleValues();
+      void ToggleMbsMonitor(const char *nodename);
+      TGo4SetScaleValues *ToggleScaleValues();
 
-      void SavePanelCanvas(TGo4ViewPanel* panel);
+      void SavePanelCanvas(TGo4ViewPanel *panel);
 
-      void HelpWindow(const char* filename, const char* msg = nullptr);
+      void HelpWindow(const char *filename, const char *msg = nullptr);
 
       void UpdateBrowser();
 

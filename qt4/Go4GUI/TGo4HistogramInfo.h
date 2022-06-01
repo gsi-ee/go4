@@ -47,7 +47,7 @@ public:
    void DropItem(const char* itemname, TClass* cl, int kind) override;
    void linkedObjectUpdated(const char* linkname, TObject* obj) override;
    virtual void WorkWithHistogram(const char* itemname);
-   virtual void ResetWidget();
+   void ResetWidget() override;
    virtual void RefreshHistogramInfo(TH1* h1);
    virtual void RefreshHistogramInfo(TGo4HistogramStatus* hstate);
 

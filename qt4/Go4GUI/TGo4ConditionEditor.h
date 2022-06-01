@@ -29,25 +29,25 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
 public:
     TGo4ConditionEditor(QWidget *parent = nullptr, const char* name = nullptr);
 
-    bool IsAcceptDrag(const char * itemname, TClass * cl, int kind ) override;
-    void DropItem(const char * itemname, TClass * cl, int kind ) override;
-    void linkedObjectUpdated(const char * linkname, TObject * obj) override;
-    void linkedObjectRemoved(const char * linkname ) override;
-    virtual void WorkWithCondition( const char * itemname );
-    virtual void ResetWidget();
-    virtual void RefreshWidget( bool checkindex);
-    virtual TGo4Condition * SelectedCondition();
+    bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
+    void DropItem(const char *itemname, TClass *cl, int kind) override;
+    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
+    void linkedObjectRemoved(const char *linkname) override;
+    virtual void WorkWithCondition(const char *itemname);
+    void ResetWidget() override;
+    virtual void RefreshWidget(bool checkindex);
+    virtual TGo4Condition *SelectedCondition();
     virtual bool UpdateLimits();
-    virtual void ChangeConditionProperty( int id, bool on );
-    virtual void enterEvent( QEvent * );
-    virtual void leaveEvent( QEvent * );
-    virtual void SetChangeFlag( bool changed );
-    virtual void DrawCondition( bool useactive );
+    virtual void ChangeConditionProperty(int id, bool on);
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    virtual void SetChangeFlag(bool changed);
+    virtual void DrawCondition(bool useactive);
     virtual void RedrawCondition();
     virtual bool PrepareForAnalysis();
-    virtual void FillCutWidget( TCutG * cut );
-    virtual void FillEllipseWidget(TGo4ShapedCond* elli);
-    virtual void FillListWidget(TGo4ListCond* lcon);
+    virtual void FillCutWidget(TCutG *cut);
+    virtual void FillEllipseWidget(TGo4ShapedCond *elli);
+    virtual void FillListWidget(TGo4ListCond *lcon);
     virtual void ShowEllipseWidget(bool show);
     virtual void UpdateEllipse();
 

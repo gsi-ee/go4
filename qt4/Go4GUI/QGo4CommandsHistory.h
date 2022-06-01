@@ -33,11 +33,11 @@ class QGo4CommandsHistory : public QComboBox {
 
       QStringList getHistory(int max = 50);
 
-Q_SIGNALS:
+   Q_SIGNALS:
       void enterPressedSingal();
 
    protected:
-      virtual void keyPressEvent(QKeyEvent* e);
+      void keyPressEvent(QKeyEvent* e) override;
 };
 
 #endif

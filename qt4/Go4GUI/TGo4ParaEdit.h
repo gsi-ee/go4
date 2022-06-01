@@ -43,7 +43,7 @@ public:
    void linkedObjectUpdated(const char* linkname, TObject* obj) override;
    void linkedObjectRemoved( const char * linkname ) override;
    virtual void WorkWithParameter(const char* itemname, bool isrefresh);
-   virtual void ResetWidget();
+   void ResetWidget() override;
    virtual void RefreshWidget(TGo4Parameter* par);
    virtual void RefreshWidget(TGo4ParameterStatus* parstatus);
    virtual void ShowVisibleItems();
