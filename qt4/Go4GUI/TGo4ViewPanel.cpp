@@ -5044,7 +5044,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
    bool autoscale = padopt->IsAutoScale();
 
-   double hmin(0.), hmax(0.), umin, umax;
+   double hmin = 0., hmax = 0., umin, umax;
 
    TAxis* ax = h1->GetXaxis();
 
@@ -5059,7 +5059,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
       Int_t i1 = ax->FindFixBin(umin);
       Int_t i2 = ax->FindFixBin(umax);
-      if (i1<i2) ax->SetRange(i1,i2);
+      if (i1 < i2) ax->SetRange(i1,i2);
             else { ax->UnZoom(); padopt->ClearRange(0); }
    } else {
       ax->UnZoom();
@@ -5081,7 +5081,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (ndim>1) {
          Int_t i1 = ay->FindFixBin(umin);
          Int_t i2 = ay->FindFixBin(umax);
-         if (i1<i2) { ay->SetRange(i1,i2); ay = nullptr; }
+         if (i1 < i2) { ay->SetRange(i1,i2); ay = nullptr; }
       }
    }
 
@@ -5089,7 +5089,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       ay->UnZoom();
       padopt->ClearRange(1);
       // workaround for the 5.34/11 version
-      if ((ndim==1) && (h1->GetMinimum()==0) && (h1->GetMaximum()==1)) {
+      if ((ndim == 1) && (h1->GetMinimum() == 0) && (h1->GetMaximum() == 1)) {
          h1->SetMinimum();
          h1->SetMaximum();
       }
