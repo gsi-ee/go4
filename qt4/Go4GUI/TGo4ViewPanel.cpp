@@ -355,18 +355,18 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
    GetCanvas()->Clear();
 
-   fxRepaintTimerPad = 0;
+   fxRepaintTimerPad = nullptr;
 
    CallPanelFunc(panel_Deleted);
 
-   if (gPad != 0)
+   if (gPad)
       if (IsPanelPad((TPad*) gPad)) {
-         gPad = 0;
+         gPad = nullptr;
       }
 
-   if (gROOT->GetSelectedPad() != 0)
+   if (gROOT->GetSelectedPad())
       if (IsPanelPad((TPad*) gROOT->GetSelectedPad()))
-         gROOT->SetSelectedPad(0);
+         gROOT->SetSelectedPad(nullptr);
 }
 
 const char* TGo4ViewPanel::GetPanelName()
@@ -1346,7 +1346,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             mark->Draw("");
          } else {
             TGo4Marker* mark = dynamic_cast<TGo4Marker*>(GetActiveObj(pad, kind_Marker));
-            if(mark!=0) {
+            if(mark) {
                mark->SetX(x);
                mark->SetY(y);
             }
@@ -1360,13 +1360,13 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
       case kMousePickLimits: {
          gROOT->SetEditorMode("");
-         TGo4WinCond* conny = 0;
+         TGo4WinCond* conny = nullptr;
          Double_t xmin(x), xmax(x), ymin(y), ymax(y);
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
             if (docreate) {
                TH1* hist = GetPadHistogram(pad);
-               bool fbTwoDimRegion = (hist != 0) && (hist->GetDimension() > 1);
+               bool fbTwoDimRegion = hist && (hist->GetDimension() > 1);
                int ix = GetNumMarkers(pad, kind_Window);
                QString name = "Region " + QString::number(ix + 1);
                conny = new TGo4WinCond(name.toLatin1().constData());
@@ -1515,7 +1515,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             }
          } else {
             TLatex* latex = dynamic_cast<TLatex*>(GetActiveObj(pad, kind_Latex));
-            if(latex!=0) {
+            if(latex) {
                latex->SetX(x);
                latex->SetY(y);
             }
@@ -1544,12 +1544,12 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             arrow->Draw("");
          } else if (fiPickCounter == 1) {
             TArrow* arrow = dynamic_cast<TArrow*>(GetActiveObj(pad, kind_Arrow));
-            if(arrow!=0) {
+            if(arrow) {
                arrow->SetX2(x);
                arrow->SetY2(y);
             }
             if(!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
-            fiPickCounter=0;
+            fiPickCounter = 0;
          } else {
             std::cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << std::endl;
             return;
@@ -1620,7 +1620,7 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
       case kMousePickLimits: {
          if (fiPickCounter > 0) {
             TGo4WinCond* cond = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
-            if (cond!=0) {
+            if (cond) {
                if (candelete) DeleteDrawObject(pad, cond);
                needredraw = true;
             }
@@ -1636,14 +1636,14 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
       case kMousePickPolygon: {
          if (fiPickCounter>0) {
             TGo4PolyCond* cond = dynamic_cast<TGo4PolyCond*> (GetActiveObj(pad,kind_Poly));
-         if (cond!=0) {
+         if (cond) {
             bool delcond = true;
             TCutG* cut = cond->GetCut(kFALSE);
             if (cut) {
                int n = cut->GetN();
                Double_t x, y;
                cut->GetPoint(0, x, y);
-               delcond = (n<3);
+               delcond = (n < 3);
 
                if (n>=3)
                   cut->SetPoint(n, x, y);
@@ -1932,11 +1932,11 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
 
       if (useitemname) {
          const char* itemname = GetLinkedName(subslot);
-         if (itemname != 0)
+         if (itemname)
             pic->AddObjName(itemname, drawopt);
       } else {
          TNamed* nm = dynamic_cast<TNamed*>(subslot->GetAssignedObject());
-         if (nm!=0) pic->AddObjName(nm->GetName(), drawopt);
+         if (nm) pic->AddObjName(nm->GetName(), drawopt);
       }
 
       Int_t rebinx, rebiny;
@@ -2898,7 +2898,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
          if (first_draw && (n==0)) {
             TAxis *ax = gr->GetXaxis();
-            if ((ax!=0) && ax->GetTimeDisplay()) {
+            if (ax && ax->GetTimeDisplay()) {
                padopt->SetHisStats(kFALSE);
                padopt->SetXAxisTimeDisplay(kTRUE);
                padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
@@ -2912,10 +2912,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
       oldobj = mgr;
    }
 
-   if ((ishstack || isgstack) && (legslot != 0)) {
+   if ((ishstack || isgstack) && legslot) {
       TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
 
-      if (legend == 0) {
+      if (!legend) {
          double miny = 0.94 - 0.03 * objs->GetLast();
          if (miny < 0.6) miny = 0.6; else if (miny>0.92) miny = 0.92;
          legend = new TLegend(0.6, miny, 0.95, 0.99);
@@ -2931,9 +2931,9 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
          const char* objname = stob->GetName();
 
-         if (showitems && (objslots!=0)) {
+         if (showitems && objslots) {
             const char* itemname = GetLinkedName((TGo4Slot*) objslots->At(n));
-            if (itemname!=0) objname = itemname;
+            if (itemname) objname = itemname;
          }
 
          TString ldrawopt = "l";
@@ -4239,7 +4239,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
    // when graph drawn for the first time, check if time units used in axis
    if (first_draw) {
       TAxis *ax = gr->GetXaxis();
-      if ((ax!=0) && ax->GetTimeDisplay()) {
+      if (ax && ax->GetTimeDisplay()) {
          padopt->SetHisStats(kFALSE);
          padopt->SetXAxisTimeDisplay(kTRUE);
          padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
@@ -5105,11 +5105,11 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (ndim>1) {
          Int_t i1 = ay->FindFixBin(umin);
          Int_t i2 = ay->FindFixBin(umax);
-         if (i1<i2) { ay->SetRange(i1,i2); ay = 0; }
+         if (i1<i2) { ay->SetRange(i1,i2); ay = nullptr; }
       }
    }
 
-   if (ay!=0) {
+   if (ay) {
       ay->UnZoom();
       padopt->ClearRange(1);
       // workaround for the 5.34/11 version
@@ -5125,7 +5125,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (!autoscale && (ndim == 2)) {
          hmin = umin;
          hmax = umax;
-         az = 0;
+         az = nullptr;
       }
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
@@ -5134,11 +5134,11 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (ndim>2) {
          Int_t i1 = az->FindFixBin(umin);
          Int_t i2 = az->FindFixBin(umax);
-         if (i1<i2) { az->SetRange(i1,i2); az = 0; }
+         if (i1<i2) { az->SetRange(i1,i2); az = nullptr; }
       }
    }
 
-   if (az!=0) {
+   if (az) {
       az->UnZoom();
       padopt->ClearRange(2);
    }
@@ -5157,19 +5157,19 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       h1->SetMinimum(hmin);
       h1->SetMaximum(hmax);
       h1->SetBit(TH1::kIsZoomed);
-      if (hs != 0) {
+      if (hs) {
          hs->SetMinimum(hmin);
          hs->SetMaximum(hmax);
       }
    } else {
       // this is autoscale mode
 
-      if (hs != 0) {
+      if (hs) {
 
          if (ndim == 1) {
             TIter next(hs->GetHists());
-            TH1* hs_h1 = 0;
-            while ((hs_h1 = (TH1*) next()) != 0) {
+            TH1* hs_h1 = nullptr;
+            while ((hs_h1 = (TH1*) next()) != nullptr) {
                if (padopt->GetRange(0, umin, umax)) {
                   // note: go4 range was full visible range of histogram
                   // in new ROOT automatic shift of ranges can appear,
@@ -5294,7 +5294,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
 {
    TGo4Picture* padopt = GetPadOptions(pad);
-   if (padopt == 0) return false;
+   if (!padopt) return false;
 
    int NumDim = padopt->GetFullRangeDim();
 
@@ -5371,12 +5371,12 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
 
    TGo4Picture* padopt = GetPadOptions(pad);
 
-   if (IsRedrawBlocked() || (pad == 0) || (padopt == 0)) return;
+   if (IsRedrawBlocked() || !pad || !padopt) return;
 
    // check if we have histogram and can take range from it
    TH1* h1 = GetPadHistogram(pad);
 
-   if (h1 != 0) {
+   if (h1) {
       Int_t ndim = padopt->GetFullRangeDim();
 
       TakeSelectedAxisRange(0, padopt, h1->GetXaxis());
@@ -5452,10 +5452,10 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad, double rxmin, double rxmax,
 {
    TGo4LockGuard lock;
 
-   if (IsRedrawBlocked() || (pad == 0)) return;
+   if (IsRedrawBlocked() || !pad) return;
 
    TGo4Picture* padopt = GetPadOptions(pad);
-   if (padopt == 0) return;
+   if (!padopt) return;
 
    TakeSelectedAxisRange(0, padopt, rxmin, rxmax, false);
    TakeSelectedAxisRange(1, padopt, rymin, rymax, false);
@@ -5492,17 +5492,17 @@ void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
 
    bool modified = false;
    bool applytoall = false;
-   bool redraw_immediately = (selpad == 0);
+   bool redraw_immediately = !selpad;
 
-   if (selpad == 0) {
+   if (!selpad) {
       applytoall = IsApplyToAllFlag();
       selpad = applytoall ? GetCanvas() : GetActivePad();
    }
-   if (selpad == 0)
+   if (!selpad)
       return;
 
    TGo4Picture* padopt = GetPadOptions(selpad);
-   if (padopt != 0) {
+   if (padopt) {
       if (on != padopt->IsAutoScale())
          padopt->SetPadModified();
       padopt->SetAutoScale(on);
@@ -5514,7 +5514,7 @@ void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
       while (iter.next()) {
          TPad* subpad = GetSlotPad(iter.getslot());
          padopt = GetPadOptions(subpad);
-         if (padopt == 0)
+         if (!padopt)
             continue;
          if (on != padopt->IsAutoScale())
             padopt->SetPadModified();
@@ -5533,11 +5533,11 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
    TGo4LockGuard lock;
 
    TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
-   if (selpad == 0)
+   if (!selpad)
       return;
 
    TGo4Picture* padopt = GetPadOptions(selpad);
-   if (padopt != 0) {
+   if (padopt) {
       Int_t ndim = padopt->GetFullRangeDim();
 
       TakeSelectedAxisRange(0, padopt, xmin, xmax, true);
@@ -5581,29 +5581,29 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
    RedrawPanel(selpad, false);
 }
 
-void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
+void TGo4ViewPanel::resizeEvent(QResizeEvent *e)
 {
-
-  // store size of top widget -
+   // store size of top widget -
    // size of top widget will be restored when new panel is created
    go4sett->storePanelSize(parentWidget(), "ViewPanel");
-   //std::cout<< "TGo4ViewPanel::resizeEvent"<<std::endl;
-   TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
-     if (selpad == 0)
-        return;
+   // std::cout<< "TGo4ViewPanel::resizeEvent"<<std::endl;
+   TPad *selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
+   if (!selpad)
+      return;
    // only if we are in 1:1 aspect ratio, we might need a redraw here:
-   TGo4Slot* slot = GetPadSlot(selpad);
-   if (slot == 0) return;
-   TGo4Picture* padopt = GetPadOptions(slot);
-   if (padopt == 0) return;
+   TGo4Slot *slot = GetPadSlot(selpad);
+   if (!slot)
+      return;
+   TGo4Picture *padopt = GetPadOptions(slot);
+   if (!padopt)
+      return;
 
-   if (padopt->IsXYRatioOne())
-   {
-     //std::cout<< "TGo4ViewPanel::resizeEvent with ratio :1"<<std::endl;
-     // note: we need to delay execution of redraw, since resize Event in QtROOT canvas will
-     // also happen in timer 100ms after us -> new coordinates are not refreshed here!
-     fxResizeTimerPad=selpad;
-     QTimer::singleShot(1000, this, SLOT(checkResizeSlot()));
+   if (padopt->IsXYRatioOne()) {
+      // std::cout<< "TGo4ViewPanel::resizeEvent with ratio :1"<<std::endl;
+      //  note: we need to delay execution of redraw, since resize Event in QtROOT canvas will
+      //  also happen in timer 100ms after us -> new coordinates are not refreshed here!
+      fxResizeTimerPad = selpad;
+      QTimer::singleShot(1000, this, SLOT(checkResizeSlot()));
    }
 }
 
