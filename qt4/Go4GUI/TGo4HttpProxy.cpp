@@ -38,7 +38,7 @@
 QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
    QObject(),
    qnam(),
-   fHReply(0),
+   fHReply(nullptr),
    fProxy(p)
 {
    connect(&qnam, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),
@@ -51,21 +51,21 @@ QHttpProxy::~QHttpProxy()
 
 void QHttpProxy::httpFinished()
 {
-   if (fHReply==0) return;
+   if (!fHReply) return;
 
    QByteArray res = fHReply->readAll();
    fHReply->deleteLater();
-   fHReply = 0;
+   fHReply = nullptr;
    fProxy->GetHReply(res);
 }
 
 void QHttpProxy::httpHReqError(QNetworkReply::NetworkError code)
 {
-   if (gDebug>0)
+   if (gDebug > 0)
       printf("QHttpProxy::httpHReqError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
    if (fHReply) {
       fHReply->deleteLater();
-      fHReply = 0;
+      fHReply = nullptr;
    }
 }
 
@@ -133,9 +133,10 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
 
 const char* GetHttpRootClassName(const char* kind)
 {
-   if ((kind==0) || (*kind==0)) return 0;
-   if (strncmp(kind,"ROOT.", 5)!=0) return 0;
-   if (strcmp(kind+5,"TGo4AnalysisWebStatus")==0) return "TGo4AnalysisStatus";
+   if (!kind || (*kind==0)) return nullptr;
+   if (strncmp(kind,"ROOT.", 5)!=0) return nullptr;
+   if (strcmp(kind+5,"TGo4AnalysisWebStatus") == 0)
+      return "TGo4AnalysisStatus";
    return kind+5;
 }
 
@@ -150,19 +151,19 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_
    fNameAttr(),
    fKindAttr(),
    fExtraArg(),
-   fReceiver(0),
+   fReceiver(nullptr),
    fRecvPath(),
-   fReply(0)
+   fReply(nullptr)
 {
    const char* _name = fProxy->fXML->GetAttr(fNode,"_realname");
-   if (_name == 0) _name = fProxy->fXML->GetAttr(fNode,"_name");
+   if (!_name) _name = fProxy->fXML->GetAttr(fNode,"_name");
    if (_name) fNameAttr = _name;
 
    fUrlPath = fProxy->MakeUrlPath(node);
 
    const char* _kind = fProxy->fXML->GetAttr(fNode,"_kind");
    if (_kind) fKindAttr = _kind;
-   if (extra_arg!=0) fExtraArg = extra_arg;
+   if (extra_arg) fExtraArg = extra_arg;
 }
 
 TClass* TGo4HttpAccess::GetObjectClass() const
@@ -196,10 +197,10 @@ const char* TGo4HttpAccess::GetObjectClassName() const
 
 Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 {
-   if (rcv==0) return 0;
+   if (!rcv) return 0;
 
    TClass* obj_cl = GetObjectClass();
-   if (obj_cl==0) {
+   if (!obj_cl) {
       printf("TGo4HttpAccess fail to get class %s for object %s\n", GetObjectClassName(), path);
       return 0;
    }
@@ -254,9 +255,10 @@ void TGo4HttpAccess::httpFinished()
 {
    QByteArray res = fReply->readAll();
    fReply->deleteLater();
-   fReply = 0;
+   fReply = nullptr;
 
-   if (gDebug>2) printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
+   if (gDebug > 2)
+      printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
 
    // regular ratemeter update used to check connection status
    if (fUrlPath == "Status/Ratemeter") {
@@ -272,7 +274,11 @@ void TGo4HttpAccess::httpFinished()
    }
 
    // do nothing when nothing received
-   if (res.size()==0) { if (gDebug>0) printf("TGo4HttpAccess::httpFinished error with %s\n", fUrlPath.Data()); return; }
+   if (res.size() == 0) {
+      if (gDebug > 0)
+         printf("TGo4HttpAccess::httpFinished error with %s\n", fUrlPath.Data());
+      return;
+   }
 
    if (fKind == 0) {
 
@@ -280,37 +286,37 @@ void TGo4HttpAccess::httpFinished()
 
       XMLDocPointer_t doc = xml->ParseString(res.data());
 
-      if (doc==0) return;
+      if (!doc) return;
 
       XMLNodePointer_t top = xml->GetChild(xml->DocGetRootElement(doc));
 
       xml->FreeAllAttr(fNode);
 
       XMLAttrPointer_t attr = xml->GetFirstAttr(top);
-      while (attr!=0) {
-         xml->NewAttr(fNode, 0, xml->GetAttrName(attr), xml->GetAttrValue(attr));
+      while (attr) {
+         xml->NewAttr(fNode, nullptr, xml->GetAttrName(attr), xml->GetAttrValue(attr));
          attr = xml->GetNextAttr(attr);
       }
 
       XMLNodePointer_t chld;
-      while ((chld = xml->GetChild(top)) != 0) {
+      while ((chld = xml->GetChild(top)) != nullptr) {
          xml->UnlinkNode(chld);
          xml->AddChild(fNode, chld);
       }
 
       xml->FreeDoc(doc);
 
-      if (fProxy->fxParentSlot!=0)
+      if (fProxy->fxParentSlot)
          fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
    }
 
-   TObject* obj = 0;
+   TObject* obj = nullptr;
 
    if (fKind == 2) {
       TXMLEngine* xml = fProxy->fXML;
 
       XMLDocPointer_t doc = xml->ParseString(res.data());
-      if (doc==0) return;
+      if (!doc) return;
 
       XMLNodePointer_t top = xml->DocGetRootElement(doc);
 
@@ -331,7 +337,7 @@ void TGo4HttpAccess::httpFinished()
          const char* bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-3; n<nbins+2; n++) {
             const char* separ = strpbrk(bins,",]");
-            if (separ==0) { printf("Error parsing histogram bins\n"); break; }
+            if (!separ) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
                h1->SetBinContent(n, v);
@@ -352,7 +358,7 @@ void TGo4HttpAccess::httpFinished()
          const char* bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-6; n<(nbins1+2)*(nbins2+2); n++) {
             const char* separ = strpbrk(bins,",]");
-            if (separ==0) { printf("Error parsing histogram bins\n"); break; }
+            if (!separ) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
                h2->SetBinContent(n % (nbins1 + 2), n / (nbins1 + 2),  v);
@@ -363,18 +369,18 @@ void TGo4HttpAccess::httpFinished()
          obj = h2;
       }
 
-      if (obj!=0) {
-         if (xtitle!=0)
+      if (obj) {
+         if (xtitle)
            ((TH1*)obj)->GetXaxis()->SetTitle(xtitle);
-         if (ytitle!=0)
+         if (ytitle)
            ((TH1*)obj)->GetYaxis()->SetTitle(ytitle);
-         if (xlabels!=0) {
+         if (xlabels) {
             TObjArray* arr = TString(xlabels).Tokenize(",");
             for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
                ((TH1*)obj)->GetXaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
             delete arr;
          }
-         if (ylabels!=0) {
+         if (ylabels) {
             TObjArray* arr = TString(ylabels).Tokenize(",");
             for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
                ((TH1*)obj)->GetYaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
@@ -398,7 +404,7 @@ void TGo4HttpAccess::httpFinished()
 
       XMLNodePointer_t chld = top;
       Int_t cnt = 0;
-      while (chld!=0) {
+      while (chld) {
          if (xml->GetAttr(chld, "value") && xml->GetAttr(chld, "time")) cnt++;
          chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);
       }
@@ -487,19 +493,19 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
                fChild = fXML->GetNext(fChild);
             }
 
-            if (fChild==0) return kFALSE;
+            if (!fChild) return kFALSE;
 
             if (fXML->HasAttr(fChild,"_hidden")) continue;
 
             break;
          }
 
-         return fChild!=0;
+         return fChild != nullptr;
       }
 
       Bool_t isfolder() override
       {
-         return fXML->GetChild(fChild)!=0;
+         return fXML->GetChild(fChild) != nullptr;
       }
 
       Int_t getflag(const char* flagname) override
@@ -514,7 +520,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
          if (strcmp(flagname,"_numargs")==0) {
             const char* _numargs = fXML->GetAttr(fChild,"_numargs");
-            return (_numargs==0)  ? -1 : TString(_numargs).Atoi();
+            return !_numargs ? -1 : TString(_numargs).Atoi();
          }
 
          return -1;
@@ -522,7 +528,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override
       {
-         if (!isfolder()) return 0;
+         if (!isfolder()) return nullptr;
          return new TGo4HttpLevelIter(fXML,fChild);
       }
 
@@ -546,14 +552,14 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
 
          const char* _kind = fXML->GetAttr(fChild,"_kind");
-         if ((_kind!=0) && strcmp(_kind,"Command") == 0) return TGo4Access::kndRootCommand;
+         if (_kind && strcmp(_kind,"Command") == 0) return TGo4Access::kndRootCommand;
 
          const char *drawfunc = fXML->GetAttr(fChild,"_drawfunc");
          if (drawfunc && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
          const char* classname = GetClassName();
 
-         if (classname==0) return TGo4Access::kndNone;
+         if (!classname) return TGo4Access::kndNone;
 
          if (strcmp(classname,"TLeafElement")==0) return TGo4Access::kndTreeLeaf;
 
@@ -630,39 +636,39 @@ void TGo4HttpProxy::Initialize(TGo4Slot* slot)
 
 XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr) const
 {
-   if (curr==0) curr = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
+   if (!curr) curr = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
 
-   if ((curr==0) || (name==0) || (*name==0)) return curr;
+   if (!curr || !name || (*name==0)) return curr;
 
    const char* slash = strchr(name,'/');
    bool doagain = false;
 
    do {
-      int len = (slash==0) ? strlen(name) : (slash - name);
+      int len = !slash ? strlen(name) : (slash - name);
 
       XMLNodePointer_t chld = fXML->GetChild(curr);
-      while (chld!=0) {
+      while (chld) {
          const char* _name = fXML->GetAttr(chld,"_realname");
-         if (_name==0) _name = fXML->GetAttr(chld,"_name");
+         if (!_name) _name = fXML->GetAttr(chld,"_name");
 
-         if ((_name!=0) && (strlen(_name) == len) && (strncmp(_name, name, len)==0))
-            return FindItem(slash ? slash+1 : 0, chld);
+         if (_name && (strlen(_name) == len) && (strncmp(_name, name, len)==0))
+            return FindItem(slash ? slash+1 : nullptr, chld);
 
          chld = fXML->GetNext(chld);
       }
 
       // we try to process situation when item name contains slashes
-      doagain = slash!=0;
+      doagain = slash != nullptr;
       if (slash) slash = strchr(slash+1,'/');
 
    } while (doagain);
 
-   return 0;
+   return nullptr;
 }
 
 TString TGo4HttpProxy::MakeUrlPath(XMLNodePointer_t item)
 {
-   if (item==0) return TString("");
+   if (!item) return TString("");
 
    XMLNodePointer_t root = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
 
@@ -670,14 +676,14 @@ TString TGo4HttpProxy::MakeUrlPath(XMLNodePointer_t item)
 
    while (item != root) {
       const char* _name = fXML->GetAttr(item,"_name");
-      if (_name==0) return TString("");
+      if (!_name) return TString("");
       if (res.Length()>0)
          res = TString(_name) + "/" + res;
       else
          res = _name;
 
       item = fXML->GetParent(item);
-      if (item==0) return TString("");
+      if (!item) return TString("");
    }
 
    return res;
@@ -689,12 +695,12 @@ void TGo4HttpProxy::GetHReply(QByteArray& res)
    if (res.size()==0) return;
    XMLDocPointer_t doc = fXML->ParseString(res.data());
 
-   if (doc!=0) {
+   if (doc) {
       fXML->FreeDoc(fxHierarchy);
       fxHierarchy = doc;
    }
 
-   if (fxParentSlot!=0)
+   if (fxParentSlot)
      fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
 }
 
@@ -707,7 +713,7 @@ const char* TGo4HttpProxy::GetContainedObjectInfo()
    fInfoStr +=GetServerName();
    fInfoStr +=")";
    const char* analname = fXML->GetAttr(FindItem(""), "_analysis_name");
-   if (analname!=0) {
+   if (analname) {
       fInfoStr += " name:";
       fInfoStr += analname;
    }
@@ -719,7 +725,7 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {
    fNodeName = nodename;
 
-   if ((fNodeName.Index("http://")!=0)  && (fNodeName.Index("https://")!=0))
+   if ((fNodeName.Index("http://") != 0)  && (fNodeName.Index("https://") != 0))
       fNodeName = TString("http://") + fNodeName;
 
    return UpdateHierarchy(kTRUE);
@@ -727,12 +733,12 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 
 Bool_t TGo4HttpProxy::NamesListReceived()
 {
-   return (fxHierarchy!=0) && (fComm.fHReply==0);
+   return fxHierarchy && !fComm.fHReply;
 }
 
 Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
-   if (fComm.fHReply!=0) return kTRUE;
+   if (fComm.fHReply) return kTRUE;
 
    TString req = fNodeName + "/h.xml?compact";
 
@@ -745,41 +751,44 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 
    // wait several seconds
    while (t.elapsed() < 5000) {
-      if (fComm.fHReply==0) break;
+      if (!fComm.fHReply) break;
       QApplication::processEvents();
    }
 
-   return fxHierarchy != 0;
+   return fxHierarchy != nullptr;
 }
 
 Bool_t TGo4HttpProxy::HasSublevels() const
 {
-   return fxHierarchy != 0;
+   return fxHierarchy != nullptr;
 }
 
 TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
 {
    XMLNodePointer_t item = FindItem(name);
 
-   if (item==0) return 0;
+   if (!item) return nullptr;
 
    const char* _kind = fXML->GetAttr(item,"_kind");
 
    Int_t kind = 1;
 
-   if (!strcmp(_kind,"rate") && fXML->HasAttr(item,"_history")) kind = 3; else
-   if (fXML->HasAttr(item,"_dabc_hist")) kind = 2; else
-   if (fXML->HasAttr(item,"_more")) kind = 0;
+   if (!strcmp(_kind, "rate") && fXML->HasAttr(item, "_history"))
+      kind = 3;
+   else if (fXML->HasAttr(item, "_dabc_hist"))
+      kind = 2;
+   else if (fXML->HasAttr(item, "_more"))
+      kind = 0;
 
    return new TGo4HttpAccess(this, item, kind);
 }
 
 TGo4LevelIter* TGo4HttpProxy::MakeIter()
 {
-   if (fxHierarchy == 0) return 0;
+   if (!fxHierarchy) return nullptr;
    XMLNodePointer_t top = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
 
-   return top==0 ? 0 : new TGo4HttpLevelIter(fXML, top);
+   return !top ? nullptr : new TGo4HttpLevelIter(fXML, top);
 }
 
 void TGo4HttpProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
@@ -792,9 +801,8 @@ void TGo4HttpProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 void TGo4HttpProxy::Update(TGo4Slot* slot, Bool_t strong)
 {
-   if (strong) {
+   if (strong)
       UpdateHierarchy(kFALSE);
-   }
 }
 
 Bool_t TGo4HttpProxy::ServerHasRestrict()
@@ -817,12 +825,12 @@ Bool_t TGo4HttpProxy::ServerHasMulti()
 Bool_t TGo4HttpProxy::IsGo4Analysis() const
 {
    XMLNodePointer_t item = FindItem("");
-   if (item==0) return kFALSE;
+   if (!item) return kFALSE;
 
    const char* _kind = fXML->GetAttr(item,"_kind");
    const char* _title = fXML->GetAttr(item,"_title");
 
-   if ((_kind==0) || (_title==0)) return kFALSE;
+   if (!_kind || !_title) return kFALSE;
 
    return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
 }
@@ -830,12 +838,12 @@ Bool_t TGo4HttpProxy::IsGo4Analysis() const
 Bool_t TGo4HttpProxy::CheckUserName(const char* expects, Bool_t dflt)
 {
    XMLNodePointer_t item = FindItem("");
-   if (item==0) return dflt;
+   if (!item) return dflt;
 
    const char* username = fXML->GetAttr(item,"_username");
-   if (username==0) return dflt;
+   if (!username) return dflt;
 
-   return strcmp(username, expects)==0;
+   return strcmp(username, expects) == 0;
 }
 
 
@@ -867,8 +875,8 @@ void TGo4HttpProxy::RequestAnalysisSettings()
 
 void TGo4HttpProxy::SubmitAnalysisSettings()
 {
-   TGo4AnalysisStatus* status = 0;
-   if (SettingsSlot()!=0)
+   TGo4AnalysisStatus* status = nullptr;
+   if (SettingsSlot())
       status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
 
    if (status)
@@ -938,7 +946,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    url.Append("/");
    url.Append(path);
 
-   if (gDebug>1) printf("Submit URL %s\n", url.Data());
+   if (gDebug > 1) printf("Submit URL %s\n", url.Data());
 
    QNetworkReply *netReply = fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
 
@@ -965,14 +973,14 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
 
 TString TGo4HttpProxy::FindCommand(const char* name)
 {
-   if ((name==0) || (*name==0)) return "";
+   if (!name || (*name==0)) return "";
    if (NumCommandArgs(name)>=0) return name;
 
    TGo4Iter iter(fxParentSlot);
 
    while (iter.next()) {
-      if (iter.getflag("_numargs")<0) continue;
-      if (strcmp(iter.getname(),name)==0) return iter.getfullname();
+      if (iter.getflag("_numargs") < 0) continue;
+      if (strcmp(iter.getname(),name) == 0) return iter.getfullname();
    }
 
    return "";
@@ -981,10 +989,10 @@ TString TGo4HttpProxy::FindCommand(const char* name)
 Int_t TGo4HttpProxy::NumCommandArgs(const char* name)
 {
    XMLNodePointer_t item = FindItem(name);
-   if (item==0) return -1;
+   if (!item) return -1;
 
    const char* _numargs = fXML->GetAttr(item,"_numargs");
-   if (_numargs==0) return 0;
+   if (!_numargs) return 0;
 
    return TString(_numargs).Atoi();
 }
@@ -993,13 +1001,13 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char*
 {
    TString url(name);
    url.Append("/cmd.json");
-   if ((arg1!=0) && (*arg1!=0)) {
+   if (arg1 && (*arg1 != 0)) {
       url.Append("?arg1=");
       url.Append(arg1);
-      if ((arg2!=0) && (*arg2!=0)) {
+      if (arg2 && (*arg2 != 0)) {
          url.Append("&arg2=");
          url.Append(arg2);
-         if ((arg3!=0) && (*arg3!=0)) {
+         if (arg3 && (*arg3 != 0)) {
             url.Append("&arg3=");
             url.Append(arg3);
          }
@@ -1174,7 +1182,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    }
 
 
-   if (fRegularReq!=0) return;
+   if (fRegularReq) return;
 
    TString req;
 
@@ -1182,7 +1190,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
    req.Append("Msg/exe.bin?method=Select&max=10000");
    TGo4Slot* subslot = LoginfoSlot();
-   TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+   TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
    if (curr && curr->First()) {
       req.Append("&id=");
       req.Append(curr->First()->GetName());
@@ -1192,7 +1200,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
    req.Append("Log/exe.bin?method=Select&max=10000");
    subslot = DebugOutputSlot();
-   curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+   curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
    if (curr && curr->First()) {
       req.Append("&id=");
       req.Append(curr->First()->GetName());
@@ -1234,24 +1242,24 @@ void TGo4HttpProxy::ProcessUpdateTimer()
       return;
    }
 
-   if (ServerHasMulti() || (fRegularReq!=0)) {
+   if (ServerHasMulti() || fRegularReq) {
       ProcessRegularMultiRequest();
       return;
    }
 
    TGo4Slot* subslot = RatemeterSlot();
-   if (subslot != 0) {
+   if (subslot) {
       // no new update since last call
-      if ((subslot->GetAssignedObject()==0) || (fRateCnt != subslot->GetAssignCnt())) {
+      if (!subslot->GetAssignedObject() || (fRateCnt != subslot->GetAssignCnt())) {
          fRateCnt = subslot->GetAssignCnt();
          SubmitRequest("Status/Ratemeter", 1, subslot);
       }
    }
 
    subslot = LoginfoSlot();
-   if ((subslot!=0) && IsConnected()) {
+   if (subslot && IsConnected()) {
       TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
-      if ((curr==0) || (fStatusCnt != subslot->GetAssignCnt())) {
+      if (!curr || (fStatusCnt != subslot->GetAssignCnt())) {
          TString arg;
          if (curr && curr->First()) {
             arg = "id=";
@@ -1263,9 +1271,9 @@ void TGo4HttpProxy::ProcessUpdateTimer()
    }
 
    subslot = DebugOutputSlot();
-   if ((subslot!=0) && IsConnected()) {
+   if (subslot && IsConnected()) {
       TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
-      if ((curr==0) || (fDebugCnt != subslot->GetAssignCnt())) {
+      if (!curr || (fDebugCnt != subslot->GetAssignCnt())) {
          TString arg;
          if (curr && curr->First()) {
             arg = "id=";
@@ -1298,16 +1306,16 @@ void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
 
 TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg)
 {
-   if ((itemname==0) || (tgtslot==0)) return 0;
+   if (!itemname || !tgtslot) return nullptr;
 
    XMLNodePointer_t item = FindItem(itemname);
-   if (item==0) return 0;
+   if (!item) return nullptr;
 
-   if (kind==4) {
+   if (kind == 4) {
       // when status for histogram is requested, redirect request to the sniffer
       const char* _objkind = fXML->GetAttr(item, "_kind");
-      if ((_objkind!=0) && ((strstr(_objkind, "ROOT.TH1")==_objkind) ||
-            (strstr(_objkind, "ROOT.TH2")==_objkind) || (strstr(_objkind, "ROOT.TH3")==_objkind))) kind = 8;
+      if (_objkind && ((strstr(_objkind, "ROOT.TH1")==_objkind) ||
+          (strstr(_objkind, "ROOT.TH2")==_objkind) || (strstr(_objkind, "ROOT.TH3")==_objkind))) kind = 8;
    }
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, kind, extra_arg);
@@ -1319,7 +1327,7 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, T
 
 void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
 {
-   if (tgtslot==0) {
+   if (!tgtslot) {
       // this is remote printing of event
 
       TString url = evname;
@@ -1347,7 +1355,7 @@ void TGo4HttpProxy::RemotePrintEvent(const char* evname,
 
 void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flags)
 {
-   unsigned reset_bits(0), set_bits(0);
+   unsigned reset_bits = 0, set_bits = 0;
 
    TString opt = flags;
    if(opt.Contains("+D")) reset_bits |= TGo4Status::kGo4CanDelete;
@@ -1358,8 +1366,8 @@ void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flag
    TString url(fullpath);
    url.Append("/exe.bin?method=");
 
-   if (reset_bits!=0) SubmitURL(url + TString::Format("ResetBit&f=%u",reset_bits));
-   if (set_bits!=0) SubmitURL(url + TString::Format("SetBit&f=%u&prototype=UInt_t",set_bits));
+   if (reset_bits != 0) SubmitURL(url + TString::Format("ResetBit&f=%u",reset_bits));
+   if (set_bits != 0) SubmitURL(url + TString::Format("SetBit&f=%u&prototype=UInt_t",set_bits));
 }
 
 void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
