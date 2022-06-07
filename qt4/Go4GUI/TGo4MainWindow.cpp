@@ -2132,7 +2132,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
    if (fConnectingHttp.length() > 0) {
       TGo4ServerProxy *serv =
           ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1,fbGetAnalysisConfig);
-      if (serv != 0) {
+      if (serv) {
          serv->SetAnalysisLaunched(go4sett->getClientTermMode()==1 ? 2 : 1);
          fConnectingHttp = "";
          fConnectingCounter = 0;
@@ -2148,13 +2148,13 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
       }
    } else {
       TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-      if ((anal==0) || anal->IsConnected() || (--fConnectingCounter<=0)) {
-         if (fConnectingCounter<=0)
+      if (!anal || anal->IsConnected() || (--fConnectingCounter<=0)) {
+         if (fConnectingCounter <= 0)
             StatusMessage("Analysis refused connection. Try again");
          fConnectingCounter = 0;
          EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
          int level=0;
-         if((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
+         if(anal && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
            {
              if(fbGetAnalysisConfig)
                {
@@ -2228,15 +2228,15 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
                 QString(), 0);
       if (res!=0) return;
    }
-   TGo4ServerProxy* srv = Browser()->FindServer();
-   if (srv==0) return;
+   TGo4ServerProxy* serv = Browser()->FindServer();
+   if (!serv) return;
    bool realshutdown = false;
-   TGo4AnalysisProxy* anal = dynamic_cast<TGo4AnalysisProxy*> (srv);
-   TGo4HttpProxy* http = dynamic_cast<TGo4HttpProxy*>(srv);
+   TGo4AnalysisProxy* anal = dynamic_cast<TGo4AnalysisProxy*> (serv);
+   TGo4HttpProxy* http = dynamic_cast<TGo4HttpProxy*>(serv);
    if (anal)
        realshutdown = anal->IsAnalysisServer() &&
                       anal->IsConnected() &&
-                       anal->IsAdministrator();
+                      anal->IsAdministrator();
    else if (http)
       realshutdown = http->IsConnected() && http->IsAdministrator();
 
@@ -2247,7 +2247,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
 bool TGo4MainWindow::SubmitAnalysisSettings()
 {
    TGo4ServerProxy* serv = Browser()->FindServer();
-   if (serv==0) return false;
+   if (!serv) return false;
 
    if (serv->IsConnected() && serv->CanSubmitObjects() &&
        (serv->IsAdministrator() || serv->IsController())) {
@@ -2269,7 +2269,7 @@ void TGo4MainWindow::SubmitStartAnalysisSlot()
 void TGo4MainWindow::StartAnalysisSlot()
 {
    TGo4ServerProxy* go4_serv = Browser()->FindServer();
-   if (go4_serv!=0) {
+   if (go4_serv) {
       go4_serv->StartAnalysis();
       go4_serv->RefreshNamesList();
       go4_serv->DelayedRefreshNamesList(4);
@@ -2315,13 +2315,13 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
    }
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw!=0) anw->TerminateAnalysisProcess();
+   if (anw) anw->TerminateAnalysisProcess();
 
    // proxy will be deleted after 7 second
    //RemoveAnalysisProxy(7);
 
    anw = FindAnalysisWindow();
-   if (anw!=0)
+   if (anw)
       anw->AppendOutputBuffer(QString("\nKilling analysis client: \n  ")+fKillCommand, 2);
    else
       StatusMessage(QString("Killing analysis client with: ")+fKillCommand);
@@ -2343,12 +2343,12 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
 
 QGo4Widget* TGo4MainWindow::FindGo4Widget(const char* name, bool activate)
 {
-   if (!fxOM) return 0;
+   if (!fxOM) return nullptr;
 
    TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
-   TGo4Slot* widgslot = slot==0 ? 0 : slot->FindChild(name);
-   if (!widgslot) return 0;
+   TGo4Slot* widgslot = !slot ? nullptr : slot->FindChild(name);
+   if (!widgslot) return nullptr;
 
    TGo4WidgetProxy *wproxy = (TGo4WidgetProxy*) widgslot->GetProxy();
 
@@ -2432,16 +2432,16 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 {
    TGo4ParaEdit* pedit = (TGo4ParaEdit*) FindGo4Widget("ParaEdit", true);
 
-   if (itemname!=0) {
+   if (itemname) {
       TClass* cl = Browser()->ItemClass(itemname);
-      if (cl!=0)
+      if (cl)
          if (!cl->IsLoaded()) {
             QMessageBox::warning(0, "Parameter editor", QString("Cannot start parameter editor for incomplete class ") + cl->GetName());
             return pedit;
          }
    }
 
-   if (pedit==0) {
+   if (!pedit) {
       pedit = new TGo4ParaEdit(fxMdiArea, "ParaEdit");
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(pedit);
       ConnectGo4Widget(pedit);
@@ -2450,7 +2450,7 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
       CascadeMdiPosition(sub);
    }
 
-   if (itemname!=0)
+   if (itemname)
       pedit->WorkWithParameter(itemname, false);
 
    return pedit;
