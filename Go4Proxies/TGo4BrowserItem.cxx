@@ -23,21 +23,21 @@
 
 TGo4BrowserItem::TGo4BrowserItem() :
    TFolder(),
-   fParent(0),
-   fIter(0),
+   fParent(nullptr),
+   fIter(nullptr),
    fItemClass(),
    fIsFolder(kFALSE),
-   fBrowser(0)
+   fBrowser(nullptr)
 {
 }
 
 TGo4BrowserItem::TGo4BrowserItem(const char* name, const char* title) :
    TFolder(name, title),
-   fParent(0),
-   fIter(0),
+   fParent(nullptr),
+   fIter(nullptr),
    fItemClass(),
    fIsFolder(kTRUE),
-   fBrowser(0)
+   fBrowser(nullptr)
 {
    SetOwner(kTRUE);
 }
@@ -46,22 +46,22 @@ TGo4BrowserItem::TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previ
                                const char* name, const char* title) :
    TFolder(name, title),
    fParent(parent),
-   fIter(0),
+   fIter(nullptr),
    fItemClass(),
    fIsFolder(kTRUE),
-   fBrowser(0)
+   fBrowser(nullptr)
 {
    SetOwner(kTRUE);
-   if (parent!=0) {
+   if (parent) {
       TList* list = (TList*) parent->GetListOfFolders();
-      if (previtem==0) list->AddFirst(this);
-                  else list->AddAfter(previtem, this);
+      if (!previtem) list->AddFirst(this);
+                else list->AddAfter(previtem, this);
    }
 }
 
 TGo4BrowserItem::~TGo4BrowserItem()
 {
-   if (fIter!=0) delete fIter;
+   if (fIter) delete fIter;
 }
 
 void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy* br, TGo4RootBrowserProxy* br2)
@@ -69,7 +69,6 @@ void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy* br, TGo4RootBrowserProxy* br2
    fBrowser = br;
    fRootBrowser = br2;
 }
-
 
 TGo4BrowserItem* TGo4BrowserItem::firstChild()
 {
@@ -137,7 +136,7 @@ void TGo4BrowserItem::CopyToWorkspace()
 {
    TString itemname;
    ProduceFullName(itemname);
-   if ((itemname.Length()==0) || (fBrowser==0)) return;
+   if ((itemname.Length() == 0) || !fBrowser) return;
 
    fBrowser->ProduceExplicitCopy(itemname.Data(), 0, kTRUE);
 }
@@ -152,10 +151,10 @@ void TGo4BrowserItem::DeleteItem()
 
    TString itemname;
    ProduceFullName(itemname);
-   if ((itemname.Length()==0) || (fBrowser==0)) return;
+   if (itemname.IsNull() || !fBrowser) return;
 
    TGo4Slot* itemslot = fBrowser->ItemSlot(itemname.Data());
-   if (itemslot==0) return;
+   if (!itemslot) return;
 
    TGo4Slot* memslot = fBrowser->BrowserMemorySlot();
 
@@ -177,10 +176,10 @@ void TGo4BrowserItem::SetMonitorFlag(Bool_t on)
 {
    TString itemname;
    ProduceFullName(itemname);
-   if ((itemname.Length()==0) || (fBrowser==0)) return;
+   if (itemname.IsNull() || !fBrowser) return;
 
    TGo4Slot* itemslot = fBrowser->ItemSlot(itemname.Data());
-   if (itemslot==0) return;
+   if (!itemslot) return;
    int kind = fBrowser->ItemKind(itemslot);
 
    if (kind==TGo4Access::kndFolder) {
@@ -197,7 +196,7 @@ void TGo4BrowserItem::SetMonitorFlag(Bool_t on)
 
 void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 {
-   if (fBrowser!=0)
+   if (fBrowser)
       fBrowser->ToggleMonitoring(sec*1000);
 }
 
@@ -265,4 +264,3 @@ void TGo4BrowserItem::SetDrawOption(Option_t* option)
 {
    TFolder::SetDrawOption(option);
 }
-

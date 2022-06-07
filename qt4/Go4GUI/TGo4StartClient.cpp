@@ -125,7 +125,7 @@ void TGo4StartClient::SelectDir()
       dir = QDir::currentPath();
    fd.setDirectory(dir);
 
-   if (fd.exec() != QDialog::Accepted ) return;
+   if (fd.exec() != QDialog::Accepted) return;
 
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
@@ -133,7 +133,7 @@ void TGo4StartClient::SelectDir()
    LineEditClientDir->setText(flst[0]);
 
    QString fileName = LineEditClientExec->text();
-   if (fileName.length()==0) return;
+   if (fileName.isEmpty()) return;
 
    QString exeDirPath = QFileInfo(fileName).path();
    if (exeDirPath.isEmpty() || ((exeDirPath == QString(".")) && (fileName[0]!='.'))) {
@@ -145,7 +145,7 @@ void TGo4StartClient::SelectDir()
 
 void TGo4StartClient::SelectProg()
 {
-   const char* caption = 0;
+   const char* caption = nullptr;
 
 #ifdef _MSC_VER
    QString exe1_filter("User analysis (MainUserAnalysis.exe)");
@@ -182,7 +182,7 @@ void TGo4StartClient::SelectProg()
    }
 
    QString filename = LineEditClientExec->text();
-   if (filename.length() > 0)
+   if (!filename.isEmpty())
       fd.selectFile(filename);
 
    if (fd.exec() != QDialog::Accepted) return;

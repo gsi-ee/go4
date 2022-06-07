@@ -835,7 +835,7 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    bool result = false;
 
-   if ((usergui!=0) && (strlen(usergui)>0)) {
+   if (usergui && (strlen(usergui) > 0)) {
       QFileInfo info(usergui);
       if (info.exists()) {
          if (info.isFile()) {
@@ -848,11 +848,11 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       if ((dirname.length()>0) && (dirname[dirname.length()-1]!='/')) dirname+="/";
    }
 
-   bool defaultnames = libname.length()==0;
+   bool defaultnames = libname.isEmpty();
    if (defaultnames)
       libname = "libGo4UserGui";
 
-   TStartUserGuiFunc startfunc = 0;
+   TStartUserGuiFunc startfunc = nullptr;
 
    libname = dirname + libname;
 
@@ -3563,7 +3563,7 @@ void TGo4MainWindow::ProcessHotStart()
 void TGo4MainWindow::StopGUIScriptSlot()
 {
    TGo4Script* exec = TGo4Script::ScriptInstance();
-   if (exec!=0) exec->FinishExecution();
+   if (exec) exec->FinishExecution();
 }
 
 void TGo4MainWindow::CreateGUIScriptSlot()
@@ -3574,7 +3574,7 @@ void TGo4MainWindow::CreateGUIScriptSlot()
                                    "Create GUI script dialog",
                                    fLastFileDir,
                                    QString("GUI hotstart script (*") + ext + ")");
-   if (fileName.length()==0) return;
+   if (fileName.isEmpty()) return;
 
    int pos = fileName.indexOf(ext);
 
@@ -3585,8 +3585,6 @@ void TGo4MainWindow::CreateGUIScriptSlot()
 
    TGo4Script::ProduceScript(fileName.toLatin1().constData(), this);
 }
-
-
 
 void TGo4MainWindow::AddAnalysisMacrosBar()
 {
@@ -3604,16 +3602,16 @@ void TGo4MainWindow::AddAnalysisMacrosBar()
 
 void TGo4MainWindow::ProcessQtEvents()
 {
-   if (fApp!=0) fApp->processEvents(QEventLoop::AllEvents, TGo4AbstractInterface::DelayMillisec());
+   if (fApp) fApp->processEvents(QEventLoop::AllEvents, TGo4AbstractInterface::DelayMillisec());
 }
 
 TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)
 {
-   if ((name==0) || (*name==0)) return 0;
+   if (!name || (*name==0)) return nullptr;
 
    TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (FindGo4Widget(name, false));
 
-   if (panel!=0) return panel;
+   if (panel) return panel;
 
    TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
@@ -3622,9 +3620,10 @@ TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)
       TGo4WidgetProxy* wproxy = widgslot==0 ? 0 : dynamic_cast<TGo4WidgetProxy*> (widgslot->GetProxy());
       panel = wproxy==0 ? 0 : dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
 
-      if (panel!=0)
-        if (strcmp(panel->GetPanelName(), name)==0) return panel;
+      if (panel)
+        if (strcmp(panel->GetPanelName(), name)==0)
+           return panel;
    }
 
-   return 0;
+   return nullptr;
 }

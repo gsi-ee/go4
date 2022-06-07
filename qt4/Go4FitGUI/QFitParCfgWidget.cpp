@@ -56,7 +56,7 @@ void QFitParCfgWidget::FillSpecificData()
 
 void QFitParCfgWidget::AnalyzeRangeValues()
 {
-  if  ((RangeMinEdit->text().length()==0) && (RangeMaxEdit->text().length()==0))
+  if  (RangeMinEdit->text().isEmpty() && RangeMaxEdit->text().isEmpty())
     { GetPar()->SetRangeUse(kFALSE); return; }
   double min,max;
   bool okmin = false, okmax = false;
@@ -64,8 +64,8 @@ void QFitParCfgWidget::AnalyzeRangeValues()
   min = RangeMinEdit->text().toDouble(&okmin);
   max = RangeMaxEdit->text().toDouble(&okmax);
 
-  if (RangeMinEdit->text().length()==0) { min = max; okmin = okmax; }
-  if (RangeMaxEdit->text().length()==0) { max = min; okmax = okmin; }
+  if (RangeMinEdit->text().isEmpty()) { min = max; okmin = okmax; }
+  if (RangeMaxEdit->text().isEmpty()) { max = min; okmax = okmin; }
 
   if (okmin && okmax)
     GetPar()->SetRange(min,max);
@@ -90,13 +90,11 @@ void QFitParCfgWidget::ParFixedChk_toggled( bool chk)
     GetPar()->SetFixed(chk);
 }
 
-
 void QFitParCfgWidget::RangeMinEdit_textChanged( const QString &)
 {
   if(!fbFillWidget && GetPar())
      AnalyzeRangeValues();
 }
-
 
 void QFitParCfgWidget::RangeMaxEdit_textChanged( const QString &)
 {
@@ -106,13 +104,14 @@ void QFitParCfgWidget::RangeMaxEdit_textChanged( const QString &)
 
 void QFitParCfgWidget::EpsilonEdit_textChanged( const QString & value)
 {
-  if(!fbFillWidget && GetPar()) {
-    if (value.length()==0) {
-       GetPar()->SetEpsilonUse(kFALSE);
-    } else {
-        bool res = false;
-        double zn = value.toDouble(&res);
-        if(res) GetPar()->SetEpsilon(zn);
-    }
-  }
+   if (!fbFillWidget && GetPar()) {
+      if (value.isEmpty()) {
+         GetPar()->SetEpsilonUse(kFALSE);
+      } else {
+         bool res = false;
+         double zn = value.toDouble(&res);
+         if (res)
+            GetPar()->SetEpsilon(zn);
+      }
+   }
 }

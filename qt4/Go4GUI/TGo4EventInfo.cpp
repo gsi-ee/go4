@@ -106,7 +106,7 @@ void TGo4EventInfo::RefreshClicked()
 
 void TGo4EventInfo::PrintEventClicked()
 {
-   if (EventLbl->text().length()==0) return;
+   if (EventLbl->text().isEmpty()) return;
 
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(EventLbl->text().toLatin1().constData(), folder, name);

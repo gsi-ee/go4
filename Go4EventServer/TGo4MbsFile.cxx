@@ -337,7 +337,7 @@ Int_t TGo4MbsFile::NextFile()
             //TGo4Log::Info("TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
             gROOT->ProcessLineSync(command);
          }
-      } while((nextline.Length()==0) || rem1 || rem2 || command); // skip any comments and empty lines, and continue after macro execution
+      } while(nextline.IsNull() || rem1 || rem2 || command); // skip any comments and empty lines, and continue after macro execution
       convs = sscanf(nextline.Data(),"%s %s %lu %lu %lu",nextfile,nexttag,
                      &fuStartEvent, &fuStopEvent, &fuEventInterval);
       if(convs<2) {

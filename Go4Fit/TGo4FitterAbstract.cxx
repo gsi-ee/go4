@@ -112,11 +112,16 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray& Dependencies, Bool_
       TGo4FitDependency *dep = (TGo4FitDependency*) Dependencies[i];
 
      Int_t parindx = 0;
-     TGo4FitParameter* deppar = 0;
-     if (dep->GetParameter().Length()==0) parindx=-1; else {
-       deppar = Find(dep->GetParameter().Data());
-       if (deppar==0) { std::cout << "Error dependence parameter: " << dep->GetParameter().Data() << std::endl; return kFALSE; }
-       parindx = GetParIndex(deppar);
+     TGo4FitParameter* deppar = nullptr;
+     if (dep->GetParameter().IsNull())
+        parindx = -1;
+     else {
+        deppar = Find(dep->GetParameter().Data());
+        if (!deppar) {
+           std::cout << "Error dependence parameter: " << dep->GetParameter().Data() << std::endl;
+           return kFALSE;
+        }
+        parindx = GetParIndex(deppar);
      }
 
      if (dep->GetExpression().Length()>0) {
@@ -131,7 +136,7 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray& Dependencies, Bool_
         TFormula* fx = new TFormula("test",formula.Data());
         Int_t err = fx->Compile(formula.Data());
         delete fx;
-        if (err!=0) {
+        if (err != 0) {
            std::cout << "Error in dependence: " << formula.Data() << "   code " << err << std::endl;
            return kFALSE;
         }
@@ -160,26 +165,26 @@ void TGo4FitterAbstract::FinalizeDependencies(TObjArray& Dependencies)
 
 void TGo4FitterAbstract::ExecuteDependencies(Double_t* pars)
 {
-   if ((pars!=0) && (fxCurrentConfig!=0))
+   if (pars && fxCurrentConfig)
        RunDependenciesList(fxCurrentConfig->GetParsDepend(), pars );
 }
 
 Bool_t TGo4FitterAbstract::IsSuitableConfig(TGo4FitterConfig* Config)
 {
-   if (Config==0) return kFALSE;
+   if (!Config) return kFALSE;
    Bool_t res = kTRUE;
    try {
-     fxCurrentConfig=Config;
+     fxCurrentConfig = Config;
      CollectAllPars();
      res = InitializeDependencies(Config->GetParsInit(), kFALSE,kFALSE);
      res = res && InitializeDependencies(Config->GetParsDepend(), kFALSE,kFALSE);
      res = res && InitializeDependencies(Config->GetResults(), kFALSE,kFALSE);
 
-     fxCurrentConfig=0;
+     fxCurrentConfig = nullptr;
      CollectAllPars();
 
    } catch(...) {
-      fxCurrentConfig=0;
+      fxCurrentConfig = nullptr;
       CollectAllPars();
       throw;
    }
@@ -189,7 +194,7 @@ Bool_t TGo4FitterAbstract::IsSuitableConfig(TGo4FitterConfig* Config)
 
 Bool_t TGo4FitterAbstract::ApplyConfig(TGo4FitterConfig* Config)
 {
-   if (fxCurrentConfig!=0) {
+   if (fxCurrentConfig) {
       FinalizeDependencies(fxCurrentConfig->GetParsInit());
       FinalizeDependencies(fxCurrentConfig->GetParsDepend());
       FinalizeDependencies(fxCurrentConfig->GetResults());
@@ -217,7 +222,7 @@ Bool_t TGo4FitterAbstract::ApplyConfig(TGo4FitterConfig* Config)
       FinalizeDependencies(fxCurrentConfig->GetParsInit());
       FinalizeDependencies(fxCurrentConfig->GetParsDepend());
       FinalizeDependencies(fxCurrentConfig->GetResults());
-      fxCurrentConfig = 0;
+      fxCurrentConfig = nullptr;
    }
 
    return res;
@@ -245,7 +250,7 @@ Bool_t TGo4FitterAbstract::Initialize()
 
 Double_t TGo4FitterAbstract::CalculateFitFunction(Double_t* pars)
 {
-   if (pars!=0) {
+   if (pars) {
      ExecuteDependencies(pars);
      SetParsValues(pars);
    }
@@ -302,10 +307,10 @@ TGo4FitterAction* TGo4FitterAbstract::GetAction(Int_t num)
 
 void TGo4FitterAbstract::DeleteAction(TGo4FitterAction* action)
 {
-  if (action==0) return;
+  if (!action) return;
   if (fxActions.IndexOf(action)>=0) {
-    fxActions.Remove(action);
-    fxActions.Compress();
+     fxActions.Remove(action);
+     fxActions.Compress();
   }
   delete action;
 }
@@ -349,7 +354,7 @@ void TGo4FitterAbstract::DoActions(Bool_t AllowFitterChange, TObjArray* Actions)
 
 void TGo4FitterAbstract::DoAction(TGo4FitterAction* Action)
 {
-   if (Action==0) return;
+   if (!Action) return;
 
    Bool_t need = Action->NeedBuffers();
 
@@ -368,9 +373,9 @@ void TGo4FitterAbstract::DoAction(Int_t indx)
 
 TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitter, Bool_t OnlyRequired, TObjArray* rownames, TObjArray* colnames)
 {
-  if ((objs==0) || (objs->GetLast()<0)) return 0;
+  if (!objs || (objs->GetLast() < 0)) return nullptr;
 
-  if (NumSlots()<=0) return 0;
+  if (NumSlots()<=0) return nullptr;
 
   TArrayI use(NumSlots()); use.Reset(-1);
 
@@ -382,7 +387,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
        if (slot->IsRequired() || !OnlyRequired) use[numuse++] = n;
   }
 
-  if ((numuse==0) || ((objs->GetLast()+1) % numuse != 0)) return 0;
+  if ((numuse==0) || ((objs->GetLast()+1) % numuse != 0)) return nullptr;
 
   Int_t nuse = 0;
   for (Int_t nobj=0;nobj<=objs->GetLast();nobj++) {
@@ -396,16 +401,16 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
      if (!slot->IsSuitable(obj)) {
         std::cout << "Object " << obj->GetName() << " of class " << obj->ClassName() <<
                 " noncompatible with " << slot->GetClass()->GetName() << std::endl;
-        return 0;
+        return nullptr;
      }
   }
 
   TObjArray* res = new TObjArray((objs->GetLast()+1) / numuse);
   res->SetOwner(kTRUE);
-  TGo4FitterAbstract* resf = 0;
+  TGo4FitterAbstract* resf = nullptr;
 
-  if (rownames!=0) { rownames->Clear(); rownames->SetOwner(kTRUE); }
-  if (colnames!=0) { colnames->Clear(); colnames->SetOwner(kTRUE); }
+  if (rownames) { rownames->Clear(); rownames->SetOwner(kTRUE); }
+  if (colnames) { colnames->Clear(); colnames->SetOwner(kTRUE); }
 
   if (CloneFitter) {
 

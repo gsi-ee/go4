@@ -91,9 +91,9 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
    QString value = edt->text();
 
    TGo4BrowserProxy* br = Browser();
-   if (br==0) return;
+   if (!br) return;
 
-   if (fxTreeName.length()==0) {
+   if (fxTreeName.isEmpty()) {
       if (!caninit) {
           StatusMessage("First drop something on X, Y or Z field");
           edt->setText("");
@@ -142,7 +142,7 @@ void TGo4TreeViewer::TreeDrawBtn_clicked()
    }
 
    TGo4BrowserProxy* br = Browser();
-   if (br==0) return;
+   if (!br) return;
 
    QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -182,6 +182,6 @@ void TGo4TreeViewer::NewHistBtn_clicked()
 
 void TGo4TreeViewer::requestedObjectCreated(const char* itemname, TClass* cl)
 {
-   if ((cl!=0) && cl->InheritsFrom(TH1::Class()))
+   if (cl && cl->InheritsFrom(TH1::Class()))
       HistNameEdt->setText(itemname);
 }

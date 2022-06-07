@@ -168,7 +168,7 @@ int main(int argc, char **argv)
          dabcnode = argv[narg];
       } else if (curr.contains("http://") || curr.contains("https://")) {
          httpnodes.append(argv[narg]);
-      } else if (hotstart.length()==0) {
+      } else if (hotstart.isEmpty()) {
          hotstart = argv[narg];
          if(!curr.contains(".hotstart")) hotstart.append(".hotstart");
       }

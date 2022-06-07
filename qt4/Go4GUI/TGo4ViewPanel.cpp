@@ -2941,7 +2941,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
             if (drawopt.Contains("p")) ldrawopt+="p";
          }
 
-         if (ldrawopt.Length()==0) ldrawopt = "l";
+         if (ldrawopt.IsNull()) ldrawopt = "l";
 
          legend->AddEntry(stob, objname, ldrawopt.Data());
       }

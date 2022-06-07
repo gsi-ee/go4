@@ -167,9 +167,9 @@ Double_t TGo4FitModelFunction::UserFunction(Double_t* Coordinates, Double_t* Par
 
 Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
 {
-   if ((fxLibraryName.Length()==0) || (fxFunctionName.Length()==0)) {
-     if (fxUserFunction==0) std::cout << "TGo4FitModelFunction: user function not set" << std::endl;
-     return fxUserFunction != nullptr;
+   if (fxLibraryName.IsNull() || fxFunctionName.IsNull()) {
+      if (!fxUserFunction) std::cout << "TGo4FitModelFunction: user function not set" << std::endl;
+      return fxUserFunction != nullptr;
    }
 
    if (CloseFirst) CloseLibrary();

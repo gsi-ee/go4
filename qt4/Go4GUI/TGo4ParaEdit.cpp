@@ -477,13 +477,13 @@ void TGo4ParaEdit::ApplyClicked()
 {
    TGo4LockGuard lock;
 
-   if ((fItemName.length()==0) || (fItems==0)) return;
+   if (fItemName.isEmpty() || !fItems) return;
 
    TString foldname, parname;
    TGo4Slot::ProduceFolderAndName(fItemName.toLatin1().constData(), foldname, parname);
 
    const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
-   if (parclass==0) return;
+   if (!parclass) return;
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 

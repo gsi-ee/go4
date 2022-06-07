@@ -429,7 +429,7 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
 void TGo4AnalysisWindow::CommandSlot()
 {
    QString cmd = fxCmdHist->currentText();
-   if (cmd.length()==0) return;
+   if (cmd.isEmpty()) return;
 
    TGo4ServerProxy* anal = GetAnalysis();
    if (anal!=0) {
