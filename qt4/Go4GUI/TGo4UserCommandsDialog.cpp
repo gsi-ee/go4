@@ -47,22 +47,22 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
 }
 
 QString TGo4UserCommandsDialog::GetCommand(int id)
-   {
-      QString rev("");
-      QTableWidgetItem* item=CommandsTable->item(id,0);
-      if(item)
-         rev=item->text();
-      return rev;
-   }
+{
+   QString rev("");
+   QTableWidgetItem *item = CommandsTable->item(id, 0);
+   if (item)
+      rev = item->text();
+   return rev;
+}
 
 QString TGo4UserCommandsDialog::GetTooltip(int id)
-   {
-      QString rev("");
-      QTableWidgetItem* item=CommandsTable->item(id,1);
-      if(item)
-         rev=item->text();
-      return rev;
-   }
+{
+   QString rev("");
+   QTableWidgetItem *item = CommandsTable->item(id, 1);
+   if (item)
+      rev = item->text();
+   return rev;
+}
 
 bool TGo4UserCommandsDialog::GetAutoExecute(int id)
 {
@@ -71,26 +71,24 @@ bool TGo4UserCommandsDialog::GetAutoExecute(int id)
    if(item)
    rev=(item->checkState()==Qt::Checked);
    return rev;
-
 }
 
 void TGo4UserCommandsDialog::ButtonPressed(QAbstractButton* but)
 {
- //std::cout<<"TGo4UserCommandsDialog ButtonPressed "  << std::endl;
- QPushButton* pbut=dynamic_cast<QPushButton*>(but);
- if (pbut == DialogButtonBox->button (QDialogButtonBox::Reset))
-   {
-    //std::cout<<"Found Reset button "  << std::endl;
-    for(int id=0; id<GO4GUI_MAXMACRONUM; ++id)
-      {
-         QTableWidgetItem* comitem= CommandsTable->item(id,0);
-         if(comitem) comitem->setText(QString(""));
-         QTableWidgetItem* tipitem=  CommandsTable->item(id,1);
-         if(tipitem) tipitem->setText(QString(""));
-         QTableWidgetItem* autoitem=  CommandsTable->item(id,2);
-         if(autoitem)
-            autoitem->setCheckState(Qt::Unchecked);
-      }
-   } // if Reset
-
+  //std::cout<<"TGo4UserCommandsDialog ButtonPressed "  << std::endl;
+  QPushButton* pbut = dynamic_cast<QPushButton*>(but);
+  if (pbut == DialogButtonBox->button(QDialogButtonBox::Reset)) {
+     // std::cout<<"Found Reset button "  << std::endl;
+     for (int id = 0; id < GO4GUI_MAXMACRONUM; ++id) {
+        QTableWidgetItem *comitem = CommandsTable->item(id, 0);
+        if (comitem)
+           comitem->setText(QString(""));
+        QTableWidgetItem *tipitem = CommandsTable->item(id, 1);
+        if (tipitem)
+           tipitem->setText(QString(""));
+        QTableWidgetItem *autoitem = CommandsTable->item(id, 2);
+        if (autoitem)
+           autoitem->setCheckState(Qt::Unchecked);
+     }
+  } // if Reset
 }

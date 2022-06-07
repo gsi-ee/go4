@@ -137,46 +137,40 @@ void TGo4UserCommands::ConfigureAnalysisMacros()
 {
   //std::cout << "ConfigureAnalysisMacros " <<std::endl;
 
-TGo4UserCommandsDialog setup(this);
-if ( setup.exec() != QDialog::Accepted ) return;
+   TGo4UserCommandsDialog setup(this);
+   if (setup.exec() != QDialog::Accepted)
+      return;
 
-//AssignShortcuts(); // test if we can manipulate them afterwards.
+   // AssignShortcuts(); // test if we can manipulate them afterwards.
 
-for(int id=0; id<GO4GUI_MAXMACRONUM;++id)
-{
-	// get from requester and store in go4 settings:
-	QString com=setup.GetCommand(id);
-	go4sett->setAnalysisMacroCommand(id, com);
-	QString tip=setup.GetTooltip(id);
-	tip.append(": ");
-	tip.append(fAnalysisMacroButtons[id]->shortcut().toString());
-	go4sett->setAnalysisMacroTip(id, tip);
-	//std::cout<<"ConfigureAnalysisMacros - index"<<id<<" set command "<<com.toLatin1 ().constData ()<<", tip:"<<tip.toLatin1 ().constData ()<< std::endl;
+   for (int id = 0; id < GO4GUI_MAXMACRONUM; ++id) {
+      // get from requester and store in go4 settings:
+      QString com = setup.GetCommand(id);
+      go4sett->setAnalysisMacroCommand(id, com);
+      QString tip = setup.GetTooltip(id);
+      tip.append(": ");
+      tip.append(fAnalysisMacroButtons[id]->shortcut().toString());
+      go4sett->setAnalysisMacroTip(id, tip);
+      // std::cout<<"ConfigureAnalysisMacros - index"<<id<<" set command "<<com.toLatin1 ().constData ()<<",
+      // tip:"<<tip.toLatin1 ().constData ()<< std::endl;
 
-	bool execute=setup.GetAutoExecute(id);
-	go4sett->setAnalysisMacroAutomode(id, execute);
+      bool execute = setup.GetAutoExecute(id);
+      go4sett->setAnalysisMacroAutomode(id, execute);
 
-	// put new setup to gui:
-	fAnalysisMacroCommands[id]=com;
-	fAnalysisMacroButtons[id]->setToolTip(tip);
+      // put new setup to gui:
+      fAnalysisMacroCommands[id] = com;
+      fAnalysisMacroButtons[id]->setToolTip(tip);
 
-	SetAutoExecute(id,execute);
+      SetAutoExecute(id, execute);
 
-
-	// now activate only such elements that are defined:
-	fAnalysisMacroButtons[id]->setEnabled(true);
-	//fAnalysisMacroMonitorCheck[id]->setEnabled(true);
-	 if(com.isEmpty()){
-		 fAnalysisMacroButtons[id]->setEnabled(false);
-		 //fAnalysisMacroMonitorCheck[id]->setEnabled(false);
-	 }
-
-
-}
-
-
-
-
+      // now activate only such elements that are defined:
+      fAnalysisMacroButtons[id]->setEnabled(true);
+      // fAnalysisMacroMonitorCheck[id]->setEnabled(true);
+      if (com.isEmpty()) {
+         fAnalysisMacroButtons[id]->setEnabled(false);
+         // fAnalysisMacroMonitorCheck[id]->setEnabled(false);
+      }
+   }
 }
 
 void TGo4UserCommands::ExecuteAnalysisMacro_1()
@@ -198,7 +192,6 @@ void TGo4UserCommands::ExecuteAnalysisMacro_4()
 {
   ExecuteAnalysisMacro(3); // note the shift of index here. want to start with ctrl-1 as first macro...
 }
-
 
 void TGo4UserCommands::ExecuteAnalysisMacro_5()
 {
@@ -225,41 +218,27 @@ void TGo4UserCommands::ExecuteAnalysisMacro_9()
   ExecuteAnalysisMacro(8); // note the shift of index here. want to start with ctrl-1 as first macro...
 }
 
-
-
 void TGo4UserCommands::ExecuteAnalysisMacro(int id)
 {
-  //std::cout << "ExecuteAnalysisMacro "<< id <<std::endl;
-  QString cmd=fAnalysisMacroCommands[id];
-  if (cmd.length()==0) return;
-  //std::cout << "Invoke custom analysis command: "<< cmd.toLatin1().constData() <<std::endl;
-  StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
-  TGo4ServerProxy* serv = Browser()->FindServer();
-  if (serv!=0)
-  {
-    // TODO: have to check priviliges here?
-    serv->ExecuteLine(cmd.toLatin1().constData());
-  }
+   QString cmd = fAnalysisMacroCommands[id];
+   if (cmd.isEmpty())
+      return;
+   // std::cout << "Invoke custom analysis command: "<< cmd.toLatin1().constData() <<std::endl;
+   StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
+   TGo4ServerProxy *serv = Browser()->FindServer();
+   if (serv) {
+      // TODO: have to check priviliges here?
+      serv->ExecuteLine(cmd.toLatin1().constData());
+   }
 }
-
-
-
 
 void TGo4UserCommands::SetAutoExecute(int id, bool on)
 {
-	fAnalysisMacroAutoExecute[id]=on;
-	QString iconname;
-	if(on)
-	{
-		iconname=QString(":/icons/Number-%1-icon-green.png").arg(id+1);
-	}
-	else
-	{
-		iconname=QString(":/icons/Number-%1-icon.png").arg(id+1);
-	}
-	fAnalysisMacroButtons[id]->setIcon(QIcon(iconname));
+   fAnalysisMacroAutoExecute[id] = on;
+   QString iconname;
+   if (on)
+      iconname = QString(":/icons/Number-%1-icon-green.png").arg(id + 1);
+   else
+      iconname = QString(":/icons/Number-%1-icon.png").arg(id + 1);
+   fAnalysisMacroButtons[id]->setIcon(QIcon(iconname));
 }
-
-
-
-
