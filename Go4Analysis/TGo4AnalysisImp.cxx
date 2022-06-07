@@ -2362,7 +2362,7 @@ Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
 
    bool fall_back = false;
    if (has_plus) fall_back = true;
-   if (func_name.Length() == 0) fall_back = true;
+   if (func_name.IsNull()) fall_back = true;
 
    std::string search = func_name.Data(); search += "(";
    auto name_pos = content.find(search);

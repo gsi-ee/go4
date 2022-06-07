@@ -89,7 +89,7 @@ void TGo4EventInfo::RefreshClicked()
 {
    RemoveAllLinks();
 
-   if (EventLbl->text().length() == 0) return;
+   if (EventLbl->text().isEmpty()) return;
    QString evname = EventLbl->text();
    bool isremote = RemoteButton->isChecked();
    bool istree = TreeButton->isChecked();

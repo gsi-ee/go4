@@ -821,7 +821,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
 void TGo4Browser::ColumnToggled(int indx)
 {
-   if ((indx<=0) || (indx>=NColumns)) return;
+   if ((indx <= 0) || (indx >= NColumns)) return;
    fVisibleColumns[indx] = !fVisibleColumns[indx];
 
    HeaderSectionResizedSlot(0, 0, 0);
@@ -1119,10 +1119,10 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
 
    TGo4ServerProxy* serv = BrowserProxy()->DefineServerObject(itemname.toLatin1().constData(), &objname, kFALSE);
 
-   if (!serv || (objname.Length() == 0)) return;
+   if (!serv || objname.IsNull()) return;
 
    Int_t nargs = serv->NumCommandArgs(objname);
-   if (nargs<0) return;
+   if (nargs < 0) return;
 
    for (Int_t n=0;n<nargs;n++) {
       bool ok = false;

@@ -64,7 +64,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
    // par is the object specified as last argument creating the step in TAnalysis
    // only info we can get is an ID
    TGo4Log::Info("%s: Create event processor %s", GetName(), fProcessorName.Data());
-   if(fnewProcessor.Length() == 0)
+   if(fnewProcessor.IsNull())
       TGo4Log::Error("No event processor was specified!");
    else
       // create event processor by macro
@@ -85,11 +85,11 @@ void TGo4StepFactory::DefOutputEvent(const char* Oname, const char* Oclass)
 //-----------------------------------------------------------
 TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 {
-   TGo4EventElement * event = nullptr;
+   TGo4EventElement *event = nullptr;
 
    TGo4Log::Info("%s: Create output event %s", GetName(), fOutputEventName.Data());
 
-   if(fnewOutputEvent.Length() == 0)
+   if(fnewOutputEvent.IsNull())
       TGo4Log::Error("No output event was specified!");
    else
       event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewOutputEvent.Data());
@@ -110,7 +110,7 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 {
    TGo4Log::Info("%s: Create input event %s", GetName(), fInputEventName.Data());
 
-   if(fnewInputEvent.Length() == 0)
+   if(fnewInputEvent.IsNull())
       return TGo4EventServerFactory::CreateInputEvent();
 
    TGo4EventElement* event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewInputEvent.Data());

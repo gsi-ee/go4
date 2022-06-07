@@ -31,7 +31,7 @@ TGo4BranchStatus::TGo4BranchStatus(TBranch* branch) :
       else
          fxObjectClass = branch->GetClassName();
    }
-   if (fxObjectClass.Length() == 0)
+   if (fxObjectClass.IsNull())
       fxObjectClass = branch ? branch->ClassName() : "BranchElement";
 }
 

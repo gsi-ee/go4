@@ -136,14 +136,14 @@ void TGo4BrowserItem::CopyToWorkspace()
 {
    TString itemname;
    ProduceFullName(itemname);
-   if ((itemname.Length() == 0) || !fBrowser) return;
+   if (itemname.IsNull() || !fBrowser) return;
 
-   fBrowser->ProduceExplicitCopy(itemname.Data(), 0, kTRUE);
+   fBrowser->ProduceExplicitCopy(itemname.Data(), nullptr, kTRUE);
 }
 
 void TGo4BrowserItem::DeleteItem()
 {
-   if (GetParent()==0) {
+   if (!GetParent()) {
       TGo4Interface::DeleteInstance();
       return;
    }
@@ -193,7 +193,6 @@ void TGo4BrowserItem::SetMonitorFlag(Bool_t on)
       fBrowser->SetItemMonitored(itemslot, on);
 }
 
-
 void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 {
    if (fBrowser)
@@ -203,7 +202,7 @@ void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 void TGo4BrowserItem::StartAnalysis()
 {
    TGo4ServerProxy* anal = fBrowser->FindServer();
-   if (anal!=0)
+   if (anal)
       anal->StartAnalysis();
 }
 

@@ -128,8 +128,9 @@ int main(int argc, char **argv)
    QString hotstart, dabcnode;
    QStringList files, httpnodes;
 
-   for(int narg=1;narg<argc;narg++) {
-      if (strlen(argv[narg])==0) continue;
+   for (int narg = 1; narg < argc; narg++) {
+      if (strlen(argv[narg]) == 0)
+         continue;
 
       QString curr(argv[narg]);
 
@@ -267,9 +268,9 @@ int main(int argc, char **argv)
    gInterpreter->SetProcessLineLock(kTRUE); // changed for root 6 problems JAM 9-10-2018
 
    TString go4inc = TGo4Log::GO4INCPATH();
-   if (go4inc.Length() == 0)
+   if (go4inc.IsNull())
       go4inc = TGo4Log::subGO4SYS("include");
-   if (go4inc.Length() > 0)
+   if (!go4inc.IsNull())
       gInterpreter->AddIncludePath(go4inc.Data());
 
    // ShowGuideLines cases crashes - it has stored gpad in static variable
@@ -302,7 +303,7 @@ int main(int argc, char **argv)
    if (usergui)
       Go4MainGUI->UserPanelSlot();
 
-   if (dologin>=0) {
+   if (dologin >= 0) {
       go4sett->setClientNode(loghost);
       go4sett->setClientPort(logport);
       go4sett->setClientDefaultPass(logpass==0);

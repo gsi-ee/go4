@@ -674,7 +674,7 @@ int main(int argc, char **argv)
 
    // add main go4 include path for the case if scripts are called from inside analysis, required for ROOT6
    TString go4inc = TGo4Log::GO4INCPATH();
-   if (go4inc.Length() == 0)
+   if (go4inc.IsNull())
       go4inc = TGo4Log::subGO4SYS("include");
    if (go4inc.Length() > 0)
       gInterpreter->AddIncludePath(go4inc.Data());
