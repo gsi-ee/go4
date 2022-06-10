@@ -238,7 +238,7 @@ void TGo4Analysis::Constructor()
             __GO4RELEASE__ , __GO4BUILDVERSION__);
    }
 
-   if(fxInstance==0) {
+   if(!fxInstance) {
       gROOT->SetBatch(kTRUE);
       fxStepManager = new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
       fxObjectManager = new TGo4AnalysisObjectManager("Go4 Central Object Manager");
