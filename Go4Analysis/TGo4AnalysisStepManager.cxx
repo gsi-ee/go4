@@ -286,7 +286,7 @@ Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char * name, TGo4EventPro
 Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Parameter* par)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
-   return (step!=0) ? step->Store(par) : 1;
+   return step ? step->Store(par) : 1;
 }
 
 Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Condition* con)
@@ -485,12 +485,12 @@ void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus* state)
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
       state->ClearStepStatus();
-      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
+      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          TGo4AnalysisStepStatus* stepstate= fxCurrentStep->CreateStatus();
          state->AddStepStatus(stepstate);
       } // while(fxCurrentStep..)
-   } // if(state!=0)
+   }
 }
 
 void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
@@ -505,14 +505,14 @@ void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
       // update internal states of steps:
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
-      while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
+      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          const char* name= fxCurrentStep->GetName();
          TGo4AnalysisStepStatus* stepstate= state->GetStepStatus(name);
          fxCurrentStep->SetStatus(stepstate);
 
       } // while(fxCurrentStep..)
-   } // if(state!=0)
+   }
 }
 
 void TGo4AnalysisStepManager::AutoSave()
@@ -523,7 +523,7 @@ void TGo4AnalysisStepManager::AutoSave()
    TGo4Analysis::Instance()->Message(0,"Analysis Step Manager  --  AutoSaving....");
    TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr) {
+   while((step = dynamic_cast<TGo4AnalysisStep*>(fxStepIterator->Next())) != nullptr) {
       step->StoreCalibration();
    }
 
