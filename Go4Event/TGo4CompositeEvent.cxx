@@ -24,7 +24,7 @@
 TGo4CompositeEvent::TGo4CompositeEvent() :
    TGo4EventElement(),
    fNElements(0),
-   fEventElements(0),
+   fEventElements(nullptr),
    fMaxIndex(0)
 {
 }
@@ -32,7 +32,7 @@ TGo4CompositeEvent::TGo4CompositeEvent() :
 TGo4CompositeEvent::TGo4CompositeEvent(const char*aName, const char* aTitle, Short_t aBaseCat) :
    TGo4EventElement(aName,aTitle, aBaseCat),
    fNElements(0),
-   fEventElements(0),
+   fEventElements(nullptr),
    fMaxIndex(0)
 {
 }
@@ -53,7 +53,7 @@ TGo4EventElement* TGo4CompositeEvent::GetChild(const char* name)
 {
    TGo4EventElement* res = TGo4EventElement::GetChild(name);
 
-   if ((res==0) && (fEventElements!=0))
+   if (!res && fEventElements)
       res = dynamic_cast<TGo4EventElement*> (fEventElements->FindObject(name));
 
    return res;
@@ -62,7 +62,7 @@ TGo4EventElement* TGo4CompositeEvent::GetChild(const char* name)
 
 void TGo4CompositeEvent::makeBranch(TBranch *parent)
 {
-   if (fEventElements!=0)
+   if (fEventElements)
       for(Int_t i=0; i<=fEventElements->GetLast();i++) {
          TGo4EventElement** par = (TGo4EventElement**) &((*fEventElements)[i]);
          if (par && *par) {
@@ -181,7 +181,7 @@ void TGo4CompositeEvent::Clear(Option_t *opt)
 
    TIter next(fEventElements);
    TGo4EventElement *ev;
-   while ( (ev=(TGo4EventElement *)next())!=0)
+   while ( (ev = (TGo4EventElement *)next()) != nullptr)
       ev->Clear(opt);
 }
 

@@ -239,7 +239,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
       // somethings wrong, display error message from f_evt_error()
       TGo4Log::Debug(" !!! Mbs Source --  ERROR: %s !!! ",GetErrMess());
       throw TGo4EventErrorException(this);
-   } //if(fxEvent!=0 && GetEventStatus()==GETEVT__SUCCESS)
+   } //if(fxEvent && GetEventStatus()==GETEVT__SUCCESS)
 }
 
 
@@ -277,7 +277,7 @@ frombegin:
          eventstep = 1;
 
    // test if we had reached the last event:
-   if(fuStopEvent!=0 && fuEventCounter>=fuStopEvent)
+   if(fuStopEvent != 0 && fuEventCounter >= fuStopEvent)
       SetEventStatus(GETEVT__NOMORE);
    else {
       // check possible overflow of our counter:
@@ -360,7 +360,7 @@ Int_t TGo4MbsSource::Open()
    int nport = fiPort;
 
    char* separ = strrchr(name, ':');
-   if ((nport<=0) && (separ!=0) && (GetMode() != GETEVT__FILE)) {
+   if ((nport <= 0) && separ && (GetMode() != GETEVT__FILE)) {
       if ((sscanf(separ+1,"%d",&nport)==1) && (nport>0)) {
          *separ = 0;
       } else {

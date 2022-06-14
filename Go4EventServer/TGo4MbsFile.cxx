@@ -77,7 +77,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
 {
    GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter*)",__LINE__, __FILE__));
 
-   if(par!=0) {
+   if(par) {
       fxTagFile = par->GetTagName();
 
       AddFileName(GetName(), fxTagFile.Data(), par->NumMoreFiles()==0);
@@ -100,7 +100,7 @@ TGo4MbsFile::~TGo4MbsFile()
 
 void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly)
 {
-   if ((name==0) || (*name==0)) return;
+   if (!name || (*name==0)) return;
 
    TString fname(name);
 
@@ -139,7 +139,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
 
       if (!fxMultiFile) { fxMultiFile = new TList; fxMultiFile->SetOwner(kTRUE); }
 
-      if ((tagname!=0) && (strcmp(tagname,fgcNOTAGFILE)!=0)) {
+      if (tagname && (strcmp(tagname,fgcNOTAGFILE) != 0)) {
          fname += " ";
          fname += tagname;
       }
@@ -186,7 +186,7 @@ Int_t TGo4MbsFile::NextEvent()
    try{
       Int_t skip = 0;
       // test if we had reached the last event:
-      if(fuStopEvent!=0 && fuEventCounter>=fuStopEvent) {
+      if(fuStopEvent != 0 && fuEventCounter >= fuStopEvent) {
          SetEventStatus(GETEVT__NOMORE);
       } else {
          if(fbFirstEvent) {
@@ -209,14 +209,16 @@ Int_t TGo4MbsFile::NextEvent()
             fuEventCounter++;
          SetEventStatus(status);
       }
-      if(GetEventStatus()!=0) {
+      if(GetEventStatus() != 0) {
          char buffer[TGo4EventSource::fguTXTLEN];
          f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
          SetErrMess(TString::Format("%s file:%s", buffer, GetCurrentFileName()).Data());
       }
 
-      if(GetEventStatus() == GETEVT__NOMORE) throw TGo4EventEndException(this);
-      else  if(GetEventStatus()!=0) throw TGo4EventErrorException(this);
+      if (GetEventStatus() == GETEVT__NOMORE)
+         throw TGo4EventEndException(this);
+      else if (GetEventStatus() != 0)
+         throw TGo4EventErrorException(this);
 
       return GetEventStatus();
 
@@ -229,7 +231,7 @@ Int_t TGo4MbsFile::NextEvent()
          // try to open next file in list:
          TGo4Log::Info("End file: %s",GetCurrentFileName());
 
-         while(NextFile()<0);
+         while(NextFile() < 0);
          //skip filenames with open error until a file
          // in the list opens properly (retval==0)
          SetErrMess("");
@@ -329,7 +331,7 @@ Int_t TGo4MbsFile::NextFile()
          rem1 = strstr(nextline.Data(), "!");
          rem2 = strstr(nextline.Data(), "#");
          command = strstr(nextline.Data(), "@");
-         if(command!=0 && !(rem1!=0 && rem1<command) && !(rem2!=0 && rem2<command)) {
+         if(command && !(rem1 && rem1 < command) && !(rem2 && rem2 < command)) {
             // keycharacter indicates we want to execute a root macro
             // treat the case that @command is commented out before!
             command++; // skip @ letter
