@@ -106,10 +106,10 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       {
          if (fProxyKind == cmdDefualtEnvelope) {
             TString path = fxReceiverPath;
-            if (objfolder && (strlen(objfolder)!=0)) {
+            if (objfolder && (strlen(objfolder) != 0)) {
                path += objfolder; path += "/";
             }
-            if (objname && (strlen(objname)!=0)) path += objname;
+            if (objname && (strlen(objname) != 0)) path += objname;
             DoObjectAssignement(fxReceiver, path.Data(), obj, owner);
 
          } else {
@@ -216,10 +216,10 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
               kind = TGo4Access::kndFolder;
            else {
              kind = TGo4Access::kndObject;
-             if ((fCurrent!=0) && fCurrent->InheritsFrom(TGo4ParameterStatus::Class()))
+             if (fCurrent && fCurrent->InheritsFrom(TGo4ParameterStatus::Class()))
                 kind = TGo4Access::kndGo4Param;
              else
-             if ((fCurrent!=0) && fCurrent->InheritsFrom(TGo4MemberStatus::Class()))
+             if (fCurrent && fCurrent->InheritsFrom(TGo4MemberStatus::Class()))
                 kind = TGo4Access::kndDataMember;
            }
 
@@ -293,23 +293,24 @@ TGo4AnalysisProxy::~TGo4AnalysisProxy()
 {
 //   Info("~TGo4AnalysisProxy","%x",this);
 
-   if (fxRefreshTimer!=0) delete fxRefreshTimer;
-   if (fxConnectionTimer!=0) delete fxConnectionTimer;
+   if (fxRefreshTimer) delete fxRefreshTimer;
+   if (fxConnectionTimer) delete fxConnectionTimer;
 
    fNumberOfWaitingProxyes -= fxSubmittedProxy.GetEntries();
    fxSubmittedProxy.Delete();
 
-   delete fxDefaultProxy; fxDefaultProxy = 0;
+   delete fxDefaultProxy;
+   fxDefaultProxy = nullptr;
 
    delete fAnalysisNames;
 
-   if (fxDisplay!=0) {
+   if (fxDisplay) {
       // if no disconnect attempt was done, send at the end quit command
       // never delete display directly
-      if (fDisconectCounter==-111)
+      if (fDisconectCounter == -111)
         fxDisplay->SubmitCommand("MRQuit");
 
-      if (fxDisplay!=0) {
+      if (fxDisplay) {
          fxDisplay->SetAnalysis(0);
          TGo4Log::Debug("TGo4Display instance is not deleted correctly when analysis proxy is destroyed");
       }
@@ -403,7 +404,7 @@ const char* TGo4AnalysisProxy::GetContainedObjectInfo()
    TGo4ServerProxy::GetContainedObjectInfo(); // evaluate roles
    fInfoStr +="@";
    fInfoStr +=GetServerName();
-   if (IsConnected() && (fAnalysisNames!=0) && (strcmp(fAnalysisNames->GetName(),"Go4NamesList")!=0)) {
+   if (IsConnected() && fAnalysisNames && (strcmp(fAnalysisNames->GetName(),"Go4NamesList") != 0)) {
       fInfoStr += " name:";
       fInfoStr += fAnalysisNames->GetName();
    }
@@ -1081,8 +1082,8 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
             } else {
                delete this;
             }
-         } // if(fDisconectCounter>0)
-      } //if fxDisplay!=0
+         } // if(fDisconectCounter > 0)
+      } //if(fxDisplay)
    }
    return kFALSE;
 }

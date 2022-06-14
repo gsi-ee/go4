@@ -77,13 +77,13 @@ void printsources()
 
 }
 
-void usage(const char* subtopic = 0)
+void usage(const char* subtopic = nullptr)
 {
    std::cout << std::endl;
    std::cout << "GO4 analysis runnable " << __GO4RELEASE__ << std::endl;
    std::cout << "S. Linev, GSI, Darmstadt" << std::endl;
 
-   if ((subtopic!=0) && (strlen(subtopic)>0)) {
+   if (subtopic && (strlen(subtopic) > 0)) {
       const char* sub = subtopic;
       if (*sub=='-') sub++;
 
@@ -291,20 +291,20 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = n
 TList* GetClassesList(TList* prev = nullptr)
 {
    TClassTable::Init();
-   char* name = 0;
+   char* name = nullptr;
 
    TList* lst = new TList;
    lst->SetOwner(kTRUE);
 
-   if (prev!=0) TGo4Log::Debug("Search user classes in loaded library");
+   if (prev) TGo4Log::Debug("Search user classes in loaded library");
 
-   while ((name = TClassTable::Next()) != 0) {
+   while ((name = TClassTable::Next()) != nullptr) {
       if (prev && prev->FindObject(name)) continue;
 
       TNamed* obj = new TNamed(name, name);
       lst->Add(obj);
 
-      if (prev!=0) TGo4Log::Debug("New class %s", name);
+      if (prev) TGo4Log::Debug("New class %s", name);
    }
    return lst;
 }
@@ -354,7 +354,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       if (meth) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char**)", an_cl->GetName(), an_cl->GetName());
 
-         if ((user_argc>0) && (user_argv!=0))
+         if ((user_argc > 0) && user_argv)
             user_argv[0] = (char*) name;
          else {
             user_argc = 1;
@@ -480,7 +480,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    const char* inp_evnt_classname = GetArgValue(user_argc, user_argv, "-inpevt-class");
    const char* out_evnt_classname = GetArgValue(user_argc, user_argv, "-outevt-class");
 
-   if (inp_evnt_classname!=0) {
+   if (inp_evnt_classname) {
       inpev_cl = gROOT->GetClass(inp_evnt_classname);
       if (!inpev_cl) {
          TGo4Log::Error("Class %s not exists", inp_evnt_classname);
@@ -514,17 +514,17 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
    // check if user event source requires special event class
    // create instance only if we have something to check
-   if ((evsrc_cl!=0) && (inpev_cl==0) && (evnt_classes.GetLast() >= 0)) {
+   if (evsrc_cl && !inpev_cl && (evnt_classes.GetLast() >= 0)) {
       TGo4EventSource* src = (TGo4EventSource*) evsrc_cl->New();
 
       // if special input event is required, try to detect it
-      if ((src!=0) && !src->CheckEventClass(TGo4MbsEvent::Class())) {
+      if (src && !src->CheckEventClass(TGo4MbsEvent::Class())) {
          for (int n=0; n<=evnt_classes.GetLast(); n++) {
             TClass* cl = (TClass*) evnt_classes.At(n);
             if (!src->CheckEventClass(cl)) continue;
 
             // if more than two classes are suited - ignore any of them
-            if (inpev_cl!=0) { inpev_cl = 0; break; }
+            if (inpev_cl) { inpev_cl = nullptr; break; }
 
             inpev_cl = cl;
          }
@@ -643,8 +643,7 @@ int main(int argc, char **argv)
    if (doprint) TGo4Log::SetIgnoreLevel(2);
 
    const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
-   if (logfile!=0) {
-
+   if (logfile) {
       TGo4Log::Instance();
 
       TGo4Log::LogfileEnable(kTRUE);
@@ -652,7 +651,7 @@ int main(int argc, char **argv)
       TGo4Log::OpenLogfile(logfile, 0, kTRUE);
 
       TString info = "go4analysis";
-      for (int n=1;n<argc;n++) { info += " "; info += argv[n]; }
+      for (int n = 1; n < argc; n++) { info += " "; info += argv[n]; }
 
       TGo4Log::WriteLogfile(info.Data(), true);
    }
@@ -1248,7 +1247,7 @@ int main(int argc, char **argv)
 
    #ifdef WITH_HTTP
    if (http_args.GetLast() >= 0) {
-      if (gSystem->Load("libGo4Http")!=0)
+      if (gSystem->Load("libGo4Http") != 0)
          showerror("Fail to load libGo4Http.so library");
 
       TGo4Log::EnableRedirection(); // one sniff complete std out
