@@ -370,28 +370,27 @@ void TGo4AnalysisProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 Int_t TGo4AnalysisProxy::GetRole()
 {
-   if (fxDisplay==0) return kGo4ComModeRefused;
+   if (!fxDisplay) return kGo4ComModeRefused;
 
    Int_t res = kGo4ComModeRefused;
 
    if (IsAnalysisServer()) {
-     if (fActualRole>=0)
-        res = fActualRole;
-   } else
-     if (fxDisplay->GetTask()!=0)
-       if (fxDisplay->GetTask()->GetTaskHandler()!=0)
+      if (fActualRole >= 0)
+         res = fActualRole;
+   } else if (fxDisplay->GetTask())
+      if (fxDisplay->GetTask()->GetTaskHandler())
          res = fxDisplay->GetTask()->GetTaskHandler()->GetRole();
    return res;
 }
 
 Bool_t TGo4AnalysisProxy::IsViewer()
 {
-   return GetRole()==kGo4ComModeObserver;
+   return GetRole() == kGo4ComModeObserver;
 }
 
 Bool_t TGo4AnalysisProxy::IsController()
 {
-   return GetRole()==kGo4ComModeController;
+   return GetRole() == kGo4ComModeController;
 }
 
 Bool_t TGo4AnalysisProxy::IsAdministrator()
@@ -426,7 +425,7 @@ TGo4AnalysisObjectAccess* TGo4AnalysisProxy::FindSubmittedProxy(const char* path
 void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytodelete)
 {
    bool docompress = false;
-   if (proxytodelete!=0) {
+   if (proxytodelete) {
       fxSubmittedProxy.Remove(proxytodelete);
       delete proxytodelete;
       docompress = true;
@@ -435,7 +434,7 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
 
    for(int n=0;n<=fxSubmittedProxy.GetLast();n++) {
       TGo4AnalysisObjectAccess* proxy = (TGo4AnalysisObjectAccess*) fxSubmittedProxy.At(n);
-      if (proxy==0) continue;
+      if (!proxy) continue;
       if (proxy->CheckLifeTime(100000)) {
          fxSubmittedProxy.Remove(proxy);
          docompress = true;
@@ -452,55 +451,52 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 {
 //   std::cout << "Receive status " << status->GetName() << " class: " << status->ClassName() << std::endl;
 
-   if (dynamic_cast<TGo4AnalysisStatus*> (status)!=0) {
+   if (dynamic_cast<TGo4AnalysisStatus*> (status)) {
       SetAnalysisReady(kTRUE);
-      if (SettingsSlot()!=0) {
+      if (SettingsSlot()) {
          SettingsSlot()->AssignObject(status, kTRUE);
-         status =0;
+         status = nullptr;
       }
       CallSlotUpdate();
    }
 
    TGo4AnalysisClientStatus* analstatus = dynamic_cast<TGo4AnalysisClientStatus*> (status);
    if (analstatus) {
-      analstatus->Print();
+      // analstatus->Print();
       fbAnalysisRunning = analstatus->IsAnalysisRunning();
       if(fbAnalysisRunning)
         SetAnalysisSettingsReady(kTRUE); // JAM workaround for go4 server connection: a running analysis must have been configured
 
-      if (RatemeterSlot()!=0) {
+      if (RatemeterSlot()) {
          RatemeterSlot()->AssignObject(status, kTRUE);
-         status=0;
+         status = nullptr;
       }
    }
 
    TGo4AnalysisObjectResult* obres = dynamic_cast<TGo4AnalysisObjectResult*> (status);
    if (obres) {
-        TGo4AnalysisObjectNames* objnames = obres->GetNamesList(kTRUE);
+      TGo4AnalysisObjectNames *objnames = obres->GetNamesList(kTRUE);
 
-        if (objnames)
-          AssignNewNamesList(objnames);
-        if (UpdateObjectSlot()) {
-           TString fullname = obres->GetObjectFullName();
+      if (objnames)
+         AssignNewNamesList(objnames);
+      if (UpdateObjectSlot()) {
+         TString fullname = obres->GetObjectFullName();
 
-           if (fxParentSlot) {
-             fullname.Prepend("/");
-             fullname.Prepend(fxParentSlot->GetName());
-           }
+         if (fxParentSlot) {
+            fullname.Prepend("/");
+            fullname.Prepend(fxParentSlot->GetName());
+         }
 
-           obres->SetObjectFullName(fullname.Data());
+         obres->SetObjectFullName(fullname.Data());
 
-           UpdateObjectSlot()->AssignObject(obres, kTRUE);
-           status = nullptr;
-        }
+         UpdateObjectSlot()->AssignObject(obres, kTRUE);
+         status = nullptr;
+      }
       CallSlotUpdate();
    }
 
-
    if (status) {
      TString message = status->GetName();
-
-//     std::cout << "Message = " <<  message << std::endl;
 
      if(message.Contains("event classes were initialized"))
        SetAnalysisSettingsReady(kTRUE);
@@ -594,7 +590,7 @@ Bool_t TGo4AnalysisProxy::RefreshNamesList()
 
 Bool_t TGo4AnalysisProxy::DelayedRefreshNamesList(Int_t delay_sec)
 {
-   if (fxRefreshTimer==0) fxRefreshTimer = new TTimer(this, 10, kTRUE);
+   if (!fxRefreshTimer) fxRefreshTimer = new TTimer(this, 10, kTRUE);
 
    fxRefreshTimer->Start(delay_sec*1000, kTRUE);
 
@@ -608,7 +604,7 @@ Bool_t TGo4AnalysisProxy::NamesListReceived()
 
 TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char* name)
 {
-   if ((name==0) || (*name==0) || (fAnalysisNames==0)) return 0;
+   if (!name || (*name==0) || !fAnalysisNames) return nullptr;
 
    TObject* entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
 
