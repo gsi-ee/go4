@@ -171,8 +171,8 @@ void TGo4StartClient::SelectProg()
    //< JAM: native dialog may suppress the chosen filer when displayed and use always first entry in list!
    fd.setNameFilters(filters);
    int select_filer = fSelectedFilter;
-   if (select_filer<0)
-      select_filer= (ExeModeCombo->currentIndex()==0) ? 0 : 2;
+   if (select_filer < 0)
+      select_filer = (ExeModeCombo->currentIndex() == 0) ? 0 : 2;
    switch (select_filer) {
       case 0: fd.selectNameFilter(exe1_filter); break;
       case 1: fd.selectNameFilter(exe2_filter); break;
@@ -206,19 +206,16 @@ void TGo4StartClient::SelectProg()
 
 void TGo4StartClient::ServerModeCombo_activated(int id)
 {
-   bool windows = false;
-
 #ifdef _MSC_VER
    if (id==1) {
       ServerModeCombo->setCurrentIndex(2);
       id = 2;
    }
-   windows = true;
 #endif
 
-   ExeModeCombo->setEnabled(id<2);
+   ExeModeCombo->setEnabled(id < 2);
    if (id==2) ExeModeCombo->setCurrentIndex(1);
-   bool isserver = (id>0);
+   bool isserver = (id > 0);
    qt_selected->setEnabled(id!=1);
    PortNumber->setEnabled(id==2);
    if (id==1) { // if Qt was selected, select Xterm

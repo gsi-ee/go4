@@ -28,6 +28,6 @@ void TGo4DividePad::DivideCanvas()
 {
   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
 
-  if (panel!=0)
+  if (panel)
      panel->Divide(SpinBoxX->value(), SpinBoxY->value());
 }

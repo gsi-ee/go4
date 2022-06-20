@@ -294,12 +294,12 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
    if (fbSettingPanelData) return;
 
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel==0) return;
+   if (!panel) return;
 
    TPad* pad = panel->GetActivePad();
 
    TString buf;
-   const char* drawopt = 0;
+   const char* drawopt = nullptr;
 
    if ((kind>=0) && (kind<=2)) {
       CodeDrawOptions(ErrorBars->currentIndex(),
@@ -683,7 +683,7 @@ void TGo4HisDrawOptions::SetMarkerColor()
 void TGo4HisDrawOptions::ChangeColor(int kind)
 {
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel==0) return;
+   if (!panel) return;
 
    TPad* pad = panel->GetActivePad();
    TObject* obj = panel->GetSelectedObject(pad, 0);
@@ -693,19 +693,19 @@ void TGo4HisDrawOptions::ChangeColor(int kind)
    switch (kind) {
       case 0: {
         TAttLine* att = dynamic_cast<TAttLine*> (obj);
-        if (att==0) return;
+        if (!att) return;
         icol = att->GetLineColor();
         break;
       }
       case 1: {
         TAttFill* att = dynamic_cast<TAttFill*> (obj);
-        if (att==0) return;
+        if (!att) return;
         icol = att->GetFillColor();
         break;
       }
       case 2: {
         TAttMarker* att = dynamic_cast<TAttMarker*> (obj);
-        if (att==0) return;
+        if (!att) return;
         icol = att->GetMarkerColor();
         break;
       }
@@ -715,7 +715,7 @@ void TGo4HisDrawOptions::ChangeColor(int kind)
 
    QColor qcol;
 
-   if (rcol!=0)
+   if (rcol)
       qcol.setRgb(rcol->GetRed(), rcol->GetGreen(), rcol->GetBlue());
 
    QColor c = QColorDialog::getColor(qcol);
@@ -726,17 +726,17 @@ void TGo4HisDrawOptions::ChangeColor(int kind)
    switch (kind) {
       case 0: {
         TAttLine* att = dynamic_cast<TAttLine*> (obj);
-        if (att!=0) att->SetLineColor(icol);
+        if (att) att->SetLineColor(icol);
         break;
       }
       case 1: {
         TAttFill* att = dynamic_cast<TAttFill*> (obj);
-        if (att!=0) att->SetFillColor(icol);
+        if (att) att->SetFillColor(icol);
         break;
       }
       case 2: {
         TAttMarker* att = dynamic_cast<TAttMarker*> (obj);
-        if (att!=0) att->SetMarkerColor(icol);
+        if (att) att->SetMarkerColor(icol);
         break;
       }
    }
