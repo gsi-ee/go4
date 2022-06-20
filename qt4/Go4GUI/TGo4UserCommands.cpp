@@ -83,60 +83,44 @@ void TGo4UserCommands::AssignShortcuts()
 {
 	// try to redefine shortcuts here after this widget was adopted by mainwindow toolbar
 	// seems that Qt5 overrides initial definitions:
-	for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i)
-	    {
-		 	 int butid = i + 1;
-		 	 fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
-//		 	 std::cout << "set button shortcut "<<i<<" to "<<fAnalysisMacroButtons[i]->shortcut().toString().toLatin1 ().constData ()<< std::endl;
-		  	 //fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
-	    }
-
+   for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i) {
+      int butid = i + 1;
+      fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
+      // fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
+   }
 }
 
 void TGo4UserCommands::AnalysisMacroMonitorBtn_clicked()
 {
-  //std::cout << "AnalysisMacroMonitorBtn_clicked " <<std::endl;
-
-  if(fAnalysisMacroTimer->isActive())
-  {
-    fAnalysisMacroTimer->stop();
-    CommandAutoButton->setIcon(QIcon( ":/icons/startselected.png" ));
-    CommandAutoButton->setToolTip("Start Command Execution Timer");
-    AutoTimeSpinBox->setEnabled(true);
-  }
-  else
-  {
-    double t=1000.0*AutoTimeSpinBox->value();
-    fAnalysisMacroTimer->start(t);
-    CommandAutoButton->setIcon(QIcon( ":/icons/Stop.png" ));
-    CommandAutoButton->setToolTip("Stop Command Execution Timer");
-    AutoTimeSpinBox->setEnabled(false);
-
-  }
+   if (fAnalysisMacroTimer->isActive()) {
+      fAnalysisMacroTimer->stop();
+      CommandAutoButton->setIcon(QIcon(":/icons/startselected.png"));
+      CommandAutoButton->setToolTip("Start Command Execution Timer");
+      AutoTimeSpinBox->setEnabled(true);
+   } else {
+      double t = 1000.0 * AutoTimeSpinBox->value();
+      fAnalysisMacroTimer->start(t);
+      CommandAutoButton->setIcon(QIcon(":/icons/Stop.png"));
+      CommandAutoButton->setToolTip("Stop Command Execution Timer");
+      AutoTimeSpinBox->setEnabled(false);
+   }
 }
-
 
 void TGo4UserCommands::AnalysisMacroMonitorTimeout()
 {
-  //std::cout << "AnalysisMacroMonitorTimeout" <<std::endl;
-  if(ConfigureButton->isChecked())
-  {
+   if (ConfigureButton->isChecked()) {
       AnalysisMacroMonitorBtn_clicked(); // stop timer in editor mode
       return;
-  }
-   for(int i=0; i<fAnalysisMacroAutoExecute.size(); ++i)
-    {
-       if(fAnalysisMacroAutoExecute[i])
-    	   ExecuteAnalysisMacro(i);
-    }
-
+   }
+   for (int i = 0; i < fAnalysisMacroAutoExecute.size(); ++i) {
+      if (fAnalysisMacroAutoExecute[i])
+         ExecuteAnalysisMacro(i);
+   }
 }
 
 
 void TGo4UserCommands::ConfigureAnalysisMacros()
 {
-  //std::cout << "ConfigureAnalysisMacros " <<std::endl;
-
    TGo4UserCommandsDialog setup(this);
    if (setup.exec() != QDialog::Accepted)
       return;

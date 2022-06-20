@@ -48,7 +48,7 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
 
 QString TGo4UserCommandsDialog::GetCommand(int id)
 {
-   QString rev("");
+   QString rev;
    QTableWidgetItem *item = CommandsTable->item(id, 0);
    if (item)
       rev = item->text();
@@ -57,7 +57,7 @@ QString TGo4UserCommandsDialog::GetCommand(int id)
 
 QString TGo4UserCommandsDialog::GetTooltip(int id)
 {
-   QString rev("");
+   QString rev;
    QTableWidgetItem *item = CommandsTable->item(id, 1);
    if (item)
       rev = item->text();
@@ -66,10 +66,10 @@ QString TGo4UserCommandsDialog::GetTooltip(int id)
 
 bool TGo4UserCommandsDialog::GetAutoExecute(int id)
 {
-   bool rev(false);
-   QTableWidgetItem* item=CommandsTable->item(id,2);
-   if(item)
-   rev=(item->checkState()==Qt::Checked);
+   bool rev = false;
+   QTableWidgetItem *item = CommandsTable->item(id, 2);
+   if (item)
+      rev = item->checkState() == Qt::Checked;
    return rev;
 }
 

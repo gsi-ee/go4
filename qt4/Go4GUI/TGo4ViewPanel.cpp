@@ -5827,7 +5827,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          if (id > 1000) {
             QAction* act = SetIdAction(fOptionsMap, id);
             bool s = act ? act->isChecked() : false;
-            ChangeDrawOption(id - 1000, s, 0);
+            ChangeDrawOption(id - 1000, s, nullptr);
          }
          break;
    }

@@ -118,14 +118,14 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
 
 void TGo4Style::SetPaletteRange(int min, int def, int max)
 {
-  Palette->setMinimum(min);
-  Palette->setMaximum(max);
-  Palette->setValue(def);
-  def=Palette->value(); // spinbox automatic limiting of range
-  //gStyle->SetPalette(def,0,0);
-  gStyle->SetPalette(def);
-  SetPalette(def);
-  RefreshPaletteText(min,max);
+   Palette->setMinimum(min);
+   Palette->setMaximum(max);
+   Palette->setValue(def);
+   def = Palette->value(); // spinbox automatic limiting of range
+   // gStyle->SetPalette(def,0,0);
+   gStyle->SetPalette(def);
+   SetPalette(def);
+   RefreshPaletteText(min, max);
 }
 
 void TGo4Style::RefreshPaletteText(int min, int max)
@@ -152,59 +152,54 @@ void TGo4Style::SetPadColor()
    if (!c.isValid()) return;
    Int_t color = TColor::GetColor(c.red(), c.green(), c.blue());
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel!=0)
-      panel->ChangeDrawOption(101, color, 0);
+   if (panel)
+      panel->ChangeDrawOption(101, color, nullptr);
 }
 
 void TGo4Style::SetPalette(int t)
 {
-  //std::cout<<"TGo4Style::SetPalette "<<t << std::endl;
-  TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-  if (panel != 0)
-    panel->ChangeDrawOption(100, t, 0);
-  if (!fbMenuLock) // try to avoid feedback of qt signals between widget slots
-  {
-    fbMenuLock = true;
-    PaletteComboBox->setCurrentIndex(CodePalette(t));
-    fbMenuLock = false;
-  }
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
+   if (panel)
+      panel->ChangeDrawOption(100, t, nullptr);
+   if (!fbMenuLock) { // try to avoid feedback of qt signals between widget slots
+      fbMenuLock = true;
+      PaletteComboBox->setCurrentIndex(CodePalette(t));
+      fbMenuLock = false;
+   }
 }
-
 
 void TGo4Style::SetNamedPalette(int i)
 {
-  //std::cout<<"TGo4Style::SetNamedPalette "<<i  << std::endl;
-  int ix = DecodePalette((Go4_Palette_t) i);
-  if (ix<0) return;
-  // range check of current preferences here:
-  if(ix< Palette->minimum())
-    {
-      ix=Palette->minimum();
+   int ix = DecodePalette((Go4_Palette_t)i);
+   if (ix < 0)
+      return;
+   // range check of current preferences here:
+   if (ix < Palette->minimum()) {
+      ix = Palette->minimum();
       PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here.
-    }
-  if(ix> Palette->maximum())
-     {
-       ix=Palette->maximum();
-       PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here.
-     }
-  if (!fbMenuLock)  // try to avoid feedback of qt signals between widget slots
-  {
-    fbMenuLock = true;
-    Palette->setValue(ix);
-    fbMenuLock = false;
-  }
+   }
+   if (ix > Palette->maximum()) {
+      ix = Palette->maximum();
+      PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here.
+   }
+   if (!fbMenuLock) // try to avoid feedback of qt signals between widget slots
+   {
+      fbMenuLock = true;
+      Palette->setValue(ix);
+      fbMenuLock = false;
+   }
 }
 
 Go4_Palette_t TGo4Style::CodePalette(int i)
 {
-  Go4_Palette_t rev;
-  if(i==1)
-    rev=Go4_Default;
-  else if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
-    rev=Go4_None;
-  else
-    rev= (Go4_Palette_t) (i +2 -GO4NAMEDPAL_MIN); // account Go4_None and Go4_Default offset
-  return rev;
+   Go4_Palette_t rev;
+   if (i == 1)
+      rev = Go4_Default;
+   else if (i < GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
+      rev = Go4_None;
+   else
+      rev = (Go4_Palette_t)(i + 2 - GO4NAMEDPAL_MIN); // account Go4_None and Go4_Default offset
+   return rev;
 }
 
 int TGo4Style::DecodePalette(Go4_Palette_t key)
@@ -220,7 +215,7 @@ void TGo4Style::SetContourLevels(int nlvl)
 
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel)
-      panel->ChangeDrawOption(18, nlvl, 0);
+      panel->ChangeDrawOption(18, nlvl, nullptr);
 }
 
 void TGo4Style::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
