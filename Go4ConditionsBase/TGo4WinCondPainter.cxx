@@ -50,10 +50,7 @@ void TGo4WinCondPainter::PaintCondition(Option_t* opt)
    // isatexecutemousevent="<<(fxBox?fxBox->IsAtExecuteMouseEvent():0) << std::endl;
    if (fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent())
       return; // JAM suppress resetting coordinates during mouse modification of box
-   double xpmin = 0;
-   double xpmax = 0;
-   double ypmin = 0;
-   double ypmax = 0;
+   double xpmin = 0, xpmax = 0, ypmin = 0, ypmax = 0;
    int dim = 0;
    TGo4WinCond *wconny = dynamic_cast<TGo4WinCond *>(fxCondition);
    if (wconny && wconny->IsVisible()) {
@@ -84,11 +81,11 @@ void TGo4WinCondPainter::PaintCondition(Option_t* opt)
          ypmax = gPad->PadtoY(gPad->GetUymax());
       }
 
-      // if(fxBox==0 || boxinpad==0)
+      // if(!fxBox || !boxinpad)
       // user might have deleted box from pad by mouse even if fxBox!=0
       // JAM 2016: this is a memory leak! for each condition update we get new condition view
       // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
-      if (fxBox == 0) {
+      if (!fxBox) {
          fxBox = new TGo4WinCondView(xpmin, ypmin, xpmax, ypmax);
          // std::cout <<"TGo4WinCondPainter::PaintCondition creates new fxBox." <<std::endl;
       } else {

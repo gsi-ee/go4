@@ -84,17 +84,17 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         return (dynamic_cast<TPad*>(fCurrent)!=0) ||
-                 (dynamic_cast<THStack*>(fCurrent)!=0);
+         return dynamic_cast<TPad*>(fCurrent) ||
+                dynamic_cast<THStack*>(fCurrent);
       }
 
       TGo4LevelIter* subiterator() override
       {
          TPad* subpad = dynamic_cast<TPad*>(fCurrent);
-         if (subpad!=0) return new TGo4CanvasLevelIter(subpad);
+         if (subpad) return new TGo4CanvasLevelIter(subpad);
          THStack* hs = dynamic_cast<THStack*> (fCurrent);
-         if (hs!=0) return TGo4HStackProxy::ProduceIter(hs);
-         return 0;
+         if (hs) return TGo4HStackProxy::ProduceIter(hs);
+         return nullptr;
       }
 
       const char* name() override

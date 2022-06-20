@@ -870,7 +870,7 @@ void TGo4Picture::SetPadAtt(Int_t BorderMode,
 
 void TGo4Picture::SetPadAtt(TPad* pad, Int_t index)
 {
-   if (pad==0) return;
+   if (!pad) return;
    CheckIndex(index);
    SetPadAtt(pad->GetBorderMode(),
              pad->GetBorderSize(),
@@ -886,7 +886,7 @@ void TGo4Picture::SetPadAtt(TPad* pad, Int_t index)
 
 void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
 {
-   if (pad==0) return;
+   if (!pad) return;
    CheckIndex(index);
 
    Long_t lv;
@@ -904,7 +904,7 @@ void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
 
 void* TGo4Picture::Cast(TObject* obj, TClass* cl)
 {
-   if ((obj==0) || (cl==0)) return 0;
+   if (!obj || !cl) return nullptr;
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
    if (shift<0) return 0;
    return (char*) obj + shift;
@@ -920,7 +920,7 @@ void TGo4Picture::SetFrameAttr(Double_t left, Double_t top, Double_t right, Doub
 
 void TGo4Picture::SetFrameAttr(TPad* pad)
 {
-   if (pad==0) return;
+   if (!pad) return;
 
    if ((TMath::Abs( pad->GetLeftMargin() - gStyle->GetPadLeftMargin()) > 0.001) ||
        (TMath::Abs( pad->GetTopMargin() - gStyle->GetPadTopMargin()) > 0.001) ||
@@ -931,7 +931,7 @@ void TGo4Picture::SetFrameAttr(TPad* pad)
 
 Bool_t TGo4Picture::GetFrameAttr(TPad* pad)
 {
-   if (pad==0) return kFALSE;
+   if (!pad) return kFALSE;
 
    Double_t v;
    if (GetOptionD(PictureIndex, op_FrameLeft, v)) pad->SetLeftMargin(v);
@@ -950,7 +950,7 @@ Bool_t TGo4Picture::IsHisStats() const
 {
    Long_t zn = kTRUE;
    GetOption(PictureIndex, op_HisStats, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
@@ -970,7 +970,7 @@ void TGo4Picture::SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y
 
 void TGo4Picture::SetStatsAttr(TPaveStats* stats)
 {
-   if (stats!=0)
+   if (stats)
       SetStatsAttr(stats->GetX1NDC(), stats->GetY1NDC(),
                    stats->GetX2NDC(), stats->GetY2NDC(),
                    stats->GetOptStat(), stats->GetStatFormat(),
@@ -979,7 +979,7 @@ void TGo4Picture::SetStatsAttr(TPaveStats* stats)
 
 Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats)
 {
-   if (stats==0) return kFALSE;
+   if (!stats) return kFALSE;
 
    Double_t x1, y1, x2, y2;
    if (GetOptionD(PictureIndex, op_HisStatsX1, x1) &&
@@ -1001,10 +1001,10 @@ Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats)
      stats->SetOptFit(optfit);
 
    const char* fmtstat = GetStrOption(PictureIndex, op_HisStatsOptF);
-   if (fmtstat!=0) stats->SetStatFormat(fmtstat);
+   if (fmtstat) stats->SetStatFormat(fmtstat);
 
    const char* fmtfit = GetStrOption(PictureIndex, op_HisStatsFitF);
-   if (fmtfit!=0) stats->SetFitFormat(fmtfit);
+   if (fmtfit) stats->SetFitFormat(fmtfit);
 
    return kTRUE;
 }
@@ -1062,7 +1062,7 @@ Bool_t TGo4Picture::HasTitleAttr()
 
 Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
 {
-   if (titl==0) return kFALSE;
+   if (!titl) return kFALSE;
 
    Double_t x1, y1, x2, y2, sz(0.);
    if (GetOptionD(PictureIndex, op_TitleX1, x1) &&
@@ -1093,7 +1093,7 @@ Bool_t TGo4Picture::IsTitleTime() const
 {
    Long_t zn = kTRUE;
    GetOption(PictureIndex, op_TitleTime, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetTitleDate(Bool_t on)
@@ -1105,7 +1105,7 @@ Bool_t TGo4Picture::IsTitleDate() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_TitleDate, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetTitleItem(Bool_t on)
@@ -1117,7 +1117,7 @@ Bool_t TGo4Picture::IsTitleItem() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_TitleItem, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetLegendDraw(bool on)
@@ -1129,7 +1129,7 @@ bool TGo4Picture::IsLegendDraw() const
 {
    Long_t zn = kTRUE;
    GetOption(PictureIndex, op_LegendDraw, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetCrosshair(bool on)
@@ -1141,7 +1141,7 @@ bool TGo4Picture::IsCrosshair() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_Crosshair, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetAutoScale(bool on)
@@ -1624,7 +1624,7 @@ void TGo4Picture::ClearAllOptions(Short_t index)
 
 Int_t TGo4Picture::GetObjAttIndex(TObject* obj)
 {
-   if (obj==0) return UndefIndex;
+   if (!obj) return UndefIndex;
    for (Int_t n=0;n<GetNumObjNames();n++)
      if (strcmp(GetObjName(n),obj->GetName())==0) return n;
    return UndefIndex;
@@ -1632,7 +1632,7 @@ Int_t TGo4Picture::GetObjAttIndex(TObject* obj)
 
 void TGo4Picture::DrawPic(TVirtualPad* pad)
 {
-   if (pad==0) return;
+   if (!pad) return;
    double txt_y = 0.9;
    if (IsDivided()) {
      pad->Divide(GetDivX(), GetDivY());
@@ -1663,7 +1663,7 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
 
 void TGo4Picture::Draw(Option_t* option)
 {
-   TCanvas* c = 0;
+   TCanvas* c = nullptr;
    if (!gPad) {
       c = new TCanvas();
       c->cd();
@@ -1672,7 +1672,7 @@ void TGo4Picture::Draw(Option_t* option)
       c->Clear();
       c->cd();
    }
-   if (c==0) return;
+   if (!c) return;
 
    if (IsDrawHeader()) {
       TString txt = c->GetName();
@@ -1731,8 +1731,8 @@ void TGo4Picture::Print(Option_t* option) const
 
 void TGo4Picture::AddSubPicture(TGo4Picture* pic)
 {
-   if (pic == 0) return;
-   if (fxSubPictures==0) {
+   if (!pic) return;
+   if (!fxSubPictures) {
       fxSubPictures = new TObjArray();
       fxSubPictures->SetOwner(kTRUE);
    }
@@ -1741,7 +1741,7 @@ void TGo4Picture::AddSubPicture(TGo4Picture* pic)
 
 void TGo4Picture::AddSpecialObject(TObject* obj, Option_t* drawopt)
 {
-   if (fxSpecialObjects==0) {
+   if (!fxSpecialObjects) {
       fxSpecialObjects = new TList;
       fxSpecialObjects->SetOwner(kTRUE);
    }
@@ -1781,9 +1781,9 @@ Long_t TGo4Picture::GetTotalSize()
    if (fxSpecialObjects) {
       sz += TList::Class()->Size();
       TListIter iter(fxSpecialObjects);
-      TObject* obj = 0;
+      TObject* obj = nullptr;
 
-      while ((obj = iter()) != 0)
+      while ((obj = iter()) != nullptr)
          sz += sizeof(TObjLink) + obj->IsA()->Size();
    }
 
@@ -1952,7 +1952,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    }
 
    Int_t nlvl = GetHisContour();
-   if (nlvl>0) fs << name << "SetHisContour(" << nlvl << ");" << std::endl;
+   if (nlvl > 0) fs << name << "SetHisContour(" << nlvl << ");" << std::endl;
 
    fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << std::endl;
 
@@ -1989,7 +1989,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    fs << lv << ");" << std::endl;
 
    const char* drawopt = GetDrawOption(PictureIndex);
-   if (drawopt!=0)
+   if (drawopt)
       fs << name << "SetDrawOption(\"" << drawopt << "\", " << PictureIndex << ");" << std::endl;
 
    // export x axis time attribute independent of objects. needed for TGraph pads
@@ -2001,9 +2001,8 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    fs << "\"" << format.Data()<< "\"" <<", ";
    fs << PictureIndex << ");" << std::endl;
 
-
-   for(Int_t indx=0;indx<GetNumObjNames();indx++) {
-      const char* objname = GetObjName(indx);
+   for (Int_t indx = 0; indx < GetNumObjNames(); indx++) {
+      const char *objname = GetObjName(indx);
       const char* objopt = GetDrawOption(indx);
 
       fs << name << "AddObjName(\"" << objname << "\"";
@@ -2036,8 +2035,8 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    }
 
    TListIter iter(fxSpecialObjects);
-   TObject* obj = 0;
-   while ((obj=iter())!=0) {
+   TObject* obj = nullptr;
+   while ((obj = iter()) != nullptr) {
 
       TString xmlbuf = TBufferXML::ConvertToXML(obj);
 

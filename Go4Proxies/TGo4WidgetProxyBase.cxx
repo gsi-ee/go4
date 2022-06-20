@@ -17,7 +17,7 @@
 
 void TGo4WidgetProxyBase::ConnectPad(TPad* pad)
 {
-   if (pad!=0) {
+   if (pad) {
       pad->Connect("RangeAxisChanged()","TGo4WidgetProxyBase",this,"PadRangeAxisChanged()");
       pad->Connect("Modified()","TGo4WidgetProxyBase",this,"PadModified()");
    }
