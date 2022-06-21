@@ -291,7 +291,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Calculates value of fit function according current values of parameters.
        * Should be implemented in inherited classes.
        */
-      virtual Double_t DoCalculation() { return 0; }
+      virtual Double_t DoCalculation() { return 0.; }
 
       /**
        * Calculates number of dimensions of freedom;

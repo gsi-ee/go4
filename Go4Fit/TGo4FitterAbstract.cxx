@@ -301,14 +301,14 @@ void TGo4FitterAbstract::AddActionAt(TGo4FitterAction* Action, Int_t indx)
 
 TGo4FitterAction* TGo4FitterAbstract::GetAction(Int_t num)
 {
-  if ((num<0) || (num>fxActions.GetLast())) return 0;
+  if ((num<0) || (num>fxActions.GetLast())) return nullptr;
   return dynamic_cast<TGo4FitterAction*> (fxActions[num]);
 }
 
 void TGo4FitterAbstract::DeleteAction(TGo4FitterAction* action)
 {
   if (!action) return;
-  if (fxActions.IndexOf(action)>=0) {
+  if (fxActions.IndexOf(action) >= 0) {
      fxActions.Remove(action);
      fxActions.Compress();
   }
@@ -318,7 +318,7 @@ void TGo4FitterAbstract::DeleteAction(TGo4FitterAction* action)
 void TGo4FitterAbstract::ReplaceAction(TGo4FitterAction* action, Int_t dir)
 {
    Int_t indx = fxActions.IndexOf(action);
-   if ((action==0) || (indx<0)) return;
+   if (!action || (indx < 0)) return;
    Int_t newindx = indx+dir;
    if ((newindx>=0) && (newindx<=fxActions.GetLast()) && (newindx!=indx)) {
       fxActions[indx] = fxActions[newindx];
@@ -328,7 +328,7 @@ void TGo4FitterAbstract::ReplaceAction(TGo4FitterAction* action, Int_t dir)
 
 void TGo4FitterAbstract::DoActions(Bool_t AllowFitterChange, TObjArray* Actions)
 {
-  if (Actions==0) Actions = &fxActions;
+  if (!Actions) Actions = &fxActions;
 
   Bool_t need = kFALSE;
   for(Int_t n=0;n<=Actions->GetLast();n++) {
@@ -534,20 +534,23 @@ void TGo4FitterAbstract::SetPad(Int_t indx, TVirtualPad* pad)
 
 Double_t TGo4FitterAbstract::GetResultValue(Int_t n) const
 {
-  if ((n>=0) && (n<GetNumResults())) return fxResults.At(n);
-                                else return 0.;
+   if ((n >= 0) && (n < GetNumResults()))
+      return fxResults.At(n);
+   return 0.;
 }
 
 Int_t TGo4FitterAbstract::GetResultNDF() const
 {
-   if (fxResults.GetSize()<2) return 0;
-   return fxResults.GetArray()[fxResults.GetSize()-1];
+   if (fxResults.GetSize() < 2)
+      return 0;
+   return fxResults.GetArray()[fxResults.GetSize() - 1];
 }
 
 Double_t TGo4FitterAbstract::GetResultFF() const
 {
-  if (fxResults.GetSize()<2) return 0.;
-  return fxResults.GetArray()[fxResults.GetSize()-2];
+   if (fxResults.GetSize() < 2)
+      return 0.;
+   return fxResults.GetArray()[fxResults.GetSize() - 2];
 }
 
 void TGo4FitterAbstract::PrintResults() const
@@ -564,7 +567,7 @@ void TGo4FitterAbstract::Print(Option_t* option) const
    std::cout << std::endl << "********** THIS IS PRINTOUT OF FITTER OBJECT **********" << std::endl;
    TGo4FitNamed::Print(option);
    TGo4FitParsList::Print(option);
-   if (fxActions.GetLast()>=0) {
+   if (fxActions.GetLast() >= 0) {
       std::cout << "Actions list: " << std::endl;
       fxActions.Print(option);
    }

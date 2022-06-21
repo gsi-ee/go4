@@ -353,7 +353,7 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Boo
       return last;
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj)

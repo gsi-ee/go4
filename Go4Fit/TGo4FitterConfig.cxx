@@ -19,47 +19,52 @@
 #include "TGo4FitParameter.h"
 #include "TGo4FitDependency.h"
 
-TGo4FitterConfig::TGo4FitterConfig() :
-   TGo4FitterAction(),
-   fxParsCfg(), fxParsNew(), fxParsInit(), fxParsDepend(), fxResults(), fbFixedByDefault(kFALSE) {
+TGo4FitterConfig::TGo4FitterConfig()
+   : TGo4FitterAction(), fxParsCfg(), fxParsNew(), fxParsInit(), fxParsDepend(), fxResults(), fbFixedByDefault(kFALSE)
+{
 }
 
-TGo4FitterConfig::TGo4FitterConfig(const char* iName, const char* iTitle) :
-   TGo4FitterAction(iName,iTitle),
-   fxParsCfg(kTRUE), fxParsNew(kTRUE), fxParsInit(), fxParsDepend(), fxResults(), fbFixedByDefault(kFALSE) {
-      fxParsInit.SetOwner(kTRUE);
-      fxParsDepend.SetOwner(kTRUE);
-      fxResults.SetOwner(kTRUE);
+TGo4FitterConfig::TGo4FitterConfig(const char *iName, const char *iTitle)
+   : TGo4FitterAction(iName, iTitle), fxParsCfg(kTRUE), fxParsNew(kTRUE), fxParsInit(), fxParsDepend(), fxResults(),
+     fbFixedByDefault(kFALSE)
+{
+   fxParsInit.SetOwner(kTRUE);
+   fxParsDepend.SetOwner(kTRUE);
+   fxResults.SetOwner(kTRUE);
 }
 
 TGo4FitterConfig::~TGo4FitterConfig() {
 }
 
-TGo4FitParameter* TGo4FitterConfig::MakeParForProperties(const char* ParName) {
+TGo4FitParameter* TGo4FitterConfig::MakeParForProperties(const char* ParName)
+{
    TGo4FitParameter* par = fxParsCfg.FindPar(ParName);
-   if (par==0) par = fxParsCfg.CreatePar(ParName,"config",0.);
+   if (!par) par = fxParsCfg.CreatePar(ParName,"config",0.);
    return par;
 }
 
 Bool_t TGo4FitterConfig::SetParFixed(const char* ParName, Bool_t iFixed) {
    TGo4FitParameter* par = MakeParForProperties(ParName);
    if(par) par->SetFixed(iFixed);
-   return (par!=0);
+   return par != nullptr;
 }
 
-Bool_t TGo4FitterConfig::SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax) {
+Bool_t TGo4FitterConfig::SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax)
+{
    TGo4FitParameter* par = MakeParForProperties(ParName);
    if(par) par->SetRange(RangeMin,RangeMax);
-   return (par!=0);
+   return par != nullptr;
 }
 
-Bool_t TGo4FitterConfig::SetParEpsilon(const char* ParName, Double_t Epsilon) {
+Bool_t TGo4FitterConfig::SetParEpsilon(const char* ParName, Double_t Epsilon)
+{
    TGo4FitParameter* par = MakeParForProperties(ParName);
    if(par) par->SetEpsilon(Epsilon);
-   return (par!=0);
+   return par != nullptr;
 }
 
-Bool_t TGo4FitterConfig::GetParFixed(const char* ParName) {
+Bool_t TGo4FitterConfig::GetParFixed(const char* ParName)
+{
    return fxParsCfg.GetParFixed(ParName);
 }
 
@@ -67,25 +72,29 @@ Bool_t TGo4FitterConfig::GetParRange(const char * ParName, Double_t & RangeMin, 
    return  fxParsCfg.GetParRange(ParName, RangeMin, RangeMax);
 }
 
-Bool_t TGo4FitterConfig::GetParEpsilon(const char* ParName, Double_t& Epsilon) {
-   return  fxParsCfg.GetParEpsilon(ParName, Epsilon);
+Bool_t TGo4FitterConfig::GetParEpsilon(const char* ParName, Double_t& Epsilon)
+{
+   return fxParsCfg.GetParEpsilon(ParName, Epsilon);
 }
 
-TGo4FitDependency* TGo4FitterConfig::FindDepen(const char* FullName, TObjArray* list) {
+TGo4FitDependency* TGo4FitterConfig::FindDepen(const char* FullName, TObjArray* list)
+{
    for(Int_t n=0;n<=list->GetLast();n++) {
       TGo4FitDependency* par = (TGo4FitDependency*) list->At(n);
       if (strcmp(par->GetParameter().Data(),FullName)==0) return par;
    }
-   return 0;
+   return nullptr;
 }
 
-void TGo4FitterConfig::SetParInit(const char* FullName, Double_t iValue) {
+void TGo4FitterConfig::SetParInit(const char* FullName, Double_t iValue)
+{
    TGo4FitDependency* par  = FindDepen(FullName,&fxParsInit);
    if(par) par->SetInitValue(iValue);
       else fxParsInit.Add( new TGo4FitDependency(FullName,iValue));
 }
 
-void TGo4FitterConfig::SetParInit(const char* FullName, const char* iExpression) {
+void TGo4FitterConfig::SetParInit(const char* FullName, const char* iExpression)
+{
    TGo4FitDependency* par  = FindDepen(FullName,&fxParsInit);
    if(par) par->SetExpression(iExpression);
       else fxParsInit.Add( new TGo4FitDependency(FullName,iExpression));
