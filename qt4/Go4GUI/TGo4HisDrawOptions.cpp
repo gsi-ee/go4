@@ -71,9 +71,9 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          if (padopt==0) break;
 
          int ndim = padopt->GetFullRangeDim();
-         if (ndim<=0) ndim = 1;
+         if (ndim <= 0) ndim = 1;
 
-         const char* drawopt = 0;
+         const char* drawopt = nullptr;
          TObject* obj = panel->GetSelectedObject(pad, &drawopt);
 
          int viewtype = view_Histo1;
@@ -81,16 +81,13 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          TString buf(drawopt);
          buf.ToLower();
 
-         if ((obj!=0) && obj->InheritsFrom("TGraphPolar"))
+         if (obj && obj->InheritsFrom("TGraphPolar"))
             viewtype = view_Polar;
-         else
-         if ((obj!=0) && (obj->InheritsFrom("TGraph") || obj->InheritsFrom("TMultiGraph")))
+         else if (obj && (obj->InheritsFrom("TGraph") || obj->InheritsFrom("TMultiGraph")))
             viewtype = view_Graph;
-         else
-         if (ndim==1)
+         else if (ndim==1)
             viewtype = view_Histo1;
-         else
-         if (buf.Contains("lego") || buf.Contains("surf"))
+         else if (buf.Contains("lego") || buf.Contains("surf"))
             viewtype = view_Histo2ext;
          else
             viewtype = view_Histo2;

@@ -28,8 +28,8 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
    public:
       TGo4HStackLevelIter(THStack* hs) :
          TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0)
+         fIter(nullptr),
+         fCurrent(nullptr)
       {
          fIter = hs->GetHists()->MakeIterator();
       }
@@ -42,7 +42,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
       Bool_t next() override
       {
          fCurrent = fIter->Next();
-         return (fCurrent!=0);
+         return fCurrent != nullptr;
       }
 
       Bool_t isfolder() override
@@ -99,30 +99,30 @@ TGo4HStackProxy::~TGo4HStackProxy()
 
 Int_t TGo4HStackProxy::GetObjectKind()
 {
-   return (fHS!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fHS ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4HStackProxy::GetContainedClassName()
 {
-   return fHS ? fHS->ClassName() : 0;
+   return fHS ? fHS->ClassName() : nullptr;
 }
 
 void TGo4HStackProxy::Initialize(TGo4Slot* slot)
 {
    TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->RegisterObjectWith(fHS, slot);
+   if (om) om->RegisterObjectWith(fHS, slot);
 }
 
 void TGo4HStackProxy::Finalize(TGo4Slot* slot)
 {
    TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) om->UnregisterObject(fHS, slot);
+   if (om) om->UnregisterObject(fHS, slot);
 }
 
 Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject* obj)
 {
-   if (obj==fHS) {
-      fHS = 0;
+   if (obj == fHS) {
+      fHS = nullptr;
       fOwner = kFALSE;
    }
    return kFALSE;
@@ -130,14 +130,14 @@ Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject* obj)
 
 void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = 0;
-   if (fHS!=0)
+   const char* objname = nullptr;
+   if (fHS)
       objname = fHS->GetName();
 
    if (!onlyobjs)
       slot->SetPar("HStackProxy::StackName", objname);
 
-   if ((dir==0) || (fHS==0)) return;
+   if (!dir || !fHS) return;
 
    dir->cd();
 
@@ -147,7 +147,7 @@ void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 void TGo4HStackProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
    const char* objname = slot->GetPar("HStackProxy::StackName");
-   if ((objname==0) || (dir==0)) return;
+   if (!objname || !dir) return;
 
    dir->cd();
 
@@ -156,24 +156,24 @@ void TGo4HStackProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 Bool_t TGo4HStackProxy::IsAcceptObject(TClass* cl)
 {
-   return (cl!=0) && cl->InheritsFrom(THStack::Class());
+   return cl && cl->InheritsFrom(THStack::Class());
 }
 
 Bool_t TGo4HStackProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 {
    Finalize(slot);
-   if ((fHS!=0) && fOwner) delete fHS;
+   if (fHS && fOwner) delete fHS;
 
    fHS = dynamic_cast<THStack*> (obj);
    fOwner = owner && (fHS!=0);
 
-   if ((fHS==0) && (obj!=0) && owner) delete obj;
+   if (!fHS && obj && owner) delete obj;
 
    Initialize(slot);
 
    slot->ForwardEvent(slot, TGo4Slot::evObjAssigned);
 
-   return fHS!=0;
+   return fHS != nullptr;
 }
 
 TObject* TGo4HStackProxy::GetAssignedObject()
@@ -183,12 +183,12 @@ TObject* TGo4HStackProxy::GetAssignedObject()
 
 TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char* name)
 {
-   if (hs==0) return 0;
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(hs);
+   if (!hs) return nullptr;
+   if (!name || (*name==0)) return new TGo4ObjectAccess(hs);
 
    TObject* obj = hs->GetHists()->FindObject(name);
 
-   return obj ? new TGo4ObjectAccess(obj) : 0;
+   return obj ? new TGo4ObjectAccess(obj) : nullptr;
 }
 
 TGo4LevelIter* TGo4HStackProxy::ProduceIter(THStack* hs)

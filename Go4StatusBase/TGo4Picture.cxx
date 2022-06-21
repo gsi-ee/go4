@@ -329,21 +329,20 @@ Bool_t TGo4Picture::IsObjNames()
 
 const char* TGo4Picture::GetObjName(Int_t n)
 {
-  if ((fxNames==0) || (n<0) || (n>fxNames->GetLast())) return 0;
+  if (!fxNames || (n<0) || (n>fxNames->GetLast())) return nullptr;
   TObjString* str = dynamic_cast<TObjString*> (fxNames->At(n));
-  if (str!=0) return str->String().Data();
-         else return 0;
+  return str ? str->String().Data() : nullptr;
 }
 
 void TGo4Picture::AddObject(TObject* obj, Option_t* DrawOption)
 {
-   if (obj!=0)
+   if (obj)
       AddObjName(obj->GetName(), DrawOption);
 }
 
 void TGo4Picture::AddObject(Int_t posy, Int_t posx, TObject* obj, Option_t* DrawOption)
 {
-   if (obj!=0)
+   if (obj)
       AddObjName(posy, posx, obj->GetName(), DrawOption);
 }
 
@@ -463,7 +462,7 @@ Int_t TGo4Picture::GetLogScale(Int_t nscale)
 
 void TGo4Picture::GetLogScales(TVirtualPad* pad)
 {
-   if (pad == 0) return;
+   if (!pad) return;
    Long_t zn;
    if (GetOption(PictureIndex, op_LogScaleX, zn)) pad->SetLogx(zn);
    if (GetOption(PictureIndex, op_LogScaleY, zn)) pad->SetLogy(zn);
@@ -487,7 +486,7 @@ void TGo4Picture::SetLineAtt(Color_t color, Style_t style, Width_t width, Int_t 
 
 void TGo4Picture::SetLineAtt(TAttLine* line, Int_t index)
 {
-   if (line==0) return;
+   if (!line) return;
    CheckIndex(index);
    SetOption(index, op_LineColor, line->GetLineColor());
    SetOption(index, op_LineStyle, line->GetLineStyle());
@@ -496,7 +495,7 @@ void TGo4Picture::SetLineAtt(TAttLine* line, Int_t index)
 
 Bool_t TGo4Picture::GetLineAtt(TAttLine* line, Int_t index)
 {
-   if (line==0) return kFALSE;
+   if (!line) return kFALSE;
    CheckIndex(index);
    Long_t color = -111, style=-111, width=-111;
    if (GetOption(index, op_LineColor, color)) line->SetLineColor(color);
@@ -522,7 +521,7 @@ void TGo4Picture::SetFillAtt(Color_t color, Style_t style, Int_t index)
 
 void TGo4Picture::SetFillAtt(TAttFill* fill, Int_t index)
 {
-   if (fill==0) return;
+   if (!fill) return;
    CheckIndex(index);
    SetOption(index, op_FillColor, fill->GetFillColor());
    SetOption(index, op_FillStyle, fill->GetFillStyle());
@@ -530,7 +529,7 @@ void TGo4Picture::SetFillAtt(TAttFill* fill, Int_t index)
 
 Bool_t TGo4Picture::GetFillAtt(TAttFill* fill, Int_t index)
 {
-   if (fill==0) return kFALSE;
+   if (!fill) return kFALSE;
    CheckIndex(index);
    Long_t color = -111, style = -111;
    if (GetOption(index, op_FillColor, color)) fill->SetFillColor(color);
@@ -555,7 +554,7 @@ void TGo4Picture::SetMarkerAtt(Color_t color, Size_t size, Style_t style, Int_t 
 
 void TGo4Picture::SetMarkerAtt(TAttMarker* marker, Int_t index)
 {
-   if (marker==0) return;
+   if (!marker) return;
    CheckIndex(index);
    SetOption(index, op_MarkerColor, marker->GetMarkerColor());
    SetOption(index, op_MarkerSize, int(marker->GetMarkerSize()));
@@ -564,7 +563,7 @@ void TGo4Picture::SetMarkerAtt(TAttMarker* marker, Int_t index)
 
 Bool_t TGo4Picture::GetMarkerAtt(TAttMarker* marker, Int_t index)
 {
-   if (marker==0) return kFALSE;
+   if (!marker) return kFALSE;
    CheckIndex(index);
    Long_t color=-111, size=-111, style=-111;
    if (GetOption(index, op_MarkerColor, color)) marker->SetMarkerColor(color);
@@ -695,12 +694,12 @@ void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
 
 void TGo4Picture::SetXAxisTimeFormat(const char* format)
 {
-    SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
+   SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
 
 Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 {
-   Long_t value=0;
+   Long_t value = 0;
    GetOption(PictureIndex, op_TimeAxisX,value);
    return value;
 }

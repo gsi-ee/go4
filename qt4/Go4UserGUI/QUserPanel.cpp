@@ -224,7 +224,6 @@ void QUserPanel::PrintObject(TObject* obj)
 
 void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
 {
-
    if (!event->mimeData()->hasText()) return;
    QString eventstr = event->mimeData()->text();
    event->acceptProposedAction();
@@ -236,7 +235,7 @@ void QUserPanel::DrawObjectOnCanvas(const char* itemname)
    RemoveLink("DrawItem");
    AddLink(itemname, "DrawItem");
    TObject* obj = GetLinked("DrawItem", 2);
-   if (obj!=0) {
+   if (obj) {
       fxDrawCanvas->getCanvas()->Clear();
       fxDrawCanvas->getCanvas()->cd();
       obj->Draw("");
