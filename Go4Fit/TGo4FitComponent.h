@@ -46,19 +46,19 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
 
       /**
        * Return amplitude parameter object.
-       * If amplitude not exists, return 0.
+       * If amplitude not exists, return nullptr.
        */
       TGo4FitParameter* GetAmplPar();
 
       /**
        * Returns name of amplitude parameter.
-       * If none, return 0.
+       * If none, return nullpptr.
        */
       const char* GetAmplName();
 
       /**
        * Returns full name of amplitude parameter.
-       * If none, return 0.
+       * If none, return nullptr.
        */
       const char* GetAmplFullName();
 

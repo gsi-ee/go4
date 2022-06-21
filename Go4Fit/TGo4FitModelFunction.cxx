@@ -159,8 +159,9 @@ void TGo4FitModelFunction::AfterEval()
 
 Double_t TGo4FitModelFunction::UserFunction(Double_t* Coordinates, Double_t* Parameters)
 {
-   if (fxUserFunction) return (*fxUserFunction)(Coordinates,Parameters);
-                  else return 0.;
+   if (fxUserFunction)
+      return (*fxUserFunction)(Coordinates,Parameters);
+   return 0.;
 }
 
 #ifndef _WINDOWS
@@ -222,18 +223,18 @@ void TGo4FitModelFunction::CloseLibrary()
 void TGo4FitModelFunction::Print(Option_t* option) const
 {
    TGo4FitModel::Print(option);
-   if ((fxLibraryName.Length()>0) || (fxFunctionName.Length()>0))
+   if ((fxLibraryName.Length() > 0) || (fxFunctionName.Length() > 0))
       std::cout << "Function " << fxFunctionName << "  in " << fxLibraryName << std::endl;
    else
       std::cout << " Pointer on function " << fxUserFunction << std::endl;
-   for (Int_t naxis=0;naxis<fxPosIndex.GetSize();naxis++) {
-     TGo4FitParameter* par = ((TGo4FitModelFunction*) this)->GetFuncPar(fxPosIndex[naxis]);
-     if (par)
-        std::cout << "  Position on " << naxis << " axis is " << par->GetName() << std::endl;
+   for (Int_t naxis = 0; naxis < fxPosIndex.GetSize(); naxis++) {
+      TGo4FitParameter *par = ((TGo4FitModelFunction *)this)->GetFuncPar(fxPosIndex[naxis]);
+      if (par)
+         std::cout << "  Position on " << naxis << " axis is " << par->GetName() << std::endl;
    }
-   for (Int_t naxis=0;naxis<fxWidthIndex.GetSize();naxis++) {
-     TGo4FitParameter* par = ((TGo4FitModelFunction*) this)->GetFuncPar(fxWidthIndex[naxis]);
-     if (par)
-        std::cout << "  Width on " << naxis << " axis is " << par->GetName() << std::endl;
+   for (Int_t naxis = 0; naxis < fxWidthIndex.GetSize(); naxis++) {
+      TGo4FitParameter *par = ((TGo4FitModelFunction *)this)->GetFuncPar(fxWidthIndex[naxis]);
+      if (par)
+         std::cout << "  Width on " << naxis << " axis is " << par->GetName() << std::endl;
    }
 }

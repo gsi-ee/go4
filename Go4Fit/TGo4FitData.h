@@ -268,19 +268,19 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Return scale values for specified index from buffer.
-       * Can be used only if buffers were allocated, otherwise return 0. nbin should be from 0 to GetBinsSize()-1
+       * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
       const Double_t* GetScaleValues(const Int_t nbin);
 
       /**
        * Return scales width values for specified index from buffer.
-       * Can be used only if buffers were allocated, otherwise return 0. nbin should be from 0 to GetBinsSize()-1
+       * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
       const Double_t* GetWidthValues(const Int_t nbin);
 
       /**
        * Return indexes values for specified data bin from buffer.
-       * Can be used only if buffers were allocated, otherwise return 0. nbin should be from 0 to GetBinsSize()-1
+       * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
       const Int_t* GetFullIndex(Int_t nbin);
 

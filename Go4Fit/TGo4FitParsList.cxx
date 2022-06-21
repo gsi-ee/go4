@@ -46,23 +46,26 @@ TGo4FitParsList::~TGo4FitParsList()
 
 Int_t TGo4FitParsList::GetParIndex(const TGo4FitParameter* par)
 {
-   for(Int_t i=0;i<NumPars();i++)
-     if(GetPar(i)==par) return i;
+   for (Int_t i = 0; i < NumPars(); i++)
+      if (GetPar(i) == par)
+         return i;
    return -1;
 }
 
 Double_t TGo4FitParsList::GetParValue(const char* ParName)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) return par->GetValue();
-      else return 0.;
+   auto par = Find(ParName);
+   return par ? par->GetValue() : 0.;
 }
 
 Bool_t TGo4FitParsList::SetParValue(const char* ParName, Double_t iValue)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) { par->SetValue(iValue); return kTRUE; }
-      else return kFALSE;
+   auto par = Find(ParName);
+   if (par) {
+      par->SetValue(iValue);
+      return kTRUE;
+   }
+   return kFALSE;
 }
 
 void TGo4FitParsList::GetParsValues(Double_t* pars)
@@ -81,29 +84,33 @@ void TGo4FitParsList::SetParsValues(Double_t* pars)
 Double_t TGo4FitParsList::GetParError(const char* ParName)
 {
    TGo4FitParameter* par = Find(ParName);
-   if(par) return par->GetError();
-      else return 0.;
+   return par ? par->GetError() : 0.;
 }
 
 Bool_t TGo4FitParsList::SetParError(const char* ParName, Double_t iError)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) { par->SetError(iError); return kTRUE; }
-      else return kFALSE;
+   auto par = Find(ParName);
+   if (par) {
+      par->SetError(iError);
+      return kTRUE;
+   }
+   return kFALSE;
 }
 
 Bool_t TGo4FitParsList::SetParFixed(const char* ParName, Bool_t iFixed)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) { par->SetFixed(iFixed); return kTRUE; }
-      else return kFALSE;
+   auto par = Find(ParName);
+   if (par) {
+      par->SetFixed(iFixed);
+      return kTRUE;
+   }
+   return kFALSE;
 }
 
 Bool_t TGo4FitParsList::GetParFixed(const char* ParName)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) return par->GetFixed();
-      else return kFALSE;
+   auto par = Find(ParName);
+   return par ? par->GetFixed() : kFALSE;
 }
 
 Int_t TGo4FitParsList::NumFixedPars()
@@ -122,16 +129,18 @@ Int_t TGo4FitParsList::NumFreePars()
 
 Bool_t TGo4FitParsList::SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) { par->SetRange(RangeMin,RangeMax); return kTRUE; }
-      else return kFALSE;
+   auto par = Find(ParName);
+   if (par) {
+      par->SetRange(RangeMin, RangeMax);
+      return kTRUE;
+   }
+   return kFALSE;
 }
 
 Bool_t TGo4FitParsList::GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) return par->GetRange(RangeMin,RangeMax);
-      else return kFALSE;
+   auto par = Find(ParName);
+   return par ? par->GetRange(RangeMin,RangeMax) : kFALSE;
 }
 
 Bool_t TGo4FitParsList::SetParEpsilon(const char* ParName, Double_t Epsilon)
