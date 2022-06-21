@@ -141,54 +141,48 @@ void TGo4ExportManager::Export(TFolder* fold)
 
 void TGo4ExportManager::Export(TDirectory* source)
 {
-if(source==0) return;
-TGo4Log::Message(0,"ExportManager: Converting contents of directory %s",source->GetName());
-if(fiFilter==GO4EX_ROOT)
-   {
-       // root filter will write collection completely into one root file
-       // otherwise, each object would be written separately into flat hierarchy
-       ExportRoot(source);
-       return;
+   if (!source)
+      return;
+   TGo4Log::Message(0, "ExportManager: Converting contents of directory %s", source->GetName());
+   if (fiFilter == GO4EX_ROOT) {
+      // root filter will write collection completely into one root file
+      // otherwise, each object would be written separately into flat hierarchy
+      ExportRoot(source);
+      return;
    }
 
-TString dirname=source->GetName();
-if(!dirname.Contains(".root"))
-{
-  gSystem->cd(fxCurrentDir.Data()); // create subdirectory in file system
-  TString com="mkdir "+dirname;
-  gSystem->Exec(com);
-  gSystem->cd(dirname.Data());
-  fxCurrentDir=gSystem->WorkingDirectory();
-}
-TObject* myobject=0;
-TKey* mykey=0;
-source->cd();
-gSystem->cd(fxStartDir.Data());
-TIter iter(source->GetListOfKeys());
-while((mykey=(TKey*) iter())!=0)
-  {
-    myobject= mykey->ReadObj();
-    if(myobject)
-      {
-        Export(myobject);
+   TString dirname = source->GetName();
+   if (!dirname.Contains(".root")) {
+      gSystem->cd(fxCurrentDir.Data()); // create subdirectory in file system
+      TString com = "mkdir " + dirname;
+      gSystem->Exec(com);
+      gSystem->cd(dirname.Data());
+      fxCurrentDir = gSystem->WorkingDirectory();
+   }
+   TObject *myobject = nullptr;
+   TKey *mykey = nullptr;
+   source->cd();
+   gSystem->cd(fxStartDir.Data());
+   TIter iter(source->GetListOfKeys());
+   while ((mykey = (TKey *)iter()) != nullptr) {
+      myobject = mykey->ReadObj();
+      if (myobject) {
+         Export(myobject);
+      } else {
+         TGo4Log::Message(2, "ExportManager: Could not read key %s", mykey->GetName());
       }
-    else
-      {
-        TGo4Log::Message(2,"ExportManager: Could not read key %s", mykey->GetName());
-      }
-  } // while
-if(!dirname.Contains(".root"))
-   {
-     gSystem->cd(fxCurrentDir.Data());
-     gSystem->cd("..");
-     fxCurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
-     gSystem->cd(fxStartDir.Data());
+   } // while
+   if (!dirname.Contains(".root")) {
+      gSystem->cd(fxCurrentDir.Data());
+      gSystem->cd("..");
+      fxCurrentDir = gSystem->WorkingDirectory(); // go up one directory level again
+      gSystem->cd(fxStartDir.Data());
    }
 }
 
 void TGo4ExportManager::Export(TCollection* col)
 {
-  if(col==0) return;
+  if(!col) return;
   TGo4Log::Message(0,"ExportManager: Converting contents of collection %s",col->GetName());
   if(fiFilter==GO4EX_ROOT) {
      // root filter will write collection completely into one root file
@@ -198,8 +192,8 @@ void TGo4ExportManager::Export(TCollection* col)
   }
 
    TIter iter(col);
-   TObject* ob=0;
-   while((ob=iter())!=0)
+   TObject* ob = nullptr;
+   while((ob = iter()) != nullptr)
        Export(ob);
 }
 

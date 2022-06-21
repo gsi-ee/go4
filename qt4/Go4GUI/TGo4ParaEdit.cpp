@@ -108,8 +108,8 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
              QString("Continue with current"),
              QString("Start with new"), QString(), 0);
 //            (BrowserItemRemote(previtem) ? QString("Update current in analysis and start with new") : QString()), 0);
-          if (res==0) return;
-//          if (res==2) UpdateItemInAnalysis(previtem);
+          if (res == 0) return;
+//          if (res == 2) UpdateItemInAnalysis(previtem);
        }
    }
 

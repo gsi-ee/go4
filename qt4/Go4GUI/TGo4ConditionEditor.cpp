@@ -184,11 +184,11 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
         QString("Continue with current"),
         QString("Start with new"), QString(), 0);
 //        (BrowserItemRemote(conditemname) ? QString("Update in analysis and start new") : QString()), 0);
-      if (res==0) return;
-//      if (res==2) UpdateItemInAnalysis(conditemname);
+      if (res == 0) return;
+//      if (res == 2) UpdateItemInAnalysis(conditemname);
    }
 
-   if (!conditemname || (strcmp(conditemname,itemname)!=0)) {
+   if (!conditemname || (strcmp(conditemname,itemname) != 0)) {
       ResetWidget();
       CondNameLbl->setText(itemname);
       AddLink(itemname, "Condition");

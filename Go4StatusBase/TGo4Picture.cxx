@@ -187,13 +187,13 @@ TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
 TGo4Picture* TGo4Picture::Pic(Int_t posy, Int_t posx)
 {
    if (!IsDivided()) return this;
-   if (posx < 0) posx=0; else if(posx>=GetDivX()) posx = GetDivX()-1;
-   if (posy < 0) posy=0; else if(posy>=GetDivY()) posy = GetDivY()-1;
+   if (posx < 0) posx = 0; else if(posx>=GetDivX()) posx = GetDivX()-1;
+   if (posy < 0) posy = 0; else if(posy>=GetDivY()) posy = GetDivY()-1;
    TGo4Picture* sub = FindPic(posy, posx);
    if (sub) return sub;
    sub = new TGo4Picture("Sub", "Sub picture");
    sub->SetPosition(posy, posx);
-   if (fxSubPictures==0) {
+   if (!fxSubPictures) {
      fxSubPictures = new TObjArray();
      fxSubPictures->SetOwner(kTRUE);
    }
@@ -1314,7 +1314,7 @@ void TGo4Picture::ClearFullRange(Int_t naxis)
 
 void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass* selectedobjclass)
 {
-   if (source==0) return;
+   if (!source) return;
    Clear();
 
    SetName(source->GetName());
@@ -1328,18 +1328,18 @@ void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass* selectedobjclass)
    for (Int_t n=0; n<source->GetNumObjNames();n++)
       AddObjName(source->GetObjName(n));
 
-   if (source->GetSpecialObjects()!=0)
+   if (source->GetSpecialObjects())
       fxSpecialObjects = (TList*) source->GetSpecialObjects()->Clone();
 
    CopyOptionsFrom(source);
 
-   if (source->fxSubPictures != 0) {
+   if (source->fxSubPictures) {
       fxSubPictures = new TObjArray();
       fxSubPictures->SetOwner(kTRUE);
       for (Int_t n = 0; n <= source->fxSubPictures->GetLast(); n++) {
          TGo4Picture *sub =
             dynamic_cast<TGo4Picture*>(source->fxSubPictures->At(n));
-         if (sub != 0) {
+         if (sub) {
             TGo4Picture *newsub = new TGo4Picture;
             newsub->UpdateFrom(sub, selectedobjclass);
             fxSubPictures->Add(newsub);
@@ -1366,13 +1366,13 @@ void TGo4Picture::Clear(Option_t* option)
    fiNDivY = 1;
    fiPosX = 0;
    fiPosY = 0;
-   if (fxNames!=0) { delete fxNames; fxNames = 0; }
-   if (fxSubPictures!=0) { delete fxSubPictures; fxSubPictures = 0; }
+   if (fxNames) { delete fxNames; fxNames = nullptr; }
+   if (fxSubPictures) { delete fxSubPictures; fxSubPictures = nullptr; }
    fiLastIndex = 0;
    fiOptSize = 0;
    fxOptIndex.Set(0);
    fxOptValue.Set(0);
-   if (fxOptObjects!=0) { delete fxOptObjects; fxOptObjects = 0; }
+   if (fxOptObjects) { delete fxOptObjects; fxOptObjects = nullptr; }
 }
 
 Int_t TGo4Picture::FindOptPos(Short_t index, Short_t typ) const
@@ -1399,7 +1399,7 @@ void TGo4Picture::SetOption(Short_t index, Short_t typ, Long_t value)
 {
    if (typ>=op_ObjsBound) return;
    Int_t pos = FindOptPos(index,typ);
-   if (pos<0) pos = ExtendOptPos(index, typ);
+   if (pos < 0) pos = ExtendOptPos(index, typ);
    fxOptValue[pos] = value;
 }
 
@@ -1407,7 +1407,7 @@ Bool_t TGo4Picture::GetOption(Short_t index, Short_t typ, Long_t& value) const
 {
    if (typ>=op_ObjsBound) return kFALSE;
    Int_t pos = FindOptPos(index, typ);
-   if (pos<0) return kFALSE;
+   if (pos < 0) return kFALSE;
    value = fxOptValue[pos];
    return kTRUE;
 }

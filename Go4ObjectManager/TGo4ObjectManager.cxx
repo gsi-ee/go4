@@ -326,16 +326,16 @@ void TGo4ObjectManager::RemoveFromLinks(const TGo4Slot* slot)
 
 void TGo4ObjectManager::RetranslateEvent(TGo4Slot* source, Int_t id, void* param)
 {
-   if (source==0) return;
+   if (!source) return;
 
    for(Int_t indx=fLinks.GetLast(); indx>=0; indx--) {
       TGo4ObjManLink* link = (TGo4ObjManLink*) fLinks.At(indx);
-      if (link==0) continue;
+      if (!link) continue;
 
       if (link->CheckEventSource(source)) {
          TGo4Slot* target = link->GetTarget();
 
-         if (gDebug>2)
+         if (gDebug > 2)
             Info("RetranslateEvent","src = %p %s tgt = %p %s id = %d", source, source->GetFullName().Data(), target, target->GetFullName().Data(), id);
 
          target->Event(source, id, param);

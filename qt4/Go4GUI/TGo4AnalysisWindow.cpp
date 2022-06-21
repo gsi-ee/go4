@@ -342,22 +342,18 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     // IMPORTANT - process should be child of analysis window
     // to be terminated when analysis window closed or Ctrl-C is pressed
 
-    fAnalysisProcess = new QProcess(aschildprocess ? this : 0);
+    fAnalysisProcess = new QProcess(aschildprocess ? this : nullptr);
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     fAnalysisProcess->setProcessEnvironment(env);
 
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
-    if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
+    if (workdir) fAnalysisProcess->setWorkingDirectory(workdir);
 
     QString progname = text;
     QStringList args;
 
     TGo4AnalysisWindow::ExtractProgArgs(progname, args);
-
-    // std::cout << "prog " << progname.toLocal8Bit().constData() << std::endl;
-    // for (int i = 0; i < args.size(); ++i)
-    //    std::cout << "arg " << args.at(i).toLocal8Bit().constData() << std::endl;
 
     fAnalysisProcess->start(progname, args);
 
@@ -531,9 +527,9 @@ void TGo4AnalysisWindow::WaitForNewObject(bool isobjectforeditor)
 
 void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname, "ObjectUpdateCmd")==0) {
+   if (strcmp(linkname, "ObjectUpdateCmd") == 0) {
       TGo4AnalysisObjectResult* res = dynamic_cast<TGo4AnalysisObjectResult*>(obj);
-      if (res==0) return;
+      if (!res) return;
       Browser()->SyncBrowserSlots();
       const char* itemname = res->GetObjectFullName();
       TClass* cl = Browser()->ItemClass(itemname);
@@ -542,7 +538,7 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
       fNewObjectForEditor = true;
    }
 
-   if (strcmp(linkname, "DebugOutput")==0) {
+   if (strcmp(linkname, "DebugOutput") == 0) {
 
       TList* lst = dynamic_cast<TList*> (obj);
 
@@ -561,7 +557,7 @@ void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
 {
    fHasLink = false;
 
-   if (!HasOutput() || (strcmp(linkname, "DebugOutput")==0))
+   if (!HasOutput() || (strcmp(linkname, "DebugOutput") == 0))
       ServiceCall("CloseAnalysisWindow");
 }
 
