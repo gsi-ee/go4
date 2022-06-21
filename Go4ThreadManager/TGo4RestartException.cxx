@@ -61,7 +61,7 @@ TGo4RestartException & TGo4RestartException::operator=(const TGo4RestartExceptio
 Int_t TGo4RestartException::Handle ()
 {
    GO4TRACE((14,"TGo4RestartException::Handle()",__LINE__, __FILE__));
-   if(GetThreadName()==0)
+   if(!GetThreadName())
       // no threadname specified, operate on thread of runnable
       {
          GO4TRACE((13,"TGo4RestartException::Handle() -- recreating thread of runnable",__LINE__, __FILE__));

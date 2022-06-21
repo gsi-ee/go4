@@ -56,7 +56,7 @@ Int_t TGo4RemoveException::Handle()
 {
    GO4TRACE((14, "TGo4RemoveException::Handle()", __LINE__, __FILE__));
    TString name;
-   if (GetThreadName() == 0) {
+   if (!GetThreadName()) {
       // no threadname specified, use name of thread associated with runnable
       GO4TRACE((13, "TGo4RemoveException::Handle() -- removing thread associated with runnable", __LINE__, __FILE__));
       name = fxRunnable->GetThread()->GetName();

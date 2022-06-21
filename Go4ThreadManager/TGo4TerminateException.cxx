@@ -21,14 +21,14 @@
 
 TGo4TerminateException::TGo4TerminateException (TGo4Runnable* runnable)
 {
- GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4Runnable*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4Runnable*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Terminate Exception --!!!";
    fxThreadManager=runnable->GetThreadManager();
 }
 
 TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager* man)
 {
-GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Terminate Exception --!!!";
    fxThreadManager=man;
 }
@@ -36,13 +36,13 @@ GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager*
 TGo4TerminateException::TGo4TerminateException(const TGo4TerminateException &right)
   :TGo4ControlException(right)
 {
-GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (const TGo4TerminateException*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (const TGo4TerminateException*)", __LINE__, __FILE__));
    fxThreadManager=right.fxThreadManager;
 }
 
 TGo4TerminateException & TGo4TerminateException::operator=(const TGo4TerminateException &right)
 {
-GO4TRACE((14,"TGo4TerminateException::operator=(const TGo4TerminateException*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::operator=(const TGo4TerminateException*)", __LINE__, __FILE__));
    if (&right!=this)
       {
          ;
@@ -67,12 +67,11 @@ TGo4TerminateException::~TGo4TerminateException()
 
 Int_t TGo4TerminateException::Handle ()
 {
-GO4TRACE((12,"TGo4TaskHandlerAbortException::Handle()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TaskHandlerAbortException::Handle()", __LINE__, __FILE__));
 
    TGo4Log::Debug("\n Terminate Exception default Handle: Terminating Thread Manager %s ... \n",
             fxThreadManager->GetName());
    fxThreadManager->Terminate();
    TThread::CancelPoint();
    return 0;
-
 }
