@@ -3707,7 +3707,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
 
   if(item->PopupMenuType() == FitGui::mt_slot) {
      TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (item->Object());
-     if (slot!=0) FillPopupForSlot(slot, menu, map);
+     if (slot) FillPopupForSlot(slot, menu, map);
   }
 
   if(item->PopupMenuType() == FitGui::mt_allslots) {

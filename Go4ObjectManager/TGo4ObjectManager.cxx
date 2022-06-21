@@ -120,7 +120,7 @@ TGo4Slot* TGo4ObjectManager::Add(const char* pathname, TObject* obj, Bool_t owne
 
    TGo4Slot* slot = MakeObjSlot(pathname, obj->GetName(), obj->ClassName());
 
-   if (slot!=0) {
+   if (slot) {
       if (canrename && (strcmp(obj->GetName(),slot->GetName())!=0)) {
          TNamed* n = dynamic_cast<TNamed*> (obj);
          if (n!=0) n->SetName(slot->GetName());
@@ -140,7 +140,7 @@ void TGo4ObjectManager::AddFile(const char* pathname, const char* filename)
 void TGo4ObjectManager::CloseFiles(const char* pathname)
 {
    TGo4Slot* slot = GetSlot(pathname);
-   if (slot==0) return;
+   if (!slot) return;
    for(int n=slot->NumChilds()-1;n>=0;n--) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4DirProxy* dirproxy = dynamic_cast<TGo4DirProxy*> (subslot->GetProxy());
@@ -160,7 +160,7 @@ void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t own
 
    TGo4Slot* slot = MakeObjSlot(pathname, name, dir->ClassName());
 
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4DirProxy(dir, readright, owner));
 }
 
@@ -171,7 +171,7 @@ void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
 
    TGo4Slot* slot = MakeObjSlot(pathname, tree->GetName(), tree->ClassName());
 
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4TreeProxy(tree, owner));
 }
 
@@ -180,7 +180,7 @@ void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner
    if (f==0) return;
 
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4FolderProxy(f, owner, ""));
 }
 
@@ -191,7 +191,7 @@ void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* folderna
 
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
 
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4FolderProxy(f, kFALSE, foldername));
 }
 
@@ -202,7 +202,7 @@ void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
       if (name.Length()>0) name+="/root";
                       else name="root";
       TGo4Slot* slot = GetSlot(name, kTRUE);
-      if (slot==0) return;
+      if (!slot) return;
       slot->SetTitle("ROOT folders");
       AddROOTFolder(name, "//root/Canvases");
       AddROOTFolder(name, "//root/Functions");
@@ -254,7 +254,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
 
 //   std::cout << "TGo4ObjectManager::AddLink in " << pathname << " source = " << source->GetFullName() << std::endl;
 
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4LinkProxy(source));
 
    for(Int_t indx=fLinks.GetLast(); indx>=0; indx--) {
@@ -282,10 +282,10 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
 
 //   std::cout << "Make link in path " << pathname << " with name " << source->GetName() << std::endl;
 
-//   if (slot!=0) std::cout << " slot = " << slot->GetName() <<
+//   if (slot) std::cout << " slot = " << slot->GetName() <<
 //                        "  parent = " << slot->GetParent()->GetName() << std::endl;
 
-   if (slot!=0)
+   if (slot)
      slot->SetProxy(new TGo4LinkProxy(source));
 
    return slot;
@@ -395,7 +395,7 @@ void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot* star
       }
 
       TGo4Slot* slot = iter.getslot();
-      if (slot!=0)
+      if (slot)
          slot->SaveData(curdir, onlyobjs);
    }
 
@@ -424,7 +424,7 @@ void TGo4ObjectManager::ReadDataFromFile(TFile* f)
       }
 
       TGo4Slot* slot = iter.getslot();
-      if (slot!=0)
+      if (slot)
          slot->ReadData(curdir);
    }
 
@@ -500,7 +500,7 @@ Int_t TGo4ObjectManager::IterateSlots()
 void TGo4ObjectManager::DeleteSlot(const char* pathname)
 {
    TGo4Slot* slot = (TGo4Slot*) GetSlot(pathname);
-   if (slot!=0) delete slot;
+   if (slot) delete slot;
 }
 
 Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec)
@@ -543,7 +543,9 @@ Bool_t TGo4ObjectManager::AssignObject(const char* path, TObject* obj, Bool_t ow
 {
    Bool_t res = kFALSE;
    TGo4Slot* tgtslot = GetSlot(path);
-   if (tgtslot!=0) res = tgtslot->AssignObject(obj, ownership);
-              else if (ownership) delete obj;
+   if (tgtslot)
+      res = tgtslot->AssignObject(obj, ownership);
+   else if (ownership)
+      delete obj;
    return res;
 }

@@ -312,7 +312,7 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned)
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
+      if (!slot) continue;
 
       if (slot->IsEmpty() && slot->IsSuitable(obj)) {
         slot->SetObject(obj, iOwned);
@@ -382,7 +382,7 @@ Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut)
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
+      if (!slot) continue;
       if (slot->IsRequired()) {
          if (MakeOut)
             std::cout << "Required data not provided" << std::endl <<
@@ -402,7 +402,7 @@ Bool_t TGo4FitSlotList::IsEmptySlots()
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
+      if (!slot) continue;
       if (slot->IsEmpty()) return kTRUE;
    }
    return kFALSE;
@@ -415,7 +415,7 @@ void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned)
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
+      if (!slot) continue;
 
       if ((PlaceName!=0) &&
          (strcmp(slot->GetFullName(),PlaceName)!=0) &&
@@ -427,7 +427,7 @@ void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned)
 
 void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned)
 {
-   if (slot==0) return;
+   if (!slot) return;
 
    while(slot->GetConnectedSlot())
      slot = slot->GetConnectedSlot();
@@ -459,7 +459,7 @@ void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceNa
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
+      if (!slot) continue;
 
       if ((PlaceName!=0) &&
          (strcmp(slot->GetFullName(),PlaceName)!=0) &&
