@@ -368,10 +368,10 @@ void TGo4FitPanel::RemoveFitterLink()
 
 void TGo4FitPanel::linkedObjectRemoved( const char * linkname )
 {
-   if (strcmp(linkname,"Fitter")==0) {
+   if (strcmp(linkname,"Fitter") == 0) {
       RemoveAllLinks();
-      fxActivePanel = 0;
-      fxActivePad = 0;
+      fxActivePanel = nullptr;
+      fxActivePad = nullptr;
    } else {
       UpdateObjectReferenceInSlots();
    }
@@ -651,13 +651,13 @@ void TGo4FitPanel::Fitter_SaveToBrowser()
 
    TGo4Fitter* clone = CloneFitter();
 
-   if (clone!=0) SaveObjectInMemory("", clone);
+   if (clone) SaveObjectInMemory("", clone);
 }
 
 void TGo4FitPanel::Fitter_PrintParameters()
 {
    QTableWidget* tab = ParsTable;
-   if (tab==0) return;
+   if (!tab) return;
 
    TGo4Log::Info("Printout of fitter parameters table");
 
@@ -773,7 +773,7 @@ void TGo4FitPanel::Button_PeakFinder()
    if (!fitter) return;
 
    TGo4FitPeakFinder* finder = GetPeakFinder(true);
-   if (finder==0) return;
+   if (!finder) return;
 
    TGo4FitData* data = 0;
    if (fiPanelMode==FitGui::pm_Wizard) data = Wiz_SelectedData();
@@ -887,7 +887,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
         fbDrawPanelCreation = kTRUE;
         fxDrawNewPanel = CreateViewPanel();
         fbDrawPanelCreation = kFALSE;
-        if (fxDrawNewPanel==0) return;
+        if (!fxDrawNewPanel) return;
      } else fxDrawNewPanel->ClearCanvas();
 
      if (!selecteddata) NeedPads = fitter->GetNumData();
@@ -1054,9 +1054,9 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
          for(Int_t m=0;m<fitter->GetNumModel();m++) {
             TGo4FitModel* model = fitter->GetModel(m);
             if (!model->IsAssignTo(data->GetName())) continue;
-            if (model->GetGroupIndex()==0) continue;
+            if (model->GetGroupIndex() == 0) continue;
             TObject* comp = fitter->CreateDrawObject(model->GetName(), data->GetName(), kTRUE, model->GetName());
-            if (comp==0) continue;
+            if (!comp) continue;
 
             panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitModels, "::FitComponent", comp, true, drawopt);
          }
@@ -1476,13 +1476,17 @@ void TGo4FitPanel::Cmd_AddRangeCondition(QFitItem* item, int id)
 
    TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
 
-   if (id==0) comp->SetRange(0, minx, maxx); else
-   if (id==1) comp->ExcludeRange(0, minx, maxx); else
-   if (id==2) comp->SetRangeMin(0, minx);  else
-   if (id==3) comp->SetRangeMax(0, maxx); else
-   if (id==4) {
+   if (id == 0)
+      comp->SetRange(0, minx, maxx);
+   else if (id == 1)
+      comp->ExcludeRange(0, minx, maxx);
+   else if (id == 2)
+      comp->SetRangeMin(0, minx);
+   else if (id == 3)
+      comp->SetRangeMax(0, maxx);
+   else if (id == 4) {
       TString name = TString::Format("Cut%d", comp->GetNumRangeCut());
-      TCutG* cut = new TCutG(name, 5);
+      TCutG *cut = new TCutG(name, 5);
       cut->SetTitle("range cut of X and Y axis");
       cut->SetPoint(0, minx, miny);
       cut->SetPoint(1, maxx, miny);
@@ -1614,7 +1618,7 @@ void TGo4FitPanel::Cmd_DeleteDependency(QFitItem* item)
    TGo4FitDependency* depen = dynamic_cast<TGo4FitDependency*> (item->Object());
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Parent()->Object());
 
-   if((depen==0) || (lst==0)) return;
+   if(!depen || !lst) return;
 
    if(fbNeedConfirmation)
      if ( QMessageBox::information(0,
@@ -1633,7 +1637,7 @@ void TGo4FitPanel::Cmd_DeleteDependencies(QFitItem* item)
 {
    if (!item) return;
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Object());
-   if(lst==0) return;
+   if(!lst) return;
 
    if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
@@ -1651,7 +1655,7 @@ void TGo4FitPanel::Cmd_AddDependency(QFitItem* item)
    if (!item) return;
 
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Object());
-   if(lst==0) return;
+   if(!lst) return;
 
    if(item->ObjectType()==FitGui::ot_reslist)
       lst->Add(new TGo4FitDependency(0,0.0));
@@ -1666,7 +1670,7 @@ void TGo4FitPanel::Cmd_MemorizePars(QFitItem* item)
   if (!item) return;
 
   TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-  if (pars==0) return;
+  if (!pars) return;
 
   pars->MemorizePars();
 }
@@ -1676,7 +1680,7 @@ void TGo4FitPanel::Cmd_RememberPars(QFitItem* item)
   if (!item) return;
 
   TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-  if (pars==0) return;
+  if (!pars) return;
 
   pars->RememberPars();
 
@@ -1689,7 +1693,7 @@ void TGo4FitPanel::Cmd_DeletePars(QFitItem* item)
 {
    if (!item) return;
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-   if (pars==0) return;
+   if (!pars) return;
 
    if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
@@ -1706,7 +1710,7 @@ void TGo4FitPanel::Cmd_MemorizePar(QFitItem* item)
 {
    if (!item) return;
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
-   if (par==0) return;
+   if (!par) return;
 
    par->MemorizeValue();
 }
@@ -1715,7 +1719,7 @@ void TGo4FitPanel::Cmd_RememberPar(QFitItem* item)
 {
    if (!item) return;
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
-   if (par==0) return;
+   if (!par) return;
 
    par->RememberValue();
 
@@ -1729,10 +1733,10 @@ void TGo4FitPanel::Cmd_AddNewPar(QFitItem* item)
    if (!item) return;
 
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-   if (pars==0) return;
+   if (!pars) return;
 
    TString name;
-   int num(0);
+   int num = 0;
    do {
       name = TString::Format("Par%d", num++);
    } while (pars->FindPar(name.Data()));
@@ -1747,7 +1751,7 @@ void TGo4FitPanel::Cmd_DeletePar(QFitItem* item)
 
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Parent()->Object());
-   if ((pars==0) || (par==0)) return;
+   if (!pars || !par) return;
 
    if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
@@ -1766,7 +1770,7 @@ void TGo4FitPanel::Cmd_DeleteMinuitResult(QFitItem* item)
 
    TGo4FitMinuitResult* res = dynamic_cast<TGo4FitMinuitResult*> (item->Object());
    TGo4FitMinuit* minuit = dynamic_cast<TGo4FitMinuit*> (item->Parent()->Object());
-   if ((res==0) || (minuit==0)) return;
+   if (!res || !minuit) return;
 
    if(fbNeedConfirmation)
     if ( QMessageBox::information(0,
@@ -1807,7 +1811,7 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
    if (FillPopupForItem(fititem, &menu, &map)) {
       CurrFitItem = fititem;
       menu.exec(FitList->viewport()->mapToGlobal(pnt));
-      CurrFitItem = 0;
+      CurrFitItem = nullptr;
    }
 }
 
@@ -1920,16 +1924,16 @@ void TGo4FitPanel::UpdateItemMenu()
   }
 
   if (showitem) {
-    if (ItemMenu==0) {
+    if (!ItemMenu) {
        ItemMenu = MenuBar->addMenu(itemtext);
        connect(ItemMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowItemMenu()));
     } else
        ItemMenu->setTitle(itemtext);
     MenuBar->adjustSize();
   } else
-    if (ItemMenu!=0) {
+    if (ItemMenu) {
       delete ItemMenu;
-      ItemMenu = 0;
+      ItemMenu = nullptr;
     }
 }
 
@@ -1948,15 +1952,15 @@ void TGo4FitPanel::AboutToShowSettMenu()
   SetIdAction(SettMap, 15, true, fbDrawInfoOnPad);
   SetIdAction(SettMap, 16, true, fbRecalculateGaussWidth);
 
-  SetIdAction(SettMap, 17, true, fiIntegralMode==0);
-  SetIdAction(SettMap, 18, true, fiIntegralMode==1);
-  SetIdAction(SettMap, 19, true, fiIntegralMode==2);
-  SetIdAction(SettMap, 20, true, fiIntegralMode==3);
+  SetIdAction(SettMap, 17, true, fiIntegralMode == 0);
+  SetIdAction(SettMap, 18, true, fiIntegralMode == 1);
+  SetIdAction(SettMap, 19, true, fiIntegralMode == 2);
+  SetIdAction(SettMap, 20, true, fiIntegralMode == 3);
 
-  SetIdAction(SettMap, 21, true, fiBuffersUsage==0);
-  SetIdAction(SettMap, 22, true, fiBuffersUsage==1);
-  SetIdAction(SettMap, 23, true, fiBuffersUsage==2);
-  SetIdAction(SettMap, 24, true, fiBuffersUsage==3);
+  SetIdAction(SettMap, 21, true, fiBuffersUsage == 0);
+  SetIdAction(SettMap, 22, true, fiBuffersUsage == 1);
+  SetIdAction(SettMap, 23, true, fiBuffersUsage == 2);
+  SetIdAction(SettMap, 24, true, fiBuffersUsage == 3);
 }
 
 void TGo4FitPanel::ChangeSettings(int id)
@@ -2253,17 +2257,17 @@ void TGo4FitPanel::UpdateWizDataList()
    Wiz_DataList->clear();
    if (!fitter) fxWizDataName = "";
    else {
-     if ((Wiz_SelectedData()==0) && (fitter->GetNumData()>0)) {
+     if (!Wiz_SelectedData() && (fitter->GetNumData()>0)) {
        fxWizDataName = fitter->GetDataName(0);
        if (fiWizPageIndex<1) updatestack = true;
-       if (fiPaintMode==0) updatepaint = true;
+       if (fiPaintMode == 0) updatepaint = true;
      }
 
      int selindx = -1;
      for(Int_t n=0;n<fitter->GetNumData();n++) {
        TGo4FitData* data = fitter->GetData(n);
        QListWidgetItem* item = new QListWidgetItem(data->GetName());
-       if (strcmp(data->GetName(), fxWizDataName.toLatin1().constData())==0) {
+       if (strcmp(data->GetName(), fxWizDataName.toLatin1().constData()) == 0) {
           selindx = n;
           item->setSelected(true);
        }
@@ -2326,7 +2330,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
           if (data && model->IsAssignTo(data->GetName())) assign = true;
           QListWidgetItem* item = new QListWidgetItem(model->GetName());
           item->setCheckState(assign ? Qt::Checked : Qt::Unchecked );
-          if (strcmp(model->GetName(), fxWizModelName.toLatin1().constData())==0) {
+          if (strcmp(model->GetName(), fxWizModelName.toLatin1().constData()) == 0) {
              selindx = indx;
              item->setSelected(true);
           }
@@ -2418,7 +2422,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
           Wiz_GetModelInfo(model, &modelinfo);
           Wiz_ModelInfoLbl->setText(modelinfo);
 
-          Wiz_BackgroundChk->setChecked(model->GetGroupIndex()==0);
+          Wiz_BackgroundChk->setChecked(model->GetGroupIndex() == 0);
 
           Wiz_ModelBufChk->setChecked(model->GetUseBuffers());
           Wiz_ModelBufChk->setEnabled(fiBuffersUsage==3);
@@ -2628,7 +2632,7 @@ void TGo4FitPanel::Wiz_AddDataBtn_clicked()
    FillDataTypesList(&menu, &map, 0);
 
    QAction* act =  menu.exec(Wiz_AddDataBtn->mapToGlobal(QPoint(5,5)));
-   if (act==0) return;
+   if (!act) return;
 
    int id = 0;
    for(id=0;id<100;id++)
@@ -2882,7 +2886,7 @@ void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested(const QPoint& pnt )
 
   if (FillPopupForSlot(slot, &menu, &map)) {
      QAction* act = menu.exec(Wiz_DataSlotsTable->mapToGlobal(pnt));
-     if (act==0) return;
+     if (!act) return;
      for (int id=0; id<10000; id++)
        if (act == (QAction*) map.mapping(id))
           ExecutePopupForSlot(0, slot, id);
@@ -2954,7 +2958,7 @@ void TGo4FitPanel::FillParsWidget()
 
   Double_t FF = fitter->GetResultFF();
   Int_t NDF = fitter->GetResultNDF();
-  if ((FF==0) && (NDF==0)) Par_FitterResLbl->hide();
+  if ((FF == 0.) && (NDF == 0)) Par_FitterResLbl->hide();
   else {
     Par_FitterResLbl->setText("Result: Fit func = " + QString::number(FF) +
                                     "  NDF = " + QString::number(NDF));
@@ -2986,7 +2990,7 @@ void TGo4FitPanel::ParsTable_valueChanged( int nrow, int ncol)
 
 
 void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4FitModel* model, bool LinesView, TObjArray* TableList) {
-   if ((table==0) || !fitter || (TableList==0)) return;
+   if (!table || !fitter || !TableList) return;
 
    if (model && LinesView) return;
    TableList->Clear();
@@ -2996,7 +3000,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
         QTableWidgetItem* item = table->item(nr,nc);
         if (item) {
            item->setFlags(item->flags() | Qt::ItemIsEnabled);
-           if (nc==0) item->setText("");
+           if (nc == 0) item->setText("");
         }
      }
 */
@@ -3005,7 +3009,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
      int MaxAxis = 0;
      for (Int_t n=0; n<fitter->GetNumModel();n++) {
         TGo4FitModel* m = fitter->GetModel(n);
-        if (m==0) continue;
+        if (!m) continue;
         Double_t zn;
         for (int naxis=0;naxis<10;naxis++)
           if (m->GetPosition(naxis,zn) || m->GetWidth(naxis,zn)) MaxAxis = naxis;
@@ -3197,7 +3201,7 @@ void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, boo
       double zn = table->item(nrow, ncol)->text().toDouble(&ok);
       if (!ok) return;
 
-      if (ncol==0) model->SetAmplValue(zn); else {
+      if (ncol == 0) model->SetAmplValue(zn); else {
          int nfcol = (fiIntegralMode>0) ? 2 : 1;
          int naxis = (ncol-nfcol) /2;
          if ((ncol-nfcol) % 2 == 0) model->SetPosition(naxis, zn);
@@ -3320,9 +3324,8 @@ void TGo4FitPanel::Wiz_ModelBufChk_toggled( bool zn)
 
 void TGo4FitPanel::Wiz_PFSetupBtn_clicked()
 {
-  if (fbFillingWidget) return;
+  if (fbFillingWidget || !Wiz_SelectedData()) return;
 
-  if (Wiz_SelectedData()==0) return;
   fiWizPageIndex = 3;
   UpdateWizStackWidget();
   UpdateWizPaint(1);
@@ -3334,7 +3337,7 @@ void TGo4FitPanel::Wiz_PFUsePolynChk_toggled( bool zn )
   if (fbFillingWidget) return;
 
   TGo4FitPeakFinder* finder = GetPeakFinder(true);
-  if (finder!=0) finder->SetUsePolynom(zn);
+  if (finder) finder->SetUsePolynom(zn);
 
   Wiz_PFPolynSpin->setEnabled(zn);
 }
@@ -3344,7 +3347,7 @@ void TGo4FitPanel::Wiz_PFPolynSpin_valueChanged( int zn )
   if (fbFillingWidget) return;
 
   TGo4FitPeakFinder* finder = GetPeakFinder(true);
-  if (finder!=0) finder->SetPolynomOrder(zn);
+  if (finder) finder->SetPolynomOrder(zn);
 }
 
 
@@ -3919,7 +3922,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
     case FitGui::ot_output: break;
     case FitGui::ot_config: {
       TGo4FitterConfig* cfg = dynamic_cast<TGo4FitterConfig*> (item->Object());
-      if (cfg==0) break;
+      if (!cfg) break;
       new QFitItem(this, item, &(cfg->GetResults()), FitGui::ot_reslist, FitGui::wt_none, FitGui::mt_deplist);
       new QFitItem(this, item, &(cfg->GetParsDepend()), FitGui::ot_pardeplist, FitGui::wt_none, FitGui::mt_deplist);
       new QFitItem(this, item, &(cfg->GetParsInit()), FitGui::ot_parinitlist, FitGui::wt_none, FitGui::mt_deplist);
@@ -3928,7 +3931,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
       break; }
     case FitGui::ot_minuit: {
       TGo4FitMinuit* minuit = dynamic_cast<TGo4FitMinuit*> (item->Object());
-      if (minuit==0) break;
+      if (!minuit) break;
       for (Int_t n=minuit->GetNumResults()-1;n>=0;n--)
          new QFitItem(this, item, minuit->GetResult(n), FitGui::ot_minuitres, FitGui::wt_minuitres, FitGui::mt_minuitres);
       break; }
@@ -3939,7 +3942,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
     case FitGui::ot_newpars: FillParsList(item); break;
     case FitGui::ot_parscfg: {
        TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-       if (pars==0) return;
+       if (!pars) return;
        for (Int_t n = pars->NumPars()-1; n>=0;n--)
           new QFitItem(this, item, pars->GetPar(n), FitGui::ot_parcfg, FitGui::wt_parcfg, FitGui::mt_parcfg);
        break; }
@@ -4003,7 +4006,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 
     while (*iter) {
       QFitItem* it = dynamic_cast<QFitItem*> (*iter);
-      if ((it!=0) && (it!=item) &&
+      if (it && (it != item) &&
           (item->ObjectType()==it->ObjectType()) &&
           (item->Object()==it->Object())) UpdateItem(it, false);
       ++iter;
@@ -4036,7 +4039,7 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
     case FitGui::ot_rangelist: text = "Ranges"; break;
     case FitGui::ot_range: {
        TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
-       if ((comp==0) || (item->Tag()<0) || (item->Tag()>=comp->GetNumRangeCondition())) break;
+       if (!comp || (item->Tag()<0) || (item->Tag()>=comp->GetNumRangeCondition())) break;
 
        Int_t typ, naxis;
        Double_t left, right;
@@ -4063,7 +4066,7 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
     case FitGui::ot_reslist: text = "Results"; break;
     case FitGui::ot_depend: {
        TGo4FitDependency* depen = dynamic_cast<TGo4FitDependency*> (item->Object());
-       if (depen==0) break;
+       if (!depen) break;
        if (depen->IsResultDepend()) text = "Res" + QString::number(item->Tag());
                                else text = depen->GetParameter().Data();
        text += " = ";
@@ -4267,13 +4270,13 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 
    if (gritem->GraphType()==FitGui::gt_ranges) {
       TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (gritem->Object());
-      if (comp==0) return false;
+      if (!comp) return false;
 
       TPad* pad = FindPadWhereComp(comp);
       if (pad) {
         for(int nrange=0;nrange<comp->GetNumRangeCondition();nrange++) {
            QFitItem* child = dynamic_cast<QFitItem*> (gritem->child(nrange));
-           if (child==0) return false;
+           if (!child) return false;
            PaintRange(comp, nrange, pad, child);
         }
         return true;
@@ -4287,9 +4290,9 @@ void TGo4FitPanel::RemoveItemWidget()
 {
    fxCurrentItem = nullptr;
    if (fxCurrentItemWidget) {
-     ListStack->removeWidget(fxCurrentItemWidget);
-     delete fxCurrentItemWidget;
-     fxCurrentItemWidget = nullptr;
+      ListStack->removeWidget(fxCurrentItemWidget);
+      delete fxCurrentItemWidget;
+      fxCurrentItemWidget = nullptr;
    }
 }
 
@@ -5087,8 +5090,8 @@ void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
    w->NameEdt->setText(obj->GetName());
    w->TitleEdt->setText(obj->GetTitle());
    TNamed* n = dynamic_cast<TNamed*> (obj);
-   w->NameEdt->setReadOnly(n==0);
-   w->TitleEdt->setReadOnly(n==0);
+   w->NameEdt->setReadOnly(!n);
+   w->TitleEdt->setReadOnly(!n);
 
    TGo4FitNamed* go4n = dynamic_cast<TGo4FitNamed*> (obj);
    if((go4n!=0) && go4n->GetOwner())
@@ -5111,7 +5114,7 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
 {
   if (!w) return;
   QFitItem* item = w->GetItem();
-  if (!item || (strlen(newname)==0)) return;
+  if (!item || (strlen(newname) == 0)) return;
   TNamed* obj = dynamic_cast<TNamed*> (item->Object());
   if (!obj) return;
 

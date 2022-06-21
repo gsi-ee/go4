@@ -364,7 +364,7 @@ QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject* obj)
    void* par = obj;
    emit widgetService(this, service_SaveToMemory, foldername, (void*) &par);
    QString itemname = "";
-   if ((par!=obj) && (par!=0)) {
+   if ((par != obj) && par) {
       QString* res = (QString*) par;
       itemname = *res;
       delete res;
@@ -380,19 +380,19 @@ bool QGo4Widget::SaveItemToFile(const char* itemname, const char* subfolder)
    else
       strncpy(buf, subfolder, sizeof(buf));
    emit widgetService(this, service_SaveItem, itemname, (void*) buf);
-   return (buf[0]!=0);
+   return buf[0] != 0;
 }
 
 bool QGo4Widget::UpdateItemInAnalysis(const char* itemname, TObject* obj)
 {
    TObject* res = obj;
    emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);
-   return (res!=0);
+   return (res != nullptr);
 }
 
 TGo4ServerProxy* QGo4Widget::GetAnalysis(const char* itemname)
 {
-   TGo4ServerProxy* res = 0;
+   TGo4ServerProxy* res = nullptr;
    emit widgetService(this, service_GetAnalysis, itemname, (void*) &res);
    return res;
 }

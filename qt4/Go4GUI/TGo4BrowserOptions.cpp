@@ -56,7 +56,7 @@ void TGo4BrowserOptions::linkedObjectUpdated(const char* linkname, TObject* obj)
 void TGo4BrowserOptions::RefreshBtn_clicked()
 {
    TGo4ServerProxy* an = Browser()->FindServer();
-   if (an!=0) an->RefreshNamesList();
+   if (an) an->RefreshNamesList();
 
    TObjArray prlist;
    Browser()->MakeDabcList(&prlist);

@@ -60,7 +60,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    }
 
    fFitter = (TGo4Fitter*) GetObject("Fitter");
-   if (fFitter==0) {
+   if (!fFitter) {
       fFitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_chi_square, kTRUE);
       fFitter->AddH1("data", 0, kFALSE, 100., 1000.);
       fFitter->AddPolynomX("data", "Pol", 1);
@@ -68,7 +68,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    }
 
    fCalipar = (TXXXCalibPar*) GetParameter("CaliPar");
-   if (fCalipar==0) {
+   if (!fCalipar) {
       // calibration parameter not yet existing, we set it up:
       fCalipar = new TXXXCalibPar("CaliPar",GetHistogram("Cr1Ch01"),fCaligraph);
       AddParameter(fCalipar);
@@ -90,9 +90,9 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
 
    out_evt->SetValid(kFALSE);       // events are not stored until kTRUE is set
-   if((inp_evt==0) || !inp_evt->IsValid()) return kFALSE;    // do not process unvalid event
+   if(!inp_evt || !inp_evt->IsValid()) return kFALSE;    // do not process unvalid event
    out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
-   Int_t cnt(0);
+   Int_t cnt = 0;
    TXXXUnpackEvent& ev=*inp_evt; // ref instead pointer for array syntax below
    for(Int_t cr=1;cr<3;cr++) {
       // loop over first filled crates 1 and 2
@@ -100,7 +100,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
       {
          // get first channels of each crate
          TXXXModule* mod=dynamic_cast<TXXXModule*>( &ev[cr][ii]); // 2d array with composite event operator[]
-         if(mod==0) continue;
+         if(!mod) continue;
          Float_t val= mod->GetData();
          out_evt->frData[cnt] = val;
          if(val) fCaliSum1->Fill(fCalipar->Energy(val));
@@ -117,7 +117,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
 
    fFitCounter++;
 
-   if ((fFitCounter % 500000 == 0) && (fFitter!=0)) {
+   if ((fFitCounter % 500000 == 0) && fFitter) {
       TH1* histo1 = GetHistogram("Crate1/Cr1Ch04");
 
       if (histo1) {

@@ -74,9 +74,9 @@ void QFitParCfgWidget::AnalyzeRangeValues()
 
 void QFitParCfgWidget::ParNameEdit_textChanged( const QString & name)
 {
-  if(!fbFillWidget && GetPar() && (name.length()>0)) {
+  if(!fbFillWidget && GetPar() && (name.length() > 0)) {
       TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (GetItem()->Parent()->Object());
-      if (pars==0) return;
+      if (!pars) return;
       if (pars->FindPar(name.toLatin1().constData())) return;
       GetPar()->SetName(name.toLatin1().constData());
       GetItem()->setText(0,name.toLatin1().constData());

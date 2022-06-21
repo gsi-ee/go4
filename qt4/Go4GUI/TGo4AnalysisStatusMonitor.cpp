@@ -51,10 +51,10 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    //std::cout <<"linkedObjectUpdated" <<std::endl;
    QStatusBar* guistatusbar=dynamic_cast<QStatusBar*>(parentWidget());
    if(guistatusbar){
-     guistatusbar->clearMessage(); // JAM2016: always wipe out old gui messages when updating ratemeter
+      guistatusbar->clearMessage(); // JAM2016: always wipe out old gui messages when updating ratemeter
    }
 
-   if ((status==0) && (rate==0)) {
+   if (!status && !rate) {
       // this is indication of lost connection to the server
       if (obj) LCDCurrentRate->setStyleSheet("QFrame { background-color:rgb(127,127,127) }");
       return;

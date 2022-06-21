@@ -91,7 +91,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
 
    TGo4AnalysisClientStatus* anal =
      dynamic_cast<TGo4AnalysisClientStatus*> (obj);
-   if (anal==0) return;
+   if (!anal) return;
 
    const char* header = 0;
 

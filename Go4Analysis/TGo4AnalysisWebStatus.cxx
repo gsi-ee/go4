@@ -577,16 +577,16 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
 TGo4AnalysisStatus* TGo4AnalysisWebStatus::CreateStatus()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   return an ? an->CreateStatus() : 0;
+   return an ? an->CreateStatus() : nullptr;
 }
 
 
 Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
 
-   if ((an==0) || (status==0)) return kFALSE;
+   if (!an || !status) return kFALSE;
 
    if(cli) {
       if (cli->MainIsRunning()) an->PostLoop(); // if submit is done on running analysis,

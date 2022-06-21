@@ -191,7 +191,7 @@ Int_t TGo4Script::execGUICommands()
       case 1: { // execute launch client method
          TGo4ServerProxy* anal = Server();
 
-         if((anal!=0) && anal->IsAnalysisReady()) {
+         if(anal && anal->IsAnalysisReady()) {
              doOutput("// Disconnect old analysis first");
              fMainWin->DisconnectAnalysisSlot(false);
              fiWaitForGUIReaction = 3;
@@ -212,13 +212,13 @@ Int_t TGo4Script::execGUICommands()
 
       case 2: {  // check if analysis is ready, can continue if not ok
          TGo4ServerProxy* anal = Server();
-         if ((anal!=0) && anal->IsAnalysisReady()) return 1;
+         if (anal && anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 1 : 2;
       }
 
       case 3: {   // wait while analysis is disconnected
          TGo4ServerProxy* anal = Server();
-         if((anal==0) || !anal->IsAnalysisReady()) {
+         if(!anal || !anal->IsAnalysisReady()) {
             fiWaitForGUIReaction = 4;
             fiWaitCounter = getCounts(5.);
             return 2;
@@ -326,7 +326,7 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
    go4sett->setClientExec(ClientExec);
    go4sett->setClientArgs(UserArgs);
    const char* separ = strrchr(ClientNode, ':');
-   if (separ==0) {
+   if (!separ) {
       go4sett->setClientNode(ClientNode);
       go4sett->setClientIsServer(0);
    } else {
@@ -426,7 +426,7 @@ void TGo4Script::StopAnalysis()
 void TGo4Script::RefreshNamesList(int tmout)
 {
    TGo4ServerProxy* anal = Server();
-   if (anal!=0) {
+   if (anal) {
       anal->RefreshNamesList();
       fiWaitForGUIReaction = 11;
       fiWaitCounter = getCounts(tmout > 0 ? tmout : 10);
@@ -443,30 +443,36 @@ Bool_t TGo4Script::CanConfigureAnalysis()
       if ((serv!=0) && !serv->IsAnalysisLaunched()) fBlockConfigFlag = 1;
    }
 
-   return (fBlockConfigFlag<=0);
+   return fBlockConfigFlag <= 0;
 }
 
 
 void TGo4Script::SetAnalysisTerminalMode(int mode)
 {
    TGo4AnalysisWindow* gui_ = fMainWin->FindAnalysisWindow();
-   QWidget* gui = gui_ ? gui_->parentWidget() : 0;
-   if (gui==0) return;
+   QWidget* gui = gui_ ? gui_->parentWidget() : nullptr;
+   if (!gui) return;
 
-   if (mode<0) gui->hide(); else
-   if (mode==0) gui->showMinimized(); else
-                gui->showNormal();
+   if (mode < 0)
+      gui->hide();
+   else if (mode == 0)
+      gui->showMinimized();
+   else
+      gui->showNormal();
 }
 
 void TGo4Script::SetAnalysisConfigMode(int mode)
 {
    TGo4AnalysisConfiguration* gui_ = fMainWin->FindAnalysisConfiguration();
-   QWidget* gui = gui_ ? gui_->parentWidget() : 0;
-   if (gui==0) return;
+   QWidget* gui = gui_ ? gui_->parentWidget() : nullptr;
+   if (!gui) return;
 
-   if (mode<0) gui->hide(); else
-   if (mode==0) gui->showMinimized(); else
-                gui->showNormal();
+   if (mode < 0)
+      gui->hide();
+   else if (mode == 0)
+      gui->showMinimized();
+   else
+      gui->showNormal();
 }
 
 void TGo4Script::AnalysisAutoSave(const char* filename,
@@ -476,14 +482,14 @@ void TGo4Script::AnalysisAutoSave(const char* filename,
                                        Bool_t overwrite)
 {
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
-   if((gui!=0) && CanConfigureAnalysis())
+   if(gui && CanConfigureAnalysis())
      gui->SetAutoSaveConfig(filename, interval, compression, enabled, overwrite);
 }
 
 void TGo4Script::AnalysisConfigName(const char* filename)
 {
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
-   if((gui!=0) && CanConfigureAnalysis())
+   if(gui && CanConfigureAnalysis())
       gui->SetAnalysisConfigFile(filename);
 }
 
@@ -925,11 +931,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    fs << std::endl;
 
-   bool isanalysis = (anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer();
-   if (!isanalysis && (serv!=0) && (serv!=anal)) isanalysis = true;
+   bool isanalysis = anal && anal->IsAnalysisReady() && !anal->IsAnalysisServer();
+   if (!isanalysis && serv && (serv != anal)) isanalysis = true;
 
+   // start analysis configuration
    if (isanalysis) {
-// start analysis configuration
    fs << "go4->LaunchAnalysis(\"" << go4sett->getClientName().toLatin1().constData() << "\", \""
                                   << go4sett->getClientDir().toLatin1().constData() <<  "\", \""
                                   << go4sett->getClientExec().toLatin1().constData() << "\", \""
@@ -1119,7 +1125,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    fs << "go4->SetAnalysisTerminalMode(" << mode << ");" << std::endl << std::endl;
 // end analysis configuration
    } else
-   if ((anal!=0) && anal->IsAnalysisReady() && anal->IsAnalysisServer()) {
+   if (anal && anal->IsAnalysisReady() && anal->IsAnalysisServer()) {
       fs << "go4->ConnectAnalysis(\""
          << go4sett->getClientNode().toLatin1().constData() << "\", "
          << go4sett->getClientPort() << ", "

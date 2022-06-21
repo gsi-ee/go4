@@ -133,7 +133,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
       tooltip = "Refresh parameter values from source";
       AddLink(itemname, "Parameter");
       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",2));
-      if (par!=0) RefreshWidget(par);
+      if (par) RefreshWidget(par);
    }
 
    RefreshButton->setIcon(QIcon(iconname));
@@ -193,7 +193,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
    delete fItems;
    fItems = nullptr;
 
-   if (status!=0) {
+   if (status) {
       fItems = status->GetMemberValues(kTRUE);
       ParamClassLbl->setText(QString(" - ") + status->GetObjectClass());
    }
@@ -420,16 +420,17 @@ void TGo4ParaEdit::saveFile()
 {
    TGo4LockGuard lock;
 
-   if (fItems==0) return;
+   if (!fItems) return;
 
    if (GetLinkedName("Parameter")!=0) {
       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
-      if (par==0) return;
+      if (!par) return;
       if (par->SetMemberValues(fItems))
          if (SaveItemToFile(GetLinkedName("Parameter"), "Parameters"))
             PleaseUpdateLabel->setVisible(false);
-   } else
-   if (fItemName.length()>0) {
+
+   } else if (fItemName.length() > 0) {
+
       const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
       if (!parclass) return;
       if (!gROOT->GetClass(parclass)) {

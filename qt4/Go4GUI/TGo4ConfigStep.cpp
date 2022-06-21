@@ -139,8 +139,8 @@ void TGo4ConfigStep::InputArguments(const QString& Arg)
     TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
     int ParId=SourcePar->GetID();
     if (ParId==GO4EV_USER){                    // user defined source class
-        TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
-        if (usrpar!=0)
+        TGo4UserSourceParameter* usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
+        if (usrpar)
            usrpar->SetExpression(Arg.trimmed().toLatin1().constData());
     }
 }
@@ -169,14 +169,14 @@ void TGo4ConfigStep::InputPortChanged(int port)
       case GO4EV_MBS_EVENTSERVER:
       case GO4EV_MBS_REVSERV: {
          TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
-         if (par!=0)
+         if (par)
             par->SetPort(port);
          break;
       }
 
       case GO4EV_USER: { // user defined source class
          TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
-         if (usrpar!=0)
+         if (usrpar)
             usrpar->SetPort(port);
          break;
       }
@@ -201,7 +201,7 @@ void TGo4ConfigStep::RetryCntChanged(int cnt)
       case GO4EV_MBS_EVENTSERVER:
       case GO4EV_MBS_REVSERV: {
          TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
-         if (par!=0)
+         if (par)
             par->SetRetryCnt(cnt);
          break;
       }
@@ -771,7 +771,7 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
                 // tagfile only for mbs lmd file
    TGo4MbsFileParameter* filpar = dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
 
-   if (filpar==0) return;
+   if (!filpar) return;
 
    if(tag.isEmpty())
       filpar->SetTagName(TGo4MbsFile__fgcNOTAGFILE);
@@ -786,7 +786,7 @@ void TGo4ConfigStep::ChangeStartEvent( int num )
    // only for mbs sources
    TGo4MbsSourceParameter* par =
       dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-   if (par!=0) par->SetStartEvent(num);
+   if (par) par->SetStartEvent(num);
 }
 
 void TGo4ConfigStep::ChangeStopEvent( int num )
@@ -796,7 +796,7 @@ void TGo4ConfigStep::ChangeStopEvent( int num )
   // only for mbs sources
   TGo4MbsSourceParameter* par =
      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-  if (par!=0) par->SetStopEvent(num);
+  if (par) par->SetStopEvent(num);
 }
 
 void TGo4ConfigStep::ChangeEventInterval( int num )
@@ -806,7 +806,7 @@ void TGo4ConfigStep::ChangeEventInterval( int num )
    // only for mbs sources
    TGo4MbsSourceParameter* par =
       dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-   if (par!=0) par->SetEventInterval(num);
+   if (par) par->SetEventInterval(num);
 }
 
 void TGo4ConfigStep::ChangeSourceTimeout( int tim )
@@ -814,7 +814,7 @@ void TGo4ConfigStep::ChangeSourceTimeout( int tim )
    if (fBlocked) return;
 
    TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
-   if (sourcepar!=0)
+   if (sourcepar)
       sourcepar->SetTimeout(tim);
 }
 
@@ -822,7 +822,7 @@ void TGo4ConfigStep::InputFileDialog()
 {
    QString filters;
    bool mbsfilemode = false;
-   if(fStepStatus!=0) {
+   if(fStepStatus) {
        TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
        if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
           filters = "Go4FileSource  (*.root)";
@@ -955,7 +955,6 @@ void TGo4ConfigStep::SetMbsRetryCnt(int retry)
    SpinBoxRetryNumber->setValue(retry > 0 ? retry : 0);
 }
 
-
 void TGo4ConfigStep::SetRandomSource()
 {
    EventSourceCombo->setCurrentIndex(kind_MbsRandom);
@@ -993,7 +992,7 @@ int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int&
       case GO4EV_MBS_EVENTSERVER:
       case GO4EV_MBS_REVSERV: {
          TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-         if (par!=0) {
+         if (par) {
             nport = SpinBoxPortNumber->value();
             nretry = SpinBoxRetryNumber->value();
          }
