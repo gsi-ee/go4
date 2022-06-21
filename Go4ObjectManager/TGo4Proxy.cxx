@@ -43,7 +43,7 @@ const char* TGo4Access::GetObjectClassName() const
 
 Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 {
-   if ((rcv==0) || IsRemote()) return 0;
+   if (!rcv || IsRemote()) return 0;
    TObject* obj = nullptr;
    Bool_t owner = kFALSE;
    if (!GetObject(obj, owner)) return 0;
@@ -77,7 +77,7 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
    // do it for known ROOT and Go4 classes
    // General idea of such method - avoid automatic load of custom libraries into the GUI
 
-   if ((classname==0) || (*classname==0)) return 0;
+   if (!classname || (*classname == 0)) return nullptr;
 
    TClass* cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
 

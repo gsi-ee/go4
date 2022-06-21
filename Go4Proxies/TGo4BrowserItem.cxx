@@ -72,35 +72,35 @@ void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy* br, TGo4RootBrowserProxy* br2
 
 TGo4BrowserItem* TGo4BrowserItem::firstChild()
 {
-    if (fIter!=0) delete fIter;
+    if (fIter) delete fIter;
     fIter = GetListOfFolders()->MakeIterator();
     return (TGo4BrowserItem*) fIter->Next();
 }
 
 TGo4BrowserItem* TGo4BrowserItem::nextChild()
 {
-    if (fIter==0) return 0;
+    if (!fIter) return nullptr;
     TGo4BrowserItem* res = dynamic_cast<TGo4BrowserItem*> (fIter->Next());
-    if (res==0) { delete fIter; fIter = 0; }
+    if (!res) { delete fIter; fIter = nullptr; }
     return res;
 }
 
 void TGo4BrowserItem::deleteChild(TGo4BrowserItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    Remove(item);
    delete item;
 }
 
 void TGo4BrowserItem::deleteChilds()
 {
-   if (fIter!=0) { delete fIter; fIter = 0; }
+   if (fIter) { delete fIter; fIter = nullptr; }
    GetListOfFolders()->Delete();
 }
 
 void TGo4BrowserItem::ProduceFullName(TString& fullname)
 {
-   if (GetParent()!=0) {
+   if (GetParent()) {
      GetParent()->ProduceFullName(fullname);
      if (fullname.Length()>0) fullname+="/";
      fullname += GetName();
@@ -209,7 +209,7 @@ void TGo4BrowserItem::StartAnalysis()
 void TGo4BrowserItem::StopAnalysis()
 {
    TGo4ServerProxy* anal = fBrowser->FindServer();
-   if (anal!=0)
+   if (anal)
       anal->StopAnalysis();
 }
 

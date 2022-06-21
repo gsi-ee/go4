@@ -487,9 +487,9 @@ Bool_t TGo4BrowserProxy::IsClipboard()
 
 void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
 {
-   if (fxClipboard==0) return;
+   if (!fxClipboard) return;
 
-   for(Int_t n=0;n<=fxClipboard->GetLast();n++)
+   for (Int_t n = 0; n <= fxClipboard->GetLast(); n++)
       ProduceExplicitCopy(fxClipboard->At(n)->GetName(), tgtpath, forcerequest);
 }
 
@@ -511,7 +511,7 @@ void TGo4BrowserProxy::AddServerProxy(TGo4ServerProxy* serv, const char* slotnam
 
 Bool_t TGo4BrowserProxy::ConnectDabc(const char* nodename)
 {
-   if ((nodename==0) || (*nodename==0)) return kFALSE;
+   if (!nodename || (*nodename==0)) return kFALSE;
 
    TGo4DabcProxy* proxy = new TGo4DabcProxy();
    if (!proxy->Connect(nodename)) {
@@ -558,7 +558,7 @@ Bool_t TGo4BrowserProxy::ConnectHServer(const char* servername,
 
 void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
 {
-   if (arr==0) return;
+   if (!arr) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
@@ -566,14 +566,14 @@ void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4DirProxy* pr = dynamic_cast<TGo4DirProxy*> (subslot->GetProxy());
-      if ((pr!=0) && pr->IsFile())
+      if (pr && pr->IsFile())
         arr->Add(pr);
    }
 }
 
 void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
 {
-   if (arr==0) return;
+   if (!arr) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
@@ -581,13 +581,13 @@ void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4HServProxy* pr = dynamic_cast<TGo4HServProxy*> (subslot->GetProxy());
-      if (pr!=0) arr->Add(pr);
+      if (pr) arr->Add(pr);
    }
 }
 
 void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
 {
-   if (arr==0) return;
+   if (!arr) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
@@ -595,13 +595,13 @@ void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (subslot->GetProxy());
-      if (pr!=0) arr->Add(pr);
+      if (pr) arr->Add(pr);
    }
 }
 
 void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
 {
-   if (arr==0) return;
+   if (!arr) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
@@ -609,7 +609,7 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (subslot->GetProxy());
-      if ((pr==0) || strcmp(pr->GetContainedClassName(),"TGo4ServerProxy")) continue;
+      if (!pr || strcmp(pr->GetContainedClassName(),"TGo4ServerProxy")) continue;
 
       if ((strncmp(pr->GetServerName(),"http://",7)==0) ||
           (strncmp(pr->GetServerName(),"https://",8)==0)) arr->Add(pr);
@@ -857,7 +857,7 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TStr
    TGo4ServerProxy* serv = !servslot ? nullptr :
       dynamic_cast<TGo4ServerProxy*>(servslot->GetProxy());
    if (!serv) return nullptr;
-   if (onlyanalysis && !serv->IsGo4Analysis()) return 0;
+   if (onlyanalysis && !serv->IsGo4Analysis()) return nullptr;
    if (objname) *objname = objectname;
    return serv;
 }
@@ -1434,7 +1434,7 @@ TClass* TGo4BrowserProxy::ItemClass(const char* name)
 
 const char* TGo4BrowserProxy::ItemClassName(TGo4Slot* slot)
 {
-   return !slot ? 0 : slot->GetPar("GUI::Class");
+   return !slot ? nullptr : slot->GetPar("GUI::Class");
 }
 
 const char* TGo4BrowserProxy::ItemClassName(const char* name)
@@ -1506,7 +1506,6 @@ bool TGo4BrowserProxy::CanInfoItem(int cando)
 {
    return (cando % 1000000) / 100000 > 0;
 }
-
 
 bool TGo4BrowserProxy::CanCloseItem(int cando)
 {
@@ -1614,7 +1613,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
       if (pic) pic->Reset(); // picture has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGraph::Class())) {
-      TGraph* gr= dynamic_cast<TGraph*>(ob);
+      TGraph* gr = dynamic_cast<TGraph*>(ob);
       if (gr) {
          Int_t pn = gr->GetN();
          gr->Set(0); // clear array of points
@@ -1625,8 +1624,8 @@ void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
      TMultiGraph* mg = dynamic_cast<TMultiGraph*>(ob);
      if (mg) {
         TIter liter(mg->GetListOfGraphs());
-        TGraph* gr = 0;
-        while(( gr = (TGraph*) liter())!=0) {
+        TGraph* gr = nullptr;
+        while(( gr = (TGraph*) liter()) != nullptr) {
            Int_t pn = gr->GetN();
            gr->Set(0); // clear array of points
            gr->Set(pn); // this should set all to 0
@@ -1692,6 +1691,7 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot* slot)
 void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char* picitemname)
 {
    if (!pic) return;
+
    if (pic->IsDivided())
       for(Int_t posy=0; posy<pic->GetDivY(); posy++)
          for(Int_t posx=0; posx<pic->GetDivX(); posx++)
@@ -1882,7 +1882,6 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
       // go to top folders and remove rest items
       Int_t levelchange = iter.levelchange();
-//      std::cout << "    " << iter.getname() << " levelchange = " << levelchange << std::endl;
 
       while (levelchange++ < 0) {
           while (curslot) {
@@ -1893,8 +1892,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
           curslot = curfold->GetNext();
           curfold = curfold->GetParent();
-          if (curfold==0) break;
-//          std::cout << "cd .. ; folder = " << curfold->GetName() << std::endl;
+          if (!curfold) break;
       }
 
       if (!res) break;
@@ -1945,7 +1943,6 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
       if (iter.isfolder()) {
          curfold = curslot;
-//         std::cout << "cd ++ ; folder = " << curfold->GetName() << std::endl;
          curslot = curfold->GetChild(0);
       } else {
          curslot->DeleteChilds();
@@ -2085,7 +2082,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
       if ((num1>num2/2) || (num1<2)) return 0;
 
       Int_t rebin = num2/num1;
-      if (rebin==0) return 0;
+      if (rebin == 0) return 0;
 
       // support only uniform scale rebinning
       if ((ax1->GetXbins()->GetSize()!=0) || (ax2->GetXbins()->GetSize()!=0)) return 0;
@@ -2361,7 +2358,6 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
       oldhis->GetXaxis()->SetTitle(newhis->GetXaxis()->GetTitle());
       oldhis->GetYaxis()->SetTitle(newhis->GetYaxis()->GetTitle());
    }
-
 }
 
 

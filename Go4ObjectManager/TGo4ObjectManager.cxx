@@ -514,7 +514,7 @@ Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslo
 
    Int_t res = proxy->AssignObjectTo(this, targetslot);
 
-   if (res<2) delete proxy;
+   if (res < 2) delete proxy;
 
    if ((res==2) && (waittime_millisec>0)) {
 

@@ -225,7 +225,7 @@ void TGo4Slot::DeleteChilds(const char* startedwith)
 
 Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 {
-   if (child==0) return -1;
+   if (!child) return -1;
    for(int n=0;n<NumChilds();n++)
      if (GetChild(n)==child) return n;
    return -1;
@@ -234,36 +234,36 @@ Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 
 TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
 {
-   if (child==0) return 0;
+   if (!child) return nullptr;
    for(int n=0;n<NumChilds()-1;n++)
      if (GetChild(n)==child) return GetChild(n+1);
-   return 0;
+   return nullptr;
 }
 
 TGo4Slot* TGo4Slot::FindChild(const char* name)
 {
-   if ((name==0) || (*name==0)) return 0;
+   if (!name || (*name==0)) return nullptr;
    Int_t num = NumChilds();
    for(Int_t n=0;n<num;n++) {
       TGo4Slot* slot = GetChild(n);
       if (strcmp(slot->GetName(), name)==0) return slot;
    }
-   return 0;
+   return nullptr;
 }
 
 
 TGo4Slot* TGo4Slot::GetNext()
 {
    TGo4Slot* parent = GetParent();
-   return (parent==0) ? 0 : parent->GetNextChild(this);
+   return !parent ? nullptr : parent->GetNextChild(this);
 }
 
 void TGo4Slot::ProduceFullName(TString& name, TGo4Slot* toparent)
 {
-   if ((GetParent()!=0) && (GetParent()!=toparent)) {
+   if (GetParent() && (GetParent() != toparent)) {
       GetParent()->ProduceFullName(name, toparent);
-      if (name.Length()>0) name += "/";
-      name+=GetName();
+      if (name.Length() > 0) name += "/";
+      name += GetName();
    } else
       name = GetName();
 }
@@ -278,16 +278,15 @@ TString TGo4Slot::GetFullName(TGo4Slot* toparent)
 
 TGo4ObjectManager* TGo4Slot::GetOM() const
 {
-  return GetParent() ? GetParent()->GetOM() : 0;
+  return GetParent() ? GetParent()->GetOM() : nullptr;
 }
 
 void TGo4Slot::CleanProxy()
 {
-    if (fProxy!=0) {
-//       Info("CleanProxy","Proxy %s", fProxy->ClassName());
+    if (fProxy) {
        fProxy->Finalize(this);
        delete fProxy;
-       fProxy = 0;
+       fProxy = nullptr;
     }
 }
 
@@ -297,11 +296,11 @@ void TGo4Slot::SetProxy(TGo4Proxy* cont)
 
     fProxy = cont;
 
-    const char* contclass = (fProxy!=0) ? fProxy->ClassName() : 0;
+    const char* contclass = (fProxy!=0) ? fProxy->ClassName() : nullptr;
 
     SetPar("::ProxyClass", contclass);
 
-    if (fProxy!=0) {
+    if (fProxy) {
       fProxy->Initialize(this);
       Event(this, evContAssigned);
     }
@@ -309,41 +308,41 @@ void TGo4Slot::SetProxy(TGo4Proxy* cont)
 
 const char* TGo4Slot::GetInfo()
 {
-   const char* info = 0;
-   if (fProxy!=0)
+   const char* info = nullptr;
+   if (fProxy)
      info = fProxy->GetContainedObjectInfo();
-   if (info==0) info = GetTitle();
+   if (!info) info = GetTitle();
    return info;
 }
 
 Int_t TGo4Slot::GetSizeInfo()
 {
    Int_t sz = -1;
-   if (fProxy!=0)
+   if (fProxy)
      sz = fProxy->GetObjectSizeInfo();
    return sz;
 }
 
 Int_t TGo4Slot::GetSlotKind() const
 {
-   return (fProxy!=0) ? fProxy->GetObjectKind() : TGo4Access::kndFolder;
+   return fProxy ? fProxy->GetObjectKind() : TGo4Access::kndFolder;
 }
 
 const char* TGo4Slot::GetSlotClassName() const
 {
-   return (fProxy!=0) ? fProxy->GetContainedClassName() : 0;
+   return fProxy ? fProxy->GetContainedClassName() : nullptr;
 }
 
 Bool_t TGo4Slot::IsAcceptObject(TClass* cl)
 {
-   return fProxy!=0 ? fProxy->IsAcceptObject(cl) : kFALSE;
+   return fProxy ? fProxy->IsAcceptObject(cl) : kFALSE;
 }
 
 Bool_t TGo4Slot::AssignObject(TObject* obj, Bool_t owner)
 {
    fAssignCnt++;
    fAssignFlag = kFALSE;
-   if (fProxy != 0)
+   if (fProxy)
       fAssignFlag = fProxy->AssignObject(this, obj, owner);
    else if (owner)
       delete obj;
@@ -353,39 +352,38 @@ Bool_t TGo4Slot::AssignObject(TObject* obj, Bool_t owner)
 
 TObject* TGo4Slot::GetAssignedObject()
 {
-   return fProxy ? fProxy->GetAssignedObject() : 0;
+   return fProxy ? fProxy->GetAssignedObject() : nullptr;
 }
 
 void TGo4Slot::Update(Bool_t strong)
 {
-   if (fProxy!=0)
+   if (fProxy)
      fProxy->Update(this, strong);
 
-   for(int n=0;n<NumChilds();n++)
-     GetChild(n)->Update(strong);
+   for (int n = 0; n < NumChilds(); n++)
+      GetChild(n)->Update(strong);
 }
-
 
 Bool_t TGo4Slot::HasSubLevels() const
 {
-   if ((fProxy!=0) && fProxy->Use()) return fProxy->HasSublevels();
+   if (fProxy && fProxy->Use()) return fProxy->HasSublevels();
 
    return HasSlotsSubLevels();
 }
 
 Bool_t TGo4Slot::HasSlotsSubLevels() const
 {
-   return NumChilds()>0;
+   return NumChilds() > 0;
 }
 
 TGo4LevelIter* TGo4Slot::MakeLevelIter() const
 {
-   TGo4LevelIter* res = 0;
+   TGo4LevelIter* res = nullptr;
 
-   if ((fProxy!=0) && fProxy->Use())
+   if (fProxy && fProxy->Use())
      res = fProxy->MakeIter();
 
-   if ((res==0) && (NumChilds() > 0)) res = new TGo4SlotIter(this);
+   if (!res && (NumChilds() > 0)) res = new TGo4SlotIter(this);
 
    return res;
 }
@@ -406,7 +404,7 @@ TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
 
 void TGo4Slot::SaveData(TDirectory* dir, Bool_t onlyobjs)
 {
-   if (fProxy!=0)
+   if (fProxy)
      fProxy->WriteData(this, dir, onlyobjs);
 }
 
@@ -415,7 +413,7 @@ void TGo4Slot::ReadData(TDirectory* dir)
    CleanProxy();
 
    const char* contclass = GetPar("::ProxyClass");
-   TClass* cl = (contclass==0) ? nullptr : gROOT->GetClass(contclass);
+   TClass* cl = !contclass ? nullptr : gROOT->GetClass(contclass);
    if (!cl) return;
 
    TGo4Proxy* cont = (TGo4Proxy*) cl->New();
@@ -442,7 +440,7 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
       if ((strlen(slotname)==ulen) && (strncmp(slotname, name, len)==0)) return slot;
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
@@ -501,7 +499,7 @@ TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 
 Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before)
 {
-   if (fChilds==0) return kFALSE;
+   if (!fChilds) return kFALSE;
    Int_t indx1 = !before ? -1 : fChilds->IndexOf(before);
    Int_t indx2 = !slot ? -1 : fChilds->IndexOf(slot);
    if ((indx1<0) || (indx2<0) || (indx1>indx2)) return kFALSE;
@@ -517,7 +515,7 @@ Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before)
 
 Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after)
 {
-   if (fChilds==0) return kFALSE;
+   if (!fChilds) return kFALSE;
    Int_t indx1 = !slot ? -1 : fChilds->IndexOf(slot);
    Int_t indx2 = !after ? -1 : fChilds->IndexOf(after);
    if ((indx1<0) || (indx2<0) || (indx1>indx2)) return kFALSE;
@@ -533,19 +531,19 @@ Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after)
 
 void TGo4Slot::AddChild(TGo4Slot* child)
 {
-   if (child==0) return;
-   if (fChilds==0) fChilds = new TObjArray;
+   if (!child) return;
+   if (!fChilds) fChilds = new TObjArray;
    fChilds->Add(child);
 }
 
 void TGo4Slot::RemoveChild(TGo4Slot* child)
 {
-    if ((child==0) || (fChilds==0)) return;
+    if (!child || !fChilds) return;
     fChilds->Remove(child);
     fChilds->Compress();
     if (fChilds->GetLast()<0) {
        delete fChilds;
-       fChilds = 0;
+       fChilds = nullptr;
     }
 }
 
@@ -553,7 +551,7 @@ void TGo4Slot::Event(TGo4Slot* source, Int_t id, void* param)
 {
    Bool_t doforward = kTRUE;
 
-   if (fProxy!=0)
+   if (fProxy)
      doforward = fProxy->ProcessEvent(this, source, id, param);
 
    if (doforward) ForwardEvent(source, id, param);
@@ -561,16 +559,13 @@ void TGo4Slot::Event(TGo4Slot* source, Int_t id, void* param)
 
 void TGo4Slot::ForwardEvent(TGo4Slot* source, Int_t id, void* param)
 {
-//  std::cout << "ForwardEvent " << id <<" from " << GetName() << " to "
-//       << ((GetParent()!=0) ? GetParent()->GetName() : "null") << std::endl;
-
-  if (GetParent()!=0)
+  if (GetParent())
      GetParent()->Event(source, id, param);
 }
 
 void TGo4Slot::RecursiveRemove(TObject* obj)
 {
-   if (fProxy!=0)
+   if (fProxy)
       if (fProxy->RemoveRegisteredObject(obj))
         delete this;
 }
@@ -585,11 +580,11 @@ void TGo4Slot::Print(Option_t* option) const
 
 void TGo4Slot::SetPar(const char* name, const char* value)
 {
-   if ((name==0) || (*name==0)) return;
-   if (value==0) { RemovePar(name); return; }
+   if (!name || (*name==0)) return;
+   if (!value) { RemovePar(name); return; }
 
    TNamed* par = (TNamed*) fPars.FindObject(name);
-   if (par!=0)
+   if (par)
      par->SetTitle(value);
    else
      fPars.Add(new TNamed(name,value));
@@ -597,16 +592,16 @@ void TGo4Slot::SetPar(const char* name, const char* value)
 
 const char* TGo4Slot::GetPar(const char* name) const
 {
-   if ((name==0) || (*name==0)) return 0;
+   if (!name || (*name==0)) return nullptr;
    TNamed* par = (TNamed*) fPars.FindObject(name);
-   return (par!=0) ? par->GetTitle() : 0;
+   return par ? par->GetTitle() : nullptr;
 }
 
 void TGo4Slot::RemovePar(const char* name)
 {
-   if ((name==0) || (*name==0)) return;
+   if (!name || (*name==0)) return;
    TNamed* par = (TNamed*) fPars.FindObject(name);
-   if (par!=0) {
+   if (par) {
       fPars.Remove(par);
       fPars.Compress();
       delete par;
@@ -623,7 +618,7 @@ void TGo4Slot::SetIntPar(const char* name, Int_t value)
 Bool_t TGo4Slot::GetIntPar(const char* name, Int_t& value)
 {
    const char* strvalue = GetPar(name);
-   if (strvalue==0) return kFALSE;
+   if (!strvalue) return kFALSE;
    value = atoi(strvalue);
    return kTRUE;
 }
@@ -632,14 +627,14 @@ void TGo4Slot::PrintPars(Int_t level)
 {
    for (int n=0;n<=fPars.GetLast();n++) {
       TNamed* par = (TNamed*) fPars.At(n);
-      if (par!=0)
+      if (par)
         printf("%*c%s = %s\n", level, ' ', par->GetName(), par->GetTitle());
    }
 }
 
 const char* TGo4Slot::FindFolderSeparator(const char* name)
 {
-   return name==0 ? 0 : strrchr(name,'/');
+   return !name ? nullptr : strrchr(name,'/');
 }
 
 void TGo4Slot::ProduceFolderAndName(const char* fullname, TString& foldername, TString& objectname)
@@ -647,7 +642,7 @@ void TGo4Slot::ProduceFolderAndName(const char* fullname, TString& foldername, T
    const char* rslash = FindFolderSeparator(fullname);
    foldername = "";
 
-   if (rslash==0) {
+   if (!rslash) {
       objectname = fullname;
    } else {
       foldername.Append(fullname, rslash-fullname);

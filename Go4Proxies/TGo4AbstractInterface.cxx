@@ -26,7 +26,7 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4ServerProxy.h"
 
-TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = 0;
+TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = nullptr;
 
 TString TGo4AbstractInterface::fInitSharedLibs = "";
 
@@ -38,7 +38,10 @@ TGo4AbstractInterface* TGo4AbstractInterface::Instance()
 
 void TGo4AbstractInterface::DeleteInstance()
 {
-   if (fgInstance!=0) delete fgInstance;
+   if (fgInstance) {
+      delete fgInstance;
+      fgInstance = nullptr;
+   }
 }
 
 const char* TGo4AbstractInterface::FileExtension()
@@ -63,8 +66,8 @@ void TGo4AbstractInterface::SetInitSharedLibs(const char* libs)
 
 TGo4AbstractInterface::TGo4AbstractInterface() :
    TObject(),
-   fOM(0),
-   fBrowser(0),
+   fOM(nullptr),
+   fBrowser(nullptr),
    fxCommands()
 {
    fgInstance = this;
@@ -183,13 +186,13 @@ void TGo4AbstractInterface::ConnectDabc(const char* servername)
 
 Bool_t TGo4AbstractInterface::IsAnalysisConnected()
 {
-   return Server()==0 ? kFALSE : Server()->IsConnected();
+   return !Server() ? kFALSE : Server()->IsConnected();
 }
 
 void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 {
    TGo4ServerProxy* anal = Server();
-   if ((anal!=0) && (remotecmd!=0)) {
+   if (anal && remotecmd) {
       anal->ExecuteLine(remotecmd);
       TGo4Log::Message(1, "Exec: %s", remotecmd);
    }
@@ -249,7 +252,7 @@ void TGo4AbstractInterface::RedrawItem(const char* itemname)
 
 TObject* TGo4AbstractInterface::GetObject(const char* itemname, Int_t updatelevel)
 {
-   if ((itemname==0) || (strlen(itemname)==0)) return 0;
+   if (!itemname || (strlen(itemname)==0)) return nullptr;
 
    return Browser()->GetBrowserObject(itemname, updatelevel);
 }
@@ -292,22 +295,22 @@ Bool_t TGo4AbstractInterface::IsHotStart()
 
 const char* TGo4AbstractInterface::NextHotStartCmd()
 {
-   if (fxCommands.IsEmpty()) return 0;
+   if (fxCommands.IsEmpty()) return nullptr;
    TObject* obj = fxCommands.First();
    fxCommands.Remove(obj);
    delete obj;
-   const char* res = 0;
+   const char* res = nullptr;
    do {
-      if (fxCommands.IsEmpty()) return 0;
+      if (fxCommands.IsEmpty()) return nullptr;
       TObjString* str = (TObjString*) fxCommands.First();
       res = str->GetName();
-      if ((res==0) || (strlen(res)==0)) {
-         res = 0;
+      if (!res || (strlen(res)==0)) {
+         res = nullptr;
          fxCommands.Remove(str);
          delete str;
       }
 
-   } while (res == 0);
+   } while (!res);
    return res;
 }
 

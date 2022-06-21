@@ -359,7 +359,7 @@ class TGo4DabcAccess : public TGo4Access {
             TObject *tobj = (TObject*)(pobj+baseOffset);
               // Create an instance of this class
 
-            char* rawbuf(0);
+            char* rawbuf = nullptr;
             Int_t rawbuflen(0);
 
             if (fCompression) {
@@ -386,8 +386,8 @@ class TGo4DabcAccess : public TGo4Access {
                tobj->Streamer(buf);
             } else {
                cl->Destructor(pobj);
-               pobj = 0;
-               tobj = 0;
+               pobj = nullptr;
+               tobj = nullptr;
             }
 
             if (fCompression) free(rawbuf);
@@ -438,7 +438,7 @@ class TReplyTimer : public TTimer {
       {
          double res_tm = -1.;
 
-         TGo4DabcAccess* acc = 0;
+         TGo4DabcAccess* acc = nullptr;
 
          if (!fCmd.null()) {
 
@@ -540,7 +540,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override
       {
-         return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : 0;
+         return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : nullptr;
       }
 
       TGo4Slot* getslot() override { return nullptr; }
@@ -581,8 +581,8 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 TGo4DabcProxy::TGo4DabcProxy() :
    TGo4ServerProxy(),
    fNodeName(),
-   fxHierarchy(0),
-   fxParentSlot(0)
+   fxHierarchy(nullptr),
+   fxParentSlot(nullptr)
 {
 }
 
@@ -701,31 +701,25 @@ TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
 {
    //printf("Make PROXY\n");
 
-   if (fxHierarchy == 0) return 0;
+   if (!fxHierarchy) return nullptr;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 
-   if (hierarchy.null()) return 0;
+   if (hierarchy.null()) return nullptr;
 
-   if ((name==0) || (strlen(name)==0)) {
-      //printf("Create access to current item %s\n", hierarchy.GetName());
+   if (!name || (strlen(name)==0))
       return new TGo4DabcAccess(fNodeName.Data(), hierarchy);
-   }
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
-
-   // DOUT0("CreateREQ %s", name);
 
    return child.null() ? 0 : new TGo4DabcAccess(fNodeName.Data(), child);
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()
 {
-   if (fxHierarchy == 0) return 0;
+   if (!fxHierarchy) return nullptr;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
-
-//   printf("TGo4DabcProxy::MakeIter()\n");
 
    return hierarchy.null() ? 0 : new TGo4DabcLevelIter(hierarchy);
 }
@@ -757,8 +751,8 @@ Bool_t TGo4DabcProxy::RefreshNamesList()
 TGo4DabcProxy::TGo4DabcProxy() :
    TGo4ServerProxy(),
    fNodeName(),
-   fxHierarchy(0),
-   fxParentSlot(0)
+   fxHierarchy(nullptr),
+   fxParentSlot(nullptr)
 {
 }
 
@@ -768,7 +762,7 @@ TGo4DabcProxy::~TGo4DabcProxy()
 
 const char* TGo4DabcProxy::GetDabcVersion()
 {
-   return 0;
+   return nullptr;
 }
 
 Bool_t TGo4DabcProxy::Connect(const char* nodename)
@@ -802,12 +796,12 @@ Bool_t TGo4DabcProxy::HasSublevels() const
 
 TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
 {
-   return 0;
+   return nullptr;
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()
 {
-   return 0;
+   return nullptr;
 }
 
 void TGo4DabcProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)

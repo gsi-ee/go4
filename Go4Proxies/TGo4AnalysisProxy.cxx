@@ -66,7 +66,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
           fxObjName(name),
           fxObjClassName(classname),
           fxFullPath(fullpath),
-          fxReceiver(0),
+          fxReceiver(nullptr),
           fxReceiverPath(),
           fxSubmitTime()
       {

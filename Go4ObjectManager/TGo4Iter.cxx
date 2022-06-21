@@ -17,7 +17,7 @@
 
 TGo4Iter::TGo4Iter() :
    TGo4AccessWrapper(),
-   fSlot(0),
+   fSlot(nullptr),
    fLevels(),
    fStatus(-1),
    fFullName(),
@@ -45,23 +45,23 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 {
    fLevelChange = 0;
 
-   if (fStatus==1) return kFALSE;
+   if (fStatus == 1) return kFALSE;
 
    Int_t lastlevel = level();
 
-   TGo4LevelIter* iter = 0;
+   TGo4LevelIter* iter = nullptr;
 
    Bool_t wasfolder = kFALSE;
 
    if (fStatus==-1) {
-      iter = (fSlot==0) ? 0 : fSlot->MakeLevelIter();
-      if (iter!=0) fLevels.Add(iter);
+      iter = !fSlot ? nullptr : fSlot->MakeLevelIter();
+      if (iter) fLevels.Add(iter);
    } else {
       iter = (TGo4LevelIter*) fLevels.Last();
 
       wasfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
 
-      if ((iter!=0) && wasfolder && goesinto) {
+      if (iter && wasfolder && goesinto) {
          TGo4LevelIter* subiter = iter->subiterator();
          if (subiter!=0) {
             fLevels.Add(subiter);
@@ -70,7 +70,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
       }
    }
 
-   while ((iter!=0) && !iter->next()) {
+   while (iter && !iter->next()) {
       fLevels.Remove(iter);
       delete iter;
       iter = (TGo4LevelIter*) fLevels.Last();
@@ -78,14 +78,14 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 
    fFullName = "";
 
-   if (iter!=0)
+   if (iter)
       for(int n=0;n<=fLevels.GetLast();n++) {
          TGo4LevelIter* it = (TGo4LevelIter*) fLevels.At(n);
          if (n>0) fFullName.Append("/");
          fFullName.Append(it->name());
       }
 
-   fStatus = (iter!=0) ? 0 : 1;
+   fStatus = iter ? 0 : 1;
 
    fLevelChange = level() - lastlevel;
 
@@ -95,7 +95,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 
    if (wasfolder) fLevelChange--;
 
-   return (fStatus==0);
+   return fStatus == 0;
 }
 
 Bool_t TGo4Iter::nextobj()
@@ -108,64 +108,63 @@ Bool_t TGo4Iter::nextobj()
 Bool_t TGo4Iter::isfolder()
 {
    TGo4LevelIter* iter = currentiter();
-   return (iter==0) ? kFALSE : (fOnlySlots ? iter->isslotsfolder() : iter->isfolder());
+   return !iter ? kFALSE : (fOnlySlots ? iter->isslotsfolder() : iter->isfolder());
 }
 
 const char* TGo4Iter::getname()
 {
    TGo4LevelIter* iter = currentiter();
-   return iter==0 ? 0 : iter->name();
+   return !iter ? nullptr : iter->name();
 }
 
 const char* TGo4Iter::getinfo()
 {
    TGo4LevelIter* iter = currentiter();
-   return iter==0 ? 0 : iter->info();
+   return !iter ? nullptr : iter->info();
 }
 
 Int_t TGo4Iter::getsizeinfo()
 {
    TGo4LevelIter* iter = currentiter();
-   return iter==0 ? 0 : iter->sizeinfo();
+   return !iter ? 0 : iter->sizeinfo();
 }
 
 Int_t TGo4Iter::getflag(const char* flagname)
 {
    TGo4LevelIter* iter = currentiter();
-   return ((iter==0) || (flagname==0)) ? -1 : iter->getflag(flagname);
+   return (!iter || !flagname) ? -1 : iter->getflag(flagname);
 }
 
 Int_t TGo4Iter::getkindofitem()
 {
    TGo4LevelIter* iter = currentiter();
-   return iter==0 ? -1 : iter->GetKind();
+   return !iter ? -1 : iter->GetKind();
 }
 
 const char* TGo4Iter::getclassname()
 {
    TGo4LevelIter* iter = currentiter();
-   return iter==0 ? 0 : iter->GetClassName();
+   return !iter ? nullptr : iter->GetClassName();
 }
-
 
 const char* TGo4Iter::getfullname()
 {
-   return (fStatus!=0) ? 0 : fFullName.Data();
+   return fStatus != 0 ? nullptr : fFullName.Data();
 }
 
 Int_t TGo4Iter::level() const
 {
-   return (fStatus!=0) ? -1 : fLevels.GetLast();
+   return fStatus != 0 ? -1 : fLevels.GetLast();
 }
 
 TGo4Access* TGo4Iter::ProvideAccess(const char* name)
 {
-   return (fStatus!=0) ? 0 : fSlot->ProvideSlotAccess(fFullName.Data());
+   return fStatus != 0 ? nullptr : fSlot->ProvideSlotAccess(fFullName.Data());
 }
 
 TGo4Slot* TGo4Iter::getslot() const
 {
-   if (fStatus!=0) return 0;
+   if (fStatus != 0) return nullptr;
    TGo4LevelIter* iter = (TGo4LevelIter*) fLevels.Last();
-   return iter==0 ? 0 : iter->getslot();
+   return !iter ? nullptr : iter->getslot();
 }
