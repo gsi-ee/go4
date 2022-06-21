@@ -82,10 +82,10 @@ Bool_t TGo4FitSlot::ConnectToSlot(TGo4FitSlot* slot)
 
 Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot)
 {
-  if ((slot==0) || (slot==this)) return kFALSE;
+  if (!slot || (slot==this)) return kFALSE;
   if (!GetClass()->InheritsFrom(slot->GetClass())) return kFALSE;
   TGo4FitSlot* conn = slot;
-  while ( (conn = conn->GetConnectedSlot())!=0)
+  while ((conn = conn->GetConnectedSlot()) != nullptr)
     if (conn == this) return kFALSE;
   return kTRUE;
 }
@@ -93,14 +93,14 @@ Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot)
 void TGo4FitSlot::ClearConnectionToSlot()
 {
    if (IsConnectedToSlot()) {
-     fxObject = 0;
+     fxObject = nullptr;
      fbOwned = kFALSE;
    }
 }
 
 Bool_t TGo4FitSlot::IsSuitable(TObject* obj)
 {
-   if (obj==0) return kFALSE;
+   if (!obj) return kFALSE;
    if (IsConnectedToSlot()) return GetConnectedSlot()->IsSuitable(obj);
                        else return obj->InheritsFrom(GetClass());
 }
@@ -324,18 +324,18 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned)
 
 TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Bool_t iOwned)
 {
-   if (obj==0) return 0;
+   if (!obj) return nullptr;
 
-   if (PlaceName==0) return SetObject(obj, iOwned);
+   if (!PlaceName) return SetObject(obj, iOwned);
 
    const TObjArray* lst = GetSlotList();
 
-   TGo4FitSlot* firstempty = 0, *last = 0;
+   TGo4FitSlot *firstempty = nullptr, *last = nullptr;
    Int_t count = 0;
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if ((slot==0) || !slot->IsSuitable(obj)) continue;
+      if (!slot || !slot->IsSuitable(obj)) continue;
 
       if (strcmp(slot->GetFullName(),PlaceName)==0) { firstempty = slot; count = 1; break; }
 
@@ -346,11 +346,10 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Boo
         }
    }
 
-   if (firstempty!=0) {
+   if (firstempty) {
       firstempty->SetObject(obj, iOwned);
       return firstempty;
-   } else
-   if ((count==1) && (last!=0)) {
+   } else if ((count==1) && last) {
       last->SetObject(obj, iOwned);
       return last;
    }
@@ -360,16 +359,16 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Boo
 
 TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj)
 {
-   if (obj==0) return 0;
+   if (!obj) return nullptr;
 
    const TObjArray* lst = GetSlotList();
 
-   TGo4FitSlot* last = 0;
+   TGo4FitSlot* last = nullptr;
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
-      if (slot==0) continue;
-      if (slot->GetObject()==obj) {
+      if (!slot) continue;
+      if (slot->GetObject() == obj) {
         last=slot;
         if (slot->GetOwned()) return slot;
       }

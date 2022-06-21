@@ -392,19 +392,16 @@ TGo4LevelIter* TGo4Slot::MakeLevelIter() const
 
 TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
 {
-//   std::cout << " TGo4Slot::GetSlotProxy " << name << "  slot = " << GetName()
-//        << " cont = " << (fProxy ? fProxy->ClassName() : "null") << std::endl;
-
-   if ((fProxy!=0) && fProxy->Use())
+   if (fProxy && fProxy->Use())
       return fProxy->ProvideAccess(name);
 
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(this);
+   if (!name || (*name==0)) return new TGo4ObjectAccess(this);
 
-   const char* subname = 0;
+   const char* subname = nullptr;
 
    TGo4Slot* subslot = DefineSubSlot(name, subname);
 
-   return (subslot==0) ? 0 : subslot->ProvideSlotAccess(subname);
+   return !subslot ? nullptr : subslot->ProvideSlotAccess(subname);
 }
 
 void TGo4Slot::SaveData(TDirectory* dir, Bool_t onlyobjs)
@@ -418,8 +415,8 @@ void TGo4Slot::ReadData(TDirectory* dir)
    CleanProxy();
 
    const char* contclass = GetPar("::ProxyClass");
-   TClass* cl = (contclass==0) ? 0 : gROOT->GetClass(contclass);
-   if (cl==0) return;
+   TClass* cl = (contclass==0) ? nullptr : gROOT->GetClass(contclass);
+   if (!cl) return;
 
    TGo4Proxy* cont = (TGo4Proxy*) cl->New();
 
@@ -434,8 +431,8 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
 
    const char* spos = strchr(name,'/');
 
-   if (spos==0) { len = strlen(name); subname=0; }
-           else { len = spos-name; subname=spos+1; }
+   if (!spos) { len = strlen(name); subname = nullptr; }
+         else { len = spos-name; subname = spos+1; }
    UInt_t ulen = (UInt_t) len;
 
    Int_t num = NumChilds();
@@ -450,20 +447,20 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
 
 TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 {
-   if ((name==0) || (*name==0)) return this;
+   if (!name || (*name==0)) return this;
 
-   const char* subname = 0;
+   const char* subname = nullptr;
 
    TGo4Slot* subslot = DefineSubSlot(name, subname);
 
-   if ((subslot==0) && force) {
+   if (!subslot && force) {
       TString newname;
       if (subname==0) newname = name;
                  else newname.Append(name, subname-name-1);
       subslot = new TGo4Slot(this, newname.Data(), "folder");
    }
 
-   return subslot==0 ? 0 : subslot->GetSlot(subname, force);
+   return !subslot ? nullptr : subslot->GetSlot(subname, force);
 }
 
 TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
@@ -481,23 +478,23 @@ TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
    }
 
    TGo4Slot* slot = GetSlot(fullpath);
-   if (slot!=0) {
-      if (subname!=0) *subname = 0;
+   if (slot) {
+      if (subname) *subname = 0;
       return slot;
    }
 
    const char* curname = fullpath;
    TGo4Slot* curslot = this;
 
-   while (curslot!=0) {
-      const char* nextname = 0;
+   while (curslot) {
+      const char* nextname = nullptr;
       TGo4Slot* nextslot = curslot->DefineSubSlot(curname, nextname);
-      if (nextslot==0) break;
+      if (!nextslot) break;
       curslot = nextslot;
       curname = nextname;
    }
 
-   if (subname!=0) *subname = curname;
+   if (subname) *subname = curname;
    return curslot;
 }
 
@@ -505,7 +502,7 @@ TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before)
 {
    if (fChilds==0) return kFALSE;
-   Int_t indx1 = (before==0) ? -1 : fChilds->IndexOf(before);
+   Int_t indx1 = !before ? -1 : fChilds->IndexOf(before);
    Int_t indx2 = (slot==0) ? -1 : fChilds->IndexOf(slot);
    if ((indx1<0) || (indx2<0) || (indx1>indx2)) return kFALSE;
    if (indx1==indx2) return kTRUE;
@@ -522,7 +519,7 @@ Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after)
 {
    if (fChilds==0) return kFALSE;
    Int_t indx1 = (slot==0) ? -1 : fChilds->IndexOf(slot);
-   Int_t indx2 = (after==0) ? -1 : fChilds->IndexOf(after);
+   Int_t indx2 = !after ? -1 : fChilds->IndexOf(after);
    if ((indx1<0) || (indx2<0) || (indx1>indx2)) return kFALSE;
 
    if (indx1==indx2) return kTRUE;

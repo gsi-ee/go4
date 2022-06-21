@@ -218,22 +218,21 @@ void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
 void TGo4ObjectManager::AddProxy(const char* pathname, TGo4Proxy* cont, const char* name, const char* title)
 {
    TGo4Slot* slot = MakeObjSlot(pathname, name, title);
-   if (slot!=0) slot->SetProxy(cont);
-           else delete cont;
+   if (slot) slot->SetProxy(cont);
+        else delete cont;
 }
 
 TGo4Proxy* TGo4ObjectManager::GetProxy(const char* name)
 {
    TGo4Slot* slot = GetSlot(name);
-   return slot==0 ? 0 : slot->GetProxy();
+   return !slot ? nullptr : slot->GetProxy();
 }
-
 
 TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char* name, const char* title)
 {
    TGo4Slot* folder = GetSlot(foldername, kTRUE);
-   if (folder==0) return 0;
-   if (folder->FindChild(name)==0)
+   if (!folder) return nullptr;
+   if (!folder->FindChild(name))
      return new TGo4Slot(folder, name, title);
 
    TString extraname;
@@ -249,7 +248,7 @@ TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char* nam
 
 TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle)
 {
-   if (source==0) return 0;
+   if (!source) return nullptr;
 
    TGo4Slot* slot = MakeObjSlot(pathname, linkname, linktitle);
 
@@ -373,7 +372,7 @@ void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot* star
 
    TDirectory* curdir = f;
 
-   if (startslot==0) startslot = this;
+   if (!startslot) startslot = this;
 
    TGo4Iter iter(startslot, kTRUE);
 
@@ -510,13 +509,13 @@ Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslo
 //         2 when object will be obtained later
 {
    TGo4Slot* tgtslot = GetSlot(targetslot);
-   if (tgtslot==0) return 0;
+   if (!tgtslot) return 0;
 
    TGo4Access* proxy = ProvideSlotAccess(source);
-   if (proxy==0) return 0;
+   if (!proxy) return 0;
 
    TClass* cl = proxy->GetObjectClass();
-   if (cl==0) return 0;
+   if (!cl) return 0;
 
    tgtslot->ResetAssignFlag();
 
