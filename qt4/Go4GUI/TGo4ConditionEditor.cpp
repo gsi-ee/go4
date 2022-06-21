@@ -1075,33 +1075,28 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
    if (!fbTypingMode) return;
    //printf ("CutTable_contextMenuRequested \n");
    QTableWidgetItem* item = CutTable->itemAt (pos);
-   if (item==0) return;
+   if (!item) return;
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
-   if((pcond==0) && (lcond == 0)) return;
+   if(!pcond && !lcond) return;
 
-
-  int maxn=0;
-   if(pcond)
-   {
-     TCutG* cut = pcond->GetCut(kFALSE);
-     if (cut==0)return;
-     maxn=cut->GetN();
-   // only internal points should be allowed to deleted
+   int maxn = 0;
+   if (pcond) {
+      TCutG *cut = pcond->GetCut(kFALSE);
+      if (!cut)
+         return;
+      maxn = cut->GetN();
+      // only internal points should be allowed to deleted
+   } else if (lcond) {
+      maxn = lcond->GetNumValues();
+   } else {
+      return;
    }
-   else if(lcond)
-   {
-     maxn=lcond->GetNumValues();
-   }
-   else
-   {
-     return;
-   }
- int nrow = CutTable->row(item);
+   int nrow = CutTable->row(item);
    QMenu menu(this);
    QSignalMapper map(this);
    AddIdAction(&menu, &map, "Insert point", nrow);
-   AddIdAction(&menu, &map, "Delete point", nrow+1000000, (nrow>0) && (nrow<maxn-1));
+   AddIdAction(&menu, &map, "Delete point", nrow + 1000000, (nrow > 0) && (nrow < maxn - 1));
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuSlot(int)));
    menu.exec(CutTable->mapToGlobal(pos));
 }
@@ -1111,118 +1106,117 @@ void TGo4ConditionEditor::ContextMenuSlot(int id)
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
 
-   if(pcond)
-   {
-   TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
-   if (cut==0) return;
+   if (pcond) {
+      TCutG *cut = !pcond ? nullptr : pcond->GetCut(kFALSE);
+      if (!cut)
+         return;
 
-   if (id>=1000000) { // delete point
-      id-=1000000;
-      cut->RemovePoint(id);
-   } else {           // insert point
-      Int_t npoints = cut->GetN();
-      if (id>=npoints) return;
-      cut->Set(npoints+1);
+      if (id >= 1000000) { // delete point
+         id -= 1000000;
+         cut->RemovePoint(id);
+      } else { // insert point
+         Int_t npoints = cut->GetN();
+         if (id >= npoints)
+            return;
+         cut->Set(npoints + 1);
 
-      Double_t x,y;
+         Double_t x, y;
 
-      for(int n=npoints;n>id;n--) {
-         cut->GetPoint(n-1, x, y);
-         cut->SetPoint(n, x, y);
+         for (int n = npoints; n > id; n--) {
+            cut->GetPoint(n - 1, x, y);
+            cut->SetPoint(n, x, y);
+         }
+
+         if (id > 0) {
+            Double_t x1, y1;
+            cut->GetPoint(id - 1, x1, y1);
+            cut->SetPoint(id, (x1 + x) / 2., (y + y1) / 2.);
+         }
       }
 
-      if (id>0) {
-         Double_t x1, y1;
-         cut->GetPoint(id-1, x1, y1);
-         cut->SetPoint(id, (x1+x)/2., (y+y1)/2.);
-      }
-   }
+      FillCutWidget(cut);
 
-   FillCutWidget(cut);
-
-   }
-   else if(lcond)
-   {
-     if (id>=1000000) { // delete point
-          id-=1000000;
-          lcond->RemoveValue(id);
-       } else {           // insert point
+   } else if (lcond) {
+      if (id >= 1000000) { // delete point
+         id -= 1000000;
+         lcond->RemoveValue(id);
+      } else { // insert point
          Int_t npoints = lcond->GetNumValues();
-         if (id>=npoints) return;
-         int x1=lcond->GetValue(id);
-         int x2=lcond->GetValue(id-1);
-         lcond->InsertValue(id,((x1+x2)/2));
-       }
-     FillListWidget(lcond);
+         if (id >= npoints)
+            return;
+         int x1 = lcond->GetValue(id);
+         int x2 = lcond->GetValue(id - 1);
+         lcond->InsertValue(id, ((x1 + x2) / 2));
+      }
+      FillListWidget(lcond);
    }
    PleaseUpdateSlot();
    RedrawCondition();
 }
 
-
-
 void TGo4ConditionEditor::EllipseTheta_valueChanged(int deg)
 {
-  if (!fbTypingMode) return;
-  //std::cout <<"EllipseTheta_valueChanged to "<< deg << std::endl;
-  EllipseTiltEdit->setText(QString::number(deg));
-  if(fbEllipseAutoRefresh)
-    {
-      TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
-      if(econd) econd->SetTheta((double) deg);
+   if (!fbTypingMode)
+      return;
+   // std::cout <<"EllipseTheta_valueChanged to "<< deg << std::endl;
+   EllipseTiltEdit->setText(QString::number(deg));
+   if (fbEllipseAutoRefresh) {
+      TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
+      if (econd)
+         econd->SetTheta((double)deg);
       PleaseUpdateSlot();
       RedrawCondition();
-    }
-
+   }
 }
-
 
 void TGo4ConditionEditor::EllipseCx_valueChanged(double x)
 {
-  if (!fbTypingMode) return;
-  //std::cout <<"EllipseCx_valueChanged to "<< x << std::endl;
-  if(fbEllipseAutoRefresh)
-    {
-        TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
-        if(econd) {
-            double y=EllipseCySpinbox->value();
-            econd->SetCenter(x, y);
-            PleaseUpdateSlot();
-            RedrawCondition();
-        }
+   if (!fbTypingMode)
+      return;
+   // std::cout <<"EllipseCx_valueChanged to "<< x << std::endl;
+   if (fbEllipseAutoRefresh) {
+      TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
+      if (econd) {
+         double y = EllipseCySpinbox->value();
+         econd->SetCenter(x, y);
+         PleaseUpdateSlot();
+         RedrawCondition();
       }
+   }
 }
 void TGo4ConditionEditor::EllipseCy_valueChanged(double y)
 {
-  if (!fbTypingMode) return;
-  //std::cout <<"EllipseCy_valueChanged to "<< y << std::endl;
-  if(fbEllipseAutoRefresh)
-      {
-          TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
-          if(econd) {
-              double x=EllipseCxSpinbox->value();
-            econd->SetCenter(x,y);
-          }
-          PleaseUpdateSlot();
-          RedrawCondition();
-        }
+   if (!fbTypingMode)
+      return;
+   // std::cout <<"EllipseCy_valueChanged to "<< y << std::endl;
+   if (fbEllipseAutoRefresh) {
+      TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
+      if (econd) {
+         double x = EllipseCxSpinbox->value();
+         econd->SetCenter(x, y);
+      }
+      PleaseUpdateSlot();
+      RedrawCondition();
+   }
 }
-
 
 void TGo4ConditionEditor::EllipseA1_valueChanged(double r1)
 {
-  if (!fbTypingMode) return;
-  //std::cout <<"EllipseA1_valueChanged to "<< r1 << std::endl;
-  if(fbEllipseAutoRefresh) UpdateEllipse();
+   if (!fbTypingMode)
+      return;
+   // std::cout <<"EllipseA1_valueChanged to "<< r1 << std::endl;
+   if (fbEllipseAutoRefresh)
+      UpdateEllipse();
 }
 
 void TGo4ConditionEditor::EllipseA2_valueChanged(double r2)
 {
-  if (!fbTypingMode) return;
-  //std::cout <<"EllipseA2_valueChanged to "<< r2 << std::endl;
-  if(fbEllipseAutoRefresh) UpdateEllipse();
+   if (!fbTypingMode)
+      return;
+   // std::cout <<"EllipseA2_valueChanged to "<< r2 << std::endl;
+   if (fbEllipseAutoRefresh)
+      UpdateEllipse();
 }
-
 
 void TGo4ConditionEditor::EllipseRefreshBox_toggled(bool on)
 {
@@ -1230,8 +1224,6 @@ void TGo4ConditionEditor::EllipseRefreshBox_toggled(bool on)
   //std::cout <<"EllipseRefreshBox_toggled "<< on<< std::endl;
   fbEllipseAutoRefresh=on;
   if(fbEllipseAutoRefresh) UpdateEllipse();
-
-
 }
 
 
@@ -1240,8 +1232,6 @@ void TGo4ConditionEditor::EllipseCircleBox_toggled(bool on)
   if (!fbTypingMode) return;
   //std::cout <<"EllipseCircleBox_toggled "<< on<< std::endl;
   if(fbEllipseAutoRefresh) UpdateEllipse();
-
-
 }
 
 
@@ -1251,7 +1241,7 @@ void TGo4ConditionEditor::EllipseTheta_returnPressed()
   //std::cout <<"EllipseTheta_returnPressed() "<< std::endl;
   bool ok = false;
   Int_t theta = EllipseTiltEdit->text().toInt(&ok);
-  if(theta<0) theta=0;
+  if(theta < 0) theta = 0;
   theta = theta % 360;
   if(ok)
     {
@@ -1268,76 +1258,64 @@ void TGo4ConditionEditor::EllipseNPoints_valueChanged( int npoint )
   if(fbEllipseAutoRefresh) UpdateEllipse();
 }
 
-
 void TGo4ConditionEditor::UpdateEllipse()
 {
+   TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
+   if (!econd) {
+      std::cout << "UpdateEllipse did not find ellipse condition!!!" << std::endl;
+      return;
+   }
 
-  TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
-  if(econd==0){
-    std::cout <<"UpdateEllipse did not find ellipse condition!!!"<< std::endl;
-    return;
-  }
-
-
-
-  if (FreeshapeBox->isChecked())
-  {
+   if (FreeshapeBox->isChecked()) {
       econd->SetFreeShape();
-  }
-  else
-  {
-    double cx = EllipseCxSpinbox->value();
-    double cy = EllipseCySpinbox->value();
-    double a1 = EllipseA1Spinbox->value();
-    double a2 = EllipseA2Spinbox->value();
-    double th = EllipseTiltDial->value();
-    if(econd->IsFreeShape())
-        {
-            // transition from free shape to other form: use polygon geometry to init pars:
-            cx= (econd->GetXUp() + econd->GetXLow())/2; // mean of coordinates is center
-            cy= (econd->GetYUp() + econd->GetYLow())/2;
-            //a1=(econd->GetXUp() - econd->GetXLow())/2; // half diameter is radius
-            //a2=(econd->GetYUp() - econd->GetYLow())/2;
-            // better: use minimum and maximum radial distance
-            TCutG* cut=econd->GetCut(false);
-            Int_t n = cut->GetN();
-            Double_t* xarr=cut->GetX();
-            Double_t* yarr=cut->GetY();
-            TArrayD rarr(n);
-            for (int i=0; i<n; ++i)
-              {
-                rarr[i]= TMath::Sqrt(TMath::Power((xarr[i]-cx),2) + TMath::Power((yarr[i]-cy),2));
-              }
-            Int_t nrmax=TMath::LocMax(n,rarr.GetArray());
-            Int_t nrmin=TMath::LocMin(n,rarr.GetArray());
-            a1=rarr[nrmax];
-            a2=rarr[nrmin];
-            // now evaluate angle:
-            th=0;
-            if(a1){
-                th= TMath::ACos((econd->GetXUp() - cx)/a1) * 180/TMath::Pi();
-            }
-            }
-
-
-    if (CircleBox->isChecked())
-      econd->SetCircle(cx, cy, a1, EllipseNptsSpin->value());
-    else if (EllipseBox->isChecked())
-      econd->SetEllipse(cx, cy, a1, a2, th, EllipseNptsSpin->value());
-    else if (BoxshapeBox->isChecked())
-    {
-      if (econd->IsFreeShape())
-      {
-        // transition to box will use different defaults for extensions, otherwise we always get increasing box
-        a1 = (econd->GetXUp() - econd->GetXLow()) / 2;    // half diameter is radius
-        a2 = (econd->GetYUp() - econd->GetYLow()) / 2;
-        th = 0; // todo: correctly conserve tilt angle when switching to/fro between free and box
+   } else {
+      double cx = EllipseCxSpinbox->value();
+      double cy = EllipseCySpinbox->value();
+      double a1 = EllipseA1Spinbox->value();
+      double a2 = EllipseA2Spinbox->value();
+      double th = EllipseTiltDial->value();
+      if (econd->IsFreeShape()) {
+         // transition from free shape to other form: use polygon geometry to init pars:
+         cx = (econd->GetXUp() + econd->GetXLow()) / 2; // mean of coordinates is center
+         cy = (econd->GetYUp() + econd->GetYLow()) / 2;
+         // a1=(econd->GetXUp() - econd->GetXLow())/2; // half diameter is radius
+         // a2=(econd->GetYUp() - econd->GetYLow())/2;
+         //  better: use minimum and maximum radial distance
+         TCutG *cut = econd->GetCut(false);
+         Int_t n = cut->GetN();
+         Double_t *xarr = cut->GetX();
+         Double_t *yarr = cut->GetY();
+         TArrayD rarr(n);
+         for (int i = 0; i < n; ++i) {
+            rarr[i] = TMath::Sqrt(TMath::Power((xarr[i] - cx), 2) + TMath::Power((yarr[i] - cy), 2));
+         }
+         Int_t nrmax = TMath::LocMax(n, rarr.GetArray());
+         Int_t nrmin = TMath::LocMin(n, rarr.GetArray());
+         a1 = rarr[nrmax];
+         a2 = rarr[nrmin];
+         // now evaluate angle:
+         th = 0;
+         if (a1) {
+            th = TMath::ACos((econd->GetXUp() - cx) / a1) * 180 / TMath::Pi();
+         }
       }
 
-      econd->SetBox(cx, cy, a1, a2, th);
-    }
-    } // no freeshape selected
-  PleaseUpdateSlot();
-  RedrawCondition();
-  FillEllipseWidget(econd);
+      if (CircleBox->isChecked())
+         econd->SetCircle(cx, cy, a1, EllipseNptsSpin->value());
+      else if (EllipseBox->isChecked())
+         econd->SetEllipse(cx, cy, a1, a2, th, EllipseNptsSpin->value());
+      else if (BoxshapeBox->isChecked()) {
+         if (econd->IsFreeShape()) {
+            // transition to box will use different defaults for extensions, otherwise we always get increasing box
+            a1 = (econd->GetXUp() - econd->GetXLow()) / 2; // half diameter is radius
+            a2 = (econd->GetYUp() - econd->GetYLow()) / 2;
+            th = 0; // todo: correctly conserve tilt angle when switching to/fro between free and box
+         }
+
+         econd->SetBox(cx, cy, a1, a2, th);
+      }
+   } // no freeshape selected
+   PleaseUpdateSlot();
+   RedrawCondition();
+   FillEllipseWidget(econd);
 }

@@ -105,7 +105,7 @@ void TGo4EditDynEntry::RefreshWidget()
 
    TGo4BrowserProxy* br = Browser();
 
-   if ((entry==0) || (br==0)) return;
+   if (!entry || !br) return;
 
    fiSelectedType = entry_None;
 
@@ -123,7 +123,7 @@ void TGo4EditDynEntry::RefreshWidget()
 
    const char* entryitem = GetLinkedName("Entry");
 
-   if (hentry!=0) {
+   if (hentry) {
        fiSelectedType = entry_Histogram;
 
        EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), true);
@@ -169,8 +169,9 @@ void TGo4EditDynEntry::RefreshWidget()
        if (fname.length()>0) fname += "/";
        fname += hentry->GetConVarName(1);
        ConYnameEdit->setText(fname);
-   } else
-   if (tentry!=0) {
+
+   } else if (tentry) {
+
        fiSelectedType = entry_Tree;
 
        EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), false);
@@ -224,7 +225,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
       dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
    const char* oldname = GetLinkedName("Entry");
 
-   if ((entry!=0) && (oldname!=0) && PleaseUpdateLabel->isVisible()) {
+   if (entry && oldname && PleaseUpdateLabel->isVisible()) {
 
       int res = QMessageBox::warning(this, "Dynamic list entry editor",
         QString("Current entry ")+oldname+" is modified!\n New entry" +
@@ -261,7 +262,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
 
 void TGo4EditDynEntry::DropHistogram(const char * itemname)
 {
-   if (itemname==0) return;
+   if (!itemname) return;
 
    EntryChangedSlot();
 
@@ -274,9 +275,9 @@ void TGo4EditDynEntry::DropHistogram(const char * itemname)
 
    TGo4HistogramEntry* hentry = dynamic_cast<TGo4HistogramEntry*> (entry);
    TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (entry);
-   if (hentry!=0)
+   if (hentry)
       hentry->SetHistogramName(itemname);
-   if (tentry!=0)
+   if (tentry)
       tentry->SetHistogramName(itemname);
 }
 
@@ -291,7 +292,7 @@ void TGo4EditDynEntry::DropCondition( const char * itemname )
    EntryTabs->setCurrentIndex(EntryTabs->indexOf(ConditionTab));
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if (hentry!=0)
+   if (hentry)
      hentry->SetConditionName(itemname);
 }
 
@@ -305,7 +306,7 @@ void TGo4EditDynEntry::DropTree( const char * itemname )
 
    TGo4TreeHistogramEntry* tentry =
      dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
-   if (tentry!=0)
+   if (tentry)
      tentry->SetTreeName(itemname);
 }
 
@@ -404,7 +405,7 @@ void TGo4EditDynEntry::CutExprEdit_dropped()
 
 void TGo4EditDynEntry::ProcessDropEvent(QGo4LineEdit* edt)
 {
-   if ((edt==0) || (Browser()==0)) return;
+   if (!edt || !Browser()) return;
 
    QString value = edt->text();
 
@@ -418,7 +419,7 @@ void TGo4EditDynEntry::ProcessDropEvent(QGo4LineEdit* edt)
 
    QString serachfor("EventObjects/Events/");
    int pos = value.indexOf(serachfor);
-   if (pos<0) {
+   if (pos < 0) {
       edt->setText("");
       return;
    }
@@ -430,7 +431,7 @@ void TGo4EditDynEntry::ProcessDropEvent(QGo4LineEdit* edt)
 
 void TGo4EditDynEntry::ProcessTreeDropEvent(QGo4LineEdit* edt)
 {
-   if ((edt==0) || (Browser()==0)) return;
+   if (!edt || !Browser()) return;
 
    QString value = edt->text();
 
