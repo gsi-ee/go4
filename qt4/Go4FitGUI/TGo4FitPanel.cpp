@@ -4483,7 +4483,7 @@ TGo4FitPeakFinder* TGo4FitPanel::GetPeakFinder(bool autocreate)
       return finder;
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4FitData* TGo4FitPanel::Wiz_SelectedData()
@@ -4762,9 +4762,9 @@ int TGo4FitPanel::GetPadIndexForSlot(TGo4FitSlot* slot)
 
 TPad* TGo4FitPanel::FindPadForSlot(TGo4FitSlot* slot)
 {
-   if (!WorkingWithPanel()) return 0;
+   if (!WorkingWithPanel()) return nullptr;
    int indx = GetPadIndexForSlot(slot);
-   return (indx<0) ? 0 : ActivePanel()->GetSubPad(ActivePad(), indx, true);
+   return (indx < 0) ? nullptr : ActivePanel()->GetSubPad(ActivePad(), indx, true);
 }
 
 TPad* TGo4FitPanel::FindPadWhereData(TGo4FitData* data)

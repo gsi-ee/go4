@@ -27,8 +27,8 @@ QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WindowFlags fl ) 
    setObjectName(name ? name : "QFitWidget");
    resize( QSize(533, 405).expandedTo(minimumSizeHint()) );
 
-   fxPanel = 0;
-   fxItem = 0;
+   fxPanel = nullptr;
+   fxItem = nullptr;
    fbFillWidget = false;
 }
 
@@ -50,20 +50,21 @@ QFitItem* QFitWidget::GetItem()
 
 TObject * QFitWidget::GetObject()
 {
-   if(GetItem()) return GetItem()->Object();
-            else return 0;
+   if(GetItem())
+      return GetItem()->Object();
+   return nullptr;
 }
 
 TGo4Fitter* QFitWidget::GetFitter()
 {
-   return fxPanel==0 ? 0 : fxPanel->GetFitter();
+   return !fxPanel ? nullptr : fxPanel->GetFitter();
 }
 
 void QFitWidget::FillWidget()
 {
-  fbFillWidget = true;
-  FillSpecificData();
-  fbFillWidget = false;
+   fbFillWidget = true;
+   FillSpecificData();
+   fbFillWidget = false;
 }
 
 void QFitWidget::FillSpecificData()
@@ -72,7 +73,7 @@ void QFitWidget::FillSpecificData()
 
 void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
 {
-  if ((GetItem()==0) || (fxPanel==0)) return;
+  if (!GetItem() || !fxPanel) return;
 
   QSignalMapper map(this);
   connect(&map, SIGNAL(mapped(int)), fxPanel, SLOT(ItemMenuItemSelected(int)));
@@ -82,7 +83,7 @@ void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
   if (fxPanel->FillPopupForItem(GetItem(),&menu, &map)) {
      fxPanel->CurrFitItem = GetItem();
      menu.exec(ev->globalPos());
-     fxPanel->CurrFitItem = 0;
+     fxPanel->CurrFitItem = nullptr;
   }
 }
 
@@ -101,5 +102,5 @@ void QFitWidget::SetWidgetItemText(bool trace)
 void QFitWidget::UpdateItemsOfType(int typ, bool allitems)
 {
    if (fxPanel)
-      fxPanel->UpdateItemsOfType(typ, allitems ? 0 : GetItem());
+      fxPanel->UpdateItemsOfType(typ, allitems ? nullptr : GetItem());
 }

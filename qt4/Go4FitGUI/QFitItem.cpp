@@ -46,22 +46,22 @@ QFitItem* QFitItem::DefineWidgetItem()
 {
    QFitItem* item = this;
 
-   while (item!=0) {
+   while (item) {
      if (item->WidgetType()!=-1) return item;
      item = item->Parent();
    }
-   return 0;
+   return nullptr;
 }
 
 QFitItem* QFitItem::DefineGraphItem()
 {
   QFitItem* item = this;
 
-  while (item!=0) {
+  while (item) {
     if (item->GraphType()!=-1) return item;
     item = item->Parent();
   }
-  return 0;
+  return nullptr;
 }
 
 bool QFitItem::FindInParents(QFitItem* item)
@@ -69,7 +69,7 @@ bool QFitItem::FindInParents(QFitItem* item)
    QFitItem* i = this;
    i = i->Parent();
 
-   while (i!=0) {
+   while (i) {
      if (i==item) return true;
      i = i->Parent();
    }
