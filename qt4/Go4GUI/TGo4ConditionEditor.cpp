@@ -144,7 +144,7 @@ void TGo4ConditionEditor::DropItem(const char* itemname, TClass* cl, int kind)
 //      GetLinked("Histogram", 1);
 //
 //      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-//      if (cond!=0) {
+//      if (cond) {
 //         cond->SetHistogram(itemname);
 //         cond->SetHistogramLink(kTRUE);
 //      }
@@ -157,9 +157,9 @@ void TGo4ConditionEditor::DropItem(const char* itemname, TClass* cl, int kind)
 
 void TGo4ConditionEditor::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Condition")==0) {
+   if (strcmp(linkname,"Condition") == 0) {
       TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
-      if (cond!=0) cond->SetChanged(kFALSE);
+      if (cond) cond->SetChanged(kFALSE);
    }
 
    RefreshWidget(false);
@@ -176,7 +176,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
    const char* conditemname = GetLinkedName("Condition");
 
    TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
-   if ((con!=0) && (con->IsChanged()!=0) && (strcmp(conditemname,itemname)!=0)) {
+   if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname)!=0)) {
 
       int res = QMessageBox::warning(this, "Condition editor",
         QString("Current condition %1 is modified!\n"
@@ -188,7 +188,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
 //      if (res==2) UpdateItemInAnalysis(conditemname);
    }
 
-   if ((conditemname==0) || (strcmp(conditemname,itemname)!=0)) {
+   if (!conditemname || (strcmp(conditemname,itemname)!=0)) {
       ResetWidget();
       CondNameLbl->setText(itemname);
       AddLink(itemname, "Condition");
@@ -258,7 +258,7 @@ void TGo4ConditionEditor::ResetWidget()
 void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return;
+   if (!cond) return;
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
@@ -278,7 +278,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       if (checkindex) {
          QString selname = panel->GetSelectedMarkerName(pad);
          int selindex = panel->GetSelectedMarkerIndex(pad);
-         if (selname==cond->GetName())
+         if (selname == cond->GetName())
            fiSelectedIndex = selindex;
       }
    }
@@ -406,7 +406,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       Win2_up->setText("");
    }
 
-   if (wcond!=0) {
+   if (wcond) {
       Win1_low->setEnabled(true);
       Win1_up->setEnabled(true);
       Win2_low->setEnabled(wcond->GetDimension()==2);
@@ -418,51 +418,47 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       Win2_up->setDisabled(true);
    }
 
-   ShowEllipseWidget(econd!=0); // hide all elements on shape tab to reduce minimum window size
+   ShowEllipseWidget(econd != nullptr); // hide all elements on shape tab to reduce minimum window size
    int oldindex = CondTabs->currentIndex();
    CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
    CondTabs->setCurrentIndex(oldindex);
 
-  if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
+  if (!pcond && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
      CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing from polycond type
 
-  if ((econd==0) && (pcond!=0) &&  (CondTabs->currentIndex()==2))
+  if (!econd && pcond && (CondTabs->currentIndex()==2))
       CondTabs->setCurrentIndex(1); // switch to polycond defaults when changing from shape type
 
-  if(lcond!=0)
+  if(lcond)
     CondTabs->setCurrentIndex(1);
 
-   CondTabs->setTabEnabled(1, (pcond!=0 || (lcond!=0)));
-   CondTabs->setTabEnabled(2, (econd!=0));
+   CondTabs->setTabEnabled(1, pcond || lcond);
+   CondTabs->setTabEnabled(2, econd != nullptr);
 
-   CondTabs->setTabEnabled(3, (lcond==0));
-   CondTabs->setTabEnabled(4, (lcond==0));
-   CondTabs->setTabEnabled(5, (lcond==0));
+   CondTabs->setTabEnabled(3, !lcond);
+   CondTabs->setTabEnabled(4, !lcond);
+   CondTabs->setTabEnabled(5, !lcond);
 
-  if (pcond != 0)
-  {
-    FillCutWidget(pcond->GetCut(kFALSE));
-    CondTabs->setTabText(1,"Cut");
-    if (econd != 0)
-    {
-      FillEllipseWidget(econd);
-      if (fbNewWindow) CondTabs->setCurrentIndex(2);
-    }
-    else
-    {
-      if (fbNewWindow) CondTabs->setCurrentIndex(1);
-    }
-  }
-  else if (lcond !=0)
-  {
-    FillListWidget(lcond);
-    CondTabs->setTabText(1,"Values");
-    if (fbNewWindow) CondTabs->setCurrentIndex(1);
-  }
-  else
-  {
-    if (fbNewWindow) CondTabs->setCurrentIndex(0);
-  }
+   if (pcond) {
+      FillCutWidget(pcond->GetCut(kFALSE));
+      CondTabs->setTabText(1, "Cut");
+      if (econd) {
+         FillEllipseWidget(econd);
+         if (fbNewWindow)
+            CondTabs->setCurrentIndex(2);
+      } else {
+         if (fbNewWindow)
+            CondTabs->setCurrentIndex(1);
+      }
+   } else if (lcond) {
+      FillListWidget(lcond);
+      CondTabs->setTabText(1, "Values");
+      if (fbNewWindow)
+         CondTabs->setCurrentIndex(1);
+   } else {
+      if (fbNewWindow)
+         CondTabs->setCurrentIndex(0);
+   }
 
    IntBox->setChecked(cond->IsIntDraw());
    MaxCBox->setChecked(cond->IsCMaxDraw());
@@ -540,7 +536,7 @@ void TGo4ConditionEditor::ArrayAll()
 void TGo4ConditionEditor::SetResultMode( int mode )
 {
    TGo4Condition* cond = SelectedCondition();
-   if (!fbTypingMode || (cond==0)) return;
+   if (!fbTypingMode || !cond) return;
    switch (mode) {
       case 0: cond->Enable(); break;
       case 1: cond->Disable(kTRUE); break;
@@ -563,11 +559,11 @@ void TGo4ConditionEditor::ClearCounters()
    const char* conditemname = GetLinkedName("Condition");
    TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
 
-   if ((con==0) || (conditemname==0)) return;
+   if (!con || !conditemname) return;
 
    TString objname;
    TGo4ServerProxy* an = Browser()->DefineAnalysisObject(conditemname, objname);
-   if (an!=0) {
+   if (an) {
        an->ClearAnalysisObject(objname.Data());
        GetLinked("Condition", 2);
    } else {
@@ -591,7 +587,7 @@ void TGo4ConditionEditor::LimitsReturnPressed()
 bool TGo4ConditionEditor::UpdateLimits()
 {
    TGo4Condition* cond = SelectedCondition();
-   if (!fbTypingMode || (cond==0)) return false;
+   if (!fbTypingMode || !cond) return false;
 
    bool okx1, okx2, res = false;
    Double_t x1 = Win1_low->text().toDouble(&okx1);
@@ -617,7 +613,7 @@ bool TGo4ConditionEditor::UpdateLimits()
 void TGo4ConditionEditor::ChangeConditionProperty(int id, bool on)
 {
    TGo4Condition* cond = SelectedCondition();
-   if (!fbTypingMode || (cond==0)) return;
+   if (!fbTypingMode || !cond) return;
    switch(id) {
      case 0: cond->SetLabelDraw(on); break;
      case 1: cond->SetLimitsDraw(on); break;
@@ -692,7 +688,6 @@ void TGo4ConditionEditor::SetCondVisible(bool on)
 {
    ChangeConditionProperty(10, on);
 }
-
 
 void TGo4ConditionEditor::enterEvent( QEvent * )
 {
@@ -834,12 +829,12 @@ void TGo4ConditionEditor::PrintConditionLog()
 bool TGo4ConditionEditor::PrepareForAnalysis()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return false;
+   if (!cond) return false;
 
    SetChangeFlag(false);
 
    const char* hname = cond->GetLinkedHistogram();
-   if ((hname!=0) && (strlen(hname)!=0)) {
+   if (hname && (strlen(hname)!=0)) {
       TString foldername, objname;
       TGo4Slot::ProduceFolderAndName(hname, foldername, objname);
       cond->SetHistogram(objname.Data());
@@ -872,7 +867,7 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
    bool old = fbTypingMode;
    fbTypingMode = false;
    CutTable->setColumnCount(2);
-   if (cut==0) {
+   if (!cut) {
       CutTable->setRowCount(0);
       NPointsSpin->setValue(0);
    } else {
@@ -954,11 +949,11 @@ void TGo4ConditionEditor::FillListWidget(TGo4ListCond* lcon)
    bool old = fbTypingMode;
    fbTypingMode = false;
    CutTable->setColumnCount(1);
-   if (lcon==0) {
+   if (!lcon) {
       CutTable->setRowCount(0);
       NPointsSpin->setValue(0);
    } else {
-      int points=lcon->GetNumValues();
+      int points = lcon->GetNumValues();
       CutTable->setRowCount(points);
       NPointsSpin->setValue(points);
       for (int n=0;n<points;n++) {
@@ -979,43 +974,40 @@ void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
    //printf ("NPointsSpin_valueChanged with npoint= %d \n",npoint);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
-   if (pcond)
-   {
-   TCutG* cut = pcond->GetCut(kFALSE);
+   if (pcond) {
+      TCutG *cut = pcond->GetCut(kFALSE);
 
-   if (cut==0) {
-      cut = new TCutG("conditioncut", npoint);
-      Double_t x=0., y=0.;
-      for (int n=0;n<npoint-1; n++)
-        cut->SetPoint(n, n*10, n*10);
-      cut->GetPoint(0, x, y);
-      cut->SetPoint(npoint-1, x, y);
-      pcond->SetValues(cut);
-   } else {
-      if (npoint==0) {
-         pcond->SetValues(0);
-         cut = 0;
-      } else {
-         int old = cut->GetN();
-         Double_t x=0., y=0.;
-         if (old>1) cut->GetPoint(old-2, x, y);
-         cut->Set(npoint);
-         for(int n= (old-1>=0 ? old-1 : 0); n<npoint-1; n++)
-           cut->SetPoint(n, x, y+(n-old+2)*10);
+      if (!cut) {
+         cut = new TCutG("conditioncut", npoint);
+         Double_t x = 0., y = 0.;
+         for (int n = 0; n < npoint - 1; n++)
+            cut->SetPoint(n, n * 10, n * 10);
          cut->GetPoint(0, x, y);
-         cut->SetPoint(npoint-1, x, y);
+         cut->SetPoint(npoint - 1, x, y);
+         pcond->SetValues(cut);
+      } else {
+         if (npoint == 0) {
+            pcond->SetValues(0);
+            cut = 0;
+         } else {
+            int old = cut->GetN();
+            Double_t x = 0., y = 0.;
+            if (old > 1)
+               cut->GetPoint(old - 2, x, y);
+            cut->Set(npoint);
+            for (int n = (old - 1 >= 0 ? old - 1 : 0); n < npoint - 1; n++)
+               cut->SetPoint(n, x, y + (n - old + 2) * 10);
+            cut->GetPoint(0, x, y);
+            cut->SetPoint(npoint - 1, x, y);
+         }
       }
-   }
-   PleaseUpdateSlot();
-   FillCutWidget(cut);
+      PleaseUpdateSlot();
+      FillCutWidget(cut);
 
-
-   }
-   else if(lcond)
-   {
-       lcond->Resize(npoint);
-       PleaseUpdateSlot();
-       FillListWidget(lcond);
+   } else if (lcond) {
+      lcond->Resize(npoint);
+      PleaseUpdateSlot();
+      FillListWidget(lcond);
    }
    RedrawCondition();
 }
@@ -1026,49 +1018,47 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
    //printf ("CutTable_valueChanged\n");
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
-   bool ok;
+   bool ok = false;
    double zn = CutTable->item(nrow, ncol)->text().toDouble(&ok);
    if (!ok) return;
 
-   if(pcond)
-   {
-     TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
-     if (cut==0) return;
-     if (ncol==0) cut->GetX()[nrow] = zn;
-             else cut->GetY()[nrow] = zn;
-     if ((nrow==0) || (nrow==cut->GetN()-1)) {
-        int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
-        fbTypingMode = false;
-        CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
-        if (ncol==0) cut->GetX()[nrow1] = zn;
-                else cut->GetY()[nrow1] = zn;
-        fbTypingMode = true;
-     }
+   if (pcond) {
+      TCutG *cut = pcond == 0 ? 0 : pcond->GetCut(kFALSE);
+      if (!cut)
+         return;
+      if (ncol == 0)
+         cut->GetX()[nrow] = zn;
+      else
+         cut->GetY()[nrow] = zn;
+      if ((nrow == 0) || (nrow == cut->GetN() - 1)) {
+         int nrow1 = (nrow == 0) ? cut->GetN() - 1 : 0;
+         fbTypingMode = false;
+         CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
+         if (ncol == 0)
+            cut->GetX()[nrow1] = zn;
+         else
+            cut->GetY()[nrow1] = zn;
+         fbTypingMode = true;
+      }
+   } else if (lcond) {
+      // printf ("CutTable_valueChanged- listcondition for row %d and value %f\n",nrow,zn);
+      lcond->SetValue(nrow, zn);
+      int numvals = lcond->GetNumValues();
+      if ((nrow == 0) || (nrow == numvals - 1)) {
+         int nrow1 = (nrow == 0) ? numvals - 1 : 0;
+         fbTypingMode = false;
+         CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
+         lcond->SetValue(nrow1, zn);
+         fbTypingMode = true;
+      }
+   } else {
+      return;
    }
-   else if (lcond)
-   {
-    // printf ("CutTable_valueChanged- listcondition for row %d and value %f\n",nrow,zn);
-      lcond->SetValue(nrow,zn);
-      int numvals=lcond->GetNumValues();
-      if ((nrow==0) || (nrow==numvals-1)) {
-        int nrow1 = (nrow==0) ? numvals-1 : 0;
-        fbTypingMode = false;
-        CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
-        lcond->SetValue(nrow1,zn);
-        fbTypingMode = true;
-           }
-   }
-   else
-   {
-     return;
-   }
-
 
    PleaseUpdateSlot();
 
    RedrawCondition();
 }
-
 
 void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 {
@@ -1158,7 +1148,6 @@ void TGo4ConditionEditor::EllipseTheta_valueChanged(int deg)
 {
    if (!fbTypingMode)
       return;
-   // std::cout <<"EllipseTheta_valueChanged to "<< deg << std::endl;
    EllipseTiltEdit->setText(QString::number(deg));
    if (fbEllipseAutoRefresh) {
       TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
@@ -1173,7 +1162,6 @@ void TGo4ConditionEditor::EllipseCx_valueChanged(double x)
 {
    if (!fbTypingMode)
       return;
-   // std::cout <<"EllipseCx_valueChanged to "<< x << std::endl;
    if (fbEllipseAutoRefresh) {
       TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
       if (econd) {
@@ -1188,7 +1176,6 @@ void TGo4ConditionEditor::EllipseCy_valueChanged(double y)
 {
    if (!fbTypingMode)
       return;
-   // std::cout <<"EllipseCy_valueChanged to "<< y << std::endl;
    if (fbEllipseAutoRefresh) {
       TGo4ShapedCond *econd = dynamic_cast<TGo4ShapedCond *>(SelectedCondition());
       if (econd) {
@@ -1204,7 +1191,6 @@ void TGo4ConditionEditor::EllipseA1_valueChanged(double r1)
 {
    if (!fbTypingMode)
       return;
-   // std::cout <<"EllipseA1_valueChanged to "<< r1 << std::endl;
    if (fbEllipseAutoRefresh)
       UpdateEllipse();
 }
@@ -1213,7 +1199,6 @@ void TGo4ConditionEditor::EllipseA2_valueChanged(double r2)
 {
    if (!fbTypingMode)
       return;
-   // std::cout <<"EllipseA2_valueChanged to "<< r2 << std::endl;
    if (fbEllipseAutoRefresh)
       UpdateEllipse();
 }
@@ -1221,7 +1206,6 @@ void TGo4ConditionEditor::EllipseA2_valueChanged(double r2)
 void TGo4ConditionEditor::EllipseRefreshBox_toggled(bool on)
 {
   if (!fbTypingMode) return;
-  //std::cout <<"EllipseRefreshBox_toggled "<< on<< std::endl;
   fbEllipseAutoRefresh=on;
   if(fbEllipseAutoRefresh) UpdateEllipse();
 }
@@ -1230,7 +1214,6 @@ void TGo4ConditionEditor::EllipseRefreshBox_toggled(bool on)
 void TGo4ConditionEditor::EllipseCircleBox_toggled(bool on)
 {
   if (!fbTypingMode) return;
-  //std::cout <<"EllipseCircleBox_toggled "<< on<< std::endl;
   if(fbEllipseAutoRefresh) UpdateEllipse();
 }
 
@@ -1238,7 +1221,6 @@ void TGo4ConditionEditor::EllipseCircleBox_toggled(bool on)
 void TGo4ConditionEditor::EllipseTheta_returnPressed()
 {
   if (!fbTypingMode) return;
-  //std::cout <<"EllipseTheta_returnPressed() "<< std::endl;
   bool ok = false;
   Int_t theta = EllipseTiltEdit->text().toInt(&ok);
   if(theta < 0) theta = 0;
@@ -1254,7 +1236,6 @@ void TGo4ConditionEditor::EllipseTheta_returnPressed()
 void TGo4ConditionEditor::EllipseNPoints_valueChanged( int npoint )
 {
   if (!fbTypingMode) return;
-  //std::cout <<"EllipseNPoints_valueChanged "<< std::endl;
   if(fbEllipseAutoRefresh) UpdateEllipse();
 }
 
