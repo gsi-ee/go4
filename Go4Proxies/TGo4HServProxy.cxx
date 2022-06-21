@@ -147,15 +147,13 @@ Bool_t TGo4HServProxy::HasSublevels() const
 
 TGo4LevelIter* TGo4HServProxy::MakeIter()
 {
-   return fxStructure!=0 ? new TGo4HServIter(fxStructure) : 0;
+   return fxStructure ? new TGo4HServIter(fxStructure) : nullptr;
 }
 
 TGo4Access* TGo4HServProxy::ProvideAccess(const char* name)
 {
-   if (fxStructure==0) return 0;
-
-   TGo4Slot* itemslot = fxStructure->GetSlot(name);
-   if (itemslot==0) return 0;
+   TGo4Slot* itemslot = fxStructure ? fxStructure->GetSlot(name) : nullptr;
+   if (!itemslot) return nullptr;
    return new TGo4HServObjectAccess(this, itemslot->GetName(), name, itemslot->GetPar("::HistoClass"));
 }
 
@@ -169,12 +167,12 @@ void TGo4HServProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 Int_t TGo4HServProxy::GetObjectKind()
 {
-   return fxStructure!=0 ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fxStructure ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4HServProxy::GetContainedClassName()
 {
-   return fxStructure!=0 ? ClassName() : 0;
+   return fxStructure ? ClassName() : nullptr;
 }
 
 void TGo4HServProxy::Update(TGo4Slot* slot, Bool_t strong)
@@ -185,10 +183,10 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 {
    if (fxStructure) {
       delete fxStructure;
-      fxStructure = 0;
+      fxStructure = nullptr;
    }
 
-   INTS4* pl_all_h = 0;
+   INTS4* pl_all_h = nullptr;
    INTS4 l_histos = 0;
    INTS4 result = f_his_getdir((CHARS *) fServerName.Data(),
                                fPortNumber,
@@ -198,7 +196,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
                                &pl_all_h,
                                &l_histos);
 
-   if(result!=0) return kFALSE;
+   if(result != 0) return kFALSE;
 
    fxStructure = new TGo4Slot(0, "HClient","Structure holding slot");
 
@@ -236,8 +234,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 
 TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
 {
-
-   s_his_head* ps_his_head = 0;
+   s_his_head* ps_his_head = nullptr;
    INTS4* pl_all = 0;
    INTS4 l_size = 0;
 
@@ -249,9 +246,9 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
                                &ps_his_head,
                                &pl_all,
                                &l_size);
-   if(result!=0) return 0; // error this connection
+   if(result != 0) return nullptr; // error this connection
 
-   if(l_size==0) return 0; // no data in histogram at all
+   if(l_size == 0) return nullptr; // no data in histogram at all
 
    int i1 = ps_his_head->l_bins_1;
    int i2 = ps_his_head->l_bins_2;
@@ -259,7 +256,7 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
    REAL4* pr_all = (strstr(ps_his_head->c_dtype,"r")!=0) ? (REAL4 *) pl_all : 0;
    INTS4* pl_start = pl_all;
 
-   TH1* h1 = 0;
+   TH1* h1 = nullptr;
    Double_t entries = 0;
 
    if(i2==1) {    // 1-Dimensional histogram

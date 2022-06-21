@@ -322,7 +322,7 @@ TGo4Slot* TGo4BrowserProxy::BrowserMemorySlot()
 
 Bool_t TGo4BrowserProxy::BrowserItemName(TGo4Slot* itemslot, TString& res)
 {
-   if ((itemslot==0) || (fxBrowserSlot==0) || !itemslot->IsParent(fxBrowserSlot)) return kFALSE;
+   if (!itemslot || !fxBrowserSlot || !itemslot->IsParent(fxBrowserSlot)) return kFALSE;
    itemslot->ProduceFullName(res, fxBrowserSlot);
    return kTRUE;
 }
@@ -341,12 +341,12 @@ void TGo4BrowserProxy::UpdateBrowserContent()
 
 Int_t TGo4BrowserProxy::RequestBrowserObject(const char* name, Int_t wait_time)
 {
-   if ((name==0) || (fxBrowserSlot==0) || (fxOM==0)) return 0;
+   if (!name || !fxBrowserSlot || !fxOM) return 0;
 
    Int_t kind = ItemKind(name);
    if (kind==TGo4Access::kndObject) {
       TClass* cl = ItemClass(name);
-      if ((cl==0) || !cl->IsLoaded()) return 0;
+      if (!cl || !cl->IsLoaded()) return 0;
    }
 
    TString src, tgt;
@@ -359,7 +359,7 @@ Int_t TGo4BrowserProxy::RequestBrowserObject(const char* name, Int_t wait_time)
 
 Int_t TGo4BrowserProxy::RequestBrowserObject(TGo4Slot* slot, Int_t wait_time)
 {
-   if ((slot==0) || !slot->IsParent(fxBrowserSlot)) return 0;
+   if (!slot || !slot->IsParent(fxBrowserSlot)) return 0;
    TString name;
    slot->ProduceFullName(name, fxBrowserSlot);
    return RequestBrowserObject(name.Data(), wait_time);
@@ -374,7 +374,7 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
 {
    TGo4LockGuard lock;
 
-   if (itemslot==0) return kFALSE;
+   if (!itemslot) return kFALSE;
 
    // std::cout << "ProduceExplicitCopy " << itemslot->GetFullName() << "  " << (tgtpath ? tgtpath : "null") << std::endl;
 
@@ -386,7 +386,7 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
        if ((tgtslot==itemslot) || tgtslot->IsParent(itemslot)) return kFALSE;
    }
 
-   if (itemslot->NumChilds()>0) {
+   if (itemslot->NumChilds() > 0) {
      Bool_t res = kTRUE;
      TObjArray childs;
      for (Int_t n=0;n<itemslot->NumChilds();n++)
