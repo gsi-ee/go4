@@ -113,7 +113,7 @@ Int_t TGo4ComSetObject::ExeCom()
 
 Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
 {
-   if (par==0) return -1;
+   if (!par) return -1;
    TString buf;
    if(fxAna->SetParameterStatus(GetObjectName(),par)) {
       buf = TString::Format("Parameter %s was set to new values.", GetObjectName());
@@ -126,7 +126,7 @@ Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    return 0;
 }
 
@@ -145,7 +145,7 @@ Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
    }
    fxResult->SetMessage(buf.Data());
    delete fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    return 0;
 }
 
@@ -227,7 +227,6 @@ Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
    fxObject = nullptr;
    return 0;
 }
-
 
 Int_t TGo4ComSetObject::ExeSetObj(TObject* ob)
 {

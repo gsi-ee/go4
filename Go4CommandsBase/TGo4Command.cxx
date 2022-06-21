@@ -148,26 +148,26 @@ Bool_t TGo4Command::Log(Int_t mode)
 
 Bool_t TGo4Command::IsSynchron() const
 {
-    GO4TRACE((10,"Bool_t TGo4Command::IsSynchron() const", __LINE__, __FILE__));
-    return fbIsSynchron;
+   GO4TRACE((10,"Bool_t TGo4Command::IsSynchron() const", __LINE__, __FILE__));
+   return fbIsSynchron;
 }
 
 Bool_t TGo4Command::IsLocal() const
 {
-    return fbIsLocal;
+   return fbIsLocal;
 }
 
 
 void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)
 {
-    GO4TRACE((12,"void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)", __LINE__, __FILE__));
-    fxReceiverBase = rec;
+   GO4TRACE((12,"void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)", __LINE__, __FILE__));
+   fxReceiverBase = rec;
 }
 
 
 const char* TGo4Command::GetModeDescription(Go4CommandMode_t mode)
 {
-   if(mode<0 || mode>3) return 0;
+   if(mode<0 || mode>3) return nullptr;
    return fgcMODEDESCRIPTION[mode];
 }
 

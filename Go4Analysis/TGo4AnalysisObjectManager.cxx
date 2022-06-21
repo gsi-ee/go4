@@ -1090,7 +1090,7 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char * name
          curr = chld;
       }
 
-      if (curr==0) return 0;
+      if (!curr) return nullptr;
    }
 
    return curr;
@@ -1828,7 +1828,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
             his->Reset(); // histogram has no Clear implementation!
       } else if (ob->InheritsFrom(TGo4DynamicEntry::Class())) {
          TGo4DynamicEntry *entry = dynamic_cast<TGo4DynamicEntry *>(ob);
-         if (entry != 0)
+         if (entry)
             entry->Reset(); // dynamic entry has no Clear implementation!
       } else if (ob->InheritsFrom(TGo4Picture::Class())) {
          TGo4Picture *pic = dynamic_cast<TGo4Picture *>(ob);
@@ -1845,8 +1845,8 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
          TMultiGraph *mg = dynamic_cast<TMultiGraph *>(ob);
          if (mg) {
             TIter liter(mg->GetListOfGraphs());
-            TObject *gr = 0;
-            while ((gr = liter()) != 0)
+            TObject *gr = nullptr;
+            while ((gr = liter()) != nullptr)
                ClearObject(gr);
          }
       } else if (ob->InheritsFrom(TGo4EventElement::Class())) {
@@ -1955,16 +1955,13 @@ void TGo4AnalysisObjectManager::PrintParameters(const char* expression)
    std::cout << "Total size of all parameters is: " << totalsize << " bytes." << std::endl;
 }
 
-
-TObject* TGo4AnalysisObjectManager::NextMatchingObject(const char* expr,
-      const char* folder,
-      Bool_t reset)
+TObject *TGo4AnalysisObjectManager::NextMatchingObject(const char *expr, const char *folder, Bool_t reset)
 {
    if(reset) {
       delete fxMatchIterator;
       delete fxMatchList;
-      fxMatchList=CreateObjectList(expr,folder);
-      fxMatchIterator=fxMatchList->MakeIterator();
+      fxMatchList = CreateObjectList(expr,folder);
+      fxMatchIterator = fxMatchList->MakeIterator();
    }
    return fxMatchIterator->Next();
 }
@@ -2023,9 +2020,9 @@ Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char* exp
    //               else if (strstr(expression,string))
    //                  ismatching=kTRUE; // expression just contained in name
    else if (entrystring.Index(reg,0)!=kNPOS)
-      ismatching=kTRUE; // root regular expression class
+      ismatching = kTRUE; // root regular expression class
    else
-      ismatching=kFALSE;
+      ismatching = kFALSE;
    return ismatching;
 }
 

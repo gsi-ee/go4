@@ -34,7 +34,7 @@ TGo4ComExecLine::TGo4ComExecLine(const char* macro) : TGo4TaskHandlerCommand()
 Int_t TGo4ComExecLine::ExeCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli==0) {
+   if(!cli) {
       TGo4Log::Debug(" !!! ComExecLine ''%s'': NO RECEIVER ERROR!!!",GetName());
       return 1;
    }

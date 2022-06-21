@@ -108,23 +108,25 @@ Double_t TGo4PolyCond::GetXUp()
    Int_t n=fxCut->GetN();
    Double_t* xarr=fxCut->GetX();
    Int_t nxmax=TMath::LocMax(n,xarr);
-   return (xarr[nxmax]);
+   return xarr[nxmax];
 }
+
 Double_t TGo4PolyCond::GetYLow()
 {
    if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
    Double_t* yarr=fxCut->GetY();
    Int_t nymin=TMath::LocMin(n,yarr);
-   return (yarr[nymin]);
+   return yarr[nymin];
 }
+
 Double_t TGo4PolyCond::GetYUp()
 {
    if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
    Double_t* yarr=fxCut->GetY();
    Int_t nymax=TMath::LocMax(n,yarr);
-   return (yarr[nymax]);
+   return yarr[nymax];
 }
 
 Bool_t TGo4PolyCond::IsPolygonType()
@@ -139,7 +141,7 @@ TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
    TCutG* tempcut = fxCut;
 
    if(changeowner) {
-      fxCut = 0;
+      fxCut = nullptr;
       ClearCutHis(); // discard internal histogram
    }
    return tempcut;
@@ -148,7 +150,6 @@ TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
 // ----------------------------------------------------------
 TCutG * TGo4PolyCond::CloneCut(TGo4PolyCond * source)
 {
-
   TCutG * tempcut = source->GetCut(false); // get fxCut pointer
   //std::cout <<"TGo4PolyCond  "<<(long) this <<" CloneCut "<< (long) tempcut<<"from polycond "<< (long) source << std::endl;
   if(tempcut) {
@@ -158,14 +159,14 @@ TCutG * TGo4PolyCond::CloneCut(TGo4PolyCond * source)
     return ret;
   }
 
-  return 0;
+  return nullptr;
 }
 // ----------------------------------------------------------
 void TGo4PolyCond::SetValues(TCutG * newcut)
 {
-   if(newcut==0) return;
+   if(!newcut) return;
 #ifdef POLYCOND_UPDATE_WITHCLONE
-   if(fxCut!=0) delete fxCut;
+   if(fxCut) delete fxCut;
    CleanupSpecials(); // JAM2016: Clone might delete cut of same name from list of specials, remove it first
    //fxCut = (TCutG*) newcut->Clone(NextAvailableName());
    fxCut = (TCutG*) newcut->Clone(GetName());
@@ -173,8 +174,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
    CleanupSpecials();
 #else
    Int_t pn = newcut->GetN();
-   if(!fxCut)
-   {
+   if(!fxCut) {
      fxCut = new TCutG(GetName(),pn);
      fxCut->SetBit(kMustCleanup);
      TGo4PolyCond::CleanupSpecials(); // JAM2016
@@ -183,8 +183,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
    {
      fxCut->Set(pn);
    }
-   Double_t xp=0;
-   Double_t yp=0;
+   Double_t xp = 0, yp = 0;
    for(Int_t i=0; i<pn; ++i) {
      newcut->GetPoint(i,xp,yp);
      fxCut->SetPoint(i,xp,yp);
@@ -204,8 +203,8 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
  // ----------------------------------------------------------
 void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 {
-   if(newcut==0) return;
-   if(fxCut!=0 && fxCut!=newcut) delete fxCut;
+   if(!newcut) return;
+   if(fxCut && fxCut!=newcut) delete fxCut;
 
    fxCut = newcut;
    //fxCut->SetName(NextAvailableName()); // JAM2016
@@ -221,11 +220,10 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
    ClearCutHis(); // fxCut changed, so discard previous fxCut histogram
 }
 
-
 // ----------------------------------------------------------
 void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
 {
-   if(fxCut != 0) delete fxCut;
+   if(fxCut) delete fxCut;
    TGo4PolyCond::CleanupSpecials(); // JAM2016
    //fxCut = new TCutG(NextAvailableName(), len, x, y);
    fxCut = new TCutG(GetName(), len, x, y);
@@ -235,6 +233,7 @@ void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
 
    ClearCutHis(); // discard previous fxCut histogram
 }
+
 // ----------------------------------------------------------
 Bool_t TGo4PolyCond::Test(Double_t x, Double_t y)
 {
@@ -248,12 +247,13 @@ Bool_t TGo4PolyCond::Test(Double_t x, Double_t y)
    IncTrueCounts();
    return IsTrue();
 }
+
 // ----------------------------------------------------------
 void TGo4PolyCond::PrintCondition(Bool_t points)
 {
    TGo4Condition::PrintCondition();
    if(points) {
-      if(fxCut == 0)
+      if(!fxCut)
          std::cout << "No polygon specified!" << std::endl;
       else
          fxCut->Print(0);
@@ -278,11 +278,11 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        TCutG * temp = CloneCut((TGo4PolyCond*)cond);  // get clone from source, still valid there!
        CleanupSpecials(); // remove all references to cloned TCutG from list of specials
        //std::cout << "Update " << GetName() << " from " << temp << std::endl;
-       if(temp != 0)
+       if(temp)
           {
              TCutG* old=fxCut; // JAM2016 change cut before deleting the old one!
-             fxCut=temp;
-             if(old != 0) delete old;
+             fxCut = temp;
+             if(old) delete old;
              ClearCutHis();
              return kTRUE;
           }
@@ -296,12 +296,11 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        TCutG * srccut = source->GetCut(false);
        //std::cout << "TGo4PolyCond::UpdateFrom without Clone of" << GetName() << ", srccut="<<(long )srccut<<", fxCut="<< (long)fxCut << std::endl;
 
-       if(srccut==0) return kFALSE;
+       if(!srccut) return kFALSE;
        CleanupSpecials(); // redundant? do it to get rid of entries from streamer!?
        Int_t pn = srccut->GetN();
        fxCut->Set(pn);
-       Double_t xp=0;
-       Double_t yp=0;
+       Double_t xp = 0, yp = 0;
        for(Int_t i=0; i<pn; ++i) {
          srccut->GetPoint(i,xp,yp);
          fxCut->SetPoint(i,xp,yp);
@@ -346,7 +345,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
              message.Form(" i:%d, X=%f, Y=%f\n",i,X[i],Y[i]);
            }
         SetValues(X, Y, npoints);
-        delete[] X; delete[] Y;
+        delete [] X; delete [] Y;
        }
      message.Form(" - setting Polygon condition to new values!");
      TGo4Log::Message(1,message.Data());
@@ -354,7 +353,6 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
    }
   return kTRUE;
 }
-
 
 
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
@@ -427,7 +425,7 @@ Double_t TGo4PolyCond::GetCMax(TH1* histo)
 
 void TGo4PolyCond::SetPainter(TGo4ConditionPainter* painter)
 {
-   if (painter == 0)
+   if (!painter)
       return;
    if (painter->InheritsFrom(TGo4PolyCondPainter::Class())) {
       if (fxPainter)
@@ -517,7 +515,7 @@ void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
    static int cnt = 0;
    TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);
 
-   if ((!fxCut) || (fxCut->GetN()==0))
+   if (!fxCut || (fxCut->GetN()==0))
       line.Form("   %s->SetValues(0, 0, 0);", varname.Data());
    else {
       TString xname = varname;

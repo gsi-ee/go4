@@ -134,18 +134,18 @@ void TGo4CommandInvoker::Invoke(TGo4Command * com)
 void TGo4CommandInvoker::Invoke()
 {
    GO4TRACE((12,"void TGo4CommandInvoker::Invoke()", __LINE__, __FILE__));
-   if(fxCommand==0) return;
+   if(!fxCommand) return;
    //std::cout <<"TGo4CommandInvoker::Invoke() PLAIN NEVER COME HERE" << std::endl;
    TGo4LockGuard lockguard(fxMutex);
 
    TGo4CommandReceiver* rcv = Lookup(fxCommand->GetReceiverName());
 
-   if(rcv!=0) {
+   if(rcv) {
       fxCommand->SetReceiver(rcv);
       fxCommand->ExeCom();
    }
    delete fxCommand;
-   fxCommand = 0;
+   fxCommand = nullptr;
 }
 
 void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList* list)
@@ -156,7 +156,7 @@ void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList* list)
 
 Int_t TGo4CommandInvoker::ExecuteFromRemote(TGo4RemoteCommand* remcom)
 {
-   if(fxCommandList==0) return -1;
+   if(!fxCommandList) return -1;
    TGo4Command* realcommand=fxCommandList->MakeCommand(remcom);
    realcommand->SetTaskName(remcom->GetTaskName());
    realcommand->SetMode(remcom->GetMode());

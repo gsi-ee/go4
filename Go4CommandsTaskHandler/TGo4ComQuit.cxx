@@ -25,7 +25,7 @@ TGo4ComQuit::TGo4ComQuit() :
 Int_t TGo4ComQuit::ExeCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli!=0) {
+   if(cli) {
       TGo4Log::Info("Quit command executes on receiver: %s", ((TGo4Task*) fxReceiverBase)->GetName());
 //      cli->SendStatusMessage(2,kFALSE,TString::Format("Quit command executes on client %s ...",cli->GetName()));
       cli->Quit();
