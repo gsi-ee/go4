@@ -69,22 +69,23 @@ TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
 
  TGo4HDF5DataHandle* TGo4HDF5DataHandle::FindSubMember(const char* name)
  {
-   if(name==0) return 0;
-   //go4hdfdbg("TGo4HDF5DataHandle FindSubMember for name %s\n", name);
-   for(unsigned int i=0; i< fxSubcomponents.size(); ++i)
-   {
-     TGo4HDF5DataHandle* cursor = fxSubcomponents[i];
-//     go4hdfdbg("TGo4HDF5DataHandle FindSubMember %d compares with name %s\n",
-//              i, cursor ? cursor->GetTypeName() : "EMPTY CURSOR!");
-     if(strcmp(cursor->GetTypeName(),name)==0) return cursor;
+    if (!name)
+       return nullptr;
+    // go4hdfdbg("TGo4HDF5DataHandle FindSubMember for name %s\n", name);
+    for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) {
+       TGo4HDF5DataHandle *cursor = fxSubcomponents[i];
+       //     go4hdfdbg("TGo4HDF5DataHandle FindSubMember %d compares with name %s\n",
+       //              i, cursor ? cursor->GetTypeName() : "EMPTY CURSOR!");
+       if (strcmp(cursor->GetTypeName(), name) == 0)
+          return cursor;
 
-     // scan recursively name in possible subcomponents. do we need this?
-     TGo4HDF5DataHandle* subcursor = cursor->FindSubMember(name);
-     if (subcursor) return subcursor;
-   }
-   return 0;
+       // scan recursively name in possible subcomponents. do we need this?
+       TGo4HDF5DataHandle *subcursor = cursor->FindSubMember(name);
+       if (subcursor)
+          return subcursor;
+    }
+    return nullptr;
  }
-
 
  void TGo4HDF5DataHandle::SetAllSubMembersActive(Bool_t on)
  {

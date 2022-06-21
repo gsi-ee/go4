@@ -72,7 +72,7 @@ TGo4HDF5Source::~TGo4HDF5Source()
 
 TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
 {
-   if ((mask==0) || (strlen(mask)==0)) return 0;
+   if (!mask || (strlen(mask)==0)) return nullptr;
 
    TString dirname, basename(mask);
 
@@ -105,9 +105,9 @@ TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
 
    void *dir = gSystem->OpenDirectory(gSystem->ExpandPathName(dirname.Data()));
 
-   if (dir==0) return 0;
+   if (!dir) return nullptr;
 
-   TList* lst = 0;
+   TList* lst = nullptr;
 
    TRegexp re(basename, kTRUE);
    const char* file = 0;
@@ -115,7 +115,7 @@ TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;
       if ( (basename!=s) && s.Index(re) == kNPOS) continue;
-      if (lst==0) {
+      if (!lst) {
          lst = new TList;
          lst->SetOwner(kTRUE);
       }
@@ -135,7 +135,7 @@ Bool_t TGo4HDF5Source::OpenNextFile()
 {
    CloseCurrentFile();
 
-   if ((fxFilesNames==0) || (fxFilesNames->GetSize()==0)) return kFALSE;
+   if (!fxFilesNames || (fxFilesNames->GetSize()==0)) return kFALSE;
 
    TObject* obj = fxFilesNames->First();
    fxCurrentFileName = obj->GetName();
@@ -149,68 +149,60 @@ Bool_t TGo4HDF5Source::OpenNextFile()
 
 Bool_t TGo4HDF5Source::CloseCurrentFile()
 {
-  try{
-   CloseFile();
-   TGo4Log::Info("TGo4HDF5Source: Closed file %s", fxCurrentFileName.Data());
-   fxCurrentFileName = "";
-   return kTRUE;
-  }
-  catch(H5::Exception& ex)
-  {
-     TString msg=   TString::Format( "Close File %s with HDF5 exception in %s : %s\n", fxCurrentFileName.Data(), ex. getCFuncName (), ex.getCDetailMsg ());
-     TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
-     SetErrMess(msg.Data());
-     throw TGo4EventSourceException(this);
-  }
+   try {
+      CloseFile();
+      TGo4Log::Info("TGo4HDF5Source: Closed file %s", fxCurrentFileName.Data());
+      fxCurrentFileName = "";
+      return kTRUE;
+   } catch (H5::Exception &ex) {
+      TString msg = TString::Format("Close File %s with HDF5 exception in %s : %s\n", fxCurrentFileName.Data(),
+                                    ex.getCFuncName(), ex.getCDetailMsg());
+      TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
+      SetErrMess(msg.Data());
+      throw TGo4EventSourceException(this);
+   }
 }
-
 
 void TGo4HDF5Source::OpenFile(const char* fname)
 {
-  TString buffer(fname);
-  if (strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF) == 0)
-    buffer.Append(TGo4HDF5Adapter::fgcFILESUF);
+   TString buffer(fname);
+   if (strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF) == 0)
+      buffer.Append(TGo4HDF5Adapter::fgcFILESUF);
 
-try{
-  CloseFile();
-  fxFile = new H5::H5File(buffer.Data(), H5F_ACC_RDONLY);
-  TGo4Log::Info("TGo4HDF5Source %s: Open file %s for reading", GetName(), buffer.Data());
+   try {
+      CloseFile();
+      fxFile = new H5::H5File(buffer.Data(), H5F_ACC_RDONLY);
+      TGo4Log::Info("TGo4HDF5Source %s: Open file %s for reading", GetName(), buffer.Data());
+   } catch (H5::Exception &ex) {
+      TString msg = TString::Format("OpenFile with HDF5 exception in %s : %s\n", ex.getCFuncName(), ex.getCDetailMsg());
+      TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
+      SetErrMess(msg.Data());
+      throw TGo4EventSourceException(this);
+   }
 }
-catch(H5::Exception& ex)
-{
-   TString msg=   TString::Format( "OpenFile with HDF5 exception in %s : %s\n", ex. getCFuncName (), ex.getCDetailMsg ());
-   TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
-   SetErrMess(msg.Data());
-   throw TGo4EventSourceException(this);
-}
-
-
-}
-
-
 
 void TGo4HDF5Source::BuildDataSet(TGo4EventElement* event)
 {
-  // TODO: all hdf5 file and dataset treatment in adapter class common to source and store
- if(fbDataSetExists) return;
- if (event==0 || fxFile==0) return;
+   // TODO: all hdf5 file and dataset treatment in adapter class common to source and store
+   if (fbDataSetExists)
+      return;
+   if (!event || !fxFile)
+      return;
 
- try{
+   try {
 
-   BuildDataType(event);
-   fxHandle->BuildReadDataset(fxFile, this);
-   fbDataSetExists=kTRUE;
-}
+      BuildDataType(event);
+      fxHandle->BuildReadDataset(fxFile, this);
+      fbDataSetExists = kTRUE;
+   }
 
-catch(H5::Exception& ex)
-{
-   TString msg=   TString::Format( "BuildDataSet with HDF5 exception in %s : %s\n", ex.getCFuncName (), ex.getCDetailMsg ());
-   TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
-  SetErrMess(msg.Data());
-   throw TGo4EventSourceException(this);
-
-}
-
+   catch (H5::Exception &ex) {
+      TString msg =
+         TString::Format("BuildDataSet with HDF5 exception in %s : %s\n", ex.getCFuncName(), ex.getCDetailMsg());
+      TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
+      SetErrMess(msg.Data());
+      throw TGo4EventSourceException(this);
+   }
 }
 
 
@@ -220,18 +212,15 @@ void TGo4HDF5Source::DeleteDataSet()
   TGo4HDF5Adapter::DeleteDataSet();
 }
 
-
-
-
 Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
 {
-   if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
-
+   if (!dest)
+      ThrowError(0, 22, "!!! ERROR BuildEvent: no destination event!!!");
 
    fxEvent = dest; // address of next event into event pointer
    BuildDataSet(dest);
 
-  try{
+   try {
 
 #ifdef GO4HDF5_DEBUG
         printf("TGo4HDF5Source: fxEvent=0x%lx\n", (unsigned long) fxEvent);
@@ -251,16 +240,12 @@ Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
          printf("Go4 event has identifier 0x%lx  \n",(long) fxEvent->getId());
 #endif
 
-  return kTRUE;
-  }
-  catch(H5::Exception& ex)
-  {
-     TString msg=   TString::Format( "BuildEvent() with HDF5 exception in %s : %s\n", ex.getCFuncName (), ex.getCDetailMsg ());
-     TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
-     SetErrMess(msg.Data());
-     throw TGo4EventSourceException(this);
-  }
-
+     return kTRUE;
+   } catch (H5::Exception &ex) {
+      TString msg =
+         TString::Format("BuildEvent() with HDF5 exception in %s : %s\n", ex.getCFuncName(), ex.getCDetailMsg());
+      TGo4Log::Error("TGo4HDF5Source: %s", msg.Data());
+      SetErrMess(msg.Data());
+      throw TGo4EventSourceException(this);
+   }
 }
-
-

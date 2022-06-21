@@ -664,9 +664,9 @@ TObject* TGo4Sniffer::CreateItemStatus(const char* itemname)
 
    // printf("CreateItemStatus %s h1 = %p\n", itemname, h1);
 
-   if (h1!=0) return new TGo4HistogramStatus(h1);
+   if (h1) return new TGo4HistogramStatus(h1);
 
-   return 0;
+   return nullptr;
 }
 
 Bool_t TGo4Sniffer::HasRestrictMethod()
@@ -694,7 +694,7 @@ void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 
 Bool_t TGo4Sniffer::HasAutoLoadMethod()
 {
-   return IsA()->GetMethodAllAny("SetAutoLoad") != 0;
+   return IsA()->GetMethodAllAny("SetAutoLoad") != nullptr;
 }
 
 Bool_t TGo4Sniffer::SetAutoLoadGo4(const char* script)

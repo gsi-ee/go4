@@ -109,7 +109,7 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
                                        const char* host,
                                        Int_t port)
 {
-   TObject* obj=0;
+   TObject* obj = nullptr;
    SetParms(base,passwd,host,port);
    if(ConnectServer()==0)
    {
@@ -120,7 +120,7 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
    else
    {
       TGo4Log::Error("error on connection in RequestObject");
-      obj=0;
+      obj = nullptr;
    }
    DisconnectServer();
    return obj;
@@ -172,63 +172,58 @@ void TGo4ObjClient::SendCommand(const char* com)
 
 Int_t TGo4ObjClient::ConnectServer()
 {
-char* recvchar=0;
-Int_t openok=fxTransport->Open(GetHost(),GetPort());
-if(openok!=0) return 1;
-// send basename:
-fxTransport->Send(GetBase());
-recvchar=fxTransport->RecvRaw("dummy");
-if(recvchar==0) return 1;
-if(strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
-{
-   TGo4Log::Debug(" Wrong basename for object server (host %s ,port %d)", GetHost(), GetPort());
-   return 2;
-}
-// send password:
-fxTransport->Send(GetPasswd());
-recvchar=fxTransport->RecvRaw("dummy");
-if(recvchar==0) return 1;
-if(strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
-{
-   TGo4Log::Debug(" Wrong password for object server (host %s ,port %d)", GetHost(), GetPort());
-   return 4;
-}
-return 0;
+   char *recvchar = nullptr;
+   Int_t openok = fxTransport->Open(GetHost(), GetPort());
+   if (openok != 0)
+      return 1;
+   // send basename:
+   fxTransport->Send(GetBase());
+   recvchar = fxTransport->RecvRaw("dummy");
+   if (recvchar == 0)
+      return 1;
+   if (strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
+      TGo4Log::Debug(" Wrong basename for object server (host %s ,port %d)", GetHost(), GetPort());
+      return 2;
+   }
+   // send password:
+   fxTransport->Send(GetPasswd());
+   recvchar = fxTransport->RecvRaw("dummy");
+   if (recvchar == 0)
+      return 1;
+   if (strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
+      TGo4Log::Debug(" Wrong password for object server (host %s ,port %d)", GetHost(), GetPort());
+      return 4;
+   }
+   return 0;
 }
 
 Int_t TGo4ObjClient::DisconnectServer()
 {
    fxTransport->Close();
-return 0;
+   return 0;
 }
 
 TBuffer* TGo4ObjClient::ReceiveBuffer()
 {
-
-TBuffer* rev=0;
-Int_t state=fxTransport->ReceiveBuffer();
-if(state>=0)
-   {
-      rev=const_cast<TBuffer*> (fxTransport->GetBuffer());
+   TBuffer *rev = nullptr;
+   Int_t state = fxTransport->ReceiveBuffer();
+   if (state >= 0) {
+      rev = const_cast<TBuffer *>(fxTransport->GetBuffer());
       // currently, we pass out the internal buffer of the TGo4Socket
       // maybe we have to put a queue of length 1 in between?
-      //fxBufferQueue->AddBuffer(buf, kTRUE);
+      // fxBufferQueue->AddBuffer(buf, kTRUE);
    } //// if(rev>=0)
-else
-   {
+   else {
       // error
-      if (TGo4SocketSignalHandler::IsLastSignalWINCH())
-        {
-            // TSocket error because of window resize, do not abort!
-            TGo4Log::Debug(" %s: caught SIGWINCH ",GetName());
-            TGo4SocketSignalHandler::SetLastSignal(0); // reset
-            rev = 0;
-         }
-      else
-         {
-            TGo4Log::Debug(" !!!Receive Error in Object Client %s!!!",GetName());
-            rev=0;  // here we might throw some exception later....
-          }
+      if (TGo4SocketSignalHandler::IsLastSignalWINCH()) {
+         // TSocket error because of window resize, do not abort!
+         TGo4Log::Debug(" %s: caught SIGWINCH ", GetName());
+         TGo4SocketSignalHandler::SetLastSignal(0); // reset
+         rev = 0;
+      } else {
+         TGo4Log::Debug(" !!!Receive Error in Object Client %s!!!", GetName());
+         rev = 0; // here we might throw some exception later....
+      }
    } // end if(rev>=0)
-return rev;
+   return rev;
 }

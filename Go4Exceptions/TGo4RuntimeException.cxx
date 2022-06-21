@@ -33,7 +33,6 @@ TGo4RuntimeException::TGo4RuntimeException(const TGo4RuntimeException &right)
 
 Int_t TGo4RuntimeException::Handle()
 {
-
    TGo4Exception::Handle(); // superclass handler: output of exception
    TGo4Log::Debug("\n !!! Unspecified Runtime Exception, aborting application !!! \n");
    gApplication->Terminate(0);
@@ -42,7 +41,7 @@ Int_t TGo4RuntimeException::Handle()
 
 TGo4RuntimeException & TGo4RuntimeException::operator=(const TGo4RuntimeException &right)
 {
-  if (&right!=this)
+  if (&right != this)
     {
       TGo4Exception::operator=(right); // copy base class members
       // put additional member copies here...

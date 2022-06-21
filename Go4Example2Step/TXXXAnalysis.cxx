@@ -26,9 +26,9 @@
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
    TGo4Analysis(),
-   fMbsEvent(0),
-   fRawEvent(0),
-   fCalEvent(0)
+   fMbsEvent(nullptr),
+   fRawEvent(nullptr),
+   fCalEvent(nullptr)
 {
    TGo4Log::Error("Wrong constructor TXXXAnalysis()!");
 }
@@ -100,8 +100,8 @@ Int_t TXXXAnalysis::UserPreLoop()
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
    fCalEvent = dynamic_cast<TXXXAnlEvent*>    (GetOutputEvent("Analysis"));
-   fEvents=0;
-   fLastEvent=0;
+   fEvents = 0;
+   fLastEvent = 0;
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored
@@ -125,9 +125,9 @@ Int_t TXXXAnalysis::UserPostLoop()
       fMbsEvent->PrintMbsBufferHeader();
     }
 
-   fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
-   fRawEvent = 0;
-   fCalEvent = 0;
+   fMbsEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
+   fRawEvent = nullptr;
+   fCalEvent = nullptr;
    fEvents = 0;
    return 0;
 }

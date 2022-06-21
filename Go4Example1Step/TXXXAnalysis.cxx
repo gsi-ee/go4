@@ -22,8 +22,8 @@
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
-   fMbsEvent(0),
-   fCtl(0),
+   fMbsEvent(nullptr),
+   fCtl(nullptr),
    fEvents(0),
    fLastEvent(0)
 {
@@ -33,8 +33,8 @@ TXXXAnalysis::TXXXAnalysis() :
 // this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TGo4Analysis(argc, argv),
-   fMbsEvent(0),
-   fCtl(0),
+   fMbsEvent(nullptr),
+   fCtl(nullptr),
    fEvents(0),
    fLastEvent(0)
 {
@@ -96,8 +96,8 @@ Int_t TXXXAnalysis::UserPreLoop()
    if(fMbsEvent) fMbsEvent->PrintMbsFileHeader();
       // fileheader structure (lmd file only):
 
-   fEvents=0; // event counter
-   fLastEvent=0; // number of last event processed
+   fEvents = 0; // event counter
+   fLastEvent = 0; // number of last event processed
    return 0;
 }
 //-----------------------------------------------------------
@@ -106,7 +106,7 @@ Int_t TXXXAnalysis::UserPostLoop()
    // all this is optional:
    TGo4Log::Info("TXXXAnalysis: PostLoop");
    TGo4Log::Info("Last event  #: %d Total events: %d", fLastEvent, fEvents);
-   fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
+   fMbsEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
    fEvents = 0;
    return 0;
 }
