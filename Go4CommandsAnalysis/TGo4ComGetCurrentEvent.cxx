@@ -52,14 +52,14 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
 
-   if (cli==0) {
+   if (!cli) {
       GO4TRACE((11,"TGo4ComGetCurrentEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO or WRONG RECEIVER ERROR!!!",GetName());
       return 1;
    }
 
    TGo4Analysis* ana = TGo4Analysis::Instance();
-   if (ana==0) {
+   if (!ana) {
       // never come here
       cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
       return -2;
@@ -84,26 +84,24 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
    else
    {
       // event mode:
-      TGo4EventElement* event=0;
-      if(IsOutputEvent())
-         event=ana->GetOutputEvent(GetObjectName());
+      TGo4EventElement *event = nullptr;
+      if (IsOutputEvent())
+         event = ana->GetOutputEvent(GetObjectName());
       else
-         event=ana->GetInputEvent(GetObjectName());
-      if(event==0)
+         event = ana->GetInputEvent(GetObjectName());
+      if (!event)
          // event step of name does not exists, we search event in folder:
          event = ana->GetEventStructure(GetObjectName());
-      if(event) {
+      if (event) {
          if (IsPrintoutOnly())
             event->PrintEvent();
          else
             cli->SendObject(event, GetTaskName());
-      }
-      else
-      {
-         cli->SendStatusMessage(3, kTRUE,TString::Format(
-               "GetCurrentEvent %s - ERROR:  no such event ", GetObjectName()));
+      } else {
+         cli->SendStatusMessage(3, kTRUE,
+                                TString::Format("GetCurrentEvent %s - ERROR:  no such event ", GetObjectName()));
       } // if(event)
-   } // if(IsTreeMode())
+   }    // if(IsTreeMode())
 
    if (IsPrintoutOnly()) {
       fflush(stderr);
@@ -115,7 +113,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
 
 void TGo4ComGetCurrentEvent::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);
    fbOutputEvent = remcom->GetValue(0);
    fbPrintoutOnly = remcom->GetValue(1);

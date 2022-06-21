@@ -31,7 +31,7 @@ TGo4ComAutosave::TGo4ComAutosave() :
 
 void TGo4ComAutosave::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    SetAutoSaveCompression(remcom->GetValue(0));
    SetAutoSaveOverwrite(remcom->GetValue(1));
    SetAutoFileName(remcom->GetString(0));
@@ -39,32 +39,25 @@ void TGo4ComAutosave::Set(TGo4RemoteCommand* remcom)
 
 Int_t TGo4ComAutosave::ExeCom()
 {
-   GO4TRACE((12,"TGo4ComAutosave::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12, "TGo4ComAutosave::ExeCom()", __LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-         TGo4Analysis* ana = TGo4Analysis::Instance();
-         if(ana)
-            {
-               Bool_t autoenab=ana->IsAutoSaveOn();
-               cli->SendStatusMessage(1, kTRUE,"Autosaving now...");
-               ana->SetAutoSave(kTRUE);
-               ana->SetAutoSaveFile(GetAutoFileName(),
-                                    fbAutoSaveOverwrite,
-                                    fiAutoSaveCompression);
-               ana->AutoSave();
-               ana->SetAutoSave(autoenab); // recover old autosave state
-            }
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
+   if (cli) {
+      TGo4Analysis *ana = TGo4Analysis::Instance();
+      if (ana) {
+         Bool_t autoenab = ana->IsAutoSaveOn();
+         cli->SendStatusMessage(1, kTRUE, "Autosaving now...");
+         ana->SetAutoSave(kTRUE);
+         ana->SetAutoSaveFile(GetAutoFileName(), fbAutoSaveOverwrite, fiAutoSaveCompression);
+         ana->AutoSave();
+         ana->SetAutoSave(autoenab); // recover old autosave state
+      }
 
-      }
-   else
-      {
-      GO4TRACE((11,"TGo4ComAutosave::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComAutosave ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   } else {
+      GO4TRACE((11, "TGo4ComAutosave::ExeCom() - no receiver specified ERROR!", __LINE__, __FILE__));
+      TGo4Log::Debug(" !!! ComAutosave ''%s'': NO RECEIVER ERROR!!!", GetName());
+      return 1;
+   }
 
    return -1;
 }
-

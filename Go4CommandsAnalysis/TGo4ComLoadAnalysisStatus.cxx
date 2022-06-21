@@ -41,8 +41,8 @@ TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() :
 
 void TGo4ComLoadAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
-   SetFileName(remcom->GetString(0));
+   if(remcom)
+      SetFileName(remcom->GetString(0));
 }
 
 Int_t TGo4ComLoadAnalysisStatus::ExeCom()
@@ -60,7 +60,7 @@ Int_t TGo4ComLoadAnalysisStatus::ExeCom()
    //         TGo4Log::Debug(" Executing ComLoadAnalysisStatus...  ");
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if(ana) {
-      Bool_t ok=ana->LoadStatus( GetFileName() );
+      Bool_t ok = ana->LoadStatus( GetFileName() );
       if(ok)
       {
          cli->SendStatusMessage(1, kFALSE, TString::Format(

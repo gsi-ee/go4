@@ -53,7 +53,7 @@ void TGo4ComSetAnalysisStatus::SetStatusObject(TGo4AnalysisStatus* settings)
 
 void TGo4ComSetAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
-   if(remcom==0) return;
+   if(!remcom) return;
    TGo4AnalysisStatus* stat = dynamic_cast<TGo4AnalysisStatus* >(remcom->GetAggregate());
 
    if(stat) {
@@ -67,7 +67,7 @@ Int_t TGo4ComSetAnalysisStatus::ExeCom()
    GO4TRACE((12,"TGo4ComSetAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0) {
+   if (cli) {
       GO4TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
       //TGo4Log::Debug(" Executing SetAnalysisStatus...  ");
       TGo4Analysis* ana = TGo4Analysis::Instance();

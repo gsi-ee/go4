@@ -469,12 +469,12 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
 
-   if(ana==0) {
+   if(!ana) {
       SendStatusMessage(3, kTRUE,"CmdClearObject - analysis missing");
       return kFALSE;
    }
 
-   if ((objname==0) || (*objname==0)) {
+   if (!objname || (*objname == 0)) {
       ana->ClearObjects("Histograms");
       ana->ClearObjects("Conditions");
       SendStatusMessage(1, kTRUE, "Histograms and conditions were cleared");
@@ -496,12 +496,12 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
 
-   if(ana==0) {
+   if(!ana) {
       SendStatusMessage(3, kTRUE,"CmdDeleteObject - missing analysis ");
       return kFALSE;
    }
 
-   if ((objname==0) || (*objname==0)) {
+   if (!objname || (*objname == 0)) {
       SendStatusMessage(1, kTRUE, "Object name in CmdDeleteObject not specified");
       return kFALSE;
    }
@@ -520,13 +520,13 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
 
 Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
 {
-  if ((exeline==0) || (*exeline==0)) return kFALSE;
+  if (!exeline || (*exeline == 0)) return kFALSE;
   TGo4Analysis* ana = TGo4Analysis::Instance();
-  if(ana==0) {
-        SendStatusMessage(3, kTRUE,"CmdExecute - missing analysis ");
-        return kFALSE;
-     }
-  Int_t errcode=0;
+  if (!ana) {
+     SendStatusMessage(3, kTRUE, "CmdExecute - missing analysis ");
+     return kFALSE;
+  }
+  Int_t errcode = 0;
   ana->ExecuteLine(exeline, &errcode);
   fflush(stdout);
   return errcode!=0 ? kFALSE : kTRUE;
@@ -641,12 +641,12 @@ Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
                                    const char* cutexpr)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
-   if (ana==0) {
+   if (!ana) {
       SendStatusMessage(3, kTRUE, "No analysis in RemoteTreeDraw");
       return kFALSE;
    }
 
-   if ((histoname==0) || (*histoname==0)) histoname = "hTreeDraw";
+   if (!histoname || (*histoname == 0)) histoname = "hTreeDraw";
    Bool_t res = ana->AddTreeHistogram(histoname, treename, varexpr, cutexpr);
    if(res)
       SendStatusMessage(1,kTRUE, TString::Format("Added Dynamic histogram %s for tree %s.", histoname, treename));
@@ -671,12 +671,12 @@ TObject* TGo4Sniffer::CreateItemStatus(const char* itemname)
 
 Bool_t TGo4Sniffer::HasRestrictMethod()
 {
-   return IsA()->GetMethodAllAny("Restrict") != 0;
+   return IsA()->GetMethodAllAny("Restrict") != nullptr;
 }
 
 Bool_t TGo4Sniffer::HasProduceMultiMethod()
 {
-   return IsA()->GetMethodAllAny("ProduceMulti") != 0;
+   return IsA()->GetMethodAllAny("ProduceMulti") != nullptr;
 }
 
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
@@ -709,5 +709,3 @@ Bool_t TGo4Sniffer::SetAutoLoadGo4(const char* script)
 
    return kTRUE;
 }
-
-
