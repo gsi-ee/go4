@@ -29,7 +29,7 @@ TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, 
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists
    TGo4CommandInvoker::SetCommandList(new TGo4TaskHandlerCommandList("ListOfTaskHandlerCommands"));
    TGo4CommandInvoker::Register("SlaveTask", this);
-   TGo4Task* task=0;
+   TGo4Task* task = nullptr;
    if(IsServer())
       {
          task=new TGo4ServerTask(name, negotport,
@@ -97,7 +97,6 @@ void TGo4Slave::TerminateFast ()
    Terminate();
 }
 
-
 TGo4TaskStatus* TGo4Slave::CreateStatus()
 {
    TGo4TaskStatus* stat= new TGo4TaskStatus(GetName());
@@ -113,7 +112,7 @@ void TGo4Slave::UpdateStatus(TGo4TaskStatus* state)
 
 TGo4Command* TGo4Slave::NextCommand()
 {
-   return GetTask() ? GetTask()->NextCommand() : 0;
+   return GetTask() ? GetTask()->NextCommand() : nullptr;
 }
 
 void TGo4Slave::SendObject(TObject * obj, const char* receiver)
@@ -130,13 +129,13 @@ void TGo4Slave::SendStatus(TGo4Status * stat, const char* receiver)
 
 Int_t TGo4Slave::Initialization()
 {
-// may be overridden by concrete slave implementation
+    // may be overridden by concrete slave implementation
     return 0;
 }
 
 TGo4ThreadHandler* TGo4Slave::GetThreadHandler()
 {
-   return GetTask() ? GetTask()->GetWorkHandler() : 0;
+   return GetTask() ? GetTask()->GetWorkHandler() : nullptr;
 }
 
 

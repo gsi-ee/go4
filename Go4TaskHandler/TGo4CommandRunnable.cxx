@@ -49,17 +49,17 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
    {
       // wait for something from socket
       Int_t rev=fxTransport->ReceiveBuffer();
-      if(rev>=0)
+      if(rev >= 0)
       {
          TBuffer* buffer=const_cast<TBuffer*> (fxTransport->GetBuffer());
-         Int_t val=0;
+         Int_t val = 0;
          if(CheckStopBuffer(buffer,&val)) return 0; // stop for disconnect mode
-         if(val>=0)
+         if(val >= 0)
          {
             fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); //acknowledge before execute
             TGo4Task* cli = dynamic_cast<TGo4Task*>(fxManager);
             // we have a direct command, execute this here:
-            TGo4ComQuit* qcommand = 0;
+            TGo4ComQuit* qcommand = nullptr;
             Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t) (val);
             // test here for different command values
             switch(comvalue)
@@ -142,8 +142,8 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
          //                  std::cout << "command runnable: sending buffer via transport" << std::endl;
          fxBufferQueue->FreeBuffer(buf);
          if(stopmode) return 0; // no handshake after stop buffer
-         char* revchar=fxTransport->RecvRaw("dummy"); // wait for o.k. string
-         if(revchar==0)
+         char* revchar = fxTransport->RecvRaw("dummy"); // wait for o.k. string
+         if(!revchar)
          {
             // error, received garbage
             if (TGo4SocketSignalHandler::IsLastSignalWINCH())
@@ -171,8 +171,9 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
             // fine, command has reached its destination, anyhow..
          }
          else if(!strcmp(revchar,TGo4TaskHandler::Get_fgcERROR()))
-         {
             // client signals any kind of error with last command
+         {
+            // client signals any kind of error ==0with last command
             TGo4Log::Debug(" CommandRunnable ''%s'' received command error string!!!",GetName());
          }
          else

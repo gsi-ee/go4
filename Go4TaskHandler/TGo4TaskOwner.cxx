@@ -23,14 +23,14 @@
 
 TGo4TaskOwner::TGo4TaskOwner() :
    TGo4CommandReceiver(),
-   fxTask(0),
+   fxTask(nullptr),
    fbServerMode(kTRUE)
 {
 }
 
 TGo4TaskOwner::TGo4TaskOwner(Bool_t isserver) :
    TGo4CommandReceiver(),
-   fxTask(0),
+   fxTask(nullptr),
    fbServerMode(isserver)
 {
 }
@@ -78,7 +78,7 @@ Bool_t TGo4TaskOwner::IsConnected()
 {
    if(IsServer()) {
       TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*>(GetTask());
-      if(server==0) {
+      if(!server) {
          std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
          return kFALSE;
       }
@@ -86,7 +86,7 @@ Bool_t TGo4TaskOwner::IsConnected()
    }
 
    TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*>(GetTask());
-   if(client==0) {
+   if(!client) {
        std::cerr <<"NEVER COME HERE: clientmode without clienttask in taskowner "<< GetName() << std::endl;
        return kFALSE;
    }
@@ -106,6 +106,6 @@ TMutex* TGo4TaskOwner::GetTaskManagerMutex()
       TGo4ServerTask* serv = dynamic_cast<TGo4ServerTask*>(GetTask());
       if(serv) return serv->GetTaskManager()->GetMutex();
    }
-  return 0;
+  return nullptr;
 }
 

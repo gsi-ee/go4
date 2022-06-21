@@ -60,110 +60,84 @@ TGo4TaskHandler* TGo4ClientTask::GetTaskHandler()
 
 Int_t TGo4ClientTask::Initialization()
 {
-   Int_t rev=-1;
-   if(fbInitDone)
-      // already initialized, return ok value
-      {
-         return 0;
-      } //// if(fbInitDone)
-   else
-      {
-         rev=TGo4Task::Initialization(); // this will launch threads, etc.
-         if(rev==0)
-            {
-               // success: then try to connect (all threads are up now)
-             if(fbAutoConnect)
-               {
-                  if(!ConnectServer(GetServerHostName(),0))
-                     Terminate();
-               }
-            }
-         else
-            {
-               // init failed: tell timer return value
-               // return rev; // "rev=rev"
-            }
-      }// else if(fbInitDone)
-    return rev;
+   // already initialized, return ok value
+   if (fbInitDone)
+      return 0;
+
+   Int_t rev = TGo4Task::Initialization(); // this will launch threads, etc.
+   if (rev == 0) {
+      // success: then try to connect (all threads are up now)
+      if (fbAutoConnect) {
+         if (!ConnectServer(GetServerHostName(), 0))
+            Terminate();
+      }
+   }
+   return rev;
 }
 
 Bool_t TGo4ClientTask::ConnectServer(const char* node, UInt_t negport,
                             Go4CommandMode_t role,
                             const char* passwd)
 {
-if(fbServerConnected)
-   {
-      TGo4Log::Warn(" ClientTask::ConnectServer ''%s'': ServerTask already connected",
-               GetName());
+   if (fbServerConnected) {
+      TGo4Log::Warn(" ClientTask::ConnectServer ''%s'': ServerTask already connected", GetName());
       return kTRUE;
    }
 
-if(negport)
-   fxTaskHandler->SetNegotiationPort(negport); // null negport will use the default port
-if(IsMaster())
-   fxTaskHandler->ClearQueues(); // do not clear queues on slave side,
-                                 // because analysis status might be already in it!
+   if (negport)
+      fxTaskHandler->SetNegotiationPort(negport); // null negport will use the default port
+   if (IsMaster())
+      fxTaskHandler->ClearQueues(); // do not clear queues on slave side,
+                                    // because analysis status might be already in it!
 
-//std::cout <<"TGo4ClientTask::ConnectServer with role "<<role<<" and passwd "<<passwd << std::endl;
-if(passwd)
-   {
+   // std::cout <<"TGo4ClientTask::ConnectServer with role "<<role<<" and passwd "<<passwd << std::endl;
+   if (passwd) {
       fxTaskHandler->SetRole(role);
-      if(role==kGo4ComModeObserver)
-         {
-            TGo4TaskHandler::SetObservAccount(0,passwd);
-         }
-      else if (role==kGo4ComModeController)
-         {
-            TGo4TaskHandler::SetCtrlAccount(0,passwd);
-         }
-      else if (role==kGo4ComModeAdministrator)
-         {
-            TGo4TaskHandler::SetAdminAccount(0,passwd);
-         }
-
+      if (role == kGo4ComModeObserver) {
+         TGo4TaskHandler::SetObservAccount(0, passwd);
+      } else if (role == kGo4ComModeController) {
+         TGo4TaskHandler::SetCtrlAccount(0, passwd);
+      } else if (role == kGo4ComModeAdministrator) {
+         TGo4TaskHandler::SetAdminAccount(0, passwd);
+      }
    }
-if(fxTaskHandler->Connect(node,0))
-   {
-//      TGo4Log::Info(" ClientTask ''%s'': connected successfully to ServerTask at node %s (port %d) ",
-//               GetName(),node, negport);
-      fbServerConnected=kTRUE;
+   if (fxTaskHandler->Connect(node, 0)) {
+      //      TGo4Log::Info(" ClientTask ''%s'': connected successfully to ServerTask at node %s (port %d) ",
+      //               GetName(),node, negport);
+      fbServerConnected = kTRUE;
       fxWorkHandler->StartAll(); // all transports are there, then start waiting threads
-      SendStatusMessage(1,kTRUE,"Client %s connected successfully to Server task at node %s",
-         GetName(),node); // note that negport does not contain actual portnumber here
+      SendStatusMessage(1, kTRUE, "Client %s connected successfully to Server task at node %s", GetName(),
+                        node); // note that negport does not contain actual portnumber here
       return kTRUE;
-    }
-else
-   {
-      TGo4Log::Error(" ClientTask ''%s'': FAILED connection to ServerTask at node %s",
-               GetName(),node);
+   } else {
+      TGo4Log::Error(" ClientTask ''%s'': FAILED connection to ServerTask at node %s", GetName(), node);
       return kFALSE;
    }
-
-
 }
 
 Bool_t TGo4ClientTask::DisconnectServer(Bool_t isterminating)
 {
-Bool_t rev=kTRUE;
-if(fbServerConnected)
-   {
-     StopWorkThreads();
-     if(IsMaster())
-      {
-//         fxTaskHandler->ClearQueues(); // prevent monitor commands to interfere with disconnect
-           TGo4Queue* cq=GetCommandQueue();
-           if(cq) cq->Clear(); // only clear command queue on master side,
-                               // otherwise we lose status messages from server
+   Bool_t rev = kTRUE;
+   if (fbServerConnected) {
+      StopWorkThreads();
+      if (IsMaster()) {
+         //         fxTaskHandler->ClearQueues(); // prevent monitor commands to interfere with disconnect
+         TGo4Queue *cq = GetCommandQueue();
+         if (cq)
+            cq->Clear(); // only clear command queue on master side,
+                         // otherwise we lose status messages from server
       }
       ////////UNDER CONSTRUCTION
       WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
       SendStopBuffers(); // note: this should only be done after disconnect login was successful JA
-      rev=fxTaskHandler->DisConnect();
+      rev = fxTaskHandler->DisConnect();
       /////////
-      if(rev) fbServerConnected=kFALSE;
-      if(!isterminating) StartWorkThreads();
+      if (rev)
+         fbServerConnected = kFALSE;
+      if (!isterminating)
+         StartWorkThreads();
    }
-return rev;
+   return rev;
 }
 
 void TGo4ClientTask::Quit()
