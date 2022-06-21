@@ -333,7 +333,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
 
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(nrow));
 
-      if (slot==0) return;
+      if (!slot) return;
       if (!slot->IsSuitableClass(cl)) return;
 
       CreateFitSlotLink(slot, itemname);
@@ -345,7 +345,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
       if (!item || (item->ObjectType()!=FitGui::ot_slot)) return;
 
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*>(item->Object());
-      if (slot==0) return;
+      if (!slot) return;
       if (!slot->IsSuitableClass(cl)) return;
 
       CreateFitSlotLink(slot, itemname);
@@ -1515,7 +1515,7 @@ void TGo4FitPanel::Cmd_DeleteAction(QFitItem* item)
 
 void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
 {
-   if (!item || (item->Parent()==0)) return;
+   if (!item || !item->Parent()) return;
 
    TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (item->Object());
    TGo4Fitter* fitter = GetFitter();
@@ -1525,7 +1525,7 @@ void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
       QFitItem* parent = item->Parent();
       UpdateItem(parent, true);
       item = FindItem(action, -1, 0);
-      if (item!=0)
+      if (item)
          FitList->setCurrentItem(item, QItemSelectionModel::Select);
    }
 }
@@ -1536,7 +1536,7 @@ void TGo4FitPanel::Cmd_ExecuteAction(QFitItem* item)
    if (!item || !fitter) return;
 
    TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (item->Object());
-   if (action==0) return;
+   if (!action) return;
 
    fitter->DoAction(action);
 
@@ -2471,12 +2471,12 @@ void TGo4FitPanel::UpdateWizStackWidget()
 
          for(int n=0;n<=fxWizSlots->GetLast();n++) {
            TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(n));
-           if (slot==0) continue;
+           if (!slot) continue;
 
            Wiz_DataSlotsTable->setVerticalHeaderItem(n, new QTableWidgetItem(slot->GetName()));
            TObject* obj = slot->GetObject();
 
-           if (obj==0) {
+           if (!obj) {
               Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(" --- "));
               Wiz_DataSlotsTable->setItem(n, 1, new QTableWidgetItem(slot->GetClass()->GetName()));
               Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("false"));
@@ -2867,10 +2867,10 @@ void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested(const QPoint& pnt )
 
   int nrow = item ? item->row() : -1;
 
-  if ((nrow<0) || (nrow>fxWizSlots->GetLast())) return;
+  if ((nrow < 0) || (nrow > fxWizSlots->GetLast())) return;
 
   TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(nrow));
-  if (slot==0) return;
+  if (!slot) return;
 
   QSignalMapper map(this);
   QMenu menu(this);
@@ -2889,7 +2889,6 @@ void TGo4FitPanel::Wiz_DataUseRangeBtn_clicked()
   if (!fbFillingWidget)
      Wiz_UseSelectedRange();
 }
-
 
 void TGo4FitPanel::Wiz_DataClearRangesBtn_clicked()
 {
@@ -3722,7 +3721,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
 
 bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMapper* map)
 {
-   if ((slot==0) || (menu==0)) return false;
+   if (!slot || !menu) return false;
 
    if(!slot->GetOwned() && slot->IsObject())
      AddIdAction(menu, map, "Clone object in slot", 1000);
@@ -3730,13 +3729,14 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    if(slot->IsObject())
      AddIdAction(menu, map, "Clear object in slot", 1001);
 
-   if (FindPadForSlot(slot)!=0)
+   if (FindPadForSlot(slot))
       AddIdAction(menu, map, QString("Update from ") + Wiz_GetSlotSourceInfo(slot), 1002);
 
    if (!menu->isEmpty()) menu->addSeparator();
 
    if (slot->GetConnectedSlot())
       AddIdAction(menu, map, "Brake connection to slot", 1004);
+
    TGo4Fitter* fitter = GetFitter();
    if (fitter)
      for(Int_t n=0;n<fitter->NumSlots();n++) {
@@ -3759,10 +3759,10 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
 
 void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id)
 {
-   if (item!=0) slot = dynamic_cast<TGo4FitSlot*> (item->Object());
+   if (item) slot = dynamic_cast<TGo4FitSlot*> (item->Object());
 
    TGo4Fitter* fitter = GetFitter();
-   if ((slot==0) || !fitter) return;
+   if (!slot || !fitter) return;
 
    switch (id) {
      case 1000: {
@@ -3942,10 +3942,10 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
     case FitGui::ot_minuitres: break;
     case FitGui::ot_slot: {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (item->Object());
-      if(slot==0) break;
+      if(!slot) break;
 
       TObject* obj = slot->GetObject();
-      if (obj==0) break;
+      if (!obj) break;
 
       if (obj->InheritsFrom(TGo4FitData::Class()))
          new QFitItem(this, item, obj, FitGui::ot_data, FitGui::wt_data, FitGui::mt_none);
@@ -4110,7 +4110,7 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
 
    while (*iter) {
       QFitItem* item = dynamic_cast<QFitItem*> (*iter);
-      if ((item!=0) && (item->ObjectType()==typ)) UpdateItem(item, false);
+      if (item && (item->ObjectType() == typ)) UpdateItem(item, false);
       ++iter;
    }
 }
@@ -4746,7 +4746,7 @@ void TGo4FitPanel::DeleteModelWithPrimit(TGo4FitGuiArrow* arr)
 int TGo4FitPanel::GetPadIndexForSlot(TGo4FitSlot* slot)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((slot==0) || !fitter) return -1;
+   if (!slot || !fitter) return -1;
 
    int indx = -1;
    for (int n=0;n<fitter->NumSlots();n++) {

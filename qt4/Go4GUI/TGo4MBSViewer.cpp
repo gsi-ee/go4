@@ -501,11 +501,10 @@ void TGo4MBSViewer::FrequencyBox_valueChanged( int )
 
 TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const QString & title, int value)
 {
-   TH1* his=0;
-   TGo4Slot* histoslot=0;
-   if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toLatin1());
-   if(histoslot==0)
-   {
+   TH1* his = nullptr;
+   TGo4Slot* histoslot = nullptr;
+   if(!fbTrendingInit) histoslot = Browser()->BrowserSlot(refname.toLatin1());
+   if(!histoslot) {
       Axis_t lo,up;
       if(fbTrendingForward)
       {
@@ -577,7 +576,6 @@ void TGo4MBSViewer::RefreshButtonClick()
 
 }
 
-
 void TGo4MBSViewer::SetNode( const QString & txt )
 {
    fxNode=txt;
@@ -590,7 +588,6 @@ void TGo4MBSViewer::ResetRunIcon()
    fbRunning=false;
    Display();
 }
-
 
 void TGo4MBSViewer::StartMovieReset()
 {
