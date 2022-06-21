@@ -22,7 +22,7 @@
 QFitModelWidget::QFitModelWidget( QWidget* parent,  const char* name )
     : QFitNamedWidget( parent, name )
 {
-    if (name==0) setObjectName( "QFitModelWidget" );
+    if (!name) setObjectName( "QFitModelWidget" );
     setWindowTitle("QFitModelWidget");
 
     AmplChk = new QCheckBox("amplitude", this);

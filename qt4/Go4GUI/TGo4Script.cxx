@@ -66,7 +66,7 @@ TGo4Script::~TGo4Script()
 
 Bool_t TGo4Script::StartScriptExecution(const char* fname)
 {
-   if (!fname || (strlen(fname)==0)) return kFALSE;
+   if (!fname || (strlen(fname) == 0)) return kFALSE;
 
    FinishExecution();
 
@@ -759,7 +759,7 @@ ViewPanelHandle TGo4Script::FindViewPanel(const char* name)
 Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char* newname)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (!handle || !newname || (strlen(newname)==0)) return kFALSE;
+   if (!handle || !newname || (strlen(newname) == 0)) return kFALSE;
 
    if (fMainWin->FindViewPanel(newname)) {
       Message(TString::Format("Viewpanel with name %s already exists",newname).Data());
@@ -850,7 +850,7 @@ void TGo4Script::StartFitPanel()
 
 TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* account, const char* pass)
 {
-   if (!servername || (*servername==0)) return nullptr;
+   if (!servername || (*servername == 0)) return nullptr;
 
    TGo4HttpProxy* proxy = new TGo4HttpProxy();
    if(account) proxy->SetAccount(account, pass);

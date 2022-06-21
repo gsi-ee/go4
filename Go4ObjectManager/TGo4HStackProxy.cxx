@@ -184,7 +184,7 @@ TObject* TGo4HStackProxy::GetAssignedObject()
 TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char* name)
 {
    if (!hs) return nullptr;
-   if (!name || (*name==0)) return new TGo4ObjectAccess(hs);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(hs);
 
    TObject* obj = hs->GetHists()->FindObject(name);
 

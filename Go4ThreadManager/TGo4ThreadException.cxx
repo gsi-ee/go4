@@ -29,10 +29,10 @@ TGo4ThreadException::TGo4ThreadException(const TGo4ThreadException &right)
 TGo4ThreadException::TGo4ThreadException (TGo4Runnable* runnable, const char* threadname)
 {
    GO4TRACE((14,"TGo4ThreadException::TGo4ThreadException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
-   fxRunnable=runnable;
-   TGo4ThreadManager* man =fxRunnable->GetThreadManager();
-   fxThreadHandler=man->GetWorkHandler();
-   if(threadname==0)
+   fxRunnable = runnable;
+   TGo4ThreadManager* man = fxRunnable->GetThreadManager();
+   fxThreadHandler = man->GetWorkHandler();
+   if(!threadname)
       // default: use thread belonging to runnable
       {
       GO4TRACE((13,"TGo4ThreadException constructor -- no threadname specified",__LINE__, __FILE__));

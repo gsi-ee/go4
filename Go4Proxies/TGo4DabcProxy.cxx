@@ -707,12 +707,12 @@ TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
 
    if (hierarchy.null()) return nullptr;
 
-   if (!name || (strlen(name)==0))
+   if (!name || (strlen(name) == 0))
       return new TGo4DabcAccess(fNodeName.Data(), hierarchy);
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
 
-   return child.null() ? 0 : new TGo4DabcAccess(fNodeName.Data(), child);
+   return child.null() ? nullptr : new TGo4DabcAccess(fNodeName.Data(), child);
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()

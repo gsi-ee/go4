@@ -612,9 +612,9 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
 
 Bool_t TGo4TaskHandler::WaitThreadStop(const char* name)
 {
-   if(name==0) return kFALSE;
+   if(!name) return kFALSE;
    TGo4Thread* thread=fxThreadHandler->GetThread(name);
-   if(thread==0) return kFALSE;
+   if(!thread) return kFALSE;
    Int_t t=0;
    Bool_t timeout=kFALSE;
    while(!thread->IsWaiting())
@@ -627,7 +627,7 @@ Bool_t TGo4TaskHandler::WaitThreadStop(const char* name)
          break;
       }
    }
-   return (!timeout);
+   return !timeout;
 }
 
 void TGo4TaskHandler::SetAdminAccount(const char* name, const char* passwd)

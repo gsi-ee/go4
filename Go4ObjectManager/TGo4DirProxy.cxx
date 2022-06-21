@@ -276,7 +276,7 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
 {
    if (!dir) return nullptr;
 
-   if (!name || (*name==0)) return new TGo4ObjectAccess(dir);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(dir);
 
    TDirectory* curdir = dir;
    const char* curname = name;
@@ -291,7 +291,7 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
       } else {
          partname.Append(curname, slash - curname);
          curname = slash+1;
-         if (*curname==0) curname = nullptr; // if last symbol is slash than finish searching
+         if (*curname == 0) curname = nullptr; // if last symbol is slash than finish searching
       }
 
       char namebuf[10000];

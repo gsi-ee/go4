@@ -111,14 +111,14 @@ TGo4ServerProxy* TGo4AbstractInterface::Server()
 
 void TGo4AbstractInterface::LoadLibrary(const char* fname)
 {
-   if (!fname || (strlen(fname)==0)) return;
+   if (!fname || (strlen(fname) == 0)) return;
 
    TString libs = gInterpreter->GetSharedLibs();
 
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
 
    while(token != nullptr) {
-      if (strcmp(token, fname)==0) return;
+      if (strcmp(token, fname) == 0) return;
       token = strtok(nullptr, " ,\t\n");
    }
 
@@ -136,7 +136,7 @@ Bool_t TGo4AbstractInterface::SaveToFile(const char* itemname,
                                          const char* filename,
                                          const char* filetitle)
 {
-    return Browser()->SaveBrowserToFile(filename, kFALSE, itemname, filetitle);
+   return Browser()->SaveBrowserToFile(filename, kFALSE, itemname, filetitle);
 }
 
 Bool_t TGo4AbstractInterface::ExportToFile(const char* itemname,
@@ -252,7 +252,7 @@ void TGo4AbstractInterface::RedrawItem(const char* itemname)
 
 TObject* TGo4AbstractInterface::GetObject(const char* itemname, Int_t updatelevel)
 {
-   if (!itemname || (strlen(itemname)==0)) return nullptr;
+   if (!itemname || (strlen(itemname) == 0)) return nullptr;
 
    return Browser()->GetBrowserObject(itemname, updatelevel);
 }

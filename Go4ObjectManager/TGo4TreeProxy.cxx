@@ -135,7 +135,7 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
 {
    if (!tree) return nullptr;
 
-   if (!name || (*name==0)) return new TGo4ObjectAccess(tree);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(tree);
 
    TObjArray* list = tree->GetListOfBranches();
    const char* curname = name;
@@ -144,10 +144,10 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(list);
-      TObject* obj = 0;
-      while ((obj = iter())!=0)
-         if ((strlen(obj->GetName())==len) &&
-             (strncmp(obj->GetName(), curname, len)==0)) break;
+      TObject* obj = nullptr;
+      while ((obj = iter()) != nullptr)
+         if ((strlen(obj->GetName()) == len) &&
+             (strncmp(obj->GetName(), curname, len) == 0)) break;
       TBranch* br = dynamic_cast<TBranch*> (obj);
       if (!br) return nullptr;
 

@@ -242,11 +242,11 @@ TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
 
 TGo4Slot* TGo4Slot::FindChild(const char* name)
 {
-   if (!name || (*name==0)) return nullptr;
+   if (!name || (*name == 0)) return nullptr;
    Int_t num = NumChilds();
    for(Int_t n=0;n<num;n++) {
       TGo4Slot* slot = GetChild(n);
-      if (strcmp(slot->GetName(), name)==0) return slot;
+      if (strcmp(slot->GetName(), name) == 0) return slot;
    }
    return nullptr;
 }
@@ -283,11 +283,11 @@ TGo4ObjectManager* TGo4Slot::GetOM() const
 
 void TGo4Slot::CleanProxy()
 {
-    if (fProxy) {
-       fProxy->Finalize(this);
-       delete fProxy;
-       fProxy = nullptr;
-    }
+   if (fProxy) {
+      fProxy->Finalize(this);
+      delete fProxy;
+      fProxy = nullptr;
+   }
 }
 
 void TGo4Slot::SetProxy(TGo4Proxy* cont)
@@ -296,7 +296,7 @@ void TGo4Slot::SetProxy(TGo4Proxy* cont)
 
     fProxy = cont;
 
-    const char* contclass = (fProxy!=0) ? fProxy->ClassName() : nullptr;
+    const char* contclass = fProxy ? fProxy->ClassName() : nullptr;
 
     SetPar("::ProxyClass", contclass);
 
@@ -393,7 +393,7 @@ TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
    if (fProxy && fProxy->Use())
       return fProxy->ProvideAccess(name);
 
-   if (!name || (*name==0)) return new TGo4ObjectAccess(this);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(this);
 
    const char* subname = nullptr;
 
@@ -445,7 +445,7 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
 
 TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 {
-   if (!name || (*name==0)) return this;
+   if (!name || (*name == 0)) return this;
 
    const char* subname = nullptr;
 
@@ -453,8 +453,8 @@ TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 
    if (!subslot && force) {
       TString newname;
-      if (subname==0) newname = name;
-                 else newname.Append(name, subname-name-1);
+      if (!subname) newname = name;
+               else newname.Append(name, subname-name-1);
       subslot = new TGo4Slot(this, newname.Data(), "folder");
    }
 
@@ -464,7 +464,7 @@ TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 {
    // exclude current dir and process parent dir
-   while ((fullpath!=0) && (strlen(fullpath)>2)) {
+   while (fullpath && (strlen(fullpath) > 2)) {
       // ignore current dir
       if (strncmp(fullpath, "./", 2) == 0) { fullpath += 2; continue; }
       // process parent dir
@@ -580,7 +580,7 @@ void TGo4Slot::Print(Option_t* option) const
 
 void TGo4Slot::SetPar(const char* name, const char* value)
 {
-   if (!name || (*name==0)) return;
+   if (!name || (*name == 0)) return;
    if (!value) { RemovePar(name); return; }
 
    TNamed* par = (TNamed*) fPars.FindObject(name);
@@ -592,14 +592,14 @@ void TGo4Slot::SetPar(const char* name, const char* value)
 
 const char* TGo4Slot::GetPar(const char* name) const
 {
-   if (!name || (*name==0)) return nullptr;
+   if (!name || (*name == 0)) return nullptr;
    TNamed* par = (TNamed*) fPars.FindObject(name);
    return par ? par->GetTitle() : nullptr;
 }
 
 void TGo4Slot::RemovePar(const char* name)
 {
-   if (!name || (*name==0)) return;
+   if (!name || (*name == 0)) return;
    TNamed* par = (TNamed*) fPars.FindObject(name);
    if (par) {
       fPars.Remove(par);
@@ -625,7 +625,7 @@ Bool_t TGo4Slot::GetIntPar(const char* name, Int_t& value)
 
 void TGo4Slot::PrintPars(Int_t level)
 {
-   for (int n=0;n<=fPars.GetLast();n++) {
+   for (int n = 0; n <= fPars.GetLast(); n++) {
       TNamed* par = (TNamed*) fPars.At(n);
       if (par)
         printf("%*c%s = %s\n", level, ' ', par->GetName(), par->GetTitle());

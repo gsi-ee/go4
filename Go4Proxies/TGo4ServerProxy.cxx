@@ -203,8 +203,8 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    const char* path       = gSystem->Getenv("PATH");
    const char* ldpath     = gSystem->Getenv("LD_LIBRARY_PATH");
 
-   if ((name==0) || (strlen(name)==0)) name = "UserAnalysis";
-   if ((serverhost==0) || (strlen(serverhost)==0)) serverhost = "localhost";
+   if (!name || (strlen(name) == 0)) name = "UserAnalysis";
+   if (!serverhost || (strlen(serverhost) == 0)) serverhost = "localhost";
 
    if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
       TGo4Prefs prefs(remotehost);
@@ -231,12 +231,10 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
 
-
       if ((exe_kind==1) && exeargs && (strlen(exeargs) > 0))
          prefs.SetPar("userargs", exeargs, false);
       else
          prefs.SetPar("userargs", "", false);
-
 
       const char* termname = "qtwindow";
       if (konsole==2) termname = "xterm"; else
@@ -293,7 +291,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       return kTRUE;
    }
 
-   if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
+   if (!go4sys || (strlen(go4sys) == 0)) return kFALSE;
 
    TString filename = TGo4Log::subGO4SYS(TGo4ServerTask::Get_fgcLAUNCHPREFSFILE());
 
@@ -376,7 +374,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
 
 TGo4ServerProxy::TGo4ServerProxy() :
    TGo4Proxy(),
-   fxParentSlot(0),
+   fxParentSlot(nullptr),
    fbAnalysisReady(kFALSE),
    fbAnalysisSettingsReady(kFALSE),
    fAnalysisLaunched(0),
@@ -391,31 +389,34 @@ TGo4ServerProxy::~TGo4ServerProxy()
 
 TGo4Slot* TGo4ServerProxy::SettingsSlot()
 {
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Settings");
+   return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Settings");
 }
 
 TGo4Slot* TGo4ServerProxy::RatemeterSlot()
 {
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
+   return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Ratemeter");
 }
 
 TGo4Slot* TGo4ServerProxy::LoginfoSlot()
 {
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Loginfo");
+   return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Loginfo");
 }
 
 TGo4Slot* TGo4ServerProxy::DebugOutputSlot()
 {
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Debugoutput");
+   return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Debugoutput");
 }
 
 const char* TGo4ServerProxy::GetContainedObjectInfo()
 {
    fInfoStr = "";
-   if (!IsConnected()) fInfoStr = "Not connected"; else
-   if (IsViewer()) fInfoStr = "Observer"; else
-   if (IsController()) fInfoStr = "Controller"; else
-   if (IsAdministrator()) fInfoStr = "Administrator";
+   if (!IsConnected())
+      fInfoStr = "Not connected";
+   else if (IsViewer())
+      fInfoStr = "Observer";
+   else if (IsController())
+      fInfoStr = "Controller";
+   else if (IsAdministrator())
+      fInfoStr = "Administrator";
    return fInfoStr.Data();
 }
-

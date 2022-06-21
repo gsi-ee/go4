@@ -602,7 +602,7 @@ Bool_t TGo4AnalysisProxy::NamesListReceived()
 
 TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char* name)
 {
-   if (!name || (*name==0) || !fAnalysisNames) return nullptr;
+   if (!name || (*name == 0) || !fAnalysisNames) return nullptr;
 
    TObject* entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
 
@@ -755,7 +755,7 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
    if (!obj) return kFALSE;
 
    const char* objname = obj->GetName();
-   if (!objname || (*objname==0)) return kFALSE;
+   if (!objname || (*objname == 0)) return kFALSE;
 
    /// new with single set object command:
    TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetObject");
@@ -768,7 +768,7 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
 
 void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 {
-   if(!fname || (strlen(fname)==0)) {
+   if(!fname || (strlen(fname) == 0)) {
       fxDisplay->SubmitCommand("ANLoad");
    } else {
       //TGo4ComLoadAnalysisStatus *com = new TGo4ComLoadAnalysisStatus(fname);
@@ -780,7 +780,7 @@ void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 
 void TGo4AnalysisProxy::SaveConfigFile(const char* fname)
 {
-   if(!fname || (strlen(fname)==0)) {
+   if(!fname || (strlen(fname) == 0)) {
      fxDisplay->SubmitCommand("ANSave");
    } else {
      //TGo4ComSaveAnalysisStatus *com = new TGo4ComSaveAnalysisStatus(fname);

@@ -21,7 +21,7 @@
 QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char* name )
     : QFitWidget(parent, name )
 {
-    if (name==0) setObjectName( "QFitNamedWidget" );
+    if (!name) setObjectName( "QFitNamedWidget" );
 
     NameEdt = new QGo4LineEdit( this, "NameEdt" );
     NameEdt->setGeometry( QRect( 61, 36, 100, 27 ) );
