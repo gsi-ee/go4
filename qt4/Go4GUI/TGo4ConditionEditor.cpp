@@ -122,7 +122,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 
 bool TGo4ConditionEditor::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return false;
+   if (!cl) return false;
    bool res = cl->InheritsFrom(TGo4Condition::Class());
 //   res = res || cl->InheritsFrom(TH1::Class());
    return res;
@@ -130,7 +130,7 @@ bool TGo4ConditionEditor::IsAcceptDrag(const char* itemname, TClass* cl, int kin
 
 void TGo4ConditionEditor::DropItem(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return;
+   if (!cl) return;
 
    if (cl->InheritsFrom(TGo4Condition::Class()))
       WorkWithCondition(itemname);

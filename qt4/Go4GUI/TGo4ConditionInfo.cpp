@@ -35,19 +35,19 @@ TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
 
 bool TGo4ConditionInfo::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
-   return cl==0 ? false : cl->InheritsFrom(TGo4Condition::Class());
+   return !cl ? false : cl->InheritsFrom(TGo4Condition::Class());
 }
 
 void TGo4ConditionInfo::DropItem(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return;
+   if (!cl) return;
    if (cl->InheritsFrom(TGo4Condition::Class()))
       WorkWithCondition(itemname);
 }
 
 void TGo4ConditionInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Condition")==0)
+   if (strcmp(linkname,"Condition") == 0)
      RefreshWidget(dynamic_cast<TGo4Condition*>(obj));
 }
 

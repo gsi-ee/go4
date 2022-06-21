@@ -537,7 +537,7 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
       Browser()->SyncBrowserSlots();
       const char* itemname = res->GetObjectFullName();
       TClass* cl = Browser()->ItemClass(itemname);
-      if (cl!=0) InformThatObjectCreated(itemname, cl);
+      if (cl) InformThatObjectCreated(itemname, cl);
       if (!fNewObjectForEditor) EditItem(itemname);
       fNewObjectForEditor = true;
    }
@@ -547,9 +547,9 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
       TList* lst = dynamic_cast<TList*> (obj);
 
       TListIter iter(lst, kFALSE);
-      TObject* obj = 0;
+      TObject* obj = nullptr;
 
-      while ((obj = iter()) != 0) {
+      while ((obj = iter()) != nullptr) {
          if (obj == lst->First()) continue;
          AppendOutputBuffer(obj->GetName());
          AppendOutputBuffer("\n");
@@ -577,7 +577,7 @@ void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)
 {
   e->ignore(); // destroying this would mix up the upper level management
   QWidget* mdi = parentWidget();
-  if (mdi==0) return;
-  mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
+  if (mdi)
+     mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
 }
 

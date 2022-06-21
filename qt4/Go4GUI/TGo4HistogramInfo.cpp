@@ -51,12 +51,12 @@ void TGo4HistogramInfo::HisInfoButton_clicked()
 
 bool TGo4HistogramInfo::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
-   return cl==0 ? false : cl->InheritsFrom(TH1::Class());
+   return !cl ? false : cl->InheritsFrom(TH1::Class());
 }
 
 void TGo4HistogramInfo::DropItem(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return;
+   if (!cl) return;
 
    if (cl->InheritsFrom(TH1::Class()))
       WorkWithHistogram(itemname);
@@ -64,9 +64,8 @@ void TGo4HistogramInfo::DropItem(const char* itemname, TClass* cl, int kind)
 
 void TGo4HistogramInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   TGo4HistogramStatus* hstate =
-      dynamic_cast<TGo4HistogramStatus*>(obj);
-   if (hstate!=0)
+   TGo4HistogramStatus* hstate = dynamic_cast<TGo4HistogramStatus*>(obj);
+   if (hstate)
       RefreshHistogramInfo(hstate);
    else
       RefreshHistogramInfo(dynamic_cast<TH1*> (obj));
@@ -77,7 +76,7 @@ void TGo4HistogramInfo::WorkWithHistogram(const char* itemname)
    ResetWidget();
 
    TGo4BrowserProxy* br = Browser();
-   if (br==0) return;
+   if (!br) return;
 
    HisnameLbl->setText(itemname);
 
@@ -120,9 +119,9 @@ void TGo4HistogramInfo::ResetWidget()
 
 void TGo4HistogramInfo::RefreshHistogramInfo(TH1* h1)
 {
-  if (h1==0)
+  if (!h1) {
     ResetWidget();
-  else {
+  } else {
      TGo4HistogramStatus hstate(h1, kTRUE);
      RefreshHistogramInfo(&hstate);
   }
@@ -130,7 +129,7 @@ void TGo4HistogramInfo::RefreshHistogramInfo(TH1* h1)
 
 void TGo4HistogramInfo::RefreshHistogramInfo(TGo4HistogramStatus* hstate)
 {
-   if(hstate==0) return;
+   if(!hstate) return;
    TString str;
    PropertyBox->item(HISTITLE)->setText(hstate->GetTitle());
    PropertyBox->item(HISCLASS)->setText(hstate->GetObjectClass());

@@ -54,18 +54,18 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
    }
 #endif
 #ifdef __NOGO4MACRO__
-   if (dir==0) return;
+   if (!dir) return;
    // found->SetOwner(kTRUE);
    TRegexp wild(wildcard, kTRUE);
    TIter next(dir->GetListOfKeys());
-   TKey *key = 0;
+   TKey *key = nullptr;
    while((key=(TKey*)next())) {
       if(strcmp(key->GetClassName(),"TDirectoryFile")==0)
          paramiter(dir->GetDirectory(key->GetName()), wildcard, found);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {
             TClass* cl = TClass::GetClass(key->GetClassName());
-            if ((cl!=0) && cl->InheritsFrom("TGo4Parameter")) {
+            if (cl && cl->InheritsFrom("TGo4Parameter")) {
                 TObject* obj = dir->Get(key->GetName());
                 if (obj) found->Add(obj);
             }

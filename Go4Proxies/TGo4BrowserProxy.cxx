@@ -1999,7 +1999,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
    // TClass * cl = TGo4Proxy::GetClass(clname);
 
    if (kind==TGo4Access::kndObject) {
-      if (cl!=0) {
+      if (cl) {
         if (cl->InheritsFrom(TProfile::Class())) { cando = 1110; pixmap = "profile_t.png"; } else
         if (cl->InheritsFrom(TProfile2D::Class())) { cando = 1110; pixmap = "col.png"; } else
         if (cl->InheritsFrom(TGo4Picture::Class())) { cando = 110; pixmap = "picture.png"; } else
@@ -2030,14 +2030,14 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       }
    } else if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {
       pixmap = "folder_t.png";
-      if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; }
+      if (cl && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
+      if (cl && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
+      if (cl && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
+      if (cl && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
+      if (cl && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
+      if (cl && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
+      if (cl && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; } else
+      if (cl && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; }
       if (kind==TGo4Access::kndMoreFolder) cando += 10000000;
    } else if (kind==TGo4Access::kndTreeBranch)
       pixmap = "branch_t.png";

@@ -286,14 +286,14 @@ Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMe
 
 Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass* cl, char* ptr, unsigned long int cloffset)
 {
-   if ((items==0) || (cl==0) || (ptr==0)) return kFALSE;
+   if (!items || !cl || !ptr) return kFALSE;
 
    TIter iter(cl->GetListOfDataMembers());
 
-   TObject* obj = 0;
-   while ((obj=iter()) != 0) {
+   TObject* obj =  nullptr;
+   while ((obj=iter()) != nullptr) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
-      if (member==0) continue;
+      if (!member) continue;
       const char* memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
 
@@ -316,8 +316,8 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
           break;
       } // switch()
 
-      TArrayI* arri(0);
-      TArrayD* arrd(0);
+      TArrayI* arri = nullptr;
+      TArrayD* arrd = nullptr;
 
       if (strcmp(memtypename,"TString")==0) {
         memtypeid = TGo4ParameterMember::kTString_t;
@@ -356,7 +356,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
            if (itemsindx>items->GetLast()) return kFALSE;
            TGo4ParameterMember* info =
               dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
-           if (info==0) return kFALSE;
+           if (!info) return kFALSE;
 
           if (strcmp(info->GetName(), member->GetName())!=0) return kFALSE;
           if (strcmp(info->GetTitle(), member->GetTitle())!=0) return kFALSE;
@@ -376,11 +376,11 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
 
    // expand base classes
    TIter cliter(cl->GetListOfBases());
-   while((obj=cliter()) !=0) {
+   while((obj = cliter()) != nullptr) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
-      if (baseclass==0) continue;
+      if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
-      if(bclass==0) continue;
+      if(!bclass) continue;
       if(strcmp(bclass->GetName(), "TGo4Parameter")==0) continue;
       if(strcmp(bclass->GetName(), "TNamed")==0) continue;
 
@@ -394,7 +394,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
    TString varname = TString::Format("param%d", cnt++);
-   Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
+   Bool_t savemacro = opt && (strstr(opt,"savemacro") != nullptr);
 
    if (savemacro) {
       out << TString::Format("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",

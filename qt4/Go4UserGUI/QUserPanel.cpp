@@ -110,14 +110,14 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
       case 0:
         DragLbl->setText("Go4 GUI asks if widget accept dragged item");
         DragItemLbl->setText(itemname);
-        DragClassLbl->setText(QString("Class: ") + (cl==0 ? "not exists (known)" : cl->GetName()));
+        DragClassLbl->setText(QString("Class: ") + (!cl ? "not exists (known)" : cl->GetName()));
         DragKindLbl->setText(kindString(kind));
-        res = cl!=0;
+        res = cl != nullptr;
         break;
 
      case 1:
-        PrintLbl->setText(QString("Class: ") + (cl==0 ? "not exists (known)" : cl->GetName()));
-        res = cl!=0;
+        PrintLbl->setText(QString("Class: ") + (!cl ? "not exists (known)" : cl->GetName()));
+        res = cl != nullptr;
         break;
    }
    // we will accept only items with known classes
@@ -130,11 +130,11 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
       case 0:
          DragLbl->setText("User dropped item");
          DragItemLbl->setText(itemname);
-         DragClassLbl->setText(cl==0 ? "No class specified" : cl->GetName());
+         DragClassLbl->setText(!cl ? "No class specified" : cl->GetName());
          DragKindLbl->setText(kindString(kind));
          break;
       case 1:
-         if (cl==0) {
+         if (!cl) {
             PrintLbl->setText("Can not drop item of unknown class");
          } else {
             PrintLbl->setText(QString("Print item: ") + itemname);
@@ -154,8 +154,7 @@ void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
     if (strcmp(linkname, "PrintItem")==0)
       PrintObject(obj);
-    else
-    if (strcmp(linkname, "DrawItem")==0) {
+    else if (strcmp(linkname, "DrawItem")==0) {
        fxDrawCanvas->getCanvas()->Clear();
        fxDrawCanvas->getCanvas()->cd();
        obj->Draw("");
@@ -166,9 +165,8 @@ void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 void QUserPanel::linkedObjectRemoved(const char* linkname)
 {
     if (strcmp(linkname, "PrintItem")==0)
-      PrintObject(0);
-    else
-    if (strcmp(linkname, "DrawItem")==0) {
+      PrintObject(nullptr);
+    else if (strcmp(linkname, "DrawItem")==0) {
       RemoveLink("DrawItem");
       fxDrawCanvas->getCanvas()->Clear();
       fxDrawCanvas->getCanvas()->Update();

@@ -60,18 +60,18 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
    }
 #endif
 #ifdef __NOGO4MACRO__
-   if (dir==0) return;
+   if (!dir) return;
    found->SetOwner(kTRUE);
    TRegexp wild(wildcard,kTRUE);
    TIter next(dir->GetListOfKeys());
-   TKey *key = 0;
+   TKey *key = nullptr;
    while((key=(TKey*)next())) {
       if(strcmp(key->GetClassName(),"TDirectoryFile")==0)
          namiter(dir->GetDirectory(key->GetName()), wildcard, found, classmask);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {
             TClass* cl = TClass::GetClass(key->GetClassName());
-            if (cl!=0)
+            if (cl)
                if (((classmask / 10) && cl->InheritsFrom("TGo4Parameter")) ||
                    ((classmask % 10) && cl->InheritsFrom("TGo4Condition"))) {
                   TObject* obj = dir->Get(key->GetName());
@@ -123,7 +123,7 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
   TString body;
   TObject* obj = nullptr;
-  while((obj = next()) != 0) {
+  while((obj = next()) != nullptr) {
      if (obj->InheritsFrom("TGo4Parameter")) {
         TString subname = MakeFuncName(outputname, obj->GetName());
         xout << TString::Format("Bool_t %s()", subname.Data()) << std::endl;
@@ -154,7 +154,7 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
   lst.Clear();
 
-  if (f!=0) { delete f; f = 0; }
+  if (f) { delete f; f = nullptr; }
 
   xout << TString::Format("Bool_t %s()", outputname) << std::endl;
   xout << "{" << std::endl;

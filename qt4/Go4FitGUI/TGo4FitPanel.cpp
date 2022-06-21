@@ -298,7 +298,7 @@ TGo4FitPanel::~TGo4FitPanel()
 
 bool TGo4FitPanel::IsAcceptDrag( const char* itemname, TClass * cl, int kind )
 {
-   if (cl==0) return false;
+   if (!cl) return false;
 
    return (cl->InheritsFrom(TGo4Fitter::Class())) ||
           (cl->InheritsFrom(TH1::Class())) ||
