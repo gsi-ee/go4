@@ -43,7 +43,7 @@ TGo4RootBrowserProxy::TGo4RootBrowserProxy(TGo4BrowserProxy* br) :
 TGo4RootBrowserProxy::~TGo4RootBrowserProxy()
 {
    TGo4BrowserItem* topfold = (TGo4BrowserItem*) gROOT->GetListOfBrowsables()->FindObject("go4");
-   if (topfold!=0) {
+   if (topfold) {
       gROOT->GetListOfBrowsables()->Remove(topfold);
       delete topfold;
    }
@@ -51,35 +51,31 @@ TGo4RootBrowserProxy::~TGo4RootBrowserProxy()
 
 Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
 {
-  if ((id==TGo4Slot::evObjAssigned) ||
-      (id==TGo4Slot::evObjUpdated)) {
-         if (strcmp(source->GetName(), "Go4Browser")==0)
-            SyncRootBrowserSlots();
-         if (strcmp(source->GetName(), "AnalLoginfo")==0)
-            UpdateLoginfo(source->GetAssignedObject());
-         if (strcmp(source->GetName(), "AnalRateMeter")==0)
-            UpdateRatemeter(source->GetAssignedObject());
-      }
-   else
-   if ((id==TGo4Slot::evDelete) ||
-       (id==TGo4Slot::evObjDeleted)) {
-          // std::cout << "Slot deleted " << source->GetName() << std::endl;
-       }
+   if ((id == TGo4Slot::evObjAssigned) || (id == TGo4Slot::evObjUpdated)) {
+      if (strcmp(source->GetName(), "Go4Browser") == 0)
+         SyncRootBrowserSlots();
+      if (strcmp(source->GetName(), "AnalLoginfo") == 0)
+         UpdateLoginfo(source->GetAssignedObject());
+      if (strcmp(source->GetName(), "AnalRateMeter") == 0)
+         UpdateRatemeter(source->GetAssignedObject());
+   } else if ((id == TGo4Slot::evDelete) || (id == TGo4Slot::evObjDeleted)) {
+      // std::cout << "Slot deleted " << source->GetName() << std::endl;
+   }
 
-   return (id==TGo4Slot::evDelete);
+   return id == TGo4Slot::evDelete;
 }
 
 void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blockdelay)
 {
    TIter iter(gROOT->GetListOfBrowsers());
-   TBrowser* br = 0;
+   TBrowser* br = nullptr;
 
-   while ((br = dynamic_cast<TBrowser*> (iter())) !=0 ) {
+   while ((br = dynamic_cast<TBrowser*> (iter())) != nullptr) {
       br->SetStatusText(str1, 0);
       br->SetStatusText(str2, 1);
    }
 
-   if (blockdelay>0) {
+   if (blockdelay > 0) {
        fLockMessage = kTRUE;
        TTimer::SingleShot(blockdelay, "TGo4RootBrowserProxy", this, "UnblockStatusOutput()");
    }
@@ -93,7 +89,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
      dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    if (!anal) return;
 
-   const char* header = 0;
+   const char* header = nullptr;
 
    if(anal->IsAnalysisRunning())
       header = "Analysis running";
@@ -102,7 +98,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
 
    TString res;
 
-   if (anal->GetRate()<10)
+   if (anal->GetRate() < 10)
       res.Form("Rate = %6.4f Events = %d Time = %d Date = %s",
               anal->GetRate(),
               TMath::Nint(TMath::Floor(anal->GetCurrentCount())),
@@ -133,10 +129,10 @@ void TGo4RootBrowserProxy::UnblockStatusOutput()
 
 void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 {
-   if (fBrowser==0) return;
+   if (!fBrowser) return;
 
    TGo4BrowserItem* topfold = (TGo4BrowserItem*) gROOT->GetListOfBrowsables()->FindObject("go4");
-   if (topfold==0) {
+   if (!topfold) {
       topfold = new TGo4BrowserItem(0, 0, "go4","Top go4 objects folder");
       topfold->SetTitle("Top Go4 folder");
       topfold->SetItemClass("TFolder");
@@ -202,7 +198,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       if (!res) break;
 
       // delete all slots in folder, which has another name
-      while (curitem && (strcmp(iter.getname(), curitem->GetName())!=0)) {
+      while (curitem && (strcmp(iter.getname(), curitem->GetName()) != 0)) {
          TGo4BrowserItem* next = curfold->nextChild();
          curfold->deleteChild(curitem);
          curitem = next;
@@ -298,7 +294,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
       for(Int_t posy=0; posy<pic->GetDivY(); posy++)
          for(Int_t posx=0; posx<pic->GetDivX(); posx++) {
            TGo4Picture* sub = pic->FindPic(posy,posx);
-           if (sub!=0)
+           if (sub)
              DrawPicture(picitemname, sub, (TPad*) pad->GetPad(posy*pic->GetDivX() + posx + 1));
        }
       return;

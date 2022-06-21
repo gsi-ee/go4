@@ -157,12 +157,12 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
 {
    if (!folder) return nullptr;
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(folder);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(folder);
 
    TFolder* curfold = folder;
    const char* curname = name;
 
-   while (curfold!=0) {
+   while (curfold) {
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(curfold->GetListOfFolders());

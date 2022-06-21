@@ -134,9 +134,10 @@ void TGo4Parameter::Clear(Option_t *opt)
   GetMemberValues(&items);
 
   TIter iter(&items);
-  TGo4ParameterMember* info = 0;
+  TGo4ParameterMember* info = nullptr;
 
-  while ((info = (TGo4ParameterMember*) iter()) !=0 ) info->SetToZero();
+  while ((info = (TGo4ParameterMember*) iter()) != nullptr)
+     info->SetToZero();
 
   SetMemberValues(&items);
 }
@@ -150,7 +151,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items)
 {
    if (!items) return kFALSE;
 
-   Int_t indx(0);
+   Int_t indx = 0;
 
    return SetMemberValues(items, indx, IsA(), (char*) this, 0);
 }
@@ -168,7 +169,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
    TObject* obj = nullptr;
    while ((obj=iter()) != nullptr) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
-      if (member==0) continue;
+      if (!member) continue;
       const char* memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
 

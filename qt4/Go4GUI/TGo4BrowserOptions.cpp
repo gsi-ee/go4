@@ -49,7 +49,7 @@ void TGo4BrowserOptions::UpdateView()
 
 void TGo4BrowserOptions::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Browser")==0)
+   if (strcmp(linkname,"Browser") == 0)
       UpdateView();
 }
 

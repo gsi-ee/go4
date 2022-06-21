@@ -408,7 +408,7 @@ void TGo4Interface::StepMbsStreamSource(const char* stepname,
                                         int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4MbsStreamParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -426,7 +426,7 @@ void TGo4Interface::StepMbsTransportSource(const char* stepname,
                                         int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4MbsTransportParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -444,7 +444,7 @@ void TGo4Interface::StepMbsEventServerSource(const char* stepname,
                                           int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4MbsEventServerParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -463,7 +463,7 @@ void TGo4Interface::StepMbsRevServSource(const char* stepname,
                                       int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4RevServParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -479,7 +479,7 @@ void TGo4Interface::StepRandomSource(const char* stepname,
                                   int timeout)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4MbsRandomParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -493,7 +493,7 @@ void TGo4Interface::StepUserSource(const char* stepname,
                                 const char* expr)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4UserSourceParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -511,7 +511,7 @@ void TGo4Interface::StepFileStore(const char* stepname,
                                int autosaveperiod)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4FileStoreParameter par(storename);
    par.SetOverwriteMode(overwrite);
@@ -528,7 +528,7 @@ void TGo4Interface::StepBackStore(const char* stepname,
                                int splitlevel)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4BackStoreParameter par(storename);
    par.SetBufsize(bufsize);
@@ -540,7 +540,7 @@ void TGo4Interface::StepUserStore(const char* stepname,
                    const char* storename)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4UserStoreParameter par(storename);
    step->SetStorePar(&par);
