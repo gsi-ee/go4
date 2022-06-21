@@ -225,9 +225,10 @@ void TGo4FitData::ReleaseAllPointers() {
   ResetAllPoinetrs();
 }
 
-Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t& min, Double_t& max) {
+Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t& min, Double_t& max)
+{
    TGo4FitDataIter* iter = MakeIter();
-   if (iter==0) return kFALSE;
+   if (!iter) return kFALSE;
    Bool_t res = kFALSE;
    if (iter->Reset(kFALSE) && (iter->ScalesSize()<=naxis)) {
       min = iter->Scales()[naxis]; max = min;
@@ -378,15 +379,16 @@ TGo4FitDataIter::~TGo4FitDataIter() {
 
 Bool_t TGo4FitDataIter::ReserveArrays(Int_t NumDimen, Int_t NumOwnAxis, Bool_t HasWidth) {
    TGo4FitData* data = GetData();
-   if (data==0) return kFALSE;
+   if (!data) return kFALSE;
 
-   fxIndexes.Set(NumDimen); fxIndexes.Reset(0);
+   fxIndexes.Set(NumDimen);
+   fxIndexes.Reset(0);
 
    Int_t size = 0;
    if (data->GetUseBinScale()) size = NumDimen;
                           else size = NumOwnAxis;
 
-   if (size<=0) return kFALSE;
+   if (size <= 0) return kFALSE;
 
    fxScales.Set(size); fxScales.Reset(0.);
    if (HasWidth) { fxWidths.Set(size); fxWidths.Reset(1.); }
@@ -409,7 +411,7 @@ Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownsca
    TGo4FitData* data = GetData();
    if (!data) return kFALSE;
 
-   if ( (data->GetUseBinScale()) || (ownscales==0) ) {
+   if (data->GetUseBinScale() || !ownscales) {
      if (index==0) return kFALSE;
      Double_t add = (data->GetDataType() == TGo4FitData::dtHistogram) ? .5 : 0.;
      for(Int_t n=0;n<fxScales.GetSize();n++)
@@ -418,12 +420,12 @@ Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownsca
    } else {
      for(Int_t n=0; n<fxScales.GetSize();n++)
        fxScales[n] = ownscales[n];
-     if (ownwidths!=0)
+     if (ownwidths)
        for(Int_t n=0; n<fxWidths.GetSize();n++)
          fxWidths[n] = ownwidths[n];
    }
 
-   if (data->GetNumberOfTransSlots()>0) {
+   if (data->GetNumberOfTransSlots() > 0) {
       if (fxWidths.GetSize()==ScalesSize()) {
          TArrayD arr1(ScalesSize()), arr2(ScalesSize());
          for(Int_t n=0;n<ScalesSize();n++) {
@@ -444,8 +446,8 @@ Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownsca
 
 Bool_t TGo4FitDataIter::NextIndex(TArrayI& Index, TArrayI& Limits)
 {
-   Int_t n=0;
-   while (n<Index.GetSize()) {
+   Int_t n = 0;
+   while (n < Index.GetSize()) {
       Index[n]++;
       if (Index[n]<Limits[n]) return kTRUE;
       Index[n] = 0; n++;
@@ -471,7 +473,8 @@ Bool_t TGo4FitDataIter::CheckPointForRange()
   return data->CheckRangeConditions(Scales(),ScalesSize());
 }
 
-Bool_t TGo4FitDataIter::Reset(Bool_t UseRanges) {
+Bool_t TGo4FitDataIter::Reset(Bool_t UseRanges)
+{
   fbReachEnd = kTRUE;
 
   if (!StartReset()) return kFALSE;
@@ -490,10 +493,11 @@ Bool_t TGo4FitDataIter::Reset(Bool_t UseRanges) {
   return kTRUE;
 }
 
-Bool_t TGo4FitDataIter::Next(Bool_t UseRanges) {
+Bool_t TGo4FitDataIter::Next(Bool_t UseRanges)
+{
   fiNumPoint++;
 
-  if (fbReachEnd || (GetData()==0)) { fbReachEnd = kTRUE; return kFALSE; }
+  if (fbReachEnd || !GetData()) { fbReachEnd = kTRUE; return kFALSE; }
 
   do {
     if (!ShiftToNextPoint()) { fbReachEnd = kTRUE; return kFALSE; }
@@ -510,19 +514,21 @@ Bool_t TGo4FitDataIter::Next(Bool_t UseRanges) {
 Double_t TGo4FitDataIter::xWidths() const
 {
    double res = 1.;
-   if(HasWidths())
-      for(int n=0;n<fxWidths.GetSize();n++)
-        res=res*fxWidths[n];
+   if (HasWidths())
+      for (int n = 0; n < fxWidths.GetSize(); n++)
+         res = res * fxWidths[n];
    return res;
 }
 
-Int_t TGo4FitDataIter::CountPoints(Bool_t UseRanges) {
-  if (!Reset(UseRanges)) return 0;
-  Int_t cnt=0;
-  do {
-    cnt+=1;
-  } while (Next(UseRanges));
-  return cnt;
+Int_t TGo4FitDataIter::CountPoints(Bool_t UseRanges)
+{
+   if (!Reset(UseRanges))
+      return 0;
+   Int_t cnt = 0;
+   do {
+      cnt += 1;
+   } while (Next(UseRanges));
+   return cnt;
 }
 
 Bool_t TGo4FitDataIter::DefineIndexesLimits(TArrayI& Limits) {
@@ -536,21 +542,22 @@ Bool_t TGo4FitDataIter::DefineIndexesLimits(TArrayI& Limits) {
    return kTRUE;
 }
 
-TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, Bool_t SetBins) {
+TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, Bool_t SetBins)
+{
    TArrayI Limits;
-   if (!DefineIndexesLimits(Limits)) return 0;
-   if (!HasIndexes() || (IndexesSize()!=ScalesSize()) || !HasWidths()) return 0;
+   if (!DefineIndexesLimits(Limits)) return nullptr;
+   if (!HasIndexes() || (IndexesSize()!=ScalesSize()) || !HasWidths()) return nullptr;
 
    Int_t NumDim = IndexesSize();
    if (NumDim>3) NumDim=3;
 
-   Double_t* dummy = 0;
-   TH1* histo = 0;
+   Double_t* dummy = nullptr;
+   TH1* histo = nullptr;
    switch(NumDim) {
       case 1: histo = new TH1D(HistoName, "result", Limits[0]+1, dummy); break;
       case 2: histo = new TH2D(HistoName, "result", Limits[0]+1, dummy, Limits[1]+1, dummy); break;
       case 3: histo = new TH3D(HistoName, "result", Limits[0]+1, dummy, Limits[1]+1, dummy, Limits[2]+1, dummy); break;
-      default: return 0;
+      default: return nullptr;
    }
 
    histo->SetDirectory(nullptr);

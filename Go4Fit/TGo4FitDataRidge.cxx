@@ -53,23 +53,24 @@ void TGo4FitDataRidge::Print(Option_t* option) const {
 // *********************************************************************************
 
 TGo4FitDataRidgeIter::TGo4FitDataRidgeIter() : TGo4FitDataIter(),
-    fxData(0), iter(0), fxOwnScales() {
+    fxData(nullptr), iter(nullptr), fxOwnScales() {
 }
 
 TGo4FitDataRidgeIter::TGo4FitDataRidgeIter(TGo4FitDataRidge* data) :
-    TGo4FitDataIter(), fxData(data), iter(0), fxOwnScales() {
+    TGo4FitDataIter(), fxData(data), iter(nullptr), fxOwnScales() {
 }
 
 TGo4FitDataRidgeIter::~TGo4FitDataRidgeIter() {
-    if (iter!=0) delete iter;
+    if (iter) delete iter;
 }
 
-Bool_t TGo4FitDataRidgeIter::StartReset() {
-  if (iter!=0) { delete iter; iter = 0; }
+Bool_t TGo4FitDataRidgeIter::StartReset()
+{
+  if (iter) { delete iter; iter = nullptr; }
 
-  if (fxData==0) return kFALSE;
+  if (!fxData) return kFALSE;
   TGo4FitData* data = fxData->GetData();
-  if (data==0) return kFALSE;
+  if (!data) return kFALSE;
 
   if (data->GetDataType() != TGo4FitData::dtHistogram ) {
      std::cout << " Only histogramic data can be used for transform " << std::endl;
@@ -77,7 +78,7 @@ Bool_t TGo4FitDataRidgeIter::StartReset() {
   }
 
   iter = data->MakeIter();
-  if ((iter==0) || (!iter->Reset(kTRUE))) return kFALSE;
+  if (!iter || !iter->Reset(kTRUE)) return kFALSE;
 
   fxOwnScales.Set(iter->ScalesSize()-1); fxOwnScales.Reset(0.);
 
@@ -86,7 +87,7 @@ Bool_t TGo4FitDataRidgeIter::StartReset() {
 
 Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint()
 {
-  if ((iter==0) || (fxData==0)) return kFALSE;
+  if (!iter || !fxData) return kFALSE;
 
    if (!GetDeviation()) {
       if (iter->Value() > 0.)
@@ -104,7 +105,7 @@ Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint()
 
 Bool_t TGo4FitDataRidgeIter::ShiftToNextPoint()
 {
-  if (iter==0) return kFALSE;
+  if (!iter) return kFALSE;
   Bool_t res = iter->Next(kTRUE);
   while (res && (iter->Value()<=0.))
     res = iter->Next(kTRUE);

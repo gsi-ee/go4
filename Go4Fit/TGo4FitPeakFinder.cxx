@@ -67,17 +67,18 @@ void TGo4FitPeakFinder::SetupForThird(Double_t NoiseFactor, Double_t NoiseMinimu
   Set2ChannelSum(ChannelSum);
 }
 
-void TGo4FitPeakFinder::DoAction(TGo4FitterAbstract* Fitter) {
+void TGo4FitPeakFinder::DoAction(TGo4FitterAbstract* Fitter)
+{
   TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (Fitter);
-  if (fitter==0) return;
+  if (!fitter) return;
 
   TGo4FitData* data = fitter->FindData(GetDataName());
-  if (data==0) return;
+  if (!data) return;
 
   if (GetClearModels())
     fitter->DeleteModelsAssosiatedTo(data->GetName());
 
-  if (GetPeakFinderType()==0)
+  if (GetPeakFinderType() == 0)
      SergeyLinevPeakFinder(fitter,
                            data,
                            GetUsePolynom() ? GetPolynomOrder() : -1,
@@ -85,13 +86,13 @@ void TGo4FitPeakFinder::DoAction(TGo4FitterAbstract* Fitter) {
                            Get0MinWidth(),
                            Get0MaxWidth());
 
-   if (GetPeakFinderType()==1)
+   if (GetPeakFinderType() == 1)
      ROOTPeakFinder(fitter,
                     data,
                     GetUsePolynom() ? GetPolynomOrder() : -1,
                     Get1LineWidth());
 
-   if (GetPeakFinderType()==2)
+   if (GetPeakFinderType() == 2)
      HansEsselPeakFinder(fitter,
                          data,
                          500,
@@ -101,55 +102,16 @@ void TGo4FitPeakFinder::DoAction(TGo4FitterAbstract* Fitter) {
                          GetUsePolynom() ? GetPolynomOrder() : -1);
 }
 
-void TGo4FitPeakFinder::Print(Option_t* option) const {
+void TGo4FitPeakFinder::Print(Option_t* option) const
+{
   TGo4FitterAction::Print(option);
 }
-/*
-void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter* fitter, TGo4FitData* data, Int_t PolynomOrder, Double_t Sigma) {
-   if ((fitter==0) || (data==0)) return;
-
-   TGo4FitDataIter* iter = data->MakeIter();
-   if (iter==0) return;
-
-   Int_t size = iter->CountPoints();
-
-   if ((size<10) || (iter->ScalesSize()!=1))  { delete iter; return; }
-
-   TArrayF Bins(size), Scales(size);
-
-   Int_t nbin = 0;
-   if (iter->Reset()) do {
-      Bins[nbin] = data->GetAmplValue() * iter->Value();
-      Scales[nbin] = iter->x();
-      nbin++;
-   } while (iter->Next());
-
-   delete iter;
-
-   if (PolynomOrder>=0)
-     fitter->AddPolynomX(data->GetName(), "Pol", PolynomOrder);
-
-   TSpectrum sp(100);
-   sp.Search1(Bins.GetArray(), size, Sigma);
-
-   for(Int_t n=0;n<sp.GetNPeaks();n++) {
-      Double_t dindx = sp.GetPositionX()[n];
-      Int_t left = TMath::Nint(dindx-Sigma/2.);
-      Int_t right = TMath::Nint(dindx+Sigma/2.);
-
-      Double_t pos = Scales[TMath::Nint(dindx)];
-      Double_t width = TMath::Abs(Scales[right]-Scales[left]);
-
-      fitter->AddGauss1(data->GetName(), fitter->FindNextName("Gauss",n), pos, width);
-    }
-}
-*/
 
 void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter* fitter, TGo4FitData* data, Int_t PolynomOrder, Double_t Sigma) {
-   if ((fitter==0) || (data==0)) return;
+   if (!fitter || !data) return;
 
    TGo4FitDataIter* iter = data->MakeIter();
-   if (iter==0) return;
+   if (!iter) return;
 
    Int_t size = iter->CountPoints();
 
@@ -170,7 +132,7 @@ void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter* fitter, TGo4FitData* data, In
 
    delete iter;
 
-   if (PolynomOrder>=0)
+   if (PolynomOrder >= 0)
      fitter->AddPolynomX(data->GetName(), "Pol", PolynomOrder);
 
    TH1D histo("ROOTPeakFinder", "ROOTPeakFinder spectrum", size, HScales.GetArray());
@@ -203,7 +165,8 @@ void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter* fitter, TGo4FitData* data, In
 }
 
 
-Double_t TGo4FitPeakFinder::CalcPolynom(const TArrayD& Coef, Double_t x) {
+Double_t TGo4FitPeakFinder::CalcPolynom(const TArrayD& Coef, Double_t x)
+{
    Double_t power = 1., sum = 0.;
    for(Int_t n=0;n<Coef.GetSize();n++)
      { sum+=Coef[n]*power; power*=x; }
@@ -275,14 +238,14 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter* fitter,
                                               Double_t AmplThreshold,
                                               Double_t MinWidth,
                                               Double_t MaxWidth) {
-   if ((fitter==0) || (data==0)) return;
+   if (!fitter || !data) return;
 
    TGo4FitDataIter* iter = data->MakeIter();
-   if (iter==0) return;
+   if (!iter) return;
 
    Int_t size = iter->CountPoints();
 
-   if ((size<10) || (iter->ScalesSize()!=1))  { delete iter; return; }
+   if ((size < 10) || (iter->ScalesSize() != 1))  { delete iter; return; }
 
    TArrayD Bins(size), Scales(size), Weights(size), Background(size);
 
@@ -411,10 +374,10 @@ void TGo4FitPeakFinder::HansEsselPeakFinder(TGo4Fitter* fitter,
                                             Double_t NoiseFactor,
                                             Double_t NoiseMinimum,
                                             Int_t MinimasOrder) {
-   if ((fitter==0) || (data==0) || (MaxNumPeaks<1)) return;
+   if (!fitter || !data || (MaxNumPeaks < 1)) return;
 
    TGo4FitDataIter* iter = data->MakeIter();
-   if (iter==0) return;
+   if (!iter) return;
 
    Int_t size = iter->CountPoints();
 
