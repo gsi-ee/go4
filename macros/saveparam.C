@@ -92,7 +92,7 @@ TString MakeParamFuncName(const char* main, const char* objname)
 // outside Go4 get parameter from file (1st arg)
 Bool_t save1param(TObject* obj, const char* prefix)
 {
-  if ((obj==0) || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
+  if (!obj || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
 
   TGo4Parameter* param = (TGo4Parameter*) obj;
 

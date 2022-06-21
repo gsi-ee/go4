@@ -112,9 +112,9 @@ enum OptionsIdentifiers {
    op_ApplyToAll  = 99,
    op_AutoZoom    = 100,
 
-   op_TimeAxisX	= 200,
+   op_TimeAxisX   = 200,
    //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
-   	   	   	   	   	   	   // check reason for this later JAM
+                                       // check reason for this later JAM
 
    op_XYRatioOne   = 300,  // JAM2016: 1:1 coordinate ratio
    op_DefaultRatio = 301,  // temporary used to reset ratio to default
@@ -620,7 +620,7 @@ void TGo4Picture::ClearRebin(Int_t index)
 
 void TGo4Picture::GetDrawAttributes(TObject* obj, Int_t index)
 {
-   if (obj==0) return;
+   if (!obj) return;
    CheckIndex(index);
    GetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
    GetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
@@ -631,7 +631,7 @@ void TGo4Picture::GetDrawAttributes(TObject* obj, Int_t index)
 
 void TGo4Picture::SetDrawAttributes(TObject* obj, Int_t index)
 {
-   if (obj==0) return;
+   if (!obj) return;
    CheckIndex(index);
    SetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
    SetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
@@ -642,7 +642,7 @@ void TGo4Picture::SetDrawAttributes(TObject* obj, Int_t index)
 
 void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
 {
-   if (h1==0) return;
+   if (!h1) return;
    CheckIndex(index);
    SetAxisAtt(0, h1->GetXaxis(), index);
    SetAxisAtt(1, h1->GetYaxis(), index);
@@ -651,7 +651,7 @@ void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
 
 void TGo4Picture::GetH1Att(TH1* h1, Int_t index)
 {
-   if (h1==0) return;
+   if (!h1) return;
    CheckIndex(index);
    GetAxisAtt(0, h1->GetXaxis(), index);
    GetAxisAtt(1, h1->GetYaxis(), index);
@@ -683,43 +683,43 @@ void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t ind
 
 void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index)
 {
-	 CheckIndex(index);
-	 SetOption (index, op_TimeAxisX, timedisplay);
-	 SetStrOption(index, op_TimeAxisXFmt, format);
+    CheckIndex(index);
+    SetOption (index, op_TimeAxisX, timedisplay);
+    SetStrOption(index, op_TimeAxisXFmt, format);
 }
 
 void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
 {
-	SetOption (PictureIndex, op_TimeAxisX, on);
+   SetOption (PictureIndex, op_TimeAxisX, on);
 }
 
 void TGo4Picture::SetXAxisTimeFormat(const char* format)
 {
-	 SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
+    SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
 
 Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 {
-	Long_t value=0;
-	GetOption(PictureIndex, op_TimeAxisX,value);
-	return value;
+   Long_t value=0;
+   GetOption(PictureIndex, op_TimeAxisX,value);
+   return value;
 }
 
 const char* TGo4Picture::GetXAxisTimeFormat()
 {
-	return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
+   return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
 }
 
 void TGo4Picture::SetXYRatioOne(Bool_t on)
 {
-    SetOption (PictureIndex, op_XYRatioOne, on);
+   SetOption (PictureIndex, op_XYRatioOne, on);
 }
 
 Bool_t  TGo4Picture::IsXYRatioOne()
 {
-    Long_t value=0;
-    GetOption(PictureIndex, op_XYRatioOne, value);
-    return value;
+   Long_t value = 0;
+   GetOption(PictureIndex, op_XYRatioOne, value);
+   return value;
 }
 
 //void TGo4Picture::SetDefaultRatio(Bool_t on)
@@ -780,7 +780,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis,
 
 void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
 {
-   if (axis!=0)
+   if (axis)
       SetAxisAtt(naxis,
               axis->GetAxisColor(),
               axis->GetLabelColor(),
@@ -797,11 +797,10 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
               axis->GetTicks(),
               axis->TestBits(0x0ff0),
               index);
-   if(naxis==0)
-   	   {
-	   	   // support time format only for x axis for the moment
-	   	   SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
-   	   }
+   if(naxis==0) {
+      // support time format only for x axis for the moment
+      SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+    }
 }
 
 void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
@@ -840,9 +839,9 @@ void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
 
    if(naxis==0)
    {
-	   // time format x axis
-	   if (GetOption (index, op_TimeAxisX, lv)) axis->SetTimeDisplay(lv);
-	   axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S"));
+      // time format x axis
+      if (GetOption (index, op_TimeAxisX, lv)) axis->SetTimeDisplay(lv);
+      axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S"));
    }
 
 }
@@ -1487,10 +1486,10 @@ Double_t TGo4Picture::GetD(Short_t index, Short_t typ, Double_t def) const
 
 void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
 {
-   if (obj==0) return;
+   if (!obj) return;
    if (typ<op_ObjsBound) { delete obj; return; }
    Int_t pos = FindOptPos(index, typ);
-   if (pos>=0) {
+   if (pos >= 0) {
      TObject* old = fxOptObjects->RemoveAt(fxOptValue[pos]);
      delete old;
      fxOptObjects->AddAt(obj, fxOptValue[pos]);
@@ -1507,15 +1506,15 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
 
 TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
 {
-   if (typ < op_ObjsBound) return 0;
+   if (typ < op_ObjsBound) return nullptr;
    Int_t pos = FindOptPos(index, typ);
-   if (pos < 0) return 0;
+   if (pos < 0) return nullptr;
    return fxOptObjects->At(fxOptValue[pos]);
 }
 
 void TGo4Picture::SetStrOption(Short_t index, Short_t typ, const char* value)
 {
-  if (value==0) return;
+  if (!value) return;
   SetObjOption(index, typ, new TObjString(value));
 }
 
@@ -1529,8 +1528,8 @@ const char* TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char *de
 void TGo4Picture::SetDrawOption(Option_t* option, Int_t index)
 {
    CheckIndex(index);
-   if (option==0) ClearOption(index, op_Draw);
-             else SetStrOption(index, op_Draw, option);
+   if (!option) ClearOption(index, op_Draw);
+           else SetStrOption(index, op_Draw, option);
 }
 
 Option_t* TGo4Picture::GetDrawOption(Int_t index) const
@@ -1541,7 +1540,7 @@ Option_t* TGo4Picture::GetDrawOption(Int_t index) const
 
 void TGo4Picture::SetStyle(TStyle* style, Int_t index)
 {
-   if (style==0) return;
+   if (!style) return;
    CheckIndex(index);
    SetObjOption(index, op_Style, new TStyle(*style));
 }
@@ -1550,7 +1549,7 @@ TStyle* TGo4Picture::FindStyle(Int_t index)
 {
    CheckIndex(index);
    Int_t pos = FindOptPos(index, op_Style);
-   if (pos<0) return 0;
+   if (pos < 0) return nullptr;
    return dynamic_cast<TStyle*> (GetObjOption(index, op_Style));
 }
 
@@ -1558,7 +1557,7 @@ TStyle* TGo4Picture::GetStyle(Int_t index)
 {
    CheckIndex(index);
    TStyle* style = FindStyle(index);
-   if (style==0) {
+   if (!style) {
      style = new TStyle(*gStyle);
      SetObjOption(index, op_Style, style);
    }
@@ -1567,12 +1566,12 @@ TStyle* TGo4Picture::GetStyle(Int_t index)
 
 void TGo4Picture::ClearOption(Short_t index, Short_t typ)
 {
-  ClearOption(FindOptPos(index,typ));
+   ClearOption(FindOptPos(index,typ));
 }
 
 void TGo4Picture::ClearOption(Int_t pos)
 {
-  if (pos<0) return;
+  if (pos < 0) return;
   Int_t bnd = op_ObjsBound << 16;
 
   if (fxOptIndex[pos]>=bnd) {
@@ -1582,9 +1581,9 @@ void TGo4Picture::ClearOption(Int_t pos)
     TObject* obj = fxOptObjects->RemoveAt(fxOptValue[pos]);
     delete obj;
     fxOptObjects->Compress();
-    if (fxOptObjects->GetLast()<0) {
+    if (fxOptObjects->GetLast() < 0) {
        delete fxOptObjects;
-       fxOptObjects = 0;
+       fxOptObjects = nullptr;
     }
   }
 
@@ -1612,7 +1611,7 @@ void TGo4Picture::ClearAllOptions(Short_t index)
      fxOptValue.Set(0);
      if (fxOptObjects) {
        delete fxOptObjects;
-       fxOptObjects = 0;
+       fxOptObjects = nullptr;
     }
   } else {
      Int_t pos = 0;
@@ -1865,14 +1864,14 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char* name, Int_t index
 //SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
 //   if (naxis==0)
 //   {
-//	   Bool_t tdisp=kFALSE;
-//	   if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
-//	   TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
-//	   fs << name <<  "SetXAxisAttTime(";
-//	   fs << tdisp << ", ";
-//	   fs << "\"" << format.Data()<< "\"" <<", ";
-//	   //fs << index << ");" << std::endl; // does not work?
-//	   fs << PictureIndex << ");" << std::endl; // this works
+//      Bool_t tdisp=kFALSE;
+//      if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
+//      TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
+//      fs << name <<  "SetXAxisAttTime(";
+//      fs << tdisp << ", ";
+//      fs << "\"" << format.Data()<< "\"" <<", ";
+//      //fs << index << ");" << std::endl; // does not work?
+//      fs << PictureIndex << ");" << std::endl; // this works
 //   }
 
 }

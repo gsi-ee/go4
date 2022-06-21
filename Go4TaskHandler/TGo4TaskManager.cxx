@@ -432,57 +432,49 @@ TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char* name)
 Bool_t TGo4TaskManager::RemoveTaskHandler(const char* name)
 {
    Bool_t rev=kTRUE;
-   TGo4TaskHandler* taskhandler;
+   TGo4TaskHandler* taskhandler = nullptr;
    {
-   TGo4LockGuard listguard(fxListMutex);
-      TObject* obj=fxTaskList->FindObject(name);
-      taskhandler= (TGo4TaskHandler*) fxTaskList->Remove(obj);
-            // Remove will do nothing if obj==0; on success, it returns pointer to
-            // removed object
+      TGo4LockGuard listguard(fxListMutex);
+      TObject* obj = fxTaskList->FindObject(name);
+      taskhandler = (TGo4TaskHandler*) fxTaskList->Remove(obj);
+      // Remove will do nothing if obj == 0; on success, it returns pointer to
+      // removed object
    } //TGo4LockGuard
-   if(taskhandler!=0)
-      {
-         // test if we have removed the currently active taskhandler
-         TGo4TaskHandler* currenttaskhandler=fxServer->GetCurrentTaskHandler();
-         if(taskhandler==currenttaskhandler)
-            {
-               // yes, then set current task to the next in list
-               fxServer->SetCurrentTask(0); // will also start the work threads again
-            }
-         else // if (taskhandler==currenttaskhandler)
-            {
-               // no, the current task remains
-               fxServer->StartWorkThreads(); // but need to start the work threads
-            }
-         delete taskhandler;
-   } // if (taskhandler!=0)
-   else
-      {
-         // no such handler, do nothing
-         rev=kFALSE;
+   if (taskhandler) {
+      // test if we have removed the currently active taskhandler
+      TGo4TaskHandler *currenttaskhandler = fxServer->GetCurrentTaskHandler();
+      if (taskhandler == currenttaskhandler) {
+         // yes, then set current task to the next in list
+         fxServer->SetCurrentTask(0); // will also start the work threads again
+      } else {
+         // no, the current task remains
+         fxServer->StartWorkThreads(); // but need to start the work threads
       }
+      delete taskhandler;
+   } else {
+      // no such handler, do nothing
+      rev = kFALSE;
+   }
    return rev;
 }
 
-
-
 TGo4TaskHandler* TGo4TaskManager::GetTaskHandler(const char* name)
 {
-   TGo4TaskHandler* th=0;
-    {
+   TGo4TaskHandler* th = nullptr;
+   {
       TGo4LockGuard listguard(fxListMutex);
-      th= (TGo4TaskHandler*) fxTaskList->FindObject(name);
-    } //TGo4LockGuard
+      th = (TGo4TaskHandler*) fxTaskList->FindObject(name);
+   } //TGo4LockGuard
    return th;
 }
 
 TGo4TaskHandler* TGo4TaskManager::GetLastTaskHandler()
 {
-   TGo4TaskHandler* th=0;
+   TGo4TaskHandler* th = nullptr;
    {
-   TGo4LockGuard listguard(fxListMutex);
-      th= (TGo4TaskHandler*) fxTaskList->Last();
-    } //TGo4LockGuard
+      TGo4LockGuard listguard(fxListMutex);
+      th = (TGo4TaskHandler*) fxTaskList->Last();
+   } //TGo4LockGuard
    return th;
 }
 
@@ -496,26 +488,19 @@ TGo4TaskHandler* TGo4TaskManager::NextTaskHandler(Bool_t reset)
 
 
 Int_t TGo4TaskManager::WaitForClientRemoved()
-
 {
-   Int_t count=0;
-   while(!fbClientIsRemoved)
-      {
-         if(count>TGo4TaskManager::fgiDISCONCYCLES)
-            {
-               return -1;
-            }
-         else if(fxServer->IsTerminating())
-            {
-               return -2;
-            }
-         else
-            {
-               TGo4Thread::Sleep(TGo4TaskManager::fguDISCONTIME);
-               ++count;
-            }
+   Int_t count = 0;
+   while (!fbClientIsRemoved) {
+      if (count > TGo4TaskManager::fgiDISCONCYCLES) {
+         return -1;
+      } else if (fxServer->IsTerminating()) {
+         return -2;
+      } else {
+         TGo4Thread::Sleep(TGo4TaskManager::fguDISCONTIME);
+         ++count;
       }
-   fbClientIsRemoved=kFALSE; //  reset for next time
+   }
+   fbClientIsRemoved = kFALSE; //  reset for next time
    return count;
 
 }
@@ -523,9 +508,6 @@ Int_t TGo4TaskManager::WaitForClientRemoved()
 UInt_t TGo4TaskManager::GetNegotiationPort()
 {
    if(fxTransport)
-      {
-         fuNegotiationPort = fxTransport->GetPort();
-      }
-//   std::cout << "...........Taskmanager found negotiation port "<< fuNegotiationPort << std::endl;
+      fuNegotiationPort = fxTransport->GetPort();
    return fuNegotiationPort;
 }

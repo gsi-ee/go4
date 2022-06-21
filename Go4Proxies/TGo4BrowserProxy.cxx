@@ -433,15 +433,15 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
 
    TObject* obj = itemslot->GetAssignedObject();
 
-   if ((obj==0) || forcerequest) {
+   if (!obj || forcerequest) {
       Int_t res = RequestBrowserObject(itemslot);
-      if (res==0) return kFALSE;
-      obj = 0;
+      if (res == 0) return kFALSE;
+      obj = nullptr;
       if ((res==1) || !forcerequest)
         obj = itemslot->GetAssignedObject();
    }
 
-   if (obj!=0) {
+   if (obj) {
       TString res = SaveToMemory(pathname, obj->Clone(), kTRUE);
       return res.Length()>0;
    }
@@ -453,16 +453,16 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
 
 void TGo4BrowserProxy::ClearClipboard()
 {
-   if (fxClipboard!=0) {
+   if (fxClipboard) {
       fxClipboard->Delete();
       delete fxClipboard;
-      fxClipboard = 0;
+      fxClipboard = nullptr;
    }
 }
 
 void TGo4BrowserProxy::AddToClipboard(const char* itemname)
 {
-   if (fxClipboard==0) fxClipboard = new TObjArray;
+   if (!fxClipboard) fxClipboard = new TObjArray;
 
    if (fxClipboard->FindObject(itemname)) return;
 
@@ -482,7 +482,7 @@ void TGo4BrowserProxy::AddToClipboard(const char* itemname)
 
 Bool_t TGo4BrowserProxy::IsClipboard()
 {
-   return fxClipboard!=0;
+   return fxClipboard != nullptr;
 }
 
 void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
@@ -495,7 +495,7 @@ void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
 
 void TGo4BrowserProxy::OpenFile(const char* fname)
 {
-   if ((fname==0) || (*fname==0)) return;
+   if (!fname || (*fname==0)) return;
 
    fxOM->AddFile(fxDataPath.Data(), fname);
 
@@ -922,7 +922,7 @@ void TGo4BrowserProxy::RedrawItem(const char* itemname)
 
 TObject* TGo4BrowserProxy::GetBrowserObject(const char* name, int update)
 // update=0 - without update,
-//        1 - request only if obj==0,
+//        1 - request only if obj == nullptr,
 //        2 - update of object in any case
 //    >=100 - update object in any case and wait for specified time in millisec
 {
@@ -942,7 +942,7 @@ TObject* TGo4BrowserProxy::GetBrowserObject(const char* name, int update)
 
    DataSlotName(name, src);
 
-   fxOM->RequestObject(src.Data(), tgt.Data(), (update<10) ? 0 : update);
+   fxOM->RequestObject(src.Data(), tgt.Data(), (update < 10) ? 0 : update);
 
    return guislot->GetAssignedObject();
 }
@@ -988,7 +988,6 @@ void TGo4BrowserProxy::DoItemMonitor(TGo4Slot* slot)
    slot->Update(kFALSE);
 }
 
-
 TGo4Slot* TGo4BrowserProxy::BrowserTopSlot()
 {
    return fxBrowserSlot;
@@ -1000,7 +999,6 @@ TGo4Slot* TGo4BrowserProxy::ItemSlot(const char* itemname)
    BrowserSlotName(itemname, slotname);
    return fxOM->GetSlot(slotname.Data());
 }
-
 
 Bool_t TGo4BrowserProxy::DefineTreeName(const char* itemname, TString& treename)
 {
@@ -1280,12 +1278,12 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
    TObjArray objs;
    for (int n=0;n<=items->GetLast();n++) {
       TObjString* str = dynamic_cast<TObjString*> (items->At(n));
-      if (str==0) continue;
+      if (!str) continue;
       TObject* obj = GetBrowserObject(str->GetName(), 0);
-      if (obj==0)
+      if (!obj)
         obj = GetBrowserObject(str->GetName(), 2000);
 
-      if (obj!=0) objs.Add(obj);
+      if (obj) objs.Add(obj);
    }
 
    exman.Export(&objs, filter);
@@ -1298,13 +1296,13 @@ Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char* filename,
 {
    TGo4Slot* toppath = BrowserSlot(selectedpath);
 
-   if (toppath==0) return kFALSE;
+   if (!toppath) return kFALSE;
 
    if (prefetch)
       FetchItem(selectedpath, 2000);
 
    TFile* f = TFile::Open(filename, "recreate", description);
-   if (f==0) return kFALSE;
+   if (!f) return kFALSE;
 
    fxOM->SaveDataToFile(f, kTRUE, toppath);
 
@@ -1645,10 +1643,10 @@ void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
 
 TString TGo4BrowserProxy::SaveToMemory(const char* pathname, TObject* obj, Bool_t ownership, Bool_t overwrite)
 {
-   if (obj==0) return TString("");
+   if (!obj) return TString("");
 
    TString path = fxMemoryPath;
-   if ((pathname!=0) && (*pathname!=0)) {
+   if (pathname && (*pathname != 0)) {
       path += "/";
       path += pathname;
    }
@@ -1678,10 +1676,10 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot* slot)
    if (!slot) return;
 
    TObject* obj = slot->GetAssignedObject();
-   if (obj==0) return;
+   if (!obj) return;
 
    TGo4Picture* pic = dynamic_cast<TGo4Picture*> (obj);
-   if (pic==0) return;
+   if (!pic) return;
 
    if (!IsItemMonitored(slot)) return;
 
@@ -1806,11 +1804,9 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
    if (timer==fxSyncTimer) {
       SyncBrowserSlots();
       return kTRUE;
-   } else
+   } else if (timer == fxMonitorTimer) {
 
-   if (timer == fxMonitorTimer) {
-
-      if (fiMonitoringPeriod<=0) return kTRUE;
+      if (fiMonitoringPeriod <= 0) return kTRUE;
 
       TGo4ServerProxy* an = FindServer();
 
@@ -1843,11 +1839,11 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
 void TGo4BrowserProxy::SetProtectionBits(TGo4Slot* slot, Int_t delprot, Int_t clearprot)
 {
    if (!slot) return;
-   if (delprot>=0)
+   if (delprot >= 0)
       slot->SetIntPar("GUI::DeleteProtect", delprot);
    else
       slot->RemovePar("GUI::DeleteProtect");
-   if (clearprot>=0)
+   if (clearprot >= 0)
       slot->SetIntPar("GUI::ResetProtect", clearprot);
    else
       slot->RemovePar("GUI::ResetProtect");
@@ -1920,11 +1916,11 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       const char* classname = iter.getclassname();
       const char* fullname = iter.getfullname();
       const char* ppp = strstr(fullname, EventsFolder);
-      if (ppp!=0) {
+      if (ppp) {
           ppp += strlen(EventsFolder);
           if ((strlen(ppp)!=0) && (strchr(ppp,'/')==0)) {
              kind = TGo4Access::kndEventElement;
-             classname = 0;
+             classname = nullptr;
           }
       }
 
@@ -1932,21 +1928,19 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       curslot->SetIntPar("GUI::Remote", iter.getflag("IsRemote")==1);
       SetProtectionBits(curslot, iter.getflag("IsDeleteProtect"), iter.getflag("IsResetProtect"));
 
-      if (iter.getslot()!=0)
+      if (iter.getslot())
          SetCanDelete(curslot, IsCanDelete(iter.getslot()));
 
-      TObject* assobj = 0;
-      if ((kind==TGo4Access::kndObject) && (iter.getslot()!=0)) {
+      TObject* assobj = nullptr;
+      if ((kind==TGo4Access::kndObject) && iter.getslot()) {
          TObject* obj = iter.getslot()->GetAssignedObject();
-         if ((obj!=0) && (curslot->GetAssignedObject()==0))
+         if (obj && !curslot->GetAssignedObject())
            assobj = obj;
       }
 
-      if (curslot->GetProxy()==0)
+      if (!curslot->GetProxy())
          curslot->SetProxy(new TGo4BrowserObjProxy(curslot, assobj, kFALSE));
-      else
-
-      if (assobj!=0)
+      else if (assobj)
          curslot->AssignObject(assobj, kFALSE);
 
       if (iter.isfolder()) {
@@ -2037,8 +2031,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; } else
         if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) { cando = 1; pixmap = "control.png"; }
       }
-   } else
-   if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {
+   } else if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {
       pixmap = "folder_t.png";
       if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
@@ -2049,23 +2042,17 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; }
       if (kind==TGo4Access::kndMoreFolder) cando += 10000000;
-   } else
-   if (kind==TGo4Access::kndTreeBranch)
+   } else if (kind==TGo4Access::kndTreeBranch)
       pixmap = "branch_t.png";
-   else
-   if (kind==TGo4Access::kndTreeLeaf) {
+   else if (kind==TGo4Access::kndTreeLeaf) {
       cando = 11;  pixmap = "leaf_t.png";
-   } else
-   if (kind==TGo4Access::kndGo4Param) {
+   } else if (kind==TGo4Access::kndGo4Param) {
       cando = 1011; pixmap = "parameter.png";
-   } else
-   if (kind==TGo4Access::kndDataMember) {
+   } else if (kind==TGo4Access::kndDataMember) {
       cando = 10; pixmap = "eventitem.png";
-   } else
-   if (kind==TGo4Access::kndEventElement) {
+   } else if (kind==TGo4Access::kndEventElement) {
       cando = 100010; pixmap = "eventobj.png";
-   } else
-   if (kind==TGo4Access::kndRootCommand) {
+   } else if (kind==TGo4Access::kndRootCommand) {
       cando = 100000000; pixmap = "eventobj.png";
    }
 
@@ -2086,7 +2073,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
    // 1 - both axis the same
    // >1 - rebin factor than ax2->Rebin(n) will produce ax1
 
-   if ((ax1==0) || (ax2==0)) return 0;
+   if (!ax1 || !ax2) return 0;
 
    Int_t num1 = ax1->GetNbins();
    Int_t num2 = ax2->GetNbins();
@@ -2141,21 +2128,19 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       if (profile->GetNbinsX() != profile2->GetNbinsX()) return kFALSE;
       profile2->Copy(*profile);
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TProfile2D::Class())) {
+   } else if (obj->InheritsFrom(TProfile2D::Class())) {
       TProfile2D* profile = dynamic_cast<TProfile2D*> (obj);
       TProfile2D* profile2 = dynamic_cast<TProfile2D*> (newobj);
       if (!profile || !profile2) return kFALSE;
       if ((profile->GetNbinsX() != profile2->GetNbinsX()) || (profile->GetNbinsY() != profile2->GetNbinsY())) return kFALSE;
       profile2->Copy(*profile);
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TH1::Class())) {
+   } else if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);
       TH1* histo2 = dynamic_cast<TH1*> (newobj);
-      if ((histo==0) || (histo2==0)) return kFALSE;
+      if (!histo || !histo2) return kFALSE;
 
-      if ((dynamic_cast<TProfile*>(obj)!=0) || (dynamic_cast<TProfile2D*>(obj)!=0)) return kFALSE;
+      if (dynamic_cast<TProfile*>(obj) || dynamic_cast<TProfile2D*>(obj)) return kFALSE;
 
       if (histo->GetDimension()!=histo2->GetDimension()) return kFALSE;
 
@@ -2218,20 +2203,15 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       histo->SetEntries(sum);
 
-      TArrayD *sumw_tgt = 0, *sumw_src = 0;
+      TArrayD *sumw_tgt = nullptr, *sumw_src = nullptr;
 
-      if (histo2->GetSumw2N()>0)
+      if (histo2->GetSumw2N() > 0)
          sumw_src = histo2->GetSumw2();
-   //   printf ("JAM*** TGo4BrowserProxy::UpdateObjectContent histo2 %s has sumw2 n:%d, sum_src 0x%lx \n",histo2->GetName(), histo2->GetSumw2N(), (long) sumw_src);
-
 
       // if source has no sumw, target should also not has them
       if (sumw_src==0) {
          histo->GetSumw2()->Set(0);
       } else {
-//        printf ("JAM*** TGo4BrowserProxy::UpdateObjectContent calling Sumw2 for histo1 %s , sumw2 before was N:%d, ptr: 0x%lx\n",
-//            histo->GetName(), histo->GetSumw2N(), (long) histo->GetSumw2());
-
         if(histo->GetSumw2N()==0) // JAM2018 workaround to reduce warnings in ROOT 6 (?)
           histo->Sumw2();
         sumw_tgt = histo->GetSumw2();
@@ -2241,21 +2221,19 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
          sumw_tgt->Set(sz, sumw_src->GetArray());
 
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TGo4Condition::Class())) {
+   } else if (obj->InheritsFrom(TGo4Condition::Class())) {
       TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
       TGo4Condition* newcond = dynamic_cast<TGo4Condition*> (newobj);
-      if ((cond==0) || (newcond==0)) return kFALSE;
+      if (!cond || !newcond) return kFALSE;
 
       cond->UpdateFrom(newcond, kTRUE);
       cond->SetChanged(kFALSE);
 
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TGraphAsymmErrors::Class())) {
+   } else if (obj->InheritsFrom(TGraphAsymmErrors::Class())) {
       TGraphAsymmErrors* gr = dynamic_cast<TGraphAsymmErrors*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
-      if ((gr==0) || (newgr==0)) return kFALSE;
+      if (!gr || !newgr) return kFALSE;
       SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
 
@@ -2275,11 +2253,10 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       UpdateListOfFunctions(gr,newgr);
       RestoreAxisTimeProperties(gr,tdisp,tform);
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TGraphErrors::Class())) {
+   } else if (obj->InheritsFrom(TGraphErrors::Class())) {
       TGraphErrors* gr = dynamic_cast<TGraphErrors*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
-      if ((gr==0) || (newgr==0)) return kFALSE;
+      if (!gr || !newgr) return kFALSE;
       SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
 
@@ -2298,14 +2275,12 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TGraph::Class())) {
+   } else if (obj->InheritsFrom(TGraph::Class())) {
       TGraph* gr = dynamic_cast<TGraph*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
-      if ((gr==0) || (newgr==0)) return kFALSE;
+      if (!gr || !newgr) return kFALSE;
       // JAM: save axis time properties of currently displayed histo
       SaveAxisTimeProperties(gr,tdisp,tform);
-
 
       gr->SetTitle(newgr->GetTitle());
 
@@ -2320,21 +2295,19 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TLatex::Class())) {
+   } else if (obj->InheritsFrom(TLatex::Class())) {
       TLatex* l0 = dynamic_cast<TLatex*> (obj);
       TLatex* l1 = dynamic_cast<TLatex*> (newobj);
-      if ((l1==0) || (l0==0)) return kFALSE;
+      if (!l1 || !l0) return kFALSE;
 
       l0->SetTitle(l1->GetTitle());
 
       return kTRUE;
-   } else
-   if (obj->InheritsFrom(TF1::Class())) {
+   } else if (obj->InheritsFrom(TF1::Class())) {
       //std::cout <<"Update object contents with TF1"<<obj->GetName() << std::endl;
       TF1* f0 = dynamic_cast<TF1*> (obj);
       TF1* f1 = dynamic_cast<TF1*> (newobj);
-      if ((f1==0) || (f0==0)) return kFALSE;
+      if (!f1 || !f0) return kFALSE;
       f1->Copy(*f0);
       return kTRUE;
    }
@@ -2342,19 +2315,18 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
    return kFALSE;
 }
 
-
 void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
 {
-   if(gr==0) return;
-    TH1* h1=gr->GetHistogram();
-   TAxis* xax=h1->GetXaxis();
-   timedisplay=xax->GetTimeDisplay();
-   format=xax->GetTimeFormat();
+   if(!gr) return;
+   TH1* h1 = gr->GetHistogram();
+   TAxis* xax = h1->GetXaxis();
+   timedisplay = xax->GetTimeDisplay();
+   format = xax->GetTimeFormat();
 }
 
 void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
 {
-   if(gr==0) return;
+   if(!gr) return;
    TH1*h1=gr->GetHistogram();
    TAxis* xax=h1->GetXaxis();
    xax->SetTimeDisplay(timedisplay);
@@ -2364,12 +2336,11 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay
 
 void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
 {
-   if(oldgr==0 || newgr==0) return;
+   if(!oldgr || !newgr) return;
    TList* theFunctions=oldgr->GetListOfFunctions();
    TObject *obj;
-   while ((obj  = theFunctions->First()) != 0) {
+   while ((obj  = theFunctions->First()) != nullptr) {
       while (theFunctions->Remove(obj)) { }
-        //std::cout <<"Removed function object "<<obj->GetName() << std::endl;
         delete obj;
       }
 
@@ -2380,9 +2351,7 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
      TF1* fclon = dynamic_cast<TF1*>(fun->Clone());
      theFunctions->Add(fclon);
      fclon->SetParent(oldgr);
-     //std::cout <<"Added function object "<<fclon->GetName() << std::endl;
    }
-
 
    // also restore graph axis titles here:
    TH1* oldhis=oldgr->GetHistogram();
@@ -2405,7 +2374,7 @@ void TGo4BrowserProxy::AddWaitingList(TGo4Slot* itemslot, const char* destinatio
    if (!BrowserItemName(itemslot, itemname)) return;
 
    TNamed* n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
-   if (n!=0)
+   if (n)
      n->SetTitle(destination);
    else
      fxWaitingList->Add(new TNamed(itemname.Data(), destination));
@@ -2419,7 +2388,7 @@ void TGo4BrowserProxy::CheckWaitingList(TGo4Slot* source)
    if (!BrowserItemName(source, itemname)) return;
 
    TNamed* n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
-   if (n!=0) {
+   if (n) {
       const char* dest = n->GetTitle();
       if (dest && (strlen(dest)==0)) dest = nullptr;
       ProduceExplicitCopy(source, dest, kFALSE);

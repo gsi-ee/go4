@@ -35,7 +35,7 @@ TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot* slot, TGo4ViewPanel* panel) :
 
 TGo4DrawCloneProxy::~TGo4DrawCloneProxy()
 {
-   if (fClone!=0) delete fClone;
+   if (fClone) delete fClone;
 }
 
 Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
@@ -43,7 +43,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
    TGo4LockGuard lock;
 
    CleanupClone(slot);
-   if (obj==0) return kFALSE;
+   if (!obj) return kFALSE;
 
    if (!obj->InheritsFrom(TH1::Class()) &&
        !obj->InheritsFrom(TGraph::Class())) return kFALSE;
@@ -60,14 +60,14 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
 
 void TGo4DrawCloneProxy::CleanupClone(TGo4Slot* slot)
 {
-   if (fClone==0) return;
+   if (!fClone) return;
    TGo4ObjectManager* om = slot->GetOM();
-   if (om!=0) {
+   if (om) {
       om->RecursiveRemove(fClone);
       om->UnregisterObject(fClone, slot);
    }
    delete fClone;
-   fClone = 0;
+   fClone = nullptr;
 }
 
 void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
@@ -77,22 +77,22 @@ void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
 
    TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
 
-   if ((tgt==0) || (src==0) || (padopt==0)) return;
+   if (!tgt || !src || !padopt) return;
    TString title = src->GetTitle();
 
    const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
    const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
    const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
 
-   if ((stime!=0) && padopt->IsTitleTime()) {
+   if (stime && padopt->IsTitleTime()) {
       title+= "  ";
       title+=stime;
    }
-   if ((sdate!=0) && padopt->IsTitleDate()) {
+   if (sdate && padopt->IsTitleDate()) {
       title+= "  ";
       title+=sdate;
    }
-   if ((itemname!=0) && padopt->IsTitleItem()) {
+   if (itemname && padopt->IsTitleItem()) {
       title+= "  ";
       title+=itemname;
    }
@@ -102,27 +102,27 @@ void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
 
 void TGo4DrawCloneProxy::UpdateTitle()
 {
-   if (GetLink()!=0)
+   if (GetLink())
       ChangeTitle(GetLink()->GetAssignedObject());
 }
 
 Bool_t TGo4DrawCloneProxy::RemoveRegisteredObject(TObject* obj)
 {
-   if (obj==fClone) fClone = 0;
+   if (obj==fClone) fClone = nullptr;
    return kFALSE;
 }
 
 void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
 {
    TGo4LinkProxy::Initialize(slot);
-   if (fClone!=0) {
+   if (fClone) {
       delete fClone;
       Error("Initialize"," Problem in TGo4DrawCloneProxy");
    }
-   fClone = 0;
+   fClone = nullptr;
    fParentSlot = slot;
 
-   if (GetLink()!=0) {
+   if (GetLink()) {
       TObject* obj = GetLink()->GetAssignedObject();
       if (obj!=0) AssignClone(obj, slot);
    }

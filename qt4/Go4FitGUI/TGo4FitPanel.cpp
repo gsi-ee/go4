@@ -3448,7 +3448,7 @@ void TGo4FitPanel::CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fi
       TPad* subpad = panel->GetSubPad(pad, n, false);
       if (panel->IsPadHasSubPads(subpad)) continue;
       TObject* obj = panel->GetPadMainObject(subpad);
-      if (obj==0) continue;
+      if (!obj) continue;
 
       TGo4FitData* data = nullptr;
 
@@ -3559,7 +3559,6 @@ void TGo4FitPanel::RemovePrimitives()
         ActivePanel()->ShootRepaintTimer();
    }
 }
-
 
 bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map)
 {

@@ -96,7 +96,7 @@ TString MakeCondFuncName(const char* main, const char* objname)
 // outside Go4 get condition from file (1st arg)
 Bool_t save1cond(TObject* obj, const char* prefix)
 {
-  if((obj==0) || !obj->InheritsFrom("TGo4Condition")) return kFALSE;
+  if(!obj || !obj->InheritsFrom("TGo4Condition")) return kFALSE;
   TGo4Condition* cond = (TGo4Condition*) obj;
 
   TString funcname = MakeCondFuncName(prefix, cond->GetName());

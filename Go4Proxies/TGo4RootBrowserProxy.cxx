@@ -380,9 +380,8 @@ void TGo4RootBrowserProxy::DrawItem(const char* itemname)
       if (!cl || !cl->InheritsFrom(TGo4Condition::Class())) return;
    }
 
-
    TObject* obj = fBrowser->GetBrowserObject(itemname, 5000);
-   if (obj==0) return;
+   if (!obj) return;
 
    if (obj->InheritsFrom(TGo4Condition::Class())) {
       DrawCondition(itemname, (TGo4Condition*) obj);

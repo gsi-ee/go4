@@ -116,14 +116,14 @@ void TGo4ObjectManager::MakeFolder(const char* pathname)
 
 TGo4Slot* TGo4ObjectManager::Add(const char* pathname, TObject* obj, Bool_t owner, Bool_t canrename)
 {
-   if (obj==0) return 0;
+   if (!obj) return nullptr;
 
    TGo4Slot* slot = MakeObjSlot(pathname, obj->GetName(), obj->ClassName());
 
    if (slot) {
-      if (canrename && (strcmp(obj->GetName(),slot->GetName())!=0)) {
+      if (canrename && (strcmp(obj->GetName(),slot->GetName()) != 0)) {
          TNamed* n = dynamic_cast<TNamed*> (obj);
-         if (n!=0) n->SetName(slot->GetName());
+         if (n) n->SetName(slot->GetName());
       }
 
      slot->SetProxy(new TGo4ObjectProxy(obj, owner));
@@ -153,7 +153,7 @@ void TGo4ObjectManager::CloseFiles(const char* pathname)
 
 void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t owner, Bool_t readright)
 {
-   if (dir==0) return;
+   if (!dir) return;
 
    const char* name = (dir->InheritsFrom(TFile::Class())) ?
       gSystem->BaseName(dir->GetName()) : dir->GetName();
@@ -167,7 +167,7 @@ void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t own
 
 void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
 {
-   if (tree==0) return;
+   if (!tree) return;
 
    TGo4Slot* slot = MakeObjSlot(pathname, tree->GetName(), tree->ClassName());
 
@@ -177,7 +177,7 @@ void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
 
 void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner)
 {
-   if (f==0) return;
+   if (!f) return;
 
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
    if (slot)
@@ -187,7 +187,7 @@ void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner
 void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* foldername)
 {
    TFolder* f = TGo4FolderProxy::LocateROOTFolder(foldername);
-   if (f==0) return;
+   if (!f) return;
 
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
 
@@ -252,21 +252,16 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
 
    TGo4Slot* slot = MakeObjSlot(pathname, linkname, linktitle);
 
-//   std::cout << "TGo4ObjectManager::AddLink in " << pathname << " source = " << source->GetFullName() << std::endl;
-
    if (slot)
      slot->SetProxy(new TGo4LinkProxy(source));
 
    for(Int_t indx=fLinks.GetLast(); indx>=0; indx--) {
       TGo4ObjManLink* link = (TGo4ObjManLink*) fLinks.At(indx);
-      if (link==0) continue;
+      if (!link) continue;
 
       TString namesrc, nametgt;
       link->GetSource()->ProduceFullName(namesrc);
       link->GetTarget()->ProduceFullName(nametgt);
-
-//      std::cout << "indx = " << indx
-//          << "  source = " << namesrc << " target = " << nametgt << std::endl;
    }
 
    return slot;
@@ -275,8 +270,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
 
 TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
 {
-
-   if (source==0) return 0;
+   if (!source) return nullptr;
 
    TGo4Slot* slot = MakeObjSlot(pathname, source->GetName(), source->GetTitle());
 
@@ -298,10 +292,10 @@ TGo4Slot* TGo4ObjectManager::AddLink(const char* sourcename, const char* pathnam
 
 TGo4Slot* TGo4ObjectManager::GetLinked(TGo4Slot* link)
 {
-   TGo4LinkProxy* linkcont = (link==0) ? 0 :
+   TGo4LinkProxy* linkcont = !link ? nullptr :
       dynamic_cast<TGo4LinkProxy*> (link->GetProxy());
 
-   return (linkcont!=0) ? linkcont->GetLink() : 0;
+   return linkcont ? linkcont->GetLink() : nullptr;
 }
 
 
@@ -428,12 +422,12 @@ void TGo4ObjectManager::ReadDataFromFile(TFile* f)
          slot->ReadData(curdir);
    }
 
-   if (olddir!=0) olddir->cd();
+   if (olddir) olddir->cd();
 }
 
 void TGo4ObjectManager::RegisterObjectWith(TObject* obj, TGo4Slot* slot)
 {
-   if (obj==0) return;
+   if (!obj) return;
    fCleanups.Add(new TGo4ObjManCleanup(obj, slot));
    obj->SetBit(kMustCleanup);
 }
@@ -444,7 +438,7 @@ void TGo4ObjectManager::UnregisterObject(TObject* obj, TGo4Slot* slot)
    for(int indx=fCleanups.GetLast();indx>=0;indx--) {
       TGo4ObjManCleanup* entry = (TGo4ObjManCleanup*) fCleanups.At(indx);
       if (entry->GetSlot()!=slot) continue;
-      if ((obj==0) || (entry->GetObject()==obj)) {
+      if (!obj || (entry->GetObject()==obj)) {
          fCleanups.Remove(entry);
          delete entry;
          compress = kTRUE;
@@ -456,18 +450,17 @@ void TGo4ObjectManager::UnregisterObject(TObject* obj, TGo4Slot* slot)
 
 void TGo4ObjectManager::RecursiveRemove(TObject* obj)
 {
-   if ((obj==0) || (obj==this)) return;
+   if (!obj || (obj == this)) return;
 
    Bool_t compress = kFALSE;
    for(int indx=fCleanups.GetLast();indx>=0;indx--) {
       TGo4ObjManCleanup* entry = (TGo4ObjManCleanup*) fCleanups.At(indx);
-      if (entry==0) continue;
-      if (entry->GetObject()==obj) {
+      if (!entry) continue;
+      if (entry->GetObject() == obj) {
          // first
          fCleanups.Remove(entry);
 
          entry->GetSlot()->RecursiveRemove(obj);
-//         std::cout << "TGo4ObjectManager::RecursiveRemove " << entry->GetSlot()->GetFullName() << "  " << obj->GetName() << std::endl;
          entry->GetSlot()->ForwardEvent(entry->GetSlot(), evObjDeleted, obj);
          delete entry;
          compress = kTRUE;
@@ -484,7 +477,7 @@ void TGo4ObjectManager::PrintSlots()
 
       printf("%*c%s\n", (iter.level()+1)*2, ' ', iter.getname());
 
-//      if (iter.getslot()!=0)
+//      if (iter.getslot())
 //          iter.getslot()->PrintPars((iter.level()+1)*2 + 3);
    }
 }
