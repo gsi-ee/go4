@@ -123,15 +123,15 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
 
    if (!dir) return nullptr;
 
-   TList* lst = 0;
+   TList* lst = nullptr;
 
    TRegexp re(basename, kTRUE);
    const char* file = nullptr;
    while ((file = gSystem->GetDirEntry(dir)) != nullptr) {
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;
-      if ( (basename!=s) && s.Index(re) == kNPOS) continue;
-      if (lst==0) {
+      if ((basename != s) && (s.Index(re) == kNPOS)) continue;
+      if (!lst) {
          lst = new TList;
          lst->SetOwner(kTRUE);
       }

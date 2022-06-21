@@ -41,34 +41,28 @@ TMeshB1AnlProc::~TMeshB1AnlProc()
 //-----------------------------------------------------------
 void TMeshB1AnlProc::Analysis(TMeshB1OutputEvent* poutevt)
 {
-   if(poutevt==0) return;
-   if(fxInput==0)
-      {
-         // lazy init for input event from framework
-         TGo4EventElement* providerinput=GetInputEvent("Input1Provider");
-         TMeshRawEvent* raw=dynamic_cast<TMeshRawEvent*>(providerinput);
-         if(raw)
-            fxInput=&(raw->fxSub1);
-               // provider delivers full raw event, we use only our component
-         else
-            fxInput=dynamic_cast<TMeshB1InputEvent*>(providerinput);
-               // provider with partial io delivers just our component
+   if(!poutevt) return;
+   if(!fxInput) {
+      // lazy init for input event from framework
+      TGo4EventElement *providerinput = GetInputEvent("Input1Provider");
+      TMeshRawEvent *raw = dynamic_cast<TMeshRawEvent *>(providerinput);
+      if (raw)
+         fxInput = &(raw->fxSub1);
+      // provider delivers full raw event, we use only our component
+      else
+         fxInput = dynamic_cast<TMeshB1InputEvent *>(providerinput);
+      // provider with partial io delivers just our component
+   }
+   if (fxInput) {
+      // std::cout <<"Dump of event "<<fxInput->GetName() << std::endl <<"   ";
+      //  do the processing here:
+      for (Int_t i = 0; i < 4; i++) {
+         poutevt->frData[i] = (Float_t)fxInput->fiCrate1[i];
+         // std::cout << fxInput->fiCrate1[i]<<" ";
       }
-   if(fxInput)
-      {
-         //std::cout <<"Dump of event "<<fxInput->GetName() << std::endl <<"   ";
-         // do the processing here:
-         for(Int_t i=0;i<4;i++)
-            {
-               poutevt->frData[i]=(Float_t)fxInput->fiCrate1[i];
-               //std::cout << fxInput->fiCrate1[i]<<" ";
-            }
-         //std::cout << std::endl;
-      }
-   else
-      {
-         throw TGo4UserException(3,"Error: no input event for processor %s",GetName());
-      }
-
-} // BuildCalEvent
+      // std::cout << std::endl;
+   } else {
+      throw TGo4UserException(3, "Error: no input event for processor %s", GetName());
+   }
+}
 

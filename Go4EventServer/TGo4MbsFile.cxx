@@ -100,7 +100,7 @@ TGo4MbsFile::~TGo4MbsFile()
 
 void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly)
 {
-   if (!name || (*name==0)) return;
+   if (!name || (*name == 0)) return;
 
    TString fname(name);
 
@@ -119,7 +119,7 @@ void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly
       // name indicates wildcard expression
       TList* lst = TGo4FileSource::ProducesFilesList(fname.Data());
 
-      if (lst==0) {
+      if (!lst) {
          SetCreateStatus(GETEVT__NOFILE);
          SetErrMess(TString::Format("No lmd file with mask %s", GetName()).Data());
          throw TGo4EventErrorException(this);
