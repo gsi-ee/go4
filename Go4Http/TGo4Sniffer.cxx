@@ -358,10 +358,10 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char* fname)
       }
 
       TFile* f = dynamic_cast<TFile*> (files_fold->FindObject(fname));
-      if (f!=0) { files_fold->Remove(f); delete f; }
+      if (f) { files_fold->Remove(f); delete f; }
 
       f = TFile::Open(fname);
-      if (f==0) return kFALSE;
+      if (!f) return kFALSE;
 
       files_fold->Add(f);
    }
@@ -372,7 +372,7 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char* fname)
 Bool_t TGo4Sniffer::CmdCloseFiles()
 {
    Info("CmdCloseFiles", "Close all opened files");
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
    if (om) {
       TFolder* main = om->GetObjectFolder();
       TFolder* files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));

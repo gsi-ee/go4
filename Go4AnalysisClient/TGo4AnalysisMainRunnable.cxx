@@ -161,7 +161,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    {
       //ex.Handle();
       Int_t prio=ex.GetPriority();
-      if(prio==0)
+      if(prio == 0)
       {
          // only display message without stop
          fxAnalysisClient->SendStatusMessage(1,kTRUE,TString::Format(

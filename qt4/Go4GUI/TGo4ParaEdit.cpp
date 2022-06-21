@@ -431,8 +431,8 @@ void TGo4ParaEdit::saveFile()
    } else
    if (fItemName.length()>0) {
       const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
-      if (parclass==0) return;
-      if (gROOT->GetClass(parclass)==0) {
+      if (!parclass) return;
+      if (!gROOT->GetClass(parclass)) {
          QMessageBox::warning(this, "Parameter editor",
             QString("Parameter class ") + parclass + " not known to gui");
          return;
@@ -444,7 +444,7 @@ void TGo4ParaEdit::saveFile()
 
       TGo4Parameter* par = status.CreateParameter();
 
-      if (par==0) {
+      if (!par) {
          QMessageBox::warning(this, "Parameter editor",
             QString("Can not crate parameter object of class ") + parclass);
          return;
@@ -461,7 +461,7 @@ void TGo4ParaEdit::saveFile()
       if (flst.isEmpty()) return;
 
       TFile* f = TFile::Open(flst[0].toLatin1().constData(),"UPDATE");
-      if (f!=0) {
+      if (f) {
          f->WriteTObject(par, par->GetName(), "WriteDelete");
          delete f;
       }

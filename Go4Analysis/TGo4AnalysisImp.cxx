@@ -475,7 +475,7 @@ Int_t TGo4Analysis::Process()
    {
       //ex.Handle();
       Int_t prio=ex.GetPriority();
-      if(prio==0)
+      if(prio == 0)
       {
          // SL:12.2011 even erre display can be skipped, continue without stop
          // Message(1,"Event source %s: %s - %s",

@@ -375,9 +375,10 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
 {
   if (!objs || (objs->GetLast() < 0)) return nullptr;
 
-  if (NumSlots()<=0) return nullptr;
+  if (NumSlots() <= 0) return nullptr;
 
-  TArrayI use(NumSlots()); use.Reset(-1);
+  TArrayI use(NumSlots());
+  use.Reset(-1);
 
   Int_t numuse = 0;
   for (Int_t n=0;n<NumSlots();n++) {
@@ -387,7 +388,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
        if (slot->IsRequired() || !OnlyRequired) use[numuse++] = n;
   }
 
-  if ((numuse==0) || ((objs->GetLast()+1) % numuse != 0)) return nullptr;
+  if ((numuse == 0) || ((objs->GetLast()+1) % numuse != 0)) return nullptr;
 
   Int_t nuse = 0;
   for (Int_t nobj=0;nobj<=objs->GetLast();nobj++) {
@@ -397,7 +398,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
        return nullptr;
      }
      TGo4FitSlot* slot = GetSlot(use[nuse++]);
-     if (nuse==numuse) nuse=0;
+     if (nuse == numuse) nuse = 0;
      if (!slot->IsSuitable(obj)) {
         std::cout << "Object " << obj->GetName() << " of class " << obj->ClassName() <<
                 " noncompatible with " << slot->GetClass()->GetName() << std::endl;
@@ -468,7 +469,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
     resf = this;
   }
 
-  if ((rownames!=0) && (resf!=0)){
+  if (rownames && resf){
     if (resf->IsParsAsResults())
         for(Int_t n=0;n<resf->NumPars();n++) rownames->Add(new TObjString(resf->GetParFullName(n)));
     else

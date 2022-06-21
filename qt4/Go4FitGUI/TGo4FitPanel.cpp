@@ -974,7 +974,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 
           bool infocreated = false;
 
-          if (info!=0)
+          if (info)
              info->Clear("*");
           else {
              infocreated = true;
@@ -1863,15 +1863,20 @@ void TGo4FitPanel::UpdateStatusBar(const char* info)
    QString status;
    TGo4Fitter* fitter = GetFitter();
 
-   if (info!=0) status=info; else {
-       if (WorkingWithPanel()) {
-          status = QString("Active: ") + ActivePad()->GetName();
-          if (!WorkingWithOnlyPad())
+   if (info) {
+      status = info;
+   } else {
+      if (WorkingWithPanel()) {
+         status = QString("Active: ") + ActivePad()->GetName();
+         if (!WorkingWithOnlyPad())
             status += ". Muiltifit";
 
-       } else status = "Workspace";
-       if (!fitter) status+=".  No fitter";
-                 else status = status + ". Fitter: "+fitter->GetName();
+      } else
+         status = "Workspace";
+      if (!fitter)
+         status += ".  No fitter";
+      else
+         status = status + ". Fitter: " + fitter->GetName();
    }
    MainStatusLbl->setText(status);
    MainStatusLbl->update();

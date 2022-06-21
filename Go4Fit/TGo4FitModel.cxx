@@ -29,17 +29,20 @@ TGo4FitAssignment::TGo4FitAssignment() :
 
 TGo4FitAssignment::TGo4FitAssignment(const char* DataName) :
    TNamed(DataName,""),
-   fxRatio(0), fxData(0), fxModelMask(0), fxModelBins(0) {
+   fxRatio(nullptr), fxData(nullptr), fxModelMask(nullptr), fxModelBins(nullptr)
+{
 }
 
-TGo4FitAssignment::~TGo4FitAssignment() {
+TGo4FitAssignment::~TGo4FitAssignment()
+{
    if (fxRatio) delete fxRatio;
    if (fxModelMask) delete[] fxModelMask;
    if (fxModelBins) delete[] fxModelBins;
 }
 
-Double_t TGo4FitAssignment::RatioValue() {
-   return (fxRatio==0) ? 1. : fxRatio->GetValue();
+Double_t TGo4FitAssignment::RatioValue()
+{
+   return !fxRatio ? 1. : fxRatio->GetValue();
 }
 
 void TGo4FitAssignment::Print(Option_t* option) const
@@ -102,9 +105,10 @@ void TGo4FitModel::ChangeDataNameInAssignments(const char* oldname, const char* 
    if (ass) ass->SetName(newname);
 }
 
-void TGo4FitModel::ClearAssignmentTo(const char* DataName) {
+void TGo4FitModel::ClearAssignmentTo(const char* DataName)
+{
    TGo4FitAssignment* ass = FindAssigment(DataName);
-   if (ass==0) return;
+   if (!ass) return;
 
    fxAssigments.Remove(ass);
    delete ass;
@@ -112,16 +116,17 @@ void TGo4FitModel::ClearAssignmentTo(const char* DataName) {
 
    for (Int_t n=0;n<NumAssigments();n++) {
      ass = GetAssigment(n);
-     if (ass->fxRatio==0) continue;
+     if (!ass->fxRatio) continue;
      if (n==0) {
        delete ass->fxRatio;
-       ass->fxRatio = 0;
+       ass->fxRatio = nullptr;
      } else
         ass->fxRatio->SetName(GetRatioName(n+1));
    }
 }
 
-void TGo4FitModel::ClearAssignments() {
+void TGo4FitModel::ClearAssignments()
+{
   fxAssigments.Clear();
   fxAssigments.Compress();
 }

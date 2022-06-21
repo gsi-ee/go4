@@ -905,7 +905,7 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
        UseRanges = kTRUE;
     }
 
-    if (((histo!=0) || (gr!=0)) && IsModel) {
+    if ((histo || gr) && IsModel) {
        TArrayD Ampls(Models.GetLast()+1);
 
        for(Int_t n=0;n<=Models.GetLast();n++) {

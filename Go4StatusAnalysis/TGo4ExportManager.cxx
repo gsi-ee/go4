@@ -49,31 +49,27 @@ void TGo4ExportManager::SetFilter(Go4Export_t format)
 
 void TGo4ExportManager::SetCurrentDir(const char* dir)
 {
-  if(dir)
-      {
-         fxCurrentDir=dir;
-         gSystem->cd(dir);
-      }
-  else
-      {
-          fxCurrentDir=gSystem->WorkingDirectory();
-      }
+   if (dir) {
+      fxCurrentDir = dir;
+      gSystem->cd(dir);
+   } else {
+      fxCurrentDir = gSystem->WorkingDirectory();
+   }
 }
 
 void TGo4ExportManager::SetStartDir(const char* dir)
 {
-     if(dir)
-         fxStartDir=dir;
-     else
-         fxStartDir=gSystem->WorkingDirectory();
+   if (dir)
+      fxStartDir = dir;
+   else
+      fxStartDir = gSystem->WorkingDirectory();
 }
 
 void TGo4ExportManager::Export(TObject* ob, Go4Export_t format)
 {
-if(ob==0) return;
-SetFilter(format);
-Export(ob);
-
+   if(!ob) return;
+   SetFilter(format);
+   Export(ob);
 }
 
 
@@ -336,133 +332,110 @@ catch(...)
 
 void TGo4ExportManager::ExportASCII(TGraph* graph)
 {
-if(!graph) return;
-try{
-   TString objectname=graph->GetName();
-   TString outname=objectname;
-   outname.Append(".gdat");
-   gSystem->cd(fxCurrentDir.Data());
-   std::ofstream outfile(outname.Data());
-   if(!outfile) {
-      TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
+   if (!graph)
       return;
-   }
-   TGo4Log::Message(0,"ExportManager: Converting graph %s to ASCII",graph->GetName());
-   Int_t maxpoints=graph->GetN();
-   outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
-   outfile <<"# Point \tX \tY"<< std::endl;
-   for(Int_t point=0; point<maxpoints; ++point)
-    {
-      Double_t xg=0;
-      Double_t yg=0;
-      graph->GetPoint(point,xg,yg);
-      outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
-    }
-   outfile.close();
-   gSystem->cd(fxStartDir.Data());
-}//try
+   try {
+      TString objectname = graph->GetName();
+      TString outname = objectname;
+      outname.Append(".gdat");
+      gSystem->cd(fxCurrentDir.Data());
+      std::ofstream outfile(outname.Data());
+      if (!outfile) {
+         TGo4Log::Message(3, "ExportManager: Error opening outputfile %s", outname.Data());
+         return;
+      }
+      TGo4Log::Message(0, "ExportManager: Converting graph %s to ASCII", graph->GetName());
+      Int_t maxpoints = graph->GetN();
+      outfile << "# Graph " << graph->ClassName() << ": " << graph->GetName() << std::endl;
+      outfile << "# Point \tX \tY" << std::endl;
+      for (Int_t point = 0; point < maxpoints; ++point) {
+         Double_t xg = 0, yg = 0;
+         graph->GetPoint(point, xg, yg);
+         outfile << point << " \t\t" << xg << " \t" << yg << std::endl;
+      }
+      outfile.close();
+      gSystem->cd(fxStartDir.Data());
+   } // try
 
-catch(std::exception& ex) // treat standard library exceptions
-{
-  TGo4Log::Message(3,"standard exception %s in TGo4ExportManager::ExportASCII(TGraph*)",
-            ex.what());
+   catch (std::exception &ex) // treat standard library exceptions
+   {
+      TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportASCII(TGraph*)", ex.what());
+   } catch (...) {
+      TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportASCII(TGraph*)!!!");
+   } // catch
 }
-catch(...)
-{
-  TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportASCII(TGraph*)!!!");
-} // catch
-
-}
-
 
 void TGo4ExportManager::ExportRadware(TH1* histo)
 {
-//TGo4Log::Message(2,"ExportManager: Converting histogram %s to radware not supported yet!",histo->GetName());
-//return;
-if(histo->InheritsFrom(TH2::Class()))
-   {
-       TH2* map=dynamic_cast<TH2*>(histo);
-       ExportRadware(map);
-   }
-else if (histo->InheritsFrom(TH3::Class()))
-   {
-     TGo4Log::Message(2,"ExportManager: Converting 3d histogram %s to radware not supported yet!",histo->GetName());
-   }
-else
-   {
+   if (histo->InheritsFrom(TH2::Class())) {
+      TH2 *map = dynamic_cast<TH2 *>(histo);
+      ExportRadware(map);
+   } else if (histo->InheritsFrom(TH3::Class())) {
+      TGo4Log::Message(2, "ExportManager: Converting 3d histogram %s to radware not supported yet!", histo->GetName());
+   } else {
 
-try{
-   TString objectname=histo->GetName();
-   TString outname=objectname;
-   outname.Append(".spe");
-   TString hname = objectname;
-   hname.Append("        ");
-   Int_t maxbinX=histo->GetNbinsX();
-   Int_t l_chan=maxbinX; // get record size from histo here...
-   Int_t l_head[6];
-   l_head[0]=l_chan;
-   l_head[1]=1;
-   l_head[2]=1;
-   l_head[3]=1;
-   l_head[4]=24;
-   l_head[5]=l_chan*4; /* record size */
-   gSystem->cd(fxCurrentDir.Data());
-   std::ofstream outfile(outname.Data());
-  if(!outfile)
-    {
-      TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
-      return;
-    }
-  TGo4Log::Message(0,"ExportManager: Converting 1d histogram %s to RADWARE",histo->GetName());
-//// write first long of head, i.e. value 24
-   Int_t first=24;
-   outfile.write((char *) &first, sizeof(Int_t));
-////write name string:
-   outfile.write(hname.Data(), 8);// name limited to 8 characters
-//// write complete header:
-   outfile.write((char *) l_head, 6*sizeof(Int_t));
-//// write data field:
-   Float_t cont=0;
-   for(Int_t xbin=0; xbin<maxbinX; ++xbin)
-       {
-          cont=(Float_t) histo->GetBinContent(xbin);
-          outfile.write( (char *) &cont, sizeof(Float_t) );
-       }
-//// write length of data in chars to end of data field
-   Int_t charnum=l_chan*sizeof(Float_t);
-   outfile.write((char *) &charnum, sizeof(Int_t));
-   Int_t hislen = l_chan*4 + 40;
-   Int_t byteswritten=outfile.tellp();
-   //std::cout <<"position in stream is "<<byteswritten << std::endl;
-   //std::cout <<"datalength was"<<hislen << std::endl;
-   // consistency check: chars written are data field+header size
-   if (byteswritten == hislen)
-   {
-     TGo4Log::Message(1,"Histogram %s:  %d bytes (data %d) written to %s",
-        hname.Data(), byteswritten, hislen, outname.Data());
-   }
-   else
-   {
-     TGo4Log::Message(3,"Histogram %s:  Size mismatch: %d bytes written to %s, datalength is %d",
-        hname.Data(), byteswritten, outname.Data(), hislen);
-   }
-   outfile.close();
-   gSystem->cd(fxStartDir.Data());
-}// try /////////////////////////////////////////////
+      try {
+         TString objectname = histo->GetName();
+         TString outname = objectname;
+         outname.Append(".spe");
+         TString hname = objectname;
+         hname.Append("        ");
+         Int_t maxbinX = histo->GetNbinsX();
+         Int_t l_chan = maxbinX; // get record size from histo here...
+         Int_t l_head[6];
+         l_head[0] = l_chan;
+         l_head[1] = 1;
+         l_head[2] = 1;
+         l_head[3] = 1;
+         l_head[4] = 24;
+         l_head[5] = l_chan * 4; /* record size */
+         gSystem->cd(fxCurrentDir.Data());
+         std::ofstream outfile(outname.Data());
+         if (!outfile) {
+            TGo4Log::Message(3, "ExportManager: Error opening outputfile %s", outname.Data());
+            return;
+         }
+         TGo4Log::Message(0, "ExportManager: Converting 1d histogram %s to RADWARE", histo->GetName());
+         //// write first long of head, i.e. value 24
+         Int_t first = 24;
+         outfile.write((char *)&first, sizeof(Int_t));
+         ////write name string:
+         outfile.write(hname.Data(), 8); // name limited to 8 characters
+                                         //// write complete header:
+         outfile.write((char *)l_head, 6 * sizeof(Int_t));
+         //// write data field:
+         Float_t cont = 0;
+         for (Int_t xbin = 0; xbin < maxbinX; ++xbin) {
+            cont = (Float_t)histo->GetBinContent(xbin);
+            outfile.write((char *)&cont, sizeof(Float_t));
+         }
+         //// write length of data in chars to end of data field
+         Int_t charnum = l_chan * sizeof(Float_t);
+         outfile.write((char *)&charnum, sizeof(Int_t));
+         Int_t hislen = l_chan * 4 + 40;
+         Int_t byteswritten = outfile.tellp();
+         // std::cout <<"position in stream is "<<byteswritten << std::endl;
+         // std::cout <<"datalength was"<<hislen << std::endl;
+         //  consistency check: chars written are data field+header size
+         if (byteswritten == hislen) {
+            TGo4Log::Message(1, "Histogram %s:  %d bytes (data %d) written to %s", hname.Data(), byteswritten, hislen,
+                             outname.Data());
+         } else {
+            TGo4Log::Message(3, "Histogram %s:  Size mismatch: %d bytes written to %s, datalength is %d", hname.Data(),
+                             byteswritten, outname.Data(), hislen);
+         }
+         outfile.close();
+         gSystem->cd(fxStartDir.Data());
+      } // try /////////////////////////////////////////////
 
+      catch (std::exception &ex) // treat standard library exceptions
+      {
+         TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportRadware(TH1*)", ex.what());
+      } catch (...) {
+         TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportRadware(TH1*)!!!");
+      } // catch
 
-catch(std::exception& ex) // treat standard library exceptions
-{
-  TGo4Log::Message(3,"standard exception %s in TGo4ExportManager::ExportRadware(TH1*)",
-            ex.what());
-}
-catch(...)
-{
-  TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportRadware(TH1*)!!!");
-} // catch
-
-}// if(histo->InheritsFrom...)
-
+   } // if(histo->InheritsFrom...)
 }
 
 void TGo4ExportManager::ExportRadware(TH2* histo)
@@ -471,17 +444,17 @@ void TGo4ExportManager::ExportRadware(TH2* histo)
 }
 void TGo4ExportManager::ExportRadware(TGraph* graph)
 {
-TGo4Log::Message(2,"ExportManager: Converting graph %s to radware not supported yet!",graph->GetName());
+   TGo4Log::Message(2,"ExportManager: Converting graph %s to radware not supported yet!",graph->GetName());
 }
 
 void TGo4ExportManager::ExportXML(TObject* ob)
 {
-   if (ob==0) return;
+   if (!ob) return;
    TString fname=ob->GetName();
    fname += ".xml";
 
    TFile* f = TFile::Open(fname.Data(), "recreate");
-   if (f==0) return;
+   if (!f) return;
    f->cd();
    ob->Write();
    delete f;
@@ -492,12 +465,12 @@ void TGo4ExportManager::ExportXML(TObject* ob)
 
 void TGo4ExportManager::ExportRoot(TObject* ob)
 {
-   if(ob==0) return;
+   if(!ob) return;
    TString fname=fxOutFile;
    TString ftitle=fxOutFileComment;
    if(!fname.Contains(".root")) fname.Append(".root");
    TFile* f = TFile::Open(fname.Data(), "recreate");
-   if (f==0) return;
+   if (!f) return;
    f->SetTitle(ftitle.Data());
    f->cd();
    ob->Write();

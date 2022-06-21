@@ -261,11 +261,11 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
    // expand base classes
    TIter cliter(cl->GetListOfBases());
-   while((obj=cliter()) !=0) {
+   while((obj=cliter()) != nullptr) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
-      if (baseclass==0) continue;
+      if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
-      if(bclass==0) continue;
+      if(!bclass) continue;
       if(strcmp(bclass->GetName(), "TGo4Parameter")==0) continue;
       if(strcmp(bclass->GetName(), "TNamed")==0) continue;
 
@@ -276,7 +276,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMember* member)
 {
    TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
-   if (info==0) return -1;
+   if (!info) return -1;
    if (strcmp(info->GetName(), member->GetName())!=0) return -1;
    if (strcmp(info->GetTitle(), member->GetTitle())!=0) return -1;
    if (info->GetTypeId() != TGo4ParameterMember::kTArray_t) return -1;

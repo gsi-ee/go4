@@ -123,7 +123,7 @@ TGo4Fitter* BuildFitter()
 void StoreFitter(TGo4Fitter* fitter)
 {
    TFile* f = TFile::Open("Example7.root","recreate");
-   if (f!=0) fitter->Write("Fitter");
+   if (f) fitter->Write("Fitter");
    delete f;
 }
 
