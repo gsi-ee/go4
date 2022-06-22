@@ -345,7 +345,7 @@ void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
 
         TGo4Fitter* fitter = nullptr;
         ServiceCall("GetFitterFromFitPanel", &fitter);
-        if ((fitter!=0) && (info->GetObject()!=fitter))
+        if (fitter && (info->GetObject() != fitter))
            contextMenu.addAction( "Get from FitPanel",  this, SLOT(GetFitterFromEditor()));
         contextMenu.exec(QCursor::pos());
      }
@@ -422,7 +422,7 @@ void TGo4ParaEdit::saveFile()
 
    if (!fItems) return;
 
-   if (GetLinkedName("Parameter")!=0) {
+   if (GetLinkedName("Parameter")) {
       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
       if (!par) return;
       if (par->SetMemberValues(fItems))

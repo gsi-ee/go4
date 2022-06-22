@@ -199,7 +199,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
 
 TGo4AnalysisWindow::~TGo4AnalysisWindow()
 {
-   //if (Browser()!=0)
+   //if (Browser())
    //   Browser()->ToggleMonitoring(0);
    CloseMDIParentSlot(); // JAM remove top level window when changing connection from client to server
 }
@@ -207,7 +207,7 @@ TGo4AnalysisWindow::~TGo4AnalysisWindow()
 
 bool TGo4AnalysisWindow::HasOutput()
 {
-   return fxOutput!=0;
+   return fxOutput != nullptr;
 }
 
 void TGo4AnalysisWindow::SetHistorySize(int sz)
@@ -217,7 +217,7 @@ void TGo4AnalysisWindow::SetHistorySize(int sz)
 
 void TGo4AnalysisWindow::updateTerminalOutput()
 {
-  if (fxOutput == 0)
+  if (!fxOutput)
     return;
 
   unsigned int buflen = outputBuffer.length();
@@ -268,7 +268,7 @@ void TGo4AnalysisWindow::updateTerminalOutput()
 
 void TGo4AnalysisWindow::readFromStdout()
 {
-   if (fAnalysisProcess!=0) {
+   if (fAnalysisProcess) {
       QByteArray ba = fAnalysisProcess->readAllStandardOutput();
       QString buf(ba);
       AppendOutputBuffer(buf,0);
@@ -278,7 +278,7 @@ void TGo4AnalysisWindow::readFromStdout()
 
 void TGo4AnalysisWindow::readFromStderr()
 {
-    if (fAnalysisProcess!=0) {
+    if (fAnalysisProcess) {
        QByteArray ba = fAnalysisProcess->readAllStandardError();
        QString buf(ba);
        AppendOutputBuffer(buf,1);
@@ -335,7 +335,7 @@ void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
 
 void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir, bool aschildprocess)
 {
-    if (fAnalysisProcess!=0) delete fAnalysisProcess;
+    if (fAnalysisProcess) delete fAnalysisProcess;
 
     setWindowTitle("Analysis Terminal");
 

@@ -307,7 +307,7 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
     TGo4EventStoreParameter* StorePar = fStepStatus->GetStorePar();
 
-    if (StorePar!=0)
+    if (StorePar)
       switch(StorePar->GetID()) {
          case GO4EV_FILE: {
             TGo4FileStoreParameter* fstor = dynamic_cast<TGo4FileStoreParameter*>(StorePar);
@@ -382,7 +382,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
    TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
 
    if (fLastSrcKind >= 0) {
-      if (fPars[fLastSrcKind]!=0) delete fPars[fLastSrcKind];
+      if (fPars[fLastSrcKind]) delete fPars[fLastSrcKind];
       fPars[fLastSrcKind] = srcpar;
       delsrcpar = false;
    }
@@ -420,7 +420,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
          break;
    }
 
-   TGo4EventSourceParameter* newpar = 0;
+   TGo4EventSourceParameter* newpar = nullptr;
 
    switch (kind) {
       case kind_RootFile:
@@ -459,7 +459,6 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
         newpar = new TGo4HDF5SourceParameter(filename);
         break;
 #endif
-
    }
 
    TGo4MbsSourceParameter* newmbspar = dynamic_cast<TGo4MbsSourceParameter*> (newpar);
@@ -543,8 +542,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
       SpinBoxPortNumber->setValue(mbspar->GetPort());
       SpinBoxRetryNumber->setValue(mbspar->GetRetryCnt());
 
-//      if ((mbspar->GetPort()!=0) || (mbspar->GetRetryCnt()>0) ||
-//          (mbspar->GetStartEvent()!=0) || (mbspar->GetStopEvent()!=0) || (mbspar->GetEventInterval()>1)) fExtra = true;
+//      if ((mbspar->GetPort() != 0) || (mbspar->GetRetryCnt() > 0) ||
+//          (mbspar->GetStartEvent() != 0) || (mbspar->GetStopEvent() != 0) || (mbspar->GetEventInterval()>1)) fExtra = true;
    }
 
    TGo4MbsFileParameter* mbsfilpar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
@@ -671,7 +670,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
 void TGo4ConfigStep::OutputFileDialog()
 {
    QString filters;
-   if(fStepStatus!=0) {
+   if(fStepStatus) {
         TGo4EventStoreParameter* storepar = fStepStatus->GetStorePar();
         if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
            filters = "Go4FileSource  (*.root)";
@@ -685,8 +684,6 @@ void TGo4ConfigStep::OutputFileDialog()
         else
            std::cout <<"Unknown storepar " <<storepar->ClassName() << std::endl;
     }
-
-
 
    QFileDialog fd( this, "Select file name for step output",
          fxPanel->GetStorePath(), filters);
@@ -1121,7 +1118,7 @@ void TGo4ConfigStep::GetHDF5Store( int & flags)
 
 void TGo4ConfigStep::MbsMonitorBtn_clicked()
 {
-   if (fxPanel!=0)
+   if (fxPanel)
      fxPanel->DisplayMbsMonitor(SourceNameEdit->text());
 }
 
