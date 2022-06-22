@@ -173,24 +173,24 @@ void TGo4Picture::SetDivision(Int_t ndivy, Int_t ndivx)
 
 TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
 {
-   if (fxSubPictures==0) return 0;
-   if (posx<0) posx=0; else { if(posx>=GetDivX()) posx = GetDivX()-1; }
-   if (posy<0) posy=0; else { if(posy>=GetDivY()) posy = GetDivY()-1; }
+   if (!fxSubPictures) return nullptr;
+   if (posx < 0) posx=0; else { if(posx>=GetDivX()) posx = GetDivX()-1; }
+   if (posy < 0) posy=0; else { if(posy>=GetDivY()) posy = GetDivY()-1; }
    for (Int_t n=0;n<=fxSubPictures->GetLast();n++) {
       TGo4Picture* sub = dynamic_cast<TGo4Picture*> (fxSubPictures->At(n));
-      if (sub!=0)
-         if (sub->CheckPosition(posy,posx)) return sub;
+      if (sub && sub->CheckPosition(posy,posx))
+         return sub;
    }
-   return 0;
+   return nullptr;
 }
 
 TGo4Picture* TGo4Picture::Pic(Int_t posy, Int_t posx)
 {
    if (!IsDivided()) return this;
-   if (posx<0) posx=0; else if(posx>=GetDivX()) posx = GetDivX()-1;
-   if (posy<0) posy=0; else if(posy>=GetDivY()) posy = GetDivY()-1;
+   if (posx < 0) posx=0; else if(posx>=GetDivX()) posx = GetDivX()-1;
+   if (posy < 0) posy=0; else if(posy>=GetDivY()) posy = GetDivY()-1;
    TGo4Picture* sub = FindPic(posy, posx);
-   if (sub!=0) return sub;
+   if (sub) return sub;
    sub = new TGo4Picture("Sub", "Sub picture");
    sub->SetPosition(posy, posx);
    if (fxSubPictures==0) {
@@ -205,7 +205,8 @@ void TGo4Picture::SetLinesDivision(Int_t numlines, const Int_t* numbers)
 {
    SetDivision(numlines,1);
    for (Int_t n=0;n<numlines;n++)
-     if (numbers[n]>1) Pic(n,0)->SetDivision(1,numbers[n]);
+      if (numbers[n]>1)
+         Pic(n,0)->SetDivision(1,numbers[n]);
 }
 
 void TGo4Picture::SetLinesDivision(Int_t numlines,
@@ -220,7 +221,7 @@ TGo4Picture* TGo4Picture::LPic(Int_t nline, Int_t ncol)
 {
    if (!IsDivided()) return this;
    TGo4Picture* sub = Pic(nline, 0);
-   if (sub==0) return 0;
+   if (!sub) return nullptr;
    if (sub->IsDivided()) return sub->Pic(0,ncol);
                     else return sub;
 }
@@ -456,8 +457,9 @@ Int_t TGo4Picture::GetLogScale(Int_t nscale)
        default: typ = op_LogScaleX;
    }
    Long_t zn;
-   if (GetOption(PictureIndex, typ, zn)) return zn;
-                                    else return 0;
+   if (GetOption(PictureIndex, typ, zn))
+      return zn;
+   return 0;
 }
 
 void TGo4Picture::GetLogScales(TVirtualPad* pad)
@@ -904,7 +906,7 @@ void* TGo4Picture::Cast(TObject* obj, TClass* cl)
 {
    if (!obj || !cl) return nullptr;
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
-   if (shift<0) return 0;
+   if (shift < 0) return nullptr;
    return (char*) obj + shift;
 }
 

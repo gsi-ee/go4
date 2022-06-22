@@ -55,12 +55,12 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    GO4TRACE((12,"TGo4Status::PrintStatus()",__LINE__, __FILE__));
 
-   if(buflen<=0 && buffer!=0) return 0;
+   if(buflen <= 0 && buffer) return 0;
 
    Int_t size = 0;
    TString localbuf = TString::Format("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
 
-   if(buffer==0) {
+   if(!buffer) {
       std::cout << localbuf << std::endl;
    } else {
       size = localbuf.Length();
@@ -72,20 +72,20 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
 
 Text_t *TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
 {
-   if(buflen<0 && buffer)
+   if(buflen < 0 && buffer)
       return nullptr;
-   Int_t restlen=buflen;
+   Int_t restlen = buflen;
    Text_t *cursor = buffer;
    for (int i = 0; (i < TROOT::GetDirLevel()) && (i < buflen); i++) {
       cursor = PrintBuffer(cursor, restlen, " ");
    }
-   buflen=restlen;
+   buflen = restlen;
    return cursor;
 }
 
 Text_t *TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,...)
 {
-   if(!buffer || buflen<0)
+   if(!buffer || buflen < 0)
       return nullptr;
    va_list args;
    va_start(args, text);

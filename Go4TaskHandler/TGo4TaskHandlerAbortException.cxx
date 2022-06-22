@@ -64,7 +64,7 @@ Int_t TGo4TaskHandlerAbortException::Handle()
          fxTaskHandler->SetAborting(kTRUE);
       } // if (fxTaskHandler->IsAborting())
 
-   if (fxThreadManager==0)
+   if (!fxThreadManager)
          {
             // error
             fxTaskHandler->SetAborting(kFALSE);
@@ -76,8 +76,8 @@ Int_t TGo4TaskHandlerAbortException::Handle()
          }  //   if (fxThreadManager==0)
 
    const char* taskname = fxTaskHandler->GetName();
-   TGo4Master* master=0;
-   TGo4Slave* slave=0;
+   TGo4Master* master = nullptr;
+   TGo4Slave* slave = nullptr;
    TGo4Task* task = dynamic_cast<TGo4Task*> (fxThreadManager);
    if(task)
       {

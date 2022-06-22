@@ -160,58 +160,46 @@ TGo4TaskHandlerCommandList * TGo4Task::GetPrototype()
 
 TGo4Status * TGo4Task::NextStatus(Bool_t wait)
 {
-   if(!IsMaster()) return 0;
-   TObject* obj = 0;
-   TGo4Status* stat = 0;
-   TGo4BufferQueue* statqueue = dynamic_cast<TGo4BufferQueue*> (GetStatusQueue());
-   if(statqueue)
-   {
+   if (!IsMaster())
+      return nullptr;
+   TObject *obj = nullptr;
+   TGo4Status *stat = nullptr;
+   TGo4BufferQueue *statqueue = dynamic_cast<TGo4BufferQueue *>(GetStatusQueue());
+   if (statqueue) {
       // polling mode for timer: we do not go into condition wait!
-      if(!wait && statqueue->IsEmpty()) return 0;
+      if (!wait && statqueue->IsEmpty())
+         return nullptr;
       obj = statqueue->WaitObjectFromBuffer();
-      if(obj)
-      {
-         if(obj->InheritsFrom(TGo4Status::Class()))
-         {
-            stat= dynamic_cast<TGo4Status*>(obj);
-         }
-         else
-         {
+      if (obj) {
+         if (obj->InheritsFrom(TGo4Status::Class())) {
+            stat = dynamic_cast<TGo4Status *>(obj);
+         } else {
             TGo4Log::Debug(" !!! Master Task: NextStatus ERROR, unknown object %s from status queue!!! ",
-                  obj->GetName());
+                           obj->GetName());
             delete obj;
          }
-      }
-      else
-      {
+      } else {
          TGo4Log::Debug(" !!! Master Task NextStatus ERROR -- NULL object from data queue!!! ");
-      } // if(obj)
-   }
-   else //if(statqueue)
-   {
-      //TGo4Log::Debug(" !!! Master Task NextStatus ERROR -- no data queue!!! ");
-      stat=0;
+      }
+   } else {
+      stat = nullptr;
    }
    return stat;
 }
 
-
 TObject * TGo4Task::NextObject(Bool_t wait)
 {
-   if(!IsMaster()) return 0;
-   TObject* obj=0;
-   TGo4BufferQueue* dataqueue=dynamic_cast<TGo4BufferQueue*> (GetDataQueue());
-   if(dataqueue)
-   {
-      if(!wait && dataqueue->IsEmpty())
-         return 0;   // polling mode for timer: we do not go into condition wait!
-      obj=dataqueue->WaitObjectFromBuffer(); // wait for buffer and stream object
+   if (!IsMaster())
+      return nullptr;
+   TObject *obj = nullptr;
+   TGo4BufferQueue *dataqueue = dynamic_cast<TGo4BufferQueue *>(GetDataQueue());
+   if (dataqueue) {
+      if (!wait && dataqueue->IsEmpty())
+         return nullptr;                       // polling mode for timer: we do not go into condition wait!
+      obj = dataqueue->WaitObjectFromBuffer(); // wait for buffer and stream object
 
-   }
-   else //if(dataqueue)
-   {
-      //TGo4Log::Debug(" !!! Master Task NextObject ERROR -- no data queue!!! ");
-      obj=0;
+   } else {
+      obj = nullptr;
    }
    return obj;
 }
@@ -338,11 +326,11 @@ void TGo4Task::UpdateStatusBuffer()
 
 TGo4Command* TGo4Task::NextCommand()
 {
-   if(IsMaster()) return 0;
+   if(IsMaster()) return nullptr;
    TGo4BufferQueue *comq = GetCommandQueue();
-   if(!comq) return 0;
+   if(!comq) return nullptr;
 
-   TGo4Command *com = 0;
+   TGo4Command *com = nullptr;
    if(!comq->IsEmpty() || (fxSlave!=0 && !fxSlave->MainIsRunning() ) )
    {
       // put new command out of queue
@@ -368,7 +356,7 @@ TGo4Command* TGo4Task::NextCommand()
    }
    else //if(!fxCommandQ->IsEmpty() || !AnalysisIsRunning())
    {
-      com=0;
+      com = nullptr;
    }
    return com;
 }
@@ -384,16 +372,16 @@ Int_t TGo4Task::Initialization()
    } //// if(fbInitDone)
    else
    {
-      if(fxCommandPrototype==0)
+      if(!fxCommandPrototype)
       {
          if(fxMaster)
          {
-            fxCommandPrototype=fxMaster->CreateCommandList(); // use factory method
+            fxCommandPrototype = fxMaster->CreateCommandList(); // use factory method
             TGo4Log::Debug(" Task --  command list is created from Master factory");
          }
          else
          {
-            fxCommandPrototype=CreateCommandList();
+            fxCommandPrototype = CreateCommandList();
             TGo4Log::Debug(" Task --  command list is created from Task factory");
          }
       }
@@ -406,7 +394,7 @@ Int_t TGo4Task::Initialization()
 
 void TGo4Task::UpdateStatus(TGo4TaskStatus* state)
 {
-   TGo4TaskHandlerStatus *taskhandlerstatus = 0;
+   TGo4TaskHandlerStatus *taskhandlerstatus = nullptr;
    TGo4TaskHandler *th = GetTaskHandler();
    if(th) taskhandlerstatus = th->CreateStatus();
    state->SetTaskHandlerStatus(taskhandlerstatus);
@@ -434,25 +422,21 @@ Bool_t TGo4Task::SubmitCommand(const char* name)
    {
       return (SubmitEmergencyCommand(kComRestartMain));
    }
-   else
-   {
-      //  TGo4Command* com=0;
-      TGo4Command* com = MakeCommand(name);
-      if(com==0) // only encapsulate commands that are not known here
-      {
-         // try simple command with remote command envelope:
-         TGo4LockGuard mainlock;
-         com = new TGo4RemoteCommand(name);
-         //std::cout <<"submitted remote command of "<<name << std::endl;
-      }
-      return (SubmitCommand(com));
+
+   TGo4Command *com = MakeCommand(name);
+   if (!com) { // only encapsulate commands that are not known here
+      // try simple command with remote command envelope:
+      TGo4LockGuard mainlock;
+      com = new TGo4RemoteCommand(name);
+      // std::cout <<"submitted remote command of "<<name << std::endl;
    }
+   return SubmitCommand(com);
 }
 
 Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 {
    TGo4BufferQueue* queue = GetCommandQueue();
-   if(queue!=0)
+   if(queue)
    {
       // we have an active command queue...
       if(val==kComQuit)
@@ -474,7 +458,7 @@ Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char* receiver)
 {
    TGo4BufferQueue* queue=GetDataQueue(receiver);
-   if(queue!=0)
+   if(queue)
    {
       // we have an active data queue...
       if(val==kComQuit)
@@ -495,7 +479,7 @@ Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char* rece
 
 Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
 {
-   if (com==0) return kFALSE;
+   if (!com) return kFALSE;
 
    Bool_t rev=kTRUE;
    if(com->IsLocal())
@@ -517,22 +501,22 @@ Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
 
 TGo4TaskHandlerCommandList* TGo4Task::CreateCommandList()
 {
-   return (new TGo4TaskHandlerCommandList("Go4ServerTaskDefaultCommandList") );
+   return new TGo4TaskHandlerCommandList("Go4ServerTaskDefaultCommandList");
 }
 
 TGo4Command* TGo4Task::MakeCommand(const char* name)
 {
    TGo4LockGuard mainlock;
-   return ( fxCommandPrototype->MakeCommand(name) );
+   return fxCommandPrototype->MakeCommand(name);
 }
 
 Bool_t TGo4Task::SubmitLocalCommand(TGo4Command* com)
 {
-   if(com==0) return kFALSE;
+   if(!com) return kFALSE;
    com->SetMode(kGo4ComModeAdministrator); // everything is allowed here...
    fxWorkHandler->Start(GetCommanderName()); // for non autostart mode
    TGo4ObjectQueue* lqueue = GetLocalCommandQueue();
-   if(lqueue==0) {
+   if(!lqueue) {
       delete com;
       return kFALSE;
    }
@@ -546,9 +530,9 @@ void TGo4Task::WakeCommandQueue(Int_t id)
    if(th && th->IsAborting()) return;
 
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
-   TGo4Command* com=new TGo4Command("dummy","this wakes up queue",id);
+   TGo4Command* com = new TGo4Command("dummy","this wakes up queue",id);
    SubmitCommand(com); // wake up main command queue (to taskhandler)
-   com=new TGo4Command("dummy","this wakes up queue",id);
+   com = new TGo4Command("dummy","this wakes up queue",id);
    SubmitLocalCommand(com); // wake up local command queue
 
    // note: command is owned by submit command after submit!

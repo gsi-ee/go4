@@ -86,6 +86,6 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
       } // else if(fbReceiverMode)
 
 
-return 0;
+   return 0;
 }
 

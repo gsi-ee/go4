@@ -502,43 +502,42 @@ TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char* name)
 
 TGo4Command* TGo4ServerTask::NextCommand()
 {
-if(IsMaster()) return 0;
-TGo4Command* com=0;
-TGo4TaskHandler* han=0;
-Bool_t reset=kTRUE;
-TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
-while((han=fxTaskManager->NextTaskHandler(reset))!=0)
-   {
-       reset=kFALSE;
-       TGo4BufferQueue * comq=dynamic_cast<TGo4BufferQueue*> (han->GetCommandQueue());
-       if(comq==0) continue; //NEVER COME HERE!
-       if(!comq->IsEmpty()) // prevent waiting on queue
-         {
-             com= dynamic_cast<TGo4Command*>(comq->WaitObjectFromBuffer());
-             if(com)
-               {
-                  com->SetTaskName(han->GetName());
-                  com->SetMode(han->GetRole());
-                  return com;
-               }
+   if (IsMaster())
+      return nullptr;
+   TGo4Command *com = nullptr;
+   TGo4TaskHandler *han = nullptr;
+   Bool_t reset = kTRUE;
+   TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
+   while ((han = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+      reset = kFALSE;
+      TGo4BufferQueue *comq = dynamic_cast<TGo4BufferQueue *>(han->GetCommandQueue());
+      if (!comq)
+         continue;          // NEVER COME HERE!
+      if (!comq->IsEmpty()) { // prevent waiting on queue
+         com = dynamic_cast<TGo4Command *>(comq->WaitObjectFromBuffer());
+         if (com) {
+            com->SetTaskName(han->GetName());
+            com->SetMode(han->GetRole());
+            return com;
          }
+      }
    } // while
-return com;
+   return com;
 }
 
 void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
 {
    if(IsMaster()) return;
-   if(stat==0) return;
-   if(receiver!=0) {
+   if(!stat) return;
+   if(receiver) {
       TGo4Task::SendStatus(stat,receiver);
       return;
    }
    // send status to all
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
-   TGo4TaskHandler* han = 0;
+   TGo4TaskHandler* han = nullptr;
    Bool_t reset = kTRUE;
-   while((han = fxTaskManager->NextTaskHandler(reset))!=0) {
+   while((han = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
       reset = kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
       if(statq==0) continue; //NEVER COME HERE!
@@ -552,10 +551,9 @@ void TGo4ServerTask::SendStatusBuffer()
    if(IsMaster()) return;
    TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
-   TGo4TaskHandler* han=0;
+   TGo4TaskHandler* han = nullptr;
    Bool_t reset=kTRUE;
-   while((han=fxTaskManager->NextTaskHandler(reset))!=0)
-   {
+   while((han=fxTaskManager->NextTaskHandler(reset)) != nullptr) {
       reset=kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
       if(statq==0) continue; //NEVER COME HERE!
@@ -563,8 +561,6 @@ void TGo4ServerTask::SendStatusBuffer()
       statq->AddBuffer(fxStatusBuffer,kTRUE);
    }// while
 }
-
-
 
 Bool_t TGo4ServerTask::StartConnectorThread()
 {
@@ -597,23 +593,22 @@ void TGo4ServerTask::Quit()
 {
    TGo4Log::Debug(" ServerTask Quit -- removing all connected clients ");
    SendStatusMessage(2,kTRUE,"ServerTask %s is shutting down now! All clients are removed...",GetName());
-   TGo4Slave* slave=GetSlave();
-   if(slave)
-	 {
-	   TGo4Log::Debug(" ServerTask Quit is stopping slave...");
-	   slave->Stop(); // to execute analysis postloop if still running
-	 }
+   TGo4Slave* slave = GetSlave();
+   if(slave) {
+      TGo4Log::Debug(" ServerTask Quit is stopping slave...");
+      slave->Stop(); // to execute analysis postloop if still running
+    }
    if(!IsMaster())
-	   {
-		   //std::cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << std::endl;
-		   fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
-	   }
+      {
+         //std::cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << std::endl;
+         fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
+      }
    RemoveAllClients();
    //StopWorkThreads(); // are re-started after last client is removed...
    WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
    Terminate(!IsMaster()); // terminate only slave server here!
 //   if(!IsMaster())
-//	   fxTaskManager->GetMutex()->Lock(); // avoid conflicts with lockguard outside
+//      fxTaskManager->GetMutex()->Lock(); // avoid conflicts with lockguard outside
 }
 
 
@@ -629,15 +624,14 @@ void TGo4ServerTask::Shutdown()
    RemoveAllClients(true);
 
    TGo4Slave* slave=GetSlave();
-   if(slave)
-      {
-	     TGo4Log::Debug(" ServerTask Shutdown stopping slave...");
-         slave->Stop(); // to execute analysis postloop.
-                        // We are within main thread here, i.e. it never stops before termination!
-         slave->SetTask(0,kFALSE); // otherwise owner dtor will delete us...
-         delete slave;   //call dtors of analysis framework
-         //SetOwner(0);
-      }
+   if (slave) {
+      TGo4Log::Debug(" ServerTask Shutdown stopping slave...");
+      slave->Stop();             // to execute analysis postloop.
+                                 // We are within main thread here, i.e. it never stops before termination!
+      slave->SetTask(0, kFALSE); // otherwise owner dtor will delete us...
+      delete slave;              // call dtors of analysis framework
+      // SetOwner(0);
+   }
    fxTaskManager->GetMutex()->Lock();
    gApplication->Terminate(); // do not wait until appctrl timer terminates us
 }

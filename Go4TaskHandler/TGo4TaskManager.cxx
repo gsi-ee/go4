@@ -81,8 +81,8 @@ TGo4TaskManager::~TGo4TaskManager()
 Int_t TGo4TaskManager::ServeClient()
 {
    //std::cout <<"EEEEEEEEEEEnter TGo4TaskManager::ServeClient()" << std::endl;
-   Int_t rev=0;
-   char* recvchar=0;
+   Int_t rev = 0;
+   char* recvchar = nullptr;
    TString cliname, hostname;
    // open connection in server mode with default port as raw Socket, wait for client
    if(!fxTransport)
