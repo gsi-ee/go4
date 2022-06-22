@@ -100,19 +100,19 @@ TGo4ServerTask::~TGo4ServerTask()
 Bool_t TGo4ServerTask::RemoveClient(const char* name, Bool_t clientwait, Bool_t isterminating)
 {
    Bool_t rev=kTRUE;
-   TGo4TaskHandler* taskhandler=0;
+   TGo4TaskHandler* taskhandler = nullptr;
    if(name && strstr(name,"current"))
       taskhandler=GetCurrentTaskHandler();
    else
       taskhandler=GetTaskHandler(name);
-   if(taskhandler==0)
+   if(!taskhandler)
       {
          // no such taskhandler for name
          TGo4Log::Debug(" ServerTask -- RemoveClient FAILED, no client %s !!! ",
                   name);
          rev=kFALSE;
       }
-   else // if(taskhandler==0)
+   else
       {
        TGo4Log::Debug(" ServerTask -- removing client task %s ",name);
        // first stop all user threads waiting on or writing into the data queues
@@ -161,35 +161,33 @@ Bool_t TGo4ServerTask::RemoveClient(const char* name, Bool_t clientwait, Bool_t 
          TGo4Log::Debug(" !!! Server Task -- removing client %s without waiting...  ",
                                     taskhandler->GetName());
          SendStopBuffers(taskhandler->GetName());
-         rev= (fxTaskManager->DisConnectClient(taskhandler->GetName(),kFALSE)==0); // do not wait
+         rev= (fxTaskManager->DisConnectClient(taskhandler->GetName(),kFALSE) == 0); // do not wait
          }
       if(!isterminating) StartWorkThreads();
-   } // else if(taskhandler==0)
+   }
    return rev;
 }
 
 Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
 {
-   Int_t rev=0; // return value is number of removed clients
-   //std::cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << std::endl;
-//// new: first figure out all existing names, then remove one by one:
-   TGo4TaskHandler* taskhandler=0;
+   Int_t rev = 0; // return value is number of removed clients
+   // std::cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << std::endl;
+   //// new: first figure out all existing names, then remove one by one:
+   TGo4TaskHandler *taskhandler = nullptr;
    TObjArray names;
-   Bool_t reset=kTRUE;
-   while((taskhandler=fxTaskManager->NextTaskHandler(reset)) !=0)
-      {
-         reset=kFALSE;
-         //std::cout <<"adding name "<<taskhandler->GetName() << std::endl;
-         names.AddLast(new TNamed(taskhandler->GetName(), "title"));
-      }
+   Bool_t reset = kTRUE;
+   while ((taskhandler = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+      reset = kFALSE;
+      // std::cout <<"adding name "<<taskhandler->GetName() << std::endl;
+      names.AddLast(new TNamed(taskhandler->GetName(), "title"));
+   }
    TIter niter(&names);
-   TObject* nomen=0;
-   while((nomen =niter.Next()) !=0)
-      {
-         //std::cout <<"removing th "<<nomen->GetName() << std::endl;
-         RemoveClient(nomen->GetName(),!force,kTRUE);
-         rev++;
-      }
+   TObject *nomen = nullptr;
+   while ((nomen = niter.Next()) != nullptr) {
+      // std::cout <<"removing th "<<nomen->GetName() << std::endl;
+      RemoveClient(nomen->GetName(), !force, kTRUE);
+      rev++;
+   }
    names.Delete();
    // end iteration
    return rev;
@@ -200,16 +198,13 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
 {
    Bool_t rev=kTRUE;
    TGo4TaskHandler* taskhandler=GetCurrentTaskHandler();
-   if(taskhandler!=0)
-      {
-         // we have a current client, remove it
-         TGo4Log::Debug(" Server task -- removing current client %s ",taskhandler->GetName());
-         rev = RemoveClient(taskhandler->GetName());
-      }
-   else
-      {
-         rev=kFALSE;
-      }
+   if (taskhandler) {
+      // we have a current client, remove it
+      TGo4Log::Debug(" Server task -- removing current client %s ", taskhandler->GetName());
+      rev = RemoveClient(taskhandler->GetName());
+   } else {
+      rev = kFALSE;
+   }
    return rev;
 }
 
@@ -332,7 +327,7 @@ Int_t TGo4ServerTask::TimerConnect()
 //                  std::cout << "++++++++Timer will open transport"<< std::endl;
                   fbConnectIsOpen=kTRUE; // tell connector thread that we try to open
                   Int_t result=fxConnectTransport->Open(GetConnectHost(), fuConnectPort, fbKeepServerSocket);
-                  if(result==0)
+                  if(result == 0)
                      {
                         fbConnectIsDone=kTRUE; // tell connector thread we returned from open
                         fbConnectRequest=kFALSE; // we served the request, reset it
@@ -526,7 +521,7 @@ void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
    while((han = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
       reset = kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
-      if(statq==0) continue; //NEVER COME HERE!
+      if(!statq) continue; //NEVER COME HERE!
       TGo4Log::Debug(" Task - sending status %s to task %s", stat->ClassName(), han->GetName());
       statq->AddBufferFromObject(stat);
    }// while
@@ -542,7 +537,7 @@ void TGo4ServerTask::SendStatusBuffer()
    while((han=fxTaskManager->NextTaskHandler(reset)) != nullptr) {
       reset=kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
-      if(statq==0) continue; //NEVER COME HERE!
+      if(!statq) continue; //NEVER COME HERE!
       TGo4Log::Debug(" Task - sending status buffer to task %s", han->GetName());
       statq->AddBuffer(fxStatusBuffer,kTRUE);
    }// while

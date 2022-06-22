@@ -65,24 +65,19 @@ TGo4TaskHandler::TGo4TaskHandler(const char* name, TGo4ThreadManager* threadmana
 :TNamed(name,"This is a Go4 Task Handler"),
 fbIsAborting(kFALSE), fiComPort(0),fiStatPort(0),fiDatPort(0),fiRole(kGo4ComModeController)
 {
-   fbClientMode=clientmode;
-   fbMasterMode=mastermode;
-   if(threadmanager==0)
-   {
+   fbClientMode = clientmode;
+   fbMasterMode = mastermode;
+   if(!threadmanager) {
       // error
       TGo4Log::Debug(" TaskHandler -- constructor error, unspecified ThreadManager: aborting ");
       //throw TGo4RuntimeException();
    }
-   else
-   {
-      // everything o.k.
-   }
 
    // set port number for the client server negotiation channel:
-   if(negotiationport==0)
+   if(negotiationport == 0)
    {
       // default: use taskhandler intrinsic port number
-      fuNegPort=TGo4TaskHandler::fguCONNECTORPORT;
+      fuNegPort = TGo4TaskHandler::fguCONNECTORPORT;
    }
    else
    {
@@ -93,7 +88,7 @@ fbIsAborting(kFALSE), fiComPort(0),fiStatPort(0),fiDatPort(0),fiRole(kGo4ComMode
    fxThreadManager=threadmanager;
    fxThreadHandler=fxThreadManager->GetWorkHandler();
    TString namebuffer;
-   fxInvoker=0;
+   fxInvoker = nullptr;
    fxCommandQueue= new TGo4BufferQueue("Command"); // receiv commands
    fxStatusQueue= new TGo4BufferQueue("Status");   // send status buffer
    fxDataQueue= new TGo4BufferQueue("Data");         // send data
@@ -132,8 +127,6 @@ fbIsAborting(kFALSE), fiComPort(0),fiStatPort(0),fiDatPort(0),fiRole(kGo4ComMode
    fxCommandQueue->SetMaxEntries(TGo4TaskHandler::fguCOMMANDQUEUESIZE);
    fxDataQueue->SetMaxEntries(TGo4TaskHandler::fguDATAQUEUESIZE);
    fxStatusQueue->SetMaxEntries(TGo4TaskHandler::fguSTATUSQUEUESIZE);
-
-
 }
 
 TGo4TaskHandler::~TGo4TaskHandler()
@@ -196,7 +189,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
       /////////////////// CLIENT MODE /////////////////////////////////////////////
       SetAborting(kFALSE); // reset if we reconnect after exception disconnect
       fxHostName=host;// remember hostname for later DisConnect
-      if(connector==0)
+      if(!connector)
       {
          // normal mode for client: we establish negotiation connection first
          connector=ServerRequest(host); // get negotiation channel from server
@@ -206,7 +199,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
          // request was successful, we keep talking:
          connector->Send(fgcCONNECT); // tell server we want to connect
          recvchar=connector->RecvRaw("dummy");
-         if(recvchar==0)
+         if(!recvchar)
          {
             TGo4Log::Debug(" TaskHandler %s; Error on server connection, abortin... ",GetName());
             connector->Close();
@@ -256,8 +249,8 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
    else
    {
       /////////////////// SERVER MODE /////////////////////////////////////////////
-      const char* client=GetName();
-      if(connector==0) return kFALSE;
+      const char* client = GetName();
+      if(!connector) return kFALSE;
       connector->Send(TGo4TaskHandler::fgcOK);
       // first ok to initialize client, fgcERROR would abort client
       if (!ConnectServerChannel("Command",connector, fxCommandTransport, host))
@@ -287,7 +280,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
 
 Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket* connector, Go4CommandMode_t account)
 {
-   if(connector==0) return kFALSE;
+   if(!connector) return kFALSE;
    //std::cout <<"ServerLogin with mode "<<account << std::endl;
    //std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl;
    //std::cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << std::endl;
@@ -326,7 +319,7 @@ Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket* connector, Go4CommandMode_t acco
          break;
    }
 
-   char * recvchar=connector->RecvRaw("dummy");// handshake back if it is ok
+   char *recvchar = connector->RecvRaw("dummy");// handshake back if it is ok
    if(recvchar && !strcmp(recvchar,fgcOK)) return kTRUE;
    return kFALSE;
 }
@@ -439,32 +432,32 @@ TGo4TaskHandlerStatus * TGo4TaskHandler::CreateStatus()
 
 Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host)
 {
-   char* revchar=0;
-   Int_t waitresult=0;
+   char* revchar = nullptr;
+   Int_t waitresult = 0;
    TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(fxThreadManager);
-   if(server==0)
+   if(!server)
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no server task ",name);
       return kFALSE;
    }
-   if(negotiator==0 || !negotiator->IsOpen())
+   if(!negotiator || !negotiator->IsOpen())
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no negotiation channel ",name);
       return kFALSE;
    }
-   if(channel==0)
+   if(!channel)
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no TGo4Socket instance ",name);
       return kFALSE;
    }
-   const char* client=GetName(); // taskhandler name is client name
+   const char* client = GetName(); // taskhandler name is client name
    // in server mode, we connect by the connector thread:
    // need timer mechanism for proper registration of ROOT sockets (timer is main thread)
    // only root sockets connected in main application thread will be cleaned up
    server->SetConnect(channel, host,0,kTRUE);
    // tell the ServerTask timer we want to connect; portscan. we keep server socket open for windows
-   waitresult=server->WaitForOpen(); // wait for the server Open() call by timer
-   if(waitresult<0)
+   waitresult = server->WaitForOpen(); // wait for the server Open() call by timer
+   if(waitresult < 0)
    {
       // open timeout
       TGo4Log::Debug(" TaskHandler: Channel %s open TIMEOUT for client %s ",name, client);
@@ -500,7 +493,7 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
    }
 
    waitresult=server->WaitForConnection(); // we also check ourselves if timer has returned from server open
-   if(waitresult<0)
+   if(waitresult < 0)
    {
       // connect timeout
       TGo4Log::Debug(" TaskHandler: Channel %s connect TIMEOUT for client %s ", name, client);
@@ -517,14 +510,14 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
 Bool_t TGo4TaskHandler::ConnectClientChannel(const char* name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host)
 {
    //
-   char* recvchar=0;
-   Int_t port=0;
-   if(negotiator==0 || !negotiator->IsOpen())
+   char* recvchar = nullptr;
+   Int_t port = 0;
+   if(!negotiator || !negotiator->IsOpen())
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no negotiation channel ",name);
       return kFALSE;
    }
-   if(channel==0)
+   if(!channel)
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no TGo4Socket instance ",name);
       return kFALSE;
@@ -553,13 +546,11 @@ Bool_t TGo4TaskHandler::ConnectClientChannel(const char* name, TGo4Socket * nego
 }
 
 Int_t TGo4TaskHandler::WaitGetPort(TGo4Socket* sock)
-
 {
-   Int_t count=0;
-   Int_t port=0;
-   while(port==0)
+   Int_t count = 0, port = 0;
+   while(port == 0)
    {
-      port=sock->GetPort(); // get dynamically bound port number of server socket
+      port = sock->GetPort(); // get dynamically bound port number of server socket
       //      std::cout <<"------- WaitGetPort has next portnumber "<< port << std::endl;
       if(count>fgiPORTWAITCYCLES)
       {
@@ -588,7 +579,7 @@ void TGo4TaskHandler::StartTransportThreads()
 
 Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
 {
-   Bool_t rev=kTRUE;
+   Bool_t rev = kTRUE;
    fxThreadHandler->Stop(GetComName());
    if(IsMasterMode())
    {

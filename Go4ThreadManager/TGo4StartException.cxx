@@ -28,7 +28,7 @@ TGo4StartException::TGo4StartException (TGo4Runnable* runnable, const char* thre
 : TGo4ThreadException(runnable,threadname)
 {
    GO4TRACE((14,"TGo4StartException::TGo4StartException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
-   fxDescription= "!!!-- Go4 Start Exception --!!!";
+   fxDescription = "!!!-- Go4 Start Exception --!!!";
 }
 
 
@@ -40,42 +40,32 @@ TGo4StartException::~TGo4StartException()
 
 TGo4StartException & TGo4StartException::operator=(const TGo4StartException &right)
 {
-   GO4TRACE((14,"TGo4StartException::operator=",__LINE__, __FILE__));
-   if (&right!=this)
-      {
-         GO4TRACE((13,"TGo4StartException::operator= processing copy",__LINE__, __FILE__));
-         TGo4ThreadException::operator=(right); // copy base class members
-         // put additional member copies here...
-         return *this;
-      }
-   else
-      {
-         // copy is already source object
-         GO4TRACE((13,"TGo4StartException::operator= source and destination objects are identical",__LINE__, __FILE__));
-         return *this;
-      }
+   GO4TRACE((14, "TGo4StartException::operator=", __LINE__, __FILE__));
+   if (&right != this) {
+      GO4TRACE((13, "TGo4StartException::operator= processing copy", __LINE__, __FILE__));
+      TGo4ThreadException::operator=(right); // copy base class members
+      // put additional member copies here...
+      return *this;
+   } else {
+      // copy is already source object
+      GO4TRACE((13, "TGo4StartException::operator= source and destination objects are identical", __LINE__, __FILE__));
+      return *this;
+   }
 }
 
 Int_t TGo4StartException::Handle ()
 {
-   GO4TRACE((14,"TGo4StartException::Handle()",__LINE__, __FILE__));
-   Int_t rev=-1;
-   if(GetThreadName()==0)
+   GO4TRACE((14, "TGo4StartException::Handle()", __LINE__, __FILE__));
+   Int_t rev = -1;
+   if (!GetThreadName()) {
       // no threadname specified, operate on thread of runnable
-      {
-         GO4TRACE((13,"TGo4StartException::Handle() -- starting thread of runnable",__LINE__, __FILE__));
-         rev=fxRunnable->GetThread()->Start();
-      }
-   else
+      GO4TRACE((13, "TGo4StartException::Handle() -- starting thread of runnable", __LINE__, __FILE__));
+      rev = fxRunnable->GetThread()->Start();
+   } else {
       // threadname given, use thread handler to cancel
-      {
-         GO4TRACE((13,"TGo4StartException::Handle() -- starting thread by name",__LINE__, __FILE__));
-         rev=fxThreadHandler->Start(GetThreadName());
-      }
+      GO4TRACE((13, "TGo4StartException::Handle() -- starting thread by name", __LINE__, __FILE__));
+      rev = fxThreadHandler->Start(GetThreadName());
+   }
    // note: return values of Start() are boolean, are casted implicitly
    return rev;
 }
-
-
-
-

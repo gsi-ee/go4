@@ -31,8 +31,8 @@ TGo4ReplaceException::TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable
  :TGo4ThreadException(runnable, oldthreadname)
 {
    GO4TRACE((14,"TGo4ReplaceException::TGo4ReplaceException(TGo4Runnable*,TGo4Runnable*,const char*) constructor",__LINE__, __FILE__));
-   fxDescription= "!!!-- Go4 Replace Exception --!!!";
-   if(newrunnable==0)
+   fxDescription = "!!!-- Go4 Replace Exception --!!!";
+   if(!newrunnable)
       {
       GO4TRACE((13,"TGo4ReplaceException constructor -- new runnable same as old runnable",__LINE__, __FILE__));
          fxNewRunnable=(TGo4Runnable*) runnable->Clone(); // deep copy

@@ -77,20 +77,20 @@ Bool_t TGo4Master::SubmitCommand(TGo4Command* com)
 
 Bool_t TGo4Master::DisconnectSlave(const char* name, Bool_t waitforslave)
 {
-   Bool_t rev=kTRUE;
-   if(IsServer()) {
-      TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*> (GetTask());
-      if(server)
-         rev=server->RemoveClient(name, waitforslave); //waitforclient
+   Bool_t rev = kTRUE;
+   if (IsServer()) {
+      TGo4ServerTask *server = dynamic_cast<TGo4ServerTask *>(GetTask());
+      if (server)
+         rev = server->RemoveClient(name, waitforslave); // waitforclient
       else
-         rev=kFALSE;
+         rev = kFALSE;
    } else {
-      TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*> (GetTask());
-      if(client) {
-         rev=client->DisconnectServer();
+      TGo4ClientTask *client = dynamic_cast<TGo4ClientTask *>(GetTask());
+      if (client) {
+         rev = client->DisconnectServer();
          client->Terminate(kFALSE); // terminate taskowner (TGo4Display), but not application
       } else
-         rev=kFALSE;
+         rev = kFALSE;
    }
    return rev;
 }

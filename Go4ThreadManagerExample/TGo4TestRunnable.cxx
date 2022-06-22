@@ -175,7 +175,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
             }
          else
             {
-               if((++t%5)==0)
+               if((++t%5) == 0)
                   {
                   //throw TGo4RemoveException(this);
 
