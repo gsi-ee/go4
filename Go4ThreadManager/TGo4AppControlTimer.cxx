@@ -53,14 +53,14 @@ Bool_t TGo4AppControlTimer::Notify ()
    //GO4TRACE((12,"TGo4AppControlTimer::Notify()",__LINE__, __FILE__));
 
 //   TurnOff();
-   if(fxManager==0)
+   if(!fxManager)
       {
          TGo4Log::Error("TGo4AppControlTimer::Notify () NEVER COME HERE!!!");
          TGo4Log::Error("TGo4AppControlTimer::Notify () with  zero threadmanager!!!");
          return kFALSE;
 
       }
-   if(fxManager->Initialization()==0)
+   if(fxManager->Initialization() == 0)
       // init successful?
       {
          GO4TRACE((11,"TGo4AppControlTimer: Successful Initialization",__LINE__, __FILE__));
@@ -125,7 +125,7 @@ Bool_t TGo4AppControlTimer::Notify ()
             Reset();
   //          TurnOn();
           }
-      } //if(fxManager->Initialization()==0)
+      } //if(fxManager->Initialization() == 0)
    else
       // init not successful
       {

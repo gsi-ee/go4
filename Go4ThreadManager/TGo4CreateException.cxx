@@ -63,7 +63,7 @@ Int_t TGo4CreateException::Handle ()
    GO4TRACE((14,"TGo4CreateException::Handle()",__LINE__, __FILE__));
    std::cout << "\t This is the TGo4CreateException::Handler"<<std::endl;
    Int_t rev=-1;
-   if(GetThreadName()==0)
+   if(!GetThreadName())
       // no threadname specified, operate on thread of runnable
       {
          GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread of runnable",__LINE__, __FILE__));
@@ -73,12 +73,8 @@ Int_t TGo4CreateException::Handle ()
       // threadname given, use thread handler to cancel
       {
          GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread by name",__LINE__, __FILE__));
-         rev=fxThreadHandler->Create(GetThreadName());
+         rev = fxThreadHandler->Create(GetThreadName());
       }
    // note: boolean return values of called methods are implicitly casted to int
    return rev;
 }
-
-
-
-

@@ -42,107 +42,81 @@ TGo4TaskHandlerAbortException::~TGo4TaskHandlerAbortException()
 
 Int_t TGo4TaskHandlerAbortException::Handle()
 {
-   if(fxCaller)
-      {
-         // we know the calling thread, stop it!
-         fxCaller->GetThread()->Stop();
-      }
-   else
-      {
-         // no caller specified, continue
-      }
+   if (fxCaller) {
+      // we know the calling thread, stop it!
+      fxCaller->GetThread()->Stop();
+   } else {
+      // no caller specified, continue
+   }
 
-   if (fxTaskHandler->IsAborting())
-      {
-         // a concurrent exception is already performing, we do nothing
-         TGo4Log::Debug(" TaskHandlerAbortException: taskhandler is already aborting ");
-         return 0;
-      }
-   else
-      {
-         // just go on with the show
-         fxTaskHandler->SetAborting(kTRUE);
-      } // if (fxTaskHandler->IsAborting())
+   if (fxTaskHandler->IsAborting()) {
+      // a concurrent exception is already performing, we do nothing
+      TGo4Log::Debug(" TaskHandlerAbortException: taskhandler is already aborting ");
+      return 0;
+   } else {
+      // just go on with the show
+      fxTaskHandler->SetAborting(kTRUE);
+   } // if (fxTaskHandler->IsAborting())
 
-   if (!fxThreadManager)
-         {
-            // error
-            fxTaskHandler->SetAborting(kFALSE);
-            return -1;
-         }
-      else
-         {
-            // continue
-         }  //   if (fxThreadManager==0)
+   if (!fxThreadManager) {
+      // error
+      fxTaskHandler->SetAborting(kFALSE);
+      return -1;
+   }
 
-   const char* taskname = fxTaskHandler->GetName();
-   TGo4Master* master = nullptr;
-   TGo4Slave* slave = nullptr;
-   TGo4Task* task = dynamic_cast<TGo4Task*> (fxThreadManager);
-   if(task)
-      {
-         master=task->GetMaster();
-         slave=task->GetSlave();
+   const char *taskname = fxTaskHandler->GetName();
+   TGo4Master *master = nullptr;
+   TGo4Slave *slave = nullptr;
+   TGo4Task *task = dynamic_cast<TGo4Task *>(fxThreadManager);
+   if (task) {
+      master = task->GetMaster();
+      slave = task->GetSlave();
+   }
+   if (slave) {
+      TGo4Log::Debug(" TaskHandlerAbortException for slave %s ... ", taskname);
+      if (slave->IsServer()) {
+         // note: we need a local command  here (executed in local thread),
+         // since this is running inside thread of taskhandler to be deleted!
+         TGo4ComRemoveClient *removecommand = new TGo4ComRemoveClient;
+         // removecommand->SetClient("currentclient");
+         removecommand->SetClient(taskname);
+         removecommand->SetWaitForClient(kFALSE);
+         TGo4Log::Debug(" TaskHandlerAbortException on slave server: revoming client %s", taskname);
+         task->SubmitCommand(removecommand);
+      } else {
+         TGo4Log::Debug(" TaskHandlerAbortException: Terminating slave...");
+         fxThreadManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
+         TGo4Log::Debug(" TaskHandlerAbortException set the being quit");
+         slave->TerminateFast();
       }
-   if(slave)
-      {
-         TGo4Log::Debug(" TaskHandlerAbortException for slave %s ... ",taskname);
-         if(slave->IsServer())
-            {
-               // note: we need a local command  here (executed in local thread),
-               // since this is running inside thread of taskhandler to be deleted!
-               TGo4ComRemoveClient* removecommand = new TGo4ComRemoveClient;
-               //removecommand->SetClient("currentclient");
-               removecommand->SetClient(taskname);
-               removecommand->SetWaitForClient(kFALSE);
-               TGo4Log::Debug(" TaskHandlerAbortException on slave server: revoming client %s",taskname);
-               task->SubmitCommand(removecommand);
-            }
-         else
-            {
-               TGo4Log::Debug(" TaskHandlerAbortException: Terminating slave...");
-               fxThreadManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
-               TGo4Log::Debug(" TaskHandlerAbortException set the being quit");
-               slave->TerminateFast();
-            }
-      }
-   else if(master)
-      {
-         TGo4Log::Debug(" TaskHandlerAbortException: Removing current slave... ");
-         // note: we need a local command here (executed in local thread), since
-         // this is running inside thread of taskhandler to be deleted!
-         TGo4ComDisconnectSlave* discommand = new TGo4ComDisconnectSlave;
-         discommand->SetSlave("currentclient");
-         discommand->SetWaitForSlave(kFALSE);
-         TGo4Log::Debug(" TaskHandlerAbortException: Disconnecting current slave");
-         task->SubmitCommand(discommand);
-      }
-   else if(task)
-      {
-         // no master, no slave: old style connection, test client and server role
-         if(fxTaskHandler->IsClientMode())
-            {
-               // exception was raised by client task handler
-               TGo4Log::Debug(" TaskHandlerAbortException: Quit client %s ... ",taskname);
-               fxThreadManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
-               task->TerminateFast();
-            }
-         else
-            {
-               // exception was raised by server task handler
-               TGo4ComRemoveClient* removecommand = new TGo4ComRemoveClient;
-               removecommand->SetClient(taskname);
-               removecommand->SetWaitForClient(kFALSE);
-               TGo4Log::Debug(" TaskHandlerAbortException: Disconnecting client %s ... ",taskname);
-               task->SubmitCommand(removecommand);
-               // we cannot remove our own thread, so use local command thread
-            } // if (fxTaskHandler->IsClientMode())
-      }
-   else
-      {
-         // no task: something is very wrong!
-         gApplication->Terminate();
-      }
-    return 0;
+   } else if (master) {
+      TGo4Log::Debug(" TaskHandlerAbortException: Removing current slave... ");
+      // note: we need a local command here (executed in local thread), since
+      // this is running inside thread of taskhandler to be deleted!
+      TGo4ComDisconnectSlave *discommand = new TGo4ComDisconnectSlave;
+      discommand->SetSlave("currentclient");
+      discommand->SetWaitForSlave(kFALSE);
+      TGo4Log::Debug(" TaskHandlerAbortException: Disconnecting current slave");
+      task->SubmitCommand(discommand);
+   } else if (task) {
+      // no master, no slave: old style connection, test client and server role
+      if (fxTaskHandler->IsClientMode()) {
+         // exception was raised by client task handler
+         TGo4Log::Debug(" TaskHandlerAbortException: Quit client %s ... ", taskname);
+         fxThreadManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
+         task->TerminateFast();
+      } else {
+         // exception was raised by server task handler
+         TGo4ComRemoveClient *removecommand = new TGo4ComRemoveClient;
+         removecommand->SetClient(taskname);
+         removecommand->SetWaitForClient(kFALSE);
+         TGo4Log::Debug(" TaskHandlerAbortException: Disconnecting client %s ... ", taskname);
+         task->SubmitCommand(removecommand);
+         // we cannot remove our own thread, so use local command thread
+      } // if (fxTaskHandler->IsClientMode())
+   } else {
+      // no task: something is very wrong!
+      gApplication->Terminate();
+   }
+   return 0;
 }
-

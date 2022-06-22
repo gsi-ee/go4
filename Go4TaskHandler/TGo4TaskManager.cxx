@@ -39,7 +39,7 @@ TGo4TaskManager::TGo4TaskManager(const char* name,
 {
    fxServer=server;
  // set port number for the client server negotiation channel:
-   if(negotiationport==0)
+   if(negotiationport == 0)
       {
          // default: use taskhandler intrinsic port number
          fuNegotiationPort=TGo4TaskHandler::fguCONNECTORPORT;
@@ -47,13 +47,13 @@ TGo4TaskManager::TGo4TaskManager(const char* name,
    else
       {
          // use dynamic port number given by main program
-         fuNegotiationPort=negotiationport;
+         fuNegotiationPort = negotiationport;
       }
 
-   fxListMutex=new TMutex(kTRUE);
-   fxTaskList=new TObjArray;
-   fxTaskIter=fxTaskList->MakeIterator();
-   fxTransport=0;
+   fxListMutex = new TMutex(kTRUE);
+   fxTaskList = new TObjArray;
+   fxTaskIter = fxTaskList->MakeIterator();
+   fxTransport = nullptr;
    if(createconnector)
       {
        // this mode is for server task created on the fly
@@ -68,10 +68,10 @@ TGo4TaskManager::TGo4TaskManager(const char* name,
 
 TGo4TaskManager::~TGo4TaskManager()
 {
-   if(fxTransport!=0) {
+   if(fxTransport) {
       fxTransport->Close();
       delete fxTransport;
-      fxTransport=0;
+      fxTransport = nullptr;
    }
    delete fxTaskIter;
    delete fxTaskList;
@@ -103,7 +103,7 @@ Int_t TGo4TaskManager::ServeClient()
       //return kFALSE;
    }
    Int_t count=0;
-   while(GetNegotiationPort()==0)
+   while(GetNegotiationPort() == 0)
    {
       if(count>TGo4TaskHandler::Get_fgiPORTWAITCYCLES())
             {
@@ -126,9 +126,9 @@ Int_t TGo4TaskManager::ServeClient()
    std::cout << " Waiting for client connection on PORT: "<< fuNegotiationPort << std::endl;
    TGo4Log::Debug(" TaskManager is waiting to serve client request on port %d ... ",
             fuNegotiationPort);
-   Int_t connectwaitseconds=fxServer->WaitForConnection(); // timer tells us by flag when the transport is opened
+   Int_t connectwaitseconds = fxServer->WaitForConnection(); // timer tells us by flag when the transport is opened
 
-   if(connectwaitseconds<0)
+   if(connectwaitseconds < 0)
       {
          // case of threadmanager termination:
          // connector runnable shall stop on return from ServeClient method
@@ -142,8 +142,8 @@ Int_t TGo4TaskManager::ServeClient()
    // check connected client: we expect correct ok string
 //   recvchar=fxTransport->RecvRaw("dummy");
 //   if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
-     Go4CommandMode_t account=ClientLogin();
-     if(account!=kGo4ComModeRefused)
+     Go4CommandMode_t account = ClientLogin();
+     if(account != kGo4ComModeRefused)
          {
          // client knows task handler, we keep talking
          //
@@ -169,7 +169,7 @@ Int_t TGo4TaskManager::ServeClient()
          else
             {
                // unknown request
-               rev =0;
+               rev = 0;
             }
       }
    else
@@ -187,7 +187,7 @@ Int_t TGo4TaskManager::ServeClient()
       TGo4Log::Debug(" TaskManager: Finished negotiations with client %s ", cliname.Data());
 
       return 0;
-      }
+   }
 
    // finally, we close the channel again...
    recvchar=fxTransport->RecvRaw("dummy"); // get exit message
@@ -208,7 +208,7 @@ Int_t TGo4TaskManager::ServeClient()
 
 Go4CommandMode_t TGo4TaskManager::ClientLogin()
 {
-if(fxTransport==0) return kGo4ComModeRefused;
+if(!fxTransport) return kGo4ComModeRefused;
 TString purpose;
 TString account;
 TString passwd;
@@ -219,15 +219,15 @@ if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    ///
    TGo4Log::Debug(" TaskManager::ClientLogin getting login...");
    recvchar=fxTransport->RecvRaw("dummy"); // get purpose of client (master or slave)
-   if(recvchar==0) return kGo4ComModeRefused;
+   if(!recvchar) return kGo4ComModeRefused;
    purpose=recvchar;
    //std::cout <<"ClientLogin got purpose "<<purpose.Data() << std::endl;
    recvchar=fxTransport->RecvRaw("dummy"); // login account
-   if(recvchar==0) return kGo4ComModeRefused;
+   if(!recvchar) return kGo4ComModeRefused;
    account=recvchar;
    //std::cout <<"ClientLogin got account "<<account.Data() << std::endl;
    recvchar=fxTransport->RecvRaw("dummy"); // login password
-   if(recvchar==0) return kGo4ComModeRefused;
+   if(!recvchar) return kGo4ComModeRefused;
    passwd=recvchar;
 //   std::cout <<"ClientLogin got passwd "<<passwd.Data() << std::endl;
 //   std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl;
@@ -315,16 +315,16 @@ Int_t TGo4TaskManager::DisConnectClient(const char* name, Bool_t clientwait)
       // might deadlock between connector thread and local command thread
       // in case of timeout: command thread inits disconnect by client request
       // but if this fails, connector thread itself wants to finish disconnection hard
-   Int_t rev=0;
-   TGo4TaskHandler* han=GetTaskHandler(name);
-   rev=DisConnectClient(han,clientwait);
+   Int_t rev = 0;
+   TGo4TaskHandler* han = GetTaskHandler(name);
+   rev = DisConnectClient(han,clientwait);
    return rev;
 }
 
 Int_t TGo4TaskManager::DisConnectClient(TGo4TaskHandler * taskhandler, Bool_t clientwait)
 {
 Int_t rev=0;
-if(taskhandler!=0)
+if(taskhandler)
    {
       fbClientIsRemoved=kFALSE; // reset the flag for waiting commander thread
       TString tname=taskhandler->GetName();
@@ -343,7 +343,7 @@ if(taskhandler!=0)
          } // if(clientwait)
       if(!taskhandler->DisConnect(clientwait))rev+=1;
       if (!RemoveTaskHandler(tname.Data()))   rev+=2;
-      if (rev==0)
+      if (rev == 0)
          {
             // all right, we reset flags
             fuTaskCount--;            // set number of still connected client tasks
