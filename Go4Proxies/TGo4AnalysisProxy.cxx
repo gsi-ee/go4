@@ -335,7 +335,7 @@ void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
 
 TGo4Slot* TGo4AnalysisProxy::UpdateObjectSlot()
 {
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("UpdateObject");
+   return !fxParentSlot ? nullptr : fxParentSlot->FindChild("UpdateObject");
 }
 
 
@@ -345,17 +345,17 @@ void TGo4AnalysisProxy::Finalize(TGo4Slot* slot)
 
    slot->DeleteChilds();
 
-   fxParentSlot = 0;
+   fxParentSlot = nullptr;
 }
 
 Bool_t TGo4AnalysisProxy::HasSublevels() const
 {
-   return (fAnalysisNames!=0);
+   return fAnalysisNames != nullptr;
 }
 
 TGo4LevelIter* TGo4AnalysisProxy::MakeIter()
 {
-   if (fAnalysisNames==0) return 0;
+   if (!fAnalysisNames) return nullptr;
 
    return new TGo4AnalysisLevelIter(fAnalysisNames->GetNamesFolder(), kFALSE);
 }
@@ -414,12 +414,12 @@ TGo4AnalysisObjectAccess* TGo4AnalysisProxy::FindSubmittedProxy(const char* path
 {
    for(int n=0;n<=fxSubmittedProxy.GetLast();n++) {
       TGo4AnalysisObjectAccess* proxy = (TGo4AnalysisObjectAccess*) fxSubmittedProxy.At(n);
-      if (proxy==0) continue;
-      if (strcmp(proxy->GetObjectName(), objname)!=0) continue;
-      if ((pathname!=0) && (strcmp(proxy->GetPathName(), pathname)!=0)) continue;
+      if (!proxy) continue;
+      if (strcmp(proxy->GetObjectName(), objname) != 0) continue;
+      if (pathname && (strcmp(proxy->GetPathName(), pathname) != 0)) continue;
       return proxy;
    }
-   return 0;
+   return nullptr;
 }
 
 void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytodelete)
@@ -449,8 +449,6 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
 
 void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 {
-//   std::cout << "Receive status " << status->GetName() << " class: " << status->ClassName() << std::endl;
-
    if (dynamic_cast<TGo4AnalysisStatus*> (status)) {
       SetAnalysisReady(kTRUE);
       if (SettingsSlot()) {
@@ -516,7 +514,6 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
          TGo4BufferQueue* qu = task ? task->GetCommandQueue() : nullptr;
          if(qu) qu->Clear();
      }
-
 
      if (LoginfoSlot()) {
         LoginfoSlot()->AssignObject(status, kTRUE);
@@ -610,13 +607,10 @@ TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char* name)
 
    const char* classname = TGo4AnalysisLevelIter::EntryClassName(entry);
 
-   if (classname==0) return 0;
+   if (!classname) return nullptr;
 
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(name, objfolder, objname);
-
-//   std::cout << "Make TGo4AnalysisObjectAccess  name = " << objname
-//        << "  class = " << classname << "  folder = " << objfolder << std::endl;
 
    return new TGo4AnalysisObjectAccess(this, cmdEnvelope, objname.Data(), classname, objfolder.Data());
 }
@@ -630,7 +624,7 @@ void TGo4AnalysisProxy::Update(TGo4Slot* slot, Bool_t strong)
 
 Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
 {
-   if (proxy==0) return kFALSE;
+   if (!proxy) return kFALSE;
 
    fxSubmittedProxy.Add(proxy);
 
@@ -661,10 +655,10 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
 //      TGo4ComGetCurrentEvent *com = new TGo4ComGetCurrentEvent(proxy->GetObjectName());
 //      com->SetPrintoutOnly(kFALSE);
 //      com->SetOutputEvent(kFALSE);
-      Bool_t astree = strcmp(proxy->GetPathName(),"Tree")==0;
+      Bool_t astree = strcmp(proxy->GetPathName(),"Tree") == 0;
 //      com->SetTreeMode(astree);
       TGo4RemoteCommand* com= new TGo4RemoteCommand("ANGetEvent");
-      com->SetString(proxy->GetObjectName(),0);
+      com->SetString(proxy->GetObjectName(), 0);
       com->SetValue(kFALSE,0); // use output event
       com->SetValue(kFALSE,1); // printout only
       com->SetValue(astree,2); // treemode on or off
@@ -676,7 +670,7 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
 
 Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgtslot)
 {
-   if ((fullname==0) || (tgtslot==0)) return kFALSE;
+   if (!fullname || !tgtslot) return kFALSE;
 
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(fullname, objfolder, objname);
@@ -691,12 +685,12 @@ Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tg
 
 void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
 {
-   if (evname==0) return;
+   if (!evname) return;
 
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(evname, folder, name);
 
-   if (tgtslot==0) {
+   if (!tgtslot) {
 //      TGo4ComGetCurrentEvent *com = new TGo4ComGetCurrentEvent(name);
 //      com->SetPrintoutOnly(kTRUE);
 //      com->SetOutputEvent(kFALSE);
@@ -757,10 +751,10 @@ void TGo4AnalysisProxy::RemotePrintEvent(const char* evname,
 
 Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* obj)
 {
-   if (obj==0) return kFALSE;
+   if (!obj) return kFALSE;
 
    const char* objname = obj->GetName();
-   if ((objname==0) || (*objname==0)) return kFALSE;
+   if (!objname || (*objname==0)) return kFALSE;
 
    /// new with single set object command:
    TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetObject");
@@ -773,7 +767,7 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
 
 void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 {
-   if((fname==0) || (strlen(fname)==0)) {
+   if(!fname || (strlen(fname)==0)) {
       fxDisplay->SubmitCommand("ANLoad");
    } else {
       //TGo4ComLoadAnalysisStatus *com = new TGo4ComLoadAnalysisStatus(fname);
@@ -785,7 +779,7 @@ void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 
 void TGo4AnalysisProxy::SaveConfigFile(const char* fname)
 {
-   if((fname==0) || (strlen(fname)==0)) {
+   if(!fname || (strlen(fname)==0)) {
      fxDisplay->SubmitCommand("ANSave");
    } else {
      //TGo4ComSaveAnalysisStatus *com = new TGo4ComSaveAnalysisStatus(fname);
@@ -871,10 +865,10 @@ void TGo4AnalysisProxy::RequestAnalysisSettings()
 
 void TGo4AnalysisProxy::SubmitAnalysisSettings()
 {
-   TGo4AnalysisStatus* status = 0;
-   if (SettingsSlot()!=0)
-     status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
-   if (status!=0) {
+   TGo4AnalysisStatus* status = nullptr;
+   if (SettingsSlot())
+      status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
+   if (status) {
       SetAnalysisSettingsReady(kFALSE);
       TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetStatus");
       com->SetAggregate(status);
@@ -901,11 +895,10 @@ void TGo4AnalysisProxy::PrintDynListEntry(const char* fullpath)
 
 Int_t TGo4AnalysisProxy::ConnectorPort()
 {
-   if (fxDisplay==0) return 0;
+   if (!fxDisplay) return 0;
 
-   TGo4ServerTask* tsk = dynamic_cast<TGo4ServerTask*>
-      (fxDisplay->GetTask());
-   if (tsk==0) return 0;
+   TGo4ServerTask *tsk = dynamic_cast<TGo4ServerTask *>(fxDisplay->GetTask());
+   if (!tsk) return 0;
 
    return tsk->GetTaskManager()->GetNegotiationPort();
 }
@@ -922,10 +915,10 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          Int_t exe_kind,
                                          const char* exeargs)
 {
-   if (fxDisplay==0) return kFALSE;
+   if (!fxDisplay) return kFALSE;
 
    TGo4ServerTask* tsk = dynamic_cast<TGo4ServerTask*> (fxDisplay->GetTask());
-   if (tsk==0) return kFALSE;
+   if (!tsk) return kFALSE;
 
    Int_t guiport = tsk->GetTaskManager()->GetNegotiationPort();
 
@@ -972,16 +965,15 @@ Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
                                           const char* accesspass)
 {
 
-   TGo4ClientTask* client =
-      dynamic_cast<TGo4ClientTask*> (fxDisplay->GetTask());
-   if(client!=0) {
+   TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*> (fxDisplay->GetTask());
+   if(client) {
       Go4CommandMode_t mode = kGo4ComModeObserver;
       switch (ascontroller) {
          case 0: mode = kGo4ComModeObserver; break;
          case 1: mode = kGo4ComModeController; break;
          case 2: mode = kGo4ComModeAdministrator; break;
       }
-      if (accesspass==0)
+      if (!accesspass)
       switch (mode) {
          case kGo4ComModeObserver: accesspass = "go4view"; break;
          case kGo4ComModeController: accesspass = "go4ctrl"; break;
@@ -990,20 +982,18 @@ Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
          default: accesspass = ""; break;
       }
 
-//      std::cout << "mode = " << mode << "  pass = " << accesspass << std::endl;
-
       client->ConnectServer(remotehost, remoteport, mode, accesspass);
       fNodeName.Form("%s:%d",remotehost,remoteport);
       RefreshNamesList();
    }
 
-   return (client!=0);
+   return client != nullptr;
 }
 
 Bool_t TGo4AnalysisProxy::WaitForConnection(Int_t seconds)
 {
    Int_t period = seconds*1000;
-   while (period>0) {
+   while (period > 0) {
       if (IsConnected()) return kTRUE;
       gSystem->Sleep(100);
       gSystem->ProcessEvents();
@@ -1015,9 +1005,9 @@ Bool_t TGo4AnalysisProxy::WaitForConnection(Int_t seconds)
 
 void TGo4AnalysisProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown)
 {
-   if (fDisconectCounter>0) return;
+   if (fDisconectCounter > 0) return;
 
-   if (fxDisplay!=0) {
+   if (fxDisplay) {
       if (servershutdown)
          fxDisplay->SubmitCommand("SVQuit");
       else
@@ -1030,7 +1020,7 @@ void TGo4AnalysisProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown
 
    CallSlotUpdate();
 
-   if (fxConnectionTimer==0)
+   if (!fxConnectionTimer)
       fxConnectionTimer = new TTimer(this, 10, kTRUE);
 
    fxConnectionTimer->Start(100, kTRUE);
@@ -1038,7 +1028,7 @@ void TGo4AnalysisProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown
 
 Bool_t TGo4AnalysisProxy::IsConnected()
 {
-   if (fxDisplay==0) return kFALSE;
+   if (!fxDisplay) return kFALSE;
 
    if (!fxDisplay->IsConnected()) return kFALSE;
 
@@ -1047,22 +1037,19 @@ Bool_t TGo4AnalysisProxy::IsConnected()
 
 void TGo4AnalysisProxy::DisplayDeleted(TGo4Display* displ)
 {
-   if (fxDisplay==displ) fxDisplay=0;
+   if (fxDisplay==displ) fxDisplay = nullptr;
 }
 
 void TGo4AnalysisProxy::DisplayDisconnected(TGo4Display* displ)
 {
-   if ((fxDisplay==displ) && (displ!=0))
-     DisconnectAnalysis(5, false);
-//     fxDisplay->SubmitCommand("MRQuit");
+   if ((fxDisplay==displ) && displ)
+      DisconnectAnalysis(5, false);
 }
 
 
 void TGo4AnalysisProxy::CallSlotUpdate()
 {
-//   Info("CallSlotUpdate","ParentSlot = %x", fxParentSlot);
-
-   if (fxParentSlot!=0)
+   if (fxParentSlot)
       fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjUpdated);
 }
 
@@ -1073,7 +1060,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
    } else
    if (timer == fxConnectionTimer) {
       //std::cout << " TGo4AnalysisProxy::HandleTimer for connection timer" << std::endl;
-      if (fxDisplay != 0) {
+      if (fxDisplay) {
          // this is emergency handling only if display did not shutdown and deleted our proxy before.
          if (fDisconectCounter > 0) {
             fDisconectCounter--;
@@ -1084,8 +1071,8 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
 
             std::cout<< " TGo4AnalysisProxy::HandleTimer still sees not that display is gone. Cleanup myself!"<< std::endl;
             fxConnectionTimer->TurnOff();
-            fxConnectionTimer = 0; // avoid that timer is deleted in dtor, since this function runs within timer notify!
-            if (fxParentSlot != 0) {
+            fxConnectionTimer = nullptr; // avoid that timer is deleted in dtor, since this function runs within timer notify!
+            if (fxParentSlot) {
                // this will also delete Analysis proxy itself
                // practically the same as  delete fxParentSlot;
                fxParentSlot->Delete();
@@ -1102,10 +1089,11 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
 
 void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path)
 {
-   if (rcv==0) {
-      delete fxDefaultProxy; fxDefaultProxy = 0;
+   if (!rcv) {
+      delete fxDefaultProxy;
+      fxDefaultProxy = nullptr;
    } else {
-      if (fxDefaultProxy==0) fxDefaultProxy = new TGo4AnalysisObjectAccess(this, cmdDefualtEnvelope, "", "", "");
+      if (!fxDefaultProxy) fxDefaultProxy = new TGo4AnalysisObjectAccess(this, cmdDefualtEnvelope, "", "", "");
       fxDefaultProxy->SetDefaultReceiver(rcv, path);
    }
 }
