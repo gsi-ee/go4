@@ -41,7 +41,6 @@ TGo4AnalysisMainRunnable::TGo4AnalysisMainRunnable(const char* name, TGo4Analysi
 
 TGo4AnalysisMainRunnable::~TGo4AnalysisMainRunnable()
 {
-
 }
 
 Int_t TGo4AnalysisMainRunnable::PostRun(void * )
@@ -86,7 +85,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
             TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
             TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
             TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server task
-            // if tmutex or smutex==0, these will be just a dummy mainmutex
+            // if tmutex or smutex == 0, these will be just a dummy mainmutex
             TGo4LockGuard mainlock; // protect command invocation!
             /////////////
             TGo4CommandInvoker::Instance()->Invoke(com); // execute command by invoker

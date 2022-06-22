@@ -68,11 +68,11 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
-   if(analysis==0) {
+   if(!analysis) {
       TGo4Log::Debug("!!! AnalysisClient ''%s'': no external analysis specified !!",GetName());
-      fxAnalysis=TGo4Analysis::Instance();
+      fxAnalysis = TGo4Analysis::Instance();
    } else {
-      fxAnalysis=analysis;
+      fxAnalysis = analysis;
    }
    fxAnalysis->SetAnalysisClient(this);
 
@@ -98,26 +98,21 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
-   if(argc<5)
-      {
-          TGo4Log::Error("!!! AnalysisClient: missing commandline arguments, aborting !!");
-          gApplication->Terminate();
-      }
-    if(!strcmp("-lGUI",argv[1]))
-      {
-          TGo4Log::Error(" !!! AnalysisClient: GUI mode not specified, aborting !!");
-          gApplication->Terminate();
-      }
+   if (argc < 5) {
+      TGo4Log::Error("!!! AnalysisClient: missing commandline arguments, aborting !!");
+      gApplication->Terminate();
+   }
+   if (!strcmp("-lGUI", argv[1])) {
+      TGo4Log::Error(" !!! AnalysisClient: GUI mode not specified, aborting !!");
+      gApplication->Terminate();
+   }
 
-   if(analysis==0)
-      {
-         TGo4Log::Debug(" !!! AnalysisClient ''%s'': no external analysis specified !!",GetName());
-         fxAnalysis=TGo4Analysis::Instance();
-      }
-   else
-      {
-         fxAnalysis=analysis;
-      }
+   if (!analysis) {
+      TGo4Log::Debug(" !!! AnalysisClient ''%s'': no external analysis specified !!", GetName());
+      fxAnalysis = TGo4Analysis::Instance();
+   } else {
+      fxAnalysis = analysis;
+   }
    fxAnalysis->SetAnalysisClient(this);
    Constructor(histoserver,basename,passwd);
 }

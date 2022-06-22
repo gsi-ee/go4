@@ -1339,7 +1339,7 @@ void TGo4AnalysisObjectManager::ProcessDynamicList()
    fiDynListCount++;
    // normally, all entries are processed eventwise
    // except for treehistogramentries
-   Bool_t processtrees = (fiDynListCount % fiDynListInterval)==0;
+   Bool_t processtrees = (fiDynListCount % fiDynListInterval) == 0;
    TGo4DynamicList::ProcessEntries(fxDynListDir, processtrees, GetDynListInterval());
    if(processtrees) ResetBackStores();
 }

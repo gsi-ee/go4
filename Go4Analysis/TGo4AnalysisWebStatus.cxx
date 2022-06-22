@@ -648,7 +648,7 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
 
 Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
 {
-  if (!exeline || (*exeline==0)) return kFALSE;
+  if (!exeline || (*exeline == 0)) return kFALSE;
   TGo4Analysis* ana = TGo4Analysis::Instance();
   if(!ana) return kFALSE;
 
