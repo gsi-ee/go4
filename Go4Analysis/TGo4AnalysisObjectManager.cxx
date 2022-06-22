@@ -458,8 +458,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
 
    // now process baseclasses of event:
    TIter biter(cl->GetListOfBases());
-   TObject* bob = nullptr;
-   while((bob = biter()) != nullptr) {
+   while(auto bob = biter()) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(bob);
       if(!baseclass) continue;
 
@@ -476,9 +475,8 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
    }
 
    TIter miter(cl->GetListOfDataMembers());
-   TObject* nob = nullptr;
    // scan members of this event class:
-   while((nob = miter()) != nullptr) {
+   while(auto nob = miter()) {
       TDataMember* mem = dynamic_cast<TDataMember*>(nob);
       if(!mem || mem->IsaPointer()) continue; // suppress heap aggregates
       // later, we might scan these recursively
@@ -635,9 +633,8 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
    TList* nameslist = new TList;
    TGo4ObjectStatus* state;
    Int_t cursor = 0;
-   TObject* entry = nullptr;
    TIter iter(branchlist);
-   while((entry = iter()) != nullptr) {
+   while(auto entry = iter()) {
       if(entry->InheritsFrom(TBranch::Class())) {
          // found subfolder, process it recursively
          TBranch* subbranch= dynamic_cast<TBranch*> (entry);
@@ -945,8 +942,7 @@ TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
 
    TList* nameslist= new TList;
    TIter listiter(objectfolder->GetListOfFolders());
-   TObject* entry;
-   while((entry = listiter()) != nullptr) {
+   while(auto entry = listiter()) {
       if(entry->InheritsFrom(TFolder::Class())) {
          // found subfolder, process it recursively
          //std::cout <<"##### parsing folder "<< entry->GetName() << std::endl;
@@ -1107,11 +1103,10 @@ Bool_t TGo4AnalysisObjectManager::ResetBackStores(Bool_t clearflag)
    GO4TRACE((11,"TGo4AnalysisObjectManager::ResetBackStores()",__LINE__, __FILE__));
    Bool_t rev = kTRUE;
    TIter iter(fxStoreDir->GetListOfFolders());
-   TObject* entry = nullptr;
-   while((entry = iter()) != nullptr) {
+   while(auto entry = iter()) {
       TGo4BackStore* bs= dynamic_cast<TGo4BackStore*>(entry);
       if(bs) bs->Reset(clearflag);
-   } // while
+   }
    return rev;
 }
 
@@ -1433,8 +1428,8 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
    } else {
       // only one level of subfolder, find it directly
       TIter listiter(parent->GetListOfFolders());
-      TObject *entry, *bigger_entry = nullptr;
-      while ((entry = listiter()) != nullptr) {
+      TObject *bigger_entry = nullptr;
+      while (auto entry = listiter()) {
          if (entry->InheritsFrom(TFolder::Class())) {
             int cmp = strcmp(subfolder, entry->GetName());
             if (cmp == 0) {
@@ -1570,26 +1565,20 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder* source, TFolder* destinati
    if (!source) return kFALSE;
    GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TFolder*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
-   Bool_t rev=kTRUE;
+   Bool_t rev = kTRUE;
    TIter folderiter(source->GetListOfFolders());
-   TObject* ob = nullptr;
-   while(( ob=folderiter() ) != nullptr)
-   {
-      if(ob->InheritsFrom(TFolder::Class()))
-      {
-         TFolder* subfolder =dynamic_cast<TFolder*> (ob);
-         if(subfolder)
-         {
-            //std::cout <<"LLLLLL Load folder scanning subfolder "<< subfolder->GetName() << std::endl;
-            TFolder* subdest=FindSubFolder(destination,subfolder->GetName(), kTRUE);
-            LoadFolder(subfolder,subdest,replace); // recursively scan all subfolders
+   while (auto ob = folderiter()) {
+      if (ob->InheritsFrom(TFolder::Class())) {
+         TFolder *subfolder = dynamic_cast<TFolder *>(ob);
+         if (subfolder) {
+            // std::cout <<"LLLLLL Load folder scanning subfolder "<< subfolder->GetName() << std::endl;
+            TFolder *subdest = FindSubFolder(destination, subfolder->GetName(), kTRUE);
+            LoadFolder(subfolder, subdest, replace); // recursively scan all subfolders
          }
+      } else {
+         rev = PutToFolder(ob, destination, replace);
       }
-      else
-      {
-         rev=PutToFolder(ob,destination,replace);
-      }
-   } // while(..)
+   }
    return rev;
 }
 
@@ -1598,16 +1587,14 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder* destin
    GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TDirectory*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
    if(!source || !destination) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
-   Bool_t rev=kTRUE;
+   Bool_t rev = kTRUE;
    TDirectory* savdir=gDirectory;
    source->cd(); // this is necessary to let the TKey::ReadObj work!
    source->ReadKeys();
    TIter keyiter(source->GetListOfKeys());
-   TObject* keyob = nullptr;
-   TKey* key = nullptr;
-   while ((keyob = keyiter()) != nullptr) {
-      key = dynamic_cast<TKey *>(keyob);
-      if (key == 0) {
+   while (auto keyob = keyiter()) {
+      auto key = dynamic_cast<TKey *>(keyob);
+      if (!key) {
          TGo4Analysis::Instance()->Message(3, "Analysis LoadFolder: ZERO key in directory %s", source->GetName());
          return kFALSE;
       }
@@ -1710,8 +1697,7 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder* source)
    TGo4LockGuard  dirguard(fxDirMutex);
    Bool_t rev = kTRUE;
    TIter folderiter(source->GetListOfFolders());
-   TObject* ob = nullptr;
-   while ((ob = folderiter()) != nullptr) {
+   while (auto ob = folderiter()) {
       if (ob->InheritsFrom(TFolder::Class())) {
          TFolder *subfolder = dynamic_cast<TFolder *>(ob);
          if (subfolder) {
@@ -1758,8 +1744,7 @@ void TGo4AnalysisObjectManager::RemoveFromDir(TFolder* fold, TDirectory* dir)
    if(!fold || !dir) return;
 
    TIter iter(fold->GetListOfFolders());
-   TObject* ob = nullptr;
-   while((ob = iter()) != nullptr) {
+   while(auto ob = iter()) {
       if(ob->InheritsFrom(TFolder::Class())) {
          TFolder* subfolder =dynamic_cast<TFolder*> (ob);
          if(subfolder)
@@ -1780,8 +1765,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
    TROOT::IncreaseDirLevel();
    std::cout << "+Folder " << fold->GetName() << " content:" << std::endl;
    TIter listiter(fold->GetListOfFolders());
-   TObject* ob = nullptr;
-   while((ob = listiter()) != nullptr) {
+   while(auto ob = listiter()) {
       if(ob->InheritsFrom(TFolder::Class()))
          totalsize += PrintFolder(dynamic_cast<TFolder*>(ob),opt,expression);
       else if(IsMatching(ob->GetName(),expression)) {
@@ -1805,8 +1789,7 @@ Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder* fold)
    if(!fold) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    TIter iter(fold->GetListOfFolders());
-   TObject* ob = nullptr;
-   while((ob = iter()) != nullptr)
+   while(auto ob = iter())
       if(ob->InheritsFrom(TFolder::Class()))
          ClearFolder(dynamic_cast<TFolder*>(ob));
       else
@@ -1845,8 +1828,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
          TMultiGraph *mg = dynamic_cast<TMultiGraph *>(ob);
          if (mg) {
             TIter liter(mg->GetListOfGraphs());
-            TObject *gr = nullptr;
-            while ((gr = liter()) != nullptr)
+            while (auto gr = liter())
                ClearObject(gr);
          }
       } else if (ob->InheritsFrom(TGo4EventElement::Class())) {
@@ -1874,8 +1856,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteFolder(TFolder* fold)
 
    TGo4LockGuard dirguard(fxDirMutex);
    TIter iter(fold->GetListOfFolders());
-   TObject *ob = nullptr;
-   while ((ob = iter()) != nullptr)
+   while (auto ob = iter())
       if (ob->InheritsFrom(TFolder::Class()))
          DeleteFolder(dynamic_cast<TFolder *>(ob));
       else
@@ -1899,8 +1880,7 @@ Bool_t TGo4AnalysisObjectManager::ProtectFolder(TFolder* fold, const Option_t* f
       return kFALSE;
    TGo4LockGuard dirguard(fxDirMutex);
    TIter listiter(fold->GetListOfFolders());
-   TObject *ob = nullptr;
-   while ((ob = listiter.Next()) != nullptr)
+   while (auto ob = listiter())
       if (ob->InheritsFrom(TFolder::Class()))
          ProtectFolder(dynamic_cast<TFolder *>(ob), flags);
       else
@@ -1983,8 +1963,7 @@ TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, TFolder* fo
    TList* result = new TList;
    if(fold) {
       TIter iter(fold->GetListOfFolders());
-      TObject* entry = nullptr;
-      while((entry = iter()) != nullptr) {
+      while(auto entry = iter()) {
          if(entry->InheritsFrom(TFolder::Class())) {
             TFolder* subfold=dynamic_cast<TFolder*>(entry);
             TList* sublist=CreateObjectList(expr,subfold);
@@ -2073,9 +2052,7 @@ Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& path
    }
 
    TIter iter(fold->GetListOfFolders());
-   TObject* sub = nullptr;
-
-   while ((sub = iter()) != nullptr) {
+   while (auto sub = iter()) {
       if (!sub->InheritsFrom(TFolder::Class())) continue;
       if (FindObjectPathName(obj, pathname, (TFolder*) sub)) {
          if (pathname.IsNull())
