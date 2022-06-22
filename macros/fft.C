@@ -13,7 +13,7 @@
 ///////
 Bool_t fft(const char* name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
 {
-   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+   if(!TGo4AbstractInterface::Instance() || go4 != TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
@@ -21,7 +21,7 @@ Bool_t fft(const char* name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
 
-   if ((ob1==0) || !ob1->InheritsFrom("TH1")) {
+   if (!ob1 || !ob1->InheritsFrom("TH1")) {
      std::cout <<"fft could not get histogram "<<fullname1 << std::endl;
      return kFALSE;
    }
@@ -31,9 +31,9 @@ Bool_t fft(const char* name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
       return kFALSE;
    }
 
-   TH1* his1=(TH1*)ob1;
-   TString n1=his1->GetName();
-   TString t1=his1->GetTitle();
+   TH1* his1=(TH1*) ob1;
+   TString n1 = his1->GetName();
+   TString t1 = his1->GetTitle();
    newname.Form("_fft_%s",opt);
    TString finalname = n1+newname;
    TString finaltitle = t1+newname;

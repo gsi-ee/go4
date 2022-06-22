@@ -564,7 +564,7 @@ JSROOT.require("painter").then(jsrp => {
       let histofullpath = null;
 
       JSROOT.hpainter.forEachItem(h => {
-         if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf("ROOT.TH")==0))
+         if ((h._name == cond.fxHistoName) && h._kind && (h._kind.indexOf("ROOT.TH") == 0))
             histofullpath = JSROOT.hpainter.itemFullName(h);
       });
 

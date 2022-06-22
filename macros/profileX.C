@@ -15,16 +15,16 @@
 ///////
 Bool_t profileX(const char* name1, Int_t firstybin, Int_t lastybin, Bool_t draw)
 {
-   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+   if(!TGo4AbstractInterface::Instance() || go4 != TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-   TH2 *his1(0);
+   TH2 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2"))
       his1 = (TH2*) ob1;
-   if(his1==0) {
+   if(!his1) {
       std::cout <<"profileX could not get 2d histogram "<<fullname1 << std::endl;
       return kFALSE;
    }

@@ -98,7 +98,7 @@ JSROOT.define([], () => {
                   let n = res._childs[i]._name;
                   let arsplit = name.split("["); // remove array information at the end, if any
                   if (arsplit[0] == n) {
-                     //if ((name==n) || (name.indexOf(n)==0)) {
+                     //if ((name==n) || (name.indexOf(n) == 0)) {
                      title = res._childs[i]._title;
                      arrayinfo = res._childs[i]._arraydim;
                      typeinfo = res._childs[i]._typename;
