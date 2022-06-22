@@ -19,12 +19,12 @@
 #include "TGo4FitParameter.h"
 
 TGo4FitModelFormula::TGo4FitModelFormula() : TGo4FitModel(),
-   fxExpression(), fxPosIndex(), fxWidthIndex(), fxFormula(0) {
+   fxExpression(), fxPosIndex(), fxWidthIndex(), fxFormula(nullptr) {
 }
 
 TGo4FitModelFormula::TGo4FitModelFormula(const char* iName, const char* iExpressionStr, Int_t iNPars, Bool_t AddAmplitude) :
   TGo4FitModel(iName,"based on TFormula line shape",AddAmplitude),
-  fxExpression(iExpressionStr), fxPosIndex(), fxWidthIndex(), fxFormula(0) {
+  fxExpression(iExpressionStr), fxPosIndex(), fxWidthIndex(), fxFormula(nullptr) {
 
    for (Int_t n=0;n<iNPars;n++)
      NewParameter(GetExprParName(n),"formula parameter",0.);
@@ -128,12 +128,14 @@ void TGo4FitModelFormula::AfterEval() {
   CloseFormula();
 }
 
-void TGo4FitModelFormula::Finalize() {
+void TGo4FitModelFormula::Finalize()
+{
   CloseFormula();
   TGo4FitModel::Finalize();
 }
 
-void TGo4FitModelFormula::Print(Option_t* option) const {
+void TGo4FitModelFormula::Print(Option_t* option) const
+{
    TGo4FitModel::Print(option);
    std::cout << "  Expression = " << *fxExpression << std::endl;
    for (Int_t naxis=0;naxis<fxPosIndex.GetSize();naxis++) {
@@ -162,7 +164,7 @@ Bool_t TGo4FitModelFormula::CompileFormula()
    fxFormula = new TFormula("Expression", Expr);
 
    Int_t err = fxFormula->Compile(Expr);
-   if (err!=0) {
+   if (err != 0) {
       std::cerr << "Error in formula: " << fxExpression.Data() << "     code " << err  << std::endl;
       CloseFormula();
       return kFALSE;
@@ -170,6 +172,10 @@ Bool_t TGo4FitModelFormula::CompileFormula()
    return kTRUE;
 }
 
-void TGo4FitModelFormula::CloseFormula() {
-   if (fxFormula) { delete fxFormula; fxFormula = 0; }
+void TGo4FitModelFormula::CloseFormula()
+{
+   if (fxFormula) {
+      delete fxFormula;
+      fxFormula = nullptr;
+   }
 }

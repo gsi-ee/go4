@@ -75,7 +75,7 @@ void TGo4FitterAbstract::CopyParsValuesFrom(TGo4FitterAbstract* fitter)
    for(Int_t n=0;n<NumPars();n++) {
       TGo4FitParameter* dest = Get(n);
       const TGo4FitParameter* src = fitter->FindPar(dest->GetFullName());
-      if (src!=0) dest->SetValue(src->GetValue());
+      if (src) dest->SetValue(src->GetValue());
     }
 }
 
@@ -265,7 +265,7 @@ void TGo4FitterAbstract::Finalize()
 
    FinalizeFitterData();
 
-   if ((fxCurrentConfig!=0) && (fxCurrentConfig->GetResults().GetLast()>=0)) {
+   if (fxCurrentConfig && (fxCurrentConfig->GetResults().GetLast()>=0)) {
       TArrayD pars(NumPars());
       GetParsValues(pars.GetArray());
       fxResults.Set(fxCurrentConfig->GetResults().GetLast()+3);
@@ -282,8 +282,8 @@ void TGo4FitterAbstract::Finalize()
    fxResults.SetAt(FF, fxResults.GetSize()-2);
    fxResults.SetAt(NDF, fxResults.GetSize()-1);
 
-   if (fxCurrentConfig!=0)
-     ApplyConfig(0);
+   if (fxCurrentConfig)
+     ApplyConfig(nullptr);
 
    fbNeedToFinalize = kFALSE;
    fbInitializationDone = kFALSE;
@@ -429,7 +429,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
           TGo4FitSlot* slot = newfitter->GetSlot(use[nuse++]);
           slot->SetObject(objs->At(nobj), kFALSE);
           if (nuse==1) newfitter->SetName(objs->At(nobj)->GetName());
-          if ((nuse==1) && (colnames!=0)) colnames->Add(new TObjString(objs->At(nobj)->GetName()));
+          if ((nuse==1) && colnames) colnames->Add(new TObjString(objs->At(nobj)->GetName()));
           nobj++;
        }
 
@@ -452,7 +452,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
        while(nuse<numuse) {
          TGo4FitSlot* slot = GetSlot(use[nuse++]);
          slot->SetObject(objs->At(nobj), kFALSE);
-         if ((nuse==1) && (colnames!=0)) colnames->Add(new TObjString(objs->At(nobj)->GetName()));
+         if ((nuse==1) && colnames) colnames->Add(new TObjString(objs->At(nobj)->GetName()));
          nobj++;
        }
 
