@@ -70,7 +70,7 @@ TGo4CommandInvoker::~TGo4CommandInvoker()
 TGo4CommandInvoker * TGo4CommandInvoker::Instance()
 {
     GO4TRACE((10,"TGo4CommandInvoker * TGo4CommandInvoker::Instance()", __LINE__, __FILE__));
-    if (fxInstance == 0)
+    if (!fxInstance)
       fxInstance = new TGo4CommandInvoker();
     return fxInstance;
 }
@@ -85,17 +85,17 @@ void TGo4CommandInvoker::Register(const char* name, TGo4CommandReceiver *p)
 void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)
 {
     GO4TRACE((12,"static void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)", __LINE__, __FILE__));
-    if (fxArray==0) return;
+    if (!fxArray) return;
     TGo4LockGuard lockguard(fxMutex);
     TIter riter(fxArray);
-    TObject* ob=0;
-    while((ob=riter())!=0) {
+    TObject* ob = nullptr;
+    while((ob = riter()) != nullptr) {
        TGo4Pair* pair = dynamic_cast<TGo4Pair*>(ob);
-       if(pair==0) {
+       if(!pair) {
           TGo4Log::Error("NEVER COME HERE: TGo4CommandInvoker::UnRegister - receiver list with no receiver");
           break;
        }
-       if(pair->GetReceiver()==p) {
+       if(pair->GetReceiver() == p) {
           //std::cout <<"TGo4CommandInvoker::UnRegister removed receiver "<<pair->ReceiverName()<< std::endl;
           fxArray->Remove(pair);
           delete pair;
@@ -111,7 +111,7 @@ TGo4CommandReceiver* TGo4CommandInvoker::Lookup(const char* name)
   GO4TRACE((10,"static TGo4CommandReceiver * TGo4CommandInvoker::Lookup(const char* name)", __LINE__, __FILE__));
   TGo4Pair* pair = (TGo4Pair*) fxArray->FindObject(name);
 
-  return pair!=0 ? pair->GetReceiver() : 0;
+  return pair ? pair->GetReceiver() : nullptr;
 }
 
 void TGo4CommandInvoker::Invoke(TGo4Command * com)
@@ -157,7 +157,7 @@ void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList* list)
 Int_t TGo4CommandInvoker::ExecuteFromRemote(TGo4RemoteCommand* remcom)
 {
    if(!fxCommandList) return -1;
-   TGo4Command* realcommand=fxCommandList->MakeCommand(remcom);
+   TGo4Command* realcommand = fxCommandList->MakeCommand(remcom);
    realcommand->SetTaskName(remcom->GetTaskName());
    realcommand->SetMode(remcom->GetMode());
    Invoke(realcommand);

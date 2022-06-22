@@ -213,7 +213,7 @@ void TGo4Condition::PrintCondition(Bool_t full)
 // ---------------------------------------------------------
 void TGo4Condition::PrintBar()
 {
-   Float_t perc = (fiCounts==0) ? 0. : 100.0/fiCounts*fiTrueCounts;
+   Float_t perc = (fiCounts == 0) ? 0. : 100.0/fiCounts*fiTrueCounts;
    if (perc < 0)
       perc = 0;
    else if (perc>100)
@@ -230,7 +230,7 @@ void TGo4Condition::Print(Option_t* opt) const
 {
    //std::cout <<"MyPrint:"<<GetName() << std::endl;
    TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
-   TString option=opt;
+   TString option = opt;
    option.ToLower();
    if (option.IsNull() || option == "*") {
       // old default: we print bar graphics to std::cout
@@ -731,23 +731,23 @@ const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Op
    Bool_t saveprefix = savemacro;
 
    const char* subname = strstr(opt, "name:");
-   if (subname != 0) { varname = subname + 5; saveprefix = kFALSE; }
+   if (subname) { varname = subname + 5; saveprefix = kFALSE; }
 
    if (saveprefix) {
       out << TString::Format("   %s* %s = (%s*) go4->GetAnalysisCondition(\"%s\",\"%s\");",
                    ClassName(), varname, ClassName(), GetName(), ClassName()) << std::endl;
-      out << TString::Format("   if (%s==0) {", varname) << std::endl;
+      out << TString::Format("   if (!%s) {", varname) << std::endl;
       out << TString::Format("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << std::endl;
       out << TString::Format("      return;") << std::endl;
       out << TString::Format("   }") << std::endl << std::endl;
       out << TString::Format("   TGo4Log::Info(\"Set condition %s as saved at %s\");",
                          GetName(),TDatime().AsString()) << std::endl << std::endl;
    } else
-   if (!savemacro && ((opt==0) || (strstr(opt, "nocreate")==0))) {
+   if (!savemacro && (!opt || !strstr(opt, "nocreate"))) {
       out << TString::Format("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << std::endl << std::endl;
    }
 
-   if (arrextraargs==0) {
+   if (!arrextraargs) {
 
       Bool_t enabled,last,mark,result,vtrue,vfalse;
       GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);

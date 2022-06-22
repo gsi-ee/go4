@@ -85,13 +85,13 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, const char* type)
 : TGo4Condition(name,type),fiSelectedCond(0)
 {
    fiNumCond = elements;
-   if(strcmp(type,"TGo4WinCond")==0) {
+   if(strcmp(type,"TGo4WinCond") == 0) {
       condarr = new TObjArray(elements);
       fiType = kGO4CONDWINDOW;
       for(Int_t i = 0; i < elements; i++)
          condarr->AddLast(new TGo4WinCond(TString::Format("%s%06d",name,i).Data()));
    } else
-   if(strcmp(type,"TGo4PolyCond")==0) {
+   if(strcmp(type,"TGo4PolyCond") == 0) {
       condarr = new TObjArray(elements);
       fiType = kGO4CONDPOLYGON;
       for(Int_t i = 0; i < elements; i++)

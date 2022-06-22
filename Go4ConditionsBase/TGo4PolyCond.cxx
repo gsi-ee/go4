@@ -329,12 +329,10 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
   TGo4Log::Message(1,message.Data());
 
   // evaluate options that change array of points
-  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS))
-   {
+  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS)) {
      Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
-     if(npoints>=0)
-       {
-       TString xname,yname;
+     if(npoints >= 0)  {
+        TString xname, yname;
         Double_t* X = new Double_t[npoints];
         Double_t* Y = new Double_t[npoints];
         for(Int_t i=0; i<npoints;++i) {
@@ -357,7 +355,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
 
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 {
-   return fxCut ? fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt) : 0;
+   return fxCut ? fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt) : 0.;
 }
 
 Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)
@@ -489,8 +487,8 @@ void TGo4PolyCond::CleanupSpecials()
   //std::cout<<"TGo4PolyCond::CleanupSpecials()..."<< std::endl;
    TSeqCollection* specials=gROOT->GetListOfSpecials();
    TIter iter(specials);
-   TObject* ob=0;
-   while((ob = iter())!=0) {
+   TObject* ob = nullptr;
+   while((ob = iter()) != nullptr) {
      if(ob->InheritsFrom(TCutG::Class())) {
         specials->Remove(ob);
         //std::cout <<">>>>>>>>>> removed fxCut" << (long) ob<<" :" << ob->GetName() <<" from list of specials "<< std::endl;
@@ -501,8 +499,8 @@ void TGo4PolyCond::CleanupSpecials()
 Int_t TGo4PolyCond::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName()!=0) size+=strlen(GetName());
-   if (GetTitle()!=0) size+=strlen(GetTitle());
+   if (GetName()) size+=strlen(GetName());
+   if (GetTitle()) size+=strlen(GetTitle());
    if (fxCut) {
       size += sizeof(*fxCut);
       size += fxCut->GetMaxSize()*2*sizeof(Double_t);
@@ -515,9 +513,9 @@ void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
    static int cnt = 0;
    TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);
 
-   if (!fxCut || (fxCut->GetN()==0))
+   if (!fxCut || (fxCut->GetN() == 0)) {
       line.Form("   %s->SetValues(0, 0, 0);", varname.Data());
-   else {
+   } else {
       TString xname = varname;
       xname.ReplaceAll("->At(","_sub");
       xname.ReplaceAll(")","");
