@@ -182,7 +182,7 @@ source->cd();
 gSystem->cd(StartDir.Data());
 TIter iter(source->GetListOfKeys());
 TKey* mykey = nullptr;
-while((mykey=(TKey*) iter()) != nullptr)
+while((mykey = (TKey*) iter()) != nullptr)
   {
     myobject= mykey->ReadObj();
     if(myobject)

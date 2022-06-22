@@ -163,7 +163,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
    TIter iter(cl->GetListOfDataMembers());
    Int_t lastmemberid = -1;
-   if (fItems->GetLast()>=0)
+   if (fItems->GetLast() >= 0)
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
    TObject* obj = nullptr;

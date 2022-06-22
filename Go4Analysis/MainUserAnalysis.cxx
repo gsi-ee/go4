@@ -423,7 +423,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       int counter = 0;
 
-      while ((argument = (TMethodArg *) next())) {
+      while ((argument = (TMethodArg *) next()) != nullptr) {
 
          if (counter > 0) cmd+=", ";
          counter++;

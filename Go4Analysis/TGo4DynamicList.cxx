@@ -142,16 +142,15 @@ TDataMember* FindDataMember(TClass* eventclass,
       // if not found directly, check for baseclass members:
       TIter baseiter(eventclass->GetListOfBases());
       TObject* ob = nullptr;
-      while((ob=baseiter()) != nullptr) {
+      while((ob = baseiter()) != nullptr) {
          TBaseClass* baseclass = dynamic_cast<TBaseClass*>(ob);
          if(baseclass)
          {
             // we have a baseclass
             TClass* bclass=baseclass->GetClassPointer();
             // search for member in all superclasses recursively:
-            eventmember=FindDataMember(bclass,memname,totaloffset);
-            if(eventmember)
-            {
+            eventmember = FindDataMember(bclass,memname,totaloffset);
+            if(eventmember) {
                // we found member in any of the baseclasses
                *totaloffset+=baseclass->GetDelta();
                // inc total offset to this by baseclass offset
@@ -159,7 +158,7 @@ TDataMember* FindDataMember(TClass* eventclass,
                //std::cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << std::endl;
                //std::cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << std::endl;
                break;
-            } else{ }
+            }
          } // if(baseclass)
       } // while
    } // if (eventmember)
