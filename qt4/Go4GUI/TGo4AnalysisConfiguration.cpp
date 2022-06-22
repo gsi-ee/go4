@@ -331,7 +331,7 @@ int TGo4AnalysisConfiguration::GetNumSteps()
 
 TGo4ConfigStep* TGo4AnalysisConfiguration::GetStepConfig(int n)
 {
-   if ((n<0) || (n>=TabSteps->count())) return 0;
+   if ((n<0) || (n>=TabSteps->count())) return nullptr;
    return dynamic_cast<TGo4ConfigStep*> (TabSteps->widget(n));
 }
 
@@ -339,10 +339,10 @@ TGo4ConfigStep* TGo4AnalysisConfiguration::FindStepConfig(QString name)
 {
    for (int n=0;n<GetNumSteps();n++) {
       TGo4ConfigStep* conf = GetStepConfig(n);
-      if (conf!=0)
+      if (conf)
         if (conf->GetStepName()==name) return conf;
    }
-   return 0;
+   return nullptr;
 }
 
 void TGo4AnalysisConfiguration::SetAutoSaveConfig(QString filename,
@@ -394,7 +394,7 @@ void TGo4AnalysisConfiguration::closeEvent(QCloseEvent* e)
 {
   e->ignore(); // destroying this would mix up the upper level management
   QWidget* mdi = parentWidget();
-  if (mdi==0) return;
-  mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
+  if (mdi)
+     mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
 }
 

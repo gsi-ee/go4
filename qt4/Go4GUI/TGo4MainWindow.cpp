@@ -1141,7 +1141,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
       httpaddr = QInputDialog::getText(
       this, "Establish connection with HTTP", "Provide http server name",
       QLineEdit::Normal, fulladdress, &ok);
-      if (!ok) return 0;
+      if (!ok) return nullptr;
       QStringList nameportlist = httpaddr.split(":");
       int nameindex=0;
       int portindex=1;
@@ -1152,7 +1152,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
       // first check here if we have valid port number:
       if(nameportlist.size()<portindex+1 || nameportlist.at(portindex).isEmpty()){
           QMessageBox::warning(0, "HTTP server connection", "Could not connect. Please specify port number!");
-        return 0;
+          return nullptr;
       }
       QString host = nameportlist.at(nameindex);
       QStringList hostnamelist = nameportlist.at(nameindex).split("//");
@@ -1186,7 +1186,6 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
 
    return serv;
 }
-
 
 void TGo4MainWindow::ConnectHServerSlot()
 {

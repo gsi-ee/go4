@@ -21,7 +21,7 @@
 #include "TGo4ViewPanel.h"
 #include "TGo4QSettings.h"
 
-TGo4MdiArea* TGo4MdiArea::fInstance = 0;
+TGo4MdiArea* TGo4MdiArea::fInstance = nullptr;
 
 TGo4MdiArea* TGo4MdiArea::Instance()
 {
@@ -30,21 +30,21 @@ TGo4MdiArea* TGo4MdiArea::Instance()
 
 TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
    QMdiArea(parent),
-   fxActivePanel(0),
-   fxActivePad(0),
-   fxSelectedPad(0)
+   fxActivePanel(nullptr),
+   fxActivePad(nullptr),
+   fxSelectedPad(nullptr)
 {
    setSizeIncrement( QSize( 100, 100 ) );
    setBaseSize( QSize( 100, 100 ) );
 
    connect(this,SIGNAL(subWindowActivated (QMdiSubWindow*)), this, SLOT(subWindowActivatedSlot(QMdiSubWindow*)));
 
-   if (fInstance==0) fInstance = this;
+   if (!fInstance) fInstance = this;
 }
 
 TGo4MdiArea::~TGo4MdiArea()
 {
-   if (fInstance==this) fInstance = 0;
+   if (fInstance==this) fInstance = nullptr;
 }
 
 TPad* TGo4MdiArea::GetSelectedPad()
@@ -91,7 +91,7 @@ TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
       if (panel && (panel != not_this)) return panel;
    }
 
-   return 0;
+   return nullptr;
 }
 
 void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad)
@@ -101,8 +101,8 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
 
    switch (funcid) {
       case QGo4Widget::panel_Activated: {
-         if ((fxActivePanel != panel) && (fxActivePanel != 0))
-            fxActivePanel->SetActivePad(0);
+         if ((fxActivePanel != panel) && fxActivePanel)
+            fxActivePanel->SetActivePad(nullptr);
 
          bool changed = (fxActivePanel != panel) || (fxActivePad != pad);
          fxActivePanel = panel;
@@ -128,9 +128,9 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
 
       case QGo4Widget::panel_PadDeleted: {
          if (GetSelectedPad() == pad)
-            SetSelectedPad(0);
+            SetSelectedPad(nullptr);
          if (fxActivePad == pad)
-            fxActivePad = 0;
+            fxActivePad = nullptr;
          emit panelSignal(panel, pad, QGo4Widget::panel_PadDeleted);
          break;
       }
@@ -141,8 +141,8 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
                SetSelectedPad(0);
 
          if (fxActivePanel == panel) {
-            fxActivePanel = 0;
-            fxActivePad = 0;
+            fxActivePanel = nullptr;
+            fxActivePad = nullptr;
          }
 
 #ifdef __GO4WEB__
@@ -150,7 +150,7 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
          if (!gPad || panel->IsPanelPad((TPad *)gPad)) {
             TGo4ViewPanel *other = FindOtherPanel(panel);
 
-            SetSelectedPad(other ? other->GetCanvas() : 0);
+            SetSelectedPad(other ? other->GetCanvas() : nullptr);
          }
 #endif
 

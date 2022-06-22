@@ -55,7 +55,7 @@ TGo4Script::TGo4Script(TGo4MainWindow* mainwin) :
    fErrorFlag(kFALSE),
    fBlockConfigFlag(0)
 {
-   if (mainwin!=0)
+   if (mainwin)
       Initialize(mainwin->OM(), mainwin->Browser());
 }
 
@@ -66,7 +66,7 @@ TGo4Script::~TGo4Script()
 
 Bool_t TGo4Script::StartScriptExecution(const char* fname)
 {
-   if ((fname==0) || (strlen(fname)==0)) return kFALSE;
+   if (!fname || (strlen(fname)==0)) return kFALSE;
 
    FinishExecution();
 
@@ -234,14 +234,14 @@ Int_t TGo4Script::execGUICommands()
 
       case 5: {  // check if analysis is ready, abort if not ok
          TGo4ServerProxy* anal = Server();
-         if (anal==0) return 0;
+         if (!anal) return 0;
          if (anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 10: { // wait until submitted settings are set
         TGo4ServerProxy* anal = Server();
-        if ((anal!=0) && anal->IsAnalysisSettingsReady()) {
+        if (anal && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
           // fiWaitCounter = getCounts(20.); // counter is for complete operation
           return 2;
@@ -251,13 +251,13 @@ Int_t TGo4Script::execGUICommands()
 
       case 11: { // wait until remote browser refresh it's data
          TGo4ServerProxy* anal = Server();
-         if ((anal!=0) && anal->NamesListReceived()) return 1;
+         if (anal && anal->NamesListReceived()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 12: { // wait until analysis will be disconnected
          TGo4ServerProxy* anal = Server();
-         if (anal==0) return 1;
+         if (!anal) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
@@ -272,7 +272,7 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 111: { // just wait time and take next command
-         return (fiWaitCounter<2) ? 1 : 2;
+         return fiWaitCounter < 2 ? 1 : 2;
       }
    } //switch
 
@@ -490,11 +490,11 @@ void TGo4Script::AnalysisConfigName(const char* filename)
 TGo4ConfigStep* TGo4Script::GetStepGUI(const char* stepname)
 {
    // in cannot configure analysis - do not return step gui pointer
-   if (!CanConfigureAnalysis()) return 0;
+   if (!CanConfigureAnalysis()) return nullptr;
 
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
 
-   return gui==0 ? 0 : gui->FindStepConfig(stepname);
+   return !gui ? nullptr : gui->FindStepConfig(stepname);
 }
 
 void TGo4Script::ConfigStep(const char* stepname,

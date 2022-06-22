@@ -291,14 +291,14 @@ void QGo4Widget::InformThatObjectCreated(const char* itemname, TClass* cl)
    emit widgetService(this, service_ObjectCreated, itemname, cl);
 }
 
-void QGo4Widget::requestedObjectCreated(const char* /* itemname */, TClass* /* cl */)
 // this function should be reimplemented in editor that asks to create object
+void QGo4Widget::requestedObjectCreated(const char* /* itemname */, TClass* /* cl */)
 {
 }
 
 void QGo4Widget::ShowItemInfo(const QString& itemname)
 {
-   emit widgetService(this, service_ShowInfo, itemname.toLatin1().constData(), 0);
+   emit widgetService(this, service_ShowInfo, itemname.toLatin1().constData(), nullptr);
 }
 
 TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
@@ -322,14 +322,14 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* pane
 
 TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char* itemname)
 {
-   TGo4ViewPanel* res = 0;
+   TGo4ViewPanel* res = nullptr;
    emit widgetService(this, service_WhereItemDrawn, itemname, &res);
    return res;
 }
 
 void QGo4Widget::UndrawItem(const char* itemname)
 {
-   emit widgetService(this, service_UndrawItem, itemname, 0);
+   emit widgetService(this, service_UndrawItem, itemname, nullptr);
 }
 
 void QGo4Widget::HelpWindow(const char* filename, const char* msg)
@@ -339,19 +339,19 @@ void QGo4Widget::HelpWindow(const char* filename, const char* msg)
 
 void QGo4Widget::StartHotstart(const char* filename)
 {
-   emit widgetService(this, service_HotStart, filename, 0);
+   emit widgetService(this, service_HotStart, filename, nullptr);
 }
 
 TGo4ViewPanel* QGo4Widget::LastActivePanel()
 {
-   TGo4ViewPanel* res = 0;
+   TGo4ViewPanel* res = nullptr;
    emit widgetService(this, service_LastActivePanel, "", (void*)&res);
    return res;
 }
 
 void QGo4Widget::EditItem(const QString& itemname)
 {
-   emit widgetService(this, service_EditItem, itemname.toLatin1().constData(), 0);
+   emit widgetService(this, service_EditItem, itemname.toLatin1().constData(), nullptr);
 }
 
 void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)
@@ -438,7 +438,7 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
 QAction* QGo4Widget::SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
 {
    QAction* act = (QAction*) map->mapping(id);
-   if (act==0) return 0;
+   if (!act) return nullptr;
    if (checked!=-1) {
       act->setCheckable(true);
       act->setChecked(checked > 0);
@@ -452,7 +452,7 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
       const QIcon& icon, const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(icon, text, menu);
-   if (checked!=-1) {
+   if (checked != -1) {
      act->setCheckable(true);
      act->setChecked(checked > 0);
    }
