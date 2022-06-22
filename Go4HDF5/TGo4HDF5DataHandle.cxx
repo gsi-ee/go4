@@ -55,7 +55,7 @@ TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
  void TGo4HDF5DataHandle::InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member)
  {
    fxType->insertMember( name, offset, new_member);
-   if (fiReadOffset==0) fiReadOffset=offset; // keep location of first real data member
+   if (fiReadOffset == 0) fiReadOffset = offset; // keep location of first real data member
    fbDataSetActive=kTRUE; // only work with handle if it has at least one member assigned to type
  }
 

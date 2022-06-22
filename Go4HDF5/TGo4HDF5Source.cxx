@@ -66,20 +66,20 @@ TGo4HDF5Source::~TGo4HDF5Source()
 
    if (fxFilesNames) {
       delete fxFilesNames;
-      fxFilesNames = 0;
+      fxFilesNames = nullptr;
    }
 }
 
 TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
 {
-   if (!mask || (strlen(mask)==0)) return nullptr;
+   if (!mask || (strlen(mask) == 0)) return nullptr;
 
    TString dirname, basename(mask);
 
    if (!basename.MaybeWildcard()) {
 
       // add default suffix
-      if(strstr(basename.Data(),TGo4HDF5Adapter::fgcFILESUF)==0)
+      if(!strstr(basename.Data(),TGo4HDF5Adapter::fgcFILESUF))
          basename += TGo4HDF5Adapter::fgcFILESUF;
 
       TList* lst = new TList();
@@ -135,7 +135,7 @@ Bool_t TGo4HDF5Source::OpenNextFile()
 {
    CloseCurrentFile();
 
-   if (!fxFilesNames || (fxFilesNames->GetSize()==0)) return kFALSE;
+   if (!fxFilesNames || (fxFilesNames->GetSize() == 0)) return kFALSE;
 
    TObject* obj = fxFilesNames->First();
    fxCurrentFileName = obj->GetName();

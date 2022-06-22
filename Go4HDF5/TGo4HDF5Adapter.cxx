@@ -28,9 +28,10 @@ const char* TGo4HDF5Adapter::fgcFILESUF = ".h5";
 
 void TGo4HDF5Adapter::CloseFile()
 {
-  if(fxFile==0) return;
-  delete fxFile;
-  fxFile=0;
+  if(fxFile) {
+     delete fxFile;
+     fxFile = nullptr;
+  }
 }
 
 
@@ -38,7 +39,8 @@ void TGo4HDF5Adapter::DeleteDataSet()
 {
   if(fbDataSetExists)
     delete fxHandle;
-  fbDataSetExists=kFALSE;
+  fbDataSetExists = kFALSE;
+  fxHandle = nullptr;
 }
 
 size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
@@ -263,106 +265,99 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
    go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  begins for type %s ...\n",memtypename);
 
+   if ((strcmp(memtypename, "Char_t") == 0) || (strcmp(memtypename, "char") == 0))
+      theType = H5::PredType::NATIVE_CHAR;
+   else if ((strcmp(memtypename, "UChar_t") == 0) || (strcmp(memtypename, "unsigned char") == 0))
+      theType = H5::PredType::NATIVE_UCHAR;
+   else if ((strcmp(memtypename, "Short_t") == 0) || (strcmp(memtypename, "short") == 0))
+      theType = H5::PredType::NATIVE_SHORT;
+   else if ((strcmp(memtypename, "UShort_t") == 0) || (strcmp(memtypename, "unsigned short") == 0))
+      theType = H5::PredType::NATIVE_USHORT;
+   else if ((strcmp(memtypename, "Int_t") == 0) || (strcmp(memtypename, "int") == 0))
+      theType = H5::PredType::NATIVE_INT;
+   else if ((strcmp(memtypename, "UInt_t") == 0) || (strcmp(memtypename, "unsigned int") == 0))
+      theType = H5::PredType::NATIVE_UINT;
+   else if ((strcmp(memtypename, "ULong_t") == 0) || (strcmp(memtypename, "unsigned long") == 0))
+      theType = H5::PredType::NATIVE_ULONG;
+   else if ((strcmp(memtypename, "Double_t") == 0) || (strcmp(memtypename, "double") == 0))
+      theType = H5::PredType::NATIVE_DOUBLE;
+   else if ((strcmp(memtypename, "Float_t") == 0) || (strcmp(memtypename, "float") == 0))
+      theType = H5::PredType::NATIVE_FLOAT;
+   else if ((strcmp(memtypename, "Bool_t") == 0) || (strcmp(memtypename, "bool") == 0))
+      theType = H5::PredType::NATIVE_HBOOL;
+   else if ((strcmp(memtypename, "TString") == 0) || (strstr(memtypename, "string") != 0)) {
+      return; // skip for the moment names and text information TODO!
+   }
 
-   if ((strcmp(memtypename,"Char_t")==0) || (strcmp(memtypename,"char")==0))
-                theType=H5::PredType::NATIVE_CHAR;
-         else if ((strcmp(memtypename,"UChar_t")==0) || (strcmp(memtypename,"unsigned char")==0))
-           theType=H5::PredType::NATIVE_UCHAR;
-         else if ((strcmp(memtypename,"Short_t")==0) || (strcmp(memtypename,"short")==0))
-           theType=H5::PredType::NATIVE_SHORT;
-         else if ((strcmp(memtypename,"UShort_t")==0) || (strcmp(memtypename,"unsigned short")==0))
-                theType=H5::PredType::NATIVE_USHORT;
-         else if ((strcmp(memtypename,"Int_t")==0) || (strcmp(memtypename,"int")==0))
-           theType=H5::PredType::NATIVE_INT;
-         else if ((strcmp(memtypename,"UInt_t")==0) || (strcmp(memtypename,"unsigned int")==0))
-                theType=H5::PredType::NATIVE_UINT;
-         else if ((strcmp(memtypename,"ULong_t")==0) || (strcmp(memtypename,"unsigned long")==0))
-                     theType=H5::PredType::NATIVE_ULONG;
-         else if ((strcmp(memtypename,"Double_t")==0)|| (strcmp(memtypename,"double")==0))
-                theType=H5::PredType::NATIVE_DOUBLE;
-         else if ((strcmp(memtypename,"Float_t")==0) ||  (strcmp(memtypename,"float")==0))
-                    theType=H5::PredType::NATIVE_FLOAT;
-         else if ((strcmp(memtypename,"Bool_t")==0)|| (strcmp(memtypename,"bool")==0))
-                     theType=H5::PredType::NATIVE_HBOOL;
+   else if (strcmp(memtypename, "TGo4HDF5VectorProxy") == 0) {
+      // this is dummy class to represent vector of vector entry, handle it manually without root
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  handles explicitly vector entry  %s\n", memtypename);
 
+      TString innermemname;
+      TGo4HDF5DataHandle innercomp(memtypename, sizeof(TGo4HDF5VectorProxy));
+      innermemname = TString::Format("%s_fx_Begin_ptr", membername);
+      innercomp.InsertTypeMember(innermemname.Data(), HOFFSET(TGo4HDF5VectorProxy, fx_Begin_ptr),
+                                 H5::PredType::NATIVE_ULONG);
+      innermemname = TString::Format("%s_fx_End_ptr", membername);
+      innercomp.InsertTypeMember(innermemname.Data(), HOFFSET(TGo4HDF5VectorProxy, fx_End_ptr),
+                                 H5::PredType::NATIVE_ULONG);
+      innermemname = TString::Format("%s_fx_Cap_ptr", membername);
+      innercomp.InsertTypeMember(innermemname.Data(), HOFFSET(TGo4HDF5VectorProxy, fx_Cap_ptr),
+                                 H5::PredType::NATIVE_ULONG);
+      theType = *(innercomp.GetType());
+   }
 
-         else if((strcmp(memtypename,"TString")==0) || (strstr(memtypename,"string")!=0))
-         {
-             return; // skip for the moment names and text information TODO!
-         }
+   else {
+      // evaluate structure components here
+      TClass *innerclass = TClass::GetClass(memtypename);
 
-         else if(strcmp(memtypename,"TGo4HDF5VectorProxy")==0)
-                 {
-                   // this is dummy class to represent vector of vector entry, handle it manually without root
-                 go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  handles explicitly vector entry  %s\n",memtypename);
+      if (!innerclass)
+         return;
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n", memtypename);
 
-                   TString innermemname;
-                   TGo4HDF5DataHandle innercomp(memtypename,sizeof(TGo4HDF5VectorProxy));
-                   innermemname= TString::Format("%s_fx_Begin_ptr",membername);
-                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_Begin_ptr), H5::PredType::NATIVE_ULONG);
-                   innermemname= TString::Format("%s_fx_End_ptr",membername);
-                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_End_ptr), H5::PredType::NATIVE_ULONG);
-                   innermemname= TString::Format("%s_fx_Cap_ptr",membername);
-                   innercomp.InsertTypeMember(innermemname.Data(),  HOFFSET(TGo4HDF5VectorProxy, fx_Cap_ptr), H5::PredType::NATIVE_ULONG);
-                   theType= *(innercomp.GetType());
-                 }
+      size_t innersize = innerclass->Size();
+      // temporary datahandle just to extract the type components
+      TGo4HDF5DataHandle innercomp(memtypename, innersize);
+      FillTypeInfo(&innercomp, innerclass, membername);
+      theType = *(innercomp.GetType());
+   }
 
+   const H5std_string theMEMBER(membername);
 
+   switch (arraydim) {
+   case 1: {
+      maxindex1 = member->GetMaxIndex(0);
+      hsize_t dims[1] = {maxindex1};
+      H5::ArrayType theArray(theType, arraydim, dims);
+      go4hdfdbg(
+         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+         membername, memtypename, arraydim, maxindex1, memberoffset);
+      handle->InsertTypeMember(theMEMBER, memberoffset, theArray);
+      break;
+   }
+   case 2: {
+      maxindex1 = member->GetMaxIndex(0);
+      maxindex2 = member->GetMaxIndex(1);
+      hsize_t dims[2] = {maxindex1, maxindex2};
+      H5::ArrayType theArray(theType, arraydim, dims);
+      go4hdfdbg(
+         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+         membername, memtypename, arraydim, maxindex1, memberoffset);
 
+      handle->InsertTypeMember(theMEMBER, memberoffset, theArray);
+      break;
+   }
 
-         else   {
-           // evaluate structure components here
-           TClass* innerclass=TClass::GetClass(memtypename);
+   default:
+      go4hdfdbg(
+         "TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
+         membername, memtypename, arraydim, maxindex1, memberoffset);
 
-           if(!innerclass) return;
-           go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n",memtypename);
+      handle->InsertTypeMember(theMEMBER, memberoffset, theType);
+      break;
 
-           size_t innersize=innerclass->Size();
-           // temporary datahandle just to extract the type components
-           TGo4HDF5DataHandle innercomp(memtypename,innersize);
-           FillTypeInfo(&innercomp, innerclass, membername);
-           theType= *(innercomp.GetType());
-         }
-
-         const H5std_string theMEMBER(membername);
-
-         switch(arraydim) {
-           case 1:
-           {
-             maxindex1 = member->GetMaxIndex(0);
-             hsize_t dims[1]={maxindex1};
-             H5::ArrayType theArray(theType, arraydim, dims);
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-                 membername,memtypename, arraydim,maxindex1, memberoffset);
-             handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
-             break;
-           }
-           case 2:
-           {
-             maxindex1 = member->GetMaxIndex(0);
-             maxindex2 = member->GetMaxIndex(1);
-             hsize_t dims[2]={maxindex1, maxindex2};
-             H5::ArrayType theArray(theType, arraydim, dims);
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
-                      membername,memtypename, arraydim,maxindex1, memberoffset);
-
-             handle->InsertTypeMember( theMEMBER, memberoffset, theArray);
-             break;
-
-           }
-
-
-           default:
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
-                      membername, memtypename, arraydim,maxindex1, memberoffset);
-
-             handle->InsertTypeMember(theMEMBER, memberoffset, theType);
-             break;
-
-           } // switch()
+   } // switch()
  }
-
-
 
 void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent, Int_t index)
 {
