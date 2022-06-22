@@ -173,7 +173,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
    TGo4BrowserItem* curfold = topfold;
    TGo4BrowserItem* curitem = curfold->firstChild();
-   TGo4BrowserItem* previtem = 0;
+   TGo4BrowserItem* previtem = nullptr;
 
    TObjArray testedClasses;
 
@@ -186,7 +186,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       Int_t levelchange = iter.levelchange();
       while (levelchange++<0) {
 
-          while (curitem!=0) {
+          while (curitem) {
             TGo4BrowserItem* next = curfold->nextChild();
             curfold->deleteChild(curitem);
             curitem = next;
@@ -209,7 +209,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       }
 
       TGo4Slot* curslot = iter.getslot();
-      if (curslot==0) {
+      if (!curslot) {
          std::cerr << "************* ERROR in gui slots ****************** " << std::endl;
          return;
       }
@@ -217,11 +217,11 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       const char* classname = TGo4BrowserProxy::ItemClassName(curslot);
       const char* iteminfo = TGo4BrowserProxy::ItemInfo(curslot);
       Int_t itemkind = TGo4BrowserProxy::ItemKind(curslot);
-      TClass* itemclass = 0;
+      TClass* itemclass = nullptr;
 
-      if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
+      if (classname && !testedClasses.FindObject(classname)) {
          itemclass = gROOT->GetClass(classname);
-         if (itemclass==0)
+         if (!itemclass)
            testedClasses.Add(new TNamed(classname,""));
       }
 
