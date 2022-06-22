@@ -74,7 +74,7 @@ TGo4HDF5Store::~TGo4HDF5Store()
 void TGo4HDF5Store::OpenFile(const char*)
 {
    TString buffer(GetName());
-   if (strstr(buffer.Data(), fgcFILESUF) == 0)
+   if (!strstr(buffer.Data(), fgcFILESUF))
       buffer.Append(fgcFILESUF);
 
    try {

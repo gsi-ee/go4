@@ -207,8 +207,8 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const
             ismatching = kTRUE; // no filter set, take all
          else if (!strcmp(filter, "*"))
             ismatching = kTRUE; // take all in this folder
-                                //                      else if (strstr(filter,entryname))
-                                //                       ismatching=kTRUE; // expression just contained in name
+     //  else if (strstr(filter,entryname))
+     //     ismatching=kTRUE; // expression just contained in name
          else if (entrystring.Index(reg, 0) != kNPOS)
             ismatching = kTRUE; // root regular expression class
          else

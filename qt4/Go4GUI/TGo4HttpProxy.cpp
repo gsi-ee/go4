@@ -1312,8 +1312,9 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, T
    if (kind == 4) {
       // when status for histogram is requested, redirect request to the sniffer
       const char* _objkind = fXML->GetAttr(item, "_kind");
-      if (_objkind && ((strstr(_objkind, "ROOT.TH1")==_objkind) ||
-          (strstr(_objkind, "ROOT.TH2")==_objkind) || (strstr(_objkind, "ROOT.TH3")==_objkind))) kind = 8;
+      if (_objkind && ((strstr(_objkind, "ROOT.TH1") == _objkind) || (strstr(_objkind, "ROOT.TH2") == _objkind) ||
+                       (strstr(_objkind, "ROOT.TH3") == _objkind)))
+         kind = 8;
    }
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, kind, extra_arg);
