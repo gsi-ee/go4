@@ -39,7 +39,7 @@ int QFitRangeWidget::GetNumRange()
 void QFitRangeWidget::FillSpecificData()
 {
    int num = GetNumRange();
-   if ((num<0) || (GetComp()==0)) return;
+   if ((num < 0) || !GetComp()) return;
 
    Int_t typ, naxis;
    Double_t left, right;
@@ -56,16 +56,16 @@ void QFitRangeWidget::FillSpecificData()
 
 void QFitRangeWidget::EnableEditsForRangeType( int num )
 {
-  LeftEdt->setEnabled((num==0) || (num==1) || (num==2));
-  RightEdt->setEnabled((num==0) || (num==1) || (num==3));
+   LeftEdt->setEnabled((num == 0) || (num == 1) || (num == 2));
+   RightEdt->setEnabled((num == 0) || (num == 1) || (num == 3));
 }
 
 void QFitRangeWidget::GetRangeData()
 {
-  if (fbFillWidget || (GetComp()==0)) return;
+  if (fbFillWidget || !GetComp()) return;
 
   int num = GetNumRange();
-  if(num<0) return;
+  if(num < 0) return;
 
   Int_t typ = RangeTypCmb->currentIndex();
   Int_t naxis = AxisNumSpin->value();

@@ -271,7 +271,7 @@ void TGo4ConfigStep::StepStateChanged(int )
 
 void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus, int number)
 {
-    if (StepStatus==0) return;
+    if (!StepStatus) return;
     //std::cout <<"TGo4ConfigStep::SetStepStatus for "<< StepStatus->GetName()<< std::endl;
 
     fxPanel = panel;
@@ -356,7 +356,7 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
 int TGo4ConfigStep::CurrentSourceKind()
 {
-   if ((fStepStatus==0) || (fStepStatus->GetSourcePar()==0)) return kind_MbsFile;
+   if (!fStepStatus || !fStepStatus->GetSourcePar()) return kind_MbsFile;
 
    switch(fStepStatus->GetSourcePar()->GetID()) {
       case GO4EV_FILE: return kind_RootFile;
@@ -375,7 +375,7 @@ int TGo4ConfigStep::CurrentSourceKind()
 
 void TGo4ConfigStep::ChangeSourceParameter(int kind)
 {
-   if (fStepStatus==0) return;
+   if (!fStepStatus) return;
 
    TGo4EventSourceParameter* srcpar = fStepStatus->TakeSourcePar();
    bool delsrcpar(true);
@@ -623,7 +623,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
 void TGo4ConfigStep::StoreComboHighlighted(int k)
 {
-   if(k==0) {
+   if(k == 0) {
       StoreNameEdit->setDisabled(false);
       TGo4FileStoreParameter newpar0(StoreNameEdit->text().toLatin1().constData());
       fStepStatus->SetStorePar(&newpar0);

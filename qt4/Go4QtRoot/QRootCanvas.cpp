@@ -1049,14 +1049,10 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
    QAction* act = new QAction(text, menu);
 
    if (!enabled)
-      if ((text.compare("DrawClone")==0) ||
-          (text.compare("DrawClass")==0) ||
-          (text.compare("Inspect")==0) ||
-          (text.compare("SetShowProjectionX")==0) ||
-          (text.compare("SetShowProjectionY")==0) ||
-          (text.compare("DrawPanel")==0) ||
-          (text.compare("FitPanel")==0))
-            act->setEnabled(false);
+      if ((text.compare("DrawClone") == 0) || (text.compare("DrawClass") == 0) || (text.compare("Inspect") == 0) ||
+          (text.compare("SetShowProjectionX") == 0) || (text.compare("SetShowProjectionY") == 0) ||
+          (text.compare("DrawPanel") == 0) || (text.compare("FitPanel") == 0))
+         act->setEnabled(false);
 
    map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
    menu->addAction(act);

@@ -68,7 +68,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
       case QGo4Widget::panel_Activated:
       case QGo4Widget::panel_ActiveUpdated: {
          TGo4Picture* padopt = panel->GetPadOptions(pad);
-         if (padopt==0) break;
+         if (!padopt) break;
 
          int ndim = padopt->GetFullRangeDim();
          if (ndim <= 0) ndim = 1;
@@ -353,7 +353,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
    HisCoordStyle = 0;
    if (fiLastView==view_Histo2) HisDrawStyle = 1;
 
-   if ((drawopt==0) || (*drawopt==0)) return;
+   if (!drawopt || (*drawopt == 0)) return;
 
    TString buf(drawopt);
    buf.ToLower();
@@ -467,8 +467,8 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("*h"))    HisDrawStyle =  2; else
       if(buf.Contains("ah"))    HisDrawStyle =  1;
 
-      if ((HisDrawStyle>=16) && ((HisCoordStyle==0) || (HisCoordStyle==2)))
-        HisCoordStyle = 1;
+      if ((HisDrawStyle >= 16) && ((HisCoordStyle == 0) || (HisCoordStyle == 2)))
+         HisCoordStyle = 1;
    } else { // Histo2
       if(buf.Contains("hist"))  HisDrawStyle =  0; else
       if(buf.Contains("col"))   HisDrawStyle =  1; else
@@ -528,8 +528,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
       return;
    }
 
-
-   if (fiLastView==view_Graph) {
+   if (fiLastView == view_Graph) {
 
       switch (HisDrawStyle) {
          case 0: buf = "P"; break;
@@ -600,30 +599,30 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case 20: buf="surf4"; break;
        case 21: buf="surf5"; break;
     }
-    if ((HisDrawStyle>=16) && ((HisCoordStyle==0) || (HisCoordStyle==2)))
+    if ((HisDrawStyle >= 16) && ((HisCoordStyle == 0) || (HisCoordStyle == 2)))
        HisCoordStyle = 1;
    } else // Histo2
 
-    switch (HisDrawStyle) {
-       case  0: buf="hist";  break;
-       case  1: buf="col";   break;
-       case  9: buf="lego3"; break;
-       case  8: buf="lego1"; break;
-       case  3: buf="lego2"; break;
-       case  2: buf="cont0"; break;
-       case  6: buf="cont1"; break;
-       case 10: buf="cont2"; break;
-       case 11: buf="cont3"; break;
-       case  7: buf="cont4"; break;
-       case 12: buf="surf";  break;
-       case  5: buf="surf1"; break;
-       case  4: buf="surf2"; break;
-       case 13: buf="surf3"; break;
-       case 14: buf="surf4"; break;
-       case 15: buf="surf5"; break;
-       case 16: buf="arr";   break;
-       case 17: buf="box";   break;
-       case 18: buf="text";  break;
+      switch (HisDrawStyle) {
+      case 0: buf = "hist"; break;
+      case 1: buf = "col"; break;
+      case 9: buf = "lego3"; break;
+      case 8: buf = "lego1"; break;
+      case 3: buf = "lego2"; break;
+      case 2: buf = "cont0"; break;
+      case 6: buf = "cont1"; break;
+      case 10: buf = "cont2"; break;
+      case 11: buf = "cont3"; break;
+      case 7: buf = "cont4"; break;
+      case 12: buf = "surf"; break;
+      case 5: buf = "surf1"; break;
+      case 4: buf = "surf2"; break;
+      case 13: buf = "surf3"; break;
+      case 14: buf = "surf4"; break;
+      case 15: buf = "surf5"; break;
+      case 16: buf = "arr"; break;
+      case 17: buf = "box"; break;
+      case 18: buf = "text"; break;
 #ifndef __NOGO4ASI__
        case 19: buf="asimage"; break;
 #else

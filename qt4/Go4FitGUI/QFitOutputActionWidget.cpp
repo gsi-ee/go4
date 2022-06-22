@@ -44,17 +44,17 @@ void QFitOutputActionWidget::OptionsEdit_textChanged( const QString & str)
     GetOutAct()->SetOptions(str.toLatin1().constData());
 }
 
-void QFitOutputActionWidget::CommandCombo_activated( int n)
+void QFitOutputActionWidget::CommandCombo_activated(int n)
 {
   if(!fbFillWidget && GetOutAct()) {
-     if (n==4) GetOutAct()->SetCommand("Draw");
-          else GetOutAct()->SetCommand("Print");
+     if (n == 4) GetOutAct()->SetCommand("Draw");
+            else GetOutAct()->SetCommand("Print");
      ChangeName(QString(GetOutAct()->GetCommand()));
      switch (n) {
         case 1: OptionsEdit->setText("Pars"); break;
         case 2: OptionsEdit->setText("Ampls"); break;
         case 3: OptionsEdit->setText("Results"); break;
      }
-     OptionsEdit->setEnabled((n==0) || (n==4));
+     OptionsEdit->setEnabled((n == 0) || (n == 4));
   }
 }

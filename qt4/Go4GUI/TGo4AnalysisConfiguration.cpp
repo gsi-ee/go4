@@ -68,7 +68,7 @@ void TGo4AnalysisConfiguration::DropItem(const char* itemname, TClass* cl, int k
 
 void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Status")==0) {
+   if (strcmp(linkname,"Status") == 0) {
      parentWidget()->raise();
      parentWidget()->show();
      if (parentWidget()->isMinimized()) parentWidget()->showNormal();

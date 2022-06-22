@@ -259,14 +259,14 @@ int TGo4QSettings::getClientExeMode()
 
 void TGo4QSettings::setClientExec(const QString& v)
 {
-   if (getClientExeMode()==0) setStr("/ClientSetting/Exec", v);
-                         else setStr("/ClientSetting/Lib", v);
+   if (getClientExeMode() == 0) setStr("/ClientSetting/Exec", v);
+                           else setStr("/ClientSetting/Lib", v);
 }
 
 QString TGo4QSettings::getClientExec(int mode)
 {
-   if (mode<0) mode = getClientExeMode();
-   return mode==0 ? getStr("/ClientSetting/Exec", "./MainUserAnalysis") : getStr("/ClientSetting/Lib", "libGo4UserAnalysis");
+   if (mode < 0) mode = getClientExeMode();
+   return mode == 0 ? getStr("/ClientSetting/Exec", "./MainUserAnalysis") : getStr("/ClientSetting/Lib", "libGo4UserAnalysis");
 }
 
 void TGo4QSettings::setClientArgs(const QString& v)

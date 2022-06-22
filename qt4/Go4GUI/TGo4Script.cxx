@@ -108,12 +108,12 @@ Bool_t TGo4Script::ContinueExecution()
    }
 
    const char* nextcmd = NextHotStartCmd();
-   if (nextcmd==0) return kFALSE;
+   if (!nextcmd) return kFALSE;
 
    Int_t error = 0;
    gROOT->ProcessLineSync(nextcmd, &error);
 
-   if (error!=0) {
+   if (error != 0) {
       doOutput(TString::Format("Error = %d. CMD: %s", error, nextcmd).Data());
       return kFALSE;
    }
@@ -350,7 +350,7 @@ void TGo4Script::ConnectAnalysis(const char* ServerNode,
    go4sett->setClientNode(ServerNode);
    go4sett->setClientPort(ServerPort);
    go4sett->setClientControllerMode(ControllerMode);
-   go4sett->setClientDefaultPass((password==0) || (*password==0));
+   go4sett->setClientDefaultPass(!password || (*password == 0));
    fiWaitForGUIReaction = 15;
    fStrBuf = password;
    fiWaitCounter = getCounts(1.);
@@ -401,7 +401,7 @@ void TGo4Script::StartAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StartAnalysisSlot();
-      if (dynamic_cast<TGo4HttpProxy*>(Server())!=0)
+      if (dynamic_cast<TGo4HttpProxy*>(Server()))
          Wait(0.1);
       else
          Wait(1.);
@@ -414,7 +414,7 @@ void TGo4Script::StopAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StopAnalysisSlot();
-      if (dynamic_cast<TGo4HttpProxy*>(Server())!=0)
+      if (dynamic_cast<TGo4HttpProxy*>(Server()))
          Wait(0.1);
       else
          Wait(2.);
@@ -860,8 +860,8 @@ TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* acc
    }
 
    const char* slotname = servername;
-   if (strncmp(slotname,"http://",7)==0) slotname+=7; else
-   if (strncmp(slotname,"https://",8)==0) slotname+=8;
+   if (strncmp(slotname,"http://",7) == 0) slotname+=7; else
+   if (strncmp(slotname,"https://",8) == 0) slotname+=8;
    TString sname(slotname);
    Int_t len = sname.Index("/");
    if ((len>1) && (len<sname.Length())) sname.Resize(len);
@@ -966,7 +966,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    fs << "go4->WaitAnalysis(300);" << std::endl << std::endl;
 
-   if (confgui==0) return;
+   if (!confgui) return;
    fs << "// configuration of analysis" << std::endl;
 
    QString fname;

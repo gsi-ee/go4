@@ -49,7 +49,7 @@ void TGo4LogInfo::AddMessage(const QDateTime& dt, int level, QString msg)
    Item->setText(0, Date);
    Item->setText(1, Time);
 
-   if (level==0) {
+   if (level == 0) {
       if(msg.contains("GO4-*")) level=1; else
       if(msg.contains("GO4-#")) level=2; else
       if(msg.contains("GO4-!")) level=3;
@@ -110,7 +110,6 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
       AddMessage(QDateTime::currentDateTime(), 0, obj->GetName());
    }
 }
-
 
 void TGo4LogInfo::ClearLogInfo()
 {

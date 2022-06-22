@@ -81,10 +81,10 @@ void TGo4ParaEdit::DropItem(const char* itemname, TClass* cl, int kind)
 
 void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname,"Parameter")==0)
+   if (strcmp(linkname,"Parameter") == 0)
       RefreshWidget(dynamic_cast<TGo4Parameter*> (obj));
    else
-   if (strcmp(linkname,"ParStatus")==0)
+   if (strcmp(linkname,"ParStatus") == 0)
       RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
 }
 
@@ -92,7 +92,7 @@ void TGo4ParaEdit::linkedObjectRemoved( const char * linkname )
 {
    // if link removed while parameter is disappear, just close parameter editor
 
-   if (strcmp(linkname,"Fitter")!=0)
+   if (strcmp(linkname,"Fitter") != 0)
       ShootCloseWidget(true);
 }
 
@@ -379,7 +379,7 @@ void TGo4ParaEdit::IncArrayIndex()
 
 void TGo4ParaEdit::DecArrayIndex()
 {
-   if (fiCurrentRow==0) return;
+   if (fiCurrentRow == 0) return;
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
    TGo4ParameterMember* prev = (TGo4ParameterMember*) fItems->At(fiCurrentRow-1);
    if (prev->GetMemberId() == info->GetMemberId()) {

@@ -306,7 +306,7 @@ int main(int argc, char **argv)
    if (dologin >= 0) {
       go4sett->setClientNode(loghost);
       go4sett->setClientPort(logport);
-      go4sett->setClientDefaultPass(logpass==0);
+      go4sett->setClientDefaultPass(!logpass);
       go4sett->setClientControllerMode(dologin);
       Go4MainGUI->ConnectServerSlot(false, logpass);
    } else if (prepare_for_client) {
