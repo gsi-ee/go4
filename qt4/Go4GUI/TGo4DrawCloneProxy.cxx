@@ -27,9 +27,9 @@
 
 TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot* slot, TGo4ViewPanel* panel) :
    TGo4LinkProxy(slot),
-   fClone(0),
+   fClone(nullptr),
    fPanel(panel),
-   fParentSlot(0)
+   fParentSlot(nullptr)
 {
 }
 
@@ -52,7 +52,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
    if (fClone->InheritsFrom(TH1::Class()))
      ((TH1*) fClone)->SetDirectory(nullptr);
    TGo4ObjectManager* om = slot->GetOM();
-   if ((om!=0) && (fClone!=0))
+   if (om && fClone)
      om->RegisterObjectWith(fClone, slot);
 
    return kTRUE;
@@ -124,7 +124,7 @@ void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
 
    if (GetLink()) {
       TObject* obj = GetLink()->GetAssignedObject();
-      if (obj!=0) AssignClone(obj, slot);
+      if (obj) AssignClone(obj, slot);
    }
 }
 
@@ -132,12 +132,12 @@ void TGo4DrawCloneProxy::Finalize(TGo4Slot* slot)
 {
    CleanupClone(slot);
    TGo4LinkProxy::Finalize(slot);
-   fParentSlot = 0;
+   fParentSlot = nullptr;
 }
 
 TObject* TGo4DrawCloneProxy::GetAssignedObject()
 {
-   return (fClone!=0) ? fClone : TGo4LinkProxy::GetAssignedObject();
+   return fClone ? fClone : TGo4LinkProxy::GetAssignedObject();
 }
 
 Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
@@ -146,17 +146,16 @@ Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t 
       TObject* obj = GetLink()->GetAssignedObject();
       AssignClone(obj, slot);
       ChangeTitle(obj);
-   } else
-   if ((id==TGo4Slot::evObjUpdated) || (id==TGo4Slot::evContAssigned)) {
+   } else if ((id==TGo4Slot::evObjUpdated) || (id==TGo4Slot::evContAssigned)) {
       bool res = kFALSE;
       TObject* obj = GetLink()->GetAssignedObject();
-      if (obj!=0) {
-        Int_t rebinx(0), rebiny(0);
-        if (fClone!=0)
+      if (obj) {
+        Int_t rebinx = 0, rebiny = 0;
+        if (fClone)
           res = TGo4BrowserProxy::UpdateObjectContent(fClone, obj, &rebinx, &rebiny);
-        if (!res)
+        if (!res) {
            res = AssignClone(obj, slot);
-        else {
+        } else {
            if (rebinx>1) fParentSlot->SetIntPar("::HasRebinX",rebinx);
                     else fParentSlot->RemovePar("::HasRebinX");
            if (rebiny>1) fParentSlot->SetIntPar("::HasRebinY",rebiny);
@@ -173,9 +172,9 @@ Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t 
 
 void TGo4DrawCloneProxy::PerformRebin()
 {
-   if (fClone==0) return;
+   if (!fClone) return;
 
-   Int_t rebinx(0), rebiny(0);
+   Int_t rebinx = 0, rebiny = 0;
    fParentSlot->GetIntPar("::DoRebinX", rebinx);
    fParentSlot->RemovePar("::DoRebinX");
    fParentSlot->GetIntPar("::DoRebinY", rebiny);
@@ -187,12 +186,12 @@ void TGo4DrawCloneProxy::PerformRebin()
    if (rebiny==0) rebiny = 1;
 
    TH2* h2 = dynamic_cast<TH2*> (fClone);
-   if (h2!=0) {
+   if (h2) {
       h2->Rebin2D(rebinx, rebiny);
       return;
    }
 
    TH1* h1 = dynamic_cast<TH1*> (fClone);
-   if (h1!=0) h1->Rebin(rebinx);
+   if (h1) h1->Rebin(rebinx);
 }
 

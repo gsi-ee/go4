@@ -625,13 +625,13 @@ TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
 
 Bool_t TGo4Interface::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)
 {
-    if (handle==0) handle = StartViewPanel();
+    if (!handle) handle = StartViewPanel();
 
     TObject* obj = GetObject(itemname, 5000);
 
-    if (obj!=0) obj->Draw(drawopt);
+    if (obj) obj->Draw(drawopt);
 
-    return obj!=0;
+    return obj != nullptr;
 }
 
 void TGo4Interface::RedrawItem(const char* itemname)
@@ -639,13 +639,13 @@ void TGo4Interface::RedrawItem(const char* itemname)
    TGo4AbstractInterface::RedrawItem(itemname);
 
    TIter next(gROOT->GetListOfCanvases());
-   TPad* pad = 0;
-   while ((pad = (TPad*) next()) != 0) {
+   TPad* pad = nullptr;
+   while ((pad = (TPad*) next()) != nullptr) {
       pad->Modified();
 
-      TVirtualPad* subpad = 0;
+      TVirtualPad* subpad = nullptr;
       Int_t number = 0;
-      while ((subpad = pad->GetPad(number++))!=0)
+      while ((subpad = pad->GetPad(number++)) != nullptr)
         subpad->Modified();
 
       pad->Update();
@@ -679,7 +679,7 @@ Bool_t TGo4Interface::HandleTimer(TTimer* timer)
 
 void TGo4Interface::HotStart(const char* filename)
 {
-   if ((filename==0) || (strlen(filename)==0)) return;
+   if (!filename || (strlen(filename)==0)) return;
 
    FreeHotStartCmds();
 
@@ -687,7 +687,7 @@ void TGo4Interface::HotStart(const char* filename)
 
    if (!LoadHotStart(filename)) return;
 
-   if (fCmdTimer==0)
+   if (!fCmdTimer)
       fCmdTimer = new TTimer(this, 10, kTRUE);
 
    fCmdTimer->Start(10, kTRUE);

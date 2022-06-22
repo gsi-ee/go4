@@ -109,12 +109,12 @@ Bool_t TGo4FitGuiArrow::Locate()
 
 Bool_t TGo4FitGuiArrow::IsAssignTo(TObject *obj)
 {
-   return (obj!=0) && ((obj==fxModel) || (obj==fxComp));
+   return obj && ((obj==fxModel) || (obj==fxComp));
 }
 
 void TGo4FitGuiArrow::Delete(Option_t* option)
 {
-   if ((fxType==at_pos) && (fxPanel!=0))
+   if ((fxType==at_pos) && fxPanel)
       fxPanel->DeleteModelWithPrimit(this);
 }
 

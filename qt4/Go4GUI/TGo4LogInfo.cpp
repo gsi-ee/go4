@@ -106,8 +106,7 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
 
          AddMessage(dt, level, separ+2);
       }
-   } else
-   if (obj!=0) {
+   } else if (obj) {
       AddMessage(QDateTime::currentDateTime(), 0, obj->GetName());
    }
 }

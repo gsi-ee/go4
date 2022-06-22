@@ -21,7 +21,7 @@
 
 TGo4LocalCommandRunnable::TGo4LocalCommandRunnable() :
    TGo4Runnable(),
-   fxLocalTask(0)
+   fxLocalTask(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ TGo4LocalCommandRunnable::~TGo4LocalCommandRunnable()
 
 Int_t TGo4LocalCommandRunnable::Run(void* ptr)
 {
-   TGo4ObjectQueue* fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : 0;
+   TGo4ObjectQueue* fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : nullptr;
 
-   if(fxQueue!=0) {
+   if(fxQueue) {
       TGo4Command* com = dynamic_cast<TGo4Command*> (fxQueue->WaitObject());
-      if(com!=0) {
+      if(com) {
          if( com->GetCommandID() != TGo4Task::Get_fgiTERMID() ) {
             // normal operation if we have not a terminate dummy command
             //TGo4LockGuard mainlock; // protect command invocation!

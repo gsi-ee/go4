@@ -49,7 +49,7 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
    GO4TRACE((15,"TGo4ThreadHandler::~TGo4ThreadHandler() destructor",__LINE__, __FILE__));
    StopAll();
    CancelAll();
-   TGo4Thread* th=0;
+   TGo4Thread* th = nullptr;
    {
    TGo4LockGuard listguard(fxListMutex);
       fxIterator->Reset();
@@ -81,66 +81,57 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
 
 Bool_t TGo4ThreadHandler::AddThread (TGo4Thread* gthr)
 {
-   GO4TRACE((14,"TGo4ThreadHandler::AddThread(TGo4Thread*)",__LINE__, __FILE__));
-   Bool_t rev=kFALSE;
-      {
+   GO4TRACE((14, "TGo4ThreadHandler::AddThread(TGo4Thread*)", __LINE__, __FILE__));
+   Bool_t rev = kFALSE;
+   {
       TGo4LockGuard listguard(fxListMutex);
-         if(fxArray->FindObject(gthr)==0)
-         // is thread already in list?
-            {
-               //no, add new thread
-               GO4TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Adding new go4 thread to array",__LINE__, __FILE__));
-               fxArray->AddLast(gthr);
-               rev=kTRUE;
-            }
-         else
-            {
-               // yes, do nothing
-               GO4TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Thread was already in array",__LINE__, __FILE__));
-               rev=kFALSE;
-            }
+      // is thread already in list?
+      if (!fxArray->FindObject(gthr)) {
+         // no, add new thread
+         GO4TRACE((13, "TGo4ThreadHandler::AddThread(TGo4Thread*) Adding new go4 thread to array", __LINE__, __FILE__));
+         fxArray->AddLast(gthr);
+         rev = kTRUE;
+      } else {
+         // yes, do nothing
+         GO4TRACE((13, "TGo4ThreadHandler::AddThread(TGo4Thread*) Thread was already in array", __LINE__, __FILE__));
+         rev = kFALSE;
       }
+   }
    return rev;
 }
 
 Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
 {
    GO4TRACE((14,"TGo4ThreadHandler::RemoveThread(const char*)",__LINE__, __FILE__));
-   Bool_t rev=kFALSE;
+   Bool_t rev = kFALSE;
    {
       TGo4LockGuard listguard(fxListMutex);
-      TObject* obj=fxArray->FindObject(name);
-      TGo4Thread* th= (TGo4Thread*) obj;
-      if(obj!=0)
+      TObject* obj = fxArray->FindObject(name);
+      TGo4Thread* th = (TGo4Thread*) obj;
+      if (obj) {
          // thread found, then remove it
-         {
-            GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Removing thread from array",__LINE__, __FILE__));
-           fxArray->Remove(obj);
-            fxArray->Compress();
-            fxArray->Expand(fxArray->GetLast()+1);
-            if(th->IsInternal())
-               // internal mode? then delete thread
-               {
-               GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Deleting internal mode thread",__LINE__, __FILE__));
-               TGo4LockGuard operguard(fxOperMutex); // protect operating flag
-                  fbIsOperating=kTRUE;
-                  fxManager->UnBlockApp(); // tell blocking timer to enable system
-                  delete th;
-                  fbIsOperating=kFALSE;
-                  fxManager->BlockApp();  // blocking again
-               }
-            else
-               {
-               // do nothing
-               GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Non internal mode thread is not deleted",__LINE__, __FILE__));
-               }
-            rev=kTRUE;
+         GO4TRACE((13, "TGo4ThreadHandler::RemoveThread(const char*) Removing thread from array", __LINE__, __FILE__));
+         fxArray->Remove(obj);
+         fxArray->Compress();
+         fxArray->Expand(fxArray->GetLast() + 1);
+         if (th->IsInternal()) {
+            // internal mode? then delete thread
+            GO4TRACE((13, "TGo4ThreadHandler::RemoveThread(const char*) Deleting internal mode thread", __LINE__, __FILE__));
+            TGo4LockGuard operguard(fxOperMutex); // protect operating flag
+            fbIsOperating = kTRUE;
+            fxManager->UnBlockApp(); // tell blocking timer to enable system
+            delete th;
+            fbIsOperating = kFALSE;
+            fxManager->BlockApp(); // blocking again
+         } else {
+            // do nothing
+            GO4TRACE((13, "TGo4ThreadHandler::RemoveThread(const char*) Non internal mode thread is not deleted",  __LINE__, __FILE__));
          }
-      else
-         {
-            GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Thread not found in array",__LINE__, __FILE__));
-            rev=kFALSE;
-         }
+         rev = kTRUE;
+      } else {
+         GO4TRACE((13, "TGo4ThreadHandler::RemoveThread(const char*) Thread not found in array", __LINE__, __FILE__));
+         rev = kFALSE;
+      }
    }
    return rev;
 }
