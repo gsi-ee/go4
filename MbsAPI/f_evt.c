@@ -580,7 +580,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 
    if(ps_info != NULL) *ps_info=NULL;
    // when timeout is already set by f_evt_timeout(), do not overwrite
-   if(ps_chan->l_timeout==0)ps_chan->l_timeout=-1; /* no timeout */
+   if(ps_chan->l_timeout == 0) ps_chan->l_timeout=-1; /* no timeout */
    strcpy(ps_chan->c_channel,pc_server);
    switch(l_mode) {
      case GETEVT__FILE :
@@ -616,7 +616,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 // -- DABC
        /* check for file header, return size and swap */
        f_evt_check_buf(c_temp, &l_size_head, &l_is_goosybuf, &l_swap_head, &l_filehead);
-       if(((l_is_goosybuf==0)&(l_filehead==0))|(l_size_head==0)) {
+       if(((l_is_goosybuf == 0) & (l_filehead == 0)) | (l_size_head == 0)) {
          printf("LMD format error: swap=%d, header=%d, isLMD=%d, size=%d\n",l_swap_head,l_filehead,l_is_goosybuf,l_size_head);
          close(ps_chan->l_channel_no);
          ps_chan->l_channel_no=-1;
@@ -643,7 +643,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
            return(GETEVT__RDERR);
          }
          f_evt_check_buf(c_temp, &l_size, &l_is_goosybuf, &l_swap, &l_dummy);
-         if((l_is_goosybuf==0)|(l_size!=l_size_head)|(l_swap!=l_swap_head)) {
+         if((l_is_goosybuf == 0) | (l_size != l_size_head) | (l_swap != l_swap_head)) {
            printf("LMD format error: swap=%d, isLMD=%d, size=%d\n",l_swap,l_is_goosybuf,l_size);
            close(ps_chan->l_channel_no);
            ps_chan->l_channel_no=-1;
@@ -663,7 +663,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
          }
          ps_filhe = (s_filhe *) c_temp;
          if(ps_info != NULL) {/* if user want file header be returned */
-            if( l_swap_head ==1) f_evt_swap_filhe((s_bufhe *)ps_filhe);
+            if( l_swap_head == 1) f_evt_swap_filhe((s_bufhe *)ps_filhe);
             *ps_info=c_temp; /* now , get file header and return */
          }
          /*
@@ -785,7 +785,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    }
       /* check for file header, return size and swap */
       f_evt_check_buf(c_temp, &l_size_head, &l_is_goosybuf, &l_swap_head, &l_filehead);
-      if(((l_is_goosybuf==0)&(l_filehead==0))|(l_size_head==0))
+      if(((l_is_goosybuf == 0) & (l_filehead == 0)) | (l_size_head == 0))
    {
      printf("LMD format error: swap=%d, header=%d, isLMD=%d, size=%d\n",l_swap_head,l_filehead,l_is_goosybuf,l_size_head);
      RFIO_close(ps_chan->l_channel_no);
@@ -810,7 +810,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
           return(GETEVT__RDERR);
    }
         f_evt_check_buf(c_temp, &l_size, &l_is_goosybuf, &l_swap, &l_dummy);
-        if((l_is_goosybuf==0)|(l_size!=l_size_head)|(l_swap!=l_swap_head))
+        if((l_is_goosybuf == 0) | (l_size != l_size_head) | (l_swap != l_swap_head))
    {
      printf("LMD format error: swap=%d, isLMD=%d, size=%d\n",l_swap,l_is_goosybuf,l_size);
      RFIO_close(ps_chan->l_channel_no);
@@ -834,7 +834,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    ps_filhe=(s_filhe *)c_temp;
         if(ps_info != NULL) /* if user want file header be returned */
         {
-           if( l_swap_head ==1)f_evt_swap_filhe((s_bufhe *)ps_filhe);
+           if( l_swap_head == 1) f_evt_swap_filhe((s_bufhe *)ps_filhe);
            *ps_info=c_temp; /* now , get file header and return */
         }
    /*
@@ -1033,8 +1033,8 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
 
       /* if ps_chan->l_buf_posi is start of an event and the event is not *
        * spanned, then return pointer                           */
-      if( (ps_chan->l_evt_buf_posi==0) &&
-          ( (ps_chan->ps_bufhe->h_begin==0) || ((ps_chan->l_buf_posi+ps_chan->l_frag_len) < ps_chan->l_buf_lmt) ) )
+      if( (ps_chan->l_evt_buf_posi == 0) &&
+          ( (ps_chan->ps_bufhe->h_begin == 0) || ((ps_chan->l_buf_posi+ps_chan->l_frag_len) < ps_chan->l_buf_lmt) ) )
       {
          *ppl_buffer = (INTS4 *)(ps_chan->pc_io_buf+ps_chan->l_buf_posi);
          ps_chan->l_buf_posi += ps_chan->l_frag_len;
@@ -1044,7 +1044,7 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
       }
 
       /* 2001 HE if we start a spanned event, save buffer header of first buffer */
-      if(ps_chan->l_evt_buf_posi==0)
+      if(ps_chan->l_evt_buf_posi == 0)
       {
         memcpy((CHARS *)&ps_chan->s_bufhe_1,(CHARS *)ps_chan->ps_bufhe,sizeof(s_bufhe));
         ps_bufhe_cur=(s_bufhe *)&ps_chan->s_bufhe_1;
@@ -1202,7 +1202,7 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
 
 // DABC
    ps_chan->pLmd=NULL;
-   if(l_stream==0) {
+   if(l_stream == 0) {
      ps_chan->pLmd=fLmdAllocateControl();
      l_status=fLmdPutOpen(ps_chan->pLmd,pc_file,NULL,l_size,
                  LMD__NO_OVERWRITE,LMD__INDEX,LMD__LARGE_FILE);
@@ -1339,7 +1339,7 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
       if(ps_chan->l_io_buf_posi%ps_chan->l_buf_size == 0) l_temp -= ps_chan->l_buf_size;
       /* l_temp points to start of last GOOSY buf in i/o buf area  */
       ps_chan->ps_bufhe=(s_bufhe *)(ps_chan->pc_io_buf + l_temp);
-      if(l_temp==0)ps_chan->ps_bufhe->h_end = 0; /* first buf in stream, no end */
+      if(l_temp == 0)ps_chan->ps_bufhe->h_end = 0; /* first buf in stream, no end */
       else         ps_chan->ps_bufhe->h_end = ((s_bufhe *)((CHARS *)ps_chan->ps_bufhe - ps_chan->l_buf_size))->h_begin;
       ps_chan->ps_bufhe->h_begin = 0;     /* evt has end, so not spanned to next buf */
       for(l_temp=0;l_temp<ps_chan->l_io_buf_size;l_temp+=ps_chan->l_buf_size)
@@ -1365,13 +1365,13 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
       if(ps_chan->l_evt_size>l_buf_remain_size)  return(PUTEVT__TOO_SMALLS);
    }
 
- if(ps_chan->l_io_buf_posi==0)f_evt_ini_bufhe(ps_chan);/* init all buffer headers */
+ if(ps_chan->l_io_buf_posi == 0)f_evt_ini_bufhe(ps_chan);/* init all buffer headers */
 
    /* write event into i/o buf till end of event, change ps_chan->l_io_buf_posi   */
    while(l_evt_buf_posi<ps_chan->l_evt_size)
    {
       ps_chan->ps_ve10_1 = (s_ve10_1 *)(ps_chan->pc_io_buf + ps_chan->l_io_buf_posi);
-      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size)==0)
+      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size) == 0)
       {
          ps_chan->l_io_buf_posi += sizeof(s_bufhe);
          ps_chan->ps_ve10_1 = (s_ve10_1 *)(ps_chan->pc_io_buf + ps_chan->l_io_buf_posi);/* behind header */
@@ -1413,7 +1413,7 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
          ps_chan->ps_ve10_1->i_type = ps_chan->l_buf_type;
       }
       else ps_chan->ps_ve10_1->l_dlen= (l_write_size-sizeof(s_evhe))/2; /* header of first frag */
-      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size)==0)
+      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size) == 0)
       {
          if(l_evt_buf_posi<ps_chan->l_evt_size) ps_chan->ps_bufhe->h_begin = 1;
          if(ps_chan->l_io_buf_posi > ps_chan->l_buf_size)  /* so first buf in stream */
@@ -1504,7 +1504,7 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
    if(ps_chan->l_first_put==1) goto g_close;
 
    /* if not the end of GOOSY buf, fill buffer header  */
-   if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size)!=0)
+   if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size) != 0)
    {
       l_temp=(ps_chan->l_io_buf_posi/ps_chan->l_buf_size)*ps_chan->l_buf_size;
       /* l_temp points to start of this GOOSY buf in i/o buf area  */
@@ -1515,7 +1515,7 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
 
       ps_chan->ps_bufhe->l_dlen = (ps_chan->l_buf_size - sizeof(s_bufhe))/2;
       ps_chan->ps_bufhe->h_begin = 0;     /* evt has end, so not spanned to next buf */
-      if(l_temp==0)   /* so fisrt buf in stream */
+      if(l_temp == 0)   /* so fisrt buf in stream */
          ps_chan->ps_bufhe->h_end = 0;
       else
          ps_chan->ps_bufhe->h_end = ((s_bufhe *)((CHARS *)ps_chan->ps_bufhe - ps_chan->l_buf_size))
@@ -1527,7 +1527,7 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
    /* if at the end of io buf, need not flush                */
    if(ps_chan->l_io_buf_posi!=ps_chan->l_io_buf_size)
    {
-      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size)!=0)
+      if((ps_chan->l_io_buf_posi%ps_chan->l_buf_size) != 0)
          l_write_size=(ps_chan->l_io_buf_posi/ps_chan->l_buf_size+1) *
             ps_chan->l_buf_size;
       else
@@ -1657,13 +1657,13 @@ INTS4 f_evt_error( INTS4 l_error , CHARS *pc_dest , INTS4 l_out )
      break;
    default               :
      sprintf(c_line,"-I-f_evt: unknown message id %d",l_error);
-     if(l_out==0)printf("%s\n",c_line);
+     if(l_out == 0)printf("%s\n",c_line);
      if(l_out==1)strcpy(pc_dest,c_line);
      return GETEVT__FAILURE;
    }  /* end switch( l_error )   */
 
-   if(l_out==0)printf("%s\n",c_line);
-   if(l_out==1)strcpy(pc_dest,c_line);
+   if(l_out == 0)printf("%s\n",c_line);
+   if(l_out == 1)strcpy(pc_dest,c_line);
 
    return GETEVT__SUCCESS;
 }  /* end of f_evt_error */
@@ -1751,7 +1751,7 @@ INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
    }    /* end of switch */
 
    /* swap */
-   if( ((s_bufhe *)(ps_buffer))->l_free[0] !=1)
+   if( ((s_bufhe *)(ps_buffer))->l_free[0] != 1)
       f_evt_swap((CHARS *)ps_buffer, ps_chan->l_buf_size);
 
    return(GETEVT__SUCCESS);
@@ -2076,16 +2076,16 @@ INTS4 f_evt_check_buf(CHARS *pc_head, INTS4 *pl_size, INTS4 *pl_is_goosybuf, INT
    /* if not file header, check if it's goosy buffer header */
       l_size=((s_bufhe *)(pc_head))->l_dlen*2;
       if(l_size%512 > 0) l_size += sizeof(s_bufhe);
-   if( (((l_size>>24)== 0)&&(l_size > 0))&&
-       (((s_bufhe *)(pc_head))->h_begin<2)&&
-       (((s_bufhe *)(pc_head))->h_begin>=0)&&
-       (((s_bufhe *)(pc_head))->h_end<2)&&
-       (((s_bufhe *)(pc_head))->h_end>=0)&&
+   if( (((l_size>>24) == 0) && (l_size > 0)) &&
+       (((s_bufhe *)(pc_head))->h_begin < 2) &&
+       (((s_bufhe *)(pc_head))->h_begin >= 0) &&
+       (((s_bufhe *)(pc_head))->h_end < 2) &&
+       (((s_bufhe *)(pc_head))->h_end >= 0) &&
        //(((s_bufhe *)(pc_head))->i_used<=(MAX_BUF_LGTH-sizeof(s_bufhe))/2)&&
-        ((((s_bufhe *)(pc_head))->i_used>0)||(((s_bufhe *)(pc_head))->l_free[2]>0))&&
+        ((((s_bufhe *)(pc_head))->i_used>0)||(((s_bufhe *)(pc_head))->l_free[2] > 0))&&
        //(((s_bufhe *)(pc_head))->i_used>0)&&
-       ( (((s_bufhe *)(pc_head))->l_free[0]==1)||
-         (((s_bufhe *)(pc_head))->l_free[0]==0)||
+       ( (((s_bufhe *)(pc_head))->l_free[0] == 1)||
+         (((s_bufhe *)(pc_head))->l_free[0] == 0)||
 /* above, because some old lsm file forgot to set this bit, so it's zero */
          (((s_bufhe *)(pc_head))->l_free[0]==256*256*256) ) )
    {
@@ -2097,16 +2097,16 @@ INTS4 f_evt_check_buf(CHARS *pc_head, INTS4 *pl_size, INTS4 *pl_is_goosybuf, INT
    f_evt_swap(pc_head, sizeof(s_filhe));
    l_size=((s_bufhe *)(pc_head))->l_dlen*2+sizeof(s_bufhe);
    if( (((l_size>>24)== 0)&&(l_size > 0))&&
-       (((s_bufhe *)(pc_head))->l_dlen>0)&&
-       (((s_bufhe *)(pc_head))->h_begin<2)&&
-       (((s_bufhe *)(pc_head))->h_begin>=0)&&
-       (((s_bufhe *)(pc_head))->h_end<2)&&
-       (((s_bufhe *)(pc_head))->h_end>=0)&&
+       (((s_bufhe *)(pc_head))->l_dlen > 0)&&
+       (((s_bufhe *)(pc_head))->h_begin < 2)&&
+       (((s_bufhe *)(pc_head))->h_begin >= 0)&&
+       (((s_bufhe *)(pc_head))->h_end < 2)&&
+       (((s_bufhe *)(pc_head))->h_end >= 0)&&
        //(((s_bufhe *)(pc_head))->i_used<=(MAX_BUF_LGTH-sizeof(s_bufhe))/2)&&
-        ((((s_bufhe *)(pc_head))->i_used>0)||(((s_bufhe *)(pc_head))->l_free[2]>0))&&
+        ((((s_bufhe *)(pc_head))->i_used>0)||(((s_bufhe *)(pc_head))->l_free[2] > 0))&&
        //(((s_bufhe *)(pc_head))->i_used>0)&&
-       ( (((s_bufhe *)(pc_head))->l_free[0]==1)||
-         (((s_bufhe *)(pc_head))->l_free[0]==0)||
+       ( (((s_bufhe *)(pc_head))->l_free[0] == 1)||
+         (((s_bufhe *)(pc_head))->l_free[0] == 0)||
 /* above, because some old lsm file forgot to set this bit, so it's zero */
          (((s_bufhe *)(pc_head))->l_free[0]==256*256*256) ) )
    {
@@ -2230,7 +2230,7 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)(s_ve10_1 
     }
   /* check for file header, return size and swap */
   f_evt_check_buf(c_temp, &l_size_head, &l_is_goosybuf, &l_swap_head, &l_filehead);
-  if(((l_is_goosybuf==0)&(l_filehead==0))|(l_size_head==0))
+  if(((l_is_goosybuf == 0) & (l_filehead == 0)) | (l_size_head == 0))
     {
      printf("LMD format error: swap=%d, header=%d, isLMD=%d, size=%d\n",l_swap_head,l_filehead,l_is_goosybuf,l_size_head);
      close(l_chan);
@@ -2251,7 +2251,7 @@ INTS4 f_evt_cre_tagfile(CHARS *pc_lmd, CHARS *pc_tag,INTS4 (*e_filter)(s_ve10_1 
      return(GETEVT__RDERR);
    }
       f_evt_check_buf(c_temp, &l_size, &l_is_goosybuf, &l_swap, &l_dummy);
-      if((l_is_goosybuf==0)|(l_size!=l_size_head)|(l_swap!=l_swap_head))
+      if((l_is_goosybuf == 0) | (l_size != l_size_head) | (l_swap != l_swap_head))
    {
      printf("LMD format error: swap=%d, isLMD=%d, size=%d\n",l_swap,l_is_goosybuf,l_size);
      close(l_chan);
@@ -2477,7 +2477,7 @@ INTS4 f_evt_get_tagopen(s_evt_channel *ps_chan,CHARS *pc_tag,CHARS *pc_lmd, CHAR
   if(l_prihe)printf("LMD file %s, TAG file %s\n",pc_lmd,pc_tag);
 
   /* if tag file name not specified, do not try to open it SL:11.11.09*/
-  if ((pc_tag==0) || (*pc_tag==0))
+  if ((pc_tag == NULL) || (*pc_tag == 0))
      ps_chan->l_tagfile_no = -1;
   else
      ps_chan->l_tagfile_no = open(pc_tag, GET__OPEN_FLAG);

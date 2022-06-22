@@ -507,7 +507,7 @@ INTS4 f_stc_connectserver(CHARS *c_node, INTS4 l_port, INTS4 *pi_channel, struct
    WSADATA wsaData;
    wVersionRequested = MAKEWORD( 2, 2 );
    //err = WSAStartup( wVersionRequested, &wsaData );
-   if (WSAStartup( wVersionRequested, &wsaData)!=0) {
+   if (WSAStartup( wVersionRequested, &wsaData) != 0) {
       printf("WinSock NOT found");
       /* Tell the user that we could not find a usable */
       /* WinSock DLL.                                  */
@@ -858,7 +858,7 @@ INTS4 f_stc_createserver(INTS4 *pl_port, struct s_tcpcomm *ps_server)
    WSADATA wsaData;
    wVersionRequested = MAKEWORD( 2, 2 );
    //err = WSAStartup( wVersionRequested, &wsaData );
-   if (WSAStartup( wVersionRequested, &wsaData)!=0) {
+   if (WSAStartup( wVersionRequested, &wsaData) != 0) {
       printf("WinSock NOT found");
       /* Tell the user that we could not find a usable */
       /* WinSock DLL.                                  */
@@ -1477,8 +1477,8 @@ INTS4 f_stc_disperror(INTS4 i_error, CHARS *c_dest, INTS4 i_out)
          break;
       default:
          sprintf(c_line,"-I- f_stc unknown message id %d",i_error);
-         if(i_out==0)printf("%s\n",c_line);
-         if(i_out==1)strcpy(c_dest,c_line);
+         if(i_out == 0) printf("%s\n",c_line);
+         if(i_out == 1) strcpy(c_dest,c_line);
          return STC__FAILURE;
    }  /* end switch( i_error )   */
 
