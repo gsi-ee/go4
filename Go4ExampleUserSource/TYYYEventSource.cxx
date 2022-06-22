@@ -89,20 +89,20 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
       }
    } while(strstr(sbuf,"#") || strstr(sbuf,"!") ); // skip any comments
 
-   Int_t status=1;
+   Int_t status = 1;
    // process on event information in our buffer
    // scan the last input line for values:
-   Int_t scanresult=0;
-   Int_t numval=0;
+   Int_t scanresult = 0;
+   Int_t numval = 0;
    const char* cursor = sbuf;
    do {
       evnt->ReAllocate(numval+1); // check if realloc necessary
       scanresult = sscanf(cursor,"%s",buffer);
       //std::cout <<"BuildYYYEvent got buffer:"<<buffer<<", scanresult:";
       //std::cout << scanresult << std::endl;
-      if(scanresult!=0 && scanresult!=-1) {
+      if(scanresult != 0 && scanresult != -1) {
          evnt->fdData[numval] = atof(buffer);
-         status=0; // only ok if at least one value scanned
+         status = 0; // only ok if at least one value scanned
       }
       numval++;
       cursor+=strlen(buffer)+1;
@@ -111,7 +111,7 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
 
    // test here for error in input event
 
-   if(status!=0) {
+   if(status != 0) {
       evnt->SetValid(kFALSE);
       // somethings wrong, display error message from f_evt_error()
       SetErrMess("YYY Event Source --  ERROR !!!");

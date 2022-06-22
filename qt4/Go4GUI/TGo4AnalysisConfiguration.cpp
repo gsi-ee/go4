@@ -76,7 +76,7 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
 
      TGo4ServerProxy* anal =
         dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
-     if (anal!=0)
+     if (anal)
         anal->RefreshNamesList();
    }
 }
@@ -90,7 +90,7 @@ void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy* anal)
 {
    ResetWidget();
 
-   if (anal==0) {
+   if (!anal) {
       ShootCloseWidget(true);
       return;
    }
@@ -122,25 +122,25 @@ void TGo4AnalysisConfiguration::RefreshWidget()
    TGo4ServerProxy* anal =
       dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
 
-   if ((status==0) || (anal==0)) return;
+   if (!status || !anal) return;
 
    SubmitPushButton->setEnabled(anal->CanSubmitObjects());
    SubmitAndStartButton->setEnabled(anal->CanSubmitObjects());
 
    fbTypingMode = false;
 
-   QWidget* w = 0;
+   QWidget* w = nullptr;
    do {
      w = TabSteps->currentWidget();
-     if (w!=0) {
+     if (w) {
         TabSteps->removeTab(TabSteps->indexOf(w));
         delete w;
      }
-   } while (w!=0);
+   } while (w);
 
    for(int i=0; i<status->GetNumberOfSteps(); i++) {
       TGo4AnalysisStepStatus* stepstatus = status->GetStepStatus(i);
-      if (stepstatus==0) continue;
+      if (!stepstatus) continue;
       QString StepName = stepstatus->GetName();
       TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toLatin1().constData());
       NewStep->SetStepStatus(this, stepstatus, status->GetNumberOfSteps() > 1 ? i : -1);
@@ -166,7 +166,7 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 
 void TGo4AnalysisConfiguration::ChangeTabTitle(TGo4ConfigStep* step, int number)
 {
-   if (number>=0)
+   if (number >= 0)
       TabSteps->setTabText(number, step->GetTabTitle());
 }
 
@@ -195,7 +195,7 @@ void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 {
    TGo4ServerProxy* anal =
       dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
-   if (anal!=0)
+   if (anal)
       anal->RequestAnalysisSettings();
 }
 
@@ -239,7 +239,7 @@ void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
    QString fname = AutoSaveFileName->text().trimmed();
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if ((status!=0) && fbTypingMode)
+   if (status && fbTypingMode)
      status->SetAutoFileName(fname.toLatin1().constData());
 }
 
@@ -247,7 +247,7 @@ void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
 {
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if ((status!=0) && fbTypingMode)
+   if (status && fbTypingMode)
      status->SetAutoSaveCompression(t);
 }
 
@@ -256,7 +256,7 @@ void TGo4AnalysisConfiguration::LoadConfiguration()
    QString fname = ConfigFileName->text().trimmed();
    TGo4ServerProxy* anal =
       dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
-   if (anal!=0)
+   if (anal)
       anal->LoadConfigFile(fname.toLatin1().constData());
    RequestAnalysisStatus();
 }
@@ -266,7 +266,7 @@ void TGo4AnalysisConfiguration::SaveConfiguration()
    QString fname = ConfigFileName->text().trimmed();
    TGo4ServerProxy* anal =
       dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
-   if (anal!=0)
+   if (anal)
       anal->SaveConfigFile(fname.toLatin1().constData());
 }
 
@@ -290,7 +290,7 @@ void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 {
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if ((status!=0) && fbTypingMode)
+   if (status && fbTypingMode)
      status->SetAutoSaveInterval(t);
 }
 
@@ -298,7 +298,7 @@ void TGo4AnalysisConfiguration::SetAutoSaveOverwrite(bool overwrite)
 {
    TGo4AnalysisStatus* status =
       dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if ((status!=0) && fbTypingMode)
+   if (status && fbTypingMode)
       status->SetAutoSaveOverwrite(overwrite);
 }
 
@@ -309,7 +309,7 @@ void TGo4AnalysisConfiguration::WriteAutoSave()
    TGo4ServerProxy* anal =
       dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
 
-   if ((anal!=0) && (status!=0))
+   if (anal && status)
      anal->WriteAutoSave(status->GetAutoFileName(),
                          status->GetAutoSaveCompression(),
                          status->IsAutoSaveOverwrite());
@@ -319,7 +319,7 @@ void TGo4AnalysisConfiguration::EnableAutoSaveSlot(bool enabled)
 {
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if ((status!=0) && fbTypingMode)
+   if (status && fbTypingMode)
       status->SetAutoSaveOn(enabled);
     AutoSaveInterval->setEnabled(enabled);
 }
@@ -340,7 +340,7 @@ TGo4ConfigStep* TGo4AnalysisConfiguration::FindStepConfig(QString name)
    for (int n=0;n<GetNumSteps();n++) {
       TGo4ConfigStep* conf = GetStepConfig(n);
       if (conf)
-        if (conf->GetStepName()==name) return conf;
+         if (conf->GetStepName()==name) return conf;
    }
    return nullptr;
 }

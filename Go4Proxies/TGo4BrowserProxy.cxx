@@ -620,7 +620,7 @@ void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
    TString objname;
    TGo4ServerProxy* an = DefineAnalysisObject(name, objname);
-   if (an!=0) an->RequestObjectStatus(objname.Data(), tgtslot);
+   if (an) an->RequestObjectStatus(objname.Data(), tgtslot);
 }
 
 void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
@@ -1811,7 +1811,7 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
       TGo4ServerProxy* an = FindServer();
 
       Bool_t anready = kTRUE;
-      if (an!=0) anready = an->IsConnected() && (an->NumberOfWaitingProxyes()<3);
+      if (an) anready = an->IsConnected() && (an->NumberOfWaitingProxyes() < 3);
 
       // request new objects if total number of proxies is not too big
       if (anready && !fbBlockMonitoring) {
