@@ -638,7 +638,7 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
    // make it here to be able use via http interface
 
    TGo4Analysis* ana = TGo4Analysis::Instance();
-   if (ana==0) return kFALSE;
+   if (!ana) return kFALSE;
 
    ana->SetAutoSaveFile(fname, overwrite, complevel);
    ana->AutoSave();

@@ -117,11 +117,11 @@ TGo4CommandReceiver* TGo4CommandInvoker::Lookup(const char* name)
 void TGo4CommandInvoker::Invoke(TGo4Command * com)
 {
     GO4TRACE((12,"void TGo4CommandInvoker::Invoke(TGo4Command * com)", __LINE__, __FILE__));
-    if(com==0) return;
+    if(!com) return;
     TGo4LockGuard lockguard(fxMutex);
      //std::cout <<"Invoker has command "<<com->GetName() << std::endl;
     TGo4CommandReceiver *rec = Lookup(com->GetReceiverName());
-    if(rec!=0) {
+    if(rec) {
        com->SetReceiver(rec);
        if(com->GetMode()>=com->GetProtection())
            com->ExeCom();
@@ -151,7 +151,7 @@ void TGo4CommandInvoker::Invoke()
 void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList* list)
 {
    delete fxCommandList;
-   fxCommandList=list;
+   fxCommandList = list;
 }
 
 Int_t TGo4CommandInvoker::ExecuteFromRemote(TGo4RemoteCommand* remcom)

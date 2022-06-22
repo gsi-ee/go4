@@ -30,20 +30,21 @@ TGo4ClientTask::TGo4ClientTask(const char* name,
                                Bool_t ismaster,
                                Bool_t autoconnect) :
    TGo4Task(name,blockingmode,autostart,autocreate,ismaster),
-   fxTaskHandler(0),
+   fxTaskHandler(nullptr),
    fbAutoConnect(autoconnect),
    fbServerConnected(kFALSE)
 {
-   fxServerHostname=serverhost;
-   TString nomen("TaskHandler of "); nomen+=name;
-   fxTaskHandler=new TGo4TaskHandler(nomen.Data(),this,kTRUE, IsMaster(),negotiationport);
-   fxCommandQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetCommandQueue());
-   fxStatusQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetStatusQueue());
-   fxDataQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetDataQueue());
-   if(standalone) {
-       Launch(); // create threads, start application control timer
+   fxServerHostname = serverhost;
+   TString nomen("TaskHandler of ");
+   nomen += name;
+   fxTaskHandler = new TGo4TaskHandler(nomen.Data(), this, kTRUE, IsMaster(), negotiationport);
+   fxCommandQ = dynamic_cast<TGo4BufferQueue *>(GetTaskHandler()->GetCommandQueue());
+   fxStatusQ = dynamic_cast<TGo4BufferQueue *>(GetTaskHandler()->GetStatusQueue());
+   fxDataQ = dynamic_cast<TGo4BufferQueue *>(GetTaskHandler()->GetDataQueue());
+   if (standalone) {
+      Launch(); // create threads, start application control timer
    } else {
-         // subclass must call Launch at end of its ctor
+      // subclass must call Launch at end of its ctor
    }
 }
 
@@ -157,7 +158,6 @@ TGo4TaskStatus* TGo4ClientTask::CreateStatus()
    return stat;
 }
 
-
 void TGo4ClientTask::UpdateStatus(TGo4TaskStatus* state)
 {
    TGo4Task::UpdateStatus(state);
@@ -168,13 +168,11 @@ void TGo4ClientTask::UpdateStatus(TGo4TaskStatus* state)
 
 void TGo4ClientTask::AddLocalCommand(TGo4Command * com)
 {
-if(com==0) return;
-if(fxCommandQ)
-   {
+   if (!com)
+      return;
+   if (fxCommandQ) {
       fxCommandQ->AddBufferFromObject(com);
-   }
-else
-   {
+   } else {
       TGo4Log::Debug(" !!! ClientTask - ERROR adding local command - no command queue !!! ");
    }
 }
@@ -186,7 +184,7 @@ TGo4BufferQueue* TGo4ClientTask::GetCommandQueue(const char*)
 
 TGo4BufferQueue * TGo4ClientTask::GetStatusQueue(const char*)
 {
-  return fxStatusQ;
+   return fxStatusQ;
 }
 TGo4BufferQueue * TGo4ClientTask::GetDataQueue(const char*)
 {

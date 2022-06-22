@@ -407,8 +407,8 @@ Int_t TGo4HistogramServer::WaitForOpen()
       if (count > TGo4HistogramServer::fgiOPENWAITCYCLES) {
          count = -1; // timeout
          break;
-      } else if (task == 0 || task->IsTerminating()) {
-         // note: task==0 is case of shutdown of analysis server!
+      } else if (!task || task->IsTerminating()) {
+         // note: task == nullptr is case of shutdown of analysis server!
          count = -2;
          break;
       } else {
@@ -447,8 +447,8 @@ Int_t TGo4HistogramServer::WaitForConnection()
    Int_t count = 0;
    while (!fbConnectIsDone) {
       TGo4Task *task = fxAnalysisClient->GetTask();
-      if (task == 0 || task->IsTerminating()) {
-         // note: task==0 is case of shutdown of analysis server!
+      if (!task || task->IsTerminating()) {
+         // note: task == nullptr is case of shutdown of analysis server!
          count = -2; // termination mode
          break;
       } else {
