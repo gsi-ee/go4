@@ -208,93 +208,84 @@ Int_t TGo4TaskManager::ServeClient()
 
 Go4CommandMode_t TGo4TaskManager::ClientLogin()
 {
-if(!fxTransport) return kGo4ComModeRefused;
-TString purpose;
-TString account;
-TString passwd;
-char* recvchar=fxTransport->RecvRaw("dummy"); // first receive OK string
-if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
-{
-	//return kGo4ComModeController; // old protocol: no password
-   ///
-   TGo4Log::Debug(" TaskManager::ClientLogin getting login...");
-   recvchar=fxTransport->RecvRaw("dummy"); // get purpose of client (master or slave)
-   if(!recvchar) return kGo4ComModeRefused;
-   purpose=recvchar;
-   //std::cout <<"ClientLogin got purpose "<<purpose.Data() << std::endl;
-   recvchar=fxTransport->RecvRaw("dummy"); // login account
-   if(!recvchar) return kGo4ComModeRefused;
-   account=recvchar;
-   //std::cout <<"ClientLogin got account "<<account.Data() << std::endl;
-   recvchar=fxTransport->RecvRaw("dummy"); // login password
-   if(!recvchar) return kGo4ComModeRefused;
-   passwd=recvchar;
-//   std::cout <<"ClientLogin got passwd "<<passwd.Data() << std::endl;
-//   std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl;
-//   std::cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << std::endl;
-//   std::cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << std::endl;
+   if (!fxTransport)
+      return kGo4ComModeRefused;
+   TString purpose;
+   TString account;
+   TString passwd;
+   char *recvchar = fxTransport->RecvRaw("dummy"); // first receive OK string
+   if (recvchar && !strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
+      // return kGo4ComModeController; // old protocol: no password
+      ///
+      TGo4Log::Debug(" TaskManager::ClientLogin getting login...");
+      recvchar = fxTransport->RecvRaw("dummy"); // get purpose of client (master or slave)
+      if (!recvchar)
+         return kGo4ComModeRefused;
+      purpose = recvchar;
+      // std::cout <<"ClientLogin got purpose "<<purpose.Data() << std::endl;
+      recvchar = fxTransport->RecvRaw("dummy"); // login account
+      if (!recvchar)
+         return kGo4ComModeRefused;
+      account = recvchar;
+      // std::cout <<"ClientLogin got account "<<account.Data() << std::endl;
+      recvchar = fxTransport->RecvRaw("dummy"); // login password
+      if (!recvchar)
+         return kGo4ComModeRefused;
+      passwd = recvchar;
+      //   std::cout <<"ClientLogin got passwd "<<passwd.Data() << std::endl;
+      //   std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<",
+      //   "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl; std::cout <<"controller account is
+      //   "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() <<
+      //   std::endl; std::cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<",
+      //   "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << std::endl;
 
-   // first check if client matches our own purpose:
-   Bool_t matching=kFALSE;
-   if(fxServer->IsMaster())
-      {
-           if(purpose==TGo4TaskHandler::fgcSLAVE) matching=kTRUE;
+      // first check if client matches our own purpose:
+      Bool_t matching = kFALSE;
+      if (fxServer->IsMaster()) {
+         if (purpose == TGo4TaskHandler::fgcSLAVE)
+            matching = kTRUE;
+      } else {
+         if (purpose == TGo4TaskHandler::fgcMASTER)
+            matching = kTRUE;
       }
-   else
-      {
-           if(purpose==TGo4TaskHandler::fgcMASTER) matching=kTRUE;
-      }
-   if(!matching)
-      {
+      if (!matching) {
          TGo4Log::Debug(" TaskManager: Client does not match Server, Login failed!!!");
          return kGo4ComModeRefused;
       }
 
-   // check password and account:
-   if(account==TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()
-      && passwd==TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle())
-      {
+      // check password and account:
+      if (account == TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName() &&
+          passwd == TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle()) {
          TGo4Log::Debug(" TaskManager: Client logged in as observer");
          return kGo4ComModeObserver;
-      }
-   else if(account==TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()
-         && passwd==TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle())
-      {
+      } else if (account == TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName() &&
+                 passwd == TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle()) {
          // avoid multiple controllers at this server:
-         if(fbHasControllerConnection)
-            {
-               TGo4Log::Debug(" TaskManager: Client logged in as 2nd controller, will be observer");
-               return kGo4ComModeObserver;
-            }
-         else
-            {
-               TGo4Log::Debug(" TaskManager: Client logged in as controller");
-               return kGo4ComModeController;
-            }
-      }
-   else if(account==TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()
-         && passwd==TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle())
-      {
+         if (fbHasControllerConnection) {
+            TGo4Log::Debug(" TaskManager: Client logged in as 2nd controller, will be observer");
+            return kGo4ComModeObserver;
+         } else {
+            TGo4Log::Debug(" TaskManager: Client logged in as controller");
+            return kGo4ComModeController;
+         }
+      } else if (account == TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName() &&
+                 passwd == TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle()) {
          // avoid multiple controllers at this server:
-         if(fbHasControllerConnection)
-            {
-               TGo4Log::Warn(" TaskManager: Client logged in as 2nd controller, will be observer");
-               return kGo4ComModeObserver;
-            }
-         else
-            {
-               TGo4Log::Debug(" TaskManager: Client logged in as administrator");
-               return kGo4ComModeAdministrator;
-            }
+         if (fbHasControllerConnection) {
+            TGo4Log::Warn(" TaskManager: Client logged in as 2nd controller, will be observer");
+            return kGo4ComModeObserver;
+         } else {
+            TGo4Log::Debug(" TaskManager: Client logged in as administrator");
+            return kGo4ComModeAdministrator;
+         }
       }
 
-   else
-      {
+      else {
          TGo4Log::Debug(" TaskManager: Client Login failed!!!");
          return kGo4ComModeRefused;
       }
-}
-return kGo4ComModeRefused;
+   }
+   return kGo4ComModeRefused;
 }
 
 Int_t TGo4TaskManager::ConnectClient(const char* client, const char* host, Go4CommandMode_t role)
@@ -323,49 +314,42 @@ Int_t TGo4TaskManager::DisConnectClient(const char* name, Bool_t clientwait)
 
 Int_t TGo4TaskManager::DisConnectClient(TGo4TaskHandler * taskhandler, Bool_t clientwait)
 {
-Int_t rev=0;
-if(taskhandler)
-   {
-      fbClientIsRemoved=kFALSE; // reset the flag for waiting commander thread
-      TString tname=taskhandler->GetName();
-      Bool_t iscontrollertask=(taskhandler->GetRole()>kGo4ComModeObserver);
+   Int_t rev = 0;
+   if (taskhandler) {
+      fbClientIsRemoved = kFALSE; // reset the flag for waiting commander thread
+      TString tname = taskhandler->GetName();
+      Bool_t iscontrollertask = (taskhandler->GetRole() > kGo4ComModeObserver);
       fxServer->SendStopBuffers(tname); // suspend remote threads from socket receive
-      if(clientwait)
-         {
+      if (clientwait) {
          // wait for OK string sent by client over connector negotiation port
-         char* revchar = fxTransport->RecvRaw("dummy"); // wait for client close ok
-         if(!(revchar && !strcmp(revchar,TGo4TaskHandler::Get_fgcOK())))
-            {
-               TGo4Log::Debug(" TaskManager %s; negotiation ERROR after client disconnect!",GetName());
-               rev+=1;
-               //throw TGo4RuntimeException();
-            }
-         } // if(clientwait)
-      if(!taskhandler->DisConnect(clientwait))rev+=1;
-      if (!RemoveTaskHandler(tname.Data()))   rev+=2;
-      if (rev == 0)
-         {
-            // all right, we reset flags
-            fuTaskCount--;            // set number of still connected client tasks
-            if(iscontrollertask) fbHasControllerConnection=kFALSE;
-            fbClientIsRemoved=kTRUE; // this flag tells the main thread we are done
-            TGo4Log::Debug(" TaskManager: client %s has been disconnected.  ", tname.Data());
+         char *revchar = fxTransport->RecvRaw("dummy"); // wait for client close ok
+         if (!(revchar && !strcmp(revchar, TGo4TaskHandler::Get_fgcOK()))) {
+            TGo4Log::Debug(" TaskManager %s; negotiation ERROR after client disconnect!", GetName());
+            rev += 1;
+            // throw TGo4RuntimeException();
          }
-      else
-         {
-            // something went wrong, warn the user
-            TGo4Log::Debug(" TaskManager: client %s disconnect ERROR %d occured !! ", tname.Data(),rev);
-         }
-
-   }
-
-else //// if(taskhandler!=0)
-   {
+      } // if(clientwait)
+      if (!taskhandler->DisConnect(clientwait))
+         rev += 1;
+      if (!RemoveTaskHandler(tname.Data()))
+         rev += 2;
+      if (rev == 0) {
+         // all right, we reset flags
+         fuTaskCount--; // set number of still connected client tasks
+         if (iscontrollertask)
+            fbHasControllerConnection = kFALSE;
+         fbClientIsRemoved = kTRUE; // this flag tells the main thread we are done
+         TGo4Log::Debug(" TaskManager: client %s has been disconnected.  ", tname.Data());
+      } else {
+         // something went wrong, warn the user
+         TGo4Log::Debug(" TaskManager: client %s disconnect ERROR %d occured !! ", tname.Data(), rev);
+      }
+   }  else {
       // no such client
       TGo4Log::Debug(" TaskManager: FAILED to disonnect client -- no such client! ");
-      rev=-1;
+      rev = -1;
    }
-return rev;
+   return rev;
 }
 
 Bool_t TGo4TaskManager::AddClient(const char* client, const char* host, Go4CommandMode_t role)

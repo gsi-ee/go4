@@ -86,13 +86,13 @@ TGo4Task::~TGo4Task()
 
 void TGo4Task::SetMaster(TGo4Master* m)
 {
-   if(m!=0) SetMaster(kTRUE);
+   if(m) SetMaster(kTRUE);
    fxMaster=m;
 }
 
 void TGo4Task::SetSlave(TGo4Slave* s)
 {
-   if(s!=0) SetMaster(kFALSE);
+   if(s) SetMaster(kFALSE);
    fxSlave=s;
 }
 
@@ -299,7 +299,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    TGo4Log::OutputEnable(printout); // override the messaging state
    const char* go4mess = TGo4Log::Message(level, curs);
    TGo4Log::OutputEnable(previousmode); // restore old state of messaging
-   if((level>0) && (go4mess!=0))  {
+   if((level > 0) && go4mess)  {
       // do not send debug-level output to gui, and do not send suppressed messages as empty string!
       TGo4Status* message = new TGo4Status(go4mess);
       SendStatus(message, dest);
@@ -331,7 +331,7 @@ TGo4Command* TGo4Task::NextCommand()
    if(!comq) return nullptr;
 
    TGo4Command *com = nullptr;
-   if(!comq->IsEmpty() || (fxSlave!=0 && !fxSlave->MainIsRunning() ) )
+   if(!comq->IsEmpty() || (fxSlave && !fxSlave->MainIsRunning() ) )
    {
       // put new command out of queue
       // or wait for command if analysis is stopped
@@ -487,7 +487,7 @@ Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
    else {
       // command for remote client, put into actual client queue
       TGo4BufferQueue* queue=GetCommandQueue();
-      if(queue!=0) {
+      if(queue) {
          // we have an active command queue...
          TGo4LockGuard mainlock; // protect the streamer!
          //std::cout << "Mainlock acquired by server task: SubmitCommand"<< std::endl;

@@ -326,7 +326,7 @@ Int_t TGo4ServerTask::TimerConnect()
                   // transport is not open, so do it
 //                  std::cout << "++++++++Timer will open transport"<< std::endl;
                   fbConnectIsOpen=kTRUE; // tell connector thread that we try to open
-                  Int_t result=fxConnectTransport->Open(GetConnectHost(), fuConnectPort, fbKeepServerSocket);
+                  Int_t result = fxConnectTransport->Open(GetConnectHost(), fuConnectPort, fbKeepServerSocket);
                   if(result == 0)
                      {
                         fbConnectIsDone=kTRUE; // tell connector thread we returned from open
@@ -350,7 +350,7 @@ Int_t TGo4ServerTask::TimerConnect()
                   fbKeepServerSocket=kFALSE; // reset keep server socket flag
                   rev+=8;
                }
-         } // if(fxConnectTransport!=0)
+         }
       else
          {
                rev+=64;
@@ -369,7 +369,7 @@ Int_t TGo4ServerTask::TimerConnect()
 
 Int_t TGo4ServerTask::WaitForOpen()
 {
-   Int_t count=0;
+   Int_t count = 0;
    while(!fbConnectIsOpen)
       {
          if(count>TGo4ServerTask::fgiOPENWAITCYCLES)

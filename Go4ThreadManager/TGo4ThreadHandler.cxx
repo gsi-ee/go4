@@ -53,7 +53,7 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
    {
    TGo4LockGuard listguard(fxListMutex);
       fxIterator->Reset();
-      while((th= (TGo4Thread*) fxIterator->Next())!=0)
+      while((th = (TGo4Thread*) fxIterator->Next()) != nullptr)
          {
             if(th->IsInternal())
                // internal mode? then delete thread object
@@ -167,7 +167,7 @@ Int_t TGo4ThreadHandler::CreateAll ()
       fbIsOperating=kTRUE;
       fxManager->UnBlockApp(); // tell blocking timer to enable system
       fxIterator->Reset();
-      while((th= (TGo4Thread*) fxIterator->Next())!=0)
+      while((th = (TGo4Thread*) fxIterator->Next()) != nullptr)
          {
             if(th->Create())
                {
@@ -446,7 +446,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
                      {
                      TGo4LockGuard listguard(fxListMutex);
                         fxIterator->Reset();
-                        while((th= (TGo4Thread*) fxIterator->Next())!=0)
+                        while((th = (TGo4Thread*) fxIterator->Next()) != nullptr)
                            {
                               fprintf(fp,"TGo4Thread %d: \tPID:%d \tSelfID: %d",
                                  i++,th->GetPID(),(int) th->GetSelfID());

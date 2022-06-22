@@ -51,8 +51,8 @@ void conditer(TDirectory *dir, const char* wildcard, TList* found)
 #endif
 #ifdef __GO4ANAMACRO__
    Bool_t reset = kTRUE;
-   TObject* obj = 0;
-   while((obj = go4->NextMatchingObject(wildcard,"Go4",reset))!=0) {
+   TObject* obj = nullptr;
+   while((obj = go4->NextMatchingObject(wildcard,"Go4",reset)) != nullptr) {
       reset = kFALSE;
       if (obj->InheritsFrom("TGo4Condition")) found->Add(obj);
    }
