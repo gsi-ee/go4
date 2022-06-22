@@ -473,7 +473,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
       TFolder* subfold = CreateMembersFolder(0, bclass->GetName(), bclass);
       if(subfold)
          nameslist->AddLast(subfold);
-   } // while((bob=baseiter->Next()) !=0)
+   }
 
    TIter miter(cl->GetListOfDataMembers());
    TObject* nob = nullptr;
@@ -1762,7 +1762,7 @@ void TGo4AnalysisObjectManager::RemoveFromDir(TFolder* fold, TDirectory* dir)
    while((ob = iter()) != nullptr) {
       if(ob->InheritsFrom(TFolder::Class())) {
          TFolder* subfolder =dynamic_cast<TFolder*> (ob);
-         if(subfolder!=0)
+         if(subfolder)
             RemoveFromDir(subfolder,dir); // recursively scan all subfolders
       } else
          dir->RecursiveRemove(ob);
@@ -1806,7 +1806,7 @@ Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder* fold)
    TGo4LockGuard  dirguard(fxDirMutex);
    TIter iter(fold->GetListOfFolders());
    TObject* ob = nullptr;
-   while((ob=iter()) != nullptr)
+   while((ob = iter()) != nullptr)
       if(ob->InheritsFrom(TFolder::Class()))
          ClearFolder(dynamic_cast<TFolder*>(ob));
       else

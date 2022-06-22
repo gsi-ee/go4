@@ -147,7 +147,7 @@ int main(int argc, char **argv)
                  break;
                  //gApplication->Terminate();
               }
-           else if(errmess!=0)
+           else if(errmess != 0)
               {
                  std::cout << "ERROR on event fill."<< std::endl;
                  break;

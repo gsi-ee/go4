@@ -149,10 +149,10 @@ TString com="mkdir "+dirname;
 gSystem->Exec(com);
 gSystem->cd(dirname.Data());
 CurrentDir=gSystem->WorkingDirectory();
-  TObject* myobject=0;
-  TObject* ob=0;
+  TObject* myobject = nullptr;
+  TObject* ob = nullptr;
   TIter iter(fold->GetListOfFolders());
-  while((myobject = iter())!=0)
+  while((myobject = iter()) != nullptr)
     {
       convertobject(myobject);
     }
@@ -177,12 +177,12 @@ if(!dirname.Contains(".root"))
   CurrentDir=gSystem->WorkingDirectory();
 
 }
-TObject* myobject=0;
+TObject* myobject = nullptr;
 source->cd();
 gSystem->cd(StartDir.Data());
 TIter iter(source->GetListOfKeys());
-TKey* mykey=0;
-while((mykey=(TKey*) iter())!=0)
+TKey* mykey = nullptr;
+while((mykey=(TKey*) iter()) != nullptr)
   {
     myobject= mykey->ReadObj();
     if(myobject)

@@ -54,7 +54,7 @@ void TMeshProviderProc::SetRealInput()
       else
          SetInputEvent(myinput);
    }
-   // else if(myinput!=0 && myinput->CheckEventSource("TGo4FileSource"))
+   // else if(myinput && myinput->CheckEventSource("TGo4FileSource"))
    //    {
    //       // this provider reads from file. ok
    //

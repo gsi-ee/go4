@@ -179,7 +179,7 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::GetSubEvent(Short_t procid)
    //            { }
    //      }
    // Int_t i=0;
-   //   while ((sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->At(i++)) ) !=0)
+   //   while ((sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->At(i++)) ) != nullptr)
    for (Int_t i = 0; i < fiMaxSlot; ++i) {
       sub = dynamic_cast<TGo4SimpleSubEvent *>(fxSubEventArray->UncheckedAt(i));
       if (sub->fsProcid == procid) {

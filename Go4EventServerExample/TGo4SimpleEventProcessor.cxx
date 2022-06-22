@@ -55,7 +55,7 @@ void TGo4SimpleEventProcessor::BuildSimpleEvent(TGo4SimpleEvent* target)
                return;
             }
 
-         } // if (outsubix!=0)
+         } // if (outsubix)
 
          // copy subevent data of that procid into target struct
          outsub->Clear();

@@ -151,7 +151,6 @@ Bool_t TGo4LabelPainter::CheckLabel()
       // case of label was streamed from file: not yet in cleanup list!
       fxLabel->SetOwner(this);
       fbIsLabStreamed = kFALSE;
-      // std::cout <<"CheckLabel with fbIsLabStreamed" << std::endl;
       return kTRUE;
    }
 
@@ -159,13 +158,11 @@ Bool_t TGo4LabelPainter::CheckLabel()
       // our label was deleted by user mouse menu (or pad clear!)just before
       TGo4Label::fxLastDeleted = nullptr;
       fxLabel = nullptr; // reset reference, will re-create label on next paint
-      // std::cout <<"CheckLabel with lastdeleted case" << std::endl;
       return kFALSE;
    }
-   // std::cout <<"CheckLabel sees label "<<(long) fxLabel <<" and returns "<< (bool) (fxLabel!=0) << std::endl;
+
    return fxLabel != nullptr;
 }
-
 
 void TGo4LabelPainter::LabelCoords(Double_t &xmin, Double_t &ymin, Double_t &xmax, Double_t &ymax)
 {

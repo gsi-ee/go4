@@ -107,7 +107,7 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
       numval++;
       cursor+=strlen(buffer)+1;
       //std::cout <<"cursor set to:"<<cursor << std::endl;
-   } while( scanresult!=0 && scanresult!=-1);
+   } while( scanresult != 0 && scanresult != -1);
 
    // test here for error in input event
 
