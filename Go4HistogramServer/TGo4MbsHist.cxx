@@ -158,12 +158,12 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const
 //    std::cout <<"ScanGo4Folder with no filter "<< std::endl;
 //
 
-   if(folder==0)
+   if(!folder)
       return;
 
    TIter iter(folder->GetListOfFolders());
-   TObject *entry = 0;
-   while ((entry = iter()) != 0) {
+   TObject *entry = nullptr;
+   while ((entry = iter()) != nullptr) {
       char pathbuffer[TGo4ThreadManager::fguTEXTLENGTH];
       Int_t num = 0;
       if (superfolders)
@@ -217,14 +217,14 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const
          if (ismatching) {
             // std::cout <<"found matching:" << entryname << std::endl;
             TH1 *hist = dynamic_cast<TH1 *>(entry);
-            if (hist == 0) {
+            if (!hist) {
                TGraph *graf = dynamic_cast<TGraph *>(entry);
                if (graf && graf->GetN() > 0) {
                   hist = graf->GetHistogram();
                }
-               if (hist == 0)
+               if (!hist)
                   continue;
-            } // if(hist==0)
+            }
             PrepareHeader(hist, pathbuffer, fxCursor);
             fxCursor++;
             fiHisNum++;

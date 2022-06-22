@@ -310,7 +310,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
 void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
 {
-   if ((path!=0) && (strcmp(path,"Status/Analysis")==0)) {
+   if (path && (strcmp(path,"Status/Analysis") == 0)) {
       TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
       if (cl) *cl = fAnalysisStatus->IsA();
       return fAnalysisStatus;
@@ -539,7 +539,7 @@ void TGo4Sniffer::SetTitle(const char* title)
 {
    // Method called by logger with every string, going to output
 
-   if ((title==0) || (strlen(title)==0)) return;
+   if (!title || (strlen(title) == 0)) return;
 
    const char* prev = GetItemField("/Status/DebugOutput", "value");
    TString res;
@@ -552,7 +552,7 @@ void TGo4Sniffer::SetTitle(const char* title)
    const char *cur = title;
    while (*cur != 0) {
       const char* next = strchr(cur, '\n');
-      if (next==0) {
+      if (!next) {
          fDebugOutput.AddMsg(cur);
          break;
       }

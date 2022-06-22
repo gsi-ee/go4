@@ -51,14 +51,14 @@ void TGo4MsgList::AddMsg(const char* msg)
 {
    // add message to the list
    // if number of stored messages bigger than configured, old messages will be removed
-   // zero (msg==0) messages will not be add to the list
+   // zero (msg == nullptr) messages will not be add to the list
 
    while (fMsgs.GetSize() >= GetLimit()) {
       TObject* last = fMsgs.Last();
       fMsgs.RemoveLast();
       delete last;
    }
-   if (msg==0) return;
+   if (!msg) return;
 
    fMsgs.AddFirst(new TObjString(msg));
    fCounter++;
@@ -67,11 +67,11 @@ void TGo4MsgList::AddMsg(const char* msg)
 TList* TGo4MsgList::Select(Int_t max, Long64_t id)
 {
    TIter iter(&fMsgs);
-   TObject* obj = 0;
+   TObject* obj = nullptr;
    Long64_t curr = fCounter;
    fSelect.Clear();
 
-   if (max<=0) max = fMsgs.GetSize() + 1;
+   if (max <= 0) max = fMsgs.GetSize() + 1;
 
    // add current id as first string in the list
    fStrCounter.SetString(TString::LLtoa(fCounter, 10));

@@ -15,7 +15,7 @@
 
 #include "TMutex.h"
 
-TMutex* TGo4LockGuard::fgxMainMutex = 0;
+TMutex* TGo4LockGuard::fgxMainMutex = nullptr;
 
 Int_t TGo4LockGuard::fgiLockCount = 0;
 
@@ -25,9 +25,9 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t)
    // first call: create main mutex
 	//  std::cout <<"G-----TGo4LockGuard ctor" << std::endl;
 	//
-   if(fgxMainMutex==0)
+   if(!fgxMainMutex)
       fgxMainMutex = new TMutex(kTRUE); // we use recursive mode for cascading lockguards
-   if(mutex==0) {
+   if(!mutex) {
       // use global mutex
       fxMutex = fgxMainMutex;
       fbIsMainMutex = kTRUE;

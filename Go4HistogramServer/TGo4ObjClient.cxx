@@ -77,9 +77,9 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char* base,
                                                Int_t port)
 {
    //
-   TGo4AnalysisObjectNames* nameslist=0;
+   TGo4AnalysisObjectNames* nameslist = nullptr;
    SetParms(base,passwd,host,port);
-   if(ConnectServer()==0)
+   if(ConnectServer() == 0)
    {
       // connection successful, go on
       SendCommand(TGo4HistogramServer::fgcCOMGETLIST); // send nameslist request
@@ -111,7 +111,7 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
 {
    TObject* obj = nullptr;
    SetParms(base,passwd,host,port);
-   if(ConnectServer()==0)
+   if(ConnectServer() == 0)
    {
       // connection successful, go on
       SendCommand(objectname); // command is name of object to get
@@ -129,9 +129,9 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
 
 TObject* TGo4ObjClient::ReceiveObject()
 {
-   TObject* obj=0;
+   TObject* obj = nullptr;
    // check for OK signal (object is existing on server)
-   char* recvchar=fxTransport->RecvRaw("dummy");
+   char* recvchar = fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    {
       TBuffer* buffer=ReceiveBuffer();
@@ -179,7 +179,7 @@ Int_t TGo4ObjClient::ConnectServer()
    // send basename:
    fxTransport->Send(GetBase());
    recvchar = fxTransport->RecvRaw("dummy");
-   if (recvchar == 0)
+   if (!recvchar)
       return 1;
    if (strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
       TGo4Log::Debug(" Wrong basename for object server (host %s ,port %d)", GetHost(), GetPort());
@@ -188,7 +188,7 @@ Int_t TGo4ObjClient::ConnectServer()
    // send password:
    fxTransport->Send(GetPasswd());
    recvchar = fxTransport->RecvRaw("dummy");
-   if (recvchar == 0)
+   if (!recvchar)
       return 1;
    if (strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
       TGo4Log::Debug(" Wrong password for object server (host %s ,port %d)", GetHost(), GetPort());
@@ -219,10 +219,10 @@ TBuffer* TGo4ObjClient::ReceiveBuffer()
          // TSocket error because of window resize, do not abort!
          TGo4Log::Debug(" %s: caught SIGWINCH ", GetName());
          TGo4SocketSignalHandler::SetLastSignal(0); // reset
-         rev = 0;
+         rev = nullptr;
       } else {
          TGo4Log::Debug(" !!!Receive Error in Object Client %s!!!", GetName());
-         rev = 0; // here we might throw some exception later....
+         rev = nullptr; // here we might throw some exception later....
       }
    } // end if(rev>=0)
    return rev;
