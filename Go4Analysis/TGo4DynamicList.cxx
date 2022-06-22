@@ -36,8 +36,7 @@ void TGo4DynamicList::ResetEntries(TFolder* folder)
    if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
-   TObject* obj;
-   while((obj = iter()) != nullptr) {
+   while(auto obj = iter()) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
       if (entry) entry->Reset();
    }
@@ -48,8 +47,7 @@ void TGo4DynamicList::PrintEntries(TFolder* folder)
    if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
-   TObject* obj;
-   while((obj = iter()) != nullptr) {
+   while(auto obj = iter()) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
       if (entry) entry->Print("*");
    }
@@ -60,8 +58,7 @@ void TGo4DynamicList::CleanupPointerInEntries(TFolder* folder, TObject* objtorem
    if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
-   TObject* obj;
-   while((obj = iter()) != nullptr) {
+   while(auto obj = iter()) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
       if (entry) entry->RecursiveRemove(objtoremove);
    }
@@ -74,10 +71,9 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
 
    TGo4DynamicEntry* errorentry = nullptr;
    TIter iter(folder->GetListOfFolders());
-   TObject* obj;
 
    try {
-      while((obj = iter()) != nullptr) {
+      while(auto obj = iter()) {
          TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
          if (!entry) continue;
 
@@ -141,8 +137,7 @@ TDataMember* FindDataMember(TClass* eventclass,
    } else {
       // if not found directly, check for baseclass members:
       TIter baseiter(eventclass->GetListOfBases());
-      TObject* ob = nullptr;
-      while((ob = baseiter()) != nullptr) {
+      while(auto ob = baseiter()) {
          TBaseClass* baseclass = dynamic_cast<TBaseClass*>(ob);
          if(baseclass)
          {
