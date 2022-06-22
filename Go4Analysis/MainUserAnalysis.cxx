@@ -674,8 +674,9 @@ int main(int argc, char **argv)
 
    // add main go4 include path for the case if scripts are called from inside analysis, required for ROOT6
    TString go4inc = TGo4Log::GO4INCPATH();
-   if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");
-   if (go4inc.Length()>0)
+   if (go4inc.Length() == 0)
+      go4inc = TGo4Log::subGO4SYS("include");
+   if (go4inc.Length() > 0)
       gInterpreter->AddIncludePath(go4inc.Data());
 
    const char *extra_incl = gSystem->Getenv("GO4EXTRAINCLUDE");
@@ -683,16 +684,16 @@ int main(int argc, char **argv)
       gInterpreter->AddIncludePath(extra_incl);
 
    const char* analysis_name = GetArgValue(argc, argv, "-server");
-   if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
-   if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
-   if (analysis_name==0) analysis_name = "Go4Analysis";
+   if (!analysis_name) analysis_name = GetArgValue(argc, argv, "-gui");
+   if (!analysis_name) analysis_name = GetArgValue(argc, argv, "-name");
+   if (!analysis_name) analysis_name = "Go4Analysis";
 
    TList* lst0 = GetClassesList();
 
    int argpos = 0;
    bool isanylib = false;
    const char* libname = nullptr;
-   while ((libname = GetArgValue(argc, argv, "-lib", &argpos))!=0) {
+   while ((libname = GetArgValue(argc, argv, "-lib", &argpos)) != nullptr) {
       TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
       isanylib = true;
@@ -726,7 +727,7 @@ int main(int argc, char **argv)
    delete lst1; lst1 = nullptr;
 
    TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
-   if (step==0) {
+   if (!step) {
       std::cerr << "No active step in analysis found" << std::endl;
       return -1;
    }
@@ -842,11 +843,11 @@ int main(int argc, char **argv)
          if (++narg < argc) {
             const char* step_name = argv[narg++];
             int step_number(-1);
-            step = 0;
-            if (sscanf(step_name, "%d", &step_number)==1)
-               if (step_number>=0) step = analysis->GetAnalysisStepNum(step_number);
-            if (step==0) step = analysis->GetAnalysisStep(step_name);
-            if (step==0) showerror("step not found");
+            step = nullptr;
+            if (sscanf(step_name, "%d", &step_number) == 1)
+               if (step_number >= 0) step = analysis->GetAnalysisStepNum(step_number);
+            if (!step) step = analysis->GetAnalysisStep(step_name);
+            if (!step) showerror("step not found");
          } else
             showerror("step name not specified");
       } else
@@ -1063,14 +1064,14 @@ int main(int argc, char **argv)
             showerror("User store name not specified");
       } else
 #ifdef __GO4HDF5__
-        if(strcmp(argv[narg],"-hdf5store")==0) {
-                 if (++narg < argc) {
-                    TGo4HDF5StoreParameter storepar(argv[narg++]);
-                    step->SetEventStore(&storepar);
-                    step->SetStoreEnabled(kTRUE);
-                 } else
-                    showerror("HDF5 store name not specified");
-              } else
+      if(strcmp(argv[narg],"-hdf5store")==0) {
+         if (++narg < argc) {
+            TGo4HDF5StoreParameter storepar(argv[narg++]);
+            step->SetEventStore(&storepar);
+            step->SetStoreEnabled(kTRUE);
+         } else
+           showerror("HDF5 store name not specified");
+      } else
 #endif
       if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0) || (strcmp(argv[narg],"-num")==0)) {
          if (++narg < argc) {
@@ -1299,7 +1300,7 @@ int main(int argc, char **argv)
       if(servermode)  TGo4Log::Info("Main: starting analysis in server mode ...");
       else            TGo4Log::Info("Main: starting analysis in slave mode ...");
 
-      if (canrun<0) autorun = false;
+      if (canrun < 0) autorun = false;
 
       TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
 

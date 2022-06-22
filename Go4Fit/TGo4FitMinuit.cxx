@@ -93,7 +93,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract* Fitter) {
    if (fxCommands.GetLast()<0) fMinuit.Command("MIGRAD 500 1");
    else
      for(Int_t n=0;n<=fxCommands.GetLast();n++) {
-       TString cmd ( ((TObjString*) fxCommands[n])->GetString() );
+       TString cmd = ((TObjString*) fxCommands[n])->GetString();
        if (cmd[0] == 'r') {
            if (cmd.Index("result",6,0,TString::kIgnoreCase) == 0) {
               cmd.Remove(0,6);
@@ -106,7 +106,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract* Fitter) {
               Bool_t getcontr = (cmd[3]=='1');
               cmd.Remove(0,4);
               while ((cmd.Length()>0) && (cmd[0]==' ')) cmd.Remove(0,1);
-              if (cmd.Length()==0) cmd="Result";
+              if (cmd.Length()==0) cmd = "Result";
 
               TGo4FitMinuitResult *res = new TGo4FitMinuitResult(cmd,"TMinuit result object");
               fxResults.Add(res);

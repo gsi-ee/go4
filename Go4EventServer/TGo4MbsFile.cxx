@@ -302,10 +302,10 @@ Int_t TGo4MbsFile::NextFile()
       TString nextline;
       char nextfile[TGo4EventSource::fguTXTLEN];
       char nexttag[TGo4EventSource::fguTXTLEN];
-      const char* command=0;
-      const char* rem1=0;
-      const char* rem2=0;
-      Int_t convs=0;
+      const char* command = nullptr;
+      const char* rem1 = nullptr;
+      const char* rem2 = nullptr;
+      Int_t convs = 0;
       //static int cnt=0;
       do {
          //std::cout <<"read line "<<cnt++<<" : "<<nextline << std::endl;
@@ -337,14 +337,14 @@ Int_t TGo4MbsFile::NextFile()
             //TGo4Log::Info("TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
             gROOT->ProcessLineSync(command);
          }
-      } while((nextline.Length()==0) || rem1!=0 || rem2!=0 || command!=0); // skip any comments and empty lines, and continue after macro execution
+      } while((nextline.Length()==0) || rem1 || rem2 || command); // skip any comments and empty lines, and continue after macro execution
       convs = sscanf(nextline.Data(),"%s %s %lu %lu %lu",nextfile,nexttag,
                      &fuStartEvent, &fuStopEvent, &fuEventInterval);
       if(convs<2) {
          // line contained not all parameters, reset remaining
-         fuStartEvent=0;
-         fuStopEvent=0;
-         fuEventInterval=0;
+         fuStartEvent = 0;
+         fuStopEvent = 0;
+         fuEventInterval = 0;
          strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN - 1);
       }
       //     std::cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << std::endl;

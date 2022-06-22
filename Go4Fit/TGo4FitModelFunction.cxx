@@ -21,14 +21,14 @@
 
 #include "TGo4FitParameter.h"
 
-TGo4FitModelFunction::TGo4FitModelFunction() : TGo4FitModel(), fxLibraryName(), fxFunctionName(), fxUserFunction(0), fxLibrary(0)
+TGo4FitModelFunction::TGo4FitModelFunction() : TGo4FitModel(), fxLibraryName(), fxFunctionName(), fxUserFunction(nullptr), fxLibrary(nullptr)
 {
 }
 
 TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude) :
    TGo4FitModel(iName,"Model, using user function",AddAmplitude),
    fxLibraryName(), fxFunctionName(), fxPosIndex(), fxWidthIndex(),
-   fxUserFunction(iUserFunction), fxLibrary(0)
+   fxUserFunction(iUserFunction), fxLibrary(nullptr)
 {
    for (Int_t n=0;n<iNPars;n++)
        NewParameter(GetFuncParName(n),"user parameter",0.);
@@ -37,7 +37,7 @@ TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, TUserFunction iUse
 TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, const char* iLibraryName, const char* iFunctionName, Int_t iNPars, Bool_t AddAmplitude) :
    TGo4FitModel(iName,"Model, using user function",AddAmplitude),
    fxLibraryName(iLibraryName), fxFunctionName(iFunctionName), fxPosIndex(), fxWidthIndex(),
-   fxUserFunction(0), fxLibrary(0)
+   fxUserFunction(nullptr), fxLibrary(nullptr)
 {
    for (Int_t n=0;n<iNPars;n++)
        NewParameter(GetFuncParName(n),"user parameter",0.);
@@ -61,7 +61,7 @@ void TGo4FitModelFunction::SetUserFunction(const char* iLibraryName, const char*
    CloseLibrary();
    fxLibraryName = iLibraryName;
    fxFunctionName = iFunctionName;
-   fxUserFunction = 0;
+   fxUserFunction = nullptr;
 }
 
 Int_t TGo4FitModelFunction::GetNumberOfFuncPar()
@@ -73,7 +73,7 @@ Int_t TGo4FitModelFunction::GetNumberOfFuncPar()
 
 TGo4FitParameter* TGo4FitModelFunction::GetFuncPar(Int_t n)
 {
-   if ((n<0) || (n>=GetNumberOfFuncPar())) return 0;
+   if ((n<0) || (n>=GetNumberOfFuncPar())) return nullptr;
    if ((GetAmplIndex()>=0) && (n>=GetAmplIndex())) n++;
    return GetPar(n);
 }
@@ -169,22 +169,22 @@ Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
 {
    if ((fxLibraryName.Length()==0) || (fxFunctionName.Length()==0)) {
      if (fxUserFunction==0) std::cout << "TGo4FitModelFunction: user function not set" << std::endl;
-     return (fxUserFunction!=0);
+     return fxUserFunction != nullptr;
    }
 
    if (CloseFirst) CloseLibrary();
-   if ((fxLibrary!=0) && (fxUserFunction!=0)) return kTRUE;
+   if (fxLibrary && fxUserFunction) return kTRUE;
 
    fxLibrary = dlopen(fxLibraryName, RTLD_NOW | RTLD_GLOBAL);
-   if (fxLibrary==0) {
+   if (!fxLibrary) {
       std::cout << " TGo4FitModelFunction: failed to open " << fxLibraryName << ",  " << dlerror() << std::endl;
       return kFALSE;
    }
    fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName);
-   if(fxUserFunction==0) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"__FPdT0");
-   if(fxUserFunction==0) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"__");
-   if(fxUserFunction==0) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"_");
-   if(fxUserFunction==0) {
+   if(!fxUserFunction) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"__FPdT0");
+   if(!fxUserFunction) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"__");
+   if(!fxUserFunction) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"_");
+   if(!fxUserFunction) {
        std::cout << " TGo4FitModelFunction: failed to find " << fxFunctionName << ",  " << dlerror() << std::endl;
        CloseLibrary();
        return kFALSE;
@@ -194,9 +194,9 @@ Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
 
 void TGo4FitModelFunction::CloseLibrary()
 {
-   if (fxLibrary!=0) {
+   if (fxLibrary) {
       dlclose(fxLibrary);
-      fxLibrary = 0;
+      fxLibrary = nullptr;
    }
 }
 
@@ -207,14 +207,14 @@ Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
    // here must be win32 LoadLibrary() and GetProcAddress() calls
    // when required, must be implemented
 
-   fxLibrary = 0;
+   fxLibrary = nullptr;
    return kFALSE;
 }
 
 void TGo4FitModelFunction::CloseLibrary()
 {
    // here must be FreeLibrary() calls
-   fxLibrary = 0;
+   fxLibrary = nullptr;
 }
 
 #endif
