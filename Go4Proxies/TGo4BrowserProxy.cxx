@@ -473,7 +473,7 @@ void TGo4BrowserProxy::AddToClipboard(const char* itemname)
    for (Int_t n=0;n<=fxClipboard->GetLast();n++) {
       TNamed* nm = (TNamed*) fxClipboard->At(n);
       TGo4Slot* slot = ItemSlot(nm->GetName());
-      if (slot==0) continue;
+      if (!slot) continue;
       if (itemslot->IsParent(slot)) return;
    }
 
@@ -561,7 +561,7 @@ void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
    if (arr==0) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
-   if (slot==0) return;
+   if (!slot) return;
 
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
@@ -576,7 +576,7 @@ void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
    if (arr==0) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
-   if (slot==0) return;
+   if (!slot) return;
 
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
@@ -590,7 +590,7 @@ void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
    if (arr==0) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
-   if (slot==0) return;
+   if (!slot) return;
 
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
@@ -604,7 +604,7 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
    if (arr==0) return;
    arr->Clear();
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
-   if (slot==0) return;
+   if (!slot) return;
 
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
@@ -732,7 +732,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    } else {
        histo->SetDirectory(oldhisdir);
        TGo4Slot* brslot = BrowserSlot(hname);
-       if (brslot!=0) brslot->ForwardEvent(brslot, TGo4Slot::evObjUpdated);
+       if (brslot) brslot->ForwardEvent(brslot, TGo4Slot::evObjUpdated);
    }
    dummydir.Clear();
    savdir->cd();
@@ -914,7 +914,7 @@ void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
 void TGo4BrowserProxy::RedrawItem(const char* itemname)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
-   if (slot!=0) {
+   if (slot) {
       slot->ForwardEvent(slot, TGo4Slot::evObjUpdated);
       SetItemTimeDate(slot);
    }
@@ -1029,7 +1029,7 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treena
    TString slotname;
    BrowserSlotName(itemname, slotname);
    TGo4Slot* slot = fxOM->GetSlot(slotname.Data());
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
    printf("DefineLeafName %s %s  kind :%d\n", itemname, treename, ItemKind(slot));
 
@@ -1057,7 +1057,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
    if (picslot) {
       TGo4Slot* searchslot = picslot->GetParent();
 
-      while ((searchslot!=0) && (searchslot!=fxBrowserSlot)) {
+      while (searchslot && (searchslot != fxBrowserSlot)) {
          TString searchname;
          searchslot->ProduceFullName(searchname, fxBrowserSlot);
          if (*objname!='/') searchname+="/";
@@ -1131,7 +1131,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
       }
       if (searchslot == fxBrowserSlot) break;
       searchslot = searchslot->GetParent();
-   } while (searchslot!=0);
+   } while (searchslot);
 
    return kFALSE;
 }
@@ -1139,13 +1139,13 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
 Bool_t TGo4BrowserProxy::DefineFileObject(const char* itemname, TString& fitemname, const char** filepath)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
    if (slot->GetAssignedObject()==0) return kFALSE;
 
    while (slot!=fxBrowserSlot) {
       TClass* cl = ItemClass(slot);
-      if ((cl!=0) && (cl->InheritsFrom(TFile::Class()))) break;
+      if (cl && cl->InheritsFrom(TFile::Class())) break;
       slot = slot->GetParent();
    }
    if (slot==fxBrowserSlot) return kFALSE;
@@ -1165,7 +1165,7 @@ Bool_t TGo4BrowserProxy::DefineFileObject(const char* itemname, TString& fitemna
 Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char* itemname, const char* fileitemname, const char* filepath)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
    TObject* obj = slot->GetAssignedObject();
    if (!obj) return kFALSE;
@@ -1187,7 +1187,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char* itemname, const char* fi
 Bool_t TGo4BrowserProxy::SaveItemToFile(const char* itemname, const char* filename, const char* subfolder)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
    TObject* obj = slot->GetAssignedObject();
    if (!obj) return kFALSE;
@@ -1253,7 +1253,7 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
    if (((filter==GO4EX_ROOT) || (filter==GO4EX_XML)) && (items->GetLast()==0)) {
       TObjString* str = dynamic_cast<TObjString*> (items->At(0));
 
-      TGo4Slot* itemslot = (str==0) ? 0 : ItemSlot(str->GetName());
+      TGo4Slot* itemslot = !str ? nullptr : ItemSlot(str->GetName());
 
       TString fname = filename;
 
@@ -1263,7 +1263,7 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
          if(!fname.Contains(".root")) fname.Append(".root");
       }
 
-      if ((itemslot!=0) && (itemslot->NumChilds()>0)) {
+      if (itemslot && (itemslot->NumChilds() > 0)) {
          SaveBrowserToFile(fname.Data(), fetchitems, str->GetName(), description);
          return;
       }
@@ -1320,7 +1320,7 @@ Bool_t TGo4BrowserProxy::IsItemRemote(const char* name)
 
 Bool_t TGo4BrowserProxy::IsItemRemote(TGo4Slot* slot)
 {
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
    Int_t remote;
    if (!slot->GetIntPar("GUI::Remote", remote)) return kFALSE;
    return remote!=0;
@@ -1371,7 +1371,7 @@ void TGo4BrowserProxy::SetLinkedName(TGo4Slot* slot, const char* itemname)
 
 const char* TGo4BrowserProxy::GetLinkedName(TGo4Slot* slot)
 {
-   return (slot==0) ? nullptr : slot->GetPar("::LinkedItem");
+   return !slot ? nullptr : slot->GetPar("::LinkedItem");
 }
 
 Int_t TGo4BrowserProxy::ItemKind(const char* name)
@@ -1381,7 +1381,7 @@ Int_t TGo4BrowserProxy::ItemKind(const char* name)
 
 Int_t TGo4BrowserProxy::ItemKind(TGo4Slot* slot)
 {
-   if (slot==0) return TGo4Access::kndNone;
+   if (!slot) return TGo4Access::kndNone;
    Int_t kind;
    if (!slot->GetIntPar("GUI::Kind", kind)) return TGo4Access::kndNone;
    return kind;
@@ -1389,7 +1389,7 @@ Int_t TGo4BrowserProxy::ItemKind(TGo4Slot* slot)
 
 void TGo4BrowserProxy::SetItemKind(TGo4Slot* slot, Int_t kind, const char* classname, const char* info, Int_t sizeinfo)
 {
-   if (slot==0) return;
+   if (!slot) return;
    if (kind>=0) slot->SetIntPar("GUI::Kind", kind);
            else slot->RemovePar("GUI::Kind");
    slot->SetPar("GUI::Class", classname);
@@ -1404,7 +1404,7 @@ const char* TGo4BrowserProxy::ItemInfo(TGo4Slot* slot)
 
 Int_t TGo4BrowserProxy::ItemSizeInfo(TGo4Slot* slot)
 {
-   if (slot==0) return -1;
+   if (!slot) return -1;
    Int_t sizeinfo;
    if (!slot->GetIntPar("GUI::SizeInfo", sizeinfo)) return -1;
    return sizeinfo;
@@ -1412,13 +1412,13 @@ Int_t TGo4BrowserProxy::ItemSizeInfo(TGo4Slot* slot)
 
 void TGo4BrowserProxy::SetCalcSize(TGo4Slot* slot, Int_t size)
 {
-   if (slot!=0)
+   if (slot)
      slot->SetIntPar("GUI::CalcSize", size);
 }
 
 Int_t TGo4BrowserProxy::GetCalcSize(TGo4Slot* slot)
 {
-   if (slot==0) return 0;
+   if (!slot) return 0;
    Int_t size;
    if (!slot->GetIntPar("GUI::CalcSize", size)) return 0;
    return size;
@@ -1451,7 +1451,7 @@ Int_t TGo4BrowserProxy::ItemCanDo(const char* name)
 
 Int_t TGo4BrowserProxy::ItemCanDo(TGo4Slot* slot)
 {
-   if (slot==0) return 0;
+   if (!slot) return 0;
 
    Int_t cando;
    if (!slot->GetIntPar("GUI::CanDo", cando)) return 0;
@@ -1470,7 +1470,7 @@ Bool_t TGo4BrowserProxy::IsItemMonitored(TGo4Slot* slot)
 
 void TGo4BrowserProxy::SetItemMonitored(TGo4Slot* slot, Bool_t on)
 {
-   if (slot==0) return;
+   if (!slot) return;
 
    if (ItemKind(slot)==TGo4Access::kndFolder) {
       TGo4Iter iter(slot, kTRUE);
@@ -1556,7 +1556,7 @@ void TGo4BrowserProxy::CreateMemorySubfolder(const char* itemname, const char* n
     if (!itemslot->IsParent(memslot) && (memslot!=itemslot)) return;
 
     TGo4Slot* slot = DataSlot(itemname);
-    if (slot==0) return;
+    if (!slot) return;
 
     TGo4Slot* newslot = slot->GetSlot(newfoldername, kTRUE);
 
@@ -1575,7 +1575,7 @@ void TGo4BrowserProxy::RenameMemoryItem(const char* itemname, const char* newnam
    if (!itemslot->IsParent(memslot)) return;
 
    TGo4Slot* slot = DataSlot(itemname);
-   if (slot==0) return;
+   if (!slot) return;
 
    // check if item of that name is already existing
    if (slot->GetParent()->FindChild(newname)!=0) return;
@@ -1598,7 +1598,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
    if (!itemslot->IsParent(memslot)) return;
 
    TGo4Slot* slot = DataSlot(itemname);
-   if (slot==0) return;
+   if (!slot) return;
 
    TObject* ob = slot->GetAssignedObject();
    if (!ob) return;
@@ -1659,7 +1659,7 @@ TString TGo4BrowserProxy::SaveToMemory(const char* pathname, TObject* obj, Bool_
        itemname+= "/";
        itemname+=obj->GetName();
        TGo4Slot* slot = DataSlot(itemname);
-       if (slot!=0) {
+       if (slot) {
           slot->AssignObject(obj, ownership);
           return itemname;
        }
@@ -1675,7 +1675,7 @@ TString TGo4BrowserProxy::SaveToMemory(const char* pathname, TObject* obj, Bool_
 
 void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot* slot)
 {
-   if (slot==0) return;
+   if (!slot) return;
 
    TObject* obj = slot->GetAssignedObject();
    if (obj==0) return;
@@ -1693,7 +1693,7 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot* slot)
 
 void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char* picitemname)
 {
-   if (pic==0) return;
+   if (!pic) return;
    if (pic->IsDivided())
       for(Int_t posy=0; posy<pic->GetDivY(); posy++)
          for(Int_t posx=0; posx<pic->GetDivX(); posx++)
@@ -1711,8 +1711,8 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char* picitem
 void TGo4BrowserProxy::Scan_gROOT()
 {
    TIter iter(gROOT->GetList());
-   TObject* obj = 0;
-   while ((obj=iter())!=0) {
+   TObject* obj = nullptr;
+   while ((obj = iter()) != nullptr) {
       SaveToMemory("gROOT", obj, kTRUE);
    }
 
@@ -1721,7 +1721,7 @@ void TGo4BrowserProxy::Scan_gROOT()
 
 void TGo4BrowserProxy::SetCanDelete(TGo4Slot* slot, Bool_t on)
 {
-   if (slot!=0){
+   if (slot) {
      if(on) slot->SetPar("GUI::CanDelete","1");
        else slot->RemovePar("GUI::CanDelete");
    }
@@ -1768,9 +1768,8 @@ Int_t TGo4BrowserProxy::UpdateVisibleAnalysisObjects(bool checkmonitor)
       TGo4LinkProxy* link = dynamic_cast<TGo4LinkProxy*> (subslot->GetProxy());
       if (link!=0) {
          TGo4Slot* srcslot = link->GetLink();
-         if ((srcslot!=0) && srcslot->IsParent(brslot) &&
-             (UniqueItems.FindObject(srcslot)==0))
-           UniqueItems.Add(srcslot);
+         if (srcslot && srcslot->IsParent(brslot) && !UniqueItems.FindObject(srcslot))
+            UniqueItems.Add(srcslot);
       }
    }
 
@@ -1843,7 +1842,7 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
 
 void TGo4BrowserProxy::SetProtectionBits(TGo4Slot* slot, Int_t delprot, Int_t clearprot)
 {
-   if (slot==0) return;
+   if (!slot) return;
    if (delprot>=0)
       slot->SetIntPar("GUI::DeleteProtect", delprot);
    else
@@ -1857,7 +1856,7 @@ void TGo4BrowserProxy::SetProtectionBits(TGo4Slot* slot, Int_t delprot, Int_t cl
 void TGo4BrowserProxy::GetProtectionBits(TGo4Slot* slot, Int_t& delprot, Int_t& clearprot)
 {
    delprot = -1; clearprot = -1;
-   if (slot==0) return;
+   if (!slot) return;
    if (!slot->GetIntPar("GUI::DeleteProtect", delprot)) delprot = -1;
    if (!slot->GetIntPar("GUI::ResetProtect", clearprot)) clearprot = -1;
 }
@@ -1869,10 +1868,10 @@ void TGo4BrowserProxy::SyncBrowserSlots()
    TGo4Slot* targetslot = BrowserTopSlot();
 
    TGo4Slot* source = fxOM->GetSlot(fxDataPath.Data());
-   if (source==0) return;
+   if (!source) return;
 
    TGo4Slot* curfold = targetslot;
-   if (curfold==0) return;
+   if (!curfold) return;
 
    TGo4Slot* curslot = curfold->GetChild(0);
 
@@ -1880,7 +1879,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
    const char* EventsFolder = "EventObjects/Events/";
 
-   while (curfold!=0) {
+   while (curfold) {
 
       // shift to next item in iterator
       Bool_t res = iter.next();
@@ -1889,8 +1888,8 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       Int_t levelchange = iter.levelchange();
 //      std::cout << "    " << iter.getname() << " levelchange = " << levelchange << std::endl;
 
-      while (levelchange++<0) {
-          while (curslot!=0) {
+      while (levelchange++ < 0) {
+          while (curslot) {
              TGo4Slot* next = curslot->GetNext();
              delete curslot;
              curslot = next;
@@ -1960,8 +1959,8 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       }
    }
 
-   if ((curslot!=0) && curslot->IsParent(targetslot))
-      while (curslot!=0) {
+   if (curslot && curslot->IsParent(targetslot))
+      while (curslot) {
          TGo4Slot* next = curslot->GetNext();
          delete curslot;
          curslot = next;
@@ -1972,7 +1971,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
     // inform other world that content was updated
     targetslot->ForwardEvent(targetslot, TGo4Slot::evObjUpdated);
 
-    if (fxSyncTimer!=0) fxSyncTimer->Reset();
+    if (fxSyncTimer) fxSyncTimer->Reset();
 
     fbBlockSync = kFALSE;
 }

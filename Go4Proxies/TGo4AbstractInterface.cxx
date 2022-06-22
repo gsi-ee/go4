@@ -198,14 +198,14 @@ void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 void TGo4AbstractInterface::RequestAnalysisConfig()
 {
    TGo4ServerProxy* anal = Server();
-   if (anal!=0)
+   if (anal)
      anal->RequestAnalysisSettings();
 }
 
 void TGo4AbstractInterface::MonitorItem(const char* itemname, Bool_t on)
 {
    TGo4Slot* itemslot = Browser()->BrowserSlot(itemname);
-   if (itemslot!=0)
+   if (itemslot)
      Browser()->SetItemMonitored(itemslot, on);
 }
 
