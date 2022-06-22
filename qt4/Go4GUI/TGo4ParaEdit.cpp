@@ -44,7 +44,7 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
    QObject::connect(MemberTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ContextMenu(const QPoint &)));
    QObject::connect(SavePar, SIGNAL(clicked()), this, SLOT(saveFile()));
 
-   fItems = 0;
+   fItems = nullptr;
    PleaseUpdateLabel->setVisible(false);
    parentWidget()->adjustSize();
 
@@ -59,9 +59,9 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
 
 TGo4ParaEdit::~TGo4ParaEdit()
 {
-   if (fItems!=0) {
+   if (fItems) {
       delete fItems;
-      fItems = 0;
+      fItems = nullptr;
    }
 }
 
@@ -69,13 +69,13 @@ bool TGo4ParaEdit::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
    if (kind==TGo4Access::kndGo4Param) return true;
 
-   return (cl==0) ? false : cl->InheritsFrom(TGo4Parameter::Class());
+   return !cl ? false : cl->InheritsFrom(TGo4Parameter::Class());
 }
 
 void TGo4ParaEdit::DropItem(const char* itemname, TClass* cl, int kind)
 {
    if ((kind==TGo4Access::kndGo4Param) ||
-       ((cl!=0) && cl->InheritsFrom(TGo4Parameter::Class())))
+       (cl && cl->InheritsFrom(TGo4Parameter::Class())))
          WorkWithParameter(itemname, false);
 }
 
@@ -155,7 +155,7 @@ void TGo4ParaEdit::ResetWidget()
    ApplyButton->setEnabled(false);
 
    delete fItems;
-   fItems = 0;
+   fItems = nullptr;
 
    ShowVisibleItems();
 
@@ -164,14 +164,14 @@ void TGo4ParaEdit::ResetWidget()
 
 void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 {
-   RefreshButton->setEnabled(par!=0);
-   ApplyButton->setEnabled(par!=0);
+   RefreshButton->setEnabled(par!=nullptr);
+   ApplyButton->setEnabled(par!=nullptr);
 
    delete fItems;
    fItems = new TObjArray(100);
    fItems->SetOwner(kTRUE);
 
-   if (par!=0) {
+   if (par) {
       par->GetMemberValues(fItems);
       ParamClassLbl->setText(QString(" - ")+par->ClassName());
    }
@@ -184,14 +184,14 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 
 void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 {
-   RefreshButton->setEnabled(status!=0);
+   RefreshButton->setEnabled(status != nullptr);
 
    TGo4BrowserProxy* br = Browser();
-   TGo4ServerProxy* serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : 0;
+   TGo4ServerProxy* serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : nullptr;
    ApplyButton->setEnabled(serv && serv->CanSubmitObjects());
 
    delete fItems;
-   fItems = 0;
+   fItems = nullptr;
 
    if (status!=0) {
       fItems = status->GetMemberValues(kTRUE);
@@ -205,7 +205,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 
 void TGo4ParaEdit::ShowVisibleItems()
 {
-   if (fItems==0) {
+   if (!fItems) {
       MemberTable->setRowCount(0);
       return;
    }
@@ -267,7 +267,7 @@ void TGo4ParaEdit::ShowVisibleItems()
 
 void TGo4ParaEdit::clearTextFields()
 {
-   if (fItems==0) return;
+   if (!fItems) return;
 
    for(int n=0;n<=fItems->GetLast();n++) {
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(n);
@@ -291,7 +291,7 @@ void TGo4ParaEdit::ChangedTable( int row, int col )
 
 void TGo4ParaEdit::TableDoubleClick( int row, int col )
 {
-   if(col!=fiColName) return;
+   if(col != fiColName) return;
 
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
 
@@ -309,7 +309,7 @@ void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
 {
    QTableWidgetItem* item = MemberTable->itemAt (pnt);
 
-   if ((item==0) || (MemberTable->column(item) != fiColName)) return;
+   if (!item || (MemberTable->column(item) != fiColName)) return;
 
    int row = MemberTable->row(item);
 
@@ -343,7 +343,7 @@ void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
 
         contextMenu.addAction( "Edit...",  this, SLOT(EditFitter()));
 
-        TGo4Fitter* fitter = 0;
+        TGo4Fitter* fitter = nullptr;
         ServiceCall("GetFitterFromFitPanel", &fitter);
         if ((fitter!=0) && (info->GetObject()!=fitter))
            contextMenu.addAction( "Get from FitPanel",  this, SLOT(GetFitterFromEditor()));
@@ -394,8 +394,8 @@ void TGo4ParaEdit::EditFitter()
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
    TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (info->GetObject());
 
-   if(fitter==0) {
-      fitter= new TGo4Fitter("Fitter","Fitter from parameter editor");
+   if(!fitter) {
+      fitter = new TGo4Fitter("Fitter","Fitter from parameter editor");
       info->SetObject(fitter, kTRUE);
    }
 
@@ -408,12 +408,12 @@ void TGo4ParaEdit::EditFitter()
 void TGo4ParaEdit::GetFitterFromEditor()
 {
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
-   if ((info==0) || !info->IsFitterItem()) return;
+   if (!info || !info->IsFitterItem()) return;
 
-   TGo4Fitter* fitter = 0;
+   TGo4Fitter* fitter = nullptr;
    ServiceCall("CloneFitterFromFitPanel", &fitter);
 
-   if (fitter!=0) info->SetObject(fitter, kTRUE);
+   if (fitter) info->SetObject(fitter, kTRUE);
 }
 
 void TGo4ParaEdit::saveFile()
