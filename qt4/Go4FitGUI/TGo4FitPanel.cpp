@@ -890,8 +890,8 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
         if (fxDrawNewPanel==0) return;
      } else fxDrawNewPanel->ClearCanvas();
 
-     if (selecteddata==0) NeedPads = fitter->GetNumData();
-                     else NeedPads = 1;
+     if (!selecteddata) NeedPads = fitter->GetNumData();
+                   else NeedPads = 1;
 
      if (NeedPads>1) {
         int DivX = (int)TMath::Sqrt(NeedPads*1.);
@@ -906,7 +906,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 
        if (selecteddata && (data!=selecteddata)) continue;
 
-       const char* drawopt = 0;
+       const char* drawopt = nullptr;
        if (data->GetDataType()==TGo4FitData::dtGraph)
          drawopt = "L";
 
@@ -3396,7 +3396,7 @@ void TGo4FitPanel::Wiz_BackgroundChk_toggled( bool chk)
   if (fbFillingWidget) return;
 
   TGo4FitModel* model = Wiz_SelectedModel();
-  if (model!=0) {
+  if (model) {
     if (chk) model->SetBackgroundGroupIndex();
         else model->SetGroupIndex(-1);
   }
@@ -5099,8 +5099,8 @@ void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
 
    QFitModelWidget* mw = dynamic_cast<QFitModelWidget*> (w);
    TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (obj);
-   if ((mw!=0) && (model!=0)) {
-       mw->AmplChk->setChecked(model->GetAmplPar()!=0);
+   if (mw && model) {
+       mw->AmplChk->setChecked(model->GetAmplPar() != nullptr);
        mw->AmplChk->setEnabled(model->CanAmplTouch());
        mw->BuffersChk->setChecked(model->GetUseBuffers());
        mw->GroupSpin->setValue(model->GetGroupIndex());
@@ -5145,10 +5145,10 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
   w->SetWidgetItemText(true);
 
   TGo4FitNamed* go4n = dynamic_cast<TGo4FitNamed*> (obj);
-  if((go4n!=0) && go4n->GetOwner())
-    w->FullNameLbl->setText(QString("Full name: ")+go4n->GetFullName());
+  if(go4n && go4n->GetOwner())
+     w->FullNameLbl->setText(QString("Full name: ")+go4n->GetFullName());
   else
-    w->FullNameLbl->setText("");
+     w->FullNameLbl->setText("");
   w->FullNameLbl->adjustSize();
 }
 
