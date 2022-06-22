@@ -193,7 +193,7 @@ public:
     virtual void ClearObjectReferenceInSlots();
     virtual void RemoveDrawObjects();
     virtual void CloseDrawPanel();
-    virtual void UpdateStatusBar(const char* info);
+    virtual void UpdateStatusBar(const char* info = nullptr);
     virtual void UpdateItemMenu();
     virtual void UpdatePFAmplLbl();
     virtual void UpdatePFRelNoiseLbl();
