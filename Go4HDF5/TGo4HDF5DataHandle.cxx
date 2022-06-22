@@ -25,47 +25,45 @@
 
 TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
 
- TGo4HDF5DataHandle::TGo4HDF5DataHandle(const char* name, size_t datasize) :  fxTypeName(name),
- fxType(0),fxDataSet(), fxDataSpace(0), fxFileSpace(0), fiEntries(0),
- fxData(0), fiParentOffset(0),fiDataSize(datasize), fiReadOffset(0),
- fxEvent(0), fxParentSource(0), fbDataSetExists(false), fbDataSetActive(false)
+TGo4HDF5DataHandle::TGo4HDF5DataHandle(const char *name, size_t datasize)
+   : fxTypeName(name), fxType(nullptr), fxDataSet(), fxDataSpace(nullptr), fxFileSpace(0), fiEntries(0),
+     fxData(nullptr), fiParentOffset(0), fiDataSize(datasize), fiReadOffset(0), fxEvent(nullptr),
+     fxParentSource(nullptr), fbDataSetExists(false), fbDataSetActive(false)
 
- {
+{
    fxType = new H5::CompType(datasize);
    go4hdfdbg("TGo4HDF5DataHandle  DDD created %s for size %ld \n", fxTypeName.Data(), datasize);
+}
 
- };
-
- TGo4HDF5DataHandle::~TGo4HDF5DataHandle()
- {
+TGo4HDF5DataHandle::~TGo4HDF5DataHandle()
+{
    go4hdfdbg("TGo4HDF5DataHandle  is deleted %s \n", fxTypeName.Data());
 
-   for(unsigned int i=0; i<fxSubcomponents.size();++i) // raterecord index
+   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
    {
-     TGo4HDF5DataHandle* entry= fxSubcomponents[i];
-     delete entry;
+      TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+      delete entry;
    }
    fxSubcomponents.clear();
    fxDataSet.close();
    delete fxDataSpace;
    delete fxType;
- }
+}
 
+void TGo4HDF5DataHandle::InsertTypeMember(const H5std_string &name, size_t offset, const H5::DataType &new_member)
+{
+   fxType->insertMember(name, offset, new_member);
+   if (fiReadOffset == 0)
+      fiReadOffset = offset; // keep location of first real data member
+   fbDataSetActive = kTRUE;  // only work with handle if it has at least one member assigned to type
+}
 
- void TGo4HDF5DataHandle::InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member)
- {
-   fxType->insertMember( name, offset, new_member);
-   if (fiReadOffset == 0) fiReadOffset = offset; // keep location of first real data member
-   fbDataSetActive=kTRUE; // only work with handle if it has at least one member assigned to type
- }
-
- TGo4HDF5DataHandle* TGo4HDF5DataHandle::AddSubMember(const char* name, size_t datasize, const char* collectiontype)
- {
-   TGo4HDF5DataHandle* sub= fxFactory.CreateDataHandle(name,datasize,collectiontype);
+TGo4HDF5DataHandle *TGo4HDF5DataHandle::AddSubMember(const char *name, size_t datasize, const char *collectiontype)
+{
+   TGo4HDF5DataHandle *sub = fxFactory.CreateDataHandle(name, datasize, collectiontype);
    fxSubcomponents.push_back(sub);
    return sub;
- }
-
+}
 
  TGo4HDF5DataHandle* TGo4HDF5DataHandle::FindSubMember(const char* name)
  {
@@ -89,70 +87,61 @@ TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
 
  void TGo4HDF5DataHandle::SetAllSubMembersActive(Bool_t on)
  {
-   for(unsigned int i=0; i< fxSubcomponents.size(); ++i)
-      {
-        TGo4HDF5DataHandle* cursor = fxSubcomponents[i];
-        cursor->SetActive(on);
-        cursor->SetAllSubMembersActive(on);
-      }
- }
-
-
- void TGo4HDF5DataHandle::SetObjectPointer(void* memptr)
-{
-  fxData = (char*) (memptr) + fiParentOffset;
-  go4hdfdbg("TGo4HDF5DataHandle SetObjectPointer for %s with memptr 0x%lx and parentoffset 0x%lx has fxData:0x%lx\n",
-      fxTypeName.Data(), (unsigned long) memptr, (unsigned long) fiParentOffset, (unsigned long) fxData);
-
-  // now recursively do it for our components:
-  for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
-  {
-    TGo4HDF5DataHandle* entry = fxSubcomponents[i];
-    entry->SetObjectPointer(fxData);
-  }
-
-}
-
-
- void TGo4HDF5DataHandle::SetTopEvent(TGo4EventElement* eve)
- {
-   fxEvent=eve;
-   go4hdfdbg(
-            "TTTTTTTT TGo4HDF5DataHandle %s  - SetTopEvent sets pointer to %ld \n",
-            fxTypeName.Data(), (unsigned long) eve);
-   // now recursively do it for our components:
-    for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
-    {
-      TGo4HDF5DataHandle* entry = fxSubcomponents[i];
-      entry->SetTopEvent(fxEvent);
+    for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) {
+       TGo4HDF5DataHandle *cursor = fxSubcomponents[i];
+       cursor->SetActive(on);
+       cursor->SetAllSubMembersActive(on);
     }
  }
 
- void TGo4HDF5DataHandle::SetTopEventClass(const char* txt)
-  {
-
-    fxEventClass=txt;
-    //go4hdfdbg("TGo4HDF5DataHandle::SetTopEventClass TTTTTTTT to %s \n",fxEventClass.Data());
-    // now recursively do it for our components:
-     for (unsigned int i = 0; i < fxSubcomponents.size(); ++i)    // raterecord index
-     {
-       TGo4HDF5DataHandle* entry = fxSubcomponents[i];
-       entry->SetTopEventClass(txt);
-     }
-  }
-
-
- void TGo4HDF5DataHandle::BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent)
+ void TGo4HDF5DataHandle::SetObjectPointer(void *memptr)
  {
-   // just recursively do it for our components:
-   for(unsigned int i=0; i<fxSubcomponents.size();++i) // raterecord index
-     {
-       TGo4HDF5DataHandle* entry= fxSubcomponents[i];
-       entry->BuildReadDataset(file, parent);
-     }
+    fxData = (char *)(memptr) + fiParentOffset;
+    go4hdfdbg("TGo4HDF5DataHandle SetObjectPointer for %s with memptr 0x%lx and parentoffset 0x%lx has fxData:0x%lx\n",
+              fxTypeName.Data(), (unsigned long)memptr, (unsigned long)fiParentOffset, (unsigned long)fxData);
+
+    // now recursively do it for our components:
+    for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
+    {
+       TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+       entry->SetObjectPointer(fxData);
+    }
  }
 
+void TGo4HDF5DataHandle::SetTopEvent(TGo4EventElement *eve)
+{
+   fxEvent = eve;
+   go4hdfdbg("TTTTTTTT TGo4HDF5DataHandle %s  - SetTopEvent sets pointer to %ld \n", fxTypeName.Data(),
+             (unsigned long)eve);
+   // now recursively do it for our components:
+   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
+   {
+      TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+      entry->SetTopEvent(fxEvent);
+   }
+}
 
+void TGo4HDF5DataHandle::SetTopEventClass(const char *txt)
+{
+   fxEventClass = txt;
+   // go4hdfdbg("TGo4HDF5DataHandle::SetTopEventClass TTTTTTTT to %s \n",fxEventClass.Data());
+   //  now recursively do it for our components:
+   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
+   {
+      TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+      entry->SetTopEventClass(txt);
+   }
+}
+
+void TGo4HDF5DataHandle::BuildReadDataset(H5::H5File *file, TGo4HDF5Source *parent)
+{
+   // just recursively do it for our components:
+   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
+   {
+      TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+      entry->BuildReadDataset(file, parent);
+   }
+}
 
  void TGo4HDF5DataHandle::BuildWriteDataset(H5::H5File* file)
  {
@@ -164,10 +153,6 @@ TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
          }
        // actual dataset is build in subclass
  }
-
-
-
-
 
 
  void TGo4HDF5DataHandle::Read(hsize_t sequencenum, H5::H5File* file)
@@ -201,11 +186,6 @@ TGo4HDF5DataHandleFactory TGo4HDF5DataHandle::fxFactory;
            }
 
 
-
-
-
-
-
  }
 
 void TGo4HDF5DataHandle::Write(hsize_t sequencenum, H5::H5File* file)
@@ -237,10 +217,7 @@ void TGo4HDF5DataHandle::Write(hsize_t sequencenum, H5::H5File* file)
      entry->Write(sequencenum, file);
    }
 
-
-
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////77
 
@@ -265,12 +242,10 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
    if(fxReadBuffer && (size == fiDataSize)) return;
    delete [] fxReadBuffer;
    fxReadBuffer = new Char_t[size];
-   fiDataSize=size;
+   fiDataSize = size;
    go4hdfdbg("TGo4HDF5DataHandle: AllocReadBuffer has created read buffer 0x%lx for  size %ld \n",
           (unsigned long) fxReadBuffer, fiDataSize);
  }
-
-
 
  void TGo4HDF5BasicDataHandle::BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent)
  {
@@ -288,9 +263,6 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
      hsize_t onerow[1] ={1};
      hsize_t offset[1]= {0};
      fxDataSpace->selectHyperslab( H5S_SELECT_SET, onerow, offset );
-
-
-
 
      // get existing dataset from file and compare data with type of the target event
      // we only allow datasets that match the memory structure concerning member names etc,
@@ -431,145 +403,108 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
 
  }
 
-
- void TGo4HDF5BasicDataHandle::BuildWriteDataset(H5::H5File* file)
-{
-
-  if (!fbDataSetExists  && fbDataSetActive)
-  {
-    go4hdfdbg("TGo4HDF5BasicDataHandle: BuildWriteDataset  for event set %s\n", fxTypeName.Data());
-    Int_t rank = 1;    // entries of the ntuple/tree
-    hsize_t dims[1] = { 1 };    // dataset dimensions at creation
-    hsize_t maxdims[1] = { H5S_UNLIMITED };
-    fxDataSpace = new H5::DataSpace(rank, dims, maxdims);
-
-    H5::DSetCreatPropList cparms;
-    hsize_t chunk_dims[1] = { 1 };
-    cparms.setChunk(rank, chunk_dims);
-    cparms.setFillValue(*fxType, fxData);
-
-    fxDataSet = file->createDataSet(fxTypeName.Data(), *fxType, *fxDataSpace, cparms);
-    fbDataSetExists = kTRUE;
-  }
-  TGo4HDF5DataHandle::BuildWriteDataset(file);
-
-}
-
-
-
-
-
-
- void TGo4HDF5BasicDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
+ void TGo4HDF5BasicDataHandle::BuildWriteDataset(H5::H5File *file)
  {
-   TGo4HDF5DataHandle::Read(sequencenum, file); // prepare dataspace and treat subcomponents
-   if(!fbDataSetActive) return;
 
-     // we must not use actual eventclass directly,
-     // because hdf5 will destroy memory of not registered data members like pointer to eventsource and class info!
-     void* data= (void*)(fxReadBuffer);
+    if (!fbDataSetExists && fbDataSetActive) {
+       go4hdfdbg("TGo4HDF5BasicDataHandle: BuildWriteDataset  for event set %s\n", fxTypeName.Data());
+       Int_t rank = 1;        // entries of the ntuple/tree
+       hsize_t dims[1] = {1}; // dataset dimensions at creation
+       hsize_t maxdims[1] = {H5S_UNLIMITED};
+       fxDataSpace = new H5::DataSpace(rank, dims, maxdims);
 
-             // printf("TGo4HDF5Source: BuildEvent before read on data pointer 0x%lx \n",data);
+       H5::DSetCreatPropList cparms;
+       hsize_t chunk_dims[1] = {1};
+       cparms.setChunk(rank, chunk_dims);
+       cparms.setFillValue(*fxType, fxData);
 
-     fxDataSet.read( data, *fxType, *fxDataSpace, fxFileSpace );
-
-
-              // here copy data from our hdf5 bounce buffer to actual event object:
-              Char_t* target = (Char_t*) (fxData) + fiReadOffset;
-              Char_t* source = (Char_t*) (fxReadBuffer) + fiReadOffset;
-              size_t copylen = fiDataSize - fiReadOffset;
-              memcpy (target, source, copylen);
-
-     #ifdef GO4HDF5_DEBUG
-              printf("Copy %ld bytes from %lx to %lx, fiReadOffset=%ld, fiDataSize=%ld \n",
-              copylen, (long) source, (long)target, fiReadOffset, fiDataSize);
-     #endif
-
+       fxDataSet = file->createDataSet(fxTypeName.Data(), *fxType, *fxDataSpace, cparms);
+       fbDataSetExists = kTRUE;
+    }
+    TGo4HDF5DataHandle::BuildWriteDataset(file);
  }
 
-void TGo4HDF5BasicDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
-{
-   TGo4HDF5DataHandle::Write(sequencenum, file); // treat subcomponents here, extend dataset
+ void TGo4HDF5BasicDataHandle::Read(hsize_t sequencenum, H5::H5File *file)
+ {
+    TGo4HDF5DataHandle::Read(sequencenum, file); // prepare dataspace and treat subcomponents
+    if (!fbDataSetActive)
+       return;
 
-   if(!fbDataSetActive) return;
-   // idea: the go4 event is always at same location in memory, so we use the original data space as defined in BuildDataSet
-   // the data space in file for each event is of course increasing, so we need to extend the dataset and select
-   // a hyperslab to the write destination in the file.
-   go4hdfdbg("TGo4HDF5BasicDataHandle::Write %s plain\n", fxTypeName.Data());
-   fxDataSet.write(fxData, *fxType, *fxDataSpace, fxFileSpace);
+    // we must not use actual eventclass directly,
+    // because hdf5 will destroy memory of not registered data members like pointer to eventsource and class info!
+    void *data = (void *)(fxReadBuffer);
 
-}
+    // printf("TGo4HDF5Source: BuildEvent before read on data pointer 0x%lx \n",data);
 
+    fxDataSet.read(data, *fxType, *fxDataSpace, fxFileSpace);
 
+    // here copy data from our hdf5 bounce buffer to actual event object:
+    Char_t *target = (Char_t *)(fxData) + fiReadOffset;
+    Char_t *source = (Char_t *)(fxReadBuffer) + fiReadOffset;
+    size_t copylen = fiDataSize - fiReadOffset;
+    memcpy(target, source, copylen);
 
+#ifdef GO4HDF5_DEBUG
+    printf("Copy %ld bytes from %lx to %lx, fiReadOffset=%ld, fiDataSize=%ld \n", copylen, (long)source, (long)target,
+           fiReadOffset, fiDataSize);
+#endif
+ }
 
+ void TGo4HDF5BasicDataHandle::Write(hsize_t sequencenum, H5::H5File *file)
+ {
+    TGo4HDF5DataHandle::Write(sequencenum, file); // treat subcomponents here, extend dataset
 
+    if (!fbDataSetActive)
+       return;
+    // idea: the go4 event is always at same location in memory, so we use the original data space as defined in
+    // BuildDataSet the data space in file for each event is of course increasing, so we need to extend the dataset and
+    // select a hyperslab to the write destination in the file.
+    go4hdfdbg("TGo4HDF5BasicDataHandle::Write %s plain\n", fxTypeName.Data());
+    fxDataSet.write(fxData, *fxType, *fxDataSpace, fxFileSpace);
+ }
 
 ////////////////////////////////////////////////
 
+TGo4HDF5CompositeDataHandle::TGo4HDF5CompositeDataHandle(const char *name, size_t datasize)
+   : TGo4HDF5BasicDataHandle(name, datasize)
 
-TGo4HDF5CompositeDataHandle::TGo4HDF5CompositeDataHandle(const char* name, size_t datasize) :
-    TGo4HDF5BasicDataHandle(name, datasize)
-
- {
-  go4hdfdbg("TGo4HDF5CompositeDataHandle ctor use go4 composite event component\n");
- };
-
+{
+   go4hdfdbg("TGo4HDF5CompositeDataHandle ctor use go4 composite event component\n");
+};
 
 TGo4HDF5CompositeDataHandle::~TGo4HDF5CompositeDataHandle()
- {
+{
    go4hdfdbg("TGo4HDF5CompositeDataHandle  is deleted %s \n", fxTypeName.Data());
- }
+}
 
-
-
-
- void TGo4HDF5CompositeDataHandle::BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent)
- {
+void TGo4HDF5CompositeDataHandle::BuildReadDataset(H5::H5File *file, TGo4HDF5Source *parent)
+{
    TGo4HDF5BasicDataHandle::BuildReadDataset(file, parent);
    // NOTE: currently we can not reconstruct the setup of the composite event from the information in hdf5 file
    // we just rely that the user code has set up the input event accordingly and check if the types are consistent
    // with information from hdf5 input
    // later TODO?: evaluate substructure of composite event and dynamically create components of known class
    // <- interpreter business. For the moment, do not follow this approach.
-
- }
-
-
- void TGo4HDF5CompositeDataHandle::BuildWriteDataset(H5::H5File* file)
- {
-      // same as plain set here. do we need different treatment?
-
-     TGo4HDF5BasicDataHandle::BuildWriteDataset(file);
-
- }
-
-
-
-
-
-
- void TGo4HDF5CompositeDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
- {
-   TGo4HDF5BasicDataHandle::Read(sequencenum, file);
-
-
-
- }
-
-void TGo4HDF5CompositeDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
-{
-  TGo4HDF5BasicDataHandle::Write(sequencenum, file);
-
-
-
 }
 
+void TGo4HDF5CompositeDataHandle::BuildWriteDataset(H5::H5File *file)
+{
+   // same as plain set here. do we need different treatment?
+
+   TGo4HDF5BasicDataHandle::BuildWriteDataset(file);
+}
+
+void TGo4HDF5CompositeDataHandle::Read(hsize_t sequencenum, H5::H5File *file)
+{
+   TGo4HDF5BasicDataHandle::Read(sequencenum, file);
+ }
+
+ void TGo4HDF5CompositeDataHandle::Write(hsize_t sequencenum, H5::H5File *file)
+ {
+    TGo4HDF5BasicDataHandle::Write(sequencenum, file);
+ }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 TGo4HDF5VectorDataHandle::TGo4HDF5VectorDataHandle(const char* name, size_t datasize) :
     TGo4HDF5BasicDataHandle(name, datasize), fxCollection(0), fiElementSize(0)
@@ -590,17 +525,11 @@ TGo4HDF5VectorDataHandle::TGo4HDF5VectorDataHandle(const char* name, size_t data
  }
 
 
-
-
-
-
 TGo4HDF5VectorDataHandle::~TGo4HDF5VectorDataHandle()
- {
+{
    go4hdfdbg("TGo4HDF5VectorDataHandle  is deleted %s \n", fxTypeName.Data());
-   delete fxCollection;
- }
-
-
+    delete fxCollection;
+}
 
 void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 {
@@ -659,12 +588,10 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 
 }
 
-
- void TGo4HDF5VectorDataHandle::BuildReadDataset(H5::H5File* file, TGo4HDF5Source* parent)
- {
+void TGo4HDF5VectorDataHandle::BuildReadDataset(H5::H5File* file, TGo4HDF5Source* parent)
+{
    TGo4HDF5BasicDataHandle::BuildReadDataset(file, parent);
-
- }
+}
 
 
  void TGo4HDF5VectorDataHandle::BuildWriteDataset(H5::H5File* file)
@@ -688,17 +615,10 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
    }
    TGo4HDF5DataHandle::BuildWriteDataset(file);
 
+}
 
-
- }
-
-
-
-
-
-
- void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
- {
+void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
+{
    TGo4HDF5DataHandle::Read(sequencenum, file); // prepare dataspaces and handle subcompoments
    if(!fbDataSetActive) return;
    go4hdfdbg("TGo4HDF5VectorDataHandle::Read %s collection \n", fxTypeName.Data());
@@ -802,10 +722,7 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
           }
 
 ////////////// end alternative approach with insert.
-
- }
-
-
+}
 
 
 void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
@@ -830,12 +747,6 @@ void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 
 }
 
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////7
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -843,31 +754,21 @@ void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 TGo4HDF5SubVectorDataHandle::TGo4HDF5SubVectorDataHandle(const char* name, size_t datasize) :
     TGo4HDF5VectorDataHandle(name, datasize)
 
- {
-  go4hdfdbg("TGo4HDF5SubVectorDataHandle ctor \n");
-
-
- }
-
-
-
-
+{
+   go4hdfdbg("TGo4HDF5SubVectorDataHandle ctor \n");
+}
 
 
 TGo4HDF5SubVectorDataHandle::~TGo4HDF5SubVectorDataHandle()
- {
+{
    go4hdfdbg("TGo4HDF5SubVectorDataHandle  is deleted %s \n", fxTypeName.Data());
- }
-
-
+}
 
 void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
 {
 
   TGo4HDF5VectorDataHandle::SetObjectPointer(memptr);
-
-
-    // still need to update recursively all vectors in this container
+  // still need to update recursively all vectors in this container
 
   TDataType datatype(fxInnerClassName.Data());
 
@@ -919,7 +820,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
       subhandle->SetActive(true);
     }
 
-    void* super=Data(); // everything is relative to immediate mother element
+    void* super = Data(); // everything is relative to immediate mother element
     // pointer to the subvector is content of cursor:
 
 //    char** psubvector = (char**) cursor;
@@ -941,9 +842,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
 
   } // for(unsigned int ix=0; ix< fxVarHandle.fxArray.len; ++ix)
 
-
 }
-
 
  void TGo4HDF5SubVectorDataHandle::BuildReadDataset(H5::H5File* file, TGo4HDF5Source* parent)
  {
@@ -961,14 +860,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
 
       go4hdfdbg("TGo4HDF5SubVectorDataHandle: BuildWriteDataset  NOP for collection set %s \n",fxTypeName.Data());
       SetActive(false); // mark to skip writing the vector of vector container itself.
-
-
  }
-
-
-
-
-
 
  void TGo4HDF5SubVectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
  {
@@ -982,45 +874,23 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
    // the actual data is read into our subcomponents (i.e. regular TGo4HDF5VectorDataHandle objects)
 
    go4hdfdbg("TGo4HDF5SubVectorDataHandle::Read %s collection \n", fxTypeName.Data());
-
-
-
-
- }
-
-
-
+}
 
 void TGo4HDF5SubVectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 {
   // need to dynamically setup new write datsets for variable subcomponents like vectors of vectors
   //TGo4HDF5DataHandle::BuildWriteDataset(file);
   TGo4HDF5DataHandle::Write(sequencenum, file);
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ////////////////////////////////////////////////////////
 
-
 TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char* name, size_t datasize, const char* type)
 {
-  TGo4HDF5DataHandle* rev = 0;
+  TGo4HDF5DataHandle* rev = nullptr;
 
-  if (strstr(type, "vector<vector") != 0)
+  if (strstr(type, "vector<vector"))
   {
     // add collectionclass to our datahandle name:
     TString theName(name);
@@ -1062,7 +932,7 @@ TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char* name
     }
     rev = vrev;
   }
-  else if (strstr(type, "vector") != 0)
+  else if (strstr(type, "vector"))
   {
     // add collectionclass to our datahandle name:
     TString theName(name);
@@ -1074,7 +944,7 @@ TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char* name
     vrev->SetElementSize(datasize);
     rev = vrev;
   }
-  else if (strstr(type, "Go4Comp") != 0)
+  else if (strstr(type, "Go4Comp"))
   {
     rev = new TGo4HDF5CompositeDataHandle(name, datasize);
     rev->SetActive(true);
