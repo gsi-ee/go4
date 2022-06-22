@@ -398,21 +398,18 @@ Bool_t TGo4TaskManager::AddClient(const char* client, const char* host, Go4Comma
 
 Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler* han)
 {
-   Bool_t rev=kFALSE;
+   Bool_t rev = kFALSE;
    {
-   TGo4LockGuard listguard(fxListMutex);
-      if(fxTaskList->FindObject(han)==0)
-         // is taskhandler already in list?
-            {
-               //no, add the new taskhandler
-               fxTaskList->AddLast(han);
-               rev=kTRUE;
-            }
-         else
-            {
-               // yes, do nothing
-               rev=kFALSE;
-            }
+      TGo4LockGuard listguard(fxListMutex);
+      // is taskhandler already in list?
+      if (!fxTaskList->FindObject(han)) {
+         // no, add the new taskhandler
+         fxTaskList->AddLast(han);
+         rev = kTRUE;
+      } else {
+         // yes, do nothing
+         rev = kFALSE;
+      }
    } //  TGo4LockGuard
    return rev;
 }
@@ -426,7 +423,7 @@ TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char* name)
 
    // error, taskhandler of this name was already there
    delete han;
-   return 0;
+   return nullptr;
 }
 
 Bool_t TGo4TaskManager::RemoveTaskHandler(const char* name)
@@ -485,7 +482,6 @@ TGo4TaskHandler* TGo4TaskManager::NextTaskHandler(Bool_t reset)
    TGo4TaskHandler* th=dynamic_cast<TGo4TaskHandler*>(fxTaskIter->Next());
    return th;
 }
-
 
 Int_t TGo4TaskManager::WaitForClientRemoved()
 {

@@ -52,23 +52,23 @@ void TGo4LabelPainter::InitAttributes()
 TGo4LabelPainter::~TGo4LabelPainter()
 {
   //std::cout <<"TGo4LabelPainter dtor of "<< (long)this <<" will delete label"<< fxLabel << std::endl;
-   if (fxLabel!=0) {
+   if (fxLabel) {
       delete fxLabel;
-      fxLabel = 0;
+      fxLabel = nullptr;
    }
 }
 
 void TGo4LabelPainter::PaintLabel(Option_t* opt)
 {
    if(!gPad) return;
-    Double_t xrange=(gPad->GetUxmax()-gPad->GetUxmin());
-   Double_t yrange=(gPad->GetUymax()-gPad->GetUymin());
+   Double_t xrange = (gPad->GetUxmax()-gPad->GetUxmin());
+   Double_t yrange = (gPad->GetUymax()-gPad->GetUymin());
    if(!CheckLabel()) {
       // label was deleted by us or by root:
       if(fdX0==0)
-        fdX0=xrange/2; // default: place at x center
+         fdX0=xrange/2; // default: place at x center
       if(fdY0==0)
-        fdY0=yrange/2; // default: place at y center
+         fdY0=yrange/2; // default: place at y center
       // JAM: these initial coordinates can be problematic if assigned histogram is not yet drawn completely...
       fxLabel=CreateCurrentLabel(fdX0,fdY0);
       fxLabel->AppendPad(opt); // only append to pad if not already there
@@ -126,15 +126,15 @@ void TGo4LabelPainter::RePaintLabel(Option_t *opt)
 
 void TGo4LabelPainter::DisplayToFront(Option_t* opt)
 {
-if(fxLabel)
-   fxLabel->Pop();
+   if(fxLabel)
+      fxLabel->Pop();
 }
 
 TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
 {
-   if(!gPad) return 0;
+   if(!gPad) return nullptr;
    // buffer external variables, since LabelCoords will change them
-   Double_t x0=x, y0=y, xmax=0, ymax=0;
+   Double_t x0 = x, y0 = y, xmax = 0, ymax = 0;
    LabelCoords(x0,y0,xmax,ymax);
    TGo4Label* label = new TGo4Label(x0,y0,xmax,ymax);
    //printf("TGo4LabelPainter::CreateCurrentLabel has new label=%d \n",(long) label); std::cout << std::endl;
@@ -147,7 +147,7 @@ TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
 
 Bool_t TGo4LabelPainter::CheckLabel()
 {
-   if (fbIsLabStreamed && fxLabel != 0) {
+   if (fbIsLabStreamed && fxLabel) {
       // case of label was streamed from file: not yet in cleanup list!
       fxLabel->SetOwner(this);
       fbIsLabStreamed = kFALSE;
@@ -157,13 +157,13 @@ Bool_t TGo4LabelPainter::CheckLabel()
 
    if (TGo4Label::fxLastDeleted == fxLabel) {
       // our label was deleted by user mouse menu (or pad clear!)just before
-      TGo4Label::fxLastDeleted = 0;
-      fxLabel = 0; // reset reference, will re-create label on next paint
+      TGo4Label::fxLastDeleted = nullptr;
+      fxLabel = nullptr; // reset reference, will re-create label on next paint
       // std::cout <<"CheckLabel with lastdeleted case" << std::endl;
       return kFALSE;
    }
    // std::cout <<"CheckLabel sees label "<<(long) fxLabel <<" and returns "<< (bool) (fxLabel!=0) << std::endl;
-   return fxLabel != 0;
+   return fxLabel != nullptr;
 }
 
 
@@ -205,11 +205,11 @@ Double_t TGo4LabelPainter::GetLabelYup()
 
 ///////////// treat painting of the text label: ///////////
 
-const void *TGo4Label::fxLastDeleted = 0;
+const void *TGo4Label::fxLastDeleted = nullptr;
 
 void TGo4Label::Paint(Option_t *opt)
 {
-   if (gPad == 0)
+   if (!gPad)
       return;
    if (fxOwner) {
       TPaveText::Paint(opt);
@@ -224,10 +224,9 @@ void TGo4Label::Paint(Option_t *opt)
 ///////////// use this to pop the label to front whenever touched
 void TGo4Label::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-if(!gPad) return;
-TPaveText::ExecuteEvent(event,px,py);
-if(event==kButton1Up)
-   {
+   if(!gPad) return;
+   TPaveText::ExecuteEvent(event,px,py);
+   if(event==kButton1Up)  {
       TGo4LabelPainter* painter=dynamic_cast<TGo4LabelPainter*>(fxOwner);
       if(painter)
          {

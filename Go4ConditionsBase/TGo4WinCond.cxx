@@ -350,13 +350,11 @@ Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
   return kTRUE;
 }
 
-
-
 void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
 {
    // delete old painter, replace by the new one
    // overwritten method in subclass may check if painter is correct type
-   if(painter==0) return;
+   if(!painter) return;
    if(painter->InheritsFrom(TGo4WinCondPainter::Class()))
    {
       if(fxPainter) delete fxPainter;

@@ -428,7 +428,7 @@ Int_t TGo4AnalysisStepManager::GetNumberOfAnalysisSteps()
 TGo4AnalysisStep* TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t number)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t)",__LINE__, __FILE__));
-   if ((number<0) || (number>fxStepList->GetLast())) return 0;
+   if ((number<0) || (number>fxStepList->GetLast())) return nullptr;
    return dynamic_cast<TGo4AnalysisStep*>(fxStepList->At(number));
 }
 
@@ -437,7 +437,7 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::ProcessAnalysisSteps()",__LINE__, __FILE__));
    //
-   fxCurrentStep = 0;
+   fxCurrentStep = nullptr;
    fiCurrentStepIndex = 0;
    Bool_t isfirststep = kTRUE;
    // first evaluate actual beginning index for "keep input event" mode:
@@ -453,7 +453,7 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
    SetOutputEvent(0); // make sure that first step wont take output of last one
    for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++) {
       fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
-      if(fxCurrentStep==0) break;
+      if(!fxCurrentStep) break;
       if(IsStepChecking() && isfirststep ) {
          // check first step source:
          isfirststep = kFALSE;

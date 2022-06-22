@@ -581,8 +581,6 @@ Int_t TGo4Analysis::Process()
    return rev;
 }
 
-
-
 Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t process_event_interval, Bool_t iswebserver)
 {
    GO4TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
@@ -1759,7 +1757,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
    TString foldername, histoname;
    if (!EvaluateFolderpath(fullname, histoname, foldername)) {
       TGo4Log::Error("Histogram name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
 //   const char* separ = strrchr(fullname, '/');
 //   if (separ) {

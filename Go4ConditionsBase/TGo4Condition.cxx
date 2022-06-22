@@ -117,17 +117,16 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
 TGo4Condition::~TGo4Condition()
 {
    GO4TRACE((15,"TGo4Condition::~TGo4Condition()",__LINE__, __FILE__));
-   //std::cout <<"TGo4Condition "<<(long) this <<" dtor " << std::endl;
    //UnDraw("reset");
    if(fxPainter) {
       delete fxPainter;
-      fxPainter = 0;
+      fxPainter = nullptr;
    }
 
    if (fxUrlOptionArray) {
       fxUrlOptionArray->Delete();
       delete fxUrlOptionArray;
-      fxUrlOptionArray = 0;
+      fxUrlOptionArray = nullptr;
    }
 }
 
@@ -186,9 +185,9 @@ GO4TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
 // ---------------------------------------------------------
 void TGo4Condition::Invert(Bool_t on)
 {
-GO4TRACE((12,"TGo4Condition::Invert",__LINE__, __FILE__));
-fbTrue  = on ^ true;
-fbFalse = on ^ false;
+   GO4TRACE((12,"TGo4Condition::Invert",__LINE__, __FILE__));
+   fbTrue  = on ^ true;
+   fbFalse = on ^ false;
 }
 
 // ---------------------------------------------------------
@@ -337,7 +336,7 @@ void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
   if(fxUrlOptionArray) {
     fxUrlOptionArray->Delete();
     delete fxUrlOptionArray;
-    fxUrlOptionArray=0; // bad implementation of Tokenize, many memory leak dangers!
+    fxUrlOptionArray = nullptr; // bad implementation of Tokenize, many memory leak dangers!
   }
   TString options = rest_url_opt;
   fxUrlOptionArray = options.Tokenize("&");
@@ -346,8 +345,8 @@ void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
 Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
 {
    TObjArrayIter iter(fxUrlOptionArray);
-   TObject *cursor = 0;
-   while ((cursor = iter.Next()) != 0) {
+   TObject *cursor = nullptr;
+   while ((cursor = iter.Next()) != nullptr) {
       TObjString *curopt = dynamic_cast<TObjString *>(cursor);
       if (curopt) {
          TString theOption = curopt->GetString();
@@ -362,9 +361,9 @@ Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
 TString TGo4Condition::GetUrlOptionAsString(const char* key, TString def_value)
 {
    TObjArrayIter iter(fxUrlOptionArray);
-   TObject *cursor = 0;
+   TObject *cursor = nullptr;
    TObjArray *valuearray;
-   while ((cursor = iter.Next()) != 0) {
+   while ((cursor = iter.Next()) != nullptr) {
       TObjString *curopt = dynamic_cast<TObjString *>(cursor);
       if (curopt) {
          TString theOption = curopt->GetString();
@@ -552,8 +551,8 @@ void TGo4Condition::SetFlags(Bool_t enabled, Bool_t lastresult, Bool_t markreset
 
 void TGo4Condition::Disable(Bool_t result)
 {
-  fbEnabled=kFALSE;
-  fbResult=result;
+   fbEnabled = kFALSE;
+   fbResult = result;
 }
 
 void TGo4Condition::Enable()
@@ -594,10 +593,10 @@ void TGo4Condition::Paint(Option_t* opt)
 
    if (!IsPainted())
       return;
-   if (fxPainter == 0)
+   if (!fxPainter)
       fxPainter = CreatePainter();
    // condition subclass may not provide a real painter, then we skip painting:
-   if (fxPainter != 0) {
+   if (fxPainter) {
       fxPainter->SetCondition(this); // JAM2016
       fxPainter->PaintCondition(opt);
       fxPainter->PaintLabel(opt);
@@ -626,9 +625,9 @@ void TGo4Condition::UnDraw(Option_t* opt)
    SetPainted(kFALSE);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
    //std::cout<<"TGo4Condition::UnDraw of instance:"<<(long) this  << std::endl;
-   if(fxPainter==0) fxPainter=CreatePainter();
+   if(!fxPainter) fxPainter = CreatePainter();
    // condition subclass may not provide a real painter, then we skip unpainting:
-   if(fxPainter!=0) {
+   if(fxPainter) {
       fxPainter->UnPaintCondition(opt);
       //if(strcmp(opt,"keeplabel"))
       fxPainter->UnPaintLabel();
@@ -637,12 +636,12 @@ void TGo4Condition::UnDraw(Option_t* opt)
 
 void TGo4Condition::Pop()
 {
-   if(fxPainter!=0) fxPainter->DisplayToFront();
+   if(fxPainter) fxPainter->DisplayToFront();
 }
 
 TGo4ConditionPainter* TGo4Condition::CreatePainter()
 {
-   return 0;
+   return nullptr;
 }
 
 void TGo4Condition::SaveLabelStyle()
