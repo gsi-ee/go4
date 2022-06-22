@@ -75,11 +75,11 @@ class TGo4BrowserItem : public TFolder {
 
       void SetMonitorFlag(Bool_t on);
 
-      TGo4BrowserItem*  fParent; //!
-      TIterator* fIter;  //!
+      TGo4BrowserItem*  fParent{nullptr}; //!
+      TIterator* fIter{nullptr};  //!
       TString fItemClass; //!
       TString fIconName; //!
-      Bool_t fIsFolder;  //!
+      Bool_t fIsFolder{kFALSE};  //!
 
       TGo4BrowserProxy     *fBrowser{nullptr}; //!
       TGo4RootBrowserProxy *fRootBrowser{nullptr}; //!

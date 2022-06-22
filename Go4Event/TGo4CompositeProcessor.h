@@ -21,7 +21,6 @@
 class TGo4MbsEvent;
 class TGo4MbsSubEvent;
 class TGo4CompositeEvent;
-class TIterator;
 
 class TGo4CompositeProcessor : public TGo4EventProcessor {
    public:

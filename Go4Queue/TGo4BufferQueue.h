@@ -17,7 +17,6 @@
 #include "TGo4Queue.h"
 
 class TMutex;
-class TIterator;
 class TList;
 
 /**
