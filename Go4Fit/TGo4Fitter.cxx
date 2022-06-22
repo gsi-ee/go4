@@ -353,7 +353,7 @@ TGo4FitModelGauss1* TGo4Fitter::AddGauss1(const char* DataName, const char* Mode
 TGo4FitModel* TGo4Fitter::CloneModel(const char* ModelName, const char* NewName)
 {
    TGo4FitModel* mod = FindModel(ModelName);
-   if (mod==0) return 0;
+   if (!mod) return nullptr;
 
    TString newname;
    int cnt = 0;
@@ -379,7 +379,11 @@ TGo4FitModel* TGo4Fitter::RemoveModel(const char * ModelName, Bool_t IsDel)
       SetParsListChange();
       SetUpdateSlotList();
       fxModels.Remove(mod);
-      if(IsDel) { CheckSlotsBeforeDelete(mod); delete mod; mod = 0; }
+      if (IsDel) {
+         CheckSlotsBeforeDelete(mod);
+         delete mod;
+         mod = nullptr;
+      }
       fxModels.Compress();
    }
    return mod;
@@ -511,7 +515,7 @@ Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Dou
         if (modelvalue<=0.) return 0.;
         return modelvalue - value*TMath::Log(modelvalue);
       case ff_user:
-        if (fxUserFitFunction==0) return 0;
+        if (!fxUserFitFunction) return 0;
         return fxUserFitFunction(value, modelvalue, standdev);
       default:
         return (value-modelvalue)*(value-modelvalue);
@@ -579,7 +583,6 @@ Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata
 
 Double_t TGo4Fitter::CalculateFitFunction(Double_t* pars, Int_t FitFunctionType, const char* DataName)
 {
-
    if (FitFunctionType<0) FitFunctionType = GetFitFunctionType();
 
    if (pars) {
@@ -804,13 +807,13 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
 Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelName, Bool_t onlycounts)
 {
     TGo4FitData* data = FindData(DataName);
-    if (data==0) return 0.;
+    if (!data) return 0.;
 
-    TGo4FitModel* model = ModelName!=0 ? FindModel(ModelName) : 0;
-    if ((ModelName!=0) && (model==0)) return 0.;
+    TGo4FitModel* model = ModelName ? FindModel(ModelName) : nullptr;
+    if (ModelName && !model) return 0.;
 
     TGo4FitDataIter* iter = data->MakeIter();
-    if (iter==0) return 0.;
+    if (!iter) return 0.;
 
     double sum = 0.;
     double ampl = 1.;
@@ -831,7 +834,7 @@ Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelN
        sum += ampl*value*dx;
     } while (iter->Next(kTRUE));
 
-    if (model!=0)
+    if (model)
       model->AfterEval();
 
     delete iter;
@@ -842,14 +845,14 @@ Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelN
 Double_t TGo4Fitter::CalculatesModelIntegral(const char* ModelName, Bool_t OnlyCounts)
 {
    TGo4FitModel* model = FindModel(ModelName);
-   if (model==0) return 0.;
+   if (!model) return 0.;
    return CalculatesIntegral(model->AssignmentName(0), ModelName, OnlyCounts);
 }
 
 TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName, Bool_t IsModel, const char* ModelName)
 {
     TGo4FitData* data = FindData(DataName);
-    if (data==0) return 0;
+    if (!data) return nullptr;
 
     TObjArray Models;
     if (IsModel) {
@@ -859,12 +862,12 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
       } else {
         Int_t groupindex = -1;
 
-        if (ModelName!=0) {
+        if (ModelName) {
           TString modelname(ModelName);
           if (modelname=="Background") groupindex = 0; else
           if (modelname.Index("Group",0,TString::kExact)==0) {
              modelname.Remove(0,5);
-             char* err = 0;
+             char* err = nullptr;
              groupindex = strtol(modelname.Data(),&err,10);
              if (err && (*err!=0)) groupindex=-1;
           }
@@ -877,13 +880,13 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
               Models.Add(model);
         }
       }
-      if (Models.GetLast()<0) return 0;
+      if (Models.GetLast()<0) return nullptr;
     }
 
     TGo4FitDataIter* iter = data->MakeIter();
-    if (iter==0) return 0;
+    if (!iter) return nullptr;
 
-    if (!iter->Reset(kFALSE)) { delete iter; return 0; }
+    if (!iter->Reset(kFALSE)) { delete iter; return nullptr; }
 
     TH1* histo = 0;
     Int_t ndim = 0;
@@ -950,20 +953,30 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
             (gr->GetY())[n2] = yy;
          }
 
-    TNamed* res = 0;
-    if (histo) res = histo; else res = gr;
+    TNamed* res = nullptr;
+    if (histo)
+       res = histo;
+    else
+       res = gr;
     if (res) {
-      TString title;
-      if (IsModel)
-        if (ModelName) { title = "Draw of model "; title+=ModelName; }
-                  else { title = "Draw of full model of "; title+=DataName; }
-        else { title = "Draw of data "; title+=DataName; }
-      res->SetTitle(title.Data());
+       TString title;
+       if (IsModel)
+          if (ModelName) {
+             title = "Draw of model ";
+             title += ModelName;
+          } else {
+             title = "Draw of full model of ";
+             title += DataName;
+          }
+       else {
+          title = "Draw of data ";
+          title += DataName;
+       }
+       res->SetTitle(title.Data());
     }
 
     return res;
 }
-
 
 /*   valid format for draw options
 
@@ -982,7 +995,7 @@ void TGo4Fitter::Draw(Option_t* option)
 {
    TString opt(option);
 
-   TCanvas *fCanvas = 0;
+   TCanvas *fCanvas = nullptr;
 
    if ((opt.Length()>0) && (opt[0]=='#')) {
       opt.Remove(0,1);
@@ -997,7 +1010,7 @@ void TGo4Fitter::Draw(Option_t* option)
    }
 
    Bool_t drawdata = kFALSE;
-   TGo4FitData *selectdata = 0;
+   TGo4FitData *selectdata = nullptr;
    TObjArray selectmodels;
    selectmodels.SetOwner(kTRUE);
    Bool_t drawcomp = kFALSE;
@@ -1005,7 +1018,7 @@ void TGo4Fitter::Draw(Option_t* option)
 
    if (opt=="*") { opt = "";  drawdata = kTRUE; }
 
-   while (opt.Length()>0) {
+   while (opt.Length() > 0) {
      Int_t len = opt.Index(",",0,TString::kExact);
 
      if (len<0) len = opt.Length();
@@ -1102,24 +1115,30 @@ void TGo4Fitter::Draw(Option_t* option)
       }
    }
 
-   if (fxDrawObjs->GetLast()==0) fxDrawObjs->At(0)->Draw(); else
-   if (fxDrawObjs->GetLast()>0)  {
+   if (fxDrawObjs->GetLast() == 0) {
+      fxDrawObjs->At(0)->Draw();
+   } else if (fxDrawObjs->GetLast() > 0) {
       Bool_t allhisto = kTRUE;
-      for (Int_t n=0;n<=fxDrawObjs->GetLast();n++)
-        if (!(fxDrawObjs->At(n)->InheritsFrom(TH1::Class()))) allhisto = kFALSE;
+      for (Int_t n = 0; n <= fxDrawObjs->GetLast(); n++)
+         if (!(fxDrawObjs->At(n)->InheritsFrom(TH1::Class())))
+            allhisto = kFALSE;
       if (allhisto) {
-         THStack* stack = new THStack(TString("Stack")+"_"+fxDrawObjs->At(0)->GetName(),fxDrawObjs->At(0)->GetName());
-         for (Int_t n=0;n<=fxDrawObjs->GetLast();n++) stack->Add((TH1*)fxDrawObjs->At(n));
+         THStack *stack =
+            new THStack(TString("Stack") + "_" + fxDrawObjs->At(0)->GetName(), fxDrawObjs->At(0)->GetName());
+         for (Int_t n = 0; n <= fxDrawObjs->GetLast(); n++)
+            stack->Add((TH1 *)fxDrawObjs->At(n));
          fxDrawObjs->Clear();
          fxDrawObjs->Add(stack);
          stack->Draw("nostack");
       } else
-      for (Int_t n=0;n<=fxDrawObjs->GetLast();n++)
-        if (n==0) fxDrawObjs->At(n)->Draw("A*");
-             else fxDrawObjs->At(n)->Draw("L");
+         for (Int_t n = 0; n <= fxDrawObjs->GetLast(); n++)
+            if (n == 0)
+               fxDrawObjs->At(n)->Draw("A*");
+            else
+               fxDrawObjs->At(n)->Draw("L");
    }
 
-   if (fCanvas!=0) fCanvas->Update();
+   if (fCanvas) fCanvas->Update();
 }
 
 void TGo4Fitter::PrintAmpls() const
@@ -1174,7 +1193,7 @@ void TGo4Fitter::ProvideLastDrawObjects(TObjArray& lst)
    if (fxDrawObjs) {
       lst.AddAll(fxDrawObjs);
       delete fxDrawObjs;
-      fxDrawObjs = 0;
+      fxDrawObjs = nullptr;
    }
 }
 
@@ -1184,7 +1203,7 @@ void TGo4Fitter::MoveDrawObjectsToROOT()
       for(Int_t n=0;n<=fxDrawObjs->GetLast();n++)
          gROOT->Add(fxDrawObjs->At(n));
       delete fxDrawObjs;
-      fxDrawObjs = 0;
+      fxDrawObjs = nullptr;
    }
 }
 

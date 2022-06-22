@@ -126,7 +126,6 @@ Int_t TGo4FitParsList::NumFreePars()
    return NumPars()-NumFixedPars();
 }
 
-
 Bool_t TGo4FitParsList::SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax)
 {
    auto par = Find(ParName);
@@ -145,16 +144,18 @@ Bool_t TGo4FitParsList::GetParRange(const char* ParName, Double_t& RangeMin, Dou
 
 Bool_t TGo4FitParsList::SetParEpsilon(const char* ParName, Double_t Epsilon)
 {
-   TGo4FitParameter* par = Find(ParName);
-   if(par) { par->SetEpsilon(Epsilon); return kTRUE; }
-      else return kFALSE;
+   TGo4FitParameter *par = Find(ParName);
+   if (par) {
+      par->SetEpsilon(Epsilon);
+      return kTRUE;
+   }
+   return kFALSE;
 }
 
 Bool_t TGo4FitParsList::GetParEpsilon(const char* ParName, Double_t& Epsilon)
 {
    TGo4FitParameter* par = Find(ParName);
-   if(par) return par->GetEpsilon(Epsilon);
-      else return kFALSE;
+   return par ? par->GetEpsilon(Epsilon) : kFALSE;
 }
 
 void TGo4FitParsList::SetParName(Int_t n, const char* name)
@@ -164,14 +165,16 @@ void TGo4FitParsList::SetParName(Int_t n, const char* name)
 
 const char* TGo4FitParsList::GetParName(Int_t n)
 {
-   if(Get(n)) return Get(n)->GetName();
-         else return 0;
+   if(Get(n))
+      return Get(n)->GetName();
+   return nullptr;
 }
 
 const char* TGo4FitParsList::GetParFullName(Int_t n)
 {
-   if(Get(n)) return Get(n)->GetFullName();
-         else return 0;
+   if(Get(n))
+      return Get(n)->GetFullName();
+   return nullptr;
 }
 
 void TGo4FitParsList::SetParsNames(const char* name0, const char* name1, const char* name2, const char* name3, const char* name4,
@@ -258,43 +261,46 @@ void TGo4FitParsList::SetParsOwner(TGo4FitNamed* iOwner)
 
 TGo4FitParameter* TGo4FitParsList::CreatePar(const char* ParName, const char* Title, Double_t iValue)
 {
-  if (Find(ParName)==0) return AddPar(new TGo4FitParameter(ParName,Title,iValue));
-                   else return Find(ParName);
+   auto par = Find(ParName);
+   return par ? par : AddPar(new TGo4FitParameter(ParName,Title,iValue));
 }
 
 TGo4FitParameter* TGo4FitParsList::Find(const char* ParName)
 {
-   for(Int_t i=0;i<NumPars();i++)
-      if (strcmp(Get(i)->GetName(),ParName)==0) return Get(i);
+   for (Int_t i = 0; i < NumPars(); i++)
+      if (strcmp(Get(i)->GetName(), ParName) == 0)
+         return Get(i);
 
-   for(Int_t i=0;i<NumPars();i++)
-      if (strcmp(Get(i)->GetFullName(),ParName)==0) return Get(i);
+   for (Int_t i = 0; i < NumPars(); i++)
+      if (strcmp(Get(i)->GetFullName(), ParName) == 0)
+         return Get(i);
 
-   return 0;
+   return nullptr;
 }
 
 TGo4FitParameter* TGo4FitParsList::Find(const char* OwnerFullName, const char* ParName)
 {
    for(Int_t i=0;i<NumPars();i++) {
       TGo4FitParameter* par = Get(i);
-      if (par->GetOwner()==0) continue;
+      if (!par->GetOwner()) continue;
       if ( (strcmp(par->GetOwnerFullName(),OwnerFullName)==0) &&
            (strcmp(par->GetName(),ParName)==0) ) return par;
    }
-   return 0;
+   return nullptr;
 }
 
 TGo4FitParameter* TGo4FitParsList::Find(TGo4FitParameter* par)
 {
    for(Int_t i=0;i<NumPars();i++)
      if (Get(i)==par) return par;
-   return 0;
+   return nullptr;
 }
 
 Bool_t TGo4FitParsList::RemoveParByIndex(Int_t indx)
 {
-  if((indx>=0) && (indx<NumPars())) return RemovePar(Get(indx));
-                               else return kFALSE;
+   if((indx>=0) && (indx<NumPars()))
+      return RemovePar(Get(indx));
+   return kFALSE;
 }
 
 Bool_t TGo4FitParsList::RemovePar(const char* name)
@@ -309,7 +315,8 @@ Bool_t TGo4FitParsList::RemovePar(TGo4FitParameter* par)
       fxPars.Remove(par);
       if (fxPars.IsOwner()) delete par;
       return kTRUE;
-   } else return kFALSE;
+   }
+   return kFALSE;
 }
 
 void TGo4FitParsList::CollectParsTo(TGo4FitParsList & list)
@@ -336,16 +343,19 @@ void TGo4FitParsList::ClearPars()
 TGo4FitParameter* TGo4FitParsList::AddPar(TGo4FitParameter* par)
 {
   fxPars.AddLast(par);
-  if ((par!=0) && fxPars.IsOwner()) par->SetOwner(this);
+  if (par && fxPars.IsOwner()) par->SetOwner(this);
   fbCanRollbackPars = kFALSE;
   return par;
 }
 
 TGo4FitParameter* TGo4FitParsList::InsertPar(TGo4FitParameter* par, Int_t indx)
 {
-   if (indx<0) fxPars.AddLast(par);
-   else fxPars.AddAt(par,indx);
-   if ((par!=0) && fxPars.IsOwner()) par->SetOwner(this);
+   if (indx < 0)
+      fxPars.AddLast(par);
+   else
+      fxPars.AddAt(par, indx);
+   if (par && fxPars.IsOwner())
+      par->SetOwner(this);
    fbCanRollbackPars = kFALSE;
    return par;
 }
