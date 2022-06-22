@@ -166,7 +166,7 @@ Bool_t TGo4HDF5Source::CloseCurrentFile()
 void TGo4HDF5Source::OpenFile(const char* fname)
 {
    TString buffer(fname);
-   if (strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF) == 0)
+   if (!strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF))
       buffer.Append(TGo4HDF5Adapter::fgcFILESUF);
 
    try {

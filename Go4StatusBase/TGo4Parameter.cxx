@@ -395,7 +395,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
    TString varname = TString::Format("param%d", cnt++);
-   Bool_t savemacro = opt && (strstr(opt,"savemacro") != nullptr);
+   Bool_t savemacro = opt && strstr(opt, "savemacro");
 
    if (savemacro) {
       out << TString::Format("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",

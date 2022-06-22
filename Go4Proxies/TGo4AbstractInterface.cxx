@@ -337,10 +337,10 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
 //           !strstr(token,"libGX11TTF.") &&
            && !strstr(token,"libHistPainter.")) {
               fs << "go4->LoadLibrary(\"";
-              if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
+              if ((go4sys.Length() > 0) && strstr(token, go4sys.Data()) == token)
                  fs << "$GO4SYS/" << (token + go4sys.Length());
               else
-              if ((rootsys.Length() > 0) && strstr(token, rootsys.Data())==token)
+              if ((rootsys.Length() > 0) && strstr(token, rootsys.Data()) == token)
                  fs << "$ROOTSYS/" << (token + rootsys.Length());
               else
                  fs << token;
