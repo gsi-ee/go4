@@ -40,7 +40,7 @@ void QFitModelGaussNWidget::FillSpecificData()
 
 void QFitModelGaussNWidget::SetAxisTable()
 {
-   if (GetGaussN()==0) return;
+   if (!GetGaussN()) return;
    int num = GetGaussN()->GetAxisNumbers();
    AxisTable->setRowCount(num);
    for(int n=0;n<num;n++)

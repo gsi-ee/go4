@@ -167,7 +167,7 @@ void TGo4ConditionEditor::linkedObjectUpdated(const char* linkname, TObject* obj
 
 void TGo4ConditionEditor::linkedObjectRemoved(const char* linkname)
 {
-   if (strcmp(linkname,"Condition")==0)
+   if (strcmp(linkname,"Condition") == 0)
       ShootCloseWidget(true);
 }
 

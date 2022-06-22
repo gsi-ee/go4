@@ -73,7 +73,7 @@ void QFitRangeCutWidget::FillXYPointsTable()
 
 void QFitRangeCutWidget::NumPointsSpin_valueChanged( int npoint )
 {
-  if(!fbFillWidget && (GetCut()!=0)) {
+  if(!fbFillWidget && GetCut()) {
       TCutG* cut = GetCut();
       int old = cut->GetN();
       Double_t x=0., y=0.;
@@ -94,26 +94,26 @@ void QFitRangeCutWidget::NumPointsSpin_valueChanged( int npoint )
 
 void QFitRangeCutWidget::ExcludeCutChk_toggled( bool chk)
 {
-    if(!fbFillWidget && (GetComp()!=0))
+    if(!fbFillWidget && GetComp())
       GetComp()->SetRangeCutExcluding(GetCutIndex(), chk);
 }
 
 
 void QFitRangeCutWidget::XYTable_valueChanged( int nrow, int ncol)
 {
-  if(!fbFillWidget && (GetCut()!=0)) {
+  if(!fbFillWidget && GetCut()) {
      TCutG* cut = GetCut();
      bool ok;
      double zn = XYTable->item(nrow, ncol)->text().toDouble(&ok);
      if(ok) {
-         if (ncol==0) cut->GetX()[nrow] = zn;
-                 else cut->GetY()[nrow] = zn;
-         if ((nrow==0) || (nrow==cut->GetN()-1)) {
-            int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
+         if (ncol == 0) cut->GetX()[nrow] = zn;
+                   else cut->GetY()[nrow] = zn;
+         if ((nrow == 0) || (nrow == cut->GetN()-1)) {
+            int nrow1 = (nrow == 0) ? cut->GetN()-1 : 0;
             fbFillWidget = true;
             XYTable->setItem(nrow1, ncol, new QTableWidgetItem(XYTable->item(nrow, ncol)->text()));
-            if (ncol==0) cut->GetX()[nrow1] = zn;
-                    else cut->GetY()[nrow1] = zn;
+            if (ncol == 0) cut->GetX()[nrow1] = zn;
+                      else cut->GetY()[nrow1] = zn;
             fbFillWidget = false;
          }
      }

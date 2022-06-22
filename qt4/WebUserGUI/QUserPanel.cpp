@@ -155,10 +155,10 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
 
 void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-    if (strcmp(linkname, "PrintItem")==0)
+    if (strcmp(linkname, "PrintItem") == 0)
       PrintObject(obj);
     else
-    if (strcmp(linkname, "DrawItem")==0) {
+    if (strcmp(linkname, "DrawItem") == 0) {
        fxDrawCanvas->getCanvas()->Clear();
        fxDrawCanvas->getCanvas()->cd();
        obj->Draw("");
@@ -168,10 +168,10 @@ void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void QUserPanel::linkedObjectRemoved(const char* linkname)
 {
-    if (strcmp(linkname, "PrintItem")==0)
+    if (strcmp(linkname, "PrintItem") == 0)
       PrintObject(0);
     else
-    if (strcmp(linkname, "DrawItem")==0) {
+    if (strcmp(linkname, "DrawItem") == 0) {
       RemoveLink("DrawItem");
       printf("Clear canvas and update\n");
       fxDrawCanvas->getCanvas()->Clear();

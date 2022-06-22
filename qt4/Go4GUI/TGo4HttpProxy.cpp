@@ -133,7 +133,7 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
 
 const char* GetHttpRootClassName(const char* kind)
 {
-   if (!kind || (*kind==0)) return nullptr;
+   if (!kind || (*kind == 0)) return nullptr;
    if (strncmp(kind,"ROOT.", 5)!=0) return nullptr;
    if (strcmp(kind+5,"TGo4AnalysisWebStatus") == 0)
       return "TGo4AnalysisStatus";
@@ -328,7 +328,7 @@ void TGo4HttpAccess::httpFinished()
       const char* xlabels = xml->GetAttr(top, "xlabels");
       const char* ylabels = xml->GetAttr(top, "ylabels");
 
-      if (strcmp(_kind,"ROOT.TH1D")==0) {
+      if (strcmp(_kind,"ROOT.TH1D") == 0) {
          Int_t nbins = xml->GetIntAttr(top, "nbins");
          Int_t left = TString(xml->GetAttr(top, "left")).Atof();
          Int_t right = TString(xml->GetAttr(top, "right")).Atof();
@@ -394,8 +394,6 @@ void TGo4HttpAccess::httpFinished()
 
    if (fKind == 3) {
       TXMLEngine* xml = fProxy->fXML;
-
-      // printf("History %s\n", res.data());
 
       XMLDocPointer_t doc = xml->ParseString(res.data());
       if (!doc) return;
@@ -510,15 +508,15 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       Int_t getflag(const char* flagname) override
       {
-         if (strcmp(flagname,"IsRemote")==0) return 1;
+         if (strcmp(flagname,"IsRemote") == 0) return 1;
 
-         if (strcmp(flagname,"IsDeleteProtect")==0)
+         if (strcmp(flagname,"IsDeleteProtect") == 0)
             return fXML->HasAttr(fChild, "_can_delete") ? 0 : 1;
 
-         if (strcmp(flagname,"IsResetProtect")==0)
+         if (strcmp(flagname,"IsResetProtect") == 0)
             return fXML->HasAttr(fChild, "_no_reset") ? 1 : 0;
 
-         if (strcmp(flagname,"_numargs")==0) {
+         if (strcmp(flagname,"_numargs") == 0) {
             const char* _numargs = fXML->GetAttr(fChild,"_numargs");
             return !_numargs ? -1 : TString(_numargs).Atoi();
          }
@@ -561,7 +559,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
          if (!classname) return TGo4Access::kndNone;
 
-         if (strcmp(classname,"TLeafElement")==0) return TGo4Access::kndTreeLeaf;
+         if (strcmp(classname,"TLeafElement") == 0) return TGo4Access::kndTreeLeaf;
 
          return TGo4Access::kndObject;
       }
@@ -651,7 +649,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
          const char* _name = fXML->GetAttr(chld,"_realname");
          if (!_name) _name = fXML->GetAttr(chld,"_name");
 
-         if (_name && (strlen(_name) == len) && (strncmp(_name, name, len)==0))
+         if (_name && (strlen(_name) == len) && (strncmp(_name, name, len) == 0))
             return FindItem(slash ? slash+1 : nullptr, chld);
 
          chld = fXML->GetNext(chld);
@@ -1140,7 +1138,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          if (gDebug>2) printf("Decoding portion of %d bytes\n", len);
 
-         TClass* obj_cl = n==0 ? TGo4Ratemeter::Class() : TList::Class();
+         TClass* obj_cl = n == 0 ? TGo4Ratemeter::Class() : TList::Class();
          TObject* obj = (TObject*) obj_cl->New();
 
          TBufferFile buf(TBuffer::kRead, len, ptr, kFALSE);
@@ -1150,10 +1148,10 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          if (n>0) {
             TGo4Slot* subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
-            TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+            TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
             TList* next = dynamic_cast<TList*> (obj);
             if (curr && curr->First() && next && next->First()) {
-               if (strcmp(curr->First()->GetName(), next->First()->GetName())==0) {
+               if (strcmp(curr->First()->GetName(), next->First()->GetName()) == 0) {
                   // this is protection against sending same info many times
                   // happend with sever snapshot
                   delete obj;
@@ -1237,7 +1235,7 @@ Bool_t TGo4HttpProxy::CheckShutdown(Bool_t force)
 
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
-   if ((fShutdownCnt>0) && (--fShutdownCnt==0)) {
+   if ((fShutdownCnt > 0) && (--fShutdownCnt == 0)) {
       CheckShutdown(kTRUE);
       return;
    }

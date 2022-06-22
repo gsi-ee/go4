@@ -115,9 +115,9 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
 
   const char* env = gSystem->Getenv("ROOT_CANVAS");
   int flag = 0;
-  if (env!=0) {
-     if ((strcmp(env,"yes")==0) || (strcmp(env,"YES")==0)) flag = 1; else
-     if ((strcmp(env,"no")==0) || (strcmp(env,"NO")==0)) flag = -1;
+  if (env) {
+     if ((strcmp(env,"yes") == 0) || (strcmp(env,"YES") == 0)) flag = 1; else
+     if ((strcmp(env,"no") == 0) || (strcmp(env,"NO") == 0)) flag = -1;
   }
 
 #ifdef _MSC_VER

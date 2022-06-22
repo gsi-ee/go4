@@ -204,8 +204,8 @@ Go4_Palette_t TGo4Style::CodePalette(int i)
 
 int TGo4Style::DecodePalette(Go4_Palette_t key)
 {
-   if (key==Go4_None) return -1;
-   if (key==Go4_Default) return 1; // old default rainbow index
+   if (key == Go4_None) return -1;
+   if (key == Go4_Default) return 1; // old default rainbow index
    return (key-2 + GO4NAMEDPAL_MIN ); // account Go4_None and Go4_Default  offset
 }
 
@@ -227,7 +227,7 @@ void TGo4Style::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
       case QGo4Widget::panel_Activated:
       case QGo4Widget::panel_ActiveUpdated: {
          TGo4Picture* padopt = panel->GetPadOptions(pad);
-         if (padopt==0) break;
+         if (!padopt) break;
 
          int nlvl = padopt->GetHisContour();
 
@@ -243,5 +243,3 @@ void TGo4Style::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
          break;
    }
 }
-
-

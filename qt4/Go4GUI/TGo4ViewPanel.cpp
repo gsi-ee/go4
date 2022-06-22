@@ -2553,7 +2553,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
 
          // comment out, can never be working
          //TPaveText* titl = dynamic_cast<TPaveText*>(link->GetObject());
-         //if (titl &&(strcmp(titl->GetName(),"title")==0))
+         //if (titl &&(strcmp(titl->GetName(),"title") == 0))
          //   pic->SetTitleAttr(titl);
 
          link = link->Next();
@@ -2891,7 +2891,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
                              gr->SetLineWidth(go4sett->getDrawLineWidth());
          }
 
-         if (first_draw && (n==0)) {
+         if (first_draw && (n == 0)) {
             TAxis *ax = gr->GetXaxis();
             if (ax && ax->GetTimeDisplay()) {
                padopt->SetHisStats(kFALSE);
@@ -4885,31 +4885,31 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          }
 
          // X,Y axis in case of 2-dim histogram
-         if ((ndim==2) && (naxis<2))
+         if ((ndim == 2) && (naxis < 2))
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
                for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++) {
                  Double_t v = padhist->GetBinContent(n1,n2);
                  if (TMath::Abs(v)<1e-10) continue;
-                 Int_t bin = naxis==0 ? n1 : n2;
+                 Int_t bin = naxis == 0 ? n1 : n2;
                  if ((bin<sel_l) || (bin>sel_r)) continue;
-                 if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
-                 if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+                 if ((lastbin == 0) || (bin > lastbin)) lastbin = bin;
+                 if ((firstbin == 0) || (bin < firstbin)) firstbin = bin;
               }
 
          // X,Y,Z axis in case of 3-dim histogram
-         if ((ndim==3) && (naxis<3))
+         if ((ndim == 3) && (naxis < 3))
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
                for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++)
                   for (Int_t n3 = 1; n3<=padhist->GetNbinsZ(); n3++) {
                     Double_t v = padhist->GetBinContent(n1,n2,n3);
                     if (TMath::Abs(v)<1e-10) continue;
-                    Int_t bin = naxis==0 ? n1 : ((naxis==1) ? n2 : n3);
+                    Int_t bin = naxis == 0 ? n1 : ((naxis==1) ? n2 : n3);
                     if ((bin<sel_l) || (bin>sel_r)) continue;
-                    if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
-                    if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+                    if ((lastbin == 0) || (bin > lastbin)) lastbin = bin;
+                    if ((firstbin == 0) || (bin < firstbin)) firstbin = bin;
                   }
 
-         if (firstbin>0) {
+         if (firstbin > 0) {
 
             if (firstbin >= lastbin) { firstbin--; lastbin++; }
 

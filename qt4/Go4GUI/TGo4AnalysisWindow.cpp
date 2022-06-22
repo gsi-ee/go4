@@ -377,23 +377,24 @@ void TGo4AnalysisWindow::RequestTerminate()
 
 void TGo4AnalysisWindow::TerminateAnalysisProcess()
 {
-   if (fAnalysisProcess==0) return;
+   if (!fAnalysisProcess) return;
    AppendOutputBuffer("\nTerminate process ... \n\n",2);
    fAnalysisProcess->terminate();
-   if (fAnalysisProcess->state() == QProcess::Running) fAnalysisProcess->kill();
+   if (fAnalysisProcess->state() == QProcess::Running)
+      fAnalysisProcess->kill();
    delete fAnalysisProcess;
-   fAnalysisProcess = 0;
+   fAnalysisProcess = nullptr;
 }
 
 void TGo4AnalysisWindow::ClearAnalysisOutput()
 {
-   if (fxOutput!=0)
+   if (fxOutput)
       fxOutput->clear();
 }
 
 void TGo4AnalysisWindow::ScrollEndAnalysisOutput()
 {
-   if (fxOutput!=0)
+   if (fxOutput)
       fxOutput->moveCursor(QTextCursor::End);
 }
 
@@ -401,7 +402,7 @@ void TGo4AnalysisWindow::ScrollEndAnalysisOutput()
 
 void TGo4AnalysisWindow::SaveAnalysisOutput()
 {
-   if (fxOutput==0) return;
+   if (!fxOutput) return;
    QFileDialog fd(this,
                   "Save analysis terminal output",
                   "", "Plain text (*.txt)");
@@ -478,12 +479,11 @@ void TGo4AnalysisWindow::FileDialog_Macro()
 void TGo4AnalysisWindow::PrintHistograms()
 {
    const QString cmd = "@PrintHistograms()";
-   int index=fxCmdHist->findText(cmd);
-   if(index<0)
-     {
-     fxCmdHist->insertItem(-1,cmd);
-     index=fxCmdHist->findText(cmd);
-     }
+   int index = fxCmdHist->findText(cmd);
+   if (index < 0) {
+      fxCmdHist->insertItem(-1, cmd);
+      index = fxCmdHist->findText(cmd);
+   }
    fxCmdHist->setCurrentIndex(index);
    CommandSlot();
 }
@@ -491,12 +491,11 @@ void TGo4AnalysisWindow::PrintHistograms()
 void TGo4AnalysisWindow::PrintConditions()
 {
    const QString cmd = "@PrintConditions()";
-   int index=fxCmdHist->findText(cmd);
-   if(index<0)
-     {
-       fxCmdHist->insertItem(-1,cmd);
-       index=fxCmdHist->findText(cmd);
-      }
+   int index = fxCmdHist->findText(cmd);
+   if (index < 0) {
+      fxCmdHist->insertItem(-1, cmd);
+      index = fxCmdHist->findText(cmd);
+   }
    fxCmdHist->setCurrentIndex(index);
    CommandSlot();
 }

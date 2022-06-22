@@ -197,8 +197,8 @@ void TGo4StartClient::SelectProg()
    if (fd.selectedNameFilter()==dll2_filter) select_filer = 3;
    fSelectedFilter = select_filer;
 
-   if ((select_filer==0) || (select_filer==1)) ExeModeCombo->setCurrentIndex(0); else
-   if ((select_filer==2) || (select_filer==3)) ExeModeCombo->setCurrentIndex(1);
+   if ((select_filer == 0) || (select_filer == 1)) ExeModeCombo->setCurrentIndex(0); else
+   if ((select_filer == 2) || (select_filer == 3)) ExeModeCombo->setCurrentIndex(1);
 
    LineEditClientExec->setText(flst[0]);
 }

@@ -156,11 +156,11 @@ void TGo4TreeViewer::TreeDrawBtn_clicked()
                        HistNameEdt->text().toLatin1().constData(),
                        createdh);
 
-    if (createdh.Length()>0) {
+    if (createdh.Length() > 0) {
        HistNameEdt->setText(createdh.Data());
        DrawItem(createdh.Data());
     } else {
-        if (WhereItemDrawn(HistNameEdt->text().toLatin1().constData())==0)
+        if (!WhereItemDrawn(HistNameEdt->text().toLatin1().constData()))
            DrawItem(HistNameEdt->text());
         else
            br->RequestBrowserObject(HistNameEdt->text().toLatin1().constData());

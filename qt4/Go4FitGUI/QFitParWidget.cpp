@@ -38,7 +38,7 @@ void QFitParWidget::FillSpecificData()
 {
    QFitNamedWidget::FillSpecificData();
    TGo4FitParameter* fxParameter = GetPar();
-   if (fxParameter==0) return;
+   if (!fxParameter) return;
 
    ValueEdt->setText(QString::number(fxParameter->GetValue()));
    ErrorEdt->setText(QString::number(fxParameter->GetError()));

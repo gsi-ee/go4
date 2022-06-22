@@ -36,7 +36,7 @@ Bool_t TGo4DrawObjProxy::RemoveRegisteredObject(TObject* obj)
 
 void TGo4DrawObjProxy::TryToClearObject()
 {
-   if (fObject==0) return;
+   if (!fObject) return;
    if (fObject->InheritsFrom(THStack::Class())) {
       THStack* hs = (THStack*) fObject;
       if (hs->GetHists())
