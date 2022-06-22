@@ -28,15 +28,11 @@ Bool_t TGo4DisplayDrawerTimer::Notify ()
    TObject* data = nullptr;
    TGo4Task* task = fxDisplay->GetTask();
 
-//   data = task->NextObject(kFALSE);
-//   if (data!=0)
-//      fxDisplay->DisplayData(data);
-
    Int_t cnt = 100;
 
-   while((data=task->NextObject(kFALSE)) != nullptr) {
+   while((data = task->NextObject(kFALSE)) != nullptr) {
       fxDisplay->DisplayData(data);
-      if (cnt--<0) break;
+      if (cnt-- < 0) break;
    }
 
    Reset();

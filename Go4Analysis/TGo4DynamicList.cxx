@@ -33,53 +33,53 @@
 
 void TGo4DynamicList::ResetEntries(TFolder* folder)
 {
-   if (folder==0) return;
+   if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
    TObject* obj;
-   while((obj = iter()) !=0) {
+   while((obj = iter()) != nullptr) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
-      if (entry!=0) entry->Reset();
+      if (entry) entry->Reset();
    }
 }
 
 void TGo4DynamicList::PrintEntries(TFolder* folder)
 {
-   if (folder==0) return;
+   if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
    TObject* obj;
-   while((obj = iter()) !=0) {
+   while((obj = iter()) != nullptr) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
-      if (entry!=0) entry->Print("*");
+      if (entry) entry->Print("*");
    }
 }
 
 void TGo4DynamicList::CleanupPointerInEntries(TFolder* folder, TObject* objtoremove)
 {
-   if (folder==0) return;
+   if (!folder) return;
 
    TIter iter(folder->GetListOfFolders());
    TObject* obj;
-   while((obj = iter()) !=0) {
+   while((obj = iter()) != nullptr) {
       TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
-      if (entry!=0) entry->RecursiveRemove(objtoremove);
+      if (entry) entry->RecursiveRemove(objtoremove);
    }
 }
 
 
 void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t interval)
 {
-   if (folder==0) return;
+   if (!folder) return;
 
-   TGo4DynamicEntry* errorentry = 0;
+   TGo4DynamicEntry* errorentry = nullptr;
    TIter iter(folder->GetListOfFolders());
    TObject* obj;
 
    try {
-      while((obj = iter()) !=0) {
+      while((obj = iter()) != nullptr) {
          TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
-         if (entry==0) continue;
+         if (!entry) continue;
 
          try {
            if (!entry->IsEnabledProcessing()) continue;
@@ -115,7 +115,7 @@ TDataMember* FindDataMember(TClass* eventclass,
                             const char* memname,
                             Long_t* totaloffset)
 {
-   if(!eventclass) return 0;
+   if(!eventclass) return nullptr;
    // here we might parse the memname for dots to figure out aggregated classes
 
    /////////////////////////////////
@@ -141,10 +141,10 @@ TDataMember* FindDataMember(TClass* eventclass,
    } else {
       // if not found directly, check for baseclass members:
       TIter baseiter(eventclass->GetListOfBases());
-      TObject* ob=0;
-      while((ob=baseiter()) !=0) {
-         TBaseClass* baseclass=dynamic_cast<TBaseClass*>(ob);
-         if(baseclass!=0)
+      TObject* ob = nullptr;
+      while((ob=baseiter()) != nullptr) {
+         TBaseClass* baseclass = dynamic_cast<TBaseClass*>(ob);
+         if(baseclass)
          {
             // we have a baseclass
             TClass* bclass=baseclass->GetClassPointer();
@@ -170,8 +170,8 @@ TDataMember* FindDataMember(TClass* eventclass,
    {
       const char* tname = eventmember->GetFullTypeName();
       // check if given index is inside allocated size:
-      Int_t maxindex=eventmember->GetMaxIndex(0);
-      if(maxindex<0) maxindex=1; // for non-array members maxindex is -1
+      Int_t maxindex = eventmember->GetMaxIndex(0);
+      if(maxindex < 0) maxindex = 1; // for non-array members maxindex is -1
       if(indexoffset<maxindex)
       {
          Int_t datasize = eventmember->GetDataType()->Size();
@@ -197,7 +197,7 @@ TDataMember* FindDataMember(TClass* eventclass,
 
 bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 {
-   if (hentry==0) return true;
+   if (!hentry) return true;
 
    if (hentry->NeedInitialisation()) {
       TGo4Analysis* ana= TGo4Analysis::Instance();
@@ -215,7 +215,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
             event = ana->GetEventStructure(evname);
 
-         if(event!=0)
+         if(event)
             if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
                eventmember = FindDataMember(event->IsA(), memname, &offset);
 
@@ -235,7 +235,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
             event = ana->GetEventStructure(evname);
 
-         if(event!=0)
+         if(event)
             if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
                eventmember = FindDataMember(event->IsA(), memname, &offset);
 
@@ -249,7 +249,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    for (Int_t n=0;n<__MAXHISDIM__;n++) {
       evvalid[n] = kFALSE;
       TGo4EventElement* event = (TGo4EventElement*) hentry->fxHisEvents[n];
-      if (event!=0)
+      if (event)
          evvalid[n] = event->IsValid();
    }
 

@@ -648,12 +648,12 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
 
 Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
 {
-  if ((exeline==0) || (*exeline==0)) return kFALSE;
+  if (!exeline || (*exeline==0)) return kFALSE;
   TGo4Analysis* ana = TGo4Analysis::Instance();
-  if(ana==0) return kFALSE;
+  if(!ana) return kFALSE;
 
-  Int_t errcode=0;
+  Int_t errcode = 0;
   ana->ExecuteLine(exeline, &errcode);
   fflush(stdout);
-  return errcode!=0 ? kFALSE : kTRUE;
+  return errcode != 0 ? kFALSE : kTRUE;
 }
