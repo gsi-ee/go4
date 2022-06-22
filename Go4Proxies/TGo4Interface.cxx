@@ -638,8 +638,7 @@ void TGo4Interface::RedrawItem(const char* itemname)
    TGo4AbstractInterface::RedrawItem(itemname);
 
    TIter next(gROOT->GetListOfCanvases());
-   TPad* pad = nullptr;
-   while ((pad = (TPad*) next()) != nullptr) {
+   while (auto pad = (TPad*) next()) {
       pad->Modified();
 
       TVirtualPad* subpad = nullptr;

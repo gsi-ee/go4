@@ -162,9 +162,8 @@ Bool_t TGo4FileSource::OpenNextFile()
    if(!fxFile) ThrowError(66,0,TString::Format("!!! ERROR: FILE %s not found !!!", fxCurrentFileName.Data()).Data());
    if(!fxFile->IsOpen()) ThrowError(66,0, TString::Format("!!! ERROR: FILE %s cannot open !!!", fxCurrentFileName.Data()).Data());
 
-   TKey* kee = nullptr;
    TIter iter(fxFile->GetListOfKeys());
-   while ( (kee = dynamic_cast<TKey*>(iter())) != nullptr ) {
+   while (auto kee = dynamic_cast<TKey*>(iter())) {
       fxTree = dynamic_cast<TTree*>(kee->ReadObj());
       if (fxTree) break; // we take first Tree in file, disregarding its name...
    }

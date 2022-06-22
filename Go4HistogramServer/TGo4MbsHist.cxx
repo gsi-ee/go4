@@ -162,8 +162,7 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const
       return;
 
    TIter iter(folder->GetListOfFolders());
-   TObject *entry = nullptr;
-   while ((entry = iter()) != nullptr) {
+   while (auto entry = iter()) {
       char pathbuffer[TGo4ThreadManager::fguTEXTLENGTH];
       Int_t num = 0;
       if (superfolders)

@@ -159,13 +159,11 @@ void TGo4ExportManager::Export(TDirectory* source)
       gSystem->cd(dirname.Data());
       fxCurrentDir = gSystem->WorkingDirectory();
    }
-   TObject *myobject = nullptr;
-   TKey *mykey = nullptr;
    source->cd();
    gSystem->cd(fxStartDir.Data());
    TIter iter(source->GetListOfKeys());
-   while ((mykey = (TKey *)iter()) != nullptr) {
-      myobject = mykey->ReadObj();
+   while (auto mykey = (TKey *)iter()) {
+      auto myobject = mykey->ReadObj();
       if (myobject) {
          Export(myobject);
       } else {
@@ -192,8 +190,7 @@ void TGo4ExportManager::Export(TCollection* col)
   }
 
    TIter iter(col);
-   TObject* ob = nullptr;
-   while((ob = iter()) != nullptr)
+   while(auto ob = iter())
        Export(ob);
 }
 

@@ -69,9 +69,8 @@ void TGo4AnalysisObjectNames::PrintFolder(TFolder* fold) const
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
 
    TIter iter(fold->GetListOfFolders());
-   TObject* entry = nullptr;
 
-   while((entry = iter()) != nullptr) {
+   while(auto entry = iter()) {
       if(entry->InheritsFrom(TFolder::Class())) {
          PrintFolder(dynamic_cast<TFolder*> (entry));
       } else if (entry->InheritsFrom(TGo4Status::Class())) {

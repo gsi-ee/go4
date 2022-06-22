@@ -83,8 +83,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
    // otherwise will not store complete object
    // and we have the problem of the bounce buffer with offset when reading back (first implementation!)
    TIter baseiter(rootclass->GetListOfBases());
-   TObject *obj = nullptr;
-   while ((obj = baseiter()) != nullptr) {
+   while (auto obj = baseiter()) {
       // printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s , class:%s\n", obj, (obj ?
       // obj->GetName()  : "No base class"), (obj ? obj->IsA()->GetName()  : "No type"));
       TBaseClass *base = dynamic_cast<TBaseClass *>(obj);
@@ -126,7 +125,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
    // follows the members of our class
    TIter iter(rootclass->GetListOfDataMembers());
 
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       TDataMember *member = dynamic_cast<TDataMember *>(obj);
       if (!member)
          continue;
