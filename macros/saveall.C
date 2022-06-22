@@ -65,8 +65,8 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
    TRegexp wild(wildcard,kTRUE);
    TIter next(dir->GetListOfKeys());
    TKey *key = nullptr;
-   while((key=(TKey*)next())) {
-      if(strcmp(key->GetClassName(),"TDirectoryFile")==0)
+   while((key=(TKey*)next()) != nullptr) {
+      if(strcmp(key->GetClassName(),"TDirectoryFile") == 0)
          namiter(dir->GetDirectory(key->GetName()), wildcard, found, classmask);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {

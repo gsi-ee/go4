@@ -46,9 +46,6 @@ go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
   hpx    = new TH1F("hpx","This is the px distribution",100,-4,4);
   hpxpy  = new TH2F("hpxpy","py vs px",40,-4,4,40,-4,4);
   hprof  = new TProfile("hprof","Profile of pz versus px",100,-4,4,0,20);
-
-
-
   ntuple = new TNtuple("ntuple","Demo ntuple","px:py:pz:random:i");
 
 // Go4 part: register objects
@@ -69,13 +66,13 @@ go4->AddTree(ntuple);
 while(1){
    std::cout <<"Waiting for the Go4 start button.";
    std::cout <<" \n\tUse Canvas menu 'Options/Interrupt' to leave macro." << std::endl;
-   Int_t seconds=go4->WaitForStart();
-   if(seconds<0) break; // react on cint canvas interrupt
+   Int_t seconds = go4->WaitForStart();
+   if(seconds < 0) break; // react on cint canvas interrupt
    std::cout <<"Starting execution loop after "<<seconds<<" s of waiting" << std::endl;
    gBenchmark->Reset();
    gBenchmark->Start("hsimple");
    ///// event loop here:
-   while(go4->Process()==0){ // inner event loopcycle, returns -1 if go4 is stopped
+   while(go4->Process() == 0){ // inner event loopcycle, returns -1 if go4 is stopped
      // user event loop follows here:
      gRandom->Rannor(px,py);
      pz = px*px + py*py;

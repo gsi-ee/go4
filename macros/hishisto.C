@@ -21,13 +21,13 @@
 Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)
 {
 
-  if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+  if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
      std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
      return kFALSE;
   }
   TString fullname1 = go4->FindItem(name1);
   TObject* ob1 = go4->GetObject(fullname1,1000);
-  if((ob1==0) || !ob1->InheritsFrom("TH1")) {
+  if(!ob1 || !ob1->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<< fullname1 << std::endl;
       return kFALSE;
    }
@@ -39,12 +39,12 @@ Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)
 Bool_t hishisto(const char *file, const char* name1, Int_t bins, Bool_t draw)
 {
   TFile *f = TFile::Open(file,"r");
-  if(f == 0) {
+  if(!f) {
      std::cout <<"corrhistos could not open file " << file << std::endl;
      return kFALSE;
   }
   TH1* his1 = dynamic_cast<TH1*> (f->Get(name1));
-  if(his1 == 0) {
+  if(!his1) {
     std::cout <<"corrhistos could not get histogram "<<name1 << " in file " << file << std::endl;
     return kFALSE;
   }
@@ -67,7 +67,7 @@ Bool_t hishisto(const char *file, const char* name1, Int_t bins, Bool_t draw)
   TGaxis::SetMaxDigits(2);
   stat->GetXaxis()->SetNoExponent(kTRUE);
 
-  Int_t nb1=his1->GetNbinsX();
+  Int_t nb1 = his1->GetNbinsX();
   for(Int_t i=1;i<=nb1;i++)
     {
       stat->Fill(his1->GetBinContent(i));

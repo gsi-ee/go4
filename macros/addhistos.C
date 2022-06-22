@@ -16,7 +16,7 @@
 ///////
 Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t draw)
 {
-   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+   if(!TGo4AbstractInterface::Instance() || go4 != TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
@@ -25,7 +25,7 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
    TH1 *his1(0), *his2(0);
    if(ob1 && ob1->InheritsFrom("TH1"))
       his1 = (TH1*) ob1;
-   if(his1==0) {
+   if(!his1) {
       std::cout <<"addhistos could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
@@ -34,7 +34,7 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
    TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
    if(ob2 && ob2->InheritsFrom("TH1"))
       his2 = (TH1*)ob2;
-   if(his2==0) {
+   if(!his2) {
       std::cout <<"addhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
    }

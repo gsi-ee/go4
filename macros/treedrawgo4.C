@@ -29,10 +29,10 @@ go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 //TFile* myfile= TFile::Open("Example2StepAnl.root");
 TFile myfile(fname.Data());
 //myfile.ls();
-TTree* theTree=0;
-TKey* kee=0;
+TTree* theTree = nullptr;
+TKey* kee = nullptr;
 TIter iter(myfile.GetListOfKeys());
-   while ( ( kee=dynamic_cast<TKey*>(iter()) ) !=0 ) {
+   while ( ( kee=dynamic_cast<TKey*>(iter()) ) != nullptr ) {
       theTree = dynamic_cast<TTree*>(kee->ReadObj());
       if (theTree)
          break; // we take first Tree in file, disregarding its name...
@@ -46,32 +46,29 @@ if(theTree)
     // note: resulthistogram will be filled only after Draw is finished
     // (buffering of ROOT TSelectorDraw object)
     // so go4 monitoring will not show the filling of the histogram
-    TH2D* histo2d=go4->GetHistogram("map1");
-    if(histo2d==0)
-      {
-        histo2d=new TH2D("map1","result of treedraw example",100,0,4000,100,0,4000);
-        go4->AddHistogram(histo2d);
-      }
-    TH1D* histo1d=go4->GetHistogram("his1");
-    if(histo1d==0)
-      {
-        histo1d=new TH1D("his1","result of treedraw example",4000,0,4000);
-        go4->AddHistogram(histo1d);
-      }
-     gROOT->cd(); // set current directory to the top, otherwise TTree::Draw
+    TH2D* histo2d = go4->GetHistogram("map1");
+    if(!histo2d)  {
+       histo2d = new TH2D("map1","result of treedraw example",100,0,4000,100,0,4000);
+       go4->AddHistogram(histo2d);
+    }
+    TH1D* histo1d = go4->GetHistogram("his1");
+    if(!histo1d) {
+       histo1d = new TH1D("his1","result of treedraw example",4000,0,4000);
+       go4->AddHistogram(histo1d);
+    }
+    gROOT->cd(); // set current directory to the top, otherwise TTree::Draw
                   // will not find the target histograms as registered in Go4!!
-     theTree->Draw("XXXAnlEvent.frData[0]:XXXAnlEvent.frData[1] >>+map1","XXXAnlEvent.frData[0]>500");
-     theTree->Draw("XXXAnlEvent.frData[0]>>+his1");
-     go4->Message(1,"Tree Draw has finished.");
+    theTree->Draw("XXXAnlEvent.frData[0]:XXXAnlEvent.frData[1] >>+map1","XXXAnlEvent.frData[0]>500");
+    theTree->Draw("XXXAnlEvent.frData[0]>>+his1");
+    go4->Message(1,"Tree Draw has finished.");
 ///////////////////////////////////////////////////////////
     /// example 2: run go4 main loop after the start button
     // and perform dynamic tree draw on registered tree
     go4->Message(1,"Please create dynamic entry for tree and press go4 start.");
-    while(1)
-      {
-        if(go4->WaitForStart()<0) break; // negative value means root canvas interrupt, leave loop
-        while(go4->Process()==0){;} // inner event loop, returns -1 if go4 is stopped
-      } // outer go4 loop
+    while(1) {
+       if(go4->WaitForStart()<0) break; // negative value means root canvas interrupt, leave loop
+       while(go4->Process() == 0) {} // inner event loop, returns -1 if go4 is stopped
+    } // outer go4 loop
     gROOT->SetInterrupt(kFALSE); // reset interrupt flag after leaving loop
     go4->RemoveTree(theTree); // to be reentrant: pointer to tree is no longer valid after file has been closed
    }

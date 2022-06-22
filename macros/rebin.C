@@ -13,7 +13,7 @@
 ///////
 Bool_t rebin(const char* name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t draw = kTRUE)
 {
-   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+   if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
@@ -23,7 +23,7 @@ Bool_t rebin(const char* name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t dra
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
 
-   TH1* result(0);
+   TH1* result = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2")){  // 2d rebin
       TH2* his1 = (TH2*)ob1;
       TString n1 = his1->GetName();

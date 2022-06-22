@@ -20,20 +20,20 @@
 // Get histograms from GO4 GUI
 Bool_t corrhistos(const char* name1, const char* name2, Bool_t draw)
 {
-   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+   if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1=go4->GetObject(fullname1,1000);
-   if((ob1==0) || !ob1->InheritsFrom("TH1")) {
+   if(!ob1 || !ob1->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
    TH1* his1 = (TH1*)ob1;
    TString fullname2 = go4->FindItem(name2);
    TObject* ob2=go4->GetObject(fullname2,1000);
-   if((ob2==0) || !ob2->InheritsFrom("TH1")) {
+   if(!ob2 || !ob2->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
    }
@@ -42,18 +42,18 @@ Bool_t corrhistos(const char* name1, const char* name2, Bool_t draw)
    // Get histograms from file
    Bool_t corrhistos(const char *file, const char* name1, const char* name2, Bool_t draw)
    {
-      TFile *f=TFile::Open(file,"r");
-      if(f == 0) {
+      TFile *f = TFile::Open(file,"r");
+      if(!f) {
          std::cout <<"corrhistos could not open file " << file << std::endl;
          return kFALSE;
       }
-      TH1* his1=f->Get(name1);
-      if(his1 == 0) {
+      TH1* his1 = f->Get(name1);
+      if(!his1) {
          std::cout <<"corrhistos could not get histogram "<< name1 << " in file " << file << std::endl;
          return kFALSE;
       }
-      TH1* his2=f->Get(name2);
-      if(his2 == 0) {
+      TH1* his2 = f->Get(name2);
+      if(!his2) {
          std::cout <<"corrhistos could not get histogram "<< name2 << " in file " << file << std::endl;
          return kFALSE;
       }
