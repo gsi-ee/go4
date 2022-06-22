@@ -80,7 +80,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
    if(par) {
       fxTagFile = par->GetTagName();
 
-      AddFileName(GetName(), fxTagFile.Data(), par->NumMoreFiles()==0);
+      AddFileName(GetName(), fxTagFile.Data(), par->NumMoreFiles() == 0);
       for (Int_t n=0;n<par->NumMoreFiles();n++)
          AddFileName(par->GetMoreName(n), 0, kFALSE);
    }
@@ -233,7 +233,7 @@ Int_t TGo4MbsFile::NextEvent()
 
          while(NextFile() < 0);
          //skip filenames with open error until a file
-         // in the list opens properly (retval==0)
+         // in the list opens properly (retval == 0)
          SetErrMess("");
          NewFileAction();
          throw TGo4EventErrorException(this,0);

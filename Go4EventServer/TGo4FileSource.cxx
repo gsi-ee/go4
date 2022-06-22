@@ -88,14 +88,14 @@ TGo4FileSource::~TGo4FileSource()
 
 TList* TGo4FileSource::ProducesFilesList(const char* mask)
 {
-   if (!mask || (strlen(mask)==0)) return nullptr;
+   if (!mask || (strlen(mask) == 0)) return nullptr;
 
    TString dirname, basename(mask);
 
    if (!basename.MaybeWildcard()) {
 
       // add default suffix
-      if(strstr(basename.Data(),TGo4FileStore::fgcFILESUF)==0)
+      if(!strstr(basename.Data(),TGo4FileStore::fgcFILESUF))
          basename += TGo4FileStore::fgcFILESUF;
 
       TList* lst = new TList();
@@ -151,7 +151,7 @@ Bool_t TGo4FileSource::OpenNextFile()
 {
    CloseCurrentFile();
 
-   if (!fxFilesNames || (fxFilesNames->GetSize()==0)) return kFALSE;
+   if (!fxFilesNames || (fxFilesNames->GetSize() == 0)) return kFALSE;
 
    TObject* obj = fxFilesNames->First();
    fxCurrentFileName = obj->GetName();

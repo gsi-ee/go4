@@ -64,7 +64,8 @@ TGo4FileStore::TGo4FileStore(const char* name,
    GO4TRACE((15,"TGo4FileStore::TGo4FileStore(char*,...)", __LINE__, __FILE__));
    TTree::SetMaxTreeSize(fgiFILESPLITSIZE);
    TString buffer(name);
-   if(strstr(buffer.Data(), fgcFILESUF)==0) buffer.Append(fgcFILESUF);
+   if(!strstr(buffer.Data(), fgcFILESUF))
+      buffer.Append(fgcFILESUF);
    if(overwrite) {
       fxFile = TFile::Open(buffer.Data(), "RECREATE", "Go4 file store", compression);
       TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
@@ -84,20 +85,16 @@ TGo4FileStore::TGo4FileStore(const char* name,
    buffer = oldname;
    buffer += fgcTREESUF;
    fxTree = dynamic_cast<TTree*> (fxFile->Get(buffer.Data()));
-   if(fxTree)
-   {
-      TGo4Log::Debug(" Tree %s has been found in file %s ",buffer.Data(), fxFile->GetName());
-      fiFillCount = (Int_t) (fxTree->GetEntries());
-   }
-   else
-   {
+   if (fxTree) {
+      TGo4Log::Debug(" Tree %s has been found in file %s ", buffer.Data(), fxFile->GetName());
+      fiFillCount = (Int_t)(fxTree->GetEntries());
+   } else {
       fxTree = new TTree(buffer.Data(), "Go4FileStore");
       fxTree->SetAutoSave(autosavesize);
       fxTree->Write();
-      TGo4Log::Debug(" Tree %s has been created in file %s ",buffer.Data(), fxFile->GetName());
+      TGo4Log::Debug(" Tree %s has been created in file %s ", buffer.Data(), fxFile->GetName());
    }
 }
-
 
 TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
          TGo4EventStore("dummy"),
