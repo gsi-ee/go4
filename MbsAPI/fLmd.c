@@ -313,7 +313,7 @@ uint32_t fLmdCloseMbs(sLmdControl *pLmdControl)
   }
   stat=f_stc_close(pLmdControl->pTCP);
   pLmdControl->pMbsFileHeader = NULL; // was reference only
-  if(pLmdControl->iTCPowner==0)pLmdControl->pTCP=NULL; // was reference only
+  if(pLmdControl->iTCPowner == 0) pLmdControl->pTCP=NULL; // was reference only
   fLmdCleanup(pLmdControl);
   return(stat);
 }
@@ -540,7 +540,7 @@ uint32_t fLmdGetBuffer(sLmdControl *pLmdControl, sMbsHeader *pMbsHeader, uint32_
          return(LMD__FAILURE);
       }
 
-      if (pLmdControl->pMbsHeader==0) {
+      if (pLmdControl->pMbsHeader == 0) {
          printf("fLmdGetBuffer: Internal error pMbsHeader==0\n");
          return(LMD__FAILURE);
       }
@@ -607,7 +607,7 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
 
   if(iEvent == LMD__NO_INDEX) {
      if(pLmdControl->pBuffer==NULL) return(GETLMD__NOBUFFER); // internal buffer needed
-     if(pLmdControl->pMbsFileHeader->iElements==0) return(GETLMD__NOMORE);
+     if(pLmdControl->pMbsFileHeader->iElements == 0) return(GETLMD__NOMORE);
 
      // check if we need to read extra data
      if ((pLmdControl->iLeftWords < 4) ||
@@ -684,7 +684,7 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
 uint32_t fLmdGetClose(sLmdControl *pLmdControl)
 {
    fLmdCleanup(pLmdControl); // cleanup except fFile
-   if(fclose(pLmdControl->fFile)!=0) {
+   if(fclose(pLmdControl->fFile) != 0) {
       pLmdControl->fFile=NULL;
       return(LMD__CLOSE_ERR);
    }
