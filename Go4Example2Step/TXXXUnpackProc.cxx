@@ -380,8 +380,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 
 
    inp_evt->ResetIterator();
-   TGo4MbsSubEvent* psubevt = nullptr;
-   while ((psubevt = inp_evt->NextSubEvent()) != nullptr) // subevent loop
+   while (auto psubevt = inp_evt->NextSubEvent()) // subevent loop
    {
       if( psubevt->GetSubcrate() == 1)
       {

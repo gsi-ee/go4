@@ -74,12 +74,10 @@ void TGo4SimpleEvent::PrintEvent()
    TGo4EventElement::PrintEvent();
    TGo4Log::Debug( " Simple Event Header printout: ");
    TGo4Log::Debug( "\tCount:    %d ", GetCount() );
-   TGo4SimpleSubEvent* sub;
-   ResetIterator();
 
-   while ((sub = NextSubEvent()) != nullptr) {
+   ResetIterator();
+   while (auto sub = NextSubEvent())
       sub->PrintEvent();
-   }
 
 }
 
@@ -87,20 +85,19 @@ void TGo4SimpleEvent::Clear(Option_t *t)
 {
    GO4TRACE((11,"TGo4SimpleEvent::Clear()",__LINE__, __FILE__));
    // here iterate all subevents and clear them
-   TGo4SimpleSubEvent* sub = nullptr;
    // too slow!!
    //   ResetIterator();
-   //   while ((sub = NextSubEvent()) != nullptr)
+   //   while (auto sub = NextSubEvent())
    //      {
    //         sub->Clear();
    //      }
    Int_t i=0;
    //   while ((sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->At(i++)) ) != nullptr)
    for(i=0;i<fiMaxSlot; ++i )  {
-      sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->UncheckedAt(i));
+      auto sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->UncheckedAt(i));
       sub->Clear();
    }
-   fiCount=0;
+   fiCount = 0;
 }
 
 
@@ -164,31 +161,22 @@ Int_t TGo4SimpleEvent::Fill()
 TGo4SimpleSubEvent * TGo4SimpleEvent::GetSubEvent(Short_t procid)
 {
    GO4TRACE((11,"TGo4SimpleEvent::GetSubEvent(Short_t)",__LINE__, __FILE__));
-   TGo4SimpleSubEvent* result = nullptr;
-   TGo4SimpleSubEvent* sub = nullptr;
    // this is slow:
    //   ResetIterator();
-   //   while ((sub = NextSubEvent()) != nullptr)
+   //   while (auto sub = NextSubEvent())
    //      {
-   //         if(sub->fsProcid==procid)
-   //            {
-   //               result=sub;
-   //               break;
-   //            }
-   //         else
-   //            { }
+   //         if(sub->fsProcid == procid)
+   //               return sub;
    //      }
    // Int_t i=0;
    //   while ((sub = dynamic_cast<TGo4SimpleSubEvent*>( fxSubEventArray->At(i++)) ) != nullptr)
    for (Int_t i = 0; i < fiMaxSlot; ++i) {
-      sub = dynamic_cast<TGo4SimpleSubEvent *>(fxSubEventArray->UncheckedAt(i));
-      if (sub->fsProcid == procid) {
-         result = sub;
-         break;
-      }
+      auto sub = dynamic_cast<TGo4SimpleSubEvent *>(fxSubEventArray->UncheckedAt(i));
+      if (sub->fsProcid == procid)
+         return sub;
    }
 
-   return result;
+   return nullptr;
 }
 
 Int_t  TGo4SimpleEvent::GetCount() const
@@ -238,6 +226,5 @@ void TGo4SimpleEvent::ResetIterator()
 TGo4SimpleSubEvent* TGo4SimpleEvent::NextSubEvent()
 {
    GO4TRACE((11,"TGo4SimpleEvent::NextSubEvent()",__LINE__, __FILE__));
-   TGo4SimpleSubEvent *sub = (TGo4SimpleSubEvent*) fxIterator ->Next();
-   return sub;
+   return (TGo4SimpleSubEvent*) fxIterator ->Next();
 }
