@@ -165,7 +165,7 @@ Bool_t TGo4HStackProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
    if (fHS && fOwner) delete fHS;
 
    fHS = dynamic_cast<THStack*> (obj);
-   fOwner = owner && (fHS!=0);
+   fOwner = owner && fHS;
 
    if (!fHS && obj && owner) delete obj;
 

@@ -85,7 +85,7 @@ class TGo4Prefs {
                  // check mask with regular expression
                  TRegexp re(mask.c_str(), kTRUE);
                  Int_t len = 0;
-                 if (re.Index(subvalue, &len)!=0) break;
+                 if (re.Index(subvalue, &len) != 0) break;
                  if (len != (Int_t) strlen(subvalue)) break;
 
                  // take rest of buffer for analysis
@@ -166,7 +166,7 @@ class TGo4Prefs {
             str.erase(pos1, pos2-pos1+1);
 
             const char* value = gSystem->Getenv(var.c_str());
-            if (value!=0) str.insert(pos1, value);
+            if (value) str.insert(pos1, value);
          }
       }
 
@@ -333,7 +333,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    killcmd = "killall ";
    killcmd += remoteexe;
 
-   if((shellkind>0) && (strcmp(remotehost, gSystem->HostName())!=0) && (strcmp(remotehost,"localhost")!=0)) {
+   if((shellkind > 0) && (strcmp(remotehost, gSystem->HostName()) != 0) && (strcmp(remotehost,"localhost") != 0)) {
        TString precmd = sh_com;
        precmd += " ";
        precmd += remotehost;

@@ -319,7 +319,7 @@ class TGo4DabcAccess : public TGo4Access {
                if (local_master_version >= cmd.GetInt("MVersion")) {
                   //printf("MASTER version %d required %d EXISTS!!!\n", local_master_version, cmd.GetInt("MVersion"));
                } else
-               if (masterslot->GetPar("dabc_loading")!=0) {
+               if (masterslot->GetPar("dabc_loading")) {
                   // if master slot loading, we will try to check again 1 sec later
                   return 1.;
                } else {
@@ -643,7 +643,7 @@ Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
       // DOUT0("Get raw data %p %u", buf.SegmentPtr(), buf.GetTotalSize());
       if (!hierarchy.ReadFromBuffer(buf)) return kFALSE;
 
-      if (fxParentSlot!=0)
+      if (fxParentSlot)
          fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjUpdated);
    }
 

@@ -219,7 +219,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 //           << "  date = " << ps_his_head->c_data_time_cre << std::endl;
 
       TGo4Slot* child = fxStructure->GetSlot(ps_his_head->c_name, kTRUE);
-      if (child!=0) {
+      if (child) {
          child->SetPar("::HistoClass", HisType.Data());
          child->SetPar("::Date", ps_his_head->c_data_time_cre);
       }

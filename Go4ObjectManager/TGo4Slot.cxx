@@ -148,9 +148,9 @@ TGo4Slot::~TGo4Slot()
 //   CleanProxy();
 
 //   Info("~TGo4Slot","Dettach from parent %x", this);
-//   if (fParent!=0) {
+//   if (fParent) {
 //      fParent->RemoveChild(this);
-//      fParent = 0;
+//      fParent = nullptr;
 //   }
 
 //   Info("~TGo4Slot","fPars.Delete() %x", this);

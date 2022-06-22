@@ -109,7 +109,7 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
    while ((member = (TGo4ParameterMember*) next()) != nullptr) {
      TString dummy;
       const char* optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
-      if (optvalue!=0) {
+      if (optvalue) {
          TGo4Log::Info("Par:%s member %s newvalue %s", GetName(), member->GetFullName(dummy), optvalue);
          member->SetStrValue(optvalue);
       }
@@ -278,8 +278,8 @@ Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMe
 {
    TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
    if (!info) return -1;
-   if (strcmp(info->GetName(), member->GetName())!=0) return -1;
-   if (strcmp(info->GetTitle(), member->GetTitle())!=0) return -1;
+   if (strcmp(info->GetName(), member->GetName()) != 0) return -1;
+   if (strcmp(info->GetTitle(), member->GetTitle()) != 0) return -1;
    if (info->GetTypeId() != TGo4ParameterMember::kTArray_t) return -1;
    return info->GetIntValue();
 }
@@ -359,10 +359,10 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
               dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
            if (!info) return kFALSE;
 
-          if (strcmp(info->GetName(), member->GetName())!=0) return kFALSE;
-          if (strcmp(info->GetTitle(), member->GetTitle())!=0) return kFALSE;
+          if (strcmp(info->GetName(), member->GetName()) != 0) return kFALSE;
+          if (strcmp(info->GetTitle(), member->GetTitle()) != 0) return kFALSE;
 
-          if (strcmp(info->GetTypeName(), memtypename)!=0) return kFALSE;
+          if (strcmp(info->GetTypeName(), memtypename) != 0) return kFALSE;
           if (info->GetTypeId() != memtypeid) return kFALSE;
 
           if (!info->CheckArrayIndexes(arraydim, ix1, ix2)) return kFALSE;
@@ -418,7 +418,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    TIter iter(fitems);
    TGo4ParameterMember *info = nullptr;
 
-   while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
+   while ((info = (TGo4ParameterMember*) iter()) != nullptr) {
       if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
 
       TString membername;

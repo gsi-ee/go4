@@ -165,11 +165,11 @@ Bool_t TGo4ObjectProxy::IsAcceptObject(TClass* cl)
 Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 {
    Finalize(slot);
-   if ((fObject!=0) && fOwner) delete fObject;
+   if (fObject && fOwner) delete fObject;
    fObject = obj;
    fOwner = owner;
 
-   if ((fObject!=0) && fOwner && fObject->InheritsFrom(TH1::Class()))
+   if (fObject && fOwner && fObject->InheritsFrom(TH1::Class()))
      ((TH1*) fObject)->SetDirectory(nullptr);
 
    Initialize(slot);
@@ -198,11 +198,11 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
       if (histo->GetDimension()>2)
          nbins = nbins * (histo->GetNbinsZ()+2);
       Int_t binsize = 1;
-      if (strchr(histo->ClassName(),'S')!=0) binsize = sizeof(Short_t); else
-      if (strchr(histo->ClassName(),'D')!=0) binsize = sizeof(Double_t); else
-      if (strchr(histo->ClassName(),'F')!=0) binsize = sizeof(Float_t); else
-      if (strchr(histo->ClassName(),'I')!=0) binsize = sizeof(Int_t); else
-      if (strchr(histo->ClassName(),'C')!=0) binsize = sizeof(Char_t);
+      if (strchr(histo->ClassName(),'S')) binsize = sizeof(Short_t); else
+      if (strchr(histo->ClassName(),'D')) binsize = sizeof(Double_t); else
+      if (strchr(histo->ClassName(),'F')) binsize = sizeof(Float_t); else
+      if (strchr(histo->ClassName(),'I')) binsize = sizeof(Int_t); else
+      if (strchr(histo->ClassName(),'C')) binsize = sizeof(Char_t);
       sz += binsize * nbins;
    } else if (obj->InheritsFrom(TTree::Class())) {
       TTree* t = (TTree*) obj;

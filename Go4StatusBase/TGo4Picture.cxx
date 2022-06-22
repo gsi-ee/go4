@@ -285,7 +285,7 @@ void TGo4Picture::AddObjName(const char* name, Option_t* DrawOption)
    }
    fxNames->Add(new TObjString(name));
    SetDrawOption(DrawOption, fxNames->GetLast());
-//   if ((DrawOption!=0) && (*DrawOption!=0))
+//   if (DrawOption && (*DrawOption != 0))
 //      SetDrawOption(DrawOption, PictureIndex);
 
    fiLastIndex = fxNames->GetLast();
@@ -772,9 +772,9 @@ void TGo4Picture::SetAxisAtt(Int_t naxis,
    SetOptionF(index, op+10, TitleSize);
    // copy all user defined bits
    if (decimals) bits = bits | 1;
-   if (ticks!=0) {
-      if (strchr(ticks,'+')!=0) bits = bits | 2;
-      if (strchr(ticks,'-')!=0) bits = bits | 4;
+   if (ticks) {
+      if (strchr(ticks,'+')) bits = bits | 2;
+      if (strchr(ticks,'-')) bits = bits | 4;
    }
    SetOption (index, op+11, bits);
 }
@@ -1039,7 +1039,7 @@ void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y
    SetOptionD(PictureIndex, op_TitleX2, x2);
    SetOptionD(PictureIndex, op_TitleY2, y2);
 
-   if (textsize!=0.)
+   if (textsize != 0.)
       SetOptionD(PictureIndex, op_TitleTextSz, textsize);
 }
 
@@ -1152,7 +1152,7 @@ bool TGo4Picture::IsAutoScale() const
 {
    Long_t zn = kTRUE;
    GetOption(PictureIndex, op_AutoScale, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetSuperimpose(bool on)
@@ -1164,7 +1164,7 @@ bool TGo4Picture::IsSuperimpose() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_Superimpose, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetApplyToAll(bool on)
@@ -1176,7 +1176,7 @@ bool TGo4Picture::IsApplyToAll() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_ApplyToAll, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetAutoZoom(bool on)
@@ -1188,7 +1188,7 @@ bool TGo4Picture::IsAutoZoom() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_AutoZoom, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetContentModified(bool on)
@@ -1200,7 +1200,7 @@ bool TGo4Picture::IsContentModified() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_ContentModified, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetPadModified(bool on)
@@ -1212,7 +1212,7 @@ bool TGo4Picture::IsPadModified() const
 {
    Long_t zn = 0;
    GetOption(PictureIndex, op_PadModified, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
@@ -1224,13 +1224,13 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
       case 3: SetLogScale(0, value); break;
       case 4: SetLogScale(1, value); break;
       case 5: SetLogScale(2, value); break;
-      case 6: SetHisStats(value!=0); break;
-      case 7: SetHisTitle(value!=0); break;
-      case 8: SetLegendDraw(value!=0); break;
-      case 9: SetCrosshair(value!=0); break;
+      case 6: SetHisStats(value != 0); break;
+      case 7: SetHisTitle(value != 0); break;
+      case 8: SetLegendDraw(value != 0); break;
+      case 9: SetCrosshair(value != 0); break;
       case 10: {
          Int_t numdim = GetFullRangeDim();
-         SetAutoScale(value!=0);
+         SetAutoScale(value != 0);
          Double_t min, max;
          if (!IsAutoScale()) { // keep current selection if not autosacle
             if ((numdim==1) && !GetRange(1, min, max)) {
@@ -1244,13 +1244,13 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
          }
          break;
       }
-      case 11: SetSuperimpose(value!=0); break;
-      case 12: SetTitleTime(value!=0); break;
-      case 13: SetTitleDate(value!=0); break;
-      case 14: SetTitleItem(value!=0); break;
-      case 15: SetXAxisTimeDisplay(value!=0); break;
+      case 11: SetSuperimpose(value != 0); break;
+      case 12: SetTitleTime(value != 0); break;
+      case 13: SetTitleDate(value != 0); break;
+      case 14: SetTitleItem(value != 0); break;
+      case 15: SetXAxisTimeDisplay(value != 0); break;
       case 17:
-         SetXYRatioOne(value!=0);
+         SetXYRatioOne(value != 0);
          //if (value == 0) SetDefaultRatio(true); //
          break;
       case 18: SetHisContour(value); break;
@@ -1352,8 +1352,8 @@ void TGo4Picture::CopyOptionsFrom(TGo4Picture* source)
    fiOptSize = source->fiOptSize;
    source->fxOptIndex.Copy(fxOptIndex);
    source->fxOptValue.Copy(fxOptValue);
-   if (fxOptObjects!=0) delete fxOptObjects;
-   fxOptObjects = 0;
+   if (fxOptObjects) delete fxOptObjects;
+   fxOptObjects = nullptr;
    if (source->fxOptObjects)
       fxOptObjects = (TObjArray*) source->fxOptObjects->Clone();
 }
@@ -1677,7 +1677,7 @@ void TGo4Picture::Draw(Option_t* option)
       TString txt = c->GetName();
       txt += "  Pic: ";
       txt += GetName();
-      if (strcmp(GetName(), GetTitle())!=0) {
+      if (strcmp(GetName(), GetTitle()) != 0) {
          txt += "  Title: ";
          txt += GetTitle();
       }
@@ -1725,7 +1725,7 @@ void TGo4Picture::PrintPic(int shift, Bool_t showopt)
 void TGo4Picture::Print(Option_t* option) const
 {
    std::cout << "Picture  " << GetName() << std::endl;
-   ((TGo4Picture*)this)->PrintPic(2, (strstr(option,"attr")!=0));
+   ((TGo4Picture*)this)->PrintPic(2, (strstr(option,"attr") != nullptr));
 }
 
 void TGo4Picture::AddSubPicture(TGo4Picture* pic)
@@ -2003,7 +2003,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
       const char* objopt = GetDrawOption(indx);
 
       fs << name << "AddObjName(\"" << objname << "\"";
-      if (objopt!=0) fs << ", \"" << objopt << "\"";
+      if (objopt) fs << ", \"" << objopt << "\"";
       fs << ");" << std::endl;
       if (GetLineAtt(&latt,indx))
         fs << name << "SetLineAtt("
@@ -2055,7 +2055,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
          const char* pos = xmlbuf.Data();
          while (*pos != 0) {
             const char* lastpos = pos;
-            while ((*pos !=0) && (*pos!='\n')) pos++;
+            while ((*pos != 0) && (*pos!='\n')) pos++;
             TString subbuf(lastpos, pos-lastpos);
             subbuf.ReplaceAll("\"","\\\"");
             fs << "TGo4Picture::Add(sbuf,\"" << subbuf << "\");" << std::endl;
@@ -2069,7 +2069,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
 
       Option_t* opt = iter.GetOption();
 
-      if ((opt!=0) && (*opt!=0))
+      if (opt && (*opt != 0))
          fs << ", \"" << opt << "\"";
       fs << ");" << std::endl;
    }

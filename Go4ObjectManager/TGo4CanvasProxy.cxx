@@ -231,11 +231,11 @@ TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
 
    while (curpad) {
       const char* slash = strchr(curname,'/');
-      UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
+      UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
       TObject* obj = nullptr;
       while ((obj = iter()) != nullptr)
-         if ((strlen(obj->GetName())==len) &&
+         if ((strlen(obj->GetName()) == len) &&
              (strncmp(obj->GetName(), curname, len) == 0)) break;
       if (!obj) return nullptr;
 

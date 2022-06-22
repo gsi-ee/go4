@@ -63,7 +63,7 @@ TObjArray* TGo4ParameterStatus::GetMemberValues(Bool_t takeit)
 Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
 {
    if (!par || !fxMemberValues) return kFALSE;
-   if (strcmp(GetObjectClass(), par->ClassName())!=0) return kFALSE;
+   if (strcmp(GetObjectClass(), par->ClassName()) != 0) return kFALSE;
 
    if (par->CustomUpdateFrom()) {
       TGo4Parameter* copypar = CreateParameter();

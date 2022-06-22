@@ -637,7 +637,7 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
     fxVarHandle.fxArray.p = *p_begin_ptr;
     fxVarHandle.fxArray.len = len;
 
-//    SetActive(((fxVarHandle.fxArray.p!=0) &&  (fxVarHandle.fxArray.len>0)) ? true : false); // disable writing out empty vector
+//    SetActive((fxVarHandle.fxArray.p &&  (fxVarHandle.fxArray.len > 0)) ? true : false); // disable writing out empty vector
 
 #ifdef GO4HDF5_DEBUG
     static unsigned debugcount = 0;
@@ -810,7 +810,7 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
 
 void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 {
-  SetActive(((fxVarHandle.fxArray.p!=0) &&  (fxVarHandle.fxArray.len>0)) ? true : false); // disable writing out empty vector
+  SetActive((fxVarHandle.fxArray.p &&  (fxVarHandle.fxArray.len > 0)) ? true : false); // disable writing out empty vector
 
   BuildWriteDataset(file); // dataset is no sooner created than we have really data to write in vector
   TGo4HDF5DataHandle::Write(sequencenum, file);
