@@ -1803,8 +1803,7 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
          if (framehisto->GetXaxis() != obj) continue;
 
          TIter next(hs->GetHists());
-         TH1* hs_h1 = nullptr;
-         while ((hs_h1 = (TH1*) next()) != nullptr)
+         while (auto hs_h1 = (TH1*) next())
             hs_h1->GetXaxis()->UnZoom();
 
          return;
@@ -2300,8 +2299,7 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool rem
       TObjArray subpads;
       isdupluicate = false;
       TIter iter(pad->GetListOfPrimitives());
-      TObject* obj = 0;
-      while ((obj = iter()) != nullptr) {
+      while (auto obj = iter()) {
          TPad* subpad = dynamic_cast<TPad*>(obj);
          if (!subpad)
             continue;
@@ -2340,8 +2338,7 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool rem
 
    TIter iter(pad->GetListOfPrimitives());
    TObjArray removedItems;
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       TPad* subpad = dynamic_cast<TPad*>(obj);
       if (subpad)
          ProcessPadStatusUpdate(subpad, slot, removeitems);
@@ -3242,9 +3239,8 @@ TH1* TGo4ViewPanel::GetPadHistogram(TPad *pad)
          TH1 *h = Get_fHistogram(mg);
          if (h) return h;
 
-         TGraph* gr = nullptr;
          TIter iter(mg->GetListOfGraphs());
-         while ((gr = (TGraph*) iter()) != nullptr) {
+         while (auto gr = (TGraph*) iter()) {
             h = Get_fHistogram(gr, true);
             if (h) return h;
          }
@@ -4165,9 +4161,8 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
    if (scancontent) {
       TIter iter(hs->GetHists());
-      TH1 *h1 = nullptr;
       bool first = true;
-      while ((h1 = (TH1*) iter()) != nullptr) {
+      while (auto h1 = (TH1*) iter()) {
          TakeFullRangeFromHisto(h1, padopt, first);
          first = false;
       }
@@ -4264,9 +4259,9 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph
    if (!pad || !padopt || !mg) return;
 
    TIter iter(mg->GetListOfGraphs());
-   TGraph *gr = nullptr, *firstgr = nullptr;
+   TGraph *firstgr = nullptr;
    bool first = true;
-   while ((gr = (TGraph*) iter()) != nullptr) {
+   while (auto gr = (TGraph*) iter()) {
       if (scancontent) {
          gr->SetEditable(kFALSE);
          TakeFullRangeFromGraph(gr, padopt, first);
@@ -4512,8 +4507,7 @@ void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col, TPad* backup)
    //pad->Modified(); // for image formats, display window bitmap has to change
    //std::cout<<"ResetPadFillColors sets color "<<col<<" to pad "<< (unsigned long) pad<<", name:"<<pad->GetName()<<", backup was "<<backup << std::endl;
    TIter iter(pad->GetListOfPrimitives());
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       TPad* subpad = dynamic_cast<TPad*>(obj);
       TFrame* fram = dynamic_cast<TFrame*>(obj);
       if (subpad){
@@ -5141,11 +5135,9 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       // this is autoscale mode
 
       if (hs) {
-
          if (ndim == 1) {
             TIter next(hs->GetHists());
-            TH1* hs_h1 = nullptr;
-            while ((hs_h1 = (TH1*) next()) != nullptr) {
+            while (auto hs_h1 = (TH1*) next()) {
                if (padopt->GetRange(0, umin, umax)) {
                   // note: go4 range was full visible range of histogram
                   // in new ROOT automatic shift of ranges can appear,
