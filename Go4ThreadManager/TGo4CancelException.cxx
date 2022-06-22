@@ -61,7 +61,7 @@ TGo4CancelException & TGo4CancelException::operator=(const TGo4CancelException &
 Int_t TGo4CancelException::Handle()
 {
    GO4TRACE((14,"TGo4CancelException::Handle()",__LINE__, __FILE__));
-   if(GetThreadName()==0)
+   if(!GetThreadName())
       // no threadname specified, operate on thread of runnable
       {
          GO4TRACE((13,"TGo4CancelException::Handle() -- canceling thread of runnable",__LINE__, __FILE__));

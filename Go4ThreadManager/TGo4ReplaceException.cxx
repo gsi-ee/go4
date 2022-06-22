@@ -77,7 +77,7 @@ Int_t TGo4ReplaceException::Handle ()
    GO4TRACE((14,"TGo4ReplaceException::Handle()",__LINE__, __FILE__));
     // first step: find out name of thread to be replaced
    TString name;
-   if(GetThreadName()==0)
+   if(!GetThreadName())
       // no threadname specified, use name of thread associated with runnable
       {
          GO4TRACE((13,"TGo4ReplaceException::Handle() -- replacing thread associated with runnable",__LINE__, __FILE__));
@@ -101,7 +101,4 @@ Int_t TGo4ReplaceException::Handle ()
     return 0;
 
 }
-
-
-
 
