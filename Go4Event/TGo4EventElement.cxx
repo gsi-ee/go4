@@ -70,11 +70,11 @@ void TGo4EventElement::Print(Option_t* option) const
 
 TGo4EventElement* TGo4EventElement::GetChild(const char* name)
 {
-   if (!name || (strlen(name)==0)) return this;
+   if (!name || (strlen(name) == 0)) return this;
 
-   if (strcmp(name,".")==0) return this;
+   if (strcmp(name,".") == 0) return this;
 
-   if (strcmp(name,"..")==0) return GetParent();
+   if (strcmp(name,"..") == 0) return GetParent();
 
    return nullptr;
 }

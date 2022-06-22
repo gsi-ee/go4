@@ -262,9 +262,9 @@ typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
 int FindArg(int argc, char **argv, const char* argname)
 {
-   if ((argname==0) || (strlen(argname)==0)) return -1;
+   if (!argname || (strlen(argname) == 0)) return -1;
    for (int n=0;n<argc;n++)
-      if (strcmp(argv[n], argname)==0) return n;
+      if (strcmp(argv[n], argname) == 0) return n;
    return -1;
 }
 
@@ -273,7 +273,7 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = n
    int n = pos ? *pos : 0;
 
    while (++n<argc)
-      if (strcmp(argv[n], argname)==0) {
+      if (strcmp(argv[n], argname) == 0) {
          if ((n+1<argc) && (argv[n+1][0]!='-')) {
             if (pos) *pos = n+1;
             return argv[n+1];
@@ -824,7 +824,7 @@ int main(int argc, char **argv)
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
          const char* hostname = gSystem->HostName();
-         if (!hostname || (*hostname==0)) hostname = "localhost";
+         if (!hostname || (*hostname == 0)) hostname = "localhost";
          http_args.Add(new TObjString(TString::Format("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
 #endif

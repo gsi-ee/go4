@@ -928,10 +928,10 @@ TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesList()",__LINE__, __FILE__));
    TGo4LockGuard   listguard(fxDirMutex);
-   TGo4AnalysisObjectNames* namesobject=0;
+   TGo4AnalysisObjectNames* namesobject = nullptr;
    //fxTempFolder->Clear();
    const char* name = TGo4Analysis::Instance()->GetName();
-   if ((name==0) || (strlen(name)==0)) name = "Go4NamesList";
+   if (!name || (strlen(name) == 0)) name = "Go4NamesList";
    namesobject= new TGo4AnalysisObjectNames(name);
    namesobject->fxTopFolder=CreateNamesFolder(fxGo4Dir);
    TGo4PolyCond::CleanupSpecials(); // remove references to cloned TCutG in status
@@ -1065,14 +1065,14 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char * name
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
 
-   if (!name || (strlen(name)==0)) return nullptr;
+   if (!name || (strlen(name) == 0)) return nullptr;
 
    TString path(name);
    TGo4EventElement* curr = nullptr;
 
    while (path.Length()>0) {
       Int_t pos = path.Index("/");
-      if (pos==0) { path.Remove(0, 1); continue; }
+      if (pos == 0) { path.Remove(0, 1); continue; }
 
       TString sub = path;
       if (pos > 0) { sub.Resize(pos); path.Remove(0, pos+1); }
@@ -1086,7 +1086,7 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char * name
          // event can have subfolder which corresponds to the subevent
          // but it also could have subfolder which corresponds to parent class
          // in second case just ignore all other artificial subfolders
-         if ((chld==0) && curr->InheritsFrom(sub.Data())) return curr;
+         if (!chld && curr->InheritsFrom(sub.Data())) return curr;
          curr = chld;
       }
 
@@ -1098,7 +1098,7 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char * name
 
 Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry* entry)
 {
-   if(entry) entry->Reset();
+   if (entry) entry->Reset();
    return AddObjectToFolder(entry, fxDynListDir, 0, kTRUE, kFALSE, kFALSE);
 }
 

@@ -391,7 +391,7 @@ void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t ap
    {
       CloseLogfile();
       char txtbuf[fguMESLEN];
-      if(name==0)
+      if(!name)
          // default: encode pid into filename
          snprintf(txtbuf,fguMESLEN,"go4log-%d.txt", gSystem->GetPid());
       else

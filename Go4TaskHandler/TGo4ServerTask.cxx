@@ -216,64 +216,52 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
 void TGo4ServerTask::SetCurrentTask(const char* name)
 {
    //std::cout <<"server task setting current task to "<<name << std::endl;
-   TGo4TaskHandler* han = nullptr;
-   if(!fxTaskManager)
+   TGo4TaskHandler *han = nullptr;
+   if (!fxTaskManager) {
+      TGo4Log::Debug(" TGo4ServerTask ''%s'' ERROR- task manager not existing!!! ", GetName());
+   } else {
+      // first stop all user threads waiting on or writing into the data queues
+      if (IsWorkStopped()) {
+         // Working threads have already been stopped
+         // maybe by RemoveClient method.
+         // We do nothing, since the current taskhandler is not
+         // reset yet and any access to current task in the derived
+         // _user_ method would crash the program!
+      } else // if(IsWorkStopped())
       {
-         TGo4Log::Debug(" TGo4ServerTask ''%s'' ERROR- task manager not existing!!! ", GetName());
-      }
-   else
+         // work has not been stopped, we do that
+         StopWorkThreads();
+      } // else if(fbWorkIsStopped)
       {
-         // first stop all user threads waiting on or writing into the data queues
-         if(IsWorkStopped())
-            {
-               // Working threads have already been stopped
-               // maybe by RemoveClient method.
-               // We do nothing, since the current taskhandler is not
-               // reset yet and any access to current task in the derived
-               // _user_ method would crash the program!
+         if (!name) {
+            // zero name given, set pointer to last handler still in list
+            fxCurrentTaskHandler = fxTaskManager->GetLastTaskHandler();
+            // std::cout << "**** set current th from get lastth:"<< fxCurrentTaskHandler << std::endl;
+         } else {
+            // name specified, search for it
+            han = fxTaskManager->GetTaskHandler(name);
+            if (han) {
+               fxCurrentTaskHandler = han;
+               // std::cout << "**** set current th from name:"<< fxCurrentTaskHandler << std::endl;
+            } else {
+               TGo4Log::Debug(" ServerTask: FAILED setting current task to %s-- no such client! ", name);
             }
-         else // if(IsWorkStopped())
-            {
-               // work has not been stopped, we do that
-               StopWorkThreads();
-            } // else if(fbWorkIsStopped)
-      {
-           if(name==0)
-               {
-                  // zero name given, set pointer to last handler still in list
-                     fxCurrentTaskHandler=fxTaskManager->GetLastTaskHandler();
-                     //std::cout << "**** set current th from get lastth:"<< fxCurrentTaskHandler << std::endl;
-               }
-            else // if(name==0)
-               {
-               // name specified, search for it
-               han=fxTaskManager->GetTaskHandler(name);
-               if(han)
-                  {
-                     fxCurrentTaskHandler=han;
-                     //std::cout << "**** set current th from name:"<< fxCurrentTaskHandler << std::endl;
-                  }
-               else // if(han)
-                  {
-                      TGo4Log::Debug(" ServerTask: FAILED setting current task to %s-- no such client! ",name);
-                  } // else if(han)
-               } // else if(name==0)
+         }
+      }
 
-      } // TGo4LockGuard
-       // finally, start user threads again
-         StartWorkThreads();
-      } // else if(fxTaskManager==0)
+      // finally, start user threads again
+      StartWorkThreads();
+   }
 }
-
 
 TGo4TaskHandler* TGo4ServerTask::GetTaskHandler(const char* name)
 {
-   return (fxTaskManager->GetTaskHandler(name));
+   return fxTaskManager->GetTaskHandler(name);
 }
 
 TGo4TaskHandler* TGo4ServerTask::GetTaskHandler()
 {
-   return (GetCurrentTaskHandler());
+   return GetCurrentTaskHandler();
 }
 
 TGo4TaskHandler* TGo4ServerTask::GetCurrentTaskHandler()
@@ -297,8 +285,8 @@ void TGo4ServerTask::SetConnect(TGo4Socket * trans, const char* host, UInt_t por
 
 void TGo4ServerTask::SetDisConnect(TGo4Socket * trans)
 {
-   fxDisConnectTransport=trans;
-   fbDisConnectRequest=kTRUE;
+   fxDisConnectTransport = trans;
+   fbDisConnectRequest = kTRUE;
 }
 
 Int_t TGo4ServerTask::TimerConnect()
@@ -308,7 +296,7 @@ Int_t TGo4ServerTask::TimerConnect()
    //// handle the disconnection first:
    if(fbDisConnectRequest)
       {
-         if(fxDisConnectTransport!=0)
+         if(fxDisConnectTransport)
             {
                // we have a transport instance to disconnect
                fxDisConnectTransport->Close();
@@ -335,7 +323,7 @@ Int_t TGo4ServerTask::TimerConnect()
    if(fbConnectRequest)
       {
          // timer shall open a transport as server
-      if(fxConnectTransport!=0)
+      if(fxConnectTransport)
          {
 
             if(!fxConnectTransport->IsOpen())
@@ -461,9 +449,9 @@ TGo4Socket* TGo4ServerTask::GetConnectTransport()
 
 TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char* name)
 {
-   TGo4BufferQueue* queue=0;
-   TGo4TaskHandler* currenttask=0;
-   if(name==0 || strstr(name,"current"))
+   TGo4BufferQueue* queue = nullptr;
+   TGo4TaskHandler* currenttask = nullptr;
+   if(!name || strstr(name,"current"))
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else
       currenttask=GetTaskHandler(name); // find out destination client by name
@@ -474,30 +462,28 @@ TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char* name)
 
 TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char* name)
 {
-   TGo4BufferQueue* queue=0;
-   TGo4TaskHandler* currenttask=0;
-   if(name==0)
+   TGo4BufferQueue* queue = nullptr;
+   TGo4TaskHandler* currenttask = nullptr;
+   if(!name)
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else
       currenttask=GetTaskHandler(name); // find out destination client by name
    if(currenttask)
-         queue=dynamic_cast<TGo4BufferQueue*> (currenttask->GetStatusQueue());
+      queue=dynamic_cast<TGo4BufferQueue*> (currenttask->GetStatusQueue());
    return queue;
 }
 
-
 TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char* name)
 {
-   TGo4BufferQueue* queue=0;
-   TGo4TaskHandler* currenttask=0;
-   if(name==0 || strstr(name,"current"))
+   TGo4BufferQueue* queue = nullptr;
+   TGo4TaskHandler* currenttask = nullptr;
+   if(!name || strstr(name,"current"))
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else
       currenttask=GetTaskHandler(name); // find out destination client by name
    if(currenttask)
-         queue=dynamic_cast<TGo4BufferQueue*> (currenttask->GetDataQueue());
+      queue=dynamic_cast<TGo4BufferQueue*> (currenttask->GetDataQueue());
    return queue;
-
 }
 
 TGo4Command* TGo4ServerTask::NextCommand()
@@ -636,10 +622,7 @@ void TGo4ServerTask::Shutdown()
    gApplication->Terminate(); // do not wait until appctrl timer terminates us
 }
 
-
 const char* TGo4ServerTask::Get_fgcLAUNCHPREFSFILE()
 {
    return fgcLAUNCHPREFSFILE;
 }
-
-

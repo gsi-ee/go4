@@ -2419,7 +2419,7 @@ Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
 
 Long64_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
 {
-  if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
+  if (!macro_name || (strlen(macro_name) == 0)) return -1;
   TString comstring=macro_name;
   comstring.Prepend(TGo4Analysis::fgcPYPROMPT); // emulate interactive command line mode here
   return ExecuteLine(comstring.Data(), errcode);

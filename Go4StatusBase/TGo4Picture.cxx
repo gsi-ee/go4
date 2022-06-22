@@ -278,8 +278,8 @@ void TGo4Picture::AddCondition(Int_t posy, Int_t posx, TNamed* cond)
 
 void TGo4Picture::AddObjName(const char* name, Option_t* DrawOption)
 {
-   if (name==0) return;
-   if (fxNames==0) {
+   if (!name) return;
+   if (!fxNames) {
       fxNames = new TObjArray();
       fxNames->SetOwner(kTRUE);
    }
@@ -293,15 +293,15 @@ void TGo4Picture::AddObjName(const char* name, Option_t* DrawOption)
 
 void TGo4Picture::AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption)
 {
-   if (name!=0)
+   if (name)
      Pic(posy,posx)->AddObjName(name, DrawOption);
 }
 
 void TGo4Picture::ClearObjNames(Bool_t recursive)
 {
-   if (fxNames!=0) {
+   if (fxNames) {
      delete fxNames;
-     fxNames = 0;
+     fxNames = nullptr;
    }
    fiLastIndex = 0;
    if (recursive && fxSubPictures)
@@ -313,12 +313,12 @@ void TGo4Picture::ClearObjNames(Bool_t recursive)
 
 Int_t TGo4Picture::GetNumObjNames()
 {
-  return (fxNames==0) ? 0 : fxNames->GetLast()+1;
+  return !fxNames ? 0 : fxNames->GetLast()+1;
 }
 
 Bool_t TGo4Picture::IsObjNames()
 {
-   if (GetNumObjNames()>0) return kTRUE;
+   if (GetNumObjNames() > 0) return kTRUE;
 
    if (fxSubPictures)
      for (Int_t n=0;n<=fxSubPictures->GetLast();n++) {

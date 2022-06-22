@@ -224,7 +224,7 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
 TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
 {
    if (!canv) return nullptr;
-   if (!name || (*name==0)) return new TGo4ObjectAccess(canv);
+   if (!name || (*name == 0)) return new TGo4ObjectAccess(canv);
 
    TPad* curpad = canv;
    const char* curname = name;
