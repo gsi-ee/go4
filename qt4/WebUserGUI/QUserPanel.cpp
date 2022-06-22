@@ -112,15 +112,15 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
         DragItemLbl->setText(itemname);
         DragClassLbl->setText(QString("Class: ") + (!cl ? "not exists (known)" : cl->GetName()));
         DragKindLbl->setText(kindString(kind));
-        res = cl!=0;
+        res = cl != nullptr;
         break;
 
      case 1:
-        PrintLbl->setText(QString("Class: ") + (cl==0 ? "not exists (known)" : cl->GetName()));
-        res = cl!=0;
+        PrintLbl->setText(QString("Class: ") + (!cl ? "not exists (known)" : cl->GetName()));
+        res = cl != nullptr;
         break;
      case 2:
-        res = cl!=0;
+        res = cl != nullptr;
         break;
    }
    // we will accept only items with known classes
@@ -133,11 +133,11 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
       case 0:
          DragLbl->setText("User dropped item");
          DragItemLbl->setText(itemname);
-         DragClassLbl->setText(cl==0 ? "No class specified" : cl->GetName());
+         DragClassLbl->setText(!cl ? "No class specified" : cl->GetName());
          DragKindLbl->setText(kindString(kind));
          break;
       case 1:
-         if (cl==0) {
+         if (!cl) {
             PrintLbl->setText("Can not drop item of unknown class");
          } else {
             PrintLbl->setText(QString("Print item: ") + itemname);

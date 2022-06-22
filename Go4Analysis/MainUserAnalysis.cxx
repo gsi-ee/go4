@@ -322,23 +322,24 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       TClass* cl = TClass::GetClass(obj->GetName());
 
       // all relevant go4 classes inherited from TObject
-      if ((cl==0) || !cl->IsStartingWithTObject()) continue;
+      if (!cl || !cl->IsStartingWithTObject()) continue;
 
       if (cl->InheritsFrom(TGo4EventProcessor::Class())) {
          // if several processor classes are existing, take higher in hierarchy
-         if ((cl!=TGo4EventProcessor::Class()) && ((proc_cl==0) || cl->InheritsFrom(proc_cl))) proc_cl = cl;
-      } else
-      if (cl->InheritsFrom(TGo4EventSource::Class())) {
-         if ((cl != TGo4EventSource::Class()) && !evsrc_cl) evsrc_cl = cl;
-      } else
-      if (cl->InheritsFrom(TGo4EventStore::Class())) {
-         if ((cl != TGo4EventStore::Class()) && !evstore_cl) evstore_cl = cl;
-      } else
-      if (cl->InheritsFrom(TGo4EventElement::Class())) {
-         if (cl != TGo4EventElement::Class()) evnt_classes.Add(cl);
-      } else
-      if (cl->InheritsFrom(TGo4Analysis::Class())) {
-         if ((cl != TGo4Analysis::Class()) && !an_cl) an_cl = cl;
+         if ((cl != TGo4EventProcessor::Class()) && (!proc_cl || cl->InheritsFrom(proc_cl)))
+            proc_cl = cl;
+      } else if (cl->InheritsFrom(TGo4EventSource::Class())) {
+         if ((cl != TGo4EventSource::Class()) && !evsrc_cl)
+            evsrc_cl = cl;
+      } else if (cl->InheritsFrom(TGo4EventStore::Class())) {
+         if ((cl != TGo4EventStore::Class()) && !evstore_cl)
+            evstore_cl = cl;
+      } else if (cl->InheritsFrom(TGo4EventElement::Class())) {
+         if (cl != TGo4EventElement::Class())
+            evnt_classes.Add(cl);
+      } else if (cl->InheritsFrom(TGo4Analysis::Class())) {
+         if ((cl != TGo4Analysis::Class()) && !an_cl)
+            an_cl = cl;
       }
    }
 
@@ -402,7 +403,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       TIter iter(an_cl->GetListOfMethods());
       while ((meth = (TMethod*) iter()) != nullptr) {
          if (strcmp(meth->GetName(), an_cl->GetName()) != 0) continue;
-         if (meth->GetListOfMethodArgs()->GetSize()==0) continue;
+         if (meth->GetListOfMethodArgs()->GetSize() == 0) continue;
          break;
       }
 

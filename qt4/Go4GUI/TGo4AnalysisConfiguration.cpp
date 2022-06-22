@@ -54,13 +54,13 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
 bool TGo4AnalysisConfiguration::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
    return false;
-//   if (cl==0) return false;
+//   if (!cl) return false;
 //   return cl->InheritsFrom(TGo4AnalysisStatus::Class());
 }
 
 void TGo4AnalysisConfiguration::DropItem(const char* itemname, TClass* cl, int kind)
 {
-//   if (cl==0) return;
+//   if (!cl) return;
 
 //   if (cl->InheritsFrom(TGo4AnalysisStatus::Class()))
 //      WorkWithStatus(itemname);

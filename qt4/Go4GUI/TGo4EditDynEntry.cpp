@@ -68,7 +68,7 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
 
 bool TGo4EditDynEntry::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return false;
+   if (!cl) return false;
 
    return cl->InheritsFrom(TGo4DynamicEntry::Class()) ||
           cl->InheritsFrom(TH1::Class()) ||
@@ -78,18 +78,15 @@ bool TGo4EditDynEntry::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 
 void TGo4EditDynEntry::DropItem(const char* itemname, TClass* cl, int kind)
 {
-   if (cl==0) return;
+   if (!cl) return;
 
    if (cl->InheritsFrom(TGo4DynamicEntry::Class()))
       WorkWithEntry(itemname);
-   else
-   if (cl->InheritsFrom(TH1::Class()))
+   else if (cl->InheritsFrom(TH1::Class()))
       DropHistogram(itemname);
-   else
-   if (cl->InheritsFrom(TGo4Condition::Class()))
+   else if (cl->InheritsFrom(TGo4Condition::Class()))
       DropCondition(itemname);
-   else
-   if (cl->InheritsFrom(TTree::Class()))
+   else if (cl->InheritsFrom(TTree::Class()))
       DropTree(itemname);
 }
 
@@ -480,7 +477,7 @@ void TGo4EditDynEntry::ConInfoButton_clicked()
 
 void TGo4EditDynEntry::requestedObjectCreated(const char* itemname, TClass* cl)
 {
-   if ((cl==0) || (fiSelectedType==entry_None)) return;
+   if (!cl || (fiSelectedType==entry_None)) return;
    if (cl->InheritsFrom(TH1::Class()))
       DropHistogram(itemname);
    else
@@ -493,12 +490,12 @@ bool TGo4EditDynEntry::PrepareEntryForAnalysis()
    TGo4DynamicEntry* entry =
      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
 
-   if (entry==0) return false;
+   if (!entry) return false;
 
    TGo4HistogramEntry* hentry = dynamic_cast<TGo4HistogramEntry*> (entry);
    TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (entry);
 
-   if (hentry!=0) {
+   if (hentry) {
        TString folder, name;
 
        TGo4Slot::ProduceFolderAndName(hentry->GetHistogramName(), folder, name);
@@ -510,7 +507,7 @@ bool TGo4EditDynEntry::PrepareEntryForAnalysis()
        return true;
    }
 
-   if (tentry!=0) {
+   if (tentry) {
       TString folder, name;
 
       TGo4Slot::ProduceFolderAndName(tentry->GetHistogramName(), folder, name);
@@ -528,18 +525,17 @@ bool TGo4EditDynEntry::PrepareEntryForAnalysis()
 void TGo4EditDynEntry::EntryEnabledButton_toggled( bool on)
 {
    TGo4DynamicEntry* entry =
-     dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
-   if ((entry==0) || !fbTypingMode) return;
+      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
+   if (!entry || !fbTypingMode) return;
    entry->EnableProcessing(on);
    EntryChangedSlot();
 }
-
 
 void TGo4EditDynEntry::EvXnameEdit_textChanged( const QString & xname)
 {
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if ((hentry==0) || !fbTypingMode) return;
+   if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(0, GetEventName(xname).toLatin1().constData());
    hentry->SetHisVarName(0, GetEventMember(xname).toLatin1().constData());
@@ -550,7 +546,7 @@ void TGo4EditDynEntry::EvYnameEdit_textChanged( const QString & yname)
 {
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if ((hentry==0) || !fbTypingMode) return;
+   if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(1, GetEventName(yname).toLatin1().constData());
    hentry->SetHisVarName(1, GetEventMember(yname).toLatin1().constData());
@@ -561,7 +557,7 @@ void TGo4EditDynEntry::EvZnameEdit_textChanged( const QString & zname)
 {
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if ((hentry==0) || !fbTypingMode) return;
+   if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(2, GetEventName(zname).toLatin1().constData());
    hentry->SetHisVarName(2, GetEventMember(zname).toLatin1().constData());
@@ -572,7 +568,7 @@ void TGo4EditDynEntry::ConXnameEdit_textChanged( const QString & xname)
 {
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if ((hentry==0) || !fbTypingMode) return;
+   if (!hentry || !fbTypingMode) return;
 
    hentry->SetConEventName(0, GetEventName(xname).toLatin1().constData());
    hentry->SetConVarName(0, GetEventMember(xname).toLatin1().constData());
@@ -583,7 +579,7 @@ void TGo4EditDynEntry::ConYnameEdit_textChanged( const QString & yname)
 {
    TGo4HistogramEntry* hentry =
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
-   if ((hentry==0) || !fbTypingMode) return;
+   if (!hentry || !fbTypingMode) return;
 
    hentry->SetConEventName(1, GetEventName(yname).toLatin1().constData());
    hentry->SetConVarName(1, GetEventMember(yname).toLatin1().constData());
@@ -594,7 +590,7 @@ void TGo4EditDynEntry::DrawExprEdit_textChanged( const QString & value)
 {
    TGo4TreeHistogramEntry* tentry =
       dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
-   if ((tentry==0) || !fbTypingMode) return;
+   if (!tentry || !fbTypingMode) return;
    tentry->SetVarExp(value.toLatin1().constData());
 }
 
@@ -602,7 +598,7 @@ void TGo4EditDynEntry::CutExprEdit_textChanged( const QString & value)
 {
    TGo4TreeHistogramEntry* tentry =
       dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
-   if ((tentry==0) || !fbTypingMode) return;
+   if (!tentry || !fbTypingMode) return;
    tentry->SetCutExp(value.toLatin1().constData());
 }
 
@@ -610,7 +606,7 @@ void TGo4EditDynEntry::DynIntervalSpin_valueChanged( int value)
 {
    TGo4TreeHistogramEntry* tentry =
       dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
-   if ((tentry==0) || !fbTypingMode) return;
+   if (!tentry || !fbTypingMode) return;
    tentry->SetDynListInterval(value);
 }
 
@@ -624,7 +620,7 @@ void TGo4EditDynEntry::ClearHistogramClicked()
 {
    TString objname;
    TGo4ServerProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().toLatin1().constData(), objname);
-   if (an!=0) {
+   if (an) {
       an->ClearAnalysisObject(objname.Data());
       if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry",0))!=0)
          an->ExecuteLine("@ResetBackStores();");
@@ -637,7 +633,7 @@ void TGo4EditDynEntry::PrintDynList()
    TString objname;
    TGo4ServerProxy* an = Browser()->DefineAnalysisObject(GetLinkedName("Entry"), objname);
 
-   if (an!=0)
+   if (an)
      an->PrintDynListEntry(objname.Data());
 }
 

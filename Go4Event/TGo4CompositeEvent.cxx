@@ -80,7 +80,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
    // first read event itself
    TGo4EventElement::activateBranch(branch, init, var_ptr);
 
-   if (branch==0) return fNElements;
+   if (!branch) return fNElements;
 
    // we need to call GetEntry here to get value of fNElements  and fMaxIndex
    branch->GetEntry(0);
@@ -106,7 +106,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
       i++;
       TBranch* b = (TBranch*) br->At(i);
       Bool_t readentry = kFALSE;
-      if (b==0) continue;
+      if (!b) continue;
 
       TString sub = b->GetName();
       sub.Remove(sub.Length()-1);
@@ -115,10 +115,10 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
       if (fDebug)
          TGo4Log::Debug("-I TGo4CompositeEvent::activateBranch use subbranch %s", b->GetName());
 
-      if (par==0) {
+      if (!par) {
 
          TClass* cl = gROOT->GetClass(b->GetClassName());
-         if (cl==0) {
+         if (!cl) {
             TGo4Log::Debug("-I class %s cannot be reconstructed", b->GetClassName());
             continue;
          }
@@ -127,10 +127,9 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
          // need to set correct object name:
          par->SetName(sub.Data());
          if(fDebug)
-        	 TGo4Log::Debug("-I Created new instance of class %s, name:%s", cl->GetName(), par->GetName());
+              TGo4Log::Debug("-I Created new instance of class %s, name:%s", cl->GetName(), par->GetName());
 
-
-         if (par==0) {
+         if (!par) {
             TGo4Log::Error("-I class %s instance cannot be created", b->GetClassName());
             continue;
          }
