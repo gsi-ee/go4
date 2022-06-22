@@ -35,16 +35,15 @@ void TGo4SimpleEventProcessor::BuildSimpleEvent(TGo4SimpleEvent* target)
 {
    GO4TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
    TGo4MbsEvent *input = (TGo4MbsEvent *)GetInputEvent();
-   TGo4MbsSubEvent *insub;
-   TGo4SimpleSubEvent *outsubix;
-   TGo4SimpleSubEvent *outsub;
+
    if (input) {
       Short_t procid;
       input->ResetIterator();
-      while ((insub = input->NextSubEvent()) != nullptr) {
+      while (auto insub = input->NextSubEvent()) {
          // find out procid
          procid = insub->GetProcid();
-         outsubix = target->GetSubEvent(procid);
+         auto outsubix = target->GetSubEvent(procid);
+         TGo4SimpleSubEvent *outsub = nullptr;
          if (outsubix) {
             outsub = outsubix;
          } else {

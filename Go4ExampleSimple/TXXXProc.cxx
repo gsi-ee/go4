@@ -139,8 +139,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
    // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();
-   TGo4MbsSubEvent *psubevt = nullptr;
-   while((psubevt = evnt->NextSubEvent()) != nullptr) { // loop over subevents
+   while(auto psubevt = evnt->NextSubEvent()) { // loop over subevents
       Int_t * pdata = psubevt->GetDataField();
       Int_t lwords = psubevt->GetIntLen();
       if(lwords > 8) lwords = 8; // take only first 8 lwords

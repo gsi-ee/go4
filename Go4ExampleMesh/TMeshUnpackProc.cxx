@@ -63,9 +63,8 @@ void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
 
    Int_t index = 0, value = 0, lwords = 0;
    Int_t *pdata = nullptr;
-   TGo4MbsSubEvent* psubevt = nullptr;
    fInput->ResetIterator();
-   while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
+   while (auto psubevt = fInput->NextSubEvent()) // subevent loop
    {
       if( psubevt->GetSubcrate() == 1)
       {
@@ -98,9 +97,8 @@ void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
 
   Int_t index = 0, value = 0, lwords = 0;
   Int_t *pdata = nullptr;
-  TGo4MbsSubEvent* psubevt = nullptr;
   fInput->ResetIterator();
-  while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
+  while (auto psubevt = fInput->NextSubEvent()) // subevent loop
   {
      if( psubevt->GetSubcrate() == 2)
      {
@@ -132,9 +130,8 @@ void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
 
   Int_t index = 0, value = 0, lwords = 0;
   Int_t *pdata = nullptr;
-  TGo4MbsSubEvent* psubevt = nullptr;
   fInput->ResetIterator();
-  while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
+  while (auto psubevt = fInput->NextSubEvent()) // subevent loop
   {
      if( psubevt->GetSubcrate() == 3)
      {
