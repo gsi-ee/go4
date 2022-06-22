@@ -164,7 +164,7 @@ TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
 
    while (curfold) {
       const char* slash = strchr(curname,'/');
-      UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
+      UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curfold->GetListOfFolders());
       TObject* obj = nullptr;
       while ((obj = iter()) != nullptr)

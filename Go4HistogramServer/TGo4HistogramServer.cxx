@@ -363,7 +363,7 @@ Int_t TGo4HistogramServer::TimerConnect()
    if (fbConnectRequest) {
       GO4TRACE((15, "TGo4HistogramServer::TimerConnect()--ConnectRequest", __LINE__, __FILE__));
       // timer shall open a transport as server
-      if (fxConnectTransport != 0) {
+      if (fxConnectTransport) {
          if (!fxConnectTransport->IsOpen()) {
             GO4TRACE((10, "TGo4HistogramServer::TimerConnect()--transport is not open", __LINE__, __FILE__));
             // transport is not open, so do it
@@ -383,7 +383,7 @@ Int_t TGo4HistogramServer::TimerConnect()
             // transport was already open, do nothing
             rev += 8;
          }
-      } // if(fxConnectTransport!=0)
+      }
       else {
          GO4TRACE((10, "TGo4HistogramServer::TimerConnect()--no transport specified", __LINE__, __FILE__));
          rev += 64;

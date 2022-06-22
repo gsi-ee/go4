@@ -110,7 +110,7 @@ TGo4ObjectManager* TGo4ObjectManager::GetOM() const
 
 void TGo4ObjectManager::MakeFolder(const char* pathname)
 {
-   if ((pathname!=0) && (*pathname!=0))
+   if (pathname && (*pathname != 0))
      GetSlot(pathname, kTRUE);
 }
 
@@ -144,7 +144,7 @@ void TGo4ObjectManager::CloseFiles(const char* pathname)
    for(int n=slot->NumChilds()-1;n>=0;n--) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4DirProxy* dirproxy = dynamic_cast<TGo4DirProxy*> (subslot->GetProxy());
-      if (dirproxy!=0)
+      if (dirproxy)
         if (dirproxy->IsFile())
           delete subslot;
    }
@@ -240,7 +240,7 @@ TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char* nam
 
    do {
      extraname.Form("%s_v%d", name, cycle++);
-   } while (folder->FindChild(extraname.Data())!=0);
+   } while (folder->FindChild(extraname.Data()));
 
    return new TGo4Slot(folder, extraname.Data(), title);
 }
@@ -273,11 +273,6 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
    if (!source) return nullptr;
 
    TGo4Slot* slot = MakeObjSlot(pathname, source->GetName(), source->GetTitle());
-
-//   std::cout << "Make link in path " << pathname << " with name " << source->GetName() << std::endl;
-
-//   if (slot) std::cout << " slot = " << slot->GetName() <<
-//                        "  parent = " << slot->GetParent()->GetName() << std::endl;
 
    if (slot)
      slot->SetProxy(new TGo4LinkProxy(source));

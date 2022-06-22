@@ -225,7 +225,7 @@ void TGo4AbstractInterface::StopMonitoring()
 TString TGo4AbstractInterface::FindItem(const char* objname)
 {
    // if itemname is specified, return as is
-   if (Browser()->ItemSlot(objname)!=0) return TString(objname);
+   if (Browser()->ItemSlot(objname)) return TString(objname);
 
    return Browser()->FindItem(objname);
 }

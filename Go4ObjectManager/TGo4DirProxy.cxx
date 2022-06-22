@@ -119,7 +119,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
                  if (strcmp(fCurrent->ClassName(), key->GetClassName()) == 0) donext = kTRUE;
             }
          }
-         return fCurrent!=0;
+         return fCurrent != nullptr;
       }
 
       Bool_t IsContainerClass(TClass* cl)
@@ -341,7 +341,7 @@ void TGo4DirProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       const char* filename = nullptr;
-      if ((fDir!=0) && fDir->InheritsFrom(TFile::Class()))
+      if (fDir && fDir->InheritsFrom(TFile::Class()))
          filename = fDir->GetName();
 
      slot->SetPar("DirProxy::FileName", filename);

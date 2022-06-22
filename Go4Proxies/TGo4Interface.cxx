@@ -612,7 +612,7 @@ void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 void TGo4Interface::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
 {
     TCanvas* c = (TCanvas*) handle;
-    if (c!=0) c->Divide(numX, numY);
+    if (c) c->Divide(numX, numY);
 }
 
 TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)

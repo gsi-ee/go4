@@ -206,7 +206,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    if (HasProduceMultiMethod())
       SetItemField("/", "_has_produce_multi", "true");
 
-   if (TGo4Analysis::Instance()!=0)
+   if (TGo4Analysis::Instance())
       TGo4Analysis::Instance()->SetSniffer(this);
 
    TGo4Log::SetSniffer(this);
@@ -224,8 +224,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
 TGo4Sniffer::~TGo4Sniffer()
 {
-   if (TGo4Analysis::Instance()!=0)
-      TGo4Analysis::Instance()->SetSniffer(0);
+   if (TGo4Analysis::Instance())
+      TGo4Analysis::Instance()->SetSniffer(nullptr);
 
    TGo4Log::SetSniffer(0);
 }
@@ -529,8 +529,7 @@ Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
   Int_t errcode = 0;
   ana->ExecuteLine(exeline, &errcode);
   fflush(stdout);
-  return errcode!=0 ? kFALSE : kTRUE;
-
+  return errcode != 0 ? kFALSE : kTRUE;
 }
 
 
@@ -543,7 +542,7 @@ void TGo4Sniffer::SetTitle(const char* title)
 
    const char* prev = GetItemField("/Status/DebugOutput", "value");
    TString res;
-   if (prev && (strcmp(prev,"---")!=0)) res = prev;
+   if (prev && (strcmp(prev,"---") != 0)) res = prev;
    if (res.Length() > 50000) res.Remove(0, res.Length() - 25000);
    res.Append("\n"); res.Append(title);
 
@@ -584,7 +583,7 @@ void TGo4Sniffer::StatusMessage(int level, Bool_t, const TString &msg)
 {
    const char* prev = GetItemField("/Status/Message", "value");
    TString res;
-   if (prev && (strcmp(prev,"---")!=0)) res = prev;
+   if (prev && (strcmp(prev,"---") != 0)) res = prev;
    res.Append("\n"); res.Append(msg);
 
    SetItemField("/Status/Message","value",res);
