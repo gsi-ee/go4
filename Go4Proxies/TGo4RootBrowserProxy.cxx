@@ -281,10 +281,10 @@ TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char* title)
 {
    TString cname = "Canvas_";
    cname += fCanvasCounter++;
-   TCanvas* c1 = 0;
+   TCanvas* c1 = nullptr;
 
-   if (title==0) c1 = new TCanvas(cname, cname+" title");
-            else c1 = new TCanvas(cname, title);
+   if (!title) c1 = new TCanvas(cname, cname+" title");
+          else c1 = new TCanvas(cname, title);
    c1->cd();
 
    return c1;
@@ -292,7 +292,7 @@ TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char* title)
 
 void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic, TPad* pad)
 {
-   if ((pad==0) || (pic==0)) return;
+   if (!pad || !pic) return;
 
    pad->cd();
 
@@ -310,7 +310,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
 
    pic->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
 
-   TH1* h1 = 0;
+   TH1* h1 = nullptr;
 
    for (Int_t indx=0; indx<pic->GetNumObjNames(); indx++) {
       Option_t* drawopt = pic->GetDrawOption(indx);
@@ -318,13 +318,13 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
 
       TString drawname;
 
-      TObject* obj = 0;
+      TObject* obj = nullptr;
 
       if (fBrowser->DefineRelatedObject(picitemname, objname, drawname))
          obj = fBrowser->GetBrowserObject(drawname.Data(), 5000);
-      if (obj==0) continue;
+      if (!obj) continue;
 
-      if (h1==0)
+      if (!h1)
         h1 = dynamic_cast<TH1*>(obj);
 
       pic->GetDrawAttributes(obj, indx);
@@ -377,7 +377,7 @@ void TGo4RootBrowserProxy::DrawItem(const char* itemname)
 
    if (!TGo4BrowserProxy::CanDrawItem(cando)) {
       TClass* cl = fBrowser->ItemClass(itemname);
-      if ((cl==0) || !cl->InheritsFrom(TGo4Condition::Class())) return;
+      if (!cl || !cl->InheritsFrom(TGo4Condition::Class())) return;
    }
 
 
@@ -390,8 +390,8 @@ void TGo4RootBrowserProxy::DrawItem(const char* itemname)
    }
 
    TPad* pad = (TPad*) gPad;
-   if (pad==0) pad = MakeCanvas(TString("Drawing of ") + obj->GetName());
-          else pad->Clear();
+   if (!pad) pad = MakeCanvas(TString("Drawing of ") + obj->GetName());
+        else pad->Clear();
 
    if (obj->InheritsFrom(TGo4Picture::Class()))
       DrawPicture(itemname, (TGo4Picture*) obj, pad);

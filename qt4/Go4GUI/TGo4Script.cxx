@@ -1111,7 +1111,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    fs << "go4->SetAnalysisConfigMode(" << mode << ");" << std::endl;
 
    mode = 1;
-   mdi = termgui ? termgui->parentWidget() : 0;
+   mdi = termgui ? termgui->parentWidget() : nullptr;
    if (mdi!=0) {
       if (mdi->isHidden()) mode = -1; else
       if (mdi->isMinimized()) mode = 0;
@@ -1203,7 +1203,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
       if (br->ItemKind(subslot)==TGo4Access::kndFolder) {
          // check if any subitem not monitored
-         Int_t ncheck(0), ncount(0);
+         Int_t ncheck = 0, ncount = 0;
          TGo4Iter subiter(subslot, kTRUE);
          while (subiter.next()) {
             TGo4Slot* subsubslot = subiter.getslot();
@@ -1212,7 +1212,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
             if (!br->IsItemMonitored(subsubslot)) ncheck++;
                                           else break;
          }
-         goinside = (ncount==0) || (ncheck!=ncount);
+         goinside = (ncount == 0) || (ncheck != ncount);
       } else
          goinside = br->IsItemMonitored(subslot);
 
@@ -1225,6 +1225,6 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    }
 
    Int_t mperiod = br->MonitoringPeriod();
-   if (mperiod>0)
+   if (mperiod > 0)
      fs << "go4->StartMonitoring(" << mperiod/1000 << ");" << std::endl;
 }

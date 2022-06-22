@@ -4258,7 +4258,7 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 
    if (gritem->GraphType()==FitGui::gt_range) {
       TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (gritem->Parent()->Object());
-      if (comp==0) return false;
+      if (!comp) return false;
       int nrange = gritem->Tag();
       if (PaintRange(comp, nrange, FindPadWhereComp(comp), gritem)) return true;
    }
@@ -4268,7 +4268,7 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
       if (comp==0) return false;
 
       TPad* pad = FindPadWhereComp(comp);
-      if (pad!=0) {
+      if (pad) {
         for(int nrange=0;nrange<comp->GetNumRangeCondition();nrange++) {
            QFitItem* child = dynamic_cast<QFitItem*> (gritem->child(nrange));
            if (child==0) return false;
@@ -4283,42 +4283,42 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 
 void TGo4FitPanel::RemoveItemWidget()
 {
-   fxCurrentItem = 0;
+   fxCurrentItem = nullptr;
    if (fxCurrentItemWidget) {
      ListStack->removeWidget(fxCurrentItemWidget);
      delete fxCurrentItemWidget;
-     fxCurrentItemWidget = 0;
+     fxCurrentItemWidget = nullptr;
    }
 }
 
 void TGo4FitPanel::FitItemDeleted(QFitItem* item)
 {
-  if ((item!=0) && (fxCurrentItem==item))
+  if (item && (fxCurrentItem == item))
     RemoveItemWidget();
 }
 
 void TGo4FitPanel::FillParsList(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
-   if (pars==0) return;
+   if (!pars) return;
    for (Int_t n = pars->NumPars()-1; n>=0;n--)
       new QFitItem(this, item, pars->GetPar(n), FitGui::ot_par, FitGui::wt_par, FitGui::mt_par);
 }
 
 void TGo4FitPanel::FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject* owner)
 {
-   if ((parent==0) || (lst==0)) return;
+   if (!parent || !lst) return;
    for(Int_t n = lst->GetLast();n>=0;n--) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(n));
-      if (slot && ((slot->GetOwner()==owner) || (owner==0)))
+      if (slot && ((slot->GetOwner()==owner) || !owner))
          new QFitItem(this, parent, slot, FitGui::ot_slot, FitGui::wt_slot, FitGui::mt_slot);
    }
 }
 
 void TGo4FitPanel::FillDependencyList(QFitItem* parent)
 {
-   if (parent==0) return;
+   if (!parent) return;
 
    TObjArray* lst = dynamic_cast<TObjArray*> (parent->Object());
    if (lst)
@@ -4328,7 +4328,7 @@ void TGo4FitPanel::FillDependencyList(QFitItem* parent)
 
 void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend)
 {
-  if (! menu->isEmpty()) menu->addSeparator();
+  if (!menu->isEmpty()) menu->addSeparator();
   if (extend) {
     AddIdAction(menu, map,"Add gaussian", id+20);
     AddIdAction(menu, map,"Add lorenzian", id+24);
@@ -4386,7 +4386,7 @@ bool TGo4FitPanel::PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item)
      arr->SetLineWidth(1);
      arr->SetItem(item, this);
 
-     TGo4FitGuiArrow* warr = 0;
+     TGo4FitGuiArrow* warr = nullptr;
      if (model->GetWidth(0,width)) {
          warr = new TGo4FitGuiArrow(0.01,"<|>");
          warr->SetLineColor(2);
@@ -4492,20 +4492,20 @@ TGo4FitPeakFinder* TGo4FitPanel::GetPeakFinder(bool autocreate)
 TGo4FitData* TGo4FitPanel::Wiz_SelectedData()
 {
    TGo4Fitter* fitter = GetFitter();
-   return (fitter==0) ? 0 : fitter->FindData(fxWizDataName.toLatin1().constData());
+   return !fitter ? nullptr : fitter->FindData(fxWizDataName.toLatin1().constData());
 }
 
 TGo4FitModel* TGo4FitPanel::Wiz_SelectedModel()
 {
    TGo4Fitter* fitter = GetFitter();
-   return (fitter==0) ? 0 : fitter->FindModel(fxWizModelName.toLatin1().constData());
+   return !fitter ? nullptr : fitter->FindModel(fxWizModelName.toLatin1().constData());
 }
 
 
 TGo4FitModel* TGo4FitPanel::Wiz_CreateNewModel(int id)
 {
   TGo4Fitter* fitter = GetFitter();
-  if (fitter==0) return 0;
+  if (!fitter) return nullptr;
 
   TGo4FitData* data = Wiz_SelectedData();
   TGo4FitModel* model = CreateModel(id, 0, fitter, data);
@@ -4518,10 +4518,10 @@ TGo4FitModel* TGo4FitPanel::Wiz_CreateNewModel(int id)
 TGo4FitData* TGo4FitPanel::Wiz_CreateNewData(int id)
 {
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return 0;
+   if (!fitter) return nullptr;
 
    TGo4FitData* data = CreateData(id, 0);
-   if (data==0) return 0;
+   if (!data) return nullptr;
 
    fitter->AddData(data);
 
@@ -4533,7 +4533,7 @@ TGo4FitData* TGo4FitPanel::Wiz_CreateNewData(int id)
 void TGo4FitPanel::Wiz_RebuildDataList()
 {
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return;
+   if (!fitter) return;
    if ((fitter->GetNumData()>0) && fbNeedConfirmation)
      if ( QMessageBox::information(0,
        QString("Remake data list"),
@@ -4551,7 +4551,7 @@ bool TGo4FitPanel::Wiz_RemoveData()
 {
   TGo4Fitter* fitter = GetFitter();
   TGo4FitData* data = Wiz_SelectedData();
-  if ((data==0) || (fitter==0)) return false;
+  if (!data || !fitter) return false;
 
   if(fbNeedConfirmation)
    if ( QMessageBox::information(0,
@@ -4574,7 +4574,7 @@ void TGo4FitPanel::Wiz_UseSelectedRange()
 
   TGo4FitData* data = Wiz_SelectedData();
   TPad* pad = FindPadWhereData(data);
-  if ((pad==0) || (data==0)) return;
+  if (!pad || !data) return;
 
   double xmin, xmax;
   if (ActivePanel()->GetVisibleRange(pad, 0, xmin, xmax))
@@ -4586,13 +4586,13 @@ void TGo4FitPanel::Wiz_UseSelectedRange()
 void TGo4FitPanel::Wiz_TakeCurrentRange()
 {
   TGo4Fitter* fitter = GetFitter();
-  if ((fitter==0) || (ActivePanel()==0)) return;
+  if (!fitter || !ActivePanel()) return;
 
   for (int n=0;n<fitter->GetNumData();n++) {
      TGo4FitData* data = fitter->GetData(n);
      TPad* pad = FindPadWhereData(data);
 
-     if ((pad!=0) && (data!=0)) {
+     if (pad && data) {
        data->ClearRanges();
        double xmin, xmax;
        if (ActivePanel()->GetVisibleRange(pad, 0, xmin, xmax))
@@ -4603,7 +4603,7 @@ void TGo4FitPanel::Wiz_TakeCurrentRange()
 
 void TGo4FitPanel::Wiz_GetModelInfo(TGo4FitModel* model, QString* info)
 {
-  if ((model==0) || (info==0)) return;
+  if (!model || !info) return;
   *info = "Model: ";
   *info += model->GetName();
   *info += "  of class: ";
@@ -4633,17 +4633,17 @@ void TGo4FitPanel::Wiz_GetModelInfo(TGo4FitModel* model, QString* info)
         TGo4Fitter* fitter = GetFitter();
         TGo4FitData* data = Wiz_SelectedData();
         if (data)
-          if (!model->IsAssignTo(data->GetName())) data = 0;
-        if ((data!=0) && (fitter!=0)) {
+          if (!model->IsAssignTo(data->GetName())) data = nullptr;
+        if (data && fitter) {
            if (mode==1) *info += "\nCounts="; else *info += "\nIntegral=";
            double v = fitter->CalculatesIntegral(data->GetName(),model->GetName(),(mode==1));
            *info += QString::number(v);
         }
      }
 
-     if (mode==3) {
+     if (mode == 3) {
         double v = model->Integral();
-        if (v>0) {
+        if (v > 0) {
            *info += "\nGauss integral=";
            *info += QString::number(v);
         }
@@ -4655,17 +4655,15 @@ void TGo4FitPanel::Wiz_GetModelInfo(TGo4FitModel* model, QString* info)
 QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
 {
   QString res = "";
-  if (slot==0) return res;
+  if (!slot) return res;
 
-  if (slot->GetObject()==0) {
+  if (!slot->GetObject()) {
      res = "none";
-  } else
-  if (slot->GetOwned()) {
+  } else if (slot->GetOwned()) {
      res = "internal object";
-  } else
-  if (WorkingWithPanel()) {
+  } else if (WorkingWithPanel()) {
      TPad* pad = FindPadForSlot(slot);
-     if (pad==0)
+     if (!pad)
        res = "reference without pad";
      else {
        res = "Panel: ";
@@ -4679,9 +4677,8 @@ QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
       int slotindex = GetPadIndexForSlot(slot);
       QString linkname = QString("FitSlotLink_%1").arg(slotindex);
       const char* itemname = GetLinkedName(linkname.toLatin1().constData());
-
-      if (itemname!=0) res = itemname;
-                  else res = "reference to external object";
+      if (itemname) res = itemname;
+               else res = "reference to external object";
   }
 
   return res;
@@ -4691,12 +4688,12 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
 {
    TGo4Fitter* fitter = GetFitter();
 
-   if ((arr==0) || (fitter==0)) return;
+   if (!arr || !fitter) return;
 
    bool ismodified = false;
    for(Int_t n=0;n<fitter->NumSlots();n++) {
       TPad* pad = FindPadForSlot(fitter->GetSlot(n));
-      if (pad==0) continue;
+      if (!pad) continue;
 
       TObjArray lst;
       ActivePanel()->CollectSpecialObjects(pad, &lst, TGo4ViewPanel::kind_FitArrows);
@@ -4704,7 +4701,7 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
       bool res = false;
       for (Int_t k=0;k<=lst.GetLast();k++) {
          TGo4FitGuiArrow* a = dynamic_cast<TGo4FitGuiArrow*> (lst[k]);
-         if (a==0) continue;
+         if (!a) continue;
          if (a->Locate()) res = true;
       }
       if (res) {
@@ -4737,9 +4734,9 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
 
 void TGo4FitPanel::DeleteModelWithPrimit(TGo4FitGuiArrow* arr)
 {
-   if (arr==0) return;
+   if (!arr) return;
    TGo4FitModel* model = arr->GetModel();
-   if (model==0) return;
+   if (!model) return;
 
    if (fiPanelMode==FitGui::pm_Expert) {
      QFitItem* item = FindItem(model, FitGui::ot_model, 0);
@@ -4776,32 +4773,32 @@ TPad* TGo4FitPanel::FindPadForSlot(TGo4FitSlot* slot)
 TPad* TGo4FitPanel::FindPadWhereData(TGo4FitData* data)
 {
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return 0;
+   if (!fitter) return nullptr;
    for(Int_t n = 0; n<fitter->NumSlots();n++) {
       TGo4FitSlot* slot = fitter->GetSlot(n);
       if (slot->GetOwner()!=data) continue;
       TPad* pad = FindPadForSlot(slot);
-      if (pad!=0) return pad;
+      if (pad) return pad;
    }
-   return 0;
+   return nullptr;
 }
 
 TPad* TGo4FitPanel::FindPadWhereModel(TGo4FitModel* model)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((fitter==0) || (model==0)) return 0;
+   if (!fitter || !model) return nullptr;
 
    for(Int_t n=0;n<model->NumAssigments();n++) {
       TGo4FitData* data = fitter->FindData(model->AssignmentName(n));
       TPad* pad = FindPadWhereData(data);
-      if (pad!=0) return pad;
+      if (pad) return pad;
    }
-   return 0;
+   return nullptr;
 }
 
 TPad* TGo4FitPanel::FindPadWhereComp(TGo4FitComponent* comp)
 {
-   if (comp==0) return 0;
+   if (!comp) return nullptr;
    if (comp->InheritsFrom(TGo4FitData::Class()))
       return FindPadWhereData(dynamic_cast<TGo4FitData*> (comp));
    else
@@ -4812,9 +4809,9 @@ TGo4FitData* TGo4FitPanel::CreateData(int id, const char* name)
 {
     TString dataname;
 
-    if (name==0) {
+    if (!name) {
       TGo4Fitter* fitter = GetFitter();
-      if (fitter==0) return 0;
+      if (!fitter) return nullptr;
       dataname = fitter->FindNextName("Data", 0, kFALSE);
     } else dataname = name;
 
@@ -4824,7 +4821,7 @@ TGo4FitData* TGo4FitPanel::CreateData(int id, const char* name)
       case 2: return new TGo4FitDataProfile(dataname);
       case 3: return new TGo4FitDataRidge(dataname);
    }
-   return 0;
+   return nullptr;
 }
 
 TGo4FitModel* TGo4FitPanel::CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data)
@@ -4832,7 +4829,7 @@ TGo4FitModel* TGo4FitPanel::CreateModel(int id, const char* namebase, TGo4Fitter
     TString NameBase;
 
     if (fitter)
-      if ((data==0) && (fitter->GetNumData()>0)) data = fitter->GetData(0);
+      if (!data && (fitter->GetNumData()>0)) data = fitter->GetData(0);
     Int_t NumDim = 0;
     if (data) NumDim = data->DefineDimensions();
     if (NumDim<=0) NumDim = 1;
@@ -4871,7 +4868,7 @@ TGo4FitModel* TGo4FitPanel::CreateModel(int id, const char* namebase, TGo4Fitter
     if (fitter && (id!=7)) ModelName = fitter->FindNextName(NameBase.Data(), 0);
                       else ModelName = NameBase;
 
-   TGo4FitModel* model = 0;
+   TGo4FitModel* model = nullptr;
 
    switch(id) {
       case 0: model = new TGo4FitModelPolynom(ModelName); break;
@@ -4909,14 +4906,14 @@ void TGo4FitPanel::LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usep
 {
    TGo4Fitter* fitter = GetFitter();
 
-   if ((fitter==0) || (model==0)) return;
+   if (!fitter || !model) return;
 
-   if (data==0)
+   if (!data)
      for(int n=0;n<=model->NumAssigments();n++) {
         data = fitter->FindData(model->AssignmentName(n));
         if (!usepad || FindPadWhereData(data)) break;
      }
-   if (data==0) return;
+   if (!data) return;
 
    if (!usepad && data->DefineDimensions()!=1) usepad = true;
 
@@ -4939,7 +4936,7 @@ void TGo4FitPanel::LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usep
 
 int TGo4FitPanel::DefineModelWidgetType(TObject* obj)
 {
-   if (obj==0) return FitGui::wt_none;
+   if (!obj) return FitGui::wt_none;
    if (obj->InheritsFrom(TGo4FitModelPolynom::Class())) return FitGui::wt_polynom;
    if (obj->InheritsFrom(TGo4FitModelGauss1::Class())) return FitGui::wt_gauss1;
    if (obj->InheritsFrom(TGo4FitModelGauss2::Class())) return FitGui::wt_gauss2;
@@ -4952,11 +4949,11 @@ int TGo4FitPanel::DefineModelWidgetType(TObject* obj)
 
 void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
 {
-   if ((slot==0) || (itemname==0)) return;
+   if (!slot || !itemname) return;
 
    int slotindex = GetPadIndexForSlot(slot);
 
-   if (slotindex<0) return;
+   if (slotindex < 0) return;
 
    QString linkname = QString("FitSlotLink_%1").arg(slotindex);
 
@@ -4972,22 +4969,22 @@ void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
 
 bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink)
 {
-   if (slot==0) return true;
+   if (!slot) return true;
 
    if (slot->GetOwned()) return true;
 
    bool res = true;
 
-   TObject* obj = 0;
+   TObject* obj = nullptr;
 
    if (WorkingWithPanel()) {
 
       TPad* pad = FindPadForSlot(slot);
 
       TGo4Slot* objslot = ActivePanel()->GetPadMainObjectSlot(pad);
-      obj = objslot==0 ? 0 : objslot->GetAssignedObject();
+      obj = !objslot ? nullptr : objslot->GetAssignedObject();
 
-      if ((obj!=0) && createlink) {
+      if (obj && createlink) {
          TString linkname = "data_";
          linkname+=slot->GetName();
          AddLink(objslot, linkname);
@@ -4998,8 +4995,8 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
       obj = GetLinked(linkname.toLatin1().constData(), 0);
    }
 
-   if (obj==0) res = false;
-   if ((obj==0) || !slot->IsSuitable(obj))
+   if (!obj) res = false;
+   if (!obj || !slot->IsSuitable(obj))
       slot->SetObject(0, kFALSE);
    else
       slot->SetObject(obj, kFALSE);
@@ -5011,7 +5008,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
 bool TGo4FitPanel::UpdateObjectReferenceInSlots()
 {
   TGo4Fitter* fitter = GetFitter();
-  if (fitter==0) return false;
+  if (!fitter) return false;
 
   bool res = true;
 
@@ -5056,13 +5053,13 @@ void TGo4FitPanel::RemoveDrawObjects()
    if (!WorkingWithPanel()) return;
 
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return;
+   if (!fitter) return;
 
    bool res = false;
 
    for(Int_t n = 0; n<fitter->NumSlots();n++) {
       TPad* pad = FindPadForSlot(fitter->GetSlot(n));
-      if (pad==0) continue;
+      if (!pad) continue;
       if (ActivePanel()->DeleteDrawObjects(pad, TGo4ViewPanel::kind_FitModels)) res = true;
       if (ActivePanel()->DeleteDrawObjects(pad, TGo4ViewPanel::kind_FitInfo)) res = true;
    }
@@ -5071,17 +5068,17 @@ void TGo4FitPanel::RemoveDrawObjects()
 
 void TGo4FitPanel::CloseDrawPanel()
 {
-   if (fxDrawNewPanel!=0) {
+   if (fxDrawNewPanel) {
       fxDrawNewPanel->ClosePanel();
-      fxDrawNewPanel = 0;
+      fxDrawNewPanel = nullptr;
    }
 }
 
 void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
 {
-   if (w==0) return;
+   if (!w) return;
    TObject* obj = w->GetObject();
-   if (obj==0) return;
+   if (!obj) return;
 
    w->ClassNameLbl->setText(QString("Class name: ") + obj->ClassName());
    w->ClassNameLbl->adjustSize();
@@ -5110,35 +5107,35 @@ void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
 
 void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
 {
-  if (w==0) return;
+  if (!w) return;
   QFitItem* item = w->GetItem();
-  if ((item==0) || (strlen(newname)==0)) return;
+  if (!item || (strlen(newname)==0)) return;
   TNamed* obj = dynamic_cast<TNamed*> (item->Object());
-  if (obj==0) return;
+  if (!obj) return;
 
   if (item->ObjectType()==FitGui::ot_slot) return;
 
   if (item->ObjectType()==FitGui::ot_par)
-    if (item->Parent()!=0)
+    if (item->Parent())
       if (item->Parent()->ObjectType()==FitGui::ot_parslist) {
           TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Parent()->Object());
           if (pars->FindPar(newname)) return;
       }
 
   if (item->ObjectType()==FitGui::ot_data)
-    if (item->Parent()!=0)
+    if (item->Parent())
       if (item->Parent()->ObjectType()==FitGui::ot_datalist) {
           TGo4Fitter* fitter = GetFitter();
-          if ((fitter==0) || (fitter->FindData(newname))) return;
+          if (!fitter || (fitter->FindData(newname))) return;
           fitter->ChangeDataNameInAssignments(obj->GetName(), newname);
           UpdateItemsOfType(FitGui::ot_ass, 0);
       }
 
   if (item->ObjectType()==FitGui::ot_model)
-    if (item->Parent()!=0)
+    if (item->Parent())
       if (item->Parent()->ObjectType()==FitGui::ot_modellist) {
           TGo4Fitter* fitter = GetFitter();
-          if ((fitter==0) || (fitter->FindModel(newname))) return;
+          if (!fitter || (fitter->FindModel(newname))) return;
       }
 
   obj->SetName(newname);
@@ -5155,22 +5152,22 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
 
 void TGo4FitPanel::ChangeObjectTitle(QFitNamedWidget* w, const char* newtitle)
 {
-   if (w==0) return;
+   if (!w) return;
    TNamed* n = dynamic_cast<TNamed*> (w->GetObject());
-   if (n!=0) n->SetTitle(newtitle);
+   if (n) n->SetTitle(newtitle);
 }
 
 void TGo4FitPanel::ChangeModelPar(QFitModelWidget* w, int npar, int value)
 {
-   if (w==0) return;
+   if (!w) return;
    TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (w->GetObject());
-   if (model==0) return;
+   if (!model) return;
    switch (npar) {
       case 0: {
          if (model->CanAmplTouch()) {
             bool res = false;
-            if (value!=0) res = model->MakeAmpl();
-                    else  res = model->RemoveAmpl();
+            if (value != 0) res = model->MakeAmpl();
+                      else  res = model->RemoveAmpl();
             if (res)
               w->UpdateItemsOfType(FitGui::ot_parslist, false);
          }
@@ -5178,7 +5175,7 @@ void TGo4FitPanel::ChangeModelPar(QFitModelWidget* w, int npar, int value)
       }
 
       case 1: {
-         model->SetUseBuffers(value!=0);
+         model->SetUseBuffers(value != 0);
          break;
       }
 
