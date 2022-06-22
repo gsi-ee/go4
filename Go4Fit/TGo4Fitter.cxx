@@ -1146,7 +1146,7 @@ void TGo4Fitter::PrintAmpls() const
    std::cout << std::endl << "*** LIST OF AMPLITUDES VALUE ***" << std::endl;
    for(Int_t n=0;n<GetNumComp();n++) {
        TGo4FitComponent* comp = ((TGo4Fitter*) this)->GetComp(n);
-       if (comp->GetAmplPar() != 0)
+       if (comp->GetAmplPar())
           std::cout << "    " << comp->GetAmplFullName() << "   " << comp->GetAmplValue() << "   " << comp->GetAmplError() << std::endl;
    }
 }
@@ -1158,7 +1158,7 @@ void TGo4Fitter::PrintLines() const
   int MaxAxis = 0;
   for (Int_t n=0; n<GetNumModel();n++) {
      TGo4FitModel* m = ((TGo4Fitter*) this)->GetModel(n);
-     if (m==0) continue;
+     if (!m) continue;
      Double_t zn;
      for (int naxis=0;naxis<3;naxis++)
         if (m->GetPosition(naxis,zn) || m->GetWidth(naxis,zn)) MaxAxis = naxis;

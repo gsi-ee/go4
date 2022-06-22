@@ -187,13 +187,17 @@ Bool_t TGo4FitModelGaussN::BeforeEval(Int_t NDimension)
    FillSigmaMatrix(*Matr_sig);
    Double_t determ;
    Matr_sig->Invert(&determ);
-   if (determ==0.)
-     { std::cout << "TGo4FitModelGaussN::   Invalid sigma matrice " << std::endl; AfterEval(); return kFALSE; }
+   if (determ == 0.) {
+      std::cout << "TGo4FitModelGaussN::   Invalid sigma matrice " << std::endl;
+      AfterEval();
+      return kFALSE;
+   }
 
    return kTRUE;
 }
 
-Double_t TGo4FitModelGaussN::EvalN(const Double_t* v) {
+Double_t TGo4FitModelGaussN::EvalN(const Double_t* v)
+{
    for (Int_t n=0;n<Par_ndim;n++)
      (*Vect_x)(n) = v[Par_indx[n]];
    *Vect_x -= *Vect_mu;
@@ -203,11 +207,12 @@ Double_t TGo4FitModelGaussN::EvalN(const Double_t* v) {
    return TMath::Exp(-0.5*z);
 }
 
-void TGo4FitModelGaussN::AfterEval() {
-   if(Vect_mu) { delete Vect_mu; Vect_mu = 0; }
-   if(Matr_sig) { delete Matr_sig; Matr_sig = 0; }
-   if(Vect_x) { delete Vect_x; Vect_x = 0; }
-   if (Vect_dx) { delete Vect_dx; Vect_dx = 0; }
+void TGo4FitModelGaussN::AfterEval()
+{
+   if(Vect_mu) { delete Vect_mu; Vect_mu = nullptr; }
+   if(Matr_sig) { delete Matr_sig; Matr_sig = nullptr; }
+   if(Vect_x) { delete Vect_x; Vect_x = nullptr; }
+   if (Vect_dx) { delete Vect_dx; Vect_dx = nullptr; }
 }
 
 void TGo4FitModelGaussN::Print(Option_t* option) const

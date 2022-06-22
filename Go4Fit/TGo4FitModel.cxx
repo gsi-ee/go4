@@ -79,15 +79,17 @@ Int_t TGo4FitModel::NumPars() {
    return res;
 }
 
-TGo4FitParameter* TGo4FitModel::Get(Int_t n) {
+TGo4FitParameter* TGo4FitModel::Get(Int_t n)
+{
    Int_t numpars = TGo4FitParsList::NumPars();
    if (n<numpars) return TGo4FitParsList::Get(n);
    n-=numpars-1;
-   return (n>=0) && (n<NumAssigments()) ? GetAssigment(n)->fxRatio : 0;
+   return (n >= 0) && (n < NumAssigments()) ? GetAssigment(n)->fxRatio : nullptr;
 }
 
-void TGo4FitModel::AssignToData(const char* DataName, Double_t RatioValue, Bool_t FixRatio) {
-  if (FindAssigment(DataName)==0) {
+void TGo4FitModel::AssignToData(const char* DataName, Double_t RatioValue, Bool_t FixRatio)
+{
+  if (!FindAssigment(DataName)) {
      TGo4FitAssignment* ass = new TGo4FitAssignment(DataName);
      if (NumAssigments()>0) {
        ass->fxRatio = new TGo4FitParameter(GetRatioName(NumAssigments()),
@@ -100,7 +102,8 @@ void TGo4FitModel::AssignToData(const char* DataName, Double_t RatioValue, Bool_
   }
 }
 
-void TGo4FitModel::ChangeDataNameInAssignments(const char* oldname, const char* newname) {
+void TGo4FitModel::ChangeDataNameInAssignments(const char* oldname, const char* newname)
+{
    TGo4FitAssignment* ass = FindAssigment(oldname);
    if (ass) ass->SetName(newname);
 }
@@ -117,7 +120,7 @@ void TGo4FitModel::ClearAssignmentTo(const char* DataName)
    for (Int_t n=0;n<NumAssigments();n++) {
      ass = GetAssigment(n);
      if (!ass->fxRatio) continue;
-     if (n==0) {
+     if (n == 0) {
        delete ass->fxRatio;
        ass->fxRatio = nullptr;
      } else
@@ -264,7 +267,7 @@ Double_t* TGo4FitModel::GetModelBins(const char* DataName) const
 
 Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Scales, const Double_t* Widths)
 {
-  if ((NumScales<1) || (Scales==0)) return 0.;
+  if ((NumScales<1) || !Scales) return 0.;
 
   if ( (fiMinIntegrDepth>0) && (fiMaxIntegrDepth>0) && (Widths!=0)) {
       TArrayI IntegrIndexes(NumScales);
@@ -380,7 +383,7 @@ void TGo4FitModel::RebuildShape(Bool_t ForceBuild)
       for(Int_t n=0;n<NumAssigments();n++) {
           TGo4FitAssignment* ass = GetAssigment(n);
 
-          if ((ass->fxData==0) || (ass->fxModelBins==0)) continue;
+          if (!ass->fxData || !ass->fxModelBins) continue;
 
           TGo4FitData* data = ass->fxData;
 
@@ -392,7 +395,7 @@ void TGo4FitModel::RebuildShape(Bool_t ForceBuild)
           Double_t ratio = ass->RatioValue();
 
           for(Int_t nbin=0;nbin<size;nbin++) {
-             if ((mask!=0) && (mask[nbin]==0)) continue;
+             if (mask && (mask[nbin] == 0)) continue;
              bins[nbin] = ratio * EvaluateAtPoint(data, nbin, kFALSE);
           }
 
@@ -439,7 +442,7 @@ Bool_t TGo4FitModel::BeforeEval(Int_t ndim)
    fxCurrentPars.Set(NumPars());
    GetParsValues(fxCurrentPars.GetArray());
    fxCurrentParsArray = fxCurrentPars.GetArray();
-   if (GetAmplPar()!=0) fxCurrentParsArray++;
+   if (GetAmplPar()) fxCurrentParsArray++;
    return kTRUE;
 }
 

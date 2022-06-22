@@ -27,14 +27,16 @@ TGo4FitComponent::TGo4FitComponent() : TGo4FitParsList(), TGo4FitSlotList(),
 
 TGo4FitComponent::TGo4FitComponent(const char* iName, const char* iTitle) :
     TGo4FitParsList(iName,iTitle,kTRUE), TGo4FitSlotList(),
-    fxRangeAxis(), fxRangeValue(), fxCuts(), fiAmplIndex(-1), fbUseBuffers(kFALSE) {
-  fxCuts.SetOwner(kTRUE);
+    fxRangeAxis(), fxRangeValue(), fxCuts(), fiAmplIndex(-1), fbUseBuffers(kFALSE)
+{
+   fxCuts.SetOwner(kTRUE);
 }
 
 TGo4FitComponent::~TGo4FitComponent() {
 }
 
-TGo4FitParameter* TGo4FitComponent::NewParameter(const char* Name, const char* Title, Double_t iValue, Bool_t Fixed, Int_t AtIndx) {
+TGo4FitParameter* TGo4FitComponent::NewParameter(const char* Name, const char* Title, Double_t iValue, Bool_t Fixed, Int_t AtIndx)
+{
    TGo4FitParameter* par = new TGo4FitParameter(Name, Title, iValue);
    if (AtIndx<0) AddPar(par);
             else InsertPar(par,AtIndx);
@@ -42,12 +44,15 @@ TGo4FitParameter* TGo4FitComponent::NewParameter(const char* Name, const char* T
    return par;
 }
 
-TGo4FitParameter* TGo4FitComponent::NewAmplitude(const char* Name, Double_t iValue, Bool_t IsFixed, Int_t AtIndx) {
-   TGo4FitParameter* par = 0;
-   if (Name==0) par = new TGo4FitParameter("Ampl", "Amplitude", iValue);
-           else par = new TGo4FitParameter(Name, "Amplitude", iValue);
-   if (AtIndx<0) { AddPar(par); AtIndx = NumPars()-1; }
-            else InsertPar(par,AtIndx);
+TGo4FitParameter* TGo4FitComponent::NewAmplitude(const char* Name, Double_t iValue, Bool_t IsFixed, Int_t AtIndx)
+{
+   TGo4FitParameter *par = new TGo4FitParameter(Name ? Name : "Ampl", "Amplitude", iValue);
+   if (AtIndx < 0) {
+      AddPar(par);
+      AtIndx = NumPars() - 1;
+   } else {
+      InsertPar(par, AtIndx);
+   }
    SetAmplIndex(AtIndx);
    if(IsFixed) par->SetFixed(kTRUE);
    return par;
@@ -55,17 +60,17 @@ TGo4FitParameter* TGo4FitComponent::NewAmplitude(const char* Name, Double_t iVal
 
 TGo4FitParameter* TGo4FitComponent::GetAmplPar()
 {
-   return fiAmplIndex<0 ? 0 : GetPar(fiAmplIndex);
+   return fiAmplIndex < 0 ? nullptr : GetPar(fiAmplIndex);
 }
 
 const char* TGo4FitComponent::GetAmplName()
 {
-   return GetAmplPar() ? GetAmplPar()->GetName() : 0;
+   return GetAmplPar() ? GetAmplPar()->GetName() : nullptr;
 }
 
 const char* TGo4FitComponent::GetAmplFullName()
 {
-   return GetAmplPar() ? GetAmplPar()->GetFullName() : 0;
+   return GetAmplPar() ? GetAmplPar()->GetFullName() : nullptr;
 }
 Double_t TGo4FitComponent::GetAmplValue()
 {
@@ -87,21 +92,24 @@ void TGo4FitComponent::SetAmplError(Double_t iError)
    if(GetAmplPar()) Get(fiAmplIndex)->SetError(iError);
 }
 
-Bool_t TGo4FitComponent::MakeAmpl(Bool_t isFixed) {
-  if (GetAmplPar()!=0) return kFALSE;
+Bool_t TGo4FitComponent::MakeAmpl(Bool_t isFixed)
+{
+  if (GetAmplPar()) return kFALSE;
   NewAmplitude();
   if (isFixed) GetAmplPar()->SetFixed(kTRUE);
   return kTRUE;
 }
 
-Bool_t TGo4FitComponent::RemoveAmpl() {
-   if (GetAmplPar()==0) return kFALSE;
+Bool_t TGo4FitComponent::RemoveAmpl()
+{
+   if (!GetAmplPar()) return kFALSE;
    RemoveParByIndex(GetAmplIndex());
    SetAmplIndex(-1);
    return kTRUE;
 }
 
-void TGo4FitComponent::GetRangeCondition(Int_t n, Int_t& typ, Int_t& naxis, Double_t& left, Double_t& right) const {
+void TGo4FitComponent::GetRangeCondition(Int_t n, Int_t& typ, Int_t& naxis, Double_t& left, Double_t& right) const
+{
    if ((n>=0) && (n<GetNumRangeCondition())) {
      Int_t naxis1 = fxRangeAxis[n*2];
      Int_t naxis2 = fxRangeAxis[n*2+1];
@@ -213,7 +221,7 @@ void TGo4FitComponent::ClearRanges(Int_t naxis) {
       }
       fxRangeAxis.Set(dindx);
       fxRangeValue.Set(dindx);
-      if ((naxis==0) || (naxis==1)) fxCuts.Delete();
+      if ((naxis == 0) || (naxis == 1)) fxCuts.Delete();
    }
 }
 
@@ -228,7 +236,8 @@ void TGo4FitComponent::AddRangeCut(TCutG* cut, Bool_t exclude)
   fxCuts.Add(cut);
 }
 
-Int_t TGo4FitComponent::GetNumRangeCut() const {
+Int_t TGo4FitComponent::GetNumRangeCut() const
+{
   return fxCuts.GetLast()+1;
 }
 
@@ -306,10 +315,11 @@ Bool_t TGo4FitComponent::GetRangeMax(Int_t naxis, Double_t& value) {
    return isany;
 }
 
-Bool_t TGo4FitComponent::CheckRangeConditions(const Double_t* values, Int_t numaxis) {
+Bool_t TGo4FitComponent::CheckRangeConditions(const Double_t* values, Int_t numaxis)
+{
    Int_t condsize = GetNumRangeCondition();
 
-   if ((condsize==0) && (GetNumRangeCut()==0)) return kTRUE;
+   if ((condsize == 0) && (GetNumRangeCut() == 0)) return kTRUE;
 
    Bool_t res1 = kTRUE, res2 = kTRUE;
 
@@ -361,7 +371,8 @@ Bool_t TGo4FitComponent::CheckRangeConditions(const Double_t* values, Int_t numa
    return res1 && res2;
 }
 
-void TGo4FitComponent::CollectParsTo(TGo4FitParsList& list) {
+void TGo4FitComponent::CollectParsTo(TGo4FitParsList& list)
+{
   TGo4FitParsList::CollectParsTo(list);
   for(Int_t n=0;n<NumSlots();n++) {
      TGo4FitSlot* slot = GetSlot(n);

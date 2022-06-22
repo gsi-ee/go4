@@ -108,7 +108,7 @@ void TGo4FitMinuitResult::CallMNEMAT(TMinuit* fMinuit, Int_t nPars, Bool_t DoTra
        Int_t fixed = 0;
        fMinuit->mnpout(npar,name,val,err,bnd1,bnd2,fixed);
 
-       if (fixed==0) {
+       if (fixed == 0) {
           for(Int_t n=nPars-2;n>=npar-1;n--)
             for(Int_t i=0;i<nPars;i++)
                (*ERRORMATRIX)(i,n+1) = (*ERRORMATRIX)(i,n);

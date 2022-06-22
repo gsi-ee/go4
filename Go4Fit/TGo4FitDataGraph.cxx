@@ -78,7 +78,7 @@ TGo4FitDataGraphIter::~TGo4FitDataGraphIter()
 
 Bool_t TGo4FitDataGraphIter::StartReset()
 {
-  if ((fxData==0) || (fxData->GetGraph()==0)) return kFALSE;
+  if (!fxData || !fxData->GetGraph()) return kFALSE;
 
   fiNumPoints = fxData->GetGraph()->GetN();
 
@@ -87,21 +87,21 @@ Bool_t TGo4FitDataGraphIter::StartReset()
 
 Bool_t TGo4FitDataGraphIter::ReadCurrentPoint()
 {
-   if (fxData==0) return kFALSE;
+   if (!fxData) return kFALSE;
    TGraph* gr = fxData->GetGraph();
-   if (gr==0) return kFALSE;
+   if (!gr) return kFALSE;
 
    Double_t* xx = gr->GetX();
    Double_t* yy = gr->GetY();
-   if ((xx==0) || (yy==0)) return kFALSE;
+   if (!xx || !yy) return kFALSE;
 
    Double_t xvalue = xx[fxIndexes[0]];
    fdValue = yy[fxIndexes[0]];
 
    if (!GetDeviation()) {
       Double_t zn = gr->GetErrorY(fxIndexes[0]);
-      if (zn>0) fdStandardDeviation = zn*zn;
-           else fdStandardDeviation = 1.;
+      if (zn > 0.) fdStandardDeviation = zn*zn;
+              else fdStandardDeviation = 1.;
    }
 
    return ProduceScales(fxIndexes.GetArray(), &xvalue, 0);
@@ -109,6 +109,6 @@ Bool_t TGo4FitDataGraphIter::ReadCurrentPoint()
 
 Bool_t TGo4FitDataGraphIter::ShiftToNextPoint()
 {
-   fxIndexes[0]+=1;
-   return (fxIndexes[0]<fiNumPoints);
+   fxIndexes[0] += 1;
+   return fxIndexes[0] < fiNumPoints;
 }

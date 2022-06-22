@@ -163,7 +163,7 @@ void TGo4FitSlot::Print(Option_t* option) const
    } else
    if (fxObject) {
       std::cout << " object: " << GetObjectName() << std::endl;
-     if (((strcmp(option,"**")==0) && fbOwned) || (strcmp(option,"***")==0))
+     if (((strcmp(option,"**") == 0) && fbOwned) || (strcmp(option,"***") == 0))
          fxObject->Print(option);
    } else
       std::cout << " no object. " << std::endl;
@@ -180,7 +180,7 @@ void TGo4FitSlot::CheckOwnership()
 
 Bool_t TGo4FitSlot::WillBeSaved()
 {
-   return (fiSaveFlag==1) || ((fiSaveFlag==0) && fbOwned);
+   return (fiSaveFlag == 1) || ((fiSaveFlag == 0) && fbOwned);
 }
 
 void TGo4FitSlot::SetSaveSettings(Int_t save, Int_t ownership)
