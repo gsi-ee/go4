@@ -23,60 +23,48 @@
 //***********************************************************
 // this one is used in TXXXAnlFact
 TMeshB12AnlProc::TMeshB12AnlProc(const char* name)
-  :TGo4EventProcessor(name),fxInput1(0),fxInput2(0)
+  :TGo4EventProcessor(name),fxInput1(nullptr),fxInput2(nullptr)
 {
    TGo4Log::Info("TMeshB12AnlProc: Create %s", name);
 }
-//***********************************************************
+
 TMeshB12AnlProc::TMeshB12AnlProc()
-  : TGo4EventProcessor("Processor12"),fxInput1(0),fxInput2(0)
+  : TGo4EventProcessor("Processor12"),fxInput1(nullptr),fxInput2(nullptr)
 {
 }
-//***********************************************************
+
 TMeshB12AnlProc::~TMeshB12AnlProc()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 void TMeshB12AnlProc::Analysis(TMeshB12OutputEvent* poutevt)
 {
- if(fxInput1==0)
-      {
-         // lazy init for input event from framework
-         TGo4EventElement* providerinput=GetInputEvent("Output1Provider");
-         fxInput1=dynamic_cast<TMeshB1OutputEvent*>(providerinput);
+   if (!fxInput1) {
+      // lazy init for input event from framework
+      TGo4EventElement *providerinput = GetInputEvent("Output1Provider");
+      fxInput1 = dynamic_cast<TMeshB1OutputEvent *>(providerinput);
+   }
+   if (!fxInput2) {
+      // lazy init for input event from framework
+      TGo4EventElement *providerinput = GetInputEvent("Output2Provider");
+      fxInput2 = dynamic_cast<TMeshB2OutputEvent *>(providerinput);
+   }
+
+   if (fxInput1 && fxInput2) {
+      // do the processing here:
+      for (Int_t i = 0; i < 4; i++) {
+         Int_t j = i + 1;
+         if (j > 3)
+            j = 0;
+         Float_t val = 0;
+         if (fxInput2->frData[j])
+            val = TMath::Abs(fxInput1->frData[i] / fxInput2->frData[j]);
+         // std::cout <<"val["<<i<<"]="<<val << std::endl;
+         poutevt->frData[i] = val;
       }
- if(fxInput2==0)
-      {
-         // lazy init for input event from framework
-         TGo4EventElement* providerinput=GetInputEvent("Output2Provider");
-         fxInput2=dynamic_cast<TMeshB2OutputEvent*>(providerinput);
-      }
-
-
-   if(fxInput1 && fxInput2)
-      {
-         // do the processing here:
-               for(Int_t i=0;i<4;i++)
-               {
-                  Int_t j=i+1;
-                  if(j>3) j=0;
-                  Float_t val=0;
-                  if(fxInput2->frData[j])
-                     val=TMath::Abs(fxInput1->frData[i]/fxInput2->frData[j]);
-                  //std::cout <<"val["<<i<<"]="<<val << std::endl;
-                  poutevt->frData[i]=val;
-               }
-      }
-   else
-      {
-         throw TGo4UserException(3,"Error: not all input events available for processor %s",GetName());
-      }
-
-
-
-
-
+   } else {
+      throw TGo4UserException(3, "Error: not all input events available for processor %s", GetName());
+   }
 
 } // BuildCalEvent

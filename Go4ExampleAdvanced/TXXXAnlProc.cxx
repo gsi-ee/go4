@@ -52,7 +52,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    fFitRes   = MakeTH1('I', "FitTarget","Copy of fit result", 1000, 0., 1000.);
 
    fCaligraph = (TGraph*) GetObject("Calibration");
-   if (fCaligraph==0) {
+   if (!fCaligraph) {
       fCaligraph = new TGraph;
       fCaligraph->SetName("Calibration");
       fCaligraph->SetMarkerStyle(3);

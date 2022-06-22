@@ -69,7 +69,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fPolyCon = MakePolyCond("polycon", 3, cutpnts);
 
    fcondSet = GetPicture("condSet");
-   if (fcondSet==0) {
+   if (!fcondSet) {
       // in the upper two pads, the condition limits can be set,
       // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
@@ -107,7 +107,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 {  // called by framework. We dont fill any output event here at all
 
-   if ((GetInputEvent()==0) || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
+   if (!GetInputEvent() || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
       std::cout << "TXXXProc: no input MBS event found!" << std::endl;
       return kFALSE;
    }
@@ -139,8 +139,8 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
    // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();
-   TGo4MbsSubEvent *psubevt(0);
-   while((psubevt = evnt->NextSubEvent()) != 0) { // loop over subevents
+   TGo4MbsSubEvent *psubevt = nullptr;
+   while((psubevt = evnt->NextSubEvent()) != nullptr) { // loop over subevents
       Int_t * pdata = psubevt->GetDataField();
       Int_t lwords = psubevt->GetIntLen();
       if(lwords > 8) lwords = 8; // take only first 8 lwords
@@ -167,7 +167,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
    if(fconHis1->Test(value1))fHis1gate->Fill(value1); //fill histograms with gate
    if(fconHis2->Test(value2))fHis2gate->Fill(value2);
    if(fPolyCon->Test(value1,value2)) fCr1Ch1x2->Fill(value1,value2);
-   if (fHis3Counter==0) {
+   if (fHis3Counter == 0) {
       TTimeStamp tm;
       tm.Set();
       fHis3->Reset();

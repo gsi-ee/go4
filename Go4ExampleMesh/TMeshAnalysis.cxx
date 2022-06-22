@@ -238,14 +238,13 @@ Int_t TMeshAnalysis::UserPreLoop()
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored from autosave file if any.
-  fSize=(TH1D*)GetHistogram("Eventsize");
-  if(fSize==0)
-    { // no autosave read, create new and register
-      fSize = new TH1D ("Eventsize", "Event size [b]",160,1,160);
+   fSize = (TH1D *)GetHistogram("Eventsize");
+   if (!fSize) {
+      // no autosave read, create new and register
+      fSize = new TH1D("Eventsize", "Event size [b]", 160, 1, 160);
       AddHistogram(fSize);
-    }
-  // we use a fitter envelope parameters to exchange fit results:
-
+   }
+   // we use a fitter envelope parameters to exchange fit results:
 
    return 0;
 }
@@ -269,7 +268,7 @@ Int_t TMeshAnalysis::UserPostLoop()
 
 /////////////////////////////
 
-   fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
+   fMbsEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
    fEvents = 0;
    return 0;
 }

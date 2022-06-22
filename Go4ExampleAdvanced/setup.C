@@ -97,7 +97,7 @@ void setup(const char* kind, const char* name)
 
   printf("ExampleAdvanced> setup.C: Setup analysis\n");
   if(go4->IsAutoSaveOn()){
-	  if(autosaveinterval==0)
+	  if(autosaveinterval == 0)
 		  printf("       Autosave:    %s once file %s\n",autosave.Data(),asout);
 	  else
 		  printf("       autosave:    %s every %ds file %s\n",autosave.Data(),autosaveinterval,asout);

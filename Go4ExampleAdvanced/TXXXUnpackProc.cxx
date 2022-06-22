@@ -75,7 +75,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
 
    fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
-   if (fConArr1==0) {
+   if (!fConArr1) {
       fConArr1 = new TGo4CondArray("winconar",30,"TGo4WinCond");
       fConArr1->SetValues(100,500);
       fConArr1->Disable(true);
@@ -89,7 +89,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    }
 
    fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-   if(fConArr2==0) {
+   if(!fConArr2) {
       // This is example how to create condition array
       TGo4Log::Info("TXXXProc: Create condition");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
@@ -118,7 +118,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    ((*fConArr2)[1])->Enable(); // 2 and 3 remain disabled
 
    fcondSet = GetPicture("condSet");
-   if (fcondSet==0) {
+   if (!fcondSet) {
       // in the upper two pads, the condition limits can be set,
       // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
@@ -212,7 +212,6 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       return kFALSE;
    }
 
-
    fEvCount++;
    if (fEvCount % 1000000 == 0) {
       // this is demonstration how one can time to time recreate histogram with other ranges
@@ -266,8 +265,8 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 
 
    inp_evt->ResetIterator();
-   TGo4MbsSubEvent* psubevt(0);
-   while ((psubevt = inp_evt->NextSubEvent()) != 0) // subevent loop
+   TGo4MbsSubEvent* psubevt = nullptr;
+   while ((psubevt = inp_evt->NextSubEvent()) != nullptr) // subevent loop
    {
 	 Int_t* pdata = psubevt->GetDataField();
 	 Int_t lwords = psubevt->GetIntLen();
