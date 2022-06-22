@@ -310,7 +310,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
            // evaluate structure components here
            TClass* innerclass=TClass::GetClass(memtypename);
 
-           if(innerclass==0) return;
+           if(!innerclass) return;
            go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  finds root class info for type %s\n",memtypename);
 
            size_t innersize=innerclass->Size();

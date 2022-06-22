@@ -360,7 +360,7 @@ void TGo4ObjectManager::Event(TGo4Slot* source, Int_t id, void* param)
 
 void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot* startslot)
 {
-   Bool_t usefile = (f!=0);
+   Bool_t usefile = (f != nullptr);
 
    TDirectory* olddir = gDirectory;
 
@@ -370,22 +370,22 @@ void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot* star
 
    TGo4Iter iter(startslot, kTRUE);
 
-   bool isxml = (f!=0) && f->InheritsFrom("TXMLFile");
+   bool isxml = f && f->InheritsFrom("TXMLFile");
 
    while (iter.next()) {
 
       if (usefile && !isxml) {
          Int_t levelchange = iter.levelchange();
 
-         while ((levelchange++<0) && (curdir!=0)) {
+         while ((levelchange++<0) && curdir) {
              curdir = dynamic_cast<TDirectory*> (curdir->GetMother());
          }
-         if (curdir==0) break;
+         if (!curdir) break;
 
          if (iter.isfolder()) {
             curdir = curdir->mkdir(iter.getname(),"subdirectory");
          }
-         if (curdir==0) break;
+         if (!curdir) break;
       }
 
       TGo4Slot* slot = iter.getslot();
@@ -393,12 +393,12 @@ void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot* star
          slot->SaveData(curdir, onlyobjs);
    }
 
-   if (olddir!=0) olddir->cd();
+   if (olddir) olddir->cd();
 }
 
 void TGo4ObjectManager::ReadDataFromFile(TFile* f)
 {
-   Bool_t usefile = (f!=0);
+   Bool_t usefile = (f != nullptr);
 
    TDirectory* olddir = gDirectory;
 
@@ -409,12 +409,12 @@ void TGo4ObjectManager::ReadDataFromFile(TFile* f)
    while (iter.next()) {
       if (usefile) {
          Int_t levelchange = iter.levelchange();
-         while ((levelchange++<0) && (curdir!=0))
+         while ((levelchange++<0) && curdir)
              curdir = dynamic_cast<TDirectory*> (curdir->GetMother());
-         if (curdir==0) break;
+         if (!curdir) break;
          if (iter.isfolder())
              curdir->GetObject(iter.getname(), curdir);
-         if (curdir==0) break;
+         if (!curdir) break;
       }
 
       TGo4Slot* slot = iter.getslot();
@@ -438,7 +438,7 @@ void TGo4ObjectManager::UnregisterObject(TObject* obj, TGo4Slot* slot)
    for(int indx=fCleanups.GetLast();indx>=0;indx--) {
       TGo4ObjManCleanup* entry = (TGo4ObjManCleanup*) fCleanups.At(indx);
       if (entry->GetSlot()!=slot) continue;
-      if (!obj || (entry->GetObject()==obj)) {
+      if (!obj || (entry->GetObject() == obj)) {
          fCleanups.Remove(entry);
          delete entry;
          compress = kTRUE;
@@ -474,9 +474,7 @@ void TGo4ObjectManager::PrintSlots()
 {
    TGo4Iter iter(this, kTRUE);
    while (iter.next()) {
-
       printf("%*c%s\n", (iter.level()+1)*2, ' ', iter.getname());
-
 //      if (iter.getslot())
 //          iter.getslot()->PrintPars((iter.level()+1)*2 + 3);
    }

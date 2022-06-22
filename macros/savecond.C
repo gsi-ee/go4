@@ -129,18 +129,18 @@ void savecond(const char* file, const char* wildcard="*", const char* prefix="se
 #else
 void savecond(const char* wildcard="*", const char* prefix="set")
 {
-   TFile *f = 0;
-   const char* file = 0;
+   TFile *f = nullptr;
+   const char* file = nullptr;
 #endif
 
    TList lst;
    conditer(f, wildcard, &lst);
-   if (f!=0) { delete f; f = 0; }
+   if (f) { delete f; f = nullptr; }
 
    TIter next(&lst);
 
-   TObject* obj = 0;
-   while((obj = next()) != 0)
+   TObject* obj = nullptr;
+   while((obj = next()) != nullptr)
       save1cond(obj, prefix);
 
    lst.Clear();

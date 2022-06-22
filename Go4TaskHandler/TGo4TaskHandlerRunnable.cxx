@@ -40,41 +40,40 @@ TGo4TaskHandler* TGo4TaskHandlerRunnable::GetTaskHandler()
 
 Bool_t TGo4TaskHandlerRunnable::CheckStopBuffer(TBuffer* buf, Int_t* result)
 {
-if(buf==0) return kFALSE;
-//std::cout <<"CCCCCCCCCC CheckStopBuffer in "<< GetName() << std::endl;
-Int_t val=TGo4BufferQueue::DecodeValueBuffer(buf);
-if(result) *result=val;
-if(val<0) return kFALSE; // no valid message in buffer
-Go4EmergencyCommand_t comvalue= (Go4EmergencyCommand_t) (val);
-if(comvalue==kComCloseInput)
-   {
-      //std::cout <<"CCCCCCCCCC CheckStopBuffer has close input in "<< GetName() << std::endl;
+   if (!buf)
+      return kFALSE;
+   // std::cout <<"CCCCCCCCCC CheckStopBuffer in "<< GetName() << std::endl;
+   Int_t val = TGo4BufferQueue::DecodeValueBuffer(buf);
+   if (result)
+      *result = val;
+   if (val < 0)
+      return kFALSE; // no valid message in buffer
+   Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t)(val);
+   if (comvalue == kComCloseInput) {
+      // std::cout <<"CCCCCCCCCC CheckStopBuffer has close input in "<< GetName() << std::endl;
       GetThread()->Stop();
       return kTRUE;
-   }
-else if (comvalue==kComAbortTask)
-   {
-      //std::cout <<"CCCCCCCCCC CheckStopBuffer has task abort command in "<< GetName() << std::endl;
+   } else if (comvalue == kComAbortTask) {
+      // std::cout <<"CCCCCCCCCC CheckStopBuffer has task abort command in "<< GetName() << std::endl;
       TGo4Log::Debug(" !!!Receiving taskhandler abort buffer in %s !!!", GetName());
       throw TGo4TaskHandlerAbortException(this);
 
-   }
-else
-   {
+   } else {
       return kFALSE;
    }
 }
 
 Bool_t TGo4TaskHandlerRunnable::CheckTransportOpen()
 {
-Bool_t open=kTRUE;
-if(fxTransport==0)
-   open=kFALSE;
-else if(!fxTransport->IsOpen())
-   open=kFALSE;
-else
-   open=kTRUE;
-if(!open) TGo4Thread::Sleep(TGo4TaskHandler::Get_fguPORTWAITTIME());
-          // avoid wild looping in Run() when socket is not open
-return open;
+   Bool_t open = kTRUE;
+   if (!fxTransport)
+      open = kFALSE;
+   else if (!fxTransport->IsOpen())
+      open = kFALSE;
+   else
+      open = kTRUE;
+   if (!open)
+      TGo4Thread::Sleep(TGo4TaskHandler::Get_fguPORTWAITTIME());
+   // avoid wild looping in Run() when socket is not open
+   return open;
 }
