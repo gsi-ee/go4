@@ -189,7 +189,7 @@ void TGo4MbsEvent::PrintEvent()
 void TGo4MbsEvent::PrintMbsFileHeader()
 {
    s_filhe* head = GetMbsSourceHeader();
-   if (head==0) return;
+   if (!head) return;
    printf("***** File header:\n");
    printf("\tdatalen: %d \n", head->filhe_dlen);
    printf("\tfilename_l: %d \n", head->filhe_file_l);
@@ -204,7 +204,7 @@ void TGo4MbsEvent::PrintMbsFileHeader()
 void TGo4MbsEvent::PrintMbsBufferHeader()
 {
    s_bufhe* head = GetMbsBufferHeader();
-   if (head==0) return;
+   if (!head) return;
 
    printf("***** Buffer header:\n");
    printf("\tbuffernumber: %d \n", head->l_buf);

@@ -237,13 +237,12 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
    return (TGo4EventElement *)fEventElements->At(idx);
 }
 
-
 TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final_element)
 {
    TIter next(fEventElements);
    TGo4EventElement *ev = nullptr;
-   while ((ev=(TGo4EventElement *)next()) != nullptr) {
-      if(strcmp(name,ev->GetName())==0) return ev;
+   while ((ev = (TGo4EventElement *)next()) != nullptr) {
+      if(strcmp(name,ev->GetName()) == 0) return ev;
       if (ev->isComposed()) {
          TGo4EventElement* inter= ((TGo4CompositeEvent*) ev)->getEventElement(name,1);
          if (inter) return inter;

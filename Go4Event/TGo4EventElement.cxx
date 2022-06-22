@@ -93,7 +93,7 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_p
 
    // if no appropriate branches found, use first branch for the event
    // TODO: should we check class name of the branch?
-   if (topb==0) topb = (TBranch*) tree->GetListOfBranches()->First();
+   if (!topb) topb = (TBranch*) tree->GetListOfBranches()->First();
 
    Int_t index = tree->GetListOfBranches()->IndexOf(topb);
 
@@ -168,7 +168,7 @@ Int_t TGo4EventElement::Fill()
 {
    if (!fbKeepContents) Clear();
    fbKeepContents = kFALSE;
-   if (fxEventSource==0) { SetValid(kFALSE); return 1; }
+   if (!fxEventSource) { SetValid(kFALSE); return 1; }
 
    if (fxEventSource->BuildEvent(this)) {
       //SetValid(kTRUE); // JAM: do not override event validity as specified by user
