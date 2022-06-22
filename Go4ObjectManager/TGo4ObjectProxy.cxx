@@ -98,21 +98,20 @@ Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
 
 TGo4Access* TGo4ObjectProxy::ProvideAccess(const char* name)
 {
-   if (fObject==0) return 0;
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(fObject);
-   return 0;
+   if (!fObject) return nullptr;
+   if (!name || (*name==0))
+      return new TGo4ObjectAccess(fObject);
+   return nullptr;
 }
 
 void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = 0;
-   if (fObject!=0)
-      objname = fObject->GetName();
+   const char* objname = fObject ? fObject->GetName() : nullptr;
 
    if (!onlyobjs)
      slot->SetPar("ObjectProxy::ObjName", objname);
 
-   if ((dir==0) || (fObject==0)) return;
+   if (!dir || !fObject) return;
 
    dir->cd();
 
@@ -128,8 +127,8 @@ void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 
 void TGo4ObjectProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* objname = slot->GetPar("ObjectProxy::ObjName");
-   if ((objname==0) || (dir==0)) return;
+   const char* objname = slot ? slot->GetPar("ObjectProxy::ObjName") : nullptr;
+   if (!objname || !dir) return;
 
    dir->cd();
 
@@ -138,29 +137,29 @@ void TGo4ObjectProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 
 Int_t TGo4ObjectProxy::GetObjectKind()
 {
-   return (fObject!=0) ? TGo4Access::kndObject : TGo4Access::kndNone;
+   return fObject ? TGo4Access::kndObject : TGo4Access::kndNone;
 }
 
 const char* TGo4ObjectProxy::GetContainedClassName()
 {
-   return (fObject!=0) ? fObject->ClassName() : 0;
+   return fObject ? fObject->ClassName() : nullptr;
 }
 
 const char* TGo4ObjectProxy::GetContainedObjectInfo()
 {
-   return (fObject!=0) ? fObject->GetTitle() : 0;
+   return fObject ? fObject->GetTitle() : nullptr;
 }
 
 Int_t TGo4ObjectProxy::GetObjectSizeInfo()
 {
    Int_t sz = TGo4Proxy::GetObjectSizeInfo();
-   if (fObject!=0) sz = DefineObjectSize(fObject);
+   if (fObject) sz = DefineObjectSize(fObject);
    return sz;
 }
 
 Bool_t TGo4ObjectProxy::IsAcceptObject(TClass* cl)
 {
-   return (cl!=0) && cl->InheritsFrom(TObject::Class());
+   return cl && cl->InheritsFrom(TObject::Class());
 }
 
 Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)

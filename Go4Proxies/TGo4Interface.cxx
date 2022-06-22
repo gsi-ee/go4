@@ -317,8 +317,8 @@ void TGo4Interface::RefreshNamesList(int tmout)
 TGo4AnalysisStatus* TGo4Interface::GetAnalStatus()
 {
    TGo4ServerProxy* anal = Server();
-   if (anal==0) return 0;
-   if (anal->SettingsSlot()==0) return 0;
+   if (!anal) return nullptr;
+   if (!anal->SettingsSlot()) return nullptr;
 
    return dynamic_cast<TGo4AnalysisStatus*>
             (anal->SettingsSlot()->GetAssignedObject());
@@ -331,7 +331,7 @@ void TGo4Interface::AnalysisAutoSave(const char* filename,
                                          Bool_t overwrite)
 {
    TGo4AnalysisStatus* status  = GetAnalStatus();
-   if (status==0) return;
+   if (!status) return;
 
    status->SetAutoFileName(filename);
    status->SetAutoSaveInterval(interval);
@@ -343,14 +343,14 @@ void TGo4Interface::AnalysisAutoSave(const char* filename,
 void TGo4Interface::AnalysisConfigName(const char* filename)
 {
    TGo4AnalysisStatus* status  = GetAnalStatus();
-   if (status!=0)
+   if (status)
      status->SetConfigFileName(filename);
 }
 
 TGo4AnalysisStepStatus* TGo4Interface::GetStepStatus(const char* stepname)
 {
    TGo4AnalysisStatus* status = GetAnalStatus();
-   return status==0 ? 0 : status->GetStepStatus(stepname);
+   return !status ? nullptr : status->GetStepStatus(stepname);
 }
 
 void TGo4Interface::ConfigStep(const char* stepname,
@@ -359,7 +359,7 @@ void TGo4Interface::ConfigStep(const char* stepname,
                                    Bool_t enablestore)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    step->SetSourceEnabled(enablesource);
    step->SetStoreEnabled(enablestore);
@@ -371,7 +371,7 @@ void TGo4Interface::StepFileSource(const char* stepname,
                                        int timeout)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4FileSourceParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -387,7 +387,7 @@ void TGo4Interface::StepMbsFileSource(const char* stepname,
                                       int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
-   if (step==0) return;
+   if (!step) return;
 
    TGo4MbsFileParameter par(sourcename);
    par.SetTimeout(timeout);
@@ -597,14 +597,13 @@ Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char* newna
 
 ViewPanelHandle TGo4Interface::GetActiveViewPanel()
 {
-   if (!gPad) return 0;
-   return (ViewPanelHandle) gPad->GetCanvas();
+   return (ViewPanelHandle) (gPad ? gPad->GetCanvas() : nullptr);
 }
 
 void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 {
    TCanvas* c = (TCanvas*) handle;
-   if (c!=0) {
+   if (c) {
       c->Modified();
       c->Update();
    }
@@ -619,8 +618,8 @@ void TGo4Interface::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t nu
 TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
 {
     TCanvas* c = (TCanvas*) handle;
-    if (c!=0) return (TPad*) c->cd(number);
-    return 0;
+    if (c) return (TPad*) c->cd(number);
+    return nullptr;
 }
 
 Bool_t TGo4Interface::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)

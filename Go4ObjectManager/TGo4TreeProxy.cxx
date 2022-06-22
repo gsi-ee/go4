@@ -38,17 +38,13 @@ class TGo4BranchAccess : public TGo4Access {
 class TGo4TreeLevelIter : public TGo4LevelIter {
    public:
       TGo4TreeLevelIter(TTree* tree) :
-         TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0)
+         TGo4LevelIter()
       {
          fIter = tree->GetListOfBranches()->MakeIterator();
       }
 
       TGo4TreeLevelIter(TBranch* branch) :
-         TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0)
+         TGo4LevelIter()
       {
          fIter = branch->GetListOfBranches()->MakeIterator();
       }
@@ -107,8 +103,8 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
 
 TGo4TreeProxy::TGo4TreeProxy() :
    TGo4Proxy(),
-   fTree(0),
-   fOwner(0)
+   fTree(nullptr),
+   fOwner(kFALSE)
 {
 }
 
@@ -126,25 +122,25 @@ TGo4TreeProxy::~TGo4TreeProxy()
 
 Int_t TGo4TreeProxy::GetObjectKind()
 {
-   return (fTree!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
+   return fTree ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 
 const char* TGo4TreeProxy::GetContainedClassName()
 {
-   return (fTree!=0) ? fTree->ClassName() : 0;
+   return fTree ? fTree->ClassName() : nullptr;
 }
 
 TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
 {
-   if (tree==0) return 0;
+   if (!tree) return nullptr;
 
-   if ((name==0) || (*name==0)) return new TGo4ObjectAccess(tree);
+   if (!name || (*name==0)) return new TGo4ObjectAccess(tree);
 
    TObjArray* list = tree->GetListOfBranches();
    const char* curname = name;
 
-   while (list!=0) {
+   while (list) {
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(list);
@@ -153,15 +149,15 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
          if ((strlen(obj->GetName())==len) &&
              (strncmp(obj->GetName(), curname, len)==0)) break;
       TBranch* br = dynamic_cast<TBranch*> (obj);
-      if (br==0) return 0;
+      if (!br) return nullptr;
 
-      if (slash!=0) {
+      if (slash) {
          list = br->GetListOfBranches();
          curname = slash+1;
       } else
          return new TGo4BranchAccess(br);
    }
-   return 0;
+   return nullptr;
 }
 
 TGo4LevelIter* TGo4TreeProxy::ProduceIter(TTree* tree)
