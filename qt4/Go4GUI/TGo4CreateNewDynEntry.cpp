@@ -29,15 +29,14 @@ TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget* parent )
 
 TGo4DynamicEntry* TGo4CreateNewDynEntry::MakeEntry()
 {
-   TGo4DynamicEntry* entry = 0;
+   TGo4DynamicEntry* entry = nullptr;
 
-   if (EntryType->currentIndex()==0)
+   if (EntryType->currentIndex() == 0)
       entry = new TGo4HistogramEntry();
-   else
-   if (EntryType->currentIndex()==1)
+   else if (EntryType->currentIndex() == 1)
       entry = new TGo4TreeHistogramEntry();
 
-   if (entry!=0) {
+   if (entry) {
      entry->EnableProcessing(kFALSE);
      entry->SetName(EntryName->text().toLatin1().constData());
      entry->SetTitle(EntryTitle->text().toLatin1().constData());

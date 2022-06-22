@@ -184,7 +184,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
       // go to top folders and remove rest items
       Int_t levelchange = iter.levelchange();
-      while (levelchange++<0) {
+      while (levelchange++ < 0) {
 
           while (curitem) {
             TGo4BrowserItem* next = curfold->nextChild();
@@ -192,17 +192,17 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
             curitem = next;
           }
 
-          if (curfold==0) break;
+          if (!curfold) break;
 
           previtem = curfold;
           curfold = curfold->GetParent();
-          curitem = curfold==0 ? 0 : curfold->nextChild();
+          curitem = !curfold ? nullptr : curfold->nextChild();
       }
 
       if (!res) break;
 
       // delete all slots in folder, which has another name
-      while ((curitem!=0) && (strcmp(iter.getname(), curitem->GetName())!=0)) {
+      while (curitem && (strcmp(iter.getname(), curitem->GetName())!=0)) {
          TGo4BrowserItem* next = curfold->nextChild();
          curfold->deleteChild(curitem);
          curitem = next;
@@ -229,7 +229,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       int cando = TGo4BrowserProxy::DefineItemProperties(itemkind, itemclass, pixmap);
       TGo4BrowserProxy::SetItemCanDo(curslot, cando);
 
-      if (curitem==0)
+      if (!curitem)
           curitem = new TGo4BrowserItem(curfold, previtem, iter.getname(), classname);
 
       curitem->SetBrowser(fBrowser, this);
@@ -237,19 +237,15 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       curitem->SetItemClass(classname);
 
       TString iconname = classname;
-      if (itemkind==TGo4Access::kndTreeBranch)
+      if (itemkind == TGo4Access::kndTreeBranch)
          iconname = "Go4-TreeBranch";
-      else
-      if (itemkind==TGo4Access::kndTreeLeaf)
+      else if (itemkind == TGo4Access::kndTreeLeaf)
          iconname = "Go4-TreeLeaf";
-      else
-      if (itemkind==TGo4Access::kndGo4Param)
+      else if (itemkind == TGo4Access::kndGo4Param)
          iconname = "TGo4Parameter";
-      else
-      if (itemkind==TGo4Access::kndDataMember)
+      else if (itemkind == TGo4Access::kndDataMember)
          iconname = "Go4-EventDataMember";
-      else
-      if (itemkind==TGo4Access::kndEventElement)
+      else if (itemkind == TGo4Access::kndEventElement)
          iconname = "Go4-EventElement";
 
       curitem->SetIconName(iconname.Data());
@@ -258,7 +254,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
          curitem->SetIsFolder(kTRUE);
          curfold = curitem;
          curitem = curfold->firstChild();
-         previtem = 0;
+         previtem = nullptr;
       } else {
          // remove any substructures if any
          curitem->SetIsFolder(kFALSE);
@@ -268,7 +264,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       }
    }
 
-   while (curitem!=0) {
+   while (curitem) {
       TGo4BrowserItem* next = curfold->nextChild();
       curfold->deleteChild(curitem);
       curitem = next;

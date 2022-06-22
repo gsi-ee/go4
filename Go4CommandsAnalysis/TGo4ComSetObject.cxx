@@ -193,7 +193,7 @@ Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
    TString buf;
    if(fxAna->AddDynamicEntry((TGo4DynamicEntry*)dyn->Clone())) {
       TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (dyn);
-      if ((tentry!=0) && tentry->IsEnabledProcessing())
+      if (tentry && tentry->IsEnabledProcessing())
          fxAna->SetDynListInterval(tentry->GetDynListInterval());
       fxResult->SetAction(kGo4ActionEdit);
       buf = TString::Format("Set new status for entry  %s of dynamic list %s.", GetObjectName(), GetFolderName());

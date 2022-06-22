@@ -63,7 +63,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 
       if (iter && wasfolder && goesinto) {
          TGo4LevelIter* subiter = iter->subiterator();
-         if (subiter!=0) {
+         if (subiter) {
             fLevels.Add(subiter);
             iter = subiter;
          }
@@ -90,7 +90,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
    fLevelChange = level() - lastlevel;
 
    // Bool_t isfolder = kFALSE;
-   // if (iter!=0) isfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
+   // if (iter) isfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
    // if (isfolder && wasfolder) fLevelChange--;
 
    if (wasfolder) fLevelChange--;

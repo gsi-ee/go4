@@ -101,7 +101,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
        TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
        const char* previtem = GetLinkedName("Parameter");
-       if ((par!=0) && (previtem!=0)) {
+       if (par && previtem) {
           int res = QMessageBox::warning(this, "Parameter editor",
              QString("Current parameter %1 is modified!\n"
                      "New parameter %2 is selected.").arg(previtem).arg(itemname),
@@ -125,7 +125,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
    if (BrowserItemRemote(itemname)) {
       TGo4Slot* tgtslot = AddSlot("ParStatus");
       TGo4BrowserProxy* br = Browser();
-      if (br!=0) br->RequestObjectStatus(itemname, tgtslot);
+      if (br) br->RequestObjectStatus(itemname, tgtslot);
       // add dummy link to be informed when parameter is disappear
       AddLink(itemname, "ParameterLock");
    } else {
