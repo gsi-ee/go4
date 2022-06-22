@@ -269,7 +269,7 @@ Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Sca
 {
   if ((NumScales<1) || !Scales) return 0.;
 
-  if ( (fiMinIntegrDepth>0) && (fiMaxIntegrDepth>0) && (Widths!=0)) {
+  if ((fiMinIntegrDepth > 0) && (fiMaxIntegrDepth > 0) && Widths) {
       TArrayI IntegrIndexes(NumScales);
       TArrayD ScaleValues(NumScales, Scales);
       TArrayD WidthValues(NumScales, Widths);
@@ -326,8 +326,10 @@ Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Sca
                  Double_t v2 = Sum/NumPnt;
                  Double_t v = TMath::Abs(v1-v2);
                  if (!fbAbsoluteEps) {
-                    if ((v1!=0) || (v2!=0)) v=v/(TMath::Abs(v1)+TMath::Abs(v2));
-                                       else v=0.;
+                    if ((v1 != 0.) || (v2 != 0.))
+                       v = v / (TMath::Abs(v1) + TMath::Abs(v2));
+                    else
+                       v = 0.;
                  }
                  if (v<=fdIntegrEps) stopcondition = kTRUE;
               }

@@ -17,40 +17,46 @@
 
 #include "TGo4FitParameter.h"
 
-TGo4FitModelPolynom::TGo4FitModelPolynom() : TGo4FitModel(), fxAllOrders(0) {
+TGo4FitModelPolynom::TGo4FitModelPolynom() : TGo4FitModel(), fxAllOrders(nullptr) {
 }
 
 TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX) :
-   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(0) {
+   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
+{
      CreateOrdersPars(&iOrderX, 0, 0);
      SetBackgroundGroupIndex();
 }
 
 TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY) :
-   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(0) {
-       Double_t arr[2] = { iOrderX, iOrderY };
-       CreateOrdersPars(arr, 0, 1);
-       SetBackgroundGroupIndex();
+   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
+{
+    Double_t arr[2] = { iOrderX, iOrderY };
+    CreateOrdersPars(arr, 0, 1);
+    SetBackgroundGroupIndex();
 }
 
 TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ) :
-   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(0) {
-       Double_t arr[3] = { iOrderX, iOrderY, iOrderZ };
-       CreateOrdersPars(arr, 0, 2);
-       SetBackgroundGroupIndex();
+   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
+{
+    Double_t arr[3] = { iOrderX, iOrderY, iOrderZ };
+    CreateOrdersPars(arr, 0, 2);
+    SetBackgroundGroupIndex();
 }
 
 TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, const TArrayD& iPolynomOrders) :
-  TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(0) {
-      CreateOrdersPars(iPolynomOrders.GetArray(),0,iPolynomOrders.GetSize()-1);
-      SetBackgroundGroupIndex();
+  TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
+{
+   CreateOrdersPars(iPolynomOrders.GetArray(),0,iPolynomOrders.GetSize()-1);
+   SetBackgroundGroupIndex();
 }
 
-TGo4FitModelPolynom::~TGo4FitModelPolynom() {
+TGo4FitModelPolynom::~TGo4FitModelPolynom()
+{
   if (fxAllOrders) delete fxAllOrders;
 }
 
-void TGo4FitModelPolynom::CreateOrdersPars(const Double_t* orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx) {
+void TGo4FitModelPolynom::CreateOrdersPars(const Double_t* orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx)
+{
    for(Int_t n=startaxis;n<=maxaxis;n++) {
       TString infostr;
       infostr.Form("Polynom order for axis %d",n);
@@ -69,13 +75,13 @@ TString TGo4FitModelPolynom::GetOrderParName(Int_t naxis)
 Double_t TGo4FitModelPolynom::GetPolynomOrder(Int_t naxis)
 {
    TGo4FitParameter *par = FindPar(GetOrderParName(naxis));
-   return par ? par->GetValue() : 0;
+   return par ? par->GetValue() : 0.;
 }
 
 Int_t TGo4FitModelPolynom::GetMaxNumAxis()
 {
    Int_t naxis = 0;
-   while (FindPar(GetOrderParName(naxis))!=0) naxis++;
+   while (FindPar(GetOrderParName(naxis))) naxis++;
    return naxis-1;
 }
 

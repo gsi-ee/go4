@@ -243,7 +243,7 @@ void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, Int_t
          if (createmodel) {
            TGo4FitModelPolynom* comp = new TGo4FitModelPolynom(Name, Order);
            comp->SetGroupIndex(GroupIndex);
-           if ((lrange<rrange) || (rrange!=0.)) comp->SetRange(0,lrange,rrange);
+           if ((lrange < rrange) || (rrange != 0.)) comp->SetRange(0,lrange,rrange);
            AddModel(DataName, comp);
          }
        }
@@ -871,8 +871,8 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
           if (modelname.Index("Group",0,TString::kExact) == 0) {
              modelname.Remove(0,5);
              char* err = nullptr;
-             groupindex = strtol(modelname.Data(),&err,10);
-             if (err && (*err!=0)) groupindex=-1;
+             groupindex = strtol(modelname.Data(), &err, 10);
+             if (err && (*err != 0)) groupindex=-1;
           }
         }
 
@@ -1215,7 +1215,7 @@ TString TGo4Fitter::FindNextName(const char* Head, Int_t start, Bool_t isModel)
    Int_t n = start;
    do {
      name.Form("%s%d", Head, n++);
-   } while (isModel ? FindModel(name.Data())!=0 : FindData(name.Data())!=0 );
+   } while (isModel ? FindModel(name.Data()) != nullptr : FindData(name.Data()) != nullptr);
    return name;
 }
 

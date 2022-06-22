@@ -54,6 +54,6 @@ void TGo4FitNamed::Print(Option_t* option) const
    TNamed::Print(option);
    const char* ownname = ((TGo4FitNamed*) this)->GetOwnerFullName();
 
-   if ((ownname!=0) && (strlen(ownname)>0))
+   if (ownname && (strlen(ownname) > 0))
       std::cout << " Full name: " << ((TGo4FitNamed*) this)->GetFullName() << std::endl;
 }

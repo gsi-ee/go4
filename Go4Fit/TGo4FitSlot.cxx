@@ -217,11 +217,11 @@ void TGo4FitSlot::Streamer(TBuffer& b)
 
      Bool_t saveflag = kFALSE;
      Bool_t saveown = kFALSE;
-     if ((fiSaveSlot>=0) && (fiSaveOwnership>=0)) {
+     if ((fiSaveSlot >= 0) && (fiSaveOwnership >= 0)) {
         saveflag = fiSaveSlot>0;
         saveown = fiSaveOwnership>0;
      } else {
-        saveflag = (fxObject!=0) && (WillBeSaved() || IsConnectedToSlot());
+        saveflag = fxObject && (WillBeSaved() || IsConnectedToSlot());
         saveown = saveflag && GetOwned();
      }
 

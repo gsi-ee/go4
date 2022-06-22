@@ -134,11 +134,11 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter)
              for(Int_t ndata=0;ndata<fitter->GetNumData();ndata++) {
                 Double_t* bins1 = fitter->GetModelBinsValues((TGo4FitModel*) comps[n1], fitter->GetDataName(ndata));
                 Double_t* bins2 = fitter->GetModelBinsValues((TGo4FitModel*) comps[n2], fitter->GetDataName(ndata));
-                if ((bins1!=0) && (bins2!=0)) {
+                if (bins1 && bins2) {
                    Int_t size = fitter->GetDataBinsSize(fitter->GetData(ndata));
                    Double_t* weight = Weights[ndata];
                    for(Int_t nbin=0;nbin<size;nbin++)
-                     fSum+=bins1[nbin]*bins2[nbin]*weight[nbin];
+                     fSum += bins1[nbin]*bins2[nbin]*weight[nbin];
                 }
              }
              matr(n1,n2) = fSum;
@@ -156,10 +156,10 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter)
            for(Int_t nbin=0;nbin<size;nbin++)
              bins[nbin] = dampl*values[nbin];
 
-           for(Int_t n=0;n<=fixedcomps.GetLast();n++) {
+           for(Int_t n = 0; n <= fixedcomps.GetLast(); n++) {
               TGo4FitModel *model = (TGo4FitModel*) fixedcomps[n];
               Double_t* mbins = fitter->GetModelBinsValues(model,data->GetName());
-              if (mbins!=0) {
+              if (mbins) {
                  Double_t mampl = model->GetAmplValue();
                  for(Int_t nbin=0;nbin<size;nbin++)
                    bins[nbin] -= mampl*mbins[nbin];
