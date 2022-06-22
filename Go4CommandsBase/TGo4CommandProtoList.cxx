@@ -48,11 +48,10 @@ void TGo4CommandProtoList::ShowCommands()
    GO4TRACE((12,"TGo4CommandProtoList::ShowCommands()",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
-   TGo4Command* com = nullptr;
    TIter iter(fxCommandList);
    TGo4Log::Debug(" CommandProtoList Showing the known commands:");
    std::cout << " Name: \t| Description:"<<std::endl;
-   while((com = (TGo4Command*) iter()) != nullptr)
+   while(auto com = (TGo4Command*) iter())
       std::cout << " "<< com->GetName()<<"\t| "<<com->What()<<std::endl;
 }
 
@@ -120,11 +119,10 @@ void TGo4CommandProtoList::AddCommand(TGo4Command* com)
 
 TGo4CommandProtoList& TGo4CommandProtoList::operator+=(const TGo4CommandProtoList& two)
 {
-   if(this!=&two) {
+   if(this != &two) {
        TGo4LockGuard outerguard(two.fxListMutex);
        TIter iter(two.fxCommandList);
-       TGo4Command* com;
-       while ( (com = dynamic_cast<TGo4Command*>(iter())) != nullptr)
+       while (auto com = dynamic_cast<TGo4Command*>(iter()))
            AddCommand(com);
        std::cout <<"CommandProtoList "<< GetName() <<"used operator += for adding list " << two.GetName() << std::endl;
    }

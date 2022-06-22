@@ -88,8 +88,7 @@ void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)
     if (!fxArray) return;
     TGo4LockGuard lockguard(fxMutex);
     TIter riter(fxArray);
-    TObject* ob = nullptr;
-    while((ob = riter()) != nullptr) {
+    while(auto ob = riter()) {
        TGo4Pair* pair = dynamic_cast<TGo4Pair*>(ob);
        if(!pair) {
           TGo4Log::Error("NEVER COME HERE: TGo4CommandInvoker::UnRegister - receiver list with no receiver");
@@ -104,7 +103,6 @@ void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)
    }
    fxArray->Compress();
 }
-
 
 TGo4CommandReceiver* TGo4CommandInvoker::Lookup(const char* name)
 {

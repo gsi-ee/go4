@@ -860,11 +860,11 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
    TFile* statusfile = TFile::Open(fname.Data(), "READ");
    if(statusfile && statusfile->IsOpen()) {
       TGo4AnalysisStatus* state=
-            dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( GetName() ) );
+            dynamic_cast<TGo4AnalysisStatus*>(statusfile->Get(GetName()));
       if (!state) {
          TIter iter(statusfile->GetListOfKeys());
          TKey* key = nullptr;
-         while ((key = (TKey*)iter()) != nullptr) {
+         while (key = (TKey*)iter()) {
             if (strcmp(key->GetClassName(),"TGo4AnalysisStatus") == 0) break;
          }
 
