@@ -147,7 +147,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       // do not edit IsA info
       if (strstr(memtypename, "TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
          continue;
-      if (strstr(membername, "fgIsA") != 0) // paranoidly redundant, never come here
+      if (strstr(membername, "fgIsA")) // paranoidly redundant, never come here
          continue;
 
       if (member->Property() & kIsStatic) {
@@ -285,7 +285,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       theType = H5::PredType::NATIVE_FLOAT;
    else if ((strcmp(memtypename, "Bool_t") == 0) || (strcmp(memtypename, "bool") == 0))
       theType = H5::PredType::NATIVE_HBOOL;
-   else if ((strcmp(memtypename, "TString") == 0) || (strstr(memtypename, "string") != 0)) {
+   else if ((strcmp(memtypename, "TString") == 0) || strstr(memtypename, "string")) {
       return; // skip for the moment names and text information TODO!
    }
 
