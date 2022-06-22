@@ -454,12 +454,12 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char* t
 TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl)
 {
    if(!cl) return nullptr;
-   TList* nameslist= new TList;
+   TList* nameslist = new TList;
 
    // now process baseclasses of event:
    TIter biter(cl->GetListOfBases());
    TObject* bob = nullptr;
-   while((bob=biter()) != nullptr) {
+   while((bob = biter()) != nullptr) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(bob);
       if(!baseclass) continue;
 
@@ -478,7 +478,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
    TIter miter(cl->GetListOfDataMembers());
    TObject* nob = nullptr;
    // scan members of this event class:
-   while((nob=miter()) != nullptr) {
+   while((nob = miter()) != nullptr) {
       TDataMember* mem = dynamic_cast<TDataMember*>(nob);
       if(!mem || mem->IsaPointer()) continue; // suppress heap aggregates
       // later, we might scan these recursively
@@ -632,7 +632,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
    if (!branchlist) return nullptr;
 
-   TList* nameslist= new TList;
+   TList* nameslist = new TList;
    TGo4ObjectStatus* state;
    Int_t cursor = 0;
    TObject* entry = nullptr;
@@ -1108,7 +1108,7 @@ Bool_t TGo4AnalysisObjectManager::ResetBackStores(Bool_t clearflag)
    Bool_t rev = kTRUE;
    TIter iter(fxStoreDir->GetListOfFolders());
    TObject* entry = nullptr;
-   while((entry=iter()) != nullptr) {
+   while((entry = iter()) != nullptr) {
       TGo4BackStore* bs= dynamic_cast<TGo4BackStore*>(entry);
       if(bs) bs->Reset(clearflag);
    } // while
@@ -2067,7 +2067,7 @@ Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& path
 
    if (!fold) fold = fxGo4Dir;
 
-   if (fold->GetListOfFolders()->FindObject(obj)==obj) {
+   if (fold->GetListOfFolders()->FindObject(obj) == obj) {
       pathname = "";
       return kTRUE;
    }

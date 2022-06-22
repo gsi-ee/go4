@@ -77,7 +77,7 @@ TList* TGo4MsgList::Select(Int_t max, Long64_t id)
    fStrCounter.SetString(TString::LLtoa(fCounter, 10));
 
    fSelect.Add(&fStrCounter);
-   while (((obj = iter()) != 0) && (--curr >= id) && (--max >= 0))
+   while (((obj = iter()) != nullptr) && (--curr >= id) && (--max >= 0))
       fSelect.Add(obj);
 
    return &fSelect;
