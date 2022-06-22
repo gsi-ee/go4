@@ -65,12 +65,12 @@ int main(int argc, char **argv)
      TH1D* histo1 = new TH1D ("histogram 1", "mbsevent data",400,0,4000);
      TH1D* histo2 = new TH1D ("histogram 2", "simpleevent data",400,0,4000);
 
-     TGo4MbsSubEvent* sub=0;
-     TGo4SimpleSubEvent* simpsub=0;
+     TGo4MbsSubEvent* sub = nullptr;
+     TGo4SimpleSubEvent* simpsub = nullptr;
 
      // create the event structure objects:
      // raw mbs event
-     Short_t idfield[2]= {0,3}; // this array defines the procids for the subevents
+     Short_t idfield[2] = {0,3}; // this array defines the procids for the subevents
                                 // note: if other procids are found during read,
                                 // subevents of theses procids will be added dynamically
      TGo4MbsEvent* event = new TGo4MbsEvent(2, idfield, 1);
@@ -82,10 +82,10 @@ int main(int argc, char **argv)
                                 // user event with 2 subevents
      TGo4SimpleEventProcessor* proc = new TGo4SimpleEventProcessor();
                                 // the "unpack processor" converting mbs events to user events
-     TGo4EventSource* input=0;
-//         TGo4EventSource* simpinput=0;
-     TGo4EventStore* output=0;
-     TGo4EventStore* simpoutput=0;
+     TGo4EventSource* input = nullptr;
+     //  TGo4EventSource* simpinput = nullptr;
+     TGo4EventStore* output = nullptr;
+     TGo4EventStore* simpoutput = nullptr;
 
      // Create instance of TGo4EventSource which specifies
      // the input. Please change subclass of TGo4EventSource
@@ -192,8 +192,7 @@ int main(int argc, char **argv)
              simpoutput->Store(simpevent); // write user event to ROOT file
 
 
-           if(t%2000==0 && t!=0)
-              {
+           if(t%2000 == 0 && t != 0)  {
                  event->PrintEvent();
                  can->cd(1);
                  histo1->Draw();

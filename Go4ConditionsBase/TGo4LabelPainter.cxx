@@ -65,25 +65,25 @@ void TGo4LabelPainter::PaintLabel(Option_t* opt)
    Double_t yrange = (gPad->GetUymax()-gPad->GetUymin());
    if(!CheckLabel()) {
       // label was deleted by us or by root:
-      if(fdX0==0)
-         fdX0=xrange/2; // default: place at x center
-      if(fdY0==0)
-         fdY0=yrange/2; // default: place at y center
+      if(fdX0 == 0)
+         fdX0 = xrange/2; // default: place at x center
+      if(fdY0 == 0)
+         fdY0 = yrange/2; // default: place at y center
       // JAM: these initial coordinates can be problematic if assigned histogram is not yet drawn completely...
       fxLabel=CreateCurrentLabel(fdX0,fdY0);
       fxLabel->AppendPad(opt); // only append to pad if not already there
    } else {
       // label is exisiting:
-      if (gPad->GetListOfPrimitives()->FindObject(fxLabel)==0)
+      if (!gPad->GetListOfPrimitives()->FindObject(fxLabel))
          fxLabel->AppendPad(opt); // label was cleared from pad, we redraw it
 
       // JAM: catch here the case that label box was drawn with unsuited coordinates:
       if(((fxLabel->GetX2()- fxLabel->GetX1())<0.05*xrange) || (fxLabel->GetY2()- fxLabel->GetY1())<0.05*yrange)
         {
-          Double_t x0=xrange/2;
-          Double_t y0=yrange/2;
-          Double_t xmax=0;
-          Double_t ymax=0;
+          Double_t x0 = xrange/2;
+          Double_t y0 = yrange/2;
+          Double_t xmax = 0.;
+          Double_t ymax = 0.;
           LabelCoords(x0,y0,xmax,ymax);
           fxLabel->SetX1(x0);
           fxLabel->SetX2(xmax);

@@ -67,7 +67,7 @@ void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
 Int_t TGo4ComSetObject::ExeCom()
 {
    fxClient = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (fxClient==0) {
+   if (!fxClient) {
       GO4TRACE((11,"TGo4ComSetObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
       return 1;
@@ -83,17 +83,17 @@ Int_t TGo4ComSetObject::ExeCom()
    fxAna = TGo4Analysis::Instance();
    fxResult = new TGo4AnalysisObjectResult(GetObjectName());
    // evaluate object type here:
-   if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus*>(fxObject))==0)
+   if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus*>(fxObject)) == 0)
       ;
-   else if(ExeSetPar(dynamic_cast<TGo4Parameter*>(fxObject))==0)
+   else if(ExeSetPar(dynamic_cast<TGo4Parameter*>(fxObject)) == 0)
       ;
-   else if(ExeSetCon(dynamic_cast<TGo4Condition*>(fxObject))==0)
+   else if(ExeSetCon(dynamic_cast<TGo4Condition*>(fxObject)) == 0)
       ;
-   else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry*>(fxObject))==0)
+   else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry*>(fxObject)) == 0)
       ;
-   else if(ExeSetHis(dynamic_cast<TH1*>(fxObject))==0)
+   else if(ExeSetHis(dynamic_cast<TH1*>(fxObject)) == 0)
       ;
-   else if(ExeSetPic(dynamic_cast<TGo4Picture*>(fxObject))==0)
+   else if(ExeSetPic(dynamic_cast<TGo4Picture*>(fxObject)) == 0)
       ;
    else
       ExeSetObj(fxObject);
@@ -101,7 +101,7 @@ Int_t TGo4ComSetObject::ExeCom()
    fxAna->UpdateNamesList();
    TGo4AnalysisObjectNames* state = fxAna->GetNamesList();
    fxResult->SetNamesList(state); // note: nameslist is not owned by result object!
-   if(fxResult->Action()!=kGo4ActionError) {
+   if(fxResult->Action() != kGo4ActionError) {
       TFolder* top = fxAna->GetObjectFolder();
       TString fullname = top->FindFullPathName(GetObjectName());
       fullname.Remove(0, 6); // remove //Go4/ top folder name
