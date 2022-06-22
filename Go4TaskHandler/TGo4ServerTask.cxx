@@ -173,18 +173,14 @@ Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
    Int_t rev = 0; // return value is number of removed clients
    // std::cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << std::endl;
    //// new: first figure out all existing names, then remove one by one:
-   TGo4TaskHandler *taskhandler = nullptr;
    TObjArray names;
    Bool_t reset = kTRUE;
-   while ((taskhandler = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+   while (auto taskhandler = fxTaskManager->NextTaskHandler(reset)) {
       reset = kFALSE;
-      // std::cout <<"adding name "<<taskhandler->GetName() << std::endl;
       names.AddLast(new TNamed(taskhandler->GetName(), "title"));
    }
    TIter niter(&names);
-   TObject *nomen = nullptr;
-   while ((nomen = niter.Next()) != nullptr) {
-      // std::cout <<"removing th "<<nomen->GetName() << std::endl;
+   while (auto nomen = niter()) {
       RemoveClient(nomen->GetName(), !force, kTRUE);
       rev++;
    }
@@ -486,10 +482,9 @@ TGo4Command* TGo4ServerTask::NextCommand()
    if (IsMaster())
       return nullptr;
    TGo4Command *com = nullptr;
-   TGo4TaskHandler *han = nullptr;
    Bool_t reset = kTRUE;
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
-   while ((han = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+   while (auto han = fxTaskManager->NextTaskHandler(reset)) {
       reset = kFALSE;
       TGo4BufferQueue *comq = dynamic_cast<TGo4BufferQueue *>(han->GetCommandQueue());
       if (!comq)
@@ -516,15 +511,14 @@ void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
    }
    // send status to all
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
-   TGo4TaskHandler* han = nullptr;
    Bool_t reset = kTRUE;
-   while((han = fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+   while(auto han = fxTaskManager->NextTaskHandler(reset)) {
       reset = kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
       if(!statq) continue; //NEVER COME HERE!
       TGo4Log::Debug(" Task - sending status %s to task %s", stat->ClassName(), han->GetName());
       statq->AddBufferFromObject(stat);
-   }// while
+   }
 }
 
 void TGo4ServerTask::SendStatusBuffer()
@@ -532,15 +526,14 @@ void TGo4ServerTask::SendStatusBuffer()
    if(IsMaster()) return;
    TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
-   TGo4TaskHandler* han = nullptr;
    Bool_t reset=kTRUE;
-   while((han=fxTaskManager->NextTaskHandler(reset)) != nullptr) {
+   while(auto han = fxTaskManager->NextTaskHandler(reset)) {
       reset=kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
       if(!statq) continue; //NEVER COME HERE!
       TGo4Log::Debug(" Task - sending status buffer to task %s", han->GetName());
       statq->AddBuffer(fxStatusBuffer,kTRUE);
-   }// while
+   }
 }
 
 Bool_t TGo4ServerTask::StartConnectorThread()
