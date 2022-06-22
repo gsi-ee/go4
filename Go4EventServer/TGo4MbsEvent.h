@@ -24,7 +24,6 @@ extern "C" {
    #include "s_filhe.h"
 }
 
-class TIterator;
 class TObjArray;
 class TGo4MbsSource;
 class TGo4MbsSubEvent;

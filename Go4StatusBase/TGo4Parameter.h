@@ -17,7 +17,6 @@
 #include "TNamed.h"
 
 class TObjArray;
-class TIterator;
 class TDataMember;
 class TGo4ParameterStatus;
 
