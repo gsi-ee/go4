@@ -179,8 +179,7 @@ void TGo4CompositeEvent::Clear(Option_t *opt)
    TGo4EventElement::Clear(opt);
 
    TIter next(fEventElements);
-   TGo4EventElement *ev;
-   while ( (ev = (TGo4EventElement *)next()) != nullptr)
+   while (auto ev = (TGo4EventElement *)next())
       ev->Clear(opt);
 }
 
@@ -240,8 +239,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final_element)
 {
    TIter next(fEventElements);
-   TGo4EventElement *ev = nullptr;
-   while ((ev = (TGo4EventElement *)next()) != nullptr) {
+   while (auto ev = (TGo4EventElement *)next()) {
       if(strcmp(name,ev->GetName()) == 0) return ev;
       if (ev->isComposed()) {
          TGo4EventElement* inter= ((TGo4CompositeEvent*) ev)->getEventElement(name,1);
@@ -258,9 +256,8 @@ void TGo4CompositeEvent::deactivate()
    TGo4EventElement::deactivate();
 
    TIter next(fEventElements);
-   TGo4EventElement *ev = nullptr;
 
-   while ((ev=(TGo4EventElement *)next()) != nullptr)
+   while (auto ev = (TGo4EventElement *)next())
       ev->deactivate();
 }
 
@@ -270,9 +267,7 @@ void TGo4CompositeEvent::activate()
    TGo4EventElement::activate();
 
    TIter next(fEventElements);
-   TGo4EventElement *ev = nullptr;
-
-   while ((ev = (TGo4EventElement*)next()) != nullptr)
+   while (auto ev = (TGo4EventElement*)next())
       ev->activate();
 }
 
@@ -284,8 +279,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 
    TIter next(fEventElements);
    //-- Add top level composite
-   TGo4EventElement *ev = nullptr;
-   while ((ev=(TGo4EventElement *)next()) != nullptr) {
+   while (auto ev = (TGo4EventElement *)next()) {
       if (ev->isComposed()) {
          comp->Add( ev );
          TObjArray* dump = ((TGo4CompositeEvent *) ev)->getListOfComposites(kFALSE);

@@ -331,8 +331,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         }
 
         TIter iter(fMenuMethods);
-        TMethod *method = nullptr;
-        while ((method = dynamic_cast<TMethod*>(iter())) != nullptr) {
+        while (auto method = dynamic_cast<TMethod*>(iter())) {
            buffer = method->GetName();
            addMenuAction(&menu, &map, buffer, curId++);
         }
@@ -900,10 +899,9 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
   // iterate through all arguments and create apropriate input-data objects:
   // inputlines, option menus...
-   TMethodArg *argument = nullptr;
    TIter next(method->GetListOfMethodArgs());
 
-   while ((argument = (TMethodArg *) next())) {
+   while (auto argument = (TMethodArg *) next()) {
       TString argTitle = TString::Format("(%s)  %s", argument->GetTitle(), argument->GetName());
       TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
       if (argDflt.Length()>0)

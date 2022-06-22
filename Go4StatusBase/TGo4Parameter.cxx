@@ -58,11 +58,10 @@ Int_t TGo4Parameter::PrintParameter(Text_t*, Int_t)
    TGo4Status::PrintLine("Parameter name: %s class %s", GetName(), ClassName());
 
    TIter iter(&items);
-   TGo4ParameterMember* info = nullptr;
 
    TROOT::IncreaseDirLevel();
 
-   while ((info = (TGo4ParameterMember*) iter()) != nullptr)
+   while (auto info = (TGo4ParameterMember*) iter())
       info->Print();
 
    TROOT::DecreaseDirLevel();
@@ -104,9 +103,8 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
    url.SetOptions(rest_url_opt);
 
    TIter next(&items);
-   TGo4ParameterMember* member = nullptr;
 
-   while ((member = (TGo4ParameterMember*) next()) != nullptr) {
+   while (auto member = (TGo4ParameterMember*) next()) {
      TString dummy;
       const char* optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
       if (optvalue) {
@@ -134,9 +132,8 @@ void TGo4Parameter::Clear(Option_t *opt)
   GetMemberValues(&items);
 
   TIter iter(&items);
-  TGo4ParameterMember* info = nullptr;
 
-  while ((info = (TGo4ParameterMember*) iter()) != nullptr)
+  while (auto info = (TGo4ParameterMember*) iter())
      info->SetToZero();
 
   SetMemberValues(&items);
@@ -166,8 +163,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
    if (fItems->GetLast() >= 0)
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (!member) continue;
       const char* memtypename = member->GetFullTypeName();
@@ -192,8 +188,8 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
           break;
       } // switch()
 
-      TArrayI* arri(0);
-      TArrayD* arrd(0);
+      TArrayI* arri = nullptr;
+      TArrayD* arrd = nullptr;
 
       if (strcmp(memtypename,"TString") == 0) {
          memtypeid = TGo4ParameterMember::kTString_t;
@@ -262,7 +258,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
    // expand base classes
    TIter cliter(cl->GetListOfBases());
-   while((obj=cliter()) != nullptr) {
+   while(auto obj = cliter()) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
       if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
@@ -291,8 +287,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
 
    TIter iter(cl->GetListOfDataMembers());
 
-   TObject* obj =  nullptr;
-   while ((obj=iter()) != nullptr) {
+   while (auto obj = iter()) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (!member) continue;
       const char* memtypename = member->GetFullTypeName();
@@ -377,7 +372,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
 
    // expand base classes
    TIter cliter(cl->GetListOfBases());
-   while((obj = cliter()) != nullptr) {
+   while(auto obj = cliter()) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
       if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
@@ -416,9 +411,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    GetMemberValues(fitems);
 
    TIter iter(fitems);
-   TGo4ParameterMember *info = nullptr;
-
-   while ((info = (TGo4ParameterMember*) iter()) != nullptr) {
+   while (auto info = (TGo4ParameterMember*) iter()) {
       if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
 
       TString membername;
