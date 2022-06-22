@@ -185,10 +185,9 @@ TObject* TGo4ObjectProxy::GetAssignedObject()
    return fObject;
 }
 
-
 Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
 {
-   if (obj==0) return 0;
+   if (!obj) return 0;
 
    Long_t sz = obj->IsA()->Size();
 
@@ -206,12 +205,10 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
       if (strchr(histo->ClassName(),'I')!=0) binsize = sizeof(Int_t); else
       if (strchr(histo->ClassName(),'C')!=0) binsize = sizeof(Char_t);
       sz += binsize * nbins;
-   } else
-   if (obj->InheritsFrom(TTree::Class())) {
+   } else if (obj->InheritsFrom(TTree::Class())) {
       TTree* t = (TTree*) obj;
       sz += t->GetZipBytes();
-   } else
-   if (obj->InheritsFrom(TGo4Picture::Class())) {
+   } else if (obj->InheritsFrom(TGo4Picture::Class())) {
       TGo4Picture* pic = (TGo4Picture*) obj;
       sz = pic->GetTotalSize();
    }
