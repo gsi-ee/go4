@@ -48,39 +48,38 @@ void TGo4CommandProtoList::ShowCommands()
    GO4TRACE((12,"TGo4CommandProtoList::ShowCommands()",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
-   TGo4Command* com;
+   TGo4Command* com = nullptr;
    TIter iter(fxCommandList);
    TGo4Log::Debug(" CommandProtoList Showing the known commands:");
    std::cout << " Name: \t| Description:"<<std::endl;
-   while((com= (TGo4Command*) iter())!=0)
+   while((com = (TGo4Command*) iter()) != nullptr)
       std::cout << " "<< com->GetName()<<"\t| "<<com->What()<<std::endl;
 }
 
 TGo4Command* TGo4CommandProtoList::MakeCommand(const char* name)
 {
    GO4TRACE((12,"TGo4CommandProtoList::MakeCommand(const char*)",__LINE__, __FILE__));
-   TGo4Command* rev=0;
+   TGo4Command* rev = nullptr;
    TGo4LockGuard listguard(fxListMutex);
-   TObject* obj=fxCommandList->FindObject(name);
-   if(obj==0) {
+   TObject* obj = fxCommandList->FindObject(name);
+   if(!obj) {
       //no, do nothing
       GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
    } else {
       // yes, create it it
       GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) cloning command",__LINE__, __FILE__));
-      rev= (TGo4Command*) obj->Clone();
+      rev = (TGo4Command*) obj->Clone();
    }
 
    return rev;
-
 }
 
 TGo4Command* TGo4CommandProtoList::MakeCommand(TGo4RemoteCommand* remcon)
 {
-   if(remcon==0) return 0;
-   TGo4Command* com=MakeCommand(remcon->GetCommandName());
-   if(com==0) return 0;
-   com->Set(remcon); // copy optional parameters from remote command
+   if(!remcon) return nullptr;
+   TGo4Command* com = MakeCommand(remcon->GetCommandName());
+   if(com)
+      com->Set(remcon); // copy optional parameters from remote command
    return com;
 }
 
@@ -90,8 +89,8 @@ void TGo4CommandProtoList::RemoveCommand(const char* name)
    GO4TRACE((12,"TGo4CommandProtoList::RemoveCommand(const char*)",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
-   TObject* obj=fxCommandList->FindObject(name);
-   if(obj==0) {
+   TObject* obj = fxCommandList->FindObject(name);
+   if(!obj) {
       //no, do nothing
       GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
    } else {
@@ -109,7 +108,7 @@ void TGo4CommandProtoList::AddCommand(TGo4Command* com)
 {
    GO4TRACE((12,"TGo4CommandProtoList::AddCommand(TGo4Command*)",__LINE__, __FILE__));
    TGo4LockGuard listguard(fxListMutex);
-   if(fxCommandList->FindObject(com)==0) {
+   if(!fxCommandList->FindObject(com)) {
       //no, add new command
       GO4TRACE((10,"TGo4CommandProtoList::AddCommand(TGo4Command*) Adding new go4 commandto array",__LINE__, __FILE__));
       fxCommandList->AddLast(com);

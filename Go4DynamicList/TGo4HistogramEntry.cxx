@@ -30,19 +30,19 @@ const char* TGo4HistogramEntry::fgcNOEVENT = "No Event";
 
 TGo4HistogramEntry::TGo4HistogramEntry() :
    TGo4DynamicEntry(),
-   fxHistogram(0),
-   fxCondition(0),
+   fxHistogram(nullptr),
+   fxCondition(nullptr),
    fbNeedInitialisation(kTRUE)
 {
 }
 
 TGo4HistogramEntry::TGo4HistogramEntry(const char* name) :
    TGo4DynamicEntry(name),
-   fxHistogram(0),
-   fxCondition(0),
+   fxHistogram(nullptr),
+   fxCondition(nullptr),
    fbNeedInitialisation(kTRUE)
 {
-   fxHistogramName=fgcNOCONDITION;
+   fxHistogramName = fgcNOCONDITION;
    for (UInt_t t=0; t<__MAXHISDIM__;++t) {
       SetHisEventName(t,fgcNOEVENT);
       SetHisVarName(t,fgcNODATA);
@@ -69,7 +69,7 @@ void TGo4HistogramEntry::SetHisVarName(Int_t ix, const char* name)
 
 const char* TGo4HistogramEntry::GetHistVarName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisVarName[ix].Data() : 0;
+   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisVarName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char* name)
@@ -80,19 +80,19 @@ void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char* name)
 
 const char* TGo4HistogramEntry::GetHistEventName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisEventName[ix].Data() : 0;
+   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisEventName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetConVarName(Int_t ix, const char* name)
 {
   GO4TRACE((12,"TGo4DynamicEntry::SetConVarName(UInt_t, char*)",__LINE__, __FILE__));
   if((ix>=0) && (ix<__MAXCONDIM__))
-     fxConVarName[ix]=name;
+     fxConVarName[ix] = name;
 }
 
 const char* TGo4HistogramEntry::GetConVarName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConVarName[ix].Data() : 0;
+   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConVarName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetConEventName(Int_t ix, const char* name)
@@ -104,24 +104,24 @@ void TGo4HistogramEntry::SetConEventName(Int_t ix, const char* name)
 
 const char* TGo4HistogramEntry::GetConEventName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConEventName[ix].Data() : 0;
+   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConEventName[ix].Data() : nullptr;
 }
 
 
 void TGo4HistogramEntry::Reset()
 {
-   fxHistogram=0;
+   fxHistogram = nullptr;
    for(Int_t t =0; t<__MAXHISDIM__; ++t) {
       fxHisEvents[t] = 0;
       fxHistType[t] = 0;
-      fxHistPtr[t] = 0;
+      fxHistPtr[t] = nullptr;
    }
 
-   fxCondition = 0;
+   fxCondition = nullptr;
    for(Int_t t =0; t<__MAXCONDIM__; ++t) {
       fxConEvents[t] = 0;
       fxCondType[t] = 0;
-      fxCondPtr[t] = 0;
+      fxCondPtr[t] = nullptr;
    }
 
    fbNeedInitialisation = kTRUE;
@@ -130,9 +130,9 @@ void TGo4HistogramEntry::Reset()
 void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset)
 {
    if ((ix<0) || (ix>=__MAXHISDIM__)) return;
-   fxHistPtr[ix] = 0;
+   fxHistPtr[ix] = nullptr;
    fxHisEvents[ix] = event;
-   if ((event==0) || (member==0) || !member->IsBasic()) return;
+   if (!event || !member || !member->IsBasic()) return;
    fxHistPtr[ix] = (char*) event+ offset;
    fxHistType[ix] = member->GetDataType()->GetType();
 }
@@ -140,16 +140,16 @@ void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject* event, TDataMember* 
 void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset)
 {
    if ((ix<0) || (ix>=__MAXCONDIM__)) return;
-   fxCondPtr[ix] = 0;
+   fxCondPtr[ix] = nullptr;
    fxConEvents[ix] = event;
-   if ((event==0) || (member==0) || !member->IsBasic()) return;
+   if (!event || !member || !member->IsBasic()) return;
    fxCondPtr[ix] = (char*) event+ offset;
    fxCondType[ix] = member->GetDataType()->GetType();
 }
 
 Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void* ptr)
 {
-   if (ptr==0) return 0.;
+   if (!ptr) return 0.;
    switch (type) {
        case kUInt_t:     return *((UInt_t*)ptr);
        case kInt_t:      return *((Int_t*)ptr);
@@ -171,47 +171,44 @@ Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void* ptr)
 
 Bool_t TGo4HistogramEntry::TestConditionNew()
 {
-   if (fxCondition==0) return kTRUE;
+   if (!fxCondition) return kTRUE;
 
    Bool_t rev = kTRUE;
 
    Double_t dat[__MAXCONDIM__];
 
-   UInt_t j,dimension;
+   UInt_t dimension;
    // find out how many dimensions are set for condition:
    // maximum condition dimension defined by first index
    // with all data pointers set to zero.
    for(dimension=0;dimension<__MAXCONDIM__; ++dimension)
-      if (fxCondPtr[dimension]==0) break;
+      if (!fxCondPtr[dimension]) break;
 
    // fill pointers to test variables:
-   for(j=0;j<dimension; ++j)
+   for(UInt_t j=0;j<dimension; ++j)
       dat[j] = GetPtrValue(fxCondType[j], fxCondPtr[j]);
 
    switch(dimension) {
-//         case 0:
-//            rev = fxCondition->GetLast(); // no own variables: last result
-//            //std::cout << "found zero dimension for condition" << std::endl;
-//            break;
-         case 1:
-            rev=fxCondition->Test(dat[0]);
-            //std::cout << "found one dimension for condition" << std::endl;
-            break;
-         case 2:
-            rev=fxCondition->Test(dat[0], dat[1]);
-            //std::cout << "found two dimensions for condition" << std::endl;
-            break;
-         default:
-            rev = kTRUE;
-            break;
-      } // switch(maxt)
+   // case 0:
+   //    rev = fxCondition->GetLast(); // no own variables: last result
+   //    break;
+      case 1:
+         rev = fxCondition->Test(dat[0]);
+         break;
+      case 2:
+         rev = fxCondition->Test(dat[0], dat[1]);
+         break;
+      default:
+         rev = kTRUE;
+         break;
+   }
 
    return rev;
 }
 
 void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
 {
-   if (fxHistogram==0) return;
+   if (!fxHistogram) return;
 
    if (!TestConditionNew()) return;
 
@@ -243,7 +240,7 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
 
 void TGo4HistogramEntry::RecursiveRemove(TObject* obj)
 {
-   if (obj==0) return;
+   if (!obj) return;
 
    if(fxHistogram==obj) Reset();
 
