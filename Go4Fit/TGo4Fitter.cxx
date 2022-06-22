@@ -105,12 +105,12 @@ TGo4FitData* TGo4Fitter::GetData(Int_t n)
 
 const char* TGo4Fitter::GetDataName(Int_t n)
 {
-   return GetData(n) ? GetData(n)->GetName() : 0;
+   return GetData(n) ? GetData(n)->GetName() : nullptr;
 }
 
 TGo4FitData* TGo4Fitter::FindData(const char* DataName)
 {
-   return (DataName==0) ? 0 : dynamic_cast<TGo4FitData*> (fxDatas.FindObject(DataName));
+   return !DataName ? nullptr : dynamic_cast<TGo4FitData*> (fxDatas.FindObject(DataName));
 }
 
 TGo4FitData* TGo4Fitter::AddData(TGo4FitData* data)
@@ -124,7 +124,7 @@ TGo4FitData* TGo4Fitter::AddData(TGo4FitData* data)
 TGo4FitDataHistogram* TGo4Fitter::AddH1(const char* DataName, TH1* histo, Bool_t Owned, Double_t lrange, Double_t rrange)
 {
    TGo4FitDataHistogram *data = new TGo4FitDataHistogram(DataName, histo, Owned);
-   if ((lrange<rrange) || (rrange!=0.)) data->SetRange(0,lrange,rrange);
+   if ((lrange < rrange) || (rrange != 0.)) data->SetRange(0,lrange,rrange);
    AddData(data);
    return data;
 }
@@ -139,7 +139,7 @@ TGo4FitDataHistogram* TGo4Fitter::SetH1(const char* DataName, TH1* histo, Bool_t
 TGo4FitDataGraph* TGo4Fitter::AddGraph(const char* DataName, TGraph* gr, Bool_t Owned, Double_t lrange, Double_t rrange)
 {
    TGo4FitDataGraph *data = new TGo4FitDataGraph(DataName, gr, Owned);
-   if ((lrange<rrange) || (rrange!=0.)) data->SetRange(0,lrange,rrange);
+   if ((lrange < rrange) || (rrange != 0.)) data->SetRange(0,lrange,rrange);
    AddData(data);
    return data;
 }
@@ -189,12 +189,12 @@ void TGo4Fitter::DeleteAllData()
 
 TGo4FitModel* TGo4Fitter::GetModel(Int_t n)
 {
-   return (n>=0) && (n<GetNumModel()) ? dynamic_cast<TGo4FitModel*> (fxModels[n]) : 0;
+   return (n>=0) && (n<GetNumModel()) ? dynamic_cast<TGo4FitModel*> (fxModels[n]) : nullptr;
 }
 
 TGo4FitModel* TGo4Fitter::FindModel(const char* ModelName)
 {
-   return (ModelName==0) ? 0 : dynamic_cast<TGo4FitModel*> (fxModels.FindObject(ModelName));
+   return !ModelName ? nullptr : dynamic_cast<TGo4FitModel*> (fxModels.FindObject(ModelName));
 }
 
 TGo4FitModel* TGo4Fitter::AddModel(TGo4FitModel* model)
@@ -221,7 +221,7 @@ TGo4FitComponent* TGo4Fitter::GetComp(Int_t n)
 
 void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, Int_t MaxOrder, Int_t GroupIndex, Double_t lrange, Double_t rrange)
 {
-   if (DataName==0) return;
+   if (!DataName) return;
 
    Bool_t flag = kFALSE;
    Int_t NumTry = 0;
@@ -258,7 +258,7 @@ void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, Int_t
 
 void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, TArrayD& Coef, Int_t GroupIndex)
 {
-   if (DataName==0) return;
+   if (!DataName) return;
 
    Bool_t flag = kFALSE;
    Int_t NumTry = 0;
@@ -293,7 +293,7 @@ void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, TArra
 
 void TGo4Fitter::AddPolynoms(const char* DataName, const char* NamePrefix, Int_t MaxOrder, Int_t NumAxis, Int_t GroupIndex)
 {
-   if (DataName==0) return;
+   if (!DataName) return;
    TArrayD Orders(NumAxis);
    Orders.Reset(0.);
 
@@ -426,7 +426,7 @@ void TGo4Fitter::AssignModelTo(const char* ModelName, const char* DataName, Doub
 {
   TGo4FitModel* model = FindModel(ModelName);
   if (model) {
-     if (DataName!=0)
+     if (DataName)
         model->AssignToData(DataName, RatioValue, FixRatio);
      else {
         model->ClearAssignments();
@@ -474,7 +474,7 @@ Bool_t TGo4Fitter::InitFitterData()
       if (!fModel->Initialize(mbuf)) return kFALSE;
    }
 
-   if( (fiFitFunctionType == ff_user) && (fxUserFitFunction==0) ) {
+   if( (fiFitFunctionType == ff_user) && !fxUserFitFunction ) {
       std::cout << " User fit function not set. Switch to least squares " << std::endl;
       fiFitFunctionType = ff_least_squares;
    }
@@ -525,7 +525,7 @@ Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Dou
 
 Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata)
 {
-  if (GetMemoryUsage()>0)  RebuildAll();
+  if (GetMemoryUsage() > 0) RebuildAll();
 
   Double_t fSum = 0.;
 
@@ -783,7 +783,7 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
   do {
      Double_t sum00 = 0., sum11 = 0., sum22 = 0.;
      for (Int_t pnt=0;pnt<size;pnt++)
-       if ((bins[pnt]>0.) && ((niter==0) || (TMath::Abs(scales[pnt]-first)<second*2.))) {
+       if ((bins[pnt]>0.) && ((niter == 0) || (TMath::Abs(scales[pnt]-first)<second*2.))) {
             sum00 += bins[pnt];
             sum11 += bins[pnt]*scales[pnt];
             sum22 += bins[pnt]*scales[pnt]*scales[pnt];
@@ -793,14 +793,16 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
        Double_t mid = sum11/sum00;
        Double_t dev = TMath::Sqrt(sum22/sum00-mid*mid);
 
-       if (niter>0)
+       if (niter > 0)
          if ((dev/second>0.8) && (dev/second<1.2)) niter=10;
 
        first = mid; second = dev;
 
-      } else niter=10;
+      } else {
+         niter = 10;
+      }
 
-  } while (niter++<8);
+  } while (niter++ < 8);
 
   return kTRUE;
 }
@@ -866,7 +868,7 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
         if (ModelName) {
           TString modelname(ModelName);
           if (modelname=="Background") groupindex = 0; else
-          if (modelname.Index("Group",0,TString::kExact)==0) {
+          if (modelname.Index("Group",0,TString::kExact) == 0) {
              modelname.Remove(0,5);
              char* err = nullptr;
              groupindex = strtol(modelname.Data(),&err,10);
@@ -1020,8 +1022,8 @@ void TGo4Fitter::Draw(Option_t* option)
    while (opt.Length() > 0) {
      Int_t len = opt.Index(",",0,TString::kExact);
 
-     if (len<0) len = opt.Length();
-     if (len==0) break;
+     if (len < 0) len = opt.Length();
+     if (len == 0) break;
 
      TString optpart(opt.Data(), len);
      while ((optpart.Length()>0) && (optpart[0]==' ')) optpart.Remove(0,1);
@@ -1029,7 +1031,7 @@ void TGo4Fitter::Draw(Option_t* option)
      Bool_t find = kFALSE;
 
      for(Int_t n=0;n<GetNumData();n++)
-       if (optpart.Index(GetDataName(n),0,TString::kExact)==0) {
+       if (optpart.Index(GetDataName(n),0,TString::kExact) == 0) {
          selectdata = GetData(n);
          drawdata = kTRUE;
          drawmodel = kTRUE;
@@ -1171,7 +1173,7 @@ void TGo4Fitter::PrintLines() const
 
   for (Int_t n=0; n<GetNumModel();n++) {
      TGo4FitModel* m = ((TGo4Fitter*) this)->GetModel(n);
-     if (m==0) continue;
+     if (!m) continue;
      std::cout << std::setw(10) << m->GetName() << std::setw(12) << m->GetAmplValue();
 
      for (int naxis=0;naxis<=MaxAxis;naxis++) {

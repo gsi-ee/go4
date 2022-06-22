@@ -68,7 +68,7 @@ void TGo4FitterAbstract::CollectAllPars()
 
 void TGo4FitterAbstract::CopyParsValuesFrom(TGo4FitterAbstract* fitter)
 {
-   if (fitter==0) return;
+   if (!fitter) return;
    fitter->CollectAllPars();
    CollectAllPars();
 
@@ -342,7 +342,7 @@ void TGo4FitterAbstract::DoActions(Bool_t AllowFitterChange, TObjArray* Actions)
 
   for(Int_t n=0;n<=Actions->GetLast();n++) {
      TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (Actions->At(n));
-     if (action==0) continue;
+     if (!action) continue;
      if (!AllowFitterChange && action->CanChangeFitter()) continue;
 
      action->DoAction(this);
@@ -419,7 +419,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
 
     do {
        TGo4FitterAbstract* newfitter = dynamic_cast<TGo4FitterAbstract*> (Clone());
-       if (newfitter==0) break;
+       if (!newfitter) break;
        res->Add(newfitter);
 
        if (newfitter->NumSlots()!=NumSlots()) break;
