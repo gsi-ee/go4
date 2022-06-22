@@ -208,7 +208,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
 {
    Instance();
    //TGo4LockGuard(fxMutex);
-   if(prio>-1 && prio<fgiIgnoreLevel) return 0;
+   if(prio>-1 && prio<fgiIgnoreLevel) return nullptr;
    char txtbuf[fguMESLEN-20];
    va_list args;
    va_start(args, text);

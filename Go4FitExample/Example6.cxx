@@ -49,8 +49,8 @@ int main(int argc, char **argv)
 TH1D* GetHistogram(const char* HistogramName)
 {
    TFile *f1 = TFile::Open("histograms.root");
-   if (f1==0) return 0;
-   TH1D *histo = 0;
+   if (!f1) return nullptr;
+   TH1D *histo = nullptr;
    f1->GetObject(HistogramName, histo);
    if (histo) histo->SetDirectory(nullptr);
    return histo;
@@ -122,7 +122,7 @@ TGo4Fitter* BuildFitter()
 void StoreFitter(TGo4Fitter* fitter)
 {
    TFile* f = TFile::Open("Example6.root","recreate");
-   if (f!=0) fitter->Write("Fitter");
+   if (f) fitter->Write("Fitter");
    delete f;
 }
 
@@ -130,8 +130,8 @@ void StoreFitter(TGo4Fitter* fitter)
 TGo4Fitter* RestoreFitter()
 {
    TFile* f = TFile::Open("Example6.root");
-   if (!f) return 0;
-   TGo4Fitter* fitter = 0;
+   if (!f) return nullptr;
+   TGo4Fitter* fitter = nullptr;
    f->GetObject("Fitter", fitter);
    delete f;
    return fitter;

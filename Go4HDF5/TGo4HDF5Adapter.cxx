@@ -43,57 +43,51 @@ void TGo4HDF5Adapter::DeleteDataSet()
 
 size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
 {
-  if (event==0) return 0;
-  TClass* evclass=event->Class();
-  TClass* actualclass=evclass->GetActualClass(event);
-  size_t rev=actualclass->Size();
-  go4hdfdbg("TGo4HDF5Adapter: ScanEventSize for class %s with object size %ld\n",
-       actualclass->GetName(), rev);
-  return rev;
+   if (!event)
+      return 0;
+   TClass *evclass = event->Class();
+   TClass *actualclass = evclass->GetActualClass(event);
+   size_t rev = actualclass->Size();
+   go4hdfdbg("TGo4HDF5Adapter: ScanEventSize for class %s with object size %ld\n", actualclass->GetName(), rev);
+   return rev;
 }
 
 void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char* name, const char* type, size_t size,
     size_t memberoffset, const char* membername, const char* classname, TClass* valueclass)
 {
-  TGo4HDF5DataHandle* subhandle = handle->AddSubMember(name, size, type);
-  subhandle->SetParentOffset(memberoffset);
-  subhandle->SetMemberName(membername);
+   TGo4HDF5DataHandle *subhandle = handle->AddSubMember(name, size, type);
+   subhandle->SetParentOffset(memberoffset);
+   subhandle->SetMemberName(membername);
    subhandle->SetMemberClass(classname);
-  TGo4HDF5SubVectorDataHandle* subvector = dynamic_cast<TGo4HDF5SubVectorDataHandle*> (subhandle);
-  if(subvector)
-  {
-    TString containerclass = "TGo4HDF5VectorProxy";
-    FillTypeInfo(subhandle, name, containerclass.Data());
+   TGo4HDF5SubVectorDataHandle *subvector = dynamic_cast<TGo4HDF5SubVectorDataHandle *>(subhandle);
+   if (subvector) {
+      TString containerclass = "TGo4HDF5VectorProxy";
+      FillTypeInfo(subhandle, name, containerclass.Data());
 
-  }
-  else
-  {
-    if (valueclass)
-      FillTypeInfo(subhandle, valueclass, name);
-    else
-      FillTypeInfo(subhandle, name, classname);
-  }
+   } else {
+      if (valueclass)
+         FillTypeInfo(subhandle, valueclass, name);
+      else
+         FillTypeInfo(subhandle, name, classname);
+   }
 }
-
-
-
 
 void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename)
 {
-  if(handle==0 || rootclass==0) return;
+  if(!handle || !rootclass) return;
   go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  CCCC - for class %s \n", rootclass->GetName());
   // first check here baseclass members:
   // otherwise will not store complete object
   // and we have the problem of the bounce buffer with offset when reading back (first implementation!)
   TIter baseiter(rootclass->GetListOfBases());
-  TObject* obj = 0;
-    while ((obj=baseiter()) != 0) {
+  TObject* obj = nullptr;
+    while ((obj=baseiter()) != nullptr) {
       //printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s , class:%s\n", obj, (obj ? obj->GetName()  : "No base class"), (obj ? obj->IsA()->GetName()  : "No type"));
        TBaseClass* base = dynamic_cast<TBaseClass*>(obj);
        go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo - base class 0x%lx %s \n", (unsigned long) base, (base ? base->GetName() : "No base class"));
-       if (base==0) continue;
+       if (!base) continue;
        TClass* bclass=base->GetClassPointer();
-       if(bclass==0) continue;
+       if(!bclass) continue;
        FillTypeInfo(handle, bclass, basename);
     }
 

@@ -43,8 +43,8 @@ int main(int argc, char **argv)
 TH1D* GetHistogram(const char* HistogramName)
 {
    TFile *f1 = TFile::Open("histograms.root");
-   if (f1==0) return 0;
-   TH1D *histo = 0;
+   if (!f1) return nullptr;
+   TH1D *histo = nullptr;
    f1->GetObject(HistogramName, histo);
    if (histo) histo->SetDirectory(nullptr);
    return histo;

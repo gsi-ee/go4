@@ -33,7 +33,6 @@ TGo4LogicException::~TGo4LogicException()
   GO4TRACE((14,"TGo4LogicException::~TGo4LogicException() destructor",__LINE__, __FILE__));
 }
 
-
 TGo4LogicException & TGo4LogicException::operator=(const TGo4LogicException &right)
 {
   GO4TRACE((14,"TGo4LogicException::operator=",__LINE__, __FILE__));
@@ -58,7 +57,3 @@ Int_t TGo4LogicException::Handle ()
    TGo4Exception::Handle(); // basic handle method printsout exception type
    return 0;
 }
-
-
-
-
