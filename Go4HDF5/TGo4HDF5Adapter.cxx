@@ -74,179 +74,183 @@ void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char* name,
 
 void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename)
 {
-  if(!handle || !rootclass) return;
-  go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  CCCC - for class %s \n", rootclass->GetName());
-  // first check here baseclass members:
-  // otherwise will not store complete object
-  // and we have the problem of the bounce buffer with offset when reading back (first implementation!)
-  TIter baseiter(rootclass->GetListOfBases());
-  TObject* obj = nullptr;
-    while ((obj=baseiter()) != nullptr) {
-      //printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s , class:%s\n", obj, (obj ? obj->GetName()  : "No base class"), (obj ? obj->IsA()->GetName()  : "No type"));
-       TBaseClass* base = dynamic_cast<TBaseClass*>(obj);
-       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo - base class 0x%lx %s \n", (unsigned long) base, (base ? base->GetName() : "No base class"));
-       if (!base) continue;
-       TClass* bclass=base->GetClassPointer();
-       if(!bclass) continue;
-       FillTypeInfo(handle, bclass, basename);
-    }
+   if (!handle || !rootclass)
+      return;
+   go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  CCCC - for class %s \n", rootclass->GetName());
+   // first check here baseclass members:
+   // otherwise will not store complete object
+   // and we have the problem of the bounce buffer with offset when reading back (first implementation!)
+   TIter baseiter(rootclass->GetListOfBases());
+   TObject *obj = nullptr;
+   while ((obj = baseiter()) != nullptr) {
+      // printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s , class:%s\n", obj, (obj ?
+      // obj->GetName()  : "No base class"), (obj ? obj->IsA()->GetName()  : "No type"));
+      TBaseClass *base = dynamic_cast<TBaseClass *>(obj);
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo - base class 0x%lx %s \n", (unsigned long)base,
+                (base ? base->GetName() : "No base class"));
+      if (!base)
+         continue;
+      TClass *bclass = base->GetClassPointer();
+      if (!bclass)
+         continue;
+      FillTypeInfo(handle, bclass, basename);
+   }
 
-    // skip base class members not necessary for our dataset:G
-    if(strcmp(rootclass->GetName(),"TObject")==0) return;
-    if(strcmp(rootclass->GetName(),"TNamed")==0) return;
-    if(strcmp(rootclass->GetName(),"TGo4EventElement")==0) return;
+   // skip base class members not necessary for our dataset:G
+   if (strcmp(rootclass->GetName(), "TObject") == 0)
+      return;
+   if (strcmp(rootclass->GetName(), "TNamed") == 0)
+      return;
+   if (strcmp(rootclass->GetName(), "TGo4EventElement") == 0)
+      return;
 
-    if(strcmp(rootclass->GetName(),"TGo4CompositeEvent")==0)
-    {
+   if (strcmp(rootclass->GetName(), "TGo4CompositeEvent") == 0) {
       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  COMP detects go4 composite event. Assign fMaxIndex member...\n");
-      TDataMember* member=rootclass->GetDataMember("fMaxIndex");
-      if (member==0) return;
+      TDataMember *member = rootclass->GetDataMember("fMaxIndex");
+      if (!member)
+         return;
       size_t memberoffset = member->GetOffset();
-      const char* memtypename = member->GetFullTypeName();
-      TString fullname= (basename ?    TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
-      const char* membername = fullname.Data();
+      const char *memtypename = member->GetFullTypeName();
+      TString fullname =
+         (basename ? TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
+      const char *membername = fullname.Data();
       Int_t arraydim = member->GetArrayDim();
       FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
       return;
-      // avoid that reading back the event will overwrite our objectarray pointers, since it is inside the fiReadOffset range!
-      // for composite events without own members, however, need the fMaxIndex as dummy to produce a hdf5 dataset
-    }
+      // avoid that reading back the event will overwrite our objectarray pointers, since it is inside the fiReadOffset
+      // range! for composite events without own members, however, need the fMaxIndex as dummy to produce a hdf5 dataset
+   }
 
+   // follows the members of our class
+   TIter iter(rootclass->GetListOfDataMembers());
 
-
-
-  // follows the members of our class
-  TIter iter(rootclass->GetListOfDataMembers());
-
-    //TObject* obj = 0;
-    while ((obj=iter()) != 0) {
-       TDataMember* member = dynamic_cast<TDataMember*>(obj);
-       if (member==0) continue;
-       const char* memtypename = member->GetFullTypeName();
-       TString fullname= (basename ?    TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
-       const char* membername = fullname.Data();
-       size_t memberoffset = member->GetOffset();
-        Int_t arraydim = member->GetArrayDim();
-       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld , arraydim=%d\n",
-           membername, memtypename, memberoffset, arraydim);
-       //continue; // DEBUG IT
-
-       if (arraydim>2) continue;
-//       hsize_t maxindex1(1), maxindex2(1);
-//       H5::DataType theType;
-       // do not edit IsA info
-       if(strstr(memtypename,"TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
+   while ((obj = iter()) != nullptr) {
+      TDataMember *member = dynamic_cast<TDataMember *>(obj);
+      if (!member)
          continue;
-       if(strstr(membername,"fgIsA")!=0) // paranoidly redundant, never come here
+      const char *memtypename = member->GetFullTypeName();
+      TString fullname =
+         (basename ? TString::Format("%s_%s", basename, member->GetName()) : TString(member->GetName()));
+      const char *membername = fullname.Data();
+      size_t memberoffset = member->GetOffset();
+      Int_t arraydim = member->GetArrayDim();
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld , arraydim=%d\n", membername,
+                memtypename, memberoffset, arraydim);
+      // continue; // DEBUG IT
+
+      if (arraydim > 2)
+         continue;
+      //       hsize_t maxindex1(1), maxindex2(1);
+      //       H5::DataType theType;
+      // do not edit IsA info
+      if (strstr(memtypename, "TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
+         continue;
+      if (strstr(membername, "fgIsA") != 0) // paranoidly redundant, never come here
          continue;
 
-       if(member->Property() & kIsStatic)
-           {
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo ignored static member.\n");
-             continue;
-           }
-
-
-       // first check if we have a collection member.
-       TClass* innerclass=TClass::GetClass(memtypename);
-       TVirtualCollectionProxy* cprox = (innerclass ? innerclass->GetCollectionProxy() : 0);
-       if(cprox)
-       {
-            TClass* collectionclass=cprox->GetCollectionClass();
-            TClass* valueclass=cprox->GetValueClass();
-            EDataType valuetype=cprox->GetType();
-           // Int_t colltype=cprox->GetCollectionType();
-            go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** has collection proxy, type:%d, valueclass=0x%lx, valuetype=%d\n",
-                cprox->GetCollectionType(),
-                (unsigned long) valueclass, valuetype);
-            size_t innersize=0;
-            size_t collsize=0;
-            TString typenm;
-            TString colltypnm;
-
-            //continue; // JAM DEBUG - leave out collections to test composite event io first! OK, this works
-
-
-           if(valueclass)
-           {
-             collsize=collectionclass->Size();
-             innersize=valueclass->Size();
-             typenm=valueclass->GetName();
-             colltypnm= collectionclass->GetName();
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for type %d, collectionclass %s, class %s, size:%ld, collsize:%ld\n",
-               collectionclass->GetCollectionType(), colltypnm.Data(), typenm.Data(), innersize, collsize);//, cprox->Size() needs real collection object set to proxy);
-
-           }
-           else if (valuetype)
-           {
-             TDataType* datatype=TDataType::GetDataType(valuetype);
-             typenm=datatype->GetTypeName();
-             innersize=datatype->Size();
-
-             // will not work, since basic type do not have class object in ROOT!
-             //valueclass=TClass::GetClass(typenm.Data());
-             //go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo sees valueclass %s\n",(valueclass? valueclass->GetName() :"NO CLASS"));
-
-             colltypnm=memtypename; // get  the vector<double> here!
-             collectionclass=TClass::GetClass(memtypename);
-             if(collectionclass)
-               collsize= collectionclass->Size();
-             else
-               go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo could not get class for collection %s \n",memtypename);
-             go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for value %d, type %s, size:%ld, collsize:%ld\n",
-                        collectionclass->GetCollectionType(), typenm.Data(), innersize, collsize);
-           }
-           else
-           {
-             continue;
-           }
-
-           ///// arraydim=0; // JAM DEBUG: check if we can handle the first vector in array only
-
-           // now evaluate the subhandles depending on the array dimension:
-           // here treat special case of array of vectors (poland example)
-                 Int_t maxindex1=0, maxindex2=0;
-                 switch(arraydim)
-                 {
-
-                   default:
-                     // plain collection that is not part of another array:
-                     AddSubHandle(handle, membername, colltypnm.Data(), innersize, memberoffset, member->GetName(), typenm.Data(), valueclass);
-                     break;
-
-                   case 1:
-                     maxindex1 = member->GetMaxIndex(0);
-                     for(int x=0; x<maxindex1; ++x)
-                         {
-                           TString arraymember=TString::Format("%s[%d]",membername,x); // contains supermembers as prefix for full name
-                           TString memberhandle=TString::Format("%s[%d]",member->GetName(),x); // only local member for pointer handle
-                           AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset, memberhandle.Data(), typenm.Data(), valueclass);
-                           memberoffset+=collsize;
-                         }
-                     break;
-
-                   case 2:
-                     maxindex1 = member->GetMaxIndex(0);
-                     maxindex2 = member->GetMaxIndex(1);
-                     for(int x=0; x<maxindex1; ++x)
-                       for(int y=0; y<maxindex2; ++y)
-                           {
-                             TString arraymember=TString::Format("%s[%d][%d]",membername,x,y); // contains supermembers as prefix for full name
-                             TString memberhandle=TString::Format("%s[%d][%d]",member->GetName(),x,y); // only local member for pointer handle
-                             AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset, memberhandle.Data(), typenm.Data(), valueclass);
-                             memberoffset+=collsize;
-                           }
-                     break;
-
-
-                 }; // switch(arraydim)
+      if (member->Property() & kIsStatic) {
+         go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo ignored static member.\n");
          continue;
-       }
+      }
 
-       FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
+      // first check if we have a collection member.
+      TClass *innerclass = TClass::GetClass(memtypename);
+      TVirtualCollectionProxy *cprox = (innerclass ? innerclass->GetCollectionProxy() : 0);
+      if (cprox) {
+         TClass *collectionclass = cprox->GetCollectionClass();
+         TClass *valueclass = cprox->GetValueClass();
+         EDataType valuetype = cprox->GetType();
+         // Int_t colltype=cprox->GetCollectionType();
+         go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** has collection proxy, type:%d, valueclass=0x%lx, valuetype=%d\n",
+                   cprox->GetCollectionType(), (unsigned long)valueclass, valuetype);
+         size_t innersize = 0;
+         size_t collsize = 0;
+         TString typenm;
+         TString colltypnm;
 
-    } // while ((obj=iter()) != 0) {
+         // continue; // JAM DEBUG - leave out collections to test composite event io first! OK, this works
 
+         if (valueclass) {
+            collsize = collectionclass->Size();
+            innersize = valueclass->Size();
+            typenm = valueclass->GetName();
+            colltypnm = collectionclass->GetName();
+            go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  has collection proxy for type %d, collectionclass %s, class %s, "
+                      "size:%ld, collsize:%ld\n",
+                      collectionclass->GetCollectionType(), colltypnm.Data(), typenm.Data(), innersize,
+                      collsize); //, cprox->Size() needs real collection object set to proxy);
+
+         } else if (valuetype) {
+            TDataType *datatype = TDataType::GetDataType(valuetype);
+            typenm = datatype->GetTypeName();
+            innersize = datatype->Size();
+
+            // will not work, since basic type do not have class object in ROOT!
+            // valueclass=TClass::GetClass(typenm.Data());
+            // go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo sees valueclass %s\n",(valueclass? valueclass->GetName() :"NO
+            // CLASS"));
+
+            colltypnm = memtypename; // get  the vector<double> here!
+            collectionclass = TClass::GetClass(memtypename);
+            if (collectionclass)
+               collsize = collectionclass->Size();
+            else
+               go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo could not get class for collection %s \n", memtypename);
+            go4hdfdbg(
+               "TGo4HDF5Adapter::FillTypeInfo  has collection proxy for value %d, type %s, size:%ld, collsize:%ld\n",
+               collectionclass->GetCollectionType(), typenm.Data(), innersize, collsize);
+         } else {
+            continue;
+         }
+
+         ///// arraydim=0; // JAM DEBUG: check if we can handle the first vector in array only
+
+         // now evaluate the subhandles depending on the array dimension:
+         // here treat special case of array of vectors (poland example)
+         Int_t maxindex1 = 0, maxindex2 = 0;
+         switch (arraydim) {
+
+         default:
+            // plain collection that is not part of another array:
+            AddSubHandle(handle, membername, colltypnm.Data(), innersize, memberoffset, member->GetName(),
+                         typenm.Data(), valueclass);
+            break;
+
+         case 1:
+            maxindex1 = member->GetMaxIndex(0);
+            for (int x = 0; x < maxindex1; ++x) {
+               TString arraymember =
+                  TString::Format("%s[%d]", membername, x); // contains supermembers as prefix for full name
+               TString memberhandle =
+                  TString::Format("%s[%d]", member->GetName(), x); // only local member for pointer handle
+               AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset, memberhandle.Data(),
+                            typenm.Data(), valueclass);
+               memberoffset += collsize;
+            }
+            break;
+
+         case 2:
+            maxindex1 = member->GetMaxIndex(0);
+            maxindex2 = member->GetMaxIndex(1);
+            for (int x = 0; x < maxindex1; ++x)
+               for (int y = 0; y < maxindex2; ++y) {
+                  TString arraymember =
+                     TString::Format("%s[%d][%d]", membername, x, y); // contains supermembers as prefix for full name
+                  TString memberhandle =
+                     TString::Format("%s[%d][%d]", member->GetName(), x, y); // only local member for pointer handle
+                  AddSubHandle(handle, arraymember.Data(), colltypnm.Data(), innersize, memberoffset,
+                               memberhandle.Data(), typenm.Data(), valueclass);
+                  memberoffset += collsize;
+               }
+            break;
+
+         }; // switch(arraydim)
+         continue;
+      }
+
+      FillTypeInfo(handle, membername, memtypename, memberoffset, arraydim, member);
+
+   }
 }
 
 
@@ -371,10 +375,10 @@ void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle*
   TClass* actualclass=evclass->GetActualClass(event);
   TString actualclassname= actualclass->GetName();
   size_t eventsize=ScanEventSize(event);
-  TGo4HDF5DataHandle* theHandle=0;
+  TGo4HDF5DataHandle* theHandle = nullptr;
   go4hdfdbg("TGo4HDF5Adapter::BuildDataType for class %s\n",
       actualclassname.Data());
-  if(parent==0)
+  if(!parent)
   {
     // top level event, components are scanned recursively:
     fxHandle=new TGo4HDF5BasicDataHandle(actualclassname.Data(), eventsize);
@@ -413,46 +417,34 @@ void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle*
       go4hdfdbg("TGo4HDF5Adapter::BuildDataType evaluates members of Go4 composite event %s\n",
            comp->GetName());
       Short_t numSubEvents=comp->getNElements();
-      for (int i = 0; i < numSubEvents ; ++i)
-         {
-          TGo4EventElement* sub = comp->getEventElement(i);
-          if(sub==0) continue;
-          BuildDataType(sub,theHandle, i);
-         }
+      for (int i = 0; i < numSubEvents; ++i) {
+         TGo4EventElement *sub = comp->getEventElement(i);
+         if (!sub)
+            continue;
+         BuildDataType(sub, theHandle, i);
+      }
     }
 
     // finally, set reference pointers for all evaluated subcomponents:
-    if(parent==0)
+    if(!parent)
      {
       theHandle->SetObjectPointer(event); // set it here, because parentoffsets of subcomponents may have changed at recursive evaluation
      }
-
 }
 
 
 
 UInt_t TGo4HDF5Adapter::ConvertFileMode(Go4_H5_File_Flags flags)
 {
- UInt_t h5flags=0;
+   UInt_t h5flags = 0;
 
- switch(flags)
- {
-   case GO4_H5F_ACC_NONE:
-   case GO4_H5F_ACC_TRUNC:
-     h5flags=H5F_ACC_TRUNC;
-     break;
-   case GO4_H5F_ACC_EXCL:
-     h5flags=H5F_ACC_EXCL;
-     break;
-   case GO4_H5F_ACC_RDONLY:
-     h5flags=H5F_ACC_RDONLY;
-     break;
-   case GO4_H5F_ACC_RDWR:
-     h5flags=H5F_ACC_RDWR;
-   break;
-   default:
-     h5flags=H5F_ACC_TRUNC;
-     break;
- }
- return h5flags;
+   switch (flags) {
+      case GO4_H5F_ACC_NONE:
+      case GO4_H5F_ACC_TRUNC: h5flags = H5F_ACC_TRUNC; break;
+      case GO4_H5F_ACC_EXCL: h5flags = H5F_ACC_EXCL; break;
+      case GO4_H5F_ACC_RDONLY: h5flags = H5F_ACC_RDONLY; break;
+      case GO4_H5F_ACC_RDWR: h5flags = H5F_ACC_RDWR; break;
+      default: h5flags = H5F_ACC_TRUNC; break;
+   }
+   return h5flags;
 }
