@@ -53,8 +53,8 @@ clean1:
 EX2_O      = Example2.$(ObjSuf)
 EX2_S      = Example2.$(SrcSuf)
 EX2_FS     = Example2Func.$(SrcSuf)
-EX2_FO     = Example2Func.$(ObjSuf)
-EX2_DLL    = Example2Func.$(DllSuf)
+EX2_FO     = libExample2Func.$(ObjSuf)
+EX2_DLL    = libExample2Func.$(DllSuf)
 EX2_E      = Example2$(ExeSuf)
 
 $(EX2_DLL):  $(EX2_FO)
