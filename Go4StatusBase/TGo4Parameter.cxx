@@ -167,14 +167,14 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
    TObject* obj = nullptr;
-   while ((obj=iter()) != nullptr) {
+   while ((obj = iter()) != nullptr) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (!member) continue;
       const char* memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
 
       // do not edit IsA info
-      if(strcmp(memtypename,"TClass*")==0) continue;
+      if(strcmp(memtypename,"TClass*") == 0) continue;
       // skip for a moment all types which are not basic types
 
       Int_t arraydim = member->GetArrayDim();
@@ -195,13 +195,13 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       TArrayI* arri(0);
       TArrayD* arrd(0);
 
-      if (strcmp(memtypename,"TString")==0) {
+      if (strcmp(memtypename,"TString") == 0) {
          memtypeid = TGo4ParameterMember::kTString_t;
       } else
-      if (strcmp(memtypename,"TGo4Fitter*")==0) {
+      if (strcmp(memtypename,"TGo4Fitter*") == 0) {
          memtypeid = TGo4ParameterMember::kTGo4Fitter_t;
       } else
-      if (strcmp(memtypename,"TArrayI")==0) {
+      if (strcmp(memtypename,"TArrayI") == 0) {
          memtypeid = kInt_t;
          memtypename = "Int_t";
          if ((maxindex1>1) || (maxindex2>1)) continue;
@@ -210,7 +210,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
          maxindex1 = arri->GetSize();
          maxindex2 = 1;
       } else
-      if (strcmp(memtypename,"TArrayD")==0) {
+      if (strcmp(memtypename,"TArrayD") == 0) {
          memtypeid = kDouble_t;
          memtypename = "Double_t";
          if ((maxindex1>1) || (maxindex2>1)) continue;
@@ -248,7 +248,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
           info->SetType(memtypename, memtypeid);
 
-          info->SetVisible((ix1==0) && (ix2==0));
+          info->SetVisible((ix1 == 0) && (ix2 == 0));
 
           info->SetArrayIndexes(arraydim, ix1, ix2);
 
@@ -267,8 +267,8 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
-      if(strcmp(bclass->GetName(), "TGo4Parameter")==0) continue;
-      if(strcmp(bclass->GetName(), "TNamed")==0) continue;
+      if(strcmp(bclass->GetName(), "TGo4Parameter") == 0) continue;
+      if(strcmp(bclass->GetName(), "TNamed") == 0) continue;
 
       GetMemberValues(fItems, bclass, ptr, cloffset + baseclass->GetDelta());
    }
@@ -299,7 +299,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
       Int_t memtypeid = 0;
 
       // do not edit IsA info
-      if(strcmp(memtypename,"TClass*")==0) continue;
+      if(strcmp(memtypename,"TClass*") == 0) continue;
       // skip for a moment all types which are not basic types
 
       Int_t arraydim = member->GetArrayDim();
@@ -320,13 +320,13 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
       TArrayI* arri = nullptr;
       TArrayD* arrd = nullptr;
 
-      if (strcmp(memtypename,"TString")==0) {
+      if (strcmp(memtypename,"TString") == 0) {
         memtypeid = TGo4ParameterMember::kTString_t;
       } else
-      if (strcmp(memtypename,"TGo4Fitter*")==0) {
+      if (strcmp(memtypename,"TGo4Fitter*") == 0) {
         memtypeid = TGo4ParameterMember::kTGo4Fitter_t;
       } else
-      if (strcmp(memtypename,"TArrayI")==0) {
+      if (strcmp(memtypename,"TArrayI") == 0) {
          memtypeid = kInt_t;
          memtypename = "Int_t";
          if ((maxindex1>1) || (maxindex2>1)) continue;
@@ -337,7 +337,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
          if (maxindex1<0) return kFALSE;
          if (arri->GetSize()!=maxindex1) arri->Set(maxindex1);
       } else
-      if (strcmp(memtypename,"TArrayD")==0) {
+      if (strcmp(memtypename,"TArrayD") == 0) {
          memtypeid = kDouble_t;
          memtypename = "Double_t";
          if ((maxindex1>1) || (maxindex2>1)) continue;
@@ -382,8 +382,8 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
       if (!baseclass) continue;
       TClass* bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
-      if(strcmp(bclass->GetName(), "TGo4Parameter")==0) continue;
-      if(strcmp(bclass->GetName(), "TNamed")==0) continue;
+      if(strcmp(bclass->GetName(), "TGo4Parameter") == 0) continue;
+      if(strcmp(bclass->GetName(), "TNamed") == 0) continue;
 
       if (!SetMemberValues(items, itemsindx, bclass, ptr, cloffset + baseclass->GetDelta())) return kFALSE;
    }
@@ -400,7 +400,7 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    if (savemacro) {
       out << TString::Format("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",
                  ClassName(), varname.Data(), ClassName(), GetName(), ClassName()) << std::endl << std::endl;
-      out << TString::Format("   if (%s==0) {", varname.Data()) << std::endl;
+      out << TString::Format("   if (!%s) {", varname.Data()) << std::endl;
       out << TString::Format("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << std::endl;
       out << "      return;" << std::endl;
       out << "   }" << std::endl << std::endl;

@@ -304,7 +304,7 @@ const char* TGo4AbstractInterface::NextHotStartCmd()
       if (fxCommands.IsEmpty()) return nullptr;
       TObjString* str = (TObjString*) fxCommands.First();
       res = str->GetName();
-      if (!res || (strlen(res)==0)) {
+      if (!res || (strlen(res) == 0)) {
          res = nullptr;
          fxCommands.Remove(str);
          delete str;
@@ -333,9 +333,9 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
    while(token != nullptr) {
       if ((fInitSharedLibs.Index(token) == kNPOS)
-//           (strstr(token,"libGX11.")==0) &&
-//          (strstr(token,"libGX11TTF.")==0) &&
-           && (strstr(token,"libHistPainter.")==0)) {
+//           !strstr(token,"libGX11.") &&
+//           !strstr(token,"libGX11TTF.") &&
+           && !strstr(token,"libHistPainter.")) {
               fs << "go4->LoadLibrary(\"";
               if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
                  fs << "$GO4SYS/" << (token + go4sys.Length());

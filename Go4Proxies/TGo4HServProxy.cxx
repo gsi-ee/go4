@@ -25,14 +25,14 @@ extern "C" {
 
 class TGo4HServIter : public TGo4LevelIter {
    public:
-      TGo4HServIter() : TGo4LevelIter(), fSlot(0), fIndex(-1) {}
+      TGo4HServIter() : TGo4LevelIter() {}
 
-      TGo4HServIter(const TGo4Slot* slot) : TGo4LevelIter(), fSlot(slot), fIndex(-1) {}
+      TGo4HServIter(const TGo4Slot* slot) : TGo4LevelIter(), fSlot(slot) {}
 
       virtual ~TGo4HServIter() {}
 
       Bool_t next() override
-         { return (fSlot!=0) && (++fIndex<fSlot->NumChilds()); }
+         { return fSlot && (++fIndex < fSlot->NumChilds()); }
 
       Bool_t isfolder() override { return curSlot()->HasSlotsSubLevels(); }
 
@@ -44,7 +44,7 @@ class TGo4HServIter : public TGo4LevelIter {
 
       Int_t getflag(const char* flagname) override
       {
-         if (strcmp(flagname,"IsRemote")==0) return 1;
+         if (strcmp(flagname,"IsRemote") == 0) return 1;
          return -1;
       }
 
@@ -55,8 +55,8 @@ class TGo4HServIter : public TGo4LevelIter {
     protected:
        TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }
 
-       const TGo4Slot* fSlot;  //!
-       Int_t      fIndex;      //!
+       const TGo4Slot* fSlot{nullptr};  //!
+       Int_t      fIndex{-1};           //!
 };
 
 // ******************************************************************
@@ -92,7 +92,7 @@ class TGo4HServObjectAccess : public TGo4Access {
       const char* GetObjectClassName() const override { return fObjClassName.Data(); }
 
    private:
-      TGo4HServProxy *fHServ;         //!
+      TGo4HServProxy *fHServ{nullptr};//!
       TString         fObjName;       //!
       TString         fObjFullName;   //!
       TString         fObjClassName;  //!
@@ -109,7 +109,7 @@ TGo4HServProxy::TGo4HServProxy() :
    fBaseName(),
    fUserPass(),
    fFilter(),
-   fxStructure(0)
+   fxStructure(nullptr)
 {
 }
 
@@ -142,7 +142,7 @@ void TGo4HServProxy::Finalize(TGo4Slot* slot)
 
 Bool_t TGo4HServProxy::HasSublevels() const
 {
-   return fxStructure!=0;
+   return fxStructure != nullptr;
 }
 
 TGo4LevelIter* TGo4HServProxy::MakeIter()
@@ -204,12 +204,12 @@ Bool_t TGo4HServProxy::RefreshNamesList()
    for(int i_j=0;i_j<l_histos;i_j++) {
       TString HisType="TH";
       if (ps_his_head->l_bins_2>1) {
-         if(strstr(ps_his_head->c_dtype,"r")!=0)
+         if(strstr(ps_his_head->c_dtype,"r"))
            HisType += "2F";
          else
            HisType += "2I";
       } else {
-         if(strstr(ps_his_head->c_dtype,"r")!=0)
+         if(strstr(ps_his_head->c_dtype,"r"))
             HisType += "1F";
          else
             HisType += "1I";
@@ -235,7 +235,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
 {
    s_his_head* ps_his_head = nullptr;
-   INTS4* pl_all = 0;
+   INTS4* pl_all = nullptr;
    INTS4 l_size = 0;
 
    INTS4 result = f_his_gethis((CHARS *) fServerName.Data(),
@@ -253,14 +253,14 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
    int i1 = ps_his_head->l_bins_1;
    int i2 = ps_his_head->l_bins_2;
 
-   REAL4* pr_all = (strstr(ps_his_head->c_dtype,"r")!=0) ? (REAL4 *) pl_all : 0;
+   REAL4* pr_all = strstr(ps_his_head->c_dtype,"r") ? (REAL4 *) pl_all : nullptr;
    INTS4* pl_start = pl_all;
 
    TH1* h1 = nullptr;
    Double_t entries = 0;
 
    if(i2==1) {    // 1-Dimensional histogram
-      if (pr_all!=0) {
+      if (pr_all) {
         h1 = new TH1F(ps_his_head->c_name, ps_his_head->c_name,
                       i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up);
         for (int k=0; k<i1; k++) {
@@ -281,7 +281,7 @@ TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
       h1->GetYaxis()->SetTitle(ps_his_head->c_lettering_res);
 
    } else {  // 2-dimensional histogram
-      if (pr_all!=0) {
+      if (pr_all) {
          h1 = new TH2F(ps_his_head->c_name,ps_his_head->c_name,
                        i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up,
                        i2, ps_his_head->r_limits_low_2, ps_his_head->r_limits_up_2);

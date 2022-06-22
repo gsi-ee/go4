@@ -161,19 +161,19 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         return ((dynamic_cast<TFolder*>(fCurrent) != nullptr) ||
-                 (dynamic_cast<TGo4TreeStructure*>(fCurrent) != nullptr));
+         return dynamic_cast<TFolder*>(fCurrent) ||
+                dynamic_cast<TGo4TreeStructure*>(fCurrent);
       }
 
       Int_t getflag(const char* flagname) override
       {
-         if (strcmp(flagname,"IsRemote")==0) return 1;
-         if (strcmp(flagname,"IsDeleteProtect")==0) {
+         if (strcmp(flagname,"IsRemote") == 0) return 1;
+         if (strcmp(flagname,"IsDeleteProtect") == 0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
             if (sts)
               return sts->IsDeleteProtect() ? 1 : 0;
          }
-         if (strcmp(flagname,"IsResetProtect")==0) {
+         if (strcmp(flagname,"IsResetProtect") == 0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
             if (sts)
                return sts->IsResetProtect() ? 1 : 0;
@@ -270,16 +270,16 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
 TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    TGo4ServerProxy(),
    fIsServer(isserver),
-   fAnalysisNames(0),
+   fAnalysisNames(nullptr),
    fxSubmittedProxy(),
-   fxDefaultProxy(0),
+   fxDefaultProxy(nullptr),
    fbNamesListReceived(kFALSE),
    fbAnalysisRunning(kFALSE),
    fDisconectCounter(-111),
-   fxDisplay(0),
+   fxDisplay(nullptr),
    fActualRole(-1),
-   fxRefreshTimer(0),
-   fxConnectionTimer(0),
+   fxRefreshTimer(nullptr),
+   fxConnectionTimer(nullptr),
    fNumberOfWaitingProxyes(0)
 {
    fxDisplay = new TGo4Display(!isserver);

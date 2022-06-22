@@ -55,21 +55,21 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
            skip = false;
            fCurrent = fIter->Next();
 
-           if (fCurrent==0) break;
+           if (!fCurrent) break;
 
            TFrame* fr = dynamic_cast<TFrame*>(fCurrent);
-           if (fr!=0) { skip = true; continue; }
+           if (fr) { skip = true; continue; }
 
            TPaveText* ptxt = dynamic_cast<TPaveText*> (fCurrent);
-           if ((ptxt!=0) && (strcmp(ptxt->GetName(),"title")==0)) { skip = true; continue; }
+           if (ptxt && (strcmp(ptxt->GetName(),"title") == 0)) { skip = true; continue; }
 
-           if (dynamic_cast<TPave*>(fCurrent) != 0) { skip = true; continue; }
+           if (dynamic_cast<TPave*>(fCurrent)) { skip = true; continue; }
 
-           if (fCurrent->GetName()==0) { skip = true; continue; }
+           if (!fCurrent->GetName()) { skip = true; continue; }
 
-           if (strlen(fCurrent->GetName())==0) { skip = true; continue; }
+           if (strlen(fCurrent->GetName()) == 0) { skip = true; continue; }
 
-           if (strcmp(fCurrent->GetName(), fCurrent->ClassName())==0) { skip = true; continue; }
+           if (strcmp(fCurrent->GetName(), fCurrent->ClassName()) == 0) { skip = true; continue; }
 
            // this is axis object for drawing THStack in the canvas
            if (fStacks.FindObject(fCurrent->GetName()) && fCurrent->InheritsFrom(TH1F::Class())) { skip = true; continue; }
@@ -79,7 +79,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          if (fCurrent && fCurrent->InheritsFrom(THStack::Class()))
             fStacks.Add(new TObjString(fCurrent->GetName()));
 
-         return (fCurrent!=0);
+         return fCurrent != nullptr;
       }
 
       Bool_t isfolder() override
@@ -236,7 +236,7 @@ TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
       TObject* obj = nullptr;
       while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName())==len) &&
-             (strncmp(obj->GetName(), curname, len)==0)) break;
+             (strncmp(obj->GetName(), curname, len) == 0)) break;
       if (!obj) return nullptr;
 
       if (!slash) return new TGo4ObjectAccess(obj);

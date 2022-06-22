@@ -145,7 +145,7 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 {
    TFolder* res = nullptr;
    if (rootfolder) {
-     if (strcmp(rootfolder,"//root/")==0)
+     if (strcmp(rootfolder,"//root/") == 0)
         res = gROOT->GetRootFolder();
      else
        res = dynamic_cast<TFolder*> (gROOT->GetRootFolder()->FindObject(rootfolder));
@@ -168,8 +168,8 @@ TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
       TIter iter(curfold->GetListOfFolders());
       TObject* obj = nullptr;
       while ((obj = iter()) != nullptr)
-         if ((strlen(obj->GetName())==len) &&
-             (strncmp(obj->GetName(), curname, len)==0)) break;
+         if ((strlen(obj->GetName()) == len) &&
+             (strncmp(obj->GetName(), curname, len) == 0)) break;
       if (!obj) return nullptr;
 
       if (!slash)

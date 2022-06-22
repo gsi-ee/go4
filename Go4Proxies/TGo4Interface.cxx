@@ -77,11 +77,11 @@ TGo4Interface::~TGo4Interface()
 {
    DisconnectAnalysis();
    delete fCmdTimer;
-   fCmdTimer = 0;
+   fCmdTimer = nullptr;
 
    Int_t timecnt = 50;
    while (timecnt-->0) {
-      if (Analysis()==0) break;
+      if (!Analysis()) break;
       gSystem->ProcessEvents();
       gSystem->Sleep(100);
    }
@@ -92,7 +92,7 @@ TGo4Interface::~TGo4Interface()
 
 void TGo4Interface::ProcessEvents(Int_t timeout)
 {
-   Wait(timeout<=0 ? 0 : timeout*0.001);
+   Wait(timeout <= 0 ? 0 : timeout*0.001);
 }
 
 void TGo4Interface::Wait(double tm_sec)
@@ -114,8 +114,8 @@ void TGo4Interface::Wait(double tm_sec)
 
 void TGo4Interface::Message(const char* msg)
 {
-    if (fRootBrowser)
-       fRootBrowser->Message("Message","msg",5000);
+   if (fRootBrowser)
+      fRootBrowser->Message("Message","msg",5000);
 }
 
 void TGo4Interface::LaunchAnalysis()
@@ -392,8 +392,8 @@ void TGo4Interface::StepMbsFileSource(const char* stepname,
    TGo4MbsFileParameter par(sourcename);
    par.SetTimeout(timeout);
 
-   if(TagFile==0) par.SetTagName("GO4-NOLMDTAG");
-             else par.SetTagName(TagFile);
+   if(!TagFile) par.SetTagName("GO4-NOLMDTAG");
+           else par.SetTagName(TagFile);
    par.SetStartEvent(start);
    par.SetStopEvent(stop);
    par.SetEventInterval(interval);
@@ -701,13 +701,13 @@ void TGo4Interface::ProcessHotStart()
 
    const char* nextcmd = NextHotStartCmd();
 
-   if ((nextcmd==0) || !IsHotStart()) return;
+   if (!nextcmd || !IsHotStart()) return;
 
    Int_t error = 0;
    fCmdFinished = kFALSE;
    gROOT->ProcessLineSync(nextcmd, &error);
    fCmdFinished = kTRUE;
 
-   if (error!=0)
+   if (error != 0)
       Error("ProcessHotStart", "ProcessLine(\"%s\") error %d", nextcmd, error);
 }

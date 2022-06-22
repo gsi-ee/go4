@@ -798,7 +798,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
               axis->GetTicks(),
               axis->TestBits(0x0ff0),
               index);
-   if(naxis==0) {
+   if(naxis == 0) {
       // support time format only for x axis for the moment
       SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
     }
@@ -806,7 +806,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
 
 void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
 {
-   if ((axis==0) || (naxis<0) || (naxis>2)) return;
+   if (!axis || (naxis<0) || (naxis>2)) return;
    CheckIndex(index);
    Int_t op = op_AxisX;
    if (naxis==1) op = op_AxisY; else
@@ -838,8 +838,7 @@ void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
       }
    }
 
-   if(naxis==0)
-   {
+   if(naxis == 0) {
       // time format x axis
       if (GetOption (index, op_TimeAxisX, lv)) axis->SetTimeDisplay(lv);
       axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S"));
@@ -1252,7 +1251,7 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
       case 15: SetXAxisTimeDisplay(value!=0); break;
       case 17:
          SetXYRatioOne(value!=0);
-         //if (value==0) SetDefaultRatio(true); //
+         //if (value == 0) SetDefaultRatio(true); //
          break;
       case 18: SetHisContour(value); break;
 
@@ -1496,7 +1495,7 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
      fxOptObjects->AddAt(obj, fxOptValue[pos]);
    } else {
      pos = ExtendOptPos(index, typ);
-     if (fxOptObjects==0) {
+     if (!fxOptObjects) {
         fxOptObjects = new TObjArray();
         fxOptObjects->SetOwner(kTRUE);
      }
@@ -1626,7 +1625,7 @@ Int_t TGo4Picture::GetObjAttIndex(TObject* obj)
 {
    if (!obj) return UndefIndex;
    for (Int_t n=0;n<GetNumObjNames();n++)
-     if (strcmp(GetObjName(n),obj->GetName())==0) return n;
+     if (strcmp(GetObjName(n),obj->GetName()) == 0) return n;
    return UndefIndex;
 }
 
@@ -1646,9 +1645,9 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
       TString str = "Obj: ";
       str += GetObjName(indx);
       const char* opt = GetDrawOption(indx);
-      if ((opt==0) && (indx==0))
+      if (!opt && (indx == 0))
         opt = GetDrawOption(PictureIndex);
-      if (opt!=0) {
+      if (opt) {
          str += "  Opt: ";
          str += opt;
       }
@@ -1860,27 +1859,26 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char* name, Int_t index
    fs << index << ");" << std::endl;
 
    // TODO: add this to script
-// note: take this attribute independent of displayed object
-// this is necessary to correctly restore TGraph axis
-//SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
-//   if (naxis==0)
-//   {
-//      Bool_t tdisp=kFALSE;
-//      if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
-//      TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
-//      fs << name <<  "SetXAxisAttTime(";
-//      fs << tdisp << ", ";
-//      fs << "\"" << format.Data()<< "\"" <<", ";
-//      //fs << index << ");" << std::endl; // does not work?
-//      fs << PictureIndex << ");" << std::endl; // this works
-//   }
+   // note: take this attribute independent of displayed object
+   // this is necessary to correctly restore TGraph axis
+   //SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+   //   if (naxis == 0) {
+   //      Bool_t tdisp=kFALSE;
+   //      if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
+   //      TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
+   //      fs << name <<  "SetXAxisAttTime(";
+   //      fs << tdisp << ", ";
+   //      fs << "\"" << format.Data()<< "\"" <<", ";
+   //      //fs << index << ");" << std::endl; // does not work?
+   //      fs << PictureIndex << ");" << std::endl; // this works
+   //   }
 
 }
 
 void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
 {
    for(Int_t naxis=0;naxis<3;naxis++)
-     if (GetLogScale(naxis)>0)
+     if (GetLogScale(naxis) > 0)
        fs << name << "SetLogScale(" << naxis << ", 1);" << std::endl;
 
    Double_t min, max;
@@ -1897,7 +1895,6 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
        GetOptionD(PictureIndex, op_FrameRight, v3) &&
        GetOptionD(PictureIndex, op_FrameBottom, v4))
       fs << name << "SetFrameAttr(" << v1 << ", " << v2 << ", " << v3 << ", " << v4 << ");" << std::endl;
-
 
    TAttLine latt;
    TAttFill fatt;
@@ -1940,7 +1937,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
         << GetD(PictureIndex, op_TitleX2, gStyle->GetTitleX()) << ", "
         << GetD(PictureIndex, op_TitleY2, gStyle->GetTitleY());
 
-     Double_t sz(0.);
+     Double_t sz = 0.;
      if (GetOptionD(PictureIndex, op_TitleTextSz, sz))
         fs << ", " << sz;
 
@@ -2056,13 +2053,13 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
       if (buf.Length()>950) {
          fs << "TString sbuf = \"\";" << std::endl;
          const char* pos = xmlbuf.Data();
-         while (*pos!=0) {
+         while (*pos != 0) {
             const char* lastpos = pos;
             while ((*pos !=0) && (*pos!='\n')) pos++;
             TString subbuf(lastpos, pos-lastpos);
             subbuf.ReplaceAll("\"","\\\"");
             fs << "TGo4Picture::Add(sbuf,\"" << subbuf << "\");" << std::endl;
-            if (*pos==0) break;
+            if (*pos == 0) break;
             pos++;
          }
          buf = "sbuf";

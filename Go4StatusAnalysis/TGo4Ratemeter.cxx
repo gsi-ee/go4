@@ -41,7 +41,7 @@ void TGo4Ratemeter::UpdateFrom(const TGo4Ratemeter* r)
 {
    // update only persistent members
 
-   if (r==0) return;
+   if (!r) return;
    fbRunning = r->fbRunning;
    fuCurrentCount = r->fuCurrentCount;
    fdRate = r->fdRate;
@@ -66,7 +66,7 @@ void TGo4Ratemeter::Reset()
 
 Bool_t TGo4Ratemeter::Update(Int_t increment)
 {
-   if(increment<0) {
+   if(increment < 0) {
       if(increment==-2)
          fdRate=1; // first update after start: dummy rate
       else
@@ -79,7 +79,7 @@ Bool_t TGo4Ratemeter::Update(Int_t increment)
    fuCurrentCount += (UInt_t) increment;
 
    // check time if update count specified as 0
-   if ((increment>0) && (fuCurrentCount < fuNextCheckCnt)) return kFALSE;
+   if ((increment > 0) && (fuCurrentCount < fuNextCheckCnt)) return kFALSE;
 
    TTimeStamp now;
 

@@ -59,19 +59,19 @@ TGo4TaskHandlerCommandList* TGo4Master::CreateCommandList()
 
 Bool_t TGo4Master::SubmitCommand(const char* name)
 {
-   if (GetTask()==0) return kFALSE;
+   if (!GetTask()) return kFALSE;
    return GetTask()->SubmitCommand(name);
 }
 
 Bool_t TGo4Master::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 {
-   if (GetTask()==0) return kFALSE;
+   if (!GetTask()) return kFALSE;
    return GetTask()->SubmitEmergencyCommand(val);
 }
 
 Bool_t TGo4Master::SubmitCommand(TGo4Command* com)
 {
-   if (GetTask()==0) return kFALSE;
+   if (!GetTask()) return kFALSE;
    return GetTask()->SubmitCommand(com);
 }
 
