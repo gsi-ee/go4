@@ -81,7 +81,7 @@ TGo4FitDependency* TGo4FitterConfig::FindDepen(const char* FullName, TObjArray* 
 {
    for(Int_t n=0;n<=list->GetLast();n++) {
       TGo4FitDependency* par = (TGo4FitDependency*) list->At(n);
-      if (strcmp(par->GetParameter().Data(),FullName)==0) return par;
+      if (strcmp(par->GetParameter().Data(),FullName) == 0) return par;
    }
    return nullptr;
 }
@@ -100,25 +100,30 @@ void TGo4FitterConfig::SetParInit(const char* FullName, const char* iExpression)
       else fxParsInit.Add( new TGo4FitDependency(FullName,iExpression));
 }
 
-void TGo4FitterConfig::SetParDepend(const char* FullName, const char* iExpression) {
+void TGo4FitterConfig::SetParDepend(const char* FullName, const char* iExpression)
+{
    TGo4FitDependency* par  = FindDepen(FullName,&fxParsDepend);
    if(par) par->SetExpression(iExpression);
       else fxParsDepend.Add( new TGo4FitDependency(FullName,iExpression));
 }
 
-void TGo4FitterConfig::AddResult(const char* Expression) {
+void TGo4FitterConfig::AddResult(const char* Expression)
+{
   fxResults.Add( new TGo4FitDependency("",Expression));
 }
 
-void TGo4FitterConfig::AddResult(Double_t Value) {
+void TGo4FitterConfig::AddResult(Double_t Value)
+{
   fxResults.Add( new TGo4FitDependency("",Value));
 }
 
-void TGo4FitterConfig::DoAction(TGo4FitterAbstract* Fitter) {
+void TGo4FitterConfig::DoAction(TGo4FitterAbstract* Fitter)
+{
    if (Fitter) Fitter->ApplyConfig(this);
 }
 
-void TGo4FitterConfig::Print(Option_t* option) const {
+void TGo4FitterConfig::Print(Option_t* option) const
+{
    TGo4FitterAction::Print(option);
    std::cout << "List of minimization config for parameters: " << std::endl;
    fxParsCfg.Print(option);
