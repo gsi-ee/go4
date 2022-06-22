@@ -66,7 +66,7 @@ TXXXProc::TXXXProc(const char* name) :
    fPolyCon = MakePolyCond("polycon", 3, cutpnts);
 
    fcondSet = GetPicture("condSet");
-   if (fcondSet==0) {
+   if (!fcondSet) {
       // in the upper two pads, the condition limits can be set,
       // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
@@ -113,7 +113,7 @@ TXXXProc::TXXXProc(const char* name) :
 Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 {  // called by framework. We dont fill any output event here at all
 
-   if ((GetInputEvent()==0) || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
+   if (!GetInputEvent() || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
       std::cout << "TXXXProc: no input MBS event found!" << std::endl;
       return kFALSE;
    }
@@ -139,14 +139,13 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
       Crate2[i] = 0.;
    }
 
-
    // uncomment this lines to update histogram on the gui periodically without activating monitoring
    //static int cnt =0;
    // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();
-   TGo4MbsSubEvent *psubevt(0);
-   while((psubevt = evnt->NextSubEvent()) != 0) { // loop over subevents
+   TGo4MbsSubEvent *psubevt = nullptr;
+   while((psubevt = evnt->NextSubEvent()) != nullptr) { // loop over subevents
       Int_t * pdata = psubevt->GetDataField();
       Int_t lwords = psubevt->GetIntLen();
       if(lwords > 8) lwords = 8; // take only first 8 lwords

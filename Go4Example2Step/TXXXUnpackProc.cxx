@@ -149,7 +149,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fWhitelistCon = MakeListCond("Whitelist",1,42,2,"His1");
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
-      if (fConArr1==0) {
+      if (!fConArr1) {
          fConArr1 = new TGo4CondArray("winconar",30,"TGo4WinCond");
          fConArr1->SetValues(100,500);
          fConArr1->Disable(true);
@@ -163,7 +163,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       }
 
       fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-      if(fConArr2==0) {
+      if(!fConArr2) {
          // This is example how to create condition array
          TGo4Log::Info("TXXXUnpackProc: Create condition polyconar");
          Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
@@ -192,7 +192,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       ((*fConArr2)[1])->Enable(); // 2 and 3 remain disabled
 
       fcondSet = GetPicture("condSet");
-      if (fcondSet==0) {
+      if (!fcondSet) {
          // in the upper two pads, the condition limits can be set,
          // in the lower two pads, the resulting histograms are shown
          fcondSet = new TGo4Picture("condSet","Set conditions");
@@ -304,7 +304,7 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //-----------------------------------------------------------
 Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
-   Bool_t isValid=kFALSE; // validity of output event
+   Bool_t isValid = kFALSE; // validity of output event
 
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
@@ -315,14 +315,14 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       // default calling Fill method will set validity of out_evt to return value!
       return isValid;
    }
-   isValid=kTRUE;
+   isValid = kTRUE;
 
 	////////////////////////////////////////////////////
 	// Some examples how to skip event processing or stop analysis by exception
 	// for convenience, we provide  GO4_ macros to invoke appropriate exception throws
 	// NOTE: You need to //#include "TGo4UserException.h" for this feature
-    //	 static UInt_t count=0;
-	//	 if((count++ % 100000)==0 && count>1) // user may put a real analysis condition here
+   //	 static UInt_t count=0;
+	//	 if((count++ % 100000) == 0 && count > 1) // user may put a real analysis condition here
 	//		 {
 	//			 // this macro will skip event and subsequent analysis steps and send specified message to gui log window:
 	//			 // GO4_SKIP_EVENT_MESSAGE("Skipped Event %d",count-1)

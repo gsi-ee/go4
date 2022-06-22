@@ -83,7 +83,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fPolyCon = MakePolyCond("polycon", 3, cutpnts);
 
    fConArr = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-   if(fConArr==0) {
+   if(!fConArr) {
       // This is example how to create condition array
       TGo4Log::Info("TXXXProc: Create condition array");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
@@ -104,7 +104,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 
    TGo4Log::Info("TXXXProc: Produce pictures");
    fcondSet = GetPicture("condSet");
-   if (fcondSet==0) {
+   if (!fcondSet) {
       // in the upper two pads, the condition limits can be set,
       // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
@@ -167,7 +167,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
    TXXXEvent* XXXEvent = (TXXXEvent*) target;
 
    TGo4MbsEvent* source = (TGo4MbsEvent*) GetInputEvent();
-   if(source == 0) {
+   if(!source) {
       TGo4Log::Error("TXXXProc: no input event!");
       return kFALSE;
    }
@@ -185,8 +185,8 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
    // here we use only crate number
 
    source->ResetIterator();
-   TGo4MbsSubEvent* psubevt(0);
-   while((psubevt = source->NextSubEvent()) != 0) { // loop over subevents
+   TGo4MbsSubEvent* psubevt = nullptr;
+   while((psubevt = source->NextSubEvent()) != nullptr) { // loop over subevents
       Int_t *pdata = psubevt->GetDataField();
       Int_t lwords = psubevt->GetIntLen();
       if(lwords > 8) lwords=8; // take only first 8 lwords

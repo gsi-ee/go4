@@ -1,7 +1,7 @@
 void set_Par()
 {
    TXXXParameter *fp = (TXXXParameter*) go4->GetParameter("XXXParameter","TXXXParameter");
-   if(fp==0) return;
+   if(!fp) return;
 
    // set values here-----------
    fp->frP1    = 100;

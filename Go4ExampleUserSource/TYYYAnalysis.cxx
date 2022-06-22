@@ -86,7 +86,7 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    fPar->frP2 = 200;
    AddParameter(fPar);
 
-   if (GetCanvas("TestCanvas")==0) {
+   if (!GetCanvas("TestCanvas")) {
       TCanvas* mycan =  new TCanvas("TestCanvas","Does this work?");
       mycan->Divide(2,2);
       AddCanvas(mycan);
@@ -107,12 +107,12 @@ Int_t TYYYAnalysis::UserPreLoop()
    // we update the pointers to the current event structures here:
    fRawEvent = dynamic_cast<TYYYRawEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fUnpackEvent = dynamic_cast<TYYYUnpackEvent*> (GetOutputEvent("Unpack"));
-   fEvents=0;
+   fEvents = 0;
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored from autosave file if any.
-   fSize=(TH1D*)GetHistogram("Eventsize");
-   if(fSize==0) {
+   fSize = (TH1D*)GetHistogram("Eventsize");
+   if(!fSize) {
       // no autosave read, create new and register
       fSize = new TH1D ("Eventsize", "Read columns",160,1,160);
       AddHistogram(fSize);

@@ -23,49 +23,40 @@
 //***********************************************************
 // this one is used in TXXXAnlFact
 TMeshB2AnlProc::TMeshB2AnlProc(const char* name)
-  :TGo4EventProcessor(name),fxInput(0)
+  :TGo4EventProcessor(name),fxInput(nullptr)
 {
    TGo4Log::Info("TMeshB2AnlProc: Create %s", name);
 }
 //***********************************************************
 TMeshB2AnlProc::TMeshB2AnlProc()
-  : TGo4EventProcessor("Processor2"),fxInput(0)
+  : TGo4EventProcessor("Processor2"),fxInput(nullptr)
 {
 }
 //***********************************************************
 TMeshB2AnlProc::~TMeshB2AnlProc()
 {
 }
-//***********************************************************
 
-//-----------------------------------------------------------
 void TMeshB2AnlProc::Analysis(TMeshB2OutputEvent* poutevt)
 {
-   if(fxInput==0)
-      {
-         // lazy init for input event from framework
-         TGo4EventElement* providerinput=GetInputEvent("Input2Provider");
-         TMeshRawEvent* raw=dynamic_cast<TMeshRawEvent*>(providerinput);
-         if(raw)
-            fxInput=&(raw->fxSub2);
-               // provider delivers full raw event, we use only our component
-         else
-            fxInput=dynamic_cast<TMeshB2InputEvent*>(providerinput);
-               // provider with partial io delivers just our component
-      }
-   if(fxInput)
-      {
-         // do the processing here:
-         for(Int_t i=0;i<4;i++)
-            {
-               poutevt->frData[i]=(Float_t)fxInput->fiCrate2[i];
-            }
-
-
-      }
-   else
-      {
-         throw TGo4UserException(3,"Error: no input event for processor %s",GetName());
+   if (!fxInput) {
+      // lazy init for input event from framework
+      TGo4EventElement *providerinput = GetInputEvent("Input2Provider");
+      TMeshRawEvent *raw = dynamic_cast<TMeshRawEvent *>(providerinput);
+      if (raw)
+         fxInput = &(raw->fxSub2);
+      // provider delivers full raw event, we use only our component
+      else
+         fxInput = dynamic_cast<TMeshB2InputEvent *>(providerinput);
+      // provider with partial io delivers just our component
+   }
+   if (fxInput) {
+      // do the processing here:
+      for (Int_t i = 0; i < 4; i++) {
+         poutevt->frData[i] = (Float_t)fxInput->fiCrate2[i];
       }
 
-} // BuildCalEvent
+   } else {
+      throw TGo4UserException(3, "Error: no input event for processor %s", GetName());
+   }
+}

@@ -267,7 +267,7 @@ void TXXXCalibPar::ReadDatabase()
       } // while(1)
       //std::cout <<"scanned lines:"<<ix << std::endl;
 
-   } // if (database==0)
+   }
 }
 
 
