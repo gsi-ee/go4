@@ -20,7 +20,7 @@ Int_t TGo4ComAction2::ExeCom()
 {
    GO4TRACE((12,"TGo4ComAction2::ExeCom() dtor",__LINE__, __FILE__));
 
-   if (fxReceiverBase!=0) {
+   if (fxReceiverBase) {
       GO4TRACE((11,"TGo4ComAction2::ExeCom() - found valid receiver",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ComAction2 ''%s'': Action2 requested ", GetName());
       ((TGo4ExampleApplication*) fxReceiverBase) ->CommandAction2();

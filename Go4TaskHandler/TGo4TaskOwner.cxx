@@ -37,21 +37,21 @@ TGo4TaskOwner::TGo4TaskOwner(Bool_t isserver) :
 
 TGo4TaskOwner::~TGo4TaskOwner()
 {
-   if(fxTask!=0)
-      fxTask->SetOwner(0); // avoid the task to delete us again in dtor
+   if(fxTask)
+      fxTask->SetOwner(nullptr); // avoid the task to delete us again in dtor
    delete fxTask;
-   fxTask = 0;
+   fxTask = nullptr;
 }
 
 const char* TGo4TaskOwner::GetName() const
 {
-   return (fxTask!=0) ? fxTask->GetName() : 0;
+   return fxTask ? fxTask->GetName() : nullptr;
 }
 
 void TGo4TaskOwner::SetTask(TGo4Task* task, Bool_t delold)
 {
    if(delold) delete fxTask;
-   fxTask=task;
+   fxTask = task;
    if(fxTask) fxTask->SetOwner(this);
 }
 
@@ -82,7 +82,7 @@ Bool_t TGo4TaskOwner::IsConnected()
          std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
          return kFALSE;
       }
-      return (server->GetCurrentTaskHandler()!=0);
+      return (server->GetCurrentTaskHandler() != nullptr);
    }
 
    TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*>(GetTask());
@@ -98,7 +98,6 @@ Bool_t TGo4TaskOwner::IsBeingQuit()
 {
    return fxTask ? fxTask->IsBeingQuit() : kFALSE;
 }
-
 
 TMutex* TGo4TaskOwner::GetTaskManagerMutex()
 {
