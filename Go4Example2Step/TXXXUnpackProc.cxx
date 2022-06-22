@@ -309,7 +309,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
-   if (inp_evt==0) {
+   if (!inp_evt) {
       TGo4Log::Error("XXXUnpackProc: no input event !");
       out_evt->SetValid(isValid); // to store or not to store
       // default calling Fill method will set validity of out_evt to return value!
@@ -380,8 +380,8 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 
 
    inp_evt->ResetIterator();
-   TGo4MbsSubEvent* psubevt(0);
-   while ((psubevt = inp_evt->NextSubEvent()) != 0) // subevent loop
+   TGo4MbsSubEvent* psubevt = nullptr;
+   while ((psubevt = inp_evt->NextSubEvent()) != nullptr) // subevent loop
    {
       if( psubevt->GetSubcrate() == 1)
       {

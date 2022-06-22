@@ -70,13 +70,13 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
 
    // see comments in UnpackProc
-   if((inp_evt==0) || !inp_evt->IsValid()){ // input invalid
-	  out_evt->SetValid(isValid); // invalid
-	  return isValid; // must be same is for SetValid
+   if(!inp_evt || !inp_evt->IsValid()){ // input invalid
+	   out_evt->SetValid(isValid); // invalid
+	   return isValid; // must be same is for SetValid
    }
    isValid=kTRUE;
 
-   Int_t cnt(0);
+   Int_t cnt = 0;
    for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++)
       out_evt->frData[cnt++] = inp_evt->fiCrate1[ii];
 

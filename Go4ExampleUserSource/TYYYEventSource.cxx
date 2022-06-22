@@ -72,7 +72,7 @@ Bool_t TYYYEventSource::CheckEventClass(TClass* cl)
 Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
 {
    TYYYRawEvent* evnt = (TYYYRawEvent*) dest;
-   if (evnt==0) return kFALSE;
+   if (!evnt) return kFALSE;
 
    char sbuf[1024], buffer[1024];
 

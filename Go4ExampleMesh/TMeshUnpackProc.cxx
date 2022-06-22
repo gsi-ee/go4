@@ -42,7 +42,7 @@ TMeshUnpackProc::~TMeshUnpackProc()
 //-----------------------------------------------------------
 void TMeshUnpackProc::Unpack(TMeshRawEvent* poutevt)
 {
-   if(poutevt==0) return;
+   if(!poutevt) return;
    // process subcomponents independently
    // note: this will run subevent loop each time, which is not performance optimized in this example
    // however, for the general case this unpacker decoupling is more suitable
@@ -56,16 +56,16 @@ void TMeshUnpackProc::Unpack(TMeshRawEvent* poutevt)
 void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
 {
    fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
-   if(fInput==0) {
+   if(!fInput) {
       TGo4Log::Error("UnpackBranch1: no input event !");
       return;
    }
 
-   Int_t index(0), value(0), lwords(0);
-   Int_t *pdata(0);
-   TGo4MbsSubEvent* psubevt(0);
+   Int_t index = 0, value = 0, lwords = 0;
+   Int_t *pdata = nullptr;
+   TGo4MbsSubEvent* psubevt = nullptr;
    fInput->ResetIterator();
-   while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
+   while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
    {
       if( psubevt->GetSubcrate() == 1)
       {
@@ -91,16 +91,16 @@ void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
 void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
 {
   fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
-  if(fInput==0) {
+  if(!fInput) {
      TGo4Log::Error("UnpackBranch2: no input event !");
      return;
   }
 
-  Int_t index(0), value(0), lwords(0);
-  Int_t *pdata(0);
-  TGo4MbsSubEvent* psubevt(0);
+  Int_t index = 0, value = 0, lwords = 0;
+  Int_t *pdata = nullptr;
+  TGo4MbsSubEvent* psubevt = nullptr;
   fInput->ResetIterator();
-  while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
+  while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
   {
      if( psubevt->GetSubcrate() == 2)
      {
@@ -125,16 +125,16 @@ void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
 void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
 {
   fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
-  if(fInput==0) {
+  if(!fInput) {
      TGo4Log::Error("UnpackBranch3: no input event !");
      return;
   }
 
-  Int_t index(0), value(0), lwords(0);
-  Int_t *pdata(0);
-  TGo4MbsSubEvent* psubevt(0);
+  Int_t index = 0, value = 0, lwords = 0;
+  Int_t *pdata = nullptr;
+  TGo4MbsSubEvent* psubevt = nullptr;
   fInput->ResetIterator();
-  while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
+  while ((psubevt = fInput->NextSubEvent()) != nullptr) // subevent loop
   {
      if( psubevt->GetSubcrate() == 3)
      {

@@ -85,7 +85,7 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    fWinConR->PrintCondition(true);
    fPolyConEmit->PrintCondition(true);
 
-   if (GetCanvas("TestCanvas2")==0) {
+   if (!GetCanvas("TestCanvas2")) {
       TCanvas* mycan = new TCanvas("TestCanvas2","Does this work2?");
       mycan->Divide(2,2);
       mycan->cd(1);
@@ -118,7 +118,7 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
 
    TYYYUnpackEvent* poutevt = (TYYYUnpackEvent*) (dest);
 
-   if ((inp==0) || (poutevt==0)) {
+   if (!inp || !poutevt) {
       TGo4Log::Error("YYYUnpackProc: events are not specified!");
       return kFALSE;
    }
