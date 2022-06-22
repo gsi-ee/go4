@@ -374,7 +374,7 @@ Int_t TGo4Analysis::MainCycle()
 
       fxObjectManager->ProcessDynamicList();
 
-      if (fbAutoSaveOn && (fiAutoSaveInterval!=0)) {
+      if (fbAutoSaveOn && (fiAutoSaveInterval != 0)) {
          fiAutoSaveCount++;
          Double_t rt = fxAutoSaveClock->RealTime();
          if (rt > (Double_t) fiAutoSaveInterval) {
@@ -552,7 +552,7 @@ Int_t TGo4Analysis::Process()
    {
       // { TGo4LockGuard global; ex.Handle(); }
 
-      if(strlen(ex.GetMessage())!=0)
+      if(strlen(ex.GetMessage()) != 0)
           Message(ex.GetPriority(), ex.GetMessage());
       if(IsErrorStopEnabled() && (ex.GetPriority() > 2)) {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop(); // only stop for errors, warnings and infos continue loop!
@@ -823,14 +823,14 @@ void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus* state)
 {
    GO4TRACE((11,"TGo4Analysis::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    fxStepManager->UpdateStatus(state);
-   if(state!=0) {
+   if(state) {
       state->SetAutoSaveInterval(fiAutoSaveInterval);
       state->SetAutoFileName(fxAutoFileName);
       state->SetAutoSaveCompression(fiAutoSaveCompression);
       state->SetAutoSaveOverwrite(fbAutoSaveOverwrite);
       state->SetAutoSaveOn(fbAutoSaveOn);
       state->SetConfigFileName(fxConfigFilename.Data());
-   } // if(state!=0)
+   }
 }
 
 void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
@@ -853,7 +853,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
 {
    GO4TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
    //
-   Bool_t rev=kFALSE;
+   Bool_t rev = kFALSE;
    TString fname = filename ? filename : fgcDEFAULTSTATUSFILENAME;
 
    // file suffix if not given by user
@@ -863,7 +863,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
    if(statusfile && statusfile->IsOpen()) {
       TGo4AnalysisStatus* state=
             dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( GetName() ) );
-      if (state==0) {
+      if (!state) {
          TIter iter(statusfile->GetListOfKeys());
          TKey* key = nullptr;
          while ((key = (TKey*)iter()) != nullptr) {
@@ -898,7 +898,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
 Bool_t TGo4Analysis::SaveStatus(const char* filename)
 {
    GO4TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
-   Bool_t rev=kFALSE;
+   Bool_t rev = kFALSE;
    char buffer[1024];
    memset(buffer, 0, sizeof(buffer));
    if(filename)
@@ -916,16 +916,16 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
          state->Write();
          delete state;
          delete statusfile;
-         rev=kTRUE;
+         rev = kTRUE;
          Message(-1,"Analysis SaveStatus: Saved Analysis settings to file %s", buffer);
       } else {
          Message(3,"Analysis SaveStatus: FAILED to create status object !!!");
-         rev=kFALSE;
+         rev = kFALSE;
       }
    } else {
       Message(3,"Analysis SaveStatus: Failed to open file %s ",
             buffer);
-      rev=kFALSE;
+      rev = kFALSE;
    }  // if(statusfile && statusfile->IsOpen())
    return rev;
 }
@@ -1740,18 +1740,16 @@ void TGo4Analysis::SetAdministratorPassword(const char* passwd)
 
 Bool_t  TGo4Analysis::EvaluateFolderpath(const char* fullname, TString& objectname, TString& foldername)
 {
-  if ((fullname==0) || (strlen(fullname)==0)) return kFALSE;
-  const char* separ = strrchr(fullname, '/');
-    if (separ!=0) {
-       objectname = separ + 1;
-       foldername.Append(fullname, separ - fullname);
+   if (!fullname || (strlen(fullname) == 0))
+      return kFALSE;
+   const char *separ = strrchr(fullname, '/');
+   if (separ) {
+      objectname = separ + 1;
+      foldername.Append(fullname, separ - fullname);
    } else
-       objectname = fullname;
-    return kTRUE;
+      objectname = fullname;
+   return kTRUE;
 }
-
-
-
 
 TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
@@ -1764,7 +1762,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
       return 0;
    }
 //   const char* separ = strrchr(fullname, '/');
-//   if (separ!=0) {
+//   if (separ) {
 //      histoname = separ + 1;
 //      foldername.Append(fullname, separ - fullname);
 //   } else
@@ -1783,7 +1781,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
 
    TH1* oldh = GetHistogram(fullname);
 
-   if (oldh!=0) {
+   if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
          if (title) oldh->SetTitle(title);
          if (xtitle) oldh->GetXaxis()->SetTitle(xtitle);
@@ -1819,7 +1817,8 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
 
    if (oldh) {
       if ((oldh->GetDimension()==1) && fbMakeWithAutosave) newh->Add(oldh);
-      delete oldh; oldh = nullptr;
+      delete oldh;
+      oldh = nullptr;
    }
 
    if (foldername.Length() > 0)
@@ -1845,9 +1844,8 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
       return nullptr;
    }
 
-
 //   const char* separ = strrchr(fullname, '/');
-//   if (separ!=0) {
+//   if (separ) {
 //      histoname = separ + 1;
 //      foldername.Append(fullname, separ - fullname);
 //   } else
@@ -1866,7 +1864,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
 
    TH1* oldh = GetHistogram(fullname);
 
-   if (oldh!=0) {
+   if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
          if (title) oldh->SetTitle(title);
          if (xtitle) oldh->GetXaxis()->SetTitle(xtitle);
@@ -1885,7 +1883,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
       oldh->SetName("___");
    }
 
-   TH2* newh = 0;
+   TH2* newh = nullptr;
 
    switch (itype) {
       case 0: newh = new TH2I(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
@@ -1926,11 +1924,11 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
 
    if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
-   if (cond!=0) {
+   if (cond) {
       if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
          cond->ResetCounts();
          return (TGo4WinCond*) cond;
@@ -1963,11 +1961,11 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
 
    if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
-   if (cond!=0) {
+   if (cond) {
       if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
          cond->ResetCounts();
          return (TGo4WinCond*) cond;
@@ -2001,12 +1999,12 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
 
    if (!EvaluateFolderpath(fullname, condname, foldername)) {
       TGo4Log::Error("Condition name not specified, can be a hard error");
-      return 0;
+      return nullptr;
    }
 
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
-   if (cond!=0) {
+   if (cond) {
       if (cond->InheritsFrom(TGo4PolyCond::Class()) && fbMakeWithAutosave) {
          cond->ResetCounts();
          return (TGo4PolyCond*) cond;
@@ -2055,194 +2053,187 @@ TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
        Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
        const char* HistoName)
 {
-    fbObjMade = kFALSE;
-     TString foldername, condname;
+   fbObjMade = kFALSE;
+   TString foldername, condname;
 
-     if (!EvaluateFolderpath(fullname, condname, foldername)) {
-        TGo4Log::Error("Condition name not specified, can be a hard error");
-        return 0;
-     }
+   if (!EvaluateFolderpath(fullname, condname, foldername)) {
+      TGo4Log::Error("Condition name not specified, can be a hard error");
+      return nullptr;
+   }
 
-     TGo4Condition* cond = GetAnalysisCondition(fullname);
+   TGo4Condition *cond = GetAnalysisCondition(fullname);
 
-     if (cond!=0) {
-        if (cond->InheritsFrom(TGo4ShapedCond::Class()) && fbMakeWithAutosave) {
-           cond->ResetCounts();
-           return (TGo4ShapedCond*) cond;
-        }
-        RemoveAnalysisCondition(fullname);
-     }
+   if (cond) {
+      if (cond->InheritsFrom(TGo4ShapedCond::Class()) && fbMakeWithAutosave) {
+         cond->ResetCounts();
+         return (TGo4ShapedCond *)cond;
+      }
+      RemoveAnalysisCondition(fullname);
+   }
 
-     TGo4ShapedCond* econd = new TGo4ShapedCond(condname);
-     econd->SetEllipse(cx,cy,a1,a2,theta,npoints);
-     econd->Enable();
-     econd->SetHistogram(HistoName);
-     if (foldername.Length() > 0)
-       AddAnalysisCondition(econd, foldername.Data());
-     else
-       AddAnalysisCondition(econd);
+   TGo4ShapedCond *econd = new TGo4ShapedCond(condname);
+   econd->SetEllipse(cx, cy, a1, a2, theta, npoints);
+   econd->Enable();
+   econd->SetHistogram(HistoName);
+   if (foldername.Length() > 0)
+      AddAnalysisCondition(econd, foldername.Data());
+   else
+      AddAnalysisCondition(econd);
 
-    fbObjMade = kTRUE;
+   fbObjMade = kTRUE;
 
-    return econd;
+   return econd;
 }
-
 
 TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char* fullname,
            Int_t npoints, Double_t cx, Double_t cy, Double_t r,
            const char* HistoName)
 {
-       TGo4ShapedCond* elli=MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
-       elli->SetCircle(); // mark "circle shape" property
-       return elli;
+   TGo4ShapedCond *elli = MakeEllipseCond(fullname, npoints, cx, cy, r, r, 0, HistoName);
+   elli->SetCircle(); // mark "circle shape" property
+   return elli;
 }
 
 TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char* HistoName)
 {
-  TGo4ShapedCond* elli=MakeEllipseCond(fullname,4,cx,cy, a1, a2, theta, HistoName);
-        elli->SetBox(); // convert to  "box shape" property
-        return elli;
+   TGo4ShapedCond *elli = MakeEllipseCond(fullname, 4, cx, cy, a1, a2, theta, HistoName);
+   elli->SetBox(); // convert to  "box shape" property
+   return elli;
 }
-
-
 
 TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
                                    Int_t npoints,
                                    Double_t (*points) [2],
                                    const char* HistoName)
 {
-  TGo4ShapedCond* elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
-  elli->SetFreeShape();
-  return elli;
+   TGo4ShapedCond* elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
+   elli->SetFreeShape();
+   return elli;
 }
 
 TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char* title, const char* HistoName)
 {
-  fbObjMade = kFALSE;
-     TString foldername, condname;
+   fbObjMade = kFALSE;
+   TString foldername, condname;
 
-     if (!EvaluateFolderpath(fullname, condname, foldername)) {
-        TGo4Log::Error("Condition name not specified, can be a hard error");
-        return 0;
-     }
+   if (!EvaluateFolderpath(fullname, condname, foldername)) {
+      TGo4Log::Error("Condition name not specified, can be a hard error");
+      return nullptr;
+   }
 
-     TGo4Condition* cond = GetAnalysisCondition(fullname);
+   TGo4Condition *cond = GetAnalysisCondition(fullname);
 
-     if (cond!=0) {
-        if (cond->InheritsFrom(TGo4ListCond::Class()) && fbMakeWithAutosave) {
-           cond->ResetCounts();
-           return (TGo4ListCond*) cond;
-        }
-        RemoveAnalysisCondition(fullname);
-     }
+   if (cond) {
+      if (cond->InheritsFrom(TGo4ListCond::Class()) && fbMakeWithAutosave) {
+         cond->ResetCounts();
+         return (TGo4ListCond *)cond;
+      }
+      RemoveAnalysisCondition(fullname);
+   }
 
-     TGo4ListCond* lcond = new TGo4ListCond(condname.Data(), title);
-     lcond->SetHistogram(HistoName);
-     lcond->Enable();
+   TGo4ListCond *lcond = new TGo4ListCond(condname.Data(), title);
+   lcond->SetHistogram(HistoName);
+   lcond->Enable();
 
-     if (foldername.Length() > 0)
-        AddAnalysisCondition(lcond, foldername.Data());
-     else
-        AddAnalysisCondition(lcond);
+   if (foldername.Length() > 0)
+      AddAnalysisCondition(lcond, foldername.Data());
+   else
+      AddAnalysisCondition(lcond);
 
-     fbObjMade = kTRUE;
+   fbObjMade = kTRUE;
 
-     return lcond;
+   return lcond;
 }
-
 
 TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName)
 {
-  TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
-  if(fbObjMade) lcond->SetValues(num,values);
-  return lcond;
+   TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+   if(fbObjMade) lcond->SetValues(num,values);
+   return lcond;
 }
 
 
 TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step,  const char* HistoName)
 {
-  TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
-  if(fbObjMade) lcond->SetValues(start,stop,step);
+   TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+   if(fbObjMade) lcond->SetValues(start,stop,step);
    return lcond;
 }
 
 
-
 TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues, Double_t* yvalues)
 {
-  fbObjMade = kFALSE;
-  TString foldername, graphname;
-  if (!EvaluateFolderpath(fullname, graphname, foldername)) {
-            TGo4Log::Error("TGraph name not specified, can be a hard error");
-            return 0;
-         }
+   fbObjMade = kFALSE;
+   TString foldername, graphname;
+   if (!EvaluateFolderpath(fullname, graphname, foldername)) {
+      TGo4Log::Error("TGraph name not specified, can be a hard error");
+      return nullptr;
+   }
 
-  TGraph* graph = dynamic_cast<TGraph*> (GetObject( fullname ) );
-  if(graph) return graph;
-  if (points==0)
-    graph = new TGraph ();
-  else
-    graph = new TGraph (points, xvalues, yvalues);
-  graph->SetName(graphname.Data());
-  graph->SetTitle(title);
+   TGraph *graph = dynamic_cast<TGraph *>(GetObject(fullname));
+   if (graph)
+      return graph;
+   if (!points)
+      graph = new TGraph();
+   else
+      graph = new TGraph(points, xvalues, yvalues);
+   graph->SetName(graphname.Data());
+   graph->SetTitle(title);
 
-  if (foldername.Length() > 0)
-    AddObject(graph, foldername.Data());
-  else
-    AddObject(graph);
+   if (foldername.Length() > 0)
+      AddObject(graph, foldername.Data());
+   else
+      AddObject(graph);
 
-  fbObjMade = kTRUE;
-  return graph;
+   fbObjMade = kTRUE;
+   return graph;
 }
 
 TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, TF1* function)
 {
-  fbObjMade = kFALSE;
-  TString foldername, graphname;
-  if (!EvaluateFolderpath(fullname, graphname, foldername))
-  {
-    TGo4Log::Error("TGraph name not specified, can be a hard error");
-    return 0;
-  }
+   fbObjMade = kFALSE;
+   TString foldername, graphname;
+   if (!EvaluateFolderpath(fullname, graphname, foldername)) {
+      TGo4Log::Error("TGraph name not specified, can be a hard error");
+      return nullptr;
+   }
 
-  TGraph* graph = dynamic_cast<TGraph*>(GetObject(fullname));
-  if (graph)
-    return graph;
-  graph = new TGraph(function);
-  graph->SetName(graphname.Data());
-  graph->SetTitle(title);
-  if (foldername.Length() > 0)
-    AddObject(graph, foldername.Data());
-  else
-    AddObject(graph);
-  fbObjMade = kTRUE;
-  return graph;
+   TGraph *graph = dynamic_cast<TGraph *>(GetObject(fullname));
+   if (graph)
+      return graph;
+   graph = new TGraph(function);
+   graph->SetName(graphname.Data());
+   graph->SetTitle(title);
+   if (foldername.Length() > 0)
+      AddObject(graph, foldername.Data());
+   else
+      AddObject(graph);
+   fbObjMade = kTRUE;
+   return graph;
 }
 
 TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
 {
-  fbObjMade = kFALSE;
-  TString foldername, graphname;
-  if (!EvaluateFolderpath(fullname, graphname, foldername))
-  {
-    TGo4Log::Error("TGraph name not specified, can be a hard error");
-    return 0;
-  }
-  TGo4RollingGraph* graph = dynamic_cast<TGo4RollingGraph*>(GetObject(fullname));
-  if (graph)
-    return graph;
-  graph = new TGo4RollingGraph(points, average);
-  graph->SetName(graphname.Data());
-  graph->SetTitle(title);
-  if (foldername.Length() > 0)
-    AddObject(graph, foldername.Data());
-  else
-    AddObject(graph);
-  fbObjMade = kTRUE;
-  return graph;
+   fbObjMade = kFALSE;
+   TString foldername, graphname;
+   if (!EvaluateFolderpath(fullname, graphname, foldername)) {
+      TGo4Log::Error("TGraph name not specified, can be a hard error");
+      return nullptr;
+   }
+   TGo4RollingGraph *graph = dynamic_cast<TGo4RollingGraph *>(GetObject(fullname));
+   if (graph)
+      return graph;
+   graph = new TGo4RollingGraph(points, average);
+   graph->SetName(graphname.Data());
+   graph->SetTitle(title);
+   if (foldername.Length() > 0)
+      AddObject(graph, foldername.Data());
+   else
+      AddObject(graph);
+   fbObjMade = kTRUE;
+   return graph;
 }
-
 
 TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
                                            const char* classname,
@@ -2251,23 +2242,23 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
    fbObjMade = kFALSE;
    TString foldername, paramname;
 
-   if ((fullname==0) || (strlen(fullname)==0)) {
+   if (!fullname || (strlen(fullname) == 0)) {
       TGo4Log::Error("Parameter name not specified, can be a hard error");
       return nullptr;
    }
-   const char* separ = strrchr(fullname, '/');
-   if (separ!=0) {
+   const char *separ = strrchr(fullname, '/');
+   if (separ) {
       paramname = separ + 1;
       foldername.Append(fullname, separ - fullname);
    } else
       paramname = fullname;
 
-   TGo4Parameter* param = GetParameter(fullname);
+   TGo4Parameter *param = GetParameter(fullname);
 
    if (param) {
       if (!param->InheritsFrom(classname)) {
-         TGo4Log::Info("There is parameter %s with type %s other than specified %s, rebuild",
-                        fullname, param->ClassName(), classname);
+         TGo4Log::Info("There is parameter %s with type %s other than specified %s, rebuild", fullname,
+                       param->ClassName(), classname);
          RemoveParameter(fullname);
          param = nullptr;
       }
@@ -2277,19 +2268,19 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
       paramname = TString("\"") + paramname + TString("\"");
 
       TString cmd;
-      if (newcmd && (strstr(newcmd,"new ")==newcmd))
+      if (newcmd && (strstr(newcmd, "new ") == newcmd))
          cmd = TString::Format(newcmd, paramname.Data());
       else
          cmd = TString::Format("new %s(%s)", classname, paramname.Data());
 
       auto res = gROOT->ProcessLineFast(cmd.Data());
 
-      if (res==0) {
+      if (res == 0) {
          TGo4Log::Error("Cannot create parameter of class %s", classname);
          return nullptr;
       }
 
-      param = (TGo4Parameter*) res;
+      param = (TGo4Parameter *)res;
 
       if (foldername.Length() > 0)
          AddParameter(param, foldername.Data());
@@ -2299,7 +2290,7 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
       fbObjMade = kTRUE;
    }
 
-   if (newcmd && (strstr(newcmd,"set_")==newcmd)) {
+   if (newcmd && (strstr(newcmd, "set_") == newcmd)) {
       // executing optional set macro
 
       ExecuteScript(newcmd);
@@ -2321,7 +2312,7 @@ Bool_t TGo4Analysis::IsSortedOrder() const
 
 Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
 {
-   if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
+   if (!macro_name || (strlen(macro_name) == 0)) return -1;
 
    // exclude arguments which could be specified with macro name
    TString file_name(macro_name);
