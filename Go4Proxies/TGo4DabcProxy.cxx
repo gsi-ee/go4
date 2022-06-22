@@ -253,7 +253,7 @@ class TGo4DabcAccess : public TGo4Access {
          if (fRawData.null())
             fRawData = cmd.GetRawData();
 
-         if (fRawData.null() || (fRawData.NumSegments()==0)) {
+         if (fRawData.null() || (fRawData.NumSegments() == 0)) {
            TGo4Log::Error("Did not get raw data from dabc::Command %s", cmd.GetName());
            return -1;
          }
@@ -272,7 +272,7 @@ class TGo4DabcAccess : public TGo4Access {
 
             // DOUT0("ITERATOR cnt %d", cnt);
 
-            if (cnt==0) return kFALSE;
+            if (cnt == 0) return kFALSE;
 
             TGraph* gr = new TGraph(cnt);
             gr->SetName(fObjName.c_str());
@@ -303,7 +303,7 @@ class TGo4DabcAccess : public TGo4Access {
 
             TGo4Slot* tgtslot = fxReceiver->GetSlot(fxRecvPath.Data());
 
-            TGo4Slot* masterslot = 0;
+            TGo4Slot* masterslot = nullptr;
 
             if (!fMasterName.empty() && tgtslot && tgtslot->GetParent())
                masterslot = tgtslot->GetParent()->FindSlot(fMasterName.c_str());
@@ -360,7 +360,7 @@ class TGo4DabcAccess : public TGo4Access {
               // Create an instance of this class
 
             char* rawbuf = nullptr;
-            Int_t rawbuflen(0);
+            Int_t rawbuflen = 0;
 
             if (fCompression) {
 
@@ -513,7 +513,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       Bool_t next() override
       {
-         if (fParent.NumChilds()==0) return kFALSE;
+         if (fParent.NumChilds() == 0) return kFALSE;
 
          if (fChild.null()) {
             fCnt = 0;
@@ -530,11 +530,11 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return !fChild.null();
       }
 
-      Bool_t isfolder() override { return fChild.NumChilds()>0; }
+      Bool_t isfolder() override { return fChild.NumChilds() > 0; }
 
       Int_t getflag(const char* flagname) override
       {
-         if (strcmp(flagname,"IsRemote")==0) return 1;
+         if (strcmp(flagname,"IsRemote") == 0) return 1;
          return -1;
       }
 
@@ -634,9 +634,8 @@ Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
 
       if (buf.null()) return kFALSE;
 
-      if (fxHierarchy==0) {
+      if (!fxHierarchy)
          fxHierarchy = new dabc::Hierarchy();
-      }
 
       dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
       hierarchy.Release();
@@ -721,7 +720,7 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 
-   return hierarchy.null() ? 0 : new TGo4DabcLevelIter(hierarchy);
+   return hierarchy.null() ? nullptr : new TGo4DabcLevelIter(hierarchy);
 }
 
 void TGo4DabcProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)

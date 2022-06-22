@@ -19,13 +19,13 @@
 
 TGo4TreeStructure::TGo4TreeStructure() :
    TGo4Status(),
-   fxTopFolder(0)
+   fxTopFolder(nullptr)
 {
 }
 
 TGo4TreeStructure::TGo4TreeStructure(const char* name) :
    TGo4Status(name),
-   fxTopFolder(0)
+   fxTopFolder(nullptr)
 {
    GO4TRACE((15,"TGo4TreeStructure::TGo4TreeStructure(const char*)",__LINE__, __FILE__));
 }
@@ -38,12 +38,12 @@ TGo4TreeStructure::~TGo4TreeStructure()
 
 TList* TGo4TreeStructure::GetFolderList()
 {
-   return (fxTopFolder==0) ? 0 : dynamic_cast<TList*> (fxTopFolder->GetListOfFolders());
+   return !fxTopFolder ? nullptr : dynamic_cast<TList*> (fxTopFolder->GetListOfFolders());
 }
 
 TFolder* TGo4TreeStructure::GetNamesFolder(Bool_t chown)
 {
-   TFolder* reval=fxTopFolder;
-   if(chown) fxTopFolder=0;
+   TFolder* reval = fxTopFolder;
+   if(chown) fxTopFolder = nullptr;
    return reval;
 }

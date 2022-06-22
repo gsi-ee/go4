@@ -164,7 +164,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
          else
          {
             // we received something, proceed
-         } // end if(revchar==0)
+         }
 
          if(!strcmp(revchar,TGo4TaskHandler::Get_fgcOK()) )
          {
@@ -173,7 +173,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
          else if(!strcmp(revchar,TGo4TaskHandler::Get_fgcERROR()))
             // client signals any kind of error with last command
          {
-            // client signals any kind of error ==0with last command
+            // client signals any kind of error == 0 with last command
             TGo4Log::Debug(" CommandRunnable ''%s'' received command error string!!!",GetName());
          }
          else

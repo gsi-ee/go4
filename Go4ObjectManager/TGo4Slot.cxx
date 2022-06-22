@@ -188,12 +188,12 @@ Bool_t TGo4Slot::IsParent(const TGo4Slot* slot) const
 void TGo4Slot::DeleteChild(const char* name)
 {
    TGo4Slot* child = FindChild(name);
-   if (child==0) return;
+   if (!child) return;
 
    if (!child->DoingDelete())
       delete child;
 
-   if ((NumChilds()==0) && fChilds) {
+   if ((NumChilds() == 0) && fChilds) {
       delete fChilds;
       fChilds = nullptr;
    }
@@ -201,15 +201,15 @@ void TGo4Slot::DeleteChild(const char* name)
 
 void TGo4Slot::DeleteChilds(const char* startedwith)
 {
-   UInt_t len = startedwith==0 ? 0 : strlen(startedwith);
+   UInt_t len = !startedwith ? 0 : strlen(startedwith);
 
    for(Int_t n = NumChilds()-1; n>=0; n--) {
       TGo4Slot* child = GetChild(n);
-      if (child==0) continue;
+      if (!child) continue;
 
-      Bool_t flag = (len==0) ||
+      Bool_t flag = (len == 0) ||
           ((len<strlen(child->GetName())) &&
-           (strncmp(child->GetName(), startedwith, len)==0));
+           (strncmp(child->GetName(), startedwith, len) == 0));
 
       if (!flag) continue;
 
@@ -217,9 +217,9 @@ void TGo4Slot::DeleteChilds(const char* startedwith)
          delete child;
    }
 
-   if ((fChilds!=0) && (NumChilds()==0)) {
+   if (fChilds && (NumChilds() == 0)) {
       delete fChilds;
-      fChilds = 0;
+      fChilds = nullptr;
    }
 }
 
@@ -227,7 +227,7 @@ Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 {
    if (!child) return -1;
    for(int n=0;n<NumChilds();n++)
-     if (GetChild(n)==child) return n;
+     if (GetChild(n) == child) return n;
    return -1;
 }
 
@@ -437,7 +437,7 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
    for(int n=0;n<num;n++) {
       TGo4Slot* slot = GetChild(n);
       const char* slotname = slot->GetName();
-      if ((strlen(slotname)==ulen) && (strncmp(slotname, name, len)==0)) return slot;
+      if ((strlen(slotname)==ulen) && (strncmp(slotname, name, len) == 0)) return slot;
    }
 
    return nullptr;

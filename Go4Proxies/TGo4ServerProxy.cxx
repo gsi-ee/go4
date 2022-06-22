@@ -57,7 +57,7 @@ class TGo4Prefs {
          while (!f.eof()) {
 
            f.getline(formatstring, sizeof(formatstring), '\n' );
-           if ((f.gcount()==0) || (strlen(formatstring)==0)) continue;
+           if ((f.gcount() == 0) || (strlen(formatstring) == 0)) continue;
 
            const char* sbuf = formatstring;
 
@@ -174,7 +174,7 @@ class TGo4Prefs {
       std::string GetOpt(const char* prefix)
       {
          const char* opt = GetPar(prefix);
-         if (opt==0) return std::string("");
+         if (!opt) return std::string("");
          std::string res = opt;
          ReplacePars(res);
          ReplaceEnvPars(res);
@@ -206,7 +206,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    if (!name || (strlen(name) == 0)) name = "UserAnalysis";
    if (!serverhost || (strlen(serverhost) == 0)) serverhost = "localhost";
 
-   if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
+   if (!gSystem->Getenv("GO4OLDLAUNCH")) {
       TGo4Prefs prefs(remotehost);
 
       const char* shellname = "exec";
@@ -229,19 +229,19 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("guigo4sys", go4sys, false);
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
-      prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
+      prefs.SetPar(exe_kind == 0 ? "exename" : "libname", remoteexe, false);
 
-      if ((exe_kind==1) && exeargs && (strlen(exeargs) > 0))
+      if ((exe_kind == 1) && exeargs && (strlen(exeargs) > 0))
          prefs.SetPar("userargs", exeargs, false);
       else
          prefs.SetPar("userargs", "", false);
 
       const char* termname = "qtwindow";
-      if (konsole==2) termname = "xterm"; else
-      if (konsole==3) termname = "konsole";
+      if (konsole == 2) termname = "xterm"; else
+      if (konsole == 3) termname = "konsole";
 
       // no need to change into local directory with exec and qtwinow - it happens automatically
-      if ((shellkind==0) && (konsole==1))
+      if ((shellkind == 0) && (konsole == 1))
          prefs.SetPar("cd_workdir", "");
 
       std::string executable;
@@ -269,7 +269,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
          prefs.SetPar("killexename", runname ? runname+1 : remoteexe, false);
       }
 
-      std::string initcmd = prefs.GetOpt(shellkind==0 ? "execinitcmd" : "shellinitcmd");
+      std::string initcmd = prefs.GetOpt(shellkind == 0 ? "execinitcmd" : "shellinitcmd");
       prefs.SetPar("initcmd", initcmd.c_str());
 
       std::string progcmd = prefs.GetOpt((serverkind>0) ? ((serverkind==2) ? "httpcmd" : "servercmd") : "clientcmd");

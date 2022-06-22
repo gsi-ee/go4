@@ -116,7 +116,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
             if (!fIsKeyIter) {
                TKey* key = fDir->FindKey(fCurrent->GetName());
                if (key)
-                 if (strcmp(fCurrent->ClassName(), key->GetClassName())==0) donext = kTRUE;
+                 if (strcmp(fCurrent->ClassName(), key->GetClassName()) == 0) donext = kTRUE;
             }
          }
          return fCurrent!=0;

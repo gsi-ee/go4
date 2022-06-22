@@ -132,17 +132,17 @@ void TGo4Log::ProcessRedirection(int kind)
       int len = read(fgStdPipe[0], buffer, sizeof(buffer)-1); /* read from pipe into buffer */
 
       // when nothing to read, than nothing to redirect
-      if (len==0) return;
+      if (len == 0) return;
 
       dup2(fgStdSave, STDOUT_FILENO);  /* reconnect stdout for realoutput */
 
       printf("%s", buffer);
       fflush(stdout);
 
-      if (fgSniffer!=0) fgSniffer->SetTitle(buffer);
+      if (fgSniffer) fgSniffer->SetTitle(buffer);
    }
 
-   if (kind<=0) {
+   if (kind <= 0) {
       dup2(fgStdPipe[1], STDOUT_FILENO); // redirect again
    }
 
@@ -159,9 +159,9 @@ const char* TGo4Log::GO4SYS()
    if (fgsGO4SYS.Length()>0) return fgsGO4SYS.Data();
    const char* go4sys = gSystem->Getenv("GO4SYS");
 #ifdef COMP_GO4SYS
-   if ((go4sys==0) || (strlen(go4sys)==0)) go4sys = COMP_GO4SYS;
+   if (!go4sys || (strlen(go4sys) == 0)) go4sys = COMP_GO4SYS;
 #endif
-   if ((go4sys==0) || (strlen(go4sys)==0)) return "";
+   if (!go4sys || (strlen(go4sys) == 0)) return "";
 
    fgsGO4SYS = go4sys;
    if (fgsGO4SYS.Length() > 0) {
@@ -191,7 +191,7 @@ TString TGo4Log::subGO4SYS(const char* subdir)
 {
    const char* go4sys = GO4SYS();
 
-   if (!subdir || (strlen(subdir)==0)) return TString(go4sys);
+   if (!subdir || (strlen(subdir) == 0)) return TString(go4sys);
 
    TString res = go4sys;
 
@@ -424,7 +424,7 @@ void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t ap
 void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
 {
    //TGo4LockGuard(fxMutex);
-   if((text==0) || !fgbLogfileEnabled || (fgxLogfile==0)) return;
+   if(!text || !fgbLogfileEnabled || !fgxLogfile) return;
    try {
       std::ofstream *lf = static_cast<std::ofstream*>(fgxLogfile);
       if (lf->is_open()) {
@@ -448,12 +448,12 @@ void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
 void TGo4Log::CloseLogfile()
 {
    //TGo4LockGuard(fxMutex);
-   if(fgxLogfile!=0)
+   if(fgxLogfile)
    {
       try
       {
          delete (std::ofstream*)fgxLogfile;
-         fgxLogfile=0;
+         fgxLogfile = nullptr;
       }
       catch(std::exception& ex) // treat standard library exceptions
       {
