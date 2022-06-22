@@ -648,12 +648,12 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    if (IsItemRemote(treename)) {
       TString objname;
       TGo4ServerProxy* an = DefineAnalysisObject(treename, objname);
-      if (an!=0) {
+      if (an) {
          TString analhname(hname);
 
          Int_t cnt = 0;
          TString anitem = "abcdef";
-         if (analhname.Length()==0)
+         if (analhname.IsNull())
            while (anitem.Length()>0) {
               analhname = "hTreeDraw";
               if (cnt>0) { analhname+="_"; analhname+=cnt; }
@@ -675,7 +675,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    TString treeslotname;
    DataSlotName(treename, treeslotname);
    TTree* SelectedTree = dynamic_cast<TTree*> (fxOM->GetObject(treeslotname.Data()));
-   if (SelectedTree==0) return;
+   if (!SelectedTree) return;
 
    TString histoname(hname), hslotname;
    BrowserSlotName(hname, hslotname);
@@ -693,7 +693,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    // find non used entry in memory subfolder
    int cnt = 0;
-   if (!histo && (histoname.Length()==0))
+   if (!histo && histoname.IsNull())
      do {
        histoname = fxMemoryPath;
        histoname += "/hTreeDraw_";
@@ -766,7 +766,7 @@ TGo4Slot* TGo4BrowserProxy::FindServerSlot(Bool_t databranch, Int_t kind)
       break;
    }
 
-   if ((res!=0) && !databranch) {
+   if (res && !databranch) {
       TString itemname;
       res->ProduceFullName(itemname, dataslot);
       res = BrowserSlot(itemname.Data());
@@ -835,30 +835,30 @@ TString TGo4BrowserProxy::FindItem(const char* objname)
 TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
 {
    TGo4Slot* slot = DataSlot(itemname);
-   if (slot==0) return 0;
+   if (!slot) return nullptr;
 
-   while (slot!=0) {
+   while (slot) {
       TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (slot->GetProxy());
-      if (pr!=0) return pr;
+      if (pr) return pr;
       slot = slot->GetParent();
    }
 
-   return 0;
+   return nullptr;
 }
 
 TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TString* objname, Bool_t onlyanalysis)
 {
    TString slotname;
    DataSlotName(itemname, slotname);
-   const char* objectname = 0;
+   const char* objectname = nullptr;
 
    TGo4Slot* servslot = fxOM->FindSlot(slotname.Data(), &objectname);
 
-   TGo4ServerProxy* serv = servslot==0 ? 0 :
+   TGo4ServerProxy* serv = !servslot ? nullptr :
       dynamic_cast<TGo4ServerProxy*>(servslot->GetProxy());
-   if (serv==0) return 0;
+   if (!serv) return nullptr;
    if (onlyanalysis && !serv->IsGo4Analysis()) return 0;
-   if (objname!=0) *objname = objectname;
+   if (objname) *objname = objectname;
    return serv;
 }
 
@@ -875,8 +875,8 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
    if (!obj) obj = GetBrowserObject(itemname, 0);
    if (!obj) return kFALSE;
 
-   const char* analysisname = 0;
-   TGo4Slot* anslot = 0;
+   const char* analysisname = nullptr;
+   TGo4Slot* anslot = nullptr;
    TString slotname;
 
    if (IsItemRemote(itemname)) {
@@ -885,7 +885,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
    }
 
    if (!anslot) {
-      analysisname = 0;
+      analysisname = nullptr;
       anslot = FindServerSlot(kTRUE, 1);
    }
 
@@ -896,7 +896,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
 {
    TGo4Slot* itemslot = ItemSlot(itemname);
-   if (itemslot==0) return;
+   if (!itemslot) return;
 
    if (ItemKind(itemslot)==TGo4Access::kndObject)
       RequestBrowserObject(itemslot, wait_time);
@@ -926,17 +926,17 @@ TObject* TGo4BrowserProxy::GetBrowserObject(const char* name, int update)
 //        2 - update of object in any case
 //    >=100 - update object in any case and wait for specified time in millisec
 {
-   if ((name==0) || (fxBrowserSlot==0) || (fxOM==0)) return 0;
+   if (!name || !fxBrowserSlot || !fxOM) return nullptr;
 
    TString src, tgt;
    BrowserSlotName(name, tgt);
    TGo4Slot* guislot = fxOM->GetSlot(tgt.Data());
 
-   if (guislot==0) return 0;
+   if (!guislot) return nullptr;
 
    TObject* obj = guislot->GetAssignedObject();
 
-   if ((update==0) || ((update==1) && (obj!=0))) return obj;
+   if ((update==0) || ((update==1) && obj)) return obj;
 
    if (guislot->IsParent(BrowserMemorySlot())) return obj;
 
@@ -955,13 +955,13 @@ void TGo4BrowserProxy::SetItemsFilter(Int_t filter)
 
 void TGo4BrowserProxy::InformBrowserUpdate()
 {
-   if (fxBrowserSlot!=0)
+   if (fxBrowserSlot)
      fxBrowserSlot->ForwardEvent(fxBrowserSlot, TGo4Slot::evObjUpdated);
 }
 
 Bool_t TGo4BrowserProxy::DeleteDataSource(TGo4Slot* itemslot)
 {
-   if ((itemslot==0) || (fxBrowserSlot==0) || (fxOM==0)) return kFALSE;
+   if (!itemslot || !fxBrowserSlot || !fxOM) return kFALSE;
 
    Int_t cando = ItemCanDo(itemslot);
 
@@ -969,7 +969,7 @@ Bool_t TGo4BrowserProxy::DeleteDataSource(TGo4Slot* itemslot)
 
    if (!ismemoryitem && !CanCloseItem(cando) && !IsCanDelete(itemslot)) return kFALSE;
 
-   if (itemslot->GetPar("::CopyObject")!=0) {
+   if (itemslot->GetPar("::CopyObject") != nullptr) {
       delete itemslot;
       InformBrowserUpdate();
    } else {
@@ -983,7 +983,7 @@ Bool_t TGo4BrowserProxy::DeleteDataSource(TGo4Slot* itemslot)
 
 void TGo4BrowserProxy::DoItemMonitor(TGo4Slot* slot)
 {
-   if ((slot==0) || (!slot->IsParent(fxBrowserSlot))) return;
+   if (!slot || !slot->IsParent(fxBrowserSlot)) return;
 
    slot->Update(kFALSE);
 }
@@ -1007,15 +1007,15 @@ Bool_t TGo4BrowserProxy::DefineTreeName(const char* itemname, TString& treename)
    TString slotname;
    BrowserSlotName(itemname, slotname);
    TGo4Slot* slot = fxOM->GetSlot(slotname.Data());
-   if (slot==0) return kFALSE;
+   if (!slot) return kFALSE;
 
    TGo4Slot* treeslot = slot;
-   while (treeslot!=0) {
+   while (treeslot) {
       TClass* cl = ItemClass(treeslot);
-      if ((cl!=0) && (cl->InheritsFrom(TTree::Class()))) break;
+      if (cl && cl->InheritsFrom(TTree::Class())) break;
       treeslot = treeslot->GetParent();
    }
-   if (treeslot==0) return kFALSE;
+   if (!treeslot) return kFALSE;
 
    treeslot->ProduceFullName(treename, fxBrowserSlot);
 
@@ -1024,7 +1024,7 @@ Bool_t TGo4BrowserProxy::DefineTreeName(const char* itemname, TString& treename)
 
 Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treename, TString& leafname)
 {
-   if ((itemname==0) || (treename==0)) return kFALSE;
+   if (!itemname || !treename) return kFALSE;
 
    TString slotname;
    BrowserSlotName(itemname, slotname);
@@ -1045,16 +1045,16 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treena
 
 Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* objname, TString& objectitem, Int_t mask)
 {
-   if ((objname==0) || (*objname==0)) return kFALSE;
+   if (!objname || (*objname==0)) return kFALSE;
 
-   if (BrowserSlot(objname)!=0) {
+   if (BrowserSlot(objname)) {
       objectitem = objname;
       return kTRUE;
    }
 
    TGo4Slot* picslot = BrowserSlot(itemname);
 
-   if (picslot!=0) {
+   if (picslot) {
       TGo4Slot* searchslot = picslot->GetParent();
 
       while ((searchslot!=0) && (searchslot!=fxBrowserSlot)) {
@@ -1067,12 +1067,12 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
          BrowserSlotName(searchname.Data(), fullname);
 
          TGo4Slot* slot = fxOM->GetSlot(searchname.Data());
-         if (slot==0) {
+         if (!slot) {
             searchname.Append(";1");
             slot = fxOM->GetSlot(searchname.Data());
          }
 
-         if (slot!=0) {
+         if (slot) {
             objectitem = searchname;
             return kTRUE;
          }
@@ -1091,9 +1091,9 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
       // first slash should be always there - any source should provide first level by default
       const char *slash = strchr(objname, '/');
 
-      while (slash != 0) {
+      while (slash) {
          slash = strchr(slash+1, '/');
-         if (slash == 0) break;
+         if (!slash) break;
 
          TString diritem;
          if (!DefineRelatedObject(itemname, TString(objname, slash-objname).Data(), diritem, 0)) break;

@@ -53,46 +53,31 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
    GO4TRACE((12,"TGo4ComAddTreeHistogram::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli)
-      {
-        TGo4Analysis* ana = TGo4Analysis::Instance();
-//         TGo4Log::Debug(" !!! %s executing: adding tree histogram entry %s ",
-//            GetName(),fxHistoName.GetName());
-         if(ana)
-            {
-               TString histo = fxHistoName;
-               if (histo.Length()==0) histo = "hTreeDraw";
-               Bool_t result= ana->AddTreeHistogram(histo.Data(),
-                                 fxTreeName.Data(),
-                                 fxVarexp.Data(),
-                                 fxCut.Data());
-               if(result)
-                  {
-                     cli->SendStatusMessage(1,kTRUE,TString::Format(
-                           "Added Dynamic histogram %s for tree %s.",
-                           fxHistoName.Data(),fxTreeName.Data()));
-                  }
-               else
-                  {
-                      cli->SendStatusMessage(2,kTRUE,TString::Format(
-                            "Could not add Dynamic histogram %s for tree %s !!!",
-                            fxHistoName.Data(),fxTreeName.Data()));
-                  }
-            }// if ana
-         else
-            {
-                 cli->SendStatusMessage(3, kTRUE,TString::Format(
-                       " %s ERROR no analysis ",GetName()));
-
-            }
-      } // if cli
-   else
-      {
-         GO4TRACE((11,"TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComAddTreeHistogram ''%s'': NO RECEIVER ERROR!!!",GetName());
-
-         return 1;
+   if (cli) {
+      TGo4Analysis *ana = TGo4Analysis::Instance();
+      if (ana) {
+         TString histo = fxHistoName;
+         if (histo.IsNull())
+            histo = "hTreeDraw";
+         Bool_t result = ana->AddTreeHistogram(histo.Data(), fxTreeName.Data(), fxVarexp.Data(), fxCut.Data());
+         if (result) {
+            cli->SendStatusMessage(
+               1, kTRUE,
+               TString::Format("Added Dynamic histogram %s for tree %s.", fxHistoName.Data(), fxTreeName.Data()));
+         } else {
+            cli->SendStatusMessage(2, kTRUE,
+                                   TString::Format("Could not add Dynamic histogram %s for tree %s !!!",
+                                                   fxHistoName.Data(), fxTreeName.Data()));
+         }
+      } else {
+         cli->SendStatusMessage(3, kTRUE, TString::Format(" %s ERROR no analysis ", GetName()));
       }
+   } else {
+      GO4TRACE((11, "TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!", __LINE__, __FILE__));
+      TGo4Log::Debug(" !!! ComAddTreeHistogram ''%s'': NO RECEIVER ERROR!!!", GetName());
+
+      return 1;
+   }
 
    return -1;
 }

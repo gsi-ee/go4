@@ -98,15 +98,15 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract* Fitter) {
            if (cmd.Index("result",6,0,TString::kIgnoreCase) == 0) {
               cmd.Remove(0,6);
               while ((cmd.Length()>0) && (cmd[0]==' ')) cmd.Remove(0,1);
-              if (cmd.Length()==0) cmd = "1000";
-              if (cmd.Length()<4) { std::cerr << "invalid result command syntax" << std::endl; break; }
+              if (cmd.IsNull()) cmd = "1000";
+              if (cmd.Length() < 4) { std::cerr << "invalid result command syntax" << std::endl; break; }
               Bool_t getpar  = (cmd[0]=='1');
               Bool_t geterr  = (cmd[1]=='1');
               Bool_t getmatr = (cmd[2]=='1');
               Bool_t getcontr = (cmd[3]=='1');
               cmd.Remove(0,4);
               while ((cmd.Length()>0) && (cmd[0]==' ')) cmd.Remove(0,1);
-              if (cmd.Length()==0) cmd = "Result";
+              if (cmd.IsNull()) cmd = "Result";
 
               TGo4FitMinuitResult *res = new TGo4FitMinuitResult(cmd,"TMinuit result object");
               fxResults.Add(res);

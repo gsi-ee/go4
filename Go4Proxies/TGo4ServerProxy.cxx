@@ -66,7 +66,7 @@ class TGo4Prefs {
               if (*sbuf=='#') break;
 
               const char* separ = strchr(sbuf, ':');
-              if (separ==0) break;
+              if (!separ) break;
 
               std::string name(sbuf, separ-sbuf);
 
@@ -75,16 +75,16 @@ class TGo4Prefs {
                  std::string subname(name, 0, pos);
                  std::string mask(name, pos+1);
 
-                 if ((subname.length()==0) || (mask.length()==0)) break;
+                 if (subname.empty() || mask.empty()) break;
 
                  const char* subvalue = GetPar(subname.c_str());
 
-                 if (subvalue==0) break;
+                 if (!subvalue) break;
 
                  // if mask didnot match, ignore string
                  // check mask with regular expression
                  TRegexp re(mask.c_str(), kTRUE);
-                 Int_t len(0);
+                 Int_t len = 0;
                  if (re.Index(subvalue, &len)!=0) break;
                  if (len != (Int_t) strlen(subvalue)) break;
 

@@ -1006,7 +1006,7 @@ int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int&
 void TGo4ConfigStep::GetMbsFileSource(QString& TagFile)
 {
    TagFile = LineEditTagfile->text();
-//   if (TagFile.length()==0) TagFile = TGo4MbsFile__fgcNOTAGFILE;
+//   if (TagFile.isEmpty()) TagFile = TGo4MbsFile__fgcNOTAGFILE;
 }
 
 void TGo4ConfigStep::GetUserSource(int& port, QString& expr)

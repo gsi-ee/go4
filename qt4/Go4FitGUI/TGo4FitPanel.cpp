@@ -2740,7 +2740,7 @@ void TGo4FitPanel::Wiz_FitFuncCmb_activated( int typ)
 void TGo4FitPanel::Wiz_FitNameEdt_textChanged( const QString & name)
 {
   TGo4Fitter* fitter = GetFitter();
-  if(fbFillingWidget || (fitter==0) || (name.length()==0)) return;
+  if(fbFillingWidget || !fitter || name.isEmpty()) return;
   fitter->SetName(name.toLatin1().constData());
 
   fiWizPageIndex = 0;
@@ -2753,7 +2753,7 @@ void TGo4FitPanel::Wiz_FitNameEdt_textChanged( const QString & name)
 
 void TGo4FitPanel::Wiz_ParTable_valueChanged( int nrow, int ncol)
 {
-  ParsTableChanged(Wiz_ParTable, nrow, ncol, false, fxWizPars, true);
+   ParsTableChanged(Wiz_ParTable, nrow, ncol, false, fxWizPars, true);
 }
 
 
@@ -2761,7 +2761,7 @@ void TGo4FitPanel::Wiz_DataList_doubleClicked(QListWidgetItem*)
 {
   TGo4Fitter* fitter = GetFitter();
   TGo4FitData* data = Wiz_SelectedData();
-  if ((data==0) || (fitter==0)) return;
+  if (!data || !fitter) return;
   bool ok;
   QString newname = QInputDialog::getText(this, "Change data name", "Input new name", QLineEdit::Normal, data->GetName(), &ok);
   if (ok && (newname.length()>0) && (newname!=data->GetName())) {
@@ -3280,8 +3280,8 @@ void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, boo
                table->item(nrow, 5)->setText(QString::number(max));
              fbFillingWidget = false;
            } else {
-             if ((table->item(nrow, ncol)->text().length()==0) &&
-                 (table->item(nrow, 9-ncol)->text().length()==0)) {
+             if (table->item(nrow, ncol)->text().isEmpty() &&
+                 table->item(nrow, 9-ncol)->text().isEmpty()) {
                     par->ClearRange();
                     range_changed = true;
                  }

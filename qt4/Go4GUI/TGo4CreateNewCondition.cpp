@@ -34,16 +34,16 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 {
    QByteArray ba = CondName->text().toLatin1();
 
-   if (ba.length()==0) return 0;
+   if (ba.isEmpty()) return nullptr;
 
    const char* cname = ba.constData();
    int arrsize = ArraySizeSpin->value();
    int ctype = ClassnameCombo->currentIndex();
 
-   TGo4Condition* cond = 0;
+   TGo4Condition* cond = nullptr;
 
    if (arrsize>1 && ctype!=3) {
-       TGo4CondArray* arr = 0;
+       TGo4CondArray* arr = nullptr;
        if (ctype==2) {
           arr = new TGo4CondArray(cname, arrsize, "TGo4PolyCond");
           for (int n=0;n<arrsize;n++) {

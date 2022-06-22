@@ -553,7 +553,7 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char* histotype,
 
    TString htype(histotype);
    htype.ToUpper();
-   if (htype.Length()==0) htype = "I";
+   if (htype.IsNull()) htype = "I";
    TClass* cl = nullptr;
 
    switch (htype[0]) {
@@ -599,7 +599,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
       const char* ytitle) {
    TString htype(histotype);
    htype.ToUpper();
-   if (htype.Length()==0) htype = "I";
+   if (htype.IsNull()) htype = "I";
 
    TClass* cl = nullptr;
 
