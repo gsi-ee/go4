@@ -83,7 +83,7 @@ TGo4FitSlot* TGo4FitData::GetAxisTransSlot(Int_t nslot)
 TGo4FitAxisTrans* TGo4FitData::GetAxisTrans(Int_t nslot)
 {
    TGo4FitSlot* slot = GetAxisTransSlot(nslot);
-   return (slot==0) ? 0 : dynamic_cast<TGo4FitAxisTrans*> (slot->GetObject());
+   return !slot ? nullptr : dynamic_cast<TGo4FitAxisTrans*> (slot->GetObject());
 }
 
 void TGo4FitData::SetAxisTrans(Int_t nslot, TGo4FitAxisTrans *Trans, Bool_t TransOwned)

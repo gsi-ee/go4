@@ -382,8 +382,8 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
   Int_t numuse = 0;
   for (Int_t n=0;n<NumSlots();n++) {
      TGo4FitSlot* slot = GetSlot(n);
-     if (slot==0) return 0;
-     if (slot->GetObject()==0)
+     if (slot==0) return nullptr;
+     if (!slot->GetObject())
        if (slot->IsRequired() || !OnlyRequired) use[numuse++] = n;
   }
 
