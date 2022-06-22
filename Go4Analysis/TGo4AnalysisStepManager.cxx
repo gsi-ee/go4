@@ -537,5 +537,5 @@ Int_t TGo4AnalysisStepManager::IsErrorStopEnabled()
 {
    return kTRUE; // FIXME: workaround, to be removed later!!! JA
 
-   // return (fxCurrentStep!=0) ? fxCurrentStep->IsErrorStopEnabled() : kTRUE;
+   // return fxCurrentStep ? fxCurrentStep->IsErrorStopEnabled() : kTRUE;
 }

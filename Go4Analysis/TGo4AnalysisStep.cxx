@@ -106,7 +106,7 @@ void TGo4AnalysisStep::Process()
    TGo4EventElement* input = nullptr;
    fiProcessStatus = 0;
    ////////// source part:
-   if (fbSourceEnabled && (fxEventSource!=0)) {
+   if (fbSourceEnabled && fxEventSource) {
       // fill input event from own source
       fxInputEvent->SetEventSource(fxEventSource);
       if(!fxEventProcessor->IsKeepInputEvent())
@@ -123,7 +123,7 @@ void TGo4AnalysisStep::Process()
 
    //fxEventProcessor->SetKeepInputEvent(kFALSE); // automatic reset of keep input flags before processor execution
 
-   if(fxOutputEvent!=0) {
+   if(fxOutputEvent) {
       fxOutputEvent->SetEventSource(fxEventProcessor);
       if(fxEventProcessor->IsKeepOutputEvent()) fxOutputEvent->SetKeepContents(kTRUE); // suppress inplicit Clear()
       //fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
@@ -131,12 +131,12 @@ void TGo4AnalysisStep::Process()
       fxOutputEvent->Fill(); // this calls processor build event
 
       fxOwner->SetOutputEvent(fxOutputEvent);
-      if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid() && !fxEventProcessor->IsKeepOutputEvent())
+      if(fbStoreEnabled && fxEventStore && fxOutputEvent->IsValid() && !fxEventProcessor->IsKeepOutputEvent())
          fxEventStore->Store(fxOutputEvent);
    } else {
       SetStatusMessage("! AnalysisStep -- Process Error: no output event !");
       throw TGo4AnalysisStepException(this);
-   } // end if(fxOutputEvent!=0)
+   }
 }
 
 void TGo4AnalysisStep::Close()
@@ -290,19 +290,19 @@ void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
          if(fxPrevious) {
             // check if previous step would overwrite our event source:
             const char* evstorename=fxPrevious->GetEventStoreName();
-            if(evstorename!=0 && !strcmp(evstorename, sourcename) && fxPrevious->IsStoreEnabled()) {
+            if(evstorename && !strcmp(evstorename, sourcename) && fxPrevious->IsStoreEnabled()) {
                TGo4Analysis::Instance()->Message(2,"AnalysisStep %s: Event source %s not created: previous store of same name !",
                      GetName(), sourcename);
-               fxEventSource=0;
+               fxEventSource = nullptr;
             } else {
-               fxEventSource=fxEventFactory->CreateEventSource(kind);
+               fxEventSource = fxEventFactory->CreateEventSource(kind);
             } // if(evstorename!= ... )
          } else {
             fxEventSource=fxEventFactory->CreateEventSource(kind);
          } // if(fxPrevious)
          gROOT->cd(); // back to global directory; rootfile as eventsource would be cd here!
       } else {
-         fxEventSource=0;// if not enabled, do not open files or connect...
+         fxEventSource = nullptr;// if not enabled, do not open files or connect...
       } // if(fbSourceEnabled)
 
       if(fxEventSource) {
@@ -444,7 +444,7 @@ void TGo4AnalysisStep::NewOutputEvent()
 void TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus * state)
 {
    GO4TRACE((11,"TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus*)",__LINE__, __FILE__));
-   if(state!=0) {
+   if(state) {
       SetEventProcessor(state->GetProcessorPar());
       SetEventSource(state->GetSourcePar());
       SetEventStore(state->GetStorePar());
@@ -464,7 +464,7 @@ void TGo4AnalysisStep::SetEventProcessor(TGo4EventProcessorParameter* kind)
    if(kind)
        fxProcessorType=dynamic_cast<TGo4EventProcessorParameter*>(kind->Clone());
    else
-       fxProcessorType=0;
+       fxProcessorType=nullptr;
 }
 
 void TGo4AnalysisStep::SetEventSource(TGo4EventSourceParameter* kind)
@@ -474,12 +474,12 @@ void TGo4AnalysisStep::SetEventSource(TGo4EventSourceParameter* kind)
    if(kind)
        fxSourceType=dynamic_cast<TGo4EventSourceParameter*>(kind->Clone());
    else
-       fxSourceType=0;
+       fxSourceType=nullptr;
 }
 
 Bool_t TGo4AnalysisStep::IsEventSourceParam() const
 {
-   return fxSourceType!=0;
+   return fxSourceType != nullptr;
 }
 
 void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
@@ -487,9 +487,9 @@ void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
    if(kind==fxStoreType) return; // avoid deleting valid parameter
    if(fxStoreType) delete fxStoreType;
    if(kind)
-       fxStoreType=dynamic_cast<TGo4EventStoreParameter*>(kind->Clone());
+       fxStoreType = dynamic_cast<TGo4EventStoreParameter*>(kind->Clone());
    else
-       fxStoreType=0;
+       fxStoreType = nullptr;
    if(fxStoreType)
          fxStoreType->SetTitle(GetName());
          // set title of eventstore parameter to analysis step name
@@ -498,5 +498,5 @@ void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
 
 Bool_t TGo4AnalysisStep::IsEventStoreParam() const
 {
-   return fxStoreType!=0;
+   return fxStoreType != nullptr;
 }

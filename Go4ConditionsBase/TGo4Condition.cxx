@@ -719,15 +719,15 @@ void TGo4Condition::ResetLabel(Option_t* opt)
 
 void TGo4Condition::DeletePainter()
 {
-   if (fxPainter!=0) {
+   if (fxPainter) {
       delete fxPainter;
-      fxPainter = 0;
+      fxPainter = nullptr;
    }
 }
 
 const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Option_t* opt, const char* arrextraargs)
 {
-   Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
+   Bool_t savemacro = opt && strstr(opt,"savemacro");
    Bool_t saveprefix = savemacro;
 
    const char* subname = strstr(opt, "name:");

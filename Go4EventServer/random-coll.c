@@ -321,7 +321,7 @@ if (A <= 5)
    a= A-f;
    g= (int) f;
 
-   if( a!=0)
+   if(a != 0)
    {
    inva= 1/a;
    b= 1.0 + a/EXP;

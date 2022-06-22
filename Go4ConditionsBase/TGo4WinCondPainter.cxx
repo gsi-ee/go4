@@ -82,7 +82,7 @@ void TGo4WinCondPainter::PaintCondition(Option_t* opt)
       }
 
       // if(!fxBox || !boxinpad)
-      // user might have deleted box from pad by mouse even if fxBox!=0
+      // user might have deleted box from pad by mouse even if fxBox != nullptr
       // JAM 2016: this is a memory leak! for each condition update we get new condition view
       // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
       if (!fxBox) {

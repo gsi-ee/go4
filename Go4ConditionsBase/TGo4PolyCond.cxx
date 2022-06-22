@@ -37,29 +37,27 @@ TString TGo4PolyCond::NextAvailableName()
    Int_t cnt = 0;
    do {
       res.Form("CutG_%d",cnt++);
-   } while (gROOT->GetListOfSpecials()->FindObject(res)!=0);
+   } while (gROOT->GetListOfSpecials()->FindObject(res));
    return res;
 }
 
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond() :
    TGo4Condition(),
-   fxCut(0),
-   fxCutHis(0)
+   fxCut(nullptr),
+   fxCutHis(nullptr)
 {
    SetDimension(2);
    //SetBit(kCanDelete, kFALSE);
-   //std::cout <<"TGo4PolyCond default ctor, this="<<(long) this <<", threadid="<< (long) pthread_self()<<std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
    TGo4Condition(name,title),
-   fxCut(0),
-   fxCutHis(0)
+   fxCut(nullptr),
+   fxCutHis(nullptr)
 {
    SetDimension(2);
    //SetBit(kCanDelete, kFALSE);
-   //std::cout <<"TGo4PolyCond ctor of name:"<< name<< ", this="<<(long) this << std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::~TGo4PolyCond()
@@ -94,7 +92,7 @@ void TGo4PolyCond::ClearCutHis()
 // ----------------------------------------------------------
 Double_t TGo4PolyCond::GetXLow()
 {
-   if(!fxCut) return 0;
+   if(!fxCut) return 0.;
    Int_t n = fxCut->GetN();
    Double_t* xarr = fxCut->GetX();
    fxCut->SetBit(kMustCleanup,0);
@@ -104,7 +102,7 @@ Double_t TGo4PolyCond::GetXLow()
 
 Double_t TGo4PolyCond::GetXUp()
 {
-   if(!fxCut) return 0;
+   if(!fxCut) return 0.;
    Int_t n=fxCut->GetN();
    Double_t* xarr=fxCut->GetX();
    Int_t nxmax=TMath::LocMax(n,xarr);
@@ -122,7 +120,7 @@ Double_t TGo4PolyCond::GetYLow()
 
 Double_t TGo4PolyCond::GetYUp()
 {
-   if(!fxCut) return 0;
+   if(!fxCut) return 0.;
    Int_t n=fxCut->GetN();
    Double_t* yarr=fxCut->GetY();
    Int_t nymax=TMath::LocMax(n,yarr);

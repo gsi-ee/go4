@@ -189,7 +189,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          Int_t point=0;
          for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
          {
-            if(fiLinesChannel[ix]!=0)
+            if(fiLinesChannel[ix] != 0)
             {
                fxCalibCurve->SetPoint(point,
                      fiLinesChannel[ix],

@@ -223,13 +223,13 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
      case 2:
         if(evvalid[0] && evvalid[1]) {
            TH2* his2 = dynamic_cast<TH2*>(fxHistogram);
-           if(his2!=0) his2->Fill(dat[0],dat[1]);
+           if(his2) his2->Fill(dat[0],dat[1]);
         }
         break;
      case 3:
         if(evvalid[0] && evvalid[1] && evvalid[2]) {
            TH3* his3 = dynamic_cast<TH3*>(fxHistogram);
-           if(his3!=0) his3->Fill(dat[0],dat[1],dat[2]);
+           if(his3) his3->Fill(dat[0],dat[1],dat[2]);
         }
         break;
      default:
@@ -242,9 +242,9 @@ void TGo4HistogramEntry::RecursiveRemove(TObject* obj)
 {
    if (!obj) return;
 
-   if(fxHistogram==obj) Reset();
+   if(fxHistogram == obj) Reset();
 
-   if(fxCondition==obj) Reset();
+   if(fxCondition == obj) Reset();
 
    for (Int_t n=0;n<__MAXCONDIM__;n++)
      if (fxConEvents[n]==obj) Reset();
