@@ -342,7 +342,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
    } else if(w == (QWidget*)FitList->viewport()) {
       QPoint pnt = FitList->viewport()->mapFrom(this, pos);
       QFitItem* item = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
-      if ((item==0) || (item->ObjectType()!=FitGui::ot_slot)) return;
+      if (!item || (item->ObjectType()!=FitGui::ot_slot)) return;
 
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*>(item->Object());
       if (slot==0) return;
@@ -1425,7 +1425,7 @@ void TGo4FitPanel::Cmd_RemoveRangeCondition(QFitItem* item)
 
 void TGo4FitPanel::Cmd_RemoveRangeConditions(QFitItem* item)
 {
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_rangelist)) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_rangelist)) return;
 
    if(fbNeedConfirmation)
        if ( QMessageBox::information(0,
@@ -1441,19 +1441,19 @@ void TGo4FitPanel::Cmd_RemoveRangeConditions(QFitItem* item)
 
 void TGo4FitPanel::Cmd_AddRangeCondition(QFitItem* item, int id)
 {
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_rangelist)) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_rangelist)) return;
 
-   TGo4FitData* data = 0;
+   TGo4FitData* data = nullptr;
 
-   if (item->Object()->InheritsFrom(TGo4FitData::Class()))
+   if (item->Object()->InheritsFrom(TGo4FitData::Class())) {
      data = dynamic_cast<TGo4FitData*> (item->Object());
-   else {
+   } else {
      TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (item->Object());
      TGo4Fitter* fitter = GetFitter();
-     if ((model!=0) && (fitter!=0))
+     if (model && fitter)
         for (Int_t n=0;n<model->NumAssigments();n++) {
           data = fitter->FindData(model->AssignmentName(n));
-          if (data!=0) break;
+          if (data) break;
         }
 
    }
@@ -1497,7 +1497,7 @@ void TGo4FitPanel::Cmd_AddRangeCondition(QFitItem* item, int id)
 
 void TGo4FitPanel::Cmd_DeleteAction(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (item->Object());
    TGo4Fitter* fitter = GetFitter();
 
@@ -1515,7 +1515,7 @@ void TGo4FitPanel::Cmd_DeleteAction(QFitItem* item)
 
 void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
 {
-   if ((item==0) || (item->Parent()==0)) return;
+   if (!item || (item->Parent()==0)) return;
 
    TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (item->Object());
    TGo4Fitter* fitter = GetFitter();
@@ -1533,7 +1533,7 @@ void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
 void TGo4FitPanel::Cmd_ExecuteAction(QFitItem* item)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((item==0) || !fitter) return;
+   if (!item || !fitter) return;
 
    TGo4FitterAction* action = dynamic_cast<TGo4FitterAction*> (item->Object());
    if (action==0) return;
@@ -1550,7 +1550,7 @@ void TGo4FitPanel::Cmd_ExecuteActions(QFitItem* item, bool expert)
 {
    TGo4Fitter* fitter = GetFitter();
 
-   if ((item==0) || !fitter) return;
+   if (!item || !fitter) return;
 
    fitter->MemorizePars();
 
@@ -1565,7 +1565,7 @@ void TGo4FitPanel::Cmd_ExecuteActions(QFitItem* item, bool expert)
 void TGo4FitPanel::Cmd_DeleteOutputActions(QFitItem* item)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
 
    if(fbNeedConfirmation)
      if ( QMessageBox::information(0,
@@ -1580,7 +1580,7 @@ void TGo4FitPanel::Cmd_DeleteOutputActions(QFitItem* item)
 void TGo4FitPanel::Cmd_DeleteActions(QFitItem* item)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
 
    if(fbNeedConfirmation)
      if ( QMessageBox::information(0,
@@ -1595,7 +1595,7 @@ void TGo4FitPanel::Cmd_DeleteActions(QFitItem* item)
 void TGo4FitPanel::Cmd_AddNewAction(QFitItem* item, int id)
 {
    TGo4Fitter* fitter = GetFitter();
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
 
    switch(id) {
      case 0: fitter->AddAction(new TGo4FitterConfig("Config","Fitter configuration")); break;
@@ -1609,7 +1609,7 @@ void TGo4FitPanel::Cmd_AddNewAction(QFitItem* item, int id)
 
 void TGo4FitPanel::Cmd_DeleteDependency(QFitItem* item)
 {
-   if ((item==0) || (item->ObjectType()!=FitGui::ot_depend)) return;
+   if (!item || (item->ObjectType()!=FitGui::ot_depend)) return;
 
    TGo4FitDependency* depen = dynamic_cast<TGo4FitDependency*> (item->Object());
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Parent()->Object());
@@ -1631,7 +1631,7 @@ void TGo4FitPanel::Cmd_DeleteDependency(QFitItem* item)
 
 void TGo4FitPanel::Cmd_DeleteDependencies(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Object());
    if(lst==0) return;
 
@@ -1648,7 +1648,7 @@ void TGo4FitPanel::Cmd_DeleteDependencies(QFitItem* item)
 
 void TGo4FitPanel::Cmd_AddDependency(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
 
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Object());
    if(lst==0) return;
@@ -1663,7 +1663,7 @@ void TGo4FitPanel::Cmd_AddDependency(QFitItem* item)
 
 void TGo4FitPanel::Cmd_MemorizePars(QFitItem* item)
 {
-  if (item==0) return;
+  if (!item) return;
 
   TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
   if (pars==0) return;
@@ -1673,7 +1673,7 @@ void TGo4FitPanel::Cmd_MemorizePars(QFitItem* item)
 
 void TGo4FitPanel::Cmd_RememberPars(QFitItem* item)
 {
-  if (item==0) return;
+  if (!item) return;
 
   TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
   if (pars==0) return;
@@ -1687,7 +1687,7 @@ void TGo4FitPanel::Cmd_RememberPars(QFitItem* item)
 
 void TGo4FitPanel::Cmd_DeletePars(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
    if (pars==0) return;
 
@@ -1704,7 +1704,7 @@ void TGo4FitPanel::Cmd_DeletePars(QFitItem* item)
 
 void TGo4FitPanel::Cmd_MemorizePar(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
    if (par==0) return;
 
@@ -1713,7 +1713,7 @@ void TGo4FitPanel::Cmd_MemorizePar(QFitItem* item)
 
 void TGo4FitPanel::Cmd_RememberPar(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
    if (par==0) return;
 
@@ -1726,7 +1726,7 @@ void TGo4FitPanel::Cmd_RememberPar(QFitItem* item)
 
 void TGo4FitPanel::Cmd_AddNewPar(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
 
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
    if (pars==0) return;
@@ -1743,7 +1743,7 @@ void TGo4FitPanel::Cmd_AddNewPar(QFitItem* item)
 
 void TGo4FitPanel::Cmd_DeletePar(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
 
    TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (item->Object());
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Parent()->Object());
@@ -1762,7 +1762,7 @@ void TGo4FitPanel::Cmd_DeletePar(QFitItem* item)
 
 void TGo4FitPanel::Cmd_DeleteMinuitResult(QFitItem* item)
 {
-   if (item==0) return;
+   if (!item) return;
 
    TGo4FitMinuitResult* res = dynamic_cast<TGo4FitMinuitResult*> (item->Object());
    TGo4FitMinuit* minuit = dynamic_cast<TGo4FitMinuit*> (item->Parent()->Object());
@@ -1782,7 +1782,7 @@ void TGo4FitPanel::Cmd_DeleteMinuitResult(QFitItem* item)
 
 void TGo4FitPanel::Cmd_UpdateAllSlots(QFitItem* item)
 {
-  if (item==0) return;
+  if (!item) return;
 
   UpdateObjectReferenceInSlots();
 
@@ -1797,7 +1797,7 @@ void TGo4FitPanel::Cmd_UpdateAllSlots(QFitItem* item)
 void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
 {
    QFitItem* fititem = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
-   if (fititem==0) return;
+   if (!fititem) return;
 
    QSignalMapper map(this);
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
@@ -1817,7 +1817,7 @@ void TGo4FitPanel::FitList_currentItemChanged(QTreeWidgetItem* curr, QTreeWidget
    if (fbFillingWidget) return;
 
    QFitItem* fititem = dynamic_cast<QFitItem*> (curr);
-   if (fititem==0) return;
+   if (!fititem) return;
 
    ShowItem(fititem, false);
    fxCurrentItem = fititem;
@@ -1910,7 +1910,7 @@ void TGo4FitPanel::UpdateItemMenu()
 
   if (showitem) {
     QFitItem* item = dynamic_cast<QFitItem*> (FitList->currentItem());
-    if ((item==0) || (item->ObjectType()==FitGui::ot_fitter)) showitem = false; else
+    if (!item || (item->ObjectType()==FitGui::ot_fitter)) showitem = false; else
        itemtext = item->text(0);
   }
 
@@ -2008,15 +2008,15 @@ void TGo4FitPanel::AboutToShowFitterMenu()
    if (fiPanelMode==FitGui::pm_Expert)
      AddIdAction(FitterMenu, FitterMap, "&Create for workspace", 1, true);
    AddIdAction(FitterMenu, FitterMap, QString("Create &for ")+padname, 2, (panel!=nullptr));
-   AddIdAction(FitterMenu, FitterMap, "&Delete", 3, (fitter!=0));
+   AddIdAction(FitterMenu, FitterMap, "&Delete", 3, (fitter != nullptr));
    FitterMenu->addSeparator();
 
-   AddIdAction(FitterMenu, FitterMap, "Save to &browser", 21, (fitter!=0));
+   AddIdAction(FitterMenu, FitterMap, "Save to &browser", 21, (fitter != nullptr));
    if (fiPanelMode==FitGui::pm_Expert)
       AddIdAction(FitterMenu, FitterMap, "&Workspace", 23, WorkingWithPanel());
-   AddIdAction(FitterMenu, FitterMap, "&Update references", 24, (fitter!=0));
-   AddIdAction(FitterMenu, FitterMap, "&Print parameters", 25, (fitter!=0) && fbParsWidgetShown);
-   AddIdAction(FitterMenu, FitterMap, "&Rollback parameters", 26, (fitter!=0) && fitter->CanRollbackPars());
+   AddIdAction(FitterMenu, FitterMap, "&Update references", 24, (fitter != nullptr));
+   AddIdAction(FitterMenu, FitterMap, "&Print parameters", 25, (fitter != nullptr) && fbParsWidgetShown);
+   AddIdAction(FitterMenu, FitterMap, "&Rollback parameters", 26, (fitter != nullptr) && fitter->CanRollbackPars());
 
    FitterMenu->addSeparator();
 
@@ -2041,7 +2041,7 @@ void TGo4FitPanel::FitterMenuItemSelected(int id)
 void TGo4FitPanel::AboutToShowItemMenu()
 {
   QFitItem* item = dynamic_cast<QFitItem*> (FitList->currentItem());
-  if ((ItemMenu==0) || (item==0)) return;
+  if (!ItemMenu || !item) return;
   ItemMenu->clear();
   FillPopupForItem(item, ItemMenu, ItemMap);
 }
@@ -2049,8 +2049,8 @@ void TGo4FitPanel::AboutToShowItemMenu()
 void TGo4FitPanel::ItemMenuItemSelected(int id)
 {
    QFitItem* item = CurrFitItem;
-   if (item==0) item = dynamic_cast<QFitItem*> (FitList->currentItem());
-   if (item==0) return;
+   if (!item) item = dynamic_cast<QFitItem*> (FitList->currentItem());
+   if (!item) return;
 
    switch(id) {
      case   1: Cmd_DeleteFitter(); break;
@@ -2283,17 +2283,17 @@ void TGo4FitPanel::UpdateWizDataBtns()
    TGo4Fitter* fitter = GetFitter();
    TGo4FitData* data = Wiz_SelectedData();
 
-   Wiz_PFSetupBtn->setEnabled(data!=0);
+   Wiz_PFSetupBtn->setEnabled(data != nullptr);
 
    if (!WorkingWithPanel()) {
      Wiz_RebuildDataBtn->setVisible(false);
      Wiz_AddDataBtn->setVisible(true);
      Wiz_DelDataBtn->setVisible(true);
-     Wiz_AddDataBtn->setEnabled(fitter!=0);
-     Wiz_DelDataBtn->setEnabled(data!=0);
+     Wiz_AddDataBtn->setEnabled(fitter != nullptr);
+     Wiz_DelDataBtn->setEnabled(data != nullptr);
    } else {
      Wiz_RebuildDataBtn->setVisible(true);
-     Wiz_RebuildDataBtn->setEnabled(fitter!=0);
+     Wiz_RebuildDataBtn->setEnabled(fitter != nullptr);
      Wiz_AddDataBtn->setVisible(false);
      Wiz_DelDataBtn->setVisible(false);
    }
@@ -2309,7 +2309,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
 
     Wiz_ShowAllMod->setChecked(fbWizShowAllModels);
     int selindx = -1;
-    if(fitter!=0) {
+    if(fitter) {
        TGo4FitData* data = Wiz_SelectedData();
        int indx = 0;
        for(Int_t n=0;n<fitter->GetNumModel();n++) {
@@ -2340,7 +2340,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
     }
 
     if (changestack) {
-      if (selindx>=0) {
+      if (selindx >= 0) {
          fiWizPageIndex = 1;
       } else if (fiWizPageIndex==1) {
          fiWizPageIndex = 0;
@@ -2364,8 +2364,8 @@ void TGo4FitPanel::UpdateWizModelsBtns()
 
    if (fitter) {
       Wiz_AddModelBtn->setEnabled(true);
-      Wiz_DelModelBtn->setEnabled(model!=0);
-      Wiz_CloneModelBtn->setEnabled(model!=0);
+      Wiz_DelModelBtn->setEnabled(model != nullptr);
+      Wiz_CloneModelBtn->setEnabled(model != nullptr);
       Wiz_ShowAllMod->setEnabled(true);
    } else {
       Wiz_AddModelBtn->setEnabled(false);
@@ -2384,7 +2384,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
     if (!fitter) fiWizPageIndex = -1;
               else indx = fiWizPageIndex;
 
-    QWidget* target = 0;
+    QWidget* target = nullptr;
 
     switch (indx) {
        case -1:
@@ -2492,10 +2492,10 @@ void TGo4FitPanel::UpdateWizStackWidget()
 
          Wiz_DataSlotsTable->resizeColumnsToContents ();
 
-         Wiz_DataUseRangeBtn->setEnabled(FindPadWhereData(data)!=0);
-         if (data!=0)
-           Wiz_DataClearRangesBtn->setEnabled(data->IsAnyRangeLimits());
-         Wiz_DrawDataBtn->setEnabled(data!=0);
+         Wiz_DataUseRangeBtn->setEnabled(FindPadWhereData(data) != nullptr);
+         if (data)
+            Wiz_DataClearRangesBtn->setEnabled(data->IsAnyRangeLimits());
+         Wiz_DrawDataBtn->setEnabled(data != nullptr);
 
          break;
       }
@@ -2503,7 +2503,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
          target = Wiz_PFPage;
 
          TGo4FitPeakFinder* finder = GetPeakFinder(true);
-         if (finder==0) break;
+         if (!finder) break;
 
          UpdateStatusBar();
 
@@ -2548,7 +2548,7 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
     TGo4FitModel* model = Wiz_SelectedModel();
     TGo4FitData* data = Wiz_SelectedData();
 
-    if ((fitter!=0) && (data!=0) && (fiPaintMode==1)) {
+    if (fitter && data && (fiPaintMode==1)) {
         TPad* pad = FindPadWhereData(data);
 
         if (PaintModelsFor(fitter, data, 0, false))
@@ -2556,10 +2556,10 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
              PaintRange(data, n, pad, 0);
    }
 
-   if ((fitter!=0) && (model!=0) && (fiPaintMode==2)) {
+   if (fitter && model && (fiPaintMode == 2)) {
       for(Int_t n=0;n<model->NumAssigments();n++) {
          data = fitter->FindData(model->AssignmentName(n));
-         if ((data!=0) &&  !data->IsAnyDataTransform()) {
+         if (data &&  !data->IsAnyDataTransform()) {
             TPad* pad = FindPadWhereData(data);
             PaintModel(model, pad, 0);
          }
@@ -2569,7 +2569,7 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
 
 void TGo4FitPanel::Wiz_DataListSelect(QListWidgetItem* item)
 {
-   if (fbFillingWidget || (item==0)) return;
+   if (fbFillingWidget || !item) return;
    QString name = item->text();
 
    if ((name==fxWizDataName) && (fiWizPageIndex == 2)) return;
@@ -2583,7 +2583,7 @@ void TGo4FitPanel::Wiz_DataListSelect(QListWidgetItem* item)
 
 void TGo4FitPanel::Wiz_ModelListSelect(QListWidgetItem* item)
 {
-  if (fbFillingWidget || (item==0)) return;
+  if (fbFillingWidget || !item) return;
 
   QString name = item->text();
 
@@ -2595,7 +2595,7 @@ void TGo4FitPanel::Wiz_ModelListSelect(QListWidgetItem* item)
   TGo4Fitter* fitter = GetFitter();
   TGo4FitModel* model = Wiz_SelectedModel();
   TGo4FitData* data = Wiz_SelectedData();
-  if ((fitter!=0) && (data!=0) && (model!=0)) {
+  if (fitter && data && model) {
      bool wasassigned = model->IsAssignTo(data->GetName());
      bool isassigned = (item->checkState() == Qt::Checked);
 
@@ -2815,7 +2815,7 @@ void TGo4FitPanel::Wiz_ModelList_itemChanged(QListWidgetItem* item)
    TGo4Fitter* fitter = GetFitter();
    TGo4FitModel* model = Wiz_SelectedModel();
    TGo4FitData* data = Wiz_SelectedData();
-   if ((fitter!=0) && (data!=0) && (model!=0)) {
+   if (fitter && data && model) {
       bool wasassigned = model->IsAssignTo(data->GetName());
 
       if (wasassigned!=checked) {
@@ -2895,7 +2895,7 @@ void TGo4FitPanel::Wiz_DataClearRangesBtn_clicked()
 {
   if (fbFillingWidget) return;
   TGo4FitData* data = Wiz_SelectedData();
-  if (data!=0) {
+  if (data) {
      data->ClearRanges();
      UpdateActivePage();
   }
@@ -3059,13 +3059,13 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
            TGo4FitData* data = Wiz_SelectedData();
            switch (fiIntegralMode) {
               case 1:
-                 if (data!=0)
+                 if (data)
                    v = fitter->CalculatesIntegral(data->GetName(), m->GetName(), kTRUE);
                  else
                    v = fitter->CalculatesModelIntegral(m->GetName(), kTRUE);
                  break;
               case 2:
-                 if (data!=0)
+                 if (data)
                    v = fitter->CalculatesIntegral(data->GetName(), m->GetName(), kFALSE);
                  else
                    v = fitter->CalculatesModelIntegral(m->GetName(), kFALSE);
@@ -3564,7 +3564,7 @@ void TGo4FitPanel::RemovePrimitives()
 
 bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map)
 {
-  if((item==0) || (menu==0)) return false;
+  if(!item || !menu) return false;
 
   if(item->PopupMenuType() == FitGui::mt_empty) {
     AddIdAction(menu, map, "Create empty fitter", 8);
@@ -3574,14 +3574,13 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
 
   if(item->PopupMenuType() == FitGui::mt_fitter) {
      AddIdAction(menu, map,"Delete fitter", 1);
-    AddIdAction(menu, map,"Clear fitter", 2);
-    AddIdAction(menu, map,"Save fitter", 3);
-    AddIdAction(menu, map,"Save fitter as ...", 4);
-    AddIdAction(menu, map,"Print ...", 5);
-    AddIdAction(menu, map,"Draw", 6);
-    AddIdAction(menu, map,"Memorize parameters", 706);
-    AddIdAction(menu, map,"Remember parameters", 707);
-
+     AddIdAction(menu, map,"Clear fitter", 2);
+     AddIdAction(menu, map,"Save fitter", 3);
+     AddIdAction(menu, map,"Save fitter as ...", 4);
+     AddIdAction(menu, map,"Print ...", 5);
+     AddIdAction(menu, map,"Draw", 6);
+     AddIdAction(menu, map,"Memorize parameters", 706);
+     AddIdAction(menu, map,"Remember parameters", 707);
   }
 
   if(item->PopupMenuType() == FitGui::mt_data) {
@@ -3825,7 +3824,7 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id
 
 void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 {
-  if (item==0) return;
+  if (!item) return;
 
   if (fxCurrentItem!=0)
       if (fxCurrentItem->FindInParents(item)) RemoveItemWidget();
@@ -3994,8 +3993,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 
   if (trace && (item->Object()!=0)) {
     QFitItem* topitem = GetFitterItem();
-    if (topitem==0) return;
-
+    if (!topitem) return;
 
     QTreeWidgetItemIterator iter(topitem);
 
@@ -4011,7 +4009,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 
 void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
 {
-  if (item==0) return;
+  if (!item) return;
   QString text;
   if (item->Object()) text = item->Object()->GetName();
   switch (item->ObjectType()) {
@@ -4082,9 +4080,9 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
 
   item->setText(0, text);
 
-  if (trace && (item->Object()!=0)) {
+  if (trace && item->Object()) {
     QFitItem* topitem = GetFitterItem();
-    if (topitem==0) return;
+    if (!topitem) return;
 
     QTreeWidgetItemIterator iter(topitem);
 
@@ -4101,9 +4099,9 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
 
 void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
 {
-   if (parent==0) parent = GetFitterItem();
+   if (!parent) parent = GetFitterItem();
 
-   if (parent==0) {
+   if (!parent) {
       std::cout << "Did not found " << std::endl;
       return;
    }
@@ -4119,25 +4117,25 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
 
 QFitItem* TGo4FitPanel::GetFitterItem()
 {
-  QFitItem* item = dynamic_cast<QFitItem*> (FitList->topLevelItem(0));
-  if (item && (item->ObjectType()==FitGui::ot_fitter)) return item;
-  return 0;
+   QFitItem* item = dynamic_cast<QFitItem*> (FitList->topLevelItem(0));
+   if (item && (item->ObjectType()==FitGui::ot_fitter)) return item;
+   return nullptr;
 }
 
 QFitItem* TGo4FitPanel::FindItem(TObject* obj, int ObjectType, QFitItem* parent)
 {
-   if (parent==0) parent = GetFitterItem();
+   if (!parent) parent = GetFitterItem();
 
    QTreeWidgetItemIterator iter(parent);
 
    while (*iter) {
       QFitItem* item = dynamic_cast<QFitItem*> (*iter);
-      if (item!=0)
-        if ((obj==0) || (item->Object()==obj))
+      if (item)
+        if (!obj || (item->Object() == obj))
           if ((ObjectType==FitGui::ot_none) || (ObjectType==item->ObjectType())) return item;
       ++iter;
    }
-   return 0;
+   return nullptr;
 }
 
 bool TGo4FitPanel::ShowItem(QFitItem* item, bool force)
@@ -4161,18 +4159,18 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
   QFitItem* widgetitem = item->DefineWidgetItem();
 
   QFitWidget* oldwidget = dynamic_cast<QFitWidget*> (fxCurrentItemWidget);
-  if ((oldwidget!=0) && (oldwidget->GetItem()==widgetitem)) {
+  if (oldwidget && (oldwidget->GetItem() == widgetitem)) {
     oldwidget->FillWidget();
     return true;
   }
 
    RemoveItemWidget();
 
-   QFitWidget* widget = 0;
+   QFitWidget* widget = nullptr;
 
-   if (widgetitem==0) return true;
+   if (!widgetitem) return true;
 
-   QWidget* owner = 0;
+   QWidget* owner = nullptr;
 
    switch(widgetitem->WidgetType()) {
      case FitGui::wt_par: widget = new QFitParWidget(owner,"Parameter"); break;
@@ -4213,11 +4211,11 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
 
 bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 {
-   if (item==0) return false;
+   if (!item) return false;
 
    QFitItem* gritem = item->DefineGraphItem();
 
-   if (gritem==0) return false;
+   if (!gritem) return false;
 
    TGo4Fitter* fitter = GetFitter();
    if (!fitter) return false;
