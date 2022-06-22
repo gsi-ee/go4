@@ -271,7 +271,7 @@ void TGo4MBSViewer::Refresh()
 
    if(fxDaqStat.bh_running[SYS__stream_serv])
    {
-      fxServerLabel = QString("streamserver %1%2").arg((int)(fxDaqStat.bl_strsrv_scale!=0 ? 100/fxDaqStat.bl_strsrv_scale : 0)).arg("%");
+      fxServerLabel = QString("streamserver %1%2").arg((int)(fxDaqStat.bl_strsrv_scale != 0 ? 100/fxDaqStat.bl_strsrv_scale : 0)).arg("%");
 
       if(fbIsMonitoring)
       {
@@ -298,9 +298,9 @@ void TGo4MBSViewer::Refresh()
          fiCalcedServDataRate=fxDaqStat.bl_r_strserv_kbytes;
          fiDataDelta=0;
       }
-      //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-      //int curentratio=(fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-      fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
+      //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      //int curentratio=(fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      fiEvRatio= (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
       //std::cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<< std::endl;
    }
    else if(fxDaqStat.bh_running[SYS__event_serv])
@@ -309,7 +309,7 @@ void TGo4MBSViewer::Refresh()
 
       fxServerLabel = QString("eventserver %1 %2%3")
             .arg(fxDaqStat.bh_event_serv_ready ? "R" : "S")
-            .arg((int)(fxDaqStat.bl_evtsrv_scale!=0 ? 100/fxDaqStat.bl_evtsrv_scale : 0)).arg("%");
+            .arg((int)(fxDaqStat.bl_evtsrv_scale != 0 ? 100/fxDaqStat.bl_evtsrv_scale : 0)).arg("%");
       if(fbIsMonitoring)
       {
          // own rate calculation for monitoring on:
@@ -320,8 +320,8 @@ void TGo4MBSViewer::Refresh()
          }
          else
          {
-            fiServDataDelta=0;
-            fiCalcedServDataRate=0;
+            fiServDataDelta = 0;
+            fiCalcedServDataRate = 0;
          }
          fiLastServDataNum=fxDaqStat.bl_n_evserv_kbytes;
       }
@@ -331,8 +331,8 @@ void TGo4MBSViewer::Refresh()
          fiCalcedServDataRate=fxDaqStat.bl_r_evserv_kbytes;
          fiDataDelta=0;
       }
-      //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-      fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
+      //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      fiEvRatio= (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
 
    }
    else
@@ -354,19 +354,16 @@ void TGo4MBSViewer::Refresh()
    //f_ut_seg_show (&fxDaqStat,0,0,0);
 }
 
-
 void TGo4MBSViewer::NodeEditEnter()
 {
    Refresh();
 }
 
 
-
 void TGo4MBSViewer::NodeChanged( const QString & txt )
 {
    fxNode = txt.trimmed();
 }
-
 
 void TGo4MBSViewer::ShowStatus()
 {
@@ -424,8 +421,8 @@ void TGo4MBSViewer::PrintState()
    else if(fbGetSetML)
    {
       // request setup multilayer if selected
-      int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupML);
-      if(state!=0)
+      int state = f_mbs_ml_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupML);
+      if(state != 0)
       {
          fxMessage = QString("MBS Setup ML refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
          fbWarningState = true;
@@ -436,8 +433,8 @@ void TGo4MBSViewer::PrintState()
    else if(fbGetSetMO)
    {
       // request setup MO if selected
-      int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupMO);
-      if(state!=0)
+      int state = f_mbs_mo_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupMO);
+      if(state != 0)
       {
          fxMessage = QString("MBS Setup MO refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
          fbWarningState = true;

@@ -111,9 +111,9 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          ZStyle->setEnabled(ndim>1);
          AutoScaleBox->setChecked(padopt->IsAutoScale());
 
-         LineColor->setEnabled(dynamic_cast<TAttLine*>(obj)!=0);
-         FillColor->setEnabled(dynamic_cast<TAttFill*>(obj)!=0);
-         MarkerColor->setEnabled(dynamic_cast<TAttMarker*>(obj)!=0);
+         LineColor->setEnabled(dynamic_cast<TAttLine*>(obj) != nullptr);
+         FillColor->setEnabled(dynamic_cast<TAttFill*>(obj) != nullptr);
+         MarkerColor->setEnabled(dynamic_cast<TAttMarker*>(obj) != nullptr);
 
          fbSettingPanelData = false;
 

@@ -105,14 +105,14 @@ void TGo4AnalysisConfiguration::ResetWidget()
 {
    QGo4Widget::ResetWidget();
 
-   QWidget* w = 0;
+   QWidget* w = nullptr;
    do {
      w = TabSteps->currentWidget();
-     if (w!=0) {
+     if (w) {
         TabSteps->removeTab(TabSteps->indexOf(w));
         delete w;
      }
-   } while (w!=0);
+   } while (w);
 }
 
 void TGo4AnalysisConfiguration::RefreshWidget()

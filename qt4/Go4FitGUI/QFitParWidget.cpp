@@ -64,7 +64,7 @@ void QFitParWidget::FillSpecificData()
 
 void QFitParWidget::ValueEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && (GetPar()!=0)) {
+  if(!fbFillWidget && GetPar()) {
      bool ok;
      double zn = value.toDouble(&ok);
      if(ok) {
@@ -76,7 +76,7 @@ void QFitParWidget::ValueEdt_textChanged( const QString & value)
 
 void QFitParWidget::ErrorEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && (GetPar()!=0)) {
+  if(!fbFillWidget && GetPar()) {
      bool ok;
      double zn = value.toDouble(&ok);
      if(ok) GetPar()->SetError(zn);
@@ -85,7 +85,7 @@ void QFitParWidget::ErrorEdt_textChanged( const QString & value)
 
 void QFitParWidget::RangeMinEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && (GetPar()!=0)) {
+  if(!fbFillWidget && GetPar()) {
      bool ok;
      double zn = value.toDouble(&ok);
      if(ok) GetPar()->ChangeRangeMin(zn);
@@ -95,7 +95,7 @@ void QFitParWidget::RangeMinEdt_textChanged( const QString & value)
 
 void QFitParWidget::RangeMaxEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && (GetPar()!=0)) {
+  if(!fbFillWidget && GetPar()) {
      bool ok;
      double zn = value.toDouble(&ok);
      if(ok) GetPar()->ChangeRangeMax(zn);
@@ -105,7 +105,7 @@ void QFitParWidget::RangeMaxEdt_textChanged( const QString & value)
 
 void QFitParWidget::EpsilonEdt_textChanged( const QString & value)
 {
-  if(!fbFillWidget && (GetPar()!=0)) {
+  if(!fbFillWidget && GetPar()) {
      bool ok;
      double zn = value.toDouble(&ok);
      if(ok) GetPar()->ChangeEpsilon(zn);
@@ -114,13 +114,13 @@ void QFitParWidget::EpsilonEdt_textChanged( const QString & value)
 
 void QFitParWidget::FixedChk_toggled( bool zn)
 {
-  if(!fbFillWidget && (GetPar()!=0))
+  if(!fbFillWidget && GetPar())
     GetPar()->SetFixed(zn);
 }
 
 void QFitParWidget::RangeChk_toggled( bool zn)
 {
-   if(!fbFillWidget && (GetPar()!=0)) {
+   if(!fbFillWidget && GetPar()) {
       RangeMinEdt->setEnabled(zn);
       RangeMaxEdt->setEnabled(zn);
       GetPar()->SetRangeUse(zn);
@@ -129,7 +129,7 @@ void QFitParWidget::RangeChk_toggled( bool zn)
 
 void QFitParWidget::EpsilonChk_toggled( bool zn)
 {
-   if(!fbFillWidget && (GetPar()!=0)) {
+   if(!fbFillWidget && GetPar()) {
       EpsilonEdt->setEnabled(zn);
       GetPar()->SetEpsilonUse(zn);
    }

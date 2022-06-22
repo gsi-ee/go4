@@ -107,22 +107,22 @@ void TGo4ASImage::Zoom(UInt_t offX, UInt_t offY, UInt_t width, UInt_t height)
    double rymin = fZoomOffY/fdHeight*(fxMaxY-fxMinY)+fxMinY;
    double rymax = (fZoomOffY+fZoomHeight)/fdHeight*(fxMaxY-fxMinY)+fxMinY;
 
-   if (fxPanel!=0)
+   if (fxPanel)
       fxPanel->PadRangeAxisChanged(fxPad, rxmin, rxmax, rymin, rymax);
 }
 
 void TGo4ASImage::UnZoom()
 {
    TASImage::UnZoom();
-   if (fxPanel!=0)
+   if (fxPanel)
       fxPanel->PadRangeAxisChanged(fxPad,0.,0.,0.,0.);
 }
 
 void TGo4ASImage::ClosePaletteEditor()
 {
-   if(fPaletteEditor!=0) {
+   if(fPaletteEditor) {
       fPaletteEditor->CloseWindow();
-      fPaletteEditor=0;
+      fPaletteEditor = nullptr;
    }
 }
 

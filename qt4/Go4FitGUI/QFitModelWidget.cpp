@@ -52,19 +52,19 @@ QFitModelWidget::~QFitModelWidget()
 
 void QFitModelWidget::AmplChk_toggled(bool chk)
 {
-  if (!fbFillWidget && (fxPanel!=0))
+  if (!fbFillWidget && fxPanel)
     fxPanel->ChangeModelPar(this, 0, chk ? 1 : 0);
 }
 
 void QFitModelWidget::BuffersChk_toggled( bool chk)
 {
-  if (!fbFillWidget && (fxPanel!=0))
+  if (!fbFillWidget && fxPanel)
     fxPanel->ChangeModelPar(this, 1, chk ? 1 : 0);
 }
 
 
 void QFitModelWidget::GroupSpin_valueChanged( int indx )
 {
-  if (!fbFillWidget && (fxPanel!=0))
+  if (!fbFillWidget && fxPanel)
     fxPanel->ChangeModelPar(this, 2, indx);
 }

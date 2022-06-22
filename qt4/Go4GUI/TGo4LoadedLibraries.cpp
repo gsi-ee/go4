@@ -69,7 +69,7 @@ void TGo4LoadedLibraries::RefreshLibs()
 
    TObjArray* libs = TString(gInterpreter->GetSharedLibs()).Tokenize(" ,\t\n");
 
-   if (libs!=0)
+   if (libs)
       for (int n=0; n<=libs->GetLast(); n++) {
          QFileInfo fi(libs->At(n)->GetName());
 
@@ -86,11 +86,12 @@ void TGo4LoadedLibraries::RefreshLibs()
 
    libs = TString(gSystem->GetLinkedLibs()).Tokenize(" ,\t\n");
 
-   if (libs!=0)
+   if (libs)
       for (int n=0; n<=libs->GetLast(); n++) {
          QStringList columns;
          columns << libs->At(n)->GetName();
          LoadedLibsS->addTopLevelItem(new QTreeWidgetItem(columns));
       }
+
    delete libs;
 }

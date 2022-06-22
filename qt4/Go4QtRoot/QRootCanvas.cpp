@@ -197,7 +197,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
      Int_t px = fCanvas->GetEventX();
      Int_t py = fCanvas->GetEventY();
      QString buffer = "";
-     if (selected!=0) {
+     if (selected) {
         buffer = selected->GetName();
         buffer += "  ";
         buffer += selected->GetObjectInfo(px, py);
@@ -1082,7 +1082,7 @@ void QRootCanvas::executeMenu(int id)
         }
         case 101: {
            TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
-           if (h1!=0) {
+           if (h1) {
               QColor col = QColorDialog::getColor();
               if (col.isValid()) {
                  short int C_new =  TColor::GetColor(col.red(), col.green(), col.blue());
@@ -1094,7 +1094,7 @@ void QRootCanvas::executeMenu(int id)
         }
         case 102: {
            TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
-           if (h1!=0) {
+           if (h1) {
               QColor col = QColorDialog::getColor();
               if (col.isValid()) {
                 short int C_new =  TColor::GetColor(col.red(), col.green(), col.blue());

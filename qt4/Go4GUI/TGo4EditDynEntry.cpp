@@ -623,7 +623,7 @@ void TGo4EditDynEntry::ClearHistogramClicked()
    TGo4ServerProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().toLatin1().constData(), objname);
    if (an) {
       an->ClearAnalysisObject(objname.Data());
-      if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry",0))!=0)
+      if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry",0)))
          an->ExecuteLine("@ResetBackStores();");
       Browser()->GetBrowserObject(HistoNameLbl->text().toLatin1().constData(), 2);
    }

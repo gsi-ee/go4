@@ -176,7 +176,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
    const char* conditemname = GetLinkedName("Condition");
 
    TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
-   if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname)!=0)) {
+   if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname) != 0)) {
 
       int res = QMessageBox::warning(this, "Condition editor",
         QString("Current condition %1 is modified!\n"
@@ -288,8 +288,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    TGo4CondArray* arr = dynamic_cast<TGo4CondArray*> (cond);
 
-   ArrayAllButton->setVisible(arr!=0);
-   ArrayElements->setVisible(arr!=0);
+   ArrayAllButton->setVisible(arr != nullptr);
+   ArrayElements->setVisible(arr != nullptr);
    if (!arr) {
       fiSelectedIndex = -1;
    } else {
@@ -834,7 +834,7 @@ bool TGo4ConditionEditor::PrepareForAnalysis()
    SetChangeFlag(false);
 
    const char* hname = cond->GetLinkedHistogram();
-   if (hname && (strlen(hname)!=0)) {
+   if (hname && (strlen(hname) != 0)) {
       TString foldername, objname;
       TGo4Slot::ProduceFolderAndName(hname, foldername, objname);
       cond->SetHistogram(objname.Data());

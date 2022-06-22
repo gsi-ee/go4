@@ -140,7 +140,7 @@ void TGo4Script::DoPostProcessing()
    if (IsHotStart()) return;
 
    // if error was before, nothing todo
-   if (fErrorFlag || (fMainWin==0)) return;
+   if (fErrorFlag || !fMainWin) return;
 
    TStopwatch watch;
 
@@ -293,10 +293,9 @@ void TGo4Script::Wait(double tm_sec)
 
 void TGo4Script::Message(const char* msg)
 {
-   if (fMainWin!=0)
+   if (fMainWin)
      fMainWin->StatusMessage(msg);
 }
-
 
 void TGo4Script::HotStart(const char* filename)
 {
@@ -440,7 +439,7 @@ Bool_t TGo4Script::CanConfigureAnalysis()
    if (fBlockConfigFlag == 0) {
       // once a session check if analysis was not launched from the GUI, we should not try to configure it
       TGo4HttpProxy* serv = dynamic_cast<TGo4HttpProxy*> (Server());
-      if ((serv!=0) && !serv->IsAnalysisLaunched()) fBlockConfigFlag = 1;
+      if (serv && !serv->IsAnalysisLaunched()) fBlockConfigFlag = 1;
    }
 
    return fBlockConfigFlag <= 0;
@@ -889,7 +888,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    TGo4ServerProxy* serv = br->FindServer();
 
    // ignore server which is was not launched
-   if ((serv!=0) && (serv!=anal) && (serv->IsAnalysisLaunched()<=0)) serv = 0;
+   if (serv && (serv != anal) && (serv->IsAnalysisLaunched()<=0)) serv = nullptr;
 
    std::ofstream fs(filename);
    if (!fs.is_open()) return;
@@ -1110,7 +1109,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    int mode = 1;
    QWidget* mdi = confgui ? confgui->parentWidget() : nullptr;
-   if (mdi!=0) {
+   if (mdi) {
       if (mdi->isHidden()) mode = -1; else
       if (mdi->isMinimized()) mode = 0;
    }
@@ -1118,7 +1117,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    mode = 1;
    mdi = termgui ? termgui->parentWidget() : nullptr;
-   if (mdi!=0) {
+   if (mdi) {
       if (mdi->isHidden()) mode = -1; else
       if (mdi->isMinimized()) mode = 0;
    }

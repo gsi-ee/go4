@@ -134,7 +134,7 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
 const char* GetHttpRootClassName(const char* kind)
 {
    if (!kind || (*kind == 0)) return nullptr;
-   if (strncmp(kind,"ROOT.", 5)!=0) return nullptr;
+   if (strncmp(kind,"ROOT.", 5) != 0) return nullptr;
    if (strcmp(kind+5,"TGo4AnalysisWebStatus") == 0)
       return "TGo4AnalysisStatus";
    return kind+5;

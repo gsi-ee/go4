@@ -223,9 +223,9 @@ bool QGo4Widget::BrowserItemRemote(const char* itemname)
 
 TGo4BrowserProxy* QGo4Widget::Browser()
 {
-   if (fBrowserProxy!=0) return fBrowserProxy;
+   if (fBrowserProxy) return fBrowserProxy;
 
-   TGo4BrowserProxy* br = 0;
+   TGo4BrowserProxy* br = nullptr;
    emit widgetService(this, service_Browser, "", (void*) &br);
    fBrowserProxy = br;
    return br;
@@ -241,12 +241,10 @@ void QGo4Widget::CallPanelFunc(int func, TPad* pad)
    emit widgetService(this, func, "", (void*) pad);
 }
 
-
 void QGo4Widget::StatusMessage(const QString& message)
 {
    emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), 0);
 }
-
 
 void QGo4Widget::ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot)
 {
@@ -304,7 +302,7 @@ void QGo4Widget::ShowItemInfo(const QString& itemname)
 TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
-   TGo4ViewPanel* res = 0;
+   TGo4ViewPanel* res = nullptr;
    emit widgetService(this, service_CreateViewPanel, str.toLatin1().constData(), (void*)&res);
    return res;
 }

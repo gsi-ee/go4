@@ -31,7 +31,7 @@ TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
    ModeCombo->setCurrentIndex(go4sett->getClientControllerMode());
 
    ConnectionCombo->setCurrentIndex(go4sett->getClientConnectMode());
-   bool canHaveOtherAccounts=(go4sett->getClientConnectMode()!=0);
+   bool canHaveOtherAccounts = go4sett->getClientConnectMode() != 0;
    bool def = go4sett->getClientDefaultPass();
    DefaultPassCheck->setChecked(def);
    PasswordEdit->setEnabled(!def);

@@ -437,7 +437,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
 
          bool update = fbFreezeMode;
 
-         if (!update && (GetFitter()!=0) && (GetFitter()->GetNumData()>1))
+         if (!update && GetFitter() && (GetFitter()->GetNumData()>1))
             update = true;
 
          if (WorkingWithPanel() &&
@@ -1316,7 +1316,7 @@ void TGo4FitPanel::Cmd_AddNewData(QFitItem * item, int id)
   UpdateItemsOfType(FitGui::ot_allslots, 0);
 
   QFitItem* curr = FindItem(data, FitGui::ot_data, item);
-  if (curr!=0)
+  if (curr)
     FitList->setCurrentItem(curr, QItemSelectionModel::Select);
   UpdateStatusBar();
 }
@@ -1339,17 +1339,17 @@ void  TGo4FitPanel::Cmd_AddNewModel(QFitItem * item, int id)
   UpdateItemsOfType(FitGui::ot_allslots, 0);
 
   QFitItem* curr = FindItem(model, FitGui::ot_model, item);
-  if (curr!=0)
+  if (curr)
     FitList->setCurrentItem(curr, QItemSelectionModel::Select);
   UpdateStatusBar();
 }
 
 void TGo4FitPanel::Cmd_ClearAssigment(QFitItem* item)
 {
-   if (item == 0) return;
+   if (!item) return;
 
    TGo4FitModel *model = dynamic_cast<TGo4FitModel *>(item->Parent()->Object());
-   if (model == 0) return;
+   if (!model) return;
 
    model->ClearAssignmentTo(item->text(0).toLatin1().constData());
 
@@ -2139,10 +2139,10 @@ void TGo4FitPanel::changeEvent(QEvent *event)
 void TGo4FitPanel::UpdatePFAmplLbl()
 {
    TGo4FitPeakFinder* finder = GetPeakFinder(true);
-   if (finder!=0)
-     PF_AmplLbl->setText(QString("Threshold: ")+QString::number(finder->Get0MaxAmplFactor()*100)+"%");
+   if (finder)
+      PF_AmplLbl->setText(QString("Threshold: ")+QString::number(finder->Get0MaxAmplFactor()*100)+"%");
    else
-     PF_AmplLbl->setText("Threshold:");
+      PF_AmplLbl->setText("Threshold:");
    PF_AmplLbl->adjustSize();
 }
 
@@ -2150,10 +2150,10 @@ void TGo4FitPanel::UpdatePFRelNoiseLbl()
 {
    TGo4FitPeakFinder* finder = GetPeakFinder(true);
 
-   if (finder!=0)
-     PF_RelNoiseLbl->setText(QString("Noise factor: ")+QString::number(finder->Get2NoiseFactor()));
+   if (finder)
+      PF_RelNoiseLbl->setText(QString("Noise factor: ")+QString::number(finder->Get2NoiseFactor()));
    else
-     PF_RelNoiseLbl->setText("Noise factor: ");
+      PF_RelNoiseLbl->setText("Noise factor: ");
    PF_RelNoiseLbl->adjustSize();
 }
 
@@ -2164,7 +2164,7 @@ void TGo4FitPanel::PF_MinWidthEdt_textChanged( const QString & str )
   double zn = str.toDouble(&ok);
   if (ok) {
     TGo4FitPeakFinder* finder = GetPeakFinder(true);
-    if (finder!=0) finder->Set0MinWidth(zn);
+    if (finder) finder->Set0MinWidth(zn);
   }
 }
 
@@ -2229,7 +2229,7 @@ void TGo4FitPanel::PF_MinNoiseEdit_textChanged( const QString & str)
   double zn = str.toDouble(&ok);
   if (ok) {
     TGo4FitPeakFinder* finder = GetPeakFinder(true);
-    if (finder!=0) finder->Set2NoiseMinimum(zn);
+    if (finder) finder->Set2NoiseMinimum(zn);
   }
 }
 
@@ -2238,7 +2238,7 @@ void TGo4FitPanel::PF_SumUpSpin_valueChanged( int num)
 {
   if (!fbFillingWidget) {
     TGo4FitPeakFinder* finder = GetPeakFinder(true);
-    if (finder!=0) {
+    if (finder) {
        finder->Set2ChannelSum(num);
        Button_PeakFinder();
     }
@@ -2683,7 +2683,7 @@ void TGo4FitPanel::Wiz_AddModelBtn_clicked()
    TGo4FitModel* model = Wiz_CreateNewModel(id);
    if (model) fxWizModelName = model->GetName();
    UpdateWizModelsList(true);
-   if(Wiz_SelectedModel()!=0) UpdateWizPaint(2);
+   if(Wiz_SelectedModel()) UpdateWizPaint(2);
    UpdateStatusBar();
 }
 
@@ -2934,12 +2934,12 @@ void TGo4FitPanel::MainFitBtn_clicked()
 
 void TGo4FitPanel::MainDrawBtn_clicked()
 {
-  Button_FitterDraw(0);
+  Button_FitterDraw(nullptr);
 }
 
 void TGo4FitPanel::MainFindBtn_clicked()
 {
-   if (GetFitter()!=0)
+   if (GetFitter())
       Button_PeakFinder();
 }
 
@@ -3833,7 +3833,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 {
   if (!item) return;
 
-  if (fxCurrentItem!=0)
+  if (fxCurrentItem)
       if (fxCurrentItem->FindInParents(item)) RemoveItemWidget();
 
    while (item->childCount() > 0)
@@ -3998,19 +3998,18 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
       break; }
   }
 
-  if (trace && (item->Object()!=0)) {
+  if (trace && item->Object()) {
     QFitItem* topitem = GetFitterItem();
     if (!topitem) return;
 
     QTreeWidgetItemIterator iter(topitem);
 
     while (*iter) {
-      QFitItem* it = dynamic_cast<QFitItem*> (*iter);
-      if (it && (it != item) &&
-          (item->ObjectType()==it->ObjectType()) &&
-          (item->Object()==it->Object())) UpdateItem(it, false);
-      ++iter;
-   }
+       QFitItem *it = dynamic_cast<QFitItem *>(*iter);
+       if (it && (it != item) && (item->ObjectType() == it->ObjectType()) && (item->Object() == it->Object()))
+          UpdateItem(it, false);
+       ++iter;
+    }
   }
 }
 
@@ -4095,7 +4094,7 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
 
     while (*iter) {
       QFitItem* it = dynamic_cast<QFitItem*> (*iter);
-      if ((it!=0) && (it!=item) &&
+      if (it && (it != item) &&
           (item->ObjectType()==it->ObjectType()) &&
           (item->Object()==it->Object()) && (item->Tag()==it->Tag()))
             it->setText(0, text);
@@ -4206,7 +4205,7 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
      case FitGui::wt_matrtrans: widget = new QFitMatrixTransWidget(owner,"Matrix transform"); break;
    }
 
-   if (widget!=0) {
+   if (widget) {
       fxCurrentItemWidget = widget;
       widget->SetItem(this, widgetitem);
       ListStack->addWidget(widget);
@@ -4450,7 +4449,7 @@ bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFi
 
    comp->GetRangeCondition(nrange, typ, naxis, left, right);
 
-   if (naxis!=0) return false;
+   if (naxis != 0) return false;
 
    TGo4FitGuiArrow* arr = nullptr;
 
@@ -4481,7 +4480,7 @@ TGo4FitPeakFinder* TGo4FitPanel::GetPeakFinder(bool autocreate)
    if (!fitter) return nullptr;
    for (Int_t n=0;n<fitter->GetNumActions();n++) {
       TGo4FitPeakFinder* finder = dynamic_cast<TGo4FitPeakFinder*> (fitter->GetAction(n));
-      if (finder!=0) return finder;
+      if (finder) return finder;
    }
 
    if (autocreate) {

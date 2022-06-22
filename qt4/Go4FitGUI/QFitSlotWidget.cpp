@@ -58,7 +58,7 @@ void QFitSlotWidget::FillSpecificData()
      RequirementChk->setChecked(slot->GetNeeded());
      SaveCmb->setCurrentIndex(slot->GetSaveFlag());
 
-     if (fxPanel!=0) {
+     if (fxPanel) {
         SourceLbl->setText(QString("Source: ") + fxPanel->Wiz_GetSlotSourceInfo(slot));
         SourceLbl->adjustSize();
      }
@@ -68,12 +68,12 @@ void QFitSlotWidget::FillSpecificData()
 void QFitSlotWidget::RequirementChk_toggled( bool req)
 {
   if(!fbFillWidget && GetSlot())
-    GetSlot()->SetNeeded(req);
+     GetSlot()->SetNeeded(req);
 }
 
 
 void QFitSlotWidget::SaveCmb_activated( int typ )
 {
   if(!fbFillWidget && GetSlot())
-    GetSlot()->SetSaveFlag(typ);
+     GetSlot()->SetSaveFlag(typ);
 }
