@@ -463,8 +463,7 @@ TGo4TaskHandler* TGo4TaskManager::NextTaskHandler(Bool_t reset)
 {
    TGo4LockGuard listguard(fxListMutex);
    if(reset) fxTaskIter->Reset();
-   TGo4TaskHandler* th=dynamic_cast<TGo4TaskHandler*>(fxTaskIter->Next());
-   return th;
+   return dynamic_cast<TGo4TaskHandler*>(fxTaskIter->Next());
 }
 
 Int_t TGo4TaskManager::WaitForClientRemoved()
