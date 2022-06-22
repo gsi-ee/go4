@@ -68,9 +68,8 @@ Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_
 void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blockdelay)
 {
    TIter iter(gROOT->GetListOfBrowsers());
-   TBrowser* br = nullptr;
 
-   while ((br = dynamic_cast<TBrowser*> (iter())) != nullptr) {
+   while (auto br = dynamic_cast<TBrowser*> (iter())) {
       br->SetStatusText(str1, 0);
       br->SetStatusText(str2, 1);
    }
@@ -86,7 +85,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
    if (fLockMessage) return;
 
    TGo4AnalysisClientStatus* anal =
-     dynamic_cast<TGo4AnalysisClientStatus*> (obj);
+      dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    if (!anal) return;
 
    const char* header = nullptr;

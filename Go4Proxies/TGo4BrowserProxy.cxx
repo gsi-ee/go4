@@ -1628,8 +1628,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
      TMultiGraph* mg = dynamic_cast<TMultiGraph*>(ob);
      if (mg) {
         TIter liter(mg->GetListOfGraphs());
-        TGraph* gr = nullptr;
-        while(( gr = (TGraph*) liter()) != nullptr) {
+        while(auto gr = (TGraph*) liter()) {
            Int_t pn = gr->GetN();
            gr->Set(0); // clear array of points
            gr->Set(pn); // this should set all to 0
@@ -1713,8 +1712,7 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char* picitem
 void TGo4BrowserProxy::Scan_gROOT()
 {
    TIter iter(gROOT->GetList());
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       SaveToMemory("gROOT", obj, kTRUE);
    }
 
@@ -2401,8 +2399,7 @@ void TGo4BrowserProxy::CheckWaitingList(TGo4Slot* source)
 void TGo4BrowserProxy::UpdateAllCanvases()
 {
    TIter next(gROOT->GetListOfCanvases());
-   TPad* pad = nullptr;
-   while ((pad = (TPad*) next()) != nullptr) {
+   while (auto pad = (TPad*) next()) {
       pad->Modified();
 
       TVirtualPad* subpad = nullptr;
