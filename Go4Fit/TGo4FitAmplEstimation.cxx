@@ -36,28 +36,30 @@ TGo4FitAmplEstimation::TGo4FitAmplEstimation(const char* Name, Int_t NumIters) :
 TGo4FitAmplEstimation::~TGo4FitAmplEstimation() {
 }
 
-void TGo4FitAmplEstimation::DoAction(TGo4FitterAbstract* Fitter) {
-   TGo4Fitter* f = dynamic_cast<TGo4Fitter*> (Fitter);
-   if(f==0) return;
+void TGo4FitAmplEstimation::DoAction(TGo4FitterAbstract* Fitter)
+{
+   auto f = dynamic_cast<TGo4Fitter *>(Fitter);
+   if (!f)
+      return;
    if (!CalculateWithBuffers(f))
-     CalculateWithIterators(f);
+      CalculateWithIterators(f);
 }
 
-Double_t TGo4FitAmplEstimation::PointWeight(Int_t niter, Int_t FFtype, Double_t value, Double_t modelvalue, Double_t standdev) {
+Double_t TGo4FitAmplEstimation::PointWeight(Int_t niter, Int_t FFtype, Double_t value, Double_t modelvalue, Double_t standdev)
+{
    switch (FFtype) {
       case TGo4Fitter::ff_least_squares: return 1.;
-      case TGo4Fitter::ff_chi_square: if (standdev<=0.) return 0.; else return 1./standdev;
+      case TGo4Fitter::ff_chi_square: return (standdev <= 0.) ? 0. : 1./standdev;
       case TGo4Fitter::ff_chi_Pearson:
       case TGo4Fitter::ff_ML_Poisson:
-        if (niter==0) if (value<0.) return 0.; else return 1./(value+1.);
-                 else if (modelvalue<=0.) return 0.; else return 1./modelvalue;
-      case TGo4Fitter::ff_chi_Neyman: if (value<1.) return 1.; else return 1./value;
-      case TGo4Fitter::ff_chi_gamma: if (value<0.) return 0.; else return 1./(value+1.);
+        if (niter==0) return (value < 0.) ? 0. : 1./(value+1.);
+                 else return (modelvalue <= 0.) ? 0. : 1./modelvalue;
+      case TGo4Fitter::ff_chi_Neyman: return (value < 1.) ? 1. : 1./value;
+      case TGo4Fitter::ff_chi_gamma: return (value < 0.) ? 0. : 1./(value+1.);
       case TGo4Fitter::ff_user: return 1.;
-      default: return 1.;
    }
+   return 1.;
 }
-
 
 Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
    if (!fitter->IsInitialized()) return kFALSE;

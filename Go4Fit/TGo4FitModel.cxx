@@ -126,47 +126,57 @@ void TGo4FitModel::ClearAssignments() {
   fxAssigments.Compress();
 }
 
-void TGo4FitModel::ConnectToDataIfAssigned(TGo4FitData* data) {
-   if (data==0) return;
+void TGo4FitModel::ConnectToDataIfAssigned(TGo4FitData* data)
+{
+   if (!data) return;
    TGo4FitAssignment* ass = FindAssigment(data->GetName());
-   if ( ass != 0 ) ass->fxData = data;
+   if (ass) ass->fxData = data;
 }
 
-TGo4FitData* TGo4FitModel::GetAssignedConnection(Int_t n) {
+TGo4FitData* TGo4FitModel::GetAssignedConnection(Int_t n)
+{
    TGo4FitAssignment* ass = GetAssigment(n);
-   if(ass) return ass->fxData;
-      else return 0;
+   return ass ? ass->fxData : nullptr;
 }
 
-Bool_t TGo4FitModel::GetPosition(Int_t naxis, Double_t& pos) {
+Bool_t TGo4FitModel::GetPosition(Int_t naxis, Double_t& pos)
+{
    if(GetPosPar(naxis)) {
       pos = GetPosPar(naxis)->GetValue();
       return kTRUE;
-   } else return kFALSE;
+   }
+   return kFALSE;
 }
 
-Bool_t TGo4FitModel::SetPosition(Int_t naxis, Double_t pos) {
+Bool_t TGo4FitModel::SetPosition(Int_t naxis, Double_t pos)
+{
    if(GetPosPar(naxis)) {
       GetPosPar(naxis)->SetValue(pos);
       return kTRUE;
-   } else return kFALSE;
+   }
+   return kFALSE;
 }
 
-Bool_t TGo4FitModel::GetWidth(Int_t naxis, Double_t& width) {
+Bool_t TGo4FitModel::GetWidth(Int_t naxis, Double_t& width)
+{
    if(GetWidthPar(naxis)) {
       width = GetWidthPar(naxis)->GetValue();
       return kTRUE;
-   } else return kFALSE;
+   }
+   return kFALSE;
 }
 
-Bool_t TGo4FitModel::SetWidth(Int_t naxis, Double_t width) {
+Bool_t TGo4FitModel::SetWidth(Int_t naxis, Double_t width)
+{
    if(GetWidthPar(naxis)) {
       GetWidthPar(naxis)->SetValue(width);
       return kTRUE;
-   } else return kFALSE;
+   }
+   return kFALSE;
 }
 
-void TGo4FitModel::SetIntegrationsProperty(Int_t iMinIntegrDepth, Int_t iMaxIntegrDepth, Double_t iIntegrEps, Bool_t iAbsoluteEps, Bool_t iIntegrScaling) {
+void TGo4FitModel::SetIntegrationsProperty(Int_t iMinIntegrDepth, Int_t iMaxIntegrDepth, Double_t iIntegrEps, Bool_t iAbsoluteEps, Bool_t iIntegrScaling)
+{
   fiMinIntegrDepth = iMinIntegrDepth;
   fiMaxIntegrDepth = iMaxIntegrDepth;
   fdIntegrEps = iIntegrEps;
@@ -176,16 +186,23 @@ void TGo4FitModel::SetIntegrationsProperty(Int_t iMinIntegrDepth, Int_t iMaxInte
     fiMaxIntegrDepth = fiMinIntegrDepth;
 }
 
-void TGo4FitModel::RemoveAllPars() {
-  if (fxAllPars) { delete fxAllPars; fxAllPars=0; }
-  if (fxAllParsValues) { delete fxAllParsValues; fxAllParsValues=0; }
+void TGo4FitModel::RemoveAllPars()
+{
+   if (fxAllPars) {
+      delete fxAllPars;
+      fxAllPars = nullptr;
+   }
+   if (fxAllParsValues) {
+      delete fxAllParsValues;
+      fxAllParsValues = nullptr;
+   }
 }
 
 Bool_t TGo4FitModel::Initialize(Int_t UseBuffers) {
    Bool_t use = ((UseBuffers<0) && GetUseBuffers()) || (UseBuffers>0);
    for(Int_t n=0;n<NumAssigments();n++) {
       TGo4FitAssignment* ass = GetAssigment(n);
-      if (ass->fxData==0) {
+      if (!ass->fxData) {
          std::cout << "Data " << ass->GetName() << "  not assigned to model " << GetName() << std::endl;
          continue;
       }
@@ -215,29 +232,33 @@ Bool_t TGo4FitModel::Initialize(Int_t UseBuffers) {
    return kTRUE;
 }
 
-void TGo4FitModel::Finalize() {
+void TGo4FitModel::Finalize()
+{
    RemoveAllPars();
    fxCurrentPars.Set(0);
    for(Int_t n=0;n<NumAssigments();n++) {
       TGo4FitAssignment* ass = GetAssigment(n);
-      if (ass->fxModelMask) { delete[] ass->fxModelMask; ass->fxModelMask = 0; }
-      if (ass->fxModelBins) { delete[] ass->fxModelBins; ass->fxModelBins = 0; }
+      if (ass->fxModelMask) { delete[] ass->fxModelMask; ass->fxModelMask = nullptr; }
+      if (ass->fxModelBins) { delete[] ass->fxModelBins; ass->fxModelBins = nullptr; }
    }
 }
 
-Bool_t TGo4FitModel::BuffersAllocated() const {
+Bool_t TGo4FitModel::BuffersAllocated() const
+{
    Bool_t res = (NumAssigments()>0);
    for(Int_t n=0;n<NumAssigments();n++)
-      res = res && (GetAssigment(n)->fxModelBins!=0);
+      res = res && (GetAssigment(n)->fxModelBins != nullptr);
    return res;
 }
 
-Double_t* TGo4FitModel::GetModelBins(const char* DataName) const {
+Double_t* TGo4FitModel::GetModelBins(const char* DataName) const
+{
    TGo4FitAssignment* ass = FindAssigment(DataName);
-   return ass != 0 ? ass->fxModelBins : 0;
+   return ass ? ass->fxModelBins : nullptr;
 }
 
-Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Scales, const Double_t* Widths) {
+Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Scales, const Double_t* Widths)
+{
   if ((NumScales<1) || (Scales==0)) return 0.;
 
   if ( (fiMinIntegrDepth>0) && (fiMaxIntegrDepth>0) && (Widths!=0)) {
@@ -318,24 +339,27 @@ Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Sca
    } else return EvalN(Scales);
 }
 
-Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges) {
-   if (data==0) return 0.;
+Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges)
+{
+   if (!data) return 0.;
    const Double_t* scales = data->GetScaleValues(nbin);
    Int_t scalessize = data->GetScalesSize();
    if (UseRanges && !CheckRangeConditions(scales, scalessize)) return 0.;
    return EvaluateAndIntegrate(scalessize, scales, data->GetWidthValues(nbin));
 }
 
-Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges) {
-   if (iter==0) return 0;
+Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges)
+{
+   if (!iter) return 0;
    const Double_t* scales = iter->Scales();
    Int_t scalessize = iter->ScalesSize();
    if (UseRanges && !CheckRangeConditions(scales, scalessize)) return 0.;
    return EvaluateAndIntegrate(scalessize, scales, iter->Widths());
 }
 
-void TGo4FitModel::RebuildShape(Bool_t ForceBuild) {
-   if ((fxAllPars==0) || (fxAllParsValues==0)) return;
+void TGo4FitModel::RebuildShape(Bool_t ForceBuild)
+{
+   if (!fxAllPars || !fxAllParsValues) return;
 
    Bool_t fill = ForceBuild || fbNeedToRebuild;
    if (!fill)
@@ -377,11 +401,12 @@ void TGo4FitModel::RebuildShape(Bool_t ForceBuild) {
    fbNeedToRebuild = kFALSE;
 }
 
-Bool_t TGo4FitModel::AddModelToDataResult(TGo4FitData* data) {
-   if ((data==0) || (!data->BuffersAllocated())) return kFALSE;
+Bool_t TGo4FitModel::AddModelToDataResult(TGo4FitData* data)
+{
+   if (!data || !data->BuffersAllocated()) return kFALSE;
 
    Double_t* result = data->GetBinsResult();
-   if (result==0) return kFALSE;
+   if (!result) return kFALSE;
    Int_t size = data->GetBinsSize();
 
    Double_t* modelbins = GetModelBins(data->GetName());
@@ -404,7 +429,8 @@ Bool_t TGo4FitModel::AddModelToDataResult(TGo4FitData* data) {
    return kTRUE;
 }
 
-Bool_t TGo4FitModel::BeforeEval(Int_t ndim) {
+Bool_t TGo4FitModel::BeforeEval(Int_t ndim)
+{
    fxCurrentPars.Set(NumPars());
    GetParsValues(fxCurrentPars.GetArray());
    fxCurrentParsArray = fxCurrentPars.GetArray();
@@ -412,11 +438,13 @@ Bool_t TGo4FitModel::BeforeEval(Int_t ndim) {
    return kTRUE;
 }
 
-Double_t TGo4FitModel::EvalN(const Double_t* v) {
+Double_t TGo4FitModel::EvalN(const Double_t* v)
+{
    return UserFunction((Double_t*)v, fxCurrentParsArray);
 }
 
-Double_t TGo4FitModel::Evaluate(Double_t x) {
+Double_t TGo4FitModel::Evaluate(Double_t x)
+{
    Double_t zn = 0.;
    if (BeforeEval(1)) {
      zn = GetAmplValue() * EvalN(&x);
@@ -453,24 +481,27 @@ Double_t TGo4FitModel::Evaluate(Double_t* v, Int_t ndim) {
    return zn;
 }
 
-Double_t TGo4FitModel::Integral() {
+Double_t TGo4FitModel::Integral()
+{
    return 0;
 }
 
-
-const Int_t* TGo4FitModel::GetDataFullIndex(TGo4FitData* data, Int_t nbin) {
-  return data==0 ? 0 : data->GetFullIndex(nbin);
+const Int_t* TGo4FitModel::GetDataFullIndex(TGo4FitData* data, Int_t nbin)
+{
+  return data ? data->GetFullIndex(nbin) : nullptr;
 }
 
-Int_t TGo4FitModel::GetDataIndexesSize(TGo4FitData* data) {
-  return data==0 ? 0 : data->GetIndexesSize();
+Int_t TGo4FitModel::GetDataIndexesSize(TGo4FitData* data)
+{
+  return data ? data->GetIndexesSize() : 0;
 }
 
-TGo4FitAssignment* TGo4FitModel::FindAssigment(const char* DataName) const {
-  for (Int_t n=0;n<NumAssigments();n++)
-    if (strcmp(DataName, GetAssigment(n)->GetName()) == 0)
-      return GetAssigment(n);
-  return 0;
+TGo4FitAssignment* TGo4FitModel::FindAssigment(const char* DataName) const
+{
+   for (Int_t n = 0; n < NumAssigments(); n++)
+      if (strcmp(DataName, GetAssigment(n)->GetName()) == 0)
+         return GetAssigment(n);
+   return nullptr;
 }
 
 TString TGo4FitModel::GetRatioName(Int_t n)
@@ -480,12 +511,14 @@ TString TGo4FitModel::GetRatioName(Int_t n)
    return res;
 }
 
-Double_t TGo4FitModel::GetRatioValueFor(const char* DataName) {
+Double_t TGo4FitModel::GetRatioValueFor(const char* DataName)
+{
    TGo4FitAssignment* ass = FindAssigment(DataName);
-   return (ass==0) ? 1. : ass->RatioValue();
+   return ass ? ass->RatioValue() : 1.;
 }
 
-void TGo4FitModel::Print(Option_t* option) const {
+void TGo4FitModel::Print(Option_t* option) const
+{
     TGo4FitComponent::Print(option);
     std::cout << "  Assigned to: ";
     fxAssigments.Print(option);
@@ -497,16 +530,14 @@ void TGo4FitModel::Print(Option_t* option) const {
     }
 }
 
-void TGo4FitModel::Streamer(TBuffer& b) {
+void TGo4FitModel::Streamer(TBuffer& b)
+{
    if (b.IsReading()) {
-
-     TGo4FitModel::Class()->ReadBuffer(b, this);
-
-     for (Int_t n=0;n<NumAssigments();n++)
-        if (GetAssigment(n)->fxRatio)
-          GetAssigment(n)->fxRatio->SetOwner(this);
-
+      TGo4FitModel::Class()->ReadBuffer(b, this);
+      for (Int_t n = 0; n < NumAssigments(); n++)
+         if (GetAssigment(n)->fxRatio)
+            GetAssigment(n)->fxRatio->SetOwner(this);
    } else {
-     TGo4FitModel::Class()->WriteBuffer(b, this);
+      TGo4FitModel::Class()->WriteBuffer(b, this);
    }
 }

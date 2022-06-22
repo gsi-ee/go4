@@ -41,7 +41,8 @@ TMinuitEx::TMinuitEx(Int_t NumPars, TGo4FitterAbstract* fitter) :
 TMinuitEx::~TMinuitEx() {
 }
 
-Int_t TMinuitEx::Eval(Int_t npar, Double_t *grad, Double_t &fval, Double_t *pars, Int_t iflag) {
+Int_t TMinuitEx::Eval(Int_t npar, Double_t *grad, Double_t &fval, Double_t *pars, Int_t iflag)
+{
    if (fxFitter) fval = fxFitter->CalculateFitFunction(pars);
             else fval = 0.;
    return 0;

@@ -118,7 +118,7 @@ Bool_t TGo4FitData::IsAnyDataTransform()
 TObject* TGo4FitData::CreateDrawObject(const char* ObjName)
 {
    TGo4FitDataIter* iter = MakeIter();
-   if (iter==0) return 0;
+   if (!iter) return nullptr;
    TObject* obj = iter->CreateDrawObject(ObjName);
    delete iter;
    return obj;
@@ -127,7 +127,7 @@ TObject* TGo4FitData::CreateDrawObject(const char* ObjName)
 Bool_t TGo4FitData::Initialize(Int_t UseBuffers)
 {
    TGo4FitDataIter *iter = MakeIter();
-   if (iter == 0)
+   if (!iter)
       return kFALSE;
 
    fiBinsSize = iter->CountPoints(kTRUE);
@@ -243,9 +243,10 @@ Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t& min, Double_t& max)
    return res;
 }
 
-Int_t TGo4FitData::DefineDimensions() {
+Int_t TGo4FitData::DefineDimensions()
+{
   TGo4FitDataIter* iter = MakeIter();
-  if (iter==0) return 0;
+  if (!iter) return 0;
   Int_t res = 0;
   if (iter->Reset(kFALSE)) res = iter->IndexesSize();
   delete iter;
@@ -255,7 +256,7 @@ Int_t TGo4FitData::DefineDimensions() {
 Int_t TGo4FitData::DefineBinsSize()
 {
    TGo4FitDataIter* iter = MakeIter();
-   if (iter==0) return 0;
+   if (!iter) return 0;
 
    Int_t res = iter->CountPoints(kTRUE);
    delete iter;
@@ -265,27 +266,31 @@ Int_t TGo4FitData::DefineBinsSize()
 
 const Double_t* TGo4FitData::GetScaleValues(const Int_t nbin)
 {
-   if(fxFullScale) return &(fxFullScale[nbin*GetScalesSize()]);
-              else return 0;
+   if(fxFullScale)
+      return &(fxFullScale[nbin*GetScalesSize()]);
+
+   return nullptr;
 }
 
 const Double_t* TGo4FitData::GetWidthValues(const Int_t nbin)
 {
-  if(fxFullWidth) return &(fxFullWidth[nbin*GetScalesSize()]);
-             else return 0;
+  if(fxFullWidth)
+     return &(fxFullWidth[nbin*GetScalesSize()]);
+  return nullptr;
 }
 
 const Int_t* TGo4FitData::GetFullIndex(Int_t nbin)
 {
-  if (fxFullIndex) return &(fxFullIndex[nbin*GetIndexesSize()]);
-              else return 0;
+  if (fxFullIndex)
+     return &(fxFullIndex[nbin*GetIndexesSize()]);
+  return nullptr;
 }
 
 Bool_t TGo4FitData::IsCompatibleData(TGo4FitData* data)
 {
-   if (data==0) return kFALSE;
+   if (!data) return kFALSE;
    TGo4FitDataIter* iter = data->MakeIter();
-   if (iter==0) return kFALSE;
+   if (!iter) return kFALSE;
 
    Bool_t res = kFALSE;
    if (iter->Reset(kFALSE)) res = (iter->IndexesSize()==GetIndexesSize()) && (GetIndexesSize()>0);
@@ -296,8 +301,7 @@ Bool_t TGo4FitData::IsCompatibleData(TGo4FitData* data)
 
 void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent* model, Char_t* ModelMask)
 {
-
-  if (ModelMask==0) return;
+  if (!ModelMask) return;
 
   if (BuffersAllocated())
     for(Int_t nbin=0;nbin<GetBinsSize();nbin++) {
@@ -403,7 +407,7 @@ void TGo4FitDataIter::TransformScales(Double_t* scales)
 Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownscales, const Double_t* ownwidths)
 {
    TGo4FitData* data = GetData();
-   if (data==0) return kFALSE;
+   if (!data) return kFALSE;
 
    if ( (data->GetUseBinScale()) || (ownscales==0) ) {
      if (index==0) return kFALSE;
@@ -438,7 +442,8 @@ Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownsca
    return kTRUE;
 }
 
-Bool_t TGo4FitDataIter::NextIndex(TArrayI& Index, TArrayI& Limits) {
+Bool_t TGo4FitDataIter::NextIndex(TArrayI& Index, TArrayI& Limits)
+{
    Int_t n=0;
    while (n<Index.GetSize()) {
       Index[n]++;
@@ -448,18 +453,20 @@ Bool_t TGo4FitDataIter::NextIndex(TArrayI& Index, TArrayI& Limits) {
    return kFALSE;
 }
 
-Bool_t TGo4FitDataIter::GetDeviation() {
+Bool_t TGo4FitDataIter::GetDeviation()
+{
   TGo4FitData* data = GetData();
-  if (data==0) return kFALSE;
+  if (!data) return kFALSE;
   if (data->GetSigmaSource()==2) {
      fdStandardDeviation = data->GetSigmaValue()*data->GetSigmaValue();
      return kTRUE;
   } else return kFALSE;
 }
 
-Bool_t TGo4FitDataIter::CheckPointForRange() {
+Bool_t TGo4FitDataIter::CheckPointForRange()
+{
   TGo4FitData* data = GetData();
-  if (data==0) return kFALSE;
+  if (!data) return kFALSE;
   if (Value()<data->GetExcludeLessThen()) return kFALSE;
   return data->CheckRangeConditions(Scales(),ScalesSize());
 }
@@ -578,9 +585,10 @@ TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, B
    return histo;
 }
 
-TGraph* TGo4FitDataIter::CreateGraph(const char* GraphName, Bool_t UseRanges, Bool_t SetBins) {
+TGraph* TGo4FitDataIter::CreateGraph(const char* GraphName, Bool_t UseRanges, Bool_t SetBins)
+{
    Int_t NumPoints = CountPoints(UseRanges);
-   if ((NumPoints<=0) || (ScalesSize()<1)) return 0;
+   if ((NumPoints<=0) || (ScalesSize()<1)) return nullptr;
 
    TGraph* gr = new TGraph(NumPoints);
    gr->SetName(GraphName);
@@ -593,8 +601,12 @@ TGraph* TGo4FitDataIter::CreateGraph(const char* GraphName, Bool_t UseRanges, Bo
    return gr;
 }
 
-TObject* TGo4FitDataIter::CreateDrawObject(const char* ObjName) {
-  if (!Reset(kFALSE)) return 0;
-  if (HasIndexes() && (IndexesSize()==ScalesSize()) && HasWidths()) return CreateHistogram(ObjName, kFALSE, kTRUE);
-                                                               else return CreateGraph(ObjName, kFALSE, kTRUE);
+TObject* TGo4FitDataIter::CreateDrawObject(const char* ObjName)
+{
+  if (!Reset(kFALSE)) return nullptr;
+
+  if (HasIndexes() && (IndexesSize()==ScalesSize()) && HasWidths())
+     return CreateHistogram(ObjName, kFALSE, kTRUE);
+
+  return CreateGraph(ObjName, kFALSE, kTRUE);
 }

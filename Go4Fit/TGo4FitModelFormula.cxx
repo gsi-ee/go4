@@ -41,8 +41,9 @@ Int_t TGo4FitModelFormula::GetNumberOfExprPar() {
    return num;
 }
 
-TGo4FitParameter* TGo4FitModelFormula::GetExprPar(Int_t n) {
-   if ((n<0) || (n>=GetNumberOfExprPar())) return 0;
+TGo4FitParameter* TGo4FitModelFormula::GetExprPar(Int_t n)
+{
+   if ((n<0) || (n>=GetNumberOfExprPar())) return nullptr;
    if ((GetAmplIndex()>=0) && (n>=GetAmplIndex())) n++;
    return GetPar(n);
 }
@@ -103,7 +104,8 @@ Bool_t TGo4FitModelFormula::Initialize(Int_t UseBuffers) {
    return TGo4FitModel::Initialize(UseBuffers);
 }
 
-Bool_t TGo4FitModelFormula::BeforeEval(Int_t ndim) {
+Bool_t TGo4FitModelFormula::BeforeEval(Int_t ndim)
+{
   if (!CompileFormula()) return kFALSE;
   Par_ndim = ndim;
   for(Int_t n=0;n<NumPars();n++)
@@ -111,7 +113,8 @@ Bool_t TGo4FitModelFormula::BeforeEval(Int_t ndim) {
   return kTRUE;
 }
 
-Double_t TGo4FitModelFormula::EvalN(const Double_t* v) {
+Double_t TGo4FitModelFormula::EvalN(const Double_t* v)
+{
    switch (Par_ndim) {
        case 0: return 0.;
        case 1: return fxFormula->Eval(v[0]);

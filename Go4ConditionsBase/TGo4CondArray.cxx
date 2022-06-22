@@ -24,13 +24,13 @@
 // ----------------------------------------------------------
 TGo4WinCond* TGo4CondArray::Win(Int_t i)
 {
-   if(fiType != kGO4CONDWINDOW) return 0;
+   if(fiType != kGO4CONDWINDOW) return nullptr;
    return (TGo4WinCond*) At(i);
 }
 // ----------------------------------------------------------
 TGo4PolyCond* TGo4CondArray::Poly(Int_t i)
 {
-   if(fiType != kGO4CONDPOLYGON) return 0;
+   if(fiType != kGO4CONDPOLYGON) return nullptr;
    return (TGo4PolyCond*) At(i);
 }
 // ----------------------------------------------------------
