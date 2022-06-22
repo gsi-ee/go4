@@ -17,7 +17,7 @@
 
 TGo4CompositeProcessor::TGo4CompositeProcessor():
    TGo4EventProcessor(),
-   fMbsInput(0),
+   fMbsInput(nullptr),
    fMbsTriggerNumber(0),
    fMbsEventNumber(0),
    fSubProcessors()
@@ -27,7 +27,7 @@ TGo4CompositeProcessor::TGo4CompositeProcessor():
 
 TGo4CompositeProcessor::TGo4CompositeProcessor(const char* name) :
    TGo4EventProcessor(name),
-   fMbsInput(0),
+   fMbsInput(nullptr),
    fMbsTriggerNumber(0),
    fMbsEventNumber(0),
    fSubProcessors()
@@ -78,9 +78,9 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
       fMbsTriggerNumber = fMbsInput->GetTrigger();
       fMbsEventNumber = fMbsInput->GetCount();
 
-      TGo4MbsSubEvent* psubevt = 0;
+      TGo4MbsSubEvent* psubevt = nullptr;
       fMbsInput->ResetIterator();
-      while((psubevt = fMbsInput->NextSubEvent()) != 0)
+      while((psubevt = fMbsInput->NextSubEvent()) != nullptr)
       { // loop over subevents
          ProcessSubevent(psubevt); // process in our own subclass, if implemented
 
@@ -103,10 +103,10 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
    // for first step processors, this can be used to do actions after all subevents are done
    FinalizeEvent(); // process in our own subclass, if implemented
 
-   for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
-      TGo4EventProcessor* proc = (TGo4EventProcessor*) fSubProcessors[n];
+   for (Int_t n = 0; n <= fSubProcessors.GetLast(); n++) {
+      TGo4EventProcessor *proc = (TGo4EventProcessor *)fSubProcessors[n];
       proc->FinalizeEvent(); // actions implemented in component subclass
-   } // while proc
+   }
 
    return kTRUE;
 }
