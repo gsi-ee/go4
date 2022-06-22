@@ -312,13 +312,12 @@ TList* GetClassesList(TList* prev = nullptr)
 TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
-   TObject* obj = nullptr;
 
    TObjArray evnt_classes; // list of found event classes
 
    TClass *proc_cl = nullptr, *an_cl = nullptr, *evsrc_cl = nullptr, *evstore_cl = nullptr;
 
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       TClass* cl = TClass::GetClass(obj->GetName());
 
       // all relevant go4 classes inherited from TObject
@@ -401,7 +400,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       // search for non-default analysis constructor
       TIter iter(an_cl->GetListOfMethods());
-      while ((meth = (TMethod*) iter()) != nullptr) {
+      while (meth = (TMethod*) iter()) {
          if (strcmp(meth->GetName(), an_cl->GetName()) != 0) continue;
          if (meth->GetListOfMethodArgs()->GetSize() == 0) continue;
          break;
@@ -416,14 +415,13 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       TGo4Log::Info("Find constructor with %d arguments", meth->GetListOfMethodArgs()->GetSize());
 
-      TMethodArg *argument = nullptr;
       TIter next(meth->GetListOfMethodArgs());
 
       TString cmd = TString::Format("new %s(", an_cl->GetName());
 
       int counter = 0;
 
-      while ((argument = (TMethodArg *) next()) != nullptr) {
+      while (auto argument = (TMethodArg *) next()) {
 
          if (counter > 0) cmd+=", ";
          counter++;

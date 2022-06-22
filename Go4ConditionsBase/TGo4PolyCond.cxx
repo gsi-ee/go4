@@ -482,16 +482,13 @@ Bool_t TGo4PolyCond::IsCutHis(TH1* source)
 // ----------------------------------------------------------
 void TGo4PolyCond::CleanupSpecials()
 {
-  //std::cout<<"TGo4PolyCond::CleanupSpecials()..."<< std::endl;
    TSeqCollection* specials=gROOT->GetListOfSpecials();
    TIter iter(specials);
-   TObject* ob = nullptr;
-   while((ob = iter()) != nullptr) {
+   while(auto ob = iter()) {
      if(ob->InheritsFrom(TCutG::Class())) {
         specials->Remove(ob);
-        //std::cout <<">>>>>>>>>> removed fxCut" << (long) ob<<" :" << ob->GetName() <<" from list of specials "<< std::endl;
      }
-   }//while
+   }
 }
 
 Int_t TGo4PolyCond::GetMemorySize()
