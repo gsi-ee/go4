@@ -178,9 +178,9 @@ void TGo4MbsEvent::PrintEvent()
 //        << " len "  << std::setw(8) << (Int_t) GetDlen()
 //        << " trig   " << std::setw(4) << (Int_t) GetTrigger()
 //        << std::endl;
-//   TGo4MbsSubEvent *sub(0);
+//   TGo4MbsSubEvent *sub = nullptr;
 //   ResetIterator();
-//   while ((sub=NextSubEvent())!=0) sub->PrintEvent();
+//   while ((sub=NextSubEvent()) != nullptr) sub->PrintEvent();
 
    // very new style - just using printf
    PrintMbsEvent();
@@ -253,11 +253,11 @@ void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t 
    }
 
 
-   TGo4MbsSubEvent *sub(0);
+   TGo4MbsSubEvent *sub = nullptr;
    ResetIterator();
-   while ((sub=NextSubEvent())!=0) {
+   while ((sub = NextSubEvent()) != nullptr) {
 
-      if ((subid>=0) && (sub->GetProcid()!=subid)) continue;
+      if ((subid >= 0) && (sub->GetProcid() != subid)) continue;
 
       sub->PrintMbsSubevent(longw, hexw, dataw);
    }

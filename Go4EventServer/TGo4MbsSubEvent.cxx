@@ -53,7 +53,7 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
    Clear();
    if(fbIsDataOwner && fiData) {
       for(Int_t t=0; t<GetAllocatedLength(); t++)
-         if(fiData[t]!=0)
+         if(fiData[t] != 0)
             TGo4Log::Debug( " MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ",t);
       delete [] fiData;
       //TGo4Log::Info( "MBS SubEvent dtor deleted data field");

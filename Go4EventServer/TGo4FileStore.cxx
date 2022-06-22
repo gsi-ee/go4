@@ -77,9 +77,9 @@ TGo4FileStore::TGo4FileStore(const char* name,
    const char* lastname = name;
    const char* oldname = name;
    lastname = strstr(oldname,"/");
-   while(lastname!=0) {
-      oldname=lastname+1;
-      lastname=strstr(oldname,"/");
+   while(lastname) {
+      oldname = lastname+1;
+      lastname = strstr(oldname,"/");
    }
    buffer = oldname;
    buffer += fgcTREESUF;
@@ -133,12 +133,11 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    // strip any path information from treename (could be identical with filename!)
    const char* lastname = par->GetTitle();
    const char* oldname=lastname;
-   lastname=strstr(oldname,"/");
-   while(lastname!=0) {
-      oldname=lastname+1;
-      lastname=strstr(oldname,"/");
+   lastname = strstr(oldname,"/");
+   while(lastname) {
+      oldname = lastname+1;
+      lastname = strstr(oldname,"/");
    }
-
 
    buffer = oldname;
    buffer += fgcTREESUF;

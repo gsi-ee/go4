@@ -119,10 +119,9 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
 {
    GO4TRACE((14,"TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter*)",__LINE__, __FILE__));
 
+   TGo4EventSource* rev = nullptr;
 
-   TGo4EventSource* rev=0;
-
-   if(par!=0) {
+   if(par) {
       if(!strcmp(par->ClassName(),"TGo4FileSourceParameter"))
       {
          rev = new TGo4FileSource(dynamic_cast<TGo4FileSourceParameter* > (par) );
@@ -160,12 +159,10 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
       }
 #ifdef __GO4HDF5__
       else if(!strcmp(par->ClassName(),"TGo4HDF5SourceParameter"))
-       {
-               rev = new TGo4HDF5Source(dynamic_cast<TGo4HDF5SourceParameter* > (par));
-       }
+      {
+         rev = new TGo4HDF5Source(dynamic_cast<TGo4HDF5SourceParameter* > (par));
+      }
 #endif
-
-
       else if(!strcmp(par->ClassName(),"TGo4UserSourceParameter"))
       {
          rev = new TGo4MbsRandom(par->GetName());

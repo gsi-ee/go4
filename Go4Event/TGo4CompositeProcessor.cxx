@@ -41,7 +41,7 @@ TGo4CompositeProcessor::~TGo4CompositeProcessor()
 
 void TGo4CompositeProcessor::AddSubProcessor(TGo4EventProcessor* proc)
 {
-   if (proc!=0) fSubProcessors.AddLast(proc);
+   if (proc) fSubProcessors.AddLast(proc);
 }
 
 void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent* subevt)

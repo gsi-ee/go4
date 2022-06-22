@@ -50,9 +50,9 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);
    va_end(args);
-   if(crestat!=0)
+   if(crestat != 0)
       SetCreateStatus(crestat);
-   if(errstat!=0)
+   if(errstat != 0)
       SetEventStatus(errstat);
    SetErrMess(txtbuf);
    delete[] txtbuf;
@@ -67,9 +67,9 @@ void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);
    va_end(args);
-   if(crestat!=0)
+   if(crestat != 0)
       SetCreateStatus(crestat);
-   if(errstat!=0)
+   if(errstat != 0)
       SetEventStatus(errstat);
    SetErrMess(txtbuf);
    delete[] txtbuf;
@@ -81,7 +81,6 @@ void TGo4EventSource::Clear(Option_t*)
    // dummy clear, may be implemented by user
    TGo4Log::Info("Default clear of eventsource %s", GetName());
 }
-
 
 const char* TGo4EventSource::GetActiveName()
 {
