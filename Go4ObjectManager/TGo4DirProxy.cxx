@@ -377,15 +377,14 @@ Bool_t TGo4DirProxy::UpdateObjectInFile(const char* filepath, TObject* obj)
 
    TDirectory* objdir = f;
 
-   if (foldername.Length()>0) {
+   if (foldername.Length() > 0)
       objdir = dynamic_cast<TDirectory*> (f->Get(foldername));
-   }
 
    char namebuf[10000];
    Short_t cyclebuf;
    TDirectory::DecodeNameCycle(objname.Data(), namebuf, cyclebuf, sizeof(namebuf));
 
-   if (objdir!=0) {
+   if (objdir) {
       objdir->cd();
       objdir->Delete(objname.Data());
       objdir->WriteTObject(obj, namebuf, "Overwrite");

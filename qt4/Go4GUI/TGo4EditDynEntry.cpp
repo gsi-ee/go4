@@ -233,8 +233,8 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
         QString("Continue with current"),
         QString("Start with new"), QString(), 0);
 //        (BrowserItemRemote(oldname) ? QString("Update current in analysis and work with new") : QString()), 0);
-      if (res==0) return;
-//      if (res==2) UpdateItemInAnalysis(oldname);
+      if (res == 0) return;
+//      if (res == 2) UpdateItemInAnalysis(oldname);
    }
 
    ResetWidget();

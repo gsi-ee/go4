@@ -191,7 +191,7 @@ TString TGo4Log::subGO4SYS(const char* subdir)
 {
    const char* go4sys = GO4SYS();
 
-   if ((subdir==0) || (strlen(subdir)==0)) return TString(go4sys);
+   if (!subdir || (strlen(subdir)==0)) return TString(go4sys);
 
    TString res = go4sys;
 

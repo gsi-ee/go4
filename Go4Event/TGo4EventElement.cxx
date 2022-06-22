@@ -179,7 +179,7 @@ Int_t TGo4EventElement::Fill()
 
    SetValid(kFALSE);
 
-   return res==0 ? 1 : res;
+   return res == 0 ? 1 : res;
 }
 
 

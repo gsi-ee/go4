@@ -115,7 +115,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
 
    TDirectory* savdir = gDirectory;
    gROOT->cd();
-   TH1* h = 0;
+   TH1* h = nullptr;
    switch(htype) {
       case 11: h = new TH1S(hname, htitle, nxbins, xmin, xmax); break;
       case 12: h = new TH1D(hname, htitle, nxbins, xmin, xmax); break;
@@ -134,7 +134,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
       case 35: h = new TH3C(hname, htitle, nxbins, xmin, xmax, nybins, ymin, ymax, nzbins, zmin, zmax); break;
    }
 
-   if (savdir!=0) savdir->cd();
+   if (savdir) savdir->cd();
 
    return h;
 }
@@ -150,5 +150,3 @@ void TGo4CreateNewHistogram::CreateRemoteHis()
    fSelectedCmd = 2;
    accept();
 }
-
-

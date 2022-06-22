@@ -46,19 +46,19 @@ void go4StartServer()
 
 void go4RegisterAll()
 {
-TGo4Analysis* go4 = TGo4Analysis::Instance();
-TDirectory* gdir = gDirectory;
-//   TIter caniter(gROOT->GetListOfCanvases());
-//   TCanvas* can = 0;
-//   while (can = caniter())
-//      go4->AddCanvas(can);
+   TGo4Analysis* go4 = TGo4Analysis::Instance();
+   TDirectory* gdir = gDirectory;
+   //   TIter caniter(gROOT->GetListOfCanvases());
+   //   TCanvas* can = nullptr;
+   //   while (can = caniter())
+   //      go4->AddCanvas(can);
 
-//   go4->DeleteObjects("Histograms");
+   //   go4->DeleteObjects("Histograms");
 
-   if (gdir!=0) {
+   if (gdir) {
       gdir->cd();
       TIter iter(gdir->GetList());
-      TObject* obj = 0;
+      TObject* obj = nullptr;
       while (obj = iter()) {
          if (obj->InheritsFrom(TH1::Class()))
            go4->AddHistogram((TH1*)obj);
