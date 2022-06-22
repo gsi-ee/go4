@@ -715,16 +715,19 @@ ViewPanelHandle TGo4Script::StartViewPanel()
 ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture* pic)
 {
    TGo4ViewPanel* panel = fMainWin->MakeNewPanel(1);
-   if (panel==0) return 0;
+   if (!panel) return (ViewPanelHandle) nullptr;
 
-   if (mode==0) panel->showMinimized(); else
-   if (mode==2) panel->showMaximized(); else {
+   if (mode == 0)
+      panel->showMinimized();
+   else if (mode == 2)
+      panel->showMaximized();
+   else {
       panel->showNormal();
-      panel->parentWidget()->move(QPoint(x,y));
+      panel->parentWidget()->move(QPoint(x, y));
       panel->parentWidget()->resize(QSize(width, height));
    }
 
-   if (pic!=0) {
+   if (pic) {
       panel->ProcessPictureRedraw("", panel->GetCanvas(), pic);
       if (TString(DefaultPicTitle()) != pic->GetTitle())
          panel->SetFreezedTitle(pic->GetTitle());
@@ -738,7 +741,7 @@ ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, 
 TString TGo4Script::GetViewPanelName(ViewPanelHandle handle)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel==0) return TString();
+   if (!panel) return TString();
    return TString(panel->objectName().toLatin1().constData());
 }
 
@@ -750,7 +753,7 @@ ViewPanelHandle TGo4Script::FindViewPanel(const char* name)
 Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char* newname)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if ((handle==0) || (newname==0) || (strlen(newname)==0)) return kFALSE;
+   if (!handle || !newname || (strlen(newname)==0)) return kFALSE;
 
    if (fMainWin->FindViewPanel(newname)) {
       Message(TString::Format("Viewpanel with name %s already exists",newname).Data());
@@ -772,48 +775,48 @@ ViewPanelHandle TGo4Script::GetActiveViewPanel()
 void TGo4Script::RedrawPanel(ViewPanelHandle handle)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel!=0) panel->RedrawPanel(panel->GetCanvas(), true);
+   if (panel) panel->RedrawPanel(panel->GetCanvas(), true);
 }
 
 void TGo4Script::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel!=0) panel->Divide(numX, numY);
+   if (panel) panel->Divide(numX, numY);
 }
 
 TPad* TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel!=0) {
+   if (panel) {
       TPad* pad = panel->GetSubPad(0, number, false);
-      if (pad==0) pad = panel->GetCanvas();
+      if (!pad) pad = panel->GetCanvas();
       panel->SetActivePad(pad);
       ProcessEvents();
       return pad;
    }
-   return 0;
+   return nullptr;
 }
 
 TGo4Picture* TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel==0) return 0;
+   if (!panel) return nullptr;
 
    TPad* pad = panel->GetSubPad(0, padnumber, false);
-   if (pad==0) pad = panel->GetCanvas();
+   if (!pad) pad = panel->GetCanvas();
    return panel->GetPadOptions(pad);
 }
 
 void TGo4Script::SetSuperimpose(ViewPanelHandle handle, Bool_t on)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel!=0) panel->SetPadSuperImpose(panel->GetActivePad(), on);
+   if (panel) panel->SetPadSuperImpose(panel->GetActivePad(), on);
 }
 
 void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
-   if (panel!=0) panel->SetApplyToAllFlag(on);
+   if (panel) panel->SetApplyToAllFlag(on);
 }
 
 Bool_t TGo4Script::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)
@@ -822,16 +825,16 @@ Bool_t TGo4Script::DrawItem(const char* itemname, ViewPanelHandle handle, const 
 
    panel = fMainWin->DisplayBrowserItem(itemname, panel, 0, true, -1, drawopt);
 
-   if (panel!=0) ProcessEvents();
+   if (panel) ProcessEvents();
 
-   return (panel!=0);
+   return panel != nullptr;
 }
 
 const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
 
-   return panel ? panel->GetDrawItemName(cnt) : 0;
+   return panel ? panel->GetDrawItemName(cnt) : nullptr;
 }
 
 void TGo4Script::StartFitPanel()
@@ -841,13 +844,13 @@ void TGo4Script::StartFitPanel()
 
 TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* account, const char* pass)
 {
-   if ((servername==0) || (*servername==0)) return 0;
+   if (!servername || (*servername==0)) return nullptr;
 
    TGo4HttpProxy* proxy = new TGo4HttpProxy();
    if(account) proxy->SetAccount(account, pass);
    if (!proxy->Connect(servername)) {
       delete proxy;
-      return 0;
+      return nullptr;
    }
 
    const char* slotname = servername;
@@ -986,7 +989,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                  << (store ? "kTRUE" : "kFALSE") << ");" << std::endl;
 
       QString srcname;
-      int timeout(0), start(0), stop(0), interval(0), nport(0), nretry(0);
+      int timeout = 0, start = 0, stop = 0, interval = 0, nport = 0, nretry = 0;
       int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval, nport, nretry);
 
       TString srcargs;
@@ -1034,7 +1037,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       } //  switch(nsrc)
       fs << ");" << std::endl;
 
-      if ((start!=0) || (stop!=0) || (interval>1)) {
+      if ((start != 0) || (stop != 0) || (interval > 1)) {
          srcargs.Form("(\"%s\", %d, %d ,%d)",stepconf->GetStepName().toLatin1().constData(), start, stop, interval);
          fs << "go4->StepMbsSelection" << srcargs << ";" << std::endl;
       }
@@ -1096,11 +1099,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << std::endl;
    }
 
-   if (((anal!=0) && anal->IsAnalysisSettingsReady()) || ((serv!=0) && (serv!=anal)))
+   if ((anal && anal->IsAnalysisSettingsReady()) || (serv && (serv != anal)))
       fs << "go4->SubmitAnalysisConfig(20);" << std::endl << std::endl;
 
    int mode = 1;
-   QWidget* mdi = confgui ? confgui->parentWidget() : 0;
+   QWidget* mdi = confgui ? confgui->parentWidget() : nullptr;
    if (mdi!=0) {
       if (mdi->isHidden()) mode = -1; else
       if (mdi->isMinimized()) mode = 0;
@@ -1139,25 +1142,25 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
-   if (((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) ||
-       ((serv!=0) && (serv!=anal) && serv->IsAnalysisRunning())) {
+   if ((anal && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) ||
+       (serv && (serv!=anal) && serv->IsAnalysisRunning())) {
       fs << "go4->StartAnalysis();" << std::endl;
       fs << std::endl;
       fs << "// in some analysis one requires to wait several seconds before new histograms appears" << std::endl;
       fs << "// go4->Wait(1);" << std::endl;
       fs << "go4->RefreshNamesList();" << std::endl;
    } else
-   if ((anal!=0) || (serv!=0)) {
+   if (anal || serv) {
       fs << std::endl;
       fs << "go4->RefreshNamesList();" << std::endl;
    }
 
-   int npanel(0);
+   int npanel = 0;
 
    QList<QMdiSubWindow *> windows = TGo4MdiArea::Instance()->subWindowList();
    for (int i=0; i<windows.count(); ++i ) {
       TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
-      if (panel==0) continue;
+      if (!panel) continue;
 
       TString picname = TString::Format("pic%d", ++npanel);
       TGo4Picture pic(picname.Data(), DefaultPicTitle());

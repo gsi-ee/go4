@@ -430,7 +430,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
 {
    switch (signalid) {
       case panel_Activated: {
-         if ((panel==0) || (pad==0)) return;
+         if (!panel || !pad) return;
 
          if (fbDrawPanelCreation) return;
          if ((panel==fxDrawNewPanel) || fbDrawPanelCreation) return;
@@ -461,7 +461,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
          fxActivePanel = panel;
          fxActivePad = pad;
 
-         if ((panel!=0) && (pad!=0)) {
+         if (panel && pad) {
             TGo4Slot* slot = panel->GetDrawObjectSlot(pad, "::Fitter");
             AddLink(slot, "Fitter");
          }
@@ -484,13 +484,13 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
       }
 
       case panel_Deleted: {
-         if (panel==0) return;
-         if (panel==fxDrawNewPanel) { fxDrawNewPanel = 0; return; }
-         if (WorkingWithPanel() && (panel==ActivePanel())) {
+         if (!panel) return;
+         if (panel==fxDrawNewPanel) { fxDrawNewPanel = nullptr; return; }
+         if (WorkingWithPanel() && (panel == ActivePanel())) {
             ClearObjectReferenceInSlots();
             RemoveFitterLink();
-            fxActivePanel = 0;
-            fxActivePad = 0;
+            fxActivePanel = nullptr;
+            fxActivePad = nullptr;
          }
 
          UpdateActivePage();
@@ -504,7 +504,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
 
 bool TGo4FitPanel::WorkingWithPanel()
 {
-   return (fxActivePanel!=0) && (fxActivePad!=0);
+   return fxActivePanel && fxActivePad;
 }
 
 bool TGo4FitPanel::WorkingWithOnlyPad()
@@ -532,7 +532,7 @@ void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)
    ClearObjectReferenceInSlots();
    RemoveFitterLink();
    if (!WorkingWithPanel()) {
-      if (fitter!=0) {
+      if (fitter) {
          QString itemname = SaveObjectInMemory("FitPanel", fitter);
          AddLink(itemname.toLatin1().constData(), "Fitter");
       }
@@ -543,7 +543,7 @@ void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)
                          TGo4ViewPanel::kind_Fitter,
                          "::Fitter",
                          fitter, true, 0);
-      if (slot!=0)
+      if (slot)
          AddLink(slot, "Fitter");
    }
    UpdateObjectReferenceInSlots();
@@ -553,7 +553,7 @@ void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)
 TGo4Fitter* TGo4FitPanel::CloneFitter()
 {
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return 0;
+   if (!fitter) return nullptr;
 
    fitter->SetSaveFlagForObjects(fbSaveWithReferences);
 
@@ -564,8 +564,8 @@ void TGo4FitPanel::Fitter_New()
 {
   if (WorkingWithPanel()) {
      ClearObjectReferenceInSlots();
-     fxActivePanel = 0;
-     fxActivePad = 0;
+     fxActivePanel = nullptr;
+     fxActivePad = nullptr;
   }
 
   TGo4Fitter* fitter = new TGo4Fitter("Fitter","Fitter object");
@@ -578,7 +578,7 @@ void TGo4FitPanel::Fitter_New()
 void TGo4FitPanel::Fitter_NewForActivePad(bool overwrite)
 {
    TGo4ViewPanel* panel = LastActivePanel();
-   if ((panel==0) || (panel==fxDrawNewPanel)) return;
+   if (!panel || (panel==fxDrawNewPanel)) return;
    TPad* pad = panel->GetActivePad();
 
    ClearObjectReferenceInSlots();
@@ -588,14 +588,14 @@ void TGo4FitPanel::Fitter_NewForActivePad(bool overwrite)
    fxActivePanel = panel;
    fxActivePad = pad;
 
-   if ((panel!=0) && (pad!=0)) {
+   if (panel && pad) {
       TGo4Slot* fitterslot = panel->GetDrawObjectSlot(pad, "::Fitter");
 
-      if (!overwrite && (fitterslot!=0))
+      if (!overwrite && fitterslot)
         AddLink(fitterslot, "Fitter");
    }
 
-   if (overwrite || (GetFitter()==0))
+   if (overwrite || !GetFitter())
       SetFitter(CreateFitterFor(panel, pad, "Fitter"));
 
    UpdateObjectReferenceInSlots();
@@ -692,10 +692,10 @@ void TGo4FitPanel::Button_WorkWithPanel()
    TGo4LockGuard lock;
 
    TGo4Fitter* fitter = GetFitter();
-   if (fitter!=0) {
+   if (fitter) {
       TGo4ViewPanel* panel = LastActivePanel();
-      if ((panel==0) || (panel==fxDrawNewPanel)) return;
-      if ( (panel!=ActivePanel()) || (panel->GetActivePad()!=ActivePad())) {
+      if (!panel || (panel==fxDrawNewPanel)) return;
+      if ((panel!=ActivePanel()) || (panel->GetActivePad()!=ActivePad())) {
          TGo4Fitter* clone = (TGo4Fitter*) fitter->Clone();
          fxActivePanel = panel;
          fxActivePad = panel->GetActivePad();
@@ -910,8 +910,8 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
        if (data->GetDataType()==TGo4FitData::dtGraph)
          drawopt = "L";
 
-       TGo4ViewPanel* panel = 0;
-       TPad* pad = 0;
+       TGo4ViewPanel* panel = nullptr;
+       TPad* pad = nullptr;
 
        if (UseSamePads) {
           panel = ActivePanel();
@@ -920,7 +920,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
           panel = fxDrawNewPanel;
           pad = fxDrawNewPanel->GetSubPad(0, n, true);
        }
-       if ((panel==0) || (pad==0)) continue;
+       if (!panel || !pad) continue;
 
        panel->DeleteDrawObjects(pad, TGo4ViewPanel::kind_FitModels);
 
@@ -1999,15 +1999,15 @@ void TGo4FitPanel::AboutToShowFitterMenu()
    TGo4Fitter* fitter = GetFitter();
    TGo4ViewPanel* panel = LastActivePanel();
 
-   bool samepad = (panel==0) ? false : WorkingWithPanel() &&
+   bool samepad = !panel ? false : WorkingWithPanel() &&
                   (panel==ActivePanel()) && (panel->GetActivePad()==ActivePad());
 
    QString padname;
-   if (panel!=0) padname = QString("panel \"") + panel->windowTitle() + "\"";
+   if (panel) padname = QString("panel \"") + panel->windowTitle() + "\"";
 
    if (fiPanelMode==FitGui::pm_Expert)
      AddIdAction(FitterMenu, FitterMap, "&Create for workspace", 1, true);
-   AddIdAction(FitterMenu, FitterMap, QString("Create &for ")+padname, 2, (panel!=0));
+   AddIdAction(FitterMenu, FitterMap, QString("Create &for ")+padname, 2, (panel!=nullptr));
    AddIdAction(FitterMenu, FitterMap, "&Delete", 3, (fitter!=0));
    FitterMenu->addSeparator();
 
@@ -3424,7 +3424,7 @@ void TGo4FitPanel::PF_MinNoiseEdit_returnPressed()
 
 TGo4Fitter* TGo4FitPanel::CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name)
 {
-   if ((panel==0) || (pad==0)) return 0;
+   if (!panel || !pad) return nullptr;
 
    TGo4Fitter* fitter = new TGo4Fitter(name,"Fitter object");
 
@@ -3441,7 +3441,7 @@ TGo4Fitter* TGo4FitPanel::CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const
 
 void TGo4FitPanel::CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter)
 {
-   if ((fitter==0) || (panel==0) || (pad==0)) return;
+   if (!fitter || !panel || !pad) return;
 
    int npads = panel->GetNumberOfPads(pad);
 
@@ -3451,15 +3451,14 @@ void TGo4FitPanel::CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fi
       TObject* obj = panel->GetPadMainObject(subpad);
       if (obj==0) continue;
 
-      TGo4FitData* data = 0;
+      TGo4FitData* data = nullptr;
 
       if (obj->InheritsFrom(TH1::Class()))
          data = new TGo4FitDataHistogram(fitter->FindNextName("Data",0,kFALSE));
-      else
-      if (obj->InheritsFrom(TGraph::Class()))
+      else if (obj->InheritsFrom(TGraph::Class()))
          data = new TGo4FitDataGraph(fitter->FindNextName("Data",0,kFALSE));
 
-      if (data!=0)
+      if (data)
          fitter->AddData(data);
    }
 }
@@ -3467,7 +3466,7 @@ void TGo4FitPanel::CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fi
 void TGo4FitPanel::UpdateActivePage()
 {
    int select = fiPanelMode;
-   if (GetFitter()==0) select = FitGui::pm_None;
+   if (!GetFitter()) select = FitGui::pm_None;
 
    if (fbParsWidgetShown && (select!=FitGui::pm_None)) select = 100;
 
@@ -3533,7 +3532,7 @@ void TGo4FitPanel::UpdateExtendedPage()
    fbFillingWidget = false;
 
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) {
+   if (!fitter) {
       new QFitItem(this, FitList->invisibleRootItem(), 0, FitGui::ot_empty, FitGui::wt_none, FitGui::mt_empty);
    } else {
       QFitItem* fitteritem = new QFitItem(this, FitList->invisibleRootItem(), fitter, FitGui::ot_fitter, FitGui::wt_fitter, FitGui::mt_fitter, FitGui::gt_fitter);
@@ -3552,11 +3551,11 @@ void TGo4FitPanel::RemovePrimitives()
    if (!WorkingWithPanel()) return;
 
    TGo4Fitter* fitter = GetFitter();
-   if (fitter==0) return;
+   if (!fitter) return;
 
    for(Int_t n = 0; n<fitter->NumSlots();n++) {
       TPad* pad = FindPadForSlot(fitter->GetSlot(n));
-      if (pad==0) continue;
+      if (!pad) continue;
       if (ActivePanel()->DeleteDrawObjects(pad, TGo4ViewPanel::kind_FitArrows))
         ActivePanel()->ShootRepaintTimer();
    }

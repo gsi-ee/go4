@@ -57,9 +57,9 @@ void TGo4SetScaleValues::refreshView(bool force)
 
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
 
-   setEnabled(panel!=0);
+   setEnabled(panel != nullptr);
 
-   if (panel!=0) {
+   if (panel) {
 
       setWindowTitle(QString("Scale values: ") + panel->objectName());
 
@@ -139,7 +139,7 @@ void TGo4SetScaleValues::ApplyValues()
    if (fbDoingRefresh) return;
 
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel==0) return;
+   if (!panel) return;
 
    double Xmin = XminV->text().toDouble();
    double Xmax = XmaxV->text().toDouble();
@@ -163,7 +163,7 @@ void TGo4SetScaleValues::AutoscaleChanged(bool on)
 {
    if (fbDoingRefresh) return;
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
-   if (panel==0) return;
+   if (!panel) return;
 
    fbDoingRefresh = true;
    panel->SetAutoScale(on, 0);

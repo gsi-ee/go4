@@ -205,7 +205,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
 
    TGo4ViewPanel* panel = WhereItemDrawn(itemname);
 
-   if (panel==0) {
+   if (!panel) {
       GetLinked("Condition", 2);
       fbDrawOnNextRefresh = true;
       fiSelectedIndex = -1;
@@ -261,18 +261,18 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (cond==0) return;
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
-   TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
+   TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    TGo4BrowserProxy* br = Browser();
-   TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : 0;
-   UpdateCon->setEnabled((serv==0) || serv->CanSubmitObjects());
+   TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : nullptr;
+   UpdateCon->setEnabled(!serv || serv->CanSubmitObjects());
 
-   PleaseUpdateLabel->setVisible(cond->IsChanged()!=0);
+   PleaseUpdateLabel->setVisible(cond->IsChanged() != 0);
    fiLastChangeValue = cond->IsChanged();
 
    QString hitemname;
-   TH1* histo = 0;
-   if ((panel!=0) && (pad!=0)) {
+   TH1* histo = nullptr;
+   if (panel && pad) {
       histo = panel->GetPadHistogram(pad);
       hitemname = panel->GetDrawObjectLinkName(pad, histo);
       if (checkindex) {
@@ -489,7 +489,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (fbDrawOnNextRefresh) {
       fbDrawOnNextRefresh = false;
       TString hitemname;
-      if ((panel==0) && HistogramChk->isChecked() &&
+      if (!panel && HistogramChk->isChecked() &&
          Browser()->DefineRelatedObject(conditemname, hname, hitemname))
            DrawCondition(false);
    }
@@ -499,17 +499,15 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 TGo4Condition* TGo4ConditionEditor::SelectedCondition()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return 0;
+   if (!cond) return nullptr;
 
    TGo4CondArray* arr = dynamic_cast<TGo4CondArray*> (cond);
 
-   if ((arr==0) || (fiSelectedIndex==-1))
-   {
+   if (!arr || (fiSelectedIndex==-1)) {
      if(arr) arr->SetMultiEdit(kTRUE);
      return cond;
    }
-   if (fiSelectedIndex<arr->GetNumber())
-   {
+   if (fiSelectedIndex<arr->GetNumber()) {
      arr->SetMultiEdit(kFALSE);
      arr->SetCurrentIndex(fiSelectedIndex);
      return arr->At(fiSelectedIndex);
@@ -555,7 +553,7 @@ void TGo4ConditionEditor::SetResultMode( int mode )
 void TGo4ConditionEditor::SetInvertMode( int mode )
 {
    TGo4Condition* cond = SelectedCondition();
-   if (!fbTypingMode || (cond==0)) return;
+   if (!fbTypingMode || !cond) return;
    cond->Invert(mode==1);
    PleaseUpdateSlot();
 }
@@ -852,13 +850,13 @@ bool TGo4ConditionEditor::PrepareForAnalysis()
 void TGo4ConditionEditor::ModifyButton_clicked()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond==0) return;
+   if (!cond) return;
 
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
-   TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
+   TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
-   if ((panel==0) || (pad==0)) return;
+   if (!panel || !pad) return;
 
    panel->SetActivePad(pad);
 
@@ -894,7 +892,7 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
 
 void TGo4ConditionEditor::FillEllipseWidget(TGo4ShapedCond* elli)
 {
-  if(elli==0) return;
+   if(!elli) return;
    bool old = fbTypingMode;
    fbTypingMode = false;
    double a1=0,a2=0,x=0,y=0;
@@ -921,8 +919,6 @@ void TGo4ConditionEditor::FillEllipseWidget(TGo4ShapedCond* elli)
 
 void TGo4ConditionEditor::ShowEllipseWidget(bool show)
 {
-
-
     EllipseCxSpinbox->setVisible(show);
     EllipseCySpinbox->setVisible(show);
     EllipseA1Spinbox->setVisible(show);
