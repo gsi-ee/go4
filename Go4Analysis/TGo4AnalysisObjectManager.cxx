@@ -2093,7 +2093,7 @@ Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& path
    while ((sub = iter()) != nullptr) {
       if (!sub->InheritsFrom(TFolder::Class())) continue;
       if (FindObjectPathName(obj, pathname, (TFolder*) sub)) {
-         if (pathname.Length() == 0)
+         if (pathname.IsNull())
             pathname = sub->GetName();
          else
             pathname = TString(sub->GetName()) + "/" + pathname;

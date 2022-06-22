@@ -92,7 +92,7 @@ void TGo4CommandLine::enterPressedSlot()
   const char pyprompt = '$';
   QString pyinitfile="python/go4init.py"; // JAM put this to settings later?
   QString str = InputLine->currentText();
-  if (str.length() == 0)
+  if (str.isEmpty())
     return;
 
   if (str.contains("help") || str.contains(".go4h"))

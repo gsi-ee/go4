@@ -587,7 +587,7 @@ TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
    QString selname = GetSelectedMarkerName(pad);
    int selindex = GetSelectedMarkerIndex(pad);
 
-   if (!padslot || (selname.length() == 0)) return nullptr;
+   if (!padslot || selname.isEmpty()) return nullptr;
 
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot* subslot = padslot->GetChild(n);
@@ -714,7 +714,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
    if (!padslot)
       return;
 
-   if (selname.length() == 0)
+   if (selname.isEmpty())
       selindex = -1;
 
    int oldselindex = GetSelectedMarkerIndex(pad);
@@ -1305,7 +1305,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
    if (!pad)
       return;
-   if ((px<0) || (py<0)) {
+
+   if ((px < 0) || (py < 0)) {
       px = pad->GetEventX();
       py = pad->GetEventY();
    }
@@ -1314,7 +1315,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
    Double_t x = pad->PadtoX(pad->AbsPixeltoX(px));
    Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
 
-   bool docreate = GetSelectedMarkerName(pad).length() == 0;
+   bool docreate = GetSelectedMarkerName(pad).isEmpty();
    bool docheck = false;
    bool iscreated = false;
 
@@ -1528,7 +1529,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
          CanvasUpdate(true);
      //    std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for latex"<<std::endl;
-
 
 //        RedrawPanel(pad, true);
          break;
@@ -1752,7 +1752,7 @@ TH1 *TGo4ViewPanel::Get_fHistogram(TObject *obj, bool force)
 
    if (!force || IsWebCanvas()) return *hist;
 
-   if (obj->IsA()==THStack::Class())
+   if (obj->IsA() == THStack::Class())
       return ((THStack *)obj)->GetHistogram();
 
    if (obj->IsA() == TMultiGraph::Class())
@@ -2393,7 +2393,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    } else {
 
       QString newslotname = itemname;
-      if ((newslotname.length() == 0) || padslot->FindChild(newslotname.toLatin1().constData())) {
+      if (newslotname.isEmpty() || padslot->FindChild(newslotname.toLatin1().constData())) {
          int cnt = 0;
          do {
             if (!itemname || (*itemname == 0))
@@ -2868,9 +2868,9 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          Int_t kind = GetDrawKind(objslot);
 
          TString drawopt = padopt->GetDrawOption(n);
-         if (drawopt.Length() == 0)
+         if (drawopt.IsNull())
             drawopt = GetSpecialDrawOption(objslot);
-         if (drawopt.Length() == 0)
+         if (drawopt.IsNull())
             drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
          drawopt.ToLower();
@@ -4128,7 +4128,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       TakeFullRangeFromHisto(his, padopt, true);
 
    TString drawopt(padopt->GetDrawOption(0));
-   if (drawopt.Length() == 0) {
+   if (drawopt.IsNull()) {
       if (his->GetDimension() == 1)
          drawopt = go4sett->getTH1DrawOpt().toLatin1().constData();
       else if (his->GetDimension() == 2)
@@ -4143,7 +4143,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       his->SetLineWidth(go4sett->getDrawLineWidth());
 
    // only activate panel defaults if no fill color set by user:
-   if (first_draw && (go4sett->getDrawFillColor()>0) && (his->GetFillColor()==0))
+   if (first_draw && (go4sett->getDrawFillColor() > 0) && (his->GetFillColor() == 0))
      his->SetFillColor(go4sett->getDrawFillColor());
    if (first_draw && (go4sett->getDrawFillStyle()!=1001) && (his->GetFillStyle()==1001))
      his->SetFillStyle(go4sett->getDrawFillStyle());
@@ -4177,7 +4177,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
    Int_t drawoptindx = dosuperimpose ? TGo4Picture::PictureIndex : 0;
    TString drawopt(padopt->GetDrawOption(drawoptindx));
-   if (drawopt.Length() == 0)
+   if (drawopt.IsNull())
       drawopt = "hist";
    if (!drawopt.Contains(NoStackDrawOption, TString::kIgnoreCase))
       drawopt.Prepend(NoStackDrawOption);
@@ -4219,7 +4219,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
          padopt->SetHisStats(kFALSE);
          padopt->SetXAxisTimeDisplay(kTRUE);
          padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
-         if (drawopt.Length() == 0) {
+         if (drawopt.IsNull()) {
             drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
             padopt->SetDrawOption(drawopt);
          }
@@ -4235,7 +4235,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
          gr->SetFillStyle(go4sett->getDrawFillStyle());
    }
 
-   if (drawopt.Length() == 0)
+   if (drawopt.IsNull())
       drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
    TH1* framehisto = Get_fHistogram(gr);
@@ -4278,7 +4278,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph
 
    Int_t drawoptindx = dosuperimpose ? TGo4Picture::PictureIndex : 0;
    TString drawopt(padopt->GetDrawOption(drawoptindx));
-   if (drawopt.Length() == 0)
+   if (drawopt.IsNull())
       drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
    if (dosuperimpose)
       drawopt = "";

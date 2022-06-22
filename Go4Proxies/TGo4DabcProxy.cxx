@@ -655,7 +655,7 @@ Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
 
 Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
 {
-   if (fNodeName.Length() == 0) return kFALSE;
+   if (fNodeName.IsNull()) return kFALSE;
 
    dabc::CmdGetNamesList cmd2;
    cmd2.SetReceiver(std::string(fNodeName.Data()) + dabc::Publisher::DfltName());
@@ -690,7 +690,7 @@ void TGo4DabcProxy::Finalize(TGo4Slot* slot)
 
 Bool_t TGo4DabcProxy::HasSublevels() const
 {
-   if (fxHierarchy == 0) return kFALSE;
+   if (!fxHierarchy) return kFALSE;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 

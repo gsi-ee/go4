@@ -40,8 +40,8 @@ class TGo4FitDependency : public TObject {
       const TString& GetExpression() const { return fxExpression; }
       Double_t GetInitValue() const { return fdInitValue; }
 
-      Bool_t IsResultDepend() const { return fxParameter.Length() == 0; }
-      Bool_t IsInitValue() const { return fxExpression.Length() == 0; }
+      Bool_t IsResultDepend() const { return fxParameter.IsNull(); }
+      Bool_t IsInitValue() const { return fxExpression.IsNull(); }
 
       void Initialize(Int_t iNumPar, const char* iFormula);
       Double_t ExecuteDependency(Double_t* Params);
@@ -54,7 +54,7 @@ class TGo4FitDependency : public TObject {
       TString fxExpression;
       Double_t fdInitValue{0.};
       Int_t fiNumPar{0};                  //!
-      TFormula *fxFormula{nullptr};             //!
+      TFormula *fxFormula{nullptr};       //!
 
    ClassDefOverride(TGo4FitDependency,1)
 };
