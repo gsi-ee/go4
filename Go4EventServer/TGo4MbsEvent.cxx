@@ -120,9 +120,8 @@ void TGo4MbsEvent::Clear(Option_t *)
    GO4TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
    if(!fbIsReference) {
       // here iterate all subevents and clear them
-      TGo4MbsSubEvent* sub = nullptr;
       ResetIterator();
-      while ((sub = NextSubEvent(kTRUE))!=nullptr)
+      while (auto sub = NextSubEvent(kTRUE))
          sub->Clear();
    }
 }
@@ -178,9 +177,9 @@ void TGo4MbsEvent::PrintEvent()
 //        << " len "  << std::setw(8) << (Int_t) GetDlen()
 //        << " trig   " << std::setw(4) << (Int_t) GetTrigger()
 //        << std::endl;
-//   TGo4MbsSubEvent *sub = nullptr;
 //   ResetIterator();
-//   while ((sub=NextSubEvent()) != nullptr) sub->PrintEvent();
+//   while (auto sub=NextSubEvent())
+//      sub->PrintEvent();
 
    // very new style - just using printf
    PrintMbsEvent();
@@ -252,10 +251,8 @@ void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t 
                GetType(), GetSubtype(), GetDlen()/2);
    }
 
-
-   TGo4MbsSubEvent *sub = nullptr;
    ResetIterator();
-   while ((sub = NextSubEvent()) != nullptr) {
+   while (auto sub = NextSubEvent()) {
 
       if ((subid >= 0) && (sub->GetProcid() != subid)) continue;
 
@@ -292,22 +289,20 @@ TGo4MbsSubEvent *TGo4MbsEvent::NextSubEvent(Bool_t all)
 TGo4MbsSubEvent *TGo4MbsEvent::GetSubEvent(Char_t subcrate, Char_t ctrl, Short_t procid)
 {
    GO4TRACE((11,"TGo4MbsEvent::GetSubEvent(Char_t)",__LINE__, __FILE__));
-   TGo4MbsSubEvent* sub = nullptr;
    ResetIterator();
-   while ((sub = NextSubEvent()) != nullptr)
-      if((sub->GetSubcrate()==subcrate) &&
-         (sub->GetControl()==ctrl) &&
-         (sub->GetProcid()==procid)) return sub;
+   while (auto sub = NextSubEvent())
+      if ((sub->GetSubcrate() == subcrate) && (sub->GetControl() == ctrl) && (sub->GetProcid() == procid))
+         return sub;
    return nullptr;
 }
 
 TGo4MbsSubEvent *TGo4MbsEvent::GetSubEvent(Short_t procid)
 {
    GO4TRACE((11,"TGo4MbsEvent::GetSubEvent(Short_t)",__LINE__, __FILE__));
-   TGo4MbsSubEvent* sub = nullptr;
    ResetIterator();
-   while ((sub = NextSubEvent()) != nullptr)
-      if(sub->GetProcid()== procid) return sub;
+   while (auto sub = NextSubEvent())
+      if(sub->GetProcid()== procid)
+         return sub;
    return nullptr;
 }
 
@@ -328,8 +323,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
 {
    Int_t fieldlength = 0;
    TGo4MbsSubEvent* subtarget = nullptr; // the subevent in use
-   TGo4MbsSubEvent* subtargetindex = nullptr; // target subevent iterator
-   if(datalength>2)
+   if(datalength > 2)
       fieldlength = (datalength-2) / (sizeof(Int_t) / sizeof(Short_t)); // field is Int_t
    else {
       TGo4Log::Debug(" !!! MbsSource --  EMPTY subevent #%d ", fullID);
@@ -337,7 +331,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
    }
 
    ResetIterator();
-   while ( ( subtargetindex = NextSubEvent(kTRUE) ) != nullptr ) {
+   while (auto subtargetindex = NextSubEvent(kTRUE)) {
       // get pointer to complete id longword in structures:
       Int_t* subtargetid= &((subtargetindex->fxHeader).fiFullid);
       if(*subtargetid == fullID) {

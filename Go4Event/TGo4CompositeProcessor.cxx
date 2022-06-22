@@ -78,9 +78,8 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
       fMbsTriggerNumber = fMbsInput->GetTrigger();
       fMbsEventNumber = fMbsInput->GetCount();
 
-      TGo4MbsSubEvent* psubevt = nullptr;
       fMbsInput->ResetIterator();
-      while((psubevt = fMbsInput->NextSubEvent()) != nullptr)
+      while(auto psubevt = fMbsInput->NextSubEvent())
       { // loop over subevents
          ProcessSubevent(psubevt); // process in our own subclass, if implemented
 
