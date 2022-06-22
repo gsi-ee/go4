@@ -232,16 +232,19 @@ Int_t TGo4FitComponent::GetNumRangeCut() const {
   return fxCuts.GetLast()+1;
 }
 
-TCutG* TGo4FitComponent::GetRangeCut(Int_t n) const {
-  return (n>=0) && (n<=fxCuts.GetLast()) ? dynamic_cast<TCutG*> (fxCuts.At(n)) : 0;
+TCutG* TGo4FitComponent::GetRangeCut(Int_t n) const
+{
+  return (n>=0) && (n<=fxCuts.GetLast()) ? dynamic_cast<TCutG*> (fxCuts.At(n)) : nullptr;
 }
 
-Bool_t TGo4FitComponent::IsRangeCutExcluding(Int_t n) {
+Bool_t TGo4FitComponent::IsRangeCutExcluding(Int_t n)
+{
   TCutG* cut = GetRangeCut(n);
-  return cut==0 ? kFALSE : cut->TestBit(kExcludeCut);
+  return !cut ? kFALSE : cut->TestBit(kExcludeCut);
 }
 
-void TGo4FitComponent::SetRangeCutExcluding(Int_t n, Bool_t exclude) {
+void TGo4FitComponent::SetRangeCutExcluding(Int_t n, Bool_t exclude)
+{
   TCutG* cut = GetRangeCut(n);
   if (cut) cut->SetBit(kExcludeCut, exclude);
 }
@@ -255,7 +258,8 @@ void TGo4FitComponent::RemoveRangeCut(Int_t n) {
   }
 }
 
-Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t& value) {
+Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t& value)
+{
    Bool_t isany = kFALSE;
    for(Int_t indx=0;indx<fxRangeAxis.GetSize();indx+=2)
       if ( fxRangeAxis[indx] == -(naxis+1) ) {
@@ -376,7 +380,7 @@ void TGo4FitComponent::Print(Option_t* option) const
     std::cout << "  Amplitude index: " << fiAmplIndex << std::endl;
 
     for (Int_t ncond=0; ncond<GetNumRangeCondition(); ncond++) {
-       if (ncond==0) std::cout << " Range selection: " << std::endl;
+       if (ncond == 0) std::cout << " Range selection: " << std::endl;
        Int_t typ, naxis;
        Double_t left, right;
        GetRangeCondition(ncond, typ, naxis, left, right);

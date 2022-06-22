@@ -44,7 +44,7 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 
    if (arrsize>1 && ctype!=3) {
        TGo4CondArray* arr = nullptr;
-       if (ctype==2) {
+       if (ctype == 2) {
           arr = new TGo4CondArray(cname, arrsize, "TGo4PolyCond");
           for (int n=0;n<arrsize;n++) {
              TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (arr->At(n));
@@ -54,15 +54,15 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
                 xx[indx]+=n*20.;
                 yy[indx]+=n*20.;
              }
-             if (pcond!=0)
+             if (pcond)
                pcond->SetValues(xx, yy, 5);
           }
        } else {
           arr = new TGo4CondArray(cname, arrsize, "TGo4WinCond");
           for (int n=0;n<arrsize;n++) {
             TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (arr->At(n));
-            if (wcond==0) continue;
-            if (ctype==0)
+            if (!wcond) continue;
+            if (ctype == 0)
                wcond->SetValues(0.,100.);
             else
                wcond->SetValues(0.,100.,0.,100.);
@@ -100,7 +100,7 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
       }
    }
 
-   if(cond!=0)
+   if(cond)
      cond->Enable();
 
    return cond;

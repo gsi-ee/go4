@@ -134,7 +134,7 @@ void TGo4ConditionInfo::ResetWidget()
 
 void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
 {
-   if(cond==0) return;
+   if(!cond) return;
 
    TString str;
    PropertyBox->item(CONTITLE)->setText(cond->GetTitle());

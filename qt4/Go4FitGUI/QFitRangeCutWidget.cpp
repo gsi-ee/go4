@@ -57,7 +57,7 @@ void QFitRangeCutWidget::FillSpecificData()
 void QFitRangeCutWidget::FillXYPointsTable()
 {
    TCutG* cut = GetCut();
-   if (cut==0) return;
+   if (!cut) return;
 
    XYTable->setRowCount(cut->GetN());
 
