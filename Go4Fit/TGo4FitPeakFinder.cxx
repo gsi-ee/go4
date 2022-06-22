@@ -184,7 +184,7 @@ void TGo4FitPeakFinder::DefinePolynom(Int_t size, Double_t* bins, Double_t* scal
      for(Int_t order2=order1;order2<=maxorder;order2++) {
         Double_t sum = 0;
         for(Int_t i=0;i<size;i++)
-           if((use==0) || use[i]) {
+           if(!use || use[i]) {
               Double_t zn = TMath::Power(scales[i],order1+order2);
               if (weight) zn*=weight[i];
               sum+=zn;
@@ -196,7 +196,7 @@ void TGo4FitPeakFinder::DefinePolynom(Int_t size, Double_t* bins, Double_t* scal
    for(Int_t order1=0;order1<=maxorder;order1++)  {
       Double_t sum = 0;
       for(Int_t i=0;i<size;i++)
-        if((use==0) || use[i]) {
+        if(!use || use[i]) {
           Double_t zn = bins[i];
           if (backgr) zn-=backgr[i];
           zn*=TMath::Power(scales[i],order1);

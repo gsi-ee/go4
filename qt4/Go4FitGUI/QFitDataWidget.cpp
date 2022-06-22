@@ -46,7 +46,7 @@ void QFitDataWidget::FillSpecificData()
                                                        else DataInfoLbl->setText("Data type: set of points");
      DataInfoLbl->adjustSize();
 
-     AmplChk->setChecked(GetData()->GetAmplPar()!=0);
+     AmplChk->setChecked(GetData()->GetAmplPar() != nullptr);
      AmplChk->setEnabled(GetData()->CanAmplTouch());
 
      NumCalibrSpin->setValue(GetData()->GetNumberOfTransSlots());

@@ -5094,10 +5094,10 @@ void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
    w->TitleEdt->setReadOnly(!n);
 
    TGo4FitNamed* go4n = dynamic_cast<TGo4FitNamed*> (obj);
-   if((go4n!=0) && go4n->GetOwner())
-     w->FullNameLbl->setText(QString("Full name: ")+go4n->GetFullName());
+   if(go4n && go4n->GetOwner())
+      w->FullNameLbl->setText(QString("Full name: ") + go4n->GetFullName());
    else
-     w->FullNameLbl->setText("");
+      w->FullNameLbl->setText("");
    w->FullNameLbl->adjustSize();
 
    QFitModelWidget* mw = dynamic_cast<QFitModelWidget*> (w);

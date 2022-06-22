@@ -31,10 +31,11 @@ TGo4FitModelGauss1::TGo4FitModelGauss1(const char* iName, Double_t iPosition, Do
 TGo4FitModelGauss1::~TGo4FitModelGauss1() {
 }
 
-Bool_t TGo4FitModelGauss1::BeforeEval(Int_t ndim) {
+Bool_t TGo4FitModelGauss1::BeforeEval(Int_t ndim)
+{
    Par_x0 = GetPar(1)->GetValue();
    Double_t w = GetPar(2)->GetValue();
-   if (w==0.)
+   if (w == 0.)
      { std::cout << "TGo4FitModelGauss1::   Invalid sigma value " << std::endl; return kFALSE; }
    Par_k = -0.5/w/w;
 
@@ -43,15 +44,18 @@ Bool_t TGo4FitModelGauss1::BeforeEval(Int_t ndim) {
    return kTRUE;
 }
 
-Double_t TGo4FitModelGauss1::EvalN(const Double_t* v) {
+Double_t TGo4FitModelGauss1::EvalN(const Double_t* v)
+{
    return TMath::Exp(Par_k*(v[fiNaxis]-Par_x0)*(v[fiNaxis]-Par_x0));
 }
 
-void TGo4FitModelGauss1::Print(Option_t* option) const {
-    TGo4FitModel::Print(option);
-    std::cout << "   1-dimensional Gauss for axis " << fiNaxis << std::endl;
+void TGo4FitModelGauss1::Print(Option_t* option) const
+{
+   TGo4FitModel::Print(option);
+   std::cout << "   1-dimensional Gauss for axis " << fiNaxis << std::endl;
 }
 
-Double_t TGo4FitModelGauss1::Integral() {
+Double_t TGo4FitModelGauss1::Integral()
+{
    return GetAmplValue() * TMath::Sqrt(2.*TMath::Pi()) * GetPar(2)->GetValue();
 }

@@ -412,7 +412,7 @@ Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownsca
    if (!data) return kFALSE;
 
    if (data->GetUseBinScale() || !ownscales) {
-     if (index==0) return kFALSE;
+     if (!index) return kFALSE;
      Double_t add = (data->GetDataType() == TGo4FitData::dtHistogram) ? .5 : 0.;
      for(Int_t n=0;n<fxScales.GetSize();n++)
        fxScales[n] = index[n] + add;

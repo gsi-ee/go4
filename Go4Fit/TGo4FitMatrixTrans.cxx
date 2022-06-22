@@ -58,9 +58,10 @@ void TGo4FitMatrixTrans::SetNumAxis(Int_t NumAxis) {
     }
 }
 
-void TGo4FitMatrixTrans::Transformation(Double_t* scales, Int_t naxis) {
+void TGo4FitMatrixTrans::Transformation(Double_t* scales, Int_t naxis)
+{
   Int_t num = GetNumAxis();
-  if ((scales==0) || (num==0) || (naxis==0)) return;
+  if (!scales || (num == 0) || (naxis == 0)) return;
   Int_t limit = num<naxis ? num : naxis;
   TArrayD oldscales(naxis, scales);
   for (Int_t n1=0;n1<limit;n1++) {

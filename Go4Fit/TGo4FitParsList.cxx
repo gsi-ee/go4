@@ -283,8 +283,8 @@ TGo4FitParameter* TGo4FitParsList::Find(const char* OwnerFullName, const char* P
    for(Int_t i=0;i<NumPars();i++) {
       TGo4FitParameter* par = Get(i);
       if (!par->GetOwner()) continue;
-      if ( (strcmp(par->GetOwnerFullName(),OwnerFullName)==0) &&
-           (strcmp(par->GetName(),ParName)==0) ) return par;
+      if ( (strcmp(par->GetOwnerFullName(),OwnerFullName) == 0) &&
+           (strcmp(par->GetName(),ParName) == 0) ) return par;
    }
    return nullptr;
 }

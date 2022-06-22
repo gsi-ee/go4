@@ -52,8 +52,8 @@ Double_t TGo4FitAmplEstimation::PointWeight(Int_t niter, Int_t FFtype, Double_t 
       case TGo4Fitter::ff_chi_square: return (standdev <= 0.) ? 0. : 1./standdev;
       case TGo4Fitter::ff_chi_Pearson:
       case TGo4Fitter::ff_ML_Poisson:
-        if (niter==0) return (value < 0.) ? 0. : 1./(value+1.);
-                 else return (modelvalue <= 0.) ? 0. : 1./modelvalue;
+        if (niter == 0) return (value < 0.) ? 0. : 1./(value+1.);
+                   else return (modelvalue <= 0.) ? 0. : 1./modelvalue;
       case TGo4Fitter::ff_chi_Neyman: return (value < 1.) ? 1. : 1./value;
       case TGo4Fitter::ff_chi_gamma: return (value < 0.) ? 0. : 1./(value+1.);
       case TGo4Fitter::ff_user: return 1.;
@@ -61,7 +61,8 @@ Double_t TGo4FitAmplEstimation::PointWeight(Int_t niter, Int_t FFtype, Double_t 
    return 1.;
 }
 
-Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
+Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter)
+{
    if (!fitter->IsInitialized()) return kFALSE;
 
    for(Int_t n=0;n<fitter->GetNumData();n++)
@@ -83,13 +84,14 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
        }
      if (!assigned) continue;
 
-     if ( (fModel->GetAmplPar()!=0) &&
-          (!fModel->GetAmplPar()->GetFixed()) ) comps.Add(fModel);
-                                           else fixedcomps.Add(fModel);
+     if (fModel->GetAmplPar() && !fModel->GetAmplPar()->GetFixed())
+        comps.Add(fModel);
+     else
+        fixedcomps.Add(fModel);
    }
 
    Int_t ncomp = comps.GetLast()+1;
-   if (ncomp<=0) return kFALSE;
+   if (ncomp <= 0) return kFALSE;
 
    TMatrixD matr(ncomp,ncomp);
    TVectorD vector(ncomp);
@@ -171,7 +173,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
            Double_t fSum = 0.;
            for(Int_t ndata=0;ndata<fitter->GetNumData();ndata++) {
                Double_t* bins1 = fitter->GetModelBinsValues((TGo4FitModel*) comps[n], fitter->GetDataName(ndata));
-               if (bins1==0) continue;
+               if (!bins1) continue;
                Int_t size = fitter->GetDataBinsSize(fitter->GetData(ndata));
                Double_t* bins = DopData[ndata];
                Double_t* weight = Weights[ndata];
@@ -182,7 +184,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
            vector(n) = fSum;
         }
 
-        if (matr.Determinant()==0.) {
+        if (matr.Determinant() == 0.) {
            std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
            std::cerr << "  Determinant of matrix == 0.; This may be due to equivalent model components or zero model at all" << std::endl;
            break;
@@ -216,8 +218,9 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
 }
 
 
-Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
-   if (fitter==0) return kFALSE;
+Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter)
+{
+   if (!fitter) return kFALSE;
 
    Int_t nmodel = fitter->GetNumModel();
    TArrayI refindex(fitter->GetNumModel()); refindex.Reset(-1);
@@ -236,12 +239,13 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
        }
      if (!assigned) continue;
 
-     if ( (model->GetAmplPar()!=0) &&
-          (!model->GetAmplPar()->GetFixed()) ) refindex[ncomp++] = n;
-                                          else fixedindex[nfixed++] = n;
+     if (model->GetAmplPar() && !model->GetAmplPar()->GetFixed())
+        refindex[ncomp++] = n;
+     else
+        fixedindex[nfixed++] = n;
    }
 
-   if (ncomp<=0) return kFALSE;
+   if (ncomp <= 0) return kFALSE;
 
    TMatrixD matr(ncomp,ncomp);
    TVectorD vector(ncomp);
@@ -311,7 +315,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
           delete iter;
        }
 
-       if (matr.Determinant()==0.) {
+       if (matr.Determinant() == 0.) {
            std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
            std::cerr << "  Determinant of matrix == 0.; This may be due to equivalent model components or zero model at all" << std::endl;
            return kFALSE;

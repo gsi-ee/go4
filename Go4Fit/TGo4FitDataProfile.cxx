@@ -75,7 +75,7 @@ TGo4FitDataProfileIter::~TGo4FitDataProfileIter()
 
 Bool_t TGo4FitDataProfileIter::StartReset()
 {
-  if ((fxData==0) || (fxData->GetProfile()==0)) return kFALSE;
+  if (!fxData || !fxData->GetProfile()) return kFALSE;
 
   fiNumPoints = fxData->GetProfile()->GetNbinsX();
 
@@ -84,17 +84,17 @@ Bool_t TGo4FitDataProfileIter::StartReset()
 
 Bool_t TGo4FitDataProfileIter::ReadCurrentPoint()
 {
-   if (fxData==0) return kFALSE;
+   if (!fxData) return kFALSE;
    TProfile* pr = fxData->GetProfile();
-   if (pr==0) return kFALSE;
+   if (!pr) return kFALSE;
 
    Double_t xvalue = pr->GetXaxis()->GetBinCenter(fxIndexes[0]+1);
    fdValue = pr->GetBinContent(fxIndexes[0]+1);
 
    if (!GetDeviation()) {
       Double_t zn = pr->GetBinError(fxIndexes[0]+1);
-      if (zn>0) fdStandardDeviation = zn*zn;
-           else fdStandardDeviation = 1.;
+      if (zn > 0.) fdStandardDeviation = zn*zn;
+              else fdStandardDeviation = 1.;
    }
 
    return ProduceScales(fxIndexes.GetArray(), &xvalue, 0);
@@ -103,6 +103,6 @@ Bool_t TGo4FitDataProfileIter::ReadCurrentPoint()
 
 Bool_t TGo4FitDataProfileIter::ShiftToNextPoint()
 {
-   fxIndexes[0]+=1;
-   return (fxIndexes[0]<fiNumPoints);
+   fxIndexes[0] += 1;
+   return fxIndexes[0] < fiNumPoints;
 }
