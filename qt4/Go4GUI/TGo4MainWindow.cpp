@@ -322,7 +322,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    const char* libs = gSystem->Getenv("GO4USERLIBRARY");
 
-   if (libs!=0) {
+   if (libs) {
 #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
       QStringList LibList = QString(libs).split(":",QString::SkipEmptyParts);
 #else
@@ -754,7 +754,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     windowsMenu->addSeparator();
 
     QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
-    if (loginfo!=0) {
+    if (loginfo) {
        windowsMenu->addAction("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()));
        windowsMenu->addAction("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()));
     } else {
@@ -763,7 +763,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     }
 
     QGo4Widget* anw = FindGo4Widget("AnalysisWindow", false);
-    if (anw!=0) {
+    if (anw) {
        windowsMenu->addAction("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()));
        windowsMenu->addAction("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()));
     } else {
@@ -865,9 +865,9 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toLatin1().constData(), "StartUserPanel");
    }
 
-   if (startfunc!=0) {
+   if (startfunc) {
       QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxMdiArea);
-      if (userpanel!=0) {
+      if (userpanel) {
          userpanel->setObjectName("UserPanel");
 
          QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(userpanel);
@@ -896,10 +896,10 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 void TGo4MainWindow::UserPanelSlot()
 {
    QGo4Widget* userpanel = FindGo4Widget("UserPanel", true);
-   if (userpanel!=0) return;
+   if (userpanel) return;
 
    // check GO4USERGUI variable
-   if (gSystem->Getenv("GO4USERGUI")!=0)
+   if (gSystem->Getenv("GO4USERGUI"))
       if (startUserGUI(gSystem->Getenv("GO4USERGUI"))) return;
 
    // check from standard LD_LIBRARY_PATHS
@@ -927,7 +927,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    do {
       n++;
       name = QString("Panel") + QString::number(n);
-   } while ((edslot!=0) && (edslot->FindChild(name.toLatin1().constData())!=0));
+   } while (edslot && edslot->FindChild(name.toLatin1().constData()));
 
    TGo4ViewPanel* panel = new TGo4ViewPanel(fxMdiArea, name.toLatin1().constData());
    QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(panel); // warning: Qt may exchange the winId here!
@@ -946,11 +946,11 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 
    if(ndiv>1) {
 
-      int DivX(1), DivY(1);
+      int DivX = 1, DivY = 1;
 
       TGo4DividePad* divpad = findChild<TGo4DividePad*>("DividePad");
 
-      if (divpad!=0) {
+      if (divpad) {
          DivX = divpad->SpinBoxX->value();
          DivY = divpad->SpinBoxY->value();
       }
@@ -982,7 +982,7 @@ void TGo4MainWindow::CascadeMdiPosition(QWidget* sub)
 
 void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 {
-   if (fCloseCounter!=0) return;
+   if (fCloseCounter != 0) return;
 
 // new for Qt4:
    if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
@@ -1029,7 +1029,7 @@ void TGo4MainWindow::ForseCloseSlot()
 {
    //   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
 
-   if (Browser()->FindServer()!=0) {
+   if (Browser()->FindServer()) {
 
       if (fCloseCounter>0) {
          fCloseCounter--;
@@ -1068,7 +1068,7 @@ void TGo4MainWindow::ForseCloseSlot()
       }
    }
    std::cout << "----- Exiting Go4 GUI now -----" << std::endl;
-   gSystem->Exit( 0 );
+   gSystem->Exit(0);
 }
 
 void TGo4MainWindow::OpenFileSlot()
@@ -1143,7 +1143,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
 {
    QString httpaddr;
 
-   if (addr==0) {
+   if (!addr) {
       bool ok = false;
       QString portstring;
       QString fulladdress = go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
@@ -1176,7 +1176,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
 
    TGo4Script* exec = TGo4Script::ScriptInstance();
 
-   if (!exec) return 0;
+   if (!exec) return nullptr;
 
    TGo4ServerProxy* serv = exec->ConnectHttp(httpaddr.toLatin1().constData(), user, pass);
 
@@ -1190,7 +1190,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
 
 
       TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
-      if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
+      if (loginfo) loginfo->WorkWithInfo(serv->LoginfoSlot());
 
       if (!with_qt_process) EstablishAnalysisWindowForHttp();
    }
@@ -1264,12 +1264,12 @@ void TGo4MainWindow::InputTerminalParametersSlot()
                                 "Input 0 if full analysis history should be preserved",
                                 size, 0, 100000000, 10000, &ok);
 
-   if ((size>0) && (size<10000)) size = 10000;
+   if ((size > 0) && (size < 10000)) size = 10000;
 
    if (ok) {
      go4sett->setTermHistorySize(size);
      TGo4AnalysisWindow* anw = FindAnalysisWindow();
-     if (anw!=0)
+     if (anw)
        anw->SetHistorySize(size);
    }
 }
@@ -1346,7 +1346,6 @@ void TGo4MainWindow::ChangeFontSlot()
 
 void TGo4MainWindow::ChangeTerminalFontSlot()
 {
-
    bool ok = false;
    QFont font= QFontDialog::getFont(&ok, go4sett->getTermFont(), this);
    if (!ok) return;
@@ -1362,49 +1361,33 @@ void TGo4MainWindow::ChangeTerminalTimeStampSlot()
 {
   go4sett->setTermShowTimestamp(faTermTimeStamp->isChecked());
   TGo4AnalysisWindow* anw = FindAnalysisWindow();
-  if (anw!=0)
+  if (anw)
     anw->UpdateTimeStampFormat();
 }
 
 void TGo4MainWindow::ChangeTerminalTimeStampFormatSlot()
 {
-
   bool ok = false;
   QString str = QInputDialog::getText(this, "Analysis terminal timestamp format",
       "Time format (empty resets to  yyyy-MM-dd hh:mm:ss.zzz)",
        QLineEdit::Normal, go4sett->getTermTimeFormat(), &ok);
-  if (ok)
-  {
-    if (str.isEmpty())
-      str = "yyyy-MM-dd hh:mm:ss.zzz";
-    go4sett->setTermTimeFormat(str);
-    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-    if (anw!=0)
-          anw->UpdateTimeStampFormat();
+  if (ok) {
+     if (str.isEmpty())
+        str = "yyyy-MM-dd hh:mm:ss.zzz";
+     go4sett->setTermTimeFormat(str);
+     TGo4AnalysisWindow *anw = FindAnalysisWindow();
+     if (anw)
+        anw->UpdateTimeStampFormat();
   }
 }
 
-
-
 void TGo4MainWindow::SetStyleSlot(const QString &style)
 {
-/*
-   QString infostring="Style "+style+" was selected.\n";
-   infostring += "One can try to apply it immediately, but Qt crashed very often at that place :(\n";
-   infostring += "One can save that style in settings and it will be applied next time Go4 is started";
-
-   int res = QMessageBox::question( this, "Go4 GUI", infostring,
-         QMessageBox::Apply | QMessageBox::Save | QMessageBox::Cancel ,
-         QMessageBox::Save);
-
-   if (res == QMessageBox::Cancel) return;
-*/
    // save settings anyway
    go4sett->setAppStyle(style);
    go4sett->Store();
 
-//   if (res == QMessageBox::Apply)
-      QApplication::setStyle(style);
+   QApplication::setStyle(style);
 }
 
 void TGo4MainWindow::StatusMessage(const QString& mess)
@@ -1415,10 +1398,6 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
    statusBar()->showMessage(output, 0); // JAM2016: do not clear message after 3s. ratemeter will clear message on each update.
    if(TGo4Log::IsAutoEnabled())
       TGo4Log::Message(1,output.toLatin1().constData());
-
-   //UpdateCaptionButtons();
-   // <- JAM2016: do not refresh ratemeter display immediately,
-   // but give message a chance to appear a while!
 }
 
 void TGo4MainWindow::UpdateCaptionButtons()
@@ -1433,7 +1412,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
    capt += __GO4RELEASE__;
    capt += " @";
    capt += gSystem->HostName();
-   if ((go4_serv!=0) && go4_serv->IsConnected() ) {
+   if (go4_serv && go4_serv->IsConnected() ) {
       capt += " <";
       capt += go4_serv->GetContainedObjectInfo();
       capt += ">";
@@ -1441,32 +1420,31 @@ void TGo4MainWindow::UpdateCaptionButtons()
    setWindowTitle(capt);
 
    bool flag = false;
-   if (pr==0) flag = (ht==0 ?  true: false);
+   if (!pr) flag = !ht ?  true: false;
    faLaunchAnal->setEnabled(flag);
    // JAM here check again ratemeter connection, if http server was disconnected by browser popup close item:
-   EstablishRatemeter(flag? 0: 1);
+   EstablishRatemeter(flag ? 0: 1);
    // need to check if the controller role has switched to another HTTP server here:
-   static TGo4HttpProxy* oldhttp=0;
+   static TGo4HttpProxy* oldhttp = nullptr;
     if (ht) {
       // check for server names may not be unique if connected twice by chance, better use proxy pointers!
-      if(ht!= oldhttp)
+      if(ht != oldhttp)
       {
         //printf("UpdateCaptionButtons sees new http server (0x%x), old (0x%x) \n", ht, oldhttp);
-        oldhttp=ht;
+        oldhttp = ht;
         EstablishRatemeter(0);
         EstablishRatemeter(2);
       }
     }
 
-   if (pr==0) flag = (ht==0 ?  true: false);
-         else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
+   if (!pr) flag = !ht ? true : false;
+       else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    faConnectAnal->setEnabled(flag);
 
    faPrepareAnal->setEnabled(flag);
 
-   if (pr==0) flag = (ht==0 ?  false: true);
-         else flag = pr->IsAnalysisServer() &&
-                     (pr->IsConnected() || (fConnectingCounter<=0));
+   if (!pr) flag = !ht ? false : true;
+       else flag = pr->IsAnalysisServer() && (pr->IsConnected() || (fConnectingCounter<=0));
    faDisconnectAnal->setEnabled(flag);
 
    flag = false;
@@ -1488,9 +1466,9 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
    faAnalConfig->setEnabled(iscontrolling);
 
-   faAnalTermin->setEnabled(FindAnalysisWindow()!=0);
+   faAnalTermin->setEnabled(FindAnalysisWindow() != nullptr);
 
-   if ((go4_serv==0) && (root_serv!=0)) {
+   if (!go4_serv && root_serv) {
       faStartAnal->setEnabled(root_serv->FindCommand("Start").Length()>0);
       faStopAnal->setEnabled(root_serv->FindCommand("Stop").Length()>0);
    }
@@ -1520,14 +1498,12 @@ void TGo4MainWindow::ChangeHideEventElement()
 void TGo4MainWindow::ChangeDrawOnceSlot()
 {
    go4sett->setDrawOnceFlag(faDrawOnce->isChecked());
-
 }
 
 void TGo4MainWindow::ChangeWindowRubberBandSlot()
 {
   go4sett->setMoveSubwindowRubberBand(faWindowRubberBand->isChecked());
 }
-
 
 void TGo4MainWindow::CanvasColorSlot()
 {
@@ -1705,8 +1681,8 @@ void TGo4MainWindow::PaletteSettingsSlot()
 {
   // JAM: later we might put some elaborate input dialog here. for the moment keep on with parsing a string-
   bool ok = false;
-  int min=0, def=0, max =0;
-  go4sett->getPaletteOpt(min,def,max);
+  int min = 0, def = 0, max = 0;
+  go4sett->getPaletteOpt(min, def, max);
   QString palvals = QString("%1:%2:%3").arg(min).arg(def).arg(max);
   QString str = QInputDialog::getText(this,
                        "Default Palette options",
@@ -1740,7 +1716,7 @@ void TGo4MainWindow::ScaleFactorSlot()
 void TGo4MainWindow::LaunchClientSlot(bool interactive)
 {
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-   if (anal!=0) {
+   if (anal) {
       QMessageBox::warning(this, "Launch analysis", "Please disconnect analysis first");
       return;
    }
@@ -1767,7 +1743,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
       // first verify that http server already running with such address
       // need to request analysis status anyway
-      if (ConnectHttpSlot(addr.toLatin1().constData(),0,0,false, true )!=0) {
+      if (ConnectHttpSlot(addr.toLatin1().constData(),0,0,false, true)) {
         StatusMessage("Connected to exisiting analysis webserver!"); // JAM tell user that this is no analysis restart!
         std::cout<< "!!! Connected to exisiting analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeters....
         return;
@@ -1802,9 +1778,9 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       return;
    }
 
-   if (isserver==0) {
+   if (isserver == 0) {
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
-      if (anal!=0)
+      if (anal)
         res = anal->LaunchAsClient(launchcmd, killcmd,
                       shellmode,
                       termmode,
@@ -1815,10 +1791,10 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientExeMode(),
                       go4sett->getClientArgs().toLatin1().constData());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
-      if (res && (anw!=0) && (termmode==1)) {
+      if (res && anw && (termmode==1)) {
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0, false);
       }
-      if (res && (anal!=0)) anal->SetAnalysisLaunched(termmode==1 ? 2 : 1);
+      if (res && anal) anal->SetAnalysisLaunched(termmode==1 ? 2 : 1);
    } else {
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
                      shellmode,
@@ -1839,7 +1815,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
    StatusMessage("Starting Analysis....  Please wait");
 
-   if ((isserver==1) && interactive) {
+   if ((isserver == 1) && interactive) {
       fbGetAnalysisConfig=true; // pass to timer that we want to have analysis config window when ready JAM
       ConnectServerSlot(true, "");
    }
@@ -1848,7 +1824,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 {
    TGo4AnalysisProxy* ana = AddAnalysisProxy(false, false);
-   if ((ana!=0) && interactive)
+   if (ana && interactive)
      QMessageBox::information(this,"Prepare for client connection",
       "Now you can start client from other shell (node) and connect to port " +
        QString::number(ana->ConnectorPort()), "Ok");
@@ -1857,13 +1833,13 @@ void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, bool withkillbnt, bool force_recreate)
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw!=0)
+   if (anw)
       if (force_recreate || (anw->HasOutput() && !needoutput)) {
         delete anw;
-        anw = 0;
+        anw = nullptr;
      }
 
-   if (anw==0) {
+   if (!anw) {
       if (needoutput) {
          anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
          QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
@@ -1890,14 +1866,14 @@ void TGo4MainWindow::EstablishAnalysisWindowForHttp()
    // analysis window only created when not exists and http proxy is available
 
    TGo4ServerProxy* serv = Browser()->FindServer();
-   if ((serv==0) || (dynamic_cast<TGo4AnalysisProxy*>(serv)!=0) || (serv->DebugOutputSlot()==0)) return;
+   if (!serv || (dynamic_cast<TGo4AnalysisProxy*>(serv) != nullptr) || (serv->DebugOutputSlot() == nullptr)) return;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
 
    if (anw) {
       if (anw->HasLink()) return;
       delete anw;
-      anw = 0;
+      anw = nullptr;
    }
 
    anw = EstablishAnalysisWindow(true, false);
@@ -1912,22 +1888,22 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
    TGo4Slot* analslot = Browser()->DataSlot(analisysitem);
 
-   if (analslot==0) {
+   if (!analslot) {
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
       fxOM->AddProxy(fOMDataPath.toLatin1().constData(), anal, analisysitem, "Analysis proxy");
       analslot = Browser()->DataSlot(analisysitem);
       anal->SetDefaultReceiver(fxOM, TString("gui/") + analisysitem + "/");
    }
 
-   TGo4AnalysisProxy* anal = (analslot==0) ? 0 :
+   TGo4AnalysisProxy* anal = !analslot ? nullptr :
       dynamic_cast<TGo4AnalysisProxy*> (analslot->GetProxy());
 
-   if (anal==0) return 0;
+   if (!anal) return nullptr;
 
    anal->SetAnalysisReady(kFALSE);
 
    TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
-   if (loginfo!=0)
+   if (loginfo)
      loginfo->WorkWithInfo(anal->LoginfoSlot());
 
    if (anal->IsAnalysisServer())
@@ -1940,13 +1916,13 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
    FindAnalysisConfiguration();
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw!=0)
+   if (anw)
     if (anw->HasOutput() && !needoutput) {
        delete anw;
-       anw = 0;
+       anw = nullptr;
     }
 
-   if(anw==0) {
+   if(!anw) {
      if (needoutput) {
         anw = EstablishAnalysisWindow(true);
         if (anw) anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
@@ -1966,7 +1942,7 @@ bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
 
    // TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    TGo4ServerProxy* srv = Browser()->FindServer();
-   if (srv!=0) {
+   if (srv) {
       srv->DisconnectAnalysis(waittime, servershutdown);
    }
    // TGo4Slot* slot = Browser()->FindServerSlot(kTRUE, 1);
@@ -1981,10 +1957,10 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
 
-   if ((anw!=0) && anw->HasOutput()) return;
+   if (anw && anw->HasOutput()) return;
 
    bool shouldexists = false;
-   if (anal!=0) {
+   if (anal) {
      if (anal->IsAnalysisServer()) {
        if (anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
          shouldexists = true;
@@ -1993,45 +1969,41 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
      }
    }
 
-   if (shouldexists && (anw==0)) {
+   if (shouldexists && !anw) {
       anw = EstablishAnalysisWindow(false, !anal->IsAnalysisServer());
       if (anw) anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
    }
 }
 
 TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
-// level = 0 - delete
-// level = 1 - as is
-// level = 2 - create
 {
-  //std::cout<<"EstablishRatemeter with level "<<level << std::endl;
-
-
-
+   // level = 0 - delete
+   // level = 1 - as is
+   // level = 2 - create
    TGo4AnalysisStatusMonitor* status =
      dynamic_cast<TGo4AnalysisStatusMonitor*>
        (FindGo4Widget("AnalysisStatusMonitor", false));
 
-   if (level==2) {
-     if (status==0) {
+   if (level == 2) {
+     if (!status) {
         status = new TGo4AnalysisStatusMonitor(statusBar(), "AnalysisStatusMonitor");
         ConnectGo4Widget(status);
         statusBar()->addWidget(status);
         TGo4ServerProxy* serv = Browser()->FindServer();
-        if (serv!=0)
+        if (serv)
           status->WorkWithRatemeter(serv->RatemeterSlot());
      }
    } else
    if (level==0) {
-      if (status!=0) {
+      if (status) {
          status->RemoveLink("Ratemeter",true); // JAM: need to remove the update link before deleting!
          statusBar()->removeWidget(status);
          delete status;
       }
-      status = 0;
+      status = nullptr;
    }
 
-   if (status!=0)
+   if (status)
       status->show();
 
    return status;
@@ -2044,13 +2016,13 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
    TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
 
    if (level==0) {
-      if (conf!=0) {
+      if (conf) {
          delete conf->parentWidget();
-         conf = 0;
+         conf = nullptr;
       }
    } else
    if (level>=2) {
-      if (conf==0) {
+      if (!conf) {
          conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
          QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(conf);
          CascadeMdiPosition(sub);
@@ -2060,9 +2032,9 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
          // sub->show();
       }
       TGo4ServerProxy* anal = Browser()->FindServer();
-      if (anal!=0) {
+      if (anal) {
          conf->WorkWithAnalysis(anal);
-         if (level>2) anal->RequestAnalysisSettings();
+         if (level > 2) anal->RequestAnalysisSettings();
       }
    }
 
@@ -2074,7 +2046,7 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 {
    if (fConnectingCounter>0) return;
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-   if (anal!=0) {
+   if (anal) {
       if (anal->IsConnected() || !anal->IsAnalysisServer()) {
          if (interactive)
            QMessageBox::warning(this, "Connect client", "Analysis task is already connected");
@@ -2152,24 +2124,20 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
          if (fConnectingCounter <= 0)
             StatusMessage("Analysis refused connection. Try again");
          fConnectingCounter = 0;
-         EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
+         EstablishRatemeter(anal && anal->IsConnected() ? 2 : 0);
          int level=0;
-         if(anal && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
-           {
-             if(fbGetAnalysisConfig)
-               {
-                 level=3;
-                 fbGetAnalysisConfig=false;
-               }
-             else
-             {
-               level=2;
-             }
-           }
+         if (anal && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator())) {
+            if (fbGetAnalysisConfig) {
+               level = 3;
+               fbGetAnalysisConfig = false;
+            } else {
+               level = 2;
+            }
+         }
          EstablishAnalysisConfiguration(level);
          UpdateDockAnalysisWindow();
          UpdateCaptionButtons();
-         if ((anal!=0) && !anal->IsConnected()) RemoveAnalysisProxy(1);
+         if (anal && !anal->IsConnected()) RemoveAnalysisProxy(1);
          return;
      }
    }
@@ -2179,7 +2147,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
 void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
 {
    TGo4ServerProxy* serv = Browser()->FindServer();
-   if (serv==0) return;
+   if (!serv) return;
 
    bool shutdown = serv->IsAnalysisLaunched() > 1;
 
@@ -2226,7 +2194,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
                 QString("Shutdown"),
                 QString("Cancel"),
                 QString(), 0);
-      if (res!=0) return;
+      if (res != 0) return;
    }
    TGo4ServerProxy* serv = Browser()->FindServer();
    if (!serv) return;
@@ -2278,7 +2246,7 @@ void TGo4MainWindow::StartAnalysisSlot()
       TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
       if (root_serv) {
          TString cmd = root_serv->FindCommand("Start");
-         if (cmd.Length()>0) {
+         if (cmd.Length() > 0) {
             root_serv->SubmitCommand(cmd);
             StatusMessage(TString::Format("Submit %s command to the server", cmd.Data()).Data());
          }
@@ -2311,7 +2279,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
                 QString("Kill"),
                 QString("Cancel"),
                 QString(), 0);
-      if (res!=0) return;
+      if (res != 0) return;
    }
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
@@ -2424,9 +2392,8 @@ void TGo4MainWindow::LoadLibrarySlot()
 void TGo4MainWindow::UpdateBrowser()
 {
    TGo4Browser* br = (TGo4Browser*) FindGo4Widget("Browser", false);
-   if (br!=0) br->ShootUpdateTimer();
+   if (br) br->ShootUpdateTimer();
 }
-
 
 TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 {
@@ -2460,7 +2427,7 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
 {
    TGo4EditDynEntry* dedit = (TGo4EditDynEntry*) FindGo4Widget("EditDynEntry", true);
 
-   if (dedit==0) {
+   if (!dedit) {
       dedit = new TGo4EditDynEntry(fxMdiArea, "EditDynEntry");
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(dedit);
       CascadeMdiPosition(sub);
@@ -2475,7 +2442,7 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
 TGo4ConditionEditor* TGo4MainWindow::StartConditionEditor()
 {
    TGo4ConditionEditor* wedit = (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
-   if (wedit==0) {
+   if (!wedit) {
       wedit = new TGo4ConditionEditor(fxMdiArea, "ConditionEditor");
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(wedit);
       CascadeMdiPosition(sub);
@@ -2490,7 +2457,7 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
 {
    TGo4EventInfo* einfo = (TGo4EventInfo*) FindGo4Widget("EventInfo", true);
 
-   if (einfo==0) {
+   if (!einfo) {
       einfo = new TGo4EventInfo(fxMdiArea, "EventInfo");
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(einfo);
       CascadeMdiPosition(sub);
@@ -2510,9 +2477,9 @@ TGo4AnalysisConfiguration* TGo4MainWindow::FindAnalysisConfiguration()
 void TGo4MainWindow::ToggleAnalysisConfiguration()
 {
   TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
-  QWidget* mdi = conf ? conf->parentWidget() : 0;
+  QWidget* mdi = conf ? conf->parentWidget() : nullptr;
 
-  if (mdi == 0)
+  if (!mdi)
     return;
 
   if (mdi->isVisible())
@@ -2526,7 +2493,7 @@ void TGo4MainWindow::ToggleAnalysisConfiguration()
     {
       // this can happen when gui connected to server without requesting the setup. Do it when user wants to see config:
       TGo4ServerProxy* anal = Browser()->FindServer();
-      if (anal != 0)
+      if (anal)
         anal->RequestAnalysisSettings();
     }
     mdi->raise();
@@ -2544,7 +2511,7 @@ TGo4AnalysisWindow* TGo4MainWindow::FindAnalysisWindow()
 void TGo4MainWindow::ToggleAnalysisWindow()
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw==0) return;
+   if (!anw) return;
 
    if (anw->HasOutput()) {
       QWidget* mdi = anw->parentWidget();
@@ -2600,15 +2567,15 @@ void TGo4MainWindow::ToggleMbsMonitor(const char* nodename)
 
 TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 {
-   TGo4SetScaleValues* scl = 0;
+   TGo4SetScaleValues* scl = nullptr;
 
    QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
    for (int i=0; i < windows.count(); ++i ) {
       scl = dynamic_cast<TGo4SetScaleValues*> (windows.at(i)->widget());
-      if (scl!=0) break;
+      if (scl) break;
    }
 
-   if (scl==0) {
+   if (!scl) {
       scl = new TGo4SetScaleValues(fxMdiArea, "ScaleValues", Qt::WindowStaysOnTopHint);
       QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(scl);
       CascadeMdiPosition(sub);
@@ -2616,7 +2583,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
       sub->show();
    } else {
       scl->parentWidget()->close();
-      scl = 0;
+      scl = nullptr;
    }
    return scl;
 }
@@ -2626,12 +2593,12 @@ void TGo4MainWindow::CreateNewHistSlot(int isremote)
    TGo4CreateNewHistogram dlg(this);
    TGo4ServerProxy* an = Browser()->FindServer();
 
-   dlg.SetAnalysisAvaliable((isremote!=0) && (an!=0) && an->IsAnalysisSettingsReady());
-   dlg.SetLocalAvaliable(isremote!=1);
+   dlg.SetAnalysisAvaliable((isremote != 0) && an && an->IsAnalysisSettingsReady());
+   dlg.SetLocalAvaliable(isremote != 1);
 
    if (dlg.exec() != QDialog::Accepted) return;
    TH1* h1 = dlg.MakeHistogram();
-   if (h1==0) return;
+   if (!h1) return;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
 
@@ -2642,21 +2609,21 @@ void TGo4MainWindow::CreateNewHistSlot(int isremote)
          editorServiceSlot(anw,
                            QGo4Widget::service_ObjectCreated,
                            newitem.Data(), h1->IsA());
-      h1 = 0;
+      h1 = nullptr;
    } else
-   if ((dlg.GetSelectedCmd()==2) && (an!=0)) {
+   if ((dlg.GetSelectedCmd() == 2) && an) {
       h1->SetBit(TGo4Status::kGo4CanDelete);
       an->UpdateAnalysisObject("", h1);
-      if (anw!=0) anw->WaitForNewObject(isremote==1);
-             else an->RefreshNamesList();
+      if (anw) anw->WaitForNewObject(isremote==1);
+          else an->RefreshNamesList();
    }
-   if (h1!=0) delete h1;
+   if (h1) delete h1;
 }
 
 void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
 {
    TGo4ServerProxy* an = Browser()->FindServer();
-   if ((an==0) || !an->IsAnalysisSettingsReady()) {
+   if (!an || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new condition","Cannot create new condition before analysis setup");
       return;
    }
@@ -2666,21 +2633,21 @@ void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
    if (dlg.exec() != QDialog::Accepted) return;
 
    TGo4Condition* cond = dlg.MakeCondition();
-   if (cond==0) return;
+   if (!cond) return;
 
    cond->SetBit(TGo4Status::kGo4CanDelete);
    an->UpdateAnalysisObject("", cond);
    delete cond;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if(anw!=0) anw->WaitForNewObject(forothereditor);
-         else an->RefreshNamesList();
+   if(anw) anw->WaitForNewObject(forothereditor);
+      else an->RefreshNamesList();
 }
 
 void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
 {
    TGo4ServerProxy* an = Browser()->FindServer();
-   if ((an==0) || !an->IsAnalysisSettingsReady()) {
+   if (!an || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new dynamic entry","Cannot create new entry before analysis setup");
       return;
    }
@@ -2690,20 +2657,20 @@ void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
    if (dlg.exec() != QDialog::Accepted) return;
 
    TGo4DynamicEntry* entry = dlg.MakeEntry();
-   if (entry==0) return;
+   if (!entry) return;
 
    entry->SetBit(TGo4Status::kGo4CanDelete);
    an->UpdateAnalysisObject("", entry);
    delete entry;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw!=0) anw->WaitForNewObject(forothereditor);
-          else an->RefreshNamesList();
+   if (anw) anw->WaitForNewObject(forothereditor);
+       else an->RefreshNamesList();
 }
 
 void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 {
-   if (editor==0) return;
+   if (!editor) return;
    connect(editor, SIGNAL(widgetService(QGo4Widget*, int, const char*, void*)),
            this, SLOT(editorServiceSlot(QGo4Widget*, int, const char*, void*)));
    GetWidgetTopSlot(editor, true);
@@ -2712,30 +2679,30 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt)
 {
    TGo4BrowserProxy* br = Browser();
-    if ((br==0) || (itemname==0) || strlen(itemname)==0 ) return 0;
+    if (!br || !itemname || strlen(itemname)==0) return nullptr;
 
    TGo4Slot* guislot = br->BrowserSlot(itemname);
 
-   if (guislot==0) return 0;
-   if (guislot->GetProxy()==0) {
+   if (!guislot) return nullptr;
+   if (!guislot->GetProxy()) {
       std::cerr << " Problem with gui slots" << std::endl;
-      return 0;
+      return nullptr;
    }
 
-   if (panel==0) {
+   if (!panel) {
       panel = MakeNewPanel();
       pad = panel->GetCanvas();
-   } else
-   if (pad==0) pad = panel->GetActivePad();
+   } else if (!pad)
+      pad = panel->GetActivePad();
 
-   if (panel->AddDrawObject(pad, TGo4ViewPanel::kind_Link, itemname, 0, false, drawopt)==0) return 0;
+   if (!panel->AddDrawObject(pad, TGo4ViewPanel::kind_Link, itemname, 0, false, drawopt)) return nullptr;
 
    if (activate) {
       panel->SetActivePad(pad);
       panel->ShootRepaintTimer();
    }
 
-   if (updatelevel<0) {
+   if (updatelevel < 0) {
       if (go4sett->getFetchDataWhenDraw())
          updatelevel = 2;
       else
@@ -2750,10 +2717,10 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4View
 bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* subfolder)
 {
    TGo4BrowserProxy* br = Browser();
-   if ((br==0) || (itemname==0)) return 0;
+   if (!br || !itemname) return false;
 
    TString fileslotname;
-   const char* filepath = 0;
+   const char* filepath = nullptr;
 
    bool res = false;
 
@@ -2761,8 +2728,8 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
       int answer = QMessageBox::question(this, "Writing object to file",
          QString("Overwrite ") + filepath + " in file " + fileslotname.Data(),
          "Overwrite", "Save to other file", "Cancel");
-      if (answer==2) return false;
-      if (answer==0)
+      if (answer == 2) return false;
+      if (answer == 0)
         res = br->UpdateObjectInFile(itemname, fileslotname.Data(), filepath);
    }
 
@@ -2949,7 +2916,7 @@ TGo4BrowserProxy* TGo4MainWindow::Browser()
 
 TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
 {
-   if (widget==0) return 0;
+   if (!widget) return nullptr;
 
    QString EditorName = widget->objectName();
 
@@ -2957,7 +2924,7 @@ TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
    editorslotname += "/";
    editorslotname += EditorName;
    TGo4Slot* edslot = fxOM->GetSlot(editorslotname.toLatin1().constData());
-   if ((edslot==0) && force) {
+   if (!edslot && force) {
       fxOM->AddProxy(fOMEditorsPath.toLatin1().constData(), new TGo4WidgetProxy(widget), EditorName.toLatin1().constData(), "Links for Go4 widget");
       edslot = fxOM->GetSlot(editorslotname.toLatin1().constData());
    }
@@ -2973,7 +2940,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
 
    // first check if active viewpnael need update its content
    TGo4ViewPanel* actpanel = fxMdiArea->GetActivePanel();
-   if ((actpanel!=0) && actpanel->IsRepaintTimerActive())
+   if (actpanel && actpanel->IsRepaintTimerActive())
       actpanel->checkRepaintSlot();
 
    if (fbPanelTimerActive) return;
@@ -2985,12 +2952,12 @@ void TGo4MainWindow::checkPanelRepaintSlot()
 
       TGo4WidgetProxy* wproxy =
           dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
-      if (wproxy==0) continue;
+      if (!wproxy) continue;
 
       TGo4ViewPanel* panel =
         dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
 
-      if ((panel!=0) && (panel!=actpanel))
+      if (panel && (panel != actpanel))
         if (panel->IsRepaintTimerActive()) {
             panel->checkRepaintSlot();
             if (fbPanelTimerActive) return;
@@ -3001,16 +2968,14 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    Browser()->SetMonitorBlockingFlag(kFALSE);
 }
 
-//int temp_counter = 0;
-
 void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par)
 {
-   if (editor==0) return;
+   if (!editor) return;
 
    TGo4LockGuard lock;
 
    TGo4Slot* edslot = GetWidgetTopSlot(editor, false);
-   if (edslot==0) return;
+   if (!edslot) return;
 
    switch (serviceid) {
       case QGo4Widget::service_DragEnter: {
@@ -3033,12 +2998,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_DropEvent: {
          QDropEvent* event = (QDropEvent*) par;
 
-         if ((event==0) || !event->mimeData()->hasText()) return;
+         if (!event || !event->mimeData()->hasText()) return;
 
          QString eventstr = event->mimeData()->text();
          event->acceptProposedAction();
 
-         if (event->source()==FindGo4Widget("Browser",false)) {
+         if (event->source() == FindGo4Widget("Browser",false)) {
              int kind = Browser()->ItemKind(eventstr.toLatin1().constData());
              TClass* cl = Browser()->ItemClass(eventstr.toLatin1().constData());
 
@@ -3056,13 +3021,13 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_CreateItem: {
          TClass* cl = (TClass*) par;
-         int id = str!=0 ? QString(str).toInt() : 0;
+         int id = str ? QString(str).toInt() : 0;
          if (cl) {
            if (cl->InheritsFrom(TH1::Class()))
               CreateNewHistSlot(id);
-           else if (cl->InheritsFrom(TGo4Condition::Class()) && (id!=0))
+           else if (cl->InheritsFrom(TGo4Condition::Class()) && (id != 0))
               CreateNewConditionSlot(id==1);
-           else if (cl->InheritsFrom(TGo4DynamicEntry::Class()) && (id!=0))
+           else if (cl->InheritsFrom(TGo4DynamicEntry::Class()) && (id != 0))
               CreateNewDynEntrySlot(id==1);
          }
          break;
@@ -3075,20 +3040,20 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_WhereItemDrawn: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
-         *res = 0;
+         *res = nullptr;
          TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
          for (int n=0;n<topslot->NumChilds();n++) {
             TGo4Slot* subslot = topslot->GetChild(n);
 
             TGo4WidgetProxy* wproxy =
                dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
-            if (wproxy==0) continue;
+            if (!wproxy) continue;
 
             TGo4ViewPanel* panel =
                dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
 
-            if (panel!=0)
-              if (panel->FindPadWithItem(str)!=0) {
+            if (panel)
+              if (panel->FindPadWithItem(str)) {
                 *res = panel;
                 break;
               }
@@ -3104,12 +3069,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
             TGo4WidgetProxy* wproxy =
                dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
-            if (wproxy==0) continue;
+            if (!wproxy) continue;
 
             TGo4ViewPanel* panel =
                dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
 
-            if (panel!=0)
+            if (panel)
               panel->UndrawItemOnPanel(str);
          }
 
@@ -3127,19 +3092,19 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (kind==TGo4Access::kndTreeLeaf) {
             TGo4TreeViewer* tviewer =
                dynamic_cast<TGo4TreeViewer*> (FindGo4Widget("TreeViewer", false));
-            if (tviewer!=0) {
+            if (tviewer) {
                tviewer->WorkWithLeaf(str);
                tviewer->parentWidget()->show();
             }
             break;
          }
 
-         if (cl==0) return;
+         if (!cl) return;
 
          if (cl->InheritsFrom(TGo4Fitter::Class())) {
             TGo4FitPanel* fitpanel = StartFitPanel();
             TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
-            fitpanel->WorkWithFitter(str, panel, panel==0 ? 0 : panel->GetActivePad());
+            fitpanel->WorkWithFitter(str, panel, !panel ? nullptr : panel->GetActivePad());
          } else
          if (cl->InheritsFrom(TGo4Parameter::Class())) {
             TGo4ParaEdit* paredit = StartParaEdit(str);
@@ -3167,12 +3132,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_ShowInfo: {
         TClass* cl = Browser()->ItemClass(str);
         int kind = Browser()->ItemKind(str);
-        if (kind==TGo4Access::kndEventElement) {
+        if (kind == TGo4Access::kndEventElement) {
            TGo4EventInfo* einfo = StartEventInfo();
            einfo->WorkWithEvent(str);
            break;
         }
-        if (cl==0) return;
+        if (!cl) return;
         if (cl->InheritsFrom(TH1::Class())) {
            TGo4HistogramInfo* hinfo = StartHistogramInfo();
            hinfo->WorkWithHistogram(str);
@@ -3186,9 +3151,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_EditInSlot: {
          TGo4Slot* slot = (TGo4Slot*) par;
-         if (slot==0) break;
+         if (!slot) break;
          TObject* obj = slot->GetAssignedObject();
-         if (obj==0) break;
+         if (!obj) break;
          if (obj->InheritsFrom(TGo4Fitter::Class())) {
             TGo4FitPanel* fitpanel = StartFitPanel();
             fitpanel->WorkWithFitterInSlot(slot);
@@ -3207,7 +3172,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_UpdateAnalysisItem: {
          TObject** obj = (TObject**) par;
          Bool_t res = Browser()->UpdateAnalysisItem(str, *obj);
-         if (res) *obj = (TObject*) 1; else *obj = 0;
+         if (res) *obj = (TObject*) 1; else *obj = nullptr;
          break;
       }
 
@@ -3238,8 +3203,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
           TObject** obj = (TObject**) par;
           TString itemname = Browser()->SaveToMemory(str, *obj, true);
           QString** res = (QString**) par;
-          *res = 0;
-          if (itemname.Length()>0)
+          *res = nullptr;
+          if (itemname.Length() > 0)
             *res = new QString(itemname.Data());
           break;
       }
@@ -3255,27 +3220,22 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
          QByteArray ba = editor->objectName().toLatin1();
 
-         if (str==0) str = ba.constData();
+         if (!str) str = ba.constData();
 
          TGo4Slot* link = fxOM->AddLink(brslot, edslot->GetFullName(),
                                         str, "link to browser item");
-         if (link!=0)
+         if (link)
             editor->SetLinkedName(link, (const char*)par);
 
          break;
       }
 
       case QGo4Widget::service_AddDirectLink: {
-         //std::cout << " QGo4Widget::service_AddDirectLink " << std::endl;
          QByteArray ba = editor->objectName().toLatin1();
-         if (str==0) str = ba.constData();
+         if (!str) str = ba.constData();
          TGo4Slot* slot = (TGo4Slot*) par;
-         if (slot!=0) {
-            //std::cout << "add link for " << str << " in edslot = " << edslot->GetFullName() << std::endl;
-            fxOM->AddLink(slot, edslot->GetFullName(),
-                          str, "direct link to OM slot");
-            //edslot->Print("*");
-         }
+         if (slot)
+            fxOM->AddLink(slot, edslot->GetFullName(), str, "direct link to OM slot");
          break;
       }
 
@@ -3285,14 +3245,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          TGo4Slot** res = (TGo4Slot**) par;
 
          TGo4Slot* parent = *res;
-         *res = 0;
+         *res = nullptr;
          if (parent==0) parent = edslot;
          TGo4Slot* brslot = Browser()->BrowserSlot(str);
 
-         if (brslot!=0) {
+         if (brslot) {
             *res = fxOM->AddLink(brslot, parent->GetFullName(),
                                brslot->GetName(), "link in specific subfolder");
-            if (*res!=0)
+            if (*res)
               editor->SetLinkedName(*res, str);
          }
          break;
@@ -3307,9 +3267,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddEditorSlot: {
          TGo4Slot* objslot = edslot->FindChild(str);
 
-         if (objslot==0)
+         if (!objslot)
            objslot = fxOM->MakeObjSlot(edslot->GetFullName(), str, "Place for editor object");
-         if (objslot!=0)
+         if (objslot)
             objslot->SetProxy(new TGo4ObjectProxy);
 
          TGo4Slot** res = (TGo4Slot**) par;
@@ -3339,13 +3299,13 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_GetLinked0:
       case QGo4Widget::service_GetLinked1:
       case QGo4Widget::service_GetLinked2: {
-         if (edslot==0) return;
+         if (!edslot) return;
          TGo4Slot* link = edslot->FindChild(str);
          if (link==0) return;
          const char* itemname = TGo4BrowserProxy::GetLinkedName(link);
          TObject** res = (TObject**) par;
          int updatelevel = serviceid - QGo4Widget::service_GetLinked0;
-         if (itemname!=0)
+         if (itemname)
             *res = Browser()->GetBrowserObject(itemname, updatelevel);
          else
             *res = link->GetAssignedObject();
@@ -3353,14 +3313,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_RemoveLink: {
-         if (edslot==0) return;
+         if (!edslot) return;
          TGo4Slot* link = edslot->FindChild(str);
-         if (link!=0) link->Delete();
+         if (link) link->Delete();
          break;
       }
 
       case QGo4Widget::service_RemoveAllLinks: {
-         if ((str==0) || (strcmp(str,"complete")!=0))
+         if (!str || (strcmp(str,"complete") != 0))
             edslot->DeleteChilds(str);
          else
             edslot->Delete();
@@ -3369,16 +3329,15 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_ObjectCreated: {
          TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
-         for (int n=0;n<slot->NumChilds();n++) {
-            TGo4Slot* subslot = slot->GetChild(n);
-            if (edslot==subslot) continue;
+         for (int n = 0; n < slot->NumChilds(); n++) {
+            TGo4Slot *subslot = slot->GetChild(n);
+            if (edslot == subslot)
+               continue;
 
-            TGo4WidgetProxy* wproxy =
-               dynamic_cast<TGo4WidgetProxy*>
-                 (subslot->GetProxy());
+            TGo4WidgetProxy *wproxy = dynamic_cast<TGo4WidgetProxy *>(subslot->GetProxy());
 
-            if (wproxy!=0)
-              wproxy->GetWidget()->ObjectCreatedByWidget(str, (TClass*) par);
+            if (wproxy)
+               wproxy->GetWidget()->ObjectCreatedByWidget(str, (TClass *)par);
          }
          break;
       }
@@ -3388,7 +3347,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
          TGo4WidgetProxy* proxy =
            dynamic_cast<TGo4WidgetProxy*> (edslot->GetProxy());
-         if (proxy!=0)
+         if (proxy)
             proxy->ConnectPad((TPad*) par);
          break;
       }
@@ -3408,12 +3367,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
         if (strcmp(str,"PrintAnalysisHistograms")==0) {
            TGo4AnalysisWindow* anw = FindAnalysisWindow();
-           if (anw!=0) anw->PrintHistograms();
+           if (anw) anw->PrintHistograms();
         } else
 
         if (strcmp(str,"PrintAnalysisConditions")==0) {
            TGo4AnalysisWindow* anw = FindAnalysisWindow();
-           if (anw!=0) anw->PrintConditions();
+           if (anw) anw->PrintConditions();
         } else
 
         if (strcmp(str,"DisplayMbsMonitor")==0) {
@@ -3426,7 +3385,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
         if (strcmp(str,"CloseAnalysisSettings")==0) {
            TGo4ServerProxy* anal = Browser()->FindServer();
-           if (anal!=0) {
+           if (anal) {
               anal->CloseAnalysisSettings();
               anal->RefreshNamesList();
            }
@@ -3459,7 +3418,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         if (strcmp(str, "ActivateConditionEditor")==0) {
            TGo4ConditionEditor* w =
              (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
-           if (w!=0) {
+           if (w) {
               w->setFocus();
               w->RefreshWidget(true);
            }
@@ -3476,14 +3435,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         if (strcmp(str, "GetFitterFromFitPanel")==0) {
            TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
            TGo4Fitter** res = (TGo4Fitter**) par;
-           if ((panel!=0) && (res!=0))
+           if (panel && res)
               *res = panel->GetFitter();
         } else
 
         if (strcmp(str, "CloneFitterFromFitPanel")==0) {
            TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
            TGo4Fitter** res = (TGo4Fitter**) par;
-           if ((panel!=0) && (res!=0))
+           if (panel && res)
               *res = panel->CloneFitter();
         }
 
@@ -3529,10 +3488,10 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
 void TGo4MainWindow::HotStart(const char* fname)
 {
-   if (fname==0) return;
+   if (!fname) return;
 
    TGo4Script* exec = TGo4Script::ScriptInstance();
-   if(exec==0) return;
+   if(!exec) return;
 
    if (!exec->StartScriptExecution(fname)) return;
 
@@ -3542,7 +3501,7 @@ void TGo4MainWindow::HotStart(const char* fname)
 void TGo4MainWindow::ProcessHotStart()
 {
    TGo4Script* exec = TGo4Script::ScriptInstance();
-   if (exec==0) return;
+   if (!exec) return;
 
    Bool_t res = kTRUE;
    do {
@@ -3617,8 +3576,8 @@ TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)
 
    for (Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* widgslot = slot->GetChild(n);
-      TGo4WidgetProxy* wproxy = widgslot==0 ? 0 : dynamic_cast<TGo4WidgetProxy*> (widgslot->GetProxy());
-      panel = wproxy==0 ? 0 : dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
+      TGo4WidgetProxy* wproxy = !widgslot ? nullptr : dynamic_cast<TGo4WidgetProxy*> (widgslot->GetProxy());
+      panel = !wproxy ? nullptr : dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
 
       if (panel)
         if (strcmp(panel->GetPanelName(), name)==0)
