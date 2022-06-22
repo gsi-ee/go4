@@ -85,15 +85,15 @@ void usage(const char* subtopic = nullptr)
 
    if (subtopic && (strlen(subtopic) > 0)) {
       const char* sub = subtopic;
-      if (*sub=='-') sub++;
+      if (*sub == '-') sub++;
 
-      if ((strcmp(subtopic, "sources")==0) || (strcmp(subtopic, "src")==0) || (strcmp(subtopic, "src")==0)) {
+      if ((strcmp(subtopic, "sources") == 0) || (strcmp(subtopic, "src") == 0) || (strcmp(subtopic, "src") == 0)) {
          std::cout << "These are arguments of go4analysis which allows to specify event source" << std::endl;
          printsources();
          return;
       } else
-      if ((strcmp(sub, "print")==0) || (strcmp(sub, "pr")==0) ||
-          (strcmp(sub, "type")==0) || (strcmp(sub, "ty")==0)) {
+      if ((strcmp(sub, "print") == 0) || (strcmp(sub, "pr") == 0) ||
+          (strcmp(sub, "type") == 0) || (strcmp(sub, "ty") == 0)) {
          std::cout << "Usage of go4analysis -print command." << std::endl;
          std::cout << std::endl;
          std::cout << "   go4analysis -print|-pr|-type|-ty [PROPT] [SOURCE] [MISC]" << std::endl;
@@ -373,7 +373,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
-         if (analysis && (err==0)) return analysis;
+         if (analysis && (err == 0)) return analysis;
 
          TGo4Log::Error("Cannot create analysis class %s instance with (int, char**) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
@@ -392,7 +392,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
-         if (analysis && (err==0)) return analysis;
+         if (analysis && (err == 0)) return analysis;
 
          TGo4Log::Error("Cannot create analysis class %s instance with (const char*) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
@@ -430,7 +430,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          TDataType *datatype  = gROOT->GetType(argument->GetTypeName());
 
-         TString basictype = (datatype==0) ? "int" :  datatype->GetTypeName();
+         TString basictype = !datatype ? "int" :  datatype->GetTypeName();
 
          TGo4Log::Debug("Argument %s type %s basictype %s", argument->GetName(), argument->GetTitle(), basictype.Data());
 
@@ -442,7 +442,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          bool isptr = strchr(argument->GetTitle(), '*') != 0;
 
-         if ((datatype==0) && !isptr) {
+         if (!datatype && !isptr) {
             TGo4Log::Error("Cannot specify any value for argument %s of class %s constructor", argument->GetName(), an_cl->GetName());
             TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
             exit(1);
@@ -468,7 +468,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       Int_t err = 0;
       TGo4Log::Info("Process: %s", cmd.Data());
       TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
-      if (analysis && (err==0)) return analysis;
+      if (analysis && (err == 0)) return analysis;
 
       TGo4Log::Error("Cannot create analysis class %s instance", an_cl->GetName());
       TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
@@ -648,7 +648,7 @@ int main(int argc, char **argv)
       TGo4Log::Instance();
 
       TGo4Log::LogfileEnable(kTRUE);
-      if (strlen(logfile)==0) logfile = TGo4Log::GetDefaultLogname();
+      if (strlen(logfile) == 0) logfile = TGo4Log::GetDefaultLogname();
       TGo4Log::OpenLogfile(logfile, 0, kTRUE);
 
       TString info = "go4analysis";
@@ -770,7 +770,7 @@ int main(int argc, char **argv)
    int narg = 1;
 
    while (narg < argc) {
-      if (strcmp(argv[narg], "-server")==0) {
+      if (strcmp(argv[narg], "-server") == 0) {
          narg++;
          batchMode = kFALSE;
          servermode = kTRUE;
@@ -786,7 +786,7 @@ int main(int argc, char **argv)
          iport = atoi(argv[narg++]); // port of GUI server
       } else
 #ifdef WITH_HTTP
-      if (strcmp(argv[narg], "-http")==0) {
+      if (strcmp(argv[narg], "-http") == 0) {
          narg++;
          httpmode = kTRUE;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
@@ -794,25 +794,25 @@ int main(int argc, char **argv)
          else
             http_args.Add(new TObjString("http:8080?top=Go4"));
       } else
-      if (strcmp(argv[narg], "-fastcgi")==0) {
+      if (strcmp(argv[narg], "-fastcgi") == 0) {
          narg++;
          httpmode = kTRUE;
          if (narg >= argc) showerror("fastcgi options not specified");
          http_args.Add(new TObjString(TString::Format("fastcgi:%s?top=Go4", argv[narg++])));
       } else
-      if (strcmp(argv[narg], "-jsroot")==0) {
+      if (strcmp(argv[narg], "-jsroot") == 0) {
          narg++;
          if (narg >= argc) showerror("jsroot location not specified");
          http_args.Add(new TObjString(TString::Format("jsroot:%s", argv[narg++])));
       } else
-      if (strcmp(argv[narg], "-auth")==0) {
+      if (strcmp(argv[narg], "-auth") == 0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             auth_file = argv[narg++];
          else
             auth_file = TGo4Log::subGO4SYS("etc/htdigest.txt");
       } else
-      if (strcmp(argv[narg], "-domain")==0) {
+      if (strcmp(argv[narg], "-domain") == 0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             auth_domain = argv[narg++];
@@ -820,7 +820,7 @@ int main(int argc, char **argv)
             auth_domain = "go4";
       } else
 #ifdef WITH_DABC
-      if (strcmp(argv[narg], "-dabc")==0) {
+      if (strcmp(argv[narg], "-dabc") == 0) {
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
          const char* hostname = gSystem->HostName();
@@ -839,7 +839,7 @@ int main(int argc, char **argv)
          if (++narg >= argc) showerror("analysis name not specified");
          narg++;
       } else
-      if (strcmp(argv[narg],"-step")==0) {
+      if (strcmp(argv[narg],"-step") == 0) {
          if (++narg < argc) {
             const char* step_name = argv[narg++];
             int step_number(-1);
@@ -851,15 +851,15 @@ int main(int argc, char **argv)
          } else
             showerror("step name not specified");
       } else
-      if(strcmp(argv[narg],"-enable-step")==0) {
+      if(strcmp(argv[narg],"-enable-step") == 0) {
          narg++;
          step->SetProcessEnabled(kTRUE);
       } else
-      if(strcmp(argv[narg],"-disable-step")==0) {
+      if(strcmp(argv[narg],"-disable-step") == 0) {
          narg++;
          step->SetProcessEnabled(kFALSE);
       } else
-      if ((strcmp(argv[narg],"-file")==0) || (strcmp(argv[narg],"-f")==0)) {
+      if ((strcmp(argv[narg],"-file") == 0) || (strcmp(argv[narg],"-f") == 0)) {
          if (++narg < argc) {
             TGo4MbsFileParameter sourcepar(argv[narg++]);
             // this is case when many files are specified at once
@@ -871,7 +871,7 @@ int main(int argc, char **argv)
          } else
             showerror("LMD/LML file name not specified");
       } else
-      if (strcmp(argv[narg],"-source")==0) {
+      if (strcmp(argv[narg],"-source") == 0) {
          if (++narg < argc) {
             TGo4FileSourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -880,7 +880,7 @@ int main(int argc, char **argv)
          } else
             showerror("Input file name not specified");
       } else
-      if ((strcmp(argv[narg],"-transport")==0) || (strcmp(argv[narg],"-tr")==0)) {
+      if ((strcmp(argv[narg],"-transport") == 0) || (strcmp(argv[narg],"-tr") == 0)) {
          if (++narg < argc) {
             TGo4MbsTransportParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -889,7 +889,7 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Transport server name not specified");
       } else
-      if ((strcmp(argv[narg],"-stream")==0) || (strcmp(argv[narg],"-st")==0)) {
+      if ((strcmp(argv[narg],"-stream") == 0) || (strcmp(argv[narg],"-st") == 0)) {
          if (++narg < argc) {
             TGo4MbsStreamParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -898,7 +898,7 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Stream server name not specified");
       } else
-      if ((strcmp(argv[narg],"-evserv")==0) || (strcmp(argv[narg],"-ev")==0))  {
+      if ((strcmp(argv[narg],"-evserv") == 0) || (strcmp(argv[narg],"-ev") == 0))  {
          if (++narg < argc) {
             TGo4MbsEventServerParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -907,14 +907,14 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Event server name not specified");
       } else
-      if ((strcmp(argv[narg],"-random")==0) || (strcmp(argv[narg],"-rnd")==0)) {
+      if ((strcmp(argv[narg],"-random") == 0) || (strcmp(argv[narg],"-rnd") == 0)) {
          narg++;
          TGo4MbsRandomParameter sourcepar("Random");
          step->SetEventSource(&sourcepar);
          step->SetSourceEnabled(kTRUE);
          autorun = true;
       } else
-      if (strcmp(argv[narg],"-user")==0) {
+      if (strcmp(argv[narg],"-user") == 0) {
          if (++narg < argc) {
             TGo4UserSourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -925,7 +925,7 @@ int main(int argc, char **argv)
       }
 #ifdef __GO4HDF5__
       else
-      if (strcmp(argv[narg],"-hdf5")==0) {
+      if (strcmp(argv[narg],"-hdf5") == 0) {
          if (++narg < argc) {
             TGo4HDF5SourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -937,7 +937,7 @@ int main(int argc, char **argv)
 #endif
 
       else
-      if ((strcmp(argv[narg],"-revserv")==0) || (strcmp(argv[narg],"-rev")==0)) {
+      if ((strcmp(argv[narg],"-revserv") == 0) || (strcmp(argv[narg],"-rev") == 0)) {
          if (++narg < argc) {
             const char* serv_name = argv[narg++];
             int serv_port = 0;
@@ -950,10 +950,10 @@ int main(int argc, char **argv)
          } else
             showerror("Remote event server name or port are not specified");
       } else
-      if (strcmp(argv[narg],"-skip")==0) {
+      if (strcmp(argv[narg],"-skip") == 0) {
          narg++;
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
-         if (param==0) showerror("only in MBS source events can be skipped");
+         if (!param) showerror("only in MBS source events can be skipped");
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             unsigned value=0;
             if (sscanf(argv[narg],"%u",&value)!=1)
@@ -962,7 +962,7 @@ int main(int argc, char **argv)
             narg++;
          }
       } else
-      if (strcmp(argv[narg],"-port")==0) {
+      if (strcmp(argv[narg],"-port") == 0) {
          narg++;
          int port(0);
          if ((narg < argc) && (argv[narg][0]!='-')) {
@@ -976,7 +976,7 @@ int main(int argc, char **argv)
          TGo4UserSourceParameter* user = dynamic_cast<TGo4UserSourceParameter*> (step->GetEventSource());
          if (user) user->SetPort(port);
       } else
-      if (strcmp(argv[narg],"-retry")==0) {
+      if (strcmp(argv[narg],"-retry") == 0) {
          narg++;
          int nretry = 0;
          if ((narg < argc) && (argv[narg][0]!='-')) {
@@ -987,23 +987,23 @@ int main(int argc, char **argv)
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
          if (param) param->SetRetryCnt(nretry);
       } else
-      if (strcmp(argv[narg],"-mbs-select")==0) {
+      if (strcmp(argv[narg],"-mbs-select") == 0) {
          narg++;
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
-         if (param==0) showerror("only in MBS source events can be selected");
+         if (!param) showerror("only in MBS source events can be selected");
          unsigned cnt=0;
          while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
-            unsigned value(0);
-            if ((cnt==1) && (strcmp(argv[narg],"all")==0)) value = 0; else
+            unsigned value = 0;
+            if ((cnt==1) && (strcmp(argv[narg],"all") == 0)) value = 0; else
             if (sscanf(argv[narg],"%u",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
-            if (cnt==0) param->SetStartEvent(value); else
+            if (cnt == 0) param->SetStartEvent(value); else
             if (cnt==1) param->SetStopEvent(value); else
             if (cnt==2) param->SetEventInterval(value);
             narg++; cnt++;
          }
       } else
-      if(strcmp(argv[narg],"-store")==0) {
+      if(strcmp(argv[narg],"-store") == 0) {
          if (++narg >= argc) showerror("Store name not specified");
 
          const char* sourcename = argv[narg++];
@@ -1016,7 +1016,7 @@ int main(int argc, char **argv)
             int value(0);
             if (sscanf(argv[narg],"%d",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
-            if (cnt==0) splitlevel = value; else
+            if (cnt == 0) splitlevel = value; else
             if (cnt==1) buffersize = value; else
             if (cnt==2) compression = value;
             narg++; cnt++;
@@ -1026,28 +1026,28 @@ int main(int argc, char **argv)
          step->SetEventStore(&storepar);
          step->SetStoreEnabled(kTRUE);
       } else
-      if (strcmp(argv[narg], "-timeout")==0) {
+      if (strcmp(argv[narg], "-timeout") == 0) {
          if (++narg >= argc) showerror("Timeout value not specified");
-         if (step->GetEventSource()==0) showerror("No source parameter configured");
+         if (!step->GetEventSource()) showerror("No source parameter configured");
          int value(0);
          if (sscanf(argv[narg],"%d",&value)!=1)
             showerror(TString::Format("Timeout value error %s", argv[narg]));
          narg++;
          step->GetEventSource()->SetTimeout(value);
       } else
-      if (strcmp(argv[narg],"-overwrite-store")==0) {
+      if (strcmp(argv[narg],"-overwrite-store") == 0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kTRUE);
             else showerror("No file-store parameter available");
       } else
-      if (strcmp(argv[narg],"-append-store")==0) {
+      if (strcmp(argv[narg],"-append-store") == 0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kFALSE);
             else showerror("No file-store parameter available");
       } else
-      if(strcmp(argv[narg],"-backstore")==0) {
+      if(strcmp(argv[narg],"-backstore") == 0) {
          if (++narg < argc) {
             TGo4BackStoreParameter storepar(argv[narg++]);
             step->SetEventStore(&storepar);
@@ -1055,7 +1055,7 @@ int main(int argc, char **argv)
          } else
             showerror("Backstore name not specified");
       } else
-      if(strcmp(argv[narg],"-userstore")==0) {
+      if(strcmp(argv[narg],"-userstore") == 0) {
          if (++narg < argc) {
             TGo4UserStoreParameter storepar(argv[narg++]);
             step->SetEventStore(&storepar);
@@ -1064,7 +1064,7 @@ int main(int argc, char **argv)
             showerror("User store name not specified");
       } else
 #ifdef __GO4HDF5__
-      if(strcmp(argv[narg],"-hdf5store")==0) {
+      if(strcmp(argv[narg],"-hdf5store") == 0) {
          if (++narg < argc) {
             TGo4HDF5StoreParameter storepar(argv[narg++]);
             step->SetEventStore(&storepar);
@@ -1073,29 +1073,29 @@ int main(int argc, char **argv)
            showerror("HDF5 store name not specified");
       } else
 #endif
-      if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0) || (strcmp(argv[narg],"-num")==0)) {
+      if ((strcmp(argv[narg],"-events") == 0) || (strcmp(argv[narg],"-number") == 0) || (strcmp(argv[narg],"-num") == 0)) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
          } else
             showerror("number of events to process not specified");
       } else
-      if (strcmp(argv[narg],"-asf")==0) {
+      if (strcmp(argv[narg],"-asf") == 0) {
          narg++;
          analysis->SetAutoSave(kTRUE);
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             analysis->SetAutoSaveFile(argv[narg++]);
       } else
-      if (strcmp(argv[narg],"-enable-asf")==0) {
+      if (strcmp(argv[narg],"-enable-asf") == 0) {
          narg++;
          analysis->SetAutoSave(kTRUE);
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             analysis->SetAutoSaveInterval(atoi(argv[narg++]));
       } else
-      if (strcmp(argv[narg],"-disable-asf")==0) {
+      if (strcmp(argv[narg],"-disable-asf") == 0) {
          narg++;
          analysis->SetAutoSave(kFALSE);
       } else
-      if (strcmp(argv[narg],"-prefs")==0) {
+      if (strcmp(argv[narg],"-prefs") == 0) {
          narg++;
          const char* fname = 0;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
@@ -1103,25 +1103,25 @@ int main(int argc, char **argv)
          analysis->LoadStatus(fname);
          loadprefs = kFALSE;
       } else
-      if (strcmp(argv[narg],"-no-prefs")==0) {
+      if (strcmp(argv[narg],"-no-prefs") == 0) {
          narg++;
          loadprefs = kFALSE;
       } else
-      if(strcmp(argv[narg],"-log")==0) {
+      if(strcmp(argv[narg],"-log") == 0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
       } else
-      if(strcmp(argv[narg],"-gdebug")==0) {
+      if(strcmp(argv[narg],"-gdebug") == 0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             gDebug = TString(argv[narg++]).Atoi();
          else
             gDebug = 1;
       } else
-      if((strcmp(argv[narg],"-v")==0) || (strcmp(argv[narg],"-v0")==0) || (strcmp(argv[narg],"-v1")==0) || (strcmp(argv[narg],"-v2")==0) || (strcmp(argv[narg],"-v3")==0)) {
+      if((strcmp(argv[narg],"-v") == 0) || (strcmp(argv[narg],"-v0") == 0) || (strcmp(argv[narg],"-v1") == 0) || (strcmp(argv[narg],"-v2") == 0) || (strcmp(argv[narg],"-v3") == 0)) {
          narg++;
       } else
-      if((strcmp(argv[narg],"-graphics")==0) || (strcmp(argv[narg],"-gr")==0)) {
+      if((strcmp(argv[narg],"-graphics") == 0) || (strcmp(argv[narg],"-gr") == 0)) {
          narg++;
          gROOT->SetBatch(kFALSE);
          process_interv = 0.1; // allow system events processing
@@ -1129,15 +1129,15 @@ int main(int argc, char **argv)
          TStyle::BuildStyles();
          gROOT->SetStyle();
       } else
-      if(strcmp(argv[narg],"-run")==0) {
+      if(strcmp(argv[narg],"-run") == 0) {
          narg++;
          autorun = true;
       } else
-      if(strcmp(argv[narg],"-norun")==0) {
+      if(strcmp(argv[narg],"-norun") == 0) {
          narg++;
          canrun = -1;
       } else
-      if(strcmp(argv[narg],"-maxtreesize")==0) {
+      if(strcmp(argv[narg],"-maxtreesize") == 0) {
          narg++;
          long long maxtreesize = 1900000000;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
@@ -1154,88 +1154,88 @@ int main(int argc, char **argv)
          TGo4Log::Info("Set tree file size limit to %lld bytes", maxtreesize);
          TGo4FileStore::SetMaxTreeSize(maxtreesize);
       } else
-      if ((strcmp(argv[narg],"-print")==0) || (strcmp(argv[narg],"-type")==0) || (strcmp(argv[narg],"-ty")==0) || (strcmp(argv[narg],"-pr")==0)) {
+      if ((strcmp(argv[narg],"-print") == 0) || (strcmp(argv[narg],"-type") == 0) || (strcmp(argv[narg],"-ty") == 0) || (strcmp(argv[narg],"-pr") == 0)) {
          narg++;
          while ((narg<argc) && (argv[narg][0]!='-')) {
-            if (strncmp(argv[narg],"sub=",4)==0) {
+            if (strncmp(argv[narg],"sub=",4) == 0) {
                TGo4PrintProcessor::fSubId = atoi(argv[narg] + 4);
             } else
-            if (strcmp(argv[narg],"hex")==0) {
+            if (strcmp(argv[narg],"hex") == 0) {
                TGo4PrintProcessor::fHex = kTRUE;
                TGo4PrintProcessor::fData = kTRUE;
             } else
-            if (strcmp(argv[narg],"dec")==0) {
+            if (strcmp(argv[narg],"dec") == 0) {
                TGo4PrintProcessor::fHex = kFALSE;
                TGo4PrintProcessor::fData = kTRUE;
             } else
-            if (strcmp(argv[narg],"long")==0) {
+            if (strcmp(argv[narg],"long") == 0) {
                TGo4PrintProcessor::fLong = kTRUE;
                TGo4PrintProcessor::fData = kTRUE;
             } else
-            if (strcmp(argv[narg],"short")==0) {
+            if (strcmp(argv[narg],"short") == 0) {
                TGo4PrintProcessor::fLong = kFALSE;
                TGo4PrintProcessor::fData = kTRUE;
             } else
-            if (strcmp(argv[narg],"data")==0) {
+            if (strcmp(argv[narg],"data") == 0) {
                TGo4PrintProcessor::fData = kTRUE;
             } else
-            if (strcmp(argv[narg],"nodata")==0) {
+            if (strcmp(argv[narg],"nodata") == 0) {
                TGo4PrintProcessor::fData = kFALSE;
             } else
-            if (strcmp(argv[narg],"fhead")==0) {
+            if (strcmp(argv[narg],"fhead") == 0) {
                TGo4PrintProcessor::fFileHead = kTRUE;
             } else
-            if (strcmp(argv[narg],"bhead")==0) {
+            if (strcmp(argv[narg],"bhead") == 0) {
                 TGo4PrintProcessor::fBufHead = kTRUE;
             }
             narg++;
          }
       } else
-      if(strcmp(argv[narg],"-enable-store")==0) {
+      if(strcmp(argv[narg],"-enable-store") == 0) {
          narg++;
          step->SetStoreEnabled(kTRUE);
       } else
-      if(strcmp(argv[narg],"-disable-store")==0) {
+      if(strcmp(argv[narg],"-disable-store") == 0) {
          narg++;
          step->SetStoreEnabled(kFALSE);
       } else
-      if(strcmp(argv[narg],"-enable-source")==0) {
+      if(strcmp(argv[narg],"-enable-source") == 0) {
          narg++;
          step->SetSourceEnabled(kTRUE);
       } else
-      if(strcmp(argv[narg],"-disable-source")==0) {
+      if(strcmp(argv[narg],"-disable-source") == 0) {
          narg++;
          step->SetSourceEnabled(kFALSE);
       } else
-      if(strcmp(argv[narg],"-disable-errstop")==0) {
+      if(strcmp(argv[narg],"-disable-errstop") == 0) {
          narg++;
          step->SetErrorStopEnabled(kFALSE);
       } else
-      if(strcmp(argv[narg],"-enable-errstop")==0) {
+      if(strcmp(argv[narg],"-enable-errstop") == 0) {
          narg++;
          step->SetErrorStopEnabled(kTRUE);
       } else
-      if(strcmp(argv[narg],"-rate")==0) {
+      if(strcmp(argv[narg],"-rate") == 0) {
          narg++;
          showrate = kTRUE;
       } else
-      if(strcmp(argv[narg],"-norate")==0) {
+      if(strcmp(argv[narg],"-norate") == 0) {
          narg++;
          showrate = kFALSE;
       } else
-      if(strcmp(argv[narg],"-inpevt-class")==0) {
+      if(strcmp(argv[narg],"-inpevt-class") == 0) {
          // these arguments used only in simple analysis with single step and
          // processed when analysis created
          narg++;
          if (narg < argc) narg++;
       } else
-      if(strcmp(argv[narg],"-outevt-class")==0) {
+      if(strcmp(argv[narg],"-outevt-class") == 0) {
          // these arguments used only in simple analysis with single step and
          // processed when analysis created
          narg++;
          if (narg < argc) narg++;
       } else
-      if(strcmp(argv[narg],"-hserver")==0) {
+      if(strcmp(argv[narg],"-hserver") == 0) {
          narg++;
          hserver = true;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
@@ -1258,7 +1258,7 @@ int main(int argc, char **argv)
       TString cmd;
       for (Int_t n=0;n<=http_args.GetLast();n++) {
          TString engine = http_args[n]->GetName();
-         if ((engine.Index("http:")==0) && (auth_file.Length()>0))
+         if ((engine.Index("http:") == 0) && (auth_file.Length() > 0))
             engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file.Data(), auth_domain));
 
          cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", engine.Data());
@@ -1312,7 +1312,7 @@ int main(int argc, char **argv)
       while (TGo4Analysis::Exists()) {
          // add this check while at some moments ROOT could reset this pointer
          if (!gSystem) {
-            // printf("ROOT feature - gSystem==0, break execution\n");
+            // printf("ROOT feature - gSystem == 0, break execution\n");
 
             // exit call exit handler and produces even more problems
             // we trying to close application as soon as possible - anyway many

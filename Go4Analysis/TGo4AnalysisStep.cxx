@@ -98,12 +98,12 @@ void TGo4AnalysisStep::Process()
 {
    GO4TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
    if(!fbProcessEnabled) return;
-   if(fxEventProcessor==0) {
+   if(!fxEventProcessor) {
       SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
       throw TGo4AnalysisStepException(this);
    }
 
-   TGo4EventElement* input(0);
+   TGo4EventElement* input = nullptr;
    fiProcessStatus = 0;
    ////////// source part:
    if (fbSourceEnabled && (fxEventSource!=0)) {
@@ -251,10 +251,10 @@ Bool_t TGo4AnalysisStep::IsMatchingPrevious()
    if(!IsProcessEnabled()) return kTRUE;
       // only check if this step is active, otherwise no event classes are initialized!
 
-   if (fxPrevious==0) return kTRUE;
+   if (!fxPrevious) return kTRUE;
 
    TGo4EventElement* prevevent = fxPrevious->GetOutputEvent();
-   if (prevevent==0) return kTRUE;
+   if (!prevevent) return kTRUE;
 
    return !strcmp(prevevent->ClassName(),fxInputEvent->ClassName()) &&
           !strcmp(prevevent->GetName(),fxInputEvent->GetName());
@@ -264,12 +264,12 @@ const char* TGo4AnalysisStep::GetEventStoreName()
 {
    GO4TRACE((12,"TGo4AnalysisStep::GetEventStoreName()",__LINE__, __FILE__));
 
-   return (fxEventStore==0) ? 0 : fxEventStore->GetName();
+   return !fxEventStore ? nullptr : fxEventStore->GetName();
 }
 
 const char* TGo4AnalysisStep::GetEventSourceName()
 {
-   return (fxEventSource==0) ? 0 : fxEventSource->GetActiveName();
+   return !fxEventSource ? nullptr : fxEventSource->GetActiveName();
 }
 
 void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
@@ -388,14 +388,14 @@ TGo4AnalysisStepStatus * TGo4AnalysisStep::CreateStatus()
    GO4TRACE((11,"TGo4AnalysisStep::CreateStatus()",__LINE__, __FILE__));
    TGo4AnalysisStepStatus* state= new TGo4AnalysisStepStatus( GetName() );
    state->SetProcessorPar(fxProcessorType);
-   if(fxSourceType==0) {
+   if(!fxSourceType) {
       // if user has defined the source as null, we provide dummy for gui
       fxSourceType= new TGo4FileSourceParameter("NoInputDefined");
       fbSourceEnabled=kFALSE;
    }
    state->SetSourcePar(fxSourceType);
    state->SetSourceEnabled(fbSourceEnabled);
-   if(fxStoreType==0) {
+   if(!fxStoreType) {
       fxStoreType = new TGo4FileStoreParameter("NoOutputDefined");
       fbStoreEnabled=kFALSE;
    }

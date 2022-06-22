@@ -865,7 +865,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
          TIter iter(statusfile->GetListOfKeys());
          TKey* key = nullptr;
          while ((key = (TKey*)iter()) != nullptr) {
-            if (strcmp(key->GetClassName(),"TGo4AnalysisStatus")==0) break;
+            if (strcmp(key->GetClassName(),"TGo4AnalysisStatus") == 0) break;
          }
 
          if (key) state = dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( key->GetName() ) );
