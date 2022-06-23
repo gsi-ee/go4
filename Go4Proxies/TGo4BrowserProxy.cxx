@@ -85,12 +85,12 @@ class TGo4BrowserObjProxy : public TGo4ObjectProxy {
 
       Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override
       {
-        if (fObject==obj) return kTRUE;
+        if (fObject == obj) return kTRUE;
 
         Bool_t updatedone = false;
 
         if (fObject && obj)
-           if ((fObject->IsA()==obj->IsA()) &&
+           if ((fObject->IsA() == obj->IsA()) &&
               (strcmp(fObject->GetName(), obj->GetName()) == 0))
                 updatedone = TGo4BrowserProxy::UpdateObjectContent(fObject, obj);
 
@@ -126,48 +126,14 @@ class TGo4BrowserObjProxy : public TGo4ObjectProxy {
 
 // ******************************************************************
 
-TGo4BrowserProxy::TGo4BrowserProxy() :
-   TGo4Proxy(),
-   fxDataPath(),
-   fxBrowserPath(),
-   fxViewPath(),
-   fbWithRootBrowser(kFALSE),
-   fxMemoryPath(),
-   fxOM(0),
-   fxBrowserSlot(0),
-   fiMonitoringPeriod(0),
-   fxMonitorTimer(0),
-   fbBlockMonitoring(kFALSE),
-   fiFilterIndex(0),
-   fxWaitingList(0),
-   fxClipboard(0),
-   fxSyncTimer(0),
-   fbBlockSync(kFALSE),
-   fDummyTreePlayer(0)
-{
-}
-
 TGo4BrowserProxy::TGo4BrowserProxy(const char* datapath,
                                    const char* viewpath,
-                                   Bool_t withRootBrowser) :
-   TGo4Proxy(),
-   fxDataPath(datapath),
-   fxBrowserPath(),
-   fxViewPath(viewpath),
-   fbWithRootBrowser(withRootBrowser),
-   fxMemoryPath("Workspace"),
-   fxOM(0),
-   fxBrowserSlot(0),
-   fiMonitoringPeriod(0),
-   fxMonitorTimer(0),
-   fbBlockMonitoring(kFALSE),
-   fiFilterIndex(0),
-   fxWaitingList(0),
-   fxClipboard(0),
-   fxSyncTimer(0),
-   fbBlockSync(kFALSE),
-   fDummyTreePlayer(0)
+                                   Bool_t withRootBrowser)
 {
+   fxDataPath = datapath;
+   fxViewPath = viewpath;
+   fbWithRootBrowser = withRootBrowser;
+   fxMemoryPath = "Workspace";
 }
 
 TGo4BrowserProxy::~TGo4BrowserProxy()
@@ -278,9 +244,8 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id
       }
 
       return kFALSE; // do not process further
-   } else
-   if ((source!=slot) && ischildevent) {
-      if ((id==TGo4Slot::evObjUpdated) || (id==TGo4Slot::evObjAssigned)) {
+   } else if ((source != slot) && ischildevent) {
+      if ((id == TGo4Slot::evObjUpdated) || (id == TGo4Slot::evObjAssigned)) {
          CheckWaitingList(source);
          slot->ForwardEvent(slot, TGo4Slot::evSubslotUpdated, (void*) source);
          CheckPictureMonitor(source);
@@ -379,14 +344,12 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
 
    if (!itemslot) return kFALSE;
 
-   // std::cout << "ProduceExplicitCopy " << itemslot->GetFullName() << "  " << (tgtpath ? tgtpath : "null") << std::endl;
-
    TGo4Slot* memslot = BrowserMemorySlot();
    if (itemslot->IsParent(memslot) && !tgtpath) return kFALSE;
    if (tgtpath) {
        TGo4Slot* tgtslot = BrowserSlot(tgtpath);
        if (!tgtslot) return kFALSE;
-       if ((tgtslot==itemslot) || tgtslot->IsParent(itemslot)) return kFALSE;
+       if ((tgtslot == itemslot) || tgtslot->IsParent(itemslot)) return kFALSE;
    }
 
    if (itemslot->NumChilds() > 0) {
@@ -420,7 +383,7 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
      return res;
    }
 
-   if (ItemKind(itemslot)!=TGo4Access::kndObject) return kFALSE;
+   if (ItemKind(itemslot) != TGo4Access::kndObject) return kFALSE;
 
    TString pathname;
    if (tgtpath) {
@@ -473,11 +436,13 @@ void TGo4BrowserProxy::AddToClipboard(const char* itemname)
    if (!itemslot) return;
 
    // check if parent of that item already in clipboard
-   for (Int_t n=0;n<=fxClipboard->GetLast();n++) {
-      TNamed* nm = (TNamed*) fxClipboard->At(n);
-      TGo4Slot* slot = ItemSlot(nm->GetName());
-      if (!slot) continue;
-      if (itemslot->IsParent(slot)) return;
+   for (Int_t n = 0; n <= fxClipboard->GetLast(); n++) {
+      TNamed *nm = (TNamed *)fxClipboard->At(n);
+      TGo4Slot *slot = ItemSlot(nm->GetName());
+      if (!slot)
+         continue;
+      if (itemslot->IsParent(slot))
+         return;
    }
 
    fxClipboard->Add(new TNamed(itemname, "clipboard item"));
@@ -638,9 +603,9 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    TString varexp(Xexp);
 
-   if(strlen(Yexp)>0) {
+   if(strlen(Yexp) > 0) {
       varexp = TString(Yexp) + TString(":") + varexp;
-      if(strlen(Zexp)>0)
+      if(strlen(Zexp) > 0)
          varexp = TString(Zexp) + TString(":") + varexp;
    }
 
@@ -688,7 +653,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    if (hslot && !IsItemRemote(hslot)) {
        histo = dynamic_cast<TH1*> (GetBrowserObject(hname, 1));
-       if (histo && (drawdim!=histo->GetDimension())) {
+       if (histo && (drawdim != histo->GetDimension())) {
           histo = nullptr;
           histoname = "";
        }
@@ -901,7 +866,7 @@ void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
    TGo4Slot* itemslot = ItemSlot(itemname);
    if (!itemslot) return;
 
-   if (ItemKind(itemslot)==TGo4Access::kndObject)
+   if (ItemKind(itemslot) == TGo4Access::kndObject)
       RequestBrowserObject(itemslot, wait_time);
 
    TGo4Iter iter(itemslot, kTRUE);
@@ -1368,7 +1333,7 @@ const char* TGo4BrowserProxy::ItemDate(TGo4Slot* slot)
 void TGo4BrowserProxy::SetLinkedName(TGo4Slot* slot, const char* itemname)
 {
    if (slot)
-     slot->SetPar("::LinkedItem", itemname);
+      slot->SetPar("::LinkedItem", itemname);
 }
 
 const char* TGo4BrowserProxy::GetLinkedName(TGo4Slot* slot)
@@ -1756,7 +1721,7 @@ Int_t TGo4BrowserProxy::UpdateVisibleAnalysisObjects(bool checkmonitor)
    TGo4Slot* viewslot = fxOM->GetSlot(fxViewPath.Data());
    if (!viewslot) return 0;
 
-   TGo4Slot* brslot = BrowserSlot(0);
+   TGo4Slot* brslot = BrowserSlot();
 
    TObjArray UniqueItems;
 
@@ -1788,7 +1753,7 @@ Int_t TGo4BrowserProxy::UpdateAllMonitoredObjects()
 {
    Int_t nrequests = 0;
 
-   TGo4Iter iter(BrowserSlot(0),kTRUE);
+   TGo4Iter iter(BrowserSlot(),kTRUE);
 
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
