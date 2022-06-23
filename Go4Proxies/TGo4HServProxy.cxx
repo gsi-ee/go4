@@ -198,7 +198,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 
    if(result != 0) return kFALSE;
 
-   fxStructure = new TGo4Slot(0, "HClient","Structure holding slot");
+   fxStructure = new TGo4Slot(nullptr, "HClient","Structure holding slot");
 
    s_his_head* ps_his_head = (s_his_head*) pl_all_h;
    for(int i_j=0;i_j<l_histos;i_j++) {

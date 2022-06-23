@@ -64,8 +64,8 @@ class TGo4ObjManCleanup : public TObject {
       TObject* GetObject() const { return fObject; }
       TGo4Slot* GetSlot() const { return fSlot; }
    protected:
-      TObject*   fObject; //!
-      TGo4Slot*  fSlot;   //!
+      TObject*   fObject{nullptr}; //!
+      TGo4Slot*  fSlot{nullptr};   //!
 };
 
 
@@ -80,7 +80,7 @@ TGo4ObjectManager::TGo4ObjectManager() :
 }
 
 TGo4ObjectManager::TGo4ObjectManager(const char* name, const char* title) :
-   TGo4Slot(0, name, title),
+   TGo4Slot(nullptr, name, title),
    fLinks(),
    fCleanups()
 {
@@ -181,7 +181,7 @@ void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner
 
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
    if (slot)
-     slot->SetProxy(new TGo4FolderProxy(f, owner, ""));
+      slot->SetProxy(new TGo4FolderProxy(f, owner, ""));
 }
 
 void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* foldername)
@@ -192,7 +192,7 @@ void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* folderna
    TGo4Slot* slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());
 
    if (slot)
-     slot->SetProxy(new TGo4FolderProxy(f, kFALSE, foldername));
+      slot->SetProxy(new TGo4FolderProxy(f, kFALSE, foldername));
 }
 
 void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
@@ -233,7 +233,7 @@ TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char* nam
    TGo4Slot* folder = GetSlot(foldername, kTRUE);
    if (!folder) return nullptr;
    if (!folder->FindChild(name))
-     return new TGo4Slot(folder, name, title);
+      return new TGo4Slot(folder, name, title);
 
    TString extraname;
    Int_t cycle = 1;
@@ -266,7 +266,6 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
 
    return slot;
 }
-
 
 TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
 {
