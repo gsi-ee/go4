@@ -57,7 +57,7 @@ class TGo4MdiArea : public QMdiArea {
       TPad*           fxActivePad{nullptr};
       TPad*           fxSelectedPad{nullptr};
 
-      static TGo4MdiArea* fInstance;
+      static TGo4MdiArea* gInstance;
 };
 
 #endif

@@ -21,30 +21,28 @@
 #include "TGo4ViewPanel.h"
 #include "TGo4QSettings.h"
 
-TGo4MdiArea* TGo4MdiArea::fInstance = nullptr;
+TGo4MdiArea* TGo4MdiArea::gInstance = nullptr;
 
 TGo4MdiArea* TGo4MdiArea::Instance()
 {
-   return fInstance;
+   return gInstance;
 }
 
 TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
-   QMdiArea(parent),
-   fxActivePanel(nullptr),
-   fxActivePad(nullptr),
-   fxSelectedPad(nullptr)
+   QMdiArea(parent)
 {
    setSizeIncrement( QSize( 100, 100 ) );
    setBaseSize( QSize( 100, 100 ) );
 
    connect(this,SIGNAL(subWindowActivated (QMdiSubWindow*)), this, SLOT(subWindowActivatedSlot(QMdiSubWindow*)));
 
-   if (!fInstance) fInstance = this;
+   if (!gInstance) gInstance = this;
 }
 
 TGo4MdiArea::~TGo4MdiArea()
 {
-   if (fInstance==this) fInstance = nullptr;
+   if (gInstance == this)
+      gInstance = nullptr;
 }
 
 TPad* TGo4MdiArea::GetSelectedPad()
@@ -77,16 +75,16 @@ QMdiSubWindow *TGo4MdiArea::AddGo4SubWindow(QWidget *widget, Qt::WindowFlags fla
 
 void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 {
-   TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *>(sub ? sub->widget() : 0);
+   TGo4ViewPanel *panel = sub ? dynamic_cast<TGo4ViewPanel *>(sub->widget()) : nullptr;
 
-   if ((panel != 0) && (fxActivePanel != panel))
+   if (panel && (fxActivePanel != panel))
       panel->SetActivePad(panel->GetActivePad());
 }
 
 TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
 {
    QList<QMdiSubWindow *> windows = subWindowList();
-   for (int i=0; i < windows.count(); ++i ) {
+   for (int i=0; i < windows.count(); ++i) {
       TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
       if (panel && (panel != not_this)) return panel;
    }
