@@ -123,24 +123,26 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
 
 void TGo4Parameter::Clear(Option_t *opt)
 {
- // dummy clear, may be implemented by user
-  std::cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  std::endl;
-  std::cout << "GO4> !!! You probably need to overwrite Clear() method for your class" << IsA()->GetName() << std::endl;
+   // default clear, may be implemented by user
+   std::cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  std::endl;
+   std::cout << "GO4> !!! You probably need to overwrite Clear() method for your class" << IsA()->GetName() << std::endl;
 
-  TObjArray items;
+   TObjArray items;
+   GetMemberValues(&items);
 
-  GetMemberValues(&items);
+   TIter iter(&items);
 
-  TIter iter(&items);
+   while (auto info = (TGo4ParameterMember*) iter())
+      info->SetToZero();
 
-  while (auto info = (TGo4ParameterMember*) iter())
-     info->SetToZero();
-
-  SetMemberValues(&items);
+   SetMemberValues(&items);
 }
 
 void TGo4Parameter::GetMemberValues(TObjArray* fItems)
 {
+   if (!fItems)
+      return;
+   fItems->SetOwner(kTRUE); // created objects owned by collection
    GetMemberValues(fItems, IsA(), (char*) this, 0);
 }
 
@@ -406,13 +408,12 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
       out << TString::Format("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << std::endl;
    }
 
-   TObjArray *fitems = new TObjArray();
-   fitems->SetOwner(kTRUE);
-   GetMemberValues(fitems);
+   TObjArray fitems;
+   GetMemberValues(&fitems);
 
-   TIter iter(fitems);
+   TIter iter(&fitems);
    while (auto info = (TGo4ParameterMember*) iter()) {
-      if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
+      if (info->GetTypeId() == TGo4ParameterMember::kTGo4Fitter_t) continue;
 
       TString membername;
       info->GetFullName(membername);
@@ -435,8 +436,6 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
             break;
       }
    }
-
-   delete fitems;
 }
 
 TGo4ParameterStatus* TGo4Parameter::CreateStatus()
