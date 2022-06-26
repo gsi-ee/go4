@@ -35,4 +35,4 @@ endif()
 
 GO4_LINK_LIBRARY(Go4UserGui
                  SOURCES QUserPanel.cpp QUserPanel.ui
-                 LIBRARIES ${qt_libs} ${Go4Widgets_LIBRARY} ${Go4QtRoot_LIBRARY})
+                 LIBRARIES ${qt_libs} ${Go4Widgets_LIBRARY} ${Go4QtRoot_LIBRARY} ROOT::Core)

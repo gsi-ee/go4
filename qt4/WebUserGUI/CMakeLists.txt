@@ -21,4 +21,4 @@ GO4_LINK_LIBRARY(Go4UserGui
                  SOURCES QUserPanel.cpp QUserPanel.ui
                  LIBRARIES
                      Qt5::Core Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets
-                     ${ROOT_LIBRARIES} ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY})
+                     ${ROOT_LIBRARIES} ${Go4Widgets_LIBRARY} ${Go4WebRoot_LIBRARY} ROOT::Core)

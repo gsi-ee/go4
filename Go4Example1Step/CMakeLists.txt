@@ -20,4 +20,6 @@ GO4_USER_ANALYSIS(
       TXXXProc.cxx
    COPY
       histofill.C
+   LIBRARIES
+      ROOT::Core
 )

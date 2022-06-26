@@ -24,4 +24,6 @@ GO4_USER_ANALYSIS(
       TXXXUnpackProc.cxx
    COPY
       set_Par.C
+   LIBRARIES
+      ROOT::Core
 )

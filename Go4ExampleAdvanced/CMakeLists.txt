@@ -32,4 +32,6 @@ GO4_USER_ANALYSIS(
       findobjects.C
       plothistos.C
       setup.C
+   LIBRARIES
+      ROOT::Core
 )
