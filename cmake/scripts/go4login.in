@@ -2,13 +2,7 @@ case "$-" in *i*) # Shell is interactive
   echo Configure Go4 @GO4_VERSION@ at @_go4top_@
 esac
 
-##### ROOT-related settings ###########
-export ROOTSYS=@GO4_ROOT_DIR@
-export PATH=@GO4_ROOT_DIR@/bin:$PATH
-export LD_LIBRARY_PATH=@GO4_ROOT_DIR@/lib:$LD_LIBRARY_PATH
-export ROOT_INCLUDE_PATH=@_go4inc_@:@GO4_ROOT_DIR@/include:$ROOT_INCLUDE_PATH
-export PYTHONPATH=@GO4_ROOT_DIR@/lib:$PYTHONPATH
-export CMAKE_PREFIX_PATH=@GO4_ROOT_DIR@:$CMAKE_PREFIX_PATH
+@SETTINGS_ROOTSYS@
 
 ##### Go4-related settings ###########
 export GO4SYS=@_go4top_@
