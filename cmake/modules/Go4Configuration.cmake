@@ -1,7 +1,8 @@
-# go4 version 6.1.5
+# go4 version 6.2.99
+
 set(GO4_MAJOR_VERSION 6)
 set(GO4_MINOR_VERSION 2)
-set(GO4_PATCH_VERSION 0)
+set(GO4_PATCH_VERSION 99)
 set(GO4_VERSION ${GO4_MAJOR_VERSION}.${GO4_MINOR_VERSION}.${GO4_PATCH_VERSION})
 
 if(APPLE)
@@ -32,16 +33,17 @@ set(GO4_C_FLAGS "" CACHE STRING "Go4 C flags")
 set(GO4_QTVERSION "${_qtvers}" CACHE STRING "Go4 qt version")
 
 set(GO4_ROOT_DIR $ENV{ROOTSYS})
-if(MSVC)
-   string(REGEX REPLACE "\\\\" "/" GO4_ROOT_DIR ${GO4_ROOT_DIR})
+if(GO4_ROOT_DIR)
+   if(MSVC)
+     string(REGEX REPLACE "\\\\" "/" GO4_ROOT_DIR ${GO4_ROOT_DIR})
+   endif()
+   set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \"${GO4_ROOT_DIR}\")")
+else()
+   set(SETTING_GO4_ROOT_DIR "")
 endif()
-
-set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \"${GO4_ROOT_DIR}\")")
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
-
-set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \$ENV{ROOTSYS})")
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/_install/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
