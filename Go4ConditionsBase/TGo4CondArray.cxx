@@ -986,9 +986,9 @@ TGo4ConditionPainter *TGo4CondArray::CreatePainter()
 Int_t TGo4CondArray::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName() != 0)
+   if (GetName())
       size += strlen(GetName());
-   if (GetTitle() != 0)
+   if (GetTitle())
       size += strlen(GetTitle());
 
    if (condarr)
@@ -996,7 +996,7 @@ Int_t TGo4CondArray::GetMemorySize()
 
    for (Int_t n = 0; n < GetNumberOfConditions(); n++) {
       TGo4Condition *cond = At(n);
-      if (cond != 0)
+      if (cond)
          size += cond->GetMemorySize();
    }
 
@@ -1012,7 +1012,7 @@ void TGo4CondArray::SavePrimitive(std::ostream &out, Option_t *opt)
    // exclude name: options
    TString options = opt;
    const char *subname = strstr(opt, "name:");
-   if (subname != 0)
+   if (subname)
       options.Resize(subname - opt);
 
    for (int n = 0; n < GetNumber(); n++) {

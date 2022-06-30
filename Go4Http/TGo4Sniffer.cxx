@@ -534,7 +534,7 @@ Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
 
 
 
-void TGo4Sniffer::SetTitle(const char* title)
+void TGo4Sniffer::SetTitle(const char *title)
 {
    // Method called by logger with every string, going to output
 

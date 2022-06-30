@@ -34,8 +34,8 @@
 
 TGo4AnalysisStep::TGo4AnalysisStep(const char* name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter* storetype, TGo4EventProcessorParameter* processortype)
 :TNamed(name,"This is a Go4 analysis step"),
-   fxPrevious(0), fxEventStore(0), fxEventSource(0), fxEventProcessor(0),
-   fxInputEvent(0), fxOutputEvent(0),
+   fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
+   fxInputEvent(nullptr), fxOutputEvent(nullptr),
    fxSourceType(sourcetype), fxStoreType(storetype), fxProcessorType(processortype),
    fbSourceEnabled(kFALSE), fbSourceImplemented(kFALSE),
    fbStoreEnabled(kFALSE), fbStoreImplemented(kFALSE),
@@ -43,9 +43,9 @@ TGo4AnalysisStep::TGo4AnalysisStep(const char* name, TGo4EventFactory* eventfact
    fbErrorStopEnabled(kFALSE), fbErrorStopped(kFALSE)
 
 {
-GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)",__LINE__, __FILE__));
-   fxOwner=TGo4Analysis::Instance(); // note: we always have the analysis framework!
-   fxEventFactory=eventfactory;
+   GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)",__LINE__, __FILE__));
+   fxOwner = TGo4Analysis::Instance(); // note: we always have the analysis framework!
+   fxEventFactory = eventfactory;
    if(fxStoreType)
       fxStoreType->SetTitle(GetName()); // set title of eventstore parameter to analysis step name
                                         // this might be used to indicate tree name
@@ -55,8 +55,8 @@ GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)
 
 TGo4AnalysisStep::TGo4AnalysisStep()
 :TNamed("Default Analysis Step","This is a Go4 analysis step"),
-   fxPrevious(0), fxEventStore(0), fxEventSource(0), fxEventProcessor(0),
-   fxInputEvent(0), fxOutputEvent(0),
+   fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
+   fxInputEvent(nullptr), fxOutputEvent(nullptr),
    fxSourceType(0), fxStoreType(0), fxProcessorType(0),
    fbSourceEnabled(kFALSE), fbSourceImplemented(kFALSE),
    fbStoreEnabled(kFALSE), fbStoreImplemented(kFALSE),
@@ -65,8 +65,8 @@ TGo4AnalysisStep::TGo4AnalysisStep()
 {
    GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep()",__LINE__, __FILE__));
 
-   fxOwner=0;
-   fxEventFactory=0;
+   fxOwner = nullptr;
+   fxEventFactory = nullptr;
 }
 
 TGo4AnalysisStep::~TGo4AnalysisStep()
@@ -153,11 +153,11 @@ void TGo4AnalysisStep::CloseEventStore()
 {
    GO4TRACE((14,"TGo4AnalysisStep::CloseEventStore()",__LINE__, __FILE__));
    if(fxEventStore) {
-      TTree* atree= fxEventStore->GetTree();
+      TTree* atree = fxEventStore->GetTree();
       fxOwner->RemoveTree(atree);
       fxOwner->RemoveEventStore(fxEventStore);
       delete fxEventStore;
-      fxEventStore=0;
+      fxEventStore = nullptr;
       fbStoreImplemented=kFALSE;
    }
 }
@@ -169,7 +169,7 @@ void TGo4AnalysisStep::CloseEventSource()
    if(fxEventSource) {
       fxOwner->RemoveEventSource(fxEventSource);
       delete fxEventSource;
-      fxEventSource=0;
+      fxEventSource = nullptr;
       fbSourceImplemented=kFALSE;
    }
 }
@@ -180,7 +180,7 @@ void TGo4AnalysisStep::CloseEventProcessor()
    if(fxEventProcessor) {
       fxOwner->RemoveEventProcessor(fxEventProcessor);
       delete fxEventProcessor;
-      fxEventProcessor=0;
+      fxEventProcessor = nullptr;
    }
 }
 
@@ -190,7 +190,7 @@ void TGo4AnalysisStep::DeleteInputEvent()
    if(fxInputEvent) {
       fxOwner->RemoveEventStructure(fxInputEvent);
       delete fxInputEvent;
-      fxInputEvent=0;
+      fxInputEvent = nullptr;
    }
 }
 
@@ -200,18 +200,16 @@ void TGo4AnalysisStep::DeleteOutputEvent()
    if(fxOutputEvent) {
       fxOwner->RemoveEventStructure(fxOutputEvent);
       delete fxOutputEvent;
-      fxOutputEvent=0;
+      fxOutputEvent = nullptr;
    }
 }
-
-
 
 void TGo4AnalysisStep::StoreCalibration()
 {
    GO4TRACE((14,"TGo4AnalysisStep::StoreCalibration()",__LINE__, __FILE__));
-   TGo4EventCalibration* cali=0;
+   TGo4EventCalibration* cali = nullptr;
    if(fxEventProcessor)
-      cali= fxEventProcessor->GetCalibration();
+      cali = fxEventProcessor->GetCalibration();
    if (fxEventStore && fbStoreEnabled)
       fxEventStore->Store(cali);
 }
@@ -472,9 +470,9 @@ void TGo4AnalysisStep::SetEventSource(TGo4EventSourceParameter* kind)
    if(kind==fxSourceType) return; // avoid deleting valid parameter
    if(fxSourceType) delete fxSourceType;
    if(kind)
-       fxSourceType=dynamic_cast<TGo4EventSourceParameter*>(kind->Clone());
+       fxSourceType = dynamic_cast<TGo4EventSourceParameter*>(kind->Clone());
    else
-       fxSourceType=nullptr;
+       fxSourceType = nullptr;
 }
 
 Bool_t TGo4AnalysisStep::IsEventSourceParam() const
@@ -484,16 +482,17 @@ Bool_t TGo4AnalysisStep::IsEventSourceParam() const
 
 void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
 {
-   if(kind==fxStoreType) return; // avoid deleting valid parameter
-   if(fxStoreType) delete fxStoreType;
-   if(kind)
-       fxStoreType = dynamic_cast<TGo4EventStoreParameter*>(kind->Clone());
+   if(kind == fxStoreType) return; // avoid deleting valid parameter
+   if (fxStoreType)
+      delete fxStoreType;
+   if (kind)
+      fxStoreType = dynamic_cast<TGo4EventStoreParameter *>(kind->Clone());
    else
-       fxStoreType = nullptr;
-   if(fxStoreType)
-         fxStoreType->SetTitle(GetName());
-         // set title of eventstore parameter to analysis step name
-         // this might be used to indicate tree name
+      fxStoreType = nullptr;
+   if (fxStoreType)
+      fxStoreType->SetTitle(GetName());
+   // set title of eventstore parameter to analysis step name
+   // this might be used to indicate tree name
 }
 
 Bool_t TGo4AnalysisStep::IsEventStoreParam() const

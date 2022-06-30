@@ -5113,7 +5113,7 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
 {
   if (!w) return;
   QFitItem* item = w->GetItem();
-  if (!item || (strlen(newname) == 0)) return;
+  if (!item || !newname || (strlen(newname) == 0)) return;
   TNamed* obj = dynamic_cast<TNamed*> (item->Object());
   if (!obj) return;
 

@@ -494,8 +494,8 @@ void TGo4PolyCond::CleanupSpecials()
 Int_t TGo4PolyCond::GetMemorySize()
 {
    Int_t size = sizeof(*this);
-   if (GetName()) size+=strlen(GetName());
-   if (GetTitle()) size+=strlen(GetTitle());
+   if (GetName()) size += strlen(GetName());
+   if (GetTitle()) size += strlen(GetTitle());
    if (fxCut) {
       size += sizeof(*fxCut);
       size += fxCut->GetMaxSize()*2*sizeof(Double_t);
