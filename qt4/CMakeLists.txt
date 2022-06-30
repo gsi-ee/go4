@@ -287,7 +287,7 @@ endif()
 
 
 if(ROOT_x11_FOUND)
-   list(APPEND gui_extra_libs ${ROOT_Gui_LIBRARY} X11)
+   list(APPEND gui_extra_libs ROOT::Gui X11)
    list(APPEND gui_defines -D__GO4X11__)
 
    if(_plain_gui)
@@ -305,7 +305,7 @@ endif()
 
 if(Qt5_FOUND AND ROOT_qt5web_FOUND AND GO4_QTVERSION STREQUAL Qt5)
 
-   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt5WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
+   list(APPEND gui_extra_libs ROOT::RHTTP ROOT::ROOTWebDisplay ROOT::ROOTQt5WebDisplay ROOT::WebGui6)
    list(APPEND qt_libs Qt5::WebEngine Qt5::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 
@@ -324,7 +324,7 @@ endif()
 
 if(Qt6_FOUND AND ROOT_qt6web_FOUND AND GO4_QTVERSION STREQUAL Qt6)
 
-   list(APPEND gui_extra_libs ${ROOT_RHTTP_LIBRARY} ${ROOT_ROOTWebDisplay_LIBRARY} ${ROOT_ROOTQt6WebDisplay_LIBRARY} ${ROOT_WebGui6_LIBRARY})
+   list(APPEND gui_extra_libs ROOT::RHTTP ROOT::ROOTWebDisplay ROOT::ROOTQt6WebDisplay ROOT::WebGui6)
    list(APPEND qt_libs Qt6::WebEngineCore Qt6::WebEngineWidgets)
    list(APPEND gui_defines -D__GO4WEB__)
 
@@ -341,13 +341,13 @@ if(Qt6_FOUND AND ROOT_qt6web_FOUND AND GO4_QTVERSION STREQUAL Qt6)
 endif()
 
 if(ROOT_ASImage_LIBRARY)
-   list(APPEND gui_extra_libs ${ROOT_ASImage_LIBRARY})
+   list(APPEND gui_extra_libs ROOT::ASImage)
 else()
    list(APPEND gui_defines -D__NOGO4ASI__)
 endif()
 
 if(ROOT_Spectrum_LIBRARY)
-   list(APPEND gui_extra_libs ${ROOT_Spectrum_LIBRARY})
+   list(APPEND gui_extra_libs ROOT::Spectrum)
 endif()
 
 if(HDF5_FOUND)
@@ -386,7 +386,7 @@ link_directories(${CMAKE_BINARY_DIR}/lib)
 target_link_libraries(go4
    ${qt_libs}
    ${ROOT_LIBRARIES}
-   ${ROOT_Minuit_LIBRARY} ${ROOT_Ged_LIBRARY} ${ROOT_TreePlayer_LIBRARY}
+    ROOT::Minuit ROOT::Ged ROOT::TreePlayer
    ${gui_extra_libs}
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )

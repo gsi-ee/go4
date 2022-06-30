@@ -40,7 +40,7 @@ GO4_STANDARD_LIBRARY(Go4TaskHandlerExampleLib
                      LINKDEF Go4TaskHandlerExampleLinkDef.h
                      HEADERS ${lib_headers}
                      SOURCES ${lib_sources}
-                     LIBRARIES ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY} ${Go4TaskHandler_LIBRARY})
+                     LIBRARIES ${Go4Base_LIBRARY} ${Go4ThreadManager_LIBRARY} ${Go4TaskHandler_LIBRARY} ROOT::Core)
 
 add_executable(MainGo4TaskHandlerClient MainGo4TaskHandlerClient.cxx)
 target_link_libraries(MainGo4TaskHandlerClient ${ROOT_LIBRARIES} Go4TaskHandlerExampleLib)

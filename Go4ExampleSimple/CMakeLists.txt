@@ -13,4 +13,6 @@ GO4_USER_ANALYSIS(
       TXXXProc.h
    SOURCES
       TXXXProc.cxx
+   LIBRARIES
+      ROOT::Core
 )

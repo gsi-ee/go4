@@ -20,10 +20,7 @@ if(MSVC)
 endif()
 
 # include ROOT project
-# try to use standard macros
-
 find_package(ROOT REQUIRED)
-include(${ROOT_USE_FILE})
 
 #---Set paths where to put the libraries, executables and headers------------------------------
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -83,7 +80,8 @@ add_subdirectory(Go4StatusBase)
 set_source_files_properties(Go4Log/TGo4Log.cxx PROPERTIES COMPILE_DEFINITIONS "COMP_GO4SYS=\"${CMAKE_BINARY_DIR}\";COMP_GO4INC=\"${CMAKE_BINARY_DIR}/include\"")
 
 GO4_STANDARD_LIBRARY(Go4Base
-                     LINKDEF Go4Dict/Go4BaseLinkDef.h)
+                     LINKDEF Go4Dict/Go4BaseLinkDef.h
+                     LIBRARIES ROOT::Core)
 
 # ================= Go4ThreadManager library ======================
 
@@ -125,7 +123,7 @@ endif()
 GO4_STANDARD_LIBRARY(Go4AnalBase
                      LINKDEF Go4Dict/Go4AnalysisBaseLinkDef.h
                      DEPENDENCIES Go4Base Go4ThreadManager Go4TaskHandler
-                     LIBRARIES ${hdf5_lib} ${_win_lib}
+                     LIBRARIES ${hdf5_lib} ${_win_lib} ROOT::Core
                      DEFINITIONS ${hdf5_def} ${_win_def})
 
 if(HDF5_FOUND)
@@ -195,7 +193,7 @@ add_subdirectory(Go4Proxies)
 GO4_STANDARD_LIBRARY(Go4Gui
                      LINKDEF Go4Dict/Go4GuiLinkDef.h
                      DEPENDENCIES Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase
-                     LIBRARIES ${ROOT_Gui_LIBRARY})
+                     LIBRARIES ROOT::Gui)
 
 if(DABC_FOUND)
    target_link_libraries(Go4Gui ${DabcBase_LIBRARY})

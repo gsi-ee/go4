@@ -20,4 +20,6 @@ GO4_USER_ANALYSIS(
       TXXXControl.cxx
       TXXXStore.cxx
       TXXXProc.cxx
+   LIBRARIES
+      ROOT::Core
 )

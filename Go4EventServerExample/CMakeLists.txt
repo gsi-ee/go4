@@ -16,8 +16,9 @@ GO4_USER_ANALYSIS(
       TGo4SimpleEvent.cxx
       TGo4SimpleEventProcessor.cxx
       TGo4SimpleSubEvent.cxx
+   LIBRARIES
+      ROOT::Core
 )
 
 add_executable(MainGo4EventServerExample MainGo4EventServerExample.cxx)
 target_link_libraries(MainGo4EventServerExample ${ROOT_LIBRARIES} Go4EventServerExampleLib)
-

@@ -25,4 +25,6 @@ GO4_USER_ANALYSIS(
    COPY
       befoil50.scf
       tafoil50.scf
+   LIBRARIES
+      ROOT::Core
 )

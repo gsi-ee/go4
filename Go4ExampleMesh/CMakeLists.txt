@@ -48,4 +48,6 @@ GO4_USER_ANALYSIS(
       TMeshProviderProc.cxx
       TMeshRawEvent.cxx
       TMeshUnpackProc.cxx
+   LIBRARIES
+      ROOT::Core
 )
