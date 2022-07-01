@@ -75,7 +75,11 @@ GO4_APPLY_OPTIONS()
 
 #---RPATH options-------------------------------------------------------------------------------
 #  When building, don't use the install RPATH already (but later on when installing)
-set(CMAKE_SKIP_BUILD_RPATH FALSE)         # don't skip the full RPATH for the build tree
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # use always the build RPATH for the build tree
-set(CMAKE_MACOSX_RPATH TRUE)              # use RPATH for MacOSX
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE) # point to directories outside the build tree to the install RPATH
+set(CMAKE_SKIP_RPATH FALSE) # define RPATHs both for the build tree (CMAKE_SKIP_BUILD_RPATH=FALSE) and for the install tree (CMAKE_SKIP_INSTALL_RPATH=FALSE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # use install tree RPATH only for install targets
+set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE) # make RPATH entries within build tree (i.e. *not* the install tree) relative, and thus relocatable
+list(APPEND CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE) # any directory external to and used by this project will be added to RPATH
+if(CMAKE_HOST_APPLE)
+  set(CMAKE_MACOSX_RPATH TRUE)
+endif()
