@@ -1193,24 +1193,21 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
       convert=format;
 
    Go4Export_t filter;
-   if(convert.Contains("ASCII")) {
-      TGo4Log::Message(0,"Export filter is ASCII");
-      filter=GO4EX_ASCII;
-   } else
-   if (convert.Contains("Radware")) {
-      TGo4Log::Message(0,"Export filter is Radware");
-      filter=GO4EX_RADWARE;
-   } else
-   if (convert.Contains("ROOT XML")) {
-      TGo4Log::Message(0,"Export filter is ROOT XML");
-      filter=GO4EX_XML;
-   } else
-   if (convert.Contains("ROOT")) {
-      TGo4Log::Message(0,"Export filter is ROOT");
-      filter=GO4EX_ROOT;
+   if (convert.Contains("ASCII")) {
+      TGo4Log::Message(0, "Export filter is ASCII");
+      filter = GO4EX_ASCII;
+   } else if (convert.Contains("Radware")) {
+      TGo4Log::Message(0, "Export filter is Radware");
+      filter = GO4EX_RADWARE;
+   } else if (convert.Contains("ROOT XML")) {
+      TGo4Log::Message(0, "Export filter is ROOT XML");
+      filter = GO4EX_XML;
+   } else if (convert.Contains("ROOT")) {
+      TGo4Log::Message(0, "Export filter is ROOT");
+      filter = GO4EX_ROOT;
    } else {
-      TGo4Log::Message(0,"Export filter is unknown, using ROOT");
-      filter=GO4EX_ROOT;
+      TGo4Log::Message(0, "Export filter is unknown, using ROOT");
+      filter = GO4EX_ROOT;
    }
 
    // if root export filter and 1 subfolder, export with complete file structures
