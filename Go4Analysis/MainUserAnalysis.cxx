@@ -438,7 +438,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
             continue;
          }
 
-         bool isptr = strchr(argument->GetTitle(), '*') != 0;
+         bool isptr = strchr(argument->GetTitle(), '*') != nullptr;
 
          if (!datatype && !isptr) {
             TGo4Log::Error("Cannot specify any value for argument %s of class %s constructor", argument->GetName(), an_cl->GetName());
@@ -447,8 +447,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          }
 
          if (isptr) {
-            if ((basictype == "char") || (basictype="Text_t")) cmd+="\"\"";
-                                                          else cmd+="0";
+            if ((basictype == "char") || (basictype == "Text_t")) cmd += "\"\"";
+                                                             else cmd += "0";
          } else {
             if ((counter==2) && (basictype=="int")) {
                TGo4Log::Info("Special treatment for second integer argument, suppose MBS input type");
