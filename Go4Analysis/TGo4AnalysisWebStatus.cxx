@@ -125,30 +125,24 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   // first stepwise options here:
 
   ResetStepIterator();
-  TGo4AnalysisStepStatus* step = nullptr;
   Int_t stepindex = 0;
-  while ((step = NextStepStatus()) != 0)
-  {
+  while (auto step = NextStepStatus()) {
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESTEP.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
-
+    if (url.HasOption(theKey.Data())) {
       //std::cout <<"---- found stepenabled key:"<<theKey.Data()<< std::endl;
       Bool_t enablestep = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
       message.Append(TString::Format(", %s=%d", theKey.Data(), enablestep));
       step->SetProcessEnabled(enablestep);
     }
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESOURCE.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       //std::cout <<"---- found sourceenabled key:"<<theKey.Data()<< std::endl;
       Bool_t enablesource = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
       message.Append(TString::Format(", %s=%d", theKey.Data(), enablesource));
       step->SetSourceEnabled(enablesource);
     }
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESTORE.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       //std::cout <<"---- found storeenabled key:"<<theKey.Data()<< std::endl;
       Bool_t enablestore = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
       message.Append(TString::Format(", %s=%d", theKey.Data(), enablestore));
@@ -156,8 +150,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TYPE.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       Int_t srctype = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), srctype));
 
@@ -168,7 +161,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       TString srcname = oldsrcpar->GetName();
       Int_t port = oldmbspar ? oldmbspar->GetPort() : 0;
       if (port == 0)
-        port = olduserpar ? olduserpar->GetPort() : 0;
+         port = olduserpar ? olduserpar->GetPort() : 0;
       // JAM: the above shows that event source hierarchy interface is still not optimized
       // however, currently (March 2015) no manpower to improve or redesign Go4 if it is working...
 
@@ -246,8 +239,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }    // fgxURL_SOURCE_TAG;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_PORT.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       Int_t port = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), port));
       TGo4EventSourceParameter* srcpar = step->GetSourcePar();
@@ -262,8 +254,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }    //fgxURL_SOURCE_PORT;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TIMEOUT.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       Int_t timeout = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), timeout));
       TGo4EventSourceParameter* srcpar = step->GetSourcePar();
@@ -271,8 +262,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }    //fgxURL_SOURCE_TIMEOUT;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_RETRY.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       Int_t retry = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), retry));
       TGo4EventSourceParameter* srcpar = step->GetSourcePar();
@@ -286,8 +276,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     }    //fgxURL_SOURCE_RETRY;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_FIRST.Data(), stepindex);
-    if (url.HasOption(theKey.Data()))
-    {
+    if (url.HasOption(theKey.Data())) {
       Int_t startevent = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), startevent));
       TGo4EventSourceParameter* srcpar = step->GetSourcePar();
