@@ -400,15 +400,14 @@ Bool_t TGo4Sniffer::CmdClear()
 Bool_t TGo4Sniffer::CmdRestart()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
 
-   if (cli != 0) {
+   if (cli) {
       cli->Stop();
       an->CloseAnalysis();
       if (an->InitEventClasses())
          cli->Start();
-    }
-    else if (an) {
+    } else if (an) {
       an->StopAnalysis();
       an->PostLoop();
       an->CloseAnalysis();
@@ -426,13 +425,12 @@ Bool_t TGo4Sniffer::CmdRestart()
 Bool_t TGo4Sniffer::CmdClose()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
 
-   if (cli != 0) {
+   if (cli) {
       cli->Stop();
       an->CloseAnalysis();
-    }
-    else if (an) {
+    } else if (an) {
       an->StopAnalysis();
       an->PostLoop();
       an->CloseAnalysis();
@@ -447,21 +445,19 @@ Bool_t TGo4Sniffer::CmdClose()
 Bool_t TGo4Sniffer::CmdExit()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
 
-   if (cli != 0) {
+   if (cli) {
       cli->Stop();
       an->CloseAnalysis();
       cli->Quit();
-   } else
-   if (an != 0) {
+   } else if (an) {
       an->StopWorking();
    }
 
    StatusMessage(0, kTRUE, "Exit analysis process");
 
    return kTRUE;
-
 }
 
 
@@ -520,16 +516,16 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
 
 Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
 {
-  if (!exeline || (*exeline == 0)) return kFALSE;
-  TGo4Analysis* ana = TGo4Analysis::Instance();
-  if (!ana) {
-     SendStatusMessage(3, kTRUE, "CmdExecute - missing analysis ");
-     return kFALSE;
-  }
-  Int_t errcode = 0;
-  ana->ExecuteLine(exeline, &errcode);
-  fflush(stdout);
-  return errcode != 0 ? kFALSE : kTRUE;
+   if (!exeline || (*exeline == 0)) return kFALSE;
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if (!ana) {
+      SendStatusMessage(3, kTRUE, "CmdExecute - missing analysis ");
+      return kFALSE;
+   }
+   Int_t errcode = 0;
+   ana->ExecuteLine(exeline, &errcode);
+   fflush(stdout);
+   return errcode != 0 ? kFALSE : kTRUE;
 }
 
 

@@ -1284,7 +1284,7 @@ Bool_t TGo4BrowserProxy::IsItemRemote(const char* name)
 Bool_t TGo4BrowserProxy::IsItemRemote(TGo4Slot* slot)
 {
    if (!slot) return kFALSE;
-   Int_t remote;
+   Int_t remote = 0;
    if (!slot->GetIntPar("GUI::Remote", remote)) return kFALSE;
    return remote != 0;
 }
@@ -1353,8 +1353,8 @@ Int_t TGo4BrowserProxy::ItemKind(TGo4Slot* slot)
 void TGo4BrowserProxy::SetItemKind(TGo4Slot* slot, Int_t kind, const char* classname, const char* info, Int_t sizeinfo)
 {
    if (!slot) return;
-   if (kind>=0) slot->SetIntPar("GUI::Kind", kind);
-           else slot->RemovePar("GUI::Kind");
+   if (kind >= 0) slot->SetIntPar("GUI::Kind", kind);
+             else slot->RemovePar("GUI::Kind");
    slot->SetPar("GUI::Class", classname);
    slot->SetPar("GUI::Info", info);
    slot->SetIntPar("GUI::SizeInfo", sizeinfo);
@@ -2131,7 +2131,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
             rebinres = UpdateObjectContent(histo, clon);
          } else if (histo->GetDimension() == 2) {
             TH2 *h2 = dynamic_cast<TH2 *>(clon);
-            if (h2 != 0)
+            if (h2)
                h2->Rebin2D(rebinx, rebiny);
             rebinres = UpdateObjectContent(histo, h2);
          }
