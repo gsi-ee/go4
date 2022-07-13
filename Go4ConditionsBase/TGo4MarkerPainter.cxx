@@ -110,35 +110,35 @@ Bool_t TGo4MarkerPainter::CheckConnector()
    }
    if (TGo4LabelConnector::fxLastDeleted == fxConnector) {
       // our label was deleted by user mouse menu just before
-      TGo4LabelConnector::fxLastDeleted = 0;
+      TGo4LabelConnector::fxLastDeleted = nullptr;
       fxConnector = nullptr; // reset reference, will re-create label on next paint
       return kFALSE;
    }
 
-   return fxConnector != 0;
+   return fxConnector != nullptr;
 }
 
 void TGo4MarkerPainter::PaintConnector(Option_t* opt)
 {
    if(!gPad) return;
    if(fxMarker && fxMarker->HasConnector()) {
-      Double_t xmark=0;
-      Double_t ymark=0;
-      Double_t xmark0=fxMarker->GetX();
-      Double_t ymark0=fxMarker->GetY();
-      Double_t xlab,ylab;
-      Double_t xlablo=GetLabelXlo();
-      Double_t ylablo=GetLabelYlo();
-      Double_t xlabup=GetLabelXup();
-      Double_t ylabup=GetLabelYup();
-      Double_t xlabmid=0.5*(xlabup+xlablo);
-      Double_t ylabmid=0.5*(ylabup+ylablo);
-      xlablo=gPad->PadtoX(xlablo);
-      ylablo=gPad->PadtoY(ylablo);
-      xlabup=gPad->PadtoX(xlabup);
-      ylabup=gPad->PadtoY(ylabup);
-      xlabmid=gPad->PadtoX(xlabmid);
-      ylabmid=gPad->PadtoY(ylabmid);
+      Double_t xmark = 0;
+      Double_t ymark = 0;
+      Double_t xmark0 = fxMarker->GetX();
+      Double_t ymark0 = fxMarker->GetY();
+      Double_t xlab, ylab;
+      Double_t xlablo = GetLabelXlo();
+      Double_t ylablo = GetLabelYlo();
+      Double_t xlabup = GetLabelXup();
+      Double_t ylabup = GetLabelYup();
+      Double_t xlabmid = 0.5 * (xlabup + xlablo);
+      Double_t ylabmid = 0.5 * (ylabup + ylablo);
+      xlablo = gPad->PadtoX(xlablo);
+      ylablo = gPad->PadtoY(ylablo);
+      xlabup = gPad->PadtoX(xlabup);
+      ylabup = gPad->PadtoY(ylabup);
+      xlabmid = gPad->PadtoX(xlabmid);
+      ylabmid = gPad->PadtoY(ylabmid);
       // evaluate connection to nearest label edge or side centre:
       if(TMath::Abs(xlablo-xmark0) < TMath::Abs(xlabup-xmark0))
          {

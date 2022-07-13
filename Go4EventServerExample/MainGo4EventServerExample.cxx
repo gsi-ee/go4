@@ -140,7 +140,7 @@ int main(int argc, char **argv)
         {
 //////// get raw event from mbs source
            event->Clear();
-           Int_t errmess=event->Fill(); // fills raw event from mbs source
+           Int_t errmess = event->Fill(); // fills raw event from mbs source
            if(errmess==GETEVT__NOMORE)
               {
                  std::cout << "no more events from MbsSource."<< std::endl;

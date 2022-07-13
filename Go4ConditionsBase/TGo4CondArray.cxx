@@ -952,13 +952,13 @@ void TGo4CondArray::Draw(Option_t *opt)
 {
    TGo4Condition::Draw(opt);
    Int_t selid = -1;
-   if (opt != 0)
+   if (opt)
       if (strstr(opt, "sel=") == opt)
          selid = atoi(opt + 4);
    for (Int_t i = 0; i < GetNumber(); ++i) {
       TGo4Condition *con = At(i);
       bool selected = (selid < 0) || (selid == i);
-      if (con != 0)
+      if (con)
          con->SetPainted(IsPainted() && selected);
    }
 }
