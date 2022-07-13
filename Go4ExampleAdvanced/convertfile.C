@@ -143,12 +143,12 @@ void convertobject(TObject* myobject)
 void convertfolder(TFolder* fold)
 {
   std::cout <<"Converting contents of folder "<<fold->GetName())<<"..."  << std::endl;
-TString dirname=fold->GetName();
-gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
-TString com="mkdir "+dirname;
-gSystem->Exec(com);
-gSystem->cd(dirname.Data());
-CurrentDir=gSystem->WorkingDirectory();
+  TString dirname=fold->GetName();
+  gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
+  TString com="mkdir "+dirname;
+  gSystem->Exec(com);
+  gSystem->cd(dirname.Data());
+  CurrentDir=gSystem->WorkingDirectory();
   TObject* myobject = nullptr;
   TObject* ob = nullptr;
   TIter iter(fold->GetListOfFolders());
@@ -156,34 +156,30 @@ CurrentDir=gSystem->WorkingDirectory();
     {
       convertobject(myobject);
     }
-gSystem->cd(CurrentDir.Data());
-gSystem->cd("..");
-CurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
-gSystem->cd(StartDir.Data());
-
+  gSystem->cd(CurrentDir.Data());
+  gSystem->cd("..");
+  CurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
+  gSystem->cd(StartDir.Data());
 }
 
 
 void convertdir(TDirectory* source)
 {
   std::cout <<"Converting contents of directory "<<source->GetName()<<"..." << std::endl;
-TString dirname=source->GetName();
-if(!dirname.Contains(".root"))
-{
-  gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
-  TString com="mkdir "+dirname;
-  gSystem->Exec(com);
-  gSystem->cd(dirname.Data());
-  CurrentDir=gSystem->WorkingDirectory();
-
-}
-TObject* myobject = nullptr;
-source->cd();
-gSystem->cd(StartDir.Data());
-TIter iter(source->GetListOfKeys());
-TKey* mykey = nullptr;
-while((mykey = (TKey*) iter()) != nullptr)
-  {
+  TString dirname=source->GetName();
+  if(!dirname.Contains(".root")) {
+    gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
+    TString com="mkdir "+dirname;
+    gSystem->Exec(com);
+    gSystem->cd(dirname.Data());
+    CurrentDir=gSystem->WorkingDirectory();
+  }
+  TObject* myobject = nullptr;
+  source->cd();
+  gSystem->cd(StartDir.Data());
+  TIter iter(source->GetListOfKeys());
+  TKey* mykey = nullptr;
+  while((mykey = (TKey*) iter()) != nullptr) {
     myobject= mykey->ReadObj();
     if(myobject)
       {
@@ -194,13 +190,11 @@ while((mykey = (TKey*) iter()) != nullptr)
         std::cout <<"Could not read object "<<mykey->GetName() << std::endl;
       }
   } // while
-if(!dirname.Contains(".root"))
-{
-  gSystem->cd(CurrentDir.Data());
-  gSystem->cd("..");
-  CurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
-  gSystem->cd(StartDir.Data());
-}
-
+  if(!dirname.Contains(".root")) {
+    gSystem->cd(CurrentDir.Data());
+    gSystem->cd("..");
+    CurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
+    gSystem->cd(StartDir.Data());
+  }
 }
 
