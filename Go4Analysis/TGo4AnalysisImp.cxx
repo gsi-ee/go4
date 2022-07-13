@@ -931,7 +931,7 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
 TGo4AnalysisStatus* TGo4Analysis::CreateStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
-   TDirectory* filsav=gDirectory;
+   TDirectory* filsav = gDirectory;
    gROOT->cd();
    TGo4AnalysisStatus* state= new TGo4AnalysisStatus(GetName());
    UpdateStatus(state);
@@ -942,7 +942,7 @@ TGo4AnalysisStatus* TGo4Analysis::CreateStatus()
 TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateWebStatus()",__LINE__, __FILE__));
-   TDirectory* filsav=gDirectory;
+   TDirectory* filsav = gDirectory;
    gROOT->cd();
    TGo4AnalysisWebStatus* state= new TGo4AnalysisWebStatus(GetName());
    UpdateStatus(state);

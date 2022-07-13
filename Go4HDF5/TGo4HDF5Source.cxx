@@ -110,11 +110,10 @@ TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
    TList* lst = nullptr;
 
    TRegexp re(basename, kTRUE);
-   const char* file = 0;
-   while ((file = gSystem->GetDirEntry(dir)) != 0) {
+   while (const char *file = gSystem->GetDirEntry(dir)) {
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;
-      if ( (basename!=s) && s.Index(re) == kNPOS) continue;
+      if ((basename != s) && (s.Index(re) == kNPOS)) continue;
       if (!lst) {
          lst = new TList;
          lst->SetOwner(kTRUE);
