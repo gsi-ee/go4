@@ -2306,8 +2306,7 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
 
    TList* newFunctions = newgr->GetListOfFunctions();
    TListIter fiter(newFunctions);
-   TF1* fun = nullptr;
-   while((fun = dynamic_cast<TF1*>(fiter.Next())) != nullptr) {
+   while(auto fun = dynamic_cast<TF1*>(fiter())) {
      TF1* fclon = dynamic_cast<TF1*>(fun->Clone());
      theFunctions->Add(fclon);
      fclon->SetParent(oldgr);

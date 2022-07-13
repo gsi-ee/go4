@@ -79,13 +79,12 @@ void TGo4LogInfo::AddMessage(const QDateTime& dt, int level, QString msg)
    LogText->scrollToItem(Item);
 }
 
-void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
+void TGo4LogInfo::linkedObjectUpdated(const char *linkname, TObject *linkobj)
 {
-   TList* lst = dynamic_cast<TList*>(obj);
+   TList* lst = dynamic_cast<TList*>(linkobj);
    if (lst) {
       TListIter iter(lst, kFALSE);
-      TObject* obj = nullptr;
-      while ((obj = iter()) != nullptr) {
+      while (auto obj = iter()) {
          // first item is id of current status message, used to submit next request
          if (obj == lst->First()) continue;
 
@@ -106,8 +105,8 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
 
          AddMessage(dt, level, separ+2);
       }
-   } else if (obj) {
-      AddMessage(QDateTime::currentDateTime(), 0, obj->GetName());
+   } else if (linkobj) {
+      AddMessage(QDateTime::currentDateTime(), 0, linkobj->GetName());
    }
 }
 

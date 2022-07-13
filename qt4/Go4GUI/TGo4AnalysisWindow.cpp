@@ -43,7 +43,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
     setCanDestroyWidget(false);
     setAcceptDrops(false);
-    fAnalysisProcess = 0;
+    fAnalysisProcess = nullptr;
     fxOutput = 0;
     outputBuffer = "";
     fiMaxOuputSize = 0;
@@ -164,9 +164,6 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       ScrollEndButton->setToolTip("Scroll to end of Terminal Window. (keyboard: end)");
       connect(ScrollEndButton, SIGNAL(clicked()), this, SLOT(ScrollEndAnalysisOutput()));
       box->addWidget(ScrollEndButton,1);
-
-
-
    }
 
    QToolButton* PrintHistoButton = new QToolButton( this );
@@ -398,8 +395,6 @@ void TGo4AnalysisWindow::ScrollEndAnalysisOutput()
       fxOutput->moveCursor(QTextCursor::End);
 }
 
-
-
 void TGo4AnalysisWindow::SaveAnalysisOutput()
 {
    if (!fxOutput) return;
@@ -542,9 +537,8 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
       TList* lst = dynamic_cast<TList*> (obj);
 
       TListIter iter(lst, kFALSE);
-      TObject* obj = nullptr;
 
-      while ((obj = iter()) != nullptr) {
+      while (auto obj = iter()) {
          if (obj == lst->First()) continue;
          AppendOutputBuffer(obj->GetName());
          AppendOutputBuffer("\n");
