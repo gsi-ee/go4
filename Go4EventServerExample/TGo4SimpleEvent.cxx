@@ -188,18 +188,13 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::AddSubEvent(Short_t procid)
 {
    GO4TRACE((11,"TGo4SimpleEvent::AddSubEvent(Short_t)",__LINE__, __FILE__));
 
-   TGo4SimpleSubEvent* result=0;
-   if( (result=GetSubEvent(procid)) != 0 )
-   {
-      // we found the entry, return this one
-   }
-   else
-   {
+   TGo4SimpleSubEvent* result = GetSubEvent(procid);
+   if(!result)  {
       // nothing found, use the last one
       if(fiLastSlot+1<fiMaxSlot)
       {
          fiLastSlot++;
-         result=new( (*fxSubEventArray) [fiLastSlot] ) TGo4SimpleSubEvent();
+         result = new( (*fxSubEventArray) [fiLastSlot] ) TGo4SimpleSubEvent();
          result->fsProcid=procid;
          //std::cout << "simple event: added subevent with procid " << procid << std::endl;
          TGo4Log::Debug(" SimpleEvent: Added subevent with procid %d:  ", procid);
@@ -207,7 +202,7 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::AddSubEvent(Short_t procid)
       else
       {
          TGo4Log::Error("simple event: clonesarray is full, cannot add another subevent");
-         result=0;
+         result = nullptr;
       }
 
    }
