@@ -106,7 +106,7 @@ void QGo4Widget::closeEvent(QCloseEvent* e)
 
 void QGo4Widget::dragEnterEvent(QDragEnterEvent *e)
 {
-   emit widgetService(this, service_DragEnter, 0, dynamic_cast<QDragMoveEvent *> (e));
+   emit widgetService(this, service_DragEnter, nullptr, dynamic_cast<QDragMoveEvent *> (e));
 }
 
 void QGo4Widget::dragMoveEvent(QDragMoveEvent* e)
@@ -116,7 +116,7 @@ void QGo4Widget::dragMoveEvent(QDragMoveEvent* e)
 
 void QGo4Widget::dropEvent(QDropEvent* e)
 {
-   emit widgetService(this, service_DropEvent, 0, e);
+   emit widgetService(this, service_DropEvent, nullptr, e);
 }
 
 void QGo4Widget::AddLink(const char* itemname, const char* linkname)
@@ -138,14 +138,14 @@ TGo4Slot* QGo4Widget::AddLink(const char* itemname, TGo4Slot* parent)
 
 TGo4Slot* QGo4Widget::GetTopSlot(bool force)
 {
-   TGo4Slot* res = 0;
+   TGo4Slot* res = nullptr;
    emit widgetService(this, service_GetTopSlot, force ? "force" : "normal", (void*) &res);
    return res;
 }
 
 TGo4Slot* QGo4Widget::AddSlot(const char* slotname)
 {
-   TGo4Slot* res =  0;
+   TGo4Slot* res =  nullptr;
    emit widgetService(this, service_AddEditorSlot, slotname, (void*) &res);
    return res;
 }
@@ -157,7 +157,7 @@ void QGo4Widget::SetLinkedName(TGo4Slot* slot, const char* itemname)
 
 const char* QGo4Widget::GetLinkedName(const char* linkname)
 {
-   const char* res = 0;
+   const char* res = nullptr;
 
    emit widgetService(this, service_GetLinkedName, linkname, (void*) &res);
 
@@ -176,7 +176,7 @@ const char* QGo4Widget::GetLinkedName(TGo4Slot* slot)
 
 TObject* QGo4Widget::GetLinked(const char* linkname, int updatelevel)
 {
-   TObject* res = 0;
+   TObject* res = nullptr;
    int func = 0;
    switch (updatelevel) {
       case 0: func = service_GetLinked0; break;
@@ -194,7 +194,7 @@ void QGo4Widget::RemoveLink(const char* linkname, bool blockreset)
 {
    bool oldvalue = fBlockUpdate;
    if (blockreset) fBlockUpdate = true;
-   emit widgetService(this, service_RemoveLink, linkname, 0);
+   emit widgetService(this, service_RemoveLink, linkname, nullptr);
    fBlockUpdate = oldvalue;
 }
 
@@ -202,7 +202,7 @@ void QGo4Widget::RemoveAllLinks(bool blockreset)
 {
    bool oldvalue = fBlockUpdate;
    if (blockreset) fBlockUpdate = true;
-   emit widgetService(this, service_RemoveAllLinks, 0, 0);
+   emit widgetService(this, service_RemoveAllLinks, nullptr, nullptr);
    fBlockUpdate = oldvalue;
 }
 
@@ -210,7 +210,7 @@ void QGo4Widget::RemoveLinksMasked(const char* startedwith, bool blockreset)
 {
    bool oldvalue = fBlockUpdate;
    if (blockreset) fBlockUpdate = true;
-   emit widgetService(this, service_RemoveAllLinks, startedwith, 0);
+   emit widgetService(this, service_RemoveAllLinks, startedwith, nullptr);
    fBlockUpdate = oldvalue;
 }
 
@@ -243,7 +243,7 @@ void QGo4Widget::CallPanelFunc(int func, TPad* pad)
 
 void QGo4Widget::StatusMessage(const QString& message)
 {
-   emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), 0);
+   emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), nullptr);
 }
 
 void QGo4Widget::ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot)
@@ -279,7 +279,7 @@ void QGo4Widget::linkedRemoved(TGo4Slot* /* slot */, TObject* /* obj */)
 
 void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
 {
-   fWaitsForObjectCreation = (isremote>=0);
+   fWaitsForObjectCreation = (isremote >= 0);
    QString str = QString::number(isremote);
    emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void*) cl);
 }
@@ -385,7 +385,7 @@ bool QGo4Widget::UpdateItemInAnalysis(const char* itemname, TObject* obj)
 {
    TObject* res = obj;
    emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);
-   return (res != nullptr);
+   return res != nullptr;
 }
 
 TGo4ServerProxy* QGo4Widget::GetAnalysis(const char* itemname)
