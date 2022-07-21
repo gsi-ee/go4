@@ -516,7 +516,7 @@ void TGo4MainWindow::AddSettingMenu()
       QString styleStr = *it;
       QString styleAccel = styleStr;
       if ( stylesDict[styleAccel.left(1)] ) {
-         for ( uint i = 0; i < styleAccel.length(); i++ ) {
+         for (unsigned i = 0; i < styleAccel.length(); i++ ) {
             if ( !stylesDict[styleAccel.mid( i, 1 )] ) {
                stylesDict.insert(styleAccel.mid( i, 1 ), 1);
                styleAccel = styleAccel.insert( i, '&' );
