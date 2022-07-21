@@ -605,9 +605,8 @@ void TGo4FitPanel::Fitter_NewForActivePad(bool overwrite)
 void TGo4FitPanel::Fitter_Delete()
 {
   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete fitter"),
-         QString("Are you sure?"),
+    if ( QMessageBox::information(nullptr,
+         "Delete fitter", "Are you sure?",
          QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
 
   RemovePrimitives();
@@ -616,11 +615,11 @@ void TGo4FitPanel::Fitter_Delete()
 
   ClearObjectReferenceInSlots();
 
-  SetFitter(0);
+  SetFitter(nullptr);
 
   if (WorkingWithPanel()) {
-    fxActivePanel = 0;
-    fxActivePad = 0;
+    fxActivePanel = nullptr;
+    fxActivePad = nullptr;
   }
 
   UpdateActivePage();
@@ -1084,14 +1083,12 @@ void TGo4FitPanel::Cmd_CreateAppropriateFitter()
 void TGo4FitPanel::Cmd_DeleteFitter()
 {
   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Clear fitter"),
-         QString("Are you sure?"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+    if (QMessageBox::information(nullptr, "Delete fitter", "Are you sure?",
+          QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No) return;
 
   RemovePrimitives();
 
-  SetFitter(0);
+  SetFitter(nullptr);
 
   UpdateActivePage();
 }
@@ -1102,10 +1099,8 @@ void TGo4FitPanel::Cmd_ClearFitter()
   if (!fitter) return;
 
   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Clear fitter"),
-         QString("Are you sure?"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+    if (QMessageBox::information(nullptr, "Clear fitter", "Are you sure?",
+         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No) return;
 
    fitter->Clear();
 
@@ -2771,12 +2766,11 @@ void TGo4FitPanel::Wiz_DataList_doubleClicked(QListWidgetItem*)
   TGo4Fitter* fitter = GetFitter();
   TGo4FitData* data = Wiz_SelectedData();
   if (!data || !fitter) return;
-  bool ok;
+  bool ok = true;
   QString newname = QInputDialog::getText(this, "Change data name", "Input new name", QLineEdit::Normal, data->GetName(), &ok);
   if (ok && (newname.length()>0) && (newname!=data->GetName())) {
      if (fitter->FindData(newname.toLatin1().constData())) {
-       QMessageBox::information(this, "Fit panel", "Unable to rename data.\n Name " +
-                                newname + " already exists","return");
+       QMessageBox::information(this, "Fit panel", QString("Unable to rename data.\n Name ") + newname + " already exists");
        return;
      }
      fitter->ChangeDataNameInAssignments(data->GetName(), newname.toLatin1().constData());
@@ -2793,12 +2787,11 @@ void TGo4FitPanel::Wiz_ModelList_doubleClicked(QListWidgetItem*)
   TGo4Fitter* fitter = GetFitter();
   TGo4FitModel* model = Wiz_SelectedModel();
   if (!model || !fitter) return;
-  bool ok;
+  bool ok = true;
   QString newname = QInputDialog::getText(this, "Change model name", "Input new name", QLineEdit::Normal, model->GetName(), &ok);
   if (ok && (newname.length()>0) && (newname!=model->GetName())) {
      if (fitter->FindModel(newname.toLatin1().constData())) {
-       QMessageBox::information(this, "Fit panel", QString("Unable to rename model.\n Name ")+
-                                newname + " already exists\n", "Return");
+       QMessageBox::information(this, "Fit panel", QString("Unable to rename model.\n Name ") + newname + " already exists\n");
        return;
      }
      model->SetName(newname.toLatin1().constData());
