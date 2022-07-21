@@ -39,5 +39,5 @@ void QFitModelPolynomWidget::AxisSpin_valueChanged( int num )
 {
   if(!fbFillWidget && GetPolynom())
     if(GetPolynom()->SetMaxNumAxis(num))
-      UpdateItemsOfType(FitGui::ot_parslist, false);
+      UpdateItemsOfType(FitGui::ot_parslist);
 }

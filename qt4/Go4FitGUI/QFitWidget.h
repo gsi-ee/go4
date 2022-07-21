@@ -55,7 +55,7 @@ class QFitWidget : public QWidget {
       virtual void FillSpecificData();
       virtual void UpdateWidgetItem(bool trace);
       virtual void SetWidgetItemText(bool trace);
-      virtual void UpdateItemsOfType(int typ, bool allitems);
+      virtual void UpdateItemsOfType(int typ, bool allitems = false);
 
    protected:
       TGo4FitPanel* fxPanel{nullptr};

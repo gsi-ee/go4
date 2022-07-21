@@ -125,7 +125,7 @@ void QFitDataWidget::AmplChk_toggled( bool chk)
       else
          res = GetData()->RemoveAmpl();
       if (res)
-         UpdateItemsOfType(FitGui::ot_parslist, false);
+         UpdateItemsOfType(FitGui::ot_parslist);
    }
 }
 

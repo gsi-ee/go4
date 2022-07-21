@@ -155,7 +155,7 @@ public:
     virtual void RemoveItemWidget();
     virtual void UpdateItem(QFitItem* item, bool trace);
     virtual void SetItemText(QFitItem* item, bool trace);
-    virtual void UpdateItemsOfType(int typ, QFitItem* parent);
+    virtual void UpdateItemsOfType(int typ, QFitItem* parent = nullptr);
     virtual void FitItemDeleted(QFitItem* item);
     virtual void FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend);
     virtual void FillDataTypesList(QMenu* menu, QSignalMapper* map, int id);
