@@ -99,7 +99,7 @@ void TGo4ParaEdit::linkedObjectRemoved(const char * linkname)
 void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 {
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
-       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter"));
+       auto par = GetLinkedCast<TGo4Parameter>("Parameter");
        const char* previtem = GetLinkedName("Parameter");
        if (par && previtem) {
           QMessageBox msgBox(QMessageBox::Question, "Parameter editor",
@@ -134,7 +134,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
       iconname = ":/icons/refresh.png";
       tooltip = "Refresh parameter values from source";
       AddLink(itemname, "Parameter");
-      TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",2));
+      auto par = GetLinkedCast<TGo4Parameter>("Parameter", 2);
       if (par) RefreshWidget(par);
    }
 
@@ -425,7 +425,7 @@ void TGo4ParaEdit::saveFile()
    if (!fItems) return;
 
    if (GetLinkedName("Parameter")) {
-      TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter"));
+      auto par = GetLinkedCast<TGo4Parameter>("Parameter");
       if (!par) return;
       if (par->SetMemberValues(fItems))
          if (SaveItemToFile(GetLinkedName("Parameter"), "Parameters"))
