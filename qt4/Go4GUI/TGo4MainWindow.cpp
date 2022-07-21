@@ -366,6 +366,18 @@ const char* TGo4MainWindow::LastTypedPassword() const
    return fLastPassword.toLatin1().constData();
 }
 
+void TGo4MainWindow::ShowAboudDialog(const QString &title, const QString &text, const QString &icon)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   QMessageBox AboutDialog(title, text, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
+#else
+   QMessageBox AboutDialog(QMessageBox::NoIcon, title, text, QMessageBox::Ok, this);
+#endif
+   AboutDialog.setIconPixmap(QPixmap(icon));
+   AboutDialog.setTextFormat(Qt::RichText);
+   AboutDialog.exec();
+}
+
 void TGo4MainWindow::about()
 {
    QString GO4STR("Go4  ");
@@ -374,15 +386,7 @@ void TGo4MainWindow::about()
    GO4STR1.append("<br>");
    GO4STR1.append("The Go4 (GSI Object Oriented On-line Off-line system) is based on ROOT<br> with the specific requirements of the low and medium energy nuclear and atomic<br> physics experiments implemented as extensions.<br> See <a href='http://go4.gsi.de'>http://go4.gsi.de</a> for more information");
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QMessageBox AboutGo4(GO4STR, GO4STR1, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
-#else
-   QMessageBox AboutGo4(QMessageBox::NoIcon, GO4STR, GO4STR1, QMessageBox::Ok, this);
-#endif
-
-   AboutGo4.setIconPixmap(QPixmap( ":/icons/go4logo2_big.png"));
-   AboutGo4.setTextFormat(Qt::RichText);
-   AboutGo4.exec();
+   ShowAboudDialog(GO4STR, GO4STR1, ":/icons/go4logo2_big.png");
 }
 
 void TGo4MainWindow::aboutQt()
@@ -395,14 +399,7 @@ void TGo4MainWindow::aboutROOT()
    QString mestring("This Go4 uses ROOT ");
    mestring.append(gROOT->GetVersion());
    mestring.append("<br> ROOT is an object-oriented framework <br>for large scale scientific <br>data analysis and data mining.<br> It has been developed at CERN<br> See <a href='http://root.cern.ch'>http://root.cern.ch</a> for more information");
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QMessageBox AboutRoot("ROOT", mestring, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
-#else
-   QMessageBox AboutRoot(QMessageBox::NoIcon, "ROOT", mestring, QMessageBox::Ok, this);
-#endif
-   AboutRoot.setIconPixmap(QPixmap( ":/icons/root.png"));
-   AboutRoot.setTextFormat(Qt::RichText);
-   AboutRoot.exec();
+   ShowAboudDialog("ROOT", mestring, ":/icons/root.png");
 }
 
 void TGo4MainWindow::aboutDABC()
@@ -413,11 +410,7 @@ void TGo4MainWindow::aboutDABC()
    else
       mestring.append("<undef>");
    mestring.append("<br>DABC (Data Acquisition Backbone Core) is <br> framework to build multi-threaded multi-node DAQ applications.<br> It is developed in GSI.<br> See <a href='http://dabc.gsi.de'>http://dabc.gsi.de</a> for more information");
-   QMessageBox AboutDabc("DABC", mestring,
-                         QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
-   AboutDabc.setIconPixmap(QPixmap( ":/icons/dabc.png"));
-   AboutDabc.setTextFormat(Qt::RichText);
-   AboutDabc.exec();
+   ShowAboudDialog("DABC", mestring, ":/icons/dabc.png");
 }
 
 void TGo4MainWindow::AddSettingMenu()

@@ -183,6 +183,8 @@ class TGo4MainWindow : public QMainWindow {
 
    protected:
 
+      void ShowAboudDialog(const QString &title, const QString &text, const QString &icon);
+
       void AddAnalysisBar();
       void AddAnalysisMenu();
       void AddFileMenu();
