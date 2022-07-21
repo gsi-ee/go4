@@ -194,8 +194,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 //   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
 //   resize(go4sett->lastPanelSize());
 
-   fSelectMenu = 0;
-   fSelectMap = 0;
+   fSelectMenu = nullptr;
+   fSelectMap = nullptr;
 
    fMenuBar = new QMenuBar(MenuFrame);
    fMenuBar->setMinimumWidth(50);
@@ -216,8 +216,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    //Edit Menu
    QMenu* editMenu = fMenuBar->addMenu("&Edit");
 
-   AddChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible, this,
-         SLOT(SetMarkerPanel()));
+   connect(CreateChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible),
+           &QAction::toggled, this, &TGo4ViewPanel::SetMarkerPanel);
 
    bool ed_visible = false, ed_allowed = true;
 
@@ -228,16 +228,14 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    }
 #endif
 
-   fxCanvasEditorChk = AddChkAction(editMenu, "Show &ROOT attributes editor",
-                         ed_visible, this, SLOT(StartRootEditor()));
-   fxCanvasEditorChk->setEnabled(ed_allowed);
+   fxCanvasEditorChk = CreateChkAction(editMenu, "Show &ROOT attributes editor", ed_visible, ed_allowed);
+   connect(fxCanvasEditorChk, &QAction::toggled, this, &TGo4ViewPanel::StartRootEditor);
 
    bool status_flag = go4sett->getPadEventStatus();
-   fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", status_flag, this,
-            SLOT(ShowEventStatus()));
+   fxCanvasEventstatusChk = CreateChkAction(editMenu, "Show &event status", status_flag);
+   connect(fxCanvasEventstatusChk, &QAction::toggled, this, &TGo4ViewPanel::ShowEventStatus);
 
-   editMenu->addAction("Start &condition editor", this,
-         SLOT(StartConditionEditor()));
+   editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
 
    editMenu->addSeparator();
    editMenu->addAction("Clear &markers", this, SLOT(ClearAllMarkers()));
@@ -1096,9 +1094,9 @@ void TGo4ViewPanel::DelSelectedMarker_clicked()
    RedrawPanel(GetActivePad(), true);
 }
 
-void TGo4ViewPanel::SetMarkerPanel()
+void TGo4ViewPanel::SetMarkerPanel(bool flag)
 {
-   fbMarkEditorVisible = !fbMarkEditorVisible;
+   fbMarkEditorVisible = flag;
    if (!fbMarkEditorVisible) {
       // switch back to normal root mouse when editor is hidden
       CompleteMarkerEdit(GetActivePad());
@@ -2002,7 +2000,7 @@ void TGo4ViewPanel::PrintCanvas()
    gSystem->Exec(DelCmd.toLatin1().constData());
 }
 
-void TGo4ViewPanel::StartRootEditor()
+void TGo4ViewPanel::StartRootEditor(bool)
 {
    bool visible = false;
    if (fxQCanvas) {
@@ -2228,7 +2226,7 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
       ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
 }
 
-void TGo4ViewPanel::ShowEventStatus()
+void TGo4ViewPanel::ShowEventStatus(bool)
 {
    bool flag = true;
    if (fxQCanvas) {
@@ -4685,7 +4683,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
 #ifdef __GO4X11__
    if (fxQCanvas)
       if (show_status != fxQCanvas->isStatusBarVisible())
-         ShowEventStatus();
+         ShowEventStatus(show_status);
 #endif
 
    TGo4Picture* padopt = GetPadOptions(pad);

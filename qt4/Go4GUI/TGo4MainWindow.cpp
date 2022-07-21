@@ -423,44 +423,44 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
-   faFetchWhenDraw = QGo4Widget::AddChkAction(prefMenu, "Fetch when drawing",
-                      go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when drawing", go4sett->getFetchDataWhenDraw()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenDrawSlot);
 
-   faFetchWhenCopy = QGo4Widget::AddChkAction(prefMenu, "Fetch when copying",
-                    go4sett->getFetchDataWhenCopy(), this, SLOT(ChangeFetchWhenCopySlot()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when copying", go4sett->getFetchDataWhenCopy()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenCopySlot);
 
-   faFetchWhenSave = QGo4Widget::AddChkAction(prefMenu, "Fetch when saving",
-                    go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when saving", go4sett->getFetchDataWhenSave()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenSaveSlot);
 
-   faHideEventElement = QGo4Widget::AddChkAction(prefMenu, "Hide TGo4EventElement",
-                    go4sett->getHideTGo4EventElement(), this, SLOT(ChangeHideEventElement()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Hide TGo4EventElement", go4sett->getHideTGo4EventElement()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeHideEventElement);
 
-   faDrawOnce = QGo4Widget::AddChkAction(prefMenu, "Draw item once",
-                             go4sett->getDrawOnceFlag(), this, SLOT(ChangeDrawOnceSlot()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Draw item once", go4sett->getDrawOnceFlag()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeDrawOnceSlot);
 
-   faWindowRubberBand = QGo4Widget::AddChkAction(prefMenu, "Rubberband when moving windows",
-                                go4sett->getMoveSubwindowRubberBand(), this, SLOT(ChangeWindowRubberBandSlot()));
+   connect(QGo4Widget::CreateChkAction(prefMenu, "Rubberband when moving windows", go4sett->getMoveSubwindowRubberBand()),
+            &QAction::toggled, this, &TGo4MainWindow::ChangeWindowRubberBandSlot);
 
    prefMenu->addAction("GUI HighDPI Scale factor...", this, &TGo4MainWindow::ScaleFactorSlot);
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
-   panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
+   panelMenu->addAction("&Canvas color...", this, &TGo4MainWindow::CanvasColorSlot);
 
-   faSaveWhite = QGo4Widget::AddChkAction(panelMenu, "White canvas for saved images",
-          go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
+   connect(QGo4Widget::CreateChkAction(panelMenu, "White canvas for saved images", go4sett->getSavePadWhiteBackground()),
+            &QAction::toggled, this, &TGo4MainWindow::ChangeSaveWhiteBackgroundSlot);
 
    panelMenu->addAction("Marker labels...", this, &TGo4MainWindow::MarkerSettingsSlot);
    panelMenu->addAction("Statistics box...", this, &TGo4MainWindow::OptStatsSlot);
 
-   faSuperimpose = QGo4Widget::AddChkAction(panelMenu, "&Superimpose mode",
-                   go4sett->getPadSuperimpose(), this, SLOT(SuperimposeSlot()));
+   faSuperimpose = QGo4Widget::CreateChkAction(panelMenu, "&Superimpose mode", go4sett->getPadSuperimpose());
+   connect(faSuperimpose, &QAction::toggled, this, &TGo4MainWindow::SuperimposeSlot);
 
-   faCrosshair = QGo4Widget::AddChkAction(panelMenu, "Cross(&X)hair mode",
-                   go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
+   faCrosshair = QGo4Widget::CreateChkAction(panelMenu, "Cross(&X)hair mode", go4sett->getPadCrosshair());
+   connect(faCrosshair, &QAction::toggled, this, &TGo4MainWindow::CrosshairSlot);
 
-   faEventstatus = QGo4Widget::AddChkAction(panelMenu, "Show Event Status",
-                   go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
+   faEventstatus = QGo4Widget::CreateChkAction(panelMenu, "Show Event Status", go4sett->getPadEventStatus());
+   connect(faEventstatus, &QAction::toggled, this, &TGo4MainWindow::EventStatusSlot);
 
    connect(QGo4Widget::CreateChkAction(panelMenu, "Objects cloning", go4sett->getCloneFlag()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeCloneFlagSlot);
@@ -1447,35 +1447,35 @@ void TGo4MainWindow::UpdateCaptionButtons()
    }
 }
 
-void TGo4MainWindow::ChangeFetchWhenDrawSlot()
+void TGo4MainWindow::ChangeFetchWhenDrawSlot(bool flag)
 {
-   go4sett->setFetchDataWhenDraw(faFetchWhenDraw->isChecked());
+   go4sett->setFetchDataWhenDraw(flag);
 }
 
-void TGo4MainWindow::ChangeFetchWhenCopySlot()
+void TGo4MainWindow::ChangeFetchWhenCopySlot(bool flag)
 {
-   go4sett->setFetchDataWhenCopy(faFetchWhenCopy->isChecked());
+   go4sett->setFetchDataWhenCopy(flag);
 }
 
-void TGo4MainWindow::ChangeFetchWhenSaveSlot()
+void TGo4MainWindow::ChangeFetchWhenSaveSlot(bool flag)
 {
-   go4sett->setFetchDataWhenSave(faFetchWhenSave->isChecked());
+   go4sett->setFetchDataWhenSave(flag);
 }
 
-void TGo4MainWindow::ChangeHideEventElement()
+void TGo4MainWindow::ChangeHideEventElement(bool flag)
 {
-   go4sett->setHideTGo4EventElement(faHideEventElement->isChecked());
+   go4sett->setHideTGo4EventElement(flag);
    UpdateBrowser();
 }
 
-void TGo4MainWindow::ChangeDrawOnceSlot()
+void TGo4MainWindow::ChangeDrawOnceSlot(bool flag)
 {
-   go4sett->setDrawOnceFlag(faDrawOnce->isChecked());
+   go4sett->setDrawOnceFlag(flag);
 }
 
-void TGo4MainWindow::ChangeWindowRubberBandSlot()
+void TGo4MainWindow::ChangeWindowRubberBandSlot(bool flag)
 {
-  go4sett->setMoveSubwindowRubberBand(faWindowRubberBand->isChecked());
+  go4sett->setMoveSubwindowRubberBand(flag);
 }
 
 void TGo4MainWindow::CanvasColorSlot()
@@ -1495,24 +1495,23 @@ void TGo4MainWindow::MarkerSettingsSlot()
 void TGo4MainWindow::OptStatsSlot()
 {
    TGo4OptStatsSettings stset;
-   if (stset.exec() != QDialog::Accepted) return;
+   stset.exec();
    // all work is done inside dialog.
 }
 
-void TGo4MainWindow::SuperimposeSlot()
+void TGo4MainWindow::SuperimposeSlot(bool flag)
 {
-   go4sett->setPadSuperimpose(faSuperimpose->isChecked());
+   go4sett->setPadSuperimpose(flag);
 }
 
-
-void TGo4MainWindow::CrosshairSlot()
+void TGo4MainWindow::CrosshairSlot(bool flag)
 {
-   go4sett->setPadCrosshair(faCrosshair->isChecked());
+   go4sett->setPadCrosshair(flag);
 }
 
-void TGo4MainWindow::EventStatusSlot()
+void TGo4MainWindow::EventStatusSlot(bool flag)
 {
-   go4sett->setPadEventStatus(faEventstatus->isChecked());
+   go4sett->setPadEventStatus(flag);
 }
 
 void TGo4MainWindow::ChangeCloneFlagSlot(bool flag)
@@ -1538,9 +1537,9 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot(bool flag)
    go4sett->setDrawDateFlag(flag);
 }
 
-void TGo4MainWindow::ChangeSaveWhiteBackgroundSlot()
+void TGo4MainWindow::ChangeSaveWhiteBackgroundSlot(bool flag)
 {
-  go4sett->setSavePadWhiteBackground(faSaveWhite->isChecked());
+  go4sett->setSavePadWhiteBackground(flag);
 }
 
 void TGo4MainWindow::DrawLineWidthSlot()

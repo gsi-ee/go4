@@ -236,7 +236,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void RefreshButtons();
       virtual void SelectedMarkerCmb_activated( int indx );
       virtual void DelSelectedMarker_clicked();
-      virtual void SetMarkerPanel();
+      virtual void SetMarkerPanel(bool);
       virtual void LogMarkerValues();
       virtual void ClearAllMarkers();
       virtual void GetConditionBtn_clicked();
@@ -256,12 +256,12 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void ProducePicture();
       virtual void ProduceGraphFromMarkers();
       virtual void PrintCanvas();
-      virtual void StartRootEditor();
+      virtual void StartRootEditor(bool);
       virtual void StartConditionEditor();
       virtual void ClearActivePad();
       virtual void ClearCanvas();
       virtual void AboutToShowOptionsMenu();
-      virtual void ShowEventStatus();
+      virtual void ShowEventStatus(bool);
       virtual void ProcessPadModifiedSignal();
       virtual void RedrawPanel(TPad *pad, bool force );
       virtual void checkRepaintSlot();

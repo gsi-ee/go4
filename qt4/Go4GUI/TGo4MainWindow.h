@@ -104,24 +104,24 @@ class TGo4MainWindow : public QMainWindow {
       void windowsMenuActivated( int id );
       void ForseCloseSlot();
 
-      void ChangeFetchWhenDrawSlot();
-      void ChangeFetchWhenCopySlot();
-      void ChangeFetchWhenSaveSlot();
-      void ChangeHideEventElement();
-      void ChangeDrawOnceSlot();
-      void ChangeWindowRubberBandSlot();
+      void ChangeFetchWhenDrawSlot(bool);
+      void ChangeFetchWhenCopySlot(bool);
+      void ChangeFetchWhenSaveSlot(bool);
+      void ChangeHideEventElement(bool);
+      void ChangeDrawOnceSlot(bool);
+      void ChangeWindowRubberBandSlot(bool);
 
       void CanvasColorSlot();
-      void SuperimposeSlot();
-      void CrosshairSlot();
-      void EventStatusSlot();
+      void SuperimposeSlot(bool);
+      void CrosshairSlot(bool);
+      void EventStatusSlot(bool);
       void MarkerSettingsSlot();
       void OptStatsSlot();
       void ChangeCloneFlagSlot(bool);
       void ChangeDrawTimeFlagSlot(bool);
       void ChangeDrawDateFlagSlot(bool);
       void ChangeDrawItemFlagSlot(bool);
-      void ChangeSaveWhiteBackgroundSlot();
+      void ChangeSaveWhiteBackgroundSlot(bool);
 
       void ChangeTerminalTimeStampSlot(bool);
       void ChangeTerminalTimeStampFormatSlot();
@@ -252,13 +252,6 @@ class TGo4MainWindow : public QMainWindow {
       bool               fbPanelTimerActive{false};
       bool               fbFullScreen{false};
 
-      QAction*           faFetchWhenDraw{nullptr};
-      QAction*           faFetchWhenCopy{nullptr};
-      QAction*           faFetchWhenSave{nullptr};
-      QAction*           faHideEventElement{nullptr};
-      QAction*           faDrawOnce{nullptr};
-      QAction*           faWindowRubberBand{nullptr};
-
       QAction*           faWebCanvas{nullptr};
       QAction*           faSuperimpose{nullptr};
       QAction*           faCrosshair{nullptr};
@@ -266,7 +259,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faDrawTime{nullptr};
       QAction*           faDrawDate{nullptr};
       QAction*           faDrawItem{nullptr};
-      QAction*           faSaveWhite{nullptr};
 
       QAction*           faLaunchAnal{nullptr};
       QAction*           faConnectAnal{nullptr};
