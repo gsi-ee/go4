@@ -405,11 +405,12 @@ void QGo4Widget::ServiceCall(const char* name, void* par)
    CallServiceFunc(service_General, name, par);
 }
 
-QAction* QGo4Widget::CreateChkAction(QMenu* menu, const QString& text, bool checked)
+QAction* QGo4Widget::CreateChkAction(QMenu* menu, const QString& text, bool checked, bool enabled)
 {
    QAction* act = new QAction(text, menu);
    act->setCheckable(true);
    act->setChecked(checked);
+   act->setEnabled(enabled);
    menu->addAction(act);
    return act;
 }

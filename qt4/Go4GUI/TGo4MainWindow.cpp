@@ -462,21 +462,17 @@ void TGo4MainWindow::AddSettingMenu()
    faEventstatus = QGo4Widget::AddChkAction(panelMenu, "Show Event Status",
                    go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
 
-   faClone = QGo4Widget::AddChkAction(panelMenu, "Objects cloning",
-            go4sett->getCloneFlag(), this, SLOT(ChangeCloneFlagSlot()));
+   connect(QGo4Widget::CreateChkAction(panelMenu, "Objects cloning", go4sett->getCloneFlag()),
+           &QAction::toggled, this, &TGo4MainWindow::ChangeCloneFlagSlot);
 
-   faDrawTime = QGo4Widget::AddChkAction(panelMenu, "Draw time",
-           go4sett->getDrawTimeFlag(), this, SLOT(ChangeDrawTimeFlagSlot()));
-   faDrawTime->setEnabled(go4sett->getCloneFlag());
+   faDrawTime = QGo4Widget::CreateChkAction(panelMenu, "Draw time", go4sett->getDrawTimeFlag(), go4sett->getCloneFlag());
+   connect(faDrawTime, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawTimeFlagSlot);
 
-   faDrawDate = QGo4Widget::AddChkAction(panelMenu, "Draw date",
-                 go4sett->getDrawDateFlag(), this, SLOT(ChangeDrawDateFlagSlot()));
-   faDrawDate->setEnabled(go4sett->getCloneFlag());
+   faDrawDate = QGo4Widget::CreateChkAction(panelMenu, "Draw date", go4sett->getDrawDateFlag(), go4sett->getCloneFlag());
+   connect(faDrawDate, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawDateFlagSlot);
 
-   faDrawItem = QGo4Widget::AddChkAction(panelMenu, "Draw item name",
-            go4sett->getDrawItemFlag(), this, SLOT(ChangeDrawItemFlagSlot()));
-   panelMenu->addAction(faDrawItem);
-   faDrawItem->setEnabled(go4sett->getCloneFlag());
+   faDrawItem = QGo4Widget::CreateChkAction(panelMenu, "Draw item name", go4sett->getDrawItemFlag(), go4sett->getCloneFlag());
+   connect(faDrawItem, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawItemFlagSlot);
 
    panelMenu->addAction("Draw line &width ...", this, &TGo4MainWindow::DrawLineWidthSlot);
    panelMenu->addAction("Draw fill color ...", this, &TGo4MainWindow::DrawFillColorSlot);
@@ -1519,28 +1515,27 @@ void TGo4MainWindow::EventStatusSlot()
    go4sett->setPadEventStatus(faEventstatus->isChecked());
 }
 
-void TGo4MainWindow::ChangeCloneFlagSlot()
+void TGo4MainWindow::ChangeCloneFlagSlot(bool flag)
 {
-   bool s = faClone->isChecked();
-   faDrawTime->setEnabled(s);
-   faDrawDate->setEnabled(s);
-   faDrawItem->setEnabled(s);
-   go4sett->setCloneFlag(s);
+   faDrawTime->setEnabled(flag);
+   faDrawDate->setEnabled(flag);
+   faDrawItem->setEnabled(flag);
+   go4sett->setCloneFlag(flag);
 }
 
-void TGo4MainWindow::ChangeDrawTimeFlagSlot()
+void TGo4MainWindow::ChangeDrawTimeFlagSlot(bool flag)
 {
-   go4sett->setDrawTimeFlag(faDrawTime->isChecked());
+   go4sett->setDrawTimeFlag(flag);
 }
 
-void TGo4MainWindow::ChangeDrawItemFlagSlot()
+void TGo4MainWindow::ChangeDrawItemFlagSlot(bool flag)
 {
-   go4sett->setDrawItemFlag(faDrawItem->isChecked());
+   go4sett->setDrawItemFlag(flag);
 }
 
-void TGo4MainWindow::ChangeDrawDateFlagSlot()
+void TGo4MainWindow::ChangeDrawDateFlagSlot(bool flag)
 {
-   go4sett->setDrawDateFlag(faDrawDate->isChecked());
+   go4sett->setDrawDateFlag(flag);
 }
 
 void TGo4MainWindow::ChangeSaveWhiteBackgroundSlot()

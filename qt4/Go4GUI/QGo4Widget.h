@@ -111,7 +111,7 @@ private:
       static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
             const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
 
-      static QAction* CreateChkAction(QMenu* menu, const QString& text, bool checked);
+      static QAction* CreateChkAction(QMenu* menu, const QString& text, bool checked, bool enabled = true);
 
       static QAction* AddChkAction(QMenu* menu, const QString& text, bool checked, QObject* recv, const char* member);
 
