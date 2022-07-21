@@ -99,7 +99,7 @@ void TGo4ParaEdit::linkedObjectRemoved(const char * linkname)
 void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 {
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
-       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
+       TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter"));
        const char* previtem = GetLinkedName("Parameter");
        if (par && previtem) {
           QMessageBox msgBox(QMessageBox::Question, "Parameter editor",
@@ -425,7 +425,7 @@ void TGo4ParaEdit::saveFile()
    if (!fItems) return;
 
    if (GetLinkedName("Parameter")) {
-      TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
+      TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter"));
       if (!par) return;
       if (par->SetMemberValues(fItems))
          if (SaveItemToFile(GetLinkedName("Parameter"), "Parameters"))

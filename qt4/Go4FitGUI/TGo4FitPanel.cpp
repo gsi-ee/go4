@@ -417,7 +417,7 @@ void TGo4FitPanel::WorkWithFitterInSlot(TGo4Slot* slot)
    RemoveFitterLink();
    AddLink(slot, "Fitter");
 
-   TObject* obj = GetLinked("Fitter",0);
+   TObject* obj = GetLinked("Fitter");
 
    UpdateObjectReferenceInSlots();
 
@@ -527,7 +527,7 @@ TPad* TGo4FitPanel::ActivePad()
 
 TGo4Fitter* TGo4FitPanel::GetFitter()
 {
-   return dynamic_cast<TGo4Fitter*>(GetLinked("Fitter",0));
+   return dynamic_cast<TGo4Fitter*>(GetLinked("Fitter"));
 }
 
 void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)
@@ -4929,12 +4929,12 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
    } else {
       int slotindex = GetPadIndexForSlot(slot);
       QString linkname = QString("FitSlotLink_%1").arg(slotindex);
-      obj = GetLinked(linkname.toLatin1().constData(), 0);
+      obj = GetLinked(linkname.toLatin1().constData());
    }
 
    if (!obj) res = false;
    if (!obj || !slot->IsSuitable(obj))
-      slot->SetObject(0, kFALSE);
+      slot->SetObject(nullptr, kFALSE);
    else
       slot->SetObject(obj, kFALSE);
 
