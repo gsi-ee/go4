@@ -419,7 +419,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    settMenu->addAction("&Font...", this, SLOT(ChangeFontSlot()));
 
-   QMenu *style = settMenu->addMenu("St&yle");
+   QMenu *styleMenu = settMenu->addMenu("St&yle");
 
    QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
@@ -505,15 +505,12 @@ void TGo4MainWindow::AddSettingMenu()
    settMenu->addAction("&Save settings", this, SLOT(SaveSettingsSlot()));
 
    QActionGroup *ag = new QActionGroup(this);
-   ag->setExclusive( true );
-   QSignalMapper *styleMapper = new QSignalMapper( this );
-   connect(styleMapper, SIGNAL(mapped(const QString&)), this, SLOT(SetStyleSlot(const QString&)));
+   ag->setExclusive(true);
 
    QStringList list = QStyleFactory::keys();
    list.sort();
    QHash<QString, int> stylesDict;
-   for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
-      QString styleStr = *it;
+   for (auto styleStr : list) {
       QString styleAccel = styleStr;
       if ( stylesDict[styleAccel.left(1)] ) {
          for (unsigned i = 0; i < styleAccel.length(); i++ ) {
@@ -529,14 +526,12 @@ void TGo4MainWindow::AddSettingMenu()
        }
        QAction *act = new QAction(styleAccel, this);
        act->setCheckable(true);
-       if (go4sett->getAppStyle() == styleStr)
-          act->setChecked(true);
+       act->setChecked(go4sett->getAppStyle() == styleStr);
 
-       connect( act, SIGNAL(triggered()), styleMapper, SLOT(map()) );
-       styleMapper->setMapping(act, styleStr);
+       connect(act, &QAction::triggered, [&, styleStr]() { SetStyleSlot(styleStr); });
 
        ag->addAction(act);
-       style->addAction(act);
+       styleMenu->addAction(act);
    }
 }
 
@@ -765,7 +760,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
     delete winMapper;
     winMapper = new QSignalMapper(this);
-    connect(winMapper, SIGNAL(mapped(int)), this, SLOT(windowsMenuActivated(int)));
+    connect(winMapper, &QSignalMapper::mappedInt, this, &TGo4MainWindow::windowsMenuActivated);
 
     QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
     for (int i=0; i< windows.count(); i++ ) {

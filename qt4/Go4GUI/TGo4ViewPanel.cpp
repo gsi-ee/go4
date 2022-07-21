@@ -245,16 +245,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    editMenu->addAction("Clear c&anvas", this, SLOT(ClearCanvas()));
 
    fSelectMap = new QSignalMapper(this);
-   connect(fSelectMap, SIGNAL(mapped(int)), this,
-         SLOT(SelectMenuItemActivated(int)));
+   connect(fSelectMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::SelectMenuItemActivated);
    fSelectMenu = fMenuBar->addMenu("&Select");
 
    fOptionsMap = new QSignalMapper(this);
    fOptionsMenu = fMenuBar->addMenu("&Options");
-   connect(fOptionsMenu, SIGNAL(aboutToShow()), this,
-         SLOT(AboutToShowOptionsMenu()));
-   connect(fOptionsMap, SIGNAL(mapped(int)), this,
-         SLOT(OptionsMenuItemActivated(int)));
+   connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
+   connect(fOptionsMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::OptionsMenuItemActivated);
 
    AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);
