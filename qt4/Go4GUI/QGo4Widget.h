@@ -154,6 +154,24 @@ private:
       /** returns name of item, which was linked in that slot */
       const char* GetLinkedName(TGo4Slot* slot);
 
+      template<class T>
+      T* GetLinkedNew(const char* linkname, int updatelevel = 0)
+      {
+         TObject* res = nullptr;
+         int func = 0;
+         switch (updatelevel) {
+            case 0: func = service_GetLinked0; break;
+            case 1: func = service_GetLinked1; break;
+            case 2: func = service_GetLinked2; break;
+            default: func = service_GetLinked1; break;
+         }
+
+         emit widgetService(this, func, linkname, (void*) &res);
+
+         return dynamic_cast<T *>(res);
+      }
+
+
       TObject* GetLinked(const char *linkname, int updatelevel = 0);
       void RemoveLink(const char *linkname, bool blockreset = true);
       void RemoveAllLinks(bool blockreset = true);
