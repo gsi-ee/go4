@@ -143,7 +143,7 @@ void TGo4ConditionEditor::DropItem(const char* itemname, TClass* cl, int kind)
 //      AddLink(itemname, "Histogram");
 //      GetLinked("Histogram", 1);
 //
-//      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+//      auto cond = GetLinkedCast<TGo4Condition>("Condition");
 //      if (cond) {
 //         cond->SetHistogram(itemname);
 //         cond->SetHistogramLink(kTRUE);
@@ -175,7 +175,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
 {
    const char* conditemname = GetLinkedName("Condition");
 
-   TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition"));
+   auto con = GetLinkedCast<TGo4Condition>("Condition");
    if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname) != 0)) {
       QMessageBox msgBox(QMessageBox::Question, "Condition editor",
                          QString("Current condition %1 is modified!\nNew condition %2 is selected.").arg(conditemname).arg(itemname));
@@ -258,7 +258,7 @@ void TGo4ConditionEditor::ResetWidget()
 
 void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
@@ -283,7 +283,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
            fiSelectedIndex = selindex;
       }
    }
-   if (!histo) histo = dynamic_cast<TH1*>(GetLinked("Histogram"));
+   if (!histo) histo = GetLinkedCast<TH1>("Histogram");
 
    fbTypingMode = false;
 
@@ -295,8 +295,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       fiSelectedIndex = -1;
    } else {
       ArrayElements->setMaximum(arr->GetNumber()-1);
-      if (fiSelectedIndex>=arr->GetNumber()-1)
-        fiSelectedIndex=arr->GetNumber()-1;
+      if (fiSelectedIndex >= arr->GetNumber()-1)
+        fiSelectedIndex = arr->GetNumber()-1;
       ArrayElements->setValue(fiSelectedIndex);
 
       cond = SelectedCondition();
@@ -495,7 +495,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
 TGo4Condition* TGo4ConditionEditor::SelectedCondition()
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return nullptr;
 
    TGo4CondArray* arr = dynamic_cast<TGo4CondArray*> (cond);
@@ -514,7 +514,7 @@ TGo4Condition* TGo4ConditionEditor::SelectedCondition()
 
 void TGo4ConditionEditor::PleaseUpdateSlot()
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*> (GetLinked("Condition"));
+   GetLinked("Condition", 2);
    SetChangeFlag(true);
    PleaseUpdateLabel->setVisible(true);
 }
@@ -558,8 +558,7 @@ void TGo4ConditionEditor::SetInvertMode( int mode )
 void TGo4ConditionEditor::ClearCounters()
 {
    const char* conditemname = GetLinkedName("Condition");
-   TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition"));
-
+   auto con = GetLinkedCast<TGo4Condition>("Condition");
    if (!con || !conditemname) return;
 
    TString objname;
@@ -696,8 +695,7 @@ void TGo4ConditionEditor::enterEvent(QEvent *)
 void TGo4ConditionEditor::enterEvent(QEnterEvent *)
 #endif
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
-
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (cond && (fiLastChangeValue != cond->IsChanged()))
       RefreshWidget(true);
 }
@@ -719,7 +717,7 @@ void TGo4ConditionEditor::DisplayPressed()
 
 void TGo4ConditionEditor::SetChangeFlag(bool changed)
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*> (GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (cond) cond->SetChanged(changed);
 }
 
@@ -747,7 +745,7 @@ void TGo4ConditionEditor::SaveCondition()
 
 void TGo4ConditionEditor::DrawCondition(bool useactive)
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
    const char* conditemname = GetLinkedName("Condition");
@@ -808,7 +806,7 @@ void TGo4ConditionEditor::RedrawCondition()
    const char* conditemname = GetLinkedName("Condition");
    if (!conditemname) return;
 
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
@@ -824,7 +822,7 @@ void TGo4ConditionEditor::RedrawCondition()
 
 void TGo4ConditionEditor::PrintConditionLog()
 {
-   TGo4Condition *cond = dynamic_cast<TGo4Condition *>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (cond) {
       cond->PrintCondition(kFALSE); // JAM want additional output of specific infos, no poly coords
       cond->Print("go4log-limits-stats");
@@ -833,7 +831,7 @@ void TGo4ConditionEditor::PrintConditionLog()
 
 bool TGo4ConditionEditor::PrepareForAnalysis()
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return false;
 
    SetChangeFlag(false);
@@ -849,7 +847,7 @@ bool TGo4ConditionEditor::PrepareForAnalysis()
 
 void TGo4ConditionEditor::ModifyButton_clicked()
 {
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition"));
+   auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
    const char* conditemname = GetLinkedName("Condition");
