@@ -418,8 +418,11 @@ QAction* QGo4Widget::AddChkAction(QMenu* menu,
 }
 
 QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
-                   const QString& text, int id, int enabled, int checked)
+                                 const QString& text, int id, int enabled, int checked)
 {
+   auto oldact = map->mapping(id);
+   if (oldact) map->removeMappings(oldact);
+
    QAction* act = new QAction(text, menu);
    if (checked!=-1) {
       act->setCheckable(true);
@@ -427,7 +430,9 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
    }
    if (enabled!=-1)
       act->setEnabled(enabled > 0);
-   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+
+   connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+
    menu->addAction(act);
    map->setMapping(act, id);
    return act;
@@ -447,8 +452,11 @@ QAction* QGo4Widget::SetIdAction(QSignalMapper* map, int id, int enabled, int ch
 }
 
 QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
-      const QIcon& icon, const QString& text, int id, int enabled, int checked)
+                                 const QIcon& icon, const QString& text, int id, int enabled, int checked)
 {
+   auto oldact = map->mapping(id);
+   if (oldact) map->removeMappings(oldact);
+
    QAction* act = new QAction(icon, text, menu);
    if (checked != -1) {
      act->setCheckable(true);
@@ -456,7 +464,9 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
    }
    if (enabled!=-1)
      act->setEnabled(enabled > 0);
-   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+
+   connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+
    menu->addAction(act);
    map->setMapping(act, id);
    return act;
