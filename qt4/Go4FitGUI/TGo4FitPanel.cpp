@@ -186,13 +186,13 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    fbUseAmplEstim = false;
    fiNumMigradIter = 0;
 
-   fxCurrentItem = 0;
-   fxCurrentItemWidget = 0;
+   fxCurrentItem = nullptr;
+   fxCurrentItemWidget = nullptr;
 
-   fxActivePanel = 0;
-   fxActivePad = 0;
+   fxActivePanel = nullptr;
+   fxActivePad = nullptr;
 
-   fxDrawNewPanel = 0;
+   fxDrawNewPanel = nullptr;
    fbDrawPanelCreation = false;
 
    QTableWidgetItem* item = new QTableWidgetItem;
@@ -253,10 +253,10 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    AddIdAction(SettMenu, SettMap, "&For data and models", 23);
    AddIdAction(SettMenu, SettMap, "&Individual settings", 24);
 
-   ItemMenu = 0;
+   ItemMenu = nullptr;
    ItemMap = new QSignalMapper(this);
    connect(ItemMap, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
-   CurrFitItem = 0;
+   CurrFitItem = nullptr;
 
    Wiz_DataSlotsTable->horizontalHeader()->setStretchLastSection(true);
    Wiz_ParTable->horizontalHeader()->setStretchLastSection(true);
@@ -279,7 +279,7 @@ TGo4FitPanel::~TGo4FitPanel()
    // discards messages from deleted items
    fbFillingWidget = true;
 
-   fxCurrentItem = 0;
+   fxCurrentItem = nullptr;
    FitList->clear();
 
    delete fxParsTableList;
@@ -411,8 +411,8 @@ void TGo4FitPanel::WorkWithFitterInSlot(TGo4Slot* slot)
    CloseDrawPanel();
    ClearObjectReferenceInSlots();
 
-   fxActivePanel = 0;
-   fxActivePad = 0;
+   fxActivePanel = nullptr;
+   fxActivePad = nullptr;
 
    RemoveFitterLink();
    AddLink(slot, "Fitter");
@@ -637,8 +637,8 @@ void TGo4FitPanel::Fitter_UseWorkspace()
   CloseDrawPanel();
   ClearObjectReferenceInSlots();
 
-  fxActivePanel = 0;
-  fxActivePad = 0;
+  fxActivePanel = nullptr;
+  fxActivePad = nullptr;
 
   UpdateObjectReferenceInSlots();
   UpdateActivePage();
