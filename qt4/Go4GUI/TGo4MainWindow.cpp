@@ -974,9 +974,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 
 // new for Qt4:
    if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
-         QMessageBox::Yes | QMessageBox::No ,
-         QMessageBox::Yes) != QMessageBox::Yes ) {
-            //std::cout <<"QMessageBox does not return yes! "<< std::endl;
+         QMessageBox::Yes | QMessageBox::No,  QMessageBox::Yes) != QMessageBox::Yes) {
             ce->ignore();
             return;
       }
@@ -1026,10 +1024,10 @@ void TGo4MainWindow::ForseCloseSlot()
       }
 
       QMessageBox box(QMessageBox::Critical, "Exit GUI", "Analysis is not (yet) shutdown correctly");
-      QPushButton *wait_btn = box.addButton("Wait 10 s more", QMessageBox::AcceptRole);
-      QAbstractButton *kill_btn = box.addButton("Kill analysis", QMessageBox::DestructiveRole);
-      QAbstractButton *exit_btn = box.addButton("Exit immediately", QMessageBox::DestructiveRole);
-      QAbstractButton *cancel_btn = box.addButton("Cancel quit", QMessageBox::RejectRole);
+      auto wait_btn = box.addButton("Wait 10 s more", QMessageBox::AcceptRole);
+      auto kill_btn = box.addButton("Kill analysis", QMessageBox::DestructiveRole);
+      auto exit_btn = box.addButton("Exit immediately", QMessageBox::DestructiveRole);
+      auto cancel_btn = box.addButton("Cancel quit", QMessageBox::RejectRole);
       box.setDefaultButton(wait_btn);
 
       box.exec();
@@ -1124,7 +1122,7 @@ void TGo4MainWindow::ConnectDabcSlot()
    if (!ok) return;
 
    if (!Browser()->ConnectDabc(dabcnode.toLatin1().constData()))
-      QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
+      QMessageBox::warning(this, "DABC server", "Cannot connect to DABC server");
 }
 
 TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass, bool with_qt_process, bool get_analysis_config)
@@ -1148,7 +1146,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
         }
       // first check here if we have valid port number:
       if(nameportlist.size()<portindex+1 || nameportlist.at(portindex).isEmpty()){
-          QMessageBox::warning(0, "HTTP server connection", "Could not connect. Please specify port number!");
+          QMessageBox::warning(this, "HTTP server connection", "Could not connect. Please specify port number!");
           return nullptr;
       }
       QString host = nameportlist.at(nameindex);
@@ -1205,7 +1203,7 @@ void TGo4MainWindow::ConnectHServerSlot()
                                   dlg.BaseName->text().toLatin1().constData(),
                                   dlg.UserPassEdt->text().toLatin1().constData(),
                                   dlg.FilterList->text().toLatin1().constData()))
-     QMessageBox::warning(0, "HServer", "Cannot connect to histogram server");
+     QMessageBox::warning(this, "HServer", "Cannot connect to histogram server");
 }
 
 void TGo4MainWindow::SaveFileSlot()
@@ -2145,9 +2143,10 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
                      "To shutdown it later, one need to reconnect with go4 gui again.\n"
                      "It is recommended to shutdown analysis now");
 
-         auto btnShutdown = msgBox.addButton("Shutdown", QMessageBox::ActionRole);
+         auto btnShutdown = msgBox.addButton("Shutdown", QMessageBox::DestructiveRole);
          auto btnDisconnect = msgBox.addButton("Disconnect", QMessageBox::ActionRole);
          auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+         msgBox.setDefaultButton(btnShutdown);
 
          msgBox.exec();
          if (msgBox.clickedButton() == btnCancel)
@@ -2159,8 +2158,10 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
       } else {
          QMessageBox msgBox(QMessageBox::Question, "Disconnect analysis", "Really disconnect from analysis task?");
 
-         msgBox.addButton("Disconnect", QMessageBox::ActionRole);
+         auto btnDisconnect = msgBox.addButton("Disconnect", QMessageBox::DestructiveRole);
          auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+         msgBox.setDefaultButton(btnDisconnect);
+
          msgBox.exec();
          if (msgBox.clickedButton() == btnCancel)
             return;
@@ -2175,8 +2176,10 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
    if (interactive) {
       QMessageBox msgBox(QMessageBox::Question, "Shutdown analysis", "Really shutdown analysis task?");
 
-      msgBox.addButton("Shutdown", QMessageBox::ActionRole);
+      auto btnShutdown = msgBox.addButton("Shutdown", QMessageBox::DestructiveRole);
       auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.setDefaultButton(btnShutdown);
+
       msgBox.exec();
       if (msgBox.clickedButton() == btnCancel)
          return;
@@ -2262,8 +2265,10 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
       QMessageBox msgBox(QMessageBox::Question, "Kill analysis process",
                          QString("Kill analysis by shell command: ") +fKillCommand + " ?");
 
-      msgBox.addButton("Kill", QMessageBox::ActionRole);
+      auto btnKill = msgBox.addButton("Kill", QMessageBox::DestructiveRole);
       auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.setDefaultButton(btnKill);
+
       msgBox.exec();
       if (msgBox.clickedButton() == btnCancel)
          return;
@@ -2389,7 +2394,7 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
       TClass* cl = Browser()->ItemClass(itemname);
       if (cl)
          if (!cl->IsLoaded()) {
-            QMessageBox::warning(0, "Parameter editor", QString("Cannot start parameter editor for incomplete class ") + cl->GetName());
+            QMessageBox::warning(nullptr, "Parameter editor", QString("Cannot start parameter editor for incomplete class ") + cl->GetName());
             return pedit;
          }
    }
@@ -2711,6 +2716,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
       auto btnOverwrite = msgBox.addButton("Overwrite", QMessageBox::ActionRole);
       /* auto btnOther = */ msgBox.addButton("Save to other file", QMessageBox::ActionRole);
       auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.setDefaultButton(btnOverwrite);
       msgBox.exec();
       if (msgBox.clickedButton() == btnCancel)
          return false;
