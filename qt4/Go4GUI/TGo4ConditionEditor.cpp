@@ -689,7 +689,11 @@ void TGo4ConditionEditor::SetCondVisible(bool on)
    ChangeConditionProperty(10, on);
 }
 
-void TGo4ConditionEditor::enterEvent( QEvent * )
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+void TGo4ConditionEditor::enterEvent(QEvent *)
+#else
+void TGo4ConditionEditor::enterEvent(QEnterEvent *)
+#endif
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
 

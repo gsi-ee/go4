@@ -39,7 +39,11 @@ public:
     virtual TGo4Condition *SelectedCondition();
     virtual bool UpdateLimits();
     virtual void ChangeConditionProperty(int id, bool on);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     void enterEvent(QEvent *) override;
+#else
+    void enterEvent(QEnterEvent *) override;
+#endif
     void leaveEvent(QEvent *) override;
     virtual void SetChangeFlag(bool changed);
     virtual void DrawCondition(bool useactive);
