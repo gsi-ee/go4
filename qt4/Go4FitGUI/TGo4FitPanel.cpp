@@ -602,12 +602,18 @@ void TGo4FitPanel::Fitter_NewForActivePad(bool overwrite)
    UpdateActivePage();
 }
 
+bool TGo4FitPanel::checkConfirm(const QString &title, const QString &msg)
+{
+   if(!fbNeedConfirmation)
+      return false;
+   return QMessageBox::information(nullptr, title, msg,
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No;
+}
+
+
 void TGo4FitPanel::Fitter_Delete()
 {
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(nullptr,
-         "Delete fitter", "Are you sure?",
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete fitter", "Are you sure?")) return;
 
   RemovePrimitives();
   RemoveDrawObjects();
@@ -1082,9 +1088,7 @@ void TGo4FitPanel::Cmd_CreateAppropriateFitter()
 
 void TGo4FitPanel::Cmd_DeleteFitter()
 {
-  if(fbNeedConfirmation)
-    if (QMessageBox::information(nullptr, "Delete fitter", "Are you sure?",
-          QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No) return;
+  if (checkConfirm("Delete fitter", "Are you sure?")) return;
 
   RemovePrimitives();
 
@@ -1098,9 +1102,7 @@ void TGo4FitPanel::Cmd_ClearFitter()
   TGo4Fitter* fitter = GetFitter();
   if (!fitter) return;
 
-  if(fbNeedConfirmation)
-    if (QMessageBox::information(nullptr, "Clear fitter", "Are you sure?",
-         QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::No) return;
+  if(checkConfirm("Clear fitter", "Are you sure?")) return;
 
    fitter->Clear();
 
@@ -1167,11 +1169,7 @@ void TGo4FitPanel::Cmd_DeleteData(QFitItem * item)
 
   if (!data || !fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete data"),
-         QString("Are you sure to delete ") + data->GetName(),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete data", QString("Are you sure to delete ") + data->GetName())) return;
 
   fitter->RemoveData(data->GetName(),kTRUE);
 
@@ -1189,11 +1187,7 @@ void TGo4FitPanel::Cmd_DeleteAllData(QFitItem * item)
   TGo4Fitter* fitter = GetFitter();
   if (!fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete all data"),
-         QString("Are you sure to delete all data objects"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete all data", "Are you sure to delete all data objects")) return;
 
   fitter->DeleteAllData();
 
@@ -1214,11 +1208,7 @@ void TGo4FitPanel::Cmd_DeleteAssosiatedModels(QFitItem * item)
 
   if (!data || !fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete models"),
-         QString("Are you sure to delete models, associated to ") + data->GetName(),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete models", QString("Are you sure to delete models, associated to ") + data->GetName())) return;
 
   fitter->DeleteModelsAssosiatedTo(data->GetName());
 
@@ -1244,11 +1234,7 @@ void TGo4FitPanel::Cmd_RemoveModel(TGo4FitModel* model)
   TGo4Fitter* fitter = GetFitter();
   if (!model || !fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-       QString("Delete model"),
-       QString("Are you sure to delete ") + model->GetName(),
-       QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete model",  QString("Are you sure to delete ") + model->GetName())) return;
 
   fitter->RemoveModel(model->GetName(), kTRUE);
 
@@ -1262,11 +1248,7 @@ void TGo4FitPanel::Cmd_DeleteModels(QFitItem * item)
   TGo4Fitter* fitter = GetFitter();
   if (!fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete all models"),
-         QString("Are you sure to delete all models objects"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete all models", "Are you sure to delete all models objects")) return;
 
   fitter->DeleteAllModels();
 
@@ -1403,11 +1385,7 @@ void TGo4FitPanel::Cmd_RemoveRangeCondition(QFitItem* item)
 
    if (num < 0) return;
 
-   if(fbNeedConfirmation)
-       if ( QMessageBox::information(0,
-            QString("Remove condition"),
-            QString("Are you sure to delete condition ") + item->text(0),
-            QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Remove condition", QString("Are you sure to delete condition ") + item->text(0))) return;
 
    QFitItem* parent = item->Parent();
    TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (parent->Object());
@@ -1422,11 +1400,7 @@ void TGo4FitPanel::Cmd_RemoveRangeConditions(QFitItem* item)
 {
    if (!item || (item->ObjectType()!=FitGui::ot_rangelist)) return;
 
-   if(fbNeedConfirmation)
-       if ( QMessageBox::information(0,
-            QString("Delete conditions"),
-            QString("Are you sure to delete all conditions"),
-            QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete conditions", "Are you sure to delete all conditions")) return;
 
    TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
    comp->ClearRanges();
@@ -1501,11 +1475,7 @@ void TGo4FitPanel::Cmd_DeleteAction(QFitItem* item)
    TGo4Fitter* fitter = GetFitter();
 
    if(action && fitter) {
-     if(fbNeedConfirmation)
-       if ( QMessageBox::information(0,
-            QString("Delete action"),
-            QString("Are you sure to delete ") + item->text(0),
-            QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+      if(checkConfirm("Delete action", QString("Are you sure to delete ") + item->text(0))) return;
 
       fitter->DeleteAction(action);
       UpdateItem(item->Parent(), true);
@@ -1566,11 +1536,7 @@ void TGo4FitPanel::Cmd_DeleteOutputActions(QFitItem* item)
    TGo4Fitter* fitter = GetFitter();
    if (!item || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
 
-   if(fbNeedConfirmation)
-     if ( QMessageBox::information(0,
-         QString("Delete output actions"),
-         QString("Are you sure to delete all output actions") + item->text(0),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete output actions", QString("Are you sure to delete all output actions") + item->text(0))) return;
 
    fitter->DeleteOutputActions();
    UpdateItem(item, true);
@@ -1581,11 +1547,7 @@ void TGo4FitPanel::Cmd_DeleteActions(QFitItem* item)
    TGo4Fitter* fitter = GetFitter();
    if (!item || (item->ObjectType()!=FitGui::ot_actlist) || !fitter) return;
 
-   if(fbNeedConfirmation)
-     if ( QMessageBox::information(0,
-         QString("Delete all actions"),
-         QString("Are you sure to delete all actions"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete all actions", "Are you sure to delete all actions?")) return;
 
    fitter->DeleteActions();
    UpdateItem(item, true);
@@ -1615,11 +1577,7 @@ void TGo4FitPanel::Cmd_DeleteDependency(QFitItem* item)
 
    if(!depen || !lst) return;
 
-   if(fbNeedConfirmation)
-     if ( QMessageBox::information(0,
-          QString("Delete dependency item"),
-          QString("Are you sure to delete ") + item->text(0),
-          QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete dependency item", QString("Are you sure to delete ") + item->text(0))) return;
 
    lst->Remove(depen);
    lst->Compress();
@@ -1634,11 +1592,7 @@ void TGo4FitPanel::Cmd_DeleteDependencies(QFitItem* item)
    TObjArray* lst = dynamic_cast<TObjArray*> (item->Object());
    if(!lst) return;
 
-   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete all"),
-         QString("Are you sure to delete all items from ") + item->text(0),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete all", QString("Are you sure to delete all items from ") + item->text(0))) return;
 
    lst->Clear();
 
@@ -1690,11 +1644,7 @@ void TGo4FitPanel::Cmd_DeletePars(QFitItem* item)
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Object());
    if (!pars) return;
 
-   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete all"),
-         QString("Are you sure to delete all items"),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete all", "Are you sure to delete all parameters")) return;
 
    pars->ClearPars();
 
@@ -1748,11 +1698,7 @@ void TGo4FitPanel::Cmd_DeletePar(QFitItem* item)
    TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (item->Parent()->Object());
    if (!pars || !par) return;
 
-   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete item"),
-         QString("Are you sure to delete ") + par->GetName(),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete parameter", QString("Are you sure to delete ") + par->GetName())) return;
 
    pars->RemovePar(par);
 
@@ -1767,11 +1713,7 @@ void TGo4FitPanel::Cmd_DeleteMinuitResult(QFitItem* item)
    TGo4FitMinuit* minuit = dynamic_cast<TGo4FitMinuit*> (item->Parent()->Object());
    if (!res || !minuit) return;
 
-   if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,
-         QString("Delete result"),
-         QString("Are you sure to delete ") + res->GetName(),
-         QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if(checkConfirm("Delete result", QString("Are you sure to delete ") + res->GetName())) return;
 
    minuit->RemoveResult(res);
    delete res;
@@ -2689,10 +2631,7 @@ void TGo4FitPanel::Wiz_DelModelBtn_clicked()
   TGo4Fitter* fitter = GetFitter();
   if (!fitter) return;
 
-  if(fbNeedConfirmation)
-    if ( QMessageBox::information(0,"Delete models",
-       QString("Are you sure to delete selected models"),
-       QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+  if(checkConfirm("Delete models", "Are you sure to delete selected models")) return;
 
   for(uint n=0; n<Wiz_ModelList->count();n++) {
      if (!Wiz_ModelList->item(n)->isSelected()) continue;
@@ -3773,11 +3712,7 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id
 
      case 1001: {
 
-       if(fbNeedConfirmation)
-         if ( QMessageBox::information(0,
-            QString("Clear slot"),
-            QString("Are you sure to clear object from slot ") + slot->GetName(),
-            QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+       if(checkConfirm("Clear slot", QString("Are you sure to clear object from slot ") + slot->GetName())) return;
 
        fitter->ClearSlot(slot, kFALSE);
 
@@ -4531,11 +4466,8 @@ void TGo4FitPanel::Wiz_RebuildDataList()
 {
    TGo4Fitter* fitter = GetFitter();
    if (!fitter) return;
-   if ((fitter->GetNumData()>0) && fbNeedConfirmation)
-     if ( QMessageBox::information(0,
-       QString("Remake data list"),
-       QString("Remove all current data?"),
-       QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
+   if (fitter->GetNumData() > 0)
+      if(checkConfirm("Rebuild data list", "Remove all current data?")) return;
 
    fitter->DeleteAllData();
    CreateDataFor(ActivePanel(), ActivePad(), fitter);
@@ -4550,11 +4482,7 @@ bool TGo4FitPanel::Wiz_RemoveData()
   TGo4FitData* data = Wiz_SelectedData();
   if (!data || !fitter) return false;
 
-  if(fbNeedConfirmation)
-   if ( QMessageBox::information(0,
-      QString("Delete data"),
-      QString("Are you sure to delete ") + data->GetName(),
-      QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return false;
+  if(checkConfirm("Delete data", QString("Are you sure to delete ") + data->GetName())) return false;
 
   fitter->RemoveData(data->GetName(), kTRUE);
 
@@ -4623,7 +4551,7 @@ void TGo4FitPanel::Wiz_GetModelInfo(TGo4FitModel* model, QString* info)
        *info += func->GetLibraryName();
      }
   }
-  if (fiIntegralMode>0) {
+  if (fiIntegralMode > 0) {
      int mode = fiIntegralMode;
 
      if ((mode==1) || (mode==2)) {
@@ -4632,8 +4560,11 @@ void TGo4FitPanel::Wiz_GetModelInfo(TGo4FitModel* model, QString* info)
         if (data)
           if (!model->IsAssignTo(data->GetName())) data = nullptr;
         if (data && fitter) {
-           if (mode==1) *info += "\nCounts="; else *info += "\nIntegral=";
-           double v = fitter->CalculatesIntegral(data->GetName(),model->GetName(),(mode==1));
+           if (mode == 1)
+              *info += "\nCounts=";
+           else
+              *info += "\nIntegral=";
+           double v = fitter->CalculatesIntegral(data->GetName(), model->GetName(), (mode == 1));
            *info += QString::number(v);
         }
      }
