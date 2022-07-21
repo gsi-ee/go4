@@ -491,8 +491,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
    QMenu* termMenu = settMenu->addMenu("&Terminal");
-   faTermTimeStamp = QGo4Widget::AddChkAction(termMenu, "Print timestamps",
-                         go4sett->getTermShowTimestamp(), this, SLOT(ChangeTerminalTimeStampSlot()));
+   connect(QGo4Widget::CreateChkAction(termMenu, "Print timestamps", go4sett->getTermShowTimestamp()), &QAction::toggled, this, &TGo4MainWindow::ChangeTerminalTimeStampSlot);
    termMenu->addAction("&Timestamp Format...", this, &TGo4MainWindow::ChangeTerminalTimeStampFormatSlot);
    termMenu->addAction("&History...", this, &TGo4MainWindow::InputTerminalParametersSlot);
    termMenu->addAction("&Font...", this, &TGo4MainWindow::ChangeTerminalFontSlot);
@@ -1335,9 +1334,9 @@ void TGo4MainWindow::ChangeTerminalFontSlot()
 }
 
 
-void TGo4MainWindow::ChangeTerminalTimeStampSlot()
+void TGo4MainWindow::ChangeTerminalTimeStampSlot(bool flag)
 {
-  go4sett->setTermShowTimestamp(faTermTimeStamp->isChecked());
+  go4sett->setTermShowTimestamp(flag);
   TGo4AnalysisWindow* anw = FindAnalysisWindow();
   if (anw)
     anw->UpdateTimeStampFormat();
