@@ -374,7 +374,12 @@ void TGo4MainWindow::about()
    GO4STR1.append("<br>");
    GO4STR1.append("The Go4 (GSI Object Oriented On-line Off-line system) is based on ROOT<br> with the specific requirements of the low and medium energy nuclear and atomic<br> physics experiments implemented as extensions.<br> See <a href='http://go4.gsi.de'>http://go4.gsi.de</a> for more information");
 
-   QMessageBox AboutGo4(GO4STR, GO4STR1, QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   QMessageBox AboutGo4(GO4STR, GO4STR1, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
+#else
+   QMessageBox AboutGo4(QMessageBox::NoIcon, GO4STR, GO4STR1, QMessageBox::Ok, this);
+#endif
+
    AboutGo4.setIconPixmap(QPixmap( ":/icons/go4logo2_big.png"));
    AboutGo4.setTextFormat(Qt::RichText);
    AboutGo4.exec();
@@ -390,8 +395,11 @@ void TGo4MainWindow::aboutROOT()
    QString mestring("This Go4 uses ROOT ");
    mestring.append(gROOT->GetVersion());
    mestring.append("<br> ROOT is an object-oriented framework <br>for large scale scientific <br>data analysis and data mining.<br> It has been developed at CERN<br> See <a href='http://root.cern.ch'>http://root.cern.ch</a> for more information");
-   QMessageBox AboutRoot("ROOT", mestring,
-                         QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+   QMessageBox AboutRoot("ROOT", mestring, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
+#else
+   QMessageBox AboutRoot(QMessageBox::NoIcon, "ROOT", mestring, QMessageBox::Ok, this);
+#endif
    AboutRoot.setIconPixmap(QPixmap( ":/icons/root.png"));
    AboutRoot.setTextFormat(Qt::RichText);
    AboutRoot.exec();
