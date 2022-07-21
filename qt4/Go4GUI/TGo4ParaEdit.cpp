@@ -102,14 +102,16 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
        TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
        const char* previtem = GetLinkedName("Parameter");
        if (par && previtem) {
-          int res = QMessageBox::warning(this, "Parameter editor",
-             QString("Current parameter %1 is modified!\n"
-                     "New parameter %2 is selected.").arg(previtem).arg(itemname),
-             QString("Continue with current"),
-             QString("Start with new"), QString(), 0);
-//            (BrowserItemRemote(previtem) ? QString("Update current in analysis and start with new") : QString()), 0);
-          if (res == 0) return;
-//          if (res == 2) UpdateItemInAnalysis(previtem);
+          QMessageBox msgBox(QMessageBox::Question, "Parameter editor",
+                             QString("Current parameter %1 is modified!\nNew parameter %2 is selected.").arg(previtem).arg(itemname));
+
+          auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
+          auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+          msgBox.setDefaultButton(btnContinue);
+
+          msgBox.exec();
+          if (msgBox.clickedButton() == btnContinue)
+             return;
        }
    }
 
