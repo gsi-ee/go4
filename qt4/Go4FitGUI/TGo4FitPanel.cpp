@@ -485,7 +485,10 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
 
       case panel_Deleted: {
          if (!panel) return;
-         if (panel==fxDrawNewPanel) { fxDrawNewPanel = nullptr; return; }
+         if (panel == fxDrawNewPanel) {
+            fxDrawNewPanel = nullptr;
+            return;
+         }
          if (WorkingWithPanel() && (panel == ActivePanel())) {
             ClearObjectReferenceInSlots();
             RemoveFitterLink();
@@ -1042,7 +1045,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
           }
 
           if (infocreated)
-            panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitInfo, "::FitterPars", info, true, 0);
+            panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitInfo, "::FitterPars", info, true, nullptr);
         }
 
        if (fbDrawModels) {
@@ -1779,6 +1782,7 @@ void TGo4FitPanel::AboutToShowViewMenu()
 
 void TGo4FitPanel::ChangeViewType(int id)
 {
+   printf("TGo4FitPanel::ChangeViewType %d\n", id);
   if (id!=FitGui::pm_None)
     fiPanelMode = id;
 
@@ -4330,11 +4334,11 @@ bool TGo4FitPanel::PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item)
      arr->SetForPosition(model, warr, ampl);
      arr->Locate();
 
-     ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Model_VArrow", arr, true, 0);
+     ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Model_VArrow", arr, true, nullptr);
 
      if (warr) {
        warr->Locate();
-       ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Model_HArrow", warr, true, 0);
+       ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Model_HArrow", warr, true, nullptr);
      }
 
      ActivePanel()->ShootRepaintTimer();
@@ -4395,7 +4399,7 @@ bool TGo4FitPanel::PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFi
        arr->SetItem(item, this);
        arr->Locate();
 
-       ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Range_Arrow", arr, true, 0);
+       ActivePanel()->AddDrawObject(pad, TGo4ViewPanel::kind_FitArrows, "::Range_Arrow", arr, true, nullptr);
 
        ActivePanel()->ShootRepaintTimer();
    }
@@ -4966,13 +4970,13 @@ void TGo4FitPanel::ClearObjectReferenceInSlots()
    TGo4Fitter* fitter = GetFitter();
    if (!fitter) return;
 
-   for(Int_t n = 0; n<fitter->NumSlots();n++) {
+   for(Int_t n = 0; n < fitter->NumSlots(); n++) {
       TGo4FitSlot* slot = fitter->GetSlot(n);
 
       if (slot->GetClass()->InheritsFrom(TH1::Class()) ||
           slot->GetClass()->InheritsFrom(TGraph::Class()))
           if (!slot->GetOwned())
-              slot->SetObject(0, kFALSE);
+              slot->SetObject(nullptr, kFALSE);
    }
 }
 
