@@ -14,7 +14,6 @@
 #include "QFitWidget.h"
 
 #include <QContextMenuEvent>
-#include <QtCore/QSignalMapper>
 #include <QMenu>
 
 #include "QFitItem.h"
@@ -75,12 +74,9 @@ void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
 {
   if (!GetItem() || !fxPanel) return;
 
-  QSignalMapper map;
-  connect(&map, &QSignalMapper::mappedInt, fxPanel, &TGo4FitPanel::ItemMenuItemSelected);
-
   QMenu menu;
 
-  if (fxPanel->FillPopupForItem(GetItem(), &menu, &map)) {
+  if (fxPanel->FillPopupForItem(GetItem(), &menu)) {
      fxPanel->CurrFitItem = GetItem();
      menu.exec(ev->globalPos());
      fxPanel->CurrFitItem = nullptr;
