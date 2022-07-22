@@ -403,7 +403,7 @@ void TGo4ViewPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
       if (IsRedrawBlocked())
          return;
       if (!fbModifiedSignalFlag)
-         QTimer::singleShot(1, this, SLOT(ProcessPadModifiedSignal()));
+         QTimer::singleShot(1, this, &TGo4ViewPanel::ProcessPadModifiedSignal);
       fbModifiedSignalFlag = true;
    }
 }
@@ -1705,7 +1705,7 @@ void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad, int, int)
    if (fxDoubleClickTimerPad) return;
 
    fxDoubleClickTimerPad = pad;
-   QTimer::singleShot(100, this, SLOT(ProcessPadDoubleClick()));
+   QTimer::singleShot(100, this, &TGo4ViewPanel::ProcessPadDoubleClick);
 }
 
 void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
@@ -5565,7 +5565,7 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent *e)
       //  note: we need to delay execution of redraw, since resize Event in QtROOT canvas will
       //  also happen in timer 100ms after us -> new coordinates are not refreshed here!
       fxResizeTimerPad = selpad;
-      QTimer::singleShot(1000, this, SLOT(checkResizeSlot()));
+      QTimer::singleShot(1000, this, &TGo4ViewPanel::checkResizeSlot);
    }
 }
 
