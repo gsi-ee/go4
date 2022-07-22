@@ -980,7 +980,7 @@ void TGo4MainWindow::closeEvent(QCloseEvent *ce)
       fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
       statusBar()->showMessage("Exit....  please wait");
       QApplication::setOverrideCursor(Qt::WaitCursor);
-      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+      QTimer::singleShot(100, this, &TGo4MainWindow::ForseCloseSlot);
       //std::cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << std::endl;
       ce->ignore();
    } else {
@@ -988,7 +988,7 @@ void TGo4MainWindow::closeEvent(QCloseEvent *ce)
       // JAM: due to problems with Qt5, we just use delayed exit here
       // note that calling directly gSystem->Exit gives crash in ROOT object/pad cleanup...
       // probably because fxMdiArea->closeAllSubWindows() will have effect only after this event handler returns
-      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+      QTimer::singleShot(100, this, &TGo4MainWindow::ForseCloseSlot);
       ce->ignore();
    }
 }
@@ -1001,7 +1001,7 @@ void TGo4MainWindow::ForseCloseSlot()
 
       if (fCloseCounter>0) {
          fCloseCounter--;
-         QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+         QTimer::singleShot(100, this, &TGo4MainWindow::ForseCloseSlot);
          return;
       }
 
@@ -1016,7 +1016,7 @@ void TGo4MainWindow::ForseCloseSlot()
 
       if (box.clickedButton() == wait_btn) {
          fCloseCounter = 100;
-         QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+         QTimer::singleShot(100, this, &TGo4MainWindow::ForseCloseSlot);
          return;
       }
 
@@ -1740,8 +1740,8 @@ void TGo4MainWindow::LaunchClient(bool interactive)
 
       fConnectingCounter = 100; // try next 10 seconds connect with the server
       fConnectingHttp = addr;
-      fbGetAnalysisConfig=true; // pass to timer that we want to have analysis config window when ready JAM
-      QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
+      fbGetAnalysisConfig = true; // pass to timer that we want to have analysis config window when ready JAM
+      QTimer::singleShot(100, this, &TGo4MainWindow::CheckConnectingCounterSlot);
 
       return;
    }
@@ -2106,7 +2106,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
          return;
      }
    }
-   QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
+   QTimer::singleShot(100, this, &TGo4MainWindow::CheckConnectingCounterSlot);
 }
 
 void TGo4MainWindow::DisconnectAnalysis(bool interactive)
@@ -2277,7 +2277,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
       QString progname = fKillCommand;
       TGo4AnalysisWindow::ExtractProgArgs(progname, args);
       killprocess->start(progname, args);
-      QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));
+      QTimer::singleShot(10000, killprocess, &QProcess::deleteLater);
    } else
       StatusMessage("Can not kill analysis. Do it by OS commands");
 
@@ -2642,8 +2642,7 @@ void TGo4MainWindow::CreateNewDynEntry(bool forothereditor)
 void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 {
    if (!editor) return;
-   connect(editor, SIGNAL(widgetService(QGo4Widget*, int, const char*, void*)),
-           this, SLOT(editorServiceSlot(QGo4Widget*, int, const char*, void*)));
+   connect(editor, &QGo4Widget::widgetService, this, &TGo4MainWindow::editorServiceSlot);
    GetWidgetTopSlot(editor, true);
 }
 
@@ -3333,84 +3332,52 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         if (strcmp(str,"CloseAnalysisWindow") == 0) {
             // we should postpone window closing, while it is called from inside window itself
             // and it is create problem in sequence,
-           QTimer::singleShot(100, this, SLOT(CloseAnalysisWindow()));
-        } else
-
-        if (strcmp(str,"PrintAnalysisHistograms") == 0) {
+           QTimer::singleShot(100, this, &TGo4MainWindow::CloseAnalysisWindow);
+        } else if (strcmp(str,"PrintAnalysisHistograms") == 0) {
            TGo4AnalysisWindow* anw = FindAnalysisWindow();
            if (anw) anw->PrintHistograms();
-        } else
-
-        if (strcmp(str,"PrintAnalysisConditions") == 0) {
+        } else if (strcmp(str,"PrintAnalysisConditions") == 0) {
            TGo4AnalysisWindow* anw = FindAnalysisWindow();
            if (anw) anw->PrintConditions();
-        } else
-
-        if (strcmp(str,"DisplayMbsMonitor") == 0) {
+        } else if (strcmp(str,"DisplayMbsMonitor") == 0) {
            ToggleMbsMonitor((const char*) par);
-        } else
-
-        if (strcmp(str,"SubmitAnalysisSettings") == 0) {
+        } else if (strcmp(str,"SubmitAnalysisSettings") == 0) {
            SubmitAnalysisSettings();
-        } else
-
-        if (strcmp(str,"CloseAnalysisSettings") == 0) {
+        } else if (strcmp(str,"CloseAnalysisSettings") == 0) {
            TGo4ServerProxy* anal = Browser()->FindServer();
            if (anal) {
               anal->CloseAnalysisSettings();
               anal->RefreshNamesList();
            }
-        } else
-
-        if (strcmp(str,"SubmitStartAnalysis") == 0) {
+        } else if (strcmp(str,"SubmitStartAnalysis") == 0) {
            SubmitStartAnalysisSlot();
-        } else
-
-        if (strcmp(str,"StartAnalysis") == 0) {
+        } else if (strcmp(str,"StartAnalysis") == 0) {
           StartAnalysisSlot();
-        } else
-
-        if (strcmp(str,"StopAnalysis") == 0) {
+        } else if (strcmp(str,"StopAnalysis") == 0) {
           StopAnalysisSlot();
-        } else
-
-        if (strcmp(str,"TerminateAnalysis") == 0) {
+        } else if (strcmp(str,"TerminateAnalysis") == 0) {
            TerminateAnalysis(true);
-        } else
-
-        if (strcmp(str,"UpdateGuiLayout") == 0) {
+        } else if (strcmp(str,"UpdateGuiLayout") == 0) {
           UpdateCaptionButtons();
-        } else
-
-        if (strcmp(str, "StartEventInfo") == 0) {
+        } else if (strcmp(str, "StartEventInfo") == 0) {
            StartEventInfo();
-        } else
-
-        if (strcmp(str, "ActivateConditionEditor") == 0) {
+        } else if(strcmp(str, "ActivateConditionEditor") == 0) {
            TGo4ConditionEditor* w =
              (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
            if (w) {
               w->setFocus();
               w->RefreshWidget(true);
            }
-        } else
-
-        if (strcmp(str, "SavePanelCanvas") == 0) {
+        } else if (strcmp(str, "SavePanelCanvas") == 0) {
            SavePanelCanvas(dynamic_cast<TGo4ViewPanel*>(editor));
-        } else
-
-        if (strcmp(str, "ToggleScaleValues") == 0) {
+        } else if (strcmp(str, "ToggleScaleValues") == 0) {
            ToggleScaleValues();
-        } else
-
-        if (strcmp(str, "GetFitterFromFitPanel") == 0) {
+        } else if (strcmp(str, "GetFitterFromFitPanel") == 0) {
            TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
            TGo4Fitter** res = (TGo4Fitter**) par;
            if (panel && res)
               *res = panel->GetFitter();
-        } else
-
-        if (strcmp(str, "CloneFitterFromFitPanel") == 0) {
+        } else if (strcmp(str, "CloneFitterFromFitPanel") == 0) {
            TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
            TGo4Fitter** res = (TGo4Fitter**) par;
            if (panel && res)
@@ -3423,8 +3390,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_PanelTimer: {
          TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
          if (!fbPanelTimerActive) {
-           fbPanelTimerActive = true;
-           QTimer::singleShot(0, this, SLOT(checkPanelRepaintSlot()));
+            fbPanelTimerActive = true;
+            QTimer::singleShot(0, this, &TGo4MainWindow::checkPanelRepaintSlot);
          }
 
          break;
@@ -3466,7 +3433,7 @@ void TGo4MainWindow::HotStart(const char* fname)
 
    if (!exec->StartScriptExecution(fname)) return;
 
-   QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, SLOT(ProcessHotStart()));
+   QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, &TGo4MainWindow::ProcessHotStart);
 }
 
 void TGo4MainWindow::ProcessHotStart()
@@ -3480,7 +3447,7 @@ void TGo4MainWindow::ProcessHotStart()
    } while(res && !exec->IsWaitSomething());
 
    if (res) {
-      QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, SLOT(ProcessHotStart()));
+      QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, &TGo4MainWindow::ProcessHotStart);
       if (QApplication::overrideCursor() == 0)
         QApplication::setOverrideCursor(Qt::WaitCursor);
    } else {
