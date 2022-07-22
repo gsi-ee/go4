@@ -304,9 +304,9 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         fMousePosX = gPad->AbsPixeltoX(gPad->GetEventX());
         fMousePosY = gPad->AbsPixeltoY(gPad->GetEventY());
 
-        QMenu menu(this);
+        QMenu menu;
         QSignalMapper map;
-        connect(&map, SIGNAL(mapped(int)), this, SLOT(executeMenu(int)));
+        connect(&map, &QSignalMapper::mappedInt, this, &QRootCanvas::executeMenu);
 
         fMenuObj = selected;
         fMenuMethods = new TList;
@@ -1052,7 +1052,8 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
           (text.compare("DrawPanel") == 0) || (text.compare("FitPanel") == 0))
          act->setEnabled(false);
 
-   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+   QObject::connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+
    menu->addAction(act);
    map->setMapping(act, id);
 

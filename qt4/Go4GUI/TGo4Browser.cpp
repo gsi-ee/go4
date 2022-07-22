@@ -20,7 +20,6 @@
 #include <QTimer>
 #include <QApplication>
 #include <QMenu>
-#include <QSignalMapper>
 #include <QHeaderView>
 #include <QDrag>
 #include <QMimeData>

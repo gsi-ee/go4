@@ -16,7 +16,6 @@
 
 #include <QMessageBox>
 #include <QMenu>
-#include <QtCore/QSignalMapper>
 
 #include "TH1.h"
 #include "TMath.h"
