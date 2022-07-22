@@ -688,23 +688,26 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (br->IsItemMonitored(itemslot)) nmonitor++;
       }
 
-   AddIdAction(&menu, &map, QIcon(":/icons/chart.png"),
-                 "Plot",  11, (ndraw>0));
+   auto addAct = [this, &menu](const QString& iconname, const QString& text, int id, bool enabled = true) {
+      auto act = new QAction(QIcon(QString(":/icons/") + iconname), text, &menu);
+      act->setEnabled(enabled);
+      menu.addAction(act);
+      QObject::connect(act, &QAction::triggered, [this, id]() { ContextMenuActivated(id); });
+   };
 
-   AddIdAction(&menu, &map, QIcon(":/icons/superimpose.png"),
-                 "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
+   addAct("chart.png", "Plot", 11, ndraw > 0);
+
+   addAct("superimpose.png", "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
 
    if (nexpand > 0)
-      AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Expand", 28, true);
+       addAct("zoomlim.png", "Expand", 28);
 
    if (nexecute == 1)
-      AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Execute", 29, true);
+      addAct("zoomlim.png", "Execute", 29);
 
-   AddIdAction(&menu, &map, QIcon(":/icons/right.png"),
-                  "Fetch item(s)",  18, (nfolders>0) || (nobjects>0));
+   addAct("right.png", "Fetch item(s)",  18, (nfolders > 0) || (nobjects > 0));
 
-   AddIdAction(&menu, &map, QIcon(":/icons/saveall.png"),
-                   "Save selected...",  13, (nobjects>0) || ((nfolders==1) && (nitems==1)));
+   addAct("saveall.png", "Save selected...",  13, (nobjects > 0) || ((nfolders == 1) && (nitems == 1)));
 
    // organize export submenu
    if (nexport>0) {
