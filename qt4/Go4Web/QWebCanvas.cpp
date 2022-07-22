@@ -51,7 +51,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    fRepaintTimer = new QTimer;
    fRepaintTimer->setSingleShot(true);
-   connect(fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
+   QObject::connect(fRepaintTimer, &QTimer::timeout, this, &QWebCanvas::processRepaintTimer);
 
    // disable option that at least background is redrawn immediately
    // and canvas content after 100 ms timeout

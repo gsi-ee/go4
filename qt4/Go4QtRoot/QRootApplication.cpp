@@ -100,8 +100,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
   // connect ROOT via Timer call back
   if (poll == 0){
     timer = new QTimer( this );
-    QObject::connect( timer, SIGNAL(timeout()),
-            this, SLOT(execute()) );
+    QObject::connect( timer, &QTimer::timeout, this, &QRootApplication::execute);
     timer->setSingleShot(false);
     timer->start(20);
 
