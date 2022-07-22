@@ -90,10 +90,10 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              SelectedPadChanged(TPad*);
 
       /** signal emitted when mouse clicks on pad  */
-      void              PadClicked(TPad*);
+      void              PadClicked(TPad*, int, int);
 
       /** signal emitted when user produce left mouse double-click on pad  */
-      void              PadDoubleClicked(TPad*);
+      void              PadDoubleClicked(TPad*, int, int);
 
       void              MenuCommandExecuted(TObject*, const char*);
 

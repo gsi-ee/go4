@@ -14,6 +14,7 @@
 #include "TGo4SetScaleValues.h"
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
+#include "TPad.h"
 
 
 TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
@@ -31,9 +32,7 @@ TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::W
    QObject::connect(ZminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
    QObject::connect(ZmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
 
-
-   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-          this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4SetScaleValues::panelSlot);
 
    fbDoingRefresh = false;
 

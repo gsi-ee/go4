@@ -15,6 +15,7 @@
 
 #include "TStyle.h"
 #include "TColor.h"
+#include "TPad.h"
 
 #include "TGo4Picture.h"
 #include "TGo4MdiArea.h"
@@ -34,8 +35,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QObject::connect(ContourSpin, SIGNAL(valueChanged(int)), this, SLOT(SetContourLevels(int)));
    QObject::connect(PadColor, SIGNAL(clicked()), this, SLOT(SetPadColor()));
 
-   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4Style::panelSlot);
 
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default

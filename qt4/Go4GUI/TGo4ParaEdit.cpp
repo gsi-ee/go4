@@ -300,8 +300,7 @@ void TGo4ParaEdit::TableDoubleClick( int row, int col )
    if (info->IsArrayItem()) {
       fiCurrentRow = row;
       ExpandShrinkArray();
-   } else
-   if (info->IsFitterItem()) {
+   } else if (info->IsFitterItem()) {
       fiCurrentRow = row;
       EditFitter();
    }
@@ -319,36 +318,36 @@ void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
 
    if (info->IsArrayItem()) {
        fiCurrentRow = row;
-       QMenu contextMenu(this );
+       QMenu contextMenu;
        contextMenu.addAction("Array View");
 
        if (row<fItems->GetLast()) {
          TGo4ParameterMember* next = (TGo4ParameterMember*) fItems->At(row+1);
          if ((next->GetMemberId() == info->GetMemberId()) && !next->IsVisible())
-            contextMenu.addAction( "++ \t(next index)",  this, SLOT(IncArrayIndex()));
+            contextMenu.addAction( "++ \t(next index)",  this, &TGo4ParaEdit::IncArrayIndex);
        }
 
        if (row>0) {
           TGo4ParameterMember* prev = (TGo4ParameterMember*) fItems->At(row-1);
           if ((prev->GetMemberId() == info->GetMemberId()) && !prev->IsVisible())
-             contextMenu.addAction( "-- \t(prev index)", this, SLOT(DecArrayIndex()));
+             contextMenu.addAction( "-- \t(prev index)", this, &TGo4ParaEdit::DecArrayIndex);
        }
 
-       contextMenu.addAction( "Expand/Shrink", this, SLOT(ExpandShrinkArray()));
+       contextMenu.addAction( "Expand/Shrink", this, &TGo4ParaEdit::ExpandShrinkArray);
        contextMenu.exec(QCursor::pos());
     } else
 
     if (info->IsFitterItem()) {
         fiCurrentRow = row;
-        QMenu contextMenu(this );
+        QMenu contextMenu;
         contextMenu.addAction("Modify Fitter");
 
-        contextMenu.addAction( "Edit...",  this, SLOT(EditFitter()));
+        contextMenu.addAction( "Edit...",  this, &TGo4ParaEdit::EditFitter);
 
         TGo4Fitter* fitter = nullptr;
         ServiceCall("GetFitterFromFitPanel", &fitter);
         if (fitter && (info->GetObject() != fitter))
-           contextMenu.addAction( "Get from FitPanel",  this, SLOT(GetFitterFromEditor()));
+           contextMenu.addAction( "Get from FitPanel",  this, &TGo4ParaEdit::GetFitterFromEditor);
         contextMenu.exec(QCursor::pos());
      }
 }
