@@ -542,22 +542,22 @@ void TGo4MainWindow::AddFileMenu()
    QMenu* fileMenu = menuBar()->addMenu("&File");
 
    fileMenu->addAction(QIcon( ":/icons/open.png" ), "&Open...",
-             this, SLOT(OpenFileSlot()), CtrlKey(Key_O) );
+             this, &TGo4MainWindow::OpenFileSlot)->setShortcut(CtrlKey(Key_O));
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
-             this, SLOT(OpenRemoteFileSlot()), CtrlKey(Key_R) );
+             this, &TGo4MainWindow::OpenRemoteFileSlot)->setShortcut(CtrlKey(Key_R) );
    if (TGo4DabcProxy::GetDabcVersion())
       fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
-                this, SLOT(ConnectDabcSlot()) );
+                this, &TGo4MainWindow::ConnectDabcSlot);
    fileMenu->addAction(QIcon( ":/icons/http.png" ), "Connect &HTTP...",
-             this, SLOT(ConnectHttpSlot()) );
+             this, &TGo4MainWindow::ConnectHttpSlot);
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
-             this, SLOT(ConnectHServerSlot()) );
+             this, &TGo4MainWindow::ConnectHServerSlot);
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
-             this, SLOT(SaveFileSlot()), CtrlKey(Key_Y) );
+             this, &TGo4MainWindow::SaveFileSlot)->setShortcut(CtrlKey(Key_Y) );
    fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
-             this, SLOT(CloseAllFilesSlot()), CtrlKey(Key_Q));
+             this, &TGo4MainWindow::CloseAllFilesSlot)->setShortcut(CtrlKey(Key_Q));
    fileMenu->addAction(QIcon( ":/icons/exit.png" ), "E&xit",
-             this, SLOT(close()), CtrlKey(Key_X) );
+             this, &TGo4MainWindow::close)->setShortcut(CtrlKey(Key_X));
 }
 
 void TGo4MainWindow::AddFileToolBar()
@@ -566,29 +566,29 @@ void TGo4MainWindow::AddFileToolBar()
    FileBar->setObjectName("FileToolBar");
 
    FileBar->addAction( QIcon( ":/icons/open.png" ), "Open a local file from disk",
-                       this, SLOT(OpenFileSlot()));
+                       this, &TGo4MainWindow::OpenFileSlot);
 
    FileBar->addAction( QIcon( ":/icons/network.png" ), "Open a remote file from server",
-                        this, SLOT(OpenRemoteFileSlot()));
+                        this, &TGo4MainWindow::OpenRemoteFileSlot);
 
    if (TGo4DabcProxy::GetDabcVersion())
-   FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to DABC server",
-                        this, SLOT(ConnectDabcSlot()));
+      FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to DABC server",
+                           this, &TGo4MainWindow::ConnectDabcSlot);
 
    FileBar->addAction( QIcon( ":/icons/http.png" ), "Connect to HTTP server",
-                        this, SLOT(ConnectHttpSlot()));
+                        this, &TGo4MainWindow::ConnectHttpSlot);
 
    FileBar->addAction( QIcon( ":/icons/histserv.png" ), "Connect to running histogram server",
-                        this, SLOT(ConnectHServerSlot()));
+                        this, &TGo4MainWindow::ConnectHServerSlot);
 
    FileBar->addAction( QIcon( ":/icons/filesave.png" ), "Save the content of the browser to a root file",
-                       this, SLOT(SaveFileSlot()));
+                       this, &TGo4MainWindow::SaveFileSlot);
 
    FileBar->addAction( QIcon( ":/icons/close.png" ), "Close all root files in file browser",
-                       this, SLOT(CloseAllFilesSlot() ));
+                       this, &TGo4MainWindow::CloseAllFilesSlot);
 
    FileBar->addAction( QIcon( ":/icons/exit.png" ), "Exit the Go4",
-                       this, SLOT(close()));
+                       this, &TGo4MainWindow::close);
 }
 
 void TGo4MainWindow::AddToolsMenu()
@@ -958,11 +958,10 @@ void TGo4MainWindow::CascadeMdiPosition(QWidget* sub)
 }
 
 
-void TGo4MainWindow::closeEvent( QCloseEvent* ce)
+void TGo4MainWindow::closeEvent(QCloseEvent *ce)
 {
    if (fCloseCounter != 0) return;
 
-// new for Qt4:
    if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
          QMessageBox::Yes | QMessageBox::No,  QMessageBox::Yes) != QMessageBox::Yes) {
             ce->ignore();
@@ -1115,7 +1114,12 @@ void TGo4MainWindow::ConnectDabcSlot()
       QMessageBox::warning(this, "DABC server", "Cannot connect to DABC server");
 }
 
-TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass, bool with_qt_process, bool get_analysis_config)
+void TGo4MainWindow::ConnectHttpSlot()
+{
+   ConnectHttpServer();
+}
+
+TGo4ServerProxy* TGo4MainWindow::ConnectHttpServer(const char* addr, const char* user, const char* pass, bool with_qt_process, bool get_analysis_config)
 {
    QString httpaddr;
 
@@ -1714,10 +1718,10 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
       // first verify that http server already running with such address
       // need to request analysis status anyway
-      if (ConnectHttpSlot(addr.toLatin1().constData(), nullptr, nullptr, false, true)) {
-        StatusMessage("Connected to exisiting analysis webserver!"); // JAM tell user that this is no analysis restart!
-        std::cout<< "!!! Connected to exisiting analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeters....
-        return;
+      if (ConnectHttpServer(addr.toLatin1().constData(), nullptr, nullptr, false, true)) {
+         StatusMessage("Connected to existing analysis webserver!"); // JAM tell user that this is no analysis restart!
+         std::cout<< "!!! Connected to existing analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeters....
+         return;
       }
 
       res = TGo4ServerProxy::GetLaunchString(launchcmd, killcmd,
@@ -2060,9 +2064,9 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
      QString msg("Connecting analysis http server at ");
      msg.append(fulladdress).append(QString(", Please wait"));
      StatusMessage(msg);
-     ConnectHttpSlot(fulladdress.toLatin1().constData(),
-             go4sett->getClientAccountName().toLatin1().constData(),
-             pass.toLatin1().constData(), false, false);
+     ConnectHttpServer(fulladdress.toLatin1().constData(),
+                       go4sett->getClientAccountName().toLatin1().constData(),
+                       pass.toLatin1().constData(), false, false);
      UpdateCaptionButtons();
    }
 }
@@ -2071,7 +2075,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
 {
    if (fConnectingHttp.length() > 0) {
       TGo4ServerProxy *serv =
-          ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), nullptr, nullptr, go4sett->getClientTermMode() == 1, fbGetAnalysisConfig);
+          ConnectHttpServer(fConnectingHttp.toLatin1().constData(), nullptr, nullptr, go4sett->getClientTermMode() == 1, fbGetAnalysisConfig);
       if (serv) {
          serv->SetAnalysisLaunched(go4sett->getClientTermMode()==1 ? 2 : 1);
          fConnectingHttp = "";

@@ -92,7 +92,7 @@ Int_t TGo4TaskManager::ServeClient()
       }
    // we delegate the actual TSocket open to the taskconnector timer:
    fxServer->SetConnect(fxTransport, "Server mode does not need hostname", 0, kTRUE);
-      // for portscan, we keep exisiting server socket (keepserv=kTRUE)
+      // for portscan, we keep existing server socket (keepserv=kTRUE)
    Int_t waitresult=fxServer->WaitForOpen(); // wait for the server Open() call by timer
    if(waitresult<0)
    {
@@ -356,7 +356,7 @@ Bool_t TGo4TaskManager::AddClient(const char* client, const char* host, Go4Comma
 {
   TGo4TaskHandler* han = NewTaskHandler(client);
   if (!han) {
-       TGo4Log::Warn(" !!! TaskManager::AddClient ERROR: client of name %s is already exisiting !!! ",client);
+       TGo4Log::Warn(" !!! TaskManager::AddClient ERROR: client of name %s is already existing !!! ",client);
        fxTransport->Send(TGo4TaskHandler::Get_fgcERROR()); // tell client we refuse connection
        return kFALSE;
    }

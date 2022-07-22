@@ -295,7 +295,7 @@ int main(int argc, char **argv)
       Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
 
    for (int i = 0; i < httpnodes.size(); ++i)
-      Go4MainGUI->ConnectHttpSlot(httpnodes.at(i).toLatin1().constData());
+      Go4MainGUI->ConnectHttpServer(httpnodes.at(i).toLatin1().constData());
 
    if (hotstart.length() > 0)
       Go4MainGUI->HotStart(hotstart.toLatin1().constData());
