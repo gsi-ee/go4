@@ -62,8 +62,8 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(ListView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(ListView_doubleClicked(QTreeWidgetItem*, int)));
-   QObject::connect(ListView, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ListView_customContextMenuRequested(const QPoint &)));
+   QObject::connect(ListView, &QGo4BrowserTreeWidget::itemDoubleClicked, this, &TGo4Browser::ListView_doubleClicked);
+   QObject::connect(ListView, &QGo4BrowserTreeWidget::customContextMenuRequested, this, &TGo4Browser::ListView_customContextMenuRequested);
 
    setAcceptDrops(false);
    setCanDestroyWidget(false);
@@ -79,7 +79,7 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
 
    // ListView->setDragEnabled(true);
 
-   for(int indx=0;indx<NColumns;indx++) {
+   for(int indx = 0; indx < NColumns; indx++) {
       int width = -1;
       if ((indx == 0) || (indx == 2)) width = ColumnWidths[indx];
       width = go4sett->getBrowserColumn(ColumnNames[indx], width);
@@ -94,20 +94,15 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
    }
 
    // not in .ui file while designer brakes this connection
-   connect(ListView, SIGNAL(RequestDragObject(QDrag**)),
-           this, SLOT(RequestDragObjectSlot(QDrag**)));
+   QObject::connect(ListView, &QGo4BrowserTreeWidget::RequestDragObject, this, &TGo4Browser::RequestDragObjectSlot);
 
-//   connect(ListView, SIGNAL(ItemDropAccept(void*, void*, bool*)),
-//           this, SLOT(ItemDropAcceptSlot(void*, void*, bool*)));
+//   QObject::connect(ListView, &QGo4BrowserTreeWidget::ItemDropAccept, this, &TGo4Browser::ItemDropAcceptSlot);
 
-   connect(ListView, SIGNAL(ItemDropProcess(void*, void*)),
-           this, SLOT(ItemDropProcessSlot(void*, void*)));
+   QObject::connect(ListView, &QGo4BrowserTreeWidget::ItemDropProcess, this, &TGo4Browser::ItemDropProcessSlot);
 
-   connect(ListView->header(), SIGNAL(sectionResized(int, int, int)),
-           this, SLOT(HeaderSectionResizedSlot(int, int, int)));
+   QObject::connect(ListView->header(), &QHeaderView::sectionResized, this, &TGo4Browser::HeaderSectionResizedSlot);
 
-   connect(ListView->header(), SIGNAL(customContextMenuRequested(const QPoint &)),
-           this, SLOT(Header_customContextMenuRequested(const QPoint &)));
+   QObject::connect(ListView->header(), &QHeaderView::customContextMenuRequested, this, &TGo4Browser::Header_customContextMenuRequested);
 
    ListView->header()->setToolTip(
      QString("You can change selected browser columns\n") +
@@ -538,33 +533,23 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 
    if (TGo4BrowserProxy::CanDrawItem(cando))
      DrawItem(fullname, nullptr, nullptr, true);
-   else
-   if (TGo4BrowserProxy::CanEditItem(cando))
+   else if (TGo4BrowserProxy::CanEditItem(cando))
       EditItem(fullname);
-   else
-   if (TGo4BrowserProxy::CanExpandItem(cando)) {
+   else if (TGo4BrowserProxy::CanExpandItem(cando)) {
       item->setExpanded(true);
       ExpandItem(fullname);
-   } else
-   if (TGo4BrowserProxy::CanExecuteItem(cando)) {
+   } else if (TGo4BrowserProxy::CanExecuteItem(cando)) {
       ExecuteItem(fullname);
    }
-
-//   else
-//      ShowItemInfo(fullname);
-
-//   SetViewItemProperties(itemslot, item);
 }
 
 void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 {
    QMenu menu;
-   QSignalMapper map;
 
-   for(int indx=1;indx<NColumns;indx++)
-       AddIdAction(&menu, &map,
-                  ColumnNames[indx], indx, true, fVisibleColumns[indx]);
-   connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
+   for(int indx = 1; indx < NColumns; indx++)
+      QObject::connect(CreateChkAction(&menu, ColumnNames[indx], fVisibleColumns[indx]),
+                        &QAction::toggled, [this,indx]() { ColumnToggled(indx); });
 
    menu.exec(ListView->header()->mapToGlobal(pos));
 }
@@ -572,23 +557,15 @@ void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 
 void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 {
-   QTreeWidgetItem* item = ListView->itemAt(pos);
-
-   int col = ListView->header()->logicalIndexAt(pos);
+   if (ListView->header()->logicalIndexAt(pos) != 0) {
+      Header_customContextMenuRequested(pos);
+      return;
+   }
 
    QMenu menu;
    QSignalMapper map;
 
-   if (col != 0) {
-      for(int indx=1;indx<NColumns;indx++)
-        AddIdAction(&menu, &map,
-                  ColumnNames[indx], indx, true, fVisibleColumns[indx]);
-      connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
-
-      menu.exec(ListView->viewport()->mapToGlobal(pos));
-      return;
-   }
-
+   QTreeWidgetItem* item = ListView->itemAt(pos);
    TGo4BrowserProxy* br = BrowserProxy();
    TGo4Slot* memslot = br->BrowserMemorySlot();
    TGo4Slot* analslot = br->FindServerSlot(false, 1);
