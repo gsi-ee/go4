@@ -80,8 +80,8 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(CondVisibleChk, SIGNAL(toggled(bool)), this, SLOT(SetCondVisible(bool)));
    QObject::connect(ModifyButton, SIGNAL(clicked()), this, SLOT(ModifyButton_clicked()));
    QObject::connect(NPointsSpin, SIGNAL(valueChanged(int)), this, SLOT(NPointsSpin_valueChanged(int)));
-   QObject::connect(CutTable, SIGNAL(cellChanged(int,int)), this, SLOT(CutTable_valueChanged(int,int)));
-   QObject::connect(CutTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(CutTable_contextMenuRequested(const QPoint &)));
+   QObject::connect(CutTable, &QTableWidget::cellChanged, this, &TGo4ConditionEditor::CutTable_valueChanged);
+   QObject::connect(CutTable, &QTableWidget::customContextMenuRequested, this, &TGo4ConditionEditor::CutTable_contextMenuRequested);
    QObject::connect(EllipseTiltDial, SIGNAL(valueChanged(int)), this, SLOT(EllipseTheta_valueChanged(int)));
    QObject::connect(AutoRefreshBox, SIGNAL(toggled(bool)), this, SLOT(EllipseRefreshBox_toggled(bool)));
    QObject::connect(EllipseA1Spinbox, SIGNAL(valueChanged(double)), this, SLOT(EllipseA1_valueChanged(double)));
@@ -1066,11 +1066,12 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
 void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 {
    if (!fbTypingMode) return;
-   //printf ("CutTable_contextMenuRequested \n");
    QTableWidgetItem* item = CutTable->itemAt (pos);
    if (!item) return;
+
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
+
    if(!pcond && !lcond) return;
 
    int maxn = 0;
@@ -1086,15 +1087,22 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
       return;
    }
    int nrow = CutTable->row(item);
-   QMenu menu(this);
-   QSignalMapper map(this);
-   AddIdAction(&menu, &map, "Insert point", nrow);
-   AddIdAction(&menu, &map, "Delete point", nrow + 1000000, (nrow > 0) && (nrow < maxn - 1));
-   connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuSlot(int)));
+
+   QMenu menu;
+
+   auto actInsert = new QAction("Insert point", &menu);
+   menu.addAction(actInsert);
+   QObject::connect(actInsert, &QAction::triggered, [this, nrow]() { ContextMenuHandler(nrow, false); });
+
+   auto actDelete = new QAction("Delete point", &menu);
+   menu.addAction(actDelete);
+   QObject::connect(actDelete, &QAction::triggered, [this, nrow]() { ContextMenuHandler(nrow, true); });
+   actDelete->setEnabled((nrow > 0) && (nrow < maxn - 1));
+
    menu.exec(CutTable->mapToGlobal(pos));
 }
 
-void TGo4ConditionEditor::ContextMenuSlot(int id)
+void TGo4ConditionEditor::ContextMenuHandler(int id, bool is_delete)
 {
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
@@ -1104,8 +1112,7 @@ void TGo4ConditionEditor::ContextMenuSlot(int id)
       if (!cut)
          return;
 
-      if (id >= 1000000) { // delete point
-         id -= 1000000;
+      if (is_delete) {
          cut->RemovePoint(id);
       } else { // insert point
          Int_t npoints = cut->GetN();
@@ -1130,8 +1137,7 @@ void TGo4ConditionEditor::ContextMenuSlot(int id)
       FillCutWidget(cut);
 
    } else if (lcond) {
-      if (id >= 1000000) { // delete point
-         id -= 1000000;
+      if (is_delete) {
          lcond->RemoveValue(id);
       } else { // insert point
          Int_t npoints = lcond->GetNumValues();
