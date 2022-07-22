@@ -34,7 +34,7 @@ TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
    setSizeIncrement( QSize( 100, 100 ) );
    setBaseSize( QSize( 100, 100 ) );
 
-   connect(this,SIGNAL(subWindowActivated (QMdiSubWindow*)), this, SLOT(subWindowActivatedSlot(QMdiSubWindow*)));
+   QObject::connect(this, &TGo4MdiArea::subWindowActivated, this, &TGo4MdiArea::subWindowActivatedSlot);
 
    if (!gInstance) gInstance = this;
 }

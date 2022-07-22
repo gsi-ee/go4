@@ -41,8 +41,7 @@ QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
    fHReply(nullptr),
    fProxy(p)
 {
-   connect(&qnam, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),
-           this, SLOT(authenticationRequiredSlot(QNetworkReply*, QAuthenticator*)));
+   QObject::connect(&qnam, &QNetworkAccessManager::authenticationRequired, this, &QHttpProxy::authenticationRequiredSlot);
 }
 
 QHttpProxy::~QHttpProxy()
@@ -90,14 +89,11 @@ void QHttpProxy::StartRequest(const char* url)
 {
    fHReply = qnam.get(QNetworkRequest(QUrl(url)));
 
-   connect(fHReply, SIGNAL(finished()),
-         this, SLOT(httpFinished()));
+   QObject::connect(fHReply, &QNetworkReply::finished, this, &QHttpProxy::httpFinished);
 
-   connect(fHReply, SIGNAL(error(QNetworkReply::NetworkError)),
-         this, SLOT(httpHReqError(QNetworkReply::NetworkError)));
+   QObject::connect(fHReply, &QNetworkReply::errorOccurred, this, &QHttpProxy::httpHReqError);
 
-   connect(fHReply, SIGNAL(sslErrors(const QList<QSslError>&)),
-           fHReply, SLOT(ignoreSslErrors()));
+   QObject::connect(fHReply, &QNetworkReply::sslErrors, [this](const QList<QSslError> &errors) { fHReply->ignoreSslErrors(errors); });
 
    QSslConfiguration cfg = fHReply->sslConfiguration();
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
@@ -235,12 +231,12 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    }
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
-   connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
+   QObject::connect(fReply, &QNetworkReply::finished, this, &TGo4HttpAccess::httpFinished);
 
-   connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
-           this, SLOT(httpError(QNetworkReply::NetworkError)));
+   QObject::connect(fReply, &QNetworkReply::errorOccurred, this, &TGo4HttpAccess::httpError);
 
-   if (gDebug>2) printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());
+   if (gDebug > 2)
+      printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());
 
    return 2;
 }
@@ -588,7 +584,7 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fUserName(),
    fPassword(),
    fConnected(kTRUE),
-   fRegularReq(0)
+   fRegularReq(nullptr)
 {
    fXML = new TXMLEngine;
    fUserName = "anonymous";
@@ -953,7 +949,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    netReply->setSslConfiguration(cfg);
 
    if (waitres<=0) {
-      netReply->connect(netReply, SIGNAL(finished()), netReply, SLOT(deleteLater()));
+      QObject::connect(netReply, &QNetworkReply::finished, netReply, &QNetworkReply::deleteLater);
       return kTRUE;
    }
 
@@ -1047,7 +1043,7 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    netReply->setSslConfiguration(cfg);
 
    if (waitres<=0) {
-      netReply->connect(netReply, SIGNAL(finished()), netReply, SLOT(deleteLater()));
+      QObject::connect(netReply, &QNetworkReply::finished, netReply, &QNetworkReply::deleteLater);
       return kTRUE;
    }
 
@@ -1219,7 +1215,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
    fRegularReq->setSslConfiguration(cfg);
 
-   fRegularReq->connect(fRegularReq, SIGNAL(finished()), &fComm, SLOT(regularRequestFinished()));
+   QObject::connect(fRegularReq, &QNetworkReply::finished, &fComm, &QHttpProxy::regularRequestFinished);
 }
 
 Bool_t TGo4HttpProxy::CheckShutdown(Bool_t force)

@@ -14,6 +14,7 @@
 #include "TGo4HisDrawOptions.h"
 
 #include "TROOT.h"
+#include "TPad.h"
 #include "TColor.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
@@ -45,8 +46,7 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
 
    fbSettingPanelData = true;
 
-   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4HisDrawOptions::panelSlot);
 
    UpdateView(view_Histo1);
 
