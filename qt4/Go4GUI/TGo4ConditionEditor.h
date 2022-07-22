@@ -97,7 +97,7 @@ public:
 
 protected:
 
-    void ContextMenuHandler(int, bool);
+    void CutTable_contextMenuHandler(int, bool);
 
     bool fbTypingMode{false};
     int fiSelectedIndex{0};
