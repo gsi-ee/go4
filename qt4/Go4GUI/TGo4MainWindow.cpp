@@ -485,7 +485,7 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Palette settings ...", this, &TGo4MainWindow::PaletteSettingsSlot);
 
 
-   settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
+   settMenu->addAction("&Log actions...", this, &TGo4MainWindow::LogSettingsSlot);
    QMenu* termMenu = settMenu->addMenu("&Terminal");
    connect(QGo4Widget::CreateChkAction(termMenu, "Print timestamps", go4sett->getTermShowTimestamp()), &QAction::toggled, this, &TGo4MainWindow::ChangeTerminalTimeStampSlot);
    termMenu->addAction("&Timestamp Format...", this, &TGo4MainWindow::ChangeTerminalTimeStampFormatSlot);
@@ -596,25 +596,25 @@ void TGo4MainWindow::AddToolsMenu()
    QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
    toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View panel",
-                this, SLOT(MakeNewPanel()), CtrlKey(Key_V) );
+                this, &TGo4MainWindow::MakeNewPanel)->setShortcut(CtrlKey(Key_V) );
    toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit panel...",
-                this, SLOT(StartFitPanel()), CtrlKey(Key_F) );
+                this, &TGo4MainWindow::StartFitPanel)->setShortcut(CtrlKey(Key_F) );
    toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
-               this, SLOT(StartHistogramInfo()));
+               this, &TGo4MainWindow::StartHistogramInfo);
    toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&istogram...",
-               this, SLOT(CreateNewHistSlot()), CtrlKey(Key_I) );
+               [this]() { CreateNewHist(); })->setShortcut(CtrlKey(Key_I) );
    toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
-               this, SLOT(StartConditionInfo()));
+               this, &TGo4MainWindow::StartConditionInfo);
    toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &condition...",
-               this, SLOT(CreateNewConditionSlot()));
+               [this]() { CreateNewCondition(); });
    toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event printout...",
-               this, SLOT(StartEventInfo()));
+               this, &TGo4MainWindow::StartEventInfo);
    toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &dyn. list entry ...",
-               this, SLOT(CreateNewDynEntrySlot()), CtrlKey(Key_D) );
+               [this]() { CreateNewDynEntry(); })->setShortcut(CtrlKey(Key_D) );
    toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load li&braries ...",
-               this, SLOT(LoadLibrarySlot()), CtrlKey(Key_B) );
+               this, &TGo4MainWindow::LoadLibrarySlot)->setShortcut(CtrlKey(Key_B) );
    toolMenu->addAction(QIcon(":/icons/user.png" ), "&User GUI ...",
-               this, SLOT(UserPanelSlot()), CtrlKey(Key_U) );
+               this, &TGo4MainWindow::UserPanelSlot)->setShortcut(CtrlKey(Key_U));
 }
 
 void TGo4MainWindow::AddToolsBar()
@@ -623,34 +623,34 @@ void TGo4MainWindow::AddToolsBar()
    ToolBar->setObjectName("Go4ToolsBar");
 
    ToolBar->addAction( QIcon( ":/icons/chart.png" ), "Create a new view panel",
-                       this, SLOT(MakeNewPanel()));
+                       this, &TGo4MainWindow::MakeNewPanel);
 
    ToolBar->addAction( QIcon( ":/icons/fitpanel.png" ), "Show/hide the Go4 Fit Panel",
-                    this, SLOT(StartFitPanel()));
+                    this, &TGo4MainWindow::StartFitPanel);
 
    ToolBar->addAction( QIcon( ":/icons/hislist.png" ), "Show histogram properties window",
-                    this, SLOT(StartHistogramInfo()));
+                    this, &TGo4MainWindow::StartHistogramInfo);
 
    ToolBar->addAction( QIcon( ":/icons/hiscre.png" ), "Create new ROOT Histogram",
-                    this, SLOT(CreateNewHistSlot()));
+                    this, &TGo4MainWindow::CreateNewHist);
 
    ToolBar->addAction( QIcon( ":/icons/condlist.png" ), "Show condition properties window",
-                    this, SLOT(StartConditionInfo()));
+                    this, &TGo4MainWindow::StartConditionInfo);
 
    ToolBar->addAction( QIcon( ":/icons/condcre.png" ), "Create new condition in analysis",
-                    this, SLOT(CreateNewConditionSlot()));
+                       [this]() { CreateNewCondition(); });
 
    ToolBar->addAction( QIcon( ":/icons/zoom.png" ), "Event printout and examination window",
-                    this, SLOT(StartEventInfo()));
+                    this, &TGo4MainWindow::StartEventInfo);
 
    ToolBar->addAction( QIcon( ":/icons/dynlist.png" ), "Create new Dynamic list entry",
-                    this, SLOT(CreateNewDynEntrySlot()));
+                      [this]() { CreateNewDynEntry(); });
 
    ToolBar->addAction( QIcon( ":/icons/dllicon.png" ), "Load Libraries",
-                    this, SLOT(LoadLibrarySlot() ));
+                    this, &TGo4MainWindow::LoadLibrarySlot);
 
    ToolBar->addAction( QIcon( ":/icons/user.png" ), "Start user panel",
-                    this, SLOT(UserPanelSlot()));
+                    this, &TGo4MainWindow::UserPanelSlot);
 }
 
 void TGo4MainWindow::AddAnalysisMenu()
@@ -658,43 +658,40 @@ void TGo4MainWindow::AddAnalysisMenu()
    QMenu* anMenu = menuBar()->addMenu("&Analysis");
 
    faLaunchAnal =
-      anMenu->addAction(QIcon(":/icons/launchanal.png" ), "Lau&nch analysis...",
-           this, SLOT(LaunchClientSlot()), CtrlKey(Key_N));
+      anMenu->addAction(QIcon(":/icons/launchanal.png"), "Lau&nch analysis...", [this]() { LaunchClient(); });
+   faLaunchAnal->setShortcut(CtrlKey(Key_N));
    faConnectAnal =
-      anMenu->addAction(QIcon(":/icons/connect.png"), "&Connect to running server...",
-             this, SLOT(ConnectServerSlot()), CtrlKey(Key_C));
+      anMenu->addAction(QIcon(":/icons/connect.png"), "&Connect to running server...", [this]() { ConnectServer(); });
+   faConnectAnal->setShortcut(CtrlKey(Key_C));
 
-   faPrepareAnal =
-      anMenu->addAction(QIcon(":/icons/connect.png" ), "&Prepare for client connection...",
-             this, SLOT(PrepareForClientConnectionSlot()));
+   faPrepareAnal = anMenu->addAction(QIcon(":/icons/connect.png"), "&Prepare for client connection...",
+                                     [this]() { PrepareForClientConnection(); });
 
-   faDisconnectAnal =
-      anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",
-             this, SLOT(DisconnectAnalysisSlot()), CtrlKey(Key_M));
+   faDisconnectAnal = anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",
+                                        [this]() { DisconnectAnalysis(); });
+   faDisconnectAnal->setShortcut(CtrlKey(Key_M));
 
-   faShutdownAnal =
-      anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis",
-             this, SLOT(ShutdownAnalysisSlot()), CtrlKey(Key_M));
+   faShutdownAnal = anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis",
+                                     [this]() { ShutdownAnalysis(); });
+   faShutdownAnal->setShortcut(CtrlKey(Key_M));
 
    faSumbStartAnal =
-      anMenu->addAction(QIcon(":/icons/restart.png"), "Submit+S&tart",
-             this, SLOT(SubmitStartAnalysisSlot()), CtrlKey(Key_T));
+      anMenu->addAction(QIcon(":/icons/restart.png"), "Submit+S&tart", this, &TGo4MainWindow::SubmitStartAnalysisSlot);
+   faSumbStartAnal->setShortcut(CtrlKey(Key_T));
 
-   faStartAnal =
-      anMenu->addAction(QIcon(":/icons/start.png"), "&Start",
-             this, SLOT(StartAnalysisSlot()), CtrlKey(Key_S));
+   faStartAnal = anMenu->addAction(QIcon(":/icons/start.png"), "&Start", this, &TGo4MainWindow::StartAnalysisSlot);
+   faStartAnal->setShortcut(CtrlKey(Key_S));
 
-   faStopAnal =
-      anMenu->addAction(QIcon(":/icons/Stop.png"), "Stop (&Halt)",
-             this, SLOT(StopAnalysisSlot()), CtrlKey(Key_H));
+   faStopAnal = anMenu->addAction(QIcon(":/icons/Stop.png"), "Stop (&Halt)", this, &TGo4MainWindow::StopAnalysisSlot);
+   faStopAnal->setShortcut(CtrlKey(Key_H));
 
-   faAnalConfig =
-      anMenu->addAction(QIcon(":/icons/control.png"), "Confi&guration...",
-               this, SLOT(ToggleAnalysisConfiguration()), CtrlKey(Key_G));
+   faAnalConfig = anMenu->addAction(QIcon(":/icons/control.png"), "Confi&guration...", this,
+                                    &TGo4MainWindow::ToggleAnalysisConfiguration);
+   faAnalConfig->setShortcut(CtrlKey(Key_G));
 
-   faAnalTermin =
-      anMenu->addAction(QIcon(":/icons/analysiswin.png"), "Analysis &Window",
-               this, SLOT(ToggleAnalysisWindow()), CtrlKey(Key_W));
+   faAnalTermin = anMenu->addAction(QIcon(":/icons/analysiswin.png"), "Analysis &Window", this,
+                                    &TGo4MainWindow::ToggleAnalysisWindow);
+   faAnalTermin->setShortcut(CtrlKey(Key_W));
 }
 
 void TGo4MainWindow::AddAnalysisBar()
@@ -723,8 +720,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
     bool on = ! fxMdiArea->subWindowList().isEmpty();
 
-    //windowsMenu->addAction("Ca&scade", this, SLOT(CascadeSubWindows()))->setEnabled(on);
-    windowsMenu->addAction("Ca&scade", fxMdiArea, SLOT(cascadeSubWindows()))->setEnabled(on);
+    windowsMenu->addAction("Ca&scade", fxMdiArea, &TGo4MdiArea::cascadeSubWindows)->setEnabled(on);
     windowsMenu->addAction("&Tile", fxMdiArea, SLOT(tileSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Close all", fxMdiArea, SLOT(closeAllSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
@@ -1691,7 +1687,7 @@ void TGo4MainWindow::ScaleFactorSlot()
       go4sett->setScreenScaleFactor(w);
 }
 
-void TGo4MainWindow::LaunchClientSlot(bool interactive)
+void TGo4MainWindow::LaunchClient(bool interactive)
 {
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal) {
@@ -1795,11 +1791,11 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
    if ((isserver == 1) && interactive) {
       fbGetAnalysisConfig = true; // pass to timer that we want to have analysis config window when ready JAM
-      ConnectServerSlot(true, "");
+      ConnectServer(true, "");
    }
 }
 
-void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
+void TGo4MainWindow::PrepareForClientConnection(bool interactive)
 {
    TGo4AnalysisProxy* ana = AddAnalysisProxy(false, false);
    if (ana && interactive)
@@ -2017,9 +2013,9 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
 }
 
 
-void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
+void TGo4MainWindow::ConnectServer(bool interactive, const char* password)
 {
-   if (fConnectingCounter>0) return;
+   if (fConnectingCounter > 0) return;
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal) {
       if (anal->IsConnected() || !anal->IsAnalysisServer()) {
@@ -2119,7 +2115,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
    QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
 }
 
-void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
+void TGo4MainWindow::DisconnectAnalysis(bool interactive)
 {
    TGo4ServerProxy* serv = Browser()->FindServer();
    if (!serv) return;
@@ -2166,7 +2162,7 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
    StatusMessage("Disconnect analysis");
 }
 
-void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
+void TGo4MainWindow::ShutdownAnalysis(bool interactive)
 {
    if (interactive) {
       QMessageBox msgBox(QMessageBox::Question, "Shutdown analysis", "Really shutdown analysis task?");
@@ -2569,7 +2565,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
    return scl;
 }
 
-void TGo4MainWindow::CreateNewHistSlot(int isremote)
+void TGo4MainWindow::CreateNewHist(int isremote)
 {
    TGo4CreateNewHistogram dlg(this);
    TGo4ServerProxy* an = Browser()->FindServer();
@@ -2601,7 +2597,7 @@ void TGo4MainWindow::CreateNewHistSlot(int isremote)
    if (h1) delete h1;
 }
 
-void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
+void TGo4MainWindow::CreateNewCondition(bool forothereditor)
 {
    TGo4ServerProxy* an = Browser()->FindServer();
    if (!an || !an->IsAnalysisSettingsReady()) {
@@ -2625,7 +2621,7 @@ void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
       else an->RefreshNamesList();
 }
 
-void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
+void TGo4MainWindow::CreateNewDynEntry(bool forothereditor)
 {
    TGo4ServerProxy* an = Browser()->FindServer();
    if (!an || !an->IsAnalysisSettingsReady()) {
@@ -3010,11 +3006,11 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          int id = str ? QString(str).toInt() : 0;
          if (cl) {
            if (cl->InheritsFrom(TH1::Class()))
-              CreateNewHistSlot(id);
+              CreateNewHist(id);
            else if (cl->InheritsFrom(TGo4Condition::Class()) && (id != 0))
-              CreateNewConditionSlot(id==1);
+              CreateNewCondition(id==1);
            else if (cl->InheritsFrom(TGo4DynamicEntry::Class()) && (id != 0))
-              CreateNewDynEntrySlot(id==1);
+              CreateNewDynEntry(id==1);
          }
          break;
       }

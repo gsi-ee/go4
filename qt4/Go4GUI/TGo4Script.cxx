@@ -193,13 +193,13 @@ Int_t TGo4Script::execGUICommands()
 
          if(anal && anal->IsAnalysisReady()) {
              doOutput("// Disconnect old analysis first");
-             fMainWin->DisconnectAnalysisSlot(false);
+             fMainWin->DisconnectAnalysis(false);
              fiWaitForGUIReaction = 3;
              fiWaitCounter = getCounts(10.);
              return 2;
          }
 
-         fMainWin->LaunchClientSlot(false);
+         fMainWin->LaunchClient(false);
 
          doOutput("// Start analysis client");
 
@@ -262,7 +262,7 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 15: { // connect to running server
-         fMainWin->ConnectServerSlot(false, fStrBuf.Data());
+         fMainWin->ConnectServer(false, fStrBuf.Data());
 
          // wait 5 sec for analysis ready,
          fiWaitForGUIReaction = 2;
@@ -367,7 +367,7 @@ void TGo4Script::WaitAnalysis(Int_t delay_sec)
 
 void TGo4Script::DisconnectAnalysis()
 {
-    fMainWin->DisconnectAnalysisSlot(false);
+    fMainWin->DisconnectAnalysis(false);
 
     fiWaitForGUIReaction = 12;
     fiWaitCounter = getCounts(20.);
@@ -377,7 +377,7 @@ void TGo4Script::DisconnectAnalysis()
 
 void TGo4Script::ShutdownAnalysis()
 {
-   fMainWin->ShutdownAnalysisSlot(false);
+   fMainWin->ShutdownAnalysis(false);
 
    fiWaitForGUIReaction = 12;
    fiWaitCounter = getCounts(20.);
