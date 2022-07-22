@@ -200,8 +200,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    Wiz_DataSlotsTable->setItemPrototype(item);
    Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 
-   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-            this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4FitPanel::panelSlot);
 
    MenuBar = new QMenuBar(MenuFrame);
    MenuBar->setMinimumWidth(100);
@@ -211,17 +210,17 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    FitterMap = new QSignalMapper(this);
    connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
    FitterMenu = MenuBar->addMenu("&Fitter");
-   connect(FitterMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowFitterMenu()) );
+   QObject::connect(FitterMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowFitterMenu);
 
    ViewMap = new QSignalMapper(this);
    connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
    ViewMenu = MenuBar->addMenu("&Tools");
-   connect(ViewMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowViewMenu()) );
+   QObject::connect(ViewMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowViewMenu);
 
    SettMap = new QSignalMapper(this);
    connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
    SettMenu = MenuBar->addMenu("&Settings");
-   connect(SettMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowSettMenu()) );
+   QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
 
    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
