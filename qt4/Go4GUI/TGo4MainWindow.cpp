@@ -144,7 +144,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fbGetAnalysisConfig = true;
 
    fbPanelTimerActive = false;
-   winMapper = 0;
 
    fbFullScreen = false;
 
@@ -721,27 +720,27 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     bool on = ! fxMdiArea->subWindowList().isEmpty();
 
     windowsMenu->addAction("Ca&scade", fxMdiArea, &TGo4MdiArea::cascadeSubWindows)->setEnabled(on);
-    windowsMenu->addAction("&Tile", fxMdiArea, SLOT(tileSubWindows()))->setEnabled(on);
-    windowsMenu->addAction("&Close all", fxMdiArea, SLOT(closeAllSubWindows()))->setEnabled(on);
-    windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
+    windowsMenu->addAction("&Tile", fxMdiArea, &TGo4MdiArea::tileSubWindows)->setEnabled(on);
+    windowsMenu->addAction("&Close all", fxMdiArea, &TGo4MdiArea::closeAllSubWindows)->setEnabled(on);
+    windowsMenu->addAction("&Minimize all", this, &TGo4MainWindow::MinAllWindows)->setEnabled(on);
 
-    windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, SLOT(ToggleFullScreenSlot()), Key_F11);
+    windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, &TGo4MainWindow::ToggleFullScreenSlot)->setShortcut(Key_F11);
 
     windowsMenu->addSeparator();
 
-    QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
+    auto loginfo = (TGo4LogInfo *) FindGo4Widget("LogInfo", false);
     if (loginfo) {
-       windowsMenu->addAction("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()));
-       windowsMenu->addAction("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()));
+       windowsMenu->addAction("Save L&ogwindow", loginfo, &TGo4LogInfo::SaveLogInfo);
+       windowsMenu->addAction("Clear &Logwindow", loginfo, &TGo4LogInfo::ClearLogInfo);
     } else {
        windowsMenu->addAction("Save L&ogwindow")->setEnabled(false);
        windowsMenu->addAction("Clear &Logwindow")->setEnabled(false);
     }
 
-    QGo4Widget* anw = FindGo4Widget("AnalysisWindow", false);
+    auto anw = FindAnalysisWindow();
     if (anw) {
-       windowsMenu->addAction("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()));
-       windowsMenu->addAction("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()));
+       windowsMenu->addAction("Save &Analysis window", anw, &TGo4AnalysisWindow::SaveAnalysisOutput);
+       windowsMenu->addAction("Clear Analysis &window", anw, &TGo4AnalysisWindow::ClearAnalysisOutput);
     } else {
        windowsMenu->addAction("Save &Analysis window")->setEnabled(false);
        windowsMenu->addAction("Clear Analysis &window")->setEnabled(false);
@@ -749,20 +748,15 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
     windowsMenu->addSeparator();
 
-    delete winMapper;
-    winMapper = new QSignalMapper(this);
-    connect(winMapper, &QSignalMapper::mappedInt, this, &TGo4MainWindow::windowsMenuActivated);
-
     QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
     for (int i=0; i< windows.count(); i++ ) {
-       QAction* act = new QAction(windows.at(i)->widget()->windowTitle(), winMapper);
+       QAction* act = new QAction(windows.at(i)->widget()->windowTitle(), this);
        act->setCheckable(true);
        act->setChecked(fxMdiArea->activeSubWindow() == windows.at(i));
 
        windowsMenu->addAction(act);
 
-       connect(act, SIGNAL(triggered()), winMapper, SLOT(map()) );
-       winMapper->setMapping(act, i);
+       connect(act, &QAction::triggered, [this, i]() { WindowActivated(i); });
     }
 }
 
@@ -792,7 +786,7 @@ void TGo4MainWindow::ToggleFullScreenSlot()
    fbFullScreen = !fbFullScreen;
 }
 
-void TGo4MainWindow::windowsMenuActivated( int id )
+void TGo4MainWindow::WindowActivated(int id)
 {
    QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
    if ((id>=0) && (id<windows.count())) {
@@ -2483,7 +2477,7 @@ void TGo4MainWindow::ToggleAnalysisConfiguration()
 
 TGo4AnalysisWindow* TGo4MainWindow::FindAnalysisWindow()
 {
-   return (TGo4AnalysisWindow*) FindGo4Widget("AnalysisWindow", false);
+   return (TGo4AnalysisWindow *) FindGo4Widget("AnalysisWindow", false);
 }
 
 void TGo4MainWindow::ToggleAnalysisWindow()

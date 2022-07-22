@@ -89,7 +89,6 @@ class TGo4MainWindow : public QMainWindow {
       TGo4EventInfo* StartEventInfo();
       TGo4ConditionEditor* StartConditionEditor();
 
-
       void CreateNewHist(int isremote = -1);
       void CreateNewCondition(bool forothereditor = false);
       void CreateNewDynEntry(bool forothereditor = false);
@@ -127,7 +126,6 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeFontSlot();
       void ChangeTerminalFontSlot();
       void SetStyleSlot(const QString&);
-      void windowsMenuActivated( int id );
       void ForseCloseSlot();
 
       void ChangeFetchWhenDrawSlot(bool);
@@ -204,6 +202,8 @@ class TGo4MainWindow : public QMainWindow {
 
       void CascadeMdiPosition(QWidget *sub);
 
+      void WindowActivated(int id);
+
       void UpdateCaptionButtons();
 
       bool startUserGUI(const char *);
@@ -232,7 +232,6 @@ class TGo4MainWindow : public QMainWindow {
       QApplication*      fApp{nullptr};
 
       QMenu*             windowsMenu{nullptr};
-      QSignalMapper*     winMapper{nullptr};
       TGo4MdiArea*       fxMdiArea{nullptr};
       TGo4Style*         fxStyle{nullptr};
       TGo4ObjectManager* fxOM{nullptr};
