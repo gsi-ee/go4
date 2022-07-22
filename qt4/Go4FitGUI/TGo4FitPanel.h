@@ -144,8 +144,8 @@ public:
     virtual void RemovePrimitives();
     virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name);
     virtual void CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter);
-    virtual bool FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map);
-    virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMapper* map);
+    virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
+    virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
     virtual QFitItem* GetFitterItem();
     virtual QFitItem* FindItem(TObject* obj, int ObjectType, QFitItem* parent);
@@ -157,8 +157,8 @@ public:
     virtual void SetItemText(QFitItem* item, bool trace);
     virtual void UpdateItemsOfType(int typ, QFitItem* parent = nullptr);
     virtual void FitItemDeleted(QFitItem* item);
-    virtual void FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend);
-    virtual void FillDataTypesList(QMenu* menu, QSignalMapper* map, int id);
+    virtual void FillModelTypesList(QMenu* menu, int id, bool extend, const QString &handler = "");
+    virtual void FillDataTypesList(QMenu* menu, int id, const QString &handler = "");
     virtual void FillParsList(QFitItem* item);
     virtual void FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject* owner);
     virtual void FillDependencyList(QFitItem* parent);
@@ -169,8 +169,8 @@ public:
     virtual TGo4FitPeakFinder* GetPeakFinder(bool autocreate);
     virtual TGo4FitData* Wiz_SelectedData();
     virtual TGo4FitModel* Wiz_SelectedModel();
-    virtual TGo4FitModel* Wiz_CreateNewModel(int id);
-    virtual TGo4FitData* Wiz_CreateNewData(int id);
+    virtual void Wiz_CreateNewModel(int id);
+    virtual void Wiz_CreateNewData(int id);
     virtual void Wiz_RebuildDataList();
     virtual bool Wiz_RemoveData();
     virtual void Wiz_UseSelectedRange();
@@ -294,7 +294,6 @@ protected:
     QMenu* SettMenu{nullptr};
     QSignalMapper* SettMap{nullptr};
     QMenu* ItemMenu{nullptr};
-    QSignalMapper* ItemMap{nullptr};
 
     bool fbFillingWidget{false};
     int fiPaintMode{0};
@@ -332,7 +331,7 @@ protected:
     void focusInEvent(QFocusEvent * event) override;
     void changeEvent(QEvent *event) override;
     bool checkConfirm(const QString &title, const QString &msg);
-    void AddItemAction(QMenu* menu, const QString &name, int id);
+    void AddItemAction(QMenu* menu, const QString &name, int id, const QString &handler = "");
 };
 
 #endif

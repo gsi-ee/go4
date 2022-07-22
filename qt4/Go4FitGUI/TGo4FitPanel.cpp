@@ -102,11 +102,11 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
 
    QObject::connect(FitList, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(FitList_customContextMenuRequested(const QPoint &)));
    QObject::connect(FitList, SIGNAL(currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
-   QObject::connect(Wiz_AddDataBtn, SIGNAL(clicked()), this, SLOT(Wiz_AddDataBtn_clicked()));
-   QObject::connect(Wiz_DelDataBtn, SIGNAL(clicked()), this, SLOT(Wiz_DelDataBtn_clicked()));
-   QObject::connect(Wiz_AddModelBtn, SIGNAL(clicked()), this, SLOT(Wiz_AddModelBtn_clicked()));
-   QObject::connect(Wiz_DelModelBtn, SIGNAL(clicked()), this, SLOT(Wiz_DelModelBtn_clicked()));
-   QObject::connect(Wiz_CloneModelBtn, SIGNAL(clicked()), this, SLOT(Wiz_CloneModelBtn_clicked()));
+   QObject::connect(Wiz_AddDataBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_AddDataBtn_clicked);
+   QObject::connect(Wiz_DelDataBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_DelDataBtn_clicked);
+   QObject::connect(Wiz_AddModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_AddModelBtn_clicked);
+   QObject::connect(Wiz_DelModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_DelModelBtn_clicked);
+   QObject::connect(Wiz_CloneModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_CloneModelBtn_clicked);
    QObject::connect(Wiz_ShowAllMod, SIGNAL(toggled(bool)), this, SLOT(Wiz_ShowAllMod_toggled(bool)));
    QObject::connect(Wiz_FitFuncCmb, SIGNAL(activated(int)), this, SLOT(Wiz_FitFuncCmb_activated(int)));
    QObject::connect(Wiz_FitNameEdt, SIGNAL(textChanged(QString)), this, SLOT(Wiz_FitNameEdt_textChanged(QString)));
@@ -254,8 +254,6 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    AddIdAction(SettMenu, SettMap, "&Individual settings", 24);
 
    ItemMenu = nullptr;
-   ItemMap = new QSignalMapper(this);
-   connect(ItemMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ItemMenuItemSelected);
    CurrFitItem = nullptr;
 
    Wiz_DataSlotsTable->horizontalHeader()->setStretchLastSection(true);
@@ -1747,12 +1745,9 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
    QFitItem* fititem = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
    if (!fititem) return;
 
-   QSignalMapper map;
-   connect(&map, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ItemMenuItemSelected);
-
    QMenu menu;
 
-   if (FillPopupForItem(fititem, &menu, &map)) {
+   if (FillPopupForItem(fititem, &menu)) {
       CurrFitItem = fititem;
       menu.exec(FitList->viewport()->mapToGlobal(pnt));
       CurrFitItem = nullptr;
@@ -1870,7 +1865,7 @@ void TGo4FitPanel::UpdateItemMenu()
   if (showitem) {
     if (!ItemMenu) {
        ItemMenu = MenuBar->addMenu(itemtext);
-       connect(ItemMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowItemMenu()));
+       connect(ItemMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowItemMenu);
     } else
        ItemMenu->setTitle(itemtext);
     MenuBar->adjustSize();
@@ -1996,7 +1991,7 @@ void TGo4FitPanel::AboutToShowItemMenu()
   QFitItem* item = dynamic_cast<QFitItem*> (FitList->currentItem());
   if (!ItemMenu || !item) return;
   ItemMenu->clear();
-  FillPopupForItem(item, ItemMenu, ItemMap);
+  FillPopupForItem(item, ItemMenu);
 }
 
 void TGo4FitPanel::ItemMenuItemSelected(int id)
@@ -2570,28 +2565,11 @@ void TGo4FitPanel::Wiz_AddDataBtn_clicked()
 {
    if (fbFillingWidget) return;
 
-   QSignalMapper map;
    QMenu menu;
 
-   FillDataTypesList(&menu, &map, 0);
+   FillDataTypesList(&menu, 0, "wiz_data");
 
-   QAction* act =  menu.exec(Wiz_AddDataBtn->mapToGlobal(QPoint(5,5)));
-   if (!act) return;
-
-   int id = 0;
-   for(id=0;id<100;id++)
-     if (act == (QAction*) map.mapping(id)) break;
-
-   TGo4FitData* data = Wiz_CreateNewData(id);
-   if (data) {
-     fxWizDataName = data->GetName();
-     fiWizPageIndex = 2;
-     UpdateWizDataList();
-     UpdateWizModelsList(false);
-     UpdateWizStackWidget();
-     UpdateWizPaint(1);
-     UpdateStatusBar();
-   }
+   menu.exec(Wiz_AddDataBtn->mapToGlobal(QPoint(5,5)));
 }
 
 
@@ -2613,22 +2591,11 @@ void TGo4FitPanel::Wiz_AddModelBtn_clicked()
 {
    if (fbFillingWidget) return;
 
-   QSignalMapper map;
    QMenu menu;
 
-   FillModelTypesList(&menu, &map, 0, true);
+   FillModelTypesList(&menu, 0, true, "wiz_model");
 
-   QAction* act =  menu.exec(Wiz_AddModelBtn->mapToGlobal(QPoint(5,5)));
-
-   int id = 0;
-   for(id=0;id<100;id++)
-     if (act == (QAction*) map.mapping(id)) break;
-
-   TGo4FitModel* model = Wiz_CreateNewModel(id);
-   if (model) fxWizModelName = model->GetName();
-   UpdateWizModelsList(true);
-   if(Wiz_SelectedModel()) UpdateWizPaint(2);
-   UpdateStatusBar();
+   menu.exec(Wiz_AddModelBtn->mapToGlobal(QPoint(5,5)));
 }
 
 void TGo4FitPanel::Wiz_DelModelBtn_clicked()
@@ -2820,16 +2787,10 @@ void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested(const QPoint& pnt )
   TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(nrow));
   if (!slot) return;
 
-  QSignalMapper map;
   QMenu menu;
 
-  if (FillPopupForSlot(slot, &menu, &map)) {
-     QAction* act = menu.exec(Wiz_DataSlotsTable->mapToGlobal(pnt));
-     if (!act) return;
-     for (int id=0; id<10000; id++)
-       if (act == (QAction*) map.mapping(id))
-          ExecutePopupForSlot(0, slot, id);
-  }
+  if (FillPopupForSlot(slot, &menu))
+     menu.exec(Wiz_DataSlotsTable->mapToGlobal(pnt));
 }
 
 void TGo4FitPanel::Wiz_DataUseRangeBtn_clicked()
@@ -3507,12 +3468,17 @@ void TGo4FitPanel::RemovePrimitives()
    }
 }
 
-void TGo4FitPanel::AddItemAction(QMenu* menu, const QString &name, int id)
+void TGo4FitPanel::AddItemAction(QMenu* menu, const QString &name, int id, const QString &handler)
 {
-   menu->addAction(name, [this, id]() { ItemMenuItemSelected(id); });
+   if (handler.isEmpty())
+      menu->addAction(name, [this, id]() { ItemMenuItemSelected(id); });
+   else if (handler == "wiz_model")
+      menu->addAction(name, [this, id]() { Wiz_CreateNewModel(id); });
+   else if (handler == "wiz_data")
+      menu->addAction(name, [this, id]() { Wiz_CreateNewData(id); });
 }
 
-bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map)
+bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu)
 {
   if(!item || !menu) return false;
 
@@ -3546,7 +3512,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
        AddItemAction(menu, "Rebuild data list", 108);
     } else {
        AddItemAction(menu, "Delete all data", 107);
-       FillDataTypesList(menu, map, 110);
+       FillDataTypesList(menu, 110);
     }
   }
 
@@ -3557,8 +3523,8 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   }
 
   if(item->PopupMenuType() == FitGui::mt_modellist) {
-   AddItemAction(menu, "Delete all models", 202);
-    FillModelTypesList(menu, map, 210, true);
+     AddItemAction(menu, "Delete all models", 202);
+     FillModelTypesList(menu, 210, true);
   }
 
   if(item->PopupMenuType() == FitGui::mt_asslist) {
@@ -3658,7 +3624,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
 
   if(item->PopupMenuType() == FitGui::mt_slot) {
      TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (item->Object());
-     if (slot) FillPopupForSlot(slot, menu, map);
+     if (slot) FillPopupForSlot(slot, menu);
   }
 
   if(item->PopupMenuType() == FitGui::mt_allslots) {
@@ -3670,7 +3636,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   return ! menu->isEmpty();
 }
 
-bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMapper* map)
+bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu)
 {
    if (!slot || !menu) return false;
 
@@ -3696,18 +3662,19 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
             AddItemAction(menu, QString("Connect to ") + sl->GetFullName(), 1400 + n);
      }
 
-   if (!menu->isEmpty()) menu->addSeparator();
+   if (!menu->isEmpty())
+      menu->addSeparator();
 
    if (slot->GetClass() == TGo4FitData::Class())
-       FillDataTypesList(menu, map, 1100);
+      FillDataTypesList(menu, 1100);
    else if (slot->GetClass() == TGo4FitModel::Class())
-      FillModelTypesList(menu, map, 1200, false);
+      FillModelTypesList(menu, 1200, false);
    else if (slot->GetClass() == TGo4FitAxisTrans::Class()) {
-     AddItemAction(menu, TGo4FitLinearTrans::Class()->GetName(), 1300);
-     AddItemAction(menu, TGo4FitMatrixTrans::Class()->GetName(), 1301);
+      AddItemAction(menu, TGo4FitLinearTrans::Class()->GetName(), 1300);
+      AddItemAction(menu, TGo4FitMatrixTrans::Class()->GetName(), 1301);
    }
 
-   return ! menu->isEmpty();
+   return !menu->isEmpty();
 }
 
 void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id)
@@ -4282,37 +4249,37 @@ void TGo4FitPanel::FillDependencyList(QFitItem* parent)
        new QFitItem(this, parent, lst->At(n), FitGui::ot_depend, FitGui::wt_depend, FitGui::mt_depend, FitGui::gt_none, n);
 }
 
-void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend)
+void TGo4FitPanel::FillModelTypesList(QMenu* menu, int id, bool extend, const QString &handler)
 {
   if (!menu->isEmpty())
      menu->addSeparator();
   if (extend) {
-     AddItemAction(menu, "Add gaussian", id+20);
-     AddItemAction(menu, "Add lorenzian", id+24);
-     AddItemAction(menu, "Add exponent", id+25);
-     AddItemAction(menu, "Add 1-order polynom", id+21);
-     AddItemAction(menu, "Add 3-order polynom", id+22);
-     AddItemAction(menu, "Add 7-order polynom", id+23);
+     AddItemAction(menu, "Add gaussian", id+20, handler);
+     AddItemAction(menu, "Add lorenzian", id+24, handler);
+     AddItemAction(menu, "Add exponent", id+25, handler);
+     AddItemAction(menu, "Add 1-order polynom", id+21, handler);
+     AddItemAction(menu, "Add 3-order polynom", id+22, handler);
+     AddItemAction(menu, "Add 7-order polynom", id+23, handler);
      menu->addSeparator();
   }
 
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelPolynom::Class()->GetName(), id+0);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelGauss1::Class()->GetName(),  id+1);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelGauss2::Class()->GetName(),  id+2);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelGaussN::Class()->GetName(),  id+3);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelFormula::Class()->GetName(), id+4);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelFunction::Class()->GetName(),id+5);
-  AddItemAction(menu, QString("Make  ") + TGo4FitModelFromData::Class()->GetName(),id+6);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelPolynom::Class()->GetName(), id+0, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelGauss1::Class()->GetName(),  id+1, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelGauss2::Class()->GetName(),  id+2, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelGaussN::Class()->GetName(),  id+3, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelFormula::Class()->GetName(), id+4, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelFunction::Class()->GetName(),id+5, handler);
+  AddItemAction(menu, QString("Make ") + TGo4FitModelFromData::Class()->GetName(),id+6, handler);
 }
 
-void TGo4FitPanel::FillDataTypesList(QMenu* menu, QSignalMapper* map, int id)
+void TGo4FitPanel::FillDataTypesList(QMenu* menu, int id, const QString &handler)
 {
-  if (!menu->isEmpty())
-     menu->addSeparator();
-  AddItemAction(menu, QString("Make  ") + TGo4FitDataHistogram::Class()->GetName(), id+0);
-  AddItemAction(menu, QString("Make  ") + TGo4FitDataGraph::Class()->GetName(),     id+1);
-  AddItemAction(menu, QString("Make  ") + TGo4FitDataProfile::Class()->GetName(),   id+2);
-  AddItemAction(menu, QString("Make  ") + TGo4FitDataRidge::Class()->GetName(),     id+3);
+   if (!menu->isEmpty())
+      menu->addSeparator();
+   AddItemAction(menu, QString("Make ") + TGo4FitDataHistogram::Class()->GetName(), id+0, handler);
+   AddItemAction(menu, QString("Make ") + TGo4FitDataGraph::Class()->GetName(),     id+1, handler);
+   AddItemAction(menu, QString("Make ") + TGo4FitDataProfile::Class()->GetName(),   id+2, handler);
+   AddItemAction(menu, QString("Make ") + TGo4FitDataRidge::Class()->GetName(),     id+3, handler);
 }
 
 void TGo4FitPanel::PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update)
@@ -4460,33 +4427,43 @@ TGo4FitModel* TGo4FitPanel::Wiz_SelectedModel()
 }
 
 
-TGo4FitModel* TGo4FitPanel::Wiz_CreateNewModel(int id)
-{
-  TGo4Fitter* fitter = GetFitter();
-  if (!fitter) return nullptr;
-
-  TGo4FitData* data = Wiz_SelectedData();
-  TGo4FitModel* model = CreateModel(id, 0, fitter, data);
-
-  LocateModel(model, data, true);
-
-  return model;
-}
-
-TGo4FitData* TGo4FitPanel::Wiz_CreateNewData(int id)
+void TGo4FitPanel::Wiz_CreateNewModel(int id)
 {
    TGo4Fitter* fitter = GetFitter();
-   if (!fitter) return nullptr;
+   TGo4FitModel* model = nullptr;
+   if (fitter) {
+      auto data = Wiz_SelectedData();
+      model = CreateModel(id, 0, fitter, data);
+      LocateModel(model, data, true);
+   }
+
+   if (model) fxWizModelName = model->GetName();
+   UpdateWizModelsList(true);
+   if(Wiz_SelectedModel())
+      UpdateWizPaint(2);
+   UpdateStatusBar();
+}
+
+void TGo4FitPanel::Wiz_CreateNewData(int id)
+{
+   TGo4Fitter* fitter = GetFitter();
+   if (!fitter) return;
 
    TGo4FitData* data = CreateData(id, 0);
-   if (!data) return nullptr;
+   if (!data) return;
 
    fitter->AddData(data);
 
    UpdateObjectReferenceInSlots();
 
-   return data;
-}
+   fxWizDataName = data->GetName();
+   fiWizPageIndex = 2;
+   UpdateWizDataList();
+   UpdateWizModelsList(false);
+   UpdateWizStackWidget();
+   UpdateWizPaint(1);
+   UpdateStatusBar();
+ }
 
 void TGo4FitPanel::Wiz_RebuildDataList()
 {
