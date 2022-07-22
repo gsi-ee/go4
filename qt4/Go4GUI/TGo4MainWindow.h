@@ -74,6 +74,22 @@ class TGo4MainWindow : public QMainWindow {
       void DisconnectAnalysis(bool interactive = true);
       void ShutdownAnalysis(bool interactive = true);
 
+      TGo4AnalysisWindow* EstablishAnalysisWindow(bool needoutput, bool withkillbnt = false, bool force_recreate = false);
+      TGo4AnalysisWindow* FindAnalysisWindow();
+      void EstablishAnalysisWindowForHttp();
+      TGo4AnalysisConfiguration* FindAnalysisConfiguration();
+
+      // starting editors
+      TGo4ViewPanel* MakeNewPanel(int div = 0);
+      TGo4FitPanel* StartFitPanel();
+      TGo4ParaEdit* StartParaEdit(const char* itemname = nullptr);
+      TGo4HistogramInfo* StartHistogramInfo();
+      TGo4ConditionInfo* StartConditionInfo();
+      TGo4EditDynEntry* StartEditDynEntry();
+      TGo4EventInfo* StartEventInfo();
+      TGo4ConditionEditor* StartConditionEditor();
+
+
       void CreateNewHist(int isremote = -1);
       void CreateNewCondition(bool forothereditor = false);
       void CreateNewDynEntry(bool forothereditor = false);
@@ -89,7 +105,6 @@ class TGo4MainWindow : public QMainWindow {
       void aboutDABC();
       void windowsMenuAboutToShow();
       void UserPanelSlot();
-      TGo4ViewPanel* MakeNewPanel(int div = 0);
       void LoadLibrarySlot();
       void CloseAllFilesSlot();
       void OpenFileSlot();
@@ -151,7 +166,6 @@ class TGo4MainWindow : public QMainWindow {
       void ToggleAnalysisConfiguration();
       void ToggleAnalysisWindow();
       void CloseAnalysisWindow();
-      void EstablishAnalysisWindowForHttp();
 
       bool SubmitAnalysisSettings();
       void SubmitStartAnalysisSlot();
@@ -160,19 +174,6 @@ class TGo4MainWindow : public QMainWindow {
 
       // modify default high-dpi scaling
       void ScaleFactorSlot();
-
-      // starting editors slots
-      TGo4FitPanel* StartFitPanel();
-      TGo4ParaEdit* StartParaEdit(const char* itemname = nullptr);
-      TGo4HistogramInfo* StartHistogramInfo();
-      TGo4ConditionInfo* StartConditionInfo();
-      TGo4EditDynEntry* StartEditDynEntry();
-      TGo4EventInfo* StartEventInfo();
-      TGo4ConditionEditor* StartConditionEditor();
-
-      TGo4AnalysisConfiguration* FindAnalysisConfiguration();
-      TGo4AnalysisWindow* FindAnalysisWindow();
-      TGo4AnalysisWindow* EstablishAnalysisWindow(bool needoutput, bool withkillbnt = false, bool force_recreate = false);
 
       // slots connected to editors
       void editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par);
