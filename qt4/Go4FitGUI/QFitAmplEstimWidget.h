@@ -19,7 +19,7 @@
 
 class TGo4FitAmplEstimation;
 
-class QFitAmplEstimWidget : public QFitNamedWidget
+class QFitAmplEstimWidget : public QFitNamedWidget, public Ui::QFitAmplEstimWidget
 {
      Q_OBJECT
 
@@ -28,11 +28,10 @@ class QFitAmplEstimWidget : public QFitNamedWidget
 
     void FillSpecificData() override;
 
+    TGo4FitAmplEstimation * GetAmplEstim();
+
  public slots:
-    virtual TGo4FitAmplEstimation * GetAmplEstim();
-    virtual void Iterations_valueChanged( int );
-private:
-    Ui::QFitAmplEstimWidget ui;
+    virtual void Iterations_valueChanged(int);
 };
 
 #endif
