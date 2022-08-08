@@ -220,14 +220,14 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
-   connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
-   connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
+   void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
 #else
-   QObject::connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
-   QObject::connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
-   QObject::connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
+   auto signal = &QSignalMapper::mappedInt;
 #endif
+
+   QObject::connect(FitterMap, signal, this, &TGo4FitPanel::FitterMenuItemSelected);
+   QObject::connect(ViewMap, signal, this, &TGo4FitPanel::ChangeViewType);
+   QObject::connect(SettMap, signal, this, &TGo4FitPanel::ChangeSettings);
 
    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
