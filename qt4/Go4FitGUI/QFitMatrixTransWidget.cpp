@@ -19,7 +19,7 @@ QFitMatrixTransWidget::QFitMatrixTransWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(NumAxisSpin, SIGNAL(valueChanged(int)), this, SLOT(NumAxisSpin_valueChanged(int)));
+   QObject::connect(NumAxisSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitMatrixTransWidget::NumAxisSpin_valueChanged);
 }
 
 TGo4FitMatrixTrans* QFitMatrixTransWidget::GetMatrixTrans()

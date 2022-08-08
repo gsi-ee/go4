@@ -20,7 +20,7 @@ QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char* name)
   : QFitWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(AxisNumSpin, SIGNAL(valueChanged(int)), this, SLOT(AxisNumSpin_valueChanged(int)));
+   QObject::connect(AxisNumSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitRangeWidget::AxisNumSpin_valueChanged);
    QObject::connect(RangeTypCmb, SIGNAL(activated(int)), this, SLOT(RangeTypCmb_activated(int)));
    QObject::connect(LeftEdt, SIGNAL(textChanged(QString)), this, SLOT(LeftEdt_textChanged(QString)));
    QObject::connect(RightEdt, SIGNAL(textChanged(QString)), this, SLOT(RightEdt_textChanged(QString)));

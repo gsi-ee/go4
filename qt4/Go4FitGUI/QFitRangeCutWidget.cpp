@@ -21,7 +21,7 @@ QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(NumPointsSpin, SIGNAL(valueChanged(int)), this, SLOT(NumPointsSpin_valueChanged(int)));
+   QObject::connect(NumPointsSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitRangeCutWidget::NumPointsSpin_valueChanged);
    QObject::connect(ExcludeCutChk, SIGNAL(toggled(bool)), this, SLOT(ExcludeCutChk_toggled(bool)));
    QObject::connect(XYTable, SIGNAL(cellChanged(int,int)), this, SLOT(XYTable_valueChanged(int,int)));
 

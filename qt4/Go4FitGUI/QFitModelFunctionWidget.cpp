@@ -24,7 +24,7 @@ QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char* na
 
    QObject::connect(LibNameEdt, SIGNAL(textChanged(QString)), this, SLOT(LibNameEdt_textChanged(QString)));
    QObject::connect(FuncNameEdt, SIGNAL(textChanged(QString)), this, SLOT(FuncNameEdt_textChanged(QString)));
-   QObject::connect(NumParSpin, SIGNAL(valueChanged(int)), this, SLOT(NumParSpin_valueChanged(int)));
+   QObject::connect(NumParSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelFunctionWidget::NumParSpin_valueChanged);
 }
 
 TGo4FitModelFunction * QFitModelFunctionWidget::GetFunction()
