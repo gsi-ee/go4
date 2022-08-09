@@ -27,16 +27,15 @@
 TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QWidget( parent, fl ), fbMenuLock(false), fbSettingPanelData(false)
 {
-   setObjectName( name ? name : "Go4Style");
+   setObjectName(name ? name : "Go4Style");
    setupUi(this);
 
-   QObject::connect(Palette, SIGNAL(valueChanged(int)), this, SLOT(SetPalette(int)));
+   QObject::connect(Palette, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4Style::SetPalette);
    QObject::connect(PaletteComboBox, SIGNAL(activated(int)), this, SLOT(SetNamedPalette(int)));
-   QObject::connect(ContourSpin, SIGNAL(valueChanged(int)), this, SLOT(SetContourLevels(int)));
+   QObject::connect(ContourSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4Style::SetContourLevels);
    QObject::connect(PadColor, SIGNAL(clicked()), this, SLOT(SetPadColor()));
 
    QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4Style::panelSlot);
-
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default
    {
