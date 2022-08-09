@@ -25,12 +25,12 @@ TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::W
 
    QObject::connect(AutoScaleButton, SIGNAL(toggled(bool)), this, SLOT(AutoscaleChanged(bool)));
    QObject::connect(SetButton, SIGNAL(clicked()), this, SLOT(ApplyValues()));
-   QObject::connect(XminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
-   QObject::connect(XmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
-   QObject::connect(YminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
-   QObject::connect(YmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
-   QObject::connect(ZminV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
-   QObject::connect(ZmaxV, SIGNAL(returnPressed()), this, SLOT(ApplyValues()));
+   QObject::connect(XminV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
+   QObject::connect(XmaxV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
+   QObject::connect(YminV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
+   QObject::connect(YmaxV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
+   QObject::connect(ZminV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
+   QObject::connect(ZmaxV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
 
    QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4SetScaleValues::panelSlot);
 

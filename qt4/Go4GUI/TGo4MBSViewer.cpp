@@ -44,7 +44,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QObject::connect(MonitorButton, SIGNAL(clicked()), this, SLOT(TimerStart()));
    QObject::connect(StopButton, SIGNAL(clicked()), this, SLOT(TimerStop()));
    QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshButtonClick()));
-   QObject::connect(NodeEdit, SIGNAL(returnPressed()), this, SLOT(NodeEditEnter()));
+   QObject::connect(NodeEdit, &QGo4LineEdit::returnPressed, this, &TGo4MBSViewer::NodeEditEnter);
    QObject::connect(NodeEdit, &QGo4LineEdit::textChanged, this, &TGo4MBSViewer::NodeChanged);
    QObject::connect(TrendCheck, SIGNAL(toggled(bool)), this, SLOT(TrendSwitched(bool)));
    QObject::connect(FrequencyBox, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4MBSViewer::FrequencyBox_valueChanged);

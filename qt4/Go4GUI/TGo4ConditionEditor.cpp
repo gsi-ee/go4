@@ -79,7 +79,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(EllipseA2Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA2_valueChanged);
    QObject::connect(EllipseCxSpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCx_valueChanged);
    QObject::connect(EllipseCySpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCy_valueChanged);
-   QObject::connect(EllipseTiltEdit, SIGNAL(returnPressed()), this, SLOT(EllipseTheta_returnPressed()));
+   QObject::connect(EllipseTiltEdit, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::EllipseTheta_returnPressed);
    QObject::connect(EllipseNptsSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseNPoints_valueChanged);
    QObject::connect(CircleBox, SIGNAL(toggled(bool)), EllipseA2Spinbox, SLOT(setDisabled(bool)));
    QObject::connect(CircleBox, SIGNAL(toggled(bool)), EllipseTiltDial, SLOT(setDisabled(bool)));
