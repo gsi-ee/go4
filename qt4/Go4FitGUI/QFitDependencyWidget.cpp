@@ -22,8 +22,8 @@ QFitDependencyWidget::QFitDependencyWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(ParamEdit, SIGNAL(textChanged(QString)), this, SLOT(ParamEdit_textChanged(QString)));
-   QObject::connect(ExpressionEdt, SIGNAL(textChanged(QString)), this, SLOT(ExpressionEdt_textChanged(QString)));
+   QObject::connect(ParamEdit, &QGo4LineEdit::textChanged, this, &QFitDependencyWidget::ParamEdit_textChanged);
+   QObject::connect(ExpressionEdt, &QGo4LineEdit::textChanged, this, &QFitDependencyWidget::ExpressionEdt_textChanged);
 }
 
 TGo4FitDependency * QFitDependencyWidget::GetDepen()

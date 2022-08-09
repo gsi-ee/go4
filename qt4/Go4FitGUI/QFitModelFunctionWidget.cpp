@@ -22,8 +22,8 @@ QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char* na
 {
    setupUi(this);
 
-   QObject::connect(LibNameEdt, SIGNAL(textChanged(QString)), this, SLOT(LibNameEdt_textChanged(QString)));
-   QObject::connect(FuncNameEdt, SIGNAL(textChanged(QString)), this, SLOT(FuncNameEdt_textChanged(QString)));
+   QObject::connect(LibNameEdt, &QGo4LineEdit::textChanged, this, &QFitModelFunctionWidget::LibNameEdt_textChanged);
+   QObject::connect(FuncNameEdt, &QGo4LineEdit::textChanged, this, &QFitModelFunctionWidget::FuncNameEdt_textChanged);
    QObject::connect(NumParSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelFunctionWidget::NumParSpin_valueChanged);
 }
 

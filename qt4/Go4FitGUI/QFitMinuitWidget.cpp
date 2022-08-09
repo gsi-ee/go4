@@ -19,7 +19,7 @@ QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(CommandsEdit, SIGNAL(textChanged()), this, SLOT(CommandsEdit_textChanged()));
+   QObject::connect(CommandsEdit, &QTextEdit::textChanged, this, &QFitMinuitWidget::CommandsEdit_textChanged);
 }
 
 TGo4FitMinuit * QFitMinuitWidget::GetMinuit()

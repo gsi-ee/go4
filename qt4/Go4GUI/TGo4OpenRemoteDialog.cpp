@@ -20,8 +20,8 @@ TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent)
    setObjectName("Go4OpenRemoteDialog");
    setupUi(this);
    QObject::connect(TypeSelectorBox, SIGNAL(activated(QString)), this, SLOT(TypeSelectorBox_activated(QString)));
-   QObject::connect(ServerEdit, SIGNAL(textChanged(QString)), this, SLOT(ServerEdit_textChanged(QString)));
-   QObject::connect(FileNameEdit, SIGNAL(textChanged(QString)), this, SLOT(FileNameEdit_textChanged(QString)));
+   QObject::connect(ServerEdit, &QLineEdit::textChanged, this, &TGo4OpenRemoteDialog::ServerEdit_textChanged);
+   QObject::connect(FileNameEdit, &QLineEdit::textChanged, this, &TGo4OpenRemoteDialog::FileNameEdit_textChanged);
 
    QString hostname, filename, protocol;
    go4sett->getRemoteFileSett(hostname, filename, protocol);

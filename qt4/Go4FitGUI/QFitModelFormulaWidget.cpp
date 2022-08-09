@@ -20,7 +20,7 @@ QFitModelFormulaWidget::QFitModelFormulaWidget(QWidget *parent, const char* name
          : QFitModelWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(ExprEdt, SIGNAL(textChanged(QString)), this, SLOT(ExprEdt_textChanged(QString)));
+   QObject::connect(ExprEdt, &QGo4LineEdit::textChanged, this, &QFitModelFormulaWidget::ExprEdt_textChanged);
    QObject::connect(NumParSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelFormulaWidget::NumParSpin_valueChanged);
 
 }
