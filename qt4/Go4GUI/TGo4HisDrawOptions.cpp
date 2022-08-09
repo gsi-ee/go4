@@ -38,7 +38,7 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
    QObject::connect(XStyle, SIGNAL(activated(int)), this, SLOT(XaxisStyle(int)));
    QObject::connect(YStyle, SIGNAL(activated(int)), this, SLOT(YaxisStyle(int)));
    QObject::connect(ZStyle, SIGNAL(activated(int)), this, SLOT(ZaxisStyle(int)));
-   QObject::connect(AutoScaleBox, SIGNAL(toggled(bool)), this, SLOT(SetAutoScale(bool)));
+   QObject::connect(AutoScaleBox, &QCheckBox::toggled, this, &TGo4HisDrawOptions::SetAutoScale);
    QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
    QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SetFillColor()));
    QObject::connect(MarkerColor, SIGNAL(clicked()), this, SLOT(SetMarkerColor()));

@@ -23,7 +23,7 @@ QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
    QObject::connect(ParNameEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::ParNameEdit_textChanged);
-   QObject::connect(ParFixedChk, SIGNAL(toggled(bool)), this, SLOT(ParFixedChk_toggled(bool)));
+   QObject::connect(ParFixedChk, &QCheckBox::toggled, this, &QFitParCfgWidget::ParFixedChk_toggled);
    QObject::connect(RangeMinEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::RangeMinEdit_textChanged);
    QObject::connect(RangeMaxEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::RangeMaxEdit_textChanged);
    QObject::connect(EpsilonEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::EpsilonEdit_textChanged);

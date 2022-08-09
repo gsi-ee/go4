@@ -46,9 +46,9 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshButtonClick()));
    QObject::connect(NodeEdit, &QGo4LineEdit::returnPressed, this, &TGo4MBSViewer::NodeEditEnter);
    QObject::connect(NodeEdit, &QGo4LineEdit::textChanged, this, &TGo4MBSViewer::NodeChanged);
-   QObject::connect(TrendCheck, SIGNAL(toggled(bool)), this, SLOT(TrendSwitched(bool)));
+   QObject::connect(TrendCheck, &QCheckBox::toggled, this, &TGo4MBSViewer::TrendSwitched);
    QObject::connect(FrequencyBox, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4MBSViewer::FrequencyBox_valueChanged);
-   QObject::connect(MoreBox, SIGNAL(toggled(bool)), this, SLOT(MoreBox_toggled(bool)));
+   QObject::connect(MoreBox, &QCheckBox::toggled, this, &TGo4MBSViewer::MoreBox_toggled);
    QObject::connect(TrendBinsBox, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4MBSViewer::TrendBinsBox_valueChanged);
 
    RateEvents->setDigitCount(7);

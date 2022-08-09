@@ -22,7 +22,7 @@ TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
 
    QObject::connect(CloseBtn, SIGNAL(clicked()), this, SLOT(close()));
    QObject::connect(ConnectBtn, SIGNAL(clicked()), this, SLOT(accept()));
-   QObject::connect(DefaultPassCheck, SIGNAL(toggled(bool)), this, SLOT(DefaultPassCheck_toggled(bool)));
+   QObject::connect(DefaultPassCheck, &QCheckBox::toggled, this, &TGo4ConnectServer::DefaultPassCheck_toggled);
    QObject::connect(ModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectAccount_changed(int)));
    QObject::connect(ConnectionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectConnection_changed(int)));
 
