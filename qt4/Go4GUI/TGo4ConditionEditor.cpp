@@ -47,10 +47,10 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(ClearCondCount, SIGNAL(clicked()), this, SLOT(ClearCounters()));
    QObject::connect(DisplayB, SIGNAL(clicked()), this, SLOT(DisplayPressed()));
    QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
-   QObject::connect(Win1_low, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
-   QObject::connect(Win1_up, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
-   QObject::connect(Win2_low, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
-   QObject::connect(Win2_up, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
+   QObject::connect(Win1_low, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
+   QObject::connect(Win1_up, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
+   QObject::connect(Win2_low, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
+   QObject::connect(Win2_up, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
    QObject::connect(Win1_low, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
    QObject::connect(Win1_up, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
    QObject::connect(Win2_low, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
@@ -64,14 +64,6 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(ArrayAllButton, SIGNAL(clicked()), this, SLOT(ArrayAll()));
    QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintConditionLog()));
    QObject::connect(SaveCon, SIGNAL(clicked()), this, SLOT(SaveCondition()));
-   QObject::connect(Win1_low, SIGNAL(returnPressed()), Win1_up, SLOT(selectAll()));
-   QObject::connect(Win1_up, SIGNAL(returnPressed()), Win2_low, SLOT(selectAll()));
-   QObject::connect(Win2_low, SIGNAL(returnPressed()), Win2_up, SLOT(selectAll()));
-   QObject::connect(Win2_up, SIGNAL(returnPressed()), Win1_low, SLOT(selectAll()));
-   QObject::connect(Win1_low, SIGNAL(returnPressed()), Win1_up, SLOT(setFocus()));
-   QObject::connect(Win1_up, SIGNAL(returnPressed()), Win2_low, SLOT(setFocus()));
-   QObject::connect(Win2_low, SIGNAL(returnPressed()), Win2_up, SLOT(setFocus()));
-   QObject::connect(Win2_up, SIGNAL(returnPressed()), Win1_low, SLOT(setFocus()));
    QObject::connect(XMeanBox, SIGNAL(toggled(bool)), this, SLOT(SetXMeanDraw(bool)));
    QObject::connect(YMeanBox, SIGNAL(toggled(bool)), this, SLOT(SetYMeanDraw(bool)));
    QObject::connect(XRMSBox, SIGNAL(toggled(bool)), this, SLOT(SetXRMSDraw(bool)));
@@ -217,7 +209,6 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
 
    RefreshWidget(false);
    setFocus();
-
 }
 
 void TGo4ConditionEditor::ResetWidget()
@@ -581,6 +572,8 @@ void TGo4ConditionEditor::LimitsReturnPressed()
 {
    if (UpdateLimits())
       RedrawCondition();
+
+   setFocus();
 }
 
 bool TGo4ConditionEditor::UpdateLimits()

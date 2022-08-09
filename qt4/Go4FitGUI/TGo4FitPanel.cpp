@@ -154,10 +154,10 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Wiz_MinSetupBtn, SIGNAL(clicked()), this, SLOT(Wiz_MinSetupBtn_clicked()));
    QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
    QObject::connect(Wiz_BackgroundChk, SIGNAL(toggled(bool)), this, SLOT(Wiz_BackgroundChk_toggled(bool)));
-   QObject::connect(PF_MinWidthEdt, SIGNAL(returnPressed()), this, SLOT(PF_MinWidthEdt_returnPressed()));
-   QObject::connect(PF_MaxWidthEdt, SIGNAL(returnPressed()), this, SLOT(PF_MaxWidthEdt_returnPressed()));
-   QObject::connect(PF_WidthEdit, SIGNAL(returnPressed()), this, SLOT(PF_WidthEdit_returnPressed()));
-   QObject::connect(PF_MinNoiseEdit, SIGNAL(returnPressed()), this, SLOT(PF_MinNoiseEdit_returnPressed()));
+   QObject::connect(PF_MinWidthEdt, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_MinWidthEdt_returnPressed);
+   QObject::connect(PF_MaxWidthEdt, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_MaxWidthEdt_returnPressed);
+   QObject::connect(PF_WidthEdit, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_WidthEdit_returnPressed);
+   QObject::connect(PF_MinNoiseEdit, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_MinNoiseEdit_returnPressed);
 
    fbFreezeMode = false;
    fiPanelMode = FitGui::pm_Wizard;
