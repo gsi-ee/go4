@@ -41,7 +41,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 
    QObject::connect(CloseWin, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
    QObject::connect(UpdateCon, SIGNAL(clicked()), this, SLOT(UpdatePressed()));
-   QObject::connect(ArrayElements, SIGNAL(valueChanged(int)), this, SLOT(SelectedCond(int)));
+   QObject::connect(ArrayElements, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::SelectedCond);
    QObject::connect(ResultCombo, SIGNAL(activated(int)), this, SLOT(SetResultMode(int)));
    QObject::connect(InvertCombo, SIGNAL(activated(int)), this, SLOT(SetInvertMode(int)));
    QObject::connect(ClearCondCount, SIGNAL(clicked()), this, SLOT(ClearCounters()));
@@ -78,17 +78,17 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(YRMSBox, SIGNAL(toggled(bool)), this, SLOT(SetYRMSDraw(bool)));
    QObject::connect(CondVisibleChk, SIGNAL(toggled(bool)), this, SLOT(SetCondVisible(bool)));
    QObject::connect(ModifyButton, SIGNAL(clicked()), this, SLOT(ModifyButton_clicked()));
-   QObject::connect(NPointsSpin, SIGNAL(valueChanged(int)), this, SLOT(NPointsSpin_valueChanged(int)));
+   QObject::connect(NPointsSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::NPointsSpin_valueChanged);
    QObject::connect(CutTable, &QTableWidget::cellChanged, this, &TGo4ConditionEditor::CutTable_valueChanged);
    QObject::connect(CutTable, &QTableWidget::customContextMenuRequested, this, &TGo4ConditionEditor::CutTable_contextMenuRequested);
    QObject::connect(EllipseTiltDial, SIGNAL(valueChanged(int)), this, SLOT(EllipseTheta_valueChanged(int)));
    QObject::connect(AutoRefreshBox, SIGNAL(toggled(bool)), this, SLOT(EllipseRefreshBox_toggled(bool)));
-   QObject::connect(EllipseA1Spinbox, SIGNAL(valueChanged(double)), this, SLOT(EllipseA1_valueChanged(double)));
-   QObject::connect(EllipseA2Spinbox, SIGNAL(valueChanged(double)), this, SLOT(EllipseA2_valueChanged(double)));
-   QObject::connect(EllipseCxSpinbox, SIGNAL(valueChanged(double)), this, SLOT(EllipseCx_valueChanged(double)));
-   QObject::connect(EllipseCySpinbox, SIGNAL(valueChanged(double)), this, SLOT(EllipseCy_valueChanged(double)));
+   QObject::connect(EllipseA1Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA1_valueChanged);
+   QObject::connect(EllipseA2Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA2_valueChanged);
+   QObject::connect(EllipseCxSpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCx_valueChanged);
+   QObject::connect(EllipseCySpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCy_valueChanged);
    QObject::connect(EllipseTiltEdit, SIGNAL(returnPressed()), this, SLOT(EllipseTheta_returnPressed()));
-   QObject::connect(EllipseNptsSpin, SIGNAL(valueChanged(int)), this, SLOT(EllipseNPoints_valueChanged(int)));
+   QObject::connect(EllipseNptsSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseNPoints_valueChanged);
    QObject::connect(CircleBox, SIGNAL(toggled(bool)), EllipseA2Spinbox, SLOT(setDisabled(bool)));
    QObject::connect(CircleBox, SIGNAL(toggled(bool)), EllipseTiltDial, SLOT(setDisabled(bool)));
    QObject::connect(CircleBox, SIGNAL(toggled(bool)), EllipseTiltEdit, SLOT(setDisabled(bool)));
