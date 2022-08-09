@@ -108,7 +108,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fRepaintMode = 0;
    fRepaintTimer = new QTimer;
    fRepaintTimer->setSingleShot(true);
-   connect(fRepaintTimer, &QTimer::timeout, this, &QRootCanvas::processRepaintTimer);
+   QObject::connect(fRepaintTimer, &QTimer::timeout, this, &QRootCanvas::processRepaintTimer);
 
    fEditorFrame = nullptr;
    fxPeditor = nullptr;

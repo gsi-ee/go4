@@ -229,11 +229,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 #endif
 
    fxCanvasEditorChk = CreateChkAction(editMenu, "Show &ROOT attributes editor", ed_visible, ed_allowed);
-   connect(fxCanvasEditorChk, &QAction::toggled, this, &TGo4ViewPanel::StartRootEditor);
+   QObject::connect(fxCanvasEditorChk, &QAction::toggled, this, &TGo4ViewPanel::StartRootEditor);
 
    bool status_flag = go4sett->getPadEventStatus();
    fxCanvasEventstatusChk = CreateChkAction(editMenu, "Show &event status", status_flag);
-   connect(fxCanvasEventstatusChk, &QAction::toggled, this, &TGo4ViewPanel::ShowEventStatus);
+   QObject::connect(fxCanvasEventstatusChk, &QAction::toggled, this, &TGo4ViewPanel::ShowEventStatus);
 
    editMenu->addAction("Start &condition editor", this, &TGo4ViewPanel::StartConditionEditor);
 
@@ -247,7 +247,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    fOptionsMap = new QSignalMapper(this);
    fOptionsMenu = fMenuBar->addMenu("&Options");
-   connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
+   QObject::connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
    void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
@@ -302,11 +302,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 #ifdef __GO4WEB__
       fxWCanvas->setStatusBarVisible(status_flag);
 
-      connect(fxWCanvas, &QWebCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
-      connect(fxWCanvas, &QWebCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
-      connect(fxWCanvas, &QWebCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
-      connect(fxWCanvas, &QWebCanvas::PadDblClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
-      connect(fxWCanvas, &QWebCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
+      QObject::connect(fxWCanvas, &QWebCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
+      QObject::connect(fxWCanvas, &QWebCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
+      QObject::connect(fxWCanvas, &QWebCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
+      QObject::connect(fxWCanvas, &QWebCanvas::PadDblClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
+      QObject::connect(fxWCanvas, &QWebCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
 
 #endif
    } else {
@@ -317,13 +317,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxQCanvas->setStatusBar(CanvasStatus);
       fxQCanvas->setStatusBarVisible(status_flag);
 
-      connect(fxQCanvas, &QRootCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
-      connect(fxQCanvas, &QRootCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
-      connect(fxQCanvas, &QRootCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
-      connect(fxQCanvas, &QRootCanvas::PadDoubleClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
-      connect(fxQCanvas, &QRootCanvas::MenuCommandExecuted, this, &TGo4ViewPanel::MenuCommandExecutedSlot);
-      connect(fxQCanvas, &QRootCanvas::CanvasLeaveEvent, this, &TGo4ViewPanel::RefreshButtons);
-      connect(fxQCanvas, &QRootCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
+      QObject::connect(fxQCanvas, &QRootCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
+      QObject::connect(fxQCanvas, &QRootCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
+      QObject::connect(fxQCanvas, &QRootCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
+      QObject::connect(fxQCanvas, &QRootCanvas::PadDoubleClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
+      QObject::connect(fxQCanvas, &QRootCanvas::MenuCommandExecuted, this, &TGo4ViewPanel::MenuCommandExecutedSlot);
+      QObject::connect(fxQCanvas, &QRootCanvas::CanvasLeaveEvent, this, &TGo4ViewPanel::RefreshButtons);
+      QObject::connect(fxQCanvas, &QRootCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
 #endif
    }
 }

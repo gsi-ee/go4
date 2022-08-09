@@ -299,7 +299,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    AddSettingMenu();
 
    windowsMenu = menuBar()->addMenu("&Windows");
-   connect(windowsMenu, &QMenu::aboutToShow, this, &TGo4MainWindow::windowsMenuAboutToShow);
+   QObject::connect(windowsMenu, &QMenu::aboutToShow, this, &TGo4MainWindow::windowsMenuAboutToShow);
    // need to create menu item with F11
    windowsMenuAboutToShow();
 
@@ -421,22 +421,22 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when drawing", go4sett->getFetchDataWhenDraw()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when drawing", go4sett->getFetchDataWhenDraw()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenDrawSlot);
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when copying", go4sett->getFetchDataWhenCopy()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when copying", go4sett->getFetchDataWhenCopy()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenCopySlot);
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when saving", go4sett->getFetchDataWhenSave()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Fetch when saving", go4sett->getFetchDataWhenSave()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeFetchWhenSaveSlot);
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Hide TGo4EventElement", go4sett->getHideTGo4EventElement()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Hide TGo4EventElement", go4sett->getHideTGo4EventElement()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeHideEventElement);
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Draw item once", go4sett->getDrawOnceFlag()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Draw item once", go4sett->getDrawOnceFlag()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeDrawOnceSlot);
 
-   connect(QGo4Widget::CreateChkAction(prefMenu, "Rubberband when moving windows", go4sett->getMoveSubwindowRubberBand()),
+   QObject::connect(QGo4Widget::CreateChkAction(prefMenu, "Rubberband when moving windows", go4sett->getMoveSubwindowRubberBand()),
             &QAction::toggled, this, &TGo4MainWindow::ChangeWindowRubberBandSlot);
 
    prefMenu->addAction("GUI HighDPI Scale factor...", this, &TGo4MainWindow::ScaleFactorSlot);
@@ -445,32 +445,32 @@ void TGo4MainWindow::AddSettingMenu()
 
    panelMenu->addAction("&Canvas color...", this, &TGo4MainWindow::CanvasColorSlot);
 
-   connect(QGo4Widget::CreateChkAction(panelMenu, "White canvas for saved images", go4sett->getSavePadWhiteBackground()),
+   QObject::connect(QGo4Widget::CreateChkAction(panelMenu, "White canvas for saved images", go4sett->getSavePadWhiteBackground()),
             &QAction::toggled, this, &TGo4MainWindow::ChangeSaveWhiteBackgroundSlot);
 
    panelMenu->addAction("Marker labels...", this, &TGo4MainWindow::MarkerSettingsSlot);
    panelMenu->addAction("Statistics box...", this, &TGo4MainWindow::OptStatsSlot);
 
    faSuperimpose = QGo4Widget::CreateChkAction(panelMenu, "&Superimpose mode", go4sett->getPadSuperimpose());
-   connect(faSuperimpose, &QAction::toggled, this, &TGo4MainWindow::SuperimposeSlot);
+   QObject::connect(faSuperimpose, &QAction::toggled, this, &TGo4MainWindow::SuperimposeSlot);
 
    faCrosshair = QGo4Widget::CreateChkAction(panelMenu, "Cross(&X)hair mode", go4sett->getPadCrosshair());
-   connect(faCrosshair, &QAction::toggled, this, &TGo4MainWindow::CrosshairSlot);
+   QObject::connect(faCrosshair, &QAction::toggled, this, &TGo4MainWindow::CrosshairSlot);
 
    faEventstatus = QGo4Widget::CreateChkAction(panelMenu, "Show Event Status", go4sett->getPadEventStatus());
-   connect(faEventstatus, &QAction::toggled, this, &TGo4MainWindow::EventStatusSlot);
+   QObject::connect(faEventstatus, &QAction::toggled, this, &TGo4MainWindow::EventStatusSlot);
 
-   connect(QGo4Widget::CreateChkAction(panelMenu, "Objects cloning", go4sett->getCloneFlag()),
+   QObject::connect(QGo4Widget::CreateChkAction(panelMenu, "Objects cloning", go4sett->getCloneFlag()),
            &QAction::toggled, this, &TGo4MainWindow::ChangeCloneFlagSlot);
 
    faDrawTime = QGo4Widget::CreateChkAction(panelMenu, "Draw time", go4sett->getDrawTimeFlag(), go4sett->getCloneFlag());
-   connect(faDrawTime, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawTimeFlagSlot);
+   QObject::connect(faDrawTime, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawTimeFlagSlot);
 
    faDrawDate = QGo4Widget::CreateChkAction(panelMenu, "Draw date", go4sett->getDrawDateFlag(), go4sett->getCloneFlag());
-   connect(faDrawDate, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawDateFlagSlot);
+   QObject::connect(faDrawDate, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawDateFlagSlot);
 
    faDrawItem = QGo4Widget::CreateChkAction(panelMenu, "Draw item name", go4sett->getDrawItemFlag(), go4sett->getCloneFlag());
-   connect(faDrawItem, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawItemFlagSlot);
+   QObject::connect(faDrawItem, &QAction::toggled, this, &TGo4MainWindow::ChangeDrawItemFlagSlot);
 
    panelMenu->addAction("Draw line &width ...", this, &TGo4MainWindow::DrawLineWidthSlot);
    panelMenu->addAction("Draw fill color ...", this, &TGo4MainWindow::DrawFillColorSlot);
@@ -485,7 +485,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    settMenu->addAction("&Log actions...", this, &TGo4MainWindow::LogSettingsSlot);
    QMenu* termMenu = settMenu->addMenu("&Terminal");
-   connect(QGo4Widget::CreateChkAction(termMenu, "Print timestamps", go4sett->getTermShowTimestamp()), &QAction::toggled, this, &TGo4MainWindow::ChangeTerminalTimeStampSlot);
+   QObject::connect(QGo4Widget::CreateChkAction(termMenu, "Print timestamps", go4sett->getTermShowTimestamp()), &QAction::toggled, this, &TGo4MainWindow::ChangeTerminalTimeStampSlot);
    termMenu->addAction("&Timestamp Format...", this, &TGo4MainWindow::ChangeTerminalTimeStampFormatSlot);
    termMenu->addAction("&History...", this, &TGo4MainWindow::InputTerminalParametersSlot);
    termMenu->addAction("&Font...", this, &TGo4MainWindow::ChangeTerminalFontSlot);
@@ -521,7 +521,7 @@ void TGo4MainWindow::AddSettingMenu()
        act->setCheckable(true);
        act->setChecked(go4sett->getAppStyle() == styleStr);
 
-       connect(act, &QAction::triggered, [&, styleStr]() { SetStyleSlot(styleStr); });
+       QObject::connect(act, &QAction::triggered, [&, styleStr]() { SetStyleSlot(styleStr); });
 
        ag->addAction(act);
        styleMenu->addAction(act);
@@ -755,7 +755,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
        windowsMenu->addAction(act);
 
-       connect(act, &QAction::triggered, [this, i]() { WindowActivated(i); });
+       QObject::connect(act, &QAction::triggered, [this, i]() { WindowActivated(i); });
     }
 }
 
@@ -2641,7 +2641,7 @@ void TGo4MainWindow::CreateNewDynEntry(bool forothereditor)
 void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 {
    if (!editor) return;
-   connect(editor, &QGo4Widget::widgetService, this, &TGo4MainWindow::editorServiceSlot);
+   QObject::connect(editor, &QGo4Widget::widgetService, this, &TGo4MainWindow::editorServiceSlot);
    GetWidgetTopSlot(editor, true);
 }
 
