@@ -40,11 +40,10 @@
 TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool needoutput, bool needkillbtn) :
     QGo4Widget( parent, name)
 {
-
     setCanDestroyWidget(false);
     setAcceptDrops(false);
     fAnalysisProcess = nullptr;
-    fxOutput = 0;
+    fxOutput = nullptr;
     outputBuffer = "";
     fiMaxOuputSize = 0;
     fbShowTimestamps = kFALSE;
@@ -72,12 +71,10 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        fxOutput->setAutoFormatting(QTextEdit::AutoNone);
        fxOutput->setWordWrapMode(QTextOption::NoWrap);
        fxOutput->setReadOnly(true);
-       layout->addWidget( fxOutput, 0, 0 );
+       layout->addWidget(fxOutput, 0, 0);
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
        UpdateTimeStampFormat();
-
-
 
        QHBoxLayout *box1 = new QHBoxLayout();
        box1->addWidget(new QLabel("Press enter to execute.", this), 1);
@@ -104,8 +101,8 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
 void TGo4AnalysisWindow::UpdateTimeStampFormat()
 {
-  fbShowTimestamps = go4sett->getTermShowTimestamp();
-  fxTimeFormat= go4sett->getTermTimeFormat();
+   fbShowTimestamps = go4sett->getTermShowTimestamp();
+   fxTimeFormat= go4sett->getTermTimeFormat();
 }
 
 

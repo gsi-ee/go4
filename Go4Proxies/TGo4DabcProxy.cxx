@@ -472,7 +472,7 @@ class ReplyWorker : public dabc::Worker {
    protected:
       virtual bool ReplyCommand(dabc::Command cmd)
       {
-         if ((cmd.GetPtr("#DabcAccess") != 0) || (cmd.GetPtr("#DabcProxy") != 0)) {
+         if (cmd.GetPtr("#DabcAccess") || cmd.GetPtr("#DabcProxy")) {
             // DOUT0("CreateReplTimer");
             new TReplyTimer(cmd);
             return false;
