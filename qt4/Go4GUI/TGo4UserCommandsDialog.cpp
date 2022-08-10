@@ -43,7 +43,7 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
 
    }
 
-   QObject::connect (DialogButtonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(ButtonPressed(QAbstractButton*)));
+   QObject::connect (DialogButtonBox, &QDialogButtonBox::clicked, this, &TGo4UserCommandsDialog::ButtonPressed);
 }
 
 QString TGo4UserCommandsDialog::GetCommand(int id)

@@ -29,23 +29,23 @@ TGo4HisDrawOptionsShort::TGo4HisDrawOptionsShort(QWidget *parent, const char* na
    : QGo4Widget(parent,name)
 {
    setupUi(this);
-   QObject::connect(Xlin, SIGNAL(clicked()), this, SLOT(SlotXlin()));
-   QObject::connect(Xlog, SIGNAL(clicked()), this, SLOT(SlotXlog()));
-   QObject::connect(Ylin, SIGNAL(clicked()), this, SLOT(SlotYlin()));
-   QObject::connect(Ylog, SIGNAL(clicked()), this, SLOT(SlotYlog()));
-   QObject::connect(Zlin, SIGNAL(clicked()), this, SLOT(SlotZlin()));
-   QObject::connect(Zlog, SIGNAL(clicked()), this, SLOT(SlotZlog()));
-   QObject::connect(D1his, SIGNAL(clicked()), this, SLOT(SlotD1his()));
-   QObject::connect(D1line, SIGNAL(clicked()), this, SLOT(SlotD1line()));
-   QObject::connect(D2scatter, SIGNAL(clicked()), this, SLOT(SlotD2scatter()));
-   QObject::connect(D2pixel, SIGNAL(clicked()), this, SLOT(SlotD2pixel()));
-   QObject::connect(D2surfcol, SIGNAL(clicked()), this, SLOT(SlotD2surfcol()));
-   QObject::connect(D2lego, SIGNAL(clicked()), this, SLOT(SlotD2lego()));
-   QObject::connect(D2contfill, SIGNAL(clicked()), this, SLOT(SlotD2contfill()));
-   QObject::connect(D2contline, SIGNAL(clicked()), this, SLOT(SlotD2contline()));
-   QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SlotLineColor()));
-   QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SlotFillColor()));
-   QObject::connect(MarkerColor, SIGNAL(clicked()), this, SLOT(SlotMarkerColor()));
+   QObject::connect(Xlin, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotXlin);
+   QObject::connect(Xlog, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotXlog);
+   QObject::connect(Ylin, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotYlin);
+   QObject::connect(Ylog, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotYlog);
+   QObject::connect(Zlin, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotZlin);
+   QObject::connect(Zlog, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotZlog);
+   QObject::connect(D1his, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD1his);
+   QObject::connect(D1line, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD1line);
+   QObject::connect(D2scatter, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2scatter);
+   QObject::connect(D2pixel, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2pixel);
+   QObject::connect(D2surfcol, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2surfcol);
+   QObject::connect(D2lego, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2lego);
+   QObject::connect(D2contfill, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2contfill);
+   QObject::connect(D2contline, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotD2contline);
+   QObject::connect(LineColor, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotLineColor);
+   QObject::connect(FillColor, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotFillColor);
+   QObject::connect(MarkerColor, &QPushButton::clicked, this, &TGo4HisDrawOptionsShort::SlotMarkerColor);
 }
 
 void TGo4HisDrawOptionsShort::SlotXlin()
