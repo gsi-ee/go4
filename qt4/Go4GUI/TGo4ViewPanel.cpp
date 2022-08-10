@@ -250,7 +250,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QObject::connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
+   auto signal = QOverload<int>::of(&QSignalMapper::mapped);
 #else
    auto signal = &QSignalMapper::mappedInt;
 #endif
