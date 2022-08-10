@@ -39,14 +39,14 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(CloseWin, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
-   QObject::connect(UpdateCon, SIGNAL(clicked()), this, SLOT(UpdatePressed()));
+   QObject::connect(CloseWin, &QPushButton::clicked, this, &TGo4ConditionEditor::CloseMDIParentSlot);
+   QObject::connect(UpdateCon, &QPushButton::clicked, this, &TGo4ConditionEditor::UpdatePressed);
    QObject::connect(ArrayElements, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConditionEditor::SelectedCond);
    QObject::connect(ResultCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConditionEditor::SetResultMode);
    QObject::connect(InvertCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConditionEditor::SetInvertMode);
-   QObject::connect(ClearCondCount, SIGNAL(clicked()), this, SLOT(ClearCounters()));
-   QObject::connect(DisplayB, SIGNAL(clicked()), this, SLOT(DisplayPressed()));
-   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
+   QObject::connect(ClearCondCount, &QPushButton::clicked, this, &TGo4ConditionEditor::ClearCounters);
+   QObject::connect(DisplayB, &QPushButton::clicked, this, &TGo4ConditionEditor::DisplayPressed);
+   QObject::connect(RefreshButton, &QPushButton::clicked, this, &TGo4ConditionEditor::RefreshClicked);
    QObject::connect(Win1_low, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
    QObject::connect(Win1_up, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
    QObject::connect(Win2_low, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::LimitsReturnPressed);
@@ -61,15 +61,15 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(MaxXBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetXMaxDraw);
    QObject::connect(MaxYBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetYMaxDraw);
    QObject::connect(MaxCBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetCMaxDraw);
-   QObject::connect(ArrayAllButton, SIGNAL(clicked()), this, SLOT(ArrayAll()));
-   QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintConditionLog()));
-   QObject::connect(SaveCon, SIGNAL(clicked()), this, SLOT(SaveCondition()));
+   QObject::connect(ArrayAllButton, &QPushButton::clicked, this, &TGo4ConditionEditor::ArrayAll);
+   QObject::connect(PrintLog, &QPushButton::clicked, this, &TGo4ConditionEditor::PrintConditionLog);
+   QObject::connect(SaveCon, &QPushButton::clicked, this, &TGo4ConditionEditor::SaveCondition);
    QObject::connect(XMeanBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetXMeanDraw);
    QObject::connect(YMeanBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetYMeanDraw);
    QObject::connect(XRMSBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetXRMSDraw);
    QObject::connect(YRMSBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetYRMSDraw);
    QObject::connect(CondVisibleChk, &QCheckBox::toggled, this, &TGo4ConditionEditor::SetCondVisible);
-   QObject::connect(ModifyButton, SIGNAL(clicked()), this, SLOT(ModifyButton_clicked()));
+   QObject::connect(ModifyButton, &QPushButton::clicked, this, &TGo4ConditionEditor::ModifyButton_clicked);
    QObject::connect(NPointsSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConditionEditor::NPointsSpin_valueChanged);
    QObject::connect(CutTable, &QTableWidget::cellChanged, this, &TGo4ConditionEditor::CutTable_valueChanged);
    QObject::connect(CutTable, &QTableWidget::customContextMenuRequested, this, &TGo4ConditionEditor::CutTable_contextMenuRequested);
@@ -91,10 +91,10 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(FreeshapeBox, &QCheckBox::toggled, EllipseA2Spinbox, &QDoubleSpinBox::setDisabled);
    QObject::connect(FreeshapeBox, &QCheckBox::toggled, EllipseTiltDial, &QDial::setDisabled);
    QObject::connect(FreeshapeBox, &QCheckBox::toggled, EllipseTiltEdit, &QLineEdit::setDisabled);
-   QObject::connect(CircleBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
-   QObject::connect(BoxshapeBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
-   QObject::connect(EllipseBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
-   QObject::connect(FreeshapeBox, SIGNAL(clicked(bool)), this, SLOT(EllipseCircleBox_toggled(bool)));
+   QObject::connect(CircleBox, &QCheckBox::clicked, this, &TGo4ConditionEditor::EllipseCircleBox_toggled);
+   QObject::connect(BoxshapeBox, &QCheckBox::clicked, this, &TGo4ConditionEditor::EllipseCircleBox_toggled);
+   QObject::connect(EllipseBox, &QCheckBox::clicked, this, &TGo4ConditionEditor::EllipseCircleBox_toggled);
+   QObject::connect(FreeshapeBox, &QCheckBox::clicked, this, &TGo4ConditionEditor::EllipseCircleBox_toggled);
 
    LCDCounts->setDigitCount(10);
    LCDTrueCounts->setDigitCount(10);
