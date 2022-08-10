@@ -70,7 +70,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    QObject::connect(EnableStoreBox, SIGNAL(stateChanged(int)), this, SLOT(OutputStateChanged(int)));
    QObject::connect(SourceNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputSourceText);
    QObject::connect(EventSourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SourceComboHighlighted(int)));
-   QObject::connect(OutputCombo, SIGNAL(activated(int)), this, SLOT(StoreComboHighlighted(int)));
+   QObject::connect(OutputCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConfigStep::StoreComboHighlighted);
    QObject::connect(StoreNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::OutputNameText);
    QObject::connect(FileNameOutput, SIGNAL(clicked()), this, SLOT(OutputFileDialog()));
    QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConfigStep::StoreCompLevel);

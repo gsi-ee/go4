@@ -21,7 +21,7 @@ QFitterWidget::QFitterWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(FitFunctionTypeCmb, SIGNAL(activated(int)), this, SLOT(FitFunctionTypeCmb_activated(int)));
+   QObject::connect(FitFunctionTypeCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitterWidget::FitFunctionTypeCmb_activated);
 }
 
 TGo4Fitter * QFitterWidget::GetFitter()
@@ -58,7 +58,7 @@ void QFitterWidget::FillSpecificData()
    }
 }
 
-void QFitterWidget::FitFunctionTypeCmb_activated( int typ )
+void QFitterWidget::FitFunctionTypeCmb_activated(int typ)
 {
   if (!fbFillWidget && GetFitter())
     GetFitter()->SetFitFunctionType(typ);

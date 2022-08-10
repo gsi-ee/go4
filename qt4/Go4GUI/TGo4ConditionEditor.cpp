@@ -42,8 +42,8 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(CloseWin, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
    QObject::connect(UpdateCon, SIGNAL(clicked()), this, SLOT(UpdatePressed()));
    QObject::connect(ArrayElements, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::SelectedCond);
-   QObject::connect(ResultCombo, SIGNAL(activated(int)), this, SLOT(SetResultMode(int)));
-   QObject::connect(InvertCombo, SIGNAL(activated(int)), this, SLOT(SetInvertMode(int)));
+   QObject::connect(ResultCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConditionEditor::SetResultMode);
+   QObject::connect(InvertCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConditionEditor::SetInvertMode);
    QObject::connect(ClearCondCount, SIGNAL(clicked()), this, SLOT(ClearCounters()));
    QObject::connect(DisplayB, SIGNAL(clicked()), this, SLOT(DisplayPressed()));
    QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));

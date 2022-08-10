@@ -114,7 +114,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QObject::connect(DrawB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetDrawingMode);
    QObject::connect(PrintLogB, SIGNAL(pressed()), this, SLOT(LogMarkerValues()));
    QObject::connect(PolyB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetPolygonMode);
-   QObject::connect(SelectedMarkerCmb, SIGNAL(activated(int)), this, SLOT(SelectedMarkerCmb_activated(int)));
+   QObject::connect(SelectedMarkerCmb, QOverload<int>::of(&QComboBox::activated), this, &TGo4ViewPanel::SelectedMarkerCmb_activated);
    QObject::connect(DelSelectedMarker, SIGNAL(clicked()), this, SLOT(DelSelectedMarker_clicked()));
    QObject::connect(GetConditionBtn, SIGNAL(clicked()), this, SLOT(GetConditionBtn_clicked()));
    QObject::connect(InfoConditionBtn, SIGNAL(clicked()), this, SLOT(InfoConditionBtn_clicked()));

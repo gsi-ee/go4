@@ -27,7 +27,7 @@ TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name) :
    QObject::connect(ClearBtn, SIGNAL(clicked()), this, SLOT(ClearBtn_clicked()));
    QObject::connect(StartMonitorBtn, SIGNAL(clicked()), this, SLOT(StartMonitorBtn_clicked()));
    QObject::connect(StopMonitorBtn, SIGNAL(clicked()), this, SLOT(StopMonitorBtn_clicked()));
-   QObject::connect(FilterBox, SIGNAL(activated(int)), this, SLOT(FilterBox_activated(int)));
+   QObject::connect(FilterBox, QOverload<int>::of(&QComboBox::activated), this, &TGo4BrowserOptions::FilterBox_activated);
 
 }
 

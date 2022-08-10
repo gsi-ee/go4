@@ -31,7 +31,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    setupUi(this);
 
    QObject::connect(Palette, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4Style::SetPalette);
-   QObject::connect(PaletteComboBox, SIGNAL(activated(int)), this, SLOT(SetNamedPalette(int)));
+   QObject::connect(PaletteComboBox, QOverload<int>::of(&QComboBox::activated), this, &TGo4Style::SetNamedPalette);
    QObject::connect(ContourSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4Style::SetContourLevels);
    QObject::connect(PadColor, SIGNAL(clicked()), this, SLOT(SetPadColor()));
 

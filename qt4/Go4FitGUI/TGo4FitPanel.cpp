@@ -108,7 +108,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Wiz_DelModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_DelModelBtn_clicked);
    QObject::connect(Wiz_CloneModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_CloneModelBtn_clicked);
    QObject::connect(Wiz_ShowAllMod, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_ShowAllMod_toggled);
-   QObject::connect(Wiz_FitFuncCmb, SIGNAL(activated(int)), this, SLOT(Wiz_FitFuncCmb_activated(int)));
+   QObject::connect(Wiz_FitFuncCmb, QOverload<int>::of(&QComboBox::activated), this, &TGo4FitPanel::Wiz_FitFuncCmb_activated);
    QObject::connect(Wiz_FitNameEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::Wiz_FitNameEdt_textChanged);
    QObject::connect(Wiz_ParTable, SIGNAL(cellChanged(int,int)), this, SLOT(Wiz_ParTable_valueChanged(int,int)));
    QObject::connect(Wiz_ModelList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(Wiz_ModelList_doubleClicked(QListWidgetItem*)));

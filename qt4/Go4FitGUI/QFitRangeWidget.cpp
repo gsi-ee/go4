@@ -21,7 +21,7 @@ QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
    QObject::connect(AxisNumSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitRangeWidget::AxisNumSpin_valueChanged);
-   QObject::connect(RangeTypCmb, SIGNAL(activated(int)), this, SLOT(RangeTypCmb_activated(int)));
+   QObject::connect(RangeTypCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitRangeWidget::RangeTypCmb_activated);
    QObject::connect(LeftEdt, &QGo4LineEdit::textChanged, this, &QFitRangeWidget::LeftEdt_textChanged);
    QObject::connect(RightEdt, &QGo4LineEdit::textChanged, this, &QFitRangeWidget::RightEdt_textChanged);
 }
