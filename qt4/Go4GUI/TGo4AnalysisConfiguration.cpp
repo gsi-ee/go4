@@ -27,20 +27,20 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
 {
    setupUi(this);
 
-   QObject::connect(SubmitPushButton, SIGNAL(pressed()), this, SLOT(SubmitConfiguration()));
-   QObject::connect(AnalysisSaveConf, SIGNAL(clicked()), this, SLOT(SaveConfiguration()));
-   QObject::connect(LoadConfigFileName, SIGNAL(clicked()), this, SLOT(FileDialog_ConfFile()));
-   QObject::connect(LoadAutoSaveFileName, SIGNAL(clicked()), this, SLOT(FileDialog_AutoSave()));
+   QObject::connect(SubmitPushButton, &QPushButton::pressed, this, &TGo4AnalysisConfiguration::SubmitConfiguration);
+   QObject::connect(AnalysisSaveConf, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::SaveConfiguration);
+   QObject::connect(LoadConfigFileName, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::FileDialog_ConfFile);
+   QObject::connect(LoadAutoSaveFileName, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::FileDialog_AutoSave);
    QObject::connect(AutoSaveFileName, &QLineEdit::textChanged, this, &TGo4AnalysisConfiguration::LineEdit_AutoSaveFile);
-   QObject::connect(GetActiveConfigButton, SIGNAL(clicked()), this, SLOT(RequestAnalysisStatus()));
+   QObject::connect(GetActiveConfigButton, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::RequestAnalysisStatus);
    QObject::connect(CompLevel, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4AnalysisConfiguration::SetCompressionLevel);
-   QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
+   QObject::connect(AnalysisLoadConf, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::LoadConfiguration);
    QObject::connect(AutoSaveInterval, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4AnalysisConfiguration::SetAutoSaveInterval);
    QObject::connect(AutoSaveOverwrite, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::SetAutoSaveOverwrite);
-   QObject::connect(SaveNowB, SIGNAL(clicked()), this, SLOT(WriteAutoSave()));
+   QObject::connect(SaveNowB, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::WriteAutoSave);
    QObject::connect(AutoSaveEnable, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::EnableAutoSaveSlot);
-   QObject::connect(SubmitAndStartButton, SIGNAL(clicked()), this, SLOT(SubmitAndStart()));
-   QObject::connect(ClosePushButton, SIGNAL(clicked()), this, SLOT(CloseAnalysis()));
+   QObject::connect(SubmitAndStartButton, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::SubmitAndStart);
+   QObject::connect(ClosePushButton, &QPushButton::clicked, this, &TGo4AnalysisConfiguration::CloseAnalysis);
 
    fSourcePath = ".";
    fStorePath = ".";
