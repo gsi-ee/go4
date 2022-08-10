@@ -100,8 +100,8 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(FitList, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(FitList_customContextMenuRequested(const QPoint &)));
-   QObject::connect(FitList, SIGNAL(currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+   QObject::connect(FitList, &QTreeWidget::customContextMenuRequested, this, &TGo4FitPanel::FitList_customContextMenuRequested);
+   QObject::connect(FitList, &QTreeWidget::currentItemChanged, this, &TGo4FitPanel::FitList_currentItemChanged);
    QObject::connect(Wiz_AddDataBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_AddDataBtn_clicked);
    QObject::connect(Wiz_DelDataBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_DelDataBtn_clicked);
    QObject::connect(Wiz_AddModelBtn, &QPushButton::clicked, this, &TGo4FitPanel::Wiz_AddModelBtn_clicked);
@@ -111,13 +111,13 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Wiz_FitFuncCmb, QOverload<int>::of(&QComboBox::activated), this, &TGo4FitPanel::Wiz_FitFuncCmb_activated);
    QObject::connect(Wiz_FitNameEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::Wiz_FitNameEdt_textChanged);
    QObject::connect(Wiz_ParTable, &QTableWidget::cellChanged, this, &TGo4FitPanel::Wiz_ParTable_valueChanged);
-   QObject::connect(Wiz_ModelList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(Wiz_ModelList_doubleClicked(QListWidgetItem*)));
-   QObject::connect(Wiz_ModelList, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(Wiz_ModelList_itemChanged(QListWidgetItem*)));
+   QObject::connect(Wiz_ModelList, &QListWidget::itemDoubleClicked, this, &TGo4FitPanel::Wiz_ModelList_doubleClicked);
+   QObject::connect(Wiz_ModelList, &QListWidget::itemChanged, this, &TGo4FitPanel::Wiz_ModelList_itemChanged);
    QObject::connect(Wiz_RebuildDataBtn, SIGNAL(clicked()), this, SLOT(Wiz_RebuildDataBtn_clicked()));
    QObject::connect(Wiz_DataBufChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_DataBufChk_toggled);
    QObject::connect(Wiz_UseAmplEstimChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_UseAmplEstimChk_toggled);
    QObject::connect(Wiz_MigradIterSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4FitPanel::Wiz_MigradIterSpin_valueChanged);
-   QObject::connect(Wiz_DataSlotsTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(Wiz_DataSlotsTable_contextMenuRequested(const QPoint &)));
+   QObject::connect(Wiz_DataSlotsTable, &QTableWidget::customContextMenuRequested, this, &TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested);
    QObject::connect(Wiz_DataUseRangeBtn, SIGNAL(clicked()), this, SLOT(Wiz_DataUseRangeBtn_clicked()));
    QObject::connect(Wiz_DataClearRangesBtn, SIGNAL(clicked()), this, SLOT(Wiz_DataClearRangesBtn_clicked()));
    QObject::connect(Wiz_DrawDataBtn, SIGNAL(clicked()), this, SLOT(Wiz_DrawDataBtn_clicked()));
@@ -125,11 +125,11 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(MainFitBtn, SIGNAL(clicked()), this, SLOT(MainFitBtn_clicked()));
    QObject::connect(MainDrawBtn, SIGNAL(clicked()), this, SLOT(MainDrawBtn_clicked()));
    QObject::connect(MainFindBtn, SIGNAL(clicked()), this, SLOT(MainFindBtn_clicked()));
-   QObject::connect(Wiz_DataList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(Wiz_DataList_doubleClicked(QListWidgetItem*)));
-   QObject::connect(Wiz_DataList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(Wiz_DataListSelect(QListWidgetItem*)));
-   QObject::connect(Wiz_DataList, SIGNAL(itemChanged(QListWidgetItem*)), this, SLOT(Wiz_DataListSelect(QListWidgetItem*)));
-   QObject::connect(Wiz_DataList, SIGNAL(itemPressed(QListWidgetItem*)), this, SLOT(Wiz_DataListSelect(QListWidgetItem*)));
-   QObject::connect(Wiz_ModelList, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(Wiz_ModelListSelect(QListWidgetItem*)));
+   QObject::connect(Wiz_DataList, &QListWidget::itemDoubleClicked, this, &TGo4FitPanel::Wiz_DataList_doubleClicked);
+   QObject::connect(Wiz_DataList, &QListWidget::itemClicked, this, &TGo4FitPanel::Wiz_DataListSelect);
+   QObject::connect(Wiz_DataList, &QListWidget::itemChanged, this, &TGo4FitPanel::Wiz_DataListSelect);
+   QObject::connect(Wiz_DataList, &QListWidget::itemPressed, this, &TGo4FitPanel::Wiz_DataListSelect);
+   QObject::connect(Wiz_ModelList, &QListWidget::currentItemChanged, this, &TGo4FitPanel::Wiz_ModelListSelect);
    QObject::connect(MainParsBtn, SIGNAL(clicked()), this, SLOT(MainParsBtn_clicked()));
    QObject::connect(LineParsChk, &QCheckBox::toggled, this, &TGo4FitPanel::LineParsChk_toggled);
    QObject::connect(ParsTable, &QTableWidget::cellChanged, this, &TGo4FitPanel::ParsTable_valueChanged);
@@ -140,10 +140,10 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(PF_MinWidthEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MinWidthEdt_textChanged);
    QObject::connect(PF_MaxWidthEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MaxWidthEdt_textChanged);
    QObject::connect(PF_AmplSlider, &QSlider::valueChanged, this, &TGo4FitPanel::PF_AmplSlider_valueChanged);
-   QObject::connect(PF_AmplSlider, SIGNAL(sliderReleased()), this, SLOT(PF_AmplSlider_sliderReleased()));
+   QObject::connect(PF_AmplSlider, &QSlider::sliderReleased, this, &TGo4FitPanel::PF_AmplSlider_sliderReleased);
    QObject::connect(PF_WidthEdit, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_WidthEdit_textChanged);
    QObject::connect(PF_RelNoiseSlider, &QSlider::valueChanged, this, &TGo4FitPanel::PF_RelNoiseSlider_valueChanged);
-   QObject::connect(PF_RelNoiseSlider, SIGNAL(sliderReleased()), this, SLOT(PF_RelNoiseSlider_sliderReleased()));
+   QObject::connect(PF_RelNoiseSlider, &QSlider::sliderReleased, this, &TGo4FitPanel::PF_RelNoiseSlider_sliderReleased);
    QObject::connect(PF_MinNoiseEdit, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MinNoiseEdit_textChanged);
    QObject::connect(PF_SumUpSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4FitPanel::PF_SumUpSpin_valueChanged);
    QObject::connect(Smp_PolynomBtn, SIGNAL(clicked()), this, SLOT(Smp_PolynomBtn_clicked()));
@@ -152,7 +152,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Smp_ExponentBtn, SIGNAL(clicked()), this, SLOT(Smp_ExponentBtn_clicked()));
    QObject::connect(Smp_ClearBtn, SIGNAL(clicked()), this, SLOT(Smp_ClearBtn_clicked()));
    QObject::connect(Wiz_MinSetupBtn, SIGNAL(clicked()), this, SLOT(Wiz_MinSetupBtn_clicked()));
-   QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
+   QObject::connect(FindersTab, &QTabWidget::currentChanged, this, &TGo4FitPanel::FindersTab_currentChanged);
    QObject::connect(Wiz_BackgroundChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_BackgroundChk_toggled);
    QObject::connect(PF_MinWidthEdt, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_MinWidthEdt_returnPressed);
    QObject::connect(PF_MaxWidthEdt, &QGo4LineEdit::returnPressed, this, &TGo4FitPanel::PF_MaxWidthEdt_returnPressed);
