@@ -20,7 +20,7 @@ QFitModelGauss1Widget::QFitModelGauss1Widget(QWidget *parent, const char* name)
          : QFitModelWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(AxisNumSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelGauss1Widget::AxisNumSpin_valueChanged);
+   QObject::connect(AxisNumSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelGauss1Widget::AxisNumSpin_valueChanged);
 }
 
 TGo4FitModelGauss1 * QFitModelGauss1Widget::GetGauss1()

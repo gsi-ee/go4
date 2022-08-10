@@ -33,9 +33,9 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
    QObject::connect(LoadAutoSaveFileName, SIGNAL(clicked()), this, SLOT(FileDialog_AutoSave()));
    QObject::connect(AutoSaveFileName, &QLineEdit::textChanged, this, &TGo4AnalysisConfiguration::LineEdit_AutoSaveFile);
    QObject::connect(GetActiveConfigButton, SIGNAL(clicked()), this, SLOT(RequestAnalysisStatus()));
-   QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetCompressionLevel);
+   QObject::connect(CompLevel, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4AnalysisConfiguration::SetCompressionLevel);
    QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
-   QObject::connect(AutoSaveInterval, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetAutoSaveInterval);
+   QObject::connect(AutoSaveInterval, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4AnalysisConfiguration::SetAutoSaveInterval);
    QObject::connect(AutoSaveOverwrite, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::SetAutoSaveOverwrite);
    QObject::connect(SaveNowB, SIGNAL(clicked()), this, SLOT(WriteAutoSave()));
    QObject::connect(AutoSaveEnable, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::EnableAutoSaveSlot);

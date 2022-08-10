@@ -23,7 +23,7 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(NumCalibrSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitDataWidget::NumCalibrSpin_valueChanged);
+   QObject::connect(NumCalibrSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitDataWidget::NumCalibrSpin_valueChanged);
    QObject::connect(UseBinsChk, &QCheckBox::toggled, this, &QFitDataWidget::UseBinsChk_toggled);
    QObject::connect(SigmaCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitDataWidget::SigmaCmb_activated);
    QObject::connect(SigmaEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::SigmaEdt_textChanged);

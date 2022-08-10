@@ -43,7 +43,7 @@ QFitModelWidget::QFitModelWidget( QWidget* parent,  const char* name )
     // signals and slots connections
     QObject::connect(AmplChk, &QCheckBox::toggled, this, &QFitModelWidget::AmplChk_toggled);
     QObject::connect(BuffersChk, &QCheckBox::toggled, this, &QFitModelWidget::BuffersChk_toggled);
-    QObject::connect(GroupSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelWidget::GroupSpin_valueChanged);
+    QObject::connect(GroupSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelWidget::GroupSpin_valueChanged);
 }
 
 QFitModelWidget::~QFitModelWidget()

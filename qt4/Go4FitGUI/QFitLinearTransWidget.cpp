@@ -18,7 +18,7 @@ QFitLinearTransWidget::QFitLinearTransWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(NumAxisSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitLinearTransWidget::NumAxisSpin_valueChanged);
+   QObject::connect(NumAxisSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitLinearTransWidget::NumAxisSpin_valueChanged);
 }
 
 TGo4FitLinearTrans* QFitLinearTransWidget::GetLinearTrans()
