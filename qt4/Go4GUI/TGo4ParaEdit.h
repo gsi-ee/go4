@@ -52,7 +52,7 @@ public slots:
    virtual void clearTextFields();
    virtual void ChangedTable( int row, int col );
    virtual void TableDoubleClick( int row, int col );
-   virtual void ContextMenu( const QPoint& );
+   virtual void TableContextMenu( const QPoint& );
    virtual void ExpandShrinkArray();
    virtual void IncArrayIndex();
    virtual void DecArrayIndex();

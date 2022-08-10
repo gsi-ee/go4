@@ -21,7 +21,7 @@ QFitModelGaussNWidget::QFitModelGaussNWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
    QObject::connect(AxisNumberSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelGaussNWidget::AxisNumberSpin_valueChanged);
-   QObject::connect(AxisTable, SIGNAL(cellChanged(int,int)), this, SLOT(AxisTable_valueChanged(int,int)));
+   QObject::connect(AxisTable, &QTableWidget::cellChanged, this, &QFitModelGaussNWidget::AxisTable_valueChanged);
 }
 
 TGo4FitModelGaussN * QFitModelGaussNWidget::GetGaussN()

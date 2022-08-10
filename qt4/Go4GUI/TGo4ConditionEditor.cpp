@@ -75,10 +75,10 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(CutTable, &QTableWidget::customContextMenuRequested, this, &TGo4ConditionEditor::CutTable_contextMenuRequested);
    QObject::connect(EllipseTiltDial, &QDial::valueChanged, this, &TGo4ConditionEditor::EllipseTheta_valueChanged);
    QObject::connect(AutoRefreshBox, &QCheckBox::toggled, this, &TGo4ConditionEditor::EllipseRefreshBox_toggled);
-   QObject::connect(EllipseA1Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA1_valueChanged);
-   QObject::connect(EllipseA2Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA2_valueChanged);
-   QObject::connect(EllipseCxSpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCx_valueChanged);
-   QObject::connect(EllipseCySpinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseCy_valueChanged);
+   QObject::connect(EllipseA1Spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TGo4ConditionEditor::EllipseA1_valueChanged);
+   QObject::connect(EllipseA2Spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TGo4ConditionEditor::EllipseA2_valueChanged);
+   QObject::connect(EllipseCxSpinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TGo4ConditionEditor::EllipseCx_valueChanged);
+   QObject::connect(EllipseCySpinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &TGo4ConditionEditor::EllipseCy_valueChanged);
    QObject::connect(EllipseTiltEdit, &QLineEdit::returnPressed, this, &TGo4ConditionEditor::EllipseTheta_returnPressed);
    QObject::connect(EllipseNptsSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConditionEditor::EllipseNPoints_valueChanged);
    QObject::connect(CircleBox, &QCheckBox::toggled, EllipseA2Spinbox, &QDoubleSpinBox::setDisabled);
