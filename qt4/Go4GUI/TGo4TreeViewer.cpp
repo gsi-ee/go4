@@ -27,16 +27,16 @@ TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(TreeDrawBtn, SIGNAL(clicked()), this, SLOT(TreeDrawBtn_clicked()));
-   QObject::connect(TreeClearBtn, SIGNAL(clicked()), this, SLOT(TreeClearBtn_clicked()));
-   QObject::connect(NewHistBtn, SIGNAL(clicked()), this, SLOT(NewHistBtn_clicked()));
-   QObject::connect(XFieldEdt, SIGNAL(textDropped()), this, SLOT(XFieldEdt_dropped()));
+   QObject::connect(TreeDrawBtn, &QPushButton::clicked, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
+   QObject::connect(TreeClearBtn, &QPushButton::clicked, this, &TGo4TreeViewer::TreeClearBtn_clicked);
+   QObject::connect(NewHistBtn, &QPushButton::clicked, this, &TGo4TreeViewer::NewHistBtn_clicked);
+   QObject::connect(XFieldEdt, &QGo4LineEdit::textDropped, this, &TGo4TreeViewer::XFieldEdt_dropped);
    QObject::connect(XFieldEdt, &QGo4LineEdit::returnPressed, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
-   QObject::connect(YFieldEdt, SIGNAL(textDropped()), this, SLOT(YFieldEdt_dropped()));
+   QObject::connect(YFieldEdt, &QGo4LineEdit::textDropped, this, &TGo4TreeViewer::YFieldEdt_dropped);
    QObject::connect(YFieldEdt, &QGo4LineEdit::returnPressed, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
-   QObject::connect(ZFieldEdt, SIGNAL(textDropped()), this, SLOT(ZFieldEdt_dropped()));
+   QObject::connect(ZFieldEdt, &QGo4LineEdit::textDropped, this, &TGo4TreeViewer::ZFieldEdt_dropped);
    QObject::connect(ZFieldEdt, &QGo4LineEdit::returnPressed, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
-   QObject::connect(CutEdt, SIGNAL(textDropped()), this, SLOT(cutEdit_dropped()));
+   QObject::connect(CutEdt, &QGo4LineEdit::textDropped, this, &TGo4TreeViewer::cutEdit_dropped);
    QObject::connect(CutEdt, &QGo4LineEdit::returnPressed, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
    QObject::connect(HistNameEdt, &QGo4LineEdit::returnPressed, this, &TGo4TreeViewer::TreeDrawBtn_clicked);
 

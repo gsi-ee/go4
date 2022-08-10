@@ -32,23 +32,23 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(ApplyButton, SIGNAL(clicked()), this, SLOT(ApplyClicked()));
-   QObject::connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearHistogramClicked()));
-   QObject::connect(PrintListButton, SIGNAL(clicked()), this, SLOT(PrintDynList()));
-   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
-   QObject::connect(SaveEntry, SIGNAL(clicked()), this, SLOT(SaveEntrySlot()));
-   QObject::connect(CancelButton, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
-   QObject::connect(EvXnameEdit, SIGNAL(textDropped()), this, SLOT(EvXnameEdit_dropped()));
-   QObject::connect(EvYnameEdit, SIGNAL(textDropped()), this, SLOT(EvYnameEdit_dropped()));
-   QObject::connect(EvZnameEdit, SIGNAL(textDropped()), this, SLOT(EvZnameEdit_dropped()));
-   QObject::connect(ConXnameEdit, SIGNAL(textDropped()), this, SLOT(ConXnameEdit_dropped()));
-   QObject::connect(ConYnameEdit, SIGNAL(textDropped()), this, SLOT(ConYnameEdit_dropped()));
-   QObject::connect(DrawExprEdit, SIGNAL(textDropped()), this, SLOT(DrawExprEdit_dropped()));
-   QObject::connect(CutExprEdit, SIGNAL(textDropped()), this, SLOT(CutExprEdit_dropped()));
-   QObject::connect(HisCreateButton, SIGNAL(clicked()), this, SLOT(HisCreateButton_clicked()));
-   QObject::connect(HisInfoButton, SIGNAL(clicked()), this, SLOT(HisInfoButton_clicked()));
-   QObject::connect(ConNewButton, SIGNAL(clicked()), this, SLOT(ConNewButton_clicked()));
-   QObject::connect(ConInfoButton, SIGNAL(clicked()), this, SLOT(ConInfoButton_clicked()));
+   QObject::connect(ApplyButton, &QPushButton::clicked, this, &TGo4EditDynEntry::ApplyClicked);
+   QObject::connect(ClearButton, &QPushButton::clicked, this, &TGo4EditDynEntry::ClearHistogramClicked);
+   QObject::connect(PrintListButton, &QPushButton::clicked, this, &TGo4EditDynEntry::PrintDynList);
+   QObject::connect(RefreshButton, &QPushButton::clicked, this, &TGo4EditDynEntry::RefreshClicked);
+   QObject::connect(SaveEntry, &QPushButton::clicked, this, &TGo4EditDynEntry::SaveEntrySlot);
+   QObject::connect(CancelButton, &QPushButton::clicked, this, &TGo4EditDynEntry::CloseMDIParentSlot);
+   QObject::connect(EvXnameEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::EvXnameEdit_dropped);
+   QObject::connect(EvYnameEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::EvYnameEdit_dropped);
+   QObject::connect(EvZnameEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::EvZnameEdit_dropped);
+   QObject::connect(ConXnameEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::ConXnameEdit_dropped);
+   QObject::connect(ConYnameEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::ConYnameEdit_dropped);
+   QObject::connect(DrawExprEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::DrawExprEdit_dropped);
+   QObject::connect(CutExprEdit, &QGo4LineEdit::textDropped, this, &TGo4EditDynEntry::CutExprEdit_dropped);
+   QObject::connect(HisCreateButton, &QPushButton::clicked, this, &TGo4EditDynEntry::HisCreateButton_clicked);
+   QObject::connect(HisInfoButton, &QPushButton::clicked, this, &TGo4EditDynEntry::HisInfoButton_clicked);
+   QObject::connect(ConNewButton, &QPushButton::clicked, this, &TGo4EditDynEntry::ConNewButton_clicked);
+   QObject::connect(ConInfoButton, &QPushButton::clicked, this, &TGo4EditDynEntry::ConInfoButton_clicked);
    QObject::connect(EntryEnabledButton, &QCheckBox::toggled, this, &TGo4EditDynEntry::EntryEnabledButton_toggled);
    QObject::connect(EvXnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::EvXnameEdit_textChanged);
    QObject::connect(EvYnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::EvYnameEdit_textChanged);
@@ -58,8 +58,8 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
    QObject::connect(DrawExprEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::DrawExprEdit_textChanged);
    QObject::connect(CutExprEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::CutExprEdit_textChanged);
    QObject::connect(DynIntervalSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4EditDynEntry::DynIntervalSpin_valueChanged);
-   QObject::connect(DrawButton, SIGNAL(clicked()), this, SLOT(DrawButton_clicked()));
-   QObject::connect(ConRemoveButton, SIGNAL(clicked()), this, SLOT(ConRemoveButton_clicked()));
+   QObject::connect(DrawButton, &QPushButton::clicked, this, &TGo4EditDynEntry::DrawButton_clicked);
+   QObject::connect(ConRemoveButton, &QPushButton::clicked, this, &TGo4EditDynEntry::ConRemoveButton_clicked);
 
    fbTypingMode = true;
    fiSelectedType = entry_None;
