@@ -19,7 +19,7 @@ TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent)
 {
    setObjectName("Go4OpenRemoteDialog");
    setupUi(this);
-   QObject::connect(TypeSelectorBox, SIGNAL(activated(QString)), this, SLOT(TypeSelectorBox_activated(QString)));
+   QObject::connect(TypeSelectorBox, QOverload<int>::of(&QComboBox::activated), this, &TGo4OpenRemoteDialog::TypeSelectorBox_activated);
    QObject::connect(ServerEdit, &QLineEdit::textChanged, this, &TGo4OpenRemoteDialog::ServerEdit_textChanged);
    QObject::connect(FileNameEdit, &QLineEdit::textChanged, this, &TGo4OpenRemoteDialog::FileNameEdit_textChanged);
 
@@ -27,21 +27,24 @@ TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent)
    go4sett->getRemoteFileSett(hostname, filename, protocol);
 
    ServerEdit->setText(hostname);
-   fxServer=hostname;
+   fxServer = hostname;
    FileNameEdit->setText(filename);
-   fxFile=filename;
-   fxType=protocol;
+   fxFile = filename;
+   fxType = protocol;
+   int indx = 3;
    if(protocol.contains("root:"))
-      TypeSelectorBox->setCurrentIndex(0);
-   else
-   if (protocol.contains("rfio:"))
-      TypeSelectorBox->setCurrentIndex(1);
-   else
-   if (protocol.contains("http:"))
-      TypeSelectorBox->setCurrentIndex(2);
-   else
-      TypeSelectorBox->setCurrentIndex(3);
-   TypeSelectorBox_activated(protocol);
+      indx = 0;
+   else if (protocol.contains("rfio:"))
+      indx = 1;
+   else if (protocol.contains("http:"))
+      indx = 2;
+
+   if (indx < 3) {
+      TypeSelectorBox->setCurrentIndex(indx);
+      TypeSelectorBox_activated(indx);
+   } else {
+      TypeSelectorBox->setCurrentText(protocol);
+   }
 }
 
 TGo4OpenRemoteDialog::~TGo4OpenRemoteDialog()
@@ -50,29 +53,25 @@ TGo4OpenRemoteDialog::~TGo4OpenRemoteDialog()
    QString fname = GetFileName();
    QString protocol = GetFileType();
    if(protocol.contains("root:"))
-       protocol="root:";
+       protocol = "root:";
+   else if (protocol.contains("rfio:"))
+       protocol = "rfio:";
+   else if (protocol.contains("http:"))
+       protocol = "http:";
    else
-   if (protocol.contains("rfio:"))
-       protocol="rfio:";
-   else
-   if (protocol.contains("http:"))
-       protocol="http:";
-   else
-       protocol="local:";
+       protocol = "local:";
    go4sett->setRemoteFileSett(server, fname, protocol);
 }
 
-
-
-void TGo4OpenRemoteDialog::TypeSelectorBox_activated( const QString & tname)
+void TGo4OpenRemoteDialog::TypeSelectorBox_activated(int indx)
 {
+   QString tname = TypeSelectorBox->itemText(indx);
    if(tname.contains("root:") || tname.contains("http:") || tname.contains("rfio:"))
       ServerEdit->setEnabled(true);
    else
       ServerEdit->setEnabled(false);
-   fxType=tname;
+   fxType = tname;
 }
-
 
 const QString& TGo4OpenRemoteDialog::GetFileName()
 {
