@@ -24,7 +24,7 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
    public:
       TGo4CommandLine(QWidget *parent = nullptr, const char* name = nullptr);
 
-   public Q_SLOTS:
+   public slots:
 
       virtual void FileSearchDialog();
 

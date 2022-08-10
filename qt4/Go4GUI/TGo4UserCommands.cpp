@@ -25,15 +25,15 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
    setObjectName( name ? name : "Go4UserCommands");
    setupUi(this);
 
-   QObject::connect (CommandButton1, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_1()));
-   QObject::connect (CommandButton2, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_2()));
-   QObject::connect (CommandButton3, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_3()));
-   QObject::connect (CommandButton4, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_4()));
-   QObject::connect (CommandButton5, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_5()));
-   QObject::connect (CommandButton6, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_6()));
-   QObject::connect (CommandButton7, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_7()));
-   QObject::connect (CommandButton8, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_8()));
-   QObject::connect (CommandButton9, SIGNAL (pressed()), this, SLOT (ExecuteAnalysisMacro_9()));
+   QObject::connect(CommandButton1, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_1);
+   QObject::connect(CommandButton2, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_2);
+   QObject::connect(CommandButton3, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_3);
+   QObject::connect(CommandButton4, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_4);
+   QObject::connect(CommandButton5, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_5);
+   QObject::connect(CommandButton6, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_6);
+   QObject::connect(CommandButton7, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_7);
+   QObject::connect(CommandButton8, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_8);
+   QObject::connect(CommandButton9, &QToolButton::pressed, this, &TGo4UserCommands::ExecuteAnalysisMacro_9);
 
    // here assign widget arrays:
    fAnalysisMacroButtons.clear();
@@ -65,12 +65,12 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
     }
 
 
-    QObject::connect(CommandAutoButton, SIGNAL (clicked ()), this, SLOT (AnalysisMacroMonitorBtn_clicked ()));
+    QObject::connect(CommandAutoButton, &QToolButton::clicked, this, &TGo4UserCommands::AnalysisMacroMonitorBtn_clicked);
 
     fAnalysisMacroTimer = new QTimer(this);
     QObject::connect(fAnalysisMacroTimer, &QTimer::timeout, this, &TGo4UserCommands::AnalysisMacroMonitorTimeout);
 
-    QObject::connect(ConfigureButton, SIGNAL (clicked ()), this, SLOT (ConfigureAnalysisMacros()));
+    QObject::connect(ConfigureButton, &QToolButton::clicked, this, &TGo4UserCommands::ConfigureAnalysisMacros);
 #ifdef 	USERCOMMANDS_CONFIGWINDOW
     ConfigureButton->setCheckable(false);
 #endif
