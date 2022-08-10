@@ -40,10 +40,10 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(FullPrintButton, SIGNAL(clicked()), this, SLOT(PrintState()));
-   QObject::connect(MonitorButton, SIGNAL(clicked()), this, SLOT(TimerStart()));
-   QObject::connect(StopButton, SIGNAL(clicked()), this, SLOT(TimerStop()));
-   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshButtonClick()));
+   QObject::connect(FullPrintButton, &QPushButton::clicked, this, &TGo4MBSViewer::PrintState);
+   QObject::connect(MonitorButton, &QPushButton::clicked, this, &TGo4MBSViewer::TimerStart);
+   QObject::connect(StopButton, &QPushButton::clicked, this, &TGo4MBSViewer::TimerStop);
+   QObject::connect(RefreshButton, &QPushButton::clicked, this, &TGo4MBSViewer::RefreshButtonClick);
    QObject::connect(NodeEdit, &QGo4LineEdit::returnPressed, this, &TGo4MBSViewer::NodeEditEnter);
    QObject::connect(NodeEdit, &QGo4LineEdit::textChanged, this, &TGo4MBSViewer::NodeChanged);
    QObject::connect(TrendCheck, &QCheckBox::toggled, this, &TGo4MBSViewer::TrendSwitched);

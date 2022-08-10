@@ -26,9 +26,9 @@ TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent )
 {
    setObjectName("Go4LoadedLibraries");
    setupUi(this);
-   QObject::connect(LoadLibBtn, SIGNAL(clicked()), this, SLOT(LoadNewLibrary()));
-   QObject::connect(UnloadLibBtn, SIGNAL(clicked()), this, SLOT(UnloadLibrary()));
-   QObject::connect(RefreshBtn, SIGNAL(clicked()), this, SLOT(RefreshLibs()));
+   QObject::connect(LoadLibBtn, &QPushButton::clicked, this, &TGo4LoadedLibraries::LoadNewLibrary);
+   QObject::connect(UnloadLibBtn, &QPushButton::clicked, this, &TGo4LoadedLibraries::UnloadLibrary);
+   QObject::connect(RefreshBtn, &QPushButton::clicked, this, &TGo4LoadedLibraries::RefreshLibs);
 
    RefreshLibs();
    UnloadLibBtn->hide();

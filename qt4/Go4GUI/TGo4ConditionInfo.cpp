@@ -24,10 +24,10 @@ TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(ConInfoButton, SIGNAL(clicked()), this, SLOT(ConInfoButton_clicked()));
-   QObject::connect(ConPrintButton, SIGNAL(clicked()), this, SLOT(ConPrintButton_clicked()));
-   QObject::connect(ConEditButton, SIGNAL(clicked()), this, SLOT(ConEditButton_clicked()));
-   QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintLog_clicked()));
+   QObject::connect(ConInfoButton, &QPushButton::clicked, this, &TGo4ConditionInfo::ConInfoButton_clicked);
+   QObject::connect(ConPrintButton, &QPushButton::clicked, this, &TGo4ConditionInfo::ConPrintButton_clicked);
+   QObject::connect(ConEditButton, &QPushButton::clicked, this, &TGo4ConditionInfo::ConEditButton_clicked);
+   QObject::connect(PrintLog, &QPushButton::clicked, this, &TGo4ConditionInfo::PrintLog_clicked);
 
    setWindowTitle("Condition Info:");
 }

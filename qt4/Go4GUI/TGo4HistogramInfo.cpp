@@ -25,10 +25,10 @@ TGo4HistogramInfo::TGo4HistogramInfo(QWidget *parent, const char* name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);
-   QObject::connect(HisInfoButton, SIGNAL(clicked()), this, SLOT(HisInfoButton_clicked()));
-   QObject::connect(HisPrintButton, SIGNAL(clicked()), this, SLOT(HisPrintButton_clicked()));
-   QObject::connect(HisDrawButton, SIGNAL(clicked()), this, SLOT(HisDrawButton_clicked()));
-   QObject::connect(PrintLog, SIGNAL(clicked()), this, SLOT(PrintLog_clicked()));
+   QObject::connect(HisInfoButton, &QPushButton::clicked, this, &TGo4HistogramInfo::HisInfoButton_clicked);
+   QObject::connect(HisPrintButton, &QPushButton::clicked, this, &TGo4HistogramInfo::HisPrintButton_clicked);
+   QObject::connect(HisDrawButton, &QPushButton::clicked, this, &TGo4HistogramInfo::HisDrawButton_clicked);
+   QObject::connect(PrintLog, &QPushButton::clicked, this, &TGo4HistogramInfo::PrintLog_clicked);
 
    setWindowTitle("Histogram Info:");
    ResetWidget();
