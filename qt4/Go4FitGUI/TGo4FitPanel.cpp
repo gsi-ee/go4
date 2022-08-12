@@ -209,17 +209,17 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    MenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
 
    FitterMap = new QSignalMapper(this);
-   connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
+   connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
    FitterMenu = MenuBar->addMenu("&Fitter");
    connect(FitterMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowFitterMenu()) );
 
    ViewMap = new QSignalMapper(this);
-   connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
+   connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
    ViewMenu = MenuBar->addMenu("&Tools");
    connect(ViewMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowViewMenu()) );
 
    SettMap = new QSignalMapper(this);
-   connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
+   connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
    SettMenu = MenuBar->addMenu("&Settings");
    connect(SettMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowSettMenu()) );
 
@@ -255,7 +255,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
 
    ItemMenu = nullptr;
    ItemMap = new QSignalMapper(this);
-   connect(ItemMap, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
+   connect(ItemMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ItemMenuItemSelected);
    CurrFitItem = nullptr;
 
    Wiz_DataSlotsTable->horizontalHeader()->setStretchLastSection(true);
@@ -1786,12 +1786,11 @@ void TGo4FitPanel::AboutToShowViewMenu()
 
 void TGo4FitPanel::ChangeViewType(int id)
 {
-   printf("TGo4FitPanel::ChangeViewType %d\n", id);
-  if (id!=FitGui::pm_None)
-    fiPanelMode = id;
+   if (id!=FitGui::pm_None)
+      fiPanelMode = id;
 
-  fbParsWidgetShown = false;
-  UpdateActivePage();
+   fbParsWidgetShown = false;
+   UpdateActivePage();
 }
 
 void TGo4FitPanel::ShowPanelPage( int id )
