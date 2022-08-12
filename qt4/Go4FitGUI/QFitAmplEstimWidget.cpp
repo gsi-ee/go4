@@ -17,9 +17,9 @@
 QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
-   ui.setupUi(this);
+   setupUi(this);
 
-   QObject::connect(ui.Iterations, SIGNAL(valueChanged(int)), this, SLOT(Iterations_valueChanged(int)));
+   QObject::connect(Iterations, &QSpinBox::valueChanged, this, &QFitAmplEstimWidget::Iterations_valueChanged);
 }
 
 TGo4FitAmplEstimation * QFitAmplEstimWidget::GetAmplEstim()
@@ -31,7 +31,7 @@ void QFitAmplEstimWidget::FillSpecificData()
 {
    QFitNamedWidget::FillSpecificData();
    if (GetAmplEstim())
-      ui.Iterations->setValue(GetAmplEstim()->GetNumIterations());
+      Iterations->setValue(GetAmplEstim()->GetNumIterations());
 }
 
 
