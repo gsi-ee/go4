@@ -20,11 +20,11 @@ TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
    setObjectName("Go4ConnectServer");
    setupUi(this);
 
-   QObject::connect(CloseBtn, SIGNAL(clicked()), this, SLOT(close()));
-   QObject::connect(ConnectBtn, SIGNAL(clicked()), this, SLOT(accept()));
+   QObject::connect(CloseBtn, &QPushButton::clicked, this, &TGo4ConnectServer::close);
+   QObject::connect(ConnectBtn, &QPushButton::clicked, this, &TGo4ConnectServer::accept);
    QObject::connect(DefaultPassCheck, &QCheckBox::toggled, this, &TGo4ConnectServer::DefaultPassCheck_toggled);
-   QObject::connect(ModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectAccount_changed(int)));
-   QObject::connect(ConnectionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectConnection_changed(int)));
+   QObject::connect(ModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TGo4ConnectServer::SelectAccount_changed);
+   QObject::connect(ConnectionCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TGo4ConnectServer::SelectConnection_changed);
 
    ClientNode->setText(go4sett->getClientNode());
    PortNumber->setValue(go4sett->getClientPort());
