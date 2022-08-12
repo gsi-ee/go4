@@ -42,11 +42,12 @@ extern "C" Double_t gaussian_(Double_t *axis, Double_t *pars);
 // routine to read histogram from examples file
 TH1D* GetHistogram(const char* HistogramName)
 {
-   TFile *f1 = TFile::Open("histograms.root");
-   if (!f1) return nullptr;
+   TFile *f = TFile::Open("histograms.root");
+   if (!f) return nullptr;
    TH1D *histo = nullptr;
-   f1->GetObject(HistogramName, histo);
+   f->GetObject(HistogramName, histo);
    if (histo) histo->SetDirectory(nullptr);
+   delete f;
    return histo;
 }
 
