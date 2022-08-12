@@ -20,7 +20,7 @@ QFitModelPolynomWidget::QFitModelPolynomWidget(QWidget *parent, const char* name
          : QFitModelWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(AxisSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelPolynomWidget::AxisSpin_valueChanged);
+   QObject::connect(AxisSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelPolynomWidget::AxisSpin_valueChanged);
 }
 
 TGo4FitModelPolynom * QFitModelPolynomWidget::GetPolynom()

@@ -57,7 +57,7 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
    QObject::connect(ConYnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::ConYnameEdit_textChanged);
    QObject::connect(DrawExprEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::DrawExprEdit_textChanged);
    QObject::connect(CutExprEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::CutExprEdit_textChanged);
-   QObject::connect(DynIntervalSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4EditDynEntry::DynIntervalSpin_valueChanged);
+   QObject::connect(DynIntervalSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4EditDynEntry::DynIntervalSpin_valueChanged);
    QObject::connect(DrawButton, SIGNAL(clicked()), this, SLOT(DrawButton_clicked()));
    QObject::connect(ConRemoveButton, SIGNAL(clicked()), this, SLOT(ConRemoveButton_clicked()));
 

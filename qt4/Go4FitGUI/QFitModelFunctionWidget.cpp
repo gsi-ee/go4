@@ -24,7 +24,7 @@ QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char* na
 
    QObject::connect(LibNameEdt, &QGo4LineEdit::textChanged, this, &QFitModelFunctionWidget::LibNameEdt_textChanged);
    QObject::connect(FuncNameEdt, &QGo4LineEdit::textChanged, this, &QFitModelFunctionWidget::FuncNameEdt_textChanged);
-   QObject::connect(NumParSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelFunctionWidget::NumParSpin_valueChanged);
+   QObject::connect(NumParSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelFunctionWidget::NumParSpin_valueChanged);
 }
 
 TGo4FitModelFunction * QFitModelFunctionWidget::GetFunction()

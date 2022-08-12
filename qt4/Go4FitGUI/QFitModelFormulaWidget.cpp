@@ -21,7 +21,7 @@ QFitModelFormulaWidget::QFitModelFormulaWidget(QWidget *parent, const char* name
 {
    setupUi(this);
    QObject::connect(ExprEdt, &QGo4LineEdit::textChanged, this, &QFitModelFormulaWidget::ExprEdt_textChanged);
-   QObject::connect(NumParSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitModelFormulaWidget::NumParSpin_valueChanged);
+   QObject::connect(NumParSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitModelFormulaWidget::NumParSpin_valueChanged);
 
 }
 

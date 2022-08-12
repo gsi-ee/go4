@@ -116,7 +116,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Wiz_RebuildDataBtn, SIGNAL(clicked()), this, SLOT(Wiz_RebuildDataBtn_clicked()));
    QObject::connect(Wiz_DataBufChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_DataBufChk_toggled);
    QObject::connect(Wiz_UseAmplEstimChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_UseAmplEstimChk_toggled);
-   QObject::connect(Wiz_MigradIterSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4FitPanel::Wiz_MigradIterSpin_valueChanged);
+   QObject::connect(Wiz_MigradIterSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4FitPanel::Wiz_MigradIterSpin_valueChanged);
    QObject::connect(Wiz_DataSlotsTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(Wiz_DataSlotsTable_contextMenuRequested(const QPoint &)));
    QObject::connect(Wiz_DataUseRangeBtn, SIGNAL(clicked()), this, SLOT(Wiz_DataUseRangeBtn_clicked()));
    QObject::connect(Wiz_DataClearRangesBtn, SIGNAL(clicked()), this, SLOT(Wiz_DataClearRangesBtn_clicked()));
@@ -136,7 +136,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(Wiz_ModelBufChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_ModelBufChk_toggled);
    QObject::connect(Wiz_PFSetupBtn, SIGNAL(clicked()), this, SLOT(Wiz_PFSetupBtn_clicked()));
    QObject::connect(Wiz_PFUsePolynChk, &QCheckBox::toggled, this, &TGo4FitPanel::Wiz_PFUsePolynChk_toggled);
-   QObject::connect(Wiz_PFPolynSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4FitPanel::Wiz_PFPolynSpin_valueChanged);
+   QObject::connect(Wiz_PFPolynSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4FitPanel::Wiz_PFPolynSpin_valueChanged);
    QObject::connect(PF_MinWidthEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MinWidthEdt_textChanged);
    QObject::connect(PF_MaxWidthEdt, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MaxWidthEdt_textChanged);
    QObject::connect(PF_AmplSlider, &QSlider::valueChanged, this, &TGo4FitPanel::PF_AmplSlider_valueChanged);
@@ -145,7 +145,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(PF_RelNoiseSlider, &QSlider::valueChanged, this, &TGo4FitPanel::PF_RelNoiseSlider_valueChanged);
    QObject::connect(PF_RelNoiseSlider, SIGNAL(sliderReleased()), this, SLOT(PF_RelNoiseSlider_sliderReleased()));
    QObject::connect(PF_MinNoiseEdit, &QGo4LineEdit::textChanged, this, &TGo4FitPanel::PF_MinNoiseEdit_textChanged);
-   QObject::connect(PF_SumUpSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4FitPanel::PF_SumUpSpin_valueChanged);
+   QObject::connect(PF_SumUpSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4FitPanel::PF_SumUpSpin_valueChanged);
    QObject::connect(Smp_PolynomBtn, SIGNAL(clicked()), this, SLOT(Smp_PolynomBtn_clicked()));
    QObject::connect(Smp_GaussianBtn, SIGNAL(clicked()), this, SLOT(Smp_GaussianBtn_clicked()));
    QObject::connect(Smp_LorenzBtn, SIGNAL(clicked()), this, SLOT(Smp_LorenzBtn_clicked()));
