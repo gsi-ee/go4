@@ -88,7 +88,12 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    StateGroup->addButton(SetupMLRadio, 2);
    StateGroup->addButton(SetupMORadio, 3);
    StateGroup->button(0)->setChecked(true);
+
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+   connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
+#else
    QObject::connect(StateGroup, &QButtonGroup::idClicked, this, &TGo4MBSViewer::StateGroup_clicked);
+#endif
 
    fxHistoAccessName = "nosuchobject";
    fxHistokBAccessName = "nosuchobject";
