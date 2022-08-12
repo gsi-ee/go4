@@ -306,11 +306,11 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
         QMenu menu;
         QSignalMapper map;
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-        void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
-#else
+   #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+        auto signal = QOverload<int>::of(&QSignalMapper::mapped);
+   #else
         auto signal = &QSignalMapper::mappedInt;
-#endif
+   #endif
 
         QObject::connect(&map, signal, this, &QRootCanvas::executeMenu);
         fMenuObj = selected;
