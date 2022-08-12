@@ -424,7 +424,13 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
    if (enabled!=-1)
       act->setEnabled(enabled > 0);
 
-   QObject::connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+   QObject::connect(act, &QAction::triggered, [id, map]() {
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+      map->mapped(id);
+#else
+      map->mappedInt(id);
+#endif
+   });
 
    menu->addAction(act);
    map->setMapping(act, id);
@@ -458,7 +464,13 @@ QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
    if (enabled!=-1)
      act->setEnabled(enabled > 0);
 
-   QObject::connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+   QObject::connect(act, &QAction::triggered, [id, map]() {
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+      map->mapped(id);
+#else
+      map->mappedInt(id);
+#endif
+   });
 
    menu->addAction(act);
    map->setMapping(act, id);
