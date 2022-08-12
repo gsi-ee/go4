@@ -41,7 +41,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 
    QObject::connect(CloseWin, SIGNAL(clicked()), this, SLOT(CloseMDIParentSlot()));
    QObject::connect(UpdateCon, SIGNAL(clicked()), this, SLOT(UpdatePressed()));
-   QObject::connect(ArrayElements, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::SelectedCond);
+   QObject::connect(ArrayElements, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::SelectedCond);
    QObject::connect(ResultCombo, SIGNAL(activated(int)), this, SLOT(SetResultMode(int)));
    QObject::connect(InvertCombo, SIGNAL(activated(int)), this, SLOT(SetInvertMode(int)));
    QObject::connect(ClearCondCount, SIGNAL(clicked()), this, SLOT(ClearCounters()));
@@ -81,7 +81,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(NPointsSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConditionEditor::NPointsSpin_valueChanged);
    QObject::connect(CutTable, &QTableWidget::cellChanged, this, &TGo4ConditionEditor::CutTable_valueChanged);
    QObject::connect(CutTable, &QTableWidget::customContextMenuRequested, this, &TGo4ConditionEditor::CutTable_contextMenuRequested);
-   QObject::connect(EllipseTiltDial, SIGNAL(valueChanged(int)), this, SLOT(EllipseTheta_valueChanged(int)));
+   QObject::connect(EllipseTiltDial, &QDial::valueChanged, this, &TGo4ConditionEditor::EllipseTheta_valueChanged);
    QObject::connect(AutoRefreshBox, SIGNAL(toggled(bool)), this, SLOT(EllipseRefreshBox_toggled(bool)));
    QObject::connect(EllipseA1Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA1_valueChanged);
    QObject::connect(EllipseA2Spinbox, (void (QDoubleSpinBox::*)(double)) &QDoubleSpinBox::valueChanged, this, &TGo4ConditionEditor::EllipseA2_valueChanged);
