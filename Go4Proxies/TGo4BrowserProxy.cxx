@@ -599,11 +599,11 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
                                        const char* hname,
                                        TString& createdhistoname)
 {
-   if (strlen(Xexp) == 0) return;
+   if (!Xexp || strlen(Xexp) == 0) return;
 
    TString varexp(Xexp);
 
-   if(strlen(Yexp) > 0) {
+   if(Yexp && strlen(Yexp) > 0) {
       varexp = TString(Yexp) + TString(":") + varexp;
       if(strlen(Zexp) > 0)
          varexp = TString(Zexp) + TString(":") + varexp;
@@ -611,7 +611,6 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    int drawdim = varexp.CountChar(':') + 1;
    if (drawdim > 3) drawdim = 3;
-
 
    if (IsItemRemote(treename)) {
       TString objname;

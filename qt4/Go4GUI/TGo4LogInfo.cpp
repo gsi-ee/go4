@@ -92,7 +92,7 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
          const char* msg = obj->GetName();
 
          const char* separ = strchr(msg,':');
-         if (!separ || (strlen(separ)<3)) continue;
+         if (!separ || (strlen(separ) < 3)) continue;
 
          Long64_t tm = TString(msg, separ-msg).Atoll();
 

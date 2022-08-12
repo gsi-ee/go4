@@ -21,33 +21,35 @@
 
 TGo4FitMinuitResult::TGo4FitMinuitResult() :
     TNamed(),
-    ParValues(0),
-    ParError(0),
-    EPLUS(0),
-    EMINUS(0),
-    EPARAB(0),
-    GLOBCC(0),
-    ERRORMATRIX(0),
-    CONTOX(0),
-    CONTOY(0),
-    CONTOCH(0) {
+    ParValues(nullptr),
+    ParError(nullptr),
+    EPLUS(nullptr),
+    EMINUS(nullptr),
+    EPARAB(nullptr),
+    GLOBCC(nullptr),
+    ERRORMATRIX(nullptr),
+    CONTOX(nullptr),
+    CONTOY(nullptr),
+    CONTOCH(nullptr) {
 }
 
 TGo4FitMinuitResult::TGo4FitMinuitResult(const char* iName, const char* iTitle) :
-    TNamed(iName,iTitle),
-    ParValues(0),
-    ParError(0),
-    EPLUS(0),
-    EMINUS(0),
-    EPARAB(0),
-    GLOBCC(0),
-    ERRORMATRIX(0),
-    CONTOX(0),
-    CONTOY(0),
-    CONTOCH(0)  {
+    TNamed(iName, iTitle),
+    ParValues(nullptr),
+    ParError(nullptr),
+    EPLUS(nullptr),
+    EMINUS(nullptr),
+    EPARAB(nullptr),
+    GLOBCC(nullptr),
+    ERRORMATRIX(nullptr),
+    CONTOX(nullptr),
+    CONTOY(nullptr),
+    CONTOCH(nullptr)
+{
 }
 
-TGo4FitMinuitResult::~TGo4FitMinuitResult() {
+TGo4FitMinuitResult::~TGo4FitMinuitResult()
+{
    if(ParValues) delete ParValues;
    if(ParError) delete  ParError;
    if(EPLUS) delete EPLUS;
@@ -60,11 +62,13 @@ TGo4FitMinuitResult::~TGo4FitMinuitResult() {
    if(CONTOCH) delete CONTOCH;
 }
 
-void TGo4FitMinuitResult::CallMNSTAT(TMinuit* fMinuit) {
+void TGo4FitMinuitResult::CallMNSTAT(TMinuit* fMinuit)
+{
     fMinuit->mnstat(FMIN,FEDM,ERRDEF,NPARI,NPARX,ISTAT);
 }
 
-void TGo4FitMinuitResult::CallMNPOUT(TMinuit* fMinuit, Int_t nPars) {
+void TGo4FitMinuitResult::CallMNPOUT(TMinuit* fMinuit, Int_t nPars)
+{
     if(ParValues) delete ParValues;
     if(ParError) delete  ParError;
 
@@ -74,7 +78,8 @@ void TGo4FitMinuitResult::CallMNPOUT(TMinuit* fMinuit, Int_t nPars) {
        fMinuit->GetParameter(n, (*ParValues)[n], (*ParError)[n]);
 }
 
-void TGo4FitMinuitResult::CallMNERRS(TMinuit* fMinuit, Int_t nPars) {
+void TGo4FitMinuitResult::CallMNERRS(TMinuit* fMinuit, Int_t nPars)
+{
    if(EPLUS) delete EPLUS;
    if(EMINUS) delete EMINUS;
    if(EPARAB) delete EPARAB;
@@ -87,7 +92,6 @@ void TGo4FitMinuitResult::CallMNERRS(TMinuit* fMinuit, Int_t nPars) {
 
    for(Int_t n=0;n<nPars;n++)
        fMinuit->mnerrs(n, (*EPLUS)[n], (*EMINUS)[n], (*EPARAB)[n], (*GLOBCC)[n]);
-
 }
 
 void TGo4FitMinuitResult::CallMNEMAT(TMinuit* fMinuit, Int_t nPars, Bool_t DoTransform)
@@ -126,7 +130,8 @@ void TGo4FitMinuitResult::CallMNEMAT(TMinuit* fMinuit, Int_t nPars, Bool_t DoTra
    delete[] matrix;
 }
 
-void TGo4FitMinuitResult::GetContourPlot(TMinuit* fMinuit) {
+void TGo4FitMinuitResult::GetContourPlot(TMinuit* fMinuit)
+{
    Int_t sz = strlen(fMinuit->fChpt);
    if (sz == 0) return;
    CONTOX = new TArrayD(sz);
@@ -140,7 +145,8 @@ void TGo4FitMinuitResult::GetContourPlot(TMinuit* fMinuit) {
 
 }
 
-void TGo4FitMinuitResult::Print(Option_t* option) const {
+void TGo4FitMinuitResult::Print(Option_t* option) const
+{
     TNamed::Print(option);
     std::cout << std::endl << "Minuit status:" << std::endl;
     std::cout << "  The best function value found so far " << FMIN << std::endl;

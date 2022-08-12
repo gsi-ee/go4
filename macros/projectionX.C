@@ -29,7 +29,7 @@ Bool_t projectionX(const char* name1, const char* polyname, Int_t firstybin, Int
    }
    TGo4PolyCond* poly =nullptr;
    TCutG *cut = nullptr;
-   if(strlen(polyname) > 0){
+   if(polyname && strlen(polyname) > 0){
       TString fullname2 = go4->FindItem(polyname);
       TObject* ob2 = go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
       if(ob2 && ob2->InheritsFrom("TGo4Condition")) poly = (TGo4PolyCond*) ob2;
