@@ -301,33 +301,33 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    AddSettingMenu();
 
    windowsMenu = menuBar()->addMenu("&Windows");
-   connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
+   connect(windowsMenu, &QMenu::aboutToShow, this, &TGo4MainWindow::windowsMenuAboutToShow);
    // need to create menu item with F11
    windowsMenuAboutToShow();
 
    menuBar()->addSeparator();
 
    QMenu* helpMenu = menuBar()->addMenu("&Help");
-   helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()), Key_F1);
+   helpMenu->addAction("&Introduction (user manual)", this, &TGo4MainWindow::IntroHelpSlot)->setShortcut(Key_F1);
    helpMenu->addAction("&Reference manual", this, &TGo4MainWindow::RefHelpSlot);
    helpMenu->addAction("&Fit Tutorial", this, &TGo4MainWindow::FitHelpSlot);
    helpMenu->addSeparator();
-   helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2);
-   helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
+   helpMenu->addAction("About &Qt", this, &TGo4MainWindow::aboutQt)->setShortcut(Key_F2);
+   helpMenu->addAction("About R&OOT", this, &TGo4MainWindow::aboutROOT)->setShortcut(Key_F3);
    if (TGo4DabcProxy::GetDabcVersion())
       helpMenu->addAction("About &DABC", this, &TGo4MainWindow::aboutDABC);
-   helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
+   helpMenu->addAction("About &Go4", this, &TGo4MainWindow::about)->setShortcut(Key_F4);
 
    const char* libs = gSystem->Getenv("GO4USERLIBRARY");
 
    if (libs) {
 #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
-      QStringList LibList = QString(libs).split(":",QString::SkipEmptyParts);
+      QStringList LibList = QString(libs).split(":", QString::SkipEmptyParts);
 #else
-      QStringList LibList = QString(libs).split(":",Qt::SkipEmptyParts);
+      QStringList LibList = QString(libs).split(":", Qt::SkipEmptyParts);
 #endif
 
-      for (QStringList::Iterator it=LibList.begin(); it!=LibList.end(); ++it)
+      for (auto it = LibList.begin(); it != LibList.end(); ++it)
           gSystem->Load((*it).toLatin1().constData());
    }
 
