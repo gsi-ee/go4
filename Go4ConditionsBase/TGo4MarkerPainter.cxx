@@ -213,7 +213,7 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
          fxConnector->SetLineStyle(4);
          fxConnector->AppendPad();
       } else {
-         // connection line is still exisiting:
+         // connection line is still existing:
          if (!gPad->GetListOfPrimitives()->FindObject(fxConnector))
             fxConnector->AppendPad();// connection line was removed from pad, we redraw it:
          fxConnector->SetX1(xmark);

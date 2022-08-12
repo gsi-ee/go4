@@ -775,7 +775,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
   size_t innersize=datatype.Size();
 
   //  need to find out which of the existing subhandles should not be written, because
-  // the corresponding entries in subervector are not exisiting for the current event.
+  // the corresponding entries in subervector are not existing for the current event.
   SetAllSubMembersActive(false); // first disable all subcomponents if existing
 
 

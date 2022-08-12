@@ -785,7 +785,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Co
       //std::cout << "++++ Updated condition "<< name<<" from condition "<< con->GetName() << std::endl;
       //oldcon->PrintCondition(true);
    } else {
-      // condition not yet exisiting, add external condition
+      // condition not yet existing, add external condition
       TGo4Condition* clonedcon = dynamic_cast<TGo4Condition*>(con->Clone());
 
       TGo4PolyCond::CleanupSpecials(); // remove reference to cloned cut
@@ -1245,7 +1245,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic
       oldpic->UpdateFrom(pic);
       //            std::cout << "++++ Updated picture "<< name<<" from picture "<< pic->GetName() << std::endl;
    } else {
-      // picture not yet exisiting, add external as a copy:
+      // picture not yet existing, add external as a copy:
       TGo4Picture* clonedpic = dynamic_cast<TGo4Picture*>(pic->Clone());
       // find out destination folder for new pic from name:
 

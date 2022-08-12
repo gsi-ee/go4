@@ -73,7 +73,7 @@ void TGo4LabelPainter::PaintLabel(Option_t* opt)
       fxLabel=CreateCurrentLabel(fdX0,fdY0);
       fxLabel->AppendPad(opt); // only append to pad if not already there
    } else {
-      // label is exisiting:
+      // label is existing:
       if (!gPad->GetListOfPrimitives()->FindObject(fxLabel))
          fxLabel->AppendPad(opt); // label was cleared from pad, we redraw it
 
