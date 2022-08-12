@@ -89,7 +89,7 @@ void TGo4ObjectProxy::Finalize(TGo4Slot* slot)
 
 Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
 {
-   if (fObject==obj) {
+   if (fObject == obj) {
       fObject = nullptr;
       fOwner = kFALSE;
    }
