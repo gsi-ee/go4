@@ -36,7 +36,7 @@ extern "C"
 
 TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QGo4Widget(parent,name),
-   fxRunMovie(0)
+   fxRunMovie(nullptr)
 {
    setupUi(this);
 
@@ -88,7 +88,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    StateGroup->addButton(SetupMLRadio, 2);
    StateGroup->addButton(SetupMORadio, 3);
    StateGroup->button(0)->setChecked(true);
-   connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
+   QObject::connect(StateGroup, &QButtonGroup::idClicked, this, &TGo4MBSViewer::StateGroup_clicked);
 
    fxHistoAccessName = "nosuchobject";
    fxHistokBAccessName = "nosuchobject";
