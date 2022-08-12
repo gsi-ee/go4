@@ -223,18 +223,21 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
 {
    TGo4DynamicEntry* entry =
       dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
+
    const char* oldname = GetLinkedName("Entry");
 
    if (entry && oldname && PleaseUpdateLabel->isVisible()) {
 
-      int res = QMessageBox::warning(this, "Dynamic list entry editor",
-        QString("Current entry ")+oldname+" is modified!\n New entry" +
-        itemname+ " selected.",
-        QString("Continue with current"),
-        QString("Start with new"), QString(), 0);
-//        (BrowserItemRemote(oldname) ? QString("Update current in analysis and work with new") : QString()), 0);
-      if (res == 0) return;
-//      if (res == 2) UpdateItemInAnalysis(oldname);
+      QMessageBox msgBox(QMessageBox::Question, "Dynamic list entry editor",
+                         QString("Current entry %1 is modified!\nNew entry %2 is selected.").arg(oldname).arg(itemname));
+
+      auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
+      auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+      msgBox.setDefaultButton(btnContinue);
+
+      msgBox.exec();
+      if (msgBox.clickedButton() == btnContinue)
+         return;
    }
 
    ResetWidget();

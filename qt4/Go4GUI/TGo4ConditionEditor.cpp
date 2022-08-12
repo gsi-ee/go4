@@ -177,15 +177,16 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
 
    TGo4Condition* con = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
    if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname) != 0)) {
+      QMessageBox msgBox(QMessageBox::Question, "Condition editor",
+                         QString("Current condition %1 is modified!\nNew condition %2 is selected.").arg(conditemname).arg(itemname));
 
-      int res = QMessageBox::warning(this, "Condition editor",
-        QString("Current condition %1 is modified!\n"
-                "New condition %2 is selected.").arg(conditemname).arg(itemname),
-        QString("Continue with current"),
-        QString("Start with new"), QString(), 0);
-//        (BrowserItemRemote(conditemname) ? QString("Update in analysis and start new") : QString()), 0);
-      if (res == 0) return;
-//      if (res == 2) UpdateItemInAnalysis(conditemname);
+      auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
+      auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+      msgBox.setDefaultButton(btnContinue);
+
+      msgBox.exec();
+      if (msgBox.clickedButton() == btnContinue)
+         return;
    }
 
    if (!conditemname || (strcmp(conditemname,itemname) != 0)) {
