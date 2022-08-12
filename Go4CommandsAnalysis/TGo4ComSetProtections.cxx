@@ -48,7 +48,7 @@ void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)
 Int_t TGo4ComSetProtections::ExeCom()
 {
    TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
-   if (cli != 0) {
+   if (cli) {
       if (TGo4Analysis::Instance()->ProtectObjects(GetObjectName(), (const Option_t *)fxFlags.Data())) {
          cli->SendStatusMessage(
             1, kFALSE,
