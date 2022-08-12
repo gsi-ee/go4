@@ -250,12 +250,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   connect(fSelectMap, SIGNAL(mapped(int)), this, SLOT(SelectMenuItemActivated(int)));
-   connect(fOptionsMap, SIGNAL(mapped(int)), this, SLOT(OptionsMenuItemActivated(int)));
+   void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
 #else
-   QObject::connect(fSelectMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::SelectMenuItemActivated);
-   QObject::connect(fOptionsMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::OptionsMenuItemActivated);
+   auto signal = &QSignalMapper::mappedInt;
 #endif
+
+   QObject::connect(fSelectMap, signal, this, &TGo4ViewPanel::SelectMenuItemActivated);
+   QObject::connect(fOptionsMap, signal, this, &TGo4ViewPanel::OptionsMenuItemActivated);
 
    AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);

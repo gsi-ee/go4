@@ -307,10 +307,12 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         QMenu menu;
         QSignalMapper map;
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-        connect(&map, SIGNAL(mapped(int)), this, SLOT(executeMenu(int)));
+        void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
 #else
-        QObject::connect(&map, &QSignalMapper::mappedInt, this, &QRootCanvas::executeMenu);
+        auto signal = &QSignalMapper::mappedInt;
 #endif
+
+        QObject::connect(&map, signal, this, &QRootCanvas::executeMenu);
         fMenuObj = selected;
         fMenuMethods = new TList;
         TClass *cl = fMenuObj->IsA();
