@@ -85,7 +85,6 @@ public:
     virtual void NPointsSpin_valueChanged( int npoint );
     virtual void CutTable_valueChanged( int ncol, int nrow );
     virtual void CutTable_contextMenuRequested(const QPoint &);
-    virtual void ContextMenuSlot(int);
     virtual void EllipseTheta_returnPressed();
     virtual void EllipseNPoints_valueChanged( int npoint );
     virtual void EllipseTheta_valueChanged(int deg);
@@ -97,6 +96,9 @@ public:
     virtual void EllipseCircleBox_toggled(bool on);
 
 protected:
+
+    void ContextMenuHandler(int, bool);
+
     bool fbTypingMode{false};
     int fiSelectedIndex{0};
     bool fbDrawOnNextRefresh{false};
