@@ -48,9 +48,9 @@ class TGo4ObjManLink : public TObject {
       Bool_t DoChildsExpand() const { return fbExapndChilds; }
 
    protected:
-      TGo4Slot*  fxSource;       //!
-      TGo4Slot*  fxTarget;       //!
-      Bool_t     fbExapndChilds; //!
+      TGo4Slot*  fxSource{nullptr};       //!
+      TGo4Slot*  fxTarget{nullptr};       //!
+      Bool_t     fbExapndChilds{kFALSE};  //!
 };
 
 class TGo4ObjManCleanup : public TObject {
