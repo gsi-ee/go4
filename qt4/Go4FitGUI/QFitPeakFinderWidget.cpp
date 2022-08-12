@@ -23,7 +23,7 @@ QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
    QObject::connect(ClearModelsChk, &QCheckBox::toggled, this, &QFitPeakFinderWidget::ClearModelsChk_toggled);
    QObject::connect(UsePolynChk, &QCheckBox::toggled, this, &QFitPeakFinderWidget::UsePolynChk_toggled);
    QObject::connect(PolynSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &QFitPeakFinderWidget::PolynSpin_valueChanged);
-   QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
+   QObject::connect(FindersTab, &QTabWidget::currentChanged, this, &QFitPeakFinderWidget::FindersTab_currentChanged);
    QObject::connect(ThresholdEdt, &QGo4LineEdit::textChanged, this, &QFitPeakFinderWidget::ThresholdEdt_textChanged);
    QObject::connect(MinWidthEdt, &QGo4LineEdit::textChanged, this, &QFitPeakFinderWidget::MinWidthEdt_textChanged);
    QObject::connect(MaxWidthEdt, &QGo4LineEdit::textChanged, this, &QFitPeakFinderWidget::MaxWidthEdt_textChanged);
