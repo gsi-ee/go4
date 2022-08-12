@@ -113,8 +113,6 @@ private:
 
       static QAction* CreateChkAction(QMenu* menu, const QString& text, bool checked, bool enabled = true);
 
-      static QAction* AddChkAction(QMenu* menu, const QString& text, bool checked, QObject* recv, const char* member);
-
       static QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 
    signals:

@@ -415,14 +415,6 @@ QAction* QGo4Widget::CreateChkAction(QMenu* menu, const QString& text, bool chec
    return act;
 }
 
-
-QAction* QGo4Widget::AddChkAction(QMenu* menu, const QString& text, bool checked, QObject* recv, const char* member)
-{
-   QAction* act = CreateChkAction(menu, text, checked);
-   recv->connect (act, SIGNAL(triggered()), recv, member);
-   return act;
-}
-
 QAction* QGo4Widget::AddIdAction(QMenu* menu, QSignalMapper* map,
                                  const QString& text, int id, int enabled, int checked)
 {
