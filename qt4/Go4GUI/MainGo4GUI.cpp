@@ -279,12 +279,11 @@ int main(int argc, char **argv)
    // create instance, which should be used everywhere
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
 
-   myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
+   myapp.connect(&myapp, &QRootApplication::lastWindowClosed, &myapp, &QRootApplication::quit);
 
    Go4MainGUI->ensurePolished();
    Go4MainGUI->show();
 
-   //myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
    QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
    QApplication::setStartDragTime(150); // ms
 
