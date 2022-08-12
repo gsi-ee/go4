@@ -112,14 +112,14 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QObject::connect(FreezeMode, &QCheckBox::toggled, this, &TGo4ViewPanel::SetFreezeMouseMode);
    QObject::connect(LatexB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetLateXMode);
    QObject::connect(DrawB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetDrawingMode);
-   QObject::connect(PrintLogB, SIGNAL(pressed()), this, SLOT(LogMarkerValues()));
+   QObject::connect(PrintLogB, &QPushButton::pressed, this, &TGo4ViewPanel::LogMarkerValues);
    QObject::connect(PolyB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetPolygonMode);
    QObject::connect(SelectedMarkerCmb, QOverload<int>::of(&QComboBox::activated), this, &TGo4ViewPanel::SelectedMarkerCmb_activated);
-   QObject::connect(DelSelectedMarker, SIGNAL(clicked()), this, SLOT(DelSelectedMarker_clicked()));
-   QObject::connect(GetConditionBtn, SIGNAL(clicked()), this, SLOT(GetConditionBtn_clicked()));
-   QObject::connect(InfoConditionBtn, SIGNAL(clicked()), this, SLOT(InfoConditionBtn_clicked()));
-   QObject::connect(EditConditionBtn, SIGNAL(clicked()), this, SLOT(EditConditionBtn_clicked()));
-   QObject::connect(SetConditionBtn, SIGNAL(clicked()), this, SLOT(SetConditionBtn_clicked()));
+   QObject::connect(DelSelectedMarker, &QPushButton::clicked, this, &TGo4ViewPanel::DelSelectedMarker_clicked);
+   QObject::connect(GetConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::GetConditionBtn_clicked);
+   QObject::connect(InfoConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::InfoConditionBtn_clicked);
+   QObject::connect(EditConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::EditConditionBtn_clicked);
+   QObject::connect(SetConditionBtn, &QPushButton::clicked, this, &TGo4ViewPanel::SetConditionBtn_clicked);
 
    // TODO: viewpanel does not closed when press close button
    setAttribute(Qt::WA_DeleteOnClose);

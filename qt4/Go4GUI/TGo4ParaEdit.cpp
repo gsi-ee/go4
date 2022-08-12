@@ -38,11 +38,11 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
    QObject::connect(MemberTable, &QTableWidget::cellChanged, this, &TGo4ParaEdit::ChangedTable);
    QObject::connect(MemberTable, &QTableWidget::cellDoubleClicked, this, &TGo4ParaEdit::TableDoubleClick);
    QObject::connect(MemberTable, &QTableWidget::customContextMenuRequested, this, &TGo4ParaEdit::TableContextMenu);
-   QObject::connect(CancelButton, SIGNAL(pressed()), this, SLOT(CloseMDIParentSlot()));
-   QObject::connect(ApplyButton, SIGNAL(pressed()), this, SLOT(ApplyClicked()));
-   QObject::connect(RefreshButton, SIGNAL(pressed()), this, SLOT(RefreshClicked()));
-   QObject::connect(ClearButton, SIGNAL(pressed()), this, SLOT(clearTextFields()));
-   QObject::connect(SavePar, SIGNAL(clicked()), this, SLOT(saveFile()));
+   QObject::connect(CancelButton, &QPushButton::pressed, this, &TGo4ParaEdit::CloseMDIParentSlot);
+   QObject::connect(ApplyButton, &QPushButton::pressed, this, &TGo4ParaEdit::ApplyClicked);
+   QObject::connect(RefreshButton, &QPushButton::pressed, this, &TGo4ParaEdit::RefreshClicked);
+   QObject::connect(ClearButton, &QPushButton::pressed, this, &TGo4ParaEdit::clearTextFields);
+   QObject::connect(SavePar, &QPushButton::clicked, this, &TGo4ParaEdit::saveFile);
 
    fItems = nullptr;
    PleaseUpdateLabel->setVisible(false);
