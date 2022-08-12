@@ -2444,7 +2444,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
            Wiz_DataSlotsTable->setItem(n, 3, new QTableWidgetItem(Wiz_GetSlotSourceInfo(slot)));
          }
 
-         Wiz_DataSlotsTable->resizeColumnsToContents ();
+         Wiz_DataSlotsTable->resizeColumnsToContents();
 
          Wiz_DataUseRangeBtn->setEnabled(FindPadWhereData(data) != nullptr);
          if (data)

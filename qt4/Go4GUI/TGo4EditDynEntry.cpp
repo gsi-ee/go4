@@ -100,8 +100,7 @@ void TGo4EditDynEntry::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4EditDynEntry::RefreshWidget()
 {
-   TGo4DynamicEntry* entry =
-      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry"));
+   auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
 
    TGo4BrowserProxy* br = Browser();
 
@@ -221,8 +220,7 @@ QString TGo4EditDynEntry::GetEventMember(const QString& itemname)
 
 void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
 {
-   TGo4DynamicEntry* entry =
-      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry"));
+   auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
 
    const char* oldname = GetLinkedName("Entry");
 
@@ -273,9 +271,7 @@ void TGo4EditDynEntry::DropHistogram(const char * itemname)
    DrawButton->setVisible(true);
    ClearButton->setVisible(true);
 
-   TGo4DynamicEntry* entry =
-     dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry"));
-
+   auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
    TGo4HistogramEntry* hentry = dynamic_cast<TGo4HistogramEntry*> (entry);
    TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (entry);
    if (hentry)
@@ -293,8 +289,7 @@ void TGo4EditDynEntry::DropCondition( const char * itemname )
    CondNameLbl->setText(itemname);
 
    EntryTabs->setCurrentIndex(EntryTabs->indexOf(ConditionTab));
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (hentry)
      hentry->SetConditionName(itemname);
 }
@@ -307,10 +302,9 @@ void TGo4EditDynEntry::DropTree( const char * itemname )
 
    TreeNameLbl->setText(itemname);
 
-   TGo4TreeHistogramEntry* tentry =
-     dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry"));
+   auto tentry = GetLinkedCast<TGo4TreeHistogramEntry>("Entry");
    if (tentry)
-     tentry->SetTreeName(itemname);
+      tentry->SetTreeName(itemname);
 }
 
 void TGo4EditDynEntry::ResetWidget()
@@ -491,8 +485,7 @@ void TGo4EditDynEntry::requestedObjectCreated(const char* itemname, TClass* cl)
 
 bool TGo4EditDynEntry::PrepareEntryForAnalysis()
 {
-   TGo4DynamicEntry* entry =
-     dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry"));
+   auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
 
    if (!entry) return false;
 
@@ -528,8 +521,7 @@ bool TGo4EditDynEntry::PrepareEntryForAnalysis()
 
 void TGo4EditDynEntry::EntryEnabledButton_toggled( bool on)
 {
-   TGo4DynamicEntry* entry =
-      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry"));
+   auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
    if (!entry || !fbTypingMode) return;
    entry->EnableProcessing(on);
    EntryChangedSlot();
@@ -537,8 +529,7 @@ void TGo4EditDynEntry::EntryEnabledButton_toggled( bool on)
 
 void TGo4EditDynEntry::EvXnameEdit_textChanged( const QString & xname)
 {
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(0, GetEventName(xname).toLatin1().constData());
@@ -548,8 +539,7 @@ void TGo4EditDynEntry::EvXnameEdit_textChanged( const QString & xname)
 
 void TGo4EditDynEntry::EvYnameEdit_textChanged( const QString & yname)
 {
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(1, GetEventName(yname).toLatin1().constData());
@@ -559,8 +549,7 @@ void TGo4EditDynEntry::EvYnameEdit_textChanged( const QString & yname)
 
 void TGo4EditDynEntry::EvZnameEdit_textChanged( const QString & zname)
 {
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (!hentry || !fbTypingMode) return;
 
    hentry->SetHisEventName(2, GetEventName(zname).toLatin1().constData());
@@ -570,8 +559,7 @@ void TGo4EditDynEntry::EvZnameEdit_textChanged( const QString & zname)
 
 void TGo4EditDynEntry::ConXnameEdit_textChanged( const QString & xname)
 {
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (!hentry || !fbTypingMode) return;
 
    hentry->SetConEventName(0, GetEventName(xname).toLatin1().constData());
@@ -581,8 +569,7 @@ void TGo4EditDynEntry::ConXnameEdit_textChanged( const QString & xname)
 
 void TGo4EditDynEntry::ConYnameEdit_textChanged( const QString & yname)
 {
-   TGo4HistogramEntry* hentry =
-     dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry"));
+   auto hentry = GetLinkedCast<TGo4HistogramEntry>("Entry");
    if (!hentry || !fbTypingMode) return;
 
    hentry->SetConEventName(1, GetEventName(yname).toLatin1().constData());
@@ -592,24 +579,21 @@ void TGo4EditDynEntry::ConYnameEdit_textChanged( const QString & yname)
 
 void TGo4EditDynEntry::DrawExprEdit_textChanged( const QString & value)
 {
-   TGo4TreeHistogramEntry* tentry =
-      dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry"));
+   auto tentry = GetLinkedCast<TGo4TreeHistogramEntry>("Entry");
    if (!tentry || !fbTypingMode) return;
    tentry->SetVarExp(value.toLatin1().constData());
 }
 
 void TGo4EditDynEntry::CutExprEdit_textChanged( const QString & value)
 {
-   TGo4TreeHistogramEntry* tentry =
-      dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry"));
+   auto tentry = GetLinkedCast<TGo4TreeHistogramEntry>("Entry");
    if (!tentry || !fbTypingMode) return;
    tentry->SetCutExp(value.toLatin1().constData());
 }
 
 void TGo4EditDynEntry::DynIntervalSpin_valueChanged( int value)
 {
-   TGo4TreeHistogramEntry* tentry =
-      dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry"));
+   auto tentry = GetLinkedCast<TGo4TreeHistogramEntry>("Entry");
    if (!tentry || !fbTypingMode) return;
    tentry->SetDynListInterval(value);
 }
@@ -626,7 +610,7 @@ void TGo4EditDynEntry::ClearHistogramClicked()
    TGo4ServerProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().toLatin1().constData(), objname);
    if (an) {
       an->ClearAnalysisObject(objname.Data());
-      if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry")))
+      if (GetLinkedCast<TGo4TreeHistogramEntry>("Entry"))
          an->ExecuteLine("@ResetBackStores();");
       Browser()->GetBrowserObject(HistoNameLbl->text().toLatin1().constData(), 2);
    }
