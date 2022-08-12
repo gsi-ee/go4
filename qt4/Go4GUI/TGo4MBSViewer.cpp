@@ -90,7 +90,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    StateGroup->button(0)->setChecked(true);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   QObject::connect(StateGroup, &QButtonGroup::buttonClicked, this, &TGo4MBSViewer::StateGroup_clicked);
+   QObject::connect(StateGroup, (void (QButtonGroup::*)(int)) &QButtonGroup::buttonClicked, this, &TGo4MBSViewer::StateGroup_clicked);
 #else
    QObject::connect(StateGroup, &QButtonGroup::idClicked, this, &TGo4MBSViewer::StateGroup_clicked);
 #endif
