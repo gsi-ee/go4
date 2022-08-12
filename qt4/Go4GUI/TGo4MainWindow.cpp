@@ -596,9 +596,9 @@ void TGo4MainWindow::AddToolsMenu()
    QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
    toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View panel",
-                this, &TGo4MainWindow::MakeNewPanel)->setShortcut(CtrlKey(Key_V) );
+                [this]() { MakeNewPanel(); })->setShortcut(CtrlKey(Key_V) );
    toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit panel...",
-                this, &TGo4MainWindow::StartFitPanel)->setShortcut(CtrlKey(Key_F) );
+                [this]() { StartFitPanel(); })->setShortcut(CtrlKey(Key_F) );
    toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
                this, &TGo4MainWindow::StartHistogramInfo);
    toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&istogram...",
@@ -623,10 +623,10 @@ void TGo4MainWindow::AddToolsBar()
    ToolBar->setObjectName("Go4ToolsBar");
 
    ToolBar->addAction( QIcon( ":/icons/chart.png" ), "Create a new view panel",
-                       this, &TGo4MainWindow::MakeNewPanel);
+                       [this]() { MakeNewPanel(); });
 
    ToolBar->addAction( QIcon( ":/icons/fitpanel.png" ), "Show/hide the Go4 Fit Panel",
-                    this, &TGo4MainWindow::StartFitPanel);
+                      [this]() { StartFitPanel(); });
 
    ToolBar->addAction( QIcon( ":/icons/hislist.png" ), "Show histogram properties window",
                     this, &TGo4MainWindow::StartHistogramInfo);
@@ -2525,7 +2525,7 @@ void TGo4MainWindow::CloseAnalysisWindow()
    }
 
    // try to reestablish window for other server
-   QTimer::singleShot(250, this, SLOT(EstablishAnalysisWindowForHttp()));
+   QTimer::singleShot(250, [this]() { EstablishAnalysisWindowForHttp(); });
 }
 
 
@@ -3087,23 +3087,18 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
             TGo4FitPanel* fitpanel = StartFitPanel();
             TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
             fitpanel->WorkWithFitter(str, panel, !panel ? nullptr : panel->GetActivePad());
-         } else
-         if (cl->InheritsFrom(TGo4Parameter::Class())) {
+         } else if (cl->InheritsFrom(TGo4Parameter::Class())) {
             TGo4ParaEdit* paredit = StartParaEdit(str);
-         } else
-         if (cl->InheritsFrom(TH1::Class())) {
+         } else if (cl->InheritsFrom(TH1::Class())) {
             TGo4HistogramInfo* hinfo = StartHistogramInfo();
             hinfo->WorkWithHistogram(str);
-         } else
-         if (cl->InheritsFrom(TGo4Condition::Class())) {
+         } else if (cl->InheritsFrom(TGo4Condition::Class())) {
             TGo4ConditionEditor* wedit = StartConditionEditor();
             wedit->WorkWithCondition(str);
-         } else
-         if (cl->InheritsFrom(TGo4DynamicEntry::Class())) {
+         } else if (cl->InheritsFrom(TGo4DynamicEntry::Class())) {
             TGo4EditDynEntry* dedit = StartEditDynEntry();
             dedit->WorkWithEntry(str);
-         } else
-         if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) {
+         } else if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) {
             // use central editor, later can control many analysis at once
             EstablishAnalysisConfiguration(3);
          }
