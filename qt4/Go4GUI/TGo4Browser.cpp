@@ -563,7 +563,6 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    }
 
    QMenu menu;
-   QSignalMapper map;
 
    QTreeWidgetItem* item = ListView->itemAt(pos);
    TGo4BrowserProxy* br = BrowserProxy();
@@ -688,10 +687,14 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (br->IsItemMonitored(itemslot)) nmonitor++;
       }
 
-   auto addAct = [this, &menu](const QString& iconname, const QString& text, int id, bool enabled = true) {
-      auto act = new QAction(QIcon(QString(":/icons/") + iconname), text, &menu);
+   auto addAct = [this, &menu](const QString& iconname, const QString& text, int id, bool enabled = true, QMenu *submenu = nullptr) {
+      auto act = iconname.isEmpty() ?  new QAction(text, &menu)
+                                    :  new QAction(QIcon(QString(":/icons/") + iconname), text, &menu);
       act->setEnabled(enabled);
-      menu.addAction(act);
+      if (submenu)
+         submenu->addAction(act);
+      else
+         menu.addAction(act);
       QObject::connect(act, &QAction::triggered, [this, id]() { ContextMenuActivated(id); });
    };
 
@@ -710,31 +713,28 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    addAct("saveall.png", "Save selected...",  13, (nobjects > 0) || ((nfolders == 1) && (nitems == 1)));
 
    // organize export submenu
-   if (nexport>0) {
+   if (nexport > 0) {
 
       QMenu* expmenu = menu.addMenu(QIcon(":/icons/export.png"), "Export to");
 
-      AddIdAction(expmenu, &map, "ASCII", 141);
-      AddIdAction(expmenu, &map, "Radware", 142);
+      addAct("", "ASCII", 141, true, expmenu);
+      addAct("", "Radware", 142, true, expmenu);
 
    } else {
-      AddIdAction(&menu, &map, QIcon(":/icons/export.png"),
-                     "Export to",  14, false);
+      addAct("export.png", "Export to", 14, false);
    }
 
-   AddIdAction(&menu, &map, QIcon(":/icons/info.png"),
-                 "Info...",  15, (ninfo>0));
+   addAct("info.png", "Info...",  15, (ninfo > 0));
 
-   AddIdAction(&menu, &map, QIcon(":/icons/control.png"),
-                 "Edit..", 16, (nedits>0));
+   addAct("control.png", "Edit...", 16, (nedits > 0));
 
    QString dellabel = "Delete item";
-   QString delbutton = ":/icons/delete.png";
+   QString delbutton = "delete.png";
    if ((nclose > 0) && (ndelete == 0)) {
       dellabel = "Close item";
       if (nclose > 1)
          dellabel += "s";
-      delbutton = ":/icons/close.png";
+      delbutton = "close.png";
    } else if ((nclose == 0) && (ndelete > 0)) {
       dellabel = "Delete item";
       if (ndelete > 1)
@@ -743,58 +743,42 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
       dellabel = "Close/delete items";
    }
 
-   AddIdAction(&menu, &map, QIcon(delbutton),
-                 dellabel, 17, (nclose>0) || (ndelete>0));
+   addAct(delbutton, dellabel, 17, (nclose > 0) || (ndelete > 0));
 
-   AddIdAction(&menu, &map, QIcon(":/icons/copyws.png"),
-                 "Copy to Workspace",  19, (nobjects>0) || ((nfolders==1) && (nitems==1)));
+   addAct("copyws.png", "Copy to Workspace", 19, (nobjects > 0) || ((nfolders == 1) && (nitems == 1)));
 
-   AddIdAction(&menu, &map, QIcon(":/icons/editcopy.png"),
-                  "Copy to clipboard",  20, (nobjects>0) || (nfolders>0));
+   addAct("editcopy.png", "Copy to clipboard", 20, (nobjects>0) || (nfolders>0));
 
    if ((nremote > 0) || (nanalysis > 0)) {
 
        menu.addSeparator();
 
-       AddIdAction(&menu, &map, QIcon(":/icons/monitor.png"),
-                     "Monitor item(s)",  21, ((nobjects>0) && (nremote>0) && (nmonitor<nremote)) || ((nfolders==1) && (nitems==1)));
+       addAct("monitor.png", "Monitor item(s)",  21, ((nobjects>0) && (nremote>0) && (nmonitor<nremote)) || ((nfolders==1) && (nitems==1)));
 
-       AddIdAction(&menu, &map, QIcon(":/icons/Stop.png"),
-                     "Stop item(s) monitoring", 22, ((nobjects>0) && (nremote>0) && (nmonitor>0)) || ((nfolders==1) && (nitems==1)));
+       addAct("Stop.png", "Stop item(s) monitoring", 22, ((nobjects>0) && (nremote>0) && (nmonitor>0)) || ((nfolders==1) && (nitems==1)));
 
-       AddIdAction(&menu, &map, QIcon( ":/icons/clear.png" ),
-                     "Clear (Reset to 0)", 23, (nclear>0));
+       addAct("clear.png", "Clear (Reset to 0)", 23, (nclear > 0));
 
-       AddIdAction(&menu, &map, QIcon( ":/icons/clear_nok.png" ),
-                     "Set Clear protection", 24, (nclearprotoff>0));
+       addAct("clear_nok.png", "Set Clear protection", 24, (nclearprotoff > 0));
 
-       AddIdAction(&menu, &map, QIcon( ":/icons/clear_ok.png" ),
-                     "Unset Clear protection", 25, (nclearproton>0));
+       addAct("clear_ok.png", "Unset Clear protection", 25, (nclearproton > 0));
 
-       AddIdAction(&menu, &map, QIcon( ":/icons/delete.png" ),
-                     "Delete from analysis", 26, (ndelprotoff>0));
+       addAct("delete.png", "Delete from analysis", 26, (ndelprotoff > 0));
 
-       AddIdAction(&menu, &map, QIcon( ":/icons/refresh.png" ),
-                     "Refresh namelist", 27, true);
+       addAct("refresh.png", "Refresh namelist", 27);
    }
 
    if ((nmemory > 0) && (nmemory == nitems)) {
        menu.addSeparator();
 
-       AddIdAction(&menu, &map, QIcon(":/icons/crefolder.png"),
-                    "Create folder",  41, (nmemory==1) && (nfolders==1));
+       addAct("crefolder.png", "Create folder",  41, (nmemory==1) && (nfolders==1));
 
-       AddIdAction(&menu, &map, QIcon(":/icons/rename.png"),
-                    "Rename object",  42, (nmemory==1) && !istopmemory);
+       addAct("rename.png", "Rename object",  42, (nmemory==1) && !istopmemory);
 
-       AddIdAction(&menu, &map, QIcon(":/icons/clear.png"),
-                    "Clear object(s)", 44, (nclearlocal>0));
+       addAct("clear.png", "Clear object(s)", 44, (nclearlocal > 0));
 
-       AddIdAction(&menu, &map, QIcon(":/icons/editpaste.png"),
-                    "Paste from clipboard",  43, br->IsClipboard() && (nmemory==1) && (nfolders==1));
+       addAct(":/icons/editpaste.png", "Paste from clipboard",  43, br->IsClipboard() && (nmemory==1) && (nfolders==1));
    }
-
-   connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuActivated(int)));
 
    menu.exec(ListView->viewport()->mapToGlobal(pos));
 }
