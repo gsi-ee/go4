@@ -117,10 +117,10 @@ class TGo4MainWindow : public QMainWindow {
       void EventStatusSlot();
       void MarkerSettingsSlot();
       void OptStatsSlot();
-      void ChangeCloneFlagSlot();
-      void ChangeDrawTimeFlagSlot();
-      void ChangeDrawDateFlagSlot();
-      void ChangeDrawItemFlagSlot();
+      void ChangeCloneFlagSlot(bool);
+      void ChangeDrawTimeFlagSlot(bool);
+      void ChangeDrawDateFlagSlot(bool);
+      void ChangeDrawItemFlagSlot(bool);
       void ChangeSaveWhiteBackgroundSlot();
 
       void ChangeTerminalTimeStampSlot(bool);
@@ -263,7 +263,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faSuperimpose{nullptr};
       QAction*           faCrosshair{nullptr};
       QAction*           faEventstatus{nullptr};
-      QAction*           faClone{nullptr};
       QAction*           faDrawTime{nullptr};
       QAction*           faDrawDate{nullptr};
       QAction*           faDrawItem{nullptr};
