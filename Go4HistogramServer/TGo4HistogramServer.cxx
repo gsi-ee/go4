@@ -288,13 +288,13 @@ Bool_t TGo4HistogramServer::SendObject(TObject *object)
 {
    Bool_t retval = kTRUE;
    // stream object into TBuffer:
-   TBuffer *rootbuffer = 0;
-   if (object != 0) {
+   TBuffer *rootbuffer = nullptr;
+   if (object) {
       fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // let client know the object exists
       TGo4LockGuard mainguard;
       rootbuffer = new TBufferFile(TBuffer::kWrite);
       TFile *filsav = gFile;
-      gFile = 0;
+      gFile = nullptr;
       rootbuffer->WriteObject(object);
       gFile = filsav;
       fxTransport->SendBuffer(rootbuffer);
@@ -305,7 +305,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject *object)
       retval = kFALSE;
    }
    char *recvchar = fxTransport->RecvRaw("dummy"); // get exit message
-   if (recvchar == 0) {
+   if (!recvchar) {
       TGo4Log::Debug(" HistogramServer: null character on finishing object client channel ");
       retval = kFALSE;
    } else if (strcmp(recvchar, TGo4TaskHandler::Get_fgcOK())) {
@@ -341,7 +341,7 @@ Int_t TGo4HistogramServer::TimerConnect()
    //// handle the disconnection first:
    if (fbDisConnectRequest) {
       GO4TRACE((15, "TGo4HistogramServer::TimerConnect()--DisConnectRequest", __LINE__, __FILE__));
-      if (fxDisConnectTransport != 0) {
+      if (fxDisConnectTransport) {
          // we have a transport instance to disconnect
          fxDisConnectTransport->Close();
          fbConnectIsClose = kTRUE;

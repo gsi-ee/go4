@@ -313,7 +313,7 @@ void TGo4Task::UpdateStatusBuffer()
    TGo4LockGuard statguard(fxStatusMutex); // do not update during sending
    TGo4LockGuard main; // protect root streaming
    TFile *filsav = gFile;
-   gFile = 0;
+   gFile = nullptr;
 
    TGo4TaskStatus* state = fxSlave ? fxSlave->CreateStatus() : CreateStatus();
 

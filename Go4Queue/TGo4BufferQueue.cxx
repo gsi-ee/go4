@@ -99,7 +99,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
         //std::cout << "BBBBBBBBBBBBBBB TGo4BufferQueue::WaitObjectFromBuffer() before mainguard "<< std::endl;
          TGo4LockGuard mainguard;
          // lock go4 main mutex for streaming
-         TDirectory* savdir=gDirectory;
+         TDirectory* savdir = gDirectory;
          gROOT->cd(); // be sure to be in the top directory when creating histo
          buffer->SetReadMode();
         //std::cout << "                                Reading object from buffer..."<< std::endl;
@@ -135,7 +135,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
    GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
 
    TBuffer* entry = nullptr;
-   Bool_t entryisnew=kFALSE;
+   Bool_t entryisnew = kFALSE;
    if(clone)
       {
     //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before lockguard of buffer mutex "<<fxBufferMutex<<std::endl;
