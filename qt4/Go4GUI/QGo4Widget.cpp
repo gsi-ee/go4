@@ -64,7 +64,7 @@ void QGo4Widget::ShootResetWidget()
 
    fResetWidgetShooted = true;
 
-   QTimer::singleShot(0, [this]() { ResetWidget(); });
+   QTimer::singleShot(0, this, &QGo4Widget::ResetWidget);
 }
 
 void QGo4Widget::ShootCloseWidget(bool closeparent)
