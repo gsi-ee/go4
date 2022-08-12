@@ -330,6 +330,7 @@ protected:
 
     void focusInEvent(QFocusEvent * event) override;
     void changeEvent(QEvent *event) override;
+    bool checkConfirm(const QString &title, const QString &msg);
     //virtual void windowActivationChange( bool OldActive );
 };
 
