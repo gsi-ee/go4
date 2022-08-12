@@ -19,7 +19,7 @@ QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char* name
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(OptionsEdit, SIGNAL(textChanged(QString)), this, SLOT(OptionsEdit_textChanged(QString)));
+   QObject::connect(OptionsEdit, &QGo4LineEdit::textChanged, this, &QFitOutputActionWidget::OptionsEdit_textChanged);
    QObject::connect(CommandCombo, SIGNAL(activated(int)), this, SLOT(CommandCombo_activated(int)));
 }
 

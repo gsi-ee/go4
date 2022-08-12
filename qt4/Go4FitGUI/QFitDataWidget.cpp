@@ -26,8 +26,8 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
    QObject::connect(NumCalibrSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitDataWidget::NumCalibrSpin_valueChanged);
    QObject::connect(UseBinsChk, SIGNAL(toggled(bool)), this, SLOT(UseBinsChk_toggled(bool)));
    QObject::connect(SigmaCmb, SIGNAL(activated(int)), this, SLOT(SigmaCmb_activated(int)));
-   QObject::connect(SigmaEdt, SIGNAL(textChanged(QString)), this, SLOT(SigmaEdt_textChanged(QString)));
-   QObject::connect(BinsLimitEdt, SIGNAL(textChanged(QString)), this, SLOT(BinsLimitEdt_textChanged(QString)));
+   QObject::connect(SigmaEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::SigmaEdt_textChanged);
+   QObject::connect(BinsLimitEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::BinsLimitEdt_textChanged);
    QObject::connect(AmplChk, SIGNAL(toggled(bool)), this, SLOT(AmplChk_toggled(bool)));
    QObject::connect(UseBuffersChk, SIGNAL(toggled(bool)), this, SLOT(UseBuffersChk_toggled(bool)));
 }

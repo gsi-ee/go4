@@ -51,10 +51,10 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    QObject::connect(Win1_up, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
    QObject::connect(Win2_low, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
    QObject::connect(Win2_up, SIGNAL(returnPressed()), this, SLOT(LimitsReturnPressed()));
-   QObject::connect(Win1_low, SIGNAL(textChanged(QString)), this, SLOT(LimitsChanged(QString)));
-   QObject::connect(Win1_up, SIGNAL(textChanged(QString)), this, SLOT(LimitsChanged(QString)));
-   QObject::connect(Win2_low, SIGNAL(textChanged(QString)), this, SLOT(LimitsChanged(QString)));
-   QObject::connect(Win2_up, SIGNAL(textChanged(QString)), this, SLOT(LimitsChanged(QString)));
+   QObject::connect(Win1_low, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
+   QObject::connect(Win1_up, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
+   QObject::connect(Win2_low, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
+   QObject::connect(Win2_up, &QLineEdit::textChanged, this, &TGo4ConditionEditor::LimitsChanged);
    QObject::connect(CondLimits, SIGNAL(toggled(bool)), this, SLOT(SetDrawLimits(bool)));
    QObject::connect(CondLabel, SIGNAL(toggled(bool)), this, SLOT(SetLabel(bool)));
    QObject::connect(IntBox, SIGNAL(toggled(bool)), this, SLOT(SetIntDraw(bool)));

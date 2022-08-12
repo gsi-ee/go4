@@ -22,11 +22,11 @@ QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(ParNameEdit, SIGNAL(textChanged(QString)), this, SLOT(ParNameEdit_textChanged(QString)));
+   QObject::connect(ParNameEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::ParNameEdit_textChanged);
    QObject::connect(ParFixedChk, SIGNAL(toggled(bool)), this, SLOT(ParFixedChk_toggled(bool)));
-   QObject::connect(RangeMinEdit, SIGNAL(textChanged(QString)), this, SLOT(RangeMinEdit_textChanged(QString)));
-   QObject::connect(RangeMaxEdit, SIGNAL(textChanged(QString)), this, SLOT(RangeMaxEdit_textChanged(QString)));
-   QObject::connect(EpsilonEdit, SIGNAL(textChanged(QString)), this, SLOT(EpsilonEdit_textChanged(QString)));
+   QObject::connect(RangeMinEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::RangeMinEdit_textChanged);
+   QObject::connect(RangeMaxEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::RangeMaxEdit_textChanged);
+   QObject::connect(EpsilonEdit, &QGo4LineEdit::textChanged, this, &QFitParCfgWidget::EpsilonEdit_textChanged);
 }
 
 

@@ -20,8 +20,7 @@
 class TGo4FitMinuit;
 
 class QFitMinuitWidget : public QFitNamedWidget, public Ui::QFitMinuitWidget
- {
-
+{
     Q_OBJECT
 
 public:
@@ -35,7 +34,3 @@ public slots:
  };
 
 #endif
-
-
-
-

@@ -19,11 +19,11 @@ QFitParWidget::QFitParWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(ValueEdt, SIGNAL(textChanged(QString)), this, SLOT(ValueEdt_textChanged(QString)));
-   QObject::connect(ErrorEdt, SIGNAL(textChanged(QString)), this, SLOT(ErrorEdt_textChanged(QString)));
-   QObject::connect(RangeMinEdt, SIGNAL(textChanged(QString)), this, SLOT(RangeMinEdt_textChanged(QString)));
-   QObject::connect(RangeMaxEdt, SIGNAL(textChanged(QString)), this, SLOT(RangeMaxEdt_textChanged(QString)));
-   QObject::connect(EpsilonEdt, SIGNAL(textChanged(QString)), this, SLOT(EpsilonEdt_textChanged(QString)));
+   QObject::connect(ValueEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::ValueEdt_textChanged);
+   QObject::connect(ErrorEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::ErrorEdt_textChanged);
+   QObject::connect(RangeMinEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::RangeMinEdt_textChanged);
+   QObject::connect(RangeMaxEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::RangeMaxEdt_textChanged);
+   QObject::connect(EpsilonEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::EpsilonEdt_textChanged);
    QObject::connect(FixedChk, SIGNAL(toggled(bool)), this, SLOT(FixedChk_toggled(bool)));
    QObject::connect(RangeChk, SIGNAL(toggled(bool)), this, SLOT(RangeChk_toggled(bool)));
    QObject::connect(EpsilonChk, SIGNAL(toggled(bool)), this, SLOT(EpsilonChk_toggled(bool)));

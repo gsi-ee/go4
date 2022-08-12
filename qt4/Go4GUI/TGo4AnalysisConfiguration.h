@@ -74,7 +74,7 @@ public slots:
 
    virtual void FileDialog_AutoSave();
 
-   virtual void LineEdit_AutoSaveFile();
+   virtual void LineEdit_AutoSaveFile(const QString &);
 
    virtual void SetCompressionLevel(int t);
 

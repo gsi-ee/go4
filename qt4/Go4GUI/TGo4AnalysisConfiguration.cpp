@@ -31,7 +31,7 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
    QObject::connect(AnalysisSaveConf, SIGNAL(clicked()), this, SLOT(SaveConfiguration()));
    QObject::connect(LoadConfigFileName, SIGNAL(clicked()), this, SLOT(FileDialog_ConfFile()));
    QObject::connect(LoadAutoSaveFileName, SIGNAL(clicked()), this, SLOT(FileDialog_AutoSave()));
-   QObject::connect(AutoSaveFileName, SIGNAL(textChanged(QString)), this, SLOT(LineEdit_AutoSaveFile()));
+   QObject::connect(AutoSaveFileName, &QLineEdit::textChanged, this, &TGo4AnalysisConfiguration::LineEdit_AutoSaveFile);
    QObject::connect(GetActiveConfigButton, SIGNAL(clicked()), this, SLOT(RequestAnalysisStatus()));
    QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetCompressionLevel);
    QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
@@ -227,10 +227,10 @@ void TGo4AnalysisConfiguration::FileDialog_AutoSave()
     fAutoSavePath = fd.directory().path();
     if(!fileName.endsWith(".root")) fileName.append(".root");
     AutoSaveFileName->setText(fileName);
-    LineEdit_AutoSaveFile();
+    LineEdit_AutoSaveFile("");
 }
 
-void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
+void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile(const QString &)
 {
    QString fname = AutoSaveFileName->text().trimmed();
    auto status = GetLinkedCast<TGo4AnalysisStatus>("Status");
