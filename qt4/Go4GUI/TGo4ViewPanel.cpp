@@ -50,6 +50,7 @@
 #include <QInputDialog>
 #include <QTime>
 #include <QtCore/QSignalMapper>
+#include <QDropEvent>
 
 #ifdef __GO4X11__
 #include "QRootCanvas.h"
@@ -202,21 +203,20 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fMenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
 
    QMenu* fileMenu = fMenuBar->addMenu("F&ile");
-   fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
-   fileMenu->addAction("Print...", this, SLOT(PrintCanvas()));
-   fileMenu->addAction("Produce &Picture", this, SLOT(ProducePicture()));
-   fileMenu->addAction("Produce &Graph from markers", this,
-                       SLOT(ProduceGraphFromMarkers()));
+   fileMenu->addAction("&Save as...", this, &TGo4ViewPanel::SaveCanvas);
+   fileMenu->addAction("Print...", this, &TGo4ViewPanel::PrintCanvas);
+   fileMenu->addAction("Produce &Picture", this, &TGo4ViewPanel::ProducePicture);
+   fileMenu->addAction("Produce &Graph from markers", this, &TGo4ViewPanel::ProduceGraphFromMarkers);
 
-//   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
-//   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
-//   fileMenu->addAction("Save &marker setup...", this, SLOT(SaveMarkers()));
-   fileMenu->addAction("Cl&ose", this, SLOT(ClosePanel()));
+//   fileMenu->addAction("Copy to T&Canvas in Memory", this, &TGo4ViewPanel::SendToBrowser);
+//   fileMenu->addAction("&Load marker setup...", this, &TGo4ViewPanel::LoadMarkers);
+//   fileMenu->addAction("Save &marker setup...", this, &TGo4ViewPanel::SaveMarkers);
+   fileMenu->addAction("Cl&ose", this, &TGo4ViewPanel::ClosePanel);
 
    //Edit Menu
    QMenu* editMenu = fMenuBar->addMenu("&Edit");
 
-   connect(CreateChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible),
+   QObject::connect(CreateChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible),
            &QAction::toggled, this, &TGo4ViewPanel::SetMarkerPanel);
 
    bool ed_visible = false, ed_allowed = true;
@@ -235,12 +235,12 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxCanvasEventstatusChk = CreateChkAction(editMenu, "Show &event status", status_flag);
    connect(fxCanvasEventstatusChk, &QAction::toggled, this, &TGo4ViewPanel::ShowEventStatus);
 
-   editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
+   editMenu->addAction("Start &condition editor", this, &TGo4ViewPanel::StartConditionEditor);
 
    editMenu->addSeparator();
-   editMenu->addAction("Clear &markers", this, SLOT(ClearAllMarkers()));
-   editMenu->addAction("Clear &pad", this, SLOT(ClearActivePad()));
-   editMenu->addAction("Clear c&anvas", this, SLOT(ClearCanvas()));
+   editMenu->addAction("Clear &markers", this, &TGo4ViewPanel::ClearAllMarkers);
+   editMenu->addAction("Clear &pad", this, &TGo4ViewPanel::ClearActivePad);
+   editMenu->addAction("Clear c&anvas", this, &TGo4ViewPanel::ClearCanvas);
 
    fSelectMap = new QSignalMapper(this);
    connect(fSelectMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::SelectMenuItemActivated);
@@ -248,7 +248,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    fOptionsMap = new QSignalMapper(this);
    fOptionsMenu = fMenuBar->addMenu("&Options");
-   connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
+   connect(fOptionsMenu, &QMenu::aboutToShow, this, &TGo4ViewPanel::AboutToShowOptionsMenu);
    connect(fOptionsMap, &QSignalMapper::mappedInt, this, &TGo4ViewPanel::OptionsMenuItemActivated);
 
    AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
@@ -273,11 +273,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    QCheckBox* box1 = new QCheckBox("Apply to all", MenuFrame);
    box1->setObjectName("ApplyToAllCheck");
-   connect(box1, SIGNAL(toggled(bool)), this, SLOT(ApplyToAllToggled(bool)));
+   QObject::connect(box1, &QCheckBox::toggled, this, &TGo4ViewPanel::ApplyToAllToggled);
 
    fAutoScaleCheck = new QCheckBox("AutoScale", MenuFrame);
    fAutoScaleCheck->setObjectName("AutoScaleCheck");
-   connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
+   QObject::connect(fAutoScaleCheck, &QCheckBox::toggled, this, &TGo4ViewPanel::AutoScaleToggled);
 
    QHBoxLayout* menugrid = new QHBoxLayout(0/*MenuFrame*/);
    menugrid->setContentsMargins(0,0,0,0);
@@ -295,20 +295,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 #ifdef __GO4WEB__
       fxWCanvas->setStatusBarVisible(status_flag);
 
-      connect(fxWCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
-               SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
-
-      connect(fxWCanvas, SIGNAL(SelectedPadChanged(TPad*)), this,
-              SLOT(SetActivePad(TPad*)));
-
-      connect(fxWCanvas, SIGNAL(PadClicked(TPad*,int,int)), this,
-               SLOT(PadClickedSlot(TPad*,int,int)));
-
-      connect(fxWCanvas, SIGNAL(PadDblClicked(TPad*,int,int)), this,
-               SLOT(PadDoubleClickedSlot(TPad*,int,int)));
-
-      connect(fxWCanvas, SIGNAL(CanvasUpdated()), this,
-              SLOT(CanvasUpdatedSlot()));
+      connect(fxWCanvas, &QWebCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
+      connect(fxWCanvas, &QWebCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
+      connect(fxWCanvas, &QWebCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
+      connect(fxWCanvas, &QWebCanvas::PadDblClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
+      connect(fxWCanvas, &QWebCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
 
 #endif
    } else {
@@ -319,20 +310,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxQCanvas->setStatusBar(CanvasStatus);
       fxQCanvas->setStatusBarVisible(status_flag);
 
-      connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
-              SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
-      connect(fxQCanvas, SIGNAL(SelectedPadChanged(TPad*)), this,
-              SLOT(SetActivePad(TPad*)));
-      connect(fxQCanvas, SIGNAL(PadClicked(TPad*)), this,
-              SLOT(PadClickedSlot(TPad*)));
-      connect(fxQCanvas, SIGNAL(PadDoubleClicked(TPad*)), this,
-              SLOT(PadDoubleClickedSlot(TPad*)));
-      connect(fxQCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
-              this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
-      connect(fxQCanvas, SIGNAL(CanvasLeaveEvent()), this,
-               SLOT(RefreshButtons()));
-      connect(fxQCanvas, SIGNAL(CanvasUpdated()), this,
-              SLOT(CanvasUpdatedSlot()));
+      connect(fxQCanvas, &QRootCanvas::CanvasDropEvent, this, &TGo4ViewPanel::CanvasDropEventSlot);
+      connect(fxQCanvas, &QRootCanvas::SelectedPadChanged, this, &TGo4ViewPanel::SetActivePad);
+      connect(fxQCanvas, &QRootCanvas::PadClicked, this, &TGo4ViewPanel::PadClickedSlot);
+      connect(fxQCanvas, &QRootCanvas::PadDoubleClicked, this, &TGo4ViewPanel::PadDoubleClickedSlot);
+      connect(fxQCanvas, &QRootCanvas::MenuCommandExecuted, this, &TGo4ViewPanel::MenuCommandExecutedSlot);
+      connect(fxQCanvas, &QRootCanvas::CanvasLeaveEvent, this, &TGo4ViewPanel::RefreshButtons);
+      connect(fxQCanvas, &QRootCanvas::CanvasUpdated, this, &TGo4ViewPanel::CanvasUpdatedSlot);
 #endif
    }
 }

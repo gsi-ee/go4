@@ -285,7 +285,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
    switch(e->button()) {
      case Qt::LeftButton :
         fCanvas->HandleInput(kButton1Down, scaled.x(), scaled.y());
-         emit PadClicked(pad);
+        emit PadClicked(pad, scaled.x(), scaled.y());
         break;
      case Qt::RightButton : {
         TString selectedOpt("");
@@ -396,7 +396,7 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
             fCanvas->HandleInput(kButton1Double, scaled.x(), scaled.y());
          TObjLink* pickobj = nullptr;
          TPad* pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
-         emit PadDoubleClicked(pad);
+         emit PadDoubleClicked(pad, scaled.x(), scaled.y());
          // prevent crash on following release event
          // if new canvas will be created in between
          // fCanvas->SetSelected(0);
