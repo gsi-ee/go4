@@ -35,11 +35,11 @@ class TGo4OpenRemoteDialog : public QDialog, public Ui::TGo4OpenRemoteDialog
 
  public slots:
 
-   virtual void TypeSelectorBox_activated( const QString & tname);
+   virtual void TypeSelectorBox_activated(int indx);
 
-   virtual void ServerEdit_textChanged( const QString &  txt);
+   virtual void ServerEdit_textChanged(const QString &txt);
 
-   virtual void FileNameEdit_textChanged( const QString & txt);
+   virtual void FileNameEdit_textChanged(const QString &txt);
 
  protected:
     QString fxServer;
