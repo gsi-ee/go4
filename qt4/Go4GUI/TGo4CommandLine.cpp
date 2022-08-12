@@ -28,10 +28,10 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(InputLine, SIGNAL(enterPressedSingal()), this, SLOT(enterPressedSlot()));
-   QObject::connect(ExecuteBut, SIGNAL(clicked()), this, SLOT(ExecuteSlot()));
-   QObject::connect(PredefinedBut, SIGNAL(clicked()), this, SLOT(PredefinedDialog()));
-   QObject::connect(FileSearchBut, SIGNAL(clicked()), this, SLOT(FileSearchDialog()));
+   QObject::connect(InputLine, &QGo4CommandsHistory::enterPressedSingal, this, &TGo4CommandLine::enterPressedSlot);
+   QObject::connect(ExecuteBut, &QPushButton::clicked, this, &TGo4CommandLine::ExecuteSlot);
+   QObject::connect(PredefinedBut, &QPushButton::clicked, this, &TGo4CommandLine::PredefinedDialog);
+   QObject::connect(FileSearchBut, &QPushButton::clicked, this, &TGo4CommandLine::FileSearchDialog);
 
    LoadHistory();
 }
@@ -52,40 +52,29 @@ void TGo4CommandLine::FileSearchDialog()
    bool ispyth = fd.selectedNameFilter().contains(".py");
 
    QString cmd;
-  if (iscint)
-  {
-    cmd = QString(".x ") + flst[0];
-  }
-  else if (ispyth)
-  {
-    cmd = QString("$") + flst[0];
-  }
-  else if (ishot)
-  {
-    cmd = flst[0];
-  }
-  else
-  {
-    std::cout << "TGo4CommandLine NEVER COME HERE - unknown file type!\n-" << std::endl;
-    return;
-  }
+   if (iscint) {
+      cmd = QString(".x ") + flst[0];
+   } else if (ispyth) {
+      cmd = QString("$") + flst[0];
+   } else if (ishot) {
+      cmd = flst[0];
+   } else {
+      std::cout << "TGo4CommandLine NEVER COME HERE - unknown file type!\n-" << std::endl;
+      return;
+   }
 
-  int index=InputLine->findText(cmd);
-  if(index<0)
-    {
-         InputLine->insertItem(-1,cmd);
-         index=InputLine->findText(cmd);
-    }
-  //std::cout <<"inserted item "<< cmd.toLatin1().constData() << std::endl;
-  InputLine->setCurrentIndex(index);
-
+   int index = InputLine->findText(cmd);
+   if (index < 0) {
+      InputLine->insertItem(-1, cmd);
+      index = InputLine->findText(cmd);
+   }
+   InputLine->setCurrentIndex(index);
 }
 
 void TGo4CommandLine::ExecuteSlot()
 {
    enterPressedSlot();
 }
-
 
 void TGo4CommandLine::enterPressedSlot()
 {
@@ -160,10 +149,10 @@ void TGo4CommandLine::enterPressedSlot()
 
 void TGo4CommandLine::LoadHistory()
 {
-// read command history from settings:
+    // read command history from settings:
     QStringList histlist = go4sett->getCommandsHistoryGUI();
     InputLine->addItems(histlist);
-// prepared pre-loading of system macros:
+    // prepared pre-loading of system macros:
 
     auto load_macro = [](const char *name) {
        TString exec = ".L ";

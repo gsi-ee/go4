@@ -65,14 +65,14 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
 
    setupUi(this);
 
-   QObject::connect(EnableStepBox, SIGNAL(stateChanged(int)), this, SLOT(StepStateChanged(int)));
-   QObject::connect(EnableSourceBox, SIGNAL(stateChanged(int)), this, SLOT(InputStateChanged(int)));
-   QObject::connect(EnableStoreBox, SIGNAL(stateChanged(int)), this, SLOT(OutputStateChanged(int)));
+   QObject::connect(EnableStepBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::StepStateChanged);
+   QObject::connect(EnableSourceBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::InputStateChanged);
+   QObject::connect(EnableStoreBox, &QCheckBox::stateChanged, this, &TGo4ConfigStep::OutputStateChanged);
    QObject::connect(SourceNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputSourceText);
-   QObject::connect(EventSourceCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(SourceComboHighlighted(int)));
+   QObject::connect(EventSourceCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &TGo4ConfigStep::SourceComboHighlighted);
    QObject::connect(OutputCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4ConfigStep::StoreComboHighlighted);
    QObject::connect(StoreNameEdit, &QLineEdit::textChanged, this, &TGo4ConfigStep::OutputNameText);
-   QObject::connect(FileNameOutput, SIGNAL(clicked()), this, SLOT(OutputFileDialog()));
+   QObject::connect(FileNameOutput, &QPushButton::clicked, this, &TGo4ConfigStep::OutputFileDialog);
    QObject::connect(CompLevel, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::StoreCompLevel);
    QObject::connect(BufferSize, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::StoreBufferSize);
    QObject::connect(SplitLevel, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::StoreSplitLevel);
@@ -81,11 +81,11 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    QObject::connect(LineEditTagfile, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputTagfile);
    QObject::connect(SpinBoxStartEvent, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::ChangeStartEvent);
    QObject::connect(SpinBoxStopEvent, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::ChangeStopEvent);
-   QObject::connect(FileNameBtn, SIGNAL(clicked()), this, SLOT(InputFileDialog()));
+   QObject::connect(FileNameBtn, &QPushButton::clicked, this, &TGo4ConfigStep::InputFileDialog);
    QObject::connect(SpinBoxInterEvent, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::ChangeEventInterval);
    QObject::connect(SpinBoxTimeout, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::ChangeSourceTimeout);
-   QObject::connect(ExtraBtn, SIGNAL(clicked()), this, SLOT(ExtraBtn_clicked()));
-   QObject::connect(MbsMonitorBtn, SIGNAL(clicked()), this, SLOT(MbsMonitorBtn_clicked()));
+   QObject::connect(ExtraBtn, &QPushButton::clicked, this, &TGo4ConfigStep::ExtraBtn_clicked);
+   QObject::connect(MbsMonitorBtn, &QPushButton::clicked, this, &TGo4ConfigStep::MbsMonitorBtn_clicked);
    QObject::connect(SpinBoxPortNumber, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::InputPortChanged);
    QObject::connect(SpinBoxRetryNumber, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::RetryCntChanged);
    QObject::connect(TreeAutosave, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::StoreTreeAutoSave);
@@ -129,7 +129,7 @@ TGo4ConfigStep::~TGo4ConfigStep()
 {
    for (int n=0;n<ParsSize;n++) {
       delete fPars[n];
-      fPars[n] = 0;
+      fPars[n] = nullptr;
    }
 }
 
