@@ -508,10 +508,7 @@ void TGo4ViewPanel::CompleteInitialization()
    if (fxQCanvas) fxQCanvas->Resize();
 #endif
 
-   //    fMenuBar
-   connect(TGo4MdiArea::Instance(),
-         SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)), this,
-         SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4ViewPanel::panelSlot);
 
    // printf("Resize again x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
    // resize(go4sett->lastPanelSize());
@@ -519,8 +516,6 @@ void TGo4ViewPanel::CompleteInitialization()
    SetActivePad(GetCanvas());
 
    SetPadDefaults(GetCanvas());
-
-   //fxQCanvas->Modified();
 
    fbCloneFlag = go4sett->getCloneFlag();
 }

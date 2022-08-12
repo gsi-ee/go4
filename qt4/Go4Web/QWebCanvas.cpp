@@ -63,17 +63,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    gridLayout->setSpacing(10);
    gridLayout->setContentsMargins(1,1,1,1);
 
-   //fView = new RootWebView(this);
-   //QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
-   //gridLayout->addWidget(fView);
-
-   //static TQt5Timer *qt5timer = nullptr;
-
-   //if (!qt5timer) {
-   //   qt5timer = new TQt5Timer(10, kTRUE);
-   //   qt5timer->TurnOn();
-   //}
-
    static int wincnt = 1;
 
    fCanvas = new TCanvas(kFALSE);
@@ -137,6 +126,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gridLayout->addWidget(fView);
 
+   // keep symbolic connect while rootwebview class does not exported 
    QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());

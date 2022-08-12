@@ -32,7 +32,7 @@ int main(int argc, char **argv)
    // create instance, which should be used everywhere
    ExampleWidget* widget = new ExampleWidget();
 
-   myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
+   QObject::connect(&myapp, &QRootApplication::lastWindowClosed, &myapp, &QRootApplication::quit);
 
    widget->show();
 

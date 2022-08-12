@@ -43,12 +43,12 @@ QRootDialog::QRootDialog() : QDialog()
 
    QPushButton *bOk = new QPushButton(this);
    bOk->setText("Apply");
-   connect(bOk, SIGNAL( clicked() ), this, SLOT( accept() ));
+   QObject::connect(bOk, &QPushButton::clicked, this, &QRootDialog::accept);
    buttLayout->addWidget(bOk);
 
    QPushButton *bCancel = new QPushButton(this);
    bCancel->setText("Cancel");
-   connect(bCancel, SIGNAL( clicked() ), this, SLOT( reject() ));
+   QObject::connect(bCancel, &QPushButton::clicked, this, &QRootDialog::reject);
    buttLayout->addWidget(bCancel);
 
    argLayout = new QVBoxLayout();

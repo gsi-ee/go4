@@ -72,7 +72,7 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name ) :
    QObject::connect(EditorBtn, SIGNAL(clicked()), fxDrawCanvas, SLOT(activateEditor()));
    QObject::connect(StatusBtn, SIGNAL(clicked()), fxDrawCanvas, SLOT(activateStatusLine()));
 
-   QObject::connect(fxDrawCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+   QObject::connect(fxDrawCanvas, &QWebCanvas::CanvasDropEvent, this, &QUserPanel::CanvasDropEventSlot);
 }
 
 QUserPanel::~QUserPanel()
