@@ -306,8 +306,11 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
         QMenu menu;
         QSignalMapper map;
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+        connect(&map, &QSignalMapper::mapped, this, &QRootCanvas::executeMenu);
+#else
         connect(&map, &QSignalMapper::mappedInt, this, &QRootCanvas::executeMenu);
-
+#endif
         fMenuObj = selected;
         fMenuMethods = new TList;
         TClass *cl = fMenuObj->IsA();
@@ -1052,7 +1055,13 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
           (text.compare("DrawPanel") == 0) || (text.compare("FitPanel") == 0))
          act->setEnabled(false);
 
-   QObject::connect(act, &QAction::triggered, [id, map]() { map->mappedInt(id); });
+   QObject::connect(act, &QAction::triggered, [id, map]() {
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+      map->mapped(id);
+#else
+      map->mappedInt(id);
+#endif
+   });
 
    menu->addAction(act);
    map->setMapping(act, id);
