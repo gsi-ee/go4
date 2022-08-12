@@ -22,7 +22,7 @@ TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
    setObjectName("Go4MarkerSettings");
    setupUi(this);
 
-   QObject::connect(buttonOk, SIGNAL(clicked()), this, SLOT(setFlags()));
+   QObject::connect(buttonOk, &QPushButton::clicked, this, &TGo4MarkerSettings::setFlags);
 
     // regions:
    Bool_t LABELDRAW, LIMITSDRAW, INTDRAW,
@@ -82,5 +82,4 @@ void TGo4MarkerSettings::setFlags()
                                DrawPYbinButton->isChecked(),
                                DrawPCountsButton->isChecked(),
                                PLabelFormatEdit->text().toLatin1().constData());
-
 }

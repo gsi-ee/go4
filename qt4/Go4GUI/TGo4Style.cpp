@@ -24,7 +24,7 @@
 
 #include <QColorDialog>
 
-TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
+TGo4Style::TGo4Style(QWidget *parent, const char* name, Qt::WindowFlags fl) :
    QWidget( parent, fl ), fbMenuLock(false), fbSettingPanelData(false)
 {
    setObjectName(name ? name : "Go4Style");
@@ -33,7 +33,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QObject::connect(Palette, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4Style::SetPalette);
    QObject::connect(PaletteComboBox, QOverload<int>::of(&QComboBox::activated), this, &TGo4Style::SetNamedPalette);
    QObject::connect(ContourSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4Style::SetContourLevels);
-   QObject::connect(PadColor, SIGNAL(clicked()), this, SLOT(SetPadColor()));
+   QObject::connect(PadColor, &QPushButton::clicked, this, &TGo4Style::SetPadColor);
 
    QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4Style::panelSlot);
 

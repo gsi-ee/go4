@@ -20,22 +20,21 @@ TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
 {
    setupUi(this);
-   QObject::connect(resize_b, SIGNAL(clicked()), this, SLOT(resizeall()));
-   QObject::connect(SetScale, SIGNAL(clicked()), this, SLOT(SetScaleValues()));
-   QObject::connect(AutoZoomBtn, SIGNAL(clicked()), this, SLOT(AutoZoomScales()));
-   QObject::connect(UExpandX, SIGNAL(clicked()), this, SLOT(SlotUExpandX()));
-   QObject::connect(ShiftL, SIGNAL(clicked()), this, SLOT(SlotShiftL()));
-   QObject::connect(ShiftR, SIGNAL(clicked()), this, SLOT(SlotShiftR()));
-   QObject::connect(ExpandX, SIGNAL(clicked()), this, SLOT(SlotExpandX()));
-   QObject::connect(ShiftUp, SIGNAL(clicked()), this, SLOT(SlotShiftU()));
-   QObject::connect(UExpandY, SIGNAL(clicked()), this, SLOT(SlotUExpandY()));
-   QObject::connect(ExpandY, SIGNAL(clicked()), this, SLOT(SlotExpandY()));
-   QObject::connect(ShiftDown, SIGNAL(clicked()), this, SLOT(SlotShiftD()));
-   QObject::connect(ShiftUpZ, SIGNAL(clicked()), this, SLOT(SlotShiftZU()));
-   QObject::connect(UExpandZ, SIGNAL(clicked()), this, SLOT(SlotUExpandZ()));
-   QObject::connect(ExpandZ, SIGNAL(clicked()), this, SLOT(SlotExpandZ()));
-   QObject::connect(ShiftDownZ, SIGNAL(clicked()), this, SLOT(SlotShiftZD()));
-
+   QObject::connect(resize_b, &QPushButton::clicked, this, &TGo4ScaleOptions::resizeall);
+   QObject::connect(SetScale, &QPushButton::clicked, this, &TGo4ScaleOptions::SetScaleValues);
+   QObject::connect(AutoZoomBtn, &QPushButton::clicked, this, &TGo4ScaleOptions::AutoZoomScales);
+   QObject::connect(UExpandX, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotUExpandX);
+   QObject::connect(ShiftL, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftL);
+   QObject::connect(ShiftR, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftR);
+   QObject::connect(ExpandX, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotExpandX);
+   QObject::connect(ShiftUp, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftU);
+   QObject::connect(UExpandY, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotUExpandY);
+   QObject::connect(ExpandY, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotExpandY);
+   QObject::connect(ShiftDown, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftD);
+   QObject::connect(ShiftUpZ, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftZU);
+   QObject::connect(UExpandZ, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotUExpandZ);
+   QObject::connect(ExpandZ, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotExpandZ);
+   QObject::connect(ShiftDownZ, &QPushButton::clicked, this, &TGo4ScaleOptions::SlotShiftZD);
 }
 
 void TGo4ScaleOptions::SlotShiftL()
@@ -55,17 +54,17 @@ void TGo4ScaleOptions::SlotShiftU()
 
 void TGo4ScaleOptions::SlotShiftD()
 {
-    MoveScale(0, 1, 0);
+   MoveScale(0, 1, 0);
 }
 
 void TGo4ScaleOptions::SlotShiftZU()
 {
-    MoveScale(0, 0, 2);
+   MoveScale(0, 0, 2);
 }
 
 void TGo4ScaleOptions::SlotShiftZD()
 {
-    MoveScale(0, 0, 1);
+   MoveScale(0, 0, 1);
 }
 
 void TGo4ScaleOptions::SlotExpandX()
@@ -80,12 +79,12 @@ void TGo4ScaleOptions::SlotExpandY()
 
 void TGo4ScaleOptions::SlotExpandZ()
 {
-    MoveScale(0, 0, 3);
+   MoveScale(0, 0, 3);
 }
 
 void TGo4ScaleOptions::SlotUExpandX()
 {
-    MoveScale(4, 0, 0);
+   MoveScale(4, 0, 0);
 }
 
 void TGo4ScaleOptions::SlotUExpandY()

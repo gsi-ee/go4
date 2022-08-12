@@ -21,7 +21,7 @@ TGo4LogSettings::TGo4LogSettings( QWidget* parent )
    setObjectName("Go4LogSettings");
    setupUi(this);
 
-   QObject::connect(FileNameLog, SIGNAL(clicked()), this, SLOT(LogfileDialog()));
+   QObject::connect(FileNameLog, &QPushButton::clicked, this, &TGo4LogSettings::LogfileDialog);
 
    bool iswrite = TGo4Log::IsLogfileEnabled();
 

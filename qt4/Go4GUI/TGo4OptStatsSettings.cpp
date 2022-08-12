@@ -24,7 +24,7 @@ TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget* parent ) :
    //setObjectName(name);
    setupUi(this);
 
-   QObject::connect(buttonOk, SIGNAL(clicked()), this, SLOT(setFlags()));
+   QObject::connect(buttonOk, &QPushButton::clicked, this, &TGo4OptStatsSettings::setFlags);
 
    bool showstat = go4sett->getStatBoxVisible();
    DrawStatboxButton->setChecked(showstat);

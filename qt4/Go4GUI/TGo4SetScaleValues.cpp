@@ -24,7 +24,7 @@ TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::W
    setupUi(this);
 
    QObject::connect(AutoScaleButton, &QCheckBox::toggled, this, &TGo4SetScaleValues::AutoscaleChanged);
-   QObject::connect(SetButton, SIGNAL(clicked()), this, SLOT(ApplyValues()));
+   QObject::connect(SetButton, &QPushButton::clicked, this, &TGo4SetScaleValues::ApplyValues);
    QObject::connect(XminV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
    QObject::connect(XmaxV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);
    QObject::connect(YminV, &QLineEdit::returnPressed, this, &TGo4SetScaleValues::ApplyValues);

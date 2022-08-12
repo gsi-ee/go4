@@ -23,10 +23,10 @@ TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name) :
    QGo4Widget(parent,name)
 {
    setupUi(this);
-   QObject::connect(RefreshBtn, SIGNAL(clicked()), this, SLOT(RefreshBtn_clicked()));
-   QObject::connect(ClearBtn, SIGNAL(clicked()), this, SLOT(ClearBtn_clicked()));
-   QObject::connect(StartMonitorBtn, SIGNAL(clicked()), this, SLOT(StartMonitorBtn_clicked()));
-   QObject::connect(StopMonitorBtn, SIGNAL(clicked()), this, SLOT(StopMonitorBtn_clicked()));
+   QObject::connect(RefreshBtn, &QToolButton::clicked, this, &TGo4BrowserOptions::RefreshBtn_clicked);
+   QObject::connect(ClearBtn, &QToolButton::clicked, this, &TGo4BrowserOptions::ClearBtn_clicked);
+   QObject::connect(StartMonitorBtn, &QToolButton::clicked, this, &TGo4BrowserOptions::StartMonitorBtn_clicked);
+   QObject::connect(StopMonitorBtn, &QToolButton::clicked, this, &TGo4BrowserOptions::StopMonitorBtn_clicked);
    QObject::connect(FilterBox, QOverload<int>::of(&QComboBox::activated), this, &TGo4BrowserOptions::FilterBox_activated);
 
 }

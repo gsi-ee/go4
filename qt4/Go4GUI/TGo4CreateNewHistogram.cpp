@@ -28,8 +28,8 @@ TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)
 {
    setObjectName("Go4CreateNewHistogram");
    setupUi(this);
-   QObject::connect(CreateHistogram, SIGNAL(clicked()), this, SLOT(CreateLocalHist()));
-   QObject::connect(CreateRemote, SIGNAL(clicked()), this, SLOT(CreateRemoteHis()));
+   QObject::connect(CreateHistogram, &QPushButton::clicked, this, &TGo4CreateNewHistogram::CreateLocalHist);
+   QObject::connect(CreateRemote, &QPushButton::clicked, this, &TGo4CreateNewHistogram::CreateRemoteHis);
    HisName->setText(go4sett->getHistName());
    HisTitle->setText(go4sett->getHistTitle());
 

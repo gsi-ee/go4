@@ -39,9 +39,9 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
    QObject::connect(YStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::YaxisStyle);
    QObject::connect(ZStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::ZaxisStyle);
    QObject::connect(AutoScaleBox, &QCheckBox::toggled, this, &TGo4HisDrawOptions::SetAutoScale);
-   QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
-   QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SetFillColor()));
-   QObject::connect(MarkerColor, SIGNAL(clicked()), this, SLOT(SetMarkerColor()));
+   QObject::connect(LineColor, &QPushButton::clicked, this, &TGo4HisDrawOptions::SetLineColor);
+   QObject::connect(FillColor, &QPushButton::clicked, this, &TGo4HisDrawOptions::SetFillColor);
+   QObject::connect(MarkerColor, &QPushButton::clicked, this, &TGo4HisDrawOptions::SetMarkerColor);
 
 
    fbSettingPanelData = true;

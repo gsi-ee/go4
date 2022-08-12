@@ -23,9 +23,9 @@ TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char* name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);
-   QObject::connect(RefreshButton, SIGNAL(clicked()), this, SLOT(RefreshClicked()));
-   QObject::connect(PrintEventButton, SIGNAL(clicked()), this, SLOT(PrintEventClicked()));
-   QObject::connect(MbsButton, SIGNAL(clicked()), this, SLOT(MbsButton_clicked()));
+   QObject::connect(RefreshButton, &QPushButton::clicked, this, &TGo4EventInfo::RefreshClicked);
+   QObject::connect(PrintEventButton, &QPushButton::clicked, this, &TGo4EventInfo::PrintEventClicked);
+   QObject::connect(MbsButton, &QPushButton::clicked, this, &TGo4EventInfo::MbsButton_clicked);
    setWindowTitle("Event info");
    ResetWidget();
 }
@@ -38,7 +38,7 @@ bool TGo4EventInfo::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 void TGo4EventInfo::DropItem(const char* itemname, TClass* cl, int kind)
 {
    if (kind == TGo4Access::kndEventElement)
-     WorkWithEvent(itemname);
+      WorkWithEvent(itemname);
 }
 
 void TGo4EventInfo::WorkWithEvent(const char* itemname)
@@ -125,7 +125,7 @@ void TGo4EventInfo::MbsButton_clicked()
 {
    TString itemname = Browser()->FindItemInAnalysis(defMbsEventName);
 
-   printf("Search item %s  found %s\n", defMbsEventName, itemname.Data());
+   // printf("Search item %s  found %s\n", defMbsEventName, itemname.Data());
 
    if (itemname.Length() > 0)
      WorkWithEvent(itemname.Data());
