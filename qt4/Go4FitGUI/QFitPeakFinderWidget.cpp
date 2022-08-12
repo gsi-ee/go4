@@ -22,7 +22,7 @@ QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
    QObject::connect(DataNameEdt, SIGNAL(textChanged(QString)), this, SLOT(DataNameEdt_textChanged(QString)));
    QObject::connect(ClearModelsChk, SIGNAL(toggled(bool)), this, SLOT(ClearModelsChk_toggled(bool)));
    QObject::connect(UsePolynChk, SIGNAL(toggled(bool)), this, SLOT(UsePolynChk_toggled(bool)));
-   QObject::connect(PolynSpin, SIGNAL(valueChanged(int)), this, SLOT(PolynSpin_valueChanged(int)));
+   QObject::connect(PolynSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitPeakFinderWidget::PolynSpin_valueChanged);
    QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
    QObject::connect(ThresholdEdt, SIGNAL(textChanged(QString)), this, SLOT(ThresholdEdt_textChanged(QString)));
    QObject::connect(MinWidthEdt, SIGNAL(textChanged(QString)), this, SLOT(MinWidthEdt_textChanged(QString)));
@@ -30,7 +30,7 @@ QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
    QObject::connect(WidthEdit, SIGNAL(textChanged(QString)), this, SLOT(WidthEdit_textChanged(QString)));
    QObject::connect(NoiseFactorEdit, SIGNAL(textChanged(QString)), this, SLOT(NoiseFactorEdit_textChanged(QString)));
    QObject::connect(NoiseMinEdit, SIGNAL(textChanged(QString)), this, SLOT(NoiseMinEdit_textChanged(QString)));
-   QObject::connect(SumUpSpin, SIGNAL(valueChanged(int)), this, SLOT(SumUpSpin_valueChanged(int)));
+   QObject::connect(SumUpSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitPeakFinderWidget::SumUpSpin_valueChanged);
 }
 
 TGo4FitPeakFinder * QFitPeakFinderWidget::GetPF()

@@ -23,7 +23,7 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   QObject::connect(NumCalibrSpin, SIGNAL(valueChanged(int)), this, SLOT(NumCalibrSpin_valueChanged(int)));
+   QObject::connect(NumCalibrSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitDataWidget::NumCalibrSpin_valueChanged);
    QObject::connect(UseBinsChk, SIGNAL(toggled(bool)), this, SLOT(UseBinsChk_toggled(bool)));
    QObject::connect(SigmaCmb, SIGNAL(activated(int)), this, SLOT(SigmaCmb_activated(int)));
    QObject::connect(SigmaEdt, SIGNAL(textChanged(QString)), this, SLOT(SigmaEdt_textChanged(QString)));
