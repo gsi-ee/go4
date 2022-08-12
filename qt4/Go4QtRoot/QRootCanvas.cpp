@@ -133,7 +133,7 @@ QRootCanvas::~QRootCanvas()
       gTQSender = nullptr;
 
    // prevent problems with root's subeditor cache
-   if (fxPeditor != 0) {
+   if (fxPeditor) {
       fxPeditor->DeleteEditors();
       delete fxPeditor;
       fxPeditor = nullptr;

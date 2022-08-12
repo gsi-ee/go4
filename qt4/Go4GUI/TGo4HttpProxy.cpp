@@ -999,13 +999,13 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char*
 {
    TString url(name);
    url.Append("/cmd.json");
-   if (arg1 && (*arg1 != 0)) {
+   if (arg1 && *arg1) {
       url.Append("?arg1=");
       url.Append(arg1);
-      if (arg2 && (*arg2 != 0)) {
+      if (arg2 && *arg2) {
          url.Append("&arg2=");
          url.Append(arg2);
-         if (arg3 && (*arg3 != 0)) {
+         if (arg3 && *arg3) {
             url.Append("&arg3=");
             url.Append(arg3);
          }
