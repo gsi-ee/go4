@@ -525,9 +525,9 @@ TPad* TGo4FitPanel::ActivePad()
    return fxActivePad;
 }
 
-TGo4Fitter* TGo4FitPanel::GetFitter()
+TGo4Fitter *TGo4FitPanel::GetFitter()
 {
-   return dynamic_cast<TGo4Fitter*>(GetLinked("Fitter"));
+   return GetLinkedCast<TGo4Fitter>("Fitter");
 }
 
 void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)

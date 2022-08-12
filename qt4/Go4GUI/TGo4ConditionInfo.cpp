@@ -105,9 +105,9 @@ void TGo4ConditionInfo::WorkWithCondition(const char* itemname)
 
    AddLink(itemname, "Condition");
 
-   TObject* obj = GetLinked("Condition", 2);
+   auto cond = GetLinkedCast<TGo4Condition>("Condition", 2);
 
-   RefreshWidget(dynamic_cast<TGo4Condition*>(obj));
+   RefreshWidget(cond);
 
    setFocus();
 }
