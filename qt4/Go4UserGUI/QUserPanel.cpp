@@ -47,11 +47,7 @@ extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
 }
 
 
-
-
-
 // *********************************************************
-
 
 /*
  *  Constructs a QUserPanel which is a child of 'parent', with the
@@ -69,9 +65,9 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name ) :
 
    PrintLbl->setText("");
 
-   QObject::connect(InfoBtn, SIGNAL(clicked()), this, SLOT(InfoBtn_clicked()));
-   QObject::connect(EditBtn, SIGNAL(clicked()), this, SLOT(EditBtn_clicked()));
-   QObject::connect(DrawBtn, SIGNAL(clicked()), this, SLOT(DrawBtn_clicked()));
+   QObject::connect(InfoBtn, &QPushButton::clicked, this, &QUserPanel::InfoBtn_clicked);
+   QObject::connect(EditBtn, &QPushButton::clicked, this, &QUserPanel::EditBtn_clicked);
+   QObject::connect(DrawBtn, &QPushButton::clicked, this, &QUserPanel::DrawBtn_clicked);
 
    QObject::connect(fxDrawCanvas, &QRootCanvas::CanvasDropEvent, this, &QUserPanel::CanvasDropEventSlot);
 }
@@ -153,9 +149,9 @@ void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
 
 void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-    if (strcmp(linkname, "PrintItem") == 0)
-      PrintObject(obj);
-    else if (strcmp(linkname, "DrawItem") == 0) {
+    if (strcmp(linkname, "PrintItem") == 0) {
+       PrintObject(obj);
+    } else if (strcmp(linkname, "DrawItem") == 0) {
        fxDrawCanvas->getCanvas()->Clear();
        fxDrawCanvas->getCanvas()->cd();
        obj->Draw("");
@@ -165,9 +161,9 @@ void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void QUserPanel::linkedObjectRemoved(const char* linkname)
 {
-    if (strcmp(linkname, "PrintItem") == 0)
+    if (strcmp(linkname, "PrintItem") == 0) {
       PrintObject(nullptr);
-    else if (strcmp(linkname, "DrawItem") == 0) {
+    } else if (strcmp(linkname, "DrawItem") == 0) {
       RemoveLink("DrawItem");
       fxDrawCanvas->getCanvas()->Clear();
       fxDrawCanvas->getCanvas()->Update();
