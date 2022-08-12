@@ -1005,7 +1005,7 @@ void TGo4Browser::ShootUpdateTimer()
 
    fbUpdateTimerActive = true;
 
-   QTimer::singleShot(1, this, SLOT(updateListViewItems()));
+   QTimer::singleShot(1, this, &TGo4Browser::updateListViewItems);
 }
 
 void TGo4Browser::SaveSelectedItems()

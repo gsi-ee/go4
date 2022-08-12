@@ -260,7 +260,7 @@ void TGo4AnalysisWindow::updateTerminalOutput()
     }
   }
   outputBuffer = "";
-  QTimer::singleShot(100, this, SLOT(updateTerminalOutput()));
+  QTimer::singleShot(100, this, &TGo4AnalysisWindow::updateTerminalOutput);
 }
 
 void TGo4AnalysisWindow::readFromStdout()

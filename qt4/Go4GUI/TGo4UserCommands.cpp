@@ -54,8 +54,7 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
 	   fAnalysisMacroButtons[i]->setEnabled(false);
 
       QString com = go4sett->getAnalysisMacroCommand(i);
-      if (com.isEmpty())
-      {
+      if (com.isEmpty()) {
         fAnalysisMacroCommands.push_back(QString(""));
         continue;
       }
@@ -69,7 +68,7 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
     QObject::connect(CommandAutoButton, SIGNAL (clicked ()), this, SLOT (AnalysisMacroMonitorBtn_clicked ()));
 
     fAnalysisMacroTimer = new QTimer(this);
-    QObject::connect(fAnalysisMacroTimer, SIGNAL (timeout ()), this, SLOT (AnalysisMacroMonitorTimeout()));
+    QObject::connect(fAnalysisMacroTimer, &QTimer::timeout, this, &TGo4UserCommands::AnalysisMacroMonitorTimeout);
 
     QObject::connect(ConfigureButton, SIGNAL (clicked ()), this, SLOT (ConfigureAnalysisMacros()));
 #ifdef 	USERCOMMANDS_CONFIGWINDOW

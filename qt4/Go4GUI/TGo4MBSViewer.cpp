@@ -97,7 +97,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    fxTimer = new QTimer(this);
    fxMovieResetTimer = new QTimer(this);
    QString moviepath = ":/icons/mbslogorun.gif";
-   fxRunMovie= new QMovie(moviepath);
+   fxRunMovie = new QMovie(moviepath);
    memset(&fxDaqStat, 0, sizeof(fxDaqStat));
    fiCalcedEventRate=0;
    fiCalcedDataRate=0;
@@ -106,8 +106,8 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    fiLastEventNum=0;
    fiLastDataNum=0;
    fxDeltaClock.start();
-   connect( fxTimer, SIGNAL(timeout()), this, SLOT(Refresh()) );
-   connect( fxMovieResetTimer, SIGNAL(timeout()), this, SLOT(ResetRunIcon()) );
+   QObject::connect(fxTimer, &QTimer::timeout, this, &TGo4MBSViewer::Refresh);
+   QObject::connect(fxMovieResetTimer, &QTimer::timeout, this, &TGo4MBSViewer::ResetRunIcon);
    Display();
 
 }
@@ -133,17 +133,16 @@ void TGo4MBSViewer::StoreSettings()
 
 void TGo4MBSViewer::TimerStart()
 {
-   fbIsMonitoring=true;
-   fbTrendingInit=true;
-   fiLastEventNum=0;
-   fiLastDataNum=0;
-   fiLastServDataNum=0;
+   fbIsMonitoring = true;
+   fbTrendingInit = true;
+   fiLastEventNum = 0;
+   fiLastDataNum = 0;
+   fiLastServDataNum = 0;
    Refresh();
-   fxTimer->start(1000*FrequencyBox->value());
+   fxTimer->start(1000 * FrequencyBox->value());
    Display();
    StoreSettings();
 }
-
 
 void TGo4MBSViewer::TimerStop()
 {

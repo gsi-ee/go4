@@ -72,7 +72,7 @@ void QHttpProxy::httpHReqError(QNetworkReply::NetworkError code)
 void QHttpProxy::updateRatemeter()
 {
    if (fProxy) fProxy->ProcessUpdateTimer();
-   QTimer::singleShot(2000, this, SLOT(updateRatemeter()));
+   QTimer::singleShot(2000, this, &QHttpProxy::updateRatemeter);
 }
 
 void QHttpProxy::updateHierarchy()
@@ -628,7 +628,7 @@ void TGo4HttpProxy::Initialize(TGo4Slot* slot)
    subslot = new TGo4Slot(fxParentSlot, "Debugoutput", "Debug output of go4 analysis");
    subslot->SetProxy(new TGo4ObjectProxy());
 
-   QTimer::singleShot(2000, &fComm, SLOT(updateRatemeter()));
+   QTimer::singleShot(2000, &fComm, &QHttpProxy::updateRatemeter);
 }
 
 
@@ -852,7 +852,7 @@ Bool_t TGo4HttpProxy::RefreshNamesList()
 
 Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
 {
-   QTimer::singleShot(delay_sec*1000, &fComm, SLOT(updateHierarchy()));
+   QTimer::singleShot(delay_sec*1000, &fComm, &QHttpProxy::updateHierarchy);
 
    return kTRUE;
 }
