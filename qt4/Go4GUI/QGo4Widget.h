@@ -154,10 +154,10 @@ private:
       /** returns name of item, which was linked in that slot */
       const char* GetLinkedName(TGo4Slot* slot);
 
-      TObject* GetLinked(const char* linkname, int updatelevel);
-      void RemoveLink(const char* linkname, bool blockreset = true);
+      TObject* GetLinked(const char *linkname, int updatelevel = 0);
+      void RemoveLink(const char *linkname, bool blockreset = true);
       void RemoveAllLinks(bool blockreset = true);
-      void RemoveLinksMasked(const char* startedwith = nullptr, bool blockreset = true);
+      void RemoveLinksMasked(const char *startedwith = nullptr, bool blockreset = true);
 
       bool BrowserItemRemote(const char* itemname);
       TGo4BrowserProxy* Browser();

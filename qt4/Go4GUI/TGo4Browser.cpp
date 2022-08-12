@@ -188,7 +188,7 @@ void TGo4Browser::ResetWidget()
 
 TGo4BrowserProxy* TGo4Browser::BrowserProxy()
 {
-   return (TGo4BrowserProxy*) GetLinked("Browser", 0);
+   return static_cast<TGo4BrowserProxy *>(GetLinked("Browser"));
 }
 
 QString TGo4Browser::FullItemName(QTreeWidgetItem* item)

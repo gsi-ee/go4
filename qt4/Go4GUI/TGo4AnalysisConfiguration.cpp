@@ -75,7 +75,7 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
      RefreshWidget();
 
      TGo4ServerProxy* anal =
-        dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+        dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
      if (anal)
         anal->RefreshNamesList();
    }
@@ -118,9 +118,9 @@ void TGo4AnalysisConfiguration::ResetWidget()
 void TGo4AnalysisConfiguration::RefreshWidget()
 {
    TGo4AnalysisStatus* status =
-      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    TGo4ServerProxy* anal =
-      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
 
    if (!status || !anal) return;
 
@@ -194,7 +194,7 @@ void TGo4AnalysisConfiguration::SetStorePath(const QString & v)
 void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 {
    TGo4ServerProxy* anal =
-      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
    if (anal)
       anal->RequestAnalysisSettings();
 }
@@ -238,7 +238,7 @@ void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
 {
    QString fname = AutoSaveFileName->text().trimmed();
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    if (status && fbTypingMode)
      status->SetAutoFileName(fname.toLatin1().constData());
 }
@@ -246,7 +246,7 @@ void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
 void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
 {
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    if (status && fbTypingMode)
      status->SetAutoSaveCompression(t);
 }
@@ -255,7 +255,7 @@ void TGo4AnalysisConfiguration::LoadConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
    TGo4ServerProxy* anal =
-      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
    if (anal)
       anal->LoadConfigFile(fname.toLatin1().constData());
    RequestAnalysisStatus();
@@ -265,7 +265,7 @@ void TGo4AnalysisConfiguration::SaveConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
    TGo4ServerProxy* anal =
-      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
    if (anal)
       anal->SaveConfigFile(fname.toLatin1().constData());
 }
@@ -289,7 +289,7 @@ void TGo4AnalysisConfiguration::CloseAnalysis()
 void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 {
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    if (status && fbTypingMode)
      status->SetAutoSaveInterval(t);
 }
@@ -297,7 +297,7 @@ void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 void TGo4AnalysisConfiguration::SetAutoSaveOverwrite(bool overwrite)
 {
    TGo4AnalysisStatus* status =
-      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    if (status && fbTypingMode)
       status->SetAutoSaveOverwrite(overwrite);
 }
@@ -305,9 +305,9 @@ void TGo4AnalysisConfiguration::SetAutoSaveOverwrite(bool overwrite)
 void TGo4AnalysisConfiguration::WriteAutoSave()
 {
    TGo4AnalysisStatus* status =
-      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    TGo4ServerProxy* anal =
-      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis"));
 
    if (anal && status)
      anal->WriteAutoSave(status->GetAutoFileName(),
@@ -318,7 +318,7 @@ void TGo4AnalysisConfiguration::WriteAutoSave()
 void TGo4AnalysisConfiguration::EnableAutoSaveSlot(bool enabled)
 {
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status"));
    if (status && fbTypingMode)
       status->SetAutoSaveOn(enabled);
     AutoSaveInterval->setEnabled(enabled);
