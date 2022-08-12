@@ -222,7 +222,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    bool ed_visible = false, ed_allowed = true;
 
 #ifdef __GO4X11__
-   if (!fxWCanvas) {
+   if (fxQCanvas) {
       ed_visible = fxQCanvas->isEditorVisible();
       ed_allowed = fxQCanvas->isEditorAllowed();
    }
@@ -346,7 +346,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
    CallPanelFunc(panel_Deleted);
 
    if (gPad)
-      if (IsPanelPad((TPad*) gPad)) {
+      if (IsPanelPad((TPad *)gPad)) {
          gPad = nullptr;
       }
 
@@ -534,7 +534,6 @@ void TGo4ViewPanel::ClosePanel()
 
 void TGo4ViewPanel::SetMouseMode(int mode)
 {
-  //  std::cout <<"TGo4ViewPanel::SetMouseMode sets mouse mode: "<< mode << std::endl;
    fiMouseMode = mode;
 }
 
@@ -631,9 +630,8 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
          const char* linkname = GetLinkedName(subslot);
-         if (linkname)
-            if (strcmp(linkname, itemname) == 0)
-               return GetSlotPad(subslot->GetParent());
+         if (linkname && (strcmp(linkname, itemname) == 0))
+            return GetSlotPad(subslot->GetParent());
       }
    }
    return nullptr;
@@ -703,7 +701,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
 
    TGo4Slot* oldsel = GetSelectedSlot(pad, nullptr, nullptr);
    if (oldsel)
-      SetSpecialDrawOption(oldsel, 0);
+      SetSpecialDrawOption(oldsel, nullptr);
 
    if (selname.length() > 0)
       padslot->SetPar("::SelMarker", selname.toLatin1().constData());
@@ -828,7 +826,6 @@ void TGo4ViewPanel::SwitchMarkerButton(int kind, bool on)
 {
    if (!fbTypingMode)
       return;
- //  std::cout <<"TGo4ViewPanel::SwitchMarkerButton for kind:"<<kind<<", on:"<< on << std::endl;
 
    CompleteMarkerEdit(GetActivePad());
    if (!on) {
@@ -1291,14 +1288,12 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
       px = pad->GetEventX();
       py = pad->GetEventY();
    }
-  // std::cout <<"TGo4ViewPanel:PadClickedSlot() begins with mouse mode: "<< fiMouseMode << ", px:"<<px<<", py:"<<py << std::endl;
 
    Double_t x = pad->PadtoX(pad->AbsPixeltoX(px));
    Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
 
-   bool docreate = GetSelectedMarkerName(pad).isEmpty();
-   bool docheck = false;
-   bool iscreated = false;
+   bool docreate = GetSelectedMarkerName(pad).isEmpty(),
+        docheck = false, iscreated = false;
 
    switch (fiMouseMode) {
       case kMouseROOT: {
@@ -1315,7 +1310,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
       case kMousePickCursor: {
          // we have a click on our working pad, get coordinates:
          gROOT->SetEditorMode("");
-         //std::cout <<"TGo4ViewPanel:PadClickedSlot() picks cursor with docreate: "<< docreate <<std::endl;
 
          if (docreate) {
             TGo4Marker* mark = new TGo4Marker(x, y, 28);
@@ -1370,19 +1364,18 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                conny = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
             if(!conny) return;
             fiPickCounter++;
-         } else
-            if (fiPickCounter==1) {
-               conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
-               if(!conny) return;
-               xmin = conny->GetXLow();
-               ymin = conny->GetYLow();
-               fiPickCounter=0;
-               if(!fbPickAgain) fiMouseMode=kMouseROOT;
-               docheck = true;
-            } else {
-               std::cout <<"TGo4ViewPanel:PadClickedSlot() NEVER COME HERE" << std::endl;
-               return;
-            }
+         } else if (fiPickCounter == 1) {
+            conny = dynamic_cast<TGo4WinCond *>(GetActiveObj(pad, kind_Window));
+            if (!conny) return;
+            xmin = conny->GetXLow();
+            ymin = conny->GetYLow();
+            fiPickCounter = 0;
+            if (!fbPickAgain) fiMouseMode = kMouseROOT;
+            docheck = true;
+         } else {
+            std::cout << "TGo4ViewPanel:PadClickedSlot() NEVER COME HERE" << std::endl;
+            return;
+         }
          // do not change original condition dimension
          if (conny->GetDimension() > 1)
             conny->SetValues(xmin, xmax, ymin, ymax);
@@ -1400,22 +1393,18 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          if (iscreated)
             conny->Draw("");
          CanvasUpdate(true);
-        // std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for windowr"<<std::endl;
-
 
          // RedrawPanel(pad, true);
          break;
       }
 
       case kMousePickPolygon: {
-       // std::cout <<"TGo4ViewPanel:PadClickedSlot() in kMousePickPolygon, fiPickCounter="<<fiPickCounter << std::endl;
          gROOT->SetEditorMode("");
          TGo4PolyCond* cond = nullptr;
 
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
             if (docreate) {
-        	// std::cout <<"TGo4ViewPanel:PadClickedSlot() creates polygon" << std::endl;
                TH1* hist = GetPadHistogram(pad);
                int ix = GetNumMarkers(pad, kind_Poly);
                QString name = "Polygon " + QString::number(ix + 1);
@@ -1424,7 +1413,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                AddMarkerObj(pad, kind_Poly, cond);
                cond->SetWorkHistogram(hist);
             } else {
-        //	std::cout <<"TGo4ViewPanel:PadClickedSlot() works on existing polygon" << std::endl;
 
                cond = dynamic_cast<TGo4PolyCond*>(GetActiveObj(pad, kind_Poly));
                // start region from the beginning
@@ -1509,7 +1497,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 //         pad->Update();
 
          CanvasUpdate(true);
-     //    std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for latex"<<std::endl;
 
 //        RedrawPanel(pad, true);
          break;
@@ -1536,17 +1523,15 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
             return;
          }
          // do not change original arrow dimension
-//         pad->Modified();
-//         pad->Update();
+         // pad->Modified();
+         //  pad->Update();
 
          CanvasUpdate(true);
-      //    std::cout <<"TGo4ViewPanel:PadClickedSlot() after  CanvasUpdate for arrow"<<std::endl;
 
          // RedrawPanel(pad, true);
          break;
       }
    }
- //  std::cout <<"TGo4ViewPanel:PadClickedSlot() has docheck: "<< docheck <<std::endl;
 
    if (docheck)
       CheckActionAtTheEnd(pad);
@@ -1554,8 +1539,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
 void TGo4ViewPanel::CheckActionAtTheEnd(TPad* pad)
 {
-   // std::cout <<"TGo4ViewPanel::CheckActionAtTheEnd"<< std::endl;
-
    bool goback = true;
 
 // uncomment this code to have loop mode for array of conditions
@@ -1595,7 +1578,6 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
         needrefresh = true, //false; // refresh buttons
         docheck = false,
         candelete = !IsConditionSelected(pad);
-  //std::cout <<"TGo4ViewPanel::CompleteMarkerEdit begins with mouse mode: "<< fiMouseMode <<  std::endl;
 
    switch (fiMouseMode) {
       case kMousePickLimits: {
@@ -1615,37 +1597,38 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
       }
 
       case kMousePickPolygon: {
-         if (fiPickCounter>0) {
-            TGo4PolyCond* cond = dynamic_cast<TGo4PolyCond*> (GetActiveObj(pad,kind_Poly));
-         if (cond) {
-            bool delcond = true;
-            TCutG* cut = cond->GetCut(kFALSE);
-            if (cut) {
-               int n = cut->GetN();
-               Double_t x, y;
-               cut->GetPoint(0, x, y);
-               delcond = (n < 3);
+         if (fiPickCounter > 0) {
+            TGo4PolyCond *cond = dynamic_cast<TGo4PolyCond *>(GetActiveObj(pad, kind_Poly));
+            if (cond) {
+               bool delcond = true;
+               TCutG *cut = cond->GetCut(kFALSE);
+               if (cut) {
+                  int n = cut->GetN();
+                  Double_t x, y;
+                  cut->GetPoint(0, x, y);
+                  delcond = (n < 3);
 
-               if (n>=3)
-                  cut->SetPoint(n, x, y);
+                  if (n >= 3)
+                     cut->SetPoint(n, x, y);
 
-               int ix = GetNumMarkers(pad, kind_Poly);
-               cond->SetLineColor(GetAutoColor(ix%9 + 1));
-               cond->SetFillColor(GetAutoColor(ix%9 + 1));
-               cond->SetFillStyle(3002);
+                  int ix = GetNumMarkers(pad, kind_Poly);
+                  cond->SetLineColor(GetAutoColor(ix % 9 + 1));
+                  cond->SetFillColor(GetAutoColor(ix % 9 + 1));
+                  cond->SetFillStyle(3002);
+               }
+
+               if (delcond && candelete) {
+                  DeleteDrawObject(pad, cond);
+                  needredraw = true;
+               } else {
+                  needupdate = true;
+               }
             }
-
-            if (delcond && candelete) {
-               DeleteDrawObject(pad, cond);
-               needredraw = true;
-            } else {
-               needupdate = true;
-            }
+            if (!fbPickAgain)
+               fiMouseMode = kMouseROOT;
+            fiPickCounter = 0;
+            docheck = true;
          }
-         if(!fbPickAgain) fiMouseMode=kMouseROOT;
-         fiPickCounter = 0;
-         docheck = true;
-       }
 
        needrefresh = true;
        res = true;
@@ -1666,13 +1649,13 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
         break;
      }
    }
-   if (needredraw)
+   if (needredraw) {
       RedrawPanel(pad, true);
-   else {
+   } else {
       if (needupdate) {
-	  CanvasUpdate(true);
-//         pad->Modified();
-//         pad->Update();
+         CanvasUpdate(true);
+         //  pad->Modified();
+         //  pad->Update();
       }
       if (needrefresh)
          RefreshButtons();
@@ -1686,7 +1669,6 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
 
 void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad, int, int)
 {
-   // std::cout <<"TGo4ViewPanel::PadDoubleClickedSlot"<< std::endl;
    if (CompleteMarkerEdit(pad)) return;
    if (fxDoubleClickTimerPad) return;
 
@@ -1794,7 +1776,6 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
 
 void TGo4ViewPanel::CanvasUpdatedSlot()
 {
-    //std::cout <<"UUUUUUUU TGo4ViewPanel::CanvasUpdatedSlot()"<< std::endl;
    if (fxWCanvas) {
       TCanvasImp *imp = GetCanvas()->GetCanvasImp();
       fxCanvasEventstatusChk->setChecked(imp->HasStatusBar());
@@ -1824,7 +1805,6 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    TObjArray markers;
    CollectSpecialObjects(GetActivePad(), &markers, kind_Marker);
    Int_t npts = markers.GetEntries();
-   //std::cout <<"Found "<<npts<<" markers in pad" << std::endl;
    if (npts == 0)
       return;
    // create arrays of length
@@ -1838,7 +1818,6 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
       }
       x[j] = mark->GetX();
       y[j] = mark->GetY();
-      //std::cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<< std::endl;
    }
 
    // create graph from points array:
@@ -2051,13 +2030,9 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
 
    double dx = fabs(pad->AbsPixeltoX(1) - pad->AbsPixeltoX(0));
    double dy = fabs(pad->AbsPixeltoY(1) - pad->AbsPixeltoY(0));
-   //std::cout <<"-- dx:"<<dx<<", dy:"<<dy<< std::endl;
    if ((dx <= 0) || (dy <= 0)) return;
    double ratio = dx / dy;
-   //std::cout <<"-- Ratio is:"<<ratio<< std::endl;
-   if(fabs(1.0-ratio) < 1.0E-3)
-   {
-     //std::cout <<"DO NOT CHANGE!"<< std::endl;
+   if(fabs(1.0-ratio) < 1.0E-3) {
      return; // do not change margins again!
    }
 
@@ -2067,13 +2042,10 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
      double left = pad->GetLeftMargin();
      double right = pad->GetRightMargin();
      double change = (1. - left - right) * (1 - ratio);
-     //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
      double newleft = left + change / 2.;
      double newright = right + change / 2.;
      double newtop = pad->GetTopMargin();
      double newbottom = pad->GetBottomMargin();
-     //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
-     //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
      double shrink=newtop- deftop; // zoom everything consistent to the default margins
      if(shrink>newleft-defleft) shrink = newleft-defleft; // avoid exceeding default boundaries
      if(shrink>newright-defright) shrink = newright-defright; // avoid exceeding default boundaries
@@ -2083,9 +2055,6 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
      newbottom = newbottom - shrink;
      newleft = newleft - shrink;
      newright = newright - shrink;
-     //std::cout << "after shrink="<<shrink<<" :";
-     //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
-     //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
 
       pad->SetLeftMargin(newleft);
       pad->SetRightMargin(newright);
@@ -2096,13 +2065,10 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
       double bottom = pad->GetBottomMargin();
       double top = pad->GetTopMargin();
       double change = (1. - bottom - top) * (1. - 1 / ratio);
-      //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
       double newleft=pad->GetLeftMargin();
       double newright=pad->GetRightMargin();
       double newtop= top + change / 2.;
       double newbottom= bottom + change / 2.;
-      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
-      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
       double shrink=newleft - defleft;
       if(shrink>newtop-deftop) shrink=newtop-deftop; // avoid exceeding default boundaries
       if(shrink>newbottom-defbottom) shrink=newbottom-defbottom; // avoid exceeding default boundaries
@@ -2111,9 +2077,6 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
       newbottom = newbottom -shrink;
       newleft = newleft- shrink;
       newright = newright - shrink;
-      //std::cout << "after shrink="<<shrink<<" :";
-      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
-      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
 
       pad->SetTopMargin(newtop);
       pad->SetBottomMargin(newbottom);
@@ -2343,8 +2306,6 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return nullptr;
    }
 
-   //std::cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << std::endl;
-
    // clear only if link is added
    if (kind < 100)
       ClearPad(pad, false, true);
@@ -2355,8 +2316,6 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       TClass* cl = Browser()->ItemClass(itemname);
       if (cl && cl->InheritsFrom(TGo4Condition::Class()))
          UndrawItem(itemname);
-
-//      std::cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << std::endl;
 
       TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
 
@@ -2575,7 +2534,6 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
          // test: set here time display
          TAxis* xax = h1->GetXaxis();
          pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
-         //std::cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<< std::endl;
       }
 
    }
@@ -2788,7 +2746,6 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
       TGo4Log::Error("Superimpose of multiple objects with different types");
-      std::cout<< "Superimpose of multiple objects with different types"<< std::endl;
       return nullptr;
    }
 
@@ -3134,8 +3091,6 @@ TCanvas* TGo4ViewPanel::GetCanvas()
 
 void TGo4ViewPanel::CanvasUpdate(bool modify)
 {
-   // std::cout <<"TGo4ViewPanel::CanvasUpdate with modify: "<< modify << std::endl;
-
    if (fxQCanvas) {
 #ifdef __GO4X11__
       if (modify) fxQCanvas->Modified();
@@ -3778,7 +3733,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad *tgtpad, TPad *srcpad, const char *s
          kind = 4;
          h1 = Get_fHistogram(obj);
       } else {
-         //         std::cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << std::endl;
+         // std::cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << std::endl;
       }
 
       // only first object is added,
@@ -4485,43 +4440,25 @@ void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col, TPad* backup)
    if(backup) col=backup->GetFillColor();
    pad->SetFillColor((Color_t) col);
    //pad->Modified(); // for image formats, display window bitmap has to change
-   //std::cout<<"ResetPadFillColors sets color "<<col<<" to pad "<< (unsigned long) pad<<", name:"<<pad->GetName()<<", backup was "<<backup << std::endl;
    TIter iter(pad->GetListOfPrimitives());
    while (auto obj = iter()) {
-      TPad* subpad = dynamic_cast<TPad*>(obj);
-      TFrame* fram = dynamic_cast<TFrame*>(obj);
-      if (subpad){
-        //std::cout<<"ResetPadFillColors finds subpad " << (unsigned long) subpad << std::endl;
-        TPad* backpad = nullptr;
-        if(backup)
-          {
-            backpad=dynamic_cast<TPad*>(backup->GetListOfPrimitives()->FindObject(subpad->GetName()));
-            // debug only:
-//            if(backpad)
-//            {
-//                col=backpad->GetFillColor();
-//                std::cout<<"ResetPadFillColors finds backup pad "<<backpad->GetName()<<" with color "<< col << std::endl;
-//            }
-            // end debug
-          }
+      TPad *subpad = dynamic_cast<TPad *>(obj);
+      TFrame *fram = dynamic_cast<TFrame *>(obj);
+      if (subpad) {
+         TPad *backpad = nullptr;
+         if (backup)
+            backpad = dynamic_cast<TPad *>(backup->GetListOfPrimitives()->FindObject(subpad->GetName()));
          ResetPadFillColors(subpad, col, backpad);
-       }
-      else if (fram)
-      {
-        if(backup)
-        {
-         TFrame* backframe=dynamic_cast<TFrame*>(backup->GetListOfPrimitives()->FindObject(fram->GetName()));
-         if(backframe)
-          {
-              col=backframe->GetFillColor();
-              //std::cout<<"ResetPadFillColors finds backup frame "<<backframe->GetName()<<" with color "<< col << std::endl;
-          }
-        }
-        //std::cout<<"ResetPadFillColors sets color "<<col<<" to subframe "<< (unsigned long) fram->GetName()<< std::endl;
-        fram->SetFillColor((Color_t) col);
+      } else if (fram) {
+         if (backup) {
+            TFrame *backframe = dynamic_cast<TFrame *>(backup->GetListOfPrimitives()->FindObject(fram->GetName()));
+            if (backframe) {
+               col = backframe->GetFillColor();
+            }
+         }
+         fram->SetFillColor((Color_t)col);
       }
    }
-
 }
 
 void TGo4ViewPanel::ClearPad(TPad* pad, bool removeitems, bool removesubpads)
@@ -5231,7 +5168,6 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
-   //std::cout<< "SetSelectedRangeToHisto - 1:1 is "<< padopt->IsXYRatioOne()<< std::endl;
    if (padopt->IsXYRatioOne()) {
       RectangularRatio(pad);
    } else {
@@ -5534,7 +5470,6 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent *e)
    // store size of top widget -
    // size of top widget will be restored when new panel is created
    go4sett->storePanelSize(parentWidget(), "ViewPanel");
-   // std::cout<< "TGo4ViewPanel::resizeEvent"<<std::endl;
    TPad *selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
    if (!selpad)
       return;
@@ -5547,7 +5482,6 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent *e)
       return;
 
    if (padopt->IsXYRatioOne()) {
-      // std::cout<< "TGo4ViewPanel::resizeEvent with ratio :1"<<std::endl;
       //  note: we need to delay execution of redraw, since resize Event in QtROOT canvas will
       //  also happen in timer 100ms after us -> new coordinates are not refreshed here!
       fxResizeTimerPad = selpad;
@@ -5557,7 +5491,6 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent *e)
 
 void TGo4ViewPanel::ResizeGedEditor()
 {
-  //std::cout<< "TGo4ViewPanel::ResizeGedEditor is called with canvas" << (long) fxQCanvas <<std::endl;
 #ifdef __GO4X11__
    if (fxQCanvas) fxQCanvas->resizeEditor();
 #endif
@@ -5787,7 +5720,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          QString text = QInputDialog::getText(this, GetPanelName(),
                "Enter Axis time format:", QLineEdit::Normal, oldfmt, &ok);
          if (ok && !text.isEmpty()) {
-            //std::cout <<"changed time format to"<<(const char*)text.toLatin1() << std::endl;
             //padopt->SetXAxisTimeFormat(text.toLatin1());
             //padopt->SetPadModified();
             ChangeDrawOption(id - 1000, 0, text.toLatin1());
