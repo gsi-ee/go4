@@ -220,7 +220,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   void (QSignalMapper::*signal)(int) = &QSignalMapper::mapped;
+   auto signal = QOverload<int>::of(&QSignalMapper::mapped);
 #else
    auto signal = &QSignalMapper::mappedInt;
 #endif
