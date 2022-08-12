@@ -49,7 +49,7 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
    QObject::connect(HisInfoButton, SIGNAL(clicked()), this, SLOT(HisInfoButton_clicked()));
    QObject::connect(ConNewButton, SIGNAL(clicked()), this, SLOT(ConNewButton_clicked()));
    QObject::connect(ConInfoButton, SIGNAL(clicked()), this, SLOT(ConInfoButton_clicked()));
-   QObject::connect(EntryEnabledButton, SIGNAL(toggled(bool)), this, SLOT(EntryEnabledButton_toggled(bool)));
+   QObject::connect(EntryEnabledButton, &QCheckBox::toggled, this, &TGo4EditDynEntry::EntryEnabledButton_toggled);
    QObject::connect(EvXnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::EvXnameEdit_textChanged);
    QObject::connect(EvYnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::EvYnameEdit_textChanged);
    QObject::connect(EvZnameEdit, &QGo4LineEdit::textChanged, this, &TGo4EditDynEntry::EvZnameEdit_textChanged);

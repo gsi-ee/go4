@@ -36,9 +36,9 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
    QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetCompressionLevel);
    QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
    QObject::connect(AutoSaveInterval, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetAutoSaveInterval);
-   QObject::connect(AutoSaveOverwrite, SIGNAL(toggled(bool)), this, SLOT(SetAutoSaveOverwrite(bool)));
+   QObject::connect(AutoSaveOverwrite, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::SetAutoSaveOverwrite);
    QObject::connect(SaveNowB, SIGNAL(clicked()), this, SLOT(WriteAutoSave()));
-   QObject::connect(AutoSaveEnable, SIGNAL(toggled(bool)), this, SLOT(EnableAutoSaveSlot(bool)));
+   QObject::connect(AutoSaveEnable, &QCheckBox::toggled, this, &TGo4AnalysisConfiguration::EnableAutoSaveSlot);
    QObject::connect(SubmitAndStartButton, SIGNAL(clicked()), this, SLOT(SubmitAndStart()));
    QObject::connect(ClosePushButton, SIGNAL(clicked()), this, SLOT(CloseAnalysis()));
 

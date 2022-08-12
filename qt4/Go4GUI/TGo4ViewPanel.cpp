@@ -107,13 +107,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(CursorB, SIGNAL(toggled(bool)), this, SLOT(SetCursorMode(bool)));
-   QObject::connect(RegionB, SIGNAL(toggled(bool)), this, SLOT(SetRegionMode(bool)));
-   QObject::connect(FreezeMode, SIGNAL(toggled(bool)), this, SLOT(SetFreezeMouseMode(bool)));
-   QObject::connect(LatexB, SIGNAL(toggled(bool)), this, SLOT(SetLateXMode(bool)));
-   QObject::connect(DrawB, SIGNAL(toggled(bool)), this, SLOT(SetDrawingMode(bool)));
+   QObject::connect(CursorB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetCursorMode);
+   QObject::connect(RegionB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetRegionMode);
+   QObject::connect(FreezeMode, &QCheckBox::toggled, this, &TGo4ViewPanel::SetFreezeMouseMode);
+   QObject::connect(LatexB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetLateXMode);
+   QObject::connect(DrawB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetDrawingMode);
    QObject::connect(PrintLogB, SIGNAL(pressed()), this, SLOT(LogMarkerValues()));
-   QObject::connect(PolyB, SIGNAL(toggled(bool)), this, SLOT(SetPolygonMode(bool)));
+   QObject::connect(PolyB, &QCheckBox::toggled, this, &TGo4ViewPanel::SetPolygonMode);
    QObject::connect(SelectedMarkerCmb, SIGNAL(activated(int)), this, SLOT(SelectedMarkerCmb_activated(int)));
    QObject::connect(DelSelectedMarker, SIGNAL(clicked()), this, SLOT(DelSelectedMarker_clicked()));
    QObject::connect(GetConditionBtn, SIGNAL(clicked()), this, SLOT(GetConditionBtn_clicked()));

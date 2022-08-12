@@ -76,7 +76,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFla
    QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConfigStep::StoreCompLevel);
    QObject::connect(BufferSize, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConfigStep::StoreBufferSize);
    QObject::connect(SplitLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConfigStep::StoreSplitLevel);
-   QObject::connect(StoreOverwriteMode, SIGNAL(toggled(bool)), this, SLOT(StoreOverWrite(bool)));
+   QObject::connect(StoreOverwriteMode, &QCheckBox::toggled, this, &TGo4ConfigStep::StoreOverWrite);
    QObject::connect(LineEditArgs, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputArguments);
    QObject::connect(LineEditTagfile, &QLineEdit::textChanged, this, &TGo4ConfigStep::InputTagfile);
    QObject::connect(SpinBoxStartEvent, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4ConfigStep::ChangeStartEvent);

@@ -18,11 +18,10 @@
 #include "TGo4FitSlot.h"
 #include "TGo4FitPanel.h"
 
-QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char* name)
-         : QFitNamedWidget(parent, name)
+QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char *name) : QFitNamedWidget(parent, name)
 {
    setupUi(this);
-   QObject::connect(RequirementChk, SIGNAL(toggled(bool)), this, SLOT(RequirementChk_toggled(bool)));
+   QObject::connect(RequirementChk, &QCheckBox::toggled, this, &QFitSlotWidget::RequirementChk_toggled);
    QObject::connect(SaveCmb, SIGNAL(activated(int)), this, SLOT(SaveCmb_activated(int)));
 }
 

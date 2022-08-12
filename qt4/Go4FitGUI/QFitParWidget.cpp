@@ -24,9 +24,9 @@ QFitParWidget::QFitParWidget(QWidget *parent, const char* name)
    QObject::connect(RangeMinEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::RangeMinEdt_textChanged);
    QObject::connect(RangeMaxEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::RangeMaxEdt_textChanged);
    QObject::connect(EpsilonEdt, &QGo4LineEdit::textChanged, this, &QFitParWidget::EpsilonEdt_textChanged);
-   QObject::connect(FixedChk, SIGNAL(toggled(bool)), this, SLOT(FixedChk_toggled(bool)));
-   QObject::connect(RangeChk, SIGNAL(toggled(bool)), this, SLOT(RangeChk_toggled(bool)));
-   QObject::connect(EpsilonChk, SIGNAL(toggled(bool)), this, SLOT(EpsilonChk_toggled(bool)));
+   QObject::connect(FixedChk, &QCheckBox::toggled, this, &QFitParWidget::FixedChk_toggled);
+   QObject::connect(RangeChk, &QCheckBox::toggled, this, &QFitParWidget::RangeChk_toggled);
+   QObject::connect(EpsilonChk, &QCheckBox::toggled, this, &QFitParWidget::EpsilonChk_toggled);
 }
 
 TGo4FitParameter* QFitParWidget::GetPar()

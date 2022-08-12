@@ -20,8 +20,8 @@ QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
    QObject::connect(DataNameEdt, &QGo4LineEdit::textChanged, this, &QFitPeakFinderWidget::DataNameEdt_textChanged);
-   QObject::connect(ClearModelsChk, SIGNAL(toggled(bool)), this, SLOT(ClearModelsChk_toggled(bool)));
-   QObject::connect(UsePolynChk, SIGNAL(toggled(bool)), this, SLOT(UsePolynChk_toggled(bool)));
+   QObject::connect(ClearModelsChk, &QCheckBox::toggled, this, &QFitPeakFinderWidget::ClearModelsChk_toggled);
+   QObject::connect(UsePolynChk, &QCheckBox::toggled, this, &QFitPeakFinderWidget::UsePolynChk_toggled);
    QObject::connect(PolynSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitPeakFinderWidget::PolynSpin_valueChanged);
    QObject::connect(FindersTab, SIGNAL(currentChanged(int)), this, SLOT(FindersTab_currentChanged(int)));
    QObject::connect(ThresholdEdt, &QGo4LineEdit::textChanged, this, &QFitPeakFinderWidget::ThresholdEdt_textChanged);
