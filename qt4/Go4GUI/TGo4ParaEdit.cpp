@@ -88,7 +88,7 @@ void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
       RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
 }
 
-void TGo4ParaEdit::linkedObjectRemoved( const char * linkname )
+void TGo4ParaEdit::linkedObjectRemoved(const char * linkname)
 {
    // if link removed while parameter is disappear, just close parameter editor
 
@@ -164,8 +164,8 @@ void TGo4ParaEdit::ResetWidget()
 
 void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 {
-   RefreshButton->setEnabled(par!=nullptr);
-   ApplyButton->setEnabled(par!=nullptr);
+   RefreshButton->setEnabled(par != nullptr);
+   ApplyButton->setEnabled(par != nullptr);
 
    delete fItems;
    fItems = new TObjArray(100);
