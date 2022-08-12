@@ -968,6 +968,9 @@ void TGo4MainWindow::closeEvent(QCloseEvent *ce)
             return;
       }
 
+   TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
+   if (panel) panel->close();
+
    //fxMdiArea->closeAllSubWindows();
 
    Browser()->ToggleMonitoring(0);
