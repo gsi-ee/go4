@@ -368,11 +368,7 @@ const char* TGo4MainWindow::LastTypedPassword() const
 
 void TGo4MainWindow::ShowAboudDialog(const QString &title, const QString &text, const QString &icon)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-   QMessageBox AboutDialog(title, text, QMessageBox::NoIcon, QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton, this);
-#else
    QMessageBox AboutDialog(QMessageBox::NoIcon, title, text, QMessageBox::Ok, this);
-#endif
    AboutDialog.setIconPixmap(QPixmap(icon));
    AboutDialog.setTextFormat(Qt::RichText);
    AboutDialog.exec();
