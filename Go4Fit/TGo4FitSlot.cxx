@@ -22,11 +22,11 @@
 
 TGo4FitSlot::TGo4FitSlot() :
    TGo4FitNamed(),
-   fxClass(0),
+   fxClass(nullptr),
    fiSaveFlag(0),
    fbOwned(kFALSE),
    fbNeeded(kFALSE),
-   fxObject(0),
+   fxObject(nullptr),
    fiSaveSlot(-1),
    fiSaveOwnership(-1)
 {
@@ -38,7 +38,7 @@ TGo4FitSlot::TGo4FitSlot(TNamed* iOwner, TClass* iClass) :
    fiSaveFlag(0),
    fbOwned(kFALSE),
    fbNeeded(kFALSE),
-   fxObject(0),
+   fxObject(nullptr),
    fiSaveSlot(-1),
    fiSaveOwnership(-1)
 {
@@ -63,6 +63,9 @@ TGo4FitSlot::~TGo4FitSlot()
 {
    if (fbOwned && fxObject)
        delete fxObject;
+   fbConnected = kFALSE;
+   fxObject = nullptr;
+   fbOwned = kFALSE;
 }
 
 void TGo4FitSlot::SetDefaults(TNamed* iOwner, TClass* iClass)
@@ -73,28 +76,30 @@ void TGo4FitSlot::SetDefaults(TNamed* iOwner, TClass* iClass)
 
 Bool_t TGo4FitSlot::ConnectToSlot(TGo4FitSlot* slot)
 {
-  if (!CanConnectToSlot(slot)) return kFALSE;
-  if (fbOwned && fxObject) delete fxObject;
-  fxObject = slot;
-  fbOwned = kFALSE;
-  return kTRUE;
+   if (!CanConnectToSlot(slot)) return kFALSE;
+   if (fbOwned && fxObject) delete fxObject;
+   fxObject = slot;
+   fbOwned = kFALSE;
+   fbConnected = kTRUE;
+   return kTRUE;
 }
 
 Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot)
 {
-  if (!slot || (slot == this)) return kFALSE;
-  if (!GetClass()->InheritsFrom(slot->GetClass())) return kFALSE;
-  TGo4FitSlot* conn = slot;
-  while ((conn = conn->GetConnectedSlot()) != nullptr)
-    if (conn == this) return kFALSE;
-  return kTRUE;
+   if (!slot || (slot == this)) return kFALSE;
+   if (!GetClass()->InheritsFrom(slot->GetClass())) return kFALSE;
+   TGo4FitSlot* conn = slot;
+   while ((conn = conn->GetConnectedSlot()) != nullptr)
+     if (conn == this) return kFALSE;
+   return kTRUE;
 }
 
 void TGo4FitSlot::ClearConnectionToSlot()
 {
    if (IsConnectedToSlot()) {
-     fxObject = nullptr;
-     fbOwned = kFALSE;
+      fxObject = nullptr;
+      fbOwned = kFALSE;
+      fbConnected = kFALSE;
    }
 }
 
@@ -116,20 +121,23 @@ void TGo4FitSlot::ClearObject()
 {
    fxObject = nullptr;
    fbOwned = kFALSE;
+   fbConnected = kFALSE;
 }
 
 Bool_t TGo4FitSlot::SetObject(TObject* iObject, Bool_t iOwned, Bool_t CheckClass)
 {
-   if (IsConnectedToSlot())
-     return GetConnectedSlot()->SetObject(iObject, iOwned, CheckClass);
+   auto conn = GetConnectedSlot();
+   if (conn)
+      return conn->SetObject(iObject, iOwned, CheckClass);
 
    if (CheckClass && iObject)
-     if (!iObject->InheritsFrom(GetClass())) return kFALSE;
+      if (!iObject->InheritsFrom(GetClass())) return kFALSE;
 
    if (fbOwned && fxObject) delete fxObject;
 
    fxObject = iObject;
    fbOwned = iOwned;
+   fbConnected = kFALSE;
    CheckOwnership();
    return kTRUE;
 }
@@ -206,10 +214,12 @@ void TGo4FitSlot::Streamer(TBuffer& b)
      b >> saveflag;
 
      if (saveflag) {
-       b >> fxObject;
-       if (fxObject->InheritsFrom(TH1::Class()))
-          ((TH1*) fxObject)->SetDirectory(nullptr);
-       CheckOwnership();
+        b >> fxObject;
+        if (fxObject->InheritsFrom(TH1::Class()))
+           ((TH1*) fxObject)->SetDirectory(nullptr);
+        else if (fxObject->InheritsFrom(TGo4FitSlot::Class()))
+           fbConnected = kTRUE;
+        CheckOwnership();
      }
    } else {
 

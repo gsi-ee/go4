@@ -121,7 +121,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Returns pointer to connected slot or 0, if not connected
        */
-      TGo4FitSlot* GetConnectedSlot() const { return dynamic_cast<TGo4FitSlot*>(fxObject); }
+      TGo4FitSlot* GetConnectedSlot() const { return !fbOwned && fbConnected && fxObject ? dynamic_cast<TGo4FitSlot*>(fxObject) : nullptr; }
 
       /**
        * Returns kTRUE, if slot connected to another slot
@@ -229,6 +229,11 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Ownership flag of object.
        */
       Bool_t fbOwned{kFALSE};         //!
+
+      /**
+       * If object is connected slot
+       */
+      Bool_t fbConnected{kFALSE};   //!
 
       /**
        * Flag, is this object should always be set.
