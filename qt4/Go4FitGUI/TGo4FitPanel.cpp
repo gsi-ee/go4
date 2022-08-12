@@ -200,7 +200,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    Wiz_DataSlotsTable->setItemPrototype(item);
    Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 
-   connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4FitPanel::panelSlot);
+   QObject::connect(TGo4MdiArea::Instance(), &TGo4MdiArea::panelSignal, this, &TGo4FitPanel::panelSlot);
 
    MenuBar = new QMenuBar(MenuFrame);
    MenuBar->setMinimumWidth(100);
@@ -1871,7 +1871,7 @@ void TGo4FitPanel::UpdateItemMenu()
   if (showitem) {
     if (!ItemMenu) {
        ItemMenu = MenuBar->addMenu(itemtext);
-       connect(ItemMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowItemMenu);
+       QObject::connect(ItemMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowItemMenu);
     } else
        ItemMenu->setTitle(itemtext);
     MenuBar->adjustSize();

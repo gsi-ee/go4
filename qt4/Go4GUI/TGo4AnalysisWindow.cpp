@@ -113,7 +113,7 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
    fxCmdHist = new QGo4CommandsHistory(this, "commandslist");
    fxCmdHist->setToolTip("CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' . A leading '$' will invoke Python script.");
-   connect(fxCmdHist, SIGNAL(enterPressedSingal()), this, SLOT(CommandSlot()));
+   QObject::connect(fxCmdHist, &QGo4CommandsHistory::enterPressedSingal, this, &TGo4AnalysisWindow::CommandSlot);
    fxCmdHist->setMinimumSize( QSize( 220, 25 ) );
 
    QStringList histlist = go4sett->getCommandsHistoryAnalysis();
@@ -128,7 +128,7 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
    MacroSearch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    MacroSearch->setIcon( QIcon(":/icons/findfile.png" ) );
    MacroSearch->setToolTip("Search root or python macro on disk.");
-   connect(MacroSearch, SIGNAL(clicked()), this, SLOT(FileDialog_Macro()));
+   QObject::connect(MacroSearch, &QToolButton::clicked, this, &TGo4AnalysisWindow::FileDialog_Macro);
    box->addWidget(MacroSearch,1);
 }
 
@@ -141,7 +141,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       KillProcess->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       KillProcess->setIcon( QIcon( ":/icons/killanal.png" ) );
       KillProcess->setToolTip("Apply Ctrl+C in the analysis terminal.");
-      connect(KillProcess, SIGNAL(clicked()), this, SLOT(RequestTerminate()));
+      QObject::connect(KillProcess, &QToolButton::clicked, this, &TGo4AnalysisWindow::RequestTerminate);
       box->addWidget(KillProcess);
    }
 
@@ -152,7 +152,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       ClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       ClearButton->setIcon( QIcon( ":/icons/clear.png" ) );
       ClearButton->setToolTip("Clear Terminal Window.");
-      connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearAnalysisOutput()));
+      QObject::connect(ClearButton, &QToolButton::clicked, this, &TGo4AnalysisWindow::ClearAnalysisOutput);
       box->addItem(new QSpacerItem(1,1));
       box->addWidget(ClearButton,1);
 
@@ -162,7 +162,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       ScrollEndButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       ScrollEndButton->setIcon( QIcon( ":/icons/shiftdown.png" ) );
       ScrollEndButton->setToolTip("Scroll to end of Terminal Window. (keyboard: end)");
-      connect(ScrollEndButton, SIGNAL(clicked()), this, SLOT(ScrollEndAnalysisOutput()));
+      QObject::connect(ScrollEndButton, &QToolButton::clicked, this, &TGo4AnalysisWindow::ScrollEndAnalysisOutput);
       box->addWidget(ScrollEndButton,1);
    }
 
@@ -172,7 +172,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintHistoButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    PrintHistoButton->setIcon( QIcon( ":/icons/hislist.png" ) );
    PrintHistoButton->setToolTip("Print list of all histograms.");
-   connect(PrintHistoButton, SIGNAL(clicked()), this, SLOT(PrintHistograms()));
+   QObject::connect(PrintHistoButton, &QToolButton::clicked, this, &TGo4AnalysisWindow::PrintHistograms);
    box->addWidget(PrintHistoButton,1);
 
    QToolButton* PrintConnyButton = new QToolButton( this );
@@ -181,7 +181,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintConnyButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    PrintConnyButton->setIcon( QIcon( ":/icons/condlist.png" ) );
    PrintConnyButton->setToolTip("Print list of all conditions.");
-   connect(PrintConnyButton, SIGNAL(clicked()), this, SLOT(PrintConditions()));
+   QObject::connect(PrintConnyButton, &QToolButton::clicked, this, &TGo4AnalysisWindow::PrintConditions);
    box->addWidget(PrintConnyButton,1);
 
    QToolButton*  PrintEventButton = new QToolButton( this );
@@ -190,7 +190,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintEventButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    PrintEventButton->setIcon( QIcon( ":/icons/zoom.png" ) );
    PrintEventButton->setToolTip("Start Event Inspection panel");
-   connect(PrintEventButton, SIGNAL(clicked()), this, SLOT(PrintEvent()));
+   QObject::connect(PrintEventButton, &QToolButton::clicked, this, &TGo4AnalysisWindow::PrintEvent);
    box->addWidget(PrintEventButton,1);
 }
 
@@ -343,8 +343,8 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     fAnalysisProcess->setProcessEnvironment(env);
 
-    connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
-    connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
+    QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardOutput, this, &TGo4AnalysisWindow::readFromStdout);
+    QObject::connect(fAnalysisProcess, &QProcess::readyReadStandardError, this, &TGo4AnalysisWindow::readFromStderr);
     if (workdir) fAnalysisProcess->setWorkingDirectory(workdir);
 
     QString progname = text;

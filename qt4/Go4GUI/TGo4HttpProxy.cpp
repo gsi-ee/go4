@@ -92,7 +92,7 @@ void QHttpProxy::StartRequest(const char* url)
    QObject::connect(fHReply, &QNetworkReply::finished, this, &QHttpProxy::httpFinished);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   connect(fHReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(httpHReqError(QNetworkReply::NetworkError)));
+   QObject::connect(fHReply, &QNetworkReply::error, this, &QHttpProxy::httpHReqError);
 #else
    QObject::connect(fHReply, &QNetworkReply::errorOccurred, this, &QHttpProxy::httpHReqError);
 #endif
@@ -238,7 +238,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    QObject::connect(fReply, &QNetworkReply::finished, this, &TGo4HttpAccess::httpFinished);
 
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(httpError(QNetworkReply::NetworkError)));
+   QObject::connect(fReply, &QNetworkReply::error, this, &TGo4HttpAccess::httpError);
 #else
    QObject::connect(fReply, &QNetworkReply::errorOccurred, this, &TGo4HttpAccess::httpError);
 #endif
