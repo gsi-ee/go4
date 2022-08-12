@@ -482,12 +482,11 @@ Bool_t TGo4PolyCond::IsCutHis(TH1* source)
 // ----------------------------------------------------------
 void TGo4PolyCond::CleanupSpecials()
 {
-   TSeqCollection* specials=gROOT->GetListOfSpecials();
+   TSeqCollection *specials = gROOT->GetListOfSpecials();
    TIter iter(specials);
    while(auto ob = iter()) {
-     if(ob->InheritsFrom(TCutG::Class())) {
+     if(ob->InheritsFrom(TCutG::Class()))
         specials->Remove(ob);
-     }
    }
 }
 

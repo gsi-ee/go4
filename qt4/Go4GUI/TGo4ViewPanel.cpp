@@ -2349,7 +2349,7 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool rem
    pad->GetListOfPrimitives()->RemoveAll(&removedItems);
 
    if (removeitems)
-      ClearPadItems(slot, 0);
+      ClearPadItems(slot, nullptr);
 }
 
 TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname,
@@ -4580,7 +4580,7 @@ void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems, bool removesub
    padopt->SetPadModified();
 
    if (removeitems)
-      ClearPadItems(slot, 0);
+      ClearPadItems(slot, nullptr);
 
    CheckObjectsAssigments(pad, slot);
 

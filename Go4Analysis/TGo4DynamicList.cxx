@@ -88,7 +88,6 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
            if (!ProcessTEntry(dynamic_cast<TGo4TreeHistogramEntry*> (entry), processtrees, interval)) {
               errorentry = entry;
               break;
-
            }
          }
          catch(TGo4DynamicListException& ex) {
@@ -200,8 +199,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 
       for(Int_t n=0; n<__MAXCONDIM__; n++) {
          TGo4EventElement* event = nullptr;
-         TDataMember* eventmember = 0;
-         Long_t offset=0;
+         TDataMember* eventmember = nullptr;
+         Long_t offset = 0;
 
          const char* evname = hentry->GetConEventName(n);
          const char* memname = hentry->GetConVarName(n);
@@ -220,8 +219,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 
       for(Int_t n=0; n<__MAXHISDIM__; n++) {
          TGo4EventElement* event = nullptr;
-         TDataMember* eventmember = 0;
-         Long_t offset=0;
+         TDataMember* eventmember = nullptr;
+         Long_t offset = 0;
 
          const char* evname = hentry->GetHistEventName(n);
          const char* memname = hentry->GetHistVarName(n);

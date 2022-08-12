@@ -176,7 +176,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       // skip for a moment all types which are not basic types
 
       Int_t arraydim = member->GetArrayDim();
-      if (arraydim>2) continue;
+      if (arraydim > 2) continue;
 
       Int_t maxindex1(1), maxindex2(1);
 

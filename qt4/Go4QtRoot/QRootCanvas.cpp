@@ -933,13 +933,13 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
          TString val;
 
          if (basictype == "char*") {
-            char *tdefval(0);
+            char *tdefval = nullptr;
             m->GetterMethod()->Execute(object, "", &tdefval);
             if (tdefval) val = tdefval;
          } else
          if ((basictype == "float") ||
              (basictype == "double")) {
-            Double_t ddefval(0.);
+            Double_t ddefval = 0.;
             m->GetterMethod()->Execute(object, "", ddefval);
             val = TString::Format("%g", ddefval);
          } else
@@ -1035,7 +1035,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
       gROOT->GetSelectedPad()->Update();
       qDebug("DIAL update done on %s \n", gROOT->GetSelectedPad()->GetName());
    } else {
-      gROOT->SetSelectedPad( gPad );
+      gROOT->SetSelectedPad(gPad);
       gROOT->GetSelectedPad()->Update();
    }
 }
@@ -1064,9 +1064,9 @@ void QRootCanvas::executeMenu(int id)
    TGo4LockGuard threadlock;
    (void) threadlock; // suppress compiler warnings
 
-   QString text("");
+   QString text;
    bool ok = false;
-   if (id >=100) {
+   if (id >= 100) {
       switch (id){
          case 100: {
             TLatex *fxLatex = new TLatex();
@@ -1162,9 +1162,9 @@ void QRootCanvas::executeMenu(int id)
       gROOT->SetFromPopUp(kFALSE);
     }
 
-   fMenuObj = 0;
+   fMenuObj = nullptr;
    delete fMenuMethods;
-   fMenuMethods = 0;
+   fMenuMethods = nullptr;
 }
 
 bool QRootCanvas::isEditorVisible()
@@ -1219,7 +1219,7 @@ void QRootCanvas::resizeEditor()
 {
 #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if ((ed != 0) && isEditorVisible() && fxRooteditor)
+   if (ed && isEditorVisible() && fxRooteditor)
       ed->Resize(fxRooteditor->ScaledWidth(), fxRooteditor->ScaledHeight());
 #endif
 }
@@ -1229,7 +1229,7 @@ void QRootCanvas::activateEditor(TPad *pad, TObject *obj)
 {
 #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if ((ed != 0) && (obj != 0) && isEditorVisible()) {
+   if (ed && obj && isEditorVisible()) {
       gTQSender = getCanvas();
       ed->SetModel(pad, obj, kButton1Down);
    }
@@ -1242,7 +1242,7 @@ void QRootCanvas::cleanupEditor()
 //   std::cout << "QRootCanvas::CleanupGedEditor()" << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if (!ed) return;
-   if (fDummyHisto == 0) {
+   if (!fDummyHisto) {
       fDummyHisto = new TH1I("dummyhisto", "dummyhisto", 100, -10., 10.);
       fDummyHisto->FillRandom("gaus", 1000);
       fDummyHisto->SetDirectory(nullptr);
