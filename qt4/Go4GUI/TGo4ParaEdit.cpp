@@ -35,13 +35,13 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
-   QObject::connect(MemberTable, SIGNAL(cellChanged(int,int)), this, SLOT(ChangedTable(int,int)));
+   QObject::connect(MemberTable, &QTableWidget::cellChanged, this, &TGo4ParaEdit::ChangedTable);
+   QObject::connect(MemberTable, &QTableWidget::cellDoubleClicked, this, &TGo4ParaEdit::TableDoubleClick);
+   QObject::connect(MemberTable, &QTableWidget::customContextMenuRequested, this, &TGo4ParaEdit::TableContextMenu);
    QObject::connect(CancelButton, SIGNAL(pressed()), this, SLOT(CloseMDIParentSlot()));
    QObject::connect(ApplyButton, SIGNAL(pressed()), this, SLOT(ApplyClicked()));
    QObject::connect(RefreshButton, SIGNAL(pressed()), this, SLOT(RefreshClicked()));
    QObject::connect(ClearButton, SIGNAL(pressed()), this, SLOT(clearTextFields()));
-   QObject::connect(MemberTable, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(TableDoubleClick(int,int)));
-   QObject::connect(MemberTable, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ContextMenu(const QPoint &)));
    QObject::connect(SavePar, SIGNAL(clicked()), this, SLOT(saveFile()));
 
    fItems = nullptr;
@@ -306,7 +306,7 @@ void TGo4ParaEdit::TableDoubleClick( int row, int col )
    }
 }
 
-void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
+void TGo4ParaEdit::TableContextMenu(const QPoint& pnt)
 {
    QTableWidgetItem* item = MemberTable->itemAt (pnt);
 
