@@ -23,7 +23,7 @@ QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char* name )
 {
     if (!name) setObjectName( "QFitNamedWidget" );
 
-    NameEdt = new QGo4LineEdit( this, "NameEdt" );
+    NameEdt = new QGo4LineEdit(this, "NameEdt");
     NameEdt->setGeometry( QRect( 61, 36, 100, 27 ) );
     NameEdt->setMinimumSize( QSize( 100, 0 ) );
     NameEdt->setMaximumSize( QSize( 100, 32767 ) );
@@ -48,8 +48,8 @@ QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char* name )
     //clearWState( WState_Polished );
 
     // signals and slots connections
-    QObject::connect( NameEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( NameEdt_textChanged(const QString&) ) );
-    QObject::connect( TitleEdt, SIGNAL( textChanged(const QString&) ), this, SLOT( TitleEdt_textChanged(const QString&) ) );
+    QObject::connect(NameEdt, &QGo4LineEdit::textChanged, this, &QFitNamedWidget::NameEdt_textChanged);
+    QObject::connect(TitleEdt, &QGo4LineEdit::textChanged, this, &QFitNamedWidget::TitleEdt_textChanged);
 }
 
 QFitNamedWidget::~QFitNamedWidget()

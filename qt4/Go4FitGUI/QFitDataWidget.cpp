@@ -24,12 +24,12 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
    setupUi(this);
 
    QObject::connect(NumCalibrSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitDataWidget::NumCalibrSpin_valueChanged);
-   QObject::connect(UseBinsChk, SIGNAL(toggled(bool)), this, SLOT(UseBinsChk_toggled(bool)));
+   QObject::connect(UseBinsChk, &QCheckBox::toggled, this, &QFitDataWidget::UseBinsChk_toggled);
    QObject::connect(SigmaCmb, SIGNAL(activated(int)), this, SLOT(SigmaCmb_activated(int)));
    QObject::connect(SigmaEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::SigmaEdt_textChanged);
    QObject::connect(BinsLimitEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::BinsLimitEdt_textChanged);
-   QObject::connect(AmplChk, SIGNAL(toggled(bool)), this, SLOT(AmplChk_toggled(bool)));
-   QObject::connect(UseBuffersChk, SIGNAL(toggled(bool)), this, SLOT(UseBuffersChk_toggled(bool)));
+   QObject::connect(AmplChk, &QCheckBox::toggled, this, &QFitDataWidget::AmplChk_toggled);
+   QObject::connect(UseBuffersChk, &QCheckBox::toggled, this, &QFitDataWidget::UseBuffersChk_toggled);
 }
 
 TGo4FitData* QFitDataWidget::GetData()
