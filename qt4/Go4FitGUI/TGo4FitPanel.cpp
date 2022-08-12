@@ -2637,7 +2637,7 @@ void TGo4FitPanel::Wiz_DelModelBtn_clicked()
 
   if(checkConfirm("Delete models", "Are you sure to delete selected models")) return;
 
-  for(uint n=0; n<Wiz_ModelList->count();n++) {
+  for(unsigned n=0; n<Wiz_ModelList->count();n++) {
      if (!Wiz_ModelList->item(n)->isSelected()) continue;
      QString name = Wiz_ModelList->item(n)->text();
      fitter->RemoveModel(name.toLatin1().constData(), kTRUE);
@@ -2656,7 +2656,7 @@ void TGo4FitPanel::Wiz_CloneModelBtn_clicked()
   TGo4Fitter* fitter = GetFitter();
   if (!fitter) return;
 
-  for(uint n=0; n<Wiz_ModelList->count();n++) {
+  for(unsigned n=0; n<Wiz_ModelList->count();n++) {
      if (!Wiz_ModelList->item(n)->isSelected()) continue;
      QString name = Wiz_ModelList->item(n)->text();
      fitter->CloneModel(name.toLatin1().constData());
@@ -3860,13 +3860,15 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
       new QFitItem(this, item, &(cfg->GetParsInit()), FitGui::ot_parinitlist, FitGui::wt_none, FitGui::mt_deplist);
       new QFitItem(this, item, &(cfg->GetParsCfg()), FitGui::ot_parscfg, FitGui::wt_none, FitGui::mt_newpars);
       new QFitItem(this, item, &(cfg->GetParsNew()), FitGui::ot_newpars, FitGui::wt_none, FitGui::mt_newpars);
-      break; }
+      break;
+    }
     case FitGui::ot_minuit: {
       TGo4FitMinuit* minuit = dynamic_cast<TGo4FitMinuit*> (item->Object());
       if (!minuit) break;
       for (Int_t n=minuit->GetNumResults()-1;n>=0;n--)
          new QFitItem(this, item, minuit->GetResult(n), FitGui::ot_minuitres, FitGui::wt_minuitres, FitGui::mt_minuitres);
-      break; }
+      break;
+    }
     case FitGui::ot_parinitlist: FillDependencyList(item); break;
     case FitGui::ot_pardeplist: FillDependencyList(item); break;
     case FitGui::ot_reslist: FillDependencyList(item); break;
@@ -3908,7 +3910,8 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
 
       new QFitItem(this, item, obj, FitGui::ot_none, FitGui::wt_none, FitGui::mt_none);
 
-      break; }
+      break;
+    }
     case FitGui::ot_fitter: {
       TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (item->Object());
       if (!fitter) break;
@@ -3918,7 +3921,8 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
       new QFitItem(this, item, fitter, FitGui::ot_allslots, FitGui::wt_none, FitGui::mt_allslots);
       new QFitItem(this, item, fitter, FitGui::ot_modellist, FitGui::wt_none, FitGui::mt_modellist);
       new QFitItem(this, item, fitter, FitGui::ot_datalist, FitGui::wt_none, FitGui::mt_datalist);
-      break; }
+      break;
+    }
     case FitGui::ot_trans: FillParsList(item); break;
     case FitGui::ot_lintrans: FillParsList(item); break;
     case FitGui::ot_matrtrans: FillParsList(item); break;
@@ -3926,8 +3930,9 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
     case FitGui::ot_allslots: {
       TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (item->Object());
       if (fitter)
-        FillSlotsList(item, fitter->GetSlotList(), 0);
-      break; }
+        FillSlotsList(item, fitter->GetSlotList(), nullptr);
+      break;
+    }
   }
 
   if (trace && item->Object()) {
