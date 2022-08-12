@@ -309,13 +309,13 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QMenu* helpMenu = menuBar()->addMenu("&Help");
    helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()), Key_F1);
-   helpMenu->addAction("&Reference manual", this, SLOT(RefHelpSlot()));
-   helpMenu->addAction("&Fit Tutorial", this, SLOT(FitHelpSlot()));
+   helpMenu->addAction("&Reference manual", this, &TGo4MainWindow::RefHelpSlot);
+   helpMenu->addAction("&Fit Tutorial", this, &TGo4MainWindow::FitHelpSlot);
    helpMenu->addSeparator();
-   helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2 );
+   helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2);
    helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
    if (TGo4DabcProxy::GetDabcVersion())
-      helpMenu->addAction("About &DABC", this, SLOT(aboutDABC()));
+      helpMenu->addAction("About &DABC", this, &TGo4MainWindow::aboutDABC);
    helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
 
    const char* libs = gSystem->Getenv("GO4USERLIBRARY");
@@ -417,7 +417,7 @@ void TGo4MainWindow::AddSettingMenu()
    sub->setTitle("Sh&ow/hide");
    settMenu->addMenu(sub);
 
-   settMenu->addAction("&Font...", this, SLOT(ChangeFontSlot()));
+   settMenu->addAction("&Font...", this, &TGo4MainWindow::ChangeFontSlot);
 
    QMenu *styleMenu = settMenu->addMenu("St&yle");
 
@@ -441,7 +441,7 @@ void TGo4MainWindow::AddSettingMenu()
    faWindowRubberBand = QGo4Widget::AddChkAction(prefMenu, "Rubberband when moving windows",
                                 go4sett->getMoveSubwindowRubberBand(), this, SLOT(ChangeWindowRubberBandSlot()));
 
-   prefMenu->addAction("GUI HighDPI Scale factor...", this, SLOT(ScaleFactorSlot()));
+   prefMenu->addAction("GUI HighDPI Scale factor...", this, &TGo4MainWindow::ScaleFactorSlot);
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
@@ -450,8 +450,8 @@ void TGo4MainWindow::AddSettingMenu()
    faSaveWhite = QGo4Widget::AddChkAction(panelMenu, "White canvas for saved images",
           go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
 
-   panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
-   panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
+   panelMenu->addAction("Marker labels...", this, &TGo4MainWindow::MarkerSettingsSlot);
+   panelMenu->addAction("Statistics box...", this, &TGo4MainWindow::OptStatsSlot);
 
    faSuperimpose = QGo4Widget::AddChkAction(panelMenu, "&Superimpose mode",
                    go4sett->getPadSuperimpose(), this, SLOT(SuperimposeSlot()));
@@ -478,31 +478,31 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
-   panelMenu->addAction("Draw line &width ...", this, SLOT(DrawLineWidthSlot()));
-   panelMenu->addAction("Draw fill color ...", this, SLOT(DrawFillColorSlot()));
-   panelMenu->addAction("Draw fill style ...", this, SLOT(DrawFillStyleSlot()));
-   panelMenu->addAction("TH1 draw opt ...", this, SLOT(TH1DrawOptSlot()));
-   panelMenu->addAction("TH2 draw opt ...", this, SLOT(TH2DrawOptSlot()));
-   panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
-   panelMenu->addAction("TGraph draw opt ...", this, SLOT(TGraphDrawOptSlot()));
-   panelMenu->addAction("Printf format ...", this, SLOT(GStyleStatFormatSlot()));
-   panelMenu->addAction("Palette settings ...", this, SLOT(PaletteSettingsSlot()));
+   panelMenu->addAction("Draw line &width ...", this, &TGo4MainWindow::DrawLineWidthSlot);
+   panelMenu->addAction("Draw fill color ...", this, &TGo4MainWindow::DrawFillColorSlot);
+   panelMenu->addAction("Draw fill style ...", this, &TGo4MainWindow::DrawFillStyleSlot);
+   panelMenu->addAction("TH1 draw opt ...", this, &TGo4MainWindow::TH1DrawOptSlot);
+   panelMenu->addAction("TH2 draw opt ...", this, &TGo4MainWindow::TH2DrawOptSlot);
+   panelMenu->addAction("TH3 draw opt ...", this, &TGo4MainWindow::TH3DrawOptSlot);
+   panelMenu->addAction("TGraph draw opt ...", this, &TGo4MainWindow::TGraphDrawOptSlot);
+   panelMenu->addAction("Printf format ...", this, &TGo4MainWindow::GStyleStatFormatSlot);
+   panelMenu->addAction("Palette settings ...", this, &TGo4MainWindow::PaletteSettingsSlot);
 
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
    QMenu* termMenu = settMenu->addMenu("&Terminal");
    faTermTimeStamp = QGo4Widget::AddChkAction(termMenu, "Print timestamps",
                          go4sett->getTermShowTimestamp(), this, SLOT(ChangeTerminalTimeStampSlot()));
-   termMenu->addAction("&Timestamp Format...", this, SLOT(ChangeTerminalTimeStampFormatSlot()));
-   termMenu->addAction("&History...", this, SLOT(InputTerminalParametersSlot()));
-   termMenu->addAction("&Font...", this, SLOT(ChangeTerminalFontSlot()));
+   termMenu->addAction("&Timestamp Format...", this, &TGo4MainWindow::ChangeTerminalTimeStampFormatSlot);
+   termMenu->addAction("&History...", this, &TGo4MainWindow::InputTerminalParametersSlot);
+   termMenu->addAction("&Font...", this, &TGo4MainWindow::ChangeTerminalFontSlot);
 
 
-   settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
-   settMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
+   settMenu->addAction("Generate &hotstart", this, &TGo4MainWindow::CreateGUIScriptSlot);
+   settMenu->addAction("&Break hotstart execution", this, &TGo4MainWindow::StopGUIScriptSlot);
 
 
-   settMenu->addAction("&Save settings", this, SLOT(SaveSettingsSlot()));
+   settMenu->addAction("&Save settings", this, &TGo4MainWindow::SaveSettingsSlot);
 
    QActionGroup *ag = new QActionGroup(this);
    ag->setExclusive(true);
