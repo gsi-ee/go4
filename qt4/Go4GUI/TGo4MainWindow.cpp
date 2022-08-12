@@ -2141,31 +2141,33 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
 
       if (shutdown) {
 
-         QMessageBox msgBox(
-                     QMessageBox::Warning,
+         QMessageBox msgBox(QMessageBox::Warning,
                      "Disconnect from analysis",
                      "Analysis runs inside go4 widget.\n"
                      "If one only disconnects from the analysis,\n"
                      "it remains invisible and difficult to stop.\n"
                      "To shutdown it later, one need to reconnect with go4 gui again.\n"
-                     "It is recommended to shutdown analysis now",
-                     QMessageBox::Ok | QMessageBox::Close | QMessageBox::Abort);
+                     "It is recommended to shutdown analysis now");
 
-         msgBox.setButtonText(QMessageBox::Ok, "Shutdown");
-         msgBox.setButtonText(QMessageBox::Close, "Disconnect");
-         msgBox.setButtonText(QMessageBox::Abort, "Cancel");
+         auto btnShutdown = msgBox.addButton("Shutdown", QMessageBox::ActionRole);
+         auto btnDisconnect = msgBox.addButton("Disconnect", QMessageBox::ActionRole);
+         auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
 
-         switch (msgBox.exec()) {
-            case QMessageBox::Ok: shutdown = true; break;
-            case QMessageBox::Close: shutdown = false; break;
-            default: return;
-         }
+         msgBox.exec();
+         if (msgBox.clickedButton() == btnCancel)
+            return;
+         else if (msgBox.clickedButton() == btnShutdown)
+            shutdown = true;
+         else if (msgBox.clickedButton() == btnDisconnect)
+            shutdown = false;
       } else {
-         if (QMessageBox::warning(this, "Disconnect analysis",
-                    QString("Really disconnect from analysis task?"),
-                    QString("Disconnect"),
-                    QString("Cancel"),
-                    QString(), 0) != 0) return;
+         QMessageBox msgBox(QMessageBox::Question, "Disconnect analysis", "Really disconnect from analysis task?");
+
+         msgBox.addButton("Disconnect", QMessageBox::ActionRole);
+         auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+         msgBox.exec();
+         if (msgBox.clickedButton() == btnCancel)
+            return;
       }
    }
    RemoveAnalysisProxy(30, shutdown);
@@ -2175,12 +2177,13 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
 void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
 {
    if (interactive) {
-      int res = QMessageBox::warning(this, "Shutdown analysis",
-                QString("Really shutdown analysis task?"),
-                QString("Shutdown"),
-                QString("Cancel"),
-                QString(), 0);
-      if (res != 0) return;
+      QMessageBox msgBox(QMessageBox::Question, "Shutdown analysis", "Really shutdown analysis task?");
+
+      msgBox.addButton("Shutdown", QMessageBox::ActionRole);
+      auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.exec();
+      if (msgBox.clickedButton() == btnCancel)
+         return;
    }
    TGo4ServerProxy* serv = Browser()->FindServer();
    if (!serv) return;
@@ -2260,12 +2263,14 @@ void TGo4MainWindow::StopAnalysisSlot()
 void TGo4MainWindow::TerminateAnalysis(bool interactive)
 {
    if (interactive) {
-      int res = QMessageBox::warning(this, "Kill analysis process",
-                QString("Kill analysis by shell command: ") +fKillCommand + " ?",
-                QString("Kill"),
-                QString("Cancel"),
-                QString(), 0);
-      if (res != 0) return;
+      QMessageBox msgBox(QMessageBox::Question, "Kill analysis process",
+                         QString("Kill analysis by shell command: ") +fKillCommand + " ?");
+
+      msgBox.addButton("Kill", QMessageBox::ActionRole);
+      auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.exec();
+      if (msgBox.clickedButton() == btnCancel)
+         return;
    }
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
@@ -2707,13 +2712,13 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
    if (br->DefineFileObject(itemname, fileslotname, &filepath)) {
       QMessageBox msgBox(QMessageBox::Question, "Writing object to file",
                          QString("Overwrite ") + filepath + " in file " + fileslotname.Data());
-      auto btn1 = msgBox.addButton("Overwrite", QMessageBox::ActionRole);
-      auto btn2 = msgBox.addButton("Save to other file", QMessageBox::ActionRole);
-      auto btn3 = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      auto btnOverwrite = msgBox.addButton("Overwrite", QMessageBox::ActionRole);
+      /* auto btnOther = */ msgBox.addButton("Save to other file", QMessageBox::ActionRole);
+      auto btnCancel = msgBox.addButton("Cancel", QMessageBox::RejectRole);
       msgBox.exec();
-      if (msgBox.clickedButton() == btn3)
+      if (msgBox.clickedButton() == btnCancel)
          return false;
-      if (msgBox.clickedButton() == btn1)
+      if (msgBox.clickedButton() == btnOverwrite)
         res = br->UpdateObjectInFile(itemname, fileslotname.Data(), filepath);
    }
 
