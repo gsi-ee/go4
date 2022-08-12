@@ -63,8 +63,8 @@ void Example3()
    fitter.AddPolynomX( "data1", "Pol", 1);
 
 // create model, which uses user function to calculate gaussian shape
-   fitter.AddModel( "data1", new TGo4FitModelFunction("Gauss1",&gaussian_,2,kTRUE) );
-   fitter.AddModel( "data1", new TGo4FitModelFunction("Gauss2",&gaussian_,2,kTRUE) );
+   fitter.AddModel("data1", new TGo4FitModelFunction("Gauss1", &gaussian_, 2, kTRUE));
+   fitter.AddModel("data1", new TGo4FitModelFunction("Gauss2", &gaussian_, 2, kTRUE));
 
 // set initial values of user model parameters
    fitter.SetParValue("Gauss1.Par0",2553.);
