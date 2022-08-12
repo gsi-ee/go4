@@ -19,9 +19,7 @@ QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   void (QSpinBox::*mpf)(int) = &QSpinBox::valueChanged;
-
-   connect(Iterations, mpf, this, &QFitAmplEstimWidget::Iterations_valueChanged);
+   QObject::connect(Iterations, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged , this, &QFitAmplEstimWidget::Iterations_valueChanged);
 }
 
 TGo4FitAmplEstimation * QFitAmplEstimWidget::GetAmplEstim()
