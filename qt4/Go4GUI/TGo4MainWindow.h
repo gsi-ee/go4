@@ -41,7 +41,6 @@ class TGo4WidgetProxy;
 class TGo4ServerProxy;
 
 class QAction;
-class QSignalMapper;
 class QMenu;
 class QSpinBox;
 class QPushButton;

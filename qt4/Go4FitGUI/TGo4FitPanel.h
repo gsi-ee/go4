@@ -191,7 +191,8 @@ public:
     virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink);
     virtual bool UpdateObjectReferenceInSlots();
     virtual void ClearObjectReferenceInSlots();
-    virtual void RemoveDrawObjects();
+    virtual void RemoveDrawObjects();    //virtual void windowActivationChange( bool OldActive );
+
     virtual void CloseDrawPanel();
     virtual void UpdateStatusBar(const char* info = nullptr);
     virtual void UpdateItemMenu();
@@ -282,56 +283,55 @@ public slots:
     virtual void PF_MinNoiseEdit_returnPressed();
 
 public:
-   QFitItem* CurrFitItem;
+   QFitItem* CurrFitItem{nullptr};
 
 protected:
-    QMenuBar* MenuBar;
-    QMenu* FitterMenu;
-    QSignalMapper* FitterMap;
-    QMenu* ViewMenu;
-    QSignalMapper* ViewMap;
-    QMenu* SettMenu;
-    QSignalMapper* SettMap;
-    QMenu* ItemMenu;
-    QSignalMapper* ItemMap;
+    QMenuBar* MenuBar{nullptr};
+    QMenu* FitterMenu{nullptr};
+    QSignalMapper* FitterMap{nullptr};
+    QMenu* ViewMenu{nullptr};
+    QSignalMapper* ViewMap{nullptr};
+    QMenu* SettMenu{nullptr};
+    QSignalMapper* SettMap{nullptr};
+    QMenu* ItemMenu{nullptr};
+    QSignalMapper* ItemMap{nullptr};
 
-    bool fbFillingWidget;
-    int fiPaintMode;
-    TObjArray* fxWizPars;
-    TObjArray* fxWizSlots;
-    TObjArray* fxParsTableList;
-    TGo4ViewPanel* fxActivePanel;
-    TPad* fxActivePad;
-    TGo4ViewPanel* fxDrawNewPanel;
-    bool fbDrawPanelCreation;
-    QFitItem* fxCurrentItem;
-    QWidget* fxCurrentItemWidget;
-    bool fbNeedConfirmation;
-    bool fbShowPrimitives;
-    bool fbFreezeMode;
-    int fiPanelMode;
-    bool fbParsWidgetShown;
-    bool fbDrawModels;
-    bool fbDrawComponents;
-    bool fbDrawBackground;
-    bool fbUseSamePanelForDraw;
-    bool fbDrawInfoOnPad;
-    int fiIntegralMode;
-    bool fbRecalculateGaussWidth;
-    int fiBuffersUsage;
-    bool fbSaveWithReferences;
-    bool fbUseCurrentRange;
+    bool fbFillingWidget{false};
+    int fiPaintMode{0};
+    TObjArray* fxWizPars{nullptr};
+    TObjArray* fxWizSlots{nullptr};
+    TObjArray* fxParsTableList{nullptr};
+    TGo4ViewPanel* fxActivePanel{nullptr};
+    TPad* fxActivePad{nullptr};
+    TGo4ViewPanel* fxDrawNewPanel{nullptr};
+    bool fbDrawPanelCreation{false};
+    QFitItem* fxCurrentItem{nullptr};
+    QWidget* fxCurrentItemWidget{nullptr};
+    bool fbNeedConfirmation{false};
+    bool fbShowPrimitives{false};
+    bool fbFreezeMode{false};
+    int fiPanelMode{0};
+    bool fbParsWidgetShown{false};
+    bool fbDrawModels{false};
+    bool fbDrawComponents{false};
+    bool fbDrawBackground{false};
+    bool fbUseSamePanelForDraw{false};
+    bool fbDrawInfoOnPad{false};
+    int fiIntegralMode{0};
+    bool fbRecalculateGaussWidth{false};
+    int fiBuffersUsage{0};
+    bool fbSaveWithReferences{false};
+    bool fbUseCurrentRange{false};
     QString fxWizDataName;
     QString fxWizModelName;
-    bool fbWizShowAllModels;
-    int fiWizPageIndex;
-    bool fbUseAmplEstim;
-    int fiNumMigradIter;
+    bool fbWizShowAllModels{false};
+    int fiWizPageIndex{0};
+    bool fbUseAmplEstim{false};
+    int fiNumMigradIter{0};
 
     void focusInEvent(QFocusEvent * event) override;
     void changeEvent(QEvent *event) override;
     bool checkConfirm(const QString &title, const QString &msg);
-    //virtual void windowActivationChange( bool OldActive );
 };
 
 #endif

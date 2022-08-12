@@ -1747,10 +1747,10 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
    QFitItem* fititem = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
    if (!fititem) return;
 
-   QSignalMapper map(this);
-   connect(&map, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
+   QSignalMapper map;
+   connect(&map, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ItemMenuItemSelected);
 
-   QMenu menu(this);
+   QMenu menu;
 
    if (FillPopupForItem(fititem, &menu, &map)) {
       CurrFitItem = fititem;
@@ -2570,8 +2570,8 @@ void TGo4FitPanel::Wiz_AddDataBtn_clicked()
 {
    if (fbFillingWidget) return;
 
-   QSignalMapper map(this);
-   QMenu menu(this);
+   QSignalMapper map;
+   QMenu menu;
 
    FillDataTypesList(&menu, &map, 0);
 
@@ -2613,8 +2613,8 @@ void TGo4FitPanel::Wiz_AddModelBtn_clicked()
 {
    if (fbFillingWidget) return;
 
-   QSignalMapper map(this);
-   QMenu menu(this);
+   QSignalMapper map;
+   QMenu menu;
 
    FillModelTypesList(&menu, &map, 0, true);
 
@@ -2820,8 +2820,8 @@ void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested(const QPoint& pnt )
   TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(nrow));
   if (!slot) return;
 
-  QSignalMapper map(this);
-  QMenu menu(this);
+  QSignalMapper map;
+  QMenu menu;
 
   if (FillPopupForSlot(slot, &menu, &map)) {
      QAction* act = menu.exec(Wiz_DataSlotsTable->mapToGlobal(pnt));
@@ -3693,9 +3693,11 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
 
    if (!menu->isEmpty()) menu->addSeparator();
 
-   if (slot->GetClass() == TGo4FitData::Class()) FillDataTypesList(menu, map, 1100); else
-   if (slot->GetClass() == TGo4FitModel::Class()) FillModelTypesList(menu, map, 1200, false); else
-   if (slot->GetClass() == TGo4FitAxisTrans::Class()) {
+   if (slot->GetClass() == TGo4FitData::Class())
+       FillDataTypesList(menu, map, 1100);
+   else if (slot->GetClass() == TGo4FitModel::Class())
+      FillModelTypesList(menu, map, 1200, false);
+   else if (slot->GetClass() == TGo4FitAxisTrans::Class()) {
      AddIdAction(menu, map, TGo4FitLinearTrans::Class()->GetName(), 1300);
      AddIdAction(menu, map, TGo4FitMatrixTrans::Class()->GetName(), 1301);
    }
@@ -4272,14 +4274,15 @@ void TGo4FitPanel::FillDependencyList(QFitItem* parent)
 
 void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend)
 {
-  if (!menu->isEmpty()) menu->addSeparator();
+  if (!menu->isEmpty())
+     menu->addSeparator();
   if (extend) {
-    AddIdAction(menu, map,"Add gaussian", id+20);
-    AddIdAction(menu, map,"Add lorenzian", id+24);
-    AddIdAction(menu, map,"Add exponent", id+25);
-    AddIdAction(menu, map,"Add 1-order polynom", id+21);
-    AddIdAction(menu, map,"Add 3-order polynom", id+22);
-    AddIdAction(menu, map,"Add 7-order polynom", id+23);
+     AddIdAction(menu, map,"Add gaussian", id+20);
+     AddIdAction(menu, map,"Add lorenzian", id+24);
+     AddIdAction(menu, map,"Add exponent", id+25);
+     AddIdAction(menu, map,"Add 1-order polynom", id+21);
+     AddIdAction(menu, map,"Add 3-order polynom", id+22);
+     AddIdAction(menu, map,"Add 7-order polynom", id+23);
      menu->addSeparator();
   }
 
@@ -4294,7 +4297,8 @@ void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, b
 
 void TGo4FitPanel::FillDataTypesList(QMenu* menu, QSignalMapper* map, int id)
 {
-  if (!menu->isEmpty()) menu->addSeparator();
+  if (!menu->isEmpty())
+     menu->addSeparator();
   AddIdAction(menu, map, QString("Make  ") + TGo4FitDataHistogram::Class()->GetName(), id+0);
   AddIdAction(menu, map, QString("Make  ") + TGo4FitDataGraph::Class()->GetName(),     id+1);
   AddIdAction(menu, map, QString("Make  ") + TGo4FitDataProfile::Class()->GetName(),   id+2);

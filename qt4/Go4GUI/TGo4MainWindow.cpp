@@ -18,7 +18,6 @@
 #include <QtCore/QTimer>
 #include <QtCore/QProcess>
 #include <QtCore/QHash>
-#include <QtCore/QSignalMapper>
 #include <QtCore/QDir>
 
 #include <QApplication>
