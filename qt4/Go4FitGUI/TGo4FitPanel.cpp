@@ -208,19 +208,26 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
    MenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
 
    FitterMap = new QSignalMapper(this);
-   connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
    FitterMenu = MenuBar->addMenu("&Fitter");
    QObject::connect(FitterMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowFitterMenu);
 
    ViewMap = new QSignalMapper(this);
-   connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
    ViewMenu = MenuBar->addMenu("&Tools");
    QObject::connect(ViewMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowViewMenu);
 
    SettMap = new QSignalMapper(this);
-   connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
    SettMenu = MenuBar->addMenu("&Settings");
    QObject::connect(SettMenu, &QMenu::aboutToShow, this, &TGo4FitPanel::AboutToShowSettMenu);
+
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+   connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
+   connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
+   connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
+#else
+   QObject::connect(FitterMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::FitterMenuItemSelected);
+   QObject::connect(ViewMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeViewType);
+   QObject::connect(SettMap, &QSignalMapper::mappedInt, this, &TGo4FitPanel::ChangeSettings);
+#endif
 
    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
