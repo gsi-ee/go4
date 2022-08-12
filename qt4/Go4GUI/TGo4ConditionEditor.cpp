@@ -353,7 +353,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    CondVisibleChk->setChecked(cond->IsVisible());
 
    if (panel) {
-     if (infolbl.length() > 0) infolbl+="  ";
+     if (infolbl.length() > 0)
+        infolbl += "  ";
      infolbl += "Drawn: ";
      infolbl += panel->objectName();
      if (pad && (pad != (TPad*)panel->GetCanvas())) {
@@ -368,13 +369,12 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    ResultCombo->setEnabled(true);
    InvertCombo->setEnabled(true);
 
-   if(cond->IsEnabled())
-     ResultCombo->setCurrentIndex(0);
+   if (cond->IsEnabled())
+      ResultCombo->setCurrentIndex(0);
+   else if (cond->FixedResult())
+      ResultCombo->setCurrentIndex(1);
    else
-     if (cond->FixedResult())
-       ResultCombo->setCurrentIndex(1);
-     else
-       ResultCombo->setCurrentIndex(2);
+      ResultCombo->setCurrentIndex(2);
 
    if(cond->IsTrue()) InvertCombo->setCurrentIndex(0);
                  else InvertCombo->setCurrentIndex(1);
@@ -489,7 +489,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
          Browser()->DefineRelatedObject(conditemname, hname, hitemname))
            DrawCondition(false);
    }
-   fbNewWindow=false;
+   fbNewWindow = false;
 }
 
 TGo4Condition* TGo4ConditionEditor::SelectedCondition()
@@ -513,7 +513,7 @@ TGo4Condition* TGo4ConditionEditor::SelectedCondition()
 
 void TGo4ConditionEditor::PleaseUpdateSlot()
 {
-   GetLinked("Condition", 2);
+   // GetLinked("Condition", 0);
    SetChangeFlag(true);
    PleaseUpdateLabel->setVisible(true);
 }
@@ -973,7 +973,6 @@ void TGo4ConditionEditor::FillListWidget(TGo4ListCond* lcon)
 void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
 {
    if (!fbTypingMode) return;
-   //printf ("NPointsSpin_valueChanged with npoint= %d \n",npoint);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
    if (pcond) {
@@ -1017,7 +1016,6 @@ void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
 void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
 {
    if (!fbTypingMode) return;
-   //printf ("CutTable_valueChanged\n");
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
    bool ok = false;
@@ -1025,7 +1023,7 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
    if (!ok) return;
 
    if (pcond) {
-      TCutG *cut = pcond == 0 ? 0 : pcond->GetCut(kFALSE);
+      TCutG *cut = pcond->GetCut(kFALSE);
       if (!cut)
          return;
       if (ncol == 0)
@@ -1043,7 +1041,6 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
          fbTypingMode = true;
       }
    } else if (lcond) {
-      // printf ("CutTable_valueChanged- listcondition for row %d and value %f\n",nrow,zn);
       lcond->SetValue(nrow, zn);
       int numvals = lcond->GetNumValues();
       if ((nrow == 0) || (nrow == numvals - 1)) {
@@ -1091,23 +1088,23 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 
    auto actInsert = new QAction("Insert point", &menu);
    menu.addAction(actInsert);
-   QObject::connect(actInsert, &QAction::triggered, [this, nrow]() { ContextMenuHandler(nrow, false); });
+   QObject::connect(actInsert, &QAction::triggered, [this, nrow]() { CutTable_contextMenuHandler(nrow, false); });
 
    auto actDelete = new QAction("Delete point", &menu);
    menu.addAction(actDelete);
-   QObject::connect(actDelete, &QAction::triggered, [this, nrow]() { ContextMenuHandler(nrow, true); });
+   QObject::connect(actDelete, &QAction::triggered, [this, nrow]() { CutTable_contextMenuHandler(nrow, true); });
    actDelete->setEnabled((nrow > 0) && (nrow < maxn - 1));
 
    menu.exec(CutTable->mapToGlobal(pos));
 }
 
-void TGo4ConditionEditor::ContextMenuHandler(int id, bool is_delete)
+void TGo4ConditionEditor::CutTable_contextMenuHandler(int id, bool is_delete)
 {
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TGo4ListCond* lcond = dynamic_cast<TGo4ListCond*> (SelectedCondition());
 
    if (pcond) {
-      TCutG *cut = !pcond ? nullptr : pcond->GetCut(kFALSE);
+      TCutG *cut = pcond->GetCut(kFALSE);
       if (!cut)
          return;
 
@@ -1120,7 +1117,6 @@ void TGo4ConditionEditor::ContextMenuHandler(int id, bool is_delete)
          cut->Set(npoints + 1);
 
          Double_t x, y;
-
          for (int n = npoints; n > id; n--) {
             cut->GetPoint(n - 1, x, y);
             cut->SetPoint(n, x, y);
