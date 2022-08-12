@@ -3507,52 +3507,57 @@ void TGo4FitPanel::RemovePrimitives()
    }
 }
 
+void TGo4FitPanel::AddItemAction(QMenu* menu, const QString &name, int id)
+{
+   menu->addAction(name, [this, id]() { ItemMenuItemSelected(id); });
+}
+
 bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map)
 {
   if(!item || !menu) return false;
 
   if(item->PopupMenuType() == FitGui::mt_empty) {
-    AddIdAction(menu, map, "Create empty fitter", 8);
+    AddItemAction(menu, "Create empty fitter", 8);
      if (WorkingWithPanel())
-       AddIdAction(menu, map, "Create appropriate fitter", 9);
+       AddItemAction(menu, "Create appropriate fitter", 9);
   }
 
   if(item->PopupMenuType() == FitGui::mt_fitter) {
-     AddIdAction(menu, map,"Delete fitter", 1);
-     AddIdAction(menu, map,"Clear fitter", 2);
-     AddIdAction(menu, map,"Save fitter", 3);
-     AddIdAction(menu, map,"Save fitter as ...", 4);
-     AddIdAction(menu, map,"Print ...", 5);
-     AddIdAction(menu, map,"Draw", 6);
-     AddIdAction(menu, map,"Memorize parameters", 706);
-     AddIdAction(menu, map,"Remember parameters", 707);
+     AddItemAction(menu,"Delete fitter", 1);
+     AddItemAction(menu,"Clear fitter", 2);
+     AddItemAction(menu,"Save fitter", 3);
+     AddItemAction(menu,"Save fitter as ...", 4);
+     AddItemAction(menu,"Print ...", 5);
+     AddItemAction(menu,"Draw", 6);
+     AddItemAction(menu,"Memorize parameters", 706);
+     AddItemAction(menu,"Remember parameters", 707);
   }
 
   if(item->PopupMenuType() == FitGui::mt_data) {
      if (!WorkingWithPanel())
-        AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 101);
-     AddIdAction(menu, map, "Remove associated models", 102);
-     AddIdAction(menu, map, "Draw", 105);
-     AddIdAction(menu, map, "Print", 5);
+        AddItemAction(menu, QString("Remove ")+item->Object()->GetName(), 101);
+     AddItemAction(menu, "Remove associated models", 102);
+     AddItemAction(menu, "Draw", 105);
+     AddItemAction(menu, "Print", 5);
   }
 
   if(item->PopupMenuType() == FitGui::mt_datalist) {
     if (WorkingWithPanel()) {
-       AddIdAction(menu, map, "Rebuild data list", 108);
+       AddItemAction(menu, "Rebuild data list", 108);
     } else {
-       AddIdAction(menu, map, "Delete all data", 107);
+       AddItemAction(menu, "Delete all data", 107);
        FillDataTypesList(menu, map, 110);
     }
   }
 
   if(item->PopupMenuType() == FitGui::mt_model) {
-    AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 201);
-    AddIdAction(menu, map, "Clone", 203);
-    AddIdAction(menu, map, "Print", 5);
+    AddItemAction(menu, QString("Remove ")+item->Object()->GetName(), 201);
+    AddItemAction(menu, "Clone", 203);
+    AddItemAction(menu, "Print", 5);
   }
 
   if(item->PopupMenuType() == FitGui::mt_modellist) {
-   AddIdAction(menu, map, "Delete all models", 202);
+   AddItemAction(menu, "Delete all models", 202);
     FillModelTypesList(menu, map, 210, true);
   }
 
@@ -3560,95 +3565,95 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
       TGo4Fitter* fitter = GetFitter();
       TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (item->Object());
       if (fitter && model) {
-        AddIdAction(menu, map, "Clear all assignments", 301);
-        AddIdAction(menu, map, "Assign to all data", 302);
+        AddItemAction(menu, "Clear all assignments", 301);
+        AddItemAction(menu, "Assign to all data", 302);
          menu->addSeparator();
         for(Int_t n=0; n<fitter->GetNumData();n++)
           if(!model->IsAssignTo(fitter->GetDataName(n)))
-             AddIdAction(menu, map, QString("Assign to: ") + fitter->GetDataName(n), 310+n);
+             AddItemAction(menu, QString("Assign to: ") + fitter->GetDataName(n), 310+n);
       }
   }
 
   if(item->PopupMenuType() == FitGui::mt_ass)
-     AddIdAction(menu, map, QString("Clear assignment to ") + item->text(0), 303);
+     AddItemAction(menu, QString("Clear assignment to ") + item->text(0), 303);
 
   if(item->PopupMenuType() == FitGui::mt_range)
-     AddIdAction(menu, map, "Remove range condition", 401);
+     AddItemAction(menu, "Remove range condition", 401);
 
   if(item->PopupMenuType() == FitGui::mt_rangecut)
-     AddIdAction(menu, map, "Remove range condition", 401);
+     AddItemAction(menu, "Remove range condition", 401);
 
   if(item->PopupMenuType() == FitGui::mt_rangelist) {
      TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
      if(comp) {
         if (comp->IsAnyRangeLimits()) {
-           AddIdAction(menu, map, "Clear all ranges", 402);
+           AddItemAction(menu, "Clear all ranges", 402);
            menu->addSeparator();
         }
-        AddIdAction(menu, map, "Include new range", 403);
-        AddIdAction(menu, map, "Exclude new range", 404);
-        AddIdAction(menu, map, "Add left bound", 405);
-        AddIdAction(menu, map, "Add right bound", 406);
+        AddItemAction(menu, "Include new range", 403);
+        AddItemAction(menu, "Exclude new range", 404);
+        AddItemAction(menu, "Add left bound", 405);
+        AddItemAction(menu, "Add right bound", 406);
         menu->addSeparator();
-        AddIdAction(menu, map, "Add range cut", 407);
+        AddItemAction(menu, "Add range cut", 407);
      }
   }
 
   if(item->PopupMenuType() == FitGui::mt_action) {
-     AddIdAction(menu, map,"Delete action", 501);
-     AddIdAction(menu, map,"Move action up", 502);
-     AddIdAction(menu, map,"Move action down", 503);
-     AddIdAction(menu, map,"Print", 5);
-     AddIdAction(menu, map,"Execute", 508);
+     AddItemAction(menu,"Delete action", 501);
+     AddItemAction(menu,"Move action up", 502);
+     AddItemAction(menu,"Move action down", 503);
+     AddItemAction(menu,"Print", 5);
+     AddItemAction(menu,"Execute", 508);
   }
 
   if(item->PopupMenuType() == FitGui::mt_actlist) {
      TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (item->Object());
      if(fitter) {
         if (fitter->GetNumActions()>0) {
-           AddIdAction(menu, map,"Execute norm actions", 504);
-           AddIdAction(menu, map,"Execute all actions", 507);
-           AddIdAction(menu, map,"Delete all actions", 505);
-           AddIdAction(menu, map,"Delete output actions", 506);
+           AddItemAction(menu,"Execute norm actions", 504);
+           AddItemAction(menu,"Execute all actions", 507);
+           AddItemAction(menu,"Delete all actions", 505);
+           AddItemAction(menu,"Delete output actions", 506);
            menu->addSeparator();
         }
-        AddIdAction(menu, map,"Add config", 510);
-        AddIdAction(menu, map,"Add peak finder", 514);
-        AddIdAction(menu, map,"Add amplitude estimation", 511);
-        AddIdAction(menu, map,"Add minuit", 512);
-        AddIdAction(menu, map,"Add output", 513);
+        AddItemAction(menu,"Add config", 510);
+        AddItemAction(menu,"Add peak finder", 514);
+        AddItemAction(menu,"Add amplitude estimation", 511);
+        AddItemAction(menu,"Add minuit", 512);
+        AddItemAction(menu,"Add output", 513);
      }
   }
 
   if(item->PopupMenuType() == FitGui::mt_depend)
-     AddIdAction(menu, map, "Delete item", 601);
+     AddItemAction(menu, "Delete item", 601);
 
   if(item->PopupMenuType() == FitGui::mt_deplist) {
-     AddIdAction(menu, map, "Delete all items", 602);
-     AddIdAction(menu, map, "Insert new item", 603);
+     AddItemAction(menu, "Delete all items", 602);
+     AddItemAction(menu, "Insert new item", 603);
   }
 
   if(item->PopupMenuType() == FitGui::mt_newpars) {
-    AddIdAction(menu, map, "Delete all items", 701);
-    AddIdAction(menu, map, "Insert new item", 702);
+    AddItemAction(menu, "Delete all items", 701);
+    AddItemAction(menu, "Insert new item", 702);
   }
 
   if(item->PopupMenuType() == FitGui::mt_parcfg)
-     AddIdAction(menu, map, "Delete item", 703);
+     AddItemAction(menu, "Delete item", 703);
 
   if(item->PopupMenuType() == FitGui::mt_par) {
-    AddIdAction(menu, map, "Memorize value", 704);
-    AddIdAction(menu, map, "Restore value", 705);
+    AddItemAction(menu, "Memorize value", 704);
+    AddItemAction(menu, "Restore value", 705);
   }
 
   if((item->PopupMenuType() == FitGui::mt_parslist)) {
-    AddIdAction(menu, map, "Memorize parameters", 706);
-    AddIdAction(menu, map, "Remember parameters", 707);
+    AddItemAction(menu, "Memorize parameters", 706);
+    AddItemAction(menu, "Remember parameters", 707);
   }
 
   if(item->PopupMenuType() == FitGui::mt_minuitres) {
-    AddIdAction(menu, map,"Delete result entry", 801);
-    AddIdAction(menu, map,"Print", 5);
+    AddItemAction(menu,"Delete result entry", 801);
+    AddItemAction(menu,"Print", 5);
   }
 
   if(item->PopupMenuType() == FitGui::mt_slot) {
@@ -3659,7 +3664,7 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   if(item->PopupMenuType() == FitGui::mt_allslots) {
     TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (item->Object());
     if(fitter)
-       AddIdAction(menu, map, "Update slots from sources", 904);
+       AddItemAction(menu, "Update slots from sources", 904);
   }
 
   return ! menu->isEmpty();
@@ -3670,25 +3675,25 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    if (!slot || !menu) return false;
 
    if(!slot->GetOwned() && slot->IsObject())
-     AddIdAction(menu, map, "Clone object in slot", 1000);
+     AddItemAction(menu, "Clone object in slot", 1000);
 
    if(slot->IsObject())
-     AddIdAction(menu, map, "Clear object in slot", 1001);
+     AddItemAction(menu, "Clear object in slot", 1001);
 
    if (FindPadForSlot(slot))
-      AddIdAction(menu, map, QString("Update from ") + Wiz_GetSlotSourceInfo(slot), 1002);
+      AddItemAction(menu, QString("Update from ") + Wiz_GetSlotSourceInfo(slot), 1002);
 
    if (!menu->isEmpty()) menu->addSeparator();
 
    if (slot->GetConnectedSlot())
-      AddIdAction(menu, map, "Brake connection to slot", 1004);
+      AddItemAction(menu, "Brake connection to slot", 1004);
 
    TGo4Fitter* fitter = GetFitter();
    if (fitter)
      for(Int_t n=0;n<fitter->NumSlots();n++) {
         TGo4FitSlot* sl = fitter->GetSlot(n);
         if (slot->CanConnectToSlot(sl) && (slot->GetConnectedSlot()!=sl))
-            AddIdAction(menu, map, QString("Connect to ") + sl->GetFullName(), 1400 + n);
+            AddItemAction(menu, QString("Connect to ") + sl->GetFullName(), 1400 + n);
      }
 
    if (!menu->isEmpty()) menu->addSeparator();
@@ -3698,8 +3703,8 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    else if (slot->GetClass() == TGo4FitModel::Class())
       FillModelTypesList(menu, map, 1200, false);
    else if (slot->GetClass() == TGo4FitAxisTrans::Class()) {
-     AddIdAction(menu, map, TGo4FitLinearTrans::Class()->GetName(), 1300);
-     AddIdAction(menu, map, TGo4FitMatrixTrans::Class()->GetName(), 1301);
+     AddItemAction(menu, TGo4FitLinearTrans::Class()->GetName(), 1300);
+     AddItemAction(menu, TGo4FitMatrixTrans::Class()->GetName(), 1301);
    }
 
    return ! menu->isEmpty();
@@ -3744,17 +3749,22 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id
      }
 
      default: {
-       TObject* obj = 0;
-       if ((id>=1100) && (id<1200)) obj = CreateData(id-1100,"Data"); else
-       if ((id>=1200) && (id<1300)) obj = CreateModel(id-1200, "Model", 0, 0); else
-       if (id==1300) obj = new TGo4FitLinearTrans("Trans","Linear axis transformation"); else
-       if (id==1301) obj = new TGo4FitMatrixTrans("Trans","Matrix axis transformation"); else
-       if (id>=1400) {
-         TGo4FitSlot* sl = fitter->GetSlot(id-1400);
-         slot->ConnectToSlot(sl);
-         break;
+       TObject* obj = nullptr;
+       if ((id >= 1100) && (id < 1200))
+          obj = CreateData(id - 1100, "Data");
+       else if ((id >= 1200) && (id < 1300))
+          obj = CreateModel(id - 1200, "Model", 0, 0);
+       else if (id == 1300)
+          obj = new TGo4FitLinearTrans("Trans", "Linear axis transformation");
+       else if (id == 1301)
+          obj = new TGo4FitMatrixTrans("Trans", "Matrix axis transformation");
+       else if (id >= 1400) {
+          TGo4FitSlot *sl = fitter->GetSlot(id - 1400);
+          slot->ConnectToSlot(sl);
+          break;
        }
-       if (obj) slot->SetObject(obj, kTRUE);
+       if (obj)
+          slot->SetObject(obj, kTRUE);
      }
    }
 
@@ -4277,32 +4287,32 @@ void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, b
   if (!menu->isEmpty())
      menu->addSeparator();
   if (extend) {
-     AddIdAction(menu, map,"Add gaussian", id+20);
-     AddIdAction(menu, map,"Add lorenzian", id+24);
-     AddIdAction(menu, map,"Add exponent", id+25);
-     AddIdAction(menu, map,"Add 1-order polynom", id+21);
-     AddIdAction(menu, map,"Add 3-order polynom", id+22);
-     AddIdAction(menu, map,"Add 7-order polynom", id+23);
+     AddItemAction(menu, "Add gaussian", id+20);
+     AddItemAction(menu, "Add lorenzian", id+24);
+     AddItemAction(menu, "Add exponent", id+25);
+     AddItemAction(menu, "Add 1-order polynom", id+21);
+     AddItemAction(menu, "Add 3-order polynom", id+22);
+     AddItemAction(menu, "Add 7-order polynom", id+23);
      menu->addSeparator();
   }
 
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelPolynom::Class()->GetName(), id+0);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelGauss1::Class()->GetName(),  id+1);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelGauss2::Class()->GetName(),  id+2);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelGaussN::Class()->GetName(),  id+3);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelFormula::Class()->GetName(), id+4);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelFunction::Class()->GetName(),id+5);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitModelFromData::Class()->GetName(),id+6);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelPolynom::Class()->GetName(), id+0);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelGauss1::Class()->GetName(),  id+1);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelGauss2::Class()->GetName(),  id+2);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelGaussN::Class()->GetName(),  id+3);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelFormula::Class()->GetName(), id+4);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelFunction::Class()->GetName(),id+5);
+  AddItemAction(menu, QString("Make  ") + TGo4FitModelFromData::Class()->GetName(),id+6);
 }
 
 void TGo4FitPanel::FillDataTypesList(QMenu* menu, QSignalMapper* map, int id)
 {
   if (!menu->isEmpty())
      menu->addSeparator();
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitDataHistogram::Class()->GetName(), id+0);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitDataGraph::Class()->GetName(),     id+1);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitDataProfile::Class()->GetName(),   id+2);
-  AddIdAction(menu, map, QString("Make  ") + TGo4FitDataRidge::Class()->GetName(),     id+3);
+  AddItemAction(menu, QString("Make  ") + TGo4FitDataHistogram::Class()->GetName(), id+0);
+  AddItemAction(menu, QString("Make  ") + TGo4FitDataGraph::Class()->GetName(),     id+1);
+  AddItemAction(menu, QString("Make  ") + TGo4FitDataProfile::Class()->GetName(),   id+2);
+  AddItemAction(menu, QString("Make  ") + TGo4FitDataRidge::Class()->GetName(),     id+3);
 }
 
 void TGo4FitPanel::PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update)

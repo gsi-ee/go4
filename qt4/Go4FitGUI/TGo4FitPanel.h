@@ -332,6 +332,7 @@ protected:
     void focusInEvent(QFocusEvent * event) override;
     void changeEvent(QEvent *event) override;
     bool checkConfirm(const QString &title, const QString &msg);
+    void AddItemAction(QMenu* menu, const QString &name, int id);
 };
 
 #endif
