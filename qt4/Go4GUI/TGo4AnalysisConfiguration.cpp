@@ -33,9 +33,9 @@ TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char
    QObject::connect(LoadAutoSaveFileName, SIGNAL(clicked()), this, SLOT(FileDialog_AutoSave()));
    QObject::connect(AutoSaveFileName, SIGNAL(textChanged(QString)), this, SLOT(LineEdit_AutoSaveFile()));
    QObject::connect(GetActiveConfigButton, SIGNAL(clicked()), this, SLOT(RequestAnalysisStatus()));
-   QObject::connect(CompLevel, SIGNAL(valueChanged(int)), this, SLOT(SetCompressionLevel(int)));
+   QObject::connect(CompLevel, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetCompressionLevel);
    QObject::connect(AnalysisLoadConf, SIGNAL(clicked()), this, SLOT(LoadConfiguration()));
-   QObject::connect(AutoSaveInterval, SIGNAL(valueChanged(int)), this, SLOT(SetAutoSaveInterval(int)));
+   QObject::connect(AutoSaveInterval, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &TGo4AnalysisConfiguration::SetAutoSaveInterval);
    QObject::connect(AutoSaveOverwrite, SIGNAL(toggled(bool)), this, SLOT(SetAutoSaveOverwrite(bool)));
    QObject::connect(SaveNowB, SIGNAL(clicked()), this, SLOT(WriteAutoSave()));
    QObject::connect(AutoSaveEnable, SIGNAL(toggled(bool)), this, SLOT(EnableAutoSaveSlot(bool)));
