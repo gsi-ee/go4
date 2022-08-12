@@ -1780,9 +1780,8 @@ Long_t TGo4Picture::GetTotalSize()
    if (fxSpecialObjects) {
       sz += TList::Class()->Size();
       TListIter iter(fxSpecialObjects);
-      TObject* obj = nullptr;
 
-      while ((obj = iter()) != nullptr)
+      while (auto obj = iter())
          sz += sizeof(TObjLink) + obj->IsA()->Size();
    }
 
@@ -2032,8 +2031,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    }
 
    TListIter iter(fxSpecialObjects);
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
 
       TString xmlbuf = TBufferXML::ConvertToXML(obj);
 

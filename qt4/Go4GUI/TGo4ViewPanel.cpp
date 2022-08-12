@@ -3691,8 +3691,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
       padopt->SetSuperimpose(kTRUE);
 
    TListIter iter(pic->GetSpecialObjects());
-   TObject* obj = nullptr;
-   while ((obj = iter()) != nullptr) {
+   while (auto obj = iter()) {
       Option_t *drawopt = iter.GetOption();
       if (dynamic_cast<TArrow *>(obj))
          AddMarkerObj(pad, kind_Arrow, obj->Clone());
