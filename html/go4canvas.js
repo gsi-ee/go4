@@ -439,7 +439,7 @@ JSROOT.require("painter").then(jsrp => {
          if (cond.fbCMaxDraw) this.pave.AddText("C max = " + jsrp.floatToString(stat.wmax, "14.7g"));
 
         let pr = pave_painter ? pave_painter.redraw() :
-                     JSROOT.draw(this.divid, this.pave, "");
+                     JSROOT.draw(this.divid, this.pave, "nofillstats");
         return pr.then(() => this); // ensure that condition painter is returned
       }
 
