@@ -119,7 +119,6 @@ private:
       void widgetService(QGo4Widget* editor, int serviceid, const char* str, void* par);
 
    public slots:
-      void ResetWidgetSlot();
       void CloseMDIParentSlot();
 
    protected:

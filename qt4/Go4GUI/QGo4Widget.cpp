@@ -22,13 +22,13 @@
 #include <QCloseEvent>
 #include <QDragEnterEvent>
 
-QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WindowFlags f) :
+QGo4Widget::QGo4Widget(QWidget *parent, const char *name, Qt::WindowFlags f) :
    QWidget(parent, f),
    fWaitsForObjectCreation(false),
    fCanDestroyWidget(true),
    fResetWidgetShooted(false),
    fBlockUpdate(false),
-   fBrowserProxy(0)
+   fBrowserProxy(nullptr)
 {
    setObjectName(name);
    setAcceptDrops(true);
@@ -64,7 +64,7 @@ void QGo4Widget::ShootResetWidget()
 
    fResetWidgetShooted = true;
 
-   QTimer::singleShot(0, this, SLOT(ResetWidgetSlot()));
+   QTimer::singleShot(0, [this]() { ResetWidget(); });
 }
 
 void QGo4Widget::ShootCloseWidget(bool closeparent)
@@ -73,17 +73,12 @@ void QGo4Widget::ShootCloseWidget(bool closeparent)
 
    fResetWidgetShooted = true;
 
-   QTimer::singleShot(0, closeparent ? parentWidget() : this, SLOT(close()));
+   QTimer::singleShot(0, closeparent ? parentWidget() : this, &QWidget::close);
 }
 
 void QGo4Widget::CloseMDIParentSlot()
 {
    ShootCloseWidget(true);
-}
-
-void QGo4Widget::ResetWidgetSlot()
-{
-   ResetWidget();
 }
 
 bool QGo4Widget::IsAcceptDrag(const char*, TClass*, int)
