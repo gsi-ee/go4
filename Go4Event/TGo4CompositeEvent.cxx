@@ -206,7 +206,7 @@ Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t re
       return kFALSE;
    }
 
-   if (getEventElement(aElement->getId()) != 0) {
+   if (getEventElement(aElement->getId()) != nullptr) {
       TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with Id:%d already used => not added !",
             aElement->GetName(), aElement->getId());
       return kFALSE;
