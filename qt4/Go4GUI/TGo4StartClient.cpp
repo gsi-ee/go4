@@ -27,7 +27,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
    QObject::connect(ChooseDir, SIGNAL(clicked()), this, SLOT(SelectDir()));
    QObject::connect(ChooseExc, SIGNAL(clicked()), this, SLOT(SelectProg()));
-   QObject::connect(ServerModeCombo, SIGNAL(activated(int)), this, SLOT(ServerModeCombo_activated(int)));
+   QObject::connect(ServerModeCombo, QOverload<int>::of(&QComboBox::activated), this, &TGo4StartClient::ServerModeCombo_activated);
    QObject::connect(ExeModeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ExeMode_changed(int)));
 
    setObjectName("Go4StartClient");

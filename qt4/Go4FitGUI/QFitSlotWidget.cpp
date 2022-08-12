@@ -22,7 +22,7 @@ QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char *name) : QFitNamedWid
 {
    setupUi(this);
    QObject::connect(RequirementChk, &QCheckBox::toggled, this, &QFitSlotWidget::RequirementChk_toggled);
-   QObject::connect(SaveCmb, SIGNAL(activated(int)), this, SLOT(SaveCmb_activated(int)));
+   QObject::connect(SaveCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitSlotWidget::SaveCmb_activated);
 }
 
 TGo4FitSlot* QFitSlotWidget::GetSlot()

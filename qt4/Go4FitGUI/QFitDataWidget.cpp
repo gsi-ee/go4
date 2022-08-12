@@ -25,7 +25,7 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
 
    QObject::connect(NumCalibrSpin, (void (QSpinBox::*)(int)) &QSpinBox::valueChanged, this, &QFitDataWidget::NumCalibrSpin_valueChanged);
    QObject::connect(UseBinsChk, &QCheckBox::toggled, this, &QFitDataWidget::UseBinsChk_toggled);
-   QObject::connect(SigmaCmb, SIGNAL(activated(int)), this, SLOT(SigmaCmb_activated(int)));
+   QObject::connect(SigmaCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitDataWidget::SigmaCmb_activated);
    QObject::connect(SigmaEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::SigmaEdt_textChanged);
    QObject::connect(BinsLimitEdt, &QGo4LineEdit::textChanged, this, &QFitDataWidget::BinsLimitEdt_textChanged);
    QObject::connect(AmplChk, &QCheckBox::toggled, this, &QFitDataWidget::AmplChk_toggled);

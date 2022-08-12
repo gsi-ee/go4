@@ -32,12 +32,12 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
    setObjectName( name ? name : "Go4HisDrawOptions");
    setupUi(this);
 
-   QObject::connect(DrawOption, SIGNAL(activated(int)), this, SLOT(SetDrawOptions(int)));
-   QObject::connect(ErrorBars, SIGNAL(activated(int)), this, SLOT(SetErrorBars(int)));
-   QObject::connect(Coordinates, SIGNAL(activated(int)), this, SLOT(SetCoordinates(int)));
-   QObject::connect(XStyle, SIGNAL(activated(int)), this, SLOT(XaxisStyle(int)));
-   QObject::connect(YStyle, SIGNAL(activated(int)), this, SLOT(YaxisStyle(int)));
-   QObject::connect(ZStyle, SIGNAL(activated(int)), this, SLOT(ZaxisStyle(int)));
+   QObject::connect(DrawOption, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetDrawOptions);
+   QObject::connect(ErrorBars, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetErrorBars);
+   QObject::connect(Coordinates, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetCoordinates);
+   QObject::connect(XStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::XaxisStyle);
+   QObject::connect(YStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::YaxisStyle);
+   QObject::connect(ZStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::ZaxisStyle);
    QObject::connect(AutoScaleBox, &QCheckBox::toggled, this, &TGo4HisDrawOptions::SetAutoScale);
    QObject::connect(LineColor, SIGNAL(clicked()), this, SLOT(SetLineColor()));
    QObject::connect(FillColor, SIGNAL(clicked()), this, SLOT(SetFillColor()));
