@@ -405,15 +405,20 @@ void QGo4Widget::ServiceCall(const char* name, void* par)
    CallServiceFunc(service_General, name, par);
 }
 
-QAction* QGo4Widget::AddChkAction(QMenu* menu,
-                      const QString& text, bool checked,
-                      QObject* recv, const char* member)
+QAction* QGo4Widget::CreateChkAction(QMenu* menu, const QString& text, bool checked)
 {
    QAction* act = new QAction(text, menu);
    act->setCheckable(true);
    act->setChecked(checked);
-   recv->connect (act, SIGNAL(triggered()), recv, member);
    menu->addAction(act);
+   return act;
+}
+
+
+QAction* QGo4Widget::AddChkAction(QMenu* menu, const QString& text, bool checked, QObject* recv, const char* member)
+{
+   QAction* act = CreateChkAction(menu, text, checked);
+   recv->connect (act, SIGNAL(triggered()), recv, member);
    return act;
 }
 

@@ -123,7 +123,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawItemFlagSlot();
       void ChangeSaveWhiteBackgroundSlot();
 
-      void ChangeTerminalTimeStampSlot();
+      void ChangeTerminalTimeStampSlot(bool);
       void ChangeTerminalTimeStampFormatSlot();
 
       void DrawLineWidthSlot();
@@ -279,7 +279,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faStopAnal{nullptr};
       QAction*           faAnalConfig{nullptr};
       QAction*           faAnalTermin{nullptr};
-      QAction*           faTermTimeStamp{nullptr};
 };
 
 #endif
