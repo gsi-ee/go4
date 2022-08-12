@@ -1814,9 +1814,8 @@ void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 {
    TGo4AnalysisProxy* ana = AddAnalysisProxy(false, false);
    if (ana && interactive)
-     QMessageBox::information(this,"Prepare for client connection",
-      "Now you can start client from other shell (node) and connect to port " +
-       QString::number(ana->ConnectorPort()), "Ok");
+     QMessageBox::information(this, "Prepare for client connection",
+        QString("Now you can start client from other shell (node) and connect to port ") + QString::number(ana->ConnectorPort()));
 }
 
 TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, bool withkillbnt, bool force_recreate)
@@ -2148,7 +2147,7 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
                      "Analysis runs inside go4 widget.\n"
                      "If one only disconnects from the analysis,\n"
                      "it remains invisible and difficult to stop.\n"
-                     "To shutdown it later, one need to reconnect with go4 gui again.\""
+                     "To shutdown it later, one need to reconnect with go4 gui again.\n"
                      "It is recommended to shutdown analysis now",
                      QMessageBox::Ok | QMessageBox::Close | QMessageBox::Abort);
 
@@ -2706,11 +2705,15 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
    bool res = false;
 
    if (br->DefineFileObject(itemname, fileslotname, &filepath)) {
-      int answer = QMessageBox::question(this, "Writing object to file",
-         QString("Overwrite ") + filepath + " in file " + fileslotname.Data(),
-         "Overwrite", "Save to other file", "Cancel");
-      if (answer == 2) return false;
-      if (answer == 0)
+      QMessageBox msgBox(QMessageBox::Question, "Writing object to file",
+                         QString("Overwrite ") + filepath + " in file " + fileslotname.Data());
+      auto btn1 = msgBox.addButton("Overwrite", QMessageBox::ActionRole);
+      auto btn2 = msgBox.addButton("Save to other file", QMessageBox::ActionRole);
+      auto btn3 = msgBox.addButton("Cancel", QMessageBox::RejectRole);
+      msgBox.exec();
+      if (msgBox.clickedButton() == btn3)
+         return false;
+      if (msgBox.clickedButton() == btn1)
         res = br->UpdateObjectInFile(itemname, fileslotname.Data(), filepath);
    }
 
