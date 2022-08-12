@@ -68,6 +68,15 @@ class TGo4MainWindow : public QMainWindow {
       TGo4ViewPanel* DisplayBrowserItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt);
 
       TGo4ServerProxy* ConnectHttpServer(const char* addr = nullptr, const char* user = nullptr, const char* pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
+      void ConnectServer(bool interactive = true, const char* password = "");
+      void PrepareForClientConnection(bool interactive = true);
+      void LaunchClient(bool interactive = true);
+      void DisconnectAnalysis(bool interactive = true);
+      void ShutdownAnalysis(bool interactive = true);
+
+      void CreateNewHist(int isremote = -1);
+      void CreateNewCondition(bool forothereditor = false);
+      void CreateNewDynEntry(bool forothereditor = false);
 
       TGo4ObjectManager* OM();
       TGo4BrowserProxy* Browser();
@@ -139,11 +148,6 @@ class TGo4MainWindow : public QMainWindow {
       void GStyleStatFormatSlot();
       void PaletteSettingsSlot();
 
-      void PrepareForClientConnectionSlot(bool interactive = true);
-      void LaunchClientSlot(bool interactive = true);
-      void ConnectServerSlot(bool interactive = true, const char* password = "");
-      void DisconnectAnalysisSlot(bool interactive = true);
-      void ShutdownAnalysisSlot(bool interactive = true);
       void ToggleAnalysisConfiguration();
       void ToggleAnalysisWindow();
       void CloseAnalysisWindow();
@@ -153,10 +157,6 @@ class TGo4MainWindow : public QMainWindow {
       void SubmitStartAnalysisSlot();
       void StartAnalysisSlot();
       void StopAnalysisSlot();
-
-      void CreateNewHistSlot(int isremote = -1);
-      void CreateNewConditionSlot(bool forothereditor = false);
-      void CreateNewDynEntrySlot(bool forothereditor = false);
 
       // modify default high-dpi scaling
       void ScaleFactorSlot();

@@ -308,9 +308,9 @@ int main(int argc, char **argv)
       go4sett->setClientPort(logport);
       go4sett->setClientDefaultPass(!logpass);
       go4sett->setClientControllerMode(dologin);
-      Go4MainGUI->ConnectServerSlot(false, logpass);
+      Go4MainGUI->ConnectServer(false, logpass);
    } else if (prepare_for_client) {
-      Go4MainGUI->PrepareForClientConnectionSlot(false);
+      Go4MainGUI->PrepareForClientConnection(false);
    }
 
    int res = myapp.exec();
