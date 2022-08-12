@@ -314,7 +314,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
    if (!cl) return;
 
    if (cl->InheritsFrom(TGo4Fitter::Class())) {
-      WorkWithFitter(itemname, 0, 0);
+      WorkWithFitter(itemname, nullptr, nullptr);
       return;
    }
 
@@ -325,7 +325,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
    QPoint pos = event->position().toPoint();
 #endif
 
-   QWidget* w = childAt(pos);
+   QWidget *w = childAt(pos);
 
    if (w == Wiz_DataSlotsTable) {
       QPoint pnt = Wiz_DataSlotsTable->mapFrom(this, pos);

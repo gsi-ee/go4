@@ -3141,7 +3141,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_UpdateAnalysisItem: {
          TObject** obj = (TObject**) par;
          Bool_t res = Browser()->UpdateAnalysisItem(str, *obj);
-         if (res) *obj = (TObject*) 1; else *obj = nullptr;
+         *obj = res ? (TObject*) 1 : nullptr;
          break;
       }
 
