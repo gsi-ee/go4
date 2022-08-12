@@ -126,12 +126,12 @@ TDataMember* FindDataMember(TClass* eventclass,
       if(ixend)  {
          TString buf(ixbegin, ixend-ixbegin);
          indexoffset = buf.Atoll();
-         if(indexoffset<0) indexoffset=0;
+         if(indexoffset < 0) indexoffset = 0;
       }
    }
    /////////////////////////////////
 
-   TDataMember* eventmember= eventclass->GetDataMember(memname);
+   TDataMember* eventmember = eventclass->GetDataMember(memname);
    if(eventmember) {
       *totaloffset+=eventmember->GetOffset();
    } else {
@@ -199,7 +199,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
       hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
 
       for(Int_t n=0; n<__MAXCONDIM__; n++) {
-         TGo4EventElement* event = 0;
+         TGo4EventElement* event = nullptr;
          TDataMember* eventmember = 0;
          Long_t offset=0;
 
@@ -219,7 +219,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
       hentry->fxHistogram = ana->GetHistogram(hentry->GetHistogramName());
 
       for(Int_t n=0; n<__MAXHISDIM__; n++) {
-         TGo4EventElement* event = 0;
+         TGo4EventElement* event = nullptr;
          TDataMember* eventmember = 0;
          Long_t offset=0;
 

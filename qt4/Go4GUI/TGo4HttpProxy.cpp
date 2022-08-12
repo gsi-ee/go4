@@ -935,7 +935,7 @@ void TGo4HttpProxy::StopAnalysis()
 
 Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
 {
-   return SubmitRequest(objectname, 4, tgtslot) != 0;
+   return SubmitRequest(objectname, 4, tgtslot) != nullptr;
 }
 
 Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
