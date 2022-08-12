@@ -8,7 +8,7 @@ GO4INCPATH   = @_go4inc_@
 GO4WITHRPATH = true
 DOOPTIMIZATION = true
 
-#### ROOT configigurations from root-config
+#### ROOT configurations from root-config
 ROOTVERSION  = @_root_vers_@
 ROOTEXEPATH  = @_root_exec_prefix_@
 ROOTINCPATH  = @ROOT_INCLUDE_DIRS@
