@@ -53,7 +53,7 @@ void QFitModelGaussNWidget::AxisNumberSpin_valueChanged( int num)
   if(!fbFillWidget && GetGaussN())
     if (GetGaussN()->SetAxisNumbers(num)) {
       SetAxisTable();
-      UpdateItemsOfType(FitGui::ot_parslist, false);
+      UpdateItemsOfType(FitGui::ot_parslist);
     }
 }
 

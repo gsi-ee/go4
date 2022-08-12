@@ -49,5 +49,5 @@ void QFitModelFormulaWidget::NumParSpin_valueChanged( int num)
 {
   if(!fbFillWidget && GetFormula())
     if(GetFormula()->SetNumberOfExprPar(num))
-      UpdateItemsOfType(FitGui::ot_parslist, false);
+      UpdateItemsOfType(FitGui::ot_parslist);
 }

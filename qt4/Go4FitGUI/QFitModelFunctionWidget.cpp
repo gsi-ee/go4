@@ -58,5 +58,5 @@ void QFitModelFunctionWidget::NumParSpin_valueChanged( int num)
 {
   if(!fbFillWidget && GetFunction())
      if(GetFunction()->SetNumberOfFuncPar(num))
-       UpdateItemsOfType(FitGui::ot_parslist, false);
+       UpdateItemsOfType(FitGui::ot_parslist);
 }

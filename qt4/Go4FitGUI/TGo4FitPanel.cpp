@@ -417,7 +417,7 @@ void TGo4FitPanel::WorkWithFitterInSlot(TGo4Slot* slot)
    RemoveFitterLink();
    AddLink(slot, "Fitter");
 
-   TObject* obj = GetLinked("Fitter");
+   GetLinked("Fitter");
 
    UpdateObjectReferenceInSlots();
 
@@ -446,7 +446,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
 
          if (update) {
             UpdateObjectReferenceInSlots();
-            if (fiPanelMode==FitGui::pm_Expert) UpdateItemsOfType(FitGui::ot_slot, 0);
+            if (fiPanelMode==FitGui::pm_Expert) UpdateItemsOfType(FitGui::ot_slot);
             if (fiPanelMode==FitGui::pm_Wizard) UpdateWizStackWidget();
             return;
          }
@@ -479,7 +479,7 @@ void TGo4FitPanel::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
          CloseDrawPanel();
          UpdateObjectReferenceInSlots();
          if (fiPanelMode==FitGui::pm_Wizard) UpdateWizStackWidget();
-         if (fiPanelMode==FitGui::pm_Expert) UpdateItemsOfType(FitGui::ot_slot, 0);
+         if (fiPanelMode==FitGui::pm_Expert) UpdateItemsOfType(FitGui::ot_slot);
          break;
       }
 
@@ -1178,7 +1178,7 @@ void TGo4FitPanel::Cmd_DeleteData(QFitItem * item)
 
   UpdateObjectReferenceInSlots();
 
-  UpdateItemsOfType(FitGui::ot_allslots, 0);
+  UpdateItemsOfType(FitGui::ot_allslots);
 
   UpdateItem(item->Parent(), true);
 
@@ -1196,7 +1196,7 @@ void TGo4FitPanel::Cmd_DeleteAllData(QFitItem * item)
 
   UpdateObjectReferenceInSlots();
 
-  UpdateItemsOfType(FitGui::ot_allslots, 0);
+  UpdateItemsOfType(FitGui::ot_allslots);
 
   UpdateItem(item, true);
 
@@ -1218,7 +1218,7 @@ void TGo4FitPanel::Cmd_DeleteAssosiatedModels(QFitItem * item)
   QFitItem* mlist = FindItem(0, FitGui::ot_modellist, 0);
   if (mlist) UpdateItem(mlist, true);
 
-  UpdateItemsOfType(FitGui::ot_allslots, 0);
+  UpdateItemsOfType(FitGui::ot_allslots);
 
   ShowItem(item, false);
 
@@ -1293,7 +1293,7 @@ void TGo4FitPanel::Cmd_AddNewData(QFitItem * item, int id)
 
   UpdateItem(item, true);
 
-  UpdateItemsOfType(FitGui::ot_allslots, 0);
+  UpdateItemsOfType(FitGui::ot_allslots);
 
   QFitItem* curr = FindItem(data, FitGui::ot_data, item);
   if (curr)
@@ -1316,7 +1316,7 @@ void  TGo4FitPanel::Cmd_AddNewModel(QFitItem * item, int id)
 
   UpdateItem(item, true);
 
-  UpdateItemsOfType(FitGui::ot_allslots, 0);
+  UpdateItemsOfType(FitGui::ot_allslots);
 
   QFitItem* curr = FindItem(model, FitGui::ot_model, item);
   if (curr)
@@ -1512,9 +1512,11 @@ void TGo4FitPanel::Cmd_ExecuteAction(QFitItem* item)
 
    fitter->DoAction(action);
 
-   if (action->CanChangeFitter()) UpdateActivePage(); else {
-     UpdateItem(item, true);
-     UpdateItemsOfType(FitGui::ot_par, 0);
+   if (action->CanChangeFitter()) {
+      UpdateActivePage();
+   } else {
+      UpdateItem(item, true);
+      UpdateItemsOfType(FitGui::ot_par);
    }
 }
 
@@ -1528,9 +1530,11 @@ void TGo4FitPanel::Cmd_ExecuteActions(QFitItem* item, bool expert)
 
    fitter->DoActions(expert);
 
-   if (expert) UpdateActivePage(); else {
-     UpdateItem(item, true);
-     UpdateItemsOfType(FitGui::ot_par, 0);
+   if (expert) {
+      UpdateActivePage();
+   } else {
+      UpdateItem(item, true);
+      UpdateItemsOfType(FitGui::ot_par);
    }
 }
 
@@ -5065,7 +5069,7 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
           TGo4Fitter* fitter = GetFitter();
           if (!fitter || (fitter->FindData(newname))) return;
           fitter->ChangeDataNameInAssignments(obj->GetName(), newname);
-          UpdateItemsOfType(FitGui::ot_ass, 0);
+          UpdateItemsOfType(FitGui::ot_ass);
       }
 
   if (item->ObjectType()==FitGui::ot_model)
