@@ -149,7 +149,7 @@ void TGo4EventProcessor::Message(Int_t prio, const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, __MESSAGETEXTLENGTH__, text, args);
    va_end(args);
-   TGo4Analysis::Instance()->Message(prio,txtbuf);
+   TGo4Analysis::Instance()->Message(prio, "%s", txtbuf);
 }
 
 void TGo4EventProcessor::SendObjectToGUI(TNamed* ob)

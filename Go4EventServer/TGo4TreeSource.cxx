@@ -73,7 +73,7 @@ Int_t TGo4TreeSource::Open()
    if(fxBranch)
       TGo4Log::Debug(" TreeSource: Found existing branch %s ", buffer.Data());
    else
-      ThrowError(77,0,"!!! ERROR: Branch %s  not found!!!",buffer.Data());
+      ThrowError(77,0, "!!! ERROR: Branch %s  not found!!!", buffer.Data());
 
    return 0;
 }
@@ -89,14 +89,10 @@ Bool_t TGo4TreeSource::BuildEvent(TGo4EventElement* dest)
    if(!fxBranch) ThrowError(0,23,"!!! ERROR BuildEvent: branch was not initialized !!!");
    fxBranch->SetAddress(&dest);
    Int_t current=fxSingletonTree->GetCurrentIndex();
-   if( fxBranch->GetEntry(current) == 0)
-      {
-         ThrowError(0,24,"!!! ERROR BuildEvent: getting branch entry failed !!!");
-      }
-   else
-      {
-
-         rev=kTRUE;
-      } // if( fxBranch->GetEntry(current) == 0)
+   if(fxBranch->GetEntry(current) == 0) {
+      ThrowError(0,24,"!!! ERROR BuildEvent: getting branch entry failed !!!");
+   } else {
+      rev=kTRUE;
+   }
    return rev;
 }
