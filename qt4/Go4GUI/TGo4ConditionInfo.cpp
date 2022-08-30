@@ -94,7 +94,7 @@ void TGo4ConditionInfo::PrintLog_clicked()
     textbuffer+=" Status received at: ";
     textbuffer+=PropertyBox->item(CONTIME)->text();
 
-    TGo4Log::Message(1, textbuffer.toLatin1().constData());
+    TGo4Log::Message(1, "%s", textbuffer.toLatin1().constData());
 }
 
 void TGo4ConditionInfo::WorkWithCondition(const char* itemname)
