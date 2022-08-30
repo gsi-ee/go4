@@ -40,14 +40,10 @@ TGo4TaskHandlerCommand::TGo4TaskHandlerCommand() :
 Int_t TGo4TaskHandlerCommand::RefuseCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli)
-   {
-      cli->SendStatusMessage(2,kTRUE, TString::Format(
-            "%s::Command %s from master %s not allowed for %s (mode %d)",
-            GetTaskName(), GetName(), GetTaskName(),GetModeDescription(GetMode()), GetMode()));
-   }
-   else
-   {
+   if(cli) {
+      cli->SendStatusMessage(2,kTRUE, "%s::Command %s from master %s not allowed for %s (mode %d)",
+            GetTaskName(), GetName(), GetTaskName(), GetModeDescription(GetMode()), GetMode());
+   } else {
       TGo4Command::RefuseCom();
    }
    return 0;

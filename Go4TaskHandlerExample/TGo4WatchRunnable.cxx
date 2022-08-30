@@ -35,18 +35,15 @@ Int_t TGo4WatchRunnable::Run(void*)
 {
    GO4TRACE((12,"TGo4WatchRunnable::Run()",__LINE__, __FILE__));
    TGo4ClientTask* cli= dynamic_cast<TGo4ClientTask*> (fxManager);
-   if(cli)
-   {
+   if(cli) {
       cli->UpdateStatusBuffer(); // will create status object and stream it into TBuffer
       cli->SendStatusBuffer();   // send TBuffer with most recent client status
        // note: updating and sending of status buffer may be separated
        // into different threads. Updating aquires main mutex, sending usually
        // works without main mutex.
-   if(fxApplication)
-      {
-         cli->SendStatusMessage(1,kTRUE,TString::Format(
-               "Application %s of client %s has been watched",
-                fxApplication->GetName(), cli->GetName()));
+      if(fxApplication) {
+         cli->SendStatusMessage(1, "Application %s of client %s has been watched",
+                                  fxApplication->GetName(), cli->GetName());
          // method to pass text messages of priorities 0,1,2
          // (info, warning, error) to the server. kTRUE means additional local printout
       }

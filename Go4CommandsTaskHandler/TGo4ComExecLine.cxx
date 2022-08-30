@@ -39,7 +39,7 @@ Int_t TGo4ComExecLine::ExeCom()
       return 1;
    }
 
-   cli->SendStatusMessage(-1,kTRUE, TString::Format("Executing: %s",GetLine()));
+   cli->SendStatusMessage(-1,kTRUE, "Executing: %s",GetLine());
    cli->ExecuteString(GetLine());
    //cli->ExecuteString("Int_t res=fflush(stdout);"); // JAM will done in analysis anyway
    return 0;
