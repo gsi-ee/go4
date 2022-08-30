@@ -86,44 +86,35 @@ Bool_t TGo4ShapedCond::UpdateFromUrl(const char* rest_url_opt){
 
   TString message;
   message.Form("TGo4ShapedCond::UpdateFromUrl - condition %s: with url:%s\n", GetName(), rest_url_opt);
-     Double_t x=0,y=0,a=0,b=0;
-     GetCenter(x,y);
-     GetRadius(a,b); // old values as defaults
-     Double_t theta=GetTheta();
-     x= GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_CX.Data(), x);
-     y = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_CY.Data(), y);
-     a = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_A1.Data(), a);
-     b = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_A2.Data(), b);
-     theta=GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_TH.Data(), theta);
-     Int_t resolution = GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_RESOLUTION.Data(), GetResolution());
-     Int_t shapetype = GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_SHAPE.Data(), fiShapeType);
+  Double_t x = 0, y = 0, a = 0, b = 0;
+  GetCenter(x, y);
+  GetRadius(a, b); // old values as defaults
+  Double_t theta = GetTheta();
+  x = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_CX.Data(), x);
+  y = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_CY.Data(), y);
+  a = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_A1.Data(), a);
+  b = GetUrlOptionAsDouble(TGo4ShapedCond::fgxURL_A2.Data(), b);
+  theta = GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_TH.Data(), theta);
+  Int_t resolution = GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_RESOLUTION.Data(), GetResolution());
+  Int_t shapetype = GetUrlOptionAsInt(TGo4ShapedCond::fgxURL_SHAPE.Data(), fiShapeType);
 
-
-     if(shapetype==Go4Cond_Shape_Circle)
-       {
-         message.Append(TString::Format("Set to Circle shape with x:%f, y:%f, r:%f, points=%d", x,y,a,resolution));
-         SetCircle(x,y,a,resolution);
-
-       }
-       else if(shapetype==Go4Cond_Shape_Ellipse)
-       {
-         message.Append(TString::Format("Set  to Ellipse shape with x:%f, y:%f, a:%f b:%f,theta:%f, points=%d",
-             x, y, a, b, theta, resolution));
-         SetEllipse(x,y,a,b,theta, resolution);
-       }
-       else if(shapetype==Go4Cond_Shape_Box)
-       {
-         message.Append(TString::Format("Set to Box shape with x:%f, y:%f, a:%f b:%f,theta:%f",
-             x, y, a, b, theta));
-         SetBox(x,y,a,b,theta);
-       }
-       else if(shapetype==Go4Cond_Shape_Free)
-       {
-         message.Append(TString::Format("Set to Free polygon shape!"));
-         SetFreeShape();
-         if(!TGo4PolyCond::UpdateFromUrl(rest_url_opt)) return kFALSE; // here we might get also different point coordinates...
-       }
-       TGo4Log::Message(1,message.Data());
+  if (shapetype == Go4Cond_Shape_Circle) {
+     message.Append(TString::Format("Set to Circle shape with x:%f, y:%f, r:%f, points=%d", x, y, a, resolution));
+     SetCircle(x, y, a, resolution);
+  } else if (shapetype == Go4Cond_Shape_Ellipse) {
+     message.Append(TString::Format("Set  to Ellipse shape with x:%f, y:%f, a:%f b:%f,theta:%f, points=%d", x, y, a, b,
+                                    theta, resolution));
+     SetEllipse(x, y, a, b, theta, resolution);
+  } else if (shapetype == Go4Cond_Shape_Box) {
+     message.Append(TString::Format("Set to Box shape with x:%f, y:%f, a:%f b:%f,theta:%f", x, y, a, b, theta));
+     SetBox(x, y, a, b, theta);
+  } else if (shapetype == Go4Cond_Shape_Free) {
+     message.Append("Set to Free polygon shape!");
+     SetFreeShape();
+     if (!TGo4PolyCond::UpdateFromUrl(rest_url_opt))
+        return kFALSE; // here we might get also different point coordinates...
+  }
+  TGo4Log::Message(1, "%s", message.Data());
   return kTRUE;
 }
 

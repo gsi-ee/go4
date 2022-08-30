@@ -324,7 +324,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
   if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE;
   TString message;
   message.Form("TGo4PolyCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
-  TGo4Log::Message(1,message.Data());
+  TGo4Log::Message(1, "%s", message.Data());
 
   // evaluate options that change array of points
   if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS)) {
@@ -344,7 +344,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
         delete [] X; delete [] Y;
        }
      message.Form(" - setting Polygon condition to new values!");
-     TGo4Log::Message(1,message.Data());
+     TGo4Log::Message(1, "%s", message.Data());
 
    }
   return kTRUE;

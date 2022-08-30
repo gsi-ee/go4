@@ -315,19 +315,16 @@ Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
 {
   if (!TGo4Condition::UpdateFromUrl(rest_url_opt))
     return kFALSE;
+  TGo4Log::Message(1, "TGo4WinCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
   TString message;
-  message.Form("TGo4WinCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
-  TGo4Log::Message(1, message.Data());
-  if (UrlOptionHasKey(TGo4WinCond::fgxURL_XLOW))
-  {
+  if (UrlOptionHasKey(TGo4WinCond::fgxURL_XLOW)) {
     Double_t xmin = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_XLOW, GetXLow());
     Double_t xmax = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_XUP, GetXUp());
     Double_t ymin = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_YLOW, GetYLow());
     Double_t ymax = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_YUP, GetYUp());
     message.Form("Set Window condition %s:", GetName());
     Int_t dim = GetDimension();
-    switch (dim)
-    {
+    switch (dim) {
       case 1:
         SetValues(xmin, xmax);
         message.Append(TString::Format(", set limits to (%f, %f)", xmin, xmax));
@@ -340,13 +337,11 @@ Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
         message.Append(TString::Format(" !wrong condition dimension %d, NEVER COME HERE", dim));
         break;
     };
-
-  }
-  else
-  {
+  } else {
     std::cout << "DEBUG- no limits to change received" << std::endl;
   }
-  TGo4Log::Message(1, message.Data());
+  if (message.Length() > 0)
+     TGo4Log::Message(1, "%s", message.Data());
   return kTRUE;
 }
 
@@ -355,14 +350,11 @@ void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
    // delete old painter, replace by the new one
    // overwritten method in subclass may check if painter is correct type
    if(!painter) return;
-   if(painter->InheritsFrom(TGo4WinCondPainter::Class()))
-   {
+   if(painter->InheritsFrom(TGo4WinCondPainter::Class())) {
       if(fxPainter) delete fxPainter;
-      fxPainter=painter;
+      fxPainter = painter;
       fxPainter->SetCondition(this);
-   }
-   else
-   {
+   } else {
       TGo4Log::Warn("Could not set painter of class %s for TGo4WinCond %s",
             painter->ClassName(),GetName());
    }

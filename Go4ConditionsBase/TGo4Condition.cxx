@@ -287,7 +287,7 @@ void TGo4Condition::Print(Option_t* opt) const
       }
       // now check output mode:
       if (option.Contains("go4log")) {
-         TGo4Log::Message(1, textbuffer.Data());
+         TGo4Log::Message(1, "%s", textbuffer.Data());
       } else {
          std::cout << textbuffer.Data() << std::endl;
       }
@@ -402,7 +402,7 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt)
 {
   TString message;
   message.Form("TGo4Condition::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
-  TGo4Log::Message(1,message.Data());
+  TGo4Log::Message(1, "%s", message.Data());
   BuildUrlOptionArray(rest_url_opt); // split option string into separate key value entries
 
 
@@ -493,7 +493,7 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt)
      message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
   }
 
-  TGo4Log::Message(1, message.Data());
+  TGo4Log::Message(1, "%s", message.Data());
 
   return kTRUE;
 }
