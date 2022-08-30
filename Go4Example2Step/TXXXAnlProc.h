@@ -39,4 +39,5 @@ class TXXXAnlProc : public TGo4EventProcessor {
 
    ClassDefOverride(TXXXAnlProc, 1)
 };
+
 #endif //TXXXANLPROCESSOR_H

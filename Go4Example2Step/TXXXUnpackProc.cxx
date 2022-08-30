@@ -34,62 +34,21 @@
 
 //-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc() :
-   TGo4EventProcessor(),
-   fCr1Ch1x2(0),
-   fHis1(0),
-   fHis1gate(0),
-   fHis2(0),
-   fHis2gate(0),
-   fconHis1(0),
-   fconHis2(0),
-   fWinCon1(0),
-   fWinCon2(0),
-   fPolyCon1(0),
-   fConArr1(0),
-   fConArr2(0),
-   fEllipseCond(0),
-   fCircleCond(0),
-   fBoxCond(0),
-   fFreestyleCond(0),
-   fWhitelistCon(0),
-   fParam(0),
-   fPicture1(0),
-   fcondSet(0),
-   fLaText(0)
+   TGo4EventProcessor()
 {
-   for (int n=0;n<XXX_NUM_CHAN;n++) {
-      fCr1Ch[n] = 0;
-      fCr2Ch[n] = 0;
+   for (int n = 0; n < XXX_NUM_CHAN; n++) {
+      fCr1Ch[n] = nullptr;
+      fCr2Ch[n] = nullptr;
    }
 }
+
 //-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
-   TGo4EventProcessor(name),
-   fCr1Ch1x2(0),
-   fHis1(0),
-   fHis1gate(0),
-   fHis2(0),
-   fHis2gate(0),
-   fconHis1(0),
-   fconHis2(0),
-   fWinCon1(0),
-   fWinCon2(0),
-   fPolyCon1(0),
-   fConArr1(0),
-   fConArr2(0),
-   fEllipseCond(0),
-   fCircleCond(0),
-   fBoxCond(0),
-   fFreestyleCond(0),
-   fWhitelistCon(0),
-   fParam(0),
-   fPicture1(0),
-   fcondSet(0),
-   fLaText(0)
+   TGo4EventProcessor(name)
 {
-   for (int n=0;n<XXX_NUM_CHAN;n++) {
-      fCr1Ch[n] = 0;
-      fCr2Ch[n] = 0;
+   for (int n = 0; n < XXX_NUM_CHAN; n++) {
+      fCr1Ch[n] = nullptr;
+      fCr2Ch[n] = nullptr;
    }
 
    TGo4Log::Info("TXXXUnpackProc: Create");
@@ -106,8 +65,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
       TGo4Log::Info("TXXXUnpackProc: Produce histograms");
 
-      for(int i=0;i<XXX_NUM_CHAN;i++) {
-         TString hname = TString::Format("Crate1/Cr1Ch%02d", i+1);
+      for (int i = 0; i < XXX_NUM_CHAN; i++) {
+         TString hname = TString::Format("Crate1/Cr1Ch%02d", i + 1);
          TString htitle = TString::Format("Crate 1 channel %2d", i+1);
          fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), 5000, 1., 5001.);
          hname = TString::Format("Crate2/Cr2Ch%02d",i+1);
@@ -292,6 +251,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    //ExecutePython("blabla.py");
 
 }
+
 //-----------------------------------------------------------
 TXXXUnpackProc::~TXXXUnpackProc()
 {
@@ -301,6 +261,7 @@ TXXXUnpackProc::~TXXXUnpackProc()
       fPolyCon1->PrintCondition(true);
    }
 }
+
 //-----------------------------------------------------------
 Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
@@ -439,7 +400,6 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
          } // for SEW LW
       } // if (subcrate)
    }  // while
-
 
    if (fLaText) {
       TString lbl = TString::Format("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount());
