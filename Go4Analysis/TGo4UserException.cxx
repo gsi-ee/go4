@@ -40,20 +40,14 @@ TGo4UserException::~TGo4UserException()
 
 TGo4UserException & TGo4UserException::operator= (const TGo4UserException & right)
 {
- GO4TRACE((14,"TGo4UserException:operator=",__LINE__, __FILE__));
- if (&right!=this)
-    {
+   GO4TRACE((14,"TGo4UserException:operator=",__LINE__, __FILE__));
+   if (&right != this) {
       TGo4RuntimeException::operator=(right); // copy base class members
       // put additional member copies here...
-      fxMessage=right.fxMessage;
-      fiPriority=right.fiPriority;
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      return *this;
-    }
+      fxMessage = right.fxMessage;
+      fiPriority = right.fiPriority;
+   }
+   return *this;
 }
 
 TGo4UserException::TGo4UserException(const TGo4UserException &right)
@@ -67,7 +61,7 @@ TGo4UserException::TGo4UserException(const TGo4UserException &right)
 Int_t TGo4UserException::Handle()
 {
    GO4TRACE((12,"TGo4UserException::Handle()", __LINE__, __FILE__));
-   TGo4Log::Message(GetPriority(),GetMessage());
+   TGo4Log::Message(GetPriority(), "%s", GetMessage());
 
    return 0;
 }

@@ -348,7 +348,7 @@ Bool_t TGo4Analysis::InitEventClasses()
          }
 
       } catch(TGo4EventErrorException& ex) {
-         Message(ex.GetPriority(), ex.GetErrMess());
+         Message(ex.GetPriority(), "%s", ex.GetErrMess());
          rev = kFALSE;
       }
    } else
@@ -553,7 +553,7 @@ Int_t TGo4Analysis::Process()
       // { TGo4LockGuard global; ex.Handle(); }
 
       if(strlen(ex.GetMessage()) != 0)
-          Message(ex.GetPriority(), ex.GetMessage());
+          Message(ex.GetPriority(), "%s", ex.GetMessage());
       if(IsErrorStopEnabled() && (ex.GetPriority() > 2)) {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop(); // only stop for errors, warnings and infos continue loop!
          //return -1;
@@ -565,10 +565,8 @@ Int_t TGo4Analysis::Process()
 
    catch(std::exception& ex) // treat standard library exceptions
    {
-      Message(3,"Analysis %s got standard exception %s",
-            GetName(), ex.what());
-      if(IsErrorStopEnabled())
-      {
+      Message(3,"Analysis %s got standard exception %s", GetName(), ex.what());
+      if(IsErrorStopEnabled()) {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop();
          //return -1;
          rev=-1;
@@ -733,10 +731,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          }
          catch (TGo4EventSourceException& ex)
          {
-           Message(3, ex.GetErrMess());
+           Message(3, "%s", ex.GetErrMess());
            PostLoop();
-           if (iswebserver)
-           {
+           if (iswebserver) {
              fxDoWorkingFlag = flagPause;    // errors: stop event loop
              ex.Handle();
            }
@@ -747,7 +744,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          }
          catch (TGo4EventStoreException& ex)
           {
-            Message(3, ex.GetErrMess());
+            Message(3, "%s", ex.GetErrMess());
             PostLoop();
             if (iswebserver)
             {
@@ -1204,7 +1201,7 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
       // batch mode: no gui connection, handle local printout
       Bool_t previousmode = TGo4Log::IsOutputEnabled();
       TGo4Log::OutputEnable(printout); // override the messaging state
-      TGo4Log::Message(level, text);
+      TGo4Log::Message(level, "%s", text);
       TGo4Log::OutputEnable(previousmode);
 
       if (fSniffer) fSniffer->StatusMessage(level, printout, text);
@@ -2522,7 +2519,7 @@ void TGo4Analysis::StartAnalysis()
     }
     else
     {
-      Message(2, TString::Format("Analysis %s was not initialized! Please SUBMIT settings first.", GetName()));
+      Message(2, "Analysis %s was not initialized! Please SUBMIT settings first.", GetName());
     }
 
   }

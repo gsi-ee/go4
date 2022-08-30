@@ -400,7 +400,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       // search for non-default analysis constructor
       TIter iter(an_cl->GetListOfMethods());
-      while (meth = (TMethod*) iter()) {
+      while ((meth = (TMethod*) iter()) != nullptr) {
          if (strcmp(meth->GetName(), an_cl->GetName()) != 0) continue;
          if (meth->GetListOfMethodArgs()->GetSize() == 0) continue;
          break;

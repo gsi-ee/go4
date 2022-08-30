@@ -77,7 +77,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
      ana->StopAnalysis();
      ana->CloseAnalysis();
      message.Append(TString::Format(", CLOSING analysis"));
-     TGo4Log::Message(1, message.Data());
+     TGo4Log::Message(1, "%s", message.Data());
      return kTRUE;
   }
 
@@ -88,7 +88,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     const char* filename = url.GetValueFromOptions(theKey.Data());
     WriteAutoSave(filename, fbAutoSaveOverwrite, fiAutoSaveCompression);
     message.Append(TString::Format(", saving autosave file %s", filename));
-    TGo4Log::Message(1, message.Data());
+    TGo4Log::Message(1, "%s", message.Data());
     return kTRUE;
   }
 
@@ -99,7 +99,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     const char* filename = url.GetValueFromOptions(theKey.Data());
     SaveStatus(filename);
     message.Append(TString::Format(", saving configuration file %s", filename));
-    TGo4Log::Message(1, message.Data());
+    TGo4Log::Message(1, "%s", message.Data());
     return kTRUE;
   }
 
@@ -118,7 +118,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     {
       message.Append(TString::Format(", /!\\ FAILED to load configuration file %s !!!", filename));
     }
-    TGo4Log::Message(1, message.Data());
+    TGo4Log::Message(1, "%s", message.Data());
     return kTRUE;
   }
 
@@ -559,7 +559,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
     message.Append("\n Analysis was started!");
   }
 
-  TGo4Log::Message(1, message.Data());
+  TGo4Log::Message(1, "%s", message.Data());
   return kTRUE;
 }
 
