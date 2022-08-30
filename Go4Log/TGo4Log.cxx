@@ -229,14 +229,12 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
       int resf = snprintf(fgcMessagetext, __MESSAGETEXTLENGTH__, "%s %s", prefix, txtbuf);
       WriteLogfile(fgcMessagetext);
 
-      // this is just because of gcc8 warnings
-      if (resf < 0) (void)resf;
+      (void) resf; // prevent compiler warnings
    }
 
    // we compose the full messagetext anyway, for further use outside
    int res = snprintf(fgcMessagetext, __MESSAGETEXTLENGTH__, "%s%s> %s %s", fgcLEFT, prefix, txtbuf, fgcRIGHT);
-   // this is just because of gcc8 warnings
-   if (res < 0) (void)res;
+   (void) res; // prevent compiler warnings
 
    if(fgbOutputEnabled) {
 
