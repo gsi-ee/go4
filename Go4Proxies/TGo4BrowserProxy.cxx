@@ -1236,7 +1236,7 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
    exman.SetStartDir();
    exman.SetCurrentDir(filedir);
 
-   TGo4Log::Message(1,"Exporting selected browser objects to %s",convert.Data());
+   TGo4Log::Message(1, "Exporting selected browser objects to %s", convert.Data());
 
    TObjArray objs;
    for (int n = 0; n <= items->GetLast(); n++) {

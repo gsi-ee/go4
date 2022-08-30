@@ -602,7 +602,7 @@ void TGo4Sniffer::ProcessSnifferEvents()
 void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
 {
    if (printout)
-      TGo4Log::Message(level, text.Data());
+      TGo4Log::Message(level, "%s", text.Data());
 
    // to be done
 }
