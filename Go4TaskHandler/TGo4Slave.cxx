@@ -30,19 +30,16 @@ TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, 
    TGo4CommandInvoker::SetCommandList(new TGo4TaskHandlerCommandList("ListOfTaskHandlerCommands"));
    TGo4CommandInvoker::Register("SlaveTask", this);
    TGo4Task* task = nullptr;
-   if(IsServer())
-      {
-         task=new TGo4ServerTask(name, negotport,
+   if(IsServer()) {
+      task = new TGo4ServerTask(name, negotport,
                kFALSE, //blockingmode
                kFALSE, //standalone
                kTRUE,  //autostart
                kTRUE,  //autocreate
                kFALSE   //ismaster
                );
-      }
-   else
-      {
-         task=new TGo4ClientTask(name, serverhost, negotport,
+   } else {
+      task = new TGo4ClientTask(name, serverhost, negotport,
                      kFALSE, //blockingmode
                      kFALSE, //standalone
                      kFALSE, //autostart
@@ -148,7 +145,7 @@ void TGo4Slave::SendStatusBuffer()
 void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
 {
    if(GetTask())
-      GetTask()->SendStatusMessage(level, printout, text.Data());
+      GetTask()->SendStatusMessage(level, printout, "%s", text.Data());
 }
 
 
@@ -161,4 +158,3 @@ void TGo4Slave::ExecuteString(const char* command)
 {
    gROOT->ProcessLineSync(command);
 }
-

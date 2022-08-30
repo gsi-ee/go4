@@ -297,7 +297,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    //std::cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << std::endl;
    Bool_t previousmode = TGo4Log::IsOutputEnabled();
    TGo4Log::OutputEnable(printout); // override the messaging state
-   const char* go4mess = TGo4Log::Message(level, curs);
+   const char* go4mess = TGo4Log::Message(level, "%s", curs);
    TGo4Log::OutputEnable(previousmode); // restore old state of messaging
    if((level > 0) && go4mess)  {
       // do not send debug-level output to gui, and do not send suppressed messages as empty string!

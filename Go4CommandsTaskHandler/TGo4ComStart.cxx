@@ -18,16 +18,16 @@
 
 TGo4ComStart::TGo4ComStart() :TGo4TaskHandlerCommand()
 {
-   fbIsSynchron=kFALSE;
+   fbIsSynchron = kFALSE;
    SetName("THStart");
    SetDescription("starts example client's main loop");
 }
 
 Int_t TGo4ComStart::ExeCom()
 {
-   TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);
+   TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
    if(cli) {
-      cli->SendStatusMessage(1,kFALSE,TString::Format("Client %s working function is started...",cli->GetName()));
+      cli->SendStatusMessage(1,kFALSE, "Client %s working function is started...",cli->GetName());
       cli->Start();
       return 0;
    }
