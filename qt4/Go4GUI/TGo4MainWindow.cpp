@@ -1366,7 +1366,7 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
    output.append(mess);
    statusBar()->showMessage(output, 0); // JAM2016: do not clear message after 3s. ratemeter will clear message on each update.
    if(TGo4Log::IsAutoEnabled())
-      TGo4Log::Message(1,output.toLatin1().constData());
+      TGo4Log::Message(1, "%s", output.toLatin1().constData());
 }
 
 void TGo4MainWindow::UpdateCaptionButtons()

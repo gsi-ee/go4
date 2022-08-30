@@ -197,5 +197,5 @@ void TGo4HistogramInfo::PrintLog_clicked()
    textbuffer+=PropertyBox->item(HISSIZE)->text();
    textbuffer+=" Status received at: ";
    textbuffer+=PropertyBox->item(HISTIME)->text();
-   TGo4Log::Message(1,textbuffer.toLatin1().constData());
+   TGo4Log::Message(1, "%s", textbuffer.toLatin1().constData());
 }
