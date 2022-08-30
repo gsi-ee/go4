@@ -470,7 +470,7 @@ class TReplyTimer : public TTimer {
 
 class ReplyWorker : public dabc::Worker {
    protected:
-      virtual bool ReplyCommand(dabc::Command cmd)
+      bool ReplyCommand(dabc::Command cmd) override
       {
          if (cmd.GetPtr("#DabcAccess") || cmd.GetPtr("#DabcProxy")) {
             // DOUT0("CreateReplTimer");
