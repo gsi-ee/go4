@@ -39,7 +39,7 @@ FITEX2_LIBNAME = Example2Func
 FITEX2_O      = $(FITEX_DIR)/Example2.$(ObjSuf)
 FITEX2_S      = $(FITEX_DIR)/Example2.$(SrcSuf)
 FITEX2_FS     = $(FITEX_DIR)/$(FITEX2_LIBNAME).$(SrcSuf)
-FITEX2_FO     = $(FITEX_DIR)/lib$(FITEX2_LIBNAME).$(ObjSuf)
+FITEX2_FO     = $(FITEX_DIR)/$(FITEX2_LIBNAME).$(ObjSuf)
 FITEX2_LIB    = $(FITEX_DIR)/lib$(FITEX2_LIBNAME).$(DllSuf)
 FITEX2_E      = $(FITEX_DIR)/Example2$(ExeSuf)
 
