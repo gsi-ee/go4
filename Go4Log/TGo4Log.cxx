@@ -289,7 +289,7 @@ void TGo4Log::Debug(const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, fguMESLEN, text, args);
    va_end(args);
-   Message(0,txtbuf);
+   Message(0, "%s", txtbuf);
 }
 
 void TGo4Log::Info(const char* text,...)
@@ -302,7 +302,7 @@ void TGo4Log::Info(const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, fguMESLEN, text, args);
    va_end(args);
-   Message(1,txtbuf);
+   Message(1, "%s", txtbuf);
 }
 
 void TGo4Log::Warn(const char* text,...)
@@ -315,7 +315,7 @@ void TGo4Log::Warn(const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, fguMESLEN, text, args);
    va_end(args);
-   Message(2,txtbuf);
+   Message(2, "%s", txtbuf);
 }
 
 void TGo4Log::Error(const char* text,...)
@@ -327,14 +327,13 @@ void TGo4Log::Error(const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, fguMESLEN, text, args);
    va_end(args);
-   Message(3,txtbuf);
+   Message(3, "%s", txtbuf);
 }
-
 
 void TGo4Log::SetIgnoreLevel(Int_t level)
 {
    //TGo4LockGuard(fxMutex);
-   fgiIgnoreLevel=level;
+   fgiIgnoreLevel = level;
 }
 
 Int_t TGo4Log::GetIgnoreLevel()
