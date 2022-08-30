@@ -25,10 +25,7 @@
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
-   TGo4Analysis(),
-   fMbsEvent(nullptr),
-   fRawEvent(nullptr),
-   fCalEvent(nullptr)
+   TGo4Analysis()
 {
    TGo4Log::Error("Wrong constructor TXXXAnalysis()!");
 }
@@ -36,13 +33,7 @@ TXXXAnalysis::TXXXAnalysis() :
 //***********************************************************
 // this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
-   TGo4Analysis(argc, argv),
-   fMbsEvent(0),
-   fRawEvent(0),
-   fCalEvent(0),
-   fSize(0),
-   fEvents(0),
-   fLastEvent(0)
+   TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       TGo4Log::Error("Go4 version mismatch");
@@ -50,8 +41,6 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    }
 
    TGo4Log::Info("TXXXAnalysis: Create %s", GetName());
-
-   TString kind, input, out1, out2;
 
 // Create step 1 Unpack.
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
@@ -81,15 +70,13 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    // This condition is used in both steps.
    // Therefore we create it here
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);
-
-
 }
-//***********************************************************
+
+//-----------------------------------------------------------
 TXXXAnalysis::~TXXXAnalysis()
 {
    TGo4Log::Info("TXXXAnalysis: Delete");
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPreLoop()
@@ -106,9 +93,10 @@ Int_t TXXXAnalysis::UserPreLoop()
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored
    // from auto-save file if any.
-   fSize = (TH1D*) MakeTH1('D',"Eventsize", "Event size [b]",160,1,160);
+   fSize = MakeTH1('D', "Eventsize", "Event size [b]", 160, 1., 160.);
    return 0;
 }
+
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPostLoop()
 {

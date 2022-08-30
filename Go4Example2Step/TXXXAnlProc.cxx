@@ -24,17 +24,13 @@
 
 //-----------------------------------------------------------
 TXXXAnlProc::TXXXAnlProc() :
-   TGo4EventProcessor(),
-   fSum1(0), fSum2(0), fSum3(0),
-   fParam(0), fWinCon(0)
+   TGo4EventProcessor()
 {
 }
 
 //-----------------------------------------------------------
 TXXXAnlProc::TXXXAnlProc(const char* name) :
-   TGo4EventProcessor(name),
-   fSum1(0), fSum2(0), fSum3(0),
-   fParam(0), fWinCon(0)
+   TGo4EventProcessor(name)
 {
    TGo4Log::Info("TXXXAnlProc: Create");
    //// init user analysis objects:
@@ -48,11 +44,12 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    if (fWinCon) fWinCon->PrintCondition(true);
 
    if(fParam->fbHisto) {
-      fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
-      fSum2     = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
-      fSum3     = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
+      fSum1 = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
+      fSum2 = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
+      fSum3 = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
    }
 }
+
 //-----------------------------------------------------------
 TXXXAnlProc::~TXXXAnlProc()
 {
@@ -61,10 +58,11 @@ TXXXAnlProc::~TXXXAnlProc()
       if (fWinCon) fWinCon->PrintCondition(true);
    }
 }
+
 //-----------------------------------------------------------
 Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
 {
-	Bool_t isValid=kFALSE; // validity of output event
+	Bool_t isValid = kFALSE; // validity of output event
 
    TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
    TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
@@ -74,7 +72,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
 	   out_evt->SetValid(isValid); // invalid
 	   return isValid; // must be same is for SetValid
    }
-   isValid=kTRUE;
+   isValid = kTRUE;
 
    Int_t cnt = 0;
    for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++)

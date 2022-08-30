@@ -16,7 +16,7 @@
 
 #include "TGo4Analysis.h"
 
-class TH1D;
+class TH1;
 class TGo4MbsEvent;
 class TGo4WinCond;
 class TXXXUnpackEvent;
@@ -36,16 +36,11 @@ class TXXXAnalysis : public TGo4Analysis  {
       TXXXUnpackEvent    *fRawEvent{nullptr};
       TXXXAnlEvent       *fCalEvent{nullptr};
       TGo4WinCond        *fWinCon1{nullptr};
-      TH1D               *fSize{nullptr};
+      TH1                *fSize{nullptr};
       Int_t               fEvents{0};
       Int_t               fLastEvent{0};
 
    ClassDefOverride(TXXXAnalysis,1)
 };
 
-
-
 #endif //TXXXANALYSIS_H
-
-
-
