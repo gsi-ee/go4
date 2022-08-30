@@ -225,7 +225,7 @@ void TGo4Marker::Print(Option_t *opt) const
    TString option = opt;
    option.ToLower();
    if (option.Contains("go4log"))
-      TGo4Log::Message(1, textbuffer.Data());
+      TGo4Log::Message(1, "%s", textbuffer.Data());
    else
       TGo4Status::PrintLine("%s", textbuffer.Data());
 }
