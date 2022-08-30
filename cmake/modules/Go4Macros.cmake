@@ -147,7 +147,6 @@ function(GO4_STANDARD_LIBRARY libname)
 
   if(CMAKE_PROJECT_NAME STREQUAL Go4)
      add_dependencies(${libname} move_headers ${ARG_DEPENDENCIES})
-     target_compile_options(${libname} PRIVATE -Wall)
   endif()
 
   target_include_directories(${libname} PRIVATE ${CMAKE_BINARY_DIR}/include ${ARG_INCDIRS})
