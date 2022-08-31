@@ -15,7 +15,6 @@
 
 //***********************************************************
 TXXXControl::TXXXControl(const char* name) :
-   TGo4Parameter(name),
-   fill(kTRUE)
+   TGo4Parameter(name)
 {
 }
