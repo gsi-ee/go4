@@ -22,7 +22,7 @@ TGo4ObjEnvelope::TGo4ObjEnvelope() :
 {
 }
 
-TGo4ObjEnvelope::TGo4ObjEnvelope(TObject* obj, const char *name, const char* folder) :
+TGo4ObjEnvelope::TGo4ObjEnvelope(TObject *obj, const char *name, const char *folder) :
    TNamed("Go4Envelope",""),
    fxObject(obj),
    fxObjName(name),

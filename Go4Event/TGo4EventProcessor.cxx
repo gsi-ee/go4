@@ -102,7 +102,7 @@ Bool_t TGo4EventProcessor::RemoveAnalysisCondition(const char *name)
    return TGo4Analysis::Instance()->RemoveAnalysisCondition(name);
 }
 
-TNamed* TGo4EventProcessor::GetObject(const char *name, const char* folder)
+TNamed* TGo4EventProcessor::GetObject(const char *name, const char *folder)
 {
    return TGo4Analysis::Instance()->GetObject(name,folder);
 }
@@ -174,7 +174,7 @@ Bool_t TGo4EventProcessor::IsObjMade()
 }
 
 
-TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char* title,
+TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char *title,
                                  Int_t nbinsx, Double_t xlow, Double_t xup,
                                  const char* xtitle, const char* ytitle)
 {
@@ -183,7 +183,7 @@ TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char* ti
                                             xtitle, ytitle);
 }
 
-TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* title,
+TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char *title,
                                  Int_t nbinsx, Double_t xlow, Double_t xup,
                                  Int_t nbinsy, Double_t ylow, Double_t yup,
                                  const char* xtitle, const char* ytitle, const char* ztitle)
@@ -195,18 +195,18 @@ TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* ti
 }
 
 
-TGraph*TGo4EventProcessor:: MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues,
+TGraph*TGo4EventProcessor:: MakeGraph(const char* fullname, const char *title, Int_t points, Double_t* xvalues,
     Double_t* yvalues)
 {
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
 }
 
-TGraph* TGo4EventProcessor::MakeGraph(const char* fullname, const char* title, TF1* function)
+TGraph* TGo4EventProcessor::MakeGraph(const char* fullname, const char *title, TF1* function)
 {
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
 }
 
-TGo4RollingGraph* TGo4EventProcessor::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
+TGo4RollingGraph* TGo4EventProcessor::MakeRollingGraph(const char* fullname, const char *title, Int_t points, Int_t average)
 {
    return TGo4Analysis::Instance()->MakeRollingGraph(fullname, title, points, average);
 }
@@ -279,7 +279,7 @@ TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const Int_t
 }
 
 
-TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const char* title, const char* HistoName)
+TGo4ListCond* TGo4EventProcessor::MakeListCond(const char* fullname, const char *title, const char* HistoName)
 {
   return TGo4Analysis::Instance()->MakeListCond(fullname, title, HistoName);
 }

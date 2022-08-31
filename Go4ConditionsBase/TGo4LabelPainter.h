@@ -97,7 +97,7 @@ private:
 class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public TAttText {
   public:
     TGo4LabelPainter();
-    TGo4LabelPainter(const char *name, const char* title = nullptr);
+    TGo4LabelPainter(const char *name, const char *title = nullptr);
     virtual ~TGo4LabelPainter();
 
     /** Draw the label */

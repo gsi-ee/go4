@@ -416,7 +416,7 @@ Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
    TGo4TaskHandler* taskhandler = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
-      TObject* obj = fxTaskList->FindObject(name);
+      TObject *obj = fxTaskList->FindObject(name);
       taskhandler = (TGo4TaskHandler*) fxTaskList->Remove(obj);
       // Remove will do nothing if obj == 0; on success, it returns pointer to
       // removed object

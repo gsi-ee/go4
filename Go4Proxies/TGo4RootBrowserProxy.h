@@ -42,10 +42,10 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       static Int_t fCanvasCounter;
 
-      void UpdateRatemeter(TObject* obj);
-      void UpdateLoginfo(TObject* obj);
+      void UpdateRatemeter(TObject *obj);
+      void UpdateLoginfo(TObject *obj);
 
-      TCanvas* MakeCanvas(const char* title = nullptr);
+      TCanvas* MakeCanvas(const char *title = nullptr);
 
       void SyncRootBrowserSlots();
 

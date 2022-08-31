@@ -314,7 +314,7 @@ void TGo4HttpAccess::httpFinished()
          fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
    }
 
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
 
    if (fKind == 2) {
       TXMLEngine* xml = fProxy->fXML;
@@ -1019,7 +1019,7 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char *name, Int_t waitres, const char*
    return SubmitURL(url.Data(), waitres);
 }
 
-Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres, Bool_t destroy_after)
+Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject *obj, Int_t waitres, Bool_t destroy_after)
 {
    if (!ServerHasRestrict()) return kFALSE;
 
@@ -1068,7 +1068,7 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
 }
 
 
-Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
+Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject *obj)
 {
    TString url;
 
@@ -1143,7 +1143,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
          if (gDebug>2) printf("Decoding portion of %d bytes\n", len);
 
          TClass* obj_cl = n == 0 ? TGo4Ratemeter::Class() : TList::Class();
-         TObject* obj = (TObject*) obj_cl->New();
+         TObject *obj = (TObject*) obj_cl->New();
 
          TBufferFile buf(TBuffer::kRead, len, ptr, kFALSE);
          buf.MapObject(obj, obj_cl);
@@ -1288,7 +1288,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
 
 }
 
-void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
+void TGo4HttpProxy::RemoteTreeDraw(const char *treename,
                                    const char* varexp,
                                    const char* cutcond,
                                    const char* hname)

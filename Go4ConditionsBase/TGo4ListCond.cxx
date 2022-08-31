@@ -21,14 +21,14 @@ TGo4ListCond::TGo4ListCond() :
    SetDimension(1);
 }
 
-TGo4ListCond::TGo4ListCond(const char *name, const char* title) :
+TGo4ListCond::TGo4ListCond(const char *name, const char *title) :
     TGo4Condition(name, title)
 {
   fxValues.clear();
   SetDimension(1);
 }
 
-TGo4ListCond::TGo4ListCond(const char *name, const char* title, const Int_t num, const Int_t * input) :
+TGo4ListCond::TGo4ListCond(const char *name, const char *title, const Int_t num, const Int_t * input) :
 	TGo4Condition(name, title)//, fiNum(num)
 {
    SetDimension(1);

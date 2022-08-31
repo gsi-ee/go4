@@ -92,17 +92,17 @@ class TGo4Sniffer : public TRootSnifferFull,
 
       // === methods used via http interface by Go4GUI ===============
 
-      Bool_t AddAnalysisObject(TObject* obj);
+      Bool_t AddAnalysisObject(TObject *obj);
 
       Bool_t RemoteTreeDraw(const char* histoname,
-                            const char* treename,
+                            const char *treename,
                             const char* varexpr,
                             const char* cutexpr);
 
       TObject* CreateItemStatus(const char *itemname);
 
       /** Method called by logger with every string, going to output */
-      void SetTitle(const char* title = "") override;
+      void SetTitle(const char *title = "") override;
 
       /** Method from analysis sniffer */
       void RatemeterUpdate(TGo4Ratemeter*) override;

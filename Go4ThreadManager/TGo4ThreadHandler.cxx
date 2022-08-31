@@ -106,7 +106,7 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char *name)
    Bool_t rev = kFALSE;
    {
       TGo4LockGuard listguard(fxListMutex);
-      TObject* obj = fxArray->FindObject(name);
+      TObject *obj = fxArray->FindObject(name);
       TGo4Thread* th = (TGo4Thread*) obj;
       if (obj) {
          // thread found, then remove it

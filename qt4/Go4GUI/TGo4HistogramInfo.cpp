@@ -62,7 +62,7 @@ void TGo4HistogramInfo::DropItem(const char *itemname, TClass* cl, int kind)
       WorkWithHistogram(itemname);
 }
 
-void TGo4HistogramInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
+void TGo4HistogramInfo::linkedObjectUpdated(const char* linkname, TObject *obj)
 {
    TGo4HistogramStatus* hstate = dynamic_cast<TGo4HistogramStatus*>(obj);
    if (hstate)

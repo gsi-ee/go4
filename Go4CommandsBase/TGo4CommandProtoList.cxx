@@ -60,7 +60,7 @@ TGo4Command* TGo4CommandProtoList::MakeCommand(const char *name)
    GO4TRACE((12,"TGo4CommandProtoList::MakeCommand(const char*)",__LINE__, __FILE__));
    TGo4Command* rev = nullptr;
    TGo4LockGuard listguard(fxListMutex);
-   TObject* obj = fxCommandList->FindObject(name);
+   TObject *obj = fxCommandList->FindObject(name);
    if(!obj) {
       //no, do nothing
       GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
@@ -88,7 +88,7 @@ void TGo4CommandProtoList::RemoveCommand(const char *name)
    GO4TRACE((12,"TGo4CommandProtoList::RemoveCommand(const char*)",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
-   TObject* obj = fxCommandList->FindObject(name);
+   TObject *obj = fxCommandList->FindObject(name);
    if(!obj) {
       //no, do nothing
       GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));

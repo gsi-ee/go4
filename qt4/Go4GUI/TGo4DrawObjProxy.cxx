@@ -17,7 +17,7 @@
 #include "THStack.h"
 #include "TMultiGraph.h"
 
-TGo4DrawObjProxy::TGo4DrawObjProxy(TObject* obj, Bool_t owner, Bool_t doclear) :
+TGo4DrawObjProxy::TGo4DrawObjProxy(TObject *obj, Bool_t owner, Bool_t doclear) :
    TGo4ObjectProxy(obj, owner),
    fDoClear(doclear)
 {
@@ -28,7 +28,7 @@ TGo4DrawObjProxy::~TGo4DrawObjProxy()
   if (fDoClear) TryToClearObject();
 }
 
-Bool_t TGo4DrawObjProxy::RemoveRegisteredObject(TObject* obj)
+Bool_t TGo4DrawObjProxy::RemoveRegisteredObject(TObject *obj)
 {
    if (obj == fObject) TryToClearObject();
    return TGo4ObjectProxy::RemoveRegisteredObject(obj);

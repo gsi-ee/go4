@@ -80,7 +80,7 @@ void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blo
    }
 }
 
-void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
+void TGo4RootBrowserProxy::UpdateRatemeter(TObject *obj)
 {
    if (fLockMessage) return;
 
@@ -114,7 +114,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
 }
 
 
-void TGo4RootBrowserProxy::UpdateLoginfo(TObject* obj)
+void TGo4RootBrowserProxy::UpdateLoginfo(TObject *obj)
 {
    std::cout << "Loginfo = " << obj->GetName() << std::endl;
 
@@ -268,7 +268,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
    testedClasses.Delete();
 }
 
-TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char* title)
+TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char *title)
 {
    TString cname = "Canvas_";
    cname += fCanvasCounter++;
@@ -309,7 +309,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
 
       TString drawname;
 
-      TObject* obj = nullptr;
+      TObject *obj = nullptr;
 
       if (fBrowser->DefineRelatedObject(picitemname, objname, drawname))
          obj = fBrowser->GetBrowserObject(drawname.Data(), 5000);
@@ -371,7 +371,7 @@ void TGo4RootBrowserProxy::DrawItem(const char *itemname)
       if (!cl || !cl->InheritsFrom(TGo4Condition::Class())) return;
    }
 
-   TObject* obj = fBrowser->GetBrowserObject(itemname, 5000);
+   TObject *obj = fBrowser->GetBrowserObject(itemname, 5000);
    if (!obj) return;
 
    if (obj->InheritsFrom(TGo4Condition::Class())) {

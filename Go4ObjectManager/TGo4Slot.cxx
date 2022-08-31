@@ -76,7 +76,7 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent) :
    Event(this, evCreate);
 }
 
-TGo4Slot::TGo4Slot(TGo4Slot* parent, const char *name, const char* title) :
+TGo4Slot::TGo4Slot(TGo4Slot* parent, const char *name, const char *title) :
    TNamed(name, title),
    fParent(parent)
 {
@@ -338,7 +338,7 @@ Bool_t TGo4Slot::IsAcceptObject(TClass* cl)
    return fProxy ? fProxy->IsAcceptObject(cl) : kFALSE;
 }
 
-Bool_t TGo4Slot::AssignObject(TObject* obj, Bool_t owner)
+Bool_t TGo4Slot::AssignObject(TObject *obj, Bool_t owner)
 {
    fAssignCnt++;
    fAssignFlag = kFALSE;
@@ -563,7 +563,7 @@ void TGo4Slot::ForwardEvent(TGo4Slot* source, Int_t id, void* param)
      GetParent()->Event(source, id, param);
 }
 
-void TGo4Slot::RecursiveRemove(TObject* obj)
+void TGo4Slot::RecursiveRemove(TObject *obj)
 {
    if (fProxy)
       if (fProxy->RemoveRegisteredObject(obj))

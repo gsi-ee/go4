@@ -22,7 +22,7 @@ class TGo4WinCond : public TGo4Condition {
    public:
       TGo4WinCond();
 
-      TGo4WinCond(const char *name, const char* title = "Go4 window condition");
+      TGo4WinCond(const char *name, const char *title = "Go4 window condition");
 
       virtual ~TGo4WinCond();
 

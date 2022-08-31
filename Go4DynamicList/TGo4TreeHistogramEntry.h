@@ -40,7 +40,7 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     TGo4TreeHistogramEntry();
 
     TGo4TreeHistogramEntry(const char* histogramname,
-                           const char* treename,
+                           const char *treename,
                            const char* varexp,
                            const char* cutexp);
 

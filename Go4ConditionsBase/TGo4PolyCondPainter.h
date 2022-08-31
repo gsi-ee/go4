@@ -22,7 +22,7 @@ class TGo4PolyCondView;
 class TGo4PolyCondPainter : public TGo4ConditionPainter {
    public:
       TGo4PolyCondPainter();
-      TGo4PolyCondPainter(const char *name, const char* title = "Go4 polygon condition");
+      TGo4PolyCondPainter(const char *name, const char *title = "Go4 polygon condition");
       virtual ~TGo4PolyCondPainter();
 
       /** Display condition with plain root canvas and in go4 viewpanel */

@@ -200,7 +200,7 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    delete fxDirMutex;
 }
 
-void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
+void TGo4AnalysisObjectManager::RecursiveRemove(TObject *obj)
 {
    if (obj && (obj!=this)) {
       // remove objects from canvas folder - it may happen that canvas automatically deleted
@@ -222,7 +222,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveObject(const char *name, Bool_t del)
 }
 
 
-TObject* TGo4AnalysisObjectManager::GetAsTObject(const char *name, const char* folder)
+TObject* TGo4AnalysisObjectManager::GetAsTObject(const char *name, const char *folder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
    //
@@ -251,7 +251,7 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char *name, const char* f
 }
 
 
-TNamed *TGo4AnalysisObjectManager::GetObject(const char *name, const char* folder)
+TNamed *TGo4AnalysisObjectManager::GetObject(const char *name, const char *folder)
 {
    return dynamic_cast<TNamed*> (GetAsTObject(name, folder));
 }
@@ -430,7 +430,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetre
    //
    TGo4TreeStructure* tstructure = nullptr;
    if(thetree) {
-      const char* treename=thetree->GetName();
+      const char *treename=thetree->GetName();
       const char* treetitle=thetree->GetTitle();
       TGo4Analysis::Instance()->Message(0,"AnalysisObjectManager - creating structure of tree %s",
             treename);
@@ -441,7 +441,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetre
    return tstructure;
 }
 
-TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char* treename)
+TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char *treename)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(const char *)",__LINE__, __FILE__));
    TTree* thetree = nullptr;
@@ -451,7 +451,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char* t
 }
 
 
-TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl)
+TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char* membrfoldername, TClass* cl)
 {
    if(!cl) return nullptr;
    TList* nameslist = new TList;
@@ -537,7 +537,7 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char* histotype,
       Int_t         nbinsx,
       Axis_t        xlow,
       Axis_t        xup,
-      const char* title,
+      const char *title,
       const char* xtitle,
       const char* ytitle) {
 
@@ -584,7 +584,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
       Int_t         nbinsy,
       Axis_t        ylow,
       Axis_t        yup,
-      const char* title,
+      const char *title,
       const char* xtitle,
       const char* ytitle) {
    TString htype(histotype);
@@ -624,7 +624,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
 
 TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
       const char *name,
-      const char* title,
+      const char *title,
       Bool_t istopbranch)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
@@ -902,13 +902,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveAnalysisCondition(const char *name)
    return RemoveObjectFromFolder(name, fxConditionDir, kTRUE);
 }
 
-TGo4ObjectStatus *TGo4AnalysisObjectManager::CreateObjectStatus(const char *name, const char* folder)
+TGo4ObjectStatus *TGo4AnalysisObjectManager::CreateObjectStatus(const char *name, const char *folder)
 {
    TNamed* object = GetObject(name, folder);
    return CreateObjectStatus(object);
 }
 
-TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject* obj, Bool_t fullinfo)
+TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject *obj, Bool_t fullinfo)
 {
    if(!obj) return nullptr;
 
@@ -1345,7 +1345,7 @@ void TGo4AnalysisObjectManager::PrintDynamicList()
 }
 
 Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
-      const char* histo,
+      const char *histo,
       const char* hevx, const char* hmemx,
       const char* hevy, const char* hmemy,
       const char* hevz, const char* hmemz,
@@ -1386,7 +1386,7 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
    return AddDynamicEntry(entry);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp)
+Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTreeHistogram(char*,...)",__LINE__, __FILE__));
    //
@@ -1540,7 +1540,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, T
    //
    if(!fold) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    Int_t buflen = fguSUBFOLDERMAXLEN;
    char buffer[fguSUBFOLDERMAXLEN];
    if(fullname) {
@@ -1946,7 +1946,7 @@ TObject *TGo4AnalysisObjectManager::NextMatchingObject(const char *expr, const c
    return fxMatchIterator->Next();
 }
 
-TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, const char* folder)
+TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, const char *folder)
 {
    TGo4LockGuard  dirguard(fxDirMutex);
    TFolder* searchfold;
@@ -2029,7 +2029,7 @@ TObject* TGo4AnalysisObjectManager::TestObject(TFolder* folder,
    }
    fullname += objectname;
 
-   TObject* obj = FindObjectInFolder(folder, fullname);
+   TObject *obj = FindObjectInFolder(folder, fullname);
 
    if (obj && !obj->InheritsFrom(cl)) {
       RemoveObjectFromFolder(fullname, folder, kTRUE);
@@ -2040,7 +2040,7 @@ TObject* TGo4AnalysisObjectManager::TestObject(TFolder* folder,
    return obj;
 }
 
-Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& pathname, TFolder* fold)
+Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject *obj, TString& pathname, TFolder* fold)
 {
    if (!obj) return kFALSE;
 

@@ -511,7 +511,7 @@ void QRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 
 void QRootCanvas::dropEvent( QDropEvent *event )
 {
-   TObject* obj = 0;
+   TObject *obj = nullptr;
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
    QPoint pos = event->pos();

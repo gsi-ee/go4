@@ -78,7 +78,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TNamed * GetObject(const char *name, const char* folder = nullptr);
+      TNamed * GetObject(const char *name, const char *folder = nullptr);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -87,7 +87,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TObject* GetAsTObject(const char *name, const char* folder = nullptr);
+      TObject* GetAsTObject(const char *name, const char *folder = nullptr);
 
 
       /**
@@ -114,7 +114,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * search can be limited to a given folder.
        */
       TObject* NextMatchingObject(const char* expr,
-                                  const char* folder,
+                                  const char *folder,
                                   Bool_t reset);
 
       /**
@@ -126,7 +126,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       TFolder *CreateBranchFolder(TObjArray* branchlist,
                                   const char *name,
-                                  const char* title,
+                                  const char *title,
                                   Bool_t istopbranch = kFALSE);
 
       /**
@@ -139,7 +139,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder * CreateCompositeBranchFolder(TObjArray* branchlist,
             TGo4CompositeEvent* compevent,
             Int_t startindex, Int_t* skip,
-            const char *name, const char* title);
+            const char *name, const char *title);
 
       /**
        * Create a tree structure
@@ -148,10 +148,10 @@ class TGo4AnalysisObjectManager : public TNamed {
       TGo4TreeStructure * CreateTreeStructure(TTree * thetree);
 
       /** Create a tree structure for a certain tree by name */
-      TGo4TreeStructure * CreateTreeStructure(const char* treename);
+      TGo4TreeStructure * CreateTreeStructure(const char *treename);
 
       /** Create a folder with members of this class */
-      TFolder* CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl);
+      TFolder* CreateMembersFolder(TObject *obj, const char* membrfoldername, TClass* cl);
 
       /**
        * Add external histogram to go4 histogram directory. Histogram will be owned
@@ -195,7 +195,7 @@ class TGo4AnalysisObjectManager : public TNamed {
             Int_t         nbinsx,
             Axis_t        xlow,
             Axis_t        xup,
-            const char* title = nullptr,
+            const char *title = nullptr,
             const char* xtitle = nullptr,
             const char* ytitle = nullptr);
 
@@ -228,7 +228,7 @@ class TGo4AnalysisObjectManager : public TNamed {
             Int_t         nbinsy,
             Axis_t        ylow,
             Axis_t        yup,
-            const char* title = nullptr,
+            const char *title = nullptr,
             const char* xtitle = nullptr,
             const char* ytitle = nullptr);
 
@@ -445,7 +445,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Find Object of name in the folder structure and create a complete status object of it. Used by GUI command to get updated information on certain object.
        * Optionally, name of search folder may be given.
        */
-      TGo4ObjectStatus * CreateObjectStatus(const char *name, const char* folder = nullptr);
+      TGo4ObjectStatus * CreateObjectStatus(const char *name, const char *folder = nullptr);
 
       /** Create status object for object ob. If fullinfo flag is false,
        * skip time consuming parts of the status (case of nameslist) */
@@ -561,7 +561,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * events cevx, cevy with members cmemx, cmemy
        */
       Bool_t AddDynamicHistogram(const char *name,
-            const char* histo,
+            const char *histo,
             const char* hevx, const char* hmemx,
             const char* hevy = nullptr, const char* hmemy = nullptr,
             const char* hevz = nullptr, const char* hmemz = nullptr,
@@ -576,7 +576,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Strings varexp and selection are used for applying cuts and variables
        * to plot.
        */
-      Bool_t AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp);
+      Bool_t AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp);
 
       /**
        * Printout of all histogram statistic counters on the terminal.
@@ -634,7 +634,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder* FindSubFolder(TFolder* parent, const char *subfolder, Bool_t create=kTRUE);
 
       /** Return full path name to object, relative to specified folder */
-      Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder *fold = nullptr);
+      Bool_t FindObjectPathName(TObject *obj, TString& pathname, TFolder *fold = nullptr);
 
       Bool_t CreatedInMake() const { return fbCreatedinMake; }
 
@@ -645,7 +645,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t IsSortedOrder() const { return fbSortedOrder; }
 
       /** Method used in case when object is cleaned up by the ROOT */
-      void RecursiveRemove(TObject* obj) override;
+      void RecursiveRemove(TObject *obj) override;
 
       /** Default name of the default (toplevel) dynamic list  */
       static const char* fgcTOPDYNAMICLIST;
@@ -966,7 +966,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Create a list of objects which names are matching expression expr.
        * optionally, the search can be limited to given subfolder of
        * Go4. By default, all registered objects are compared.*/
-      TList* CreateObjectList(const char* expr, const char* folder = nullptr);
+      TList* CreateObjectList(const char* expr, const char *folder = nullptr);
 
       /** For recursive search for objects in folder fold that match expression. */
       TList* CreateObjectList(const char* expr, TFolder* fold);

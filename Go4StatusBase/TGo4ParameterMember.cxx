@@ -25,7 +25,7 @@ TGo4ParameterMember::TGo4ParameterMember() :
 {
 }
 
-TGo4ParameterMember::TGo4ParameterMember(const char *name, const char* title) :
+TGo4ParameterMember::TGo4ParameterMember(const char *name, const char *title) :
    TNamed(name, title)
 {
 }
@@ -81,7 +81,7 @@ const char* TGo4ParameterMember::GetFullName(TString& buf)
    return buf.Data();
 }
 
-void TGo4ParameterMember::SetObject(TObject* obj, Bool_t owner)
+void TGo4ParameterMember::SetObject(TObject *obj, Bool_t owner)
 {
    if (fObject && fObjectOwner) delete fObject;
 

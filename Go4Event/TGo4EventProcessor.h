@@ -153,7 +153,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       Bool_t RemoveCanvas(const char *name);
 
       /** Get any object from go4 framework. Shortcut forwarded to analysis instance */
-      TNamed * GetObject(const char *name, const char* folder = nullptr);
+      TNamed * GetObject(const char *name, const char *folder = nullptr);
 
       /** Get histogram from go4 framework. Shortcut forwarded to analysis instance */
       TH1* GetHistogram(const char *name);
@@ -226,7 +226,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH1* MakeTH1(char type, const char* fullname, const char* title,
+      TH1* MakeTH1(char type, const char* fullname, const char *title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    const char* xtitle = nullptr, const char* ytitle = nullptr);
 
@@ -244,7 +244,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH2* MakeTH2(char type, const char* fullname, const char* title,
+      TH2* MakeTH2(char type, const char* fullname, const char *title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    Int_t nbinsy, Double_t ylow, Double_t yup,
                    const char* xtitle = nullptr, const char* ytitle = nullptr, const char* ztitle = nullptr);
@@ -253,19 +253,19 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If theses parameters are missing, an empty graph is created to be specified by the user.
        * If a graph of this name already exists in the autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph* MakeGraph(const char* fullname, const char* title, Int_t points = 0, Double_t* xvalues = nullptr,
+      TGraph* MakeGraph(const char* fullname, const char *title, Int_t points = 0, Double_t* xvalues = nullptr,
                         Double_t* yvalues = nullptr);
 
       /** Create a TGraph with values initialized by a function object TF1l.
         * If a graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph* MakeGraph(const char* fullname, const char* title, TF1* function);
+      TGraph* MakeGraph(const char* fullname, const char *title, TF1* function);
 
       /** Create a go4 rolling graph (generic trending plot) with properties points and average.
         * If theses parameters are missing, an empty graph is created to be specified by the user.
         * If a rolling graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char* title, Int_t points = 0, Int_t average = 1);
+      TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
@@ -371,7 +371,7 @@ class TGo4EventProcessor: public TGo4EventSource {
         * condition is true if any of the values matches
         * This method creates empty list condition of specified name and title to be set by the user,
         * or already defined condition from previous autosave*/
-      TGo4ListCond* MakeListCond(const char* fullname, const char* title, const char* HistoName = nullptr);
+      TGo4ListCond* MakeListCond(const char* fullname, const char *title, const char* HistoName = nullptr);
 
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)

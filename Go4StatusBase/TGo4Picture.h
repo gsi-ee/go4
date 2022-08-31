@@ -39,7 +39,7 @@ class TGo4Picture : public TNamed {
       enum Indexes { UndefIndex = -2, PictureIndex = -1 };
 
       TGo4Picture();
-      TGo4Picture(const char *name, const char* title, Int_t ndivy = 1, Int_t ndivx = 1);
+      TGo4Picture(const char *name, const char *title, Int_t ndivy = 1, Int_t ndivx = 1);
       virtual ~TGo4Picture();
 
       // ====== USER FUNCTIONS to setup picture =====================
@@ -130,9 +130,9 @@ class TGo4Picture : public TNamed {
       void ClearRebin(Int_t index = UndefIndex);
 
       // copy all available attributes from object to picture
-      void SetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
+      void SetDrawAttributes(TObject *obj, Int_t index = UndefIndex);
       // assign all available attributes from picture to object
-      void GetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
+      void GetDrawAttributes(TObject *obj, Int_t index = UndefIndex);
 
       // set string draw options
       void SetDrawOption(Option_t* option = "") override
@@ -216,8 +216,8 @@ class TGo4Picture : public TNamed {
       void AddObjName(Int_t posy, Int_t posx, const char *name, Option_t* DrawOption = nullptr);
 
       // adds only name of provided object
-      void AddObject(TObject* obj, Option_t* DrawOption = nullptr);
-      void AddObject(Int_t posy, Int_t posx, TObject* obj, Option_t* DrawOption = nullptr);
+      void AddObject(TObject *obj, Option_t* DrawOption = nullptr);
+      void AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t* DrawOption = nullptr);
 
       void Reset() {}
 
@@ -232,7 +232,7 @@ class TGo4Picture : public TNamed {
       // manipulation with special objects,
       // which must be drawn on the panel / canvas
       // This must be objects like markers, labels and so on
-      void AddSpecialObject(TObject* obj, Option_t* drawopt = nullptr);
+      void AddSpecialObject(TObject *obj, Option_t* drawopt = nullptr);
       void AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt = nullptr);
       TList* GetSpecialObjects() const { return fxSpecialObjects; }
 
@@ -316,7 +316,7 @@ class TGo4Picture : public TNamed {
       TGo4Picture(TGo4Picture& picture);
       void AddSubPicture(TGo4Picture* pic);
 
-      Int_t GetObjAttIndex(TObject* obj);
+      Int_t GetObjAttIndex(TObject *obj);
 
       void SetPosition(Int_t posy, Int_t posx);
       Bool_t CheckPosition(Int_t posy, Int_t posx) const;
@@ -336,7 +336,7 @@ class TGo4Picture : public TNamed {
       Bool_t GetOptionD(Short_t index, Short_t typ, Double_t& value) const;
       Double_t GetD(Short_t index, Short_t typ, Double_t def = 0.) const;
 
-      void SetObjOption(Short_t index, Short_t typ, TObject* obj);
+      void SetObjOption(Short_t index, Short_t typ, TObject *obj);
       TObject *GetObjOption(Short_t index, Short_t typ) const;
 
       void SetStrOption(Short_t index, Short_t typ, const char* value);
@@ -346,7 +346,7 @@ class TGo4Picture : public TNamed {
       void ClearOption(Int_t pos);
       void ClearAllOptions(Short_t index = UndefIndex);
 
-      void* Cast(TObject* obj, TClass* cl);
+      void* Cast(TObject *obj, TClass* cl);
 
       void CheckIndex(Int_t &index) const;
 

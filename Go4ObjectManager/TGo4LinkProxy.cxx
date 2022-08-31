@@ -94,7 +94,7 @@ Bool_t TGo4LinkProxy::IsAcceptObject(TClass* cl)
    return fLink ? fLink->IsAcceptObject(cl) : kFALSE;
 }
 
-Bool_t TGo4LinkProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
+Bool_t TGo4LinkProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
 {
    return fLink ? fLink->AssignObject(obj, owner) : kFALSE;
 }

@@ -238,7 +238,7 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
   } // switch(dimension)
 }
 
-void TGo4HistogramEntry::RecursiveRemove(TObject* obj)
+void TGo4HistogramEntry::RecursiveRemove(TObject *obj)
 {
    if (!obj) return;
 

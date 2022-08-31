@@ -119,7 +119,7 @@ TObject* TGo4FitData::CreateDrawObject(const char* ObjName)
 {
    TGo4FitDataIter* iter = MakeIter();
    if (!iter) return nullptr;
-   TObject* obj = iter->CreateDrawObject(ObjName);
+   TObject *obj = iter->CreateDrawObject(ObjName);
    delete iter;
    return obj;
 }

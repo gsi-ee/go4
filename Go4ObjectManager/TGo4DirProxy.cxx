@@ -136,7 +136,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          TClass* cl = nullptr;
          if (fIsKeyIter) {
             TKey* key = (TKey*) fCurrent;
-            TObject* obj = fDir->FindObject(key->GetName());
+            TObject *obj = fDir->FindObject(key->GetName());
             if (obj) cl = obj->IsA();
             // if (fReadRight)
             //  cl = TGo4Proxy::GetClass(key->GetClassName());
@@ -149,7 +149,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override
       {
-         TObject* obj = fIsKeyIter ? fDir->Get(fCurrent->GetName()) : fCurrent;
+         TObject *obj = fIsKeyIter ? fDir->Get(fCurrent->GetName()) : fCurrent;
 
          if (!obj) return nullptr;
 
@@ -188,7 +188,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
             TKey* key = (TKey*) fCurrent;
             cl = TGo4Proxy::GetClass(key->GetClassName());
             sz = key->GetNbytes();
-            TObject* obj = fDir->FindObject(key->GetName());
+            TObject *obj = fDir->FindObject(key->GetName());
             if (obj) sz = TGo4ObjectProxy::DefineObjectSize(obj);
          } else {
             cl = fCurrent->IsA();
@@ -298,7 +298,7 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
       Short_t cyclebuf(9999);
       TDirectory::DecodeNameCycle(partname.Data(), namebuf, cyclebuf, sizeof(namebuf));
 
-      TObject* obj = curdir->GetList()->FindObject(namebuf);
+      TObject *obj = curdir->GetList()->FindObject(namebuf);
       if (!obj) {
          TKey* key = curdir->GetKey(namebuf, cyclebuf);
          if (!key) return nullptr;
@@ -363,7 +363,7 @@ void TGo4DirProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
      SetDir(gROOT, kFALSE, kFALSE);
 }
 
-Bool_t TGo4DirProxy::UpdateObjectInFile(const char* filepath, TObject* obj)
+Bool_t TGo4DirProxy::UpdateObjectInFile(const char* filepath, TObject *obj)
 {
    if (!filepath || !fDir) return kFALSE;
 

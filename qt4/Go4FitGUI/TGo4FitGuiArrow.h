@@ -45,7 +45,7 @@ public:
    TGo4FitModel* GetModel() { return fxModel; }
    TGo4FitComponent* GetComp() { return fxComp; }
 
-   Bool_t IsAssignTo(TObject* obj);
+   Bool_t IsAssignTo(TObject *obj);
 
    void ClearOther() { fxOther = nullptr; }
    void Delete(Option_t* option = "") override;   //  *MENU*

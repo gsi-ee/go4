@@ -30,7 +30,7 @@ class TGo4HStackProxy : public TGo4Proxy {
 
       void Initialize(TGo4Slot* slot) override;
       void Finalize(TGo4Slot* slot) override;
-      Bool_t RemoveRegisteredObject(TObject* obj) override;
+      Bool_t RemoveRegisteredObject(TObject *obj) override;
 
       TGo4LevelIter* MakeIter() override
         { return !fHS ? nullptr : ProduceIter(fHS); }
@@ -42,7 +42,7 @@ class TGo4HStackProxy : public TGo4Proxy {
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
       Bool_t IsAcceptObject(TClass* cl) override;
-      Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override;
+      Bool_t AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner) override;
       TObject *GetAssignedObject() override;
 
       static TGo4Access* CreateAccess(THStack* canv, const char *name);

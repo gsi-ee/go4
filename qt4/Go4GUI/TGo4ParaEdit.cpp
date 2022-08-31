@@ -79,7 +79,7 @@ void TGo4ParaEdit::DropItem(const char *itemname, TClass* cl, int kind)
          WorkWithParameter(itemname, false);
 }
 
-void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
+void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject *obj)
 {
    if (strcmp(linkname,"Parameter") == 0)
       RefreshWidget(dynamic_cast<TGo4Parameter*> (obj));

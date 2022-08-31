@@ -103,7 +103,7 @@ private:
 
       void ObjectCreatedByWidget(const char *itemname, TClass* cl);
 
-      void ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot);
+      void ProcessSignal(const char* linkname, bool assigned, TObject *obj, TGo4Slot* slot);
 
       static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
             const QString& text, int id, int enabled = -1, int checked = -1);
@@ -179,9 +179,9 @@ private:
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
-      QString SaveObjectInMemory(const char* foldername, TObject* obj);
+      QString SaveObjectInMemory(const char* foldername, TObject *obj);
       bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
-      bool UpdateItemInAnalysis(const char *itemname, TObject* obj = nullptr);
+      bool UpdateItemInAnalysis(const char *itemname, TObject *obj = nullptr);
       void InformThatObjectCreated(const char *itemname, TClass* cl);
       TGo4ServerProxy* GetAnalysis(const char *itemname = nullptr);
       void StartHotstart(const char *filename);
@@ -193,10 +193,10 @@ private:
       void ServiceCall(const char *name, void* par = nullptr);
 
       virtual void requestedObjectCreated(const char *itemname, TClass* cl);
-      virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+      virtual void linkedObjectUpdated(const char* linkname, TObject *obj);
       virtual void linkedObjectRemoved(const char* linkname);
-      virtual void linkedUpdated(TGo4Slot* slot, TObject* obj);
-      virtual void linkedRemoved(TGo4Slot* slot, TObject* obj);
+      virtual void linkedUpdated(TGo4Slot* slot, TObject *obj);
+      virtual void linkedRemoved(TGo4Slot* slot, TObject *obj);
 
       void setCanDestroyWidget(bool on = true) { fCanDestroyWidget = on; }
 

@@ -92,7 +92,7 @@ TBuffer * TGo4BufferQueue::WaitBuffer()
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    TBuffer* buffer = WaitBuffer();
    if(buffer) {
       {

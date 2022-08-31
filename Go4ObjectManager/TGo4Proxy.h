@@ -63,7 +63,7 @@ class TGo4Access {
     protected:
       void DoObjectAssignement(TGo4ObjectManager* rcv,
                                const char* path,
-                               TObject* obj,
+                               TObject *obj,
                                Bool_t owner);
 };
 

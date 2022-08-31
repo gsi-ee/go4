@@ -83,7 +83,7 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char* base,
    {
       // connection successful, go on
       SendCommand(TGo4HistogramServer::fgcCOMGETLIST); // send nameslist request
-      TObject* obj=ReceiveObject(); // get incoming buffer and stream object
+      TObject *obj=ReceiveObject(); // get incoming buffer and stream object
       if(obj && obj->InheritsFrom(TGo4AnalysisObjectNames::Class()))
       {
          nameslist=dynamic_cast<TGo4AnalysisObjectNames*>(obj);
@@ -109,7 +109,7 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
                                        const char* host,
                                        Int_t port)
 {
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    SetParms(base,passwd,host,port);
    if(ConnectServer() == 0)
    {
@@ -129,7 +129,7 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
 
 TObject* TGo4ObjClient::ReceiveObject()
 {
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    // check for OK signal (object is existing on server)
    char* recvchar = fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))

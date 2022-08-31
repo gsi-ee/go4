@@ -241,7 +241,7 @@ void QGo4Widget::StatusMessage(const QString& message)
    emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), nullptr);
 }
 
-void QGo4Widget::ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot)
+void QGo4Widget::ProcessSignal(const char* linkname, bool assigned, TObject *obj, TGo4Slot* slot)
 {
    if (assigned) {
       linkedUpdated(slot, obj);
@@ -352,7 +352,7 @@ void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)
    emit widgetService(this, service_EditInSlot, "", (void*) slot);
 }
 
-QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject* obj)
+QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject *obj)
 {
    void* par = obj;
    emit widgetService(this, service_SaveToMemory, foldername, (void*) &par);
@@ -376,7 +376,7 @@ bool QGo4Widget::SaveItemToFile(const char *itemname, const char *subfolder)
    return buf[0] != 0;
 }
 
-bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject* obj)
+bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject *obj)
 {
    TObject* res = obj;
    emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);

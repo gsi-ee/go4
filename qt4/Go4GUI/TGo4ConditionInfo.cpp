@@ -45,7 +45,7 @@ void TGo4ConditionInfo::DropItem(const char *itemname, TClass* cl, int kind)
       WorkWithCondition(itemname);
 }
 
-void TGo4ConditionInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
+void TGo4ConditionInfo::linkedObjectUpdated(const char* linkname, TObject *obj)
 {
    if (strcmp(linkname,"Condition") == 0)
      RefreshWidget(dynamic_cast<TGo4Condition*>(obj));

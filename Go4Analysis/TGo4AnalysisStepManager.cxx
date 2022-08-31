@@ -135,7 +135,7 @@ Bool_t TGo4AnalysisStepManager::SetFirstStep(const char *name)
       TGo4Analysis::Instance()->Message(0,"Analysis: Setting first step to beginning of steplist");
       result=kTRUE;
    } else {
-      TObject* obj=fxStepList->FindObject(name);
+      TObject *obj = fxStepList->FindObject(name);
       if(!obj) {
          result=kFALSE;
          TGo4Analysis::Instance()->Message(3,"!!! Analysis: SetFirstStep ERROR - no such step %s",
@@ -168,14 +168,14 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char *name)
    Bool_t result=kTRUE;
    if(!name) {
       // reset to defaults:
-      fiLastStepIndex=fxStepList->GetLast(); // end of steplist
-      if(fiLastStepIndex<0)
-         fiLastStepIndex=0; // case of empty steplist
+      fiLastStepIndex = fxStepList->GetLast(); // end of steplist
+      if(fiLastStepIndex < 0)
+         fiLastStepIndex = 0; // case of empty steplist
       TGo4Analysis::Instance()->Message(0,"Analysis: Setting last step to end of steplist");
 
-      result=kTRUE;
+      result = kTRUE;
    } else {
-      TObject* obj=fxStepList->FindObject(name);
+      TObject *obj = fxStepList->FindObject(name);
       if(!obj) {
          result=kFALSE;
          TGo4Analysis::Instance()->Message(3,"!!! Analysis: SetLastStep ERROR - no such step %s",

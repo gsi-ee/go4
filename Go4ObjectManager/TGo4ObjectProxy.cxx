@@ -21,7 +21,7 @@
 #include "TGo4Picture.h"
 #include "TGo4ObjectManager.h"
 
-TGo4ObjectAccess::TGo4ObjectAccess(TObject* obj) :
+TGo4ObjectAccess::TGo4ObjectAccess(TObject *obj) :
    TGo4Access(),
    fObject(obj)
 {
@@ -61,7 +61,7 @@ TGo4ObjectProxy::TGo4ObjectProxy() :
 {
 }
 
-TGo4ObjectProxy::TGo4ObjectProxy(TObject* obj, Bool_t owner) :
+TGo4ObjectProxy::TGo4ObjectProxy(TObject *obj, Bool_t owner) :
    TGo4Proxy(),
    fObject(obj),
    fOwner(owner)
@@ -87,7 +87,7 @@ void TGo4ObjectProxy::Finalize(TGo4Slot* slot)
    if (om) om->UnregisterObject(fObject, slot);
 }
 
-Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
+Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject *obj)
 {
    if (fObject == obj) {
       fObject = nullptr;
@@ -162,7 +162,7 @@ Bool_t TGo4ObjectProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(TObject::Class());
 }
 
-Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
+Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fObject && fOwner) delete fObject;
@@ -184,7 +184,7 @@ TObject* TGo4ObjectProxy::GetAssignedObject()
    return fObject;
 }
 
-Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
+Long_t TGo4ObjectProxy::DefineObjectSize(TObject *obj)
 {
    if (!obj) return 0;
 

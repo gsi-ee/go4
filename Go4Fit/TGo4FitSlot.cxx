@@ -103,7 +103,7 @@ void TGo4FitSlot::ClearConnectionToSlot()
    }
 }
 
-Bool_t TGo4FitSlot::IsSuitable(TObject* obj)
+Bool_t TGo4FitSlot::IsSuitable(TObject *obj)
 {
    if (!obj) return kFALSE;
    if (IsConnectedToSlot()) return GetConnectedSlot()->IsSuitable(obj);
@@ -149,14 +149,14 @@ TObject* TGo4FitSlot::GetObject() const
 
 const char* TGo4FitSlot::GetObjectName() const
 {
-   TObject* obj = GetObject();
+   TObject *obj = GetObject();
    if (obj && obj->InheritsFrom(TNamed::Class())) return obj->GetName();
                                                   else return nullptr;
 }
 
 TObject* TGo4FitSlot::CloneObject(const char* newname)
 {
-   TObject* obj = GetObject();
+   TObject *obj = GetObject();
    if (obj) return obj->Clone(newname);
        else return nullptr;
 }
@@ -313,7 +313,7 @@ Bool_t TGo4FitSlotList::ConnectSlots(const char* Slot1FullName, const char* Slot
    return ConnectSlots(FindSlot(Slot1FullName), FindSlot(Slot2FullName));
 }
 
-TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned)
+TGo4FitSlot* TGo4FitSlotList::SetObject(TObject *obj, Bool_t iOwned)
 {
    if (!obj) return nullptr;
 
@@ -331,7 +331,7 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned)
    return nullptr;
 }
 
-TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Bool_t iOwned)
+TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject *obj, Bool_t iOwned)
 {
    if (!obj) return nullptr;
 
@@ -366,7 +366,7 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Boo
    return nullptr;
 }
 
-TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj)
+TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject *obj)
 {
    if (!obj) return nullptr;
 
@@ -441,7 +441,7 @@ void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned)
    while(slot->GetConnectedSlot())
      slot = slot->GetConnectedSlot();
 
-   TObject* obj = slot->GetObject();
+   TObject *obj = slot->GetObject();
    Bool_t owned = slot->GetOwned();
    if (!obj) return;
    if (NonOwned || !owned) {

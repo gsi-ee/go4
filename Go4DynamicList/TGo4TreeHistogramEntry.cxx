@@ -39,7 +39,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
 }
 
 TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
-                                               const char* treename,
+                                               const char *treename,
                                                const char* varexp,
                                                const char* cutexp) :
    TGo4DynamicEntry(histogramname),

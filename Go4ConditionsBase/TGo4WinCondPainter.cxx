@@ -25,7 +25,7 @@ TGo4WinCondPainter::TGo4WinCondPainter() :
 {
 }
 
-TGo4WinCondPainter::TGo4WinCondPainter(const char *name, const char* title) :
+TGo4WinCondPainter::TGo4WinCondPainter(const char *name, const char *title) :
    TGo4ConditionPainter(name,title),
    fxBox(nullptr)
 {

@@ -31,7 +31,7 @@ TGo4BrowserItem::TGo4BrowserItem() :
 {
 }
 
-TGo4BrowserItem::TGo4BrowserItem(const char *name, const char* title) :
+TGo4BrowserItem::TGo4BrowserItem(const char *name, const char *title) :
    TFolder(name, title),
    fParent(nullptr),
    fIter(nullptr),
@@ -43,7 +43,7 @@ TGo4BrowserItem::TGo4BrowserItem(const char *name, const char* title) :
 }
 
 TGo4BrowserItem::TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem,
-                               const char *name, const char* title) :
+                               const char *name, const char *title) :
    TFolder(name, title),
    fParent(parent),
    fIter(nullptr),
@@ -224,7 +224,7 @@ void TGo4BrowserItem::SetName(const char *name)
    TFolder::SetName(name);
 }
 
-void TGo4BrowserItem::SetTitle(const char* title)
+void TGo4BrowserItem::SetTitle(const char *title)
 {
    TFolder::SetTitle(title);
 }

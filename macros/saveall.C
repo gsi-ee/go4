@@ -43,7 +43,7 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
          }
          if (dofetch) {
             go4->FetchItem(itemname.Data(), 1000);
-            TObject* obj = go4->GetObject(itemname.Data());
+            TObject *obj = go4->GetObject(itemname.Data());
             if (obj) found->Add(obj);
          }
       }
@@ -51,7 +51,7 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
 #endif
 #ifdef __GO4ANAMACRO__
    Bool_t reset = kTRUE;
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    while((obj = go4->NextMatchingObject(wildcard,"Go4",reset)) != nullptr) {
       reset = kFALSE;
       if (((classmask / 10) && obj->InheritsFrom("TGo4Parameter")) ||
@@ -74,7 +74,7 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
             if (cl)
                if (((classmask / 10) && cl->InheritsFrom("TGo4Parameter")) ||
                    ((classmask % 10) && cl->InheritsFrom("TGo4Condition"))) {
-                  TObject* obj = dir->Get(key->GetName());
+                  TObject *obj = dir->Get(key->GetName());
                   if (obj) found->Add(obj);
                }
          }
@@ -122,7 +122,7 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
   TIter next(&lst);
 
   TString body;
-  TObject* obj = nullptr;
+  TObject *obj = nullptr;
   while((obj = next()) != nullptr) {
      if (obj->InheritsFrom("TGo4Parameter")) {
         TString subname = MakeFuncName(outputname, obj->GetName());

@@ -145,7 +145,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t SubmitURL(const char* path, Int_t waitres = -1);
 
-      Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
+      Bool_t PostObject(const char* prefix, TObject *obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
 
@@ -208,12 +208,12 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) override;
 
-      Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) override;
+      Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) override;
 
       void ClearAllAnalysisObjects() override;
       void ClearAnalysisObject(const char* fullpath) override;
 
-      void RemoteTreeDraw(const char* treename,
+      void RemoteTreeDraw(const char *treename,
                           const char* varexp,
                           const char* cutcond,
                           const char* hname) override;

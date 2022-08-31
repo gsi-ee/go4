@@ -80,12 +80,12 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) { return kFALSE; }
 
-      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) { return kFALSE; }
+      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) { return kFALSE; }
 
       virtual void ClearAllAnalysisObjects() {}
       virtual void ClearAnalysisObject(const char* fullpath) {}
 
-      virtual void RemoteTreeDraw(const char* treename,
+      virtual void RemoteTreeDraw(const char *treename,
                                   const char* varexp,
                                   const char* cutcond,
                                   const char* hname) {}

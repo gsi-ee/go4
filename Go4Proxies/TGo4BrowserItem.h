@@ -23,8 +23,8 @@ class TGo4RootBrowserProxy;
 class TGo4BrowserItem : public TFolder {
    public:
       TGo4BrowserItem();
-      TGo4BrowserItem(const char *name, const char* title);
-      TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem, const char *name, const char* title);
+      TGo4BrowserItem(const char *name, const char *title);
+      TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem, const char *name, const char *title);
       virtual ~TGo4BrowserItem();
 
       void Browse(TBrowser* b) override;
@@ -61,7 +61,7 @@ class TGo4BrowserItem : public TFolder {
       const char* ClassName() const override { return GetItemClass(); }
       void Delete(Option_t* option = "") override;
       void SetName(const char *name) override;
-      void SetTitle(const char* title = "") override;
+      void SetTitle(const char *title = "") override;
       void ls(Option_t* option = "*") const override;
 
       void SaveAs(const char *filename = "", Option_t *option = "") const override; // *MENU*

@@ -102,7 +102,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
           return (res<0) || (res > millisec);
       }
 
-      void ReceiveObject(TObject* obj, const char* objfolder, const char* objname, Bool_t owner)
+      void ReceiveObject(TObject *obj, const char* objfolder, const char* objname, Bool_t owner)
       {
          if (fProxyKind == cmdDefualtEnvelope) {
             TString path = fxReceiverPath;
@@ -714,7 +714,7 @@ void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TG
 }
 
 
-void TGo4AnalysisProxy::RemoteTreeDraw(const char* treename,
+void TGo4AnalysisProxy::RemoteTreeDraw(const char *treename,
                                        const char* varexp,
                                        const char* cutcond,
                                        const char* hname)
@@ -750,7 +750,7 @@ void TGo4AnalysisProxy::RemotePrintEvent(const char* evname,
    fxDisplay->SubmitCommand(com);
 }
 
-Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* obj)
+Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject *obj)
 {
    if (!obj) return kFALSE;
 

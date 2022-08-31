@@ -25,7 +25,7 @@ class QFitItem : public QTreeWidgetItem {
      virtual ~QFitItem();
 
      TObject* Object() const { return fxObj; }
-     void SetObject(TObject* obj) { fxObj = obj; }
+     void SetObject(TObject *obj) { fxObj = obj; }
      int ObjectType() const { return fiObjectType; }
      int WidgetType() const { return fiWidgetType; }
      int PopupMenuType() const { return fiPopupMenuType; }

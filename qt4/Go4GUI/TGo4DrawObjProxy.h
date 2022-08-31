@@ -18,9 +18,9 @@
 
 class TGo4DrawObjProxy : public TGo4ObjectProxy {
    public:
-      TGo4DrawObjProxy(TObject* obj, Bool_t owner, Bool_t doclear = kFALSE);
+      TGo4DrawObjProxy(TObject *obj, Bool_t owner, Bool_t doclear = kFALSE);
       virtual ~TGo4DrawObjProxy();
-      Bool_t RemoveRegisteredObject(TObject* obj) override;
+      Bool_t RemoveRegisteredObject(TObject *obj) override;
 
    protected:
       void TryToClearObject();

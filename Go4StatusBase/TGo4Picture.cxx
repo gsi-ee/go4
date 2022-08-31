@@ -133,7 +133,7 @@ TGo4Picture::TGo4Picture() : TNamed()
 {
 }
 
-TGo4Picture::TGo4Picture(const char *name, const char* title, Int_t ndivy, Int_t ndivx) :
+TGo4Picture::TGo4Picture(const char *name, const char *title, Int_t ndivy, Int_t ndivx) :
    TNamed(name, title)
 {
    SetDivision(ndivy, ndivx);
@@ -335,13 +335,13 @@ const char* TGo4Picture::GetObjName(Int_t n)
   return str ? str->String().Data() : nullptr;
 }
 
-void TGo4Picture::AddObject(TObject* obj, Option_t* DrawOption)
+void TGo4Picture::AddObject(TObject *obj, Option_t* DrawOption)
 {
    if (obj)
       AddObjName(obj->GetName(), DrawOption);
 }
 
-void TGo4Picture::AddObject(Int_t posy, Int_t posx, TObject* obj, Option_t* DrawOption)
+void TGo4Picture::AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t* DrawOption)
 {
    if (obj)
       AddObjName(posy, posx, obj->GetName(), DrawOption);
@@ -619,7 +619,7 @@ void TGo4Picture::ClearRebin(Int_t index)
    ClearOption(index, op_RebinY);
 }
 
-void TGo4Picture::GetDrawAttributes(TObject* obj, Int_t index)
+void TGo4Picture::GetDrawAttributes(TObject *obj, Int_t index)
 {
    if (!obj) return;
    CheckIndex(index);
@@ -630,7 +630,7 @@ void TGo4Picture::GetDrawAttributes(TObject* obj, Int_t index)
    GetPadAtt((TPad*) Cast(obj, TPad::Class()), index);
 }
 
-void TGo4Picture::SetDrawAttributes(TObject* obj, Int_t index)
+void TGo4Picture::SetDrawAttributes(TObject *obj, Int_t index)
 {
    if (!obj) return;
    CheckIndex(index);
@@ -901,7 +901,7 @@ void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
    GetDrawAttributes(pad->GetFrame(), index);
 }
 
-void* TGo4Picture::Cast(TObject* obj, TClass* cl)
+void* TGo4Picture::Cast(TObject *obj, TClass* cl)
 {
    if (!obj || !cl) return nullptr;
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
@@ -1484,7 +1484,7 @@ Double_t TGo4Picture::GetD(Short_t index, Short_t typ, Double_t def) const
    return value;
 }
 
-void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject* obj)
+void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject *obj)
 {
    if (!obj) return;
    if (typ<op_ObjsBound) { delete obj; return; }
@@ -1578,7 +1578,7 @@ void TGo4Picture::ClearOption(Int_t pos)
     for (Int_t i=0;i<fiOptSize;i++)
       if (fxOptIndex[i]>=bnd)
         if (fxOptValue[i]>fxOptValue[pos]) fxOptValue[i]-=1;
-    TObject* obj = fxOptObjects->RemoveAt(fxOptValue[pos]);
+    TObject *obj = fxOptObjects->RemoveAt(fxOptValue[pos]);
     delete obj;
     fxOptObjects->Compress();
     if (fxOptObjects->GetLast() < 0) {
@@ -1621,7 +1621,7 @@ void TGo4Picture::ClearAllOptions(Short_t index)
   }
 }
 
-Int_t TGo4Picture::GetObjAttIndex(TObject* obj)
+Int_t TGo4Picture::GetObjAttIndex(TObject *obj)
 {
    if (!obj) return UndefIndex;
    for (Int_t n=0;n<GetNumObjNames();n++)
@@ -1738,7 +1738,7 @@ void TGo4Picture::AddSubPicture(TGo4Picture* pic)
    fxSubPictures->Add(pic);
 }
 
-void TGo4Picture::AddSpecialObject(TObject* obj, Option_t* drawopt)
+void TGo4Picture::AddSpecialObject(TObject *obj, Option_t* drawopt)
 {
    if (!fxSpecialObjects) {
       fxSpecialObjects = new TList;
@@ -1750,7 +1750,7 @@ void TGo4Picture::AddSpecialObject(TObject* obj, Option_t* drawopt)
 
 void TGo4Picture::AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt)
 {
-   TObject* obj = TBufferXML::ConvertFromXML(xmlcode);
+   TObject *obj = TBufferXML::ConvertFromXML(xmlcode);
    if (obj) AddSpecialObject(obj, drawopt);
 }
 
@@ -1772,7 +1772,7 @@ Long_t TGo4Picture::GetTotalSize()
    if (fxOptObjects) {
       sz += TObjArray::Class()->Size() + fxOptObjects->GetSize() * sizeof(void*);
       for (int n=0;n<=fxOptObjects->GetLast();n++) {
-         TObject* obj = fxOptObjects->At(n);
+         TObject *obj = fxOptObjects->At(n);
          if (obj) sz += obj->IsA()->Size();
       }
    }

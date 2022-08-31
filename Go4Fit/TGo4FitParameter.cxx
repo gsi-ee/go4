@@ -19,24 +19,24 @@ TGo4FitParameter::TGo4FitParameter() : TGo4FitNamed() {
     Reset();
 }
 
-TGo4FitParameter::TGo4FitParameter(const char *name, const char* title, Double_t iValue) : TGo4FitNamed(name,title) {
+TGo4FitParameter::TGo4FitParameter(const char *name, const char *title, Double_t iValue) : TGo4FitNamed(name,title) {
     Reset();
     fdValue = iValue;
 }
 
-TGo4FitParameter::TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax) : TGo4FitNamed(name,title) {
+TGo4FitParameter::TGo4FitParameter(const char *name, const char *title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax) : TGo4FitNamed(name,title) {
     Reset();
     fdValue = iValue;
     SetRange(iRangeMin,iRangeMax);
 }
 
-TGo4FitParameter::TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iEpsilon) : TGo4FitNamed(name,title) {
+TGo4FitParameter::TGo4FitParameter(const char *name, const char *title, Double_t iValue, Double_t iEpsilon) : TGo4FitNamed(name,title) {
     Reset();
     fdValue = iValue;
     SetEpsilon(iEpsilon);
 }
 
-TGo4FitParameter::TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax, Double_t iEpsilon) : TGo4FitNamed(name,title) {
+TGo4FitParameter::TGo4FitParameter(const char *name, const char *title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax, Double_t iEpsilon) : TGo4FitNamed(name,title) {
     Reset();
     fdValue = iValue;
     SetRange(iRangeMin,iRangeMax);
