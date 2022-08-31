@@ -26,9 +26,9 @@ class TGo4ListCond: public TGo4Condition
 {
 public:
   TGo4ListCond();
-  TGo4ListCond(const char * name, const char * title = "Go4 list condition");
-  TGo4ListCond(const char * name, const char * title, const Int_t num, const Int_t * values);
-  TGo4ListCond(const char * name, const char * title, const Int_t start, const Int_t stop, const Int_t step = 1);
+  TGo4ListCond(const char *name, const char * title = "Go4 list condition");
+  TGo4ListCond(const char *name, const char * title, const Int_t num, const Int_t * values);
+  TGo4ListCond(const char *name, const char * title, const Int_t start, const Int_t stop, const Int_t step = 1);
   virtual ~TGo4ListCond();
 
   using TGo4Condition::SetValues;

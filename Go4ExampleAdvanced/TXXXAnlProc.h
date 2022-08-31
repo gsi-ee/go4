@@ -24,7 +24,7 @@ class TGo4Fitter;
 class TXXXAnlProc : public TGo4EventProcessor {
    public:
       TXXXAnlProc();
-      TXXXAnlProc(const char * name);
+      TXXXAnlProc(const char *name);
       virtual ~TXXXAnlProc();
 
       Bool_t BuildEvent(TGo4EventElement* dest) override;

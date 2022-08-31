@@ -288,7 +288,7 @@ void TGo4AnalysisClient::Start()
       }
 }
 
-void TGo4AnalysisClient::SendAnalysisObject(const char * name)
+void TGo4AnalysisClient::SendAnalysisObject(const char *name)
 {
    GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(char* name)",__LINE__, __FILE__));
    TNamed* ob = fxAnalysis->GetObject(name);

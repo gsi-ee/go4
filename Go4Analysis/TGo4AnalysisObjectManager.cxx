@@ -216,13 +216,13 @@ Bool_t TGo4AnalysisObjectManager::AddObject(TNamed * anything, const char* subfo
    return (AddObjectToFolder(anything,fxUserDir,subfolder,replace));
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveObject(const char * name, Bool_t del)
+Bool_t TGo4AnalysisObjectManager::RemoveObject(const char *name, Bool_t del)
 {
    return RemoveObjectFromFolder(name, fxUserDir, del);
 }
 
 
-TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* folder)
+TObject* TGo4AnalysisObjectManager::GetAsTObject(const char *name, const char* folder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
    //
@@ -251,13 +251,13 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* 
 }
 
 
-TNamed *TGo4AnalysisObjectManager::GetObject(const char * name, const char* folder)
+TNamed *TGo4AnalysisObjectManager::GetObject(const char *name, const char* folder)
 {
    return dynamic_cast<TNamed*> (GetAsTObject(name, folder));
 }
 
 
-Bool_t TGo4AnalysisObjectManager::ClearObjects(const char * name)
+Bool_t TGo4AnalysisObjectManager::ClearObjects(const char *name)
 {
    GO4TRACE((11, "TGo4AnalysisObjectManager::ClearObject(char *)", __LINE__, __FILE__));
    Bool_t rev = kTRUE;
@@ -272,7 +272,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObjects(const char * name)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char * name)
+Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char *name)
 {
    Bool_t rev = kFALSE;
    TGo4LockGuard dirguard(fxDirMutex);
@@ -723,7 +723,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char* stepname)
    return kTRUE;
 }
 
-TH1* TGo4AnalysisObjectManager::GetHistogram(const char * name)
+TH1* TGo4AnalysisObjectManager::GetHistogram(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(char *)",__LINE__, __FILE__));
    TH1* rev = dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
@@ -731,13 +731,13 @@ TH1* TGo4AnalysisObjectManager::GetHistogram(const char * name)
    return rev;
 }
 
-TTree * TGo4AnalysisObjectManager::GetTree(const char * name)
+TTree * TGo4AnalysisObjectManager::GetTree(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetTree(char *)",__LINE__, __FILE__));
    return dynamic_cast<TTree*> (FindObjectInFolder(fxTreeDir, name));
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveHistogram(const char * name, Bool_t del)
+Bool_t TGo4AnalysisObjectManager::RemoveHistogram(const char *name, Bool_t del)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveHistogram(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxHistogramDir, del);
@@ -750,7 +750,7 @@ Bool_t TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition * con, cons
    return(AddObjectToFolder(con,fxConditionDir,subfolder,kTRUE));
 }
 
-Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Condition* con,
+Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Condition* con,
       Bool_t counter, TFolder* parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetAnalysisCondition(char*, TGo4Condition*, Bool_t)",__LINE__, __FILE__));
@@ -801,7 +801,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Co
    return rev;
 }
 
-TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char * name, const char* cond_cl)
+TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name, const char* cond_cl)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
@@ -896,13 +896,13 @@ TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char* foldername,
 }
 
 
-Bool_t TGo4AnalysisObjectManager::RemoveAnalysisCondition(const char * name)
+Bool_t TGo4AnalysisObjectManager::RemoveAnalysisCondition(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveAnalysisCondition(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxConditionDir, kTRUE);
 }
 
-TGo4ObjectStatus *TGo4AnalysisObjectManager::CreateObjectStatus(const char * name, const char* folder)
+TGo4ObjectStatus *TGo4AnalysisObjectManager::CreateObjectStatus(const char *name, const char* folder)
 {
    TNamed* object = GetObject(name, folder);
    return CreateObjectStatus(object);
@@ -1057,7 +1057,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
    return rev;
 }
 
-TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char * name)
+TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
 
@@ -1205,7 +1205,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4Param
    return rev;
 }
 
-TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char * name, const char* parameter_class)
+TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char *name, const char* parameter_class)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
    TGo4Parameter* rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir,name));
@@ -1215,7 +1215,7 @@ TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char * name, const
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveParameter(const char * name)
+Bool_t TGo4AnalysisObjectManager::RemoveParameter(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveParameter(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxParameterDir, kTRUE);
@@ -1259,7 +1259,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic
    return rev;
 }
 
-TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char * name)
+TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
    TGo4Picture* rev = dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxPictureDir, name));
@@ -1267,7 +1267,7 @@ TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char * name)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::RemovePicture(const char * name)
+Bool_t TGo4AnalysisObjectManager::RemovePicture(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxPictureDir, kTRUE);
@@ -1287,7 +1287,7 @@ Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder
    return rev;
 }
 
-TCanvas *TGo4AnalysisObjectManager::GetCanvas(const char * name)
+TCanvas *TGo4AnalysisObjectManager::GetCanvas(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
    TCanvas* rev = dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
@@ -1295,7 +1295,7 @@ TCanvas *TGo4AnalysisObjectManager::GetCanvas(const char * name)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char * name)
+Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxCanvasDir, kTRUE);

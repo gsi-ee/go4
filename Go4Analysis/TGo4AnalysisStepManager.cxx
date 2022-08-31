@@ -216,7 +216,7 @@ Bool_t TGo4AnalysisStepManager::SetStepStorage(const char* name, Bool_t on)
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::NewStepStore(const char * name, TGo4EventStoreParameter* par)
+Bool_t TGo4AnalysisStepManager::NewStepStore(const char *name, TGo4EventStoreParameter* par)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepStore(const char *, TGo4EventStoreParameter*)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
@@ -241,7 +241,7 @@ Bool_t TGo4AnalysisStepManager::NewStepStore(const char * name, TGo4EventStorePa
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::NewStepSource(const char * name, TGo4EventSourceParameter * par)
+Bool_t TGo4AnalysisStepManager::NewStepSource(const char *name, TGo4EventSourceParameter * par)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepSource(const char *, TGo4EventSourceParameter *)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
@@ -268,7 +268,7 @@ Bool_t TGo4AnalysisStepManager::NewStepSource(const char * name, TGo4EventSource
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char * name, TGo4EventProcessorParameter * par)
+Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char *name, TGo4EventProcessorParameter * par)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::NewStepProcessor(const char *, TGo4EventProcessorParameter *)",__LINE__, __FILE__));
    Bool_t result = kFALSE;
@@ -283,25 +283,25 @@ Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char * name, TGo4EventPro
    return result;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Parameter* par)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Parameter* par)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(par) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Condition* con)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Condition* con)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(con) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Fitter* fit)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Fitter* fit)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(fit) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char * name, TFolder* folder)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder* folder)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(folder) : 1;

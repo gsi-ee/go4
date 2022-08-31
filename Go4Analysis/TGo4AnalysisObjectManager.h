@@ -59,7 +59,7 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       TGo4AnalysisObjectManager(const char* name);
 
-      ~TGo4AnalysisObjectManager();
+      virtual ~TGo4AnalysisObjectManager();
 
       /**
        * Add any external object to the user object folder.
@@ -69,7 +69,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If replace is true, old object of same name will be deleted and
        * replaced by the added one.
        */
-      Bool_t AddObject(TNamed * anything, const char* subfolder = nullptr, Bool_t replace=kTRUE);
+      Bool_t AddObject(TNamed *anything, const char* subfolder = nullptr, Bool_t replace = kTRUE);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -78,7 +78,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TNamed * GetObject(const char * name, const char* folder = nullptr);
+      TNamed * GetObject(const char *name, const char* folder = nullptr);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -87,7 +87,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TObject* GetAsTObject(const char * name, const char* folder = nullptr);
+      TObject* GetAsTObject(const char *name, const char* folder = nullptr);
 
 
       /**
@@ -95,7 +95,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * such histogram. Object is deleted on heap only if del is true.
        * Otherwise, user owns the object afterwards.
        */
-      Bool_t RemoveObject(const char * name, Bool_t del=kTRUE);
+      Bool_t RemoveObject(const char *name, Bool_t del=kTRUE);
 
       /**
        * Delete object of name, or all objects in folder name, respectively.
@@ -103,7 +103,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Objects registered from user code are delete protected by default.
        * Objects created dynamically from gui are not delete protected.
        */
-      Bool_t DeleteObjects(const char * name);
+      Bool_t DeleteObjects(const char *name);
 
       /**
        * Delivers pointer to next object of the Go4 folder structure
@@ -162,7 +162,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search histogram in histogram list (directory).
        */
-      TH1* GetHistogram(const char * name);
+      TH1* GetHistogram(const char *name);
 
       /**
        * Removes histogram from histogram dir by name. Returns kFALSE if no
@@ -170,7 +170,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Otherwise, user owns the histogram afterwards.
        * Dynamic list entry for that histogram object is also removed.
        */
-      Bool_t RemoveHistogram(const char * name, Bool_t del=kTRUE);
+      Bool_t RemoveHistogram(const char *name, Bool_t del=kTRUE);
 
       /**
        * Create 1-dim histogram in histogram folder.
@@ -267,7 +267,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. optional parent folder can be
        * specified. By default, condition is searched relative to Conditions folder.
        */
-      Bool_t SetAnalysisCondition(const char * name, TGo4Condition* con,
+      Bool_t SetAnalysisCondition(const char *name, TGo4Condition* con,
                                   Bool_t counter=kTRUE, TFolder* parent = nullptr);
 
       /**
@@ -280,7 +280,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Removes analysis condition from list by name. Returns 0 if no
        * such condition. Condition object is deleted on heap.
        */
-      Bool_t RemoveAnalysisCondition(const char * name);
+      Bool_t RemoveAnalysisCondition(const char *name);
 
       /**
        * Create 1-dim window condition in conditions folder.
@@ -371,7 +371,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameter(const char * name, TGo4Parameter * par, TFolder* parent = nullptr);
+      Bool_t SetParameter(const char *name, TGo4Parameter * par, TFolder* parent = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -391,7 +391,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Removes parameter by name. Returns 0 if no
        * such parameter. Parameter object is deleted on heap.
        */
-      Bool_t RemoveParameter(const char * name);
+      Bool_t RemoveParameter(const char *name);
 
       /**
        * Puts a new picture object in corresponding folder.
@@ -413,13 +413,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Retrieves a picture object by name from the object folder. Returns 0 if no
        * such picture.
        */
-      TGo4Picture * GetPicture(const char * name);
+      TGo4Picture * GetPicture(const char *name);
 
       /**
        * Removes picture by name. Returns 0 if no
        * such picture. Picture object is deleted on heap.
        */
-      Bool_t RemovePicture(const char * name);
+      Bool_t RemovePicture(const char *name);
 
 
       /**
@@ -433,19 +433,19 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Retrieves a TCanvas by name from the Canvases folder. Returns 0 if no
        * such object.
        */
-      TCanvas * GetCanvas(const char * name);
+      TCanvas * GetCanvas(const char *name);
 
       /**
        * Removes TCanvas by name. Returns 0 if no
        * such canvas. TCanvas object is deleted on heap.
        */
-      Bool_t RemoveCanvas(const char * name);
+      Bool_t RemoveCanvas(const char *name);
 
       /**
        * Find Object of name in the folder structure and create a complete status object of it. Used by GUI command to get updated information on certain object.
        * Optionally, name of search folder may be given.
        */
-      TGo4ObjectStatus * CreateObjectStatus(const char * name, const char* folder = nullptr);
+      TGo4ObjectStatus * CreateObjectStatus(const char *name, const char* folder = nullptr);
 
       /** Create status object for object ob. If fullinfo flag is false,
        * skip time consuming parts of the status (case of nameslist) */
@@ -513,7 +513,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search reference to event structure in  folder.
        */
-      TGo4EventElement * GetEventStructure(const char * name);
+      TGo4EventElement * GetEventStructure(const char *name);
 
       /**
        * Reset all registered backstore instances.Called by dynamic list processing.
