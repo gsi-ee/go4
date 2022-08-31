@@ -129,10 +129,10 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                             Bool_t ishex,
                             Bool_t islong) override;
 
-      void LoadConfigFile(const char* fname) override;
-      void SaveConfigFile(const char* fname) override;
+      void LoadConfigFile(const char *fname) override;
+      void SaveConfigFile(const char *fname) override;
 
-      void WriteAutoSave(const char* fname,
+      void WriteAutoSave(const char *fname,
                          Int_t complevel,
                          Bool_t overwrite) override;
 

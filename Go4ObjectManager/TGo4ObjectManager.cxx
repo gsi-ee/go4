@@ -132,7 +132,7 @@ TGo4Slot* TGo4ObjectManager::Add(const char* pathname, TObject* obj, Bool_t owne
    return slot;
 }
 
-void TGo4ObjectManager::AddFile(const char* pathname, const char* filename)
+void TGo4ObjectManager::AddFile(const char* pathname, const char *filename)
 {
    AddDir(pathname, TFile::Open(filename), kTRUE, kTRUE);
 }

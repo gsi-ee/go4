@@ -234,7 +234,7 @@ void TGo4BrowserItem::ls(Option_t* option) const
    TFolder::ls(option);
 }
 
-void TGo4BrowserItem::SaveAs(const char* filename, Option_t *option) const
+void TGo4BrowserItem::SaveAs(const char *filename, Option_t *option) const
 {
    TFolder::SaveAs(filename, option);
 }

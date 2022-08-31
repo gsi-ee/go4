@@ -32,9 +32,9 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       void UnblockStatusOutput();
 
-      void DrawPicture(const char* itemname, TGo4Picture* pic, TPad* pad);
-      void DrawCondition(const char* itemname, TGo4Condition* con);
-      void DrawItem(const char* itemname);
+      void DrawPicture(const char *itemname, TGo4Picture* pic, TPad* pad);
+      void DrawCondition(const char *itemname, TGo4Condition* con);
+      void DrawItem(const char *itemname);
 
       void Message(const char* str1, const char* str2, Int_t blockdelay);
 

@@ -35,7 +35,7 @@ class TGo4Script : public TGo4AbstractInterface {
       // general purpose
       void Wait(double tm_sec) override;
 
-      void HotStart(const char* filename) override;
+      void HotStart(const char *filename) override;
 
       void Message(const char* msg) override;
 
@@ -70,13 +70,13 @@ class TGo4Script : public TGo4AbstractInterface {
 
       // steps configuration
 
-      void AnalysisAutoSave(const char* filename,
+      void AnalysisAutoSave(const char *filename,
                             Int_t interval,
                             Int_t compression,
                             Bool_t enabled,
                             Bool_t overwrite) override;
 
-      void AnalysisConfigName(const char* filename) override;
+      void AnalysisConfigName(const char *filename) override;
 
       void ConfigStep(const char* stepname,
                       Bool_t enableprocess,
@@ -190,7 +190,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void StartFitPanel() override;
 
-      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
+      Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) override;
 
@@ -201,7 +201,7 @@ class TGo4Script : public TGo4AbstractInterface {
       static TGo4Script* ScriptInstance();
 
       Bool_t CanConfigureAnalysis();
-      Bool_t StartScriptExecution(const char* fname);
+      Bool_t StartScriptExecution(const char *fname);
       Bool_t ContinueExecution();
       void FinishExecution();
 
@@ -209,7 +209,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       TGo4ConfigStep* GetStepGUI(const char* stepname);
 
-      static void ProduceScript(const char* filename, TGo4MainWindow* main);
+      static void ProduceScript(const char *filename, TGo4MainWindow* main);
 
       Int_t  getCounts(Double_t time);
       void   doOutput(const char* str);

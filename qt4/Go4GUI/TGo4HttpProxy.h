@@ -151,7 +151,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t CheckShutdown(Bool_t force = kFALSE);
 
-      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = nullptr);
+      TGo4HttpAccess* SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = nullptr);
 
    public:
       TGo4HttpProxy();
@@ -234,10 +234,10 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       void PrintDynListEntry(const char* fullpath) override;
 
-      void LoadConfigFile(const char* fname) override;
-      void SaveConfigFile(const char* fname) override;
+      void LoadConfigFile(const char *fname) override;
+      void SaveConfigFile(const char *fname) override;
 
-      void WriteAutoSave(const char* fname,
+      void WriteAutoSave(const char *fname,
                          Int_t complevel,
                          Bool_t overwrite) override;
 

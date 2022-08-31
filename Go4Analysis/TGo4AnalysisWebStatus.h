@@ -47,11 +47,11 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     /** Method used by Go4GUI via HTTP to set status to analysis */
     Bool_t ApplyStatus(TGo4AnalysisStatus* status);
 
-    Bool_t LoadStatus(const char* fname);
+    Bool_t LoadStatus(const char *fname);
 
-    Bool_t SaveStatus(const char* fname);
+    Bool_t SaveStatus(const char *fname);
 
-    Bool_t WriteAutoSave(const char* fname,
+    Bool_t WriteAutoSave(const char *fname,
                          Bool_t overwrite,
                          Int_t complevel);
 

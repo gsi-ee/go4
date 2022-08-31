@@ -65,13 +65,13 @@ public:
     TGo4FitPanel(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~TGo4FitPanel();
 
-    bool IsAcceptDrag(const char* itemname, TClass *cl, int kind) override;
+    bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
     void linkedObjectUpdated( const char * linkname, TObject * obj) override;
     void linkedObjectRemoved( const char * linkname ) override;
     void linkedRemoved(TGo4Slot* slot, TObject* obj) override;
     virtual void DropOnPanel( QDropEvent* event, const char * itemname, TClass * cl, int kind );
     virtual void CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname);
-    virtual void WorkWithFitter(const char* itemname, TGo4ViewPanel* panel, TPad* pad);
+    virtual void WorkWithFitter(const char *itemname, TGo4ViewPanel* panel, TPad* pad);
     virtual void WorkWithFitterInSlot(TGo4Slot* slot);
     virtual bool WorkingWithPanel();
     virtual bool WorkingWithOnlyPad();

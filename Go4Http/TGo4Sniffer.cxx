@@ -342,7 +342,7 @@ Bool_t TGo4Sniffer::CmdStop()
    return kTRUE;
 }
 
-Bool_t TGo4Sniffer::CmdOpenFile(const char* fname)
+Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
 {
    Info("CmdOpenFile", "Open ROOT file %s", fname);
 
@@ -651,7 +651,7 @@ Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
    return res;
 }
 
-TObject* TGo4Sniffer::CreateItemStatus(const char* itemname)
+TObject* TGo4Sniffer::CreateItemStatus(const char *itemname)
 {
    TObject *obj = FindTObjectInHierarchy(itemname);
 

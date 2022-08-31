@@ -65,14 +65,14 @@ TGo4ParaEdit::~TGo4ParaEdit()
    }
 }
 
-bool TGo4ParaEdit::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
+bool TGo4ParaEdit::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
 {
    if (kind==TGo4Access::kndGo4Param) return true;
 
    return !cl ? false : cl->InheritsFrom(TGo4Parameter::Class());
 }
 
-void TGo4ParaEdit::DropItem(const char* itemname, TClass* cl, int kind)
+void TGo4ParaEdit::DropItem(const char *itemname, TClass* cl, int kind)
 {
    if ((kind==TGo4Access::kndGo4Param) ||
        (cl && cl->InheritsFrom(TGo4Parameter::Class())))
@@ -96,7 +96,7 @@ void TGo4ParaEdit::linkedObjectRemoved(const char * linkname)
       ShootCloseWidget(true);
 }
 
-void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
+void TGo4ParaEdit::WorkWithParameter(const char *itemname, bool isrefresh)
 {
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
        auto par = GetLinkedCast<TGo4Parameter>("Parameter");

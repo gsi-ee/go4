@@ -59,7 +59,7 @@ void TGo4TreeViewer::ResetWidget()
    setToolTip("Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");
 }
 
-void TGo4TreeViewer::WorkWithLeaf(const char* itemname)
+void TGo4TreeViewer::WorkWithLeaf(const char *itemname)
 {
    ResetWidget();
    XFieldEdt->setText(itemname);
@@ -180,7 +180,7 @@ void TGo4TreeViewer::NewHistBtn_clicked()
      AskToCreateObject(TH1::Class(), BrowserItemRemote(fxTreeName.toLatin1().constData()) ? 1 : 0);
 }
 
-void TGo4TreeViewer::requestedObjectCreated(const char* itemname, TClass* cl)
+void TGo4TreeViewer::requestedObjectCreated(const char *itemname, TClass* cl)
 {
    if (cl && cl->InheritsFrom(TH1::Class()))
       HistNameEdt->setText(itemname);

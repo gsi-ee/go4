@@ -766,7 +766,7 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
    return kTRUE;
 }
 
-void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
+void TGo4AnalysisProxy::LoadConfigFile(const char *fname)
 {
    if(!fname || (strlen(fname) == 0)) {
       fxDisplay->SubmitCommand("ANLoad");
@@ -778,7 +778,7 @@ void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
    }
 }
 
-void TGo4AnalysisProxy::SaveConfigFile(const char* fname)
+void TGo4AnalysisProxy::SaveConfigFile(const char *fname)
 {
    if(!fname || (strlen(fname) == 0)) {
      fxDisplay->SubmitCommand("ANSave");
@@ -790,7 +790,7 @@ void TGo4AnalysisProxy::SaveConfigFile(const char* fname)
    }
 }
 
-void TGo4AnalysisProxy::WriteAutoSave(const char* fname,
+void TGo4AnalysisProxy::WriteAutoSave(const char *fname,
                                           Int_t complevel,
                                           Bool_t overwrite)
 {

@@ -26,7 +26,7 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
 
       TGo4ComLoadAnalysisStatus();
 
-      TGo4ComLoadAnalysisStatus(const char* filename);
+      TGo4ComLoadAnalysisStatus(const char *filename);
 
       Int_t ExeCom() override;
 

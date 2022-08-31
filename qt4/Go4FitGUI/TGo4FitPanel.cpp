@@ -300,7 +300,7 @@ TGo4FitPanel::~TGo4FitPanel()
 // *********************** overloaded methods of QGo4Widget **************************
 
 
-bool TGo4FitPanel::IsAcceptDrag( const char* itemname, TClass * cl, int kind )
+bool TGo4FitPanel::IsAcceptDrag( const char *itemname, TClass * cl, int kind )
 {
    if (!cl) return false;
 
@@ -387,7 +387,7 @@ void TGo4FitPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
 {
 }
 
-void TGo4FitPanel::WorkWithFitter(const char* itemname, TGo4ViewPanel* panel, TPad* pad)
+void TGo4FitPanel::WorkWithFitter(const char *itemname, TGo4ViewPanel* panel, TPad* pad)
 {
    RemovePrimitives();
    RemoveDrawObjects();
@@ -4613,7 +4613,7 @@ QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
   } else {
       int slotindex = GetPadIndexForSlot(slot);
       QString linkname = QString("FitSlotLink_%1").arg(slotindex);
-      const char* itemname = GetLinkedName(linkname.toLatin1().constData());
+      const char *itemname = GetLinkedName(linkname.toLatin1().constData());
       if (itemname) res = itemname;
                else res = "reference to external object";
   }

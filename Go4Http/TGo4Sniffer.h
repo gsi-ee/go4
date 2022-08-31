@@ -83,7 +83,7 @@ class TGo4Sniffer : public TRootSnifferFull,
       Bool_t CmdClear();
       Bool_t CmdRestart();
       Bool_t CmdClose();
-      Bool_t CmdOpenFile(const char* fname);
+      Bool_t CmdOpenFile(const char *fname);
       Bool_t CmdCloseFiles();
       Bool_t CmdExit();
       Bool_t CmdClearObject(const char* objname);
@@ -99,7 +99,7 @@ class TGo4Sniffer : public TRootSnifferFull,
                             const char* varexpr,
                             const char* cutexpr);
 
-      TObject* CreateItemStatus(const char* itemname);
+      TObject* CreateItemStatus(const char *itemname);
 
       /** Method called by logger with every string, going to output */
       void SetTitle(const char* title = "") override;

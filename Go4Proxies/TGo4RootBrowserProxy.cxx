@@ -334,7 +334,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
    pad->Modified();
 }
 
-void TGo4RootBrowserProxy::DrawCondition(const char* itemname, TGo4Condition* con)
+void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition* con)
 {
    if (!con || !fBrowser) return;
 
@@ -360,7 +360,7 @@ void TGo4RootBrowserProxy::DrawCondition(const char* itemname, TGo4Condition* co
    c1->Update();
 }
 
-void TGo4RootBrowserProxy::DrawItem(const char* itemname)
+void TGo4RootBrowserProxy::DrawItem(const char *itemname)
 {
    if (!itemname || !fBrowser) return;
 

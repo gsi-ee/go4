@@ -105,13 +105,13 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void Scan_gROOT();
 
-      Bool_t SaveBrowserToFile(const char* filename,
+      Bool_t SaveBrowserToFile(const char *filename,
                                Bool_t prefetch = kFALSE,
                                const char* selectedpath = nullptr,
                                const char* description = nullptr);
       void ExportItemsTo(TObjArray* items,  // array of TObjString
                          Bool_t fetchitems,
-                         const char* filename,
+                         const char *filename,
                          const char* filedir,
                          const char* format,
                          const char* description);
@@ -188,9 +188,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateVisibleAnalysisObjects(bool checkmonitor);
       Int_t UpdateAllMonitoredObjects();
 
-      TGo4ServerProxy* DefineServerProxy(const char* itemname);
-      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = nullptr, Bool_t onlyanalysis = kTRUE);
-      TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
+      TGo4ServerProxy* DefineServerProxy(const char *itemname);
+      TGo4ServerProxy* DefineServerObject(const char *itemname, TString* objname = nullptr, Bool_t onlyanalysis = kTRUE);
+      TGo4ServerProxy* DefineAnalysisObject(const char *itemname, TString& analysisname);
 
       static bool CanExecuteItem(int cando);
       static bool CanExpandItem(int cando);

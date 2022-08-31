@@ -62,7 +62,7 @@ class TGo4HDF5Adapter {
 protected:
 
     /** opens the hdf5 file depending on the setup */
-    virtual void OpenFile(const char* fname = nullptr) = 0;
+    virtual void OpenFile(const char *fname = nullptr) = 0;
 
     /** opens the hdf5 file depending on the setup */
     virtual void CloseFile();

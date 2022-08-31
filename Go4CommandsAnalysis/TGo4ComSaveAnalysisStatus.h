@@ -26,7 +26,7 @@ class TGo4ComSaveAnalysisStatus : public TGo4AnalysisCommand {
 
     TGo4ComSaveAnalysisStatus();
 
-    TGo4ComSaveAnalysisStatus(const char* filename);
+    TGo4ComSaveAnalysisStatus(const char *filename);
 
     Int_t ExeCom() override;
 

@@ -52,7 +52,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       TGo4Slot* GetLinked(TGo4Slot* link);
 
-      void AddFile(const char* pathname, const char* filename);
+      void AddFile(const char* pathname, const char *filename);
 
       void CloseFiles(const char* pathname);
 

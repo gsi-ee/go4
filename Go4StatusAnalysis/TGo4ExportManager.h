@@ -84,7 +84,7 @@ class TGo4ExportManager : public TNamed {
 
     void SetStartDir(const char* dir = nullptr);
 
-    void SetOutFile(const char* filename = nullptr)
+    void SetOutFile(const char *filename = nullptr)
         { fxOutFile = filename ? filename : "Go4Export"; }
 
     void SetOutFileComment(const char* comment = nullptr)

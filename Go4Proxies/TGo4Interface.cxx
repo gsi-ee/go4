@@ -324,7 +324,7 @@ TGo4AnalysisStatus* TGo4Interface::GetAnalStatus()
             (anal->SettingsSlot()->GetAssignedObject());
 }
 
-void TGo4Interface::AnalysisAutoSave(const char* filename,
+void TGo4Interface::AnalysisAutoSave(const char *filename,
                                          Int_t interval,
                                          Int_t compression,
                                          Bool_t enabled,
@@ -340,7 +340,7 @@ void TGo4Interface::AnalysisAutoSave(const char* filename,
    status->SetAutoSaveOverwrite(overwrite);
 }
 
-void TGo4Interface::AnalysisConfigName(const char* filename)
+void TGo4Interface::AnalysisConfigName(const char *filename)
 {
    TGo4AnalysisStatus* status  = GetAnalStatus();
    if (status)
@@ -622,7 +622,7 @@ TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
     return nullptr;
 }
 
-Bool_t TGo4Interface::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)
+Bool_t TGo4Interface::DrawItem(const char *itemname, ViewPanelHandle handle, const char* drawopt)
 {
     if (!handle) handle = StartViewPanel();
 
@@ -633,7 +633,7 @@ Bool_t TGo4Interface::DrawItem(const char* itemname, ViewPanelHandle handle, con
     return obj != nullptr;
 }
 
-void TGo4Interface::RedrawItem(const char* itemname)
+void TGo4Interface::RedrawItem(const char *itemname)
 {
    TGo4AbstractInterface::RedrawItem(itemname);
 
@@ -675,7 +675,7 @@ Bool_t TGo4Interface::HandleTimer(TTimer* timer)
 }
 
 
-void TGo4Interface::HotStart(const char* filename)
+void TGo4Interface::HotStart(const char *filename)
 {
    if (!filename || (strlen(filename) == 0)) return;
 

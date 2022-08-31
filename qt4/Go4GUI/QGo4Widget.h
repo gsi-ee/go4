@@ -97,11 +97,11 @@ private:
       QGo4Widget(QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags f = Qt::Widget );
       virtual ~QGo4Widget();
 
-      virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
-      virtual void DropItem(const char* itemname, TClass* cl, int kind);
+      virtual bool IsAcceptDrag(const char *itemname, TClass* cl, int kind);
+      virtual void DropItem(const char *itemname, TClass* cl, int kind);
       virtual void ResetWidget();
 
-      void ObjectCreatedByWidget(const char* itemname, TClass* cl);
+      void ObjectCreatedByWidget(const char *itemname, TClass* cl);
 
       void ProcessSignal(const char* linkname, bool assigned, TObject* obj, TGo4Slot* slot);
 
@@ -128,13 +128,13 @@ private:
       void dropEvent(QDropEvent* e) override;
 
       /** create link for item with name linkname*/
-      void AddLink(const char* itemname, const char* linkname);
+      void AddLink(const char *itemname, const char* linkname);
 
       /** create link for object in slot with name linkname*/
       void AddLink(TGo4Slot* slot, const char* linkname);
 
       /** create link for item in dedicated slot parent */
-      TGo4Slot* AddLink(const char* itemname, TGo4Slot* parent);
+      TGo4Slot* AddLink(const char *itemname, TGo4Slot* parent);
 
       /** return top slot of structure, corresponding to this widget */
       TGo4Slot* GetTopSlot(bool force = false);
@@ -143,7 +143,7 @@ private:
       TGo4Slot* AddSlot(const char* slotname);
 
       /** set name of item, which was linked by this slot */
-      void SetLinkedName(TGo4Slot* slot, const char* itemname);
+      void SetLinkedName(TGo4Slot* slot, const char *itemname);
 
       /** returns name of item, which was linked with linkname */
       const char* GetLinkedName(const char* linkname);
@@ -160,7 +160,7 @@ private:
       void RemoveAllLinks(bool blockreset = true);
       void RemoveLinksMasked(const char *startedwith = nullptr, bool blockreset = true);
 
-      bool BrowserItemRemote(const char* itemname);
+      bool BrowserItemRemote(const char *itemname);
       TGo4BrowserProxy* Browser();
 
       void StatusMessage(const QString& message);
@@ -173,18 +173,18 @@ private:
       void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
       TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad* pad = nullptr, bool activate = true, int updatelevel = -1);
-      TGo4ViewPanel* WhereItemDrawn(const char* itemname);
-      void HelpWindow(const char* filename, const char* msg = nullptr);
-      void UndrawItem(const char* itemname);
+      TGo4ViewPanel* WhereItemDrawn(const char *itemname);
+      void HelpWindow(const char *filename, const char* msg = nullptr);
+      void UndrawItem(const char *itemname);
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
       QString SaveObjectInMemory(const char* foldername, TObject* obj);
-      bool SaveItemToFile(const char* itemname, const char* subfolder = nullptr);
-      bool UpdateItemInAnalysis(const char* itemname, TObject* obj = nullptr);
-      void InformThatObjectCreated(const char* itemname, TClass* cl);
-      TGo4ServerProxy* GetAnalysis(const char* itemname = nullptr);
-      void StartHotstart(const char* filename);
+      bool SaveItemToFile(const char *itemname, const char* subfolder = nullptr);
+      bool UpdateItemInAnalysis(const char *itemname, TObject* obj = nullptr);
+      void InformThatObjectCreated(const char *itemname, TClass* cl);
+      TGo4ServerProxy* GetAnalysis(const char *itemname = nullptr);
+      void StartHotstart(const char *filename);
 
       /** connect pad axis change signals to react on such signals */
       void ConnectPad(TPad* pad);
@@ -192,7 +192,7 @@ private:
       void CallServiceFunc(int id, const char* str = nullptr, void *par = nullptr);
       void ServiceCall(const char* name, void* par = nullptr);
 
-      virtual void requestedObjectCreated(const char* itemname, TClass* cl);
+      virtual void requestedObjectCreated(const char *itemname, TClass* cl);
       virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
       virtual void linkedObjectRemoved(const char* linkname);
       virtual void linkedUpdated(TGo4Slot* slot, TObject* obj);

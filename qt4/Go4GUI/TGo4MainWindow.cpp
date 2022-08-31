@@ -1257,7 +1257,7 @@ void TGo4MainWindow::LogSettingsSlot()
    TGo4Log::AutoEnable(dlg.ModeCombo->currentIndex());
 }
 
-void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
+void TGo4MainWindow::HelpWindow(const char *filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -2370,7 +2370,7 @@ void TGo4MainWindow::UpdateBrowser()
    if (br) br->ShootUpdateTimer();
 }
 
-TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
+TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char *itemname)
 {
    TGo4ParaEdit* pedit = (TGo4ParaEdit*) FindGo4Widget("ParaEdit", true);
 
@@ -2645,7 +2645,7 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
    GetWidgetTopSlot(editor, true);
 }
 
-TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt)
+TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt)
 {
    TGo4BrowserProxy* br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
@@ -2683,7 +2683,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4View
    return panel;
 }
 
-bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* subfolder)
+bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char* subfolder)
 {
    TGo4BrowserProxy* br = Browser();
    if (!br || !itemname) return false;
@@ -3271,7 +3271,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (!edslot) return;
          TGo4Slot* link = edslot->FindChild(str);
          if (!link) return;
-         const char* itemname = TGo4BrowserProxy::GetLinkedName(link);
+         const char *itemname = TGo4BrowserProxy::GetLinkedName(link);
          TObject** res = (TObject**) par;
          int updatelevel = serviceid - QGo4Widget::service_GetLinked0;
          if (itemname)
@@ -3423,7 +3423,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
 // ******************** hot start functions *********************
 
-void TGo4MainWindow::HotStart(const char* fname)
+void TGo4MainWindow::HotStart(const char *fname)
 {
    if (!fname) return;
 
