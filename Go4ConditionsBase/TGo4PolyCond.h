@@ -146,7 +146,7 @@ class TGo4PolyCond : public TGo4Condition {
 
       /** temporary histogram used to calculate statistics on
         * polygon cuts. Will be recalculated only if boundaries
-        * habe changed.*/
+        * have changed.*/
       TH2 *fxCutHis{nullptr};   //!
 
 
