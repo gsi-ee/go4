@@ -516,7 +516,7 @@ void TGo4AnalysisWindow::WaitForNewObject(bool isobjectforeditor)
    fNewObjectForEditor = isobjectforeditor;
 }
 
-void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4AnalysisWindow::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname, "ObjectUpdateCmd") == 0) {
       TGo4AnalysisObjectResult* res = dynamic_cast<TGo4AnalysisObjectResult*>(obj);
@@ -543,7 +543,7 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject *obj)
    }
 }
 
-void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
+void TGo4AnalysisWindow::linkedObjectRemoved(const char *linkname)
 {
    fHasLink = false;
 

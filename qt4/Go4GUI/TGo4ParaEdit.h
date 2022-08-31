@@ -40,7 +40,7 @@ public:
 
    bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;
    void DropItem(const char *itemname, TClass* cl, int kind) override;
-   void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
    void linkedObjectRemoved( const char * linkname ) override;
    virtual void WorkWithParameter(const char *itemname, bool isrefresh);
    void ResetWidget() override;

@@ -103,7 +103,7 @@ private:
 
       void ObjectCreatedByWidget(const char *itemname, TClass* cl);
 
-      void ProcessSignal(const char* linkname, bool assigned, TObject *obj, TGo4Slot* slot);
+      void ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot* slot);
 
       static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
             const QString& text, int id, int enabled = -1, int checked = -1);
@@ -128,10 +128,10 @@ private:
       void dropEvent(QDropEvent* e) override;
 
       /** create link for item with name linkname*/
-      void AddLink(const char *itemname, const char* linkname);
+      void AddLink(const char *itemname, const char *linkname);
 
       /** create link for object in slot with name linkname*/
-      void AddLink(TGo4Slot* slot, const char* linkname);
+      void AddLink(TGo4Slot* slot, const char *linkname);
 
       /** create link for item in dedicated slot parent */
       TGo4Slot* AddLink(const char *itemname, TGo4Slot* parent);
@@ -146,7 +146,7 @@ private:
       void SetLinkedName(TGo4Slot* slot, const char *itemname);
 
       /** returns name of item, which was linked with linkname */
-      const char* GetLinkedName(const char* linkname);
+      const char* GetLinkedName(const char *linkname);
 
       /** returns name of item, which was linked in that slot */
       const char* GetLinkedName(TGo4Slot* slot);
@@ -154,7 +154,7 @@ private:
       TObject* GetLinked(const char *linkname, int updatelevel = 0);
 
       template<class T>
-      T* GetLinkedCast(const char* linkname, int updatelevel = 0) { return dynamic_cast<T *>(GetLinked(linkname, updatelevel)); }
+      T* GetLinkedCast(const char *linkname, int updatelevel = 0) { return dynamic_cast<T *>(GetLinked(linkname, updatelevel)); }
 
       void RemoveLink(const char *linkname, bool blockreset = true);
       void RemoveAllLinks(bool blockreset = true);
@@ -193,8 +193,8 @@ private:
       void ServiceCall(const char *name, void* par = nullptr);
 
       virtual void requestedObjectCreated(const char *itemname, TClass* cl);
-      virtual void linkedObjectUpdated(const char* linkname, TObject *obj);
-      virtual void linkedObjectRemoved(const char* linkname);
+      virtual void linkedObjectUpdated(const char *linkname, TObject *obj);
+      virtual void linkedObjectRemoved(const char *linkname);
       virtual void linkedUpdated(TGo4Slot* slot, TObject *obj);
       virtual void linkedRemoved(TGo4Slot* slot, TObject *obj);
 

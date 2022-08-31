@@ -273,7 +273,7 @@ const char* TGo4AnalysisStep::GetEventSourceName()
 void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
 {
    GO4TRACE((12,"TGo4AnalysisStep::NewEventSource(Int_t)",__LINE__, __FILE__));
-   const char* sourcename = "";
+   const char *sourcename = "";
    if (kind) sourcename = kind->GetName();
 
    CloseEventSource();

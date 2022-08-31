@@ -78,96 +78,96 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void AnalysisConfigName(const char *filename) override;
 
-      void ConfigStep(const char* stepname,
+      void ConfigStep(const char *stepname,
                       Bool_t enableprocess,
                       Bool_t enablesource,
                       Bool_t enablestore) override;
 
-      void StepFileSource(const char* stepname,
-                          const char* sourcename,
+      void StepFileSource(const char *stepname,
+                          const char *sourcename,
                           int timeout) override;
 
-      void StepMbsFileSource(const char* stepname,
-                             const char* sourcename,
+      void StepMbsFileSource(const char *stepname,
+                             const char *sourcename,
                              int timeout,
                              const char* TagFile,
                              int start = 0,
                              int stop = 0,
                              int interval = 0) override;
 
-      void StepMbsStreamSource(const char* stepname,
-                               const char* sourcename,
+      void StepMbsStreamSource(const char *stepname,
+                               const char *sourcename,
                                int timeout,
                                int start = 0,
                                int stop = 0,
                                int interval = 0) override;
 
-      void StepMbsTransportSource(const char* stepname,
-                                  const char* sourcename,
+      void StepMbsTransportSource(const char *stepname,
+                                  const char *sourcename,
                                   int timeout,
                                   int start = 0,
                                   int stop = 0,
                                   int interval = 0) override;
 
-      void StepMbsEventServerSource(const char* stepname,
-                                    const char* sourcename,
+      void StepMbsEventServerSource(const char *stepname,
+                                    const char *sourcename,
                                     int timeout,
                                     int start = 0,
                                     int stop = 0,
                                     int interval = 0) override;
 
-      void StepMbsRevServSource(const char* stepname,
-                                const char* sourcename,
+      void StepMbsRevServSource(const char *stepname,
+                                const char *sourcename,
                                 int timeout,
                                 int port = 0,
                                 int start = 0,
                                 int stop = 0,
                                 int interval = 0) override;
 
-      void StepMbsSelection(const char* stepname,
+      void StepMbsSelection(const char *stepname,
                             int start,
                             int stop,
                             int interval) override;
 
-      void StepRandomSource(const char* stepname,
-                            const char* sourcename,
+      void StepRandomSource(const char *stepname,
+                            const char *sourcename,
                             int timeout) override;
 
-      void StepUserSource(const char* stepname,
-                          const char* sourcename,
+      void StepUserSource(const char *stepname,
+                          const char *sourcename,
                           int timeout,
                           int port,
-                          const char* expr) override;
+                          const char *expr) override;
 
-      void StepHDF5Source(const char* stepname,
-                          const char* sourcename,
+      void StepHDF5Source(const char *stepname,
+                          const char *sourcename,
                           int timeout) override;
 
 
-      void StepMbsPort(const char* stepname,
+      void StepMbsPort(const char *stepname,
                        int port) override;
 
-      void StepMbsRetryCnt(const char* stepname,
+      void StepMbsRetryCnt(const char *stepname,
                            int cnt) override;
 
-      void StepFileStore(const char* stepname,
-                         const char* storename,
+      void StepFileStore(const char *stepname,
+                         const char *storename,
                          bool overwrite,
                          int bufsize,
                          int splitlevel,
                          int compression,
                          int autosaveperiod = 10000) override;
 
-      void StepBackStore(const char* stepname,
-                         const char* storename,
+      void StepBackStore(const char *stepname,
+                         const char *storename,
                          int bufsize,
                          int splitlevel) override;
 
-      void StepUserStore(const char* stepname,
-                         const char* storename) override;
+      void StepUserStore(const char *stepname,
+                         const char *storename) override;
 
-      void StepHDF5Store(const char* stepname,
-                         const char* storename,
+      void StepHDF5Store(const char *stepname,
+                         const char *storename,
                          int flags) override;
 
       // windows management
@@ -207,7 +207,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       Bool_t IsWaitSomething();
 
-      TGo4ConfigStep* GetStepGUI(const char* stepname);
+      TGo4ConfigStep* GetStepGUI(const char *stepname);
 
       static void ProduceScript(const char *filename, TGo4MainWindow* main);
 

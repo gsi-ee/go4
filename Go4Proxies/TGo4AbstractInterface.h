@@ -395,19 +395,19 @@ class TGo4AbstractInterface : public TObject {
       // steps configuration
 
       /** Set basic step property */
-      virtual void ConfigStep(const char* stepname,
+      virtual void ConfigStep(const char *stepname,
                       Bool_t enableprocess,
                       Bool_t enablesource,
                       Bool_t enablestore) {}
 
       /** Set file source as step data source */
-      virtual void StepFileSource(const char* stepname,
-                          const char* sourcename,
+      virtual void StepFileSource(const char *stepname,
+                          const char *sourcename,
                           int timeout) {}
 
       /** Set MBS file source as step data source */
-      virtual void StepMbsFileSource(const char* stepname,
-                             const char* sourcename,
+      virtual void StepMbsFileSource(const char *stepname,
+                             const char *sourcename,
                              int timeout,
                              const char* TagFile,
                              int start = 0,
@@ -415,32 +415,32 @@ class TGo4AbstractInterface : public TObject {
                              int interval = 0) {}
 
       /** Set MBS stream server as step data source */
-      virtual void StepMbsStreamSource(const char* stepname,
-                               const char* sourcename,
+      virtual void StepMbsStreamSource(const char *stepname,
+                               const char *sourcename,
                                int timeout,
                                int start = 0,
                                int stop = 0,
                                int interval = 0) {}
 
       /** Set MBS transport server as step data source */
-      virtual void StepMbsTransportSource(const char* stepname,
-                                  const char* sourcename,
+      virtual void StepMbsTransportSource(const char *stepname,
+                                  const char *sourcename,
                                   int timeout,
                                   int start = 0,
                                   int stop = 0,
                                   int interval = 0) {}
 
       /** Set MBS event server as step data source */
-      virtual void StepMbsEventServerSource(const char* stepname,
-                                    const char* sourcename,
+      virtual void StepMbsEventServerSource(const char *stepname,
+                                    const char *sourcename,
                                     int timeout,
                                     int start = 0,
                                     int stop = 0,
                                     int interval = 0) {}
 
       /** Set MBS remote event server as step data source */
-      virtual void StepMbsRevServSource(const char* stepname,
-                                const char* sourcename,
+      virtual void StepMbsRevServSource(const char *stepname,
+                                const char *sourcename,
                                 int timeout,
                                 int port = 0,
                                 int start = 0,
@@ -448,40 +448,40 @@ class TGo4AbstractInterface : public TObject {
                                 int interval = 0) {}
 
       /** Set event selection for MBS source */
-      virtual void StepMbsSelection(const char* stepname,
+      virtual void StepMbsSelection(const char *stepname,
                                     int start,
                                     int stop,
                                     int interval) {}
 
       /** Set random generator as step data source */
-      virtual void StepRandomSource(const char* stepname,
-                            const char* sourcename,
+      virtual void StepRandomSource(const char *stepname,
+                            const char *sourcename,
                             int timeout) {}
 
       /** Set custom port number for MBS source like stream or transport server */
-      virtual void StepMbsPort(const char* stepname,
+      virtual void StepMbsPort(const char *stepname,
                               int port) {}
 
       /** Set retry number for MBS source like stream or transport server */
-      virtual void StepMbsRetryCnt(const char* stepname,
+      virtual void StepMbsRetryCnt(const char *stepname,
                                    int cnt) {}
 
       /** Set user data source as step data source */
-      virtual void StepUserSource(const char* stepname,
-                          const char* sourcename,
+      virtual void StepUserSource(const char *stepname,
+                          const char *sourcename,
                           int timeout,
                           int port,
-                          const char* expr) {}
+                          const char *expr) {}
 
       /** Set hdf5 data source as step data source */
-      virtual void StepHDF5Source(const char* stepname,
-                              const char* sourcename,
+      virtual void StepHDF5Source(const char *stepname,
+                              const char *sourcename,
                               int timeout) {}
 
 
       /** Set file as step data storage */
-      virtual void StepFileStore(const char* stepname,
-                         const char* storename,
+      virtual void StepFileStore(const char *stepname,
+                         const char *storename,
                          bool overwrite,
                          int bufsize,
                          int splitlevel,
@@ -489,18 +489,18 @@ class TGo4AbstractInterface : public TObject {
                          int autosaveperiod = 0) {}
 
       /** Set back store as step data storage */
-      virtual void StepBackStore(const char* stepname,
-                         const char* storename,
+      virtual void StepBackStore(const char *stepname,
+                         const char *storename,
                          int bufsize,
                          int splitlevel) {}
 
       /** Set user store as step data storage */
-      virtual void StepUserStore(const char* stepname,
-                         const char* storename) {}
+      virtual void StepUserStore(const char *stepname,
+                         const char *storename) {}
 
       /** Set hdf5 data source as step data storage*/
-      virtual void StepHDF5Store(const char* stepname,
-                                  const char* storename,
+      virtual void StepHDF5Store(const char *stepname,
+                                  const char *storename,
                                   int flags) {}
 
       // windows management

@@ -147,7 +147,7 @@ void QUserPanel::DropItem(const char *itemname, TClass* cl, int kind)
    }
 }
 
-void QUserPanel::linkedObjectUpdated(const char* linkname, TObject *obj)
+void QUserPanel::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
     if (strcmp(linkname, "PrintItem") == 0) {
        PrintObject(obj);
@@ -159,7 +159,7 @@ void QUserPanel::linkedObjectUpdated(const char* linkname, TObject *obj)
     }
 }
 
-void QUserPanel::linkedObjectRemoved(const char* linkname)
+void QUserPanel::linkedObjectRemoved(const char *linkname)
 {
     if (strcmp(linkname, "PrintItem") == 0) {
       PrintObject(nullptr);

@@ -105,7 +105,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot* AddNewSlot(const char *name, TGo4Slot* parent);
       virtual void BlockPanelRedraw(bool on);
       void ResetWidget() override;
-      void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+      void linkedObjectUpdated(const char *linkname, TObject *obj) override;
       void linkedUpdated(TGo4Slot* slot, TObject *obj) override;
       void linkedRemoved(TGo4Slot* slot, TObject *obj) override;
       bool IsAcceptDrag( const char * itemname, TClass * cl, int kind ) override;

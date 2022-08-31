@@ -383,7 +383,7 @@ void TGo4ViewPanel::ResetWidget()
    // do nothing
 }
 
-void TGo4ViewPanel::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4ViewPanel::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (!linkname)
       return;
@@ -629,7 +629,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char *itemname)
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
-         const char* linkname = GetLinkedName(subslot);
+         const char *linkname = GetLinkedName(subslot);
          if (linkname && (strcmp(linkname, itemname) == 0))
             return GetSlotPad(subslot->GetParent());
       }
@@ -646,7 +646,7 @@ const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition)) {
-         const char* linkname = GetLinkedName(subslot);
+         const char *linkname = GetLinkedName(subslot);
          if (linkname) {
             if (cnt++ == itemcnt) return linkname;
          }
@@ -668,7 +668,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char *itemname)
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
       if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
-         const char* linkname = GetLinkedName(subslot);
+         const char *linkname = GetLinkedName(subslot);
          if (linkname && (strcmp(linkname, itemname) == 0)) {
             delslots.Add(subslot);
             TGo4Slot* padslot = subslot->GetParent();

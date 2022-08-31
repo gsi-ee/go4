@@ -66,7 +66,7 @@ void TGo4EventInfo::ResetWidget()
    MbsPrintBox->setEnabled(false);
 }
 
-void TGo4EventInfo::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4EventInfo::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    TTree* tr = dynamic_cast<TTree*>(obj);
    if (tr) {

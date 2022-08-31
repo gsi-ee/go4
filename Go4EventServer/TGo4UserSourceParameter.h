@@ -21,7 +21,7 @@ class TGo4UserSourceParameter : public TGo4EventSourceParameter {
   public:
     TGo4UserSourceParameter();
 
-    TGo4UserSourceParameter(const char *name, const char* expr = "", Int_t port = 0);
+    TGo4UserSourceParameter(const char *name, const char *expr = "", Int_t port = 0);
 
     virtual ~TGo4UserSourceParameter();
 

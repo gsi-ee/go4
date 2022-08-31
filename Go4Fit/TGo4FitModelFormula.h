@@ -57,7 +57,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       /**
        * Sets formula expression.
        */
-      void SetExpression(const char* expr) { fxExpression = expr; }
+      void SetExpression(const char *expr) { fxExpression = expr; }
 
       /**
        * Get number of parameters, which can be used in expression.

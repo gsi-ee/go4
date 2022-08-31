@@ -713,7 +713,7 @@ Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char *subfolder)
    return (AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE));
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char* stepname)
+Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char *stepname)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveTree(TTree*, const char*)",__LINE__, __FILE__));
    if (!tree) return kFALSE;
@@ -1754,7 +1754,7 @@ void TGo4AnalysisObjectManager::RemoveFromDir(TFolder* fold, TDirectory* dir)
    }
 }
 
-Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const char* expression)
+Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const char *expression)
 {
    if(!fold) return 0;
 
@@ -1911,7 +1911,7 @@ void TGo4AnalysisObjectManager::CleanupDynamicLists(TObject* oldobject)
       TGo4DynamicList::CleanupPointerInEntries(fxDynListDir, oldobject);
 }
 
-void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
+void TGo4AnalysisObjectManager::PrintConditions(const char *expression)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxConditionDir, "*", expression);
@@ -1919,7 +1919,7 @@ void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
    std::cout << "Total size of all conditions is: " << totalsize << " bytes." << std::endl;
 }
 
-void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
+void TGo4AnalysisObjectManager::PrintHistograms(const char *expression)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxHistogramDir, "*", expression);
@@ -1927,7 +1927,7 @@ void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
    std::cout << "Total size of all histograms is: " << totalsize << " bytes." << std::endl;
 }
 
-void TGo4AnalysisObjectManager::PrintParameters(const char* expression)
+void TGo4AnalysisObjectManager::PrintParameters(const char *expression)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxParameterDir, "*", expression);
@@ -1946,7 +1946,7 @@ TObject *TGo4AnalysisObjectManager::NextMatchingObject(const char *expr, const c
    return fxMatchIterator->Next();
 }
 
-TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, const char *folder)
+TList* TGo4AnalysisObjectManager::CreateObjectList(const char *expr, const char *folder)
 {
    TGo4LockGuard  dirguard(fxDirMutex);
    TFolder* searchfold;
@@ -1958,7 +1958,7 @@ TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, const char 
 }
 
 
-TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, TFolder* fold)
+TList* TGo4AnalysisObjectManager::CreateObjectList(const char *expr, TFolder* fold)
 {
    TList* result = new TList;
    if(fold) {
@@ -1988,7 +1988,7 @@ TList* TGo4AnalysisObjectManager::CreateObjectList(const char* expr, TFolder* fo
    return result;
 }
 
-Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char* expression)
+Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char *expression)
 {
    if(!expression) return kTRUE;
    Bool_t ismatching=kFALSE;

@@ -1290,24 +1290,24 @@ void TGo4Analysis::ShutdownServer()
 {
    // this method to be called from ctrl-c signal handler of analysis server
    //std::cout <<"######### TGo4Analysis::ShutdownServer()" << std::endl;
-   if(fxAnalysisSlave)
-   {
+   if(fxAnalysisSlave) {
       TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");
       fxAnalysisSlave->SubmitShutdown(); // shutdown will be performed in local command thread
    }
 
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+// Show event in specified step
 
-
-void TGo4Analysis::ShowEvent(const char* stepname, Bool_t isoutput)
+void TGo4Analysis::ShowEvent(const char *stepname, Bool_t isoutput)
 {
-   TTree* sevtree=CreateSingleEventTree(stepname,isoutput);
+   TTree *sevtree = CreateSingleEventTree(stepname,isoutput);
    if(sevtree) {
       if(isoutput)
-         Message(1,"Showing Output Event %s of step %s",sevtree->GetName(),stepname);
+         Message(1, "Showing Output Event %s of step %s", sevtree->GetName(), stepname);
       else
-         Message(1,"Showing Input  Event %s of step %s",sevtree->GetName(),stepname);
+         Message(1, "Showing Input  Event %s of step %s", sevtree->GetName(), stepname);
       sevtree->Show(0);
       std::cout << std::endl;
       delete sevtree;
@@ -1509,7 +1509,7 @@ Bool_t TGo4Analysis::RemoveCanvas(const char *name)
    return fxObjectManager->RemoveCanvas(name);
 }
 
-Bool_t TGo4Analysis::RemoveTree(TTree * tree, const char* stepname)
+Bool_t TGo4Analysis::RemoveTree(TTree * tree, const char *stepname)
 {
    return fxObjectManager->RemoveTree(tree, stepname);
 }
@@ -1569,17 +1569,17 @@ void TGo4Analysis::SetDynListInterval(Int_t val)
    fxObjectManager->SetDynListInterval(val);
 }
 
-void TGo4Analysis::PrintConditions(const char* expression)
+void TGo4Analysis::PrintConditions(const char *expression)
 {
    fxObjectManager->PrintConditions(expression);
 }
 
-void TGo4Analysis::PrintHistograms(const char* expression)
+void TGo4Analysis::PrintHistograms(const char *expression)
 {
    fxObjectManager->PrintHistograms(expression);
 }
 
-void TGo4Analysis::PrintParameters(const char* expression)
+void TGo4Analysis::PrintParameters(const char *expression)
 {
    fxObjectManager->PrintParameters(expression);
 }
@@ -1589,11 +1589,10 @@ void TGo4Analysis::PrintDynamicList()
    fxObjectManager->PrintDynamicList();
 }
 
-TObject* TGo4Analysis::NextMatchingObject(const char* expr, const char *folder, Bool_t reset)
+TObject* TGo4Analysis::NextMatchingObject(const char *expr, const char *folder, Bool_t reset)
 {
    return fxObjectManager->NextMatchingObject(expr,folder,reset);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 // Methods that forward to stepmanager:
@@ -1603,7 +1602,7 @@ TGo4EventElement* TGo4Analysis::GetInputEvent(Int_t stepindex)
    return fxStepManager->GetInputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetInputEvent(const char* stepname)
+TGo4EventElement* TGo4Analysis::GetInputEvent(const char *stepname)
 {
    return fxStepManager->GetInputEvent(stepname);
 }
@@ -1618,7 +1617,7 @@ TGo4EventElement* TGo4Analysis::GetOutputEvent(Int_t stepindex)
    return fxStepManager->GetOutputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent(const char* stepname)
+TGo4EventElement* TGo4Analysis::GetOutputEvent(const char *stepname)
 {
    return fxStepManager->GetOutputEvent(stepname);
 }

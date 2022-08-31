@@ -492,7 +492,7 @@ void TGo4Script::AnalysisConfigName(const char *filename)
       gui->SetAnalysisConfigFile(filename);
 }
 
-TGo4ConfigStep* TGo4Script::GetStepGUI(const char* stepname)
+TGo4ConfigStep* TGo4Script::GetStepGUI(const char *stepname)
 {
    // in cannot configure analysis - do not return step gui pointer
    if (!CanConfigureAnalysis()) return nullptr;
@@ -502,7 +502,7 @@ TGo4ConfigStep* TGo4Script::GetStepGUI(const char* stepname)
    return !gui ? nullptr : gui->FindStepConfig(stepname);
 }
 
-void TGo4Script::ConfigStep(const char* stepname,
+void TGo4Script::ConfigStep(const char *stepname,
                             Bool_t enableprocess,
                             Bool_t enablesource,
                             Bool_t enablestore)
@@ -512,8 +512,8 @@ void TGo4Script::ConfigStep(const char* stepname,
       step->SetStepControl(enableprocess, enablesource, enablestore);
 }
 
-void TGo4Script::StepFileSource(const char* stepname,
-                                const char* sourcename,
+void TGo4Script::StepFileSource(const char *stepname,
+                                const char *sourcename,
                                 int timeout)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
@@ -523,8 +523,8 @@ void TGo4Script::StepFileSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsFileSource(const char* stepname,
-                                   const char* sourcename,
+void TGo4Script::StepMbsFileSource(const char *stepname,
+                                   const char *sourcename,
                                    int timeout,
                                    const char* TagFile,
                                    int start,
@@ -539,8 +539,8 @@ void TGo4Script::StepMbsFileSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsStreamSource(const char* stepname,
-                                     const char* sourcename,
+void TGo4Script::StepMbsStreamSource(const char *stepname,
+                                     const char *sourcename,
                                      int timeout,
                                      int start,
                                      int stop,
@@ -554,8 +554,8 @@ void TGo4Script::StepMbsStreamSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsTransportSource(const char* stepname,
-                                        const char* sourcename,
+void TGo4Script::StepMbsTransportSource(const char *stepname,
+                                        const char *sourcename,
                                         int timeout,
                                         int start,
                                         int stop,
@@ -569,8 +569,8 @@ void TGo4Script::StepMbsTransportSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsEventServerSource(const char* stepname,
-                                          const char* sourcename,
+void TGo4Script::StepMbsEventServerSource(const char *stepname,
+                                          const char *sourcename,
                                           int timeout,
                                           int start,
                                           int stop,
@@ -584,8 +584,8 @@ void TGo4Script::StepMbsEventServerSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsRevServSource(const char* stepname,
-                                      const char* sourcename,
+void TGo4Script::StepMbsRevServSource(const char *stepname,
+                                      const char *sourcename,
                                       int timeout,
                                       int port,
                                       int start,
@@ -600,7 +600,7 @@ void TGo4Script::StepMbsRevServSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsSelection(const char* stepname,
+void TGo4Script::StepMbsSelection(const char *stepname,
                                   int start,
                                   int stop,
                                   int interval)
@@ -610,8 +610,8 @@ void TGo4Script::StepMbsSelection(const char* stepname,
       step->SetMbsSourceWidgets(start, stop, interval);
 }
 
-void TGo4Script::StepRandomSource(const char* stepname,
-                                  const char* sourcename,
+void TGo4Script::StepRandomSource(const char *stepname,
+                                  const char *sourcename,
                                   int timeout)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
@@ -621,25 +621,25 @@ void TGo4Script::StepRandomSource(const char* stepname,
    }
 }
 
-void TGo4Script::StepMbsPort(const char* stepname,
+void TGo4Script::StepMbsPort(const char *stepname,
                              int port)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) step->SetMbsPort(port);
 }
 
-void TGo4Script::StepMbsRetryCnt(const char* stepname,
+void TGo4Script::StepMbsRetryCnt(const char *stepname,
                                  int cnt)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) step->SetMbsRetryCnt(cnt);
 }
 
-void TGo4Script::StepUserSource(const char* stepname,
-                                const char* sourcename,
+void TGo4Script::StepUserSource(const char *stepname,
+                                const char *sourcename,
                                 int timeout,
                                 int port,
-                                const char* expr)
+                                const char *expr)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
@@ -649,8 +649,8 @@ void TGo4Script::StepUserSource(const char* stepname,
 }
 
 
-void TGo4Script::StepHDF5Source(const char* stepname,
-                                const char* sourcename,
+void TGo4Script::StepHDF5Source(const char *stepname,
+                                const char *sourcename,
                                 int timeout)
 {
     TGo4ConfigStep* step = GetStepGUI(stepname);
@@ -660,8 +660,8 @@ void TGo4Script::StepHDF5Source(const char* stepname,
      }
 }
 
-void TGo4Script::StepFileStore(const char* stepname,
-                               const char* storename,
+void TGo4Script::StepFileStore(const char *stepname,
+                               const char *storename,
                                bool overwrite,
                                int bufsize,
                                int splitlevel,
@@ -673,8 +673,8 @@ void TGo4Script::StepFileStore(const char* stepname,
       step->SetFileStore(storename, overwrite, bufsize, splitlevel, compression, autosaveperiod);
 }
 
-void TGo4Script::StepBackStore(const char* stepname,
-                               const char* storename,
+void TGo4Script::StepBackStore(const char *stepname,
+                               const char *storename,
                                int bufsize,
                                int splitlevel)
 {
@@ -683,16 +683,16 @@ void TGo4Script::StepBackStore(const char* stepname,
       step->SetBackStore(storename, bufsize, splitlevel);
 }
 
-void TGo4Script::StepUserStore(const char* stepname,
-                               const char* storename)
+void TGo4Script::StepUserStore(const char *stepname,
+                               const char *storename)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step)
       step->SetUserStore(storename);
 }
 
-void TGo4Script::StepHDF5Store(const char* stepname,
-                               const char* storename,
+void TGo4Script::StepHDF5Store(const char *stepname,
+                               const char *storename,
                                int flags)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);

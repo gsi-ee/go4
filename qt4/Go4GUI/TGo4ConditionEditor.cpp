@@ -146,7 +146,7 @@ void TGo4ConditionEditor::DropItem(const char *itemname, TClass* cl, int kind)
 
 }
 
-void TGo4ConditionEditor::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4ConditionEditor::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname,"Condition") == 0) {
       TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
@@ -156,7 +156,7 @@ void TGo4ConditionEditor::linkedObjectUpdated(const char* linkname, TObject *obj
    RefreshWidget(false);
 }
 
-void TGo4ConditionEditor::linkedObjectRemoved(const char* linkname)
+void TGo4ConditionEditor::linkedObjectRemoved(const char *linkname)
 {
    if (strcmp(linkname,"Condition") == 0)
       ShootCloseWidget(true);

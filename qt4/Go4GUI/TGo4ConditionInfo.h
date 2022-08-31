@@ -46,7 +46,7 @@ public:
 
    void DropItem(const char *itemname, TClass* cl, int kind) override;
 
-   void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
    virtual void WorkWithCondition(const char *itemname);
 
