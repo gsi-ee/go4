@@ -1,7 +1,7 @@
 ```
 --------------------------------------------------------------
-         Go4 Release Package v5.0.1 (build 50001)
-                      20-July-2015
+         Go4 Release Package v6.2.99 (build 60299)
+                      31-Aug-2022
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -24,9 +24,8 @@ in Go4License.txt file which is part of the distribution.
 
 ## This is obsolete README for compilation of older go4 versions
 
-This package is compiled and tested with CYGWIN on Windows 7
-with Microsoft Visual C++ 12.0 (2013) Express Edition,
-using ROOT 5-34-30 and Qt 5.4.2.
+This package is compiled and tested on Windows 10
+with Microsoft Visual C++ 16 (2019), using ROOT 6-26-04 and Qt 5.15.6.
 
 
 ## INSTALLATION
@@ -35,7 +34,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
   SHOULD NOT content any spaces. Therefore location like
   "C:\Program files" should be avoided. Default installation
   location is "C:\Users\<username>\go4".
-- Installation includes ROOT binraires, which can be found in "root" subfolder
+- Installation includes ROOT binaries, which can be found in "root" subfolder
 
 
 ##  STARTING ANALYSIS
@@ -64,92 +63,26 @@ using ROOT 5-34-30 and Qt 5.4.2.
   other node as is possible under Linux via ssh
 
 
-##  STARTING GO4 browser in ROOT
-
-- Run root from command prompt after go4init.bat was called
-    C:\> root
-- In CINT shell instantiate TGo4Interface class
-    root [0] new TGo4Interface
-  All go4 classes are available in ROOT via rootmap mechanism.
-- After TGo4Interface instance is created, two variables will be accessible:
-  go4 (class TGo4Interface) and br (class TGo4BrowserProxy)
-- Connect to running analysis server by command like
-    root [1] go4->ConnectAnalysis("lxi001",5000,0,"password");
-- If connection is successful (see log output), just start ROOT
-  browser by command
-    root [2] new TBrowser
-- In browser new Go4 folder should exists, which represent structure
-  of remote analysis. Draw of histograms and pictures are possible.
-  Via right mouse menu monitoring flag for histograms can be switched
-  on/off and monitoring can be toggled.
-- Via go4 instance a various commands can be executed like:
-    root [3] go4->StartAnalysis();
-    root [4] go4->StopAnalysis();
-  For more information see online documentation on TGo4Interface class
-  on htpp://go4.gsi.de site
-
-
 ##  COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 12.0 (2013) on
-       http://msdn.microsoft.com/vstudio/express/visualc/
-  After VC++ is installed, there are two alternatives,
-  how example can be compiled.
-
-### Compile analysis with CYGWIN
-
-  First of all, CYGWIN (http://cygwin.com/) should be installed.
-  This provides Unix like environment and allows to use shell-based
-  build scripts. To be able use VisualC from cygwin, one should call
-  vcvarsall.bat file from the Cygwin.bat before bash is started.
-  One should add line like this:
-
-     call "C:\Program files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
-
-  One also must ensure that link.exe from VisualC is used.
-  Problem description and several solutions can be found here:
-     https://developer.mozilla.org/en/Windows_build_prerequisites_using_cygwin#Fix_cygwin_path
-  Simplest solution - just delete or rename link.exe from cygwin;
-  preferable - change sequence of $PATH.
-
-  After CYGWIN installed and configured, one should adjust "go4login" script,
-  specifying where ROOT, Qt and Go4 are installed. One must avoid path with spaces,
-  therefore location "C:\Program Files\root" will not work.
-
-  Than copy your analysis (or one of Go4 examples, for instance, Go4Example2Step) to separate location.
-  To compile example:
-     /cygdrive/q> cd /cygdrive/f/user/app1
-     /cygdrive/f/user/app1> make clean
-     /cygdrive/f/user/app1> make all
-  This should compile user analysis library. To start analysis, just call:
-     /cygdrive/f/user/app1> go4analysis -random -http 8090
-
-  5.2. Compile with Windows native nmake tool
-
-  This method does not require CYGWIN. One should adjust go4init.bat
-  (as described before) and prepare special Makefile for nmake tool.
-  There is example: $GO4SYS\Go4Example2Step\Makefile.win, which
-  is written for Go4Example2Step. To adopt it for other user analysis,
-  one should specify correct list of source files in this Makefile.
-  To run compilation, just do:
-     C:\Soft\> F:
-     F:\> cd \User\App1
-     F:\User\App1> nmake clean all -f Makefile.win
-  Once library compiled, analysis can be started with command:
-     F:\User\App1> go4analysis -random -http 8090
+  There is a free Visual Studio Community  on https://visualstudio.microsoft.com/
+  After VC++ is installed, one just use cmake
 
 
 ## COMPILATION OF GO4 FROM SOURCE
 
-- Download and install root (ROOT Windows binaries are enough)
-- Install and configure CYGWIN
-- Install Microsoft VC++
-- Install Qt 4.8.x binaries package for MS VC compiler like
-    https://download.qt.io/archive/qt/5.4/5.4.2/qt-opensource-windows-x86-msvc2013-5.4.2.exe
-- Download go4 sources from http://go4.gsi.de web site.
-- Find and modify $GO4SYS/etc/win32/go4login file to actual location of all
-  components, copy it to home cygwin directory
-- Run Cygwin shell, call ". go4login", change to go4 directory and call "make"
-- Hopefully, this will compile Go4 under Windows!
+- download and install qt5.15 version with webengine
+- start VC **x64** console
+- build ROOT 64 bit on windows with "-Dqt5web=ON" configured
+- in VC console run:
 
+    set PATH=%PATH%;C:\Qt5\5.15.2\msvc2019_64\bin
+    call C:\Soft\root_64\bin\thisroot.bat
+    cmake -G"Visual Studio 16 2019" -A x64 c:\git\go4
+    cmake --build . --config Release -- /maxcpucount
+
+- in normal windows shell start go4
+
+   call C:\Soft\go4_64\go4login.bat
+   go4
