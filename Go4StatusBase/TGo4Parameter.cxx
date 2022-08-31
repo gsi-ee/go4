@@ -37,7 +37,7 @@ TGo4Parameter::TGo4Parameter() :
 {
 }
 
-TGo4Parameter::TGo4Parameter(const char* name, const char* title) :
+TGo4Parameter::TGo4Parameter(const char *name, const char* title) :
    TNamed(name ? name : "Parameter", title)
 {
    GO4TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));

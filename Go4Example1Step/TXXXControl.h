@@ -18,7 +18,7 @@
 
 class TXXXControl : public TGo4Parameter {
    public:
-      TXXXControl(const char* name = nullptr);
+      TXXXControl(const char *name = nullptr);
 
       Bool_t   fill{kTRUE}; // control filling of histograms
 

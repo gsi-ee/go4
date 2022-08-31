@@ -18,7 +18,7 @@
 #define GO4_COMHIS_MAX 50
 
 
-QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
+QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char *name) :
     QComboBox(w)
 {
    setObjectName(name ? name : "Go4CommandsHistory");

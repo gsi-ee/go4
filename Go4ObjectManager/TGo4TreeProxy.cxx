@@ -74,7 +74,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
         return new TGo4TreeLevelIter(fCurrent);
       }
 
-      const char* name() override
+      const char *name() override
       {
          return fCurrent->GetName();
       }
@@ -131,7 +131,7 @@ const char* TGo4TreeProxy::GetContainedClassName()
    return fTree ? fTree->ClassName() : nullptr;
 }
 
-TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
+TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
 {
    if (!tree) return nullptr;
 

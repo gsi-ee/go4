@@ -19,7 +19,7 @@ TGo4EventStoreParameter::~TGo4EventStoreParameter()
 {
 }
 
-TGo4EventStoreParameter::TGo4EventStoreParameter(const char* name, Int_t id)
+TGo4EventStoreParameter::TGo4EventStoreParameter(const char *name, Int_t id)
 : TGo4Parameter (name), fiID(id)
 {
 }

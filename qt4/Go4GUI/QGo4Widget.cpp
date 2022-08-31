@@ -395,7 +395,7 @@ void QGo4Widget::CallServiceFunc(int func, const char* str, void* par)
    emit widgetService(this, func, str, par);
 }
 
-void QGo4Widget::ServiceCall(const char* name, void* par)
+void QGo4Widget::ServiceCall(const char *name, void* par)
 {
    CallServiceFunc(service_General, name, par);
 }

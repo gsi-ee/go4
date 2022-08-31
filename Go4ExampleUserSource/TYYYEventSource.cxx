@@ -21,7 +21,7 @@
 #include "TGo4UserSourceParameter.h"
 #include "TYYYRawEvent.h"
 
-TYYYEventSource::TYYYEventSource(const char* name,
+TYYYEventSource::TYYYEventSource(const char *name,
                                  const char* args,
                                  Int_t port) :
    TGo4EventSource(name),

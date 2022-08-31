@@ -22,7 +22,7 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
    Q_OBJECT
 
    public:
-      TGo4CommandLine(QWidget *parent = nullptr, const char* name = nullptr);
+      TGo4CommandLine(QWidget *parent = nullptr, const char *name = nullptr);
 
    public slots:
 

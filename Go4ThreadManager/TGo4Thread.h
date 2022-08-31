@@ -42,7 +42,7 @@ class TGo4Thread : public TNamed {
         *   runnable:    external user runnable to be executed from TThread.
         *   internal:    define if thread shall be owned by threadmanager,
         *            or if it belongs to other aggregation **/
-      TGo4Thread (const char* name, TGo4Runnable* runnable, Bool_t internal = kTRUE);
+      TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t internal = kTRUE);
 
       virtual ~TGo4Thread();
 

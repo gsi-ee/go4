@@ -31,7 +31,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
    public:
       TGo4ObjectManager();
 
-      TGo4ObjectManager(const char* name, const char* title);
+      TGo4ObjectManager(const char *name, const char* title);
 
       virtual ~TGo4ObjectManager();
 
@@ -42,7 +42,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       TGo4Slot* Add(const char* pathname, TObject* obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
 
-      TGo4Slot* MakeObjSlot(const char* foldername, const char* name = nullptr, const char* title = nullptr);
+      TGo4Slot* MakeObjSlot(const char* foldername, const char *name = nullptr, const char* title = nullptr);
 
       TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle);
 
@@ -66,8 +66,8 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void AddROOTFolders(const char* pathname, Bool_t selected = kTRUE);
 
-      void AddProxy(const char* pathname, TGo4Proxy* cont, const char* name, const char* title = "title");
-      TGo4Proxy* GetProxy(const char* name);
+      void AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char* title = "title");
+      TGo4Proxy* GetProxy(const char *name);
 
       void DeleteSlot(const char* pathname);
 
@@ -78,7 +78,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       void RegisterLink(TGo4Slot* source, TGo4Slot* target, Bool_t exapndchilds = kFALSE);
       void UnregisterLink(TGo4Slot* target);
 
-      TGo4Access* ProvideAccess(const char* name = nullptr) override
+      TGo4Access* ProvideAccess(const char *name = nullptr) override
           { return ProvideSlotAccess(name); }
 
       void Event(TGo4Slot* source, Int_t id, void* param = nullptr) override;

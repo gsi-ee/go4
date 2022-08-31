@@ -22,7 +22,7 @@ class TYYYParameter;
 class TYYYUnpackProc : public TGo4EventProcessor {
    public:
       TYYYUnpackProc();
-      TYYYUnpackProc(const char* name);
+      TYYYUnpackProc(const char *name);
       virtual ~TYYYUnpackProc();
 
       /** This method checks if event class is suited for the source */

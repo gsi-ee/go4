@@ -14,7 +14,7 @@
 #include "TXXXControl.h"
 
 //***********************************************************
-TXXXControl::TXXXControl(const char* name) :
+TXXXControl::TXXXControl(const char *name) :
    TGo4Parameter(name),
    fill(kTRUE)
 {

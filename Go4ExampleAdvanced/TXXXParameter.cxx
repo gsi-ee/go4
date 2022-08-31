@@ -14,7 +14,7 @@
 #include "TXXXParameter.h"
 
 
-TXXXParameter::TXXXParameter(const char* name) :
+TXXXParameter::TXXXParameter(const char *name) :
    TGo4Parameter(name)
 {
    frP1=10;

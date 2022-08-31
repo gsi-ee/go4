@@ -16,7 +16,7 @@
 #include "TGo4FitModelPolynom.h"
 #include "TGo4FitGuiTypes.h"
 
-QFitModelPolynomWidget::QFitModelPolynomWidget(QWidget *parent, const char* name)
+QFitModelPolynomWidget::QFitModelPolynomWidget(QWidget *parent, const char *name)
          : QFitModelWidget(parent, name)
 {
    setupUi(this);

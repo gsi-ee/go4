@@ -545,7 +545,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       TGo4Slot* getslot() override { return nullptr; }
 
-      const char* name() override { return fChild.GetName(); }
+      const char *name() override { return fChild.GetName(); }
       const char* info() override { return "item from dabc"; }
       Int_t sizeinfo() override { return 0; }
 
@@ -696,7 +696,7 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return hierarchy.NumChilds() > 0;
 }
 
-TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
+TGo4Access* TGo4DabcProxy::ProvideAccess(const char *name)
 {
    //printf("Make PROXY\n");
 
@@ -793,7 +793,7 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return kFALSE;
 }
 
-TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
+TGo4Access* TGo4DabcProxy::ProvideAccess(const char *name)
 {
    return nullptr;
 }

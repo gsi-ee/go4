@@ -19,7 +19,7 @@
 
 const char *defMbsEventName = "MbsEvent101";
 
-TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char* name)
+TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char *name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);

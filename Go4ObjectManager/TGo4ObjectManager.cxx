@@ -79,7 +79,7 @@ TGo4ObjectManager::TGo4ObjectManager() :
    gROOT->GetListOfCleanups()->Add(this);
 }
 
-TGo4ObjectManager::TGo4ObjectManager(const char* name, const char* title) :
+TGo4ObjectManager::TGo4ObjectManager(const char *name, const char* title) :
    TGo4Slot(nullptr, name, title),
    fLinks(),
    fCleanups()
@@ -155,7 +155,7 @@ void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t own
 {
    if (!dir) return;
 
-   const char* name = (dir->InheritsFrom(TFile::Class())) ?
+   const char *name = (dir->InheritsFrom(TFile::Class())) ?
       gSystem->BaseName(dir->GetName()) : dir->GetName();
 
    TGo4Slot* slot = MakeObjSlot(pathname, name, dir->ClassName());
@@ -215,20 +215,20 @@ void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
       AddROOTFolder(pathname, "//root/");
 }
 
-void TGo4ObjectManager::AddProxy(const char* pathname, TGo4Proxy* cont, const char* name, const char* title)
+void TGo4ObjectManager::AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char* title)
 {
    TGo4Slot* slot = MakeObjSlot(pathname, name, title);
    if (slot) slot->SetProxy(cont);
         else delete cont;
 }
 
-TGo4Proxy* TGo4ObjectManager::GetProxy(const char* name)
+TGo4Proxy* TGo4ObjectManager::GetProxy(const char *name)
 {
    TGo4Slot* slot = GetSlot(name);
    return !slot ? nullptr : slot->GetProxy();
 }
 
-TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char* name, const char* title)
+TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char *name, const char* title)
 {
    TGo4Slot* folder = GetSlot(foldername, kTRUE);
    if (!folder) return nullptr;

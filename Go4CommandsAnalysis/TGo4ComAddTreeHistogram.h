@@ -45,10 +45,10 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
       void Set(TGo4RemoteCommand* remcon) override;
 
       /** Set histogram (dynamic entry) name. */
-      void SetHistogramName(const char* name) { fxHistoName = name; }
+      void SetHistogramName(const char *name) { fxHistoName = name; }
 
       /** Set tree name. */
-      void SetTreeName(const char* name) { fxTreeName = name; }
+      void SetTreeName(const char *name) { fxTreeName = name; }
 
       /** Set dynamic entry index name. */
       void SetVarexp(const char* exp) { fxVarexp = exp; }

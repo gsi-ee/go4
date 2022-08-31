@@ -38,7 +38,7 @@ class TGo4FileStore : public TGo4EventStore {
 
     TGo4FileStore();
 
-    TGo4FileStore(const char* name,
+    TGo4FileStore(const char *name,
                   Int_t splitlevel=1,
                   Int_t compression=1,
                   Bool_t overwrite=kFALSE,

@@ -14,7 +14,7 @@
 #include "QFitLinearTransWidget.h"
 #include "TGo4FitLinearTrans.h"
 
-QFitLinearTransWidget::QFitLinearTransWidget(QWidget *parent, const char* name)
+QFitLinearTransWidget::QFitLinearTransWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

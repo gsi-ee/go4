@@ -25,7 +25,7 @@
 class TGo4TaskHandlerCommandList : public TGo4CommandProtoList {
   public:
 
-    TGo4TaskHandlerCommandList(const char* name);
+    TGo4TaskHandlerCommandList(const char *name);
     virtual ~TGo4TaskHandlerCommandList();
 
   private:

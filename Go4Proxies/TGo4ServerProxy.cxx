@@ -104,21 +104,21 @@ class TGo4Prefs {
       /** Return true if more than two parameter exists, hostname and os is default*/
       bool IsOk() const { return fPars.size()>2; }
 
-      void SetPar(const char* name, const char* value, bool force = true)
+      void SetPar(const char *name, const char* value, bool force = true)
       {
          std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
          if (force || (fPars.find(dname) == fPars.end()))
             fPars[dname] = value;
       }
 
-      const char* GetPar(const char* name)
+      const char* GetPar(const char *name)
       {
          std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
          if (fPars.find(dname) == fPars.end()) return nullptr;
          return fPars[dname].c_str();
       }
 
-      bool HasPar(const char* name)
+      bool HasPar(const char *name)
       {
          return GetPar(name) != nullptr;
       }
@@ -188,7 +188,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
                                         Int_t serverkind,
                                         Int_t shellkind,
                                         Int_t konsole,
-                                        const char* name,
+                                        const char *name,
                                         const char* remotehost,
                                         const char* remotedir,
                                         const char* remoteexe,

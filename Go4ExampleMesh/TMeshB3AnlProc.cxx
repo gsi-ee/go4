@@ -22,7 +22,7 @@
 
 //***********************************************************
 // this one is used in TXXXAnlFact
-TMeshB3AnlProc::TMeshB3AnlProc(const char* name)
+TMeshB3AnlProc::TMeshB3AnlProc(const char *name)
   :TGo4EventProcessor(name),fxInput(nullptr)
 {
    TGo4Log::Info("TMeshB3AnlProc: Create");

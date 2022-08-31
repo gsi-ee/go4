@@ -54,7 +54,7 @@ TGo4CondArray::TGo4CondArray() :
 {
 }
 // ----------------------------------------------------------
-TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, Int_t contype) :
+TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, Int_t contype) :
    TGo4Condition(name,"TGo4CondArray"),
    condarr(0),
    fiNumCond(0),
@@ -81,7 +81,7 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, Int_t contype) :
    }
 }
 // ----------------------------------------------------------
-TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, const char* type)
+TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, const char* type)
 : TGo4Condition(name,type),fiSelectedCond(0)
 {
    fiNumCond = elements;

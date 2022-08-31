@@ -20,7 +20,7 @@
 #include "TGo4CommandInvoker.h"
 #include "TGo4LogicException.h"
 
-TGo4MainRunnable::TGo4MainRunnable(const char* name, TGo4ExampleClient* cli)
+TGo4MainRunnable::TGo4MainRunnable(const char *name, TGo4ExampleClient* cli)
 : TGo4Runnable(name,cli)
 {
    GO4TRACE((15,"TGo4MainRunnable::TGo4MainRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));

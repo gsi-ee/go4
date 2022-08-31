@@ -46,7 +46,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        */
       virtual ~TGo4FitPeakFinder();
 
-      void SetDataName(const char* name) { fxDataName = name; }
+      void SetDataName(const char *name) { fxDataName = name; }
       const char* GetDataName() { return fxDataName.Data(); }
       void SetClearModels(Bool_t clear) { fbClearModels = clear; }
       Bool_t GetClearModels() { return fbClearModels; }

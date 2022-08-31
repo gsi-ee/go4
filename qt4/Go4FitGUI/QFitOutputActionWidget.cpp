@@ -15,7 +15,7 @@
 
 #include "TGo4FitterOutput.h"
 
-QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char* name)
+QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

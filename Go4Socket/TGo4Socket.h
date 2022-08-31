@@ -30,9 +30,9 @@ class TGo4Socket {
      virtual Int_t Close(Option_t *opt = "");
 
      virtual Int_t Send(TObject *obj);
-     virtual Int_t Send(const char* name);
-     virtual TObject* Recv(const char* name = nullptr);
-     virtual char* RecvRaw(const char* name = nullptr);
+     virtual Int_t Send(const char *name);
+     virtual TObject* Recv(const char *name = nullptr);
+     virtual char* RecvRaw(const char *name = nullptr);
 
      Bool_t IsOpen() const { return fbOpen; }
 

@@ -25,7 +25,7 @@
 #include <QColorDialog>
 
 
-TGo4HisDrawOptionsShort::TGo4HisDrawOptionsShort(QWidget *parent, const char* name)
+TGo4HisDrawOptionsShort::TGo4HisDrawOptionsShort(QWidget *parent, const char *name)
    : QGo4Widget(parent,name)
 {
    setupUi(this);

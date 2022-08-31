@@ -17,7 +17,7 @@
 #include "TGo4MbsTransportParameter.h"
 
 
-TGo4MbsTransport::TGo4MbsTransport(const char* name)
+TGo4MbsTransport::TGo4MbsTransport(const char *name)
 : TGo4MbsSource(name, GETEVT__TRANS)
 {
    GO4TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));

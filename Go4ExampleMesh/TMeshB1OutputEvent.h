@@ -22,7 +22,7 @@ class TGo4FileSource;
 class TMeshB1OutputEvent : public TGo4EventElement {
    public:
       TMeshB1OutputEvent();
-      TMeshB1OutputEvent(const char* name);
+      TMeshB1OutputEvent(const char *name);
       virtual ~TMeshB1OutputEvent();
       Int_t Init() override;
       Int_t Fill() override;

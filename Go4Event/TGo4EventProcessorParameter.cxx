@@ -17,7 +17,7 @@
 #include "TGo4Log.h"
 
 
-TGo4EventProcessorParameter::TGo4EventProcessorParameter(const char* name, Int_t id) :
+TGo4EventProcessorParameter::TGo4EventProcessorParameter(const char *name, Int_t id) :
    TGo4Parameter (name), fiID(id)
 {
    GO4TRACE((12,"TGo4EventProcessorParameter::TGo4EventProcessorParameter(const char*)",__LINE__, __FILE__));

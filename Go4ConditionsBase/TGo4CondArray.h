@@ -25,10 +25,10 @@ class TGo4CondArray : public TGo4Condition {
     TGo4CondArray();
 
    /** Constructor. type can be "TGo4WinCond" or "TGo4PolyCond" */
-    TGo4CondArray(const char* name, Int_t elements, const char* type);
+    TGo4CondArray(const char *name, Int_t elements, const char* type);
 
     /** Constructor. contype can be kGO4CONDWINDOW or kGO4CONDPOLYGON */
-    TGo4CondArray(const char* name, Int_t elements, Int_t contype);
+    TGo4CondArray(const char *name, Int_t elements, Int_t contype);
 
     virtual ~TGo4CondArray();
 

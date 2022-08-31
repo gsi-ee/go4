@@ -22,7 +22,7 @@ TMeshParameter::TMeshParameter() :
 {
 }
 
-TMeshParameter::TMeshParameter(const char* name) :
+TMeshParameter::TMeshParameter(const char *name) :
    TGo4Parameter(name)
 {
 }

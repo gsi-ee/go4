@@ -34,7 +34,7 @@
 class TXXXModule : public TGo4EventElement {
    public:
       TXXXModule():TGo4EventElement(), fiData(0) {}
-      TXXXModule(const char* name, Short_t id):
+      TXXXModule(const char *name, Short_t id):
          TGo4EventElement(name,name,id), fiData(0) {}
       virtual ~TXXXModule() {}
 
@@ -71,7 +71,7 @@ class TXXXModule : public TGo4EventElement {
 class TXXXCrate : public TGo4CompositeEvent {
    public:
       TXXXCrate():TGo4CompositeEvent(){;}
-      TXXXCrate(const char* name, Short_t id);
+      TXXXCrate(const char *name, Short_t id);
       virtual ~TXXXCrate() {}
 
    ClassDefOverride(TXXXCrate,1)
@@ -80,7 +80,7 @@ class TXXXCrate : public TGo4CompositeEvent {
 class TXXXUnpackEvent : public TGo4CompositeEvent {
    public:
       TXXXUnpackEvent():TGo4CompositeEvent(){}
-      TXXXUnpackEvent(const char* name);
+      TXXXUnpackEvent(const char *name);
       virtual ~TXXXUnpackEvent() {}
 
    ClassDefOverride(TXXXUnpackEvent,1)

@@ -22,7 +22,7 @@
 #include "TGo4ComMasterQuit.h"
 #include "TGo4ComDisconnectSlave.h"
 
-TGo4TaskHandlerCommandList::TGo4TaskHandlerCommandList(const char* name) :
+TGo4TaskHandlerCommandList::TGo4TaskHandlerCommandList(const char *name) :
    TGo4CommandProtoList(name)
 {
     // all valid TaskHandler commands should be added to prototype list...

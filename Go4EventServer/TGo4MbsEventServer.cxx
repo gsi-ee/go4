@@ -17,7 +17,7 @@
 #include "TGo4MbsEventServerParameter.h"
 
 
-TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
+TGo4MbsEventServer::TGo4MbsEventServer(const char *name) :
    TGo4MbsSource(name, GETEVT__EVENT)
 {
    GO4TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));

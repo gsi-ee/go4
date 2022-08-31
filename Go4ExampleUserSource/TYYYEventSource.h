@@ -26,7 +26,7 @@ class TYYYEventSource : public TGo4EventSource {
       TYYYEventSource();
 
       /** Create source specifying values directly */
-      TYYYEventSource(const char* name, const char* args, Int_t port);
+      TYYYEventSource(const char *name, const char* args, Int_t port);
 
       /** Create source from setup within usersource parameter object */
       TYYYEventSource(TGo4UserSourceParameter* par);

@@ -32,7 +32,7 @@
 
 const UInt_t TGo4AnalysisMainRunnable::fguPOLLINTERVAL=1000;
 
-TGo4AnalysisMainRunnable::TGo4AnalysisMainRunnable(const char* name, TGo4AnalysisClient* cli) :
+TGo4AnalysisMainRunnable::TGo4AnalysisMainRunnable(const char *name, TGo4AnalysisClient* cli) :
    TGo4Runnable(name,cli->GetTask()),
    fxAnalysisClient(cli)
 {

@@ -16,7 +16,7 @@
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
 
-TGo4BackStoreParameter::TGo4BackStoreParameter(const char* name,
+TGo4BackStoreParameter::TGo4BackStoreParameter(const char *name,
                                               Int_t splitlevel,
                                               Int_t bufsize)
 : TGo4EventStoreParameter(name, GO4EV_BACK),

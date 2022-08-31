@@ -36,7 +36,7 @@
 
 const Int_t TGo4Task::fgiTERMID=999;
 
-TGo4Task::TGo4Task(const char* name, Bool_t blockingmode,
+TGo4Task::TGo4Task(const char *name, Bool_t blockingmode,
                                Bool_t autostart,
                                Bool_t autocreate,
                                Bool_t ismaster) :
@@ -408,7 +408,7 @@ TGo4TaskStatus* TGo4Task::CreateStatus()
    return stat;
 }
 
-Bool_t TGo4Task::SubmitCommand(const char* name)
+Bool_t TGo4Task::SubmitCommand(const char *name)
 {
    if(!strcmp(name,"THEMQuit"))
    {
@@ -504,7 +504,7 @@ TGo4TaskHandlerCommandList* TGo4Task::CreateCommandList()
    return new TGo4TaskHandlerCommandList("Go4ServerTaskDefaultCommandList");
 }
 
-TGo4Command* TGo4Task::MakeCommand(const char* name)
+TGo4Command* TGo4Task::MakeCommand(const char *name)
 {
    TGo4LockGuard mainlock;
    return fxCommandPrototype->MakeCommand(name);

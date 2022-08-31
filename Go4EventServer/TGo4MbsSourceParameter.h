@@ -20,7 +20,7 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
   public:
      TGo4MbsSourceParameter();
 
-     TGo4MbsSourceParameter(const char* name, Int_t id);
+     TGo4MbsSourceParameter(const char *name, Int_t id);
 
     virtual ~TGo4MbsSourceParameter();
 

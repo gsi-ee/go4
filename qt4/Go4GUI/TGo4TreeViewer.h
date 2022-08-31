@@ -25,7 +25,7 @@ class TGo4TreeViewer : public QGo4Widget, public Ui::TGo4TreeViewer
 
 public:
 
-   TGo4TreeViewer(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4TreeViewer(QWidget *parent = nullptr, const char *name = nullptr);
 
    void ResetWidget() override;
    virtual void WorkWithLeaf(const char *itemname);

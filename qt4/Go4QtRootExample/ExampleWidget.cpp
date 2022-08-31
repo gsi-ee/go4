@@ -19,7 +19,7 @@
 
 #include <QMessageBox>
 
-ExampleWidget::ExampleWidget(QWidget *parent, const char* name) :
+ExampleWidget::ExampleWidget(QWidget *parent, const char *name) :
    QWidget(parent)
 {
    setupUi(this);

@@ -23,7 +23,7 @@
 
 #include <QFileDialog>
 
-TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
+TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char *name) :
    QGo4Widget(parent, name),fbPythonBound(false)
 {
    setupUi(this);
@@ -196,7 +196,7 @@ void TGo4CommandLine::PrintHelp()
 
    std::cout <<"\t- TObject* go4->GetObject(const char *itemname);"<< std::endl;
    std::cout <<"\t\t: get browser object by full pathname. " << std::endl;
-   std::cout <<"\t- TString go4->FindItem(const char* name); " << std::endl;
+   std::cout <<"\t- TString go4->FindItem(const char *name); " << std::endl;
    std::cout <<"\t\t: get full pathname of browser object by name " << std::endl;
    std::cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< std::endl;
    std::cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << std::endl;

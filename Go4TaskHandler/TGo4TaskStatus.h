@@ -59,7 +59,7 @@ class TGo4TaskStatus : public TGo4Status {
       TGo4TaskHandlerStatus *fxTaskHandlerStatus{nullptr};
       Bool_t fbInitDone{kFALSE};
 
-      TGo4TaskStatus(const char* name);
+      TGo4TaskStatus(const char *name);
 
    ClassDefOverride(TGo4TaskStatus,1)
 };

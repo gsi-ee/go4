@@ -2285,7 +2285,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
    EstablishRatemeter(0);
 }
 
-QGo4Widget* TGo4MainWindow::FindGo4Widget(const char* name, bool activate)
+QGo4Widget* TGo4MainWindow::FindGo4Widget(const char *name, bool activate)
 {
    if (!fxOM) return nullptr;
 
@@ -3499,7 +3499,7 @@ void TGo4MainWindow::ProcessQtEvents()
    if (fApp) fApp->processEvents(QEventLoop::AllEvents, TGo4AbstractInterface::DelayMillisec());
 }
 
-TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)
+TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char *name)
 {
    if (!name || (*name == 0)) return nullptr;
 

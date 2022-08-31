@@ -23,7 +23,7 @@
 #include "TGo4Task.h"
 #include "TGo4ComDisconnectSlave.h"
 
-TGo4DataRunnable::TGo4DataRunnable(const char* name,
+TGo4DataRunnable::TGo4DataRunnable(const char *name,
                                    TGo4ThreadManager* man,
                                    TGo4TaskHandler* hand,
                                    Bool_t receivermode)

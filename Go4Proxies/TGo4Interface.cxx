@@ -573,7 +573,7 @@ TString TGo4Interface::GetViewPanelName(ViewPanelHandle handle)
    return TString(c ? c->GetName() : "");
 }
 
-ViewPanelHandle TGo4Interface::FindViewPanel(const char* name)
+ViewPanelHandle TGo4Interface::FindViewPanel(const char *name)
 {
    return (ViewPanelHandle) gROOT->GetListOfCanvases()->FindObject(name);
 }

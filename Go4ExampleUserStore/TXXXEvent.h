@@ -19,7 +19,7 @@
 class TXXXEvent : public TGo4EventElement {
    public:
       TXXXEvent();
-      TXXXEvent(const char* name);
+      TXXXEvent(const char *name);
       virtual ~TXXXEvent();
 
       /** Method called by the framework to clear the event element. */

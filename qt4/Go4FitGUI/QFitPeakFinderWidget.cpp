@@ -15,7 +15,7 @@
 
 #include "TGo4FitPeakFinder.h"
 
-QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
+QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

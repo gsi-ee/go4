@@ -34,7 +34,7 @@
 
 
 
-TGo4HDF5Source::TGo4HDF5Source(const char* name) :
+TGo4HDF5Source::TGo4HDF5Source(const char *name) :
    TGo4EventSource(name), TGo4HDF5Adapter(), fxReadBuffer(0), fiReadOffset(0),fxFilesNames(0)
 {
    fxFilesNames = ProducesFilesList(GetName());

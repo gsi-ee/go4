@@ -30,7 +30,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
       bool fVisibleColumns[7];
 
    public:
-      TGo4Browser(QWidget *parent = nullptr, const char* name = nullptr);
+      TGo4Browser(QWidget *parent = nullptr, const char *name = nullptr);
 
       void StartWorking();
 

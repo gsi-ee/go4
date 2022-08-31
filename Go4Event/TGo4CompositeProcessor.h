@@ -27,7 +27,7 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
 
       TGo4CompositeProcessor();
 
-      TGo4CompositeProcessor(const char* name);
+      TGo4CompositeProcessor(const char *name);
 
       virtual ~TGo4CompositeProcessor();
 

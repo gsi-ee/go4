@@ -23,7 +23,7 @@ class TGo4Fitter;
 class TYYYParameter : public TGo4Parameter {
    public:
       TYYYParameter();
-      TYYYParameter(const char* name);
+      TYYYParameter(const char *name);
       virtual ~TYYYParameter();
 
       void Print(Option_t* = "") const override;

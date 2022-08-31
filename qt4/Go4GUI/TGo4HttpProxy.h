@@ -131,7 +131,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       void GetHReply(QByteArray& res);
 
-      XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = nullptr) const;
+      XMLNodePointer_t FindItem(const char *name, XMLNodePointer_t curr = nullptr) const;
 
       TString MakeUrlPath(XMLNodePointer_t item);
 
@@ -166,7 +166,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       void Finalize(TGo4Slot* slot) override {}
 
       Bool_t HasSublevels() const override;
-      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4Access* ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
 
       Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
@@ -180,9 +180,9 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       void Update(TGo4Slot* slot, Bool_t strong) override;
 
-      TString FindCommand(const char* name) override;
-      Int_t  NumCommandArgs(const char* name) override;
-      Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) override;
+      TString FindCommand(const char *name) override;
+      Int_t  NumCommandArgs(const char *name) override;
+      Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) override;
 
       const char* GetUserName() const override { return fUserName.Data(); }
 

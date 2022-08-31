@@ -39,7 +39,7 @@ TGo4ExampleServer::~TGo4ExampleServer()
    delete fxController;
 
 }
-TGo4ExampleServer::TGo4ExampleServer(const char* name,
+TGo4ExampleServer::TGo4ExampleServer(const char *name,
                                      UInt_t negotiationport,
                                      Bool_t blockingmode)
 : TGo4ServerTask(name, negotiationport, blockingmode,kFALSE)

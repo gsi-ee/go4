@@ -34,7 +34,7 @@ class TGo4ClientTask : public TGo4Task {
 
    public:
 
-      TGo4ClientTask(const char* name,
+      TGo4ClientTask(const char *name,
                      const char* serverhost = "localhost",
                      UInt_t negotiationport = 0,
                      Bool_t blockingmode = kTRUE,

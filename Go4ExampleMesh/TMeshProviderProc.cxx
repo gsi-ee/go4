@@ -20,7 +20,7 @@
 
 //***********************************************************
 // this one is used in TXXXAnlFact
-TMeshProviderProc::TMeshProviderProc(const char* name)
+TMeshProviderProc::TMeshProviderProc(const char *name)
   :TGo4EventProcessor(name)
 {
    TGo4Log::Info("TMeshProviderProc: Create %s", name);

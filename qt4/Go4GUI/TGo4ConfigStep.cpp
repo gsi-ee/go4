@@ -58,7 +58,7 @@ enum SourceComboKinds {
 };
 
 
-TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFlags fl )
+TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char *name, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4ConfigStep");

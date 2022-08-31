@@ -63,7 +63,7 @@ class TGo4MbsSource : public TGo4EventSource {
     /** default for streamer */
     TGo4MbsSource();
 
-    TGo4MbsSource(const char* name, Int_t mode);
+    TGo4MbsSource(const char *name, Int_t mode);
 
     TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode);
 

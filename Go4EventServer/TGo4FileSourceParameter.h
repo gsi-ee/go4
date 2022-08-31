@@ -22,7 +22,7 @@ class TGo4FileSourceParameter : public TGo4EventSourceParameter {
 
       TGo4FileSourceParameter();
 
-      TGo4FileSourceParameter(const char* name);
+      TGo4FileSourceParameter(const char *name);
 
       virtual ~TGo4FileSourceParameter();
 

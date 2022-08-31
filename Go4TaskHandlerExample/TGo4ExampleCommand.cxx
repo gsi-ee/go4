@@ -37,7 +37,7 @@ TGo4ExampleCommand::~TGo4ExampleCommand()
   GO4TRACE((12,"TGo4ExampleCommand::~TGo4ExampleCommand() dtor",__LINE__, __FILE__));
 }
 
-TGo4ExampleCommand::TGo4ExampleCommand(const char* name, const char* desc)
+TGo4ExampleCommand::TGo4ExampleCommand(const char *name, const char* desc)
 : TGo4Command(name,desc,6)
 {
    GO4TRACE((12,"TGo4ExampleCommand::TGo4ExampleCommand(const char*, const char*) ctor",__LINE__, __FILE__));

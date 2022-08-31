@@ -41,7 +41,7 @@ TGo4WinCond::TGo4WinCond() :
    GO4TRACE((15,"TGo4WinCond::TGo4WinCond()",__LINE__, __FILE__));
 }
 // -----------------------------------------------
-TGo4WinCond::TGo4WinCond(const char* name, const char* title) :
+TGo4WinCond::TGo4WinCond(const char *name, const char* title) :
    TGo4Condition(name,title),
    fLow1(0),
    fUp1(0),

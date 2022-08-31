@@ -97,7 +97,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          return nullptr;
       }
 
-      const char* name() override
+      const char *name() override
       {
          return fCurrent->GetName();
       }
@@ -221,7 +221,7 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
    return fCanvas;
 }
 
-TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
+TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
 {
    if (!canv) return nullptr;
    if (!name || (*name == 0)) return new TGo4ObjectAccess(canv);

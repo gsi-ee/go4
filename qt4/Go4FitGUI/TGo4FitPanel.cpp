@@ -95,7 +95,7 @@
 #include "TGo4FitGuiTypes.h"
 #include "TGo4FitGuiArrow.h"
 
-TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
+TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char *name) :
    QGo4Widget(parent, name)
 {
    setupUi(this);
@@ -3335,7 +3335,7 @@ void TGo4FitPanel::PF_MinNoiseEdit_returnPressed()
     Button_PeakFinder();
 }
 
-TGo4Fitter* TGo4FitPanel::CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name)
+TGo4Fitter* TGo4FitPanel::CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char *name)
 {
    if (!panel || !pad) return nullptr;
 
@@ -4742,7 +4742,7 @@ TPad* TGo4FitPanel::FindPadWhereComp(TGo4FitComponent* comp)
       return FindPadWhereModel(dynamic_cast<TGo4FitModel*> (comp));
 }
 
-TGo4FitData* TGo4FitPanel::CreateData(int id, const char* name)
+TGo4FitData* TGo4FitPanel::CreateData(int id, const char *name)
 {
     TString dataname;
 

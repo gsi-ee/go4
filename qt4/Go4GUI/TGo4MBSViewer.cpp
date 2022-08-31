@@ -34,7 +34,7 @@ extern "C"
 }
 
 
-TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
+TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char *name) :
    QGo4Widget(parent,name),
    fxRunMovie(nullptr)
 {

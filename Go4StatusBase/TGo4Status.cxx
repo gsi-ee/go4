@@ -26,13 +26,13 @@ TGo4Status::TGo4Status() :
 {
 }
 
-TGo4Status::TGo4Status(const char* name) :
+TGo4Status::TGo4Status(const char *name) :
    TNamed(name, "This is a Go4 Status Object")
 {
    GO4TRACE((12,"TGo4Status::TGo4Status(const char*)",__LINE__, __FILE__));
 }
 
-TGo4Status::TGo4Status(const char* name, const char* title) :
+TGo4Status::TGo4Status(const char *name, const char* title) :
    TNamed(name, title)
 {
    GO4TRACE((12,"TGo4Status::TGo4Status(const char*, const char*)",__LINE__, __FILE__));

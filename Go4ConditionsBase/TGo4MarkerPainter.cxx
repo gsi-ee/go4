@@ -25,7 +25,7 @@ TGo4MarkerPainter::TGo4MarkerPainter() :
 {
 }
 
-TGo4MarkerPainter::TGo4MarkerPainter(const char* name, const char* title) :
+TGo4MarkerPainter::TGo4MarkerPainter(const char *name, const char* title) :
     TGo4LabelPainter(name, title),
     fbIsConStreamed(kFALSE)
 {

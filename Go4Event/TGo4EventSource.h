@@ -31,7 +31,7 @@ class TGo4EventSource : public TNamed {
 
       TGo4EventSource();
 
-      TGo4EventSource(const char* name);
+      TGo4EventSource(const char *name);
 
       virtual ~TGo4EventSource();
 

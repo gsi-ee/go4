@@ -29,7 +29,7 @@ TGo4EventElement::TGo4EventElement() :
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
 }
 
-TGo4EventElement::TGo4EventElement(const char* name) :
+TGo4EventElement::TGo4EventElement(const char *name) :
    TNamed(name,"This is a Go4 EventElement")
 {
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
@@ -68,7 +68,7 @@ void TGo4EventElement::Print(Option_t* option) const
    ((TGo4EventElement*)this)->PrintEvent();
 }
 
-TGo4EventElement* TGo4EventElement::GetChild(const char* name)
+TGo4EventElement* TGo4EventElement::GetChild(const char *name)
 {
    if (!name || (strlen(name) == 0)) return this;
 

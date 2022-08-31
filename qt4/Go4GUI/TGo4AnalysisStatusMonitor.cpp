@@ -19,7 +19,7 @@
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4Ratemeter.h"
 
-TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name) :
+TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char *name) :
    QGo4Widget(parent, name)
 {
    setupUi(this);

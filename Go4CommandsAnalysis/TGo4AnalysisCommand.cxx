@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "TGo4AnalysisClientImp.h"
 
-TGo4AnalysisCommand::TGo4AnalysisCommand(const char* name, const char* desc) :
+TGo4AnalysisCommand::TGo4AnalysisCommand(const char *name, const char* desc) :
    TGo4Command(name, desc, 7)
 {
    GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char*, const char*) ctor",__LINE__, __FILE__));

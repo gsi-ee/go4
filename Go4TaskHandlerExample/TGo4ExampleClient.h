@@ -29,7 +29,7 @@ class TGo4ClientStatus;
 class TGo4ExampleClient : public TGo4ClientTask {
   public:
 
-   TGo4ExampleClient(const char* name,
+   TGo4ExampleClient(const char *name,
                      const char* host = "localhost",
                      UInt_t negport = 0,
                      Bool_t blockingmode = kTRUE);

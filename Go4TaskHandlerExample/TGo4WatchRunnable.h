@@ -27,7 +27,7 @@
 class TGo4WatchRunnable : public TGo4Runnable {
   public:
 
-    TGo4WatchRunnable(const char* name, TGo4ExampleClient* cli);
+    TGo4WatchRunnable(const char *name, TGo4ExampleClient* cli);
 
     virtual ~TGo4WatchRunnable();
 

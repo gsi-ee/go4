@@ -27,7 +27,7 @@
 
 #include "TGo4Log.h"
 
-TGo4ExportManager::TGo4ExportManager(const char* name)
+TGo4ExportManager::TGo4ExportManager(const char *name)
    : TNamed(name,"This is a Go4 export manager"),fiFilter(GO4EX_ROOT)
 {
   fxOutFile="Go4Export";

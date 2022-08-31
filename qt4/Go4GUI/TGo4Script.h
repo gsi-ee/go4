@@ -178,7 +178,7 @@ class TGo4Script : public TGo4AbstractInterface {
       ViewPanelHandle StartViewPanel() override;
       ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = nullptr) override;
       TString GetViewPanelName(ViewPanelHandle panel) override;
-      ViewPanelHandle FindViewPanel(const char* name) override;
+      ViewPanelHandle FindViewPanel(const char *name) override;
       Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) override;
       ViewPanelHandle GetActiveViewPanel() override;
       void RedrawPanel(ViewPanelHandle handle) override;

@@ -14,7 +14,7 @@
 #include "QFitAmplEstimWidget.h"
 #include "TGo4FitAmplEstimation.h"
 
-QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char* name)
+QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

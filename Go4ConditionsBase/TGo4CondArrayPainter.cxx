@@ -23,7 +23,7 @@ TGo4CondArrayPainter::TGo4CondArrayPainter()
 {
 }
 
-TGo4CondArrayPainter::TGo4CondArrayPainter(const char* name)
+TGo4CondArrayPainter::TGo4CondArrayPainter(const char *name)
 : TGo4ConditionPainter(name,"TGo4CondArrayPainter")
 {
 }

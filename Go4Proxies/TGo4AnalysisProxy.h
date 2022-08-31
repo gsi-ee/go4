@@ -66,7 +66,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       TGo4LevelIter* MakeIter() override;
 
-      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4Access* ProvideAccess(const char *name) override;
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
@@ -157,7 +157,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                             TString& killcmd,
                             Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                             Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
-                            const char* name,
+                            const char *name,
                             const char* remotehost,
                             const char* remotedir,
                             const char* remoteexe,
@@ -168,7 +168,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                                    TString& killcmd,
                                    Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                                    Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
-                                   const char* name,
+                                   const char *name,
                                    const char* remotehost,
                                    Int_t remoteport, // needed for http server mode
                                    const char* remotedir,

@@ -45,7 +45,7 @@
 #include "TGo4MbsRandomParameter.h"
 
 
-TGo4EventServerFactory::TGo4EventServerFactory(const char* name) :
+TGo4EventServerFactory::TGo4EventServerFactory(const char *name) :
    TGo4EventFactory(name), fxEvent(nullptr)
 {
    GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char*)",__LINE__, __FILE__));

@@ -38,41 +38,41 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
       TGo4HistogramEntry();
 
-      TGo4HistogramEntry(const char* name);
+      TGo4HistogramEntry(const char *name);
 
       virtual ~TGo4HistogramEntry();
 
       /** Set name of the external histogram to be filled. */
-      void SetHistogramName(const char* name) { fxHistogramName = name; }
+      void SetHistogramName(const char *name) { fxHistogramName = name; }
       /** Get name of the external histogram to be filled. */
       const char* GetHistogramName() const { return fxHistogramName.Data(); }
 
       /** Set Name of the data member that is to be filled
         * in histogram for axis number ix. ix is 0 for x-axis,
         * 1 for y-axis, etc. */
-      void SetHisVarName(Int_t ix, const char* name);
+      void SetHisVarName(Int_t ix, const char *name);
       const char* GetHistVarName(Int_t ix) const;
 
       /** Set Name of the event object that contains the data to be filled
        * in histogram, for axis number ix. ix is 0 for x-axis,
        * 1 for y-axis, etc. */
-      void SetHisEventName(Int_t ix, const char* name);
+      void SetHisEventName(Int_t ix, const char *name);
       const char* GetHistEventName(Int_t ix) const;
 
       /** Set name of the external condition to be referenced. */
-      void SetConditionName(const char* name) { fxConditionName = name; }
+      void SetConditionName(const char *name) { fxConditionName = name; }
       const char* GetConditionName() const { return fxConditionName.Data(); }
 
       /** Set Name of the data value (eventclass member) that is to be
         * tested by condition for axis number ix. ix is 0 for x-axis,
         * 1 for y-axis, etc. */
-      void SetConVarName(Int_t ix, const char* name);
+      void SetConVarName(Int_t ix, const char *name);
       const char* GetConVarName(Int_t ix) const;
 
       /** Set Name of the eventstructure object that is to be
         * tested by the condition for axis number ix. ix is 0 for x-axis,
         * 1 for y-axis, etc. */
-      void SetConEventName(Int_t ix, const char* name);
+      void SetConEventName(Int_t ix, const char *name);
       const char* GetConEventName(Int_t ix) const;
 
       Bool_t NeedInitialisation() const { return fbNeedInitialisation; }

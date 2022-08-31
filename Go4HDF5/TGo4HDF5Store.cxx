@@ -39,7 +39,7 @@ TGo4HDF5Store::TGo4HDF5Store() :
    GO4TRACE((15,"TGo4HDF5Store::TGo4HDF5Store()", __LINE__, __FILE__));
 }
 
-TGo4HDF5Store::TGo4HDF5Store(const char* name,
+TGo4HDF5Store::TGo4HDF5Store(const char *name,
                              UInt_t flags) :
    TGo4EventStore(name),TGo4HDF5Adapter()
 

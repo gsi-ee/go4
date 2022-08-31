@@ -32,22 +32,22 @@ class TGo4FitParameter : public TGo4FitNamed {
       /**
        * Create TGo4FitParameter object with given name, title and initial value.
        */
-      TGo4FitParameter(const char* name, const char* title, Double_t iValue);
+      TGo4FitParameter(const char *name, const char* title, Double_t iValue);
 
       /**
        * Create TGo4FitParameter object with given name, title, initial value and given range limits.
        */
-      TGo4FitParameter(const char* name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax);
+      TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax);
 
       /**
        * Create TGo4FitParameter object with given name, title, initial value and given epsilon.
        */
-      TGo4FitParameter(const char* name, const char* title, Double_t iValue, Double_t iEpsilon);
+      TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iEpsilon);
 
       /**
        * Create TGo4FitParameter object with given name, title, initial value, given range and epsilon.
        */
-      TGo4FitParameter(const char* name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax, Double_t iEpsilon);
+      TGo4FitParameter(const char *name, const char* title, Double_t iValue, Double_t iRangeMin, Double_t iRangeMax, Double_t iEpsilon);
 
       /**
        * Destroy TGo4FitParameter object.

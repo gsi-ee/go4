@@ -18,7 +18,7 @@
 
 const UInt_t TGo4WatchRunnable::fguWATCHINTERVAL=5000;
 
-TGo4WatchRunnable::TGo4WatchRunnable(const char* name, TGo4ExampleClient* cli)
+TGo4WatchRunnable::TGo4WatchRunnable(const char *name, TGo4ExampleClient* cli)
 : TGo4Runnable(name,cli)
 {
    GO4TRACE((15,"TGo4WatchRunnable::TGo4WatchRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));

@@ -27,7 +27,7 @@ class TGo4EventCalibration : public TGo4Parameter {
 
       TGo4EventCalibration();
 
-      TGo4EventCalibration(const char* name);
+      TGo4EventCalibration(const char *name);
 
       virtual ~TGo4EventCalibration();
 

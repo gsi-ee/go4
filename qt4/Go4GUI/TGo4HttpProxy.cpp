@@ -536,7 +536,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       TGo4Slot* getslot() override { return nullptr; }
 
-      const char* name() override
+      const char *name() override
       {
          const char* real = fXML->GetAttr(fChild,"_realname");
          return real? real : fXML->GetAttr(fChild,"_name");
@@ -636,7 +636,7 @@ void TGo4HttpProxy::Initialize(TGo4Slot* slot)
 }
 
 
-XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr) const
+XMLNodePointer_t TGo4HttpProxy::FindItem(const char *name, XMLNodePointer_t curr) const
 {
    if (!curr) curr = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
 
@@ -765,7 +765,7 @@ Bool_t TGo4HttpProxy::HasSublevels() const
    return fxHierarchy != nullptr;
 }
 
-TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
+TGo4Access* TGo4HttpProxy::ProvideAccess(const char *name)
 {
    XMLNodePointer_t item = FindItem(name);
 
@@ -973,7 +973,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    return netReply->isFinished();
 }
 
-TString TGo4HttpProxy::FindCommand(const char* name)
+TString TGo4HttpProxy::FindCommand(const char *name)
 {
    if (!name || (*name == 0)) return "";
    if (NumCommandArgs(name) >= 0) return name;
@@ -988,7 +988,7 @@ TString TGo4HttpProxy::FindCommand(const char* name)
    return "";
 }
 
-Int_t TGo4HttpProxy::NumCommandArgs(const char* name)
+Int_t TGo4HttpProxy::NumCommandArgs(const char *name)
 {
    XMLNodePointer_t item = FindItem(name);
    if (!item) return -1;
@@ -999,7 +999,7 @@ Int_t TGo4HttpProxy::NumCommandArgs(const char* name)
    return TString(_numargs).Atoi();
 }
 
-Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1, const char* arg2, const char* arg3)
+Bool_t TGo4HttpProxy::SubmitCommand(const char *name, Int_t waitres, const char* arg1, const char* arg2, const char* arg3)
 {
    TString url(name);
    url.Append("/cmd.json");

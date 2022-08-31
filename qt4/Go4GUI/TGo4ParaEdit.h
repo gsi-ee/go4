@@ -35,7 +35,7 @@ public:
 
    enum ParEditColumns { fiColName = 0, fiColType = 1, fiColValue = 2, fiColComment = 3 };
 
-   TGo4ParaEdit(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4ParaEdit(QWidget *parent = nullptr, const char *name = nullptr);
    virtual ~TGo4ParaEdit();
 
    bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;

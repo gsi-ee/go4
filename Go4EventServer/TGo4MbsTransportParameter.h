@@ -20,7 +20,7 @@ class TGo4MbsTransportParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsTransportParameter();
 
-    TGo4MbsTransportParameter(const char* name);
+    TGo4MbsTransportParameter(const char *name);
 
     virtual ~TGo4MbsTransportParameter();
 

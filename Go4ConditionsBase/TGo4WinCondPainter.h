@@ -21,7 +21,7 @@ class TGo4WinCondView;
 class TGo4WinCondPainter : public TGo4ConditionPainter {
   public:
      TGo4WinCondPainter();
-     TGo4WinCondPainter(const char* name, const char* title = "Go4 window condition");
+     TGo4WinCondPainter(const char *name, const char* title = "Go4 window condition");
      virtual ~TGo4WinCondPainter();
 
      /** Display condition with plain root canvas and in go4 viewpanel */

@@ -43,7 +43,7 @@ protected:
     QTimer* fAnalysisMacroTimer{nullptr};
 
  public:
-    TGo4UserCommands( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
+    TGo4UserCommands( QWidget* parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
     void AssignShortcuts();
 

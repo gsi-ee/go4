@@ -37,7 +37,7 @@ public:
     TGo4HDF5DataHandleFactory(){}
 
     /** create implementation of data handle by type*/
-    TGo4HDF5DataHandle* CreateDataHandle(const char* name, size_t datasize, const char* type);
+    TGo4HDF5DataHandle* CreateDataHandle(const char *name, size_t datasize, const char* type);
 };
 
 
@@ -57,7 +57,7 @@ class TGo4HDF5DataHandle {
 public:
 
    /** create new data handle*/
-   TGo4HDF5DataHandle(const char* name, size_t datasize);
+   TGo4HDF5DataHandle(const char *name, size_t datasize);
    virtual ~TGo4HDF5DataHandle();
 
    /** return handle for type descriptor. Currently this is filled from external routine of adapter class*/
@@ -87,7 +87,7 @@ public:
    void SetTopEventClass(const char* classname);
 
    /** identifier for the member to access from outside using the top event handle*/
-   void SetMemberName(const char* name) {fxMemberHandle=name;}
+   void SetMemberName(const char *name) {fxMemberHandle=name;}
 
    /** type of the member to access from outside*/
    void SetMemberClass(const char* clname) {fxMemberClass=clname;}
@@ -110,14 +110,14 @@ public:
    /** create new subhandle for complex member component on heap.
     * Each complex component has separate dataset in file. returns the currently added handle to submember.
     * If submember is part of a collection like std::vector, the name of collection is also passed.*/
-   TGo4HDF5DataHandle* AddSubMember(const char* name, size_t datasize, const char* collectiontype = nullptr);
+   TGo4HDF5DataHandle* AddSubMember(const char *name, size_t datasize, const char* collectiontype = nullptr);
 
 
 
    TGo4HDF5DataHandle* GetSubMember(UInt_t ix){ return (ix< fxSubcomponents.size() ? fxSubcomponents[ix] : nullptr);}
 
    /** lookup if subcomponent of name already is in list. returns 0 pointer if no match of name, otherwise th matching subhandle*/
-   TGo4HDF5DataHandle* FindSubMember(const char* name);
+   TGo4HDF5DataHandle* FindSubMember(const char *name);
 
    void SetActive(Bool_t on){fbDataSetActive=on;}
 
@@ -211,7 +211,7 @@ class TGo4HDF5BasicDataHandle : public TGo4HDF5DataHandle
 public:
 
    /** create new data handle*/
-   TGo4HDF5BasicDataHandle(const char* name, size_t datasize);
+   TGo4HDF5BasicDataHandle(const char *name, size_t datasize);
    virtual ~TGo4HDF5BasicDataHandle();
 
    /** create datasets and buffers for reading this structure from hdf5 file.
@@ -259,7 +259,7 @@ class TGo4HDF5CompositeDataHandle : public TGo4HDF5BasicDataHandle
 public:
 
    /** create new data handle*/
-   TGo4HDF5CompositeDataHandle(const char* name, size_t datasize);
+   TGo4HDF5CompositeDataHandle(const char *name, size_t datasize);
    virtual ~TGo4HDF5CompositeDataHandle();
 
 
@@ -303,7 +303,7 @@ class TGo4HDF5VectorDataHandle : public TGo4HDF5BasicDataHandle
 public:
 
    /** create new data handle*/
-   TGo4HDF5VectorDataHandle(const char* name, size_t datasize);
+   TGo4HDF5VectorDataHandle(const char *name, size_t datasize);
    virtual ~TGo4HDF5VectorDataHandle();
 
 
@@ -372,7 +372,7 @@ class TGo4HDF5SubVectorDataHandle : public TGo4HDF5VectorDataHandle
 public:
 
    /** create new data handle*/
-   TGo4HDF5SubVectorDataHandle(const char* name, size_t datasize);
+   TGo4HDF5SubVectorDataHandle(const char *name, size_t datasize);
    virtual ~TGo4HDF5SubVectorDataHandle();
 
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/

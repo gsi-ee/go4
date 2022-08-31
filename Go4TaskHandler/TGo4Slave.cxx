@@ -22,7 +22,7 @@
 #include "TGo4CommandInvoker.h"
 #include "TGo4TaskHandlerCommandList.h"
 
-TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, UInt_t negotport) :
+TGo4Slave::TGo4Slave(const char *name, Bool_t isserver, const char* serverhost, UInt_t negotport) :
    TGo4TaskOwner(isserver),
    fbMainIsRunning(kTRUE)
 {

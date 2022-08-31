@@ -26,7 +26,7 @@ TYYYRawEvent::TYYYRawEvent() :
    // default ctor is for streamer only, avoid heap objects here!
 }
 
-TYYYRawEvent::TYYYRawEvent(const char* name) :
+TYYYRawEvent::TYYYRawEvent(const char *name) :
    TGo4EventElement(name),
    fiColumns(0),
    fdData(0),

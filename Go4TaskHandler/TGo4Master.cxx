@@ -23,7 +23,7 @@ TGo4Master::TGo4Master() :
 {
 }
 
-TGo4Master::TGo4Master(const char* name, Bool_t isserver, const char* serverhost, UInt_t negotport)
+TGo4Master::TGo4Master(const char *name, Bool_t isserver, const char* serverhost, UInt_t negotport)
 : TGo4TaskOwner(isserver)
 {
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists
@@ -57,7 +57,7 @@ TGo4TaskHandlerCommandList* TGo4Master::CreateCommandList()
    return new TGo4TaskHandlerCommandList("Go4ServerTaskDefaultCommandList");
 }
 
-Bool_t TGo4Master::SubmitCommand(const char* name)
+Bool_t TGo4Master::SubmitCommand(const char *name)
 {
    if (!GetTask()) return kFALSE;
    return GetTask()->SubmitCommand(name);
@@ -75,7 +75,7 @@ Bool_t TGo4Master::SubmitCommand(TGo4Command* com)
    return GetTask()->SubmitCommand(com);
 }
 
-Bool_t TGo4Master::DisconnectSlave(const char* name, Bool_t waitforslave)
+Bool_t TGo4Master::DisconnectSlave(const char *name, Bool_t waitforslave)
 {
    Bool_t rev = kTRUE;
    if (IsServer()) {

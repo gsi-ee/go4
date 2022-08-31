@@ -47,7 +47,7 @@ TGo4MbsFile::TGo4MbsFile() :
    GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile()",__LINE__, __FILE__));
 }
 
-TGo4MbsFile::TGo4MbsFile(const char* name) :
+TGo4MbsFile::TGo4MbsFile(const char *name) :
    TGo4MbsSource(name, GETEVT__FILE),
    fxTagFile(),
    fxCurrentFile(),
@@ -98,7 +98,7 @@ TGo4MbsFile::~TGo4MbsFile()
    if(fxMultiFile) { delete fxMultiFile; fxMultiFile = nullptr; }
 }
 
-void TGo4MbsFile::AddFileName(const char* name, const char* tagname, bool isonly)
+void TGo4MbsFile::AddFileName(const char *name, const char* tagname, bool isonly)
 {
    if (!name || (*name == 0)) return;
 

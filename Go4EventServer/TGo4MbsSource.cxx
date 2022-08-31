@@ -56,7 +56,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
 }
 
 
-TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
+TGo4MbsSource::TGo4MbsSource(const char *name, Int_t mode) :
    TGo4EventSource(name),
    fiMode(mode),
    fiRetryCnt(0),

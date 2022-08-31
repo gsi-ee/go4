@@ -23,7 +23,7 @@ class TGo4PolyCond : public TGo4Condition {
    public:
       TGo4PolyCond();
 
-      TGo4PolyCond(const char* name, const char* title = "Go4 polygon condition");
+      TGo4PolyCond(const char *name, const char* title = "Go4 polygon condition");
 
       virtual ~TGo4PolyCond();
 

@@ -18,7 +18,7 @@ TGo4TaskHandlerStatus::TGo4TaskHandlerStatus() :
 {
 }
 
-TGo4TaskHandlerStatus::TGo4TaskHandlerStatus(const char* name) :
+TGo4TaskHandlerStatus::TGo4TaskHandlerStatus(const char *name) :
    TGo4Status(name)
 {
 }

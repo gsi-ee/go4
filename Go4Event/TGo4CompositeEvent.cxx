@@ -49,7 +49,7 @@ TGo4CompositeEvent::~TGo4CompositeEvent()
    }
 }
 
-TGo4EventElement* TGo4CompositeEvent::GetChild(const char* name)
+TGo4EventElement* TGo4CompositeEvent::GetChild(const char *name)
 {
    TGo4EventElement* res = TGo4EventElement::GetChild(name);
 
@@ -236,7 +236,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
    return (TGo4EventElement *)fEventElements->At(idx);
 }
 
-TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final_element)
+TGo4EventElement* TGo4CompositeEvent::getEventElement(const char *name, Int_t final_element)
 {
    TIter next(fEventElements);
    while (auto ev = (TGo4EventElement *)next()) {

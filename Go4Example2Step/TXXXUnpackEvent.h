@@ -21,7 +21,7 @@
 class TXXXUnpackEvent : public TGo4EventElement {
    public:
       TXXXUnpackEvent() : TGo4EventElement() {}
-      TXXXUnpackEvent(const char* name) : TGo4EventElement(name) {}
+      TXXXUnpackEvent(const char *name) : TGo4EventElement(name) {}
       virtual ~TXXXUnpackEvent() {}
 
       /**

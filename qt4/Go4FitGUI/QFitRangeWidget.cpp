@@ -16,7 +16,7 @@
 #include "QFitItem.h"
 #include "TGo4FitComponent.h"
 
-QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char* name)
+QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char *name)
   : QFitWidget(parent, name)
 {
    setupUi(this);

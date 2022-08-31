@@ -50,7 +50,7 @@ class TGo4Slave : public TGo4TaskOwner {
    public:
       TGo4Slave();
 
-      TGo4Slave(const char* name, Bool_t isserver=kTRUE, const char* serverhost="localhost", UInt_t negotport=5000);
+      TGo4Slave(const char *name, Bool_t isserver=kTRUE, const char* serverhost="localhost", UInt_t negotport=5000);
 
       virtual ~TGo4Slave();
 

@@ -307,7 +307,7 @@ void TGo4BrowserProxy::UpdateBrowserContent()
    }
 }
 
-Int_t TGo4BrowserProxy::RequestBrowserObject(const char* name, Int_t wait_time)
+Int_t TGo4BrowserProxy::RequestBrowserObject(const char *name, Int_t wait_time)
 {
    if (!name || !fxBrowserSlot || !fxOM) return 0;
 
@@ -584,7 +584,7 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
    }
 }
 
-void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
+void TGo4BrowserProxy::RequestObjectStatus(const char *name, TGo4Slot* tgtslot)
 {
    TString objname;
    TGo4ServerProxy* an = DefineAnalysisObject(name, objname);
@@ -887,7 +887,7 @@ void TGo4BrowserProxy::RedrawItem(const char *itemname)
    }
 }
 
-TObject* TGo4BrowserProxy::GetBrowserObject(const char* name, int update)
+TObject* TGo4BrowserProxy::GetBrowserObject(const char *name, int update)
 // update=0 - without update,
 //        1 - request only if obj == nullptr,
 //        2 - update of object in any case
@@ -1082,7 +1082,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char* o
       TGo4Iter iter(searchslot, kTRUE);
       size_t len = strlen(objname);
       while (iter.next()) {
-         const char* name = iter.getname();
+         const char *name = iter.getname();
 
          if (strncmp(objname, name, len) != 0) continue;
 
@@ -1276,7 +1276,7 @@ Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char *filename,
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::IsItemRemote(const char* name)
+Bool_t TGo4BrowserProxy::IsItemRemote(const char *name)
 {
    return IsItemRemote(ItemSlot(name));
 }
@@ -1289,7 +1289,7 @@ Bool_t TGo4BrowserProxy::IsItemRemote(TGo4Slot* slot)
    return remote != 0;
 }
 
-Bool_t TGo4BrowserProxy::IsAnalysisItem(const char* name)
+Bool_t TGo4BrowserProxy::IsAnalysisItem(const char *name)
 {
    TString analysisname;
    return DefineAnalysisObject(name, analysisname) != nullptr;
@@ -1337,7 +1337,7 @@ const char* TGo4BrowserProxy::GetLinkedName(TGo4Slot* slot)
    return !slot ? nullptr : slot->GetPar("::LinkedItem");
 }
 
-Int_t TGo4BrowserProxy::ItemKind(const char* name)
+Int_t TGo4BrowserProxy::ItemKind(const char *name)
 {
    return ItemKind(ItemSlot(name));
 }
@@ -1392,7 +1392,7 @@ TClass* TGo4BrowserProxy::ItemClass(TGo4Slot* slot)
    return TGo4Proxy::GetClass(ItemClassName(slot));
 }
 
-TClass* TGo4BrowserProxy::ItemClass(const char* name)
+TClass* TGo4BrowserProxy::ItemClass(const char *name)
 {
    return ItemClass(ItemSlot(name));
 }
@@ -1402,12 +1402,12 @@ const char* TGo4BrowserProxy::ItemClassName(TGo4Slot* slot)
    return !slot ? nullptr : slot->GetPar("GUI::Class");
 }
 
-const char* TGo4BrowserProxy::ItemClassName(const char* name)
+const char* TGo4BrowserProxy::ItemClassName(const char *name)
 {
    return ItemClassName(ItemSlot(name));
 }
 
-Int_t TGo4BrowserProxy::ItemCanDo(const char* name)
+Int_t TGo4BrowserProxy::ItemCanDo(const char *name)
 {
    return ItemCanDo(ItemSlot(name));
 }

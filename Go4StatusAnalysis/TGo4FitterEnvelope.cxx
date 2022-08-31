@@ -20,7 +20,7 @@ TGo4FitterEnvelope::TGo4FitterEnvelope()
 {
 }
 
-TGo4FitterEnvelope::TGo4FitterEnvelope(const char* name, TGo4Fitter* fitter)
+TGo4FitterEnvelope::TGo4FitterEnvelope(const char *name, TGo4Fitter* fitter)
 : TGo4Parameter(name)
 {
    fxFitter = fitter;

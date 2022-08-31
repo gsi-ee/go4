@@ -22,7 +22,7 @@
 #include "TGo4Log.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4CommandProtoList::TGo4CommandProtoList(const char* name) :
+TGo4CommandProtoList::TGo4CommandProtoList(const char *name) :
    TNamed(name,"This is a TGo4CommandProtoList")
 {
    GO4TRACE((14,"TGo4CommandProtoList::TGo4CommandProtoList(const char*) ctor",__LINE__, __FILE__));
@@ -55,7 +55,7 @@ void TGo4CommandProtoList::ShowCommands()
       std::cout << " "<< com->GetName()<<"\t| "<<com->What()<<std::endl;
 }
 
-TGo4Command* TGo4CommandProtoList::MakeCommand(const char* name)
+TGo4Command* TGo4CommandProtoList::MakeCommand(const char *name)
 {
    GO4TRACE((12,"TGo4CommandProtoList::MakeCommand(const char*)",__LINE__, __FILE__));
    TGo4Command* rev = nullptr;
@@ -83,7 +83,7 @@ TGo4Command* TGo4CommandProtoList::MakeCommand(TGo4RemoteCommand* remcon)
 }
 
 
-void TGo4CommandProtoList::RemoveCommand(const char* name)
+void TGo4CommandProtoList::RemoveCommand(const char *name)
 {
    GO4TRACE((12,"TGo4CommandProtoList::RemoveCommand(const char*)",__LINE__, __FILE__));
 

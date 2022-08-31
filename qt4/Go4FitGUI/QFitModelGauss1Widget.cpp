@@ -16,7 +16,7 @@
 #include "TGo4FitModelGauss1.h"
 
 
-QFitModelGauss1Widget::QFitModelGauss1Widget(QWidget *parent, const char* name)
+QFitModelGauss1Widget::QFitModelGauss1Widget(QWidget *parent, const char *name)
          : QFitModelWidget(parent, name)
 {
    setupUi(this);

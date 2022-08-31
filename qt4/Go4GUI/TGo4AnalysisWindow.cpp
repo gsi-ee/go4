@@ -37,7 +37,7 @@
 #include "TGo4AnalysisObjectResult.h"
 #include "QGo4CommandsHistory.h"
 
-TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool needoutput, bool needkillbtn) :
+TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char *name, bool needoutput, bool needkillbtn) :
     QGo4Widget( parent, name)
 {
     setCanDestroyWidget(false);

@@ -27,7 +27,7 @@ const char* TGo4ExampleClient::fgcWATCHTHREAD="WATCH-";
 const char* TGo4ExampleClient::fgcMAINTHREAD="MAIN-";
 
 
-TGo4ExampleClient::TGo4ExampleClient(const char* name,
+TGo4ExampleClient::TGo4ExampleClient(const char *name,
                                      const char* host,
                                      UInt_t negport,
                                      Bool_t blockingmode)

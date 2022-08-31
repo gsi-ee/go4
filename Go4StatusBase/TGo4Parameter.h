@@ -30,7 +30,7 @@ class TGo4Parameter : public TNamed {
 
       TGo4Parameter();
 
-      TGo4Parameter(const char* name, const char* title = "This is a Go4 Parameter Object");
+      TGo4Parameter(const char *name, const char* title = "This is a Go4 Parameter Object");
 
       virtual ~TGo4Parameter();
 

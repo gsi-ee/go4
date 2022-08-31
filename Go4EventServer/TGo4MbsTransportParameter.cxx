@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 
-TGo4MbsTransportParameter::TGo4MbsTransportParameter(const char* name) :
+TGo4MbsTransportParameter::TGo4MbsTransportParameter(const char *name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_TRANSPORT)
 {
    GO4TRACE((14,"TGo4MbsTransportParameter::TGo4MbsTransportParameter(const char*)", __LINE__, __FILE__));

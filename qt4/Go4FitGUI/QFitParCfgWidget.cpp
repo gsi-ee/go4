@@ -18,7 +18,7 @@
 #include "TGo4FitParameter.h"
 
 
-QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char* name)
+QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char *name)
          : QFitWidget(parent, name)
 {
    setupUi(this);

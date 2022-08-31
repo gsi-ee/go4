@@ -25,7 +25,7 @@ TGo4MsgList::TGo4MsgList() :
 {
 }
 
-TGo4MsgList::TGo4MsgList(const char* name, const char* title, Int_t limit) :
+TGo4MsgList::TGo4MsgList(const char *name, const char* title, Int_t limit) :
    TNamed(name, title),
    fMsgs(),
    fLimit(limit > 0 ? limit : 1),

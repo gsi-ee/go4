@@ -34,7 +34,7 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     /** default ctor for streamer. */
     TGo4AnalysisWebStatus(): TGo4AnalysisStatus() {}
 
-    TGo4AnalysisWebStatus(const char* name): TGo4AnalysisStatus(name) {}
+    TGo4AnalysisWebStatus(const char *name): TGo4AnalysisStatus(name) {}
 
     virtual ~TGo4AnalysisWebStatus() {}
 

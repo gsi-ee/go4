@@ -21,7 +21,7 @@ class TGo4CondArrayPainter : public TGo4ConditionPainter {
       TGo4CondArrayPainter();
       virtual ~TGo4CondArrayPainter();
 
-      TGo4CondArrayPainter(const char* name);
+      TGo4CondArrayPainter(const char *name);
 
       /** Display condition with plain root canvas and in go4 viewpanel */
       void PaintCondition(Option_t* opt="") override;

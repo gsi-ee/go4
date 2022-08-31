@@ -59,7 +59,7 @@ class TGo4AnalysisObjectNames : public TGo4Status {
       TFolder *fxTopFolder{nullptr};
 
       /** private ctor can only invoked by Go4Analysis class, which is friend. */
-      TGo4AnalysisObjectNames(const char* name);
+      TGo4AnalysisObjectNames(const char *name);
 
    ClassDefOverride(TGo4AnalysisObjectNames,1)
 };

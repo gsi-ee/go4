@@ -26,7 +26,7 @@ class TGo4FileSource;
 class TMeshRawEvent : public TGo4EventElement {
    public:
       TMeshRawEvent();
-      TMeshRawEvent(const char* name);
+      TMeshRawEvent(const char *name);
       virtual ~TMeshRawEvent();
       /**
        * Method called by the event owner (analysis step) to fill the

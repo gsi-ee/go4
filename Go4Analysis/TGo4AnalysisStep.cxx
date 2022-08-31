@@ -32,7 +32,7 @@
 #include "TGo4EventFactory.h"
 #include "TGo4EventStore.h"
 
-TGo4AnalysisStep::TGo4AnalysisStep(const char* name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter* storetype, TGo4EventProcessorParameter* processortype)
+TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter* storetype, TGo4EventProcessorParameter* processortype)
 :TNamed(name,"This is a Go4 analysis step"),
    fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
    fxInputEvent(nullptr), fxOutputEvent(nullptr),

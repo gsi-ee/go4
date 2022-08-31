@@ -38,7 +38,7 @@ class TGo4SlotIter : public TGo4LevelIter {
 
       TGo4Slot* getslot() override { return curSlot(); }
 
-      const char* name() override { return curSlot()->GetName();  }
+      const char *name() override { return curSlot()->GetName();  }
 
       const char* info() override { return curSlot()->GetInfo(); }
 
@@ -76,7 +76,7 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent) :
    Event(this, evCreate);
 }
 
-TGo4Slot::TGo4Slot(TGo4Slot* parent, const char* name, const char* title) :
+TGo4Slot::TGo4Slot(TGo4Slot* parent, const char *name, const char* title) :
    TNamed(name, title),
    fParent(parent)
 {
@@ -185,7 +185,7 @@ Bool_t TGo4Slot::IsParent(const TGo4Slot* slot) const
    return kFALSE;
 }
 
-void TGo4Slot::DeleteChild(const char* name)
+void TGo4Slot::DeleteChild(const char *name)
 {
    TGo4Slot* child = FindChild(name);
    if (!child) return;
@@ -240,7 +240,7 @@ TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
    return nullptr;
 }
 
-TGo4Slot* TGo4Slot::FindChild(const char* name)
+TGo4Slot* TGo4Slot::FindChild(const char *name)
 {
    if (!name || (*name == 0)) return nullptr;
    Int_t num = NumChilds();
@@ -388,7 +388,7 @@ TGo4LevelIter* TGo4Slot::MakeLevelIter() const
    return res;
 }
 
-TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
+TGo4Access* TGo4Slot::ProvideSlotAccess(const char *name)
 {
    if (fProxy && fProxy->Use())
       return fProxy->ProvideAccess(name);
@@ -423,7 +423,7 @@ void TGo4Slot::ReadData(TDirectory* dir)
    SetProxy(cont);
 }
 
-TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
+TGo4Slot* TGo4Slot::DefineSubSlot(const char *name, const char* &subname) const
 {
    Int_t len = 0;
 
@@ -443,7 +443,7 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char* name, const char* &subname) const
    return nullptr;
 }
 
-TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
+TGo4Slot* TGo4Slot::GetSlot(const char *name, Bool_t force)
 {
    if (!name || (*name == 0)) return this;
 
@@ -578,7 +578,7 @@ void TGo4Slot::Print(Option_t* option) const
    }
 }
 
-void TGo4Slot::SetPar(const char* name, const char* value)
+void TGo4Slot::SetPar(const char *name, const char* value)
 {
    if (!name || (*name == 0)) return;
    if (!value) { RemovePar(name); return; }
@@ -590,14 +590,14 @@ void TGo4Slot::SetPar(const char* name, const char* value)
      fPars.Add(new TNamed(name,value));
 }
 
-const char* TGo4Slot::GetPar(const char* name) const
+const char* TGo4Slot::GetPar(const char *name) const
 {
    if (!name || (*name == 0)) return nullptr;
    TNamed* par = (TNamed*) fPars.FindObject(name);
    return par ? par->GetTitle() : nullptr;
 }
 
-void TGo4Slot::RemovePar(const char* name)
+void TGo4Slot::RemovePar(const char *name)
 {
    if (!name || (*name == 0)) return;
    TNamed* par = (TNamed*) fPars.FindObject(name);
@@ -608,14 +608,14 @@ void TGo4Slot::RemovePar(const char* name)
    }
 }
 
-void TGo4Slot::SetIntPar(const char* name, Int_t value)
+void TGo4Slot::SetIntPar(const char *name, Int_t value)
 {
    TString buf;
    buf.Form("%d",value);
    SetPar(name, buf.Data());
 }
 
-Bool_t TGo4Slot::GetIntPar(const char* name, Int_t& value)
+Bool_t TGo4Slot::GetIntPar(const char *name, Int_t& value)
 {
    const char* strvalue = GetPar(name);
    if (!strvalue) return kFALSE;
@@ -632,7 +632,7 @@ void TGo4Slot::PrintPars(Int_t level)
    }
 }
 
-const char* TGo4Slot::FindFolderSeparator(const char* name)
+const char* TGo4Slot::FindFolderSeparator(const char *name)
 {
    return !name ? nullptr : strrchr(name,'/');
 }

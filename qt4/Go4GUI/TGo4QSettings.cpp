@@ -281,7 +281,7 @@ QString TGo4QSettings::getClientArgs()
 
 void TGo4QSettings::setClientShellMode(int v)
 {
-   const char* name = "exec";
+   const char *name = "exec";
    switch (v) {
       case 0: name = "exec"; break;
       case 1: name = "rsh"; break;
@@ -678,12 +678,12 @@ QSize TGo4QSettings::lastPanelSize(const QString& kind, int dfltwidth, int dflth
    return rect;
 }
 
-void TGo4QSettings::setBrowserColumn(const char* name, int width)
+void TGo4QSettings::setBrowserColumn(const char *name, int width)
 {
    setInt( QString("/Browser/") + name, width);
 }
 
-int TGo4QSettings::getBrowserColumn(const char* name, int defwidth)
+int TGo4QSettings::getBrowserColumn(const char *name, int defwidth)
 {
    return getInt( QString("/Browser/") + name, defwidth);
 }

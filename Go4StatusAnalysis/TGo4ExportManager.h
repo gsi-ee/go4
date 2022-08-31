@@ -46,7 +46,7 @@ class TGo4ExportManager : public TNamed {
 
     TGo4ExportManager();
 
-    TGo4ExportManager(const char* name);
+    TGo4ExportManager(const char *name);
 
     virtual ~TGo4ExportManager();
 

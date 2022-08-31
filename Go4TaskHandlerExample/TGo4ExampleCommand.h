@@ -19,7 +19,7 @@
 class TGo4ExampleCommand : public TGo4Command {
   public:
     TGo4ExampleCommand();
-    TGo4ExampleCommand(const char* name, const char* desc);
+    TGo4ExampleCommand(const char *name, const char* desc);
     TGo4ExampleCommand(const TGo4ExampleCommand &right);
     virtual ~TGo4ExampleCommand();
 

@@ -37,7 +37,7 @@ TYYYUnpackProc::TYYYUnpackProc() :
 {
 }
 //***********************************************************
-TYYYUnpackProc::TYYYUnpackProc(const char* name) :
+TYYYUnpackProc::TYYYUnpackProc(const char *name) :
    TGo4EventProcessor(name),
    fX(0),fY(0),fZ(0),fVX(0),fVY(0),fVZ(0),fNumScatt(0),
    fXY(0),fVXVY(0), fXYCond(0), fVXVYCond(0), fEmitX(0), fEmitY(0), fEmitDist(0),

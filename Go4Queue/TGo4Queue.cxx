@@ -20,7 +20,7 @@
 #include "TGo4LockGuard.h"
 #include "TGo4RuntimeException.h"
 
-TGo4Queue::TGo4Queue(const char* name) :
+TGo4Queue::TGo4Queue(const char *name) :
     TNamed(name ? name : "Default Queue", "This is a Go4 Queue"),
     fiEntries(0),
     fiMaxEntries(100),

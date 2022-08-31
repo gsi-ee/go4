@@ -27,7 +27,7 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     Q_OBJECT
 
 public:
-    TGo4ConditionEditor(QWidget *parent = nullptr, const char* name = nullptr);
+    TGo4ConditionEditor(QWidget *parent = nullptr, const char *name = nullptr);
 
     bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
     void DropItem(const char *itemname, TClass *cl, int kind) override;

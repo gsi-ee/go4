@@ -61,7 +61,7 @@ TNamed TGo4TaskHandler::fgxOBSERVERACCOUNT("observer","go4view");
 TNamed TGo4TaskHandler::fgxCONTROLLERACCOUNT("controller","go4ctrl");
 TNamed TGo4TaskHandler::fgxADMINISTRATORACCOUNT("admin","go4super");
 
-TGo4TaskHandler::TGo4TaskHandler(const char* name, TGo4ThreadManager* threadmanager, Bool_t clientmode, Bool_t mastermode,UInt_t negotiationport)
+TGo4TaskHandler::TGo4TaskHandler(const char *name, TGo4ThreadManager* threadmanager, Bool_t clientmode, Bool_t mastermode,UInt_t negotiationport)
 :TNamed(name,"This is a Go4 Task Handler"),
 fbIsAborting(kFALSE), fiComPort(0),fiStatPort(0),fiDatPort(0),fiRole(kGo4ComModeController)
 {
@@ -430,7 +430,7 @@ TGo4TaskHandlerStatus * TGo4TaskHandler::CreateStatus()
 
 
 
-Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host)
+Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host)
 {
    char* revchar = nullptr;
    Int_t waitresult = 0;
@@ -507,7 +507,7 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
    return kTRUE;
 }
 
-Bool_t TGo4TaskHandler::ConnectClientChannel(const char* name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host)
+Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host)
 {
    //
    char* recvchar = nullptr;
@@ -601,7 +601,7 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
    return rev;
 }
 
-Bool_t TGo4TaskHandler::WaitThreadStop(const char* name)
+Bool_t TGo4TaskHandler::WaitThreadStop(const char *name)
 {
    if(!name) return kFALSE;
    TGo4Thread* thread=fxThreadHandler->GetThread(name);
@@ -621,19 +621,19 @@ Bool_t TGo4TaskHandler::WaitThreadStop(const char* name)
    return !timeout;
 }
 
-void TGo4TaskHandler::SetAdminAccount(const char* name, const char* passwd)
+void TGo4TaskHandler::SetAdminAccount(const char *name, const char* passwd)
 {
    if(name) fgxADMINISTRATORACCOUNT.SetName(name);
    if(passwd) fgxADMINISTRATORACCOUNT.SetTitle(passwd);
 }
 
-void TGo4TaskHandler::SetCtrlAccount(const char* name, const char* passwd)
+void TGo4TaskHandler::SetCtrlAccount(const char *name, const char* passwd)
 {
    if(name) fgxCONTROLLERACCOUNT.SetName(name);
    if(passwd) fgxCONTROLLERACCOUNT.SetTitle(passwd);
 }
 
-void TGo4TaskHandler::SetObservAccount(const char* name, const char* passwd)
+void TGo4TaskHandler::SetObservAccount(const char *name, const char* passwd)
 {
    if(name) fgxOBSERVERACCOUNT.SetName(name);
    if(passwd) fgxOBSERVERACCOUNT.SetTitle(passwd);

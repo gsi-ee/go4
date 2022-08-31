@@ -36,7 +36,7 @@ class TGo4ThreadManager : public TNamed {
       *   blockingmode=true: gApplication is blocked by timer
       *   autostart=true: all thread runnables start their work on Initialization()
       *   autocreate=true: all threads added to handler in threadmanager ctor are created on Launch() **/
-      TGo4ThreadManager (const char* name, Bool_t blockingmode = kTRUE, Bool_t autostart = kTRUE, Bool_t autocreate = kTRUE);
+      TGo4ThreadManager (const char *name, Bool_t blockingmode = kTRUE, Bool_t autostart = kTRUE, Bool_t autocreate = kTRUE);
 
       virtual ~TGo4ThreadManager();
 

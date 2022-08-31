@@ -52,7 +52,7 @@ class TGo4Slot : public TNamed  {
 
       TGo4Slot();
       TGo4Slot(TGo4Slot* parent);
-      TGo4Slot(TGo4Slot* parent, const char* name, const char* title);
+      TGo4Slot(TGo4Slot* parent, const char *name, const char* title);
       virtual ~TGo4Slot();
 
       TGo4Slot* GetParent() const { return fParent; }
@@ -66,25 +66,25 @@ class TGo4Slot : public TNamed  {
       const char* GetInfo();
       Int_t GetSizeInfo();
 
-      void SetPar(const char* name, const char* value);
-      const char* GetPar(const char* name) const;
-      void RemovePar(const char* name);
-      void SetIntPar(const char* name, Int_t value);
-      Bool_t GetIntPar(const char* name, Int_t& value);
+      void SetPar(const char *name, const char* value);
+      const char* GetPar(const char *name) const;
+      void RemovePar(const char *name);
+      void SetIntPar(const char *name, Int_t value);
+      Bool_t GetIntPar(const char *name, Int_t& value);
       void PrintPars(Int_t level = 3);
 
       Int_t NumChilds() const { return fChilds ? fChilds->GetLast()+1 : 0; }
       TGo4Slot* GetChild(Int_t n) const { return fChilds ? (TGo4Slot*) fChilds->At(n) : nullptr; }
-      TGo4Slot* FindChild(const char* name);
+      TGo4Slot* FindChild(const char *name);
       Int_t GetIndexOf(TGo4Slot* child);
       TGo4Slot* GetNextChild(TGo4Slot* child);
       TGo4Slot* GetNext();
-      void DeleteChild(const char* name);
+      void DeleteChild(const char *name);
       void DeleteChilds(const char* startedwith = nullptr);
       void Delete(Option_t *opt = "") override;
 
-      TGo4Slot* DefineSubSlot(const char* name, const char* &subname) const;
-      TGo4Slot* GetSlot(const char* name, Bool_t force = kFALSE);
+      TGo4Slot* DefineSubSlot(const char *name, const char* &subname) const;
+      TGo4Slot* GetSlot(const char *name, Bool_t force = kFALSE);
       TGo4Slot* FindSlot(const char* fullpath, const char** subname = nullptr);
       Bool_t ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before);
       Bool_t ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after);
@@ -106,7 +106,7 @@ class TGo4Slot : public TNamed  {
       Bool_t HasSubLevels() const;
       Bool_t HasSlotsSubLevels() const;
       TGo4LevelIter* MakeLevelIter() const;
-      TGo4Access* ProvideSlotAccess(const char* name);
+      TGo4Access* ProvideSlotAccess(const char *name);
 
       void SaveData(TDirectory* dir, Bool_t onlyobjs = kFALSE);
       void ReadData(TDirectory* dir);
@@ -119,7 +119,7 @@ class TGo4Slot : public TNamed  {
 
       void Print(Option_t* option="") const override;
 
-      static const char* FindFolderSeparator(const char* name);
+      static const char* FindFolderSeparator(const char *name);
       static void ProduceFolderAndName(const char* fullname, TString& foldername, TString& objectname);
 
       Bool_t DoingDelete() const { return TestBit(kStartDelete); }

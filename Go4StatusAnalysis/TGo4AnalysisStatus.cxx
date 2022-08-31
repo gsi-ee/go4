@@ -27,7 +27,7 @@ TGo4AnalysisStatus::TGo4AnalysisStatus() :
 }
 
 
-TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
+TGo4AnalysisStatus::TGo4AnalysisStatus(const char *name) :
    TGo4Status(name,"Go4 Analysis Status Object")
 {
    fxStepArray = new TObjArray;
@@ -67,7 +67,7 @@ void TGo4AnalysisStatus::Print(Option_t*) const
    PrintLine("----------------------------------------------");
 }
 
-TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
+TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char *name)
 {
    if(!fxStepArray) return nullptr;
 

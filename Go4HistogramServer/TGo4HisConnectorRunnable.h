@@ -25,7 +25,7 @@ class TGo4HisConnectorRunnable : public TGo4Runnable {
 
       TGo4HisConnectorRunnable();
 
-      TGo4HisConnectorRunnable(const char* name, TGo4HistogramServer* hserv);
+      TGo4HisConnectorRunnable(const char *name, TGo4HistogramServer* hserv);
 
       virtual ~TGo4HisConnectorRunnable();
 

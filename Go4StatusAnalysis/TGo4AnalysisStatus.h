@@ -36,7 +36,7 @@ class TGo4AnalysisStatus : public TGo4Status {
     /** default ctor for streamer. */
     TGo4AnalysisStatus();
 
-    TGo4AnalysisStatus(const char* name);
+    TGo4AnalysisStatus(const char *name);
 
     virtual ~TGo4AnalysisStatus();
 
@@ -58,17 +58,17 @@ class TGo4AnalysisStatus : public TGo4Status {
     void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
     Int_t IsAutoSaveOverwrite() const { return fbAutoSaveOverwrite; }
 
-    void SetAutoFileName(const char* name) { fxAutoFileName = name; }
+    void SetAutoFileName(const char *name) { fxAutoFileName = name; }
     const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
 
-    void SetConfigFileName(const char* name) { fxConfigFileName = name; }
+    void SetConfigFileName(const char *name) { fxConfigFileName = name; }
     const char* GetConfigFileName() const { return fxConfigFileName.Data(); }
 
     void SetAutoSaveOn(Bool_t on=kTRUE) { fbAutoSaveOn=on; }
     Int_t IsAutoSaveOn() const { return fbAutoSaveOn; }
 
     /** Access to certain analysis step status by name. */
-    TGo4AnalysisStepStatus* GetStepStatus(const char* name);
+    TGo4AnalysisStepStatus* GetStepStatus(const char *name);
 
     /** Add new step status object to analysis status. */
     Bool_t AddStepStatus(TGo4AnalysisStepStatus * next);

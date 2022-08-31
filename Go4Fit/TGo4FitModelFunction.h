@@ -91,7 +91,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       /**
        * Sets library name.
        */
-      void SetLibraryName(const char* name) { fxLibraryName = name; }
+      void SetLibraryName(const char *name) { fxLibraryName = name; }
 
       /**
        * Returns function name in library.
@@ -101,7 +101,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       /**
        * Sets function name in library.
        */
-      void SetFunctionName(const char* name) { fxFunctionName = name; }
+      void SetFunctionName(const char *name) { fxFunctionName = name; }
 
       /**
        * Returns number of parameter, which can be used by function.

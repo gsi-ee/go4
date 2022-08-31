@@ -69,7 +69,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
 
       TGo4TestRunnable(const TGo4TestRunnable &right);
 
-      TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode = 0);
+      TGo4TestRunnable(const char *name, TGo4ThreadManager* man, Int_t mode = 0);
 
       virtual ~TGo4TestRunnable();
 

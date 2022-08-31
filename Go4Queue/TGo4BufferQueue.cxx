@@ -37,7 +37,7 @@ TGo4BufferQueue::TGo4BufferQueue() :
    InitBuffers();
 }
 
-TGo4BufferQueue::TGo4BufferQueue(const char* name) :
+TGo4BufferQueue::TGo4BufferQueue(const char *name) :
    TGo4Queue(name),
    fxBufferList(nullptr),
    fxFreeList(nullptr),

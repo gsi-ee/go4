@@ -26,7 +26,7 @@ TGo4LabelPainter::TGo4LabelPainter() :
    InitAttributes();
 }
 
-TGo4LabelPainter::TGo4LabelPainter(const char* name, const char* title) :
+TGo4LabelPainter::TGo4LabelPainter(const char *name, const char* title) :
    TNamed(name, title ? title : "Go4 LabelPainter"),
    fxLabel(0),
    fdX0(0),

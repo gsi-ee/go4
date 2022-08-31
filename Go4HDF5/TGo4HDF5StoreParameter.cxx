@@ -16,7 +16,7 @@
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
 
-TGo4HDF5StoreParameter::TGo4HDF5StoreParameter(const char* name,  Go4_H5_File_Flags  flags)
+TGo4HDF5StoreParameter::TGo4HDF5StoreParameter(const char *name,  Go4_H5_File_Flags  flags)
 : TGo4EventStoreParameter(name, GO4EV_HDF5),
    fiFlags(flags)
 {

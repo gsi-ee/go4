@@ -27,7 +27,7 @@ class TIterator;
 class TGo4TaskManager : public TNamed {
    public:
 
-      TGo4TaskManager(const char* name, TGo4ServerTask *server, UInt_t negotiationport = 0, Bool_t createconnector = kTRUE);
+      TGo4TaskManager(const char *name, TGo4ServerTask *server, UInt_t negotiationport = 0, Bool_t createconnector = kTRUE);
 
       virtual ~TGo4TaskManager();
 
@@ -53,7 +53,7 @@ class TGo4TaskManager : public TNamed {
        * disonnect an existing client by name, wait for negotiation OK
        * if clientwait is true
        */
-      Int_t DisConnectClient(const char* name , Bool_t clientwait=kTRUE);
+      Int_t DisConnectClient(const char *name , Bool_t clientwait=kTRUE);
 
       /**
        * disonnect an existing client by name, wait for negotiation OK
@@ -75,17 +75,17 @@ class TGo4TaskManager : public TNamed {
       /**
       * creates new task handler with given name and adds it into array
       */
-      TGo4TaskHandler* NewTaskHandler(const char* name);
+      TGo4TaskHandler* NewTaskHandler(const char *name);
 
       /**
       * removes task handler from array by name
       */
-      Bool_t RemoveTaskHandler(const char* name);
+      Bool_t RemoveTaskHandler(const char *name);
 
       /**
       * returns certain task handler by name
       */
-      TGo4TaskHandler* GetTaskHandler(const char* name);
+      TGo4TaskHandler* GetTaskHandler(const char *name);
 
       /**
       * returns last task handler in list

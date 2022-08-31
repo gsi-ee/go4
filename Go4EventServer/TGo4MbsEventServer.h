@@ -29,7 +29,7 @@ class TGo4MbsEventServerParameter;
 class TGo4MbsEventServer : public TGo4MbsSource {
   public:
 
-    TGo4MbsEventServer(const char* name);
+    TGo4MbsEventServer(const char *name);
 
     TGo4MbsEventServer();
 

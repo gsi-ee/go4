@@ -36,7 +36,7 @@ TGo4HistogramEntry::TGo4HistogramEntry() :
 {
 }
 
-TGo4HistogramEntry::TGo4HistogramEntry(const char* name) :
+TGo4HistogramEntry::TGo4HistogramEntry(const char *name) :
    TGo4DynamicEntry(name),
    fxHistogram(nullptr),
    fxCondition(nullptr),
@@ -61,7 +61,7 @@ TGo4HistogramEntry::~TGo4HistogramEntry()
 {
 }
 
-void TGo4HistogramEntry::SetHisVarName(Int_t ix, const char* name)
+void TGo4HistogramEntry::SetHisVarName(Int_t ix, const char *name)
 {
   if((ix>=0) && (ix<__MAXHISDIM__))
      fxHisVarName[ix]=name;
@@ -72,7 +72,7 @@ const char* TGo4HistogramEntry::GetHistVarName(Int_t ix) const
    return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisVarName[ix].Data() : nullptr;
 }
 
-void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char* name)
+void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char *name)
 {
    if((ix>=0) && (ix<__MAXHISDIM__))
       fxHisEventName[ix]=name;
@@ -83,7 +83,7 @@ const char* TGo4HistogramEntry::GetHistEventName(Int_t ix) const
    return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisEventName[ix].Data() : nullptr;
 }
 
-void TGo4HistogramEntry::SetConVarName(Int_t ix, const char* name)
+void TGo4HistogramEntry::SetConVarName(Int_t ix, const char *name)
 {
   GO4TRACE((12,"TGo4DynamicEntry::SetConVarName(UInt_t, char*)",__LINE__, __FILE__));
   if((ix>=0) && (ix<__MAXCONDIM__))
@@ -95,7 +95,7 @@ const char* TGo4HistogramEntry::GetConVarName(Int_t ix) const
    return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConVarName[ix].Data() : nullptr;
 }
 
-void TGo4HistogramEntry::SetConEventName(Int_t ix, const char* name)
+void TGo4HistogramEntry::SetConEventName(Int_t ix, const char *name)
 {
    GO4TRACE((12,"TGo4DynamicEntry::SetConEventName(UInt_t, char*)",__LINE__, __FILE__));
    if((ix>=0) && (ix<__MAXCONDIM__))

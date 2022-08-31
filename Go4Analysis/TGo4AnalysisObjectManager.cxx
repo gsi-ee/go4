@@ -96,7 +96,7 @@ const char* TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
 
 #define fguSUBFOLDERMAXLEN 1024
 
-TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
+TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char *name) :
    TNamed(name,"The Go4 Analysis Object Manager"),
    fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr), fxParameterDir(nullptr),
    fxDynListDir(nullptr),fxUserDir(nullptr), fxTreeDir(nullptr), fxPictureDir(nullptr), fxCanvasDir(nullptr),
@@ -286,7 +286,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char *name)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char* name, const Option_t* flags)
+Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char *name, const Option_t* flags)
 {
    Bool_t rev = kFALSE;
    TGo4LockGuard dirguard(fxDirMutex);
@@ -623,7 +623,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
 }
 
 TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
-      const char* name,
+      const char *name,
       const char* title,
       Bool_t istopbranch)
 {
@@ -927,7 +927,7 @@ TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
    TGo4LockGuard   listguard(fxDirMutex);
    TGo4AnalysisObjectNames* namesobject = nullptr;
    //fxTempFolder->Clear();
-   const char* name = TGo4Analysis::Instance()->GetName();
+   const char *name = TGo4Analysis::Instance()->GetName();
    if (!name || (strlen(name) == 0)) name = "Go4NamesList";
    namesobject= new TGo4AnalysisObjectNames(name);
    namesobject->fxTopFolder=CreateNamesFolder(fxGo4Dir);
@@ -1147,7 +1147,7 @@ Bool_t TGo4AnalysisObjectManager::AddParameter(TGo4Parameter * par, const char* 
    return (AddObjectToFolder(par,fxParameterDir,subfolder,kTRUE));
 }
 
-Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter * par, TFolder* parent)
+Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter * par, TFolder* parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(const char*, TGo4Parameter*)",__LINE__, __FILE__));
 
@@ -1176,7 +1176,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4ParameterStatus* status, TFolder* parent)
+Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4ParameterStatus* status, TFolder* parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(char*, TGo4Parameter*)",__LINE__, __FILE__));
 
@@ -1230,7 +1230,7 @@ Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char* subf
    return (AddObjectToFolder(pic,fxPictureDir,subfolder,kTRUE));
 }
 
-Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic, TFolder* parent)
+Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture * pic, TFolder* parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetPicture(char*, TGo4Picture*)",__LINE__, __FILE__));
 
@@ -1344,7 +1344,7 @@ void TGo4AnalysisObjectManager::PrintDynamicList()
    TGo4DynamicList::PrintEntries(fxDynListDir);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char* name,
+Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
       const char* histo,
       const char* hevx, const char* hmemx,
       const char* hevy, const char* hmemy,

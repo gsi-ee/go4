@@ -24,7 +24,7 @@ TMeshB12OutputEvent::TMeshB12OutputEvent()
 {
 }
 //***********************************************************
-TMeshB12OutputEvent::TMeshB12OutputEvent(const char* name)
+TMeshB12OutputEvent::TMeshB12OutputEvent(const char *name)
   :TGo4EventElement(name),fxProcessor(0),fxFile(0)
 {
 }

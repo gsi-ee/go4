@@ -45,7 +45,7 @@ class TXXXUnpackProc : public TGo4EventProcessor {
 
    public:
       TXXXUnpackProc();
-      TXXXUnpackProc(const char* name);
+      TXXXUnpackProc(const char *name);
       virtual ~TXXXUnpackProc();
       Bool_t BuildEvent(TGo4EventElement* dest) override;
 

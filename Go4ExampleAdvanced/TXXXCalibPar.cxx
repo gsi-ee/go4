@@ -40,7 +40,7 @@ TXXXCalibPar::TXXXCalibPar() :
    }
 }
 //***********************************************************
-TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
+TXXXCalibPar::TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve) :
    TGo4Parameter(name),
    fbRecalibrate(kFALSE),
    fbReadDatabase(kFALSE),

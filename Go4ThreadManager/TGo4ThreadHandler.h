@@ -42,7 +42,7 @@ class TGo4ThreadHandler : public TNamed {
    public:
       TGo4ThreadHandler(const TGo4ThreadHandler &right);
 
-      TGo4ThreadHandler (const char* name, TGo4ThreadManager* parent);
+      TGo4ThreadHandler (const char *name, TGo4ThreadManager* parent);
 
       virtual ~TGo4ThreadHandler();
 
@@ -50,11 +50,11 @@ class TGo4ThreadHandler : public TNamed {
       Bool_t AddThread (TGo4Thread* gthr);
 
       /** Remove thread by name from Thread List */
-      Bool_t RemoveThread (const char* name);
+      Bool_t RemoveThread (const char *name);
 
       /** Creates new internal Go4 Thread with name and adds it to the List
         * External runnable is passed to specify the threaded actions **/
-      Bool_t NewThread(const char* name, TGo4Runnable* runnable);
+      Bool_t NewThread(const char *name, TGo4Runnable* runnable);
 
       /** Launch all Threads in the thread list. */
       Int_t CreateAll();
@@ -96,7 +96,7 @@ class TGo4ThreadHandler : public TNamed {
       Int_t DumpThreads(Int_t mode = 0);
 
       /** Access to Go4Thread by name. */
-      TGo4Thread* GetThread(const char* name);
+      TGo4Thread* GetThread(const char *name);
 
       /** Number of threads in list **/
       Int_t GetEntries();

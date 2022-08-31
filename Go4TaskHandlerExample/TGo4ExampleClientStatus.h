@@ -49,7 +49,7 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
      /** Set histogram status */
      void SetHistoStatus(TH1* histogram);
 
-     TGo4ExampleClientStatus(const char* name);
+     TGo4ExampleClientStatus(const char *name);
 
    ClassDefOverride(TGo4ExampleClientStatus,1)
 };

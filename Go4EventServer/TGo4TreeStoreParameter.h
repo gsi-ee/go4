@@ -23,7 +23,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
   public:
     TGo4TreeStoreParameter();
 
-    TGo4TreeStoreParameter(const char* name,
+    TGo4TreeStoreParameter(const char *name,
                            Int_t splitlevel = 1,
                            Int_t bufsize = 64000,
                            const char *filename = nullptr,

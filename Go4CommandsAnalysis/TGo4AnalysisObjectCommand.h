@@ -36,11 +36,11 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
     const char* GetObjectName() const { return fxObjectName.Data(); }
 
     /** set the object name under command. */
-    void SetObjectName(const char* name) { fxObjectName = name; }
+    void SetObjectName(const char *name) { fxObjectName = name; }
 
     const char* GetFolderName() const { return fxFolderName.Data(); }
 
-    void SetFolderName(const char* name) { fxFolderName = name; }
+    void SetFolderName(const char *name) { fxFolderName = name; }
 
    /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded

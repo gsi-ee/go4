@@ -56,7 +56,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       TGo4AnalysisObjectAccess(TGo4AnalysisProxy* cont,
                               Int_t proxykind,
-                              const char* name,
+                              const char *name,
                               const char* classname,
                               const char* fullpath) :
           TObject(),
@@ -189,7 +189,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return new TGo4AnalysisLevelIter((TFolder*)fCurrent, fIsTree);
       }
 
-      const char* name() override
+      const char *name() override
       {
          return fCurrent->GetName();
       }
@@ -600,7 +600,7 @@ Bool_t TGo4AnalysisProxy::NamesListReceived()
    return fbNamesListReceived;
 }
 
-TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char* name)
+TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char *name)
 {
    if (!name || (*name == 0) || !fAnalysisNames) return nullptr;
 
@@ -909,7 +909,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          TString& killcmd,
                                          Int_t usessh,
                                          Int_t konsole,
-                                         const char* name,
+                                         const char *name,
                                          const char* remotehost,
                                          const char* remotedir,
                                          const char* remoteexe,
@@ -941,7 +941,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          TString& killcmd,
                                          Int_t usessh,
                                          Int_t konsole,
-                                         const char* name,
+                                         const char *name,
                                          const char* remotehost,
                                          Int_t remoteport,
                                          const char* remotedir,

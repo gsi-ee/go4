@@ -26,7 +26,7 @@ class TGo4ExampleServer : public TGo4ServerTask {
 
   public:
 
-    TGo4ExampleServer(const char* name,
+    TGo4ExampleServer(const char *name,
                       UInt_t negotiationport = 0,
                       Bool_t blockingmode = kFALSE);
 

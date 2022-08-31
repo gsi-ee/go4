@@ -56,7 +56,7 @@ class TGo4MbsEvent : public TGo4EventElement {
 
       /** Ctor expecting just a name. Auxiliary to support
        * mbs event in the generic step factory. */
-      TGo4MbsEvent(const char* name);
+      TGo4MbsEvent(const char *name);
 
       virtual ~TGo4MbsEvent();
 

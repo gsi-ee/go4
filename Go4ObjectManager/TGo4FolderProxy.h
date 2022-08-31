@@ -30,7 +30,7 @@ class TGo4FolderProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override
         { return fFolder ? ProduceIter(fFolder) : nullptr; }
 
-      TGo4Access* ProvideAccess(const char* name) override
+      TGo4Access* ProvideAccess(const char *name) override
         { return CreateAccess(fFolder, name); }
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
@@ -40,7 +40,7 @@ class TGo4FolderProxy : public TGo4Proxy {
       const char* GetContainedClassName() override;
 
       static TFolder* LocateROOTFolder(const char* rootfolder);
-      static TGo4Access* CreateAccess(TFolder* folder, const char* name);
+      static TGo4Access* CreateAccess(TFolder* folder, const char *name);
       static TGo4LevelIter* ProduceIter(TFolder* folder);
 
    protected:

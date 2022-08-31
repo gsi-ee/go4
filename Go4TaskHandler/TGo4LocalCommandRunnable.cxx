@@ -25,7 +25,7 @@ TGo4LocalCommandRunnable::TGo4LocalCommandRunnable() :
 {
 }
 
-TGo4LocalCommandRunnable::TGo4LocalCommandRunnable(const char* name, TGo4Task* task) :
+TGo4LocalCommandRunnable::TGo4LocalCommandRunnable(const char *name, TGo4Task* task) :
    TGo4Runnable(name,task),
    fxLocalTask(task)
 {

@@ -41,7 +41,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
    public:
       TGo4ShapedCond();
 
-      TGo4ShapedCond(const char* name, const char* title = "Go4 ellipse condition");
+      TGo4ShapedCond(const char *name, const char* title = "Go4 ellipse condition");
 
       virtual ~TGo4ShapedCond();
 

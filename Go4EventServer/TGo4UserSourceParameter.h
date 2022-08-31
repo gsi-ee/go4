@@ -21,7 +21,7 @@ class TGo4UserSourceParameter : public TGo4EventSourceParameter {
   public:
     TGo4UserSourceParameter();
 
-    TGo4UserSourceParameter(const char* name, const char* expr = "", Int_t port = 0);
+    TGo4UserSourceParameter(const char *name, const char* expr = "", Int_t port = 0);
 
     virtual ~TGo4UserSourceParameter();
 
@@ -30,7 +30,7 @@ class TGo4UserSourceParameter : public TGo4EventSourceParameter {
 
     /** User expression as string */
     const char* GetExpression() const { return fxExpression.Data(); }
-    void SetExpression(const char* name) { fxExpression=name; }
+    void SetExpression(const char *name) { fxExpression=name; }
 
     void Print(Option_t* = "") const override;
 

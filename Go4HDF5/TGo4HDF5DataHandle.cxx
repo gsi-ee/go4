@@ -65,7 +65,7 @@ TGo4HDF5DataHandle *TGo4HDF5DataHandle::AddSubMember(const char *name, size_t da
    return sub;
 }
 
- TGo4HDF5DataHandle* TGo4HDF5DataHandle::FindSubMember(const char* name)
+ TGo4HDF5DataHandle* TGo4HDF5DataHandle::FindSubMember(const char *name)
  {
     if (!name)
        return nullptr;
@@ -222,7 +222,7 @@ void TGo4HDF5DataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 //////////////////////////////////////////////////////////////////////////////////77
 
 
-TGo4HDF5BasicDataHandle::TGo4HDF5BasicDataHandle(const char* name, size_t datasize) :
+TGo4HDF5BasicDataHandle::TGo4HDF5BasicDataHandle(const char *name, size_t datasize) :
     TGo4HDF5DataHandle(name, datasize), fxReadBuffer(0)
 
  {
@@ -506,7 +506,7 @@ void TGo4HDF5CompositeDataHandle::Read(hsize_t sequencenum, H5::H5File *file)
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-TGo4HDF5VectorDataHandle::TGo4HDF5VectorDataHandle(const char* name, size_t datasize) :
+TGo4HDF5VectorDataHandle::TGo4HDF5VectorDataHandle(const char *name, size_t datasize) :
     TGo4HDF5BasicDataHandle(name, datasize), fxCollection(0), fiElementSize(0)
 
  {
@@ -751,7 +751,7 @@ void TGo4HDF5VectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 
 
 // this handle is a collection of vector elements with subelements
-TGo4HDF5SubVectorDataHandle::TGo4HDF5SubVectorDataHandle(const char* name, size_t datasize) :
+TGo4HDF5SubVectorDataHandle::TGo4HDF5SubVectorDataHandle(const char *name, size_t datasize) :
     TGo4HDF5VectorDataHandle(name, datasize)
 
 {
@@ -886,7 +886,7 @@ void TGo4HDF5SubVectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 
 ////////////////////////////////////////////////////////
 
-TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char* name, size_t datasize, const char* type)
+TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char *name, size_t datasize, const char* type)
 {
   TGo4HDF5DataHandle* rev = nullptr;
 

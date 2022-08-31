@@ -166,7 +166,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return !subdir ? nullptr : new TGo4DirLevelIter(subdir, fReadRight);
       }
 
-      const char* name() override
+      const char *name() override
       {
          if (!fIsKeyIter) return fCurrent->GetName();
          TKey* key = (TKey*) fCurrent;
@@ -272,7 +272,7 @@ Int_t TGo4DirProxy::GetObjectSizeInfo()
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();
 }
 
-TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char* name, TGo4Slot* browser_slot)
+TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot* browser_slot)
 {
    if (!dir) return nullptr;
 

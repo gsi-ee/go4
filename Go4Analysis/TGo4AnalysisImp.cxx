@@ -144,7 +144,7 @@ void TGo4Analysis::SetRunningMode(int mode)
    fiRunningMode = mode;
 }
 
-TGo4Analysis::TGo4Analysis(const char* name) :
+TGo4Analysis::TGo4Analysis(const char *name) :
    TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
@@ -962,7 +962,7 @@ TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
    return event ? event->CreateSampleTree(&fxSampleEvent) : nullptr;
 }
 
-TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
+TTree* TGo4Analysis::CreateSingleEventTree(const char *name, Bool_t isoutput)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
@@ -1318,7 +1318,7 @@ void TGo4Analysis::ShowEvent(const char* stepname, Bool_t isoutput)
 /////////////////////////////////////////////////////////////////////////////////
 // Methods that forward to object manager:
 
-Bool_t TGo4Analysis::AddDynamicHistogram(const char* name,
+Bool_t TGo4Analysis::AddDynamicHistogram(const char *name,
                                   const char* histo,
                                   const char* hevx, const char* hmemx,
                                   const char* hevy, const char* hmemy,
@@ -1400,7 +1400,7 @@ TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char*
    return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
 
-TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char* name)
+TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char *name)
 {
    return fxStepManager->GetAnalysisStep(name);
 }
@@ -1515,7 +1515,7 @@ Bool_t TGo4Analysis::RemoveTree(TTree * tree, const char* stepname)
    return fxObjectManager->RemoveTree(tree, stepname);
 }
 
-Bool_t TGo4Analysis::RemoveAnalysisCondition(const char* name)
+Bool_t TGo4Analysis::RemoveAnalysisCondition(const char *name)
 {
    return fxObjectManager->RemoveAnalysisCondition(name);
 }
@@ -1550,12 +1550,12 @@ Bool_t TGo4Analysis::SetAnalysisCondition(const char *name, TGo4Condition* con, 
    return fxObjectManager->SetAnalysisCondition(name, con, counter);
 }
 
-Bool_t TGo4Analysis::SetParameter(const char* name, TGo4Parameter* par)
+Bool_t TGo4Analysis::SetParameter(const char *name, TGo4Parameter* par)
 {
    return fxObjectManager->SetParameter(name, par);
 }
 
-Bool_t TGo4Analysis::SetParameterStatus(const char* name, TGo4ParameterStatus* par)
+Bool_t TGo4Analysis::SetParameterStatus(const char *name, TGo4ParameterStatus* par)
 {
    return fxObjectManager->SetParameterStatus(name, par);
 }
@@ -1624,17 +1624,17 @@ TGo4EventElement* TGo4Analysis::GetOutputEvent(const char* stepname)
    return fxStepManager->GetOutputEvent(stepname);
 }
 
-Bool_t TGo4Analysis::NewStepProcessor(const char* name, TGo4EventProcessorParameter * par)
+Bool_t TGo4Analysis::NewStepProcessor(const char *name, TGo4EventProcessorParameter * par)
 {
    return fxStepManager->NewStepProcessor(name,par);
 }
 
-Bool_t TGo4Analysis::NewStepSource(const char* name, TGo4EventSourceParameter * par)
+Bool_t TGo4Analysis::NewStepSource(const char *name, TGo4EventSourceParameter * par)
 {
    return fxStepManager->NewStepSource(name,par);
 }
 
-Bool_t TGo4Analysis::NewStepStore(const char* name, TGo4EventStoreParameter* par)
+Bool_t TGo4Analysis::NewStepStore(const char *name, TGo4EventStoreParameter* par)
 {
    return fxStepManager->NewStepStore(name,par);
 }
@@ -1649,7 +1649,7 @@ void TGo4Analysis::SetStepChecking(Bool_t on)
    fxStepManager->SetStepChecking(on);
 }
 
-Bool_t TGo4Analysis::SetFirstStep(const char* name)
+Bool_t TGo4Analysis::SetFirstStep(const char *name)
 {
    return fxStepManager->SetFirstStep(name);
 }
