@@ -57,7 +57,7 @@ class TGo4TaskOwner : public TGo4CommandReceiver {
         * implementation */
       virtual void Quit();
 
-      const char* GetName() const;
+      const char *GetName() const;
 
       Bool_t IsConnected();
 

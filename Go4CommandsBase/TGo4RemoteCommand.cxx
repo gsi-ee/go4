@@ -15,7 +15,7 @@
 
 #include "TGo4CommandInvoker.h"
 
-const char* TGo4RemoteCommand::fgxREMCOMEMPTYSTRING="--NOSTRING--";
+const char *TGo4RemoteCommand::fgxREMCOMEMPTYSTRING="--NOSTRING--";
 
 TGo4RemoteCommand::TGo4RemoteCommand() :
    TGo4Command(),
@@ -25,7 +25,7 @@ TGo4RemoteCommand::TGo4RemoteCommand() :
    InitPars();
 }
 
-TGo4RemoteCommand::TGo4RemoteCommand(const char* comname) :
+TGo4RemoteCommand::TGo4RemoteCommand(const char *comname) :
    TGo4Command(),
    fxCommandName(comname),
    fxAggregate(0)
@@ -77,12 +77,12 @@ TObject* TGo4RemoteCommand::GetAggregate(Bool_t chown)
    return rev;
 }
 
-void TGo4RemoteCommand::SetString(const char* txt,Int_t i)
+void TGo4RemoteCommand::SetString(const char *txt,Int_t i)
 {
    if ((i>=0) && (i<__REMCOMPARS__)) fxParameter[i]=txt;
 }
 
-const char* TGo4RemoteCommand::GetString(Int_t i) const
+const char *TGo4RemoteCommand::GetString(Int_t i) const
 {
    return ((i>=0) && (i<__REMCOMPARS__)) ? fxParameter[i].Data() : nullptr;
 }
@@ -97,7 +97,7 @@ Int_t TGo4RemoteCommand::GetValue(Int_t i) const
    return ((i>=0) && (i<__REMCOMPARS__)) ? fiValue[i] : 0;
 }
 
-const char* TGo4RemoteCommand::Get_fgxREMCOMEMPTYSTRING()
+const char *TGo4RemoteCommand::Get_fgxREMCOMEMPTYSTRING()
 {
    return fgxREMCOMEMPTYSTRING;
 }

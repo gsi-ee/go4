@@ -18,7 +18,7 @@
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
 
-TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char* obname)
+TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char *obname)
 :TGo4AnalysisObjectCommand("ANObjectStatus","Get an object status from analysis",obname)
 {
    GO4TRACE((12,"TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char*) ctor",__LINE__, __FILE__));

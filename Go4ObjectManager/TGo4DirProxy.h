@@ -49,17 +49,17 @@ class TGo4DirProxy : public TGo4Proxy {
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
-      const char* GetContainedObjectInfo() override;
+      const char *GetContainedClassName() override;
+      const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override;
 
       static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot* browser_slot = nullptr);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
 
-      Bool_t UpdateObjectInFile(const char* filepath, TObject *obj);
+      Bool_t UpdateObjectInFile(const char *filepath, TObject *obj);
 
       Bool_t IsFile() const;
-      const char* GetFileName() const;
+      const char *GetFileName() const;
 
    ClassDefOverride(TGo4DirProxy, 1);
 };

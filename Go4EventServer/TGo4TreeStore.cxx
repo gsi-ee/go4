@@ -23,7 +23,7 @@
 #include "TGo4TreeStoreParameter.h"
 #include "TGo4MainTree.h"
 
-const char* TGo4TreeStore::fgcFILESUF = ".root";
+const char *TGo4TreeStore::fgcFILESUF = ".root";
 
 TGo4TreeStore::TGo4TreeStore(const char *name,
                              TGo4EventElement* event,

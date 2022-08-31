@@ -41,7 +41,7 @@
 
 THttpServer* TGo4Sniffer::gHttpServer = nullptr;
 
-Bool_t TGo4Sniffer::CreateEngine(const char* args)
+Bool_t TGo4Sniffer::CreateEngine(const char *args)
 {
    if (!gHttpServer) {
       gHttpServer = new THttpServer("");
@@ -461,7 +461,7 @@ Bool_t TGo4Sniffer::CmdExit()
 }
 
 
-Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
+Bool_t TGo4Sniffer::CmdClearObject(const char *objname)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
 
@@ -488,7 +488,7 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
    return ok;
 }
 
-Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
+Bool_t TGo4Sniffer::CmdDeleteObject(const char *objname)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
 
@@ -514,7 +514,7 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
 }
 
 
-Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
+Bool_t TGo4Sniffer::CmdExecute(const char *exeline)
 {
    if (!exeline || (*exeline == 0)) return kFALSE;
    TGo4Analysis* ana = TGo4Analysis::Instance();
@@ -536,7 +536,7 @@ void TGo4Sniffer::SetTitle(const char *title)
 
    if (!title || (strlen(title) == 0)) return;
 
-   const char* prev = GetItemField("/Status/DebugOutput", "value");
+   const char *prev = GetItemField("/Status/DebugOutput", "value");
    TString res;
    if (prev && (strcmp(prev,"---") != 0)) res = prev;
    if (res.Length() > 50000) res.Remove(0, res.Length() - 25000);
@@ -546,7 +546,7 @@ void TGo4Sniffer::SetTitle(const char *title)
 
    const char *cur = title;
    while (*cur != 0) {
-      const char* next = strchr(cur, '\n');
+      const char *next = strchr(cur, '\n');
       if (!next) {
          fDebugOutput.AddMsg(cur);
          break;
@@ -577,7 +577,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
 
 void TGo4Sniffer::StatusMessage(int level, Bool_t, const TString &msg)
 {
-   const char* prev = GetItemField("/Status/Message", "value");
+   const char *prev = GetItemField("/Status/Message", "value");
    TString res;
    if (prev && (strcmp(prev,"---") != 0)) res = prev;
    res.Append("\n"); res.Append(msg);
@@ -630,10 +630,10 @@ Bool_t TGo4Sniffer::AddAnalysisObject(TObject *obj)
    return kTRUE;
 }
 
-Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
+Bool_t TGo4Sniffer::RemoteTreeDraw(const char *histoname,
                                    const char *treename,
-                                   const char* varexpr,
-                                   const char* cutexpr)
+                                   const char *varexpr,
+                                   const char *cutexpr)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if (!ana) {
@@ -674,7 +674,7 @@ Bool_t TGo4Sniffer::HasProduceMultiMethod()
    return IsA()->GetMethodAllAny("ProduceMulti") != nullptr;
 }
 
-void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
+void TGo4Sniffer::RestrictGo4(const char *path, const char *options)
 {
    // wrapper for TRootSnifferFull::Restrict, called only when method exists
 
@@ -692,7 +692,7 @@ Bool_t TGo4Sniffer::HasAutoLoadMethod()
    return IsA()->GetMethodAllAny("SetAutoLoad") != nullptr;
 }
 
-Bool_t TGo4Sniffer::SetAutoLoadGo4(const char* script)
+Bool_t TGo4Sniffer::SetAutoLoadGo4(const char *script)
 {
    if (!HasAutoLoadMethod()) return kFALSE;
 

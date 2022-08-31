@@ -29,7 +29,7 @@ class TGo4UserSourceParameter : public TGo4EventSourceParameter {
     Int_t GetPort() const { return fiPort; }
 
     /** User expression as string */
-    const char* GetExpression() const { return fxExpression.Data(); }
+    const char *GetExpression() const { return fxExpression.Data(); }
     void SetExpression(const char *name) { fxExpression=name; }
 
     void Print(Option_t* = "") const override;

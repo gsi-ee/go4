@@ -29,7 +29,7 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
 
     TGo4ComSetPrintEvent();
 
-    TGo4ComSetPrintEvent(const char* obname);
+    TGo4ComSetPrintEvent(const char *obname);
 
     Int_t ExeCom() override;
       /** Set internals of this command from specification of external

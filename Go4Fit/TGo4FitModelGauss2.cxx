@@ -22,7 +22,7 @@
 TGo4FitModelGauss2::TGo4FitModelGauss2() : TGo4FitModel(), fiNaxis1(0), fiNaxis2(1) {
 }
 
-TGo4FitModelGauss2::TGo4FitModelGauss2(const char* iName, Double_t iPos1, Double_t iPos2,
+TGo4FitModelGauss2::TGo4FitModelGauss2(const char *iName, Double_t iPos1, Double_t iPos2,
                              Double_t iWidth1, Double_t iWidth2, Double_t iCov12,
                              Int_t iNaxis1, Int_t iNaxis2) :
    TGo4FitModel(iName,"2-dimensional Gaussian", kTRUE), fiNaxis1(iNaxis1), fiNaxis2(iNaxis2) {

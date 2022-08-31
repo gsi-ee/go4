@@ -22,7 +22,7 @@ TGo4FitModelFormula::TGo4FitModelFormula() : TGo4FitModel(),
    fxExpression(), fxPosIndex(), fxWidthIndex(), fxFormula(nullptr) {
 }
 
-TGo4FitModelFormula::TGo4FitModelFormula(const char* iName, const char* iExpressionStr, Int_t iNPars, Bool_t AddAmplitude) :
+TGo4FitModelFormula::TGo4FitModelFormula(const char *iName, const char *iExpressionStr, Int_t iNPars, Bool_t AddAmplitude) :
   TGo4FitModel(iName,"based on TFormula line shape",AddAmplitude),
   fxExpression(iExpressionStr), fxPosIndex(), fxWidthIndex(), fxFormula(nullptr) {
 

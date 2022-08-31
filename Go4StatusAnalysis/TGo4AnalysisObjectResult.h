@@ -55,13 +55,13 @@ class TGo4AnalysisObjectResult : public TGo4Status {
       /** Take out the nameslist. */
       TGo4AnalysisObjectNames * GetNamesList(Bool_t chown=kTRUE);
 
-      const char* GetObjectFullName() const { return fxFullName.Data(); }
+      const char *GetObjectFullName() const { return fxFullName.Data(); }
 
-      void SetObjectFullName(const char* nam) { fxFullName=nam; }
+      void SetObjectFullName(const char *nam) { fxFullName=nam; }
 
-      const char* GetMessage() const { return fxMessage.Data(); }
+      const char *GetMessage() const { return fxMessage.Data(); }
 
-      void SetMessage(const char* nam) { fxMessage=nam; }
+      void SetMessage(const char *nam) { fxMessage=nam; }
 
       void SetAction(Go4ResultAction_t com) { fiAction=com; }
 

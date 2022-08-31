@@ -17,14 +17,14 @@
 
 #include "TGo4Log.h"
 
-const char* TGo4Command::fgcMODEDESCRIPTION[]=
+const char *TGo4Command::fgcMODEDESCRIPTION[]=
    {"NOMODE","Observer","Controller","Administrator"};
 
 
-TGo4Command::TGo4Command(const char *name, const char* description, Int_t id) :
+TGo4Command::TGo4Command(const char *name, const char *description, Int_t id) :
    TNamed(name, "This is a TGo4Command")
 {
-   GO4TRACE((12,"TGo4Command::TGo4Command(const char *name, const char* description, Int_t id)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Command::TGo4Command(const char *name, const char *description, Int_t id)", __LINE__, __FILE__));
    SetDescription(description);
    SetReceiverName("NoNameReceiver");
    SetTaskName("NoNameTask");
@@ -84,7 +84,7 @@ Bool_t TGo4Command::IsExclusive() const
     return fbIsExclusive;
 }
 
-const char* TGo4Command::GetReceiverName() const
+const char *TGo4Command::GetReceiverName() const
 {
   GO4TRACE((10,"const char * TGo4Command::GetReceiverName()", __LINE__, __FILE__));
   return fxReceiverName.Data();
@@ -96,7 +96,7 @@ void TGo4Command::SetReceiverName(const char *name)
   fxReceiverName = name;
 }
 
-const char* TGo4Command::GetTaskName() const
+const char *TGo4Command::GetTaskName() const
 {
   GO4TRACE((10,"const char * TGo4Command::GetTaskName()", __LINE__, __FILE__));
   return fxTaskName.Data();
@@ -108,12 +108,12 @@ void TGo4Command::SetTaskName(const char *name)
   fxTaskName=name;
 }
 
-void TGo4Command::SetDescription(const char* txt)
+void TGo4Command::SetDescription(const char *txt)
 {
    GO4TRACE((10,"void TGo4Command::SetDescription(const char*)", __LINE__, __FILE__));
    fxDescription = txt;
 }
-const char* TGo4Command::What() const
+const char *TGo4Command::What() const
 {
   GO4TRACE((10,"const char * TGo4Command::What()", __LINE__, __FILE__));
   return fxDescription.Data();
@@ -165,7 +165,7 @@ void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)
 }
 
 
-const char* TGo4Command::GetModeDescription(Go4CommandMode_t mode)
+const char *TGo4Command::GetModeDescription(Go4CommandMode_t mode)
 {
    if(mode<0 || mode>3) return nullptr;
    return fgcMODEDESCRIPTION[mode];

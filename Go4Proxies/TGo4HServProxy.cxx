@@ -40,9 +40,9 @@ class TGo4HServIter : public TGo4LevelIter {
 
       const char *name() override { return curSlot()->GetName();  }
 
-      const char* info() override { return curSlot()->GetTitle(); }
+      const char *info() override { return curSlot()->GetTitle(); }
 
-      Int_t getflag(const char* flagname) override
+      Int_t getflag(const char *flagname) override
       {
          if (strcmp(flagname,"IsRemote") == 0) return 1;
          return -1;
@@ -50,7 +50,7 @@ class TGo4HServIter : public TGo4LevelIter {
 
       Int_t GetKind() override { return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject; }
 
-      const char* GetClassName() override { return curSlot()->GetPar("::HistoClass"); }
+      const char *GetClassName() override { return curSlot()->GetPar("::HistoClass"); }
 
     protected:
        TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }
@@ -65,8 +65,8 @@ class TGo4HServObjectAccess : public TGo4Access {
    public:
       TGo4HServObjectAccess(TGo4HServProxy* hserv,
                      const char *name,
-                     const char* fullname,
-                     const char* classname) :
+                     const char *fullname,
+                     const char *classname) :
          TGo4Access(),
          fHServ(hserv),
          fObjName(name),
@@ -87,9 +87,9 @@ class TGo4HServObjectAccess : public TGo4Access {
          return obj!=nullptr;
       }
 
-      const char* GetObjectName() const override { return fObjName.Data(); }
+      const char *GetObjectName() const override { return fObjName.Data(); }
 
-      const char* GetObjectClassName() const override { return fObjClassName.Data(); }
+      const char *GetObjectClassName() const override { return fObjClassName.Data(); }
 
    private:
       TGo4HServProxy *fHServ{nullptr};//!
@@ -118,11 +118,11 @@ TGo4HServProxy::~TGo4HServProxy()
    delete fxStructure;
 }
 
-void TGo4HServProxy::SetHServConfig(const char* servername,
+void TGo4HServProxy::SetHServConfig(const char *servername,
                                         Int_t portnumber,
-                                        const char* basename,
-                                        const char* userpass,
-                                        const char* filter)
+                                        const char *basename,
+                                        const char *userpass,
+                                        const char *filter)
 {
    fServerName = servername;
    fPortNumber = portnumber;
@@ -170,7 +170,7 @@ Int_t TGo4HServProxy::GetObjectKind()
    return fxStructure ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char* TGo4HServProxy::GetContainedClassName()
+const char *TGo4HServProxy::GetContainedClassName()
 {
    return fxStructure ? ClassName() : nullptr;
 }
@@ -232,7 +232,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
    return kTRUE;
 }
 
-TH1* TGo4HServProxy::GetHistogram(const char* remotehistoname)
+TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
 {
    s_his_head* ps_his_head = nullptr;
    INTS4* pl_all = nullptr;

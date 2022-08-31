@@ -24,9 +24,9 @@ TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() :
    SetFolderName(TGo4AnalysisObjectManager::GetTOPFOLDER());
 }
 
-TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand(const char* comname,
-                                                     const char* description,
-                                                     const char* obname) :
+TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand(const char *comname,
+                                                     const char *description,
+                                                     const char *obname) :
    TGo4AnalysisCommand(comname, description)
 {
    GO4TRACE((12,"TGo4AnalysisObjectCommand::TGo4AnalysisObjectCommand() ctor",__LINE__, __FILE__));

@@ -112,7 +112,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
   // QApplication::installEventFilter( this );
 
-  const char* env = gSystem->Getenv("ROOT_CANVAS");
+  const char *env = gSystem->Getenv("ROOT_CANVAS");
   int flag = 0;
   if (env) {
      if ((strcmp(env,"yes") == 0) || (strcmp(env,"YES") == 0)) flag = 1; else

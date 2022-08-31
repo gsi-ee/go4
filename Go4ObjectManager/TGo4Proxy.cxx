@@ -26,7 +26,7 @@ Bool_t TGo4Access::GetObject(TObject* &obj, Bool_t &owner) const
 }
 
 
-const char* TGo4Access::GetObjectName() const
+const char *TGo4Access::GetObjectName() const
 {
    return nullptr;
 }
@@ -36,12 +36,12 @@ TClass* TGo4Access::GetObjectClass() const
    return TGo4Proxy::GetClass(GetObjectClassName());
 }
 
-const char* TGo4Access::GetObjectClassName() const
+const char *TGo4Access::GetObjectClassName() const
 {
    return nullptr;
 }
 
-Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
+Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
 {
    if (!rcv || IsRemote()) return 0;
    TObject *obj = nullptr;
@@ -61,7 +61,7 @@ Int_t TGo4Access::AssignObjectToSlot(TGo4Slot* slot)
 }
 
 void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
-                                     const char* path,
+                                     const char *path,
                                      TObject *obj,
                                      Bool_t owner)
 {
@@ -70,7 +70,7 @@ void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
 
 //------------------------------------------------------------------------------
 
-TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
+TClass* TGo4Proxy::GetClass(const char *classname, Bool_t load)
 {
    // Wrapper for TROOT::GetClass() method.
    // While ROOT does not automatically create TClass instance,

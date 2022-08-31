@@ -36,11 +36,11 @@ class TGo4AnalysisClient : public TGo4Slave {
   public:
     TGo4AnalysisClient(const char *name,
                        TGo4Analysis* analysis,
-                       const char* host = "localhost",
+                       const char *host = "localhost",
                        UInt_t negport = 0,
                        Bool_t histoserver = kFALSE,
-                       const char* basename = "Go4",
-                       const char* passwd = "abcd",
+                       const char *basename = "Go4",
+                       const char *passwd = "abcd",
                        Bool_t servermode = kFALSE,
                        Bool_t autorun = kFALSE,
                        Bool_t cintmode = kFALSE,
@@ -50,8 +50,8 @@ class TGo4AnalysisClient : public TGo4Slave {
     TGo4AnalysisClient(int argc, char** argv,
                        TGo4Analysis* analysis,
                        Bool_t histoserver = kFALSE,
-                       const char* basename = "Go4",
-                       const char* passwd = "abcd",
+                       const char *basename = "Go4",
+                       const char *passwd = "abcd",
                        Bool_t servermode = kFALSE,
                        Bool_t autorun = kFALSE);
 
@@ -113,7 +113,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     /** Start the object (histogram) server. Existing server will be stopped and replaced
       * by new server with different basename and password. */
-    void StartObjectServer(const char* basename,  const char* passwd);
+    void StartObjectServer(const char *basename,  const char *passwd);
 
     /** Stop the object (histogram) server. */
     void StopObjectServer();
@@ -151,10 +151,10 @@ class TGo4AnalysisClient : public TGo4Slave {
     Bool_t IsCintMode() const { return fbCintMode; }
 
     /** suffix for main thread name */
-    static const char* fgcMAINTHREAD; //!
+    static const char *fgcMAINTHREAD; //!
 
     /** suffix for watch thread name */
-    static const char* fgcWATCHTHREAD; //!
+    static const char *fgcWATCHTHREAD; //!
 
     /** Number of mainloop runs between two updates of the client status object. */
     static const UInt_t fguSTATUSUPDATE;
@@ -167,7 +167,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
   private:
 
-    void Constructor(Bool_t starthistserv=kFALSE, const char* basename="Go4", const char* passwd="abcd");
+    void Constructor(Bool_t starthistserv=kFALSE, const char *basename="Go4", const char *passwd="abcd");
 
     /** Method needed by method CreateStatus of any status subclasses to
       * set the values of the clienttask specific part of the status object. */

@@ -23,10 +23,10 @@ class TGo4BranchAccess : public TGo4Access {
    public:
       TGo4BranchAccess(TBranch* br) : TGo4Access(), fBranch(br) {}
 
-      const char* GetObjectName() const override
+      const char *GetObjectName() const override
         { return fBranch->GetName(); }
 
-      const char* GetObjectClassName() const override
+      const char *GetObjectClassName() const override
         { return fBranch->ClassName(); }
 
    private:
@@ -79,7 +79,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          return fCurrent->GetName();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->GetClassName();
       }
@@ -89,7 +89,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          return isfolder() ? TGo4Access::kndTreeBranch : TGo4Access::kndTreeLeaf;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          return fCurrent->ClassName();
       }
@@ -126,7 +126,7 @@ Int_t TGo4TreeProxy::GetObjectKind()
 }
 
 
-const char* TGo4TreeProxy::GetContainedClassName()
+const char *TGo4TreeProxy::GetContainedClassName()
 {
    return fTree ? fTree->ClassName() : nullptr;
 }
@@ -138,10 +138,10 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
    if (!name || (*name == 0)) return new TGo4ObjectAccess(tree);
 
    TObjArray* list = tree->GetListOfBranches();
-   const char* curname = name;
+   const char *curname = name;
 
    while (list) {
-      const char* slash = strchr(curname,'/');
+      const char *slash = strchr(curname,'/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(list);
       TObject *obj = nullptr;

@@ -28,14 +28,14 @@ class TGo4Iter : public TGo4AccessWrapper {
       Bool_t nextobj();
 
       Bool_t isfolder();
-      const char* getname();
-      const char* getfullname();
+      const char *getname();
+      const char *getfullname();
 
       Int_t getkindofitem();
-      const char* getclassname();
-      const char* getinfo();
+      const char *getclassname();
+      const char *getinfo();
       Int_t getsizeinfo();
-      Int_t getflag(const char* flagname);
+      Int_t getflag(const char *flagname);
 
       Int_t level() const;
       Int_t levelchange() const { return fLevelChange; }

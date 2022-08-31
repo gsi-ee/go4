@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 extern "C" Double_t gaussian_(Double_t *axis, Double_t *pars);
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName)
+TH1D* GetHistogram(const char *HistogramName)
 {
    TFile *f = TFile::Open("histograms.root");
    if (!f) return nullptr;

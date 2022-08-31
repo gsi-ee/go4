@@ -32,7 +32,7 @@ class TGo4FitterAction : public TGo4FitNamed {
       /**
        * Creates TGo4FitterAction object with given name and title.
        */
-      TGo4FitterAction(const char* Name, const char* Title, TNamed *Owner = nullptr);
+      TGo4FitterAction(const char *Name, const char *Title, TNamed *Owner = nullptr);
       virtual ~TGo4FitterAction();
 
       virtual void DoAction(TGo4FitterAbstract *Fitter) = 0;

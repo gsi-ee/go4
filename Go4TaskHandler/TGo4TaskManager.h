@@ -47,7 +47,7 @@ class TGo4TaskManager : public TNamed {
        * connect to this server task. May specify mode of allowed commands
        * in case of client is master.
        */
-      Int_t ConnectClient(const char* client, const char* host, Go4CommandMode_t role=kGo4ComModeController);
+      Int_t ConnectClient(const char *client, const char *host, Go4CommandMode_t role=kGo4ComModeController);
 
       /**
        * disonnect an existing client by name, wait for negotiation OK
@@ -65,7 +65,7 @@ class TGo4TaskManager : public TNamed {
       * adds client task of name to manager: create server task handler and try to connect to client
       * Command execution role depends on previous login passowrd
       */
-      Bool_t AddClient(const char* client, const char* host, Go4CommandMode_t role);
+      Bool_t AddClient(const char *client, const char *host, Go4CommandMode_t role);
 
      /**
       * adds external task handler to array

@@ -886,7 +886,7 @@ void TGo4HDF5SubVectorDataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 
 ////////////////////////////////////////////////////////
 
-TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char *name, size_t datasize, const char* type)
+TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char *name, size_t datasize, const char *type)
 {
   TGo4HDF5DataHandle* rev = nullptr;
 

@@ -22,8 +22,8 @@ class TGo4ObjectAccess : public TGo4Access {
       Bool_t CanGetObject() const override;
       Bool_t GetObject(TObject* &obj, Bool_t &owner) const override;
       TClass* GetObjectClass() const override;
-      const char* GetObjectName() const override;
-      const char* GetObjectClassName() const override;
+      const char *GetObjectName() const override;
+      const char *GetObjectClassName() const override;
 
    private:
       TObject*  fObject{nullptr};    //!
@@ -45,8 +45,8 @@ class TGo4ObjectProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override { return nullptr; }
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
-      const char* GetContainedObjectInfo() override;
+      const char *GetContainedClassName() override;
+      const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override;
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;

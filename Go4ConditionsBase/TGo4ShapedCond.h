@@ -78,7 +78,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       void SetFreeShape() { fiShapeType = Go4Cond_Shape_Free; }
       Bool_t IsFreeShape() const { return fiShapeType == Go4Cond_Shape_Free; }
 
-      const char* GetShapeName()
+      const char *GetShapeName()
       {
         switch(fiShapeType) {
           case Go4Cond_Shape_Free:
@@ -130,7 +130,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
        Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts)  override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
-      Bool_t UpdateFromUrl(const char* rest_url_opt)  override;
+      Bool_t UpdateFromUrl(const char *rest_url_opt)  override;
 
       Bool_t IsShapedType() { return kTRUE; }
 

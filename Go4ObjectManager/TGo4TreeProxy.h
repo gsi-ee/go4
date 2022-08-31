@@ -33,7 +33,7 @@ class TGo4TreeProxy : public TGo4Proxy {
         { return CreateAccess(fTree, name); }
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
+      const char *GetContainedClassName() override;
 
       static TGo4Access* CreateAccess(TTree* tree, const char *name);
       static TGo4LevelIter* ProduceIter(TTree* tree);

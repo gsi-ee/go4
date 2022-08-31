@@ -28,14 +28,14 @@
 #include "TSystem.h"
 
 
-const char* TGo4Log::fgcLEFT = "GO4-";
-//const char* TGo4Log::fgcRIGHT = " <GO4";
-const char* TGo4Log::fgcRIGHT = " ";
-const char* TGo4Log::fgcDEBUG = "d";
-const char* TGo4Log::fgcINFO = "*";
-const char* TGo4Log::fgcWARN = "#";
-const char* TGo4Log::fgcERR = "!";
-const char* TGo4Log::fgcDEFAULTLOG = "go4logfile.txt";
+const char *TGo4Log::fgcLEFT = "GO4-";
+//const char *TGo4Log::fgcRIGHT = " <GO4";
+const char *TGo4Log::fgcRIGHT = " ";
+const char *TGo4Log::fgcDEBUG = "d";
+const char *TGo4Log::fgcINFO = "*";
+const char *TGo4Log::fgcWARN = "#";
+const char *TGo4Log::fgcERR = "!";
+const char *TGo4Log::fgcDEFAULTLOG = "go4logfile.txt";
 
 TString TGo4Log::fgsGO4SYS = "";
 
@@ -154,10 +154,10 @@ void TGo4Log::SetSniffer(TNamed* sniff)
    fgSniffer = sniff;
 }
 
-const char* TGo4Log::GO4SYS()
+const char *TGo4Log::GO4SYS()
 {
    if (fgsGO4SYS.Length()>0) return fgsGO4SYS.Data();
-   const char* go4sys = gSystem->Getenv("GO4SYS");
+   const char *go4sys = gSystem->Getenv("GO4SYS");
 #ifdef COMP_GO4SYS
    if (!go4sys || (strlen(go4sys) == 0)) go4sys = COMP_GO4SYS;
 #endif
@@ -177,7 +177,7 @@ const char* TGo4Log::GO4SYS()
    return fgsGO4SYS.Length()>0 ? fgsGO4SYS.Data() : "";
 }
 
-const char* TGo4Log::GO4INCPATH()
+const char *TGo4Log::GO4INCPATH()
 {
    #ifdef COMP_GO4INC
    return COMP_GO4INC;
@@ -187,9 +187,9 @@ const char* TGo4Log::GO4INCPATH()
 }
 
 
-TString TGo4Log::subGO4SYS(const char* subdir)
+TString TGo4Log::subGO4SYS(const char *subdir)
 {
-   const char* go4sys = GO4SYS();
+   const char *go4sys = GO4SYS();
 
    if (!subdir || (strlen(subdir) == 0)) return TString(go4sys);
 
@@ -204,7 +204,7 @@ TString TGo4Log::subGO4SYS(const char* subdir)
    return res;
 }
 
-const char* TGo4Log::Message(Int_t prio, const char* text,...)
+const char *TGo4Log::Message(Int_t prio, const char *text,...)
 {
    Instance();
    //TGo4LockGuard(fxMutex);
@@ -214,7 +214,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, fguMESLEN-20, text, args);
    va_end(args);
-   const char* prefix = fgcINFO;
+   const char *prefix = fgcINFO;
    switch(prio) {
       // info output independent of current ignorelevel
       case -1: prefix = fgcINFO;  break;
@@ -252,7 +252,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
    return fgcMessagetext;
 }
 
-void TGo4Log::Printf(Bool_t _stdout, const char* text)
+void TGo4Log::Printf(Bool_t _stdout, const char *text)
 {
    ProcessRedirection(1); // disable redirection
 
@@ -279,7 +279,7 @@ void TGo4Log::PrintRate(ULong64_t cnt, double rate)
    ProcessRedirection(-1); // enable again
 }
 
-void TGo4Log::Debug(const char* text,...)
+void TGo4Log::Debug(const char *text,...)
 {
    if(fgiIgnoreLevel>0) return;
    Instance();
@@ -292,7 +292,7 @@ void TGo4Log::Debug(const char* text,...)
    Message(0, "%s", txtbuf);
 }
 
-void TGo4Log::Info(const char* text,...)
+void TGo4Log::Info(const char *text,...)
 {
    if(fgiIgnoreLevel>1) return;
    Instance();
@@ -305,7 +305,7 @@ void TGo4Log::Info(const char* text,...)
    Message(1, "%s", txtbuf);
 }
 
-void TGo4Log::Warn(const char* text,...)
+void TGo4Log::Warn(const char *text,...)
 {
    if(fgiIgnoreLevel>2) return;
    Instance();
@@ -318,7 +318,7 @@ void TGo4Log::Warn(const char* text,...)
    Message(2, "%s", txtbuf);
 }
 
-void TGo4Log::Error(const char* text,...)
+void TGo4Log::Error(const char *text,...)
 {
    Instance();
    //TGo4LockGuard(fxMutex);
@@ -341,12 +341,12 @@ Int_t TGo4Log::GetIgnoreLevel()
    return fgiIgnoreLevel;
 }
 
-const char* TGo4Log::GetLogname()
+const char *TGo4Log::GetLogname()
 {
    return fgxLogName.Data();
 }
 
-const char* TGo4Log::GetDefaultLogname()
+const char *TGo4Log::GetDefaultLogname()
 {
    return fgcDEFAULTLOG;
 }
@@ -381,7 +381,7 @@ Bool_t TGo4Log::IsAutoEnabled()
    return fgbAutoMode;
 }
 
-void TGo4Log::OpenLogfile(const char *name, const char* headercomment, Bool_t appendmode)
+void TGo4Log::OpenLogfile(const char *name, const char *headercomment, Bool_t appendmode)
 {
    //TGo4LockGuard(fxMutex);
    try
@@ -418,7 +418,7 @@ void TGo4Log::OpenLogfile(const char *name, const char* headercomment, Bool_t ap
    } // catch
 }
 
-void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
+void TGo4Log::WriteLogfile(const char *text, Bool_t withtime)
 {
    //TGo4LockGuard(fxMutex);
    if(!text || !fgbLogfileEnabled || !fgxLogfile) return;

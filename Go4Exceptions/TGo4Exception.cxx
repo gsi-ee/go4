@@ -51,7 +51,7 @@ TGo4Exception & TGo4Exception::operator=(const TGo4Exception &right)
     }
 }
 
-const char* TGo4Exception::What ()
+const char *TGo4Exception::What ()
 {
   GO4TRACE((14,"TGo4Exception::What()",__LINE__, __FILE__));
   return fxDescription.Data();

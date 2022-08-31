@@ -20,7 +20,7 @@
 #include "TGo4MbsSource.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComSetPrintEvent::TGo4ComSetPrintEvent(const char* obname)
+TGo4ComSetPrintEvent::TGo4ComSetPrintEvent(const char *obname)
 :TGo4AnalysisObjectCommand("ANSetPrintEvent","Set event printout for analysis",obname)
 {
    SetReceiverName("AnalysisClient");  // this command needs client as receiver

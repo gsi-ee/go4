@@ -55,9 +55,9 @@ class TGo4Ratemeter : public TNamed {
 
       Double_t GetAvRate() const { return (fdTime > 0) ? ((Double_t) fuCurrentCount) / fdTime : 0.; }
 
-      const char* GetDateTime() const { return fxDateString.Data(); }
+      const char *GetDateTime() const { return fxDateString.Data(); }
 
-      const char* GetCurrentSource() const { return fxEventSource.Data(); }
+      const char *GetCurrentSource() const { return fxEventSource.Data(); }
 
       void UpdateFrom(const TGo4Ratemeter* r);
 
@@ -67,8 +67,8 @@ class TGo4Ratemeter : public TNamed {
       Bool_t Update(Int_t increment = 1);
 
       void SetRunning(Bool_t on = kTRUE) { fbRunning = on; }
-      void SetDateTime(const char* str) { fxDateString = str; }
-      void SetCurrentSource(const char* str) { fxEventSource = str; }
+      void SetDateTime(const char *str) { fxDateString = str; }
+      void SetCurrentSource(const char *str) { fxEventSource = str; }
 
       /** Reset counter and rate values */
       void Reset();

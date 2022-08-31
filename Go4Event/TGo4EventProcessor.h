@@ -91,7 +91,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * input event with given string. To be used from the
        * Fill method and from the analysis method  init event classes.
        */
-      virtual Bool_t CheckInputEvent(const char* classname);
+      virtual Bool_t CheckInputEvent(const char *classname);
 
       /**
        * Sets reference to external raw event which is used by
@@ -111,7 +111,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * calibration instance with given string. To be used from the
        * Fill method and from the analysis method  init event classes.
        */
-      virtual Bool_t CheckCalibration(const char* classname);
+      virtual Bool_t CheckCalibration(const char *classname);
 
       /* implemented by subclass to assign correct event structures*/
       virtual void InitEvent(TGo4EventElement*) {}
@@ -159,10 +159,10 @@ class TGo4EventProcessor: public TGo4EventSource {
       TH1* GetHistogram(const char *name);
 
       /** Get parameter from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Parameter* GetParameter(const char *name, const char* par_class = nullptr);
+      TGo4Parameter* GetParameter(const char *name, const char *par_class = nullptr);
 
       /** Get condition from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Condition* GetAnalysisCondition(const char *name, const char* cond_cl = nullptr);
+      TGo4Condition* GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
       /** Get picture from go4 framework. Shortcut forwarded to analysis instance */
       TGo4Picture* GetPicture(const char *name);
@@ -190,7 +190,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * 2: local terminal and warning message in gui log panel (if gui mode)
        * 3: local terminal and error message in gui log panel (if gui mode)
        */
-      void Message(Int_t prio, const char* text, ...)
+      void Message(Int_t prio, const char *text, ...)
        #if defined(__GNUC__) && !defined(__CINT__)
          __attribute__((format(printf, 3, 4)))
        #endif
@@ -226,9 +226,9 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH1* MakeTH1(char type, const char* fullname, const char *title,
+      TH1* MakeTH1(char type, const char *fullname, const char *title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
-                   const char* xtitle = nullptr, const char* ytitle = nullptr);
+                   const char *xtitle = nullptr, const char *ytitle = nullptr);
 
       /** Create two dimensional histogram of specified type. Type can be:
        * 'I', 'i' for TH2I - Int_t as bin content (default)
@@ -244,46 +244,46 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH2* MakeTH2(char type, const char* fullname, const char *title,
+      TH2* MakeTH2(char type, const char *fullname, const char *title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    Int_t nbinsy, Double_t ylow, Double_t yup,
-                   const char* xtitle = nullptr, const char* ytitle = nullptr, const char* ztitle = nullptr);
+                   const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
 
       /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
        * If theses parameters are missing, an empty graph is created to be specified by the user.
        * If a graph of this name already exists in the autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph* MakeGraph(const char* fullname, const char *title, Int_t points = 0, Double_t* xvalues = nullptr,
+      TGraph* MakeGraph(const char *fullname, const char *title, Int_t points = 0, Double_t* xvalues = nullptr,
                         Double_t* yvalues = nullptr);
 
       /** Create a TGraph with values initialized by a function object TF1l.
         * If a graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph* MakeGraph(const char* fullname, const char *title, TF1* function);
+      TGraph* MakeGraph(const char *fullname, const char *title, TF1* function);
 
       /** Create a go4 rolling graph (generic trending plot) with properties points and average.
         * If theses parameters are missing, an empty graph is created to be specified by the user.
         * If a rolling graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char *title, Int_t points = 0, Int_t average = 1);
+      TGo4RollingGraph* MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
        * xmin, xmax - condition range
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4WinCond* MakeWinCond(const char* fullname,
+      TGo4WinCond* MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
-                               const char* HistoName = nullptr);
+                               const char *HistoName = nullptr);
 
       /** Create 2D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
        * xmin, xmax - X condition range
        * ymin, ymax - Y condition range
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4WinCond* MakeWinCond(const char* fullname,
+      TGo4WinCond* MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
                                Double_t ymin, Double_t ymax,
-                               const char* HistoName = nullptr);
+                               const char *HistoName = nullptr);
 
       /** Create polygon condition.
        * fullname specifies name of condition (optionally with subfolder name)
@@ -294,10 +294,10 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
        * cond = MakePolyCond("Folder/CondName", 4, points);
        */
-      TGo4PolyCond* MakePolyCond(const char* fullname,
+      TGo4PolyCond* MakePolyCond(const char *fullname,
                                  Int_t npoints,
                                  Double_t (*points) [2],
-                                 const char* HistoName = nullptr);
+                                 const char *HistoName = nullptr);
 
       /** Create ellipse shaped polygon condition.
                * fullname specifies name of condition (optionally with subfolder name)
@@ -307,10 +307,10 @@ class TGo4EventProcessor: public TGo4EventSource {
                * theta - ellipse tilt angle
                * HistoName - name of histogram, to which condition is assigned
                */
-      TGo4ShapedCond* MakeEllipseCond(const char* fullname,
+      TGo4ShapedCond* MakeEllipseCond(const char *fullname,
                                       Int_t npoints,
                                       Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0,
-                                      const char* HistoName = nullptr);
+                                      const char *HistoName = nullptr);
 
       /** Create circular shaped polygon condition.
         * fullname specifies name of condition (optionally with subfolder name)
@@ -318,9 +318,9 @@ class TGo4EventProcessor: public TGo4EventSource {
         * cx,cy   - circle center coordinates
        * r       - circle radius
        * HistoName - name of histogram, to which condition is assigned  */
-      TGo4ShapedCond* MakeCircleCond(const char* fullname,
+      TGo4ShapedCond* MakeCircleCond(const char *fullname,
                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
-                  const char* HistoName = nullptr);
+                  const char *HistoName = nullptr);
 
       /** Create tilted rectangular box shaped polygon condition.
                  * fullname specifies name of condition (optionally with subfolder name)
@@ -330,8 +330,8 @@ class TGo4EventProcessor: public TGo4EventSource {
                  * theta - tilt angle
                  * HistoName - name of histogram, to which condition is assigned
                  */
-      TGo4ShapedCond* MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
-                                  const char* HistoName = nullptr);
+      TGo4ShapedCond* MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+                                  const char *HistoName = nullptr);
 
       /** Create free shaped (polygon) condition.
        * in contrast to plain TGo4PolyCond, this one can be converted later
@@ -344,10 +344,10 @@ class TGo4EventProcessor: public TGo4EventSource {
            * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
            * cond = MakePolyCond("Folder/CondName", 4, points);
            */
-     TGo4ShapedCond* MakeFreeShapeCond(const char* fullname,
+     TGo4ShapedCond* MakeFreeShapeCond(const char *fullname,
                                      Int_t npoints,
                                      Double_t (*points) [2],
-                                     const char* HistoName = nullptr);
+                                     const char *HistoName = nullptr);
 
      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches
@@ -356,7 +356,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * values - 1d array with values
        * HistoName - name of histogram, to which condition is assigned
        */
-      TGo4ListCond* MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName = nullptr);
+      TGo4ListCond* MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName = nullptr);
 
      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches
@@ -365,13 +365,13 @@ class TGo4EventProcessor: public TGo4EventSource {
        * stop - last value in list
        * step - distance between list entries
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4ListCond* MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char* HistoName = nullptr);
+      TGo4ListCond* MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char *HistoName = nullptr);
 
       /** Create "whitlelist" condition with separate values to tes against
         * condition is true if any of the values matches
         * This method creates empty list condition of specified name and title to be set by the user,
         * or already defined condition from previous autosave*/
-      TGo4ListCond* MakeListCond(const char* fullname, const char *title, const char* HistoName = nullptr);
+      TGo4ListCond* MakeListCond(const char *fullname, const char *title, const char *HistoName = nullptr);
 
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)
@@ -385,24 +385,24 @@ class TGo4EventProcessor: public TGo4EventSource {
        *       creation (or loading from auto-save file) and thus overwrites parameters value.
        *       Macro name should be always starting with "set_" like "set_RocPar.C"
        */
-      TGo4Parameter* MakeParameter(const char* fullname,
-                                   const char* classname,
-                                   const char* newcmd = nullptr);
+      TGo4Parameter* MakeParameter(const char *fullname,
+                                   const char *classname,
+                                   const char *newcmd = nullptr);
 
       /** Executes ROOT script.
        * Returns -1 when script was not found or result of script execution */
-      Long64_t ExecuteScript(const char* script_name);
+      Long64_t ExecuteScript(const char *script_name);
 
       /** Executes Python script in ROOT interpreter.
        * Will bind TGo4Analysis object to python go4 Symbol
        * Errcode may be used to check ROOT interpreter error code.*/
-      Long64_t ExecutePython(const char* macro_name, Int_t* errcode = nullptr);
+      Long64_t ExecutePython(const char *macro_name, Int_t* errcode = nullptr);
 
       /** Process ROOT command line. Optionally provide pyroot binding:
           *  a leading '$' will try to load and execute python script.
           * Errcode may be used to check ROOT interpreter error code.
           * Return value is result of command execution*/
-      Long64_t ExecuteLine(const char* command, Int_t *errcode = nullptr);
+      Long64_t ExecuteLine(const char *command, Int_t *errcode = nullptr);
 
       /* if true, processor wants to continue with current content of input event
        * event is not refilled from event source, and all previous analysis steps are suspended*/

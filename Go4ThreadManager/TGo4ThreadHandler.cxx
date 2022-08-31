@@ -186,7 +186,7 @@ Int_t TGo4ThreadHandler::CreateAll ()
    return createdthreads;
 }
 
-Bool_t TGo4ThreadHandler::Create (const char* thname)
+Bool_t TGo4ThreadHandler::Create (const char *thname)
 {
    GO4TRACE((14,"TGo4ThreadHandler::Create(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
@@ -235,7 +235,7 @@ Int_t TGo4ThreadHandler::CancelAll ()
    return cancelledthreads;
 }
 
-Bool_t TGo4ThreadHandler::Cancel (const char* thname)
+Bool_t TGo4ThreadHandler::Cancel (const char *thname)
 {
    GO4TRACE((14,"TGo4ThreadHandler::Cancel(const char*)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
@@ -286,7 +286,7 @@ Int_t TGo4ThreadHandler::ReCreateAll ()
    return recreatedthreads;
 }
 
-Bool_t TGo4ThreadHandler::ReCreate (const char* thname)
+Bool_t TGo4ThreadHandler::ReCreate (const char *thname)
 {
    GO4TRACE((14,"TGo4ThreadHandler::ReCreate(const char*)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
@@ -343,7 +343,7 @@ Int_t TGo4ThreadHandler::StartAll ()
    return startedfuncs;
 }
 
-Bool_t TGo4ThreadHandler::Start (const char* thname)
+Bool_t TGo4ThreadHandler::Start (const char *thname)
 {
    GO4TRACE((14,"TGo4ThreadHandler::Start(const char*)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
@@ -396,7 +396,7 @@ Int_t TGo4ThreadHandler::StopAll ()
    return stoppedfuncs;
 }
 
-Bool_t TGo4ThreadHandler::Stop (const char* thname)
+Bool_t TGo4ThreadHandler::Stop (const char *thname)
 {
    GO4TRACE((14,"TGo4ThreadHandler::Stop(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;

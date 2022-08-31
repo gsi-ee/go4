@@ -311,7 +311,7 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 
 // -----------------------------------------------
 
-Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
+Bool_t TGo4WinCond::UpdateFromUrl(const char *rest_url_opt)
 {
   if (!TGo4Condition::UpdateFromUrl(rest_url_opt))
     return kFALSE;

@@ -40,7 +40,7 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
   public:
 
     TGo4ComSetObject();
-    TGo4ComSetObject(const char* obname);
+    TGo4ComSetObject(const char *obname);
     virtual ~TGo4ComSetObject();
     Int_t ExeCom() override;
     /** Set internals of this command from specification of external

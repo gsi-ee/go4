@@ -39,7 +39,7 @@ class TGo4EventElement : public TNamed {
       TGo4EventElement();
 
       TGo4EventElement(const char *name);
-      TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat = 0);
+      TGo4EventElement(const char *aName, const char *aTitle, Short_t aBaseCat = 0);
 
       virtual ~TGo4EventElement();
 
@@ -67,7 +67,7 @@ class TGo4EventElement : public TNamed {
        * zero, and if not zero, compares classname of the
        * event source with given string. To be used from the
        * Fill method and from the analysis method  init event classes. */
-      Bool_t CheckEventSource(const char* classname);
+      Bool_t CheckEventSource(const char *classname);
 
       /** Method called by the event owner (analysis step) to fill the
        * event element from the set event source. Event source can

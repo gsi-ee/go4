@@ -83,7 +83,7 @@ Text_t *TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
    return cursor;
 }
 
-Text_t *TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,...)
+Text_t *TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char *text,...)
 {
    if(!buffer || buflen < 0)
       return nullptr;

@@ -102,13 +102,13 @@ void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
    } // if(event==...)
 }
 
-const char* TGo4WinCondView::GetName() const
+const char *TGo4WinCondView::GetName() const
 {
    return fxWinCondition ? fxWinCondition->GetName() : 0;
 }
 
 
-void TGo4WinCondView::SetName(const char* nam)
+void TGo4WinCondView::SetName(const char *nam)
 {
    if(fxWinCondition) fxWinCondition->SetName(nam);
 }
@@ -174,7 +174,7 @@ void TGo4WinCondView::SetCMaxDraw(Bool_t on)
 }
 
 
-void TGo4WinCondView::SetNumFormat(const char* fmt)
+void TGo4WinCondView::SetNumFormat(const char *fmt)
 {
    if(fxWinCondition) fxWinCondition->SetLabelNumFormat(fmt);
 }

@@ -35,7 +35,7 @@ void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
    // as an exercise for the reader!
 }
 
-void TGo4ExampleClientStatus::SetNames(const char* main, const char* watch)
+void TGo4ExampleClientStatus::SetNames(const char *main, const char *watch)
 {
    GO4TRACE((12,"TGo4ClientStatus::SetNames(const char*,...)",__LINE__, __FILE__));
    fxMainName = main;

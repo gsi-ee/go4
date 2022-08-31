@@ -327,7 +327,7 @@ void TGo4AnalysisWindow::ExtractProgArgs(QString &progname, QStringList &args)
 }
 
 
-void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir, bool aschildprocess)
+void TGo4AnalysisWindow::StartAnalysisShell(const char *text, const char *workdir, bool aschildprocess)
 {
     if (fAnalysisProcess) delete fAnalysisProcess;
 

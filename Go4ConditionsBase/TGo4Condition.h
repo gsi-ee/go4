@@ -152,7 +152,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
 
     /** Method used by HTTP server to update some fields, specified in URL syntax */
-    virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+    virtual Bool_t UpdateFromUrl(const char *rest_url_opt);
 
     virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
     virtual Double_t GetXLow() { return 0.; }
@@ -220,7 +220,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetHistogram(const char *name);
 
     /** Access name of the associated histogram. */
-    const char* GetLinkedHistogram();
+    const char *GetLinkedHistogram();
 
     /** Set reference to work histogram for statistics functions. Note
       * that this method does not change the histogram link definitions! */
@@ -403,29 +403,29 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     TObjArray* fxUrlOptionArray; //!
 
     /** re-build the list of url options from string*/
-    void BuildUrlOptionArray(const char* rest_url_opt);
+    void BuildUrlOptionArray(const char *rest_url_opt);
 
     /** returns true if key is present in list of url options. Otherwise false*/
-    Bool_t UrlOptionHasKey(const char* key);
+    Bool_t UrlOptionHasKey(const char *key);
 
     /** Scan list of url options  for key. If found, return TString value.
          * If not found, return default value def_value*/
-    TString GetUrlOptionAsString(const char* key, TString def_value);
+    TString GetUrlOptionAsString(const char *key, TString def_value);
 
 
     /** Scan list of url options  for key. If found, return Integer value.
      * If not found, return default value def_value*/
-    Int_t GetUrlOptionAsInt(const char* key, Int_t def_value);
+    Int_t GetUrlOptionAsInt(const char *key, Int_t def_value);
 
     /** Scan list of url options  for key. If found, return Double value.
      * If not found, return default value def_value*/
-    Double_t GetUrlOptionAsDouble(const char* key, Double_t def_value);
+    Double_t GetUrlOptionAsDouble(const char *key, Double_t def_value);
 
 
     void SetPainted(Bool_t on) { fbIsPainted=on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
-    const char* MakeScript(std::ostream& out, const char* varname, Option_t* opt = "", const char* arrextraargs = 0);
+    const char *MakeScript(std::ostream& out, const char *varname, Option_t* opt = "", const char *arrextraargs = 0);
 
   private:
 

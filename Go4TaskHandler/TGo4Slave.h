@@ -50,7 +50,7 @@ class TGo4Slave : public TGo4TaskOwner {
    public:
       TGo4Slave();
 
-      TGo4Slave(const char *name, Bool_t isserver=kTRUE, const char* serverhost="localhost", UInt_t negotport=5000);
+      TGo4Slave(const char *name, Bool_t isserver=kTRUE, const char *serverhost="localhost", UInt_t negotport=5000);
 
       virtual ~TGo4Slave();
 
@@ -98,10 +98,10 @@ class TGo4Slave : public TGo4TaskOwner {
       TGo4Command* NextCommand();
 
       /** Send object via data channel to the server. */
-      void SendObject(TObject * obj, const char* receiver = nullptr);
+      void SendObject(TObject * obj, const char *receiver = nullptr);
 
       /** Send status object via status channel to the server. */
-      void SendStatus(TGo4Status * stat, const char* receiver = nullptr);
+      void SendStatus(TGo4Status * stat, const char *receiver = nullptr);
 
 
       /**
@@ -133,7 +133,7 @@ class TGo4Slave : public TGo4TaskOwner {
        * Execute string command. Uses gInterpreter by default. May be overridden
        * to evaluate go4 command strings in subclass.
        */
-      virtual void ExecuteString(const char* command);
+      virtual void ExecuteString(const char *command);
 
 };
 

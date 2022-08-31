@@ -34,13 +34,13 @@ class TGo4DynamicListException : public TGo4RuntimeException {
     TGo4DynamicListException &operator=(const TGo4DynamicListException & right);
 
     /** Status message of last Process() call. */
-    const char* GetStatusMessage() const { return fxStatusMessage.Data(); }
+    const char *GetStatusMessage() const { return fxStatusMessage.Data(); }
 
     /** Name of the throwing dynamic Entry. */
-    const char* GetEntryName() const { return fxEntryName.Data(); }
+    const char *GetEntryName() const { return fxEntryName.Data(); }
 
     /** Classname of the throwing dynamic entry. */
-    const char* GetEntryClass() const { return fxEntryClass.Data(); }
+    const char *GetEntryClass() const { return fxEntryClass.Data(); }
 
   protected:
     /** @supplierCardinality 1 */

@@ -38,9 +38,9 @@ TGo4ObjClient::TGo4ObjClient() :
 }
 
 TGo4ObjClient::TGo4ObjClient(const char *name,
-                                 const char* base,
-                                 const char* passwd,
-                                 const char* host,
+                                 const char *base,
+                                 const char *passwd,
+                                 const char *host,
                                  Int_t port) :
    TNamed(name, "This is a Go4 object client"),
    fxServerName(),
@@ -58,9 +58,9 @@ TGo4ObjClient::~TGo4ObjClient()
    delete fxTransport;
 }
 
-void TGo4ObjClient::SetParms(const char* base,
-               const char* passwd,
-               const char* host,
+void TGo4ObjClient::SetParms(const char *base,
+               const char *passwd,
+               const char *host,
                Int_t port)
 {
    if(base) SetBase(base);
@@ -71,9 +71,9 @@ void TGo4ObjClient::SetParms(const char* base,
 
 
 
-TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char* base,
-                                               const char* passwd,
-                                               const char* host,
+TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char *base,
+                                               const char *passwd,
+                                               const char *host,
                                                Int_t port)
 {
    //
@@ -103,10 +103,10 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char* base,
 }
 
 
-TObject* TGo4ObjClient::RequestObject(const char* objectname,
-                                       const char* base,
-                                       const char* passwd,
-                                       const char* host,
+TObject* TGo4ObjClient::RequestObject(const char *objectname,
+                                       const char *base,
+                                       const char *passwd,
+                                       const char *host,
                                        Int_t port)
 {
    TObject *obj = nullptr;
@@ -164,7 +164,7 @@ TObject* TGo4ObjClient::ReceiveObject()
    return obj;
 }
 
-void TGo4ObjClient::SendCommand(const char* com)
+void TGo4ObjClient::SendCommand(const char *com)
 {
    if (fxTransport) fxTransport->Send(com);
 }

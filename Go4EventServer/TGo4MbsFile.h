@@ -49,27 +49,27 @@ class TGo4MbsFile : public TGo4MbsSource {
     Int_t NextEvent() override;
 
     /** Name of the Tagfile */
-    const char* GetTagName() const { return fxTagFile.Data(); }
+    const char *GetTagName() const { return fxTagFile.Data(); }
 
-    const char* GetCurrentTagName() const { return fxCurrentTag.Data(); }
+    const char *GetCurrentTagName() const { return fxCurrentTag.Data(); }
 
-    const char* GetCurrentFileName() const { return fxCurrentFile.Data(); }
+    const char *GetCurrentFileName() const { return fxCurrentFile.Data(); }
 
     /** interface from eventsource base class to give active file*/
-    const char* GetActiveName() override;
+    const char *GetActiveName() override;
 
     /** string to indicate that no lmd tagfile is chosen */
-    static const char* fgcNOTAGFILE;
+    static const char *fgcNOTAGFILE;
 
     /** standard suffix for listmode data files */
-    static const char* fgcLMDSUF;
+    static const char *fgcLMDSUF;
 
     /** standard suffix for list of listmode files */
-    static const char* fgcFILELISTSUF;
+    static const char *fgcFILELISTSUF;
 
   private:
 
-    void AddFileName(const char *name, const char* tagname = nullptr, bool isonly = kFALSE);
+    void AddFileName(const char *name, const char *tagname = nullptr, bool isonly = kFALSE);
 
     /** For multiple input mode: Open next file in list. */
     Int_t NextFile();

@@ -26,7 +26,7 @@ class TGo4Socket {
      TGo4Socket(Bool_t IsClient);
      virtual ~TGo4Socket();
 
-     virtual Int_t Open(const char* host, Int_t port, Bool_t keepservsock = kFALSE);
+     virtual Int_t Open(const char *host, Int_t port, Bool_t keepservsock = kFALSE);
      virtual Int_t Close(Option_t *opt = "");
 
      virtual Int_t Send(TObject *obj);
@@ -74,7 +74,7 @@ class TGo4Socket {
      static const Int_t fgiBUFEXTRASPACE;
 
      /** First connection string, we are told to go on... */
-     static const char* fgcGOON;   //!
+     static const char *fgcGOON;   //!
 
   protected:
     TGo4Socket() = delete;  // not implemented, only for compiler to avoid calling of default

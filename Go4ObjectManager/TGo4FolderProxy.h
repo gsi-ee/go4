@@ -22,7 +22,7 @@ class TFolder;
 class TGo4FolderProxy : public TGo4Proxy {
    public:
       TGo4FolderProxy();
-      TGo4FolderProxy(TFolder* f, Bool_t owner = kFALSE, const char* roofolder = "");
+      TGo4FolderProxy(TFolder* f, Bool_t owner = kFALSE, const char *roofolder = "");
       virtual ~TGo4FolderProxy();
 
       Bool_t HasSublevels() const override { return fFolder; }
@@ -37,9 +37,9 @@ class TGo4FolderProxy : public TGo4Proxy {
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
+      const char *GetContainedClassName() override;
 
-      static TFolder* LocateROOTFolder(const char* rootfolder);
+      static TFolder* LocateROOTFolder(const char *rootfolder);
       static TGo4Access* CreateAccess(TFolder* folder, const char *name);
       static TGo4LevelIter* ProduceIter(TFolder* folder);
 

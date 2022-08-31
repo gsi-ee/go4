@@ -30,7 +30,7 @@ class TGo4Prefs {
    protected:
       std::map<std::string, std::string> fPars;
    public:
-      TGo4Prefs(const char* hostname)
+      TGo4Prefs(const char *hostname)
       {
          SetPar("hostname", hostname);
          #ifdef _MSC_VER
@@ -59,13 +59,13 @@ class TGo4Prefs {
            f.getline(formatstring, sizeof(formatstring), '\n' );
            if ((f.gcount() == 0) || (strlen(formatstring) == 0)) continue;
 
-           const char* sbuf = formatstring;
+           const char *sbuf = formatstring;
 
            while (*sbuf != 0) {
               if (*sbuf==' ') { sbuf++; continue; }
               if (*sbuf=='#') break;
 
-              const char* separ = strchr(sbuf, ':');
+              const char *separ = strchr(sbuf, ':');
               if (!separ) break;
 
               std::string name(sbuf, separ-sbuf);
@@ -77,7 +77,7 @@ class TGo4Prefs {
 
                  if (subname.empty() || mask.empty()) break;
 
-                 const char* subvalue = GetPar(subname.c_str());
+                 const char *subvalue = GetPar(subname.c_str());
 
                  if (!subvalue) break;
 
@@ -104,14 +104,14 @@ class TGo4Prefs {
       /** Return true if more than two parameter exists, hostname and os is default*/
       bool IsOk() const { return fPars.size()>2; }
 
-      void SetPar(const char *name, const char* value, bool force = true)
+      void SetPar(const char *name, const char *value, bool force = true)
       {
          std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
          if (force || (fPars.find(dname) == fPars.end()))
             fPars[dname] = value;
       }
 
-      const char* GetPar(const char *name)
+      const char *GetPar(const char *name)
       {
          std::string dname = TString::Format("%s%s%s", "%", name, "%").Data();
          if (fPars.find(dname) == fPars.end()) return nullptr;
@@ -165,15 +165,15 @@ class TGo4Prefs {
 
             str.erase(pos1, pos2-pos1+1);
 
-            const char* value = gSystem->Getenv(var.c_str());
+            const char *value = gSystem->Getenv(var.c_str());
             if (value) str.insert(pos1, value);
          }
       }
 
       /** return option value with parameters replaced */
-      std::string GetOpt(const char* prefix)
+      std::string GetOpt(const char *prefix)
       {
-         const char* opt = GetPar(prefix);
+         const char *opt = GetPar(prefix);
          if (!opt) return std::string("");
          std::string res = opt;
          ReplacePars(res);
@@ -189,19 +189,19 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
                                         Int_t shellkind,
                                         Int_t konsole,
                                         const char *name,
-                                        const char* remotehost,
-                                        const char* remotedir,
-                                        const char* remoteexe,
+                                        const char *remotehost,
+                                        const char *remotedir,
+                                        const char *remoteexe,
                                         Int_t guiport,
                                         Int_t exe_kind,
-                                        const char* exeargs)
+                                        const char *exeargs)
 {
-   const char* serverhost = gSystem->HostName();
-   const char* sdisplay   = gSystem->Getenv("DISPLAY");
-   const char* go4sys     = TGo4Log::GO4SYS();
-   const char* rootsys    = gSystem->Getenv("ROOTSYS");
-   const char* path       = gSystem->Getenv("PATH");
-   const char* ldpath     = gSystem->Getenv("LD_LIBRARY_PATH");
+   const char *serverhost = gSystem->HostName();
+   const char *sdisplay   = gSystem->Getenv("DISPLAY");
+   const char *go4sys     = TGo4Log::GO4SYS();
+   const char *rootsys    = gSystem->Getenv("ROOTSYS");
+   const char *path       = gSystem->Getenv("PATH");
+   const char *ldpath     = gSystem->Getenv("LD_LIBRARY_PATH");
 
    if (!name || (strlen(name) == 0)) name = "UserAnalysis";
    if (!serverhost || (strlen(serverhost) == 0)) serverhost = "localhost";
@@ -209,7 +209,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    if (!gSystem->Getenv("GO4OLDLAUNCH")) {
       TGo4Prefs prefs(remotehost);
 
-      const char* shellname = "exec";
+      const char *shellname = "exec";
       if (shellkind==1) shellname = "rsh"; else
       if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
       prefs.SetPar("shellkind", shellname, false);
@@ -236,7 +236,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
       else
          prefs.SetPar("userargs", "", false);
 
-      const char* termname = "qtwindow";
+      const char *termname = "qtwindow";
       if (konsole == 2) termname = "xterm"; else
       if (konsole == 3) termname = "konsole";
 
@@ -265,7 +265,7 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
          #else
          char symbol = '/';
          #endif
-         const char* runname = strrchr(remoteexe, symbol);
+         const char *runname = strrchr(remoteexe, symbol);
          prefs.SetPar("killexename", runname ? runname+1 : remoteexe, false);
       }
 
@@ -311,8 +311,8 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    for(int n=0;n<num;n++)
      launchprefs.getline(formatstring, 1000, '\n' );
 
-   const char* sh_com = "";
-   const char* sh_host = remotehost;
+   const char *sh_com = "";
+   const char *sh_host = remotehost;
    TString serverdisplay = "";
 
    switch (shellkind) {
@@ -407,7 +407,7 @@ TGo4Slot* TGo4ServerProxy::DebugOutputSlot()
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Debugoutput");
 }
 
-const char* TGo4ServerProxy::GetContainedObjectInfo()
+const char *TGo4ServerProxy::GetContainedObjectInfo()
 {
    fInfoStr = "";
    if (!IsConnected())

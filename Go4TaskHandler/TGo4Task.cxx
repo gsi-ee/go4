@@ -144,7 +144,7 @@ void TGo4Task::TerminateFast()
       TGo4ThreadManager::TerminateFast();
 }
 
-void TGo4Task::ExecuteString(const char* command)
+void TGo4Task::ExecuteString(const char *command)
 {
    if(fxSlave)
       fxSlave->ExecuteString(command);
@@ -220,7 +220,7 @@ void TGo4Task::AddUserCommandList(TGo4CommandProtoList * comlist)
    }
 }
 
-void TGo4Task::SendObject(TObject * obj, const char* receiver)
+void TGo4Task::SendObject(TObject * obj, const char *receiver)
 {
    if(IsMaster()) return;
    if(obj) {
@@ -244,7 +244,7 @@ void TGo4Task::SendObject(TObject * obj, const char* receiver)
    }
 }
 
-void TGo4Task::SendStatus(TGo4Status * stat, const char* receiver)
+void TGo4Task::SendStatus(TGo4Status * stat, const char *receiver)
 {
    if(IsMaster()) return;
    if(stat) {
@@ -270,7 +270,7 @@ void TGo4Task::SendStatusBuffer()
    if(statq) statq->AddBuffer(fxStatusBuffer,kTRUE);
 }
 
-void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,...)
+void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char *text,...)
 {
    if(IsMaster()) return;
    Int_t lbuflen=256;
@@ -281,7 +281,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    vsnprintf(txtbuf, lbuflen, text, args);
    va_end(args);
    // figure out here possible destination for message in string:
-   const char* dest;
+   const char *dest;
    char* curs=txtbuf;
    TString receiver=txtbuf;
    Ssiz_t pos=receiver.Index("::",2,0,TString::kExact);
@@ -297,7 +297,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    //std::cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << std::endl;
    Bool_t previousmode = TGo4Log::IsOutputEnabled();
    TGo4Log::OutputEnable(printout); // override the messaging state
-   const char* go4mess = TGo4Log::Message(level, "%s", curs);
+   const char *go4mess = TGo4Log::Message(level, "%s", curs);
    TGo4Log::OutputEnable(previousmode); // restore old state of messaging
    if((level > 0) && go4mess)  {
       // do not send debug-level output to gui, and do not send suppressed messages as empty string!
@@ -455,7 +455,7 @@ Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
    return kFALSE;
 }
 
-Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char* receiver)
+Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char *receiver)
 {
    TGo4BufferQueue* queue=GetDataQueue(receiver);
    if(queue)
@@ -562,7 +562,7 @@ Int_t TGo4Task::StopWorkThreads()
    return fxOwner ? fxOwner->StopWorkThreads() : 0;
 }
 
-void TGo4Task::SendStopBuffers(const char* taskname)
+void TGo4Task::SendStopBuffers(const char *taskname)
 {
    TGo4TaskHandler* th = GetTaskHandler();
    if(!th || th->IsAborting()) return;

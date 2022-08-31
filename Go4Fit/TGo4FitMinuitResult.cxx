@@ -33,7 +33,7 @@ TGo4FitMinuitResult::TGo4FitMinuitResult() :
     CONTOCH(nullptr) {
 }
 
-TGo4FitMinuitResult::TGo4FitMinuitResult(const char* iName, const char* iTitle) :
+TGo4FitMinuitResult::TGo4FitMinuitResult(const char *iName, const char *iTitle) :
     TNamed(iName, iTitle),
     ParValues(nullptr),
     ParError(nullptr),

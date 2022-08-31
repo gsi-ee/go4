@@ -53,10 +53,10 @@ class TGo4KeyAccess : public TGo4Access {
          return kTRUE;
       }
 
-      const char* GetObjectName() const override
+      const char *GetObjectName() const override
         { return fKey->GetName(); }
 
-      const char* GetObjectClassName() const override
+      const char *GetObjectClassName() const override
         { return fKey->GetClassName(); }
 
    private:
@@ -175,7 +175,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return fNameBuf.Data();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->GetTitle();
       }
@@ -212,7 +212,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return TGo4Access::kndObject;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
           return fIsKeyIter ? ((TKey*) fCurrent)->GetClassName() : fCurrent->ClassName();
       }
@@ -256,12 +256,12 @@ Int_t TGo4DirProxy::GetObjectKind()
    return fDir ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char* TGo4DirProxy::GetContainedClassName()
+const char *TGo4DirProxy::GetContainedClassName()
 {
    return fDir ? fDir->ClassName() : nullptr;
 }
 
-const char* TGo4DirProxy::GetContainedObjectInfo()
+const char *TGo4DirProxy::GetContainedObjectInfo()
 {
    return fDir ? fDir->GetTitle() : nullptr;
 }
@@ -279,10 +279,10 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
    if (!name || (*name == 0)) return new TGo4ObjectAccess(dir);
 
    TDirectory* curdir = dir;
-   const char* curname = name;
+   const char *curname = name;
 
    while (curdir && curname) {
-      const char* slash = strchr(curname,'/');
+      const char *slash = strchr(curname,'/');
       TString partname;
 
       if (!slash) {
@@ -354,7 +354,7 @@ void TGo4DirProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
    ClearDir();
 
    const char *filename = slot->GetPar("DirProxy::FileName");
-   const char* groot = slot->GetPar("DirProxy::gROOT");
+   const char *groot = slot->GetPar("DirProxy::gROOT");
 
    if (filename) {
      TFile* f = TFile::Open(filename);
@@ -363,7 +363,7 @@ void TGo4DirProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
      SetDir(gROOT, kFALSE, kFALSE);
 }
 
-Bool_t TGo4DirProxy::UpdateObjectInFile(const char* filepath, TObject *obj)
+Bool_t TGo4DirProxy::UpdateObjectInFile(const char *filepath, TObject *obj)
 {
    if (!filepath || !fDir) return kFALSE;
 
@@ -400,7 +400,7 @@ Bool_t TGo4DirProxy::IsFile() const
    return dynamic_cast<TFile*>(fDir) != nullptr;
 }
 
-const char* TGo4DirProxy::GetFileName() const
+const char *TGo4DirProxy::GetFileName() const
 {
    return IsFile() ? fDir->GetName() : nullptr;
 }

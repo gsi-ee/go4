@@ -145,7 +145,7 @@ void TGo4StartClient::SelectDir()
 
 void TGo4StartClient::SelectProg()
 {
-   const char* caption = nullptr;
+   const char *caption = nullptr;
 
 #ifdef _MSC_VER
    QString exe1_filter("User analysis (MainUserAnalysis.exe)");

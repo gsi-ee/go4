@@ -33,7 +33,7 @@ TGo4FitData::TGo4FitData() : TGo4FitComponent(),
    ResetAllPoinetrs();
 }
 
-TGo4FitData::TGo4FitData(const char* iName, const char* iTitle, Int_t iDataType, Bool_t AddAmpl) :
+TGo4FitData::TGo4FitData(const char *iName, const char *iTitle, Int_t iDataType, Bool_t AddAmpl) :
     TGo4FitComponent(iName,iTitle), fiDataType(iDataType),
     fbUseBinScale(kFALSE), fiTakeSigmasFrom(1), fdSigmaValue(1.), fdExcludeLessThen(0.),
     fxAxisTrans()
@@ -115,7 +115,7 @@ Bool_t TGo4FitData::IsAnyDataTransform()
   return kFALSE;
 }
 
-TObject* TGo4FitData::CreateDrawObject(const char* ObjName)
+TObject* TGo4FitData::CreateDrawObject(const char *ObjName)
 {
    TGo4FitDataIter* iter = MakeIter();
    if (!iter) return nullptr;
@@ -542,7 +542,7 @@ Bool_t TGo4FitDataIter::DefineIndexesLimits(TArrayI& Limits) {
    return kTRUE;
 }
 
-TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, Bool_t SetBins)
+TH1* TGo4FitDataIter::CreateHistogram(const char *HistoName, Bool_t UseRanges, Bool_t SetBins)
 {
    TArrayI Limits;
    if (!DefineIndexesLimits(Limits)) return nullptr;
@@ -592,7 +592,7 @@ TH1* TGo4FitDataIter::CreateHistogram(const char* HistoName, Bool_t UseRanges, B
    return histo;
 }
 
-TGraph* TGo4FitDataIter::CreateGraph(const char* GraphName, Bool_t UseRanges, Bool_t SetBins)
+TGraph* TGo4FitDataIter::CreateGraph(const char *GraphName, Bool_t UseRanges, Bool_t SetBins)
 {
    Int_t NumPoints = CountPoints(UseRanges);
    if ((NumPoints<=0) || (ScalesSize()<1)) return nullptr;
@@ -608,7 +608,7 @@ TGraph* TGo4FitDataIter::CreateGraph(const char* GraphName, Bool_t UseRanges, Bo
    return gr;
 }
 
-TObject* TGo4FitDataIter::CreateDrawObject(const char* ObjName)
+TObject* TGo4FitDataIter::CreateDrawObject(const char *ObjName)
 {
   if (!Reset(kFALSE)) return nullptr;
 

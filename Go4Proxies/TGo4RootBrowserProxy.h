@@ -36,7 +36,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
       void DrawCondition(const char *itemname, TGo4Condition* con);
       void DrawItem(const char *itemname);
 
-      void Message(const char* str1, const char* str2, Int_t blockdelay);
+      void Message(const char *str1, const char *str2, Int_t blockdelay);
 
    protected:
 

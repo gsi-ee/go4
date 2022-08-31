@@ -164,7 +164,7 @@ void TGo4ConditionEditor::linkedObjectRemoved(const char *linkname)
 
 void TGo4ConditionEditor::WorkWithCondition(const char *itemname)
 {
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
 
    auto con = GetLinkedCast<TGo4Condition>("Condition");
    if (con && (con->IsChanged() != 0) && (strcmp(conditemname,itemname) != 0)) {
@@ -250,7 +250,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 {
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
@@ -322,7 +322,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    QString infolbl;
 
-   const char* hname = cond->GetLinkedHistogram();
+   const char *hname = cond->GetLinkedHistogram();
    if (!hname || (*hname == 0)) {
       HistogramChk->setChecked(false);
       HistogramChk->setText("null");
@@ -547,7 +547,7 @@ void TGo4ConditionEditor::SetInvertMode( int mode )
 
 void TGo4ConditionEditor::ClearCounters()
 {
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
    auto con = GetLinkedCast<TGo4Condition>("Condition");
    if (!con || !conditemname) return;
 
@@ -716,7 +716,7 @@ void TGo4ConditionEditor::SetChangeFlag(bool changed)
 void TGo4ConditionEditor::UpdatePressed()
 {
    if (PrepareForAnalysis()) {
-      const char* conditem = GetLinkedName("Condition");
+      const char *conditem = GetLinkedName("Condition");
       if (UpdateItemInAnalysis(conditem) && BrowserItemRemote(conditem))
          RefreshClicked();
       else {
@@ -740,7 +740,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
    if (!conditemname) return;
 
    TGo4ViewPanel* panel = nullptr;
@@ -773,7 +773,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
       return;
    }
 
-   const char* hname = nullptr;
+   const char *hname = nullptr;
    if (cond->IsHistogramLink())
       hname = cond->GetLinkedHistogram();
    TString hitemname;
@@ -795,7 +795,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
 
 void TGo4ConditionEditor::RedrawCondition()
 {
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
    if (!conditemname) return;
 
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
@@ -828,7 +828,7 @@ bool TGo4ConditionEditor::PrepareForAnalysis()
 
    SetChangeFlag(false);
 
-   const char* hname = cond->GetLinkedHistogram();
+   const char *hname = cond->GetLinkedHistogram();
    if (hname && (strlen(hname) != 0)) {
       TString foldername, objname;
       TGo4Slot::ProduceFolderAndName(hname, foldername, objname);
@@ -842,7 +842,7 @@ void TGo4ConditionEditor::ModifyButton_clicked()
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
-   const char* conditemname = GetLinkedName("Condition");
+   const char *conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 

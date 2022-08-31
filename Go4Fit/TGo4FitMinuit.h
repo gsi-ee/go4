@@ -57,7 +57,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Create TGo4FitMinuit object (action) with given name.
        */
-      TGo4FitMinuit(const char* Name);
+      TGo4FitMinuit(const char *Name);
 
       /**
        * Destroys TGo4FitMinuit object.
@@ -68,7 +68,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
        * Add Minuit command to command list.
        * To get a full description of possible Minuit commands, see Minuit documentation.
        */
-      void AddCommand(const char* iCommand);
+      void AddCommand(const char *iCommand);
 
       /**
        * Returns number of commands in list.
@@ -78,7 +78,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Return command with given index.
        */
-      const char* GetCommand(Int_t n);
+      const char *GetCommand(Int_t n);
 
       /**
        * Clear Minuit commands list.
@@ -98,7 +98,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Find result object with provided name.
        */
-      TGo4FitMinuitResult* FindResult(const char* ResName);
+      TGo4FitMinuitResult* FindResult(const char *ResName);
 
       /**
        * Add result object to results list.

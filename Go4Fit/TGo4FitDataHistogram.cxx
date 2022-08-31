@@ -21,7 +21,7 @@ TGo4FitDataHistogram::TGo4FitDataHistogram() :
   TGo4FitData(), fxHistogram(this, TH1::Class()) {
 }
 
-TGo4FitDataHistogram::TGo4FitDataHistogram(const char* iName, TH1 *iHistogram, Bool_t iHistogramOwned, Bool_t AddAmpl) :
+TGo4FitDataHistogram::TGo4FitDataHistogram(const char *iName, TH1 *iHistogram, Bool_t iHistogramOwned, Bool_t AddAmpl) :
   TGo4FitData(iName,"TH1 and derived classes", dtHistogram, AddAmpl),
   fxHistogram("Histogram","Histogram object of TH1 class ", this, TH1::Class(), kTRUE, iHistogram, iHistogramOwned) {
 }

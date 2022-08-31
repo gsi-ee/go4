@@ -44,18 +44,18 @@ const Int_t TGo4TaskHandler::fgiTHREADSTOPCYCLES=6;
 
 const UInt_t TGo4TaskHandler::fguTHREADSTOPTIME=500;
 
-const char* TGo4TaskHandler::fgcCONNECT="CONNECT-VERSION-300";
-const char* TGo4TaskHandler::fgcDISCONNECT="DISCONNECT-VERSION-300";
+const char *TGo4TaskHandler::fgcCONNECT="CONNECT-VERSION-300";
+const char *TGo4TaskHandler::fgcDISCONNECT="DISCONNECT-VERSION-300";
 
-const char* TGo4TaskHandler::fgcOK = "OK-VERSION-300";
-const char* TGo4TaskHandler::fgcERROR = "ERROR-VERSION-300";
+const char *TGo4TaskHandler::fgcOK = "OK-VERSION-300";
+const char *TGo4TaskHandler::fgcERROR = "ERROR-VERSION-300";
 
-const char* TGo4TaskHandler::fgcMASTER="Master-VERSION-300";
-const char* TGo4TaskHandler::fgcSLAVE="Slave-VERSION-300";
+const char *TGo4TaskHandler::fgcMASTER="Master-VERSION-300";
+const char *TGo4TaskHandler::fgcSLAVE="Slave-VERSION-300";
 
-const char* TGo4TaskHandler::fgcCOMMANDTHREAD="COMMAND-";
-const char* TGo4TaskHandler::fgcSTATUSTHREAD="STATUS-";
-const char* TGo4TaskHandler::fgcDATATHREAD="DATA-";
+const char *TGo4TaskHandler::fgcCOMMANDTHREAD="COMMAND-";
+const char *TGo4TaskHandler::fgcSTATUSTHREAD="STATUS-";
+const char *TGo4TaskHandler::fgcDATATHREAD="DATA-";
 
 TNamed TGo4TaskHandler::fgxOBSERVERACCOUNT("observer","go4view");
 TNamed TGo4TaskHandler::fgxCONTROLLERACCOUNT("controller","go4ctrl");
@@ -142,7 +142,7 @@ TGo4TaskHandler::~TGo4TaskHandler()
    delete fxDataQueue;
 }
 
-TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
+TGo4Socket* TGo4TaskHandler::ServerRequest(const char *host)
 {
    if(fbClientMode)
    {
@@ -179,7 +179,7 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
 }
 
 
-Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
+Bool_t TGo4TaskHandler::Connect(const char *host, TGo4Socket* connector)
 // establish connection of all three channels
 {
    TGo4Log::Debug(" TaskHandler %s connecting to host %s ...",GetName(),host);
@@ -249,7 +249,7 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
    else
    {
       /////////////////// SERVER MODE /////////////////////////////////////////////
-      const char* client = GetName();
+      const char *client = GetName();
       if(!connector) return kFALSE;
       connector->Send(TGo4TaskHandler::fgcOK);
       // first ok to initialize client, fgcERROR would abort client
@@ -430,7 +430,7 @@ TGo4TaskHandlerStatus * TGo4TaskHandler::CreateStatus()
 
 
 
-Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host)
+Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char *host)
 {
    char* revchar = nullptr;
    Int_t waitresult = 0;
@@ -450,7 +450,7 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negot
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no TGo4Socket instance ",name);
       return kFALSE;
    }
-   const char* client = GetName(); // taskhandler name is client name
+   const char *client = GetName(); // taskhandler name is client name
    // in server mode, we connect by the connector thread:
    // need timer mechanism for proper registration of ROOT sockets (timer is main thread)
    // only root sockets connected in main application thread will be cleaned up
@@ -507,7 +507,7 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negot
    return kTRUE;
 }
 
-Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host)
+Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char *host)
 {
    //
    char* recvchar = nullptr;
@@ -621,30 +621,30 @@ Bool_t TGo4TaskHandler::WaitThreadStop(const char *name)
    return !timeout;
 }
 
-void TGo4TaskHandler::SetAdminAccount(const char *name, const char* passwd)
+void TGo4TaskHandler::SetAdminAccount(const char *name, const char *passwd)
 {
    if(name) fgxADMINISTRATORACCOUNT.SetName(name);
    if(passwd) fgxADMINISTRATORACCOUNT.SetTitle(passwd);
 }
 
-void TGo4TaskHandler::SetCtrlAccount(const char *name, const char* passwd)
+void TGo4TaskHandler::SetCtrlAccount(const char *name, const char *passwd)
 {
    if(name) fgxCONTROLLERACCOUNT.SetName(name);
    if(passwd) fgxCONTROLLERACCOUNT.SetTitle(passwd);
 }
 
-void TGo4TaskHandler::SetObservAccount(const char *name, const char* passwd)
+void TGo4TaskHandler::SetObservAccount(const char *name, const char *passwd)
 {
    if(name) fgxOBSERVERACCOUNT.SetName(name);
    if(passwd) fgxOBSERVERACCOUNT.SetTitle(passwd);
 }
 
-const char* TGo4TaskHandler::Get_fgcOK()
+const char *TGo4TaskHandler::Get_fgcOK()
 {
    return fgcOK;
 }
 
-const char* TGo4TaskHandler::Get_fgcERROR()
+const char *TGo4TaskHandler::Get_fgcERROR()
 {
    return fgcERROR;
 }

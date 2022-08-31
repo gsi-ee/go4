@@ -120,7 +120,7 @@ void TGo4EditDynEntry::RefreshWidget()
    TGo4HistogramEntry* hentry = dynamic_cast<TGo4HistogramEntry*> (entry);
    TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (entry);
 
-   const char* entryitem = GetLinkedName("Entry");
+   const char *entryitem = GetLinkedName("Entry");
 
    if (hentry) {
        fiSelectedType = entry_Histogram;
@@ -222,7 +222,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char *itemname)
 {
    auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
 
-   const char* oldname = GetLinkedName("Entry");
+   const char *oldname = GetLinkedName("Entry");
 
    if (entry && oldname && PleaseUpdateLabel->isVisible()) {
 

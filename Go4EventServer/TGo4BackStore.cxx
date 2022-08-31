@@ -23,8 +23,8 @@
 #include "TGo4BackStoreParameter.h"
 #include "TGo4EventElement.h"
 
-const char* TGo4BackStore::fgcTREESUF = "xTree";
-const char* TGo4BackStore::fgcEVBRANCHNAME = "Go4EventBranch.";
+const char *TGo4BackStore::fgcTREESUF = "xTree";
+const char *TGo4BackStore::fgcEVBRANCHNAME = "Go4EventBranch.";
 
 const Int_t TGo4BackStore::fgiMAXAUTOBYTES = 100000000;
 
@@ -62,8 +62,8 @@ TGo4BackStore::TGo4BackStore(TGo4BackStoreParameter* par) :
 
    SetName(par->GetName());
      // strip any path information from treename (could be identical with filename!)
-   const char* lastname = par->GetTitle();
-   const char* oldname = lastname;
+   const char *lastname = par->GetTitle();
+   const char *oldname = lastname;
    lastname = strstr(oldname,"/");
    while (lastname != nullptr) {
       oldname = lastname + 1;

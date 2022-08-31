@@ -56,7 +56,7 @@ TString TGo4AnalysisWebStatus::fgxURL_PREFS_LOAD = "loadprefs";
 TString TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE = "saveprefs";
 
 
-Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
+Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
 {
   std::cout << "\nTGo4AnalysisWebStatus Update From Url with " << rest_url_opt << std::endl;
 //  TGo4LockGuard gard; // test: can we avoid deadlock with monitoring sniffer here?
@@ -635,7 +635,7 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char *fname,
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
+Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char *exeline)
 {
   if (!exeline || (*exeline == 0)) return kFALSE;
   TGo4Analysis* ana = TGo4Analysis::Instance();

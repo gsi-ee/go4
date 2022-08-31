@@ -86,7 +86,7 @@ TGo4FileSource::~TGo4FileSource()
    }
 }
 
-TList* TGo4FileSource::ProducesFilesList(const char* mask)
+TList* TGo4FileSource::ProducesFilesList(const char *mask)
 {
    if (!mask || (strlen(mask) == 0)) return nullptr;
 
@@ -126,7 +126,7 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
    TList* lst = nullptr;
 
    TRegexp re(basename, kTRUE);
-   const char* file = nullptr;
+   const char *file = nullptr;
    while ((file = gSystem->GetDirEntry(dir)) != nullptr) {
       if (!strcmp(file,".") || !strcmp(file,"..")) continue;
       TString s = file;

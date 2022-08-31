@@ -138,7 +138,7 @@ TGo4Slot* QGo4Widget::GetTopSlot(bool force)
    return res;
 }
 
-TGo4Slot* QGo4Widget::AddSlot(const char* slotname)
+TGo4Slot* QGo4Widget::AddSlot(const char *slotname)
 {
    TGo4Slot* res =  nullptr;
    emit widgetService(this, service_AddEditorSlot, slotname, (void*) &res);
@@ -150,16 +150,16 @@ void QGo4Widget::SetLinkedName(TGo4Slot* slot, const char *itemname)
    emit widgetService(this, service_SetLinkedName, itemname, (void*) slot);
 }
 
-const char* QGo4Widget::GetLinkedName(const char *linkname)
+const char *QGo4Widget::GetLinkedName(const char *linkname)
 {
-   const char* res = nullptr;
+   const char *res = nullptr;
 
    emit widgetService(this, service_GetLinkedName, linkname, (void*) &res);
 
    return res;
 }
 
-const char* QGo4Widget::GetLinkedName(TGo4Slot* slot)
+const char *QGo4Widget::GetLinkedName(TGo4Slot* slot)
 {
    void* res = slot;
 
@@ -201,7 +201,7 @@ void QGo4Widget::RemoveAllLinks(bool blockreset)
    fBlockUpdate = oldvalue;
 }
 
-void QGo4Widget::RemoveLinksMasked(const char* startedwith, bool blockreset)
+void QGo4Widget::RemoveLinksMasked(const char *startedwith, bool blockreset)
 {
    bool oldvalue = fBlockUpdate;
    if (blockreset) fBlockUpdate = true;
@@ -254,11 +254,11 @@ void QGo4Widget::ProcessSignal(const char *linkname, bool assigned, TObject *obj
    }
 }
 
-void QGo4Widget::linkedObjectUpdated(const char* /* linkname */, TObject* /* obj */)
+void QGo4Widget::linkedObjectUpdated(const char */* linkname */, TObject* /* obj */)
 {
 }
 
-void QGo4Widget::linkedObjectRemoved(const char* /* linkname */)
+void QGo4Widget::linkedObjectRemoved(const char */* linkname */)
 {
    // reset editor if any watched object is removed
    ShootResetWidget();
@@ -285,7 +285,7 @@ void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass* cl)
 }
 
 // this function should be reimplemented in editor that asks to create object
-void QGo4Widget::requestedObjectCreated(const char* /* itemname */, TClass* /* cl */)
+void QGo4Widget::requestedObjectCreated(const char */* itemname */, TClass* /* cl */)
 {
 }
 
@@ -325,7 +325,7 @@ void QGo4Widget::UndrawItem(const char *itemname)
    emit widgetService(this, service_UndrawItem, itemname, nullptr);
 }
 
-void QGo4Widget::HelpWindow(const char *filename, const char* msg)
+void QGo4Widget::HelpWindow(const char *filename, const char *msg)
 {
    emit widgetService(this, service_HelpWindow, filename, (void*)msg);
 }
@@ -352,7 +352,7 @@ void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)
    emit widgetService(this, service_EditInSlot, "", (void*) slot);
 }
 
-QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject *obj)
+QString QGo4Widget::SaveObjectInMemory(const char *foldername, TObject *obj)
 {
    void* par = obj;
    emit widgetService(this, service_SaveToMemory, foldername, (void*) &par);
@@ -390,7 +390,7 @@ TGo4ServerProxy* QGo4Widget::GetAnalysis(const char *itemname)
    return res;
 }
 
-void QGo4Widget::CallServiceFunc(int func, const char* str, void* par)
+void QGo4Widget::CallServiceFunc(int func, const char *str, void* par)
 {
    emit widgetService(this, func, str, par);
 }

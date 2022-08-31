@@ -61,27 +61,27 @@ class TGo4ThreadHandler : public TNamed {
 
       /** Launch the ROOT Thread specified by the Go4 Thread of name 'name'.
         * Name of TThread and TGo4Thread is the same. */
-      Bool_t Create(const char* thname);
+      Bool_t Create(const char *thname);
 
       /** Cancel all Threads in the thread list. */
       Int_t CancelAll();
 
       /** Cancels the ROOT Thread specified by the Go4 Thread of name 'name'.
         * Name of TThread and TGo4Thread is the same. */
-      Bool_t Cancel(const char* thname);
+      Bool_t Cancel(const char *thname);
 
       /** Recreate all Threads in the thread list. */
       Int_t ReCreateAll();
 
       /** ReCreate (Cancel and Create) all Threads in the thread list. **/
-      Bool_t ReCreate(const char* thname);
+      Bool_t ReCreate(const char *thname);
 
       /** Start work function of all Threads in the thread list. **/
       Int_t StartAll();
 
       /** Starts work function of the Go4 Thread of name 'name'.
         * Workfunction will run in infinite loop until Stop(). **/
-      Bool_t Start(const char* thname);
+      Bool_t Start(const char *thname);
 
       /** Start work function of all Threads in the thread list. **/
       Int_t StopAll ();
@@ -89,7 +89,7 @@ class TGo4ThreadHandler : public TNamed {
       /** Stops work function of the Go4 Thread of name 'name'.
         * Thread will suspend to condition wait without being killed.
         * Workfunction will continue loop on next Sart().**/
-      Bool_t Stop(const char* thname);
+      Bool_t Stop(const char *thname);
 
       /**  dumps thread process information to logging output
         *   i.e. file or anything **/

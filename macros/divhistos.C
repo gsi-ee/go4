@@ -44,7 +44,7 @@ TH2F* CloneTHI2F_2D(TH1 * horig)
    return hnew;
 }
 
-Bool_t divhistos(const char* name1, const char* name2, Bool_t draw, Bool_t float_division=kFALSE)
+Bool_t divhistos(const char *name1, const char *name2, Bool_t draw, Bool_t float_division=kFALSE)
 {
    if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;

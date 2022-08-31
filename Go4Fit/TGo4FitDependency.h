@@ -28,13 +28,13 @@ class TFormula;
 class TGo4FitDependency : public TObject {
    public:
       TGo4FitDependency();
-      TGo4FitDependency(const char* iParameter, const char* iExpression);
-      TGo4FitDependency(const char* iParameter, Double_t InitValue);
+      TGo4FitDependency(const char *iParameter, const char *iExpression);
+      TGo4FitDependency(const char *iParameter, Double_t InitValue);
       virtual ~TGo4FitDependency();
 
-      void SetParameter(const char* iParameter);
+      void SetParameter(const char *iParameter);
       void SetInitValue(Double_t InitValue);
-      void SetExpression(const char* iExpression);
+      void SetExpression(const char *iExpression);
 
       const TString& GetParameter() const { return fxParameter; }
       const TString& GetExpression() const { return fxExpression; }
@@ -43,7 +43,7 @@ class TGo4FitDependency : public TObject {
       Bool_t IsResultDepend() const { return fxParameter.IsNull(); }
       Bool_t IsInitValue() const { return fxExpression.IsNull(); }
 
-      void Initialize(Int_t iNumPar, const char* iFormula);
+      void Initialize(Int_t iNumPar, const char *iFormula);
       Double_t ExecuteDependency(Double_t* Params);
       void Finalize();
 

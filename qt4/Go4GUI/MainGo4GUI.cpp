@@ -47,7 +47,7 @@
 
 int print_go4_version()
 {
-   const char* dabc_vers = TGo4DabcProxy::GetDabcVersion();
+   const char *dabc_vers = TGo4DabcProxy::GetDabcVersion();
    std::cout << "   Go4 " << __GO4RELEASE__ << ",   build with ROOT " << ROOT_RELEASE;
    if (dabc_vers) std::cout << ", DABC " << dabc_vers;
    std::cout << " and Qt " << QT_VERSION_STR << std::endl;
@@ -110,9 +110,9 @@ int main(int argc, char **argv)
    }
 
    int dologin = -1;
-   const char* loghost = "localhost";
+   const char *loghost = "localhost";
    int logport = 5000;
-   const char* logpass = nullptr;
+   const char *logpass = nullptr;
 
    bool prepare_for_client = false, traceon = false, usergui = false, useweb = false;
 
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
    // the rest is in the account settings since we cannot specify user path anymore
    // (will be in $HOME/.config/GSI/go4.conf)
 
-   const char* _env = gSystem->Getenv("GO4SETTINGS");
+   const char *_env = gSystem->Getenv("GO4SETTINGS");
 
    QString settfile;
    if (_env) settfile = _env;

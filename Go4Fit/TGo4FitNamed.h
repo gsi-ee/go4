@@ -32,7 +32,7 @@ class TGo4FitNamed : public TNamed {
       /**
        * Creates TGo4FitNamed object and set name and title.
        */
-      TGo4FitNamed(const char* Name, const char* Title, TNamed *Owner = nullptr);
+      TGo4FitNamed(const char *Name, const char *Title, TNamed *Owner = nullptr);
 
       /**
        * Destroy TGo4FitNamed object.
@@ -43,13 +43,13 @@ class TGo4FitNamed : public TNamed {
        * Returns full name of object.
        * Consist of name or full name (if exist) of owner, divided by dot.
        */
-      const char* GetFullName();
+      const char *GetFullName();
 
       /**
        * Return full name of owner.
        * If not exist, return just name of owner.
        */
-      const char* GetOwnerFullName();
+      const char *GetOwnerFullName();
 
       /**
        * Sets owner of object.

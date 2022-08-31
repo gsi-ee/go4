@@ -13,7 +13,7 @@
 // The draw flag switches if the results are displayed each time this makro is called
 // if display is switched off, the result histogram is just updated in browser and existing displays
 ///////
-Bool_t profileX(const char* name1, Int_t firstybin, Int_t lastybin, Bool_t draw)
+Bool_t profileX(const char *name1, Int_t firstybin, Int_t lastybin, Bool_t draw)
 {
    if(!TGo4AbstractInterface::Instance() || go4 != TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;

@@ -41,7 +41,7 @@ class TGo4FitParsList: public TGo4FitNamed {
       /**
        * Create TGo4FitParsList object, set it's name and title, and ownership flag of parameters pbjects.
        */
-      TGo4FitParsList(const char* Name, const char* Title, Bool_t IsParsOwned);
+      TGo4FitParsList(const char *Name, const char *Title, Bool_t IsParsOwned);
 
       /**
        * Destroy TGo4FitParsList object.
@@ -69,13 +69,13 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Find parameter object with given name.
        * Name can be both name or full name of TGo4FitParameter object. If no such parameters exists, return 0.
        */
-      TGo4FitParameter* FindPar(const char* ParName) { return Find(ParName); }
+      TGo4FitParameter* FindPar(const char *ParName) { return Find(ParName); }
 
       /**
        * Find parameter with given owner full name and parameter name.
        * If no such parameters exists, return 0.
        */
-      TGo4FitParameter* FindPar(const char* OwnerFullName, const char* ParName) { return Find(OwnerFullName,ParName); }
+      TGo4FitParameter* FindPar(const char *OwnerFullName, const char *ParName) { return Find(OwnerFullName,ParName); }
 
       /**
        * Find parameter in list.
@@ -87,13 +87,13 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Return value of parameter with given name.
        * If no such parameter, return 0.
        */
-      Double_t GetParValue(const char* ParName);
+      Double_t GetParValue(const char *ParName);
 
       /**
        * Set value of parameter with given name.
        * Return kTRUE in case of success, otherwise 0.
        */
-      Bool_t SetParValue(const char* ParName, Double_t iValue);
+      Bool_t SetParValue(const char *ParName, Double_t iValue);
 
       /**
        * Copy values of all parameters in list to provided array.
@@ -110,24 +110,24 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Get error value for parameter with given name.
        * If no such parameters, return 0.
        */
-      Double_t GetParError(const char* ParName);
+      Double_t GetParError(const char *ParName);
 
       /**
        * Set error value for parameter with given name.
        * If such parameters exists, return kTRUE, otherwise kFALSE.
        */
-      Bool_t SetParError(const char* ParName, Double_t iError);
+      Bool_t SetParError(const char *ParName, Double_t iError);
 
       /**
        * Set for parameter with given name, is it fixed or not.
        */
-      virtual Bool_t SetParFixed(const char* ParName, Bool_t iFixed = kTRUE);
+      virtual Bool_t SetParFixed(const char *ParName, Bool_t iFixed = kTRUE);
 
       /**
        * Return status for parameter with given name, is it fixed or not.
        * If parameter not exist, return kFALSE.
        */
-      virtual Bool_t GetParFixed(const char* ParName);
+      virtual Bool_t GetParFixed(const char *ParName);
 
       /**
        * Return number of fixed pars
@@ -143,25 +143,25 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Set range limits for parameter with given name.
        * Return kTRUE, if parameter exist.
        */
-      virtual Bool_t SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax);
+      virtual Bool_t SetParRange(const char *ParName, Double_t RangeMin, Double_t RangeMax);
 
       /**
        * Get range limits for parameter with given name.
        * If successful, return kTRUE.
        */
-      virtual Bool_t GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax);
+      virtual Bool_t GetParRange(const char *ParName, Double_t& RangeMin, Double_t& RangeMax);
 
       /**
        * Set epsilon value for parameter with given name.
        * Return kTRUE, if parameter exist.
        */
-      virtual Bool_t SetParEpsilon(const char* ParName, Double_t Epsilon);
+      virtual Bool_t SetParEpsilon(const char *ParName, Double_t Epsilon);
 
       /**
        * Get epsilon value for parameter with given name.
        * Return kTRUE, is successful.
        */
-      virtual Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon);
+      virtual Bool_t GetParEpsilon(const char *ParName, Double_t& Epsilon);
 
       /**
        * Set new name for parameter object with provided index.
@@ -172,13 +172,13 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Return name of parameter with given index.
        * If index out of valid range, return 0.
        */
-      const char* GetParName(Int_t n);
+      const char *GetParName(Int_t n);
 
       /**
        * Return full name of parameter with given index.
        * If index out of valid range, return 0.
        */
-      const char* GetParFullName(Int_t n);
+      const char *GetParFullName(Int_t n);
 
       /**
        * Set names of first 10 parameters.
@@ -186,11 +186,11 @@ class TGo4FitParsList: public TGo4FitNamed {
        *    list->SetParsNames("CoefK","CoefB","Const").
        * If there are more then 3 parameters in list, for the rest parameters standard names will be applied: "Par3", "Par4" and so on.
        */
-      void SetParsNames(const char* name0 = "Par0", const char* name1 = "Par1",
-                        const char* name2 = "Par2", const char* name3 = "Par3",
-                        const char* name4 = "Par4", const char* name5 = "Par5",
-                        const char* name6 = "Par6", const char* name7 = "Par7",
-                        const char* name8 = "Par8", const char* name9 = "Par9");
+      void SetParsNames(const char *name0 = "Par0", const char *name1 = "Par1",
+                        const char *name2 = "Par2", const char *name3 = "Par3",
+                        const char *name4 = "Par4", const char *name5 = "Par5",
+                        const char *name6 = "Par6", const char *name7 = "Par7",
+                        const char *name8 = "Par8", const char *name9 = "Par9");
 
       /**
        * Set values for first 10 parameters.
@@ -226,7 +226,7 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Create new TGo4FitParameter object with given name, title and parameter value, and put this object to the list.
        * Return created parameter object.
        */
-      TGo4FitParameter* CreatePar(const char* ParName, const char* Title, Double_t iValue = 0);
+      TGo4FitParameter* CreatePar(const char *ParName, const char *Title, Double_t iValue = 0);
 
       /**
        * Remove parameter from list with given name.
@@ -273,8 +273,8 @@ class TGo4FitParsList: public TGo4FitNamed {
       void ClearParsBlocking();
 
       virtual TGo4FitParameter* Get(Int_t n) { return (n >= 0) && (n < NumPars()) ? (TGo4FitParameter*) fxPars.At(n) : nullptr; }
-      TGo4FitParameter* Find(const char* ParName);
-      TGo4FitParameter* Find(const char* OwnerFullName, const char* ParName);
+      TGo4FitParameter* Find(const char *ParName);
+      TGo4FitParameter* Find(const char *OwnerFullName, const char *ParName);
       TGo4FitParameter* Find(TGo4FitParameter* par);
       Bool_t RemoveParByIndex(Int_t indx);
 

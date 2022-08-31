@@ -62,12 +62,12 @@ class TGo4MainWindow : public QMainWindow {
       void HotStart(const char *fname);
       void ProcessQtEvents();
       void StatusMessage(const QString& mess);
-      const char* LastTypedPassword() const;
+      const char *LastTypedPassword() const;
       TGo4ViewPanel* FindViewPanel(const char *name);
-      TGo4ViewPanel* DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt);
+      TGo4ViewPanel* DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char *drawopt);
 
-      TGo4ServerProxy* ConnectHttpServer(const char* addr = nullptr, const char* user = nullptr, const char* pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
-      void ConnectServer(bool interactive = true, const char* password = "");
+      TGo4ServerProxy* ConnectHttpServer(const char *addr = nullptr, const char *user = nullptr, const char *pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
+      void ConnectServer(bool interactive = true, const char *password = "");
       void PrepareForClientConnection(bool interactive = true);
       void LaunchClient(bool interactive = true);
       void DisconnectAnalysis(bool interactive = true);
@@ -173,7 +173,7 @@ class TGo4MainWindow : public QMainWindow {
       void ScaleFactorSlot();
 
       // slots connected to editors
-      void editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par);
+      void editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void* par);
 
       void ProcessHotStart();
       void StopGUIScriptSlot();

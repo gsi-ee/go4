@@ -81,7 +81,7 @@ TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, Int_t contype) :
    }
 }
 // ----------------------------------------------------------
-TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, const char* type)
+TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, const char *type)
 : TGo4Condition(name,type),fiSelectedCond(0)
 {
    fiNumCond = elements;
@@ -204,7 +204,7 @@ Int_t TGo4CondArray::GetNumber() const
 }
 
 // ----------------------------------------------------------
-const char* TGo4CondArray::GetType() const
+const char *TGo4CondArray::GetType() const
 {
    TGo4Condition *cond = (TGo4Condition*) condarr->At(0);
    return cond->ClassName();

@@ -84,7 +84,7 @@ Int_t TGo4LinkProxy::GetObjectKind()
    return fLink ? fLink->GetSlotKind() : TGo4Access::kndNone;
 }
 
-const char* TGo4LinkProxy::GetContainedClassName()
+const char *TGo4LinkProxy::GetContainedClassName()
 {
    return fLink ? fLink->GetSlotClassName() : nullptr;
 }

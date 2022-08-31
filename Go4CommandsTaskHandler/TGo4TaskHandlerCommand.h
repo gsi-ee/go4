@@ -21,7 +21,7 @@ class TGo4TaskHandlerCommand : public TGo4Command {
 
       TGo4TaskHandlerCommand();
 
-      TGo4TaskHandlerCommand(const char *name, const char* description);
+      TGo4TaskHandlerCommand(const char *name, const char *description);
 
       /** Optional action if command is not allowed (warning message e.g.) */
       Int_t RefuseCom() override;

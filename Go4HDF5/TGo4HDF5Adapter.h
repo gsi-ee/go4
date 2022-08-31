@@ -43,19 +43,19 @@ class TGo4HDF5Adapter {
 
 
     /** Standard suffix for file name */
-    static const char* fgcFILESUF; //!
+    static const char *fgcFILESUF; //!
 
     /** Add subhandle to handle that represents a containend collection.
        * classname or valueclass, resp, refers to type of element in container,*/
-      static void AddSubHandle(TGo4HDF5DataHandle* handle, const char *name, const char* type, size_t size,
-          size_t memberoffset, const char* membername, const char* classname, TClass* valueclass);
+      static void AddSubHandle(TGo4HDF5DataHandle* handle, const char *name, const char *type, size_t size,
+          size_t memberoffset, const char *membername, const char *classname, TClass* valueclass);
 
       /** evaluate h5 type information from root class streamer*/
-      static void FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char* basename = nullptr);
+      static void FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char *basename = nullptr);
 
          /** evaluate h5 type information for basic types of memtypename*/
       static void FillTypeInfo(TGo4HDF5DataHandle* handle,
-               const char* membername, const char* memtypename, size_t memberoffset = 0,
+               const char *membername, const char *memtypename, size_t memberoffset = 0,
                Int_t arraydim = 0, TDataMember* member = nullptr);
 
 

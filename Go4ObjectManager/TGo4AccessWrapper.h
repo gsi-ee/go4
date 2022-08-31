@@ -39,10 +39,10 @@ class TGo4AccessWrapper {
          return res;
       }
 
-      const char* GetObjectClassName(const char *name = nullptr)
+      const char *GetObjectClassName(const char *name = nullptr)
       {
          TGo4Access* proxy = ProvideAccess(name);
-         const char* res = proxy ? proxy->GetObjectClassName() : nullptr;
+         const char *res = proxy ? proxy->GetObjectClassName() : nullptr;
          delete proxy;
          return res;
       }

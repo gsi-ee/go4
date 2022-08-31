@@ -19,7 +19,7 @@ TGo4FitDataRidge::TGo4FitDataRidge() :
   TGo4FitData(), fxData(this, TGo4FitData::Class()), fiSelectedAxis(0) {
 }
 
-TGo4FitDataRidge::TGo4FitDataRidge(const char* iName, TGo4FitData* Data, Int_t SelectedAxis) :
+TGo4FitDataRidge::TGo4FitDataRidge(const char *iName, TGo4FitData* Data, Int_t SelectedAxis) :
   TGo4FitData(iName,"Histogram transform", dtGraph, kFALSE),
   fxData("DataForRidge","Data, used to represent bins for ridge",
           this, TGo4FitData::Class(), kTRUE, Data, kTRUE),

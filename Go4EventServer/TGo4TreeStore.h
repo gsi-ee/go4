@@ -67,7 +67,7 @@ class TGo4TreeStore : public TGo4EventStore {
     Int_t Store(TGo4Parameter* cali) override;
 
     /** Standard suffix for file name */
-    static const char* fgcFILESUF; //!
+    static const char *fgcFILESUF; //!
 
   private:
 

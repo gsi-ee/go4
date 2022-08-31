@@ -35,7 +35,7 @@ TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues
    }
 }
 
-TGo4ParameterStatus::TGo4ParameterStatus(const char* parname, const char* parclass, TObjArray* items) :
+TGo4ParameterStatus::TGo4ParameterStatus(const char *parname, const char *parclass, TObjArray* items) :
    TGo4ObjectStatus()
 {
    fxMemberValues = items;

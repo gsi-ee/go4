@@ -50,14 +50,14 @@ class TGo4FitModelFromData : public TGo4FitModel {
        * Creates TGo4FitModelFromData object with given name.
        * Pointer on TGo4FitData object and usage of amplitude can be specified.
        */
-      TGo4FitModelFromData(const char* iName, TGo4FitData* iDataAsModel = nullptr, Bool_t Amplitude = kTRUE);
+      TGo4FitModelFromData(const char *iName, TGo4FitData* iDataAsModel = nullptr, Bool_t Amplitude = kTRUE);
 
       /**
        * Creates TGo4FitModelFromData object with given name, which uses external histogram as model component.
        * In constructor TGo4FitDataHistogram object will be created, to which histogram will be assigned.
        * Additionally ownership flag for histogram and usage of amplitude can be specified.
        */
-      TGo4FitModelFromData(const char* iName, TH1*, Bool_t iOwned = kFALSE, Bool_t Amplitude = kTRUE);
+      TGo4FitModelFromData(const char *iName, TH1*, Bool_t iOwned = kFALSE, Bool_t Amplitude = kTRUE);
 
       /**
        * Destroy TGo4FitModelFromData object

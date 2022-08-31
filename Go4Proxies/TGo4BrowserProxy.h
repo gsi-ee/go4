@@ -32,8 +32,8 @@ class TVirtualTreePlayer;
 class TGo4BrowserProxy : public TGo4Proxy {
    public:
       TGo4BrowserProxy() {}
-      TGo4BrowserProxy(const char* datapath,
-                       const char* viewpath,
+      TGo4BrowserProxy(const char *datapath,
+                       const char *viewpath,
                        Bool_t withRootBrowser = kFALSE);
       virtual ~TGo4BrowserProxy();
 
@@ -66,11 +66,11 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void AddServerProxy(TGo4ServerProxy *serv, const char *slotname, const char *info);
       void OpenFile(const char *fname);
-      Bool_t ConnectHServer(const char* servername,
+      Bool_t ConnectHServer(const char *servername,
                             Int_t portnumber,
-                            const char* basename,
-                            const char* userpass,
-                            const char* filter);
+                            const char *basename,
+                            const char *userpass,
+                            const char *filter);
       Bool_t ConnectDabc(const char *nodename);
 
       void MakeFilesList(TObjArray *arr);
@@ -93,11 +93,11 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void RequestObjectStatus(const char *name, TGo4Slot *tgtslot);
 
       void PerformTreeDraw(const char *treename,
-                           const char* Xexp,
-                           const char* Yexp,
-                           const char* Zexp,
-                           const char* cutcond,
-                           const char* hname,
+                           const char *Xexp,
+                           const char *Yexp,
+                           const char *Zexp,
+                           const char *cutcond,
+                           const char *hname,
                            TString& createdhistoname);
 
       TString SaveToMemory(const char *pathname, TObject *obj, Bool_t ownership, Bool_t overwrite = kFALSE);
@@ -107,14 +107,14 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       Bool_t SaveBrowserToFile(const char *filename,
                                Bool_t prefetch = kFALSE,
-                               const char* selectedpath = nullptr,
-                               const char* description = nullptr);
+                               const char *selectedpath = nullptr,
+                               const char *description = nullptr);
       void ExportItemsTo(TObjArray* items,  // array of TObjString
                          Bool_t fetchitems,
                          const char *filename,
-                         const char* filedir,
-                         const char* format,
-                         const char* description);
+                         const char *filedir,
+                         const char *format,
+                         const char *description);
 
       TObject *GetBrowserObject(const char *name, Int_t update = 0);
 
@@ -213,7 +213,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void UpdateAllCanvases();
 
-      void AddWaitingList(TGo4Slot* itemslot, const char* destination = nullptr);
+      void AddWaitingList(TGo4Slot* itemslot, const char *destination = nullptr);
       void CheckWaitingList(TGo4Slot* source);
 
       static Int_t CompareAxis(TAxis* ax1, TAxis* ax2);
@@ -222,7 +222,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t CalculateFolderSizes(TGo4Slot* topslot);
 
       void CheckPictureMonitor(TGo4Slot* slot);
-      void CheckPictureMonitor(TGo4Picture* pic, const char* picitemname);
+      void CheckPictureMonitor(TGo4Picture* pic, const char *picitemname);
 
       static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
       static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);

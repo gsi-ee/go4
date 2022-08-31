@@ -49,11 +49,11 @@ class TGo4EventSource : public TNamed {
       Int_t GetEventStatus() const { return fiEventStatus; }
 
       /** Status/ error message of the last event. */
-      const char* GetErrMess() const { return fxErrMess.Data(); }
+      const char *GetErrMess() const { return fxErrMess.Data(); }
 
       /** Access to the name of the currently active source.
        * for filelist, this is the active input file */
-      virtual const char* GetActiveName();
+      virtual const char *GetActiveName();
 
       /** Check that event class is supported by event source */
       virtual Bool_t CheckEventClass(TClass* cl);
@@ -70,7 +70,7 @@ class TGo4EventSource : public TNamed {
        * To be used for modification of the message
        * by the event source implementation.
        */
-      void SetErrMess(const char* txt) { fxErrMess = txt; }
+      void SetErrMess(const char *txt) { fxErrMess = txt; }
 
       /** Status of the last event. */
       void SetEventStatus(Int_t status) { fiEventStatus = status; }

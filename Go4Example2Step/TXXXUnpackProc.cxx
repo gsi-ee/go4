@@ -96,10 +96,10 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
       fPolyCon1 = MakePolyCond("polycon", 3, cutpnts, "Cr1Ch1x2");
 
       fEllipseCond = MakeEllipseCond("ellipsecond",0,3000,3000,300,800, 45, "Cr1Ch1x2");
-                              //Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta, const char* HistoName
+                              //Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta, const char *HistoName
 
       fCircleCond = MakeCircleCond("circlecond",24,300,200,100, "Cr1Ch1x2");
-                          //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char* HistoName
+                          //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char *HistoName
 
       fBoxCond = MakeBoxCond("boxcond",2000,2000,400,100, 30, "Cr1Ch1x2");
 

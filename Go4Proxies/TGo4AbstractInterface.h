@@ -95,12 +95,12 @@ class TGo4AbstractInterface : public TObject {
 
       Bool_t LoadHotStart(const char *filename);
       Bool_t IsHotStart();
-      const char* NextHotStartCmd();
+      const char *NextHotStartCmd();
       void FreeHotStartCmds();
       static void ProduceLoadLibs(std::ostream& fs);
 
       /** Returns default hotstart file extension */
-      static const char* DefaultPicTitle();
+      static const char *DefaultPicTitle();
 
 
    public:
@@ -121,7 +121,7 @@ class TGo4AbstractInterface : public TObject {
       static void DeleteInstance();
 
       /** Returns default hotstart file extension */
-      static const char* FileExtension();
+      static const char *FileExtension();
 
       /** Default delay during hotstart file extension */
       static Int_t DelayMillisec();
@@ -166,7 +166,7 @@ class TGo4AbstractInterface : public TObject {
         * Item name includes object name and name of all parent folders.
         * For instance histogram of name "His1" in analysis will have
         * item name "Analysis/Histograms/His1". */
-      virtual TString FindItem(const char* objname);
+      virtual TString FindItem(const char *objname);
 
       /** Copy item to workspace.
         * If there is subfolders with items, they also will be copied. */
@@ -205,7 +205,7 @@ class TGo4AbstractInterface : public TObject {
         *   ownership - is browser becomes owner of that object
         * If item of that name exists in browser, it will be overwritten by new object
         * Returns path to stored object in browser workspace */
-      virtual TString SaveToMemory(const char* path, TObject *obj, Bool_t ownership = kFALSE);
+      virtual TString SaveToMemory(const char *path, TObject *obj, Bool_t ownership = kFALSE);
 
       /** Save specified browser item to file.
         * Only object, which are already fetched from the data source, will be saved.
@@ -215,7 +215,7 @@ class TGo4AbstractInterface : public TObject {
         * Only binary ROOT files (extension .root) and XML file (extension .xml) are supported. */
       virtual Bool_t SaveToFile(const char *itemname,
                                 const char *filename,
-                                const char* filetitle = nullptr);
+                                const char *filetitle = nullptr);
 
       /** Export browser item to different file formats.
         * One, probably, should use FetchItem() before calling this method.
@@ -230,9 +230,9 @@ class TGo4AbstractInterface : public TObject {
                    "ROOT XML"  - xml ROOT format
         *    filetitle - title of create file (only for ROOT formats) */
       virtual Bool_t ExportToFile(const char *itemname,
-                                  const char* dirpath,
-                                  const char* format,
-                                  const char* filetitle = nullptr);
+                                  const char *dirpath,
+                                  const char *format,
+                                  const char *filetitle = nullptr);
 
       /** Connect to GSI histogram server.
         * Creates appropriate entry in browser and provides access to histogram.
@@ -243,18 +243,18 @@ class TGo4AbstractInterface : public TObject {
         *    userpass - password to access histogram server
         *    filter   - filter for historgams names
         * Several connections to different histogram servers are allowed */
-      virtual void ConnectHServer(const char* servername,
+      virtual void ConnectHServer(const char *servername,
                           Int_t portnumber,
-                          const char* basename,
-                          const char* userpass,
-                          const char* filter);
+                          const char *basename,
+                          const char *userpass,
+                          const char *filter);
 
       /** Connect to DABC server. Address like dabc://host:port */
-      virtual void ConnectDabc(const char* servername);
+      virtual void ConnectDabc(const char *servername);
 
       /** Connect to HTTP server. Address like http://host:port/subfolder/
        * authentication may be specified by username account and password pass*/
-      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account = nullptr, const char* pass = nullptr) { return nullptr; }
+      virtual TGo4ServerProxy* ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) { return nullptr; }
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
@@ -262,7 +262,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void Wait(double tm_sec) {}
 
       /** Display message in GUI status line */
-      virtual void Message(const char* msg) {}
+      virtual void Message(const char *msg) {}
 
       // analysis start and configuration
 
@@ -278,14 +278,14 @@ class TGo4AbstractInterface : public TObject {
         *    ClientNode - node name, where analysis should be started
         *    ShellMode  - shell, used to launch analysis: 1 - rsh, 2 - ssh [default]
         *    TermMode   - terminal program: 1 - internal Qt window, 2 - xterm, 3 - KDE konsole */
-      virtual void LaunchAnalysis(const char* ClientName,
-                          const char* ClientDir,
-                          const char* ClientExec,
-                          const char* ClientNode,
+      virtual void LaunchAnalysis(const char *ClientName,
+                          const char *ClientDir,
+                          const char *ClientExec,
+                          const char *ClientNode,
                           Int_t ShellMode =  2,     //   0 = exec, 1 = rsh,  2 = ssh
                           Int_t TermMode = 1,       //   1 = Qt,   2 = Xterm, 3 = konsole
                           Int_t ExeMode = 0,        //   0 = exe,  1 = lib
-                          const char* UserArgs = nullptr) {}
+                          const char *UserArgs = nullptr) {}
 
       /** Connect to running analysis server.
         * Parameters:
@@ -293,10 +293,10 @@ class TGo4AbstractInterface : public TObject {
         *    ServerPort - connection port number,
         *    UserMode   - mode of user operation : 0 - observer, 1 - controller, 2 - administrator
         *    password   - access password, which should correspond to specified UserMode */
-      virtual void ConnectAnalysis(const char* ServerNode,
+      virtual void ConnectAnalysis(const char *ServerNode,
                            Int_t ServerPort,
                            Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
-                           const char* password = nullptr)  {}
+                           const char *password = nullptr)  {}
 
       /** Waits, until connection to analysis is established.
         * Method must be called before any other action like configuration,
@@ -321,7 +321,7 @@ class TGo4AbstractInterface : public TObject {
         * This allows to call any action on analysis, including
         * execution scripts with ".x userscript.C". One should not mix
         * scripts, written for analysis and scripts, written for GUI. */
-      virtual void ExecuteLine(const char* remotecmd);
+      virtual void ExecuteLine(const char *remotecmd);
 
       /** Requests current analysis configuration */
       virtual void RequestAnalysisConfig();
@@ -409,7 +409,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void StepMbsFileSource(const char *stepname,
                              const char *sourcename,
                              int timeout,
-                             const char* TagFile,
+                             const char *TagFile,
                              int start = 0,
                              int stop = 0,
                              int interval = 0) {}
@@ -506,10 +506,10 @@ class TGo4AbstractInterface : public TObject {
       // windows management
 
       /** Set state of all tool boxes in main window */
-      virtual void SetMainWindowState(int qtversion, const char* val) {}
+      virtual void SetMainWindowState(int qtversion, const char *val) {}
 
       /** Set geometry of main window */
-      virtual void SetMainWindowGeometry(int qtversion, const char* val) {}
+      virtual void SetMainWindowGeometry(int qtversion, const char *val) {}
 
       /** Create new view panel.
         * Handle, returned by this method, must be used for other operation,
@@ -535,7 +535,7 @@ class TGo4AbstractInterface : public TObject {
       virtual ViewPanelHandle FindViewPanel(const char *name) { return nullptr; }
 
       /** Change name of viewpanel. */
-      virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) { return kFALSE; }
+      virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char *newname) { return kFALSE; }
       /** Return handle of last active viewpanel. */
       virtual ViewPanelHandle GetActiveViewPanel() { return nullptr; }
 
@@ -565,7 +565,7 @@ class TGo4AbstractInterface : public TObject {
         *    itemname - browser item name,
         *    panel    - viewpanel, if panel == nullptr, new viewpanel will be created.
         *    drawopt  - draw options, used in obj->Draw() operation */
-      virtual Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) { return kFALSE; }
+      virtual Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char *drawopt = nullptr) { return kFALSE; }
 
       /** Redraw item of given name on all viewpanels/editors.
         * Useful for the case, when content of object (histogram, for example)
@@ -574,7 +574,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** Provide item name, drawn in the view panel.
        *  Optional cnt parameter could specify sequence number in panel, including all subpads */
-      virtual const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return nullptr; }
+      virtual const char *GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return nullptr; }
 
       virtual void StartFitPanel() {}
 

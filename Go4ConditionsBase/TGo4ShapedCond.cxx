@@ -78,7 +78,7 @@ Bool_t TGo4ShapedCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 }
 
 
-Bool_t TGo4ShapedCond::UpdateFromUrl(const char* rest_url_opt){
+Bool_t TGo4ShapedCond::UpdateFromUrl(const char *rest_url_opt){
   //if(!TGo4PolyCond::UpdateFromUrl(rest_url_opt)) return kFALSE;
   // do not always update polygon points, but first reconstruct from shape parameters!
 

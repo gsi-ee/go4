@@ -73,7 +73,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          int ndim = padopt->GetFullRangeDim();
          if (ndim <= 0) ndim = 1;
 
-         const char* drawopt = nullptr;
+         const char *drawopt = nullptr;
          TObject *obj = panel->GetSelectedObject(pad, &drawopt);
 
          int viewtype = view_Histo1;
@@ -296,7 +296,7 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
    TPad* pad = panel->GetActivePad();
 
    TString buf;
-   const char* drawopt = nullptr;
+   const char *drawopt = nullptr;
 
    if ((kind>=0) && (kind<=2)) {
       CodeDrawOptions(ErrorBars->currentIndex(),
@@ -343,7 +343,7 @@ void TGo4HisDrawOptions::SetAutoScale( bool on )
    ChangeDrawOptionForCurrentPanel(10, on ? 1 : 0);
 }
 
-void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
+void TGo4HisDrawOptions::DecodeDrawOption(const char *drawopt,
                                           int& HisErrorStyle,
                                           int& HisCoordStyle,
                                           int& HisDrawStyle)

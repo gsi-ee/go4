@@ -88,9 +88,9 @@ void TGo4LogInfo::linkedObjectUpdated(const char *linkname, TObject *linkobj)
          // first item is id of current status message, used to submit next request
          if (obj == lst->First()) continue;
 
-         const char* msg = obj->GetName();
+         const char *msg = obj->GetName();
 
-         const char* separ = strchr(msg,':');
+         const char *separ = strchr(msg,':');
          if (!separ || (strlen(separ) < 3)) continue;
 
          Long64_t tm = TString(msg, separ-msg).Atoll();

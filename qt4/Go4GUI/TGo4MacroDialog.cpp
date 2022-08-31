@@ -26,12 +26,12 @@ void TGo4MacroDialog::setCommand( const QString & selection )
 {
    if (selection.contains("Add")) {
       fxCommand = "addhistos(\"\",\"\",1,kTRUE);";
-      SyntaxLabel->setText("Bool_t addhistos(const char* histo1, const char* histo2, Double_t factor, Bool_t draw)");
+      SyntaxLabel->setText("Bool_t addhistos(const char *histo1, const char *histo2, Double_t factor, Bool_t draw)");
       setToolTip("Add histograms: result=histo1 + factor * histo2. \n If draw==true, display in new viewpanel, "
                  "otherwise just update existing displays");
    } else if (selection.contains("Divide")) {
       fxCommand = "divhistos(\"\",\"\",kTRUE, kTRUE);";
-      SyntaxLabel->setText("Bool_t divhistos(const char* histo1, const char* histo2, Bool_t draw, Bool_t floatresult)");
+      SyntaxLabel->setText("Bool_t divhistos(const char *histo1, const char *histo2, Bool_t draw, Bool_t floatresult)");
       setToolTip("Divide histograms: result=histo1 by histo2.\n If draw==true, display in new viewpanel, otherwise "
                  "just update existing displays. \n If floatresult==true, result histogram will be TH1F, otherwise "
                  "same type as original histograms");
@@ -43,20 +43,20 @@ void TGo4MacroDialog::setCommand( const QString & selection )
    } else if (selection.contains("Projection X")) {
       fxCommand = "projectionX(\"\",\"\",-1,-1,kTRUE);";
       SyntaxLabel->setText(
-         "Bool_t projectionX(const char *histo, const char* polycon, Int_t firstybin, Int_t lastybin, Bool_t draw)");
+         "Bool_t projectionX(const char *histo, const char *polycon, Int_t firstybin, Int_t lastybin, Bool_t draw)");
       setToolTip(
          " Do projection to X axis for 2d histogram histo.\n Optional polygon condition.\n Parameters firstybin, "
          "lastybin for y range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
    } else if (selection.contains("Projection Y")) {
       fxCommand = "projectionY(\"\",\"\",-1,-1,kTRUE);";
       SyntaxLabel->setText(
-         "Bool_t projectionY(const char *histo, const char* polycon, Int_t firstxbin, Int_t lastxbin, Bool_t draw)");
+         "Bool_t projectionY(const char *histo, const char *polycon, Int_t firstxbin, Int_t lastxbin, Bool_t draw)");
       setToolTip(
          " Do projection to Y axis for 2d histogram histo. \n Optional polygon condition.\n Parameters firstxbin, "
          "lastxbin for x range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
    } else if (selection.contains("Correlate")) {
       fxCommand = "corrhistos(\"\",\"\",kTRUE);";
-      SyntaxLabel->setText("Bool_t corrhistos(const char* histo1, const char* histo2, Bool_t draw)");
+      SyntaxLabel->setText("Bool_t corrhistos(const char *histo1, const char *histo2, Bool_t draw)");
       setToolTip(" Correlate bin contents of two histograms in a graph.\n If draw==true, display in new viewpanel, "
                  "otherwise just update existing displays ");
    } else if (selection.contains("Histogram of")) {

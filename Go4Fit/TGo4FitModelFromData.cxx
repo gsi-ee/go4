@@ -20,13 +20,13 @@
 TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()), fxIter(nullptr) {
 }
 
-TGo4FitModelFromData::TGo4FitModelFromData(const char* iName, TGo4FitData *iDataAsModel, Bool_t Amplitude) :
+TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TGo4FitData *iDataAsModel, Bool_t Amplitude) :
   TGo4FitModel(iName,"data used as model",Amplitude),
   fxData("forModel", "Data, used to represent model component",
           this, TGo4FitData::Class(), kTRUE, iDataAsModel, kTRUE), fxIter(0) {
 }
 
-TGo4FitModelFromData::TGo4FitModelFromData(const char* iName, TH1* histo, Bool_t iOwned, Bool_t Amplitude) :
+TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TH1* histo, Bool_t iOwned, Bool_t Amplitude) :
    TGo4FitModel(iName,"data used as model",Amplitude),
    fxData("forModel", "Data, used to represent model component",
            this, TGo4FitData::Class(), kTRUE), fxIter(0) {

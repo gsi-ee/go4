@@ -918,7 +918,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 
        if (selecteddata && (data!=selecteddata)) continue;
 
-       const char* drawopt = nullptr;
+       const char *drawopt = nullptr;
        if (data->GetDataType()==TGo4FitData::dtGraph)
          drawopt = "L";
 
@@ -1807,7 +1807,7 @@ void TGo4FitPanel::ShowPanelPage( int id )
      WidgetStack->setCurrentWidget(w);
 }
 
-void TGo4FitPanel::UpdateStatusBar(const char* info)
+void TGo4FitPanel::UpdateStatusBar(const char *info)
 {
    QString status;
    TGo4Fitter* fitter = GetFitter();
@@ -4761,7 +4761,7 @@ TGo4FitData* TGo4FitPanel::CreateData(int id, const char *name)
    return nullptr;
 }
 
-TGo4FitModel* TGo4FitPanel::CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data)
+TGo4FitModel* TGo4FitPanel::CreateModel(int id, const char *namebase, TGo4Fitter* fitter, TGo4FitData* data)
 {
     TString NameBase;
 
@@ -5042,7 +5042,7 @@ void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
     }
 }
 
-void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
+void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char *newname)
 {
   if (!w) return;
   QFitItem* item = w->GetItem();
@@ -5087,7 +5087,7 @@ void TGo4FitPanel::ChangeObjectName(QFitNamedWidget* w, const char* newname)
   w->FullNameLbl->adjustSize();
 }
 
-void TGo4FitPanel::ChangeObjectTitle(QFitNamedWidget* w, const char* newtitle)
+void TGo4FitPanel::ChangeObjectTitle(QFitNamedWidget* w, const char *newtitle)
 {
    if (!w) return;
    TNamed* n = dynamic_cast<TNamed*> (w->GetObject());

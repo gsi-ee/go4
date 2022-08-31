@@ -28,7 +28,7 @@ TGo4FitPeakFinder::TGo4FitPeakFinder() : TGo4FitterAction() {
 
 }
 
-TGo4FitPeakFinder::TGo4FitPeakFinder(const char* Name,  const char* DataName, Bool_t ClearModels, Int_t PolOrder) :
+TGo4FitPeakFinder::TGo4FitPeakFinder(const char *Name,  const char *DataName, Bool_t ClearModels, Int_t PolOrder) :
   TGo4FitterAction(Name, "Peak finder action"),
   fiPeakFinderType(0), fxDataName(DataName), fbClearModels(ClearModels),
   fbUsePolynom(PolOrder>=0), fiPolynomOrder(PolOrder>=0 ? PolOrder : 0),

@@ -37,7 +37,7 @@ public:
     TGo4HDF5DataHandleFactory(){}
 
     /** create implementation of data handle by type*/
-    TGo4HDF5DataHandle* CreateDataHandle(const char *name, size_t datasize, const char* type);
+    TGo4HDF5DataHandle* CreateDataHandle(const char *name, size_t datasize, const char *type);
 };
 
 
@@ -63,7 +63,7 @@ public:
    /** return handle for type descriptor. Currently this is filled from external routine of adapter class*/
    H5::CompType* GetType(){return fxType;}
 
-   const char* GetTypeName(){return fxTypeName.Data();}
+   const char *GetTypeName(){return fxTypeName.Data();}
 
    void* Data() {return fxData;}
 
@@ -84,13 +84,13 @@ public:
 
    /** pass the top level event element class down the member hierarchy.
     *  Note that this is the "local" top event, e.g. the current Go4 composite subevent that owns the member*/
-   void SetTopEventClass(const char* classname);
+   void SetTopEventClass(const char *classname);
 
    /** identifier for the member to access from outside using the top event handle*/
    void SetMemberName(const char *name) {fxMemberHandle=name;}
 
    /** type of the member to access from outside*/
-   void SetMemberClass(const char* clname) {fxMemberClass=clname;}
+   void SetMemberClass(const char *clname) {fxMemberClass=clname;}
 
 
    /** create datasets and buffers for reading this structure from hdf5 file.
@@ -110,7 +110,7 @@ public:
    /** create new subhandle for complex member component on heap.
     * Each complex component has separate dataset in file. returns the currently added handle to submember.
     * If submember is part of a collection like std::vector, the name of collection is also passed.*/
-   TGo4HDF5DataHandle* AddSubMember(const char *name, size_t datasize, const char* collectiontype = nullptr);
+   TGo4HDF5DataHandle* AddSubMember(const char *name, size_t datasize, const char *collectiontype = nullptr);
 
 
 
@@ -391,7 +391,7 @@ public:
    /** Write event of sequence number from file*/
     void Write(hsize_t sequencenum, H5::H5File* file) override;
 
-    void SetInnerClassName(const char* nm) {fxInnerClassName=nm;}
+    void SetInnerClassName(const char *nm) {fxInnerClassName=nm;}
 
 
 protected:

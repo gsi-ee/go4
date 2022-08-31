@@ -23,7 +23,7 @@ TGo4Master::TGo4Master() :
 {
 }
 
-TGo4Master::TGo4Master(const char *name, Bool_t isserver, const char* serverhost, UInt_t negotport)
+TGo4Master::TGo4Master(const char *name, Bool_t isserver, const char *serverhost, UInt_t negotport)
 : TGo4TaskOwner(isserver)
 {
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists

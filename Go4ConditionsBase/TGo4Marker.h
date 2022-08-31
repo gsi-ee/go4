@@ -82,8 +82,8 @@ public:
    void SetContDraw(Bool_t on) { fbContDraw = on; } // *TOGGLE* *GETTER=IsContDraw
    Bool_t IsContDraw() const { return fbContDraw; }
 
-   const char* GetNumFormat(){return fxNumFormat.Data();}
-   void SetNumFormat(const char* fmt="%.4E"){fxNumFormat=fmt;}// *MENU*
+   const char *GetNumFormat(){return fxNumFormat.Data();}
+   void SetNumFormat(const char *fmt="%.4E"){fxNumFormat=fmt;}// *MENU*
 
    /** This will save draw flags into  static default setup */
    void SaveLabelStyle(); // *MENU*
@@ -98,7 +98,7 @@ public:
    TH1* GetHistogram() const { return fxHisto; }
 
    /** TMarker is not TNamed, so we implement name ourself*/
-   const char* GetName() const  override { return fxName.Data(); }
+   const char *GetName() const  override { return fxName.Data(); }
 
    void SetXY(Double_t x, Double_t y)
    {

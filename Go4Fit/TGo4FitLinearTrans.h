@@ -36,7 +36,7 @@
 class TGo4FitLinearTrans : public TGo4FitAxisTrans {
    public:
       TGo4FitLinearTrans();
-      TGo4FitLinearTrans(const char* iName, const char* iTitle, Int_t iAxis = 0);
+      TGo4FitLinearTrans(const char *iName, const char *iTitle, Int_t iAxis = 0);
       virtual ~TGo4FitLinearTrans();
 
       Int_t GetAxis() const { return fiAxis; }

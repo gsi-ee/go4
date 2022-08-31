@@ -34,7 +34,7 @@ class TGo4CompositeEvent : public TGo4EventElement {
 
   public:
      TGo4CompositeEvent();
-     TGo4CompositeEvent(const char* aName, const char* aTitle, Short_t aBaseCat = 0);
+     TGo4CompositeEvent(const char *aName, const char *aTitle, Short_t aBaseCat = 0);
      virtual ~TGo4CompositeEvent();
 
      TGo4EventElement* GetChild(const char *name) override;

@@ -65,7 +65,7 @@ Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_
    return id == TGo4Slot::evDelete;
 }
 
-void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blockdelay)
+void TGo4RootBrowserProxy::Message(const char *str1, const char *str2, Int_t blockdelay)
 {
    TIter iter(gROOT->GetListOfBrowsers());
 
@@ -88,7 +88,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject *obj)
       dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    if (!anal) return;
 
-   const char* header = nullptr;
+   const char *header = nullptr;
 
    if(anal->IsAnalysisRunning())
       header = "Analysis running";
@@ -209,8 +209,8 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
          return;
       }
 
-      const char* classname = TGo4BrowserProxy::ItemClassName(curslot);
-      const char* iteminfo = TGo4BrowserProxy::ItemInfo(curslot);
+      const char *classname = TGo4BrowserProxy::ItemClassName(curslot);
+      const char *iteminfo = TGo4BrowserProxy::ItemInfo(curslot);
       Int_t itemkind = TGo4BrowserProxy::ItemKind(curslot);
       TClass* itemclass = nullptr;
 
@@ -281,7 +281,7 @@ TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char *title)
    return c1;
 }
 
-void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic, TPad* pad)
+void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic, TPad* pad)
 {
    if (!pad || !pic) return;
 
@@ -305,7 +305,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char* picitemname, TGo4Picture* pic
 
    for (Int_t indx=0; indx<pic->GetNumObjNames(); indx++) {
       Option_t* drawopt = pic->GetDrawOption(indx);
-      const char* objname = pic->GetObjName(indx);
+      const char *objname = pic->GetObjName(indx);
 
       TString drawname;
 
@@ -338,7 +338,7 @@ void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition* co
 {
    if (!con || !fBrowser) return;
 
-   const char* hname = con->GetLinkedHistogram();
+   const char *hname = con->GetLinkedHistogram();
    TString hitemname;
 
    TH1* h1 = nullptr;

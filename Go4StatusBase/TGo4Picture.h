@@ -158,8 +158,8 @@ class TGo4Picture : public TNamed {
       Bool_t GetFrameAttr(TPad* pad);
 
       void SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
-                        Int_t optstat = 1111, const char* statformat = "6.4g",
-                        Int_t optfit = 1111, const char* fitformat = "5.4g");
+                        Int_t optstat = 1111, const char *statformat = "6.4g",
+                        Int_t optfit = 1111, const char *fitformat = "5.4g");
       void SetStatsAttr(TPaveStats* stats);
       Bool_t GetStatsAttr(TPaveStats* stats);
 
@@ -226,14 +226,14 @@ class TGo4Picture : public TNamed {
       void CopyOptionsFrom(TGo4Picture* source);
 
       Int_t GetNumObjNames();
-      const char* GetObjName(Int_t n);
+      const char *GetObjName(Int_t n);
       Bool_t IsObjNames();
 
       // manipulation with special objects,
       // which must be drawn on the panel / canvas
       // This must be objects like markers, labels and so on
       void AddSpecialObject(TObject *obj, Option_t* drawopt = nullptr);
-      void AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt = nullptr);
+      void AddSpecialObjectXml(const char *xmlcode, Option_t* drawopt = nullptr);
       TList* GetSpecialObjects() const { return fxSpecialObjects; }
 
       // set style object
@@ -256,20 +256,20 @@ class TGo4Picture : public TNamed {
                       Float_t TitleOffset,
                       Float_t TitleSize,
                       Bool_t decimals,
-                      const char* ticks,
+                      const char *ticks,
                       Int_t bits,
                       Int_t index = UndefIndex);
 
       // for the moment, use separate function to define x axis time format JAM
-      void SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index = UndefIndex);
+      void SetXAxisAttTime(Bool_t timedisplay, const char *format, Int_t index = UndefIndex);
 
       Bool_t IsXAxisTimeDisplay();
 
       void SetXAxisTimeDisplay(Bool_t on);
 
-      void SetXAxisTimeFormat(const char* format);
+      void SetXAxisTimeFormat(const char *format);
 
-      const char* GetXAxisTimeFormat();
+      const char *GetXAxisTimeFormat();
 
       void SetXYRatioOne(Bool_t on);
       Bool_t IsXYRatioOne();
@@ -310,7 +310,7 @@ class TGo4Picture : public TNamed {
       /** Returns total size, used by picture in memory */
       Long_t GetTotalSize();
 
-      static void Add(TString& s, const char* buf) { s+=buf; }
+      static void Add(TString& s, const char *buf) { s+=buf; }
 
    protected:
       TGo4Picture(TGo4Picture& picture);
@@ -339,8 +339,8 @@ class TGo4Picture : public TNamed {
       void SetObjOption(Short_t index, Short_t typ, TObject *obj);
       TObject *GetObjOption(Short_t index, Short_t typ) const;
 
-      void SetStrOption(Short_t index, Short_t typ, const char* value);
-      const char* GetStrOption(Short_t index, Short_t typ, const char* defvalue = nullptr) const;
+      void SetStrOption(Short_t index, Short_t typ, const char *value);
+      const char *GetStrOption(Short_t index, Short_t typ, const char *defvalue = nullptr) const;
 
       void ClearOption(Short_t index, Short_t typ);
       void ClearOption(Int_t pos);

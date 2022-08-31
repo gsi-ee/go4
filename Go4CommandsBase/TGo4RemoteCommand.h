@@ -32,7 +32,7 @@ class TGo4RemoteCommand : public TGo4Command {
 
       TGo4RemoteCommand();
 
-      TGo4RemoteCommand(const char* comname);
+      TGo4RemoteCommand(const char *comname);
 
       virtual ~TGo4RemoteCommand();
 
@@ -50,17 +50,17 @@ class TGo4RemoteCommand : public TGo4Command {
 
       /** Set Go4 Name of command to be executed on the
        * command receiver side*/
-      void SetCommandName(const char* txt) { fxCommandName = txt; }
+      void SetCommandName(const char *txt) { fxCommandName = txt; }
 
-      const char* GetCommandName() const { return fxCommandName.Data(); }
+      const char *GetCommandName() const { return fxCommandName.Data(); }
 
       /** Specify string parameter txt for index i
        * to be used in executed command.
        * Index 0 is usually reserved for object name to be modified.
        * higher indices are used variably depending on command */
-      void SetString(const char* txt,Int_t i);
+      void SetString(const char *txt,Int_t i);
 
-      const char* GetString(Int_t i) const;
+      const char *GetString(Int_t i) const;
 
       /** Specify integer parameters to be used in executed command.
        * Indices are used depending on command. To be applied also
@@ -69,7 +69,7 @@ class TGo4RemoteCommand : public TGo4Command {
 
       Int_t GetValue(Int_t i) const;
 
-      static const char* Get_fgxREMCOMEMPTYSTRING();
+      static const char *Get_fgxREMCOMEMPTYSTRING();
 
    private:
 
@@ -89,7 +89,7 @@ class TGo4RemoteCommand : public TGo4Command {
         * status, canvas etc. to apply on slave node. */
       TObject* fxAggregate{nullptr};
 
-      static const char* fgxREMCOMEMPTYSTRING; //!
+      static const char *fgxREMCOMEMPTYSTRING; //!
 
 
    ClassDefOverride(TGo4RemoteCommand,1)

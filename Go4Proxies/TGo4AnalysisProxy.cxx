@@ -57,8 +57,8 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       TGo4AnalysisObjectAccess(TGo4AnalysisProxy* cont,
                               Int_t proxykind,
                               const char *name,
-                              const char* classname,
-                              const char* fullpath) :
+                              const char *classname,
+                              const char *fullpath) :
           TObject(),
           TGo4Access(),
           fxAnalProxy(cont),
@@ -76,12 +76,12 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       Bool_t IsRemote() const override { return kTRUE; }
       Bool_t CanGetObject() const override { return kFALSE; }
-      const char* GetObjectName() const override { return fxObjName.Data(); }
-      const char* GetObjectClassName() const override { return fxObjClassName.Data(); }
+      const char *GetObjectName() const override { return fxObjName.Data(); }
+      const char *GetObjectClassName() const override { return fxObjClassName.Data(); }
 
-      const char* GetPathName() const { return fxFullPath.Data(); }
+      const char *GetPathName() const { return fxFullPath.Data(); }
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override
       {
          if (!rcv || !fxAnalProxy) return 0;
          fxReceiver = rcv;
@@ -92,7 +92,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       Int_t ProxyKind() const { return fProxyKind; }
 
-      void ChangeObjectName(const char* newname) { fxObjName = newname; }
+      void ChangeObjectName(const char *newname) { fxObjName = newname; }
 
       void SetSubmitTime() { fxSubmitTime = gSystem->Now(); }
 
@@ -102,7 +102,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
           return (res<0) || (res > millisec);
       }
 
-      void ReceiveObject(TObject *obj, const char* objfolder, const char* objname, Bool_t owner)
+      void ReceiveObject(TObject *obj, const char *objfolder, const char *objname, Bool_t owner)
       {
          if (fProxyKind == cmdDefualtEnvelope) {
             TString path = fxReceiverPath;
@@ -117,7 +117,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
          }
       }
 
-      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path)
+      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char *path)
       {
          fxReceiver = rcv;
          fxReceiverPath = path;
@@ -165,7 +165,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
                 dynamic_cast<TGo4TreeStructure*>(fCurrent);
       }
 
-      Int_t getflag(const char* flagname) override
+      Int_t getflag(const char *flagname) override
       {
          if (strcmp(flagname,"IsRemote") == 0) return 1;
          if (strcmp(flagname,"IsDeleteProtect") == 0) {
@@ -194,7 +194,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return fCurrent->GetName();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->GetTitle();
       }
@@ -226,12 +226,12 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return kind;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          return EntryClassName(fCurrent);
       }
 
-    static const char* EntryClassName(TObject* entry)
+    static const char *EntryClassName(TObject* entry)
     {
        if (!entry) return nullptr;
 
@@ -399,7 +399,7 @@ Bool_t TGo4AnalysisProxy::IsAdministrator()
    return GetRole()==kGo4ComModeAdministrator;
 }
 
-const char* TGo4AnalysisProxy::GetContainedObjectInfo()
+const char *TGo4AnalysisProxy::GetContainedObjectInfo()
 {
    TGo4ServerProxy::GetContainedObjectInfo(); // evaluate roles
    fInfoStr +="@";
@@ -411,7 +411,7 @@ const char* TGo4AnalysisProxy::GetContainedObjectInfo()
    return fInfoStr.Data();
 }
 
-TGo4AnalysisObjectAccess* TGo4AnalysisProxy::FindSubmittedProxy(const char* pathname, const char* objname)
+TGo4AnalysisObjectAccess* TGo4AnalysisProxy::FindSubmittedProxy(const char *pathname, const char *objname)
 {
    for(int n=0;n<=fxSubmittedProxy.GetLast();n++) {
       TGo4AnalysisObjectAccess* proxy = (TGo4AnalysisObjectAccess*) fxSubmittedProxy.At(n);
@@ -606,7 +606,7 @@ TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char *name)
 
    TObject* entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
 
-   const char* classname = TGo4AnalysisLevelIter::EntryClassName(entry);
+   const char *classname = TGo4AnalysisLevelIter::EntryClassName(entry);
 
    if (!classname) return nullptr;
 
@@ -669,7 +669,7 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgtslot)
+Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char *fullname, TGo4Slot* tgtslot)
 {
    if (!fullname || !tgtslot) return kFALSE;
 
@@ -684,7 +684,7 @@ Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tg
    return kTRUE;
 }
 
-void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
+void TGo4AnalysisProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot)
 {
    if (!evname) return;
 
@@ -715,9 +715,9 @@ void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TG
 
 
 void TGo4AnalysisProxy::RemoteTreeDraw(const char *treename,
-                                       const char* varexp,
-                                       const char* cutcond,
-                                       const char* hname)
+                                       const char *varexp,
+                                       const char *cutcond,
+                                       const char *hname)
 {
    TString tfoldername, tobjectname;
    TGo4Slot::ProduceFolderAndName(treename, tfoldername, tobjectname);
@@ -734,7 +734,7 @@ void TGo4AnalysisProxy::RemoteTreeDraw(const char *treename,
    fxDisplay->SubmitCommand(remcom);
 }
 
-void TGo4AnalysisProxy::RemotePrintEvent(const char* evname,
+void TGo4AnalysisProxy::RemotePrintEvent(const char *evname,
                                          Int_t evnumber,
                                          Int_t subid,
                                          Bool_t ishex,
@@ -750,11 +750,11 @@ void TGo4AnalysisProxy::RemotePrintEvent(const char* evname,
    fxDisplay->SubmitCommand(com);
 }
 
-Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject *obj)
+Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char *fullpath, TObject *obj)
 {
    if (!obj) return kFALSE;
 
-   const char* objname = obj->GetName();
+   const char *objname = obj->GetName();
    if (!objname || (*objname == 0)) return kFALSE;
 
    /// new with single set object command:
@@ -817,7 +817,7 @@ void TGo4AnalysisProxy::StopAnalysis()
    fbAnalysisRunning = kFALSE;
 }
 
-void TGo4AnalysisProxy::ExecuteLine(const char* line)
+void TGo4AnalysisProxy::ExecuteLine(const char *line)
 {
    TGo4ComExecLine *com = new TGo4ComExecLine();
    com->SetLine(line);
@@ -831,7 +831,7 @@ void TGo4AnalysisProxy::ClearAllAnalysisObjects()
 }
 
 
-void TGo4AnalysisProxy::ClearAnalysisObject(const char* fullpath)
+void TGo4AnalysisProxy::ClearAnalysisObject(const char *fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -840,7 +840,7 @@ void TGo4AnalysisProxy::ClearAnalysisObject(const char* fullpath)
    fxDisplay->SubmitCommand(com);
 }
 
-void TGo4AnalysisProxy::ChageObjectProtection(const char* fullpath, const char* flags)
+void TGo4AnalysisProxy::ChageObjectProtection(const char *fullpath, const char *flags)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -850,7 +850,7 @@ void TGo4AnalysisProxy::ChageObjectProtection(const char* fullpath, const char* 
    fxDisplay->SubmitCommand(com);
 }
 
-void TGo4AnalysisProxy::RemoveObjectFromAnalysis(const char* fullpath)
+void TGo4AnalysisProxy::RemoveObjectFromAnalysis(const char *fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -885,7 +885,7 @@ void TGo4AnalysisProxy::CloseAnalysisSettings()
    fxDisplay->SubmitCommand("ANClose");
 }
 
-void TGo4AnalysisProxy::PrintDynListEntry(const char* fullpath)
+void TGo4AnalysisProxy::PrintDynListEntry(const char *fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -910,11 +910,11 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          Int_t usessh,
                                          Int_t konsole,
                                          const char *name,
-                                         const char* remotehost,
-                                         const char* remotedir,
-                                         const char* remoteexe,
+                                         const char *remotehost,
+                                         const char *remotedir,
+                                         const char *remoteexe,
                                          Int_t exe_kind,
-                                         const char* exeargs)
+                                         const char *exeargs)
 {
    if (!fxDisplay) return kFALSE;
 
@@ -942,12 +942,12 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          Int_t usessh,
                                          Int_t konsole,
                                          const char *name,
-                                         const char* remotehost,
+                                         const char *remotehost,
                                          Int_t remoteport,
-                                         const char* remotedir,
-                                         const char* remoteexe,
+                                         const char *remotedir,
+                                         const char *remoteexe,
                                          Int_t exe_kind,
-                                         const char* exeargs)
+                                         const char *exeargs)
 {
    if (!GetLaunchString(launchcmd, killcmd,
                        1, usessh, konsole,
@@ -960,10 +960,10 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
+Bool_t TGo4AnalysisProxy::ConnectToServer(const char *remotehost,
                                           Int_t remoteport,
                                           Int_t ascontroller,
-                                          const char* accesspass)
+                                          const char *accesspass)
 {
 
    TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*> (fxDisplay->GetTask());
@@ -1088,7 +1088,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
    return kFALSE;
 }
 
-void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path)
+void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager* rcv, const char *path)
 {
    if (!rcv) {
       delete fxDefaultProxy;

@@ -41,10 +41,10 @@ class TGo4ExampleServer : public TGo4ServerTask {
     Int_t StopWorkThreads() override;
 
     /** suffix for controller thread name */
-    static const char* fgcCONTROLTHREAD; //!
+    static const char *fgcCONTROLTHREAD; //!
 
     /** suffix for logging thread name */
-    static const char* fgcLOGGINGTHREAD;//!
+    static const char *fgcLOGGINGTHREAD;//!
 
   private:
 

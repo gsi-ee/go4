@@ -112,7 +112,7 @@ void TGo4Interface::Wait(double tm_sec)
    } while (spenttime <= tm_sec);
 }
 
-void TGo4Interface::Message(const char* msg)
+void TGo4Interface::Message(const char *msg)
 {
    if (fRootBrowser)
       fRootBrowser->Message("Message","msg",5000);
@@ -126,7 +126,7 @@ void TGo4Interface::LaunchAnalysis()
 
 TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
 {
-   const char* analisysitem = "Analysis";
+   const char *analisysitem = "Analysis";
 
    TGo4Slot* analslot = Browser()->DataSlot(analisysitem);
 
@@ -152,14 +152,14 @@ TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
 }
 
 
-void TGo4Interface::LaunchAnalysis(const char* ClientName,
-                                   const char* ClientDir,
-                                   const char* ClientExec,
-                                   const char* ClientNode,
+void TGo4Interface::LaunchAnalysis(const char *ClientName,
+                                   const char *ClientDir,
+                                   const char *ClientExec,
+                                   const char *ClientNode,
                                    Int_t ShellMode,
                                    Int_t TermMode,
                                    Int_t ExeMode,
-                                   const char* UserArgs)
+                                   const char *UserArgs)
 {
    TString launchcmd, killcmd;
 
@@ -181,10 +181,10 @@ void TGo4Interface::LaunchAnalysis(const char* ClientName,
    ProcessEvents(200);
 }
 
-void TGo4Interface::ConnectAnalysis(const char* ServerNode,
+void TGo4Interface::ConnectAnalysis(const char *ServerNode,
                                     Int_t ServerPort,
                                     Int_t ControllerMode,
-                                    const char* password)
+                                    const char *password)
 {
    TGo4AnalysisProxy* anal = Analysis();
    if (!anal) anal = AddAnalysisProxy(kTRUE);
@@ -381,7 +381,7 @@ void TGo4Interface::StepFileSource(const char *stepname,
 void TGo4Interface::StepMbsFileSource(const char *stepname,
                                       const char *sourcename,
                                       int timeout,
-                                      const char* TagFile,
+                                      const char *TagFile,
                                       int start,
                                       int stop,
                                       int interval)
@@ -578,7 +578,7 @@ ViewPanelHandle TGo4Interface::FindViewPanel(const char *name)
    return (ViewPanelHandle) gROOT->GetListOfCanvases()->FindObject(name);
 }
 
-Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char* newname)
+Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char *newname)
 {
    TCanvas* c = (TCanvas*) handle;
    if (!c || !newname || (strlen(newname) == 0)) return kFALSE;
@@ -622,7 +622,7 @@ TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
     return nullptr;
 }
 
-Bool_t TGo4Interface::DrawItem(const char *itemname, ViewPanelHandle handle, const char* drawopt)
+Bool_t TGo4Interface::DrawItem(const char *itemname, ViewPanelHandle handle, const char *drawopt)
 {
     if (!handle) handle = StartViewPanel();
 
@@ -698,7 +698,7 @@ void TGo4Interface::ProcessHotStart()
        return;
    }
 
-   const char* nextcmd = NextHotStartCmd();
+   const char *nextcmd = NextHotStartCmd();
 
    if (!nextcmd || !IsHotStart()) return;
 

@@ -92,7 +92,7 @@ Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
    return SetMemberValues(&items);
 }
 
-Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
+Bool_t TGo4Parameter::UpdateFromUrl(const char *rest_url_opt)
 {
    TGo4Parameter* clone = (TGo4Parameter*) Clone();
 
@@ -106,7 +106,7 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
 
    while (auto member = (TGo4ParameterMember*) next()) {
      TString dummy;
-      const char* optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
+      const char *optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
       if (optvalue) {
          TGo4Log::Info("Par:%s member %s newvalue %s", GetName(), member->GetFullName(dummy), optvalue);
          member->SetStrValue(optvalue);
@@ -168,7 +168,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
    while (auto obj = iter()) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (!member) continue;
-      const char* memtypename = member->GetFullTypeName();
+      const char *memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
 
       // do not edit IsA info
@@ -292,7 +292,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
    while (auto obj = iter()) {
       TDataMember* member = dynamic_cast<TDataMember*>(obj);
       if (!member) continue;
-      const char* memtypename = member->GetFullTypeName();
+      const char *memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
 
       // do not edit IsA info

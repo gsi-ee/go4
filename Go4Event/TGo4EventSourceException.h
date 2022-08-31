@@ -42,13 +42,13 @@ class TGo4EventSourceException : public TGo4RuntimeException {
       Int_t GetEventStatus() const { return fiEventStatus; }
 
       /** Status/ error message of the last event. */
-      const char* GetErrMess() const { return fxErrMess.Data(); }
+      const char *GetErrMess() const { return fxErrMess.Data(); }
 
       /** Name of the throwing event source. */
-      const char* GetSourceName() const { return fxSourceName.Data(); }
+      const char *GetSourceName() const { return fxSourceName.Data(); }
 
       /** Name of the throwing event source. */
-      const char* GetSourceClass() const { return fxSourceClass.Data(); }
+      const char *GetSourceClass() const { return fxSourceClass.Data(); }
 
   protected:
       /** @supplierCardinality 1 */

@@ -32,8 +32,8 @@ public:
 
     void SetCondition(TGo4WinCond* condition) { fxWinCondition = condition; }
     TGo4WinCond* GetCondition() { return fxWinCondition; }
-    const char* GetName() const override;
-    void SetName(const char* nam); // *MENU*
+    const char *GetName() const override;
+    void SetName(const char *nam); // *MENU*
     /** Delete condition instead of view: */
     //void DeleteRegion(); // *MENU*
     void SetToLimits(Double_t x1, Double_t x2,Double_t y1 = 0, Double_t y2 = 0); // *MENU*
@@ -47,7 +47,7 @@ public:
     void SetXMaxDraw(Bool_t on); // *MENU*
     void SetYMaxDraw(Bool_t on); // *MENU*
     void SetCMaxDraw(Bool_t on); // *MENU*
-    void SetNumFormat(const char* fmt="%.4E"); // *MENU*
+    void SetNumFormat(const char *fmt="%.4E"); // *MENU*
     /** This will save draw flags into  static default setup */
     void SaveLabelStyle();// *MENU*
     /** Will reset label position to defaults */

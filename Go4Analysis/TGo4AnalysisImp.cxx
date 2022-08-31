@@ -102,12 +102,12 @@ Int_t TGo4Analysis::fiRunningMode = 0;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
 const Int_t TGo4Analysis::fgiDYNLISTINTERVAL= 1000;
 const Int_t TGo4Analysis::fgiMACROSTARTPOLL= 1000; //polling time for macro in WaitForStart
-const char* TGo4Analysis::fgcDEFAULTFILENAME="Go4AutoSave.root";
-const char* TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
-const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
+const char *TGo4Analysis::fgcDEFAULTFILENAME="Go4AutoSave.root";
+const char *TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
+const char *TGo4Analysis::fgcDEFAULTFILESUF=".root";
 
 const char TGo4Analysis::fgcPYPROMPT = '$';
-const char* TGo4Analysis::fgcPYINIT = "python/go4init.py";
+const char *TGo4Analysis::fgcPYINIT = "python/go4init.py";
 
 TGo4Analysis* TGo4Analysis::Instance()
 {
@@ -801,9 +801,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 ////////////////////////////////////////////////////////////
 // dynamic list stuff:
 
-Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char* listname)
+Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char *listname)
 {
-   GO4TRACE((11,"TGo4Analysis::RemoveDynamicEntry(const char *, const char* )",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::RemoveDynamicEntry(const char *, const char *)",__LINE__, __FILE__));
    Bool_t rev=fxObjectManager->RemoveDynamicEntry(entryname);
    if(rev) UpdateNamesList();
    return rev;
@@ -1181,7 +1181,7 @@ Bool_t TGo4Analysis::LoadObjects(const char *filename)
    return rev;
 }
 
-void TGo4Analysis::Message(Int_t prio, const char* text,...)
+void TGo4Analysis::Message(Int_t prio, const char *text,...)
 {
    char txtbuf[TGo4Log::fguMESLEN];
    va_list args;
@@ -1191,7 +1191,7 @@ void TGo4Analysis::Message(Int_t prio, const char* text,...)
    SendMessageToGUI(prio, kTRUE, txtbuf);
 }
 
-void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* text)
+void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char *text)
 {
    if(fxAnalysisSlave) {
       // gui mode: send Text via status channel - also sniffer will be informed
@@ -1266,7 +1266,7 @@ Int_t TGo4Analysis::WaitForStart()
    return cycles;
 }
 
-void TGo4Analysis::StartObjectServer(const char* basename,  const char* passwd)
+void TGo4Analysis::StartObjectServer(const char *basename,  const char *passwd)
 {
    if(fxAnalysisSlave) {
       Message(1,"Start object server not yet enabled.");
@@ -1331,7 +1331,7 @@ Bool_t TGo4Analysis::AddDynamicHistogram(const char *name,
                                                condition, cevx, cmemx, cevy, cmemy);
 }
 
-Bool_t TGo4Analysis::AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp)
+Bool_t TGo4Analysis::AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp)
 {
    Bool_t rev=fxObjectManager->AddTreeHistogram(hisname,treename,varexp,cutexp);
    if(rev) UpdateNamesList();
@@ -1708,30 +1708,30 @@ Int_t TGo4Analysis::StoreFolder(const char * stepname, const char * foldername)
    return myfolder ? fxStepManager->Store(stepname, myfolder) : 2;
 }
 
-void TGo4Analysis::DefineServerPasswords(const char* admin, const char* controller, const char* observer)
+void TGo4Analysis::DefineServerPasswords(const char *admin, const char *controller, const char *observer)
 {
    fServerAdminPass = admin ? admin : "";
    fServerCtrlPass = controller ? controller : "";
    fServerObserverPass = observer ? observer : "";
 }
 
-void TGo4Analysis::SetObserverPassword(const char* passwd)
+void TGo4Analysis::SetObserverPassword(const char *passwd)
 {
    fServerObserverPass = passwd ? passwd : "";
 }
 
-void TGo4Analysis::SetControllerPassword(const char* passwd)
+void TGo4Analysis::SetControllerPassword(const char *passwd)
 {
    fServerCtrlPass = passwd ? passwd : "";
 }
 
-void TGo4Analysis::SetAdministratorPassword(const char* passwd)
+void TGo4Analysis::SetAdministratorPassword(const char *passwd)
 {
    fServerAdminPass = passwd ? passwd : "";
 }
 
 
-Bool_t  TGo4Analysis::EvaluateFolderpath(const char* fullname, TString& objectname, TString& foldername)
+Bool_t  TGo4Analysis::EvaluateFolderpath(const char *fullname, TString& objectname, TString& foldername)
 {
    if (!fullname || (strlen(fullname) == 0))
       return kFALSE;
@@ -1744,9 +1744,9 @@ Bool_t  TGo4Analysis::EvaluateFolderpath(const char* fullname, TString& objectna
    return kTRUE;
 }
 
-TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char *title,
+TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
-                           const char* xtitle, const char* ytitle)
+                           const char *xtitle, const char *ytitle)
 {
    fbObjMade = kFALSE;
    TString foldername, histoname;
@@ -1754,7 +1754,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char *title,
       TGo4Log::Error("Histogram name not specified, can be a hard error");
       return nullptr;
    }
-//   const char* separ = strrchr(fullname, '/');
+//   const char *separ = strrchr(fullname, '/');
 //   if (separ) {
 //      histoname = separ + 1;
 //      foldername.Append(fullname, separ - fullname);
@@ -1762,7 +1762,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char *title,
 //      histoname = fullname;
 
    int itype = 0;
-   const char* sclass = "TH1I";
+   const char *sclass = "TH1I";
    switch (type) {
       case 'I': case 'i': itype = 0; sclass = "TH1I"; break;
       case 'F': case 'f': itype = 1; sclass = "TH1F"; break;
@@ -1824,10 +1824,10 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char *title,
    return newh;
 }
 
-TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char *title,
+TH2* TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            Int_t nbinsy, Double_t ylow, Double_t yup,
-                           const char* xtitle, const char* ytitle, const char* ztitle)
+                           const char *xtitle, const char *ytitle, const char *ztitle)
 {
    fbObjMade = kFALSE;
    TString foldername, histoname;
@@ -1837,7 +1837,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char *title,
       return nullptr;
    }
 
-//   const char* separ = strrchr(fullname, '/');
+//   const char *separ = strrchr(fullname, '/');
 //   if (separ) {
 //      histoname = separ + 1;
 //      foldername.Append(fullname, separ - fullname);
@@ -1845,7 +1845,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char *title,
 //      histoname = fullname;
 
    int itype = 0;
-   const char* sclass = "TH2I";
+   const char *sclass = "TH2I";
    switch (type) {
       case 'I': case 'i': itype = 0; sclass = "TH2I"; break;
       case 'F': case 'f': itype = 1; sclass = "TH2F"; break;
@@ -1908,9 +1908,9 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char *title,
    return newh;
 }
 
-TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
+TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
                                        Double_t xmin, Double_t xmax,
-                                       const char* HistoName)
+                                       const char *HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -1944,10 +1944,10 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    return wcond;
 }
 
-TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
+TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
                                        Double_t xmin, Double_t xmax,
                                        Double_t ymin, Double_t ymax,
-                                       const char* HistoName)
+                                       const char *HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -1981,10 +1981,10 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    return wcond;
 }
 
-TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
+TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
                                          Int_t npoints,
                                          Double_t (*points) [2],
-                                         const char* HistoName,
+                                         const char *HistoName,
                                          Bool_t shapedcond)
 {
    fbObjMade = kFALSE;
@@ -2041,10 +2041,10 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
 }
 
 
-TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
+TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char *fullname,
        Int_t npoints,
        Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
-       const char* HistoName)
+       const char *HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -2078,34 +2078,34 @@ TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
    return econd;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char* fullname,
+TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char *fullname,
            Int_t npoints, Double_t cx, Double_t cy, Double_t r,
-           const char* HistoName)
+           const char *HistoName)
 {
    TGo4ShapedCond *elli = MakeEllipseCond(fullname, npoints, cx, cy, r, r, 0, HistoName);
    elli->SetCircle(); // mark "circle shape" property
    return elli;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
-               const char* HistoName)
+TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+               const char *HistoName)
 {
    TGo4ShapedCond *elli = MakeEllipseCond(fullname, 4, cx, cy, a1, a2, theta, HistoName);
    elli->SetBox(); // convert to  "box shape" property
    return elli;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
+TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char *fullname,
                                    Int_t npoints,
                                    Double_t (*points) [2],
-                                   const char* HistoName)
+                                   const char *HistoName)
 {
    TGo4ShapedCond* elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
    elli->SetFreeShape();
    return elli;
 }
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char *title, const char* HistoName)
+TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const char *title, const char *HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -2139,7 +2139,7 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char *title
    return lcond;
 }
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t num, const Int_t * values,  const char* HistoName)
+TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName)
 {
    TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
    if(fbObjMade) lcond->SetValues(num,values);
@@ -2147,7 +2147,7 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t num, 
 }
 
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start, const Int_t stop, const Int_t step,  const char* HistoName)
+TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step,  const char *HistoName)
 {
    TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
    if(fbObjMade) lcond->SetValues(start,stop,step);
@@ -2155,7 +2155,7 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start
 }
 
 
-TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
+TGraph* TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2183,7 +2183,7 @@ TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, Int_t p
    return graph;
 }
 
-TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, TF1* function)
+TGraph* TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1* function)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2206,7 +2206,7 @@ TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, TF1* fu
    return graph;
 }
 
-TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const char *title, Int_t points, Int_t average)
+TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char *fullname, const char *title, Int_t points, Int_t average)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2228,9 +2228,9 @@ TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const cha
    return graph;
 }
 
-TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
-                                           const char* classname,
-                                           const char* newcmd)
+TGo4Parameter* TGo4Analysis::MakeParameter(const char *fullname,
+                                           const char *classname,
+                                           const char *newcmd)
 {
    fbObjMade = kFALSE;
    TString foldername, paramname;
@@ -2303,7 +2303,7 @@ Bool_t TGo4Analysis::IsSortedOrder() const
 }
 
 
-Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
+Long64_t TGo4Analysis::ExecuteScript(const char *macro_name)
 {
    if (!macro_name || (strlen(macro_name) == 0)) return -1;
 
@@ -2412,7 +2412,7 @@ Long64_t TGo4Analysis::ExecuteScript(const char* macro_name)
    return res;
 }
 
-Long64_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
+Long64_t TGo4Analysis::ExecutePython(const char *macro_name, Int_t* errcode)
 {
   if (!macro_name || (strlen(macro_name) == 0)) return -1;
   TString comstring=macro_name;
@@ -2421,7 +2421,7 @@ Long64_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
 }
 
 
-Long64_t TGo4Analysis::ExecuteLine(const char* command, Int_t* errcode)
+Long64_t TGo4Analysis::ExecuteLine(const char *command, Int_t* errcode)
 {
   TString comstring;
   if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::fgcPYPROMPT) == strrchr(command,TGo4Analysis::fgcPYPROMPT))) {

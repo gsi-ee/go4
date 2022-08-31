@@ -108,13 +108,13 @@ TGo4ObjectManager* TGo4ObjectManager::GetOM() const
    return (TGo4ObjectManager*) this;
 }
 
-void TGo4ObjectManager::MakeFolder(const char* pathname)
+void TGo4ObjectManager::MakeFolder(const char *pathname)
 {
    if (pathname && (*pathname != 0))
      GetSlot(pathname, kTRUE);
 }
 
-TGo4Slot* TGo4ObjectManager::Add(const char* pathname, TObject *obj, Bool_t owner, Bool_t canrename)
+TGo4Slot* TGo4ObjectManager::Add(const char *pathname, TObject *obj, Bool_t owner, Bool_t canrename)
 {
    if (!obj) return nullptr;
 
@@ -132,12 +132,12 @@ TGo4Slot* TGo4ObjectManager::Add(const char* pathname, TObject *obj, Bool_t owne
    return slot;
 }
 
-void TGo4ObjectManager::AddFile(const char* pathname, const char *filename)
+void TGo4ObjectManager::AddFile(const char *pathname, const char *filename)
 {
    AddDir(pathname, TFile::Open(filename), kTRUE, kTRUE);
 }
 
-void TGo4ObjectManager::CloseFiles(const char* pathname)
+void TGo4ObjectManager::CloseFiles(const char *pathname)
 {
    TGo4Slot* slot = GetSlot(pathname);
    if (!slot) return;
@@ -151,7 +151,7 @@ void TGo4ObjectManager::CloseFiles(const char* pathname)
 }
 
 
-void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t owner, Bool_t readright)
+void TGo4ObjectManager::AddDir(const char *pathname, TDirectory* dir, Bool_t owner, Bool_t readright)
 {
    if (!dir) return;
 
@@ -165,7 +165,7 @@ void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t own
 }
 
 
-void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
+void TGo4ObjectManager::AddTree(const char *pathname, TTree* tree, Bool_t owner)
 {
    if (!tree) return;
 
@@ -175,7 +175,7 @@ void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
      slot->SetProxy(new TGo4TreeProxy(tree, owner));
 }
 
-void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner)
+void TGo4ObjectManager::AddFolder(const char *pathname, TFolder* f, Bool_t owner)
 {
    if (!f) return;
 
@@ -184,7 +184,7 @@ void TGo4ObjectManager::AddFolder(const char* pathname, TFolder* f, Bool_t owner
       slot->SetProxy(new TGo4FolderProxy(f, owner, ""));
 }
 
-void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* foldername)
+void TGo4ObjectManager::AddROOTFolder(const char *pathname, const char *foldername)
 {
    TFolder* f = TGo4FolderProxy::LocateROOTFolder(foldername);
    if (!f) return;
@@ -195,7 +195,7 @@ void TGo4ObjectManager::AddROOTFolder(const char* pathname, const char* folderna
       slot->SetProxy(new TGo4FolderProxy(f, kFALSE, foldername));
 }
 
-void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
+void TGo4ObjectManager::AddROOTFolders(const char *pathname, Bool_t selected)
 {
    if (selected) {
       TString name(pathname);
@@ -215,7 +215,7 @@ void TGo4ObjectManager::AddROOTFolders(const char* pathname, Bool_t selected)
       AddROOTFolder(pathname, "//root/");
 }
 
-void TGo4ObjectManager::AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char *title)
+void TGo4ObjectManager::AddProxy(const char *pathname, TGo4Proxy* cont, const char *name, const char *title)
 {
    TGo4Slot* slot = MakeObjSlot(pathname, name, title);
    if (slot) slot->SetProxy(cont);
@@ -228,7 +228,7 @@ TGo4Proxy* TGo4ObjectManager::GetProxy(const char *name)
    return !slot ? nullptr : slot->GetProxy();
 }
 
-TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char *name, const char *title)
+TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char *foldername, const char *name, const char *title)
 {
    TGo4Slot* folder = GetSlot(foldername, kTRUE);
    if (!folder) return nullptr;
@@ -246,7 +246,7 @@ TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char *nam
 }
 
 
-TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, const char *linkname, const char* linktitle)
+TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char *pathname, const char *linkname, const char *linktitle)
 {
    if (!source) return nullptr;
 
@@ -267,7 +267,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
    return slot;
 }
 
-TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
+TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char *pathname)
 {
    if (!source) return nullptr;
 
@@ -279,7 +279,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
    return slot;
 }
 
-TGo4Slot* TGo4ObjectManager::AddLink(const char *sourcename, const char* pathname)
+TGo4Slot* TGo4ObjectManager::AddLink(const char *sourcename, const char *pathname)
 {
    return AddLink(GetSlot(sourcename), pathname);
 }
@@ -482,13 +482,13 @@ Int_t TGo4ObjectManager::IterateSlots()
    return cnt;
 }
 
-void TGo4ObjectManager::DeleteSlot(const char* pathname)
+void TGo4ObjectManager::DeleteSlot(const char *pathname)
 {
    TGo4Slot* slot = (TGo4Slot*) GetSlot(pathname);
    if (slot) delete slot;
 }
 
-Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec)
+Int_t TGo4ObjectManager::RequestObject(const char *source, const char *targetslot, Int_t waittime_millisec)
 // returns 0 when error
 //         1 when object assigned immediately
 //         2 when object will be obtained later
@@ -524,7 +524,7 @@ Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslo
    return res;
 }
 
-Bool_t TGo4ObjectManager::AssignObject(const char* path, TObject *obj, Bool_t ownership)
+Bool_t TGo4ObjectManager::AssignObject(const char *path, TObject *obj, Bool_t ownership)
 {
    Bool_t res = kFALSE;
    TGo4Slot* tgtslot = GetSlot(path);

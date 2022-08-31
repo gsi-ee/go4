@@ -44,7 +44,7 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
      TString fxHistogramName;
 
      /** Set names of the work runnables of example */
-     void SetNames(const char* main, const char* watch);
+     void SetNames(const char *main, const char *watch);
 
      /** Set histogram status */
      void SetHistoStatus(TH1* histogram);

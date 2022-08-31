@@ -22,7 +22,7 @@
 #include "TGo4CommandInvoker.h"
 #include "TGo4TaskHandlerCommandList.h"
 
-TGo4Slave::TGo4Slave(const char *name, Bool_t isserver, const char* serverhost, UInt_t negotport) :
+TGo4Slave::TGo4Slave(const char *name, Bool_t isserver, const char *serverhost, UInt_t negotport) :
    TGo4TaskOwner(isserver),
    fbMainIsRunning(kTRUE)
 {
@@ -112,13 +112,13 @@ TGo4Command* TGo4Slave::NextCommand()
    return GetTask() ? GetTask()->NextCommand() : nullptr;
 }
 
-void TGo4Slave::SendObject(TObject * obj, const char* receiver)
+void TGo4Slave::SendObject(TObject * obj, const char *receiver)
 {
    if(GetTask())
       GetTask()->SendObject(obj, receiver);
 }
 
-void TGo4Slave::SendStatus(TGo4Status * stat, const char* receiver)
+void TGo4Slave::SendStatus(TGo4Status * stat, const char *receiver)
 {
    if(GetTask())
       GetTask()->SendStatus(stat, receiver);
@@ -154,7 +154,7 @@ void TGo4Slave::UpdateStatusBuffer()
    if(GetTask()) GetTask()->UpdateStatusBuffer();
 }
 
-void TGo4Slave::ExecuteString(const char* command)
+void TGo4Slave::ExecuteString(const char *command)
 {
    gROOT->ProcessLineSync(command);
 }

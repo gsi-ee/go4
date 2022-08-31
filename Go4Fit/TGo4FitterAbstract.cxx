@@ -79,7 +79,7 @@ void TGo4FitterAbstract::CopyParsValuesFrom(TGo4FitterAbstract* fitter)
     }
 }
 
-Bool_t TGo4FitterAbstract::GetParFixed(const char* ParName)
+Bool_t TGo4FitterAbstract::GetParFixed(const char *ParName)
 {
    Bool_t fixed = TGo4FitParsList::GetParFixed(ParName);
    if (fxCurrentConfig && !fixed)
@@ -87,7 +87,7 @@ Bool_t TGo4FitterAbstract::GetParFixed(const char* ParName)
    return fixed;
 }
 
-Bool_t TGo4FitterAbstract::GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax)
+Bool_t TGo4FitterAbstract::GetParRange(const char *ParName, Double_t& RangeMin, Double_t& RangeMax)
 {
    Bool_t get = kFALSE;
    if (fxCurrentConfig)
@@ -96,7 +96,7 @@ Bool_t TGo4FitterAbstract::GetParRange(const char* ParName, Double_t& RangeMin, 
    return get;
 }
 
-Bool_t TGo4FitterAbstract::GetParEpsilon(const char* ParName, Double_t& Epsilon)
+Bool_t TGo4FitterAbstract::GetParEpsilon(const char *ParName, Double_t& Epsilon)
 {
    Bool_t get = kFALSE;
    if (fxCurrentConfig)
@@ -495,7 +495,7 @@ void TGo4FitterAbstract::AddSimpleMinuit()
    AddAction(fMinuit);
 }
 
-TGo4FitterOutput*  TGo4FitterAbstract::AddOutputAction(const char* Action, const char* Option)
+TGo4FitterOutput*  TGo4FitterAbstract::AddOutputAction(const char *Action, const char *Option)
 {
    TGo4FitterOutput* act = new  TGo4FitterOutput(Action,Option);
    AddAction(act);

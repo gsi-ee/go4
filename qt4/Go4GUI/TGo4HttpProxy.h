@@ -52,7 +52,7 @@ class QHttpProxy : public QObject {
       QHttpProxy(TGo4HttpProxy* p);
       virtual ~QHttpProxy();
 
-      void StartRequest(const char* url);
+      void StartRequest(const char *url);
 };
 
 // -----------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char* extra_arg = nullptr);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char *extra_arg = nullptr);
 
       virtual ~TGo4HttpAccess() { }
 
@@ -99,11 +99,11 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
       TClass* GetObjectClass() const override;
 
-      const char* GetObjectName() const override;
+      const char *GetObjectName() const override;
 
-      const char* GetObjectClassName() const override;
+      const char *GetObjectClassName() const override;
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override;
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override;
 
 };
 
@@ -143,23 +143,23 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t ServerHasMulti();
 
-      Bool_t SubmitURL(const char* path, Int_t waitres = -1);
+      Bool_t SubmitURL(const char *path, Int_t waitres = -1);
 
-      Bool_t PostObject(const char* prefix, TObject *obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
+      Bool_t PostObject(const char *prefix, TObject *obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
 
-      Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
+      Bool_t CheckUserName(const char *expects, Bool_t dflt = kFALSE);
 
       Bool_t CheckShutdown(Bool_t force = kFALSE);
 
-      TGo4HttpAccess* SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = nullptr);
+      TGo4HttpAccess* SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char *extra_arg = nullptr);
 
    public:
       TGo4HttpProxy();
       virtual ~TGo4HttpProxy();
 
-      void SetAccount(const char* username, const char* passwd);
+      void SetAccount(const char *username, const char *passwd);
 
-      Bool_t Connect(const char* nodename);
+      Bool_t Connect(const char *nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
       void Initialize(TGo4Slot* slot) override;
@@ -170,9 +170,9 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       TGo4LevelIter* MakeIter() override;
 
       Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
-      const char* GetContainedClassName() override { return ClassName(); }
+      const char *GetContainedClassName() override { return ClassName(); }
       TObject* GetAssignedObject() override { return this; }
-      const char* GetContainedObjectInfo() override;
+      const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override { return -1; }
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
@@ -182,9 +182,9 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       TString FindCommand(const char *name) override;
       Int_t  NumCommandArgs(const char *name) override;
-      Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) override;
+      Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char *arg1 = nullptr, const char *arg2 = nullptr, const char *arg3 = nullptr) override;
 
-      const char* GetUserName() const override { return fUserName.Data(); }
+      const char *GetUserName() const override { return fUserName.Data(); }
 
       Bool_t IsAnalysisServer() const override { return kTRUE; }
       Bool_t IsGo4Analysis() const override;
@@ -206,33 +206,33 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       void StartAnalysis() override;
       void StopAnalysis() override;
 
-      Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) override;
+      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) override;
 
-      Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) override;
+      Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) override;
 
       void ClearAllAnalysisObjects() override;
-      void ClearAnalysisObject(const char* fullpath) override;
+      void ClearAnalysisObject(const char *fullpath) override;
 
       void RemoteTreeDraw(const char *treename,
-                          const char* varexp,
-                          const char* cutcond,
-                          const char* hname) override;
+                          const char *varexp,
+                          const char *cutcond,
+                          const char *hname) override;
 
-      void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) override;
+      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) override;
 
-      void RemotePrintEvent(const char* evname,
+      void RemotePrintEvent(const char *evname,
                             Int_t evnumber,
                             Int_t subid,
                             Bool_t ishex,
                             Bool_t islong) override;
 
-      void ChageObjectProtection(const char* fullpath, const char* flags) override;
+      void ChageObjectProtection(const char *fullpath, const char *flags) override;
 
-      void RemoveObjectFromAnalysis(const char* fullpath) override;
+      void RemoveObjectFromAnalysis(const char *fullpath) override;
 
-      void ExecuteLine(const char* line) override;
+      void ExecuteLine(const char *line) override;
 
-      void PrintDynListEntry(const char* fullpath) override;
+      void PrintDynListEntry(const char *fullpath) override;
 
       void LoadConfigFile(const char *fname) override;
       void SaveConfigFile(const char *fname) override;

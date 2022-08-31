@@ -28,7 +28,7 @@ class TGo4Exception : public TObject {
       TGo4Exception &operator=(const TGo4Exception &right);
 
       /** Returns string describing the kind of exception **/
-      virtual const char* What();
+      virtual const char *What();
 
       /** This is a default handler function for the respective exception type **/
       virtual Int_t Handle();

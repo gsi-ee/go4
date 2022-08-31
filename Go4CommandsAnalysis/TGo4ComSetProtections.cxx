@@ -18,7 +18,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* flags) :
+TGo4ComSetProtections::TGo4ComSetProtections(const char *obname, const char *flags) :
    TGo4AnalysisObjectCommand("ANSetProtect","Set protection properties for object",obname)
 {
    GO4TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const char*) ctor",__LINE__, __FILE__));

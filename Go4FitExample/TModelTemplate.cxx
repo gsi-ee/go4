@@ -24,7 +24,7 @@
 #include "TMath.h"
 #include "TModelTemplate.h"
 
-TModelTemplate::TModelTemplate(const char* iName, Int_t iNPars, Bool_t AddAmplitude) :
+TModelTemplate::TModelTemplate(const char *iName, Int_t iNPars, Bool_t AddAmplitude) :
    TGo4FitModel(iName,"Template for user model",AddAmplitude) 
 {
    for (Int_t n=0;n<iNPars;n++) {

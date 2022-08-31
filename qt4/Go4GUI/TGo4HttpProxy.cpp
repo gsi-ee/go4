@@ -85,7 +85,7 @@ void QHttpProxy::regularRequestFinished()
 }
 
 
-void QHttpProxy::StartRequest(const char* url)
+void QHttpProxy::StartRequest(const char *url)
 {
    fHReply = qnam.get(QNetworkRequest(QUrl(url)));
 
@@ -131,7 +131,7 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
    auth->setPassword(passwd);
 }
 
-const char* GetHttpRootClassName(const char* kind)
+const char *GetHttpRootClassName(const char *kind)
 {
    if (!kind || (*kind == 0)) return nullptr;
    if (strncmp(kind,"ROOT.", 5) != 0) return nullptr;
@@ -142,7 +142,7 @@ const char* GetHttpRootClassName(const char* kind)
 
 // ============================================================================================
 
-TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind, const char* extra_arg) :
+TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind, const char *extra_arg) :
    TGo4Access(),
    fProxy(proxy),
    fNode(node),
@@ -155,13 +155,13 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_
    fRecvPath(),
    fReply(nullptr)
 {
-   const char* _name = fProxy->fXML->GetAttr(fNode,"_realname");
+   const char *_name = fProxy->fXML->GetAttr(fNode,"_realname");
    if (!_name) _name = fProxy->fXML->GetAttr(fNode,"_name");
    if (_name) fNameAttr = _name;
 
    fUrlPath = fProxy->MakeUrlPath(node);
 
-   const char* _kind = fProxy->fXML->GetAttr(fNode,"_kind");
+   const char *_kind = fProxy->fXML->GetAttr(fNode,"_kind");
    if (_kind) fKindAttr = _kind;
    if (extra_arg) fExtraArg = extra_arg;
 }
@@ -177,12 +177,12 @@ TClass* TGo4HttpAccess::GetObjectClass() const
    return TGo4Proxy::GetClass(GetHttpRootClassName(fKindAttr.Data()));
 }
 
-const char* TGo4HttpAccess::GetObjectName() const
+const char *TGo4HttpAccess::GetObjectName() const
 {
    return fNameAttr.Data();
 }
 
-const char* TGo4HttpAccess::GetObjectClassName() const
+const char *TGo4HttpAccess::GetObjectClassName() const
 {
    if (fKind==3) return "TGraph";
    if (fKind==4) return "TGo4ParameterStatus";
@@ -190,12 +190,12 @@ const char* TGo4HttpAccess::GetObjectClassName() const
    if (fKind==7) return "TList";
    if (fKind==8) return "TGo4HistogramStatus";
 
-   const char* clname = GetHttpRootClassName(fKindAttr.Data());
+   const char *clname = GetHttpRootClassName(fKindAttr.Data());
 
    return clname ? clname : "TObject";
 }
 
-Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
+Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
 {
    if (!rcv) return 0;
 
@@ -324,13 +324,13 @@ void TGo4HttpAccess::httpFinished()
 
       XMLNodePointer_t top = xml->DocGetRootElement(doc);
 
-      const char* _kind = xml->GetAttr(top, "_kind");
-      const char* _name = xml->GetAttr(top, "_name");
-      const char* _title = xml->GetAttr(top, "_title");
-      const char* xtitle = xml->GetAttr(top, "xtitle");
-      const char* ytitle = xml->GetAttr(top, "ytitle");
-      const char* xlabels = xml->GetAttr(top, "xlabels");
-      const char* ylabels = xml->GetAttr(top, "ylabels");
+      const char *_kind = xml->GetAttr(top, "_kind");
+      const char *_name = xml->GetAttr(top, "_name");
+      const char *_title = xml->GetAttr(top, "_title");
+      const char *xtitle = xml->GetAttr(top, "xtitle");
+      const char *ytitle = xml->GetAttr(top, "ytitle");
+      const char *xlabels = xml->GetAttr(top, "xlabels");
+      const char *ylabels = xml->GetAttr(top, "ylabels");
 
       if (strcmp(_kind,"ROOT.TH1D") == 0) {
          Int_t nbins = xml->GetIntAttr(top, "nbins");
@@ -338,9 +338,9 @@ void TGo4HttpAccess::httpFinished()
          Int_t right = TString(xml->GetAttr(top, "right")).Atof();
          TH1D* h1 = new TH1D(_name, _title, nbins, left, right);
          h1->SetDirectory(nullptr);
-         const char* bins = xml->GetAttr(top, "bins") + 1;
+         const char *bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-3; n<nbins+2; n++) {
-            const char* separ = strpbrk(bins,",]");
+            const char *separ = strpbrk(bins,",]");
             if (!separ) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
@@ -359,9 +359,9 @@ void TGo4HttpAccess::httpFinished()
          Int_t right2 = TString(xml->GetAttr(top, "right2")).Atof();
          TH2D* h2 = new TH2D(_name, _title, nbins1, left1, right1, nbins2, left2, right2);
          h2->SetDirectory(nullptr);
-         const char* bins = xml->GetAttr(top, "bins") + 1;
+         const char *bins = xml->GetAttr(top, "bins") + 1;
          for (int n =-6; n<(nbins1+2)*(nbins2+2); n++) {
-            const char* separ = strpbrk(bins,",]");
+            const char *separ = strpbrk(bins,",]");
             if (!separ) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
@@ -510,7 +510,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return fXML->GetChild(fChild) != nullptr;
       }
 
-      Int_t getflag(const char* flagname) override
+      Int_t getflag(const char *flagname) override
       {
          if (strcmp(flagname,"IsRemote") == 0) return 1;
 
@@ -521,7 +521,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
             return fXML->HasAttr(fChild, "_no_reset") ? 1 : 0;
 
          if (strcmp(flagname,"_numargs") == 0) {
-            const char* _numargs = fXML->GetAttr(fChild,"_numargs");
+            const char *_numargs = fXML->GetAttr(fChild,"_numargs");
             return !_numargs ? -1 : TString(_numargs).Atoi();
          }
 
@@ -538,11 +538,11 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       const char *name() override
       {
-         const char* real = fXML->GetAttr(fChild,"_realname");
+         const char *real = fXML->GetAttr(fChild,"_realname");
          return real? real : fXML->GetAttr(fChild,"_name");
       }
 
-      const char* info() override { return fXML->GetAttr(fChild,"_title"); }
+      const char *info() override { return fXML->GetAttr(fChild,"_title"); }
       Int_t sizeinfo() override { return 0; }
 
       Int_t GetKind() override
@@ -553,13 +553,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
          if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
 
-         const char* _kind = fXML->GetAttr(fChild,"_kind");
+         const char *_kind = fXML->GetAttr(fChild,"_kind");
          if (_kind && strcmp(_kind,"Command") == 0) return TGo4Access::kndRootCommand;
 
          const char *drawfunc = fXML->GetAttr(fChild,"_drawfunc");
          if (drawfunc && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
-         const char* classname = GetClassName();
+         const char *classname = GetClassName();
 
          if (!classname) return TGo4Access::kndNone;
 
@@ -568,10 +568,10 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return TGo4Access::kndObject;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
-         const char* _kind = fXML->GetAttr(fChild,"_kind");
-         const char* res = GetHttpRootClassName(_kind);
+         const char *_kind = fXML->GetAttr(fChild,"_kind");
+         const char *res = GetHttpRootClassName(_kind);
          if (res) return res;
          if (_kind && !strcmp(_kind,"rate") && fXML->HasAttr(fChild,"_history")) return "TGraph";
          return isfolder() ? "TFolder" : nullptr;
@@ -608,7 +608,7 @@ TGo4HttpProxy::~TGo4HttpProxy()
    delete fXML; fXML = nullptr;
 }
 
-void TGo4HttpProxy::SetAccount(const char* username, const char* passwd)
+void TGo4HttpProxy::SetAccount(const char *username, const char *passwd)
 {
    fUserName = username ? username : "";
    fPassword = passwd ? passwd : "";
@@ -642,7 +642,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char *name, XMLNodePointer_t curr
 
    if (!curr || !name || (*name == 0)) return curr;
 
-   const char* slash = strchr(name,'/');
+   const char *slash = strchr(name,'/');
    bool doagain = false;
 
    do {
@@ -650,7 +650,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char *name, XMLNodePointer_t curr
 
       XMLNodePointer_t chld = fXML->GetChild(curr);
       while (chld) {
-         const char* _name = fXML->GetAttr(chld,"_realname");
+         const char *_name = fXML->GetAttr(chld,"_realname");
          if (!_name) _name = fXML->GetAttr(chld,"_name");
 
          if (_name && (strlen(_name) == len) && (strncmp(_name, name, len) == 0))
@@ -677,7 +677,7 @@ TString TGo4HttpProxy::MakeUrlPath(XMLNodePointer_t item)
    TString res;
 
    while (item != root) {
-      const char* _name = fXML->GetAttr(item,"_name");
+      const char *_name = fXML->GetAttr(item,"_name");
       if (!_name) return TString("");
       if (res.Length()>0)
          res = TString(_name) + "/" + res;
@@ -706,7 +706,7 @@ void TGo4HttpProxy::GetHReply(QByteArray& res)
      fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
 }
 
-const char* TGo4HttpProxy::GetContainedObjectInfo()
+const char *TGo4HttpProxy::GetContainedObjectInfo()
 {
    TGo4ServerProxy::GetContainedObjectInfo(); // evaluate roles
    fInfoStr +="(";
@@ -714,7 +714,7 @@ const char* TGo4HttpProxy::GetContainedObjectInfo()
    fInfoStr +="@";
    fInfoStr +=GetServerName();
    fInfoStr +=")";
-   const char* analname = fXML->GetAttr(FindItem(""), "_analysis_name");
+   const char *analname = fXML->GetAttr(FindItem(""), "_analysis_name");
    if (analname) {
       fInfoStr += " name:";
       fInfoStr += analname;
@@ -723,7 +723,7 @@ const char* TGo4HttpProxy::GetContainedObjectInfo()
    return fInfoStr.Data();
 }
 
-Bool_t TGo4HttpProxy::Connect(const char* nodename)
+Bool_t TGo4HttpProxy::Connect(const char *nodename)
 {
    fNodeName = nodename;
 
@@ -771,7 +771,7 @@ TGo4Access* TGo4HttpProxy::ProvideAccess(const char *name)
 
    if (!item) return nullptr;
 
-   const char* _kind = fXML->GetAttr(item,"_kind");
+   const char *_kind = fXML->GetAttr(item,"_kind");
 
    Int_t kind = 1;
 
@@ -829,20 +829,20 @@ Bool_t TGo4HttpProxy::IsGo4Analysis() const
    XMLNodePointer_t item = FindItem("");
    if (!item) return kFALSE;
 
-   const char* _kind = fXML->GetAttr(item,"_kind");
-   const char* _title = fXML->GetAttr(item,"_title");
+   const char *_kind = fXML->GetAttr(item,"_kind");
+   const char *_title = fXML->GetAttr(item,"_title");
 
    if (!_kind || !_title) return kFALSE;
 
    return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
 }
 
-Bool_t TGo4HttpProxy::CheckUserName(const char* expects, Bool_t dflt)
+Bool_t TGo4HttpProxy::CheckUserName(const char *expects, Bool_t dflt)
 {
    XMLNodePointer_t item = FindItem("");
    if (!item) return dflt;
 
-   const char* username = fXML->GetAttr(item,"_username");
+   const char *username = fXML->GetAttr(item,"_username");
    if (!username) return dflt;
 
    return strcmp(username, expects) == 0;
@@ -898,7 +898,7 @@ void TGo4HttpProxy::ClearAllAnalysisObjects()
    SubmitCommand("Control/CmdClear");
 }
 
-void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
+void TGo4HttpProxy::ClearAnalysisObject(const char *fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -908,7 +908,7 @@ void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
    SubmitCommand("Control/CmdClearObject", -1, objectname.Data());
 }
 
-void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
+void TGo4HttpProxy::RemoveObjectFromAnalysis(const char *fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
@@ -918,7 +918,7 @@ void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
    SubmitCommand("Control/CmdDeleteObject", -1, objectname.Data());
 }
 
-void TGo4HttpProxy::ExecuteLine(const char* line)
+void TGo4HttpProxy::ExecuteLine(const char *line)
 {
    // use method of TGo4AnalysisWebStatus - this works with all THttpServer versions
    if (FindItem("Control/Analysis"))
@@ -937,12 +937,12 @@ void TGo4HttpProxy::StopAnalysis()
    fbAnalysisRunning = kFALSE;
 }
 
-Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
+Bool_t TGo4HttpProxy::RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot)
 {
    return SubmitRequest(objectname, 4, tgtslot) != nullptr;
 }
 
-Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
+Bool_t TGo4HttpProxy::SubmitURL(const char *path, Int_t waitres)
 {
    TString url = fNodeName;
    url.Append("/");
@@ -993,13 +993,13 @@ Int_t TGo4HttpProxy::NumCommandArgs(const char *name)
    XMLNodePointer_t item = FindItem(name);
    if (!item) return -1;
 
-   const char* _numargs = fXML->GetAttr(item,"_numargs");
+   const char *_numargs = fXML->GetAttr(item,"_numargs");
    if (!_numargs) return 0;
 
    return TString(_numargs).Atoi();
 }
 
-Bool_t TGo4HttpProxy::SubmitCommand(const char *name, Int_t waitres, const char* arg1, const char* arg2, const char* arg3)
+Bool_t TGo4HttpProxy::SubmitCommand(const char *name, Int_t waitres, const char *arg1, const char *arg2, const char *arg3)
 {
    TString url(name);
    url.Append("/cmd.json");
@@ -1019,7 +1019,7 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char *name, Int_t waitres, const char*
    return SubmitURL(url.Data(), waitres);
 }
 
-Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject *obj, Int_t waitres, Bool_t destroy_after)
+Bool_t TGo4HttpProxy::PostObject(const char *prefix, TObject *obj, Int_t waitres, Bool_t destroy_after)
 {
    if (!ServerHasRestrict()) return kFALSE;
 
@@ -1068,7 +1068,7 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject *obj, Int_t waitres
 }
 
 
-Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject *obj)
+Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char *objectname, TObject *obj)
 {
    TString url;
 
@@ -1289,9 +1289,9 @@ void TGo4HttpProxy::ProcessUpdateTimer()
 }
 
 void TGo4HttpProxy::RemoteTreeDraw(const char *treename,
-                                   const char* varexp,
-                                   const char* cutcond,
-                                   const char* hname)
+                                   const char *varexp,
+                                   const char *cutcond,
+                                   const char *hname)
 {
    TString tfoldername, tobjectname;
    TGo4Slot::ProduceFolderAndName(treename, tfoldername, tobjectname);
@@ -1306,7 +1306,7 @@ void TGo4HttpProxy::RemoteTreeDraw(const char *treename,
    SubmitURL(path, 2);
 }
 
-TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg)
+TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char *extra_arg)
 {
    if (!itemname || !tgtslot) return nullptr;
 
@@ -1315,7 +1315,7 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, T
 
    if (kind == 4) {
       // when status for histogram is requested, redirect request to the sniffer
-      const char* _objkind = fXML->GetAttr(item, "_kind");
+      const char *_objkind = fXML->GetAttr(item, "_kind");
       if (_objkind && ((strstr(_objkind, "ROOT.TH1") == _objkind) || (strstr(_objkind, "ROOT.TH2") == _objkind) ||
                        (strstr(_objkind, "ROOT.TH3") == _objkind)))
          kind = 8;
@@ -1328,7 +1328,7 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, T
 }
 
 
-void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
+void TGo4HttpProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot)
 {
    if (!tgtslot) {
       // this is remote printing of event
@@ -1344,7 +1344,7 @@ void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Sl
    SubmitRequest(evname, astree ? 5 : 1, tgtslot);
 }
 
-void TGo4HttpProxy::RemotePrintEvent(const char* evname,
+void TGo4HttpProxy::RemotePrintEvent(const char *evname,
                                      Int_t evnumber,
                                      Int_t subid,
                                      Bool_t ishex,
@@ -1356,7 +1356,7 @@ void TGo4HttpProxy::RemotePrintEvent(const char* evname,
    SubmitURL(url);
 }
 
-void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flags)
+void TGo4HttpProxy::ChageObjectProtection(const char *fullpath, const char *flags)
 {
    unsigned reset_bits = 0, set_bits = 0;
 
@@ -1373,7 +1373,7 @@ void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flag
    if (set_bits != 0) SubmitURL(url + TString::Format("SetBit&f=%u&prototype=UInt_t",set_bits));
 }
 
-void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
+void TGo4HttpProxy::PrintDynListEntry(const char *fullpath)
 {
    SubmitURL(TString(fullpath)+"/exe.bin?method=Print");
 }

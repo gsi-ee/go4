@@ -60,7 +60,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
          return fCurrent->GetName();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->ClassName();
       }
@@ -70,7 +70,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
          return TGo4Access::kndObject;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          return fCurrent->ClassName();
       }
@@ -102,7 +102,7 @@ Int_t TGo4HStackProxy::GetObjectKind()
    return fHS ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char* TGo4HStackProxy::GetContainedClassName()
+const char *TGo4HStackProxy::GetContainedClassName()
 {
    return fHS ? fHS->ClassName() : nullptr;
 }
@@ -130,7 +130,7 @@ Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject *obj)
 
 void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = nullptr;
+   const char *objname = nullptr;
    if (fHS)
       objname = fHS->GetName();
 
@@ -146,7 +146,7 @@ void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 
 void TGo4HStackProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* objname = slot->GetPar("HStackProxy::StackName");
+   const char *objname = slot->GetPar("HStackProxy::StackName");
    if (!objname || !dir) return;
 
    dir->cd();

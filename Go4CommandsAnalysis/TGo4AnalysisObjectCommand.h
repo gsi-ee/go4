@@ -33,12 +33,12 @@ class TGo4AnalysisObjectCommand : public TGo4AnalysisCommand {
                               const char *obname);
 
     /** access to the object name under command. */
-    const char* GetObjectName() const { return fxObjectName.Data(); }
+    const char *GetObjectName() const { return fxObjectName.Data(); }
 
     /** set the object name under command. */
     void SetObjectName(const char *name) { fxObjectName = name; }
 
-    const char* GetFolderName() const { return fxFolderName.Data(); }
+    const char *GetFolderName() const { return fxFolderName.Data(); }
 
     void SetFolderName(const char *name) { fxFolderName = name; }
 

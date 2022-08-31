@@ -24,7 +24,7 @@ TGo4FitMatrixTrans::TGo4FitMatrixTrans() : TGo4FitAxisTrans() {
 
 }
 
-TGo4FitMatrixTrans::TGo4FitMatrixTrans(const char* iName, const char* iTitle, Int_t NumAxis) :
+TGo4FitMatrixTrans::TGo4FitMatrixTrans(const char *iName, const char *iTitle, Int_t NumAxis) :
   TGo4FitAxisTrans(iName, iTitle)
 {
    SetNumAxis(NumAxis);

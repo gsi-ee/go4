@@ -44,12 +44,12 @@ void TGo4AbstractInterface::DeleteInstance()
    }
 }
 
-const char* TGo4AbstractInterface::FileExtension()
+const char *TGo4AbstractInterface::FileExtension()
 {
    return ".hotstart";
 }
 
-const char* TGo4AbstractInterface::DefaultPicTitle()
+const char *TGo4AbstractInterface::DefaultPicTitle()
 {
    return "temporary object to setup viewpanel";
 }
@@ -59,7 +59,7 @@ Int_t TGo4AbstractInterface::DelayMillisec()
    return 20;
 }
 
-void TGo4AbstractInterface::SetInitSharedLibs(const char* libs)
+void TGo4AbstractInterface::SetInitSharedLibs(const char *libs)
 {
    fInitSharedLibs = libs ? libs : gInterpreter->GetSharedLibs();
 }
@@ -115,7 +115,7 @@ void TGo4AbstractInterface::LoadLibrary(const char *fname)
 
    TString libs = gInterpreter->GetSharedLibs();
 
-   const char* token = strtok((char*) libs.Data(), " ,\t\n");
+   const char *token = strtok((char*) libs.Data(), " ,\t\n");
 
    while(token != nullptr) {
       if (strcmp(token, fname) == 0) return;
@@ -134,15 +134,15 @@ void TGo4AbstractInterface::OpenFile(const char *fname)
 
 Bool_t TGo4AbstractInterface::SaveToFile(const char *itemname,
                                          const char *filename,
-                                         const char* filetitle)
+                                         const char *filetitle)
 {
    return Browser()->SaveBrowserToFile(filename, kFALSE, itemname, filetitle);
 }
 
 Bool_t TGo4AbstractInterface::ExportToFile(const char *itemname,
-                                           const char* dirpath,
-                                           const char* format,
-                                           const char* filetitle)
+                                           const char *dirpath,
+                                           const char *format,
+                                           const char *filetitle)
 {
     TGo4Slot* topslot = Browser()->ItemSlot(itemname);
     if (!topslot) return kFALSE;
@@ -165,11 +165,11 @@ Bool_t TGo4AbstractInterface::ExportToFile(const char *itemname,
 }
 
 
-void TGo4AbstractInterface::ConnectHServer(const char* servername,
+void TGo4AbstractInterface::ConnectHServer(const char *servername,
                                        Int_t portnumber,
-                                       const char* basename,
-                                       const char* userpass,
-                                       const char* filter)
+                                       const char *basename,
+                                       const char *userpass,
+                                       const char *filter)
 {
    Browser()->ConnectHServer(servername,
                              portnumber,
@@ -179,7 +179,7 @@ void TGo4AbstractInterface::ConnectHServer(const char* servername,
    ProcessEvents(200);
 }
 
-void TGo4AbstractInterface::ConnectDabc(const char* servername)
+void TGo4AbstractInterface::ConnectDabc(const char *servername)
 {
    Browser()->ConnectDabc(servername);
 }
@@ -189,7 +189,7 @@ Bool_t TGo4AbstractInterface::IsAnalysisConnected()
    return !Server() ? kFALSE : Server()->IsConnected();
 }
 
-void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
+void TGo4AbstractInterface::ExecuteLine(const char *remotecmd)
 {
    TGo4ServerProxy* anal = Server();
    if (anal && remotecmd) {
@@ -222,7 +222,7 @@ void TGo4AbstractInterface::StopMonitoring()
    Browser()->ToggleMonitoring(-1);
 }
 
-TString TGo4AbstractInterface::FindItem(const char* objname)
+TString TGo4AbstractInterface::FindItem(const char *objname)
 {
    // if itemname is specified, return as is
    if (Browser()->ItemSlot(objname)) return TString(objname);
@@ -257,7 +257,7 @@ TObject* TGo4AbstractInterface::GetObject(const char *itemname, Int_t updateleve
    return Browser()->GetBrowserObject(itemname, updatelevel);
 }
 
-TString TGo4AbstractInterface::SaveToMemory(const char* path, TObject *obj, Bool_t ownership)
+TString TGo4AbstractInterface::SaveToMemory(const char *path, TObject *obj, Bool_t ownership)
 {
    TString res = Browser()->SaveToMemory(path, obj, ownership, kTRUE);
 
@@ -293,13 +293,13 @@ Bool_t TGo4AbstractInterface::IsHotStart()
    return !fxCommands.IsEmpty();
 }
 
-const char* TGo4AbstractInterface::NextHotStartCmd()
+const char *TGo4AbstractInterface::NextHotStartCmd()
 {
    if (fxCommands.IsEmpty()) return nullptr;
    TObject *obj = fxCommands.First();
    fxCommands.Remove(obj);
    delete obj;
-   const char* res = nullptr;
+   const char *res = nullptr;
    do {
       if (fxCommands.IsEmpty()) return nullptr;
       TObjString* str = (TObjString*) fxCommands.First();
@@ -330,7 +330,7 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
    TString go4sys = TGo4Log::GO4SYS();
 
    TString libs = gInterpreter->GetSharedLibs();
-   const char* token = strtok((char*) libs.Data(), " ,\t\n");
+   const char *token = strtok((char*) libs.Data(), " ,\t\n");
    while(token != nullptr) {
       if ((fInitSharedLibs.Index(token) == kNPOS)
 //           !strstr(token,"libGX11.") &&

@@ -46,7 +46,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Constructor sets name and title of slot, owner of slot, desired class of object and if this object always should be owned.
        * Optionally, requirements of object (is it always needed or not, default - not), pointer on object and ownership flag can be specified.
        */
-      TGo4FitSlot(const char* iName, const char* iTitle,
+      TGo4FitSlot(const char *iName, const char *iTitle,
                   TNamed* iOwner, TClass* iClass,
                   Bool_t iNeeded = kFALSE, TObject* iObject = nullptr, Bool_t iOwned = kFALSE);
 
@@ -141,7 +141,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return name of assigned object.
        */
-      const char* GetObjectName() const;
+      const char *GetObjectName() const;
 
       /**
        * Clone object in slot and returns pointer on new object.
@@ -290,7 +290,7 @@ class TGo4FitSlotList {
      /**
       * Find slot in list with given full name;
       */
-     TGo4FitSlot* FindSlot(const char* FullSlotName);
+     TGo4FitSlot* FindSlot(const char *FullSlotName);
 
      /**
       * Connects first slot to second.
@@ -302,7 +302,7 @@ class TGo4FitSlotList {
       * Connects first slot to second.
       * Return kFALSE, if failed
       */
-     Bool_t ConnectSlots(const char* Slot1FullName, const char* Slot2FullName);
+     Bool_t ConnectSlots(const char *Slot1FullName, const char *Slot2FullName);
 
       /**
        * Set object to first suitable slot with defined ownership flag.
@@ -318,7 +318,7 @@ class TGo4FitSlotList {
        * If only slot suits to defined condition, object in slot will be overwritten.
        * Return pointer on slot, to which object was assigned
        */
-     TGo4FitSlot* SetObject(const char* PlaceName, TObject *obj, Bool_t iOwned = kFALSE);
+     TGo4FitSlot* SetObject(const char *PlaceName, TObject *obj, Bool_t iOwned = kFALSE);
 
       /**
        * Checks, if object assign to one of slots.
@@ -342,7 +342,7 @@ class TGo4FitSlotList {
        * If NonOwned = kTRUE, only not owned objects will be cleared (pointer will be set to 0)
        * otherwise all pointers will be cleared and owned objects will be deleted
        */
-     void ClearObjects(const char* PlaceName = nullptr, Bool_t NonOwned = kTRUE);
+     void ClearObjects(const char *PlaceName = nullptr, Bool_t NonOwned = kTRUE);
 
       /**
        * Clear object in specified slot.

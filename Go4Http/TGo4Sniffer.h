@@ -53,13 +53,13 @@ class TGo4Sniffer : public TRootSnifferFull,
       Bool_t HasProduceMultiMethod();
 
       /** Wrapper for new method in TRootSniffer */
-      void RestrictGo4(const char* path, const char* options);
+      void RestrictGo4(const char *path, const char *options);
 
       /** Indicate if SetAutoLoad method exists */
       Bool_t HasAutoLoadMethod();
 
       /** Wrapper for new method in TRootSniffer */
-      Bool_t SetAutoLoadGo4(const char* script);
+      Bool_t SetAutoLoadGo4(const char *script);
 
       static THttpServer* gHttpServer;
 
@@ -86,18 +86,18 @@ class TGo4Sniffer : public TRootSnifferFull,
       Bool_t CmdOpenFile(const char *fname);
       Bool_t CmdCloseFiles();
       Bool_t CmdExit();
-      Bool_t CmdClearObject(const char* objname);
-      Bool_t CmdDeleteObject(const char* objname);
-      Bool_t CmdExecute(const char* exeline);
+      Bool_t CmdClearObject(const char *objname);
+      Bool_t CmdDeleteObject(const char *objname);
+      Bool_t CmdExecute(const char *exeline);
 
       // === methods used via http interface by Go4GUI ===============
 
       Bool_t AddAnalysisObject(TObject *obj);
 
-      Bool_t RemoteTreeDraw(const char* histoname,
+      Bool_t RemoteTreeDraw(const char *histoname,
                             const char *treename,
-                            const char* varexpr,
-                            const char* cutexpr);
+                            const char *varexpr,
+                            const char *cutexpr);
 
       TObject* CreateItemStatus(const char *itemname);
 

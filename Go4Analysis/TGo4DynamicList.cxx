@@ -107,7 +107,7 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
 }
 
 TDataMember* FindDataMember(TClass* eventclass,
-                            const char* memname,
+                            const char *memname,
                             Long_t* totaloffset)
 {
    if(!eventclass) return nullptr;
@@ -116,12 +116,12 @@ TDataMember* FindDataMember(TClass* eventclass,
    /////////////////////////////////
    // check for array member index:
    Long_t indexoffset = 0;
-   const char* ixbegin = strchr(memname,'[');
+   const char *ixbegin = strchr(memname,'[');
    if(ixbegin) {
       //   std::cout <<"-------------FindDataMember of Entry " << GetName() << std::endl;
       //   std::cout <<"Found index in member" << memname << std::endl;
       ixbegin++;
-      const char* ixend = strchr(ixbegin,']');
+      const char *ixend = strchr(ixbegin,']');
       if(ixend)  {
          TString buf(ixbegin, ixend-ixbegin);
          indexoffset = buf.Atoll();
@@ -161,7 +161,7 @@ TDataMember* FindDataMember(TClass* eventclass,
    //correct offset in case of array:
    if(eventmember)
    {
-      const char* tname = eventmember->GetFullTypeName();
+      const char *tname = eventmember->GetFullTypeName();
       // check if given index is inside allocated size:
       Int_t maxindex = eventmember->GetMaxIndex(0);
       if(maxindex < 0) maxindex = 1; // for non-array members maxindex is -1
@@ -202,8 +202,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
          TDataMember* eventmember = nullptr;
          Long_t offset = 0;
 
-         const char* evname = hentry->GetConEventName(n);
-         const char* memname = hentry->GetConVarName(n);
+         const char *evname = hentry->GetConEventName(n);
+         const char *memname = hentry->GetConVarName(n);
 
          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
             event = ana->GetEventStructure(evname);
@@ -222,8 +222,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
          TDataMember* eventmember = nullptr;
          Long_t offset = 0;
 
-         const char* evname = hentry->GetHistEventName(n);
-         const char* memname = hentry->GetHistVarName(n);
+         const char *evname = hentry->GetHistEventName(n);
+         const char *memname = hentry->GetHistVarName(n);
 
          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
             event = ana->GetEventStructure(evname);
@@ -259,7 +259,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
 
    if(!processtrees) return true;
 
-   const char* hname = tentry->GetHistogramName();
+   const char *hname = tentry->GetHistogramName();
 
    TTree* tree = TGo4Analysis::Instance()->GetTree(tentry->GetTreeName());
    if (!tree) {

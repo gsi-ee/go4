@@ -63,11 +63,11 @@ class TGo4Slot : public TNamed  {
       TString GetFullName(TGo4Slot *toparent = nullptr);
       virtual TGo4ObjectManager* GetOM() const;
 
-      const char* GetInfo();
+      const char *GetInfo();
       Int_t GetSizeInfo();
 
-      void SetPar(const char *name, const char* value);
-      const char* GetPar(const char *name) const;
+      void SetPar(const char *name, const char *value);
+      const char *GetPar(const char *name) const;
       void RemovePar(const char *name);
       void SetIntPar(const char *name, Int_t value);
       Bool_t GetIntPar(const char *name, Int_t& value);
@@ -80,12 +80,12 @@ class TGo4Slot : public TNamed  {
       TGo4Slot* GetNextChild(TGo4Slot* child);
       TGo4Slot* GetNext();
       void DeleteChild(const char *name);
-      void DeleteChilds(const char* startedwith = nullptr);
+      void DeleteChilds(const char *startedwith = nullptr);
       void Delete(Option_t *opt = "") override;
 
-      TGo4Slot* DefineSubSlot(const char *name, const char* &subname) const;
+      TGo4Slot* DefineSubSlot(const char *name, const char *&subname) const;
       TGo4Slot* GetSlot(const char *name, Bool_t force = kFALSE);
-      TGo4Slot* FindSlot(const char* fullpath, const char** subname = nullptr);
+      TGo4Slot* FindSlot(const char *fullpath, const char** subname = nullptr);
       Bool_t ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before);
       Bool_t ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after);
 
@@ -93,7 +93,7 @@ class TGo4Slot : public TNamed  {
       TGo4Proxy* GetProxy() const { return fProxy; }
 
       Int_t GetSlotKind() const;
-      const char* GetSlotClassName() const;
+      const char *GetSlotClassName() const;
 
       Bool_t IsAcceptObject(TClass* cl);
       Bool_t AssignObject(TObject *obj, Bool_t owner);
@@ -119,8 +119,8 @@ class TGo4Slot : public TNamed  {
 
       void Print(Option_t* option="") const override;
 
-      static const char* FindFolderSeparator(const char *name);
-      static void ProduceFolderAndName(const char* fullname, TString& foldername, TString& objectname);
+      static const char *FindFolderSeparator(const char *name);
+      static void ProduceFolderAndName(const char *fullname, TString& foldername, TString& objectname);
 
       Bool_t DoingDelete() const { return TestBit(kStartDelete); }
 

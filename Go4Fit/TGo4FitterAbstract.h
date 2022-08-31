@@ -83,19 +83,19 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Return kTRUE, if parameter should be fixed.
        * If configuration object assigned to fitter, this flag will be tested there first and only then original parameter configuration will be used.
        */
-      Bool_t GetParFixed(const char* ParName) override;
+      Bool_t GetParFixed(const char *ParName) override;
 
       /**
        * Return kTRUE, if range condition specified for parameter and range boundaries.
        * If configuration object assigned to fitter, range values will be tested there first and only then original parameter configuration will be used.
        */
-      Bool_t GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax) override;
+      Bool_t GetParRange(const char *ParName, Double_t& RangeMin, Double_t& RangeMax) override;
 
       /**
        * Return kTRUE, if epsilon value specified for parameter.
        * If configuration object assigned to fitter, epsilon value will be tested there first and only then original parameter configuration will be used.
        */
-      Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon) override;
+      Bool_t GetParEpsilon(const char *ParName, Double_t& Epsilon) override;
 
       /**
        * Checks, if config object corresponds to fitter parameters.
@@ -185,7 +185,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Creates and add TGo4FitterOutput action with given parameters to actions list.
        */
-      TGo4FitterOutput* AddOutputAction(const char* Action, const char* Option = nullptr);
+      TGo4FitterOutput* AddOutputAction(const char *Action, const char *Option = nullptr);
 
       /**
        * Remove and delete all output actions from actions list.

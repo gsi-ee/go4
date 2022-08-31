@@ -39,7 +39,7 @@ class TGo4MsgList : public TNamed {
 
       Int_t GetCounter() const { return fCounter; }
 
-      void AddMsg(const char* msg);
+      void AddMsg(const char *msg);
 
       TList* Select(Int_t max = 0, Long64_t id = 0);
 

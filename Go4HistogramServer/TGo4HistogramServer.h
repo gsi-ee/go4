@@ -41,8 +41,8 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       TGo4HistogramServer();
 
       TGo4HistogramServer(TGo4AnalysisClient* owner,
-                          const char* servername = "localhost",
-                          const char* password = "go4",
+                          const char *servername = "localhost",
+                          const char *password = "go4",
                           Bool_t useobjectserver = kFALSE);
 
       virtual ~TGo4HistogramServer();
@@ -63,16 +63,16 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
 
       /** histogram server connector thread name */
-      static const char* fgcCONTHREADNAME; //!
+      static const char *fgcCONTHREADNAME; //!
 
       /** object server  connector thread name */
-      static const char* fgcOBJTHREADNAME; //!
+      static const char *fgcOBJTHREADNAME; //!
 
       /** This string is send as histogram name for termination connection */
-      static const char* fgcSHUTDOWNNAME; //!
+      static const char *fgcSHUTDOWNNAME; //!
 
       /** command string for object server nameslist request */
-      static const char* fgcCOMGETLIST; //!
+      static const char *fgcCOMGETLIST; //!
 
       /** Period of connector timer, in ms */
       static const UInt_t fguTIMERPERIOD;         //!
@@ -97,13 +97,13 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
    private:
 
-      const char* ConnectorName() const { return fxConnectorName.Data(); }
+      const char *ConnectorName() const { return fxConnectorName.Data(); }
 
-      const char* ObjectThreadName() const { return fxObjectThreadName.Data(); }
+      const char *ObjectThreadName() const { return fxObjectThreadName.Data(); }
 
-      const char* ConnectHost() const { return fcConnectHost.Data(); }
+      const char *ConnectHost() const { return fcConnectHost.Data(); }
 
-      void SetConnect(TGo4Socket * trans, const char* host, UInt_t port);
+      void SetConnect(TGo4Socket * trans, const char *host, UInt_t port);
 
       void SetDisConnect(TGo4Socket * trans);
 

@@ -23,7 +23,7 @@ TGo4FitterOutput::TGo4FitterOutput() : TGo4FitterAction(), fxCommand(), fxOption
 {
 }
 
-TGo4FitterOutput::TGo4FitterOutput(const char* Command, const char* Options) :
+TGo4FitterOutput::TGo4FitterOutput(const char *Command, const char *Options) :
     TGo4FitterAction(Command,"Output action for fitter"), fxCommand(Command), fxOptions(Options), fxPad(nullptr)
 {
 }

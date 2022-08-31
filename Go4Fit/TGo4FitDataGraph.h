@@ -41,7 +41,7 @@ class TGo4FitDataGraph : public TGo4FitData {
        * Pointer on TGraph and ownership flag can be provided.
        * Scaling factor (amplitude) also can be added.
        */
-      TGo4FitDataGraph(const char* iName, TGraph* iGraph = nullptr, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
+      TGo4FitDataGraph(const char *iName, TGraph* iGraph = nullptr, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitDataGraph object.

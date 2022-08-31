@@ -17,7 +17,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisClientImp.h"
 
-TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname) :
+TGo4ComDeleteObject::TGo4ComDeleteObject(const char *obname) :
    TGo4AnalysisObjectCommand("ANDelete","delete object by name", obname)
 {
    GO4TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(const char*) ctor",__LINE__, __FILE__));
@@ -50,7 +50,7 @@ Int_t TGo4ComDeleteObject::ExeCom()
    TGo4Analysis* ana =TGo4Analysis::Instance();
    if(ana)
    {
-      const char* obname = GetObjectName();
+      const char *obname = GetObjectName();
       if(ana->DeleteObjects(obname))
       {
          cli->SendStatusMessage(1,kTRUE,TString::Format(

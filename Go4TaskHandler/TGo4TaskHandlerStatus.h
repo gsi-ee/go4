@@ -25,13 +25,13 @@ class TGo4TaskHandlerStatus : public TGo4Status {
 
       virtual ~TGo4TaskHandlerStatus();
 
-      const char* GetComName() const { return fxComName.Data(); }
+      const char *GetComName() const { return fxComName.Data(); }
 
-      const char* GetStatName() const { return fxStatName.Data(); }
+      const char *GetStatName() const { return fxStatName.Data(); }
 
-      const char* GetDatName() const { return fxDatName.Data(); }
+      const char *GetDatName() const { return fxDatName.Data(); }
 
-      const char* GetHostName() const { return fxHostName.Data(); }
+      const char *GetHostName() const { return fxHostName.Data(); }
 
       UInt_t GetNegPort() const { return  fuNegPort; }
 
@@ -52,7 +52,7 @@ class TGo4TaskHandlerStatus : public TGo4Status {
 
       void SetPorts(UInt_t neg, Int_t com, Int_t stat, Int_t dat);
 
-      void SetNames(const char* com, const char* stat, const char* dat, const char* host);
+      void SetNames(const char *com, const char *stat, const char *dat, const char *host);
 
       /** Remember name of command thread */
       TString fxComName;

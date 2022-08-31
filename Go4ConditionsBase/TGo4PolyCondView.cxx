@@ -219,7 +219,7 @@ TCutG* TGo4PolyCondView::CreateCut()
    return result;
 }
 
-const char* TGo4PolyCondView::GetName() const
+const char *TGo4PolyCondView::GetName() const
 {
    if(fxPolyCondition)
       return fxPolyCondition->GetName();
@@ -227,7 +227,7 @@ const char* TGo4PolyCondView::GetName() const
    return TCutG::GetName(); // JAM2016
 }
 
-void TGo4PolyCondView::SetName(const char* nam)
+void TGo4PolyCondView::SetName(const char *nam)
 {
    if(fxPolyCondition) fxPolyCondition->SetName(nam);
    TCutG::SetName(nam); // JAM2016

@@ -41,7 +41,7 @@ TGo4EventSource::~TGo4EventSource()
    GO4TRACE((15,"TGo4EventSource::~TGo4EventSource()",__LINE__, __FILE__));
 }
 
-void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* message,...)
+void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char *message,...)
 {
    //
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
@@ -59,7 +59,7 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
    throw TGo4EventErrorException(this);
 }
 
-void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message,...)
+void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char *message,...)
 {
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
    char *txtbuf = new char[lbuflen];
@@ -82,7 +82,7 @@ void TGo4EventSource::Clear(Option_t*)
    TGo4Log::Info("Default clear of eventsource %s", GetName());
 }
 
-const char* TGo4EventSource::GetActiveName()
+const char *TGo4EventSource::GetActiveName()
 {
    return GetName();
 }

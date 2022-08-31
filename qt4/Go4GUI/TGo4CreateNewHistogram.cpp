@@ -90,8 +90,8 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
    QByteArray bname = HisName->text().toLatin1();
    QByteArray btitle = HisTitle->text().toLatin1();
 
-   const char* hname = bname.constData();
-   const char* htitle = btitle.constData();
+   const char *hname = bname.constData();
+   const char *htitle = btitle.constData();
 
    int htype = HisClassGrp->checkedId()*10 + HisTypeGrp->checkedId();
 

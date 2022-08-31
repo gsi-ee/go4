@@ -165,7 +165,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 
       for(Int_t i=0; i<__LINESNUMBER__;++i)
       {
-         const char* linename=fxLinesNames[i];
+         const char *linename=fxLinesNames[i];
          TGo4FitModel* mod=fxLinesFinder->FindModel(linename);
          if(mod)
          {

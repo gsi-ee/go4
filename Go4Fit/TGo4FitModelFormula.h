@@ -37,7 +37,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
        * Create TGo4FitModelFormula object with given names.
        * Formula expression and number of parameters can be sets up. All using of amplitude parameter can be invoked.
        */
-      TGo4FitModelFormula(const char* iName, const char* iExpressionStr = "", Int_t iNPars = 0, Bool_t AddAmplitude = kFALSE);
+      TGo4FitModelFormula(const char *iName, const char *iExpressionStr = "", Int_t iNPars = 0, Bool_t AddAmplitude = kFALSE);
 
       /**
        * Destroys TGo4FitModelFormula object.
@@ -52,7 +52,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       /**
        * Return formula expression.
        */
-      const char* GetExpression() const { return fxExpression.Data(); }
+      const char *GetExpression() const { return fxExpression.Data(); }
 
       /**
        * Sets formula expression.

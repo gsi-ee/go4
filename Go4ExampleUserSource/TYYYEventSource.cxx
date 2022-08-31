@@ -22,7 +22,7 @@
 #include "TYYYRawEvent.h"
 
 TYYYEventSource::TYYYEventSource(const char *name,
-                                 const char* args,
+                                 const char *args,
                                  Int_t port) :
    TGo4EventSource(name),
    fbIsOpen(kFALSE),
@@ -94,7 +94,7 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
    // scan the last input line for values:
    Int_t scanresult = 0;
    Int_t numval = 0;
-   const char* cursor = sbuf;
+   const char *cursor = sbuf;
    do {
       evnt->ReAllocate(numval+1); // check if realloc necessary
       scanresult = sscanf(cursor,"%s",buffer);

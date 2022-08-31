@@ -2,7 +2,7 @@
 #include "Riostream.h"
 using namespace std;
 
-void filedir_namiter(TFile *f, TString fulldir, const char* wildcard)
+void filedir_namiter(TFile *f, TString fulldir, const char *wildcard)
 {
    TString fullname;
    TString curname;
@@ -31,7 +31,7 @@ void filedir_namiter(TFile *f, TString fulldir, const char* wildcard)
    }
 }
 
-void filedir(const char* file, const char* wildcard)
+void filedir(const char *file, const char *wildcard)
 {
    TString fulldir;
    TObject *namo;

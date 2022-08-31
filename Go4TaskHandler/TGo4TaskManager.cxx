@@ -288,7 +288,7 @@ Go4CommandMode_t TGo4TaskManager::ClientLogin()
    return kGo4ComModeRefused;
 }
 
-Int_t TGo4TaskManager::ConnectClient(const char* client, const char* host, Go4CommandMode_t role)
+Int_t TGo4TaskManager::ConnectClient(const char *client, const char *host, Go4CommandMode_t role)
 {
    Int_t rev=0;
    // check first if client of that name already exists:
@@ -352,7 +352,7 @@ Int_t TGo4TaskManager::DisConnectClient(TGo4TaskHandler * taskhandler, Bool_t cl
    return rev;
 }
 
-Bool_t TGo4TaskManager::AddClient(const char* client, const char* host, Go4CommandMode_t role)
+Bool_t TGo4TaskManager::AddClient(const char *client, const char *host, Go4CommandMode_t role)
 {
   TGo4TaskHandler* han = NewTaskHandler(client);
   if (!han) {

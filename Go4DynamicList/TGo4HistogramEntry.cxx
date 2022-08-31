@@ -24,9 +24,9 @@
 #include "TGo4Condition.h"
 #include "TGo4DynamicListException.h"
 
-const char* TGo4HistogramEntry::fgcNOCONDITION = "No Condition";
-const char* TGo4HistogramEntry::fgcNODATA = "No Data";
-const char* TGo4HistogramEntry::fgcNOEVENT = "No Event";
+const char *TGo4HistogramEntry::fgcNOCONDITION = "No Condition";
+const char *TGo4HistogramEntry::fgcNODATA = "No Data";
+const char *TGo4HistogramEntry::fgcNOEVENT = "No Event";
 
 TGo4HistogramEntry::TGo4HistogramEntry() :
    TGo4DynamicEntry(),
@@ -67,7 +67,7 @@ void TGo4HistogramEntry::SetHisVarName(Int_t ix, const char *name)
      fxHisVarName[ix]=name;
 }
 
-const char* TGo4HistogramEntry::GetHistVarName(Int_t ix) const
+const char *TGo4HistogramEntry::GetHistVarName(Int_t ix) const
 {
    return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisVarName[ix].Data() : nullptr;
 }
@@ -78,7 +78,7 @@ void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char *name)
       fxHisEventName[ix]=name;
 }
 
-const char* TGo4HistogramEntry::GetHistEventName(Int_t ix) const
+const char *TGo4HistogramEntry::GetHistEventName(Int_t ix) const
 {
    return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisEventName[ix].Data() : nullptr;
 }
@@ -90,7 +90,7 @@ void TGo4HistogramEntry::SetConVarName(Int_t ix, const char *name)
      fxConVarName[ix] = name;
 }
 
-const char* TGo4HistogramEntry::GetConVarName(Int_t ix) const
+const char *TGo4HistogramEntry::GetConVarName(Int_t ix) const
 {
    return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConVarName[ix].Data() : nullptr;
 }
@@ -102,7 +102,7 @@ void TGo4HistogramEntry::SetConEventName(Int_t ix, const char *name)
       fxConEventName[ix]=name;
 }
 
-const char* TGo4HistogramEntry::GetConEventName(Int_t ix) const
+const char *TGo4HistogramEntry::GetConEventName(Int_t ix) const
 {
    return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConEventName[ix].Data() : nullptr;
 }
@@ -283,17 +283,17 @@ void TGo4HistogramEntry::Print(Option_t*) const
    std::cout <<"-End "<<GetName()<<"-----------" << std::endl;
 }
 
-const char* TGo4HistogramEntry::Get_fgcNOCONDITION()
+const char *TGo4HistogramEntry::Get_fgcNOCONDITION()
 {
    return fgcNOCONDITION;
 }
 
-const char* TGo4HistogramEntry::Get_fgcNODATA()
+const char *TGo4HistogramEntry::Get_fgcNODATA()
 {
    return fgcNODATA;
 }
 
-const char* TGo4HistogramEntry::Get_fgcNOEVENT()
+const char *TGo4HistogramEntry::Get_fgcNOEVENT()
 {
    return fgcNOEVENT;
 }

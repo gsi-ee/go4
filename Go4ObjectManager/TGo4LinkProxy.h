@@ -31,7 +31,7 @@ class TGo4LinkProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override;
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
+      const char *GetContainedClassName() override;
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;

@@ -41,7 +41,7 @@ class TGo4FitModelGauss1 : public TGo4FitModel {
        * Creates TGo4FitModelGauss1 with given name.
        * Position of gaussian, width and number of selected axis can be specified.
        */
-      TGo4FitModelGauss1(const char* iName, Double_t iPosition = 1., Double_t iWidth = 1., Int_t iNaxis = 0);
+      TGo4FitModelGauss1(const char *iName, Double_t iPosition = 1., Double_t iWidth = 1., Int_t iNaxis = 0);
 
       /**
        * Destroys TGo4FitModelGauss1 object.

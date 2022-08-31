@@ -52,7 +52,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Creates TGo4Fitter object and sets name and title.
        */
-      TGo4Fitter(const char* iName, const char* iTitle);
+      TGo4Fitter(const char *iName, const char *iTitle);
 
       /**
        * Creates TGo4Fitter object and set type of fit function.
@@ -130,12 +130,12 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return name of data object with given index. If index not valid, return 0.
        */
-      const char* GetDataName(Int_t n);
+      const char *GetDataName(Int_t n);
 
       /**
        * Return data object with given name. if no corresponding objects, return 0.
        */
-      TGo4FitData* FindData(const char* DataName);
+      TGo4FitData* FindData(const char *DataName);
 
       /**
        * Add data object to fitter. Data object owned by fitter and will be destroyed together with fitter.
@@ -145,27 +145,27 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Create TGo4FitDataHistogram object and adds its to fitter.
        */
-      TGo4FitDataHistogram* AddH1(const char* DataName, TH1* histo, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
+      TGo4FitDataHistogram* AddH1(const char *DataName, TH1* histo, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Set histogram to existing TGo4FitDataHistogram object
        */
-      TGo4FitDataHistogram* SetH1(const char* DataName, TH1* histo, Bool_t Owned = kFALSE);
+      TGo4FitDataHistogram* SetH1(const char *DataName, TH1* histo, Bool_t Owned = kFALSE);
 
       /**
        * Create TGo4FitDataGraph object and adds its to fitter.
        */
-      TGo4FitDataGraph* AddGraph(const char* DataName, TGraph* gr, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
+      TGo4FitDataGraph* AddGraph(const char *DataName, TGraph* gr, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Set graph to existing TGo4FitDataGraph object
        */
-      TGo4FitDataGraph* SetGraph(const char* DataName, TGraph* gr, Bool_t Owned = kFALSE);
+      TGo4FitDataGraph* SetGraph(const char *DataName, TGraph* gr, Bool_t Owned = kFALSE);
 
       /**
        * Remove data object from fitter. If IsDel flag is set,  object will be destroyed, otherwise (by default) function return pointer on this object.
        */
-      TGo4FitData* RemoveData(const char* DataName, Bool_t IsDel = kFALSE);
+      TGo4FitData* RemoveData(const char *DataName, Bool_t IsDel = kFALSE);
 
       /**
        * Delete all data objects from fitter.
@@ -185,7 +185,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return model component with given name. If no such model name exists, return 0.
        */
-      TGo4FitModel* FindModel(const char* ModelName);
+      TGo4FitModel* FindModel(const char *ModelName);
 
       /**
        * Add model component to fitter. Model already should be assigned to at least one data object.
@@ -195,7 +195,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Add model component to fitter and assign it to specified data object.
        */
-      TGo4FitModel* AddModel(const char* DataName, TGo4FitModel* m);
+      TGo4FitModel* AddModel(const char *DataName, TGo4FitModel* m);
 
       /**
        * Construct 1-dim polynom for specified data object for x scale.
@@ -205,14 +205,14 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * GroupIndex sets index of models group for all polynom components (default = 0 - background group)
        * lbound and rbound sets range, where polynom will be calculated
        */
-      void AddPolynomX(const char* DataName, const char* NamePrefix, Int_t MaxOrder = 1, Int_t GroupIndex = 0, Double_t lrange = 0., Double_t rrange = 0.);
+      void AddPolynomX(const char *DataName, const char *NamePrefix, Int_t MaxOrder = 1, Int_t GroupIndex = 0, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Construct 1-dim polynom with specified polynom coefficients
        * NamePrefix sets prefix of model name for each polynom component.
        * GroupIndex sets index of models group for all polynomial components (default = 0 - background group)
        */
-       void AddPolynomX(const char* DataName, const char* NamePrefix, TArrayD& Coef, Int_t GroupIndex = 0);
+       void AddPolynomX(const char *DataName, const char *NamePrefix, TArrayD& Coef, Int_t GroupIndex = 0);
 
       /**
        * Construct full polynom for specified data object.
@@ -221,34 +221,34 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * NumAxis sets number of axis, for which polynom will be sets
        * GroupIndex sets index of models group for all polynomial components (default = 0 - background group)
        */
-      void AddPolynoms(const char* DataName, const char* NamePrefix, Int_t MaxOrder = 1, Int_t NumAxis = 1, Int_t GroupIndex = 0);
+      void AddPolynoms(const char *DataName, const char *NamePrefix, Int_t MaxOrder = 1, Int_t NumAxis = 1, Int_t GroupIndex = 0);
 
       /**
        * Add 1-dim gaussian model to fitter.
        */
-      TGo4FitModelGauss1* AddGauss1(const char* DataName, const char* ModelName, Double_t iPosition, Double_t iWidth, Double_t iAmpl = 1., Int_t Axis = 0);
+      TGo4FitModelGauss1* AddGauss1(const char *DataName, const char *ModelName, Double_t iPosition, Double_t iWidth, Double_t iAmpl = 1., Int_t Axis = 0);
 
       /**
        * Counts models associated with specific data.
        */
-      Int_t NumModelsAssosiatedTo(const char* DataName);
+      Int_t NumModelsAssosiatedTo(const char *DataName);
 
       /**
        * Clones specified model.
        */
-      TGo4FitModel* CloneModel(const char* ModelName, const char* NewName = nullptr);
+      TGo4FitModel* CloneModel(const char *ModelName, const char *NewName = nullptr);
 
       /**
        * Remove model component from fitter.
        * If IsDel flag specified, component is delete, otherwise (by default)
        * function return pointer on this model component.
        */
-      TGo4FitModel* RemoveModel(const char* ModelName, Bool_t IsDel = kFALSE);
+      TGo4FitModel* RemoveModel(const char *ModelName, Bool_t IsDel = kFALSE);
 
       /**
        * Remove models associated with specific data.
        */
-      void DeleteModelsAssosiatedTo(const char* DataName);
+      void DeleteModelsAssosiatedTo(const char *DataName);
 
       /**
        * Delete all model objects from fitter.
@@ -260,19 +260,19 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
        * They means ratio in amplitude of model component in this data to amplitude of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
        */
-      void AssignModelTo(const char* ModelName, const char* DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
+      void AssignModelTo(const char *ModelName, const char *DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
       /**
        * Remove assignment to given data (if exists).
        * If DataName == nullptr, all assignments will be cleared.
        */
-      void ClearModelAssignmentTo(const char* ModelName, const char* DataName = nullptr);
+      void ClearModelAssignmentTo(const char *ModelName, const char *DataName = nullptr);
 
       /**
        * Change data name in model component assignments.
        * This function should be used, if data name is changing out of the fitter.
        */
-      void ChangeDataNameInAssignments(const char* oldname, const char* newname);
+      void ChangeDataNameInAssignments(const char *oldname, const char *newname);
 
       /**
        * Return total number of TGo4FitComponent (data and model) objects in fitter.
@@ -308,7 +308,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Calculate value of fit function for given set of parameters and specified type of fit function (it can not correspond to minimized fit function type). If DataName not specified (default), fitfunction calculates for all data objects.
        */
-      Double_t CalculateFitFunction(Double_t* pars = nullptr, Int_t FitFunctionType = -1, const char* DataName = nullptr);
+      Double_t CalculateFitFunction(Double_t* pars = nullptr, Int_t FitFunctionType = -1, const char *DataName = nullptr);
 
       /**
        * Calculates number of degree of freedom (NDF).
@@ -332,25 +332,25 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Calculates first and second momentum for specified data
        * Usage of ranges and subtraction of model can be specified
        */
-      Bool_t CalculatesMomentums(const char* DataName, Bool_t UseRanges, Bool_t SubstractModels, Double_t& first, Double_t& second);
+      Bool_t CalculatesMomentums(const char *DataName, Bool_t UseRanges, Bool_t SubstractModels, Double_t& first, Double_t& second);
 
       /**
        * Calculates integral for data or model (if ModelName is specified)
        * if OnlyCounts specified, only sum of values in bins position are calculated
        */
-      Double_t CalculatesIntegral(const char* DataName, const char* ModelName = nullptr, Bool_t OnlyCounts = kFALSE);
+      Double_t CalculatesIntegral(const char *DataName, const char *ModelName = nullptr, Bool_t OnlyCounts = kFALSE);
 
       /**
        * Calculates integral of model (if ModelName is specified)
        * if OnlyCounts specified, only sum of values in bins position are calculated
        */
-      Double_t CalculatesModelIntegral(const char* ModelName, Bool_t OnlyCounts = kFALSE);
+      Double_t CalculatesModelIntegral(const char *ModelName, Bool_t OnlyCounts = kFALSE);
 
       /**
        * Create object (TH1 or TGraph), which can be drawn.
        * Object can contain data bins (IsModel = kFALSE), full data model (IsModel = kTRUE, ModelName = nullptr) or specific model component (IsModel = kTRUE, ModelName specify component name)
        */
-      TObject* CreateDrawObject(const char* ObjName, const char* DataName, Bool_t IsModel = kFALSE, const char* ModelName = nullptr);
+      TObject* CreateDrawObject(const char *ObjName, const char *DataName, Bool_t IsModel = kFALSE, const char *ModelName = nullptr);
 
       /**
        * Draw fitter on current canvas.
@@ -378,7 +378,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        */
       void PrintLines() const;
 
-      TString FindNextName(const char* Head, Int_t start, Bool_t isModel = kTRUE);
+      TString FindNextName(const char *Head, Int_t start, Bool_t isModel = kTRUE);
 
    protected:
 
@@ -393,7 +393,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       Double_t* GetDataBinsValues(TGo4FitData* data);
       Double_t* GetDataBinsDevs(TGo4FitData* data);
       Double_t* GetDataBinsResult(TGo4FitData* data);
-      Double_t* GetModelBinsValues(TGo4FitModel* model, const char* DataName);
+      Double_t* GetModelBinsValues(TGo4FitModel* model, const char *DataName);
 
       /**
        * Update all data objects and model components according to current parameters values.
