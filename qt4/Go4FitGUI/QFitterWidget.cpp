@@ -37,7 +37,7 @@ void QFitterWidget::FillSpecificData()
       if (typ==TGo4Fitter::ff_user) typ = TGo4Fitter::ff_least_squares;
       FitFunctionTypeCmb->setCurrentIndex(typ);
 
-      const char strend[3] = { 13, 10 , 0 };
+      const char strend[3] = { 13, 10, 0 };
       QString info("Associations:");
       info+=strend;
       for (Int_t ndata=0;ndata<GetFitter()->GetNumData();ndata++) {
@@ -51,7 +51,7 @@ void QFitterWidget::FillSpecificData()
               info+=model->GetName();
             }
          }
-         info+=strend;
+         info += strend;
       }
       InfoLbl->setText(info);
       InfoLbl->adjustSize();

@@ -146,7 +146,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       static Double_t CalcPolynom(const TArrayD& Coef, Double_t x);
 
 
-      Int_t fiPeakFinderType{0};   // 0 - by S.Linev,  1 - ROOT TSpectrum , 2 - by H.Essel
+      Int_t fiPeakFinderType{0};   // 0 - by S.Linev,  1 - ROOT TSpectrum, 2 - by H.Essel
 
       TString fxDataName;
 

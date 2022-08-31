@@ -88,7 +88,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
                                        const char* passwd,
                                        Bool_t servermode,
                                        Bool_t autorun) :
-   TGo4Slave(argv[2], servermode, argv[3] , (argc>4) ? atoi(argv[4]) : 5000),
+   TGo4Slave(argv[2], servermode, argv[3], (argc>4) ? atoi(argv[4]) : 5000),
    fdBufferUpdateTime(0),
    fxHistoServer(0),
    fbAutoStart(autorun),

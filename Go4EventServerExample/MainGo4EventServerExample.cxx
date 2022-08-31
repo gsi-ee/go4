@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 /////////// REMOTE EVENT SERVER /// ////////////////////////////////////////
 //         input= new TGo4RevServ("r2f-2");
         // connect to mbs remote event server, with given hostname
-        // constructor connects to revserv , dtor disconnects
+        // constructor connects to revserv, dtor disconnects
 
      // optional: output of the mbs raw event classes into ROOT file
      output = new TGo4FileStore("MbsEvents",99,5);

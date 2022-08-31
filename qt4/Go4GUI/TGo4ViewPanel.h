@@ -64,12 +64,12 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          FirstSelectId    = 5000 };
 
       enum Go4MouseMode_t {
-         kMouseROOT ,   // normal root mouse
+         kMouseROOT,        // normal root mouse
          kMousePickCursor,  // click sets cursor / marker
          kMousePickLimits,  // click sets region limit / window condition
          kMousePickPolygon, // click sets polygon condition
          kMousePickLatex,   // click sets latex label
-         kMouseDraw        // draw on mouse press
+         kMouseDraw         // draw on mouse press
       };
 
       enum {
@@ -113,8 +113,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void CompleteInitialization();
       virtual void SetMouseMode( int mode );
       virtual int GetMouseMode();
-      virtual QString GetSelectedMarkerName(TPad *pad );
-      virtual int GetSelectedMarkerIndex(TPad *pad );
+      virtual QString GetSelectedMarkerName(TPad *pad);
+      virtual int GetSelectedMarkerIndex(TPad *pad);
       virtual TGo4Slot * GetSelectedSlot(TPad *pad, int * selkind, TObject * * selobj );
       virtual bool IsConditionSelected(TPad *pad );
       virtual TPad* FindPadWithItem(const char *itemname);
@@ -127,7 +127,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemname);
       virtual void UpdatePadStatus(TPad *pad, bool removeitems );
       virtual void ProcessPadStatusUpdate(TPad *pad, TGo4Slot* parent, bool removeitems);
-      virtual TGo4Slot* AddDrawObject(TPad *pad, int kind, const char * itemname, TObject * obj, bool owner, const char *drawopt);
+      virtual TGo4Slot* AddDrawObject(TPad *pad, int kind, const char *itemname, TObject *obj, bool owner, const char *drawopt);
       virtual TGo4Slot* GetDrawObjectSlot(TPad *pad, const char *name);
       virtual TObject* GetDrawObject(TPad *pad, const char *name);
       virtual void DeleteDrawObject(TPad *pad, const char *name);
@@ -159,9 +159,9 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool IsWebCanvas() const { return fxWCanvas != nullptr; }
       virtual TPad * GetActivePad();
       virtual void AllocatePadOptions(TPad* pad);
-      virtual TGo4Picture * GetPadOptions(TPad *pad );
-      virtual TGo4Picture * GetPadOptions( TGo4Slot * padslot );
-      virtual TH1* GetPadHistogram(TPad *pad );
+      virtual TGo4Picture * GetPadOptions(TPad *pad);
+      virtual TGo4Picture * GetPadOptions( TGo4Slot *padslot);
+      virtual TH1* GetPadHistogram(TPad *pad);
       virtual bool IsRedrawBlocked();
       virtual void UpdatePanelCaption();
       virtual void SetDrawKind( TGo4Slot * slot, int kind );
@@ -177,19 +177,19 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void ProcessPictureRedraw( const char* picitemname,TPad *pad, TGo4Picture * pic );
       virtual void ProcessCanvasAdopt( TPad * tgtpad, TPad * srcpad, const char* srcitemname);
       virtual bool ProcessPadRedraw(TPad *pad, bool force);
-      virtual void RedrawHistogram(TPad *pad, TGo4Picture * padopt, TH1 * his, bool scancontent, bool first_draw );
-      virtual void RedrawStack(TPad *pad, TGo4Picture * padopt, THStack * hs, bool dosuperimpose, bool scancontent );
-      virtual void RedrawGraph(TPad *pad, TGo4Picture * padopt, TGraph * gr, bool scancontent, bool first_draw );
-      virtual void RedrawMultiGraph(TPad *pad, TGo4Picture * padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent );
-      virtual void RedrawImage(TPad *pad, TGo4Picture * padopt, TGo4ASImage * im, TH2 * asihisto, bool scancontent );
+      virtual void RedrawHistogram(TPad *pad, TGo4Picture * padopt, TH1 * his, bool scancontent, bool first_draw);
+      virtual void RedrawStack(TPad *pad, TGo4Picture * padopt, THStack * hs, bool dosuperimpose, bool scancontent);
+      virtual void RedrawGraph(TPad *pad, TGo4Picture * padopt, TGraph * gr, bool scancontent, bool first_draw);
+      virtual void RedrawMultiGraph(TPad *pad, TGo4Picture * padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent);
+      virtual void RedrawImage(TPad *pad, TGo4Picture * padopt, TGo4ASImage * im, TH2 * asihisto, bool scancontent);
       virtual void RedrawLegend(TPad *pad, TGo4Picture * padopt, TGo4Slot * legslot );
       virtual void RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot);
       virtual bool IsApplyToAllFlag();
       virtual bool IsAutoZoomFlag();
       virtual bool IsFreezeTitle();
       virtual void ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int value, const char* drawopt );
-      virtual void ChangeDrawOption( int kind, int value, const char* drawopt );
-      virtual void ResetPadFillColors(TPad *pad, int col , TPad* backup = nullptr);
+      virtual void ChangeDrawOption( int kind, int value, const char* drawopt);
+      virtual void ResetPadFillColors(TPad *pad, int col, TPad* backup = nullptr);
       virtual void ClearPad(TPad *pad, bool removeitems, bool removesubpads );
       virtual void ClearPadItems( TGo4Slot * padslot, TGo4Slot* remain );
       virtual void ProcessPadClear(TPad *pad, bool removeitems, bool removesubpads );

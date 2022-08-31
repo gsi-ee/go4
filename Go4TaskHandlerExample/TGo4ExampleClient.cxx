@@ -31,7 +31,7 @@ TGo4ExampleClient::TGo4ExampleClient(const char *name,
                                      const char* host,
                                      UInt_t negport,
                                      Bool_t blockingmode)
-: TGo4ClientTask(name, host, negport , blockingmode, kFALSE)
+: TGo4ClientTask(name, host, negport, blockingmode, kFALSE)
 {
    GO4TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char*, const char*, Uint_t, Bool_t) constructor",__LINE__, __FILE__));
    SetMaster(kFALSE);

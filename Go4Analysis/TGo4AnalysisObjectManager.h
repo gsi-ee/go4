@@ -69,7 +69,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If replace is true, old object of same name will be deleted and
        * replaced by the added one.
        */
-      Bool_t AddObject(TNamed *anything, const char* subfolder = nullptr, Bool_t replace = kTRUE);
+      Bool_t AddObject(TNamed *anything, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
       /**
        * Searches for object by name in all go4 folders. Returns
@@ -157,7 +157,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Add external histogram to go4 histogram directory. Histogram will be owned
        * and streamed by go4 histogram list afterwards.
        */
-      Bool_t AddHistogram(TH1 * his, const char* subfolder = nullptr, Bool_t replace=kTRUE);
+      Bool_t AddHistogram(TH1 * his, const char *subfolder = nullptr, Bool_t replace=kTRUE);
 
       /**
        * Search histogram in histogram list (directory).
@@ -238,7 +238,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to subfolder, e.g. dedicated to analysis step. If subfolder is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t AddTree(TTree* tree, const char* subfolder = nullptr);
+      Bool_t AddTree(TTree* tree, const char *subfolder = nullptr);
 
       /**
        * Search tree in tree folder.
@@ -258,7 +258,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by list afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddAnalysisCondition(TGo4Condition * con, const char* subfolder = nullptr);
+      Bool_t AddAnalysisCondition(TGo4Condition * con, const char *subfolder = nullptr);
 
       /**
        * Set existing analysis condition of name to the values
@@ -362,7 +362,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddParameter(TGo4Parameter * par, const char* subfolder = nullptr);
+      Bool_t AddParameter(TGo4Parameter * par, const char *subfolder = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -398,7 +398,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddPicture(TGo4Picture * pic, const char* subfolder = nullptr);
+      Bool_t AddPicture(TGo4Picture * pic, const char *subfolder = nullptr);
 
       /**
        * Set existing picture of name to the values
@@ -427,7 +427,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddCanvas(TCanvas * can, const char* subfolder = nullptr);
+      Bool_t AddCanvas(TCanvas * can, const char *subfolder = nullptr);
 
       /**
        * Retrieves a TCanvas by name from the Canvases folder. Returns 0 if no
@@ -631,7 +631,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Get pointer to subfolder of parent specified by name. If create is true, create it
        */
-      TFolder* FindSubFolder(TFolder* parent, const char* subfolder, Bool_t create=kTRUE);
+      TFolder* FindSubFolder(TFolder* parent, const char *subfolder, Bool_t create=kTRUE);
 
       /** Return full path name to object, relative to specified folder */
       Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder *fold = nullptr);
@@ -847,7 +847,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t AddObjectToFolder(TObject *ob,
                                TFolder *fold,
-                               const char* subfolder = nullptr,
+                               const char *subfolder = nullptr,
                                Bool_t replace=kTRUE,
                                Bool_t uniquename=kFALSE,
                                Bool_t resetbits=kTRUE);

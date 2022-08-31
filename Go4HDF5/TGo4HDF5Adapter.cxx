@@ -84,7 +84,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
    // and we have the problem of the bounce buffer with offset when reading back (first implementation!)
    TIter baseiter(rootclass->GetListOfBases());
    while (auto obj = baseiter()) {
-      // printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s , class:%s\n", obj, (obj ?
+      // printf("TGo4HDF5Adapter::FillTypeInfo - baseiter object 0x%x of name %s, class:%s\n", obj, (obj ?
       // obj->GetName()  : "No base class"), (obj ? obj->IsA()->GetName()  : "No type"));
       TBaseClass *base = dynamic_cast<TBaseClass *>(obj);
       go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo - base class 0x%lx %s \n", (unsigned long)base,
@@ -135,7 +135,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       const char *membername = fullname.Data();
       size_t memberoffset = member->GetOffset();
       Int_t arraydim = member->GetArrayDim();
-      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld , arraydim=%d\n", membername,
+      go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  *** sees member %s of type %s, offset=%ld, arraydim=%d\n", membername,
                 memtypename, memberoffset, arraydim);
       // continue; // DEBUG IT
 
@@ -329,7 +329,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       hsize_t dims[1] = {maxindex1};
       H5::ArrayType theArray(theType, arraydim, dims);
       go4hdfdbg(
-         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld, offset:%ld\n",
          membername, memtypename, arraydim, maxindex1, memberoffset);
       handle->InsertTypeMember(theMEMBER, memberoffset, theArray);
       break;
@@ -340,7 +340,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       hsize_t dims[2] = {maxindex1, maxindex2};
       H5::ArrayType theArray(theType, arraydim, dims);
       go4hdfdbg(
-         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld , offset:%ld\n",
+         "TGo4HDF5Adapter::FillTypeInfo inserts array member %s, type %s dimension %d, maxindex:%lld, offset:%ld\n",
          membername, memtypename, arraydim, maxindex1, memberoffset);
 
       handle->InsertTypeMember(theMEMBER, memberoffset, theArray);
@@ -349,7 +349,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
    default:
       go4hdfdbg(
-         "TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld , offset:%ld\n",
+         "TGo4HDF5Adapter::FillTypeInfo inserts simple member %s, type %s dimension %d,  maxindex:%lld, offset:%ld\n",
          membername, memtypename, arraydim, maxindex1, memberoffset);
 
       handle->InsertTypeMember(theMEMBER, memberoffset, theType);

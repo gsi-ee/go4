@@ -57,7 +57,7 @@ TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter* par) :
 }
 
 TGo4MbsRandom::TGo4MbsRandom(const char *name) :
-   TGo4MbsSource(name , 1),
+   TGo4MbsSource(name, 1),
    fiDLen(0),
    fiNumSub(0),
    fiNumDat(0),

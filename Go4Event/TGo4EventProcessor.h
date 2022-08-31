@@ -120,22 +120,22 @@ class TGo4EventProcessor: public TGo4EventSource {
       virtual void FinalizeEvent() {}
 
       /** Register user object to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddObject(TNamed * anything, const char* subfolder = nullptr);
+      Bool_t AddObject(TNamed * anything, const char *subfolder = nullptr);
 
       /** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddHistogram(TH1* his, const char* subfolder = nullptr, Bool_t replace = kTRUE);
+      Bool_t AddHistogram(TH1* his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
       /** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddParameter(TGo4Parameter* par, const char* subfolder = nullptr);
+      Bool_t AddParameter(TGo4Parameter* par, const char *subfolder = nullptr);
 
       /** Register condition to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddAnalysisCondition(TGo4Condition* con, const char* subfolder = nullptr);
+      Bool_t AddAnalysisCondition(TGo4Condition* con, const char *subfolder = nullptr);
 
       /** Register picture to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddPicture(TGo4Picture* pic, const char* subfolder = nullptr);
+      Bool_t AddPicture(TGo4Picture* pic, const char *subfolder = nullptr);
 
       /** Register TCanvas to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddCanvas(TCanvas* can, const char* subfolder = nullptr);
+      Bool_t AddCanvas(TCanvas* can, const char *subfolder = nullptr);
 
       /** UnRegister histogram from go4 framework and delete it. Shortcut forwarded to analysis instance */
       Bool_t RemoveHistogram(const char *name);

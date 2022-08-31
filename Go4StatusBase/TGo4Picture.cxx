@@ -708,7 +708,7 @@ Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 
 const char* TGo4Picture::GetXAxisTimeFormat()
 {
-   return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
+   return GetStrOption(PictureIndex, op_TimeAxisXFmt, "%H:%M:%S");
 }
 
 void TGo4Picture::SetXYRatioOne(Bool_t on)
@@ -841,7 +841,7 @@ void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
    if(naxis == 0) {
       // time format x axis
       if (GetOption (index, op_TimeAxisX, lv)) axis->SetTimeDisplay(lv);
-      axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S"));
+      axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt, "%H:%M:%S"));
    }
 
 }
@@ -1864,7 +1864,7 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index
    //   if (naxis == 0) {
    //      Bool_t tdisp=kFALSE;
    //      if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
-   //      TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
+   //      TString format=GetStrOption(index, op_TimeAxisXFmt, "%H:%M:%S");
    //      fs << name <<  "SetXAxisAttTime(";
    //      fs << tdisp << ", ";
    //      fs << "\"" << format.Data()<< "\"" <<", ";
@@ -1991,7 +1991,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
    // export x axis time attribute independent of objects. needed for TGraph pads
    Bool_t tdisp=kFALSE;
    if (GetOption (PictureIndex, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
-   TString format=GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
+   TString format=GetStrOption(PictureIndex, op_TimeAxisXFmt, "%H:%M:%S");
    fs << name <<  "SetXAxisAttTime(";
    fs << tdisp << ", ";
    fs << "\"" << format.Data()<< "\"" <<", ";

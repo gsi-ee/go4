@@ -34,7 +34,7 @@
  *
  *   TGo4FitModelGauss2 *g = new TGo4FitModelGauss2("Gauss", 5., 5., 1., 1., 0.5, 1, 2);
  *
- * where 1 - assignment of first coordinate to y axis , 2 - assignment of second coordinate to z axis.
+ * where 1 - assignment of first coordinate to y axis, 2 - assignment of second coordinate to z axis.
  */
 class TGo4FitModelGauss2 : public TGo4FitModel {
    public:

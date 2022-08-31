@@ -209,7 +209,7 @@ void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
 }
 
 
-Bool_t TGo4AnalysisObjectManager::AddObject(TNamed * anything, const char* subfolder, Bool_t replace)
+Bool_t TGo4AnalysisObjectManager::AddObject(TNamed * anything, const char *subfolder, Bool_t replace)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddObject(TNamed *)",__LINE__, __FILE__));
    // unspecified objects are only allowed to put into userdir
@@ -521,7 +521,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
    return memberfolder;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char* subfolder, Bool_t replace)
+Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char *subfolder, Bool_t replace)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
    Bool_t rev = AddObjectToFolder(his, fxHistogramDir, subfolder, replace, kTRUE);
@@ -707,7 +707,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
    return fold;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char* subfolder)
+Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTree(TTree*, char*)",__LINE__, __FILE__));
    return (AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE));
@@ -744,7 +744,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveHistogram(const char *name, Bool_t del)
 }
 
 
-Bool_t TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition * con, const char* subfolder)
+Bool_t TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition * con, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition *)",__LINE__, __FILE__));
    return(AddObjectToFolder(con,fxConditionDir,subfolder,kTRUE));
@@ -1141,7 +1141,7 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile* file)
    fxGo4Dir->Add(fxAnalysisDir);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddParameter(TGo4Parameter * par, const char* subfolder)
+Bool_t TGo4AnalysisObjectManager::AddParameter(TGo4Parameter * par, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddParameter(TGo4Parameter *)",__LINE__, __FILE__));
    return (AddObjectToFolder(par,fxParameterDir,subfolder,kTRUE));
@@ -1221,7 +1221,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveParameter(const char *name)
    return RemoveObjectFromFolder(name, fxParameterDir, kTRUE);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char* subfolder)
+Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddPicture(TGo4Picture *)",__LINE__, __FILE__));
    if(!pic) return kFALSE;
@@ -1273,7 +1273,7 @@ Bool_t TGo4AnalysisObjectManager::RemovePicture(const char *name)
    return RemoveObjectFromFolder(name, fxPictureDir, kTRUE);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder)
+Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddCanvas(TCanvas *)",__LINE__, __FILE__));
 
@@ -1410,7 +1410,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveDynamicEntry(const char* entryname)
 }
 
 
-TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* subfolder, Bool_t create)
+TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char *subfolder, Bool_t create)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::FindSubFolder(TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
@@ -1461,7 +1461,7 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
 
 Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject *ob,
                                                     TFolder *fold,
-                                                    const char* subfolder,
+                                                    const char *subfolder,
                                                     Bool_t replace,
                                                     Bool_t uniquename,
                                                     Bool_t resetbits)
@@ -1491,7 +1491,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject *ob,
    TObject* oldob = nullptr;
    if(uniquename) {
       // look for object of identical name anywhere in top folder
-      oldob=fold->FindObjectAny(ob->GetName());
+      oldob = fold->FindObjectAny(ob->GetName());
    } else {
       TString obname;
 

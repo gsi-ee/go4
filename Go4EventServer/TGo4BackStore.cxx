@@ -134,7 +134,7 @@ Int_t TGo4BackStore::Store(TGo4EventElement* event)
          TBranch *go4branch = fxTree->GetBranch(topbranchname.Data());
          if (go4branch) {
             // tree already had branch of our name, check it
-            TGo4Log::Debug(" BackStore: Found existing branch %s , continue filling ", topbranchname.Data());
+            TGo4Log::Debug(" BackStore: Found existing branch %s, continue filling ", topbranchname.Data());
             // here we might check the classname of the stored events inbranch
             go4branch->SetAddress(&fxEvent);
             fbBranchExists = kTRUE;

@@ -305,7 +305,7 @@ void TGo4MBSViewer::Refresh()
       //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       //int curentratio=(fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       fiEvRatio= (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
-      //std::cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<< std::endl;
+      //std::cout<<"Eventratio="<<fiEvRatio<<", currentratio="<<curentratio<< std::endl;
    }
    else if(fxDaqStat.bh_running[SYS__event_serv])
    {

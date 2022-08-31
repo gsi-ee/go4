@@ -94,7 +94,7 @@ class TGo4ServerTask : public TGo4Task {
        * for a client negotiation request;
        * used before launching an rsh client from server.
        * A dummy connection is performed to release socket pending in listening
-       * state, thus runnable may wait afterwards , and no
+       * state, thus runnable may wait afterwards, and no
        * server socket is listening on spawning the client.
        * Tests showed that any child process took over the listening
        * server socket, which is not desired here and probably a bug of the system.
