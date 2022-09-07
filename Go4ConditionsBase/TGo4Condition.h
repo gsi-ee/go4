@@ -397,10 +397,10 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Painter instance to display the condition in root pad. To
       * be used in Paint() which is called on TPad::Update automatically for
       * all TObjects appended to the pad. */
-    TGo4ConditionPainter* fxPainter;
+    TGo4ConditionPainter* fxPainter{nullptr};
 
     /** array with TObjStrings evaluated by UpdateFromUrl*/
-    TObjArray* fxUrlOptionArray; //!
+    TObjArray* fxUrlOptionArray{nullptr}; //!
 
     /** re-build the list of url options from string*/
     void BuildUrlOptionArray(const char *rest_url_opt);

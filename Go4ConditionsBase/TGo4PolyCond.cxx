@@ -182,9 +182,9 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
      fxCut->Set(pn);
    }
    Double_t xp = 0, yp = 0;
-   for(Int_t i=0; i<pn; ++i) {
-     newcut->GetPoint(i,xp,yp);
-     fxCut->SetPoint(i,xp,yp);
+   for (Int_t i = 0; i < pn; ++i) {
+      newcut->GetPoint(i, xp, yp);
+      fxCut->SetPoint(i, xp, yp);
    }
 
 
@@ -299,9 +299,9 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        Int_t pn = srccut->GetN();
        fxCut->Set(pn);
        Double_t xp = 0, yp = 0;
-       for(Int_t i=0; i<pn; ++i) {
-         srccut->GetPoint(i,xp,yp);
-         fxCut->SetPoint(i,xp,yp);
+       for (Int_t i = 0; i < pn; ++i) {
+          srccut->GetPoint(i, xp, yp);
+          fxCut->SetPoint(i, xp, yp);
        }
 
        // still need this to reassign the bins of statistics histogram:
@@ -321,35 +321,36 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 
 Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
 {
-  if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE;
-  TString message;
-  message.Form("TGo4PolyCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
-  TGo4Log::Message(1, "%s", message.Data());
+   if (!TGo4Condition::UpdateFromUrl(rest_url_opt))
+      return kFALSE;
+   TString message;
+   message.Form("TGo4PolyCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
+   TGo4Log::Message(1, "%s", message.Data());
 
-  // evaluate options that change array of points
-  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS)) {
-     Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
-     if(npoints >= 0)  {
-        TString xname, yname;
-        Double_t* X = new Double_t[npoints];
-        Double_t* Y = new Double_t[npoints];
-        for(Int_t i=0; i<npoints;++i) {
-             xname.Form("%s%d",TGo4PolyCond::fgxURL_XPRE.Data(), i);
-             yname.Form("%s%d",TGo4PolyCond::fgxURL_YPRE.Data(), i);
-             X[i]=GetUrlOptionAsDouble(xname.Data(),0);
-             Y[i]=GetUrlOptionAsDouble(yname.Data(),0);
-             message.Form(" i:%d, X=%f, Y=%f\n",i,X[i],Y[i]);
-           }
-        SetValues(X, Y, npoints);
-        delete [] X; delete [] Y;
-       }
-     message.Form(" - setting Polygon condition to new values!");
-     TGo4Log::Message(1, "%s", message.Data());
-
+   // evaluate options that change array of points
+   if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS)) {
+      message = "";
+      Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
+      if (npoints >= 0) {
+         TString xname, yname;
+         Double_t *X = new Double_t[npoints];
+         Double_t *Y = new Double_t[npoints];
+         for (Int_t i = 0; i < npoints; ++i) {
+            xname.Form("%s%d", TGo4PolyCond::fgxURL_XPRE.Data(), i);
+            yname.Form("%s%d", TGo4PolyCond::fgxURL_YPRE.Data(), i);
+            X[i] = GetUrlOptionAsDouble(xname.Data(), 0.);
+            Y[i] = GetUrlOptionAsDouble(yname.Data(), 0.);
+            message.Append(TString::Format(" i:%d, X[%i]=%f, Y[%i]=%f\n", i, X[i], i, Y[i]));
+         }
+         SetValues(X, Y, npoints);
+         delete[] X;
+         delete[] Y;
+      }
+      message.Append(" - setting Polygon condition to new values!");
+      TGo4Log::Message(1, "%s", message.Data());
    }
-  return kTRUE;
+   return kTRUE;
 }
-
 
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 {
@@ -517,8 +518,8 @@ void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
       xname = xname + "_x";
       line.Form("   Double_t %s[%d], %s[%d];", xname.Data(), fxCut->GetN(), yname.Data(), fxCut->GetN());
       out << line << std::endl;
-      for (Int_t n=0;n<fxCut->GetN();n++) {
-         Double_t x,y;
+      for (Int_t n = 0; n < fxCut->GetN(); n++) {
+         Double_t x, y;
          fxCut->GetPoint(n, x, y);
          line.Form("   %s[%d] = %f; %s[%d] = %f;", xname.Data(), n, x, yname.Data(), n, y);
          out << line << std::endl;

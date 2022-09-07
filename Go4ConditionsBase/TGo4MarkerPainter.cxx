@@ -170,39 +170,22 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
                ylab=ylabmid;
          }
       // offset from marker center:
-      Double_t f=0.92; // fraction of direct distance between marker and label
+      Double_t f = 0.92; // fraction of direct distance between marker and label
       // we calculate connector geometry in pad coordinates for log scale!
-      Double_t xmark_pad=0;
-      Double_t ymark_pad=0;
-      Double_t xlab_pad=gPad->XtoPad(xlab);
-      Double_t ylab_pad=gPad->YtoPad(ylab);
-      Double_t xmark0_pad=gPad->XtoPad(xmark0);
-      Double_t ymark0_pad=gPad->YtoPad(ymark0);
-//      if(gPad->GetLogx() || gPad->GetLogy())
-//         {
-//            //std::cout <<"using percentage for f" << std::endl;
-//            f=0.95;
-//         }
-//      else
-//         {
-//            // note: this method only works if we have equal axis scaling in x and y!
-//            //std::cout <<"using roff for f" << std::endl;
-//            Double_t dr=TMath::Sqrt(TMath::Power(xlab-xmark0,2) + TMath::Power(ylab-ymark0,2));
-//            Size_t msize=fxMarker->GetMarkerSize();
-//            Double_t xoff=0.008*msize*(gPad->GetUxmax()-gPad->GetUxmin());
-//            Double_t yoff=0.008*msize*(gPad->GetUymax()-gPad->GetUymin());
-//            Double_t roff= TMath::Sqrt(TMath::Power(xoff,2) + TMath::Power(yoff,2));
-//            if(dr) f=1- roff/dr;// we do it relative to marker size
-//         }
-//      std::cout <<"f="<<f << std::endl;
-      if(xlab_pad>xmark0_pad)
-            xmark_pad=xlab_pad-f*(xlab_pad-xmark0_pad);
+      Double_t xmark_pad = 0;
+      Double_t ymark_pad = 0;
+      Double_t xlab_pad = gPad->XtoPad(xlab);
+      Double_t ylab_pad = gPad->YtoPad(ylab);
+      Double_t xmark0_pad = gPad->XtoPad(xmark0);
+      Double_t ymark0_pad = gPad->YtoPad(ymark0);
+      if(xlab_pad > xmark0_pad)
+         xmark_pad = xlab_pad-f*(xlab_pad-xmark0_pad);
       else
-            xmark_pad=xlab_pad+f*(xmark0_pad-xlab_pad);
-      if(ylab_pad>ymark0_pad)
-            ymark_pad=ylab_pad-f*(ylab_pad-ymark0_pad);
+         xmark_pad = xlab_pad+f*(xmark0_pad-xlab_pad);
+      if(ylab_pad > ymark0_pad)
+         ymark_pad = ylab_pad-f*(ylab_pad-ymark0_pad);
       else
-            ymark_pad=ylab_pad+f*(ymark0_pad-ylab_pad);
+         ymark_pad = ylab_pad+f*(ymark0_pad-ylab_pad);
 
       xmark=gPad->PadtoX(xmark_pad); // back to real axis coordinates
       ymark=gPad->PadtoY(ymark_pad);
@@ -223,9 +206,7 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
       }
       fxConnector->SetLineColor(fxMarker->GetMarkerColor());
       //fxConnector->Paint(); // for direct update of view
-   }
-else
-   {
+   } else {
       UnPaintConnector(opt);
    }
 }

@@ -18,7 +18,6 @@
 
 TGo4LabelPainter::TGo4LabelPainter() :
    TNamed(),
-   fxLabel(0),
    fdX0(0),
    fdY0(0),
    fbIsLabStreamed(kTRUE)
@@ -28,7 +27,6 @@ TGo4LabelPainter::TGo4LabelPainter() :
 
 TGo4LabelPainter::TGo4LabelPainter(const char *name, const char *title) :
    TNamed(name, title ? title : "Go4 LabelPainter"),
-   fxLabel(0),
    fdX0(0),
    fdY0(0),
    fbIsLabStreamed(kFALSE)
@@ -39,8 +37,8 @@ TGo4LabelPainter::TGo4LabelPainter(const char *name, const char *title) :
 void TGo4LabelPainter::InitAttributes()
 {
    SetBit(kMustCleanup);
-   fdWidth=0.25;
-   fdHeight=0.22;
+   fdWidth = 0.25;
+   fdHeight = 0.22;
    SetCaption("Empty label");
    SetTextAlign(12); // left and central aligned
    //SetTextSize(0.03); // % of pad height
@@ -113,7 +111,7 @@ void TGo4LabelPainter::UnPaintLabel(Option_t* opt)
       // case of reset option: discard old label geometry if
       if(CheckLabel()) {
          delete fxLabel;
-         fxLabel=0;
+         fxLabel = nullptr;
       }
    }
 }
@@ -137,7 +135,6 @@ TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
    Double_t x0 = x, y0 = y, xmax = 0, ymax = 0;
    LabelCoords(x0,y0,xmax,ymax);
    TGo4Label* label = new TGo4Label(x0,y0,xmax,ymax);
-   //printf("TGo4LabelPainter::CreateCurrentLabel has new label=%d \n",(long) label); std::cout << std::endl;
    label->SetOwner(this);
    TAttText::Copy(*label);
    TAttLine::Copy(*label);
@@ -204,13 +201,14 @@ Double_t TGo4LabelPainter::GetLabelYup()
 
 const void *TGo4Label::fxLastDeleted = nullptr;
 
+
 void TGo4Label::Paint(Option_t *opt)
 {
    if (!gPad)
       return;
-   if (fxOwner) {
+
+   if (fxOwner)
       TPaveText::Paint(opt);
-   }
 
    // suppress painting of labels without owner. This case
    // happens after insert canvas in go4 (separate cloning
@@ -223,28 +221,29 @@ void TGo4Label::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
    if(!gPad) return;
    TPaveText::ExecuteEvent(event,px,py);
-   if(event==kButton1Up)  {
-      TGo4LabelPainter* painter=dynamic_cast<TGo4LabelPainter*>(fxOwner);
-      if(painter)
-         {
-            painter->DisplayToFront();
-            //std::cout <<"TGo4Label::ExecuteEvent with Display to front for "<<painter->GetName() << std::endl;
-         }
+   if(event == kButton1Up)  {
+      TGo4LabelPainter* painter = dynamic_cast<TGo4LabelPainter*>(fxOwner);
+      if(painter) {
+         painter->DisplayToFront();
+         //std::cout <<"TGo4Label::ExecuteEvent with Display to front for "<<painter->GetName() << std::endl;
+      }
    }
 }
 
 //////////////////////////////////////////////////////////
 
-const void *TGo4LabelConnector::fxLastDeleted = 0;
+const void *TGo4LabelConnector::fxLastDeleted = nullptr;
 
 ///////////// treat painting of the text label connector:
 void TGo4LabelConnector::Paint(Option_t* opt)
 {
-if(!gPad) return;
-if(fxOwner) TLine::Paint(opt);
-// suppress painting of label connectors without owner. This case
-// happens after insert canvas in go4 (separate cloning
-// of lists of primitive members), thus leading to a
-// second "ghost label connector" for markers
+   if (!gPad)
+      return;
+   if (fxOwner)
+      TLine::Paint(opt);
+   // suppress painting of label connectors without owner. This case
+   // happens after insert canvas in go4 (separate cloning
+   // of lists of primitive members), thus leading to a
+   // second "ghost label connector" for markers
 }
 /////////////////////////////////////////////////////////

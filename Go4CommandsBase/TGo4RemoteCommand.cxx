@@ -19,34 +19,32 @@ const char *TGo4RemoteCommand::fgxREMCOMEMPTYSTRING="--NOSTRING--";
 
 TGo4RemoteCommand::TGo4RemoteCommand() :
    TGo4Command(),
-   fxCommandName("THStop"),
-   fxAggregate(0)
+   fxCommandName("THStop")
 {
    InitPars();
 }
 
 TGo4RemoteCommand::TGo4RemoteCommand(const char *comname) :
    TGo4Command(),
-   fxCommandName(comname),
-   fxAggregate(0)
+   fxCommandName(comname)
 {
    InitPars();
 }
 
 void TGo4RemoteCommand::InitPars()
 {
-  SetName("BS_Remote");
-  SetDescription("Container for remote commands");
-  SetReceiverName("CommandInvoker");
-  fiCommandID = 888;
-  fiVersion = 3;
-  fbIsSynchron = kFALSE;
-  fbIsEnabled = kTRUE;
-  fbIsExclusive = kFALSE;
-  fbIsLocal = kFALSE;
-  for(Int_t j=0;j<__REMCOMPARS__; j++) {
-      fxParameter[j]=fgxREMCOMEMPTYSTRING;
-      fiValue[j]=0;
+   SetName("BS_Remote");
+   SetDescription("Container for remote commands");
+   SetReceiverName("CommandInvoker");
+   fiCommandID = 888;
+   fiVersion = 3;
+   fbIsSynchron = kFALSE;
+   fbIsEnabled = kTRUE;
+   fbIsExclusive = kFALSE;
+   fbIsLocal = kFALSE;
+   for (Int_t j = 0; j < __REMCOMPARS__; j++) {
+      fxParameter[j] = fgxREMCOMEMPTYSTRING;
+      fiValue[j] = 0;
    }
 }
 
@@ -70,31 +68,33 @@ void TGo4RemoteCommand::SetAggregate(TObject* ob)
    fxAggregate = ob;
 }
 
-TObject* TGo4RemoteCommand::GetAggregate(Bool_t chown)
+TObject *TGo4RemoteCommand::GetAggregate(Bool_t chown)
 {
-   TObject* rev=fxAggregate;
+   TObject *rev = fxAggregate;
    if(chown) fxAggregate = nullptr; // change ownership to external client
    return rev;
 }
 
 void TGo4RemoteCommand::SetString(const char *txt,Int_t i)
 {
-   if ((i>=0) && (i<__REMCOMPARS__)) fxParameter[i]=txt;
+   if ((i >= 0) && (i < __REMCOMPARS__))
+      fxParameter[i] = txt;
 }
 
 const char *TGo4RemoteCommand::GetString(Int_t i) const
 {
-   return ((i>=0) && (i<__REMCOMPARS__)) ? fxParameter[i].Data() : nullptr;
+   return ((i >= 0) && (i < __REMCOMPARS__)) ? fxParameter[i].Data() : nullptr;
 }
 
 void TGo4RemoteCommand::SetValue(Int_t num, Int_t i)
 {
-   if((i>=0) && (i<__REMCOMPARS__)) fiValue[i]=num;
+   if ((i >= 0) && (i < __REMCOMPARS__))
+      fiValue[i] = num;
 }
 
 Int_t TGo4RemoteCommand::GetValue(Int_t i) const
 {
-   return ((i>=0) && (i<__REMCOMPARS__)) ? fiValue[i] : 0;
+   return ((i >= 0) && (i < __REMCOMPARS__)) ? fiValue[i] : 0;
 }
 
 const char *TGo4RemoteCommand::Get_fgxREMCOMEMPTYSTRING()

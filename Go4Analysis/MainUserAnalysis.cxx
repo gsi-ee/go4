@@ -262,9 +262,11 @@ typedef TGo4Analysis* (UserCreateFunc)(const char *name);
 
 int FindArg(int argc, char **argv, const char *argname)
 {
-   if (!argname || (strlen(argname) == 0)) return -1;
-   for (int n=0;n<argc;n++)
-      if (strcmp(argv[n], argname) == 0) return n;
+   if (!argname || (strlen(argname) == 0))
+      return -1;
+   for (int n = 0; n < argc; n++)
+      if (strcmp(argv[n], argname) == 0)
+         return n;
    return -1;
 }
 

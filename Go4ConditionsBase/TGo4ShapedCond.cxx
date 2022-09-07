@@ -200,34 +200,18 @@ void TGo4ShapedCond::ResetPolygon()
 
 void TGo4ShapedCond::DefineEllipse(Double_t *x, Double_t *y, Int_t n)
 {
-  Double_t dx,dy;
    Double_t dphi = TMath::TwoPi()/n;
    Double_t ct   = TMath::Cos(TMath::Pi()*fdTheta/180);
    Double_t st   = TMath::Sin(TMath::Pi()*fdTheta/180);
    for (Int_t i = 0; i < n; i++)
    {
-     dx = fdRadius1 * TMath::Cos((Double_t) i * dphi);
-     dy = fdRadius2 * TMath::Sin((Double_t) i * dphi);
+     Double_t dx = fdRadius1 * TMath::Cos((Double_t) i * dphi);
+     Double_t dy = fdRadius2 * TMath::Sin((Double_t) i * dphi);
      x[i] = fdCenterX + dx * ct - dy * st;
      y[i] = fdCenterY + dx * st + dy * ct;
    }
    x[n] = x[0];
    y[n] = y[0];
-
-   // from SvenA. for circle only
- //  const Int_t n = 30; //i.e., 12 degrees per slice
- //         Double_t x[n+1], y[n+1];
- //         Double_t dphi = TMath::TwoPi()/n;
- //         for (Int_t i=0; i<n; i++)
- //         {
- //                 x[i] = x0 + rad * TMath::Cos(i*dphi);
- //                 y[i] = y0 + rad * TMath::Sin(i*dphi);
- //         }
- //         x[n] = x[0];
- //         y[n] = y[0];
-
-
-
 }
 
 void TGo4ShapedCond::DefineBox(Double_t *x, Double_t *y, Int_t n)
