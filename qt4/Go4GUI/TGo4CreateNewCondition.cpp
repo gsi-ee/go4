@@ -46,12 +46,12 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
        TGo4CondArray* arr = nullptr;
        if (ctype == 2) {
           arr = new TGo4CondArray(cname, arrsize, "TGo4PolyCond");
-          for (int n=0;n<arrsize;n++) {
-             TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (arr->At(n));
+          for (int n = 0; n < arrsize; n++) {
+             TGo4PolyCond *pcond = dynamic_cast<TGo4PolyCond *>(arr->At(n));
              Double_t xx[5] = {0, 100, 100,   0, 0};
              Double_t yy[5] = {0, 0,   100, 100, 0};
-             for(int indx=0;indx<5;indx++) {
-                xx[indx]+=n*20.;
+             for (int indx = 0; indx < 5; indx++) {
+                xx[indx] += n * 20.;
                 yy[indx]+=n*20.;
              }
              if (pcond)
@@ -59,13 +59,14 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
           }
        } else {
           arr = new TGo4CondArray(cname, arrsize, "TGo4WinCond");
-          for (int n=0;n<arrsize;n++) {
-            TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (arr->At(n));
-            if (!wcond) continue;
-            if (ctype == 0)
-               wcond->SetValues(0.,100.);
-            else
-               wcond->SetValues(0.,100.,0.,100.);
+          for (int n = 0; n < arrsize; n++) {
+             TGo4WinCond *wcond = dynamic_cast<TGo4WinCond *>(arr->At(n));
+             if (!wcond)
+                continue;
+             if (ctype == 0)
+                wcond->SetValues(0., 100.);
+             else
+                wcond->SetValues(0., 100., 0., 100.);
           }
        }
        cond = arr;

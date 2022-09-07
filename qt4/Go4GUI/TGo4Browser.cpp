@@ -311,7 +311,7 @@ void TGo4Browser::updateListViewItems()
 
    // first update list of visible columns
 
-   for(int indx=0;indx<NColumns;indx++)
+   for (int indx = 0; indx < NColumns; indx++)
       ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
 
    TGo4BrowserProxy* br = BrowserProxy();
@@ -795,7 +795,7 @@ void TGo4Browser::ColumnToggled(int indx)
 void TGo4Browser::HeaderSectionResizedSlot(int, int, int)
 {
    int ncolumn = 0;
-   for(int indx=0;indx<NColumns;indx++) {
+   for (int indx = 0; indx < NColumns; indx++) {
       int width = -1;
       if (fVisibleColumns[indx]) {
          width = ListView->columnWidth(ncolumn++);
@@ -1087,7 +1087,7 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
    Int_t nargs = serv->NumCommandArgs(objname);
    if (nargs < 0) return;
 
-   for (Int_t n=0;n<nargs;n++) {
+   for (Int_t n = 0; n < nargs; n++) {
       bool ok = false;
       QString value =
             QInputDialog::getText(0, "Input command arguments",

@@ -298,10 +298,8 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
    TString buf;
    const char *drawopt = nullptr;
 
-   if ((kind>=0) && (kind<=2)) {
-      CodeDrawOptions(ErrorBars->currentIndex(),
-                      Coordinates->currentIndex(),
-                      DrawOption->currentIndex(), buf);
+   if ((kind >= 0) && (kind <= 2)) {
+      CodeDrawOptions(ErrorBars->currentIndex(), Coordinates->currentIndex(), DrawOption->currentIndex(), buf);
       if (buf.Length()>0) drawopt = buf.Data();
    }
 
