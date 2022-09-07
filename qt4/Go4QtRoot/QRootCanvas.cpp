@@ -262,7 +262,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 //    std::cout <<"parent: ("<<parentp.x()<<", "<<parentp.y()<<") " << std::endl;
 //    QPoint backfromglobalp=QWidget::mapFromGlobal(globalp);
 //     std::cout <<"backglobal: ("<<backfromglobalp.x()<<", "<<backfromglobalp.y()<<") " << std::endl;
-//     Int_t destx=0, desty=0;
+//     Int_t destx = 0, desty = 0;
 //     Window_t child;
 //     Window_t rootwindow=gVirtualX->GetDefaultRootWindow();
 //      gVirtualX->TranslateCoordinates(rootwindow, fQtWindowId, globalp.x(), globalp.y(), destx, desty, child);

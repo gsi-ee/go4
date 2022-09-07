@@ -61,12 +61,13 @@ void QFitDataWidget::FillSpecificData()
 
      TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (GetItem()->Parent()->Object());
      if (fitter)
-      for(Int_t nmodel=0;nmodel<fitter->GetNumModel();nmodel++) {
-         TGo4FitModel* model = fitter->GetModel(nmodel);
-         if (model->IsAssignTo(GetData()->GetName())) {
-            info+=" "; info+=model->GetName();
-         }
-      }
+        for (Int_t nmodel = 0; nmodel < fitter->GetNumModel(); nmodel++) {
+           TGo4FitModel *model = fitter->GetModel(nmodel);
+           if (model->IsAssignTo(GetData()->GetName())) {
+              info += " ";
+              info += model->GetName();
+           }
+        }
      ModelsLbl->setText(info);
      ModelsLbl->adjustSize();
    }

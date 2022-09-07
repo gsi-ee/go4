@@ -70,7 +70,7 @@ void QFitRangeWidget::GetRangeData()
   Int_t typ = RangeTypCmb->currentIndex();
   Int_t naxis = AxisNumSpin->value();
 
-  Double_t left=0., right=0.;
+  Double_t left = 0., right = 0.;
   bool isok1 = true, isok2 = true;
 
   if (typ!=3) left = LeftEdt->text().toDouble(&isok1);
