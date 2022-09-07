@@ -262,10 +262,10 @@ Int_t TXXXAnalysis::UserPostLoop()
 //   StoreFolder("Unpack","Conditions");
 //////////////////////////////////////////////////////////////////////
 
-   fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
-   fRawEvent = 0;
-   fCalEvent = 0;
-   fEvents=0;
+   fMbsEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
+   fRawEvent = nullptr;
+   fCalEvent = nullptr;
+   fEvents = 0;
    return 0;
 }
 

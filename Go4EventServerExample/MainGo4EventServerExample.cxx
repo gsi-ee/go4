@@ -56,9 +56,9 @@ int main(int argc, char **argv)
      TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
 
      TBenchmark mybench;
-     const char *num=argv[1];
-     Int_t maxevents=atoi(num);
-     Int_t value=0;
+     const char *num = argv[1];
+     Int_t maxevents = atoi(num);
+     Int_t value = 0;
 
      TCanvas* can = new TCanvas("MyCanvas","MainGo4EventServer");
      can->Divide(1,2);
@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 
      std::cout << "starting event loop:"<< std::endl;
      mybench.Start("Go4EventServer");
-     for(Int_t t=0; t<maxevents; ++t)
+     for(Int_t t = 0; t < maxevents; ++t)
         {
 //////// get raw event from mbs source
            event->Clear();

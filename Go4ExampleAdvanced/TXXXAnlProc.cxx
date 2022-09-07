@@ -94,10 +94,9 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt = 0;
    TXXXUnpackEvent& ev=*inp_evt; // ref instead pointer for array syntax below
-   for(Int_t cr=1;cr<3;cr++) {
+   for (Int_t cr = 1; cr < 3; cr++) {
       // loop over first filled crates 1 and 2
-      for(Int_t ii=0;ii<4;ii++)
-      {
+      for (Int_t ii = 0; ii < 4; ii++) {
          // get first channels of each crate
          TXXXModule* mod=dynamic_cast<TXXXModule*>( &ev[cr][ii]); // 2d array with composite event operator[]
          if(!mod) continue;
@@ -108,8 +107,8 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
       }
    }
 
-   for(Int_t ii=0;ii<8;ii++)
-      if(out_evt->frData[ii]) {
+   for (Int_t ii = 0; ii < 8; ii++)
+      if (out_evt->frData[ii]) {
          if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
          if (fParam1) fSum2->Fill(out_evt->frData[ii] + fParam1->frP1);
          if (fParam2) fSum3->Fill(out_evt->frData[ii] + fParam2->frP1);

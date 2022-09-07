@@ -75,16 +75,17 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    isValid = kTRUE;
 
    Int_t cnt = 0;
-   for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++)
+   for (Int_t ii = 0; ii < XXX_NUM_CHAN / 2; ii++)
       out_evt->frData[cnt++] = inp_evt->fiCrate1[ii];
 
-   for(Int_t ii=0; ii<XXX_NUM_CHAN/2; ii++)
+   for (Int_t ii = 0; ii < XXX_NUM_CHAN / 2; ii++)
       out_evt->frData[cnt++] = inp_evt->fiCrate2[ii];
 
-   if(fParam->fbHisto) { // histogramming
-      for(Int_t ii=0;ii<XXX_NUM_CHAN;ii++)
-         if(out_evt->frData[ii]) {
-            if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
+   if (fParam->fbHisto) { // histogramming
+      for (Int_t ii = 0; ii < XXX_NUM_CHAN; ii++)
+         if (out_evt->frData[ii]) {
+            if (fWinCon && fWinCon->Test(out_evt->frData[ii]))
+               fSum1->Fill(out_evt->frData[ii]);
             fSum2->Fill(out_evt->frData[ii] + fParam->frP1);
             fSum3->Fill(out_evt->frData[ii] + fParam->frP2);
          }

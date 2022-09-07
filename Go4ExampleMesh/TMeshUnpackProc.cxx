@@ -76,7 +76,7 @@ void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
             index =  *pdata&0xfff;      // in case low word is index
             value = *pdata;             // save for 2d histogram
             //value = (*pdata>>16)&0xfff; // in case high word is data
-            if((value != 0) && (index>=0)) {
+            if((value != 0) && (index >= 0)) {
                poutevt->fiCrate1[i] = value; // fill output event
             }
             pdata++;
@@ -110,7 +110,7 @@ void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
            index = *pdata&0xfff;
            //value=(*pdata>>16)&0xfff;
            value = *pdata;
-           if((value != 0) && (index>=0)) {
+           if((value != 0) && (index >= 0)) {
               poutevt->fiCrate2[i] = value;
            }
            pdata++;
@@ -143,7 +143,7 @@ void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
            index =  *pdata&0xfff;      // in case low word is index
            //value = (*pdata>>16)&0xfff; // in case high word is data
            value = *pdata;
-           if((value != 0) && (index>=0)) {
+           if((value != 0) && (index >= 0)) {
               poutevt->fiCrate3[i] = value; // fill output event
            }
            pdata++;

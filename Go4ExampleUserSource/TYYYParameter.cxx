@@ -23,7 +23,7 @@ TYYYParameter::TYYYParameter() :
    frP1 = 0;
    frP2 = 0;
 
-   for(Int_t ix=0;ix<__ARRAYSIZE__;ix++) {
+   for (Int_t ix = 0; ix < __ARRAYSIZE__; ix++) {
       fiDataArray[ix] = 0;
       fxFitArray[ix] = nullptr;
    }
@@ -34,19 +34,19 @@ TYYYParameter::TYYYParameter(const char *name) :
 {
    frP1 = 10;
    frP2 = 20;
-   for(Int_t ix=0;ix<__ARRAYSIZE__;ix++) {
-      fiDataArray[ix]=ix+30;
+   for (Int_t ix = 0; ix < __ARRAYSIZE__; ix++) {
+      fiDataArray[ix] = ix + 30;
       fxFitArray[ix] = new TGo4Fitter();
    }
 }
 
 TYYYParameter::~TYYYParameter()
 {
-   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
-     if(fxFitArray[ix]) {
-        delete fxFitArray[ix];
-        fxFitArray[ix] = nullptr;
-     }
+   for (Int_t ix = 0; ix < __ARRAYSIZE__; ++ix)
+      if (fxFitArray[ix]) {
+         delete fxFitArray[ix];
+         fxFitArray[ix] = nullptr;
+      }
 }
 
 void TYYYParameter::Print(Option_t*) const
@@ -54,9 +54,10 @@ void TYYYParameter::Print(Option_t*) const
   TGo4Status::PrintLine("Parameter %s:", GetName());
   TGo4Status::PrintLine(" P1 = %f", frP1);
   TGo4Status::PrintLine(" P2= %f", frP2);
-  for(Int_t ix=0;ix<__ARRAYSIZE__;++ix) {
+  for (Int_t ix = 0; ix < __ARRAYSIZE__; ++ix) {
      TGo4Status::PrintLine("fiDataArray[%d] = %d", ix, fiDataArray[ix]);
-     if (fxFitArray[ix]) fxFitArray[ix]->PrintLines();
+     if (fxFitArray[ix])
+        fxFitArray[ix]->PrintLines();
   }
 }
 
@@ -71,7 +72,7 @@ Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
    TGo4Log::Info("Parameter %s: P1=%f P2=%f", GetName(), frP1, frP2);
    frP1 = from->frP1;
    frP2 = from->frP2;
-   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix) {
+   for (Int_t ix = 0; ix < __ARRAYSIZE__; ++ix) {
       fiDataArray[ix] = from->fiDataArray[ix];
       // replace old fitters by copy of source fitter:
       if(fxFitArray[ix]) {

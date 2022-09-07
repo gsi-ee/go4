@@ -36,7 +36,7 @@ TMeshB2InputEvent::~TMeshB2InputEvent()
 //-----------------------------------------------------------
 Int_t TMeshB2InputEvent::Init()
 {
-  Int_t rev=0;
+  Int_t rev = 0;
   //std::cout << "+++ Init event" << std::endl;
   Clear();
   // is it used by Unpack step as output?
@@ -55,7 +55,7 @@ Int_t TMeshB2InputEvent::Init()
 //-----------------------------------------------------------
 Int_t TMeshB2InputEvent::Fill()
 {
-   Int_t rev=0;
+   Int_t rev = 0;
    Clear();
    if(fxProcessor)
       fxProcessor->UnpackBranch2(this);

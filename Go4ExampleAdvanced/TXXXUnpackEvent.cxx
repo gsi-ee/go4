@@ -36,7 +36,7 @@ TXXXUnpackEvent::TXXXUnpackEvent(const char *name) :
    TGo4CompositeEvent(name,name,0)
 {
 	TString modname;
-	for(UInt_t ix=0; ix<XXX_NUM_CRATES; ++ix) {
+   for (UInt_t ix = 0; ix < XXX_NUM_CRATES; ++ix) {
       if (Config_Crates[ix] == 0)
          continue; // skip empty crates
       modname.Form("XXXCrate%d", ix);

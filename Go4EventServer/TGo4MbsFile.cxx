@@ -81,7 +81,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
       fxTagFile = par->GetTagName();
 
       AddFileName(GetName(), fxTagFile.Data(), par->NumMoreFiles() == 0);
-      for (Int_t n=0;n<par->NumMoreFiles();n++)
+      for (Int_t n = 0; n < par->NumMoreFiles(); n++)
          AddFileName(par->GetMoreName(n), 0, kFALSE);
    }
 
@@ -308,9 +308,7 @@ Int_t TGo4MbsFile::NextFile()
       const char *rem1 = nullptr;
       const char *rem2 = nullptr;
       Int_t convs = 0;
-      //static int cnt=0;
       do {
-         //std::cout <<"read line "<<cnt++<<" : "<<nextline << std::endl;
          //if(fxMultiFile->rdstate()==ios::eofbit)
          if(!fxMultiFile || (fxMultiFile->GetSize() == 0)) {
             // reached last filename, or read error?
@@ -349,9 +347,6 @@ Int_t TGo4MbsFile::NextFile()
          fuEventInterval = 0;
          strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN - 1);
       }
-      //     std::cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << std::endl;
-      //     std::cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
-      //     std::cout <<", interval:" <<fuEventInterval<< std::endl;
       fxCurrentFile = nextfile;
       if(!strcmp(nexttag,"0") || !strcmp(nexttag,""))
          fxCurrentTag = TGo4MbsFile::fgcNOTAGFILE; // no tagfile if no name
@@ -388,8 +383,8 @@ Int_t TGo4MbsFile::OpenFile()
 
    const char *tagfile = GetCurrentTagName();
    if(!strcmp(tagfile,TGo4MbsFile::fgcNOTAGFILE)) {
-      tagfile=0;
-      fxCurrentTag="none"; // looks better in display message
+      tagfile = nullptr;
+      fxCurrentTag = "none"; // looks better in display message
    }
    void* headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
    Int_t status = f_evt_get_tagopen(fxInputChannel,

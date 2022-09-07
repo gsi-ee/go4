@@ -36,7 +36,7 @@ TMeshRawEvent::~TMeshRawEvent()
 //-----------------------------------------------------------
 Int_t TMeshRawEvent::Init()
 {
-  Int_t rev=0;
+  Int_t rev = 0;
   //std::cout << "+++ Init event" << std::endl;
   Clear();
   if(CheckEventSource("TMeshUnpackProc"))
@@ -56,15 +56,15 @@ Int_t TMeshRawEvent::Init()
    {
       fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
       TGo4Log::Info("TMeshRawEvent init for file input");
+   } else {
+     rev=1;
    }
-  else
-   rev=1;
-  return rev;
+   return rev;
 }
 //-----------------------------------------------------------
 Int_t TMeshRawEvent::Fill()
 {
-   Int_t rev=0;
+   Int_t rev = 0;
    Clear();
    if(fxUnpacker)
       {

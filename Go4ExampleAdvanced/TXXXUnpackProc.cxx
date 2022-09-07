@@ -51,7 +51,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
 
    TGo4Log::Info("TXXXProc: Produce histograms");
 
-   for(int i=0;i<8;i++) {
+   for (int i = 0; i < 8; i++) {
       fCr1Ch[i] = 0;
       fCr2Ch[i] = 0;
    }
@@ -174,26 +174,25 @@ TXXXUnpackProc::~TXXXUnpackProc()
 void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
 {
   //std::cout <<"TXXXUnpackProc::CreateRawHistograms" << std::endl;
-   for(int i=0;i<8;i++) {
+  for (int i = 0; i < 8; i++) {
 
-      if (fCr1Ch[i]) {
-         RemoveHistogram(fCr1Ch[i]->GetName());
-         fCr1Ch[i] = nullptr;
-      }
+     if (fCr1Ch[i]) {
+        RemoveHistogram(fCr1Ch[i]->GetName());
+        fCr1Ch[i] = nullptr;
+     }
 
-      if (fCr2Ch[i]) {
-         RemoveHistogram(fCr2Ch[i]->GetName());
-         fCr2Ch[i] = nullptr;
-      }
+     if (fCr2Ch[i]) {
+        RemoveHistogram(fCr2Ch[i]->GetName());
+        fCr2Ch[i] = nullptr;
+     }
 
-      TString hname = TString::Format("Crate1/Cr1Ch%02d", i+1);
-      TString htitle = TString::Format("Crate 1 channel %2d", i+1);
-      fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), nbins, xmin, xmax);
-      hname = TString::Format("Crate2/Cr2Ch%02d",i+1);
-      htitle = TString::Format("Crate 2 channel %2d",i+1);
-      fCr2Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), nbins, xmin, xmax);
-
-   }
+     TString hname = TString::Format("Crate1/Cr1Ch%02d", i + 1);
+     TString htitle = TString::Format("Crate 1 channel %2d", i + 1);
+     fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), nbins, xmin, xmax);
+     hname = TString::Format("Crate2/Cr2Ch%02d", i + 1);
+     htitle = TString::Format("Crate 2 channel %2d", i + 1);
+     fCr2Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), nbins, xmin, xmax);
+  }
 
    // change histogram pointer, used in parameter
    TXXXCalibPar* par = (TXXXCalibPar*) GetParameter("CaliPar");

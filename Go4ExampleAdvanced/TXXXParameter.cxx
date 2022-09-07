@@ -17,24 +17,24 @@
 TXXXParameter::TXXXParameter(const char *name) :
    TGo4Parameter(name)
 {
-   frP1=10;
-   frP2=20;
-   fiNum=-3;
-   fbEnab=kFALSE;
-   fdTest=3.141592665;
-   fsTest=6;
-   fcTest=47;
-   flTest=20;
-   fuNum=42;
-   fuShort=8;
-   fuChar=9;
-   fuLong=10;
-   fxInputfile="testdata.lmd";
-   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
-      fiDataArray[ix]=ix+30;
-   for(Int_t u=0;u<__MEVX__;++u)
-      for(Int_t v=0;v<__MEVY__;++v)
-         fdMeV[u][v]=(u+v)*1.537;
-   for(Int_t x=0;x<__MEVX__;++x)
-      fdTestarr[x]=x*3.1415;
+   frP1 = 10;
+   frP2 = 20;
+   fiNum = -3;
+   fbEnab = kFALSE;
+   fdTest = 3.141592665;
+   fsTest = 6;
+   fcTest = 47;
+   flTest = 20;
+   fuNum = 42;
+   fuShort = 8;
+   fuChar = 9;
+   fuLong = 10;
+   fxInputfile = "testdata.lmd";
+   for (Int_t ix = 0; ix < __ARRAYSIZE__; ++ix)
+      fiDataArray[ix] = ix + 30;
+   for (Int_t u = 0; u < __MEVX__; ++u)
+      for (Int_t v = 0; v < __MEVY__; ++v)
+         fdMeV[u][v] = (u + v) * 1.537;
+   for (Int_t x = 0; x < __MEVX__; ++x)
+      fdTestarr[x] = x * 3.1415;
 }

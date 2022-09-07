@@ -14,19 +14,18 @@
 #include "TXXXParameter.h"
 
 TXXXParameter::TXXXParameter(const char *name) :
-   TGo4Parameter(name),
-   fArr()
+   TGo4Parameter(name)
 {
    frP1 = 10;
    frP2 = 20;
    fbHisto = kTRUE;
 
-   for (Int_t n1=0;n1<3;n1++)
-      for (Int_t n2=0;n2<4;n2++)
-        fArr2[n1][n2] = n1+n2;
+   for (Int_t n1 = 0; n1 < 3; n1++)
+      for (Int_t n2 = 0; n2 < 4; n2++)
+         fArr2[n1][n2] = n1 + n2;
 
-   for (Int_t n1=0;n1<3;n1++)
-      for (Int_t n2=0;n2<4;n2++)
-         for (Int_t n3=0;n3<5;n3++)
-           fArr3[n1][n2][n3] = n1+n2+n3;
+   for (Int_t n1 = 0; n1 < 3; n1++)
+      for (Int_t n2 = 0; n2 < 4; n2++)
+         for (Int_t n3 = 0; n3 < 5; n3++)
+            fArr3[n1][n2][n3] = n1 + n2 + n3;
 }

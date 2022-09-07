@@ -38,13 +38,13 @@ TYYYRawEvent::~TYYYRawEvent()
 {
    if (fdData) {
       delete [] fdData;
-      fdData = 0;
+      fdData = nullptr;
    }
 }
 
 void TYYYRawEvent::Clear(Option_t *t)
 {
-   for(Int_t t=0; t<fiColumns;++t)
+   for (Int_t t = 0; t < fiColumns; ++t)
       fdData[t] = 0.;
 }
 
@@ -62,7 +62,7 @@ void TYYYRawEvent::ReAllocate(Int_t newsize)
    } else {
       if (newsize == 0) {
          delete [] fdData;
-         fdData = 0;
+         fdData = nullptr;
          fiAllocated = 0;
       }
       fiColumns = newsize;
@@ -72,7 +72,7 @@ void TYYYRawEvent::ReAllocate(Int_t newsize)
 void TYYYRawEvent::PrintEvent()
 {
    TGo4EventElement::PrintEvent();
-   std::cout<<" YYY Event printout: "<<std::endl;
-   for(Int_t t=0; t<fiColumns;++t)
-      std::cout <<"\t dat("<<t<<")="<<fdData[t]<<std::endl;
+   std::cout << " YYY Event printout: " << std::endl;
+   for (Int_t t = 0; t < fiColumns; ++t)
+      std::cout << "\t dat(" << t << ")=" << fdData[t] << std::endl;
 }

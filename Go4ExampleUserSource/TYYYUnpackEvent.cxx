@@ -40,8 +40,8 @@ void  TYYYUnpackEvent::Clear(Option_t *t)
    memset(destfield, 0, sizeof(fdV));
    destfield = (void*) &fdGam[0];
    memset(destfield, 0, sizeof(fdGam));
-   fiNumScatt=0;
-   fdEmittX=0;
-   fdEmittY=0;
-   fdEmitt4d=0;
+   fiNumScatt = 0;
+   fdEmittX = 0;
+   fdEmittY = 0;
+   fdEmitt4d = 0;
 }

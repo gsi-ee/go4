@@ -282,7 +282,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 	// Some examples how to skip event processing or stop analysis by exception
 	// for convenience, we provide  GO4_ macros to invoke appropriate exception throws
 	// NOTE: You need to //#include "TGo4UserException.h" for this feature
-   //	 static UInt_t count=0;
+   //	 static UInt_t count = 0;
 	//	 if((count++ % 100000) == 0 && count > 1) // user may put a real analysis condition here
 	//		 {
 	//			 // this macro will skip event and subsequent analysis steps and send specified message to gui log window:

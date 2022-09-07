@@ -172,7 +172,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       TObjArray* fxSubEvArray{nullptr};
 
       /** Subevent index in array, replacement for Iterator. */
-      Int_t fiSubEvIndex{0};//!
+      Int_t fiSubEvIndex{0}; //!
 
       /** Indicates if this object is mere reference to another mbs event*/
       Bool_t fbIsReference{kFALSE}; //!

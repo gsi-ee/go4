@@ -36,7 +36,7 @@ TMeshB1InputEvent::~TMeshB1InputEvent()
 //-----------------------------------------------------------
 Int_t TMeshB1InputEvent::Init()
 {
-  Int_t rev=0;
+  Int_t rev = 0;
   //std::cout << "+++ Init event" << std::endl;
   Clear();
   // is it used by Unpack step as output?
@@ -48,14 +48,15 @@ Int_t TMeshB1InputEvent::Init()
   else if(CheckEventSource("TGo4FileSource")){
     fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
     TGo4Log::Info("TMeshB1InputEvent init for file input");
+  } else {
+     rev = 1;
   }
-  else          rev=1;
   return rev;
 }
 //-----------------------------------------------------------
 Int_t TMeshB1InputEvent::Fill()
 {
-   Int_t rev=0;
+   Int_t rev = 0;
    Clear();
    if(fxProcessor)
       fxProcessor->UnpackBranch1(this);
@@ -69,9 +70,6 @@ Int_t TMeshB1InputEvent::Fill()
 //-----------------------------------------------------------
 void  TMeshB1InputEvent::Clear(Option_t *t)
 {
-void* destfield;
-   //std::cout << "+++ event clear" << std::endl;
-   destfield = (void*) &fiCrate1[0];
+   void *destfield = (void *) &fiCrate1[0];
    memset(destfield,0, sizeof(fiCrate1));
-   //std::cout << "+++ event clear" << std::endl;
 }

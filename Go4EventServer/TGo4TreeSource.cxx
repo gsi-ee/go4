@@ -23,14 +23,14 @@
 #include "TGo4TreeSourceParameter.h"
 
 TGo4TreeSource::TGo4TreeSource(const char *name)
-: TGo4EventSource(name), fxTree(nullptr), fxBranch(nullptr)
+: TGo4EventSource(name)
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));
    Open();
 }
 
 TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter* par)
-: TGo4EventSource(par->GetName()), fxTree(nullptr), fxBranch(nullptr)
+: TGo4EventSource(par->GetName())
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter*)",__LINE__, __FILE__));
    Open();
@@ -38,7 +38,7 @@ TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter* par)
 
 
 TGo4TreeSource::TGo4TreeSource()
-: TGo4EventSource("Go4TreeSource"), fxTree(0), fxBranch(0)
+: TGo4EventSource("Go4TreeSource")
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource()",__LINE__, __FILE__));
 }
