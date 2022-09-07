@@ -34,7 +34,7 @@ Bool_t rebin(const char *name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t dra
       result = his1->Rebin2D(ngroup1,ngroup2,finalname);
       result->SetTitle(finaltitle);
    } else if(ob1 && ob1->InheritsFrom("TH1")){
-      ngroup2=0;
+      ngroup2 = 0;
       TH1* his1=(TH1*)ob1;
       TString n1=his1->GetName();
       TString t1=his1->GetTitle();

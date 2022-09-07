@@ -46,12 +46,12 @@ Bool_t scalex(const char *name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
    std::cout <<"rescaling histogram of " << nbins << " bins..." << std::endl;
 
    Double_t* binarray = new Double_t[nbins+1];
-   for(Int_t i=0; i<=nbins; ++i)
-      binarray[i] = a1*(his1->GetXaxis()->GetBinUpEdge(i)) + a0;
+   for (Int_t i = 0; i <= nbins; ++i)
+      binarray[i] = a1 * (his1->GetXaxis()->GetBinUpEdge(i)) + a0;
 
    TH1* result = new TH1I(finalname, finaltitle, nbins, binarray);
-   for(Int_t i=0; i<nbins; ++i)
-      result->SetBinContent(i,his1->GetBinContent(i)); // copy contents to scaled bin
+   for (Int_t i = 0; i < nbins; ++i)
+      result->SetBinContent(i, his1->GetBinContent(i)); // copy contents to scaled bin
    delete[] binarray;
 
 

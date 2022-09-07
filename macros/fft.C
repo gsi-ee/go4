@@ -47,15 +47,14 @@ Bool_t fft(const char *name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
    result->Reset("");
    Double_t *in = new Double_t[N];
    // since we do not know type of input histo, we copy contents to Double array:
-   for(Int_t ix=0; ix<N;++ix)
-   {
+   for (Int_t ix = 0; ix < N; ++ix) {
       in[ix]=his1->GetBinContent(ix+1);
    }
    TVirtualFFT *thefft = TVirtualFFT::FFT(1, &N, opt);
    thefft->SetPoints(in);
    thefft->Transform();
    Double_t re, im;
-   for (Int_t i=0; i<N; i++) {
+   for (Int_t i = 0; i < N; i++) {
       thefft->GetPointComplex(i, re, im);
       result->SetBinContent(i+1,TMath::Sqrt(re*re + im*im));
    }

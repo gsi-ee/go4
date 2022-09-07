@@ -70,8 +70,7 @@ Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
       if(nb1 > nb2) n = nb2;
       TArrayD *x = new TArrayD(n);
       TArrayD *y = new TArrayD(n);
-      for(Int_t i=0;i<n;i++)
-      {
+      for (Int_t i = 0; i < n; i++) {
          x->AddAt(his1->GetBinContent(i+1),i);
          y->AddAt(his2->GetBinContent(i+1),i);
       }
