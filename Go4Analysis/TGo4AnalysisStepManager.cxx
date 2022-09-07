@@ -61,9 +61,9 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
 {
    GO4TRACE((14,"TGo4AnalysisStepManager::InitEventClasses()",__LINE__, __FILE__));
    //
-   Bool_t rev=kTRUE;
-   Bool_t firststepfound=kFALSE;
-   Bool_t laststepfound=kFALSE;
+   Bool_t rev = kTRUE;
+   Bool_t firststepfound = kFALSE;
+   Bool_t laststepfound = kFALSE;
    TGo4Log::Debug("Analysis StepManager --  Initializing EventClasses...");
    TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
@@ -102,20 +102,20 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
    {
       // Test for steps valid:
       fxStepIterator->Reset();
-      fiCurrentStepIndex=0;
+      fiCurrentStepIndex = 0;
       while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
          //std::cout << "match testing of analysis step " << step->GetName() << std::endl;
          if(! step->IsMatchingPrevious() )
          {
-            rev=kFALSE;
+            rev = kFALSE;
             TGo4Analysis::Instance()->Message(3,"!!! AnalysisStepManager  --  ERROR: step %s is not matching previous !!!",
                   step->GetName() );
             break;
          }
          else
          {
-            rev=kTRUE;
+            rev = kTRUE;
          }
       } // while
    }//if(IsStepChecking())
@@ -128,35 +128,29 @@ Bool_t TGo4AnalysisStepManager::SetFirstStep(const char *name)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char*)",__LINE__, __FILE__));
    //
-   Bool_t result=kFALSE;
-   if(!name) {
+   Bool_t result = kFALSE;
+   if (!name) {
       // reset to defaults:
-      fiFirstStepIndex=0; // beginning of steplist
-      TGo4Analysis::Instance()->Message(0,"Analysis: Setting first step to beginning of steplist");
-      result=kTRUE;
+      fiFirstStepIndex = 0; // beginning of steplist
+      TGo4Analysis::Instance()->Message(0, "Analysis: Setting first step to beginning of steplist");
+      result = kTRUE;
    } else {
       TObject *obj = fxStepList->FindObject(name);
-      if(!obj) {
-         result=kFALSE;
-         TGo4Analysis::Instance()->Message(3,"!!! Analysis: SetFirstStep ERROR - no such step %s",
-               name);
+      if (!obj) {
+         result = kFALSE;
+         TGo4Analysis::Instance()->Message(3, "!!! Analysis: SetFirstStep ERROR - no such step %s", name);
       } else {
-         Int_t ix=fxStepList->IndexOf(obj);
-         if(ix <= fiLastStepIndex)
-         {
-            fiFirstStepIndex=ix;
-            TGo4Analysis::Instance()->Message(0,"Analysis: Setting first step to %s",
-                  name);
-         }
-         else
-         {
-            fiFirstStepIndex=fiLastStepIndex;
-            TGo4Analysis::Instance()->Message(0,"Analysis: Range WARNING - Setting first step to last step");
+         Int_t ix = fxStepList->IndexOf(obj);
+         if (ix <= fiLastStepIndex) {
+            fiFirstStepIndex = ix;
+            TGo4Analysis::Instance()->Message(0, "Analysis: Setting first step to %s", name);
+         } else {
+            fiFirstStepIndex = fiLastStepIndex;
+            TGo4Analysis::Instance()->Message(0, "Analysis: Range WARNING - Setting first step to last step");
          }
 
-         result=kTRUE;
+         result = kTRUE;
       }
-
    }
    return result;
 }

@@ -25,7 +25,7 @@ TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings)
    GO4TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
-   fxAnalysisStatus=settings;
+   fxAnalysisStatus = settings;
    SetProtection(kGo4ComModeController);
 }
 
@@ -35,7 +35,6 @@ TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() :
    GO4TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
-   fxAnalysisStatus=0;
    SetProtection(kGo4ComModeController);
 
 }
@@ -44,11 +43,6 @@ TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus()
 {
    GO4TRACE((12,"TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus() dtor",__LINE__, __FILE__));
    delete fxAnalysisStatus;
-}
-
-void TGo4ComSetAnalysisStatus::SetStatusObject(TGo4AnalysisStatus* settings)
-{
-  fxAnalysisStatus = settings;
 }
 
 void TGo4ComSetAnalysisStatus::Set(TGo4RemoteCommand* remcom)

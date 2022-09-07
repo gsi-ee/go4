@@ -1202,10 +1202,10 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
 TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char *name, const char *parameter_class)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
-   TGo4Parameter* rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir,name));
-   if(!rev) rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxUserDir,name));
-   if (rev && parameter_class)
-      if (!rev->InheritsFrom(parameter_class)) rev=0;
+   TGo4Parameter* rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir, name));
+   if(!rev) rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxUserDir, name));
+   if (rev && parameter_class && !rev->InheritsFrom(parameter_class))
+      rev = nullptr;
    return rev;
 }
 

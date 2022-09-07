@@ -178,7 +178,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       }
       // for now, we only handle 1d arrays
       // root allows to check higher dimensions, maybe later...?
-      //for(Int_t ii=0; ii<4; ++ii)
+      //for(Int_t ii = 0; ii < 4; ++ii)
       //{
       //   Int_t maxindex=eventmember->GetMaxIndex(ii);
       //   std::cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << std::endl;
@@ -198,8 +198,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
       hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
 
       for(Int_t n = 0; n < __MAXCONDIM__; n++) {
-         TGo4EventElement* event = nullptr;
-         TDataMember* eventmember = nullptr;
+         TGo4EventElement *event = nullptr;
+         TDataMember *eventmember = nullptr;
          Long_t offset = 0;
 
          const char *evname = hentry->GetConEventName(n);
