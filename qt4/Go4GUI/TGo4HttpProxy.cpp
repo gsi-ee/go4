@@ -342,7 +342,7 @@ void TGo4HttpAccess::httpFinished()
          for (int n =-3; n<nbins+2; n++) {
             const char *separ = strpbrk(bins,",]");
             if (!separ) { printf("Error parsing histogram bins\n"); break; }
-            if (n>=0) {
+            if (n >= 0) {
                Double_t v = TString(bins, separ-bins).Atof();
                h1->SetBinContent(n, v);
             }
@@ -363,7 +363,7 @@ void TGo4HttpAccess::httpFinished()
          for (int n =-6; n<(nbins1+2)*(nbins2+2); n++) {
             const char *separ = strpbrk(bins,",]");
             if (!separ) { printf("Error parsing histogram bins\n"); break; }
-            if (n>=0) {
+            if (n >= 0) {
                Double_t v = TString(bins, separ-bins).Atof();
                h2->SetBinContent(n % (nbins1 + 2), n / (nbins1 + 2),  v);
             }
@@ -380,14 +380,14 @@ void TGo4HttpAccess::httpFinished()
            ((TH1*)obj)->GetYaxis()->SetTitle(ytitle);
          if (xlabels) {
             TObjArray* arr = TString(xlabels).Tokenize(",");
-            for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
-               ((TH1*)obj)->GetXaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
+            for (int n = 0; n <= (arr ? arr->GetLast() : -1); n++)
+               ((TH1 *)obj)->GetXaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
             delete arr;
          }
          if (ylabels) {
             TObjArray* arr = TString(ylabels).Tokenize(",");
-            for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
-               ((TH1*)obj)->GetYaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
+            for (int n = 0; n <= (arr ? arr->GetLast() : -1); n++)
+               ((TH1 *)obj)->GetYaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
             delete arr;
          }
       }
@@ -956,7 +956,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char *path, Int_t waitres)
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
    netReply->setSslConfiguration(cfg);
 
-   if (waitres<=0) {
+   if (waitres <= 0) {
       QObject::connect(netReply, &QNetworkReply::finished, netReply, &QNetworkReply::deleteLater);
       return kTRUE;
    }
@@ -1050,7 +1050,7 @@ Bool_t TGo4HttpProxy::PostObject(const char *prefix, TObject *obj, Int_t waitres
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
    netReply->setSslConfiguration(cfg);
 
-   if (waitres<=0) {
+   if (waitres <= 0) {
       QObject::connect(netReply, &QNetworkReply::finished, netReply, &QNetworkReply::deleteLater);
       return kTRUE;
    }
@@ -1126,8 +1126,8 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
       int pos = 0;
 
-      for (int n=0;n<3;n++) {
-         unsigned char* ptr = (unsigned char*) res.data() + pos;
+      for (int n = 0; n < 3; n++) {
+         unsigned char *ptr = (unsigned char *)res.data() + pos;
          unsigned len =  ((unsigned) ptr[0]) |
                         (((unsigned) ptr[1]) << 8) |
                         (((unsigned) ptr[2]) << 16) |
@@ -1150,7 +1150,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          obj->Streamer(buf);
 
-         if (n>0) {
+         if (n > 0) {
             TGo4Slot* subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
             TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
             TList* next = dynamic_cast<TList*> (obj);
@@ -1159,7 +1159,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
                   // this is protection against sending same info many times
                   // happend with sever snapshot
                   delete obj;
-                  obj = 0;
+                  obj = nullptr;
                }
             }
          }
@@ -1230,7 +1230,7 @@ Bool_t TGo4HttpProxy::CheckShutdown(Bool_t force)
 {
    if (force || (fShutdownCnt>0)) {
       if (fxParentSlot) fxParentSlot->Delete();
-      fxParentSlot = 0;
+      fxParentSlot = nullptr;
       return kTRUE;
    }
    return kFALSE;

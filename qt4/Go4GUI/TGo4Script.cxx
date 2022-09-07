@@ -888,7 +888,8 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    TGo4ServerProxy* serv = br->FindServer();
 
    // ignore server which is was not launched
-   if (serv && (serv != anal) && (serv->IsAnalysisLaunched()<=0)) serv = nullptr;
+   if (serv && (serv != anal) && (serv->IsAnalysisLaunched() <= 0))
+      serv = nullptr;
 
    std::ofstream fs(filename);
    if (!fs.is_open()) return;
@@ -904,15 +905,15 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
 
    TObjArray prlist;
    br->MakeFilesList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4DirProxy* pr = (TGo4DirProxy*) prlist.At(n);
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4DirProxy *pr = (TGo4DirProxy *)prlist.At(n);
       fs << "go4->OpenFile(\"" << pr->GetFileName() << "\");" << std::endl;
    }
 
    prlist.Clear();
    br->MakeHServerList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4HServProxy* pr = (TGo4HServProxy*) prlist.At(n);
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4HServProxy *pr = (TGo4HServProxy *)prlist.At(n);
       fs << "go4->ConnectHServer(\""
          << pr->GetServerName() << "\", "
          << pr->GetPortNumber() << ", \""
@@ -923,8 +924,8 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
 
    prlist.Clear();
    br->MakeDabcList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4DabcProxy* pr = (TGo4DabcProxy*) prlist.At(n);
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4DabcProxy *pr = (TGo4DabcProxy *)prlist.At(n);
       fs << "go4->ConnectDabc(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
@@ -982,8 +983,8 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    confgui->GetAnalysisConfigFile(fname);
    fs << "go4->AnalysisConfigName(\"" << fname.toLatin1().constData() << "\");" << std::endl << std::endl;
 
-   for(int nstep=0;nstep<confgui->GetNumSteps();nstep++) {
-      TGo4ConfigStep* stepconf = confgui->GetStepConfig(nstep);
+   for (int nstep = 0; nstep < confgui->GetNumSteps(); nstep++) {
+      TGo4ConfigStep *stepconf = confgui->GetStepConfig(nstep);
       fs << "// step " << stepconf->GetStepName().toLatin1().constData() << std::endl;
 
       bool process, source, store;
@@ -1141,8 +1142,8 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    // connect to other http server after main analysis configuration - otherwise they could replace it in control elements
    prlist.Clear();
    br->MakeHttpList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4HttpProxy* pr = (TGo4HttpProxy*) prlist.At(n);
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4HttpProxy *pr = (TGo4HttpProxy *)prlist.At(n);
       if (pr == serv) continue;
       fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
    }
@@ -1163,8 +1164,8 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    int npanel = 0;
 
    QList<QMdiSubWindow *> windows = TGo4MdiArea::Instance()->subWindowList();
-   for (int i=0; i<windows.count(); ++i ) {
-      TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
+   for (int i = 0; i < windows.count(); ++i) {
+      TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *>(windows.at(i)->widget());
       if (!panel) continue;
 
       TString picname = TString::Format("pic%d", ++npanel);

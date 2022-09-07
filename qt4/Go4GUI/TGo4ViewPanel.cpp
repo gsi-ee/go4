@@ -1546,7 +1546,7 @@ void TGo4ViewPanel::CheckActionAtTheEnd(TPad* pad)
 //   if(fbPickAgain) {
 //      QString selname = GetSelectedMarkerName(pad);
 //      int selindex = GetSelectedMarkerIndex(pad);
-//      if (selindex>=0) {
+//      if (selindex >= 0) {
 //         TGo4Slot* slot = GetSelectedSlot(pad, nullptr, nullptr);
 //         TGo4CondArray* arr = nullptr;
 //         if (slot)
@@ -2847,7 +2847,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
       if (!legend) {
          double miny = 0.94 - 0.03 * objs->GetLast();
-         if (miny < 0.6) miny = 0.6; else if (miny>0.92) miny = 0.92;
+         if (miny < 0.6)
+            miny = 0.6;
+         else if (miny > 0.92)
+            miny = 0.92;
          legend = new TLegend(0.6, miny, 0.95, 0.99);
          legend->SetBorderSize(2);
          legend->SetName("fitlegend");
@@ -2856,8 +2859,8 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          legend->Clear();
       }
 
-      for(int n=0;n<=objs->GetLast();n++) {
-         TObject* stob = objs->At(n);
+      for (int n = 0; n <= objs->GetLast(); n++) {
+         TObject *stob = objs->At(n);
 
          const char *objname = stob->GetName();
 

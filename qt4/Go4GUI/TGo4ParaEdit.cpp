@@ -231,7 +231,7 @@ void TGo4ParaEdit::ShowVisibleItems()
 #else
    int ih = QFontMetricsF(QApplication::font()).height();
 #endif
-   for(int row=0; row<memnum; row++) {
+   for (int row = 0; row < memnum; row++) {
       MemberTable->setRowHeight(row, ih);
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
 
@@ -271,8 +271,8 @@ void TGo4ParaEdit::clearTextFields()
 {
    if (!fItems) return;
 
-   for(int n=0;n<=fItems->GetLast();n++) {
-      TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(n);
+   for (int n = 0; n <= fItems->GetLast(); n++) {
+      TGo4ParameterMember *info = (TGo4ParameterMember *)fItems->At(n);
       info->SetStrValue("");
    }
 
@@ -357,8 +357,8 @@ void TGo4ParaEdit::ExpandShrinkArray()
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
 
    Int_t memberid = info->GetMemberId();
-   for(int n=0;n<=fItems->GetLast();n++) {
-      TGo4ParameterMember* item = (TGo4ParameterMember*) fItems->At(n);
+   for (int n = 0; n <= fItems->GetLast(); n++) {
+      TGo4ParameterMember *item = (TGo4ParameterMember *)fItems->At(n);
       if (item->GetMemberId()==memberid)
         item->SetVisible(!item->IsVisible());
    }

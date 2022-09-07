@@ -104,12 +104,12 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char *name) :
    QString moviepath = ":/icons/mbslogorun.gif";
    fxRunMovie = new QMovie(moviepath);
    memset(&fxDaqStat, 0, sizeof(fxDaqStat));
-   fiCalcedEventRate=0;
-   fiCalcedDataRate=0;
-   fiCalcedServDataRate=0;
-   fiLastServDataNum=0;
-   fiLastEventNum=0;
-   fiLastDataNum=0;
+   fiCalcedEventRate = 0;
+   fiCalcedDataRate = 0;
+   fiCalcedServDataRate = 0;
+   fiLastServDataNum = 0;
+   fiLastEventNum = 0;
+   fiLastDataNum = 0;
    fxDeltaClock.start();
    QObject::connect(fxTimer, &QTimer::timeout, this, &TGo4MBSViewer::Refresh);
    QObject::connect(fxMovieResetTimer, &QTimer::timeout, this, &TGo4MBSViewer::ResetRunIcon);
@@ -247,9 +247,9 @@ void TGo4MBSViewer::Refresh()
          std::cout <<" Correcting number of measuring periods to:"<<numperiods << std::endl;
       }
       if(fiLastEventNum && deltamilsecs)
-         fiCalcedEventRate=1000.*(fxDaqStat.bl_n_events-fiLastEventNum)/deltamilsecs;
+         fiCalcedEventRate = 1000.*(fxDaqStat.bl_n_events-fiLastEventNum)/deltamilsecs;
       else
-         fiCalcedEventRate=0;
+         fiCalcedEventRate = 0;
       fiLastEventNum=fxDaqStat.bl_n_events;
 
       if(fiLastDataNum && deltamilsecs)
@@ -287,8 +287,8 @@ void TGo4MBSViewer::Refresh()
          }
          else
          {
-            fiServDataDelta=0;
-            fiCalcedServDataRate=0;
+            fiServDataDelta = 0;
+            fiCalcedServDataRate = 0;
          }
          //            std::cout <<"Streamserver rate:"<<fiCalcedServDataRate << std::endl;
          //            std::cout <<"Streamserver data:"<<fxDaqStat.bl_n_strserv_kbytes << std::endl;
@@ -299,8 +299,8 @@ void TGo4MBSViewer::Refresh()
       else
       {
          // single refresh: use ratio from current mbs calculated rates
-         fiCalcedServDataRate=fxDaqStat.bl_r_strserv_kbytes;
-         fiDataDelta=0;
+         fiCalcedServDataRate = fxDaqStat.bl_r_strserv_kbytes;
+         fiDataDelta = 0;
       }
       //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       //int curentratio=(fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
@@ -327,13 +327,13 @@ void TGo4MBSViewer::Refresh()
             fiServDataDelta = 0;
             fiCalcedServDataRate = 0;
          }
-         fiLastServDataNum=fxDaqStat.bl_n_evserv_kbytes;
+         fiLastServDataNum = fxDaqStat.bl_n_evserv_kbytes;
       }
       else
       {
          // single refresh: use ratio from current mbs calculated rates
-         fiCalcedServDataRate=fxDaqStat.bl_r_evserv_kbytes;
-         fiDataDelta=0;
+         fiCalcedServDataRate = fxDaqStat.bl_r_evserv_kbytes;
+         fiDataDelta = 0;
       }
       //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       fiEvRatio= (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
@@ -341,8 +341,8 @@ void TGo4MBSViewer::Refresh()
    }
    else
    {
-      fxServerLabel="NO SERVER";
-      fiEvRatio=0;
+      fxServerLabel = "NO SERVER";
+      fiEvRatio = 0;
    }
 
    if(fbTrending && !fbWarningState && fbIsMonitoring)
@@ -481,16 +481,15 @@ void TGo4MBSViewer::IncTrending( TH1 * histo, int value, bool forwards )
       dj=-1;
    else
       dj=+1;
-   for(int i=0;i<bins;i++)
-   {
-      if(forwards)
-         j=bins-i;
+   for (int i = 0; i < bins; i++) {
+      if (forwards)
+         j = bins - i;
       else
-         j=i;
-      int oldval=histo->GetBinContent(j+dj);
-      histo->SetBinContent(j,oldval);
+         j = i;
+      int oldval = histo->GetBinContent(j + dj);
+      histo->SetBinContent(j, oldval);
    }
-   histo->SetBinContent(j+dj,value);
+   histo->SetBinContent(j + dj, value);
 }
 
 
@@ -507,36 +506,30 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
    if(!fbTrendingInit) histoslot = Browser()->BrowserSlot(refname.toLatin1());
    if(!histoslot) {
       Axis_t lo,up;
-      if(fbTrendingForward)
-      {
-         lo=0;
-         up=1*fiTrendBins*FrequencyBox->value();
+      if (fbTrendingForward) {
+         lo = 0;
+         up = 1 * fiTrendBins * FrequencyBox->value();
+      } else {
+         lo = -1 * fiTrendBins * FrequencyBox->value();
+         up = 0;
       }
-      else
-      {
-         lo=-1*fiTrendBins*FrequencyBox->value();
-         up=0;
-      }
-      his=new TH1F(name.toLatin1(), title.toLatin1() ,fiTrendBins,lo,up);
-      TAxis* xax=his->GetXaxis();
+      his = new TH1F(name.toLatin1(), title.toLatin1(), fiTrendBins, lo, up);
+      TAxis* xax = his->GetXaxis();
       xax->SetTitle("s");
       xax->CenterTitle();
       //xax->SetLimits(0,lo,up);
 
       TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toLatin1());
-      if(hisdataslot)
-      {
-         hisdataslot->AssignObject(his,true);
+      if (hisdataslot) {
+         hisdataslot->AssignObject(his, true);
+      } else {
+         refname = Browser()->SaveToMemory("Mbs", his, true);
       }
-      else
-      {
-         refname=Browser()->SaveToMemory("Mbs", his, true);
-      }
-      histoslot=Browser()->BrowserSlot(refname.toLatin1());
+      histoslot = Browser()->BrowserSlot(refname.toLatin1());
    }
    else
    {
-      his=dynamic_cast<TH1*>(histoslot->GetAssignedObject());
+      his = dynamic_cast<TH1 *>(histoslot->GetAssignedObject());
    }
    IncTrending(his,value,fbTrendingForward);
    if(histoslot)

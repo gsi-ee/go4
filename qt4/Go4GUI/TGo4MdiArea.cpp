@@ -84,8 +84,8 @@ void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
 {
    QList<QMdiSubWindow *> windows = subWindowList();
-   for (int i=0; i < windows.count(); ++i) {
-      TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
+   for (int i = 0; i < windows.count(); ++i) {
+      TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *>(windows.at(i)->widget());
       if (panel && (panel != not_this)) return panel;
    }
 

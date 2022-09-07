@@ -130,7 +130,7 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
    else rev->fType = kOtherEvent;
 
    // translate Qt state bits:
-   rev->fState=0;
+   rev->fState = 0;
    if(e->buttons() & Qt::LeftButton)
       rev->fState |= kButton1Mask;
    if(e->buttons() & Qt::RightButton)
@@ -161,8 +161,8 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
    if(e->button() == Qt::MiddleButton)
       rev->fCode |= kButton2Mask;
 
-   rev->fUser[0]=0;
-   rev->fWindow    = gVirtualX->GetWindowID(fiWinid); // we refer signals to this window
+   rev->fUser[0] = 0;
+   rev->fWindow  = gVirtualX->GetWindowID(fiWinid); // we refer signals to this window
    rev->fSendEvent = 0;
    rev->fTime = 0; // this might cause problems with root doubleclick treatment?
 
