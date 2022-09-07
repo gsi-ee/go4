@@ -67,22 +67,22 @@ void TGo4TreeHistogramEntry::Reset()
 {
    GO4TRACE((12,"TGo4TreeHistogramEntry::Reset()",__LINE__, __FILE__));
    TGo4DynamicEntry::Reset();
-   fiLastEvent=0;
-   fbNewHistogram=kTRUE;
+   fiLastEvent = 0;
+   fbNewHistogram = kTRUE;
 }
 
 void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
 {
-   if(times<=0) times=1;
+   if(times <= 0) times = 1;
 
    Int_t lastentrynumber = static_cast<Int_t> (tree->GetEntries());
    if(tree->TestBit(TGo4Status::kGo4BackStoreReset))
-      fiLastEvent=0; // start again with first entry of backstore tree
+      fiLastEvent = 0; // start again with first entry of backstore tree
 
    if(fiLastEvent==lastentrynumber)
       throw TGo4DynamicListException(this,
                  TString::Format("Tree Histogram Entry: %s Reached end of tree %s. Draw() is stopped. ", GetName(), tree->GetName()).Data());
-   Int_t startindex= lastentrynumber -times;
+   Int_t startindex = lastentrynumber - times;
    //std::cout << "\t -- init startindex: "<< startindex<< std::endl;
    if(startindex<fiLastEvent)
       {
@@ -91,13 +91,13 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
          if(startindex>0)
             {
                // normal case in continuous processed tree
-               startindex=fiLastEvent;
+               startindex = fiLastEvent;
             }
             else
             {
                // this can happen when tree was Reset() in the meantime
                // e.g. tree of TGo4BackStore, then fiLastEvent is wrong
-               startindex=0;
+               startindex = 0;
             }
          times=lastentrynumber-startindex;
       }

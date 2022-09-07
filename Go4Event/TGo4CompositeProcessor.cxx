@@ -17,7 +17,6 @@
 
 TGo4CompositeProcessor::TGo4CompositeProcessor():
    TGo4EventProcessor(),
-   fMbsInput(nullptr),
    fMbsTriggerNumber(0),
    fMbsEventNumber(0),
    fSubProcessors()
@@ -27,7 +26,6 @@ TGo4CompositeProcessor::TGo4CompositeProcessor():
 
 TGo4CompositeProcessor::TGo4CompositeProcessor(const char *name) :
    TGo4EventProcessor(name),
-   fMbsInput(nullptr),
    fMbsTriggerNumber(0),
    fMbsEventNumber(0),
    fSubProcessors()
@@ -57,11 +55,11 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
 
    // first need to call SetEvent of all subprocessors to set the input/output structures:
 
-   for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
-      TGo4EventProcessor* proc = (TGo4EventProcessor*) fSubProcessors[n];
+   for (Int_t n = 0; n <= fSubProcessors.GetLast(); n++) {
+      TGo4EventProcessor *proc = (TGo4EventProcessor *)fSubProcessors[n];
       proc->SetInputEvent(GetInputEvent()); //forward input to subprocessors
       proc->InitEvent(outevnt); // subprocessors may set own eventpointers here
-   } // while
+   }                            // while
 
    // treat mbs input if we are in the first step:
    fMbsInput = dynamic_cast<TGo4MbsEvent*>(GetInputEvent());
@@ -79,11 +77,11 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
       fMbsEventNumber = fMbsInput->GetCount();
 
       fMbsInput->ResetIterator();
-      while(auto psubevt = fMbsInput->NextSubEvent())
-      { // loop over subevents
+      while(auto psubevt = fMbsInput->NextSubEvent()) {
+        // loop over subevents
          ProcessSubevent(psubevt); // process in our own subclass, if implemented
 
-         for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
+         for (Int_t n = 0; n <= fSubProcessors.GetLast(); n++) {
 
             TGo4CompositeProcessor* subcomp = dynamic_cast<TGo4CompositeProcessor*> (fSubProcessors[n]);
 

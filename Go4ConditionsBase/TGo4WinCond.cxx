@@ -142,9 +142,8 @@ void TGo4WinCond::PrintCondition(Bool_t limits)
 Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->Integral(opt);
+   Double_t result = histo->Integral(opt);
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -153,9 +152,8 @@ Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->GetMean(axis);
+   Double_t result = histo->GetMean(axis);
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -164,9 +162,8 @@ Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
 Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->GetRMS(axis);
+   Double_t result = histo->GetRMS(axis);
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -175,9 +172,8 @@ Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
 Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->GetSkewness(axis);
+   Double_t result = histo->GetSkewness(axis);
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -186,9 +182,8 @@ Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
 Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->GetKurtosis(axis);
+   Double_t result = histo->GetKurtosis(axis);
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -197,23 +192,17 @@ Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
 Double_t TGo4WinCond::GetXMax(TH1* histo)
 {
    if(!histo) return 0;
-   Double_t result=0;
+   Double_t result = 0.;
    SetHistogramRanges(histo);
    TAxis* xax=histo->GetXaxis();
    Int_t maxbin=histo->GetMaximumBin();
-   if(histo->GetDimension()==1)
-   {
-      result=xax->GetBinCenter(maxbin);
-
-   }
-   else if (histo->GetDimension()==2)
-   {
-      Int_t xmaxbin=maxbin%(histo->GetNbinsX()+2);
-      result=xax->GetBinCenter(xmaxbin);
-   }
-   else
-   {
-      result=0; // no support for 3d histos at the moment!
+   if (histo->GetDimension() == 1) {
+      result = xax->GetBinCenter(maxbin);
+   } else if (histo->GetDimension() == 2) {
+      Int_t xmaxbin = maxbin % (histo->GetNbinsX() + 2);
+      result = xax->GetBinCenter(xmaxbin);
+   } else {
+      result = 0; // no support for 3d histos at the moment!
    }
    RestoreHistogramRanges(histo);
    return result;
@@ -223,22 +212,17 @@ Double_t TGo4WinCond::GetXMax(TH1* histo)
 Double_t TGo4WinCond::GetYMax(TH1* histo)
 {
    if(!histo) return 0;
-   Double_t result=0;
+   Double_t result = 0;
    SetHistogramRanges(histo);
-   if(histo->GetDimension()==1)
-   {
-      result=histo->GetMaximum();
-   }
-   else if (histo->GetDimension()==2)
-   {
-      TAxis* yax=histo->GetYaxis();
-      Int_t maxbin=histo->GetMaximumBin();
-      Int_t maxybin=maxbin/(histo->GetNbinsX()+2);
-      result=yax->GetBinCenter(maxybin);
-   }
-   else
-   {
-      result=0; // no support for 3d histos at the moment!
+   if (histo->GetDimension() == 1) {
+      result = histo->GetMaximum();
+   } else if (histo->GetDimension() == 2) {
+      TAxis *yax = histo->GetYaxis();
+      Int_t maxbin = histo->GetMaximumBin();
+      Int_t maxybin = maxbin / (histo->GetNbinsX() + 2);
+      result = yax->GetBinCenter(maxybin);
+   } else {
+      result = 0; // no support for 3d histos at the moment!
    }
    RestoreHistogramRanges(histo);
    return result;
@@ -248,9 +232,8 @@ Double_t TGo4WinCond::GetYMax(TH1* histo)
 Double_t TGo4WinCond::GetCMax(TH1* histo)
 {
    if(!histo) return 0;
-   Double_t result=0;
    SetHistogramRanges(histo);
-   result=histo->GetMaximum();
+   Double_t result = histo->GetMaximum();
    RestoreHistogramRanges(histo);
    return result;
 }
@@ -259,29 +242,28 @@ Double_t TGo4WinCond::GetCMax(TH1* histo)
 void TGo4WinCond::SetHistogramRanges(TH1* histo)
 {
    if(!histo) return;
-   Double_t xmin=fLow1;
-   Double_t xmax=fUp1;
-   Double_t ymin=fLow2;
-   Double_t ymax=fUp2;
-   TAxis* xax=histo->GetXaxis();
-   fiSaveXMin=xax->GetFirst();
-   fiSaveXMax=xax->GetLast();
-   Int_t xminbin=xax->FindBin(xmin);
-   Int_t xmaxbin=xax->FindBin(xmax);
-   Int_t yminbin=0;
-   Int_t ymaxbin=0;
-   TAxis* yax=histo->GetYaxis();
-   if(yax && histo->GetDimension()>1)
-   {
-      fiSaveYMin=yax->GetFirst();
-      fiSaveYMax=yax->GetLast();
-      yminbin=yax->FindBin(ymin);
-      ymaxbin=yax->FindBin(ymax);
+   Double_t xmin = fLow1;
+   Double_t xmax = fUp1;
+   Double_t ymin = fLow2;
+   Double_t ymax = fUp2;
+   TAxis *xax = histo->GetXaxis();
+   fiSaveXMin = xax->GetFirst();
+   fiSaveXMax = xax->GetLast();
+   Int_t xminbin = xax->FindBin(xmin);
+   Int_t xmaxbin = xax->FindBin(xmax);
+   Int_t yminbin = 0;
+   Int_t ymaxbin = 0;
+   TAxis *yax = histo->GetYaxis();
+   if (yax && histo->GetDimension() > 1) {
+      fiSaveYMin = yax->GetFirst();
+      fiSaveYMax = yax->GetLast();
+      yminbin = yax->FindBin(ymin);
+      ymaxbin = yax->FindBin(ymax);
    }
    // set histo range to condition limits
-   xax->SetRange(xminbin,xmaxbin);
-   if(yax&& histo->GetDimension()>1)
-      yax->SetRange(yminbin,ymaxbin);
+   xax->SetRange(xminbin, xmaxbin);
+   if (yax && histo->GetDimension() > 1)
+      yax->SetRange(yminbin, ymaxbin);
 }
 
 // -----------------------------------------------
@@ -303,7 +285,7 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
       std::cout << "Cannot update " << GetName() << " from " << cond->ClassName() << std::endl;
       return kFALSE;
    }
-   Int_t dimension=0;
+   Int_t dimension = 0;
    ((TGo4WinCond*)cond)->GetValues(dimension,fLow1,fUp1,fLow2,fUp2);  // get limits from source
    SetDimension(dimension);
    return kTRUE;
