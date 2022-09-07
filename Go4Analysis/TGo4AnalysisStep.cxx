@@ -451,18 +451,18 @@ void TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus * state)
       SetStoreEnabled(state->IsStoreEnabled());
       SetErrorStopEnabled(state->IsErrorStopEnabled());
       fbErrorStopped=kFALSE;   // reset run status parameters to default
-      fiProcessStatus=0;      // dito
+      fiProcessStatus = 0;      // dito
    }
 }
 
-void TGo4AnalysisStep::SetEventProcessor(TGo4EventProcessorParameter* kind)
+void TGo4AnalysisStep::SetEventProcessor(TGo4EventProcessorParameter *kind)
 {
    if(kind==fxProcessorType) return; // avoid deleting valid parameter
    if(fxProcessorType) delete fxProcessorType;
    if(kind)
-       fxProcessorType=dynamic_cast<TGo4EventProcessorParameter*>(kind->Clone());
+       fxProcessorType = dynamic_cast<TGo4EventProcessorParameter*>(kind->Clone());
    else
-       fxProcessorType=nullptr;
+       fxProcessorType = nullptr;
 }
 
 void TGo4AnalysisStep::SetEventSource(TGo4EventSourceParameter* kind)

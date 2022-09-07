@@ -192,12 +192,12 @@ private:
 
     /** @link aggregation
       *   @supplierCardinality 1 */
-    TGo4Ratemeter* fxRatemeter{nullptr};                  //!
+    TGo4Ratemeter *fxRatemeter{nullptr};                  //!
 
     /** @link aggregation
       *   @supplierCardinality 1
       * histogram server (optional) */
-    TGo4HistogramServer* fxHistoServer{nullptr};          //!
+    TGo4HistogramServer *fxHistoServer{nullptr};          //!
 
      /** If true, this slave will initialize and start analysis
       * immediately without waiting for a submit/start command. */

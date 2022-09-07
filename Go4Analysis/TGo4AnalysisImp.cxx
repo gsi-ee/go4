@@ -1007,7 +1007,7 @@ Int_t TGo4Analysis::PostLoop()
 {
    GO4TRACE((11,"TGo4Analysis::PostLoop()",__LINE__, __FILE__));
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
-   Int_t rev=0;
+   Int_t rev = 0;
    ////////////////////////Test of single event tree
    //   TTree* mytree = CreateSingleEventTree("Unpack");
    //   TFile* myfile = TFile::Open("eventsample.root","RECREATE");
@@ -1248,7 +1248,7 @@ void TGo4Analysis::SetRunning(Bool_t on)
 
 Int_t TGo4Analysis::WaitForStart()
 {
-   Int_t cycles=0;
+   Int_t cycles = 0;
    while(!IsRunning())
    {
       //std::cout <<"WWWWWWWait for Start before Sleep..." << std::endl;
@@ -2007,7 +2007,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
 
    TArrayD fullx(npoints+1), fully(npoints+1);
 
-   for (int i=0;i<npoints;i++) {
+   for (int i = 0; i < npoints; i++) {
       fullx[i] = points[i][0];
       fully[i] = points[i][1];
    }
