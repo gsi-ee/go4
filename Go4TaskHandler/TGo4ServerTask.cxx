@@ -282,32 +282,28 @@ void TGo4ServerTask::SetDisConnect(TGo4Socket * trans)
 
 Int_t TGo4ServerTask::TimerConnect()
 {
-   Int_t rev=0;
+   Int_t rev = 0;
    ///////////////////////////////////////
    //// handle the disconnection first:
    if(fbDisConnectRequest)
       {
-         if(fxDisConnectTransport)
-            {
-               // we have a transport instance to disconnect
-               fxDisConnectTransport->Close();
-               //delete fxDisConnectTransport; // new
-               //std::cout << "++++++++Timer closed transport"<< std::endl;
-               fbConnectIsClose=kTRUE;
-               fbDisConnectRequest=kFALSE; // we served the request, reset it
-            rev+=1;
-            }
-         else
-            {
-               // error, zero pointer given
-               rev+=32;
-            }
+      if (fxDisConnectTransport) {
+         // we have a transport instance to disconnect
+         fxDisConnectTransport->Close();
+         // delete fxDisConnectTransport; // new
+         // std::cout << "++++++++Timer closed transport"<< std::endl;
+         fbConnectIsClose = kTRUE;
+         fbDisConnectRequest = kFALSE; // we served the request, reset it
+         rev += 1;
+      } else {
+         // error, zero pointer given
+         rev += 32;
       }
-   else //// if(fbDisConnectRequest)
-      {
-         // no open request, continue
-         rev+=2;
-      }
+   } else //// if(fbDisConnectRequest)
+   {
+      // no open request, continue
+      rev += 2;
+   }
 
    /////////////////////////////////////
    //// then handle the connection:
@@ -387,7 +383,7 @@ Int_t TGo4ServerTask::WaitForOpen()
 
 Int_t TGo4ServerTask::WaitForClose()
 {
-   Int_t count=0;
+   Int_t count = 0;
    while(!fbConnectIsClose)
       {
           if(count>TGo4ServerTask::fgiCLOSEWAITCYCLES)
@@ -408,7 +404,7 @@ Int_t TGo4ServerTask::WaitForClose()
 
 Int_t TGo4ServerTask::WaitForConnection()
 {
-   Int_t count=0;
+   Int_t count = 0;
    while(!fbConnectIsDone)
       {
          if(IsTerminating())

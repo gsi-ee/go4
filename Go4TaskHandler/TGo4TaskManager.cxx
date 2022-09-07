@@ -102,7 +102,7 @@ Int_t TGo4TaskManager::ServeClient()
       throw TGo4TerminateException(fxServer);
       //return kFALSE;
    }
-   Int_t count=0;
+   Int_t count = 0;
    while(GetNegotiationPort() == 0)
    {
       if(count>TGo4TaskHandler::Get_fgiPORTWAITCYCLES())
@@ -182,7 +182,7 @@ Int_t TGo4TaskManager::ServeClient()
       //TGo4Log::Debug(" TaskManager: Waiting for timer Close() of negotiation port ... ", cliname);
       fxServer->WaitForClose(); // poll until timer has returned from close
 //      delete fxTransport;
-//      fxTransport=0;
+//      fxTransport = nullptr;
 //      TGo4Log::Debug(" TaskManager: Closed and deleted negotiation port");
       TGo4Log::Debug(" TaskManager: Finished negotiations with client %s ", cliname.Data());
 
@@ -290,10 +290,10 @@ Go4CommandMode_t TGo4TaskManager::ClientLogin()
 
 Int_t TGo4TaskManager::ConnectClient(const char *client, const char *host, Go4CommandMode_t role)
 {
-   Int_t rev=0;
+   Int_t rev = 0;
    // check first if client of that name already exists:
-   TString cliname=client;
-   if (!AddClient(cliname.Data(),host,role)) rev=1;
+   TString cliname = client;
+   if (!AddClient(cliname.Data(),host,role)) rev = 1;
    return rev;
 }
 

@@ -63,7 +63,7 @@ void TGo4ExampleApplication::FillHistograms()
 {
    GO4TRACE((12,"TGo4ExampleApplication::FillHistograms",__LINE__, __FILE__));
    TGo4LockGuard mainlock; // protect against socket streaming
-   static Int_t counter=0;
+   static Int_t counter = 0;
    counter++;
    Double_t peak1= gRandom->Gaus(550,42);
    Double_t peak2= gRandom->Gaus(1200,230);

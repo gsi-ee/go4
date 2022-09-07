@@ -44,12 +44,11 @@ TGo4Task::TGo4Task(const char *name, Bool_t blockingmode,
    fbCommandMaster(ismaster), fxMaster(0), fxSlave(0),fxOwner(0),
    fbWorkIsStopped(kFALSE),fxStopBuffer(0),fxQuitBuffer(0)
 {
-   fxCommandPrototype=0;
-   fxStatusBuffer= new TBufferFile(TBuffer::kWrite);
-   fxStatusMutex= new TMutex(kTRUE);
-   fxStopBuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) kComCloseInput);
-   fxQuitBuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) kComQuit);
-   fxAbortBuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) kComAbortTask);
+   fxStatusBuffer = new TBufferFile(TBuffer::kWrite);
+   fxStatusMutex = new TMutex(kTRUE);
+   fxStopBuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) kComCloseInput);
+   fxQuitBuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) kComQuit);
+   fxAbortBuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) kComAbortTask);
 
    TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
    TGo4CommandInvoker::SetCommandList(CreateCommandList());
@@ -216,7 +215,7 @@ void TGo4Task::AddUserCommandList(TGo4CommandProtoList * comlist)
       *fxCommandPrototype += *comlist;
       // operator+= of TGo4CommandProtolist puts new commands into old list
       delete comlist;
-      comlist=0;
+      comlist = nullptr;
    }
 }
 
@@ -364,11 +363,11 @@ TGo4Command* TGo4Task::NextCommand()
 Int_t TGo4Task::Initialization()
 {
    // this method will be called by the application control timer every timerperiod
-   Int_t rev=-1;
+   Int_t rev = -1;
    if(fbInitDone)
       // already initialized
    {
-      rev=0;
+      rev = 0;
    } //// if(fbInitDone)
    else
    {
@@ -385,7 +384,7 @@ Int_t TGo4Task::Initialization()
             TGo4Log::Debug(" Task --  command list is created from Task factory");
          }
       }
-      rev=TGo4ThreadManager::Initialization(); // this will launch threads, etc.
+      rev = TGo4ThreadManager::Initialization(); // this will launch threads, etc.
       fxWorkHandler->Start(GetCommanderName()); // for non autostart mode
       if(fxSlave) fxSlave->Initialization();
    }// else if(fbInitDone)

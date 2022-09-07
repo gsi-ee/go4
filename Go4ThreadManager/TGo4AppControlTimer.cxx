@@ -44,7 +44,7 @@ GO4TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE
      if(fxCondition)
          {
             delete fxCondition;
-            fxCondition=0;
+            fxCondition = nullptr;
          }
 }
 
@@ -93,7 +93,7 @@ Bool_t TGo4AppControlTimer::Notify ()
           // check if Timer was woken for program end
           {
              GO4TRACE((11,"TGo4AppControlTimer: Terminating mode",__LINE__, __FILE__));
-             Int_t t=0;
+             Int_t t = 0;
              while(!(fxManager->GetWorkHandler()->AllWaiting()) && (t++<fgiTERMWAITCYCLES) )
             {
                TGo4Log::Debug(" Application Control Timer --  waiting for Runnables to stop... ");
@@ -104,7 +104,7 @@ Bool_t TGo4AppControlTimer::Notify ()
             TGo4Log::Debug(" Application Control Timer --  deleting TGo4ThreadManager! ");
             Bool_t pleaseterminate=fxManager->IsTerminateApp();
             delete fxManager;      // executes dtors
-            fxManager=0;
+            fxManager = nullptr;
             TurnOff(); // do not call this Notify again in Terminate
             if(pleaseterminate)
                {

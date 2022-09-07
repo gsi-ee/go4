@@ -54,13 +54,13 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 {
    GO4TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
 
-   Int_t i=0;
-   static Int_t t=0;
-   static Int_t loops=0;
-   Axis_t x=0;
-   TGo4ThreadHandler *han = 0;
-   TGo4TestRunnable* th1run = 0;
-   TGo4Thread* go4thr = 0;
+   Int_t i = 0;
+   static Int_t t = 0;
+   static Int_t loops = 0;
+   Axis_t x = 0;
+   TGo4ThreadHandler *han = nullptr;
+   TGo4TestRunnable* th1run = nullptr;
+   TGo4Thread* go4thr = nullptr;
    TCanvas* can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
    TPad* pad1=((TGo4TestThreadManager*)fxManager)->GetPad1();
    TPad* pad2=((TGo4TestThreadManager*)fxManager)->GetPad2();
@@ -191,7 +191,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 //                  std::cout << GetName()<<" throwing exception now:"<< std::endl;
 //                  throw TGo4RestartException(this);
 
-//                  t=0;
+//                  t = 0;
                   }
             }
          }
@@ -337,8 +337,4 @@ TGo4Runnable::UnexpectedCatch();
 //   gApplication->Terminate(0);
 //
 }
-
-
-
-
 

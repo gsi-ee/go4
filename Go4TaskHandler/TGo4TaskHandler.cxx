@@ -606,15 +606,15 @@ Bool_t TGo4TaskHandler::WaitThreadStop(const char *name)
    if(!name) return kFALSE;
    TGo4Thread* thread=fxThreadHandler->GetThread(name);
    if(!thread) return kFALSE;
-   Int_t t=0;
-   Bool_t timeout=kFALSE;
+   Int_t t = 0;
+   Bool_t timeout = kFALSE;
    while(!thread->IsWaiting())
    {
       TGo4Log::Debug(" TaskHandler Disconnect --  waiting for runnable %s to stop... ",name);
       TGo4Thread::Sleep(TGo4TaskHandler::fguTHREADSTOPTIME);
       if((t++>=TGo4TaskHandler::fgiTHREADSTOPCYCLES))
       {
-         timeout=kTRUE;
+         timeout = kTRUE;
          break;
       }
    }

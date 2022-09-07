@@ -420,7 +420,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
 {
    GO4TRACE((15,"TGo4ThreadHandler::DumpThreads(Int_t)",__LINE__, __FILE__));
    if(TGo4Log::GetIgnoreLevel()>0) return 2; // only write threaddumpfile for debug mode
-   Int_t retval=0;
+   Int_t retval = 0;
    TGo4Thread* th = nullptr;
    FILE* fp = nullptr;
    Int_t i = 0;
@@ -486,7 +486,7 @@ TGo4Thread* TGo4ThreadHandler::GetThread (const char *name)
 Int_t TGo4ThreadHandler::GetEntries ()
 {
    GO4TRACE((12,"TGo4ThreadHandler::GetEntries()",__LINE__, __FILE__));
-   Int_t entries=0;
+   Int_t entries = 0;
    {
       TGo4LockGuard listguard(fxListMutex);
       entries = fxArray->GetEntries();
@@ -500,7 +500,7 @@ Bool_t TGo4ThreadHandler::AllCreated ()
    Bool_t rev=kTRUE; // return value: false if one thread is not there
    TGo4Thread* th = nullptr;
    {
-   TGo4LockGuard listguard(fxListMutex);
+      TGo4LockGuard listguard(fxListMutex);
       fxIterator->Reset();
       while((th= (TGo4Thread*) fxIterator->Next()) != nullptr)
          {
