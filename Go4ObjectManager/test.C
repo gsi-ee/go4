@@ -86,7 +86,7 @@ void test() {
 
    Int_t numiter = 0;
 
-   for(int n=0;n<100000;n++)
+   for (int n = 0; n < 100000; n++)
       numiter += objm.IterateSlots();
 
    gBenchmark->Stop("TestOM");

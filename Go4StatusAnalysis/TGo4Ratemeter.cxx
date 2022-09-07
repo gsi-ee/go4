@@ -68,9 +68,9 @@ Bool_t TGo4Ratemeter::Update(Int_t increment)
 {
    if(increment < 0) {
       if(increment==-2)
-         fdRate=1; // first update after start: dummy rate
+         fdRate = 1; // first update after start: dummy rate
       else
-         fdRate=0; // case of stopped analysis: zero rate
+         fdRate = 0; // case of stopped analysis: zero rate
       // keep last values of time, average rate, eventnumber
       fbUpdateDone = kTRUE; // tell watch thread we did the update
       return kTRUE;

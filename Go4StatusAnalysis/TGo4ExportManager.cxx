@@ -265,8 +265,8 @@ try{
    Int_t maxbinX=histo->GetNbinsX();
    Int_t maxbinY=histo->GetNbinsY();
    Int_t maxbinZ=histo->GetNbinsZ();
-   Int_t globalbin=0;
-   Stat_t  cont=0;
+   Int_t globalbin = 0;
+   Stat_t  cont = 0;
    outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;
    if(channels)
       outfile <<"# Xbin \tYbin \tZbin \tContent"<< std::endl;
@@ -286,18 +286,18 @@ try{
                }
               else
                {
-                  Axis_t xval=0;
-                  TAxis* xax=histo->GetXaxis();
+                  Axis_t xval = 0;
+                  TAxis* xax = histo->GetXaxis();
                   //if(xax) xval=xax->GetBinCenter(x);
                   if(xax) xval=xax->GetBinLowEdge(x);
-                  Axis_t yval=0;
-                  TAxis* yax=histo->GetYaxis();
+                  Axis_t yval = 0;
+                  TAxis* yax = histo->GetYaxis();
                   //if(yax) yval=yax->GetBinCenter(y);
-                  if(yax) yval=yax->GetBinLowEdge(y);
-                  Axis_t zval=0;
-                  TAxis* zax=histo->GetZaxis();
+                  if(yax) yval = yax->GetBinLowEdge(y);
+                  Axis_t zval = 0;
+                  TAxis* zax = histo->GetZaxis();
                   //if(zax) zval=zax->GetBinCenter(z);
-                  if(zax) zval=zax->GetBinLowEdge(z);
+                  if(zax) zval = zax->GetBinLowEdge(z);
                   outfile <<xval<<" \t"<<yval<<" \t"<<zval<<" \t"<<cont<< std::endl;
                }
             }

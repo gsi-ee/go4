@@ -70,14 +70,12 @@ Bool_t TGo4ParameterMember::CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t ind
 const char *TGo4ParameterMember::GetFullName(TString& buf)
 {
    buf = "";
-   if ((fIndex1<0) && (fIndex2<0))
+   if ((fIndex1 < 0) && (fIndex2 < 0))
       buf = GetName();
-   else
-   if ((fIndex1>=0) && (fIndex2<0))
-      buf.Form("%s[%d]",GetName(),fIndex1);
-   else
-   if ((fIndex1>=0) && (fIndex2>=0))
-      buf.Form("%s[%d][%d]",GetName(),fIndex1,fIndex2);
+   else if ((fIndex1 >= 0) && (fIndex2 < 0))
+      buf.Form("%s[%d]", GetName(), fIndex1);
+   else if ((fIndex1 >= 0) && (fIndex2 >= 0))
+      buf.Form("%s[%d][%d]", GetName(), fIndex1, fIndex2);
    return buf.Data();
 }
 

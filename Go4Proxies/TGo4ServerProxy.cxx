@@ -308,8 +308,8 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
    Int_t num = konsole;
    if (serverkind>0) num+=3;
 
-   for(int n=0;n<num;n++)
-     launchprefs.getline(formatstring, 1000, '\n' );
+   for (int n = 0; n < num; n++)
+      launchprefs.getline(formatstring, 1000, '\n');
 
    const char *sh_com = "";
    const char *sh_host = remotehost;

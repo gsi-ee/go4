@@ -32,7 +32,7 @@ TGo4AnalysisObjectResult::~TGo4AnalysisObjectResult()
 {
    // names list is not owned by the result object
    //  delete fxNamesList;
-   // fxNamesList=0;
+   // fxNamesList = nullptr;
 }
 
 TGo4AnalysisObjectNames* TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)

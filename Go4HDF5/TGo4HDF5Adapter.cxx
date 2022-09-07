@@ -204,7 +204,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
             continue;
          }
 
-         ///// arraydim=0; // JAM DEBUG: check if we can handle the first vector in array only
+         ///// arraydim = 0; // JAM DEBUG: check if we can handle the first vector in array only
 
          // now evaluate the subhandles depending on the array dimension:
          // here treat special case of array of vectors (poland example)

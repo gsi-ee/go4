@@ -174,10 +174,20 @@ void TGo4Picture::SetDivision(Int_t ndivy, Int_t ndivx)
 TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
 {
    if (!fxSubPictures) return nullptr;
-   if (posx < 0) posx=0; else { if(posx>=GetDivX()) posx = GetDivX()-1; }
-   if (posy < 0) posy=0; else { if(posy>=GetDivY()) posy = GetDivY()-1; }
-   for (Int_t n=0;n<=fxSubPictures->GetLast();n++) {
-      TGo4Picture* sub = dynamic_cast<TGo4Picture*> (fxSubPictures->At(n));
+   if (posx < 0)
+      posx = 0;
+   else {
+      if (posx >= GetDivX())
+         posx = GetDivX() - 1;
+   }
+   if (posy < 0)
+      posy = 0;
+   else {
+      if (posy >= GetDivY())
+         posy = GetDivY() - 1;
+   }
+   for (Int_t n = 0; n <= fxSubPictures->GetLast(); n++) {
+      TGo4Picture *sub = dynamic_cast<TGo4Picture *>(fxSubPictures->At(n));
       if (sub && sub->CheckPosition(posy,posx))
          return sub;
    }
@@ -204,8 +214,8 @@ TGo4Picture* TGo4Picture::Pic(Int_t posy, Int_t posx)
 void TGo4Picture::SetLinesDivision(Int_t numlines, const Int_t* numbers)
 {
    SetDivision(numlines,1);
-   for (Int_t n=0;n<numlines;n++)
-      if (numbers[n]>1)
+   for (Int_t n = 0; n < numlines; n++)
+      if (numbers[n] > 1)
          Pic(n,0)->SetDivision(1,numbers[n]);
 }
 
@@ -305,10 +315,11 @@ void TGo4Picture::ClearObjNames(Bool_t recursive)
    }
    fiLastIndex = 0;
    if (recursive && fxSubPictures)
-    for (Int_t n=0;n<=fxSubPictures->GetLast();n++) {
-      TGo4Picture* sub = dynamic_cast<TGo4Picture*> (fxSubPictures->At(n));
-      if (sub) sub->ClearObjNames(recursive);
-    }
+      for (Int_t n = 0; n <= fxSubPictures->GetLast(); n++) {
+         TGo4Picture *sub = dynamic_cast<TGo4Picture *>(fxSubPictures->At(n));
+         if (sub)
+            sub->ClearObjNames(recursive);
+      }
 }
 
 Int_t TGo4Picture::GetNumObjNames()
@@ -321,10 +332,11 @@ Bool_t TGo4Picture::IsObjNames()
    if (GetNumObjNames() > 0) return kTRUE;
 
    if (fxSubPictures)
-     for (Int_t n=0;n<=fxSubPictures->GetLast();n++) {
-       TGo4Picture* sub = dynamic_cast<TGo4Picture*> (fxSubPictures->At(n));
-       if (sub && sub->IsObjNames()) return kTRUE;
-   }
+      for (Int_t n = 0; n <= fxSubPictures->GetLast(); n++) {
+         TGo4Picture *sub = dynamic_cast<TGo4Picture *>(fxSubPictures->At(n));
+         if (sub && sub->IsObjNames())
+            return kTRUE;
+      }
    return kFALSE;
 }
 
@@ -730,7 +742,7 @@ Bool_t  TGo4Picture::IsXYRatioOne()
 //
 //Bool_t TGo4Picture::CheckDefaultRatio()
 //{
-//   Long_t value=0;
+//   Long_t value = 0;
 //   GetOption(PictureIndex, op_DefaultRatio, value);
 //   return value;
 //}
@@ -1053,10 +1065,10 @@ void TGo4Picture::SetTitleAttr(TPaveText* titl)
 
 Bool_t TGo4Picture::HasTitleAttr()
 {
-   return (FindOptPos(PictureIndex, op_TitleX1)>=0) &&
-          (FindOptPos(PictureIndex, op_TitleX2)>=0) &&
-          (FindOptPos(PictureIndex, op_TitleY1)>=0) &&
-          (FindOptPos(PictureIndex, op_TitleY2)>=0);
+   return (FindOptPos(PictureIndex, op_TitleX1) >= 0) &&
+          (FindOptPos(PictureIndex, op_TitleX2) >= 0) &&
+          (FindOptPos(PictureIndex, op_TitleY1) >= 0) &&
+          (FindOptPos(PictureIndex, op_TitleY2) >= 0);
 }
 
 Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
@@ -1324,7 +1336,7 @@ void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass* selectedobjclass)
    fiPosX = source->fiPosX;
    fiPosY = source->fiPosY;
 
-   for (Int_t n=0; n<source->GetNumObjNames();n++)
+   for (Int_t n = 0; n < source->GetNumObjNames(); n++)
       AddObjName(source->GetObjName(n));
 
    if (source->GetSpecialObjects())
@@ -1377,8 +1389,9 @@ void TGo4Picture::Clear(Option_t* option)
 Int_t TGo4Picture::FindOptPos(Short_t index, Short_t typ) const
 {
    Long_t zn = index + 1 + (typ << 16);
-   for (Int_t i=0;i<fiOptSize;i++)
-     if (fxOptIndex[i]==zn) return i;
+   for (Int_t i = 0; i < fiOptSize; i++)
+      if (fxOptIndex[i] == zn)
+         return i;
    return -1;
 }
 
@@ -1423,7 +1436,7 @@ void TGo4Picture::SetOptionF(Short_t index, Short_t typ, Float_t value)
    Long_t buf;
 
 #ifdef R__B64
-   Double_t v(value);
+   Double_t v = value;
    memcpy(&buf, &v, sizeof(Long_t));
 #else
    memcpy(&buf, &value, sizeof(Long_t));
@@ -1575,15 +1588,16 @@ void TGo4Picture::ClearOption(Int_t pos)
   Int_t bnd = op_ObjsBound << 16;
 
   if (fxOptIndex[pos]>=bnd) {
-    for (Int_t i=0;i<fiOptSize;i++)
-      if (fxOptIndex[i]>=bnd)
-        if (fxOptValue[i]>fxOptValue[pos]) fxOptValue[i]-=1;
-    TObject *obj = fxOptObjects->RemoveAt(fxOptValue[pos]);
-    delete obj;
-    fxOptObjects->Compress();
-    if (fxOptObjects->GetLast() < 0) {
-       delete fxOptObjects;
-       fxOptObjects = nullptr;
+     for (Int_t i = 0; i < fiOptSize; i++)
+        if (fxOptIndex[i] >= bnd)
+           if (fxOptValue[i] > fxOptValue[pos])
+              fxOptValue[i] -= 1;
+     TObject *obj = fxOptObjects->RemoveAt(fxOptValue[pos]);
+     delete obj;
+     fxOptObjects->Compress();
+     if (fxOptObjects->GetLast() < 0) {
+        delete fxOptObjects;
+        fxOptObjects = nullptr;
     }
   }
 
@@ -1624,8 +1638,9 @@ void TGo4Picture::ClearAllOptions(Short_t index)
 Int_t TGo4Picture::GetObjAttIndex(TObject *obj)
 {
    if (!obj) return UndefIndex;
-   for (Int_t n=0;n<GetNumObjNames();n++)
-     if (strcmp(GetObjName(n),obj->GetName()) == 0) return n;
+   for (Int_t n = 0; n < GetNumObjNames(); n++)
+      if (strcmp(GetObjName(n), obj->GetName()) == 0)
+         return n;
    return UndefIndex;
 }
 
@@ -1634,30 +1649,33 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
    if (!pad) return;
    double txt_y = 0.9;
    if (IsDivided()) {
-     pad->Divide(GetDivX(), GetDivY());
-     for(Int_t posx=0; posx<GetDivX(); posx++)
-       for(Int_t posy=0; posy<GetDivY(); posy++) {
-           TGo4Picture* sub = FindPic(posy,posx);
-           if (sub) sub->DrawPic(pad->GetPad(posy*GetDivX() + posx + 1));
-       }
+      pad->Divide(GetDivX(), GetDivY());
+      for (Int_t posx = 0; posx < GetDivX(); posx++)
+         for (Int_t posy = 0; posy < GetDivY(); posy++) {
+            TGo4Picture *sub = FindPic(posy, posx);
+            if (sub)
+               sub->DrawPic(pad->GetPad(posy * GetDivX() + posx + 1));
+         }
    } else
-   for (Int_t indx=0;indx<GetNumObjNames();indx++) {
-      TString str = "Obj: ";
-      str += GetObjName(indx);
-      const char *opt = GetDrawOption(indx);
-      if (!opt && (indx == 0))
-        opt = GetDrawOption(PictureIndex);
-      if (opt) {
-         str += "  Opt: ";
-         str += opt;
+      for (Int_t indx = 0; indx < GetNumObjNames(); indx++) {
+         TString str = "Obj: ";
+         str += GetObjName(indx);
+         const char *opt = GetDrawOption(indx);
+         if (!opt && (indx == 0))
+            opt = GetDrawOption(PictureIndex);
+         if (opt) {
+            str += "  Opt: ";
+            str += opt;
+         }
+         Int_t numobj = GetNumObjNames();
+         TText *txt = new TText(0.1, txt_y, str.Data());
+         pad->cd();
+         txt->Draw();
+         if (numobj < 8)
+            txt_y -= 0.1;
+         else
+            txt_y -= 0.8 / numobj;
       }
-      Int_t numobj = GetNumObjNames();
-      TText* txt = new TText(0.1, txt_y, str.Data());
-      pad->cd();
-      txt->Draw();
-      if (numobj < 8) txt_y -= 0.1;
-                 else txt_y -= 0.8/numobj;
-   }
 }
 
 void TGo4Picture::Draw(Option_t* option)
@@ -1689,34 +1707,42 @@ void TGo4Picture::Draw(Option_t* option)
 
 void TGo4Picture::PrintPic(int shift, Bool_t showopt)
 {
-   for (int n=0;n<shift;n++) std::cout << ' ';
+   for (int n = 0; n < shift; n++)
+      std::cout << ' ';
    if (IsDivided()) {
       std::cout << "Divided numx:" << GetDivX() << "  numy:" << GetDivY() << std::endl;
-      for(Int_t posx=0; posx<GetDivX(); posx++)
-         for(Int_t posy=0; posy<GetDivY(); posy++) {
-            for (int n=0;n<shift+2;n++) std::cout << ' ';
+      for (Int_t posx = 0; posx < GetDivX(); posx++)
+         for (Int_t posy = 0; posy < GetDivY(); posy++) {
+            for (int n = 0; n < shift + 2; n++)
+               std::cout << ' ';
             std::cout << "subpic x:" << posx << " y:" << posy << std::endl;
-            TGo4Picture* sub = FindPic(posy,posx);
-            if (sub) sub->PrintPic(shift+4, showopt);
+            TGo4Picture *sub = FindPic(posy, posx);
+            if (sub)
+               sub->PrintPic(shift + 4, showopt);
          }
    } else {
       std::cout << "Objects:" << std::endl;
-      for (Int_t num=0; num<GetNumObjNames(); num++) {
-        const char *objname = GetObjName(num);
-        for (int n=0;n<shift+2;n++) std::cout << ' ';
-        std::cout << objname;
+      for (Int_t num = 0; num < GetNumObjNames(); num++) {
+         const char *objname = GetObjName(num);
+         for (int n = 0; n < shift + 2; n++)
+            std::cout << ' ';
+         std::cout << objname;
 
-        Option_t* drawopt = GetDrawOption(num);
-        if (drawopt) std::cout << "   opt: " << drawopt;
-        std::cout << std::endl;
+         Option_t *drawopt = GetDrawOption(num);
+         if (drawopt)
+            std::cout << "   opt: " << drawopt;
+         std::cout << std::endl;
       }
-      if (!showopt) return;
-      for (int n=0;n<shift;n++) std::cout << ' ';
+      if (!showopt)
+         return;
+      for (int n = 0; n < shift; n++)
+         std::cout << ' ';
       std::cout << "Options:" << std::endl;
-      for (Int_t nop=0;nop<fiOptSize;nop++) {
+      for (Int_t nop = 0; nop < fiOptSize; nop++) {
          Int_t indx = (fxOptIndex[nop] & 0x00ff);
          Int_t op = fxOptIndex[nop] >> 16;
-         for (int n=0;n<shift+2;n++) std::cout << ' ';
+         for (int n = 0; n < shift + 2; n++)
+            std::cout << ' ';
          std::cout << indx << "  " << op << "  " << fxOptValue[nop] << std::endl;
       }
    }
@@ -1760,8 +1786,8 @@ Long_t TGo4Picture::GetTotalSize()
 
    if (fxNames) {
       sz += TObjArray::Class()->Size() + fxNames->GetSize() * sizeof(void*);
-      for (int n=0;n<=fxNames->GetLast();n++) {
-         TObjString* str = (TObjString*) fxNames->At(n);
+      for (int n = 0; n <= fxNames->GetLast(); n++) {
+         TObjString *str = (TObjString *)fxNames->At(n);
          if (str) sz += str->IsA()->Size() + str->GetString().Length();
       }
    }
@@ -1771,7 +1797,7 @@ Long_t TGo4Picture::GetTotalSize()
 
    if (fxOptObjects) {
       sz += TObjArray::Class()->Size() + fxOptObjects->GetSize() * sizeof(void*);
-      for (int n=0;n<=fxOptObjects->GetLast();n++) {
+      for (int n = 0; n <= fxOptObjects->GetLast(); n++) {
          TObject *obj = fxOptObjects->At(n);
          if (obj) sz += obj->IsA()->Size();
       }
@@ -1789,9 +1815,9 @@ Long_t TGo4Picture::GetTotalSize()
    sz += fxOptValue.GetSize() * sizeof(Long_t);
 
    if (IsDivided())
-      for(int ny=0;ny<GetDivY();ny++)
-         for(int nx=0;nx<GetDivX();nx++)
-            sz += Pic(ny,nx)->GetTotalSize();
+      for (int ny = 0; ny < GetDivY(); ny++)
+         for (int nx = 0; nx < GetDivX(); nx++)
+            sz += Pic(ny, nx)->GetTotalSize();
 
    return sz;
 }
@@ -1876,9 +1902,9 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index
 
 void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 {
-   for(Int_t naxis=0;naxis<3;naxis++)
-     if (GetLogScale(naxis) > 0)
-       fs << name << "SetLogScale(" << naxis << ", 1);" << std::endl;
+   for (Int_t naxis = 0; naxis < 3; naxis++)
+      if (GetLogScale(naxis) > 0)
+         fs << name << "SetLogScale(" << naxis << ", 1);" << std::endl;
 
    Double_t min, max;
    if (GetRangeX(min, max))
@@ -2074,15 +2100,15 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 
    if (IsDivided()) {
       fs << name << "SetDivision(" << GetDivY() << ", " << GetDivX() << ");" << std::endl;
-      for(int ny=0;ny<GetDivY();ny++)
-        for(int nx=0;nx<GetDivX();nx++) {
-           TString subname = name;
-           subname+="Pic(";
-           subname+=ny;
-           subname+=",";
-           subname+=nx;
-           subname+=")->";
-           Pic(ny,nx)->MakeScript(fs, subname.Data());
-        }
+      for (int ny = 0; ny < GetDivY(); ny++)
+         for (int nx = 0; nx < GetDivX(); nx++) {
+            TString subname = name;
+            subname += "Pic(";
+            subname += ny;
+            subname += ",";
+            subname += nx;
+            subname += ")->";
+            Pic(ny, nx)->MakeScript(fs, subname.Data());
+         }
    }
 }

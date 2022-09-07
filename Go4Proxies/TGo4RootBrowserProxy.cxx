@@ -290,12 +290,12 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic
    if (pic->IsDivided()) {
       pad->Divide(pic->GetDivX(), pic->GetDivY());
 
-      for(Int_t posy=0; posy<pic->GetDivY(); posy++)
-         for(Int_t posx=0; posx<pic->GetDivX(); posx++) {
-           TGo4Picture* sub = pic->FindPic(posy,posx);
-           if (sub)
-             DrawPicture(picitemname, sub, (TPad*) pad->GetPad(posy*pic->GetDivX() + posx + 1));
-       }
+      for (Int_t posy = 0; posy < pic->GetDivY(); posy++)
+         for (Int_t posx = 0; posx < pic->GetDivX(); posx++) {
+            TGo4Picture *sub = pic->FindPic(posy, posx);
+            if (sub)
+               DrawPicture(picitemname, sub, (TPad *)pad->GetPad(posy * pic->GetDivX() + posx + 1));
+         }
       return;
    }
 
@@ -303,8 +303,8 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic
 
    TH1* h1 = nullptr;
 
-   for (Int_t indx=0; indx<pic->GetNumObjNames(); indx++) {
-      Option_t* drawopt = pic->GetDrawOption(indx);
+   for (Int_t indx = 0; indx < pic->GetNumObjNames(); indx++) {
+      Option_t *drawopt = pic->GetDrawOption(indx);
       const char *objname = pic->GetObjName(indx);
 
       TString drawname;

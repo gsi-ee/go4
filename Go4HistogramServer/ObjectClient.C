@@ -40,14 +40,14 @@ cout <<"Use TObject* ob=myclient.RequestObject('name') to receive object" << std
 // now testing repeated access in short time:
 TObject* arr[20];
 mycanvas.Divide(4,5);
-for(Int_t t=0; t<20;++t)
+for(Int_t t = 0; t < 20; ++t)
 {
     //cout <<"requesting "<<t << std::endl;
     arr[t]=myclient.RequestObject("Cr1Ch02");
 
 }
 
-for(Int_t t=0; t<20;++t)
+for(Int_t t = 0; t < 20; ++t)
 {
     mycanvas.cd(t+1);
     if(arr[t]) arr[t]->Draw();

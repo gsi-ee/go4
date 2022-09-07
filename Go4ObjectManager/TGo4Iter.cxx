@@ -79,8 +79,8 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
    fFullName = "";
 
    if (iter)
-      for(int n=0;n<=fLevels.GetLast();n++) {
-         TGo4LevelIter* it = (TGo4LevelIter*) fLevels.At(n);
+      for (int n = 0; n <= fLevels.GetLast(); n++) {
+         TGo4LevelIter *it = (TGo4LevelIter *)fLevels.At(n);
          if (n>0) fFullName.Append("/");
          fFullName.Append(it->name());
       }

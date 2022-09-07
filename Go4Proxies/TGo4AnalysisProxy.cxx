@@ -413,8 +413,8 @@ const char *TGo4AnalysisProxy::GetContainedObjectInfo()
 
 TGo4AnalysisObjectAccess* TGo4AnalysisProxy::FindSubmittedProxy(const char *pathname, const char *objname)
 {
-   for(int n=0;n<=fxSubmittedProxy.GetLast();n++) {
-      TGo4AnalysisObjectAccess* proxy = (TGo4AnalysisObjectAccess*) fxSubmittedProxy.At(n);
+   for (int n = 0; n <= fxSubmittedProxy.GetLast(); n++) {
+      TGo4AnalysisObjectAccess *proxy = (TGo4AnalysisObjectAccess *)fxSubmittedProxy.At(n);
       if (!proxy) continue;
       if (strcmp(proxy->GetObjectName(), objname) != 0) continue;
       if (pathname && (strcmp(proxy->GetPathName(), pathname) != 0)) continue;
@@ -433,8 +433,8 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
       fNumberOfWaitingProxyes--;
    }
 
-   for(int n=0;n<=fxSubmittedProxy.GetLast();n++) {
-      TGo4AnalysisObjectAccess* proxy = (TGo4AnalysisObjectAccess*) fxSubmittedProxy.At(n);
+   for (int n = 0; n <= fxSubmittedProxy.GetLast(); n++) {
+      TGo4AnalysisObjectAccess *proxy = (TGo4AnalysisObjectAccess *)fxSubmittedProxy.At(n);
       if (!proxy) continue;
       if (proxy->CheckLifeTime(100000)) {
          fxSubmittedProxy.Remove(proxy);
@@ -502,8 +502,8 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 
      // for gui as client at analysis server
      if (message.Contains("is logged in at") && IsAnalysisServer())
-        for(int j=0; j<4;++j)
-           if(message.Contains(TGo4Command::GetModeDescription((Go4CommandMode_t) j ))) {
+        for (int j = 0; j < 4; ++j)
+           if (message.Contains(TGo4Command::GetModeDescription((Go4CommandMode_t)j))) {
               fActualRole = j;
               break;
            }
@@ -1033,7 +1033,7 @@ Bool_t TGo4AnalysisProxy::IsConnected()
 
    if (!fxDisplay->IsConnected()) return kFALSE;
 
-   return !IsAnalysisServer() || (fActualRole>=0);
+   return !IsAnalysisServer() || (fActualRole >= 0);
 }
 
 void TGo4AnalysisProxy::DisplayDeleted(TGo4Display* displ)
@@ -1043,10 +1043,9 @@ void TGo4AnalysisProxy::DisplayDeleted(TGo4Display* displ)
 
 void TGo4AnalysisProxy::DisplayDisconnected(TGo4Display* displ)
 {
-   if ((fxDisplay==displ) && displ)
+   if ((fxDisplay == displ) && displ)
       DisconnectAnalysis(5, false);
 }
-
 
 void TGo4AnalysisProxy::CallSlotUpdate()
 {

@@ -201,8 +201,8 @@ Bool_t TGo4HServProxy::RefreshNamesList()
    fxStructure = new TGo4Slot(nullptr, "HClient","Structure holding slot");
 
    s_his_head* ps_his_head = (s_his_head*) pl_all_h;
-   for(int i_j=0;i_j<l_histos;i_j++) {
-      TString HisType="TH";
+   for (int i_j = 0; i_j < l_histos; i_j++) {
+      TString HisType = "TH";
       if (ps_his_head->l_bins_2>1) {
          if(strstr(ps_his_head->c_dtype,"r"))
            HisType += "2F";
@@ -263,7 +263,7 @@ TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
       if (pr_all) {
         h1 = new TH1F(ps_his_head->c_name, ps_his_head->c_name,
                       i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up);
-        for (int k=0; k<i1; k++) {
+        for (int k = 0; k < i1; k++) {
            REAL4 val = *(pr_all++);
            h1->SetBinContent(k, val);
            entries+=val;
@@ -271,7 +271,7 @@ TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
       } else {
         h1 = new TH1I(ps_his_head->c_name, ps_his_head->c_name,
                       i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up);
-        for (int k=0; k<i1; k++) {
+        for (int k = 0; k < i1; k++) {
            INTS4 val = *(pl_all++);
            h1->SetBinContent(k, val);
            entries+=val;
@@ -285,18 +285,18 @@ TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
          h1 = new TH2F(ps_his_head->c_name,ps_his_head->c_name,
                        i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up,
                        i2, ps_his_head->r_limits_low_2, ps_his_head->r_limits_up_2);
-         for (int k=0; k<i2; k++)
-            for (int k1=0; k1<i1; k1++) {
-               REAL4 val= *(pr_all++);
+         for (int k = 0; k < i2; k++)
+            for (int k1 = 0; k1 < i1; k1++) {
+               REAL4 val = *(pr_all++);
                h1->SetBinContent(k1,k,val);
                entries+=val;
-           }
+            }
       } else {
          h1 = new TH2I(ps_his_head->c_name,ps_his_head->c_name,
                        i1, ps_his_head->r_limits_low, ps_his_head->r_limits_up,
                        i2, ps_his_head->r_limits_low_2, ps_his_head->r_limits_up_2);
-         for (int k=0; k<i2; k++)
-            for (int k1=0; k1<i1; k1++) {
+         for (int k = 0; k < i2; k++)
+            for (int k1 = 0; k1 < i1; k1++) {
                INTS4 val = *(pl_all++);
                h1->SetBinContent(k1,k,val);
                entries+=val;

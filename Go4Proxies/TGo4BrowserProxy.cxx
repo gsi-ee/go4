@@ -355,8 +355,8 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char *tgt
    if (itemslot->NumChilds() > 0) {
      Bool_t res = kTRUE;
      TObjArray childs;
-     for (Int_t n=0;n<itemslot->NumChilds();n++)
-       childs.Add(itemslot->GetChild(n));
+     for (Int_t n = 0; n < itemslot->NumChilds(); n++)
+        childs.Add(itemslot->GetChild(n));
 
      TString subpath;
      // create subpath for paste from clipboard folder
@@ -375,8 +375,8 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char *tgt
         tgtpath = subpath.Data();
      }
 
-     for (Int_t n=0;n<=childs.GetLast();n++) {
-        Bool_t res1 = ProduceExplicitCopy((TGo4Slot*)childs.At(n), tgtpath, forcerequest);
+     for (Int_t n = 0; n <= childs.GetLast(); n++) {
+        Bool_t res1 = ProduceExplicitCopy((TGo4Slot *)childs.At(n), tgtpath, forcerequest);
         res = res || res1;
      }
 
@@ -531,8 +531,8 @@ void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
 
-   for(Int_t n=0;n<slot->NumChilds();n++) {
-      TGo4Slot* subslot = slot->GetChild(n);
+   for (Int_t n = 0; n < slot->NumChilds(); n++) {
+      TGo4Slot *subslot = slot->GetChild(n);
       TGo4DirProxy* pr = dynamic_cast<TGo4DirProxy*> (subslot->GetProxy());
       if (pr && pr->IsFile())
         arr->Add(pr);
@@ -546,8 +546,8 @@ void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
 
-   for(Int_t n=0;n<slot->NumChilds();n++) {
-      TGo4Slot* subslot = slot->GetChild(n);
+   for (Int_t n = 0; n < slot->NumChilds(); n++) {
+      TGo4Slot *subslot = slot->GetChild(n);
       TGo4HServProxy* pr = dynamic_cast<TGo4HServProxy*> (subslot->GetProxy());
       if (pr) arr->Add(pr);
    }
@@ -560,9 +560,9 @@ void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
 
-   for(Int_t n=0;n<slot->NumChilds();n++) {
-      TGo4Slot* subslot = slot->GetChild(n);
-      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (subslot->GetProxy());
+   for (Int_t n = 0; n < slot->NumChilds(); n++) {
+      TGo4Slot *subslot = slot->GetChild(n);
+      TGo4DabcProxy *pr = dynamic_cast<TGo4DabcProxy *>(subslot->GetProxy());
       if (pr) arr->Add(pr);
    }
 }
@@ -574,9 +574,9 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
    TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
    if (!slot) return;
 
-   for(Int_t n=0;n<slot->NumChilds();n++) {
-      TGo4Slot* subslot = slot->GetChild(n);
-      TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (subslot->GetProxy());
+   for (Int_t n = 0; n < slot->NumChilds(); n++) {
+      TGo4Slot *subslot = slot->GetChild(n);
+      TGo4ServerProxy *pr = dynamic_cast<TGo4ServerProxy *>(subslot->GetProxy());
       if (!pr || strcmp(pr->GetContainedClassName(),"TGo4ServerProxy")) continue;
 
       if ((strncmp(pr->GetServerName(),"http://",7) == 0) ||
@@ -888,10 +888,10 @@ void TGo4BrowserProxy::RedrawItem(const char *itemname)
 }
 
 TObject* TGo4BrowserProxy::GetBrowserObject(const char *name, int update)
-// update=0 - without update,
-//        1 - request only if obj == nullptr,
-//        2 - update of object in any case
-//    >=100 - update object in any case and wait for specified time in millisec
+// update = 0 - without update,
+//          1 - request only if obj == nullptr,
+//          2 - update of object in any case
+//      >=100 - update object in any case and wait for specified time in millisec
 {
    if (!name || !fxBrowserSlot || !fxOM) return nullptr;
 
@@ -1657,11 +1657,11 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char *picitem
    if (!pic) return;
 
    if (pic->IsDivided())
-      for(Int_t posy=0; posy<pic->GetDivY(); posy++)
-         for(Int_t posx=0; posx<pic->GetDivX(); posx++)
-            CheckPictureMonitor(pic->FindPic(posy,posx), picitemname);
+      for (Int_t posy = 0; posy < pic->GetDivY(); posy++)
+         for (Int_t posx = 0; posx < pic->GetDivX(); posx++)
+            CheckPictureMonitor(pic->FindPic(posy, posx), picitemname);
 
-   for (Int_t n=0; n<pic->GetNumObjNames(); n++) {
+   for (Int_t n = 0; n < pic->GetNumObjNames(); n++) {
 
       TString drawname;
 
@@ -1735,8 +1735,8 @@ Int_t TGo4BrowserProxy::UpdateVisibleAnalysisObjects(bool checkmonitor)
    }
 
    Int_t nrequests = 0;
-   for (int n=0;n<=UniqueItems.GetLast();n++) {
-      TGo4Slot* srcslot = (TGo4Slot*)UniqueItems.At(n);
+   for (int n = 0; n <= UniqueItems.GetLast(); n++) {
+      TGo4Slot *srcslot = (TGo4Slot *)UniqueItems.At(n);
       if (!checkmonitor || IsItemMonitored(srcslot)) {
          nrequests++;
          srcslot->Update(kFALSE);
@@ -1938,8 +1938,8 @@ Int_t TGo4BrowserProxy::CalculateFolderSizes(TGo4Slot* topslot)
    if (!verytop && ItemKind(topslot)!=TGo4Access::kndFolder) return sizeinfo;
 
    Int_t sum = 0;
-   for (Int_t n=0;n<topslot->NumChilds();n++)
-       sum += CalculateFolderSizes(topslot->GetChild(n));
+   for (Int_t n = 0; n < topslot->NumChilds(); n++)
+      sum += CalculateFolderSizes(topslot->GetChild(n));
    if (!verytop) SetCalcSize(topslot, sum);
 
    return sum;
@@ -2153,7 +2153,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       Bool_t canrebin = histo->CanExtendAllAxes();
       histo->SetCanExtend(TH1::kNoAxis);
       Double_t sum = 0;
-      for (int n=0;n<sz;n++) {
+      for (int n = 0; n < sz; n++) {
          Stat_t value = histo2->GetBinContent(n);
          sum += value;
          histo->SetBinContent(n, value);
@@ -2200,14 +2200,14 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
       Double_t xp, yp, exh, exl, eyh, eyl;
-      for (Int_t n=0;n<npoints;n++) {
-        newgr->GetPoint(n,xp,yp);
-        gr->SetPoint(n,xp,yp);
-        exh = newgr->GetErrorXhigh(n);
-        exl = newgr->GetErrorXlow(n);
-        eyh = newgr->GetErrorYhigh(n);
-        eyl = newgr->GetErrorYlow(n);
-        gr->SetPointError(n, exl, exh, eyl, eyh);
+      for (Int_t n = 0; n < npoints; n++) {
+         newgr->GetPoint(n, xp, yp);
+         gr->SetPoint(n, xp, yp);
+         exh = newgr->GetErrorXhigh(n);
+         exl = newgr->GetErrorXlow(n);
+         eyh = newgr->GetErrorYhigh(n);
+         eyl = newgr->GetErrorYlow(n);
+         gr->SetPointError(n, exl, exh, eyl, eyh);
       }
 
       UpdateListOfFunctions(gr,newgr);
@@ -2223,12 +2223,12 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
       Double_t xp, yp, ex, ey;
-      for (Int_t n=0;n<npoints;n++) {
-        newgr->GetPoint(n,xp,yp);
-        gr->SetPoint(n,xp,yp);
-        ex = newgr->GetErrorX(n);
-        ey = newgr->GetErrorY(n);
-        gr->SetPointError(n, ex, ey);
+      for (Int_t n = 0; n < npoints; n++) {
+         newgr->GetPoint(n, xp, yp);
+         gr->SetPoint(n, xp, yp);
+         ex = newgr->GetErrorX(n);
+         ey = newgr->GetErrorY(n);
+         gr->SetPointError(n, ex, ey);
       }
 
       UpdateListOfFunctions(gr,newgr);
@@ -2247,11 +2247,11 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
       Double_t xp, yp;
-      for (Int_t n=0;n<npoints;n++) {
-        newgr->GetPoint(n,xp,yp);
-        gr->SetPoint(n,xp,yp);
+      for (Int_t n = 0; n < npoints; n++) {
+         newgr->GetPoint(n, xp, yp);
+         gr->SetPoint(n, xp, yp);
       }
-      UpdateListOfFunctions(gr,newgr);
+      UpdateListOfFunctions(gr, newgr);
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;

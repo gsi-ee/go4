@@ -58,8 +58,8 @@ void TGo4BufferQueue::InitBuffers()
    fxFreeList = new TList;    // list indicating the free buffers
    fxFreeList->SetOwner(kFALSE); // JAM2018 - avoid root6 problems at shutdown???
    fxBufferMutex = new TMutex;
-   for (Int_t i=0; i< fiMaxBuffers; ++i) {
-      TBuffer* buf = NewEntry();
+   for (Int_t i = 0; i < fiMaxBuffers; ++i) {
+      TBuffer *buf = NewEntry();
       fxBufferList->Add(buf);
       fxFreeList->Add(buf);
    }
@@ -114,7 +114,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
          {
             // case of unknown class
             std::cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<std::endl;
-            obj=0;
+            obj = nullptr;
          } else {
             //                  if(cl)
             //                     std::cout << "Classname: " << cl->GetName() << std::endl;

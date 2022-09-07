@@ -141,8 +141,8 @@ void TGo4ObjectManager::CloseFiles(const char *pathname)
 {
    TGo4Slot* slot = GetSlot(pathname);
    if (!slot) return;
-   for(int n=slot->NumChilds()-1;n>=0;n--) {
-      TGo4Slot* subslot = slot->GetChild(n);
+   for (int n = slot->NumChilds() - 1; n >= 0; n--) {
+      TGo4Slot *subslot = slot->GetChild(n);
       TGo4DirProxy* dirproxy = dynamic_cast<TGo4DirProxy*> (subslot->GetProxy());
       if (dirproxy)
         if (dirproxy->IsFile())
@@ -255,9 +255,10 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char *pathname, con
    if (slot)
      slot->SetProxy(new TGo4LinkProxy(source));
 
-   for(Int_t indx=fLinks.GetLast(); indx>=0; indx--) {
-      TGo4ObjManLink* link = (TGo4ObjManLink*) fLinks.At(indx);
-      if (!link) continue;
+   for (Int_t indx = fLinks.GetLast(); indx >= 0; indx--) {
+      TGo4ObjManLink *link = (TGo4ObjManLink *)fLinks.At(indx);
+      if (!link)
+         continue;
 
       TString namesrc, nametgt;
       link->GetSource()->ProduceFullName(namesrc);
@@ -306,9 +307,9 @@ void TGo4ObjectManager::UnregisterLink(TGo4Slot* target)
 void TGo4ObjectManager::RemoveFromLinks(const TGo4Slot* slot)
 {
    Bool_t docompress = kFALSE;
-   for (Int_t n=0;n<=fLinks.GetLast();n++) {
-     TGo4ObjManLink* link = (TGo4ObjManLink*) fLinks[n];
-     if ((link->GetTarget()==slot) || (link->GetSource()==slot)) {
+   for (Int_t n = 0; n <= fLinks.GetLast(); n++) {
+      TGo4ObjManLink *link = (TGo4ObjManLink *)fLinks[n];
+      if ((link->GetTarget() == slot) || (link->GetSource() == slot)) {
          fLinks.Remove(link);
          delete link;
          docompress = kTRUE;
@@ -322,8 +323,8 @@ void TGo4ObjectManager::RetranslateEvent(TGo4Slot* source, Int_t id, void* param
 {
    if (!source) return;
 
-   for(Int_t indx=fLinks.GetLast(); indx>=0; indx--) {
-      TGo4ObjManLink* link = (TGo4ObjManLink*) fLinks.At(indx);
+   for (Int_t indx = fLinks.GetLast(); indx >= 0; indx--) {
+      TGo4ObjManLink *link = (TGo4ObjManLink *)fLinks.At(indx);
       if (!link) continue;
 
       if (link->CheckEventSource(source)) {
@@ -429,8 +430,8 @@ void TGo4ObjectManager::RegisterObjectWith(TObject *obj, TGo4Slot* slot)
 void TGo4ObjectManager::UnregisterObject(TObject *obj, TGo4Slot* slot)
 {
    Bool_t compress = kFALSE;
-   for(int indx=fCleanups.GetLast();indx>=0;indx--) {
-      TGo4ObjManCleanup* entry = (TGo4ObjManCleanup*) fCleanups.At(indx);
+   for (int indx = fCleanups.GetLast(); indx >= 0; indx--) {
+      TGo4ObjManCleanup *entry = (TGo4ObjManCleanup *)fCleanups.At(indx);
       if (entry->GetSlot()!=slot) continue;
       if (!obj || (entry->GetObject() == obj)) {
          fCleanups.Remove(entry);
@@ -447,8 +448,8 @@ void TGo4ObjectManager::RecursiveRemove(TObject *obj)
    if (!obj || (obj == this)) return;
 
    Bool_t compress = kFALSE;
-   for(int indx=fCleanups.GetLast();indx>=0;indx--) {
-      TGo4ObjManCleanup* entry = (TGo4ObjManCleanup*) fCleanups.At(indx);
+   for (int indx = fCleanups.GetLast(); indx >= 0; indx--) {
+      TGo4ObjManCleanup *entry = (TGo4ObjManCleanup *)fCleanups.At(indx);
       if (!entry) continue;
       if (entry->GetObject() == obj) {
          // first
