@@ -59,7 +59,7 @@ TGo4TaskManager::TGo4TaskManager(const char *name,
        // connector should be available immediately, independent of timer connect!
        TGo4Log::Debug("TaskManager: Created negotiation channel in ctor");
        fxTransport = new TGo4Socket(kFALSE); // use raw transport for negotiations
-       fxTransport->Open( "Server mode does not need hostname", 0, kTRUE);
+       fxTransport->Open( "Server mode does not need hostname", negotiationport, kTRUE);
        // note: Open() return value is not 0 here, since we do not have
        // accept finished yet! but portnumber is ready after this...
       }
