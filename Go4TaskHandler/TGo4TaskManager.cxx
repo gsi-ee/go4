@@ -54,12 +54,11 @@ TGo4TaskManager::TGo4TaskManager(const char *name,
    fxTaskList = new TObjArray;
    fxTaskIter = fxTaskList->MakeIterator();
    fxTransport = nullptr;
-   if(createconnector)
-      {
+   if(createconnector) {
        // this mode is for server task created on the fly
        // connector should be available immediately, independent of timer connect!
        TGo4Log::Debug("TaskManager: Created negotiation channel in ctor");
-       fxTransport=new TGo4Socket(kFALSE); // use raw transport for negotiations
+       fxTransport = new TGo4Socket(kFALSE); // use raw transport for negotiations
        fxTransport->Open( "Server mode does not need hostname", 0, kTRUE);
        // note: Open() return value is not 0 here, since we do not have
        // accept finished yet! but portnumber is ready after this...
@@ -82,19 +81,18 @@ Int_t TGo4TaskManager::ServeClient()
 {
    //std::cout <<"EEEEEEEEEEEnter TGo4TaskManager::ServeClient()" << std::endl;
    Int_t rev = 0;
-   char* recvchar = nullptr;
+   char *recvchar = nullptr;
    TString cliname, hostname;
    // open connection in server mode with default port as raw Socket, wait for client
-   if(!fxTransport)
-      {
-         //std::cout << "+++++TaskManager creating new negotiation transport server instance" << std::endl;
-         fxTransport=new TGo4Socket(kFALSE); // use raw transport for negotiations
-      }
+   if (!fxTransport) {
+      // std::cout << "+++++TaskManager creating new negotiation transport server instance" << std::endl;
+      fxTransport = new TGo4Socket(kFALSE); // use raw transport for negotiations
+   }
    // we delegate the actual TSocket open to the taskconnector timer:
    fxServer->SetConnect(fxTransport, "Server mode does not need hostname", 0, kTRUE);
       // for portscan, we keep existing server socket (keepserv=kTRUE)
-   Int_t waitresult=fxServer->WaitForOpen(); // wait for the server Open() call by timer
-   if(waitresult<0)
+   Int_t waitresult = fxServer->WaitForOpen(); // wait for the server Open() call by timer
+   if(waitresult < 0)
    {
       // open timeout
       TGo4Log::Debug(" TaskManager: Negotiation channel open TIMEOUT");

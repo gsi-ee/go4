@@ -1167,7 +1167,7 @@ Bool_t TGo4Analysis::LoadObjects(const char *filename)
       return kTRUE;
    }
 
-   Bool_t rev(kTRUE);
+   Bool_t rev = kTRUE;
    OpenAutoSaveFile(false);
    if(fxAutoFile && fxAutoFile->IsOpen()) {
       TGo4Log::Info("Analysis LoadObjects: Loading from autosave file %s ", fxAutoFile->GetName());

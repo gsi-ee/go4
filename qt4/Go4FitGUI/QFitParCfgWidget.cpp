@@ -56,16 +56,23 @@ void QFitParCfgWidget::FillSpecificData()
 
 void QFitParCfgWidget::AnalyzeRangeValues()
 {
-  if  (RangeMinEdit->text().isEmpty() && RangeMaxEdit->text().isEmpty())
-    { GetPar()->SetRangeUse(kFALSE); return; }
-  double min,max;
-  bool okmin = false, okmax = false;
+   if (RangeMinEdit->text().isEmpty() && RangeMaxEdit->text().isEmpty()) {
+      GetPar()->SetRangeUse(kFALSE);
+      return;
+   }
+   bool okmin = false, okmax = false;
 
-  min = RangeMinEdit->text().toDouble(&okmin);
-  max = RangeMaxEdit->text().toDouble(&okmax);
+   double min = RangeMinEdit->text().toDouble(&okmin);
+   double max = RangeMaxEdit->text().toDouble(&okmax);
 
-  if (RangeMinEdit->text().isEmpty()) { min = max; okmin = okmax; }
-  if (RangeMaxEdit->text().isEmpty()) { max = min; okmax = okmin; }
+   if (RangeMinEdit->text().isEmpty()) {
+      min = max;
+      okmin = okmax;
+   }
+   if (RangeMaxEdit->text().isEmpty()) {
+      max = min;
+      okmax = okmin;
+   }
 
   if (okmin && okmax)
     GetPar()->SetRange(min,max);

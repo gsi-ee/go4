@@ -752,7 +752,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
    if(!con) return kFALSE;
 
    TGo4LockGuard   listguard(fxDirMutex);
-   Bool_t rev(kFALSE);
+   Bool_t rev = kFALSE;
    TFolder* topfolder = nullptr;
    if(parent)
       topfolder = parent;
@@ -765,13 +765,13 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
    // condition may be under user objects folder if not found in topfolder
    TGo4Condition* oldcon = nullptr;
    if(searchresult && searchresult->InheritsFrom(TGo4Condition::Class())) {
-      oldcon= dynamic_cast<TGo4Condition *> (searchresult);
+      oldcon = dynamic_cast<TGo4Condition *> (searchresult);
    } else
    if (searchresult && searchresult->InheritsFrom(TFolder::Class())) {
       // this is for the case that condition has same name as its folder!
-      TFolder* subf=dynamic_cast<TFolder*>(searchresult);
-      searchresult=subf->FindObjectAny(name);
-      oldcon= dynamic_cast<TGo4Condition *> (searchresult);
+      TFolder *subf = dynamic_cast<TFolder*>(searchresult);
+      searchresult = subf->FindObjectAny(name);
+      oldcon = dynamic_cast<TGo4Condition *> (searchresult);
    }
    if(oldcon) {
       // update existing condition of given name
