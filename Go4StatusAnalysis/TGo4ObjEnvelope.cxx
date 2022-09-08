@@ -15,7 +15,7 @@
 
 TGo4ObjEnvelope::TGo4ObjEnvelope() :
    TNamed(),
-   fxObject(0),
+   fxObject(nullptr),
    fxObjName(),
    fxObjFolder(),
    fbOwner(kTRUE)
@@ -41,7 +41,7 @@ TGo4ObjEnvelope::~TGo4ObjEnvelope()
 TObject* TGo4ObjEnvelope::TakeObject()
 {
    TObject* res = fxObject;
-   fxObject = 0;
+   fxObject = nullptr;
    fbOwner = kFALSE;
    return res;
 }

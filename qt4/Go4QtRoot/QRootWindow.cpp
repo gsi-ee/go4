@@ -215,7 +215,7 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 
    if ( e->type() == QEvent::Close) {  // close
       delete fxRootwindow;
-      fxRootwindow = 0;
+      fxRootwindow = nullptr;
       return false;
    }
 
@@ -227,7 +227,7 @@ void QRootWindow::closeEvent(QCloseEvent *e)
 {
    if (fxRootwindow) {
       delete fxRootwindow;
-      fxRootwindow = 0;
+      fxRootwindow = nullptr;
    }
    e->accept();
 }
@@ -236,7 +236,7 @@ QRootWindow::~QRootWindow()
 {
    if (fxRootwindow) {
       delete fxRootwindow;
-      fxRootwindow = 0;
+      fxRootwindow = nullptr;
    }
 }
 

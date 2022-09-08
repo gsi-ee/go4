@@ -48,7 +48,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char *name, bool n
     fiMaxOuputSize = 0;
     fbShowTimestamps = kFALSE;
     fxTimeFormat = "yyyy-MM-dd hh:mm:ss";
-    fxCmdHist = 0;
+    fxCmdHist = nullptr;
     fHasLink = false;
     fTerminateOnClose = false;
 
@@ -216,45 +216,35 @@ void TGo4AnalysisWindow::updateTerminalOutput()
 
   unsigned int buflen = outputBuffer.length();
 
-  if (fiMaxOuputSize > 0)
-  {
+  if (fiMaxOuputSize > 0) {
 
-    // size remaining after cut of text
-    unsigned int cutlength = fiMaxOuputSize / 2;
+     // size remaining after cut of text
+     unsigned int cutlength = fiMaxOuputSize / 2;
 
-    if (buflen > 0)
-    {
-      unsigned int outlen = fxOutput->toPlainText().length();
-      if (buflen + outlen < fiMaxOuputSize)
-      {
+     if (buflen > 0) {
+        unsigned int outlen = fxOutput->toPlainText().length();
+        if (buflen + outlen < fiMaxOuputSize) {
+           fxOutput->append(outputBuffer);
+           // fxOutput->moveCursor(QTextCursor::End);
+           //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
+        } else if (buflen >= cutlength) {
+           outputBuffer.remove(0, buflen - cutlength);
+           fxOutput->setText(outputBuffer);
+           fxOutput->moveCursor(QTextCursor::End);
+        } else {
+           QString curr = fxOutput->toPlainText();
+           curr.remove(0, cutlength - buflen);
+           curr += outputBuffer;
+           fxOutput->setText(curr);
+           fxOutput->moveCursor(QTextCursor::End);
+        }
+     }
+  } else {
+     if (buflen > 0) {
         fxOutput->append(outputBuffer);
-        //fxOutput->moveCursor(QTextCursor::End);
-        // ^JAM just for test, we dont keep this since one may want inspect history during new printouts
-      }
-      else if (buflen >= cutlength)
-      {
-        outputBuffer.remove(0, buflen - cutlength);
-        fxOutput->setText(outputBuffer);
-        fxOutput->moveCursor(QTextCursor::End);
-      }
-      else
-      {
-        QString curr = fxOutput->toPlainText();
-        curr.remove(0, cutlength - buflen);
-        curr += outputBuffer;
-        fxOutput->setText(curr);
-        fxOutput->moveCursor(QTextCursor::End);
-      }
-    }
-  }
-  else
-  {
-    if (buflen > 0)
-    {
-      fxOutput->append(outputBuffer);
-      //fxOutput->moveCursor(QTextCursor::End);
-      // ^JAM just for test, we dont keep this since one may want inspect history during new printouts
-    }
+        // fxOutput->moveCursor(QTextCursor::End);
+        //  ^JAM just for test, we dont keep this since one may want inspect history during new printouts
+     }
   }
   outputBuffer = "";
   QTimer::singleShot(100, this, &TGo4AnalysisWindow::updateTerminalOutput);

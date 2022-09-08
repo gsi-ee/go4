@@ -22,7 +22,7 @@ void go4StartServer()
                                // set this to 3 to get errors only
     TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
 
-    TGo4Analysis* go4 = 0;
+    TGo4Analysis* go4 = nullptr;
 
     if (TGo4Analysis::Exists()) {
        go4 = TGo4Analysis::Instance();

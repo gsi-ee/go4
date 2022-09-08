@@ -69,8 +69,8 @@ TXXXStore::~TXXXStore()
       fxFile->cd();
       fxTree->Write(0, TObject::kOverwrite);
       delete fxFile; // closes File, fxTree is removed from memory then
-      fxFile = 0;
-      fxTree = 0;
+      fxFile = nullptr;
+      fxTree = nullptr;
    }
 }
 

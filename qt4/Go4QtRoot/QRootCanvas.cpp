@@ -1006,7 +1006,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
       qDebug(" DIAL obj name deleted :%s \n", object->GetName());
       emit MenuCommandExecuted(object, "Delete");
       delete object;
-      object = 0;
+      object = nullptr;
       deletion = kTRUE;
       qDebug(" DIAL deletion done closing ... \n");
    } else

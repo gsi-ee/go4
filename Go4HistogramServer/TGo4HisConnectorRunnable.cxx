@@ -48,8 +48,8 @@ Int_t TGo4HisConnectorRunnable::Run(void *)
    Bool_t histofromgraph = kFALSE;
    Int_t action = 0;
    char histo[128];
-   TH1 *his = 0;
-   TGo4MbsHist *mbshisto = 0;
+   TH1 *his = nullptr;
+   TGo4MbsHist *mbshisto = nullptr;
    TGo4Analysis *ana = fxHistogramServer->GetAnalysis();
    Int_t result = f_his_wait(&action, histo);
    // if(! GetThread()->IsRunning()) return 1; // fast stop in case of shutdown
@@ -58,12 +58,12 @@ Int_t TGo4HisConnectorRunnable::Run(void *)
       case COMM__GETHIST:
          if (!strcmp(histo, TGo4HistogramServer::fgcSHUTDOWNNAME)) {
             // this is the last connect for shutdown, we do not acquire lockguard!
-            mbshisto = 0;
+            mbshisto = nullptr;
          } else {
             // normal case: lockguard to protect creation of histogram structure
             TGo4LockGuard mainlock;
             his = ana->GetHistogram(histo);
-            if (his == 0) {
+            if (!his) {
                TObject *ob = ana->GetObject(histo);
                if (ob && ob->InheritsFrom(TH1::Class())) {
                   his = dynamic_cast<TH1 *>(ob);

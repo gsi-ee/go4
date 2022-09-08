@@ -483,21 +483,18 @@ void TGo4AnalysisClient::TerminateFast()
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetStatName());
    }
    delete fxAnalysis;
-   fxAnalysis = 0;
+   fxAnalysis = nullptr;
    gApplication->Terminate();
 }
 
 void TGo4AnalysisClient::SubmitShutdown()
 {
-	if(GetTask())
-	{
-		TGo4ComServerQuit* com= new TGo4ComServerQuit();
+	if(GetTask()) {
+		TGo4ComServerQuit* com = new TGo4ComServerQuit();
 		//TGo4Log::StartTracing(); // debug
 		GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
 	}
-
 }
-
 
 void TGo4AnalysisClient::ExecuteString(const char *command)
 {
@@ -515,10 +512,8 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
      fxAnalysis->ExecuteLine(command); // all scripting is handled in analysis singleton
      fflush(stdout);
    }
-
-
-
 }
+
 Int_t TGo4AnalysisClient::StartWorkThreads()
 {
    //std::cout <<"++++++++TGo4AnalysisClient::StartWorkThreads()" << std::endl;
@@ -557,5 +552,4 @@ void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const T
 
     TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
     if (sniff) sniff->StatusMessage(level, printout, text);
-
 }

@@ -1100,11 +1100,11 @@ void TGo4HttpProxy::ResetDebugOutputRequests()
 void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 {
    if (finished) {
-      if (fRegularReq == 0) return;
+      if (!fRegularReq) return;
 
       QByteArray res = fRegularReq->readAll();
       fRegularReq->deleteLater();
-      fRegularReq = 0;
+      fRegularReq = nullptr;
 
       if (res.size() <= 0) {
          fConnected = false;
