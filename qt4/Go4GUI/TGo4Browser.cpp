@@ -37,10 +37,9 @@
 #include "TGo4QSettings.h"
 #include "TGo4ViewPanel.h"
 
-const int NColumns = 7;
-const int ColumnWidths[NColumns] = { 150, 40, 120, 90, 60, 100, 50 };
-const char *ColumnNames[NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
-const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
+const int ColumnWidths[TGo4Browser::NColumns] = { 150, 40, 120, 90, 60, 100, 50 };
+const char *ColumnNames[TGo4Browser::NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
+const int ColumnAllign[TGo4Browser::NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
 
 QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
 {
