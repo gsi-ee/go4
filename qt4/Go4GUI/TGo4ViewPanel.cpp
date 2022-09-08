@@ -2604,8 +2604,7 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot,
    }
 }
 
-void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
-      TObjArray* objslots, int modifier)
+void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray *objs, TObjArray *objslots, int modifier)
 {
    // modifier == 0 - no objects can be deleted
    //          == 1 - objects of same types should be in the list
@@ -2666,8 +2665,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
       // check if all main object correspond to type of last object
       // if no, delete
 
-      if ((n < mainslots.GetLast())
-            && ((modifier == 2) || ((modifier == 1) && (lastobjtype != objtype)))) {
+      if ((n < mainslots.GetLast()) && ((modifier == 2) || ((modifier == 1) && (lastobjtype != objtype)))) {
          delete subslot;
          deletesomething = kTRUE;
       } else {
@@ -2797,8 +2795,8 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
       }
 
       for (int n = 0; n <= objs->GetLast(); n++) {
-         TGraph* gr = (TGraph*) objs->At(n);
-         TGo4Slot* objslot = (TGo4Slot*) objslots->At(n);
+         TGraph *gr = (TGraph*) objs->At(n);
+         TGo4Slot *objslot = (TGo4Slot*) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
 
