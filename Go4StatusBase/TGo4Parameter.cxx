@@ -178,7 +178,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       Int_t arraydim = member->GetArrayDim();
       if (arraydim > 2) continue;
 
-      Int_t maxindex1(1), maxindex2(1);
+      Int_t maxindex1 = 1, maxindex2 = 1;
 
       switch(arraydim) {
         case 1:
@@ -304,7 +304,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
       Int_t arraydim = member->GetArrayDim();
       if (arraydim>2) continue;
 
-      Int_t maxindex1(1), maxindex2(1);
+      Int_t maxindex1 = 1, maxindex2 = 1;
 
       switch(arraydim) {
         case 1:

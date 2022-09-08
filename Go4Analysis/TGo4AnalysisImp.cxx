@@ -1067,7 +1067,7 @@ Bool_t TGo4Analysis::IsAutoSaveFileName() const
 Int_t TGo4Analysis::LockAutoSave()
 {
    GO4TRACE((12,"TGo4Analysis::LockAutoSave()",__LINE__, __FILE__));
-   Int_t rev(-1);
+   Int_t rev = -1;
    if (TThread::Exists()>0 && fxAutoSaveMutex)
       rev = fxAutoSaveMutex->Lock();
    return rev;
@@ -1076,7 +1076,7 @@ Int_t TGo4Analysis::LockAutoSave()
 Int_t TGo4Analysis::UnLockAutoSave()
 {
    GO4TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
-   Int_t rev(-1);
+   Int_t rev = -1;
    if (TThread::Exists()>0 && fxAutoSaveMutex)
       rev = fxAutoSaveMutex->UnLock();
 
@@ -1249,9 +1249,7 @@ void TGo4Analysis::SetRunning(Bool_t on)
 Int_t TGo4Analysis::WaitForStart()
 {
    Int_t cycles = 0;
-   while(!IsRunning())
-   {
-      //std::cout <<"WWWWWWWait for Start before Sleep..." << std::endl;
+   while(!IsRunning()) {
       gSystem->Sleep(fgiMACROSTARTPOLL);
       cycles++;
       Bool_t sysret = gSystem->ProcessEvents();
@@ -1289,7 +1287,6 @@ void TGo4Analysis::StopObjectServer()
 void TGo4Analysis::ShutdownServer()
 {
    // this method to be called from ctrl-c signal handler of analysis server
-   //std::cout <<"######### TGo4Analysis::ShutdownServer()" << std::endl;
    if(fxAnalysisSlave) {
       TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");
       fxAnalysisSlave->SubmitShutdown(); // shutdown will be performed in local command thread

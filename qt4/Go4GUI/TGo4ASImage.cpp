@@ -19,15 +19,7 @@
 #include "TGo4ViewPanel.h"
 
 TGo4ASImage::TGo4ASImage() :
-   TASImage(),
-   fxPanel(0),
-   fxPad(0),
-   fxMinX(0),
-   fxMaxX(1),
-   fxMinY(0),
-   fxMaxY(1),
-   fdWidth(0),
-   fdHeight(0)
+   TASImage()
 {
    SetConstRatio(kFALSE);
 }
@@ -44,10 +36,10 @@ void TGo4ASImage::SetHistogramContent(TH2* histo)
    Int_t numx = histo->GetNbinsX();
    Int_t numy = histo->GetNbinsY();
 
-   TArrayD arr(numx*numy);
-   for (int x=1; x<=numx; x++)
-      for (int y=1; y<=numy; y++)
-         arr[(y-1)*numx + (x-1)] = histo->GetBinContent(x, y);
+   TArrayD arr(numx * numy);
+   for (int x = 1; x <= numx; x++)
+      for (int y = 1; y <= numy; y++)
+         arr[(y - 1) * numx + (x - 1)] = histo->GetBinContent(x, y);
 
    SetImage(arr, numx);
    SetName(histo->GetName());
@@ -71,7 +63,7 @@ void TGo4ASImage::SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad)
 
 void TGo4ASImage::SetSelectedRange(double rxmin, double rxmax, double rymin, double rymax)
 {
-   if ((rxmin>=rxmax) && (rymin>=rymax)) {
+   if ((rxmin >= rxmax) && (rymin >= rymax)) {
       TASImage::UnZoom();
       return;
    }
@@ -81,18 +73,18 @@ void TGo4ASImage::SetSelectedRange(double rxmin, double rxmax, double rymin, dou
    UInt_t width = UInt_t(fdWidth);
    UInt_t height = UInt_t(fdHeight);
 
-   if ((rxmin<rxmax) && (fxMinX<fxMaxX)) {
-      if (rxmin>=fxMinX)
-        offX = UInt_t((rxmin-fxMinX)/(fxMaxX-fxMinX)*fdWidth);
-      if (rxmax<=fxMaxX)
-        width = UInt_t((rxmax-fxMinX)/(fxMaxX-fxMinX)*fdWidth) - offX;
+   if ((rxmin < rxmax) && (fxMinX < fxMaxX)) {
+      if (rxmin >= fxMinX)
+         offX = UInt_t((rxmin - fxMinX) / (fxMaxX - fxMinX) * fdWidth);
+      if (rxmax <= fxMaxX)
+         width = UInt_t((rxmax - fxMinX) / (fxMaxX - fxMinX) * fdWidth) - offX;
    }
 
-   if ((rymin<rymax) && (fxMinY<fxMaxY)) {
-      if (rymin>=fxMinY)
-        offY = UInt_t((rymin-fxMinY)/(fxMaxY-fxMinY)*fdHeight);
-      if (rymax<=fxMaxY)
-        height = UInt_t((rymax-fxMinY)/(fxMaxY-fxMinY)*fdHeight) - offY;
+   if ((rymin < rymax) && (fxMinY < fxMaxY)) {
+      if (rymin >= fxMinY)
+         offY = UInt_t((rymin - fxMinY) / (fxMaxY - fxMinY) * fdHeight);
+      if (rymax <= fxMaxY)
+         height = UInt_t((rymax - fxMinY) / (fxMaxY - fxMinY) * fdHeight) - offY;
    }
 
    TASImage::Zoom(offX, offY, width, height);

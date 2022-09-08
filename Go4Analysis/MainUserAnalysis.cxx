@@ -657,15 +657,22 @@ int main(int argc, char **argv)
       TGo4Log::WriteLogfile(info.Data(), true);
    }
 
-   if ((FindArg(argc, argv, "-v")>0) || (FindArg(argc, argv, "-verbose")>0)) TGo4Log::SetIgnoreLevel(-1);
-   else if (FindArg(argc, argv, "-v0")>0) TGo4Log::SetIgnoreLevel(0);
-   else if (FindArg(argc, argv, "-v1")>0) TGo4Log::SetIgnoreLevel(1);
-   else if (FindArg(argc, argv, "-v2")>0) TGo4Log::SetIgnoreLevel(2);
-   else if (FindArg(argc, argv, "-v3")>0) TGo4Log::SetIgnoreLevel(3);
+   if ((FindArg(argc, argv, "-v") > 0) || (FindArg(argc, argv, "-verbose") > 0))
+      TGo4Log::SetIgnoreLevel(-1);
+   else if (FindArg(argc, argv, "-v0") > 0)
+      TGo4Log::SetIgnoreLevel(0);
+   else if (FindArg(argc, argv, "-v1") > 0)
+      TGo4Log::SetIgnoreLevel(1);
+   else if (FindArg(argc, argv, "-v2") > 0)
+      TGo4Log::SetIgnoreLevel(2);
+   else if (FindArg(argc, argv, "-v3") > 0)
+      TGo4Log::SetIgnoreLevel(3);
 
    TGo4Analysis::SetRunningMode(0);
-   if (FindArg(argc, argv, "-gui")>0) TGo4Analysis::SetRunningMode(1); else
-   if (FindArg(argc, argv, "-server")>0) TGo4Analysis::SetRunningMode(2);
+   if (FindArg(argc, argv, "-gui") > 0)
+      TGo4Analysis::SetRunningMode(1);
+   else if (FindArg(argc, argv, "-server") > 0)
+      TGo4Analysis::SetRunningMode(2);
 
    // disable cint locking when called via process line
    // makes problem in multi-threaded environment, where CINT lock
@@ -964,8 +971,8 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-port") == 0) {
          narg++;
-         int port(0);
-         if ((narg < argc) && (argv[narg][0]!='-')) {
+         int port = 0;
+         if ((narg < argc) && (argv[narg][0] != '-')) {
             if (sscanf(argv[narg],"%d",&port)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
             narg++;
@@ -992,7 +999,7 @@ int main(int argc, char **argv)
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
          if (!param) showerror("only in MBS source events can be selected");
          unsigned cnt = 0;
-         while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+         while ((cnt < 3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0] != '-')) {
             unsigned value = 0;
             if ((cnt==1) && (strcmp(argv[narg],"all") == 0)) value = 0; else
             if (sscanf(argv[narg],"%u",&value)!=1)
@@ -1012,7 +1019,7 @@ int main(int argc, char **argv)
          int compression = 5;
 
          unsigned cnt = 0;
-         while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+         while ((cnt < 3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0] != '-')) {
             int value = 0;
             if (sscanf(argv[narg],"%d",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
@@ -1143,7 +1150,7 @@ int main(int argc, char **argv)
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             char sbuf[1000];
             strncpy(sbuf, argv[narg], sizeof(sbuf)-1);
-            long long mult(1), val(1);
+            long long mult = 1, val = 1;
             int len = strlen(sbuf);
             if ((sbuf[len-1]=='g') || (sbuf[len-1]=='G')) { mult = 1000000000; sbuf[len-1] = 0; } else
             if ((sbuf[len-1]=='m') || (sbuf[len-1]=='M')) { mult = 1000000; sbuf[len-1] = 0; } else

@@ -952,7 +952,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
              (basictype == "int")  ||
              (basictype == "long") ||
              (basictype == "short")) {
-            Long_t ldefval(0);
+            Long_t ldefval = 0;
             m->GetterMethod()->Execute(object, "", ldefval);
             val = TString::Format("%ld", ldefval);
          }
