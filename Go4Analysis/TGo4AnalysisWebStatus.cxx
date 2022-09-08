@@ -94,32 +94,27 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
 
   // save setup:
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE;
-  if (url.HasOption(theKey.Data()))
-  {
-    const char *filename = url.GetValueFromOptions(theKey.Data());
-    SaveStatus(filename);
-    message.Append(TString::Format(", saving configuration file %s", filename));
-    TGo4Log::Message(1, "%s", message.Data());
-    return kTRUE;
+  if (url.HasOption(theKey.Data())) {
+     const char *filename = url.GetValueFromOptions(theKey.Data());
+     SaveStatus(filename);
+     message.Append(TString::Format(", saving configuration file %s", filename));
+     TGo4Log::Message(1, "%s", message.Data());
+     return kTRUE;
   }
 
   // load setup and initialize:
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_LOAD;
-  if (url.HasOption(theKey.Data()))
-  {
-    const char *filename = url.GetValueFromOptions(theKey.Data());
-    ana->StopAnalysis();
-    if (LoadStatus(filename))
-    {
-      ana->InitEventClasses();
-      message.Append(TString::Format(", loaded configuration file %s", filename));
-    }
-    else
-    {
-      message.Append(TString::Format(", /!\\ FAILED to load configuration file %s !!!", filename));
-    }
-    TGo4Log::Message(1, "%s", message.Data());
-    return kTRUE;
+  if (url.HasOption(theKey.Data())) {
+     const char *filename = url.GetValueFromOptions(theKey.Data());
+     ana->StopAnalysis();
+     if (LoadStatus(filename)) {
+        ana->InitEventClasses();
+        message.Append(TString::Format(", loaded configuration file %s", filename));
+     } else {
+        message.Append(TString::Format(", /!\\ FAILED to load configuration file %s !!!", filename));
+     }
+     TGo4Log::Message(1, "%s", message.Data());
+     return kTRUE;
   }
 
   // first stepwise options here:
@@ -129,24 +124,21 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
   while (auto step = NextStepStatus()) {
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESTEP.Data(), stepindex);
     if (url.HasOption(theKey.Data())) {
-      //std::cout <<"---- found stepenabled key:"<<theKey.Data()<< std::endl;
-      Bool_t enablestep = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
-      message.Append(TString::Format(", %s=%d", theKey.Data(), enablestep));
-      step->SetProcessEnabled(enablestep);
+       Bool_t enablestep = TString(url.GetValueFromOptions(theKey.Data())) == "true";
+       message.Append(TString::Format(", %s=%d", theKey.Data(), enablestep));
+       step->SetProcessEnabled(enablestep);
     }
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESOURCE.Data(), stepindex);
     if (url.HasOption(theKey.Data())) {
-      //std::cout <<"---- found sourceenabled key:"<<theKey.Data()<< std::endl;
-      Bool_t enablesource = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
-      message.Append(TString::Format(", %s=%d", theKey.Data(), enablesource));
-      step->SetSourceEnabled(enablesource);
+       Bool_t enablesource = TString(url.GetValueFromOptions(theKey.Data())) == "true";
+       message.Append(TString::Format(", %s=%d", theKey.Data(), enablesource));
+       step->SetSourceEnabled(enablesource);
     }
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_ENABLESTORE.Data(), stepindex);
     if (url.HasOption(theKey.Data())) {
-      //std::cout <<"---- found storeenabled key:"<<theKey.Data()<< std::endl;
-      Bool_t enablestore = ((TString(url.GetValueFromOptions(theKey.Data())) == "true") ? kTRUE : kFALSE);
-      message.Append(TString::Format(", %s=%d", theKey.Data(), enablestore));
-      step->SetStoreEnabled(enablestore);
+       Bool_t enablestore = TString(url.GetValueFromOptions(theKey.Data())) == "true";
+       message.Append(TString::Format(", %s=%d", theKey.Data(), enablestore));
+       step->SetStoreEnabled(enablestore);
     }
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TYPE.Data(), stepindex);

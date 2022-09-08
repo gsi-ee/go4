@@ -22,7 +22,7 @@ class TGo4OptStatsSettings : public QDialog, public Ui::TGo4OptStatsSettings
    Q_OBJECT
 
  public:
-   TGo4OptStatsSettings( QWidget* parent = nullptr );
+   TGo4OptStatsSettings(QWidget* parent = nullptr);
 
 public slots:
 

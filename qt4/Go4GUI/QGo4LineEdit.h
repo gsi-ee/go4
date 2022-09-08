@@ -33,7 +33,6 @@ class QGo4LineEdit : public QLineEdit {
 #endif
    Q_OBJECT
 
-
    public:
       QGo4LineEdit(QWidget *parent = nullptr, const char *name = nullptr);
       virtual ~QGo4LineEdit();

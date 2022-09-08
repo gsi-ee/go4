@@ -26,35 +26,20 @@ class TGo4ScaleOptions : public QGo4Widget, public Ui::TGo4ScaleOptions
     void MoveScale(int xaction, int yaction, int zaction);
 
  public slots:
-
    virtual void SlotShiftL();
-
    virtual void SlotShiftR();
-
    virtual void SlotShiftU();
-
    virtual void SlotShiftD();
-
    virtual void SlotShiftZU();
-
    virtual void SlotShiftZD();
-
    virtual void SlotExpandX();
-
    virtual void SlotExpandY();
-
    virtual void SlotExpandZ();
-
    virtual void SlotUExpandX();
-
    virtual void SlotUExpandY();
-
    virtual void SlotUExpandZ();
-
    virtual void resizeall();
-
    virtual void SetScaleValues();
-
    virtual void AutoZoomScales();
 
  };

@@ -63,7 +63,6 @@ protected:
       void ExecuteAnalysisMacro_8();
       void ExecuteAnalysisMacro_9();
 
-
       void ExecuteAnalysisMacro(int id);
       //void DefineAnalysisMacro(int id);
 
@@ -72,7 +71,6 @@ protected:
 
       void AnalysisMacroMonitorBtn_clicked();
       void AnalysisMacroMonitorTimeout();
-
 };
 
 #endif

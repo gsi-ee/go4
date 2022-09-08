@@ -25,7 +25,7 @@ class TGo4CreateNewHistogram : public QDialog, public Ui::TGo4CreateNewHistogram
     Q_OBJECT
 
 public:
-   TGo4CreateNewHistogram( QWidget* parent = nullptr);
+   TGo4CreateNewHistogram(QWidget* parent = nullptr);
    void SetAnalysisAvaliable(bool on);
 
    void SetLocalAvaliable(bool on);

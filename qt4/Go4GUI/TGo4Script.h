@@ -221,9 +221,9 @@ class TGo4Script : public TGo4AbstractInterface {
       Int_t     fiWaitForGUIReaction{0};    //!
       Int_t     fiWaitCounter{0};           //!
       TString   fStrBuf;                    //!
-      TGo4MainWindow* fMainWin{nullptr};    //!
+      TGo4MainWindow *fMainWin{nullptr};    //!
       Bool_t    fErrorFlag{kFALSE};         //!
-      Int_t     fBlockConfigFlag{0};         //! block configuration until first start/stop command
+      Int_t     fBlockConfigFlag{0};        //! block configuration until first start/stop command
 };
 
 #endif

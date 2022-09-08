@@ -22,12 +22,11 @@ class TGo4PrintWidget : public QDialog, public Ui::TGo4PrintWidget
      Q_OBJECT
 
  public:
-    TGo4PrintWidget( QWidget* parent = nullptr );
+    TGo4PrintWidget(QWidget* parent = nullptr);
 
  public slots:
 
    QString GetPrinter();
-
    QString GetPrintProg();
 
  };

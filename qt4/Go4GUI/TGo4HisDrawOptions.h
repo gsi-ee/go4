@@ -35,24 +35,24 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
 
     TGo4HisDrawOptions( QWidget* parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
-    virtual void ChangeDrawOptionForCurrentPanel( int kind, int value );
-    virtual void DecodeDrawOption( const char * drawopt,
-                           int & HisErrorStyle,
-                           int & HisCoordStyle,
-                           int & HisDrawStyle);
-    virtual void CodeDrawOptions( int HisErrorStyle, int HisCoordStyle, int HisDrawStyle, TString & buf );
+    virtual void ChangeDrawOptionForCurrentPanel(int kind, int value);
+    virtual void DecodeDrawOption(const char *drawopt,
+                                  int &HisErrorStyle,
+                                  int &HisCoordStyle,
+                                  int &HisDrawStyle);
+    virtual void CodeDrawOptions(int HisErrorStyle, int HisCoordStyle, int HisDrawStyle, TString &buf);
     virtual void UpdateView(int viewtype, bool webcanvas = false);
     virtual void ChangeColor(int kind);
 
  public slots:
     virtual void panelSlot( TGo4ViewPanel * panel,TPad *pad, int signalid );
-    virtual void SetDrawOptions( int t );
-    virtual void SetErrorBars( int t );
-    virtual void SetCoordinates( int t );
-    virtual void XaxisStyle( int t );
-    virtual void YaxisStyle( int t );
-    virtual void ZaxisStyle( int t );
-    virtual void SetAutoScale( bool on );
+    virtual void SetDrawOptions(int t);
+    virtual void SetErrorBars(int t);
+    virtual void SetCoordinates(int t);
+    virtual void XaxisStyle(int t);
+    virtual void YaxisStyle(int t);
+    virtual void ZaxisStyle(int t);
+    virtual void SetAutoScale(bool on);
     virtual void SetLineColor();
     virtual void SetFillColor();
     virtual void SetMarkerColor();

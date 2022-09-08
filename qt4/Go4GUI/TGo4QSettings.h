@@ -28,19 +28,19 @@ class QWidget;
 class QSettings;
 
 /** Extends the usual QSettings by a global setup for the
- * location of the settings file. May switch load/save between
- * the user home directory, and the current directory */
+  * location of the settings file. May switch load/save between
+  * the user home directory, and the current directory */
 
 class TGo4QSettings {
    private:
 
       /** Currently opened settings */
-      QSettings* sett;
+      QSettings *sett{nullptr};
 
       /** This is the name of the file with settings, if empty - default qt location will be used */
       QString fSettFileName;
 
-      bool fUseWeb;
+      bool fUseWeb{false};
 
       /** Read settings from the file/registry */
 
@@ -297,12 +297,8 @@ class TGo4QSettings {
       /** switch to make pad and frame backgrounds white before saving/printing them*/
       bool getSavePadWhiteBackground();
       void setSavePadWhiteBackground(bool on);
-
-
 };
 
+extern TGo4QSettings *go4sett;
 
-extern TGo4QSettings* go4sett;
-
-
-#endif // TGO4ANALYSISWINDOW_H
+#endif
