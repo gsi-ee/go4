@@ -54,8 +54,8 @@ const UInt_t TGo4HistogramServer::fguCONNECTWAITCYCLETIME = 500; // time in ms (
 
 TGo4HistogramServer::TGo4HistogramServer(TGo4AnalysisClient *owner, const char *servername, const char *password,
                                          Bool_t useobjectserver)
-   : fxAnalysisClient(owner), fxThreadHandler(0), fiServerPort(0), fxTransport(nullptr), fuObjectPort(0),
-     fxConnectTransport(nullptr), fxDisConnectTransport(0), fuConnectPort(0), fbConnectRequest(kFALSE),
+   : fxAnalysisClient(owner), fxThreadHandler(nullptr), fiServerPort(0), fxTransport(nullptr), fuObjectPort(0),
+     fxConnectTransport(nullptr), fxDisConnectTransport(nullptr), fuConnectPort(0), fbConnectRequest(kFALSE),
      fbDisConnectRequest(kFALSE), fbConnectIsOpen(kFALSE), fbConnectIsDone(kFALSE), fbConnectIsClose(kTRUE),
      fxConnectorTimer(nullptr), fbUseObjectServer(useobjectserver)
 {
@@ -112,8 +112,8 @@ TGo4HistogramServer::TGo4HistogramServer(TGo4AnalysisClient *owner, const char *
 }
 
 TGo4HistogramServer::TGo4HistogramServer()
-   : fxAnalysisClient(0), fxThreadHandler(0), fiServerPort(0), fxTransport(0), fuObjectPort(0), fxConnectTransport(0),
-     fxDisConnectTransport(0), fcConnectHost(0), fuConnectPort(0), fbConnectRequest(kFALSE),
+   : fxAnalysisClient(nullptr), fxThreadHandler(nullptr), fiServerPort(0), fxTransport(nullptr), fuObjectPort(0), fxConnectTransport(nullptr),
+     fxDisConnectTransport(nullptr), fcConnectHost(0), fuConnectPort(0), fbConnectRequest(kFALSE),
      fbDisConnectRequest(kFALSE), fbConnectIsOpen(kFALSE), fbConnectIsDone(kFALSE), fbConnectIsClose(kTRUE),
      fbUseObjectServer(kFALSE)
 {
@@ -151,7 +151,7 @@ TGo4HistogramServer::~TGo4HistogramServer()
    if (fxTransport) {
       fxTransport->Close(); // close go4 server socket for object server
       delete fxTransport;
-      fxTransport = 0;
+      fxTransport = nullptr;
    }
 
    TGo4CommandInvoker::UnRegister(this);
@@ -201,7 +201,7 @@ Int_t TGo4HistogramServer::ConnectObjectClient()
          TGo4Log::Debug(" HistogramServer: Negotiation port getter TIMEOUT");
          std::cerr << " HistogramServer TIMEOUT ERROR retrieving port number  !!! Terminating..." << std::endl;
          throw TGo4TerminateException(fxAnalysisClient->GetTask());
-      } else if (task == 0 || task->IsTerminating()) {
+      } else if (!task || task->IsTerminating()) {
          return -1;
       } else {
          TGo4Thread::Sleep(TGo4TaskHandler::Get_fguPORTWAITTIME());
@@ -262,16 +262,15 @@ Bool_t TGo4HistogramServer::CheckLogin()
 Bool_t TGo4HistogramServer::HandleObjectRequest()
 {
    char objectname[TGo4ThreadManager::fguTEXTLENGTH];
-   char *recvchar = 0;
    // get object name
-   recvchar = fxTransport->RecvRaw("dummy");
-   if (recvchar == 0) {
+   char *recvchar = fxTransport->RecvRaw("dummy");
+   if (!recvchar) {
       std::cerr << "-----Object server received null character for object request!" << std::endl;
       return kFALSE;
    }
    strncpy(objectname, recvchar, TGo4ThreadManager::fguTEXTLENGTH - 1); // get the client name
    // check here if object is requested or nameslist? :
-   TObject *object = 0;
+   TObject *object = nullptr;
    if (!strcmp(objectname, fgcCOMGETLIST)) {
       // get analysis nameslist object
       TGo4LockGuard mainguard; // protect creation of new nameslist

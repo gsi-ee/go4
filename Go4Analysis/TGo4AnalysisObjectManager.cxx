@@ -148,7 +148,7 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char *name) :
 TGo4AnalysisObjectManager::TGo4AnalysisObjectManager() :
    TNamed(),
    fxGo4Dir(nullptr),fxHistogramDir(nullptr),fxConditionDir(nullptr),
-   fxDynListDir(0), fxUserDir(0), fxTreeDir(0), fxPictureDir(nullptr), fxCanvasDir(nullptr),
+   fxDynListDir(nullptr), fxUserDir(nullptr), fxTreeDir(nullptr), fxPictureDir(nullptr), fxCanvasDir(nullptr),
    fxStoreDir(nullptr), fxSourceDir(nullptr), fxProcessorDir(nullptr), fxEventDir(nullptr),
    fxAnalysisDir(nullptr), fxTempFolder(nullptr),
    fxMatchList(nullptr), fxMatchIterator(nullptr),
@@ -469,7 +469,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
       if(!strcmp(bclass->GetName(),"TNamed")) continue; // suppress bases above
 
       // recursively find out members of all baseclasses
-      TFolder* subfold = CreateMembersFolder(0, bclass->GetName(), bclass);
+      TFolder* subfold = CreateMembersFolder(nullptr, bclass->GetName(), bclass);
       if(subfold)
          nameslist->AddLast(subfold);
    }
@@ -1127,7 +1127,7 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile* file)
    // file->Delete("T*;*"); // remove old contents (get rid of deleted dynamic objects)
    // note: we always use RECREATE option on saving now. No need to cleanup old file!
    SaveFolder(fxGo4Dir);
-   file->Write(0,TObject::kOverwrite); // write all appended objects and subdirs
+   file->Write(nullptr, TObject::kOverwrite); // write all appended objects and subdirs
    savdir->cd();
    RemoveFromDir(fxGo4Dir,file); // prevent object deletion on closing the file
    ////// end new implementation ////////////////
@@ -1138,7 +1138,7 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile* file)
 Bool_t TGo4AnalysisObjectManager::AddParameter(TGo4Parameter * par, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddParameter(TGo4Parameter *)",__LINE__, __FILE__));
-   return (AddObjectToFolder(par,fxParameterDir,subfolder,kTRUE));
+   return AddObjectToFolder(par,fxParameterDir,subfolder,kTRUE);
 }
 
 Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter * par, TFolder* parent)

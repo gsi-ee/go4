@@ -347,7 +347,7 @@ void TGo4ObjectManager::Event(TGo4Slot* source, Int_t id, void* param)
 
    if (id==evDelete) {
       RemoveFromLinks(source);
-      UnregisterObject(0, (TGo4Slot*) source);
+      UnregisterObject(nullptr, (TGo4Slot*) source);
    }
 
    TGo4Slot::Event(source, id, param);

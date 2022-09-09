@@ -119,8 +119,6 @@ TGo4TreeStore::~TGo4TreeStore()
    //delete fxFile; // closes File <- done by maintree dtor
 }
 
-
-
 Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 {
    GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
@@ -154,7 +152,7 @@ Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
       TString oldname = cali->GetName();
       cali->SetName(TString::Format("%s_%d", oldname.Data(), fxSingletonTree->GetCurrentIndex()).Data());
       fxSingletonTree->fxFile->cd(); // we are main tree's friend
-      cali->Write(0, TObject::kOverwrite);
+      cali->Write(nullptr, TObject::kOverwrite);
       cali->SetName(oldname.Data());
    }
 

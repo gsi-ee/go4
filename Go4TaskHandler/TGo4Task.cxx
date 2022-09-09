@@ -71,7 +71,7 @@ TGo4Task::TGo4Task(const char *name, Bool_t blockingmode,
 TGo4Task::~TGo4Task()
 {
    if(fxOwner) {
-      fxOwner->SetTask(0,kFALSE); // on termination from threadmanager, we take over responsibility for cleanup
+      fxOwner->SetTask(nullptr, kFALSE); // on termination from threadmanager, we take over responsibility for cleanup
       delete fxOwner;
    }
    delete fxLocalCommandQueue;

@@ -548,7 +548,7 @@ void TGo4Interface::StepUserStore(const char *stepname,
 
 ViewPanelHandle TGo4Interface::StartViewPanel()
 {
-   return StartViewPanel(10,10, 500, 300, 1, 0);
+   return StartViewPanel(10,10, 500, 300, 1, nullptr);
 }
 
 ViewPanelHandle TGo4Interface::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture* pic)

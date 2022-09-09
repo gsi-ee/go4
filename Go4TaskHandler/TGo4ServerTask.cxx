@@ -58,7 +58,7 @@ TGo4ServerTask::TGo4ServerTask(const char *name,
    fuConnectPort(0), fbKeepServerSocket(kFALSE),
    fbConnectRequest(kFALSE), fbDisConnectRequest(kFALSE),
    fbConnectIsOpen(kFALSE),fbConnectIsDone(kFALSE), fbConnectIsClose(kFALSE),
-   fxConnectorTimer(0)
+   fxConnectorTimer(nullptr)
 {
    TString nomen("TaskManager of "); nomen += name;
    fxTaskManager= new TGo4TaskManager(nomen.Data(), this, negotiationport);
