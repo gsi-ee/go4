@@ -23,13 +23,13 @@ TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TGo4FitData *iData
    : TGo4FitModel(iName, "data used as model", Amplitude),
      fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE, iDataAsModel,
             kTRUE),
-     fxIter(0)
+     fxIter(nullptr)
 {
 }
 
 TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TH1 *histo, Bool_t iOwned, Bool_t Amplitude)
    : TGo4FitModel(iName, "data used as model", Amplitude),
-     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE), fxIter(0)
+     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE), fxIter(nullptr)
 {
    SetDataAsModel(new TGo4FitDataHistogram("Histogram", histo, iOwned), kTRUE);
 }

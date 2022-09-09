@@ -20,20 +20,20 @@
 #include "TGo4ViewPanel.h"
 
 TGo4FitGuiArrow::TGo4FitGuiArrow() :
-    TArrow(), fxType(at_none), fxModel(0), fxOther(0), fdLineAmpl(0.), fxComp(0), fiRangeNum(0),
-    fdRangeY(0.), fdShiftX(0.), fxItem(0), fxPanel(0)
+    TArrow(), fxType(at_none), fxModel(nullptr), fxOther(nullptr), fdLineAmpl(0.), fxComp(nullptr), fiRangeNum(0),
+    fdRangeY(0.), fdShiftX(0.), fxItem(nullptr), fxPanel(nullptr)
 {
 }
 
 TGo4FitGuiArrow::TGo4FitGuiArrow(Float_t arrowsize, Option_t *option) :
-    TArrow(0.,0.,0.,0.,arrowsize,option), fxType(at_none), fxModel(0), fxOther(0), fdLineAmpl(0.), fxComp(0), fiRangeNum(0),
-    fdRangeY(0.), fdShiftX(0.), fxItem(0), fxPanel(0)
+    TArrow(0.,0.,0.,0.,arrowsize,option), fxType(at_none), fxModel(nullptr), fxOther(nullptr), fdLineAmpl(0.), fxComp(nullptr), fiRangeNum(0),
+    fdRangeY(0.), fdShiftX(0.), fxItem(nullptr), fxPanel(nullptr)
 {
 }
 
 TGo4FitGuiArrow::TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t* option) :
-    TArrow(x1,y1,x2,y2,arrowsize,option), fxType(at_none), fxModel(0), fxOther(0), fdLineAmpl(0.), fxComp(0), fiRangeNum(0),
-    fdRangeY(0.), fdShiftX(0.), fxItem(0), fxPanel(0)
+    TArrow(x1,y1,x2,y2,arrowsize,option), fxType(at_none), fxModel(nullptr), fxOther(nullptr), fdLineAmpl(0.), fxComp(nullptr), fiRangeNum(0),
+    fdRangeY(0.), fdShiftX(0.), fxItem(nullptr), fxPanel(nullptr)
 {
 }
 
@@ -56,7 +56,8 @@ void TGo4FitGuiArrow::SetForWidth(TGo4FitModel* model, TGo4FitGuiArrow* forposit
   fxOther = forposition;
 }
 
-void TGo4FitGuiArrow::SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx) {
+void TGo4FitGuiArrow::SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx)
+{
   fxType = at_range;
   fxComp = Comp;
   fiRangeNum = num;

@@ -99,12 +99,12 @@ namespace {
 TGo4Analysis* TGo4Analysis::fxInstance = nullptr;
 Bool_t TGo4Analysis::fbExists = kFALSE;
 Int_t TGo4Analysis::fiRunningMode = 0;
-const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
-const Int_t TGo4Analysis::fgiDYNLISTINTERVAL= 1000;
-const Int_t TGo4Analysis::fgiMACROSTARTPOLL= 1000; //polling time for macro in WaitForStart
-const char *TGo4Analysis::fgcDEFAULTFILENAME="Go4AutoSave.root";
-const char *TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
-const char *TGo4Analysis::fgcDEFAULTFILESUF=".root";
+const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS = 500;
+const Int_t TGo4Analysis::fgiDYNLISTINTERVAL = 1000;
+const Int_t TGo4Analysis::fgiMACROSTARTPOLL = 1000; //polling time for macro in WaitForStart
+const char *TGo4Analysis::fgcDEFAULTFILENAME = "Go4AutoSave.root";
+const char *TGo4Analysis::fgcDEFAULTSTATUSFILENAME = "Go4AnalysisPrefs.root";
+const char *TGo4Analysis::fgcDEFAULTFILESUF = ".root";
 
 const char TGo4Analysis::fgcPYPROMPT = '$';
 const char *TGo4Analysis::fgcPYINIT = "python/go4init.py";
@@ -342,8 +342,10 @@ Bool_t TGo4Analysis::InitEventClasses()
          TGo4Log::Info("Analysis --  Initializing EventClasses done.");
          fbInitIsDone = kTRUE;
          if (!fxAnalysisSlave) {
-            if (fxDoWorkingFlag == flagClosed) fxDoWorkingFlag = flagPause; else
-            if (fxDoWorkingFlag == flagInit) fxDoWorkingFlag = flagPause;
+            if (fxDoWorkingFlag == flagClosed)
+               fxDoWorkingFlag = flagPause;
+            else if (fxDoWorkingFlag == flagInit)
+               fxDoWorkingFlag = flagPause;
          }
 
       } catch(TGo4EventErrorException& ex) {
