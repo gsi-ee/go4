@@ -23,10 +23,9 @@
 #include "TGo4FitData.h"
 #include "TGo4FitParameter.h"
 
-TGo4FitAssignment::TGo4FitAssignment() : TNamed(), fxRatio(0), fxData(0), fxModelMask(0), fxModelBins(0) {}
+TGo4FitAssignment::TGo4FitAssignment()  {}
 
-TGo4FitAssignment::TGo4FitAssignment(const char *DataName)
-   : TNamed(DataName, ""), fxRatio(nullptr), fxData(nullptr), fxModelMask(nullptr), fxModelBins(nullptr)
+TGo4FitAssignment::TGo4FitAssignment(const char *DataName) : TNamed(DataName, "")
 {
 }
 
@@ -54,15 +53,15 @@ void TGo4FitAssignment::Print(Option_t *option) const
 
 TGo4FitModel::TGo4FitModel()
    : TGo4FitComponent(), fiMinIntegrDepth(0), fiMaxIntegrDepth(0), fdIntegrEps(0.), fbAbsoluteEps(kFALSE),
-     fbIntegrScaling(kFALSE), fxAssigments(), fiGroupIndex(-1), fxCurrentPars(), fxCurrentParsArray(0),
-     fbNeedToRebuild(kFALSE), fxAllPars(0), fxAllParsValues(0)
+     fbIntegrScaling(kFALSE), fxAssigments(), fiGroupIndex(-1), fxCurrentPars(), fxCurrentParsArray(nullptr),
+     fbNeedToRebuild(kFALSE), fxAllPars(nullptr), fxAllParsValues(nullptr)
 {
 }
 
 TGo4FitModel::TGo4FitModel(const char *iName, const char *iTitle, Bool_t MakeAmplitude)
    : TGo4FitComponent(iName, iTitle), fiMinIntegrDepth(0), fiMaxIntegrDepth(0), fdIntegrEps(0.), fbAbsoluteEps(kFALSE),
-     fbIntegrScaling(kFALSE), fxAssigments(), fiGroupIndex(-1), fxCurrentPars(), fxCurrentParsArray(0),
-     fbNeedToRebuild(kFALSE), fxAllPars(0), fxAllParsValues(0)
+     fbIntegrScaling(kFALSE), fxAssigments(), fiGroupIndex(-1), fxCurrentPars(), fxCurrentParsArray(nullptr),
+     fbNeedToRebuild(kFALSE), fxAllPars(nullptr), fxAllParsValues(nullptr)
 {
    fxAssigments.SetOwner(kTRUE);
    if (MakeAmplitude)

@@ -109,7 +109,7 @@ Bool_t TGo4FitDataRidgeIter::ReadCurrentPoint()
       else
          fxOwnScales[n1++] = iter->Scales()[n];
 
-   return ProduceScales(iter->Indexes(), fxOwnScales.GetArray(), 0);
+   return ProduceScales(iter->Indexes(), fxOwnScales.GetArray(), nullptr);
 }
 
 Bool_t TGo4FitDataRidgeIter::ShiftToNextPoint()

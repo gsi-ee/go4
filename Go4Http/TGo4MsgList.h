@@ -34,7 +34,11 @@ class TGo4MsgList : public TNamed {
       TGo4MsgList(const char *name, const char *title, Int_t limit = 1000);
       virtual ~TGo4MsgList();
 
-      void SetLimit(Int_t limit) { fLimit = limit>0 ? limit : 1; AddMsg(0); }
+      void SetLimit(Int_t limit)
+      {
+         fLimit = limit > 0 ? limit : 1;
+         AddMsg(nullptr);
+      }
       Int_t GetLimit() const { return fLimit; }
 
       Int_t GetCounter() const { return fCounter; }

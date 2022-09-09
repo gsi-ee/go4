@@ -31,13 +31,13 @@
 #include "TGo4FitParameter.h"
 
 TGo4FitterAbstract::TGo4FitterAbstract()
-   : TGo4FitParsList(), TGo4FitSlotList(), fxActions(), fxResults(), fxCurrentConfig(0), fbParsChange(kTRUE),
+   : TGo4FitParsList(), TGo4FitSlotList(), fxActions(), fxResults(), fbParsChange(kTRUE),
      fbInitializationDone(kFALSE), fbNeedToFinalize(kFALSE), fbParsAsResults(kFALSE)
 {
 }
 
 TGo4FitterAbstract::TGo4FitterAbstract(const char *iName, const char *iTitle)
-   : TGo4FitParsList(iName, iTitle, kFALSE), TGo4FitSlotList(), fxActions(), fxResults(), fxCurrentConfig(0),
+   : TGo4FitParsList(iName, iTitle, kFALSE), TGo4FitSlotList(), fxActions(), fxResults(),
      fbParsChange(kTRUE), fbInitializationDone(kFALSE), fbNeedToFinalize(kFALSE), fbParsAsResults(kFALSE)
 {
    fxActions.SetOwner(kTRUE);
@@ -145,7 +145,7 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray &Dependencies, Bool_
             dep->Initialize(parindx, formula.Data());
 
       } else if (DoInit)
-         dep->Initialize(parindx, 0);
+         dep->Initialize(parindx, nullptr);
 
       if (BlockPars)
          deppar->SetBlocked();
@@ -519,7 +519,7 @@ TObjArray *TGo4FitterAbstract::ProcessObjects(TObjArray *objs, Bool_t CloneFitte
    nuse = 0;
    while (nuse < numuse) {
       TGo4FitSlot *slot = GetSlot(use[nuse++]);
-      slot->SetObject(0, kFALSE);
+      slot->SetObject(nullptr, kFALSE);
    }
 
    return res;

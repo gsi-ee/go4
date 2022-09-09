@@ -60,7 +60,7 @@ void TGo4FitDataGraph::Print(Option_t* option) const
 
 TGo4FitDataGraphIter::TGo4FitDataGraphIter() :
    TGo4FitDataIter(),
-   fxData(0),
+   fxData(nullptr),
    fiNumPoints(0)
 {
 }
@@ -104,7 +104,7 @@ Bool_t TGo4FitDataGraphIter::ReadCurrentPoint()
               else fdStandardDeviation = 1.;
    }
 
-   return ProduceScales(fxIndexes.GetArray(), &xvalue, 0);
+   return ProduceScales(fxIndexes.GetArray(), &xvalue, nullptr);
 }
 
 Bool_t TGo4FitDataGraphIter::ShiftToNextPoint()

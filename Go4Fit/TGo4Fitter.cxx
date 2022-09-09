@@ -103,7 +103,7 @@ void TGo4Fitter::Clear(Option_t *option)
 
 TGo4FitData *TGo4Fitter::GetData(Int_t n)
 {
-   return (n >= 0) && (n < GetNumData()) ? dynamic_cast<TGo4FitData *>(fxDatas[n]) : 0;
+   return (n >= 0) && (n < GetNumData()) ? dynamic_cast<TGo4FitData *>(fxDatas[n]) : nullptr;
 }
 
 const char *TGo4Fitter::GetDataName(Int_t n)
@@ -182,7 +182,7 @@ TGo4FitData *TGo4Fitter::RemoveData(const char *DataName, Bool_t IsDel)
       if (IsDel) {
          CheckSlotsBeforeDelete(dat);
          delete dat;
-         dat = 0;
+         dat = nullptr;
       }
       fxDatas.Compress();
    }
@@ -695,7 +695,7 @@ Double_t TGo4Fitter::DoCalculation()
 
 Int_t TGo4Fitter::DoNDFCalculation()
 {
-   return CalculateNDF(0);
+   return CalculateNDF(nullptr);
 }
 
 void TGo4Fitter::RebuildAll(Bool_t ForceBuild)

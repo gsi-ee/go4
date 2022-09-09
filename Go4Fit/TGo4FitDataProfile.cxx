@@ -18,7 +18,8 @@
 #include "TProfile.h"
 
 TGo4FitDataProfile::TGo4FitDataProfile() :
-  TGo4FitData(), fxProfile(this, TProfile::Class()) {
+  TGo4FitData(), fxProfile(this, TProfile::Class())
+{
 }
 
 TGo4FitDataProfile::TGo4FitDataProfile(const char *iName, TProfile *iProfile, Bool_t iProfileOwned, Bool_t AddAmpl) :
@@ -60,7 +61,7 @@ void TGo4FitDataProfile::Print(Option_t* option) const
 // ********************************************************************************************
 
 
-TGo4FitDataProfileIter::TGo4FitDataProfileIter() : TGo4FitDataIter(), fxData(0), fiNumPoints(0)
+TGo4FitDataProfileIter::TGo4FitDataProfileIter() : TGo4FitDataIter(), fxData(nullptr), fiNumPoints(0)
 {
 }
 
@@ -97,7 +98,7 @@ Bool_t TGo4FitDataProfileIter::ReadCurrentPoint()
               else fdStandardDeviation = 1.;
    }
 
-   return ProduceScales(fxIndexes.GetArray(), &xvalue, 0);
+   return ProduceScales(fxIndexes.GetArray(), &xvalue, nullptr);
 }
 
 

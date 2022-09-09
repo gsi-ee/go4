@@ -476,7 +476,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Return scale values for current data points.
        */
-      const Double_t* Scales() const { return fxScales.GetSize() > 0 ? fxScales.GetArray() : 0; }
+      const Double_t* Scales() const { return fxScales.GetSize() > 0 ? fxScales.GetArray() : nullptr; }
 
       /**
        * Return current x coordinate if exists, otherwise 0
@@ -501,7 +501,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Return scales widths values.
        */
-      const Double_t* Widths() const { return fxWidths.GetSize() > 0 ? fxWidths.GetArray() : 0; }
+      const Double_t* Widths() const { return fxWidths.GetSize() > 0 ? fxWidths.GetArray() : nullptr; }
 
       /**
        * Return production of all width parameters (1 if no widths)

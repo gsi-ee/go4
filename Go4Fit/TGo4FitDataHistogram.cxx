@@ -54,7 +54,7 @@ void TGo4FitDataHistogram::Print(Option_t *option) const
 // *********************************************************************************
 
 TGo4FitDataHistogramIter::TGo4FitDataHistogramIter()
-   : TGo4FitDataIter(), fxData(0), fxLimits(), fxOwnScales(), fxOwnWidths()
+   : TGo4FitDataIter(), fxData(nullptr), fxLimits(), fxOwnScales(), fxOwnWidths()
 {
 }
 
