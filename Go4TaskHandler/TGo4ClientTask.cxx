@@ -95,14 +95,14 @@ Bool_t TGo4ClientTask::ConnectServer(const char *node, UInt_t negport,
    if (passwd) {
       fxTaskHandler->SetRole(role);
       if (role == kGo4ComModeObserver) {
-         TGo4TaskHandler::SetObservAccount(0, passwd);
+         TGo4TaskHandler::SetObservAccount(nullptr, passwd);
       } else if (role == kGo4ComModeController) {
-         TGo4TaskHandler::SetCtrlAccount(0, passwd);
+         TGo4TaskHandler::SetCtrlAccount(nullptr, passwd);
       } else if (role == kGo4ComModeAdministrator) {
-         TGo4TaskHandler::SetAdminAccount(0, passwd);
+         TGo4TaskHandler::SetAdminAccount(nullptr, passwd);
       }
    }
-   if (fxTaskHandler->Connect(node, 0)) {
+   if (fxTaskHandler->Connect(node, nullptr)) {
       //      TGo4Log::Info(" ClientTask ''%s'': connected successfully to ServerTask at node %s (port %d) ",
       //               GetName(),node, negport);
       fbServerConnected = kTRUE;

@@ -604,7 +604,7 @@ void TGo4Condition::Draw(Option_t* opt)
    // std::cout<<"TGo4Condition::Draw of instance:"<<(long) this  << " with visible="<< TGo4Condition::IsVisible()<<
    // std::endl;
    if (TGo4Condition::IsVisible()) {
-      if (gPad && gPad->GetListOfPrimitives()->FindObject(this) == 0) {
+      if (gPad && !gPad->GetListOfPrimitives()->FindObject(this)) {
 
          // UnDraw(); // JAM2016: do we need this? for switching condition between different pads...? no!
          AppendPad(opt);

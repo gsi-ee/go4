@@ -109,7 +109,7 @@ void TGo4ListCond::PrintValues()
 Bool_t TGo4ListCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
    TGo4ListCond *from = dynamic_cast<TGo4ListCond *>(cond);
-   if (from == 0)
+   if (!from)
       return kFALSE;
    fxValues.clear();
    for (size_t i = 0; i < from->GetNumValues(); ++i) {

@@ -21,7 +21,7 @@
 
 
 TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
-   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE), fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE), fxPolyCondition(nullptr)
 {
    SetCut(source);
    SetBit(kMustCleanup);
@@ -31,7 +31,7 @@ TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
 }
 
 TGo4PolyCondView::TGo4PolyCondView() :
-   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE),fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE),fxPolyCondition(nullptr)
 {
    SetBit(kMustCleanup);
    //SetBit(kCanDelete, kFALSE);

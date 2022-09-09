@@ -53,8 +53,8 @@ TGo4ServerTask::TGo4ServerTask(const char *name,
                                Bool_t autocreate,
                                Bool_t ismaster)
    : TGo4Task(name,blockingmode, autostart,autocreate,ismaster),
-   fxTaskManager(0),fxCurrentTaskHandler(0),
-   fxConnectTransport(0), fxDisConnectTransport(0),
+   fxTaskManager(nullptr),fxCurrentTaskHandler(nullptr),
+   fxConnectTransport(nullptr), fxDisConnectTransport(nullptr),
    fuConnectPort(0), fbKeepServerSocket(kFALSE),
    fbConnectRequest(kFALSE), fbDisConnectRequest(kFALSE),
    fbConnectIsOpen(kFALSE),fbConnectIsDone(kFALSE), fbConnectIsClose(kFALSE),
@@ -598,7 +598,7 @@ void TGo4ServerTask::Shutdown()
       TGo4Log::Debug(" ServerTask Shutdown stopping slave...");
       slave->Stop();             // to execute analysis postloop.
                                  // We are within main thread here, i.e. it never stops before termination!
-      slave->SetTask(0, kFALSE); // otherwise owner dtor will delete us...
+      slave->SetTask(nullptr, kFALSE); // otherwise owner dtor will delete us...
       delete slave;              // call dtors of analysis framework
       // SetOwner(0);
    }

@@ -37,7 +37,7 @@ TGo4Thread::TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t interna
    fiThreadPID(0),
    fiThreadSelfID(0),
    fbIsWaiting(kFALSE),
-   fxThread(0)
+   fxThread(nullptr)
 {
    GO4TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
 

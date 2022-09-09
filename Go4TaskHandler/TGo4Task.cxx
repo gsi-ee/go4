@@ -41,8 +41,8 @@ TGo4Task::TGo4Task(const char *name, Bool_t blockingmode,
                                Bool_t autocreate,
                                Bool_t ismaster) :
    TGo4ThreadManager(name,blockingmode, autostart,autocreate),
-   fbCommandMaster(ismaster), fxMaster(0), fxSlave(0),fxOwner(0),
-   fbWorkIsStopped(kFALSE),fxStopBuffer(0),fxQuitBuffer(0)
+   fbCommandMaster(ismaster), fxMaster(nullptr), fxSlave(nullptr), fxOwner(nullptr),
+   fbWorkIsStopped(kFALSE), fxStopBuffer(nullptr), fxQuitBuffer(nullptr)
 {
    fxStatusBuffer = new TBufferFile(TBuffer::kWrite);
    fxStatusMutex = new TMutex(kTRUE);
@@ -281,17 +281,17 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char *text,
    va_end(args);
    // figure out here possible destination for message in string:
    const char *dest;
-   char* curs=txtbuf;
-   TString receiver=txtbuf;
-   Ssiz_t pos=receiver.Index("::",2,0,TString::kExact);
-   if(pos!=kNPOS) {
+   char* curs = txtbuf;
+   TString receiver = txtbuf;
+   Ssiz_t pos = receiver.Index("::",2,0,TString::kExact);
+   if(pos != kNPOS) {
       // before this we have receiver:
       receiver.Resize(pos);
       dest=receiver.Data();
       curs += ((size_t) pos);
       curs +=2; // skip separator
    } else {
-      dest = 0;
+      dest = nullptr;
    }
    //std::cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << std::endl;
    Bool_t previousmode = TGo4Log::IsOutputEnabled();
