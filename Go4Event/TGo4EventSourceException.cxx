@@ -17,12 +17,11 @@
 #include "TGo4Log.h"
 
 TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource* eventsource)
-: fxEventSource(0),  fiCreateStatus(0), fiEventStatus(0)
+: fxEventSource(nullptr),  fiCreateStatus(0), fiEventStatus(0)
 {
    GO4TRACE((16,"TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 EventSource Exception --!!!";
-   if(eventsource)
-      {
+   if(eventsource) {
          fxEventSource=eventsource;
          fxErrMess=eventsource->GetErrMess();
          fxSourceName=eventsource->GetName();
@@ -47,30 +46,23 @@ TGo4EventSourceException::TGo4EventSourceException(const TGo4EventSourceExceptio
 
 TGo4EventSourceException & TGo4EventSourceException::operator= (const TGo4EventSourceException & right)
 {
- GO4TRACE((16,"TGo4EventSourceException::operator=",__LINE__, __FILE__));
- if (&right!=this)
-    {
+   GO4TRACE((16, "TGo4EventSourceException::operator=", __LINE__, __FILE__));
+   if (&right != this) {
       TGo4RuntimeException::operator=(right); // copy base class members
       // put additional member copies here...
-      fxEventSource=right.fxEventSource;
-      fxErrMess=right.fxErrMess;
-      fxSourceName=right.fxSourceName;
-      fxSourceClass=right.fxSourceClass;
-      fiCreateStatus=right.fiCreateStatus;
-      fiEventStatus=right.fiEventStatus;
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      return *this;
-    }
+      fxEventSource = right.fxEventSource;
+      fxErrMess = right.fxErrMess;
+      fxSourceName = right.fxSourceName;
+      fxSourceClass = right.fxSourceClass;
+      fiCreateStatus = right.fiCreateStatus;
+      fiEventStatus = right.fiEventStatus;
+   }
+   return *this;
 }
 
 TGo4EventSourceException::~TGo4EventSourceException()
 {
- GO4TRACE((16,"TGo4EventSourceException::~TGo4EventSourceException", __LINE__, __FILE__));
-
+    GO4TRACE((16,"TGo4EventSourceException::~TGo4EventSourceException", __LINE__, __FILE__));
 }
 
 Int_t TGo4EventSourceException::Handle()

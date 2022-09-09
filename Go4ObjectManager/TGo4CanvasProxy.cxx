@@ -35,8 +35,8 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
    public:
       TGo4CanvasLevelIter(TPad* pad) :
          TGo4LevelIter(),
-         fIter(0),
-         fCurrent(0),
+         fIter(nullptr),
+         fCurrent(nullptr),
          fStacks()
       {
          fIter = pad->GetListOfPrimitives()->MakeIterator();

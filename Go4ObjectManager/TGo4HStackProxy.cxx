@@ -80,7 +80,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
 
 TGo4HStackProxy::TGo4HStackProxy() :
    TGo4Proxy(),
-   fHS(0),
+   fHS(nullptr),
    fOwner(kFALSE)
 {
 }

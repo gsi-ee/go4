@@ -692,7 +692,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
       histo = dynamic_cast<TH1*> (dummydir.FindObject(hobjectname));
       if(histo) {
          histo->SetDirectory(nullptr);
-         createdhistoname = SaveToMemory(0, histo, kTRUE);
+         createdhistoname = SaveToMemory(nullptr, histo, kTRUE);
          // do sync immediately to be able draw this item in viewpanel
          SyncBrowserSlots();
       }
@@ -856,7 +856,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char *itemname, TObject *obj)
       anslot = FindServerSlot(kTRUE, 1);
    }
 
-   TGo4ServerProxy* serv = anslot ? dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy()) : 0;
+   TGo4ServerProxy* serv = anslot ? dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy()) : nullptr;
    return serv ? serv->UpdateAnalysisObject(analysisname, obj) : kFALSE;
 }
 

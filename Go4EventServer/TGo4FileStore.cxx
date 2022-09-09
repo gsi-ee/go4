@@ -157,7 +157,7 @@ TGo4FileStore::~TGo4FileStore()
    if(fxFile && fxTree) {
       fxFile = fxTree->GetCurrentFile(); // for file split after 1.8 Gb!
       fxFile->cd();
-      fxTree->Write(0, TObject::kOverwrite);
+      fxTree->Write(nullptr, TObject::kOverwrite);
       delete fxFile; // closes File, fxTree is removed from memory then
       fxFile = nullptr;
    }
@@ -246,7 +246,7 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
    ob->SetName(TString::Format("%s_%d", oldname.Data(), fiFillCount).Data());
    if(fxTree) fxFile = fxTree->GetCurrentFile();
    if (fxFile) fxFile->cd();
-   ob->Write(0, TObject::kOverwrite);
+   ob->Write(nullptr, TObject::kOverwrite);
    ob->SetName(oldname.Data());
    if (dsav) dsav->cd();
 }

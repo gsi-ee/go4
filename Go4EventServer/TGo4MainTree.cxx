@@ -74,7 +74,7 @@ Int_t TGo4MainTree::Write(const char */*dummy*/, Int_t /*option*/, Int_t /*bufsi
 {
    GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();
-   fxTree->Write(0, TObject::kOverwrite);
+   fxTree->Write(nullptr, TObject::kOverwrite);
    return 0;
 }
 
@@ -82,7 +82,7 @@ Int_t TGo4MainTree::Write(const char */*dummy*/, Int_t /*option*/, Int_t /*bufsi
 {
    GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();
-   fxTree->Write(0, TObject::kOverwrite);
+   fxTree->Write(nullptr, TObject::kOverwrite);
    return 0;
 }
 

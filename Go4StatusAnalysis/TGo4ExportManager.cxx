@@ -114,7 +114,7 @@ void TGo4ExportManager::Export(TObject* myobject)
 
 void TGo4ExportManager::Export(TFolder* fold)
 {
-   if (fold == 0)
+   if (!fold)
       return;
    TGo4Log::Message(0, "ExportManager: Converting contents of folder %s",
          fold->GetName());

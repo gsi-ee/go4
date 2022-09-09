@@ -105,7 +105,7 @@ class TGo4DabcAccess : public TGo4Access {
          fMasterItemName(),
          fIsRate(false),
          fHistoryLength(0),
-         fxReceiver(0),
+         fxReceiver(nullptr),
          fxRecvPath(),
          fRawData(),
          fCompression(kTRUE)
@@ -128,7 +128,7 @@ class TGo4DabcAccess : public TGo4Access {
          fMasterItemName(),
          fIsRate(false),
          fHistoryLength(0),
-         fxReceiver(0),
+         fxReceiver(nullptr),
          fxRecvPath(),
          fRawData(),
          fCompression(kTRUE)

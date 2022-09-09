@@ -311,7 +311,7 @@ TGo4AnalysisProxy::~TGo4AnalysisProxy()
         fxDisplay->SubmitCommand("MRQuit");
 
       if (fxDisplay) {
-         fxDisplay->SetAnalysis(0);
+         fxDisplay->SetAnalysis(nullptr);
          TGo4Log::Debug("TGo4Display instance is not deleted correctly when analysis proxy is destroyed");
       }
    }
