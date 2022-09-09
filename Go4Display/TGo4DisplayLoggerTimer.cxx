@@ -27,7 +27,7 @@ Bool_t TGo4DisplayLoggerTimer::Notify ()
 {
    TGo4Status* stat = nullptr;
    TGo4Task *task = fxDisplay->GetTask();
-   while((stat=task->NextStatus(kFALSE)) != nullptr) {
+   while((stat = task->NextStatus(kFALSE)) != nullptr) {
       //TGo4Log::Debug(" Display logger Timer displaying log...");
       fxDisplay->DisplayLog(stat);
    }

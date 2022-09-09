@@ -32,8 +32,8 @@ TGo4Display::TGo4Display(Bool_t isserver)
      fxAnalysis(nullptr)
 {
    // start gui timers instead of threads
-   fxDrawTimer= new TGo4DisplayDrawerTimer(this, 30);
-   fxLogTimer= new TGo4DisplayLoggerTimer(this, 500);
+   fxDrawTimer = new TGo4DisplayDrawerTimer(this, 30);
+   fxLogTimer = new TGo4DisplayLoggerTimer(this, 500);
    fxDrawTimer->TurnOn();
    fxLogTimer->TurnOn();
 

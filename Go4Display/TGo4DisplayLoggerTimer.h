@@ -29,7 +29,7 @@ class TGo4DisplayLoggerTimer : public TTimer {
 
   public:
 
-      TGo4DisplayLoggerTimer(TGo4Display* display, Long_t msperiod = 3000);
+      TGo4DisplayLoggerTimer(TGo4Display *display, Long_t msperiod = 3000);
 
       Bool_t Notify() override;
 
