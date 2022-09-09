@@ -219,7 +219,7 @@ void TGo4HDF5DataHandle::Write(hsize_t sequencenum, H5::H5File* file)
 
 
 TGo4HDF5BasicDataHandle::TGo4HDF5BasicDataHandle(const char *name, size_t datasize) :
-    TGo4HDF5DataHandle(name, datasize), fxReadBuffer(0)
+    TGo4HDF5DataHandle(name, datasize), fxReadBuffer(nullptr)
 
  {
   go4hdfdbg("TGo4HDF5BasicDataHandle ctor\n");
@@ -503,7 +503,7 @@ void TGo4HDF5CompositeDataHandle::Read(hsize_t sequencenum, H5::H5File *file)
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 TGo4HDF5VectorDataHandle::TGo4HDF5VectorDataHandle(const char *name, size_t datasize) :
-    TGo4HDF5BasicDataHandle(name, datasize), fxCollection(0), fiElementSize(0)
+    TGo4HDF5BasicDataHandle(name, datasize), fxCollection(nullptr), fiElementSize(0)
 
  {
   go4hdfdbg("TGo4HDF5VectorDataHandle ctor \n");
@@ -633,7 +633,7 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
 ///////////////////////////
 
 
-          fxVarHandle.fxArray.p = 0; //note: read will allocate the necessary buffer memory automatically!
+          fxVarHandle.fxArray.p = nullptr; //note: read will allocate the necessary buffer memory automatically!
           fxDataSet.read(&fxVarHandle.fxArray, H5::VarLenType(fxType), *fxDataSpace, fxFileSpace);
           go4hdfdbg("TGo4HDF5VectorDataHandle::Read LLLL length after reading is %ld, buffer is 0x%lx \n",
               fxVarHandle.fxArray.len,

@@ -156,7 +156,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
       // first check if we have a collection member.
       TClass *innerclass = TClass::GetClass(memtypename);
-      TVirtualCollectionProxy *cprox = (innerclass ? innerclass->GetCollectionProxy() : 0);
+      TVirtualCollectionProxy *cprox = innerclass ? innerclass->GetCollectionProxy() : nullptr;
       if (cprox) {
          TClass *collectionclass = cprox->GetCollectionClass();
          TClass *valueclass = cprox->GetValueClass();
