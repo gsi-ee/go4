@@ -341,7 +341,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
            addMenuAction(&menu, &map, buffer, curId++);
         }
 
-        if (menu.exec(mouse_pnt) == 0) {
+        if (menu.exec(mouse_pnt) == nullptr) {
            fMenuObj = nullptr;
            delete fMenuMethods;
            fMenuMethods = nullptr;
@@ -1249,7 +1249,6 @@ void QRootCanvas::activateEditor(TPad *pad, TObject *obj)
 void QRootCanvas::cleanupEditor()
 {
 #ifndef __NOGO4GED__
-//   std::cout << "QRootCanvas::CleanupGedEditor()" << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if (!ed) return;
    if (!fDummyHisto) {
@@ -1259,8 +1258,8 @@ void QRootCanvas::cleanupEditor()
       fDummyHisto->SetBit(kCanDelete, kFALSE);
    }
    gTQSender = getCanvas();
-   ed->SetModel(0, fDummyHisto, kButton1Down);
-   ed->SetModel(0, getCanvas(), kButton1Down);
+   ed->SetModel(nullptr, fDummyHisto, kButton1Down);
+   ed->SetModel(nullptr, getCanvas(), kButton1Down);
 #endif
 }
 

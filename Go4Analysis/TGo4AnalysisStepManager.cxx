@@ -378,7 +378,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
          }
          else
          {
-            next->SetPreviousStep(0);
+            next->SetPreviousStep(nullptr);
          }
          fiLastStepIndex=ix;
          rev=kTRUE;
@@ -439,12 +439,12 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
    for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++) {
       fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
       if(fxCurrentStep->IsKeepInputEvent()) {
-         repeatinputstart=fiCurrentStepIndex;
+         repeatinputstart = fiCurrentStepIndex;
          break;
       }
    }
 
-   SetOutputEvent(0); // make sure that first step wont take output of last one
+   SetOutputEvent(nullptr); // make sure that first step wont take output of last one
    for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++) {
       fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
       if(!fxCurrentStep) break;

@@ -704,7 +704,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
 Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTree(TTree*, char*)",__LINE__, __FILE__));
-   return (AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE));
+   return AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char *stepname)
@@ -789,7 +789,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
          TString fname(name, separ-name);
          rev = AddObjectToFolder(clonedcon,topfolder,fname.Data(),kTRUE,kFALSE,kFALSE);
       } else
-         rev = AddObjectToFolder(clonedcon,topfolder,0,kTRUE,kFALSE,kFALSE);
+         rev = AddObjectToFolder(clonedcon,topfolder,nullptr,kTRUE,kFALSE,kFALSE);
 
    }
    return rev;
@@ -979,7 +979,7 @@ TFolder *TGo4AnalysisObjectManager::GetObjectFolder()
 Bool_t TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore * store)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore*)",__LINE__, __FILE__));
-   return (AddObjectToFolder(store,fxStoreDir,0,kFALSE));
+   return AddObjectToFolder(store,fxStoreDir,nullptr,kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
@@ -999,7 +999,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
 Bool_t TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource * source)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource*)",__LINE__, __FILE__));
-   return (AddObjectToFolder(source,fxSourceDir,0,kFALSE));
+   return AddObjectToFolder(source,fxSourceDir,nullptr,kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
@@ -1016,7 +1016,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
 Bool_t TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor * pro)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor*)",__LINE__, __FILE__));
-   return (AddObjectToFolder(pro,fxProcessorDir,0,kFALSE));
+   return AddObjectToFolder(pro,fxProcessorDir,nullptr,kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
@@ -1034,7 +1034,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
 Bool_t TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement * ev)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
-   return (AddObjectToFolder(ev,fxEventDir,0,kFALSE));
+   return AddObjectToFolder(ev, fxEventDir, nullptr, kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
@@ -1089,7 +1089,7 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name)
 Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry* entry)
 {
    if (entry) entry->Reset();
-   return AddObjectToFolder(entry, fxDynListDir, 0, kTRUE, kFALSE, kFALSE);
+   return AddObjectToFolder(entry, fxDynListDir, nullptr, kTRUE, kFALSE, kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::ResetBackStores(Bool_t clearflag)
@@ -1165,7 +1165,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter *
          rev = AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
          TGo4Log::Info("Added new parameter %s to folder %s/%s", clonedpar->GetName(), topfolder->GetName(), fname.Data());
       } else
-         rev = AddObjectToFolder(clonedpar,topfolder,0,kTRUE);
+         rev = AddObjectToFolder(clonedpar,topfolder,nullptr,kTRUE);
    }
    return rev;
 }
@@ -1193,7 +1193,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
          TString fname(name, separ-name);
          rev = AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
       } else {
-         rev = AddObjectToFolder(clonedpar,topfolder,0,kTRUE);
+         rev = AddObjectToFolder(clonedpar,topfolder,nullptr,kTRUE);
       }
    }
    return rev;
@@ -1246,9 +1246,9 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture * pic
       const char *separ = strrchr(name, '/');
       if (separ) {
         TString fname(name, separ-name);
-        rev = AddObjectToFolder(clonedpic, topfolder, fname.Data(),kTRUE);
+        rev = AddObjectToFolder(clonedpic, topfolder, fname.Data(), kTRUE);
       } else
-        rev = AddObjectToFolder(clonedpic, topfolder, 0, kTRUE);
+        rev = AddObjectToFolder(clonedpic, topfolder, nullptr, kTRUE);
    }
    return rev;
 }
@@ -1656,7 +1656,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
       if(fbSuppressLoadHistograms) return kFALSE;
       // test: do not clone histos, but change dir from asf file to memory
       TH1* his = dynamic_cast<TH1*>(ob);
-      if(AddObjectToFolder(his,destination,0,replace,kFALSE,kFALSE)) {
+      if(AddObjectToFolder(his,destination,nullptr,replace,kFALSE,kFALSE)) {
          his->SetDirectory(gROOT); // set directory for histos, needed for TTree::Draw
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Histogram %s was loaded.",
                his->GetName());
@@ -1676,7 +1676,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
       //std::cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << std::endl;
 
       TObject* addob = ob->Clone(); // deep copy of source object!
-      if(AddObjectToFolder(addob,destination,0,replace)) {
+      if(AddObjectToFolder(addob,destination, nullptr, replace)) {
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
       } else {
          delete addob;

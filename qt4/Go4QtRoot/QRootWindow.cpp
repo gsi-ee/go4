@@ -63,7 +63,7 @@ class TQRootFrame: public TGCompositeFrame {
 
 QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) :
    QWidget(parent),
-   fxRootwindow(0),
+   fxRootwindow(nullptr),
    fbResizeOnPaint(kTRUE),fQtScalingfactor(1.0)
 {
    setObjectName( name ? name : "QRootWindow");

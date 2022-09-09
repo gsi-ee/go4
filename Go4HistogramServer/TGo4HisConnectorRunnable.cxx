@@ -30,7 +30,7 @@ extern "C" {
    #include "f_his_hist.h"
 }
 
-TGo4HisConnectorRunnable::TGo4HisConnectorRunnable() : TGo4Runnable(0, 0), fxHistogramServer(0) {}
+TGo4HisConnectorRunnable::TGo4HisConnectorRunnable() : TGo4Runnable(nullptr, nullptr), fxHistogramServer(nullptr) {}
 
 TGo4HisConnectorRunnable::TGo4HisConnectorRunnable(const char *name, TGo4HistogramServer *hserv)
    : TGo4Runnable(name, hserv->GetAnalysisClient()->GetTask()), fxHistogramServer(hserv)

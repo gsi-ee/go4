@@ -29,8 +29,8 @@ const Int_t TGo4MbsHist::fgiLISTLEN=512;
 TGo4MbsHist::TGo4MbsHist() :
    TObject(),
    fiBufLen(128),
-   fiBuffer(0),
-   fxCursor(0),
+   fiBuffer(nullptr),
+   fxCursor(nullptr),
    fiHisNum(0)
 {
    fiBuffer = new Int_t[fiBufLen];
@@ -39,8 +39,8 @@ TGo4MbsHist::TGo4MbsHist() :
 TGo4MbsHist::TGo4MbsHist(TH1* histo) :
    TObject(),
    fiBufLen(1),
-   fiBuffer(0),
-   fxCursor(0),
+   fiBuffer(nullptr),
+   fxCursor(nullptr),
    fiHisNum(1)
 {
    if (histo) {
@@ -81,14 +81,14 @@ TGo4MbsHist::TGo4MbsHist(TH1* histo) :
 TGo4MbsHist::TGo4MbsHist(TFolder* folder, const char *filter) :
    TObject(),
    fiBufLen(fgiLISTLEN),
-   fiBuffer(0),
-   fxCursor(0),
+   fiBuffer(nullptr),
+   fxCursor(nullptr),
    fiHisNum(0)
 {
    // allocate buffer of total size
    //std::cout <<"Init buflen with "<< fiBufLen << std::endl;
-   fiBuffer=new Int_t[fiBufLen];
-   fxCursor= (s_his_head*) fiBuffer;
+   fiBuffer = new Int_t[fiBufLen];
+   fxCursor = (s_his_head*) fiBuffer;
    ScanGo4Folder(folder,0,filter);
 }
 
@@ -100,7 +100,7 @@ TGo4MbsHist::~TGo4MbsHist()
 
 void TGo4MbsHist::PrepareHeader(TH1* source, const char *path, s_his_head* target)
 {
-   if (source == 0 || target == 0)
+   if (!source || !target)
       return;
    // std::cout <<"MMMMMMMM Preparing header for histogram "<< source->GetName() << std::endl;
    s_his_head *dest = target; // use local pointer to avoid changes by snprintf
@@ -202,7 +202,7 @@ void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char *superfolders, const
          const char *entryname = entry->GetName();
          TString entrystring = entryname;
          TRegexp reg(filter, kTRUE);
-         if (filter == 0)
+         if (!filter)
             ismatching = kTRUE; // no filter set, take all
          else if (!strcmp(filter, "*"))
             ismatching = kTRUE; // take all in this folder

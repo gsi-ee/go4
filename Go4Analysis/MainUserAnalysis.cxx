@@ -733,7 +733,7 @@ int main(int argc, char **argv)
    delete lst0; lst0 = nullptr;
    delete lst1; lst1 = nullptr;
 
-   TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
+   TGo4AnalysisStep* step = analysis->GetAnalysisStep(nullptr);
    if (!step) {
       std::cerr << "No active step in analysis found" << std::endl;
       return -1;

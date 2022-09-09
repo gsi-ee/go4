@@ -119,11 +119,11 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char *basename,
 {
    if (IsServer()) {
       if (fxAnalysis->fServerObserverPass.Length()>0)
-         TGo4TaskHandler::SetObservAccount(0, fxAnalysis->fServerObserverPass.Data());
+         TGo4TaskHandler::SetObservAccount(nullptr, fxAnalysis->fServerObserverPass.Data());
       if (fxAnalysis->fServerCtrlPass.Length()>0)
-         TGo4TaskHandler::SetCtrlAccount(0, fxAnalysis->fServerCtrlPass.Data());
+         TGo4TaskHandler::SetCtrlAccount(nullptr, fxAnalysis->fServerCtrlPass.Data());
       if (fxAnalysis->fServerAdminPass.Length()>0)
-         TGo4TaskHandler::SetAdminAccount(0, fxAnalysis->fServerAdminPass.Data());
+         TGo4TaskHandler::SetAdminAccount(nullptr, fxAnalysis->fServerAdminPass.Data());
    }
 
    fxRatemeter = new TGo4Ratemeter;
@@ -243,7 +243,7 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
       // new: set true running state
       anstate->SetRunning(fxAnalysis->IsRunning());
       // new: set name of current eventsource
-      TGo4AnalysisStep* firststep = fxAnalysis->GetAnalysisStep(0);
+      TGo4AnalysisStep* firststep = fxAnalysis->GetAnalysisStep(nullptr);
       if(firststep) {
          anstate->SetCurrentSource(firststep->GetEventSourceName());
          fxRatemeter->SetCurrentSource(firststep->GetEventSourceName());
@@ -501,8 +501,8 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;
       strtok((char*) buffer.Data(), ":"); // first find the command itself
-      TString base = strtok(0,":");
-      TString pass = strtok(0,":");
+      TString base = strtok(nullptr, ":");
+      TString pass = strtok(nullptr, ":");
       // std::cout << "ExecuteString found base " << base << ",  passwd " << pass << std::endl;
       StartObjectServer(base.Data(), pass.Data());
    } else

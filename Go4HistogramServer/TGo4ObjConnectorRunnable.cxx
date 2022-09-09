@@ -26,7 +26,7 @@ TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable(const char *name, TGo4Histogr
    fxHistogramServer = hserv;
 }
 
-TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable() : TGo4Runnable(0, 0) {}
+TGo4ObjConnectorRunnable::TGo4ObjConnectorRunnable() : TGo4Runnable(nullptr, nullptr) {}
 
 TGo4ObjConnectorRunnable::~TGo4ObjConnectorRunnable() {}
 

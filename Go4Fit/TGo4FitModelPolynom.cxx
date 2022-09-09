@@ -95,7 +95,7 @@ Bool_t TGo4FitModelPolynom::SetMaxNumAxis(Int_t numaxis)
          RemovePar(GetOrderParName(n));
    else {
       Int_t indx = GetParIndex(FindPar(GetOrderParName(numaxisold)));
-      CreateOrdersPars(0, numaxisold + 1, numaxis, indx + 1);
+      CreateOrdersPars(nullptr, numaxisold + 1, numaxis, indx + 1);
    }
 
    return kTRUE;
