@@ -56,23 +56,14 @@ TGo4ThreadException::~TGo4ThreadException()
 
 TGo4ThreadException & TGo4ThreadException::operator=(const TGo4ThreadException &right)
 {
-     GO4TRACE((14,"TGo4ThreadException::operator=",__LINE__, __FILE__));
- if (&right!=this)
-    {
-      GO4TRACE((13,"TGo4ThreadException::operator= processing copy",__LINE__, __FILE__));
+   GO4TRACE((14, "TGo4ThreadException::operator=", __LINE__, __FILE__));
+   if (&right != this) {
       TGo4ControlException::operator=(right); // copy base class members
-      // put additional member copies here...
-      fxThreadName=right.fxThreadName;
-      fxThreadHandler=right.fxThreadHandler;
-      fxRunnable=right.fxRunnable;
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      GO4TRACE((13,"TGo4ThreadException::operator= source and destination objects are identical",__LINE__, __FILE__));
-      return *this;
-    }
+      fxThreadName = right.fxThreadName;
+      fxThreadHandler = right.fxThreadHandler;
+      fxRunnable = right.fxRunnable;
+   }
+   return *this;
 }
 
 const char *TGo4ThreadException::GetThreadName() const

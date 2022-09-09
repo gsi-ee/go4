@@ -38,20 +38,10 @@ TGo4ControlException::~TGo4ControlException()
 
 TGo4ControlException & TGo4ControlException::operator=(const TGo4ControlException &right)
 {
-  GO4TRACE((14,"TGo4ControlException::operator=",__LINE__, __FILE__));
-  if (&right != this)
-    {
-      GO4TRACE((13,"TGo4ControlException::operator= processing copy",__LINE__, __FILE__));
+   GO4TRACE((14, "TGo4ControlException::operator=", __LINE__, __FILE__));
+   if (&right != this)
       TGo4RuntimeException::operator=(right); // copy base class members
-      // put additional member copies here...
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      GO4TRACE((13,"TGo4ControlException::operator= source and destination objects are identical",__LINE__, __FILE__));
-      return *this;
-    }
+   return *this;
 }
 
 Int_t TGo4ControlException::Handle()

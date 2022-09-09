@@ -46,7 +46,6 @@ TGo4EventStoreException & TGo4EventStoreException::operator= (const TGo4EventSto
    GO4TRACE((16, "TGo4EventStoreException::operator=", __LINE__, __FILE__));
    if (&right != this) {
       TGo4RuntimeException::operator=(right); // copy base class members
-      // put additional member copies here...
       fxEventStore = right.fxEventStore;
       fxErrMess = right.fxErrMess;
       fxStoreName = right.fxStoreName;
@@ -57,8 +56,7 @@ TGo4EventStoreException & TGo4EventStoreException::operator= (const TGo4EventSto
 
 TGo4EventStoreException::~TGo4EventStoreException()
 {
- GO4TRACE((16,"TGo4EventStoreException::~TGo4EventStoreException", __LINE__, __FILE__));
-
+   GO4TRACE((16,"TGo4EventStoreException::~TGo4EventStoreException", __LINE__, __FILE__));
 }
 
 Int_t TGo4EventStoreException::Handle()

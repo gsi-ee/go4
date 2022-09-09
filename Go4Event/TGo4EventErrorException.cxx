@@ -32,22 +32,15 @@ TGo4EventErrorException::TGo4EventErrorException(const TGo4EventErrorException &
   :TGo4EventSourceException(right)
 {
   GO4TRACE((16,"TGo4EventErrorException::TGo4EventErrorException(right)", __LINE__, __FILE__));   ;
-  fiPriority=right.fiPriority;
+  fiPriority = right.fiPriority;
 }
 
-TGo4EventErrorException & TGo4EventErrorException::operator= (const TGo4EventErrorException & right)
+TGo4EventErrorException &TGo4EventErrorException::operator=(const TGo4EventErrorException &right)
 {
- GO4TRACE((16,"TGo4EventErrorException::operator=",__LINE__, __FILE__));
- if (&right!=this)
-    {
+   GO4TRACE((16, "TGo4EventErrorException::operator=", __LINE__, __FILE__));
+   if (&right != this) {
       TGo4EventSourceException::operator=(right); // copy base class members
-      // put additional member copies here...
-      fiPriority=right.fiPriority;
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      return *this;
-    }
+      fiPriority = right.fiPriority;
+   }
+   return *this;
 }

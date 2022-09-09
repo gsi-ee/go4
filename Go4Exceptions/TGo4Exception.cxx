@@ -36,19 +36,10 @@ TGo4Exception::~TGo4Exception()
 
 TGo4Exception & TGo4Exception::operator=(const TGo4Exception &right)
 {
-  GO4TRACE((14,"TGo4Exception::operator=",__LINE__, __FILE__));
-  if (&right!=this)
-    {
-      GO4TRACE((13,"TGo4Exception::operator= processing copy",__LINE__, __FILE__));
-      fxDescription=right.fxDescription;
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      GO4TRACE((13,"TGo4Exception::operator= source and destination objects are identical",__LINE__, __FILE__));
-      return *this;
-    }
+   GO4TRACE((14, "TGo4Exception::operator=", __LINE__, __FILE__));
+   if (&right != this)
+      fxDescription = right.fxDescription;
+   return *this;
 }
 
 const char *TGo4Exception::What ()

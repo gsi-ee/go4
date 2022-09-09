@@ -21,16 +21,13 @@ TGo4DynamicListException & TGo4DynamicListException::operator= (const TGo4Dynami
    GO4TRACE((14, "TGo4DynamicListException:operator=", __LINE__, __FILE__));
    if (&right != this) {
       TGo4RuntimeException::operator=(right); // copy base class members
-      // put additional member copies here...
       fxEntry = right.fxEntry;
       fxEntryName = right.fxEntryName;
       fxEntryClass = right.fxEntryClass;
       fxStatusMessage = right.fxStatusMessage;
-      return *this;
-   } else {
-      // copy is already source object
-      return *this;
    }
+
+   return *this;
 }
 
 TGo4DynamicListException::TGo4DynamicListException(const TGo4DynamicListException &right) : TGo4RuntimeException(right)

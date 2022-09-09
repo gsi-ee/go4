@@ -49,7 +49,6 @@ TGo4EventSourceException & TGo4EventSourceException::operator= (const TGo4EventS
    GO4TRACE((16, "TGo4EventSourceException::operator=", __LINE__, __FILE__));
    if (&right != this) {
       TGo4RuntimeException::operator=(right); // copy base class members
-      // put additional member copies here...
       fxEventSource = right.fxEventSource;
       fxErrMess = right.fxErrMess;
       fxSourceName = right.fxSourceName;

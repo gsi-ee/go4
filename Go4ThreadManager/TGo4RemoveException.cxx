@@ -40,16 +40,9 @@ TGo4RemoveException::~TGo4RemoveException()
 TGo4RemoveException &TGo4RemoveException::operator=(const TGo4RemoveException &right)
 {
    GO4TRACE((14, "TGo4RemoveException::operator=", __LINE__, __FILE__));
-   if (&right != this) {
-      GO4TRACE((13, "TGo4RemoveException::operator= processing copy", __LINE__, __FILE__));
+   if (&right != this)
       TGo4ThreadException::operator=(right); // copy base class members
-      // put additional member copies here...
-      return *this;
-   } else {
-      // copy is already source object
-      GO4TRACE((13, "TGo4RemoveException::operator= source and destination objects are identical", __LINE__, __FILE__));
-      return *this;
-   }
+   return *this;
 }
 
 Int_t TGo4RemoveException::Handle()
