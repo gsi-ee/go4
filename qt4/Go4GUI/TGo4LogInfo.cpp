@@ -96,7 +96,7 @@ void TGo4LogInfo::linkedObjectUpdated(const char *linkname, TObject *linkobj)
          Long64_t tm = TString(msg, separ-msg).Atoll();
 
          QDateTime dt;
-         dt.setSecsSinceEpoch(tm);
+         dt.setMSecsSinceEpoch(tm*1000);
 
          separ++;
          int level = 1;
