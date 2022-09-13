@@ -35,9 +35,9 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char *name, Qt::W
    QObject::connect(DrawOption, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetDrawOptions);
    QObject::connect(ErrorBars, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetErrorBars);
    QObject::connect(Coordinates, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::SetCoordinates);
-   QObject::connect(XStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::XaxisStyle);
-   QObject::connect(YStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::YaxisStyle);
-   QObject::connect(ZStyle, QOverload<int>::of(&QComboBox::activated), this, &TGo4HisDrawOptions::ZaxisStyle);
+   QObject::connect(LogX, &QCheckBox::toggled, this, &TGo4HisDrawOptions::XaxisStyle);
+   QObject::connect(LogY, &QCheckBox::toggled, this, &TGo4HisDrawOptions::YaxisStyle);
+   QObject::connect(LogZ, &QCheckBox::toggled, this, &TGo4HisDrawOptions::ZaxisStyle);
    QObject::connect(AutoScaleBox, &QCheckBox::toggled, this, &TGo4HisDrawOptions::SetAutoScale);
    QObject::connect(LineColor, &QPushButton::clicked, this, &TGo4HisDrawOptions::SetLineColor);
    QObject::connect(FillColor, &QPushButton::clicked, this, &TGo4HisDrawOptions::SetFillColor);
@@ -105,10 +105,10 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          DrawOption->setCurrentIndex(DrawStyle);
          ErrorBars->setCurrentIndex(ErrorStyle);
          Coordinates->setCurrentIndex(CoordStyle);
-         XStyle->setCurrentIndex(padopt->GetLogScale(0));
-         YStyle->setCurrentIndex(padopt->GetLogScale(1));
-         ZStyle->setCurrentIndex(padopt->GetLogScale(2));
-         ZStyle->setEnabled(ndim>1);
+         LogX->setChecked(padopt->GetLogScale(0));
+         LogY->setChecked(padopt->GetLogScale(1));
+         LogZ->setChecked(padopt->GetLogScale(2));
+         LogZ->setEnabled(ndim>1);
          AutoScaleBox->setChecked(padopt->IsAutoScale());
 
          LineColor->setEnabled(dynamic_cast<TAttLine*>(obj) != nullptr);
@@ -321,17 +321,17 @@ void TGo4HisDrawOptions::SetCoordinates( int t )
    ChangeDrawOptionForCurrentPanel(2, t);
 }
 
-void TGo4HisDrawOptions::XaxisStyle( int t )
+void TGo4HisDrawOptions::XaxisStyle( bool t )
 {
    ChangeDrawOptionForCurrentPanel(3, t);
 }
 
-void TGo4HisDrawOptions::YaxisStyle( int t )
+void TGo4HisDrawOptions::YaxisStyle( bool t )
 {
     ChangeDrawOptionForCurrentPanel(4, t);
 }
 
-void TGo4HisDrawOptions::ZaxisStyle( int t )
+void TGo4HisDrawOptions::ZaxisStyle( bool t )
 {
    ChangeDrawOptionForCurrentPanel(5, t);
 }

@@ -35,45 +35,24 @@
         <widget class="QComboBox" name="Coordinates" />
       </item>
       <item row="0" column="3" >
-        <widget class="QComboBox" name="XStyle" >
-          <item>
-            <property name="text" >
-              <string>X: Lin</string>
-            </property>
-          </item>
-          <item>
-            <property name="text" >
-              <string>X: Log</string>
-            </property>
-          </item>
+        <widget class="QCheckBox" name="LogX" >
+          <property name="text" >
+            <string>LogX</string>
+          </property>
         </widget>
       </item>
       <item row="0" column="4" >
-        <widget class="QComboBox" name="YStyle" >
-          <item>
-            <property name="text" >
-              <string>Y: Lin</string>
-            </property>
-          </item>
-          <item>
-            <property name="text" >
-              <string>Y: Log</string>
-            </property>
-          </item>
+        <widget class="QCheckBox" name="LogY" >
+          <property name="text" >
+            <string>LogY</string>
+          </property>
         </widget>
-      </item>
+	</item>
       <item row="0" column="5" >
-        <widget class="QComboBox" name="ZStyle" >
-          <item>
-            <property name="text" >
-              <string>Z: Lin</string>
+        <widget class="QCheckBox" name="LogZ" >
+	   <property name="text" >
+              <string>LogZ</string>
             </property>
-          </item>
-          <item>
-            <property name="text" >
-              <string>Z: Log</string>
-            </property>
-          </item>
         </widget>
       </item>
       <item row="0" column="6" >

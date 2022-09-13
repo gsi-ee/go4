@@ -49,9 +49,9 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
     virtual void SetDrawOptions(int t);
     virtual void SetErrorBars(int t);
     virtual void SetCoordinates(int t);
-    virtual void XaxisStyle(int t);
-    virtual void YaxisStyle(int t);
-    virtual void ZaxisStyle(int t);
+    virtual void XaxisStyle(bool t);
+    virtual void YaxisStyle(bool t);
+    virtual void ZaxisStyle(bool t);
     virtual void SetAutoScale(bool on);
     virtual void SetLineColor();
     virtual void SetFillColor();
