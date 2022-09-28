@@ -55,7 +55,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
          return nullptr;
       }
 
-      const char* name() override
+      const char *name() override
       {
          return fCurrent->GetName();
       }
@@ -181,7 +181,7 @@ TObject* TGo4HStackProxy::GetAssignedObject()
    return fHS;
 }
 
-TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char* name)
+TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char *name)
 {
    if (!hs) return nullptr;
    if (!name || (*name == 0)) return new TGo4ObjectAccess(hs);

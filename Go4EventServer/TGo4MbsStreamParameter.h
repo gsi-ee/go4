@@ -20,7 +20,7 @@ class TGo4MbsStreamParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsStreamParameter();
 
-    TGo4MbsStreamParameter(const char* name);
+    TGo4MbsStreamParameter(const char *name);
 
     virtual ~TGo4MbsStreamParameter();
 

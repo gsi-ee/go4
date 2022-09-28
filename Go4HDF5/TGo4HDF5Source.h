@@ -42,7 +42,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
 
     TGo4HDF5Source(TGo4HDF5SourceParameter* par);
 
-    TGo4HDF5Source(const char* name);
+    TGo4HDF5Source(const char *name);
 
     virtual ~TGo4HDF5Source();
 

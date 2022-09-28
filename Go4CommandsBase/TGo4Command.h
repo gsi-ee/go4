@@ -37,7 +37,7 @@ class TGo4Command  : public TNamed {
 
       TGo4Command();
 
-      TGo4Command(const char* name, const char* description, Int_t id);
+      TGo4Command(const char *name, const char* description, Int_t id);
 
       virtual ~TGo4Command();
 

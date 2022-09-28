@@ -26,7 +26,7 @@ class ExampleWidget : public QWidget, public Ui::ExampleWidget
 
    public:
 
-      ExampleWidget(QWidget *parent = nullptr, const char* name = nullptr);
+      ExampleWidget(QWidget *parent = nullptr, const char *name = nullptr);
 
       virtual ~ExampleWidget();
 

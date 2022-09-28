@@ -33,7 +33,7 @@ class TGo4LocalCommandRunnable : public TGo4Runnable {
 
    public:
 
-      TGo4LocalCommandRunnable(const char* name, TGo4Task* task);
+      TGo4LocalCommandRunnable(const char *name, TGo4Task* task);
 
       virtual ~TGo4LocalCommandRunnable();
 

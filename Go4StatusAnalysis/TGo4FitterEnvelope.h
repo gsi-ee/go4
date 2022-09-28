@@ -30,7 +30,7 @@ class TGo4FitterEnvelope : public TGo4Parameter {
 
   public:
     TGo4FitterEnvelope();
-    TGo4FitterEnvelope(const char* name, TGo4Fitter *fitter = nullptr);
+    TGo4FitterEnvelope(const char *name, TGo4Fitter *fitter = nullptr);
     virtual ~TGo4FitterEnvelope();
 
     void Print(Option_t* = "") const override;

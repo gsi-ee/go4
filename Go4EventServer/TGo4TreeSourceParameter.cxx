@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 
-TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char* name)
+TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char *name)
 : TGo4EventSourceParameter(name, GO4EV_TREE)
 {
    GO4TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char*)", __LINE__, __FILE__));

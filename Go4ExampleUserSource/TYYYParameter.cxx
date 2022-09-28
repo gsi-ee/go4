@@ -29,7 +29,7 @@ TYYYParameter::TYYYParameter() :
    }
 }
 
-TYYYParameter::TYYYParameter(const char* name) :
+TYYYParameter::TYYYParameter(const char *name) :
    TGo4Parameter(name)
 {
    frP1 = 10;

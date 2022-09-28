@@ -51,7 +51,7 @@ TGo4PolyCond::TGo4PolyCond() :
    //SetBit(kCanDelete, kFALSE);
 }
 // ----------------------------------------------------------
-TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
+TGo4PolyCond::TGo4PolyCond(const char *name, const char* title) :
    TGo4Condition(name,title),
    fxCut(nullptr),
    fxCutHis(nullptr)

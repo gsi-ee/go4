@@ -17,7 +17,7 @@
 #include "TGo4FitComponent.h"
 #include "TCutG.h"
 
-QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char* name)
+QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

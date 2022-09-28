@@ -19,7 +19,7 @@ TYYYUnpackEvent::TYYYUnpackEvent() :
 {
 }
 //***********************************************************
-TYYYUnpackEvent::TYYYUnpackEvent(const char* name) :
+TYYYUnpackEvent::TYYYUnpackEvent(const char *name) :
    TGo4EventElement(name)
 {
 }

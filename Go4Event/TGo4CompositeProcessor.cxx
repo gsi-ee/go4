@@ -25,7 +25,7 @@ TGo4CompositeProcessor::TGo4CompositeProcessor():
 } // streamer dummy
 
 
-TGo4CompositeProcessor::TGo4CompositeProcessor(const char* name) :
+TGo4CompositeProcessor::TGo4CompositeProcessor(const char *name) :
    TGo4EventProcessor(name),
    fMbsInput(nullptr),
    fMbsTriggerNumber(0),

@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "TGo4MbsStreamParameter.h"
 
-TGo4MbsStream::TGo4MbsStream(const char* name) :
+TGo4MbsStream::TGo4MbsStream(const char *name) :
    TGo4MbsSource(name , GETEVT__STREAM)
 {
    GO4TRACE((15,"TGo4MbsStream::TGo4MbsStream(const char*)",__LINE__, __FILE__));

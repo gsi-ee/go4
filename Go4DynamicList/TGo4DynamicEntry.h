@@ -31,7 +31,7 @@ class TGo4DynamicEntry : public TNamed {
     /** default ctor for streamer. */
     TGo4DynamicEntry();
 
-    TGo4DynamicEntry(const char* name, const char* title = "This is a Go4 dynamic entry");
+    TGo4DynamicEntry(const char *name, const char* title = "This is a Go4 dynamic entry");
 
     virtual ~TGo4DynamicEntry();
 

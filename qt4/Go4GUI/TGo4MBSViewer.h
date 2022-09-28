@@ -35,7 +35,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
      Q_OBJECT
 
  public:
-     TGo4MBSViewer(QWidget *parent = nullptr, const char* name = nullptr);
+     TGo4MBSViewer(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~TGo4MBSViewer();
 
     TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);

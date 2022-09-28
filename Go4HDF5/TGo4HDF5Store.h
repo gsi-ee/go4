@@ -34,7 +34,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
 
     TGo4HDF5Store();
 
-    TGo4HDF5Store(const char* name, UInt_t flags);
+    TGo4HDF5Store(const char *name, UInt_t flags);
 
     TGo4HDF5Store(TGo4HDF5StoreParameter* par);
 
@@ -59,7 +59,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
   protected:
 
     /** opens the hdf5 file depending on the setup */
-    void OpenFile(const char* name = nullptr) override;
+    void OpenFile(const char *name = nullptr) override;
 
     /** opens the hdf5 file depending on the setup */
 //    virtual void CloseFile();

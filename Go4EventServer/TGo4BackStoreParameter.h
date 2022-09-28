@@ -21,7 +21,7 @@ class TGo4BackStoreParameter : public TGo4EventStoreParameter {
    public:
       TGo4BackStoreParameter();
 
-      TGo4BackStoreParameter(const char* name,
+      TGo4BackStoreParameter(const char *name,
                               Int_t splitlevel=99,
                               Int_t bufsize=32000);
 

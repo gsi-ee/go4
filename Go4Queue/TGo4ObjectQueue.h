@@ -27,7 +27,7 @@ class TGo4ObjectQueue : public TGo4Queue {
 
       TGo4ObjectQueue();
 
-      TGo4ObjectQueue(const char* name);
+      TGo4ObjectQueue(const char *name);
 
       virtual ~TGo4ObjectQueue();
 

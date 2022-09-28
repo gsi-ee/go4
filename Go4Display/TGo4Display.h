@@ -33,7 +33,7 @@ class TGo4Display : public TGo4Master {
     void SetAnalysis(TGo4AnalysisProxy* an) { fxAnalysis = an; }
 
  /** Add functionality to reset gui appearance here:*/
-    Bool_t DisconnectSlave(const char* name = nullptr,
+    Bool_t DisconnectSlave(const char *name = nullptr,
                            Bool_t waitforslave = kTRUE) override;
 
   private:

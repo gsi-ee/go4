@@ -34,7 +34,7 @@
 #include "TGo4AnalysisProxy.h"
 
 
-TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
+TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char *name) :
    QGo4Widget(parent, name)
 {
    setupUi(this);

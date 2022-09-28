@@ -19,7 +19,7 @@
 class TGo4CounterCond : public TGo4Condition {
   public:
     TGo4CounterCond();
-    TGo4CounterCond(const char* name, const char* title = "TGo4CounterCond");
+    TGo4CounterCond(const char *name, const char* title = "TGo4CounterCond");
     virtual ~TGo4CounterCond();
 
     /** Noop */

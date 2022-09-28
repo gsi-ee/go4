@@ -166,7 +166,7 @@ class TGo4FitParsList: public TGo4FitNamed {
       /**
        * Set new name for parameter object with provided index.
        */
-      void SetParName(Int_t n, const char* name);
+      void SetParName(Int_t n, const char *name);
 
       /**
        * Return name of parameter with given index.
@@ -233,7 +233,7 @@ class TGo4FitParsList: public TGo4FitNamed {
        * If parameter owned by list, parameter will be destroyed.
        * Return kTRUE if successful.
        */
-      Bool_t RemovePar(const char* name);
+      Bool_t RemovePar(const char *name);
 
       /**
        * Remove parameter from list.

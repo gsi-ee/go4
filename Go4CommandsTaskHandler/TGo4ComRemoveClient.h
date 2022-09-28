@@ -27,7 +27,7 @@ class TGo4ComRemoveClient : public TGo4TaskHandlerCommand {
     TGo4ComRemoveClient();
 
     /** Specify the name of the client to be removed */
-    void SetClient(const char* name);
+    void SetClient(const char *name);
 
     void SetWaitForClient(Bool_t wait=kTRUE);
 

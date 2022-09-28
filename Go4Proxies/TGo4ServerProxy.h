@@ -44,9 +44,9 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual const char* GetUserName() const { return ""; }
       const char* GetContainedObjectInfo() override;
 
-      virtual TString FindCommand(const char* name) { return ""; }
-      virtual Int_t  NumCommandArgs(const char* name) { return -1; }
-      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) { return kFALSE; }
+      virtual TString FindCommand(const char *name) { return ""; }
+      virtual Int_t  NumCommandArgs(const char *name) { return -1; }
+      virtual Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) { return kFALSE; }
 
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
       virtual Bool_t IsAnalysisServer() const { return kFALSE; }
@@ -129,7 +129,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                     Int_t serverkind, // 0 - client, 1 - go4 socket, 2 - http
                                     Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                     Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
-                                    const char* name,
+                                    const char *name,
                                     const char* remotehost,
                                     const char* remotedir,
                                     const char* remoteexe,

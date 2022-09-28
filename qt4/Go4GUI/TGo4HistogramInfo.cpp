@@ -21,7 +21,7 @@
 #include "TGo4Log.h"
 #include "TGo4HistogramStatus.h"
 
-TGo4HistogramInfo::TGo4HistogramInfo(QWidget *parent, const char* name)
+TGo4HistogramInfo::TGo4HistogramInfo(QWidget *parent, const char *name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);

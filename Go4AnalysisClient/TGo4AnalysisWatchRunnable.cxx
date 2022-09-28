@@ -22,7 +22,7 @@
 const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=1000;
 //const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=50;
 
-TGo4AnalysisWatchRunnable::TGo4AnalysisWatchRunnable(const char* name, TGo4AnalysisClient* cli) :
+TGo4AnalysisWatchRunnable::TGo4AnalysisWatchRunnable(const char *name, TGo4AnalysisClient* cli) :
    TGo4Runnable(name,cli->GetTask()), fxAnalysisClient(cli)
 {
    fxAnalysis = cli->GetAnalysis();

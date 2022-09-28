@@ -64,7 +64,7 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
 }
 
 
-TGo4Sniffer::TGo4Sniffer(const char* name) :
+TGo4Sniffer::TGo4Sniffer(const char *name) :
       TRootSnifferFull(name),
    TGo4AnalysisSniffer(),
    fAnalysisStatus(0),

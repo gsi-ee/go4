@@ -46,7 +46,7 @@ TGo4FileStore::TGo4FileStore() :
 
 }
 
-TGo4FileStore::TGo4FileStore(const char* name,
+TGo4FileStore::TGo4FileStore(const char *name,
                              Int_t splitlevel,
                              Int_t compression,
                              Bool_t overwrite,

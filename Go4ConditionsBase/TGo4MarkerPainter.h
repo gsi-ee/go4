@@ -21,7 +21,7 @@ class TGo4Marker;
 class TGo4MarkerPainter : public TGo4LabelPainter {
 public:
    TGo4MarkerPainter();
-   TGo4MarkerPainter(const char* name, const char* title="Go4 MarkerPainter");
+   TGo4MarkerPainter(const char *name, const char* title="Go4 MarkerPainter");
    virtual ~TGo4MarkerPainter();
 
    /** Display coordinate label for this marker. */

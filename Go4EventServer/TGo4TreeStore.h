@@ -39,7 +39,7 @@ class TGo4TreeStoreParameter;
 class TGo4TreeStore : public TGo4EventStore {
   public:
 
-    TGo4TreeStore(const char* name,
+    TGo4TreeStore(const char *name,
                   TGo4EventElement* event,
                   Int_t splitlevel = 1,
                   Int_t bufsize = 64000,

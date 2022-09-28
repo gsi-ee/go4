@@ -30,7 +30,7 @@ class TGo4ComDisconnectSlave : public TGo4TaskHandlerCommand {
     TGo4ComDisconnectSlave();
 
     /** Specify the name of the client to be removed */
-    void SetSlave(const char* name) { fxSlaveName = name; }
+    void SetSlave(const char *name) { fxSlaveName = name; }
 
     void SetWaitForSlave(Bool_t wait = kTRUE) { fbWaitForSlave = wait; }
 

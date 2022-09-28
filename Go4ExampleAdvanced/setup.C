@@ -2,7 +2,7 @@
 // Go4 2 step analysis
 //---------------------------------------------
 
-void setup(const char* kind, const char* name)
+void setup(const char* kind, const char *name)
 {
 // kind: -file|-trans|-stream|-rand
 // name is either:

@@ -57,7 +57,7 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       TGo4AnalysisObjectManager();
 
-      TGo4AnalysisObjectManager(const char* name);
+      TGo4AnalysisObjectManager(const char *name);
 
       virtual ~TGo4AnalysisObjectManager();
 
@@ -125,7 +125,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Flag istopbranch is used to indicate top level call for composite event.
        */
       TFolder *CreateBranchFolder(TObjArray* branchlist,
-                                  const char* name,
+                                  const char *name,
                                   const char* title,
                                   Bool_t istopbranch = kFALSE);
 
@@ -139,7 +139,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder * CreateCompositeBranchFolder(TObjArray* branchlist,
             TGo4CompositeEvent* compevent,
             Int_t startindex, Int_t* skip,
-            const char* name, const char* title);
+            const char *name, const char* title);
 
       /**
        * Create a tree structure
@@ -380,12 +380,12 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameterStatus(const char* name, TGo4ParameterStatus* par, TFolder* parent = nullptr);
+      Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus* par, TFolder* parent = nullptr);
 
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
         * Returns 0 if no such parameter found (or class not match). */
-      TGo4Parameter * GetParameter(const char* name, const char* parameter_class = nullptr);
+      TGo4Parameter * GetParameter(const char *name, const char* parameter_class = nullptr);
 
       /**
        * Removes parameter by name. Returns 0 if no
@@ -407,7 +407,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, picture is searched relative to Pictures folder.
        */
-      Bool_t SetPicture(const char* name, TGo4Picture * pic, TFolder* parent = nullptr);
+      Bool_t SetPicture(const char *name, TGo4Picture * pic, TFolder* parent = nullptr);
 
       /**
        * Retrieves a picture object by name from the object folder. Returns 0 if no
@@ -560,7 +560,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * checked against given values. Condition is tested regarding the
        * events cevx, cevy with members cmemx, cmemy
        */
-      Bool_t AddDynamicHistogram(const char* name,
+      Bool_t AddDynamicHistogram(const char *name,
             const char* histo,
             const char* hevx, const char* hmemx,
             const char* hevy = nullptr, const char* hmemy = nullptr,
@@ -607,7 +607,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If no such folder exists, object of name is searched and cleared.
        * Returns kFALSE in case of not found objects.
        */
-      Bool_t ClearObjects(const char* name);
+      Bool_t ClearObjects(const char *name);
 
 
       /**
@@ -618,7 +618,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectObjects(const char* name, const Option_t* flags);
+      Bool_t ProtectObjects(const char *name, const Option_t* flags);
 
       /**
        * Remove entry of that name from dynamic list of listname.

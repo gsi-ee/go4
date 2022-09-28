@@ -27,7 +27,7 @@ protected:
    QMovie* fxRunMovie{nullptr};
 
 public:
-   TGo4AnalysisStatusMonitor(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4AnalysisStatusMonitor(QWidget *parent = nullptr, const char *name = nullptr);
 
    virtual ~TGo4AnalysisStatusMonitor();
 

@@ -38,7 +38,7 @@ class TGo4EventSourceParameter;
 class TGo4EventFactory : public TNamed {
    public:
 
-      TGo4EventFactory(const char* name);
+      TGo4EventFactory(const char *name);
 
       TGo4EventFactory();
 

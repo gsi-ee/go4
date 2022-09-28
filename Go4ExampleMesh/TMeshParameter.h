@@ -21,7 +21,7 @@
 class TMeshParameter : public TGo4Parameter {
    public:
       TMeshParameter();
-      TMeshParameter(const char* name);
+      TMeshParameter(const char *name);
       virtual ~TMeshParameter();
       void Print(Option_t* = "") const override;
       Bool_t UpdateFrom(TGo4Parameter *) override;

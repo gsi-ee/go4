@@ -23,7 +23,7 @@ class TGo4BrowserOptions : public QGo4Widget, public Ui::TGo4BrowserOptions
 
 public:
 
-   TGo4BrowserOptions(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4BrowserOptions(QWidget *parent = nullptr, const char *name = nullptr);
 
    virtual void StartWorking();
 

@@ -26,7 +26,7 @@ class TGo4UserStoreParameter : public TGo4EventStoreParameter {
   public:
     TGo4UserStoreParameter();
 
-    TGo4UserStoreParameter(const char* name);
+    TGo4UserStoreParameter(const char *name);
 
     virtual ~TGo4UserStoreParameter();
 
@@ -38,7 +38,7 @@ class TGo4UserStoreParameter : public TGo4EventStoreParameter {
 
     /** User expression as string */
     const char* GetExpression() const { return fxExpression.Data(); }
-    void SetExpression(const char* name) { fxExpression=name; }
+    void SetExpression(const char *name) { fxExpression=name; }
 
   private:
 

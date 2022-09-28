@@ -32,7 +32,7 @@ TGo4ShapedCond::TGo4ShapedCond() :
 {
 }
 // ----------------------------------------------------------
-TGo4ShapedCond::TGo4ShapedCond(const char* name, const char* title) :
+TGo4ShapedCond::TGo4ShapedCond(const char *name, const char* title) :
     TGo4PolyCond(name,title), fiResolution(GO4ELLIPSECOND_DEFAULTRESOLUTION),fdCenterX(0),fdCenterY(0), fdRadius1(0),fdRadius2(0), fdTheta(0),fiShapeType(Go4Cond_Shape_None)
 {
 }

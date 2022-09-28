@@ -25,7 +25,7 @@ TGo4ParameterMember::TGo4ParameterMember() :
 {
 }
 
-TGo4ParameterMember::TGo4ParameterMember(const char* name, const char* title) :
+TGo4ParameterMember::TGo4ParameterMember(const char *name, const char* title) :
    TNamed(name, title)
 {
 }

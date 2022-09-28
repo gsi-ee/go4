@@ -21,7 +21,7 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
    public:
       TGo4FileStoreParameter();
 
-      TGo4FileStoreParameter(const char* name,
+      TGo4FileStoreParameter(const char *name,
                              Int_t splitlevel=99,
                              Int_t bufsize=32000,
                              Int_t compression=5,

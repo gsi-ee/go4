@@ -42,7 +42,7 @@ class TGo4Iter : public TGo4AccessWrapper {
       Bool_t isslot() const { return getslot() != nullptr; }
       TGo4Slot* getslot() const;
 
-      TGo4Access* ProvideAccess(const char* name = nullptr) override;
+      TGo4Access* ProvideAccess(const char *name = nullptr) override;
 
    protected:
       TGo4Iter();

@@ -22,7 +22,7 @@ TXXXEvent::TXXXEvent() :
    TGo4Log::Info("TXXXEvent: Create instance");
 }
 //***********************************************************
-TXXXEvent::TXXXEvent(const char* name) :
+TXXXEvent::TXXXEvent(const char *name) :
    TGo4EventElement(name)
 {
    TGo4Log::Info("TXXXEvent: Create instance %s", name);

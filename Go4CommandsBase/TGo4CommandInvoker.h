@@ -40,7 +40,7 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       static TGo4CommandInvoker * Instance();
 
-      static void Register(const char* name, TGo4CommandReceiver *p);
+      static void Register(const char *name, TGo4CommandReceiver *p);
 
       static void UnRegister(TGo4CommandReceiver* p);
 
@@ -62,7 +62,7 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       TGo4CommandInvoker();
 
-      static TGo4CommandReceiver * Lookup(const char* name);
+      static TGo4CommandReceiver * Lookup(const char *name);
 
    private:
 

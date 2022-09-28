@@ -46,7 +46,7 @@ const Double_t TGo4AnalysisClient::fgdSTATUSTIMEOUT = 2; // maximum seconds betw
 const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer for cint lock
 
 
-TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
+TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
                                        TGo4Analysis* analysis,
                                        const char* host,
                                        UInt_t negport,

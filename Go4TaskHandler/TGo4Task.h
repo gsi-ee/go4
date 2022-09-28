@@ -39,7 +39,7 @@ public:
     friend class TGo4Slave; // access to UpdateStatus
     friend class TGo4TaskOwner; // set workisstopped flag
 
-    TGo4Task(const char* name, Bool_t blockingmode,
+    TGo4Task(const char *name, Bool_t blockingmode,
                                Bool_t autostart = kFALSE,
                                Bool_t autocreate = kTRUE,
                                Bool_t ismaster = kFALSE);
@@ -190,7 +190,7 @@ public:
     /**
      * send command specified by name to the current client task
      */
-    Bool_t SubmitCommand(const char* name);
+    Bool_t SubmitCommand(const char *name);
 
     /**
      * send emergency quit command to the current client task
@@ -216,7 +216,7 @@ public:
      * Method using internal command prototype list to produce a clone
      * of the specified command
      */
-    TGo4Command* MakeCommand(const char* name);
+    TGo4Command* MakeCommand(const char *name);
 
     /**
      * Put dummy object into command queue

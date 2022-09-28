@@ -28,7 +28,7 @@ class TGo4EventServerFactory : public TGo4EventFactory {
 
       TGo4EventServerFactory();
 
-      TGo4EventServerFactory(const char* name);
+      TGo4EventServerFactory(const char *name);
 
       virtual ~TGo4EventServerFactory();
 

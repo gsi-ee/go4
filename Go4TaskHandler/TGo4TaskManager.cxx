@@ -30,7 +30,7 @@ const Int_t TGo4TaskManager::fgiDISCONCYCLES=360; // wait cycles 180
 
 const UInt_t TGo4TaskManager::fguDISCONTIME=500; // time in ms 1000
 
-TGo4TaskManager::TGo4TaskManager(const char* name,
+TGo4TaskManager::TGo4TaskManager(const char *name,
                                  TGo4ServerTask * server,
                                  UInt_t negotiationport,
                                  Bool_t createconnector)
@@ -298,7 +298,7 @@ Int_t TGo4TaskManager::ConnectClient(const char* client, const char* host, Go4Co
 }
 
 
-Int_t TGo4TaskManager::DisConnectClient(const char* name, Bool_t clientwait)
+Int_t TGo4TaskManager::DisConnectClient(const char *name, Bool_t clientwait)
 {
    TGo4Log::Info("TaskManager is disconnecting client %s %s ...", name, clientwait ? "with waiting" : "with no wait!" );
    //TGo4LockGuard listguard(fxListMutex);
@@ -399,7 +399,7 @@ Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler* han)
 }
 
 
-TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char* name)
+TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char *name)
 {
    TGo4TaskHandler* han=new TGo4TaskHandler(name,fxServer,kFALSE, fxServer->IsMaster());
    // success, taskhandler was not already existing
@@ -410,7 +410,7 @@ TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char* name)
    return nullptr;
 }
 
-Bool_t TGo4TaskManager::RemoveTaskHandler(const char* name)
+Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
 {
    Bool_t rev=kTRUE;
    TGo4TaskHandler* taskhandler = nullptr;
@@ -439,7 +439,7 @@ Bool_t TGo4TaskManager::RemoveTaskHandler(const char* name)
    return rev;
 }
 
-TGo4TaskHandler* TGo4TaskManager::GetTaskHandler(const char* name)
+TGo4TaskHandler* TGo4TaskManager::GetTaskHandler(const char *name)
 {
    TGo4TaskHandler* th = nullptr;
    {

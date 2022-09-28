@@ -15,7 +15,7 @@
 
 #include "TGo4FitMinuit.h"
 
-QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
+QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

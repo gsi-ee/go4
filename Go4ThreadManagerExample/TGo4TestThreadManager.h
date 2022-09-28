@@ -35,7 +35,7 @@ class TGo4TestThreadManager : public TGo4ThreadManager
 {
 
   public:
-      TGo4TestThreadManager (const char* name);
+      TGo4TestThreadManager (const char *name);
 
       virtual ~TGo4TestThreadManager();
 

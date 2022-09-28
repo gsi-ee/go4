@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "TGo4RevServParameter.h"
 
-TGo4RevServ::TGo4RevServ(const char* name) :
+TGo4RevServ::TGo4RevServ(const char *name) :
    TGo4MbsSource(name, GETEVT__REVSERV)
 {
    GO4TRACE((15,"TGo4RevServ::TGo4RevServ(const char*)",__LINE__, __FILE__));

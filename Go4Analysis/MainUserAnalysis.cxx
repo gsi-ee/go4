@@ -220,7 +220,7 @@ void usage(const char* subtopic = nullptr)
 
 class TGo4PrintProcessor : public TGo4EventProcessor {
    public:
-      TGo4PrintProcessor(const char* name) : TGo4EventProcessor(name) {}
+      TGo4PrintProcessor(const char *name) : TGo4EventProcessor(name) {}
 
       static Int_t  fSubId;
       static Bool_t fHex;
@@ -250,7 +250,7 @@ Bool_t TGo4PrintProcessor::fBufHead = kFALSE;
 
 class TGo4PrintFactory : public TGo4StepFactory {
    public:
-      TGo4PrintFactory(const char* name) : TGo4StepFactory(name) {}
+      TGo4PrintFactory(const char *name) : TGo4StepFactory(name) {}
       TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter* par)
       {
          return new TGo4PrintProcessor("PrintProc");
@@ -258,7 +258,7 @@ class TGo4PrintFactory : public TGo4StepFactory {
 };
 
 
-typedef TGo4Analysis* (UserCreateFunc)(const char* name);
+typedef TGo4Analysis* (UserCreateFunc)(const char *name);
 
 int FindArg(int argc, char **argv, const char* argname)
 {
@@ -309,7 +309,7 @@ TList* GetClassesList(TList* prev = nullptr)
    return lst;
 }
 
-TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv, bool doprint)
+TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
 

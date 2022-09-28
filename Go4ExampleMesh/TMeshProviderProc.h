@@ -20,7 +20,7 @@ class TMeshProviderProc : public TGo4EventProcessor {
 
    public:
       TMeshProviderProc();
-      TMeshProviderProc(const char* name);
+      TMeshProviderProc(const char *name);
       virtual ~TMeshProviderProc();
 
       /** This method will check if input event is correct and

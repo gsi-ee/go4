@@ -190,7 +190,7 @@ private:
       void ConnectPad(TPad* pad);
 
       void CallServiceFunc(int id, const char* str = nullptr, void *par = nullptr);
-      void ServiceCall(const char* name, void* par = nullptr);
+      void ServiceCall(const char *name, void* par = nullptr);
 
       virtual void requestedObjectCreated(const char *itemname, TClass* cl);
       virtual void linkedObjectUpdated(const char* linkname, TObject* obj);

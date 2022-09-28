@@ -750,7 +750,7 @@ TString TGo4Script::GetViewPanelName(ViewPanelHandle handle)
    return TString(panel->objectName().toLatin1().constData());
 }
 
-ViewPanelHandle TGo4Script::FindViewPanel(const char* name)
+ViewPanelHandle TGo4Script::FindViewPanel(const char *name)
 {
    return (ViewPanelHandle) fMainWin->FindViewPanel(name);
 }

@@ -16,7 +16,7 @@
 static UInt_t    Config_Crates[XXX_NUM_CRATES] = NR_MODULES;
 
 //***********************************************************
-TXXXCrate::TXXXCrate(const char* name,Short_t id) :
+TXXXCrate::TXXXCrate(const char *name,Short_t id) :
    TGo4CompositeEvent(name,name,id)
 {
    if (id < 0 || id > XXX_NUM_CRATES) {
@@ -32,7 +32,7 @@ TXXXCrate::TXXXCrate(const char* name,Short_t id) :
 }
 
 //***********************************************************
-TXXXUnpackEvent::TXXXUnpackEvent(const char* name) :
+TXXXUnpackEvent::TXXXUnpackEvent(const char *name) :
    TGo4CompositeEvent(name,name,0)
 {
 	TString modname;

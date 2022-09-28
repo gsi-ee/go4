@@ -46,7 +46,7 @@ class TGo4AnalysisObjectResult : public TGo4Status {
 
       TGo4AnalysisObjectResult();
 
-      TGo4AnalysisObjectResult(const char* name);
+      TGo4AnalysisObjectResult(const char *name);
 
       virtual ~TGo4AnalysisObjectResult();
 

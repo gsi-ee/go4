@@ -35,7 +35,7 @@ class TGo4HStackProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override
         { return !fHS ? nullptr : ProduceIter(fHS); }
 
-      TGo4Access* ProvideAccess(const char* name) override
+      TGo4Access* ProvideAccess(const char *name) override
         { return CreateAccess(fHS, name); }
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
@@ -45,7 +45,7 @@ class TGo4HStackProxy : public TGo4Proxy {
       Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner) override;
       TObject *GetAssignedObject() override;
 
-      static TGo4Access* CreateAccess(THStack* canv, const char* name);
+      static TGo4Access* CreateAccess(THStack* canv, const char *name);
       static TGo4LevelIter* ProduceIter(THStack* canv);
 
    protected:

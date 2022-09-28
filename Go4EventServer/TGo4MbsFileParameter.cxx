@@ -27,7 +27,7 @@ TGo4MbsFileParameter::TGo4MbsFileParameter() :
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);
 }
 
-TGo4MbsFileParameter::TGo4MbsFileParameter(const char* name) :
+TGo4MbsFileParameter::TGo4MbsFileParameter(const char *name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_FILE)
 {
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);

@@ -27,7 +27,7 @@ class TGo4ExampleServer;
 
 class TGo4LoggingRunnable : public TGo4Runnable {
   public:
-    TGo4LoggingRunnable(const char* name, TGo4ExampleServer* serv);
+    TGo4LoggingRunnable(const char *name, TGo4ExampleServer* serv);
 
     virtual ~TGo4LoggingRunnable();
 

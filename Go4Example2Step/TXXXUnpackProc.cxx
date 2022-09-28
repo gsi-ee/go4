@@ -43,7 +43,7 @@ TXXXUnpackProc::TXXXUnpackProc() :
 }
 
 //-----------------------------------------------------------
-TXXXUnpackProc::TXXXUnpackProc(const char* name) :
+TXXXUnpackProc::TXXXUnpackProc(const char *name) :
    TGo4EventProcessor(name)
 {
    for (int n = 0; n < XXX_NUM_CHAN; n++) {

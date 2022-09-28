@@ -37,7 +37,7 @@ TGo4ObjClient::TGo4ObjClient() :
 {
 }
 
-TGo4ObjClient::TGo4ObjClient(const char* name,
+TGo4ObjClient::TGo4ObjClient(const char *name,
                                  const char* base,
                                  const char* passwd,
                                  const char* host,

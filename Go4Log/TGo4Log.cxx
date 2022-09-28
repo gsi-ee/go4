@@ -381,7 +381,7 @@ Bool_t TGo4Log::IsAutoEnabled()
    return fgbAutoMode;
 }
 
-void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t appendmode)
+void TGo4Log::OpenLogfile(const char *name, const char* headercomment, Bool_t appendmode)
 {
    //TGo4LockGuard(fxMutex);
    try

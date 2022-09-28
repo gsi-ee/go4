@@ -20,7 +20,7 @@
 class TXXXAnlEvent : public TGo4EventElement {
    public:
       TXXXAnlEvent() : TGo4EventElement() {}
-      TXXXAnlEvent(const char* name) : TGo4EventElement(name) {}
+      TXXXAnlEvent(const char *name) : TGo4EventElement(name) {}
       virtual ~TXXXAnlEvent() {}
 
       void Clear(Option_t *t="") override;

@@ -29,7 +29,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
    Q_OBJECT
 
    public:
-       TGo4AnalysisWindow(QWidget* parent = nullptr, const char* name = nullptr, bool needoutput = false, bool needkillbtn = true);
+       TGo4AnalysisWindow(QWidget* parent = nullptr, const char *name = nullptr, bool needoutput = false, bool needkillbtn = true);
        virtual ~TGo4AnalysisWindow();
 
        void SetHistorySize(int sz);

@@ -28,7 +28,7 @@ class TGo4MbsTransportParameter;
 class TGo4MbsTransport : public TGo4MbsSource {
   public:
 
-    TGo4MbsTransport(const char* name);
+    TGo4MbsTransport(const char *name);
 
     TGo4MbsTransport();
 

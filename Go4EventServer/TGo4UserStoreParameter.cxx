@@ -16,7 +16,7 @@
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
 
-TGo4UserStoreParameter::TGo4UserStoreParameter(const char* name)
+TGo4UserStoreParameter::TGo4UserStoreParameter(const char *name)
 : TGo4EventStoreParameter(name, GO4EV_USER)
 {
    SetTitle(name);

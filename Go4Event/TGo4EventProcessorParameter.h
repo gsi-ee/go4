@@ -27,7 +27,7 @@ class TGo4EventProcessorParameter : public TGo4Parameter {
    public:
       TGo4EventProcessorParameter();
 
-      TGo4EventProcessorParameter(const char* name, Int_t id = 0);
+      TGo4EventProcessorParameter(const char *name, Int_t id = 0);
 
       virtual ~TGo4EventProcessorParameter();
 

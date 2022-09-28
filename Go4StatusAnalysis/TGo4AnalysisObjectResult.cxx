@@ -23,7 +23,7 @@ TGo4AnalysisObjectResult::TGo4AnalysisObjectResult() :
 {
 }
 
-TGo4AnalysisObjectResult::TGo4AnalysisObjectResult(const char* name) :
+TGo4AnalysisObjectResult::TGo4AnalysisObjectResult(const char *name) :
    TGo4Status(name)
 {
 }

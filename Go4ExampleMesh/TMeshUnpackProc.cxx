@@ -27,7 +27,7 @@ TMeshUnpackProc::TMeshUnpackProc() :
 }
 //***********************************************************
 // this one is used in TXXXUnpackFact.cxx
-TMeshUnpackProc::TMeshUnpackProc(const char* name) :
+TMeshUnpackProc::TMeshUnpackProc(const char *name) :
    TGo4EventProcessor(name)
 {
    TGo4Log::Info("TMeshUnpackProc: Create %s", name);

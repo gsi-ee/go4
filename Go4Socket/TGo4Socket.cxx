@@ -369,9 +369,9 @@ Int_t TGo4Socket::Send(TObject *obj)
    return rev;
 }
 
-Int_t TGo4Socket::Send(const char* name)
+Int_t TGo4Socket::Send(const char *name)
 {
-   GO4TRACE((12,"TGo4Socket::Send(const char* name)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Socket::Send(const char *name)", __LINE__, __FILE__));
 
    Int_t rev = 0;
    if(IsOpen())
@@ -404,10 +404,10 @@ Int_t TGo4Socket::Send(const char* name)
    return rev;
 }
 
-char* TGo4Socket::RecvRaw(const char* name)
+char* TGo4Socket::RecvRaw(const char *name)
 {
-// note: optional parameter const char* name is left for compatibility, has no effect!
-   GO4TRACE((12,"TGo4Socket::RecvRaw(const char* name)", __LINE__, __FILE__));
+// note: optional parameter const char *name is left for compatibility, has no effect!
+   GO4TRACE((12,"TGo4Socket::RecvRaw(const char *name)", __LINE__, __FILE__));
 
    if(!IsOpen()) {
       TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : not open or not active !!! ");
@@ -435,10 +435,10 @@ char* TGo4Socket::RecvRaw(const char* name)
 
 
 
-TObject* TGo4Socket::Recv(const char* name)
+TObject* TGo4Socket::Recv(const char *name)
 {
-   // note: optional parameter const char* name is left for compatibility, has no effect!
-   GO4TRACE((12,"TGo4Socket::Recv(const char* name)", __LINE__, __FILE__));
+   // note: optional parameter const char *name is left for compatibility, has no effect!
+   GO4TRACE((12,"TGo4Socket::Recv(const char *name)", __LINE__, __FILE__));
 
    TObject* obj = nullptr;
    if(IsOpen())

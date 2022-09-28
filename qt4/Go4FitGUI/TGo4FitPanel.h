@@ -142,7 +142,7 @@ public:
     virtual void UpdateWizardPage();
     virtual void UpdateExtendedPage();
     virtual void RemovePrimitives();
-    virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name);
+    virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char *name);
     virtual void CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter);
     virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
     virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
@@ -184,7 +184,7 @@ public:
     virtual TPad* FindPadWhereData(TGo4FitData* data);
     virtual TPad* FindPadWhereModel(TGo4FitModel* model);
     virtual TPad* FindPadWhereComp(TGo4FitComponent* comp);
-    virtual TGo4FitData* CreateData(int id, const char* name);
+    virtual TGo4FitData* CreateData(int id, const char *name);
     virtual TGo4FitModel* CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
     virtual int DefineModelWidgetType(TObject* obj);

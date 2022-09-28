@@ -32,7 +32,7 @@ TGo4ThreadHandler::TGo4ThreadHandler(const TGo4ThreadHandler &right)
    fxIterator=fxArray->MakeIterator();
 }
 
-TGo4ThreadHandler::TGo4ThreadHandler (const char* name, TGo4ThreadManager* parent)
+TGo4ThreadHandler::TGo4ThreadHandler (const char *name, TGo4ThreadManager* parent)
    :TNamed(name,"This is a TGo4ThreadHandler"),fbIsOperating(kFALSE)
 {
    GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler(const char*, TGo4ThreadManager*) constructor",__LINE__, __FILE__));
@@ -100,7 +100,7 @@ Bool_t TGo4ThreadHandler::AddThread (TGo4Thread* gthr)
    return rev;
 }
 
-Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
+Bool_t TGo4ThreadHandler::RemoveThread (const char *name)
 {
    GO4TRACE((14,"TGo4ThreadHandler::RemoveThread(const char*)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
@@ -136,7 +136,7 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
    return rev;
 }
 
-Bool_t TGo4ThreadHandler::NewThread(const char* name, TGo4Runnable* runnable)
+Bool_t TGo4ThreadHandler::NewThread(const char *name, TGo4Runnable* runnable)
 {
    GO4TRACE((14,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*)",__LINE__, __FILE__));
    TGo4Runnable* nrun = nullptr;
@@ -472,7 +472,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
    return retval;
 }
 
-TGo4Thread* TGo4ThreadHandler::GetThread (const char* name)
+TGo4Thread* TGo4ThreadHandler::GetThread (const char *name)
 {
    GO4TRACE((12,"TGo4ThreadHandler::GetThread(const char*)",__LINE__, __FILE__));
    TGo4Thread* thread = nullptr;

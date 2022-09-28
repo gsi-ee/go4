@@ -133,7 +133,7 @@ TGo4Picture::TGo4Picture() : TNamed()
 {
 }
 
-TGo4Picture::TGo4Picture(const char* name, const char* title, Int_t ndivy, Int_t ndivx) :
+TGo4Picture::TGo4Picture(const char *name, const char* title, Int_t ndivy, Int_t ndivx) :
    TNamed(name, title)
 {
    SetDivision(ndivy, ndivx);
@@ -276,7 +276,7 @@ void TGo4Picture::AddCondition(Int_t posy, Int_t posx, TNamed* cond)
    AddObject(posy, posx, cond);
 }
 
-void TGo4Picture::AddObjName(const char* name, Option_t* DrawOption)
+void TGo4Picture::AddObjName(const char *name, Option_t* DrawOption)
 {
    if (!name) return;
    if (!fxNames) {
@@ -291,7 +291,7 @@ void TGo4Picture::AddObjName(const char* name, Option_t* DrawOption)
    fiLastIndex = fxNames->GetLast();
 }
 
-void TGo4Picture::AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption)
+void TGo4Picture::AddObjName(Int_t posy, Int_t posx, const char *name, Option_t* DrawOption)
 {
    if (name)
      Pic(posy,posx)->AddObjName(name, DrawOption);
@@ -1809,7 +1809,7 @@ void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t*)
    MakeScript(fs, name.Data());
 }
 
-void TGo4Picture::MakeAxisScript(std::ostream& fs, const char* name, Int_t index, Int_t naxis)
+void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index, Int_t naxis)
 {
    if ((naxis<0) || (naxis>2)) return;
    const char* axisname = "X";
@@ -1874,7 +1874,7 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char* name, Int_t index
 
 }
 
-void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
+void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 {
    for(Int_t naxis=0;naxis<3;naxis++)
      if (GetLogScale(naxis) > 0)

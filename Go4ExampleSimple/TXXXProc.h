@@ -21,7 +21,7 @@ class TXXXParam;
 class TXXXProc : public TGo4EventProcessor {
    public:
       TXXXProc();
-      TXXXProc(const char* name);
+      TXXXProc(const char *name);
       virtual ~TXXXProc();
 
       Bool_t BuildEvent(TGo4EventElement*) override; // event processing function

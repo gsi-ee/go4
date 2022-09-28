@@ -38,7 +38,7 @@ public:
    CONTIME
 };
 
-   TGo4ConditionInfo(QWidget *parent = nullptr, const char* name = nullptr);
+   TGo4ConditionInfo(QWidget *parent = nullptr, const char *name = nullptr);
 
 public:
 

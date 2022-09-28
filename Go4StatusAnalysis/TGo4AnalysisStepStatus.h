@@ -31,7 +31,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
   public:
     TGo4AnalysisStepStatus();
 
-    TGo4AnalysisStepStatus(const char* name);
+    TGo4AnalysisStepStatus(const char *name);
 
     virtual ~TGo4AnalysisStepStatus();
 

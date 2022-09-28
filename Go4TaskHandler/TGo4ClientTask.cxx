@@ -20,7 +20,7 @@
 #include "TGo4ThreadHandler.h"
 #include "TGo4TaskHandler.h"
 
-TGo4ClientTask::TGo4ClientTask(const char* name,
+TGo4ClientTask::TGo4ClientTask(const char *name,
                                const char* serverhost,
                                UInt_t negotiationport,
                                Bool_t blockingmode,

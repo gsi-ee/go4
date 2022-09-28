@@ -29,7 +29,7 @@ TGo4EventSource::TGo4EventSource() :
 {
 }
 
-TGo4EventSource::TGo4EventSource(const char* name) :
+TGo4EventSource::TGo4EventSource(const char *name) :
    TNamed(name, "This is a Go4 Event Source")
 {
    GO4TRACE((15,"TGo4EventSource::TGo4EventSource()",__LINE__, __FILE__));

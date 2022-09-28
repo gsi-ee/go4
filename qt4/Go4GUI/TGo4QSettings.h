@@ -203,8 +203,8 @@ class TGo4QSettings {
       void    storePanelSize(QWidget* w, const QString& kind = "ViewPanel");
       QSize   lastPanelSize(const QString& kind = "ViewPanel", int dfltwidth = 450, int dfltheight = 250);
 
-      void    setBrowserColumn(const char* name, int width);
-      int     getBrowserColumn(const char* name, int defwidth);
+      void    setBrowserColumn(const char *name, int width);
+      int     getBrowserColumn(const char *name, int defwidth);
 
       void    setHistName(const QString& value);
       QString getHistName();

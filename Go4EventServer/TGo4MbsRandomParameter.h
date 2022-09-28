@@ -22,7 +22,7 @@ class TGo4MbsRandomParameter : public TGo4MbsSourceParameter {
 
     TGo4MbsRandomParameter();
 
-    TGo4MbsRandomParameter(const char* name);
+    TGo4MbsRandomParameter(const char *name);
 
     virtual ~TGo4MbsRandomParameter();
 

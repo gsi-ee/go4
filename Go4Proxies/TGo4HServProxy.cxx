@@ -38,7 +38,7 @@ class TGo4HServIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override { return new TGo4HServIter(curSlot()); }
 
-      const char* name() override { return curSlot()->GetName();  }
+      const char *name() override { return curSlot()->GetName();  }
 
       const char* info() override { return curSlot()->GetTitle(); }
 
@@ -64,7 +64,7 @@ class TGo4HServIter : public TGo4LevelIter {
 class TGo4HServObjectAccess : public TGo4Access {
    public:
       TGo4HServObjectAccess(TGo4HServProxy* hserv,
-                     const char* name,
+                     const char *name,
                      const char* fullname,
                      const char* classname) :
          TGo4Access(),
@@ -150,7 +150,7 @@ TGo4LevelIter* TGo4HServProxy::MakeIter()
    return fxStructure ? new TGo4HServIter(fxStructure) : nullptr;
 }
 
-TGo4Access* TGo4HServProxy::ProvideAccess(const char* name)
+TGo4Access* TGo4HServProxy::ProvideAccess(const char *name)
 {
    TGo4Slot* itemslot = fxStructure ? fxStructure->GetSlot(name) : nullptr;
    if (!itemslot) return nullptr;

@@ -53,7 +53,7 @@ extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
  *  Constructs a QUserPanel which is a child of 'parent', with the
  *  name 'name'.'
  */
-QUserPanel::QUserPanel( QWidget* parent,  const char* name ) :
+QUserPanel::QUserPanel( QWidget* parent,  const char *name ) :
    QGo4Widget( parent, name )
 {
    setupUi(this);

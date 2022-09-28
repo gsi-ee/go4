@@ -20,7 +20,7 @@ TGo4TaskStatus::TGo4TaskStatus() :
 {
 }
 
-TGo4TaskStatus::TGo4TaskStatus(const char* name) :
+TGo4TaskStatus::TGo4TaskStatus(const char *name) :
    TGo4Status(name)
 {
 }

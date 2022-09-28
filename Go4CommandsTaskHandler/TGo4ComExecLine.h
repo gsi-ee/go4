@@ -34,7 +34,7 @@ class TGo4ComExecLine : public TGo4TaskHandlerCommand {
     const char* GetLine() const { return fxLine.Data(); }
 
      /** set the object name under command. */
-    void SetLine(const char* name) { fxLine = name; }
+    void SetLine(const char *name) { fxLine = name; }
   private:
 
     /** Contains text of macro. */

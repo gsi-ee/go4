@@ -18,7 +18,7 @@
 
 #include "TObject.h"
 
-QFitPrintWidget::QFitPrintWidget(QWidget *parent, const char* name)
+QFitPrintWidget::QFitPrintWidget(QWidget *parent, const char *name)
          : QFitWidget(parent, name)
 {
    setupUi(this);

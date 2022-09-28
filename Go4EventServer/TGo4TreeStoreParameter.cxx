@@ -16,7 +16,7 @@
 #include "Go4EventServerTypes.h"
 #include "TGo4Status.h"
 
-TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char* name,
+TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char *name,
                                                 Int_t splitlevel,
                                                 Int_t bufsize,
                                                 const char *filename,

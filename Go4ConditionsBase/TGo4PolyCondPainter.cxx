@@ -24,7 +24,7 @@ TGo4PolyCondPainter::TGo4PolyCondPainter() :
 {
 }
 
-TGo4PolyCondPainter::TGo4PolyCondPainter(const char* name, const char* title) :
+TGo4PolyCondPainter::TGo4PolyCondPainter(const char *name, const char* title) :
    TGo4ConditionPainter(name,title),
    fxCutView(nullptr)
 {

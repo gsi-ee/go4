@@ -16,7 +16,7 @@
 #include "TGo4Status.h"
 #include "TGo4Log.h"
 
-TGo4EventSourceParameter::TGo4EventSourceParameter(const char* name, Int_t id) :
+TGo4EventSourceParameter::TGo4EventSourceParameter(const char *name, Int_t id) :
    TGo4Parameter (name), fiID(id)
 {
 }

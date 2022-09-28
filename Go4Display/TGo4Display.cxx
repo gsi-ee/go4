@@ -80,7 +80,7 @@ void TGo4Display::DisplayLog(TGo4Status * status)
       delete status;
 }
 
-Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
+Bool_t TGo4Display::DisconnectSlave(const char *name, Bool_t waitforslave)
 {
 
    // Note: taskhandlerabortexception and shutdown of analysis server

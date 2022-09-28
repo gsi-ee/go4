@@ -17,7 +17,7 @@
 #include "TGo4Thread.h"
 #include "TGo4ExampleServer.h"
 
-TGo4LoggingRunnable::TGo4LoggingRunnable(const char* name, TGo4ExampleServer* serv)
+TGo4LoggingRunnable::TGo4LoggingRunnable(const char *name, TGo4ExampleServer* serv)
 : TGo4Runnable(name,serv)
 {
    GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable(const char*,TGo4ExampleServer*) constructor",__LINE__, __FILE__));

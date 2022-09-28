@@ -21,10 +21,10 @@ const char* TGo4Command::fgcMODEDESCRIPTION[]=
    {"NOMODE","Observer","Controller","Administrator"};
 
 
-TGo4Command::TGo4Command(const char* name, const char* description, Int_t id) :
+TGo4Command::TGo4Command(const char *name, const char* description, Int_t id) :
    TNamed(name, "This is a TGo4Command")
 {
-   GO4TRACE((12,"TGo4Command::TGo4Command(const char* name, const char* description, Int_t id)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Command::TGo4Command(const char *name, const char* description, Int_t id)", __LINE__, __FILE__));
    SetDescription(description);
    SetReceiverName("NoNameReceiver");
    SetTaskName("NoNameTask");
@@ -90,7 +90,7 @@ const char* TGo4Command::GetReceiverName() const
   return fxReceiverName.Data();
 }
 
-void TGo4Command::SetReceiverName(const char* name)
+void TGo4Command::SetReceiverName(const char *name)
 {
   GO4TRACE((10,"void TGo4Command::SetReceiverName(const char*)", __LINE__, __FILE__));
   fxReceiverName = name;
@@ -102,7 +102,7 @@ const char* TGo4Command::GetTaskName() const
   return fxTaskName.Data();
 }
 
-void TGo4Command::SetTaskName(const char* name)
+void TGo4Command::SetTaskName(const char *name)
 {
   GO4TRACE((10,"void TGo4Command::SetTaskName(const char*)", __LINE__, __FILE__));
   fxTaskName=name;

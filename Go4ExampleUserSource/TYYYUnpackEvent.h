@@ -19,7 +19,7 @@
 class TYYYUnpackEvent : public TGo4EventElement {
    public:
       TYYYUnpackEvent();
-      TYYYUnpackEvent(const char* name);
+      TYYYUnpackEvent(const char *name);
       virtual ~TYYYUnpackEvent();
 
       /**

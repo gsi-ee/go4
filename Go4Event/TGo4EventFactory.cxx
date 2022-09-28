@@ -15,7 +15,7 @@
 
 #include "TGo4Log.h"
 
-TGo4EventFactory::TGo4EventFactory(const char* name)
+TGo4EventFactory::TGo4EventFactory(const char *name)
 : TNamed(name, "This is a Go4 Event Factory")
 {
    GO4TRACE((15,"TGo4EventFactory::TGo4EventFactory(const char*)",__LINE__, __FILE__));

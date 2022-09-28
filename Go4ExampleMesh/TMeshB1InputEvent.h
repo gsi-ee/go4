@@ -22,7 +22,7 @@ class TGo4FileSource;
 class TMeshB1InputEvent : public TGo4EventElement {
    public:
       TMeshB1InputEvent();
-      TMeshB1InputEvent(const char* name);
+      TMeshB1InputEvent(const char *name);
       virtual ~TMeshB1InputEvent();
       /**
        * Method called by the event owner (analysis step) to fill the

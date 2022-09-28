@@ -22,7 +22,7 @@
 
 #include "TGo4BrowserProxy.h"
 
-TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char* name)
+TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char *name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);

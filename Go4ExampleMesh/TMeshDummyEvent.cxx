@@ -22,7 +22,7 @@ TMeshDummyEvent::TMeshDummyEvent()
 
 }
 //***********************************************************
-TMeshDummyEvent::TMeshDummyEvent(const char* name)
+TMeshDummyEvent::TMeshDummyEvent(const char *name)
   :TGo4EventElement(name),fxProviderProc(0)
 {
 }

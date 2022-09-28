@@ -18,7 +18,7 @@
 
 //***********************************************************
 // this one is used in TXXXAnlFact
-TMeshFinalProc::TMeshFinalProc(const char* name)
+TMeshFinalProc::TMeshFinalProc(const char *name)
   :TGo4EventProcessor(name),fxInput1(0),fxInput2(0),fxInput3(0),fxInput12(0)
 {
    TGo4Log::Info("TMeshFinalProc: Create %s", name);

@@ -32,7 +32,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
 
    public:
 
-      TGo4TaskHandlerRunnable(const char* name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode=kTRUE);
+      TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode=kTRUE);
 
       virtual ~TGo4TaskHandlerRunnable();
 

@@ -54,7 +54,7 @@ size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
    return rev;
 }
 
-void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char* name, const char* type, size_t size,
+void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char *name, const char* type, size_t size,
     size_t memberoffset, const char* membername, const char* classname, TClass* valueclass)
 {
    TGo4HDF5DataHandle *subhandle = handle->AddSubMember(name, size, type);

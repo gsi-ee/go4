@@ -23,7 +23,7 @@ class TMeshB3AnlProc : public TGo4EventProcessor {
 
    public:
       TMeshB3AnlProc();
-      TMeshB3AnlProc(const char* name);
+      TMeshB3AnlProc(const char *name);
       void Analysis(TMeshB3OutputEvent* target);
       virtual ~TMeshB3AnlProc();
 

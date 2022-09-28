@@ -85,7 +85,7 @@ TGo4Condition::TGo4Condition() :
 }
 
 // -----------------------------------------------
-TGo4Condition::TGo4Condition(const char* name, const char* title) :
+TGo4Condition::TGo4Condition(const char *name, const char* title) :
    TNamed(name, title),
    TAttLine(),
    TAttFill(),
@@ -560,7 +560,7 @@ void TGo4Condition::Enable()
    fbEnabled=kTRUE;
 }
 
-void TGo4Condition::SetHistogram(const char* name)
+void TGo4Condition::SetHistogram(const char *name)
 {
    if (!name || (*name == 0)) {
       fxHistoName = "";

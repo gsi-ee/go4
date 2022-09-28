@@ -95,14 +95,14 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          kind_ThisPad = 1002,
          kind_PadSlot = 1003 };
 
-      TGo4ViewPanel(QWidget *parent = nullptr, const char* name = nullptr);
+      TGo4ViewPanel(QWidget *parent = nullptr, const char *name = nullptr);
 
       virtual ~TGo4ViewPanel();
 
       virtual const char* GetPanelName();
       virtual void SetPanelName(const char* newname);
       virtual TGo4Slot* GetPanelSlot();
-      virtual TGo4Slot* AddNewSlot(const char* name, TGo4Slot* parent);
+      virtual TGo4Slot* AddNewSlot(const char *name, TGo4Slot* parent);
       virtual void BlockPanelRedraw(bool on);
       void ResetWidget() override;
       void linkedObjectUpdated(const char* linkname, TObject* obj) override;
@@ -121,7 +121,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void UndrawItemOnPanel(const char *itemname);
       virtual const char* GetDrawItemName(int itemcnt = 0);
       virtual void SetSelectedMarker(TPad *pad, const QString & selname, int selindex);
-      virtual void SetSelectedMarkerByMouseClick(TPad* pad, const char* name);
+      virtual void SetSelectedMarkerByMouseClick(TPad* pad, const char *name);
       virtual void StartConditionEditing(TPad* pad);
       virtual void SwitchMarkerButton( int kind, bool on );
       virtual void MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemname);

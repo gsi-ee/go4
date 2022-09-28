@@ -15,7 +15,7 @@
 
 #include "TGo4FitMatrixTrans.h"
 
-QFitMatrixTransWidget::QFitMatrixTransWidget(QWidget *parent, const char* name)
+QFitMatrixTransWidget::QFitMatrixTransWidget(QWidget *parent, const char *name)
          : QFitNamedWidget(parent, name)
 {
    setupUi(this);

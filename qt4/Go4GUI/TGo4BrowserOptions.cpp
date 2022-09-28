@@ -19,7 +19,7 @@
 #include "TGo4DabcProxy.h"
 #include "TGo4HttpProxy.h"
 
-TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name) :
+TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char *name) :
    QGo4Widget(parent,name)
 {
    setupUi(this);

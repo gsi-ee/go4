@@ -26,7 +26,7 @@ class TYYYRawEvent : public TGo4EventElement {
 
       TYYYRawEvent();
 
-      TYYYRawEvent(const char* name);
+      TYYYRawEvent(const char *name);
 
       virtual ~TYYYRawEvent();
 

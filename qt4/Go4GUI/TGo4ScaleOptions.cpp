@@ -16,7 +16,7 @@
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 
-TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char* name)
+TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char *name)
          : QGo4Widget(parent,name)
 {
    setupUi(this);

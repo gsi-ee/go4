@@ -18,7 +18,7 @@
 
 class TXXXParam : public TGo4Parameter {
    public:
-      TXXXParam(const char* name = nullptr) : TGo4Parameter(name) {}
+      TXXXParam(const char *name = nullptr) : TGo4Parameter(name) {}
 
       Bool_t   fillRaw{kTRUE};  // control filling of raw histograms
 

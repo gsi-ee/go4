@@ -45,7 +45,7 @@ class TGo4TaskHandler : public TNamed {
 
     friend class TGo4TaskManager;
 
-    TGo4TaskHandler(const char* name, TGo4ThreadManager* threadmanager, Bool_t clientmode = kFALSE, Bool_t mastermode = kTRUE, UInt_t negotiationport = 0);
+    TGo4TaskHandler(const char *name, TGo4ThreadManager* threadmanager, Bool_t clientmode = kFALSE, Bool_t mastermode = kTRUE, UInt_t negotiationport = 0);
 
     virtual ~TGo4TaskHandler();
 
@@ -54,14 +54,14 @@ class TGo4TaskHandler : public TNamed {
      * one data transport channel (data, status, or command).
      * For server socket mode (used by taskmanager)
      */
-    Bool_t ConnectServerChannel(const char* name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host);
+    Bool_t ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host);
 
     /**
      * method defining the connection protocol of
      * one data transport channel (data, status, or command).
      * For client socket mode (used by taskhandler)
      */
-    Bool_t ConnectClientChannel(const char* name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host);
+    Bool_t ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host);
 
     /**
      * request to server at host to connect or disconnect us, returns negotiation channel
@@ -182,7 +182,7 @@ class TGo4TaskHandler : public TNamed {
     /** Wait for the thread of name to be stopped. Returns
       * false if thread has not reached stopped state within
       * the defined stoptime and cycles. */
-    Bool_t WaitThreadStop(const char* name);
+    Bool_t WaitThreadStop(const char *name);
 
    /** Close transport channels and clear queues.
      * Option may indicate root TSocket Close option, e.g.
@@ -198,21 +198,21 @@ class TGo4TaskHandler : public TNamed {
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetAdminAccount(const char* name, const char* passwd);
+   static void SetAdminAccount(const char *name, const char* passwd);
 
    /** Specify login name and password for controller account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller. Master server at slave client has always
     * controller role. */
-   static void SetCtrlAccount(const char* name, const char* passwd);
+   static void SetCtrlAccount(const char *name, const char* passwd);
 
     /** Specify login name and password for observer account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetObservAccount(const char* name, const char* passwd);
+   static void SetObservAccount(const char *name, const char* passwd);
 
    static const char* Get_fgcOK();
 

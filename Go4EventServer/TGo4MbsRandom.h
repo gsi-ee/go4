@@ -29,7 +29,7 @@ class TGo4MbsRandomParameter;
 class TGo4MbsRandom : public TGo4MbsSource {
   public:
 
-    TGo4MbsRandom(const char* name);
+    TGo4MbsRandom(const char *name);
 
     TGo4MbsRandom();
 

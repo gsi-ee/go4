@@ -47,7 +47,7 @@ class TGo4HDF5Adapter {
 
     /** Add subhandle to handle that represents a containend collection.
        * classname or valueclass, resp, refers to type of element in container,*/
-      static void AddSubHandle(TGo4HDF5DataHandle* handle, const char* name, const char* type, size_t size,
+      static void AddSubHandle(TGo4HDF5DataHandle* handle, const char *name, const char* type, size_t size,
           size_t memberoffset, const char* membername, const char* classname, TClass* valueclass);
 
       /** evaluate h5 type information from root class streamer*/

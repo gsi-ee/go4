@@ -25,12 +25,12 @@ class TGo4Master :  public TGo4TaskOwner {
   public:
     TGo4Master();
 
-    TGo4Master(const char* name, Bool_t isserver = kTRUE, const char* serverhost = "localhost", UInt_t negotport = 5000);
+    TGo4Master(const char *name, Bool_t isserver = kTRUE, const char* serverhost = "localhost", UInt_t negotport = 5000);
 
     virtual ~TGo4Master();
 
     /** send command specified by name to the current slave task */
-    Bool_t SubmitCommand(const char* name);
+    Bool_t SubmitCommand(const char *name);
 
     /** send emergency quit command to the current slave task */
     Bool_t SubmitEmergencyCommand(Go4EmergencyCommand_t val);
@@ -42,7 +42,7 @@ class TGo4Master :  public TGo4TaskOwner {
     /** factory method for command list; overridden by implementation */
     virtual TGo4TaskHandlerCommandList*  CreateCommandList();
 
-    virtual Bool_t DisconnectSlave(const char* name = nullptr,
+    virtual Bool_t DisconnectSlave(const char *name = nullptr,
                                    Bool_t waitforslave=kTRUE );
 
 private:

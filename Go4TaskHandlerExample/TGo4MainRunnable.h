@@ -28,7 +28,7 @@
 class TGo4MainRunnable : public TGo4Runnable {
   public:
 
-    TGo4MainRunnable(const char* name, TGo4ExampleClient* cli);
+    TGo4MainRunnable(const char *name, TGo4ExampleClient* cli);
 
     virtual ~TGo4MainRunnable();
 

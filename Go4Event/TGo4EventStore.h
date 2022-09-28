@@ -37,7 +37,7 @@ class TGo4EventStore : public TNamed {
   public:
     TGo4EventStore();
 
-    TGo4EventStore(const char* name);
+    TGo4EventStore(const char *name);
 
     virtual ~TGo4EventStore();
 

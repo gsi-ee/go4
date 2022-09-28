@@ -39,7 +39,7 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
       const char* GetFileName() const { return fxFileName.Data(); }
 
       /** Set the object name under command. */
-      void SetFileName(const char* name) { fxFileName = name; }
+      void SetFileName(const char *name) { fxFileName = name; }
 
    private:
 

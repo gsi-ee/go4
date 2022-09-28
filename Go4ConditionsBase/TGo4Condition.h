@@ -40,7 +40,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
   public:
     TGo4Condition();
 
-    TGo4Condition(const char* name, const char* title = "Go4 Condition");
+    TGo4Condition(const char *name, const char* title = "Go4 Condition");
 
     virtual ~TGo4Condition();
 
@@ -217,7 +217,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     Bool_t IsHistogramLink() { return fbHistogramLink; }
 
     /** Define the name of the associated histogram. */
-    void SetHistogram(const char* name);
+    void SetHistogram(const char *name);
 
     /** Access name of the associated histogram. */
     const char* GetLinkedHistogram();

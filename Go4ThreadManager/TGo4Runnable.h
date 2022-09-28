@@ -36,7 +36,7 @@ class TGo4Runnable : public TNamed {
   public:
       TGo4Runnable(const TGo4Runnable &right);
 
-      TGo4Runnable (const char* name, TGo4ThreadManager* man);
+      TGo4Runnable (const char *name, TGo4ThreadManager* man);
 
       virtual ~TGo4Runnable();
 

@@ -17,7 +17,7 @@
 
 #include "TGo4Log.h"
 
-TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char* name) : TGo4ClientStatus(name)
+TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char *name) : TGo4ClientStatus(name)
 {
   GO4TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char*)",__LINE__, __FILE__));
 }

@@ -33,7 +33,7 @@ class TGo4TreeSource : public TGo4EventSource {
   public:
     TGo4TreeSource();
 
-    TGo4TreeSource(const char* name);
+    TGo4TreeSource(const char *name);
 
     virtual ~TGo4TreeSource();
 

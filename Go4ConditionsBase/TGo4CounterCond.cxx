@@ -18,7 +18,7 @@ TGo4CounterCond::TGo4CounterCond() :
 {
 }
 
-TGo4CounterCond::TGo4CounterCond(const char* name, const char* title) :
+TGo4CounterCond::TGo4CounterCond(const char *name, const char* title) :
    TGo4Condition(name,title)
 {
 }

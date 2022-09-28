@@ -23,7 +23,7 @@ TMeshB3InputEvent::TMeshB3InputEvent()
 {
 }
 //***********************************************************
-TMeshB3InputEvent::TMeshB3InputEvent(const char* name)
+TMeshB3InputEvent::TMeshB3InputEvent(const char *name)
   :TGo4EventElement(name),fxProcessor(0),fxFile(0)
 {
 }

@@ -38,7 +38,7 @@ class TGo4EventElement : public TNamed {
 
       TGo4EventElement();
 
-      TGo4EventElement(const char* name);
+      TGo4EventElement(const char *name);
       TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat = 0);
 
       virtual ~TGo4EventElement();
@@ -59,7 +59,7 @@ class TGo4EventElement : public TNamed {
 
       inline TGo4EventElement* GetParent() const { return fxParent; }
 
-      virtual TGo4EventElement* GetChild(const char* name);
+      virtual TGo4EventElement* GetChild(const char *name);
 
       inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
 

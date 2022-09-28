@@ -22,7 +22,7 @@
 #include "TGo4MainTree.h"
 #include "TGo4TreeSourceParameter.h"
 
-TGo4TreeSource::TGo4TreeSource(const char* name)
+TGo4TreeSource::TGo4TreeSource(const char *name)
 : TGo4EventSource(name), fxTree(nullptr), fxBranch(nullptr)
 {
    GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));

@@ -27,7 +27,7 @@ class TGo4EventSourceParameter : public TGo4Parameter {
    public:
       TGo4EventSourceParameter();
 
-      TGo4EventSourceParameter(const char* name, Int_t id = 0);
+      TGo4EventSourceParameter(const char *name, Int_t id = 0);
 
       virtual ~TGo4EventSourceParameter();
 

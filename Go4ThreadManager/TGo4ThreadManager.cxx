@@ -33,7 +33,7 @@ TGo4ThreadManager::TGo4ThreadManager(const TGo4ThreadManager &right)
    fxBlocker = right.fxBlocker;
 }
 
-TGo4ThreadManager::TGo4ThreadManager (const char* name, Bool_t blockingmode, Bool_t autostart, Bool_t autocreate)
+TGo4ThreadManager::TGo4ThreadManager (const char *name, Bool_t blockingmode, Bool_t autostart, Bool_t autocreate)
    :TNamed(name,"This is a TGo4ThreadManager"),
       fbInitDone(kFALSE),
       fbTerminating(kFALSE),

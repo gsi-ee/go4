@@ -532,7 +532,7 @@ class TGo4AbstractInterface : public TObject {
       virtual TString GetViewPanelName(ViewPanelHandle panel) { return TString(); }
 
       /** Return handle on viewpanel with specified name. */
-      virtual ViewPanelHandle FindViewPanel(const char* name) { return nullptr; }
+      virtual ViewPanelHandle FindViewPanel(const char *name) { return nullptr; }
 
       /** Change name of viewpanel. */
       virtual Bool_t SetViewPanelName(ViewPanelHandle panel, const char* newname) { return kFALSE; }

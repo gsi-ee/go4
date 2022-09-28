@@ -24,7 +24,7 @@ TMeshFinalEvent::TMeshFinalEvent()
 
 }
 //***********************************************************
-TMeshFinalEvent::TMeshFinalEvent(const char* name)
+TMeshFinalEvent::TMeshFinalEvent(const char *name)
   :TGo4EventElement(name),fxFinalProc(0),fxFile(0)
 {
 }

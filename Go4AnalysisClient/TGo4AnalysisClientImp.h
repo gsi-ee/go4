@@ -34,7 +34,7 @@ class TGo4InterruptHandler;
 class TGo4AnalysisClient : public TGo4Slave {
 
   public:
-    TGo4AnalysisClient(const char* name,
+    TGo4AnalysisClient(const char *name,
                        TGo4Analysis* analysis,
                        const char* host = "localhost",
                        UInt_t negport = 0,
@@ -86,7 +86,7 @@ class TGo4AnalysisClient : public TGo4Slave {
     /** Fetch object of name from analysis instance and put
       * it into the data queue of the client. Send an error status
       * object via status queue if there is no such object. */
-    void SendAnalysisObject(const char* name);
+    void SendAnalysisObject(const char *name);
 
     /** Send a complete status object of the analysis via
       * the status queue. */

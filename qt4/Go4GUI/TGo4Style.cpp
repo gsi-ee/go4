@@ -24,7 +24,7 @@
 
 #include <QColorDialog>
 
-TGo4Style::TGo4Style(QWidget *parent, const char* name, Qt::WindowFlags fl) :
+TGo4Style::TGo4Style(QWidget *parent, const char *name, Qt::WindowFlags fl) :
    QWidget( parent, fl ), fbMenuLock(false), fbSettingPanelData(false)
 {
    setObjectName(name ? name : "Go4Style");

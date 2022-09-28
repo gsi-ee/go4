@@ -22,7 +22,7 @@
 
 class TXXXParameter : public TGo4Parameter {
    public:
-      TXXXParameter(const char* name = nullptr);
+      TXXXParameter(const char *name = nullptr);
 
       Float_t frP1{0};
       Float_t frP2{0};

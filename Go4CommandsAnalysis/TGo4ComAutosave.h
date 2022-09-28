@@ -36,7 +36,7 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
 
       void SetAutoSaveOverwrite(Bool_t over = kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
 
-      void SetAutoFileName(const char* name) { fxAutoFileName = name; }
+      void SetAutoFileName(const char *name) { fxAutoFileName = name; }
 
       const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
 

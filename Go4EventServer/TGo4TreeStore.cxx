@@ -25,7 +25,7 @@
 
 const char* TGo4TreeStore::fgcFILESUF = ".root";
 
-TGo4TreeStore::TGo4TreeStore(const char* name,
+TGo4TreeStore::TGo4TreeStore(const char *name,
                              TGo4EventElement* event,
                              Int_t splitlevel,
                              Int_t bufsize,

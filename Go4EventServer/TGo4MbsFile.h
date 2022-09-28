@@ -31,7 +31,7 @@ class TList;
 class TGo4MbsFile : public TGo4MbsSource {
   public:
 
-    TGo4MbsFile(const char* name);
+    TGo4MbsFile(const char *name);
 
     TGo4MbsFile();
 
@@ -69,7 +69,7 @@ class TGo4MbsFile : public TGo4MbsSource {
 
   private:
 
-    void AddFileName(const char* name, const char* tagname = nullptr, bool isonly = kFALSE);
+    void AddFileName(const char *name, const char* tagname = nullptr, bool isonly = kFALSE);
 
     /** For multiple input mode: Open next file in list. */
     Int_t NextFile();

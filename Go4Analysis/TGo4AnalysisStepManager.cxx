@@ -24,7 +24,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4EventProcessor.h"
 
-TGo4AnalysisStepManager::TGo4AnalysisStepManager(const char* name) :
+TGo4AnalysisStepManager::TGo4AnalysisStepManager(const char *name) :
    TNamed(name,"The Go4 Analysis Step Manager"),
    fiFirstStepIndex(0),
    fiLastStepIndex(0),
@@ -124,7 +124,7 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
    return rev;
 }
 
-Bool_t TGo4AnalysisStepManager::SetFirstStep(const char* name)
+Bool_t TGo4AnalysisStepManager::SetFirstStep(const char *name)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char*)",__LINE__, __FILE__));
    //
@@ -161,7 +161,7 @@ Bool_t TGo4AnalysisStepManager::SetFirstStep(const char* name)
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
+Bool_t TGo4AnalysisStepManager::SetLastStep(const char *name)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::SetLastStep(const char*)",__LINE__, __FILE__));
    //
@@ -201,7 +201,7 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::SetStepStorage(const char* name, Bool_t on)
+Bool_t TGo4AnalysisStepManager::SetStepStorage(const char *name, Bool_t on)
 {
    GO4TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char*,Bool_t)",__LINE__, __FILE__));
    Bool_t result = kFALSE;
@@ -409,7 +409,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
    return rev;
 }
 
-TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char* name)
+TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
    TGo4AnalysisStep* step = nullptr;
@@ -507,7 +507,7 @@ void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
       fxStepIterator->Reset();
       while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
       {
-         const char* name= fxCurrentStep->GetName();
+         const char *name= fxCurrentStep->GetName();
          TGo4AnalysisStepStatus* stepstate= state->GetStepStatus(name);
          fxCurrentStep->SetStatus(stepstate);
 

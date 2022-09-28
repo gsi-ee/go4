@@ -37,7 +37,7 @@ class TGo4CompositeEvent : public TGo4EventElement {
      TGo4CompositeEvent(const char* aName, const char* aTitle, Short_t aBaseCat = 0);
      virtual ~TGo4CompositeEvent();
 
-     TGo4EventElement* GetChild(const char* name) override;
+     TGo4EventElement* GetChild(const char *name) override;
 
      void makeBranch(TBranch *parent) override;
 
@@ -51,7 +51,7 @@ class TGo4CompositeEvent : public TGo4EventElement {
      TTree* CreateSampleTree(TGo4EventElement** sample = nullptr) override;
 
      TGo4EventElement *getEventElement(Int_t idx);
-     TGo4EventElement *getEventElement(const char* name, Int_t final_element = 0);
+     TGo4EventElement *getEventElement(const char *name, Int_t final_element = 0);
      void Clear(Option_t *opt="") override;
      Short_t getNElements() const { return fNElements; }
      Short_t getMaxIndex() const { return fMaxIndex; }

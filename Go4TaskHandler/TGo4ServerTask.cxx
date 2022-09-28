@@ -45,7 +45,7 @@ const UInt_t TGo4ServerTask::fguCONNECTTIMERPERIOD=100; // time in ms (50)
 const char* TGo4ServerTask::fgcLAUNCHPREFSFILE = "etc/Go4LaunchPrefs.txt";
 
 
-TGo4ServerTask::TGo4ServerTask(const char* name,
+TGo4ServerTask::TGo4ServerTask(const char *name,
                                UInt_t negotiationport,
                                Bool_t blockingmode,
                                Bool_t standalone,
@@ -97,7 +97,7 @@ TGo4ServerTask::~TGo4ServerTask()
    TGo4CommandInvoker::UnRegister(this);
 }
 
-Bool_t TGo4ServerTask::RemoveClient(const char* name, Bool_t clientwait, Bool_t isterminating)
+Bool_t TGo4ServerTask::RemoveClient(const char *name, Bool_t clientwait, Bool_t isterminating)
 {
    Bool_t rev=kTRUE;
    TGo4TaskHandler* taskhandler = nullptr;
@@ -204,7 +204,7 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
    return rev;
 }
 
-void TGo4ServerTask::SetCurrentTask(const char* name)
+void TGo4ServerTask::SetCurrentTask(const char *name)
 {
    //std::cout <<"server task setting current task to "<<name << std::endl;
    TGo4TaskHandler *han = nullptr;
@@ -245,7 +245,7 @@ void TGo4ServerTask::SetCurrentTask(const char* name)
    }
 }
 
-TGo4TaskHandler* TGo4ServerTask::GetTaskHandler(const char* name)
+TGo4TaskHandler* TGo4ServerTask::GetTaskHandler(const char *name)
 {
    return fxTaskManager->GetTaskHandler(name);
 }
@@ -438,7 +438,7 @@ TGo4Socket* TGo4ServerTask::GetConnectTransport()
    return fxConnectTransport;
 }
 
-TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char* name)
+TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char *name)
 {
    TGo4BufferQueue* queue = nullptr;
    TGo4TaskHandler* currenttask = nullptr;
@@ -451,7 +451,7 @@ TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char* name)
    return queue;
 }
 
-TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char* name)
+TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char *name)
 {
    TGo4BufferQueue* queue = nullptr;
    TGo4TaskHandler* currenttask = nullptr;
@@ -464,7 +464,7 @@ TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char* name)
    return queue;
 }
 
-TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char* name)
+TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char *name)
 {
    TGo4BufferQueue* queue = nullptr;
    TGo4TaskHandler* currenttask = nullptr;

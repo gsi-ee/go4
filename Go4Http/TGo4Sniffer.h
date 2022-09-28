@@ -67,9 +67,9 @@ class TGo4Sniffer : public TRootSnifferFull,
 
       static THttpServer* GetHttpServer() { return gHttpServer; }
 
-      static Bool_t CreateEngine(const char* name);
+      static Bool_t CreateEngine(const char *name);
 
-      TGo4Sniffer(const char* name);
+      TGo4Sniffer(const char *name);
       virtual ~TGo4Sniffer();
 
       void ScanRoot(TRootSnifferScanRec& rec) override;

@@ -28,7 +28,7 @@ class TGo4ControllerRunnable : public TGo4Runnable {
 
   public:
 
-    TGo4ControllerRunnable(const char* name, TGo4ExampleServer* serv);
+    TGo4ControllerRunnable(const char *name, TGo4ExampleServer* serv);
 
     virtual ~TGo4ControllerRunnable();
 

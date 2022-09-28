@@ -28,7 +28,7 @@ class TGo4TaskConnectorTimer;
 class TGo4ServerTask : public TGo4Task {
    public:
 
-      TGo4ServerTask(const char* name,
+      TGo4ServerTask(const char *name,
             UInt_t negotiationport = 0,
             Bool_t blockingmode = kFALSE,
             Bool_t standalone = kFALSE,
@@ -59,7 +59,7 @@ class TGo4ServerTask : public TGo4Task {
       TGo4TaskHandler* GetTaskHandler() override;
 
       /** Get task handler for client specified by name */
-      TGo4TaskHandler* GetTaskHandler(const char* name);
+      TGo4TaskHandler* GetTaskHandler(const char *name);
 
       TGo4BufferQueue* GetCommandQueue(const char* task = nullptr) override;
 
@@ -110,7 +110,7 @@ class TGo4ServerTask : public TGo4Task {
       /**
        * sets current client task (i.e. taskhandler) by name
        */
-      void SetCurrentTask(const char* name);
+      void SetCurrentTask(const char *name);
 
       void SetConnect(TGo4Socket * trans, const char* host, UInt_t port, Bool_t keepserv = kFALSE);
 
@@ -140,7 +140,7 @@ class TGo4ServerTask : public TGo4Task {
        * If clientwait=true, remove with client handshake. If isterminating=true,
        * do not restart workthreads after removing the client.
        */
-      virtual Bool_t RemoveClient(const char* name, Bool_t clientwait=kTRUE, Bool_t isterminating=kFALSE);
+      virtual Bool_t RemoveClient(const char *name, Bool_t clientwait=kTRUE, Bool_t isterminating=kFALSE);
 
       /**
        * removes the currently active client from server (disconnect)

@@ -80,7 +80,7 @@ class TGo4LevelIter : public TObject {
       virtual Int_t getflag(const char*) { return -1; }
       virtual TGo4LevelIter* subiterator() { return nullptr; }
       virtual TGo4Slot* getslot() { return nullptr; }
-      virtual const char* name() { return nullptr; }
+      virtual const char *name() { return nullptr; }
       virtual const char* info() { return nullptr; }
       virtual Int_t sizeinfo() { return 0; }
 

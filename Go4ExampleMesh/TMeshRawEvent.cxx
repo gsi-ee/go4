@@ -23,7 +23,7 @@ TMeshRawEvent::TMeshRawEvent()
 {
 }
 //***********************************************************
-TMeshRawEvent::TMeshRawEvent(const char* name)
+TMeshRawEvent::TMeshRawEvent(const char *name)
   :TGo4EventElement(name),fxUnpacker(0),fxFile(0)
 {
 }

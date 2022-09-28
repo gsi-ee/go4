@@ -29,7 +29,7 @@ class TGo4Fitter;
 class TXXXCalibPar : public TGo4Parameter {
    public:
       TXXXCalibPar();
-      TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve);
+      TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve);
       virtual ~TXXXCalibPar();
 
       Bool_t UpdateFrom(TGo4Parameter *) override;

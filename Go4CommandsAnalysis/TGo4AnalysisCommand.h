@@ -21,7 +21,7 @@ class TGo4AnalysisCommand : public TGo4Command {
 
     TGo4AnalysisCommand();
 
-    TGo4AnalysisCommand(const char* name, const char* desc);
+    TGo4AnalysisCommand(const char *name, const char* desc);
 
     /** Optional action if command is not allowed (warning message e.g.) */
     Int_t RefuseCom() override;

@@ -29,7 +29,7 @@ TXXXAnlProc::TXXXAnlProc() :
 }
 
 //-----------------------------------------------------------
-TXXXAnlProc::TXXXAnlProc(const char* name) :
+TXXXAnlProc::TXXXAnlProc(const char *name) :
    TGo4EventProcessor(name)
 {
    TGo4Log::Info("TXXXAnlProc: Create");

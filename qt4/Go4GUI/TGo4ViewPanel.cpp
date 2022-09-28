@@ -102,7 +102,7 @@ public:
 };
 
 
-TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
+TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    QGo4Widget(parent, name)
 {
    setupUi(this);
@@ -371,7 +371,7 @@ TGo4Slot* TGo4ViewPanel::GetPanelSlot()
    return GetTopSlot(true);
 }
 
-TGo4Slot* TGo4ViewPanel::AddNewSlot(const char* name, TGo4Slot* parent)
+TGo4Slot* TGo4ViewPanel::AddNewSlot(const char *name, TGo4Slot* parent)
 {
    if (!parent)
       parent = GetPanelSlot();
@@ -736,7 +736,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
 
 }
 
-void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
+void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char *name)
 {
    TGo4LockGuard lock;
 
@@ -2364,21 +2364,21 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char *itemname
    return tgtslot;
 }
 
-TGo4Slot* TGo4ViewPanel::GetDrawObjectSlot(TPad* pad, const char* name)
+TGo4Slot* TGo4ViewPanel::GetDrawObjectSlot(TPad* pad, const char *name)
 {
    TGo4Slot* slot = GetPadSlot(pad);
 
    return !slot ? nullptr : slot->FindChild(name);
 }
 
-TObject* TGo4ViewPanel::GetDrawObject(TPad* pad, const char* name)
+TObject* TGo4ViewPanel::GetDrawObject(TPad* pad, const char *name)
 {
    TGo4Slot* subslot = GetDrawObjectSlot(pad, name);
 
    return !subslot ? nullptr : subslot->GetAssignedObject();
 }
 
-void TGo4ViewPanel::DeleteDrawObject(TPad* pad, const char* name)
+void TGo4ViewPanel::DeleteDrawObject(TPad* pad, const char *name)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
 

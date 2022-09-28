@@ -23,7 +23,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsFileParameter();
 
-    TGo4MbsFileParameter(const char* name);
+    TGo4MbsFileParameter(const char *name);
 
     virtual ~TGo4MbsFileParameter();
 

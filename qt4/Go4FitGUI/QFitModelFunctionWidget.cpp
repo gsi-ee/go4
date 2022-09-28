@@ -17,7 +17,7 @@
 #include "TGo4FitGuiTypes.h"
 
 
-QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char* name)
+QFitModelFunctionWidget::QFitModelFunctionWidget(QWidget *parent, const char *name)
          : QFitModelWidget(parent, name)
 {
    setupUi(this);

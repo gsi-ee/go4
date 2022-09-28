@@ -26,7 +26,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       TGo4AnalysisClientStatus();
 
-      TGo4AnalysisClientStatus(const char* name);
+      TGo4AnalysisClientStatus(const char *name);
 
       virtual ~TGo4AnalysisClientStatus();
 
@@ -49,7 +49,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
    private:
       void SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time);
 
-      void SetCurrentSource(const char* name) { fxEventSource = name; }
+      void SetCurrentSource(const char *name) { fxEventSource = name; }
 
       void SetRunning(Bool_t on) { fbAnalysisRunning = on; }
 

@@ -37,7 +37,7 @@ TXXXProc::~TXXXProc()
 
 //***********************************************************
 // this one is used in standard factory
-TXXXProc::TXXXProc(const char* name) :
+TXXXProc::TXXXProc(const char *name) :
    TGo4EventProcessor(name),
    fHandle()
 {

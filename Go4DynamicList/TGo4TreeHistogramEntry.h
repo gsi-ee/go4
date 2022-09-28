@@ -47,11 +47,11 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     virtual ~TGo4TreeHistogramEntry();
 
     /** Set name of the external histogram to be filled. */
-    void SetHistogramName(const char* name) { fxHistogramName = name; }
+    void SetHistogramName(const char *name) { fxHistogramName = name; }
     /** Get name of the external histogram to be filled. */
     const char* GetHistogramName() const { return fxHistogramName.Data(); }
 
-    void SetTreeName(const char* name) { fxTreeName = name; }
+    void SetTreeName(const char *name) { fxTreeName = name; }
     const char* GetTreeName() const { return fxTreeName.Data(); }
 
     void SetVarExp(const char* exp) { fxVarExp = exp; }

@@ -158,7 +158,7 @@ Bool_t TGo4FitParsList::GetParEpsilon(const char* ParName, Double_t& Epsilon)
    return par ? par->GetEpsilon(Epsilon) : kFALSE;
 }
 
-void TGo4FitParsList::SetParName(Int_t n, const char* name)
+void TGo4FitParsList::SetParName(Int_t n, const char *name)
 {
    if(Get(n)) Get(n)->SetName(name);
 }
@@ -303,7 +303,7 @@ Bool_t TGo4FitParsList::RemoveParByIndex(Int_t indx)
    return kFALSE;
 }
 
-Bool_t TGo4FitParsList::RemovePar(const char* name)
+Bool_t TGo4FitParsList::RemovePar(const char *name)
 {
    return RemovePar(FindPar(name));
 }

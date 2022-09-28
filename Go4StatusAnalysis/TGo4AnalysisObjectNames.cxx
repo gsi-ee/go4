@@ -22,7 +22,7 @@ TGo4AnalysisObjectNames::TGo4AnalysisObjectNames() :
 {
 }
 
-TGo4AnalysisObjectNames::TGo4AnalysisObjectNames(const char* name) :
+TGo4AnalysisObjectNames::TGo4AnalysisObjectNames(const char *name) :
    TGo4Status(name)
 {
 }

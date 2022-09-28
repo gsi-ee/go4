@@ -22,7 +22,7 @@ class TGo4DividePad : public QWidget, public Ui::TGo4DividePad
    Q_OBJECT
 
 public:
-   TGo4DividePad( QWidget* parent = nullptr, const char* name = nullptr, Qt::WindowFlags fl = Qt::Widget );
+   TGo4DividePad( QWidget* parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
 public slots:
 

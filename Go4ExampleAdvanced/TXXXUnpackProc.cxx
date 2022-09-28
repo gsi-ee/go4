@@ -37,7 +37,7 @@ TXXXUnpackProc::TXXXUnpackProc() :
 }
 //***********************************************************
 // this one is used in TXXXUnpackFact.cxx
-TXXXUnpackProc::TXXXUnpackProc(const char* name) :
+TXXXUnpackProc::TXXXUnpackProc(const char *name) :
    TGo4EventProcessor(name)
 {
    TGo4Log::Info("TXXXUnpackProc: Create %s", name);

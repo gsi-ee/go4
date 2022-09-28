@@ -19,7 +19,7 @@
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
 
-TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
+TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char *name)
    : QGo4Widget(parent, name)
 {
    setupUi(this);

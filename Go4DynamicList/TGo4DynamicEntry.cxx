@@ -23,7 +23,7 @@ TGo4DynamicEntry::TGo4DynamicEntry() :
    GO4TRACE((15,"TGo4DynamicEntry::TGo4DynamicEntry()",__LINE__, __FILE__));
 }
 
-TGo4DynamicEntry::TGo4DynamicEntry(const char* name, const char* title) :
+TGo4DynamicEntry::TGo4DynamicEntry(const char *name, const char* title) :
    TNamed(name, title),
    fbProcessEntry(kTRUE)
 {

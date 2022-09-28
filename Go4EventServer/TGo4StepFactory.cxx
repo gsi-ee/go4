@@ -31,7 +31,7 @@ TGo4StepFactory::TGo4StepFactory() :
 }
 
 //***********************************************************
-TGo4StepFactory::TGo4StepFactory(const char* name) :
+TGo4StepFactory::TGo4StepFactory(const char *name) :
    TGo4EventServerFactory(name)
 {
    TGo4Log::Debug("Create factory %s", name);

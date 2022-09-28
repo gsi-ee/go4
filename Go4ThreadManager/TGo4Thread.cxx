@@ -30,7 +30,7 @@ TGo4Thread::TGo4Thread(const TGo4Thread &right)
    fxCondition = new TCondition();
 }
 
-TGo4Thread::TGo4Thread (const char* name, TGo4Runnable* runnable, Bool_t internal)
+TGo4Thread::TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t internal)
    :TNamed(name,"This is a TGo4Thread"),
    fbIsCreated(kFALSE),
    fbIsRunning(kFALSE),

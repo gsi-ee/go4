@@ -22,7 +22,7 @@ class TGo4HisDrawOptionsShort : public QGo4Widget, public Ui::TGo4HisDrawOptions
     Q_OBJECT
 
 public:
-    TGo4HisDrawOptionsShort(QWidget *parent = nullptr, const char* name = nullptr);
+    TGo4HisDrawOptionsShort(QWidget *parent = nullptr, const char *name = nullptr);
 
    void ChangeColor(int kind);
 

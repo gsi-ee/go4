@@ -62,7 +62,7 @@ class TGo4AnalysisStep : public TNamed {
     TGo4AnalysisStep();
     /** Normal ctor. Note: factory and parameter objects are adopted by analysis step,
       * i.e. they are deleted by dtor. */
-    TGo4AnalysisStep(const char* name,
+    TGo4AnalysisStep(const char *name,
                      TGo4EventFactory* eventfactory,
                      TGo4EventSourceParameter* sourcetype = nullptr,
                      TGo4EventStoreParameter* storetype = nullptr,

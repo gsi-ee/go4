@@ -25,7 +25,7 @@ class TMeshProviderProc;
 class TMeshDummyEvent : public TGo4EventElement {
    public:
       TMeshDummyEvent();
-      TMeshDummyEvent(const char* name);
+      TMeshDummyEvent(const char *name);
       virtual ~TMeshDummyEvent();
 
       Int_t Fill() override;

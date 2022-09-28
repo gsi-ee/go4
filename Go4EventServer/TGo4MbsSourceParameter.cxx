@@ -20,7 +20,7 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
 {
 }
 
-TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
+TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char *name, Int_t id) :
    TGo4EventSourceParameter(name, id)
 {
 }

@@ -16,7 +16,7 @@
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
 
-TGo4FileSourceParameter::TGo4FileSourceParameter(const char* name)
+TGo4FileSourceParameter::TGo4FileSourceParameter(const char *name)
 : TGo4EventSourceParameter(name, GO4EV_FILE)
 {
   GO4TRACE((14,"TGo4FileSourceParameter::TGo4FileSourceParameter(const char*,...)", __LINE__, __FILE__));

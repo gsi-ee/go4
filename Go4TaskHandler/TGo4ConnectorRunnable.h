@@ -34,7 +34,7 @@ class TGo4ServerTask;
 class TGo4ConnectorRunnable : public TGo4Runnable {
   public:
 
-      TGo4ConnectorRunnable(const char* name, TGo4ServerTask* man);
+      TGo4ConnectorRunnable(const char *name, TGo4ServerTask* man);
 
       virtual ~TGo4ConnectorRunnable() {}
 

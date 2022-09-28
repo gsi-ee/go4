@@ -27,7 +27,7 @@ class TMeshFinalProc;
 class TMeshFinalEvent : public TGo4EventElement {
    public:
       TMeshFinalEvent();
-      TMeshFinalEvent(const char* name);
+      TMeshFinalEvent(const char *name);
       ~TMeshFinalEvent();
       Int_t Init() override;
       Int_t Fill() override;

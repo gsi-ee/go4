@@ -22,10 +22,10 @@ class TGo4ParameterMember : public TNamed {
       enum { kTString_t = 10001, kTGo4Fitter_t = 10002, kTArray_t = 10003 };
 
       TGo4ParameterMember();
-      TGo4ParameterMember(const char* name, const char* title);
+      TGo4ParameterMember(const char *name, const char* title);
       virtual ~TGo4ParameterMember();
 
-      void SetType(const char* name, Int_t id) { fTypeName = name; fTypeId = id; }
+      void SetType(const char *name, Int_t id) { fTypeName = name; fTypeId = id; }
       const char* GetTypeName() const { return fTypeName.Data(); }
       Int_t GetTypeId() const { return fTypeId; }
       Bool_t IsFitterItem() const { return GetTypeId()==kTGo4Fitter_t; }

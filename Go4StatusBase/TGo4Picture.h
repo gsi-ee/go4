@@ -39,7 +39,7 @@ class TGo4Picture : public TNamed {
       enum Indexes { UndefIndex = -2, PictureIndex = -1 };
 
       TGo4Picture();
-      TGo4Picture(const char* name, const char* title, Int_t ndivy = 1, Int_t ndivx = 1);
+      TGo4Picture(const char *name, const char* title, Int_t ndivy = 1, Int_t ndivx = 1);
       virtual ~TGo4Picture();
 
       // ====== USER FUNCTIONS to setup picture =====================
@@ -212,8 +212,8 @@ class TGo4Picture : public TNamed {
       // ====== end of USER FUNCTIONS ========================
 
       // add name of any object, which should be drawn in picture or sub-picture
-      void AddObjName(const char* name, Option_t* DrawOption = nullptr);
-      void AddObjName(Int_t posy, Int_t posx, const char* name, Option_t* DrawOption = nullptr);
+      void AddObjName(const char *name, Option_t* DrawOption = nullptr);
+      void AddObjName(Int_t posy, Int_t posx, const char *name, Option_t* DrawOption = nullptr);
 
       // adds only name of provided object
       void AddObject(TObject* obj, Option_t* DrawOption = nullptr);
@@ -361,9 +361,9 @@ class TGo4Picture : public TNamed {
       void SetPadAtt(TPad* pad, Int_t index = UndefIndex);
       void GetPadAtt(TPad* pad, Int_t index = UndefIndex);
 
-      void MakeScript(std::ostream& fs, const char* name);
+      void MakeScript(std::ostream& fs, const char *name);
 
-      void MakeAxisScript(std::ostream& fs, const char* name, Int_t indx, Int_t naxis);
+      void MakeAxisScript(std::ostream& fs, const char *name, Int_t indx, Int_t naxis);
 
    private:
       Int_t fiNDivX{1};

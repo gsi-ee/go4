@@ -29,7 +29,7 @@ class TGo4RevServ : public TGo4MbsSource {
 
     TGo4RevServ();
 
-    TGo4RevServ(const char* name);
+    TGo4RevServ(const char *name);
 
     TGo4RevServ(TGo4RevServParameter* par);
 

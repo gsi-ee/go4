@@ -20,7 +20,7 @@ TGo4EventCalibration::TGo4EventCalibration() :
 {
 }
 
-TGo4EventCalibration::TGo4EventCalibration(const char* name) :
+TGo4EventCalibration::TGo4EventCalibration(const char *name) :
    TGo4Parameter(name,"This is a Go4 event calibration object")
 {
 GO4TRACE((15,"TGo4EventCalibration::TGo4EventCalibration(const char*)",__LINE__, __FILE__));

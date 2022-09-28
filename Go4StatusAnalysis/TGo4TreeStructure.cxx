@@ -23,7 +23,7 @@ TGo4TreeStructure::TGo4TreeStructure() :
 {
 }
 
-TGo4TreeStructure::TGo4TreeStructure(const char* name) :
+TGo4TreeStructure::TGo4TreeStructure(const char *name) :
    TGo4Status(name),
    fxTopFolder(nullptr)
 {

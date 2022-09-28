@@ -19,7 +19,7 @@
 class TGo4StepFactory : public TGo4EventServerFactory {
   public:
       TGo4StepFactory();
-      TGo4StepFactory(const char* name);
+      TGo4StepFactory(const char *name);
       virtual ~TGo4StepFactory();
       TGo4EventElement* CreateInputEvent() override;
       TGo4EventElement* CreateOutputEvent() override;

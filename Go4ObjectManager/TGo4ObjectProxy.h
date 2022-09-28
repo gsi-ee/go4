@@ -41,7 +41,7 @@ class TGo4ObjectProxy : public TGo4Proxy {
       void Finalize(TGo4Slot* slot) override;
       Bool_t RemoveRegisteredObject(TObject* obj) override;
 
-      TGo4Access* ProvideAccess(const char* name) override;
+      TGo4Access* ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override { return nullptr; }
 
       Int_t GetObjectKind() override;

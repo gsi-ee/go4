@@ -68,7 +68,7 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
          return new TGo4FolderLevelIter((TFolder*)fCurrent);
       }
 
-      const char* name() override
+      const char *name() override
       {
          return fCurrent->GetName();
       }
@@ -154,7 +154,7 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 }
 
 
-TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
+TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
 {
    if (!folder) return nullptr;
    if (!name || (*name == 0)) return new TGo4ObjectAccess(folder);

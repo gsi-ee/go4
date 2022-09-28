@@ -13,7 +13,7 @@
 
 #include "TGo4HServerConnection.h"
 
-TGo4HServerConnection::TGo4HServerConnection( QWidget* parent, const char* name, bool modal, Qt::WindowFlags fl)
+TGo4HServerConnection::TGo4HServerConnection( QWidget* parent, const char *name, bool modal, Qt::WindowFlags fl)
    : QDialog( parent, fl )
 {
    setObjectName(name ? name : "Go4HServConnection");

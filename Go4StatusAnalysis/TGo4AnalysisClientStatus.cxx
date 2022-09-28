@@ -20,7 +20,7 @@ TGo4AnalysisClientStatus::TGo4AnalysisClientStatus() :
 {
 }
 
-TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char* name) :
+TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char *name) :
   TGo4ClientStatus(name)
 {
 }
