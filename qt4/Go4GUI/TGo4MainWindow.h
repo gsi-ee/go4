@@ -59,12 +59,12 @@ class TGo4MainWindow : public QMainWindow {
       TGo4MainWindow(QApplication*);
       virtual ~TGo4MainWindow();
 
-      void HotStart(const char* fname);
+      void HotStart(const char *fname);
       void ProcessQtEvents();
       void StatusMessage(const QString& mess);
       const char* LastTypedPassword() const;
       TGo4ViewPanel* FindViewPanel(const char* name);
-      TGo4ViewPanel* DisplayBrowserItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt);
+      TGo4ViewPanel* DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt);
 
       TGo4ServerProxy* ConnectHttpServer(const char* addr = nullptr, const char* user = nullptr, const char* pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
       void ConnectServer(bool interactive = true, const char* password = "");
@@ -81,7 +81,7 @@ class TGo4MainWindow : public QMainWindow {
       // starting editors
       TGo4ViewPanel* MakeNewPanel(int div = 0);
       TGo4FitPanel* StartFitPanel();
-      TGo4ParaEdit* StartParaEdit(const char* itemname = nullptr);
+      TGo4ParaEdit* StartParaEdit(const char *itemname = nullptr);
       TGo4HistogramInfo* StartHistogramInfo();
       TGo4ConditionInfo* StartConditionInfo();
       TGo4EditDynEntry* StartEditDynEntry();

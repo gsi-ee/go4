@@ -340,7 +340,7 @@ TGo4LevelIter* TGo4DirProxy::ProduceIter(TDirectory* dir, Bool_t readright)
 void TGo4DirProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
-      const char* filename = nullptr;
+      const char *filename = nullptr;
       if (fDir && fDir->InheritsFrom(TFile::Class()))
          filename = fDir->GetName();
 
@@ -353,7 +353,7 @@ void TGo4DirProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
    ClearDir();
 
-   const char* filename = slot->GetPar("DirProxy::FileName");
+   const char *filename = slot->GetPar("DirProxy::FileName");
    const char* groot = slot->GetPar("DirProxy::gROOT");
 
    if (filename) {

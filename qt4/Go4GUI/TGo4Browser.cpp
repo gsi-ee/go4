@@ -1056,7 +1056,7 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
                        "Export of selected items");
 }
 
-void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)
+void TGo4Browser::ExportSelectedItems(const char *filename, const char* filedir, const char* format, const char* description)
 {
    TObjArray items;
    QTreeWidgetItemIterator it(ListView);

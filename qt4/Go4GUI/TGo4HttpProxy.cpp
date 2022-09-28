@@ -1306,7 +1306,7 @@ void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
    SubmitURL(path, 2);
 }
 
-TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg)
+TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg)
 {
    if (!itemname || !tgtslot) return nullptr;
 
@@ -1378,17 +1378,17 @@ void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
    SubmitURL(TString(fullpath)+"/exe.bin?method=Print");
 }
 
-void TGo4HttpProxy::LoadConfigFile(const char* fname)
+void TGo4HttpProxy::LoadConfigFile(const char *fname)
 {
    SubmitURL(TString::Format("Control/Analysis/exe.bin?method=LoadStatus&fname=%s", fname));
 }
 
-void TGo4HttpProxy::SaveConfigFile(const char* fname)
+void TGo4HttpProxy::SaveConfigFile(const char *fname)
 {
    SubmitURL(TString::Format("Control/Analysis/exe.bin?method=SaveStatus&fname=%s", fname));
 }
 
-void TGo4HttpProxy::WriteAutoSave(const char* fname,
+void TGo4HttpProxy::WriteAutoSave(const char *fname,
                                   Int_t complevel,
                                   Bool_t overwrite)
 {

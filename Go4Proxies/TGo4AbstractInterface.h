@@ -93,7 +93,7 @@ class TGo4AbstractInterface : public TObject {
 
       virtual void ProcessEvents(Int_t timeout = -1) = 0;
 
-      Bool_t LoadHotStart(const char* filename);
+      Bool_t LoadHotStart(const char *filename);
       Bool_t IsHotStart();
       const char* NextHotStartCmd();
       void FreeHotStartCmds();
@@ -151,16 +151,16 @@ class TGo4AbstractInterface : public TObject {
         * Hot start files can not be executed as normal CINT scripts,
         * therefore one should use this method to activate them */
 
-      virtual void HotStart(const char* filename) = 0;
+      virtual void HotStart(const char *filename) = 0;
 
       // general purpose
 
       /** Load specified ROOT library */
-      virtual void LoadLibrary(const char* fname);
+      virtual void LoadLibrary(const char *fname);
 
       /** Open specified file in read-only mode*
         * File and its structure should appear in browser. */
-      virtual void OpenFile(const char* fname);
+      virtual void OpenFile(const char *fname);
 
       /** Find item with given object name.
         * Item name includes object name and name of all parent folders.
@@ -170,11 +170,11 @@ class TGo4AbstractInterface : public TObject {
 
       /** Copy item to workspace.
         * If there is subfolders with items, they also will be copied. */
-      virtual Bool_t CopyItem(const char* itemname);
+      virtual Bool_t CopyItem(const char *itemname);
 
       /** Delete item (if allowed).
         * Can be used to close file, delete memory object, close histogram server connection. */
-      virtual Bool_t DeleteItem(const char* itemname);
+      virtual Bool_t DeleteItem(const char *itemname);
 
       /** Fetch item from data source.
         * Request item from data source, to which item corresponds to.
@@ -183,7 +183,7 @@ class TGo4AbstractInterface : public TObject {
         * then interface will wait "wait_time" milliseconds that object is arrived.
         * If wait_time == 0, no waiting will be done and most probably, new object will
         * be assigned to that item several seconds after method is return */
-      virtual void FetchItem(const char* itemname, Int_t wait_time = 2000);
+      virtual void FetchItem(const char *itemname, Int_t wait_time = 2000);
 
       /** Returns object, assigned to specified browser item.
         * Parameter updatelevel specifies, how object will be requested from
@@ -194,7 +194,7 @@ class TGo4AbstractInterface : public TObject {
         *    2 - request to data source in any case, no waiting
         *   >9 - request to data source and wait as many milliseconds as specified by updatelevel
         * Waiting required, when object requested from the analysis */
-      virtual TObject* GetObject(const char* itemname, Int_t updatelevel = 1);
+      virtual TObject* GetObject(const char *itemname, Int_t updatelevel = 1);
 
       /** Save object in browser workspace.
         * Object of any type can be saved in browser. It will appear in browser folder
@@ -213,8 +213,8 @@ class TGo4AbstractInterface : public TObject {
         * FetchItem() method to get objects from file/analysis/histogram server before save them.
         * If item is folder and contains sub-items, they also will be saved.
         * Only binary ROOT files (extension .root) and XML file (extension .xml) are supported. */
-      virtual Bool_t SaveToFile(const char* itemname,
-                                const char* filename,
+      virtual Bool_t SaveToFile(const char *itemname,
+                                const char *filename,
                                 const char* filetitle = nullptr);
 
       /** Export browser item to different file formats.
@@ -229,7 +229,7 @@ class TGo4AbstractInterface : public TObject {
                    "ROOT" - binary ROOT format
                    "ROOT XML"  - xml ROOT format
         *    filetitle - title of create file (only for ROOT formats) */
-      virtual Bool_t ExportToFile(const char* itemname,
+      virtual Bool_t ExportToFile(const char *itemname,
                                   const char* dirpath,
                                   const char* format,
                                   const char* filetitle = nullptr);
@@ -372,7 +372,7 @@ class TGo4AbstractInterface : public TObject {
       /** Enable/disable monitoring of browser item.
         * In monitoring mode item regularly will be requested from analysis
         * and viewpanels, where item is drawn, will be updated */
-      virtual void MonitorItem(const char* itemname, Bool_t on = kTRUE);
+      virtual void MonitorItem(const char *itemname, Bool_t on = kTRUE);
 
       /** Start monitoring mode.
         * Parameter "period" specifies how often (in seconds) each
@@ -383,14 +383,14 @@ class TGo4AbstractInterface : public TObject {
       virtual void StopMonitoring();
 
       /** Configure autosave properties of analysis */
-      virtual void AnalysisAutoSave(const char* filename,
+      virtual void AnalysisAutoSave(const char *filename,
                             Int_t interval,
                             Int_t compression,
                             Bool_t enabled,
                             Bool_t overwrite) {}
 
       /** Configure name of file, where analysis configuration will be saved */
-      virtual void AnalysisConfigName(const char* filename) {}
+      virtual void AnalysisConfigName(const char *filename) {}
 
       // steps configuration
 
@@ -565,12 +565,12 @@ class TGo4AbstractInterface : public TObject {
         *    itemname - browser item name,
         *    panel    - viewpanel, if panel == nullptr, new viewpanel will be created.
         *    drawopt  - draw options, used in obj->Draw() operation */
-      virtual Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) { return kFALSE; }
+      virtual Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) { return kFALSE; }
 
       /** Redraw item of given name on all viewpanels/editors.
         * Useful for the case, when content of object (histogram, for example)
         * changed directly in script and after that should be updated in viewpanel. */
-      virtual void RedrawItem(const char* itemname);
+      virtual void RedrawItem(const char *itemname);
 
       /** Provide item name, drawn in the view panel.
        *  Optional cnt parameter could specify sequence number in panel, including all subpads */

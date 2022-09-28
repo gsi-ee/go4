@@ -64,7 +64,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
       void ExportSelectedItems(const char* filtername);
 
-      void ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description);
+      void ExportSelectedItems(const char *filename, const char* filedir, const char* format, const char* description);
 
    public slots:
 

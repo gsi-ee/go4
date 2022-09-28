@@ -19,7 +19,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus(const char* filename) :
+TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus(const char *filename) :
    TGo4AnalysisCommand("ANLoad","Load Analysis Settings from file")
 {
    GO4TRACE((12,"TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() ctor",__LINE__, __FILE__));

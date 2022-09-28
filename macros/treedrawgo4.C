@@ -1,5 +1,5 @@
 
-void treedrawgo4(const char* filename)
+void treedrawgo4(const char *filename)
 {
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // NOTE: This script requires call of .x go4Init.C before running!!!

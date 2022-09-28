@@ -19,7 +19,7 @@
 TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char* name,
                                                 Int_t splitlevel,
                                                 Int_t bufsize,
-                                                const char* filename,
+                                                const char *filename,
                                                 Int_t compression)
 : TGo4EventStoreParameter(name, GO4EV_TREE),
    fiSplit(splitlevel), fiBufsize(bufsize), fiCompression(compression)

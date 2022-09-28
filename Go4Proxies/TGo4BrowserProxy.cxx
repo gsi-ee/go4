@@ -333,7 +333,7 @@ Int_t TGo4BrowserProxy::RequestBrowserObject(TGo4Slot* slot, Int_t wait_time)
    return RequestBrowserObject(name.Data(), wait_time);
 }
 
-Bool_t TGo4BrowserProxy::ProduceExplicitCopy(const char* itemname, const char* tgtpath, Bool_t forcerequest)
+Bool_t TGo4BrowserProxy::ProduceExplicitCopy(const char *itemname, const char* tgtpath, Bool_t forcerequest)
 {
    return ProduceExplicitCopy(BrowserSlot(itemname), tgtpath, forcerequest);
 }
@@ -426,7 +426,7 @@ void TGo4BrowserProxy::ClearClipboard()
    }
 }
 
-void TGo4BrowserProxy::AddToClipboard(const char* itemname)
+void TGo4BrowserProxy::AddToClipboard(const char *itemname)
 {
    if (!fxClipboard) fxClipboard = new TObjArray;
 
@@ -461,7 +461,7 @@ void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
       ProduceExplicitCopy(fxClipboard->At(n)->GetName(), tgtpath, forcerequest);
 }
 
-void TGo4BrowserProxy::OpenFile(const char* fname)
+void TGo4BrowserProxy::OpenFile(const char *fname)
 {
    if (!fname || (*fname == 0)) return;
 
@@ -742,7 +742,7 @@ TGo4Slot* TGo4BrowserProxy::FindServerSlot(Bool_t databranch, Int_t kind)
    return res;
 }
 
-TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
+TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char *itemname)
 {
    TString slotname;
    DataSlotName(itemname, slotname);
@@ -754,7 +754,7 @@ TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
    return slot ? dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy()) : nullptr;
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::FindServer(const char* itemname, Bool_t asanalysis)
+TGo4ServerProxy* TGo4BrowserProxy::FindServer(const char *itemname, Bool_t asanalysis)
 {
    // method should be used when analysis can be used via TGo4ServerProxy interface
 
@@ -799,7 +799,7 @@ TString TGo4BrowserProxy::FindItem(const char* objname)
    return TString("");
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char *itemname)
 {
    TGo4Slot* slot = DataSlot(itemname);
    if (!slot) return nullptr;
@@ -813,7 +813,7 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
    return nullptr;
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TString* objname, Bool_t onlyanalysis)
+TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char *itemname, TString* objname, Bool_t onlyanalysis)
 {
    TString slotname;
    DataSlotName(itemname, slotname);
@@ -829,12 +829,12 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TStr
    return serv;
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TString& analysisname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char *itemname, TString& analysisname)
 {
    return DefineServerObject(itemname, &analysisname, kTRUE);
 }
 
-Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
+Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char *itemname, TObject* obj)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;
@@ -860,7 +860,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
    return serv ? serv->UpdateAnalysisObject(analysisname, obj) : kFALSE;
 }
 
-void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
+void TGo4BrowserProxy::FetchItem(const char *itemname, Int_t wait_time)
 {
    TGo4Slot* itemslot = ItemSlot(itemname);
    if (!itemslot) return;
@@ -878,7 +878,7 @@ void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
    if (wait_time == 0) return;
 }
 
-void TGo4BrowserProxy::RedrawItem(const char* itemname)
+void TGo4BrowserProxy::RedrawItem(const char *itemname)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (slot) {
@@ -960,14 +960,14 @@ TGo4Slot* TGo4BrowserProxy::BrowserTopSlot()
    return fxBrowserSlot;
 }
 
-TGo4Slot* TGo4BrowserProxy::ItemSlot(const char* itemname)
+TGo4Slot* TGo4BrowserProxy::ItemSlot(const char *itemname)
 {
    TString slotname;
    BrowserSlotName(itemname, slotname);
    return fxOM->GetSlot(slotname.Data());
 }
 
-Bool_t TGo4BrowserProxy::DefineTreeName(const char* itemname, TString& treename)
+Bool_t TGo4BrowserProxy::DefineTreeName(const char *itemname, TString& treename)
 {
    TString slotname;
    BrowserSlotName(itemname, slotname);
@@ -987,7 +987,7 @@ Bool_t TGo4BrowserProxy::DefineTreeName(const char* itemname, TString& treename)
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treename, TString& leafname)
+Bool_t TGo4BrowserProxy::DefineLeafName(const char *itemname, const char* treename, TString& leafname)
 {
    if (!itemname || !treename) return kFALSE;
 
@@ -1007,7 +1007,7 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treena
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* objname, TString& objectitem, Int_t mask)
+Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char* objname, TString& objectitem, Int_t mask)
 {
    if (!objname || (*objname == 0)) return kFALSE;
 
@@ -1100,7 +1100,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
    return kFALSE;
 }
 
-Bool_t TGo4BrowserProxy::DefineFileObject(const char* itemname, TString& fitemname, const char** filepath)
+Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString& fitemname, const char** filepath)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;
@@ -1126,7 +1126,7 @@ Bool_t TGo4BrowserProxy::DefineFileObject(const char* itemname, TString& fitemna
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char* itemname, const char* fileitemname, const char* filepath)
+Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char *itemname, const char* fileitemname, const char* filepath)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;
@@ -1148,7 +1148,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char* itemname, const char* fi
    return res;
 }
 
-Bool_t TGo4BrowserProxy::SaveItemToFile(const char* itemname, const char* filename, const char* subfolder)
+Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filename, const char* subfolder)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;
@@ -1179,7 +1179,7 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char* itemname, const char* filena
 
 void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
                                      Bool_t fetchitems,
-                                     const char* filename,
+                                     const char *filename,
                                      const char* filedir,
                                      const char* format,
                                      const char* description)
@@ -1254,7 +1254,7 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
    exman.Export(&objs, filter);
 }
 
-Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char* filename,
+Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char *filename,
                                            Bool_t prefetch,
                                            const char* selectedpath,
                                            const char* description)
@@ -1326,7 +1326,7 @@ const char* TGo4BrowserProxy::ItemDate(TGo4Slot* slot)
    return !slot ? nullptr : slot->GetPar("GUI::Date");
 }
 
-void TGo4BrowserProxy::SetLinkedName(TGo4Slot* slot, const char* itemname)
+void TGo4BrowserProxy::SetLinkedName(TGo4Slot* slot, const char *itemname)
 {
    if (slot)
       slot->SetPar("::LinkedItem", itemname);
@@ -1508,7 +1508,7 @@ void TGo4BrowserProxy::CreateMemoryFolder(const char* foldername)
    fxOM->MakeFolder(fullpathname);
 }
 
-void TGo4BrowserProxy::CreateMemorySubfolder(const char* itemname, const char* newfoldername)
+void TGo4BrowserProxy::CreateMemorySubfolder(const char *itemname, const char* newfoldername)
 {
     TGo4Slot* itemslot = BrowserSlot(itemname);
 
@@ -1526,7 +1526,7 @@ void TGo4BrowserProxy::CreateMemorySubfolder(const char* itemname, const char* n
        InformBrowserUpdate();
 }
 
-void TGo4BrowserProxy::RenameMemoryItem(const char* itemname, const char* newname)
+void TGo4BrowserProxy::RenameMemoryItem(const char *itemname, const char* newname)
 {
    TGo4Slot* itemslot = BrowserSlot(itemname);
    if (!itemslot || !newname || (strlen(newname) == 0)) return;
@@ -1551,7 +1551,7 @@ void TGo4BrowserProxy::RenameMemoryItem(const char* itemname, const char* newnam
 
 
 
-void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
+void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
 {
    TGo4Slot* itemslot = BrowserSlot(itemname);
    if (!itemslot) return;

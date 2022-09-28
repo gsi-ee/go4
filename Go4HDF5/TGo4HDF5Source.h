@@ -57,7 +57,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
   protected:
 
     /** opens the hdf5 file of given name for reading */
-    void OpenFile(const char* fname) override;
+    void OpenFile(const char *fname) override;
 
     /** initialize dataset from event structure*/
     void BuildDataSet(TGo4EventElement* event) override;

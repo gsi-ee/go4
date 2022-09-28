@@ -622,7 +622,7 @@ bool TGo4ViewPanel::IsConditionSelected(TPad* pad)
    return GetDrawKind(slot) == kind_Condition;
 }
 
-TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
+TPad* TGo4ViewPanel::FindPadWithItem(const char *itemname)
 {
    TGo4Iter iter(GetPanelSlot(), kTRUE);
    while (iter.next()) {
@@ -657,7 +657,7 @@ const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
 }
 
 
-void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
+void TGo4ViewPanel::UndrawItemOnPanel(const char *itemname)
 {
    TGo4LockGuard lock;
 
@@ -1165,7 +1165,7 @@ void TGo4ViewPanel::GetConditionBtn_clicked()
    TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition)
       return;
-   const char* itemname = GetLinkedName(slot);
+   const char *itemname = GetLinkedName(slot);
    if (!itemname)
       return;
 
@@ -1179,7 +1179,7 @@ void TGo4ViewPanel::InfoConditionBtn_clicked()
    TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition)
       return;
-   const char* itemname = GetLinkedName(slot);
+   const char *itemname = GetLinkedName(slot);
    if (itemname)
       ShowItemInfo(itemname);
 }
@@ -1188,7 +1188,7 @@ void TGo4ViewPanel::EditConditionBtn_clicked()
 {
    TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition) return;
-   const char* itemname = GetLinkedName(slot);
+   const char *itemname = GetLinkedName(slot);
    if (itemname)
       EditItem(itemname);
 }
@@ -1197,7 +1197,7 @@ void TGo4ViewPanel::SetConditionBtn_clicked()
 {
    TGo4Slot* slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
    if (GetDrawKind(slot) != kind_Condition) return;
-   const char* itemname = GetLinkedName(slot);
+   const char *itemname = GetLinkedName(slot);
    if (itemname) {
       UpdateItemInAnalysis(itemname);
       TGo4Condition* cond = dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
@@ -1864,7 +1864,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
                   // make clone when really needed
                   pic->AddSpecialObject(obj->Clone(), drawopt);
                } else if (dynamic_cast<TGo4LinkProxy*>(subslot->GetProxy())) {
-                  const char* itemname = GetLinkedName(subslot);
+                  const char *itemname = GetLinkedName(subslot);
                   if (itemname)
                      pic->AddObjName(itemname, drawopt);
                } else {
@@ -1890,7 +1890,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
       const char* drawopt = padopt->GetDrawOption(objnamenum++);
 
       if (useitemname) {
-         const char* itemname = GetLinkedName(subslot);
+         const char *itemname = GetLinkedName(subslot);
          if (itemname)
             pic->AddObjName(itemname, drawopt);
       } else {
@@ -2011,7 +2011,7 @@ void TGo4ViewPanel::StartConditionEditor()
       int drawkind = GetDrawKind(subslot);
       if (drawkind != kind_Condition)
          continue;
-      const char* itemname = GetLinkedName(subslot);
+      const char *itemname = GetLinkedName(subslot);
       if (itemname) {
          EditItem(itemname);
          return;
@@ -2296,7 +2296,7 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad *pad, TGo4Slot *parent, bool rem
       ClearPadItems(slot, nullptr);
 }
 
-TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname,
+TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char *itemname,
                                        TObject* obj, bool owner, const char* drawopt)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
@@ -2862,7 +2862,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          const char* objname = stob->GetName();
 
          if (showitems && objslots) {
-            const char* itemname = GetLinkedName((TGo4Slot*) objslots->At(n));
+            const char *itemname = GetLinkedName((TGo4Slot*) objslots->At(n));
             if (itemname) objname = itemname;
          }
 

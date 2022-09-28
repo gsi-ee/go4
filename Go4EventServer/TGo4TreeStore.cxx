@@ -29,7 +29,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
                              TGo4EventElement* event,
                              Int_t splitlevel,
                              Int_t bufsize,
-                             const char* filename,
+                             const char *filename,
                              Int_t compression) :
    TGo4EventStore(name),
    fxBranch(0), fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)

@@ -82,7 +82,7 @@ void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
 
    const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
    const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
-   const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
+   const char *itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
 
    if (stime && padopt->IsTitleTime()) {
       title+= "  ";

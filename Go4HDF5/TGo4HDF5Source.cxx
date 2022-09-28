@@ -162,7 +162,7 @@ Bool_t TGo4HDF5Source::CloseCurrentFile()
    }
 }
 
-void TGo4HDF5Source::OpenFile(const char* fname)
+void TGo4HDF5Source::OpenFile(const char *fname)
 {
    TString buffer(fname);
    if (!strstr(buffer.Data(), TGo4HDF5Adapter::fgcFILESUF))

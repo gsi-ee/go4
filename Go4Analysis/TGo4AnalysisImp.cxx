@@ -844,7 +844,7 @@ void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 }
 
 
-Bool_t TGo4Analysis::LoadStatus(const char* filename)
+Bool_t TGo4Analysis::LoadStatus(const char *filename)
 {
    GO4TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
    //
@@ -890,7 +890,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
    return rev;
 }
 
-Bool_t TGo4Analysis::SaveStatus(const char* filename)
+Bool_t TGo4Analysis::SaveStatus(const char *filename)
 {
    GO4TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
@@ -1153,7 +1153,7 @@ void TGo4Analysis::UpdateNamesList()
 }
 
 
-Bool_t TGo4Analysis::LoadObjects(const char* filename)
+Bool_t TGo4Analysis::LoadObjects(const char *filename)
 {
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    if(filename) fxAutoFileName = filename;

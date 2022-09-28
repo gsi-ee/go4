@@ -85,7 +85,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   theKey = TGo4AnalysisWebStatus::fgxURL_ASF_SAVE;
   if (url.HasOption(theKey.Data()))
   {
-    const char* filename = url.GetValueFromOptions(theKey.Data());
+    const char *filename = url.GetValueFromOptions(theKey.Data());
     WriteAutoSave(filename, fbAutoSaveOverwrite, fiAutoSaveCompression);
     message.Append(TString::Format(", saving autosave file %s", filename));
     TGo4Log::Message(1, "%s", message.Data());
@@ -96,7 +96,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE;
   if (url.HasOption(theKey.Data()))
   {
-    const char* filename = url.GetValueFromOptions(theKey.Data());
+    const char *filename = url.GetValueFromOptions(theKey.Data());
     SaveStatus(filename);
     message.Append(TString::Format(", saving configuration file %s", filename));
     TGo4Log::Message(1, "%s", message.Data());
@@ -107,7 +107,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_LOAD;
   if (url.HasOption(theKey.Data()))
   {
-    const char* filename = url.GetValueFromOptions(theKey.Data());
+    const char *filename = url.GetValueFromOptions(theKey.Data());
     ana->StopAnalysis();
     if (LoadStatus(filename))
     {
@@ -600,7 +600,7 @@ Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
 }
 
 
-Bool_t TGo4AnalysisWebStatus::LoadStatus(const char* fname)
+Bool_t TGo4AnalysisWebStatus::LoadStatus(const char *fname)
 {
    // make it here to be able use via http interface
 
@@ -610,7 +610,7 @@ Bool_t TGo4AnalysisWebStatus::LoadStatus(const char* fname)
 
 }
 
-Bool_t TGo4AnalysisWebStatus::SaveStatus(const char* fname)
+Bool_t TGo4AnalysisWebStatus::SaveStatus(const char *fname)
 {
    // make it here to be able use via http interface
 
@@ -620,7 +620,7 @@ Bool_t TGo4AnalysisWebStatus::SaveStatus(const char* fname)
 }
 
 
-Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
+Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char *fname,
                                             Bool_t overwrite,
                                             Int_t complevel)
 {

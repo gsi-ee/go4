@@ -18,7 +18,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComSaveAnalysisStatus::TGo4ComSaveAnalysisStatus(const char* filename) :
+TGo4ComSaveAnalysisStatus::TGo4ComSaveAnalysisStatus(const char *filename) :
    TGo4AnalysisCommand("ANSave","Save settings to file")
 {
    GO4TRACE((12,"TGo4ComSaveAnalysisStatus::TGo4ComSaveAnalysisStatus() ctor",__LINE__, __FILE__));

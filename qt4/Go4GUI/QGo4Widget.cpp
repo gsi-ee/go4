@@ -39,7 +39,7 @@ QGo4Widget::~QGo4Widget()
    RemoveLinksMasked("complete");
 }
 
-void QGo4Widget::ObjectCreatedByWidget(const char* itemname, TClass* cl)
+void QGo4Widget::ObjectCreatedByWidget(const char *itemname, TClass* cl)
 {
    // this method calls by maingui when object created by one of editor
 
@@ -114,7 +114,7 @@ void QGo4Widget::dropEvent(QDropEvent* e)
    emit widgetService(this, service_DropEvent, nullptr, e);
 }
 
-void QGo4Widget::AddLink(const char* itemname, const char* linkname)
+void QGo4Widget::AddLink(const char *itemname, const char* linkname)
 {
    emit widgetService(this, service_AddEditorLink, linkname, (void*) itemname);
 }
@@ -124,7 +124,7 @@ void QGo4Widget::AddLink(TGo4Slot* slot, const char* linkname)
    emit widgetService(this, service_AddDirectLink, linkname, (void*) slot);
 }
 
-TGo4Slot* QGo4Widget::AddLink(const char* itemname, TGo4Slot* parent)
+TGo4Slot* QGo4Widget::AddLink(const char *itemname, TGo4Slot* parent)
 {
    TGo4Slot* res = parent;
    emit widgetService(this, service_AddLinkInSlot, itemname, (void*) &res);
@@ -145,7 +145,7 @@ TGo4Slot* QGo4Widget::AddSlot(const char* slotname)
    return res;
 }
 
-void QGo4Widget::SetLinkedName(TGo4Slot* slot, const char* itemname)
+void QGo4Widget::SetLinkedName(TGo4Slot* slot, const char *itemname)
 {
    emit widgetService(this, service_SetLinkedName, itemname, (void*) slot);
 }
@@ -209,7 +209,7 @@ void QGo4Widget::RemoveLinksMasked(const char* startedwith, bool blockreset)
    fBlockUpdate = oldvalue;
 }
 
-bool QGo4Widget::BrowserItemRemote(const char* itemname)
+bool QGo4Widget::BrowserItemRemote(const char *itemname)
 {
    bool isremote = false;
    emit widgetService(this, service_BrowserItemRemote, itemname, (void*) &isremote);
@@ -279,7 +279,7 @@ void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
    emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void*) cl);
 }
 
-void QGo4Widget::InformThatObjectCreated(const char* itemname, TClass* cl)
+void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass* cl)
 {
    emit widgetService(this, service_ObjectCreated, itemname, cl);
 }
@@ -313,24 +313,24 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* pane
    return (TGo4ViewPanel*) res[0];
 }
 
-TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char* itemname)
+TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char *itemname)
 {
    TGo4ViewPanel* res = nullptr;
    emit widgetService(this, service_WhereItemDrawn, itemname, &res);
    return res;
 }
 
-void QGo4Widget::UndrawItem(const char* itemname)
+void QGo4Widget::UndrawItem(const char *itemname)
 {
    emit widgetService(this, service_UndrawItem, itemname, nullptr);
 }
 
-void QGo4Widget::HelpWindow(const char* filename, const char* msg)
+void QGo4Widget::HelpWindow(const char *filename, const char* msg)
 {
    emit widgetService(this, service_HelpWindow, filename, (void*)msg);
 }
 
-void QGo4Widget::StartHotstart(const char* filename)
+void QGo4Widget::StartHotstart(const char *filename)
 {
    emit widgetService(this, service_HotStart, filename, nullptr);
 }
@@ -365,7 +365,7 @@ QString QGo4Widget::SaveObjectInMemory(const char* foldername, TObject* obj)
    return itemname;
 }
 
-bool QGo4Widget::SaveItemToFile(const char* itemname, const char* subfolder)
+bool QGo4Widget::SaveItemToFile(const char *itemname, const char* subfolder)
 {
    char buf[1000];
    if (!subfolder)
@@ -376,14 +376,14 @@ bool QGo4Widget::SaveItemToFile(const char* itemname, const char* subfolder)
    return buf[0] != 0;
 }
 
-bool QGo4Widget::UpdateItemInAnalysis(const char* itemname, TObject* obj)
+bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject* obj)
 {
    TObject* res = obj;
    emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);
    return res != nullptr;
 }
 
-TGo4ServerProxy* QGo4Widget::GetAnalysis(const char* itemname)
+TGo4ServerProxy* QGo4Widget::GetAnalysis(const char *itemname)
 {
    TGo4ServerProxy* res = nullptr;
    emit widgetService(this, service_GetAnalysis, itemname, (void*) &res);

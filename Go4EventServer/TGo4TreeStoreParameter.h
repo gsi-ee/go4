@@ -26,7 +26,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
     TGo4TreeStoreParameter(const char* name,
                            Int_t splitlevel = 1,
                            Int_t bufsize = 64000,
-                           const char* filename = nullptr,
+                           const char *filename = nullptr,
                            Int_t compression = 5);
 
     virtual ~TGo4TreeStoreParameter();

@@ -64,7 +64,7 @@ TGo4Script::~TGo4Script()
 }
 
 
-Bool_t TGo4Script::StartScriptExecution(const char* fname)
+Bool_t TGo4Script::StartScriptExecution(const char *fname)
 {
    if (!fname || (strlen(fname) == 0)) return kFALSE;
 
@@ -297,7 +297,7 @@ void TGo4Script::Message(const char* msg)
      fMainWin->StatusMessage(msg);
 }
 
-void TGo4Script::HotStart(const char* filename)
+void TGo4Script::HotStart(const char *filename)
 {
    fMainWin->HotStart(filename);
 }
@@ -474,7 +474,7 @@ void TGo4Script::SetAnalysisConfigMode(int mode)
       gui->showNormal();
 }
 
-void TGo4Script::AnalysisAutoSave(const char* filename,
+void TGo4Script::AnalysisAutoSave(const char *filename,
                                        Int_t interval,
                                        Int_t compression,
                                        Bool_t enabled,
@@ -485,7 +485,7 @@ void TGo4Script::AnalysisAutoSave(const char* filename,
      gui->SetAutoSaveConfig(filename, interval, compression, enabled, overwrite);
 }
 
-void TGo4Script::AnalysisConfigName(const char* filename)
+void TGo4Script::AnalysisConfigName(const char *filename)
 {
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
    if(gui && CanConfigureAnalysis())
@@ -824,7 +824,7 @@ void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
    if (panel) panel->SetApplyToAllFlag(on);
 }
 
-Bool_t TGo4Script::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)
+Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const char* drawopt)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
 
@@ -874,7 +874,7 @@ TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* acc
 // ***************************** Generation *********************
 
 
-void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
+void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
 {
    TGo4AnalysisConfiguration* confgui = main->FindAnalysisConfiguration();
 

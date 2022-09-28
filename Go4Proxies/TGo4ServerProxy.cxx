@@ -42,7 +42,7 @@ class TGo4Prefs {
          #endif
       }
 
-      void AddFile(const char* fname, bool errorout = false)
+      void AddFile(const char *fname, bool errorout = false)
       {
          std::ifstream f(fname);
          if(!f) {

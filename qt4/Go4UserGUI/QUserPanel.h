@@ -32,7 +32,7 @@ public:
     virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
     virtual void linkedObjectRemoved( const char * linkname );
     virtual void PrintObject(TObject* obj);
-    virtual void DrawObjectOnCanvas(const char* itemname);
+    virtual void DrawObjectOnCanvas(const char *itemname);
 
 public slots:
     virtual void InfoBtn_clicked();

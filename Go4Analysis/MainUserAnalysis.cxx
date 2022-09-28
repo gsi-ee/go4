@@ -1095,7 +1095,7 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-prefs") == 0) {
          narg++;
-         const char* fname = 0;
+         const char *fname = nullptr;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             fname = argv[narg++];
          analysis->LoadStatus(fname);

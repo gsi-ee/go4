@@ -43,7 +43,7 @@ class TGo4TreeStore : public TGo4EventStore {
                   TGo4EventElement* event,
                   Int_t splitlevel = 1,
                   Int_t bufsize = 64000,
-                  const char* filename = nullptr,
+                  const char *filename = nullptr,
                   Int_t compression = 5);
 
     TGo4TreeStore();

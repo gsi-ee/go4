@@ -32,7 +32,7 @@ class TGo4Interface : public TGo4AbstractInterface {
       virtual ~TGo4Interface();
 
       void Wait(double tm_sec) override;
-      void HotStart(const char* filename) override;
+      void HotStart(const char *filename) override;
       void Message(const char* msg) override;
 
       // analysis start and configuration
@@ -62,13 +62,13 @@ class TGo4Interface : public TGo4AbstractInterface {
 
       // steps configuration
 
-      void AnalysisAutoSave(const char* filename,
+      void AnalysisAutoSave(const char *filename,
                             Int_t interval,
                             Int_t compression,
                             Bool_t enabled,
                             Bool_t overwrite) override;
 
-      void AnalysisConfigName(const char* filename) override;
+      void AnalysisConfigName(const char *filename) override;
 
       void ConfigStep(const char* stepname,
                       Bool_t enableprocess,
@@ -153,8 +153,8 @@ class TGo4Interface : public TGo4AbstractInterface {
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
       TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
 
-      Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
-      void RedrawItem(const char* itemname) override;
+      Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char* drawopt = nullptr) override;
+      void RedrawItem(const char *itemname) override;
 
       void ProcessHotStart();
 

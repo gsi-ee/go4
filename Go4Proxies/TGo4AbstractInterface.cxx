@@ -109,7 +109,7 @@ TGo4ServerProxy* TGo4AbstractInterface::Server()
    return Browser() ? Browser()->FindServer() : nullptr;
 }
 
-void TGo4AbstractInterface::LoadLibrary(const char* fname)
+void TGo4AbstractInterface::LoadLibrary(const char *fname)
 {
    if (!fname || (strlen(fname) == 0)) return;
 
@@ -125,21 +125,21 @@ void TGo4AbstractInterface::LoadLibrary(const char* fname)
    gSystem->Load(fname);
 }
 
-void TGo4AbstractInterface::OpenFile(const char* fname)
+void TGo4AbstractInterface::OpenFile(const char *fname)
 {
    Browser()->OpenFile(fname);
    ProcessEvents(-1);
 }
 
 
-Bool_t TGo4AbstractInterface::SaveToFile(const char* itemname,
-                                         const char* filename,
+Bool_t TGo4AbstractInterface::SaveToFile(const char *itemname,
+                                         const char *filename,
                                          const char* filetitle)
 {
    return Browser()->SaveBrowserToFile(filename, kFALSE, itemname, filetitle);
 }
 
-Bool_t TGo4AbstractInterface::ExportToFile(const char* itemname,
+Bool_t TGo4AbstractInterface::ExportToFile(const char *itemname,
                                            const char* dirpath,
                                            const char* format,
                                            const char* filetitle)
@@ -205,7 +205,7 @@ void TGo4AbstractInterface::RequestAnalysisConfig()
      anal->RequestAnalysisSettings();
 }
 
-void TGo4AbstractInterface::MonitorItem(const char* itemname, Bool_t on)
+void TGo4AbstractInterface::MonitorItem(const char *itemname, Bool_t on)
 {
    TGo4Slot* itemslot = Browser()->BrowserSlot(itemname);
    if (itemslot)
@@ -230,27 +230,27 @@ TString TGo4AbstractInterface::FindItem(const char* objname)
    return Browser()->FindItem(objname);
 }
 
-Bool_t TGo4AbstractInterface::CopyItem(const char* itemname)
+Bool_t TGo4AbstractInterface::CopyItem(const char *itemname)
 {
    return Browser()->ProduceExplicitCopy(itemname);
 }
 
-Bool_t TGo4AbstractInterface::DeleteItem(const char* itemname)
+Bool_t TGo4AbstractInterface::DeleteItem(const char *itemname)
 {
    return Browser()->DeleteDataSource(Browser()->ItemSlot(itemname));
 }
 
-void TGo4AbstractInterface::FetchItem(const char* itemname, Int_t wait_time)
+void TGo4AbstractInterface::FetchItem(const char *itemname, Int_t wait_time)
 {
    Browser()->FetchItem(itemname, wait_time);
 }
 
-void TGo4AbstractInterface::RedrawItem(const char* itemname)
+void TGo4AbstractInterface::RedrawItem(const char *itemname)
 {
    Browser()->RedrawItem(itemname);
 }
 
-TObject* TGo4AbstractInterface::GetObject(const char* itemname, Int_t updatelevel)
+TObject* TGo4AbstractInterface::GetObject(const char *itemname, Int_t updatelevel)
 {
    if (!itemname || (strlen(itemname) == 0)) return nullptr;
 
@@ -266,7 +266,7 @@ TString TGo4AbstractInterface::SaveToMemory(const char* path, TObject* obj, Bool
    return res;
 }
 
-Bool_t TGo4AbstractInterface::LoadHotStart(const char* filename)
+Bool_t TGo4AbstractInterface::LoadHotStart(const char *filename)
 {
    FreeHotStartCmds();
 
