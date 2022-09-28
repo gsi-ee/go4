@@ -24,12 +24,9 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 {
    Q_OBJECT
 
-   protected:
-
-      bool fbUpdateTimerActive;
-      bool fVisibleColumns[7];
-
    public:
+      enum { NColumns = 7 };
+
       TGo4Browser(QWidget *parent = nullptr, const char *name = nullptr);
 
       void StartWorking();
@@ -87,8 +84,13 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
       void HeaderSectionResizedSlot(int, int, int);
 
       void ContextMenuActivated(int id);
-};
 
+   protected:
+
+      bool fbUpdateTimerActive{false};
+      bool fVisibleColumns[NColumns] = { false, false, false, false, false, false, false };
+
+};
 
 #endif
 
