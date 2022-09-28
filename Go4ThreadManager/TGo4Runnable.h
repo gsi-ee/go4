@@ -16,10 +16,9 @@
 
 #include "TNamed.h"
 
-#include "TGo4Exception.h"
-
 class TGo4Thread;
 class TGo4ThreadManager;
+class TGo4Exception;
 
 /**
 *   Base class for all go4 runnables. Virtual method Run() is working in
