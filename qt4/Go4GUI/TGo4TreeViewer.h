@@ -30,7 +30,7 @@ public:
    void ResetWidget() override;
    virtual void WorkWithLeaf(const char *itemname);
    virtual void ProcessDropEvent(QGo4LineEdit* edt, bool caninit);
-   void requestedObjectCreated(const char *itemname, TClass* cl) override;
+   void requestedObjectCreated(const char *itemname, TClass *cl) override;
 
 public slots:
 

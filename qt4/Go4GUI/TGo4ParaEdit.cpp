@@ -65,14 +65,14 @@ TGo4ParaEdit::~TGo4ParaEdit()
    }
 }
 
-bool TGo4ParaEdit::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool TGo4ParaEdit::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    if (kind==TGo4Access::kndGo4Param) return true;
 
    return !cl ? false : cl->InheritsFrom(TGo4Parameter::Class());
 }
 
-void TGo4ParaEdit::DropItem(const char *itemname, TClass* cl, int kind)
+void TGo4ParaEdit::DropItem(const char *itemname, TClass *cl, int kind)
 {
    if ((kind==TGo4Access::kndGo4Param) ||
        (cl && cl->InheritsFrom(TGo4Parameter::Class())))
@@ -88,7 +88,7 @@ void TGo4ParaEdit::linkedObjectUpdated(const char *linkname, TObject *obj)
       RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
 }
 
-void TGo4ParaEdit::linkedObjectRemoved(const char * linkname)
+void TGo4ParaEdit::linkedObjectRemoved(const char *linkname)
 {
    // if link removed while parameter is disappear, just close parameter editor
 

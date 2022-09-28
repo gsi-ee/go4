@@ -42,7 +42,7 @@ void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot *slot)
    AddLink(slot, "Ratemeter");
 }
 
-void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObject * obj )
+void TGo4AnalysisStatusMonitor::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    TGo4AnalysisClientStatus* status = dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    TGo4Ratemeter* rate = dynamic_cast<TGo4Ratemeter*> (obj);
@@ -103,7 +103,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    DateLabel->setText(status ? status->GetDateTime() : rate->GetDateTime());
 }
 
-void TGo4AnalysisStatusMonitor::linkedObjectRemoved(const char * linkname)
+void TGo4AnalysisStatusMonitor::linkedObjectRemoved(const char *linkname)
 {
    // in any case deletion of this slot means closing of widget
 

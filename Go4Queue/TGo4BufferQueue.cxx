@@ -108,7 +108,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
          // note: root version 3.05/02 crashes again when unknown class
          // shall be read; this  was working in 3.03/09
          // therefore, we put in our own check again from revision 1.23
-         TClass* cl = buffer->ReadClass();
+         TClass *cl = buffer->ReadClass();
          //std::cout << "buffer queue "<< GetName() <<" :waitobject, got Class: " << cl << std::endl;
          if(cl == (TClass*) -1)
          {
@@ -223,7 +223,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 //         entry->Reset();
 //
 //         entry->InitMap();
-//         TClass* cl= entry->ReadClass();
+//         TClass *cl= entry->ReadClass();
 //         entry->Reset();
 //         std::cout << "buffer contains class "<< cl << std::endl;
 //         if(cl)

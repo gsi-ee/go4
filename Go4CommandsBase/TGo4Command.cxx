@@ -86,7 +86,7 @@ Bool_t TGo4Command::IsExclusive() const
 
 const char *TGo4Command::GetReceiverName() const
 {
-  GO4TRACE((10,"const char * TGo4Command::GetReceiverName()", __LINE__, __FILE__));
+  GO4TRACE((10,"const char *TGo4Command::GetReceiverName()", __LINE__, __FILE__));
   return fxReceiverName.Data();
 }
 
@@ -98,7 +98,7 @@ void TGo4Command::SetReceiverName(const char *name)
 
 const char *TGo4Command::GetTaskName() const
 {
-  GO4TRACE((10,"const char * TGo4Command::GetTaskName()", __LINE__, __FILE__));
+  GO4TRACE((10,"const char *TGo4Command::GetTaskName()", __LINE__, __FILE__));
   return fxTaskName.Data();
 }
 
@@ -115,15 +115,15 @@ void TGo4Command::SetDescription(const char *txt)
 }
 const char *TGo4Command::What() const
 {
-  GO4TRACE((10,"const char * TGo4Command::What()", __LINE__, __FILE__));
-  return fxDescription.Data();
+   GO4TRACE((10,"const char *TGo4Command::What()", __LINE__, __FILE__));
+   return fxDescription.Data();
 }
 
 Int_t TGo4Command::ExeCom()
 {
-  GO4TRACE((10,"Int_t TGo4Command::ExeCom()", __LINE__, __FILE__));
-  std::cout << What() << std::endl;
-  return 0;
+   GO4TRACE((10,"Int_t TGo4Command::ExeCom()", __LINE__, __FILE__));
+   std::cout << What() << std::endl;
+   return 0;
 }
 
 Int_t TGo4Command::RefuseCom()

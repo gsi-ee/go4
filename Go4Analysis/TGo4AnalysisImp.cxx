@@ -803,7 +803,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 ////////////////////////////////////////////////////////////
 // dynamic list stuff:
 
-Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char *listname)
+Bool_t TGo4Analysis::RemoveDynamicEntry(const char *entryname, const char *listname)
 {
    GO4TRACE((11,"TGo4Analysis::RemoveDynamicEntry(const char *, const char *)",__LINE__, __FILE__));
    Bool_t rev=fxObjectManager->RemoveDynamicEntry(entryname);
@@ -811,11 +811,10 @@ Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char *list
    return rev;
 }
 
-
 //////////////////////////////////////////////////////////////
 // status related methods:
 
-void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus* state)
+void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus *state)
 {
    GO4TRACE((11,"TGo4Analysis::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    fxStepManager->UpdateStatus(state);
@@ -847,7 +846,7 @@ void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 
 Bool_t TGo4Analysis::LoadStatus(const char *filename)
 {
-   GO4TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::LoadStatus(const char *)",__LINE__, __FILE__));
    //
    Bool_t rev = kFALSE;
    TString fname = filename ? filename : fgcDEFAULTSTATUSFILENAME;
@@ -1046,7 +1045,7 @@ Int_t TGo4Analysis::UserPostLoop()
    return 0;
 }
 
-void TGo4Analysis::SetAutoSaveFile(const char * filename, Bool_t overwrite, Int_t compression)
+void TGo4Analysis::SetAutoSaveFile(const char *filename, Bool_t overwrite, Int_t compression)
 {
 //   if(!fbAutoSaveOn) return; // do not set autosave file if disabled!
    //TGo4LockGuard  autoguard(fxAutoSaveMutex);
@@ -1701,7 +1700,7 @@ Int_t TGo4Analysis::StoreFolder(const char *name, TFolder* folder)
    return fxStepManager->Store(name, folder);
 }
 
-Int_t TGo4Analysis::StoreFolder(const char * stepname, const char * foldername)
+Int_t TGo4Analysis::StoreFolder(const char *stepname, const char *foldername)
 {
    TFolder* myfolder = fxObjectManager->FindSubFolder(GetObjectFolder(), foldername, kFALSE);
    return myfolder ? fxStepManager->Store(stepname, myfolder) : 2;

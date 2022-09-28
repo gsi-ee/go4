@@ -56,7 +56,7 @@ class TGo4EventSource : public TNamed {
       virtual const char *GetActiveName();
 
       /** Check that event class is supported by event source */
-      virtual Bool_t CheckEventClass(TClass* cl);
+      virtual Bool_t CheckEventClass(TClass *cl);
 
       /** Fill the destination event dest. */
       virtual Bool_t BuildEvent(TGo4EventElement* dest) { return kTRUE; }

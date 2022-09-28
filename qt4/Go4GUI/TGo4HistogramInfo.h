@@ -43,8 +43,8 @@ public:
 
    TGo4HistogramInfo(QWidget *parent = nullptr, const char *name = nullptr);
 
-   bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;
-   void DropItem(const char *itemname, TClass* cl, int kind) override;
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
    virtual void WorkWithHistogram(const char *itemname);
    void ResetWidget() override;

@@ -104,7 +104,7 @@ TYYYUnpackProc::~TYYYUnpackProc()
 }
 //***********************************************************
 
-Bool_t TYYYUnpackProc::CheckEventClass(TClass* cl)
+Bool_t TYYYUnpackProc::CheckEventClass(TClass *cl)
 {
    return cl->InheritsFrom(TYYYUnpackEvent::Class());
 }

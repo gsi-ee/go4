@@ -49,12 +49,12 @@ void TGo4HistogramInfo::HisInfoButton_clicked()
    WorkWithHistogram(HisnameLbl->text().toLatin1().constData());
 }
 
-bool TGo4HistogramInfo::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool TGo4HistogramInfo::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    return !cl ? false : cl->InheritsFrom(TH1::Class());
 }
 
-void TGo4HistogramInfo::DropItem(const char *itemname, TClass* cl, int kind)
+void TGo4HistogramInfo::DropItem(const char *itemname, TClass *cl, int kind)
 {
    if (!cl) return;
 

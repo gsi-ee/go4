@@ -320,7 +320,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
    TClass *proc_cl = nullptr, *an_cl = nullptr, *evsrc_cl = nullptr, *evstore_cl = nullptr;
 
    while (auto obj = iter()) {
-      TClass* cl = TClass::GetClass(obj->GetName());
+      TClass *cl = TClass::GetClass(obj->GetName());
 
       // all relevant go4 classes inherited from TObject
       if (!cl || !cl->IsStartingWithTObject()) continue;
@@ -521,7 +521,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
       // if special input event is required, try to detect it
       if (src && !src->CheckEventClass(TGo4MbsEvent::Class())) {
          for (int n = 0; n <= evnt_classes.GetLast(); n++) {
-            TClass* cl = (TClass*) evnt_classes.At(n);
+            TClass *cl = (TClass*) evnt_classes.At(n);
             if (!src->CheckEventClass(cl)) continue;
 
             // if more than two classes are suited - ignore any of them

@@ -58,7 +58,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Creates TGo4Fitter object and set type of fit function.
        * If AddStandardActions flag is set,
        */
-      TGo4Fitter(const char * iName, Int_t iFitFunctionType, Bool_t IsAddStandardActions);
+      TGo4Fitter(const char *iName, Int_t iFitFunctionType, Bool_t IsAddStandardActions);
 
       /**
        * Destructor. Delete TGo4Fitter object.

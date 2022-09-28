@@ -35,7 +35,7 @@ TGo4ListCond::TGo4ListCond(const char *name, const char *title, const Int_t num,
    SetValues(num,input);
 }
 
-TGo4ListCond::TGo4ListCond(const char *name, const char * title, const Int_t start, const Int_t stop, const Int_t step) :
+TGo4ListCond::TGo4ListCond(const char *name, const char *title, const Int_t start, const Int_t stop, const Int_t step) :
 	TGo4Condition(name, title)
 {
     SetDimension(1);

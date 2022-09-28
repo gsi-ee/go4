@@ -313,7 +313,7 @@ Int_t TGo4BrowserProxy::RequestBrowserObject(const char *name, Int_t wait_time)
 
    Int_t kind = ItemKind(name);
    if (kind==TGo4Access::kndObject) {
-      TClass* cl = ItemClass(name);
+      TClass *cl = ItemClass(name);
       if (!cl || !cl->IsLoaded()) return 0;
    }
 
@@ -976,7 +976,7 @@ Bool_t TGo4BrowserProxy::DefineTreeName(const char *itemname, TString& treename)
 
    TGo4Slot *treeslot = slot;
    while (treeslot) {
-      TClass* cl = ItemClass(treeslot);
+      TClass *cl = ItemClass(treeslot);
       if (cl && cl->InheritsFrom(TTree::Class())) break;
       treeslot = treeslot->GetParent();
    }
@@ -1108,7 +1108,7 @@ Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString& fitemna
    if (!slot->GetAssignedObject()) return kFALSE;
 
    while (slot!=fxBrowserSlot) {
-      TClass* cl = ItemClass(slot);
+      TClass *cl = ItemClass(slot);
       if (cl && cl->InheritsFrom(TFile::Class())) break;
       slot = slot->GetParent();
    }
@@ -1945,7 +1945,7 @@ Int_t TGo4BrowserProxy::CalculateFolderSizes(TGo4Slot *topslot)
    return sum;
 }
 
-Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pixmap)
+Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass *cl, TString& pixmap)
 {
    // 100000000 - execute,
    //  10000000 - expand,
@@ -1959,7 +1959,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
 
    Int_t cando = 0;
 
-   // TClass * cl = TGo4Proxy::GetClass(clname);
+   // TClass *cl = TGo4Proxy::GetClass(clname);
 
    if (kind==TGo4Access::kndObject) {
       if (cl) {

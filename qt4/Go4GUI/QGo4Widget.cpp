@@ -39,7 +39,7 @@ QGo4Widget::~QGo4Widget()
    RemoveLinksMasked("complete");
 }
 
-void QGo4Widget::ObjectCreatedByWidget(const char *itemname, TClass* cl)
+void QGo4Widget::ObjectCreatedByWidget(const char *itemname, TClass *cl)
 {
    // this method calls by maingui when object created by one of editor
 
@@ -272,14 +272,14 @@ void QGo4Widget::linkedRemoved(TGo4Slot */* slot */, TObject* /* obj */)
 {
 }
 
-void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
+void QGo4Widget::AskToCreateObject(TClass *cl, int isremote)
 {
    fWaitsForObjectCreation = (isremote >= 0);
    QString str = QString::number(isremote);
    emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void*) cl);
 }
 
-void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass* cl)
+void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass *cl)
 {
    emit widgetService(this, service_ObjectCreated, itemname, cl);
 }

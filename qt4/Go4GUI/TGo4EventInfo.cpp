@@ -30,12 +30,12 @@ TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char *name)
    ResetWidget();
 }
 
-bool TGo4EventInfo::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool TGo4EventInfo::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    return kind == TGo4Access::kndEventElement;
 }
 
-void TGo4EventInfo::DropItem(const char *itemname, TClass* cl, int kind)
+void TGo4EventInfo::DropItem(const char *itemname, TClass *cl, int kind)
 {
    if (kind == TGo4Access::kndEventElement)
       WorkWithEvent(itemname);
@@ -80,7 +80,7 @@ void TGo4EventInfo::linkedObjectUpdated(const char *linkname, TObject *obj)
    }
 }
 
-void TGo4EventInfo::linkedObjectRemoved(const char * /*linkname*/)
+void TGo4EventInfo::linkedObjectRemoved(const char *)
 {
 }
 

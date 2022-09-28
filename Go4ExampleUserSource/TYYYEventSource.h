@@ -40,7 +40,7 @@ class TYYYEventSource : public TGo4EventSource {
       virtual Int_t Close();
 
       /** This method checks if event class is suited for the source */
-      Bool_t CheckEventClass(TClass* cl) override;
+      Bool_t CheckEventClass(TClass *cl) override;
 
       /** This methods actually fills the target event class which is passed as pointer.
         * Uses the latest event which is referenced

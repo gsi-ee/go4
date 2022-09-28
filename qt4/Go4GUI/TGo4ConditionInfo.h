@@ -42,9 +42,9 @@ public:
 
 public:
 
-   bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
 
-   void DropItem(const char *itemname, TClass* cl, int kind) override;
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
 
    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 

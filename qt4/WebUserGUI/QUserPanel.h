@@ -24,22 +24,21 @@ class QUserPanel : public QGo4Widget, public Ui::QUserPanel
     Q_OBJECT
 
 public:
-    QUserPanel(QWidget *parent = nullptr, const char *name = nullptr);
-    virtual ~QUserPanel();
-    virtual QString kindString( int kind );
-    virtual bool IsAcceptDrag( const char * itemname, TClass * cl, int kind );
-    virtual void DropItem( const char * itemname, TClass * cl, int kind );
-    virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
-    virtual void linkedObjectRemoved( const char * linkname );
-    virtual void PrintObject(TObject *obj);
-    virtual void DrawObjectOnCanvas(const char *itemname);
-
+   QUserPanel(QWidget *parent = nullptr, const char *name = nullptr);
+   virtual ~QUserPanel();
+   virtual QString kindString(int kind);
+   virtual bool IsAcceptDrag(const char *itemname, TClass *cl, int kind);
+   virtual void DropItem(const char *itemname, TClass *cl, int kind);
+   virtual void linkedObjectUpdated(const char *linkname, TObject *obj);
+   virtual void linkedObjectRemoved(const char *linkname);
+   virtual void PrintObject(TObject *obj);
+   virtual void DrawObjectOnCanvas(const char *itemname);
 
 public slots:
-    virtual void InfoBtn_clicked();
-    virtual void EditBtn_clicked();
-    virtual void DrawBtn_clicked();
-    virtual void CanvasDropEventSlot(QDropEvent*,TPad*);
+   virtual void InfoBtn_clicked();
+   virtual void EditBtn_clicked();
+   virtual void DrawBtn_clicked();
+   virtual void CanvasDropEventSlot(QDropEvent *, TPad *);
 };
 
 #endif

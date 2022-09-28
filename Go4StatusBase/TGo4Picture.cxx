@@ -913,7 +913,7 @@ void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
    GetDrawAttributes(pad->GetFrame(), index);
 }
 
-void* TGo4Picture::Cast(TObject *obj, TClass* cl)
+void* TGo4Picture::Cast(TObject *obj, TClass *cl)
 {
    if (!obj || !cl) return nullptr;
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);

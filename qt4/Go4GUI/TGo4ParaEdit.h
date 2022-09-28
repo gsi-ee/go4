@@ -38,14 +38,14 @@ public:
    TGo4ParaEdit(QWidget *parent = nullptr, const char *name = nullptr);
    virtual ~TGo4ParaEdit();
 
-   bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;
-   void DropItem(const char *itemname, TClass* cl, int kind) override;
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
-   void linkedObjectRemoved( const char * linkname ) override;
+   void linkedObjectRemoved(const char *linkname) override;
    virtual void WorkWithParameter(const char *itemname, bool isrefresh);
    void ResetWidget() override;
-   virtual void RefreshWidget(TGo4Parameter* par);
-   virtual void RefreshWidget(TGo4ParameterStatus* parstatus);
+   virtual void RefreshWidget(TGo4Parameter *par);
+   virtual void RefreshWidget(TGo4ParameterStatus *parstatus);
    virtual void ShowVisibleItems();
 
 public slots:

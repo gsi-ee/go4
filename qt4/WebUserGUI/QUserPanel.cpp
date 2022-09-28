@@ -102,7 +102,7 @@ QString QUserPanel::kindString(int kind)
    return kndlabel;
 }
 
-bool QUserPanel::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool QUserPanel::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    bool res = false;
 
@@ -127,7 +127,7 @@ bool QUserPanel::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
    return res;
 }
 
-void QUserPanel::DropItem(const char *itemname, TClass* cl, int kind)
+void QUserPanel::DropItem(const char *itemname, TClass *cl, int kind)
 {
    switch (TabWidget->currentIndex()) {
       case 0:

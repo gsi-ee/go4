@@ -64,7 +64,7 @@ TYYYEventSource::~TYYYEventSource()
    Close();
 }
 
-Bool_t TYYYEventSource::CheckEventClass(TClass* cl)
+Bool_t TYYYEventSource::CheckEventClass(TClass *cl)
 {
    return cl->InheritsFrom(TYYYRawEvent::Class());
 }

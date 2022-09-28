@@ -157,7 +157,7 @@ Int_t TGo4ObjectProxy::GetObjectSizeInfo()
    return sz;
 }
 
-Bool_t TGo4ObjectProxy::IsAcceptObject(TClass* cl)
+Bool_t TGo4ObjectProxy::IsAcceptObject(TClass *cl)
 {
    return cl && cl->InheritsFrom(TObject::Class());
 }

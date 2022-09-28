@@ -36,7 +36,7 @@ class TGo4KeyAccess : public TGo4Access {
 
       Bool_t GetObject(TObject* &obj, Bool_t &owner) const override
       {
-         TClass* cl = gROOT->GetClass(fKey->GetClassName());
+         TClass *cl = gROOT->GetClass(fKey->GetClassName());
          if (cl && !cl->IsLoaded()) {
             obj = nullptr;
             owner = kFALSE;
@@ -122,7 +122,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return fCurrent != nullptr;
       }
 
-      Bool_t IsContainerClass(TClass* cl)
+      Bool_t IsContainerClass(TClass *cl)
       {
          if (!cl) return kFALSE;
          return cl->InheritsFrom(TDirectory::Class()) ||
@@ -133,7 +133,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         TClass* cl = nullptr;
+         TClass *cl = nullptr;
          if (fIsKeyIter) {
             TKey* key = (TKey*) fCurrent;
             TObject *obj = fDir->FindObject(key->GetName());
@@ -182,7 +182,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
       Int_t sizeinfo() override
       {
-         TClass* cl = nullptr;
+         TClass *cl = nullptr;
          Int_t sz = 0;
          if (fIsKeyIter) {
             TKey* key = (TKey*) fCurrent;
@@ -204,7 +204,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
          if (fIsKeyIter && fReadRight) {
             TKey* key = (TKey*) fCurrent;
-            TClass* cl = TGo4Proxy::GetClass(key->GetClassName());
+            TClass *cl = TGo4Proxy::GetClass(key->GetClassName());
             if (!cl) cl = gROOT->GetClass(key->GetClassName(), kTRUE, kTRUE);
             if (IsContainerClass(cl)) return TGo4Access::kndMoreFolder;
          }

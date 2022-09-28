@@ -68,7 +68,7 @@ void conditer(TDirectory *dir, const char *wildcard, TList* found)
          conditer(dir->GetDirectory(key->GetName()), wildcard, found);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {
-            TClass* cl = TClass::GetClass(key->GetClassName());
+            TClass *cl = TClass::GetClass(key->GetClassName());
             if (cl && cl->InheritsFrom("TGo4Condition")) {
                 TObject *obj = dir->Get(key->GetName());
                 if (obj) found->Add(obj);

@@ -26,7 +26,7 @@ class TYYYUnpackProc : public TGo4EventProcessor {
       virtual ~TYYYUnpackProc();
 
       /** This method checks if event class is suited for the source */
-      Bool_t CheckEventClass(TClass* cl) override;
+      Bool_t CheckEventClass(TClass *cl) override;
 
       Bool_t BuildEvent(TGo4EventElement* dest) override;
    private:

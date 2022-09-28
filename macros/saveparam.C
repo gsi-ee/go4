@@ -64,7 +64,7 @@ void paramiter(TDirectory *dir, const char *wildcard, TList* found)
          paramiter(dir->GetDirectory(key->GetName()), wildcard, found);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {
-            TClass* cl = TClass::GetClass(key->GetClassName());
+            TClass *cl = TClass::GetClass(key->GetClassName());
             if (cl && cl->InheritsFrom("TGo4Parameter")) {
                 TObject *obj = dir->Get(key->GetName());
                 if (obj) found->Add(obj);

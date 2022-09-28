@@ -88,7 +88,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Checks, if class corresponds to specified for slot
        */
-      Bool_t IsSuitableClass(TClass* cl);
+      Bool_t IsSuitableClass(TClass *cl);
 
       /**
        *  Method remove object pointer.

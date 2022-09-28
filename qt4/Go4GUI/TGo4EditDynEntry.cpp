@@ -66,7 +66,7 @@ TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char *name)
    ResetWidget();
 }
 
-bool TGo4EditDynEntry::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool TGo4EditDynEntry::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    if (!cl) return false;
 
@@ -76,7 +76,7 @@ bool TGo4EditDynEntry::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
           cl->InheritsFrom(TGo4Condition::Class());
 }
 
-void TGo4EditDynEntry::DropItem(const char *itemname, TClass* cl, int kind)
+void TGo4EditDynEntry::DropItem(const char *itemname, TClass *cl, int kind)
 {
    if (!cl) return;
 
@@ -261,7 +261,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char *itemname)
    parentWidget()->setFocus();
 }
 
-void TGo4EditDynEntry::DropHistogram(const char * itemname)
+void TGo4EditDynEntry::DropHistogram(const char *itemname)
 {
    if (!itemname) return;
 
@@ -280,7 +280,7 @@ void TGo4EditDynEntry::DropHistogram(const char * itemname)
       tentry->SetHistogramName(itemname);
 }
 
-void TGo4EditDynEntry::DropCondition( const char * itemname )
+void TGo4EditDynEntry::DropCondition(const char *itemname)
 {
    if (fiSelectedType != entry_Histogram) return;
 
@@ -294,7 +294,7 @@ void TGo4EditDynEntry::DropCondition( const char * itemname )
      hentry->SetConditionName(itemname);
 }
 
-void TGo4EditDynEntry::DropTree( const char * itemname )
+void TGo4EditDynEntry::DropTree(const char *itemname)
 {
    if (fiSelectedType != entry_Tree) return;
 
@@ -473,7 +473,7 @@ void TGo4EditDynEntry::ConInfoButton_clicked()
    EditItem(CondNameLbl->text());
 }
 
-void TGo4EditDynEntry::requestedObjectCreated(const char *itemname, TClass* cl)
+void TGo4EditDynEntry::requestedObjectCreated(const char *itemname, TClass *cl)
 {
    if (!cl || (fiSelectedType==entry_None)) return;
    if (cl->InheritsFrom(TH1::Class()))

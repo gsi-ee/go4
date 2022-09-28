@@ -61,7 +61,7 @@ int main(int argc, char **argv)
       mess = bufferq.WaitBuffer();
 
       // TMessage* mess = dynamic_cast<TMessage*> (buf);
-      // TClass* cl= buf->ReadClass();
+      // TClass *cl= buf->ReadClass();
       std::cout << "got buffer from buffer queue:" << std::endl;
       mess->SetReadMode();
       mess->Reset();
@@ -105,7 +105,7 @@ int main(int argc, char **argv)
       mess = bufferq.WaitBuffer();
 
       // TMessage* mess = dynamic_cast<TMessage*> (buf);
-      // TClass* cl= buf->ReadClass();
+      // TClass *cl= buf->ReadClass();
       std::cout << "got buffer from buffer queue second time:" << std::endl;
       mess->SetReadMode();
       mess->Reset();
