@@ -518,7 +518,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
       // if special input event is required, try to detect it
       if (src && !src->CheckEventClass(TGo4MbsEvent::Class())) {
-         for (int n=0; n<=evnt_classes.GetLast(); n++) {
+         for (int n = 0; n <= evnt_classes.GetLast(); n++) {
             TClass* cl = (TClass*) evnt_classes.At(n);
             if (!src->CheckEventClass(cl)) continue;
 
@@ -539,8 +539,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
    // as very last, try to define best-suitable output event
    if (!outev_cl)
-      for (int n=0; n<=evnt_classes.GetLast(); n++) {
-         TClass* cl = (TClass*) evnt_classes.At(n);
+      for (int n = 0; n <= evnt_classes.GetLast(); n++) {
+         TClass *cl = (TClass *)evnt_classes.At(n);
          if (!outev_cl || cl->InheritsFrom(outev_cl)) outev_cl = cl;
       }
 
@@ -953,7 +953,7 @@ int main(int argc, char **argv)
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
          if (!param) showerror("only in MBS source events can be skipped");
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
-            unsigned value=0;
+            unsigned value = 0;
             if (sscanf(argv[narg],"%u",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
             param->SetStartEvent(value);
@@ -989,7 +989,7 @@ int main(int argc, char **argv)
          narg++;
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
          if (!param) showerror("only in MBS source events can be selected");
-         unsigned cnt=0;
+         unsigned cnt = 0;
          while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             unsigned value = 0;
             if ((cnt==1) && (strcmp(argv[narg],"all") == 0)) value = 0; else
@@ -1009,9 +1009,9 @@ int main(int argc, char **argv)
          int buffersize = 64000;
          int compression = 5;
 
-         unsigned cnt=0;
+         unsigned cnt = 0;
          while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
-            int value(0);
+            int value = 0;
             if (sscanf(argv[narg],"%d",&value)!=1)
                showerror(TString::Format("Value error %s", argv[narg]));
             if (cnt == 0) splitlevel = value; else
@@ -1027,7 +1027,7 @@ int main(int argc, char **argv)
       if (strcmp(argv[narg], "-timeout") == 0) {
          if (++narg >= argc) showerror("Timeout value not specified");
          if (!step->GetEventSource()) showerror("No source parameter configured");
-         int value(0);
+         int value = 0;
          if (sscanf(argv[narg],"%d",&value)!=1)
             showerror(TString::Format("Timeout value error %s", argv[narg]));
          narg++;
@@ -1254,7 +1254,7 @@ int main(int argc, char **argv)
       TGo4MbsSource::SetPollingMode(kTRUE); // allow to process http requests when no events are coming
 
       TString cmd;
-      for (Int_t n=0;n<=http_args.GetLast();n++) {
+      for (Int_t n = 0; n <= http_args.GetLast(); n++) {
          TString engine = http_args[n]->GetName();
          if ((engine.Index("http:") == 0) && (auth_file.Length() > 0))
             engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file.Data(), auth_domain));
@@ -1277,13 +1277,13 @@ int main(int argc, char **argv)
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
 
       Bool_t enter_loop = kTRUE;
-      if ((canrun>=0) || autorun) {
+      if ((canrun >= 0) || autorun) {
          // initialize event classes also with -norun option if any source was specified
          if (!analysis->InitEventClasses()) {
             TGo4Log::Error("Main: Init event classes failed, aborting!");
             enter_loop = kFALSE;
          } else {
-            if (canrun>=0) analysis->StartAnalysis();
+            if (canrun >= 0) analysis->StartAnalysis();
          }
       }
 
