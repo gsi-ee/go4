@@ -118,8 +118,6 @@ TGo4CondArray::~TGo4CondArray()
 
 }
 
-Bool_t TGo4CondArray::IsArrayType(){return kTRUE;}
-
 // ----------------------------------------------------------
 
 Bool_t TGo4CondArray::Test(Double_t x, Double_t y)

@@ -116,10 +116,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       void SetRadius(Double_t a1, Double_t a2);
 
       /* get current ellipse tilt angle in degrees*/
-      Double_t GetTheta()
-      {
-        return fdTheta;
-      }
+      Double_t GetTheta() { return fdTheta; }
 
       /* change ellipse tilt angle and recalculate polygon*/
       void SetTheta(Double_t angle);
@@ -135,20 +132,11 @@ class TGo4ShapedCond : public TGo4PolyCond {
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char* rest_url_opt)  override;
 
-      Bool_t IsShapedType()
-      {
-         return kTRUE;
-      }
+      Bool_t IsShapedType() { return kTRUE; }
 
-      void SetResolution(Int_t npoints)
-      {
-         fiResolution = npoints;
-      }
+      void SetResolution(Int_t npoints) { fiResolution = npoints; }
 
-      Int_t GetResolution()
-      {
-         return fiResolution;
-      }
+      Int_t GetResolution() { return fiResolution; }
 
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_RESOLUTION;
@@ -164,7 +152,6 @@ class TGo4ShapedCond : public TGo4PolyCond {
       static TString fgxURL_TH;
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_SHAPE;
-
 
    protected:
 
@@ -192,7 +179,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
    ClassDefOverride(TGo4ShapedCond,1)
 };
 
-#define TGo4EllipseCond TGo4ShapedCond
+typedef TGo4ShapedCond TGo4EllipseCond;
 
 /* < this is for simple backward compatibility and better than typedef*/
 

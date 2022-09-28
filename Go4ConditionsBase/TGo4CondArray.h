@@ -222,7 +222,7 @@ class TGo4CondArray : public TGo4Condition {
     Double_t GetCMax(TH1* histo) override;
 
     Bool_t IsPolygonType() override;
-    Bool_t IsArrayType() override;
+    Bool_t IsArrayType() override { return kTRUE; }
 
     void SetCurrentIndex(Int_t ix) override;
     Int_t GetCurrentIndex() override;
