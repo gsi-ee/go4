@@ -15,10 +15,9 @@
 
 #include "TGo4Log.h"
 
-TGo4Exception::TGo4Exception()
-  :fxDescription("!!!-- Go4 General Exception --!!!")
+TGo4Exception::TGo4Exception() : fxDescription("!!!-- Go4 General Exception --!!!")
 {
-  GO4TRACE((14,"TGo4Exception::TGo4Exception() constructor",__LINE__, __FILE__));
+   GO4TRACE((14, "TGo4Exception::TGo4Exception() constructor", __LINE__, __FILE__));
 }
 
 TGo4Exception::TGo4Exception(const TGo4Exception &right)
@@ -27,12 +26,10 @@ TGo4Exception::TGo4Exception(const TGo4Exception &right)
    fxDescription=right.fxDescription;
 }
 
-
 TGo4Exception::~TGo4Exception()
 {
   GO4TRACE((14,"TGo4Exception::TGo4Exception() destructor",__LINE__, __FILE__));
 }
-
 
 TGo4Exception & TGo4Exception::operator=(const TGo4Exception &right)
 {
@@ -42,13 +39,13 @@ TGo4Exception & TGo4Exception::operator=(const TGo4Exception &right)
    return *this;
 }
 
-const char *TGo4Exception::What ()
+const char *TGo4Exception::What()
 {
   GO4TRACE((14,"TGo4Exception::What()",__LINE__, __FILE__));
   return fxDescription.Data();
 }
 
-Int_t TGo4Exception::Handle ()
+Int_t TGo4Exception::Handle()
 {
    GO4TRACE((14,"TGo4Exception::Handle()",__LINE__, __FILE__));
 
