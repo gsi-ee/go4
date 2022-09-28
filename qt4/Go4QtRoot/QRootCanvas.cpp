@@ -993,10 +993,8 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
    qDebug("DIAL obj:%s meth:%s \n", object->GetName(), method->GetName());
 
-   //std::cout<< "executeMethod" << fCurMethod->GetName() << std::endl;
-
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
-   for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
+   for (int n = 0; n <= method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
       qDebug( "** QString values (first ) :%s \n", s.toLatin1().constData() );
       tobjlist.AddLast(new TObjString(s.toLatin1().constData()));
@@ -1120,7 +1118,7 @@ void QRootCanvas::executeMenu(int id)
       fCanvas->ForceUpdate();
       gROOT->SetFromPopUp( kFALSE );
    } else
-   if (id >=0) {
+   if (id >= 0) {
 
       // save global to Pad before calling TObject::Execute()
 

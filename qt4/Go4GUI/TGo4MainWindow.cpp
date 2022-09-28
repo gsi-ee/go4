@@ -748,8 +748,8 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     windowsMenu->addSeparator();
 
     QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
-    for (int i=0; i< windows.count(); i++ ) {
-       QAction* act = new QAction(windows.at(i)->widget()->windowTitle(), this);
+    for (int i = 0; i < windows.count(); i++) {
+       QAction *act = new QAction(windows.at(i)->widget()->windowTitle(), this);
        act->setCheckable(true);
        act->setChecked(fxMdiArea->activeSubWindow() == windows.at(i));
 
@@ -788,7 +788,7 @@ void TGo4MainWindow::ToggleFullScreenSlot()
 void TGo4MainWindow::WindowActivated(int id)
 {
    QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
-   if ((id>=0) && (id<windows.count())) {
+   if ((id >= 0) && (id < windows.count())) {
       windows.at(id)->widget()->showNormal();
       windows.at(id)->widget()->setFocus();
    }
@@ -827,7 +827,7 @@ bool TGo4MainWindow::startUserGUI(const char *usergui)
 
    bool loaded = false;
 
-   if (gSystem->Load(libname.toLatin1().constData())>=0) {
+   if (gSystem->Load(libname.toLatin1().constData()) >= 0) {
       loaded = true;
       startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toLatin1().constData(), "StartUserPanel");
    }
@@ -1124,11 +1124,11 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpServer(const char *addr, const char 
       QLineEdit::Normal, fulladdress, &ok);
       if (!ok) return nullptr;
       QStringList nameportlist = httpaddr.split(":");
-      int nameindex=0;
-      int portindex=1;
+      int nameindex = 0;
+      int portindex = 1;
       if(nameportlist.at(0).contains("http")) {
-          nameindex=1;
-          portindex=2;
+          nameindex = 1;
+          portindex = 2;
         }
       // first check here if we have valid port number:
       if(nameportlist.size()<portindex+1 || nameportlist.at(portindex).isEmpty()){
@@ -1406,25 +1406,30 @@ void TGo4MainWindow::UpdateCaptionButtons()
       }
     }
 
-   if (!pr) flag = !ht ? true : false;
-       else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
-   faConnectAnal->setEnabled(flag);
+    if (!pr)
+       flag = !ht ? true : false;
+    else
+       flag = (fConnectingCounter <= 0) && pr->IsAnalysisServer() && !pr->IsConnected();
+    faConnectAnal->setEnabled(flag);
 
-   faPrepareAnal->setEnabled(flag);
+    faPrepareAnal->setEnabled(flag);
 
-   if (!pr) flag = !ht ? false : true;
-       else flag = pr->IsAnalysisServer() && (pr->IsConnected() || (fConnectingCounter<=0));
-   faDisconnectAnal->setEnabled(flag);
+    if (!pr)
+       flag = !ht ? false : true;
+    else
+       flag = pr->IsAnalysisServer() && (pr->IsConnected() || (fConnectingCounter <= 0));
+    faDisconnectAnal->setEnabled(flag);
 
-   flag = false;
-   if (go4_serv)
-      flag = !go4_serv->IsAnalysisServer() || (go4_serv->IsConnected() && go4_serv->IsAdministrator());
-   faShutdownAnal->setEnabled(flag);
+    flag = false;
+    if (go4_serv)
+       flag = !go4_serv->IsAnalysisServer() || (go4_serv->IsConnected() && go4_serv->IsAdministrator());
+    faShutdownAnal->setEnabled(flag);
 
-   bool iscontrolling = false, issubmit = false;
-   if (go4_serv) {
-      iscontrolling = go4_serv->IsConnected() && (go4_serv->IsAdministrator() || go4_serv->IsController());
-      if (iscontrolling) issubmit = go4_serv->CanSubmitObjects();
+    bool iscontrolling = false, issubmit = false;
+    if (go4_serv) {
+       iscontrolling = go4_serv->IsConnected() && (go4_serv->IsAdministrator() || go4_serv->IsController());
+       if (iscontrolling)
+          issubmit = go4_serv->CanSubmitObjects();
    }
 
    faSumbStartAnal->setEnabled(issubmit);
@@ -2084,12 +2089,12 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
       }
    } else {
       TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-      if (!anal || anal->IsConnected() || (--fConnectingCounter<=0)) {
+      if (!anal || anal->IsConnected() || (--fConnectingCounter <= 0)) {
          if (fConnectingCounter <= 0)
             StatusMessage("Analysis refused connection. Try again");
          fConnectingCounter = 0;
          EstablishRatemeter(anal && anal->IsConnected() ? 2 : 0);
-         int level=0;
+         int level = 0;
          if (anal && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator())) {
             if (fbGetAnalysisConfig) {
                level = 3;
@@ -2103,7 +2108,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
          UpdateCaptionButtons();
          if (anal && !anal->IsConnected()) RemoveAnalysisProxy(1);
          return;
-     }
+      }
    }
    QTimer::singleShot(100, this, &TGo4MainWindow::CheckConnectingCounterSlot);
 }
@@ -2540,8 +2545,8 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
    TGo4SetScaleValues* scl = nullptr;
 
    QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
-   for (int i=0; i < windows.count(); ++i ) {
-      scl = dynamic_cast<TGo4SetScaleValues*> (windows.at(i)->widget());
+   for (int i = 0; i < windows.count(); ++i) {
+      scl = dynamic_cast<TGo4SetScaleValues *>(windows.at(i)->widget());
       if (scl) break;
    }
 
@@ -2921,8 +2926,8 @@ void TGo4MainWindow::checkPanelRepaintSlot()
 
    // now check if any other panel shold be repainted
    TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
-   for (int n=0;n<topslot->NumChilds();n++) {
-      TGo4Slot* subslot = topslot->GetChild(n);
+   for (int n = 0; n < topslot->NumChilds(); n++) {
+      TGo4Slot *subslot = topslot->GetChild(n);
 
       TGo4WidgetProxy* wproxy =
           dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
@@ -3016,8 +3021,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
          *res = nullptr;
          TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
-         for (int n=0;n<topslot->NumChilds();n++) {
-            TGo4Slot* subslot = topslot->GetChild(n);
+         for (int n = 0; n < topslot->NumChilds(); n++) {
+            TGo4Slot *subslot = topslot->GetChild(n);
 
             TGo4WidgetProxy* wproxy =
                dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
@@ -3038,8 +3043,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_UndrawItem: {
          TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
-         for (int n=0;n<topslot->NumChilds();n++) {
-            TGo4Slot* subslot = topslot->GetChild(n);
+         for (int n = 0; n < topslot->NumChilds(); n++) {
+            TGo4Slot *subslot = topslot->GetChild(n);
 
             TGo4WidgetProxy* wproxy =
                dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());

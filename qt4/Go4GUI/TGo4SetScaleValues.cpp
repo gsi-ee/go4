@@ -63,7 +63,7 @@ void TGo4SetScaleValues::refreshView(bool force)
       setWindowTitle(QString("Scale values: ") + panel->objectName());
 
       int ndim = 0;
-      double Xmin=0, Xmax=0, Ymin=0, Ymax=0, Zmin=0, Zmax=0;
+      double Xmin = 0, Xmax = 0, Ymin = 0, Ymax = 0, Zmin = 0, Zmax = 0;
       bool autoscale;
 
       panel->GetSelectedRange(ndim, autoscale, Xmin, Xmax, Ymin, Ymax, Zmin, Zmax);

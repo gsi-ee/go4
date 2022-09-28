@@ -1076,7 +1076,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
                // this will also delete Analysis proxy itself
                // practically the same as  delete fxParentSlot;
                fxParentSlot->Delete();
-               //fxParentSlot = 0;
+               //fxParentSlot = nullptr;
                //fxParentSlot->GetOM()->DeleteObject(fxParentSlot);
             } else {
                delete this;

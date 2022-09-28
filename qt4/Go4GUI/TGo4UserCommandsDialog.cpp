@@ -25,8 +25,7 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
    setupUi(this);
 
    // here we fill table directly from go4 settings:
-   for(int id=0; id<GO4GUI_MAXMACRONUM; ++id)
-   {
+   for (int id = 0; id < GO4GUI_MAXMACRONUM; ++id) {
       QString com= go4sett->getAnalysisMacroCommand(id);
       QString tip=go4sett->getAnalysisMacroTip(id).split(":").first();
       bool monitor=go4sett->getAnalysisMacroAutomode(id);
@@ -40,7 +39,6 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
          autoitem->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
          autoitem->setCheckState( monitor ? Qt::Checked : Qt::Unchecked);
       }
-
    }
 
    QObject::connect (DialogButtonBox, &QDialogButtonBox::clicked, this, &TGo4UserCommandsDialog::ButtonPressed);
