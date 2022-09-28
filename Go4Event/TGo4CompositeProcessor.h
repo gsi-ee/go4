@@ -53,7 +53,6 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
 
       void AddSubProcessor(TGo4EventProcessor* );
 
-//      TGo4CompositeEvent  *fBeamtimeEvent; //!
       TGo4MbsEvent        *fMbsInput{nullptr}; //!
       Short_t              fMbsTriggerNumber{0};
       Int_t                fMbsEventNumber{0};

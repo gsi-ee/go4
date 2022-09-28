@@ -43,4 +43,3 @@ class TGo4CreateException : public TGo4ThreadException {
 };
 
 #endif
-

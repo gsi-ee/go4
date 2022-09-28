@@ -16,7 +16,6 @@
 
 #include "TGo4Parameter.h"
 
-
 /** Data object for calibration of the input event.
  * Is used by event processor to get external parameters
  * during runtime without re-creating the event processor
@@ -34,8 +33,7 @@ class TGo4EventCalibration : public TGo4Parameter {
       /** update contents of parameter class with external object. */
       Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
-
-  ClassDefOverride(TGo4EventCalibration,1)
+   ClassDefOverride(TGo4EventCalibration,1)
 };
 
 #endif //TGO4EVENTCALIBRATION_H

@@ -95,17 +95,17 @@ class TGo4EventElement : public TNamed {
       virtual void clearAll(Int_t) {}
       virtual Bool_t isComposed() { return kFALSE; }
       virtual Short_t getId() { return fIdentifier; }
-      virtual void setDebug (Bool_t debug) { fDebug=debug; }
+      virtual void setDebug (Bool_t debug) { fDebug = debug; }
       virtual TGo4EventElement& operator[](Int_t) { return *this; }
 
       void Print(Option_t* option = "") const override;
 
       /** Use this method to map event structure with the Tree branch(es) */
-      virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = nullptr);
+      virtual void synchronizeWithTree(TTree *tree, TGo4EventElement **var_ptr = nullptr);
 
-      virtual Int_t activateBranch(TBranch *branch, Int_t index = 0, TGo4EventElement** var_ptr = nullptr);
+      virtual Int_t activateBranch(TBranch *branch, Int_t index = 0, TGo4EventElement **var_ptr = nullptr);
 
-      virtual TTree* CreateSampleTree(TGo4EventElement** sample = nullptr);
+      virtual TTree* CreateSampleTree(TGo4EventElement **sample = nullptr);
 
       void ShowSampleTree();
 
