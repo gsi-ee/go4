@@ -793,7 +793,7 @@ TPad* TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (panel) {
-      TPad* pad = panel->GetSubPad(0, number, false);
+      TPad* pad = panel->GetSubPad(nullptr, number, false);
       if (!pad) pad = panel->GetCanvas();
       panel->SetActivePad(pad);
       ProcessEvents();
@@ -807,7 +807,7 @@ TGo4Picture* TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (!panel) return nullptr;
 
-   TPad* pad = panel->GetSubPad(0, padnumber, false);
+   TPad* pad = panel->GetSubPad(nullptr, padnumber, false);
    if (!pad) pad = panel->GetCanvas();
    return panel->GetPadOptions(pad);
 }
@@ -826,9 +826,9 @@ void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
 
 Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const char *drawopt)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *)handle;
 
-   panel = fMainWin->DisplayBrowserItem(itemname, panel, 0, true, -1, drawopt);
+   panel = fMainWin->DisplayBrowserItem(itemname, panel, nullptr, true, -1, drawopt);
 
    if (panel) ProcessEvents();
 

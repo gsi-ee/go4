@@ -965,7 +965,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData *selecteddata)
          pad = FindPadWhereData(data);
       } else {
          panel = fxDrawNewPanel;
-         pad = fxDrawNewPanel->GetSubPad(0, n, true);
+         pad = fxDrawNewPanel->GetSubPad(nullptr, n, true);
       }
       if (!panel || !pad)
          continue;
