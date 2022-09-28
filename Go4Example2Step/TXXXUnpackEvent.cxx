@@ -15,7 +15,7 @@
 
 void TXXXUnpackEvent::Clear(Option_t *t)
 {
-   for (int i=0;i<XXX_NUM_CHAN;i++) {
+   for (int i = 0; i < XXX_NUM_CHAN; i++) {
       fiCrate1[i] = 0;
       fiCrate2[i] = 0;
       fiCrate3[i] = 0;

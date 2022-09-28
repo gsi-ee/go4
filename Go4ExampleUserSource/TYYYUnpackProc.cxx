@@ -124,9 +124,8 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
    }
 
    // fill poutevt here:
-   for(Int_t i=0; i<3;++i)
-   {
-      poutevt->fdR[i] = inp->fdData[i]; // units: nm
+   for (Int_t i = 0; i < 3; ++i) {
+      poutevt->fdR[i] = inp->fdData[i];   // units: nm
       poutevt->fdV[i] = inp->fdData[i+3]; // units: nm/ps
    }
    poutevt->fdR[0]-=5e+6; // correction for beam axis offset

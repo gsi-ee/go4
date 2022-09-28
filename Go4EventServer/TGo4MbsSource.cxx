@@ -164,15 +164,15 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
          target->SetTrigger(fxEvent->i_trigger);
          target->SetCount(fxEvent->l_count);
          target->SetDummy(fxEvent->i_dummy);
-         Int_t totalsubdatalength=0; // check counter for total datalength of subevents
+         Int_t totalsubdatalength = 0; // check counter for total datalength of subevents
          if(fxEvent->l_dlen > 4) {
             // we have subevent data after the event header, proceed:
             subevent = (s_ves10_1*) (fxEvent + 1);
             // first subevent header starts after event header
             // loop over subevents:
             Int_t datalength = 0; // direct dlen from subevent header (in Short_t!)
-            //            Int_t fieldlength=0; // actual size of the target Int_t data field
-            while((datalength = subevent->l_dlen) >0 ) {
+            // Int_t fieldlength = 0; // actual size of the target Int_t data field
+            while((datalength = subevent->l_dlen) > 0) {
                totalsubdatalength+=datalength-2+sizeof(s_ves10_1)/sizeof(Short_t);
                if(datalength>fxEvent->l_dlen) {
                   TGo4Log::Debug(" !!! MbsSource --  SUBEVENTS LENGTH mismatch!!! skipping event #%d",fxEvent->l_count);

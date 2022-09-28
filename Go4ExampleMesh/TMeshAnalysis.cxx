@@ -231,10 +231,8 @@ Int_t TMeshAnalysis::UserPreLoop()
    TGo4Log::Info("TMeshAnalysis: PreLoop");
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
-   fEvents=0;
-   fLastEvent=0;
-
-
+   fEvents = 0;
+   fLastEvent = 0;
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored from autosave file if any.

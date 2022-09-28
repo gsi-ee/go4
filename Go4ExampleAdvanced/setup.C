@@ -37,7 +37,7 @@ void setup(const char *kind, const char *name)
 
   TString autosave("no");
   TString autosaveOverWrite("yes");
-  Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
+  Int_t autosaveinterval = 0; // after n seconds, 0 = at termination of event loop
 // End of settings
 
 // programmer part ----------------------------------------

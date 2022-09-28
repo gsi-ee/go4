@@ -47,9 +47,8 @@ void TGo4MbsFileParameter::AddMoreFile(const char *more)
 
 const char *TGo4MbsFileParameter::GetMoreName(Int_t n) const
 {
-   return (n>=0) && (n<=fxMoreFiles.GetLast()) ? fxMoreFiles.At(n)->GetName() : nullptr;
+   return (n >= 0) && (n <= fxMoreFiles.GetLast()) ? fxMoreFiles.At(n)->GetName() : nullptr;
 }
-
 
 void TGo4MbsFileParameter::Print(Option_t*) const
 {

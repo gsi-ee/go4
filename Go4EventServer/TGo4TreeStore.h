@@ -78,16 +78,16 @@ class TGo4TreeStore : public TGo4EventStore {
     /** Reference to external tree singleton wrapper instance.
       * Is initialized once at the start and used to access
       * the singleton member functions. */
-    TGo4MainTree* fxSingletonTree{nullptr}; //!
+    TGo4MainTree *fxSingletonTree{nullptr}; //!
 
     /** Reference to the external main tree. */
-    TTree * fxTree{nullptr}; //!
+    TTree *fxTree{nullptr}; //!
 
     /** The branch representing our store. */
-    TBranch * fxBranch{nullptr}; //!
+    TBranch *fxBranch{nullptr}; //!
 
     /** Points to event structure to be filled into branch. */
-    TGo4EventElement * fxEvent{nullptr}; //!
+    TGo4EventElement *fxEvent{nullptr}; //!
 
     /** Points to calibration structure to be filled into branch. */
     TGo4EventCalibration * fxCalibration{nullptr}; //!

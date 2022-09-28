@@ -56,8 +56,8 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
 
    TGo4Log::Info("TXXXProc: Produce histograms");
    // Creation of histograms (or take them from autosave)
-   for(int i=0;i<8;i++) {
-      TString hname = TString::Format("Crate1/Cr1Ch%02d", i+1);
+   for (int i = 0; i < 8; i++) {
+      TString hname = TString::Format("Crate1/Cr1Ch%02d", i + 1);
       TString htitle = TString::Format("Crate 1 channel %2d", i+1);
       fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), 5000, 1., 5001.);
       hname = TString::Format("Crate2/Cr2Ch%02d",i+1);

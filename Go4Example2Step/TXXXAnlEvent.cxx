@@ -15,6 +15,6 @@
 
 void TXXXAnlEvent::Clear(Option_t *t)
 {
-   for (int i=0;i<XXX_NUM_CHAN;i++)
+   for (int i = 0; i < XXX_NUM_CHAN; i++)
       frData[i] = 0.;
 }

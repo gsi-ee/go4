@@ -193,19 +193,19 @@ double   p_dBeta (double a, double b, unsigned int *seed)
 
 int p_iBinomial (double p, int n, unsigned int *seed)
 {
-   int   i,ans=0;
+   int   i, ans = 0;
 
-   for (i=0;i<n;i++)
+   for (i = 0; i < n; i++)
       if (p_dUniform (seed) <= p)
          ans++;
 
-   return (ans);
+   return ans;
 }
 /*------------------------------------------------------------------------------
 
    This file contains exponential random number function.The method
    is to get a uniform random number U in (0,1] and return -ln(U).
-   Care is taken to aviod U=0;
+   Care is taken to avoid U = 0;
 
    Reference: The Art of Computer Programming, D.E. Knuth 2nd ed., 3.4.1d
 
@@ -228,7 +228,7 @@ int p_iBinomial (double p, int n, unsigned int *seed)
 
 double   p_dExponential (double lambda,unsigned int *seed)
 {
-   double   u= p_dUniform( seed);
+   double   u = p_dUniform( seed);
 
    while (u == (double)0)
       u= p_dUniform( seed);
@@ -312,8 +312,8 @@ double p_dGammaGen (double A, unsigned *seed)
 {
 if (A <= 5)
    {
-   double b,p,inva,res=0;
-   double EXP= 2.71828182;
+   double b,p,inva, res = 0;
+   double EXP = 2.71828182;
    double a,f;
    int g;
 
@@ -383,7 +383,7 @@ fast as
 
    GEOMETRIC_TURNING_POINT is 0.38 for a Sun SS-10.
 
-   ERROR HANDLING: if p>1 or p<=0 then we have an error
+   ERROR HANDLING: if p > 1 or p <= 0 then we have an error
 
 ------------------------------------------------------------------------------*/
 
@@ -423,12 +423,12 @@ double p_dNormal (double mean, double sigma,unsigned int *seed)
 {
 
 double u1, u2, v1, v2, s;
-static char flag= 0;
+static char flag = 0;
 static double x1, x2;
 
 if( flag )
 {
-flag=0;
+flag = 0;
 return(x2*sigma + mean);
 }
 

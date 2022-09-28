@@ -25,7 +25,6 @@ extern "C" {
 TGo4MbsEvent::TGo4MbsEvent() :
    TGo4EventElement(),
    fxHeader(),
-   fxSubEvArray(nullptr),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
@@ -36,15 +35,14 @@ TGo4MbsEvent::TGo4MbsEvent() :
 TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
    TGo4EventElement("MbsEvent101"),
    fxHeader(),
-   fxSubEvArray(nullptr),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
    GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
-   for (UInt_t t=0;t<subnum;++t) {
-      TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasize);
+   for (UInt_t t = 0; t < subnum; ++t) {
+      TGo4MbsSubEvent *subeve = new TGo4MbsSubEvent(datasize);
       fxSubEvArray->AddLast(subeve);
       subeve->SetProcid(subids[t]);
    }
@@ -58,15 +56,14 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
                            UInt_t* datasizes) :
    TGo4EventElement("MbsEvent101"),
    fxHeader(),
-   fxSubEvArray(nullptr),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
    GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
-   for (UInt_t t=0;t<subnum;++t) {
-      TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasizes[t]);
+   for (UInt_t t = 0; t < subnum; ++t) {
+      TGo4MbsSubEvent *subeve = new TGo4MbsSubEvent(datasizes[t]);
       fxSubEvArray->AddLast(subeve);
       subeve->SetSubcrate(subcrates[t]);
       subeve->SetControl(controls[t]);
@@ -79,11 +76,10 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
 TGo4MbsEvent::TGo4MbsEvent(const char *) :
    TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be consistent with file source!
    fxHeader(),
-   fxSubEvArray(nullptr),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(const char)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(const char *)",__LINE__, __FILE__));
    SimpleInit();
 }
 
@@ -144,7 +140,7 @@ void TGo4MbsEvent::AssignReference(TGo4MbsEvent* ref)
    fxHeader.fxGSIHeader.fsType=ref->fxHeader.fxGSIHeader.fsType;
 
    //assign external array:
-   fxSubEvArray=ref->fxSubEvArray;
+   fxSubEvArray = ref->fxSubEvArray;
 }
 
 void TGo4MbsEvent::RemoveReference()
@@ -196,8 +192,8 @@ void TGo4MbsEvent::PrintMbsFileHeader()
    printf("\ttype: %d \n", head->filhe_type);
    printf("\tsubtype: %d\n", head->filhe_subtype);
    printf("\t#commentlines: %d\n", head->filhe_lines);
-   for(Int_t i=0; i<head->filhe_lines;++i)
-       printf("\t\t %s\n", head->s_strings[i].string);
+   for (Int_t i = 0; i < head->filhe_lines; ++i)
+      printf("\t\t %s\n", head->s_strings[i].string);
 }
 
 void TGo4MbsEvent::PrintMbsBufferHeader()
@@ -355,7 +351,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
       if(!copydata) {
          subtarget->fbIsDataOwner = kFALSE;
          delete [] (subtarget->fiData); // remove default field
-         subtarget->fiAllocLen=0;
+         subtarget->fiAllocLen = 0;
       }
       *newsubtargetid = fullID;
       TGo4Log::Debug(" Created new output subevent for event\n\tpid:%d subcrate:%d ctrl:%d",
@@ -378,9 +374,9 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
       subtarget->fbIsDataOwner = kFALSE;
       subtarget->fiAllocLen = fieldlength;
       if(datalength>2)
-         subtarget->fiData= (Int_t*) data;
+         subtarget->fiData = (Int_t*) data;
       else
-         subtarget->fiData= 0; // reset for empty subevent
+         subtarget->fiData = nullptr; // reset for empty subevent
    }// if(fbDataCopyMode)
    subtarget->fbIsFilled = kTRUE; // remember we filled this one, never overwrite!
    return subtarget;

@@ -142,9 +142,9 @@ Int_t TYYYAnalysis::UserPostLoop()
       if(hvy) hvy->Draw();
    }
 
-   fUnpackEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
-   fRawEvent = 0;
-   fEvents=0;
+   fUnpackEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
+   fRawEvent = nullptr;
+   fEvents = 0;
    return 0;
 }
 
@@ -152,7 +152,7 @@ Int_t TYYYAnalysis::UserPostLoop()
 Int_t TYYYAnalysis::UserEventFunc()
 {
    //// This function is called once for each event.
-   Int_t value=0;
+   Int_t value = 0;
    if(fRawEvent) value = fRawEvent->GetColumns();
    fSize->Fill(value); // fill histogram
    fEvents++;

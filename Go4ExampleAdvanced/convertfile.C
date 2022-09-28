@@ -58,19 +58,19 @@ void converthisto(TH1* histo)
   Int_t maxbinX=histo->GetNbinsX();
   Int_t maxbinY=histo->GetNbinsY();
   Int_t maxbinZ=histo->GetNbinsZ();
-  Int_t globalbin=0;
-  Stat_t  cont=0;
+  Int_t globalbin = 0;
+  Stat_t  cont = 0;
   outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;
   outfile <<"# Xbin \tYbin \tZbin \tContent"<< std::endl;
   //outfile <<"# Xbin \tContent"<< std::endl;
-  for(Int_t x=0; x<maxbinX; ++x)
+  for(Int_t x = 0; x < maxbinX; ++x)
     {
-      for(Int_t y=0; y<maxbinY; ++y)
+      for(Int_t y = 0; y < maxbinY; ++y)
         {
-          for(Int_t z=0; z<maxbinZ; ++z)
+          for(Int_t z = 0; z < maxbinZ; ++z)
             {
-              globalbin=histo->GetBin(x,y,z);
-              cont=histo->GetBinContent(globalbin);
+              globalbin = histo->GetBin(x,y,z);
+              cont = histo->GetBinContent(globalbin);
               outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<< std::endl;
               //outfile <<x<<" \t"<<cont<< std::endl;
             }
@@ -96,10 +96,10 @@ void convertgraph(TGraph* graph)
   Int_t maxpoints=graph->GetN();
   outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
   outfile <<"# Point \tX \tY"<< std::endl;
-  for(Int_t point=0; point<maxpoints; ++point)
+  for(Int_t point = 0; point < maxpoints; ++point)
     {
-      Double_t xg=0;
-      Double_t yg=0;
+      Double_t xg = 0;
+      Double_t yg = 0;
       graph->GetPoint(point,xg,yg);
       outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
     }

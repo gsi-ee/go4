@@ -45,8 +45,8 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
 
    fParam = (TXXXParam*) MakeParameter("Par1", "TXXXParam");
 
-   for(int i=0;i<8;i++) {
-      TString hname = TString::Format("Crate1/Cr1Ch%02d", i+1);
+   for (int i = 0; i < 8; i++) {
+      TString hname = TString::Format("Crate1/Cr1Ch%02d", i + 1);
       TString htitle = TString::Format("Crate 1 channel %2d", i+1);
       fCr1Ch[i] = MakeTH1('I', hname.Data(), htitle.Data(), 5000, 1., 5001.);
       hname = TString::Format("Crate2/Cr2Ch%02d",i+1);
@@ -135,7 +135,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 
 
    // uncomment this lines to update histogram on the gui periodically without activating monitoring
-   //static int cnt =0;
+   //static int cnt = 0;
    // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();

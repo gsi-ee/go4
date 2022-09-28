@@ -32,7 +32,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
                              const char *filename,
                              Int_t compression) :
    TGo4EventStore(name),
-   fxBranch(0), fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)
+   fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)
 {
    GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
@@ -58,7 +58,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
          TGo4Log::Debug(" TreeStore: Set branch to file %s ", filename);
          TGo4Log::Info("TGo4TreeStore: Open file tree %s UPDATE", buffer.Data());
       } else {
-         fxFile=0;
+         fxFile = nullptr;
       } //  if(filename)
    }
    else
@@ -68,8 +68,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
 }
 
 TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* event)
-: TGo4EventStore("dummy"),
-   fxBranch(0), fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
+: TGo4EventStore("dummy"),fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
 {
    GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
@@ -78,8 +77,8 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
    fxSingletonTree = TGo4MainTree::Instance();
    if(fxEvent) {
       fcEventClass = fxEvent->ClassName();
-      fxTree=fxSingletonTree->GetTree();
-      fxBranch= fxTree->GetBranch(buffer.Data());
+      fxTree = fxSingletonTree->GetTree();
+      fxBranch = fxTree->GetBranch(buffer.Data());
       if(fxBranch) {
          // tree already had branch of our name, check it
          TGo4Log::Debug(" TreeStore: Found existing branch %s, reset it ", buffer.Data());
@@ -108,14 +107,11 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
    } // if(fxEvent)
 }
 
-TGo4TreeStore::TGo4TreeStore()
-:TGo4EventStore("Go4 Default Tree Store"),
-   fxBranch(nullptr), fxEvent(nullptr), fiSplit(0), fiBufsize(0)
+TGo4TreeStore::TGo4TreeStore() : TGo4EventStore("Go4 Default Tree Store"), fiSplit(0), fiBufsize(0)
 {
-   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore()", __LINE__, __FILE__));
+   GO4TRACE((15, "TGo4TreeStore::TGo4TreeStore()", __LINE__, __FILE__));
    // public default ctor for streamer
 }
-
 
 TGo4TreeStore::~TGo4TreeStore()
 {

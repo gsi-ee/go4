@@ -25,15 +25,12 @@
 TXXXCalibPar::TXXXCalibPar() :
    TGo4Parameter(),
    fbRecalibrate(kFALSE),
-   fbReadDatabase(kFALSE),
-   fxLinesFinder(0),
-   fxCalibrator(0),
-   fxCalibCurve(0),
-   fxCalibSpectrum(0)
+   fbReadDatabase(kFALSE)
 {
    fxDatabase = "calilines.txt";
-   for(Int_t ord=0;ord<__POLORDER__;++ord) fdA[ord]=0;
-   for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
+   for (Int_t ord = 0; ord < __POLORDER__; ++ord)
+      fdA[ord] = 0;
+   for (Int_t ix = 0; ix < __LINESNUMBER__; ++ix) {
       fiLinesChannel[ix] = 0;
       ffLinesEnergy[ix] = 0;
       fxLinesNames[ix] = TString::Format("Defaultline-%d",ix);
@@ -44,37 +41,29 @@ TXXXCalibPar::TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve) :
    TGo4Parameter(name),
    fbRecalibrate(kFALSE),
    fbReadDatabase(kFALSE),
-   fxLinesFinder(0),
-   fxCalibrator(0),
    fxCalibCurve(curve),
    fxCalibSpectrum(spectrum)
 {
    // Set up fitters:
    fxLinesFinder = new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
    fxCalibrator = new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
-   if(fxCalibSpectrum)
-   {
+   if (fxCalibSpectrum) {
       fxLinesFinder->AddH1(__DATANAME__, fxCalibSpectrum, kFALSE);
-      fxSpectrumName=fxCalibSpectrum->GetName();
+      fxSpectrumName = fxCalibSpectrum->GetName();
+   } else {
+      fxSpectrumName = "Please specify calibration spectrum";
    }
-   else
-   {
-      fxSpectrumName="Please specify calibration spectrum";
-   }
-   if(fxCalibCurve)
-   {
+   if (fxCalibCurve) {
       fxCalibrator->AddGraph(__GRAPHNAME__, fxCalibCurve, kFALSE);
-      fxGraphName=fxCalibCurve->GetName();
+      fxGraphName = fxCalibCurve->GetName();
+   } else {
+      fxSpectrumName = "Please specify fit graph name";
    }
-   else
-   {
-      fxSpectrumName="Please specify fit graph name";
-   }
-   fxCalibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
+   fxCalibrator->AddPolynomX(__GRAPHNAME__, "A", __POLORDER__ - 1);
    // note that __POLORDER__ is number of polynom parameters here
    // i.e. true order of polynom +1
-   for(Int_t i=0; i<__POLORDER__;++i) {
-      fdA[i]=1/(i+1);
+   for (Int_t i = 0; i < __POLORDER__; ++i) {
+      fdA[i] = 1 / (i + 1);
       TString modname = TString::Format("A_%d",i);
       TGo4FitModel* mod = fxCalibrator->FindModel(modname.Data());
       if(mod) {
@@ -84,29 +73,29 @@ TXXXCalibPar::TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve) :
          TGo4Log::Error("could not find model %s", modname.Data());
    }
 
-   for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
-      fiLinesChannel[ix]=0;
-      ffLinesEnergy[ix]=0;
+   for (Int_t ix = 0; ix < __LINESNUMBER__; ++ix) {
+      fiLinesChannel[ix] = 0;
+      ffLinesEnergy[ix] = 0;
    }
-   fxDatabase="calilines.txt";
+   fxDatabase = "calilines.txt";
    ReadDatabase();
 }
+
 //***********************************************************
 TXXXCalibPar::~TXXXCalibPar()
 {
   delete fxLinesFinder;
   delete fxCalibrator;
 }
-//***********************************************************
 
+//***********************************************************
  void TXXXCalibPar::SetCalibSpectrum(TH1* h1)
  {
    fxCalibSpectrum = h1;
    if(fxLinesFinder)    fxLinesFinder->SetH1(__DATANAME__, fxCalibSpectrum, kFALSE);
  }
 
-
-//-----------------------------------------------------------
+//***********************************************************
 Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 {
 /////////////////////// under const /////////////////
@@ -116,7 +105,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       return kFALSE;
    }
 
-   for(Int_t ord=0;ord<__POLORDER__;++ord)
+   for (Int_t ord = 0; ord < __POLORDER__; ++ord)
       fdA[ord] = from->fdA[ord];
    fbRecalibrate = from->fbRecalibrate;
    fbReadDatabase = from->fbReadDatabase;
@@ -125,18 +114,17 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
    from->fxLinesFinder = 0; // adopt lines finder
    if(fxCalibrator) delete fxCalibrator;
    fxCalibrator = from->fxCalibrator;
-   from->fxCalibrator = 0; // adopt calibration fitter
+   from->fxCalibrator = nullptr; // adopt calibration fitter
 
    // note: graph with calibration curve is not copied!
 
-   for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-   {
-      fiLinesChannel[ix]=from->fiLinesChannel[ix];
-      ffLinesEnergy[ix]=from->ffLinesEnergy[ix];
-      fxLinesNames[ix]=from->fxLinesNames[ix];
-      //std::cout <<"updated line:"<<fxLinesNames[ix].Data() << std::endl;
+   for (Int_t ix = 0; ix < __LINESNUMBER__; ++ix) {
+      fiLinesChannel[ix] = from->fiLinesChannel[ix];
+      ffLinesEnergy[ix] = from->ffLinesEnergy[ix];
+      fxLinesNames[ix] = from->fxLinesNames[ix];
+      // std::cout <<"updated line:"<<fxLinesNames[ix].Data() << std::endl;
    }
-   std::cout <<"Updated Parameter:" << std::endl;
+   std::cout << "Updated Parameter:" << std::endl;
    //Print();
    // get references to graph and histogram from analysis:
    // note that updatefrom is only used on analysis side here!
@@ -163,17 +151,16 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       std::cout <<"Recalibrating..." << std::endl;
       // first we get the channels from the linesfinder fitter:
 
-      for(Int_t i=0; i<__LINESNUMBER__;++i)
-      {
-         const char *linename=fxLinesNames[i];
-         TGo4FitModel* mod=fxLinesFinder->FindModel(linename);
+      for (Int_t i = 0; i < __LINESNUMBER__; ++i) {
+         const char *linename = fxLinesNames[i];
+         TGo4FitModel* mod = fxLinesFinder->FindModel(linename);
          if(mod)
          {
             // check here if component is active or not
             if(mod->IsAssignTo(__DATANAME__))
                fiLinesChannel[i]=(Int_t) mod->GetParValue("Pos");
             else
-               fiLinesChannel[i]=0; // mark not active lines
+               fiLinesChannel[i] = 0; // mark not active lines
          }
          else
          {
@@ -181,19 +168,14 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          }
       }
 
-
       // setup calibration graph with the new channel coords:
       if(fxCalibCurve)
       {
          fxCalibCurve->Set(0);
-         Int_t point=0;
-         for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-         {
-            if(fiLinesChannel[ix] != 0)
-            {
-               fxCalibCurve->SetPoint(point,
-                     fiLinesChannel[ix],
-                     ffLinesEnergy[ix]);
+         Int_t point = 0;
+         for (Int_t ix = 0; ix < __LINESNUMBER__; ++ix) {
+            if (fiLinesChannel[ix] != 0) {
+               fxCalibCurve->SetPoint(point, fiLinesChannel[ix], ffLinesEnergy[ix]);
                // we only fit active lines
                ++point;
             }
@@ -204,18 +186,17 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          fxCalibrator->PrintLines();
          printf("fxCalibrator = %p\n", fxCalibrator);
          // finally, copy results of calibration to the parameter fields:
-         for(Int_t i=0; i<__POLORDER__;++i) {
-            TString modname = TString::Format("A_%d",i);
-            TGo4FitModel* mod = fxCalibrator->FindModel(modname.Data());
-            if(mod) {
+         for (Int_t i = 0; i < __POLORDER__; ++i) {
+            TString modname = TString::Format("A_%d", i);
+            TGo4FitModel *mod = fxCalibrator->FindModel(modname.Data());
+            if (mod) {
                // check here if component is active or not
-               if(mod->IsAssignTo(__GRAPHNAME__))
+               if (mod->IsAssignTo(__GRAPHNAME__))
                   fdA[i] = mod->GetParValue("Ampl");
                else
-                  fdA[i]=0;
+                  fdA[i] = 0;
             }
          }
-
       }
       else
       {
@@ -227,6 +208,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
   return kTRUE;
 }
 
+//***********************************************************
 void TXXXCalibPar::ReadDatabase()
 {
    // read energies from file:
@@ -240,7 +222,7 @@ void TXXXCalibPar::ReadDatabase()
    }
    else
    {
-      Int_t ix=0;
+      Int_t ix = 0;
       while(1){
          do{
             database.getline(nextline,__TEXTMAX__,'\n' ); // read whole line
@@ -270,14 +252,12 @@ void TXXXCalibPar::ReadDatabase()
    }
 }
 
-
-
+//***********************************************************
 Double_t TXXXCalibPar::Energy(Int_t channel)
 {
-  Double_t result=0;
-  for(Int_t ord=0;ord<__POLORDER__; ++ord)
-    {
-         result+=fdA[ord]*TMath::Power(channel,ord);
-    }
-  return result;
+   Double_t result = 0.;
+   for (Int_t ord = 0; ord < __POLORDER__; ++ord)
+      result += fdA[ord] * TMath::Power(channel, ord);
+
+   return result;
 }

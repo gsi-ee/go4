@@ -41,7 +41,8 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
    if(fbIsDataOwner) {
       fiData = new Int_t[datasize];
       fiAllocLen = datasize;
-      for(Int_t t=0; t<datasize; t++) fiData[t] = 0;
+      for (Int_t t = 0; t < datasize; t++)
+         fiData[t] = 0;
    }
 }
 
@@ -51,39 +52,38 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
    // check if Clear with only the used field elements worked correctly
    //TGo4Log::Info( "MBS SubEvent dtor...");
    Clear();
-   if(fbIsDataOwner && fiData) {
-      for(Int_t t=0; t<GetAllocatedLength(); t++)
-         if(fiData[t] != 0)
-            TGo4Log::Debug( " MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ",t);
-      delete [] fiData;
-      //TGo4Log::Info( "MBS SubEvent dtor deleted data field");
+   if (fbIsDataOwner && fiData) {
+      for (Int_t t = 0; t < GetAllocatedLength(); t++)
+         if (fiData[t] != 0)
+            TGo4Log::Debug(" MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ", t);
+      delete[] fiData;
+      // TGo4Log::Info( "MBS SubEvent dtor deleted data field");
    }
 }
-
 
 void TGo4MbsSubEvent::PrintEvent()
 {
    GO4TRACE((11,"TGo4MbsSubEvent::PrintEvent()",__LINE__, __FILE__));
 
    //// new style just with std::cout:
-/*   Bool_t printhexa=kFALSE;
-   Int_t* pData = (Int_t *) GetDataField();
-   std::cout << "   Mbs Subevent    t/s "
-        <<      dec << std::setw(4) << (Int_t)GetType()
-        << " "      << std::setw(4) << (Int_t)GetSubtype()
-        << " len "  << std::setw(8) << (Int_t)GetDlen()
-        << " procid "   << std::setw(4) << (Int_t)GetProcid()
-        << " ctrl " << std::setw(4) << (Int_t)GetControl()
-        << " cr "   << std::setw(4) << (Int_t)GetSubcrate()
-        << std::endl;
-   if(printhexa) std::cout << hex; else std::cout << dec;
-   for(Int_t i=0; i < GetDlen()/2-1; i++) {
-      std::cout << std::setw(12) << *pData << " ";
-      if((i-3) % 4 == 0) std::cout << std::endl;
-      pData++;
-   }
-   std::cout << std::endl;
-*/
+   /*   Bool_t printhexa=kFALSE;
+      Int_t* pData = (Int_t *) GetDataField();
+      std::cout << "   Mbs Subevent    t/s "
+           <<      dec << std::setw(4) << (Int_t)GetType()
+           << " "      << std::setw(4) << (Int_t)GetSubtype()
+           << " len "  << std::setw(8) << (Int_t)GetDlen()
+           << " procid "   << std::setw(4) << (Int_t)GetProcid()
+           << " ctrl " << std::setw(4) << (Int_t)GetControl()
+           << " cr "   << std::setw(4) << (Int_t)GetSubcrate()
+           << std::endl;
+      if(printhexa) std::cout << hex; else std::cout << dec;
+      for(Int_t i = 0; i < GetDlen()/2-1; i++) {
+         std::cout << std::setw(12) << *pData << " ";
+         if((i-3) % 4 == 0) std::cout << std::endl;
+         pData++;
+      }
+      std::cout << std::endl;
+   */
 
    // very new style just using printf
    PrintMbsSubevent();
@@ -104,25 +104,34 @@ void TGo4MbsSubEvent::PrintMbsSubevent(Bool_t longw, Bool_t hexw, Bool_t dataw)
 
    if(longw) {
       /* In this case we assume data as one longword per channel */
-      for(Int_t l=0; l<ll; l++) {
-         if(l%8 == 0) printf("  ");
-         if(hexw) printf("%04x.%04x ", (unsigned) ((*pl_data>>16) & 0xffff), (unsigned) (*pl_data & 0xffff));
-             else printf("%8u ", (unsigned) *pl_data);
+      for (Int_t l = 0; l < ll; l++) {
+         if (l % 8 == 0)
+            printf("  ");
+         if (hexw)
+            printf("%04x.%04x ", (unsigned)((*pl_data >> 16) & 0xffff), (unsigned)(*pl_data & 0xffff));
+         else
+            printf("%8u ", (unsigned)*pl_data);
          pl_data++;
-         if(l%8 == 7) printf("\n");
+         if (l % 8 == 7)
+            printf("\n");
       }
 
       if (ll%8 != 0) printf("\n");
    } else {
       /* In this case we assume data as two words per channel */
-      for(Int_t l=0;l<ll;l++) {
-         if(l%4 == 0) printf("  ");
-         if(hexw) printf("%6x%6x", (unsigned) (*pl_data&0xffff), (unsigned) ((*pl_data>>16)&0xffff));
-             else printf("%8u%8u", (unsigned) (*pl_data&0xffff), (unsigned) ((*pl_data>>16)&0xffff));
+      for (Int_t l = 0; l < ll; l++) {
+         if (l % 4 == 0)
+            printf("  ");
+         if (hexw)
+            printf("%6x%6x", (unsigned)(*pl_data & 0xffff), (unsigned)((*pl_data >> 16) & 0xffff));
+         else
+            printf("%8u%8u", (unsigned)(*pl_data & 0xffff), (unsigned)((*pl_data >> 16) & 0xffff));
          pl_data++;
-         if(l%4 == 3) printf("\n");
+         if (l % 4 == 3)
+            printf("\n");
       }
-      if(ll%4 != 0) printf("\n");
+      if (ll % 4 != 0)
+         printf("\n");
    }
 }
 
@@ -158,7 +167,7 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
       if(fieldlength == 0)
          fiData[0] = 0; // clear in case of zero subevents!
 
-      for(Int_t i=0; i<fieldlength;++i)
+      for (Int_t i = 0; i < fieldlength; ++i)
          fiData[i] = 0;
       fxHeader.Clear();
       Set(dleng); // set to default values, but remember last datalength

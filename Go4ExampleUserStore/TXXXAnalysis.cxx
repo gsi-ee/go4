@@ -96,8 +96,8 @@ Int_t TXXXAnalysis::UserPreLoop()
    if(fMbsEvent) fMbsEvent->PrintMbsFileHeader();
       // fileheader structure (lmd file only):
 
-   fEvents=0; // event counter
-   fLastEvent=0; // number of last event processed
+   fEvents = 0; // event counter
+   fLastEvent = 0; // number of last event processed
    return 0;
 }
 //-----------------------------------------------------------
