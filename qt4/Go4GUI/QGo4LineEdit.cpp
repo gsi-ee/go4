@@ -18,7 +18,7 @@
 #include <QMimeData>
 
 
-QGo4LineEdit::QGo4LineEdit(QWidget* parent, const char *name) :
+QGo4LineEdit::QGo4LineEdit(QWidget *parent, const char *name) :
    QLineEdit(parent)
 {
    setObjectName(name ? name : "Go4LineEdit");

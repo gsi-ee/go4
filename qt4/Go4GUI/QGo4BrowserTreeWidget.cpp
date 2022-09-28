@@ -16,7 +16,7 @@
 #include <QDropEvent>
 #include <QDrag>
 
-QGo4BrowserTreeWidget::QGo4BrowserTreeWidget(QWidget* parent) :
+QGo4BrowserTreeWidget::QGo4BrowserTreeWidget(QWidget *parent) :
    QTreeWidget(parent)
 {
 }

@@ -13,7 +13,7 @@
 
 #include "TGo4MacroDialog.h"
 
-TGo4MacroDialog::TGo4MacroDialog( QWidget* parent )
+TGo4MacroDialog::TGo4MacroDialog( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4MacroDialog");

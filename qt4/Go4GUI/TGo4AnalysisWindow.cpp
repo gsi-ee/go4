@@ -37,7 +37,7 @@
 #include "TGo4AnalysisObjectResult.h"
 #include "QGo4CommandsHistory.h"
 
-TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char *name, bool needoutput, bool needkillbtn) :
+TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget *parent, const char *name, bool needoutput, bool needkillbtn) :
     QGo4Widget( parent, name)
 {
     setCanDestroyWidget(false);
@@ -552,7 +552,7 @@ void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
 void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)
 {
   e->ignore(); // destroying this would mix up the upper level management
-  QWidget* mdi = parentWidget();
+  QWidget *mdi = parentWidget();
   if (mdi)
      mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
 }

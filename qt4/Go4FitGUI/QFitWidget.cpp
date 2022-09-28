@@ -20,7 +20,7 @@
 
 #include "TGo4FitPanel.h"
 
-QFitWidget::QFitWidget( QWidget* parent, const char *name, Qt::WindowFlags fl ) :
+QFitWidget::QFitWidget( QWidget *parent, const char *name, Qt::WindowFlags fl ) :
    QWidget( parent, fl )
 {
    setObjectName(name ? name : "QFitWidget");

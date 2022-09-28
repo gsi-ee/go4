@@ -449,7 +449,7 @@ Bool_t TGo4Script::CanConfigureAnalysis()
 void TGo4Script::SetAnalysisTerminalMode(int mode)
 {
    TGo4AnalysisWindow* gui_ = fMainWin->FindAnalysisWindow();
-   QWidget* gui = gui_ ? gui_->parentWidget() : nullptr;
+   QWidget *gui = gui_ ? gui_->parentWidget() : nullptr;
    if (!gui) return;
 
    if (mode < 0)
@@ -463,7 +463,7 @@ void TGo4Script::SetAnalysisTerminalMode(int mode)
 void TGo4Script::SetAnalysisConfigMode(int mode)
 {
    TGo4AnalysisConfiguration* gui_ = fMainWin->FindAnalysisConfiguration();
-   QWidget* gui = gui_ ? gui_->parentWidget() : nullptr;
+   QWidget *gui = gui_ ? gui_->parentWidget() : nullptr;
    if (!gui) return;
 
    if (mode < 0)
@@ -1109,7 +1109,7 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
       fs << "go4->SubmitAnalysisConfig(20);" << std::endl << std::endl;
 
    int mode = 1;
-   QWidget* mdi = confgui ? confgui->parentWidget() : nullptr;
+   QWidget *mdi = confgui ? confgui->parentWidget() : nullptr;
    if (mdi) {
       if (mdi->isHidden()) mode = -1; else
       if (mdi->isMinimized()) mode = 0;
@@ -1177,7 +1177,7 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
 
       pic.SavePrimitive(fs,"");
 
-      QWidget* mdi = panel->parentWidget();
+      QWidget *mdi = panel->parentWidget();
 
       QPoint pos = mdi->pos();
       mdi->mapToParent(pos);

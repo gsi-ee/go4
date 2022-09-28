@@ -14,7 +14,7 @@
 #include "TGo4OpenRemoteDialog.h"
 #include "TGo4QSettings.h"
 
-TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent)
+TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget *parent)
    : QDialog( parent )
 {
    setObjectName("Go4OpenRemoteDialog");

@@ -28,7 +28,7 @@ TGo4MdiArea* TGo4MdiArea::Instance()
    return gInstance;
 }
 
-TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
+TGo4MdiArea::TGo4MdiArea(QWidget *parent) :
    QMdiArea(parent)
 {
    setSizeIncrement( QSize( 100, 100 ) );

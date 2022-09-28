@@ -23,7 +23,7 @@
 
 #include <QButtonGroup>
 
-TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)
+TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget *parent)
    : QDialog( parent)
 {
    setObjectName("Go4CreateNewHistogram");

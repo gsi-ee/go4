@@ -18,7 +18,7 @@
 
 #include <QPushButton>
 
-TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
+TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4UserCommandsDialog");

@@ -19,7 +19,7 @@
 
 #include "TGo4UserCommandsDialog.h"
 
-TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char *name, Qt::WindowFlags fl ) :
+TGo4UserCommands::TGo4UserCommands( QWidget *parent, const char *name, Qt::WindowFlags fl ) :
    QGo4Widget( parent, name, fl)
 {
    setObjectName( name ? name : "Go4UserCommands");

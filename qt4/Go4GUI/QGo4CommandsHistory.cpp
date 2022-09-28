@@ -18,8 +18,8 @@
 #define GO4_COMHIS_MAX 50
 
 
-QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char *name) :
-    QComboBox(w)
+QGo4CommandsHistory::QGo4CommandsHistory(QWidget *parent, const char *name) :
+    QComboBox(parent)
 {
    setObjectName(name ? name : "Go4CommandsHistory");
    setMaxCount(GO4_COMHIS_MAX);
@@ -46,7 +46,7 @@ void QGo4CommandsHistory::keyPressEvent(QKeyEvent* e)
 QStringList QGo4CommandsHistory::getHistory(int max)
 {
    QStringList lst;
-   if (max>count()) max = count();
+   if (max > count()) max = count();
 
    for (int i = 0; i < max; i++)
       lst.append(itemText(i));

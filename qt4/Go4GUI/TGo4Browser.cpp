@@ -516,7 +516,7 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    if (go4sett->getDrawOnceFlag()) {
       TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
 
-      QWidget* mdi = panel ? panel->parentWidget() : nullptr;
+      QWidget *mdi = panel ? panel->parentWidget() : nullptr;
 
       if (mdi)  {
          if (mdi->isMinimized()) mdi->showNormal();

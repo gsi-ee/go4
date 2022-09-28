@@ -14,7 +14,7 @@
 #include "TGo4ConnectServer.h"
 #include "TGo4QSettings.h"
 
-TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
+TGo4ConnectServer::TGo4ConnectServer( QWidget *parent )
    : QDialog( parent )
 {
    setObjectName("Go4ConnectServer");

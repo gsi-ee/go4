@@ -794,7 +794,7 @@ void TGo4MainWindow::WindowActivated(int id)
    }
 }
 
-typedef void* (*TStartUserGuiFunc)(QWidget* parent);
+typedef void* (*TStartUserGuiFunc)(QWidget *parent);
 
 bool TGo4MainWindow::startUserGUI(const char *usergui)
 {
@@ -932,7 +932,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    return panel;
 }
 
-void TGo4MainWindow::CascadeMdiPosition(QWidget* sub)
+void TGo4MainWindow::CascadeMdiPosition(QWidget *sub)
 {
    //if ((sub->x() + sub->width() < fxMdiArea->viewport()->width()) &&
        //(sub->y() + sub->height() < fxMdiArea->viewport()->height())) return;
@@ -2457,7 +2457,7 @@ TGo4AnalysisConfiguration* TGo4MainWindow::FindAnalysisConfiguration()
 void TGo4MainWindow::ToggleAnalysisConfiguration()
 {
   TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
-  QWidget* mdi = conf ? conf->parentWidget() : nullptr;
+  QWidget *mdi = conf ? conf->parentWidget() : nullptr;
 
   if (!mdi)
     return;
@@ -2490,7 +2490,7 @@ void TGo4MainWindow::ToggleAnalysisWindow()
    if (!anw) return;
 
    if (anw->HasOutput()) {
-      QWidget* mdi = anw->parentWidget();
+      QWidget *mdi = anw->parentWidget();
 
       if (mdi->isVisible()) {
          mdi->hide();

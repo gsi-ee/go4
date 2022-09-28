@@ -16,7 +16,7 @@
 #include "TGo4Condition.h"
 #include "TGo4Marker.h"
 
-TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
+TGo4MarkerSettings::TGo4MarkerSettings( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4MarkerSettings");

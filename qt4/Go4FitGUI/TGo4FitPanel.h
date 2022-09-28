@@ -305,7 +305,7 @@ protected:
     TGo4ViewPanel* fxDrawNewPanel{nullptr};
     bool fbDrawPanelCreation{false};
     QFitItem* fxCurrentItem{nullptr};
-    QWidget* fxCurrentItemWidget{nullptr};
+    QWidget *fxCurrentItemWidget{nullptr};
     bool fbNeedConfirmation{false};
     bool fbShowPrimitives{false};
     bool fbFreezeMode{false};

@@ -24,7 +24,7 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient {
 
 public:
 
-   TGo4StartClient(QWidget* parent = nullptr);
+   TGo4StartClient(QWidget *parent = nullptr);
    void getResults();
 
 public slots:
