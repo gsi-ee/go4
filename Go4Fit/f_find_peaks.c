@@ -377,8 +377,8 @@ int go4fit_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, dou
    }
       *pr_sig = r_sig_f * sqrt(*pr_sig/ *pr_sum);
     }
-  else return(1);
+  else return 1;
   *pr_pos = *pr_pos -1.0;
-  return(0);
+  return 0;
 }
 /** END f_position C Procedure ******************************************/

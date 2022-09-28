@@ -378,7 +378,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
    if (!fStepStatus) return;
 
    TGo4EventSourceParameter* srcpar = fStepStatus->TakeSourcePar();
-   bool delsrcpar(true);
+   bool delsrcpar = true;
    TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
 
    if (fLastSrcKind >= 0) {
@@ -395,7 +395,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
    }
 
    TString filename, hostname;
-   Int_t port(0);
+   Int_t port = 0;
 
    switch(srcpar->GetID()) {
       case GO4EV_FILE:
@@ -632,7 +632,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(false);
       FileNameOutput->setDisabled(false);
       TreeAutosave->setDisabled(false);
-   } else if(k==1) {
+   } else if(k == 1) {
       StoreNameEdit->setDisabled(true);
       TGo4BackStoreParameter newpar1(GetBackStoreName().toLatin1().constData());
       fStepStatus->SetStorePar(&newpar1);
@@ -642,7 +642,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
       TreeAutosave->setDisabled(true);
-    } else if(k==2) {
+    } else if(k == 2) {
        StoreNameEdit->setDisabled(false);
        TGo4UserStoreParameter newpar2(StoreNameEdit->text().toLatin1().constData());
        fStepStatus->SetStorePar(&newpar2);
@@ -652,7 +652,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
        StoreOverwriteMode->setDisabled(true);
        FileNameOutput->setDisabled(false);
        TreeAutosave->setDisabled(true);
-     } else if(k==3) {
+     } else if(k == 3) {
 #ifdef __GO4HDF5__
       StoreNameEdit->setDisabled(false);
       TGo4HDF5StoreParameter newpar3(StoreNameEdit->text().toLatin1().constData(), GO4_H5F_ACC_TRUNC);
@@ -751,11 +751,10 @@ void TGo4ConfigStep::StoreOverWrite( bool overwrite)
 
 void TGo4ConfigStep::StoreTreeAutoSave( int t )
 {
-  if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
-        TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
-        StorePar->SetAutosaveSize(t);
-  }
-
+   if (fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
+      TGo4FileStoreParameter *StorePar = (TGo4FileStoreParameter *)fStepStatus->GetStorePar();
+      StorePar->SetAutosaveSize(t);
+   }
 }
 
 

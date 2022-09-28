@@ -64,13 +64,13 @@ class TGo4ASImage : public TASImage {
 
       TPad*         fxPad{nullptr};   //!
 
-      double        fxMinX{0};  //!
-      double        fxMaxX{0};  //!
-      double        fxMinY{0};  //!
-      double        fxMaxY{0};  //!
+      double        fxMinX{0.};  //!
+      double        fxMaxX{1.};  //!
+      double        fxMinY{0.};  //!
+      double        fxMaxY{1.};  //!
 
-      double        fdWidth{0};  //!  original width of image (histogram)
-      double        fdHeight{0}; //!  original height of image (histogram)
+      double        fdWidth{0.};  //!  original width of image (histogram)
+      double        fdHeight{0.}; //!  original height of image (histogram)
 
 };
 

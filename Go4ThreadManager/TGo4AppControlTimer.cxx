@@ -28,24 +28,21 @@ Int_t TGo4AppControlTimer::fgiTERMWAITCYCLES = 5;
 
 TGo4AppControlTimer::TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msperiod, Bool_t mode)
    :TTimer(msperiod,mode),
-   fxManager(0),
+   fxManager(manager),
    fbApplicationRun(kFALSE)
 {
    GO4TRACE((15,"TGo4AppControlTimer::TGo4AppControlTimer(TGo4ThreadManager*, Long_t, Bool_t) ctor",__LINE__, __FILE__));
-   fxManager=manager;
-   fxCondition=new TCondition();
+   fxCondition = new TCondition();
 }
 
 
 TGo4AppControlTimer::~TGo4AppControlTimer()
 {
-GO4TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE__));
-//std::cout <<"!!!!!!!!!!!!!!! Destructor of TGo4AppControlTimer" << std::endl;
-     if(fxCondition)
-         {
-            delete fxCondition;
-            fxCondition = nullptr;
-         }
+   GO4TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE__));
+   if (fxCondition) {
+      delete fxCondition;
+      fxCondition = nullptr;
+   }
 }
 
 Bool_t TGo4AppControlTimer::Notify ()
@@ -142,7 +139,3 @@ Bool_t TGo4AppControlTimer::GetApplicationRun ()
   GO4TRACE((12,"TGo4AppControlTimer::GetApplicationRun ()",__LINE__, __FILE__));
   return fbApplicationRun;
 }
-
-
-
-

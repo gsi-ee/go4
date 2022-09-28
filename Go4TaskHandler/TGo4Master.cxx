@@ -28,7 +28,7 @@ TGo4Master::TGo4Master(const char *name, Bool_t isserver, const char *serverhost
 {
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists
    TGo4CommandInvoker::Register("MasterTask", this);
-   TGo4Task* task(0);
+   TGo4Task* task = nullptr;
    if(IsServer())
       task = new TGo4ServerTask(name, negotport,
                                 kFALSE, //blockingmode

@@ -141,8 +141,8 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
       if (arraydim > 2)
          continue;
-      //       hsize_t maxindex1(1), maxindex2(1);
-      //       H5::DataType theType;
+      // hsize_t maxindex1 = 1, maxindex2 = 1;
+      //  H5::DataType theType;
       // do not edit IsA info
       if (strstr(memtypename, "TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
          continue;
@@ -260,7 +260,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
        Int_t arraydim, TDataMember* member)
  {
    H5::DataType theType;
-   hsize_t maxindex1(1), maxindex2(1);
+   hsize_t maxindex1 = 1, maxindex2 = 1;
 
    go4hdfdbg("TGo4HDF5Adapter::FillTypeInfo  begins for type %s ...\n",memtypename);
 
