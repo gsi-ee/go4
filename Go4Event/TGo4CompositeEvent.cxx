@@ -63,17 +63,17 @@ TGo4EventElement* TGo4CompositeEvent::GetChild(const char *name)
 void TGo4CompositeEvent::makeBranch(TBranch *parent)
 {
    if (fEventElements)
-      for(Int_t i=0; i<=fEventElements->GetLast();i++) {
-         TGo4EventElement** par = (TGo4EventElement**) &((*fEventElements)[i]);
+      for (Int_t i = 0; i <= fEventElements->GetLast(); i++) {
+         TGo4EventElement **par = (TGo4EventElement **)&((*fEventElements)[i]);
          if (par && *par) {
-            TBranch *b = parent->GetTree()->TTree::Branch(TString::Format("%s.",(*par)->GetName()).Data(), (*par)->ClassName(),par,4000,99);
+            TBranch *b = parent->GetTree()->TTree::Branch(TString::Format("%s.", (*par)->GetName()).Data(),
+                                                          (*par)->ClassName(), par, 4000, 99);
             (*par)->makeBranch(b);
          }
       }
 
    TGo4EventElement::makeBranch(parent);
 }
-
 
 Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
 {

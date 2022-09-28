@@ -43,15 +43,15 @@ TGo4HistogramEntry::TGo4HistogramEntry(const char *name) :
    fbNeedInitialisation(kTRUE)
 {
    fxHistogramName = fgcNOCONDITION;
-   for (UInt_t t=0; t<__MAXHISDIM__;++t) {
-      SetHisEventName(t,fgcNOEVENT);
-      SetHisVarName(t,fgcNODATA);
+   for (UInt_t t = 0; t < __MAXHISDIM__; ++t) {
+      SetHisEventName(t, fgcNOEVENT);
+      SetHisVarName(t, fgcNODATA);
    }
 
    fxConditionName = fgcNOCONDITION;
-   for (Int_t t=0; t<__MAXCONDIM__;++t) {
-      SetConEventName(t,fgcNOEVENT);
-      SetConVarName(t,fgcNODATA);
+   for (Int_t t = 0; t < __MAXCONDIM__; ++t) {
+      SetConEventName(t, fgcNOEVENT);
+      SetConVarName(t, fgcNODATA);
    }
 
    Reset();
@@ -63,63 +63,62 @@ TGo4HistogramEntry::~TGo4HistogramEntry()
 
 void TGo4HistogramEntry::SetHisVarName(Int_t ix, const char *name)
 {
-  if((ix>=0) && (ix<__MAXHISDIM__))
-     fxHisVarName[ix]=name;
+   if ((ix >= 0) && (ix < __MAXHISDIM__))
+      fxHisVarName[ix] = name;
 }
 
 const char *TGo4HistogramEntry::GetHistVarName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisVarName[ix].Data() : nullptr;
+   return ((ix >= 0) && (ix < __MAXHISDIM__)) ? fxHisVarName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetHisEventName(Int_t ix, const char *name)
 {
-   if((ix>=0) && (ix<__MAXHISDIM__))
-      fxHisEventName[ix]=name;
+   if ((ix >= 0) && (ix < __MAXHISDIM__))
+      fxHisEventName[ix] = name;
 }
 
 const char *TGo4HistogramEntry::GetHistEventName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXHISDIM__)) ? fxHisEventName[ix].Data() : nullptr;
+   return ((ix >= 0) && (ix < __MAXHISDIM__)) ? fxHisEventName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetConVarName(Int_t ix, const char *name)
 {
   GO4TRACE((12,"TGo4DynamicEntry::SetConVarName(UInt_t, char*)",__LINE__, __FILE__));
-  if((ix>=0) && (ix<__MAXCONDIM__))
+  if ((ix >= 0) && (ix < __MAXCONDIM__))
      fxConVarName[ix] = name;
 }
 
 const char *TGo4HistogramEntry::GetConVarName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConVarName[ix].Data() : nullptr;
+   return ((ix >= 0) && (ix < __MAXCONDIM__)) ? fxConVarName[ix].Data() : nullptr;
 }
 
 void TGo4HistogramEntry::SetConEventName(Int_t ix, const char *name)
 {
    GO4TRACE((12,"TGo4DynamicEntry::SetConEventName(UInt_t, char*)",__LINE__, __FILE__));
-   if((ix>=0) && (ix<__MAXCONDIM__))
-      fxConEventName[ix]=name;
+   if ((ix >= 0) && (ix < __MAXCONDIM__))
+      fxConEventName[ix] = name;
 }
 
 const char *TGo4HistogramEntry::GetConEventName(Int_t ix) const
 {
-   return ((ix>=0) && (ix<__MAXCONDIM__)) ? fxConEventName[ix].Data() : nullptr;
+   return ((ix >= 0) && (ix < __MAXCONDIM__)) ? fxConEventName[ix].Data() : nullptr;
 }
-
 
 void TGo4HistogramEntry::Reset()
 {
    fxHistogram = nullptr;
-   for(Int_t t =0; t<__MAXHISDIM__; ++t) {
-      fxHisEvents[t] = 0;
+   for (Int_t t = 0; t < __MAXHISDIM__; ++t) {
+      fxHisEvents[t] = nullptr;
       fxHistType[t] = 0;
       fxHistPtr[t] = nullptr;
    }
 
    fxCondition = nullptr;
-   for(Int_t t =0; t<__MAXCONDIM__; ++t) {
-      fxConEvents[t] = 0;
+   for (Int_t t = 0; t < __MAXCONDIM__; ++t) {
+      fxConEvents[t] = nullptr;
       fxCondType[t] = 0;
       fxCondPtr[t] = nullptr;
    }
@@ -181,11 +180,12 @@ Bool_t TGo4HistogramEntry::TestConditionNew()
    // find out how many dimensions are set for condition:
    // maximum condition dimension defined by first index
    // with all data pointers set to zero.
-   for(dimension=0;dimension<__MAXCONDIM__; ++dimension)
-      if (!fxCondPtr[dimension]) break;
+   for (dimension = 0; dimension < __MAXCONDIM__; ++dimension)
+      if (!fxCondPtr[dimension])
+         break;
 
    // fill pointers to test variables:
-   for(UInt_t j=0;j<dimension; ++j)
+   for (UInt_t j = 0; j < dimension; ++j)
       dat[j] = GetPtrValue(fxCondType[j], fxCondPtr[j]);
 
    switch(dimension) {
@@ -214,8 +214,8 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
 
    Double_t dat[3];
    Int_t dimension = fxHistogram->GetDimension();
-   for(Int_t j=0; j<dimension; ++j)
-     dat[j] = GetPtrValue(fxHistType[j], fxHistPtr[j]);
+   for (Int_t j = 0; j < dimension; ++j)
+      dat[j] = GetPtrValue(fxHistType[j], fxHistPtr[j]);
    switch (dimension) {
      case 1:
         if(evvalid[0]) fxHistogram->Fill(dat[0]);
@@ -246,11 +246,13 @@ void TGo4HistogramEntry::RecursiveRemove(TObject *obj)
 
    if(fxCondition == obj) Reset();
 
-   for (Int_t n=0;n<__MAXCONDIM__;n++)
-     if (fxConEvents[n]==obj) Reset();
+   for (Int_t n = 0; n < __MAXCONDIM__; n++)
+      if (fxConEvents[n] == obj)
+         Reset();
 
-   for (Int_t n=0;n<__MAXHISDIM__;n++)
-     if (fxHisEvents[n]==obj) Reset();
+   for (Int_t n = 0; n < __MAXHISDIM__; n++)
+      if (fxHisEvents[n] == obj)
+         Reset();
 }
 
 void TGo4HistogramEntry::Print(Option_t*) const
@@ -266,17 +268,17 @@ void TGo4HistogramEntry::Print(Option_t*) const
 
    TROOT::IndentLevel();
    std::cout <<"\tCondition: "<< GetConditionName() << std::endl;
-   for(Int_t i=0;i<__MAXCONDIM__; ++i) {
+   for (Int_t i = 0; i < __MAXCONDIM__; ++i) {
       TROOT::IndentLevel();
       std::cout << "\t ConEvent(" << i << "): " << GetConEventName(i)
-           << "\t ConVar(" << i << "): " << GetConVarName(i) << std::endl;
+                << "\t ConVar(" << i << "): " << GetConVarName(i) << std::endl;
    }
    TROOT::IndentLevel();
    std::cout <<"\tHistogram: "<< GetHistogramName() << std::endl;
-   for(Int_t i=0;i<__MAXHISDIM__; ++i) {
+   for (Int_t i = 0; i < __MAXHISDIM__; ++i) {
       TROOT::IndentLevel();
       std::cout << "\t HisEvent(" << i<<"): " << GetHistEventName(i)
-           << "\t HisVar(" << i<< "): " << GetHistVarName(i) << std::endl;
+                << "\t HisVar(" << i<< "): " << GetHistVarName(i) << std::endl;
    }
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
