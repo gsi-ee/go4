@@ -38,7 +38,7 @@ TGo4DrawCloneProxy::~TGo4DrawCloneProxy()
    if (fClone) delete fClone;
 }
 
-Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
+Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot* slot)
 {
    TGo4LockGuard lock;
 
@@ -70,7 +70,7 @@ void TGo4DrawCloneProxy::CleanupClone(TGo4Slot* slot)
    fClone = nullptr;
 }
 
-void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
+void TGo4DrawCloneProxy::ChangeTitle(TObject *obj)
 {
    TNamed* src = dynamic_cast<TNamed*> (obj);
    TNamed* tgt = dynamic_cast<TNamed*> (fClone);
@@ -106,7 +106,7 @@ void TGo4DrawCloneProxy::UpdateTitle()
       ChangeTitle(GetLink()->GetAssignedObject());
 }
 
-Bool_t TGo4DrawCloneProxy::RemoveRegisteredObject(TObject* obj)
+Bool_t TGo4DrawCloneProxy::RemoveRegisteredObject(TObject *obj)
 {
    if (obj==fClone) fClone = nullptr;
    return kFALSE;
@@ -123,7 +123,7 @@ void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
    fParentSlot = slot;
 
    if (GetLink()) {
-      TObject* obj = GetLink()->GetAssignedObject();
+      TObject *obj = GetLink()->GetAssignedObject();
       if (obj) AssignClone(obj, slot);
    }
 }
@@ -143,12 +143,12 @@ TObject* TGo4DrawCloneProxy::GetAssignedObject()
 Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
 {
    if (id==TGo4Slot::evObjAssigned) {
-      TObject* obj = GetLink()->GetAssignedObject();
+      TObject *obj = GetLink()->GetAssignedObject();
       AssignClone(obj, slot);
       ChangeTitle(obj);
    } else if ((id==TGo4Slot::evObjUpdated) || (id==TGo4Slot::evContAssigned)) {
       bool res = kFALSE;
-      TObject* obj = GetLink()->GetAssignedObject();
+      TObject *obj = GetLink()->GetAssignedObject();
       if (obj) {
         Int_t rebinx = 0, rebiny = 0;
         if (fClone)

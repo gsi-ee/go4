@@ -85,7 +85,7 @@ TGo4Condition::TGo4Condition() :
 }
 
 // -----------------------------------------------
-TGo4Condition::TGo4Condition(const char *name, const char* title) :
+TGo4Condition::TGo4Condition(const char *name, const char *title) :
    TNamed(name, title),
    TAttLine(),
    TAttFill(),

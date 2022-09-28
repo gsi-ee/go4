@@ -205,7 +205,7 @@ class TGo4AbstractInterface : public TObject {
         *   ownership - is browser becomes owner of that object
         * If item of that name exists in browser, it will be overwritten by new object
         * Returns path to stored object in browser workspace */
-      virtual TString SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);
+      virtual TString SaveToMemory(const char* path, TObject *obj, Bool_t ownership = kFALSE);
 
       /** Save specified browser item to file.
         * Only object, which are already fetched from the data source, will be saved.

@@ -392,7 +392,7 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
 
   Int_t nuse = 0;
   for (Int_t nobj=0;nobj<=objs->GetLast();nobj++) {
-     TObject* obj = objs->At(nobj);
+     TObject *obj = objs->At(nobj);
      if (!obj) {
        std::cout << "Empty object in list" << std::endl;
        return nullptr;

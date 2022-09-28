@@ -39,7 +39,7 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
          itemname.Append(iter.getfullname());
          if (go4->Browser()->ItemKind(itemname.Data()) == TGo4Access::kndGo4Param) {
             go4->FetchItem(itemname.Data(), 1000);
-            TObject* obj = go4->GetObject(itemname.Data());
+            TObject *obj = go4->GetObject(itemname.Data());
             if (obj) found->Add(obj);
          }
       }
@@ -47,7 +47,7 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
 #endif
 #ifdef __GO4ANAMACRO__
    Bool_t reset = kTRUE;
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    while((obj = go4->NextMatchingObject(wildcard,"Go4",reset)) != nullptr) {
       reset = kFALSE;
       if (obj->InheritsFrom("TGo4Parameter")) found->Add(obj);
@@ -66,7 +66,7 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
          if (TString(key->GetName()).Index(wild) != kNPOS) {
             TClass* cl = TClass::GetClass(key->GetClassName());
             if (cl && cl->InheritsFrom("TGo4Parameter")) {
-                TObject* obj = dir->Get(key->GetName());
+                TObject *obj = dir->Get(key->GetName());
                 if (obj) found->Add(obj);
             }
          }
@@ -90,7 +90,7 @@ TString MakeParamFuncName(const char* main, const char* objname)
 
 // Function to process one parameter
 // outside Go4 get parameter from file (1st arg)
-Bool_t save1param(TObject* obj, const char* prefix)
+Bool_t save1param(TObject *obj, const char* prefix)
 {
   if (!obj || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
 
@@ -135,7 +135,7 @@ void saveparam(const char* wildcard = "*", const char* prefix = "set")
 
   TIter next(&lst);
 
-  TObject* obj = nullptr;
+  TObject *obj = nullptr;
   while((obj = next()) != nullptr)
      save1param(obj, prefix);
 

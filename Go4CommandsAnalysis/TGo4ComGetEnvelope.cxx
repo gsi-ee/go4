@@ -49,7 +49,7 @@ Int_t TGo4ComGetEnvelope::ExeCom()
 
    GO4TRACE((11,"TGo4ComGetEnvelope::ExeCom() - found valid receiver",__LINE__, __FILE__));
 
-   TObject* obj = TGo4Analysis::Instance()->ObjectManager()->GetAsTObject( GetObjectName(), GetFolderName());
+   TObject *obj = TGo4Analysis::Instance()->ObjectManager()->GetAsTObject( GetObjectName(), GetFolderName());
 
    TGo4ObjEnvelope* envelope = new TGo4ObjEnvelope(obj, GetObjectName(), GetFolderName());
    cli->SendObject(envelope, GetTaskName());

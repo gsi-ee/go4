@@ -25,7 +25,7 @@ TGo4ConditionPainter::TGo4ConditionPainter()
 {
 }
 
-TGo4ConditionPainter::TGo4ConditionPainter(const char *name, const char* title)
+TGo4ConditionPainter::TGo4ConditionPainter(const char *name, const char *title)
 : TGo4LabelPainter(name, title ? title : "Go4 ConditionPainter"), fxCondition(nullptr)
 {
 }

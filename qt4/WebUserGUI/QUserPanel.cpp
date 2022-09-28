@@ -153,7 +153,7 @@ void QUserPanel::DropItem(const char *itemname, TClass* cl, int kind)
    }
 }
 
-void QUserPanel::linkedObjectUpdated(const char* linkname, TObject* obj)
+void QUserPanel::linkedObjectUpdated(const char* linkname, TObject *obj)
 {
     if (strcmp(linkname, "PrintItem") == 0) {
       PrintObject(obj);
@@ -192,7 +192,7 @@ void QUserPanel::DrawBtn_clicked()
    DrawItem(DragItemLbl->text());
 }
 
-void QUserPanel::PrintObject(TObject* obj)
+void QUserPanel::PrintObject(TObject *obj)
 {
     PrintEdit->clear();
     if (!obj) return;
@@ -236,7 +236,7 @@ void QUserPanel::DrawObjectOnCanvas(const char *itemname)
 {
    RemoveLink("DrawItem");
    AddLink(itemname, "DrawItem");
-   TObject* obj = GetLinked("DrawItem", 2);
+   TObject *obj = GetLinked("DrawItem", 2);
    printf("Call draw object %s %p\n", itemname, obj);
    if (obj) {
       fxDrawCanvas->getCanvas()->Clear();

@@ -83,7 +83,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
       void Print(Option_t* = "") const override;
 
-      void RecursiveRemove(TObject* obj) override;
+      void RecursiveRemove(TObject *obj) override;
 
       static const char* Get_fgcNOCONDITION();
 

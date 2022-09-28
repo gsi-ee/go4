@@ -626,7 +626,7 @@ Bool_t TGo4Interface::DrawItem(const char *itemname, ViewPanelHandle handle, con
 {
     if (!handle) handle = StartViewPanel();
 
-    TObject* obj = GetObject(itemname, 5000);
+    TObject *obj = GetObject(itemname, 5000);
 
     if (obj) obj->Draw(drawopt);
 

@@ -31,7 +31,7 @@ public:
     virtual void DropItem( const char * itemname, TClass * cl, int kind );
     virtual void linkedObjectUpdated( const char * linkname, TObject * obj );
     virtual void linkedObjectRemoved( const char * linkname );
-    virtual void PrintObject(TObject* obj);
+    virtual void PrintObject(TObject *obj);
     virtual void DrawObjectOnCanvas(const char *itemname);
 
 

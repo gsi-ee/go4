@@ -22,13 +22,13 @@ class TGo4DrawCloneProxy : public TGo4LinkProxy {
    public:
       TGo4DrawCloneProxy(TGo4Slot* slot, TGo4ViewPanel* panel);
       virtual ~TGo4DrawCloneProxy();
-      Bool_t AssignClone(TObject* obj, TGo4Slot* slot);
+      Bool_t AssignClone(TObject *obj, TGo4Slot* slot);
       void CleanupClone(TGo4Slot* slot);
-      void ChangeTitle(TObject* obj);
+      void ChangeTitle(TObject *obj);
       void UpdateTitle();
       void PerformRebin();
 
-      Bool_t RemoveRegisteredObject(TObject* obj) override;
+      Bool_t RemoveRegisteredObject(TObject *obj) override;
       void Initialize(TGo4Slot* slot) override;
       void Finalize(TGo4Slot* slot) override;
       TObject* GetAssignedObject() override;

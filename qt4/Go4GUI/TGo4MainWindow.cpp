@@ -3121,7 +3121,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_EditInSlot: {
          TGo4Slot* slot = (TGo4Slot*) par;
          if (!slot) break;
-         TObject* obj = slot->GetAssignedObject();
+         TObject *obj = slot->GetAssignedObject();
          if (!obj) break;
          if (obj->InheritsFrom(TGo4Fitter::Class())) {
             TGo4FitPanel* fitpanel = StartFitPanel();

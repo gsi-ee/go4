@@ -119,7 +119,7 @@ void TGo4HStackProxy::Finalize(TGo4Slot* slot)
    if (om) om->UnregisterObject(fHS, slot);
 }
 
-Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject* obj)
+Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject *obj)
 {
    if (obj == fHS) {
       fHS = nullptr;
@@ -159,7 +159,7 @@ Bool_t TGo4HStackProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(THStack::Class());
 }
 
-Bool_t TGo4HStackProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
+Bool_t TGo4HStackProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fHS && fOwner) delete fHS;
@@ -186,7 +186,7 @@ TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char *name)
    if (!hs) return nullptr;
    if (!name || (*name == 0)) return new TGo4ObjectAccess(hs);
 
-   TObject* obj = hs->GetHists()->FindObject(name);
+   TObject *obj = hs->GetHists()->FindObject(name);
 
    return obj ? new TGo4ObjectAccess(obj) : nullptr;
 }

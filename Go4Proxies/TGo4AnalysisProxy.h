@@ -105,12 +105,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) override;
 
-      Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) override;
+      Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) override;
 
       void ClearAllAnalysisObjects() override;
       void ClearAnalysisObject(const char* fullpath) override;
 
-      void RemoteTreeDraw(const char* treename,
+      void RemoteTreeDraw(const char *treename,
                           const char* varexp,
                           const char* cutcond,
                           const char* hname) override;

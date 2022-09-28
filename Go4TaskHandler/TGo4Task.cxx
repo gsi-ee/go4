@@ -335,7 +335,7 @@ TGo4Command* TGo4Task::NextCommand()
    {
       // put new command out of queue
       // or wait for command if analysis is stopped
-      TObject* obj = comq->WaitObjectFromBuffer();
+      TObject *obj = comq->WaitObjectFromBuffer();
       if(obj)
       {
          if(obj->InheritsFrom(TGo4Command::Class()))

@@ -24,10 +24,10 @@ class TGo4AnalysisProxy;
 class TGo4Display : public TGo4Master {
   public:
 
-    TGo4Display(Bool_t isserver=kTRUE);
+    TGo4Display(Bool_t isserver = kTRUE);
     virtual ~TGo4Display();
 
-    void DisplayLog(TGo4Status * Status);
+    void DisplayLog(TGo4Status *Status);
     void DisplayData(TObject*);
 
     void SetAnalysis(TGo4AnalysisProxy* an) { fxAnalysis = an; }

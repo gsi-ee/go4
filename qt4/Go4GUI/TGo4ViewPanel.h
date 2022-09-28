@@ -105,9 +105,9 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot* AddNewSlot(const char *name, TGo4Slot* parent);
       virtual void BlockPanelRedraw(bool on);
       void ResetWidget() override;
-      void linkedObjectUpdated(const char* linkname, TObject* obj) override;
-      void linkedUpdated(TGo4Slot* slot, TObject* obj) override;
-      void linkedRemoved(TGo4Slot* slot, TObject* obj) override;
+      void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+      void linkedUpdated(TGo4Slot* slot, TObject *obj) override;
+      void linkedRemoved(TGo4Slot* slot, TObject *obj) override;
       bool IsAcceptDrag( const char * itemname, TClass * cl, int kind ) override;
       virtual void DropOnPad(TPad* pad, const char * itemname, TClass * cl, int kind );
       virtual void CompleteInitialization();
@@ -151,7 +151,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual int GetNumberOfPads(TPad *toppad);
       virtual TPad * GetSubPad( TPad * toppad, int num, bool onlytoplevel);
       virtual void ProducePadsList(TObjArray *arr, TPad * toppad);
-      virtual const char* GetDrawObjectLinkName(TPad *pad, TObject* obj );
+      virtual const char* GetDrawObjectLinkName(TPad *pad, TObject *obj );
       virtual TGo4Slot * GetPadMainObjectSlot(TPad *pad );
       virtual TGo4Slot * GetSuperimposeSlot(TGo4Slot* slot);
       virtual TObject * GetPadMainObject(TPad *pad );
@@ -215,7 +215,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void SetAutoZoomFlag(bool on);
       virtual void SetApplyToAllFlag(bool on);
       virtual void ResizeGedEditor();
-      virtual void ActivateInGedEditor(TObject* obj);
+      virtual void ActivateInGedEditor(TObject *obj);
       virtual void CleanupGedEditor();
       virtual void ShootRepaintTimer();
       virtual bool IsRepaintTimerActive();

@@ -82,7 +82,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Checks, if object class corresponds to class, specified for slot
        */
-      Bool_t IsSuitable(TObject* obj);
+      Bool_t IsSuitable(TObject *obj);
 
 
       /**
@@ -309,7 +309,7 @@ class TGo4FitSlotList {
        * Slot must be empty
        * Return pointer on slot, to which object was assigned
        */
-     TGo4FitSlot* SetObject(TObject* obj, Bool_t iOwned = kFALSE);
+     TGo4FitSlot* SetObject(TObject *obj, Bool_t iOwned = kFALSE);
 
       /**
        * Set object to first suitable slot, which have PlaceName name or owner of which
@@ -318,13 +318,13 @@ class TGo4FitSlotList {
        * If only slot suits to defined condition, object in slot will be overwritten.
        * Return pointer on slot, to which object was assigned
        */
-     TGo4FitSlot* SetObject(const char* PlaceName, TObject* obj, Bool_t iOwned = kFALSE);
+     TGo4FitSlot* SetObject(const char* PlaceName, TObject *obj, Bool_t iOwned = kFALSE);
 
       /**
        * Checks, if object assign to one of slots.
        * Return pointer on slot, to which object is assigned, otherwise 0.
        */
-     TGo4FitSlot* IsObjectInSlots(TObject* obj);
+     TGo4FitSlot* IsObjectInSlots(TObject *obj);
 
       /**
        * Check, if all necessary objects are provided.

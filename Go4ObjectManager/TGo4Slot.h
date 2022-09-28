@@ -52,7 +52,7 @@ class TGo4Slot : public TNamed  {
 
       TGo4Slot();
       TGo4Slot(TGo4Slot* parent);
-      TGo4Slot(TGo4Slot* parent, const char *name, const char* title);
+      TGo4Slot(TGo4Slot* parent, const char *name, const char *title);
       virtual ~TGo4Slot();
 
       TGo4Slot* GetParent() const { return fParent; }
@@ -96,7 +96,7 @@ class TGo4Slot : public TNamed  {
       const char* GetSlotClassName() const;
 
       Bool_t IsAcceptObject(TClass* cl);
-      Bool_t AssignObject(TObject* obj, Bool_t owner);
+      Bool_t AssignObject(TObject *obj, Bool_t owner);
       TObject* GetAssignedObject();
       virtual void Update(Bool_t strong = kFALSE);
       Int_t GetAssignFlag() const { return fAssignFlag; }
@@ -115,7 +115,7 @@ class TGo4Slot : public TNamed  {
       virtual void Event(TGo4Slot* source, Int_t id, void *param = nullptr);
       void ForwardEvent(TGo4Slot* source, Int_t id, void *param = nullptr);
 
-      void RecursiveRemove(TObject* obj) override;
+      void RecursiveRemove(TObject *obj) override;
 
       void Print(Option_t* option="") const override;
 

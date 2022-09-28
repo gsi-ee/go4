@@ -257,7 +257,7 @@ TObject* TGo4AbstractInterface::GetObject(const char *itemname, Int_t updateleve
    return Browser()->GetBrowserObject(itemname, updatelevel);
 }
 
-TString TGo4AbstractInterface::SaveToMemory(const char* path, TObject* obj, Bool_t ownership)
+TString TGo4AbstractInterface::SaveToMemory(const char* path, TObject *obj, Bool_t ownership)
 {
    TString res = Browser()->SaveToMemory(path, obj, ownership, kTRUE);
 
@@ -296,7 +296,7 @@ Bool_t TGo4AbstractInterface::IsHotStart()
 const char* TGo4AbstractInterface::NextHotStartCmd()
 {
    if (fxCommands.IsEmpty()) return nullptr;
-   TObject* obj = fxCommands.First();
+   TObject *obj = fxCommands.First();
    fxCommands.Remove(obj);
    delete obj;
    const char* res = nullptr;

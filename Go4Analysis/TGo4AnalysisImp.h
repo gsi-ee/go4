@@ -297,7 +297,7 @@ public:
     * If Histogram of hisname already exists, this histogram will taken.
     * if not, the histogram will be created on first TTree::Draw.
     * Strings varexp and selection are used for applying cuts and variables to plot. */
-   Bool_t AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp);
+   Bool_t AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp);
 
    /** Search histogram in histogram list (directory). */
    TH1* GetHistogram(const char *name);
@@ -851,7 +851,7 @@ public:
     * If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a rolling graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-   TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char* title, Int_t points = 0, Int_t average = 1);
+   TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
    /** Create parameter of specified class,
     * fullname specifies name of condition (optionally with subfolder name)

@@ -126,7 +126,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gridLayout->addWidget(fView);
 
-   // keep symbolic connect while rootwebview class does not exported 
+   // keep symbolic connect while rootwebview class does not exported
    QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());
@@ -185,7 +185,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 {
    // TODO: remove, not needed at all
 
-   TObject* obj(0);
+   TObject *obj = nullptr;
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
    QPoint pos = event->pos();
 #else
@@ -200,7 +200,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 
 void QWebCanvas::dropView(QDropEvent* event)
 {
-   TObject* obj(0);
+   TObject *obj = nullptr;
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
    QPoint pos = event->pos();
 #else

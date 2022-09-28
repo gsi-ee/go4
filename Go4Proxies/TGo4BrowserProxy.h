@@ -92,7 +92,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void RequestObjectStatus(const char *name, TGo4Slot *tgtslot);
 
-      void PerformTreeDraw(const char* treename,
+      void PerformTreeDraw(const char *treename,
                            const char* Xexp,
                            const char* Yexp,
                            const char* Zexp,
@@ -203,7 +203,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static bool CanEditItem(int cando);
 
       static Int_t DefineItemProperties(Int_t kind, TClass* cl, TString& pixmap);
-      static Bool_t UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx = nullptr, Int_t* hasrebiny = nullptr);
+      static Bool_t UpdateObjectContent(TObject *obj, TObject* newobj, Int_t* hasrebinx = nullptr, Int_t* hasrebiny = nullptr);
 
       void SyncBrowserSlots();
 

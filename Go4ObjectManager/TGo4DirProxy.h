@@ -56,7 +56,7 @@ class TGo4DirProxy : public TGo4Proxy {
       static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot* browser_slot = nullptr);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
 
-      Bool_t UpdateObjectInFile(const char* filepath, TObject* obj);
+      Bool_t UpdateObjectInFile(const char* filepath, TObject *obj);
 
       Bool_t IsFile() const;
       const char* GetFileName() const;

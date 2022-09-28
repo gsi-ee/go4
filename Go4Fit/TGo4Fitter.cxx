@@ -1067,7 +1067,7 @@ void TGo4Fitter::Draw(Option_t* option)
       if (selectdata && (data != selectdata)) continue;
 
       if (drawdata) {
-          TObject* obj = CreateDrawObject(TString(data->GetName())+"_bins", data->GetName(), kFALSE);
+          TObject *obj = CreateDrawObject(TString(data->GetName())+"_bins", data->GetName(), kFALSE);
 
           TAttLine* line = dynamic_cast<TAttLine*> (obj);
           if (line) {

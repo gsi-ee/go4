@@ -23,7 +23,7 @@ class TGo4Status : public TNamed {
 
       TGo4Status(const char *name);
 
-      TGo4Status(const char *name, const char* title);
+      TGo4Status(const char *name, const char *title);
 
       virtual ~TGo4Status();
 

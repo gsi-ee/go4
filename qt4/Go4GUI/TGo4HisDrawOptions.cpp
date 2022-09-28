@@ -74,7 +74,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          if (ndim <= 0) ndim = 1;
 
          const char* drawopt = nullptr;
-         TObject* obj = panel->GetSelectedObject(pad, &drawopt);
+         TObject *obj = panel->GetSelectedObject(pad, &drawopt);
 
          int viewtype = view_Histo1;
 
@@ -682,7 +682,7 @@ void TGo4HisDrawOptions::ChangeColor(int kind)
    if (!panel) return;
 
    TPad* pad = panel->GetActivePad();
-   TObject* obj = panel->GetSelectedObject(pad, 0);
+   TObject *obj = panel->GetSelectedObject(pad, 0);
 
    Color_t icol = 0;
 

@@ -31,7 +31,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
    public:
       TGo4ObjectManager();
 
-      TGo4ObjectManager(const char *name, const char* title);
+      TGo4ObjectManager(const char *name, const char *title);
 
       virtual ~TGo4ObjectManager();
 
@@ -40,9 +40,9 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void MakeFolder(const char* pathname);
 
-      TGo4Slot* Add(const char* pathname, TObject* obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
+      TGo4Slot* Add(const char* pathname, TObject *obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
 
-      TGo4Slot* MakeObjSlot(const char* foldername, const char *name = nullptr, const char* title = nullptr);
+      TGo4Slot* MakeObjSlot(const char* foldername, const char *name = nullptr, const char *title = nullptr);
 
       TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle);
 
@@ -66,7 +66,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void AddROOTFolders(const char* pathname, Bool_t selected = kTRUE);
 
-      void AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char* title = "title");
+      void AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char *title = "title");
       TGo4Proxy* GetProxy(const char *name);
 
       void DeleteSlot(const char* pathname);
@@ -83,8 +83,8 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void Event(TGo4Slot* source, Int_t id, void* param = nullptr) override;
       void RetranslateEvent(TGo4Slot* source, Int_t id, void* param = nullptr);
-      void RegisterObjectWith(TObject* obj, TGo4Slot* slot);
-      void UnregisterObject(TObject* obj, TGo4Slot* slot);
+      void RegisterObjectWith(TObject *obj, TGo4Slot* slot);
+      void UnregisterObject(TObject *obj, TGo4Slot* slot);
 
       void PrintSlots();
 
@@ -92,11 +92,11 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       Int_t RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec = 0);
 
-      void RecursiveRemove(TObject* obj) override;
+      void RecursiveRemove(TObject *obj) override;
 
    protected:
 
-      virtual Bool_t AssignObject(const char* path, TObject* obj, Bool_t ownership);
+      virtual Bool_t AssignObject(const char* path, TObject *obj, Bool_t ownership);
 
       void RemoveFromLinks(const TGo4Slot* slot);
 

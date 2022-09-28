@@ -153,7 +153,7 @@ Bool_t TGo4FileSource::OpenNextFile()
 
    if (!fxFilesNames || (fxFilesNames->GetSize() == 0)) return kFALSE;
 
-   TObject* obj = fxFilesNames->First();
+   TObject *obj = fxFilesNames->First();
    fxCurrentFileName = obj->GetName();
    fxFilesNames->Remove(fxFilesNames->FirstLink());
    delete obj;

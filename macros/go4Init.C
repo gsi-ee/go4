@@ -58,7 +58,7 @@ void go4RegisterAll()
    if (gdir) {
       gdir->cd();
       TIter iter(gdir->GetList());
-      TObject* obj = nullptr;
+      TObject *obj = nullptr;
       while ((obj = iter()) != nullptr) {
          if (obj->InheritsFrom(TH1::Class()))
            go4->AddHistogram((TH1*)obj);

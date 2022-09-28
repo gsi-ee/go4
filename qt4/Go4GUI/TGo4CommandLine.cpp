@@ -198,7 +198,7 @@ void TGo4CommandLine::PrintHelp()
    std::cout <<"\t\t: get browser object by full pathname. " << std::endl;
    std::cout <<"\t- TString go4->FindItem(const char *name); " << std::endl;
    std::cout <<"\t\t: get full pathname of browser object by name " << std::endl;
-   std::cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< std::endl;
+   std::cout <<"\t- TString go4->SaveToMemory(const char* path, TObject *obj, Bool_t ownership = kFALSE);"<< std::endl;
    std::cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << std::endl;
    std::cout <<"\t- ViewPanelHandle go4->StartViewPanel()"<< std::endl;
    std::cout <<"\t\t: Open new Go4 viewpanel with default size. Returns handle of new panel." << std::endl;

@@ -159,7 +159,7 @@ void TGo4CanvasProxy::Finalize(TGo4Slot* slot)
    if (om) om->UnregisterObject(fCanvas, slot);
 }
 
-Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject* obj)
+Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject *obj)
 {
    if (obj==fCanvas) {
       fCanvas = nullptr;
@@ -199,7 +199,7 @@ Bool_t TGo4CanvasProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(TCanvas::Class());
 }
 
-Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
+Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fCanvas && fOwner) delete fCanvas;
@@ -233,7 +233,7 @@ TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
       const char* slash = strchr(curname,'/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
-      TObject* obj = nullptr;
+      TObject *obj = nullptr;
       while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName()) == len) &&
              (strncmp(obj->GetName(), curname, len) == 0)) break;

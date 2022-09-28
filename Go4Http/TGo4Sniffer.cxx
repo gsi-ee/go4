@@ -607,7 +607,7 @@ void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString&
    // to be done
 }
 
-Bool_t TGo4Sniffer::AddAnalysisObject(TObject* obj)
+Bool_t TGo4Sniffer::AddAnalysisObject(TObject *obj)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if (!ana) {
@@ -631,7 +631,7 @@ Bool_t TGo4Sniffer::AddAnalysisObject(TObject* obj)
 }
 
 Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
-                                   const char* treename,
+                                   const char *treename,
                                    const char* varexpr,
                                    const char* cutexpr)
 {

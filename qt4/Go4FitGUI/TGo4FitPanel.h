@@ -68,7 +68,7 @@ public:
     bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
     void linkedObjectUpdated( const char * linkname, TObject * obj) override;
     void linkedObjectRemoved( const char * linkname ) override;
-    void linkedRemoved(TGo4Slot* slot, TObject* obj) override;
+    void linkedRemoved(TGo4Slot* slot, TObject *obj) override;
     virtual void DropOnPanel( QDropEvent* event, const char * itemname, TClass * cl, int kind );
     virtual void CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname);
     virtual void WorkWithFitter(const char *itemname, TGo4ViewPanel* panel, TPad* pad);
@@ -148,7 +148,7 @@ public:
     virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
     virtual QFitItem* GetFitterItem();
-    virtual QFitItem* FindItem(TObject* obj, int ObjectType, QFitItem* parent);
+    virtual QFitItem* FindItem(TObject *obj, int ObjectType, QFitItem* parent);
     virtual bool ShowItem(QFitItem* item, bool force);
     virtual bool ShowItemAsText(QFitItem* item, bool force);
     virtual bool ShowItemAsGraph(QFitItem* item, bool force);
@@ -187,7 +187,7 @@ public:
     virtual TGo4FitData* CreateData(int id, const char *name);
     virtual TGo4FitModel* CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
-    virtual int DefineModelWidgetType(TObject* obj);
+    virtual int DefineModelWidgetType(TObject *obj);
     virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink);
     virtual bool UpdateObjectReferenceInSlots();
     virtual void ClearObjectReferenceInSlots();

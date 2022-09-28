@@ -383,7 +383,7 @@ void TGo4FitPanel::linkedObjectRemoved( const char * linkname )
    UpdateActivePage();
 }
 
-void TGo4FitPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
+void TGo4FitPanel::linkedRemoved(TGo4Slot* slot, TObject *obj)
 {
 }
 
@@ -946,7 +946,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
        panel->ShootRepaintTimer();
 
        if (!UseSamePads) {
-          TObject* obj = fitter->CreateDrawObject("Data", data->GetName(), kFALSE);
+          TObject *obj = fitter->CreateDrawObject("Data", data->GetName(), kFALSE);
           panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitModels, "::Data", obj, true, drawopt);
        }
 
@@ -1140,7 +1140,7 @@ void TGo4FitPanel::Cmd_SaveFitter(bool ask)
 
 void TGo4FitPanel::Cmd_ItemPrint(QFitItem* item)
 {
-   TObject* obj = item->Object();
+   TObject *obj = item->Object();
    if (!obj) return;
 
    QString str = "*";
@@ -2428,7 +2428,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
            if (!slot) continue;
 
            Wiz_DataSlotsTable->setVerticalHeaderItem(n, new QTableWidgetItem(slot->GetName()));
-           TObject* obj = slot->GetObject();
+           TObject *obj = slot->GetObject();
 
            if (!obj) {
               Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(" --- "));
@@ -3361,7 +3361,7 @@ void TGo4FitPanel::CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fi
    for (Int_t n=0;n<npads;n++) {
       TPad* subpad = panel->GetSubPad(pad, n, false);
       if (panel->IsPadHasSubPads(subpad)) continue;
-      TObject* obj = panel->GetPadMainObject(subpad);
+      TObject *obj = panel->GetPadMainObject(subpad);
       if (!obj) continue;
 
       TGo4FitData* data = nullptr;
@@ -3722,7 +3722,7 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id
      }
 
      default: {
-       TObject* obj = nullptr;
+       TObject *obj = nullptr;
        if ((id >= 1100) && (id < 1200))
           obj = CreateData(id - 1100, "Data");
        else if ((id >= 1200) && (id < 1300))
@@ -3873,7 +3873,7 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (item->Object());
       if(!slot) break;
 
-      TObject* obj = slot->GetObject();
+      TObject *obj = slot->GetObject();
       if (!obj) break;
 
       if (obj->InheritsFrom(TGo4FitData::Class()))
@@ -4053,7 +4053,7 @@ QFitItem* TGo4FitPanel::GetFitterItem()
    return nullptr;
 }
 
-QFitItem* TGo4FitPanel::FindItem(TObject* obj, int ObjectType, QFitItem* parent)
+QFitItem* TGo4FitPanel::FindItem(TObject *obj, int ObjectType, QFitItem* parent)
 {
    if (!parent) parent = GetFitterItem();
 
@@ -4871,7 +4871,7 @@ void TGo4FitPanel::LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usep
    }
 }
 
-int TGo4FitPanel::DefineModelWidgetType(TObject* obj)
+int TGo4FitPanel::DefineModelWidgetType(TObject *obj)
 {
    if (!obj) return FitGui::wt_none;
    if (obj->InheritsFrom(TGo4FitModelPolynom::Class())) return FitGui::wt_polynom;
@@ -4912,7 +4912,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
 
    bool res = true;
 
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
 
    if (WorkingWithPanel()) {
 
@@ -5014,7 +5014,7 @@ void TGo4FitPanel::CloseDrawPanel()
 void TGo4FitPanel::FillNamedWidget(QFitNamedWidget* w)
 {
    if (!w) return;
-   TObject* obj = w->GetObject();
+   TObject *obj = w->GetObject();
    if (!obj) return;
 
    w->ClassNameLbl->setText(QString("Class name: ") + obj->ClassName());

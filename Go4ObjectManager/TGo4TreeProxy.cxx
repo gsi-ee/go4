@@ -144,7 +144,7 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
       const char* slash = strchr(curname,'/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(list);
-      TObject* obj = nullptr;
+      TObject *obj = nullptr;
       while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName()) == len) &&
              (strncmp(obj->GetName(), curname, len) == 0)) break;

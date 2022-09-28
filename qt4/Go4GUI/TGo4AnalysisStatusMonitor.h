@@ -33,7 +33,7 @@ public:
 
    virtual void WorkWithRatemeter(TGo4Slot* slot);
 
-   void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+   void linkedObjectUpdated(const char* linkname, TObject *obj) override;
 
    void linkedObjectRemoved(const char* linkname) override;
 };

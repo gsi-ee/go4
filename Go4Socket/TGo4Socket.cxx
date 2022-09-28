@@ -440,7 +440,7 @@ TObject* TGo4Socket::Recv(const char *name)
    // note: optional parameter const char *name is left for compatibility, has no effect!
    GO4TRACE((12,"TGo4Socket::Recv(const char *name)", __LINE__, __FILE__));
 
-   TObject* obj = nullptr;
+   TObject *obj = nullptr;
    if(IsOpen())
    {
       if(fxSocket)

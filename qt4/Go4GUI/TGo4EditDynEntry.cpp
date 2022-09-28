@@ -90,7 +90,7 @@ void TGo4EditDynEntry::DropItem(const char *itemname, TClass* cl, int kind)
       DropTree(itemname);
 }
 
-void TGo4EditDynEntry::linkedObjectUpdated(const char* linkname, TObject* obj)
+void TGo4EditDynEntry::linkedObjectUpdated(const char* linkname, TObject *obj)
 {
    if (strcmp(linkname, "Entry") == 0)
      SetPleaseUpdate(false);

@@ -1318,20 +1318,20 @@ void TGo4Analysis::ShowEvent(const char* stepname, Bool_t isoutput)
 // Methods that forward to object manager:
 
 Bool_t TGo4Analysis::AddDynamicHistogram(const char *name,
-                                  const char* histo,
-                                  const char* hevx, const char* hmemx,
-                                  const char* hevy, const char* hmemy,
-                                  const char* hevz, const char* hmemz,
-                                  const char* condition,
-                                  const char* cevx, const char* cmemx,
-                                  const char* cevy, const char* cmemy)
+                                         const char *histo,
+                                         const char *hevx, const char *hmemx,
+                                         const char *hevy, const char *hmemy,
+                                         const char *hevz, const char *hmemz,
+                                         const char *condition,
+                                         const char *cevx, const char *cmemx,
+                                         const char *cevy, const char *cmemy)
 {
    return fxObjectManager->AddDynamicHistogram(name,
-                                  histo, hevx, hmemx, hevy, hmemy, hevz, hmemz,
-                                  condition, cevx, cmemx, cevy, cmemy);
+                                               histo, hevx, hmemx, hevy, hmemy, hevz, hmemz,
+                                               condition, cevx, cmemx, cevy, cmemy);
 }
 
-Bool_t TGo4Analysis::AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp)
+Bool_t TGo4Analysis::AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp)
 {
    Bool_t rev=fxObjectManager->AddTreeHistogram(hisname,treename,varexp,cutexp);
    if(rev) UpdateNamesList();
@@ -1394,7 +1394,7 @@ Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char *subfo
    return fxObjectManager->AddAnalysisCondition(con,subfolder);
 }
 
-TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char* cond_cl)
+TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
@@ -1424,12 +1424,12 @@ TH1* TGo4Analysis::GetHistogram(const char *name)
    return fxObjectManager->GetHistogram(name);
 }
 
-TNamed * TGo4Analysis::GetObject(const char *name, const char* folder)
+TNamed * TGo4Analysis::GetObject(const char *name, const char *folder)
 {
    return fxObjectManager->GetObject(name,folder);
 }
 
-TGo4Parameter * TGo4Analysis::GetParameter(const char *name, const char* par_class)
+TGo4Parameter * TGo4Analysis::GetParameter(const char *name, const char *par_class)
 {
    return fxObjectManager->GetParameter(name, par_class);
 }
@@ -1459,12 +1459,12 @@ TFolder * TGo4Analysis::GetObjectFolder()
    return fxObjectManager->GetObjectFolder();
 }
 
-TGo4ObjectStatus * TGo4Analysis::CreateObjectStatus(const char *name, const char* folder)
+TGo4ObjectStatus * TGo4Analysis::CreateObjectStatus(const char *name, const char *folder)
 {
    return fxObjectManager->CreateObjectStatus(name,folder);
 }
 
-TGo4TreeStructure * TGo4Analysis::CreateTreeStructure(const char* treename)
+TGo4TreeStructure * TGo4Analysis::CreateTreeStructure(const char *treename)
 {
    return fxObjectManager->CreateTreeStructure(treename);
 }
@@ -1589,7 +1589,7 @@ void TGo4Analysis::PrintDynamicList()
    fxObjectManager->PrintDynamicList();
 }
 
-TObject* TGo4Analysis::NextMatchingObject(const char* expr, const char* folder, Bool_t reset)
+TObject* TGo4Analysis::NextMatchingObject(const char* expr, const char *folder, Bool_t reset)
 {
    return fxObjectManager->NextMatchingObject(expr,folder,reset);
 }
@@ -1745,7 +1745,7 @@ Bool_t  TGo4Analysis::EvaluateFolderpath(const char* fullname, TString& objectna
    return kTRUE;
 }
 
-TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
+TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            const char* xtitle, const char* ytitle)
 {
@@ -1825,7 +1825,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
    return newh;
 }
 
-TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
+TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            Int_t nbinsy, Double_t ylow, Double_t yup,
                            const char* xtitle, const char* ytitle, const char* ztitle)
@@ -2106,7 +2106,7 @@ TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
    return elli;
 }
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char* title, const char* HistoName)
+TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const char *title, const char* HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -2156,7 +2156,7 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char* fullname, const Int_t start
 }
 
 
-TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, Int_t points, Double_t* xvalues, Double_t* yvalues)
+TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2184,7 +2184,7 @@ TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, Int_t p
    return graph;
 }
 
-TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, TF1* function)
+TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char *title, TF1* function)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2207,7 +2207,7 @@ TGraph* TGo4Analysis::MakeGraph(const char* fullname, const char* title, TF1* fu
    return graph;
 }
 
-TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const char* title, Int_t points, Int_t average)
+TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char* fullname, const char *title, Int_t points, Int_t average)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;

@@ -64,7 +64,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
 
    protected:
 
-      void linkedObjectUpdated(const char* linkname, TObject* obj) override;
+      void linkedObjectUpdated(const char* linkname, TObject *obj) override;
       void linkedObjectRemoved(const char* linkname) override;
 
       void resizeEvent(QResizeEvent *) override;

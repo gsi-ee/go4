@@ -22,7 +22,7 @@ class TGo4ParameterMember : public TNamed {
       enum { kTString_t = 10001, kTGo4Fitter_t = 10002, kTArray_t = 10003 };
 
       TGo4ParameterMember();
-      TGo4ParameterMember(const char *name, const char* title);
+      TGo4ParameterMember(const char *name, const char *title);
       virtual ~TGo4ParameterMember();
 
       void SetType(const char *name, Int_t id) { fTypeName = name; fTypeId = id; }
@@ -48,7 +48,7 @@ class TGo4ParameterMember : public TNamed {
       Bool_t IsVisible() const { return fVisible; }
 
       TObject* GetObject() const { return fObject; }
-      void SetObject(TObject* obj, Bool_t owner);
+      void SetObject(TObject *obj, Bool_t owner);
 
       void SetValue(char* addr);
       void GetValue(char* addr);

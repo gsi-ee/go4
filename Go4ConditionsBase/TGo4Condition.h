@@ -40,7 +40,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
   public:
     TGo4Condition();
 
-    TGo4Condition(const char *name, const char* title = "Go4 Condition");
+    TGo4Condition(const char *name, const char *title = "Go4 Condition");
 
     virtual ~TGo4Condition();
 

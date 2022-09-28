@@ -127,7 +127,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
       /** Send object to the current object client.
         *  Protocol matches TGo4ObjectClient::ReceiveObject() */
-      Bool_t SendObject(TObject* obj);
+      Bool_t SendObject(TObject *obj);
 
       TGo4AnalysisClient  *fxAnalysisClient{nullptr};//!
       TGo4Analysis        *fxAnalysis{nullptr};//!
