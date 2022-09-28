@@ -191,22 +191,22 @@ private:
 
       /** @link aggregationByValue
              *   @supplierCardinality 1 */
-      TGo4TaskManager * fxTaskManager;//!
+      TGo4TaskManager * fxTaskManager{nullptr};//!
 
       /** @supplierCardinality 1 */
-      TGo4TaskHandler * fxCurrentTaskHandler; //!
+      TGo4TaskHandler * fxCurrentTaskHandler{nullptr}; //!
 
       /**
        * link to the next TaskHandler transport instance that shall be connected
        * by the Application Control Timer with the client
        */
-      TGo4Socket * fxConnectTransport; //!
+      TGo4Socket * fxConnectTransport{nullptr}; //!
 
       /**
        * link to the next TaskHandler transport instance that shall be disconnected
        * by the Application Control Timer with the client
        */
-      TGo4Socket * fxDisConnectTransport; //!
+      TGo4Socket * fxDisConnectTransport{nullptr}; //!
 
       /**
        * hostname for timer connect
@@ -216,47 +216,46 @@ private:
       /**
        * port number for timer connect
        */
-      UInt_t fuConnectPort;
+      UInt_t fuConnectPort{0};
 
       /**
        * True if open in server mode shall keep the server socket instance
        */
-      Bool_t fbKeepServerSocket;
+      Bool_t fbKeepServerSocket{kFALSE};
 
       /**
        * True if fxConnectTransport shall be Open() by AppControlTimer
        */
-      Bool_t fbConnectRequest;
+      Bool_t fbConnectRequest{kFALSE};
 
        /**
        * True if fxConnectTransport shall be Close() by AppControlTimer
        */
-      Bool_t fbDisConnectRequest;
-
+      Bool_t fbDisConnectRequest{kFALSE};
 
       /**
        * True if fxConnectTransport waits in server Open() call
        */
-      Bool_t fbConnectIsOpen;
+      Bool_t fbConnectIsOpen{kFALSE};
 
       /**
        * True if fxConnectTransport has returned from Open(),
        * i.e. connection was established
        */
-      Bool_t fbConnectIsDone;
+      Bool_t fbConnectIsDone{kFALSE};
 
       /**
        * True if fxConnectTransport has returned from Close(),
        * i.e. connection was established
        */
-      Bool_t fbConnectIsClose;
+      Bool_t fbConnectIsClose{kFALSE};
 //!
 
       /** timer responsible for the connection/disconnection of clients;
        * independent of application control timer
        * @link aggregationByValue
        *   @supplierCardinality 1 */
-      TGo4TaskConnectorTimer * fxConnectorTimer;
+      TGo4TaskConnectorTimer * fxConnectorTimer{nullptr};
 public:
 
       enum ELaunchmodes{

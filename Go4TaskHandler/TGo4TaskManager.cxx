@@ -424,7 +424,7 @@ Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
       TGo4TaskHandler *currenttaskhandler = fxServer->GetCurrentTaskHandler();
       if (taskhandler == currenttaskhandler) {
          // yes, then set current task to the next in list
-         fxServer->SetCurrentTask(0); // will also start the work threads again
+         fxServer->SetCurrentTask(nullptr); // will also start the work threads again
       } else {
          // no, the current task remains
          fxServer->StartWorkThreads(); // but need to start the work threads

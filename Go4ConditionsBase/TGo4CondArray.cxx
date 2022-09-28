@@ -47,7 +47,7 @@ TGo4Condition * TGo4CondArray::At(Int_t i)
 // ----------------------------------------------------------
 TGo4CondArray::TGo4CondArray() :
    TGo4Condition(),
-   condarr(0),
+   condarr(nullptr),
    fiNumCond(0),
    fiType(0),
    fiSelectedCond(0)
@@ -56,7 +56,7 @@ TGo4CondArray::TGo4CondArray() :
 // ----------------------------------------------------------
 TGo4CondArray::TGo4CondArray(const char *name, Int_t elements, Int_t contype) :
    TGo4Condition(name,"TGo4CondArray"),
-   condarr(0),
+   condarr(nullptr),
    fiNumCond(0),
    fiType(0),
    fiSelectedCond(0)

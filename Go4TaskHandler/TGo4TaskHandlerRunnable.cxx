@@ -23,10 +23,10 @@
 #include "Go4EmergencyCommands.h"
 
 TGo4TaskHandlerRunnable::TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode)
-   :TGo4Runnable(name,man), fxTransport(0), fbReceiverMode(0)
+   :TGo4Runnable(name,man), fxTransport(nullptr), fbReceiverMode(0)
 {
-   fxTaskHandler=hand;
-   fbReceiverMode=receivermode;
+   fxTaskHandler = hand;
+   fbReceiverMode = receivermode;
 }
 
 TGo4TaskHandlerRunnable::~TGo4TaskHandlerRunnable()

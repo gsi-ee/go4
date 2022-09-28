@@ -236,7 +236,7 @@ void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
 Bool_t TGo4PolyCond::Test(Double_t x, Double_t y)
 {
    IncCounts();
-   if((!IsEnabled()) || (fxCut == 0)){
+   if(!IsEnabled() || !fxCut){
       if(FixedResult()) IncTrueCounts();
       return FixedResult();
    }
@@ -254,7 +254,7 @@ void TGo4PolyCond::PrintCondition(Bool_t points)
       if(!fxCut)
          std::cout << "No polygon specified!" << std::endl;
       else
-         fxCut->Print(0);
+         fxCut->Print(nullptr);
    }
 }
 

@@ -18,14 +18,14 @@
 #include "TGo4WinCond.h"
 
 TGo4WinCondView::TGo4WinCondView(Double_t x1,Double_t y1,Double_t x2,Double_t y2)
-   :TBox(x1,y1,x2,y2), fbExecutesMouseEvent(kFALSE), fxWinCondition(0)
+   :TBox(x1,y1,x2,y2), fbExecutesMouseEvent(kFALSE), fxWinCondition(nullptr)
 {
     SetBit(kMustCleanup);
     //SetBit(kCanDelete, kFALSE);
 }
 
 TGo4WinCondView::TGo4WinCondView()
-   : TBox(),fbExecutesMouseEvent(kFALSE),fxWinCondition(0)
+   : TBox(),fbExecutesMouseEvent(kFALSE),fxWinCondition(nullptr)
 {
     SetBit(kMustCleanup);
     //SetBit(kCanDelete, kFALSE);
@@ -104,7 +104,7 @@ void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 
 const char *TGo4WinCondView::GetName() const
 {
-   return fxWinCondition ? fxWinCondition->GetName() : 0;
+   return fxWinCondition ? fxWinCondition->GetName() : nullptr;
 }
 
 
@@ -115,7 +115,7 @@ void TGo4WinCondView::SetName(const char *nam)
 
 void TGo4WinCondView::SetToLimits(Double_t x1, Double_t x2, Double_t y1, Double_t y2)
 {
-   if (fxWinCondition == 0)
+   if (!fxWinCondition)
       return;
    if (fxWinCondition->GetDimension() > 1)
       fxWinCondition->SetValues(x1, x2, y1, y2);
