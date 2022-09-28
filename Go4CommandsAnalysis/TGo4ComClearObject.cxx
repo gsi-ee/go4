@@ -39,14 +39,14 @@ Int_t TGo4ComClearObject::ExeCom()
    GO4TRACE((12, "TGo4ComClearObject::ExeCom()", __LINE__, __FILE__));
 
    TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient *>(fxReceiverBase);
-   if (cli == 0) {
+   if (!cli) {
       GO4TRACE((11, "TGo4ComClearObject::ExeCom() - no receiver specified ERROR!", __LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s: NO RECEIVER ERROR!!!", GetName());
       return 1;
    }
 
    TGo4Analysis *ana = TGo4Analysis::Instance();
-   if (ana == 0) {
+   if (!ana) {
       cli->SendStatusMessage(3, kTRUE, TString::Format(" %s ERROR no analysis ", GetName()));
       return -1;
    }

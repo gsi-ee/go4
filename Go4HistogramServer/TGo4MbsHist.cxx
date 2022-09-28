@@ -44,7 +44,7 @@ TGo4MbsHist::TGo4MbsHist(TH1* histo) :
    fiHisNum(1)
 {
    if (histo) {
-      PrepareHeader(histo, 0, &fxHistoHead);
+      PrepareHeader(histo, nullptr, &fxHistoHead);
       if (histo->GetDimension() == 2) {
          // two dim histo
          Int_t i = 0;
@@ -89,7 +89,7 @@ TGo4MbsHist::TGo4MbsHist(TFolder* folder, const char *filter) :
    //std::cout <<"Init buflen with "<< fiBufLen << std::endl;
    fiBuffer = new Int_t[fiBufLen];
    fxCursor = (s_his_head*) fiBuffer;
-   ScanGo4Folder(folder,0,filter);
+   ScanGo4Folder(folder, nullptr, filter);
 }
 
 

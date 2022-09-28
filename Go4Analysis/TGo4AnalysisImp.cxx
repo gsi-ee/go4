@@ -997,7 +997,7 @@ Int_t TGo4Analysis::PreLoop()
    Int_t rev = UserPreLoop();
    for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
       TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
-      TGo4EventProcessor* proc = step ? step->GetEventProcessor() : 0;
+      TGo4EventProcessor* proc = step ? step->GetEventProcessor() : nullptr;
       if (proc) proc->UserPreLoop();
    }
 
@@ -1021,7 +1021,7 @@ Int_t TGo4Analysis::PostLoop()
    if(fbInitIsDone) {
       for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
          TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
-         TGo4EventProcessor* proc = step ? step->GetEventProcessor() : 0;
+         TGo4EventProcessor* proc = step ? step->GetEventProcessor() : nullptr;
          if (proc) proc->UserPostLoop();
       }
 

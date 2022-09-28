@@ -146,7 +146,7 @@ TObject* TGo4ObjClient::ReceiveObject()
             buffer->SetReadMode();
             //std::cout << "Reading object from buffer..."<< std::endl;
             buffer->Reset();
-            obj=buffer->ReadObject(0); // ReadObject(cl)
+            obj = buffer->ReadObject(nullptr); // ReadObject(cl)
             if(obj) std::cout <<"read object of class"<<obj->ClassName() << std::endl;
             savdir->cd();
          } //  TGo4LockGuard

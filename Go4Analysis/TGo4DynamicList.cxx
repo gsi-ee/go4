@@ -173,7 +173,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       }
       else
       {
-         throw TGo4DynamicListException(0,
+         throw TGo4DynamicListException(nullptr,
                TString::Format("Index %ld for array member:%s out of range %s[%d]", indexoffset, memname, tname, maxindex).Data());
       }
       // for now, we only handle 1d arrays
