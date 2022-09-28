@@ -17,44 +17,48 @@
 
 #include "TGo4FitDataHistogram.h"
 
-TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()), fxIter(nullptr) {
+TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()), fxIter(nullptr) {}
+
+TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TGo4FitData *iDataAsModel, Bool_t Amplitude)
+   : TGo4FitModel(iName, "data used as model", Amplitude),
+     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE, iDataAsModel,
+            kTRUE),
+     fxIter(0)
+{
 }
 
-TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TGo4FitData *iDataAsModel, Bool_t Amplitude) :
-  TGo4FitModel(iName,"data used as model",Amplitude),
-  fxData("forModel", "Data, used to represent model component",
-          this, TGo4FitData::Class(), kTRUE, iDataAsModel, kTRUE), fxIter(0) {
-}
-
-TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TH1* histo, Bool_t iOwned, Bool_t Amplitude) :
-   TGo4FitModel(iName,"data used as model",Amplitude),
-   fxData("forModel", "Data, used to represent model component",
-           this, TGo4FitData::Class(), kTRUE), fxIter(0) {
-      SetDataAsModel(new TGo4FitDataHistogram("Histogram",histo,iOwned), kTRUE);
+TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TH1 *histo, Bool_t iOwned, Bool_t Amplitude)
+   : TGo4FitModel(iName, "data used as model", Amplitude),
+     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE), fxIter(0)
+{
+   SetDataAsModel(new TGo4FitDataHistogram("Histogram", histo, iOwned), kTRUE);
 }
 
 TGo4FitModelFromData::~TGo4FitModelFromData()
 {
-   if (fxIter) delete fxIter;
+   if (fxIter)
+      delete fxIter;
 }
 
-TGo4FitData* TGo4FitModelFromData::GetDataAsModel() const
+TGo4FitData *TGo4FitModelFromData::GetDataAsModel() const
 {
-   return dynamic_cast<TGo4FitData*> (fxData.GetObject());
+   return dynamic_cast<TGo4FitData *>(fxData.GetObject());
 }
 
-void TGo4FitModelFromData::SetDataAsModel(TGo4FitData* iData, Bool_t iOwned) {
-  fxData.SetObject(iData,iOwned);
-  SetUpdateSlotList();
+void TGo4FitModelFromData::SetDataAsModel(TGo4FitData *iData, Bool_t iOwned)
+{
+   fxData.SetObject(iData, iOwned);
+   SetUpdateSlotList();
 }
 
 Bool_t TGo4FitModelFromData::Initialize(Int_t UseBuffers)
 {
-   if (!GetDataAsModel()) return kFALSE;
+   if (!GetDataAsModel())
+      return kFALSE;
 
-   for(Int_t n=0;n<NumAssigments();n++)
-     if (GetAssignedConnection(n))
-        if (!GetAssignedConnection(n)->IsCompatibleData(GetDataAsModel())) {
+   for (Int_t n = 0; n < NumAssigments(); n++)
+      if (GetAssignedConnection(n))
+         if (!GetAssignedConnection(n)->IsCompatibleData(GetDataAsModel())) {
             std::cout << "TGo4FitModelFromData: incompatible data used for model" << std::endl;
             return kFALSE;
          }
@@ -64,46 +68,61 @@ Bool_t TGo4FitModelFromData::Initialize(Int_t UseBuffers)
 
 Bool_t TGo4FitModelFromData::BeforeEval(Int_t)
 {
-  if (fxIter) { delete fxIter; fxIter = nullptr; }
-  if (!GetDataAsModel()) return kFALSE;
-  fxIter = GetDataAsModel()->MakeIter();
-  if (!fxIter) return kFALSE;
-  return fxIter->Reset(kFALSE);
+   if (fxIter) {
+      delete fxIter;
+      fxIter = nullptr;
+   }
+   if (!GetDataAsModel())
+      return kFALSE;
+   fxIter = GetDataAsModel()->MakeIter();
+   if (!fxIter)
+      return kFALSE;
+   return fxIter->Reset(kFALSE);
 }
 
-Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges)
+Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitData *data, Int_t nbin, Bool_t UseRanges)
 {
-  if (!data) return 0.;
-  return FindDataPoint(GetDataIndexesSize(data), GetDataFullIndex(data,nbin));
+   if (!data)
+      return 0.;
+   return FindDataPoint(GetDataIndexesSize(data), GetDataFullIndex(data, nbin));
 }
 
-Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges)
+Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitDataIter *iter, Bool_t UseRanges)
 {
-   if (!iter) return 0.;
+   if (!iter)
+      return 0.;
    return FindDataPoint(iter->IndexesSize(), iter->Indexes());
 }
 
 void TGo4FitModelFromData::AfterEval()
 {
-  if (fxIter) { delete fxIter; fxIter = nullptr; }
+   if (fxIter) {
+      delete fxIter;
+      fxIter = nullptr;
+   }
 }
 
-
-void TGo4FitModelFromData::FillSlotList(TSeqCollection* list) {
-  TGo4FitModel::FillSlotList(list);
-  list->Add(&fxData);
-  if (GetDataAsModel()) GetDataAsModel()->FillSlotList(list);
+void TGo4FitModelFromData::FillSlotList(TSeqCollection *list)
+{
+   TGo4FitModel::FillSlotList(list);
+   list->Add(&fxData);
+   if (GetDataAsModel())
+      GetDataAsModel()->FillSlotList(list);
 }
 
-void TGo4FitModelFromData::Print(Option_t* option) const {
+void TGo4FitModelFromData::Print(Option_t *option) const
+{
    TGo4FitModel::Print(option);
-   std::cout << "Model driven from data"  << std::endl;
-   if (GetDataAsModel()) GetDataAsModel()->Print(option);
+   std::cout << "Model driven from data" << std::endl;
+   if (GetDataAsModel())
+      GetDataAsModel()->Print(option);
 }
 
-Double_t TGo4FitModelFromData::FindDataPoint(Int_t NumIndexes, const Int_t* Indexes) {
-   if (!fxIter || fxIter->ReachEnd() || !Indexes || (NumIndexes!=fxIter->IndexesSize())) return 0.;
-   Int_t num = NumIndexes-1;
+Double_t TGo4FitModelFromData::FindDataPoint(Int_t NumIndexes, const Int_t *Indexes)
+{
+   if (!fxIter || fxIter->ReachEnd() || !Indexes || (NumIndexes != fxIter->IndexesSize()))
+      return 0.;
+   Int_t num = NumIndexes - 1;
    while (num >= 0) {
       if (fxIter->Indexes()[num] == Indexes[num]) {
          num--;
