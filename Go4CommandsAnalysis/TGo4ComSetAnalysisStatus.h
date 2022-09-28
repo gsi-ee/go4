@@ -39,8 +39,6 @@ class TGo4ComSetAnalysisStatus : public TGo4AnalysisCommand {
      * for each specific command! */
     void Set(TGo4RemoteCommand* remcon) override;
 
-    void SetStatusObject(TGo4AnalysisStatus* settings);
-
   private:
 
     /** @link aggregationByValue

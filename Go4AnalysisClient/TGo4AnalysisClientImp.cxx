@@ -233,17 +233,17 @@ Int_t TGo4AnalysisClient::Initialization()
 
 
 
-void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
+void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
 {
    GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus*)",__LINE__, __FILE__));
    TGo4Slave::UpdateStatus(state); // fill superclass attributes
    TGo4AnalysisClientStatus* anstate= dynamic_cast<TGo4AnalysisClientStatus*> (state);
    if (anstate) {
-      anstate->SetRates(fxRatemeter->GetRate(), fxRatemeter->GetAvRate(), fxRatemeter->GetCurrentCount(),fxRatemeter->GetTime());
+      anstate->SetRates(fxRatemeter->GetRate(), fxRatemeter->GetAvRate(), fxRatemeter->GetCurrentCount(), fxRatemeter->GetTime());
       // new: set true running state
       anstate->SetRunning(fxAnalysis->IsRunning());
       // new: set name of current eventsource
-      TGo4AnalysisStep* firststep=fxAnalysis->GetAnalysisStep(0);
+      TGo4AnalysisStep* firststep = fxAnalysis->GetAnalysisStep(0);
       // <-note that stepname=0 will return the first active step
       if(firststep) {
          anstate->SetCurrentSource(firststep->GetEventSourceName());
