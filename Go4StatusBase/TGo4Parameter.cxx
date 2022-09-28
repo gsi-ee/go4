@@ -237,25 +237,27 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
       lastmemberid++;
 
-      for(Int_t ix1=0;ix1<maxindex1;ix1++)
-        for(Int_t ix2=0;ix2<maxindex2;ix2++) {
-          TGo4ParameterMember* info = new TGo4ParameterMember(member->GetName(), member->GetTitle());
-          fItems->Add(info);
+      for (Int_t ix1 = 0; ix1 < maxindex1; ix1++)
+         for (Int_t ix2 = 0; ix2 < maxindex2; ix2++) {
+            TGo4ParameterMember *info = new TGo4ParameterMember(member->GetName(), member->GetTitle());
+            fItems->Add(info);
 
-          info->SetMemberId(lastmemberid);
+            info->SetMemberId(lastmemberid);
 
-          info->SetType(memtypename, memtypeid);
+            info->SetType(memtypename, memtypeid);
 
-          info->SetVisible((ix1 == 0) && (ix2 == 0));
+            info->SetVisible((ix1 == 0) && (ix2 == 0));
 
-          info->SetArrayIndexes(arraydim, ix1, ix2);
+            info->SetArrayIndexes(arraydim, ix1, ix2);
 
-          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * member->GetUnitSize();
-          if (arri) addr = (char*) (arri->GetArray() + ix1);
-          if (arrd) addr = (char*) (arrd->GetArray() + ix1);
+            char *addr = ptr + cloffset + member->GetOffset() + (ix1 * maxindex2 + ix2) * member->GetUnitSize();
+            if (arri)
+               addr = (char *)(arri->GetArray() + ix1);
+            if (arrd)
+               addr = (char *)(arrd->GetArray() + ix1);
 
-          info->SetValue(addr);
-        }
+            info->SetValue(addr);
+         }
    }
 
    // expand base classes
@@ -349,27 +351,35 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
         memtypeid = member->GetDataType()->GetType();
       }
 
-      for(Int_t ix1=0;ix1<maxindex1;ix1++)
-        for(Int_t ix2=0;ix2<maxindex2;ix2++) {
-           if (itemsindx>items->GetLast()) return kFALSE;
-           TGo4ParameterMember* info =
-              dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
-           if (!info) return kFALSE;
+      for (Int_t ix1 = 0; ix1 < maxindex1; ix1++)
+         for (Int_t ix2 = 0; ix2 < maxindex2; ix2++) {
+            if (itemsindx > items->GetLast())
+               return kFALSE;
+            TGo4ParameterMember *info = dynamic_cast<TGo4ParameterMember *>(items->At(itemsindx++));
+            if (!info)
+               return kFALSE;
 
-          if (strcmp(info->GetName(), member->GetName()) != 0) return kFALSE;
-          if (strcmp(info->GetTitle(), member->GetTitle()) != 0) return kFALSE;
+            if (strcmp(info->GetName(), member->GetName()) != 0)
+               return kFALSE;
+            if (strcmp(info->GetTitle(), member->GetTitle()) != 0)
+               return kFALSE;
 
-          if (strcmp(info->GetTypeName(), memtypename) != 0) return kFALSE;
-          if (info->GetTypeId() != memtypeid) return kFALSE;
+            if (strcmp(info->GetTypeName(), memtypename) != 0)
+               return kFALSE;
+            if (info->GetTypeId() != memtypeid)
+               return kFALSE;
 
-          if (!info->CheckArrayIndexes(arraydim, ix1, ix2)) return kFALSE;
+            if (!info->CheckArrayIndexes(arraydim, ix1, ix2))
+               return kFALSE;
 
-          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * member->GetUnitSize();
-          if (arri) addr = (char*) (arri->GetArray() + ix1);
-          if (arrd) addr = (char*) (arrd->GetArray() + ix1);
+            char *addr = ptr + cloffset + member->GetOffset() + (ix1 * maxindex2 + ix2) * member->GetUnitSize();
+            if (arri)
+               addr = (char *)(arri->GetArray() + ix1);
+            if (arrd)
+               addr = (char *)(arrd->GetArray() + ix1);
 
-          info->GetValue(addr);
-        }
+            info->GetValue(addr);
+         }
    }
 
    // expand base classes

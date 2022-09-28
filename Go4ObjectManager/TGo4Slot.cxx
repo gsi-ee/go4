@@ -203,8 +203,8 @@ void TGo4Slot::DeleteChilds(const char *startedwith)
 {
    UInt_t len = !startedwith ? 0 : strlen(startedwith);
 
-   for(Int_t n = NumChilds()-1; n>=0; n--) {
-      TGo4Slot* child = GetChild(n);
+   for (Int_t n = NumChilds() - 1; n >= 0; n--) {
+      TGo4Slot *child = GetChild(n);
       if (!child) continue;
 
       Bool_t flag = (len == 0) ||
@@ -226,8 +226,9 @@ void TGo4Slot::DeleteChilds(const char *startedwith)
 Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 {
    if (!child) return -1;
-   for(int n=0;n<NumChilds();n++)
-     if (GetChild(n) == child) return n;
+   for (int n = 0; n < NumChilds(); n++)
+      if (GetChild(n) == child)
+         return n;
    return -1;
 }
 
@@ -235,8 +236,9 @@ Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
 {
    if (!child) return nullptr;
-   for(int n=0;n<NumChilds()-1;n++)
-     if (GetChild(n)==child) return GetChild(n+1);
+   for (int n = 0; n < NumChilds() - 1; n++)
+      if (GetChild(n) == child)
+         return GetChild(n + 1);
    return nullptr;
 }
 
@@ -244,8 +246,8 @@ TGo4Slot* TGo4Slot::FindChild(const char *name)
 {
    if (!name || (*name == 0)) return nullptr;
    Int_t num = NumChilds();
-   for(Int_t n=0;n<num;n++) {
-      TGo4Slot* slot = GetChild(n);
+   for (Int_t n = 0; n < num; n++) {
+      TGo4Slot *slot = GetChild(n);
       if (strcmp(slot->GetName(), name) == 0) return slot;
    }
    return nullptr;
@@ -434,8 +436,8 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char *name, const char *&subname) const
    UInt_t ulen = (UInt_t) len;
 
    Int_t num = NumChilds();
-   for(int n=0;n<num;n++) {
-      TGo4Slot* slot = GetChild(n);
+   for (int n = 0; n < num; n++) {
+      TGo4Slot *slot = GetChild(n);
       const char *slotname = slot->GetName();
       if ((strlen(slotname)==ulen) && (strncmp(slotname, name, len) == 0)) return slot;
    }

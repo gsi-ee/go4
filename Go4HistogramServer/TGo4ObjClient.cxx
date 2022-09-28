@@ -96,7 +96,7 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char *base,
    else
    {
       TGo4Log::Error("error on connection in RequestNamesList");
-      nameslist=0;
+      nameslist = nullptr;
    }
    DisconnectServer();
    return nameslist;
@@ -212,7 +212,7 @@ TBuffer* TGo4ObjClient::ReceiveBuffer()
       // currently, we pass out the internal buffer of the TGo4Socket
       // maybe we have to put a queue of length 1 in between?
       // fxBufferQueue->AddBuffer(buf, kTRUE);
-   } //// if(rev>=0)
+   }
    else {
       // error
       if (TGo4SocketSignalHandler::IsLastSignalWINCH()) {
@@ -224,6 +224,6 @@ TBuffer* TGo4ObjClient::ReceiveBuffer()
          TGo4Log::Debug(" !!!Receive Error in Object Client %s!!!", GetName());
          rev = nullptr; // here we might throw some exception later....
       }
-   } // end if(rev>=0)
+   }
    return rev;
 }

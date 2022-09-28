@@ -146,14 +146,12 @@ void TGo4HDF5DataHandle::BuildReadDataset(H5::H5File *file, TGo4HDF5Source *pare
  void TGo4HDF5DataHandle::BuildWriteDataset(H5::H5File* file)
  {
       // just recursively do it for our components:
-       for(unsigned int i=0; i<fxSubcomponents.size();++i)
-         {
-           TGo4HDF5DataHandle* entry= fxSubcomponents[i];
-           entry->BuildWriteDataset(file);
-         }
-       // actual dataset is build in subclass
+      for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) {
+         TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+         entry->BuildWriteDataset(file);
+      }
+      // actual dataset is build in subclass
  }
-
 
  void TGo4HDF5DataHandle::Read(hsize_t sequencenum, H5::H5File* file)
  {
@@ -179,13 +177,11 @@ void TGo4HDF5DataHandle::BuildReadDataset(H5::H5File *file, TGo4HDF5Source *pare
    }
 
    // now recursively do it for our subcomponents :
-         for(unsigned int i=0; i<fxSubcomponents.size();++i) // raterecord index
-           {
-             TGo4HDF5DataHandle* entry= fxSubcomponents[i];
-             entry->Read(sequencenum, file);
-           }
-
-
+   for (unsigned int i = 0; i < fxSubcomponents.size(); ++i) // raterecord index
+   {
+      TGo4HDF5DataHandle *entry = fxSubcomponents[i];
+      entry->Read(sequencenum, file);
+   }
  }
 
 void TGo4HDF5DataHandle::Write(hsize_t sequencenum, H5::H5File* file)
@@ -637,7 +633,7 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
 ///////////////////////////
 
 
-          fxVarHandle.fxArray.p=0; //note: read will allocate the necessary buffer memory automatically!
+          fxVarHandle.fxArray.p = 0; //note: read will allocate the necessary buffer memory automatically!
           fxDataSet.read(&fxVarHandle.fxArray, H5::VarLenType(fxType), *fxDataSpace, fxFileSpace);
           go4hdfdbg("TGo4HDF5VectorDataHandle::Read LLLL length after reading is %ld, buffer is 0x%lx \n",
               fxVarHandle.fxArray.len,
@@ -779,7 +775,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
   SetAllSubMembersActive(false); // first disable all subcomponents if existing
 
 
-  for(unsigned int ix=0; ix< fxVarHandle.fxArray.len; ++ix)
+  for(unsigned int ix = 0; ix < fxVarHandle.fxArray.len; ++ix)
   {
     char* cursor = (char*)(fxVarHandle.fxArray.p) + ix * fiElementSize;
     //TGo4HDF5VectorProxy* prox = (TGo4HDF5VectorProxy*) cursor;
@@ -840,7 +836,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
 
      //subhandle->SetActive(false); // JAMDEBUG: disable all writing of subsubvectors
 
-  } // for(unsigned int ix=0; ix< fxVarHandle.fxArray.len; ++ix)
+  }
 
 }
 

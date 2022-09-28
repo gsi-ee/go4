@@ -133,7 +133,7 @@ Int_t TGo4Socket::Open(const char *host, Int_t port, Bool_t keepservsock)
       {
          //std::cout << "-I- We are told to go on !\n";
          fbOpen = kTRUE;
-         rev=0;
+         rev = 0;
          TGo4Log::Debug(" Socket: Connection Established ");
       }
       else
@@ -172,7 +172,7 @@ Int_t TGo4Socket::Open(const char *host, Int_t port, Bool_t keepservsock)
             fxSocket = fxServerSocket->Accept();
             if(!fxSocket || fxSocket==(TSocket*) (-1) )
             {
-               fxSocket=0;
+               fxSocket = nullptr;
                rev=-1;
                break;
                // no connection request, leave loop
@@ -252,7 +252,7 @@ Int_t TGo4Socket::SendBuffer(TBuffer* buf)
    //set length into first word of buffer (see TMessage)
    ////// debug://///////////////////////////////////////////////////////////////////////
    //                        std::cout << "))))))))) socket send: buffer length in buffer ";
-   //                        UInt_t dummy=0;
+   //                        UInt_t dummy = 0;
    //                        temp=field;
    //                        frombuf(temp,&dummy);
    //                        std::cout << dummy << std::endl;
@@ -424,7 +424,7 @@ char* TGo4Socket::RecvRaw(const char *name)
    Int_t rev = fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
 #endif
 
-   if(rev<=0) {
+   if(rev <= 0) {
       // error on receive
       TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
       return nullptr;

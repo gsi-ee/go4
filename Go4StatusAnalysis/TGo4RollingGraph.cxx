@@ -103,7 +103,7 @@ void TGo4RollingGraph::NextBin()
 */
 void TGo4RollingGraph::Clear(Option_t *)
 {
-   for (Int_t i=0; i<fiNumPoints; ++i)
+   for (Int_t i = 0; i < fiNumPoints; ++i)
       RemovePoint(i);
 
    Set(0);
