@@ -56,20 +56,11 @@ TGo4ReplaceException::~TGo4ReplaceException()
 TGo4ReplaceException & TGo4ReplaceException::operator=(const TGo4ReplaceException &right)
 {
    GO4TRACE((14,"TGo4ReplaceException::operator=",__LINE__, __FILE__));
-   if (&right!=this)
-      {
-         GO4TRACE((13,"TGo4ReplaceException::operator= processing copy",__LINE__, __FILE__));
-         TGo4ThreadException::operator=(right); // copy base class members
-         // put additional member copies here...
-         fxNewRunnable=right.fxNewRunnable;
-         return *this;
-      }
-   else
-      {
-         // copy is already source object
-         GO4TRACE((13,"TGo4ReplaceException::operator= source and destination objects are identical",__LINE__, __FILE__));
-         return *this;
-      }
+   if (&right != this) {
+      TGo4ThreadException::operator=(right); // copy base class members
+      fxNewRunnable = right.fxNewRunnable;
+   }
+   return *this;
 }
 
 Int_t TGo4ReplaceException::Handle ()

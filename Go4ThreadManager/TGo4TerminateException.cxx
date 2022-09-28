@@ -42,21 +42,12 @@ TGo4TerminateException::TGo4TerminateException(const TGo4TerminateException &rig
 
 TGo4TerminateException & TGo4TerminateException::operator=(const TGo4TerminateException &right)
 {
-   GO4TRACE((14,"TGo4TerminateException::operator=(const TGo4TerminateException*)", __LINE__, __FILE__));
-   if (&right!=this)
-      {
-         ;
-         TGo4ControlException::operator=(right); // copy base class members
-         // put additional member copies here...
-         fxThreadManager=right.fxThreadManager;
-         return *this;
-      }
-   else
-      {
-         // copy is already source object
-         ;
-         return *this;
-      }
+   GO4TRACE((14, "TGo4TerminateException::operator=(const TGo4TerminateException*)", __LINE__, __FILE__));
+   if (&right != this) {
+      TGo4ControlException::operator=(right); // copy base class members
+      fxThreadManager = right.fxThreadManager;
+   }
+   return *this;
 }
 
 TGo4TerminateException::~TGo4TerminateException()

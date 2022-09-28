@@ -42,20 +42,9 @@ TGo4RestartException::~TGo4RestartException()
 
 TGo4RestartException & TGo4RestartException::operator=(const TGo4RestartException &right)
 {
-   GO4TRACE((14,"TGo4RestartException::operator=",__LINE__, __FILE__));
-   if (&right!=this)
-      {
-         GO4TRACE((13,"TGo4RestartException::operator= processing copy",__LINE__, __FILE__));
-         TGo4ThreadException::operator=(right); // copy base class members
-         // put additional member copies here...
-         return *this;
-      }
-   else
-      {
-         // copy is already source object
-         GO4TRACE((13,"TGo4RestartException::operator= source and destination objects are identical",__LINE__, __FILE__));
-         return *this;
-      }
+   if (&right != this)
+      TGo4ThreadException::operator=(right); // copy base class members
+   return *this;
 }
 
 Int_t TGo4RestartException::Handle ()

@@ -30,18 +30,10 @@ TGo4EventTimeoutException::TGo4EventTimeoutException(const TGo4EventTimeoutExcep
 
 TGo4EventTimeoutException & TGo4EventTimeoutException::operator= (const TGo4EventTimeoutException & right)
 {
- GO4TRACE((16,"TGo4EventTimeoutException::operator=",__LINE__, __FILE__));
- if (&right!=this)
-    {
+   GO4TRACE((16, "TGo4EventTimeoutException::operator=", __LINE__, __FILE__));
+   if (&right != this)
       TGo4EventSourceException::operator=(right); // copy base class members
-      // put additional member copies here...
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      return *this;
-    }
+   return *this;
 }
 
 TGo4EventTimeoutException::~TGo4EventTimeoutException()

@@ -41,16 +41,8 @@ Int_t TGo4RuntimeException::Handle()
 
 TGo4RuntimeException & TGo4RuntimeException::operator=(const TGo4RuntimeException &right)
 {
-  if (&right != this)
-    {
+   if (&right != this)
       TGo4Exception::operator=(right); // copy base class members
-      // put additional member copies here...
-      return *this;
-    }
-  else
-    {
-      // copy is already source object
-      return *this;
-    }
-}
 
+   return *this;
+}
