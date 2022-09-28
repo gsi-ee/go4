@@ -340,7 +340,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
             yname.Form("%s%d", TGo4PolyCond::fgxURL_YPRE.Data(), i);
             X[i] = GetUrlOptionAsDouble(xname.Data(), 0.);
             Y[i] = GetUrlOptionAsDouble(yname.Data(), 0.);
-            message.Append(TString::Format(" i:%d, X[%i]=%f, Y[%i]=%f\n", i, X[i], i, Y[i]));
+            message.Append(TString::Format(" X[%i]=%f, Y[%i]=%f\n", i, X[i], i, Y[i]));
          }
          SetValues(X, Y, npoints);
          delete[] X;
