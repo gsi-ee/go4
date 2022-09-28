@@ -136,14 +136,14 @@ protected:
 #ifndef __CINT__
 
    /** component type representing the data structure*/
-   H5::CompType* fxType; //!
+   H5::CompType* fxType{nullptr}; //!
 
 
    /** dataset containing the structure*/
    H5::DataSet fxDataSet; //!
 
   /** dataspace in memory*/
-   H5::DataSpace* fxDataSpace; //!
+   H5::DataSpace* fxDataSpace{nullptr}; //!
 
    /** dataspace in file*/
    H5::DataSpace fxFileSpace; //!
@@ -236,7 +236,7 @@ protected:
 
 
    /** secondary read bounce buffer for hdf5 */
-     Char_t* fxReadBuffer; //!
+     Char_t* fxReadBuffer{nullptr}; //!
 
 };
 
@@ -400,8 +400,6 @@ protected:
       TString fxInnerClassName;
 
 };
-
-
 
 
 #endif //TGO4HDF5DATAHANDLE_H
