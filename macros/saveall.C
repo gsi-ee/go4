@@ -25,7 +25,7 @@ using namespace std;
 // In case of GO4 GUI objects fetched from analysis
 // In case of analysis the object pointers taken from TGo4Analysis instance
 
-void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask = 11)
+void namiter(TDirectory *dir, const char *wildcard, TList* found, int classmask = 11)
 {
 #ifdef __GO4MACRO__
    TRegexp wild(wildcard, kTRUE);
@@ -82,7 +82,7 @@ void namiter(TDirectory *dir, const char* wildcard, TList* found, int classmask 
 #endif
 }
 
-TString MakeFuncName(const char* main, const char* objname)
+TString MakeFuncName(const char *main, const char *objname)
 {
    TString subfunc;
    subfunc.Form("%s_%s", main, objname);
@@ -98,14 +98,14 @@ TString MakeFuncName(const char* main, const char* objname)
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveall(const char* file, const char* wildcard = "*", const char* outputname = "savemacro", int classmask = 11)
+void saveall(const char *file, const char *wildcard = "*", const char *outputname = "savemacro", int classmask = 11)
 {
   TFile *f = TFile::Open(file,"r");
 #else
-void saveall(const char* wildcard = "*", const char* outputname = "savemacro", int classmask = 11)
+void saveall(const char *wildcard = "*", const char *outputname = "savemacro", int classmask = 11)
 {
   TFile *f = nullptr;
-  const char* file = nullptr;
+  const char *file = nullptr;
 #endif
 
   TList lst;

@@ -44,7 +44,7 @@ class TGo4FitData : public TGo4FitComponent {
        * TGo4FitData object should not be created directly. Implementation of this class like TGo4FitDataHistogram,
        * TGo4FitDataGraph and so on should be used.
        */
-      TGo4FitData(const char* iName, const char* iTitle, Int_t iDataType = dtHistogram, Bool_t AddAmpl = kFALSE);
+      TGo4FitData(const char *iName, const char *iTitle, Int_t iDataType = dtHistogram, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitData object.
@@ -168,7 +168,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Creates object, which can be drawn on canvas by ROOT.
        * This method creates either TH1 (in case of histogram data) or TGraph object and fills bins by content of data.
        */
-      TObject* CreateDrawObject(const char* ObjName);
+      TObject* CreateDrawObject(const char *ObjName);
 
       /**
        * Return scales minimum and maximum for specified axis.
@@ -545,7 +545,7 @@ class TGo4FitDataIter : public TObject {
        * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
-      TH1* CreateHistogram(const char* HistoName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
+      TH1* CreateHistogram(const char *HistoName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
 
       /**
        * Create TGraph object with appropriate to data object size.
@@ -554,12 +554,12 @@ class TGo4FitDataIter : public TObject {
        * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
-      TGraph* CreateGraph(const char* GraphName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
+      TGraph* CreateGraph(const char *GraphName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
 
       /**
        * Create either histogram or graph object.
        */
-      TObject* CreateDrawObject(const char* ObjName);
+      TObject* CreateDrawObject(const char *ObjName);
 
    protected:
 

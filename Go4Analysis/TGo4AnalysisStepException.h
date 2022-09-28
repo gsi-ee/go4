@@ -37,10 +37,10 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
      Int_t GetProcessStatus() const { return fiProcessStatus; }
 
      /** Status message of last Process() call. */
-     const char* GetStatusMessage() const { return fxStatusMessage.Data(); }
+     const char *GetStatusMessage() const { return fxStatusMessage.Data(); }
 
      /** Name of the throwing analysis step. */
-     const char* GetStepName() { return fxStepName.Data(); }
+     const char *GetStepName() { return fxStepName.Data(); }
 
   protected:
       /** @supplierCardinality 1 */

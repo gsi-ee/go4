@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 
 #endif
 
-void DrawHistogram(TH1* histo, const char* CanvasName, const char* DrawOption)
+void DrawHistogram(TH1* histo, const char *CanvasName, const char *DrawOption)
 {
    TCanvas *fCanvas = new TCanvas(CanvasName,"Draw of histogram",3);
    fCanvas->cd();

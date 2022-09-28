@@ -60,19 +60,19 @@ class TGo4FitModelPolynom : public TGo4FitModel {
        * Creates TGo4FitModelPolynom object with given name for 1-dim case.
        * The order of polynom for x axis can be specified (0 by default).
        */
-      TGo4FitModelPolynom(const char* iName, Double_t iOrderX = 0.);
+      TGo4FitModelPolynom(const char *iName, Double_t iOrderX = 0.);
 
       /**
        * Creates TGo4FitModelPolynom object with given name for 2-dim case.
        * The order of polynom for x and y axes should be specified.
        */
-      TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY);
+      TGo4FitModelPolynom(const char *iName, Double_t iOrderX, Double_t iOrderY);
 
       /**
        * Creates TGo4FitModelPolynom object with given name for 3-dim case.
        * The order of polynom for x, y and z axes should be specified.
        */
-      TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ);
+      TGo4FitModelPolynom(const char *iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ);
 
       /**
        * Creates TGo4FitModelPolynom object with given name for n-dim case.
@@ -80,7 +80,7 @@ class TGo4FitModelPolynom : public TGo4FitModel {
        * The size of array will be a dimensions size of polynom. But the n-dim polynom can be used for m-dim case.
        * If n > m, orders for missing axis will be set 0. If n<m, only necessary orders will be used.
        */
-      TGo4FitModelPolynom(const char* iName, const TArrayD& iPolynomOrders);
+      TGo4FitModelPolynom(const char *iName, const TArrayD& iPolynomOrders);
 
       /**
        * Destroys TGo4FitModelPolynom object.

@@ -60,7 +60,7 @@ QRootDialog::QRootDialog() : QDialog()
    gridLayout->addLayout(buttLayout, 1, 0, Qt::AlignBottom);
 }
 
-void QRootDialog::addArg(const char* argname, const char* value, const char*)
+void QRootDialog::addArg(const char *argname, const char *value, const char*)
 {
    QLabel* lbl = new QLabel(argname);
    argLayout->addWidget(lbl);

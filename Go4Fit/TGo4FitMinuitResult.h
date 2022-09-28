@@ -33,7 +33,7 @@ class TArrayC;
 class TGo4FitMinuitResult : public TNamed {
    public:
       TGo4FitMinuitResult();
-      TGo4FitMinuitResult(const char* iName, const char* iTitle);
+      TGo4FitMinuitResult(const char *iName, const char *iTitle);
       virtual ~TGo4FitMinuitResult();
 
       void CallMNSTAT(TMinuit* fMinuit);

@@ -328,7 +328,7 @@ Bool_t TGo4Picture::IsObjNames()
    return kFALSE;
 }
 
-const char* TGo4Picture::GetObjName(Int_t n)
+const char *TGo4Picture::GetObjName(Int_t n)
 {
   if (!fxNames || (n<0) || (n>fxNames->GetLast())) return nullptr;
   TObjString* str = dynamic_cast<TObjString*> (fxNames->At(n));
@@ -682,7 +682,7 @@ void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t ind
    SetOptionF(index, op+10, TitleSize);
 }
 
-void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index)
+void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char *format, Int_t index)
 {
     CheckIndex(index);
     SetOption (index, op_TimeAxisX, timedisplay);
@@ -694,7 +694,7 @@ void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
    SetOption (PictureIndex, op_TimeAxisX, on);
 }
 
-void TGo4Picture::SetXAxisTimeFormat(const char* format)
+void TGo4Picture::SetXAxisTimeFormat(const char *format)
 {
    SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
@@ -706,7 +706,7 @@ Bool_t  TGo4Picture::IsXAxisTimeDisplay()
    return value;
 }
 
-const char* TGo4Picture::GetXAxisTimeFormat()
+const char *TGo4Picture::GetXAxisTimeFormat()
 {
    return GetStrOption(PictureIndex, op_TimeAxisXFmt, "%H:%M:%S");
 }
@@ -749,7 +749,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis,
                       Float_t TitleOffset,
                       Float_t TitleSize,
                       Bool_t decimals,
-                      const char* ticks,
+                      const char *ticks,
                       Int_t bits,
                       Int_t index)
 {
@@ -953,8 +953,8 @@ Bool_t TGo4Picture::IsHisStats() const
 }
 
 void TGo4Picture::SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
-                               Int_t optstat, const char* statformat,
-                               Int_t optfit, const char* fitformat)
+                               Int_t optstat, const char *statformat,
+                               Int_t optfit, const char *fitformat)
 {
    SetOptionD(PictureIndex, op_HisStatsX1, x1);
    SetOptionD(PictureIndex, op_HisStatsY1, y1);
@@ -999,10 +999,10 @@ Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats)
    if (GetOption(PictureIndex, op_HisStatsFit, optfit))
      stats->SetOptFit(optfit);
 
-   const char* fmtstat = GetStrOption(PictureIndex, op_HisStatsOptF);
+   const char *fmtstat = GetStrOption(PictureIndex, op_HisStatsOptF);
    if (fmtstat) stats->SetStatFormat(fmtstat);
 
-   const char* fmtfit = GetStrOption(PictureIndex, op_HisStatsFitF);
+   const char *fmtfit = GetStrOption(PictureIndex, op_HisStatsFitF);
    if (fmtfit) stats->SetFitFormat(fmtfit);
 
    return kTRUE;
@@ -1512,13 +1512,13 @@ TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
    return fxOptObjects->At(fxOptValue[pos]);
 }
 
-void TGo4Picture::SetStrOption(Short_t index, Short_t typ, const char* value)
+void TGo4Picture::SetStrOption(Short_t index, Short_t typ, const char *value)
 {
   if (!value) return;
   SetObjOption(index, typ, new TObjString(value));
 }
 
-const char* TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char *defvalue) const
+const char *TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char *defvalue) const
 {
   TObjString *ostr = dynamic_cast<TObjString*> (GetObjOption(index, typ));
   if (!ostr) return defvalue;
@@ -1644,7 +1644,7 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
    for (Int_t indx=0;indx<GetNumObjNames();indx++) {
       TString str = "Obj: ";
       str += GetObjName(indx);
-      const char* opt = GetDrawOption(indx);
+      const char *opt = GetDrawOption(indx);
       if (!opt && (indx == 0))
         opt = GetDrawOption(PictureIndex);
       if (opt) {
@@ -1702,7 +1702,7 @@ void TGo4Picture::PrintPic(int shift, Bool_t showopt)
    } else {
       std::cout << "Objects:" << std::endl;
       for (Int_t num=0; num<GetNumObjNames(); num++) {
-        const char* objname = GetObjName(num);
+        const char *objname = GetObjName(num);
         for (int n=0;n<shift+2;n++) std::cout << ' ';
         std::cout << objname;
 
@@ -1748,7 +1748,7 @@ void TGo4Picture::AddSpecialObject(TObject *obj, Option_t* drawopt)
    fxSpecialObjects->Add(obj, drawopt);
 }
 
-void TGo4Picture::AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt)
+void TGo4Picture::AddSpecialObjectXml(const char *xmlcode, Option_t* drawopt)
 {
    TObject *obj = TBufferXML::ConvertFromXML(xmlcode);
    if (obj) AddSpecialObject(obj, drawopt);
@@ -1812,7 +1812,7 @@ void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t*)
 void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index, Int_t naxis)
 {
    if ((naxis<0) || (naxis>2)) return;
-   const char* axisname = "X";
+   const char *axisname = "X";
    Int_t op = op_AxisX;
    if (naxis==1) { op = op_AxisY; axisname = "Y"; } else
    if (naxis==2) { op = op_AxisZ; axisname = "Z"; }
@@ -1984,7 +1984,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
    if (!GetOption (PictureIndex, op_Pad+ 7, lv)) lv = gStyle->GetPadTickY();
    fs << lv << ");" << std::endl;
 
-   const char* drawopt = GetDrawOption(PictureIndex);
+   const char *drawopt = GetDrawOption(PictureIndex);
    if (drawopt)
       fs << name << "SetDrawOption(\"" << drawopt << "\", " << PictureIndex << ");" << std::endl;
 
@@ -1999,7 +1999,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 
    for (Int_t indx = 0; indx < GetNumObjNames(); indx++) {
       const char *objname = GetObjName(indx);
-      const char* objopt = GetDrawOption(indx);
+      const char *objopt = GetDrawOption(indx);
 
       fs << name << "AddObjName(\"" << objname << "\"";
       if (objopt) fs << ", \"" << objopt << "\"";
@@ -2050,9 +2050,9 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 
       if (buf.Length()>950) {
          fs << "TString sbuf = \"\";" << std::endl;
-         const char* pos = xmlbuf.Data();
+         const char *pos = xmlbuf.Data();
          while (*pos != 0) {
-            const char* lastpos = pos;
+            const char *lastpos = pos;
             while ((*pos != 0) && (*pos!='\n')) pos++;
             TString subbuf(lastpos, pos-lastpos);
             subbuf.ReplaceAll("\"","\\\"");

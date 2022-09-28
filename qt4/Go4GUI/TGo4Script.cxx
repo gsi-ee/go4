@@ -85,7 +85,7 @@ Int_t TGo4Script::getCounts(Double_t tm)
    return int(tm*1000./DelayMillisec());
 }
 
-void  TGo4Script::doOutput(const char* str)
+void  TGo4Script::doOutput(const char *str)
 {
    if (fMainWin)
      fMainWin->StatusMessage(str);
@@ -107,7 +107,7 @@ Bool_t TGo4Script::ContinueExecution()
          return kTRUE;
    }
 
-   const char* nextcmd = NextHotStartCmd();
+   const char *nextcmd = NextHotStartCmd();
    if (!nextcmd) return kFALSE;
 
    Int_t error = 0;
@@ -291,7 +291,7 @@ void TGo4Script::Wait(double tm_sec)
 }
 
 
-void TGo4Script::Message(const char* msg)
+void TGo4Script::Message(const char *msg)
 {
    if (fMainWin)
      fMainWin->StatusMessage(msg);
@@ -310,21 +310,21 @@ void TGo4Script::LaunchAnalysis()
    DoPostProcessing();
 }
 
-void TGo4Script::LaunchAnalysis(const char* ClientName,
-                                const char* ClientDir,
-                                const char* ClientExec,
-                                const char* ClientNode,
+void TGo4Script::LaunchAnalysis(const char *ClientName,
+                                const char *ClientDir,
+                                const char *ClientExec,
+                                const char *ClientNode,
                                 Int_t ShellMode,
                                 Int_t TermMode,
                                 Int_t ExeMode,
-                                const char* UserArgs)
+                                const char *UserArgs)
 {
    go4sett->setClientName(ClientName);
    go4sett->setClientDir(ClientDir);
    go4sett->setClientExeMode(ExeMode);
    go4sett->setClientExec(ClientExec);
    go4sett->setClientArgs(UserArgs);
-   const char* separ = strrchr(ClientNode, ':');
+   const char *separ = strrchr(ClientNode, ':');
    if (!separ) {
       go4sett->setClientNode(ClientNode);
       go4sett->setClientIsServer(0);
@@ -341,10 +341,10 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
    LaunchAnalysis();
 }
 
-void TGo4Script::ConnectAnalysis(const char* ServerNode,
+void TGo4Script::ConnectAnalysis(const char *ServerNode,
                                  Int_t ServerPort,
                                  Int_t ControllerMode,
-                                 const char* password)
+                                 const char *password)
 {
    go4sett->setClientNode(ServerNode);
    go4sett->setClientPort(ServerPort);
@@ -526,7 +526,7 @@ void TGo4Script::StepFileSource(const char *stepname,
 void TGo4Script::StepMbsFileSource(const char *stepname,
                                    const char *sourcename,
                                    int timeout,
-                                   const char* TagFile,
+                                   const char *TagFile,
                                    int start,
                                    int stop,
                                    int interval)
@@ -700,13 +700,13 @@ void TGo4Script::StepHDF5Store(const char *stepname,
       step->SetHDF5Store(storename, flags);
 }
 
-void TGo4Script::SetMainWindowState(int qtversion, const char* val)
+void TGo4Script::SetMainWindowState(int qtversion, const char *val)
 {
    if (qtversion==4)
       fMainWin->restoreState(QByteArray::fromHex(val));
 }
 
-void TGo4Script::SetMainWindowGeometry(int qtversion, const char* val)
+void TGo4Script::SetMainWindowGeometry(int qtversion, const char *val)
 {
    if (qtversion==4)
       fMainWin->restoreGeometry(QByteArray::fromHex(val));
@@ -755,7 +755,7 @@ ViewPanelHandle TGo4Script::FindViewPanel(const char *name)
    return (ViewPanelHandle) fMainWin->FindViewPanel(name);
 }
 
-Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char* newname)
+Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char *newname)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (!handle || !newname || (strlen(newname) == 0)) return kFALSE;
@@ -824,7 +824,7 @@ void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
    if (panel) panel->SetApplyToAllFlag(on);
 }
 
-Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const char* drawopt)
+Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const char *drawopt)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
 
@@ -835,7 +835,7 @@ Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const 
    return panel != nullptr;
 }
 
-const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
+const char *TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
 
@@ -847,7 +847,7 @@ void TGo4Script::StartFitPanel()
    fMainWin->StartFitPanel();
 }
 
-TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* account, const char* pass)
+TGo4ServerProxy* TGo4Script::ConnectHttp(const char *servername, const char *account, const char *pass)
 {
    if (!servername || (*servername == 0)) return nullptr;
 
@@ -858,7 +858,7 @@ TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* acc
       return nullptr;
    }
 
-   const char* slotname = servername;
+   const char *slotname = servername;
    if (strncmp(slotname,"http://",7) == 0) slotname+=7; else
    if (strncmp(slotname,"https://",8) == 0) slotname+=8;
    TString sname(slotname);
@@ -1182,7 +1182,7 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
       mdi->mapToParent(pos);
       QSize size = mdi->size();
 
-      const char* mode = "Go4_normal";
+      const char *mode = "Go4_normal";
       if (mdi->isHidden()) mode = "Go4_hidden"; else
       if (mdi->isMinimized()) mode = "Go4_minimized"; else
       if (mdi->isMaximized()) mode = "Go4_maximized";

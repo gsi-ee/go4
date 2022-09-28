@@ -56,7 +56,7 @@ void TGo4TaskHandlerStatus::SetPorts(UInt_t neg, Int_t com, Int_t stat, Int_t da
    fiDatPort = dat;
 }
 
-void TGo4TaskHandlerStatus::SetNames(const char* com, const char* stat, const char* dat, const char* host)
+void TGo4TaskHandlerStatus::SetNames(const char *com, const char *stat, const char *dat, const char *host)
 {
    fxComName = com;
    fxStatName = stat;

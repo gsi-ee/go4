@@ -23,12 +23,12 @@
 #include "TGo4MainRunnable.h"
 #include "TGo4WatchRunnable.h"
 
-const char* TGo4ExampleClient::fgcWATCHTHREAD="WATCH-";
-const char* TGo4ExampleClient::fgcMAINTHREAD="MAIN-";
+const char *TGo4ExampleClient::fgcWATCHTHREAD="WATCH-";
+const char *TGo4ExampleClient::fgcMAINTHREAD="MAIN-";
 
 
 TGo4ExampleClient::TGo4ExampleClient(const char *name,
-                                     const char* host,
+                                     const char *host,
                                      UInt_t negport,
                                      Bool_t blockingmode)
 : TGo4ClientTask(name, host, negport, blockingmode, kFALSE)

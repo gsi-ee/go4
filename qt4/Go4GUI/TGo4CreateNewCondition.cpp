@@ -36,7 +36,7 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 
    if (ba.isEmpty()) return nullptr;
 
-   const char* cname = ba.constData();
+   const char *cname = ba.constData();
    int arrsize = ArraySizeSpin->value();
    int ctype = ClassnameCombo->currentIndex();
 

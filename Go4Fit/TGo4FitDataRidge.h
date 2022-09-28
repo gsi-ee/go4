@@ -41,7 +41,7 @@ class TGo4FitDataRidge : public TGo4FitData {
        * Pointer on TGo4FitData object, which should provide histogramic data, can be specified.
        * Also axis number, which uses as ridge coordinate, can be specified. By default y-axis is used as ridge.
        */
-      TGo4FitDataRidge(const char* iName, TGo4FitData* Data = nullptr, Int_t SelectedAxis = 1);
+      TGo4FitDataRidge(const char *iName, TGo4FitData* Data = nullptr, Int_t SelectedAxis = 1);
 
       /**
        * Destroys TGo4FitDataRidge object

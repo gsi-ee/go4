@@ -34,7 +34,7 @@ TGo4FitParsList::TGo4FitParsList(Bool_t IsParsOwned) :
    fxPars.SetOwner(IsParsOwned);
 }
 
-TGo4FitParsList::TGo4FitParsList(const char* Name, const char* Title, Bool_t IsParsOwned) :
+TGo4FitParsList::TGo4FitParsList(const char *Name, const char *Title, Bool_t IsParsOwned) :
          TGo4FitNamed(Name,Title), fxPars(), fbCanRollbackPars(kFALSE)
 {
    fxPars.SetOwner(IsParsOwned);
@@ -52,13 +52,13 @@ Int_t TGo4FitParsList::GetParIndex(const TGo4FitParameter* par)
    return -1;
 }
 
-Double_t TGo4FitParsList::GetParValue(const char* ParName)
+Double_t TGo4FitParsList::GetParValue(const char *ParName)
 {
    auto par = Find(ParName);
    return par ? par->GetValue() : 0.;
 }
 
-Bool_t TGo4FitParsList::SetParValue(const char* ParName, Double_t iValue)
+Bool_t TGo4FitParsList::SetParValue(const char *ParName, Double_t iValue)
 {
    auto par = Find(ParName);
    if (par) {
@@ -81,13 +81,13 @@ void TGo4FitParsList::SetParsValues(Double_t* pars)
         Get(i)->SetValue(pars[i]);
 }
 
-Double_t TGo4FitParsList::GetParError(const char* ParName)
+Double_t TGo4FitParsList::GetParError(const char *ParName)
 {
    TGo4FitParameter* par = Find(ParName);
    return par ? par->GetError() : 0.;
 }
 
-Bool_t TGo4FitParsList::SetParError(const char* ParName, Double_t iError)
+Bool_t TGo4FitParsList::SetParError(const char *ParName, Double_t iError)
 {
    auto par = Find(ParName);
    if (par) {
@@ -97,7 +97,7 @@ Bool_t TGo4FitParsList::SetParError(const char* ParName, Double_t iError)
    return kFALSE;
 }
 
-Bool_t TGo4FitParsList::SetParFixed(const char* ParName, Bool_t iFixed)
+Bool_t TGo4FitParsList::SetParFixed(const char *ParName, Bool_t iFixed)
 {
    auto par = Find(ParName);
    if (par) {
@@ -107,7 +107,7 @@ Bool_t TGo4FitParsList::SetParFixed(const char* ParName, Bool_t iFixed)
    return kFALSE;
 }
 
-Bool_t TGo4FitParsList::GetParFixed(const char* ParName)
+Bool_t TGo4FitParsList::GetParFixed(const char *ParName)
 {
    auto par = Find(ParName);
    return par ? par->GetFixed() : kFALSE;
@@ -126,7 +126,7 @@ Int_t TGo4FitParsList::NumFreePars()
    return NumPars()-NumFixedPars();
 }
 
-Bool_t TGo4FitParsList::SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax)
+Bool_t TGo4FitParsList::SetParRange(const char *ParName, Double_t RangeMin, Double_t RangeMax)
 {
    auto par = Find(ParName);
    if (par) {
@@ -136,13 +136,13 @@ Bool_t TGo4FitParsList::SetParRange(const char* ParName, Double_t RangeMin, Doub
    return kFALSE;
 }
 
-Bool_t TGo4FitParsList::GetParRange(const char* ParName, Double_t& RangeMin, Double_t& RangeMax)
+Bool_t TGo4FitParsList::GetParRange(const char *ParName, Double_t& RangeMin, Double_t& RangeMax)
 {
    auto par = Find(ParName);
    return par ? par->GetRange(RangeMin,RangeMax) : kFALSE;
 }
 
-Bool_t TGo4FitParsList::SetParEpsilon(const char* ParName, Double_t Epsilon)
+Bool_t TGo4FitParsList::SetParEpsilon(const char *ParName, Double_t Epsilon)
 {
    TGo4FitParameter *par = Find(ParName);
    if (par) {
@@ -152,7 +152,7 @@ Bool_t TGo4FitParsList::SetParEpsilon(const char* ParName, Double_t Epsilon)
    return kFALSE;
 }
 
-Bool_t TGo4FitParsList::GetParEpsilon(const char* ParName, Double_t& Epsilon)
+Bool_t TGo4FitParsList::GetParEpsilon(const char *ParName, Double_t& Epsilon)
 {
    TGo4FitParameter* par = Find(ParName);
    return par ? par->GetEpsilon(Epsilon) : kFALSE;
@@ -163,22 +163,22 @@ void TGo4FitParsList::SetParName(Int_t n, const char *name)
    if(Get(n)) Get(n)->SetName(name);
 }
 
-const char* TGo4FitParsList::GetParName(Int_t n)
+const char *TGo4FitParsList::GetParName(Int_t n)
 {
    if(Get(n))
       return Get(n)->GetName();
    return nullptr;
 }
 
-const char* TGo4FitParsList::GetParFullName(Int_t n)
+const char *TGo4FitParsList::GetParFullName(Int_t n)
 {
    if(Get(n))
       return Get(n)->GetFullName();
    return nullptr;
 }
 
-void TGo4FitParsList::SetParsNames(const char* name0, const char* name1, const char* name2, const char* name3, const char* name4,
-                                   const char* name5, const char* name6, const char* name7, const char* name8, const char* name9) {
+void TGo4FitParsList::SetParsNames(const char *name0, const char *name1, const char *name2, const char *name3, const char *name4,
+                                   const char *name5, const char *name6, const char *name7, const char *name8, const char *name9) {
   SetParName(0,name0);
   SetParName(1,name1);
   SetParName(2,name2);
@@ -259,13 +259,13 @@ void TGo4FitParsList::SetParsOwner(TGo4FitNamed* iOwner)
       Get(i)->SetOwner(iOwner);
 }
 
-TGo4FitParameter* TGo4FitParsList::CreatePar(const char* ParName, const char* Title, Double_t iValue)
+TGo4FitParameter* TGo4FitParsList::CreatePar(const char *ParName, const char *Title, Double_t iValue)
 {
    auto par = Find(ParName);
    return par ? par : AddPar(new TGo4FitParameter(ParName,Title,iValue));
 }
 
-TGo4FitParameter* TGo4FitParsList::Find(const char* ParName)
+TGo4FitParameter* TGo4FitParsList::Find(const char *ParName)
 {
    for (Int_t i = 0; i < NumPars(); i++)
       if (strcmp(Get(i)->GetName(), ParName) == 0)
@@ -278,7 +278,7 @@ TGo4FitParameter* TGo4FitParsList::Find(const char* ParName)
    return nullptr;
 }
 
-TGo4FitParameter* TGo4FitParsList::Find(const char* OwnerFullName, const char* ParName)
+TGo4FitParameter* TGo4FitParsList::Find(const char *OwnerFullName, const char *ParName)
 {
    for(Int_t i=0;i<NumPars();i++) {
       TGo4FitParameter* par = Get(i);

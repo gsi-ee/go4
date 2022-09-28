@@ -18,7 +18,7 @@
 
 #ifdef __GO4MACRO__
 // Get histograms from GO4 GUI
-Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)
+Bool_t hishisto(const char *name1, Int_t bins, Bool_t draw)
 {
 
   if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
@@ -36,7 +36,7 @@ Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)
 
 #else
   // Get histograms from file
-Bool_t hishisto(const char *file, const char* name1, Int_t bins, Bool_t draw)
+Bool_t hishisto(const char *file, const char *name1, Int_t bins, Bool_t draw)
 {
   TFile *f = TFile::Open(file,"r");
   if(!f) {

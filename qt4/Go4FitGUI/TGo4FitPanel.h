@@ -185,7 +185,7 @@ public:
     virtual TPad* FindPadWhereModel(TGo4FitModel* model);
     virtual TPad* FindPadWhereComp(TGo4FitComponent* comp);
     virtual TGo4FitData* CreateData(int id, const char *name);
-    virtual TGo4FitModel* CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data);
+    virtual TGo4FitModel* CreateModel(int id, const char *namebase, TGo4Fitter* fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
     virtual int DefineModelWidgetType(TObject *obj);
     virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink);
@@ -194,7 +194,7 @@ public:
     virtual void RemoveDrawObjects();    //virtual void windowActivationChange( bool OldActive );
 
     virtual void CloseDrawPanel();
-    virtual void UpdateStatusBar(const char* info = nullptr);
+    virtual void UpdateStatusBar(const char *info = nullptr);
     virtual void UpdateItemMenu();
     virtual void UpdatePFAmplLbl();
     virtual void UpdatePFRelNoiseLbl();
@@ -206,8 +206,8 @@ public:
     virtual void UpdateWizPaint(int mode);
     virtual void FillParsTable(QTableWidget *table, TGo4Fitter *fitter, TGo4FitModel *model, bool LinesView, TObjArray *TableList);
     virtual void FillNamedWidget(QFitNamedWidget* w);
-    virtual void ChangeObjectName(QFitNamedWidget* w, const char* newname);
-    virtual void ChangeObjectTitle(QFitNamedWidget* w, const char* newtitle);
+    virtual void ChangeObjectName(QFitNamedWidget* w, const char *newname);
+    virtual void ChangeObjectTitle(QFitNamedWidget* w, const char *newtitle);
     virtual void ChangeModelPar(QFitModelWidget* w, int npar, int value);
 
 public slots:

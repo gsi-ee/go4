@@ -258,14 +258,14 @@ Bool_t TGo4AnalysisStep::IsMatchingPrevious()
           !strcmp(prevevent->GetName(),fxInputEvent->GetName());
 }
 
-const char* TGo4AnalysisStep::GetEventStoreName()
+const char *TGo4AnalysisStep::GetEventStoreName()
 {
    GO4TRACE((12,"TGo4AnalysisStep::GetEventStoreName()",__LINE__, __FILE__));
 
    return !fxEventStore ? nullptr : fxEventStore->GetName();
 }
 
-const char* TGo4AnalysisStep::GetEventSourceName()
+const char *TGo4AnalysisStep::GetEventSourceName()
 {
    return !fxEventSource ? nullptr : fxEventSource->GetActiveName();
 }
@@ -287,7 +287,7 @@ void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
          }
          if(fxPrevious) {
             // check if previous step would overwrite our event source:
-            const char* evstorename=fxPrevious->GetEventStoreName();
+            const char *evstorename=fxPrevious->GetEventStoreName();
             if(evstorename && !strcmp(evstorename, sourcename) && fxPrevious->IsStoreEnabled()) {
                TGo4Analysis::Instance()->Message(2,"AnalysisStep %s: Event source %s not created: previous store of same name !",
                      GetName(), sourcename);

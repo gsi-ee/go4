@@ -31,9 +31,9 @@
 #include "TGo4FileSource.h"
 #include "TGo4AnalysisImp.h"
 
-const char* TGo4MbsFile::fgcNOTAGFILE="GO4-NOLMDTAG";
-const char* TGo4MbsFile::fgcLMDSUF=".lmd";
-const char* TGo4MbsFile::fgcFILELISTSUF=".lml";
+const char *TGo4MbsFile::fgcNOTAGFILE="GO4-NOLMDTAG";
+const char *TGo4MbsFile::fgcLMDSUF=".lmd";
+const char *TGo4MbsFile::fgcFILELISTSUF=".lml";
 
 TGo4MbsFile::TGo4MbsFile() :
    TGo4MbsSource(),
@@ -98,7 +98,7 @@ TGo4MbsFile::~TGo4MbsFile()
    if(fxMultiFile) { delete fxMultiFile; fxMultiFile = nullptr; }
 }
 
-void TGo4MbsFile::AddFileName(const char *name, const char* tagname, bool isonly)
+void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly)
 {
    if (!name || (*name == 0)) return;
 
@@ -304,9 +304,9 @@ Int_t TGo4MbsFile::NextFile()
       TString nextline;
       char nextfile[TGo4EventSource::fguTXTLEN];
       char nexttag[TGo4EventSource::fguTXTLEN];
-      const char* command = nullptr;
-      const char* rem1 = nullptr;
-      const char* rem2 = nullptr;
+      const char *command = nullptr;
+      const char *rem1 = nullptr;
+      const char *rem2 = nullptr;
       Int_t convs = 0;
       //static int cnt=0;
       do {
@@ -386,7 +386,7 @@ Int_t TGo4MbsFile::OpenFile()
 {
    if(fbFileOpen) return -1;
 
-   const char* tagfile = GetCurrentTagName();
+   const char *tagfile = GetCurrentTagName();
    if(!strcmp(tagfile,TGo4MbsFile::fgcNOTAGFILE)) {
       tagfile=0;
       fxCurrentTag="none"; // looks better in display message
@@ -439,7 +439,7 @@ Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
    return 0;
 }
 
-const char* TGo4MbsFile::GetActiveName()
+const char *TGo4MbsFile::GetActiveName()
 {
    return GetCurrentFileName();
 }

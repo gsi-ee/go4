@@ -36,13 +36,13 @@ class TGo4EventStoreException : public TGo4RuntimeException {
       TGo4EventStoreException &operator=(const TGo4EventStoreException &right);
 
       /** Status/ error message of the last event. */
-      const char* GetErrMess() const { return fxErrMess.Data(); }
+      const char *GetErrMess() const { return fxErrMess.Data(); }
 
       /** Name of the throwing event source. */
-      const char* GetStoreName() const { return fxStoreName.Data(); }
+      const char *GetStoreName() const { return fxStoreName.Data(); }
 
       /** Name of the throwing event source. */
-      const char* GetStoreClass() const { return fxStoreClass.Data(); }
+      const char *GetStoreClass() const { return fxStoreClass.Data(); }
 
   protected:
       /** @supplierCardinality 1 */

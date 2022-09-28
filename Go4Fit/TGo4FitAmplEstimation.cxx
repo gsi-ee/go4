@@ -29,7 +29,7 @@
 TGo4FitAmplEstimation::TGo4FitAmplEstimation() : TGo4FitterAction(), fiNumIters(1) {
 }
 
-TGo4FitAmplEstimation::TGo4FitAmplEstimation(const char* Name, Int_t NumIters) :
+TGo4FitAmplEstimation::TGo4FitAmplEstimation(const char *Name, Int_t NumIters) :
   TGo4FitterAction(Name,"Estimate amplitude action"), fiNumIters(NumIters) {
 }
 

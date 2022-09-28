@@ -39,7 +39,7 @@
 
 const int NColumns = 7;
 const int ColumnWidths[NColumns] = { 150, 40, 120, 90, 60, 100, 50 };
-const char* ColumnNames[NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
+const char *ColumnNames[NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
 const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
 
 QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
@@ -225,8 +225,8 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
    bool remote = br->IsItemRemote(itemslot);
    int kind = br->ItemKind(itemslot);
    int cando = br->ItemCanDo(itemslot);
-   const char* iteminfo = TGo4BrowserProxy::ItemInfo(itemslot);
-   const char* classname = TGo4BrowserProxy::ItemClassName(itemslot);
+   const char *iteminfo = TGo4BrowserProxy::ItemInfo(itemslot);
+   const char *classname = TGo4BrowserProxy::ItemClassName(itemslot);
 
    bool visible = false;
 
@@ -369,7 +369,7 @@ void TGo4Browser::updateListViewItems()
          return;
       }
 
-      const char* classname = br->ItemClassName(curslot);
+      const char *classname = br->ItemClassName(curslot);
       Int_t itemkind = br->ItemKind(curslot);
       TClass* itemclass = nullptr;
 
@@ -585,7 +585,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          int cando = br->ItemCanDo(itemslot);
          int kind = br->ItemKind(itemslot);
-         const char* itemclassname = br->ItemClassName(itemslot);
+         const char *itemclassname = br->ItemClassName(itemslot);
 
          bool ismemitem = itemslot->IsParent(memslot);
 
@@ -1040,7 +1040,7 @@ void TGo4Browser::SaveSelectedItems()
                        title.toLatin1().constData());
 }
 
-void TGo4Browser::ExportSelectedItems(const char* filtername)
+void TGo4Browser::ExportSelectedItems(const char *filtername)
 {
    QFileDialog fd(this, QString("Select directory to export to ") + filtername);
    fd.setOption(QFileDialog::ShowDirsOnly, true);
@@ -1056,7 +1056,7 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
                        "Export of selected items");
 }
 
-void TGo4Browser::ExportSelectedItems(const char *filename, const char* filedir, const char* format, const char* description)
+void TGo4Browser::ExportSelectedItems(const char *filename, const char *filedir, const char *format, const char *description)
 {
    TObjArray items;
    QTreeWidgetItemIterator it(ListView);

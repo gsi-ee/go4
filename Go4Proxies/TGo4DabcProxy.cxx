@@ -171,12 +171,12 @@ class TGo4DabcAccess : public TGo4Access {
          return nullptr;
       }
 
-      const char* GetObjectName() const override
+      const char *GetObjectName() const override
       {
          return fObjName.c_str();
       }
 
-      const char* GetObjectClassName() const override
+      const char *GetObjectClassName() const override
       {
          if (fRootClassName.length()>0) return fRootClassName.c_str();
 
@@ -184,7 +184,7 @@ class TGo4DabcAccess : public TGo4Access {
       }
 
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path) override
+      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override
       {
          if (!rcv) return 0;
 
@@ -532,7 +532,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override { return fChild.NumChilds() > 0; }
 
-      Int_t getflag(const char* flagname) override
+      Int_t getflag(const char *flagname) override
       {
          if (strcmp(flagname,"IsRemote") == 0) return 1;
          return -1;
@@ -546,7 +546,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
       TGo4Slot* getslot() override { return nullptr; }
 
       const char *name() override { return fChild.GetName(); }
-      const char* info() override { return "item from dabc"; }
+      const char *info() override { return "item from dabc"; }
       Int_t sizeinfo() override { return 0; }
 
       Int_t GetKind() override
@@ -562,7 +562,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          if (IsRateHistory(fChild)) return "TGraph";
 
@@ -594,12 +594,12 @@ TGo4DabcProxy::~TGo4DabcProxy()
    }
 }
 
-const char* TGo4DabcProxy::GetDabcVersion()
+const char *TGo4DabcProxy::GetDabcVersion()
 {
    return DABC_RELEASE;
 }
 
-Bool_t TGo4DabcProxy::Connect(const char* nodename)
+Bool_t TGo4DabcProxy::Connect(const char *nodename)
 {
    if (!dabc::CreateManager("cmd", 0)) return kFALSE;
 
@@ -759,12 +759,12 @@ TGo4DabcProxy::~TGo4DabcProxy()
 {
 }
 
-const char* TGo4DabcProxy::GetDabcVersion()
+const char *TGo4DabcProxy::GetDabcVersion()
 {
    return nullptr;
 }
 
-Bool_t TGo4DabcProxy::Connect(const char* nodename)
+Bool_t TGo4DabcProxy::Connect(const char *nodename)
 {
    return kFALSE;
 }

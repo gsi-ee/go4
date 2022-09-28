@@ -33,7 +33,7 @@ const Int_t TGo4Socket::fgiOPENCYCLES=6;
 const Int_t TGo4Socket::fgiBUFLENGTH=256;
 const Int_t TGo4Socket::fgiBUFINITSIZE=65536;
 const Int_t TGo4Socket::fgiBUFEXTRASPACE=8;
-const char* TGo4Socket::fgcGOON = "-I- go on";
+const char *TGo4Socket::fgcGOON = "-I- go on";
 
 TGo4Socket::TGo4Socket(Bool_t IsClient) :
     fbClientMode(IsClient),
@@ -89,9 +89,9 @@ TGo4Socket::~TGo4Socket()
    }
 }
 
-Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
+Int_t TGo4Socket::Open(const char *host, Int_t port, Bool_t keepservsock)
 {
-   GO4TRACE((12,"TGo4Socket::Open(const char* host, Int_t port)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Socket::Open(const char *host, Int_t port)", __LINE__, __FILE__));
 
    if(fbOpen) return 1;
 
@@ -118,7 +118,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
       } // while()
       if(!fxSocket->IsValid())
       {
-         TGo4Log::Debug(" Socket: Open(const char* host, Int_t port ) as Client failed ");
+         TGo4Log::Debug(" Socket: Open(const char *host, Int_t port ) as Client failed ");
          fiPort = 0;
          return -8;
       }
@@ -155,7 +155,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
       }
       if(!fxServerSocket->IsValid())
       {
-         TGo4Log::Debug(" Socket: Open(const char* host,  Int_t port) as Server failed ");
+         TGo4Log::Debug(" Socket: Open(const char *host,  Int_t port) as Server failed ");
          fiPort = 0;
          return -8;
       }

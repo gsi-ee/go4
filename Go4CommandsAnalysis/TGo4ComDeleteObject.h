@@ -27,7 +27,7 @@ class TGo4ComDeleteObject : public TGo4AnalysisObjectCommand {
    public:
       TGo4ComDeleteObject();
 
-      TGo4ComDeleteObject(const char* obname);
+      TGo4ComDeleteObject(const char *obname);
 
       Int_t ExeCom() override;
 

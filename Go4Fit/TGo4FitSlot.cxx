@@ -45,7 +45,7 @@ TGo4FitSlot::TGo4FitSlot(TNamed* iOwner, TClass* iClass) :
    SetOwner(iOwner);
 }
 
-TGo4FitSlot::TGo4FitSlot(const char* iName, const char* iTitle,
+TGo4FitSlot::TGo4FitSlot(const char *iName, const char *iTitle,
                          TNamed* iOwner, TClass* iClass,
                          Bool_t iNeeded, TObject* iObject, Bool_t iOwned) :
     TGo4FitNamed(iName,iTitle, iOwner),
@@ -147,14 +147,14 @@ TObject* TGo4FitSlot::GetObject() const
    return IsConnectedToSlot() ? GetConnectedSlot()->GetObject() : fxObject;
 }
 
-const char* TGo4FitSlot::GetObjectName() const
+const char *TGo4FitSlot::GetObjectName() const
 {
    TObject *obj = GetObject();
    if (obj && obj->InheritsFrom(TNamed::Class())) return obj->GetName();
                                                   else return nullptr;
 }
 
-TObject* TGo4FitSlot::CloneObject(const char* newname)
+TObject* TGo4FitSlot::CloneObject(const char *newname)
 {
    TObject *obj = GetObject();
    if (obj) return obj->Clone(newname);
@@ -292,7 +292,7 @@ TGo4FitSlot* TGo4FitSlotList::GetSlot(Int_t nslot)
    return (nslot >= 0) && (nslot <= lst->GetLast()) ? dynamic_cast<TGo4FitSlot*> (lst->At(nslot)) : nullptr;
 }
 
-TGo4FitSlot* TGo4FitSlotList::FindSlot(const char* FullSlotName)
+TGo4FitSlot* TGo4FitSlotList::FindSlot(const char *FullSlotName)
 {
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
@@ -308,7 +308,7 @@ Bool_t TGo4FitSlotList::ConnectSlots(TGo4FitSlot* slot1, TGo4FitSlot* slot2)
   return slot1->ConnectToSlot(slot2);
 }
 
-Bool_t TGo4FitSlotList::ConnectSlots(const char* Slot1FullName, const char* Slot2FullName)
+Bool_t TGo4FitSlotList::ConnectSlots(const char *Slot1FullName, const char *Slot2FullName)
 {
    return ConnectSlots(FindSlot(Slot1FullName), FindSlot(Slot2FullName));
 }
@@ -331,7 +331,7 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(TObject *obj, Bool_t iOwned)
    return nullptr;
 }
 
-TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject *obj, Bool_t iOwned)
+TGo4FitSlot* TGo4FitSlotList::SetObject(const char *PlaceName, TObject *obj, Bool_t iOwned)
 {
    if (!obj) return nullptr;
 
@@ -418,7 +418,7 @@ Bool_t TGo4FitSlotList::IsEmptySlots()
 }
 
 
-void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned)
+void TGo4FitSlotList::ClearObjects(const char *PlaceName, Bool_t NonOwned)
 {
    const TObjArray* lst = GetSlotList();
 
@@ -462,7 +462,7 @@ void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned)
    slot->Clear();
 }
 
-void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceName)
+void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char *PlaceName)
 {
    const TObjArray* lst = GetSlotList();
 

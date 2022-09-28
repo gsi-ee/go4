@@ -331,7 +331,7 @@ Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
     return kTRUE;
 }
 
-void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
+void TGo4Condition::BuildUrlOptionArray(const char *rest_url_opt)
 {
   if(fxUrlOptionArray) {
     fxUrlOptionArray->Delete();
@@ -342,7 +342,7 @@ void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
   fxUrlOptionArray = options.Tokenize("&");
 }
 
-Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
+Bool_t TGo4Condition::UrlOptionHasKey(const char *key)
 {
    TObjArrayIter iter(fxUrlOptionArray);
    TObject *cursor = nullptr;
@@ -358,7 +358,7 @@ Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
    return kFALSE;
 }
 
-TString TGo4Condition::GetUrlOptionAsString(const char* key, TString def_value)
+TString TGo4Condition::GetUrlOptionAsString(const char *key, TString def_value)
 {
    TObjArrayIter iter(fxUrlOptionArray);
    TObject *cursor = nullptr;
@@ -379,7 +379,7 @@ TString TGo4Condition::GetUrlOptionAsString(const char* key, TString def_value)
    return def_value;
 }
 
-Int_t TGo4Condition::GetUrlOptionAsInt(const char* key, Int_t def_value)
+Int_t TGo4Condition::GetUrlOptionAsInt(const char *key, Int_t def_value)
 {
    TString valstring = GetUrlOptionAsString(key, "");
    if (valstring.IsNull())
@@ -388,7 +388,7 @@ Int_t TGo4Condition::GetUrlOptionAsInt(const char* key, Int_t def_value)
       return valstring.Atoi();
 }
 
-Double_t TGo4Condition::GetUrlOptionAsDouble(const char* key, Double_t def_value)
+Double_t TGo4Condition::GetUrlOptionAsDouble(const char *key, Double_t def_value)
 {
   TString valstring=GetUrlOptionAsString(key,"");
    if(valstring.IsNull())
@@ -398,7 +398,7 @@ Double_t TGo4Condition::GetUrlOptionAsDouble(const char* key, Double_t def_value
 }
 
 
-Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt)
+Bool_t TGo4Condition::UpdateFromUrl(const char *rest_url_opt)
 {
   TString message;
   message.Form("TGo4Condition::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
@@ -571,7 +571,7 @@ void TGo4Condition::SetHistogram(const char *name)
    }
 }
 
-const char* TGo4Condition::GetLinkedHistogram()
+const char *TGo4Condition::GetLinkedHistogram()
 {
    return fxHistoName.Data();
 }
@@ -725,12 +725,12 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Option_t* opt, const char* arrextraargs)
+const char *TGo4Condition::MakeScript(std::ostream& out, const char *varname, Option_t* opt, const char *arrextraargs)
 {
    Bool_t savemacro = opt && strstr(opt,"savemacro");
    Bool_t saveprefix = savemacro;
 
-   const char* subname = strstr(opt, "name:");
+   const char *subname = strstr(opt, "name:");
    if (subname) { varname = subname + 5; saveprefix = kFALSE; }
 
    if (saveprefix) {

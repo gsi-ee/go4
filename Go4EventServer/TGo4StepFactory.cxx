@@ -50,7 +50,7 @@ TGo4StepFactory::~TGo4StepFactory()
 }
 
 //-----------------------------------------------------------
-void TGo4StepFactory::DefEventProcessor(const char* Pname, const char* Pclass)
+void TGo4StepFactory::DefEventProcessor(const char *Pname, const char *Pclass)
 {
    fnewProcessor.Form("new %s(\"%s\")", Pclass, Pname);
    fProcessorName = Pname;
@@ -75,7 +75,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 }
 
 //-----------------------------------------------------------
-void TGo4StepFactory::DefOutputEvent(const char* Oname, const char* Oclass)
+void TGo4StepFactory::DefOutputEvent(const char *Oname, const char *Oclass)
 {
    // need not to register object, because it is done by Go4 framework
    fnewOutputEvent.Form("new %s(\"%s\")",Oclass,Oname);
@@ -99,7 +99,7 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 }
 
 //-----------------------------------------------------------
-void TGo4StepFactory::DefInputEvent(const char* Iname, const char* Iclass)
+void TGo4StepFactory::DefInputEvent(const char *Iname, const char *Iclass)
 {
    fnewInputEvent.Form("new %s(\"%s\")", Iclass, Iname);
    fInputEventName = Iname;
@@ -120,12 +120,12 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 }
 
 //-----------------------------------------------------------
-void TGo4StepFactory::DefUserEventSource(const char* Sclass)
+void TGo4StepFactory::DefUserEventSource(const char *Sclass)
 {
    #ifdef _MSC_VER
-   const char* ptr_arg = "0x%x";
+   const char *ptr_arg = "0x%x";
    #else
-   const char* ptr_arg = "%p";
+   const char *ptr_arg = "%p";
    #endif
 
    fnewEventSource.Form("new %s((%s*)%s)", Sclass, TGo4UserSourceParameter::Class()->GetName(), ptr_arg);
@@ -135,9 +135,9 @@ void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 void TGo4StepFactory::DefUserEventStore(const char *Sclass)
 {
    #ifdef _MSC_VER
-   const char* ptr_arg = "0x%x";
+   const char *ptr_arg = "0x%x";
    #else
-   const char* ptr_arg = "%p";
+   const char *ptr_arg = "%p";
    #endif
 
    fnewEventStore.Form("new %s((%s*)%s)", Sclass, TGo4UserStoreParameter::Class()->GetName(), ptr_arg);

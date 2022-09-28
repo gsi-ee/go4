@@ -45,10 +45,10 @@ class TGo4MainTree : public TObject {
     virtual ~TGo4MainTree();
 
     /** Standard go4 name of the main tree */
-    static const char* fgcTREENAME; //!
+    static const char *fgcTREENAME; //!
 
     /** Standard suffix for file name */
-    static const char* fgcFILENAME; //!
+    static const char *fgcFILENAME; //!
 
     /** Default compression level */
     static const Int_t fgiCOMPRESS; //!
@@ -83,8 +83,8 @@ class TGo4MainTree : public TObject {
     void Update();
 
     /** Write tree content to file. */
-    Int_t Write(const char* dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) override;
-    Int_t Write(const char* dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) const override;
+    Int_t Write(const char *dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) override;
+    Int_t Write(const char *dummy = nullptr, Int_t option = 0, Int_t bufsize = 0) const override;
 
   private:
 

@@ -22,8 +22,8 @@ class TGo4ObjEnvelope : public TNamed {
       TGo4ObjEnvelope(TObject *obj, const char *name, const char *folder);
       virtual ~TGo4ObjEnvelope();
 
-      const char* GetObjName() const { return fxObjName.Data(); }
-      const char* GetObjFolder() const { return fxObjFolder.Data(); }
+      const char *GetObjName() const { return fxObjName.Data(); }
+      const char *GetObjFolder() const { return fxObjFolder.Data(); }
 
       TObject* GetObject() const { return fxObject; }
       TObject* TakeObject();

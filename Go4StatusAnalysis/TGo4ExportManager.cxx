@@ -47,7 +47,7 @@ void TGo4ExportManager::SetFilter(Go4Export_t format)
    fiFilter = format;
 }
 
-void TGo4ExportManager::SetCurrentDir(const char* dir)
+void TGo4ExportManager::SetCurrentDir(const char *dir)
 {
    if (dir) {
       fxCurrentDir = dir;
@@ -57,7 +57,7 @@ void TGo4ExportManager::SetCurrentDir(const char* dir)
    }
 }
 
-void TGo4ExportManager::SetStartDir(const char* dir)
+void TGo4ExportManager::SetStartDir(const char *dir)
 {
    if (dir)
       fxStartDir = dir;

@@ -11,7 +11,7 @@
 // The draw flag switches if the results are displayed each time this macro is called
 // if display is switched off, the result histogram is just updated in browser and existing displays
 ///////
-Bool_t fft(const char* name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
+Bool_t fft(const char *name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
 {
    if(!TGo4AbstractInterface::Instance() || go4 != TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;

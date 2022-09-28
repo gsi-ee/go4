@@ -23,7 +23,7 @@ TGo4ComExecLine::TGo4ComExecLine() : TGo4TaskHandlerCommand()
    SetDescription("Execute line as CINT macro");
 }
 
-TGo4ComExecLine::TGo4ComExecLine(const char* macro) : TGo4TaskHandlerCommand()
+TGo4ComExecLine::TGo4ComExecLine(const char *macro) : TGo4TaskHandlerCommand()
 {
    fbIsSynchron=kFALSE;
    SetName("THExec");

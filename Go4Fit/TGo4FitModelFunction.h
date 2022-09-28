@@ -54,13 +54,13 @@ class TGo4FitModelFunction : public TGo4FitModel {
        * Additionally usage of amplitude parameter can be invoked.
        * !!! Pointer on function, specified in this method, can not be correctly restored from streamer. Therefore, object can not be directly reused after streaming. SetUserFunction() should be called before.
        */
-      TGo4FitModelFunction(const char* iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude = kFALSE);
+      TGo4FitModelFunction(const char *iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude = kFALSE);
 
       /**
        * Creates TGo4FitModelFunction object with specified name.
        * Library and function name can be specified. Additionally usage of amplitude parameter can be invoked.
        */
-      TGo4FitModelFunction(const char* iName, const char* iLibraryName = "libName.so", const char* iFunctionName = "Funcname", Int_t iNPars = 0, Bool_t AddAmplitude = kFALSE);
+      TGo4FitModelFunction(const char *iName, const char *iLibraryName = "libName.so", const char *iFunctionName = "Funcname", Int_t iNPars = 0, Bool_t AddAmplitude = kFALSE);
 
       /**
        * Destroys TGo4FitModelFunction object.
@@ -81,12 +81,12 @@ class TGo4FitModelFunction : public TGo4FitModel {
        * Set library file name and function name.
        * Library will be loaded during initialization.
        */
-      void SetUserFunction(const char* iLibraryName, const char* iFunctionName);
+      void SetUserFunction(const char *iLibraryName, const char *iFunctionName);
 
       /**
        * Returns library name.
        */
-      const char* GetLibraryName() const { return fxLibraryName.Data(); }
+      const char *GetLibraryName() const { return fxLibraryName.Data(); }
 
       /**
        * Sets library name.
@@ -96,7 +96,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       /**
        * Returns function name in library.
        */
-      const char* GetFunctionName() const { return fxFunctionName.Data(); }
+      const char *GetFunctionName() const { return fxFunctionName.Data(); }
 
       /**
        * Sets function name in library.

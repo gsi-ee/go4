@@ -22,7 +22,7 @@ TGo4FitModelGaussN::TGo4FitModelGaussN() : TGo4FitModel(), fxIndexes(),
     Vect_mu(0),Matr_sig(0), Vect_x(0), Vect_dx(0) {
 }
 
-TGo4FitModelGaussN::TGo4FitModelGaussN(const char* iName, Int_t iNDimension) :
+TGo4FitModelGaussN::TGo4FitModelGaussN(const char *iName, Int_t iNDimension) :
    TGo4FitModel(iName,"N-dimensional Gaussian", kTRUE), fxIndexes(iNDimension),
       Vect_mu(0),Matr_sig(0), Vect_x(0), Vect_dx(0) {
        for(Int_t n=0;n<iNDimension;n++) fxIndexes[n] = n;

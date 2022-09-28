@@ -38,7 +38,7 @@ class TGo4ClientStatus : public TGo4TaskStatus {
 
       TGo4ClientStatus(const char *name);
 
-      void SetNames(const char* serverhost);
+      void SetNames(const char *serverhost);
 
    protected:
 

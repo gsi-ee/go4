@@ -112,13 +112,13 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
     /** pop all components to the front of the pad*/
     virtual void DisplayToFront(Option_t* opt="");
 
-    void SetCaption(const char* txt) { fxCaption=txt; }
+    void SetCaption(const char *txt) { fxCaption=txt; }
     void SetX0(Double_t x = 0.) { fdX0 = x; }
     void SetY0(Double_t y = 0.) { fdY0 = y; }
     void SetWidth(Double_t w = 0.) { fdWidth = w; }
     void SetHeight(Double_t h = 0.) { fdHeight = h; }
 
-    void AddToLabel(const char* txt) { if(fxLabel) fxLabel->AddText(txt); }
+    void AddToLabel(const char *txt) { if(fxLabel) fxLabel->AddText(txt); }
 
     /** Initialize the label attributes */
     void InitAttributes();

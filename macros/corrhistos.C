@@ -18,7 +18,7 @@
 
 #ifdef __GO4MACRO__
 // Get histograms from GO4 GUI
-Bool_t corrhistos(const char* name1, const char* name2, Bool_t draw)
+Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
 {
    if(!TGo4AbstractInterface::Instance() || go4!=TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
@@ -40,7 +40,7 @@ Bool_t corrhistos(const char* name1, const char* name2, Bool_t draw)
    TH1* his2 = (TH1*) ob2;
 #else
    // Get histograms from file
-   Bool_t corrhistos(const char *file, const char* name1, const char* name2, Bool_t draw)
+   Bool_t corrhistos(const char *file, const char *name1, const char *name2, Bool_t draw)
    {
       TFile *f = TFile::Open(file,"r");
       if(!f) {

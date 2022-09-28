@@ -25,7 +25,7 @@ class TGo4CondArray : public TGo4Condition {
     TGo4CondArray();
 
    /** Constructor. type can be "TGo4WinCond" or "TGo4PolyCond" */
-    TGo4CondArray(const char *name, Int_t elements, const char* type);
+    TGo4CondArray(const char *name, Int_t elements, const char *type);
 
     /** Constructor. contype can be kGO4CONDWINDOW or kGO4CONDPOLYGON */
     TGo4CondArray(const char *name, Int_t elements, Int_t contype);
@@ -131,7 +131,7 @@ class TGo4CondArray : public TGo4Condition {
     Int_t GetNumber() const;
 
     /** Returns class name of conditions. */
-    const char* GetType() const;
+    const char *GetType() const;
 
     /** Returns condition type ID (kGO4CONDWINDOW=1 or kGO4CONDPOLYGON=2). */
     void GetType(Int_t& type) const;

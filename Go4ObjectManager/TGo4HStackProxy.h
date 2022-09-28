@@ -26,7 +26,7 @@ class TGo4HStackProxy : public TGo4Proxy {
 
       Bool_t HasSublevels() const override { return fHS!=nullptr; }
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
+      const char *GetContainedClassName() override;
 
       void Initialize(TGo4Slot* slot) override;
       void Finalize(TGo4Slot* slot) override;

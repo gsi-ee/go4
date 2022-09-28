@@ -102,7 +102,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          return fCurrent->GetName();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->ClassName();
       }
@@ -112,7 +112,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          return fCurrent->ClassName();
       }
@@ -142,7 +142,7 @@ Int_t TGo4CanvasProxy::GetObjectKind()
    return fCanvas ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char* TGo4CanvasProxy::GetContainedClassName()
+const char *TGo4CanvasProxy::GetContainedClassName()
 {
    return fCanvas ? fCanvas->ClassName() : nullptr;
 }
@@ -170,7 +170,7 @@ Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject *obj)
 
 void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = nullptr;
+   const char *objname = nullptr;
    if (fCanvas)
       objname = fCanvas->GetName();
 
@@ -186,7 +186,7 @@ void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 
 void TGo4CanvasProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* objname = slot->GetPar("CanvasProxy::CanvasName");
+   const char *objname = slot->GetPar("CanvasProxy::CanvasName");
    if (!objname || !dir) return;
 
    dir->cd();
@@ -227,10 +227,10 @@ TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
    if (!name || (*name == 0)) return new TGo4ObjectAccess(canv);
 
    TPad* curpad = canv;
-   const char* curname = name;
+   const char *curname = name;
 
    while (curpad) {
-      const char* slash = strchr(curname,'/');
+      const char *slash = strchr(curname,'/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
       TObject *obj = nullptr;

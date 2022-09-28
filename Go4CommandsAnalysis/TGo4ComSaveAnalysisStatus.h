@@ -36,7 +36,7 @@ class TGo4ComSaveAnalysisStatus : public TGo4AnalysisCommand {
     void Set(TGo4RemoteCommand* remcon) override;
 
     /** Access to the object name under command. */
-    const char* GetFileName() const { return fxFileName.Data(); }
+    const char *GetFileName() const { return fxFileName.Data(); }
 
     /** Set the object name under command. */
     void SetFileName(const char *name) { fxFileName = name; }

@@ -111,13 +111,13 @@ Bool_t TGo4Iter::isfolder()
    return !iter ? kFALSE : (fOnlySlots ? iter->isslotsfolder() : iter->isfolder());
 }
 
-const char* TGo4Iter::getname()
+const char *TGo4Iter::getname()
 {
    TGo4LevelIter* iter = currentiter();
    return !iter ? nullptr : iter->name();
 }
 
-const char* TGo4Iter::getinfo()
+const char *TGo4Iter::getinfo()
 {
    TGo4LevelIter* iter = currentiter();
    return !iter ? nullptr : iter->info();
@@ -129,7 +129,7 @@ Int_t TGo4Iter::getsizeinfo()
    return !iter ? 0 : iter->sizeinfo();
 }
 
-Int_t TGo4Iter::getflag(const char* flagname)
+Int_t TGo4Iter::getflag(const char *flagname)
 {
    TGo4LevelIter* iter = currentiter();
    return (!iter || !flagname) ? -1 : iter->getflag(flagname);
@@ -141,13 +141,13 @@ Int_t TGo4Iter::getkindofitem()
    return !iter ? -1 : iter->GetKind();
 }
 
-const char* TGo4Iter::getclassname()
+const char *TGo4Iter::getclassname()
 {
    TGo4LevelIter* iter = currentiter();
    return !iter ? nullptr : iter->GetClassName();
 }
 
-const char* TGo4Iter::getfullname()
+const char *TGo4Iter::getfullname()
 {
    return fStatus != 0 ? nullptr : fFullName.Data();
 }

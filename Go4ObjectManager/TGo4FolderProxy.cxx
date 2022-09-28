@@ -73,7 +73,7 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
          return fCurrent->GetName();
       }
 
-      const char* info() override
+      const char *info() override
       {
          return fCurrent->ClassName();
       }
@@ -83,7 +83,7 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
          return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject;
       }
 
-      const char* GetClassName() override
+      const char *GetClassName() override
       {
          return fCurrent->ClassName();
       }
@@ -100,7 +100,7 @@ TGo4FolderProxy::TGo4FolderProxy() :
 {
 }
 
-TGo4FolderProxy::TGo4FolderProxy(TFolder* f, Bool_t owner, const char* rootfolder) :
+TGo4FolderProxy::TGo4FolderProxy(TFolder* f, Bool_t owner, const char *rootfolder) :
    TGo4Proxy(),
    fFolder(f),
    fOwner(owner),
@@ -118,7 +118,7 @@ Int_t TGo4FolderProxy::GetObjectKind()
    return fFolder ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char* TGo4FolderProxy::GetContainedClassName()
+const char *TGo4FolderProxy::GetContainedClassName()
 {
    return fFolder ? fFolder->ClassName() : nullptr;
 }
@@ -126,14 +126,14 @@ const char* TGo4FolderProxy::GetContainedClassName()
 void TGo4FolderProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
-      const char* foldername = fRootFolderName.Length() > 0 ? fRootFolderName.Data() : nullptr;
+      const char *foldername = fRootFolderName.Length() > 0 ? fRootFolderName.Data() : nullptr;
       slot->SetPar("FolderProxy::RootFolder", foldername);
    }
 }
 
 void TGo4FolderProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* foldername = slot->GetPar("FolderProxy::RootFolder");
+   const char *foldername = slot->GetPar("FolderProxy::RootFolder");
 
    fFolder = LocateROOTFolder(foldername);
    if (fFolder)
@@ -141,7 +141,7 @@ void TGo4FolderProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
    fOwner = kFALSE;
 }
 
-TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
+TFolder* TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
 {
    TFolder* res = nullptr;
    if (rootfolder) {
@@ -160,10 +160,10 @@ TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
    if (!name || (*name == 0)) return new TGo4ObjectAccess(folder);
 
    TFolder* curfold = folder;
-   const char* curname = name;
+   const char *curname = name;
 
    while (curfold) {
-      const char* slash = strchr(curname,'/');
+      const char *slash = strchr(curname,'/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curfold->GetListOfFolders());
       TObject *obj = nullptr;

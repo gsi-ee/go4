@@ -151,7 +151,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TGo4TreeStructure * CreateTreeStructure(const char *treename);
 
       /** Create a folder with members of this class */
-      TFolder* CreateMembersFolder(TObject *obj, const char* membrfoldername, TClass* cl);
+      TFolder* CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass* cl);
 
       /**
        * Add external histogram to go4 histogram directory. Histogram will be owned
@@ -189,15 +189,15 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    ytitle    - title on y axis [optional]
        */
 
-      TH1* MakeTH1(const char* histotype,
-            const char* foldername,
-            const char* histoname,
+      TH1* MakeTH1(const char *histotype,
+            const char *foldername,
+            const char *histoname,
             Int_t         nbinsx,
             Axis_t        xlow,
             Axis_t        xup,
             const char *title = nullptr,
-            const char* xtitle = nullptr,
-            const char* ytitle = nullptr);
+            const char *xtitle = nullptr,
+            const char *ytitle = nullptr);
 
       /**
        * Create 2-dim histogram in histogram folder.
@@ -219,9 +219,9 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    ytitle    - title on y axis [optional]
        */
 
-      TH2* MakeTH2(const char* histotype,
-            const char* foldername,
-            const char* histoname,
+      TH2* MakeTH2(const char *histotype,
+            const char *foldername,
+            const char *histoname,
             Int_t         nbinsx,
             Axis_t        xlow,
             Axis_t        xup,
@@ -229,8 +229,8 @@ class TGo4AnalysisObjectManager : public TNamed {
             Axis_t        ylow,
             Axis_t        yup,
             const char *title = nullptr,
-            const char* xtitle = nullptr,
-            const char* ytitle = nullptr);
+            const char *xtitle = nullptr,
+            const char *ytitle = nullptr);
 
       /**
        * Add reference to a tree in the go4 folder structure.
@@ -296,11 +296,11 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4WinCond* MakeWindowCond(const char* foldername,
-                                  const char* conditionname,
+      TGo4WinCond* MakeWindowCond(const char *foldername,
+                                  const char *conditionname,
                                   Double_t      xlow,
                                   Double_t      xup,
-                                  const char* bindhistogram = nullptr,
+                                  const char *bindhistogram = nullptr,
                                   Bool_t        invert = kFALSE);
 
       /**
@@ -319,13 +319,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4WinCond* MakeWindowCond(const char* foldername,
-            const char* conditionname,
+      TGo4WinCond* MakeWindowCond(const char *foldername,
+            const char *conditionname,
             Double_t      xlow,
             Double_t      xup,
             Double_t      ylow,
             Double_t      yup,
-            const char* bindhistogram = nullptr,
+            const char *bindhistogram = nullptr,
             Bool_t        invert = kFALSE);
 
       /**
@@ -351,11 +351,11 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4PolyCond* MakePolyCond(const char* foldername,
-            const char* conditionname,
+      TGo4PolyCond* MakePolyCond(const char *foldername,
+            const char *conditionname,
             Int_t         size,
             Float_t       (*points)[2],
-            const char* bindhistogram = nullptr,
+            const char *bindhistogram = nullptr,
             Bool_t        invert = kFALSE);
       /**
        * Puts a new parameter object in corresponding folder.
@@ -385,7 +385,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
         * Returns 0 if no such parameter found (or class not match). */
-      TGo4Parameter * GetParameter(const char *name, const char* parameter_class = nullptr);
+      TGo4Parameter * GetParameter(const char *name, const char *parameter_class = nullptr);
 
       /**
        * Removes parameter by name. Returns 0 if no
@@ -562,12 +562,12 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t AddDynamicHistogram(const char *name,
             const char *histo,
-            const char* hevx, const char* hmemx,
-            const char* hevy = nullptr, const char* hmemy = nullptr,
-            const char* hevz = nullptr, const char* hmemz = nullptr,
-            const char* condition = nullptr,
-            const char* cevx = nullptr, const char* cmemx = nullptr,
-            const char* cevy = nullptr, const char* cmemy = nullptr);
+            const char *hevx, const char *hmemx,
+            const char *hevy = nullptr, const char *hmemy = nullptr,
+            const char *hevz = nullptr, const char *hmemz = nullptr,
+            const char *condition = nullptr,
+            const char *cevx = nullptr, const char *cmemx = nullptr,
+            const char *cevy = nullptr, const char *cmemy = nullptr);
 
       /**
        * Add Histogram into the dynamic list which is linked to a tree.
@@ -576,7 +576,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Strings varexp and selection are used for applying cuts and variables
        * to plot.
        */
-      Bool_t AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp);
+      Bool_t AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp);
 
       /**
        * Printout of all histogram statistic counters on the terminal.
@@ -626,7 +626,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * they are owned by their special folders. If listname is not given, the current
        * dynamic list is used.
        */
-      Bool_t RemoveDynamicEntry(const char* entryname);
+      Bool_t RemoveDynamicEntry(const char *entryname);
 
       /**
        * Get pointer to subfolder of parent specified by name. If create is true, create it
@@ -648,69 +648,69 @@ class TGo4AnalysisObjectManager : public TNamed {
       void RecursiveRemove(TObject *obj) override;
 
       /** Default name of the default (toplevel) dynamic list  */
-      static const char* fgcTOPDYNAMICLIST;
+      static const char *fgcTOPDYNAMICLIST;
 
       /** Top level folder name */
-      static const char* fgcTOPFOLDER;
+      static const char *fgcTOPFOLDER;
 
       /** Histograms folder name */
-      static const char* fgcHISTFOLDER;
+      static const char *fgcHISTFOLDER;
 
       /** Dynamic lists folder name */
-      static const char* fgcDYNFOLDER;
+      static const char *fgcDYNFOLDER;
 
       /** Analysis conditions folder name */
-      static const char* fgcCONDFOLDER;
+      static const char *fgcCONDFOLDER;
 
       /** Analysis user parameters folder name */
-      static const char* fgcPARAFOLDER;
+      static const char *fgcPARAFOLDER;
 
       /** Tree reference folder name */
-      static const char* fgcTREEFOLDER;
+      static const char *fgcTREEFOLDER;
 
       /** Picture objects folder name */
-      static const char* fgcPICTFOLDER;
+      static const char *fgcPICTFOLDER;
 
       /** TCanvas folder name */
-      static const char* fgcCANVFOLDER;
+      static const char *fgcCANVFOLDER;
 
       /** top analysis objects reference folder name */
-      static const char* fgcANALYSISFOLDER;
+      static const char *fgcANALYSISFOLDER;
 
       /** Event references folder name */
-      static const char* fgcEVENTFOLDER;
+      static const char *fgcEVENTFOLDER;
 
       /** Event source reference folder name */
-      static const char* fgcSRCFOLDER;
+      static const char *fgcSRCFOLDER;
 
       /** Event store reference folder name */
-      static const char* fgcSTOREFOLDER;
+      static const char *fgcSTOREFOLDER;
 
       /** Event processor reference folder name */
-      static const char* fgcPROCFOLDER;
+      static const char *fgcPROCFOLDER;
 
       /** User objects folder name */
-      static const char* fgcUSRFOLDER;
+      static const char *fgcUSRFOLDER;
 
       /** Temporary dummy folder name */
-      static const char* fgcTMPFOLDER;
+      static const char *fgcTMPFOLDER;
 
-      static const char* GetTOPDYNAMICLIST();
-      static const char* GetTOPFOLDER();
-      static const char* GetHISTFOLDER();
-      static const char* GetDYNFOLDER();
-      static const char* GetCONDFOLDER();
-      static const char* GetPARAFOLDER();
-      static const char* GetTREEFOLDER();
-      static const char* GetPICTFOLDER();
-      static const char* GetCANVFOLDER();
-      static const char* GetANALYSISFOLDER();
-      static const char* GetEVENTFOLDER();
-      static const char* GetSRCFOLDER();
-      static const char* GetSTOREFOLDER();
-      static const char* GetPROCFOLDER();
-      static const char* GetUSRFOLDER();
-      static const char* GetTMPFOLDER();
+      static const char *GetTOPDYNAMICLIST();
+      static const char *GetTOPFOLDER();
+      static const char *GetHISTFOLDER();
+      static const char *GetDYNFOLDER();
+      static const char *GetCONDFOLDER();
+      static const char *GetPARAFOLDER();
+      static const char *GetTREEFOLDER();
+      static const char *GetPICTFOLDER();
+      static const char *GetCANVFOLDER();
+      static const char *GetANALYSISFOLDER();
+      static const char *GetEVENTFOLDER();
+      static const char *GetSRCFOLDER();
+      static const char *GetSTOREFOLDER();
+      static const char *GetPROCFOLDER();
+      static const char *GetUSRFOLDER();
+      static const char *GetTMPFOLDER();
 
    private:
 
@@ -858,7 +858,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Return kTRUE if object was found and removed, otherwise kFALSE.
        * Used by RemoveHistogram etc. methods.
        */
-      Bool_t RemoveObjectFromFolder(const char* fullname, TFolder* fold, Bool_t isDel);
+      Bool_t RemoveObjectFromFolder(const char *fullname, TFolder* fold, Bool_t isDel);
 
       /**
        * Update folder destination with the content of the folder source. Subfolder
@@ -972,12 +972,12 @@ class TGo4AnalysisObjectManager : public TNamed {
       TList* CreateObjectList(const char *expr, TFolder* fold);
 
       /** Finds out if  string is matching the expression */
-      Bool_t IsMatching(const char* string, const char *expression);
+      Bool_t IsMatching(const char *string, const char *expression);
 
       /** Search in folder for object with specified name
        * Uses fxDirMutex until search is working
        */
-      TObject* FindObjectInFolder(TFolder* folder, const char* fullname);
+      TObject* FindObjectInFolder(TFolder* folder, const char *fullname);
 
       /** Test, if object exists in provided folder.
        * If object exists and corresponds to provided class,
@@ -985,8 +985,8 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Used by different Make* functions
        */
       TObject* TestObject(TFolder* folder,
-                          const char* &pathname,
-                          const char* objectname,
+                          const char *&pathname,
+                          const char *objectname,
                           const TClass* cl);
 
 };

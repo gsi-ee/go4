@@ -47,14 +47,14 @@ class TGo4Access {
 
       virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const;
       virtual TClass* GetObjectClass() const;
-      virtual const char* GetObjectName() const;
-      virtual const char* GetObjectClassName() const;
+      virtual const char *GetObjectName() const;
+      virtual const char *GetObjectClassName() const;
 
       /** Have to assign object to provided receiver. Returns:
         * 0 - if object can not be assigned
         * 1 - if object assigned
         * 2 - if object will be assigned later */
-      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
+      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path);
 
       /** Made for convenience - extracts OM and slot path and
        *  calls AssignObjectTo method */
@@ -62,7 +62,7 @@ class TGo4Access {
 
     protected:
       void DoObjectAssignement(TGo4ObjectManager* rcv,
-                               const char* path,
+                               const char *path,
                                TObject *obj,
                                Bool_t owner);
 };
@@ -81,11 +81,11 @@ class TGo4LevelIter : public TObject {
       virtual TGo4LevelIter* subiterator() { return nullptr; }
       virtual TGo4Slot* getslot() { return nullptr; }
       virtual const char *name() { return nullptr; }
-      virtual const char* info() { return nullptr; }
+      virtual const char *info() { return nullptr; }
       virtual Int_t sizeinfo() { return 0; }
 
       virtual Int_t GetKind() { return -1; }
-      virtual const char* GetClassName() { return nullptr; }
+      virtual const char *GetClassName() { return nullptr; }
 };
 
 // *************************************************************
@@ -106,8 +106,8 @@ class TGo4Proxy : public TObject {
       virtual TGo4LevelIter* MakeIter() { return nullptr; }
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndNone; }
-      virtual const char* GetContainedClassName() { return nullptr; }
-      virtual const char* GetContainedObjectInfo() { return nullptr; }
+      virtual const char *GetContainedClassName() { return nullptr; }
+      virtual const char *GetContainedObjectInfo() { return nullptr; }
       virtual Int_t GetObjectSizeInfo() { return -1; }
 
       virtual void WriteData(TGo4Slot*, TDirectory*, Bool_t) {}
@@ -120,7 +120,7 @@ class TGo4Proxy : public TObject {
 
       virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) { return kTRUE; }
 
-      static TClass* GetClass(const char* classname, Bool_t load = kFALSE);
+      static TClass* GetClass(const char *classname, Bool_t load = kFALSE);
 
    ClassDefOverride(TGo4Proxy, 1);
 };

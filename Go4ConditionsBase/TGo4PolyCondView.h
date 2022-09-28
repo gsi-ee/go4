@@ -43,8 +43,8 @@ public:
     /** create plain cutg from this view. */
     TCutG* CreateCut();
 
-    const char* GetName() const override;
-    void SetName(const char* nam) override; // *MENU*
+    const char *GetName() const override;
+    void SetName(const char *nam) override; // *MENU*
      /** Delete condition instead of view: */
     void DeleteRegion(); // *MENU*
 

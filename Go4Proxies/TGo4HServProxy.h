@@ -25,16 +25,16 @@ class TGo4HServProxy : public TGo4ServerProxy {
       TGo4HServProxy();
       virtual ~TGo4HServProxy();
 
-      void SetHServConfig(const char* servername,
+      void SetHServConfig(const char *servername,
                           Int_t portnumber,
-                          const char* basename,
-                          const char* userpass,
-                          const char* filter);
+                          const char *basename,
+                          const char *userpass,
+                          const char *filter);
 
       Int_t GetPortNumber() const { return fPortNumber; }
-      const char* GetBaseName() const { return fBaseName.Data(); }
-      const char* GetUserPass() const { return fUserPass.Data(); }
-      const char* GetFilter() const { return fFilter.Data(); }
+      const char *GetBaseName() const { return fBaseName.Data(); }
+      const char *GetUserPass() const { return fUserPass.Data(); }
+      const char *GetFilter() const { return fFilter.Data(); }
 
       void Initialize(TGo4Slot* slot) override;
       void Finalize(TGo4Slot* slot) override;
@@ -49,13 +49,13 @@ class TGo4HServProxy : public TGo4ServerProxy {
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
       Int_t GetObjectKind() override;
-      const char* GetContainedClassName() override;
+      const char *GetContainedClassName() override;
 
       void Update(TGo4Slot* slot, Bool_t strong) override;
 
-      const char* GetServerName() const override { return fServerName.Data(); }
+      const char *GetServerName() const override { return fServerName.Data(); }
       Bool_t RefreshNamesList() override;
-      TH1* GetHistogram(const char* remotehistoname);
+      TH1* GetHistogram(const char *remotehistoname);
 
    protected:
 

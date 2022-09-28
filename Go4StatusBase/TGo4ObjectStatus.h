@@ -38,7 +38,7 @@ class TGo4ObjectStatus : public TGo4Status {
       virtual ~TGo4ObjectStatus();
 
       /** ClassName of the described object. */
-      const char* GetObjectClass() const { return fxObjectClass.Data(); }
+      const char *GetObjectClass() const { return fxObjectClass.Data(); }
 
       /** Size of described object in byte. */
       Int_t GetObjectSize() const { return fiObjectSize; }
@@ -50,7 +50,7 @@ class TGo4ObjectStatus : public TGo4Status {
       Bool_t IsDeleteProtect() const { return fbDeleteProtect; }
 
       /** Creation time string; sql format. */
-      const char* GetTimeString() const { return fxStatusTime.Data(); }
+      const char *GetTimeString() const { return fxStatusTime.Data(); }
 
       void Print(Option_t* = "") const override;
 

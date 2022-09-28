@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName)
+TH1D* GetHistogram(const char *HistogramName)
 {
    TFile *f = TFile::Open("histograms.root");
    if (!f) return nullptr;

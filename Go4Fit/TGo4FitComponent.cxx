@@ -25,7 +25,7 @@ TGo4FitComponent::TGo4FitComponent() : TGo4FitParsList(), TGo4FitSlotList(),
     fxRangeAxis(), fxRangeValue(), fxCuts(), fiAmplIndex(-1), fbUseBuffers(kFALSE) {
 }
 
-TGo4FitComponent::TGo4FitComponent(const char* iName, const char* iTitle) :
+TGo4FitComponent::TGo4FitComponent(const char *iName, const char *iTitle) :
     TGo4FitParsList(iName,iTitle,kTRUE), TGo4FitSlotList(),
     fxRangeAxis(), fxRangeValue(), fxCuts(), fiAmplIndex(-1), fbUseBuffers(kFALSE)
 {
@@ -35,7 +35,7 @@ TGo4FitComponent::TGo4FitComponent(const char* iName, const char* iTitle) :
 TGo4FitComponent::~TGo4FitComponent() {
 }
 
-TGo4FitParameter* TGo4FitComponent::NewParameter(const char* Name, const char* Title, Double_t iValue, Bool_t Fixed, Int_t AtIndx)
+TGo4FitParameter* TGo4FitComponent::NewParameter(const char *Name, const char *Title, Double_t iValue, Bool_t Fixed, Int_t AtIndx)
 {
    TGo4FitParameter* par = new TGo4FitParameter(Name, Title, iValue);
    if (AtIndx<0) AddPar(par);
@@ -44,7 +44,7 @@ TGo4FitParameter* TGo4FitComponent::NewParameter(const char* Name, const char* T
    return par;
 }
 
-TGo4FitParameter* TGo4FitComponent::NewAmplitude(const char* Name, Double_t iValue, Bool_t IsFixed, Int_t AtIndx)
+TGo4FitParameter* TGo4FitComponent::NewAmplitude(const char *Name, Double_t iValue, Bool_t IsFixed, Int_t AtIndx)
 {
    TGo4FitParameter *par = new TGo4FitParameter(Name ? Name : "Ampl", "Amplitude", iValue);
    if (AtIndx < 0) {
@@ -63,12 +63,12 @@ TGo4FitParameter* TGo4FitComponent::GetAmplPar()
    return fiAmplIndex < 0 ? nullptr : GetPar(fiAmplIndex);
 }
 
-const char* TGo4FitComponent::GetAmplName()
+const char *TGo4FitComponent::GetAmplName()
 {
    return GetAmplPar() ? GetAmplPar()->GetName() : nullptr;
 }
 
-const char* TGo4FitComponent::GetAmplFullName()
+const char *TGo4FitComponent::GetAmplFullName()
 {
    return GetAmplPar() ? GetAmplPar()->GetFullName() : nullptr;
 }

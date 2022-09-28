@@ -33,7 +33,7 @@ class TGo4ThreadException : public TGo4ControlException {
 
       TGo4ThreadException(const TGo4ThreadException &right);
 
-      TGo4ThreadException (TGo4Runnable* runnable, const char* threadname = nullptr);
+      TGo4ThreadException (TGo4Runnable* runnable, const char *threadname = nullptr);
 
       virtual ~TGo4ThreadException();
 
@@ -42,7 +42,7 @@ class TGo4ThreadException : public TGo4ControlException {
       /** This is a default handler function for the respective exception type. */
       Int_t Handle() override = 0;
 
-      const char* GetThreadName() const;
+      const char *GetThreadName() const;
 
    protected:
       /** Name of the TGo4Thread  that shall be acted on */

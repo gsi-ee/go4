@@ -22,7 +22,7 @@
 TGo4FitModelGauss1::TGo4FitModelGauss1() : TGo4FitModel(), fiNaxis(0) {
 }
 
-TGo4FitModelGauss1::TGo4FitModelGauss1(const char* iName, Double_t iPosition, Double_t iWidth, Int_t iNaxis) :
+TGo4FitModelGauss1::TGo4FitModelGauss1(const char *iName, Double_t iPosition, Double_t iWidth, Int_t iNaxis) :
    TGo4FitModel(iName,"1-dimensional Gaussian", kTRUE), fiNaxis(iNaxis) {
    NewParameter("Pos","Gaussian position",iPosition);
    NewParameter("Width","Gaussian width",iWidth);

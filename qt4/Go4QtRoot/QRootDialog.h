@@ -52,7 +52,7 @@ class QRootDialog: public QDialog {
    public:
       QRootDialog();
 
-      void addArg(const char* argname, const char* value, const char* type);
+      void addArg(const char *argname, const char *value, const char *type);
 
       QString getArg(int n);
 

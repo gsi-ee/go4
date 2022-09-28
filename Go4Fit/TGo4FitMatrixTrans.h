@@ -29,7 +29,7 @@
 class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
    public:
       TGo4FitMatrixTrans();
-      TGo4FitMatrixTrans(const char* iName, const char* iTitle, Int_t NumAxis = 1);
+      TGo4FitMatrixTrans(const char *iName, const char *iTitle, Int_t NumAxis = 1);
       virtual ~TGo4FitMatrixTrans();
 
       Int_t GetNumAxis();

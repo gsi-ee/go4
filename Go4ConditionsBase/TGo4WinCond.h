@@ -71,7 +71,7 @@ class TGo4WinCond : public TGo4Condition {
       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
-      Bool_t UpdateFromUrl(const char* rest_url_opt) override;
+      Bool_t UpdateFromUrl(const char *rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
       Double_t GetIntegral(TH1* histo, Option_t* opt="") override;

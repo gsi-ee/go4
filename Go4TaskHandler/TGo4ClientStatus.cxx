@@ -38,7 +38,7 @@ void TGo4ClientStatus::Print(Option_t*) const
    PrintLine("G-OOOO-> END Client Status Class Printout END <-OOOO-G");
 }
 
-void TGo4ClientStatus::SetNames(const char* serverhost)
+void TGo4ClientStatus::SetNames(const char *serverhost)
 {
    fxServerHostName = serverhost;
 }

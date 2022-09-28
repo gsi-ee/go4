@@ -39,7 +39,7 @@ TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
    AccountEdit->setVisible(canHaveOtherAccounts);
 }
 
-void TGo4ConnectServer::setPassword(const char* pass)
+void TGo4ConnectServer::setPassword(const char *pass)
 {
    if (PasswordEdit->isEnabled())
      PasswordEdit->setText(pass);

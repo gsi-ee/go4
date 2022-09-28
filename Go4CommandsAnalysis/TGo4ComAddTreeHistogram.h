@@ -35,7 +35,7 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
 
       TGo4ComAddTreeHistogram();
 
-      TGo4ComAddTreeHistogram(const char* histogramname, const char *treename,const char* varexp, const char* cut);
+      TGo4ComAddTreeHistogram(const char *histogramname, const char *treename,const char *varexp, const char *cut);
 
       Int_t ExeCom() override;
 
@@ -51,10 +51,10 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
       void SetTreeName(const char *name) { fxTreeName = name; }
 
       /** Set dynamic entry index name. */
-      void SetVarexp(const char* exp) { fxVarexp = exp; }
+      void SetVarexp(const char *exp) { fxVarexp = exp; }
 
       /** Set TCut to be applied on this tree histogram. */
-      void SetCut(const char* cut) { fxCut = cut; }
+      void SetCut(const char *cut) { fxCut = cut; }
 
    private:
 

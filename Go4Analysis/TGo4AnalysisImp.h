@@ -130,7 +130,7 @@ public:
 
    virtual ~TGo4Analysis();
 
-   const char* GetName() const override { return fAnalysisName.Data(); }
+   const char *GetName() const override { return fAnalysisName.Data(); }
 
    void SetAnalysisName(const char *name) { fAnalysisName = name; }
 
@@ -200,7 +200,7 @@ public:
     * checked against given values. */
    Bool_t AddDynamicHistogram(const char *name,
                               const char *histo,
-                              const char *hevx, const char* hmemx,
+                              const char *hevx, const char *hmemx,
                               const char *hevy = nullptr, const char *hmemy = nullptr,
                               const char *hevz = nullptr, const char *hmemz = nullptr,
                               const char *condition = nullptr,
@@ -297,7 +297,7 @@ public:
     * If Histogram of hisname already exists, this histogram will taken.
     * if not, the histogram will be created on first TTree::Draw.
     * Strings varexp and selection are used for applying cuts and variables to plot. */
-   Bool_t AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp);
+   Bool_t AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp);
 
    /** Search histogram in histogram list (directory). */
    TH1* GetHistogram(const char *name);
@@ -536,10 +536,10 @@ public:
    void SetInputFileName(const char *fname) { fxCurrentInputFileName = fname; }
 
    /** Returns current input file name */
-   const char* GetInputFileName() const { return fxCurrentInputFileName.Data(); }
+   const char *GetInputFileName() const { return fxCurrentInputFileName.Data(); }
 
    /** Returns default lmd test file name (in GO4SYS installation directory) */
-   const char* GetDefaultTestFileName() const { return fxDefaultTestFileName.Data(); }
+   const char *GetDefaultTestFileName() const { return fxDefaultTestFileName.Data(); }
 
    void SetDynListInterval(Int_t val);
 
@@ -737,7 +737,7 @@ public:
     * HistoName - name of histogram, to which condition is assigned */
    TGo4WinCond* MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
-                            const char* HistoName = nullptr);
+                            const char *HistoName = nullptr);
 
    /** Create 2D window condition.
     * fullname specifies name of condition (optionally with subfolder name)
@@ -851,7 +851,7 @@ public:
     * If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a rolling graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-   TGo4RollingGraph* MakeRollingGraph(const char* fullname, const char *title, Int_t points = 0, Int_t average = 1);
+   TGo4RollingGraph* MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
    /** Create parameter of specified class,
     * fullname specifies name of condition (optionally with subfolder name)

@@ -46,7 +46,7 @@ class TGo4FitModelGaussN : public TGo4FitModel {
        * Creates TGo4FitModelGaussN model with given name.
        * Number of dimensions also can be specified (default = 3).
        */
-      TGo4FitModelGaussN(const char* iName, Int_t iNDimension = 3);
+      TGo4FitModelGaussN(const char *iName, Int_t iNDimension = 3);
 
       /**
        * Destroys TGo4FitModelGaussN object.

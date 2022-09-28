@@ -22,8 +22,8 @@
 #include "TGo4ControllerRunnable.h"
 #include "TGo4ExampleCommandList.h"
 
-const char* TGo4ExampleServer::fgcLOGGINGTHREAD="LOGGER-";
-const char* TGo4ExampleServer::fgcCONTROLTHREAD="CONTROL-";
+const char *TGo4ExampleServer::fgcLOGGINGTHREAD="LOGGER-";
+const char *TGo4ExampleServer::fgcCONTROLTHREAD="CONTROL-";
 
 TGo4ExampleController* TGo4ExampleServer::GetController()
 {

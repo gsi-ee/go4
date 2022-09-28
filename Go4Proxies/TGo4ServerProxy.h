@@ -40,13 +40,13 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot* LoginfoSlot();
       TGo4Slot* DebugOutputSlot();
 
-      virtual const char* GetServerName() const { return fNodeName.Data(); }
-      virtual const char* GetUserName() const { return ""; }
-      const char* GetContainedObjectInfo() override;
+      virtual const char *GetServerName() const { return fNodeName.Data(); }
+      virtual const char *GetUserName() const { return ""; }
+      const char *GetContainedObjectInfo() override;
 
       virtual TString FindCommand(const char *name) { return ""; }
       virtual Int_t  NumCommandArgs(const char *name) { return -1; }
-      virtual Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char* arg1 = nullptr, const char* arg2 = nullptr, const char* arg3 = nullptr) { return kFALSE; }
+      virtual Bool_t SubmitCommand(const char *name, Int_t waitres = -1, const char *arg1 = nullptr, const char *arg2 = nullptr, const char *arg3 = nullptr) { return kFALSE; }
 
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
       virtual Bool_t IsAnalysisServer() const { return kFALSE; }
@@ -78,33 +78,33 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual void StartAnalysis() {}
       virtual void StopAnalysis() {}
 
-      virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) { return kFALSE; }
+      virtual Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) { return kFALSE; }
 
-      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) { return kFALSE; }
+      virtual Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) { return kFALSE; }
 
       virtual void ClearAllAnalysisObjects() {}
-      virtual void ClearAnalysisObject(const char* fullpath) {}
+      virtual void ClearAnalysisObject(const char *fullpath) {}
 
       virtual void RemoteTreeDraw(const char *treename,
-                                  const char* varexp,
-                                  const char* cutcond,
-                                  const char* hname) {}
+                                  const char *varexp,
+                                  const char *cutcond,
+                                  const char *hname) {}
 
-      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) {}
+      virtual void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) {}
 
-      virtual void RemotePrintEvent(const char* evname,
+      virtual void RemotePrintEvent(const char *evname,
                                     Int_t evnumber,
                                     Int_t subid,
                                     Bool_t ishex,
                                     Bool_t islong) {}
 
-      virtual void ChageObjectProtection(const char* fullpath, const char* flags) {}
+      virtual void ChageObjectProtection(const char *fullpath, const char *flags) {}
 
-      virtual void RemoveObjectFromAnalysis(const char* fullpath) {}
+      virtual void RemoveObjectFromAnalysis(const char *fullpath) {}
 
-      virtual void ExecuteLine(const char* line) {}
+      virtual void ExecuteLine(const char *line) {}
 
-      virtual void PrintDynListEntry(const char* fullpath) {}
+      virtual void PrintDynListEntry(const char *fullpath) {}
 
       virtual void LoadConfigFile(const char *fname) {}
       virtual void SaveConfigFile(const char *fname) {}
@@ -130,12 +130,12 @@ class TGo4ServerProxy : public TGo4Proxy {
                                     Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                     Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
                                     const char *name,
-                                    const char* remotehost,
-                                    const char* remotedir,
-                                    const char* remoteexe,
+                                    const char *remotehost,
+                                    const char *remotedir,
+                                    const char *remoteexe,
                                     Int_t guiport,
                                     Int_t exe_kind = 0, // 0 - executable, 1 - user library
-                                    const char* exeargs = nullptr);
+                                    const char *exeargs = nullptr);
 
    ClassDefOverride(TGo4ServerProxy, 1);
 };

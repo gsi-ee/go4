@@ -44,12 +44,12 @@ TClass* TGo4ObjectAccess::GetObjectClass() const
    return fObject->IsA();
 }
 
-const char* TGo4ObjectAccess::GetObjectName() const
+const char *TGo4ObjectAccess::GetObjectName() const
 {
    return fObject->GetName();
 }
 
-const char* TGo4ObjectAccess::GetObjectClassName() const
+const char *TGo4ObjectAccess::GetObjectClassName() const
 {
    return fObject->ClassName();
 }
@@ -106,7 +106,7 @@ TGo4Access* TGo4ObjectProxy::ProvideAccess(const char *name)
 
 void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-   const char* objname = fObject ? fObject->GetName() : nullptr;
+   const char *objname = fObject ? fObject->GetName() : nullptr;
 
    if (!onlyobjs)
      slot->SetPar("ObjectProxy::ObjName", objname);
@@ -127,7 +127,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
 
 void TGo4ObjectProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* objname = slot ? slot->GetPar("ObjectProxy::ObjName") : nullptr;
+   const char *objname = slot ? slot->GetPar("ObjectProxy::ObjName") : nullptr;
    if (!objname || !dir) return;
 
    dir->cd();
@@ -140,12 +140,12 @@ Int_t TGo4ObjectProxy::GetObjectKind()
    return fObject ? TGo4Access::kndObject : TGo4Access::kndNone;
 }
 
-const char* TGo4ObjectProxy::GetContainedClassName()
+const char *TGo4ObjectProxy::GetContainedClassName()
 {
    return fObject ? fObject->ClassName() : nullptr;
 }
 
-const char* TGo4ObjectProxy::GetContainedObjectInfo()
+const char *TGo4ObjectProxy::GetContainedObjectInfo()
 {
    return fObject ? fObject->GetTitle() : nullptr;
 }

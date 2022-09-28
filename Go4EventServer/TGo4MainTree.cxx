@@ -20,8 +20,8 @@
 
 TGo4MainTree *TGo4MainTree::fxInstance = nullptr;
 
-const char* TGo4MainTree::fgcTREENAME = "Main";
-const char* TGo4MainTree::fgcFILENAME = "Go4MainTree.root";
+const char *TGo4MainTree::fgcTREENAME = "Main";
+const char *TGo4MainTree::fgcFILENAME = "Go4MainTree.root";
 
 const Int_t TGo4MainTree::fgiCOMPRESS = 5;
 const Int_t TGo4MainTree::fgiAUTOSAVESIZE = 10000000;
@@ -70,7 +70,7 @@ void TGo4MainTree::SetAutoSave(Int_t bytesinterval)
    fxTree->SetAutoSave(bytesinterval);
 }
 
-Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsize*/)
+Int_t TGo4MainTree::Write(const char */*dummy*/, Int_t /*option*/, Int_t /*bufsize*/)
 {
    GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();
@@ -78,7 +78,7 @@ Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsi
    return 0;
 }
 
-Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsize*/) const
+Int_t TGo4MainTree::Write(const char */*dummy*/, Int_t /*option*/, Int_t /*bufsize*/) const
 {
    GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();

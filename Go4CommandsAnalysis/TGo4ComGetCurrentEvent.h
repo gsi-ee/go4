@@ -33,7 +33,7 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
 
       TGo4ComGetCurrentEvent();
 
-      TGo4ComGetCurrentEvent(const char* obname);
+      TGo4ComGetCurrentEvent(const char *obname);
 
       Int_t ExeCom() override;
 

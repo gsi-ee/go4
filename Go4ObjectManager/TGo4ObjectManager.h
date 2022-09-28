@@ -38,38 +38,38 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       void ProduceFullName(TString& name, TGo4Slot* toparent = nullptr) override;
       TGo4ObjectManager* GetOM() const override;
 
-      void MakeFolder(const char* pathname);
+      void MakeFolder(const char *pathname);
 
-      TGo4Slot* Add(const char* pathname, TObject *obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
+      TGo4Slot* Add(const char *pathname, TObject *obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
 
-      TGo4Slot* MakeObjSlot(const char* foldername, const char *name = nullptr, const char *title = nullptr);
+      TGo4Slot* MakeObjSlot(const char *foldername, const char *name = nullptr, const char *title = nullptr);
 
-      TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char *linkname, const char* linktitle);
+      TGo4Slot* AddLink(TGo4Slot* source, const char *pathname, const char *linkname, const char *linktitle);
 
-      TGo4Slot* AddLink(TGo4Slot* source, const char* pathname);
+      TGo4Slot* AddLink(TGo4Slot* source, const char *pathname);
 
-      TGo4Slot* AddLink(const char *sourcename, const char* pathname);
+      TGo4Slot* AddLink(const char *sourcename, const char *pathname);
 
       TGo4Slot* GetLinked(TGo4Slot* link);
 
-      void AddFile(const char* pathname, const char *filename);
+      void AddFile(const char *pathname, const char *filename);
 
-      void CloseFiles(const char* pathname);
+      void CloseFiles(const char *pathname);
 
-      void AddDir(const char* pathname, TDirectory* dir, Bool_t owner = kFALSE, Bool_t readright = kFALSE);
+      void AddDir(const char *pathname, TDirectory* dir, Bool_t owner = kFALSE, Bool_t readright = kFALSE);
 
-      void AddTree(const char* pathname, TTree* tree, Bool_t owner = kFALSE);
+      void AddTree(const char *pathname, TTree* tree, Bool_t owner = kFALSE);
 
-      void AddFolder(const char* pathname, TFolder* folder, Bool_t owner = kFALSE);
+      void AddFolder(const char *pathname, TFolder* folder, Bool_t owner = kFALSE);
 
-      void AddROOTFolder(const char* pathname, const char* foldername);
+      void AddROOTFolder(const char *pathname, const char *foldername);
 
-      void AddROOTFolders(const char* pathname, Bool_t selected = kTRUE);
+      void AddROOTFolders(const char *pathname, Bool_t selected = kTRUE);
 
-      void AddProxy(const char* pathname, TGo4Proxy* cont, const char *name, const char *title = "title");
+      void AddProxy(const char *pathname, TGo4Proxy* cont, const char *name, const char *title = "title");
       TGo4Proxy* GetProxy(const char *name);
 
-      void DeleteSlot(const char* pathname);
+      void DeleteSlot(const char *pathname);
 
       void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot* startslot = nullptr);
 
@@ -90,13 +90,13 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       Int_t IterateSlots();
 
-      Int_t RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec = 0);
+      Int_t RequestObject(const char *source, const char *targetslot, Int_t waittime_millisec = 0);
 
       void RecursiveRemove(TObject *obj) override;
 
    protected:
 
-      virtual Bool_t AssignObject(const char* path, TObject *obj, Bool_t ownership);
+      virtual Bool_t AssignObject(const char *path, TObject *obj, Bool_t ownership);
 
       void RemoveFromLinks(const TGo4Slot* slot);
 

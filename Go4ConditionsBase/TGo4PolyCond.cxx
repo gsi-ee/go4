@@ -319,7 +319,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 }
 
 
-Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt)
+Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
 {
   if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE;
   TString message;

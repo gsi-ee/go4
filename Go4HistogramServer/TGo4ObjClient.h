@@ -31,10 +31,10 @@ class TGo4ObjClient : public TNamed {
 
       TGo4ObjClient();
 
-      TGo4ObjClient(const char* clientname,
-                    const char* base = nullptr,
-                    const char* passwd = nullptr,
-                    const char* host = nullptr,
+      TGo4ObjClient(const char *clientname,
+                    const char *base = nullptr,
+                    const char *passwd = nullptr,
+                    const char *host = nullptr,
                     Int_t port = 0);
 
       virtual ~TGo4ObjClient();
@@ -42,34 +42,34 @@ class TGo4ObjClient : public TNamed {
       /**  Get nameslist object from client.
         *  basename, password,host and portnumber may be specified at any time new
         * if left out (default), the previously stored values are used */
-      TGo4AnalysisObjectNames* RequestNamesList(const char* base = nullptr,
-                                                const char* passwd = nullptr,
-                                                const char* host = nullptr,
+      TGo4AnalysisObjectNames* RequestNamesList(const char *base = nullptr,
+                                                const char *passwd = nullptr,
+                                                const char *host = nullptr,
                                                 Int_t port = 0);
 
        /**  Get object by name from client.
         *  basename, password, host and portnumber may be specified at any time new
         * if left out (default), the previously stored values are used */
-      TObject* RequestObject(const char* objectname,
-                             const char* base = nullptr,
-                             const char* passwd = nullptr,
-                             const char* host = nullptr,
+      TObject* RequestObject(const char *objectname,
+                             const char *base = nullptr,
+                             const char *passwd = nullptr,
+                             const char *host = nullptr,
                              Int_t port = 0);
 
-      void SetBase(const char* serverbase) { fxServerName = serverbase; }
-      void SetPasswd(const char* serverpasswd) { fxServerPass = serverpasswd; }
-      void SetHost(const char* serverhost) { fxHostname = serverhost; }
+      void SetBase(const char *serverbase) { fxServerName = serverbase; }
+      void SetPasswd(const char *serverpasswd) { fxServerPass = serverpasswd; }
+      void SetHost(const char *serverhost) { fxHostname = serverhost; }
       void SetPort(Int_t port) { fiPort = port; }
 
-      const char* GetBase() const { return fxServerName.Data(); }
-      const char* GetPasswd() const { return fxServerPass.Data(); }
-      const char* GetHost() const { return fxHostname.Data(); }
+      const char *GetBase() const { return fxServerName.Data(); }
+      const char *GetPasswd() const { return fxServerPass.Data(); }
+      const char *GetHost() const { return fxHostname.Data(); }
       Int_t GetPort() const { return fiPort; }
 
    protected:
 
       /**  Send (command) string to server. Command may be just name of requested object*/
-      void SendCommand(const char* com);
+      void SendCommand(const char *com);
 
       /**  Receive root object streamed from server */
       TObject *ReceiveObject();
@@ -92,8 +92,8 @@ class TGo4ObjClient : public TNamed {
       TGo4Socket* fxTransport; //!
 
       /**  Set server parameters if necessary */
-      void SetParms(const char* base, const char* passwd,
-                    const char* host, Int_t port);
+      void SetParms(const char *base, const char *passwd,
+                    const char *host, Int_t port);
 
       Int_t ConnectServer();
 

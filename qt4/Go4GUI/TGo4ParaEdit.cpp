@@ -100,7 +100,7 @@ void TGo4ParaEdit::WorkWithParameter(const char *itemname, bool isrefresh)
 {
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
        auto par = GetLinkedCast<TGo4Parameter>("Parameter");
-       const char* previtem = GetLinkedName("Parameter");
+       const char *previtem = GetLinkedName("Parameter");
        if (par && previtem) {
           QMessageBox msgBox(QMessageBox::Question, "Parameter editor",
                              QString("Current parameter %1 is modified!\nNew parameter %2 is selected.").arg(previtem).arg(itemname));
@@ -432,7 +432,7 @@ void TGo4ParaEdit::saveFile()
 
    } else if (fItemName.length() > 0) {
 
-      const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
+      const char *parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
       if (!parclass) return;
       if (!gROOT->GetClass(parclass)) {
          QMessageBox::warning(this, "Parameter editor",
@@ -484,7 +484,7 @@ void TGo4ParaEdit::ApplyClicked()
    TString foldname, parname;
    TGo4Slot::ProduceFolderAndName(fItemName.toLatin1().constData(), foldname, parname);
 
-   const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
+   const char *parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
    if (!parclass) return;
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());

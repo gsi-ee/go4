@@ -59,10 +59,10 @@ class TGo4AnalysisStatus : public TGo4Status {
     Int_t IsAutoSaveOverwrite() const { return fbAutoSaveOverwrite; }
 
     void SetAutoFileName(const char *name) { fxAutoFileName = name; }
-    const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
+    const char *GetAutoFileName() const { return fxAutoFileName.Data(); }
 
     void SetConfigFileName(const char *name) { fxConfigFileName = name; }
-    const char* GetConfigFileName() const { return fxConfigFileName.Data(); }
+    const char *GetConfigFileName() const { return fxConfigFileName.Data(); }
 
     void SetAutoSaveOn(Bool_t on=kTRUE) { fbAutoSaveOn=on; }
     Int_t IsAutoSaveOn() const { return fbAutoSaveOn; }

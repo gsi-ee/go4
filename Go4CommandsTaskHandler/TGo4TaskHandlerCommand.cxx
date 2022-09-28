@@ -15,7 +15,7 @@
 
 #include "TGo4Task.h"
 
-TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char *name, const char* description) :
+TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char *name, const char *description) :
    TGo4Command(name,description,5)
 {
    fbIsEnabled = kTRUE;

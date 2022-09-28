@@ -38,7 +38,7 @@ class TGo4ComAutosave : public TGo4AnalysisCommand {
 
       void SetAutoFileName(const char *name) { fxAutoFileName = name; }
 
-      const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
+      const char *GetAutoFileName() const { return fxAutoFileName.Data(); }
 
    private:
 

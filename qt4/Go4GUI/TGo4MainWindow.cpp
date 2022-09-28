@@ -316,7 +316,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
       helpMenu->addAction("About &DABC", this, &TGo4MainWindow::aboutDABC);
    helpMenu->addAction("About &Go4", this, &TGo4MainWindow::about)->setShortcut(Key_F4);
 
-   const char* libs = gSystem->Getenv("GO4USERLIBRARY");
+   const char *libs = gSystem->Getenv("GO4USERLIBRARY");
 
    if (libs) {
 #if QT_VERSION < QT_VERSION_CHECK(5,14,0)
@@ -359,7 +359,7 @@ TGo4MainWindow::~TGo4MainWindow()
    delete fxOM;
 }
 
-const char* TGo4MainWindow::LastTypedPassword() const
+const char *TGo4MainWindow::LastTypedPassword() const
 {
    return fLastPassword.toLatin1().constData();
 }
@@ -796,7 +796,7 @@ void TGo4MainWindow::WindowActivated(int id)
 
 typedef void* (*TStartUserGuiFunc)(QWidget* parent);
 
-bool TGo4MainWindow::startUserGUI(const char* usergui)
+bool TGo4MainWindow::startUserGUI(const char *usergui)
 {
    QString dirname, libname;
 
@@ -1111,7 +1111,7 @@ void TGo4MainWindow::ConnectHttpSlot()
    ConnectHttpServer();
 }
 
-TGo4ServerProxy* TGo4MainWindow::ConnectHttpServer(const char* addr, const char* user, const char* pass, bool with_qt_process, bool get_analysis_config)
+TGo4ServerProxy* TGo4MainWindow::ConnectHttpServer(const char *addr, const char *user, const char *pass, bool with_qt_process, bool get_analysis_config)
 {
    QString httpaddr;
 
@@ -1257,7 +1257,7 @@ void TGo4MainWindow::LogSettingsSlot()
    TGo4Log::AutoEnable(dlg.ModeCombo->currentIndex());
 }
 
-void TGo4MainWindow::HelpWindow(const char *filename, const char* msg)
+void TGo4MainWindow::HelpWindow(const char *filename, const char *msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -1850,7 +1850,7 @@ void TGo4MainWindow::EstablishAnalysisWindowForHttp()
 
 TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutput)
 {
-   const char* analisysitem = "Analysis";
+   const char *analisysitem = "Analysis";
 
    TGo4Slot* analslot = Browser()->DataSlot(analisysitem);
 
@@ -2006,7 +2006,7 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
 }
 
 
-void TGo4MainWindow::ConnectServer(bool interactive, const char* password)
+void TGo4MainWindow::ConnectServer(bool interactive, const char *password)
 {
    if (fConnectingCounter > 0) return;
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
@@ -2522,7 +2522,7 @@ void TGo4MainWindow::CloseAnalysisWindow()
 }
 
 
-void TGo4MainWindow::ToggleMbsMonitor(const char* nodename)
+void TGo4MainWindow::ToggleMbsMonitor(const char *nodename)
 {
    TGo4MBSViewer *mbs = dynamic_cast<TGo4MBSViewer *>(FindGo4Widget("MBSViewer", false));
    if (!mbs)
@@ -2645,7 +2645,7 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
    GetWidgetTopSlot(editor, true);
 }
 
-TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt)
+TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char *drawopt)
 {
    TGo4BrowserProxy* br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
@@ -2689,7 +2689,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char *sub
    if (!br || !itemname) return false;
 
    TString fileslotname;
-   const char* filepath = nullptr;
+   const char *filepath = nullptr;
 
    bool res = false;
 
@@ -2800,7 +2800,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    fLastFileDir = fd.directory().path();
 
-   const char* opt = "ps";
+   const char *opt = "ps";
 
    if (filter == EPS) {
       opt = "eps";
@@ -2942,7 +2942,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    Browser()->SetMonitorBlockingFlag(kFALSE);
 }
 
-void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par)
+void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void* par)
 {
    if (!editor) return;
 

@@ -47,18 +47,18 @@ class TGo4BrowserItem : public TFolder {
       void deleteChilds();
 
       void SetItemClass(const char *name) { fItemClass = name; }
-      const char* GetItemClass() const { return fItemClass.Data(); }
+      const char *GetItemClass() const { return fItemClass.Data(); }
 
       void SetIsFolder(Bool_t b) { fIsFolder = b; }
       Bool_t IsFolder() const override { return fIsFolder; }
 
-      const char* GetIconName() const override { return fIconName.Data(); }
+      const char *GetIconName() const override { return fIconName.Data(); }
       void SetIconName(const char *name) { fIconName = name; }
 
       void ProduceFullName(TString& fullname);
       TString GetFullName();
 
-      const char* ClassName() const override { return GetItemClass(); }
+      const char *ClassName() const override { return GetItemClass(); }
       void Delete(Option_t* option = "") override;
       void SetName(const char *name) override;
       void SetTitle(const char *title = "") override;

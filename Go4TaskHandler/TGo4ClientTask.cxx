@@ -21,7 +21,7 @@
 #include "TGo4TaskHandler.h"
 
 TGo4ClientTask::TGo4ClientTask(const char *name,
-                               const char* serverhost,
+                               const char *serverhost,
                                UInt_t negotiationport,
                                Bool_t blockingmode,
                                Bool_t standalone,
@@ -76,9 +76,9 @@ Int_t TGo4ClientTask::Initialization()
    return rev;
 }
 
-Bool_t TGo4ClientTask::ConnectServer(const char* node, UInt_t negport,
+Bool_t TGo4ClientTask::ConnectServer(const char *node, UInt_t negport,
                             Go4CommandMode_t role,
-                            const char* passwd)
+                            const char *passwd)
 {
    if (fbServerConnected) {
       TGo4Log::Warn(" ClientTask::ConnectServer ''%s'': ServerTask already connected", GetName());

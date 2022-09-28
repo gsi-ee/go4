@@ -46,7 +46,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       TTimer*                   fxConnectionTimer;     //!
       Int_t                     fNumberOfWaitingProxyes;  //!
 
-      TGo4AnalysisObjectAccess* FindSubmittedProxy(const char* pathname, const char* objname);
+      TGo4AnalysisObjectAccess* FindSubmittedProxy(const char *pathname, const char *objname);
       void DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxy);
 
       void AssignNewNamesList(TGo4AnalysisObjectNames* objnames);
@@ -71,9 +71,9 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot* slot, TDirectory* dir) override;
 
-      const char* GetContainedObjectInfo() override;
+      const char *GetContainedObjectInfo() override;
       Int_t GetObjectKind() override { return TGo4Access::kndFolder; }
-      const char* GetContainedClassName() override { return ClassName(); }
+      const char *GetContainedClassName() override { return ClassName(); }
       TObject* GetAssignedObject() override { return this; }
 
       void Update(TGo4Slot* slot, Bool_t strong) override;
@@ -101,29 +101,29 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void StartAnalysis() override;
       void StopAnalysis() override;
 
-      Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) override;
+      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) override;
 
-      void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) override;
+      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) override;
 
-      Bool_t UpdateAnalysisObject(const char* objectname, TObject *obj) override;
+      Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) override;
 
       void ClearAllAnalysisObjects() override;
-      void ClearAnalysisObject(const char* fullpath) override;
+      void ClearAnalysisObject(const char *fullpath) override;
 
       void RemoteTreeDraw(const char *treename,
-                          const char* varexp,
-                          const char* cutcond,
-                          const char* hname) override;
+                          const char *varexp,
+                          const char *cutcond,
+                          const char *hname) override;
 
-      void ChageObjectProtection(const char* fullpath, const char* flags) override;
+      void ChageObjectProtection(const char *fullpath, const char *flags) override;
 
-      void RemoveObjectFromAnalysis(const char* fullpath) override;
+      void RemoveObjectFromAnalysis(const char *fullpath) override;
 
-      void ExecuteLine(const char* line) override;
+      void ExecuteLine(const char *line) override;
 
-      void PrintDynListEntry(const char* fullpath) override;
+      void PrintDynListEntry(const char *fullpath) override;
 
-      void RemotePrintEvent(const char* evname,
+      void RemotePrintEvent(const char *evname,
                             Int_t evnumber,
                             Int_t subid,
                             Bool_t ishex,
@@ -158,28 +158,28 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                             Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                             Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                             const char *name,
-                            const char* remotehost,
-                            const char* remotedir,
-                            const char* remoteexe,
+                            const char *remotehost,
+                            const char *remotedir,
+                            const char *remoteexe,
                             Int_t exe_kind = 0, //   Go4_exe = 0, Go4_lib = 1
-                            const char* exeargs = nullptr);
+                            const char *exeargs = nullptr);
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
                                    Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                                    Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                                    const char *name,
-                                   const char* remotehost,
+                                   const char *remotehost,
                                    Int_t remoteport, // needed for http server mode
-                                   const char* remotedir,
-                                   const char* remoteexe,
+                                   const char *remotedir,
+                                   const char *remoteexe,
                                    Int_t exe_kind = 0,   //   Go4_exe = 0, Go4_lib = 1
                                    const char *exeargs = nullptr);
 
-      Bool_t ConnectToServer(const char* remotehost,
+      Bool_t ConnectToServer(const char *remotehost,
                              Int_t remoteport,
                              Int_t ascontroller, // 0 - observer, 1 - controller, 2 - administrator
-                             const char* accesspass);
+                             const char *accesspass);
 
       Bool_t WaitForConnection(Int_t seconds);
 
@@ -196,7 +196,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Bool_t HandleTimer(TTimer* timer) override;
 
       /**  Set receiver for object envelopes, which coming from analysis without request  */
-      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path);
+      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char *path);
 
    ClassDefOverride(TGo4AnalysisProxy, 1);
 };

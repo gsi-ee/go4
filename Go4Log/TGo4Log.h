@@ -55,14 +55,14 @@ class TGo4Log {
       /** Return GO4SYS environment variable or
        * Go4 top directory during compile (if GO4SYS) not set.
        * Always add trailing slash into the end of the string. */
-      static const char* GO4SYS();
+      static const char *GO4SYS();
 
       /** Return include path for this Go4 installation */
-      static const char* GO4INCPATH();
+      static const char *GO4INCPATH();
 
       /** Return subdirectory in the GO4SYS.
        * Always add trailing slash into the end of the string. */
-      static TString subGO4SYS(const char* subdir);
+      static TString subGO4SYS(const char *subdir);
 
       /** Define threshold for output */
       static void SetIgnoreLevel(Int_t level);
@@ -93,14 +93,14 @@ class TGo4Log {
        *  is set at beginning of file. If appendmode is true, existing
        *  file of same name is reused and extended by new messages.*/
       static void OpenLogfile(const char *name = nullptr,
-                              const char* headercomment = nullptr,
+                              const char *headercomment = nullptr,
                               Bool_t appendmode = kFALSE);
 
       /**  Close logfile if existing*/
       static void CloseLogfile();
 
       /**  get name of last opened logfile*/
-      static const char* GetLogname();
+      static const char *GetLogname();
 
       /** Display a message. Argument pri defines message priority:
        * 0: debug / trace output
@@ -108,19 +108,19 @@ class TGo4Log {
        * 2: warning message
        * >=3: error message
        * Method returns formatted message string as printed out for further use */
-      static const char* Message(Int_t prio, const char* text,...) GO4_PRINTF2_ARGS;
+      static const char *Message(Int_t prio, const char *text,...) GO4_PRINTF2_ARGS;
 
       /** User shortcut for message with prio 0 */
-      static void Debug(const char* text,...) GO4_PRINTF_ARGS;
+      static void Debug(const char *text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 1 */
-      static void Info(const char* text,...) GO4_PRINTF_ARGS;
+      static void Info(const char *text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 2 */
-      static void Warn(const char* text,...) GO4_PRINTF_ARGS;
+      static void Warn(const char *text,...) GO4_PRINTF_ARGS;
 
       /** User shortcut for message with prio 3 */
-      static void Error(const char* text,...) GO4_PRINTF_ARGS;
+      static void Error(const char *text,...) GO4_PRINTF_ARGS;
 
       /** Make direct printf without log file or logger */
       static void Printf(Bool_t _stdout, const char *text);
@@ -130,7 +130,7 @@ class TGo4Log {
 
       /** Write text to current logfile if this is open.
         * Prefix current  datime in each line if "withtime" is true */
-      static void WriteLogfile(const char* text, Bool_t withtime = kTRUE);
+      static void WriteLogfile(const char *text, Bool_t withtime = kTRUE);
 
       /** dummy for compatibility */
       static void set_trace_level(int) {}
@@ -145,28 +145,28 @@ class TGo4Log {
       static void StopTracing() { Instance(); SetIgnoreLevel(1); }
 
       /** Return default name of log file */
-      static const char* GetDefaultLogname();
+      static const char *GetDefaultLogname();
 
       /** Prompt character left side */
-      static const char* fgcLEFT; //!
+      static const char *fgcLEFT; //!
 
       /** Prompt character right  side */
-      static const char* fgcRIGHT;//!
+      static const char *fgcRIGHT;//!
 
       /** System debug message indicator */
-      static const char* fgcDEBUG; //!
+      static const char *fgcDEBUG; //!
 
       /** Info message indicator */
-      static const char* fgcINFO; //!
+      static const char *fgcINFO; //!
 
       /** Warning message indicator */
-      static const char* fgcWARN;//!
+      static const char *fgcWARN;//!
 
       /** Error message indicator */
-      static const char* fgcERR; //!
+      static const char *fgcERR; //!
 
       /** Name of default logfile */
-      static const char* fgcDEFAULTLOG; //!
+      static const char *fgcDEFAULTLOG; //!
 
       /** Maximum message length allowed */
       enum { fguMESLEN = __MESSAGETEXTLENGTH__ };

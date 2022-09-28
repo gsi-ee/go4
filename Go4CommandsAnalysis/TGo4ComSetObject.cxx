@@ -38,7 +38,7 @@ TGo4ComSetObject::TGo4ComSetObject() :
 }
 
 
-TGo4ComSetObject::TGo4ComSetObject(const char* obname) :
+TGo4ComSetObject::TGo4ComSetObject(const char *obname) :
    TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object",obname)
 {
    SetReceiverName("AnalysisClient");  // this command needs client as receiver

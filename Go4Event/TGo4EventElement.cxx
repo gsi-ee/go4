@@ -35,7 +35,7 @@ TGo4EventElement::TGo4EventElement(const char *name) :
    GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
 }
 
-TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat) :
+TGo4EventElement::TGo4EventElement(const char *aName, const char *aTitle, Short_t aBaseCat) :
    TNamed(aName,aTitle),
    fIdentifier(aBaseCat)
 {
@@ -46,7 +46,7 @@ TGo4EventElement::~TGo4EventElement()
    GO4TRACE((15,"TGo4EventElement::~TGo4EventElement()",__LINE__, __FILE__));
 }
 
-Bool_t TGo4EventElement::CheckEventSource(const char* classname)
+Bool_t TGo4EventElement::CheckEventSource(const char *classname)
 {
    GO4TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
    return fxEventSource ? fxEventSource->InheritsFrom(classname) : kFALSE;

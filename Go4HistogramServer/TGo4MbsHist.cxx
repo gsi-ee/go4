@@ -78,7 +78,7 @@ TGo4MbsHist::TGo4MbsHist(TH1* histo) :
    } // if(histo)
 }
 
-TGo4MbsHist::TGo4MbsHist(TFolder* folder, const char* filter) :
+TGo4MbsHist::TGo4MbsHist(TFolder* folder, const char *filter) :
    TObject(),
    fiBufLen(fgiLISTLEN),
    fiBuffer(0),
@@ -98,7 +98,7 @@ TGo4MbsHist::~TGo4MbsHist()
    delete [] fiBuffer;
 }
 
-void TGo4MbsHist::PrepareHeader(TH1* source, const char* path, s_his_head* target)
+void TGo4MbsHist::PrepareHeader(TH1* source, const char *path, s_his_head* target)
 {
    if (source == 0 || target == 0)
       return;
@@ -149,7 +149,7 @@ void TGo4MbsHist::SetValue(char *address, Stat_t value)
    }
 }
 
-void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char* superfolders, const char* filter)
+void TGo4MbsHist::ScanGo4Folder(TFolder* folder, const char *superfolders, const char *filter)
 {
   // scan folder for histogram status objects
 // if(filter)

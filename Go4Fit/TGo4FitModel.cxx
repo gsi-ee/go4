@@ -27,7 +27,7 @@ TGo4FitAssignment::TGo4FitAssignment() :
    TNamed(), fxRatio(0), fxData(0), fxModelMask(0), fxModelBins(0) {
 }
 
-TGo4FitAssignment::TGo4FitAssignment(const char* DataName) :
+TGo4FitAssignment::TGo4FitAssignment(const char *DataName) :
    TNamed(DataName,""),
    fxRatio(nullptr), fxData(nullptr), fxModelMask(nullptr), fxModelBins(nullptr)
 {
@@ -59,7 +59,7 @@ TGo4FitModel::TGo4FitModel() : TGo4FitComponent(),
    fbNeedToRebuild(kFALSE), fxAllPars(0), fxAllParsValues(0)  {
 }
 
-TGo4FitModel::TGo4FitModel(const char* iName, const char* iTitle, Bool_t MakeAmplitude) :
+TGo4FitModel::TGo4FitModel(const char *iName, const char *iTitle, Bool_t MakeAmplitude) :
   TGo4FitComponent(iName,iTitle),
   fiMinIntegrDepth(0), fiMaxIntegrDepth(0), fdIntegrEps(0.), fbAbsoluteEps(kFALSE), fbIntegrScaling(kFALSE),
   fxAssigments(), fiGroupIndex(-1),
@@ -87,7 +87,7 @@ TGo4FitParameter* TGo4FitModel::Get(Int_t n)
    return (n >= 0) && (n < NumAssigments()) ? GetAssigment(n)->fxRatio : nullptr;
 }
 
-void TGo4FitModel::AssignToData(const char* DataName, Double_t RatioValue, Bool_t FixRatio)
+void TGo4FitModel::AssignToData(const char *DataName, Double_t RatioValue, Bool_t FixRatio)
 {
   if (!FindAssigment(DataName)) {
      TGo4FitAssignment* ass = new TGo4FitAssignment(DataName);
@@ -102,13 +102,13 @@ void TGo4FitModel::AssignToData(const char* DataName, Double_t RatioValue, Bool_
   }
 }
 
-void TGo4FitModel::ChangeDataNameInAssignments(const char* oldname, const char* newname)
+void TGo4FitModel::ChangeDataNameInAssignments(const char *oldname, const char *newname)
 {
    TGo4FitAssignment* ass = FindAssigment(oldname);
    if (ass) ass->SetName(newname);
 }
 
-void TGo4FitModel::ClearAssignmentTo(const char* DataName)
+void TGo4FitModel::ClearAssignmentTo(const char *DataName)
 {
    TGo4FitAssignment* ass = FindAssigment(DataName);
    if (!ass) return;
@@ -259,7 +259,7 @@ Bool_t TGo4FitModel::BuffersAllocated() const
    return res;
 }
 
-Double_t* TGo4FitModel::GetModelBins(const char* DataName) const
+Double_t* TGo4FitModel::GetModelBins(const char *DataName) const
 {
    TGo4FitAssignment* ass = FindAssigment(DataName);
    return ass ? ass->fxModelBins : nullptr;
@@ -506,7 +506,7 @@ Int_t TGo4FitModel::GetDataIndexesSize(TGo4FitData* data)
   return data ? data->GetIndexesSize() : 0;
 }
 
-TGo4FitAssignment* TGo4FitModel::FindAssigment(const char* DataName) const
+TGo4FitAssignment* TGo4FitModel::FindAssigment(const char *DataName) const
 {
    for (Int_t n = 0; n < NumAssigments(); n++)
       if (strcmp(DataName, GetAssigment(n)->GetName()) == 0)
@@ -521,7 +521,7 @@ TString TGo4FitModel::GetRatioName(Int_t n)
    return res;
 }
 
-Double_t TGo4FitModel::GetRatioValueFor(const char* DataName)
+Double_t TGo4FitModel::GetRatioValueFor(const char *DataName)
 {
    TGo4FitAssignment* ass = FindAssigment(DataName);
    return ass ? ass->RatioValue() : 1.;

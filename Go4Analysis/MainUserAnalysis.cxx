@@ -77,14 +77,14 @@ void printsources()
 
 }
 
-void usage(const char* subtopic = nullptr)
+void usage(const char *subtopic = nullptr)
 {
    std::cout << std::endl;
    std::cout << "GO4 analysis runnable " << __GO4RELEASE__ << std::endl;
    std::cout << "S. Linev, GSI, Darmstadt" << std::endl;
 
    if (subtopic && (strlen(subtopic) > 0)) {
-      const char* sub = subtopic;
+      const char *sub = subtopic;
       if (*sub == '-') sub++;
 
       if ((strcmp(subtopic, "sources") == 0) || (strcmp(subtopic, "src") == 0) || (strcmp(subtopic, "src") == 0)) {
@@ -260,7 +260,7 @@ class TGo4PrintFactory : public TGo4StepFactory {
 
 typedef TGo4Analysis* (UserCreateFunc)(const char *name);
 
-int FindArg(int argc, char **argv, const char* argname)
+int FindArg(int argc, char **argv, const char *argname)
 {
    if (!argname || (strlen(argname) == 0)) return -1;
    for (int n=0;n<argc;n++)
@@ -268,7 +268,7 @@ int FindArg(int argc, char **argv, const char* argname)
    return -1;
 }
 
-const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = nullptr, bool incomplete = false)
+const char *GetArgValue(int argc, char **argv, const char *argname, int* pos = nullptr, bool incomplete = false)
 {
    int n = pos ? *pos : 0;
 
@@ -476,8 +476,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
    TClass *outev_cl = nullptr, *inpev_cl = nullptr;
 
-   const char* inp_evnt_classname = GetArgValue(user_argc, user_argv, "-inpevt-class");
-   const char* out_evnt_classname = GetArgValue(user_argc, user_argv, "-outevt-class");
+   const char *inp_evnt_classname = GetArgValue(user_argc, user_argv, "-inpevt-class");
+   const char *out_evnt_classname = GetArgValue(user_argc, user_argv, "-outevt-class");
 
    if (inp_evnt_classname) {
       inpev_cl = gROOT->GetClass(inp_evnt_classname);
@@ -641,7 +641,7 @@ int main(int argc, char **argv)
                   (FindArg(argc, argv, "-pr") > 0) || (FindArg(argc, argv, "-ty") > 0);
    if (doprint) TGo4Log::SetIgnoreLevel(2);
 
-   const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
+   const char *logfile = GetArgValue(argc, argv, "-log", 0, true);
    if (logfile) {
       TGo4Log::Instance();
 
@@ -681,7 +681,7 @@ int main(int argc, char **argv)
    if (extra_incl && *extra_incl)
       gInterpreter->AddIncludePath(extra_incl);
 
-   const char* analysis_name = GetArgValue(argc, argv, "-server");
+   const char *analysis_name = GetArgValue(argc, argv, "-server");
    if (!analysis_name) analysis_name = GetArgValue(argc, argv, "-gui");
    if (!analysis_name) analysis_name = GetArgValue(argc, argv, "-name");
    if (!analysis_name) analysis_name = "Go4Analysis";
@@ -690,7 +690,7 @@ int main(int argc, char **argv)
 
    int argpos = 0;
    bool isanylib = false;
-   const char* libname = nullptr;
+   const char *libname = nullptr;
    while ((libname = GetArgValue(argc, argv, "-lib", &argpos)) != nullptr) {
       TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
@@ -739,7 +739,7 @@ int main(int argc, char **argv)
    TObjArray http_args;                  // all arguments for http server
    http_args.SetOwner(kTRUE);
    TString auth_file;                    // authentication file for http server
-   const char* auth_domain = "go4";      // default authentication domain http server
+   const char *auth_domain = "go4";      // default authentication domain http server
    (void) auth_domain; // prevent compiler warning
 
    Bool_t batchMode = kTRUE;             // GUI or Batch
@@ -821,7 +821,7 @@ int main(int argc, char **argv)
       if (strcmp(argv[narg], "-dabc") == 0) {
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
-         const char* hostname = gSystem->HostName();
+         const char *hostname = gSystem->HostName();
          if (!hostname || (*hostname == 0)) hostname = "localhost";
          http_args.Add(new TObjString(TString::Format("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
@@ -937,7 +937,7 @@ int main(int argc, char **argv)
       else
       if ((strcmp(argv[narg],"-revserv") == 0) || (strcmp(argv[narg],"-rev") == 0)) {
          if (++narg < argc) {
-            const char* serv_name = argv[narg++];
+            const char *serv_name = argv[narg++];
             int serv_port = 0;
             if ((narg < argc) && (argv[narg][0] != '-'))
                serv_port = atoi(argv[narg++]);

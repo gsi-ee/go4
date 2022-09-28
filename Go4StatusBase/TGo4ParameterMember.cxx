@@ -67,7 +67,7 @@ Bool_t TGo4ParameterMember::CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t ind
 }
 
 
-const char* TGo4ParameterMember::GetFullName(TString& buf)
+const char *TGo4ParameterMember::GetFullName(TString& buf)
 {
    buf = "";
    if ((fIndex1<0) && (fIndex2<0))
@@ -148,7 +148,7 @@ void TGo4ParameterMember::SetValue(char* addr)
 
 void TGo4ParameterMember::GetValue(char* addr)
 {
-   const char* value = fValue.Data();
+   const char *value = fValue.Data();
    switch (fTypeId) {
      case kUInt_t:     *((UInt_t*)addr) = atoi(value); break;
      case kInt_t:      *((Int_t*)addr) = atoi(value); break;

@@ -83,7 +83,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    LCDProcessedEvents->display(scnt);
 
-   const char* color = "QFrame { background-color:rgb(255,0,0) }";
+   const char *color = "QFrame { background-color:rgb(255,0,0) }";
 
    Bool_t running = status ? status->IsAnalysisRunning() : rate->IsRunning();
 

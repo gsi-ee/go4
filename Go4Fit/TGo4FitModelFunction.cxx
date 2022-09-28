@@ -25,7 +25,7 @@ TGo4FitModelFunction::TGo4FitModelFunction() : TGo4FitModel(), fxLibraryName(), 
 {
 }
 
-TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude) :
+TGo4FitModelFunction::TGo4FitModelFunction(const char *iName, TUserFunction iUserFunction, Int_t iNPars, Bool_t AddAmplitude) :
    TGo4FitModel(iName,"Model, using user function",AddAmplitude),
    fxLibraryName(), fxFunctionName(), fxPosIndex(), fxWidthIndex(),
    fxUserFunction(iUserFunction), fxLibrary(nullptr)
@@ -34,7 +34,7 @@ TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, TUserFunction iUse
        NewParameter(GetFuncParName(n),"user parameter",0.);
 }
 
-TGo4FitModelFunction::TGo4FitModelFunction(const char* iName, const char* iLibraryName, const char* iFunctionName, Int_t iNPars, Bool_t AddAmplitude) :
+TGo4FitModelFunction::TGo4FitModelFunction(const char *iName, const char *iLibraryName, const char *iFunctionName, Int_t iNPars, Bool_t AddAmplitude) :
    TGo4FitModel(iName,"Model, using user function",AddAmplitude),
    fxLibraryName(iLibraryName), fxFunctionName(iFunctionName), fxPosIndex(), fxWidthIndex(),
    fxUserFunction(nullptr), fxLibrary(nullptr)
@@ -56,7 +56,7 @@ void TGo4FitModelFunction::SetUserFunction(TUserFunction iUserFunction)
    fxUserFunction = iUserFunction;
 }
 
-void TGo4FitModelFunction::SetUserFunction(const char* iLibraryName, const char* iFunctionName)
+void TGo4FitModelFunction::SetUserFunction(const char *iLibraryName, const char *iFunctionName)
 {
    CloseLibrary();
    fxLibraryName = iLibraryName;

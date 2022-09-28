@@ -39,26 +39,26 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     /** default ctor for streamer. */
     TGo4TreeHistogramEntry();
 
-    TGo4TreeHistogramEntry(const char* histogramname,
+    TGo4TreeHistogramEntry(const char *histogramname,
                            const char *treename,
-                           const char* varexp,
-                           const char* cutexp);
+                           const char *varexp,
+                           const char *cutexp);
 
     virtual ~TGo4TreeHistogramEntry();
 
     /** Set name of the external histogram to be filled. */
     void SetHistogramName(const char *name) { fxHistogramName = name; }
     /** Get name of the external histogram to be filled. */
-    const char* GetHistogramName() const { return fxHistogramName.Data(); }
+    const char *GetHistogramName() const { return fxHistogramName.Data(); }
 
     void SetTreeName(const char *name) { fxTreeName = name; }
-    const char* GetTreeName() const { return fxTreeName.Data(); }
+    const char *GetTreeName() const { return fxTreeName.Data(); }
 
-    void SetVarExp(const char* exp) { fxVarExp = exp; }
-    const char* GetVarExp() const { return fxVarExp.Data(); }
+    void SetVarExp(const char *exp) { fxVarExp = exp; }
+    const char *GetVarExp() const { return fxVarExp.Data(); }
 
-    void SetCutExp(const char* cut) { fxCutExp = cut; }
-    const char* GetCutExp() const { return fxCutExp.Data(); }
+    void SetCutExp(const char *cut) { fxCutExp = cut; }
+    const char *GetCutExp() const { return fxCutExp.Data(); }
 
     void SetDynListInterval(Int_t value) { fiDynListInterval = value; }
     Int_t GetDynListInterval() const { return fiDynListInterval; }
@@ -69,7 +69,7 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     void Print(Option_t * = "") const override;
 
     /** suffix for entryname to differ from histogram name */
-    static const char* fgcENTRYSUF; //!
+    static const char *fgcENTRYSUF; //!
 
   protected:
      void ProcessTreeNew(TTree* tree, Int_t times);

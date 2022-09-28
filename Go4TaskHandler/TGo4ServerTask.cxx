@@ -42,7 +42,7 @@ const UInt_t TGo4ServerTask::fguCONNECTWAITCYCLETIME=200; // time in ms (200)
 const UInt_t TGo4ServerTask::fguCONNECTTIMERPERIOD=100; // time in ms (50)
 
 
-const char* TGo4ServerTask::fgcLAUNCHPREFSFILE = "etc/Go4LaunchPrefs.txt";
+const char *TGo4ServerTask::fgcLAUNCHPREFSFILE = "etc/Go4LaunchPrefs.txt";
 
 
 TGo4ServerTask::TGo4ServerTask(const char *name,
@@ -265,7 +265,7 @@ TGo4TaskManager* TGo4ServerTask::GetTaskManager()
    return fxTaskManager;
 }
 
-void TGo4ServerTask::SetConnect(TGo4Socket * trans, const char* host, UInt_t port, Bool_t keepserv)
+void TGo4ServerTask::SetConnect(TGo4Socket * trans, const char *host, UInt_t port, Bool_t keepserv)
 {
    fxConnectTransport=trans;
    fxConnectHost=host;
@@ -501,7 +501,7 @@ TGo4Command* TGo4ServerTask::NextCommand()
    return com;
 }
 
-void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
+void TGo4ServerTask::SendStatus(TGo4Status * stat, const char *receiver)
 {
    if(IsMaster()) return;
    if(!stat) return;
@@ -545,7 +545,7 @@ Bool_t TGo4ServerTask::StopConnectorThread()
 {
    Bool_t rev = GetWorkHandler()->Stop( GetConnectorName() ); // unset running flag
    // now establish a dummy connection to our own server to release the listen socket:
-   const char* host = gSystem->HostName();
+   const char *host = gSystem->HostName();
    Int_t negotiationport = fxTaskManager->GetNegotiationPort();
    TGo4Socket* connector = new TGo4Socket(kTRUE); // raw socket transport
       //std::cout << "host:"<<host<<", port:" << negotiationport << std::endl;
@@ -610,7 +610,7 @@ void TGo4ServerTask::Shutdown()
    gApplication->Terminate(); // do not wait until appctrl timer terminates us
 }
 
-const char* TGo4ServerTask::Get_fgcLAUNCHPREFSFILE()
+const char *TGo4ServerTask::Get_fgcLAUNCHPREFSFILE()
 {
    return fgcLAUNCHPREFSFILE;
 }

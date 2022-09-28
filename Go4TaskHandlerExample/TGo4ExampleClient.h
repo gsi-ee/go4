@@ -30,7 +30,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
   public:
 
    TGo4ExampleClient(const char *name,
-                     const char* host = "localhost",
+                     const char *host = "localhost",
                      UInt_t negport = 0,
                      Bool_t blockingmode = kTRUE);
 
@@ -43,10 +43,10 @@ class TGo4ExampleClient : public TGo4ClientTask {
    void Stop() override;
 
    /** Suffix for main thread name */
-   static const char* fgcMAINTHREAD; //!
+   static const char *fgcMAINTHREAD; //!
 
    /** Suffix for watch thread name */
-   static const char* fgcWATCHTHREAD;  //!
+   static const char *fgcWATCHTHREAD;  //!
 
   protected:
 

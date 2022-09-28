@@ -18,7 +18,7 @@ TGo4MemberStatus::TGo4MemberStatus() :
 {
 }
 
-TGo4MemberStatus::TGo4MemberStatus(const char *name, const char* datatypename) :
+TGo4MemberStatus::TGo4MemberStatus(const char *name, const char *datatypename) :
    TGo4ObjectStatus(0,kFALSE)
 {
    SetName(name);

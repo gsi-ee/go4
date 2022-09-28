@@ -22,11 +22,11 @@ TGo4FitDependency::TGo4FitDependency() :
 }
 
 
-TGo4FitDependency::TGo4FitDependency(const char* iParameter, const char* iExpression) :
+TGo4FitDependency::TGo4FitDependency(const char *iParameter, const char *iExpression) :
     TObject(), fxParameter(iParameter), fxExpression(iExpression), fdInitValue(0.), fiNumPar(0), fxFormula(nullptr) {
 }
 
-TGo4FitDependency::TGo4FitDependency(const char* iParameter, Double_t InitValue) :
+TGo4FitDependency::TGo4FitDependency(const char *iParameter, Double_t InitValue) :
     TObject(), fxParameter(iParameter), fxExpression(), fdInitValue(InitValue), fiNumPar(0), fxFormula(nullptr) {
 }
 
@@ -34,7 +34,7 @@ TGo4FitDependency::~TGo4FitDependency() {
     if (fxFormula) delete fxFormula;
 }
 
-void TGo4FitDependency::SetParameter(const char* iParameter) {
+void TGo4FitDependency::SetParameter(const char *iParameter) {
   fxParameter = iParameter;
 }
 
@@ -44,12 +44,12 @@ void TGo4FitDependency::SetInitValue(Double_t InitValue)
   fdInitValue = InitValue;
 
 }
-void TGo4FitDependency::SetExpression(const char* iExpression)
+void TGo4FitDependency::SetExpression(const char *iExpression)
 {
   fxExpression = iExpression;
 }
 
-void TGo4FitDependency::Initialize(Int_t iNumPar, const char* iFormula)
+void TGo4FitDependency::Initialize(Int_t iNumPar, const char *iFormula)
 {
     fiNumPar = iNumPar;
     if (iFormula) {

@@ -20,14 +20,14 @@
 TGo4FitModelPolynom::TGo4FitModelPolynom() : TGo4FitModel(), fxAllOrders(nullptr) {
 }
 
-TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX) :
+TGo4FitModelPolynom::TGo4FitModelPolynom(const char *iName, Double_t iOrderX) :
    TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
 {
      CreateOrdersPars(&iOrderX, 0, 0);
      SetBackgroundGroupIndex();
 }
 
-TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY) :
+TGo4FitModelPolynom::TGo4FitModelPolynom(const char *iName, Double_t iOrderX, Double_t iOrderY) :
    TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
 {
     Double_t arr[2] = { iOrderX, iOrderY };
@@ -35,7 +35,7 @@ TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Do
     SetBackgroundGroupIndex();
 }
 
-TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ) :
+TGo4FitModelPolynom::TGo4FitModelPolynom(const char *iName, Double_t iOrderX, Double_t iOrderY, Double_t iOrderZ) :
    TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
 {
     Double_t arr[3] = { iOrderX, iOrderY, iOrderZ };
@@ -43,7 +43,7 @@ TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, Double_t iOrderX, Do
     SetBackgroundGroupIndex();
 }
 
-TGo4FitModelPolynom::TGo4FitModelPolynom(const char* iName, const TArrayD& iPolynomOrders) :
+TGo4FitModelPolynom::TGo4FitModelPolynom(const char *iName, const TArrayD& iPolynomOrders) :
   TGo4FitModel(iName,"polynomial function",kTRUE), fxAllOrders(nullptr)
 {
    CreateOrdersPars(iPolynomOrders.GetArray(),0,iPolynomOrders.GetSize()-1);

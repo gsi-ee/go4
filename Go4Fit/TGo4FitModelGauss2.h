@@ -49,7 +49,7 @@ class TGo4FitModelGauss2 : public TGo4FitModel {
        * Initial value for positions, widths and covariation parameters can be specified.
        * Also number of selected axis, where 2-dim gaussian will be build, can be specified (default 0 and 1).
        */
-      TGo4FitModelGauss2(const char* iName, Double_t iPos1 = 1., Double_t iPos2 = 1.,
+      TGo4FitModelGauss2(const char *iName, Double_t iPos1 = 1., Double_t iPos2 = 1.,
                                        Double_t iWidth1 = 1., Double_t iWidth2 = 1., Double_t iCov12 = 0.,
                                        Int_t iNaxis1 = 0, Int_t iNaxis2 = 1);
 

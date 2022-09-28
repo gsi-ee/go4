@@ -24,9 +24,9 @@
 #include "TGo4Fitter.h"
 #include "TGo4FileStoreParameter.h"
 
-const char* TGo4FileStore::fgcTREESUF = "xTree";
-const char* TGo4FileStore::fgcFILESUF = ".root";
-const char* TGo4FileStore::fgcEVBRANCHNAME = "Go4EventBranch.";
+const char *TGo4FileStore::fgcTREESUF = "xTree";
+const char *TGo4FileStore::fgcFILESUF = ".root";
+const char *TGo4FileStore::fgcEVBRANCHNAME = "Go4EventBranch.";
 Long64_t TGo4FileStore::fgiFILESPLITSIZE = 1900000000;
 
 
@@ -75,8 +75,8 @@ TGo4FileStore::TGo4FileStore(const char *name,
    }
 
    // strip any path information from treename:
-   const char* lastname = name;
-   const char* oldname = name;
+   const char *lastname = name;
+   const char *oldname = name;
    lastname = strstr(oldname,"/");
    while(lastname) {
       oldname = lastname+1;
@@ -128,8 +128,8 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    }
 
    // strip any path information from treename (could be identical with filename!)
-   const char* lastname = par->GetTitle();
-   const char* oldname=lastname;
+   const char *lastname = par->GetTitle();
+   const char *oldname=lastname;
    lastname = strstr(oldname,"/");
    while(lastname) {
       oldname = lastname+1;

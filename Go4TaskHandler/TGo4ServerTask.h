@@ -61,11 +61,11 @@ class TGo4ServerTask : public TGo4Task {
       /** Get task handler for client specified by name */
       TGo4TaskHandler* GetTaskHandler(const char *name);
 
-      TGo4BufferQueue* GetCommandQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetDataQueue(const char *task = nullptr) override;
 
       /** Delivers next command. This implementation will poll over
        *  command queues of all existing connections. Command is labeled
@@ -77,7 +77,7 @@ class TGo4ServerTask : public TGo4Task {
       /** Send status object via status channel to the master. Master name
        * may be specified, if more than one master is connected.
        * By default, object is send to all connected tasks */
-      void SendStatus(TGo4Status * stat, const char* receiver = nullptr) override;
+      void SendStatus(TGo4Status * stat, const char *receiver = nullptr) override;
 
       /** Send internal status buffer to the master(s). */
       void SendStatusBuffer() override;
@@ -112,15 +112,15 @@ class TGo4ServerTask : public TGo4Task {
        */
       void SetCurrentTask(const char *name);
 
-      void SetConnect(TGo4Socket * trans, const char* host, UInt_t port, Bool_t keepserv = kFALSE);
+      void SetConnect(TGo4Socket * trans, const char *host, UInt_t port, Bool_t keepserv = kFALSE);
 
       void SetDisConnect(TGo4Socket * trans);
 
       TGo4Socket* GetConnectTransport();
 
-      const char* GetConnectorName() const { return fxConnectorName.Data();}
+      const char *GetConnectorName() const { return fxConnectorName.Data();}
 
-      const char* GetConnectHost() const { return fxConnectHost.Data();}
+      const char *GetConnectHost() const { return fxConnectHost.Data();}
 
       /**
        * this method is used by the connectortimer Notify to
@@ -153,7 +153,7 @@ class TGo4ServerTask : public TGo4Task {
 
       Int_t WaitForConnection();
 
-      static const char* Get_fgcLAUNCHPREFSFILE();
+      static const char *Get_fgcLAUNCHPREFSFILE();
 
    protected:
       ////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ class TGo4ServerTask : public TGo4Task {
       static const UInt_t fguCONNECTTIMERPERIOD;
 
       /** Name of the Preferences file for the client startup */
-      static const char* fgcLAUNCHPREFSFILE;
+      static const char *fgcLAUNCHPREFSFILE;
 
 private:
 

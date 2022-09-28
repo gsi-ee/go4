@@ -37,7 +37,7 @@ class TGo4UserStoreParameter : public TGo4EventStoreParameter {
     Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
     /** User expression as string */
-    const char* GetExpression() const { return fxExpression.Data(); }
+    const char *GetExpression() const { return fxExpression.Data(); }
     void SetExpression(const char *name) { fxExpression=name; }
 
   private:

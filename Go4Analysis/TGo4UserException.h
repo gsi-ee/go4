@@ -43,7 +43,7 @@ class TGo4UserException : public TGo4RuntimeException {
 
    public:
 
-      TGo4UserException (Int_t prio, const char* text,...)
+      TGo4UserException (Int_t prio, const char *text,...)
       #if defined(__GNUC__) && !defined(__CINT__)
         __attribute__((format(printf, 3, 4)))
       #endif
@@ -61,7 +61,7 @@ class TGo4UserException : public TGo4RuntimeException {
       Int_t GetPriority() const { return fiPriority; }
 
       /** Status message of last Process() call. */
-      const char* GetMessage() const { return fxMessage.Data(); }
+      const char *GetMessage() const { return fxMessage.Data(); }
 
    protected:
 

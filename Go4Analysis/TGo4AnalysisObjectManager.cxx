@@ -58,39 +58,39 @@
 #include "TGo4MemberStatus.h"
 #include "TGo4AnalysisImp.h"
 
-const char* TGo4AnalysisObjectManager::fgcTOPDYNAMICLIST = "Go4DynamicList";
-const char* TGo4AnalysisObjectManager::fgcTOPFOLDER      = "Go4";
-const char* TGo4AnalysisObjectManager::fgcHISTFOLDER     = "Histograms";
-const char* TGo4AnalysisObjectManager::fgcDYNFOLDER      = "DynamicLists";
-const char* TGo4AnalysisObjectManager::fgcCONDFOLDER     = "Conditions";
-const char* TGo4AnalysisObjectManager::fgcPARAFOLDER     = "Parameters";
-const char* TGo4AnalysisObjectManager::fgcTREEFOLDER     = "Trees";
-const char* TGo4AnalysisObjectManager::fgcPICTFOLDER     = "Pictures";
-const char* TGo4AnalysisObjectManager::fgcCANVFOLDER     = "Canvases";
-const char* TGo4AnalysisObjectManager::fgcANALYSISFOLDER = "EventObjects";
-const char* TGo4AnalysisObjectManager::fgcEVENTFOLDER    = "Events";
-const char* TGo4AnalysisObjectManager::fgcSRCFOLDER      = "EventSources";
-const char* TGo4AnalysisObjectManager::fgcSTOREFOLDER    = "EventStores";
-const char* TGo4AnalysisObjectManager::fgcPROCFOLDER     = "EventProcessors";
-const char* TGo4AnalysisObjectManager::fgcUSRFOLDER      = "UserObjects";
-const char* TGo4AnalysisObjectManager::fgcTMPFOLDER      = "Go4-tmp";
+const char *TGo4AnalysisObjectManager::fgcTOPDYNAMICLIST = "Go4DynamicList";
+const char *TGo4AnalysisObjectManager::fgcTOPFOLDER      = "Go4";
+const char *TGo4AnalysisObjectManager::fgcHISTFOLDER     = "Histograms";
+const char *TGo4AnalysisObjectManager::fgcDYNFOLDER      = "DynamicLists";
+const char *TGo4AnalysisObjectManager::fgcCONDFOLDER     = "Conditions";
+const char *TGo4AnalysisObjectManager::fgcPARAFOLDER     = "Parameters";
+const char *TGo4AnalysisObjectManager::fgcTREEFOLDER     = "Trees";
+const char *TGo4AnalysisObjectManager::fgcPICTFOLDER     = "Pictures";
+const char *TGo4AnalysisObjectManager::fgcCANVFOLDER     = "Canvases";
+const char *TGo4AnalysisObjectManager::fgcANALYSISFOLDER = "EventObjects";
+const char *TGo4AnalysisObjectManager::fgcEVENTFOLDER    = "Events";
+const char *TGo4AnalysisObjectManager::fgcSRCFOLDER      = "EventSources";
+const char *TGo4AnalysisObjectManager::fgcSTOREFOLDER    = "EventStores";
+const char *TGo4AnalysisObjectManager::fgcPROCFOLDER     = "EventProcessors";
+const char *TGo4AnalysisObjectManager::fgcUSRFOLDER      = "UserObjects";
+const char *TGo4AnalysisObjectManager::fgcTMPFOLDER      = "Go4-tmp";
 
-const char* TGo4AnalysisObjectManager::GetTOPDYNAMICLIST() { return fgcTOPDYNAMICLIST; }
-const char* TGo4AnalysisObjectManager::GetTOPFOLDER() { return fgcTOPFOLDER; }
-const char* TGo4AnalysisObjectManager::GetHISTFOLDER() { return fgcHISTFOLDER; }
-const char* TGo4AnalysisObjectManager::GetDYNFOLDER() { return fgcDYNFOLDER; }
-const char* TGo4AnalysisObjectManager::GetCONDFOLDER() { return fgcCONDFOLDER; }
-const char* TGo4AnalysisObjectManager::GetPARAFOLDER() { return fgcPARAFOLDER; }
-const char* TGo4AnalysisObjectManager::GetTREEFOLDER() { return fgcTREEFOLDER; }
-const char* TGo4AnalysisObjectManager::GetPICTFOLDER() { return fgcPICTFOLDER; }
-const char* TGo4AnalysisObjectManager::GetCANVFOLDER() { return fgcCANVFOLDER; }
-const char* TGo4AnalysisObjectManager::GetANALYSISFOLDER() { return fgcANALYSISFOLDER; }
-const char* TGo4AnalysisObjectManager::GetEVENTFOLDER() { return fgcEVENTFOLDER; }
-const char* TGo4AnalysisObjectManager::GetSRCFOLDER() { return fgcSRCFOLDER; }
-const char* TGo4AnalysisObjectManager::GetSTOREFOLDER() { return fgcSTOREFOLDER; }
-const char* TGo4AnalysisObjectManager::GetPROCFOLDER() { return fgcPROCFOLDER; }
-const char* TGo4AnalysisObjectManager::GetUSRFOLDER() { return fgcUSRFOLDER; }
-const char* TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
+const char *TGo4AnalysisObjectManager::GetTOPDYNAMICLIST() { return fgcTOPDYNAMICLIST; }
+const char *TGo4AnalysisObjectManager::GetTOPFOLDER() { return fgcTOPFOLDER; }
+const char *TGo4AnalysisObjectManager::GetHISTFOLDER() { return fgcHISTFOLDER; }
+const char *TGo4AnalysisObjectManager::GetDYNFOLDER() { return fgcDYNFOLDER; }
+const char *TGo4AnalysisObjectManager::GetCONDFOLDER() { return fgcCONDFOLDER; }
+const char *TGo4AnalysisObjectManager::GetPARAFOLDER() { return fgcPARAFOLDER; }
+const char *TGo4AnalysisObjectManager::GetTREEFOLDER() { return fgcTREEFOLDER; }
+const char *TGo4AnalysisObjectManager::GetPICTFOLDER() { return fgcPICTFOLDER; }
+const char *TGo4AnalysisObjectManager::GetCANVFOLDER() { return fgcCANVFOLDER; }
+const char *TGo4AnalysisObjectManager::GetANALYSISFOLDER() { return fgcANALYSISFOLDER; }
+const char *TGo4AnalysisObjectManager::GetEVENTFOLDER() { return fgcEVENTFOLDER; }
+const char *TGo4AnalysisObjectManager::GetSRCFOLDER() { return fgcSRCFOLDER; }
+const char *TGo4AnalysisObjectManager::GetSTOREFOLDER() { return fgcSTOREFOLDER; }
+const char *TGo4AnalysisObjectManager::GetPROCFOLDER() { return fgcPROCFOLDER; }
+const char *TGo4AnalysisObjectManager::GetUSRFOLDER() { return fgcUSRFOLDER; }
+const char *TGo4AnalysisObjectManager::GetTMPFOLDER() { return fgcTMPFOLDER; }
 
 
 
@@ -431,7 +431,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetre
    TGo4TreeStructure* tstructure = nullptr;
    if(thetree) {
       const char *treename=thetree->GetName();
-      const char* treetitle=thetree->GetTitle();
+      const char *treetitle=thetree->GetTitle();
       TGo4Analysis::Instance()->Message(0,"AnalysisObjectManager - creating structure of tree %s",
             treename);
       TObjArray* branchlist=thetree->GetListOfBranches();
@@ -451,7 +451,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char *t
 }
 
 
-TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char* membrfoldername, TClass* cl)
+TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass* cl)
 {
    if(!cl) return nullptr;
    TList* nameslist = new TList;
@@ -531,15 +531,15 @@ Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char *subfolder,
    return rev;
 }
 
-TH1* TGo4AnalysisObjectManager::MakeTH1(const char* histotype,
-      const char* foldername,
-      const char* histoname,
+TH1* TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
+      const char *foldername,
+      const char *histoname,
       Int_t         nbinsx,
       Axis_t        xlow,
       Axis_t        xup,
       const char *title,
-      const char* xtitle,
-      const char* ytitle) {
+      const char *xtitle,
+      const char *ytitle) {
 
    TString htype(histotype);
    htype.ToUpper();
@@ -575,9 +575,9 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char* histotype,
    return histo;
 }
 
-TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
-      const char* foldername,
-      const char* histoname,
+TH2* TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
+      const char *foldername,
+      const char *histoname,
       Int_t         nbinsx,
       Axis_t        xlow,
       Axis_t        xup,
@@ -585,8 +585,8 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
       Axis_t        ylow,
       Axis_t        yup,
       const char *title,
-      const char* xtitle,
-      const char* ytitle) {
+      const char *xtitle,
+      const char *ytitle) {
    TString htype(histotype);
    htype.ToUpper();
    if (htype.IsNull()) htype = "I";
@@ -790,7 +790,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
 
       TGo4PolyCond::CleanupSpecials(); // remove reference to cloned cut
 
-      const char* separ = strrchr(name, '/');
+      const char *separ = strrchr(name, '/');
       if (separ) {
          TString fname(name, separ-name);
          rev = AddObjectToFolder(clonedcon,topfolder,fname.Data(),kTRUE,kFALSE,kFALSE);
@@ -801,7 +801,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
    return rev;
 }
 
-TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name, const char* cond_cl)
+TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
@@ -814,11 +814,11 @@ TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name
    return cond;
 }
 
-TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
-      const char* conditionname,
+TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
+      const char *conditionname,
       Double_t      xlow,
       Double_t      xup,
-      const char* bindhistogram,
+      const char *bindhistogram,
       Bool_t        invert)
 {
    TGo4WinCond* wcond = (TGo4WinCond*)
@@ -835,13 +835,13 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
    return wcond;
 }
 
-TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
-      const char* conditionname,
+TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
+      const char *conditionname,
       Double_t      xlow,
       Double_t      xup,
       Double_t      ylow,
       Double_t      yup,
-      const char* bindhistogram,
+      const char *bindhistogram,
       Bool_t      invert)
 {
    TGo4WinCond* wcond = (TGo4WinCond*)
@@ -858,11 +858,11 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
    return wcond;
 }
 
-TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char* foldername,
-      const char* conditionname,
+TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char *foldername,
+      const char *conditionname,
       Int_t         size,
       Float_t      (*points)[2],
-      const char* bindhistogram,
+      const char *bindhistogram,
       Bool_t        invert)
 {
    TGo4PolyCond* pcond = (TGo4PolyCond*)
@@ -1165,7 +1165,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter *
       // parameter not yet existing, add external parameter as a copy:
       TGo4Parameter* clonedpar=dynamic_cast<TGo4Parameter*>(par->Clone());
 
-      const char* separ = strrchr(name, '/');
+      const char *separ = strrchr(name, '/');
       if (separ) {
          TString fname(name, separ-name);
          rev = AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
@@ -1194,7 +1194,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
       TGo4Parameter* clonedpar = status->CreateParameter();
       // find out destination folder for new parameter from name:
 
-      const char* separ = strrchr(name, '/');
+      const char *separ = strrchr(name, '/');
       if (separ) {
          TString fname(name, separ-name);
          rev = AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
@@ -1205,7 +1205,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
    return rev;
 }
 
-TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char *name, const char* parameter_class)
+TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char *name, const char *parameter_class)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
    TGo4Parameter* rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir,name));
@@ -1249,7 +1249,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture * pic
       TGo4Picture* clonedpic = dynamic_cast<TGo4Picture*>(pic->Clone());
       // find out destination folder for new pic from name:
 
-      const char* separ = strrchr(name, '/');
+      const char *separ = strrchr(name, '/');
       if (separ) {
         TString fname(name, separ-name);
         rev = AddObjectToFolder(clonedpic, topfolder, fname.Data(),kTRUE);
@@ -1346,12 +1346,12 @@ void TGo4AnalysisObjectManager::PrintDynamicList()
 
 Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
       const char *histo,
-      const char* hevx, const char* hmemx,
-      const char* hevy, const char* hmemy,
-      const char* hevz, const char* hmemz,
-      const char* condition,
-      const char* cevx, const char* cmemx,
-      const char* cevy, const char* cmemy)
+      const char *hevx, const char *hmemx,
+      const char *hevy, const char *hmemy,
+      const char *hevz, const char *hmemz,
+      const char *condition,
+      const char *cevx, const char *cmemx,
+      const char *cevy, const char *cmemy)
 {
    if(!name || !histo || !hevx || !hmemx) return kFALSE;
    TGo4HistogramEntry* entry = new TGo4HistogramEntry(name);
@@ -1386,7 +1386,7 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char *name,
    return AddDynamicEntry(entry);
 }
 
-Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char* hisname, const char *treename, const char* varexp, const char* cutexp)
+Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTreeHistogram(char*,...)",__LINE__, __FILE__));
    //
@@ -1404,7 +1404,7 @@ Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char* hisname, const ch
 }
 
 
-Bool_t TGo4AnalysisObjectManager::RemoveDynamicEntry(const char* entryname)
+Bool_t TGo4AnalysisObjectManager::RemoveDynamicEntry(const char *entryname)
 {
    return RemoveObjectFromFolder(entryname, fxDynListDir, kTRUE);
 }
@@ -1417,7 +1417,7 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char *s
    TFolder* result = nullptr;
    if (!parent) return nullptr;
    if (!subfolder) return parent;
-   const char* separ = strchr(subfolder,'/'); // find end of first subfolder string
+   const char *separ = strchr(subfolder,'/'); // find end of first subfolder string
    if(separ) {
       // we have subfolder of subfolder, process recursively
       TString subname(subfolder, separ - subfolder);
@@ -1534,7 +1534,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject *ob,
 }
 
 
-Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, TFolder* fold, Bool_t isDel)
+Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char *fullname, TFolder* fold, Bool_t isDel)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char*, TFolder*, Bool_t)",__LINE__, __FILE__));
    //
@@ -1988,7 +1988,7 @@ TList* TGo4AnalysisObjectManager::CreateObjectList(const char *expr, TFolder* fo
    return result;
 }
 
-Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char *expression)
+Bool_t TGo4AnalysisObjectManager::IsMatching(const char *string, const char *expression)
 {
    if(!expression) return kTRUE;
    Bool_t ismatching=kFALSE;
@@ -2006,7 +2006,7 @@ Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char *exp
 }
 
 
-TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char* fullname)
+TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char *fullname)
 {
    GO4TRACE((12,"TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*, const char*)",__LINE__, __FILE__));
    TGo4LockGuard  listguard(fxDirMutex);
@@ -2016,8 +2016,8 @@ TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const ch
 
 
 TObject* TGo4AnalysisObjectManager::TestObject(TFolder* folder,
-      const char* &pathname,
-      const char* objectname,
+      const char *&pathname,
+      const char *objectname,
       const TClass* cl)
 {
    TString fullname;

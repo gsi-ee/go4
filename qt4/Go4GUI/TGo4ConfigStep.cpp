@@ -41,9 +41,9 @@
 #include "Go4EventServerTypes.h"
 #include "TGo4AnalysisConfiguration.h"
 
-const char* TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
-const char* TGo4MbsFile__fgcLMDSUF = ".lmd";
-const char* TGo4MbsFile__fgcFILELISTSUF = ".lml";
+const char *TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
+const char *TGo4MbsFile__fgcLMDSUF = ".lmd";
+const char *TGo4MbsFile__fgcFILELISTSUF = ".lml";
 
 enum SourceComboKinds {
    kind_RootFile = 0,

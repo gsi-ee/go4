@@ -39,8 +39,8 @@
 #include "TGo4AnalysisWatchRunnable.h"
 #include "TGo4Ratemeter.h"
 
-const char* TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
-const char* TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
+const char *TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
+const char *TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
 const UInt_t TGo4AnalysisClient::fguSTATUSUPDATE = 1000; // events between two updates
 const Double_t TGo4AnalysisClient::fgdSTATUSTIMEOUT = 2; // maximum seconds between two updates
 const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer for cint lock
@@ -48,11 +48,11 @@ const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer
 
 TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
                                        TGo4Analysis* analysis,
-                                       const char* host,
+                                       const char *host,
                                        UInt_t negport,
                                        Bool_t histoserver,
-                                       const char* basename,
-                                       const char* passwd,
+                                       const char *basename,
+                                       const char *passwd,
                                        Bool_t servermode,
                                        Bool_t autorun,
                                        Bool_t cintmode,
@@ -84,8 +84,8 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
 TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
                                        TGo4Analysis* analysis,
                                        Bool_t histoserver,
-                                       const char* basename,
-                                       const char* passwd,
+                                       const char *basename,
+                                       const char *passwd,
                                        Bool_t servermode,
                                        Bool_t autorun) :
    TGo4Slave(argv[2], servermode, argv[3], (argc>4) ? atoi(argv[4]) : 5000),
@@ -117,7 +117,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    Constructor(histoserver,basename,passwd);
 }
 
-void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,  const char* passwd)
+void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char *basename,  const char *passwd)
 {
    if (IsServer()) {
       if (fxAnalysis->fServerObserverPass.Length()>0)
@@ -440,7 +440,7 @@ Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()
 }
 
 
-void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* passwd)
+void TGo4AnalysisClient::StartObjectServer(const char *basename,  const char *passwd)
 {
     StopObjectServer(); // shutdown existing one with old basename/passwd
     fxHistoServer= new TGo4HistogramServer(this,basename,passwd,kFALSE);
@@ -506,7 +506,7 @@ void TGo4AnalysisClient::SubmitShutdown()
 }
 
 
-void TGo4AnalysisClient::ExecuteString(const char* command)
+void TGo4AnalysisClient::ExecuteString(const char *command)
 {
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;

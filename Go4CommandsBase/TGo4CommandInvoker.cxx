@@ -30,7 +30,7 @@ class TGo4Pair : public TObject {
      {
      }
 
-     const char* GetName() const override { return fxName.Data(); }
+     const char *GetName() const override { return fxName.Data(); }
 
      TGo4CommandReceiver* GetReceiver() const { return fxReceiver; }
 

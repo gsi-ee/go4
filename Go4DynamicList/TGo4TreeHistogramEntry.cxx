@@ -22,7 +22,7 @@
 #include "TGo4Status.h"
 #include "TGo4DynamicListException.h"
 
-const char* TGo4TreeHistogramEntry::fgcENTRYSUF="-DL";
+const char *TGo4TreeHistogramEntry::fgcENTRYSUF="-DL";
 
 TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
    TGo4DynamicEntry(),
@@ -38,10 +38,10 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
    EnableProcessing(kTRUE);
 }
 
-TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
+TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char *histogramname,
                                                const char *treename,
-                                               const char* varexp,
-                                               const char* cutexp) :
+                                               const char *varexp,
+                                               const char *cutexp) :
    TGo4DynamicEntry(histogramname),
    fxHistogramName(histogramname),
    fxTreeName(treename),

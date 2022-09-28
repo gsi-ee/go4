@@ -27,7 +27,7 @@ TGo4ReplaceException::TGo4ReplaceException(const TGo4ReplaceException &right)
    fxNewRunnable=right.fxNewRunnable;
 }
 
-TGo4ReplaceException::TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable, const char* oldthreadname)
+TGo4ReplaceException::TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable, const char *oldthreadname)
  :TGo4ThreadException(runnable, oldthreadname)
 {
    GO4TRACE((14,"TGo4ReplaceException::TGo4ReplaceException(TGo4Runnable*,TGo4Runnable*,const char*) constructor",__LINE__, __FILE__));

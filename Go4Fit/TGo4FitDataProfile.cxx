@@ -21,7 +21,7 @@ TGo4FitDataProfile::TGo4FitDataProfile() :
   TGo4FitData(), fxProfile(this, TProfile::Class()) {
 }
 
-TGo4FitDataProfile::TGo4FitDataProfile(const char* iName, TProfile *iProfile, Bool_t iProfileOwned, Bool_t AddAmpl) :
+TGo4FitDataProfile::TGo4FitDataProfile(const char *iName, TProfile *iProfile, Bool_t iProfileOwned, Bool_t AddAmpl) :
   TGo4FitData(iName,"TProfile classes", dtGraph, AddAmpl),
   fxProfile("Profile","Data object of TProfile class", this, TProfile::Class(), kTRUE, iProfile, iProfileOwned)
 {

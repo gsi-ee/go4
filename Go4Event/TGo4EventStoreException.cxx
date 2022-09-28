@@ -16,7 +16,7 @@
 #include "TGo4EventStore.h"
 #include "TGo4Log.h"
 
-TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore* eventstore, const char* msg)
+TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore* eventstore, const char *msg)
 : fxEventStore(0)
 {
    GO4TRACE((16,"TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore*)", __LINE__, __FILE__));

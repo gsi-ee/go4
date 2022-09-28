@@ -85,7 +85,7 @@ TXXXProc::TXXXProc(const char *name) :
       AddPicture(fcondSet);
    }
 
-   const char* mbsnode = "x86l-9";
+   const char *mbsnode = "x86l-9";
 
    fHandle = mbs::MonitorHandle::Connect(mbsnode);
    if (!fHandle.null())

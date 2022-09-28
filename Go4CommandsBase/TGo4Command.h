@@ -37,7 +37,7 @@ class TGo4Command  : public TNamed {
 
       TGo4Command();
 
-      TGo4Command(const char *name, const char* description, Int_t id);
+      TGo4Command(const char *name, const char *description, Int_t id);
 
       virtual ~TGo4Command();
 
@@ -61,13 +61,13 @@ class TGo4Command  : public TNamed {
 
       Bool_t IsSynchron() const;
 
-      const char* GetReceiverName() const;
+      const char *GetReceiverName() const;
       void SetReceiverName(const char*);
 
-      const char* GetTaskName() const;
+      const char *GetTaskName() const;
       void SetTaskName(const char*);
 
-      const char* What() const;
+      const char *What() const;
       void SetDescription(const char*);
 
       virtual void SetReceiver(TGo4CommandReceiver * rec);
@@ -83,7 +83,7 @@ class TGo4Command  : public TNamed {
        void SetMode(Go4CommandMode_t m){fiMode=m;}
 
        /** text description of current execution mode*/
-       static const char* GetModeDescription(Go4CommandMode_t mode);
+       static const char *GetModeDescription(Go4CommandMode_t mode);
 
    protected:
 
@@ -104,7 +104,7 @@ class TGo4Command  : public TNamed {
       void SetProtection(Go4CommandMode_t m) { fiProtection = m; }
 
       /** resolve description of command modes here*/
-       static const char* fgcMODEDESCRIPTION[];
+       static const char *fgcMODEDESCRIPTION[];
 
    private:
 

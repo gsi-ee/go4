@@ -39,7 +39,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        * Creates TGo4FitPeakFinder action with provided name and, ,
        * (optionally), DataName, clear models mode.
        */
-      TGo4FitPeakFinder(const char* Name, const char* DataName = nullptr, Bool_t ClearModels = kFALSE, Int_t PolOrder = -1);
+      TGo4FitPeakFinder(const char *Name, const char *DataName = nullptr, Bool_t ClearModels = kFALSE, Int_t PolOrder = -1);
 
       /**
        * Destroys TGo4FitterOutput object.
@@ -47,7 +47,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       virtual ~TGo4FitPeakFinder();
 
       void SetDataName(const char *name) { fxDataName = name; }
-      const char* GetDataName() { return fxDataName.Data(); }
+      const char *GetDataName() { return fxDataName.Data(); }
       void SetClearModels(Bool_t clear) { fbClearModels = clear; }
       Bool_t GetClearModels() { return fbClearModels; }
 

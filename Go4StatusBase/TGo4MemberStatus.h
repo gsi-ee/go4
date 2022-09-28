@@ -23,7 +23,7 @@ class TGo4MemberStatus : public TGo4ObjectStatus {
       /**
        * Create status information about event datamemeber.
        * For reconstruction of eventstructure for display in remote browser.  */
-      TGo4MemberStatus(const char *name, const char* datatypename);
+      TGo4MemberStatus(const char *name, const char *datatypename);
 
       virtual ~TGo4MemberStatus();
 

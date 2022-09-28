@@ -26,23 +26,23 @@ class TGo4ParameterMember : public TNamed {
       virtual ~TGo4ParameterMember();
 
       void SetType(const char *name, Int_t id) { fTypeName = name; fTypeId = id; }
-      const char* GetTypeName() const { return fTypeName.Data(); }
+      const char *GetTypeName() const { return fTypeName.Data(); }
       Int_t GetTypeId() const { return fTypeId; }
       Bool_t IsFitterItem() const { return GetTypeId()==kTGo4Fitter_t; }
 
       void SetMemberId(Int_t id) { fMemberId = id; }
       Int_t GetMemberId() const { return fMemberId; }
 
-      void SetStrValue(const char* value) { fValue = value; }
+      void SetStrValue(const char *value) { fValue = value; }
       void SetIntValue(Int_t value) { fValue.Form("%d", value); }
-      const char* GetStrValue() const { return fValue.Data(); }
+      const char *GetStrValue() const { return fValue.Data(); }
       Int_t GetIntValue() const { return fValue.Atoi();  };
       Bool_t CanStrEdit() const { return (fTypeId!=kTGo4Fitter_t) && (fTypeId!=kTArray_t); }
 
       void SetArrayIndexes(Int_t ndim = 0, Int_t indx1 = -1, Int_t indx2 = -1);
       Bool_t CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t indx2);
       Bool_t IsArrayItem() const { return (fIndex1 >= 0); }
-      const char* GetFullName(TString& buf);
+      const char *GetFullName(TString& buf);
 
       void SetVisible(Bool_t on = kTRUE) { fVisible = on; }
       Bool_t IsVisible() const { return fVisible; }

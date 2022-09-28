@@ -70,7 +70,7 @@ TGo4HDF5Source::~TGo4HDF5Source()
    }
 }
 
-TList* TGo4HDF5Source::ProducesFilesList(const char* mask)
+TList* TGo4HDF5Source::ProducesFilesList(const char *mask)
 {
    if (!mask || (strlen(mask) == 0)) return nullptr;
 

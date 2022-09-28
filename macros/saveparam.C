@@ -28,7 +28,7 @@ using namespace std;
 // In case of GO4 GUI parameter names are in TList
 // In case of analysis the object pointers are in the TList
 
-void paramiter(TDirectory *dir, const char* wildcard, TList* found)
+void paramiter(TDirectory *dir, const char *wildcard, TList* found)
 {
 #ifdef __GO4MACRO__
    TRegexp wild(wildcard, kTRUE);
@@ -74,7 +74,7 @@ void paramiter(TDirectory *dir, const char* wildcard, TList* found)
 #endif
 }
 
-TString MakeParamFuncName(const char* main, const char* objname)
+TString MakeParamFuncName(const char *main, const char *objname)
 {
    TString subfunc;
    subfunc.Form("%s_%s", main, objname);
@@ -90,7 +90,7 @@ TString MakeParamFuncName(const char* main, const char* objname)
 
 // Function to process one parameter
 // outside Go4 get parameter from file (1st arg)
-Bool_t save1param(TObject *obj, const char* prefix)
+Bool_t save1param(TObject *obj, const char *prefix)
 {
   if (!obj || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
 
@@ -119,14 +119,14 @@ Bool_t save1param(TObject *obj, const char* prefix)
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveparam(const char* file, const char* wildcard = "*", const char* prefix = "set")
+void saveparam(const char *file, const char *wildcard = "*", const char *prefix = "set")
 {
   TFile *f = TFile::Open(file,"r");
 #else
-void saveparam(const char* wildcard = "*", const char* prefix = "set")
+void saveparam(const char *wildcard = "*", const char *prefix = "set")
 {
   TFile *f = nullptr;
-  const char* file = nullptr;
+  const char *file = nullptr;
 #endif
 
   TList lst;

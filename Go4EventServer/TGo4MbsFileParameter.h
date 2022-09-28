@@ -28,7 +28,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     virtual ~TGo4MbsFileParameter();
 
     /** Name of the Tagfile */
-    const char* GetTagName() const { return fxTagFile.Data(); }
+    const char *GetTagName() const { return fxTagFile.Data(); }
 
     /** Name of the Tagfile */
     void SetTagName(const char *name) { fxTagFile = name; }
@@ -39,13 +39,13 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     Bool_t UpdateFrom(TGo4Parameter* rhs) override;
 
     /** Add more file names in to the parameter */
-    void AddMoreFile(const char* more);
+    void AddMoreFile(const char *more);
 
     /** Number of more file names in parameter */
     Int_t NumMoreFiles() const { return fxMoreFiles.GetLast()+1; }
 
     /** Returns name of extra files names, configured in the parameter */
-    const char* GetMoreName(Int_t n) const;
+    const char *GetMoreName(Int_t n) const;
 
   private:
 

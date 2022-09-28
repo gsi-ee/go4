@@ -43,7 +43,7 @@ TGo4TaskOwner::~TGo4TaskOwner()
    fxTask = nullptr;
 }
 
-const char* TGo4TaskOwner::GetName() const
+const char *TGo4TaskOwner::GetName() const
 {
    return fxTask ? fxTask->GetName() : nullptr;
 }

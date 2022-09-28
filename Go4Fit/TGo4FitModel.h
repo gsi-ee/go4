@@ -35,7 +35,7 @@ class TGo4FitAssignment : public TNamed {
        /**
         * Create TGo4FitAssignment object, which assign model to DataName.
         */
-       TGo4FitAssignment(const char* DataName);
+       TGo4FitAssignment(const char *DataName);
 
        /**
         * Destroys TGo4FitAssignment object.
@@ -91,7 +91,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * Standard constructor. Add amplitude parameter, if specified.
        * TGo4FitModel object should not be used directly. It is only basic class for concrete implementations like gaussians, polynoms and so on.
        */
-      TGo4FitModel(const char* iName, const char* iTitle, Bool_t MakeAmplitude = kFALSE);
+      TGo4FitModel(const char *iName, const char *iTitle, Bool_t MakeAmplitude = kFALSE);
 
       /**
        * Delete TGo4FitModel object.
@@ -126,30 +126,30 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Returns name of data, to which model object is assigned.
        */
-      const char* AssignmentName(Int_t n) { return GetAssigment(n) ? GetAssigment(n)->GetName() : 0; }
+      const char *AssignmentName(Int_t n) { return GetAssigment(n) ? GetAssigment(n)->GetName() : 0; }
 
       /**
        * Assign model to specified data object.
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
        * They means ratio in amplitude of model component in this data to ampltute of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
        */
-      void AssignToData(const char* DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
+      void AssignToData(const char *DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
       /**
        * Checks, if model assigned to given data.
        */
-      Bool_t IsAssignTo(const char* DataName) const { return FindAssigment(DataName) != nullptr; }
+      Bool_t IsAssignTo(const char *DataName) const { return FindAssigment(DataName) != nullptr; }
 
       /**
        * Change name of data in assignments.
        */
-      void ChangeDataNameInAssignments(const char* oldname, const char* newname);
+      void ChangeDataNameInAssignments(const char *oldname, const char *newname);
 
       /**
        * Remove assignment to given data (if exists).
        */
-      void ClearAssignmentTo(const char* DataName);
-      void ClearAssigmentTo(const char* DataName) { ClearAssignmentTo(DataName); }
+      void ClearAssignmentTo(const char *DataName);
+      void ClearAssigmentTo(const char *DataName) { ClearAssignmentTo(DataName); }
 
       /**
        * Remove all assignments.
@@ -165,7 +165,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * Returns ratio value for specified data object.
        * Return  1., if model not assign to data.
        */
-      Double_t GetRatioValueFor(const char* DataName);
+      Double_t GetRatioValueFor(const char *DataName);
 
       /**
        * Print information about model object on standard output.
@@ -313,7 +313,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Get model bins for specified data (if exists)
        */
-      Double_t* GetModelBins(const char* DataName) const;
+      Double_t* GetModelBins(const char *DataName) const;
 
       /**
        * Sets flag, that shape bins should be refilled next time, when RebuildShape() routine will be called.
@@ -393,7 +393,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Find assignment to given data.
        */
-      TGo4FitAssignment* FindAssigment(const char* DataName) const;
+      TGo4FitAssignment* FindAssigment(const char *DataName) const;
 
       /**
        * Set name of ratio parameter.

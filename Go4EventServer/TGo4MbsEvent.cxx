@@ -76,7 +76,7 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
 }
 
 
-TGo4MbsEvent::TGo4MbsEvent(const char* ) :
+TGo4MbsEvent::TGo4MbsEvent(const char *) :
    TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be consistent with file source!
    fxHeader(),
    fxSubEvArray(nullptr),

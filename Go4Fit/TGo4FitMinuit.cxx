@@ -53,7 +53,7 @@ Int_t TMinuitEx::Eval(Int_t npar, Double_t *grad, Double_t &fval, Double_t *pars
 TGo4FitMinuit::TGo4FitMinuit() : TGo4FitterAction(), fxCommands(), fxResults() {
 }
 
-TGo4FitMinuit::TGo4FitMinuit(const char* Name) :
+TGo4FitMinuit::TGo4FitMinuit(const char *Name) :
     TGo4FitterAction(Name,"Fitter minimization using TMinuit object"), fxCommands(), fxResults() {
    fxCommands.SetOwner(kTRUE);
    fxResults.SetOwner(kTRUE);
@@ -62,12 +62,12 @@ TGo4FitMinuit::TGo4FitMinuit(const char* Name) :
 TGo4FitMinuit::~TGo4FitMinuit() {
 }
 
-void TGo4FitMinuit::AddCommand(const char* iCommand)
+void TGo4FitMinuit::AddCommand(const char *iCommand)
 {
    fxCommands.Add( new TObjString(iCommand) );
 }
 
-const char* TGo4FitMinuit::GetCommand(Int_t n)
+const char *TGo4FitMinuit::GetCommand(Int_t n)
 {
    return ((TObjString*) fxCommands[n])->GetString().Data();
 }
@@ -78,7 +78,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract* Fitter) {
    fMinuit.SetPrintLevel(-1);
 
    for(Int_t n=0;n<Fitter->NumPars();n++) {
-      const char* FullName = Fitter->GetParFullName(n);
+      const char *FullName = Fitter->GetParFullName(n);
       Int_t ierflg = 0;
       Double_t epsilon = 0, RangeMin = 0, RangeMax = 0;
       if (!Fitter->GetParEpsilon(FullName,epsilon)) epsilon = 1.;
@@ -134,7 +134,7 @@ TGo4FitMinuitResult* TGo4FitMinuit::GetResult(Int_t indx)
    return (indx>=0) && (indx<=fxResults.GetLast()) ? (TGo4FitMinuitResult*) fxResults.At(indx) : 0;
 }
 
-TGo4FitMinuitResult* TGo4FitMinuit::FindResult(const char* ResName)
+TGo4FitMinuitResult* TGo4FitMinuit::FindResult(const char *ResName)
 {
    return (TGo4FitMinuitResult*) fxResults.FindObject(ResName);
 }

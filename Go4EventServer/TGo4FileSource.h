@@ -50,7 +50,7 @@ class TGo4FileSource : public TGo4EventSource {
       * is reset and a kFALSE value is returned. */
     Bool_t BuildEvent(TGo4EventElement* dest) override;
 
-    static TList* ProducesFilesList(const char* mask);
+    static TList* ProducesFilesList(const char *mask);
 
   private:
 

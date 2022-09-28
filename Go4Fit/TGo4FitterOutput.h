@@ -35,7 +35,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Creates TGo4FitterOutput action with provided command name and options (if required).
        */
-      TGo4FitterOutput(const char* Command, const char* Options = nullptr);
+      TGo4FitterOutput(const char *Command, const char *Options = nullptr);
 
       /**
        * Destroys TGo4FitterOutput object.
@@ -45,7 +45,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Set command name and options (if required).
        */
-      void Set(const char* Command, const char *Options = nullptr) { fxCommand = Command; fxOptions = Options; }
+      void Set(const char *Command, const char *Options = nullptr) { fxCommand = Command; fxOptions = Options; }
 
       /**
        * Sets pad, which can be used for command output.
@@ -65,22 +65,22 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Returns command name.
        */
-      const char* GetCommand() { return fxCommand.Data(); }
+      const char *GetCommand() { return fxCommand.Data(); }
 
       /**
        * Returns command options.
        */
-      const char* GetOptions() { return fxOptions.Data(); }
+      const char *GetOptions() { return fxOptions.Data(); }
 
       /**
        * Sets command name.
        */
-      void SetCommand(const char* Command) { fxCommand = Command; }
+      void SetCommand(const char *Command) { fxCommand = Command; }
 
       /**
        * Sets command options.
        */
-      void SetOptions(const char* Options) { fxOptions = Options; }
+      void SetOptions(const char *Options) { fxOptions = Options; }
 
       /**
        * Execute proper output of fitter, Print() or Draw(), with specified options.

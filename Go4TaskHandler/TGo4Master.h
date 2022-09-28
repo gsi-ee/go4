@@ -25,7 +25,7 @@ class TGo4Master :  public TGo4TaskOwner {
   public:
     TGo4Master();
 
-    TGo4Master(const char *name, Bool_t isserver = kTRUE, const char* serverhost = "localhost", UInt_t negotport = 5000);
+    TGo4Master(const char *name, Bool_t isserver = kTRUE, const char *serverhost = "localhost", UInt_t negotport = 5000);
 
     virtual ~TGo4Master();
 

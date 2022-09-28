@@ -21,7 +21,7 @@
 #include "TGo4EventElement.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char* obname) :
+TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char *obname) :
    TGo4AnalysisObjectCommand("ANGetEvent","Get current event from analysis",obname),
    fbOutputEvent(kTRUE),
    fbPrintoutOnly(kFALSE),

@@ -54,19 +54,19 @@ class TGo4TaskHandler : public TNamed {
      * one data transport channel (data, status, or command).
      * For server socket mode (used by taskmanager)
      */
-    Bool_t ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char* host);
+    Bool_t ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char *host);
 
     /**
      * method defining the connection protocol of
      * one data transport channel (data, status, or command).
      * For client socket mode (used by taskhandler)
      */
-    Bool_t ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char* host);
+    Bool_t ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char *host);
 
     /**
      * request to server at host to connect or disconnect us, returns negotiation channel
      */
-    TGo4Socket* ServerRequest(const char* host="localhost");
+    TGo4Socket* ServerRequest(const char *host="localhost");
 
     /** Negotiate login to requested server channel with account type */
     Bool_t ServerLogin(TGo4Socket* connector, Go4CommandMode_t account);
@@ -74,7 +74,7 @@ class TGo4TaskHandler : public TNamed {
     /**
      * establishes the connections of all three transport channels and starts the service threads
      */
-    Bool_t Connect(const char* host="localhost", TGo4Socket* negotiator = nullptr);
+    Bool_t Connect(const char *host="localhost", TGo4Socket* negotiator = nullptr);
 
 
     /**
@@ -113,13 +113,13 @@ class TGo4TaskHandler : public TNamed {
 
     TGo4Queue * GetDataQueue() const { return fxDataQueue; }
 
-    const char* GetHostName() const { return fxHostName.Data(); }
+    const char *GetHostName() const { return fxHostName.Data(); }
 
-    const char* GetComName() const { return fxComName.Data(); }
+    const char *GetComName() const { return fxComName.Data(); }
 
-    const char* GetDatName() const { return fxDatName.Data(); }
+    const char *GetDatName() const { return fxDatName.Data(); }
 
-    const char* GetStatName() const { return fxStatName.Data(); }
+    const char *GetStatName() const { return fxStatName.Data(); }
 
     Int_t GetComPort() const { return fiComPort; }
 
@@ -198,25 +198,25 @@ class TGo4TaskHandler : public TNamed {
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetAdminAccount(const char *name, const char* passwd);
+   static void SetAdminAccount(const char *name, const char *passwd);
 
    /** Specify login name and password for controller account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller. Master server at slave client has always
     * controller role. */
-   static void SetCtrlAccount(const char *name, const char* passwd);
+   static void SetCtrlAccount(const char *name, const char *passwd);
 
     /** Specify login name and password for observer account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetObservAccount(const char *name, const char* passwd);
+   static void SetObservAccount(const char *name, const char *passwd);
 
-   static const char* Get_fgcOK();
+   static const char *Get_fgcOK();
 
-   static const char* Get_fgcERROR();
+   static const char *Get_fgcERROR();
 
     static UInt_t Get_fguPORTWAITTIME();
 
@@ -246,26 +246,26 @@ class TGo4TaskHandler : public TNamed {
     static const UInt_t fguCOMMANDQUEUESIZE;      //!
 
     /** Initial string for connect request (raw transport) */
-    static const char* fgcCONNECT;            //!
+    static const char *fgcCONNECT;            //!
 
     /** Initial string for disconnect request (raw transport) */
-    static const char* fgcDISCONNECT;         //!
+    static const char *fgcDISCONNECT;         //!
 
   /** Task identifier for client connect negotiations (raw transport) */
-    static const char* fgcMASTER;              //!
+    static const char *fgcMASTER;              //!
 
   /** Task identifier for client connect negotiations (raw transport) */
-    static const char* fgcSLAVE;              //!
+    static const char *fgcSLAVE;              //!
 
 
    /** Suffix for command thread name */
-   static const char* fgcCOMMANDTHREAD;       //!
+   static const char *fgcCOMMANDTHREAD;       //!
 
    /** Suffix for status thread name */
-   static const char* fgcSTATUSTHREAD;        //!
+   static const char *fgcSTATUSTHREAD;        //!
 
    /** Suffix for data thread name */
-   static const char* fgcDATATHREAD;          //!
+   static const char *fgcDATATHREAD;          //!
 
 
   private:
@@ -292,10 +292,10 @@ class TGo4TaskHandler : public TNamed {
     static TNamed fgxCONTROLLERACCOUNT;
 
     /** Error string for client connect negotiations (raw transport) */
-    static const char* fgcERROR;              //!
+    static const char *fgcERROR;              //!
 
     /** Ok string for client connect negotiations (raw transport) */
-    static const char* fgcOK;                 //!
+    static const char *fgcOK;                 //!
 
     /** Time for each waitgetport cycle */
     static const UInt_t fguPORTWAITTIME;         //!

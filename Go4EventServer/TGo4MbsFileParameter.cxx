@@ -19,7 +19,7 @@
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
 
-const char* TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
+const char *TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
 
 TGo4MbsFileParameter::TGo4MbsFileParameter() :
     TGo4MbsSourceParameter()
@@ -37,7 +37,7 @@ TGo4MbsFileParameter::~TGo4MbsFileParameter()
 {
 }
 
-void TGo4MbsFileParameter::AddMoreFile(const char* more)
+void TGo4MbsFileParameter::AddMoreFile(const char *more)
 {
    TGo4Log::Debug("Add more lmd file %s", more);
 
@@ -45,7 +45,7 @@ void TGo4MbsFileParameter::AddMoreFile(const char* more)
    fxMoreFiles.Add(new TObjString(more));
 }
 
-const char* TGo4MbsFileParameter::GetMoreName(Int_t n) const
+const char *TGo4MbsFileParameter::GetMoreName(Int_t n) const
 {
    return (n>=0) && (n<=fxMoreFiles.GetLast()) ? fxMoreFiles.At(n)->GetName() : nullptr;
 }

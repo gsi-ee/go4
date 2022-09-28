@@ -25,7 +25,7 @@ TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() :
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, const char *treename, const char *varexp, const char *cut) :
+TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char *histogramname, const char *treename, const char *varexp, const char *cut) :
    TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
 {
    GO4TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));

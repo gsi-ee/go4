@@ -33,7 +33,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
        virtual ~TGo4AnalysisWindow();
 
        void SetHistorySize(int sz);
-       void StartAnalysisShell(const char* cmd, const char* workdir = nullptr, bool aschildprocess = false);
+       void StartAnalysisShell(const char *cmd, const char *workdir = nullptr, bool aschildprocess = false);
        void TerminateAnalysisProcess();
        void AppendOutputBuffer(const QString& value, int prio = 0);
        void UpdateTimeStampFormat();

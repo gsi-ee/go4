@@ -37,7 +37,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Creates TGo4FitComponent object.
        */
-      TGo4FitComponent(const char* iName, const char* iTitle);
+      TGo4FitComponent(const char *iName, const char *iTitle);
 
       /**
        * Destroys TGo4FitComponent object.
@@ -54,13 +54,13 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Returns name of amplitude parameter.
        * If none, return nullpptr.
        */
-      const char* GetAmplName();
+      const char *GetAmplName();
 
       /**
        * Returns full name of amplitude parameter.
        * If none, return nullptr.
        */
-      const char* GetAmplFullName();
+      const char *GetAmplFullName();
 
       /**
        * Return value of amplitude parameter.
@@ -245,12 +245,12 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Create new parameter with provided properties and add to parameters list.
        */
-      TGo4FitParameter* NewParameter(const char* Name, const char* Title, Double_t iValue = 0., Bool_t Fixed = kFALSE, Int_t AtIndx = -1);
+      TGo4FitParameter* NewParameter(const char *Name, const char *Title, Double_t iValue = 0., Bool_t Fixed = kFALSE, Int_t AtIndx = -1);
 
       /**
        * Create amplitude parameter with specified properties.
        */
-      TGo4FitParameter* NewAmplitude(const char* Name = 0, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
+      TGo4FitParameter* NewAmplitude(const char *Name = 0, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
 
       /**
        * Returns index of amplitude parameter.

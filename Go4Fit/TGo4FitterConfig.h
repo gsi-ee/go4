@@ -44,7 +44,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
       /**
        * Creates TGo4FiierConfig object with given name and Title.
        */
-      TGo4FitterConfig(const char* iName, const char* iTitle);
+      TGo4FitterConfig(const char *iName, const char *iTitle);
 
       /**
        * Destroys TGo4FitterConfig object.
@@ -55,31 +55,31 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Add new parameter with given name and initial value.
        * This parameter can be used later in dependency calculations in minimizations.
        */
-      void AddParNew(const char* ParName, Double_t iValue = 0) { fxParsNew.CreatePar(ParName,"config",iValue); }
+      void AddParNew(const char *ParName, Double_t iValue = 0) { fxParsNew.CreatePar(ParName,"config",iValue); }
 
       /**
        * Sets, that parameter with ParName should be fixed or not.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t SetParFixed(const char* ParName, Bool_t iFixed = kTRUE);
+      virtual Bool_t SetParFixed(const char *ParName, Bool_t iFixed = kTRUE);
 
       /**
        * Sets valid range for parameter ParName.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t SetParRange(const char* ParName, Double_t RangeMin, Double_t RangeMax);
+      virtual Bool_t SetParRange(const char *ParName, Double_t RangeMin, Double_t RangeMax);
 
       /**
        * Sets epsilon for parameter ParName.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t SetParEpsilon(const char* ParName, Double_t Epsilon);
+      virtual Bool_t SetParEpsilon(const char *ParName, Double_t Epsilon);
 
       /**
        * Return kTRUE, if parameter ParName should be fixed in minimization.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t GetParFixed(const char* ParName);
+      virtual Bool_t GetParFixed(const char *ParName);
 
       /**
        * Return kTRUE, if parameter ParName has explicit configuration for valid range in minimization.
@@ -91,14 +91,14 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Return kTRUE, if parameter ParName has explicit configuration for epsilon value in minimization.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t GetParEpsilon(const char* ParName, Double_t& Epsilon);
+      virtual Bool_t GetParEpsilon(const char *ParName, Double_t& Epsilon);
 
       /**
        * Set initial value for parameter.
        * Init value sets to parameter once when configuration activating.
        * FullName should be full name of parameter.
        */
-      void SetParInit(const char* FullName, Double_t iValue);
+      void SetParInit(const char *FullName, Double_t iValue);
 
       /**
        * Set initial value for parameter, calculated from expression.
@@ -107,7 +107,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Initializing expression calculated once when config activated.
        * FullName should be full name of parameter.
        */
-      void SetParInit(const char* FullName, const char* iExpression);
+      void SetParInit(const char *FullName, const char *iExpression);
 
       /**
        * Set dependency expression for parameter.
@@ -116,12 +116,12 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Dependency expression calculated every time before fit function calculations.
        * FullName should be full name of parameter.
        */
-      void SetParDepend(const char* FullName, const char* iExpression);
+      void SetParDepend(const char *FullName, const char *iExpression);
 
       /**
        * Add expression for calculating result value.
        */
-      void AddResult(const char* Expression);
+      void AddResult(const char *Expression);
 
       /**
        * Add constant value as result value.
@@ -165,9 +165,9 @@ class TGo4FitterConfig : public TGo4FitterAction {
       void Print(Option_t *option = "") const override;
 
    protected:
-      TGo4FitParameter* MakeParForProperties(const char* ParName);
+      TGo4FitParameter* MakeParForProperties(const char *ParName);
 
-      TGo4FitDependency* FindDepen(const char* FullName, TObjArray* list);
+      TGo4FitDependency* FindDepen(const char *FullName, TObjArray* list);
 
       /**
        * List of parameters objects, used for alternative configuration of parameters, which should be fitted.

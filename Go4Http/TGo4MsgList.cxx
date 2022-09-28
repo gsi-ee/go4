@@ -47,7 +47,7 @@ TGo4MsgList::~TGo4MsgList()
    fMsgs.Clear();
 }
 
-void TGo4MsgList::AddMsg(const char* msg)
+void TGo4MsgList::AddMsg(const char *msg)
 {
    // add message to the list
    // if number of stored messages bigger than configured, old messages will be removed

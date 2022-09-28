@@ -35,7 +35,7 @@ class TGo4ClientTask : public TGo4Task {
    public:
 
       TGo4ClientTask(const char *name,
-                     const char* serverhost = "localhost",
+                     const char *serverhost = "localhost",
                      UInt_t negotiationport = 0,
                      Bool_t blockingmode = kTRUE,
                      Bool_t standalone = kFALSE,
@@ -74,20 +74,20 @@ class TGo4ClientTask : public TGo4Task {
        */
       void AddLocalCommand(TGo4Command * com);
 
-      TGo4BufferQueue* GetCommandQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char* task = nullptr) override;
+      TGo4BufferQueue* GetDataQueue(const char *task = nullptr) override;
 
       /**
        * Connect this client to a waiting server task on node with
        * negotiation channel negport. Returns connection state,
        * true if connection is established, otherwise false.
        */
-      Bool_t ConnectServer(const char* node, UInt_t negport,
+      Bool_t ConnectServer(const char *node, UInt_t negport,
                             Go4CommandMode_t role=kGo4ComModeRefused,
-                            const char* passwd = nullptr);
+                            const char *passwd = nullptr);
 
       /**
        * Disconnect the current server task, but do not terminate the client.
@@ -97,7 +97,7 @@ class TGo4ClientTask : public TGo4Task {
        */
       Bool_t DisconnectServer(Bool_t isterminating=kFALSE);
 
-      const char* GetServerHostName() { return fxServerHostname.Data(); }
+      const char *GetServerHostName() { return fxServerHostname.Data(); }
 
       Bool_t IsConnected() const { return fbServerConnected; }
 

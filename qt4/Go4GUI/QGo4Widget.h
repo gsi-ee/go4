@@ -116,7 +116,7 @@ private:
       static QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 
    signals:
-      void widgetService(QGo4Widget* editor, int serviceid, const char* str, void* par);
+      void widgetService(QGo4Widget* editor, int serviceid, const char *str, void* par);
 
    public slots:
       void CloseMDIParentSlot();
@@ -140,16 +140,16 @@ private:
       TGo4Slot* GetTopSlot(bool force = false);
 
       /** add slot with specific name to widget top folder */
-      TGo4Slot* AddSlot(const char* slotname);
+      TGo4Slot* AddSlot(const char *slotname);
 
       /** set name of item, which was linked by this slot */
       void SetLinkedName(TGo4Slot* slot, const char *itemname);
 
       /** returns name of item, which was linked with linkname */
-      const char* GetLinkedName(const char *linkname);
+      const char *GetLinkedName(const char *linkname);
 
       /** returns name of item, which was linked in that slot */
-      const char* GetLinkedName(TGo4Slot* slot);
+      const char *GetLinkedName(TGo4Slot* slot);
 
       TObject* GetLinked(const char *linkname, int updatelevel = 0);
 
@@ -174,12 +174,12 @@ private:
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
       TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad* pad = nullptr, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char *itemname);
-      void HelpWindow(const char *filename, const char* msg = nullptr);
+      void HelpWindow(const char *filename, const char *msg = nullptr);
       void UndrawItem(const char *itemname);
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
-      QString SaveObjectInMemory(const char* foldername, TObject *obj);
+      QString SaveObjectInMemory(const char *foldername, TObject *obj);
       bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
       bool UpdateItemInAnalysis(const char *itemname, TObject *obj = nullptr);
       void InformThatObjectCreated(const char *itemname, TClass* cl);
@@ -189,7 +189,7 @@ private:
       /** connect pad axis change signals to react on such signals */
       void ConnectPad(TPad* pad);
 
-      void CallServiceFunc(int id, const char* str = nullptr, void *par = nullptr);
+      void CallServiceFunc(int id, const char *str = nullptr, void *par = nullptr);
       void ServiceCall(const char *name, void* par = nullptr);
 
       virtual void requestedObjectCreated(const char *itemname, TClass* cl);

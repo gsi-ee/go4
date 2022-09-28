@@ -33,7 +33,7 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues = kFALSE);
 
-      TGo4ParameterStatus(const char* parname, const char* parclass, TObjArray* items);
+      TGo4ParameterStatus(const char *parname, const char *parclass, TObjArray* items);
 
       virtual ~TGo4ParameterStatus();
 

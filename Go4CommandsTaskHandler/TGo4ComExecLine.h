@@ -26,12 +26,12 @@ class TGo4ComExecLine : public TGo4TaskHandlerCommand {
 
     TGo4ComExecLine();
 
-    TGo4ComExecLine(const char* macro);
+    TGo4ComExecLine(const char *macro);
 
     Int_t ExeCom() override;
 
     /** access to the passwd. */
-    const char* GetLine() const { return fxLine.Data(); }
+    const char *GetLine() const { return fxLine.Data(); }
 
      /** set the object name under command. */
     void SetLine(const char *name) { fxLine = name; }

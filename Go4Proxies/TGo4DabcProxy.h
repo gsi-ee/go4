@@ -29,11 +29,11 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       TGo4DabcProxy();
       virtual ~TGo4DabcProxy();
 
-      Bool_t Connect(const char* nodename);
+      Bool_t Connect(const char *nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
       Bool_t ReplyCommand(void* cmd);
 
-      const char* GetServerName() const override { return fNodeName.Data(); }
+      const char *GetServerName() const override { return fNodeName.Data(); }
 
       void Initialize(TGo4Slot* slot) override;
       void Finalize(TGo4Slot* slot) override;
@@ -43,8 +43,8 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       TGo4LevelIter* MakeIter() override;
 
       Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
-      const char* GetContainedClassName() override { return "TGo4DabcProxy"; }
-      const char* GetContainedObjectInfo() override { return nullptr; }
+      const char *GetContainedClassName() override { return "TGo4DabcProxy"; }
+      const char *GetContainedObjectInfo() override { return nullptr; }
       Int_t GetObjectSizeInfo() override { return -1; }
 
       void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;

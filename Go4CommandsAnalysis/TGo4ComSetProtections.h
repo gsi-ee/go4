@@ -27,7 +27,7 @@ class TGo4ComSetProtections : public TGo4AnalysisObjectCommand {
 
     TGo4ComSetProtections();
 
-    TGo4ComSetProtections(const char* obname, const char* flags);
+    TGo4ComSetProtections(const char *obname, const char *flags);
 
     Int_t ExeCom() override;
 
@@ -36,7 +36,7 @@ class TGo4ComSetProtections : public TGo4AnalysisObjectCommand {
      * for each specific command! */
     void Set(TGo4RemoteCommand* remcon) override;
 
-    void SetFlags(const char* flags) { fxFlags = flags; }
+    void SetFlags(const char *flags) { fxFlags = flags; }
 
   private:
 

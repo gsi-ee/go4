@@ -34,7 +34,7 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
        * Creates TGo4FitAmplEstimation action with given name.
        * Optionally, default number of iterations can be sets up (default 1).
        */
-      TGo4FitAmplEstimation(const char* Name, Int_t NumIters = 1);
+      TGo4FitAmplEstimation(const char *Name, Int_t NumIters = 1);
 
       /**
        * Destroys TGo4FitAmplEstimation object.

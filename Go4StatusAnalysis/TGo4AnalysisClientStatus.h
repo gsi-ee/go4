@@ -38,9 +38,9 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       ULong64_t GetCurrentCount() const { return fuCurrentCount; }
 
-      const char* GetDateTime() const { return fxDateString.Data(); }
+      const char *GetDateTime() const { return fxDateString.Data(); }
 
-      const char* GetCurrentSource() const { return fxEventSource.Data(); }
+      const char *GetCurrentSource() const { return fxEventSource.Data(); }
 
       Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
 
