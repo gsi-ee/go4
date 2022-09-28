@@ -54,7 +54,7 @@ void TYYYRawEvent::ReAllocate(Int_t newsize)
       fiAllocated = newsize < 16 ? 16 : (newsize + 8);
       TGo4Log::Info("YYYRawEvent reallocating from %d to %d", fiColumns, fiAllocated);
       Double_t* narray=new Double_t[fiAllocated];
-      for(Int_t i=0;i<fiColumns;++i)
+      for (Int_t i = 0; i < fiColumns; ++i)
          narray[i] = fdData[i];
       delete [] fdData;
       fdData = narray;
