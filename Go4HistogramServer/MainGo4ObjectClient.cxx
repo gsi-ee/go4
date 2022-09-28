@@ -65,8 +65,8 @@ int main(int argc, char **argv)
       return 0;
    }
 
-   TApplication theApp("App", 0, 0);
-   TCanvas *mycanvas = 0;
+   TApplication theApp("App", 0, nullptr);
+   TCanvas *mycanvas = nullptr;
    TGo4Log::Instance(); // init logger object
    TGo4Log::SetIgnoreLevel(0); // set this to 1 to suppress detailed debug output
                                // set this to 2 to get warnings and errors only

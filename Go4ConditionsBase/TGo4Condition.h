@@ -422,10 +422,10 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     Double_t GetUrlOptionAsDouble(const char *key, Double_t def_value);
 
 
-    void SetPainted(Bool_t on) { fbIsPainted=on; }
+    void SetPainted(Bool_t on) { fbIsPainted = on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
-    const char *MakeScript(std::ostream& out, const char *varname, Option_t* opt = "", const char *arrextraargs = 0);
+    const char *MakeScript(std::ostream& out, const char *varname, Option_t* opt = "", const char *arrextraargs = nullptr);
 
   private:
 

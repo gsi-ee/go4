@@ -250,7 +250,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Create amplitude parameter with specified properties.
        */
-      TGo4FitParameter* NewAmplitude(const char *Name = 0, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
+      TGo4FitParameter* NewAmplitude(const char *Name = nullptr, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
 
       /**
        * Returns index of amplitude parameter.

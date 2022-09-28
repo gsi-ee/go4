@@ -348,7 +348,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
                 oldstorepar ? oldstorepar->ClassName() : "nullpointer"));
       }
 
-      TGo4EventStoreParameter* newpar = 0;
+      TGo4EventStoreParameter *newpar = nullptr;
       switch (storetype)
       {
         default:

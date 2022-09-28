@@ -34,9 +34,9 @@ TGo4Command::TGo4Command(const char *name, const char *description, Int_t id) :
    fbIsEnabled = kTRUE;
    fbIsExclusive = kFALSE;
    fbIsLocal = kFALSE;
-   fiProtection=kGo4ComModeObserver;
-   fiMode=kGo4ComModeRefused;
-   fxReceiverBase = 0;
+   fiProtection = kGo4ComModeObserver;
+   fiMode = kGo4ComModeRefused;
+   fxReceiverBase = nullptr;
 }
 
 TGo4Command::TGo4Command() : TNamed()
@@ -51,9 +51,9 @@ TGo4Command::TGo4Command() : TNamed()
   fbIsEnabled = kTRUE;
   fbIsExclusive = kFALSE;
   fbIsLocal = kFALSE;
-  fiProtection=kGo4ComModeObserver;
-  fiMode=kGo4ComModeRefused;
-  fxReceiverBase = 0;
+  fiProtection = kGo4ComModeObserver;
+  fiMode = kGo4ComModeRefused;
+  fxReceiverBase = nullptr;
 }
 
 TGo4Command::~TGo4Command()
