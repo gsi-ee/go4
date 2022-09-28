@@ -23,7 +23,7 @@
 #include "TGo4Log.h"
 #include "TGo4ConditionPainter.h"
 
-const Double_t TGo4Condition::fgdUPDATEEPSILON=0.01;
+const Double_t TGo4Condition::fgdUPDATEEPSILON = 0.01;
 
 Bool_t TGo4Condition::fgbLABELDRAW=kTRUE;
 Bool_t TGo4Condition::fgbLIMITSDRAW=kTRUE;
@@ -60,27 +60,24 @@ TGo4Condition::TGo4Condition() :
    TNamed(),
    TAttLine(),
    TAttFill(),
-   fxPainter(0),
-   fxUrlOptionArray(0),
-   fxHisto(0),
    fiIsChanged(0)
 {
    GO4TRACE((15,"TGo4Condition::TGo4Condition()",__LINE__, __FILE__));
-   fiDim=0;
+   fiDim = 0;
    fbEnabled = false;
    fbResult  = true;
    fbTrue    = true;
    fbFalse   = false;
-   fbMarkReset   = false;
+   fbMarkReset = false;
    fiCounts  = 0;
-   fiTrueCounts= 0;
-   fbVisible=true;
-   fbMultiEdit= true;
-   fbHistogramLink=false;
-   fdUpdateEpsilon=fgdUPDATEEPSILON;
-   fbIsPainted=kFALSE;
-   fbOwnedByEditor=kFALSE;
-   fbStreamedCondition=kTRUE;
+   fiTrueCounts = 0;
+   fbVisible = true;
+   fbMultiEdit = true;
+   fbHistogramLink = false;
+   fdUpdateEpsilon = fgdUPDATEEPSILON;
+   fbIsPainted = kFALSE;
+   fbOwnedByEditor = kFALSE;
+   fbStreamedCondition = kTRUE;
    InitLabelStyle();
 }
 
@@ -89,27 +86,24 @@ TGo4Condition::TGo4Condition(const char *name, const char *title) :
    TNamed(name, title),
    TAttLine(),
    TAttFill(),
-   fxPainter(0),
-   fxUrlOptionArray(0),
-   fxHisto(0),
    fiIsChanged(0)
 {
    GO4TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
-   fiDim=0;
+   fiDim = 0;
    fbEnabled = false;
-   fbResult  = true;
-   fbTrue    = true;
-   fbFalse   = false;
-   fbMarkReset   = false;
-   fiCounts  = 0;
+   fbResult = true;
+   fbTrue = true;
+   fbFalse = false;
+   fbMarkReset = false;
+   fiCounts = 0;
    fiTrueCounts = 0;
-   fbVisible=true;
-   fbMultiEdit= true;
-   fbHistogramLink=false;
-   fdUpdateEpsilon=fgdUPDATEEPSILON;
-   fbIsPainted=kFALSE;
-   fbOwnedByEditor=kFALSE;
-   fbStreamedCondition=kFALSE;
+   fbVisible = true;
+   fbMultiEdit = true;
+   fbHistogramLink = false;
+   fdUpdateEpsilon = fgdUPDATEEPSILON;
+   fbIsPainted = kFALSE;
+   fbOwnedByEditor = kFALSE;
+   fbStreamedCondition = kFALSE;
    InitLabelStyle();
 }
 
@@ -140,45 +134,45 @@ Bool_t TGo4Condition::Test()
 
 void TGo4Condition::AddCondition(TGo4Condition* next)
 {
-GO4TRACE((14,"TGo4Condition::AddCondition(TGo4Condition*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Condition::AddCondition(TGo4Condition*)",__LINE__, __FILE__));
 }
 // ---------------------------------------------------------
 void TGo4Condition::IncTrueCounts()
 {
-GO4TRACE((12,"TGo4Condition::IncTrueCounts()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Condition::IncTrueCounts()",__LINE__, __FILE__));
    fiTrueCounts++;
 }
 // ---------------------------------------------------------
 void TGo4Condition::IncCounts()
 {
-GO4TRACE((12,"TGo4Condition::IncCounts()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Condition::IncCounts()",__LINE__, __FILE__));
    fiCounts++;
 }
 // ---------------------------------------------------------
 Int_t TGo4Condition::Counts()
 {
-GO4TRACE((12,"TGo4Condition::Counts()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Condition::Counts()",__LINE__, __FILE__));
    return fiCounts;
 }
 // ---------------------------------------------------------
 Int_t TGo4Condition::TrueCounts()
 {
-GO4TRACE((12,"TGo4Condition::TrueCounts()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Condition::TrueCounts()",__LINE__, __FILE__));
    return fiTrueCounts;
 }
 // ---------------------------------------------------------
 void TGo4Condition::ResetCounts()
 {
-GO4TRACE((12,"TGo4Condition::ResetCounts()",__LINE__, __FILE__));
-   fiTrueCounts=0;
-   fiCounts=0;
+   GO4TRACE((12,"TGo4Condition::ResetCounts()",__LINE__, __FILE__));
+   fiTrueCounts = 0;
+   fiCounts = 0;
 }
 // ---------------------------------------------------------
 void TGo4Condition::SetCounts(Int_t truecounts, Int_t counts)
 {
-GO4TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
-   fiTrueCounts=truecounts;
-   fiCounts=counts;
+   GO4TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
+   fiTrueCounts = truecounts;
+   fiCounts = counts;
 }
 
 
@@ -210,6 +204,7 @@ void TGo4Condition::PrintCondition(Bool_t full)
    line.Append(TString::Format(", tested: %8d true: %8d is %3.0f%s", fiCounts, fiTrueCounts, perc, "%"));
    std::cout << line << std::endl;
 }
+
 // ---------------------------------------------------------
 void TGo4Condition::PrintBar()
 {
@@ -225,6 +220,7 @@ void TGo4Condition::PrintBar()
    *pc = 0;
    std::cout << TString::Format("%-24s %8d %3.0f%s |%-50s|",GetName(),fiCounts,perc,"%",num) << std::endl;
 }
+
 // -----------------------------------------------
 void TGo4Condition::Print(Option_t* opt) const
 {
@@ -646,32 +642,32 @@ TGo4ConditionPainter* TGo4Condition::CreatePainter()
 
 void TGo4Condition::SaveLabelStyle()
 {
-   TGo4Condition::fgbLABELDRAW=fbLabelDraw;
-   TGo4Condition::fgbLIMITSDRAW=fbLimitsDraw;
-   TGo4Condition::fgbINTDRAW=fbIntDraw;
-   TGo4Condition::fgbXMEANDRAW=fbXMeanDraw;
-   TGo4Condition::fgbXRMSDRAW=fbXRMSDraw;
-   TGo4Condition::fgbYMEANDRAW=fbYMeanDraw;
-   TGo4Condition::fgbYRMSDRAW=fbYRMSDraw;
-   TGo4Condition::fgbXMAXDRAW=fbXMaxDraw;
-   TGo4Condition::fgbYMAXDRAW=fbYMaxDraw;
-   TGo4Condition::fgbCMAXDRAW=fbCMaxDraw;
-   TGo4Condition::fgxNUMFORMAT=fxNumFormat;
+   TGo4Condition::fgbLABELDRAW = fbLabelDraw;
+   TGo4Condition::fgbLIMITSDRAW = fbLimitsDraw;
+   TGo4Condition::fgbINTDRAW = fbIntDraw;
+   TGo4Condition::fgbXMEANDRAW = fbXMeanDraw;
+   TGo4Condition::fgbXRMSDRAW = fbXRMSDraw;
+   TGo4Condition::fgbYMEANDRAW = fbYMeanDraw;
+   TGo4Condition::fgbYRMSDRAW = fbYRMSDraw;
+   TGo4Condition::fgbXMAXDRAW = fbXMaxDraw;
+   TGo4Condition::fgbYMAXDRAW = fbYMaxDraw;
+   TGo4Condition::fgbCMAXDRAW = fbCMaxDraw;
+   TGo4Condition::fgxNUMFORMAT = fxNumFormat;
 }
 
 void TGo4Condition::InitLabelStyle()
 {
-   fbLabelDraw=TGo4Condition::fgbLABELDRAW;
-   fbLimitsDraw=TGo4Condition::fgbLIMITSDRAW;
-   fbIntDraw=TGo4Condition::fgbINTDRAW;
-   fbXMeanDraw=TGo4Condition::fgbXMEANDRAW;
-   fbXRMSDraw=TGo4Condition::fgbXRMSDRAW;
-   fbYMeanDraw=TGo4Condition::fgbYMEANDRAW;
-   fbYRMSDraw=TGo4Condition::fgbYRMSDRAW;
-   fbXMaxDraw=TGo4Condition::fgbXMAXDRAW;
-   fbYMaxDraw=TGo4Condition::fgbYMAXDRAW;
-   fbCMaxDraw=TGo4Condition::fgbCMAXDRAW;
-   fxNumFormat=TGo4Condition::fgxNUMFORMAT;
+   fbLabelDraw = TGo4Condition::fgbLABELDRAW;
+   fbLimitsDraw = TGo4Condition::fgbLIMITSDRAW;
+   fbIntDraw = TGo4Condition::fgbINTDRAW;
+   fbXMeanDraw = TGo4Condition::fgbXMEANDRAW;
+   fbXRMSDraw = TGo4Condition::fgbXRMSDRAW;
+   fbYMeanDraw = TGo4Condition::fgbYMEANDRAW;
+   fbYRMSDraw = TGo4Condition::fgbYRMSDRAW;
+   fbXMaxDraw = TGo4Condition::fgbXMAXDRAW;
+   fbYMaxDraw = TGo4Condition::fgbYMAXDRAW;
+   fbCMaxDraw = TGo4Condition::fgbCMAXDRAW;
+   fxNumFormat = TGo4Condition::fgxNUMFORMAT;
 }
 
 void TGo4Condition::SetGlobalStyle(Bool_t LABELDRAW, Bool_t LIMITSDRAW, Bool_t INTDRAW,

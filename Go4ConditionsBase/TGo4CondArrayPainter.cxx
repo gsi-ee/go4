@@ -70,20 +70,20 @@ void TGo4CondArrayPainter::PaintCondition(Option_t* opt)
 
 void TGo4CondArrayPainter::UnPaintCondition(Option_t* opt)
 {
-if(!gPad) return;
-TGo4CondArray* arconny=dynamic_cast<TGo4CondArray*>(fxCondition);
-if(arconny)
-   {
-   Int_t number=arconny->GetNumber();
-   for(Int_t i=0; i<number; ++i)
-      {
-         TGo4Condition* con=arconny->At(i);
-         if(con) con->UnDraw(opt);
+   if (!gPad)
+      return;
+   TGo4CondArray *arconny = dynamic_cast<TGo4CondArray *>(fxCondition);
+   if (arconny) {
+      Int_t number = arconny->GetNumber();
+      for (Int_t i = 0; i < number; ++i) {
+         TGo4Condition *con = arconny->At(i);
+         if (con)
+            con->UnDraw(opt);
       }
    }
 }
 
 void TGo4CondArrayPainter::PaintLabel(Option_t* )
 {
- // do not create a label for the complete array
+    // do not create a label for the complete array
 }
