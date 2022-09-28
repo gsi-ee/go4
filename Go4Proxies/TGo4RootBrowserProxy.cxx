@@ -132,7 +132,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
    TGo4BrowserItem* topfold = (TGo4BrowserItem*) gROOT->GetListOfBrowsables()->FindObject("go4");
    if (!topfold) {
-      topfold = new TGo4BrowserItem(0, 0, "go4","Top go4 objects folder");
+      topfold = new TGo4BrowserItem(nullptr, nullptr, "go4","Top go4 objects folder");
       topfold->SetTitle("Top Go4 folder");
       topfold->SetItemClass("TFolder");
       topfold->SetIconName("Go4Logo");

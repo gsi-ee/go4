@@ -21,7 +21,7 @@
 
 class TGo4SlotIter : public TGo4LevelIter {
    public:
-      TGo4SlotIter() : TGo4LevelIter(), fSlot(0), fIndex(-1) {}
+      TGo4SlotIter() : TGo4LevelIter(), fSlot(nullptr), fIndex(-1) {}
 
       TGo4SlotIter(const TGo4Slot* slot) : TGo4LevelIter(), fSlot(slot), fIndex(-1) {}
 
@@ -479,7 +479,7 @@ TGo4Slot* TGo4Slot::FindSlot(const char *fullpath, const char** subname)
 
    TGo4Slot* slot = GetSlot(fullpath);
    if (slot) {
-      if (subname) *subname = 0;
+      if (subname) *subname = nullptr;
       return slot;
    }
 

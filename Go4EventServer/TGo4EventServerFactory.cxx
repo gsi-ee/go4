@@ -73,7 +73,7 @@ TGo4EventElement * TGo4EventServerFactory::CreateInputEvent()
 //   UInt_t sizefield[1]={1};
 //   TGo4MbsEvent* event = new TGo4MbsEvent(1, subcratefield, ctrlfield, procidfield, sizefield);
 //   variant 2: empty event without predefined subevents
-   TGo4MbsEvent* event = new TGo4MbsEvent(0, 0, 0, 0, 0);
+   TGo4MbsEvent* event = new TGo4MbsEvent(0, nullptr, nullptr, nullptr, nullptr);
    TGo4Log::Debug(" EventServer Factory: creating input event %s ", event->ClassName());
    return event;
 }

@@ -61,7 +61,7 @@ TGo4MbsFile::TGo4MbsFile(const char *name) :
    TGo4Log::Debug(" New Event Source MbsFile %s:  ", GetName());
    fxTagFile = fgcNOTAGFILE;
 
-   AddFileName(name, 0, kTRUE);
+   AddFileName(name, nullptr, kTRUE);
 
    Open();
 }
@@ -82,7 +82,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
 
       AddFileName(GetName(), fxTagFile.Data(), par->NumMoreFiles() == 0);
       for (Int_t n = 0; n < par->NumMoreFiles(); n++)
-         AddFileName(par->GetMoreName(n), 0, kFALSE);
+         AddFileName(par->GetMoreName(n), nullptr, kFALSE);
    }
 
    TGo4Log::Debug("New Event Source MbsFile %s", GetName());

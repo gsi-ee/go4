@@ -41,12 +41,12 @@
 
 TGo4Interface::TGo4Interface() :
    TGo4AbstractInterface(),
-   fRootBrowser(0),
+   fRootBrowser(nullptr),
    fOMDataPath(),
    fOMBrowserPath(),
    fOMEditorsPath(),
    fCmdFinished(kTRUE),
-   fCmdTimer(0),
+   fCmdTimer(nullptr),
    fWaitCounter(0)
 {
    // create object manager
