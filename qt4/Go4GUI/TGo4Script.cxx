@@ -876,16 +876,16 @@ TGo4ServerProxy* TGo4Script::ConnectHttp(const char *servername, const char *acc
 
 void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
 {
-   TGo4AnalysisConfiguration* confgui = main->FindAnalysisConfiguration();
+   TGo4AnalysisConfiguration *confgui = main->FindAnalysisConfiguration();
 
-   TGo4AnalysisWindow* termgui = main->FindAnalysisWindow();
+   TGo4AnalysisWindow *termgui = main->FindAnalysisWindow();
 
-   TGo4BrowserProxy* br = main->Browser();
+   TGo4BrowserProxy *br = main->Browser();
 
-   TGo4AnalysisProxy* anal = br->FindAnalysis();
+   TGo4AnalysisProxy *anal = br->FindAnalysis();
 
    // this is either HTTP or normal http proxy
-   TGo4ServerProxy* serv = br->FindServer();
+   TGo4ServerProxy *serv = br->FindServer();
 
    // ignore server which is was not launched
    if (serv && (serv != anal) && (serv->IsAnalysisLaunched() <= 0))
@@ -897,9 +897,9 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    fs << "// Automatically generated startup script" << std::endl;
    fs << "// Do not change it!" << std::endl << std::endl;
 
-   fs << "go4->SetMainWindowState(4,\"" << main->saveState().toHex().data() << "\");" << std::endl;
+   fs << "go4->SetMainWindowState(4, \"" << main->saveState().toHex().data() << "\");" << std::endl;
 
-   fs << "go4->SetMainWindowGeometry(4,\"" << main->saveGeometry().toHex().data() << "\");" << std::endl;
+   fs << "go4->SetMainWindowGeometry(4, \"" << main->saveGeometry().toHex().data() << "\");" << std::endl;
 
    ProduceLoadLibs(fs);
 
