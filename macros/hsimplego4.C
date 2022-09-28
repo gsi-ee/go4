@@ -62,7 +62,7 @@ go4->AddTree(ntuple);
   gRandom->SetSeed();
   Float_t px, py, pz;
   const Int_t kUPDATE = 1000;
-  Int_t i=0;
+  Int_t i = 0;
 while(1){
    std::cout <<"Waiting for the Go4 start button.";
    std::cout <<" \n\tUse Canvas menu 'Options/Interrupt' to leave macro." << std::endl;
