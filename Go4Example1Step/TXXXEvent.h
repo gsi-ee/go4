@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TEVENT_H
-#define TEVENT_H
+#ifndef TXXXEvent_H
+#define TXXXEvent_H
 
 #include "TGo4EventElement.h"
 
@@ -30,7 +30,5 @@ class TXXXEvent : public TGo4EventElement {
 
    ClassDefOverride(TXXXEvent,1)
 };
-#endif //TEVENT_H
 
-
-
+#endif

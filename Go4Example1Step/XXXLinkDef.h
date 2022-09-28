@@ -23,6 +23,3 @@
 #pragma link C++ class TXXXProc+;
 
 #endif
-
-
-

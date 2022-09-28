@@ -25,6 +25,3 @@
 #pragma link C++ class TXXXAnlProc+;
 
 #endif
-
-
-

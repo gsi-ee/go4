@@ -21,22 +21,14 @@
 #include "TXXXControl.h"
 
 //***********************************************************
-TXXXAnalysis::TXXXAnalysis() :
-   fMbsEvent(nullptr),
-   fCtl(nullptr),
-   fEvents(0),
-   fLastEvent(0)
+TXXXAnalysis::TXXXAnalysis() : TGo4Analysis()
 {
 }
 //***********************************************************
 
 // this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
-   TGo4Analysis(argc, argv),
-   fMbsEvent(nullptr),
-   fCtl(nullptr),
-   fEvents(0),
-   fLastEvent(0)
+   TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       TGo4Log::Error("Go4 version mismatch");

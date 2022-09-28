@@ -35,4 +35,5 @@ class TXXXAnalysis : public TGo4Analysis {
 
    ClassDefOverride(TXXXAnalysis,1)
 };
+
 #endif //TANALYSIS_H

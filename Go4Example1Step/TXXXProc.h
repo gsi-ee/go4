@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TEXAMPLE1STEPPROCESSOR_H
-#define TEXAMPLE1STEPPROCESSOR_H
+#ifndef TXXXProc_H
+#define TXXXProc_H
 
 #include "TGo4EventProcessor.h"
 
@@ -49,5 +49,5 @@ class TXXXProc : public TGo4EventProcessor {
    ClassDefOverride(TXXXProc,1)
 };
 
-#endif //TEXAMPLE1STEPPROCESSOR_H
+#endif
 
