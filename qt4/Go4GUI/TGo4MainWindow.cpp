@@ -2683,7 +2683,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4View
    return panel;
 }
 
-bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char* subfolder)
+bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char *subfolder)
 {
    TGo4BrowserProxy* br = Browser();
    if (!br || !itemname) return false;
@@ -3131,8 +3131,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_SaveItem: {
-         const char* subfolder = (const char*) par;
-         bool* replace = (bool*) par;
+         const char *subfolder = (const char *) par;
+         bool *replace = (bool *) par;
          bool res = SaveBrowserItemToFile(str, subfolder);
          * ((char*) par) = res ? 1 : 0;
          break;

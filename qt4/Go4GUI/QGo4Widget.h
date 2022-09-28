@@ -180,7 +180,7 @@ private:
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
       QString SaveObjectInMemory(const char* foldername, TObject* obj);
-      bool SaveItemToFile(const char *itemname, const char* subfolder = nullptr);
+      bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
       bool UpdateItemInAnalysis(const char *itemname, TObject* obj = nullptr);
       void InformThatObjectCreated(const char *itemname, TClass* cl);
       TGo4ServerProxy* GetAnalysis(const char *itemname = nullptr);

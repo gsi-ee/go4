@@ -17,7 +17,7 @@
 #include "TGo4MbsStreamParameter.h"
 
 TGo4MbsStream::TGo4MbsStream(const char *name) :
-   TGo4MbsSource(name , GETEVT__STREAM)
+   TGo4MbsSource(name, GETEVT__STREAM)
 {
    GO4TRACE((15,"TGo4MbsStream::TGo4MbsStream(const char*)",__LINE__, __FILE__));
 
@@ -26,7 +26,7 @@ TGo4MbsStream::TGo4MbsStream(const char *name) :
 }
 
 TGo4MbsStream::TGo4MbsStream(TGo4MbsStreamParameter* par) :
-   TGo4MbsSource(par , GETEVT__STREAM)
+   TGo4MbsSource(par, GETEVT__STREAM)
 {
    GO4TRACE((15,"TGo4MbsStream::TGo4MbsStream(TGo4MbsStreamParameter**)",__LINE__, __FILE__));
 

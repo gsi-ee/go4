@@ -174,7 +174,7 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
       } // else if(!strcmp(localbuffer,fgcOK))
    } //if(fbClientMode)
 
-   // we _are_ a server task handler , shall not request to our own Server task
+   // we _are_ a server task handler, shall not request to our own Server task
    return nullptr;
 }
 

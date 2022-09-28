@@ -1148,7 +1148,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectInFile(const char *itemname, const char* fi
    return res;
 }
 
-Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filename, const char* subfolder)
+Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filename, const char *subfolder)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;

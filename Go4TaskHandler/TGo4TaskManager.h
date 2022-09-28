@@ -53,7 +53,7 @@ class TGo4TaskManager : public TNamed {
        * disonnect an existing client by name, wait for negotiation OK
        * if clientwait is true
        */
-      Int_t DisConnectClient(const char *name , Bool_t clientwait=kTRUE);
+      Int_t DisConnectClient(const char *name, Bool_t clientwait=kTRUE);
 
       /**
        * disonnect an existing client by name, wait for negotiation OK

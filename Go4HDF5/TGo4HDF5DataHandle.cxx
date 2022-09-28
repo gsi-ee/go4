@@ -292,7 +292,7 @@ void TGo4HDF5BasicDataHandle::AllocReadBuffer(size_t size)
            //size_t size = entrytype.getSize();
            //size_t vsize = vtype.getSize();
            H5T_class_t entry_class =  entrytype.getClass();
-           go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet finds in file vlen type of size %ld, with entry class %d , size %ld \n",
+           go4hdfdbg("TGo4HDF5DataHandle::BuildReadDataSet finds in file vlen type of size %ld, with entry class %d, size %ld \n",
                vtype.getSize(), entry_class, entrytype.getSize());
            if( entry_class == H5T_COMPOUND)
              {
@@ -788,11 +788,11 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
     TString membername = TString::Format("%s[%d]",fxMemberHandle.Data(),ix); // local name to access member functions
     // before adding it, look if we already have one TODO!
     go4hdfdbg(
-              "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s , inner class is %s\n",
+              "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s, inner class is %s\n",
               fullname.Data(), fxInnerClassName.Data());
 
 //    printf(
-//                 "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s , inner class is %s\n",
+//                 "TGo4HDF5SubVectorDataHandle SetObjectPointer updating element %s, inner class is %s\n",
 //                 fullname.Data(), fxInnerClassName.Data());
 
     TString memberclass = TString::Format("vector<%s>",fxInnerClassName.Data());
@@ -801,7 +801,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
     if(subhandle)
     {
       go4hdfdbg(
-                   "TGo4HDF5SubVectorDataHandle SetObjectPointer finds element %s , already in subcomponents\n",
+                   "TGo4HDF5SubVectorDataHandle SetObjectPointer finds element %s, already in subcomponents\n",
                    searchname.Data());
       subhandle->SetActive(true);
     }

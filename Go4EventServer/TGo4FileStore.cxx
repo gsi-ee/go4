@@ -189,7 +189,7 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
          TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());
          if(go4branch) {
             // tree already had branch of our name, check it
-            TGo4Log::Debug(" FileStore: Found existing branch %s , continue filling ", fgcEVBRANCHNAME);
+            TGo4Log::Debug(" FileStore: Found existing branch %s, continue filling ", fgcEVBRANCHNAME);
             // here we might check the classname of the stored events inbranch
             go4branch->SetAddress(&fxEvent);
             fbBranchExists=kTRUE;
@@ -241,9 +241,9 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
 {
    if (!ob) return;
 
-   TDirectory* dsav=gDirectory;
+   auto dsav = gDirectory;
    TString oldname = ob->GetName();
-   ob->SetName(TString::Format("%s_%d" , oldname.Data(), fiFillCount).Data());
+   ob->SetName(TString::Format("%s_%d", oldname.Data(), fiFillCount).Data());
    if(fxTree) fxFile = fxTree->GetCurrentFile();
    if (fxFile) fxFile->cd();
    ob->Write(0, TObject::kOverwrite);
@@ -260,4 +260,3 @@ Long64_t TGo4FileStore::GetMaxTreeSize()
 {
    return fgiFILESPLITSIZE;
 }
-

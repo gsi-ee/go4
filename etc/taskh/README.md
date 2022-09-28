@@ -216,7 +216,7 @@ taskhandler commands "THStart", and "THStop", respectively.
    (TGo4ComAction1); this lets the client send a copy of the application
    histogram to the server. After receiving this histogram, the controller
    runnable submits a second command by name "EXAction2"
-   (class TGo4ComAction2) , which performs a dummy printout on the
+   (class TGo4ComAction2), which performs a dummy printout on the
    client only.
 ------------------------------------------------------------------
 See source code comments for additional information.

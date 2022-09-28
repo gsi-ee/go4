@@ -24,8 +24,8 @@ in Go4License.txt file which is part of the distribution.
 This package contains a Dockerfile with Go4 6.0 and ROOT 6.18/04 under OpenSuse Leap 15 system.
 Go4 is build with Qt5 webcanvas and HDF5 support.
 ________________________________________________________________________________________________________
-Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for the original docker container and several hints! 
-He has created some more elaborate docker files that offer Go4, DABC and trb3 environment. 
+Many thanks to Michael Wiebusch (m.wiebusch@gsi.de) for the original docker container and several hints!
+He has created some more elaborate docker files that offer Go4, DABC and trb3 environment.
 Please see
 
 https://jspc29.x-matter.uni-frankfurt.de/git/?p=dockerfiles.git;a=blob_plain;f=go4_trbnet/README.txt
@@ -66,7 +66,7 @@ $ sudo service docker start
 ##             Get Go46 dockerfiles             ##
 ##################################################
 
-get the Go4V6 Dockerfile tarball at https://go4.gsi.de 
+get the Go4V6 Dockerfile tarball at https://go4.gsi.de
 and unpack it:
 $ tar zxvf go4v6.0_leap_15.0.tar.gz
 $ cd go4v6.0_leap_15.0
@@ -82,8 +82,8 @@ In this directory you find:
   - conf/
     contains conf.sh to optionally set environment variables
     and to start (or not start) the vncserver (for Go4 and other graphical applications)
-    
-  - workdir/ 
+
+  - workdir/
     ... this will be your workdir!
      ** This is the place where the Go4 USER ANALYSIS and any external data should be located! ***
     It contains an example start.sh, which starts the initial environment.
@@ -97,10 +97,10 @@ In this directory you find:
 ##################################################
 
 Build and run your container:
-$ ./build_and_run.sh 
+$ ./build_and_run.sh
 
 If enabled in conf.sh, a vnc server is started on port 5903 to work with the  Go4 GUI
-Connect to it with 
+Connect to it with
 $ vncviewer localhost:3
 (Or with any other vncviewer client, also on other host OS!)
 
@@ -115,20 +115,20 @@ You will end up in a plain shell in the docker environment which might be suffic
 
 Please install and start DockerDesktop as explained at
 	https://docs.docker.com/docker-for-windows/install/
-	
-		
-To run Go4 on Docker Desktop , please use following script in the
-Windows command line terminal:  
+
+
+To run Go4 on Docker Desktop, please use following script in the
+Windows command line terminal:
 D:\docker\go4v6.0_leap_15.0> build_and_run.bat
 
 
 Connection to the VNC server of the go4 container can be done locally by
 a Windows VNC viewer, e.g. UltraVNC - https://www.uvnc.com/
 
-Please note 1: 
+Please note 1:
 	Connection may require to set a valid vnc_password by editing file  conf/conf.sh before starting the Go4 container
-Please note 2: 
-	in the UltraVnc connection dialogue, the servername of the docker machine is not "localhost:5903", 
+Please note 2:
+	in the UltraVnc connection dialogue, the servername of the docker machine is not "localhost:5903",
 but just ":5903"
 
 

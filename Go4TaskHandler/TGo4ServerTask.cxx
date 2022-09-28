@@ -416,7 +416,7 @@ Int_t TGo4ServerTask::WaitForConnection()
                count = -2; // termination mode
                break;
             }
-// timeout would affect the permanent connector port Open , we skip this
+// timeout would affect the permanent connector port Open, we skip this
 //         else if(count>TGo4ServerTask::fgiCONNECTWAITCYCLES)
 //            {
 //               count = -1; // timeout
@@ -548,7 +548,7 @@ Bool_t TGo4ServerTask::StopConnectorThread()
    const char* host = gSystem->HostName();
    Int_t negotiationport = fxTaskManager->GetNegotiationPort();
    TGo4Socket* connector = new TGo4Socket(kTRUE); // raw socket transport
-      //std::cout << "host:"<<host<<" , port:" << negotiationport << std::endl;
+      //std::cout << "host:"<<host<<", port:" << negotiationport << std::endl;
    connector->Open(host,negotiationport); // open connection to server's connector runnable
    connector->Send(TGo4TaskHandler::Get_fgcERROR()); // force server to stop
    connector->Close();

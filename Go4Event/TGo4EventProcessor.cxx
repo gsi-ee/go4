@@ -47,32 +47,32 @@ Bool_t TGo4EventProcessor::CheckCalibration(const char* classname)
    return !strcmp(fxCalibration->ClassName(),classname);
 }
 
-Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char* subfolder)
+Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddObject(any,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddHistogram(TH1* his, const char* subfolder, Bool_t replace)
+Bool_t TGo4EventProcessor::AddHistogram(TH1* his, const char *subfolder, Bool_t replace)
 {
    return TGo4Analysis::Instance()->AddHistogram(his,subfolder,replace);
 }
 
-Bool_t TGo4EventProcessor::AddParameter(TGo4Parameter* par,const char* subfolder)
+Bool_t TGo4EventProcessor::AddParameter(TGo4Parameter* par,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddParameter(par,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddPicture(TGo4Picture* pic,const char* subfolder)
+Bool_t TGo4EventProcessor::AddPicture(TGo4Picture* pic,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddPicture(pic,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddCanvas(TCanvas* can, const char* subfolder)
+Bool_t TGo4EventProcessor::AddCanvas(TCanvas* can, const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddCanvas(can,subfolder);
 }
 
-Bool_t  TGo4EventProcessor::AddAnalysisCondition(TGo4Condition* con,const char* subfolder)
+Bool_t  TGo4EventProcessor::AddAnalysisCondition(TGo4Condition* con,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddAnalysisCondition(con,subfolder);
 }

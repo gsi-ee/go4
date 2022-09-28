@@ -44,7 +44,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
       fxBranch = fxTree->GetBranch(buffer.Data());
       if(fxBranch) {
          // tree already had branch of our name, check it
-         TGo4Log::Debug(" TreeStore: Found existing branch %s , reset it ", name);
+         TGo4Log::Debug(" TreeStore: Found existing branch %s, reset it ", name);
          fxBranch->Reset();
       } else {
          // no such branch existing, create a new one
@@ -82,15 +82,14 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
       fxBranch= fxTree->GetBranch(buffer.Data());
       if(fxBranch) {
          // tree already had branch of our name, check it
-         TGo4Log::Debug(" TreeStore: Found existing branch %s , reset it ", buffer.Data());
+         TGo4Log::Debug(" TreeStore: Found existing branch %s, reset it ", buffer.Data());
          fxBranch->Reset();
       } else {
          // no such branch existing, create a new one
          fxBranch = fxTree->Branch(buffer.Data(), fcEventClass.Data(), &fxEvent, fiBufsize, fiSplit);
          TGo4Log::Debug(" TreeStore: Created new branch %s ", buffer.Data());
-      } // if(fxBranch)
-      if(!par->fxBranchFile.IsNull())
-      {
+      }
+      if(!par->fxBranchFile.IsNull()) {
          buffer = TString::Format("%s%s", par->fxBranchFile.Data(), fgcFILESUF);
          fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 tree store", par->fiCompression);
          fxBranch->SetFile(fxFile);
@@ -99,7 +98,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
       }
       else
       {
-         fxFile=0;
+         fxFile = nullptr;
       } //  if(filename)
 
    }
@@ -130,14 +129,14 @@ Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 {
    GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
-   Int_t rev=-1;
+   Int_t rev = -1;
    // check if new event is of the right class
    if(fcEventClass == event->ClassName()) {
       // event class is matching, we fill it into our tree
       fxEvent = event;
       fxBranch->SetAddress(&fxEvent);
       fxBranch->Fill();
-      rev=0;
+      rev = 0;
    } else {
       // new event does not match the old ones, we ignore it
       TGo4Log::Debug(" !!! TreeStore::Store ERROR: this event does not match !!! ");
@@ -145,7 +144,7 @@ Int_t TGo4TreeStore::Store(TGo4EventElement* event)
       fxEvent->SetValid(kFALSE);
       fxBranch->SetAddress(&fxEvent);
       fxBranch->Fill(); // we fill dummy event for consistency
-      rev=1;
+      rev = 1;
    }
    //fxBranch->Write();
    return rev;

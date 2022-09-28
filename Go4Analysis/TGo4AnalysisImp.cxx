@@ -234,8 +234,7 @@ void TGo4Analysis::Constructor()
       exit(-1);
    } else {
       // may not disable output of version number:
-      Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
-            __GO4RELEASE__ , __GO4BUILDVERSION__);
+      Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !", __GO4RELEASE__, __GO4BUILDVERSION__);
    }
 
    if(!fxInstance) {
@@ -378,7 +377,7 @@ Int_t TGo4Analysis::MainCycle()
          fiAutoSaveCount++;
          Double_t rt = fxAutoSaveClock->RealTime();
          if (rt > (Double_t) fiAutoSaveInterval) {
-            Message(0,"Analysis: Main Cycle Autosaving after %.2f s (%d events).",rt,fiAutoSaveCount);
+            Message(0, "Analysis: Main Cycle Autosaving after %.2f s (%d events).",rt,fiAutoSaveCount);
             AutoSave();
             fiAutoSaveCount = 0;
             fxAutoSaveClock->Start(kTRUE);
@@ -1339,58 +1338,58 @@ Bool_t TGo4Analysis::AddTreeHistogram(const char* hisname, const char* treename,
    return rev;
 }
 
-Bool_t TGo4Analysis::AddEventProcessor(TGo4EventProcessor * pro)
+Bool_t TGo4Analysis::AddEventProcessor(TGo4EventProcessor *pro)
 {
    return fxObjectManager->AddEventProcessor(pro);
 }
 
-Bool_t TGo4Analysis::AddEventSource(TGo4EventSource * source)
+Bool_t TGo4Analysis::AddEventSource(TGo4EventSource *source)
 {
    return fxObjectManager->AddEventSource(source);
 }
 
-Bool_t TGo4Analysis::AddEventStore(TGo4EventStore * store)
+Bool_t TGo4Analysis::AddEventStore(TGo4EventStore *store)
 {
    return fxObjectManager->AddEventStore(store);
 }
 
-Bool_t TGo4Analysis::AddEventStructure(TGo4EventElement * ev)
+Bool_t TGo4Analysis::AddEventStructure(TGo4EventElement *ev)
 {
    return fxObjectManager->AddEventStructure(ev);
 }
 
-Bool_t TGo4Analysis::AddHistogram(TH1 * his , const char* subfolder, Bool_t replace)
+Bool_t TGo4Analysis::AddHistogram(TH1 *his, const char *subfolder, Bool_t replace)
 {
-   return fxObjectManager->AddHistogram(his,subfolder, replace);
+   return fxObjectManager->AddHistogram(his, subfolder, replace);
 }
 
-Bool_t TGo4Analysis::AddObject(TNamed * anything, const char* subfolder, Bool_t replace)
+Bool_t TGo4Analysis::AddObject(TNamed *anything, const char *subfolder, Bool_t replace)
 {
-   return fxObjectManager->AddObject(anything,subfolder,replace);
+   return fxObjectManager->AddObject(anything, subfolder, replace);
 }
 
-Bool_t TGo4Analysis::AddParameter(TGo4Parameter * par, const char* subfolder)
+Bool_t TGo4Analysis::AddParameter(TGo4Parameter *par, const char *subfolder)
 {
    return fxObjectManager->AddParameter(par,subfolder);
 }
 
-Bool_t TGo4Analysis::AddPicture(TGo4Picture * pic, const char* subfolder)
+Bool_t TGo4Analysis::AddPicture(TGo4Picture *pic, const char *subfolder)
 {
    return fxObjectManager->AddPicture(pic,subfolder);
 }
 
-Bool_t TGo4Analysis::AddCanvas(TCanvas * can, const char* subfolder)
+Bool_t TGo4Analysis::AddCanvas(TCanvas *can, const char *subfolder)
 {
    return fxObjectManager->AddCanvas(can,subfolder);
 }
 
-Bool_t TGo4Analysis::AddTree(TTree* tree, const char* subfolder)
+Bool_t TGo4Analysis::AddTree(TTree* tree, const char *subfolder)
 {
    if(tree) tree->ResetBit(TGo4Status::kGo4BackStoreReset);
    return fxObjectManager->AddTree(tree, subfolder);
 }
 
-Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char* subfolder)
+Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char *subfolder)
 {
    return fxObjectManager->AddAnalysisCondition(con,subfolder);
 }

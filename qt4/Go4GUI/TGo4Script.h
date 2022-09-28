@@ -65,8 +65,8 @@ class TGo4Script : public TGo4AbstractInterface {
       void RefreshNamesList(int tmout = 10) override;
 
 
-      void SetAnalysisTerminalMode(int mode) override;  // -1 - close , 0-minimized, 1-normal
-      void SetAnalysisConfigMode(int mode) override;   // -1 - close , 0-minimized, 1-normal
+      void SetAnalysisTerminalMode(int mode) override;  // -1 - close, 0-minimized, 1-normal
+      void SetAnalysisConfigMode(int mode) override;   // -1 - close, 0-minimized, 1-normal
 
       // steps configuration
 
