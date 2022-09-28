@@ -18,7 +18,7 @@ TXXXAnlEvent::TXXXAnlEvent() : TGo4EventElement()
 {
 }
 //***********************************************************
-TXXXAnlEvent::TXXXAnlEvent(const char * name) : TGo4EventElement(name)
+TXXXAnlEvent::TXXXAnlEvent(const char *name) : TGo4EventElement(name)
 {
 }
 //***********************************************************

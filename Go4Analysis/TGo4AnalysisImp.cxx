@@ -1395,7 +1395,7 @@ Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char* subfo
    return fxObjectManager->AddAnalysisCondition(con,subfolder);
 }
 
-TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char * name, const char* cond_cl)
+TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char* cond_cl)
 {
    return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
@@ -1415,37 +1415,37 @@ Int_t TGo4Analysis::GetDynListInterval()
    return fxObjectManager->GetDynListInterval();
 }
 
-TGo4EventElement * TGo4Analysis::GetEventStructure(const char * name)
+TGo4EventElement * TGo4Analysis::GetEventStructure(const char *name)
 {
    return fxObjectManager->GetEventStructure(name);
 }
 
-TH1* TGo4Analysis::GetHistogram(const char * name)
+TH1* TGo4Analysis::GetHistogram(const char *name)
 {
    return fxObjectManager->GetHistogram(name);
 }
 
-TNamed * TGo4Analysis::GetObject(const char * name, const char* folder)
+TNamed * TGo4Analysis::GetObject(const char *name, const char* folder)
 {
    return fxObjectManager->GetObject(name,folder);
 }
 
-TGo4Parameter * TGo4Analysis::GetParameter(const char * name, const char* par_class)
+TGo4Parameter * TGo4Analysis::GetParameter(const char *name, const char* par_class)
 {
    return fxObjectManager->GetParameter(name, par_class);
 }
 
-TGo4Picture * TGo4Analysis::GetPicture(const char * name)
+TGo4Picture * TGo4Analysis::GetPicture(const char *name)
 {
    return fxObjectManager->GetPicture(name);
 }
 
-TCanvas * TGo4Analysis::GetCanvas(const char * name)
+TCanvas * TGo4Analysis::GetCanvas(const char *name)
 {
    return fxObjectManager->GetCanvas(name);
 }
 
-TTree * TGo4Analysis::GetTree(const char * name)
+TTree * TGo4Analysis::GetTree(const char *name)
 {
    return fxObjectManager->GetTree(name);
 }
@@ -1460,7 +1460,7 @@ TFolder * TGo4Analysis::GetObjectFolder()
    return fxObjectManager->GetObjectFolder();
 }
 
-TGo4ObjectStatus * TGo4Analysis::CreateObjectStatus(const char * name, const char* folder)
+TGo4ObjectStatus * TGo4Analysis::CreateObjectStatus(const char *name, const char* folder)
 {
    return fxObjectManager->CreateObjectStatus(name,folder);
 }
@@ -1485,27 +1485,27 @@ Bool_t TGo4Analysis::RemoveEventStructure(TGo4EventElement * ev)
    return fxObjectManager->RemoveEventStructure(ev);
 }
 
-Bool_t TGo4Analysis::RemoveHistogram(const char * name, Bool_t del)
+Bool_t TGo4Analysis::RemoveHistogram(const char *name, Bool_t del)
 {
    return fxObjectManager->RemoveHistogram(name,del);
 }
 
-Bool_t TGo4Analysis::RemoveObject(const char * name, Bool_t del)
+Bool_t TGo4Analysis::RemoveObject(const char *name, Bool_t del)
 {
    return fxObjectManager->RemoveObject(name,del);
 }
 
-Bool_t TGo4Analysis::RemoveParameter(const char * name)
+Bool_t TGo4Analysis::RemoveParameter(const char *name)
 {
    return fxObjectManager->RemoveParameter(name);
 }
 
-Bool_t TGo4Analysis::RemovePicture(const char * name)
+Bool_t TGo4Analysis::RemovePicture(const char *name)
 {
    return fxObjectManager->RemovePicture(name);
 }
 
-Bool_t TGo4Analysis::RemoveCanvas(const char * name)
+Bool_t TGo4Analysis::RemoveCanvas(const char *name)
 {
    return fxObjectManager->RemoveCanvas(name);
 }
@@ -1525,17 +1525,17 @@ Bool_t TGo4Analysis::RemoveEventProcessor(TGo4EventProcessor * pro)
    return fxObjectManager->RemoveEventProcessor(pro);
 }
 
-Bool_t TGo4Analysis::DeleteObjects(const char * name)
+Bool_t TGo4Analysis::DeleteObjects(const char *name)
 {
    return fxObjectManager->DeleteObjects(name);
 }
 
-Bool_t TGo4Analysis::ClearObjects(const char * name)
+Bool_t TGo4Analysis::ClearObjects(const char *name)
 {
    return fxObjectManager->ClearObjects(name);
 }
 
-Bool_t TGo4Analysis::ProtectObjects(const char * name, const Option_t* flags)
+Bool_t TGo4Analysis::ProtectObjects(const char *name, const Option_t* flags)
 {
    return fxObjectManager->ProtectObjects(name, flags);
 }
@@ -1545,7 +1545,7 @@ Bool_t  TGo4Analysis::ResetBackStores(Bool_t clearflag)
    return fxObjectManager->ResetBackStores(clearflag);
 }
 
-Bool_t TGo4Analysis::SetAnalysisCondition(const char * name, TGo4Condition* con, Bool_t counter)
+Bool_t TGo4Analysis::SetAnalysisCondition(const char *name, TGo4Condition* con, Bool_t counter)
 {
    return fxObjectManager->SetAnalysisCondition(name, con, counter);
 }
@@ -1560,7 +1560,7 @@ Bool_t TGo4Analysis::SetParameterStatus(const char* name, TGo4ParameterStatus* p
    return fxObjectManager->SetParameterStatus(name, par);
 }
 
-Bool_t TGo4Analysis::SetPicture(const char * name, TGo4Picture * pic)
+Bool_t TGo4Analysis::SetPicture(const char *name, TGo4Picture * pic)
 {
    return fxObjectManager->SetPicture(name, pic);
 }
@@ -1654,12 +1654,12 @@ Bool_t TGo4Analysis::SetFirstStep(const char* name)
    return fxStepManager->SetFirstStep(name);
 }
 
-Bool_t TGo4Analysis::SetLastStep(const char * name)
+Bool_t TGo4Analysis::SetLastStep(const char *name)
 {
    return fxStepManager->SetLastStep(name);
 }
 
-Bool_t TGo4Analysis::SetStepStorage(const char * name, Bool_t on)
+Bool_t TGo4Analysis::SetStepStorage(const char *name, Bool_t on)
 {
    return fxStepManager->SetStepStorage(name,on);
 }
@@ -1684,22 +1684,22 @@ void TGo4Analysis::SetOutputEvent(TGo4EventElement * event)
    fxStepManager->SetOutputEvent(event);
 }
 
-Int_t TGo4Analysis::StoreParameter(const char * name, TGo4Parameter* par)
+Int_t TGo4Analysis::StoreParameter(const char *name, TGo4Parameter* par)
 {
    return fxStepManager->Store(name, par);
 }
 
-Int_t TGo4Analysis::StoreCondition(const char * name, TGo4Condition* con)
+Int_t TGo4Analysis::StoreCondition(const char *name, TGo4Condition* con)
 {
    return fxStepManager->Store(name, con);
 }
 
-Int_t TGo4Analysis::StoreFitter(const char * name, TGo4Fitter* fit)
+Int_t TGo4Analysis::StoreFitter(const char *name, TGo4Fitter* fit)
 {
    return fxStepManager->Store(name, fit);
 }
 
-Int_t TGo4Analysis::StoreFolder(const char * name, TFolder* folder)
+Int_t TGo4Analysis::StoreFolder(const char *name, TFolder* folder)
 {
    return fxStepManager->Store(name, folder);
 }
