@@ -18,6 +18,8 @@
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4ThreadManager.h"
+#include "TGo4Exception.h"
+
 
 TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
    TNamed(right),
