@@ -57,7 +57,8 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void GetBackStore( int & bufsize, int & splitlevel );
       virtual void SetUserStore(QString name);
       virtual void SetHDF5Store(QString name, int flags);
-      virtual void GetHDF5Store( int & flags);
+      virtual void GetHDF5Store(int &flags);
+
    public slots:
 
       virtual void InputArguments( const QString & Arg );

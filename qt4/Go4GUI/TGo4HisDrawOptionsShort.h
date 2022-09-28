@@ -31,37 +31,21 @@ public:
 public slots:
 
    virtual void SlotXlin();
-
    virtual void SlotXlog();
-
    virtual void SlotYlin();
-
    virtual void SlotYlog();
-
    virtual void SlotZlin();
-
    virtual void SlotZlog();
-
    virtual void SlotD1his();
-
    virtual void SlotD1line();
-
    virtual void SlotD2scatter();
-
    virtual void SlotD2pixel();
-
    virtual void SlotD2surfcol();
-
    virtual void SlotD2lego();
-
    virtual void SlotD2contfill();
-
    virtual void SlotD2contline();
-
    virtual void SlotLineColor();
-
    virtual void SlotFillColor();
-
    virtual void SlotMarkerColor();
 
 };

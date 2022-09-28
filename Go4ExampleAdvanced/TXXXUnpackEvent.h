@@ -33,9 +33,9 @@
 
 class TXXXModule : public TGo4EventElement {
    public:
-      TXXXModule():TGo4EventElement(), fiData(0) {}
+      TXXXModule() : TGo4EventElement() {}
       TXXXModule(const char *name, Short_t id):
-         TGo4EventElement(name,name,id), fiData(0) {}
+         TGo4EventElement(name,name,id) {}
       virtual ~TXXXModule() {}
 
       void Clear(Option_t *t="") override
@@ -46,13 +46,13 @@ class TXXXModule : public TGo4EventElement {
       }
 
       Int_t GetData() const { return fiData; }
-      void SetData(Int_t dat){ fiData=dat; }
+      void SetData(Int_t dat) { fiData = dat; }
 
-      Int_t GetTest() const {return fiTest;}
-      void SetTest(Int_t dat){fiTest=dat;}
+      Int_t GetTest() const { return fiTest; }
+      void SetTest(Int_t dat) { fiTest = dat; }
 
-      Int_t GetAux() const {return fiAux;}
-      void SetAux(Int_t dat){fiAux=dat;}
+      Int_t GetAux() const { return fiAux; }
+      void SetAux(Int_t dat) { fiAux = dat; }
 
       /* in this example, each module represents single channel of data.*/
       Int_t fiData{0};
@@ -70,20 +70,20 @@ class TXXXModule : public TGo4EventElement {
 
 class TXXXCrate : public TGo4CompositeEvent {
    public:
-      TXXXCrate():TGo4CompositeEvent(){;}
+      TXXXCrate() : TGo4CompositeEvent() {}
       TXXXCrate(const char *name, Short_t id);
       virtual ~TXXXCrate() {}
 
-   ClassDefOverride(TXXXCrate,1)
+   ClassDefOverride(TXXXCrate, 1)
 };
 
 class TXXXUnpackEvent : public TGo4CompositeEvent {
    public:
-      TXXXUnpackEvent():TGo4CompositeEvent(){}
+      TXXXUnpackEvent() : TGo4CompositeEvent() {}
       TXXXUnpackEvent(const char *name);
       virtual ~TXXXUnpackEvent() {}
 
-   ClassDefOverride(TXXXUnpackEvent,1)
+   ClassDefOverride(TXXXUnpackEvent, 1)
 };
 
 #endif // TXXXUNPACKEVENT_H

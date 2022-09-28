@@ -22,7 +22,7 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
     Q_OBJECT
 
 public:
-   TGo4ConnectServer( QWidget* parent = nullptr );
+   TGo4ConnectServer(QWidget* parent = nullptr);
 
    void setPassword(const char *pass);
 
@@ -30,11 +30,11 @@ public:
 
 public slots:
 
-   virtual void DefaultPassCheck_toggled( bool on );
+   virtual void DefaultPassCheck_toggled(bool on);
 
-   virtual void SelectAccount_changed( int index );
+   virtual void SelectAccount_changed(int index);
 
-   virtual void SelectConnection_changed ( int index );
+   virtual void SelectConnection_changed(int index);
 
 protected:
 

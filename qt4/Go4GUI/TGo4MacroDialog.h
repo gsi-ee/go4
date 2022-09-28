@@ -18,18 +18,18 @@
 #include "ui_TGo4MacroDialog.h"
 
 class TGo4MacroDialog : public QDialog, public Ui::TGo4MacroDialog
- {
+{
      Q_OBJECT
 
  public:
 
     TGo4MacroDialog(QWidget* parent = nullptr);
 
-   const QString& getCommand();
+    const QString& getCommand();
 
  public slots:
 
-   virtual void setCommand( const QString & selection );
+   virtual void setCommand(const QString & selection);
 
  protected:
     QString fxCommand;

@@ -22,6 +22,7 @@ class QMovie;
 class TGo4AnalysisStatusMonitor : public QGo4Widget, public Ui::TGo4AnalysisStatusMonitor
 {
    Q_OBJECT
+
 protected:
 
    QMovie* fxRunMovie{nullptr};

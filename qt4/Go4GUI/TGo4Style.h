@@ -110,15 +110,10 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
  public slots:
 
    virtual void SetPadColor();
-
-   virtual void SetPalette( int t );
-
+   virtual void SetPalette(int t);
    virtual void SetNamedPalette(int i);
-
    virtual void SetContourLevels(int nlvl);
-
-   virtual void panelSlot( TGo4ViewPanel * panel,TPad *pad, int signalid );
-
+   virtual void panelSlot(TGo4ViewPanel *panel,TPad *pad, int signalid);
 
  protected:
    /** Transform ROOT palette index in named palette combobox index */
@@ -131,7 +126,6 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
    void RefreshPaletteText(int min, int max);
 
    bool fbMenuLock{false};
-
    bool fbSettingPanelData{false};
 
  };

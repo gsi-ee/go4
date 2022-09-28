@@ -92,7 +92,6 @@ class TGo4ASImage : public TObject {
 
       void SetPaletteEnabled(bool) {}
 
-
 };
 
 #endif // ASImage disable switch

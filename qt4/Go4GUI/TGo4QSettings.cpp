@@ -30,7 +30,7 @@ const char *MainWindowDefaultState = "000000ff00000000fd000000020000000000000125
 
 const char *MainWindowDefaultGeometry = "01d9d0cb00010000000000140000000c000003f0000002ba0000001800000029000003ec000002b6000000000000";
 
-TGo4QSettings* go4sett = 0;
+TGo4QSettings* go4sett = nullptr;
 
 TGo4QSettings::TGo4QSettings(const QString& filename)
 {
@@ -57,7 +57,6 @@ QString TGo4QSettings::GetSettLoaction()
    return QDir::homePath() + "/.config/GSI/go4.conf (default)";
 }
 
-
 void TGo4QSettings::Open()
 {
    if (fSettFileName.length()>0)
@@ -69,6 +68,7 @@ void TGo4QSettings::Open()
 void TGo4QSettings::Store()
 {
    delete sett;
+   sett = nullptr;
    Open();
 }
 
@@ -180,7 +180,6 @@ void TGo4QSettings::getBasicSettings()
                                  getBool("/conditions/ShowCmax", 1),
                                  getStr("/conditions/LabelNumberFormat", "%.4E").toLatin1().constData());
 }
-
 
 void  TGo4QSettings::setAppFont(const QFont& font)
 {
@@ -361,100 +360,97 @@ int TGo4QSettings::getClientPort()
 
 void TGo4QSettings::setClientControllerMode(int mode)
 {
-   setInt( "/ClientSetting/Controller", mode);
+   setInt("/ClientSetting/Controller", mode);
 }
 
 int TGo4QSettings::getClientControllerMode()
 {
-   return getInt( "/ClientSetting/Controller", 0);
+   return getInt("/ClientSetting/Controller", 0);
 }
 
 void TGo4QSettings::setClientDefaultPass(bool on)
 {
-   setBool( "/ClientSetting/DefaultPass", on);
+   setBool("/ClientSetting/DefaultPass", on);
 }
 
 bool TGo4QSettings::getClientDefaultPass()
 {
-   return getBool( "/ClientSetting/DefaultPass", true);
+   return getBool("/ClientSetting/DefaultPass", true);
 }
 
-void     TGo4QSettings::setClientConnectMode(int mode)
+void TGo4QSettings::setClientConnectMode(int mode)
 {
-    setInt( "/ClientSetting/Connection", mode);
+   setInt("/ClientSetting/Connection", mode);
 }
 
-int     TGo4QSettings::getClientConnectMode()
+int TGo4QSettings::getClientConnectMode()
 {
-  return getInt( "/ClientSetting/Connection", 0);
+   return getInt("/ClientSetting/Connection", 0);
 }
 
 QString TGo4QSettings::getClientAccountName()
-  {
-    return getStr( "/ClientSetting/Account", "observer");
-  }
-
-void    TGo4QSettings::setClientAccountName(const QString& v)
 {
-    setStr( "/ClientSetting/Account", v);
+   return getStr("/ClientSetting/Account", "observer");
 }
 
-
+void TGo4QSettings::setClientAccountName(const QString &v)
+{
+   setStr("/ClientSetting/Account", v);
+}
 
 void TGo4QSettings::setTermHistorySize(int sz)
 {
-   setInt( "/AnalisysTerminal/HistorySize", sz);
+   setInt("/AnalisysTerminal/HistorySize", sz);
 }
 
 int TGo4QSettings::getTermHistorySize()
 {
-   return getInt( "/AnalisysTerminal/HistorySize", 100000);
+   return getInt("/AnalisysTerminal/HistorySize", 100000);
 }
 
-void TGo4QSettings::setHServName(const QString& v)
+void TGo4QSettings::setHServName(const QString &v)
 {
-   setStr( "/HistogramClient/server", v);
+   setStr("/HistogramClient/server", v);
 }
 
 QString TGo4QSettings::getHServName()
 {
-   return getStr( "/HistogramClient/server", "");
+   return getStr("/HistogramClient/server", "");
 }
 
-void TGo4QSettings::setHServBase(const QString& v)
+void TGo4QSettings::setHServBase(const QString &v)
 {
-   setStr( "/HistogramClient/base", v);
+   setStr("/HistogramClient/base", v);
 }
 
 QString TGo4QSettings::getHServBase()
 {
-   return getStr( "/HistogramClient/base", "");
+   return getStr("/HistogramClient/base", "");
 }
 
-void TGo4QSettings::setHServFilter(const QString& v)
+void TGo4QSettings::setHServFilter(const QString &v)
 {
-   setStr( "/HistogramClient/filter", v);
+   setStr("/HistogramClient/filter", v);
 }
 
 QString TGo4QSettings::getHServFilter()
 {
-   return getStr( "/HistogramClient/filter", "*");
+   return getStr("/HistogramClient/filter", "*");
 }
 
 void TGo4QSettings::setHServPort(int port)
 {
-   setInt( "/HistogramClient/port", port);
+   setInt("/HistogramClient/port", port);
 }
 
 int TGo4QSettings::getHServPort()
 {
-   return getInt( "/HistogramClient/port", 6009);
+   return getInt("/HistogramClient/port", 6009);
 }
-
 
 void TGo4QSettings::setPadCrosshair(bool on)
 {
-   setBool(  "/geometry/Crosshairmode", on);
+   setBool("/geometry/Crosshairmode", on);
 }
 
 bool TGo4QSettings::getPadCrosshair()
@@ -464,17 +460,17 @@ bool TGo4QSettings::getPadCrosshair()
 
 void TGo4QSettings::setPadSuperimpose(bool on)
 {
-   setBool(  "/geometry/Superimpose", on);
+   setBool("/geometry/Superimpose", on);
 }
 
 bool TGo4QSettings::getPadSuperimpose()
 {
-   return getBool(  "/geometry/Superimpose", false);
+   return getBool("/geometry/Superimpose", false);
 }
 
 void TGo4QSettings::setPadEventStatus(bool on)
 {
-   setBool(  "/geometry/Eventstatusmode", on);
+   setBool("/geometry/Eventstatusmode", on);
 }
 
 bool TGo4QSettings::getPadEventStatus()
@@ -562,36 +558,35 @@ bool TGo4QSettings::getDrawItemFlag()
    return getBool("/ViewPanel/DrawItem");
 }
 
-void  TGo4QSettings::setDrawLineWidth(int w)
+void TGo4QSettings::setDrawLineWidth(int w)
 {
    setInt("/ViewPanel/DrawLineWidth", w);
 }
 
-int   TGo4QSettings::getDrawLineWidth()
+int TGo4QSettings::getDrawLineWidth()
 {
    return getInt("/ViewPanel/DrawLineWidth", 1);
 }
 
-void  TGo4QSettings::setDrawFillColor(int col)
+void TGo4QSettings::setDrawFillColor(int col)
 {
-  setInt("/ViewPanel/DrawFillColor", col);
+   setInt("/ViewPanel/DrawFillColor", col);
 }
 
-int     TGo4QSettings::getDrawFillColor()
+int TGo4QSettings::getDrawFillColor()
 {
-  return getInt("/ViewPanel/DrawFillColor", 0);
+   return getInt("/ViewPanel/DrawFillColor", 0);
 }
 
-void  TGo4QSettings::setDrawFillStyle(int style)
+void TGo4QSettings::setDrawFillStyle(int style)
 {
-  setInt("/ViewPanel/DrawFillStyle", style);
-}
-int  TGo4QSettings::getDrawFillStyle()
-{
-  return getInt("/ViewPanel/DrawFillStyle", 1001);
+   setInt("/ViewPanel/DrawFillStyle", style);
 }
 
-
+int TGo4QSettings::getDrawFillStyle()
+{
+   return getInt("/ViewPanel/DrawFillStyle", 1001);
+}
 
 void  TGo4QSettings::setTH1DrawOpt(const QString& v)
 {
@@ -636,7 +631,6 @@ QString TGo4QSettings::getTGraphDrawOpt()
 void TGo4QSettings::setGStyleStatFormat(const QString& v)
 {
    setStr("/ViewPanel/GStyleStatFormat", v);
-
 }
 
 QString TGo4QSettings::getGStyleStatFormat()
@@ -660,8 +654,8 @@ void TGo4QSettings::storeMainWindowState(QMainWindow* src)
 
 void TGo4QSettings::storePanelSize(QWidget* w, const QString& kind)
 {
-   setInt(QString("/") + kind + QString("/Width"), w->width() );
-   setInt(QString("/") + kind + QString("/Height"), w->height() );
+   setInt(QString("/") + kind + QString("/Width"), w->width());
+   setInt(QString("/") + kind + QString("/Height"), w->height());
 }
 
 QSize TGo4QSettings::lastPanelSize(const QString& kind, int dfltwidth, int dfltheight)
@@ -837,7 +831,6 @@ bool TGo4QSettings::getHideTGo4EventElement()
    return getBool("/preferences/HideEventElement", false);
 }
 
-
 void TGo4QSettings::setMoveSubwindowRubberBand(bool on)
 {
    setBool("/preferences/MoveSubwindowRubberBand", on);
@@ -868,113 +861,113 @@ void TGo4QSettings::setPrinterSett(const QString& name, const QString& cmd)
    setStr( "/Printer/Prog", cmd);
 }
 
-void TGo4QSettings::getPrinterSett(QString& name, QString& cmd)
+void TGo4QSettings::getPrinterSett(QString &name, QString &cmd)
 {
-   name = getStr( "/Printer/Name", gSystem->Getenv("PRINTER"));
-   cmd  = getStr( "/Printer/Prog","lpr");
+   name = getStr("/Printer/Name", gSystem->Getenv("PRINTER"));
+   cmd = getStr("/Printer/Prog", "lpr");
 }
 
-void    TGo4QSettings::setMbsMonitorNode(const QString& name)
+void TGo4QSettings::setMbsMonitorNode(const QString &name)
 {
-   setStr( "/MbsMonitor/Node", name);
+   setStr("/MbsMonitor/Node", name);
 }
 
 QString TGo4QSettings::getMbsMonitorNode()
 {
-   return getStr( "/MbsMonitor/Node", "r2-d2");
+   return getStr("/MbsMonitor/Node", "r2-d2");
 }
 
-void    TGo4QSettings::setMbsMonitorFreq(int secs)
+void TGo4QSettings::setMbsMonitorFreq(int secs)
 {
-   setInt( "/MbsMonitor/Frequency", secs);
+   setInt("/MbsMonitor/Frequency", secs);
 }
 
-int     TGo4QSettings::getMbsMonitorFreq()
+int TGo4QSettings::getMbsMonitorFreq()
 {
-   return getInt( "/MbsMonitor/Frequency", 5);
+   return getInt("/MbsMonitor/Frequency", 5);
 }
 
-void    TGo4QSettings::setMbsMonitorBins(int num)
+void TGo4QSettings::setMbsMonitorBins(int num)
 {
-   setInt( "/MbsMonitor/Bins", num);
+   setInt("/MbsMonitor/Bins", num);
 }
 
-int     TGo4QSettings::getMbsMonitorBins()
+int TGo4QSettings::getMbsMonitorBins()
 {
-   return getInt( "/MbsMonitor/Bins", 200);
+   return getInt("/MbsMonitor/Bins", 200);
 }
 
-void    TGo4QSettings::setMbsMonitorTrend(bool on)
+void TGo4QSettings::setMbsMonitorTrend(bool on)
 {
-   setBool(  "/MbsMonitor/TrendOn", on);
+   setBool("/MbsMonitor/TrendOn", on);
 }
 
-bool    TGo4QSettings::getMbsMonitorTrend()
+bool TGo4QSettings::getMbsMonitorTrend()
 {
    return getBool("/MbsMonitor/TrendOn", false);
 }
 
-void    TGo4QSettings::setMbsMonitorMore(bool on)
+void TGo4QSettings::setMbsMonitorMore(bool on)
 {
    setBool("/MbsMonitor/ShowMore", on);
 }
 
-bool    TGo4QSettings::getMbsMonitorMore()
+bool TGo4QSettings::getMbsMonitorMore()
 {
    return getBool("/MbsMonitor/ShowMore", true);
 }
 
-void    TGo4QSettings::setMbsMonitorMonitorActive(bool on)
+void TGo4QSettings::setMbsMonitorMonitorActive(bool on)
 {
    setBool("/MbsMonitor/MonitorActive", on);
 }
 
-bool    TGo4QSettings::getMbsMonitorMonitorActive()
+bool TGo4QSettings::getMbsMonitorMonitorActive()
 {
    return getBool("/MbsMonitor/MonitorActive", false);
 }
 
-void    TGo4QSettings::setMbsMonitorBackwardsTrending(bool on)
+void TGo4QSettings::setMbsMonitorBackwardsTrending(bool on)
 {
    setBool("/MbsMonitor/BackwardsTrending", on);
 }
 
-bool    TGo4QSettings::getMbsMonitorBackwardsTrending()
+bool TGo4QSettings::getMbsMonitorBackwardsTrending()
 {
    return getBool("/MbsMonitor/BackwardsTrending", true);
 }
 
-void    TGo4QSettings::setDabcMonitorNode(const QString& name)
+void TGo4QSettings::setDabcMonitorNode(const QString &name)
 {
-   setStr( "/DabcMonitor/Node", name);
+   setStr("/DabcMonitor/Node", name);
 }
 
 QString TGo4QSettings::getDabcMonitorNode()
 {
-   return getStr( "/DabcMonitor/Node", "dimDns.gsi.de");
+   return getStr("/DabcMonitor/Node", "dimDns.gsi.de");
 }
 
-void    TGo4QSettings::setDabcMonitorFreq(int secs)
+void TGo4QSettings::setDabcMonitorFreq(int secs)
 {
-   setInt( "/DabcMonitor/Frequency", secs);
+   setInt("/DabcMonitor/Frequency", secs);
 }
 
-int     TGo4QSettings::getDabcMonitorFreq()
+int TGo4QSettings::getDabcMonitorFreq()
 {
-   return getInt( "/DabcMonitor/Frequency", 5);
+   return getInt("/DabcMonitor/Frequency", 5);
 }
 
-void    TGo4QSettings::setDabcMonitorBins(int num)
+void TGo4QSettings::setDabcMonitorBins(int num)
 {
-   setInt( "/DabcMonitor/Bins", num);
+   setInt("/DabcMonitor/Bins", num);
 }
 
-int     TGo4QSettings::getDabcMonitorBins()
+int TGo4QSettings::getDabcMonitorBins()
 {
-   return getInt( "/DabcMonitor/Bins", 200);
+   return getInt("/DabcMonitor/Bins", 200);
 }
 
-void    TGo4QSettings::setDabcMonitorBackwardsTrending(bool on)
+void TGo4QSettings::setDabcMonitorBackwardsTrending(bool on)
 {
    setBool("/DabcMonitor/BackwardsTrending", on);
 }
@@ -989,7 +982,7 @@ QStringList TGo4QSettings::getCommandsHistoryGUI()
    return sett->value("/CommandsHistoryGUI").toStringList();
 }
 
-void TGo4QSettings::setCommandsHistoryGUI(const QStringList & commands)
+void TGo4QSettings::setCommandsHistoryGUI(const QStringList &commands)
 {
    sett->setValue("/CommandsHistoryGUI", commands);
 }
@@ -999,25 +992,23 @@ QStringList TGo4QSettings::getCommandsHistoryAnalysis()
    return sett->value("/CommandsHistoryAnalysis").toStringList();
 }
 
-void TGo4QSettings::setCommandsHistoryAnalysis(const QStringList & commands)
+void TGo4QSettings::setCommandsHistoryAnalysis(const QStringList &commands)
 {
    sett->setValue("/CommandsHistoryAnalysis", commands);
 }
 
-/////////////////////////////////
-
 QString TGo4QSettings::getAnalysisMacroCommand(int id)
 {
-    QString descriptor=QString("/AnalysisMacro%1/Command").arg(id);
+   QString descriptor = QString("/AnalysisMacro%1/Command").arg(id);
 
-    return getStr(descriptor, "");
+   return getStr(descriptor, "");
 }
 
 QString TGo4QSettings::getAnalysisMacroTip(int id)
 {
-    QString descriptor=QString("/AnalysisMacro%1/Tip").arg(id);
-    QString deftip=QString("Ctrl - %1").arg(id+1);
-    return getStr(descriptor, deftip);
+   QString descriptor = QString("/AnalysisMacro%1/Tip").arg(id);
+   QString deftip = QString("Ctrl - %1").arg(id + 1);
+   return getStr(descriptor, deftip);
 }
 
 bool TGo4QSettings::getAnalysisMacroAutomode(int id)
@@ -1056,14 +1047,13 @@ void    TGo4QSettings::setScreenScaleFactor(double factor)
 
 bool TGo4QSettings::getSavePadWhiteBackground()
 {
-      return getBool("/ViewPanel/SavePadWhiteBackground", false);
-
+   return getBool("/ViewPanel/SavePadWhiteBackground", false);
 }
 
-void  TGo4QSettings::setSavePadWhiteBackground(bool on)
+void TGo4QSettings::setSavePadWhiteBackground(bool on)
 {
 
-  setBool("/ViewPanel/SavePadWhiteBackground", on);
+   setBool("/ViewPanel/SavePadWhiteBackground", on);
 }
 
 bool TGo4QSettings::getTermShowTimestamp()

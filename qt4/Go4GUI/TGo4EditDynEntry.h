@@ -30,8 +30,7 @@ class TGo4EditDynEntry : public QGo4Widget, public Ui::TGo4EditDynEntry
 
 public:
 
-     enum ESelectedType {entry_None = -1, entry_Histogram = 0, entry_Tree = 1};
-
+     enum ESelectedType { entry_None = -1, entry_Histogram = 0, entry_Tree = 1 };
 
     TGo4EditDynEntry(QWidget *parent = nullptr, const char *name = nullptr);
 

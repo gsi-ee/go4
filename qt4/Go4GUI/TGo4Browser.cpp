@@ -160,7 +160,7 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
    TGo4Slot* dropslot = Browser()->ItemSlot(dropname.toLatin1().constData());
 
    if (!tgtslot || !dropslot) return;
-   if (Browser()->ItemKind(tgtslot)!=TGo4Access::kndFolder) return;
+   if (Browser()->ItemKind(tgtslot) != TGo4Access::kndFolder) return;
 
    if (dropslot->GetParent() == tgtslot) return;
 

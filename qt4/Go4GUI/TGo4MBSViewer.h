@@ -38,51 +38,32 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
      TGo4MBSViewer(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~TGo4MBSViewer();
 
-    TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
+    TH1* TrendHisto(QString & refname, const QString & name, const QString & title, int value);
 
  public slots:
 
-   virtual void StoreSettings();
+    virtual void StoreSettings();
+    virtual void TimerStart();
+    virtual void TimerStop();
+    virtual void Display();
+    virtual void Refresh();
+    virtual void NodeEditEnter();
+    virtual void NodeChanged(const QString &txt);
+    virtual void ShowStatus();
+    virtual void StateGroup_clicked(int id);
+    virtual void PrintState();
+    virtual void TrendSwitched(bool on);
+    virtual void UpdateTrending();
+    virtual void IncTrending(TH1 *histo, int value, bool forwards);
+    virtual void FrequencyBox_valueChanged(int);
+    virtual void MoreBox_toggled(bool on);
+    virtual void TrendBinsBox_valueChanged(int i);
+    virtual void RefreshButtonClick();
+    virtual void SetNode(const QString &txt);
+    virtual void ResetRunIcon();
+    virtual void StartMovieReset();
 
-   virtual void TimerStart();
-
-   virtual void TimerStop();
-
-   virtual void Display();
-
-   virtual void Refresh();
-
-   virtual void NodeEditEnter();
-
-   virtual void NodeChanged( const QString & txt );
-
-   virtual void ShowStatus();
-
-   virtual void StateGroup_clicked( int id);
-
-   virtual void PrintState();
-
-   virtual void TrendSwitched( bool on );
-
-   virtual void UpdateTrending();
-
-   virtual void IncTrending( TH1 * histo, int value, bool forwards );
-
-   virtual void FrequencyBox_valueChanged( int );
-
-   virtual void MoreBox_toggled( bool on);
-
-   virtual void TrendBinsBox_valueChanged( int i);
-
-   virtual void RefreshButtonClick();
-
-   virtual void SetNode( const QString & txt );
-
-   virtual void ResetRunIcon();
-
-   virtual void StartMovieReset();
-
-protected:
+ protected:
 
     bool fbSingleRefresh{false};
     int fiLastDataNum{0};
