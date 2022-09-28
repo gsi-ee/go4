@@ -43,13 +43,13 @@ Int_t TGo4DataRunnable::Run(void* ptr)
    if(fbReceiverMode)
       {
       Int_t rev=fxTransport->ReceiveBuffer();
-      if(rev>=0)
+      if(rev >= 0)
          {
             TBuffer* buf=const_cast<TBuffer*> (fxTransport->GetBuffer());
-            Int_t val=0;
+            Int_t val = 0;
             if(CheckStopBuffer(buf,&val)) return 0; // stop for disconnect mode
-            Go4EmergencyCommand_t comvalue= (Go4EmergencyCommand_t) (val);
-            if(val>=0 && comvalue==kComQuit)
+            Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t) (val);
+            if(val >= 0 && comvalue == kComQuit)
                {
                   //std::cout <<"QQQQQQQQQ Data Runnable has QUIT "<< std::endl;
                   GetThread()->Stop();
@@ -62,7 +62,7 @@ Int_t TGo4DataRunnable::Run(void* ptr)
                {
                   fxBufferQueue->AddBuffer(buf, kTRUE);
                }
-          } //// if(rev>=0)
+          } //// if(rev >= 0)
       else
          {
             // error
@@ -89,7 +89,7 @@ Int_t TGo4DataRunnable::Run(void* ptr)
                   throw TGo4TaskHandlerAbortException(this);
                }
 
-         } // end if(rev>=0)
+         } // end if(rev >= 0)
 
       } ////if(fbReceiverMode)
    else

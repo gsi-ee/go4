@@ -67,15 +67,15 @@ TGo4ExampleServer::TGo4ExampleServer(const char *name,
 
 TGo4TaskHandlerCommandList* TGo4ExampleServer::CreateCommandList()
 {
-   return (new TGo4ExampleCommandList);
+   return new TGo4ExampleCommandList;
 }
 
 Int_t TGo4ExampleServer::StopWorkThreads()
 {
 
    TGo4Log::Debug(" Example Server is stopping work threads ");
-   Int_t rev=0;
-   TGo4ThreadHandler* threadhandler= GetWorkHandler();
+   Int_t rev = 0;
+   TGo4ThreadHandler* threadhandler = GetWorkHandler();
    TGo4BufferQueue* dataq=GetDataQueue();
    TGo4BufferQueue* statusq=GetStatusQueue();
   // stop my own threads, put dummies into queues to release semaphores
@@ -108,12 +108,12 @@ Int_t TGo4ExampleServer::StartWorkThreads()
 {
 
    TGo4Log::Debug(" Example Server is starting work threads ");
-   Int_t rev=0;
+   Int_t rev = 0;
     // start again the  working threads on next current task
-   TGo4ThreadHandler* threadhandler= GetWorkHandler();
+   TGo4ThreadHandler* threadhandler = GetWorkHandler();
    threadhandler->Start(fcControlName.Data());
    threadhandler->Start(fcLoggingName.Data());
-   rev=TGo4ServerTask::StartWorkThreads(); // this will set server task internal flag
+   rev = TGo4ServerTask::StartWorkThreads(); // this will set server task internal flag
    return rev;
 
 }

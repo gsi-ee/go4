@@ -19,42 +19,41 @@
 TGo4TaskHandlerException::TGo4TaskHandlerException (TGo4TaskHandler* taskhandler)
 {
    fxDescription= "!!!-- Go4 TaskHandler Exception --!!!";
-   fxCaller=0;
-   fxTaskHandler=taskhandler;
+   fxTaskHandler = taskhandler;
    if(fxTaskHandler)
       {
          // o.k. we have a given taskhandler
-         fxThreadManager =fxTaskHandler->GetThreadManager();
+         fxThreadManager = fxTaskHandler->GetThreadManager();
       }
    else
       {
          // wrong call with zero pointer: dummy init of manager, will be checked in Handle()
-         fxThreadManager=0;
+         fxThreadManager = nullptr;
       }
 }
 
 TGo4TaskHandlerException::TGo4TaskHandlerException(TGo4TaskHandlerRunnable* run)
 {
    fxDescription= "!!!-- Go4 TaskHandler Exception --!!!";
-   fxCaller=run;
+   fxCaller = run;
    if(fxCaller)
       {
-         fxTaskHandler=fxCaller->GetTaskHandler();
+         fxTaskHandler = fxCaller->GetTaskHandler();
       }
    else
       {
-         fxTaskHandler=0;
+         fxTaskHandler = nullptr;
       }
 
    if(fxTaskHandler)
       {
          // o.k. we have a given taskhandler
-         fxThreadManager =fxTaskHandler->GetThreadManager();
+         fxThreadManager = fxTaskHandler->GetThreadManager();
       }
    else
       {
          // wrong call with zero pointer: dummy init of manager, will be checked in Handle()
-         fxThreadManager=0;
+         fxThreadManager = nullptr;
       }
 }
 

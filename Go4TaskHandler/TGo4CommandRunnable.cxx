@@ -105,7 +105,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
             fxBufferQueue->AddBuffer(buffer, kTRUE);
             fxTransport->Send(TGo4TaskHandler::Get_fgcOK());
          }  // end if((val>0))
-      } // if(rev>=0)
+      } // if(rev >= 0)
       else
       {
          if (TGo4SocketSignalHandler::IsLastSignalWINCH())
@@ -127,7 +127,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
             TGo4Log::Debug("Receive Error in %s, aborting taskhandler...",GetName());
             throw TGo4TaskHandlerAbortException(this);
          }
-      } // end if (rev>=0)
+      } // end if (rev >= 0)
    }  //end if(fbReceiverMode)
    else
    {

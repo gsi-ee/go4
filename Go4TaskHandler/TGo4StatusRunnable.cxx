@@ -41,12 +41,12 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
       {
       // server side: receive status objects from client
       Int_t  rev = fxTransport->ReceiveBuffer();
-      if(rev>=0)
+      if(rev >= 0)
          {
             TBuffer* buf=const_cast<TBuffer*> (fxTransport->GetBuffer());
             if(CheckStopBuffer(buf)) return 0; // stop for disconnect mode
             fxBufferQueue->AddBuffer(buf, kTRUE);
-         } ////if(rev>=0)
+         } ////if(rev >= 0)
       else
          {
             if (TGo4SocketSignalHandler::IsLastSignalWINCH())
