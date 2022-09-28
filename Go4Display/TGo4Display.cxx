@@ -28,7 +28,7 @@ TGo4Display::TGo4Display(Bool_t isserver)
    : TGo4Master("Display",
                 isserver, // servermode
                 "dummy", //for clientmode only
-                1), // negotiationport
+                0), // negotiationport - 0 = root will find next free port automatically
      fxAnalysis(nullptr)
 {
    // start gui timers instead of threads
