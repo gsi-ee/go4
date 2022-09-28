@@ -33,7 +33,7 @@ TGo4ObjClient::TGo4ObjClient() :
    fxServerPass(),
    fxHostname(),
    fiPort(0),
-   fxTransport(0)
+   fxTransport(nullptr)
 {
 }
 
@@ -47,7 +47,7 @@ TGo4ObjClient::TGo4ObjClient(const char *name,
    fxServerPass(),
    fxHostname(),
    fiPort(0),
-   fxTransport(0)
+   fxTransport(nullptr)
 {
    SetParms(base,passwd,host,port);
    fxTransport = new TGo4Socket(kTRUE);

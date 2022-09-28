@@ -54,10 +54,10 @@ const UInt_t TGo4HistogramServer::fguCONNECTWAITCYCLETIME = 500; // time in ms (
 
 TGo4HistogramServer::TGo4HistogramServer(TGo4AnalysisClient *owner, const char *servername, const char *password,
                                          Bool_t useobjectserver)
-   : fxAnalysisClient(owner), fxThreadHandler(0), fiServerPort(0), fxTransport(0), fuObjectPort(0),
-     fxConnectTransport(0), fxDisConnectTransport(0), fuConnectPort(0), fbConnectRequest(kFALSE),
+   : fxAnalysisClient(owner), fxThreadHandler(0), fiServerPort(0), fxTransport(nullptr), fuObjectPort(0),
+     fxConnectTransport(nullptr), fxDisConnectTransport(0), fuConnectPort(0), fbConnectRequest(kFALSE),
      fbDisConnectRequest(kFALSE), fbConnectIsOpen(kFALSE), fbConnectIsDone(kFALSE), fbConnectIsClose(kTRUE),
-     fxConnectorTimer(0), fbUseObjectServer(useobjectserver)
+     fxConnectorTimer(nullptr), fbUseObjectServer(useobjectserver)
 {
    TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
    TGo4CommandInvoker::Register("HistogramServer", this);

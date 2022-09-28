@@ -37,14 +37,14 @@
 #include "TGo4FitSlot.h"
 
 TGo4Fitter::TGo4Fitter()
-   : TGo4FitterAbstract(), fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0), fxUserFitFunction(0),
-     fxDrawObjs(0)
+   : TGo4FitterAbstract(), fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0), fxUserFitFunction(nullptr),
+     fxDrawObjs(nullptr)
 {
 }
 
 TGo4Fitter::TGo4Fitter(const char *iName, const char *iTitle)
    : TGo4FitterAbstract(iName, iTitle), fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0),
-     fxUserFitFunction(0), fxDrawObjs(0)
+     fxUserFitFunction(nullptr), fxDrawObjs(nullptr)
 {
    fxDatas.SetOwner(kTRUE);
    fxModels.SetOwner(kTRUE);
@@ -52,7 +52,7 @@ TGo4Fitter::TGo4Fitter(const char *iName, const char *iTitle)
 
 TGo4Fitter::TGo4Fitter(const char *iName, Int_t iFitFunctionType, Bool_t IsAddStandardActions)
    : TGo4FitterAbstract(iName, "TGo4Fitter object"), fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(100),
-     fxUserFitFunction(0), fxDrawObjs(0)
+     fxUserFitFunction(nullptr), fxDrawObjs(nullptr)
 {
    fxDatas.SetOwner(kTRUE);
    fxModels.SetOwner(kTRUE);
@@ -124,8 +124,7 @@ TGo4FitData *TGo4Fitter::AddData(TGo4FitData *data)
    return data;
 }
 
-TGo4FitDataHistogram *
-TGo4Fitter::AddH1(const char *DataName, TH1 *histo, Bool_t Owned, Double_t lrange, Double_t rrange)
+TGo4FitDataHistogram *TGo4Fitter::AddH1(const char *DataName, TH1 *histo, Bool_t Owned, Double_t lrange, Double_t rrange)
 {
    TGo4FitDataHistogram *data = new TGo4FitDataHistogram(DataName, histo, Owned);
    if ((lrange < rrange) || (rrange != 0.))

@@ -1075,7 +1075,7 @@ Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
 {
    if (!titl) return kFALSE;
 
-   Double_t x1, y1, x2, y2, sz(0.);
+   Double_t x1, y1, x2, y2, sz = 0.;
    if (GetOptionD(PictureIndex, op_TitleX1, x1) &&
        GetOptionD(PictureIndex, op_TitleY1, y1) &&
        GetOptionD(PictureIndex, op_TitleX2, x2) &&
