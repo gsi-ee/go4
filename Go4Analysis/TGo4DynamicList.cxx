@@ -193,11 +193,11 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    if (!hentry) return true;
 
    if (hentry->NeedInitialisation()) {
-      TGo4Analysis* ana= TGo4Analysis::Instance();
+      TGo4Analysis *ana = TGo4Analysis::Instance();
 
       hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
 
-      for(Int_t n=0; n<__MAXCONDIM__; n++) {
+      for(Int_t n = 0; n < __MAXCONDIM__; n++) {
          TGo4EventElement* event = nullptr;
          TDataMember* eventmember = nullptr;
          Long_t offset = 0;
@@ -217,8 +217,8 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 
       hentry->fxHistogram = ana->GetHistogram(hentry->GetHistogramName());
 
-      for(Int_t n=0; n<__MAXHISDIM__; n++) {
-         TGo4EventElement* event = nullptr;
+      for (Int_t n = 0; n < __MAXHISDIM__; n++) {
+         TGo4EventElement *event = nullptr;
          TDataMember* eventmember = nullptr;
          Long_t offset = 0;
 
@@ -239,7 +239,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    }
 
    Bool_t evvalid[__MAXHISDIM__];
-   for (Int_t n=0;n<__MAXHISDIM__;n++) {
+   for (Int_t n = 0; n < __MAXHISDIM__; n++) {
       evvalid[n] = kFALSE;
       TGo4EventElement* event = (TGo4EventElement*) hentry->fxHisEvents[n];
       if (event)

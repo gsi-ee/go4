@@ -501,13 +501,13 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
    } // while
 
    // now process components of composite event
-   if (obj && (obj->InheritsFrom(TGo4CompositeEvent::Class()))) {
+   if (obj && obj->InheritsFrom(TGo4CompositeEvent::Class())) {
 
       TObjArray* arr =((TGo4CompositeEvent*)obj)->getElements();
 
       if (arr)
-         for (Int_t n=0;n<=arr->GetLast();n++) {
-            TGo4EventElement* elem = (TGo4EventElement*) arr->At(n);
+         for (Int_t n = 0; n <= arr->GetLast(); n++) {
+            TGo4EventElement *elem = (TGo4EventElement *)arr->At(n);
             if (!elem) continue;
             TFolder* subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
             if(subfold)
@@ -661,40 +661,34 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
                   cevent = dynamic_cast<TGo4CompositeEvent*> (GetEventStructure(branchname.Data()));
                   if(cevent) {
                      //std::cout <<"found top comp event" << std::endl;
-                     Int_t skippedentries=0;
+                     Int_t skippedentries = 0;
                      // we pass complete top branchlist to method
-                     subnames = CreateCompositeBranchFolder(
-                           branchlist,cevent,cursor+1,
-                           &skippedentries,
-                           cevent->GetName(),
-                           cevent->GetTitle());
+                     subnames = CreateCompositeBranchFolder(branchlist,cevent,cursor+1,
+                                                            &skippedentries, cevent->GetName(), cevent->GetTitle());
                      // skip comp subelements in iterator:
                      //std::cout <<"top skipped:"<<skippedentries<< std::endl;
                      // now process subbranchlist  of top compevent,
                      // add members of this folder to existing folder subnames!
                      TFolder* temp = CreateBranchFolder(subbranchlist, "dummy","dummy");
                      subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
-                     for(Int_t t=0;t<skippedentries;++t) {
+                     for (Int_t t = 0; t < skippedentries; ++t) {
                         iter();
                         cursor++;
                      }
                   } else {
                      //std::cout <<"not found top comp event" << std::endl;
-                     subnames=CreateBranchFolder(subbranchlist,
-                           subbranch->GetName(),
-                           subbranch->GetTitle());
+                     subnames = CreateBranchFolder(subbranchlist, subbranch->GetName(), subbranch->GetTitle());
                   }
                } else {
                   //std::cout <<"no class or not top branch" << std::endl;
-                  subnames=CreateBranchFolder(subbranchlist,
-                        subbranch->GetName(), subbranch->GetTitle());
+                  subnames = CreateBranchFolder(subbranchlist, subbranch->GetName(), subbranch->GetTitle());
                }
                nameslist->AddLast(subnames);
             } // if(subbranchlist->IsEmpty())
          } else {
             // no subbranchlist, should not happen...
             // add status object to folder
-            state=new TGo4BranchStatus(subbranch);
+            state = new TGo4BranchStatus(subbranch);
             nameslist->AddLast(state);
          } // if(subbranchlist)
       }
@@ -873,7 +867,7 @@ TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char *foldername,
    TArrayF fullx(size+1), fully(size+1);
    int numpoints = size;
 
-   for (int i=0;i<numpoints;i++) {
+   for (int i = 0; i < numpoints; i++) {
       fullx[i] = points[i][0];
       fully[i] = points[i][1];
    }
@@ -1760,7 +1754,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
 
    GO4TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
-   Int_t totalsize=0;
+   Int_t totalsize = 0;
    TROOT::IndentLevel();
    TROOT::IncreaseDirLevel();
    std::cout << "+Folder " << fold->GetName() << " content:" << std::endl;

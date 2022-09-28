@@ -60,7 +60,6 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
                                        Bool_t showrate) :
    TGo4Slave(name, servermode, host, negport),
    fdBufferUpdateTime(0),
-   fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(loadprefs),
@@ -90,7 +89,6 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
                                        Bool_t autorun) :
    TGo4Slave(argv[2], servermode, argv[3], (argc>4) ? atoi(argv[4]) : 5000),
    fdBufferUpdateTime(0),
-   fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(kTRUE),
@@ -452,22 +450,18 @@ void TGo4AnalysisClient::StartObjectServer(const char *basename,  const char *pa
 
 void TGo4AnalysisClient::StopObjectServer()
 {
-   //std::cout <<"--------StopObjectServer entered." << std::endl;
    if(fxHistoServer) {
       delete fxHistoServer;
-      fxHistoServer=0;
-      //std::cout <<"---------old histoserver is deleted!!!" << std::endl;
+      fxHistoServer = nullptr;
       //SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s: Object server was stopped.",GetName()));
    }
 }
 
 void TGo4AnalysisClient::Quit()
 {
-  //std::cout <<"--------TGo4AnalysisClient::Quit() closing analysis" << std::endl;
 	  Stop();
 	  fxAnalysis->CloseAnalysis();
 }
-
 
 
 void TGo4AnalysisClient::Terminate(Bool_t termapp)
