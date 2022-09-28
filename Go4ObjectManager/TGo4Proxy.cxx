@@ -31,7 +31,7 @@ const char *TGo4Access::GetObjectName() const
    return nullptr;
 }
 
-TClass* TGo4Access::GetObjectClass() const
+TClass *TGo4Access::GetObjectClass() const
 {
    return TGo4Proxy::GetClass(GetObjectClassName());
 }
@@ -70,7 +70,7 @@ void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
 
 //------------------------------------------------------------------------------
 
-TClass* TGo4Proxy::GetClass(const char *classname, Bool_t load)
+TClass *TGo4Proxy::GetClass(const char *classname, Bool_t load)
 {
    // Wrapper for TROOT::GetClass() method.
    // While ROOT does not automatically create TClass instance,

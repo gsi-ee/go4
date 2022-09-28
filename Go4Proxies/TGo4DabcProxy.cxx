@@ -164,7 +164,7 @@ class TGo4DabcAccess : public TGo4Access {
 
       Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
 
-      TClass* GetObjectClass() const override
+      TClass *GetObjectClass() const override
       {
          if (fRootClassName.length() > 0)
             return TGo4Proxy::GetClass(fRootClassName.c_str());

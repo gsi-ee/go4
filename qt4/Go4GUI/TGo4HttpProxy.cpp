@@ -166,7 +166,7 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_
    if (extra_arg) fExtraArg = extra_arg;
 }
 
-TClass* TGo4HttpAccess::GetObjectClass() const
+TClass *TGo4HttpAccess::GetObjectClass() const
 {
    if (fKind==3) return TGraph::Class();
    if (fKind==4) return gROOT->GetClass("TGo4ParameterStatus");
@@ -199,7 +199,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
 {
    if (!rcv) return 0;
 
-   TClass* obj_cl = GetObjectClass();
+   TClass *obj_cl = GetObjectClass();
    if (!obj_cl) {
       printf("TGo4HttpAccess fail to get class %s for object %s\n", GetObjectClassName(), path);
       return 0;
@@ -435,7 +435,7 @@ void TGo4HttpAccess::httpFinished()
       gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
    } else {
 
-      TClass* obj_cl = GetObjectClass();
+      TClass *obj_cl = GetObjectClass();
 
       if (gDebug > 2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
 
@@ -1142,7 +1142,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          if (gDebug>2) printf("Decoding portion of %d bytes\n", len);
 
-         TClass* obj_cl = n == 0 ? TGo4Ratemeter::Class() : TList::Class();
+         TClass *obj_cl = n == 0 ? TGo4Ratemeter::Class() : TList::Class();
          TObject *obj = (TObject*) obj_cl->New();
 
          TBufferFile buf(TBuffer::kRead, len, ptr, kFALSE);

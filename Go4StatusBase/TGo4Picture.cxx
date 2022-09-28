@@ -1323,7 +1323,7 @@ void TGo4Picture::ClearFullRange(Int_t naxis)
    ClearOption(PictureIndex, op+1);
 }
 
-void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass* selectedobjclass)
+void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass *selectedobjclass)
 {
    if (!source) return;
    Clear();

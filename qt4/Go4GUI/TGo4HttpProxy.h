@@ -62,9 +62,9 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
    Q_OBJECT
 
    protected:
-      TGo4HttpProxy   *fProxy{nullptr};
-      XMLNodePointer_t fNode{nullptr};
-      TString          fUrlPath;
+      TGo4HttpProxy     *fProxy{nullptr};
+      XMLNodePointer_t   fNode{nullptr};
+      TString            fUrlPath;
       // Request kind. Can be:
       //   0 - h.xml request,
       //   1 - root.bin request,
@@ -73,13 +73,13 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       //   4 - parameter status request
       //   5 - sample tree
       //   6 - analysis status request
-      Int_t            fKind{0};
-      TString          fNameAttr;
-      TString          fKindAttr;
-      TString          fExtraArg;
-      TGo4ObjectManager* fReceiver{nullptr};
-      TString          fRecvPath;
-      QNetworkReply   *fReply{nullptr};
+      Int_t              fKind{0};
+      TString            fNameAttr;
+      TString            fKindAttr;
+      TString            fExtraArg;
+      TGo4ObjectManager *fReceiver{nullptr};
+      TString            fRecvPath;
+      QNetworkReply     *fReply{nullptr};
 
    public slots:
       void httpFinished();
@@ -97,7 +97,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
       Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
 
-      TClass* GetObjectClass() const override;
+      TClass *GetObjectClass() const override;
 
       const char *GetObjectName() const override;
 

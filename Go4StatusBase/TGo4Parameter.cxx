@@ -265,7 +265,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass *cl, char* ptr, un
    while(auto obj = cliter()) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
       if (!baseclass) continue;
-      TClass* bclass = baseclass->GetClassPointer();
+      TClass *bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
       if(strcmp(bclass->GetName(), "TGo4Parameter") == 0) continue;
       if(strcmp(bclass->GetName(), "TNamed") == 0) continue;
@@ -387,7 +387,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
    while(auto obj = cliter()) {
       TBaseClass* baseclass = dynamic_cast<TBaseClass*>(obj);
       if (!baseclass) continue;
-      TClass* bclass = baseclass->GetClassPointer();
+      TClass *bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
       if(strcmp(bclass->GetName(), "TGo4Parameter") == 0) continue;
       if(strcmp(bclass->GetName(), "TNamed") == 0) continue;

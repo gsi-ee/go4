@@ -39,7 +39,7 @@ Bool_t TGo4ObjectAccess::GetObject(TObject* &obj, Bool_t &owner) const
    return kTRUE;
 }
 
-TClass* TGo4ObjectAccess::GetObjectClass() const
+TClass *TGo4ObjectAccess::GetObjectClass() const
 {
    return fObject->IsA();
 }

@@ -106,7 +106,7 @@ void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t
    }
 }
 
-TDataMember* FindDataMember(TClass* eventclass,
+TDataMember* FindDataMember(TClass *eventclass,
                             const char *memname,
                             Long_t* totaloffset)
 {
@@ -141,10 +141,10 @@ TDataMember* FindDataMember(TClass* eventclass,
          if(baseclass)
          {
             // we have a baseclass
-            TClass* bclass=baseclass->GetClassPointer();
+            TClass *bclass = baseclass->GetClassPointer();
             // search for member in all superclasses recursively:
-            eventmember = FindDataMember(bclass,memname,totaloffset);
-            if(eventmember) {
+            eventmember = FindDataMember(bclass, memname, totaloffset);
+            if (eventmember) {
                // we found member in any of the baseclasses
                *totaloffset+=baseclass->GetDelta();
                // inc total offset to this by baseclass offset

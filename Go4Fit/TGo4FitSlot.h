@@ -38,7 +38,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Constructor only sets owner of slot, desired class of object and if this object should be always owned.
        * The rest values (name, title, object and so on) should be restored by streamer, which typically calls default constructor.
        */
-      TGo4FitSlot(TNamed* iOwner, TClass* iClass);
+      TGo4FitSlot(TNamed *iOwner, TClass *iClass);
 
       /**
        * Creates TGo4FitSlot object.
@@ -47,7 +47,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Optionally, requirements of object (is it always needed or not, default - not), pointer on object and ownership flag can be specified.
        */
       TGo4FitSlot(const char *iName, const char *iTitle,
-                  TNamed* iOwner, TClass* iClass,
+                  TNamed *iOwner, TClass *iClass,
                   Bool_t iNeeded = kFALSE, TObject* iObject = nullptr, Bool_t iOwned = kFALSE);
 
       /**
@@ -58,13 +58,13 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return pointer on class for desired object.
        */
-      TClass* GetClass() { return fxClass; }
+      TClass *GetClass() { return fxClass; }
 
       /**
        * Set basic fields of slot.
        * See proper constructor for description. Normally should not be called by user.
        */
-      void SetDefaults(TNamed* iOwner, TClass* iClass);
+      void SetDefaults(TNamed* iOwner, TClass *iClass);
 
       /**
        * Set save flag for saving of object in slot, when slot stored to streamer:
@@ -217,7 +217,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Class of object, which should be assigned to slot.
        */
-      TClass* fxClass{nullptr};        //!
+      TClass *fxClass{nullptr};        //!
 
       /**
        * Describe saving of object in slot.
