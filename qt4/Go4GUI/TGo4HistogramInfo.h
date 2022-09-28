@@ -45,7 +45,7 @@ public:
 
    bool IsAcceptDrag(const char *itemname, TClass* cl, int kind) override;
    void DropItem(const char *itemname, TClass* cl, int kind) override;
-   void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
    virtual void WorkWithHistogram(const char *itemname);
    void ResetWidget() override;
    virtual void RefreshHistogramInfo(TH1* h1);

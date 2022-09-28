@@ -44,11 +44,11 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       TGo4Slot* MakeObjSlot(const char* foldername, const char *name = nullptr, const char *title = nullptr);
 
-      TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle);
+      TGo4Slot* AddLink(TGo4Slot* source, const char* pathname, const char *linkname, const char* linktitle);
 
       TGo4Slot* AddLink(TGo4Slot* source, const char* pathname);
 
-      TGo4Slot* AddLink(const char* sourcename, const char* pathname);
+      TGo4Slot* AddLink(const char *sourcename, const char* pathname);
 
       TGo4Slot* GetLinked(TGo4Slot* link);
 

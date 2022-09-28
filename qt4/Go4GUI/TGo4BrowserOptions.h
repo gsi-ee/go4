@@ -29,7 +29,7 @@ public:
 
    virtual void UpdateView();
 
-   void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
 public slots:
 

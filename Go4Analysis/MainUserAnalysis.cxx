@@ -839,8 +839,8 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-step") == 0) {
          if (++narg < argc) {
-            const char* step_name = argv[narg++];
-            int step_number(-1);
+            const char *step_name = argv[narg++];
+            int step_number = -1;
             step = nullptr;
             if (sscanf(step_name, "%d", &step_number) == 1)
                if (step_number >= 0) step = analysis->GetAnalysisStepNum(step_number);
@@ -1004,7 +1004,7 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-store") == 0) {
          if (++narg >= argc) showerror("Store name not specified");
 
-         const char* sourcename = argv[narg++];
+         const char *sourcename = argv[narg++];
          int splitlevel = 1;
          int buffersize = 64000;
          int compression = 5;

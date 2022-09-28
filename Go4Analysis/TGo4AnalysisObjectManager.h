@@ -113,7 +113,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * previously created matching list is returned. Optionally the
        * search can be limited to a given folder.
        */
-      TObject* NextMatchingObject(const char* expr,
+      TObject* NextMatchingObject(const char *expr,
                                   const char *folder,
                                   Bool_t reset);
 
@@ -251,7 +251,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to folder dedicated to that step. In stepname is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t RemoveTree(TTree * tree, const char* stepname = nullptr);
+      Bool_t RemoveTree(TTree * tree, const char *stepname = nullptr);
 
       /**
        * Puts a new analysis condition object in corresponding list.
@@ -582,19 +582,19 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Printout of all histogram statistic counters on the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintHistograms(const char* expression = nullptr);
+      void PrintHistograms(const char *expression = nullptr);
 
       /**
        * Print all condition counters to the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintConditions(const char* expression = nullptr);
+      void PrintConditions(const char *expression = nullptr);
 
       /**
        * Print all parameters to the terminal.
        * Expression may filter only objects with names matching.
        */
-      void PrintParameters(const char* expression = nullptr);
+      void PrintParameters(const char *expression = nullptr);
 
       /**
        * Print entries of current dynamic list.
@@ -966,13 +966,13 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Create a list of objects which names are matching expression expr.
        * optionally, the search can be limited to given subfolder of
        * Go4. By default, all registered objects are compared.*/
-      TList* CreateObjectList(const char* expr, const char *folder = nullptr);
+      TList* CreateObjectList(const char *expr, const char *folder = nullptr);
 
       /** For recursive search for objects in folder fold that match expression. */
-      TList* CreateObjectList(const char* expr, TFolder* fold);
+      TList* CreateObjectList(const char *expr, TFolder* fold);
 
       /** Finds out if  string is matching the expression */
-      Bool_t IsMatching(const char* string, const char* expression);
+      Bool_t IsMatching(const char* string, const char *expression);
 
       /** Search in folder for object with specified name
        * Uses fxDirMutex until search is working

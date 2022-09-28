@@ -121,7 +121,7 @@ void TGo4Browser::StartWorking()
    ShootUpdateTimer();
 }
 
-void TGo4Browser::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4Browser::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname,"Browser") == 0) {
       ShootUpdateTimer();

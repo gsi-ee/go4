@@ -174,13 +174,13 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Returns the input event structure of analysis step. Argument indicates
        * the step by name. Shortcut forwarded to analysis instance
        */
-      TGo4EventElement* GetInputEvent(const char* stepname);
+      TGo4EventElement* GetInputEvent(const char *stepname);
 
       /**
        * Returns the output event structure of analysis step. Argument indicates
        * the step by name. Shortcut forwarded to analysis instance
        */
-      TGo4EventElement* GetOutputEvent(const char* stepname);
+      TGo4EventElement* GetOutputEvent(const char *stepname);
 
       /**
        * Display a user message. Argument pri defines message priority:

@@ -66,7 +66,7 @@ void TGo4AnalysisConfiguration::DropItem(const char *itemname, TClass* cl, int k
 //      WorkWithStatus(itemname);
 }
 
-void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObject *obj)
+void TGo4AnalysisConfiguration::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname,"Status") == 0) {
      parentWidget()->raise();
@@ -80,7 +80,7 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
    }
 }
 
-void TGo4AnalysisConfiguration::linkedObjectRemoved(const char* linkname)
+void TGo4AnalysisConfiguration::linkedObjectRemoved(const char *linkname)
 {
    ShootCloseWidget(true);
 }

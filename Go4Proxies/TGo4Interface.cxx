@@ -347,13 +347,13 @@ void TGo4Interface::AnalysisConfigName(const char *filename)
      status->SetConfigFileName(filename);
 }
 
-TGo4AnalysisStepStatus* TGo4Interface::GetStepStatus(const char* stepname)
+TGo4AnalysisStepStatus* TGo4Interface::GetStepStatus(const char *stepname)
 {
    TGo4AnalysisStatus* status = GetAnalStatus();
    return !status ? nullptr : status->GetStepStatus(stepname);
 }
 
-void TGo4Interface::ConfigStep(const char* stepname,
+void TGo4Interface::ConfigStep(const char *stepname,
                                    Bool_t enableprocess,
                                    Bool_t enablesource,
                                    Bool_t enablestore)
@@ -366,8 +366,8 @@ void TGo4Interface::ConfigStep(const char* stepname,
    step->SetProcessEnabled(enableprocess);
 }
 
-void TGo4Interface::StepFileSource(const char* stepname,
-                                       const char* sourcename,
+void TGo4Interface::StepFileSource(const char *stepname,
+                                       const char *sourcename,
                                        int timeout)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
@@ -378,8 +378,8 @@ void TGo4Interface::StepFileSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepMbsFileSource(const char* stepname,
-                                      const char* sourcename,
+void TGo4Interface::StepMbsFileSource(const char *stepname,
+                                      const char *sourcename,
                                       int timeout,
                                       const char* TagFile,
                                       int start,
@@ -400,8 +400,8 @@ void TGo4Interface::StepMbsFileSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepMbsStreamSource(const char* stepname,
-                                        const char* sourcename,
+void TGo4Interface::StepMbsStreamSource(const char *stepname,
+                                        const char *sourcename,
                                         int timeout,
                                         int start,
                                         int stop,
@@ -418,8 +418,8 @@ void TGo4Interface::StepMbsStreamSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepMbsTransportSource(const char* stepname,
-                                        const char* sourcename,
+void TGo4Interface::StepMbsTransportSource(const char *stepname,
+                                        const char *sourcename,
                                         int timeout,
                                         int start,
                                         int stop,
@@ -436,8 +436,8 @@ void TGo4Interface::StepMbsTransportSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepMbsEventServerSource(const char* stepname,
-                                          const char* sourcename,
+void TGo4Interface::StepMbsEventServerSource(const char *stepname,
+                                          const char *sourcename,
                                           int timeout,
                                           int start,
                                           int stop,
@@ -454,8 +454,8 @@ void TGo4Interface::StepMbsEventServerSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepMbsRevServSource(const char* stepname,
-                                      const char* sourcename,
+void TGo4Interface::StepMbsRevServSource(const char *stepname,
+                                      const char *sourcename,
                                       int timeout,
                                       int port,
                                       int start,
@@ -474,8 +474,8 @@ void TGo4Interface::StepMbsRevServSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepRandomSource(const char* stepname,
-                                  const char* sourcename,
+void TGo4Interface::StepRandomSource(const char *stepname,
+                                  const char *sourcename,
                                   int timeout)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
@@ -486,11 +486,11 @@ void TGo4Interface::StepRandomSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepUserSource(const char* stepname,
-                                const char* sourcename,
+void TGo4Interface::StepUserSource(const char *stepname,
+                                const char *sourcename,
                                 int timeout,
                                 int port,
-                                const char* expr)
+                                const char *expr)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (!step) return;
@@ -502,8 +502,8 @@ void TGo4Interface::StepUserSource(const char* stepname,
    step->SetSourcePar(&par);
 }
 
-void TGo4Interface::StepFileStore(const char* stepname,
-                               const char* storename,
+void TGo4Interface::StepFileStore(const char *stepname,
+                               const char *storename,
                                bool overwrite,
                                int bufsize,
                                int splitlevel,
@@ -522,8 +522,8 @@ void TGo4Interface::StepFileStore(const char* stepname,
    step->SetStorePar(&par);
 }
 
-void TGo4Interface::StepBackStore(const char* stepname,
-                               const char* storename,
+void TGo4Interface::StepBackStore(const char *stepname,
+                               const char *storename,
                                int bufsize,
                                int splitlevel)
 {
@@ -536,8 +536,8 @@ void TGo4Interface::StepBackStore(const char* stepname,
    step->SetStorePar(&par);
 }
 
-void TGo4Interface::StepUserStore(const char* stepname,
-                   const char* storename)
+void TGo4Interface::StepUserStore(const char *stepname,
+                   const char *storename)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (!step) return;

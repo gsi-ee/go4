@@ -16,7 +16,7 @@
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
 
-TGo4UserSourceParameter::TGo4UserSourceParameter(const char *name, const char* expr, Int_t port)
+TGo4UserSourceParameter::TGo4UserSourceParameter(const char *name, const char *expr, Int_t port)
 : TGo4EventSourceParameter(name, GO4EV_USER), fiPort(port), fxExpression(expr)
 {
 }

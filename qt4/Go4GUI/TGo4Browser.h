@@ -34,7 +34,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
       void StartWorking();
 
-      void linkedObjectUpdated(const char* linkname, TObject *obj) override;
+      void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
       void ResetWidget() override;
 

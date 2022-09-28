@@ -246,7 +246,7 @@ TGo4Slot* TGo4ObjectManager::MakeObjSlot(const char* foldername, const char *nam
 }
 
 
-TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, const char* linkname, const char* linktitle)
+TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, const char *linkname, const char* linktitle)
 {
    if (!source) return nullptr;
 
@@ -279,7 +279,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
    return slot;
 }
 
-TGo4Slot* TGo4ObjectManager::AddLink(const char* sourcename, const char* pathname)
+TGo4Slot* TGo4ObjectManager::AddLink(const char *sourcename, const char* pathname)
 {
    return AddLink(GetSlot(sourcename), pathname);
 }

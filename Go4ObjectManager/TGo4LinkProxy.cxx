@@ -74,7 +74,7 @@ void TGo4LinkProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 
 void TGo4LinkProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-   const char* linkname = slot->GetPar("LinkProxy::LinkName");
+   const char *linkname = slot->GetPar("LinkProxy::LinkName");
    if (linkname)
      fLink = slot->GetOM()->GetSlot(linkname);
 }

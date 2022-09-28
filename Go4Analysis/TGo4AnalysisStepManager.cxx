@@ -307,7 +307,7 @@ Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder* folder)
    return step ? step->Store(folder) : 1;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char* stepname)
+TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
@@ -336,7 +336,7 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char* stepname)
+TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char*)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
