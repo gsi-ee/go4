@@ -28,18 +28,18 @@ class TGo4Sniffer : public TRootSnifferFull,
 
    protected:
 
-      TGo4AnalysisWebStatus*  fAnalysisStatus;
+      TGo4AnalysisWebStatus*  fAnalysisStatus{nullptr};
 
-      TGraph* fEventRate;
+      TGraph* fEventRate{nullptr};
 
-      TGo4Ratemeter* fRatemeter;
+      TGo4Ratemeter* fRatemeter{nullptr};
 
       TGo4MsgList fDebugOutput;
 
       TGo4MsgList fStatusMessages;
 
       /** if true, python binding of go4 has already been done.*/
-      Bool_t fbPythonBound;
+      Bool_t fbPythonBound{kFALSE};
 
       void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj) override;
 

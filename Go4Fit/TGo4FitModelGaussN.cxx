@@ -18,13 +18,12 @@
 #include "TMath.h"
 #include "TGo4FitParameter.h"
 
-TGo4FitModelGaussN::TGo4FitModelGaussN() : TGo4FitModel(), fxIndexes(), Vect_mu(0), Matr_sig(0), Vect_x(0), Vect_dx(0)
+TGo4FitModelGaussN::TGo4FitModelGaussN()
 {
 }
 
 TGo4FitModelGaussN::TGo4FitModelGaussN(const char *iName, Int_t iNDimension)
-   : TGo4FitModel(iName, "N-dimensional Gaussian", kTRUE), fxIndexes(iNDimension), Vect_mu(0), Matr_sig(0), Vect_x(0),
-     Vect_dx(0)
+   : TGo4FitModel(iName, "N-dimensional Gaussian", kTRUE), fxIndexes(iNDimension)
 {
    for (Int_t n = 0; n < iNDimension; n++)
       fxIndexes[n] = n;
@@ -44,19 +43,19 @@ TGo4FitModelGaussN::~TGo4FitModelGaussN()
 {
    if (Vect_mu) {
       delete Vect_mu;
-      Vect_mu = 0;
+      Vect_mu = nullptr;
    }
    if (Matr_sig) {
       delete Matr_sig;
-      Matr_sig = 0;
+      Matr_sig = nullptr;
    }
    if (Vect_x) {
       delete Vect_x;
-      Vect_x = 0;
+      Vect_x = nullptr;
    }
    if (Vect_dx) {
       delete Vect_dx;
-      Vect_dx = 0;
+      Vect_dx = nullptr;
    }
 }
 

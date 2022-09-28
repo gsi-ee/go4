@@ -126,7 +126,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Returns name of data, to which model object is assigned.
        */
-      const char *AssignmentName(Int_t n) { return GetAssigment(n) ? GetAssigment(n)->GetName() : 0; }
+      const char *AssignmentName(Int_t n) { return GetAssigment(n) ? GetAssigment(n)->GetName() : nullptr; }
 
       /**
        * Assign model to specified data object.

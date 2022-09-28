@@ -75,7 +75,7 @@ Bool_t TGo4FitData::SetNumberOfTransSlots(Int_t nslots)
 
 TGo4FitSlot *TGo4FitData::GetAxisTransSlot(Int_t nslot)
 {
-   return (nslot >= 0) && (nslot <= fxAxisTrans.GetLast()) ? dynamic_cast<TGo4FitSlot *>(fxAxisTrans[nslot]) : 0;
+   return (nslot >= 0) && (nslot <= fxAxisTrans.GetLast()) ? dynamic_cast<TGo4FitSlot *>(fxAxisTrans[nslot]) : nullptr;
 }
 
 TGo4FitAxisTrans *TGo4FitData::GetAxisTrans(Int_t nslot)
@@ -201,14 +201,14 @@ void TGo4FitData::ResetAllPoinetrs()
    fiIndexesSize = 0;
    fiScalesSize = 0;
 
-   fxValues = 0;
-   fxStandDev = 0;
-   fxBinsResult = 0;
+   fxValues = nullptr;
+   fxStandDev = nullptr;
+   fxBinsResult = nullptr;
 
-   fxFullScale = 0;
-   fxFullWidth = 0;
+   fxFullScale = nullptr;
+   fxFullWidth = nullptr;
 
-   fxFullIndex = 0;
+   fxFullIndex = nullptr;
 }
 
 void TGo4FitData::ReleaseAllPointers()

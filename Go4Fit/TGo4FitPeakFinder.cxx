@@ -302,7 +302,7 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter *fitter, TGo4FitData *d
       }
 
       TArrayD Coef(PolOrder + 1);
-      DefinePolynom(size, bins, scales, Coef, weights, 0, usage.GetArray());
+      DefinePolynom(size, bins, scales, Coef, weights, nullptr, usage.GetArray());
 
       for (Int_t i = 0; i < size; i++)
          backgr[i] = CalcPolynom(Coef, scales[i]);
@@ -435,10 +435,10 @@ void TGo4FitPeakFinder::HansEsselPeakFinder(TGo4Fitter *fitter, TGo4FitData *dat
    TArrayI PeaksLeft(MaxNumPeaks), PeaksRight(MaxNumPeaks), PeaksMaximum(MaxNumPeaks);
    TArrayD MinimaValues(MaxNumPeaks), MinimaScales(MaxNumPeaks), MaximaIntegrals(MaxNumPeaks);
 
-   go4fit_find_peaks(bins, TYPE__DOUBLE, 0, size, ChannelSum, NoiseFactor, NoiseMinimum, 0, MaxNumPeaks, &NumPeaks,
+   go4fit_find_peaks(bins, TYPE__DOUBLE, 0, size, ChannelSum, NoiseFactor, NoiseMinimum, nullptr, MaxNumPeaks, &NumPeaks,
                      Minimas.GetArray(), MinimaValues.GetArray(), Maximas.GetArray(), MaximaWidths.GetArray(),
                      MaximaIntegrals.GetArray(), PeaksLeft.GetArray(), PeaksMaximum.GetArray(), PeaksRight.GetArray(),
-                     0, 0);
+                     nullptr, nullptr);
 
    if (NumPeaks <= 0)
       return;

@@ -67,9 +67,6 @@ Bool_t TGo4Sniffer::CreateEngine(const char *args)
 TGo4Sniffer::TGo4Sniffer(const char *name) :
       TRootSnifferFull(name),
    TGo4AnalysisSniffer(),
-   fAnalysisStatus(0),
-   fEventRate(0),
-   fRatemeter(0),
    fDebugOutput("Log","Analysis log messages", 1000),
    fStatusMessages("Msg","Analysis status messages", 100),
    fbPythonBound(kFALSE)
@@ -227,7 +224,7 @@ TGo4Sniffer::~TGo4Sniffer()
    if (TGo4Analysis::Instance())
       TGo4Analysis::Instance()->SetSniffer(nullptr);
 
-   TGo4Log::SetSniffer(0);
+   TGo4Log::SetSniffer(nullptr);
 }
 
 void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
@@ -346,13 +343,13 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
 {
    Info("CmdOpenFile", "Open ROOT file %s", fname);
 
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
 
    if (om) {
       TFolder* main = om->GetObjectFolder();
 
       TFolder* files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
-      if (files_fold == 0) {
+      if (!files_fold) {
          files_fold = main->AddFolder("Files","ROOT files");
          files_fold->SetOwner(kTRUE);
       }

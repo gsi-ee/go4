@@ -138,11 +138,11 @@ Bool_t TGo4FitModelFormula::BeforeEval(Int_t ndim)
 Double_t TGo4FitModelFormula::EvalN(const Double_t *v)
 {
    switch (Par_ndim) {
-   case 0: return 0.;
-   case 1: return fxFormula->Eval(v[0]);
-   case 2: return fxFormula->Eval(v[0], v[1]);
-   case 3: return fxFormula->Eval(v[0], v[1], v[2]);
-   default: return fxFormula->EvalPar(v, 0);
+      case 0: return 0.;
+      case 1: return fxFormula->Eval(v[0]);
+      case 2: return fxFormula->Eval(v[0], v[1]);
+      case 3: return fxFormula->Eval(v[0], v[1], v[2]);
+      default: return fxFormula->EvalPar(v, nullptr);
    }
 }
 
