@@ -145,7 +145,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract *Fitter)
 
 TGo4FitMinuitResult *TGo4FitMinuit::GetResult(Int_t indx)
 {
-   return (indx >= 0) && (indx <= fxResults.GetLast()) ? (TGo4FitMinuitResult *)fxResults.At(indx) : 0;
+   return (indx >= 0) && (indx <= fxResults.GetLast()) ? (TGo4FitMinuitResult *)fxResults.At(indx) : nullptr;
 }
 
 TGo4FitMinuitResult *TGo4FitMinuit::FindResult(const char *ResName)

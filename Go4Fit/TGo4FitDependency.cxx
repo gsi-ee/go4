@@ -62,7 +62,7 @@ void TGo4FitDependency::Initialize(Int_t iNumPar, const char *iFormula)
 
 Double_t TGo4FitDependency::ExecuteDependency(Double_t* Params)
 {
-    Double_t res = fxFormula ? fxFormula->EvalPar(0,Params) : fdInitValue;
+    Double_t res = fxFormula ? fxFormula->EvalPar(nullptr,Params) : fdInitValue;
     if (fiNumPar >= 0) Params[fiNumPar] = res;
     return res;
 }

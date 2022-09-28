@@ -57,7 +57,7 @@ TGo4AnalysisStep::TGo4AnalysisStep()
 :TNamed("Default Analysis Step","This is a Go4 analysis step"),
    fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
    fxInputEvent(nullptr), fxOutputEvent(nullptr),
-   fxSourceType(0), fxStoreType(0), fxProcessorType(0),
+   fxSourceType(nullptr), fxStoreType(nullptr), fxProcessorType(nullptr),
    fbSourceEnabled(kFALSE), fbSourceImplemented(kFALSE),
    fbStoreEnabled(kFALSE), fbStoreImplemented(kFALSE),
    fbProcessEnabled(kTRUE),

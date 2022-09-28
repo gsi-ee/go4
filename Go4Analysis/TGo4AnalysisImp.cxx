@@ -632,7 +632,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                TDatime dt;
                fxRate->SetDateTime(dt.AsSQLString());
 
-               TGo4AnalysisStep* firststep = GetAnalysisStep(0);
+               TGo4AnalysisStep* firststep = GetAnalysisStep(nullptr);
                if(firststep)
                   fxRate->SetCurrentSource(firststep->GetEventSourceName());
                else
@@ -1792,7 +1792,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       oldh->SetName("___");
    }
 
-   TH1* newh = 0;
+   TH1* newh = nullptr;
 
    switch (itype) {
       case 0: newh = new TH1I(histoname, title, nbinsx, xlow, xup); break;
@@ -1894,7 +1894,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
    if (oldh) {
       if ((oldh->GetDimension()==2) && fbMakeWithAutosave) newh->Add(oldh);
       delete oldh;
-      oldh = 0;
+      oldh = nullptr;
    }
 
    if (foldername.Length() > 0)
