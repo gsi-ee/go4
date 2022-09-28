@@ -40,8 +40,8 @@ void TGo4BrowserOptions::StartWorking()
 void TGo4BrowserOptions::UpdateView()
 {
    int interval = Browser()->MonitoringPeriod()/1000;
-   StartMonitorBtn->setEnabled(interval<=0);
-   StopMonitorBtn->setEnabled(interval>0);
+   StartMonitorBtn->setEnabled(interval <= 0);
+   StopMonitorBtn->setEnabled(interval > 0);
 
    if ((interval>1) && (IntervalSpin->value()!=interval))
       IntervalSpin->setValue(interval);
@@ -60,15 +60,15 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
 
    TObjArray prlist;
    Browser()->MakeDabcList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (prlist.At(n));
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4DabcProxy *pr = dynamic_cast<TGo4DabcProxy *>(prlist.At(n));
       if (pr) pr->RefreshNamesList();
    }
 
    prlist.Clear();
    Browser()->MakeHttpList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4HttpProxy* pr = dynamic_cast<TGo4HttpProxy*> (prlist.At(n));
+   for (Int_t n = 0; n <= prlist.GetLast(); n++) {
+      TGo4HttpProxy *pr = dynamic_cast<TGo4HttpProxy *>(prlist.At(n));
       if (pr) pr->RefreshNamesList();
    }
 

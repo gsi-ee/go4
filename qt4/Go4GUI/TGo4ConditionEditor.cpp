@@ -377,8 +377,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (cond->Counts()>0)
      ratio = 1.*cond->TrueCounts() / cond->Counts();
    QString sratio;
-   if ((ratio>=0.) && (ratio<=100.))
-      sratio = QString("%1%2").arg(ratio*100,4,'f',2).arg("%");
+   if ((ratio >= 0.) && (ratio <= 100.))
+      sratio = QString("%1%2").arg(ratio * 100, 4, 'f', 2).arg("%");
    else
       sratio = "?.?? %";
    PercentLabel->setText(sratio);
@@ -868,8 +868,8 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
    } else {
       CutTable->setRowCount(cut->GetN());
       NPointsSpin->setValue(cut->GetN());
-      for (int n=0;n<cut->GetN();n++) {
-         Double_t x,y;
+      for (int n = 0; n < cut->GetN(); n++) {
+         Double_t x, y;
          cut->GetPoint(n, x,y);
          CutTable->setItem(n, 0, new QTableWidgetItem(QString::number(x)));
          CutTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
@@ -885,8 +885,8 @@ void TGo4ConditionEditor::FillEllipseWidget(TGo4ShapedCond* elli)
    if(!elli) return;
    bool old = fbTypingMode;
    fbTypingMode = false;
-   double a1=0,a2=0,x=0,y=0;
-   int theta=0;
+   double a1 = 0, a2 = 0, x = 0, y = 0;
+   int theta = 0;
 
    elli->GetRadius(a1,a2);
    elli-> GetCenter(x,y);
@@ -951,8 +951,8 @@ void TGo4ConditionEditor::FillListWidget(TGo4ListCond* lcon)
       int points = lcon->GetNumValues();
       CutTable->setRowCount(points);
       NPointsSpin->setValue(points);
-      for (int n=0;n<points;n++) {
-         int val=lcon->GetValue(n);
+      for (int n = 0; n < points; n++) {
+         int val = lcon->GetValue(n);
          CutTable->setItem(n, 0, new QTableWidgetItem(QString::number(val)));
          //CutTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
          CutTable->setVerticalHeaderItem(n, new QTableWidgetItem(QString::number(n)));

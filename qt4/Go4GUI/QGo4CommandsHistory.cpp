@@ -48,8 +48,8 @@ QStringList QGo4CommandsHistory::getHistory(int max)
    QStringList lst;
    if (max>count()) max = count();
 
-   for(int i=0; i<max; i++)
+   for (int i = 0; i < max; i++)
       lst.append(itemText(i));
 
-    return lst;
+   return lst;
 }

@@ -135,14 +135,14 @@ void TGo4AnalysisConfiguration::RefreshWidget()
      }
    } while (w);
 
-   for(int i=0; i<status->GetNumberOfSteps(); i++) {
-      TGo4AnalysisStepStatus* stepstatus = status->GetStepStatus(i);
+   for (int i = 0; i < status->GetNumberOfSteps(); i++) {
+      TGo4AnalysisStepStatus *stepstatus = status->GetStepStatus(i);
       if (!stepstatus) continue;
       QString StepName = stepstatus->GetName();
       TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toLatin1().constData());
       NewStep->SetStepStatus(this, stepstatus, status->GetNumberOfSteps() > 1 ? i : -1);
       TabSteps->insertTab(i, NewStep, NewStep->GetTabTitle());
-    }
+   }
 
     TabSteps->setCurrentIndex(0);
     TabSteps->adjustSize();
@@ -324,10 +324,11 @@ TGo4ConfigStep* TGo4AnalysisConfiguration::GetStepConfig(int n)
 
 TGo4ConfigStep* TGo4AnalysisConfiguration::FindStepConfig(QString name)
 {
-   for (int n=0;n<GetNumSteps();n++) {
-      TGo4ConfigStep* conf = GetStepConfig(n);
+   for (int n = 0; n < GetNumSteps(); n++) {
+      TGo4ConfigStep *conf = GetStepConfig(n);
       if (conf)
-         if (conf->GetStepName()==name) return conf;
+         if (conf->GetStepName() == name)
+            return conf;
    }
    return nullptr;
 }

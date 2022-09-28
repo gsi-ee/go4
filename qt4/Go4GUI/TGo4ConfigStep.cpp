@@ -90,8 +90,8 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char *name, Qt::WindowFla
    QObject::connect(SpinBoxRetryNumber, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::RetryCntChanged);
    QObject::connect(TreeAutosave, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4ConfigStep::StoreTreeAutoSave);
 
-   fStepNumber=0;
-   fxPanel = 0;
+   fStepNumber = 0;
+   fxPanel = nullptr;
    fStepStatus = 0;
 
    SpinBoxPortNumber->setVisible(false);
@@ -110,8 +110,8 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char *name, Qt::WindowFla
    LineEditTagfile->setVisible(false);
    TextLabelTagfile->setVisible(false);
 
-   for (int n=0;n<ParsSize;n++)
-      fPars[n]=0;
+   for (int n = 0; n < ParsSize; n++)
+      fPars[n] = 0;
 
    fLastSrcKind = -1;
    fBlocked = 0;
@@ -127,7 +127,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char *name, Qt::WindowFla
 
 TGo4ConfigStep::~TGo4ConfigStep()
 {
-   for (int n=0;n<ParsSize;n++) {
+   for (int n = 0; n < ParsSize; n++) {
       delete fPars[n];
       fPars[n] = nullptr;
    }
@@ -880,7 +880,7 @@ QString TGo4ConfigStep::GetStepName()
 QString TGo4ConfigStep::GetTabTitle()
 {
    QString res = fStepStatus->GetName();
-   if (fStepNumber>=0) {
+   if (fStepNumber >= 0) {
       res += " ";
       res += EnableStepBox->isChecked() ? "x" : "o";
       res += EnableSourceBox->isChecked() ? "x" : "o";
@@ -1109,10 +1109,10 @@ void TGo4ConfigStep::GetBackStore(int& bufsize, int& splitlevel)
    splitlevel = SplitLevel->value();
 }
 
-void TGo4ConfigStep::GetHDF5Store( int & flags)
+void TGo4ConfigStep::GetHDF5Store(int & flags)
 {
 #ifdef __GO4HDF5__
-  StoreOverwriteMode->isChecked() ? flags=GO4_H5F_ACC_TRUNC : flags=0;
+   flags = StoreOverwriteMode->isChecked() ? GO4_H5F_ACC_TRUNC : 0;
 #endif
 }
 
