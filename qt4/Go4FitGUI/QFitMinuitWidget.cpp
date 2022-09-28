@@ -33,10 +33,11 @@ void QFitMinuitWidget::FillSpecificData()
   TGo4FitMinuit* minuit = GetMinuit();
   if (minuit) {
       QString cmds;
-      char s[3]; s[0] = 13; s[1] = 10; s[2]=0;
-      for(int i=0;i<minuit->GetNumCommands();i++) {
-         cmds+=minuit->GetCommand(i);
-         if (i<minuit->GetNumCommands()-1) cmds+=s;
+      char s[3] = { 13, 10, 0 };
+      for (int i = 0; i < minuit->GetNumCommands(); i++) {
+         cmds += minuit->GetCommand(i);
+         if (i < minuit->GetNumCommands() - 1)
+            cmds += s;
       }
       CommandsEdit->setText(cmds);
    } else {

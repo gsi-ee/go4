@@ -15,23 +15,23 @@
 #
 # NOTE: The regular GSI QtROOT interface (maintained by D.Bertini and M.Al-Turany)
 #		  is now part of the standard ROOT distribution (libQtGSI).
-#	     This package libGo4QtROOT contains also additional features 
-#		  as required by the Go4 framework. 
-#   	   	
+#	     This package libGo4QtROOT contains also additional features
+#		  as required by the Go4 framework.
+#
 # Date 07/02/2008
 # updated:
-#         Joern Adamczewski 
+#         Joern Adamczewski
 #
 ##########################################################################
 1. Port library to Qt Version 4.3.x.
 
-2. TQRootCanvas: changed behavior of canvas resizeFlag due to problems with 
+2. TQRootCanvas: changed behavior of canvas resizeFlag due to problems with
    X11 window refresh under Qt4. When resizing TQRootCanvas window with mouse,
-   repainting of ROOT canvas is disabled during resize and activated again when 
+   repainting of ROOT canvas is disabled during resize and activated again when
    mouse enters window. Speed benefit e.g. when rendering large TH2 objects.
-   In all other cases, TCanvas is always repainted on resizeEvent. 
-    
-3. Bugfix in QRootApplication. In constructor numc argument must be 
+   In all other cases, TCanvas is always repainted on resizeEvent.
+
+3. Bugfix in QRootApplication. In constructor numc argument must be
    delivered as reference.
 
 4. Minor bugfixes in TQRootCanvas and TQRootWindow.
@@ -142,7 +142,7 @@ QtROOT code :
 
 2.     Disable method TQRootCanvas::GetEditorBar(), since
        ROOT >= v4.00/02 does not provide this method in TCanvas anymore.
-       
+
 
 ##########################################################################
 #
@@ -152,11 +152,11 @@ QtROOT code :
 #         d.bertini and M. AL-Turany 03/06/2002
 #
 ##########################################################################
-   
+
 QtROOT package:
 
        1.    new configure script that enable cross check
-             of differents library. New options to build QtROOT.
+             of different library. New options to build QtROOT.
              config.sh -help
 
 QtROOT code :
@@ -165,11 +165,11 @@ QtROOT code :
       1.     Bug in the popup menus is corrected, the root menus will
              display in a proper way, i.e. they will not get out side the screen any
              more.
-            
+
       2.     SelectedPadChanged( TPad *) signal is implemented in the
              TQRootCanvas,  this signal will be emitted each time the middle mouse button
              is clicked to change the selected root canvas.
-            
+
       3      Qt Hist Line Color & Qt Hist Fill Color items are added to
              the popup menu in the Qt-Root interface, these items uses the Qt-Color
              Dialog to change the colors.
@@ -177,7 +177,7 @@ QtROOT code :
       4.     Thread safety support
 
       5.     Latex editor included
-       
+
 
 #########################################################################
 #
@@ -224,10 +224,10 @@ QtROOT code :
           - new TQRootCanvas contructor:
 
            >TQRootCanvas::TQRootCanvas(
-           >QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c=0)
+           >QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c = nullptr)
 
             i.e for the case the user wants to embedd a ROOT Canvas in
-            a Qt QTabWidget it is neccessary to have the TQRootCanvas
+            a Qt QTabWidget it is necessary to have the TQRootCanvas
             widget first handled by a QMainWindow,  in that case
             via the constructor the TQRootCanvas class keep track of
             both parent and the tab QMainWindow.
@@ -246,7 +246,7 @@ QtROOT code :
       2) TQRootDialog & TQCanvasMenu  class.
 
             - Problem using TCint::Execute() and global
-              pointer gPad fixed using explicit bookeeping
+              pointer gPad fixed using explicit bookkeeping
               of the Pad pointer in TQRootDialog::executeMethod()
               and TQCanvasMenu::execute (int id)
               using kept pointer in TROOT (gROOT->GetSelectedPad())
@@ -258,7 +258,7 @@ QtROOT code :
               Instead : use a direct pur C++ delete of the TObject.
 
               in TQRootDialog::executeMethod()
-              >line 130:  if (fCurObj) {delete fCurObj; fCurObj=0;}
+              >line 130:  if (fCurObj) {delete fCurObj; fCurObj = nullptr;}
 
             - Problem linked to creation/deletion of multipad from
               a parent pad  fixed.
@@ -284,4 +284,4 @@ QtROOT code :
               > a.setDebugOn();
 
 
-       
+

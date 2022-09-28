@@ -41,8 +41,8 @@ void QFitTableWidget::FillSpecificData()
         Table->setVerticalHeaderItem(1, new QTableWidgetItem("NDF"));
         Table->setItem(1,0, new QTableWidgetItem(QString::number(fitter->GetResultNDF())));
 
-        for (Int_t n=0;n<fitter->GetNumResults();n++) {
-           Table->setVerticalHeaderItem(n+2, new QTableWidgetItem(QString("Result") + QString::number(n)));
+        for (Int_t n = 0; n < fitter->GetNumResults(); n++) {
+           Table->setVerticalHeaderItem(n + 2, new QTableWidgetItem(QString("Result") + QString::number(n)));
            Table->setItem(n+2, 0, new QTableWidgetItem(QString::number(fitter->GetResultValue(n))));
         }
      }

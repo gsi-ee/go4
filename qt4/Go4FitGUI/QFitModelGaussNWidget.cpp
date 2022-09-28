@@ -43,9 +43,8 @@ void QFitModelGaussNWidget::SetAxisTable()
    if (!GetGaussN()) return;
    int num = GetGaussN()->GetAxisNumbers();
    AxisTable->setRowCount(num);
-   for(int n=0;n<num;n++)
-     AxisTable->setItem(n,0,
-      new QTableWidgetItem(QString::number(GetGaussN()->GetAxisForIndex(n))));
+   for (int n = 0; n < num; n++)
+      AxisTable->setItem(n, 0, new QTableWidgetItem(QString::number(GetGaussN()->GetAxisForIndex(n))));
 }
 
 void QFitModelGaussNWidget::AxisNumberSpin_valueChanged( int num)

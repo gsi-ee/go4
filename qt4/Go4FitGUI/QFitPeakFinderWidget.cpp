@@ -114,23 +114,23 @@ void QFitPeakFinderWidget::ThresholdEdt_textChanged( const QString & value)
 
 void QFitPeakFinderWidget::MinWidthEdt_textChanged( const QString & value)
 {
-  if (!fbFillWidget && GetPF()) {
-    bool ok = false;
-    double zn = value.toDouble(&ok);
-    if (ok && (zn>=0)) GetPF()->Set0MinWidth(zn);
-  }
+   if (!fbFillWidget && GetPF()) {
+      bool ok = false;
+      double zn = value.toDouble(&ok);
+      if (ok && (zn >= 0))
+         GetPF()->Set0MinWidth(zn);
+   }
 }
-
 
 void QFitPeakFinderWidget::MaxWidthEdt_textChanged( const QString & value)
 {
-  if (!fbFillWidget && GetPF()) {
-    bool ok = false;
-    double zn = value.toDouble(&ok);
-    if (ok && (zn>0)) GetPF()->Set0MaxWidth(zn);
-  }
+   if (!fbFillWidget && GetPF()) {
+      bool ok = false;
+      double zn = value.toDouble(&ok);
+      if (ok && (zn > 0))
+         GetPF()->Set0MaxWidth(zn);
+   }
 }
-
 
 void QFitPeakFinderWidget::WidthEdit_textChanged( const QString & value )
 {
@@ -157,7 +157,8 @@ void QFitPeakFinderWidget::NoiseMinEdit_textChanged( const QString & value)
   if (!fbFillWidget && GetPF()) {
     bool ok = false;
     double zn = value.toDouble(&ok);
-    if (ok && (zn>=0)) GetPF()->Set2NoiseMinimum(zn);
+    if (ok && (zn >= 0))
+       GetPF()->Set2NoiseMinimum(zn);
   }
 }
 

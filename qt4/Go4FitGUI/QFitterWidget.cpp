@@ -40,12 +40,12 @@ void QFitterWidget::FillSpecificData()
       const char strend[3] = { 13, 10, 0 };
       QString info("Associations:");
       info+=strend;
-      for (Int_t ndata=0;ndata<GetFitter()->GetNumData();ndata++) {
-         TGo4FitData* data = GetFitter()->GetData(ndata);
+      for (Int_t ndata = 0; ndata < GetFitter()->GetNumData(); ndata++) {
+         TGo4FitData *data = GetFitter()->GetData(ndata);
          info += data->GetName();
          info += ":";
-         for(Int_t nmodel=0;nmodel<GetFitter()->GetNumModel();nmodel++) {
-            TGo4FitModel* model = GetFitter()->GetModel(nmodel);
+         for (Int_t nmodel = 0; nmodel < GetFitter()->GetNumModel(); nmodel++) {
+            TGo4FitModel *model = GetFitter()->GetModel(nmodel);
             if (model->IsAssignTo(data->GetName())) {
               info+=" ";
               info+=model->GetName();

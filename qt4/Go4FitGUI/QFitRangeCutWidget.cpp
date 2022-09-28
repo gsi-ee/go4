@@ -61,8 +61,8 @@ void QFitRangeCutWidget::FillXYPointsTable()
 
    XYTable->setRowCount(cut->GetN());
 
-   for (int n=0;n<cut->GetN();n++) {
-      Double_t x,y;
+   for (int n = 0; n < cut->GetN(); n++) {
+      Double_t x, y;
       cut->GetPoint(n, x,y);
       XYTable->setItem(n, 0, new QTableWidgetItem(QString::number(x)));
       XYTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
@@ -76,11 +76,12 @@ void QFitRangeCutWidget::NumPointsSpin_valueChanged( int npoint )
   if(!fbFillWidget && GetCut()) {
       TCutG* cut = GetCut();
       int old = cut->GetN();
-      Double_t x=0., y=0.;
-      if (old>1) cut->GetPoint(old-2, x, y);
+      Double_t x = 0., y = 0.;
+      if (old > 1)
+         cut->GetPoint(old - 2, x, y);
       cut->Set(npoint);
-      for(int n= (old-1>=0 ? old-1 : 0); n<npoint-1; n++)
-        cut->SetPoint(n, x, y+(n-old+2)*10);
+      for (int n = (old - 1 >= 0 ? old - 1 : 0); n < npoint - 1; n++)
+         cut->SetPoint(n, x, y + (n - old + 2) * 10);
 
       cut->GetPoint(0, x, y);
       cut->SetPoint(npoint-1, x, y);
