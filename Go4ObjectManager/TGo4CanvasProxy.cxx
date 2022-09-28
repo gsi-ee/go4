@@ -147,13 +147,13 @@ const char *TGo4CanvasProxy::GetContainedClassName()
    return fCanvas ? fCanvas->ClassName() : nullptr;
 }
 
-void TGo4CanvasProxy::Initialize(TGo4Slot* slot)
+void TGo4CanvasProxy::Initialize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om) om->RegisterObjectWith(fCanvas, slot);
 }
 
-void TGo4CanvasProxy::Finalize(TGo4Slot* slot)
+void TGo4CanvasProxy::Finalize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om) om->UnregisterObject(fCanvas, slot);
@@ -168,7 +168,7 @@ Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4CanvasProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    const char *objname = nullptr;
    if (fCanvas)
@@ -184,7 +184,7 @@ void TGo4CanvasProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
    fCanvas->Write(objname);
 }
 
-void TGo4CanvasProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4CanvasProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    const char *objname = slot->GetPar("CanvasProxy::CanvasName");
    if (!objname || !dir) return;
@@ -199,7 +199,7 @@ Bool_t TGo4CanvasProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(TCanvas::Class());
 }
 
-Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
+Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fCanvas && fOwner) delete fCanvas;

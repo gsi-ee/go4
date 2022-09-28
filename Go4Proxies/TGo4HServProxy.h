@@ -36,8 +36,8 @@ class TGo4HServProxy : public TGo4ServerProxy {
       const char *GetUserPass() const { return fUserPass.Data(); }
       const char *GetFilter() const { return fFilter.Data(); }
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
 
       Bool_t HasSublevels() const override;
 
@@ -45,13 +45,13 @@ class TGo4HServProxy : public TGo4ServerProxy {
 
       TGo4Access* ProvideAccess(const char *name) override;
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       Int_t GetObjectKind() override;
       const char *GetContainedClassName() override;
 
-      void Update(TGo4Slot* slot, Bool_t strong) override;
+      void Update(TGo4Slot *slot, Bool_t strong) override;
 
       const char *GetServerName() const override { return fServerName.Data(); }
       Bool_t RefreshNamesList() override;
@@ -65,7 +65,7 @@ class TGo4HServProxy : public TGo4ServerProxy {
       TString    fUserPass;          //!
       TString    fFilter;            //!
 
-      TGo4Slot*   fxStructure{nullptr};   //!
+      TGo4Slot *  fxStructure{nullptr};   //!
 
    ClassDefOverride(TGo4HServProxy, 1);
 };

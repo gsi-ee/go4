@@ -35,22 +35,22 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       virtual ~TGo4ObjectManager();
 
-      void ProduceFullName(TString& name, TGo4Slot* toparent = nullptr) override;
+      void ProduceFullName(TString& name, TGo4Slot *toparent = nullptr) override;
       TGo4ObjectManager* GetOM() const override;
 
       void MakeFolder(const char *pathname);
 
-      TGo4Slot* Add(const char *pathname, TObject *obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
+      TGo4Slot *Add(const char *pathname, TObject *obj, Bool_t owner = kFALSE, Bool_t canrename = kFALSE);
 
-      TGo4Slot* MakeObjSlot(const char *foldername, const char *name = nullptr, const char *title = nullptr);
+      TGo4Slot *MakeObjSlot(const char *foldername, const char *name = nullptr, const char *title = nullptr);
 
-      TGo4Slot* AddLink(TGo4Slot* source, const char *pathname, const char *linkname, const char *linktitle);
+      TGo4Slot *AddLink(TGo4Slot *source, const char *pathname, const char *linkname, const char *linktitle);
 
-      TGo4Slot* AddLink(TGo4Slot* source, const char *pathname);
+      TGo4Slot *AddLink(TGo4Slot *source, const char *pathname);
 
-      TGo4Slot* AddLink(const char *sourcename, const char *pathname);
+      TGo4Slot *AddLink(const char *sourcename, const char *pathname);
 
-      TGo4Slot* GetLinked(TGo4Slot* link);
+      TGo4Slot *GetLinked(TGo4Slot *link);
 
       void AddFile(const char *pathname, const char *filename);
 
@@ -71,20 +71,20 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void DeleteSlot(const char *pathname);
 
-      void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot* startslot = nullptr);
+      void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot *startslot = nullptr);
 
       void ReadDataFromFile(TFile* f);
 
-      void RegisterLink(TGo4Slot* source, TGo4Slot* target, Bool_t exapndchilds = kFALSE);
-      void UnregisterLink(TGo4Slot* target);
+      void RegisterLink(TGo4Slot *source, TGo4Slot *target, Bool_t exapndchilds = kFALSE);
+      void UnregisterLink(TGo4Slot *target);
 
       TGo4Access* ProvideAccess(const char *name = nullptr) override
           { return ProvideSlotAccess(name); }
 
-      void Event(TGo4Slot* source, Int_t id, void* param = nullptr) override;
-      void RetranslateEvent(TGo4Slot* source, Int_t id, void* param = nullptr);
-      void RegisterObjectWith(TObject *obj, TGo4Slot* slot);
-      void UnregisterObject(TObject *obj, TGo4Slot* slot);
+      void Event(TGo4Slot *source, Int_t id, void* param = nullptr) override;
+      void RetranslateEvent(TGo4Slot *source, Int_t id, void* param = nullptr);
+      void RegisterObjectWith(TObject *obj, TGo4Slot *slot);
+      void UnregisterObject(TObject *obj, TGo4Slot *slot);
 
       void PrintSlots();
 
@@ -98,7 +98,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       virtual Bool_t AssignObject(const char *path, TObject *obj, Bool_t ownership);
 
-      void RemoveFromLinks(const TGo4Slot* slot);
+      void RemoveFromLinks(const TGo4Slot *slot);
 
       TObjArray  fLinks;     //! list of links between slots
 

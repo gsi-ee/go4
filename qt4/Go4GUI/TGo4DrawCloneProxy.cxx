@@ -25,7 +25,7 @@
 #include "TGo4ViewPanel.h"
 
 
-TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot* slot, TGo4ViewPanel* panel) :
+TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot *slot, TGo4ViewPanel* panel) :
    TGo4LinkProxy(slot),
    fClone(nullptr),
    fPanel(panel),
@@ -38,7 +38,7 @@ TGo4DrawCloneProxy::~TGo4DrawCloneProxy()
    if (fClone) delete fClone;
 }
 
-Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot* slot)
+Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot *slot)
 {
    TGo4LockGuard lock;
 
@@ -58,7 +58,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot* slot)
    return kTRUE;
 }
 
-void TGo4DrawCloneProxy::CleanupClone(TGo4Slot* slot)
+void TGo4DrawCloneProxy::CleanupClone(TGo4Slot *slot)
 {
    if (!fClone) return;
    TGo4ObjectManager* om = slot->GetOM();
@@ -112,7 +112,7 @@ Bool_t TGo4DrawCloneProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
+void TGo4DrawCloneProxy::Initialize(TGo4Slot *slot)
 {
    TGo4LinkProxy::Initialize(slot);
    if (fClone) {
@@ -128,7 +128,7 @@ void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
    }
 }
 
-void TGo4DrawCloneProxy::Finalize(TGo4Slot* slot)
+void TGo4DrawCloneProxy::Finalize(TGo4Slot *slot)
 {
    CleanupClone(slot);
    TGo4LinkProxy::Finalize(slot);
@@ -140,7 +140,7 @@ TObject* TGo4DrawCloneProxy::GetAssignedObject()
    return fClone ? fClone : TGo4LinkProxy::GetAssignedObject();
 }
 
-Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
+Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
 {
    if (id==TGo4Slot::evObjAssigned) {
       TObject *obj = GetLink()->GetAssignedObject();

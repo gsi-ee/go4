@@ -52,7 +52,7 @@ TGo4Display::~TGo4Display()
    delete fxLogTimer;
    if (fxAnalysis) {
       fxAnalysis->DisplayDeleted(this); // will also clear back referenc to us
-      TGo4Slot* pslot = fxAnalysis->ParentSlot();
+      TGo4Slot *pslot = fxAnalysis->ParentSlot();
       if (pslot) {
          //std::cout <<"TGo4Display dtor will delete analysis proxy parent slot" << std::endl;
          pslot->Delete();

@@ -94,7 +94,7 @@ void TGo4EventInfo::RefreshClicked()
    bool isremote = RemoteButton->isChecked();
    bool istree = TreeButton->isChecked();
 
-   TGo4Slot* tgtslot = isremote ? nullptr : AddSlot("Event");
+   TGo4Slot *tgtslot = isremote ? nullptr : AddSlot("Event");
 
    TGo4BrowserProxy* br = Browser();
    if (!br) return;

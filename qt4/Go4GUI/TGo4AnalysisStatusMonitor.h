@@ -32,7 +32,7 @@ public:
 
    virtual ~TGo4AnalysisStatusMonitor();
 
-   virtual void WorkWithRatemeter(TGo4Slot* slot);
+   virtual void WorkWithRatemeter(TGo4Slot *slot);
 
    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 

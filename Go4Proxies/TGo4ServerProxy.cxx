@@ -387,22 +387,22 @@ TGo4ServerProxy::~TGo4ServerProxy()
 {
 }
 
-TGo4Slot* TGo4ServerProxy::SettingsSlot()
+TGo4Slot *TGo4ServerProxy::SettingsSlot()
 {
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Settings");
 }
 
-TGo4Slot* TGo4ServerProxy::RatemeterSlot()
+TGo4Slot *TGo4ServerProxy::RatemeterSlot()
 {
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Ratemeter");
 }
 
-TGo4Slot* TGo4ServerProxy::LoginfoSlot()
+TGo4Slot *TGo4ServerProxy::LoginfoSlot()
 {
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Loginfo");
 }
 
-TGo4Slot* TGo4ServerProxy::DebugOutputSlot()
+TGo4Slot *TGo4ServerProxy::DebugOutputSlot()
 {
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("Debugoutput");
 }

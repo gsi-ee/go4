@@ -25,7 +25,7 @@ TGo4Iter::TGo4Iter() :
 {
 }
 
-TGo4Iter::TGo4Iter(TGo4Slot* slot, Bool_t onlyslots) :
+TGo4Iter::TGo4Iter(TGo4Slot *slot, Bool_t onlyslots) :
    TGo4AccessWrapper(),
    fSlot(slot),
    fOnlySlots(onlyslots),
@@ -162,7 +162,7 @@ TGo4Access* TGo4Iter::ProvideAccess(const char *name)
    return fStatus != 0 ? nullptr : fSlot->ProvideSlotAccess(fFullName.Data());
 }
 
-TGo4Slot* TGo4Iter::getslot() const
+TGo4Slot *TGo4Iter::getslot() const
 {
    if (fStatus != 0) return nullptr;
    TGo4LevelIter* iter = (TGo4LevelIter*) fLevels.Last();

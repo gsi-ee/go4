@@ -888,7 +888,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 {
    QString name;
 
-   TGo4Slot* edslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+   TGo4Slot *edslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
    int n = 0;
    do {
@@ -1857,7 +1857,7 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 {
    const char *analisysitem = "Analysis";
 
-   TGo4Slot* analslot = Browser()->DataSlot(analisysitem);
+   TGo4Slot *analslot = Browser()->DataSlot(analisysitem);
 
    if (!analslot) {
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
@@ -1916,7 +1916,7 @@ bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
    if (srv) {
       srv->DisconnectAnalysis(waittime, servershutdown);
    }
-   // TGo4Slot* slot = Browser()->FindServerSlot(kTRUE, 1);
+   // TGo4Slot *slot = Browser()->FindServerSlot(kTRUE, 1);
    // it is allowed to delete slot directly
    //if (slot) delete slot;
 
@@ -2294,9 +2294,9 @@ QGo4Widget* TGo4MainWindow::FindGo4Widget(const char *name, bool activate)
 {
    if (!fxOM) return nullptr;
 
-   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+   TGo4Slot *slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
-   TGo4Slot* widgslot = !slot ? nullptr : slot->FindChild(name);
+   TGo4Slot *widgslot = !slot ? nullptr : slot->FindChild(name);
    if (!widgslot) return nullptr;
 
    TGo4WidgetProxy *wproxy = (TGo4WidgetProxy*) widgslot->GetProxy();
@@ -2655,7 +2655,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4View
    TGo4BrowserProxy* br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
 
-   TGo4Slot* guislot = br->BrowserSlot(itemname);
+   TGo4Slot *guislot = br->BrowserSlot(itemname);
 
    if (!guislot) return nullptr;
    if (!guislot->GetProxy()) {
@@ -2893,7 +2893,7 @@ TGo4BrowserProxy* TGo4MainWindow::Browser()
    return (TGo4BrowserProxy*) fxOM->GetProxy(fOMBrowserPath.toLatin1().constData());
 }
 
-TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
+TGo4Slot *TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
 {
    if (!widget) return nullptr;
 
@@ -2902,7 +2902,7 @@ TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
    QString editorslotname = fOMEditorsPath;
    editorslotname += "/";
    editorslotname += EditorName;
-   TGo4Slot* edslot = fxOM->GetSlot(editorslotname.toLatin1().constData());
+   TGo4Slot *edslot = fxOM->GetSlot(editorslotname.toLatin1().constData());
    if (!edslot && force) {
       fxOM->AddProxy(fOMEditorsPath.toLatin1().constData(), new TGo4WidgetProxy(widget), EditorName.toLatin1().constData(), "Links for Go4 widget");
       edslot = fxOM->GetSlot(editorslotname.toLatin1().constData());
@@ -2925,7 +2925,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    if (fbPanelTimerActive) return;
 
    // now check if any other panel shold be repainted
-   TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+   TGo4Slot *topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
    for (int n = 0; n < topslot->NumChilds(); n++) {
       TGo4Slot *subslot = topslot->GetChild(n);
 
@@ -2953,7 +2953,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
    TGo4LockGuard lock;
 
-   TGo4Slot* edslot = GetWidgetTopSlot(editor, false);
+   TGo4Slot *edslot = GetWidgetTopSlot(editor, false);
    if (!edslot) return;
 
    switch (serviceid) {
@@ -3020,7 +3020,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_WhereItemDrawn: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
          *res = nullptr;
-         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+         TGo4Slot *topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
          for (int n = 0; n < topslot->NumChilds(); n++) {
             TGo4Slot *subslot = topslot->GetChild(n);
 
@@ -3041,7 +3041,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_UndrawItem: {
-         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+         TGo4Slot *topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
          for (int n = 0; n < topslot->NumChilds(); n++) {
             TGo4Slot *subslot = topslot->GetChild(n);
@@ -3124,7 +3124,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_EditInSlot: {
-         TGo4Slot* slot = (TGo4Slot*) par;
+         TGo4Slot *slot = (TGo4Slot *) par;
          if (!slot) break;
          TObject *obj = slot->GetAssignedObject();
          if (!obj) break;
@@ -3190,13 +3190,13 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_AddEditorLink: {
-         TGo4Slot* brslot = Browser()->BrowserSlot((const char*)par);
+         TGo4Slot *brslot = Browser()->BrowserSlot((const char*)par);
 
          QByteArray ba = editor->objectName().toLatin1();
 
          if (!str) str = ba.constData();
 
-         TGo4Slot* link = fxOM->AddLink(brslot, edslot->GetFullName(),
+         TGo4Slot *link = fxOM->AddLink(brslot, edslot->GetFullName(),
                                         str, "link to browser item");
          if (link)
             editor->SetLinkedName(link, (const char*)par);
@@ -3207,7 +3207,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddDirectLink: {
          QByteArray ba = editor->objectName().toLatin1();
          if (!str) str = ba.constData();
-         TGo4Slot* slot = (TGo4Slot*) par;
+         TGo4Slot *slot = (TGo4Slot *) par;
          if (slot)
             fxOM->AddLink(slot, edslot->GetFullName(), str, "direct link to OM slot");
          break;
@@ -3216,12 +3216,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddLinkInSlot: {
          //std::cout << " QGo4Widget::service_AddLinkInSlot " << std::endl;
 
-         TGo4Slot** res = (TGo4Slot**) par;
+         TGo4Slot **res = (TGo4Slot **) par;
 
-         TGo4Slot* parent = *res;
+         TGo4Slot *parent = *res;
          *res = nullptr;
          if (!parent) parent = edslot;
-         TGo4Slot* brslot = Browser()->BrowserSlot(str);
+         TGo4Slot *brslot = Browser()->BrowserSlot(str);
 
          if (brslot) {
             *res = fxOM->AddLink(brslot, parent->GetFullName(),
@@ -3233,26 +3233,26 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_GetTopSlot: {
-         TGo4Slot** res = (TGo4Slot**) par;
+         TGo4Slot **res = (TGo4Slot **) par;
          *res = edslot;
          break;
       }
 
       case QGo4Widget::service_AddEditorSlot: {
-         TGo4Slot* objslot = edslot->FindChild(str);
+         TGo4Slot *objslot = edslot->FindChild(str);
 
          if (!objslot)
            objslot = fxOM->MakeObjSlot(edslot->GetFullName(), str, "Place for editor object");
          if (objslot)
             objslot->SetProxy(new TGo4ObjectProxy);
 
-         TGo4Slot** res = (TGo4Slot**) par;
+         TGo4Slot **res = (TGo4Slot **)par;
          *res = objslot;
          break;
       }
 
       case QGo4Widget::service_SetLinkedName: {
-         TGo4BrowserProxy::SetLinkedName((TGo4Slot*) par, str);
+         TGo4BrowserProxy::SetLinkedName((TGo4Slot *) par, str);
          break;
       }
 
@@ -3265,7 +3265,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_GetLinkedName2: {
          void** res = (void**) par;
-         TGo4Slot* link = (TGo4Slot*) *res;
+         TGo4Slot *link = (TGo4Slot *) *res;
          *res = (void*) TGo4BrowserProxy::GetLinkedName(link);
          break;
       }
@@ -3274,7 +3274,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_GetLinked1:
       case QGo4Widget::service_GetLinked2: {
          if (!edslot) return;
-         TGo4Slot* link = edslot->FindChild(str);
+         TGo4Slot *link = edslot->FindChild(str);
          if (!link) return;
          const char *itemname = TGo4BrowserProxy::GetLinkedName(link);
          TObject** res = (TObject**) par;
@@ -3288,7 +3288,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_RemoveLink: {
          if (!edslot) return;
-         TGo4Slot* link = edslot->FindChild(str);
+         TGo4Slot *link = edslot->FindChild(str);
          if (link) link->Delete();
          break;
       }
@@ -3302,7 +3302,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_ObjectCreated: {
-         TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+         TGo4Slot *slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
          for (int n = 0; n < slot->NumChilds(); n++) {
             TGo4Slot *subslot = slot->GetChild(n);
             if (edslot == subslot)
@@ -3512,7 +3512,7 @@ TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char *name)
 
    if (panel) return panel;
 
-   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
+   TGo4Slot *slot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
 
    for (Int_t n = 0; n < slot->NumChilds(); n++) {
       TGo4Slot *widgslot = slot->GetChild(n);

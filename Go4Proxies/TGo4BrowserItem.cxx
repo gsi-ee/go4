@@ -153,10 +153,10 @@ void TGo4BrowserItem::DeleteItem()
    ProduceFullName(itemname);
    if (itemname.IsNull() || !fBrowser) return;
 
-   TGo4Slot* itemslot = fBrowser->ItemSlot(itemname.Data());
+   TGo4Slot *itemslot = fBrowser->ItemSlot(itemname.Data());
    if (!itemslot) return;
 
-   TGo4Slot* memslot = fBrowser->BrowserMemorySlot();
+   TGo4Slot *memslot = fBrowser->BrowserMemorySlot();
 
    if (fBrowser->IsCanDelete(itemslot) || itemslot->IsParent(memslot))
      fBrowser->DeleteDataSource(itemslot);
@@ -178,14 +178,14 @@ void TGo4BrowserItem::SetMonitorFlag(Bool_t on)
    ProduceFullName(itemname);
    if (itemname.IsNull() || !fBrowser) return;
 
-   TGo4Slot* itemslot = fBrowser->ItemSlot(itemname.Data());
+   TGo4Slot *itemslot = fBrowser->ItemSlot(itemname.Data());
    if (!itemslot) return;
    int kind = fBrowser->ItemKind(itemslot);
 
    if (kind==TGo4Access::kndFolder) {
       TGo4Iter iter(itemslot, kTRUE);
       while (iter.next()) {
-         TGo4Slot* subslot = iter.getslot();
+         TGo4Slot *subslot = iter.getslot();
          if (fBrowser->ItemKind(subslot)==TGo4Access::kndObject)
             fBrowser->SetItemMonitored(subslot, on);
       }

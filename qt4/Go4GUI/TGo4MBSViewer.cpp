@@ -502,7 +502,7 @@ void TGo4MBSViewer::FrequencyBox_valueChanged( int )
 TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const QString & title, int value)
 {
    TH1* his = nullptr;
-   TGo4Slot* histoslot = nullptr;
+   TGo4Slot *histoslot = nullptr;
    if(!fbTrendingInit) histoslot = Browser()->BrowserSlot(refname.toLatin1());
    if(!histoslot) {
       Axis_t lo,up;
@@ -519,7 +519,7 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
       xax->CenterTitle();
       //xax->SetLimits(0,lo,up);
 
-      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toLatin1());
+      TGo4Slot *hisdataslot=Browser()->DataSlot(refname.toLatin1());
       if (hisdataslot) {
          hisdataslot->AssignObject(his, true);
       } else {

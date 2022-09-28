@@ -51,7 +51,7 @@ Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
    return 1;
 }
 
-Int_t TGo4Access::AssignObjectToSlot(TGo4Slot* slot)
+Int_t TGo4Access::AssignObjectToSlot(TGo4Slot *slot)
 {
    if (!slot) return 0;
 

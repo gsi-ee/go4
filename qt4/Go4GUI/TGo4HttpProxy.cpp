@@ -534,7 +534,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return new TGo4HttpLevelIter(fXML,fChild);
       }
 
-      TGo4Slot* getslot() override { return nullptr; }
+      TGo4Slot *getslot() override { return nullptr; }
 
       const char *name() override
       {
@@ -614,13 +614,13 @@ void TGo4HttpProxy::SetAccount(const char *username, const char *passwd)
    fPassword = passwd ? passwd : "";
 }
 
-void TGo4HttpProxy::Initialize(TGo4Slot* slot)
+void TGo4HttpProxy::Initialize(TGo4Slot *slot)
 {
    TGo4ServerProxy::Initialize(slot);
 
    if (!IsGo4Analysis()) return;
 
-   TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
+   TGo4Slot *subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
    subslot->SetProxy(new TGo4ObjectProxy());
 
    subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analysis ratemeter");
@@ -793,15 +793,15 @@ TGo4LevelIter* TGo4HttpProxy::MakeIter()
    return !top ? nullptr : new TGo4HttpLevelIter(fXML, top);
 }
 
-void TGo4HttpProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HttpProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4HttpProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4HttpProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
-void TGo4HttpProxy::Update(TGo4Slot* slot, Bool_t strong)
+void TGo4HttpProxy::Update(TGo4Slot *slot, Bool_t strong)
 {
    if (strong)
       UpdateHierarchy(kFALSE);
@@ -937,7 +937,7 @@ void TGo4HttpProxy::StopAnalysis()
    fbAnalysisRunning = kFALSE;
 }
 
-Bool_t TGo4HttpProxy::RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot)
+Bool_t TGo4HttpProxy::RequestObjectStatus(const char *objectname, TGo4Slot *tgtslot)
 {
    return SubmitRequest(objectname, 4, tgtslot) != nullptr;
 }
@@ -1093,7 +1093,7 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char *objectname, TObject *obj)
 
 void TGo4HttpProxy::ResetDebugOutputRequests()
 {
-   TGo4Slot* subslot = DebugOutputSlot();
+   TGo4Slot *subslot = DebugOutputSlot();
    if (subslot) subslot->AssignObject(0, kFALSE);
 }
 
@@ -1151,7 +1151,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
          obj->Streamer(buf);
 
          if (n > 0) {
-            TGo4Slot* subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
+            TGo4Slot *subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
             TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
             TList* next = dynamic_cast<TList*> (obj);
             if (curr && curr->First() && next && next->First()) {
@@ -1191,7 +1191,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    req.Append("Ratemeter/root.bin\n");
 
    req.Append("Msg/exe.bin?method=Select&max=10000");
-   TGo4Slot* subslot = LoginfoSlot();
+   TGo4Slot *subslot = LoginfoSlot();
    TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
    if (curr && curr->First()) {
       req.Append("&id=");
@@ -1249,7 +1249,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
       return;
    }
 
-   TGo4Slot* subslot = RatemeterSlot();
+   TGo4Slot *subslot = RatemeterSlot();
    if (subslot) {
       // no new update since last call
       if (!subslot->GetAssignedObject() || (fRateCnt != subslot->GetAssignCnt())) {
@@ -1306,7 +1306,7 @@ void TGo4HttpProxy::RemoteTreeDraw(const char *treename,
    SubmitURL(path, 2);
 }
 
-TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char *extra_arg)
+TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, TGo4Slot *tgtslot, const char *extra_arg)
 {
    if (!itemname || !tgtslot) return nullptr;
 
@@ -1328,7 +1328,7 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, T
 }
 
 
-void TGo4HttpProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot)
+void TGo4HttpProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot)
 {
    if (!tgtslot) {
       // this is remote printing of event

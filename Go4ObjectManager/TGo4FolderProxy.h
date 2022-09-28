@@ -33,8 +33,8 @@ class TGo4FolderProxy : public TGo4Proxy {
       TGo4Access* ProvideAccess(const char *name) override
         { return CreateAccess(fFolder, name); }
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       Int_t GetObjectKind() override;
       const char *GetContainedClassName() override;

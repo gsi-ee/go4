@@ -119,33 +119,33 @@ void QGo4Widget::AddLink(const char *itemname, const char *linkname)
    emit widgetService(this, service_AddEditorLink, linkname, (void*) itemname);
 }
 
-void QGo4Widget::AddLink(TGo4Slot* slot, const char *linkname)
+void QGo4Widget::AddLink(TGo4Slot *slot, const char *linkname)
 {
    emit widgetService(this, service_AddDirectLink, linkname, (void*) slot);
 }
 
-TGo4Slot* QGo4Widget::AddLink(const char *itemname, TGo4Slot* parent)
+TGo4Slot *QGo4Widget::AddLink(const char *itemname, TGo4Slot *parent)
 {
-   TGo4Slot* res = parent;
+   TGo4Slot *res = parent;
    emit widgetService(this, service_AddLinkInSlot, itemname, (void*) &res);
    return res;
 }
 
-TGo4Slot* QGo4Widget::GetTopSlot(bool force)
+TGo4Slot *QGo4Widget::GetTopSlot(bool force)
 {
-   TGo4Slot* res = nullptr;
+   TGo4Slot *res = nullptr;
    emit widgetService(this, service_GetTopSlot, force ? "force" : "normal", (void*) &res);
    return res;
 }
 
-TGo4Slot* QGo4Widget::AddSlot(const char *slotname)
+TGo4Slot *QGo4Widget::AddSlot(const char *slotname)
 {
-   TGo4Slot* res =  nullptr;
+   TGo4Slot *res =  nullptr;
    emit widgetService(this, service_AddEditorSlot, slotname, (void*) &res);
    return res;
 }
 
-void QGo4Widget::SetLinkedName(TGo4Slot* slot, const char *itemname)
+void QGo4Widget::SetLinkedName(TGo4Slot *slot, const char *itemname)
 {
    emit widgetService(this, service_SetLinkedName, itemname, (void*) slot);
 }
@@ -159,7 +159,7 @@ const char *QGo4Widget::GetLinkedName(const char *linkname)
    return res;
 }
 
-const char *QGo4Widget::GetLinkedName(TGo4Slot* slot)
+const char *QGo4Widget::GetLinkedName(TGo4Slot *slot)
 {
    void* res = slot;
 
@@ -241,7 +241,7 @@ void QGo4Widget::StatusMessage(const QString& message)
    emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), nullptr);
 }
 
-void QGo4Widget::ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot* slot)
+void QGo4Widget::ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot *slot)
 {
    if (assigned) {
       linkedUpdated(slot, obj);
@@ -264,11 +264,11 @@ void QGo4Widget::linkedObjectRemoved(const char */* linkname */)
    ShootResetWidget();
 }
 
-void QGo4Widget::linkedUpdated(TGo4Slot* /* slot */, TObject* /* obj */ )
+void QGo4Widget::linkedUpdated(TGo4Slot */* slot */, TObject* /* obj */ )
 {
 }
 
-void QGo4Widget::linkedRemoved(TGo4Slot* /* slot */, TObject* /* obj */)
+void QGo4Widget::linkedRemoved(TGo4Slot */* slot */, TObject* /* obj */)
 {
 }
 
@@ -347,7 +347,7 @@ void QGo4Widget::EditItem(const QString& itemname)
    emit widgetService(this, service_EditItem, itemname.toLatin1().constData(), nullptr);
 }
 
-void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)
+void QGo4Widget::EditObjectInSlot(TGo4Slot *slot)
 {
    emit widgetService(this, service_EditInSlot, "", (void*) slot);
 }

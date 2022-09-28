@@ -37,8 +37,8 @@ class TGo4ObjectProxy : public TGo4Proxy {
       TGo4ObjectProxy(TObject *obj, Bool_t owner = kFALSE);
       virtual ~TGo4ObjectProxy();
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
       Bool_t RemoveRegisteredObject(TObject *obj) override;
 
       TGo4Access* ProvideAccess(const char *name) override;
@@ -49,11 +49,11 @@ class TGo4ObjectProxy : public TGo4Proxy {
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override;
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       Bool_t IsAcceptObject(TClass* cl) override;
-      Bool_t AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner) override;
+      Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject* GetAssignedObject() override;
 
       static Long_t DefineObjectSize(TObject *obj);

@@ -75,13 +75,13 @@ TGo4ObjectProxy::~TGo4ObjectProxy()
    if (fOwner) delete fObject;
 }
 
-void TGo4ObjectProxy::Initialize(TGo4Slot* slot)
+void TGo4ObjectProxy::Initialize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om) om->RegisterObjectWith(fObject, slot);
 }
 
-void TGo4ObjectProxy::Finalize(TGo4Slot* slot)
+void TGo4ObjectProxy::Finalize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om) om->UnregisterObject(fObject, slot);
@@ -104,7 +104,7 @@ TGo4Access* TGo4ObjectProxy::ProvideAccess(const char *name)
    return nullptr;
 }
 
-void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    const char *objname = fObject ? fObject->GetName() : nullptr;
 
@@ -125,7 +125,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
    }
 }
 
-void TGo4ObjectProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4ObjectProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    const char *objname = slot ? slot->GetPar("ObjectProxy::ObjName") : nullptr;
    if (!objname || !dir) return;
@@ -162,7 +162,7 @@ Bool_t TGo4ObjectProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(TObject::Class());
 }
 
-Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
+Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fObject && fOwner) delete fObject;

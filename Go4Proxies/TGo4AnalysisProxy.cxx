@@ -317,11 +317,11 @@ TGo4AnalysisProxy::~TGo4AnalysisProxy()
    }
 }
 
-void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
+void TGo4AnalysisProxy::Initialize(TGo4Slot *slot)
 {
    TGo4ServerProxy::Initialize(slot);
 
-   TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
+   TGo4Slot *subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
    subslot->SetProxy(new TGo4ObjectProxy());
 
    subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analysis ratemeter");
@@ -334,13 +334,13 @@ void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
    subslot->SetProxy(new TGo4ObjectProxy());
 }
 
-TGo4Slot* TGo4AnalysisProxy::UpdateObjectSlot()
+TGo4Slot *TGo4AnalysisProxy::UpdateObjectSlot()
 {
    return !fxParentSlot ? nullptr : fxParentSlot->FindChild("UpdateObject");
 }
 
 
-void TGo4AnalysisProxy::Finalize(TGo4Slot* slot)
+void TGo4AnalysisProxy::Finalize(TGo4Slot *slot)
 {
 //   Info("Finalize","Parent %x %x", slot, fxParentSlot);
 
@@ -361,11 +361,11 @@ TGo4LevelIter* TGo4AnalysisProxy::MakeIter()
    return new TGo4AnalysisLevelIter(fAnalysisNames->GetNamesFolder(), kFALSE);
 }
 
-void TGo4AnalysisProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4AnalysisProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4AnalysisProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4AnalysisProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
@@ -616,7 +616,7 @@ TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char *name)
    return new TGo4AnalysisObjectAccess(this, cmdEnvelope, objname.Data(), classname, objfolder.Data());
 }
 
-void TGo4AnalysisProxy::Update(TGo4Slot* slot, Bool_t strong)
+void TGo4AnalysisProxy::Update(TGo4Slot *slot, Bool_t strong)
 {
    if (strong)
      RefreshNamesList();
@@ -669,7 +669,7 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char *fullname, TGo4Slot* tgtslot)
+Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char *fullname, TGo4Slot *tgtslot)
 {
    if (!fullname || !tgtslot) return kFALSE;
 
@@ -684,7 +684,7 @@ Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char *fullname, TGo4Slot* tg
    return kTRUE;
 }
 
-void TGo4AnalysisProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot)
+void TGo4AnalysisProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot)
 {
    if (!evname) return;
 

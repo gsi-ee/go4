@@ -81,7 +81,7 @@ void TGo4HistogramInfo::WorkWithHistogram(const char *itemname)
    HisnameLbl->setText(itemname);
 
    if (br->IsAnalysisItem(itemname)) {
-      TGo4Slot* tgtslot = AddSlot("HistStatus");
+      TGo4Slot *tgtslot = AddSlot("HistStatus");
       br->RequestObjectStatus(itemname, tgtslot);
       // addlink to observe when histogram is removed
       AddLink(itemname, "HistogramLock");

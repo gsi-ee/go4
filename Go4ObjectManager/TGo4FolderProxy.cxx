@@ -123,7 +123,7 @@ const char *TGo4FolderProxy::GetContainedClassName()
    return fFolder ? fFolder->ClassName() : nullptr;
 }
 
-void TGo4FolderProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4FolderProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       const char *foldername = fRootFolderName.Length() > 0 ? fRootFolderName.Data() : nullptr;
@@ -131,7 +131,7 @@ void TGo4FolderProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
    }
 }
 
-void TGo4FolderProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4FolderProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    const char *foldername = slot->GetPar("FolderProxy::RootFolder");
 

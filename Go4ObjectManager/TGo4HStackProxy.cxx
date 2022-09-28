@@ -107,13 +107,13 @@ const char *TGo4HStackProxy::GetContainedClassName()
    return fHS ? fHS->ClassName() : nullptr;
 }
 
-void TGo4HStackProxy::Initialize(TGo4Slot* slot)
+void TGo4HStackProxy::Initialize(TGo4Slot *slot)
 {
    TGo4ObjectManager* om = slot->GetOM();
    if (om) om->RegisterObjectWith(fHS, slot);
 }
 
-void TGo4HStackProxy::Finalize(TGo4Slot* slot)
+void TGo4HStackProxy::Finalize(TGo4Slot *slot)
 {
    TGo4ObjectManager* om = slot->GetOM();
    if (om) om->UnregisterObject(fHS, slot);
@@ -128,7 +128,7 @@ Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HStackProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    const char *objname = nullptr;
    if (fHS)
@@ -144,7 +144,7 @@ void TGo4HStackProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs
    fHS->Write(objname);
 }
 
-void TGo4HStackProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4HStackProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    const char *objname = slot->GetPar("HStackProxy::StackName");
    if (!objname || !dir) return;
@@ -159,7 +159,7 @@ Bool_t TGo4HStackProxy::IsAcceptObject(TClass* cl)
    return cl && cl->InheritsFrom(THStack::Class());
 }
 
-Bool_t TGo4HStackProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
+Bool_t TGo4HStackProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
 {
    Finalize(slot);
    if (fHS && fOwner) delete fHS;

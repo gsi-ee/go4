@@ -1204,7 +1204,7 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
    Bool_t goinside = kTRUE;
 
    while (iter.next(goinside)) {
-      TGo4Slot* subslot = iter.getslot();
+      TGo4Slot *subslot = iter.getslot();
       goinside = kTRUE;
 
       if (br->ItemKind(subslot)==TGo4Access::kndFolder) {
@@ -1212,7 +1212,7 @@ void TGo4Script::ProduceScript(const char *filename, TGo4MainWindow* main)
          Int_t ncheck = 0, ncount = 0;
          TGo4Iter subiter(subslot, kTRUE);
          while (subiter.next()) {
-            TGo4Slot* subsubslot = subiter.getslot();
+            TGo4Slot *subsubslot = subiter.getslot();
             if (br->ItemKind(subsubslot)!=TGo4Access::kndObject) continue;
             ncount++;
             if (!br->IsItemMonitored(subsubslot)) ncheck++;
