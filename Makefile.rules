@@ -69,14 +69,6 @@ ifndef GO4PACKAGE
 %.$(ObjSuf): %.cpp
 	$(CXX) -c $< $(OPTFLAGS) $(CXXFLAGS) $(QTCXXFLAGS) -o $@ 
 
-ifeq ($(GO4_QT),3)
-
-%.h: %.ui
-	@echo "Generate Qt header $@ ... "
-	@$(UIC) $< -o $@
-
-endif
-
 %.d: %.cpp
 	@echo "Generate dependency $@ ... "
 	@$(MakeDepend) $@ "$(CXXFLAGS) $(QTCXXFLAGS)" $*.cpp > $@
