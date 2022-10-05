@@ -219,7 +219,6 @@ ifndef CFG_WITHOUT_QT
   ifdef QTDIR
     QTPATH = $(QTDIR)
     QMAKE  = $(QTPATH)/bin/qmake
-    UIC    = $(QTPATH)/bin/uic
     MOC    = $(QTPATH)/bin/moc
     QTCXXFLAGS =
     ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt version 5."),)
@@ -262,11 +261,6 @@ ifndef CFG_WITHOUT_QT
     else
       QMAKE      = $(QTPATH)/bin/qmake
     endif
-    ifneq ($(wildcard $(QTPATH)/bin/uic-qt5),)
-      UIC      = $(QTPATH)/bin/uic-qt5
-    else
-      UIC      = $(QTPATH)/bin/uic
-    endif
     ifneq ($(wildcard $(QTPATH)/bin/moc-qt5),)
       MOC      = $(QTPATH)/bin/moc-qt5
     else
@@ -281,11 +275,6 @@ ifndef CFG_WITHOUT_QT
       QMAKE      = $(QTPATH)/bin/qmake6
     else
       QMAKE      = $(QTPATH)/bin/qmake-qt6
-    endif
-    ifneq ($(wildcard /usr/lib64/qt6/libexec/uic),)
-      UIC      = /usr/lib64/qt6/libexec/uic
-    else
-      UIC      = $(QTPATH)/bin/uic6
     endif
     ifneq ($(wildcard /usr/lib64/qt6/libexec/moc),)
       MOC      = /usr/lib64/qt6/libexec/moc
@@ -524,6 +513,5 @@ ifndef CFG_WITHOUT_QT
 	@echo "QTPATH     = $(QTPATH)" >> $@
 	@echo "QTCXXFLAGS = $(QTCXXFLAGS)" >> $@
 	@echo "QMAKE      = $(QMAKE)" >> $@
-	@echo "UIC        = $(UIC)" >> $@
 	@echo "MOC        = $(MOC)" >> $@
 endif
