@@ -39,7 +39,13 @@
 
 const int ColumnWidths[TGo4Browser::NColumns] = { 150, 40, 120, 90, 60, 100, 50 };
 const char *ColumnNames[TGo4Browser::NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
-const int ColumnAllign[TGo4Browser::NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
+
+#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
+const int
+#else
+const Qt::Alignment
+#endif
+   ColumnAllign[TGo4Browser::NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
 
 QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
 {
