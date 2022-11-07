@@ -109,11 +109,14 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char *name) :
    QObject::connect(ListView->header(), &QHeaderView::customContextMenuRequested, this, &TGo4Browser::Header_customContextMenuRequested);
 
    ListView->header()->setToolTip(
-     QString("You can change selected browser columns\n") +
-             "by activating RMB. Flags has following meaning\n" +
-             "m - monitored,\ns - static,\n" +
-             "d - can be deleted,\np - protected against delete\n" +
-             "r - can not be reset (read only),\nw - can be reset");
+     "You can change selected browser columns\n"
+     "by activating RMB. Flags has following meaning:\n"
+     "m - monitored,\n"
+     "s - static,\n"
+     "d - can be deleted,\n"
+     "p - protected against delete,\n"
+     "r - can not be reset (read only),\n"
+     "w - can be reset");
 
    ListView->setContextMenuPolicy(Qt::CustomContextMenu);
    ListView->header()->setContextMenuPolicy(Qt::CustomContextMenu);
