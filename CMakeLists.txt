@@ -216,6 +216,7 @@ ExternalProject_Add(Go4FitExample
                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4FitExample
                     BINARY_DIR Go4FitExample
+                    BUILD_ALWAYS true
                     INSTALL_COMMAND "")
 
 ExternalProject_Add(Go4ThreadManagerExample
@@ -223,6 +224,7 @@ ExternalProject_Add(Go4ThreadManagerExample
                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4ThreadManagerExample
                     BINARY_DIR Go4ThreadManagerExample
+                    BUILD_ALWAYS true
                     INSTALL_COMMAND "")
 
 ExternalProject_Add(Go4TaskHandlerExample
@@ -230,6 +232,7 @@ ExternalProject_Add(Go4TaskHandlerExample
                     CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
                     SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4TaskHandlerExample
                     BINARY_DIR Go4TaskHandlerExample
+                    BUILD_ALWAYS true
                     INSTALL_COMMAND "")
 
 list(APPEND examples
@@ -250,6 +253,7 @@ endif()
 foreach(ex ${examples})
    ExternalProject_Add(${ex}
                        DEPENDS Go4Analysis Go4AnalBase Go4Fit
+                       BUILD_ALWAYS true
                        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
                        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
                        BINARY_DIR ${ex}
