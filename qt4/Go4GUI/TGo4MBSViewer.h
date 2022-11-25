@@ -77,6 +77,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
     bool fbTrendingInit{false};
     QString fxHistoAccessName;
     bool fbTrending{false};
+    bool fbGetStatus{false};
     bool fbGetSetML{false};
     QString fxRefTime;
     bool fbGetSetup{false};

@@ -1,834 +1,844 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <author></author>
-  <comment></comment>
-  <class>TGo4MBSViewer</class>
-  <widget class="QWidget">
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>600</width>
-        <height>85</height>
-      </rect>
-    </property>
-    <property name="windowTitle" >
-      <string>MBS Status</string>
-    </property>
-    <property name="windowIcon" >
-      <pixmap>:/icons/mbslogo.png</pixmap>
-    </property>
-    <layout class="QGridLayout" >
-      <property name="margin" >
-        <number>1</number>
-      </property>
-      <property name="spacing" >
-        <number>1</number>
-      </property>
-      <item row="0" column="0" >
-        <layout class="QVBoxLayout" >
-          <item>
-            <layout class="QHBoxLayout" >
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QLabel" name="RunPix" >
-                      <property name="sizePolicy" >
-                        <sizepolicy>
-                          <hsizetype>0</hsizetype>
-                          <vsizetype>0</vsizetype>
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                        </sizepolicy>
-                      </property>
-                      <property name="minimumSize" >
-                        <size>
-                          <width>70</width>
-                          <height>20</height>
-                        </size>
-                      </property>
-                      <property name="maximumSize" >
-                        <size>
-                          <width>60</width>
-                          <height>20</height>
-                        </size>
-                      </property>
-                      <property name="frameShape" >
-                        <enum>QFrame::NoFrame</enum>
-                      </property>
-                      <property name="frameShadow" >
-                        <enum>QFrame::Plain</enum>
-                      </property>
-                      <property name="pixmap" >
-                        <pixmap>:/icons/mbsbutton.png</pixmap>
-                      </property>
-                      <property name="scaledContents" >
-                        <bool>true</bool>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Indicator for daq running state</string>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QLabel" name="WarnPix" >
-                      <property name="sizePolicy" >
-                        <sizepolicy>
-                          <hsizetype>0</hsizetype>
-                          <vsizetype>0</vsizetype>
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                        </sizepolicy>
-                      </property>
-                      <property name="minimumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="maximumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="pixmap" >
-                        <pixmap>:/icons/info1.png</pixmap>
-                      </property>
-                      <property name="scaledContents" >
-                        <bool>true</bool>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>An error has occured!</string>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <widget class="QGo4LineEdit" name="NodeEdit" >
-                  <property name="minimumSize" >
-                    <size>
-                      <width>50</width>
-                      <height>0</height>
-                    </size>
-                  </property>
-                  <property name="maximumSize" >
-                    <size>
-                      <width>100</width>
-                      <height>32767</height>
-                    </size>
-                  </property>
-                  <property name="frame" >
-                    <bool>true</bool>
-                  </property>
-                  <property name="text" >
-                    <string/>
-                  </property>
-                  <property name="toolTip" stdset="0" >
-                    <string>Hostname of mbs machine to be inspected</string>
-                  </property>
-                </widget>
-              </item>
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QLCDNumber" name="RateEvents" >
-                      <property name="frameShape" >
-                        <enum>QFrame::Box</enum>
-                      </property>
-                      <property name="segmentStyle" >
-                        <enum>QLCDNumber::Flat</enum>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Eventrate within monitoring interval. Without monitoring: as calculated by Mbs</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QLabel" name="Ratelabel" >
-                      <property name="font" >
-                        <font>
-                          <bold>true</bold>
-                        </font>
-                      </property>
-                      <property name="text" >
-                        <string>Ev/s</string>
-                      </property>
-                      <property name="alignment" >
-                        <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QLCDNumber" name="SumEvents" >
-                      <property name="segmentStyle" >
-                        <enum>QLCDNumber::Flat</enum>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Total events (collector)</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QLabel" name="Eventlabel" >
-                      <property name="font" >
-                        <font>
-                          <bold>true</bold>
-                        </font>
-                      </property>
-                      <property name="text" >
-                        <string>Ev</string>
-                      </property>
-                      <property name="alignment" >
-                        <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QLCDNumber" name="RateBytes" >
-                      <property name="smallDecimalPoint" >
-                        <bool>false</bool>
-                      </property>
-                      <property name="segmentStyle" >
-                        <enum>QLCDNumber::Flat</enum>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Data rate within monitoring interval. Without monitoring:as calculated by mbs (use show rate)</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QLabel" name="ByteRatelabel" >
-                      <property name="font" >
-                        <font>
-                          <bold>true</bold>
-                        </font>
-                      </property>
-                      <property name="text" >
-                        <string>kB/s</string>
-                      </property>
-                      <property name="alignment" >
-                        <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QLCDNumber" name="SumBytes" >
-                      <property name="segmentStyle" >
-                        <enum>QLCDNumber::Flat</enum>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Amount of data (transport)</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QLabel" name="Bytelabel" >
-                      <property name="font" >
-                        <font>
-                          <bold>true</bold>
-                        </font>
-                      </property>
-                      <property name="text" >
-                        <string>MB</string>
-                      </property>
-                      <property name="alignment" >
-                        <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                      </property>
-                      <property name="wordWrap" >
-                        <bool>false</bool>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <widget class="QLabel" name="DateLabel" >
-                  <property name="minimumSize" >
-                    <size>
-                      <width>100</width>
-                      <height>7</height>
-                    </size>
-                  </property>
-                  <property name="frameShape" >
-                    <enum>QFrame::Box</enum>
-                  </property>
-                  <property name="frameShadow" >
-                    <enum>QFrame::Raised</enum>
-                  </property>
-                  <property name="text" >
-                    <string>Date</string>
-                  </property>
-                  <property name="toolTip" stdset="0" >
-                    <string>Date and time of last refresh.</string>
-                  </property>
-                  <property name="wordWrap" >
-                    <bool>false</bool>
-                  </property>
-                </widget>
-              </item>
-              <item>
-                <spacer name="spacer9" >
-                  <property name="sizeHint" >
-                    <size>
-                      <width>58</width>
-                      <height>20</height>
-                    </size>
-                  </property>
-                  <property name="sizeType" >
-                    <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="orientation" >
-                    <enum>Qt::Horizontal</enum>
-                  </property>
-                </spacer>
-              </item>
-              <item>
-                <layout class="QHBoxLayout" >
-                  <item>
-                    <widget class="QPushButton" name="MonitorButton" >
-                      <property name="sizePolicy" >
-                        <sizepolicy>
-                          <hsizetype>0</hsizetype>
-                          <vsizetype>0</vsizetype>
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                        </sizepolicy>
-                      </property>
-                      <property name="minimumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="maximumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="text" >
-                        <string/>
-                      </property>
-                      <property name="icon" >
-                        <iconset>:/icons/startselected.png</iconset>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Start automatic refresh</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QPushButton" name="StopButton" >
-                      <property name="sizePolicy" >
-                        <sizepolicy>
-                          <hsizetype>0</hsizetype>
-                          <vsizetype>0</vsizetype>
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                        </sizepolicy>
-                      </property>
-                      <property name="maximumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="text" >
-                        <string/>
-                      </property>
-                      <property name="icon" >
-                        <iconset>:/icons/Stop.png</iconset>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Stop automatic refresh</string>
-                      </property>
-                    </widget>
-                  </item>
-                  <item>
-                    <widget class="QPushButton" name="RefreshButton" >
-                      <property name="sizePolicy" >
-                        <sizepolicy>
-                          <hsizetype>0</hsizetype>
-                          <vsizetype>0</vsizetype>
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                        </sizepolicy>
-                      </property>
-                      <property name="maximumSize" >
-                        <size>
-                          <width>30</width>
-                          <height>30</height>
-                        </size>
-                      </property>
-                      <property name="text" >
-                        <string/>
-                      </property>
-                      <property name="icon" >
-                        <iconset>:/icons/refresh.png</iconset>
-                      </property>
-                      <property name="toolTip" stdset="0" >
-                        <string>Refresh status</string>
-                      </property>
-                    </widget>
-                  </item>
-                </layout>
-              </item>
-              <item>
-                <widget class="QCheckBox" name="MoreBox" >
-                  <property name="text" >
-                    <string>More...</string>
-                  </property>
-                  <property name="toolTip" stdset="0" >
-                    <string>Check to see control panel</string>
-                  </property>
-                </widget>
-              </item>
-            </layout>
-          </item>
-          <item>
-            <widget class="QFrame" name="MoreFrame" >
-              <property name="sizePolicy" >
-                <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>1</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                </sizepolicy>
-              </property>
-              <property name="maximumSize" >
-                <size>
-                  <width>32767</width>
-                  <height>61</height>
-                </size>
-              </property>
-              <property name="frameShape" >
-                <enum>Panel</enum>
-              </property>
-              <property name="frameShadow" >
-                <enum>Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" >
-                <property name="margin" >
-                  <number>2</number>
-                </property>
-                <property name="spacing" >
-                  <number>0</number>
-                </property>
-                <item>
-                  <layout class="QHBoxLayout" >
-                    <property name="margin" >
-                      <number>0</number>
-                    </property>
-                    <property name="spacing" >
-                      <number>1</number>
-                    </property>
-                    <item>
-                      <layout class="QHBoxLayout" >
-                        <item>
-                          <widget class="QLabel" name="ServerLabel" >
-                            <property name="minimumSize" >
-                              <size>
-                                <width>100</width>
-                                <height>7</height>
-                              </size>
-                            </property>
-                            <property name="maximumSize" >
-                              <size>
-                                <width>32767</width>
-                                <height>22</height>
-                              </size>
-                            </property>
-                            <property name="frameShape" >
-                              <enum>QFrame::Box</enum>
-                            </property>
-                            <property name="frameShadow" >
-                              <enum>QFrame::Raised</enum>
-                            </property>
-                            <property name="margin" >
-                              <number>0</number>
-                            </property>
-                            <property name="text" >
-                              <string>NO SERVER</string>
-                            </property>
-                            <property name="toolTip" stdset="0" >
-                              <string>Server task active</string>
-                            </property>
-                            <property name="wordWrap" >
-                              <bool>false</bool>
-                            </property>
-                          </widget>
-                        </item>
-                        <item>
-                          <layout class="QHBoxLayout" >
-                            <item>
-                              <widget class="QLCDNumber" name="ServerPercent" >
-                                <property name="maximumSize" >
-                                  <size>
-                                    <width>32767</width>
-                                    <height>22</height>
-                                  </size>
-                                </property>
-                                <property name="segmentStyle" >
-                                  <enum>QLCDNumber::Flat</enum>
-                                </property>
-                                <property name="toolTip" stdset="0" >
-                                  <string>Ratio served events/total events within monitoring interval</string>
-                                </property>
-                              </widget>
-                            </item>
-                            <item>
-                              <widget class="QLabel" name="SeverPercentLabel" >
-                                <property name="font" >
-                                  <font>
-                                    <bold>true</bold>
-                                  </font>
-                                </property>
-                                <property name="text" >
-                                  <string>% </string>
-                                </property>
-                                <property name="alignment" >
-                                  <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                                </property>
-                                <property name="wordWrap" >
-                                  <bool>false</bool>
-                                </property>
-                              </widget>
-                            </item>
-                          </layout>
-                        </item>
-                      </layout>
-                    </item>
-                    <item>
-                      <layout class="QHBoxLayout" >
-                        <item>
-                          <widget class="QLabel" name="OutfileLabel" >
-                            <property name="minimumSize" >
-                              <size>
-                                <width>140</width>
-                                <height>7</height>
-                              </size>
-                            </property>
-                            <property name="maximumSize" >
-                              <size>
-                                <width>32767</width>
-                                <height>22</height>
-                              </size>
-                            </property>
-                            <property name="frameShape" >
-                              <enum>QFrame::Box</enum>
-                            </property>
-                            <property name="frameShadow" >
-                              <enum>QFrame::Raised</enum>
-                            </property>
-                            <property name="margin" >
-                              <number>0</number>
-                            </property>
-                            <property name="text" >
-                              <string>Outputfile.lmd</string>
-                            </property>
-                            <property name="alignment" >
-                              <set>Qt::AlignVCenter|Qt::AlignRight</set>
-                            </property>
-                            <property name="toolTip" stdset="0" >
-                              <string>Mbs transport writes to this file</string>
-                            </property>
-                            <property name="wordWrap" >
-                              <bool>false</bool>
-                            </property>
-                          </widget>
-                        </item>
-                        <item>
-                          <layout class="QHBoxLayout" >
-                            <item>
-                              <widget class="QLCDNumber" name="SumBytesFile" >
-                                <property name="maximumSize" >
-                                  <size>
-                                    <width>32767</width>
-                                    <height>22</height>
-                                  </size>
-                                </property>
-                                <property name="segmentStyle" >
-                                  <enum>QLCDNumber::Flat</enum>
-                                </property>
-                                <property name="toolTip" stdset="0" >
-                                  <string>Amount of data written to file</string>
-                                </property>
-                              </widget>
-                            </item>
-                            <item>
-                              <widget class="QLabel" name="BytelabelFile" >
-                                <property name="font" >
-                                  <font>
-                                    <bold>true</bold>
-                                  </font>
-                                </property>
-                                <property name="text" >
-                                  <string>MB file</string>
-                                </property>
-                                <property name="alignment" >
-                                  <set>Qt::AlignVCenter|Qt::AlignLeft</set>
-                                </property>
-                                <property name="wordWrap" >
-                                  <bool>false</bool>
-                                </property>
-                              </widget>
-                            </item>
-                          </layout>
-                        </item>
-                      </layout>
-                    </item>
-                  </layout>
-                </item>
-                <item>
-                  <spacer name="spacer31_2_2" >
-                    <property name="sizeHint" >
-                      <size>
-                        <width>16</width>
-                        <height>20</height>
-                      </size>
-                    </property>
-                    <property name="sizeType" >
-                      <enum>QSizePolicy::Fixed</enum>
-                    </property>
-                    <property name="orientation" >
-                      <enum>Qt::Horizontal</enum>
-                    </property>
-                  </spacer>
-                </item>
-                <item>
-                  <layout class="QHBoxLayout" >
-                    <item>
-                      <widget class="QPushButton" name="FullPrintButton" >
-                        <property name="sizePolicy" >
-                          <sizepolicy>
-                            <hsizetype>0</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                          </sizepolicy>
-                        </property>
-                        <property name="maximumSize" >
-                          <size>
-                            <width>30</width>
-                            <height>30</height>
-                          </size>
-                        </property>
-                        <property name="text" >
-                          <string/>
-                        </property>
-                        <property name="icon" >
-                          <iconset>:/icons/log.png</iconset>
-                        </property>
-                        <property name="toolTip" stdset="0" >
-                          <string>Print selected structure to terminal</string>
-                        </property>
-                      </widget>
-                    </item>
-                    <item>
-                      <widget class="QGroupBox" name="StateGroupBox" >
-                        <property name="sizePolicy" >
-                          <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                          </sizepolicy>
-                        </property>
-                        <property name="maximumSize" >
-                          <size>
-                            <width>32767</width>
-                            <height>35</height>
-                          </size>
-                        </property>
-                        <property name="title" >
-                          <string/>
-                        </property>
-                        <property name="alignment" >
-                          <set>Qt::AlignVCenter</set>
-                        </property>
-                        <property name="flat" >
-                          <bool>false</bool>
-                        </property>
-                        <property name="selectedId" stdset="0" >
-                          <number>-1</number>
-                        </property>
-                        <layout class="QHBoxLayout" >
-                          <property name="margin" >
-                            <number>9</number>
-                          </property>
-                          <property name="spacing" >
-                            <number>1</number>
-                          </property>
-                          <item>
-                            <widget class="QRadioButton" name="StatusRadio" >
-                              <property name="text" >
-                                <string>Status</string>
-                              </property>
-                              <property name="toolTip" stdset="0" >
-                                <string>Check to printout whole status structure</string>
-                              </property>
-                            </widget>
-                          </item>
-                          <item>
-                            <widget class="QRadioButton" name="SetupRadio" >
-                              <property name="text" >
-                                <string>Setup</string>
-                              </property>
-                              <property name="toolTip" stdset="0" >
-                                <string>Check to printout setup structure</string>
-                              </property>
-                            </widget>
-                          </item>
-                          <item>
-                            <widget class="QRadioButton" name="SetupMLRadio" >
-                              <property name="text" >
-                                <string>SetupML</string>
-                              </property>
-                              <property name="toolTip" stdset="0" >
-                                <string>Check to printout setup for multilayer mbs</string>
-                              </property>
-                            </widget>
-                          </item>
-                          <item>
-                            <widget class="QRadioButton" name="SetupMORadio" >
-                              <property name="text" >
-                                <string>SetupMO</string>
-                              </property>
-                              <property name="toolTip" stdset="0" >
-                                <string>Check to printout setup for multilayer mbs</string>
-                              </property>
-                            </widget>
-                          </item>
-                        </layout>
-                      </widget>
-                    </item>
-                  </layout>
-                </item>
-                <item>
-                  <spacer name="spacer31" >
-                    <property name="sizeHint" >
-                      <size>
-                        <width>60</width>
-                        <height>20</height>
-                      </size>
-                    </property>
-                    <property name="sizeType" >
-                      <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="orientation" >
-                      <enum>Qt::Horizontal</enum>
-                    </property>
-                  </spacer>
-                </item>
-                <item>
-                  <layout class="QHBoxLayout" >
-                    <item>
-                      <widget class="QSpinBox" name="FrequencyBox" >
-                        <property name="prefix" >
-                          <string/>
-                        </property>
-                        <property name="suffix" >
-                          <string> s</string>
-                        </property>
-                        <property name="specialValueText" >
-                          <string/>
-                        </property>
-                        <property name="maximum" >
-                          <number>3600</number>
-                        </property>
-                        <property name="minimum" >
-                          <number>1</number>
-                        </property>
-                        <property name="value" >
-                          <number>2</number>
-                        </property>
-                        <property name="toolTip" stdset="0" >
-                          <string>Refresh frequency</string>
-                        </property>
-                      </widget>
-                    </item>
-                    <item>
-                      <widget class="QSpinBox" name="TrendBinsBox" >
-                        <property name="prefix" >
-                          <string/>
-                        </property>
-                        <property name="suffix" >
-                          <string> bins</string>
-                        </property>
-                        <property name="specialValueText" >
-                          <string/>
-                        </property>
-                        <property name="maximum" >
-                          <number>100000</number>
-                        </property>
-                        <property name="minimum" >
-                          <number>10</number>
-                        </property>
-                        <property name="singleStep" >
-                          <number>100</number>
-                        </property>
-                        <property name="value" >
-                          <number>1000</number>
-                        </property>
-                        <property name="toolTip" stdset="0" >
-                          <string>Binsize for trending histograms</string>
-                        </property>
-                      </widget>
-                    </item>
-                    <item>
-                      <widget class="QCheckBox" name="TrendCheck" >
-                        <property name="text" >
-                          <string>trend</string>
-                        </property>
-                        <property name="toolTip" stdset="0" >
-                          <string>Check to update trending histogram</string>
-                        </property>
-                      </widget>
-                    </item>
-                  </layout>
-                </item>
-              </layout>
-            </widget>
-          </item>
-        </layout>
-      </item>
+ <class>TGo4MBSViewer</class>
+ <widget class="QWidget" name="TGo4MBSViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1128</width>
+    <height>86</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MBS Status</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
+   <property name="spacing">
+    <number>1</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout">
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QLabel" name="RunPix">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Indicator for daq running state</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="go4icons.qrc">:/icons/mbsbutton.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="WarnPix">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>An error has occured!</string>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="go4icons.qrc">:/icons/info1.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QGo4LineEdit" name="NodeEdit">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>32767</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Hostname of mbs machine to be inspected</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QLCDNumber" name="RateEvents">
+         <property name="toolTip">
+          <string>Eventrate within monitoring interval. Without monitoring: as calculated by Mbs</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Ratelabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ev/s</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QLCDNumber" name="SumEvents">
+         <property name="toolTip">
+          <string>Total events (collector)</string>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Eventlabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Ev</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QLCDNumber" name="RateBytes">
+         <property name="toolTip">
+          <string>Data rate within monitoring interval. Without monitoring:as calculated by mbs (use show rate)</string>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>false</bool>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="ByteRatelabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>kB/s</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QLCDNumber" name="SumBytes">
+         <property name="toolTip">
+          <string>Amount of data (transport)</string>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="Bytelabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>MB</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="DateLabel">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>7</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Date and time of last refresh.</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="text">
+        <string>Date</string>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>58</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="QPushButton" name="MonitorButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Start automatic refresh</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="go4icons.qrc">
+           <normaloff>:/icons/startselected.png</normaloff>:/icons/startselected.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="StopButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Stop automatic refresh</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="go4icons.qrc">
+           <normaloff>:/icons/Stop.png</normaloff>:/icons/Stop.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="RefreshButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Refresh status</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="go4icons.qrc">
+           <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="MoreBox">
+       <property name="toolTip">
+        <string>Check to see control panel</string>
+       </property>
+       <property name="text">
+        <string>More...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-  </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <customwidgets>
-    <customwidget>
-      <class>QGo4LineEdit</class>
-      <extends>QLineEdit</extends>
-      <header>QGo4LineEdit.h</header>
-      <container>0</container>
-    </customwidget>
-  </customwidgets>
+   </item>
+   <item row="1" column="0">
+    <widget class="QFrame" name="MoreFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>32767</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <layout class="QHBoxLayout">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout">
+          <item>
+           <widget class="QLabel" name="ServerLabel">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>7</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32767</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Server task active</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <property name="text">
+             <string>NO SERVER</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QLCDNumber" name="ServerPercent">
+              <property name="maximumSize">
+               <size>
+                <width>32767</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Ratio served events/total events within monitoring interval</string>
+              </property>
+              <property name="segmentStyle">
+               <enum>QLCDNumber::Flat</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="SeverPercentLabel">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>% </string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout">
+          <item>
+           <widget class="QLabel" name="OutfileLabel">
+            <property name="minimumSize">
+             <size>
+              <width>140</width>
+              <height>7</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32767</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Mbs transport writes to this file</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <property name="text">
+             <string>Outputfile.lmd</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QLCDNumber" name="SumBytesFile">
+              <property name="maximumSize">
+               <size>
+                <width>32767</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Amount of data written to file</string>
+              </property>
+              <property name="segmentStyle">
+               <enum>QLCDNumber::Flat</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="BytelabelFile">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>MB file</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="spacer31_2_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>16</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QPushButton" name="FullPrintButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Print selected structure to terminal</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="go4icons.qrc">
+            <normaloff>:/icons/log.png</normaloff>:/icons/log.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="StateGroupBox">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <property name="topMargin">
+            <number>2</number>
+           </property>
+           <property name="bottomMargin">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="StatusRadio">
+             <property name="toolTip">
+              <string>Check to printout whole status structure</string>
+             </property>
+             <property name="text">
+              <string>S&amp;tatus</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+             <property name="autoExclusive">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="SetupRadio">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="toolTip">
+              <string>Check to printout setup structure</string>
+             </property>
+             <property name="text">
+              <string>Set&amp;up</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="SetupMLRadio">
+             <property name="toolTip">
+              <string>Check to printout setup for multilayer mbs</string>
+             </property>
+             <property name="text">
+              <string>SetupM&amp;L</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="SetupMORadio">
+             <property name="toolTip">
+              <string>Check to printout setup for multilayer mbs</string>
+             </property>
+             <property name="text">
+              <string>Se&amp;tupMO</string>
+             </property>
+             <property name="autoExclusive">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="spacer31">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>60</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout">
+        <property name="spacing">
+         <number>2</number>
+        </property>
+        <item>
+         <widget class="QSpinBox" name="FrequencyBox">
+          <property name="toolTip">
+           <string>Refresh frequency</string>
+          </property>
+          <property name="specialValueText">
+           <string/>
+          </property>
+          <property name="suffix">
+           <string> s</string>
+          </property>
+          <property name="prefix">
+           <string/>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>3600</number>
+          </property>
+          <property name="value">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="TrendBinsBox">
+          <property name="toolTip">
+           <string>Binsize for trending histograms</string>
+          </property>
+          <property name="specialValueText">
+           <string/>
+          </property>
+          <property name="suffix">
+           <string> bins</string>
+          </property>
+          <property name="prefix">
+           <string/>
+          </property>
+          <property name="minimum">
+           <number>10</number>
+          </property>
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>1000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="TrendCheck">
+          <property name="toolTip">
+           <string>Check to update trending histogram</string>
+          </property>
+          <property name="text">
+           <string>trend</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QGo4LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>QGo4LineEdit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="go4icons.qrc"/>
+ </resources>
+ <connections/>
 </ui>

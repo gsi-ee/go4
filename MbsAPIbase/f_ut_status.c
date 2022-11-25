@@ -182,8 +182,8 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
       if(l_swap == 1)
     	  l_status = f_swaplw((INTS4 *)&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
-  // MBS v51 and v62/v63
-  if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62) || (ps_daqst->l_version == 63))
+  // MBS v51 and v62/v63 and MBS v70
+  if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62) || (ps_daqst->l_version == 63) || (ps_daqst->l_version == 70))
     {
       l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7)*4 , l_tcp,-1);
       if(l_swap == 1)
@@ -520,9 +520,9 @@ l_status = f_stc_write (&l_cmd,4,l_tcp);                 if (l_status != STC__SU
 l_status = f_stc_read (&ps_setup->l_endian,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_setup->l_endian != 1) l_swap = 1;
 if(l_swap == 1) l_status = f_swaplw((INTS4 *) &ps_setup->l_endian,4,NULL);
-if((ps_setup->l_version != VERSION__SETUP) && (ps_setup->l_version != 1))
+if((ps_setup->l_version < VERSION__SETUP) && (ps_setup->l_version != 1))
 {
-  printf ("f_ut_setup_r sees setup version %d, current version is %d", ps_setup->l_version, VERSION__SETUP);
+  printf ("f_ut_setup_r sees setup version %d, minimum version is %d", ps_setup->l_version, VERSION__SETUP);
   return -1; // correct for legacy MBS
 }
 

@@ -51,6 +51,12 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char *name) :
    QObject::connect(MoreBox, &QCheckBox::toggled, this, &TGo4MBSViewer::MoreBox_toggled);
    QObject::connect(TrendBinsBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &TGo4MBSViewer::TrendBinsBox_valueChanged);
 
+   // new JAM22:
+   QObject::connect(StatusRadio, &QRadioButton::clicked, this, &TGo4MBSViewer::StateGroup_clicked);
+   QObject::connect(SetupRadio, &QRadioButton::clicked, this, &TGo4MBSViewer::StateGroup_clicked);
+   QObject::connect(SetupMLRadio, &QRadioButton::clicked, this, &TGo4MBSViewer::StateGroup_clicked);
+   QObject::connect(SetupMORadio, &QRadioButton::clicked, this, &TGo4MBSViewer::StateGroup_clicked);
+
    RateEvents->setDigitCount(7);
    SumEvents->setDigitCount(12);
    RateBytes->setDigitCount(7);
@@ -61,6 +67,7 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char *name) :
    fbIsMonitoring=false;
    fbWarningState=false;
    fbRunning=false;
+   fbGetStatus=true;
    fbGetSetup=false;
    fbGetSetML=false;
    fbGetSetMO=false;
@@ -80,20 +87,6 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char *name) :
    MoreBox->setChecked(fbShowMore);
    FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
    fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
-
-   StateGroup = new QButtonGroup(this);
-   StateGroup->setExclusive(false);
-   StateGroup->addButton(StatusRadio, 0);
-   StateGroup->addButton(SetupRadio, 1);
-   StateGroup->addButton(SetupMLRadio, 2);
-   StateGroup->addButton(SetupMORadio, 3);
-   StateGroup->button(0)->setChecked(true);
-
-#if QT_VERSION < QT_VERSION_CHECK(5,15,0)
-   QObject::connect(StateGroup, (void (QButtonGroup::*)(int)) &QButtonGroup::buttonClicked, this, &TGo4MBSViewer::StateGroup_clicked);
-#else
-   QObject::connect(StateGroup, &QButtonGroup::idClicked, this, &TGo4MBSViewer::StateGroup_clicked);
-#endif
 
    fxHistoAccessName = "nosuchobject";
    fxHistokBAccessName = "nosuchobject";
@@ -378,7 +371,7 @@ void TGo4MBSViewer::ShowStatus()
    else
    {
       std::cout <<"\n------------------------------------------------" << std::endl;
-      if(StateGroup->button(0)->isChecked())
+      if(fbGetStatus)
          f_ut_seg_show (&fxDaqStat,0,0,0);
       if(fbGetSetup)
          f_ut_seg_show (0,&fxSetup,0,0);
@@ -392,16 +385,14 @@ void TGo4MBSViewer::ShowStatus()
 
 void TGo4MBSViewer::StateGroup_clicked( int id)
 {
-   // only one of these can be enabled
-   fbGetSetup=StateGroup->button(1)->isChecked();
-   fbGetSetML=StateGroup->button(2)->isChecked();
-   fbGetSetMO=StateGroup->button(3)->isChecked();
-   // if status is wanted, do not print setups:
-   //	if(fbGetSetup=StateGroup->button(0)->isChecked()){
-   //        fbGetSetup=false;
-   //        fbGetSetML=false;
-   //        fbGetSetMO=false;
-   //	}
+
+   // JAM23-11-2022: do the old complicated attempt a bit better:
+   fbGetStatus=StatusRadio->isChecked();
+   fbGetSetup=SetupRadio->isChecked();
+   fbGetSetML=SetupMLRadio->isChecked();
+   fbGetSetMO=SetupMORadio->isChecked();
+//   printf("StateGroup_clicked: fbGetStatus=%d, fbGetSetup=%d, fbGetSetML=%d, fbGetSetMO=%d\n",
+//       fbGetStatus,fbGetSetup, fbGetSetML, fbGetSetMO);
 }
 
 
