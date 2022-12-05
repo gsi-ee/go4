@@ -70,7 +70,7 @@ Int_t TMeshB3OutputEvent::Fill()
 
 }
 //-----------------------------------------------------------
-void TMeshB3OutputEvent::Clear(Option_t *t)
+void TMeshB3OutputEvent::Clear(Option_t *)
 {
    void* destfield = (void*) &frData[0];
    memset(destfield,0, sizeof(frData));

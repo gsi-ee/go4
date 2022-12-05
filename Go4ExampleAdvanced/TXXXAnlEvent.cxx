@@ -30,7 +30,7 @@ TXXXAnlEvent::~TXXXAnlEvent()
 }
 
 //-----------------------------------------------------------
-void TXXXAnlEvent::Clear(Option_t *t)
+void TXXXAnlEvent::Clear(Option_t *)
 {
    for (int n = 0; n < 16; n++)
       frData[n] = 0.;

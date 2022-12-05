@@ -76,7 +76,7 @@ void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char *message
    throw TGo4EventEndException(this);
 }
 
-void TGo4EventSource::Clear(Option_t*)
+void TGo4EventSource::Clear(Option_t *)
 {
    // dummy clear, may be implemented by user
    TGo4Log::Info("Default clear of eventsource %s", GetName());

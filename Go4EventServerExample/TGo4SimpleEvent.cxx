@@ -72,7 +72,7 @@ void TGo4SimpleEvent::PrintEvent()
       sub->PrintEvent();
 }
 
-void TGo4SimpleEvent::Clear(Option_t *t)
+void TGo4SimpleEvent::Clear(Option_t *)
 {
    GO4TRACE((11,"TGo4SimpleEvent::Clear()",__LINE__, __FILE__));
    // here iterate all subevents and clear them

@@ -22,16 +22,17 @@ TMeshRawEvent::TMeshRawEvent()
   :TGo4EventElement("RawEvent"),fxUnpacker(0),fxFile(0)
 {
 }
+
 //***********************************************************
 TMeshRawEvent::TMeshRawEvent(const char *name)
   :TGo4EventElement(name),fxUnpacker(0),fxFile(0)
 {
 }
+
 //***********************************************************
 TMeshRawEvent::~TMeshRawEvent()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TMeshRawEvent::Init()
@@ -66,25 +67,23 @@ Int_t TMeshRawEvent::Fill()
 {
    Int_t rev = 0;
    Clear();
-   if(fxUnpacker)
-      {
-         fxUnpacker->Unpack(this);  // user event processing method
-         // alternatively, we could work with the Fill() of the subcomponents:
-         //         fxSub1.Fill();
-         //         fxSub2.Fill();
-         //         fxSub3.Fill();
-      }
-   else if(fxFile)
+   if(fxUnpacker) {
+      fxUnpacker->Unpack(this);  // user event processing method
+      // alternatively, we could work with the Fill() of the subcomponents:
+      //         fxSub1.Fill();
+      //         fxSub2.Fill();
+      //         fxSub3.Fill();
+   } else if(fxFile)
       fxFile->BuildEvent(this); // method from framework to restore event from file
    else
-      rev=1;
+      rev = 1;
    return rev;
 }
 
 //-----------------------------------------------------------
-void  TMeshRawEvent::Clear(Option_t *t)
+void  TMeshRawEvent::Clear(Option_t *opt)
 {
-   fxSub1.Clear(t);
-   fxSub2.Clear(t);
-   fxSub3.Clear(t);
+   fxSub1.Clear(opt);
+   fxSub2.Clear(opt);
+   fxSub3.Clear(opt);
 }

@@ -30,7 +30,7 @@ class TGo4SubEventHeader10 : public TObject {
   public:
 
     /** Reset all members to zero. */
-    void Clear(Option_t* opt="") override
+    void Clear(Option_t * = "") override
      {
         fxGSIHeader.Clear();
         fxGSIHeader.fsType = 10;

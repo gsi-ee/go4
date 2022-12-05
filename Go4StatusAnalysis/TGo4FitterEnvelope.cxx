@@ -50,7 +50,7 @@ Bool_t TGo4FitterEnvelope::UpdateFrom(TGo4Parameter *pp)
    return kTRUE;
 }
 
-void TGo4FitterEnvelope::Clear(Option_t* opt)
+void TGo4FitterEnvelope::Clear(Option_t *opt)
 {
    if(fxFitter) fxFitter->Clear(opt);
 }

@@ -33,43 +33,37 @@ TGo4EventStore::~TGo4EventStore()
    GO4TRACE((15,"TGo4EventStore::~TGo4EventStore()",__LINE__, __FILE__));
 }
 
-Int_t TGo4EventStore::Store(TGo4Parameter* cali)
+Int_t TGo4EventStore::Store(TGo4Parameter *cali)
 {
    MayNotUse("TGo4EventStore::Store(TGo4Parameter* cali)");
-   TGo4Log::Debug(" EventStore::Store Parameter not implemented for %s ",
-         ClassName());
+   TGo4Log::Debug(" EventStore::Store Parameter not implemented for %s", ClassName());
    return 0;
 }
 
-
-Int_t TGo4EventStore::Store(TGo4Condition* conny)
+Int_t TGo4EventStore::Store(TGo4Condition *)
 {
    MayNotUse("TGo4EventStore::Store(TGo4Condition* conny)");
-   TGo4Log::Debug(" EventStore::Store Condition not implemented for %s ",
-         ClassName());
+   TGo4Log::Debug(" EventStore::Store Condition not implemented for %s", ClassName());
    return 0;
 }
 
-Int_t TGo4EventStore::Store(TGo4Fitter* fitter)
+Int_t TGo4EventStore::Store(TGo4Fitter *)
 {
    MayNotUse("TGo4EventStore::Store(TGo4Fitter* fitter)");
-   TGo4Log::Debug(" EventStore::Store Fitter not implemented for %s ",
-         ClassName());
+   TGo4Log::Debug(" EventStore::Store Fitter not implemented for %s", ClassName());
    return 0;
 }
 
-Int_t TGo4EventStore::Store(TFolder* fold)
+Int_t TGo4EventStore::Store(TFolder *)
 {
    MayNotUse("TGo4EventStore::Store(TFolder* folder)");
-   TGo4Log::Debug(" EventStore::Store Folder not implemented for %s ",
-         ClassName());
+   TGo4Log::Debug(" EventStore::Store Folder not implemented for %s", ClassName());
    return 0;
 }
 
 
-void TGo4EventStore::Clear(Option_t* opt)
+void TGo4EventStore::Clear(Option_t *)
 {
    // dummy clear, may be implemented by user
-  TGo4Log::Info("Default clear of eventstore %s",GetName());
+  TGo4Log::Info("Default clear of eventstore %s", GetName());
 }
-

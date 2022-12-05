@@ -23,17 +23,17 @@ TMeshFinalEvent::TMeshFinalEvent()
 {
 
 }
+
 //***********************************************************
 TMeshFinalEvent::TMeshFinalEvent(const char *name)
   :TGo4EventElement(name),fxFinalProc(0),fxFile(0)
 {
 }
+
 //***********************************************************
 TMeshFinalEvent::~TMeshFinalEvent()
 {
 }
-//***********************************************************
-
 
 //-----------------------------------------------------------
 Int_t TMeshFinalEvent::Init()
@@ -71,16 +71,16 @@ Int_t TMeshFinalEvent::Fill()
    return rev;
 
 }
+
 //-----------------------------------------------------------
-void TMeshFinalEvent::Clear(Option_t *t)
+void TMeshFinalEvent::Clear(Option_t *opt)
 {
-   //-----------------------------------------------------------
-   fxB1.Clear(t);
+   fxB1.Clear(opt);
    fxB1.SetValid(kFALSE);
-   fxB2.Clear(t);
+   fxB2.Clear(opt);
    fxB1.SetValid(kFALSE);
-   fxB3.Clear(t);
+   fxB3.Clear(opt);
    fxB1.SetValid(kFALSE);
-   fxB12.Clear(t);
+   fxB12.Clear(opt);
    fxB1.SetValid(kFALSE);
 }

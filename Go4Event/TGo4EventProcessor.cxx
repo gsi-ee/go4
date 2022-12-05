@@ -154,13 +154,13 @@ void TGo4EventProcessor::Message(Int_t prio, const char *text,...)
 
 void TGo4EventProcessor::SendObjectToGUI(TNamed* ob)
 {
-   return (TGo4Analysis::Instance()->SendObjectToGUI(ob ) );
+   return TGo4Analysis::Instance()->SendObjectToGUI(ob);
 }
 
-void TGo4EventProcessor::Clear(Option_t* opt)
+void TGo4EventProcessor::Clear(Option_t*)
 {
     TGo4Log::Info("Default Clear of event processor %s", GetName());
- // dummy clear, may be implemented by user
+    // dummy clear, may be implemented by user
 }
 
 void TGo4EventProcessor::SetMakeWithAutosave(Bool_t on)
@@ -172,7 +172,6 @@ Bool_t TGo4EventProcessor::IsObjMade()
 {
    return TGo4Analysis::Instance()->IsObjMade();
 }
-
 
 TH1* TGo4EventProcessor::MakeTH1(char type, const char *fullname, const char *title,
                                  Int_t nbinsx, Double_t xlow, Double_t xup,

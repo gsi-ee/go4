@@ -109,10 +109,10 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              cd(Int_t subpadnumber = 0);
       virtual void      Browse(TBrowser *b);
-      void              Clear(Option_t *option="");
-      void              Close(Option_t *option="");
-      virtual void      Draw(Option_t *option="");
-      virtual TObject  *DrawClone(Option_t *option="");
+      void              Clear(Option_t *option = "");
+      void              Close(Option_t *option = "");
+      virtual void      Draw(Option_t *option = "");
+      virtual TObject  *DrawClone(Option_t *option = "");
       virtual TObject  *DrawClonePad();
       virtual void      EditorBar();
       void              EnterLeave(TPad *prevSelPad, TObject *prevSelObj);

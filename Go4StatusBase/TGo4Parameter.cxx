@@ -121,7 +121,7 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char *rest_url_opt)
 }
 
 
-void TGo4Parameter::Clear(Option_t *opt)
+void TGo4Parameter::Clear(Option_t *)
 {
    // default clear, may be implemented by user
    std::cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  std::endl;

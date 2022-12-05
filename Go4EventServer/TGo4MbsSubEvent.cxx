@@ -150,7 +150,7 @@ void TGo4MbsSubEvent::Set(Int_t dlen,
    //SetControl(ctrl);
 }
 
-void  TGo4MbsSubEvent::Clear(Option_t *t)
+void  TGo4MbsSubEvent::Clear(Option_t *)
 {
    GO4TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
    fbIsFilled = kFALSE;

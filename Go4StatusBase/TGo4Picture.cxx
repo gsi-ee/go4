@@ -1371,7 +1371,7 @@ void TGo4Picture::CopyOptionsFrom(TGo4Picture* source)
 }
 
 
-void TGo4Picture::Clear(Option_t* option)
+void TGo4Picture::Clear(Option_t *)
 {
    fiNDivX = 1;
    fiNDivY = 1;
