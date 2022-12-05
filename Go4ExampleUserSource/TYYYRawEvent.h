@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TYYYRAWEVENT_H
-#define TYYYRAWEVENT_H
+#ifndef TYYYRawEvent_H
+#define TYYYRawEvent_H
 
 #include "TGo4EventElement.h"
 
@@ -53,4 +53,4 @@ class TYYYRawEvent : public TGo4EventElement {
    ClassDefOverride(TYYYRawEvent,1)
 };
 
-#endif //TYYYRAWEVENT_H
+#endif

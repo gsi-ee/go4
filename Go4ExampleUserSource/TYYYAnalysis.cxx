@@ -35,6 +35,7 @@ TYYYAnalysis::TYYYAnalysis() :
 {
    TGo4Log::Error("Wrong constructor TYYYAnalysis()!");
 }
+
 //***********************************************************
 // this constructor is used
 TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
@@ -98,7 +99,6 @@ TYYYAnalysis::~TYYYAnalysis()
 {
    TGo4Log::Info("TYYYAnalysis: Delete");
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TYYYAnalysis::UserPreLoop()
@@ -121,6 +121,7 @@ Int_t TYYYAnalysis::UserPreLoop()
    // name specifies folder to clear
    return 0;
 }
+
 //-----------------------------------------------------------
 Int_t TYYYAnalysis::UserPostLoop()
 {

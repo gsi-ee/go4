@@ -36,6 +36,7 @@ TYYYUnpackProc::TYYYUnpackProc() :
    fParam1(0)
 {
 }
+
 //***********************************************************
 TYYYUnpackProc::TYYYUnpackProc(const char *name) :
    TGo4EventProcessor(name),
@@ -96,22 +97,21 @@ TYYYUnpackProc::TYYYUnpackProc(const char *name) :
       AddCanvas(mycan);
    }
 }
+
 //***********************************************************
 TYYYUnpackProc::~TYYYUnpackProc()
 {
    fWinConR->PrintCondition(true);
    fPolyConEmit->PrintCondition(true);
 }
-//***********************************************************
 
+//***********************************************************
 Bool_t TYYYUnpackProc::CheckEventClass(TClass *cl)
 {
    return cl->InheritsFrom(TYYYUnpackEvent::Class());
 }
 
-
 //-----------------------------------------------------------
-
 Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
    TYYYRawEvent *inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
@@ -130,7 +130,7 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
    }
    poutevt->fdR[0]-=5e+6; // correction for beam axis offset
    poutevt->fdR[1]-=5e+6; // beam was shifted by 5 mm
-   poutevt->fiNumScatt= (Int_t) inp->fdData[6];
+   poutevt->fiNumScatt = (Int_t) inp->fdData[6];
    // calculate derived values;
    if(poutevt->fdV[2]) poutevt->fdGam[0]=poutevt->fdV[0]/poutevt->fdV[2]; // gammax=vx/vz (rad)
    if(poutevt->fdV[2]) poutevt->fdGam[1]=poutevt->fdV[1]/poutevt->fdV[2]; // gammay=vy/vz (rad)

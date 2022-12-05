@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TYYYEVENTSOURCE_H
-#define TYYYEVENTSOURCE_H
+#ifndef TYYYEventSource_H
+#define TYYYEventSource_H
 
 #include "TGo4EventSource.h"
 #include <fstream>
@@ -69,9 +69,9 @@ class TYYYEventSource : public TGo4EventSource {
       Int_t fiPort{0};
 
       /** file that contains the data in ascii format. */
-      std::ifstream* fxFile{nullptr}; //!
+      std::ifstream *fxFile{nullptr}; //!
 
    ClassDefOverride(TYYYEventSource, 1)
 };
 
-#endif //TYYYEVENTSOURCE_H
+#endif

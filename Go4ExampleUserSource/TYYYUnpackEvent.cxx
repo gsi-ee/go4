@@ -18,28 +18,24 @@ TYYYUnpackEvent::TYYYUnpackEvent() :
    TGo4EventElement()
 {
 }
+
 //***********************************************************
 TYYYUnpackEvent::TYYYUnpackEvent(const char *name) :
    TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TYYYUnpackEvent::~TYYYUnpackEvent()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
-void  TYYYUnpackEvent::Clear(Option_t *t)
+void  TYYYUnpackEvent::Clear(Option_t *)
 {
-   void* destfield;
-   //std::cout << "+++ event clear" << std::endl;
-   destfield = (void*) &fdR[0];
-   memset(destfield, 0, sizeof(fdR));
-   destfield = (void*) &fdV[0];
-   memset(destfield, 0, sizeof(fdV));
-   destfield = (void*) &fdGam[0];
-   memset(destfield, 0, sizeof(fdGam));
+   fdR[0] = fdR[1] = fdR[2] = 0.;
+   fdV[0] = fdV[1] = fdV[2] = 0.;
+   fdGam[0] = fdGam[1] = 0.;
    fiNumScatt = 0;
    fdEmittX = 0;
    fdEmittY = 0;
