@@ -640,7 +640,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char *name, XMLNodePointer_t curr
 {
    if (!curr) curr = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
 
-   if (!curr || !name || (*name == 0)) return curr;
+   if (!curr || !name || !*name) return curr;
 
    const char *slash = strchr(name,'/');
    bool doagain = false;
@@ -975,8 +975,10 @@ Bool_t TGo4HttpProxy::SubmitURL(const char *path, Int_t waitres)
 
 TString TGo4HttpProxy::FindCommand(const char *name)
 {
-   if (!name || (*name == 0)) return "";
-   if (NumCommandArgs(name) >= 0) return name;
+   if (!name || !*name)
+      return "";
+   if (NumCommandArgs(name) >= 0)
+      return name;
 
    TGo4Iter iter(fxParentSlot);
 
