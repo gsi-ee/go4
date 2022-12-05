@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TDABCPROCESSOR_H
-#define TDABCPROCESSOR_H
+#ifndef TXXXProc_H
+#define TXXXProc_H
 
 #include "TGo4EventProcessor.h"
 
@@ -35,8 +35,8 @@ class TXXXProc : public TGo4EventProcessor {
       Bool_t BuildEvent(TGo4EventElement*) override; // event processing function
 
    private:
-      TH1           *fCr1Ch[8];
-      TH1           *fCr2Ch[8];
+      TH1           *fCr1Ch[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
+      TH1           *fCr2Ch[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
       TH2           *fCr1Ch1x2{nullptr};
       TH1           *fHis1{nullptr};
       TH1           *fHis1gate{nullptr};
@@ -51,4 +51,4 @@ class TXXXProc : public TGo4EventProcessor {
    ClassDefOverride(TXXXProc,1)
 };
 
-#endif //TDABCPROCESSOR_H
+#endif
