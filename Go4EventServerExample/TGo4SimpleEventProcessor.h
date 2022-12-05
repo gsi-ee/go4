@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4SIMPLEEVENTPROCESSOR_H
-#define TGO4SIMPLEEVENTPROCESSOR_H
+#ifndef TGo4SimpleEventProcessor_H
+#define TGo4SimpleEventProcessor_H
 
 #include "TGo4EventProcessor.h"
 
@@ -20,14 +20,13 @@ class TGo4SimpleEvent;
 
 class TGo4SimpleEventProcessor : public TGo4EventProcessor {
    public:
-
       TGo4SimpleEventProcessor();
-
-      void BuildSimpleEvent(TGo4SimpleEvent* target);
 
       virtual ~TGo4SimpleEventProcessor();
 
-  ClassDefOverride(TGo4SimpleEventProcessor,1)
+      Bool_t BuildSimpleEvent(TGo4SimpleEvent* target);
+
+   ClassDefOverride(TGo4SimpleEventProcessor,1)
 };
 
-#endif //TGO4SIMPLEEVENTPROCESSOR_H
+#endif

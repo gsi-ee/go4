@@ -20,32 +20,26 @@
 #include "TGo4SimpleSubEvent.h"
 
 TGo4SimpleEvent::TGo4SimpleEvent() :
-   TGo4EventElement(),
-   fiCount(0),
-   fiLastSlot(0),
-   fiMaxSlot(5),
-   fxIterator(0)
+   TGo4EventElement()
 {
    GO4TRACE((12,"TGo4SimpleEvent::TGo4SimpleEvent()",__LINE__, __FILE__));
-   //std::cout << "simple event default ctor"<< std::endl;
-   fxSubEventArray=new TClonesArray("TGo4SimpleSubEvent", fiMaxSlot );
-   fxIterator=fxSubEventArray->MakeIterator();
+
+   fiMaxSlot = 5;
+   fxSubEventArray = new TClonesArray("TGo4SimpleSubEvent", fiMaxSlot);
+   fxIterator = fxSubEventArray->MakeIterator();
 }
 
 
 TGo4SimpleEvent::TGo4SimpleEvent(Int_t subevtnum) :
-   TGo4EventElement(),
-   fiCount(0),
-   fiLastSlot(0),
-   fiMaxSlot(subevtnum),
-   fxIterator(0)
+   TGo4EventElement()
 {
    GO4TRACE((12,"TGo4SimpleEvent::TGo4SimpleEvent(Int_t)",__LINE__, __FILE__));
-   // std::cout << "simple event ctor with "<< subevtnum << "subevents"<< std::endl;
-   fxSubEventArray = new TClonesArray("TGo4SimpleSubEvent", subevtnum);
+
+   fiMaxSlot = subevtnum;
+   fxSubEventArray = new TClonesArray("TGo4SimpleSubEvent", fiMaxSlot);
    fxIterator = fxSubEventArray->MakeIterator();
    // start test section
-   fiArrLen=10;
+   fiArrLen = 10;
    for (Int_t z = 0; z < 10; ++z) {
       fiTestArray[z] = z * 5;
    }
@@ -76,7 +70,6 @@ void TGo4SimpleEvent::PrintEvent()
    ResetIterator();
    while (auto sub = NextSubEvent())
       sub->PrintEvent();
-
 }
 
 void TGo4SimpleEvent::Clear(Option_t *t)
@@ -103,54 +96,37 @@ Int_t TGo4SimpleEvent::Fill()
    //
    // check for different source types
    Int_t rev = -1;
-   TGo4SimpleEventProcessor* proc;
-   if(CheckEventSource("TGo4SimpleEventProcessor"))
-   {
-      proc = (TGo4SimpleEventProcessor*) GetEventSource();
-      proc->BuildSimpleEvent(this);
-      rev = 0;
-   }
-   else if(CheckEventSource("TGo4TreeSource"))
-   {
+
+   if(CheckEventSource("TGo4SimpleEventProcessor")) {
+      auto proc = (TGo4SimpleEventProcessor *) GetEventSource();
+      if (proc->BuildSimpleEvent(this))
+         rev = 0;
+      else
+         rev = 1;
+   } else if(CheckEventSource("TGo4TreeSource")) {
       // find out here if tree contains correct event structure...
       // under constr.
-      TGo4TreeSource* source = (TGo4TreeSource*) GetEventSource();
+      auto source = (TGo4TreeSource *) GetEventSource();
       Clear();
       if(source->BuildEvent(this))
-      {
          rev = 0;
-      }
       else
-      {
-         // error, may be end of tree..
-         rev = 1;
-      }
-   }
-   else if(CheckEventSource("TGo4FileSource"))
-   {
+         rev = 1; // error, may be end of tree..
+   } else if(CheckEventSource("TGo4FileSource")) {
       // find out here if tree contains correct event structure...
       // under constr.
-      TGo4FileSource* source = (TGo4FileSource*) GetEventSource();
+      auto source = (TGo4FileSource *) GetEventSource();
       Clear();
       if(source->BuildEvent(this))
-      {
          rev = 0;
-      }
       else
-      {
-         // error, may be end of tree..
-         rev = 1;
-      }
-   }
-   else
-   {
+         rev = 1; // error, may be end of tree..
+   } else {
       rev = 1;
    }
 
    return rev;
-
 }
-
 
 TGo4SimpleSubEvent *TGo4SimpleEvent::GetSubEvent(Short_t procid)
 {
@@ -189,7 +165,7 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::AddSubEvent(Short_t procid)
       {
          fiLastSlot++;
          result = new( (*fxSubEventArray) [fiLastSlot] ) TGo4SimpleSubEvent();
-         result->fsProcid=procid;
+         result->fsProcid = procid;
          //std::cout << "simple event: added subevent with procid " << procid << std::endl;
          TGo4Log::Debug(" SimpleEvent: Added subevent with procid %d:  ", procid);
       }

@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4SIMPLEEVENT_H
-#define TGO4SIMPLEEVENT_H
+#ifndef TGo4SimpleEvent_H
+#define TGo4SimpleEvent_H
 
 #include "TGo4EventElement.h"
 
@@ -32,7 +32,7 @@ class TGo4SimpleSubEvent;
  */
 class TGo4SimpleEvent : public TGo4EventElement {
 
-      friend class TGo4SimpleEventProcessor;
+   friend class TGo4SimpleEventProcessor;
 
    public:
       TGo4SimpleEvent();
@@ -115,13 +115,9 @@ class TGo4SimpleEvent : public TGo4EventElement {
       /**
        * Iterator for array.
        */
-      TIterator * fxIterator{nullptr}; //!
-
-      //   TGo4SimpleSubEvent fxFirstsubevent;
-      //   TGo4SimpleSubEvent fxSecondsubevent;
-      //   TGo4MbsSubEvent fxTestSub;
+      TIterator *fxIterator{nullptr}; //!
 
    ClassDefOverride(TGo4SimpleEvent,1)
 };
 
-#endif //TGO4SIMPLEEVENT_H
+#endif
