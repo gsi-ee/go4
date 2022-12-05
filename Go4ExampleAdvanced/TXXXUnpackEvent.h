@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXUNPACKEVENT_H
-#define TXXXUNPACKEVENT_H
+#ifndef TXXXUnpackEvent_H
+#define TXXXUnpackEvent_H
 
 #define XXX_NUM_CHAN 8
 #define XXX_NUM_MODULES 16
@@ -67,7 +67,6 @@ class TXXXModule : public TGo4EventElement {
 
 };
 
-
 class TXXXCrate : public TGo4CompositeEvent {
    public:
       TXXXCrate() : TGo4CompositeEvent() {}
@@ -86,5 +85,4 @@ class TXXXUnpackEvent : public TGo4CompositeEvent {
    ClassDefOverride(TXXXUnpackEvent, 1)
 };
 
-#endif // TXXXUNPACKEVENT_H
-
+#endif

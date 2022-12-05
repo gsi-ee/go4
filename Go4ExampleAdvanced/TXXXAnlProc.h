@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXANLPROCESSOR_H
-#define TXXXANLPROCESSOR_H
+#ifndef TXXXAnlProc_H
+#define TXXXAnlProc_H
 
 #include "TGo4EventProcessor.h"
 
@@ -48,4 +48,4 @@ class TXXXAnlProc : public TGo4EventProcessor {
    ClassDefOverride(TXXXAnlProc, 1)
 };
 
-#endif //TXXXANLPROCESSOR_H
+#endif

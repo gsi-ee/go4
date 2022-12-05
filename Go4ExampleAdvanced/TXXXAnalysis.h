@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXANALYSIS_H
-#define TXXXANALYSIS_H
+#ifndef TXXXAnalysis_H
+#define TXXXAnalysis_H
 
 #include "TGo4Analysis.h"
 
@@ -45,4 +45,4 @@ class TXXXAnalysis : public TGo4Analysis  {
    ClassDefOverride(TXXXAnalysis,1)
 };
 
-#endif //TXXXANALYSIS_H
+#endif
