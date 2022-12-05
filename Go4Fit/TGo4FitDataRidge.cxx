@@ -27,9 +27,9 @@ TGo4FitDataRidge::TGo4FitDataRidge(const char *iName, TGo4FitData *Data, Int_t S
 
 TGo4FitDataRidge::~TGo4FitDataRidge() {}
 
-TGo4FitDataIter *TGo4FitDataRidge::MakeIter()
+std::unique_ptr<TGo4FitDataIter> TGo4FitDataRidge::MakeIter()
 {
-   return new TGo4FitDataRidgeIter(this);
+   return std::make_unique<TGo4FitDataRidgeIter>(this);
 }
 
 void TGo4FitDataRidge::FillSlotList(TSeqCollection *list)
@@ -50,28 +50,24 @@ void TGo4FitDataRidge::Print(Option_t *option) const
 
 // *********************************************************************************
 
-TGo4FitDataRidgeIter::TGo4FitDataRidgeIter() : TGo4FitDataIter(), fxData(nullptr), iter(nullptr), fxOwnScales() {}
+TGo4FitDataRidgeIter::TGo4FitDataRidgeIter() : TGo4FitDataIter(), fxData(nullptr), iter(), fxOwnScales() {}
 
 TGo4FitDataRidgeIter::TGo4FitDataRidgeIter(TGo4FitDataRidge *data)
-   : TGo4FitDataIter(), fxData(data), iter(nullptr), fxOwnScales()
+   : TGo4FitDataIter(), fxData(data), iter(), fxOwnScales()
 {
 }
 
 TGo4FitDataRidgeIter::~TGo4FitDataRidgeIter()
 {
-   if (iter)
-      delete iter;
 }
 
 Bool_t TGo4FitDataRidgeIter::StartReset()
 {
-   if (iter) {
-      delete iter;
-      iter = nullptr;
-   }
+   iter.reset();
 
    if (!fxData)
       return kFALSE;
+
    TGo4FitData *data = fxData->GetData();
    if (!data)
       return kFALSE;

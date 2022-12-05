@@ -58,7 +58,7 @@ class TGo4FitDataProfile : public TGo4FitData {
       /**
        * Create TGo4FitDataProfileIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter() override;
+      std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TProfile object, to list of slots.

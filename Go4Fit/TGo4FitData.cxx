@@ -120,17 +120,16 @@ Bool_t TGo4FitData::IsAnyDataTransform()
 
 TObject *TGo4FitData::CreateDrawObject(const char *ObjName)
 {
-   TGo4FitDataIter *iter = MakeIter();
+   auto iter = MakeIter();
    if (!iter)
       return nullptr;
    TObject *obj = iter->CreateDrawObject(ObjName);
-   delete iter;
    return obj;
 }
 
 Bool_t TGo4FitData::Initialize(Int_t UseBuffers)
 {
-   TGo4FitDataIter *iter = MakeIter();
+   auto iter = MakeIter();
    if (!iter)
       return kFALSE;
 
@@ -185,8 +184,6 @@ Bool_t TGo4FitData::Initialize(Int_t UseBuffers)
          } while (iter->Next());
    }
 
-   delete iter;
-
    return kTRUE;
 }
 
@@ -236,7 +233,7 @@ void TGo4FitData::ReleaseAllPointers()
 
 Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t &min, Double_t &max)
 {
-   TGo4FitDataIter *iter = MakeIter();
+   auto iter = MakeIter();
    if (!iter)
       return kFALSE;
    Bool_t res = kFALSE;
@@ -253,32 +250,25 @@ Bool_t TGo4FitData::DefineScaleMinMax(Int_t naxis, Double_t &min, Double_t &max)
       res = kTRUE;
    }
 
-   delete iter;
    return res;
 }
 
 Int_t TGo4FitData::DefineDimensions()
 {
-   TGo4FitDataIter *iter = MakeIter();
+   auto iter = MakeIter();
    if (!iter)
       return 0;
    Int_t res = 0;
    if (iter->Reset(kFALSE))
       res = iter->IndexesSize();
-   delete iter;
    return res;
 }
 
 Int_t TGo4FitData::DefineBinsSize()
 {
-   TGo4FitDataIter *iter = MakeIter();
-   if (!iter)
-      return 0;
+   auto iter = MakeIter();
 
-   Int_t res = iter->CountPoints(kTRUE);
-   delete iter;
-
-   return res;
+   return iter ? iter->CountPoints(kTRUE) : 0;
 }
 
 const Double_t *TGo4FitData::GetScaleValues(const Int_t nbin)
@@ -307,14 +297,13 @@ Bool_t TGo4FitData::IsCompatibleData(TGo4FitData *data)
 {
    if (!data)
       return kFALSE;
-   TGo4FitDataIter *iter = data->MakeIter();
+   auto iter = data->MakeIter();
    if (!iter)
       return kFALSE;
 
    Bool_t res = kFALSE;
    if (iter->Reset(kFALSE))
       res = (iter->IndexesSize() == GetIndexesSize()) && (GetIndexesSize() > 0);
-   delete iter;
 
    return res;
 }
@@ -324,7 +313,7 @@ void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent *model, Char_t *Model
    if (!ModelMask)
       return;
 
-   if (BuffersAllocated())
+   if (BuffersAllocated()) {
       for (Int_t nbin = 0; nbin < GetBinsSize(); nbin++) {
          const Double_t *values = GetScaleValues(nbin);
 
@@ -332,8 +321,8 @@ void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent *model, Char_t *Model
 
          ModelMask[nbin] = res ? 1 : 0;
       }
-   else {
-      TGo4FitDataIter *iter = MakeIter();
+   } else {
+      auto iter = MakeIter();
       Int_t nbin = 0;
       if (iter->Reset())
          do {

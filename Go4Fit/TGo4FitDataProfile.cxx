@@ -39,9 +39,9 @@ void TGo4FitDataProfile::SetProfile(TProfile *iProfile, Bool_t iProfileOwned)
    fxProfile.SetObject(iProfile,iProfileOwned);
 }
 
-TGo4FitDataIter* TGo4FitDataProfile::MakeIter()
+std::unique_ptr<TGo4FitDataIter> TGo4FitDataProfile::MakeIter()
 {
-  return new TGo4FitDataProfileIter(this);
+  return std::make_unique<TGo4FitDataProfileIter>(this);
 }
 
 void TGo4FitDataProfile::FillSlotList(TSeqCollection* list)

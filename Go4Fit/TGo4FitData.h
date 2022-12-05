@@ -18,6 +18,7 @@
 
 #include "TArrayI.h"
 #include "TArrayD.h"
+#include <memory>
 
 class TH1;
 class TGraph;
@@ -162,7 +163,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Creates iterator for data object.
        * For detailed description see TGo4FitDataIter class.
        */
-      virtual TGo4FitDataIter* MakeIter() { return nullptr; }
+      virtual std::unique_ptr<TGo4FitDataIter> MakeIter() { return nullptr; }
 
       /**
        * Creates object, which can be drawn on canvas by ROOT.
@@ -412,7 +413,7 @@ class TGo4FitData : public TGo4FitComponent {
   * As argument of these methods usage of bins selection mechanism via range conditions or amplitude threshold can be specified.
   * Typical usage of iterator:
   *
-  *    TGo4FitDataIter* iter = data->MakeIter();
+  *    auto iter = data->MakeIter();
   *    if (iter->Reset()) do {
   *    // do something with values in iterator
   *    } while (iter->Next());

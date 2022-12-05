@@ -62,7 +62,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Create TGo4FitDataGraphIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter() override;
+      std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TGraph object, to slots list.

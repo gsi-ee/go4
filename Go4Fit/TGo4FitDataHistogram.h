@@ -61,7 +61,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Create TGo4FitDataHistogramIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter() override;
+      std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 
       /**
        * Add pointer on slot, which should contains histogram, to list.

@@ -385,7 +385,7 @@ Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitData *data, Int_t nbin, Bool_t Use
    return EvaluateAndIntegrate(scalessize, scales, data->GetWidthValues(nbin));
 }
 
-Double_t TGo4FitModel::EvaluateAtPoint(TGo4FitDataIter *iter, Bool_t UseRanges)
+Double_t TGo4FitModel::EvaluateAtPoint(std::unique_ptr<TGo4FitDataIter> &iter, Bool_t UseRanges)
 {
    if (!iter)
       return 0;

@@ -103,16 +103,14 @@ void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter *fitter, TGo4FitData *data, In
    if (!fitter || !data)
       return;
 
-   TGo4FitDataIter *iter = data->MakeIter();
+   auto iter = data->MakeIter();
    if (!iter)
       return;
 
    Int_t size = iter->CountPoints();
 
-   if ((size < 10) || (iter->ScalesSize() != 1)) {
-      delete iter;
+   if ((size < 10) || (iter->ScalesSize() != 1))
       return;
-   }
 
    TArrayD Bins(size), Scales(size), HScales(size + 1);
 
@@ -127,8 +125,6 @@ void TGo4FitPeakFinder::ROOTPeakFinder(TGo4Fitter *fitter, TGo4FitData *data, In
          HScales[nbin + 1] = pos + width / 2;
          nbin++;
       } while (iter->Next());
-
-   delete iter;
 
    if (PolynomOrder >= 0)
       fitter->AddPolynomX(data->GetName(), "Pol", PolynomOrder);
@@ -247,16 +243,14 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter *fitter, TGo4FitData *d
    if (!fitter || !data)
       return;
 
-   TGo4FitDataIter *iter = data->MakeIter();
+   auto iter = data->MakeIter();
    if (!iter)
       return;
 
    Int_t size = iter->CountPoints();
 
-   if ((size < 10) || (iter->ScalesSize() != 1)) {
-      delete iter;
+   if ((size < 10) || (iter->ScalesSize() != 1))
       return;
-   }
 
    TArrayD Bins(size), Scales(size), Weights(size), Background(size);
 
@@ -277,8 +271,6 @@ void TGo4FitPeakFinder::SergeyLinevPeakFinder(TGo4Fitter *fitter, TGo4FitData *d
          scales[nbin] = iter->x();
          nbin++;
       } while (iter->Next());
-
-   delete iter;
 
    if ((PolOrder >= 0) && (PolOrder < (size + 1) * 5)) {
       Int_t nsegments = (PolOrder + 1) * 2;
@@ -405,16 +397,14 @@ void TGo4FitPeakFinder::HansEsselPeakFinder(TGo4Fitter *fitter, TGo4FitData *dat
    if (!fitter || !data || (MaxNumPeaks < 1))
       return;
 
-   TGo4FitDataIter *iter = data->MakeIter();
+   auto iter = data->MakeIter();
    if (!iter)
       return;
 
    Int_t size = iter->CountPoints();
 
-   if ((size < 10) || (iter->ScalesSize() != 1)) {
-      delete iter;
+   if ((size < 10) || (iter->ScalesSize() != 1))
       return;
-   }
 
    TArrayD Bins(size), Scales(size);
    Double_t *bins = Bins.GetArray();
@@ -427,8 +417,6 @@ void TGo4FitPeakFinder::HansEsselPeakFinder(TGo4Fitter *fitter, TGo4FitData *dat
          scales[nbin] = iter->x();
          nbin++;
       } while (iter->Next());
-
-   delete iter;
 
    int NumPeaks = 0;
    TArrayI Minimas(MaxNumPeaks), Maximas(MaxNumPeaks), MaximaWidths(MaxNumPeaks);

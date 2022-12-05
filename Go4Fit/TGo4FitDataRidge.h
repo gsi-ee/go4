@@ -71,7 +71,7 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Create TGo4FitDataRidgeIter iterator, associated with given data object..
        */
-      TGo4FitDataIter* MakeIter() override;
+      std::unique_ptr<TGo4FitDataIter> MakeIter() override;
 
       /**
        * Add pointer on slot, which should contain TGo4FitData object, to list of slots.
@@ -114,7 +114,7 @@ class TGo4FitDataRidgeIter : public TGo4FitDataIter {
 
   private:
     TGo4FitDataRidge* fxData{nullptr};           //!
-    TGo4FitDataIter* iter{nullptr};              //!
+    std::unique_ptr<TGo4FitDataIter> iter;       //!
     TArrayD fxOwnScales;                         //!
 
   ClassDefOverride(TGo4FitDataRidgeIter,1)

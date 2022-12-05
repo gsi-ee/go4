@@ -261,7 +261,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Evaluate model value for point, specified by current values of iterator.
        */
-      virtual Double_t EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges = kTRUE);
+      virtual Double_t EvaluateAtPoint(std::unique_ptr<TGo4FitDataIter> &iter, Bool_t UseRanges = kTRUE);
 
       /**
        * Evaluate model values for all data point and add them to result buffer.

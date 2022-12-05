@@ -29,12 +29,13 @@ TGo4FitDataGraph::TGo4FitDataGraph(const char *iName, TGraph *iGraph, Bool_t iGr
    SetExcludeLessThen(-1e50);
 }
 
-TGo4FitDataGraph::~TGo4FitDataGraph() {
+TGo4FitDataGraph::~TGo4FitDataGraph()
+{
 }
 
-TGo4FitDataIter* TGo4FitDataGraph::MakeIter()
+std::unique_ptr<TGo4FitDataIter> TGo4FitDataGraph::MakeIter()
 {
-   return new TGo4FitDataGraphIter(this);
+   return std::make_unique<TGo4FitDataGraphIter>(this);
 }
 
 void TGo4FitDataGraph::SetGraph(TGraph *iGraph, Bool_t iGraphOwned)
