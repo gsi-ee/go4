@@ -553,12 +553,12 @@ void TGo4Condition::Disable(Bool_t result)
 
 void TGo4Condition::Enable()
 {
-   fbEnabled=kTRUE;
+   fbEnabled = kTRUE;
 }
 
 void TGo4Condition::SetHistogram(const char *name)
 {
-   if (!name || (*name == 0)) {
+   if (!name || !*name) {
       fxHistoName = "";
       fbHistogramLink = false;
    } else {
