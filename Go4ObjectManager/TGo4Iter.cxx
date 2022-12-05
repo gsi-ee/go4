@@ -101,7 +101,8 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 Bool_t TGo4Iter::nextobj()
 {
    while (next())
-      if (!isfolder()) return kTRUE;
+      if (!isfolder())
+         return kTRUE;
    return kFALSE;
 }
 
@@ -164,7 +165,8 @@ std::unique_ptr<TGo4Access> TGo4Iter::ProvideAccess(const char *name)
 
 TGo4Slot *TGo4Iter::getslot() const
 {
-   if (fStatus != 0) return nullptr;
+   if (fStatus != 0)
+      return nullptr;
    TGo4LevelIter* iter = (TGo4LevelIter*) fLevels.Last();
    return !iter ? nullptr : iter->getslot();
 }

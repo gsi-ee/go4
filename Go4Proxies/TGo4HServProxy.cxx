@@ -203,7 +203,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
    s_his_head* ps_his_head = (s_his_head*) pl_all_h;
    for (int i_j = 0; i_j < l_histos; i_j++) {
       TString HisType = "TH";
-      if (ps_his_head->l_bins_2>1) {
+      if (ps_his_head->l_bins_2 > 1) {
          if(strstr(ps_his_head->c_dtype,"r"))
            HisType += "2F";
          else
@@ -214,10 +214,6 @@ Bool_t TGo4HServProxy::RefreshNamesList()
          else
             HisType += "1I";
       }
-//      std::cout << "name = " << ps_his_head->c_name
-//           << "  type = " << HisType
-//           << "  date = " << ps_his_head->c_data_time_cre << std::endl;
-
       TGo4Slot *child = fxStructure->GetSlot(ps_his_head->c_name, kTRUE);
       if (child) {
          child->SetPar("::HistoClass", HisType.Data());
