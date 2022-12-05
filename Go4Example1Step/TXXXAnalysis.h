@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TANALYSIS_H
-#define TANALYSIS_H
+#ifndef TXXXAnalysis_H
+#define TXXXAnalysis_H
 
 #include "TGo4Analysis.h"
 
