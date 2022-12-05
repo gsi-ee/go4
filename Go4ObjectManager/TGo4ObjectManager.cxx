@@ -497,7 +497,7 @@ Int_t TGo4ObjectManager::RequestObject(const char *source, const char *targetslo
    TGo4Slot *tgtslot = GetSlot(targetslot);
    if (!tgtslot) return 0;
 
-   TGo4Access* proxy = ProvideSlotAccess(source);
+   auto proxy = ProvideSlotAccess(source);
    if (!proxy) return 0;
 
    TClass *cl = proxy->GetObjectClass();
@@ -507,7 +507,10 @@ Int_t TGo4ObjectManager::RequestObject(const char *source, const char *targetslo
 
    Int_t res = proxy->AssignObjectTo(this, targetslot);
 
-   if (res < 2) delete proxy;
+   if (res < 2)
+      proxy.reset(nullptr);
+   else
+      proxy.release(); // analysis proxy takes over ownership
 
    if ((res==2) && (waittime_millisec>0)) {
 

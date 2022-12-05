@@ -35,7 +35,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override
         { return fCanvas ? ProduceIter(fCanvas) : nullptr; }
 
-      TGo4Access* ProvideAccess(const char *name) override
+      std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
         { return CreateAccess(fCanvas, name); }
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
@@ -45,7 +45,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject* GetAssignedObject() override;
 
-      static TGo4Access* CreateAccess(TCanvas* canv, const char *name);
+      static std::unique_ptr<TGo4Access> CreateAccess(TCanvas* canv, const char *name);
       static TGo4LevelIter* ProduceIter(TCanvas* canv);
 
    protected:

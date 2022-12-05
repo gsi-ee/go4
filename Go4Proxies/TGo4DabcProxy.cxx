@@ -696,22 +696,22 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return hierarchy.NumChilds() > 0;
 }
 
-TGo4Access* TGo4DabcProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4DabcProxy::ProvideAccess(const char *name)
 {
-   //printf("Make PROXY\n");
-
-   if (!fxHierarchy) return nullptr;
+   if (!fxHierarchy)
+      return nullptr;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 
-   if (hierarchy.null()) return nullptr;
+   if (hierarchy.null())
+      return nullptr;
 
-   if (!name || (strlen(name) == 0))
-      return new TGo4DabcAccess(fNodeName.Data(), hierarchy);
+   if (!name || !*name)
+      return std::make_unique<TGo4DabcAccess>(fNodeName.Data(), hierarchy);
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
 
-   return child.null() ? nullptr : new TGo4DabcAccess(fNodeName.Data(), child);
+   return child.null() ? nullptr : std::make_unique<TGo4DabcAccess>(fNodeName.Data(), child);
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()
@@ -793,7 +793,7 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return kFALSE;
 }
 
-TGo4Access* TGo4DabcProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4DabcProxy::ProvideAccess(const char *name)
 {
    return nullptr;
 }

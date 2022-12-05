@@ -221,16 +221,17 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
    return fCanvas;
 }
 
-TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
+std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
 {
    if (!canv) return nullptr;
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(canv);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(canv);
 
    TPad* curpad = canv;
    const char *curname = name;
 
    while (curpad) {
-      const char *slash = strchr(curname,'/');
+      const char *slash = strchr(curname, '/');
       UInt_t len = slash ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
       TObject *obj = nullptr;
@@ -239,7 +240,8 @@ TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
              (strncmp(obj->GetName(), curname, len) == 0)) break;
       if (!obj) return nullptr;
 
-      if (!slash) return new TGo4ObjectAccess(obj);
+      if (!slash)
+         return std::make_unique<TGo4ObjectAccess>(obj);
 
       curname = slash+1;
 

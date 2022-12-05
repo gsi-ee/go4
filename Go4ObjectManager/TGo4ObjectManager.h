@@ -78,7 +78,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       void RegisterLink(TGo4Slot *source, TGo4Slot *target, Bool_t exapndchilds = kFALSE);
       void UnregisterLink(TGo4Slot *target);
 
-      TGo4Access* ProvideAccess(const char *name = nullptr) override
+      std::unique_ptr<TGo4Access> ProvideAccess(const char *name = nullptr) override
           { return ProvideSlotAccess(name); }
 
       void Event(TGo4Slot *source, Int_t id, void* param = nullptr) override;

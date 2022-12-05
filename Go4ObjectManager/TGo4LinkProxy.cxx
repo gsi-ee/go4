@@ -51,7 +51,7 @@ void TGo4LinkProxy::Finalize(TGo4Slot *slot)
    }
 }
 
-TGo4Access* TGo4LinkProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4LinkProxy::ProvideAccess(const char *name)
 {
    return fLink ? fLink->ProvideSlotAccess(name) : nullptr;
 }

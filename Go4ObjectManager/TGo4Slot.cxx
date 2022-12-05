@@ -390,12 +390,13 @@ TGo4LevelIter* TGo4Slot::MakeLevelIter() const
    return res;
 }
 
-TGo4Access* TGo4Slot::ProvideSlotAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4Slot::ProvideSlotAccess(const char *name)
 {
    if (fProxy && fProxy->Use())
       return fProxy->ProvideAccess(name);
 
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(this);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(this);
 
    const char *subname = nullptr;
 

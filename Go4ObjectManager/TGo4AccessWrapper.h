@@ -15,6 +15,7 @@
 #define TGO4ACCESSWRAPPER_H
 
 #include "TGo4Proxy.h"
+#include <memory>
 
 class TGo4AccessWrapper {
    public:
@@ -23,31 +24,28 @@ class TGo4AccessWrapper {
 
       TObject* GetObject(const char *name = nullptr)
       {
-         TGo4Access* proxy = ProvideAccess(name);
+         auto proxy = ProvideAccess(name);
          TObject* res = nullptr;
          Bool_t owner = kFALSE;
          if (proxy) proxy->GetObject(res, owner);
-         delete proxy;
          return res;
       }
 
       TClass *GetObjectClass(const char *name = nullptr)
       {
-         TGo4Access* proxy = ProvideAccess(name);
+         auto proxy = ProvideAccess(name);
          TClass *res = proxy ? proxy->GetObjectClass() : nullptr;
-         delete proxy;
          return res;
       }
 
       const char *GetObjectClassName(const char *name = nullptr)
       {
-         TGo4Access* proxy = ProvideAccess(name);
+         auto proxy = ProvideAccess(name);
          const char *res = proxy ? proxy->GetObjectClassName() : nullptr;
-         delete proxy;
          return res;
       }
 
-      virtual TGo4Access* ProvideAccess(const char *name = nullptr) { return nullptr; }
+      virtual std::unique_ptr<TGo4Access> ProvideAccess(const char *name = nullptr) { return nullptr; }
 
    ClassDef(TGo4AccessWrapper,1);
 };

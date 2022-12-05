@@ -181,14 +181,15 @@ TObject* TGo4HStackProxy::GetAssignedObject()
    return fHS;
 }
 
-TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char *name)
+std::unique_ptr<TGo4Access> TGo4HStackProxy::CreateAccess(THStack* hs, const char *name)
 {
    if (!hs) return nullptr;
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(hs);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(hs);
 
    TObject *obj = hs->GetHists()->FindObject(name);
 
-   return obj ? new TGo4ObjectAccess(obj) : nullptr;
+   return obj ? std::make_unique<TGo4ObjectAccess>(obj) : nullptr;
 }
 
 TGo4LevelIter* TGo4HStackProxy::ProduceIter(THStack* hs)

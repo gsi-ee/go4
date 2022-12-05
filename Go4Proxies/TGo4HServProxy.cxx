@@ -150,11 +150,11 @@ TGo4LevelIter* TGo4HServProxy::MakeIter()
    return fxStructure ? new TGo4HServIter(fxStructure) : nullptr;
 }
 
-TGo4Access* TGo4HServProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4HServProxy::ProvideAccess(const char *name)
 {
    TGo4Slot *itemslot = fxStructure ? fxStructure->GetSlot(name) : nullptr;
    if (!itemslot) return nullptr;
-   return new TGo4HServObjectAccess(this, itemslot->GetName(), name, itemslot->GetPar("::HistoClass"));
+   return std::make_unique<TGo4HServObjectAccess>(this, itemslot->GetName(), name, itemslot->GetPar("::HistoClass"));
 }
 
 void TGo4HServProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)

@@ -272,11 +272,12 @@ Int_t TGo4DirProxy::GetObjectSizeInfo()
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();
 }
 
-TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot)
+std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot)
 {
    if (!dir) return nullptr;
 
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(dir);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(dir);
 
    TDirectory* curdir = dir;
    const char *curname = name;
@@ -302,7 +303,8 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
       if (!obj) {
          TKey* key = curdir->GetKey(namebuf, cyclebuf);
          if (!key) return nullptr;
-         if (!readright) return new TGo4KeyAccess(curdir, key);
+         if (!readright)
+            return std::make_unique<TGo4KeyAccess>(curdir, key);
          curdir->cd();
          obj = curdir->Get(partname.Data());
          if (obj && obj->InheritsFrom(TCanvas::Class())) curdir->Add(obj);
@@ -327,7 +329,7 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
       curdir = dynamic_cast<TDirectory*>(obj);
 
       if (!curdir)
-         return new TGo4ObjectAccess(obj);
+         return std::make_unique<TGo4ObjectAccess>(obj);
    }
    return nullptr;
 }

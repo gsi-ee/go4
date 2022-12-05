@@ -131,11 +131,12 @@ const char *TGo4TreeProxy::GetContainedClassName()
    return fTree ? fTree->ClassName() : nullptr;
 }
 
-TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
+std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
 {
    if (!tree) return nullptr;
 
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(tree);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(tree);
 
    TObjArray* list = tree->GetListOfBranches();
    const char *curname = name;
@@ -155,7 +156,7 @@ TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
          list = br->GetListOfBranches();
          curname = slash+1;
       } else
-         return new TGo4BranchAccess(br);
+         return std::make_unique<TGo4BranchAccess>(br);
    }
    return nullptr;
 }

@@ -166,7 +166,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       void Finalize(TGo4Slot *slot) override {}
 
       Bool_t HasSublevels() const override;
-      TGo4Access* ProvideAccess(const char *name) override;
+      std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
 
       Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }

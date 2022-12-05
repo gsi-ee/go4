@@ -765,7 +765,7 @@ Bool_t TGo4HttpProxy::HasSublevels() const
    return fxHierarchy != nullptr;
 }
 
-TGo4Access* TGo4HttpProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4HttpProxy::ProvideAccess(const char *name)
 {
    XMLNodePointer_t item = FindItem(name);
 
@@ -782,7 +782,7 @@ TGo4Access* TGo4HttpProxy::ProvideAccess(const char *name)
    else if (fXML->HasAttr(item, "_more"))
       kind = 0;
 
-   return new TGo4HttpAccess(this, item, kind);
+   return std::make_unique<TGo4HttpAccess>(this, item, kind);
 }
 
 TGo4LevelIter* TGo4HttpProxy::MakeIter()

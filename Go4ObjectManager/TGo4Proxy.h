@@ -15,6 +15,7 @@
 #define TGO4PROXY_H
 
 #include "TObject.h"
+#include <memory>
 
 class TGo4Slot;
 class TDirectory;
@@ -102,7 +103,7 @@ class TGo4Proxy : public TObject {
       virtual Bool_t Use() const { return kTRUE; }
 
       virtual Bool_t HasSublevels() const { return kFALSE; }
-      virtual TGo4Access* ProvideAccess(const char*) { return nullptr; }
+      virtual std::unique_ptr<TGo4Access> ProvideAccess(const char*) { return nullptr; }
       virtual TGo4LevelIter* MakeIter() { return nullptr; }
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndNone; }

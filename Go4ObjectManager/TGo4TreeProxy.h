@@ -29,13 +29,13 @@ class TGo4TreeProxy : public TGo4Proxy {
       TGo4LevelIter* MakeIter() override
         { return !fTree ? nullptr : ProduceIter(fTree); }
 
-      TGo4Access* ProvideAccess(const char *name) override
+      std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
         { return CreateAccess(fTree, name); }
 
       Int_t GetObjectKind() override;
       const char *GetContainedClassName() override;
 
-      static TGo4Access* CreateAccess(TTree* tree, const char *name);
+      static std::unique_ptr<TGo4Access> CreateAccess(TTree* tree, const char *name);
       static TGo4LevelIter* ProduceIter(TTree* tree);
 
    protected:

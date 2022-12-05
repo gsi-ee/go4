@@ -154,10 +154,11 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
 }
 
 
-TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
+std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
 {
    if (!folder) return nullptr;
-   if (!name || (*name == 0)) return new TGo4ObjectAccess(folder);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(folder);
 
    TFolder* curfold = folder;
    const char *curname = name;
@@ -173,7 +174,7 @@ TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
       if (!obj) return nullptr;
 
       if (!slash)
-         return new TGo4ObjectAccess(obj);
+         return std::make_unique<TGo4ObjectAccess>(obj);
 
       curname = slash+1;
 
