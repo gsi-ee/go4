@@ -301,6 +301,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ClientStartup.sh DESTINATION ${CMAKE_BINARY
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ServerStartup.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/Go4ShowPdf.sh DESTINATION ${CMAKE_BINARY_DIR}/etc)
 file(COPY ${CMAKE_SOURCE_DIR}/etc/htdigest.txt DESTINATION ${CMAKE_BINARY_DIR}/etc)
+file(COPY ${CMAKE_SOURCE_DIR}/data/test.lmd DESTINATION ${CMAKE_BINARY_DIR}/data)
 
 # install directories
 
@@ -311,6 +312,7 @@ install(DIRECTORY icons/ DESTINATION ${GO4_INSTALL_ICONSDIR} COMPONENT applicati
 install(DIRECTORY macros/ DESTINATION ${GO4_INSTALL_MACROSDIR} COMPONENT applications)
 install(DIRECTORY python/ DESTINATION ${GO4_INSTALL_PYTHONDIR} COMPONENT applications)
 install(FILES CHANGES.txt Go4License.txt README.md DESTINATION ${GO4_INSTALL_MAINDIR} COMPONENT applications)
+install(FILES ${CMAKE_SOURCE_DIR}/data/test.lmd DESTINATION ${GO4_INSTALL_MAINDIR}/data COMPONENT tests)
 
 if(MSVC)
    get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
