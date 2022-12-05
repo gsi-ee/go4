@@ -36,7 +36,6 @@ class TXXXAnlProc : public TGo4EventProcessor {
       TXXXParameter    *fParam{nullptr};
       TGo4WinCond      *fWinCon{nullptr};
 
-
    ClassDefOverride(TXXXAnlProc, 1)
 };
 

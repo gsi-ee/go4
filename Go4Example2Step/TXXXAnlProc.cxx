@@ -54,9 +54,8 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
 TXXXAnlProc::~TXXXAnlProc()
 {
    TGo4Log::Info("TXXXAnlProc: Delete");
-   if(fParam->fbHisto){
-      if (fWinCon) fWinCon->PrintCondition(true);
-   }
+   if(fParam->fbHisto && fWinCon)
+      fWinCon->PrintCondition(true);
 }
 
 //-----------------------------------------------------------

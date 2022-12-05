@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXEVENT_H
-#define TXXXEVENT_H
+#ifndef TXXXUnpackEvent_H
+#define TXXXUnpackEvent_H
 
 #define XXX_NUM_CHAN 8
 
@@ -38,4 +38,4 @@ class TXXXUnpackEvent : public TGo4EventElement {
    ClassDefOverride(TXXXUnpackEvent,1)
 };
 
-#endif //TXXXEVENT_H
+#endif
