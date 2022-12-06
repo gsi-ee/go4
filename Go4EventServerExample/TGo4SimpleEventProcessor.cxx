@@ -21,54 +21,53 @@
 TGo4SimpleEventProcessor::TGo4SimpleEventProcessor()
 :TGo4EventProcessor("Go4 Standard SimpleEvent Processor")
 {
-GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
-
+   GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
 }
 
 TGo4SimpleEventProcessor::~TGo4SimpleEventProcessor()
 {
-GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
-
+   GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
 }
 
-void TGo4SimpleEventProcessor::BuildSimpleEvent(TGo4SimpleEvent* target)
+Bool_t TGo4SimpleEventProcessor::BuildSimpleEvent(TGo4SimpleEvent* target)
 {
    GO4TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
    TGo4MbsEvent *input = (TGo4MbsEvent *)GetInputEvent();
 
-   if (input) {
-      Short_t procid;
-      input->ResetIterator();
-      while (auto insub = input->NextSubEvent()) {
-         // find out procid
-         procid = insub->GetProcid();
-         auto outsubix = target->GetSubEvent(procid);
-         TGo4SimpleSubEvent *outsub = nullptr;
-         if (outsubix) {
-            outsub = outsubix;
-         } else {
-            // no such procid in array, add new one
-            outsub = target->AddSubEvent(procid);
-            if (!outsub) {
-               TGo4Log::Error("simple event processor: error adding subevent");
-               return;
-            }
-
-         } // if (outsubix)
-
-         // copy subevent data of that procid into target struct
-         outsub->Clear();
-         Int_t fieldsize = (insub->GetDlen() - 2) * sizeof(Short_t) / sizeof(Int_t);
-         outsub->fiFieldLen = fieldsize;
-         void *sourcefield = (void *)(insub->GetDataField());
-         void *destfield = (void *)&(outsub->fiD0);
-         memcpy(destfield, sourcefield, fieldsize * sizeof(Int_t));
-
-      } // while
-      target->fiCount = input->GetCount();
-
-   } // if(input)
-   else {
+   if (!input) {
       TGo4Log::Error("Simple Event Processor: no input event !");
+      return kFALSE;
    }
+
+
+   Short_t procid;
+   input->ResetIterator();
+   while (auto insub = input->NextSubEvent()) {
+      // find out procid
+      procid = insub->GetProcid();
+      auto outsubix = target->GetSubEvent(procid);
+      TGo4SimpleSubEvent *outsub = nullptr;
+      if (outsubix) {
+         outsub = outsubix;
+      } else {
+         // no such procid in array, add new one
+         outsub = target->AddSubEvent(procid);
+         if (!outsub) {
+            TGo4Log::Error("simple event processor: error adding subevent");
+            return kFALSE;
+         }
+
+      } // if (outsubix)
+
+      // copy subevent data of that procid into target struct
+      outsub->Clear();
+      Int_t fieldsize = (insub->GetDlen() - 2) * sizeof(Short_t) / sizeof(Int_t);
+      outsub->fiFieldLen = fieldsize;
+      void *sourcefield = (void *)(insub->GetDataField());
+      void *destfield = (void *)&(outsub->fiD0);
+      memcpy(destfield, sourcefield, fieldsize * sizeof(Int_t));
+
+   } // while
+   target->fiCount = input->GetCount();
+   return kTRUE;
 }
