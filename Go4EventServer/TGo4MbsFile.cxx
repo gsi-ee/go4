@@ -100,7 +100,7 @@ TGo4MbsFile::~TGo4MbsFile()
 
 void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly)
 {
-   if (!name || (*name == 0)) return;
+   if (!name || !*name) return;
 
    TString fname(name);
 
@@ -111,11 +111,9 @@ void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly
       // name indicates steering file
       fname.Remove(0, 1);
       read_multi = true;
-   } else
-   if(fname.EndsWith(fgcFILELISTSUF)) { // new style: list mode list
+   } else if(fname.EndsWith(fgcFILELISTSUF)) { // new style: list mode list
       read_multi = true;
-   } else
-   if(fname.Contains("*") || fname.Contains("?")) {
+   } else if(fname.Contains("*") || fname.Contains("?")) {
       // name indicates wildcard expression
       TList* lst = TGo4FileSource::ProducesFilesList(fname.Data());
 
@@ -133,8 +131,7 @@ void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly
          delete lst;
       }
 
-   } else
-   if (!isonly) {
+   } else if (!isonly) {
       // only if more file names are expected we will start extra list with files names
 
       if (!fxMultiFile) { fxMultiFile = new TList; fxMultiFile->SetOwner(kTRUE); }
@@ -171,8 +168,10 @@ void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly
       }
    }
 
-   if (isonly) SetName(fname);
-          else SetName("LmdFilesSelection");
+   if (isonly)
+      SetName(fname);
+   else
+      SetName("LmdFilesSelection");
 }
 
 Int_t TGo4MbsFile::NextEvent()
