@@ -26,10 +26,10 @@ in Go4License.txt file which is part of the distribution.
 # GO4 PACKAGE
 
 This package was tested on
-  * openSUSE Leap 42.2, openSUSE Tumblweed 04.2022
+  * openSUSE Leap 42.2, openSUSE Tumblweed 10.2022
   * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9
   * macOS 10.14.6
-  * compilers: gcc 4.8.5, gcc 4.9.2, gcc 6.3.0, gcc8.2, gcc 10.2, gcc 11.2
+  * compilers: gcc8.2, gcc 10.2, gcc 11.2, gcc 12.2
 
 ## REQUIREMENTS
    * ROOT 6.24 or higher (recommended 6.26)
@@ -68,16 +68,13 @@ If command fails, one should configure environment call
 
 This Go4 distribution can be built with following Qt versions:
 * qt5 - Qt 5.6.x and higher (recommended 5.15.2)
-* qt6 - Qt 6.0.x and higher
+* qt6 - Qt 6.2.x and higher
 Most modern Linux distributions provide Qt libraries, utilities and include files.
 Typically one should install libqt5-devel packages.
 Normally Go4 able to detect major version of such Qt installation
 and will compile correspondent version of Go4 GUI.
-If several Qt versions are installed, use "withqt" makefile flag to select
-preferred version of qt. It is especially necessary for systems, where Qt3 installation
-automatically sets QTDIR variable. In that case call "make withqt=5" to compile
-go4 with Qt5. It is recommended to use Qt5 version of GUI.
-Qt6 version only can be build with cmake
+If both qt5 and qt6 are installed, use "cmake -Dqt6=ON <path_to_source>" to compile
+go4 with Qt6.
 
 If there is no Qt installed on your system, or Go4 is not able to use it correctly,
 one should download it from https://www.qt.io/download anf follow instruction how it should be
@@ -115,6 +112,7 @@ Create build directory and call
 One also can specify several options for cmake:
 
     -Dhdf5=ON - enable HDF5 support, requires installed HDF5 library
+    -Dqt6=ON - use Qt6 for GUI compilation
     -DCMAKE_INSTALL_PREFIX=/home/user/custom/dir - configure custom directory for installation
 
 
