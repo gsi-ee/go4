@@ -2090,9 +2090,6 @@ void TGo4FitPanel::AboutToShowFitterMenu()
    TGo4Fitter *fitter = GetFitter();
    TGo4ViewPanel *panel = LastActivePanel();
 
-   bool samepad =
-      !panel ? false : WorkingWithPanel() && (panel == ActivePanel()) && (panel->GetActivePad() == ActivePad());
-
    QString padname;
    if (panel)
       padname = QString("panel \"") + panel->windowTitle() + "\"";
@@ -2792,7 +2789,7 @@ void TGo4FitPanel::Wiz_DelModelBtn_clicked()
    if (checkConfirm("Delete models", "Are you sure to delete selected models"))
       return;
 
-   for (unsigned n = 0; n < Wiz_ModelList->count(); n++) {
+   for (int n = 0; n < Wiz_ModelList->count(); n++) {
       if (!Wiz_ModelList->item(n)->isSelected())
          continue;
       QString name = Wiz_ModelList->item(n)->text();
@@ -2814,7 +2811,7 @@ void TGo4FitPanel::Wiz_CloneModelBtn_clicked()
    if (!fitter)
       return;
 
-   for (unsigned n = 0; n < Wiz_ModelList->count(); n++) {
+   for (int n = 0; n < Wiz_ModelList->count(); n++) {
       if (!Wiz_ModelList->item(n)->isSelected())
          continue;
       QString name = Wiz_ModelList->item(n)->text();
