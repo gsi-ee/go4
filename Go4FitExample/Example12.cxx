@@ -25,7 +25,7 @@ void Example12();
 
 int main(int argc, char **argv)
 {
-   TApplication theApp("Application", 0, 0);
+   TApplication theApp("Application", nullptr, nullptr);
 
    Example12();
 

@@ -34,7 +34,7 @@ void Example6();
 
 int main(int argc, char **argv)
 {
-   TApplication theApp("Application", 0, 0);
+   TApplication theApp("Application", nullptr, nullptr);
 
    Example6();
 
@@ -72,7 +72,7 @@ TGo4Fitter* BuildFitter()
    TGo4Fitter *fitter = new TGo4Fitter("Fitter",TGo4Fitter::ff_ML_Poisson, kFALSE);
 
 // create object to fit for first histogram, but specify histogram later
-   TGo4FitDataHistogram *data1 = new TGo4FitDataHistogram("data1",0);
+   TGo4FitDataHistogram *data1 = new TGo4FitDataHistogram("data1", nullptr);
    data1->SetUseBinScale(kTRUE);
    data1->SetRange(0,2.2,2.9);
    fitter->AddData(data1);
@@ -84,7 +84,7 @@ TGo4Fitter* BuildFitter()
    fitter->AddModel( "data1", new TGo4FitModelGauss1("Gauss2_1",2.672,0.015) );
 
 // create object to fit for second histogram, but specify histogram later
-   TGo4FitDataHistogram *data2 = new TGo4FitDataHistogram("data2",0);
+   TGo4FitDataHistogram *data2 = new TGo4FitDataHistogram("data2", nullptr);
    data2->SetUseBinScale(kTRUE);
    data2->SetRange(0,2.2,2.9);
    fitter->AddData(data2);

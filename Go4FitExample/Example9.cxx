@@ -33,7 +33,7 @@ void Example9();
 
 int main(int argc, char **argv)
 {
-   TApplication theApp("Application", 0, 0);
+   TApplication theApp("Application", nullptr, nullptr);
 
    Example9();
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
 void DrawHistogram(TH1* histo, const char *CanvasName, const char *DrawOption)
 {
-   TCanvas *fCanvas = new TCanvas(CanvasName,"Draw of histogram",3);
+   TCanvas *fCanvas = new TCanvas(CanvasName, "Draw of histogram",3);
    fCanvas->cd();
    histo->Draw(DrawOption);
    fCanvas->Update();
