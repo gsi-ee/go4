@@ -165,7 +165,7 @@ void TGo4SetScaleValues::AutoscaleChanged(bool on)
    if (!panel) return;
 
    fbDoingRefresh = true;
-   panel->SetAutoScale(on, 0);
+   panel->SetAutoScale(on, nullptr);
    fbDoingRefresh = false;
 
    refreshView(true);

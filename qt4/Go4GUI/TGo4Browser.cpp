@@ -864,7 +864,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             }
 
             case 19: {
-               br->ProduceExplicitCopy(itemname.toLatin1().constData(), 0, go4sett->getFetchDataWhenCopy());
+               br->ProduceExplicitCopy(itemname.toLatin1().constData(), nullptr, go4sett->getFetchDataWhenCopy());
                break;
             }
 
@@ -1092,7 +1092,7 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
    for (Int_t n = 0; n < nargs; n++) {
       bool ok = false;
       QString value =
-            QInputDialog::getText(0, "Input command arguments",
+            QInputDialog::getText(nullptr, "Input command arguments",
                                  QString("Arg%1:").arg(n+1), QLineEdit::Normal, "", &ok);
       if (!ok) return;
       if (n == 0)
