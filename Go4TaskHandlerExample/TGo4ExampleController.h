@@ -40,9 +40,9 @@ class TGo4ExampleController {
     virtual ~TGo4ExampleController();
 
   private:
-    TObject* fxPreviousData;
+    TObject* fxPreviousData{nullptr};
 
-    TCanvas* fxCanvas;
+    TCanvas* fxCanvas{nullptr};
 };
 
 #endif //TGO4EXAMPLECONTROLLER_H

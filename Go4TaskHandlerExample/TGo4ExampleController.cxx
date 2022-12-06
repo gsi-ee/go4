@@ -21,11 +21,10 @@
 
 #include "TGo4ComAction1.h"
 
-TGo4ExampleController::TGo4ExampleController() :
-  fxPreviousData(0), fxCanvas(0)
+TGo4ExampleController::TGo4ExampleController()
 {
    GO4TRACE((15,"TGo4ExampleController::TGo4ExampleController() constructor",__LINE__, __FILE__));
-   fxCanvas=new TCanvas("Example Display","Go4 controller canvas",3);
+   fxCanvas = new TCanvas("Example Display","Go4 controller canvas",3);
 }
 
 TGo4ExampleController::~TGo4ExampleController()
@@ -37,8 +36,7 @@ TGo4ExampleController::~TGo4ExampleController()
 
 void TGo4ExampleController::DisplayData(TObject* data)
 {
-   GO4TRACE(
-         (12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
    if (data) {
       delete fxPreviousData;
       fxPreviousData = data;
@@ -56,7 +54,7 @@ void TGo4ExampleController::DisplayData(TObject* data)
 
 void TGo4ExampleController::DisplayLog(TGo4Status* status)
 {
-  GO4TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status*)",__LINE__, __FILE__));
    if (status) {
       std::cout << "ExampleController received status object:" << std::endl;
       if (status->InheritsFrom("TGo4ExampleClientStatus")) {
@@ -68,13 +66,12 @@ void TGo4ExampleController::DisplayLog(TGo4Status* status)
    } else {
       std::cout << "ExampleController has NULL status object" << std::endl;
    }
-
 }
 
 TGo4Command* TGo4ExampleController::GetCommand()
 {
-  GO4TRACE((12,"TGo4ExampleController::GetCommand()",__LINE__, __FILE__));
-    // this function simulates a user input of a command, e.g. using a cli or a gui
-    TGo4Command* com = new TGo4ComAction1();
-    return com;
+   GO4TRACE((12,"TGo4ExampleController::GetCommand()",__LINE__, __FILE__));
+   // this function simulates a user input of a command, e.g. using a cli or a gui
+   TGo4Command* com = new TGo4ComAction1();
+   return com;
 }

@@ -28,7 +28,7 @@
 
 #include "TGo4TestThreadManager.h"
 
-TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", 0)
+TGo4TestRunnable::TGo4TestRunnable() : TGo4Runnable("dummy", nullptr)
 {
    GO4TRACE((14, "TGo4TestRunnable::TGo4Runnable() constructor", __LINE__, __FILE__));
 }
@@ -41,8 +41,7 @@ TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right) : TGo4Runnable
 TGo4TestRunnable::TGo4TestRunnable(const char *name, TGo4ThreadManager *man, Int_t mode)
    : TGo4Runnable(name, man), fiMode(mode)
 {
-   GO4TRACE(
-      (14, "TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor", __LINE__, __FILE__));
 }
 
 TGo4TestRunnable::~TGo4TestRunnable()
