@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TYYYANALYSIS_H
-#define TYYYANALYSIS_H
+#ifndef TYYYAnalysis_H
+#define TYYYAnalysis_H
 
 #include "TGo4Analysis.h"
 
@@ -40,4 +40,4 @@ class TYYYAnalysis : public TGo4Analysis {
    ClassDefOverride(TYYYAnalysis,1)
 };
 
-#endif //TYYYANALYSIS_H
+#endif

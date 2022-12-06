@@ -133,9 +133,8 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
       Crate2[i] = 0.;
    }
 
-
    // uncomment this lines to update histogram on the gui periodically without activating monitoring
-   //static int cnt = 0;
+   // static int cnt = 0;
    // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();

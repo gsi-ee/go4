@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TYYYUNPACKPROCESSOR_H
-#define TYYYUNPACKPROCESSOR_H
+#ifndef TYYYUnpackProc_H
+#define TYYYUnpackProc_H
 
 #include "TGo4EventProcessor.h"
 
@@ -55,5 +55,5 @@ class TYYYUnpackProc : public TGo4EventProcessor {
    ClassDefOverride(TYYYUnpackProc,1)
 };
 
-#endif //TYYYUNPACKPROCESSOR_H
+#endif
 
