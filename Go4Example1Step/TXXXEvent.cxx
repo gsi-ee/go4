@@ -34,9 +34,9 @@ TXXXEvent::~TXXXEvent()
 }
 
 //-----------------------------------------------------------
-void TXXXEvent::Clear(Option_t *t)
+void TXXXEvent::Clear(Option_t *)
 {
   // all members should be cleared.
-   memset((void*) &fCrate1[0],0, sizeof(fCrate1));
-   memset((void*) &fCrate2[0],0, sizeof(fCrate2));
+   memset(fCrate1, 0, sizeof(fCrate1));
+   memset(fCrate2, 0, sizeof(fCrate2));
 }

@@ -66,7 +66,7 @@ void TGo4SimpleSubEvent::PrintEvent()
    TGo4Log::Debug( "\tFieldLen    %d ", fiFieldLen);
 }
 
-void TGo4SimpleSubEvent::Clear(Option_t *t)
+void TGo4SimpleSubEvent::Clear(Option_t *)
 {
    GO4TRACE((11,"TGo4SimpleSubEvent::Clear()",__LINE__, __FILE__));
 

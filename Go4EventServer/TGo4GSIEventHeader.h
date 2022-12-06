@@ -28,7 +28,7 @@ class TGo4GSIEventHeader : public TObject {
     virtual ~TGo4GSIEventHeader() {}
 
     /** Reset all members to zero. */
-    void Clear(Option_t* opt="") override
+    void Clear(Option_t * = "") override
       {
          fiDlen = 0;
          fsType = 0;

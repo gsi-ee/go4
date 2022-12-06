@@ -29,7 +29,7 @@ TYYYRawEvent::TYYYRawEvent() :
 TYYYRawEvent::TYYYRawEvent(const char *name) :
    TGo4EventElement(name),
    fiColumns(0),
-   fdData(0),
+   fdData(nullptr),
    fiAllocated(0)
 {
 }
@@ -42,7 +42,7 @@ TYYYRawEvent::~TYYYRawEvent()
    }
 }
 
-void TYYYRawEvent::Clear(Option_t *t)
+void TYYYRawEvent::Clear(Option_t *)
 {
    for (Int_t t = 0; t < fiColumns; ++t)
       fdData[t] = 0.;

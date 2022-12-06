@@ -13,7 +13,7 @@
 
 #include "TXXXAnlEvent.h"
 
-void TXXXAnlEvent::Clear(Option_t *t)
+void TXXXAnlEvent::Clear(Option_t *)
 {
    for (int i = 0; i < XXX_NUM_CHAN; i++)
       frData[i] = 0.;

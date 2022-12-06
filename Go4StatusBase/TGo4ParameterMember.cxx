@@ -179,7 +179,7 @@ void TGo4ParameterMember::GetValue(char* addr)
    }
 }
 
-void TGo4ParameterMember::Clear(Option_t*)
+void TGo4ParameterMember::Clear(Option_t *)
 {
    SetToZero();
 }

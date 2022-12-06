@@ -270,15 +270,11 @@ void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
    }
 }
 
-void TGo4BufferQueue::Clear(Option_t* opt)
+void TGo4BufferQueue::Clear(Option_t *)
 {
-   TObject* ob = nullptr;
-   while((ob = Next()) != nullptr) {
-         //std::cout <<"cleared entry "<<ob<<" of queue "<<GetName() << std::endl;
-      FreeBuffer(dynamic_cast<TBuffer*> (ob) );
-   }
+   while(auto ob = Next())
+      FreeBuffer(dynamic_cast<TBuffer*>(ob));
 }
-
 
 void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {

@@ -33,15 +33,14 @@ TGo4Queue::TGo4Queue(const char *name) :
 
 TGo4Queue::~TGo4Queue()
 {
-
-  //printf ("JAM*************** DTOR of TGo4Queue %s BEGIN\n", GetName());
+   //printf ("JAM*************** DTOR of TGo4Queue %s BEGIN\n", GetName());
    delete fxList; fxList = nullptr;
    delete fxCondition; fxCondition = nullptr;
    delete fxMutex; fxMutex = nullptr;
-  // printf ("JAM*************** DTOR of TGo4Queue %s END\n", GetName());
+   // printf ("JAM*************** DTOR of TGo4Queue %s END\n", GetName());
 }
 
-void TGo4Queue::Clear(Option_t* opt)
+void TGo4Queue::Clear(Option_t *)
 {
    TGo4LockGuard qguard(fxMutex);
    fxList->Clear();

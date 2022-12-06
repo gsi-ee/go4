@@ -153,7 +153,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Clear pointer on object in slot.
        * If object owned, it will be destroyed.
        */
-      void Clear(Option_t* = "")  override { SetObject(nullptr, kFALSE); }
+      void Clear(Option_t * = "")  override { SetObject(nullptr, kFALSE); }
 
       /**
        * Return ownership flag.

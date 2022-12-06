@@ -38,7 +38,7 @@ class TXXXModule : public TGo4EventElement {
          TGo4EventElement(name,name,id) {}
       virtual ~TXXXModule() {}
 
-      void Clear(Option_t *t="") override
+      void Clear(Option_t * = "") override
       {
          fiData = 0;
          fiTest = 0;

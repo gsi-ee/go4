@@ -21,17 +21,17 @@ TMeshDummyEvent::TMeshDummyEvent()
 {
 
 }
+
 //***********************************************************
 TMeshDummyEvent::TMeshDummyEvent(const char *name)
   :TGo4EventElement(name),fxProviderProc(0)
 {
 }
+
 //***********************************************************
 TMeshDummyEvent::~TMeshDummyEvent()
 {
 }
-//***********************************************************
-
 
 //-----------------------------------------------------------
 Int_t TMeshDummyEvent::Init()
@@ -49,6 +49,7 @@ Int_t TMeshDummyEvent::Init()
   return rev;
 
 }
+
 //-----------------------------------------------------------
 Int_t TMeshDummyEvent::Fill()
 {
@@ -61,8 +62,8 @@ Int_t TMeshDummyEvent::Fill()
    return rev;
 
 }
-//-----------------------------------------------------------
-void TMeshDummyEvent::Clear(Option_t*)
-{
 
+//-----------------------------------------------------------
+void TMeshDummyEvent::Clear(Option_t *)
+{
 }

@@ -13,7 +13,7 @@
 
 #include "TXXXUnpackEvent.h"
 
-void TXXXUnpackEvent::Clear(Option_t *t)
+void TXXXUnpackEvent::Clear(Option_t *)
 {
    for (int i = 0; i < XXX_NUM_CHAN; i++) {
       fiCrate1[i] = 0;
