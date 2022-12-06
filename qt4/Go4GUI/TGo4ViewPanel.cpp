@@ -1777,11 +1777,13 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject *obj, const char *cmdname)
 void TGo4ViewPanel::CanvasUpdatedSlot()
 {
    if (fxWCanvas) {
+      fBlockSignals = true;
       TCanvasImp *imp = GetCanvas()->GetCanvasImp();
       fxCanvasEventstatusChk->setChecked(imp->HasStatusBar());
       fxCanvasEditorChk->setChecked(imp->HasEditor());
+      fBlockSignals = false;
    } else {
-     ResizeGedEditor();
+      ResizeGedEditor();
    }
 }
 
@@ -1967,6 +1969,9 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor(bool)
 {
+   if (fBlockSignals)
+      return;
+
    bool visible = false;
    if (fxQCanvas) {
 #ifdef __GO4X11__
@@ -2177,6 +2182,9 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 
 void TGo4ViewPanel::ShowEventStatus(bool)
 {
+   if (fBlockSignals)
+      return;
+
    bool flag = true;
    if (fxQCanvas) {
 #ifdef __GO4X11__

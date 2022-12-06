@@ -278,7 +278,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QByteArray fbaPanelName;
       bool fbFreezeTitle{false};
       QString fFreezedTitle;
-      bool fbMarkEditorVisible;
+      bool fbMarkEditorVisible{false};
       bool fbTypingMode{false};
       QMenuBar *fMenuBar{nullptr};
       TPad *fxActivePad{nullptr};
@@ -303,6 +303,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QCheckBox *fAutoScaleCheck{nullptr};
       QSignalMapper *fOptionsMap{nullptr};
       QMenu *fOptionsMenu{nullptr};
+      bool fBlockSignals{false};
 
       QRootCanvas *fxQCanvas{nullptr}; ///< qtroot canvas
       QWebCanvas *fxWCanvas{nullptr};  ///< web canvas
