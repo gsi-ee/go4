@@ -563,7 +563,7 @@ void TGo4FitPanel::SetFitter(TGo4Fitter *fitter)
    } else {
       ActivePanel()->DeleteDrawObject(ActivePad(), "::Fitter");
       TGo4Slot *slot =
-         ActivePanel()->AddDrawObject(ActivePad(), TGo4ViewPanel::kind_Fitter, "::Fitter", fitter, true, 0);
+         ActivePanel()->AddDrawObject(ActivePad(), TGo4ViewPanel::kind_Fitter, "::Fitter", fitter, true, nullptr);
       if (slot)
          AddLink(slot, "Fitter");
    }
@@ -768,13 +768,13 @@ void TGo4FitPanel::Button_SimpleFit(int nmodel)
    TGo4FitModel *model = nullptr;
 
    switch (nmodel) {
-   case 0: fitter->AddPolynoms(data->GetName(), "Pol", Smp_PolOrderSpin->value(), NumDim); break;
+      case 0: fitter->AddPolynoms(data->GetName(), "Pol", Smp_PolOrderSpin->value(), NumDim); break;
 
-   case 1: model = CreateModel(20, 0, fitter, data); break;
+      case 1: model = CreateModel(20, nullptr, fitter, data); break;
 
-   case 2: model = CreateModel(24, 0, fitter, data); break;
+      case 2: model = CreateModel(24, nullptr, fitter, data); break;
 
-   case 3: model = CreateModel(25, 0, fitter, data); break;
+      case 3: model = CreateModel(25, nullptr, fitter, data); break;
    }
 
    if (model && ((nmodel == 1) || (nmodel == 2)))
@@ -808,7 +808,7 @@ void TGo4FitPanel::Button_PeakFinder()
    if (!finder)
       return;
 
-   TGo4FitData *data = 0;
+   TGo4FitData *data = nullptr;
    if (fiPanelMode == FitGui::pm_Wizard)
       data = Wiz_SelectedData();
    else
@@ -887,14 +887,14 @@ void TGo4FitPanel::Button_PerformFit()
 
    fitter->DoActions();
 
-   Button_FitterDraw(0);
+   Button_FitterDraw(nullptr);
 
    if (fiPanelMode == FitGui::pm_Simple) {
       RemovePrimitives();
       if (!fbShowPrimitives)
          return;
       TGo4FitData *data = fitter->GetData(0);
-      PaintModelsFor(fitter, data, 0, true);
+      PaintModelsFor(fitter, data, nullptr, true);
       UpdateStatusBar();
    } else
       UpdateActivePage();
@@ -1199,7 +1199,7 @@ void TGo4FitPanel::Cmd_ItemPrint(QFitItem *item)
       return;
 
    RemoveItemWidget();
-   QFitPrintWidget *widget = new QFitPrintWidget(0, (QString("Print ") + obj->GetName()).toLatin1().constData());
+   auto widget = new QFitPrintWidget(nullptr, (QString("Print ") + obj->GetName()).toLatin1().constData());
 
    fxCurrentItemWidget = widget;
 
@@ -1273,7 +1273,7 @@ void TGo4FitPanel::Cmd_DeleteAssosiatedModels(QFitItem *item)
 
    fitter->DeleteModelsAssosiatedTo(data->GetName());
 
-   QFitItem *mlist = FindItem(0, FitGui::ot_modellist, 0);
+   QFitItem *mlist = FindItem(nullptr, FitGui::ot_modellist, nullptr);
    if (mlist)
       UpdateItem(mlist, true);
 
@@ -1321,7 +1321,7 @@ void TGo4FitPanel::Cmd_DeleteModels(QFitItem *item)
    UpdateObjectReferenceInSlots();
 
    UpdateItem(item, true);
-   UpdateItemsOfType(FitGui::ot_allslots, 0);
+   UpdateItemsOfType(FitGui::ot_allslots, nullptr);
    UpdateStatusBar();
 }
 
@@ -1351,7 +1351,7 @@ void TGo4FitPanel::Cmd_AddNewData(QFitItem *item, int id)
    if (!fitter)
       return;
 
-   TGo4FitData *data = CreateData(id, 0);
+   TGo4FitData *data = CreateData(id, nullptr);
    if (!data)
       return;
 
@@ -1380,8 +1380,8 @@ void TGo4FitPanel::Cmd_AddNewModel(QFitItem *item, int id)
    if (!fitter)
       return;
 
-   TGo4FitModel *model = CreateModel(id, 0, fitter, 0);
-   LocateModel(model, 0, true);
+   TGo4FitModel *model = CreateModel(id, nullptr, fitter, nullptr);
+   LocateModel(model, nullptr, true);
 
    UpdateObjectReferenceInSlots();
 
@@ -1431,7 +1431,7 @@ void TGo4FitPanel::Cmd_AssignModelToAllData(QFitItem *item)
    if (!model || !fitter)
       return;
 
-   fitter->AssignModelTo(model->GetName(), 0);
+   fitter->AssignModelTo(model->GetName(), nullptr);
 
    UpdateItemsOfType(FitGui::ot_parslist, item->Parent());
 
@@ -1586,7 +1586,7 @@ void TGo4FitPanel::Cmd_MoveAction(QFitItem *item, int dir)
       fitter->ReplaceAction(action, dir);
       QFitItem *parent = item->Parent();
       UpdateItem(parent, true);
-      item = FindItem(action, -1, 0);
+      item = FindItem(action, -1, nullptr);
       if (item)
          FitList->setCurrentItem(item, QItemSelectionModel::Select);
    }
@@ -1720,7 +1720,7 @@ void TGo4FitPanel::Cmd_AddDependency(QFitItem *item)
       return;
 
    if (item->ObjectType() == FitGui::ot_reslist)
-      lst->Add(new TGo4FitDependency(0, 0.0));
+      lst->Add(new TGo4FitDependency(nullptr, 0.0));
    else
       lst->Add(new TGo4FitDependency("Par1", 1.0));
 
@@ -2145,64 +2145,64 @@ void TGo4FitPanel::ItemMenuItemSelected(int id)
       return;
 
    switch (id) {
-   case 1: Cmd_DeleteFitter(); break;
-   case 2: Cmd_ClearFitter(); break;
-   case 3: Cmd_SaveFitter(false); break;
-   case 4: Cmd_SaveFitter(true); break;
-   case 5: Cmd_ItemPrint(item); break;
-   case 6: Button_FitterDraw(0); break;
-   case 8: Cmd_CreateFitter(); break;
-   case 9: Cmd_CreateAppropriateFitter(); break;
-   case 101: Cmd_DeleteData(item); break;
-   case 102: Cmd_DeleteAssosiatedModels(item); break;
-   case 105: Cmd_DrawData(item); break;
-   case 107: Cmd_DeleteAllData(item); break;
-   case 108: Wiz_RebuildDataList(); break;
-   case 201: Cmd_DeleteModel(item); break;
-   case 202: Cmd_DeleteModels(item); break;
-   case 203: Cmd_CloneModel(item); break;
-   case 301: Cmd_ClearAssigments(item); break;
-   case 302: Cmd_AssignModelToAllData(item); break;
-   case 303: Cmd_ClearAssigment(item); break;
-   case 401: Cmd_RemoveRangeCondition(item); break;
-   case 402: Cmd_RemoveRangeConditions(item); break;
-   case 403:
-   case 404:
-   case 405:
-   case 406:
-   case 407: Cmd_AddRangeCondition(item, id - 403); break;
-   case 501: Cmd_DeleteAction(item); break;
-   case 502: Cmd_MoveAction(item, -1); break;
-   case 503: Cmd_MoveAction(item, +1); break;
-   case 504: Cmd_ExecuteActions(item, false); break;
-   case 505: Cmd_DeleteActions(item); break;
-   case 506: Cmd_DeleteOutputActions(item); break;
-   case 507: Cmd_ExecuteActions(item, true); break;
-   case 508: Cmd_ExecuteAction(item); break;
-   case 601: Cmd_DeleteDependency(item); break;
-   case 602: Cmd_DeleteDependencies(item); break;
-   case 603: Cmd_AddDependency(item); break;
-   case 701: Cmd_DeletePars(item); break;
-   case 702: Cmd_AddNewPar(item); break;
-   case 703: Cmd_DeletePar(item); break;
-   case 704: Cmd_MemorizePar(item); break;
-   case 705: Cmd_RememberPar(item); break;
-   case 706: Cmd_MemorizePars(item); break;
-   case 707: Cmd_RememberPars(item); break;
-   case 801: Cmd_DeleteMinuitResult(item); break;
-   case 904: Cmd_UpdateAllSlots(item); break;
+      case 1: Cmd_DeleteFitter(); break;
+      case 2: Cmd_ClearFitter(); break;
+      case 3: Cmd_SaveFitter(false); break;
+      case 4: Cmd_SaveFitter(true); break;
+      case 5: Cmd_ItemPrint(item); break;
+      case 6: Button_FitterDraw(nullptr); break;
+      case 8: Cmd_CreateFitter(); break;
+      case 9: Cmd_CreateAppropriateFitter(); break;
+      case 101: Cmd_DeleteData(item); break;
+      case 102: Cmd_DeleteAssosiatedModels(item); break;
+      case 105: Cmd_DrawData(item); break;
+      case 107: Cmd_DeleteAllData(item); break;
+      case 108: Wiz_RebuildDataList(); break;
+      case 201: Cmd_DeleteModel(item); break;
+      case 202: Cmd_DeleteModels(item); break;
+      case 203: Cmd_CloneModel(item); break;
+      case 301: Cmd_ClearAssigments(item); break;
+      case 302: Cmd_AssignModelToAllData(item); break;
+      case 303: Cmd_ClearAssigment(item); break;
+      case 401: Cmd_RemoveRangeCondition(item); break;
+      case 402: Cmd_RemoveRangeConditions(item); break;
+      case 403:
+      case 404:
+      case 405:
+      case 406:
+      case 407: Cmd_AddRangeCondition(item, id - 403); break;
+      case 501: Cmd_DeleteAction(item); break;
+      case 502: Cmd_MoveAction(item, -1); break;
+      case 503: Cmd_MoveAction(item, +1); break;
+      case 504: Cmd_ExecuteActions(item, false); break;
+      case 505: Cmd_DeleteActions(item); break;
+      case 506: Cmd_DeleteOutputActions(item); break;
+      case 507: Cmd_ExecuteActions(item, true); break;
+      case 508: Cmd_ExecuteAction(item); break;
+      case 601: Cmd_DeleteDependency(item); break;
+      case 602: Cmd_DeleteDependencies(item); break;
+      case 603: Cmd_AddDependency(item); break;
+      case 701: Cmd_DeletePars(item); break;
+      case 702: Cmd_AddNewPar(item); break;
+      case 703: Cmd_DeletePar(item); break;
+      case 704: Cmd_MemorizePar(item); break;
+      case 705: Cmd_RememberPar(item); break;
+      case 706: Cmd_MemorizePars(item); break;
+      case 707: Cmd_RememberPars(item); break;
+      case 801: Cmd_DeleteMinuitResult(item); break;
+      case 904: Cmd_UpdateAllSlots(item); break;
 
-   default:
-      if ((id >= 110) && (id < 200))
-         Cmd_AddNewData(item, id - 110);
-      else if ((id >= 210) && (id < 300))
-         Cmd_AddNewModel(item, id - 210);
-      else if ((id >= 310) && (id < 400))
-         Cmd_AssignModelToData(item, id - 310);
-      else if ((id >= 510) && (id < 600))
-         Cmd_AddNewAction(item, id - 510);
-      else if ((id >= 1000) && (id < 2000))
-         ExecutePopupForSlot(item, 0, id);
+      default:
+         if ((id >= 110) && (id < 200))
+            Cmd_AddNewData(item, id - 110);
+         else if ((id >= 210) && (id < 300))
+            Cmd_AddNewModel(item, id - 210);
+         else if ((id >= 310) && (id < 400))
+            Cmd_AssignModelToData(item, id - 310);
+         else if ((id >= 510) && (id < 600))
+            Cmd_AddNewAction(item, id - 510);
+         else if ((id >= 1000) && (id < 2000))
+            ExecutePopupForSlot(item, nullptr, id);
    }
 }
 
@@ -2548,12 +2548,12 @@ void TGo4FitPanel::UpdateWizStackWidget()
       datainfo += data->ClassName();
       if (fiIntegralMode == 1) {
          datainfo += "\nCounts=";
-         double v = fitter->CalculatesIntegral(data->GetName(), 0, kTRUE);
+         double v = fitter->CalculatesIntegral(data->GetName(), nullptr, kTRUE);
          datainfo += QString::number(v);
       }
       if (fiIntegralMode == 2) {
          datainfo += "\nIntegral=";
-         double v = fitter->CalculatesIntegral(data->GetName(), 0, kFALSE);
+         double v = fitter->CalculatesIntegral(data->GetName(), nullptr, kFALSE);
          datainfo += QString::number(v);
       }
       Wiz_DataInfoLbl->setText(datainfo);
@@ -2671,9 +2671,9 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
    if (fitter && data && (fiPaintMode == 1)) {
       TPad *pad = FindPadWhereData(data);
 
-      if (PaintModelsFor(fitter, data, 0, false))
+      if (PaintModelsFor(fitter, data, nullptr, false))
          for (Int_t n = 0; n < data->GetNumRangeCondition(); n++)
-            PaintRange(data, n, pad, 0);
+            PaintRange(data, n, pad, nullptr);
    }
 
    if (fitter && model && (fiPaintMode == 2)) {
@@ -2681,7 +2681,7 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
          data = fitter->FindData(model->AssignmentName(n));
          if (data && !data->IsAnyDataTransform()) {
             TPad *pad = FindPadWhereData(data);
-            PaintModel(model, pad, 0);
+            PaintModel(model, pad, nullptr);
          }
       }
    }
@@ -3062,7 +3062,7 @@ void TGo4FitPanel::FillParsWidget()
       Par_FitterResLbl->show();
    }
 
-   FillParsTable(ParsTable, fitter, 0, LineParsChk->isChecked(), fxParsTableList);
+   FillParsTable(ParsTable, fitter, nullptr, LineParsChk->isChecked(), fxParsTableList);
    fbFillingWidget = false;
 }
 
@@ -3074,8 +3074,9 @@ void TGo4FitPanel::LineParsChk_toggled(bool)
    TGo4Fitter *fitter = GetFitter();
    if (!fitter)
       return;
+
    fbFillingWidget = true;
-   FillParsTable(ParsTable, fitter, 0, LineParsChk->isChecked(), fxParsTableList);
+   FillParsTable(ParsTable, fitter, nullptr, LineParsChk->isChecked(), fxParsTableList);
    WidgetStack->setCurrentWidget(PageParameters);
    fbFillingWidget = false;
 }
@@ -3650,7 +3651,7 @@ void TGo4FitPanel::UpdateSimplePage()
 {
    RemovePrimitives();
 
-   PaintFitter(GetFitter(), 0, true);
+   PaintFitter(GetFitter(), nullptr, true);
 
    UpdateStatusBar();
 }
@@ -3691,7 +3692,7 @@ void TGo4FitPanel::UpdateExtendedPage()
 
    TGo4Fitter *fitter = GetFitter();
    if (!fitter) {
-      new QFitItem(this, FitList->invisibleRootItem(), 0, FitGui::ot_empty, FitGui::wt_none, FitGui::mt_empty);
+      new QFitItem(this, FitList->invisibleRootItem(), nullptr, FitGui::ot_empty, FitGui::wt_none, FitGui::mt_empty);
    } else {
       QFitItem *fitteritem = new QFitItem(this, FitList->invisibleRootItem(), fitter, FitGui::ot_fitter,
                                           FitGui::wt_fitter, FitGui::mt_fitter, FitGui::gt_fitter);
@@ -3946,57 +3947,56 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem *item, TGo4FitSlot *slot, int id
       return;
 
    switch (id) {
-   case 1000: {
-      TObject *newobj = slot->CloneObject();
-      slot->SetObject(newobj, kTRUE);
-      break;
-   }
-
-   case 1001: {
-
-      if (checkConfirm("Clear slot", QString("Are you sure to clear object from slot ") + slot->GetName()))
-         return;
-
-      fitter->ClearSlot(slot, kFALSE);
-
-      if (item)
-         for (Int_t i = 0; i < fitter->NumSlots(); i++) {
-            QFitItem *sitem = FindItem(fitter->GetSlot(i), FitGui::ot_slot, 0);
-            if (sitem)
-               UpdateItem(sitem, true);
-         }
-
-      break;
-   }
-
-   case 1002: {
-      UpdateObjectReferenceInSlot(slot, false);
-      break;
-   }
-
-   case 1004: {
-      slot->ClearConnectionToSlot();
-      break;
-   }
-
-   default: {
-      TObject *obj = nullptr;
-      if ((id >= 1100) && (id < 1200))
-         obj = CreateData(id - 1100, "Data");
-      else if ((id >= 1200) && (id < 1300))
-         obj = CreateModel(id - 1200, "Model", 0, 0);
-      else if (id == 1300)
-         obj = new TGo4FitLinearTrans("Trans", "Linear axis transformation");
-      else if (id == 1301)
-         obj = new TGo4FitMatrixTrans("Trans", "Matrix axis transformation");
-      else if (id >= 1400) {
-         TGo4FitSlot *sl = fitter->GetSlot(id - 1400);
-         slot->ConnectToSlot(sl);
+      case 1000: {
+         TObject *newobj = slot->CloneObject();
+         slot->SetObject(newobj, kTRUE);
          break;
       }
-      if (obj)
-         slot->SetObject(obj, kTRUE);
-   }
+
+      case 1001: {
+         if (checkConfirm("Clear slot", QString("Are you sure to clear object from slot ") + slot->GetName()))
+            return;
+
+         fitter->ClearSlot(slot, kFALSE);
+
+         if (item)
+            for (Int_t i = 0; i < fitter->NumSlots(); i++) {
+               QFitItem *sitem = FindItem(fitter->GetSlot(i), FitGui::ot_slot, nullptr);
+               if (sitem)
+                  UpdateItem(sitem, true);
+            }
+
+         break;
+      }
+
+      case 1002: {
+         UpdateObjectReferenceInSlot(slot, false);
+         break;
+      }
+
+      case 1004: {
+         slot->ClearConnectionToSlot();
+         break;
+      }
+
+      default: {
+         TObject *obj = nullptr;
+         if ((id >= 1100) && (id < 1200))
+            obj = CreateData(id - 1100, "Data");
+         else if ((id >= 1200) && (id < 1300))
+            obj = CreateModel(id - 1200, "Model", nullptr, nullptr);
+         else if (id == 1300)
+            obj = new TGo4FitLinearTrans("Trans", "Linear axis transformation");
+         else if (id == 1301)
+            obj = new TGo4FitMatrixTrans("Trans", "Matrix axis transformation");
+         else if (id >= 1400) {
+            TGo4FitSlot *sl = fitter->GetSlot(id - 1400);
+            slot->ConnectToSlot(sl);
+            break;
+         }
+         if (obj)
+            slot->SetObject(obj, kTRUE);
+      }
    }
 
    if (item) {
@@ -4747,7 +4747,7 @@ TGo4FitPeakFinder *TGo4FitPanel::GetPeakFinder(bool autocreate)
    }
 
    if (autocreate) {
-      TGo4FitPeakFinder *finder = new TGo4FitPeakFinder("Finder", 0, kTRUE, 1);
+      TGo4FitPeakFinder *finder = new TGo4FitPeakFinder("Finder", nullptr, kTRUE, 1);
       finder->SetPeakFinderType(2);
       fitter->AddActionAt(finder, 0);
       return finder;
@@ -4774,7 +4774,7 @@ void TGo4FitPanel::Wiz_CreateNewModel(int id)
    TGo4FitModel *model = nullptr;
    if (fitter) {
       auto data = Wiz_SelectedData();
-      model = CreateModel(id, 0, fitter, data);
+      model = CreateModel(id, nullptr, fitter, data);
       LocateModel(model, data, true);
    }
 
@@ -4792,7 +4792,7 @@ void TGo4FitPanel::Wiz_CreateNewData(int id)
    if (!fitter)
       return;
 
-   TGo4FitData *data = CreateData(id, 0);
+   TGo4FitData *data = CreateData(id, nullptr);
    if (!data)
       return;
 
@@ -5031,7 +5031,7 @@ void TGo4FitPanel::DeleteModelWithPrimit(TGo4FitGuiArrow *arr)
       return;
 
    if (fiPanelMode == FitGui::pm_Expert) {
-      QFitItem *item = FindItem(model, FitGui::ot_model, 0);
+      QFitItem *item = FindItem(model, FitGui::ot_model, nullptr);
       if (item)
          Cmd_DeleteModel(item);
    } else
@@ -5190,27 +5190,27 @@ TGo4FitModel *TGo4FitPanel::CreateModel(int id, const char *namebase, TGo4Fitter
    TGo4FitModel *model = nullptr;
 
    switch (id) {
-   case 0: model = new TGo4FitModelPolynom(ModelName); break;
-   case 1: model = new TGo4FitModelGauss1(ModelName); break;
-   case 2: model = new TGo4FitModelGauss2(ModelName); break;
-   case 3: model = new TGo4FitModelGaussN(ModelName, NumDim < 3 ? 3 : NumDim); break;
-   case 4: model = new TGo4FitModelFormula(ModelName); break;
-   case 5: model = new TGo4FitModelFunction(ModelName); break;
-   case 6: model = new TGo4FitModelFromData(ModelName); break;
-   case 7: fitter->AddPolynoms(data ? data->GetName() : 0, NameBase.Data(), order, NumDim); break;
-   case 24: {
-      TGo4FitModelFormula *formula = new TGo4FitModelFormula(ModelName, "1./(1.+sq((x-Pos)/Width))", 2, kTRUE);
-      formula->SetParsNames("Ampl", "Pos", "Width");
-      formula->SetPosParIndex(0, 0);
-      formula->SetWidthParIndex(0, 1);
-      model = formula;
-      break;
-   }
-   case 25: {
-      model = new TGo4FitModelFormula(ModelName, "exp(Koef*x)", 1, kTRUE);
-      model->SetParsNames("Ampl", "Koef");
-      break;
-   }
+      case 0: model = new TGo4FitModelPolynom(ModelName); break;
+      case 1: model = new TGo4FitModelGauss1(ModelName); break;
+      case 2: model = new TGo4FitModelGauss2(ModelName); break;
+      case 3: model = new TGo4FitModelGaussN(ModelName, NumDim < 3 ? 3 : NumDim); break;
+      case 4: model = new TGo4FitModelFormula(ModelName); break;
+      case 5: model = new TGo4FitModelFunction(ModelName); break;
+      case 6: model = new TGo4FitModelFromData(ModelName); break;
+      case 7: fitter->AddPolynoms(data ? data->GetName() : nullptr, NameBase.Data(), order, NumDim); break;
+      case 24: {
+         TGo4FitModelFormula *formula = new TGo4FitModelFormula(ModelName, "1./(1.+sq((x-Pos)/Width))", 2, kTRUE);
+         formula->SetParsNames("Ampl", "Pos", "Width");
+         formula->SetPosParIndex(0, 0);
+         formula->SetWidthParIndex(0, 1);
+         model = formula;
+         break;
+      }
+      case 25: {
+         model = new TGo4FitModelFormula(ModelName, "exp(Koef*x)", 1, kTRUE);
+         model->SetParsNames("Ampl", "Koef");
+         break;
+      }
    }
 
    if (fitter && model) {
