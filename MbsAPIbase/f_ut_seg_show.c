@@ -52,9 +52,8 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
   INTS4 i, j;
   CHARX c_time[32];
   CHARX c_line[512];
-  CHARX *ps_master[16] = { "CVC", "E6", "E7", "AEB", "CBV", "CVI", "CAV", "RIO2", "PC", "RIO3", "V32C32", "RIO4", "PCx86",
-      "nn", "nn", "nn" };
-
+  CHARX *ps_master[20] = { "CVC"    , "E6"  , "E7"   , "AEB", "CBV", "CVI", "CAV", "RIO2", "PC", "RIO3",
+                             "V32C32", "RIO4", "PCx86",  "IPV", "IFC" ,  "nn",  "nn",   "nn", "MVLC", "nn"};
   sprintf (c_line, "%s", f_ut_time (c_time));
   LOUT
   ;
