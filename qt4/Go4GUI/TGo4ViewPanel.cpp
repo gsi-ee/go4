@@ -852,8 +852,8 @@ void TGo4ViewPanel::SwitchMarkerButton(int kind, bool on)
             SetMouseMode(kMousePickCursor);
             break;
       }
-      int selectedkind;
-      TGo4Slot *selslot = GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
+      int selectedkind = 0;
+      /*TGo4Slot *selslot = */ GetSelectedSlot(GetActivePad(), &selectedkind, nullptr);
       if (selectedkind != kind)
          SetSelectedMarker(GetActivePad(), "", -1);
    }
@@ -1006,7 +1006,7 @@ void TGo4ViewPanel::RefreshButtons()
             if (obj->InheritsFrom(TGo4CondArray::Class())) {
                TGo4CondArray* arr = (TGo4CondArray*) obj;
                for (int ncon = 0; ncon < arr->GetNumber(); ncon++) {
-                  TGo4Condition* sub = arr->At(ncon);
+                  // TGo4Condition* sub = arr->At(ncon);
                   QString fullname(arr->GetName());
                   fullname += "/Sub";
                   fullname += QString::number(ncon);
@@ -2772,7 +2772,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture*
          TGo4Slot *objslot = (TGo4Slot *) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
-         Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
+         // Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
          if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
             histo->SetLineColor(GetAutoColor(n));
@@ -4312,7 +4312,6 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot *padslot)
    QString selname = GetSelectedMarkerName(pad);
    TObject* selectedobj = nullptr;
    const char *selectdrawopt = nullptr;
-   Int_t numtf1 = 0;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot *subslot = padslot->GetChild(n);
 
@@ -5207,7 +5206,7 @@ bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture* padopt,
    double min, max, umin, umax;
 
    bool full = padopt->GetFullRange(naxis, min, max);
-   bool sel = padopt->GetRange(naxis, umin, umax);
+   /*bool sel = */ padopt->GetRange(naxis, umin, umax);
 
    if (!full || (min >= max) || (selmin >= selmax)) {
       padopt->ClearRange(naxis);
@@ -5657,7 +5656,7 @@ TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
 {
    int selkind;
    TObject* selobj;
-   TGo4Slot *selslot = GetSelectedSlot(pad, &selkind, &selobj);
+   /* TGo4Slot *selslot = */ GetSelectedSlot(pad, &selkind, &selobj);
    if ((kind == selkind) && selobj)
       return selobj;
 

@@ -459,9 +459,6 @@ void TGo4Browser::checkVisisbilityFlags(bool showall)
 
 void TGo4Browser::DisplaySelectedItems()
 {
-
-   TGo4BrowserProxy* br = BrowserProxy();
-
    int npads = 0;
 
    {
@@ -487,7 +484,6 @@ void TGo4Browser::DisplaySelectedItems()
         DrawItem(itemname, newpanel, subpad, false);
      }
    newpanel->ShootRepaintTimer();
-//   newpanel->SetActivePad(subpad);
 }
 
 
@@ -520,7 +516,6 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    TGo4BrowserProxy* br = BrowserProxy();
 
    int cando = br->ItemCanDo(fullname.toLatin1().constData());
-   TGo4Slot *itemslot = br->ItemSlot(fullname.toLatin1().constData());
 
    if (go4sett->getDrawOnceFlag()) {
       TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
@@ -538,11 +533,11 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
       if (panel) return;
    }
 
-   if (TGo4BrowserProxy::CanDrawItem(cando))
+   if (TGo4BrowserProxy::CanDrawItem(cando)) {
      DrawItem(fullname, nullptr, nullptr, true);
-   else if (TGo4BrowserProxy::CanEditItem(cando))
+   } else if (TGo4BrowserProxy::CanEditItem(cando)) {
       EditItem(fullname);
-   else if (TGo4BrowserProxy::CanExpandItem(cando)) {
+   } else if (TGo4BrowserProxy::CanExpandItem(cando)) {
       item->setExpanded(true);
       ExpandItem(fullname);
    } else if (TGo4BrowserProxy::CanExecuteItem(cando)) {
@@ -562,7 +557,7 @@ void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 }
 
 
-void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
+void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
 {
    if (ListView->header()->logicalIndexAt(pos) != 0) {
       Header_customContextMenuRequested(pos);
@@ -571,7 +566,6 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    QMenu menu;
 
-   QTreeWidgetItem* item = ListView->itemAt(pos);
    TGo4BrowserProxy* br = BrowserProxy();
    TGo4Slot *memslot = br->BrowserMemorySlot();
    TGo4Slot *analslot = br->FindServerSlot(false, 1);

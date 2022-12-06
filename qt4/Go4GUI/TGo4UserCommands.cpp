@@ -111,7 +111,7 @@ void TGo4UserCommands::AnalysisMacroMonitorTimeout()
       AnalysisMacroMonitorBtn_clicked(); // stop timer in editor mode
       return;
    }
-   for (int i = 0; i < fAnalysisMacroAutoExecute.size(); ++i) {
+   for (unsigned i = 0; i < fAnalysisMacroAutoExecute.size(); ++i) {
       if (fAnalysisMacroAutoExecute[i])
          ExecuteAnalysisMacro(i);
    }
