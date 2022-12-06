@@ -278,7 +278,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter *fitter)
 
       for (Int_t ndata = 0; ndata < fitter->GetNumData(); ndata++) {
          TGo4FitData *data = fitter->GetData(ndata);
-         TGo4FitDataIter *iter = data->MakeIter();
+         auto iter = data->MakeIter();
          if (!iter)
             return kFALSE;
 
@@ -334,7 +334,6 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter *fitter)
                if (Usage[n])
                   fitter->GetModel(n)->AfterEval();
          }
-         delete iter;
       }
 
       if (matr.Determinant() == 0.) {

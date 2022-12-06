@@ -17,27 +17,24 @@
 
 #include "TGo4FitDataHistogram.h"
 
-TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()), fxIter(nullptr) {}
+TGo4FitModelFromData::TGo4FitModelFromData() : TGo4FitModel(), fxData(this, TGo4FitData::Class()) {}
 
 TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TGo4FitData *iDataAsModel, Bool_t Amplitude)
    : TGo4FitModel(iName, "data used as model", Amplitude),
      fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE, iDataAsModel,
-            kTRUE),
-     fxIter(nullptr)
+            kTRUE)
 {
 }
 
 TGo4FitModelFromData::TGo4FitModelFromData(const char *iName, TH1 *histo, Bool_t iOwned, Bool_t Amplitude)
    : TGo4FitModel(iName, "data used as model", Amplitude),
-     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE), fxIter(nullptr)
+     fxData("forModel", "Data, used to represent model component", this, TGo4FitData::Class(), kTRUE)
 {
    SetDataAsModel(new TGo4FitDataHistogram("Histogram", histo, iOwned), kTRUE);
 }
 
 TGo4FitModelFromData::~TGo4FitModelFromData()
 {
-   if (fxIter)
-      delete fxIter;
 }
 
 TGo4FitData *TGo4FitModelFromData::GetDataAsModel() const
@@ -68,10 +65,8 @@ Bool_t TGo4FitModelFromData::Initialize(Int_t UseBuffers)
 
 Bool_t TGo4FitModelFromData::BeforeEval(Int_t)
 {
-   if (fxIter) {
-      delete fxIter;
-      fxIter = nullptr;
-   }
+   fxIter.reset();
+
    if (!GetDataAsModel())
       return kFALSE;
    fxIter = GetDataAsModel()->MakeIter();
@@ -82,24 +77,17 @@ Bool_t TGo4FitModelFromData::BeforeEval(Int_t)
 
 Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitData *data, Int_t nbin, Bool_t UseRanges)
 {
-   if (!data)
-      return 0.;
-   return FindDataPoint(GetDataIndexesSize(data), GetDataFullIndex(data, nbin));
+   return data ? FindDataPoint(GetDataIndexesSize(data), GetDataFullIndex(data, nbin)) : 0.;
 }
 
-Double_t TGo4FitModelFromData::EvaluateAtPoint(TGo4FitDataIter *iter, Bool_t UseRanges)
+Double_t TGo4FitModelFromData::EvaluateAtPoint(std::unique_ptr<TGo4FitDataIter> &iter, Bool_t UseRanges)
 {
-   if (!iter)
-      return 0.;
-   return FindDataPoint(iter->IndexesSize(), iter->Indexes());
+   return iter ? FindDataPoint(iter->IndexesSize(), iter->Indexes()) : 0.;
 }
 
 void TGo4FitModelFromData::AfterEval()
 {
-   if (fxIter) {
-      delete fxIter;
-      fxIter = nullptr;
-   }
+   fxIter.reset();
 }
 
 void TGo4FitModelFromData::FillSlotList(TSeqCollection *list)

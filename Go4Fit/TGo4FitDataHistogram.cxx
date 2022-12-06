@@ -33,9 +33,9 @@ void TGo4FitDataHistogram::SetHistogram(TH1 *iHistogram, Bool_t iHistogramOwned)
    fxHistogram.SetObject(iHistogram, iHistogramOwned);
 }
 
-TGo4FitDataIter *TGo4FitDataHistogram::MakeIter()
+std::unique_ptr<TGo4FitDataIter> TGo4FitDataHistogram::MakeIter()
 {
-   return new TGo4FitDataHistogramIter(this);
+   return std::make_unique<TGo4FitDataHistogramIter>(this);
 }
 
 void TGo4FitDataHistogram::FillSlotList(TSeqCollection *list)

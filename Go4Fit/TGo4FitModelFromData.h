@@ -89,7 +89,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
       void AfterEval() override;
 
       Double_t EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges = kTRUE) override;
-      Double_t EvaluateAtPoint(TGo4FitDataIter* iter, Bool_t UseRanges = kTRUE) override;
+      Double_t EvaluateAtPoint(std::unique_ptr<TGo4FitDataIter> &iter, Bool_t UseRanges = kTRUE) override;
 
    protected:
 
@@ -107,7 +107,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
       TGo4FitSlot fxData;
 
    private:
-     TGo4FitDataIter* fxIter{nullptr};       //!
+     std::unique_ptr<TGo4FitDataIter> fxIter;     //!
 
    ClassDefOverride(TGo4FitModelFromData,1)
 };

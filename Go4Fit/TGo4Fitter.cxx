@@ -612,11 +612,9 @@ Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData *selectdata
                PointFitFunction(FitFunctionType, DataAmpl * values[nbin], res[nbin], DataAmpl * DataAmpl * devs[nbin]);
       } else {
 
-         TGo4FitDataIter *iter = dat->MakeIter();
-         if (!iter->Reset()) {
-            delete iter;
+         auto iter = dat->MakeIter();
+         if (!iter->Reset())
             continue;
-         }
 
          TObjArray Models;
 
@@ -645,8 +643,6 @@ Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData *selectdata
 
          for (Int_t nm = 0; nm <= Models.GetLast(); nm++)
             ((TGo4FitModel *)Models.At(nm))->AfterEval();
-
-         delete iter;
       }
    }
 
@@ -821,15 +817,13 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char *DataName, Bool_t UseRanges, B
    if (!data)
       return kFALSE;
 
-   TGo4FitDataIter *iter = data->MakeIter();
+   auto iter = data->MakeIter();
    if (!iter)
       return kFALSE;
 
    Int_t size = iter->CountPoints(UseRanges);
-   if (size == 0) {
-      delete iter;
+   if (size == 0)
       return kFALSE;
-   }
 
    TObjArray Models;
    if (SubstractModels)
@@ -860,8 +854,6 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char *DataName, Bool_t UseRanges, B
          scales[ppnt] = iter->x();
          ppnt++;
       } while (iter->Next(UseRanges));
-
-   delete iter;
 
    for (Int_t n = 0; n <= Models.GetLast(); n++) {
       TGo4FitModel *model = (TGo4FitModel *)Models[n];
@@ -909,17 +901,11 @@ Double_t TGo4Fitter::CalculatesIntegral(const char *DataName, const char *ModelN
    if (ModelName && !model)
       return 0.;
 
-   TGo4FitDataIter *iter = data->MakeIter();
-   if (!iter)
+   auto iter = data->MakeIter();
+   if (!iter || !iter->Reset(kTRUE))
       return 0.;
 
-   double sum = 0.;
-   double ampl = 1.;
-
-   if (!iter->Reset(kTRUE)) {
-      delete iter;
-      return 0.;
-   }
+   double sum = 0., ampl = 1.;
 
    if (model) {
       model->BeforeEval(iter->ScalesSize());
@@ -934,8 +920,6 @@ Double_t TGo4Fitter::CalculatesIntegral(const char *DataName, const char *ModelN
 
    if (model)
       model->AfterEval();
-
-   delete iter;
 
    return sum;
 }
@@ -986,14 +970,9 @@ TObject *TGo4Fitter::CreateDrawObject(const char *ResName, const char *DataName,
          return nullptr;
    }
 
-   TGo4FitDataIter *iter = data->MakeIter();
-   if (!iter)
+   auto iter = data->MakeIter();
+   if (!iter || !iter->Reset(kFALSE))
       return nullptr;
-
-   if (!iter->Reset(kFALSE)) {
-      delete iter;
-      return nullptr;
-   }
 
    TH1 *histo = nullptr;
    Int_t ndim = 0;
@@ -1049,8 +1028,6 @@ TObject *TGo4Fitter::CreateDrawObject(const char *ResName, const char *DataName,
       }
    }
 
-   delete iter;
-
    if (gr && IsModel)
       for (Int_t n1 = 0; n1 < gr->GetN() - 1; n1++)
          for (Int_t n2 = n1 + 1; n2 < gr->GetN(); n2++)
@@ -1071,17 +1048,12 @@ TObject *TGo4Fitter::CreateDrawObject(const char *ResName, const char *DataName,
    if (res) {
       TString title;
       if (IsModel)
-         if (ModelName) {
-            title = "Draw of model ";
-            title += ModelName;
-         } else {
-            title = "Draw of full model of ";
-            title += DataName;
-         }
-      else {
-         title = "Draw of data ";
-         title += DataName;
-      }
+         if (ModelName)
+            title.Form("Draw of model %s", ModelName);
+         else
+            title.Form("Draw of full model of %s", DataName);
+      else
+         title.Form("Draw of data %s", DataName);
       res->SetTitle(title.Data());
    }
 
