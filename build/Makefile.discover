@@ -219,14 +219,11 @@ ifndef CFG_WITHOUT_QT
   ifdef QTDIR
     QTPATH = $(QTDIR)
     QMAKE  = $(QTPATH)/bin/qmake
-    MOC    = $(QTPATH)/bin/moc
-    QTCXXFLAGS =
+    QTCXXFLAGS = -DQT_SHARED
     ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt version 5."),)
        GO4_QT = 5
-       QTCXXFLAGS += -DQT_SHARED
     else
        GO4_QT = 6
-       QTCXXFLAGS += -DQT_SHARED
     endif
     ifeq ($(GO4_OS),Win32)
       QTCXXFLAGS  += -I$(shell cygpath -w $(QTDIR)/include)
@@ -261,11 +258,6 @@ ifndef CFG_WITHOUT_QT
     else
       QMAKE      = $(QTPATH)/bin/qmake
     endif
-    ifneq ($(wildcard $(QTPATH)/bin/moc-qt5),)
-      MOC      = $(QTPATH)/bin/moc-qt5
-    else
-      MOC      = $(QTPATH)/bin/moc
-    endif
   endif
   ifeq ($(WITHQT), 6)
     GO4_QT     = 6
@@ -275,11 +267,6 @@ ifndef CFG_WITHOUT_QT
       QMAKE      = $(QTPATH)/bin/qmake6
     else
       QMAKE      = $(QTPATH)/bin/qmake-qt6
-    endif
-    ifneq ($(wildcard /usr/lib64/qt6/libexec/moc),)
-      MOC      = /usr/lib64/qt6/libexec/moc
-    else
-      MOC      = $(QTPATH)/bin/moc6
     endif
   endif
 endif
@@ -513,5 +500,4 @@ ifndef CFG_WITHOUT_QT
 	@echo "QTPATH     = $(QTPATH)" >> $@
 	@echo "QTCXXFLAGS = $(QTCXXFLAGS)" >> $@
 	@echo "QMAKE      = $(QMAKE)" >> $@
-	@echo "MOC        = $(MOC)" >> $@
 endif
