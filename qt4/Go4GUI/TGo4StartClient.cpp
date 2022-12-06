@@ -214,16 +214,16 @@ void TGo4StartClient::ServerModeCombo_activated(int id)
 #endif
 
    ExeModeCombo->setEnabled(id < 2);
-   if (id==2) ExeModeCombo->setCurrentIndex(1);
-   bool isserver = (id > 0);
-   qt_selected->setEnabled(id!=1);
-   PortNumber->setEnabled(id==2);
+   if (id == 2)
+      ExeModeCombo->setCurrentIndex(1);
+   // bool isserver = (id > 0);
+   qt_selected->setEnabled(id != 1);
+   PortNumber->setEnabled(id == 2);
    if (id==1) { // if Qt was selected, select Xterm
       if (ClientTermGroup->checkedId()==1)
-        ClientTermGroup->button(2)->setChecked(true);
-   }
-   else { // if Xterm was selected, select Qt
-	  if (ClientTermGroup->checkedId()==2)
-		 ClientTermGroup->button(1)->setChecked(true);
+         ClientTermGroup->button(2)->setChecked(true);
+   } else { // if Xterm was selected, select Qt
+	   if (ClientTermGroup->checkedId()==2)
+		   ClientTermGroup->button(1)->setChecked(true);
    }
 }

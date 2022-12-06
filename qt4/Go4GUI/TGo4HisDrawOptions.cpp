@@ -125,7 +125,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
 
 void TGo4HisDrawOptions::UpdateView(int viewtype, bool webcanvas)
 {
-   int lines=30;
+   int lines = 30;
    ErrorBars->clear();
    DrawOption->clear();
    Coordinates->clear();
@@ -178,7 +178,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype, bool webcanvas)
          DrawOption->addItem( QIcon(""),         "ARR  arrow mode");
          DrawOption->addItem( QIcon(""),         "BOX  boxes");
          DrawOption->addItem( QIcon(""),         "TEXT content");
-         lines=30;
+         lines = 30;
 #ifndef __NOGO4ASI__
          if (!webcanvas) DrawOption->addItem( QIcon(":/icons/asimage.png"), " ASImage");
          DrawOption->addItem( QIcon(""), "");
@@ -290,17 +290,16 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
 {
    if (fbSettingPanelData) return;
 
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
-
-   TPad* pad = panel->GetActivePad();
 
    TString buf;
    const char *drawopt = nullptr;
 
    if ((kind >= 0) && (kind <= 2)) {
       CodeDrawOptions(ErrorBars->currentIndex(), Coordinates->currentIndex(), DrawOption->currentIndex(), buf);
-      if (buf.Length()>0) drawopt = buf.Data();
+      if (buf.Length() > 0)
+         drawopt = buf.Data();
    }
 
    panel->ChangeDrawOption(kind, value, drawopt);
