@@ -114,12 +114,12 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
 
    bool ok = false;
    QString user_name =
-         QInputDialog::getText(0, tr("Authentication required"),
+         QInputDialog::getText(nullptr, tr("Authentication required"),
                               tr("User name:"), QLineEdit::Normal,
                               "", &ok);
    if (!ok) return;
    QString passwd =
-        QInputDialog::getText(0, tr("Authentication required"),
+        QInputDialog::getText(nullptr, tr("Authentication required"),
                               tr("User password:"), QLineEdit::Password,
                               "", &ok);
    if (!ok) return;
@@ -1096,7 +1096,7 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char *objectname, TObject *obj)
 void TGo4HttpProxy::ResetDebugOutputRequests()
 {
    TGo4Slot *subslot = DebugOutputSlot();
-   if (subslot) subslot->AssignObject(0, kFALSE);
+   if (subslot) subslot->AssignObject(nullptr, kFALSE);
 }
 
 void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)

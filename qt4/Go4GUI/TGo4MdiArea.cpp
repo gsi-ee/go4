@@ -136,7 +136,7 @@ void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* p
       case QGo4Widget::panel_Deleted: {
          if (GetSelectedPad())
             if (panel->IsPanelPad(GetSelectedPad()))
-               SetSelectedPad(0);
+               SetSelectedPad(nullptr);
 
          if (fxActivePanel == panel) {
             fxActivePanel = nullptr;

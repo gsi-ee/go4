@@ -92,7 +92,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
 
    fStepNumber = 0;
    fxPanel = nullptr;
-   fStepStatus = 0;
+   fStepStatus = nullptr;
 
    SpinBoxPortNumber->setVisible(false);
    TextLabelPortNumber->setVisible(false);
@@ -111,7 +111,7 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget *parent, const char *name, Qt::WindowFla
    TextLabelTagfile->setVisible(false);
 
    for (int n = 0; n < ParsSize; n++)
-      fPars[n] = 0;
+      fPars[n] = nullptr;
 
    fLastSrcKind = -1;
    fBlocked = 0;
