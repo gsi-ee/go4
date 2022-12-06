@@ -51,7 +51,6 @@ class TXXXStore : public TGo4EventStore {
 
     TFile *fxFile{nullptr}; //! file
     TTree *fxTree{nullptr}; //! tree
-
     TXXXEvent *fxEvent{nullptr}; //! current event
     Bool_t fbBranchExists{kFALSE}; //! indicates if branch was created
 

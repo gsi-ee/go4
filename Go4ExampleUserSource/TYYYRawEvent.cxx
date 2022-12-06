@@ -18,19 +18,13 @@
 #include "TGo4Log.h"
 
 TYYYRawEvent::TYYYRawEvent() :
-   TGo4EventElement(),
-   fiColumns(0),
-   fdData(0),
-   fiAllocated(0)
+   TGo4EventElement()
 {
    // default ctor is for streamer only, avoid heap objects here!
 }
 
 TYYYRawEvent::TYYYRawEvent(const char *name) :
-   TGo4EventElement(name),
-   fiColumns(0),
-   fdData(nullptr),
-   fiAllocated(0)
+   TGo4EventElement(name)
 {
 }
 

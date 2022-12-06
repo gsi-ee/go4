@@ -27,8 +27,7 @@ TYYYEventSource::TYYYEventSource(const char *name,
    TGo4EventSource(name),
    fbIsOpen(kFALSE),
    fxArgs(args),
-   fiPort(port),
-   fxFile(0)
+   fiPort(port)
 {
    Open();
 }
@@ -37,8 +36,7 @@ TYYYEventSource::TYYYEventSource(TGo4UserSourceParameter* par) :
    TGo4EventSource(" "),
    fbIsOpen(kFALSE),
    fxArgs(),
-   fiPort(0),
-   fxFile(0)
+   fiPort(0)
 {
    if(par) {
       SetName(par->GetName());
@@ -54,8 +52,7 @@ TYYYEventSource::TYYYEventSource() :
    TGo4EventSource("default YYY source"),
    fbIsOpen(kFALSE),
    fxArgs(),
-   fiPort(0),
-   fxFile(0)
+   fiPort(0)
 {
 }
 

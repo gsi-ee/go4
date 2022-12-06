@@ -32,11 +32,13 @@ TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
    TGo4Log::Info("TXXXProc: Create instance");
 }
+
 //***********************************************************
 TXXXProc::~TXXXProc()
 {
    TGo4Log::Info("TXXXProc: Delete instance");
 }
+
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
@@ -119,7 +121,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
    }
 
    fPicture = GetPicture("Picture");
-   if (fPicture == 0) {
+   if (!fPicture) {
       fPicture = new TGo4Picture("Picture","Picture example");
       fPicture->SetLinesDivision(3, 2,3,1);
       fPicture->LPic(0,0)->AddObject(fCr1Ch[0]);
@@ -149,7 +151,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
    TXXXEvent* XXXEvent = (TXXXEvent*) target;
 
    TGo4MbsEvent* source = (TGo4MbsEvent*) GetInputEvent();
-   if(source == 0) {
+   if(!source) {
       TGo4Log::Error("TXXXProc: no input event!");
       return kFALSE;
    }

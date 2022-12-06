@@ -22,21 +22,14 @@
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
-   fMbsEvent(0),
-   fCtl(0),
-   fEvents(0),
-   fLastEvent(0)
+   TGo4Analysis()
 {
 }
-//***********************************************************
 
+//***********************************************************
 // this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
-   TGo4Analysis(argc, argv),
-   fMbsEvent(0),
-   fCtl(0),
-   fEvents(0),
-   fLastEvent(0)
+   TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       TGo4Log::Error("Go4 version mismatch");
@@ -106,7 +99,7 @@ Int_t TXXXAnalysis::UserPostLoop()
    // all this is optional:
    TGo4Log::Info("TXXXAnalysis: PostLoop");
    TGo4Log::Info("Last event  #: %d Total events: %d", fLastEvent, fEvents);
-   fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
+   fMbsEvent = nullptr; // reset to avoid invalid pointer if analysis is changed in between
    fEvents = 0;
    return 0;
 }

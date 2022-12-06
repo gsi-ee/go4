@@ -26,22 +26,14 @@
 
 
 TXXXStore::TXXXStore() :
-   TGo4EventStore("User custom store"),
-   fxFile(0),
-   fxTree(0),
-   fxEvent(0),
-   fbBranchExists(kFALSE)
+   TGo4EventStore("User custom store")
 {
    GO4TRACE((15,"TXXXStore::TXXXStore()", __LINE__, __FILE__));
    // public default ctor for streamer
 }
 
 TXXXStore::TXXXStore(TGo4UserStoreParameter *par) :
-   TGo4EventStore("User custom store"),
-   fxFile(0),
-   fxTree(0),
-   fxEvent(0),
-   fbBranchExists(kFALSE)
+   TGo4EventStore("User custom store")
 {
    GO4TRACE((15,"TXXXStore::TXXXStore(TGo4UserStoreParameter* par)", __LINE__, __FILE__));
 
@@ -67,7 +59,7 @@ TXXXStore::~TXXXStore()
    if (fxFile && fxTree) {
       fxFile = fxTree->GetCurrentFile(); // for file split after 1.8 Gb!
       fxFile->cd();
-      fxTree->Write(0, TObject::kOverwrite);
+      fxTree->Write(nullptr, TObject::kOverwrite);
       delete fxFile; // closes File, fxTree is removed from memory then
       fxFile = nullptr;
       fxTree = nullptr;

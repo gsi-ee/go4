@@ -26,12 +26,7 @@
 
 //***********************************************************
 TYYYAnalysis::TYYYAnalysis() :
-   TGo4Analysis(),
-   fRawEvent(0),
-   fUnpackEvent(0),
-   fSize(0),
-   fPar(0),
-   fEvents(0)
+   TGo4Analysis()
 {
    TGo4Log::Error("Wrong constructor TYYYAnalysis()!");
 }
@@ -39,12 +34,7 @@ TYYYAnalysis::TYYYAnalysis() :
 //***********************************************************
 // this constructor is used
 TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
-   TGo4Analysis(argc, argv),
-   fRawEvent(0),
-   fUnpackEvent(0),
-   fSize(0),
-   fPar(0),
-   fEvents(0)
+   TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       TGo4Log::Error("Go4 version mismatch");
@@ -67,7 +57,7 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    TString parname = TString::Format("%sOutput", argv[0]);
    TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(parname.Data());
    store1->SetOverwriteMode(kTRUE);
-   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
+   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack", factory1, source1, store1, nullptr);
 
    step1->SetSourceEnabled(kTRUE);
    step1->SetStoreEnabled(kFALSE);  // disable output
