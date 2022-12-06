@@ -256,7 +256,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
 TXXXUnpackProc::~TXXXUnpackProc()
 {
    TGo4Log::Info("TXXXUnpackProc: Delete");
-   if(fParam->fbHisto){
+   if(fParam->fbHisto) {
       fWinCon1->PrintCondition(true);
       fPolyCon1->PrintCondition(true);
    }
