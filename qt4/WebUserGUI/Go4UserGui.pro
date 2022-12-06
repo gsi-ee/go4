@@ -1,11 +1,15 @@
 TEMPLATE	= lib
 LANGUAGE	= C++
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-  QT += widgets
+QT += widgets
+
+equals(QT_MAJOR_VERSION, 5){
+   QT += webengine webenginewidgets
 }
 
-QT += webengine webenginewidgets
+equals(QT_MAJOR_VERSION, 6) {
+   QT += webenginecore webenginewidgets
+}
 
 CONFIG += qt warn_off thread plugin
 
@@ -25,6 +29,6 @@ DEPENDPATH += $(GO4INCDIR)
 
 SOURCES += QUserPanel.cpp
 
-HEADERS += QUserPanel.h 
+HEADERS += QUserPanel.h
 
 FORMS = QUserPanel.ui
