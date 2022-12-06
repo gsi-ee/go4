@@ -172,7 +172,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char *itemname)
                          QString("Current condition %1 is modified!\nNew condition %2 is selected.").arg(conditemname).arg(itemname));
 
       auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
-      auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+      /*auto btnNew = */ msgBox.addButton("Start with new", QMessageBox::ActionRole);
       msgBox.setDefaultButton(btnContinue);
 
       msgBox.exec();
@@ -785,7 +785,6 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
       RemoveLink("Histogram");
       AddLink(hitemname.Data(), "Histogram");
       DrawItem(conditemname, panel, nullptr, false, 0);
-      TPad *pad = panel->FindPadWithItem(conditemname);
       RefreshWidget(false);
       RedrawCondition();
       panel->setFocus();
