@@ -870,7 +870,7 @@ void TGo4MainWindow::UserPanelSlot()
       if (startUserGUI(gSystem->Getenv("GO4USERGUI"))) return;
 
    // check from standard LD_LIBRARY_PATHS
-   if (startUserGUI(0)) return;
+   if (startUserGUI(nullptr)) return;
 
    TString usergui;
 
@@ -1019,7 +1019,7 @@ void TGo4MainWindow::ForseCloseSlot()
          return;
       }
 
-      if ((box.clickedButton() == cancel_btn) || (box.clickedButton() == 0)) {
+      if ((box.clickedButton() == cancel_btn) || !box.clickedButton()) {
          std::cout << "Keep GUI running, press exit once again" << std::endl;
          return;
       }
@@ -1372,7 +1372,7 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
 void TGo4MainWindow::UpdateCaptionButtons()
 {
    // JAM note this function is called by update timer from TGo4Browser each second
-   TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+   TGo4ServerProxy* root_serv = Browser()->FindServer(nullptr, kFALSE);
    TGo4ServerProxy* go4_serv = Browser()->FindServer();
    TGo4AnalysisProxy* pr = dynamic_cast<TGo4AnalysisProxy*>(go4_serv);
    TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(go4_serv);
@@ -2042,7 +2042,7 @@ void TGo4MainWindow::ConnectServer(bool interactive, const char *password)
        anal->ConnectToServer(go4sett->getClientNode().toLatin1().constData(),
                              go4sett->getClientPort(),
                              go4sett->getClientControllerMode(),
-                             def ? 0 : pass.toLatin1().constData());
+                             def ? nullptr : pass.toLatin1().constData());
      StatusMessage("Connecting running analysis....  Please wait");
 
      // wait about 4 sec that analysis is connected
@@ -2220,7 +2220,7 @@ void TGo4MainWindow::StartAnalysisSlot()
       go4_serv->DelayedRefreshNamesList(4);
       EstablishRatemeter(2);
    } else {
-      TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+      TGo4ServerProxy* root_serv = Browser()->FindServer(nullptr, kFALSE);
       if (root_serv) {
          TString cmd = root_serv->FindCommand("Start");
          if (cmd.Length() > 0) {
@@ -2237,7 +2237,7 @@ void TGo4MainWindow::StopAnalysisSlot()
    if (go4_serv) {
       go4_serv->StopAnalysis();
    } else {
-      TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+      TGo4ServerProxy* root_serv = Browser()->FindServer(nullptr, kFALSE);
       if (root_serv) {
          TString cmd = root_serv->FindCommand("Stop");
          if (cmd.Length()>0) {
@@ -2669,7 +2669,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4View
    } else if (!pad)
       pad = panel->GetActivePad();
 
-   if (!panel->AddDrawObject(pad, TGo4ViewPanel::kind_Link, itemname, 0, false, drawopt)) return nullptr;
+   if (!panel->AddDrawObject(pad, TGo4ViewPanel::kind_Link, itemname, nullptr, false, drawopt)) return nullptr;
 
    if (activate) {
       panel->SetActivePad(pad);
@@ -3013,7 +3013,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
       case QGo4Widget::service_DrawItem: {
          void** res = (void**) par;
-         res[0] = DisplayBrowserItem(str, (TGo4ViewPanel*) res[0], (TPad*) res[1], *((bool*)res[2]), *((int*) res[3]), 0);
+         res[0] = DisplayBrowserItem(str, (TGo4ViewPanel*) res[0], (TPad*) res[1], *((bool*)res[2]), *((int*) res[3]), nullptr);
          break;
       }
 
@@ -3449,7 +3449,7 @@ void TGo4MainWindow::ProcessHotStart()
 
    if (res) {
       QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, &TGo4MainWindow::ProcessHotStart);
-      if (QApplication::overrideCursor() == 0)
+      if (!QApplication::overrideCursor())
         QApplication::setOverrideCursor(Qt::WaitCursor);
    } else {
       exec->FinishExecution();
