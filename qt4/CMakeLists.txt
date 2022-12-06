@@ -387,6 +387,8 @@ target_link_libraries(go4
 
 # target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wsuggest-override>)
 
+target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall>)
+
 install(TARGETS go4 EXPORT ${CMAKE_PROJECT_NAME}Exports
                     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
 
