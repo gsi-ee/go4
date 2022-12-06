@@ -3506,7 +3506,7 @@ void TGo4MainWindow::ProcessQtEvents()
 
 TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char *name)
 {
-   if (!name || (*name == 0)) return nullptr;
+   if (!name || !*name) return nullptr;
 
    TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (FindGo4Widget(name, false));
 
