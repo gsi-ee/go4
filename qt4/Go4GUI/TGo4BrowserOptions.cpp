@@ -81,7 +81,7 @@ void TGo4BrowserOptions::ClearBtn_clicked()
    if (an) {
       an->ClearAllAnalysisObjects();
    } else {
-      TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+      TGo4ServerProxy* root_serv = Browser()->FindServer(nullptr, kFALSE);
       if (root_serv) {
          TString cmd = root_serv->FindCommand("Clear");
          if (cmd.Length()>0) root_serv->SubmitCommand(cmd);
@@ -89,7 +89,6 @@ void TGo4BrowserOptions::ClearBtn_clicked()
    }
    Browser()->UpdateVisibleAnalysisObjects(false);
 }
-
 
 void TGo4BrowserOptions::StartMonitorBtn_clicked()
 {
@@ -111,4 +110,3 @@ void TGo4BrowserOptions::FilterBox_activated(int indx)
 {
    Browser()->SetItemsFilter(indx);
 }
-

@@ -372,20 +372,18 @@ void TGo4MBSViewer::ShowStatus()
    {
       std::cout <<"\n------------------------------------------------" << std::endl;
       if(fbGetStatus)
-         f_ut_seg_show (&fxDaqStat,0,0,0);
+         f_ut_seg_show (&fxDaqStat,nullptr,nullptr,nullptr);
       if(fbGetSetup)
-         f_ut_seg_show (0,&fxSetup,0,0);
+         f_ut_seg_show (nullptr,&fxSetup,nullptr,nullptr);
       else if(fbGetSetML)
-         f_ut_seg_show (0,0,&fxSetupML,0);
+         f_ut_seg_show (nullptr,nullptr,&fxSetupML,nullptr);
       else if(fbGetSetMO)
-         f_ut_seg_show (0,0,0,&fxSetupMO);
+         f_ut_seg_show (nullptr,nullptr,nullptr,&fxSetupMO);
    }
-
 }
 
 void TGo4MBSViewer::StateGroup_clicked( int id)
 {
-
    // JAM23-11-2022: do the old complicated attempt a bit better:
    fbGetStatus=StatusRadio->isChecked();
    fbGetSetup=SetupRadio->isChecked();

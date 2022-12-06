@@ -139,7 +139,7 @@ void TGo4HisDrawOptionsShort::ChangeColor(int kind)
    if (!panel) return;
 
    TPad* pad = panel->GetActivePad();
-   TObject *obj = panel->GetSelectedObject(pad, 0);
+   TObject *obj = panel->GetSelectedObject(pad, nullptr);
 
    Color_t icol = 0;
 

@@ -980,8 +980,8 @@ void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
          pcond->SetValues(cut);
       } else {
          if (npoint == 0) {
-            pcond->SetValues(0);
-            cut = 0;
+            pcond->SetValues(nullptr);
+            cut = nullptr;
          } else {
             int old = cut->GetN();
             Double_t x = 0., y = 0.;
