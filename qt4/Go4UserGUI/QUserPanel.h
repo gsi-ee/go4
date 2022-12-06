@@ -27,10 +27,10 @@ public:
    QUserPanel(QWidget *parent = nullptr, const char *name = nullptr);
    virtual ~QUserPanel();
    virtual QString kindString(int kind);
-   virtual bool IsAcceptDrag(const char *itemname, TClass *cl, int kind);
-   virtual void DropItem(const char *itemname, TClass *cl, int kind);
-   virtual void linkedObjectUpdated(const char *linkname, TObject *obj);
-   virtual void linkedObjectRemoved(const char *linkname);
+   bool IsAcceptDrag(const char *itemname, TClass *cl, int kind) override;
+   void DropItem(const char *itemname, TClass *cl, int kind) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
+   void linkedObjectRemoved(const char *linkname) override;
    virtual void PrintObject(TObject *obj);
    virtual void DrawObjectOnCanvas(const char *itemname);
 
