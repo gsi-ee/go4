@@ -38,7 +38,6 @@ class QGo4BrowserTreeWidget : public QTreeWidget {
 
       void RequestDragObject(QDrag**);
       void ItemDropProcess(void*, void*);
-
 };
 
 #endif

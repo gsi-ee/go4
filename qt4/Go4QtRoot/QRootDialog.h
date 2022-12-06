@@ -57,7 +57,7 @@ class QRootDialog: public QDialog {
       QString getArg(int n);
 
    protected:
-      QVBoxLayout *argLayout;
+      QVBoxLayout *argLayout{nullptr};
 
       QVector<QLineEdit*> fArgs;
 };

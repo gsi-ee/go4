@@ -206,7 +206,6 @@ private:
       void ShootCloseWidget(bool closeparent = false);
 
       bool IsUpdateBlocked() const { return fBlockUpdate; }
-
 };
 
 #endif

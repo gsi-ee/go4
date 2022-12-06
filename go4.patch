@@ -1,0 +1,100 @@
+diff --git a/qt4/Go4FitGUI/QFitLinearTransWidget.h b/qt4/Go4FitGUI/QFitLinearTransWidget.h
+index d9f7ed15..915c1d1b 100644
+--- a/qt4/Go4FitGUI/QFitLinearTransWidget.h
++++ b/qt4/Go4FitGUI/QFitLinearTransWidget.h
+@@ -35,13 +35,3 @@ public slots:
+  };
+ 
+ #endif
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+diff --git a/qt4/Go4FitGUI/QFitMatrixTransWidget.h b/qt4/Go4FitGUI/QFitMatrixTransWidget.h
+index 8077154f..ce1e8275 100644
+--- a/qt4/Go4FitGUI/QFitMatrixTransWidget.h
++++ b/qt4/Go4FitGUI/QFitMatrixTransWidget.h
+@@ -20,7 +20,7 @@
+ class TGo4FitMatrixTrans;
+ 
+ class QFitMatrixTransWidget : public QFitNamedWidget, public Ui::QFitMatrixTransWidget
+- {
++{
+      Q_OBJECT
+ 
+ 
+diff --git a/qt4/Go4FitGUI/QFitMinuitResWidget.h b/qt4/Go4FitGUI/QFitMinuitResWidget.h
+index ccfedf6e..9321de37 100644
+--- a/qt4/Go4FitGUI/QFitMinuitResWidget.h
++++ b/qt4/Go4FitGUI/QFitMinuitResWidget.h
+@@ -31,12 +31,4 @@ public slots:
+     virtual TGo4FitMinuitResult * GetResult();
+ };
+ 
+-#endif // QFITMINUITRESWIDGET_H
+-
+-
+-
+-
+-
+-
+-
+-
++#endif
+diff --git a/qt4/Go4FitGUI/QFitModelFunctionWidget.h b/qt4/Go4FitGUI/QFitModelFunctionWidget.h
+index a1d7271a..a0522492 100644
+--- a/qt4/Go4FitGUI/QFitModelFunctionWidget.h
++++ b/qt4/Go4FitGUI/QFitModelFunctionWidget.h
+@@ -20,7 +20,7 @@
+ class TGo4FitModelFunction;
+ 
+ class QFitModelFunctionWidget : public QFitModelWidget, public Ui::QFitModelFunctionWidget
+- {
++{
+     Q_OBJECT
+ 
+ public:
+diff --git a/qt4/Go4FitGUI/QFitParCfgWidget.h b/qt4/Go4FitGUI/QFitParCfgWidget.h
+index dfeff86b..55920062 100644
+--- a/qt4/Go4FitGUI/QFitParCfgWidget.h
++++ b/qt4/Go4FitGUI/QFitParCfgWidget.h
+@@ -21,7 +21,6 @@ class TGo4FitParameter;
+ 
+ class QFitParCfgWidget : public QFitWidget, public Ui::QFitParCfgWidget
+ {
+-
+     Q_OBJECT
+ 
+ public:
+diff --git a/qt4/Go4FitGUI/QFitPeakFinderWidget.h b/qt4/Go4FitGUI/QFitPeakFinderWidget.h
+index 9ad5a1d8..e1db44f4 100644
+--- a/qt4/Go4FitGUI/QFitPeakFinderWidget.h
++++ b/qt4/Go4FitGUI/QFitPeakFinderWidget.h
+@@ -20,7 +20,7 @@
+ class TGo4FitPeakFinder;
+ 
+ class QFitPeakFinderWidget : public QFitNamedWidget, public Ui::QFitPeakFinderWidget
+- {
++{
+     Q_OBJECT
+ 
+ public:
+diff --git a/qt4/Go4QtRoot/QRootDialog.h b/qt4/Go4QtRoot/QRootDialog.h
+index 297cd6b9..059c1c19 100644
+--- a/qt4/Go4QtRoot/QRootDialog.h
++++ b/qt4/Go4QtRoot/QRootDialog.h
+@@ -57,7 +57,7 @@ class QRootDialog: public QDialog {
+       QString getArg(int n);
+ 
+    protected:
+-      QVBoxLayout *argLayout;
++      QVBoxLayout *argLayout{nullptr};
+ 
+       QVector<QLineEdit*> fArgs;
+ };
