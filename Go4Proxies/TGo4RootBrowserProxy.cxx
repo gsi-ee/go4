@@ -212,7 +212,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       const char *classname = TGo4BrowserProxy::ItemClassName(curslot);
       const char *iteminfo = TGo4BrowserProxy::ItemInfo(curslot);
       Int_t itemkind = TGo4BrowserProxy::ItemKind(curslot);
-      TClass* itemclass = nullptr;
+      TClass *itemclass = nullptr;
 
       if (classname && !testedClasses.FindObject(classname)) {
          itemclass = gROOT->GetClass(classname);

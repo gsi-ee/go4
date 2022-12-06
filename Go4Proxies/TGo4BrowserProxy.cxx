@@ -1387,12 +1387,12 @@ Int_t TGo4BrowserProxy::GetCalcSize(TGo4Slot *slot)
    return size;
 }
 
-TClass* TGo4BrowserProxy::ItemClass(TGo4Slot *slot)
+TClass *TGo4BrowserProxy::ItemClass(TGo4Slot *slot)
 {
    return TGo4Proxy::GetClass(ItemClassName(slot));
 }
 
-TClass* TGo4BrowserProxy::ItemClass(const char *name)
+TClass *TGo4BrowserProxy::ItemClass(const char *name)
 {
    return ItemClass(ItemSlot(name));
 }

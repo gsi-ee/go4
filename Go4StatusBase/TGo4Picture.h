@@ -222,7 +222,7 @@ class TGo4Picture : public TNamed {
       void Reset() {}
 
       // move content from source picture
-      void UpdateFrom(TGo4Picture* source, TClass* selectedobjclass = nullptr);
+      void UpdateFrom(TGo4Picture* source, TClass *selectedobjclass = nullptr);
       void CopyOptionsFrom(TGo4Picture* source);
 
       Int_t GetNumObjNames();

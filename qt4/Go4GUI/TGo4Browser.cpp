@@ -370,7 +370,7 @@ void TGo4Browser::updateListViewItems()
 
       const char *classname = br->ItemClassName(curslot);
       Int_t itemkind = br->ItemKind(curslot);
-      TClass* itemclass = nullptr;
+      TClass *itemclass = nullptr;
 
       if (classname && (strlen(classname) > 0) && (testedClasses.FindObject(classname) == nullptr)) {
 

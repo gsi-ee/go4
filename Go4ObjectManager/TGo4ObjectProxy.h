@@ -21,7 +21,7 @@ class TGo4ObjectAccess : public TGo4Access {
       TGo4ObjectAccess(TObject *obj);
       Bool_t CanGetObject() const override;
       Bool_t GetObject(TObject* &obj, Bool_t &owner) const override;
-      TClass* GetObjectClass() const override;
+      TClass *GetObjectClass() const override;
       const char *GetObjectName() const override;
       const char *GetObjectClassName() const override;
 

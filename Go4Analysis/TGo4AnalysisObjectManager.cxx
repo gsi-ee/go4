@@ -463,7 +463,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
       if(!baseclass) continue;
 
       // we have a baseclass
-      TClass* bclass=baseclass->GetClassPointer();
+      TClass *bclass = baseclass->GetClassPointer();
       if(!bclass) continue;
 
       if(!strcmp(bclass->GetName(),"TNamed")) continue; // suppress bases above
@@ -515,7 +515,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
          }
    }
 
-   TFolder* memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
+   TFolder *memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
    fxTempFolder->Remove(memberfolder);
    memberfolder->SetOwner(kTRUE);
    return memberfolder;

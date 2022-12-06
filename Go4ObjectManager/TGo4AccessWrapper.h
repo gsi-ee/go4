@@ -31,10 +31,10 @@ class TGo4AccessWrapper {
          return res;
       }
 
-      TClass* GetObjectClass(const char *name = nullptr)
+      TClass *GetObjectClass(const char *name = nullptr)
       {
          TGo4Access* proxy = ProvideAccess(name);
-         TClass* res = proxy ? proxy->GetObjectClass() : nullptr;
+         TClass *res = proxy ? proxy->GetObjectClass() : nullptr;
          delete proxy;
          return res;
       }

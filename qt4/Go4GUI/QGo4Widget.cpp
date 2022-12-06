@@ -285,7 +285,7 @@ void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass *cl)
 }
 
 // this function should be reimplemented in editor that asks to create object
-void QGo4Widget::requestedObjectCreated(const char */* itemname */, TClass* /* cl */)
+void QGo4Widget::requestedObjectCreated(const char * /* itemname */, TClass * /* cl */)
 {
 }
 
@@ -304,7 +304,7 @@ TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 
 TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel)
 {
-   void* res[4];
+   void *res[4];
    res[0] = panel;
    res[1] = pad;
    res[2] = &activate;

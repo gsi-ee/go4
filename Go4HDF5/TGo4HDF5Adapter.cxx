@@ -54,8 +54,9 @@ size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
    return rev;
 }
 
-void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char *name, const char *type, size_t size,
-    size_t memberoffset, const char *membername, const char *classname, TClass* valueclass)
+void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle *handle, const char *name, const char *type, size_t size,
+                                   size_t memberoffset, const char *membername, const char *classname,
+                                   TClass *valueclass)
 {
    TGo4HDF5DataHandle *subhandle = handle->AddSubMember(name, size, type);
    subhandle->SetParentOffset(memberoffset);
@@ -74,7 +75,7 @@ void TGo4HDF5Adapter::AddSubHandle(TGo4HDF5DataHandle* handle, const char *name,
    }
 }
 
-void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass, const char *basename)
+void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle *handle, TClass *rootclass, const char *basename)
 {
    if (!handle || !rootclass)
       return;
@@ -144,7 +145,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
       // hsize_t maxindex1 = 1, maxindex2 = 1;
       //  H5::DataType theType;
       // do not edit IsA info
-      if (strstr(memtypename, "TClass")) // handles TClass* and atomic_TClass_ptr of ROOT6
+      if (strstr(memtypename, "TClass")) // handles TClass * and atomic_TClass_ptr of ROOT6
          continue;
       if (strstr(membername, "fgIsA")) // paranoidly redundant, never come here
          continue;
@@ -254,7 +255,6 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
    }
 }
 
-
  void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle,
        const char *membername, const char *memtypename, size_t memberoffset,
        Int_t arraydim, TDataMember* member)
@@ -360,13 +360,12 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle, TClass* rootclass
 
 void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent, Int_t index)
 {
-  TClass* evclass=event->Class();
-  if(!evclass)
-    {
-      TGo4Log::Error("TGo4HDF5Adapter::BuildDataType can not find an event class\n");
-      return;
-    }
-  TClass* actualclass=evclass->GetActualClass(event);
+  TClass *evclass = event->Class();
+  if (!evclass) {
+     TGo4Log::Error("TGo4HDF5Adapter::BuildDataType can not find an event class\n");
+     return;
+  }
+  TClass *actualclass = evclass->GetActualClass(event);
   TString actualclassname= actualclass->GetName();
   size_t eventsize=ScanEventSize(event);
   TGo4HDF5DataHandle* theHandle = nullptr;
