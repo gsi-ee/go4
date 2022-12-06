@@ -206,13 +206,8 @@ endif
 endif
 
 ifndef CFG_WITHOUT_QT
-  ifeq ($(WITHQT),3)
-    ifneq ($(shell pkg-config --exists qt-mt --print-errors),)
-      CFG_WITHOUT_QT = true
-    endif
-  else
-  ifeq ($(WITHQT),4)
-    ifneq ($(shell pkg-config --exists QtCore --print-errors),)
+  ifeq ($(WITHQT),6)
+    ifneq ($(shell pkg-config --exists Qt6Core --print-errors),)
       CFG_WITHOUT_QT = true
     endif
   else
@@ -227,18 +222,12 @@ ifndef CFG_WITHOUT_QT
     UIC    = $(QTPATH)/bin/uic
     MOC    = $(QTPATH)/bin/moc
     QTCXXFLAGS =
-    ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt 3."),)
-       GO4_QT = 3
-       QTCXXFLAGS += -DQT_SHARED -DQT_THREAD_SUPPORT -D_REENTRANT
-    else
     ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt version 5."),)
        GO4_QT = 5
        QTCXXFLAGS += -DQT_SHARED
     else
-       GO4_QT = 4
+       GO4_QT = 6
        QTCXXFLAGS += -DQT_SHARED
-       GO4_WEB :=
-    endif
     endif
     ifeq ($(GO4_OS),Win32)
       QTCXXFLAGS  += -I$(shell cygpath -w $(QTDIR)/include)
@@ -251,15 +240,10 @@ ifndef CFG_WITHOUT_QT
   ifeq ($(shell pkg-config --exists Qt5Core Qt5Network --print-errors),)
     WITHQT = 5
   else
-  ifeq ($(shell pkg-config --exists QtCore --print-errors),)
-    WITHQT = 4
-  else
-  ifeq ($(shell pkg-config --exists qt-mt --print-errors),)
-    WITHQT = 3
+  ifeq ($(shell pkg-config --exists Qt6Core --print-errors),)
+    WITHQT = 6
   else
     CFG_WITHOUT_QT = true
-  endif
-  endif
   endif
   endif
   endif
@@ -269,53 +253,6 @@ ifndef CFG_WITHOUT_QT
 endif
 
 ifndef CFG_WITHOUT_QT
-  ifeq ($(WITHQT), 3)
-    GO4_QT     = 3
-    QTPATH     = $(shell pkg-config --variable=prefix qt-mt)
-    QTCXXFLAGS = $(shell pkg-config --cflags qt-mt)
-    ifneq ($(wildcard $(QTPATH)/bin/qmake-qt3),)
-      QMAKE      = $(QTPATH)/bin/qmake-qt3
-    else
-      QMAKE      = $(QTPATH)/bin/qmake
-    endif
-    ifneq ($(wildcard $(QTPATH)/bin/uic-qt3),)
-      UIC      = $(QTPATH)/bin/uic-qt3
-    else
-      UIC      = $(QTPATH)/bin/uic
-    endif
-    ifneq ($(wildcard $(QTPATH)/bin/moc-qt3),)
-      MOC      = $(QTPATH)/bin/moc-qt3
-    else
-      MOC      = $(QTPATH)/bin/moc
-    endif
-  endif
-  ifeq ($(WITHQT), 4)
-    GO4_QT     = 4
-    QTPATH     = $(shell pkg-config --variable=prefix QtCore)
-    QTCXXFLAGS = $(shell pkg-config --cflags QtCore)
-    GO4_WEB :=
-    ifneq ($(wildcard $(QTPATH)/bin/qmake-qt4),)
-      QMAKE      = $(QTPATH)/bin/qmake-qt4
-    else
-      QMAKE      = $(QTPATH)/bin/qmake
-    endif
-    UIC        = $(shell pkg-config --variable=uic_location QtCore)
-    ifeq ($(UIC),)
-      ifneq ($(wildcard $(QTPATH)/bin/uic-qt4),)
-        UIC      = $(QTPATH)/bin/uic-qt4
-      else
-        UIC      = $(QTPATH)/bin/uic
-      endif
-    endif
-    MOC        = $(shell pkg-config --variable=moc_location QtCore)
-    ifeq ($(MOC),)
-      ifneq ($(wildcard $(QTPATH)/bin/moc-qt4),)
-        MOC      = $(QTPATH)/bin/moc-qt4
-      else
-        MOC      = $(QTPATH)/bin/moc
-      endif
-    endif
-  endif
   ifeq ($(WITHQT), 5)
     GO4_QT     = 5
     QTPATH     = $(shell pkg-config --variable=prefix Qt5Core)
@@ -334,6 +271,26 @@ ifndef CFG_WITHOUT_QT
       MOC      = $(QTPATH)/bin/moc-qt5
     else
       MOC      = $(QTPATH)/bin/moc
+    endif
+  endif
+  ifeq ($(WITHQT), 6)
+    GO4_QT     = 6
+    QTPATH     = $(shell pkg-config --variable=prefix Qt6Core)
+    QTCXXFLAGS = $(shell pkg-config --cflags Qt6Core)
+    ifneq ($(wildcard $(QTPATH)/bin/qmake6),)
+      QMAKE      = $(QTPATH)/bin/qmake6
+    else
+      QMAKE      = $(QTPATH)/bin/qmake-qt6
+    endif
+    ifneq ($(wildcard /usr/lib64/qt6/libexec/uic),)
+      UIC      = /usr/lib64/qt6/libexec/uic
+    else
+      UIC      = $(QTPATH)/bin/uic6
+    endif
+    ifneq ($(wildcard /usr/lib64/qt6/libexec/moc),)
+      MOC      = /usr/lib64/qt6/libexec/moc
+    else
+      MOC      = $(QTPATH)/bin/moc6
     endif
   endif
 endif
