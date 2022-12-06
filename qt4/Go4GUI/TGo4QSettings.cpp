@@ -653,7 +653,7 @@ void TGo4QSettings::storeMainWindowState(QMainWindow* src)
    sett->setValue("/MainWindow/Geometry", src->saveGeometry());
 }
 
-void TGo4QSettings::storePanelSize(QWidget* w, const QString& kind)
+void TGo4QSettings::storePanelSize(QWidget *w, const QString& kind)
 {
    setInt(QString("/") + kind + QString("/Width"), w->width());
    setInt(QString("/") + kind + QString("/Height"), w->height());

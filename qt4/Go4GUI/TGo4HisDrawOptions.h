@@ -33,7 +33,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
           view_Graph = 4,
           view_Polar = 5 };
 
-    TGo4HisDrawOptions( QWidget* parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
+    TGo4HisDrawOptions( QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags fl = Qt::Widget );
 
     virtual void ChangeDrawOptionForCurrentPanel(int kind, int value);
     virtual void DecodeDrawOption(const char *drawopt,

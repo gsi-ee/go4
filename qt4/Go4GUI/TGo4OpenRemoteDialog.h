@@ -23,7 +23,7 @@ class TGo4OpenRemoteDialog : public QDialog, public Ui::TGo4OpenRemoteDialog
 
  public:
 
-   TGo4OpenRemoteDialog(QWidget* parent = nullptr);
+   TGo4OpenRemoteDialog(QWidget *parent = nullptr);
    virtual ~TGo4OpenRemoteDialog();
 
    const QString& GetFileName();

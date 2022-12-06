@@ -19,7 +19,7 @@
 
 #include "TGo4FitPanel.h"
 
-QFitModelWidget::QFitModelWidget( QWidget* parent,  const char *name )
+QFitModelWidget::QFitModelWidget( QWidget *parent,  const char *name )
     : QFitNamedWidget( parent, name )
 {
     if (!name) setObjectName( "QFitModelWidget" );

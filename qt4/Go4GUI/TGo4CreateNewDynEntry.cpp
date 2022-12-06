@@ -16,7 +16,7 @@
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4HistogramEntry.h"
 
-TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget* parent )
+TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget *parent )
     : QDialog( parent)
 {
    setObjectName("Go4CreateNewDynEntry");

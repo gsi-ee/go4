@@ -24,7 +24,7 @@ class QFitAmplEstimWidget : public QFitNamedWidget, public Ui::QFitAmplEstimWidg
      Q_OBJECT
 
  public:
-    QFitAmplEstimWidget( QWidget* parent = nullptr, const char *name = nullptr);
+    QFitAmplEstimWidget( QWidget *parent = nullptr, const char *name = nullptr);
 
     void FillSpecificData() override;
 

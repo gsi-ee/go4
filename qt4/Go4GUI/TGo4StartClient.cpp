@@ -20,7 +20,7 @@
 
 #include "TGo4QSettings.h"
 
-TGo4StartClient::TGo4StartClient( QWidget* parent )
+TGo4StartClient::TGo4StartClient( QWidget *parent )
     : QDialog( parent )
 {
    setupUi(this);

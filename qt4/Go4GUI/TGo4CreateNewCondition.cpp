@@ -18,7 +18,7 @@
 #include "TGo4ShapedCond.h"
 #include "TGo4CondArray.h"
 
-TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
+TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget *parent)
          : QDialog( parent )
 
 {

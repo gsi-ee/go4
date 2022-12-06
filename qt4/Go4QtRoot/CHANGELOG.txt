@@ -224,7 +224,7 @@ QtROOT code :
           - new TQRootCanvas contructor:
 
            >TQRootCanvas::TQRootCanvas(
-           >QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c = nullptr)
+           >QWidget *parent, QWidget *tabWin, const char *name, TCanvas *c = nullptr)
 
             i.e for the case the user wants to embedd a ROOT Canvas in
             a Qt QTabWidget it is necessary to have the TQRootCanvas
@@ -234,7 +234,7 @@ QtROOT code :
 
            - new constructor for  TQCanvasMenu
 
-           >TQCanvasMenu(QWidget* parent, QWidget *tabWin, TCanvas *canvas)
+           >TQCanvasMenu(QWidget *parent, QWidget *tabWin, TCanvas *canvas)
 
              it's here also necessary to keep track of parent QWidget in
              TQCanvasMenu and to forward it to TQRootDialog

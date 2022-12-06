@@ -23,7 +23,7 @@ class TGo4UserCommandsDialog : public QDialog, public Ui::TGo4UserCommandsDialog
 
 public:
 
-    TGo4UserCommandsDialog(QWidget* parent = nullptr);
+    TGo4UserCommandsDialog(QWidget *parent = nullptr);
 
     /** read command for index id*/
     QString GetCommand(int id);

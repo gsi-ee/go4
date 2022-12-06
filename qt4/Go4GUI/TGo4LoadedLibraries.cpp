@@ -21,7 +21,7 @@
 #include "TInterpreter.h"
 #include "TObjArray.h"
 
-TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent )
+TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4LoadedLibraries");

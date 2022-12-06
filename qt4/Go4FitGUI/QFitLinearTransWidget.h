@@ -24,7 +24,7 @@ class QFitLinearTransWidget : public QFitNamedWidget, public Ui::QFitLinearTrans
      Q_OBJECT
 
 public:
-    QFitLinearTransWidget( QWidget* parent = nullptr, const char *name = nullptr);
+    QFitLinearTransWidget( QWidget *parent = nullptr, const char *name = nullptr);
 
     void FillSpecificData() override;
 

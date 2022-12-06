@@ -18,7 +18,7 @@
 
 #include "TGo4QSettings.h"
 
-TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget* parent ) :
+TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget *parent ) :
    QDialog( parent )
 {
    //setObjectName(name);

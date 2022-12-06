@@ -104,7 +104,7 @@ void TGo4AnalysisConfiguration::ResetWidget()
 {
    QGo4Widget::ResetWidget();
 
-   QWidget* w = nullptr;
+   QWidget *w = nullptr;
    do {
      w = TabSteps->currentWidget();
      if (w) {
@@ -126,7 +126,7 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 
    fbTypingMode = false;
 
-   QWidget* w = nullptr;
+   QWidget *w = nullptr;
    do {
      w = TabSteps->currentWidget();
      if (w) {
@@ -381,7 +381,7 @@ void TGo4AnalysisConfiguration::DisplayMbsMonitor(const QString& mbsname )
 void TGo4AnalysisConfiguration::closeEvent(QCloseEvent* e)
 {
   e->ignore(); // destroying this would mix up the upper level management
-  QWidget* mdi = parentWidget();
+  QWidget *mdi = parentWidget();
   if (mdi)
      mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
 }

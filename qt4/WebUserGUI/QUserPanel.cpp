@@ -35,11 +35,11 @@
 extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
 {
 
-   return new QUserPanel((QWidget*) parent);
+   return new QUserPanel((QWidget *) parent);
 
 //  Use this code to hide main go4 window and show only user gui
 
-//  QWidget* w = (QWidget*) parent;
+//  QWidget *w = (QWidget *) parent;
 //  w->parentWidget()->hide();
 //   return new QUserPanel(0);
 
@@ -51,7 +51,7 @@ extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
  *  Constructs a QUserPanel which is a child of 'parent', with the
  *  name 'name'.'
  */
-QUserPanel::QUserPanel( QWidget* parent,  const char *name ) :
+QUserPanel::QUserPanel( QWidget *parent,  const char *name ) :
    QGo4Widget( parent, name )
 {
    setupUi(this);

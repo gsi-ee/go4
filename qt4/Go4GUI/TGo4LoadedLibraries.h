@@ -22,7 +22,7 @@ class TGo4LoadedLibraries : public QDialog, public Ui::TGo4LoadedLibraries
     Q_OBJECT
 
 public:
-    TGo4LoadedLibraries(QWidget* parent = nullptr);
+    TGo4LoadedLibraries(QWidget *parent = nullptr);
 
 public slots:
    virtual void LoadNewLibrary();

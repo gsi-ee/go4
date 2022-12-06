@@ -24,7 +24,7 @@ class QFitDependencyWidget : public QFitWidget, public Ui::QFitDependencyWidget
      Q_OBJECT
 
 public:
-    QFitDependencyWidget(QWidget* parent = nullptr, const char *name = nullptr);
+    QFitDependencyWidget(QWidget *parent = nullptr, const char *name = nullptr);
     void FillSpecificData() override;
 
 public slots:

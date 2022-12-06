@@ -14,7 +14,7 @@
 #include "TGo4PrintWidget.h"
 #include "TGo4QSettings.h"
 
-TGo4PrintWidget::TGo4PrintWidget( QWidget* parent )
+TGo4PrintWidget::TGo4PrintWidget( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4PrintWidget");

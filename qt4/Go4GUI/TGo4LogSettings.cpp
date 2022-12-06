@@ -15,7 +15,7 @@
 #include <QFileDialog>
 #include "TGo4Log.h"
 
-TGo4LogSettings::TGo4LogSettings( QWidget* parent )
+TGo4LogSettings::TGo4LogSettings( QWidget *parent )
     : QDialog( parent )
 {
    setObjectName("Go4LogSettings");

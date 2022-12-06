@@ -18,7 +18,7 @@
 #include "QGo4LineEdit.h"
 #include "TGo4FitPanel.h"
 
-QFitNamedWidget::QFitNamedWidget( QWidget* parent,  const char *name )
+QFitNamedWidget::QFitNamedWidget( QWidget *parent,  const char *name )
     : QFitWidget(parent, name )
 {
     if (!name) setObjectName( "QFitNamedWidget" );
