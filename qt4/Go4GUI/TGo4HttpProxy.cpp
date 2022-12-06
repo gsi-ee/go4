@@ -646,7 +646,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char *name, XMLNodePointer_t curr
    bool doagain = false;
 
    do {
-      int len = !slash ? strlen(name) : (slash - name);
+      size_t len = !slash ? strlen(name) : (slash - name);
 
       XMLNodePointer_t chld = fXML->GetChild(curr);
       while (chld) {
@@ -1130,14 +1130,14 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
       for (int n = 0; n < 3; n++) {
          unsigned char *ptr = (unsigned char *)res.data() + pos;
-         unsigned len =  ((unsigned) ptr[0]) |
+         unsigned len = ((unsigned) ptr[0]) |
                         (((unsigned) ptr[1]) << 8) |
                         (((unsigned) ptr[2]) << 16) |
                         (((unsigned) ptr[3]) << 24);
 
          ptr += 4;
          pos += 4 + len;
-         if (len > res.size()) {
+         if (len > (unsigned) res.size()) {
             printf("Error decoding multi.bin buffer\n");
             return;
          }
