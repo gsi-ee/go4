@@ -211,18 +211,36 @@ endif(gui)
 
 # ================== Go4 examples =================
 
+ExternalProject_Add(Go4FitExample
+                    DEPENDS Go4Fit
+                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4FitExample
+                    BINARY_DIR Go4FitExample
+                    INSTALL_COMMAND "")
+
+ExternalProject_Add(Go4ThreadManagerExample
+                    DEPENDS Go4ThreadManager
+                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4ThreadManagerExample
+                    BINARY_DIR Go4ThreadManagerExample
+                    INSTALL_COMMAND "")
+
+ExternalProject_Add(Go4TaskHandlerExample
+                    DEPENDS Go4TaskHandler
+                    CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                    SOURCE_DIR ${CMAKE_SOURCE_DIR}/Go4TaskHandlerExample
+                    BINARY_DIR Go4TaskHandlerExample
+                    INSTALL_COMMAND "")
+
 list(APPEND examples
-   Go4FitExample
-   Go4ThreadManagerExample
-   Go4TaskHandlerExample
-   Go4EventServerExample
+   Go4ExampleSimple
    Go4Example1Step
    Go4Example2Step
    Go4ExampleAdvanced
-   Go4ExampleMesh
-   Go4ExampleSimple
    Go4ExampleUserSource
    Go4ExampleUserStore
+   Go4ExampleMesh
+   Go4EventServerExample
 )
 
 if(DABC_FOUND)
@@ -231,7 +249,7 @@ endif()
 
 foreach(ex ${examples})
    ExternalProject_Add(${ex}
-                       DEPENDS Go4Analysis
+                       DEPENDS Go4Analysis Go4AnalBase Go4Fit
                        CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
                        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
                        BINARY_DIR ${ex}
@@ -349,7 +367,6 @@ if(MSVC)
                  ${CMAKE_SOURCE_DIR}/Go4ExampleSimple/TXXXProc.h
                  ${CMAKE_SOURCE_DIR}/Go4ExampleSimple/TXXXParam.h
                  DESTINATION ${GO4_INSTALL_MAINDIR}/test COMPONENT tests)
-
 
 endif()
 
