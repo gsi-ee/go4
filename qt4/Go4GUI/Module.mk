@@ -32,21 +32,29 @@ GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4QtRoot/QRootCanvas.cpp ../Go4QtRoot/QRoo
 endif
 
 ifdef GO4_WEB
-GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h"
-GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp"
-GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets"
-ifeq ($(GO4_OS),Win32)
-GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
-                               $(shell cygpath -w $(ROOTSYS)/lib/libROOTWebDisplay.lib) \
-                               $(shell cygpath -w $(ROOTSYS)/lib/libROOTQt5WebDisplay.lib) \
-                               $(shell cygpath -w $(ROOTSYS)/lib/libWebGui6.lib)"
-else
-GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6"
-endif
+  GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/QWebCanvas.h"
+  GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/QWebCanvas.cpp"
+  ifeq ($(GO4_QT),6)
+    GO4GUI4_QMAKEFLAGS += "QT += webenginecore webenginewidgets"
+  else
+    GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets"
+  endif
+  ifeq ($(GO4_OS),Win32)
+    GO4GUI4_QMAKEFLAGS += "LIBS += $(shell cygpath -w $(ROOTSYS)/lib/libRHTTP.lib) \
+                                   $(shell cygpath -w $(ROOTSYS)/lib/libROOTWebDisplay.lib) \
+                                   $(shell cygpath -w $(ROOTSYS)/lib/libROOTQt5WebDisplay.lib) \
+                                   $(shell cygpath -w $(ROOTSYS)/lib/libWebGui6.lib)"
+  else
+    ifeq ($(GO4_QT),6)
+      GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt6WebDisplay -lWebGui6"
+    else
+      GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lROOTQt5WebDisplay -lWebGui6"
+    endif
+  endif
 
-GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
-GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
-GO4WEBGUI4_PUBH       = $(patsubst $(GO4WEBGUI4_DIR)/%.h, include/%.h, $(GO4WEBGUI4_H))
+  GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
+  GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
+  GO4WEBGUI4_PUBH       = $(patsubst $(GO4WEBGUI4_DIR)/%.h, include/%.h, $(GO4WEBGUI4_H))
 endif
 
 GO4GUI4_PACKAGE_FORMS = $(wildcard $(GO4GUI4_DIR)/*.ui)
@@ -97,8 +105,6 @@ endif
 
 ##### local rules #####
 
-ifneq ($(GO4_QT), 3)
-
 $(GO4GUI4_UI_PRIVH): | qt4-GUI
 
 include/%.h: $(QT4ROOT_DIR)/%.h
@@ -113,7 +119,6 @@ include/%.h: $(GO4WEBGUI4_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-endif
 
 ifdef GO4_QT
 

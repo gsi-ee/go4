@@ -46,7 +46,6 @@ ifdef GO4_X11
 
 
 ifdef GO4_QT
-ifneq ($(GO4_QT), 3)
 ifneq ($(GO4_OS),Win32)
 
 all:: $(USERGUI4_QTLIB)
@@ -57,7 +56,6 @@ clean-bin:: clean-qt4usergui-bin
 
 clean:: clean-qt4usergui
 
-endif
 endif
 endif
 

@@ -46,7 +46,6 @@ endif
 ifdef GO4_WEB
 
 ifneq ($(GO4_OS),Win32)
-ifneq ($(GO4_QT), 3)
 
 all:: $(WEBUSERGUI_QTLIB)
 
@@ -56,7 +55,6 @@ clean-bin:: clean-qt5webusergui-bin
 
 clean:: clean-qt5webusergui
 
-endif
 endif
 
 $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTMAKE): $(WEBUSERGUI_DIR)/$(WEBUSERGUI_QTPRO) $(WEBUSERGUI_FORMS) $(WEBUSERGUI_DEPRULES) 

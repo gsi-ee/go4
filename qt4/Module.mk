@@ -30,8 +30,6 @@ DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.cpp)
 
 ifdef GO4_QT
 
-ifneq ($(GO4_QT), 3)
-
 GO4QTHEADS += $(GO4QT4HEADS)
 
 LIBDEPENDENC += $(GO4QT4DEP)
@@ -46,7 +44,6 @@ endif
 
 plugin:: all-qt4plugin
 
-endif
 endif
 
 clean-qt4:: clean-qt4-GUI clean-qt4usergui clean-qt5webusergui
