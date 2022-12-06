@@ -31,7 +31,5 @@ class TMeshB2AnlProc : public TGo4EventProcessor {
 
    ClassDefOverride(TMeshB2AnlProc,1)
 };
+
 #endif //TMeshB2AnlProcESSOR_H
-
-
-

@@ -19,19 +19,20 @@
 
 //***********************************************************
 TMeshB2InputEvent::TMeshB2InputEvent()
-  :TGo4EventElement("InputEvent2"),fxProcessor(0),fxFile(0)
+  :TGo4EventElement("InputEvent2")
 {
 }
+
 //***********************************************************
 TMeshB2InputEvent::TMeshB2InputEvent(const char *name)
-  :TGo4EventElement(name),fxProcessor(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TMeshB2InputEvent::~TMeshB2InputEvent()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TMeshB2InputEvent::Init()
@@ -52,6 +53,7 @@ Int_t TMeshB2InputEvent::Init()
   else          rev=1;
   return rev;
 }
+
 //-----------------------------------------------------------
 Int_t TMeshB2InputEvent::Fill()
 {

@@ -43,10 +43,10 @@ class TMeshRawEvent : public TGo4EventElement {
       void Clear(Option_t *t="") override;
       Int_t Init() override;
 
-       /** we compose data structure from subbranches: */
-       TMeshB1InputEvent fxSub1;
-       TMeshB2InputEvent fxSub2;
-       TMeshB3InputEvent fxSub3;
+      /** we compose data structure from subbranches: */
+      TMeshB1InputEvent fxSub1;
+      TMeshB2InputEvent fxSub2;
+      TMeshB3InputEvent fxSub3;
 
    private:
       TMeshUnpackProc *fxUnpacker{nullptr};  //! Don't put this to file

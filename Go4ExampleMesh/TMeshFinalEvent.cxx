@@ -19,14 +19,13 @@
 
 //***********************************************************
 TMeshFinalEvent::TMeshFinalEvent()
-  :TGo4EventElement("FinalEvent"),fxFinalProc(0),fxFile(0)
+  :TGo4EventElement("FinalEvent")
 {
-
 }
 
 //***********************************************************
 TMeshFinalEvent::TMeshFinalEvent(const char *name)
-  :TGo4EventElement(name),fxFinalProc(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
 
@@ -36,23 +35,18 @@ TMeshFinalEvent::~TMeshFinalEvent()
 }
 
 //-----------------------------------------------------------
-Int_t TMeshFinalEvent::Init()
-{
+Int_t TMeshFinalEvent::Init() {
    // check for different source types
    Int_t rev = 0;
    Clear();
-   if(CheckEventSource("TMeshFinalProc"))
-   {
+   if (CheckEventSource("TMeshFinalProc")) {
       fxFinalProc = dynamic_cast<TMeshFinalProc*>(GetEventSource());
       TGo4Log::Info("TMeshFinalEvent init for Final step");
-   }
-   else if(CheckEventSource("TGo4FileSource"))
-   {
-      fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
+   } else if (CheckEventSource("TGo4FileSource")) {
+      fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
       TGo4Log::Info("TMeshFinalEvent init for file input");
-   }
-   else
-      rev=1;
+   } else
+      rev = 1;
    return rev;
 }
 
@@ -69,7 +63,6 @@ Int_t TMeshFinalEvent::Fill()
    else
       rev=1;
    return rev;
-
 }
 
 //-----------------------------------------------------------

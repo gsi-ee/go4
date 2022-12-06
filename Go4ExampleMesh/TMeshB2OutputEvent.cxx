@@ -19,41 +19,37 @@
 
 //***********************************************************
 TMeshB2OutputEvent::TMeshB2OutputEvent()
-  :TGo4EventElement("OutputEvent2"),fxProcessor(0),fxFile(0)
+  :TGo4EventElement("OutputEvent2")
 {
 }
+
 //***********************************************************
 TMeshB2OutputEvent::TMeshB2OutputEvent(const char *name)
-  :TGo4EventElement(name),fxProcessor(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TMeshB2OutputEvent::~TMeshB2OutputEvent()
 {
 }
-//***********************************************************
-
 
 //-----------------------------------------------------------
 Int_t TMeshB2OutputEvent::Init()
 {
    // check for different source types
    Int_t rev = 0;
-   if(CheckEventSource("TMeshB2AnlProc"))
-      {
-         fxProcessor = dynamic_cast<TMeshB2AnlProc*>(GetEventSource());
-         TGo4Log::Info("TMeshB2OutputEvent Init for analysis step");
-      }
-   else if(CheckEventSource("TGo4FileSource"))
-      {
-         fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
-         TGo4Log::Info("TMeshB2OutputEvent Init for file input");
-      }
-   else
-      rev=1;
+   if (CheckEventSource("TMeshB2AnlProc")) {
+      fxProcessor = dynamic_cast<TMeshB2AnlProc*>(GetEventSource());
+      TGo4Log::Info("TMeshB2OutputEvent Init for analysis step");
+   } else if (CheckEventSource("TGo4FileSource")) {
+      fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
+      TGo4Log::Info("TMeshB2OutputEvent Init for file input");
+   } else
+      rev = 1;
    return rev;
-
 }
+
 //-----------------------------------------------------------
 Int_t TMeshB2OutputEvent::Fill()
 {
@@ -69,6 +65,7 @@ Int_t TMeshB2OutputEvent::Fill()
    return rev;
 
 }
+
 //-----------------------------------------------------------
 void TMeshB2OutputEvent::Clear(Option_t *)
 {

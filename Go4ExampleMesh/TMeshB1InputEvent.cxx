@@ -19,40 +19,42 @@
 
 //***********************************************************
 TMeshB1InputEvent::TMeshB1InputEvent()
-  :TGo4EventElement("InputEvent1"),fxProcessor(0),fxFile(0)
+  :TGo4EventElement("InputEvent1")
 {
 }
+
 //***********************************************************
 TMeshB1InputEvent::TMeshB1InputEvent(const char *name)
-  :TGo4EventElement(name),fxProcessor(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TMeshB1InputEvent::~TMeshB1InputEvent()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TMeshB1InputEvent::Init()
 {
-  Int_t rev = 0;
-  //std::cout << "+++ Init event" << std::endl;
-  Clear();
-  // is it used by Unpack step as output?
-  if(CheckEventSource("TMeshUnpackProc")){
-    fxProcessor = dynamic_cast<TMeshUnpackProc*>(GetEventSource());
-    TGo4Log::Info("TMeshB1InputEvent init for Unpack step");
-  }
-  // or is it used from provider step as input
-  else if(CheckEventSource("TGo4FileSource")){
-    fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
-    TGo4Log::Info("TMeshB1InputEvent init for file input");
-  } else {
-     rev = 1;
-  }
-  return rev;
+   Int_t rev = 0;
+   //std::cout << "+++ Init event" << std::endl;
+   Clear();
+   // is it used by Unpack step as output?
+   if (CheckEventSource("TMeshUnpackProc")) {
+      fxProcessor = dynamic_cast<TMeshUnpackProc*>(GetEventSource());
+      TGo4Log::Info("TMeshB1InputEvent init for Unpack step");
+   }
+   // or is it used from provider step as input
+   else if (CheckEventSource("TGo4FileSource")) {
+      fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
+      TGo4Log::Info("TMeshB1InputEvent init for file input");
+   } else {
+      rev = 1;
+   }
+   return rev;
 }
+
 //-----------------------------------------------------------
 Int_t TMeshB1InputEvent::Fill()
 {

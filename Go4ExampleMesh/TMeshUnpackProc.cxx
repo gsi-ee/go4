@@ -25,6 +25,7 @@ TMeshUnpackProc::TMeshUnpackProc() :
    TGo4EventProcessor("Unpacker")
 {
 }
+
 //***********************************************************
 // this one is used in TXXXUnpackFact.cxx
 TMeshUnpackProc::TMeshUnpackProc(const char *name) :
@@ -37,7 +38,6 @@ TMeshUnpackProc::TMeshUnpackProc(const char *name) :
 TMeshUnpackProc::~TMeshUnpackProc()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 void TMeshUnpackProc::Unpack(TMeshRawEvent* poutevt)

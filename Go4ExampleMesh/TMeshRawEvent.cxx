@@ -19,13 +19,13 @@
 
 //***********************************************************
 TMeshRawEvent::TMeshRawEvent()
-  :TGo4EventElement("RawEvent"),fxUnpacker(0),fxFile(0)
+  :TGo4EventElement("RawEvent")
 {
 }
 
 //***********************************************************
 TMeshRawEvent::TMeshRawEvent(const char *name)
-  :TGo4EventElement(name),fxUnpacker(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
 

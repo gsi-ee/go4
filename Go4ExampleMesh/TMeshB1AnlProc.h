@@ -33,4 +33,3 @@ class TMeshB1AnlProc : public TGo4EventProcessor {
 };
 
 #endif //TMeshB1AnlProcESSOR_H
-

@@ -19,41 +19,37 @@
 
 //***********************************************************
 TMeshB3OutputEvent::TMeshB3OutputEvent()
-  :TGo4EventElement("OutputEvent3"),fxProcessor(0),fxFile(0)
+  :TGo4EventElement("OutputEvent3")
 {
 }
+
 //***********************************************************
 TMeshB3OutputEvent::TMeshB3OutputEvent(const char *name)
-  :TGo4EventElement(name),fxProcessor(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TMeshB3OutputEvent::~TMeshB3OutputEvent()
 {
 }
-//***********************************************************
-
 
 //-----------------------------------------------------------
 Int_t TMeshB3OutputEvent::Init()
 {
    // check for different source types
    Int_t rev = 0;
-   if(CheckEventSource("TMeshB3AnlProc"))
-      {
-         fxProcessor = dynamic_cast<TMeshB3AnlProc*>(GetEventSource());
-         TGo4Log::Info("TMeshB3OutputEvent Init for analysis step");
-      }
-   else if(CheckEventSource("TGo4FileSource"))
-      {
-         fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
-         TGo4Log::Info("TMeshB3OutputEvent Init for file input");
-      }
-   else
-      rev=1;
+   if (CheckEventSource("TMeshB3AnlProc")) {
+      fxProcessor = dynamic_cast<TMeshB3AnlProc*>(GetEventSource());
+      TGo4Log::Info("TMeshB3OutputEvent Init for analysis step");
+   } else if (CheckEventSource("TGo4FileSource")) {
+      fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
+      TGo4Log::Info("TMeshB3OutputEvent Init for file input");
+   } else
+      rev = 1;
    return rev;
-
 }
+
 //-----------------------------------------------------------
 Int_t TMeshB3OutputEvent::Fill()
 {
@@ -67,12 +63,11 @@ Int_t TMeshB3OutputEvent::Fill()
    else
       rev = 1;
    return rev;
-
 }
+
 //-----------------------------------------------------------
 void TMeshB3OutputEvent::Clear(Option_t *)
 {
    void* destfield = (void*) &frData[0];
    memset(destfield,0, sizeof(frData));
 }
-

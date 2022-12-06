@@ -19,20 +19,20 @@
 
 //***********************************************************
 TMeshB1OutputEvent::TMeshB1OutputEvent()
-  :TGo4EventElement("OutputEvent1"),fxProcessor(0),fxFile(0)
+  :TGo4EventElement("OutputEvent1")
 {
 }
+
 //***********************************************************
 TMeshB1OutputEvent::TMeshB1OutputEvent(const char *name)
-  :TGo4EventElement(name),fxProcessor(0),fxFile(0)
+  :TGo4EventElement(name)
 {
 }
+
 //***********************************************************
 TMeshB1OutputEvent::~TMeshB1OutputEvent()
 {
 }
-//***********************************************************
-
 
 //-----------------------------------------------------------
 Int_t TMeshB1OutputEvent::Init()
@@ -75,4 +75,3 @@ void TMeshB1OutputEvent::Clear(Option_t *)
    void* destfield = (void*) &frData[0];
    memset(destfield,0, sizeof(frData));
 }
-

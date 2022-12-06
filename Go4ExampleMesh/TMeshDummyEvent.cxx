@@ -17,14 +17,13 @@
 
 //***********************************************************
 TMeshDummyEvent::TMeshDummyEvent()
-  :TGo4EventElement("DummyEvent"),fxProviderProc(0)
+  :TGo4EventElement("DummyEvent")
 {
-
 }
 
 //***********************************************************
 TMeshDummyEvent::TMeshDummyEvent(const char *name)
-  :TGo4EventElement(name),fxProviderProc(0)
+  :TGo4EventElement(name)
 {
 }
 
@@ -37,17 +36,14 @@ TMeshDummyEvent::~TMeshDummyEvent()
 Int_t TMeshDummyEvent::Init()
 {
    // check for different source types
-  Int_t rev = 0;
+   Int_t rev = 0;
    Clear();
-  if(CheckEventSource("TMeshProviderProc"))
-   {
+   if (CheckEventSource("TMeshProviderProc")) {
       fxProviderProc = dynamic_cast<TMeshProviderProc*>(GetEventSource());
       //std::cout << "**** TMeshDummyEvent init"<< std::endl;
-   }
-  else
-    rev=1;
-  return rev;
-
+   } else
+      rev = 1;
+   return rev;
 }
 
 //-----------------------------------------------------------
@@ -60,7 +56,6 @@ Int_t TMeshDummyEvent::Fill()
    else
       rev=1;
    return rev;
-
 }
 
 //-----------------------------------------------------------

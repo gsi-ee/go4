@@ -23,20 +23,21 @@
 //***********************************************************
 // this one is used in TXXXAnlFact
 TMeshB1AnlProc::TMeshB1AnlProc(const char *name)
-  :TGo4EventProcessor(name),fxInput(0)
+  :TGo4EventProcessor(name)
 {
    TGo4Log::Info("TMeshB1AnlProc: Create %s", name);
 }
+
 //***********************************************************
 TMeshB1AnlProc::TMeshB1AnlProc()
-  : TGo4EventProcessor("Processor1"),fxInput(0)
+  : TGo4EventProcessor("Processor1")
 {
 }
+
 //***********************************************************
 TMeshB1AnlProc::~TMeshB1AnlProc()
 {
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 void TMeshB1AnlProc::Analysis(TMeshB1OutputEvent* poutevt)
@@ -65,4 +66,3 @@ void TMeshB1AnlProc::Analysis(TMeshB1OutputEvent* poutevt)
       throw TGo4UserException(3, "Error: no input event for processor %s", GetName());
    }
 }
-
