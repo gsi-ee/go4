@@ -112,6 +112,8 @@ function(GO4_LINK_LIBRARY libname)
       target_compile_options(${libname} PRIVATE
          $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:-Wall>
          $<$<CXX_COMPILER_ID:MSVC>: /W4 /wd4514 /wd4710 /wd4365 /wd4820 /wd4464 /wd4668 /wd4626 /wd4625 /wd4127 /wd5220 /wd4711 /wd4555 /wd5026 /wd5027 /wd4619 /wd4643 /wd4100 /wd5045 /wd4242 /wd4371>)
+   else()
+      target_compile_options(${libname} PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall>)
    endif()
 
 endfunction()
