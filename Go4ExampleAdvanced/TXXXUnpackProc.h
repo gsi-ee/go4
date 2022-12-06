@@ -22,7 +22,7 @@ class TXXXUnpackEvent;
 class TXXXUnpackProc : public TGo4EventProcessor {
    private:
        TH1           *fCr1Ch[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
-       TH1           *fCr2Ch[8]= {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
+       TH1           *fCr2Ch[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
        TH2           *fCr1Ch1x2{nullptr};
        TH1           *fHis1{nullptr};
        TH1           *fHis1gate{nullptr};
