@@ -26,10 +26,7 @@
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
-   TGo4Analysis(),
-   fMbsEvent(0),
-   fRawEvent(0),
-   fCalEvent(0)
+   TGo4Analysis()
 {
    TGo4Log::Error("Wrong constructor TXXXAnalysis()!");
 }
@@ -37,13 +34,7 @@ TXXXAnalysis::TXXXAnalysis() :
 //***********************************************************
 // this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
-   TGo4Analysis(argc, argv),
-   fMbsEvent(0),
-   fRawEvent(0),
-   fCalEvent(0),
-   fSize(0),
-   fEvents(0),
-   fLastEvent(0)
+   TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       TGo4Log::Error("Go4 version mismatch");
@@ -90,7 +81,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
    factory1->DefOutputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
-   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,0,0,0);
+   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack", factory1, nullptr, nullptr, nullptr);
    step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
 // These settings will be overwritten by setup.C
@@ -103,7 +94,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    factory2->DefInputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
    factory2->DefEventProcessor("AnlProc", "TXXXAnlProc"); // object name, class name
    factory2->DefOutputEvent("AnlEvent", "TXXXAnlEvent"); // object name, class name
-   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,0,0,0);
+   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis", factory2, nullptr, nullptr, nullptr);
    step2->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step2);
 // These settings will be overwritten by setup.C
@@ -139,7 +130,6 @@ TXXXAnalysis::~TXXXAnalysis()
 {
    TGo4Log::Info("TXXXAnalysis: Delete");
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPreLoop()
@@ -194,8 +184,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 {
    TGo4Log::Info("TXXXAnalysis: PostLoop");
    TGo4Log::Info("Last event: %d  Total events: %d", fLastEvent, fEvents);
-  if(fMbsEvent)
-    {
+   if(fMbsEvent) {
       // we can check some properties of last event here:
       //fMbsEvent->PrintEvent(); // header and data content
 

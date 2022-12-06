@@ -52,8 +52,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
    TGo4Log::Info("TXXXProc: Produce histograms");
 
    for (int i = 0; i < 8; i++) {
-      fCr1Ch[i] = 0;
-      fCr2Ch[i] = 0;
+      fCr1Ch[i] = nullptr;
+      fCr2Ch[i] = nullptr;
    }
 
    CreateRawHistograms(5000, 1., 5001.);
@@ -138,7 +138,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
    }
 
    fPicture1 = GetPicture("Picture1");
-   if (fPicture1 == 0) {
+   if (!fPicture1) {
       fPicture1 = new TGo4Picture("Picture1","Picture example");
       fPicture1->SetLinesDivision(3, 2,3,1);
       fPicture1->LPic(0,0)->AddObject(fCr1Ch[0]);

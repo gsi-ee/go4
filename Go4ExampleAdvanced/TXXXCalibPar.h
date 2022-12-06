@@ -46,9 +46,9 @@ class TXXXCalibPar : public TGo4Parameter {
       /** Calibration polynom coeff */
       Double_t fdA[__POLORDER__]; // Calibration polynom coeff
       /** Set to kTRUE to make calibration fit in update from */
-      Bool_t fbRecalibrate;       // Set to kTRUE to make calibration fit in update from
+      Bool_t fbRecalibrate{kFALSE};       // Set to kTRUE to make calibration fit in update from
       /** Set to kTRUE to re-read energies from external ascii file */
-      Bool_t fbReadDatabase;   // Set to kTRUE to re-read energies from external ascii file
+      Bool_t fbReadDatabase{kFALSE};   // Set to kTRUE to re-read energies from external ascii file
       /** Filename for ascii file with linesname - energy */
       TString fxDatabase;     // Filename for ascii file with linesname - energy
       /** Centroid channel numbers for fitted lines */

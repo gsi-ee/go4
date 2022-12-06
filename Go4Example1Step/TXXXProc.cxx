@@ -123,7 +123,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
    }
 
    fPicture = GetPicture("Picture");
-   if (fPicture == 0) {
+   if (!fPicture) {
       fPicture = new TGo4Picture("Picture","Picture example");
       fPicture->SetLinesDivision(3, 2,3,1);
       fPicture->LPic(0,0)->AddObject(fCr1Ch[0]);

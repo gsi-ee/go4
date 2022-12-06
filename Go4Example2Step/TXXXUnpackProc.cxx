@@ -187,7 +187,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
       AddObject(fLaText); // will replace old one of same name
 
       fPicture1 = GetPicture("Picture1");
-      if (fPicture1 == 0) {
+      if (!fPicture1) {
          fPicture1 = new TGo4Picture("Picture1","Picture example");
          fPicture1->SetLinesDivision(3, 2,3,1); // three rows, cols per row
          // top row

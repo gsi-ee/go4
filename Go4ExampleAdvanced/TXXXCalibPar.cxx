@@ -92,7 +92,8 @@ TXXXCalibPar::~TXXXCalibPar()
  void TXXXCalibPar::SetCalibSpectrum(TH1* h1)
  {
    fxCalibSpectrum = h1;
-   if(fxLinesFinder)    fxLinesFinder->SetH1(__DATANAME__, fxCalibSpectrum, kFALSE);
+   if(fxLinesFinder)
+      fxLinesFinder->SetH1(__DATANAME__, fxCalibSpectrum, kFALSE);
  }
 
 //***********************************************************
@@ -111,7 +112,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
    fbReadDatabase = from->fbReadDatabase;
    if(fxLinesFinder) delete fxLinesFinder;
    fxLinesFinder = from->fxLinesFinder;
-   from->fxLinesFinder = 0; // adopt lines finder
+   from->fxLinesFinder = nullptr; // adopt lines finder
    if(fxCalibrator) delete fxCalibrator;
    fxCalibrator = from->fxCalibrator;
    from->fxCalibrator = nullptr; // adopt calibration fitter

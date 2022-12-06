@@ -27,11 +27,10 @@
 
 //***********************************************************
 TXXXAnlProc::TXXXAnlProc() :
-   TGo4EventProcessor(),
-   fSum1(0),fSum2(0),fSum3(0),
-   fParam1(0),fParam2(0),fWinCon(0)
+   TGo4EventProcessor()
 {
 }
+
 //***********************************************************
 // this one is used in TXXXAnlFact
 TXXXAnlProc::TXXXAnlProc(const char *name) :
@@ -62,7 +61,7 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
    fFitter = (TGo4Fitter*) GetObject("Fitter");
    if (!fFitter) {
       fFitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_chi_square, kTRUE);
-      fFitter->AddH1("data", 0, kFALSE, 100., 1000.);
+      fFitter->AddH1("data", nullptr, kFALSE, 100., 1000.);
       fFitter->AddPolynomX("data", "Pol", 1);
       AddObject(fFitter);
    }
