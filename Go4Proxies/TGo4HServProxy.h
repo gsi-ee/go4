@@ -43,7 +43,7 @@ class TGo4HServProxy : public TGo4ServerProxy {
 
       TGo4LevelIter* MakeIter() override;
 
-      TGo4Access* ProvideAccess(const char *name) override;
+      std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;

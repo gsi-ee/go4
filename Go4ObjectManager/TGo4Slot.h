@@ -106,7 +106,7 @@ class TGo4Slot : public TNamed  {
       Bool_t HasSubLevels() const;
       Bool_t HasSlotsSubLevels() const;
       TGo4LevelIter* MakeLevelIter() const;
-      TGo4Access* ProvideSlotAccess(const char *name);
+      std::unique_ptr<TGo4Access> ProvideSlotAccess(const char *name);
 
       void SaveData(TDirectory* dir, Bool_t onlyobjs = kFALSE);
       void ReadData(TDirectory* dir);

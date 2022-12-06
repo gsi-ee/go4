@@ -157,7 +157,7 @@ Int_t TGo4Iter::level() const
    return fStatus != 0 ? -1 : fLevels.GetLast();
 }
 
-TGo4Access* TGo4Iter::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4Iter::ProvideAccess(const char *name)
 {
    return fStatus != 0 ? nullptr : fSlot->ProvideSlotAccess(fFullName.Data());
 }

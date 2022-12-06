@@ -96,11 +96,11 @@ Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-TGo4Access* TGo4ObjectProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4ObjectProxy::ProvideAccess(const char *name)
 {
    if (!fObject) return nullptr;
-   if (!name || (*name == 0))
-      return new TGo4ObjectAccess(fObject);
+   if (!name || !*name)
+      return std::make_unique<TGo4ObjectAccess>(fObject);
    return nullptr;
 }
 

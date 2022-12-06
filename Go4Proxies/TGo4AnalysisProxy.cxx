@@ -600,9 +600,9 @@ Bool_t TGo4AnalysisProxy::NamesListReceived()
    return fbNamesListReceived;
 }
 
-TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char *name)
+std::unique_ptr<TGo4Access> TGo4AnalysisProxy::ProvideAccess(const char *name)
 {
-   if (!name || (*name == 0) || !fAnalysisNames) return nullptr;
+   if (!name || !*name || !fAnalysisNames) return nullptr;
 
    TObject* entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
 
@@ -613,7 +613,7 @@ TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char *name)
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(name, objfolder, objname);
 
-   return new TGo4AnalysisObjectAccess(this, cmdEnvelope, objname.Data(), classname, objfolder.Data());
+   return std::make_unique<TGo4AnalysisObjectAccess>(this, cmdEnvelope, objname.Data(), classname, objfolder.Data());
 }
 
 void TGo4AnalysisProxy::Update(TGo4Slot *slot, Bool_t strong)
