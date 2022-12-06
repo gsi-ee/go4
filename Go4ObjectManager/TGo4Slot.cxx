@@ -335,7 +335,7 @@ const char *TGo4Slot::GetSlotClassName() const
    return fProxy ? fProxy->GetContainedClassName() : nullptr;
 }
 
-Bool_t TGo4Slot::IsAcceptObject(TClass* cl)
+Bool_t TGo4Slot::IsAcceptObject(TClass *cl)
 {
    return fProxy ? fProxy->IsAcceptObject(cl) : kFALSE;
 }
@@ -415,7 +415,7 @@ void TGo4Slot::ReadData(TDirectory* dir)
    CleanProxy();
 
    const char *contclass = GetPar("::ProxyClass");
-   TClass* cl = !contclass ? nullptr : gROOT->GetClass(contclass);
+   TClass *cl = !contclass ? nullptr : gROOT->GetClass(contclass);
    if (!cl) return;
 
    TGo4Proxy* cont = (TGo4Proxy*) cl->New();

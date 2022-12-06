@@ -326,7 +326,7 @@ TFolder *TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray *branc
    Int_t offset = 0;
    for(Int_t i=startindex; i<lastindex;i++) {
       //std::cout <<"i+offset="<<i+offset << std::endl;
-      TClass* cl = nullptr;
+      TClass *cl = nullptr;
       TObject* entry = branchlist->At(i+offset);
       if(entry && entry->InheritsFrom(TBranch::Class()))  {
          // found subfolder, process it recursively
@@ -451,7 +451,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char *t
 }
 
 
-TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass* cl)
+TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl)
 {
    if(!cl) return nullptr;
    TList* nameslist = new TList;
@@ -544,7 +544,7 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
    TString htype(histotype);
    htype.ToUpper();
    if (htype.IsNull()) htype = "I";
-   TClass* cl = nullptr;
+   TClass *cl = nullptr;
 
    switch (htype[0]) {
       case 'C' : cl = TH1C::Class(); break;
@@ -591,7 +591,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
    htype.ToUpper();
    if (htype.IsNull()) htype = "I";
 
-   TClass* cl = nullptr;
+   TClass *cl = nullptr;
 
    switch (htype[0]) {
       case 'C' : cl = TH2C::Class(); break;
@@ -650,7 +650,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
 
                TFolder* subnames = nullptr;
 
-               TClass* cl = gROOT->GetClass(subbranch->GetClassName());
+               TClass *cl = gROOT->GetClass(subbranch->GetClassName());
                if(cl && cl->InheritsFrom(TGo4CompositeEvent::Class()) && istopbranch) {
                   // search for composite event of that name in Go4 (only if top level call)
                   TGo4CompositeEvent* cevent = nullptr;
@@ -2012,7 +2012,7 @@ TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const ch
 TObject* TGo4AnalysisObjectManager::TestObject(TFolder* folder,
       const char *&pathname,
       const char *objectname,
-      const TClass* cl)
+      const TClass *cl)
 {
    TString fullname;
    if (pathname && (strlen(pathname) == 0))

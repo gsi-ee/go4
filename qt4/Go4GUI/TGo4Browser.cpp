@@ -603,7 +603,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
-           TClass* cl = gROOT->GetClass(itemclassname);
+           TClass *cl = gROOT->GetClass(itemclassname);
            if (cl) {
               if (cl->InheritsFrom("TH1")) {
                  if (!cl->InheritsFrom("TH2") && !cl->InheritsFrom("TH3")) {

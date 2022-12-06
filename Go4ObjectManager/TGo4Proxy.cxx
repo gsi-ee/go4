@@ -79,7 +79,7 @@ TClass* TGo4Proxy::GetClass(const char *classname, Bool_t load)
 
    if (!classname || (*classname == 0)) return nullptr;
 
-   TClass* cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
+   TClass *cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
 
    if (cl) return cl;
 

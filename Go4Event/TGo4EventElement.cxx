@@ -120,7 +120,7 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
       // or one need explicitly specify which class we want to set to the branch
       // No idea when it happens, but newest 5.34 ROOT no longer working correctly.
 
-      TClass* cl = *var_ptr ? (*var_ptr)->IsA() : nullptr;
+      TClass *cl = *var_ptr ? (*var_ptr)->IsA() : nullptr;
       tree->SetBranchAddress(cad.Data(), var_ptr, nullptr, cl, kOther_t, true);
       //tree->SetBranchAddress(cad.Data(), (void**) var_ptr);
    }

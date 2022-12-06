@@ -151,7 +151,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TGo4TreeStructure * CreateTreeStructure(const char *treename);
 
       /** Create a folder with members of this class */
-      TFolder* CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass* cl);
+      TFolder* CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl);
 
       /**
        * Add external histogram to go4 histogram directory. Histogram will be owned
@@ -987,7 +987,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TObject* TestObject(TFolder* folder,
                           const char *&pathname,
                           const char *objectname,
-                          const TClass* cl);
+                          const TClass *cl);
 
 };
 

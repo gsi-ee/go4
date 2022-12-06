@@ -513,7 +513,7 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char *linkname, TObject *obj)
       if (!res) return;
       Browser()->SyncBrowserSlots();
       const char *itemname = res->GetObjectFullName();
-      TClass* cl = Browser()->ItemClass(itemname);
+      TClass *cl = Browser()->ItemClass(itemname);
       if (cl) InformThatObjectCreated(itemname, cl);
       if (!fNewObjectForEditor) EditItem(itemname);
       fNewObjectForEditor = true;

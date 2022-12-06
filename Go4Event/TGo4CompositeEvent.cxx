@@ -117,7 +117,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
 
       if (!par) {
 
-         TClass* cl = gROOT->GetClass(b->GetClassName());
+         TClass *cl = gROOT->GetClass(b->GetClassName());
          if (!cl) {
             TGo4Log::Debug("-I class %s cannot be reconstructed", b->GetClassName());
             continue;

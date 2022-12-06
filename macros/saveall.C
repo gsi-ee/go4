@@ -70,7 +70,7 @@ void namiter(TDirectory *dir, const char *wildcard, TList* found, int classmask 
          namiter(dir->GetDirectory(key->GetName()), wildcard, found, classmask);
       else
          if (TString(key->GetName()).Index(wild) != kNPOS) {
-            TClass* cl = TClass::GetClass(key->GetClassName());
+            TClass *cl = TClass::GetClass(key->GetClassName());
             if (cl)
                if (((classmask / 10) && cl->InheritsFrom("TGo4Parameter")) ||
                    ((classmask % 10) && cl->InheritsFrom("TGo4Condition"))) {

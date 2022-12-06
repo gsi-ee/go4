@@ -346,7 +346,7 @@ class TGo4Picture : public TNamed {
       void ClearOption(Int_t pos);
       void ClearAllOptions(Short_t index = UndefIndex);
 
-      void* Cast(TObject *obj, TClass* cl);
+      void* Cast(TObject *obj, TClass *cl);
 
       void CheckIndex(Int_t &index) const;
 

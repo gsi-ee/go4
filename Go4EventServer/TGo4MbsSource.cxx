@@ -111,7 +111,7 @@ void TGo4MbsSource::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw,
    fxPrEventPar.fiData = dataw;
 }
 
-Bool_t TGo4MbsSource::CheckEventClass(TClass* cl)
+Bool_t TGo4MbsSource::CheckEventClass(TClass *cl)
 {
    return cl->InheritsFrom(TGo4MbsEvent::Class());
 }

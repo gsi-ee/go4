@@ -156,7 +156,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items)
 }
 
 
-void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, unsigned long int cloffset)
+void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass *cl, char* ptr, unsigned long int cloffset)
 {
    if (!fItems || !cl || !ptr) return;
 
@@ -285,7 +285,7 @@ Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMe
 }
 
 
-Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass* cl, char* ptr, unsigned long int cloffset)
+Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass *cl, char* ptr, unsigned long int cloffset)
 {
    if (!items || !cl || !ptr) return kFALSE;
 

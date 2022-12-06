@@ -33,12 +33,12 @@ TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char *name)
 }
 
 
-bool TGo4ConditionInfo::IsAcceptDrag(const char *itemname, TClass* cl, int kind)
+bool TGo4ConditionInfo::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    return !cl ? false : cl->InheritsFrom(TGo4Condition::Class());
 }
 
-void TGo4ConditionInfo::DropItem(const char *itemname, TClass* cl, int kind)
+void TGo4ConditionInfo::DropItem(const char *itemname, TClass *cl, int kind)
 {
    if (!cl) return;
    if (cl->InheritsFrom(TGo4Condition::Class()))

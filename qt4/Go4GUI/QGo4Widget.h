@@ -97,11 +97,11 @@ private:
       QGo4Widget(QWidget *parent = nullptr, const char *name = nullptr, Qt::WindowFlags f = Qt::Widget);
       virtual ~QGo4Widget();
 
-      virtual bool IsAcceptDrag(const char *itemname, TClass* cl, int kind);
-      virtual void DropItem(const char *itemname, TClass* cl, int kind);
+      virtual bool IsAcceptDrag(const char *itemname, TClass *cl, int kind);
+      virtual void DropItem(const char *itemname, TClass *cl, int kind);
       virtual void ResetWidget();
 
-      void ObjectCreatedByWidget(const char *itemname, TClass* cl);
+      void ObjectCreatedByWidget(const char *itemname, TClass *cl);
 
       void ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot *slot);
 
@@ -169,7 +169,7 @@ private:
         *  isremote == 0 - object should be created localy and widget will be informed
         *  isremote == 1 - object should be created on analysis side and widget should be informed
         *  isremote == -1 - activate creation dialog without restriction (remote or local), widget will not be informed */
-      void AskToCreateObject(TClass* cl, int isremote);
+      void AskToCreateObject(TClass *cl, int isremote);
       void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
       TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad* pad = nullptr, bool activate = true, int updatelevel = -1);
@@ -182,7 +182,7 @@ private:
       QString SaveObjectInMemory(const char *foldername, TObject *obj);
       bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
       bool UpdateItemInAnalysis(const char *itemname, TObject *obj = nullptr);
-      void InformThatObjectCreated(const char *itemname, TClass* cl);
+      void InformThatObjectCreated(const char *itemname, TClass *cl);
       TGo4ServerProxy* GetAnalysis(const char *itemname = nullptr);
       void StartHotstart(const char *filename);
 
@@ -192,7 +192,7 @@ private:
       void CallServiceFunc(int id, const char *str = nullptr, void *par = nullptr);
       void ServiceCall(const char *name, void* par = nullptr);
 
-      virtual void requestedObjectCreated(const char *itemname, TClass* cl);
+      virtual void requestedObjectCreated(const char *itemname, TClass *cl);
       virtual void linkedObjectUpdated(const char *linkname, TObject *obj);
       virtual void linkedObjectRemoved(const char *linkname);
       virtual void linkedUpdated(TGo4Slot *slot, TObject *obj);

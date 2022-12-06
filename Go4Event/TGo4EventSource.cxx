@@ -87,7 +87,7 @@ const char *TGo4EventSource::GetActiveName()
    return GetName();
 }
 
-Bool_t TGo4EventSource::CheckEventClass(TClass* cl)
+Bool_t TGo4EventSource::CheckEventClass(TClass *cl)
 {
    return cl->InheritsFrom(TGo4EventElement::Class());
 }

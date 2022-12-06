@@ -367,7 +367,7 @@ void TGo4RootBrowserProxy::DrawItem(const char *itemname)
    Int_t cando = fBrowser->ItemCanDo(itemname);
 
    if (!TGo4BrowserProxy::CanDrawItem(cando)) {
-      TClass* cl = fBrowser->ItemClass(itemname);
+      TClass *cl = fBrowser->ItemClass(itemname);
       if (!cl || !cl->InheritsFrom(TGo4Condition::Class())) return;
    }
 

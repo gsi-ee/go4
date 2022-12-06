@@ -154,7 +154,7 @@ void TGo4HStackProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
    AssignObject(slot, dir->Get(objname), kTRUE);
 }
 
-Bool_t TGo4HStackProxy::IsAcceptObject(TClass* cl)
+Bool_t TGo4HStackProxy::IsAcceptObject(TClass *cl)
 {
    return cl && cl->InheritsFrom(THStack::Class());
 }

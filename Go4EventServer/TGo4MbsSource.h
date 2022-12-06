@@ -70,7 +70,7 @@ class TGo4MbsSource : public TGo4EventSource {
     virtual ~TGo4MbsSource();
 
     /** Check that filled event is a proper class */
-    Bool_t CheckEventClass(TClass* cl) override;
+    Bool_t CheckEventClass(TClass *cl) override;
 
     /** Fill the destination event \param dest */
     Bool_t BuildEvent(TGo4EventElement *dest) override;

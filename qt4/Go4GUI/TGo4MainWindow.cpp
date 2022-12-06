@@ -2380,7 +2380,7 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char *itemname)
    TGo4ParaEdit* pedit = (TGo4ParaEdit*) FindGo4Widget("ParaEdit", true);
 
    if (itemname) {
-      TClass* cl = Browser()->ItemClass(itemname);
+      TClass *cl = Browser()->ItemClass(itemname);
       if (cl)
          if (!cl->IsLoaded()) {
             QMessageBox::warning(nullptr, "Parameter editor", QString("Cannot start parameter editor for incomplete class ") + cl->GetName());
@@ -2984,7 +2984,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
          if (event->source() == FindGo4Widget("Browser",false)) {
              int kind = Browser()->ItemKind(eventstr.toLatin1().constData());
-             TClass* cl = Browser()->ItemClass(eventstr.toLatin1().constData());
+             TClass *cl = Browser()->ItemClass(eventstr.toLatin1().constData());
 
              TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
              TGo4FitPanel* fitpanel = dynamic_cast<TGo4FitPanel*> (editor);
@@ -2999,7 +2999,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_CreateItem: {
-         TClass* cl = (TClass*) par;
+         TClass *cl = (TClass*) par;
          int id = str ? QString(str).toInt() : 0;
          if (cl) {
            if (cl->InheritsFrom(TH1::Class()))
@@ -3061,7 +3061,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_EditItem: {
-         TClass* cl = Browser()->ItemClass(str);
+         TClass *cl = Browser()->ItemClass(str);
          Int_t kind = Browser()->ItemKind(str);
 
          if (kind==TGo4Access::kndGo4Param) {
@@ -3104,7 +3104,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_ShowInfo: {
-        TClass* cl = Browser()->ItemClass(str);
+        TClass *cl = Browser()->ItemClass(str);
         int kind = Browser()->ItemKind(str);
         if (kind == TGo4Access::kndEventElement) {
            TGo4EventInfo* einfo = StartEventInfo();

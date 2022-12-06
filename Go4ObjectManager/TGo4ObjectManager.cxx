@@ -500,7 +500,7 @@ Int_t TGo4ObjectManager::RequestObject(const char *source, const char *targetslo
    TGo4Access* proxy = ProvideSlotAccess(source);
    if (!proxy) return 0;
 
-   TClass* cl = proxy->GetObjectClass();
+   TClass *cl = proxy->GetObjectClass();
    if (!cl) return 0;
 
    tgtslot->ResetAssignFlag();

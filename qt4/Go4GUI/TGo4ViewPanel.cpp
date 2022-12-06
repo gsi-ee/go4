@@ -462,7 +462,7 @@ void TGo4ViewPanel::linkedRemoved(TGo4Slot *slot, TObject *obj)
    }
 }
 
-bool TGo4ViewPanel::IsAcceptDrag(const char * itemname, TClass * cl, int kind)
+bool TGo4ViewPanel::IsAcceptDrag(const char *itemname, TClass *cl, int kind)
 {
    if (!cl)
       return false;
@@ -471,7 +471,7 @@ bool TGo4ViewPanel::IsAcceptDrag(const char * itemname, TClass * cl, int kind)
          || cl->InheritsFrom(TGo4Condition::Class());
 }
 
-void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl, int kind)
+void TGo4ViewPanel::DropOnPad(TPad* pad, const char *itemname, TClass *cl, int kind)
 {
    if (!cl) return;
    if (!pad) pad = GetCanvas();
@@ -2313,7 +2313,7 @@ TGo4Slot *TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char *itemname
    TGo4Slot *tgtslot = nullptr;
 
    if (kind == kind_Link) {
-      TClass* cl = Browser()->ItemClass(itemname);
+      TClass *cl = Browser()->ItemClass(itemname);
       if (cl && cl->InheritsFrom(TGo4Condition::Class()))
          UndrawItem(itemname);
 
