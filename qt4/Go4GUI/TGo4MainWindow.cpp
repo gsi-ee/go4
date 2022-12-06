@@ -506,7 +506,7 @@ void TGo4MainWindow::AddSettingMenu()
    for (auto styleStr : list) {
       QString styleAccel = styleStr;
       if ( stylesDict[styleAccel.left(1)] ) {
-         for (unsigned i = 0; i < styleAccel.length(); i++ ) {
+         for (int i = 0; i < styleAccel.length(); i++ ) {
             if ( !stylesDict[styleAccel.mid( i, 1 )] ) {
                stylesDict.insert(styleAccel.mid( i, 1 ), 1);
                styleAccel = styleAccel.insert( i, '&' );
@@ -3064,11 +3064,10 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          TClass *cl = Browser()->ItemClass(str);
          Int_t kind = Browser()->ItemKind(str);
 
-         if (kind==TGo4Access::kndGo4Param) {
-            TGo4ParaEdit* paredit = StartParaEdit(str);
+         if (kind == TGo4Access::kndGo4Param) {
+            StartParaEdit(str);
             break;
-         } else
-         if (kind==TGo4Access::kndTreeLeaf) {
+         } else if (kind==TGo4Access::kndTreeLeaf) {
             TGo4TreeViewer* tviewer =
                dynamic_cast<TGo4TreeViewer*> (FindGo4Widget("TreeViewer", false));
             if (tviewer) {
@@ -3085,7 +3084,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
             TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
             fitpanel->WorkWithFitter(str, panel, !panel ? nullptr : panel->GetActivePad());
          } else if (cl->InheritsFrom(TGo4Parameter::Class())) {
-            TGo4ParaEdit* paredit = StartParaEdit(str);
+            StartParaEdit(str);
          } else if (cl->InheritsFrom(TH1::Class())) {
             TGo4HistogramInfo* hinfo = StartHistogramInfo();
             hinfo->WorkWithHistogram(str);
@@ -3115,8 +3114,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         if (cl->InheritsFrom(TH1::Class())) {
            TGo4HistogramInfo* hinfo = StartHistogramInfo();
            hinfo->WorkWithHistogram(str);
-        } else
-        if (cl->InheritsFrom(TGo4Condition::Class())) {
+        } else if (cl->InheritsFrom(TGo4Condition::Class())) {
            TGo4ConditionInfo* cinfo = StartConditionInfo();
            cinfo->WorkWithCondition(str);
         }
@@ -3137,7 +3135,6 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_SaveItem: {
          const char *subfolder = (const char *) par;
-         bool *replace = (bool *) par;
          bool res = SaveBrowserItemToFile(str, subfolder);
          * ((char*) par) = res ? 1 : 0;
          break;
@@ -3392,7 +3389,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_PanelTimer: {
-         TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
+         // TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
          if (!fbPanelTimerActive) {
             fbPanelTimerActive = true;
             QTimer::singleShot(0, this, &TGo4MainWindow::checkPanelRepaintSlot);

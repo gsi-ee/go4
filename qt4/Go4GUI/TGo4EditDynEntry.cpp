@@ -230,7 +230,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char *itemname)
                          QString("Current entry %1 is modified!\nNew entry %2 is selected.").arg(oldname).arg(itemname));
 
       auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
-      auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+      /* auto btnNew = */ msgBox.addButton("Start with new", QMessageBox::ActionRole);
       msgBox.setDefaultButton(btnContinue);
 
       msgBox.exec();

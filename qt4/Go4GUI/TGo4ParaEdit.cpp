@@ -106,7 +106,7 @@ void TGo4ParaEdit::WorkWithParameter(const char *itemname, bool isrefresh)
                              QString("Current parameter %1 is modified!\nNew parameter %2 is selected.").arg(previtem).arg(itemname));
 
           auto btnContinue = msgBox.addButton("Continue with current", QMessageBox::ActionRole);
-          auto btnNew = msgBox.addButton("Start with new", QMessageBox::ActionRole);
+          /* auto btnNew = */ msgBox.addButton("Start with new", QMessageBox::ActionRole);
           msgBox.setDefaultButton(btnContinue);
 
           msgBox.exec();
