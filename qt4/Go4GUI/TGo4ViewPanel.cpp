@@ -159,7 +159,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    fxQCanvas = nullptr;
    fxWCanvas = nullptr;
 
-   CanvasStatus = 0;
+   CanvasStatus = nullptr;
 
 #ifdef __GO4WEB__
    if (go4sett->getWebBasedCanvas())  {
@@ -286,7 +286,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char *name) :
    fAutoScaleCheck->setObjectName("AutoScaleCheck");
    QObject::connect(fAutoScaleCheck, &QCheckBox::toggled, this, &TGo4ViewPanel::AutoScaleToggled);
 
-   QHBoxLayout* menugrid = new QHBoxLayout(0/*MenuFrame*/);
+   QHBoxLayout* menugrid = new QHBoxLayout(nullptr/*MenuFrame*/);
    menugrid->setContentsMargins(0,0,0,0);
    menugrid->setSpacing(0);
    menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
@@ -1998,7 +1998,7 @@ void TGo4ViewPanel::StartRootEditor(bool)
    }
 
    if (visible)
-      ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+      ActivateInGedEditor(GetSelectedObject(GetActivePad(), nullptr));
 
    show();
 
@@ -2177,7 +2177,7 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
    }
 
    if (selected != TGo4Picture::PictureIndex)
-      ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+      ActivateInGedEditor(GetSelectedObject(GetActivePad(), nullptr));
 }
 
 void TGo4ViewPanel::ShowEventStatus(bool)
@@ -2209,7 +2209,7 @@ void TGo4ViewPanel::UpdatePadStatus(TPad* pad, bool removeitems)
       return;
 
    BlockPanelRedraw(true);
-   ProcessPadStatusUpdate(pad, 0, removeitems);
+   ProcessPadStatusUpdate(pad, nullptr, removeitems);
    BlockPanelRedraw(false);
 }
 
@@ -2585,7 +2585,7 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot *padslot,
 
    TPad* pad = GetSlotPad(padslot);
    if (pad && pic) {
-      if (padslot->GetPar("::DrawOptAssigned") != 0) {
+      if (padslot->GetPar("::DrawOptAssigned")) {
          pic->SetDrawAttributes(pad, TGo4Picture::PictureIndex);
       } else if (!onlyscan) {
          pic->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
@@ -2603,7 +2603,7 @@ void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot *padslot,
       if (!obj || !subslot)
          continue;
 
-      if (subslot->GetPar("::DrawOptAssigned") != 0) {
+      if (subslot->GetPar("::DrawOptAssigned")) {
          pic->SetDrawAttributes(obj, n);
       } else if (!onlyscan) {
          pic->GetDrawAttributes(obj, n);
@@ -2774,7 +2774,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture*
          Int_t kind = GetDrawKind(objslot);
          // Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
-         if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
+         if (resetcolors || (kind == kind_FitModels) || objslot->GetPar("::FirstDraw")) {
             histo->SetLineColor(GetAutoColor(n));
             if ((go4sett->getDrawLineWidth() > 1) && (histo->GetLineWidth()==1))
                  histo->SetLineWidth(go4sett->getDrawLineWidth());
@@ -2819,7 +2819,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture*
          // suppress multiple drawing of axis for subgraphs
          if (n > 0) drawopt.ReplaceAll("a", "");
 
-         Bool_t first_draw = objslot->GetPar("::FirstDraw") != 0;
+         Bool_t first_draw = objslot->GetPar("::FirstDraw") != nullptr;
 
          Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
@@ -4027,7 +4027,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
    if (drawobj) {
-      bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
+      bool first_draw = (slot->GetPar("::PadFirstDraw") == nullptr);
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
       if (drawobj->InheritsFrom(TH1::Class())) {
@@ -4095,10 +4095,10 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    his->Draw(drawopt.Data());
 
-   SetSelectedRangeToHisto(pad, his, 0, padopt, true);
+   SetSelectedRangeToHisto(pad, his, nullptr, padopt, true);
 }
 
-void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
+void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture *padopt, THStack *hs,
                                 bool dosuperimpose, bool scancontent)
 {
    if (!pad || !padopt || !hs) return;
@@ -4194,7 +4194,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
       }
    }
 
-   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, nullptr, padopt, false);
 }
 
 void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph *mg, bool dosuperimpose,
@@ -4240,7 +4240,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph
       return;
    }
 
-   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, nullptr, padopt, false);
 
    // try to avoid flicker of range when in fullscale: set range before and after draw
    Double_t miny, maxy, selmin, selmax;
@@ -4619,8 +4619,8 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt) {
-      padopt->SetDrawOption(0, TGo4Picture::PictureIndex);
-      padopt->SetDrawOption(0, 0);
+      padopt->SetDrawOption(nullptr, TGo4Picture::PictureIndex);
+      padopt->SetDrawOption(nullptr, 0);
       padopt->SetTitleTime(go4sett->getDrawTimeFlag());
       padopt->SetTitleDate(go4sett->getDrawDateFlag());
       padopt->SetTitleItem(go4sett->getDrawItemFlag());
@@ -5672,7 +5672,7 @@ TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
          continue;
 
       lastobj = subslot->GetAssignedObject();
-      if (subslot->GetPar("::ActiveMarker") != 0)
+      if (subslot->GetPar("::ActiveMarker"))
          return lastobj;
    }
 
@@ -5757,7 +5757,7 @@ void TGo4ViewPanel::AutoScaleToggled(bool on)
    if (IsRedrawBlocked())
       return;
 
-   SetAutoScale(on, 0);
+   SetAutoScale(on, nullptr);
 }
 
 void TGo4ViewPanel::panelSlot(TGo4ViewPanel * panel, TPad * pad, int signalid)
