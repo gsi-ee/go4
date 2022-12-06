@@ -13,7 +13,6 @@
 
 #include "TXXXParameter.h"
 
-
 TXXXParameter::TXXXParameter(const char *name) :
    TGo4Parameter(name)
 {

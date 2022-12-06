@@ -13,15 +13,18 @@
 
 #include "TXXXAnlEvent.h"
 
-//***********************************************************
+
+//-----------------------------------------------------------
 TXXXAnlEvent::TXXXAnlEvent() : TGo4EventElement()
 {
 }
-//***********************************************************
+
+//-----------------------------------------------------------
 TXXXAnlEvent::TXXXAnlEvent(const char *name) : TGo4EventElement(name)
 {
 }
-//***********************************************************
+
+//-----------------------------------------------------------
 TXXXAnlEvent::~TXXXAnlEvent()
 {
 }
@@ -29,7 +32,6 @@ TXXXAnlEvent::~TXXXAnlEvent()
 //-----------------------------------------------------------
 void TXXXAnlEvent::Clear(Option_t *t)
 {
-  void* destfield;
-  destfield = (void*) &frData[0];
-  memset(destfield,0, sizeof(frData));
+   for (int n = 0; n < 16; n++)
+      frData[n] = 0.;
 }

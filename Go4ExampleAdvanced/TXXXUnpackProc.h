@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TXXXUNPACKPROCESSOR_H
-#define TXXXUNPACKPROCESSOR_H
+#ifndef TXXXUnpackProc_H
+#define TXXXUnpackProc_H
 
 #include "TGo4EventProcessor.h"
 
@@ -21,8 +21,8 @@ class TXXXUnpackEvent;
 
 class TXXXUnpackProc : public TGo4EventProcessor {
    private:
-       TH1           *fCr1Ch[8];
-       TH1           *fCr2Ch[8];
+       TH1           *fCr1Ch[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
+       TH1           *fCr2Ch[8]= {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
        TH2           *fCr1Ch1x2{nullptr};
        TH1           *fHis1{nullptr};
        TH1           *fHis1gate{nullptr};
@@ -52,4 +52,4 @@ class TXXXUnpackProc : public TGo4EventProcessor {
    ClassDefOverride(TXXXUnpackProc,1)
 };
 
-#endif //TXXXUNPACKPROCESSOR_H
+#endif

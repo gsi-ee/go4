@@ -168,7 +168,6 @@ TXXXUnpackProc::~TXXXUnpackProc()
    fWinCon1->PrintCondition(true);
    fPolyCon1->PrintCondition(true);
 }
-//***********************************************************
 
 //-----------------------------------------------------------
 void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
@@ -197,7 +196,6 @@ void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
    // change histogram pointer, used in parameter
    TXXXCalibPar* par = (TXXXCalibPar*) GetParameter("CaliPar");
    if (par) par->SetCalibSpectrum(fCr1Ch[0]);
-
 }
 
 //-----------------------------------------------------------
@@ -261,7 +259,6 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 //
 //            }
    //////////////////////////////////////////////////////////////////
-
 
    inp_evt->ResetIterator();
    while (auto psubevt = inp_evt->NextSubEvent()) // subevent loop
