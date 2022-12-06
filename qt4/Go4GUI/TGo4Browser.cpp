@@ -125,7 +125,7 @@ void TGo4Browser::linkedObjectUpdated(const char *linkname, TObject *obj)
    if (strcmp(linkname,"Browser") == 0) {
       ShootUpdateTimer();
    } else if (strcmp(linkname,"TGo4Slot::evSubslotUpdated") == 0) {
-      TGo4Slot* itemslot = dynamic_cast<TGo4Slot*> (obj);
+      TGo4Slot *itemslot = dynamic_cast<TGo4Slot *> (obj);
       if (itemslot)
          SetViewItemProperties(itemslot, FindItemFor(itemslot));
    }
@@ -156,8 +156,8 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
 
    QString dropname = mime->text();
 
-   TGo4Slot* tgtslot = Browser()->ItemSlot(tgtname.toLatin1().constData());
-   TGo4Slot* dropslot = Browser()->ItemSlot(dropname.toLatin1().constData());
+   TGo4Slot *tgtslot = Browser()->ItemSlot(tgtname.toLatin1().constData());
+   TGo4Slot *dropslot = Browser()->ItemSlot(dropname.toLatin1().constData());
 
    if (!tgtslot || !dropslot) return;
    if (Browser()->ItemKind(tgtslot) != TGo4Access::kndFolder) return;
@@ -197,7 +197,7 @@ QString TGo4Browser::FullItemName(QTreeWidgetItem* item)
    return name;
 }
 
-QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
+QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot *slot)
 {
    TGo4BrowserProxy* br = BrowserProxy();
    if (!br) return nullptr;
@@ -214,7 +214,7 @@ QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
    return nullptr;
 }
 
-void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item)
+void TGo4Browser::SetViewItemProperties(TGo4Slot *itemslot, QTreeWidgetItem* item)
 {
    if (!itemslot || !item) return;
 
@@ -242,7 +242,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
 
    item->setFlags(item->flags() & ~Qt::ItemIsDropEnabled);
    if (kind==TGo4Access::kndFolder) {
-      TGo4Slot* memslot = br->BrowserMemorySlot();
+      TGo4Slot *memslot = br->BrowserMemorySlot();
       if (itemslot->IsParent(memslot) || (itemslot==memslot))
         item->setFlags(item->flags() | Qt::ItemIsDropEnabled);
    }
@@ -318,7 +318,7 @@ void TGo4Browser::updateListViewItems()
 
    ServiceCall("UpdateGuiLayout");
 
-   TGo4Slot* topslot = br->BrowserTopSlot();
+   TGo4Slot *topslot = br->BrowserTopSlot();
    if (!topslot) return;
 
    checkVisisbilityFlags(true);
@@ -362,7 +362,7 @@ void TGo4Browser::updateListViewItems()
          curitem = next;
       }
 
-      TGo4Slot* curslot = iter.getslot();
+      TGo4Slot *curslot = iter.getslot();
       if (!curslot) {
          std::cerr << "************* ERROR in gui slots ****************** " << std::endl;
          return;
@@ -511,7 +511,7 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    TGo4BrowserProxy* br = BrowserProxy();
 
    int cando = br->ItemCanDo(fullname.toLatin1().constData());
-   TGo4Slot* itemslot = br->ItemSlot(fullname.toLatin1().constData());
+   TGo4Slot *itemslot = br->ItemSlot(fullname.toLatin1().constData());
 
    if (go4sett->getDrawOnceFlag()) {
       TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
@@ -564,8 +564,8 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    QTreeWidgetItem* item = ListView->itemAt(pos);
    TGo4BrowserProxy* br = BrowserProxy();
-   TGo4Slot* memslot = br->BrowserMemorySlot();
-   TGo4Slot* analslot = br->FindServerSlot(false, 1);
+   TGo4Slot *memslot = br->BrowserMemorySlot();
+   TGo4Slot *analslot = br->FindServerSlot(false, 1);
 
    bool istopmemory = false;
 
@@ -578,7 +578,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString fullname = FullItemName(*it);
-         TGo4Slot* itemslot = br->ItemSlot(fullname.toLatin1().constData());
+         TGo4Slot *itemslot = br->ItemSlot(fullname.toLatin1().constData());
          if (!itemslot) continue;
          nitems++;
 
@@ -828,7 +828,7 @@ void TGo4Browser::ContextMenuActivated(int id)
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString itemname = FullItemName(*it);
-         TGo4Slot* itemslot = br->ItemSlot(itemname.toLatin1().constData());
+         TGo4Slot *itemslot = br->ItemSlot(itemname.toLatin1().constData());
          if (!itemslot) continue;
          int cando = br->ItemCanDo(itemslot);
          int kind = br->ItemKind(itemslot);
@@ -886,7 +886,7 @@ void TGo4Browser::ContextMenuActivated(int id)
                   if (kind==TGo4Access::kndFolder) {
                      TGo4Iter iter(itemslot, kTRUE);
                      while (iter.next()) {
-                        TGo4Slot* subslot = iter.getslot();
+                        TGo4Slot *subslot = iter.getslot();
                         if (subslot->GetAssignedObject())
                            subslot->Update(kFALSE);
                      }

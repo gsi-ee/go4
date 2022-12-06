@@ -128,7 +128,7 @@ TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
 {
    const char *analisysitem = "Analysis";
 
-   TGo4Slot* analslot = Browser()->DataSlot(analisysitem);
+   TGo4Slot *analslot = Browser()->DataSlot(analisysitem);
 
    if (!analslot) {
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);

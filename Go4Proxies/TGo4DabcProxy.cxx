@@ -301,9 +301,9 @@ class TGo4DabcAccess : public TGo4Access {
 
             // dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) fRawData.SegmentPtr();
 
-            TGo4Slot* tgtslot = fxReceiver->GetSlot(fxRecvPath.Data());
+            TGo4Slot *tgtslot = fxReceiver->GetSlot(fxRecvPath.Data());
 
-            TGo4Slot* masterslot = nullptr;
+            TGo4Slot *masterslot = nullptr;
 
             if (!fMasterName.empty() && tgtslot && tgtslot->GetParent())
                masterslot = tgtslot->GetParent()->FindSlot(fMasterName.c_str());
@@ -543,7 +543,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : nullptr;
       }
 
-      TGo4Slot* getslot() override { return nullptr; }
+      TGo4Slot *getslot() override { return nullptr; }
 
       const char *name() override { return fChild.GetName(); }
       const char *info() override { return "item from dabc"; }
@@ -678,12 +678,12 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
    return ReplyCommand(&cmd2);
 }
 
-void TGo4DabcProxy::Initialize(TGo4Slot* slot)
+void TGo4DabcProxy::Initialize(TGo4Slot *slot)
 {
    fxParentSlot = slot;
 }
 
-void TGo4DabcProxy::Finalize(TGo4Slot* slot)
+void TGo4DabcProxy::Finalize(TGo4Slot *slot)
 {
 }
 
@@ -723,15 +723,15 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
    return hierarchy.null() ? nullptr : new TGo4DabcLevelIter(hierarchy);
 }
 
-void TGo4DabcProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4DabcProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
-void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
+void TGo4DabcProxy::Update(TGo4Slot *slot, Bool_t strong)
 {
    if (strong) {
       printf("GO4 WANTS update DABC hierarchy - do it\n");
@@ -780,11 +780,11 @@ Bool_t TGo4DabcProxy::ReplyCommand(void* cmd)
 }
 
 
-void TGo4DabcProxy::Initialize(TGo4Slot* slot)
+void TGo4DabcProxy::Initialize(TGo4Slot *slot)
 {
 }
 
-void TGo4DabcProxy::Finalize(TGo4Slot* slot)
+void TGo4DabcProxy::Finalize(TGo4Slot *slot)
 {
 }
 
@@ -803,17 +803,17 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
    return nullptr;
 }
 
-void TGo4DabcProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
 
 }
 
-void TGo4DabcProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 
 }
 
-void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
+void TGo4DabcProxy::Update(TGo4Slot *slot, Bool_t strong)
 {
 }
 

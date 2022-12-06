@@ -59,8 +59,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // proxy functionality
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
 
       Bool_t HasSublevels() const override;
 
@@ -68,15 +68,15 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       TGo4Access* ProvideAccess(const char *name) override;
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectKind() override { return TGo4Access::kndFolder; }
       const char *GetContainedClassName() override { return ClassName(); }
       TObject* GetAssignedObject() override { return this; }
 
-      void Update(TGo4Slot* slot, Bool_t strong) override;
+      void Update(TGo4Slot *slot, Bool_t strong) override;
 
       // server proxy functionality
 
@@ -101,9 +101,9 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void StartAnalysis() override;
       void StopAnalysis() override;
 
-      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) override;
+      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot *tgtslot) override;
 
-      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) override;
+      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot) override;
 
       Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) override;
 
@@ -140,7 +140,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // analysis proxy functionality
 
-      TGo4Slot* UpdateObjectSlot();
+      TGo4Slot *UpdateObjectSlot();
 
       // communication with analysis functionality
 

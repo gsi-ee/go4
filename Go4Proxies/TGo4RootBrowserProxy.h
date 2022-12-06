@@ -28,7 +28,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       virtual ~TGo4RootBrowserProxy();
 
-      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
+      Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param) override;
 
       void UnblockStatusOutput();
 

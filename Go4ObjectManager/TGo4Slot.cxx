@@ -23,7 +23,7 @@ class TGo4SlotIter : public TGo4LevelIter {
    public:
       TGo4SlotIter() : TGo4LevelIter(), fSlot(nullptr), fIndex(-1) {}
 
-      TGo4SlotIter(const TGo4Slot* slot) : TGo4LevelIter(), fSlot(slot), fIndex(-1) {}
+      TGo4SlotIter(const TGo4Slot *slot) : TGo4LevelIter(), fSlot(slot), fIndex(-1) {}
 
       virtual ~TGo4SlotIter() {}
 
@@ -36,7 +36,7 @@ class TGo4SlotIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override { return curSlot()->MakeLevelIter(); }
 
-      TGo4Slot* getslot() override { return curSlot(); }
+      TGo4Slot *getslot() override { return curSlot(); }
 
       const char *name() override { return curSlot()->GetName();  }
 
@@ -49,9 +49,9 @@ class TGo4SlotIter : public TGo4LevelIter {
       const char *GetClassName() override { return curSlot()->GetSlotClassName(); }
 
     protected:
-       TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }
+       TGo4Slot *curSlot() const { return fSlot->GetChild(fIndex); }
 
-       const TGo4Slot*  fSlot;  //!
+       const TGo4Slot * fSlot;  //!
        Int_t      fIndex;       //!
 };
 
@@ -64,7 +64,7 @@ TGo4Slot::TGo4Slot() :
    SetBit(kStartDelete, kFALSE);
 }
 
-TGo4Slot::TGo4Slot(TGo4Slot* parent) :
+TGo4Slot::TGo4Slot(TGo4Slot *parent) :
    TNamed(),
    fParent(parent)
 {
@@ -76,7 +76,7 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent) :
    Event(this, evCreate);
 }
 
-TGo4Slot::TGo4Slot(TGo4Slot* parent, const char *name, const char *title) :
+TGo4Slot::TGo4Slot(TGo4Slot *parent, const char *name, const char *title) :
    TNamed(name, title),
    fParent(parent)
 {
@@ -121,7 +121,7 @@ TGo4Slot::~TGo4Slot()
    if (fChilds) {
       if (gDebug>1) Info("~TGo4Slot","%p Detach rest children", this);
       for (Int_t n = 0; n <= fChilds->GetLast(); n++) {
-         TGo4Slot* child = (TGo4Slot*) fChilds->At(n);
+         TGo4Slot *child = (TGo4Slot *) fChilds->At(n);
          if (!child) continue;
          child->fParent = nullptr;
          fChilds->Remove(child);
@@ -175,9 +175,9 @@ void TGo4Slot::Delete(Option_t *)
    delete this;
 }
 
-Bool_t TGo4Slot::IsParent(const TGo4Slot* slot) const
+Bool_t TGo4Slot::IsParent(const TGo4Slot *slot) const
 {
-   TGo4Slot* parent = GetParent();
+   TGo4Slot *parent = GetParent();
    while (parent) {
       if (parent==slot) return kTRUE;
       parent = parent->GetParent();
@@ -187,7 +187,7 @@ Bool_t TGo4Slot::IsParent(const TGo4Slot* slot) const
 
 void TGo4Slot::DeleteChild(const char *name)
 {
-   TGo4Slot* child = FindChild(name);
+   TGo4Slot *child = FindChild(name);
    if (!child) return;
 
    if (!child->DoingDelete())
@@ -223,7 +223,7 @@ void TGo4Slot::DeleteChilds(const char *startedwith)
    }
 }
 
-Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
+Int_t TGo4Slot::GetIndexOf(TGo4Slot *child)
 {
    if (!child) return -1;
    for (int n = 0; n < NumChilds(); n++)
@@ -233,7 +233,7 @@ Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
 }
 
 
-TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
+TGo4Slot *TGo4Slot::GetNextChild(TGo4Slot *child)
 {
    if (!child) return nullptr;
    for (int n = 0; n < NumChilds() - 1; n++)
@@ -242,7 +242,7 @@ TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
    return nullptr;
 }
 
-TGo4Slot* TGo4Slot::FindChild(const char *name)
+TGo4Slot *TGo4Slot::FindChild(const char *name)
 {
    if (!name || (*name == 0)) return nullptr;
    Int_t num = NumChilds();
@@ -254,13 +254,13 @@ TGo4Slot* TGo4Slot::FindChild(const char *name)
 }
 
 
-TGo4Slot* TGo4Slot::GetNext()
+TGo4Slot *TGo4Slot::GetNext()
 {
-   TGo4Slot* parent = GetParent();
+   TGo4Slot *parent = GetParent();
    return !parent ? nullptr : parent->GetNextChild(this);
 }
 
-void TGo4Slot::ProduceFullName(TString& name, TGo4Slot* toparent)
+void TGo4Slot::ProduceFullName(TString& name, TGo4Slot *toparent)
 {
    if (GetParent() && (GetParent() != toparent)) {
       GetParent()->ProduceFullName(name, toparent);
@@ -270,7 +270,7 @@ void TGo4Slot::ProduceFullName(TString& name, TGo4Slot* toparent)
       name = GetName();
 }
 
-TString TGo4Slot::GetFullName(TGo4Slot* toparent)
+TString TGo4Slot::GetFullName(TGo4Slot *toparent)
 {
    TString res;
    ProduceFullName(res, toparent);
@@ -399,7 +399,7 @@ TGo4Access* TGo4Slot::ProvideSlotAccess(const char *name)
 
    const char *subname = nullptr;
 
-   TGo4Slot* subslot = DefineSubSlot(name, subname);
+   TGo4Slot *subslot = DefineSubSlot(name, subname);
 
    return !subslot ? nullptr : subslot->ProvideSlotAccess(subname);
 }
@@ -425,7 +425,7 @@ void TGo4Slot::ReadData(TDirectory* dir)
    SetProxy(cont);
 }
 
-TGo4Slot* TGo4Slot::DefineSubSlot(const char *name, const char *&subname) const
+TGo4Slot *TGo4Slot::DefineSubSlot(const char *name, const char *&subname) const
 {
    Int_t len = 0;
 
@@ -445,13 +445,13 @@ TGo4Slot* TGo4Slot::DefineSubSlot(const char *name, const char *&subname) const
    return nullptr;
 }
 
-TGo4Slot* TGo4Slot::GetSlot(const char *name, Bool_t force)
+TGo4Slot *TGo4Slot::GetSlot(const char *name, Bool_t force)
 {
    if (!name || (*name == 0)) return this;
 
    const char *subname = nullptr;
 
-   TGo4Slot* subslot = DefineSubSlot(name, subname);
+   TGo4Slot *subslot = DefineSubSlot(name, subname);
 
    if (!subslot && force) {
       TString newname;
@@ -463,7 +463,7 @@ TGo4Slot* TGo4Slot::GetSlot(const char *name, Bool_t force)
    return !subslot ? nullptr : subslot->GetSlot(subname, force);
 }
 
-TGo4Slot* TGo4Slot::FindSlot(const char *fullpath, const char** subname)
+TGo4Slot *TGo4Slot::FindSlot(const char *fullpath, const char** subname)
 {
    // exclude current dir and process parent dir
    while (fullpath && (strlen(fullpath) > 2)) {
@@ -477,18 +477,18 @@ TGo4Slot* TGo4Slot::FindSlot(const char *fullpath, const char** subname)
       break;
    }
 
-   TGo4Slot* slot = GetSlot(fullpath);
+   TGo4Slot *slot = GetSlot(fullpath);
    if (slot) {
       if (subname) *subname = nullptr;
       return slot;
    }
 
    const char *curname = fullpath;
-   TGo4Slot* curslot = this;
+   TGo4Slot *curslot = this;
 
    while (curslot) {
       const char *nextname = nullptr;
-      TGo4Slot* nextslot = curslot->DefineSubSlot(curname, nextname);
+      TGo4Slot *nextslot = curslot->DefineSubSlot(curname, nextname);
       if (!nextslot) break;
       curslot = nextslot;
       curname = nextname;
@@ -499,7 +499,7 @@ TGo4Slot* TGo4Slot::FindSlot(const char *fullpath, const char** subname)
 }
 
 
-Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before)
+Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot *slot, TGo4Slot *before)
 {
    if (!fChilds) return kFALSE;
    Int_t indx1 = !before ? -1 : fChilds->IndexOf(before);
@@ -515,7 +515,7 @@ Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before)
    return kTRUE;
 }
 
-Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after)
+Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot *slot, TGo4Slot *after)
 {
    if (!fChilds) return kFALSE;
    Int_t indx1 = !slot ? -1 : fChilds->IndexOf(slot);
@@ -531,14 +531,14 @@ Bool_t TGo4Slot::ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after)
    return kTRUE;
 }
 
-void TGo4Slot::AddChild(TGo4Slot* child)
+void TGo4Slot::AddChild(TGo4Slot *child)
 {
    if (!child) return;
    if (!fChilds) fChilds = new TObjArray;
    fChilds->Add(child);
 }
 
-void TGo4Slot::RemoveChild(TGo4Slot* child)
+void TGo4Slot::RemoveChild(TGo4Slot *child)
 {
     if (!child || !fChilds) return;
     fChilds->Remove(child);
@@ -549,7 +549,7 @@ void TGo4Slot::RemoveChild(TGo4Slot* child)
     }
 }
 
-void TGo4Slot::Event(TGo4Slot* source, Int_t id, void* param)
+void TGo4Slot::Event(TGo4Slot *source, Int_t id, void* param)
 {
    Bool_t doforward = kTRUE;
 
@@ -559,7 +559,7 @@ void TGo4Slot::Event(TGo4Slot* source, Int_t id, void* param)
    if (doforward) ForwardEvent(source, id, param);
 }
 
-void TGo4Slot::ForwardEvent(TGo4Slot* source, Int_t id, void* param)
+void TGo4Slot::ForwardEvent(TGo4Slot *source, Int_t id, void* param)
 {
   if (GetParent())
      GetParent()->Event(source, id, param);
@@ -574,7 +574,7 @@ void TGo4Slot::RecursiveRemove(TObject *obj)
 
 void TGo4Slot::Print(Option_t* option) const
 {
-   TGo4Iter iter((TGo4Slot*) this);
+   TGo4Iter iter((TGo4Slot *)this);
    while (iter.next()) {
       printf("%*c%s%s - %s\n", (iter.level()+1)*2, ' ', iter.getname(), (iter.isfolder() ? "/" : ""),  iter.getinfo());
    }

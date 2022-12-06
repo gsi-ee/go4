@@ -23,7 +23,7 @@ class TGo4DabcProxy : public TGo4ServerProxy {
    protected:
       TString    fNodeName;
       void*      fxHierarchy{nullptr};    //!  pointer on dabc::Hierarchy class
-      TGo4Slot*  fxParentSlot{nullptr};
+      TGo4Slot * fxParentSlot{nullptr};
 
    public:
       TGo4DabcProxy();
@@ -35,8 +35,8 @@ class TGo4DabcProxy : public TGo4ServerProxy {
 
       const char *GetServerName() const override { return fNodeName.Data(); }
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
 
       Bool_t HasSublevels() const override;
       TGo4Access* ProvideAccess(const char *name) override;
@@ -47,10 +47,10 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       const char *GetContainedObjectInfo() override { return nullptr; }
       Int_t GetObjectSizeInfo() override { return -1; }
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      void Update(TGo4Slot* slot, Bool_t strong) override;
+      void Update(TGo4Slot *slot, Bool_t strong) override;
 
       Bool_t RefreshNamesList() override;
 

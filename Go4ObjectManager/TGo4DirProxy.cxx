@@ -272,7 +272,7 @@ Int_t TGo4DirProxy::GetObjectSizeInfo()
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();
 }
 
-TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot* browser_slot)
+TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot)
 {
    if (!dir) return nullptr;
 
@@ -337,7 +337,7 @@ TGo4LevelIter* TGo4DirProxy::ProduceIter(TDirectory* dir, Bool_t readright)
    return new TGo4DirLevelIter(dir, readright);
 }
 
-void TGo4DirProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DirProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       const char *filename = nullptr;
@@ -349,7 +349,7 @@ void TGo4DirProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
    }
 }
 
-void TGo4DirProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4DirProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    ClearDir();
 

@@ -21,7 +21,7 @@
 
 class TGo4Iter : public TGo4AccessWrapper {
    public:
-      TGo4Iter(TGo4Slot* slot, Bool_t onlyslots = kFALSE);
+      TGo4Iter(TGo4Slot *slot, Bool_t onlyslots = kFALSE);
       virtual ~TGo4Iter();
 
       Bool_t next(Bool_t goesinto = kTRUE);
@@ -40,7 +40,7 @@ class TGo4Iter : public TGo4AccessWrapper {
       Int_t level() const;
       Int_t levelchange() const { return fLevelChange; }
       Bool_t isslot() const { return getslot() != nullptr; }
-      TGo4Slot* getslot() const;
+      TGo4Slot *getslot() const;
 
       TGo4Access* ProvideAccess(const char *name = nullptr) override;
 
@@ -50,7 +50,7 @@ class TGo4Iter : public TGo4AccessWrapper {
       TGo4LevelIter* currentiter() const
        { return fStatus != 0 ? nullptr : (TGo4LevelIter*) fLevels.Last(); }
 
-      TGo4Slot* fSlot{nullptr};      //!
+      TGo4Slot *fSlot{nullptr};      //!
       Bool_t    fOnlySlots{kFALSE};  //!
       TObjArray fLevels;             //!
       Int_t     fStatus{0};          //!  -1 start, 0 continue, 1 end

@@ -39,9 +39,9 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
       QString FullItemName(QTreeWidgetItem* item);
 
-      QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
+      QTreeWidgetItem* FindItemFor(TGo4Slot *slot);
 
-      void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
+      void SetViewItemProperties(TGo4Slot *itemslot, QTreeWidgetItem* item);
 
       void checkVisisbilityFlags(bool showall);
 

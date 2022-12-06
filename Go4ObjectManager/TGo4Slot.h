@@ -31,8 +31,8 @@ class TGo4Slot : public TNamed  {
 
       void CleanProxy();
 
-      void AddChild(TGo4Slot* child);
-      void RemoveChild(TGo4Slot* child);
+      void AddChild(TGo4Slot *child);
+      void RemoveChild(TGo4Slot *child);
 
       TGo4Slot          *fParent{nullptr};
       TObjArray         *fChilds{nullptr};
@@ -51,13 +51,13 @@ class TGo4Slot : public TNamed  {
              evObjDeleted = 6 };
 
       TGo4Slot();
-      TGo4Slot(TGo4Slot* parent);
-      TGo4Slot(TGo4Slot* parent, const char *name, const char *title);
+      TGo4Slot(TGo4Slot *parent);
+      TGo4Slot(TGo4Slot *parent, const char *name, const char *title);
       virtual ~TGo4Slot();
 
-      TGo4Slot* GetParent() const { return fParent; }
-      void SetParent(TGo4Slot* parent) { fParent = parent; }
-      Bool_t IsParent(const TGo4Slot* slot) const;
+      TGo4Slot *GetParent() const { return fParent; }
+      void SetParent(TGo4Slot *parent) { fParent = parent; }
+      Bool_t IsParent(const TGo4Slot *slot) const;
 
       virtual void ProduceFullName(TString& name, TGo4Slot *toparent = nullptr);
       TString GetFullName(TGo4Slot *toparent = nullptr);
@@ -74,20 +74,20 @@ class TGo4Slot : public TNamed  {
       void PrintPars(Int_t level = 3);
 
       Int_t NumChilds() const { return fChilds ? fChilds->GetLast()+1 : 0; }
-      TGo4Slot* GetChild(Int_t n) const { return fChilds ? (TGo4Slot*) fChilds->At(n) : nullptr; }
-      TGo4Slot* FindChild(const char *name);
-      Int_t GetIndexOf(TGo4Slot* child);
-      TGo4Slot* GetNextChild(TGo4Slot* child);
-      TGo4Slot* GetNext();
+      TGo4Slot *GetChild(Int_t n) const { return fChilds ? (TGo4Slot *) fChilds->At(n) : nullptr; }
+      TGo4Slot *FindChild(const char *name);
+      Int_t GetIndexOf(TGo4Slot *child);
+      TGo4Slot *GetNextChild(TGo4Slot *child);
+      TGo4Slot *GetNext();
       void DeleteChild(const char *name);
       void DeleteChilds(const char *startedwith = nullptr);
       void Delete(Option_t *opt = "") override;
 
-      TGo4Slot* DefineSubSlot(const char *name, const char *&subname) const;
-      TGo4Slot* GetSlot(const char *name, Bool_t force = kFALSE);
-      TGo4Slot* FindSlot(const char *fullpath, const char** subname = nullptr);
-      Bool_t ShiftSlotBefore(TGo4Slot* slot, TGo4Slot* before);
-      Bool_t ShiftSlotAfter(TGo4Slot* slot, TGo4Slot* after);
+      TGo4Slot *DefineSubSlot(const char *name, const char *&subname) const;
+      TGo4Slot *GetSlot(const char *name, Bool_t force = kFALSE);
+      TGo4Slot *FindSlot(const char *fullpath, const char** subname = nullptr);
+      Bool_t ShiftSlotBefore(TGo4Slot *slot, TGo4Slot *before);
+      Bool_t ShiftSlotAfter(TGo4Slot *slot, TGo4Slot *after);
 
       void SetProxy(TGo4Proxy* cont);
       TGo4Proxy* GetProxy() const { return fProxy; }
@@ -112,8 +112,8 @@ class TGo4Slot : public TNamed  {
       void ReadData(TDirectory* dir);
 
       // method required to be virtual for object manager
-      virtual void Event(TGo4Slot* source, Int_t id, void *param = nullptr);
-      void ForwardEvent(TGo4Slot* source, Int_t id, void *param = nullptr);
+      virtual void Event(TGo4Slot *source, Int_t id, void *param = nullptr);
+      void ForwardEvent(TGo4Slot *source, Int_t id, void *param = nullptr);
 
       void RecursiveRemove(TObject *obj) override;
 

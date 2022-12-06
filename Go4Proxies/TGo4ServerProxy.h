@@ -21,7 +21,7 @@
 
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
-      TGo4Slot*        fxParentSlot{nullptr};           //!
+      TGo4Slot *       fxParentSlot{nullptr};           //!
       Bool_t           fbAnalysisReady{kFALSE};         // true if analysis is connected and get first info
       Bool_t           fbAnalysisSettingsReady{kFALSE}; // true when settings are specified
       Int_t            fAnalysisLaunched{0};            //! 0 - not launched, 1 - external shell, 2 - in qt shell
@@ -32,13 +32,13 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
 
-      void Initialize(TGo4Slot* slot) override { fxParentSlot = slot; }
+      void Initialize(TGo4Slot *slot) override { fxParentSlot = slot; }
 
-      TGo4Slot* ParentSlot() { return fxParentSlot; }
-      TGo4Slot* SettingsSlot();
-      TGo4Slot* RatemeterSlot();
-      TGo4Slot* LoginfoSlot();
-      TGo4Slot* DebugOutputSlot();
+      TGo4Slot *ParentSlot() { return fxParentSlot; }
+      TGo4Slot *SettingsSlot();
+      TGo4Slot *RatemeterSlot();
+      TGo4Slot *LoginfoSlot();
+      TGo4Slot *DebugOutputSlot();
 
       virtual const char *GetServerName() const { return fNodeName.Data(); }
       virtual const char *GetUserName() const { return ""; }
@@ -78,7 +78,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual void StartAnalysis() {}
       virtual void StopAnalysis() {}
 
-      virtual Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) { return kFALSE; }
+      virtual Bool_t RequestObjectStatus(const char *objectname, TGo4Slot *tgtslot) { return kFALSE; }
 
       virtual Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) { return kFALSE; }
 
@@ -90,7 +90,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                   const char *cutcond,
                                   const char *hname) {}
 
-      virtual void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) {}
+      virtual void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot) {}
 
       virtual void RemotePrintEvent(const char *evname,
                                     Int_t evnumber,

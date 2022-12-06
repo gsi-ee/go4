@@ -103,7 +103,7 @@ private:
 
       void ObjectCreatedByWidget(const char *itemname, TClass* cl);
 
-      void ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot* slot);
+      void ProcessSignal(const char *linkname, bool assigned, TObject *obj, TGo4Slot *slot);
 
       static QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
             const QString& text, int id, int enabled = -1, int checked = -1);
@@ -131,25 +131,25 @@ private:
       void AddLink(const char *itemname, const char *linkname);
 
       /** create link for object in slot with name linkname*/
-      void AddLink(TGo4Slot* slot, const char *linkname);
+      void AddLink(TGo4Slot *slot, const char *linkname);
 
       /** create link for item in dedicated slot parent */
-      TGo4Slot* AddLink(const char *itemname, TGo4Slot* parent);
+      TGo4Slot *AddLink(const char *itemname, TGo4Slot *parent);
 
       /** return top slot of structure, corresponding to this widget */
-      TGo4Slot* GetTopSlot(bool force = false);
+      TGo4Slot *GetTopSlot(bool force = false);
 
       /** add slot with specific name to widget top folder */
-      TGo4Slot* AddSlot(const char *slotname);
+      TGo4Slot *AddSlot(const char *slotname);
 
       /** set name of item, which was linked by this slot */
-      void SetLinkedName(TGo4Slot* slot, const char *itemname);
+      void SetLinkedName(TGo4Slot *slot, const char *itemname);
 
       /** returns name of item, which was linked with linkname */
       const char *GetLinkedName(const char *linkname);
 
       /** returns name of item, which was linked in that slot */
-      const char *GetLinkedName(TGo4Slot* slot);
+      const char *GetLinkedName(TGo4Slot *slot);
 
       TObject* GetLinked(const char *linkname, int updatelevel = 0);
 
@@ -178,7 +178,7 @@ private:
       void UndrawItem(const char *itemname);
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const QString& itemname);
-      void EditObjectInSlot(TGo4Slot* slot);
+      void EditObjectInSlot(TGo4Slot *slot);
       QString SaveObjectInMemory(const char *foldername, TObject *obj);
       bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
       bool UpdateItemInAnalysis(const char *itemname, TObject *obj = nullptr);
@@ -195,8 +195,8 @@ private:
       virtual void requestedObjectCreated(const char *itemname, TClass* cl);
       virtual void linkedObjectUpdated(const char *linkname, TObject *obj);
       virtual void linkedObjectRemoved(const char *linkname);
-      virtual void linkedUpdated(TGo4Slot* slot, TObject *obj);
-      virtual void linkedRemoved(TGo4Slot* slot, TObject *obj);
+      virtual void linkedUpdated(TGo4Slot *slot, TObject *obj);
+      virtual void linkedRemoved(TGo4Slot *slot, TObject *obj);
 
       void setCanDestroyWidget(bool on = true) { fCanDestroyWidget = on; }
 

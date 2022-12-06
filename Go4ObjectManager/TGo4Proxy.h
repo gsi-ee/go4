@@ -58,7 +58,7 @@ class TGo4Access {
 
       /** Made for convenience - extracts OM and slot path and
        *  calls AssignObjectTo method */
-      Int_t AssignObjectToSlot(TGo4Slot* slot);
+      Int_t AssignObjectToSlot(TGo4Slot *slot);
 
     protected:
       void DoObjectAssignement(TGo4ObjectManager* rcv,
@@ -78,8 +78,8 @@ class TGo4LevelIter : public TObject {
       virtual Bool_t isfolder() { return kFALSE; }
       virtual Bool_t isslotsfolder() { return kFALSE; }
       virtual Int_t getflag(const char*) { return -1; }
-      virtual TGo4LevelIter* subiterator() { return nullptr; }
-      virtual TGo4Slot* getslot() { return nullptr; }
+      virtual TGo4LevelIter *subiterator() { return nullptr; }
+      virtual TGo4Slot *getslot() { return nullptr; }
       virtual const char *name() { return nullptr; }
       virtual const char *info() { return nullptr; }
       virtual Int_t sizeinfo() { return 0; }
@@ -95,9 +95,9 @@ class TGo4Proxy : public TObject {
       TGo4Proxy() : TObject() {}
       virtual ~TGo4Proxy() {}
 
-      virtual void Initialize(TGo4Slot*) {}
-      virtual void Finalize(TGo4Slot*) {}
-      virtual Bool_t RemoveRegisteredObject(TObject*) { return kFALSE; }
+      virtual void Initialize(TGo4Slot *) {}
+      virtual void Finalize(TGo4Slot *) {}
+      virtual Bool_t RemoveRegisteredObject(TObject *) { return kFALSE; }
 
       virtual Bool_t Use() const { return kTRUE; }
 
@@ -110,15 +110,15 @@ class TGo4Proxy : public TObject {
       virtual const char *GetContainedObjectInfo() { return nullptr; }
       virtual Int_t GetObjectSizeInfo() { return -1; }
 
-      virtual void WriteData(TGo4Slot*, TDirectory*, Bool_t) {}
-      virtual void ReadData(TGo4Slot*, TDirectory*) {}
+      virtual void WriteData(TGo4Slot *, TDirectory *, Bool_t) {}
+      virtual void ReadData(TGo4Slot *, TDirectory *) {}
 
-      virtual Bool_t IsAcceptObject(TClass*) { return kFALSE; }
-      virtual Bool_t AssignObject(TGo4Slot*, TObject*, Bool_t) { return kFALSE; }
-      virtual TObject* GetAssignedObject() { return nullptr; }
-      virtual void Update(TGo4Slot*, Bool_t) {}
+      virtual Bool_t IsAcceptObject(TClass *) { return kFALSE; }
+      virtual Bool_t AssignObject(TGo4Slot *, TObject *, Bool_t) { return kFALSE; }
+      virtual TObject *GetAssignedObject() { return nullptr; }
+      virtual void Update(TGo4Slot *, Bool_t) {}
 
-      virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) { return kTRUE; }
+      virtual Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param) { return kTRUE; }
 
       static TClass* GetClass(const char *classname, Bool_t load = kFALSE);
 

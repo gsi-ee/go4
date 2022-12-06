@@ -20,7 +20,7 @@ TGo4LinkProxy::TGo4LinkProxy() :
 {
 }
 
-TGo4LinkProxy::TGo4LinkProxy(TGo4Slot* linkedslot) :
+TGo4LinkProxy::TGo4LinkProxy(TGo4Slot *linkedslot) :
    TGo4Proxy(),
    fLink(linkedslot)
 {
@@ -30,14 +30,14 @@ TGo4LinkProxy::~TGo4LinkProxy()
 {
 }
 
-void TGo4LinkProxy::Initialize(TGo4Slot* slot)
+void TGo4LinkProxy::Initialize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om)
      om->RegisterLink(fLink, slot);
 }
 
-void TGo4LinkProxy::Finalize(TGo4Slot* slot)
+void TGo4LinkProxy::Finalize(TGo4Slot *slot)
 {
    auto om = slot->GetOM();
    if (om) {
@@ -61,7 +61,7 @@ TGo4LevelIter* TGo4LinkProxy::MakeIter()
    return fLink ? fLink->MakeLevelIter() : nullptr;
 }
 
-void TGo4LinkProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4LinkProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       TString linkname;
@@ -72,7 +72,7 @@ void TGo4LinkProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
    }
 }
 
-void TGo4LinkProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4LinkProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
    const char *linkname = slot->GetPar("LinkProxy::LinkName");
    if (linkname)
@@ -94,7 +94,7 @@ Bool_t TGo4LinkProxy::IsAcceptObject(TClass* cl)
    return fLink ? fLink->IsAcceptObject(cl) : kFALSE;
 }
 
-Bool_t TGo4LinkProxy::AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner)
+Bool_t TGo4LinkProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
 {
    return fLink ? fLink->AssignObject(obj, owner) : kFALSE;
 }
@@ -104,7 +104,7 @@ TObject* TGo4LinkProxy::GetAssignedObject()
    return fLink ? fLink->GetAssignedObject() : nullptr;
 }
 
-Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)
+Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
 {
     if ((id == TGo4Slot::evDelete) && (source == fLink)) {
        // next line very important.

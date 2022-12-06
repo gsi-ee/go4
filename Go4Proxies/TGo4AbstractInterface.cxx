@@ -144,7 +144,7 @@ Bool_t TGo4AbstractInterface::ExportToFile(const char *itemname,
                                            const char *format,
                                            const char *filetitle)
 {
-    TGo4Slot* topslot = Browser()->ItemSlot(itemname);
+    TGo4Slot *topslot = Browser()->ItemSlot(itemname);
     if (!topslot) return kFALSE;
 
     TObjArray items;
@@ -207,7 +207,7 @@ void TGo4AbstractInterface::RequestAnalysisConfig()
 
 void TGo4AbstractInterface::MonitorItem(const char *itemname, Bool_t on)
 {
-   TGo4Slot* itemslot = Browser()->BrowserSlot(itemname);
+   TGo4Slot *itemslot = Browser()->BrowserSlot(itemname);
    if (itemslot)
      Browser()->SetItemMonitored(itemslot, on);
 }

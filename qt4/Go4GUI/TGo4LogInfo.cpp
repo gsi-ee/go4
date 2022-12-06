@@ -34,7 +34,7 @@ TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char *name) :
    LogText->header()->setStretchLastSection(true);
 }
 
-void TGo4LogInfo::WorkWithInfo(TGo4Slot* slot)
+void TGo4LogInfo::WorkWithInfo(TGo4Slot *slot)
 {
     ResetWidget();
     AddLink(slot, "Loginfo");

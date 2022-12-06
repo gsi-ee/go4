@@ -151,7 +151,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t CheckShutdown(Bool_t force = kFALSE);
 
-      TGo4HttpAccess* SubmitRequest(const char *itemname, Int_t kind, TGo4Slot* tgtslot, const char *extra_arg = nullptr);
+      TGo4HttpAccess* SubmitRequest(const char *itemname, Int_t kind, TGo4Slot *tgtslot, const char *extra_arg = nullptr);
 
    public:
       TGo4HttpProxy();
@@ -162,8 +162,8 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       Bool_t Connect(const char *nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override {}
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override {}
 
       Bool_t HasSublevels() const override;
       TGo4Access* ProvideAccess(const char *name) override;
@@ -175,10 +175,10 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() override { return -1; }
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      void Update(TGo4Slot* slot, Bool_t strong) override;
+      void Update(TGo4Slot *slot, Bool_t strong) override;
 
       TString FindCommand(const char *name) override;
       Int_t  NumCommandArgs(const char *name) override;
@@ -206,7 +206,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       void StartAnalysis() override;
       void StopAnalysis() override;
 
-      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot* tgtslot) override;
+      Bool_t RequestObjectStatus(const char *objectname, TGo4Slot *tgtslot) override;
 
       Bool_t UpdateAnalysisObject(const char *objectname, TObject *obj) override;
 
@@ -218,7 +218,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
                           const char *cutcond,
                           const char *hname) override;
 
-      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot* tgtslot) override;
+      void RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot) override;
 
       void RemotePrintEvent(const char *evname,
                             Int_t evnumber,

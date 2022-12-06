@@ -37,7 +37,7 @@ TGo4AnalysisStatusMonitor::~TGo4AnalysisStatusMonitor()
    delete fxRunMovie;
 }
 
-void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot* slot)
+void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot *slot)
 {
    AddLink(slot, "Ratemeter");
 }

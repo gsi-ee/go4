@@ -26,7 +26,7 @@ class TGo4LogInfo : public QGo4Widget, public Ui::TGo4LogInfo
 public:
    TGo4LogInfo(QWidget *parent = nullptr, const char *name = nullptr);
 
-   void WorkWithInfo(TGo4Slot* slot);
+   void WorkWithInfo(TGo4Slot *slot);
 
    void linkedObjectUpdated( const char * linkname, TObject * obj) override;
 

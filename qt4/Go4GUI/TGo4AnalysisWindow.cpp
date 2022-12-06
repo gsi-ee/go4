@@ -487,14 +487,14 @@ void TGo4AnalysisWindow::PrintEvent()
    ServiceCall("StartEventInfo");
 }
 
-void TGo4AnalysisWindow::WorkWithDebugOutput(TGo4Slot* slot)
+void TGo4AnalysisWindow::WorkWithDebugOutput(TGo4Slot *slot)
 {
    // can be called only once when window is created
    AddLink(slot, "DebugOutput");
    fHasLink = true;
 }
 
-void TGo4AnalysisWindow::WorkWithUpdateObjectCmd(TGo4Slot* slot)
+void TGo4AnalysisWindow::WorkWithUpdateObjectCmd(TGo4Slot *slot)
 {
    // can be called only once when window is created
    AddLink(slot, "ObjectUpdateCmd");

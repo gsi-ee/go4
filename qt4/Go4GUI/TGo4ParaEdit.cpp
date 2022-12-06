@@ -125,7 +125,7 @@ void TGo4ParaEdit::WorkWithParameter(const char *itemname, bool isrefresh)
    QString tooltip = "Refresh parameter values from analysis";
 
    if (BrowserItemRemote(itemname)) {
-      TGo4Slot* tgtslot = AddSlot("ParStatus");
+      TGo4Slot *tgtslot = AddSlot("ParStatus");
       TGo4BrowserProxy* br = Browser();
       if (br) br->RequestObjectStatus(itemname, tgtslot);
       // add dummy link to be informed when parameter is disappear
@@ -400,7 +400,7 @@ void TGo4ParaEdit::EditFitter()
       info->SetObject(fitter, kTRUE);
    }
 
-   TGo4Slot* fitterslot = AddSlot("Fitter");
+   TGo4Slot *fitterslot = AddSlot("Fitter");
    fitterslot->AssignObject(fitter, kFALSE);
    EditObjectInSlot(fitterslot);
    PleaseUpdateLabel->setVisible(true);

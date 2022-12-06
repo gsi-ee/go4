@@ -21,11 +21,11 @@ class TString;
 class TGo4LinkProxy : public TGo4Proxy {
    public:
       TGo4LinkProxy();
-      TGo4LinkProxy(TGo4Slot* linkedslot);
+      TGo4LinkProxy(TGo4Slot *linkedslot);
       virtual ~TGo4LinkProxy();
 
-      void Initialize(TGo4Slot* slot) override;
-      void Finalize(TGo4Slot* slot) override;
+      void Initialize(TGo4Slot *slot) override;
+      void Finalize(TGo4Slot *slot) override;
 
       TGo4Access* ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
@@ -33,19 +33,19 @@ class TGo4LinkProxy : public TGo4Proxy {
       Int_t GetObjectKind() override;
       const char *GetContainedClassName() override;
 
-      void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot* slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       Bool_t IsAcceptObject(TClass* cl) override;
-      Bool_t AssignObject(TGo4Slot* slot, TObject *obj, Bool_t owner) override;
+      Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject* GetAssignedObject() override;
 
-      Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) override;
+      Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param) override;
 
-      TGo4Slot* GetLink() const { return fLink; }
+      TGo4Slot *GetLink() const { return fLink; }
 
    protected:
-      TGo4Slot*     fLink{nullptr};     //!
+      TGo4Slot *    fLink{nullptr};     //!
 
    ClassDefOverride(TGo4LinkProxy, 1);
 };

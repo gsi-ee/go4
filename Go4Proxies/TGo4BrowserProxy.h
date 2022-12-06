@@ -213,15 +213,15 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void UpdateAllCanvases();
 
-      void AddWaitingList(TGo4Slot* itemslot, const char *destination = nullptr);
-      void CheckWaitingList(TGo4Slot* source);
+      void AddWaitingList(TGo4Slot *itemslot, const char *destination = nullptr);
+      void CheckWaitingList(TGo4Slot *source);
 
       static Int_t CompareAxis(TAxis* ax1, TAxis* ax2);
       static Bool_t CompareAxisValues(Double_t v1, Double_t v2, Double_t scale);
 
-      Int_t CalculateFolderSizes(TGo4Slot* topslot);
+      Int_t CalculateFolderSizes(TGo4Slot *topslot);
 
-      void CheckPictureMonitor(TGo4Slot* slot);
+      void CheckPictureMonitor(TGo4Slot *slot);
       void CheckPictureMonitor(TGo4Picture* pic, const char *picitemname);
 
       static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
@@ -236,7 +236,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t             fbWithRootBrowser{kFALSE};  //!
       TString            fxMemoryPath;               //!
       TGo4ObjectManager *fxOM{nullptr};              //!
-      TGo4Slot*          fxBrowserSlot{nullptr};     //!
+      TGo4Slot *         fxBrowserSlot{nullptr};     //!
       Int_t              fiMonitoringPeriod{0};      //!
       TTimer*            fxMonitorTimer{nullptr};    //!
       Bool_t             fbBlockMonitoring{kFALSE};  //!

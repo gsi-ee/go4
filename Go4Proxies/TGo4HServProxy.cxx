@@ -27,7 +27,7 @@ class TGo4HServIter : public TGo4LevelIter {
    public:
       TGo4HServIter() : TGo4LevelIter() {}
 
-      TGo4HServIter(const TGo4Slot* slot) : TGo4LevelIter(), fSlot(slot) {}
+      TGo4HServIter(const TGo4Slot *slot) : TGo4LevelIter(), fSlot(slot) {}
 
       virtual ~TGo4HServIter() {}
 
@@ -53,9 +53,9 @@ class TGo4HServIter : public TGo4LevelIter {
       const char *GetClassName() override { return curSlot()->GetPar("::HistoClass"); }
 
     protected:
-       TGo4Slot* curSlot() const { return fSlot->GetChild(fIndex); }
+       TGo4Slot *curSlot() const { return fSlot->GetChild(fIndex); }
 
-       const TGo4Slot* fSlot{nullptr};  //!
+       const TGo4Slot *fSlot{nullptr};  //!
        Int_t      fIndex{-1};           //!
 };
 
@@ -131,11 +131,11 @@ void TGo4HServProxy::SetHServConfig(const char *servername,
    fFilter = filter;
 }
 
-void TGo4HServProxy::Initialize(TGo4Slot* slot)
+void TGo4HServProxy::Initialize(TGo4Slot *slot)
 {
 }
 
-void TGo4HServProxy::Finalize(TGo4Slot* slot)
+void TGo4HServProxy::Finalize(TGo4Slot *slot)
 {
 }
 
@@ -152,16 +152,16 @@ TGo4LevelIter* TGo4HServProxy::MakeIter()
 
 TGo4Access* TGo4HServProxy::ProvideAccess(const char *name)
 {
-   TGo4Slot* itemslot = fxStructure ? fxStructure->GetSlot(name) : nullptr;
+   TGo4Slot *itemslot = fxStructure ? fxStructure->GetSlot(name) : nullptr;
    if (!itemslot) return nullptr;
    return new TGo4HServObjectAccess(this, itemslot->GetName(), name, itemslot->GetPar("::HistoClass"));
 }
 
-void TGo4HServProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HServProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4HServProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
+void TGo4HServProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
@@ -175,7 +175,7 @@ const char *TGo4HServProxy::GetContainedClassName()
    return fxStructure ? ClassName() : nullptr;
 }
 
-void TGo4HServProxy::Update(TGo4Slot* slot, Bool_t strong)
+void TGo4HServProxy::Update(TGo4Slot *slot, Bool_t strong)
 {
 }
 
@@ -218,7 +218,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
 //           << "  type = " << HisType
 //           << "  date = " << ps_his_head->c_data_time_cre << std::endl;
 
-      TGo4Slot* child = fxStructure->GetSlot(ps_his_head->c_name, kTRUE);
+      TGo4Slot *child = fxStructure->GetSlot(ps_his_head->c_name, kTRUE);
       if (child) {
          child->SetPar("::HistoClass", HisType.Data());
          child->SetPar("::Date", ps_his_head->c_data_time_cre);
