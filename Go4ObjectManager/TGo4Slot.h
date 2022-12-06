@@ -127,6 +127,5 @@ class TGo4Slot : public TNamed  {
    ClassDefOverride(TGo4Slot, 1);
 };
 
-
 #endif
 

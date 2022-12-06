@@ -22,8 +22,8 @@ class TH1;
 class TGo4DabcProxy : public TGo4ServerProxy {
    protected:
       TString    fNodeName;
-      void*      fxHierarchy{nullptr};    //!  pointer on dabc::Hierarchy class
-      TGo4Slot * fxParentSlot{nullptr};
+      void      *fxHierarchy{nullptr};    //!  pointer on dabc::Hierarchy class
+      TGo4Slot  *fxParentSlot{nullptr};
 
    public:
       TGo4DabcProxy();

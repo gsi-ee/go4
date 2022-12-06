@@ -65,7 +65,7 @@ class TGo4HServProxy : public TGo4ServerProxy {
       TString    fUserPass;          //!
       TString    fFilter;            //!
 
-      TGo4Slot *  fxStructure{nullptr};   //!
+      TGo4Slot  *fxStructure{nullptr};   //!
 
    ClassDefOverride(TGo4HServProxy, 1);
 };

@@ -21,7 +21,7 @@
 
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
-      TGo4Slot *       fxParentSlot{nullptr};           //!
+      TGo4Slot        *fxParentSlot{nullptr};           //!
       Bool_t           fbAnalysisReady{kFALSE};         // true if analysis is connected and get first info
       Bool_t           fbAnalysisSettingsReady{kFALSE}; // true when settings are specified
       Int_t            fAnalysisLaunched{0};            //! 0 - not launched, 1 - external shell, 2 - in qt shell
