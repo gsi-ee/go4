@@ -262,7 +262,7 @@ void TGo4HttpAccess::httpFinished()
    fReply = nullptr;
 
    if (gDebug > 2)
-      printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
+      printf("TGo4HttpAccess::httpFinished Get reply size %ld\n", (long) res.size());
 
    // regular ratemeter update used to check connection status
    if (fUrlPath == "Status/Ratemeter") {
@@ -1124,7 +1124,8 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
          fConnected = true;
       }
 
-      if (gDebug>2) printf("TGo4HttpProxy:: get reply on multi.bin request with %d bytes\n", res.size());
+      if (gDebug > 2)
+         printf("TGo4HttpProxy:: get reply on multi.bin request with %ld bytes\n", (long) res.size());
 
       int pos = 0;
 
@@ -1180,7 +1181,8 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
          }
       }
 
-      if (pos != res.size()) printf("Decoding fails %d != %d bytes\n", pos, res.size());
+      if (pos != res.size())
+         printf("Decoding fails %d != %ld bytes\n", pos, (long) res.size());
 
       return;
    }
@@ -1238,7 +1240,6 @@ Bool_t TGo4HttpProxy::CheckShutdown(Bool_t force)
    return kFALSE;
 }
 
-
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
    if ((fShutdownCnt > 0) && (--fShutdownCnt == 0)) {
@@ -1287,7 +1288,6 @@ void TGo4HttpProxy::ProcessUpdateTimer()
          SubmitRequest("Status/Log", 7, subslot, arg);
       }
    }
-
 }
 
 void TGo4HttpProxy::RemoteTreeDraw(const char *treename,
@@ -1328,7 +1328,6 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char *itemname, Int_t kind, T
 
    return access;
 }
-
 
 void TGo4HttpProxy::RequestEventStatus(const char *evname, Bool_t astree, TGo4Slot *tgtslot)
 {
@@ -1406,5 +1405,3 @@ void TGo4HttpProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown)
       CheckShutdown(kTRUE);
    }
 }
-
-
