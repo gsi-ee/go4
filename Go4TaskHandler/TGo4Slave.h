@@ -92,7 +92,7 @@ class TGo4Slave : public TGo4TaskOwner {
        */
       virtual TGo4TaskStatus* CreateStatus();
 
-      Bool_t MainIsRunning() { return fbMainIsRunning; }
+      Bool_t MainIsRunning() const { return fbMainIsRunning; }
 
       /** Delivers next command from command queue. */
       TGo4Command* NextCommand();

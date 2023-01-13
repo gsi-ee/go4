@@ -511,7 +511,7 @@ public:
      * if no slave task (analysis client) is available, always true
      * (plain batch mode never stops)
      * Test: read by reference than copy value, faster?*/
-   Bool_t IsRunning();
+   Bool_t IsRunning() const;
 
    /** Switch slave process into running state. To be used
     * from analysis macro to start/stop the go4 loop on certain

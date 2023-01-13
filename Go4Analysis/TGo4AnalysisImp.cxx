@@ -1230,7 +1230,7 @@ void TGo4Analysis::SendObjectToGUI(TObject* ob)
    fxAnalysisSlave->SendObject(dynamic_cast<TNamed*>(ob));
 }
 
-Bool_t TGo4Analysis::IsRunning()
+Bool_t TGo4Analysis::IsRunning() const
 {
    if(fxAnalysisSlave)
       return fxAnalysisSlave->MainIsRunning();
