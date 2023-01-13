@@ -132,7 +132,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char *rest_url_opt)  override;
 
-      Bool_t IsShapedType() { return kTRUE; }
+      Bool_t IsShapedType() const { return kTRUE; }
 
       void SetResolution(Int_t npoints) { fiResolution = npoints; }
 

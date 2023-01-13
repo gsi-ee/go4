@@ -302,7 +302,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     Int_t GetDimension() { return fiDim; }
 
     void SetOwnedByEditor(Bool_t on) { fbOwnedByEditor = on; }
-    Bool_t IsOwnedByEditor() { return fbOwnedByEditor; }
+    Bool_t IsOwnedByEditor() const { return fbOwnedByEditor; }
 
     /** set index for array type subclasses */
     virtual void SetCurrentIndex(Int_t) {}

@@ -53,7 +53,7 @@ public:
     /** Will reset label position to defaults */
     void ResetLabel();// *MENU*
 
-    Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
+    Bool_t IsAtExecuteMouseEvent() const { return fbExecutesMouseEvent; }
 
 private:
 

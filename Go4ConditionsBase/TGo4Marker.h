@@ -61,7 +61,7 @@ public:
    void DeletePainter();
 
    void SetVisible(Bool_t on) { fbVisible = on; }
-   Bool_t IsVisible() { return fbVisible; }
+   Bool_t IsVisible() const { return fbVisible; }
    virtual void SetName(const char *name) { fxName = name; } // *MENU*
    // void DeleteMarker(); // *MENU*
 
