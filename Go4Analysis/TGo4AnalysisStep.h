@@ -207,9 +207,9 @@ class TGo4AnalysisStep : public TNamed {
 
     Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
 
-    Bool_t IsKeepInputEvent() { return fxEventProcessor ? fxEventProcessor->IsKeepInputEvent() : kFALSE; }
+    Bool_t IsKeepInputEvent() const { return fxEventProcessor ? fxEventProcessor->IsKeepInputEvent() : kFALSE; }
 
-    Bool_t IsKeepOutputEvent() { return fxEventProcessor ? fxEventProcessor->IsKeepOutputEvent() : kFALSE; }
+    Bool_t IsKeepOutputEvent() const { return fxEventProcessor ? fxEventProcessor->IsKeepOutputEvent() : kFALSE; }
 
     /** True if analysis step has been stopped on error. */
     Bool_t IsErrorStopped() const { return fbErrorStopped; }
@@ -268,10 +268,10 @@ class TGo4AnalysisStep : public TNamed {
     void Close();
 
     /** Set all analysis step parameters to that of given status object. */
-    void SetStatus(TGo4AnalysisStepStatus * state);
+    void SetStatus(TGo4AnalysisStepStatus *state);
 
     /** Create a copy of the analysis step internal state. To be sent to the Display. */
-    TGo4AnalysisStepStatus * CreateStatus();
+    TGo4AnalysisStepStatus *CreateStatus();
 
   private:
 
@@ -377,4 +377,4 @@ class TGo4AnalysisStep : public TNamed {
   ClassDefOverride(TGo4AnalysisStep,1)
 };
 
-#endif //TGO4ANALYSISSTEP_H
+#endif
