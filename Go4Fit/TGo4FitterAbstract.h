@@ -208,7 +208,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Return kTRUE, if parameters were taken as result values.
        */
-      Bool_t IsParsAsResults() { return fbParsAsResults; }
+      Bool_t IsParsAsResults() const { return fbParsAsResults; }
 
       /**
        * Return number of result values.
@@ -259,7 +259,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Return kTRUE, if Initialize() was done.
        */
-      Bool_t IsInitialized() { return fbInitializationDone; }
+      Bool_t IsInitialized() const { return fbInitializationDone; }
 
       /**
        * Remove all buffer, created in Initialize() routine.

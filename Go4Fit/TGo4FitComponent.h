@@ -138,7 +138,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Return kTRUE, if any range conditions were introduced.
        */
-      Bool_t IsAnyRangeLimits();
+      Bool_t IsAnyRangeLimits() const;
 
       /**
        * Defines minimum allowed value for given range.
@@ -199,7 +199,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Return kTRUE if cut exclude range
        */
-      Bool_t IsRangeCutExcluding(Int_t n);
+      Bool_t IsRangeCutExcluding(Int_t n) const;
 
       /**
        * Set type of range cut (excluding or including)

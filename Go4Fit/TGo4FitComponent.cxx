@@ -260,7 +260,7 @@ void TGo4FitComponent::ClearRanges(Int_t naxis)
    }
 }
 
-Bool_t TGo4FitComponent::IsAnyRangeLimits()
+Bool_t TGo4FitComponent::IsAnyRangeLimits() const
 {
    return (GetNumRangeCondition() > 0) || (GetNumRangeCut() > 0);
 }
@@ -281,7 +281,7 @@ TCutG *TGo4FitComponent::GetRangeCut(Int_t n) const
    return (n >= 0) && (n <= fxCuts.GetLast()) ? dynamic_cast<TCutG *>(fxCuts.At(n)) : nullptr;
 }
 
-Bool_t TGo4FitComponent::IsRangeCutExcluding(Int_t n)
+Bool_t TGo4FitComponent::IsRangeCutExcluding(Int_t n) const
 {
    TCutG *cut = GetRangeCut(n);
    return !cut ? kFALSE : cut->TestBit(kExcludeCut);

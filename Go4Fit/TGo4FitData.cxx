@@ -73,12 +73,12 @@ Bool_t TGo4FitData::SetNumberOfTransSlots(Int_t nslots)
    return kTRUE;
 }
 
-TGo4FitSlot *TGo4FitData::GetAxisTransSlot(Int_t nslot)
+TGo4FitSlot *TGo4FitData::GetAxisTransSlot(Int_t nslot) const
 {
    return (nslot >= 0) && (nslot <= fxAxisTrans.GetLast()) ? dynamic_cast<TGo4FitSlot *>(fxAxisTrans[nslot]) : nullptr;
 }
 
-TGo4FitAxisTrans *TGo4FitData::GetAxisTrans(Int_t nslot)
+TGo4FitAxisTrans *TGo4FitData::GetAxisTrans(Int_t nslot) const
 {
    TGo4FitSlot *slot = GetAxisTransSlot(nslot);
    return !slot ? nullptr : dynamic_cast<TGo4FitAxisTrans *>(slot->GetObject());
@@ -108,7 +108,7 @@ void TGo4FitData::SetAxisTransNeeded(Int_t nslot, Bool_t iNeeded)
       ((TGo4FitSlot *)(fxAxisTrans[nslot]))->SetNeeded(iNeeded);
 }
 
-Bool_t TGo4FitData::IsAnyDataTransform()
+Bool_t TGo4FitData::IsAnyDataTransform() const
 {
    if (GetUseBinScale() || (GetExcludeLessThen() > 0))
       return kTRUE;
@@ -345,16 +345,16 @@ void TGo4FitData::Print(Option_t *option) const
    TGo4FitComponent::Print(option);
    std::cout << "   Data type: ";
    switch (fiDataType) {
-   case 1: std::cout << "histogram" << std::endl; break;
-   case 2: std::cout << "graph" << std::endl; break;
-   default: std::cout << fiDataType << std::endl;
+      case 1: std::cout << "histogram" << std::endl; break;
+      case 2: std::cout << "graph" << std::endl; break;
+      default: std::cout << fiDataType << std::endl;
    }
    std::cout << "   Use bin scale:  " << fbUseBinScale << std::endl;
    std::cout << "   Take sigmas from:  ";
    switch (GetSigmaSource()) {
-   case 0: std::cout << "none" << std::endl; break;
-   case 1: std::cout << "data" << std::endl; break;
-   case 2: std::cout << "const value " << GetSigmaValue() << std::endl; break;
+      case 0: std::cout << "none" << std::endl; break;
+      case 1: std::cout << "data" << std::endl; break;
+      case 2: std::cout << "const value " << GetSigmaValue() << std::endl; break;
    }
    std::cout << "   Exclude bins less then: " << GetExcludeLessThen() << std::endl;
    std::cout << "   Axis transformation data: " << std::endl;

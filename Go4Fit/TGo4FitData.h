@@ -124,17 +124,17 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Return number of slots for scale transformation objects.
        */
-      Int_t GetNumberOfTransSlots() { return fxAxisTrans.GetLast()+1; }
+      Int_t GetNumberOfTransSlots() const { return fxAxisTrans.GetLast()+1; }
 
       /**
        * Return slot for transformation object.
        */
-      TGo4FitSlot* GetAxisTransSlot(Int_t nslot);
+      TGo4FitSlot* GetAxisTransSlot(Int_t nslot) const;
 
      /**
        * Return transformation object for given slot.
        */
-      TGo4FitAxisTrans* GetAxisTrans(Int_t nslot);
+      TGo4FitAxisTrans* GetAxisTrans(Int_t nslot) const;
 
       /**
        * Sets transformation object for given slot.
@@ -157,7 +157,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Return kTRUE, if either initial data axis or data bins are transformed by TGo4FitData object.
        * For instance, if SetUseBinScales() is used.
        */
-      virtual Bool_t IsAnyDataTransform();
+      virtual Bool_t IsAnyDataTransform() const;
 
       /**
        * Creates iterator for data object.

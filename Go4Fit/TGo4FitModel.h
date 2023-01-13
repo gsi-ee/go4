@@ -131,7 +131,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Assign model to specified data object.
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
-       * They means ratio in amplitude of model component in this data to ampltute of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
+       * They means ratio in amplitude of model component in this data to amplitude of this component in data, to which model was assigned first. By default, this ratio is 1. and not fixed.
        */
       void AssignToData(const char *DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
