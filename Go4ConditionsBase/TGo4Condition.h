@@ -146,7 +146,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetLast(Bool_t value) { fbLastResult=value; }
 
     /** Returns result of last Test. */
-    Bool_t GetLast() { return fbLastResult; }
+    Bool_t GetLast() const { return fbLastResult; }
 
     /** Copy values from cond to this. When counts is true, copy also counters. */
     virtual Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
@@ -205,7 +205,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
                    Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue);
 
     /** Set/Unset visibility. Overloaded for subclasses!*/
-    virtual void SetVisible(Bool_t on) { fbVisible=on; }
+    virtual void SetVisible(Bool_t on) { fbVisible = on; }
 
     /** Visibility property for gui display in editor */
     virtual Bool_t IsVisible() { return fbVisible; }
@@ -214,7 +214,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetHistogramLink(Bool_t on) { fbHistogramLink = on; }
 
     /** True if the histogram of given name is linked to this*/
-    Bool_t IsHistogramLink() { return fbHistogramLink; }
+    Bool_t IsHistogramLink() const { return fbHistogramLink; }
 
     /** Define the name of the associated histogram. */
     void SetHistogram(const char *name);
@@ -227,7 +227,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void SetWorkHistogram(TH1* histo) { fxHisto = histo; }
 
     /** access work histogram reference */
-    TH1* GetWorkHistogram() { return fxHisto; }
+    TH1* GetWorkHistogram() const { return fxHisto; }
 
     /** Replace default painter of this condition by external one.
       * if different views of this condition shall exist for different TPads,
@@ -238,7 +238,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
       * by default, update tolerance is set to static value fgdUPDATEEPSILON */
     void SetUpdateEpsilon(Double_t val){fdUpdateEpsilon=val;}
 
-    Double_t GetUpdateEpsilon(){return fdUpdateEpsilon;}
+    Double_t GetUpdateEpsilon() const { return fdUpdateEpsilon; }
 
     /** default value for graphical update tolerance. */
     static const Double_t fgdUPDATEEPSILON;
@@ -412,7 +412,6 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
          * If not found, return default value def_value*/
     TString GetUrlOptionAsString(const char *key, TString def_value);
 
-
     /** Scan list of url options  for key. If found, return Integer value.
      * If not found, return default value def_value*/
     Int_t GetUrlOptionAsInt(const char *key, Int_t def_value);
@@ -420,7 +419,6 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Scan list of url options  for key. If found, return Double value.
      * If not found, return default value def_value*/
     Double_t GetUrlOptionAsDouble(const char *key, Double_t def_value);
-
 
     void SetPainted(Bool_t on) { fbIsPainted = on; }
     Bool_t IsPainted() const { return fbIsPainted; }

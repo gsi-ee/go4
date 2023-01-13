@@ -429,6 +429,7 @@ void TGo4CondArray::SetValues(Double_t low1, Double_t up1, Double_t low2, Double
       }
    }
 }
+
 // -----------------------------------------------
 void TGo4CondArray::SetValues(TCutG *newcut)
 {
@@ -447,6 +448,7 @@ void TGo4CondArray::SetValues(TCutG *newcut)
    }
 }
 
+// -----------------------------------------------
 Bool_t TGo4CondArray::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
    TGo4Condition::UpdateFrom(cond, counts); // make sure to copy general flags
@@ -474,6 +476,7 @@ Bool_t TGo4CondArray::UpdateFrom(TGo4Condition *cond, Bool_t counts)
    }
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetVisible(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -490,6 +493,7 @@ void TGo4CondArray::SetVisible(Bool_t on)
    }
 }
 
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsVisible()
 {
    Bool_t rev = kFALSE;
@@ -503,6 +507,7 @@ Bool_t TGo4CondArray::IsVisible()
    return rev;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetLabelDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -518,6 +523,8 @@ void TGo4CondArray::SetLabelDraw(Bool_t on)
          conny->SetLabelDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsLabelDraw()
 {
    Bool_t rev = kFALSE;
@@ -531,6 +538,7 @@ Bool_t TGo4CondArray::IsLabelDraw()
    return rev;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetLimitsDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -547,6 +555,7 @@ void TGo4CondArray::SetLimitsDraw(Bool_t on)
    }
 }
 
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsLimitsDraw()
 {
    Bool_t rev = kFALSE;
@@ -560,6 +569,7 @@ Bool_t TGo4CondArray::IsLimitsDraw()
    return rev;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetIntDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -575,6 +585,8 @@ void TGo4CondArray::SetIntDraw(Bool_t on)
          conny->SetIntDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsIntDraw()
 {
    Bool_t rev = kFALSE;
@@ -587,6 +599,8 @@ Bool_t TGo4CondArray::IsIntDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetXMeanDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -602,6 +616,8 @@ void TGo4CondArray::SetXMeanDraw(Bool_t on)
          conny->SetXMeanDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsXMeanDraw()
 {
    Bool_t rev = kFALSE;
@@ -614,6 +630,8 @@ Bool_t TGo4CondArray::IsXMeanDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetXRMSDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -629,6 +647,8 @@ void TGo4CondArray::SetXRMSDraw(Bool_t on)
          conny->SetXRMSDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsXRMSDraw()
 {
    Bool_t rev = kFALSE;
@@ -641,6 +661,8 @@ Bool_t TGo4CondArray::IsXRMSDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetYMeanDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -656,6 +678,8 @@ void TGo4CondArray::SetYMeanDraw(Bool_t on)
          conny->SetYMeanDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsYMeanDraw()
 {
    Bool_t rev = kFALSE;
@@ -668,6 +692,8 @@ Bool_t TGo4CondArray::IsYMeanDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetYRMSDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -683,6 +709,8 @@ void TGo4CondArray::SetYRMSDraw(Bool_t on)
          conny->SetYRMSDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsYRMSDraw()
 {
    Bool_t rev = kFALSE;
@@ -695,6 +723,8 @@ Bool_t TGo4CondArray::IsYRMSDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetXMaxDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -710,6 +740,8 @@ void TGo4CondArray::SetXMaxDraw(Bool_t on)
          conny->SetXMaxDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsXMaxDraw()
 {
    Bool_t rev = kFALSE;
@@ -722,6 +754,8 @@ Bool_t TGo4CondArray::IsXMaxDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetYMaxDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -737,6 +771,8 @@ void TGo4CondArray::SetYMaxDraw(Bool_t on)
          conny->SetYMaxDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsYMaxDraw()
 {
    Bool_t rev = kFALSE;
@@ -749,6 +785,8 @@ Bool_t TGo4CondArray::IsYMaxDraw()
    }
    return rev;
 }
+
+// -----------------------------------------------
 void TGo4CondArray::SetCMaxDraw(Bool_t on)
 {
    if (IsMultiEdit()) {
@@ -764,6 +802,8 @@ void TGo4CondArray::SetCMaxDraw(Bool_t on)
          conny->SetCMaxDraw(on);
    }
 }
+
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsCMaxDraw()
 {
    Bool_t rev = kFALSE;
@@ -777,6 +817,7 @@ Bool_t TGo4CondArray::IsCMaxDraw()
    return rev;
 }
 
+// -----------------------------------------------
 Double_t TGo4CondArray::GetIntegral(TH1 *histo, Option_t *opt)
 {
    Double_t rev = 0;
@@ -795,6 +836,7 @@ Double_t TGo4CondArray::GetIntegral(TH1 *histo, Option_t *opt)
    return rev;
 }
 
+// -----------------------------------------------
 Double_t TGo4CondArray::GetMean(TH1 *histo, Int_t axis)
 {
    Double_t rev = 0;
@@ -814,6 +856,8 @@ Double_t TGo4CondArray::GetMean(TH1 *histo, Int_t axis)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetRMS(TH1 *histo, Int_t axis)
 {
    Double_t rev = 0;
@@ -826,6 +870,8 @@ Double_t TGo4CondArray::GetRMS(TH1 *histo, Int_t axis)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetSkewness(TH1 *histo, Int_t axis)
 {
    Double_t rev = 0;
@@ -838,6 +884,8 @@ Double_t TGo4CondArray::GetSkewness(TH1 *histo, Int_t axis)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetCurtosis(TH1 *histo, Int_t axis)
 {
    Double_t rev = 0;
@@ -850,6 +898,8 @@ Double_t TGo4CondArray::GetCurtosis(TH1 *histo, Int_t axis)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetXMax(TH1 *histo)
 {
    Double_t rev = 0;
@@ -862,6 +912,8 @@ Double_t TGo4CondArray::GetXMax(TH1 *histo)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetYMax(TH1 *histo)
 {
    Double_t rev = 0;
@@ -874,6 +926,8 @@ Double_t TGo4CondArray::GetYMax(TH1 *histo)
    }
    return rev;
 }
+
+// -----------------------------------------------
 Double_t TGo4CondArray::GetCMax(TH1 *histo)
 {
    Double_t rev = 0;
@@ -894,6 +948,7 @@ Double_t TGo4CondArray::GetCMax(TH1 *histo)
    return rev;
 }
 
+// -----------------------------------------------
 TGo4Condition *TGo4CondArray::GetActiveCondition()
 {
    if (IsMultiEdit())
@@ -902,6 +957,7 @@ TGo4Condition *TGo4CondArray::GetActiveCondition()
       return At(GetCurrentIndex());
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetChanged(Bool_t on)
 {
    for (Int_t i = 0; i <= condarr->GetLast(); i++) {
@@ -910,6 +966,7 @@ void TGo4CondArray::SetChanged(Bool_t on)
    }
 }
 
+// -----------------------------------------------
 Int_t TGo4CondArray::IsChanged()
 {
    Int_t cnt = 0;
@@ -920,6 +977,7 @@ Int_t TGo4CondArray::IsChanged()
    return cnt;
 }
 
+// -----------------------------------------------
 Bool_t TGo4CondArray::IsPolygonType()
 {
    Bool_t rev = kFALSE;
@@ -936,16 +994,19 @@ Bool_t TGo4CondArray::IsPolygonType()
    return rev;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetCurrentIndex(Int_t ix)
 {
    fiSelectedCond = ix;
 }
 
+// -----------------------------------------------
 Int_t TGo4CondArray::GetCurrentIndex()
 {
    return fiSelectedCond;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::Draw(Option_t *opt)
 {
    TGo4Condition::Draw(opt);
@@ -961,6 +1022,7 @@ void TGo4CondArray::Draw(Option_t *opt)
    }
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SetPainter(TGo4ConditionPainter *painter)
 {
    if (!painter)
@@ -974,6 +1036,7 @@ void TGo4CondArray::SetPainter(TGo4ConditionPainter *painter)
    }
 }
 
+// -----------------------------------------------
 TGo4ConditionPainter *TGo4CondArray::CreatePainter()
 {
    TGo4ConditionPainter *painter = new TGo4CondArrayPainter(GetName());
@@ -981,6 +1044,7 @@ TGo4ConditionPainter *TGo4CondArray::CreatePainter()
    return painter;
 }
 
+// -----------------------------------------------
 Int_t TGo4CondArray::GetMemorySize()
 {
    Int_t size = sizeof(*this);
@@ -1001,6 +1065,7 @@ Int_t TGo4CondArray::GetMemorySize()
    return size;
 }
 
+// -----------------------------------------------
 void TGo4CondArray::SavePrimitive(std::ostream &out, Option_t *opt)
 {
    static int cnt = 0;
