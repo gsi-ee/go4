@@ -28,7 +28,7 @@ class TGo4ParameterMember : public TNamed {
       void SetType(const char *name, Int_t id) { fTypeName = name; fTypeId = id; }
       const char *GetTypeName() const { return fTypeName.Data(); }
       Int_t GetTypeId() const { return fTypeId; }
-      Bool_t IsFitterItem() const { return GetTypeId()==kTGo4Fitter_t; }
+      Bool_t IsFitterItem() const { return GetTypeId() == kTGo4Fitter_t; }
 
       void SetMemberId(Int_t id) { fMemberId = id; }
       Int_t GetMemberId() const { return fMemberId; }

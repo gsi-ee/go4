@@ -90,7 +90,7 @@ public:
      */
     virtual void ExecuteString(const char *command);
 
-    Bool_t IsMaster() { return fbCommandMaster; }
+    Bool_t IsMaster() const { return fbCommandMaster; }
 
     /** Set owner object and switch automatically in master or slave
      *  mode, depending on owner type */
@@ -243,7 +243,7 @@ public:
      */
     virtual Int_t StopWorkThreads();
 
-    Bool_t IsWorkStopped(){return fbWorkIsStopped;}
+    Bool_t IsWorkStopped() const { return fbWorkIsStopped; }
 
     /**
      * Send current status information of the task to the
@@ -254,9 +254,9 @@ public:
 
     const char *GetCommanderName() const { return fxCommanderName.Data(); }
 
-    TGo4Master* GetMaster() { return fxMaster; }
+    TGo4Master* GetMaster() const { return fxMaster; }
 
-    TGo4Slave* GetSlave() { return fxSlave; }
+    TGo4Slave* GetSlave() const { return fxSlave; }
 
     /**
      * Send message buffers with stop values into queues and
@@ -291,9 +291,9 @@ public:
 
     TGo4ObjectQueue* GetLocalCommandQueue() { return fxLocalCommandQueue; }
 
-    void SetMaster(Bool_t on=kTRUE) { fbCommandMaster=on; }
+    void SetMaster(Bool_t on = kTRUE) { fbCommandMaster = on; }
 
-    void SetWorkIsStopped(Bool_t on) { fbWorkIsStopped=on; }
+    void SetWorkIsStopped(Bool_t on) { fbWorkIsStopped = on; }
 
     /** Mutex protecting status buffer between main and  watch thread. */
     TMutex *fxStatusMutex{nullptr}; //!

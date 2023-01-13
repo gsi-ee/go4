@@ -37,9 +37,9 @@ class TGo4TaskOwner : public TGo4CommandReceiver {
 
       virtual ~TGo4TaskOwner();
 
-      Bool_t IsServer() { return fbServerMode; }
+      Bool_t IsServer() const { return fbServerMode; }
 
-      TGo4Task* GetTask() { return fxTask; }
+      TGo4Task* GetTask() const { return fxTask; }
 
       /** Start the working threads of the task owner implementation;
         * this method is used after the current connection has changed, to continue reading/writing
