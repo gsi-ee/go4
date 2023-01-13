@@ -160,7 +160,7 @@ void TGo4Picture::SetDrawHeader(Bool_t draw)
    SetTitleDate(draw);
 }
 
-Bool_t TGo4Picture::IsDrawHeader()
+Bool_t TGo4Picture::IsDrawHeader() const
 {
    return IsTitleTime() && IsTitleDate();
 }
@@ -196,16 +196,24 @@ TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
 
 TGo4Picture* TGo4Picture::Pic(Int_t posy, Int_t posx)
 {
-   if (!IsDivided()) return this;
-   if (posx < 0) posx = 0; else if(posx>=GetDivX()) posx = GetDivX()-1;
-   if (posy < 0) posy = 0; else if(posy>=GetDivY()) posy = GetDivY()-1;
-   TGo4Picture* sub = FindPic(posy, posx);
-   if (sub) return sub;
+   if (!IsDivided())
+      return this;
+   if (posx < 0)
+      posx = 0;
+   else if (posx >= GetDivX())
+      posx = GetDivX() - 1;
+   if (posy < 0)
+      posy = 0;
+   else if (posy >= GetDivY())
+      posy = GetDivY() - 1;
+   TGo4Picture *sub = FindPic(posy, posx);
+   if (sub)
+      return sub;
    sub = new TGo4Picture("Sub", "Sub picture");
    sub->SetPosition(posy, posx);
    if (!fxSubPictures) {
-     fxSubPictures = new TObjArray();
-     fxSubPictures->SetOwner(kTRUE);
+      fxSubPictures = new TObjArray();
+      fxSubPictures->SetOwner(kTRUE);
    }
    fxSubPictures->Add(sub);
    return sub;
@@ -322,14 +330,15 @@ void TGo4Picture::ClearObjNames(Bool_t recursive)
       }
 }
 
-Int_t TGo4Picture::GetNumObjNames()
+Int_t TGo4Picture::GetNumObjNames() const
 {
   return !fxNames ? 0 : fxNames->GetLast()+1;
 }
 
-Bool_t TGo4Picture::IsObjNames()
+Bool_t TGo4Picture::IsObjNames() const
 {
-   if (GetNumObjNames() > 0) return kTRUE;
+   if (GetNumObjNames() > 0)
+      return kTRUE;
 
    if (fxSubPictures)
       for (Int_t n = 0; n <= fxSubPictures->GetLast(); n++) {
@@ -340,9 +349,9 @@ Bool_t TGo4Picture::IsObjNames()
    return kFALSE;
 }
 
-const char *TGo4Picture::GetObjName(Int_t n)
+const char *TGo4Picture::GetObjName(Int_t n) const
 {
-  if (!fxNames || (n<0) || (n>fxNames->GetLast())) return nullptr;
+  if (!fxNames || (n < 0) || (n > fxNames->GetLast())) return nullptr;
   TObjString* str = dynamic_cast<TObjString*> (fxNames->At(n));
   return str ? str->String().Data() : nullptr;
 }
@@ -711,14 +720,14 @@ void TGo4Picture::SetXAxisTimeFormat(const char *format)
    SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
 
-Bool_t  TGo4Picture::IsXAxisTimeDisplay()
+Bool_t  TGo4Picture::IsXAxisTimeDisplay() const
 {
    Long_t value = 0;
    GetOption(PictureIndex, op_TimeAxisX,value);
    return value;
 }
 
-const char *TGo4Picture::GetXAxisTimeFormat()
+const char *TGo4Picture::GetXAxisTimeFormat() const
 {
    return GetStrOption(PictureIndex, op_TimeAxisXFmt, "%H:%M:%S");
 }
@@ -728,7 +737,7 @@ void TGo4Picture::SetXYRatioOne(Bool_t on)
    SetOption (PictureIndex, op_XYRatioOne, on);
 }
 
-Bool_t  TGo4Picture::IsXYRatioOne()
+Bool_t  TGo4Picture::IsXYRatioOne() const
 {
    Long_t value = 0;
    GetOption(PictureIndex, op_XYRatioOne, value);
@@ -1295,7 +1304,7 @@ void TGo4Picture::SetFullRange(Int_t naxis, Double_t min, Double_t max)
    SetOptionD(PictureIndex, op+1, max);
 }
 
-Bool_t TGo4Picture::GetFullRange(Int_t naxis, Double_t& min, Double_t& max)
+Bool_t TGo4Picture::GetFullRange(Int_t naxis, Double_t& min, Double_t& max) const
 {
    Int_t op;
    switch (naxis) {

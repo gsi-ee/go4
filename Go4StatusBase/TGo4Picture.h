@@ -45,14 +45,14 @@ class TGo4Picture : public TNamed {
       // ====== USER FUNCTIONS to setup picture =====================
 
       void SetDrawHeader(Bool_t draw = kTRUE);
-      Bool_t IsDrawHeader();
+      Bool_t IsDrawHeader() const;
 
       // division on subpictures
 
       void SetDivision(Int_t ndivy, Int_t ndivx);
-      Int_t GetDivX() { return fiNDivX; }
-      Int_t GetDivY() { return fiNDivY; }
-      Bool_t IsDivided() { return (GetDivX()!=1) || (GetDivY()!=1); }
+      Int_t GetDivX() const { return fiNDivX; }
+      Int_t GetDivY() const { return fiNDivY; }
+      Bool_t IsDivided() const { return (GetDivX()!=1) || (GetDivY()!=1); }
 
       TGo4Picture& operator()(int posy, int posx) { return *Pic(posy,posx); }
       TGo4Picture* Pic(Int_t posy, Int_t posx);
@@ -225,9 +225,9 @@ class TGo4Picture : public TNamed {
       void UpdateFrom(TGo4Picture* source, TClass *selectedobjclass = nullptr);
       void CopyOptionsFrom(TGo4Picture* source);
 
-      Int_t GetNumObjNames();
-      const char *GetObjName(Int_t n);
-      Bool_t IsObjNames();
+      Int_t GetNumObjNames() const;
+      const char *GetObjName(Int_t n) const;
+      Bool_t IsObjNames() const;
 
       // manipulation with special objects,
       // which must be drawn on the panel / canvas
@@ -263,16 +263,16 @@ class TGo4Picture : public TNamed {
       // for the moment, use separate function to define x axis time format JAM
       void SetXAxisAttTime(Bool_t timedisplay, const char *format, Int_t index = UndefIndex);
 
-      Bool_t IsXAxisTimeDisplay();
+      Bool_t IsXAxisTimeDisplay() const;
 
       void SetXAxisTimeDisplay(Bool_t on);
 
       void SetXAxisTimeFormat(const char *format);
 
-      const char *GetXAxisTimeFormat();
+      const char *GetXAxisTimeFormat() const;
 
       void SetXYRatioOne(Bool_t on);
-      Bool_t IsXYRatioOne();
+      Bool_t IsXYRatioOne() const;
 
 //      void SetDefaultRatio(Bool_t on);
 //      Bool_t CheckDefaultRatio();
@@ -298,7 +298,7 @@ class TGo4Picture : public TNamed {
       void SetFullRangeDim(Int_t ndim);
       Int_t GetFullRangeDim() const;
       void SetFullRange(Int_t naxis, Double_t min, Double_t max);
-      Bool_t GetFullRange(Int_t naxis, Double_t& min, Double_t& max);
+      Bool_t GetFullRange(Int_t naxis, Double_t& min, Double_t& max) const;
       void ClearFullRange(Int_t naxis = -1);
 
       void SetRange(Int_t naxis, Double_t min, Double_t max);
