@@ -1982,14 +1982,14 @@ TList* TGo4AnalysisObjectManager::CreateObjectList(const char *expr, TFolder* fo
    return result;
 }
 
-Bool_t TGo4AnalysisObjectManager::IsMatching(const char *string, const char *expression)
+Bool_t TGo4AnalysisObjectManager::IsMatching(const char *string, const char *expression) const
 {
    if(!expression) return kTRUE;
-   Bool_t ismatching=kFALSE;
-   TString entrystring=string;
+   Bool_t ismatching = kFALSE;
+   TString entrystring = string;
    TRegexp reg(expression,kTRUE);
    if(!strcmp(expression,"*"))
-      ismatching=kTRUE; // take all in this folder
+      ismatching = kTRUE; // take all in this folder
    //               else if (strstr(expression,string))
    //                  ismatching=kTRUE; // expression just contained in name
    else if (entrystring.Index(reg,0)!=kNPOS)

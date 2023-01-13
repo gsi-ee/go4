@@ -972,7 +972,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TList* CreateObjectList(const char *expr, TFolder* fold);
 
       /** Finds out if  string is matching the expression */
-      Bool_t IsMatching(const char *string, const char *expression);
+      Bool_t IsMatching(const char *string, const char *expression) const;
 
       /** Search in folder for object with specified name
        * Uses fxDirMutex until search is working

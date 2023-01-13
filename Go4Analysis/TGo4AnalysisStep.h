@@ -231,7 +231,7 @@ class TGo4AnalysisStep : public TNamed {
       * as created by the event factory. To be used at the end of
       * InitEventClasses method of analysis to ensure that chain of
       * analysis steps would be working. */
-    Bool_t IsMatchingPrevious();
+    Bool_t IsMatchingPrevious() const;
 
     /** Access to name of currently active event store. Used to avoid collisions between
       * store and source (files) of subsequent steps. Returns 0 pointer if there is no store implemented. */

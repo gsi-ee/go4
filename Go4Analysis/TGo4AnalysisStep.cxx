@@ -243,19 +243,17 @@ Int_t TGo4AnalysisStep::Store(TFolder* fold)
 }
 
 
-Bool_t TGo4AnalysisStep::IsMatchingPrevious()
+Bool_t TGo4AnalysisStep::IsMatchingPrevious() const
 {
    GO4TRACE((14,"TGo4AnalysisStep::IsMatchingPrevious(TGo4AnalysisStep*)",__LINE__, __FILE__));
    if(!IsProcessEnabled()) return kTRUE;
       // only check if this step is active, otherwise no event classes are initialized!
 
-   if (!fxPrevious) return kTRUE;
-
-   TGo4EventElement* prevevent = fxPrevious->GetOutputEvent();
+   auto prevevent = fxPrevious ? fxPrevious->GetOutputEvent() : nullptr;
    if (!prevevent) return kTRUE;
 
-   return !strcmp(prevevent->ClassName(),fxInputEvent->ClassName()) &&
-          !strcmp(prevevent->GetName(),fxInputEvent->GetName());
+   return !strcmp(prevevent->ClassName(), fxInputEvent->ClassName()) &&
+          !strcmp(prevevent->GetName(), fxInputEvent->GetName());
 }
 
 const char *TGo4AnalysisStep::GetEventStoreName()
