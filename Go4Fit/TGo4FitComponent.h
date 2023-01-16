@@ -144,13 +144,13 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Defines minimum allowed value for given range.
        * Returns kFALSE, if no range condition were specified for given axis.
        */
-      Bool_t GetRangeMin(Int_t naxis, Double_t& value);
+      Bool_t GetRangeMin(Int_t naxis, Double_t& value) const;
 
       /**
        * Defines maximum allowed value for given range.
        * Returns kFALSE, if no range condition were specified for given axis.
        */
-      Bool_t GetRangeMax(Int_t naxis, Double_t& value);
+      Bool_t GetRangeMax(Int_t naxis, Double_t& value) const;
 
       /**
        * Returns number of range condition (exclude range cuts).

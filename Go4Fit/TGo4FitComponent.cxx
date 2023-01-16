@@ -304,7 +304,7 @@ void TGo4FitComponent::RemoveRangeCut(Int_t n)
    }
 }
 
-Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t &value)
+Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t &value) const
 {
    Bool_t isany = kFALSE;
    for (Int_t indx = 0; indx < fxRangeAxis.GetSize(); indx += 2)
@@ -319,7 +319,7 @@ Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t &value)
          TCutG *cut = GetRangeCut(ncut);
          if (cut->TestBit(kExcludeCut))
             continue;
-         Double_t *arr = naxis == 0 ? cut->GetX() : cut->GetY();
+         Double_t *arr = (naxis == 0) ? cut->GetX() : cut->GetY();
          Double_t zn = arr[0];
          for (Int_t i = 1; i < cut->GetN(); i++)
             if (arr[i] < zn)
@@ -332,7 +332,7 @@ Bool_t TGo4FitComponent::GetRangeMin(Int_t naxis, Double_t &value)
    return isany;
 }
 
-Bool_t TGo4FitComponent::GetRangeMax(Int_t naxis, Double_t &value)
+Bool_t TGo4FitComponent::GetRangeMax(Int_t naxis, Double_t &value) const
 {
    Bool_t isany = kFALSE;
    Double_t zn;

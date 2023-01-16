@@ -158,7 +158,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return ownership flag.
        */
-      Bool_t GetOwned() { return fbOwned; }
+      Bool_t GetOwned() const { return fbOwned; }
 
       /**
        * Explicitly sets ownership flag.
@@ -170,7 +170,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Return requirement status for slot.
        * If kTRUE, object should always be sets before any fitting become possible.
        */
-      Bool_t GetNeeded() { return fbNeeded; }
+      Bool_t GetNeeded() const { return fbNeeded; }
 
       /**
        * Set requirement flag for object.
