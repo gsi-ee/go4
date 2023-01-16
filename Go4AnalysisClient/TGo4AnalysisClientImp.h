@@ -103,7 +103,7 @@ class TGo4AnalysisClient : public TGo4Slave {
     void UpdateRate(Int_t counts=1);
 
     /** Number of currently processed events since last start. */
-    UInt_t GetCurrentCount();
+    UInt_t GetCurrentCount() const;
 
     /** Test if ratemeter has been updated. */
     Bool_t TestRatemeter();

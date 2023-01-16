@@ -411,7 +411,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
    }
 }
 
-UInt_t TGo4AnalysisClient::GetCurrentCount()
+UInt_t TGo4AnalysisClient::GetCurrentCount() const
 {
    return fxRatemeter->GetCurrentCount();
 }

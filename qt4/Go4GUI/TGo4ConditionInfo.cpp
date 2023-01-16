@@ -161,9 +161,12 @@ void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
    str.Form("True:%d",cond->TrueCounts());
    PropertyBox->item(CONRESULT)->setText(str.Data());
 
-   if(cond->IsEnabled()) str = "test enabled"; else
-     if(cond->FixedResult()) str = "always true";
-                        else  str = "always false";
+   if(cond->IsEnabled())
+      str = "test enabled";
+   else if(cond->FixedResult())
+      str = "always true";
+   else
+      str = "always false";
    if(cond->IsTrue()) str += " - regular";
                  else str += " - inverse";
    PropertyBox->item(CONMODE)->setText(str.Data());

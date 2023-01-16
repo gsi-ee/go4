@@ -68,7 +68,7 @@ class TGo4MainTree : public TObject {
     /** Increments current index in the main tree by one.
       * Returns the value of the index after incrementation.
       * To be used by event loop controlling framework. */
-    Int_t IncCurrentIndex() { return (++fiCurrentIndex); }
+    Int_t IncCurrentIndex() { return ++fiCurrentIndex; }
 
     void SetCurrentIndex(Int_t number = 0) { fiCurrentIndex = number; }
 

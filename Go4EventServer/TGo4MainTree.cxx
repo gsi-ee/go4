@@ -104,5 +104,3 @@ Int_t TGo4MainTree::GetMaxIndex()
    fiMaxIndex = !fxTree ? 0 : fxTree->GetEntries();
    return fiMaxIndex;
 }
-
-
