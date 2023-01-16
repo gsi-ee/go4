@@ -567,7 +567,7 @@ void TGo4Condition::SetHistogram(const char *name)
    }
 }
 
-const char *TGo4Condition::GetLinkedHistogram()
+const char *TGo4Condition::GetLinkedHistogram() const
 {
    return fxHistoName.Data();
 }

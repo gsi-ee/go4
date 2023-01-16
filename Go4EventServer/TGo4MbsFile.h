@@ -56,7 +56,7 @@ class TGo4MbsFile : public TGo4MbsSource {
     const char *GetCurrentFileName() const { return fxCurrentFile.Data(); }
 
     /** interface from eventsource base class to give active file*/
-    const char *GetActiveName() override;
+    const char *GetActiveName() const override;
 
     /** string to indicate that no lmd tagfile is chosen */
     static const char *fgcNOTAGFILE;

@@ -82,7 +82,7 @@ void TGo4EventSource::Clear(Option_t *)
    TGo4Log::Info("Default clear of eventsource %s", GetName());
 }
 
-const char *TGo4EventSource::GetActiveName()
+const char *TGo4EventSource::GetActiveName() const
 {
    return GetName();
 }

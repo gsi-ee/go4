@@ -55,22 +55,22 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Returns assigned pad.
        */
-      TVirtualPad* GetPad() { return fxPad; }
+      TVirtualPad* GetPad() const { return fxPad; }
 
       /**
        * Return kTRUE, if pad required for output.
        */
-      Bool_t NeedPad() { return (fxCommand == "Draw") && (fxOptions.IsNull() || (fxOptions[0] != '#')); }
+      Bool_t NeedPad() const { return (fxCommand == "Draw") && (fxOptions.IsNull() || (fxOptions[0] != '#')); }
 
       /**
        * Returns command name.
        */
-      const char *GetCommand() { return fxCommand.Data(); }
+      const char *GetCommand() const { return fxCommand.Data(); }
 
       /**
        * Returns command options.
        */
-      const char *GetOptions() { return fxOptions.Data(); }
+      const char *GetOptions() const { return fxOptions.Data(); }
 
       /**
        * Sets command name.

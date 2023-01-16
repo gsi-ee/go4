@@ -61,11 +61,11 @@ public:
    virtual ~TGo4HDF5DataHandle();
 
    /** return handle for type descriptor. Currently this is filled from external routine of adapter class*/
-   H5::CompType* GetType(){return fxType;}
+   H5::CompType* GetType() const { return fxType; }
 
-   const char *GetTypeName(){return fxTypeName.Data();}
+   const char *GetTypeName() const { return fxTypeName.Data(); }
 
-   void* Data() {return fxData;}
+   void* Data() const { return fxData; }
 
    /** wrapper function to define contained structure member. Will also keep the offset to first assigned member*/
    void InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member);

@@ -53,7 +53,7 @@ class TGo4EventSource : public TNamed {
 
       /** Access to the name of the currently active source.
        * for filelist, this is the active input file */
-      virtual const char *GetActiveName();
+      virtual const char *GetActiveName() const;
 
       /** Check that event class is supported by event source */
       virtual Bool_t CheckEventClass(TClass *cl);

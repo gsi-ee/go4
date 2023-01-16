@@ -256,14 +256,12 @@ Bool_t TGo4AnalysisStep::IsMatchingPrevious() const
           !strcmp(prevevent->GetName(), fxInputEvent->GetName());
 }
 
-const char *TGo4AnalysisStep::GetEventStoreName()
+const char *TGo4AnalysisStep::GetEventStoreName() const
 {
-   GO4TRACE((12,"TGo4AnalysisStep::GetEventStoreName()",__LINE__, __FILE__));
-
    return !fxEventStore ? nullptr : fxEventStore->GetName();
 }
 
-const char *TGo4AnalysisStep::GetEventSourceName()
+const char *TGo4AnalysisStep::GetEventSourceName() const
 {
    return !fxEventSource ? nullptr : fxEventSource->GetActiveName();
 }

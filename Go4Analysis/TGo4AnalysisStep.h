@@ -235,11 +235,11 @@ class TGo4AnalysisStep : public TNamed {
 
     /** Access to name of currently active event store. Used to avoid collisions between
       * store and source (files) of subsequent steps. Returns 0 pointer if there is no store implemented. */
-    const char *GetEventStoreName();
+    const char *GetEventStoreName() const;
 
     /** Access to name of currently active event source.
      * in case of listmode list, this should give currently open file!*/
-    const char *GetEventSourceName();
+    const char *GetEventSourceName() const;
 
     /** Store the current calibration object of the
       * event processor into the event store instance. */

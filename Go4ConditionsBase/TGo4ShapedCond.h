@@ -78,7 +78,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       void SetFreeShape() { fiShapeType = Go4Cond_Shape_Free; }
       Bool_t IsFreeShape() const { return fiShapeType == Go4Cond_Shape_Free; }
 
-      const char *GetShapeName()
+      const char *GetShapeName() const
       {
          switch (fiShapeType) {
             case Go4Cond_Shape_Free: return "Free style polygon";

@@ -433,7 +433,7 @@ Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
    return 0;
 }
 
-const char *TGo4MbsFile::GetActiveName()
+const char *TGo4MbsFile::GetActiveName() const
 {
    return GetCurrentFileName();
 }

@@ -220,7 +220,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetHistogram(const char *name);
 
     /** Access name of the associated histogram. */
-    const char *GetLinkedHistogram();
+    const char *GetLinkedHistogram() const;
 
     /** Set reference to work histogram for statistics functions. Note
       * that this method does not change the histogram link definitions! */
