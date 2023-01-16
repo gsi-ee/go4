@@ -52,13 +52,13 @@ class TGo4AnalysisStepManager : public TNamed {
 
       /** Access to certain analysis step by name. For analysis internal usage.
        * if name == nullptr, first step is returned */
-      TGo4AnalysisStep* GetAnalysisStep(const char *name);
+      TGo4AnalysisStep* GetAnalysisStep(const char *name) const;
 
       /** Returns number of analysis steps */
-      Int_t GetNumberOfAnalysisSteps();
+      Int_t GetNumberOfAnalysisSteps() const;
 
       /** Access to certain analysis step by number. */
-      TGo4AnalysisStep* GetAnalysisStepNum(Int_t number);
+      TGo4AnalysisStep* GetAnalysisStepNum(Int_t number) const;
 
       /** Method for user analysis constructor to setup the list
         * of analysis steps. Each call of this method will add a new
@@ -147,7 +147,7 @@ class TGo4AnalysisStepManager : public TNamed {
        */
       Int_t Store(const char *name, TGo4Condition* con);
 
-     /**
+      /**
        * Write fitter fit into eventstore of the step specified by name.
        * Current event number will be added to parameter name in the file.
        * Returns -1 in case of not active eventstore. Returns +1 in case
@@ -155,7 +155,7 @@ class TGo4AnalysisStepManager : public TNamed {
        */
       Int_t Store(const char *name, TGo4Fitter* fit);
 
-    /**
+      /**
        * Write folder  into eventstore of the step specified by name.
        * Current event number will be added to parameter name in the file.
        * Returns -1 in case of not active eventstore. Returns +1 in case
@@ -164,12 +164,12 @@ class TGo4AnalysisStepManager : public TNamed {
       Int_t Store(const char *name, TFolder* folder);
 
       /**
-          * Returns the input event structure of analysis step. Argument indicates
-          * the step by name.
-          * For internal usage in the user defined event function
-          * UserEventFunc, and is used by analysis steps to get result of previous steps.
-          */
-      TGo4EventElement* GetInputEvent(const char *stepname);
+        * Returns the input event structure of analysis step. Argument indicates
+        * the step by name.
+        * For internal usage in the user defined event function
+        * UserEventFunc, and is used by analysis steps to get result of previous steps.
+        */
+      TGo4EventElement* GetInputEvent(const char *stepname) const;
 
       /**
        * Returns the input event structure of analysis step. Argument number indicates
@@ -178,7 +178,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to access event sources of previous steps.
        */
-      TGo4EventElement* GetInputEvent(Int_t stepindex);
+      TGo4EventElement* GetInputEvent(Int_t stepindex) const;
 
       /**
        * Returns the output event (detector) structure of analysis step. Argument indicates
@@ -186,7 +186,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent(const char *stepname);
+      TGo4EventElement* GetOutputEvent(const char *stepname) const;
 
       /**
        * Returns the output event (detector) structure of analysis step. Argument number indicates
@@ -197,18 +197,18 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent(Int_t stepindex);
+      TGo4EventElement* GetOutputEvent(Int_t stepindex) const;
 
       /**
        * Returns the output event (detector) structure of analysis step.  Is set by
        * SetOutputEvent method. For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent() { return fxOutputEvent; }
+      TGo4EventElement* GetOutputEvent() const { return fxOutputEvent; }
 
       void SetOutputEvent(TGo4EventElement * event) {  fxOutputEvent=event; }
 
-      Int_t IsErrorStopEnabled();
+      Int_t IsErrorStopEnabled() const;
 
       void SetStepChecking(Bool_t on=kTRUE) { fbStepCheckingMode=on; }
 

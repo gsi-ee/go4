@@ -524,7 +524,7 @@ public:
    Int_t WaitForStart();
 
    /** True if current analysis step allows stop on error */
-   Int_t IsErrorStopEnabled();
+   Int_t IsErrorStopEnabled() const;
 
    /** Set flag that input file has changed */
    void SetNewInputFile(Bool_t on=kTRUE) { fbNewInputFile = on; }
@@ -543,24 +543,24 @@ public:
 
    void SetDynListInterval(Int_t val);
 
-   Int_t GetDynListInterval();
+   Int_t GetDynListInterval() const;
 
    /** Returns the input event structure of analysis step. Argument indicates
     * the step by name. For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
-   TGo4EventElement* GetInputEvent(const char *stepname);
+   TGo4EventElement* GetInputEvent(const char *stepname) const;
 
    /** Returns the input event structure of analysis step. Argument number indicates
     * the step from 0 (first) to n (last) in subsequent order.
     * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to access event sources of previous steps. */
-   TGo4EventElement* GetInputEvent(Int_t stepindex);
+   TGo4EventElement* GetInputEvent(Int_t stepindex) const;
 
    /** Returns the output event (detector) structure of analysis step. Argument indicates
     * the step by name.
     * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
-   TGo4EventElement* GetOutputEvent(const char *stepname);
+   TGo4EventElement* GetOutputEvent(const char *stepname) const;
 
    /** Returns the output event (detector) structure of analysis step. Argument number indicates
     * the step from 0 (first) to n (last) in subsequent
@@ -568,15 +568,15 @@ public:
     * currently processed step, which is set by SetEvent method.
     * For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
-   TGo4EventElement* GetOutputEvent(Int_t stepindex);
+   TGo4EventElement* GetOutputEvent(Int_t stepindex) const;
 
    /** Returns the output event (detector) structure of analysis step.  Is set by
     * SetOutputEvent method. For internal usage in the user defined event function
     * UserEventFunc, and is used by analysis steps to get result of previous steps. */
-   TGo4EventElement* GetOutputEvent();
+   TGo4EventElement* GetOutputEvent() const;
 
    /** Search reference to event structure in  folder. */
-   TGo4EventElement* GetEventStructure(const char *name);
+   TGo4EventElement* GetEventStructure(const char *name) const;
 
    /** Display a user message. Argument pri defines message priority:
     * <0: display text as info on local terminal and in logfile anyway, independent of ignorelevel

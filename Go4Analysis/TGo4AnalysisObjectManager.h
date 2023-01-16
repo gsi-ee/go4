@@ -513,7 +513,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search reference to event structure in  folder.
        */
-      TGo4EventElement * GetEventStructure(const char *name);
+      TGo4EventElement * GetEventStructure(const char *name) const;
 
       /**
        * Reset all registered backstore instances.Called by dynamic list processing.
@@ -977,7 +977,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Search in folder for object with specified name
        * Uses fxDirMutex until search is working
        */
-      TObject* FindObjectInFolder(TFolder* folder, const char *fullname);
+      TObject* FindObjectInFolder(TFolder* folder, const char *fullname) const;
 
       /** Test, if object exists in provided folder.
        * If object exists and corresponds to provided class,

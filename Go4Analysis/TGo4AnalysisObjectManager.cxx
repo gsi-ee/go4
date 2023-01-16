@@ -1051,13 +1051,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
    return rev;
 }
 
-TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name)
+TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name) const
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
 
    if (!name || (strlen(name) == 0)) return nullptr;
 
-   TString path(name);
+   TString path = name;
    TGo4EventElement* curr = nullptr;
 
    while (path.Length()>0) {
@@ -2000,7 +2000,7 @@ Bool_t TGo4AnalysisObjectManager::IsMatching(const char *string, const char *exp
 }
 
 
-TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char *fullname)
+TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char *fullname) const
 {
    GO4TRACE((12,"TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*, const char*)",__LINE__, __FILE__));
    TGo4LockGuard  listguard(fxDirMutex);

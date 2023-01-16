@@ -1407,12 +1407,12 @@ TGo4AnalysisStep* TGo4Analysis::GetAnalysisStepNum(Int_t number)
    return fxStepManager->GetAnalysisStepNum(number);
 }
 
-Int_t TGo4Analysis::GetDynListInterval()
+Int_t TGo4Analysis::GetDynListInterval() const
 {
    return fxObjectManager->GetDynListInterval();
 }
 
-TGo4EventElement * TGo4Analysis::GetEventStructure(const char *name)
+TGo4EventElement * TGo4Analysis::GetEventStructure(const char *name) const
 {
    return fxObjectManager->GetEventStructure(name);
 }
@@ -1595,27 +1595,27 @@ TObject* TGo4Analysis::NextMatchingObject(const char *expr, const char *folder, 
 /////////////////////////////////////////////////////////////////////////////////
 // Methods that forward to stepmanager:
 
-TGo4EventElement* TGo4Analysis::GetInputEvent(Int_t stepindex)
+TGo4EventElement* TGo4Analysis::GetInputEvent(Int_t stepindex) const
 {
    return fxStepManager->GetInputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetInputEvent(const char *stepname)
+TGo4EventElement* TGo4Analysis::GetInputEvent(const char *stepname) const
 {
    return fxStepManager->GetInputEvent(stepname);
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent()
+TGo4EventElement* TGo4Analysis::GetOutputEvent() const
 {
    return fxStepManager->GetOutputEvent();
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent(Int_t stepindex)
+TGo4EventElement* TGo4Analysis::GetOutputEvent(Int_t stepindex) const
 {
    return fxStepManager->GetOutputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent(const char *stepname)
+TGo4EventElement* TGo4Analysis::GetOutputEvent(const char *stepname) const
 {
    return fxStepManager->GetOutputEvent(stepname);
 }
@@ -1660,7 +1660,7 @@ Bool_t TGo4Analysis::SetStepStorage(const char *name, Bool_t on)
    return fxStepManager->SetStepStorage(name,on);
 }
 
-Int_t TGo4Analysis::IsErrorStopEnabled()
+Int_t TGo4Analysis::IsErrorStopEnabled() const
 {
    return fxStepManager->IsErrorStopEnabled();
 }
@@ -1727,7 +1727,6 @@ void TGo4Analysis::SetAdministratorPassword(const char *passwd)
 {
    fServerAdminPass = passwd ? passwd : "";
 }
-
 
 Bool_t  TGo4Analysis::EvaluateFolderpath(const char *fullname, TString& objectname, TString& foldername)
 {

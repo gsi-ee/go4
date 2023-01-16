@@ -297,17 +297,17 @@ Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Fitter* fit)
 
 Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder* folder)
 {
-   TGo4AnalysisStep* step=GetAnalysisStep(name);
+   TGo4AnalysisStep* step = GetAnalysisStep(name);
    return step ? step->Store(folder) : 1;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname)
+TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
    TGo4AnalysisStep* step = GetAnalysisStep(stepname);
    if(step) {
-      TGo4EventProcessor* pro=step->GetEventProcessor();
+      TGo4EventProcessor* pro = step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
    } else {
       rev = nullptr;
@@ -315,11 +315,11 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname)
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
+TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
-   TGo4AnalysisStep* step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(stepindex) );
+   TGo4AnalysisStep* step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(stepindex));
    if(step) {
       TGo4EventProcessor* pro = step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
@@ -330,7 +330,7 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex)
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname)
+TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char*)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
@@ -343,7 +343,7 @@ TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname)
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(Int_t stepindex)
+TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(Int_t stepindex) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(Int_t)",__LINE__, __FILE__));
    TGo4EventElement* rev = nullptr;
@@ -403,26 +403,26 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
    return rev;
 }
 
-TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char *name)
+TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char *name) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
    TGo4AnalysisStep* step = nullptr;
    if(!name)
-      step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(fiFirstStepIndex));
+      step = dynamic_cast<TGo4AnalysisStep*>(fxStepList->At(fiFirstStepIndex));
    else
-      step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->FindObject(name) );
+      step = dynamic_cast<TGo4AnalysisStep*>(fxStepList->FindObject(name));
    return step;
 }
 
-Int_t TGo4AnalysisStepManager::GetNumberOfAnalysisSteps()
+Int_t TGo4AnalysisStepManager::GetNumberOfAnalysisSteps() const
 {
    return fxStepList ? fxStepList->GetLast() + 1 : 0;
 }
 
-TGo4AnalysisStep* TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t number)
+TGo4AnalysisStep* TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t number) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t)",__LINE__, __FILE__));
-   if ((number<0) || (number>fxStepList->GetLast())) return nullptr;
+   if ((number < 0) || (number > fxStepList->GetLast())) return nullptr;
    return dynamic_cast<TGo4AnalysisStep*>(fxStepList->At(number));
 }
 
@@ -527,7 +527,7 @@ void TGo4AnalysisStepManager::AutoSave()
    }
 }
 
-Int_t TGo4AnalysisStepManager::IsErrorStopEnabled()
+Int_t TGo4AnalysisStepManager::IsErrorStopEnabled() const
 {
    return kTRUE; // FIXME: workaround, to be removed later!!! JA
 
