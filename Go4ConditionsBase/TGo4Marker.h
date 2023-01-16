@@ -113,13 +113,13 @@ public:
    /** Deliver bin content of work histogram at marker position */
    Int_t GetCont() const;
    /** Calculate initial label coordinate from marker position */
-   Double_t GetLabelX();
+   Double_t GetLabelX() const;
    /** Calculate initial label coordinate from marker position */
-   Double_t GetLabelY();
+   Double_t GetLabelY() const;
 
    static Int_t GetInstances();
 
-   TVirtualPad* GetDrawPad() { return fxDrawPad; }
+   TVirtualPad *GetDrawPad() const { return fxDrawPad; }
 
    /** True if current draw pad is still existing */
    Bool_t CheckDrawPad() const;

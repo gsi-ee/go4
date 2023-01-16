@@ -185,7 +185,7 @@ Int_t TGo4Marker::GetCont() const
    return (Int_t) fxHisto->GetBinContent(bin);
 }
 
-Double_t TGo4Marker::GetLabelX()
+Double_t TGo4Marker::GetLabelX() const
 {
    if (!CheckDrawPad())
       return 0;
@@ -194,7 +194,7 @@ Double_t TGo4Marker::GetLabelX()
    return xpos;
 }
 
-Double_t TGo4Marker::GetLabelY()
+Double_t TGo4Marker::GetLabelY() const
 {
    if (!CheckDrawPad())
       return 0;
