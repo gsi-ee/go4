@@ -208,20 +208,20 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
       Int_t GetKind() override
       {
          Int_t kind = TGo4Access::kndNone;
-         if (fIsTree)
-           if (isfolder()) kind = TGo4Access::kndTreeBranch;
-                      else kind = TGo4Access::kndTreeLeaf;
-         else
-           if (isfolder())
-              kind = TGo4Access::kndFolder;
-           else {
-             kind = TGo4Access::kndObject;
-             if (fCurrent && fCurrent->InheritsFrom(TGo4ParameterStatus::Class()))
-                kind = TGo4Access::kndGo4Param;
-             else
-             if (fCurrent && fCurrent->InheritsFrom(TGo4MemberStatus::Class()))
-                kind = TGo4Access::kndDataMember;
-           }
+         if (fIsTree) {
+            if (isfolder())
+               kind = TGo4Access::kndTreeBranch;
+            else
+               kind = TGo4Access::kndTreeLeaf;
+         } else if (isfolder()) {
+            kind = TGo4Access::kndFolder;
+         } else {
+            kind = TGo4Access::kndObject;
+            if (fCurrent && fCurrent->InheritsFrom(TGo4ParameterStatus::Class()))
+               kind = TGo4Access::kndGo4Param;
+            else if (fCurrent && fCurrent->InheritsFrom(TGo4MemberStatus::Class()))
+               kind = TGo4Access::kndDataMember;
+         }
 
          return kind;
       }
