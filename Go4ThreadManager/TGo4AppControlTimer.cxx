@@ -133,9 +133,3 @@ Bool_t TGo4AppControlTimer::Notify ()
       }
     return kFALSE;
 }
-
-Bool_t TGo4AppControlTimer::GetApplicationRun ()
-{
-  GO4TRACE((12,"TGo4AppControlTimer::GetApplicationRun ()",__LINE__, __FILE__));
-  return fbApplicationRun;
-}

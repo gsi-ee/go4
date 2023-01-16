@@ -69,7 +69,7 @@ class TGo4AppControlTimer : public TTimer {
      /**
       *   Status of the application run flag. If true, root application is _not_ blocked.
       **/
-      Bool_t GetApplicationRun();
+      Bool_t GetApplicationRun() const { return fbApplicationRun; }
 
   protected:
     /**
