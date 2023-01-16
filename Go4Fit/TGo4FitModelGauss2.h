@@ -61,12 +61,12 @@ class TGo4FitModelGauss2 : public TGo4FitModel {
       /**
        * Return number of first selected axis.
        */
-      Int_t GetNumAxis1() { return fiNaxis1; }
+      Int_t GetNumAxis1() const { return fiNaxis1; }
 
       /**
        * Return number of second selected axis.
        */
-      Int_t GetNumAxis2() { return fiNaxis2; }
+      Int_t GetNumAxis2() const { return fiNaxis2; }
 
       /**
        * Sets number of first selected axis.

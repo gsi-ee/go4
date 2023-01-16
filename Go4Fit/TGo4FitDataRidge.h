@@ -66,7 +66,7 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Returns number of selected axis.
        */
-      Int_t GetSelectedAxis() { return fiSelectedAxis; }
+      Int_t GetSelectedAxis() const { return fiSelectedAxis; }
 
       /**
        * Create TGo4FitDataRidgeIter iterator, associated with given data object..

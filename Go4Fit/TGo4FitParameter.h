@@ -156,18 +156,18 @@ class TGo4FitParameter : public TGo4FitNamed {
       /**
        * Return value of range minimum.
        */
-      Double_t GetRangeMin() { return fdRangeMin; }
+      Double_t GetRangeMin() const { return fdRangeMin; }
 
       /**
        * Return value of range maximum.
        */
-      Double_t GetRangeMax() { return fdRangeMax; }
+      Double_t GetRangeMax() const { return fdRangeMax; }
 
       /**
        * Clear status, that range was specified.
        * Equivalent to SetRangeUse(kFALSE).
        */
-      void ClearRange() { fbRange = kFALSE; fdRangeMin = 0.; fdRangeMax = 0.; }
+      void ClearRange() { fbRange = kFALSE; fdRangeMin = fdRangeMax = 0.; }
 
       /**
        * Memorize value of parameter.
@@ -199,8 +199,8 @@ class TGo4FitParameter : public TGo4FitNamed {
       Double_t fdRangeMax{0.};
 
    private:
-      Bool_t fbBlocked{kFALSE};            //!
-      Double_t fdRememberedValue{0.};  //!
+      Bool_t fbBlocked{kFALSE};         //!
+      Double_t fdRememberedValue{0.};   //!
 
     ClassDefOverride(TGo4FitParameter,1)
 };

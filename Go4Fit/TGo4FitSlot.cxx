@@ -89,7 +89,7 @@ void TGo4FitSlot::ClearConnectionToSlot()
    }
 }
 
-Bool_t TGo4FitSlot::IsSuitable(TObject *obj)
+Bool_t TGo4FitSlot::IsSuitable(TObject *obj) const
 {
    if (!obj)
       return kFALSE;
@@ -99,7 +99,7 @@ Bool_t TGo4FitSlot::IsSuitable(TObject *obj)
       return obj->InheritsFrom(GetClass());
 }
 
-Bool_t TGo4FitSlot::IsSuitableClass(TClass *cl)
+Bool_t TGo4FitSlot::IsSuitableClass(TClass *cl) const
 {
    if (!cl)
       return kFALSE;

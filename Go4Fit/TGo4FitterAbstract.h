@@ -130,7 +130,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Returns number of action in actions list.
        */
-      Int_t GetNumActions() { return fxActions.GetLast()+1; }
+      Int_t GetNumActions() const { return fxActions.GetLast()+1; }
 
       /**
        * Returns pointer on action with given index.

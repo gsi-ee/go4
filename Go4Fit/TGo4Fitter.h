@@ -82,7 +82,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return type of fitted function. For possible values see SetFitFunctionType() method.
        */
-      Int_t GetFitFunctionType() { return fiFitFunctionType; }
+      Int_t GetFitFunctionType() const { return fiFitFunctionType; }
 
       /**
        * Set user-defined fitted function.
@@ -110,7 +110,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Return value of memory usage parameter.
        * See SetMemoryUsage for detailed description.
        */
-      Int_t GetMemoryUsage() { return fiMemoryUsage; }
+      Int_t GetMemoryUsage() const { return fiMemoryUsage; }
 
       /**
        * Remove all data, all models and all actions
@@ -386,14 +386,14 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       // a set of function to access data buffers
 
-      Bool_t ModelBuffersAllocated(TGo4FitModel* model);
-      Bool_t DataBuffersAllocated(TGo4FitData* data);
+      Bool_t ModelBuffersAllocated(TGo4FitModel *model);
+      Bool_t DataBuffersAllocated(TGo4FitData *data);
 
-      Int_t GetDataBinsSize(TGo4FitData* data);
-      Double_t* GetDataBinsValues(TGo4FitData* data);
-      Double_t* GetDataBinsDevs(TGo4FitData* data);
-      Double_t* GetDataBinsResult(TGo4FitData* data);
-      Double_t* GetModelBinsValues(TGo4FitModel* model, const char *DataName);
+      Int_t GetDataBinsSize(TGo4FitData *data) const;
+      Double_t *GetDataBinsValues(TGo4FitData *data) const;
+      Double_t *GetDataBinsDevs(TGo4FitData *data) const;
+      Double_t *GetDataBinsResult(TGo4FitData *data) const;
+      Double_t *GetModelBinsValues(TGo4FitModel *model, const char *DataName) const;
 
       /**
        * Update all data objects and model components according to current parameters values.
@@ -407,7 +407,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       Double_t DoCalculation() override;
       Int_t DoNDFCalculation() override;
-      Double_t CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata = nullptr);
+      Double_t CalculateFCN(Int_t FitFunctionType, TGo4FitData *selectdata = nullptr);
       Double_t PointFitFunction(Int_t FitFunctionType, Double_t value, Double_t modelvalue, Double_t standdev);
 
       Bool_t InitFitterData() override;

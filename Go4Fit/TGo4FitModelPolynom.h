@@ -112,7 +112,7 @@ class TGo4FitModelPolynom : public TGo4FitModel {
       void AfterEval() override;
 
    protected:
-      TString GetOrderParName(Int_t naxis);
+      TString GetOrderParName(Int_t naxis) const;
 
    private:
       void CreateOrdersPars(const Double_t* orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx = -1);

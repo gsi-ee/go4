@@ -56,7 +56,7 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Returns number of dimensions (number of axes), where gaussian will be build.
        */
-      Int_t GetAxisNumbers() { return fxIndexes.GetSize(); }
+      Int_t GetAxisNumbers() const { return fxIndexes.GetSize(); }
 
       /**
        * Sets number of axes (dimensions), where gaussian will be build. Should be more than 0.
@@ -68,7 +68,7 @@ class TGo4FitModelGaussN : public TGo4FitModel {
        * Can be, that first dimension of gaussian assign to z-axis, 2-nd dimension to x-axis, 3-rd dimension to y-axis.
        * Default (created in constructor) is normal numbering, when number of dimension is equal to number of axis.
        */
-      Int_t GetAxisForIndex(Int_t indx) { return fxIndexes[indx]; }
+      Int_t GetAxisForIndex(Int_t indx) const { return fxIndexes[indx]; }
 
       /**
        * Change axis number for specified index (dimension) of gaussian.

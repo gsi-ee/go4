@@ -63,9 +63,9 @@ void TGo4FitMinuit::AddCommand(const char *iCommand)
    fxCommands.Add(new TObjString(iCommand));
 }
 
-const char *TGo4FitMinuit::GetCommand(Int_t n)
+const char *TGo4FitMinuit::GetCommand(Int_t n) const
 {
-   return ((TObjString *)fxCommands[n])->GetString().Data();
+   return fxCommands[n]->GetName();
 }
 
 void TGo4FitMinuit::DoAction(TGo4FitterAbstract *Fitter)
@@ -143,7 +143,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract *Fitter)
    }
 }
 
-TGo4FitMinuitResult *TGo4FitMinuit::GetResult(Int_t indx)
+TGo4FitMinuitResult *TGo4FitMinuit::GetResult(Int_t indx) const
 {
    return (indx >= 0) && (indx <= fxResults.GetLast()) ? (TGo4FitMinuitResult *)fxResults.At(indx) : nullptr;
 }
@@ -170,7 +170,7 @@ void TGo4FitMinuit::Print(Option_t *option) const
    if (fxCommands.GetLast() >= 0)
       std::cout << "List of commands:" << std::endl;
    for (Int_t n = 0; n <= fxCommands.GetLast(); n++)
-      std::cout << "   " << ((TObjString *)fxCommands[n])->String().Data() << std::endl;
+      std::cout << "   " << fxCommands[n]->GetName() << std::endl;
    if (fxResults.GetLast() >= 0) {
       std::cout << "List of stored results:" << std::endl;
       fxResults.Print(option);

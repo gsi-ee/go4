@@ -17,7 +17,8 @@
 
 #include "TGo4FitParameter.h"
 
-TGo4FitModelPolynom::TGo4FitModelPolynom() : TGo4FitModel(), fxAllOrders(nullptr) {
+TGo4FitModelPolynom::TGo4FitModelPolynom() : TGo4FitModel(), fxAllOrders(nullptr)
+{
 }
 
 TGo4FitModelPolynom::TGo4FitModelPolynom(const char *iName, Double_t iOrderX) :
@@ -65,7 +66,7 @@ void TGo4FitModelPolynom::CreateOrdersPars(const Double_t* orders, Int_t startax
    }
 }
 
-TString TGo4FitModelPolynom::GetOrderParName(Int_t naxis)
+TString TGo4FitModelPolynom::GetOrderParName(Int_t naxis) const
 {
    TString res;
    res.Form("Order%d",naxis);
@@ -81,7 +82,8 @@ Double_t TGo4FitModelPolynom::GetPolynomOrder(Int_t naxis)
 Int_t TGo4FitModelPolynom::GetMaxNumAxis()
 {
    Int_t naxis = 0;
-   while (FindPar(GetOrderParName(naxis))) naxis++;
+   while (FindPar(GetOrderParName(naxis))) 
+      naxis++;
    return naxis-1;
 }
 

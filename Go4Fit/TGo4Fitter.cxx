@@ -751,27 +751,27 @@ Bool_t TGo4Fitter::DataBuffersAllocated(TGo4FitData *data)
    return !data ? kFALSE : data->BuffersAllocated();
 }
 
-Int_t TGo4Fitter::GetDataBinsSize(TGo4FitData *data)
+Int_t TGo4Fitter::GetDataBinsSize(TGo4FitData *data)  const
 {
    return !data ? 0 : data->GetBinsSize();
 }
 
-Double_t *TGo4Fitter::GetDataBinsValues(TGo4FitData *data)
+Double_t *TGo4Fitter::GetDataBinsValues(TGo4FitData *data) const
 {
    return !data ? nullptr : data->GetBinsValues();
 }
 
-Double_t *TGo4Fitter::GetDataBinsDevs(TGo4FitData *data)
+Double_t *TGo4Fitter::GetDataBinsDevs(TGo4FitData *data) const
 {
    return !data ? nullptr : data->GetBinsDevs();
 }
 
-Double_t *TGo4Fitter::GetDataBinsResult(TGo4FitData *data)
+Double_t *TGo4Fitter::GetDataBinsResult(TGo4FitData *data) const
 {
    return !data ? nullptr : data->GetBinsResult();
 }
 
-Double_t *TGo4Fitter::GetModelBinsValues(TGo4FitModel *model, const char *DataName)
+Double_t *TGo4Fitter::GetModelBinsValues(TGo4FitModel *model, const char *DataName) const
 {
    return !model ? nullptr : model->GetModelBins(DataName);
 }

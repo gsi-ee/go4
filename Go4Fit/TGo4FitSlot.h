@@ -58,7 +58,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return pointer on class for desired object.
        */
-      TClass *GetClass() { return fxClass; }
+      TClass *GetClass() const { return fxClass; }
 
       /**
        * Set basic fields of slot.
@@ -77,18 +77,17 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Returns save flag.
        */
-      Int_t GetSaveFlag() { return fiSaveFlag; }
+      Int_t GetSaveFlag() const { return fiSaveFlag; }
 
       /**
        * Checks, if object class corresponds to class, specified for slot
        */
-      Bool_t IsSuitable(TObject *obj);
-
+      Bool_t IsSuitable(TObject *obj) const;
 
       /**
        * Checks, if class corresponds to specified for slot
        */
-      Bool_t IsSuitableClass(TClass *cl);
+      Bool_t IsSuitableClass(TClass *cl) const;
 
       /**
        *  Method remove object pointer.

@@ -73,12 +73,12 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Returns number of commands in list.
        */
-      Int_t GetNumCommands() { return fxCommands.GetLast()+1; }
+      Int_t GetNumCommands() const { return fxCommands.GetLast()+1; }
 
       /**
        * Return command with given index.
        */
-      const char *GetCommand(Int_t n);
+      const char *GetCommand(Int_t n) const;
 
       /**
        * Clear Minuit commands list.
@@ -88,12 +88,12 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Returns number of result objects.
        */
-      Int_t GetNumResults() { return fxResults.GetLast()+1; }
+      Int_t GetNumResults() const { return fxResults.GetLast()+1; }
 
       /**
        * Get TGo4FitMinuitResult object with given index.
        */
-      TGo4FitMinuitResult* GetResult(Int_t indx);
+      TGo4FitMinuitResult* GetResult(Int_t indx) const;
 
       /**
        * Find result object with provided name.
