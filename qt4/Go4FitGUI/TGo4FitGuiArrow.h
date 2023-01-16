@@ -37,13 +37,13 @@ public:
    void SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx);
    void SetItem(QFitItem* item, TGo4FitPanel* panel);
 
-   QFitItem* GetItem() { return fxItem; }
+   QFitItem* GetItem() const { return fxItem; }
 
    Bool_t Locate();
 
-   Int_t GetType() { return fxType; }
-   TGo4FitModel* GetModel() { return fxModel; }
-   TGo4FitComponent* GetComp() { return fxComp; }
+   Int_t GetType() const { return fxType; }
+   TGo4FitModel* GetModel() const { return fxModel; }
+   TGo4FitComponent* GetComp() const { return fxComp; }
 
    Bool_t IsAssignTo(TObject *obj);
 

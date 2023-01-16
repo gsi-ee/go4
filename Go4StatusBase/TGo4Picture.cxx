@@ -1648,7 +1648,7 @@ void TGo4Picture::ClearAllOptions(Short_t index)
   }
 }
 
-Int_t TGo4Picture::GetObjAttIndex(TObject *obj)
+Int_t TGo4Picture::GetObjAttIndex(TObject *obj) const
 {
    if (!obj) return UndefIndex;
    for (Int_t n = 0; n < GetNumObjNames(); n++)

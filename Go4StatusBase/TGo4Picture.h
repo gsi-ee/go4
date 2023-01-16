@@ -316,7 +316,7 @@ class TGo4Picture : public TNamed {
       TGo4Picture(TGo4Picture& picture);
       void AddSubPicture(TGo4Picture* pic);
 
-      Int_t GetObjAttIndex(TObject *obj);
+      Int_t GetObjAttIndex(TObject *obj) const;
 
       void SetPosition(Int_t posy, Int_t posx);
       Bool_t CheckPosition(Int_t posy, Int_t posx) const;

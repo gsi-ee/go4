@@ -99,7 +99,7 @@ class TGo4ThreadHandler : public TNamed {
       TGo4Thread* GetThread(const char *name);
 
       /** Number of threads in list **/
-      Int_t GetEntries();
+      Int_t GetEntries() const;
 
       /** Returns true if all root threads in list are existing,
         * i.e. there is a pid and a valid thread pointer for them

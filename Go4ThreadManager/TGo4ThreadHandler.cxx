@@ -483,7 +483,7 @@ TGo4Thread* TGo4ThreadHandler::GetThread (const char *name)
    return thread;
 }
 
-Int_t TGo4ThreadHandler::GetEntries ()
+Int_t TGo4ThreadHandler::GetEntries() const
 {
    GO4TRACE((12,"TGo4ThreadHandler::GetEntries()",__LINE__, __FILE__));
    Int_t entries = 0;
