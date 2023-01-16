@@ -97,7 +97,7 @@ class TGo4ClientTask : public TGo4Task {
        */
       Bool_t DisconnectServer(Bool_t isterminating=kFALSE);
 
-      const char *GetServerHostName() { return fxServerHostname.Data(); }
+      const char *GetServerHostName() const { return fxServerHostname.Data(); }
 
       Bool_t IsConnected() const { return fbServerConnected; }
 
@@ -135,6 +135,7 @@ class TGo4ClientTask : public TGo4Task {
        * true if connection to server is established, otherwise false
        */
       Bool_t fbServerConnected{kFALSE};
+
    ClassDefOverride(TGo4ClientTask,1)
 };
 

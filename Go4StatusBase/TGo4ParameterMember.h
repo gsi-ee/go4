@@ -42,7 +42,7 @@ class TGo4ParameterMember : public TNamed {
       void SetArrayIndexes(Int_t ndim = 0, Int_t indx1 = -1, Int_t indx2 = -1);
       Bool_t CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t indx2);
       Bool_t IsArrayItem() const { return (fIndex1 >= 0); }
-      const char *GetFullName(TString& buf);
+      const char *GetFullName(TString &buf) const;
 
       void SetVisible(Bool_t on = kTRUE) { fVisible = on; }
       Bool_t IsVisible() const { return fVisible; }

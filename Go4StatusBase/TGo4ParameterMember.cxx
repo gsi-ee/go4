@@ -67,7 +67,7 @@ Bool_t TGo4ParameterMember::CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t ind
 }
 
 
-const char *TGo4ParameterMember::GetFullName(TString& buf)
+const char *TGo4ParameterMember::GetFullName(TString &buf) const
 {
    buf = "";
    if ((fIndex1 < 0) && (fIndex2 < 0))
