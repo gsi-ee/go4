@@ -229,7 +229,7 @@ class TGo4PrintProcessor : public TGo4EventProcessor {
       static Bool_t fFileHead;
       static Bool_t fBufHead;
 
-      virtual Bool_t BuildEvent(TGo4EventElement* dest)
+      Bool_t BuildEvent(TGo4EventElement* dest) override
       {
          TGo4EventElement* evnt = GetInputEvent();
 

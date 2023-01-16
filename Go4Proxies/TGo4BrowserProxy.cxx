@@ -139,7 +139,7 @@ TGo4BrowserProxy::TGo4BrowserProxy(const char *datapath,
 TGo4BrowserProxy::~TGo4BrowserProxy()
 {
    if (gDebug > 1)
-      Info("~TGo4BrowserProxy","Called");
+      Info("~TGo4BrowserProxy", "Called");
 
    if (fDummyTreePlayer) {
       delete fDummyTreePlayer;

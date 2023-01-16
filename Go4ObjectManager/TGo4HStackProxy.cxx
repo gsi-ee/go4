@@ -23,8 +23,8 @@
 
 class TGo4HStackLevelIter : public TGo4LevelIter {
    protected:
-      TIterator*     fIter;     //!
-      TObject*       fCurrent;  //!
+      TIterator*     fIter{nullptr};     //!
+      TObject*       fCurrent{nullptr};  //!
    public:
       TGo4HStackLevelIter(THStack* hs) :
          TGo4LevelIter(),

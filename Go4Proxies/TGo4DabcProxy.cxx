@@ -58,7 +58,7 @@ TString GetRootClassName(const dabc::Hierarchy& item)
 // we use fake file only to correctly reconstruct streamer infos
 class TFakeFile : public TMemFile {
    protected:
-      TList*  mylist;
+      TList*  mylist{nullptr};
 
       InfoListRet GetStreamerInfoListImpl(bool) override
       {
@@ -86,12 +86,12 @@ class TGo4DabcAccess : public TGo4Access {
       std::string      fRootClassName;
       std::string      fMasterName;
       std::string      fMasterItemName;
-      bool             fIsRate;
-      int              fHistoryLength;
-      TGo4ObjectManager* fxReceiver;
-      TString             fxRecvPath;
+      bool             fIsRate{false};
+      int              fHistoryLength{0};
+      TGo4ObjectManager* fxReceiver{nullptr};
+      TString          fxRecvPath;
       dabc::Buffer     fRawData;     //! raw data, get from command
-      Bool_t           fCompression;   //! request compression from server
+      Bool_t           fCompression{false};   //! request compression from server
 
    public:
 
@@ -149,13 +149,10 @@ class TGo4DabcAccess : public TGo4Access {
             fIsRate = true;
             if (fHistoryLength > 0) fRootClassName = "TGraph";
          }
-
-         //printf("Create ACCESS %p\n", this);
       }
 
       virtual ~TGo4DabcAccess()
       {
-         //printf("Destroy ACCESS %p\n", this);
       }
 
       Bool_t IsRemote() const override { return kTRUE; }
@@ -182,7 +179,6 @@ class TGo4DabcAccess : public TGo4Access {
 
          return "dabc::Hierarchy";
       }
-
 
       Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override
       {
@@ -486,9 +482,7 @@ class ReplyWorker : public dabc::Worker {
          dabc::Worker(MakePair(name))
       {
       }
-
 };
-
 
 
 // ===================================================================================
@@ -498,7 +492,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
       dabc::Hierarchy fParent;
       dabc::Hierarchy fChild;
       TString fClNameBuf; //! buffer used for class name
-      unsigned fCnt;
+      unsigned fCnt{0};
 
    public:
       TGo4DabcLevelIter(const dabc::Hierarchy& item) :
@@ -518,13 +512,11 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          if (fChild.null()) {
             fCnt = 0;
             fChild = fParent.GetChild(fCnt);
-//            printf("Extract first child %s from iter\n", fChild.GetName());
          } else {
             fCnt++;
             fChild.Release();
             if (fCnt>=fParent.NumChilds()) return kFALSE;
             fChild = fParent.GetChild(fCnt);
-//            printf("Extract %u child %s from iter\n", fCnt, fChild.GetName());
          }
 
          return !fChild.null();

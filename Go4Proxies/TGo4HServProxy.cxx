@@ -55,8 +55,8 @@ class TGo4HServIter : public TGo4LevelIter {
     protected:
        TGo4Slot *curSlot() const { return fSlot->GetChild(fIndex); }
 
-       const TGo4Slot *fSlot{nullptr};  //!
-       Int_t      fIndex{-1};           //!
+       const TGo4Slot *fSlot{nullptr}; //!
+       Int_t fIndex{-1};               //!
 };
 
 // ******************************************************************
