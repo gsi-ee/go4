@@ -129,6 +129,18 @@ enum OptionsIdentifiers {
 
 };
 
+
+template<class T>
+T* Cast(TObject *obj)
+{
+   auto cl = TClass::GetClass<T>();
+   if (!obj || !cl) return nullptr;
+   auto shift = obj->IsA()->GetBaseClassOffset(cl);
+   if (shift < 0) return nullptr;
+   return (T *)((char *) obj + shift);
+}
+
+
 TGo4Picture::TGo4Picture() : TNamed()
 {
 }
@@ -644,22 +656,22 @@ void TGo4Picture::GetDrawAttributes(TObject *obj, Int_t index) const
 {
    if (!obj) return;
    CheckIndex(index);
-   GetLineAtt((TAttLine *) Cast(obj, TAttLine::Class()), index);
-   GetFillAtt((TAttFill *) Cast(obj, TAttFill::Class()), index);
-   GetMarkerAtt((TAttMarker*) Cast(obj, TAttMarker::Class()), index);
-   GetH1Att((TH1 *) Cast(obj, TH1::Class()), index);
-   GetPadAtt((TPad *) Cast(obj, TPad::Class()), index);
+   GetLineAtt(Cast<TAttLine>(obj), index);
+   GetFillAtt(Cast<TAttFill>(obj), index);
+   GetMarkerAtt(Cast<TAttMarker>(obj), index);
+   GetH1Att(Cast<TH1>(obj), index);
+   GetPadAtt(Cast<TPad>(obj), index);
 }
 
 void TGo4Picture::SetDrawAttributes(TObject *obj, Int_t index)
 {
    if (!obj) return;
    CheckIndex(index);
-   SetLineAtt((TAttLine *) Cast(obj, TAttLine::Class()), index);
-   SetFillAtt((TAttFill *) Cast(obj, TAttFill::Class()), index);
-   SetMarkerAtt((TAttMarker *) Cast(obj, TAttMarker::Class()), index);
-   SetH1Att((TH1 *) Cast(obj, TH1::Class()), index);
-   SetPadAtt((TPad *) Cast(obj, TPad::Class()), index);
+   SetLineAtt(Cast<TAttLine>(obj), index);
+   SetFillAtt(Cast<TAttFill>(obj), index);
+   SetMarkerAtt(Cast<TAttMarker>(obj), index);
+   SetH1Att(Cast<TH1>(obj), index);
+   SetPadAtt(Cast<TPad>(obj), index);
 }
 
 void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
@@ -920,14 +932,6 @@ void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)  const
    if (GetOption (index, op_Pad+ 6, lv)) pad->SetTickx(lv);
    if (GetOption (index, op_Pad+ 7, lv)) pad->SetTicky(lv);
    GetDrawAttributes(pad->GetFrame(), index);
-}
-
-void* TGo4Picture::Cast(TObject *obj, TClass *cl) const
-{
-   if (!obj || !cl) return nullptr;
-   Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
-   if (shift < 0) return nullptr;
-   return (char *) obj + shift;
 }
 
 void TGo4Picture::SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom)
