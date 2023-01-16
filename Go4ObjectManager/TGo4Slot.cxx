@@ -620,7 +620,7 @@ void TGo4Slot::SetIntPar(const char *name, Int_t value)
    SetPar(name, buf.Data());
 }
 
-Bool_t TGo4Slot::GetIntPar(const char *name, Int_t& value)
+Bool_t TGo4Slot::GetIntPar(const char *name, Int_t& value) const
 {
    const char *strvalue = GetPar(name);
    if (!strvalue) return kFALSE;
