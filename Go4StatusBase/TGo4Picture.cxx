@@ -469,7 +469,7 @@ void TGo4Picture::SetLogScale(Int_t nscale, Int_t zn)
    SetOption(PictureIndex, typ, zn);
 }
 
-Int_t TGo4Picture::GetLogScale(Int_t nscale)
+Int_t TGo4Picture::GetLogScale(Int_t nscale) const
 {
    Int_t typ;
    switch (nscale) {
@@ -516,11 +516,11 @@ void TGo4Picture::SetLineAtt(TAttLine* line, Int_t index)
    SetOption(index, op_LineWidth, line->GetLineWidth());
 }
 
-Bool_t TGo4Picture::GetLineAtt(TAttLine* line, Int_t index)
+Bool_t TGo4Picture::GetLineAtt(TAttLine* line, Int_t index) const
 {
    if (!line) return kFALSE;
    CheckIndex(index);
-   Long_t color = -111, style=-111, width=-111;
+   Long_t color = -111, style = -111, width = -111;
    if (GetOption(index, op_LineColor, color)) line->SetLineColor(color);
    if (GetOption(index, op_LineStyle, style)) line->SetLineStyle(style);
    if (GetOption(index, op_LineWidth, width)) line->SetLineWidth(width);
@@ -550,14 +550,14 @@ void TGo4Picture::SetFillAtt(TAttFill* fill, Int_t index)
    SetOption(index, op_FillStyle, fill->GetFillStyle());
 }
 
-Bool_t TGo4Picture::GetFillAtt(TAttFill* fill, Int_t index)
+Bool_t TGo4Picture::GetFillAtt(TAttFill* fill, Int_t index) const
 {
    if (!fill) return kFALSE;
    CheckIndex(index);
    Long_t color = -111, style = -111;
    if (GetOption(index, op_FillColor, color)) fill->SetFillColor(color);
    if (GetOption(index, op_FillStyle, style)) fill->SetFillStyle(style);
-   return (color!=-111) && (style!=-111);
+   return (color != -111) && (style != -111);
 }
 
 void TGo4Picture::ClearFillAtt(Int_t index)
@@ -584,15 +584,15 @@ void TGo4Picture::SetMarkerAtt(TAttMarker* marker, Int_t index)
    SetOption(index, op_MarkerStyle, marker->GetMarkerStyle());
 }
 
-Bool_t TGo4Picture::GetMarkerAtt(TAttMarker* marker, Int_t index)
+Bool_t TGo4Picture::GetMarkerAtt(TAttMarker* marker, Int_t index) const
 {
    if (!marker) return kFALSE;
    CheckIndex(index);
-   Long_t color=-111, size=-111, style=-111;
+   Long_t color = -111, size = -111, style = -111;
    if (GetOption(index, op_MarkerColor, color)) marker->SetMarkerColor(color);
    if (GetOption(index, op_MarkerSize, size)) marker->SetMarkerSize(size);
    if (GetOption(index, op_MarkerStyle, style)) marker->SetMarkerStyle(style);
-   return (color!=-111) && (size!=-111) && (style!=-111);
+   return (color != -111) && (size != -111) && (style != -111);
 }
 
 void TGo4Picture::ClearMarkerAtt(Int_t index)
@@ -617,7 +617,7 @@ void TGo4Picture::SetRebinY(Int_t ngroupy, Int_t index)
              else ClearOption(index, op_RebinY);
 }
 
-Int_t TGo4Picture::GetRebinX(Int_t index)
+Int_t TGo4Picture::GetRebinX(Int_t index) const
 {
    CheckIndex(index);
    Long_t ngroupx = 0;
@@ -625,7 +625,7 @@ Int_t TGo4Picture::GetRebinX(Int_t index)
    return ngroupx;
 }
 
-Int_t TGo4Picture::GetRebinY(Int_t index)
+Int_t TGo4Picture::GetRebinY(Int_t index) const
 {
    CheckIndex(index);
    Long_t ngroupy = 0;
@@ -640,26 +640,26 @@ void TGo4Picture::ClearRebin(Int_t index)
    ClearOption(index, op_RebinY);
 }
 
-void TGo4Picture::GetDrawAttributes(TObject *obj, Int_t index)
+void TGo4Picture::GetDrawAttributes(TObject *obj, Int_t index) const
 {
    if (!obj) return;
    CheckIndex(index);
-   GetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
-   GetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
+   GetLineAtt((TAttLine *) Cast(obj, TAttLine::Class()), index);
+   GetFillAtt((TAttFill *) Cast(obj, TAttFill::Class()), index);
    GetMarkerAtt((TAttMarker*) Cast(obj, TAttMarker::Class()), index);
-   GetH1Att((TH1*) Cast(obj, TH1::Class()), index);
-   GetPadAtt((TPad*) Cast(obj, TPad::Class()), index);
+   GetH1Att((TH1 *) Cast(obj, TH1::Class()), index);
+   GetPadAtt((TPad *) Cast(obj, TPad::Class()), index);
 }
 
 void TGo4Picture::SetDrawAttributes(TObject *obj, Int_t index)
 {
    if (!obj) return;
    CheckIndex(index);
-   SetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
-   SetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
-   SetMarkerAtt((TAttMarker*) Cast(obj, TAttMarker::Class()), index);
-   SetH1Att((TH1*) Cast(obj, TH1::Class()), index);
-   SetPadAtt((TPad*) Cast(obj, TPad::Class()), index);
+   SetLineAtt((TAttLine *) Cast(obj, TAttLine::Class()), index);
+   SetFillAtt((TAttFill *) Cast(obj, TAttFill::Class()), index);
+   SetMarkerAtt((TAttMarker *) Cast(obj, TAttMarker::Class()), index);
+   SetH1Att((TH1 *) Cast(obj, TH1::Class()), index);
+   SetPadAtt((TPad *) Cast(obj, TPad::Class()), index);
 }
 
 void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
@@ -671,7 +671,7 @@ void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
    SetAxisAtt(2, h1->GetZaxis(), index);
 }
 
-void TGo4Picture::GetH1Att(TH1* h1, Int_t index)
+void TGo4Picture::GetH1Att(TH1* h1, Int_t index) const
 {
    if (!h1) return;
    CheckIndex(index);
@@ -825,7 +825,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
     }
 }
 
-void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
+void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)  const
 {
    if (!axis || (naxis<0) || (naxis>2)) return;
    CheckIndex(index);
@@ -904,7 +904,7 @@ void TGo4Picture::SetPadAtt(TPad* pad, Int_t index)
    SetDrawAttributes(pad->GetFrame(), index);
 }
 
-void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
+void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)  const
 {
    if (!pad) return;
    CheckIndex(index);
@@ -922,12 +922,12 @@ void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)
    GetDrawAttributes(pad->GetFrame(), index);
 }
 
-void* TGo4Picture::Cast(TObject *obj, TClass *cl)
+void* TGo4Picture::Cast(TObject *obj, TClass *cl) const
 {
    if (!obj || !cl) return nullptr;
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
    if (shift < 0) return nullptr;
-   return (char*) obj + shift;
+   return (char *) obj + shift;
 }
 
 void TGo4Picture::SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom)
@@ -949,7 +949,7 @@ void TGo4Picture::SetFrameAttr(TPad* pad)
        SetFrameAttr(pad->GetLeftMargin(), pad->GetTopMargin(), pad->GetRightMargin(), pad->GetBottomMargin());
 }
 
-Bool_t TGo4Picture::GetFrameAttr(TPad* pad)
+Bool_t TGo4Picture::GetFrameAttr(TPad* pad) const
 {
    if (!pad) return kFALSE;
 
@@ -997,7 +997,7 @@ void TGo4Picture::SetStatsAttr(TPaveStats* stats)
                    stats->GetOptFit(), stats->GetFitFormat());
 }
 
-Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats)
+Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats) const
 {
    if (!stats) return kFALSE;
 
@@ -1080,7 +1080,7 @@ Bool_t TGo4Picture::HasTitleAttr()
           (FindOptPos(PictureIndex, op_TitleY2) >= 0);
 }
 
-Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
+Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl) const
 {
    if (!titl) return kFALSE;
 

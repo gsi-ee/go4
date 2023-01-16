@@ -97,8 +97,8 @@ class TGo4Picture : public TNamed {
 
       // set logarithmic scale for selected axis
       void SetLogScale(Int_t nscale = 0, Int_t zn = 1);
-      Int_t GetLogScale(Int_t nscale = 0);
-      void GetLogScales(TVirtualPad* pad);
+      Int_t GetLogScale(Int_t nscale = 0) const;
+      void GetLogScales(TVirtualPad *pad);
       void ClearLogScales();
 
       // select index from object list, to which following options will be applied
@@ -107,32 +107,32 @@ class TGo4Picture : public TNamed {
       // sets line attributes
       void SetLineAtt(Color_t color, Style_t style, Width_t width, Int_t index = UndefIndex);
       void SetLineAtt(TAttLine* line, Int_t index = UndefIndex);
-      Bool_t GetLineAtt(TAttLine* line, Int_t index = UndefIndex);
+      Bool_t GetLineAtt(TAttLine* line, Int_t index = UndefIndex) const;
       void ClearLineAtt(Int_t index = UndefIndex);
 
       // sets fill attributes
       void SetFillAtt(Color_t color, Style_t style, Int_t index = UndefIndex);
       void SetFillAtt(TAttFill* fill, Int_t index = UndefIndex);
-      Bool_t GetFillAtt(TAttFill* fill, Int_t index = UndefIndex);
+      Bool_t GetFillAtt(TAttFill* fill, Int_t index = UndefIndex) const;
       void ClearFillAtt(Int_t index = UndefIndex);
 
       // set marker attributes
       void SetMarkerAtt(Color_t color, Size_t size, Style_t style, Int_t index = UndefIndex);
       void SetMarkerAtt(TAttMarker* marker, Int_t index = UndefIndex);
-      Bool_t GetMarkerAtt(TAttMarker* marker, Int_t index = UndefIndex);
+      Bool_t GetMarkerAtt(TAttMarker* marker, Int_t index = UndefIndex) const;
       void ClearMarkerAtt(Int_t index = UndefIndex);
 
       // set rebin attributes
       void SetRebinX(Int_t ngroupx, Int_t index = UndefIndex);
       void SetRebinY(Int_t ngroupy, Int_t index = UndefIndex);
-      Int_t GetRebinX(Int_t index = UndefIndex);
-      Int_t GetRebinY(Int_t index = UndefIndex);
+      Int_t GetRebinX(Int_t index = UndefIndex) const;
+      Int_t GetRebinY(Int_t index = UndefIndex) const;
       void ClearRebin(Int_t index = UndefIndex);
 
       // copy all available attributes from object to picture
       void SetDrawAttributes(TObject *obj, Int_t index = UndefIndex);
       // assign all available attributes from picture to object
-      void GetDrawAttributes(TObject *obj, Int_t index = UndefIndex);
+      void GetDrawAttributes(TObject *obj, Int_t index = UndefIndex) const;
 
       // set string draw options
       void SetDrawOption(Option_t* option = "") override
@@ -155,13 +155,13 @@ class TGo4Picture : public TNamed {
 
       void SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom);
       void SetFrameAttr(TPad* pad);
-      Bool_t GetFrameAttr(TPad* pad);
+      Bool_t GetFrameAttr(TPad* pad) const;
 
       void SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
                         Int_t optstat = 1111, const char *statformat = "6.4g",
                         Int_t optfit = 1111, const char *fitformat = "5.4g");
       void SetStatsAttr(TPaveStats* stats);
-      Bool_t GetStatsAttr(TPaveStats* stats);
+      Bool_t GetStatsAttr(TPaveStats* stats) const;
 
       void SetHisContour(Int_t nlvl);
       Int_t GetHisContour() const;
@@ -170,9 +170,9 @@ class TGo4Picture : public TNamed {
       Bool_t IsHisTitle() const;
 
       void SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Double_t textsize = 0.);
-      void SetTitleAttr(TPaveText* titl);
+      void SetTitleAttr(TPaveText *title);
       Bool_t HasTitleAttr();
-      Bool_t GetTitleAttr(TPaveText* titl);
+      Bool_t GetTitleAttr(TPaveText *title) const;
 
       void SetTitleTime(Bool_t on = kTRUE);
       Bool_t IsTitleTime() const;
@@ -346,7 +346,7 @@ class TGo4Picture : public TNamed {
       void ClearOption(Int_t pos);
       void ClearAllOptions(Short_t index = UndefIndex);
 
-      void* Cast(TObject *obj, TClass *cl);
+      void* Cast(TObject *obj, TClass *cl) const;
 
       void CheckIndex(Int_t &index) const;
 
@@ -355,11 +355,11 @@ class TGo4Picture : public TNamed {
       void PrintPic(int shift, Bool_t showopt);
 
       void SetH1Att(TH1* h1, Int_t index = UndefIndex);
-      void GetH1Att(TH1* h1, Int_t index = UndefIndex);
+      void GetH1Att(TH1* h1, Int_t index = UndefIndex) const;
       void SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex);
-      void GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex);
+      void GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex) const;
       void SetPadAtt(TPad* pad, Int_t index = UndefIndex);
-      void GetPadAtt(TPad* pad, Int_t index = UndefIndex);
+      void GetPadAtt(TPad* pad, Int_t index = UndefIndex) const;
 
       void MakeScript(std::ostream& fs, const char *name);
 
