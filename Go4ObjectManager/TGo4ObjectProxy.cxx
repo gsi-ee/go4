@@ -135,12 +135,12 @@ void TGo4ObjectProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
    AssignObject(slot, dir->Get(objname), kTRUE);
 }
 
-Int_t TGo4ObjectProxy::GetObjectKind()
+Int_t TGo4ObjectProxy::GetObjectKind() const
 {
    return fObject ? TGo4Access::kndObject : TGo4Access::kndNone;
 }
 
-const char *TGo4ObjectProxy::GetContainedClassName()
+const char *TGo4ObjectProxy::GetContainedClassName() const
 {
    return fObject ? fObject->ClassName() : nullptr;
 }
@@ -150,7 +150,7 @@ const char *TGo4ObjectProxy::GetContainedObjectInfo()
    return fObject ? fObject->GetTitle() : nullptr;
 }
 
-Int_t TGo4ObjectProxy::GetObjectSizeInfo()
+Int_t TGo4ObjectProxy::GetObjectSizeInfo() const
 {
    Int_t sz = TGo4Proxy::GetObjectSizeInfo();
    if (fObject) sz = DefineObjectSize(fObject);

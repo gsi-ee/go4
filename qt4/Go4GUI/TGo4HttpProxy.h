@@ -139,7 +139,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       void ProcessRegularMultiRequest(Bool_t finished = kFALSE);
 
-      Bool_t ServerHasRestrict();
+      Bool_t ServerHasRestrict() const;
 
       Bool_t ServerHasMulti();
 
@@ -147,7 +147,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t PostObject(const char *prefix, TObject *obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
 
-      Bool_t CheckUserName(const char *expects, Bool_t dflt = kFALSE);
+      Bool_t CheckUserName(const char *expects, Bool_t dflt = kFALSE) const;
 
       Bool_t CheckShutdown(Bool_t force = kFALSE);
 
@@ -169,11 +169,11 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
 
-      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
-      const char *GetContainedClassName() override { return ClassName(); }
+      Int_t GetObjectKind() const override {  return TGo4Access::kndFolder; }
+      const char *GetContainedClassName() const override { return ClassName(); }
       TObject* GetAssignedObject() override { return this; }
       const char *GetContainedObjectInfo() override;
-      Int_t GetObjectSizeInfo() override { return -1; }
+      Int_t GetObjectSizeInfo() const override { return -1; }
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
@@ -188,17 +188,17 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Bool_t IsAnalysisServer() const override { return kTRUE; }
       Bool_t IsGo4Analysis() const override;
-      Bool_t IsConnected() override { return fConnected; }
-      Bool_t IsViewer() override { return CheckUserName("observer", kFALSE); }
-      Bool_t IsController() override { return CheckUserName("controller", kFALSE); }
-      Bool_t IsAdministrator() override { return CheckUserName("admin", kTRUE); }
+      Bool_t IsConnected() const override { return fConnected; }
+      Bool_t IsViewer() const override { return CheckUserName("observer", kFALSE); }
+      Bool_t IsController() const override { return CheckUserName("controller", kFALSE); }
+      Bool_t IsAdministrator() const override { return CheckUserName("admin", kTRUE); }
 
-      Bool_t CanSubmitObjects() override;
+      Bool_t CanSubmitObjects() const override;
       void RequestAnalysisSettings() override;
       void SubmitAnalysisSettings() override;
       void CloseAnalysisSettings() override;
 
-      Bool_t NamesListReceived() override;
+      Bool_t NamesListReceived() const override;
       Bool_t RefreshNamesList() override;
       Bool_t DelayedRefreshNamesList(Int_t delay_sec) override;
 

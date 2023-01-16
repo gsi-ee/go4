@@ -369,7 +369,7 @@ void TGo4AnalysisProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
-Int_t TGo4AnalysisProxy::GetRole()
+Int_t TGo4AnalysisProxy::GetRole() const
 {
    if (!fxDisplay) return kGo4ComModeRefused;
 
@@ -384,17 +384,17 @@ Int_t TGo4AnalysisProxy::GetRole()
    return res;
 }
 
-Bool_t TGo4AnalysisProxy::IsViewer()
+Bool_t TGo4AnalysisProxy::IsViewer() const
 {
    return GetRole() == kGo4ComModeObserver;
 }
 
-Bool_t TGo4AnalysisProxy::IsController()
+Bool_t TGo4AnalysisProxy::IsController() const
 {
    return GetRole() == kGo4ComModeController;
 }
 
-Bool_t TGo4AnalysisProxy::IsAdministrator()
+Bool_t TGo4AnalysisProxy::IsAdministrator() const
 {
    return GetRole()==kGo4ComModeAdministrator;
 }
@@ -595,7 +595,7 @@ Bool_t TGo4AnalysisProxy::DelayedRefreshNamesList(Int_t delay_sec)
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisProxy::NamesListReceived()
+Bool_t TGo4AnalysisProxy::NamesListReceived() const
 {
    return fbNamesListReceived;
 }
@@ -1027,7 +1027,7 @@ void TGo4AnalysisProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown
    fxConnectionTimer->Start(100, kTRUE);
 }
 
-Bool_t TGo4AnalysisProxy::IsConnected()
+Bool_t TGo4AnalysisProxy::IsConnected() const
 {
    if (!fxDisplay) return kFALSE;
 

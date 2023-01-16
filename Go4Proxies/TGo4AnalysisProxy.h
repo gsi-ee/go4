@@ -72,8 +72,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       const char *GetContainedObjectInfo() override;
-      Int_t GetObjectKind() override { return TGo4Access::kndFolder; }
-      const char *GetContainedClassName() override { return ClassName(); }
+      Int_t GetObjectKind() const override { return TGo4Access::kndFolder; }
+      const char *GetContainedClassName() const override { return ClassName(); }
       TObject* GetAssignedObject() override { return this; }
 
       void Update(TGo4Slot *slot, Bool_t strong) override;
@@ -84,15 +84,15 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Bool_t IsGo4Analysis() const override { return kTRUE; }
       Bool_t IsAnalysisServer() const override { return fIsServer; }
 
-      Bool_t IsConnected() override;
-      Bool_t IsViewer() override;
-      Bool_t IsController() override;
-      Bool_t IsAdministrator() override;
+      Bool_t IsConnected() const override;
+      Bool_t IsViewer() const override;
+      Bool_t IsController() const override;
+      Bool_t IsAdministrator() const override;
 
       Bool_t RefreshNamesList() override;
       Bool_t DelayedRefreshNamesList(Int_t delay_sec) override;
 
-      Bool_t CanSubmitObjects() override { return IsConnected() && !IsViewer(); }
+      Bool_t CanSubmitObjects() const override { return IsConnected() && !IsViewer(); }
       void RequestAnalysisSettings() override;
       void SubmitAnalysisSettings() override;
       void CloseAnalysisSettings() override;
@@ -136,7 +136,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                          Int_t complevel,
                          Bool_t overwrite) override;
 
-      Bool_t NamesListReceived() override;
+      Bool_t NamesListReceived() const override;
 
       // analysis proxy functionality
 
@@ -145,7 +145,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       // communication with analysis functionality
 
       Int_t ConnectorPort();
-      Int_t GetRole();
+      Int_t GetRole() const;
 
       void ReceiveObject(TNamed* obj);
       void ReceiveStatus(TGo4Status* status);

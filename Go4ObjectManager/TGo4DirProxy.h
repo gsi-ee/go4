@@ -48,10 +48,10 @@ class TGo4DirProxy : public TGo4Proxy {
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
       const char *GetContainedObjectInfo() override;
-      Int_t GetObjectSizeInfo() override;
+      Int_t GetObjectSizeInfo() const override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot = nullptr);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);

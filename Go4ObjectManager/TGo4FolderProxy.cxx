@@ -113,12 +113,12 @@ TGo4FolderProxy::~TGo4FolderProxy()
    if (fOwner) delete fFolder;
 }
 
-Int_t TGo4FolderProxy::GetObjectKind()
+Int_t TGo4FolderProxy::GetObjectKind() const
 {
    return fFolder ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char *TGo4FolderProxy::GetContainedClassName()
+const char *TGo4FolderProxy::GetContainedClassName() const
 {
    return fFolder ? fFolder->ClassName() : nullptr;
 }

@@ -165,12 +165,12 @@ void TGo4HServProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
 {
 }
 
-Int_t TGo4HServProxy::GetObjectKind()
+Int_t TGo4HServProxy::GetObjectKind() const
 {
    return fxStructure ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char *TGo4HServProxy::GetContainedClassName()
+const char *TGo4HServProxy::GetContainedClassName() const
 {
    return fxStructure ? ClassName() : nullptr;
 }

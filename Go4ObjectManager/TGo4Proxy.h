@@ -106,10 +106,10 @@ class TGo4Proxy : public TObject {
       virtual std::unique_ptr<TGo4Access> ProvideAccess(const char*) { return nullptr; }
       virtual TGo4LevelIter* MakeIter() { return nullptr; }
 
-      virtual Int_t GetObjectKind() {  return TGo4Access::kndNone; }
-      virtual const char *GetContainedClassName() { return nullptr; }
+      virtual Int_t GetObjectKind() const {  return TGo4Access::kndNone; }
+      virtual const char *GetContainedClassName() const { return nullptr; }
       virtual const char *GetContainedObjectInfo() { return nullptr; }
-      virtual Int_t GetObjectSizeInfo() { return -1; }
+      virtual Int_t GetObjectSizeInfo() const { return -1; }
 
       virtual void WriteData(TGo4Slot *, TDirectory *, Bool_t) {}
       virtual void ReadData(TGo4Slot *, TDirectory *) {}

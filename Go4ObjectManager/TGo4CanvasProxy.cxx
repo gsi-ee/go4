@@ -137,12 +137,12 @@ TGo4CanvasProxy::~TGo4CanvasProxy()
    if (fOwner) delete fCanvas;
 }
 
-Int_t TGo4CanvasProxy::GetObjectKind()
+Int_t TGo4CanvasProxy::GetObjectKind() const
 {
    return fCanvas ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char *TGo4CanvasProxy::GetContainedClassName()
+const char *TGo4CanvasProxy::GetContainedClassName() const
 {
    return fCanvas ? fCanvas->ClassName() : nullptr;
 }

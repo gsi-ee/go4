@@ -733,7 +733,7 @@ Bool_t TGo4HttpProxy::Connect(const char *nodename)
    return UpdateHierarchy(kTRUE);
 }
 
-Bool_t TGo4HttpProxy::NamesListReceived()
+Bool_t TGo4HttpProxy::NamesListReceived() const
 {
    return fxHierarchy && !fComm.fHReply;
 }
@@ -807,7 +807,7 @@ void TGo4HttpProxy::Update(TGo4Slot *slot, Bool_t strong)
       UpdateHierarchy(kFALSE);
 }
 
-Bool_t TGo4HttpProxy::ServerHasRestrict()
+Bool_t TGo4HttpProxy::ServerHasRestrict() const
 {
    // return kTRUE when server has Restrict methods
    // It is indication of new functionality like commands with arguments or support of POST requests
@@ -837,7 +837,7 @@ Bool_t TGo4HttpProxy::IsGo4Analysis() const
    return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
 }
 
-Bool_t TGo4HttpProxy::CheckUserName(const char *expects, Bool_t dflt)
+Bool_t TGo4HttpProxy::CheckUserName(const char *expects, Bool_t dflt) const
 {
    XMLNodePointer_t item = FindItem("");
    if (!item) return dflt;
@@ -861,7 +861,7 @@ Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
    return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::CanSubmitObjects()
+Bool_t TGo4HttpProxy::CanSubmitObjects() const
 {
    if (!IsGo4Analysis() || IsViewer()) return kFALSE;
 

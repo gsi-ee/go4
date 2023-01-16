@@ -378,8 +378,7 @@ TGo4ServerProxy::TGo4ServerProxy() :
    fbAnalysisReady(kFALSE),
    fbAnalysisSettingsReady(kFALSE),
    fAnalysisLaunched(0),
-   fNodeName(),
-   fInfoStr()
+   fNodeName()
 {
 }
 

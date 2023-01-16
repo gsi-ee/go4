@@ -251,12 +251,12 @@ void TGo4DirProxy::ClearDir()
    fOwner = kFALSE;
 }
 
-Int_t TGo4DirProxy::GetObjectKind()
+Int_t TGo4DirProxy::GetObjectKind() const
 {
    return fDir ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char *TGo4DirProxy::GetContainedClassName()
+const char *TGo4DirProxy::GetContainedClassName() const
 {
    return fDir ? fDir->ClassName() : nullptr;
 }
@@ -266,7 +266,7 @@ const char *TGo4DirProxy::GetContainedObjectInfo()
    return fDir ? fDir->GetTitle() : nullptr;
 }
 
-Int_t TGo4DirProxy::GetObjectSizeInfo()
+Int_t TGo4DirProxy::GetObjectSizeInfo() const
 {
     TFile* f = dynamic_cast<TFile*> (fDir);
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();

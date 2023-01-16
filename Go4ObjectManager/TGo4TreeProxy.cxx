@@ -120,13 +120,12 @@ TGo4TreeProxy::~TGo4TreeProxy()
    if (fOwner) delete fTree;
 }
 
-Int_t TGo4TreeProxy::GetObjectKind()
+Int_t TGo4TreeProxy::GetObjectKind() const
 {
    return fTree ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-
-const char *TGo4TreeProxy::GetContainedClassName()
+const char *TGo4TreeProxy::GetContainedClassName() const
 {
    return fTree ? fTree->ClassName() : nullptr;
 }

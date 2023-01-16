@@ -30,8 +30,8 @@ class TGo4LinkProxy : public TGo4Proxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;

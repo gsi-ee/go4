@@ -43,8 +43,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t Use() const override { return kFALSE; }
 
       Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param) override;
-      Int_t GetObjectKind() override { return TGo4Access::kndFolder; }
-      const char *GetContainedClassName() override { return ClassName(); }
+      Int_t GetObjectKind() const override { return TGo4Access::kndFolder; }
+      const char *GetContainedClassName() const override { return ClassName(); }
       TObject *GetAssignedObject() override { return this; }
 
       // browser functionality

@@ -42,10 +42,10 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override;
 
-      Int_t GetObjectKind() override {  return TGo4Access::kndFolder; }
-      const char *GetContainedClassName() override { return "TGo4DabcProxy"; }
+      Int_t GetObjectKind() const override {  return TGo4Access::kndFolder; }
+      const char *GetContainedClassName() const override { return "TGo4DabcProxy"; }
       const char *GetContainedObjectInfo() override { return nullptr; }
-      Int_t GetObjectSizeInfo() override { return -1; }
+      Int_t GetObjectSizeInfo() const override { return -1; }
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;

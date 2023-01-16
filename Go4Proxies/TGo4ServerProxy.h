@@ -27,7 +27,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       Int_t            fAnalysisLaunched{0};            //! 0 - not launched, 1 - external shell, 2 - in qt shell
 
       TString          fNodeName; // name of remote node
-      TString          fInfoStr;
+      TString          fInfoStr;  // contained object info
    public:
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
@@ -51,12 +51,12 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
       virtual Bool_t IsAnalysisServer() const { return kFALSE; }
 
-      virtual Bool_t IsConnected() { return kFALSE; }
-      virtual Bool_t IsViewer()  { return kFALSE; }
-      virtual Bool_t IsController()  { return kFALSE; }
-      virtual Bool_t IsAdministrator()  { return kFALSE; }
+      virtual Bool_t IsConnected() const { return kFALSE; }
+      virtual Bool_t IsViewer() const { return kFALSE; }
+      virtual Bool_t IsController() const { return kFALSE; }
+      virtual Bool_t IsAdministrator() const { return kFALSE; }
 
-      virtual Bool_t NamesListReceived() { return kFALSE; }
+      virtual Bool_t NamesListReceived() const { return kFALSE; }
       virtual Bool_t RefreshNamesList() { return kFALSE; }
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
 
@@ -69,7 +69,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
       Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
 
-      virtual Bool_t CanSubmitObjects() { return kFALSE; }
+      virtual Bool_t CanSubmitObjects() const { return kFALSE; }
       virtual void RequestAnalysisSettings() {}
       virtual void SubmitAnalysisSettings() {}
       virtual void CloseAnalysisSettings() {}

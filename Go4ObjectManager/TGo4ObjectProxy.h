@@ -44,17 +44,17 @@ class TGo4ObjectProxy : public TGo4Proxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
       TGo4LevelIter* MakeIter() override { return nullptr; }
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
       const char *GetContainedObjectInfo() override;
-      Int_t GetObjectSizeInfo() override;
+      Int_t GetObjectSizeInfo() const override;
 
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
       Bool_t IsAcceptObject(TClass *cl) override;
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
-      TObject* GetAssignedObject() override;
+      TObject *GetAssignedObject() override;
 
       static Long_t DefineObjectSize(TObject *obj);
 

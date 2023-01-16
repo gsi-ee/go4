@@ -36,8 +36,8 @@ class TGo4FolderProxy : public TGo4Proxy {
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
 
       static TFolder* LocateROOTFolder(const char *rootfolder);
       static std::unique_ptr<TGo4Access> CreateAccess(TFolder* folder, const char *name);

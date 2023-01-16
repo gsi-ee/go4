@@ -79,12 +79,12 @@ void TGo4LinkProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
      fLink = slot->GetOM()->GetSlot(linkname);
 }
 
-Int_t TGo4LinkProxy::GetObjectKind()
+Int_t TGo4LinkProxy::GetObjectKind() const
 {
    return fLink ? fLink->GetSlotKind() : TGo4Access::kndNone;
 }
 
-const char *TGo4LinkProxy::GetContainedClassName()
+const char *TGo4LinkProxy::GetContainedClassName() const
 {
    return fLink ? fLink->GetSlotClassName() : nullptr;
 }

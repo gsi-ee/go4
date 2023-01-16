@@ -32,8 +32,8 @@ class TGo4TreeProxy : public TGo4Proxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
         { return CreateAccess(fTree, name); }
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TTree* tree, const char *name);
       static TGo4LevelIter* ProduceIter(TTree* tree);

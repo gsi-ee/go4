@@ -97,12 +97,12 @@ TGo4HStackProxy::~TGo4HStackProxy()
    if (fOwner) delete fHS;
 }
 
-Int_t TGo4HStackProxy::GetObjectKind()
+Int_t TGo4HStackProxy::GetObjectKind() const
 {
    return fHS ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
-const char *TGo4HStackProxy::GetContainedClassName()
+const char *TGo4HStackProxy::GetContainedClassName() const
 {
    return fHS ? fHS->ClassName() : nullptr;
 }

@@ -48,8 +48,8 @@ class TGo4HServProxy : public TGo4ServerProxy {
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      Int_t GetObjectKind() override;
-      const char *GetContainedClassName() override;
+      Int_t GetObjectKind() const override;
+      const char *GetContainedClassName() const override;
 
       void Update(TGo4Slot *slot, Bool_t strong) override;
 
