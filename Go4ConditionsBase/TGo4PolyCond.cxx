@@ -90,7 +90,7 @@ void TGo4PolyCond::ClearCutHis()
 }
 
 // ----------------------------------------------------------
-Double_t TGo4PolyCond::GetXLow()
+Double_t TGo4PolyCond::GetXLow() const
 {
    if(!fxCut) return 0.;
    Int_t n = fxCut->GetN();
@@ -100,7 +100,7 @@ Double_t TGo4PolyCond::GetXLow()
    return xarr[nxmin];
 }
 
-Double_t TGo4PolyCond::GetXUp()
+Double_t TGo4PolyCond::GetXUp() const
 {
    if(!fxCut) return 0.;
    Int_t n=fxCut->GetN();
@@ -109,7 +109,7 @@ Double_t TGo4PolyCond::GetXUp()
    return xarr[nxmax];
 }
 
-Double_t TGo4PolyCond::GetYLow()
+Double_t TGo4PolyCond::GetYLow() const
 {
    if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
@@ -118,16 +118,16 @@ Double_t TGo4PolyCond::GetYLow()
    return yarr[nymin];
 }
 
-Double_t TGo4PolyCond::GetYUp()
+Double_t TGo4PolyCond::GetYUp() const
 {
    if(!fxCut) return 0.;
-   Int_t n=fxCut->GetN();
-   Double_t* yarr=fxCut->GetY();
-   Int_t nymax=TMath::LocMax(n,yarr);
+   Int_t n = fxCut->GetN();
+   Double_t* yarr = fxCut->GetY();
+   Int_t nymax = TMath::LocMax(n,yarr);
    return yarr[nymax];
 }
 
-Bool_t TGo4PolyCond::IsPolygonType()
+Bool_t TGo4PolyCond::IsPolygonType() const
 {
    return kTRUE;
 }
@@ -491,7 +491,7 @@ void TGo4PolyCond::CleanupSpecials()
    }
 }
 
-Int_t TGo4PolyCond::GetMemorySize()
+Int_t TGo4PolyCond::GetMemorySize() const
 {
    Int_t size = sizeof(*this);
    if (GetName()) size += strlen(GetName());

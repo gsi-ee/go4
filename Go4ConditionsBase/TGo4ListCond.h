@@ -60,16 +60,16 @@ public:
   void Resize(size_t newsize){fxValues.resize(newsize);}
 
   /** For base class displays: minimum value of test list.  */
-  Double_t GetXLow() override;
+  Double_t GetXLow() const override;
 
   /** For base class displays: maximum value of test list */
-  Double_t GetXUp() override;
+  Double_t GetXUp() const override;
 
   /**  For base class displays: not used for 1d list */
-  Double_t GetYLow() override;
+  Double_t GetYLow() const override;
 
   /**  For base class displays: not used for 1d list */
-  Double_t GetYUp() override;
+  Double_t GetYUp() const override;
 
   /** Factory method to generate the subclass implementation for painter
    * TODO: do we need graphical representation of whitelist, e.g. by set of point markers in working histogram?

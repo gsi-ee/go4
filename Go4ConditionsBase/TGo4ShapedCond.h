@@ -80,23 +80,18 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       const char *GetShapeName()
       {
-        switch(fiShapeType) {
-          case Go4Cond_Shape_Free:
-            return "Free style polygon";
-          case Go4Cond_Shape_Circle:
-            return "Circle shaped polygon";
-          case Go4Cond_Shape_Ellipse:
-            return "Ellipse shaped polygon";
-          case Go4Cond_Shape_Box:
-            return "Rectangular box shaped polygon";
-          case Go4Cond_Shape_None:
-           return "Shape not defined!";
-        };
-        return nullptr;
+         switch (fiShapeType) {
+            case Go4Cond_Shape_Free: return "Free style polygon";
+            case Go4Cond_Shape_Circle: return "Circle shaped polygon";
+            case Go4Cond_Shape_Ellipse: return "Ellipse shaped polygon";
+            case Go4Cond_Shape_Box: return "Rectangular box shaped polygon";
+            case Go4Cond_Shape_None: return "Shape not defined!";
+         };
+         return nullptr;
       }
 
       /* Retrieve current center coordinates*/
-      void GetCenter(Double_t& x, Double_t& y)
+      void GetCenter(Double_t& x, Double_t& y) const
       {
           x = fdCenterX;
           y = fdCenterY;
@@ -106,7 +101,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
       void SetCenter(Double_t x, Double_t y);
 
       /* Retrieve ellipse half axis coordinates*/
-      void GetRadius(Double_t& a1, Double_t& a2)
+      void GetRadius(Double_t& a1, Double_t& a2) const
       {
           a1 = fdRadius1;
           a2 = fdRadius2;
@@ -116,18 +111,17 @@ class TGo4ShapedCond : public TGo4PolyCond {
       void SetRadius(Double_t a1, Double_t a2);
 
       /* get current ellipse tilt angle in degrees*/
-      Double_t GetTheta() { return fdTheta; }
+      Double_t GetTheta() const { return fdTheta; }
 
       /* change ellipse tilt angle and recalculate polygon*/
       void SetTheta(Double_t angle);
 
-
       /** Printout values. If points is true, printout polygon points. */
       void PrintCondition(Bool_t points = kTRUE) override;
 
-       /** Copy values from cond to this.
+      /** Copy values from cond to this.
        * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */
-       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts)  override;
+      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts)  override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char *rest_url_opt)  override;
@@ -136,7 +130,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       void SetResolution(Int_t npoints) { fiResolution = npoints; }
 
-      Int_t GetResolution() { return fiResolution; }
+      Int_t GetResolution() const { return fiResolution; }
 
       /** web condition editor keyword used in UpdateFromUrl. */
       static TString fgxURL_RESOLUTION;

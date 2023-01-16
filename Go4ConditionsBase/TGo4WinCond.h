@@ -54,10 +54,10 @@ class TGo4WinCond : public TGo4Condition {
       /** Returns limits. */
       void GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2) override;
 
-      Double_t GetXLow() override { return fLow1; }
-      Double_t GetXUp() override { return fUp1; }
-      Double_t GetYLow() override { return fLow2; }
-      Double_t GetYUp() override { return fUp2; }
+      Double_t GetXLow() const override { return fLow1; }
+      Double_t GetXUp() const override { return fUp1; }
+      Double_t GetYLow() const override { return fLow2; }
+      Double_t GetYUp() const override { return fUp2; }
 
       void SetXLow(Double_t v) { fLow1 = v; }
       void SetXUp(Double_t v) { fUp1 = v; }
@@ -97,9 +97,9 @@ class TGo4WinCond : public TGo4Condition {
       /** Calculate value for histogram inside condition limits. */
       Double_t GetCMax(TH1* histo) override;
 
-      Bool_t IsPolygonType()  override { return kFALSE; }
+      Bool_t IsPolygonType() const override { return kFALSE; }
 
-      Int_t GetMemorySize() override;
+      Int_t GetMemorySize() const override;
 
       /** Standard way to store parameter in form of macro */
       void SavePrimitive(std::ostream& fs, Option_t* = "") override;

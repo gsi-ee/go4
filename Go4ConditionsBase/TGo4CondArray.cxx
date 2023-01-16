@@ -22,24 +22,24 @@
 #include "TGo4CondArrayPainter.h"
 
 // ----------------------------------------------------------
-TGo4WinCond* TGo4CondArray::Win(Int_t i)
+TGo4WinCond* TGo4CondArray::Win(Int_t i) const
 {
    if(fiType != kGO4CONDWINDOW) return nullptr;
    return (TGo4WinCond*) At(i);
 }
 // ----------------------------------------------------------
-TGo4PolyCond* TGo4CondArray::Poly(Int_t i)
+TGo4PolyCond* TGo4CondArray::Poly(Int_t i) const
 {
    if(fiType != kGO4CONDPOLYGON) return nullptr;
    return (TGo4PolyCond*) At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::operator[](Int_t i)
+TGo4Condition * TGo4CondArray::operator[](Int_t i) const
 {
    return (TGo4Condition*) condarr->At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::At(Int_t i)
+TGo4Condition * TGo4CondArray::At(Int_t i) const
 {
    // boundary check by TObjArray, returns [0] in case
    return (TGo4Condition*) condarr->At(i);
@@ -192,7 +192,7 @@ void TGo4CondArray::PrintBar()
 }
 
 // ----------------------------------------------------------
-Int_t TGo4CondArray::GetNumberOfConditions()
+Int_t TGo4CondArray::GetNumberOfConditions() const
 {
    return GetNumber();
 }
@@ -343,7 +343,7 @@ Int_t TGo4CondArray::TrueCounts()
    return rev;
 }
 
-Double_t TGo4CondArray::GetXLow()
+Double_t TGo4CondArray::GetXLow() const
 {
    Double_t rev = 0;
    if (IsMultiEdit()) {
@@ -356,7 +356,7 @@ Double_t TGo4CondArray::GetXLow()
    return rev;
 }
 
-Double_t TGo4CondArray::GetXUp()
+Double_t TGo4CondArray::GetXUp() const
 {
    Double_t rev = 0;
    if (IsMultiEdit()) {
@@ -369,7 +369,7 @@ Double_t TGo4CondArray::GetXUp()
    return rev;
 }
 
-Double_t TGo4CondArray::GetYLow()
+Double_t TGo4CondArray::GetYLow() const
 {
    Double_t rev = 0;
    if (IsMultiEdit()) {
@@ -382,7 +382,7 @@ Double_t TGo4CondArray::GetYLow()
    return rev;
 }
 
-Double_t TGo4CondArray::GetYUp()
+Double_t TGo4CondArray::GetYUp() const
 {
    Double_t rev = 0;
    if (IsMultiEdit()) {
@@ -494,7 +494,7 @@ void TGo4CondArray::SetVisible(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsVisible()
+Bool_t TGo4CondArray::IsVisible() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -525,7 +525,7 @@ void TGo4CondArray::SetLabelDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsLabelDraw()
+Bool_t TGo4CondArray::IsLabelDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -556,7 +556,7 @@ void TGo4CondArray::SetLimitsDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsLimitsDraw()
+Bool_t TGo4CondArray::IsLimitsDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -587,7 +587,7 @@ void TGo4CondArray::SetIntDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsIntDraw()
+Bool_t TGo4CondArray::IsIntDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -618,7 +618,7 @@ void TGo4CondArray::SetXMeanDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsXMeanDraw()
+Bool_t TGo4CondArray::IsXMeanDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -649,7 +649,7 @@ void TGo4CondArray::SetXRMSDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsXRMSDraw()
+Bool_t TGo4CondArray::IsXRMSDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -680,7 +680,7 @@ void TGo4CondArray::SetYMeanDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsYMeanDraw()
+Bool_t TGo4CondArray::IsYMeanDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -711,7 +711,7 @@ void TGo4CondArray::SetYRMSDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsYRMSDraw()
+Bool_t TGo4CondArray::IsYRMSDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -742,7 +742,7 @@ void TGo4CondArray::SetXMaxDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsXMaxDraw()
+Bool_t TGo4CondArray::IsXMaxDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -773,7 +773,7 @@ void TGo4CondArray::SetYMaxDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsYMaxDraw()
+Bool_t TGo4CondArray::IsYMaxDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -804,7 +804,7 @@ void TGo4CondArray::SetCMaxDraw(Bool_t on)
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsCMaxDraw()
+Bool_t TGo4CondArray::IsCMaxDraw() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -862,7 +862,7 @@ Double_t TGo4CondArray::GetRMS(TH1 *histo, Int_t axis)
 {
    Double_t rev = 0;
    if (IsMultiEdit()) {
-      rev = -2; // what is the result RMS of all subconditions?
+      rev = -2; // what is the result RMS of all sub-conditions?
    } else {
       TGo4Condition *conny = At(GetCurrentIndex());
       if (conny)
@@ -949,7 +949,7 @@ Double_t TGo4CondArray::GetCMax(TH1 *histo)
 }
 
 // -----------------------------------------------
-TGo4Condition *TGo4CondArray::GetActiveCondition()
+const TGo4Condition *TGo4CondArray::GetActiveCondition() const
 {
    if (IsMultiEdit())
       return this;
@@ -967,7 +967,7 @@ void TGo4CondArray::SetChanged(Bool_t on)
 }
 
 // -----------------------------------------------
-Int_t TGo4CondArray::IsChanged()
+Int_t TGo4CondArray::IsChanged() const
 {
    Int_t cnt = 0;
    for (Int_t i = 0; i <= condarr->GetLast(); i++) {
@@ -978,7 +978,7 @@ Int_t TGo4CondArray::IsChanged()
 }
 
 // -----------------------------------------------
-Bool_t TGo4CondArray::IsPolygonType()
+Bool_t TGo4CondArray::IsPolygonType() const
 {
    Bool_t rev = kFALSE;
    if (IsMultiEdit()) {
@@ -1001,7 +1001,7 @@ void TGo4CondArray::SetCurrentIndex(Int_t ix)
 }
 
 // -----------------------------------------------
-Int_t TGo4CondArray::GetCurrentIndex()
+Int_t TGo4CondArray::GetCurrentIndex() const
 {
    return fiSelectedCond;
 }
@@ -1045,7 +1045,7 @@ TGo4ConditionPainter *TGo4CondArray::CreatePainter()
 }
 
 // -----------------------------------------------
-Int_t TGo4CondArray::GetMemorySize()
+Int_t TGo4CondArray::GetMemorySize() const
 {
    Int_t size = sizeof(*this);
    if (GetName())

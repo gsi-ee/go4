@@ -55,16 +55,16 @@ class TGo4PolyCond : public TGo4Condition {
       Bool_t Test(Double_t x, Double_t y) override;
 
       /** minimum extension of polygon in x axis */
-      Double_t GetXLow() override;
+      Double_t GetXLow() const override;
 
       /** maximum extension of polygon in x axis */
-      Double_t GetXUp() override;
+      Double_t GetXUp() const override;
 
       /** minimum extension of polygon in y axis */
-      Double_t GetYLow() override;
+      Double_t GetYLow() const override;
 
       /** maximum extension of polygon in y axis */
-      Double_t GetYUp() override;
+      Double_t GetYUp() const override;
 
       /** Used to return the cut pointer of a TGo4PolyCond.
         * In source, pointer is set to 0, when changeowner is true.
@@ -108,9 +108,9 @@ class TGo4PolyCond : public TGo4Condition {
       /** Calculate value for histogram inside condition limits. */
       Double_t GetCMax(TH1* histo) override;
 
-      Bool_t IsPolygonType() override;
+      Bool_t IsPolygonType() const override;
 
-      Int_t GetMemorySize() override;
+      Int_t GetMemorySize() const override;
 
       /** Standard way to store parameter in form of macro */
       void SavePrimitive(std::ostream& fs, Option_t* = "") override;

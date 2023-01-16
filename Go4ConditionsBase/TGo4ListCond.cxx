@@ -118,22 +118,22 @@ Bool_t TGo4ListCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
    return (TGo4Condition::UpdateFrom(cond, counts));
 }
 
-Double_t TGo4ListCond::GetXUp()
+Double_t TGo4ListCond::GetXUp() const
 {
    return *std::max_element(fxValues.begin(), fxValues.end());
 }
 
-Double_t TGo4ListCond::GetXLow()
+Double_t TGo4ListCond::GetXLow() const
 {
    return *std::min_element(fxValues.begin(), fxValues.end());
 }
 
-Double_t TGo4ListCond::GetYUp()
+Double_t TGo4ListCond::GetYUp() const
 {
    return 0;
 }
 
-Double_t TGo4ListCond::GetYLow()
+Double_t TGo4ListCond::GetYLow() const
 {
    return 0;
 }

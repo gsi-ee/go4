@@ -44,32 +44,32 @@ class TGo4CondArray : public TGo4Condition {
     void SetPainter(TGo4ConditionPainter* painter) override;
 
     /** Access to the currently selected condition. */
-    TGo4Condition* GetActiveCondition() override;
+    const TGo4Condition* GetActiveCondition() const override;
 
    /**
      * Returns condition object i from object array.
      * See also Poly and Win.
      */
-    TGo4Condition *At(Int_t i);
+    TGo4Condition *At(Int_t i) const;
 
    /**
      * Returns window condition object i from object array.
      * If the conditions is no window, returns 0.
      * Must cast for window or polygon condition methods!
      */
-    TGo4WinCond *Win(Int_t i);
+    TGo4WinCond *Win(Int_t i) const;
 
    /**
      * Returns polygon condition object i from object array.
      * Checks if object is polygon condition, if not return 0.
      */
-    TGo4PolyCond *Poly(Int_t i);
+    TGo4PolyCond *Poly(Int_t i) const;
 
    /**
      * Returns condition object i from object array. Same as At().
      * Must cast for window or polygon condition methods!
      */
-    TGo4Condition * operator[](Int_t i);
+    TGo4Condition * operator[](Int_t i) const;
 
     using TGo4Condition::Test;
     /**
@@ -86,10 +86,10 @@ class TGo4CondArray : public TGo4Condition {
      */
     Bool_t Test(Double_t x) override;
 
-    Double_t GetXLow() override;
-    Double_t GetXUp() override;
-    Double_t GetYLow() override;
-    Double_t GetYUp() override;
+    Double_t GetXLow() const override;
+    Double_t GetXUp() const override;
+    Double_t GetYLow() const override;
+    Double_t GetYUp() const override;
 
     /** Noop */
 //    virtual void SetValues() {}
@@ -122,7 +122,7 @@ class TGo4CondArray : public TGo4Condition {
 
     /** for condition aggregates: return total number of conditions,
      * i.e.size of condition array */
-    Int_t GetNumberOfConditions() override;
+    Int_t GetNumberOfConditions() const override;
 
    /**
      * Returns number of conditions in array.
@@ -167,34 +167,34 @@ class TGo4CondArray : public TGo4Condition {
     void SetVisible(Bool_t on) override;
 
     /** we overwrite single condition visibility getter */
-    Bool_t IsVisible() override;
+    Bool_t IsVisible() const override;
 
     /** we overwrite single condition changed property */
     void SetChanged(Bool_t on = kTRUE) override;
 
     /** we overwrite single condition changed property */
-    Int_t IsChanged() override;
+    Int_t IsChanged() const override;
 
     void SetLabelDraw(Bool_t on) override;
-    Bool_t IsLabelDraw() override;
+    Bool_t IsLabelDraw() const override;
     void SetLimitsDraw(Bool_t on) override;
-    Bool_t IsLimitsDraw() override;
+    Bool_t IsLimitsDraw() const override;
     void SetIntDraw(Bool_t on) override;
-    Bool_t IsIntDraw() override;
+    Bool_t IsIntDraw() const override;
     void SetXMeanDraw(Bool_t on) override;
-    Bool_t IsXMeanDraw() override;
+    Bool_t IsXMeanDraw() const override;
     void SetXRMSDraw(Bool_t on) override;
-    Bool_t IsXRMSDraw() override;
+    Bool_t IsXRMSDraw() const override;
     void SetYMeanDraw(Bool_t on) override;
-    Bool_t IsYMeanDraw() override;
+    Bool_t IsYMeanDraw() const override;
     void SetYRMSDraw(Bool_t on) override;
-    Bool_t IsYRMSDraw() override;
+    Bool_t IsYRMSDraw() const override;
     void SetXMaxDraw(Bool_t on) override;
-    Bool_t IsXMaxDraw() override;
+    Bool_t IsXMaxDraw() const override;
     void SetYMaxDraw(Bool_t on) override;
-    Bool_t IsYMaxDraw() override;
+    Bool_t IsYMaxDraw() const override;
     void SetCMaxDraw(Bool_t on) override;
-    Bool_t IsCMaxDraw() override;
+    Bool_t IsCMaxDraw() const override;
 
    /** Calculate value for histogram inside condition limits.
      * Option may specify "width" to scale channel sum with axes*/
@@ -221,15 +221,15 @@ class TGo4CondArray : public TGo4Condition {
     /** Calculate value for histogram inside condition limits. */
     Double_t GetCMax(TH1* histo) override;
 
-    Bool_t IsPolygonType() override;
-    Bool_t IsArrayType() override { return kTRUE; }
+    Bool_t IsPolygonType() const override;
+    Bool_t IsArrayType() const override { return kTRUE; }
 
     void SetCurrentIndex(Int_t ix) override;
-    Int_t GetCurrentIndex() override;
+    Int_t GetCurrentIndex() const override;
 
     Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
 
-    Int_t GetMemorySize() override;
+    Int_t GetMemorySize() const override;
 
     /** Standard way to store parameter in form of macro */
     void SavePrimitive(std::ostream& fs, Option_t* = "") override;

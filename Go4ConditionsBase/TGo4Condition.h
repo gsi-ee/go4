@@ -155,10 +155,10 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Bool_t UpdateFromUrl(const char *rest_url_opt);
 
     virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
-    virtual Double_t GetXLow() { return 0.; }
-    virtual Double_t GetXUp() { return 0.; }
-    virtual Double_t GetYLow() { return 0.; }
-    virtual Double_t GetYUp() { return 0.; }
+    virtual Double_t GetXLow() const { return 0.; }
+    virtual Double_t GetXUp() const { return 0.; }
+    virtual Double_t GetYLow() const { return 0.; }
+    virtual Double_t GetYUp() const { return 0.; }
     virtual TCutG* GetCut(Bool_t owner) { return nullptr; }
 
     /** Calculate value for histogram inside condition limits.
@@ -178,16 +178,16 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Double_t GetCurtosis(TH1*, Int_t=1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetXMax(TH1*)  { return 0.; }
+    virtual Double_t GetXMax(TH1*) { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetYMax(TH1*)  { return 0.; }
+    virtual Double_t GetYMax(TH1*) { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCMax(TH1*)  { return 0.; }
+    virtual Double_t GetCMax(TH1*) { return 0.; }
 
     /** To be overwritten for condition array. By default, it returns this. */
-    virtual TGo4Condition* GetActiveCondition() { return this; }
+    virtual const TGo4Condition* GetActiveCondition() const { return this; }
 
     /** defines if condition counters shall be reset in UpdateFrom method*/
     virtual void MarkReset(Bool_t on);
@@ -208,7 +208,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void SetVisible(Bool_t on) { fbVisible = on; }
 
     /** Visibility property for gui display in editor */
-    virtual Bool_t IsVisible() { return fbVisible; }
+    virtual Bool_t IsVisible() const { return fbVisible; }
 
     /** Define if this condition has association with an analysis histogram */
     void SetHistogramLink(Bool_t on) { fbHistogramLink = on; }
@@ -254,37 +254,37 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void ResetLabel(Option_t *opt = "reset");
 
     virtual void SetLabelDraw(Bool_t on) { fbLabelDraw = on; } // *TOGGLE* *GETTER=IsLabelDraw
-    virtual Bool_t IsLabelDraw() { return fbLabelDraw; }
+    virtual Bool_t IsLabelDraw() const { return fbLabelDraw; }
 
     virtual void SetLimitsDraw(Bool_t on) { fbLimitsDraw = on; } // *TOGGLE* *GETTER=IsLimitsDraw
-    virtual Bool_t IsLimitsDraw() { return fbLimitsDraw; }
+    virtual Bool_t IsLimitsDraw() const { return fbLimitsDraw; }
 
     virtual void SetIntDraw(Bool_t on) { fbIntDraw = on; } // *TOGGLE* *GETTER=IsIntDraw
-    virtual Bool_t IsIntDraw() { return fbIntDraw; }
+    virtual Bool_t IsIntDraw() const { return fbIntDraw; }
 
     virtual void SetXMeanDraw(Bool_t on) { fbXMeanDraw = on; } // *TOGGLE* *GETTER=IsXMeanDraw
-    virtual Bool_t IsXMeanDraw() { return fbXMeanDraw; }
+    virtual Bool_t IsXMeanDraw() const { return fbXMeanDraw; }
 
     virtual void SetXRMSDraw(Bool_t on) { fbXRMSDraw = on; } // *TOGGLE* *GETTER=IsXRMSDraw
-    virtual Bool_t IsXRMSDraw() { return fbXRMSDraw; }
+    virtual Bool_t IsXRMSDraw() const { return fbXRMSDraw; }
 
     virtual void SetYMeanDraw(Bool_t on) { fbYMeanDraw = on; } // *TOGGLE* *GETTER=IsYMeanDraw
-    virtual Bool_t IsYMeanDraw() { return fbYMeanDraw; }
+    virtual Bool_t IsYMeanDraw() const { return fbYMeanDraw; }
 
     virtual void SetYRMSDraw(Bool_t on) { fbYRMSDraw = on; } // *TOGGLE* *GETTER=IsYRMSDraw
-    virtual Bool_t IsYRMSDraw() { return fbYRMSDraw; }
+    virtual Bool_t IsYRMSDraw() const { return fbYRMSDraw; }
 
     virtual void SetXMaxDraw(Bool_t on) { fbXMaxDraw = on; } // *TOGGLE* *GETTER=IsXMaxDraw
-    virtual Bool_t IsXMaxDraw() { return fbXMaxDraw; }
+    virtual Bool_t IsXMaxDraw() const { return fbXMaxDraw; }
 
     virtual void SetYMaxDraw(Bool_t on) { fbYMaxDraw = on; } // *TOGGLE* *GETTER=IsYMaxDraw
-    virtual Bool_t IsYMaxDraw() { return fbYMaxDraw; }
+    virtual Bool_t IsYMaxDraw() const { return fbYMaxDraw; }
 
     virtual void SetCMaxDraw(Bool_t on) { fbCMaxDraw = on; } // *TOGGLE* *GETTER=IsCMaxDraw
-    virtual Bool_t IsCMaxDraw() { return fbCMaxDraw; }
+    virtual Bool_t IsCMaxDraw() const { return fbCMaxDraw; }
 
     virtual void SetLabelNumFormat(const char *fmt) { fxNumFormat = fmt; }
-    virtual const char *GetLabelNumFormat() { return fxNumFormat.Data(); }
+    virtual const char *GetLabelNumFormat() const { return fxNumFormat.Data(); }
 
     virtual void SetChanged(Bool_t on = kTRUE)
     {
@@ -293,13 +293,13 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
        else
           fiIsChanged = 0;
     }
-    virtual Int_t IsChanged() { return fiIsChanged; }
+    virtual Int_t IsChanged() const { return fiIsChanged; }
 
     void SetMultiEdit(Bool_t on) { fbMultiEdit = on; }
-    virtual Bool_t IsMultiEdit() { return fbMultiEdit; }
+    virtual Bool_t IsMultiEdit() const { return fbMultiEdit; }
 
     void SetDimension(Int_t d) { fiDim = d; }
-    Int_t GetDimension() { return fiDim; }
+    Int_t GetDimension() const { return fiDim; }
 
     void SetOwnedByEditor(Bool_t on) { fbOwnedByEditor = on; }
     Bool_t IsOwnedByEditor() const { return fbOwnedByEditor; }
@@ -308,16 +308,16 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void SetCurrentIndex(Int_t) {}
 
     /** get index for array type subclasses */
-    virtual Int_t GetCurrentIndex() { return 0; }
+    virtual Int_t GetCurrentIndex() const { return 0; }
 
     /** for condition aggregates: return total number of conditions,
       * i.e.size of condition array */
-    virtual Int_t GetNumberOfConditions() { return 1; }
+    virtual Int_t GetNumberOfConditions() const { return 1; }
 
-    virtual Int_t GetMemorySize();
+    virtual Int_t GetMemorySize() const;
 
-    virtual Bool_t IsPolygonType() { return kFALSE; }
-    virtual Bool_t IsArrayType() { return kFALSE; }
+    virtual Bool_t IsPolygonType() const { return kFALSE; }
+    virtual Bool_t IsArrayType() const { return kFALSE; }
 
     void DeletePainter();
 

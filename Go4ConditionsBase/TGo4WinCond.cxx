@@ -194,8 +194,8 @@ Double_t TGo4WinCond::GetXMax(TH1* histo)
    if(!histo) return 0;
    Double_t result = 0.;
    SetHistogramRanges(histo);
-   TAxis* xax=histo->GetXaxis();
-   Int_t maxbin=histo->GetMaximumBin();
+   TAxis* xax = histo->GetXaxis();
+   Int_t maxbin = histo->GetMaximumBin();
    if (histo->GetDimension() == 1) {
       result = xax->GetBinCenter(maxbin);
    } else if (histo->GetDimension() == 2) {
@@ -344,12 +344,12 @@ void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
 
 TGo4ConditionPainter* TGo4WinCond::CreatePainter()
 {
-   TGo4ConditionPainter* painter=new TGo4WinCondPainter(GetName());
+   auto painter = new TGo4WinCondPainter(GetName());
    painter->SetCondition(this);
    return painter;
 }
 
-Int_t TGo4WinCond::GetMemorySize()
+Int_t TGo4WinCond::GetMemorySize() const
 {
    Int_t size = sizeof(*this);
    if (GetName()) size += strlen(GetName());

@@ -298,22 +298,22 @@ Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
     fbResult  = cond->TGo4Condition::FixedResult();
     fbEnabled = cond->TGo4Condition::IsEnabled();
     fbMarkReset = cond->fbMarkReset;
-    fbVisible=cond->TGo4Condition::IsVisible();
-    fbLabelDraw=cond->TGo4Condition::IsLabelDraw();
-    fbLimitsDraw=cond->TGo4Condition::IsLimitsDraw();
-    fbMultiEdit=cond->TGo4Condition::IsMultiEdit();
-    fbIntDraw= cond->TGo4Condition::IsIntDraw();
-    fbXMeanDraw= cond->TGo4Condition::IsXMeanDraw();
-    fbXRMSDraw= cond->TGo4Condition::IsXRMSDraw();
-    fbYMeanDraw= cond->TGo4Condition::IsYMeanDraw();
-    fbYRMSDraw= cond->TGo4Condition::IsYRMSDraw();
-    fbXMaxDraw= cond->TGo4Condition::IsXMaxDraw();
-    fbYMaxDraw= cond->TGo4Condition::IsYMaxDraw();
-    fbCMaxDraw= cond->TGo4Condition::IsCMaxDraw();
-    fbHistogramLink=cond->TGo4Condition::IsHistogramLink();
-    fxHistoName=cond->fxHistoName;
-    fdUpdateEpsilon= cond->fdUpdateEpsilon;
-    fiDim=cond->GetDimension();
+    fbVisible = cond->TGo4Condition::IsVisible();
+    fbLabelDraw = cond->TGo4Condition::IsLabelDraw();
+    fbLimitsDraw = cond->TGo4Condition::IsLimitsDraw();
+    fbMultiEdit = cond->TGo4Condition::IsMultiEdit();
+    fbIntDraw = cond->TGo4Condition::IsIntDraw();
+    fbXMeanDraw = cond->TGo4Condition::IsXMeanDraw();
+    fbXRMSDraw = cond->TGo4Condition::IsXRMSDraw();
+    fbYMeanDraw = cond->TGo4Condition::IsYMeanDraw();
+    fbYRMSDraw = cond->TGo4Condition::IsYRMSDraw();
+    fbXMaxDraw = cond->TGo4Condition::IsXMaxDraw();
+    fbYMaxDraw = cond->TGo4Condition::IsYMaxDraw();
+    fbCMaxDraw = cond->TGo4Condition::IsCMaxDraw();
+    fbHistogramLink = cond->TGo4Condition::IsHistogramLink();
+    fxHistoName = cond->fxHistoName;
+    fdUpdateEpsilon = cond->fdUpdateEpsilon;
+    fiDim = cond->GetDimension();
     if(counts){
       fiCounts = cond->TGo4Condition::Counts();
       fiTrueCounts = cond->TGo4Condition::TrueCounts();
@@ -505,7 +505,7 @@ void TGo4Condition::GetValues(Int_t & dim, Double_t & xmin, Double_t & xmax, Dou
 
 }
 
-Int_t TGo4Condition::GetMemorySize()
+Int_t TGo4Condition::GetMemorySize() const
 {
    Int_t size = sizeof(*this);
    if (GetName()) size += strlen(GetName());
