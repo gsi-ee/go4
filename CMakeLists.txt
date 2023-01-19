@@ -198,8 +198,7 @@ GO4_STANDARD_LIBRARY(Go4Gui
                      LIBRARIES ${ROOT_Gui_LIBRARY})
 
 if(DABC_FOUND)
-   target_link_libraries(Go4Gui ${DabcBase_LIBRARY})
-   target_include_directories(Go4Gui PRIVATE ${DABC_INCLUDE_DIR})
+   target_link_libraries(Go4Gui dabc::DabcBase)
 else()
    set_source_files_properties(Go4Proxies/TGo4DabcProxy.cxx PROPERTIES COMPILE_DEFINITIONS WITHOUT_DABC)
 endif()

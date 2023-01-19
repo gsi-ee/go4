@@ -14,7 +14,5 @@ GO4_USER_ANALYSIS(
    SOURCES
       TXXXProc.cxx
    LIBRARIES
-      ${DabcBase_LIBRARY}
-   INCLUDE_DIRS
-      ${DABC_INCLUDE_DIR}
+      dabc::DabcBase
 )
