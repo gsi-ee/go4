@@ -114,7 +114,11 @@ int main(int argc, char **argv)
    int logport = 5000;
    const char *logpass = nullptr;
 
-   bool prepare_for_client = false, traceon = false, usergui = false, useweb = false;
+   bool prepare_for_client = false, traceon = false, usergui = false;
+
+#ifdef __GO4WEB__
+   bool useweb = false;
+#endif
 
 #ifndef __GO4X11__
 #ifdef __GO4WEB__
