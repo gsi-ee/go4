@@ -385,9 +385,9 @@ target_link_libraries(go4
    Go4Fit Go4Base Go4ThreadManager Go4TaskHandler Go4AnalBase Go4Gui
 )
 
-# keep out suggest override due to older ROOT -Wsuggest-override
+# keep out suggest override due to older ROOT -Wsuggest-override -Wzero-as-null-pointer-constant
 
-target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall -Wzero-as-null-pointer-constant>)
+target_compile_options(go4 PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall>)
 
 install(TARGETS go4 EXPORT ${CMAKE_PROJECT_NAME}Exports
                     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT applications)
