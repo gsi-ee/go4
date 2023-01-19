@@ -2,7 +2,7 @@ case "$-" in *i*) # Shell is interactive
   echo Configure Go4 @GO4_VERSION@ at @_go4top_@
 esac
 
-@SETTINGS_ROOTSYS@
+@_go4root_@
 
 ##### Go4-related settings ###########
 export GO4SYS=@_go4top_@

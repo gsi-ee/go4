@@ -72,11 +72,11 @@ if (NOT MSVC)
    set(_go4inc_ ${CMAKE_BINARY_DIR}/include)
 
    if(GO4_ROOT_DIR)
-   set(SETTINGS_ROOTSYS "##### ROOT-related settings ###########\n\
+   set(_go4root_ "##### ROOT-related settings ###########\n\
 export ROOTSYS=${GO4_ROOT_DIR}\n\
 export PATH=${GO4_ROOT_DIR}/bin:$PATH\n\
 export LD_LIBRARY_PATH=${GO4_ROOT_DIR}/lib:$LD_LIBRARY_PATH\n\
-export ROOT_INCLUDE_PATH=${_go4inc_}/include:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
+export ROOT_INCLUDE_PATH=${_go4inc_}:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
 export PYTHONPATH=${GO4_ROOT_DIR}/lib:$PYTHONPATH\n\
 export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
    endif()
@@ -93,11 +93,11 @@ export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
    set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
 
    if(GO4_ROOT_DIR)
-   set(SETTINGS_ROOTSYS "##### ROOT-related settings ###########\n\
+   set(_go4root_ "##### ROOT-related settings ###########\n\
 export ROOTSYS=${GO4_ROOT_DIR}\n\
 export PATH=${GO4_ROOT_DIR}/bin:$PATH\n\
 export LD_LIBRARY_PATH=${GO4_ROOT_DIR}/lib:$LD_LIBRARY_PATH\n\
-export ROOT_INCLUDE_PATH=${_go4inc_}/include:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
+export ROOT_INCLUDE_PATH=${_go4inc_}:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
 export PYTHONPATH=${GO4_ROOT_DIR}/lib:$PYTHONPATH\n\
 export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
    endif()
