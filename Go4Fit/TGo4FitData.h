@@ -19,6 +19,11 @@
 #include "TArrayI.h"
 #include "TArrayD.h"
 #include <memory>
+#include "RVersion.h"
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,26,0)
+#include "ROOT/RMakeUnique.hxx"
+#endif
 
 class TH1;
 class TGraph;

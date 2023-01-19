@@ -15,7 +15,6 @@
 #define TGO4ACCESSWRAPPER_H
 
 #include "TGo4Proxy.h"
-#include <memory>
 
 class TGo4AccessWrapper {
    public:
