@@ -9,4 +9,5 @@ export GO4SYS=@_go4top_@
 export PATH=@_go4bin_@:$PATH
 export LD_LIBRARY_PATH=.:@_go4lib_@:$LD_LIBRARY_PATH
 export PYTHONPATH=$GO4SYS/python:$PYTHONPATH
+export ROOT_INCLUDE_PATH=${_go4inc_}:$ROOT_INCLUDE_PATH
 export CMAKE_PREFIX_PATH=$GO4SYS:$CMAKE_PREFIX_PATH
