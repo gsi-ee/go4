@@ -36,16 +36,8 @@ if(GO4_ROOT_DIR)
      string(REGEX REPLACE "\\\\" "/" GO4_ROOT_DIR ${GO4_ROOT_DIR})
    endif()
    set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \"${GO4_ROOT_DIR}\")")
-   set(SETTINGS_ROOTSYS "##### ROOT-related settings ###########\n\
-export ROOTSYS=${GO4_ROOT_DIR}\n\
-export PATH=${GO4_ROOT_DIR}/bin:$PATH\n\
-export LD_LIBRARY_PATH=${GO4_ROOT_DIR}/lib:$LD_LIBRARY_PATH\n\
-export ROOT_INCLUDE_PATH=${CMAKE_BINARY_DIR}/include:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
-export PYTHONPATH=${GO4_ROOT_DIR}/lib:$PYTHONPATH\n\
-export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
 else()
    set(SETTING_GO4_ROOT_DIR "")
-   set(SETTINGS_ROOTSYS "")
 endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
@@ -79,6 +71,16 @@ if (NOT MSVC)
    set(_go4lib_ ${CMAKE_BINARY_DIR}/lib)
    set(_go4inc_ ${CMAKE_BINARY_DIR}/include)
 
+   if(GO4_ROOT_DIR)
+   set(SETTINGS_ROOTSYS "##### ROOT-related settings ###########\n\
+export ROOTSYS=${GO4_ROOT_DIR}\n\
+export PATH=${GO4_ROOT_DIR}/bin:$PATH\n\
+export LD_LIBRARY_PATH=${GO4_ROOT_DIR}/lib:$LD_LIBRARY_PATH\n\
+export ROOT_INCLUDE_PATH=${_go4inc_}/include:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
+export PYTHONPATH=${GO4_ROOT_DIR}/lib:$PYTHONPATH\n\
+export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
+   endif()
+
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.in
                   ${CMAKE_BINARY_DIR}/go4login @ONLY NEWLINE_STYLE UNIX)
 
@@ -89,6 +91,16 @@ if (NOT MSVC)
    set(_go4bin_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
    set(_go4lib_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
    set(_go4inc_ ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+
+   if(GO4_ROOT_DIR)
+   set(SETTINGS_ROOTSYS "##### ROOT-related settings ###########\n\
+export ROOTSYS=${GO4_ROOT_DIR}\n\
+export PATH=${GO4_ROOT_DIR}/bin:$PATH\n\
+export LD_LIBRARY_PATH=${GO4_ROOT_DIR}/lib:$LD_LIBRARY_PATH\n\
+export ROOT_INCLUDE_PATH=${_go4inc_}/include:${GO4_ROOT_DIR}/include:$ROOT_INCLUDE_PATH\n\
+export PYTHONPATH=${GO4_ROOT_DIR}/lib:$PYTHONPATH\n\
+export CMAKE_PREFIX_PATH=${GO4_ROOT_DIR}:$CMAKE_PREFIX_PATH")
+   endif()
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.in
                   ${CMAKE_BINARY_DIR}/_install/go4login @ONLY NEWLINE_STYLE UNIX)
