@@ -168,7 +168,7 @@ void TGo4EventProcessor::SetMakeWithAutosave(Bool_t on)
    TGo4Analysis::Instance()->SetMakeWithAutosave(on);
 }
 
-Bool_t TGo4EventProcessor::IsObjMade()
+Bool_t TGo4EventProcessor::IsObjMade() const
 {
    return TGo4Analysis::Instance()->IsObjMade();
 }

@@ -211,7 +211,7 @@ class TGo4EventProcessor: public TGo4EventSource {
 
       /** Returns kTRUE if object in last Make... call was created,
        * kFALSE when object was retrieved from autosavefile */
-      Bool_t IsObjMade();
+      Bool_t IsObjMade() const;
 
       /** Create one dimensional histogram of specified type. Type can be:
        * 'I', 'i' for TH1I - Int_t as bin content (default)

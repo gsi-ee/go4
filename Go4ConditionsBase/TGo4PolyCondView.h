@@ -79,8 +79,8 @@ public:
     Int_t InsertPoint() override; // *MENU*
     Int_t RemovePoint() override; // *MENU*
 
-    Bool_t IsAtExecuteMouseEvent() { return fbExecutesMouseEvent; }
-    Bool_t IsAtExecuteMouseMenu() { return fbExecutesMouseMenu; }
+    Bool_t IsAtExecuteMouseEvent() const { return fbExecutesMouseEvent; }
+    Bool_t IsAtExecuteMouseMenu() const { return fbExecutesMouseMenu; }
 
 private:
 
