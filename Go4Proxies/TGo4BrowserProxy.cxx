@@ -448,7 +448,7 @@ void TGo4BrowserProxy::AddToClipboard(const char *itemname)
    fxClipboard->Add(new TNamed(itemname, "clipboard item"));
 }
 
-Bool_t TGo4BrowserProxy::IsClipboard()
+Bool_t TGo4BrowserProxy::IsClipboard() const
 {
    return fxClipboard != nullptr;
 }
@@ -1281,7 +1281,7 @@ Bool_t TGo4BrowserProxy::IsItemRemote(const char *name)
    return IsItemRemote(ItemSlot(name));
 }
 
-Bool_t TGo4BrowserProxy::IsItemRemote(TGo4Slot *slot)
+Bool_t TGo4BrowserProxy::IsItemRemote(TGo4Slot *slot) const
 {
    if (!slot) return kFALSE;
    Int_t remote = 0;
@@ -1426,7 +1426,7 @@ void TGo4BrowserProxy::SetItemCanDo(TGo4Slot *slot, Int_t cando)
    if (slot) slot->SetIntPar("GUI::CanDo", cando);
 }
 
-Bool_t TGo4BrowserProxy::IsItemMonitored(TGo4Slot *slot)
+Bool_t TGo4BrowserProxy::IsItemMonitored(TGo4Slot *slot) const
 {
    return !slot ? kTRUE : !slot->GetPar("GUI::NotMonitored");
 }
@@ -1688,7 +1688,7 @@ void TGo4BrowserProxy::SetCanDelete(TGo4Slot *slot, Bool_t on)
    }
 }
 
-Bool_t TGo4BrowserProxy::IsCanDelete(TGo4Slot *slot)
+Bool_t TGo4BrowserProxy::IsCanDelete(TGo4Slot *slot) const
 {
    return !slot ? kFALSE : slot->GetPar("GUI::CanDelete") != nullptr;
 }

@@ -94,7 +94,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void ProcessEvents(Int_t timeout = -1) = 0;
 
       Bool_t LoadHotStart(const char *filename);
-      Bool_t IsHotStart();
+      Bool_t IsHotStart() const;
       const char *NextHotStartCmd();
       void FreeHotStartCmds();
       static void ProduceLoadLibs(std::ostream& fs);

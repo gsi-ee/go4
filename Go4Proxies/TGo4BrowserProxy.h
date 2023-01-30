@@ -83,7 +83,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void ClearClipboard();
       void AddToClipboard(const char *itemname);
-      Bool_t IsClipboard();
+      Bool_t IsClipboard() const;
       void CopyClipboard(const char *tgtpath, Bool_t forcerequest = kFALSE);
 
       void CreateMemorySubfolder(const char *itemname, const char *newfoldername);
@@ -145,7 +145,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t DefineRelatedObject(const char *itemname, const char *objectname, TString &objectitem, Int_t mask = 3);
 
       Bool_t IsItemRemote(const char *name);
-      Bool_t IsItemRemote(TGo4Slot *slot);
+      Bool_t IsItemRemote(TGo4Slot *slot) const;
       Bool_t IsAnalysisItem(const char *name);
 
       static void SetItemTimeDate(TGo4Slot *slot, const char *stime = nullptr, const char *sdate = nullptr);
@@ -156,7 +156,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static const char *GetLinkedName(TGo4Slot *slot);
 
       void SetCanDelete(TGo4Slot *slot, Bool_t on = kTRUE);
-      Bool_t IsCanDelete(TGo4Slot *slot);
+      Bool_t IsCanDelete(TGo4Slot *slot) const;
 
       Int_t ItemKind(const char *name);
       static Int_t ItemKind(TGo4Slot *slot);
@@ -176,7 +176,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t ItemCanDo(TGo4Slot *slot);
       static void SetItemCanDo(TGo4Slot *slot, Int_t cando);
 
-      Bool_t IsItemMonitored(TGo4Slot *slot);
+      Bool_t IsItemMonitored(TGo4Slot *slot) const;
       void SetItemMonitored(TGo4Slot *slot, Bool_t on = kTRUE);
 
       void SetProtectionBits(TGo4Slot *slot, Int_t delprot, Int_t clearprot);

@@ -288,7 +288,7 @@ Bool_t TGo4AbstractInterface::LoadHotStart(const char *filename)
    return kTRUE;
 }
 
-Bool_t TGo4AbstractInterface::IsHotStart()
+Bool_t TGo4AbstractInterface::IsHotStart() const
 {
    return !fxCommands.IsEmpty();
 }
