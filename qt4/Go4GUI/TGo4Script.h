@@ -205,7 +205,7 @@ class TGo4Script : public TGo4AbstractInterface {
       Bool_t ContinueExecution();
       void FinishExecution();
 
-      Bool_t IsWaitSomething();
+      Bool_t IsWaitSomething() const;
 
       TGo4ConfigStep* GetStepGUI(const char *stepname);
 

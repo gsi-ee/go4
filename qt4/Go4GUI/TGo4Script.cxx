@@ -129,9 +129,9 @@ void TGo4Script::FinishExecution()
    fiWaitCounter = 0;
 }
 
-Bool_t TGo4Script::IsWaitSomething()
+Bool_t TGo4Script::IsWaitSomething() const
 {
-   return fiWaitCounter>0;
+   return fiWaitCounter > 0;
 }
 
 void TGo4Script::DoPostProcessing()
