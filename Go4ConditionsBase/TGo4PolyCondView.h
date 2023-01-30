@@ -29,7 +29,7 @@ public:
     void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
     /** Check if cut on pad is changed compared with condition */
-    Bool_t IsCutChanged();
+    Bool_t IsCutChanged() const;
     /**Copy modified view values back to condition */
     virtual void UpdateCondition();
 

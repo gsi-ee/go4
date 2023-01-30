@@ -38,7 +38,7 @@ class TGo4Queue : public TNamed {
 
       virtual void Wake();
 
-      Bool_t IsEmpty();
+      Bool_t IsEmpty() const;
 
       Int_t GetEntries() const { return fiEntries; }
 

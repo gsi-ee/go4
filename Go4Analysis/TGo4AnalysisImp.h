@@ -695,7 +695,7 @@ public:
 
    /** Returns kTRUE if object in last Make... call was created,
      * kFALSE when object was retrieved from autosavefile */
-   Bool_t IsObjMade() { return fbObjMade; }
+   Bool_t IsObjMade() const { return fbObjMade; }
 
    /** Create one dimensional histogram of specified type. Type can be:
     * 'I', 'i' for TH1I - Int_t as bin content (default)

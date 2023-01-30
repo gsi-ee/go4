@@ -130,7 +130,7 @@ if(event==kButton1Up && fxPolyCondition)
   }// if(event==...)
 }
 
-Bool_t TGo4PolyCondView::IsCutChanged()
+Bool_t TGo4PolyCondView::IsCutChanged() const
 {
    if (!fxPolyCondition)
       return kFALSE;

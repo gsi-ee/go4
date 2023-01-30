@@ -80,7 +80,7 @@ void TGo4Queue::Add(TObject* ob)
    fxCondition->Signal();
 }
 
-Bool_t TGo4Queue::IsEmpty()
+Bool_t TGo4Queue::IsEmpty() const
 {
    TGo4LockGuard qguard(fxMutex);
    return fxList->IsEmpty();
