@@ -119,7 +119,7 @@ class TGo4Proxy : public TObject {
       virtual void WriteData(TGo4Slot *, TDirectory *, Bool_t) {}
       virtual void ReadData(TGo4Slot *, TDirectory *) {}
 
-      virtual Bool_t IsAcceptObject(TClass *) { return kFALSE; }
+      virtual Bool_t IsAcceptObject(TClass *) const { return kFALSE; }
       virtual Bool_t AssignObject(TGo4Slot *, TObject *, Bool_t) { return kFALSE; }
       virtual TObject *GetAssignedObject() { return nullptr; }
       virtual void Update(TGo4Slot *, Bool_t) {}

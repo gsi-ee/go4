@@ -41,7 +41,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
       void ReadData(TGo4Slot *slot, TDirectory* dir) override;
 
-      Bool_t IsAcceptObject(TClass *cl) override;
+      Bool_t IsAcceptObject(TClass *cl) const override;
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject* GetAssignedObject() override;
 

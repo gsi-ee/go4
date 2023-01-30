@@ -335,7 +335,7 @@ const char *TGo4Slot::GetSlotClassName() const
    return fProxy ? fProxy->GetContainedClassName() : nullptr;
 }
 
-Bool_t TGo4Slot::IsAcceptObject(TClass *cl)
+Bool_t TGo4Slot::IsAcceptObject(TClass *cl) const
 {
    return fProxy ? fProxy->IsAcceptObject(cl) : kFALSE;
 }

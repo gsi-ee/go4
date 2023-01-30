@@ -89,7 +89,7 @@ const char *TGo4LinkProxy::GetContainedClassName() const
    return fLink ? fLink->GetSlotClassName() : nullptr;
 }
 
-Bool_t TGo4LinkProxy::IsAcceptObject(TClass *cl)
+Bool_t TGo4LinkProxy::IsAcceptObject(TClass *cl) const
 {
    return fLink ? fLink->IsAcceptObject(cl) : kFALSE;
 }

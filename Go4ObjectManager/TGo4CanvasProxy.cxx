@@ -194,7 +194,7 @@ void TGo4CanvasProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
    AssignObject(slot, dir->Get(objname), kTRUE);
 }
 
-Bool_t TGo4CanvasProxy::IsAcceptObject(TClass *cl)
+Bool_t TGo4CanvasProxy::IsAcceptObject(TClass *cl) const
 {
    return cl && cl->InheritsFrom(TCanvas::Class());
 }
