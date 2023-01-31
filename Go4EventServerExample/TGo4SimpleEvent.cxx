@@ -166,7 +166,6 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::AddSubEvent(Short_t procid)
          fiLastSlot++;
          result = new( (*fxSubEventArray) [fiLastSlot] ) TGo4SimpleSubEvent();
          result->fsProcid = procid;
-         //std::cout << "simple event: added subevent with procid " << procid << std::endl;
          TGo4Log::Debug(" SimpleEvent: Added subevent with procid %d:  ", procid);
       }
       else

@@ -18,7 +18,6 @@
 TGo4SimpleSubEvent::TGo4SimpleSubEvent()
 {
    GO4TRACE((12,"TGo4SimpleSubEvent::TGo4SimpleSubEvent() ",__LINE__, __FILE__));
-   //std::cout << "default ctor of simple subevent"<< std::endl;
    //Clear();
    fiD0 = 0;
    fiD1 = 0;
@@ -49,8 +48,6 @@ TGo4SimpleSubEvent::TGo4SimpleSubEvent()
    // fxTestSub= new TGo4MbsSubEvent(20);
    // fxTestSub->Clear();
 }
-
-
 
 TGo4SimpleSubEvent::~TGo4SimpleSubEvent()
 {

@@ -183,7 +183,6 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
    fxEvent = event; // address of next event into event pointer
    if(!fbBranchExists) {
       // first call of Store, create new branch
-      //std::cout << "**********************Creating new branch!"<< std::endl;
       if(fxEvent) {
          TString topbranchname = TString::Format("%s.", fxEvent->GetName());
          TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());

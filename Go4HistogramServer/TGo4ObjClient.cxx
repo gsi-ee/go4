@@ -141,10 +141,9 @@ TObject *TGo4ObjClient::ReceiveObject()
          {
             TGo4LockGuard mainguard;
             // lock go4 main mutex for streaming
-            TDirectory* savdir=gDirectory;
+            TDirectory* savdir = gDirectory;
             gROOT->cd(); // be sure to be in the top directory when creating histo
             buffer->SetReadMode();
-            //std::cout << "Reading object from buffer..."<< std::endl;
             buffer->Reset();
             obj = buffer->ReadObject(nullptr); // ReadObject(cl)
             if(obj) std::cout <<"read object of class"<<obj->ClassName() << std::endl;

@@ -21,11 +21,11 @@
 #include "TGo4Log.h"
 #include "TGo4CommandInvoker.h"
 
-TGo4ExampleApplication::TGo4ExampleApplication( TGo4BufferQueue* datq)
+TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue* datq)
 : TNamed("My example application","Go4 Taskhandler example")
    {
    GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() constructor",__LINE__, __FILE__));
-   fxDataQ=datq;
+   fxDataQ = datq;
    fxDemoHistogram = new TH1D("Test Histogram", "Client Data", 2048, 0, 2047);
 
    TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
@@ -59,6 +59,7 @@ TH1 *TGo4ExampleApplication::GetHistogram()
    GO4TRACE((12,"TGo4ExampleApplication::GetHistogram",__LINE__, __FILE__));
    return fxDemoHistogram;
 }
+
 void TGo4ExampleApplication::FillHistograms()
 {
    GO4TRACE((12,"TGo4ExampleApplication::FillHistograms",__LINE__, __FILE__));
@@ -67,7 +68,6 @@ void TGo4ExampleApplication::FillHistograms()
    counter++;
    Double_t peak1= gRandom->Gaus(550,42);
    Double_t peak2= gRandom->Gaus(1200,230);
-   //std::cout << "Example Application random numbers: "<< peak1<<" "<< peak2 << std::endl;
    fxDemoHistogram->Fill((Axis_t) peak1);
    fxDemoHistogram->Fill((Axis_t) peak2);
    if(!(counter%100))
@@ -78,8 +78,8 @@ void TGo4ExampleApplication::CommandAction2()
 {
    GO4TRACE((14,"TGo4ExampleApplication::CommandAction2",__LINE__, __FILE__));
    std::cout << "Example Application: executing Action 2"<<std::endl;
-
 }
+
 void TGo4ExampleApplication::CommandAction1()
 {
    GO4TRACE((14,"TGo4ExampleApplication::CommandAction1",__LINE__, __FILE__));

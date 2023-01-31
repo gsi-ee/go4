@@ -86,12 +86,10 @@ TGo4MbsHist::TGo4MbsHist(TFolder *folder, const char *filter) :
    fiHisNum(0)
 {
    // allocate buffer of total size
-   //std::cout <<"Init buflen with "<< fiBufLen << std::endl;
    fiBuffer = new Int_t[fiBufLen];
    fxCursor = (s_his_head*) fiBuffer;
    ScanGo4Folder(folder, nullptr, filter);
 }
-
 
 TGo4MbsHist::~TGo4MbsHist()
 {

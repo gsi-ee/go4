@@ -81,8 +81,6 @@ Int_t TGo4MbsRandom::NextEvent()
    size_t clearlen = fiDLen*2 - 8;
    memset(clearfield, 0, clearlen); // clear old values
    fxEvent->l_count++;
-   //std::cout <<"Eventcount "<<fxEvent->l_count << std::endl;
-   //std::cout <<" Cleared "<< clearlen<<" bytes at "<<clearfield << std::endl;
    // now fill in some new values:
    fxEvent->l_dlen = 0;
    s_ves10_1* subevt = (s_ves10_1*) clearfield;

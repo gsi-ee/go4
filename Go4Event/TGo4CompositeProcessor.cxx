@@ -44,7 +44,8 @@ void TGo4CompositeProcessor::AddSubProcessor(TGo4EventProcessor* proc)
 
 void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent* subevt)
 {
-   //std::cout << "Dummy, should be reimplemented " << std::endl; // but must not if this is the top beamtime event JAM
+   // std::cout << "Dummy, should be reimplemented " << std::endl;
+   // but must not if this is the top beamtime event JAM
 }
 
 

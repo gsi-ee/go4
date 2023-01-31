@@ -204,7 +204,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //         TGo4Fitter* fitter=fFitEnvSize->GetFitter();
 //         if(fitter)
 //         {
-//            //std::cout <<"Fitter setting histogram and fitting..." << std::endl;
+//            // Fitter setting histogram and fitting...
 //            fitter->SetObject("data1", fSize, kFALSE);
 //            fitter->DoActions();
 //            fitter->PrintLines();
@@ -218,7 +218,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
 //         if(fitter)
 //         {
-//            //std::cout <<"Fitter setting histogram and fitting..." << std::endl;
+//            // Fitter setting histogram and fitting...
 //            TH1 *his=GetHistogram("Sum2");
 //            fitter->SetObject("spectrum", his, kFALSE);
 //            fitter->DoActions();

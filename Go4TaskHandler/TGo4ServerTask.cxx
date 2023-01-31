@@ -205,7 +205,6 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
 
 void TGo4ServerTask::SetCurrentTask(const char *name)
 {
-   //std::cout <<"server task setting current task to "<<name << std::endl;
    TGo4TaskHandler *han = nullptr;
    if (!fxTaskManager) {
       TGo4Log::Debug(" TGo4ServerTask ''%s'' ERROR- task manager not existing!!! ", GetName());
@@ -344,7 +343,6 @@ Int_t TGo4ServerTask::TimerConnect()
                rev+=64;
                // no Transport specified: create raw server for negotiation port
                //fxConnectTransport=new TGo4Socket("Server",3);
-               //std::cout << "(((((( timer created new raw server transport"<< std::endl;
          }
       } //// if(fbConnectRequest)
    else
@@ -392,7 +390,6 @@ Int_t TGo4ServerTask::WaitForClose()
                TGo4Thread::Sleep(TGo4ServerTask::fguCLOSEWAITCYCLETIME);
                ++count;
          }
-      //std::cout << "*****WaitForClose() "<<count<< std::endl;
       }
    fbConnectIsClose=kFALSE; //  reset for next time
    return count;
@@ -540,7 +537,6 @@ Bool_t TGo4ServerTask::StopConnectorThread()
    const char *host = gSystem->HostName();
    Int_t negotiationport = fxTaskManager->GetNegotiationPort();
    TGo4Socket* connector = new TGo4Socket(kTRUE); // raw socket transport
-      //std::cout << "host:"<<host<<", port:" << negotiationport << std::endl;
    connector->Open(host,negotiationport); // open connection to server's connector runnable
    connector->Send(TGo4TaskHandler::Get_fgcERROR()); // force server to stop
    connector->Close();
@@ -564,11 +560,9 @@ void TGo4ServerTask::Quit()
       TGo4Log::Debug(" ServerTask Quit is stopping slave...");
       slave->Stop(); // to execute analysis postloop if still running
     }
-   if(!IsMaster())
-      {
-         //std::cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << std::endl;
-         fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
-      }
+   if(!IsMaster()) {
+      fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
+   }
    RemoveAllClients();
    //StopWorkThreads(); // are re-started after last client is removed...
    WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote

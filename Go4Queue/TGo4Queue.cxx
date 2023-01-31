@@ -85,7 +85,6 @@ Bool_t TGo4Queue::IsEmpty() const
 
 void TGo4Queue::Wake()
 {
-   //std::cout <<"TGo4Queue::Wake() in "<<GetName() << std::endl;
    fbWakeUpCall = kTRUE;
    fxCondition->Signal();
 }

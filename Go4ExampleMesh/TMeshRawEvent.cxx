@@ -37,11 +37,9 @@ TMeshRawEvent::~TMeshRawEvent()
 //-----------------------------------------------------------
 Int_t TMeshRawEvent::Init()
 {
-  Int_t rev = 0;
-  //std::cout << "+++ Init event" << std::endl;
-  Clear();
-  if(CheckEventSource("TMeshUnpackProc"))
-   {
+   Int_t rev = 0;
+   Clear();
+   if(CheckEventSource("TMeshUnpackProc")) {
       fxUnpacker = dynamic_cast<TMeshUnpackProc*>(GetEventSource());
       // for the subcomponents, we have to set unpacker as source ?:
       // only if we would use the subcomponents' Fill() methodsin our Fill()
@@ -52,13 +50,11 @@ Int_t TMeshRawEvent::Init()
       //      fxSub3.SetEventSource(fxUnpacker);
       //      fxSub1.Init();
       TGo4Log::Info("TMeshRawEvent init for Unpack step");
-   }
-  else if(CheckEventSource("TGo4FileSource"))
-   {
+   } else if(CheckEventSource("TGo4FileSource")) {
       fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
       TGo4Log::Info("TMeshRawEvent init for file input");
    } else {
-     rev=1;
+     rev = 1;
    }
    return rev;
 }

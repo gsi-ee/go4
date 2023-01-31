@@ -26,7 +26,6 @@ TGo4PolyCondView::TGo4PolyCondView(TCutG *source) :
    SetCut(source);
    SetBit(kMustCleanup);
    //SetBit(kCanDelete, kFALSE);
-   //std::cout<< "TGo4PolyCondView "<< (long) this <<" ctor from cut"<< (long) source<< std::endl;
    TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
 }
 
@@ -55,7 +54,7 @@ void TGo4PolyCondView::Paint(Option_t* opt)
 
 Int_t TGo4PolyCondView::InsertPoint()
 {
-   fbExecutesMouseMenu=kTRUE;
+   fbExecutesMouseMenu = kTRUE;
    Int_t rev = TGraph::InsertPoint();
    UpdateCondition();
    fbExecutesMouseMenu=kFALSE;
@@ -147,14 +146,12 @@ Bool_t TGo4PolyCondView::IsCutChanged() const
 void TGo4PolyCondView::UpdateCondition()
 {
    if(!fxPolyCondition) return;
-   //std::cout<< "TGo4PolyCondView "<< (long) this <<" ::UpdateCondition"<< std::endl;
 
 #ifdef POLYCONDVIEW_UPDATE_WITHCLONE
 
    TCutG *ccut = CreateCut();
    fxPolyCondition->SetValues(ccut);
    delete ccut;
-   //std::cout<< "TGo4PolyCondView::UpdateCondition has deleted intermediate TCutG "<< (long) ccut<< std::endl;
 //   fxPolyCondition->SetValuesDirect(ccut); // change ownership of ccut
    TGo4PolyCond::CleanupSpecials();
 #else

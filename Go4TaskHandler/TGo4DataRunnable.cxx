@@ -51,7 +51,6 @@ Int_t TGo4DataRunnable::Run(void* ptr)
             Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t) (val);
             if(val >= 0 && comvalue == kComQuit)
                {
-                  //std::cout <<"QQQQQQQQQ Data Runnable has QUIT "<< std::endl;
                   GetThread()->Stop();
                   TGo4Command* qcommand = new TGo4ComDisconnectSlave;
                   TGo4Task* cli = dynamic_cast<TGo4Task*>(fxManager);
@@ -76,15 +75,12 @@ Int_t TGo4DataRunnable::Run(void* ptr)
                }
             else if(fxManager->IsTerminating())
                {
-                  //std::cout <<"Receive error in "<<GetName()<< " while threadmanager is terminating. Ignored!" << std::endl;
                   TGo4Log::Debug("Receive Error in %s during threadmanager termination. Ignored.",GetName());
                   GetThread()->Stop();
-
                }
             else
                {
-                  TGo4Log::Debug(" !!!Receive Error in %s!!!",
-                     GetName());
+                  TGo4Log::Debug(" !!!Receive Error in %s!!!", GetName());
                   //GetThread()->Stop(); std::cout <<"Stopped data runnable. no termination" << std::endl;
                   throw TGo4TaskHandlerAbortException(this);
                }

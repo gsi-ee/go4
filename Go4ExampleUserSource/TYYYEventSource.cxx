@@ -95,15 +95,12 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
    do {
       evnt->ReAllocate(numval+1); // check if realloc necessary
       scanresult = sscanf(cursor,"%s",buffer);
-      //std::cout <<"BuildYYYEvent got buffer:"<<buffer<<", scanresult:";
-      //std::cout << scanresult << std::endl;
       if(scanresult != 0 && scanresult != -1) {
          evnt->fdData[numval] = atof(buffer);
          status = 0; // only ok if at least one value scanned
       }
       numval++;
-      cursor+=strlen(buffer)+1;
-      //std::cout <<"cursor set to:"<<cursor << std::endl;
+      cursor += strlen(buffer)+1;
    } while( scanresult != 0 && scanresult != -1);
 
    // test here for error in input event

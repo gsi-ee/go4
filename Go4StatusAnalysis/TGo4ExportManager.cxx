@@ -254,17 +254,14 @@ try{
    gSystem->cd(fxCurrentDir.Data());
 
    std::ofstream outfile(outname.Data());
-   if(!outfile)
-    {
+   if(!outfile) {
       TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
-      //std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
       return;
-    }
+   }
    TGo4Log::Message(0,"ExportManager: Converting histogram %s to ASCII",histo->GetName());
-   //std::cout <<"Converting histogram "<< histo->GetName() << std::endl;
-   Int_t maxbinX=histo->GetNbinsX();
-   Int_t maxbinY=histo->GetNbinsY();
-   Int_t maxbinZ=histo->GetNbinsZ();
+   Int_t maxbinX = histo->GetNbinsX();
+   Int_t maxbinY = histo->GetNbinsY();
+   Int_t maxbinZ = histo->GetNbinsZ();
    Int_t globalbin = 0;
    Stat_t  cont = 0;
    outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;

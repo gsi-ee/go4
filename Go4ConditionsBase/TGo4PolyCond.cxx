@@ -266,16 +266,14 @@ void TGo4PolyCond::PrintCondition(Bool_t points)
 Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 {
   if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
-  if(cond->InheritsFrom(TGo4PolyCond::Class()))
-     {
+  if(cond->InheritsFrom(TGo4PolyCond::Class())) {
 
 #ifdef POLYCOND_UPDATE_WITHCLONE
        TCutG * temp = CloneCut((TGo4PolyCond*)cond);  // get clone from source, still valid there!
        CleanupSpecials(); // remove all references to cloned TCutG from list of specials
-       //std::cout << "Update " << GetName() << " from " << temp << std::endl;
        if(temp)
           {
-             TCutG *old=fxCut; // JAM2016 change cut before deleting the old one!
+             TCutG *old = fxCut; // JAM2016 change cut before deleting the old one!
              fxCut = temp;
              if(old) delete old;
              ClearCutHis();
@@ -289,7 +287,6 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        /* JAM2016: try to avoid streaming the cut multiple times when updating condition:*/
        TGo4PolyCond *source=(TGo4PolyCond*)cond;
        TCutG * srccut = source->GetCut(false);
-       //std::cout << "TGo4PolyCond::UpdateFrom without Clone of" << GetName() << ", srccut="<<(long )srccut<<", fxCut="<< (long)fxCut << std::endl;
 
        if(!srccut) return kFALSE;
        CleanupSpecials(); // redundant? do it to get rid of entries from streamer!?
@@ -436,7 +433,6 @@ TGo4ConditionPainter* TGo4PolyCond::CreatePainter()
 {
    TGo4ConditionPainter* painter=new TGo4PolyCondPainter(GetName());
    painter->SetCondition(this);
-   //std::cout<<"TGo4PolyCond::CreatePainter() creates new painter"<< (long) painter<< std::endl;
    return painter;
 }
 

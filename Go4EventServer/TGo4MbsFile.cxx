@@ -278,8 +278,7 @@ Int_t TGo4MbsFile::Open()
       fbIsOpen = kTRUE;
       NewFileAction(kFALSE);
    } else {
-      //std::cout <<"Open in single mode" << std::endl;
-      if(NextFile()<0) {
+      if(NextFile() < 0) {
          // only for single mode the
         // error result of first NextFile()
         // will indicate that open failed

@@ -52,7 +52,6 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fxInputChannel=f_evt_control();
    GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
-   //std::cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << std::endl;
 }
 
 
@@ -72,7 +71,6 @@ TGo4MbsSource::TGo4MbsSource(const char *name, Int_t mode) :
    SetTimeout(fgiTIMEOUTDEFAULT);
 
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
-   //std::cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << std::endl;
 }
 
 
@@ -146,9 +144,8 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
          fxPrEventPar.fiNum--;
       }
       // we have a valid event, proceed
-      Char_t* endofevent = (Char_t*) (fxEvent) +
+      Char_t *endofevent = (Char_t *) (fxEvent) +
             (fxEvent->l_dlen) * fguSHORTBYCHAR + fguEVHEBYCHAR ;
-      //std::cout << "end of event "<< endofevent << std::endl;
       target->SetValid(kTRUE); // reset target if previously was set to false
       target->SetDlen(fxEvent->l_dlen);
       target->SetType(fxEvent->i_type);
@@ -352,7 +349,6 @@ Int_t TGo4MbsSource::Open()
    GO4TRACE((12,"TGo4MbsSource::Open()",__LINE__, __FILE__));
 
    if(fbIsOpen) return -1;
-   //std::cout << "Open of TGo4MbsSource"<< std::endl;
    // open connection/file
 
    char name[5000];
@@ -410,7 +406,6 @@ Int_t TGo4MbsSource::Close()
 {
    GO4TRACE((12,"TGo4MbsSource::Close()",__LINE__, __FILE__));
    if(!fbIsOpen) return -1;
-   //std::cout << "Close of TGo4MbsSource"<< std::endl;
    Int_t rev = GetCreateStatus();
    // close connection/file
    if(rev == GETEVT__SUCCESS) {

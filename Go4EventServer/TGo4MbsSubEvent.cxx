@@ -159,7 +159,6 @@ void  TGo4MbsSubEvent::Clear(Option_t *)
       Int_t dleng = GetDlen();
       if(dleng == 0) dleng = 2; // default value for dleng is not zero!!
       // only clear regions which were used by the previous fill...
-      //std::cout <<"Mbssubevent::Clear: dlen=" << dleng << std::endl;
       Int_t fieldlength = (dleng-2) / TGo4MbsSource::fguLONGBYSHORT ; // field is Int_t
       if(fieldlength>fiAllocLen)
          fieldlength = fiAllocLen;

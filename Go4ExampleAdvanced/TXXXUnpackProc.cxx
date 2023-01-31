@@ -172,7 +172,6 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //-----------------------------------------------------------
 void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
 {
-  //std::cout <<"TXXXUnpackProc::CreateRawHistograms" << std::endl;
   for (int i = 0; i < 8; i++) {
 
      if (fCr1Ch[i]) {

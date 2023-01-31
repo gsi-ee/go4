@@ -1062,13 +1062,11 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
       RefreshNamesList();
    } else
    if (timer == fxConnectionTimer) {
-      //std::cout << " TGo4AnalysisProxy::HandleTimer for connection timer" << std::endl;
       if (fxDisplay) {
          // this is emergency handling only if display did not shutdown and deleted our proxy before.
          if (fDisconectCounter > 0) {
             fDisconectCounter--;
             fxConnectionTimer->Start(100, kTRUE);
-            //std::cout<< " TGo4AnalysisProxy::HandleTimer has restarted connection timer, discon counter="<< fDisconectCounter << std::endl;
          } else {
             // this is an emergency disconnect! regularly, the TGo4Display will destroy us now
 

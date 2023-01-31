@@ -154,17 +154,12 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       for (Int_t i = 0; i < __LINESNUMBER__; ++i) {
          const char *linename = fxLinesNames[i];
          TGo4FitModel* mod = fxLinesFinder->FindModel(linename);
-         if(mod)
-         {
+         if(mod) {
             // check here if component is active or not
             if(mod->IsAssignTo(__DATANAME__))
                fiLinesChannel[i]=(Int_t) mod->GetParValue("Pos");
             else
                fiLinesChannel[i] = 0; // mark not active lines
-         }
-         else
-         {
-            //std::cout <<"could not find model "<<linename << std::endl;
          }
       }
 
@@ -230,7 +225,6 @@ void TXXXCalibPar::ReadDatabase()
             {
                break;
             }
-            //std::cout <<"read line:"<<nextline << std::endl;
          }while(strstr(nextline,"#") || strstr(nextline,"!") ); // skip any comments
          if(database.eof() || !database.good()) break;
          sscanf(nextline,"%s %f %d",buf,
@@ -247,8 +241,6 @@ void TXXXCalibPar::ReadDatabase()
                TMath::Sqrt((Long_t) fiLinesChannel[ix]));
          ix++;
       } // while(1)
-      //std::cout <<"scanned lines:"<<ix << std::endl;
-
    }
 }
 

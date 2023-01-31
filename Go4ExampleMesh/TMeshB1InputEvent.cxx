@@ -38,7 +38,6 @@ TMeshB1InputEvent::~TMeshB1InputEvent()
 Int_t TMeshB1InputEvent::Init()
 {
    Int_t rev = 0;
-   //std::cout << "+++ Init event" << std::endl;
    Clear();
    // is it used by Unpack step as output?
    if (CheckEventSource("TMeshUnpackProc")) {

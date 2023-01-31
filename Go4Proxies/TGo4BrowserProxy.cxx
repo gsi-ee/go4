@@ -2264,7 +2264,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
 
       return kTRUE;
    } else if (obj->InheritsFrom(TF1::Class())) {
-      //std::cout <<"Update object contents with TF1"<<obj->GetName() << std::endl;
       TF1* f0 = dynamic_cast<TF1*> (obj);
       TF1* f1 = dynamic_cast<TF1*> (newobj);
       if (!f1 || !f0) return kFALSE;

@@ -83,8 +83,7 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree *tree, Int_t times)
       throw TGo4DynamicListException(this,
                  TString::Format("Tree Histogram Entry: %s Reached end of tree %s. Draw() is stopped. ", GetName(), tree->GetName()).Data());
    Int_t startindex = lastentrynumber - times;
-   //std::cout << "\t -- init startindex: "<< startindex<< std::endl;
-   if(startindex<fiLastEvent)
+   if(startindex < fiLastEvent)
       {
          // we have to check if some of the events were not filled in the tree,
          // in this case we take all from the last processed event to the current:

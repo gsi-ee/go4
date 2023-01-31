@@ -154,18 +154,12 @@ int main(int argc, char **argv)
               }
 //////// access to a certain mbs raw subevent data:
            sub=event->GetSubEvent(3); // subevent by procid
-           if (sub)
-              {
-                 value= sub->Data(1); // access data array at 1
-                 if(value)
-                    {
-                       histo1->Fill(value);
-                       //std::cout << "found value:" << value << std::endl;
-                    }
+           if (sub) {
+              value = sub->Data(1); // access data array at 1
+              if (value) {
+                 histo1->Fill(value);
               }
-
-
-
+           }
 
            if(output)
              output->Store(event);   // write mbs raw event to ROOT file
@@ -179,13 +173,9 @@ int main(int argc, char **argv)
               {
                  value= simpsub->fiD1;  // userevents have data as members,
                                         // may also be seen in ROOT TreeBrowser
-                 if(value)
-
-                    {
-                       histo2->Fill(value);
-                       //std::cout << "found value:" << value << std::endl;
-                    }
-
+                 if(value) {
+                     histo2->Fill(value);
+                 }
               }
 
            if(simpoutput)

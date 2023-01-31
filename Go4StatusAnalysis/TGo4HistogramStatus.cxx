@@ -110,15 +110,12 @@ TGo4HistogramStatus::TGo4HistogramStatus(TH1 *his, Bool_t allstatistics)
       if (allstatistics) {
          // note: we do not calculate statistic for nameslist
          // slows down when processing empty 2d histos!
-         //std::cout <<"\t" <<GetName()<<" calculating mean/rms..." << std::endl;
          fdXmean = his->GetMean(1);
          fdYmean = his->GetMean(2);
          fdZmean = his->GetMean(3);
-         //std::cout <<"\t"<<GetName()<<" finished mean." << std::endl;
          fdXrms = his->GetRMS(1);
          fdYrms = his->GetRMS(2);
          fdZrms = his->GetRMS(3);
-         //std::cout <<"\t"<<GetName()<<" finished rms." << std::endl;
       }
    }
 }

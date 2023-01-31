@@ -293,7 +293,6 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char *text,
    } else {
       dest = nullptr;
    }
-   //std::cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << std::endl;
    Bool_t previousmode = TGo4Log::IsOutputEnabled();
    TGo4Log::OutputEnable(printout); // override the messaging state
    const char *go4mess = TGo4Log::Message(level, "%s", curs);
@@ -487,7 +486,6 @@ Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
       if(queue) {
          // we have an active command queue...
          TGo4LockGuard mainlock; // protect the streamer!
-         //std::cout << "Mainlock acquired by server task: SubmitCommand"<< std::endl;
          queue->AddBufferFromObject(com); // put command into queue
       } else
          rev = kFALSE;
@@ -566,7 +564,6 @@ void TGo4Task::SendStopBuffers(const char *taskname)
 
    if(IsMaster())
    {
-      //std::cout <<"SSSSSSSSs SendStopBuffers() as master" << std::endl;
       TGo4BufferQueue * comq=GetCommandQueue(taskname);
       if(comq)
       {
@@ -575,7 +572,6 @@ void TGo4Task::SendStopBuffers(const char *taskname)
    }
    else
    {
-      //std::cout <<"SSSSSSSSs SendStopBuffers() as slave, sending to "<<taskname << std::endl;
       TGo4BufferQueue * dataq=GetDataQueue(taskname);
       if(dataq)
       {

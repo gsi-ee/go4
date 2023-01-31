@@ -110,7 +110,6 @@ Int_t TGo4TaskManager::ServeClient()
             }
       else if(fxServer->IsTerminating())
             {
-              //std::cout << "TTTTTT  ServeClient sees terminating state and returns -1" << std::endl;
                return -1;
             }
       else
