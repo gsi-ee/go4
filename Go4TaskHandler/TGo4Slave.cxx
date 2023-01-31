@@ -142,7 +142,7 @@ void TGo4Slave::SendStatusBuffer()
 }
 
 
-void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
+void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const TString &text)
 {
    if(GetTask())
       GetTask()->SendStatusMessage(level, printout, "%s", text.Data());

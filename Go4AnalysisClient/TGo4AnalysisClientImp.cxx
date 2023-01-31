@@ -546,7 +546,7 @@ void TGo4AnalysisClient::SetCintMode(Bool_t on)
    }
 }
 
-void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
+void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const TString &text)
 {
     TGo4Slave::SendStatusMessage(level, printout, text);
 

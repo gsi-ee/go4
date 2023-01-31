@@ -98,7 +98,7 @@ void TGo4BrowserItem::deleteChilds()
    GetListOfFolders()->Delete();
 }
 
-void TGo4BrowserItem::ProduceFullName(TString& fullname)
+void TGo4BrowserItem::ProduceFullName(TString &fullname)
 {
    if (GetParent()) {
      GetParent()->ProduceFullName(fullname);

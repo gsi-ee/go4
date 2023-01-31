@@ -497,7 +497,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char *drawopt,
 void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
                                          int HisCoordStyle,
                                          int HisDrawStyle,
-                                         TString& buf)
+                                         TString &buf)
 {
    buf = "";
 

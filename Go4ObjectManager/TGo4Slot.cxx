@@ -261,7 +261,7 @@ TGo4Slot *TGo4Slot::GetNext() const
    return !parent ? nullptr : parent->GetNextChild(this);
 }
 
-void TGo4Slot::ProduceFullName(TString& name, TGo4Slot *toparent)
+void TGo4Slot::ProduceFullName(TString &name, TGo4Slot *toparent)
 {
    if (GetParent() && (GetParent() != toparent)) {
       GetParent()->ProduceFullName(name, toparent);
@@ -643,7 +643,7 @@ const char *TGo4Slot::FindFolderSeparator(const char *name)
    return !name ? nullptr : strrchr(name,'/');
 }
 
-void TGo4Slot::ProduceFolderAndName(const char *fullname, TString& foldername, TString& objectname)
+void TGo4Slot::ProduceFolderAndName(const char *fullname, TString &foldername, TString &objectname)
 {
    const char *rslash = FindFolderSeparator(fullname);
    foldername = "";

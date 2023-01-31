@@ -59,7 +59,7 @@ class TGo4Slot : public TNamed  {
       void SetParent(TGo4Slot *parent) { fParent = parent; }
       Bool_t IsParent(const TGo4Slot *slot) const;
 
-      virtual void ProduceFullName(TString& name, TGo4Slot *toparent = nullptr);
+      virtual void ProduceFullName(TString &name, TGo4Slot *toparent = nullptr);
       TString GetFullName(TGo4Slot *toparent = nullptr);
       virtual TGo4ObjectManager* GetOM() const;
 
@@ -120,7 +120,7 @@ class TGo4Slot : public TNamed  {
       void Print(Option_t* option="") const override;
 
       static const char *FindFolderSeparator(const char *name);
-      static void ProduceFolderAndName(const char *fullname, TString& foldername, TString& objectname);
+      static void ProduceFolderAndName(const char *fullname, TString &foldername, TString &objectname);
 
       Bool_t DoingDelete() const { return TestBit(kStartDelete); }
 

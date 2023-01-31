@@ -55,7 +55,7 @@ class TGo4BrowserItem : public TFolder {
       const char *GetIconName() const override { return fIconName.Data(); }
       void SetIconName(const char *name) { fIconName = name; }
 
-      void ProduceFullName(TString& fullname);
+      void ProduceFullName(TString &fullname);
       TString GetFullName();
 
       const char *ClassName() const override { return GetItemClass(); }

@@ -36,8 +36,8 @@ class TGo4FitDependency : public TObject {
       void SetInitValue(Double_t InitValue);
       void SetExpression(const char *iExpression);
 
-      const TString& GetParameter() const { return fxParameter; }
-      const TString& GetExpression() const { return fxExpression; }
+      const TString &GetParameter() const { return fxParameter; }
+      const TString &GetExpression() const { return fxExpression; }
       Double_t GetInitValue() const { return fdInitValue; }
 
       Bool_t IsResultDepend() const { return fxParameter.IsNull(); }

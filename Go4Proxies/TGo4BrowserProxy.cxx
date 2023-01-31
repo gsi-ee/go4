@@ -255,14 +255,14 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id
    return kTRUE;
 }
 
-void TGo4BrowserProxy::DataSlotName(const char *item, TString& res) const
+void TGo4BrowserProxy::DataSlotName(const char *item, TString &res) const
 {
    res = fxDataPath;
    res += "/";
    res += item;
 }
 
-void TGo4BrowserProxy::BrowserSlotName(const char *item, TString& res) const
+void TGo4BrowserProxy::BrowserSlotName(const char *item, TString &res) const
 {
    res = fxBrowserPath;
    res += "/";
@@ -288,7 +288,7 @@ TGo4Slot *TGo4BrowserProxy::BrowserMemorySlot()
    return BrowserSlot(fxMemoryPath.Data());
 }
 
-Bool_t TGo4BrowserProxy::BrowserItemName(TGo4Slot *itemslot, TString& res)
+Bool_t TGo4BrowserProxy::BrowserItemName(TGo4Slot *itemslot, TString &res)
 {
    if (!itemslot || !fxBrowserSlot || !itemslot->IsParent(fxBrowserSlot)) return kFALSE;
    itemslot->ProduceFullName(res, fxBrowserSlot);
@@ -597,7 +597,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
                                        const char *Zexp,
                                        const char *cutcond,
                                        const char *hname,
-                                       TString& createdhistoname)
+                                       TString &createdhistoname)
 {
    if (!Xexp || strlen(Xexp) == 0) return;
 
@@ -829,7 +829,7 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char *itemname, TStr
    return serv;
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char *itemname, TString& analysisname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char *itemname, TString &analysisname)
 {
    return DefineServerObject(itemname, &analysisname, kTRUE);
 }
@@ -967,7 +967,7 @@ TGo4Slot *TGo4BrowserProxy::ItemSlot(const char *itemname)
    return fxOM->GetSlot(slotname.Data());
 }
 
-Bool_t TGo4BrowserProxy::DefineTreeName(const char *itemname, TString& treename)
+Bool_t TGo4BrowserProxy::DefineTreeName(const char *itemname, TString &treename)
 {
    TString slotname;
    BrowserSlotName(itemname, slotname);
@@ -987,7 +987,7 @@ Bool_t TGo4BrowserProxy::DefineTreeName(const char *itemname, TString& treename)
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::DefineLeafName(const char *itemname, const char *treename, TString& leafname)
+Bool_t TGo4BrowserProxy::DefineLeafName(const char *itemname, const char *treename, TString &leafname)
 {
    if (!itemname || !treename) return kFALSE;
 
@@ -1007,7 +1007,7 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char *itemname, const char *treena
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char *objname, TString& objectitem, Int_t mask)
+Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char *objname, TString &objectitem, Int_t mask)
 {
    if (!objname || (*objname == 0)) return kFALSE;
 
@@ -1100,7 +1100,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char *o
    return kFALSE;
 }
 
-Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString& fitemname, const char** filepath)
+Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString &fitemname, const char** filepath)
 {
    TGo4Slot *slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;
@@ -1945,7 +1945,7 @@ Int_t TGo4BrowserProxy::CalculateFolderSizes(TGo4Slot *topslot)
    return sum;
 }
 
-Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass *cl, TString& pixmap)
+Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass *cl, TString &pixmap)
 {
    // 100000000 - execute,
    //  10000000 - expand,
@@ -2275,7 +2275,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
    return kFALSE;
 }
 
-void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
+void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format)
 {
    if(!gr) return;
    TH1* h1 = gr->GetHistogram();
@@ -2284,7 +2284,7 @@ void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, T
    format = xax->GetTimeFormat();
 }
 
-void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
+void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format)
 {
    if(!gr) return;
    TH1*h1=gr->GetHistogram();

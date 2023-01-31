@@ -183,8 +183,8 @@ class TGo4Prefs {
 
 };
 
-Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
-                                        TString& killcmd,
+Bool_t TGo4ServerProxy::GetLaunchString(TString &launchcmd,
+                                        TString &killcmd,
                                         Int_t serverkind,
                                         Int_t shellkind,
                                         Int_t konsole,

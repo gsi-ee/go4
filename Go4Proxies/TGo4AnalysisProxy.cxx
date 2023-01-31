@@ -905,8 +905,8 @@ Int_t TGo4AnalysisProxy::ConnectorPort()
 }
 
 
-Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
-                                         TString& killcmd,
+Bool_t TGo4AnalysisProxy::LaunchAsClient(TString &launchcmd,
+                                         TString &killcmd,
                                          Int_t usessh,
                                          Int_t konsole,
                                          const char *name,
@@ -937,8 +937,8 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
-                                         TString& killcmd,
+Bool_t TGo4AnalysisProxy::LaunchAsServer(TString &launchcmd,
+                                         TString &killcmd,
                                          Int_t usessh,
                                          Int_t konsole,
                                          const char *name,

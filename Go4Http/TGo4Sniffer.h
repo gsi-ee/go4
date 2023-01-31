@@ -44,7 +44,7 @@ class TGo4Sniffer : public TRootSnifferFull,
       void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj) override;
 
       /** Send message to gui - need to be implemented */
-      virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+      virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString &text);
 
       /** Indicate that Restrict method implemented, also commands with arguments are exists */
       Bool_t HasRestrictMethod();

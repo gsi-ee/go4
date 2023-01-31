@@ -98,7 +98,7 @@ TGo4ObjectManager::~TGo4ObjectManager()
    gROOT->GetListOfCleanups()->Remove(this);
 }
 
-void TGo4ObjectManager::ProduceFullName(TString& name, TGo4Slot *toparent)
+void TGo4ObjectManager::ProduceFullName(TString &name, TGo4Slot *toparent)
 {
    name = "";
 }

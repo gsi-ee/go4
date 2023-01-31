@@ -119,7 +119,7 @@ class TGo4Slave : public TGo4TaskOwner {
        * Send message string in a status object to the gui.
        * Will be displayed in status window. Level indicates info, warning or error,
        */
-      virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+      virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString &text);
 
       /**
        * Create status object and stream it into the

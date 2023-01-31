@@ -140,7 +140,7 @@ class TGo4AnalysisClient : public TGo4Slave {
     void SubmitShutdown();
 
     /** Send message to gui */
-    void SendStatusMessage(Int_t level, Bool_t printout, const TString& text) override;
+    void SendStatusMessage(Int_t level, Bool_t printout, const TString &text) override;
 
     /** Execute string command. Overrides base class implementation
       * to decouple some commands from analysis client. */

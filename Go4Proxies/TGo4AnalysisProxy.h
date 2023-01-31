@@ -153,8 +153,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       Int_t NumberOfWaitingProxyes() override { return fNumberOfWaitingProxyes; }
 
-      Bool_t LaunchAsClient(TString& launchcmd,
-                            TString& killcmd,
+      Bool_t LaunchAsClient(TString &launchcmd,
+                            TString &killcmd,
                             Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                             Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                             const char *name,
@@ -164,8 +164,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                             Int_t exe_kind = 0, //   Go4_exe = 0, Go4_lib = 1
                             const char *exeargs = nullptr);
 
-      static Bool_t LaunchAsServer(TString& launchcmd,
-                                   TString& killcmd,
+      static Bool_t LaunchAsServer(TString &launchcmd,
+                                   TString &killcmd,
                                    Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                                    Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                                    const char *name,

@@ -310,7 +310,7 @@ class TGo4Picture : public TNamed {
       /** Returns total size, used by picture in memory */
       Long_t GetTotalSize();
 
-      static void Add(TString& s, const char *buf) { s+=buf; }
+      static void Add(TString &s, const char *buf) { s+=buf; }
 
    protected:
       TGo4Picture(TGo4Picture& picture);

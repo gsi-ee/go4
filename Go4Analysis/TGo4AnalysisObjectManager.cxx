@@ -2034,7 +2034,7 @@ TObject* TGo4AnalysisObjectManager::TestObject(TFolder* folder,
    return obj;
 }
 
-Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject *obj, TString& pathname, TFolder* fold)
+Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject *obj, TString &pathname, TFolder* fold)
 {
    if (!obj) return kFALSE;
 

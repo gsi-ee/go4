@@ -596,7 +596,7 @@ void TGo4Sniffer::ProcessSnifferEvents()
    if (gHttpServer) gHttpServer->ProcessRequests();
 }
 
-void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
+void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString &text)
 {
    if (printout)
       TGo4Log::Message(level, "%s", text.Data());

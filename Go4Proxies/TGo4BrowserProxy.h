@@ -98,7 +98,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
                            const char *Zexp,
                            const char *cutcond,
                            const char *hname,
-                           TString& createdhistoname);
+                           TString &createdhistoname);
 
       TString SaveToMemory(const char *pathname, TObject *obj, Bool_t ownership, Bool_t overwrite = kFALSE);
       void CreateMemoryFolder(const char *foldername = nullptr);
@@ -190,7 +190,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       TGo4ServerProxy* DefineServerProxy(const char *itemname);
       TGo4ServerProxy* DefineServerObject(const char *itemname, TString* objname = nullptr, Bool_t onlyanalysis = kTRUE);
-      TGo4ServerProxy* DefineAnalysisObject(const char *itemname, TString& analysisname);
+      TGo4ServerProxy* DefineAnalysisObject(const char *itemname, TString &analysisname);
 
       static bool CanExecuteItem(int cando);
       static bool CanExpandItem(int cando);
@@ -202,7 +202,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static bool CanDragItem(int cando);
       static bool CanEditItem(int cando);
 
-      static Int_t DefineItemProperties(Int_t kind, TClass *cl, TString& pixmap);
+      static Int_t DefineItemProperties(Int_t kind, TClass *cl, TString &pixmap);
       static Bool_t UpdateObjectContent(TObject *obj, TObject* newobj, Int_t* hasrebinx = nullptr, Int_t* hasrebiny = nullptr);
 
       void SyncBrowserSlots();
@@ -224,8 +224,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void CheckPictureMonitor(TGo4Slot *slot);
       void CheckPictureMonitor(TGo4Picture* pic, const char *picitemname);
 
-      static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
-      static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
+      static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format);
+      static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format);
 
       /** preserve fit result functions contained in any graph-like objects*/
       static void UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr);

@@ -634,7 +634,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TFolder* FindSubFolder(TFolder* parent, const char *subfolder, Bool_t create=kTRUE);
 
       /** Return full path name to object, relative to specified folder */
-      Bool_t FindObjectPathName(TObject *obj, TString& pathname, TFolder *fold = nullptr);
+      Bool_t FindObjectPathName(TObject *obj, TString &pathname, TFolder *fold = nullptr);
 
       Bool_t CreatedInMake() const { return fbCreatedinMake; }
 

@@ -1728,7 +1728,7 @@ void TGo4Analysis::SetAdministratorPassword(const char *passwd)
    fServerAdminPass = passwd ? passwd : "";
 }
 
-Bool_t  TGo4Analysis::EvaluateFolderpath(const char *fullname, TString& objectname, TString& foldername)
+Bool_t  TGo4Analysis::EvaluateFolderpath(const char *fullname, TString &objectname, TString &foldername)
 {
    if (!fullname || (strlen(fullname) == 0))
       return kFALSE;

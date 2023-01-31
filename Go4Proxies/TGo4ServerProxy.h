@@ -124,8 +124,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) {}
 
 
-      static Bool_t GetLaunchString(TString& launchcmd,
-                                    TString& killcmd,
+      static Bool_t GetLaunchString(TString &launchcmd,
+                                    TString &killcmd,
                                     Int_t serverkind, // 0 - client, 1 - go4 socket, 2 - http
                                     Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                     Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
