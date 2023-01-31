@@ -554,21 +554,16 @@ Bool_t TGo4ThreadHandler::AllWaiting ()
    {
       TGo4LockGuard listguard(fxListMutex);
       fxIterator->Reset();
-      while((th= (TGo4Thread*) fxIterator->Next()) != nullptr)
-         {
-         if(!(th->IsWaiting()))
-            {
+      while((th = (TGo4Thread*) fxIterator->Next()) != nullptr) {
+         if(!(th->IsWaiting())) {
             GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is still running",__LINE__, __FILE__));
-               //std::cout <<"-------Thread "<<th->GetName()<<" is still running..." << std::endl;
-               rev=kFALSE; // this runnable is still doing
-               break;
-            }
-         else
-            {
+            rev=kFALSE; // this runnable is still doing
+            break;
+         } else {
             GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is waiting",__LINE__, __FILE__));
-               // runnable is waiting
-            }
+            // runnable is waiting
          }
+      }
    }
    return rev;
 }

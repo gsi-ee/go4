@@ -160,7 +160,6 @@ Int_t TGo4ThreadManager::Initialization ()
     // already initialized, return ok value
     {
        GO4TRACE((11,"TGo4ThreadManager::Initialization()--already init done, returning",__LINE__, __FILE__));
-       //std::cout << "already init done, returning"<< std::endl;
       return 0;
     }
   else
@@ -196,8 +195,6 @@ Int_t TGo4ThreadManager::Initialization ()
               // some threads are missing, suspend starting until next timer cycle
               {
                 TGo4Log::Debug(" ThreadManager -- some threads are missing, re-doing Init ");
-
-                //std::cout <<"TGo4ThreadManager waiting for threads"<< std::endl;
                 return 1;
               }
          }

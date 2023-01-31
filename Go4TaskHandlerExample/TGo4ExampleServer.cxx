@@ -81,25 +81,11 @@ Int_t TGo4ExampleServer::StopWorkThreads()
   // stop my own threads, put dummies into queues to release semaphores
    threadhandler->Stop(fcControlName.Data());
    if(dataq)
-      {
-         dataq->AddBufferFromObject(new TNamed("StopObject","dummy"));
-         //std::cout << "added dummy data"<< std::endl;
-      }
-   else
-      {
-         //std::cout << "NO data queue"<< std::endl;
-      }
+      dataq->AddBufferFromObject(new TNamed("StopObject","dummy"));
    threadhandler->Stop(fcLoggingName.Data());
    if(statusq)
-      {
-         statusq->AddBufferFromObject(new TGo4Status("StopStatus"));
-         //std::cout << "added dummy status"<< std::endl;
-      }
-   else
-      {
-      //       std::cout << "NO status queue"<< std::endl;
-      }
-   rev=TGo4ServerTask::StopWorkThreads(); // this will set server task internal flag
+      statusq->AddBufferFromObject(new TGo4Status("StopStatus"));
+   rev = TGo4ServerTask::StopWorkThreads(); // this will set server task internal flag
    return rev;
 }
 

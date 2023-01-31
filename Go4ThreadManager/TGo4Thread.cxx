@@ -184,14 +184,11 @@ Bool_t TGo4Thread::Cancel ()
 {
     GO4TRACE((14,"TGo4Thread::Cancel()",__LINE__, __FILE__));
 
-    if(fbIsCreated)
-    // thread existing, then cancel
-   {
+    if(fbIsCreated) {
+      // thread existing, then cancel
       TGo4Log::Debug(" Go4Thread ``%s'' --  Canceling TThread %ld (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
-      //std::cout << "canceling thread "<<fiThreadSelfID<< std::endl;
-      if(fxThread)
-         {
+      if(fxThread) {
          GO4TRACE((13,"TGo4Thread::Cancel() -- canceling existing TThread",__LINE__, __FILE__));
          fbIsCreated = kFALSE;
          fbIsRunning = kTRUE; // these settings let Threadfunc enter Cancel loop
@@ -201,25 +198,18 @@ Bool_t TGo4Thread::Cancel ()
          // JAM2018 bugfix for crashes with ROOT 6 concerning Thread CleanUpPop
          TThread::Delete(fxThread);
 
-
          fxThread = nullptr;
          fiThreadPID = 0;
          fiThreadSelfID = 0;
-
-         }
-      else
-         {
-            GO4TRACE((13,"TGo4Thread::Cancel() -- Error: TThread pointer is zero!",__LINE__, __FILE__));
-            TGo4Log::Debug(" Go4Thread ``%s'' Cancel -- Internal inconsistency error! ",GetName());
-            throw TGo4RuntimeException();
-         }
+      } else {
+         GO4TRACE((13,"TGo4Thread::Cancel() -- Error: TThread pointer is zero!",__LINE__, __FILE__));
+         TGo4Log::Debug(" Go4Thread ``%s'' Cancel -- Internal inconsistency error! ",GetName());
+         throw TGo4RuntimeException();
+      }
       return kTRUE;
-    }
-  else
-    // no such thread...
-    {
-      return kFALSE;
-    }
+  }
+  // no such thread...
+  return kFALSE;
 }
 
 Bool_t TGo4Thread::ReCreate ()
@@ -234,7 +224,6 @@ Bool_t TGo4Thread::ReCreate ()
     GO4TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
     TGo4Log::Debug(" Recreating Go4Thread ``%s'' --  old TThread %ld (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
-       //std::cout << "recreating thread "<<GetName()<< std::endl;
       if(fxThread)
          {
             GO4TRACE((13,"TGo4Thread::ReCreate() -- recreating existing TThread",__LINE__, __FILE__));
@@ -264,7 +253,6 @@ Bool_t TGo4Thread::ReCreate ()
          {
             GO4TRACE((13,"TGo4Thread::ReCreate() -- Error: old TThread pointer is zero!",__LINE__, __FILE__));
             TGo4Log::Debug(" Go4Thread ``%s'' ReCreate -- Internal inconsistency error! ",GetName());
-            //std::cout << "TGo4Thread "<<GetName()<<" ReCreate inconsistency error!"<< std::endl;
             throw TGo4RuntimeException();
          }
       return kTRUE;

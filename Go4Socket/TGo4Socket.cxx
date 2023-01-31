@@ -131,7 +131,6 @@ Int_t TGo4Socket::Open(const char *host, Int_t port, Bool_t keepservsock)
       fxSocket->Recv(str, 32);
       if(!strcmp(str,TGo4Socket::fgcGOON))
       {
-         //std::cout << "-I- We are told to go on !\n";
          fbOpen = kTRUE;
          rev = 0;
          TGo4Log::Debug(" Socket: Connection Established ");
@@ -162,7 +161,6 @@ Int_t TGo4Socket::Open(const char *host, Int_t port, Bool_t keepservsock)
       else
       {
          fiPort = fxServerSocket->GetLocalPort(); // success, get real port number
-         //std::cout << " ---- Go4 Socket got local port "<< fiPort  << std::endl;
       }
       fxSocket = nullptr;
       while(1)
@@ -302,15 +300,12 @@ Int_t TGo4Socket::ReceiveBuffer()
    // check if length exceeds receive buffer
    len = net2host(len);  //from network to host byte order
    Int_t messlen = len + sizeof(UInt_t); // compatible with root TMessage protocol
-   //               std::cout << "))))))))) socket receive: buffer length "<< len << std::endl;
-   //               std::cout << "))))))))) socket receive: messlen "<< messlen << std::endl;
    Int_t oldsize = fxBuffer->BufferSize();
    Int_t newsize = messlen;
    if(newsize>oldsize) {
       ReallocBuffer(fxBuffer, oldsize, newsize);
    } else
    if(newsize<oldsize && oldsize>TGo4Socket::fgiBUFINITSIZE) {
-      //std::cout << "))))))))) socket receive shorter messlen "<< messlen << std::endl;
       if(newsize < TGo4Socket::fgiBUFINITSIZE)
          newsize = TGo4Socket::fgiBUFINITSIZE;
       ReallocBuffer(fxBuffer, oldsize, newsize);
@@ -328,7 +323,6 @@ Int_t TGo4Socket::ReceiveBuffer()
       TGo4Log::Debug(" !!! Socket: ReceiveBuffer() ERROR # %d !!! ",rev);
       return -56;
    }
-      //                     std::cout << "socket: received raw "<< rev << " bytes" << std::endl;
    // set root byte count for correct object reconstruction:
    fxBuffer->SetBufferOffset(messlen);
    fxBuffer->SetByteCount(0);
@@ -468,7 +462,7 @@ void TGo4Socket::ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
    if(!buffer) return;
    TGo4LockGuard mainguard;
-   char* memfield = buffer->Buffer();
+   char *memfield = buffer->Buffer();
    //buffer->Expand(newsize); // is protected! we make it by hand...
    //Int_t current = buffer->Length(); // cursor position
    Int_t extraspace = TGo4Socket::fgiBUFEXTRASPACE; // =8, constant within TBuffer
@@ -479,7 +473,6 @@ void TGo4Socket::ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize)
    memfield = TStorage::ReAllocChar(memfield,
                     (newsize+extraspace),
                     (oldsize+extraspace));
-   //std::cout << "Socket reallocating char receive buffer from "<<oldsize<< " to " << newsize<< std::endl;
    buffer->ResetBit(TBuffer::kIsOwner);
 
    buffer->SetBuffer(memfield, newsize);

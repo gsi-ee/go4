@@ -227,7 +227,6 @@ void TGo4MBSViewer::Refresh()
       // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
       // NEW: first check real time diff since last call and correct rates:
       deltamilsecs=fxDeltaClock.elapsed();
-      //std::cout <<"******* found ms:"<<deltamilsecs << std::endl;
       fxDeltaClock.restart();
       int deltasecs=deltamilsecs/1000;
       if(!fbTrendingInit && (deltasecs>=deltat*2))
@@ -297,8 +296,7 @@ void TGo4MBSViewer::Refresh()
       }
       //fiEvRatio= (fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       //int curentratio=(fiCalcedDataRate != 0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-      fiEvRatio= (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
-      //std::cout<<"Eventratio="<<fiEvRatio<<", currentratio="<<curentratio<< std::endl;
+      fiEvRatio = (fiDataDelta != 0 ? 100* fiServDataDelta /fiDataDelta : 0);
    }
    else if(fxDaqStat.bh_running[SYS__event_serv])
    {
@@ -343,7 +341,6 @@ void TGo4MBSViewer::Refresh()
       while((numperiods--) > 0)
       {
          UpdateTrending(); // use same values for all skipped periods
-         //std::cout <<"Update trending with numperiods:"<<numperiods << std::endl;
       }
    }
    StartMovieReset();

@@ -96,7 +96,6 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor = (double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-   //std::cout <<"Found Qt scaling factor:"<<fQtScalingfactor << std::endl;
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;
@@ -179,9 +178,6 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
       // std::cout <<"----- EATING timestamp:"<<timestamp<< std::endl;
       return;
   }
-
-  //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
-
 
   if (fCanvas) {
      QPoint pnt = scaledMousePoint(e);
@@ -431,7 +427,6 @@ void QRootCanvas::activateRepaint(int mode)
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
-  //std::cout<< "QRootCanvas::resizeEvent"<<std::endl;
    activateRepaint(act_Resize);
 }
 
@@ -451,8 +446,6 @@ void QRootCanvas::paintEvent( QPaintEvent *)
 void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
-   //std::cout<< " QRootCanvas::processRepaintTimer()"<<std::endl;
-   //printf("processRepaintTimer with fRepaintMode %d\n",fRepaintMode);
    TGo4LockGuard threadlock;
    (void) threadlock; // suppress compiler warnings
 
@@ -473,7 +466,6 @@ void QRootCanvas::processRepaintTimer()
    fCanvas->Update();
 
    fRepaintMode = 0;
-   //std::cout<< std::endl;
    emit CanvasUpdated();
    //setUpdatesEnabled( true ); // JAM avoid flicker on Qt5 ?
 }
@@ -961,7 +953,6 @@ void QRootCanvas::methodDialog(TObject *object, TMethod* method)
 
          TList *opt;
          if ((opt = m->GetOptions()) != nullptr) {
-            //std::cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << std::endl;
             // should stop dialog
             // workaround JAM: do not stop dialog, use textfield (for time display toggle)
             dlg.addArg(argTitle.Data(), val.Data(), type.Data());
@@ -1135,9 +1126,7 @@ void QRootCanvas::executeMenu(int id)
       if (method->GetListOfMethodArgs()->First()){
         if (strstr(method->GetName(), "Delete")){
           // JAM2016: do not allow mouse menu delete in Go4
-          //std::cout << "Supressing Delete in menu!" << std::endl;
-        }
-        else {
+        } else {
           methodDialog(fMenuObj, method);
         }
       }

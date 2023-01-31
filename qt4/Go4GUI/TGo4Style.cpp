@@ -110,7 +110,6 @@ TGo4Style::TGo4Style(QWidget *parent, const char *name, Qt::WindowFlags fl) :
    // here defaults from settings:
    int min,max,def;
    go4sett->getPaletteOpt(min,def,max);
-   //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
 
    SetPaletteRange(min,def,max);
 }

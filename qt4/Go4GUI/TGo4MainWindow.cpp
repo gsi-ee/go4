@@ -975,12 +975,10 @@ void TGo4MainWindow::closeEvent(QCloseEvent *ce)
    StopGUIScriptSlot();
    int waitsecs = 180;
    if(!RemoveAnalysisProxy(waitsecs, realshutdown)) {
-      //std::cout <<"closeEvent - RemoveAnalysisProxy returned false, using close counter" << std::endl;
       fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
       statusBar()->showMessage("Exit....  please wait");
       QApplication::setOverrideCursor(Qt::WaitCursor);
       QTimer::singleShot(100, this, &TGo4MainWindow::ForseCloseSlot);
-      //std::cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << std::endl;
       ce->ignore();
    } else {
       statusBar()->showMessage("Closing GUI...");
@@ -2057,7 +2055,6 @@ void TGo4MainWindow::ConnectServer(bool interactive, const char *password)
         fulladdress.append(":");
         fulladdress.append(portstring);
      }
-     //std::cout << " try to connect to server: "<<fulladdress.toLatin1().constData() << std::endl;
      QString msg("Connecting analysis http server at ");
      msg.append(fulladdress).append(QString(", Please wait"));
      StatusMessage(msg);
@@ -2793,9 +2790,8 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    bool blankbg = go4sett->getSavePadWhiteBackground();
    if(blankbg) {
-     can = (TCanvas*) panel->GetCanvas()->Clone();
-     can->SetName("PrintoutPad");
-     //std::cout << "SavePanelCanvas has cloned panel canvas! "<< can->GetName()<< std::endl;
+      can = (TCanvas*) panel->GetCanvas()->Clone();
+      can->SetName("PrintoutPad");
    }
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
@@ -3210,8 +3206,6 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_AddLinkInSlot: {
-         //std::cout << " QGo4Widget::service_AddLinkInSlot " << std::endl;
-
          TGo4Slot **res = (TGo4Slot **) par;
 
          TGo4Slot *parent = *res;

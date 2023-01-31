@@ -272,7 +272,6 @@ void TGo4ConfigStep::StepStateChanged(int )
 void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus, int number)
 {
     if (!StepStatus) return;
-    //std::cout <<"TGo4ConfigStep::SetStepStatus for "<< StepStatus->GetName()<< std::endl;
 
     fxPanel = panel;
     fStepStatus = StepStatus;
@@ -847,9 +846,7 @@ void TGo4ConfigStep::InputFileDialog()
           std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
    }
 
-    //std::cout <<"FFFFFFFF chose filter-"<< filters.toLatin1().constData() <<"-" << std::endl;
-    QFileDialog fd( this, "Select file name for step input",
-                          fxPanel->GetSourcePath(), filters);
+    QFileDialog fd(this, "Select file name for step input", fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
 
     if ( fd.exec() != QDialog::Accepted ) return;

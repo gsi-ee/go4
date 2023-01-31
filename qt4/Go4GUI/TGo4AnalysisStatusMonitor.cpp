@@ -48,7 +48,6 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated(const char *linkname, TObjec
    TGo4Ratemeter* rate = dynamic_cast<TGo4Ratemeter*> (obj);
 
    // JAM2016
-   //std::cout <<"linkedObjectUpdated" <<std::endl;
    QStatusBar* guistatusbar = dynamic_cast<QStatusBar*>(parentWidget());
    if(guistatusbar){
       guistatusbar->clearMessage(); // JAM2016: always wipe out old gui messages when updating ratemeter

@@ -91,10 +91,8 @@ Bool_t TGo4AppControlTimer::Notify ()
           {
              GO4TRACE((11,"TGo4AppControlTimer: Terminating mode",__LINE__, __FILE__));
              Int_t t = 0;
-             while(!(fxManager->GetWorkHandler()->AllWaiting()) && (t++<fgiTERMWAITCYCLES) )
-            {
+             while(!(fxManager->GetWorkHandler()->AllWaiting()) && (t++ < fgiTERMWAITCYCLES))   {
                TGo4Log::Debug(" Application Control Timer --  waiting for Runnables to stop... ");
-               //std::cout << "TGo4AppControlTimer waiting for Runnables to stop..."<<t<< std::endl;
                gSystem->Sleep(fguTERMWAIT);
                fxManager->GetWorkHandler()->StopAll();
             }

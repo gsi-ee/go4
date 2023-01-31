@@ -116,10 +116,8 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
          }
          else if(fxManager->IsTerminating())
          {
-            //std::cout <<"Receive error in "<<GetName()<< " while threadmanager is terminating. Ignored!" << std::endl;
             TGo4Log::Debug("Receive Error in %s during threadmanager termination. Ignored.",GetName());
             GetThread()->Stop();
-
          }
          else
          {
@@ -139,7 +137,6 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
          Bool_t stopmode=CheckStopBuffer(buf);
          // send over inter task transport
          fxTransport->SendBuffer(buf);
-         //                  std::cout << "command runnable: sending buffer via transport" << std::endl;
          fxBufferQueue->FreeBuffer(buf);
          if(stopmode) return 0; // no handshake after stop buffer
          char* revchar = fxTransport->RecvRaw("dummy"); // wait for o.k. string
@@ -190,7 +187,6 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
             // when gui client is disconnected by slave server itself
             // (server shutdown from other gui), we have to react on Queue wakeup
             // in command queue from the TGo4TaskHandler::StopTransportThreads
-            //std::cout <<"Command runnable gets null from queue and is stopped!!!!" << std::endl;
             return 0;
          }
          // do nothing, return for next wait

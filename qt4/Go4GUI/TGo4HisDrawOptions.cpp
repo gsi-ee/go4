@@ -490,8 +490,6 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char *drawopt,
       if(buf.Contains("text"))  HisDrawStyle = 18; else
       if(buf.Contains("asimage")) HisDrawStyle = 19;
    }
-   //std::cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
-   //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<< std::endl;
 }
 
 void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,

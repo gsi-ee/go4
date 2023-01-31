@@ -153,7 +153,6 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char *host)
       {
          // client and server know each other- we continue
          TString myname=fxThreadManager->GetName();
-         //std::cout <<"ServerRequest sends name "<<myname.Data() << std::endl;
          connector->Send(myname.Data()); // tell server the client name
          connector->Send(gSystem->HostName()); // tell server our machine hostname
          return connector;
@@ -347,7 +346,6 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
             /////
             connector->Send(fgcDISCONNECT); // tell server we want to disconnect
             StopTransportThreads(kTRUE);// wait until threads are really stopped
-            //std::cout <<"TASKHANDLER DISCONNECT closing the transports now.... " << std::endl;
             CloseChannels();
             connector->Send(fgcOK); // tell server we finished transports
             // server will close its transport sockets after this
@@ -477,7 +475,6 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negot
    TString localbuffer;
    localbuffer.Form("%d",port);
    negotiator->Send(localbuffer.Data()); // tell client the port number;
-   //std::cout <<"------- ConnectServerChannel offers portnumber "<< localbuffer<< " for Channel "<< name << std::endl;
    revchar=negotiator->RecvRaw("dummy"); // wait for client connection ok
    if(revchar && !strcmp(revchar,TGo4TaskHandler::fgcOK))
    {
@@ -585,10 +582,7 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
    {
       TGo4BufferQueue* comq= dynamic_cast<TGo4BufferQueue*>(GetCommandQueue());
       if(comq)
-      {
-         //std::cout <<"SSSSSStopTransportThreads Waking command queue" << std::endl;
          comq->Wake();
-      }
    }
    fxThreadHandler->Stop(GetStatName());
    fxThreadHandler->Stop(GetDatName());

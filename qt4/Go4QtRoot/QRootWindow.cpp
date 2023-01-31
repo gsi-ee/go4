@@ -79,7 +79,6 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
       // add the Qt::WinId to TGX11 interface
       fQtWinId = winId();
       fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,400);
-      //std::cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< std::endl;
       fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       fxRootwindow->Resize();
       if (parent) parent->installEventFilter( this );
@@ -191,7 +190,6 @@ void QRootWindow::paintEvent( QPaintEvent * e)
       if(fbResizeOnPaint) {
          TGo4LockGuard threadlock;
          (void) threadlock; // suppress compiler warnings
-         //std::cout <<"QRootWindow::paintEvent does TGCompositeFrame Resize ..." << std::endl;
          fxRootwindow->Resize(width(),height());
          gVirtualX->Update(1); // Xsync/flus
       }

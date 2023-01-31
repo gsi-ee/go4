@@ -426,10 +426,8 @@ void TGo4AnalysisWindow::FileDialog_Macro()
    fd.setFileMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
-   //std::cout <<"accepted fd.exec " << std::endl;
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
-   //std::cout <<"Got file name "<< flst[0].toLatin1().constData() << std::endl;
    bool iscint = fd.selectedNameFilter().contains(".C");
    bool ispyth = fd.selectedNameFilter().contains(".py");
    QString cmd;
@@ -447,15 +445,12 @@ void TGo4AnalysisWindow::FileDialog_Macro()
      cmd = QString(".x ") + flst[0];
      if(!cmd.endsWith(".C")) cmd.append(".C");
    }
-   int index=fxCmdHist->findText(cmd);
-   if(index<0)
-     {
-       fxCmdHist->insertItem(-1,cmd);
-       index=fxCmdHist->findText(cmd);
-     }
-     //std::cout <<"inserted item "<< cmd.toLatin1().constData() << std::endl;
+   int index = fxCmdHist->findText(cmd);
+   if(index<0) {
+     fxCmdHist->insertItem(-1,cmd);
+     index = fxCmdHist->findText(cmd);
+   }
    fxCmdHist->setCurrentIndex(index);
-
 }
 
 void TGo4AnalysisWindow::PrintHistograms()

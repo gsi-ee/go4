@@ -73,10 +73,8 @@ bool TGo4UserCommandsDialog::GetAutoExecute(int id)
 
 void TGo4UserCommandsDialog::ButtonPressed(QAbstractButton* but)
 {
-  //std::cout<<"TGo4UserCommandsDialog ButtonPressed "  << std::endl;
   QPushButton* pbut = dynamic_cast<QPushButton*>(but);
   if (pbut == DialogButtonBox->button(QDialogButtonBox::Reset)) {
-     // std::cout<<"Found Reset button "  << std::endl;
      for (int id = 0; id < GO4GUI_MAXMACRONUM; ++id) {
         QTableWidgetItem *comitem = CommandsTable->item(id, 0);
         if (comitem)
