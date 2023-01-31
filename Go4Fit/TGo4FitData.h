@@ -258,37 +258,37 @@ class TGo4FitData : public TGo4FitComponent {
        * Returns pointer on buffer with data bins values.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsValues() { return fxValues; }
+      Double_t* GetBinsValues() const { return fxValues; }
 
       /**
        * Returns pointer on buffer with standard deviations for each data bins.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsDevs() { return fxStandDev; }
+      Double_t* GetBinsDevs() const { return fxStandDev; }
 
       /**
        * Returns pointer on buffer with complete model of data bins.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsResult() { return fxBinsResult; }
+      Double_t* GetBinsResult() const { return fxBinsResult; }
 
       /**
        * Return scale values for specified index from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Double_t* GetScaleValues(const Int_t nbin);
+      const Double_t* GetScaleValues(Int_t nbin) const;
 
       /**
        * Return scales width values for specified index from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Double_t* GetWidthValues(const Int_t nbin);
+      const Double_t* GetWidthValues(Int_t nbin) const;
 
       /**
        * Return indexes values for specified data bin from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Int_t* GetFullIndex(Int_t nbin);
+      const Int_t* GetFullIndex(Int_t nbin) const;
 
       /**
        * Returns dimension of indexes arrays.

@@ -271,7 +271,7 @@ Int_t TGo4FitData::DefineBinsSize()
    return iter ? iter->CountPoints(kTRUE) : 0;
 }
 
-const Double_t *TGo4FitData::GetScaleValues(const Int_t nbin)
+const Double_t *TGo4FitData::GetScaleValues(Int_t nbin) const
 {
    if (fxFullScale)
       return &(fxFullScale[nbin * GetScalesSize()]);
@@ -279,14 +279,14 @@ const Double_t *TGo4FitData::GetScaleValues(const Int_t nbin)
    return nullptr;
 }
 
-const Double_t *TGo4FitData::GetWidthValues(const Int_t nbin)
+const Double_t *TGo4FitData::GetWidthValues(Int_t nbin) const
 {
    if (fxFullWidth)
       return &(fxFullWidth[nbin * GetScalesSize()]);
    return nullptr;
 }
 
-const Int_t *TGo4FitData::GetFullIndex(Int_t nbin)
+const Int_t *TGo4FitData::GetFullIndex(Int_t nbin) const
 {
    if (fxFullIndex)
       return &(fxFullIndex[nbin * GetIndexesSize()]);
