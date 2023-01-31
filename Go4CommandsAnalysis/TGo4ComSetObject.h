@@ -48,7 +48,7 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
      * for each specific command! */
     void Set(TGo4RemoteCommand* remcon) override;
 
-    void SetObject(TObject* ob) { fxObject = ob; }
+    void SetObject(TObject *ob) { fxObject = ob; }
   private:
 
     Int_t ExeSetParStatus(TGo4ParameterStatus* par);
@@ -57,7 +57,7 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     Int_t ExeSetHis(TH1 *his);
     Int_t ExeSetDyn(TGo4DynamicEntry* dyn);
     Int_t ExeSetPic(TGo4Picture *pic);
-    Int_t ExeSetObj(TObject* ob);
+    Int_t ExeSetObj(TObject *ob);
 
     /**The object to be set. */
     TObject *fxObject{nullptr};

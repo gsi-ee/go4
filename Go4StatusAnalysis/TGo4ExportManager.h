@@ -54,11 +54,11 @@ class TGo4ExportManager : public TNamed {
       * is a collection, folder or root directory, all contents of these are
       * converted recursively. The substructure hierarchy is expressed by means of
       * subdirectories of the file system, or within the output root file, respectively*/
-    void Export(TObject* ob, Go4Export_t format);
+    void Export(TObject *ob, Go4Export_t format);
 
     /**  Treat all general objects. Downcast types for overloaded export methods.
       * Conversion format is to be specified with SetFilter method first.*/
-    void Export(TObject* ob);
+    void Export(TObject *ob);
 
     /**  Conversion of histogram into filter format file */
     void Export(TH1 *histo);
@@ -68,7 +68,7 @@ class TGo4ExportManager : public TNamed {
 
     /**  Recursive conversion of all objects in fold specified filter files.
       * folder structure will be represented by subdirs on file system.*/
-    void Export(TFolder* fold);
+    void Export(TFolder *fold);
 
     /**  Recursive conversion of all objects in directory into filter format.
       * folder structure will be represented by subdirs on file system.*/
@@ -111,10 +111,10 @@ class TGo4ExportManager : public TNamed {
     void ExportRadware(TGraph *graph);
 
     /**  Store object into root file. Filename can be set by SetOutFile()*/
-    void ExportRoot(TObject* ob);
+    void ExportRoot(TObject *ob);
 
     /**  Store object into root xml file. Filename derived from object name*/
-    void ExportXML(TObject* ob);
+    void ExportXML(TObject *ob);
 
     /** name of the start (top level) directory. If keys from a directory are
      *  read, it is required that this start directory is current dir.*/

@@ -193,7 +193,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
   }
 
   if(fxShowEventStatus) {
-     TObject* selected = fCanvas->GetSelected();
+     TObject *selected = fCanvas->GetSelected();
      Int_t px = fCanvas->GetEventX();
      Int_t py = fCanvas->GetEventY();
      QString buffer = "";
@@ -552,12 +552,12 @@ void QRootCanvas::Draw(Option_t *option)
    fCanvas->Draw(option);
 }
 
-TObject* QRootCanvas::DrawClone(Option_t *option)
+TObject *QRootCanvas::DrawClone(Option_t *option)
 {
    return  fCanvas->DrawClone(option);
 }
 
-TObject* QRootCanvas::DrawClonePad()
+TObject *QRootCanvas::DrawClonePad()
 {
    return  fCanvas->DrawClonePad();
 }
@@ -888,7 +888,7 @@ void  QRootCanvas::closeEvent(QCloseEvent * e)
     e->accept();
 }
 
-void QRootCanvas::methodDialog(TObject* object, TMethod* method)
+void QRootCanvas::methodDialog(TObject *object, TMethod* method)
 {
    if (!object || !method) return;
 

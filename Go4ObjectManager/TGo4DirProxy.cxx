@@ -34,7 +34,7 @@ class TGo4KeyAccess : public TGo4Access {
       Bool_t CanGetObject() const override
         { return kTRUE; }
 
-      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override
+      Bool_t GetObject(TObject *&obj, Bool_t &owner) const override
       {
          TClass *cl = gROOT->GetClass(fKey->GetClassName());
          if (cl && !cl->IsLoaded()) {
@@ -72,7 +72,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
       Bool_t         fReadRight{kFALSE};   //!
       TIterator*     fIter{nullptr};       //!
       Bool_t         fIsKeyIter{kFALSE};   //!
-      TObject*       fCurrent{nullptr};    //!
+      TObject *      fCurrent{nullptr};    //!
       TString        fNameBuf;             //!
 
    public:

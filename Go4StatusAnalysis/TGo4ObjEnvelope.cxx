@@ -38,9 +38,9 @@ TGo4ObjEnvelope::~TGo4ObjEnvelope()
    }
 }
 
-TObject* TGo4ObjEnvelope::TakeObject()
+TObject *TGo4ObjEnvelope::TakeObject()
 {
-   TObject* res = fxObject;
+   TObject *res = fxObject;
    fxObject = nullptr;
    fbOwner = kFALSE;
    return res;

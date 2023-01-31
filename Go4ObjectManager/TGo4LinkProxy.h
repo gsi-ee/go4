@@ -38,7 +38,7 @@ class TGo4LinkProxy : public TGo4Proxy {
 
       Bool_t IsAcceptObject(TClass *cl) const override;
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
-      TObject* GetAssignedObject() override;
+      TObject *GetAssignedObject() override;
 
       Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param) override;
 

@@ -50,7 +50,7 @@ TGo4Log *TGo4Log::fgxInstance = nullptr;
 
 TString TGo4Log::fgxLogName = TGo4Log::fgcDEFAULTLOG;
 
-TNamed* TGo4Log::fgSniffer = nullptr;
+TNamed *TGo4Log::fgSniffer = nullptr;
 
 int TGo4Log::fgStdPipe[2] = {-1, -1};
 int TGo4Log::fgStdSave = -1;
@@ -149,7 +149,7 @@ void TGo4Log::ProcessRedirection(int kind)
 #endif
 }
 
-void TGo4Log::SetSniffer(TNamed* sniff)
+void TGo4Log::SetSniffer(TNamed *sniff)
 {
    fgSniffer = sniff;
 }

@@ -887,7 +887,7 @@ void TGo4BrowserProxy::RedrawItem(const char *itemname)
    }
 }
 
-TObject* TGo4BrowserProxy::GetBrowserObject(const char *name, int update)
+TObject *TGo4BrowserProxy::GetBrowserObject(const char *name, int update)
 // update = 0 - without update,
 //          1 - request only if obj == nullptr,
 //          2 - update of object in any case
@@ -1543,7 +1543,7 @@ void TGo4BrowserProxy::RenameMemoryItem(const char *itemname, const char *newnam
    if (slot->GetParent()->FindChild(newname)) return;
 
    slot->SetName(newname);
-   TNamed* n = dynamic_cast<TNamed*> (slot->GetAssignedObject());
+   TNamed *n = dynamic_cast<TNamed*> (slot->GetAssignedObject());
    if (n) n->SetName(newname);
 
    slot->ForwardEvent(slot, TGo4Slot::evObjAssigned);
@@ -1562,7 +1562,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
    TGo4Slot *slot = DataSlot(itemname);
    if (!slot) return;
 
-   TObject* ob = slot->GetAssignedObject();
+   TObject *ob = slot->GetAssignedObject();
    if (!ob) return;
 
    if(ob->InheritsFrom(TH1::Class())) {
@@ -1892,7 +1892,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       if (iter.getslot())
          SetCanDelete(curslot, IsCanDelete(iter.getslot()));
 
-      TObject* assobj = nullptr;
+      TObject *assobj = nullptr;
       if ((kind==TGo4Access::kndObject) && iter.getslot()) {
          TObject *obj = iter.getslot()->GetAssignedObject();
          if (obj && !curslot->GetAssignedObject())
@@ -2076,7 +2076,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 }
 
 
-Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_t* hasrebinx, Int_t* hasrebiny)
+Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_t* hasrebinx, Int_t* hasrebiny)
 {
    Bool_t tdisp = kFALSE;
    TString tform;
@@ -2330,7 +2330,7 @@ void TGo4BrowserProxy::AddWaitingList(TGo4Slot *itemslot, const char *destinatio
    TString itemname;
    if (!BrowserItemName(itemslot, itemname)) return;
 
-   TNamed* n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
+   TNamed *n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
    if (n)
      n->SetTitle(destination);
    else
@@ -2344,7 +2344,7 @@ void TGo4BrowserProxy::CheckWaitingList(TGo4Slot *source)
    TString itemname;
    if (!BrowserItemName(source, itemname)) return;
 
-   TNamed* n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
+   TNamed *n = (TNamed*) fxWaitingList->FindObject(itemname.Data());
    if (n) {
       const char *dest = n->GetTitle();
       if (dest && (strlen(dest) == 0)) dest = nullptr;

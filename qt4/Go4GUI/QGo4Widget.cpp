@@ -169,9 +169,9 @@ const char *QGo4Widget::GetLinkedName(TGo4Slot *slot)
 }
 
 
-TObject* QGo4Widget::GetLinked(const char *linkname, int updatelevel)
+TObject *QGo4Widget::GetLinked(const char *linkname, int updatelevel)
 {
-   TObject* res = nullptr;
+   TObject *res = nullptr;
    int func = 0;
    switch (updatelevel) {
       case 0: func = service_GetLinked0; break;
@@ -254,7 +254,7 @@ void QGo4Widget::ProcessSignal(const char *linkname, bool assigned, TObject *obj
    }
 }
 
-void QGo4Widget::linkedObjectUpdated(const char */* linkname */, TObject* /* obj */)
+void QGo4Widget::linkedObjectUpdated(const char */* linkname */, TObject */* obj */)
 {
 }
 
@@ -264,11 +264,11 @@ void QGo4Widget::linkedObjectRemoved(const char */* linkname */)
    ShootResetWidget();
 }
 
-void QGo4Widget::linkedUpdated(TGo4Slot */* slot */, TObject* /* obj */ )
+void QGo4Widget::linkedUpdated(TGo4Slot */* slot */, TObject */* obj */ )
 {
 }
 
-void QGo4Widget::linkedRemoved(TGo4Slot */* slot */, TObject* /* obj */)
+void QGo4Widget::linkedRemoved(TGo4Slot */* slot */, TObject */* obj */)
 {
 }
 
@@ -378,7 +378,7 @@ bool QGo4Widget::SaveItemToFile(const char *itemname, const char *subfolder)
 
 bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject *obj)
 {
-   TObject* res = obj;
+   TObject *res = obj;
    emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);
    return res != nullptr;
 }

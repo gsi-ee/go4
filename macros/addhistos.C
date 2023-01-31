@@ -21,7 +21,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
       return kFALSE;
    }
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH1 *his1 = nullptr, *his2 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
       his1 = (TH1*) ob1;
@@ -31,7 +31,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
    }
 
    TString fullname2 = go4->FindItem(name2);
-   TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
    if(ob2 && ob2->InheritsFrom("TH1"))
       his2 = (TH1*)ob2;
    if(!his2) {

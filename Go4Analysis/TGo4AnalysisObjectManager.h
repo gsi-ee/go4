@@ -87,7 +87,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TObject* GetAsTObject(const char *name, const char *folder = nullptr);
+      TObject *GetAsTObject(const char *name, const char *folder = nullptr);
 
 
       /**
@@ -113,7 +113,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * previously created matching list is returned. Optionally the
        * search can be limited to a given folder.
        */
-      TObject* NextMatchingObject(const char *expr,
+      TObject *NextMatchingObject(const char *expr,
                                   const char *folder,
                                   Bool_t reset);
 
@@ -151,7 +151,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TGo4TreeStructure * CreateTreeStructure(const char *treename);
 
       /** Create a folder with members of this class */
-      TFolder* CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl);
+      TFolder *CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl);
 
       /**
        * Add external histogram to go4 histogram directory. Histogram will be owned
@@ -268,7 +268,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * specified. By default, condition is searched relative to Conditions folder.
        */
       Bool_t SetAnalysisCondition(const char *name, TGo4Condition *con,
-                                  Bool_t counter=kTRUE, TFolder* parent = nullptr);
+                                  Bool_t counter=kTRUE, TFolder *parent = nullptr);
 
       /**
        * Retrieves an analysis condition  from list by name. Returns 0 if no
@@ -371,7 +371,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameter(const char *name, TGo4Parameter * par, TFolder* parent = nullptr);
+      Bool_t SetParameter(const char *name, TGo4Parameter * par, TFolder *parent = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -380,7 +380,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus* par, TFolder* parent = nullptr);
+      Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus* par, TFolder *parent = nullptr);
 
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
@@ -407,7 +407,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, picture is searched relative to Pictures folder.
        */
-      Bool_t SetPicture(const char *name, TGo4Picture * pic, TFolder* parent = nullptr);
+      Bool_t SetPicture(const char *name, TGo4Picture * pic, TFolder *parent = nullptr);
 
       /**
        * Retrieves a picture object by name from the object folder. Returns 0 if no
@@ -449,7 +449,7 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       /** Create status object for object ob. If fullinfo flag is false,
        * skip time consuming parts of the status (case of nameslist) */
-      TGo4ObjectStatus * CreateObjectStatus(TObject* ob, Bool_t fullinfo=kTRUE);
+      TGo4ObjectStatus * CreateObjectStatus(TObject *ob, Bool_t fullinfo=kTRUE);
 
 
       /**
@@ -631,7 +631,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Get pointer to subfolder of parent specified by name. If create is true, create it
        */
-      TFolder* FindSubFolder(TFolder* parent, const char *subfolder, Bool_t create=kTRUE);
+      TFolder *FindSubFolder(TFolder *parent, const char *subfolder, Bool_t create=kTRUE);
 
       /** Return full path name to object, relative to specified folder */
       Bool_t FindObjectPathName(TObject *obj, TString &pathname, TFolder *fold = nullptr);
@@ -858,28 +858,28 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Return kTRUE if object was found and removed, otherwise kFALSE.
        * Used by RemoveHistogram etc. methods.
        */
-      Bool_t RemoveObjectFromFolder(const char *fullname, TFolder* fold, Bool_t isDel);
+      Bool_t RemoveObjectFromFolder(const char *fullname, TFolder *fold, Bool_t isDel);
 
       /**
        * Update folder destination with the content of the folder source. Subfolder
        * structure of source is recreated in destination, but existing objects are not
        * replaced/deleted unless replace==kTRUE
        */
-      Bool_t LoadFolder(TFolder* source, TFolder* destination, Bool_t replace = kFALSE);
+      Bool_t LoadFolder(TFolder *source, TFolder *destination, Bool_t replace = kFALSE);
 
       /**
        * Update folder destination with the content of the directory source. Subdirectory
        * structure of source is converted into subfolder of destination, but existing objects are not
        * replaced/deleted unless replace==kTRUE
        */
-      Bool_t LoadFolder(TDirectory* source, TFolder* destination, Bool_t replace = kFALSE);
+      Bool_t LoadFolder(TDirectory* source, TFolder *destination, Bool_t replace = kFALSE);
 
       /**
        * Method used by both LoadFolder variants to assign object ob into destination
        * folder by object type. If replace is kTRUE, previous objects of same name
        * are replaced by ob.
        */
-      Bool_t PutToFolder(TObject* ob, TFolder* destination, Bool_t replace = kFALSE);
+      Bool_t PutToFolder(TObject *ob, TFolder *destination, Bool_t replace = kFALSE);
 
 
       /**
@@ -887,20 +887,20 @@ class TGo4AnalysisObjectManager : public TNamed {
        * i.e. the currently open file.
        * This is most likely more performant than streaming top folder completely into file
        */
-      Bool_t SaveFolder(TFolder* source);
+      Bool_t SaveFolder(TFolder *source);
 
       /**
        * Remove all objects in folder fold from directory dir, recursively.
        * Prevents the deletion of all objects in memory folders after SaveFolder,
        * when dir is closed.
        */
-      void RemoveFromDir(TFolder* fold, TDirectory* dir);
+      void RemoveFromDir(TFolder *fold, TDirectory* dir);
 
       /**
        * Append object ob to directory dir. If object of same name
        * already existed there, it is replaced.
        */
-      void AppendToDir(TObject* ob, TDirectory* dir);
+      void AppendToDir(TObject *ob, TDirectory* dir);
 
 
       /**
@@ -914,26 +914,26 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Clear (reset) all objects in folder fold, e.g. zero the histograms.
        * Objects are not deleted!
        */
-      Bool_t ClearFolder(TFolder* fold);
+      Bool_t ClearFolder(TFolder *fold);
 
       /**
        * Clear (reset) the specified object. Depending on
        * type, different actions may happen (clear histo, zero graph)
        */
-      Bool_t ClearObject(TObject* ob);
+      Bool_t ClearObject(TObject *ob);
 
 
       /**
        * Delete all objects in folder fold only if the kGo4CanDelete bit
        * is set. Usually, only objects created from the gui may be deleted.
        */
-      Bool_t DeleteFolder(TFolder* fold);
+      Bool_t DeleteFolder(TFolder *fold);
 
       /**
        * Delete the specified object if the kGo4CanDelete bit
        * is set. Usually, only objects created from the gui may be deleted.
        */
-      Bool_t DeleteObject(TObject* ob);
+      Bool_t DeleteObject(TObject *ob);
 
 
       /**
@@ -944,7 +944,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectFolder(TFolder* fold, const Option_t* flags);
+      Bool_t ProtectFolder(TFolder *fold, const Option_t* flags);
 
 
       /**
@@ -955,13 +955,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectObject(TObject* ob, const Option_t* flags);
+      Bool_t ProtectObject(TObject *ob, const Option_t* flags);
 
 
       /**
        * Remove reference to object from all dynamic lists.Object type is noticed automatically.
        */
-      void CleanupDynamicLists(TObject* oldobject);
+      void CleanupDynamicLists(TObject *oldobject);
 
       /** Create a list of objects which names are matching expression expr.
        * optionally, the search can be limited to given subfolder of
@@ -969,7 +969,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TList* CreateObjectList(const char *expr, const char *folder = nullptr);
 
       /** For recursive search for objects in folder fold that match expression. */
-      TList* CreateObjectList(const char *expr, TFolder* fold);
+      TList* CreateObjectList(const char *expr, TFolder *fold);
 
       /** Finds out if  string is matching the expression */
       Bool_t IsMatching(const char *string, const char *expression) const;
@@ -977,14 +977,14 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Search in folder for object with specified name
        * Uses fxDirMutex until search is working
        */
-      TObject* FindObjectInFolder(TFolder* folder, const char *fullname) const;
+      TObject *FindObjectInFolder(TFolder *folder, const char *fullname) const;
 
       /** Test, if object exists in provided folder.
        * If object exists and corresponds to provided class,
        * it will be returned, otherwise it will be destroyed
        * Used by different Make* functions
        */
-      TObject* TestObject(TFolder* folder,
+      TObject *TestObject(TFolder *folder,
                           const char *&pathname,
                           const char *objectname,
                           const TClass *cl);

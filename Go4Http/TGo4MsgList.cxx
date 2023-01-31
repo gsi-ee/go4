@@ -54,7 +54,7 @@ void TGo4MsgList::AddMsg(const char *msg)
    // zero (msg == nullptr) messages will not be add to the list
 
    while (fMsgs.GetSize() >= GetLimit()) {
-      TObject* last = fMsgs.Last();
+      TObject *last = fMsgs.Last();
       fMsgs.RemoveLast();
       delete last;
    }

@@ -296,12 +296,12 @@ void TGo4Picture::AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOpt
    AddObject(posy, posx, gr, DrawOption);
 }
 
-void TGo4Picture::AddCondition(TNamed* cond)
+void TGo4Picture::AddCondition(TNamed *cond)
 {
    AddObject(cond);
 }
 
-void TGo4Picture::AddCondition(Int_t posy, Int_t posx, TNamed* cond)
+void TGo4Picture::AddCondition(Int_t posy, Int_t posx, TNamed *cond)
 {
    AddObject(posy, posx, cond);
 }
@@ -1516,7 +1516,7 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject *obj)
    if (typ<op_ObjsBound) { delete obj; return; }
    Int_t pos = FindOptPos(index, typ);
    if (pos >= 0) {
-     TObject* old = fxOptObjects->RemoveAt(fxOptValue[pos]);
+     TObject *old = fxOptObjects->RemoveAt(fxOptValue[pos]);
      delete old;
      fxOptObjects->AddAt(obj, fxOptValue[pos]);
    } else {
@@ -1530,7 +1530,7 @@ void TGo4Picture::SetObjOption(Short_t index, Short_t typ, TObject *obj)
    }
 }
 
-TObject* TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
+TObject *TGo4Picture::GetObjOption(Short_t index, Short_t typ) const
 {
    if (typ < op_ObjsBound) return nullptr;
    Int_t pos = FindOptPos(index, typ);

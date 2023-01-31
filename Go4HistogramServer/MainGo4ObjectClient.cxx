@@ -31,7 +31,7 @@
 * has to be deleted by the user of the client object afterwards.
 * Returns 0 in case of error.
 * Method
-*      TObject* TGo4ObjectClient::RequestObject(const char*)
+*      TObject *TGo4ObjectClient::RequestObject(const char*)
 * requests a root object by name from the specified object server
 + and delivers pointer to the object when received. Object
 * has to be deleted by the user of the client afterwards.

@@ -63,7 +63,7 @@ class TGo4FileStore : public TGo4EventStore {
     Int_t Store(TGo4Fitter* fitter) override;
 
     /** Saves a complete objects folder correlated with the current event into the storage. */
-    Int_t Store(TFolder* fold) override;
+    Int_t Store(TFolder *fold) override;
 
     /** Set the file compression level. May be changed on the fly. */
     void SetCompression(Int_t comp);
@@ -95,7 +95,7 @@ class TGo4FileStore : public TGo4EventStore {
   private:
 
     /** used by all Store methods to write with referencing event number in name */
-    void WriteToStore(TNamed* ob);
+    void WriteToStore(TNamed *ob);
 
     TFile* fxFile{nullptr}; //!
 

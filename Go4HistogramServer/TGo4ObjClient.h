@@ -50,7 +50,7 @@ class TGo4ObjClient : public TNamed {
        /**  Get object by name from client.
         *  basename, password, host and portnumber may be specified at any time new
         * if left out (default), the previously stored values are used */
-      TObject* RequestObject(const char *objectname,
+      TObject *RequestObject(const char *objectname,
                              const char *base = nullptr,
                              const char *passwd = nullptr,
                              const char *host = nullptr,

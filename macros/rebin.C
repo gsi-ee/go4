@@ -21,7 +21,7 @@ Bool_t rebin(const char *name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t dra
    if(ngroup1<1) ngroup1=1;
    if(ngroup2<1) ngroup2=1;
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
 
    TH1 *result = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2")){  // 2d rebin

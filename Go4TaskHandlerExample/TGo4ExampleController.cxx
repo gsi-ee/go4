@@ -34,7 +34,7 @@ TGo4ExampleController::~TGo4ExampleController()
    delete fxCanvas;
 }
 
-void TGo4ExampleController::DisplayData(TObject* data)
+void TGo4ExampleController::DisplayData(TObject *data)
 {
    GO4TRACE((12,"TGo4ExampleController::DisplayData(TNamed*)",__LINE__, __FILE__));
    if (data) {

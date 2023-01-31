@@ -47,7 +47,7 @@ Bool_t TGo4EventProcessor::CheckCalibration(const char *classname)
    return !strcmp(fxCalibration->ClassName(),classname);
 }
 
-Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char *subfolder)
+Bool_t TGo4EventProcessor::AddObject(TNamed *any, const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddObject(any,subfolder);
 }
@@ -102,7 +102,7 @@ Bool_t TGo4EventProcessor::RemoveAnalysisCondition(const char *name)
    return TGo4Analysis::Instance()->RemoveAnalysisCondition(name);
 }
 
-TNamed* TGo4EventProcessor::GetObject(const char *name, const char *folder)
+TNamed *TGo4EventProcessor::GetObject(const char *name, const char *folder)
 {
    return TGo4Analysis::Instance()->GetObject(name,folder);
 }
@@ -152,7 +152,7 @@ void TGo4EventProcessor::Message(Int_t prio, const char *text,...)
    TGo4Analysis::Instance()->Message(prio, "%s", txtbuf);
 }
 
-void TGo4EventProcessor::SendObjectToGUI(TNamed* ob)
+void TGo4EventProcessor::SendObjectToGUI(TNamed *ob)
 {
    return TGo4Analysis::Instance()->SendObjectToGUI(ob);
 }

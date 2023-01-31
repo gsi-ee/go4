@@ -204,7 +204,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       QPaintEngine * paintEngine () const override { return nullptr; }
 
-      void              methodDialog(TObject* object, TMethod* method);
+      void              methodDialog(TObject *object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
 
       void              activateRepaint(int act);
@@ -227,7 +227,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       double            fMousePosX{0};    // mouse position in user coordinate when activate menu
       double            fMousePosY{0};    // mouse position in user coordinate when activate menu
 
-      TObject*          fMenuObj{nullptr};      // object use to fill menu
+      TObject *         fMenuObj{nullptr};      // object use to fill menu
       TList*            fMenuMethods{nullptr};  // list of menu methods
       bool              fxShowEventStatus{false};
 

@@ -29,7 +29,7 @@
 
 class TGo4FolderLevelIter : public TGo4LevelIter {
    public:
-      TGo4FolderLevelIter(TFolder* folder) :
+      TGo4FolderLevelIter(TFolder *folder) :
          TGo4LevelIter()
       {
          fIter = folder->GetListOfFolders()->MakeIterator();
@@ -90,7 +90,7 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
 
    protected:
       TIterator*     fIter{nullptr};     //!
-      TObject*       fCurrent{nullptr};  //!
+      TObject *      fCurrent{nullptr};  //!
 };
 
 // ****************************************************************
@@ -100,7 +100,7 @@ TGo4FolderProxy::TGo4FolderProxy() :
 {
 }
 
-TGo4FolderProxy::TGo4FolderProxy(TFolder* f, Bool_t owner, const char *rootfolder) :
+TGo4FolderProxy::TGo4FolderProxy(TFolder *f, Bool_t owner, const char *rootfolder) :
    TGo4Proxy(),
    fFolder(f),
    fOwner(owner),
@@ -141,9 +141,9 @@ void TGo4FolderProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
    fOwner = kFALSE;
 }
 
-TFolder* TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
+TFolder *TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
 {
-   TFolder* res = nullptr;
+   TFolder *res = nullptr;
    if (rootfolder) {
      if (strcmp(rootfolder,"//root/") == 0)
         res = gROOT->GetRootFolder();
@@ -154,13 +154,13 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
 }
 
 
-std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder* folder, const char *name)
+std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder *folder, const char *name)
 {
    if (!folder) return nullptr;
    if (!name || !*name)
       return std::make_unique<TGo4ObjectAccess>(folder);
 
-   TFolder* curfold = folder;
+   TFolder *curfold = folder;
    const char *curname = name;
 
    while (curfold) {
@@ -200,7 +200,7 @@ std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder* folder, const
    return nullptr;
 }
 
-TGo4LevelIter* TGo4FolderProxy::ProduceIter(TFolder* folder)
+TGo4LevelIter* TGo4FolderProxy::ProduceIter(TFolder *folder)
 {
    return new TGo4FolderLevelIter(folder);
 }

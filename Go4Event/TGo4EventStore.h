@@ -59,7 +59,7 @@ class TGo4EventStore : public TNamed {
 
     /** Saves a folder correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    virtual Int_t Store(TFolder* fold);
+    virtual Int_t Store(TFolder *fold);
 
     /** Access to a tree that might belong to this storage implementation.
       * To be overridden. */

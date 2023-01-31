@@ -93,9 +93,9 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
    protected:
 
-      void InitHistPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset);
+      void InitHistPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset);
 
-      void InitCondPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset);
+      void InitCondPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset);
 
       Double_t GetPtrValue(Int_t type, void* ptr);
 
@@ -136,11 +136,11 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     Bool_t fbNeedInitialisation{kFALSE};  //!
 
     /** Pointer for event objects, class does not known to entry itself */
-    TObject* fxHisEvents[__MAXHISDIM__]; //!
+    TObject *fxHisEvents[__MAXHISDIM__]; //!
 
     /** Array of pointers to the event structure that
       * contains the data for the condition test. */
-    TObject* fxConEvents[__MAXCONDIM__]; //!
+    TObject *fxConEvents[__MAXCONDIM__]; //!
 
     /** Array of pointers and data types to fill histogram */
     Int_t fxHistType[__MAXHISDIM__]; //!

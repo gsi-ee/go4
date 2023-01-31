@@ -30,7 +30,7 @@
 class TGo4CanvasLevelIter : public TGo4LevelIter {
    protected:
       TIterator*     fIter{nullptr};     //!
-      TObject*       fCurrent{nullptr};  //!
+      TObject *      fCurrent{nullptr};  //!
       TObjArray      fStacks;   //!
    public:
       TGo4CanvasLevelIter(TPad* pad) :
@@ -216,7 +216,7 @@ Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    return fCanvas;
 }
 
-TObject* TGo4CanvasProxy::GetAssignedObject()
+TObject *TGo4CanvasProxy::GetAssignedObject()
 {
    return fCanvas;
 }

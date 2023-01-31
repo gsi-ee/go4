@@ -114,7 +114,7 @@ Int_t TGo4BackStore::Store(TGo4Fitter* fitty)
    return 0;
 }
 
-Int_t TGo4BackStore::Store(TFolder* foldy)
+Int_t TGo4BackStore::Store(TFolder *foldy)
 {
    return 0;
 }

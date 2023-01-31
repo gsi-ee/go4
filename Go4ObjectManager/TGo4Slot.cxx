@@ -353,7 +353,7 @@ Bool_t TGo4Slot::AssignObject(TObject *obj, Bool_t owner)
    return (fAssignFlag == (Int_t) kTRUE);
 }
 
-TObject* TGo4Slot::GetAssignedObject()
+TObject *TGo4Slot::GetAssignedObject()
 {
    return fProxy ? fProxy->GetAssignedObject() : nullptr;
 }
@@ -588,7 +588,7 @@ void TGo4Slot::SetPar(const char *name, const char *value)
    if (!name || !*name) return;
    if (!value) { RemovePar(name); return; }
 
-   TNamed* par = (TNamed*) fPars.FindObject(name);
+   TNamed *par = (TNamed*) fPars.FindObject(name);
    if (par)
      par->SetTitle(value);
    else
@@ -599,14 +599,14 @@ const char *TGo4Slot::GetPar(const char *name) const
 {
    if (!name || !*name)
       return nullptr;
-   TNamed* par = (TNamed*) fPars.FindObject(name);
+   TNamed *par = (TNamed*) fPars.FindObject(name);
    return par ? par->GetTitle() : nullptr;
 }
 
 void TGo4Slot::RemovePar(const char *name)
 {
    if (!name || !*name) return;
-   TNamed* par = (TNamed*) fPars.FindObject(name);
+   TNamed *par = (TNamed*) fPars.FindObject(name);
    if (par) {
       fPars.Remove(par);
       fPars.Compress();
@@ -632,7 +632,7 @@ Bool_t TGo4Slot::GetIntPar(const char *name, Int_t& value) const
 void TGo4Slot::PrintPars(Int_t level)
 {
    for (int n = 0; n <= fPars.GetLast(); n++) {
-      TNamed* par = (TNamed*) fPars.At(n);
+      TNamed *par = (TNamed*) fPars.At(n);
       if (par)
         printf("%*c%s = %s\n", level, ' ', par->GetName(), par->GetTitle());
    }

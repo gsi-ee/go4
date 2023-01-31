@@ -173,7 +173,7 @@ class TGo4Log {
 
       virtual ~TGo4Log();
 
-      static void SetSniffer(TNamed* sniff);
+      static void SetSniffer(TNamed *sniff);
 
       static void EnableRedirection();
 
@@ -213,7 +213,7 @@ class TGo4Log {
 
       static TString fgsGO4SYS; //!  value of GO4SYS during run
 
-      static TNamed* fgSniffer; //!  optional object to get all output via SetTitle method
+      static TNamed *fgSniffer; //!  optional object to get all output via SetTitle method
 
       static int fgStdPipe[2]; //! redirected pipe for stdout
       static int fgStdSave; //! saved file for stdout

@@ -48,7 +48,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        */
       TGo4FitSlot(const char *iName, const char *iTitle,
                   TNamed *iOwner, TClass *iClass,
-                  Bool_t iNeeded = kFALSE, TObject* iObject = nullptr, Bool_t iOwned = kFALSE);
+                  Bool_t iNeeded = kFALSE, TObject *iObject = nullptr, Bool_t iOwned = kFALSE);
 
       /**
        * Destroys TFo4FitSlot object.
@@ -64,7 +64,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Set basic fields of slot.
        * See proper constructor for description. Normally should not be called by user.
        */
-      void SetDefaults(TNamed* iOwner, TClass *iClass);
+      void SetDefaults(TNamed *iOwner, TClass *iClass);
 
       /**
        * Set save flag for saving of object in slot, when slot stored to streamer:
@@ -102,7 +102,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * if CheckClass==kTRUE (default), slot will refuse unsuitable object class.
        * If object owned by slot, it always be destroyed by slot.
        */
-      Bool_t SetObject(TObject* iObject, Bool_t iOwned = kFALSE, Bool_t CheckClass = kTRUE);
+      Bool_t SetObject(TObject *iObject, Bool_t iOwned = kFALSE, Bool_t CheckClass = kTRUE);
 
       /**
        * Connect this slot to provided slot.
@@ -135,7 +135,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Return pointer on assigned object.
        */
-      TObject* GetObject() const;
+      TObject *GetObject() const;
 
       /**
        * Return name of assigned object.
@@ -146,7 +146,7 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Clone object in slot and returns pointer on new object.
        * Name of new object can be optionally specified.
        */
-      TObject* CloneObject(const char *newname = nullptr);
+      TObject *CloneObject(const char *newname = nullptr);
 
       /**
        * Clear pointer on object in slot.
@@ -242,7 +242,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       /**
        * Pointer on assigned object.
        */
-      TObject* fxObject{nullptr};       //!
+      TObject *fxObject{nullptr};       //!
 
       Int_t fiSaveSlot{0};        //!
       Int_t fiSaveOwnership{0};   //!

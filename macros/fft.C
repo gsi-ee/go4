@@ -19,7 +19,7 @@ Bool_t fft(const char *name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
    }
    TString newname;
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
 
    if (!ob1 || !ob1->InheritsFrom("TH1")) {
      std::cout <<"fft could not get histogram "<<fullname1 << std::endl;

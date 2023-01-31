@@ -255,7 +255,7 @@ class TGo4AnalysisStep : public TNamed {
     Int_t Store(TGo4Fitter* fitter);
 
     /** Saves a folder correlated with the current event into the storage. */
-    Int_t Store(TFolder* fold);
+    Int_t Store(TFolder *fold);
 
     /** The main analysis action which is invoked by the external
       * go4 analysis. Reads input event from source (if first step),

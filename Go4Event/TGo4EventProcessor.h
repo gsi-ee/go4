@@ -197,7 +197,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       ;
 
       /** Send any object as copy to gui. Shortcut forwarded to analysis instance */
-      void SendObjectToGUI(TNamed* ob);
+      void SendObjectToGUI(TNamed *ob);
 
       /* We overwrite the default TNamed::Clear that would
        *  erase our name and title!

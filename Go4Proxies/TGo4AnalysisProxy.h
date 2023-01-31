@@ -74,7 +74,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectKind() const override { return TGo4Access::kndFolder; }
       const char *GetContainedClassName() const override { return ClassName(); }
-      TObject* GetAssignedObject() override { return this; }
+      TObject *GetAssignedObject() override { return this; }
 
       void Update(TGo4Slot *slot, Bool_t strong) override;
 
@@ -147,7 +147,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Int_t ConnectorPort();
       Int_t GetRole() const;
 
-      void ReceiveObject(TNamed* obj);
+      void ReceiveObject(TNamed *obj);
       void ReceiveStatus(TGo4Status* status);
       Bool_t SubmitProxy(TGo4AnalysisObjectAccess* proxy);
 

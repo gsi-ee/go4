@@ -36,9 +36,9 @@ cout <<"myclient.SetPort(int) sets port" << std::endl;
 cout <<"myclient.SetBase('name') sets basename" << std::endl;
 cout <<"myclient.SetPasswd('name') sets password" << std::endl;
 cout <<"Use TGo4AnalysisObjectNames *dir=myclient.RequestNamesList() to receive dir" << std::endl;
-cout <<"Use TObject* ob=myclient.RequestObject('name') to receive object" << std::endl;
+cout <<"Use TObject *ob=myclient.RequestObject('name') to receive object" << std::endl;
 // now testing repeated access in short time:
-TObject* arr[20];
+TObject *arr[20];
 mycanvas.Divide(4,5);
 for(Int_t t = 0; t < 20; ++t)
 {

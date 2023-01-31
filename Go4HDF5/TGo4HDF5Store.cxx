@@ -158,13 +158,13 @@ Int_t TGo4HDF5Store::Store(TGo4Fitter* fitter)
    return 0;
 }
 
-Int_t TGo4HDF5Store::Store(TFolder* fold)
+Int_t TGo4HDF5Store::Store(TFolder *fold)
 {
    WriteToStore(fold);
    return 0;
 }
 
-void TGo4HDF5Store::WriteToStore(TNamed* ob)
+void TGo4HDF5Store::WriteToStore(TNamed *ob)
 {
    if (!ob) return;
    TGo4Log::Info("TGo4HDF5Store: WriteToStore not yet implemented for auxiliary objects of class %s (name:%s)\n",ob->Class()->GetName(), ob->GetName());

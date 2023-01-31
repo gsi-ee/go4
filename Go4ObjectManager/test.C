@@ -8,9 +8,9 @@ void test() {
 
    TGo4ObjectManager objm("ObjManager","Go4 object manager");
 
-   TNamed* name1 = new TNamed("name1","name1 title");
-   TNamed* name2 = new TNamed("name2","name2 title");
-   TNamed* name3 = new TNamed("name3","name3 title");
+   TNamed *name1 = new TNamed("name1","name1 title");
+   TNamed *name2 = new TNamed("name2","name2 title");
+   TNamed *name3 = new TNamed("name3","name3 title");
 
    objm.Add("folder1/folder2", name1);
    objm.Add("folder1/folder5", name2);

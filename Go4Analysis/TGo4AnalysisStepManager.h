@@ -161,7 +161,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const char *name, TFolder* folder);
+      Int_t Store(const char *name, TFolder *folder);
 
       /**
         * Returns the input event structure of analysis step. Argument indicates

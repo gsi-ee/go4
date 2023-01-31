@@ -56,7 +56,7 @@ Int_t TGo4EventStore::Store(TGo4Fitter *)
 
 Int_t TGo4EventStore::Store(TFolder *)
 {
-   MayNotUse("TGo4EventStore::Store(TFolder* folder)");
+   MayNotUse("TGo4EventStore::Store(TFolder *folder)");
    TGo4Log::Debug(" EventStore::Store Folder not implemented for %s", ClassName());
    return 0;
 }

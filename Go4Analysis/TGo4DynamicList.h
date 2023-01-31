@@ -34,14 +34,14 @@ class TGo4DynamicList {
 
     virtual ~TGo4DynamicList() {}
 
-    static void ResetEntries(TFolder* folder);
+    static void ResetEntries(TFolder *folder);
 
-    static void PrintEntries(TFolder* folder);
+    static void PrintEntries(TFolder *folder);
 
-    static void CleanupPointerInEntries(TFolder* folder, TObject *obj);
+    static void CleanupPointerInEntries(TFolder *folder, TObject *obj);
 
     /** Iterates all entries of the list and processes the objects, depending on coordinate values and analysis condition.*/
-    static void ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t interval);
+    static void ProcessEntries(TFolder *folder, Bool_t processtrees, Int_t interval);
 
     static bool ProcessHEntry(TGo4HistogramEntry* hentry);
 

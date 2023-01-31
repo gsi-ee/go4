@@ -65,7 +65,7 @@ void TGo4ExportManager::SetStartDir(const char *dir)
       fxStartDir = gSystem->WorkingDirectory();
 }
 
-void TGo4ExportManager::Export(TObject* ob, Go4Export_t format)
+void TGo4ExportManager::Export(TObject *ob, Go4Export_t format)
 {
    if(!ob) return;
    SetFilter(format);
@@ -73,7 +73,7 @@ void TGo4ExportManager::Export(TObject* ob, Go4Export_t format)
 }
 
 
-void TGo4ExportManager::Export(TObject* myobject)
+void TGo4ExportManager::Export(TObject *myobject)
 {
   if(!myobject) return;
 
@@ -112,7 +112,7 @@ void TGo4ExportManager::Export(TObject* myobject)
 }
 
 
-void TGo4ExportManager::Export(TFolder* fold)
+void TGo4ExportManager::Export(TFolder *fold)
 {
    if (!fold)
       return;
@@ -438,7 +438,7 @@ void TGo4ExportManager::ExportRadware(TGraph *graph)
    TGo4Log::Message(2,"ExportManager: Converting graph %s to radware not supported yet!",graph->GetName());
 }
 
-void TGo4ExportManager::ExportXML(TObject* ob)
+void TGo4ExportManager::ExportXML(TObject *ob)
 {
    if (!ob) return;
    TString fname=ob->GetName();
@@ -454,7 +454,7 @@ void TGo4ExportManager::ExportXML(TObject* ob)
 }
 
 
-void TGo4ExportManager::ExportRoot(TObject* ob)
+void TGo4ExportManager::ExportRoot(TObject *ob)
 {
    if(!ob) return;
    TString fname=fxOutFile;

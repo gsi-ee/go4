@@ -231,13 +231,13 @@ Int_t TGo4FileStore::Store(TGo4Fitter* fitter)
    return 0;
 }
 
-Int_t TGo4FileStore::Store(TFolder* fold)
+Int_t TGo4FileStore::Store(TFolder *fold)
 {
    WriteToStore(fold);
    return 0;
 }
 
-void TGo4FileStore::WriteToStore(TNamed* ob)
+void TGo4FileStore::WriteToStore(TNamed *ob)
 {
    if (!ob) return;
 

@@ -33,7 +33,7 @@ TGo4ObjectQueue::~TGo4ObjectQueue()
    GO4TRACE((14,"TGo4ObjectQueue::~TTGo4ObjectQueue()", __LINE__, __FILE__));
 }
 
-TObject* TGo4ObjectQueue::WaitObject()
+TObject *TGo4ObjectQueue::WaitObject()
 {
    GO4TRACE((12,"TGo4ObjectQueue::WaitObject()", __LINE__, __FILE__));
    return Wait();

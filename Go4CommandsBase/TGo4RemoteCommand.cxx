@@ -62,7 +62,7 @@ Int_t TGo4RemoteCommand::ExeCom()
    return rev;
 }
 
-void TGo4RemoteCommand::SetAggregate(TObject* ob)
+void TGo4RemoteCommand::SetAggregate(TObject *ob)
 {
    delete fxAggregate;
    fxAggregate = ob;

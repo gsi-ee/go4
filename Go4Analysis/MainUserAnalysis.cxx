@@ -303,7 +303,7 @@ TList* GetClassesList(TList* prev = nullptr)
    while ((name = TClassTable::Next()) != nullptr) {
       if (prev && prev->FindObject(name)) continue;
 
-      TNamed* obj = new TNamed(name, name);
+      TNamed *obj = new TNamed(name, name);
       lst->Add(obj);
 
       if (prev) TGo4Log::Debug("New class %s", name);

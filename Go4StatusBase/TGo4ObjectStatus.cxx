@@ -24,7 +24,7 @@ TGo4ObjectStatus::TGo4ObjectStatus() :
 {
 }
 
-TGo4ObjectStatus::TGo4ObjectStatus(TObject* object, Bool_t withtime) :
+TGo4ObjectStatus::TGo4ObjectStatus(TObject *object, Bool_t withtime) :
    TGo4Status("Initname","InitTitle")
 {
    GO4TRACE((15,"TGo4ObjectStatus::TGo4ObjectStatus(TNamed*)",__LINE__, __FILE__));

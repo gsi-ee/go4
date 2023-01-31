@@ -20,7 +20,7 @@ Bool_t projectionY(const char *name1, const char *polyname, Int_t firstxbin, Int
       return kFALSE;
    }
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH2 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2"))   his1 = (TH2*) ob1;
    if(!his1) {
@@ -31,7 +31,7 @@ Bool_t projectionY(const char *name1, const char *polyname, Int_t firstxbin, Int
    TCutG *cut = nullptr;
    if(polyname && strlen(polyname) > 0){
       TString fullname2 = go4->FindItem(polyname);
-      TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
+      TObject *ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
       if(ob2 && ob2->InheritsFrom("TGo4Condition"))   poly = (TGo4PolyCond*) ob2;
       if(!poly) {
          std::cout <<"projectionX could not get polygon condition "<<polyname << std::endl;

@@ -714,7 +714,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
       padslot->RemovePar("::SelIndex");
 
    int newselkind = 0;
-   TObject* newselobj = nullptr;
+   TObject *newselobj = nullptr;
    TGo4Slot *newselslot = GetSelectedSlot(pad, &newselkind, &newselobj);
 
    if ((selindex >= 0) && newselslot) {
@@ -1896,7 +1896,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture *pic, TPad* pad, bool useitemn
          if (itemname)
             pic->AddObjName(itemname, drawopt);
       } else {
-         TNamed* nm = dynamic_cast<TNamed*>(subslot->GetAssignedObject());
+         TNamed *nm = dynamic_cast<TNamed*>(subslot->GetAssignedObject());
          if (nm) pic->AddObjName(nm->GetName(), drawopt);
       }
 
@@ -2379,7 +2379,7 @@ TGo4Slot *TGo4ViewPanel::GetDrawObjectSlot(TPad* pad, const char *name)
    return !slot ? nullptr : slot->FindChild(name);
 }
 
-TObject* TGo4ViewPanel::GetDrawObject(TPad* pad, const char *name)
+TObject *TGo4ViewPanel::GetDrawObject(TPad* pad, const char *name)
 {
    TGo4Slot *subslot = GetDrawObjectSlot(pad, name);
 
@@ -2727,12 +2727,12 @@ int TGo4ViewPanel::GetAutoColor(int indx)
 }
 
 
-TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture *padopt,
+TObject *TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture *padopt,
                              TGo4Slot *sislot, TGo4Slot *legslot, TObjArray* objs,
                              TObjArray * objslots, bool showitems)
 {
    if (!sislot || !objs || !padopt) return nullptr;
-   TObject* oldobj = sislot->GetAssignedObject();
+   TObject *oldobj = sislot->GetAssignedObject();
 
    Bool_t ishstack = kFALSE;
    Bool_t isgstack = kFALSE;
@@ -3076,7 +3076,7 @@ TGo4Slot *TGo4ViewPanel::GetPadMainObjectSlot(TPad* pad)
    return nullptr;
 }
 
-TObject* TGo4ViewPanel::GetPadMainObject(TPad* pad)
+TObject *TGo4ViewPanel::GetPadMainObject(TPad* pad)
 {
    TGo4Slot *slot = GetPadMainObjectSlot(pad);
    return !slot ? nullptr : slot->GetAssignedObject();
@@ -3339,7 +3339,7 @@ int TGo4ViewPanel::GetSelectedObjectIndex(TGo4Slot *slot)
    return indx;
 }
 
-TObject* TGo4ViewPanel::GetSelectedObject(TPad * pad, const char** drawopt)
+TObject *TGo4ViewPanel::GetSelectedObject(TPad * pad, const char** drawopt)
 {
    TGo4Slot *slot = GetPadSlot(pad);
    TGo4Picture *padopt = GetPadOptions(slot);
@@ -3954,7 +3954,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    TH2 *asihisto = nullptr;
 
-   TObject* drawobj = nullptr;
+   TObject *drawobj = nullptr;
 
    // Bool_t dosuperimpose = padopt->IsSuperimpose() && (objs.GetLast()>0);
    Bool_t dosuperimpose = objs.GetLast() > 0;
@@ -4308,7 +4308,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot *padslot)
    CheckObjectsAssigments(pad, padslot);
 
    QString selname = GetSelectedMarkerName(pad);
-   TObject* selectedobj = nullptr;
+   TObject *selectedobj = nullptr;
    const char *selectdrawopt = nullptr;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot *subslot = padslot->GetChild(n);
@@ -4658,7 +4658,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
 
    TGo4Picture *padopt = GetPadOptions(selpad);
    if (padopt) {
-      TObject* padhist = GetPadMainObject(selpad);
+      TObject *padhist = GetPadMainObject(selpad);
 
       MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
       MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
@@ -4677,7 +4677,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
          padopt = GetPadOptions(subpad);
          if (!padopt) continue;
 
-         TObject* padhist = GetPadMainObject(subpad);
+         TObject *padhist = GetPadMainObject(subpad);
 
          MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
          MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
@@ -4694,7 +4694,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
 }
 
 void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
-                                   TGo4Picture *padopt, TObject* padobj)
+                                   TGo4Picture *padopt, TObject *padobj)
 {
    if (action <= 0) return;
 
@@ -5650,10 +5650,10 @@ void TGo4ViewPanel::SetActiveObj(TPad* pad, int kind, TGo4Slot *activeslot)
    }
 }
 
-TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
+TObject *TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
 {
    int selkind;
-   TObject* selobj;
+   TObject *selobj;
    /* TGo4Slot *selslot = */ GetSelectedSlot(pad, &selkind, &selobj);
    if ((kind == selkind) && selobj)
       return selobj;
@@ -5661,7 +5661,7 @@ TObject* TGo4ViewPanel::GetActiveObj(TPad* pad, int kind)
    TGo4Slot *slot = GetPadSlot(pad);
    if (!slot) return nullptr;
 
-   TObject* lastobj = nullptr;
+   TObject *lastobj = nullptr;
 
    for (int n = 0; n < slot->NumChilds(); n++) {
       TGo4Slot *subslot = slot->GetChild(n);

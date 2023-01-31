@@ -43,9 +43,9 @@ TList* TGo4AnalysisObjectNames::GetFolderList()
    return nullptr;
 }
 
-TFolder* TGo4AnalysisObjectNames::GetNamesFolder(Bool_t chown)
+TFolder *TGo4AnalysisObjectNames::GetNamesFolder(Bool_t chown)
 {
-   TFolder* reval = fxTopFolder;
+   TFolder *reval = fxTopFolder;
    if(chown) fxTopFolder = nullptr;
    return reval;
 }
@@ -59,7 +59,7 @@ void TGo4AnalysisObjectNames::Print(Option_t *) const
    PrintFolder(fxTopFolder);
 }
 
-void TGo4AnalysisObjectNames::PrintFolder(TFolder* fold) const
+void TGo4AnalysisObjectNames::PrintFolder(TFolder *fold) const
 {
    if (!fold) return;
 

@@ -57,7 +57,7 @@ void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
 {
    if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);
-   TObject* ob = remcom->GetAggregate(); // we take over ownership
+   TObject *ob = remcom->GetAggregate(); // we take over ownership
    if(ob && ob!=fxObject) {
       delete fxObject;
       fxObject = ob;
@@ -102,7 +102,7 @@ Int_t TGo4ComSetObject::ExeCom()
    TGo4AnalysisObjectNames *state = fxAna->GetNamesList();
    fxResult->SetNamesList(state); // note: nameslist is not owned by result object!
    if(fxResult->Action() != kGo4ActionError) {
-      TFolder* top = fxAna->GetObjectFolder();
+      TFolder *top = fxAna->GetObjectFolder();
       TString fullname = top->FindFullPathName(GetObjectName());
       fullname.Remove(0, 6); // remove //Go4/ top folder name
       fxResult->SetObjectFullName(fullname);
@@ -228,7 +228,7 @@ Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture *pic)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetObj(TObject* ob)
+Int_t TGo4ComSetObject::ExeSetObj(TObject *ob)
 {
    TString buf;
    if(fxAna->AddObject(dynamic_cast<TNamed*>(ob))) {

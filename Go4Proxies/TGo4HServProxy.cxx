@@ -79,7 +79,7 @@ class TGo4HServObjectAccess : public TGo4Access {
 
       Bool_t CanGetObject() const override { return fHServ!=nullptr; }
 
-      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override
+      Bool_t GetObject(TObject *&obj, Bool_t &owner) const override
       {
          if (!fHServ) return kFALSE;
          obj = fHServ->GetHistogram(fObjName.Data());

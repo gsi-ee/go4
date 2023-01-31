@@ -48,7 +48,7 @@ class TGo4ObjectQueue : public TGo4Queue {
        * Wait for object from queue. We Renamed the protected baseclass method
        * to avoid user confusion.
        */
-      TObject* WaitObject();
+      TObject *WaitObject();
 };
 
 #endif //TGO4OBJECTQUEUE_H

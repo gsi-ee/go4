@@ -21,10 +21,10 @@ class TGo4FitPanel;
 
 class QFitItem : public QTreeWidgetItem {
    public:
-     QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, int iObjectType, int iWidgetType = -1, int iPopupMenuType = -1, int iGraphType = -1, int iTag = 0);
+     QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject *iObj, int iObjectType, int iWidgetType = -1, int iPopupMenuType = -1, int iGraphType = -1, int iTag = 0);
      virtual ~QFitItem();
 
-     TObject* Object() const { return fxObj; }
+     TObject *Object() const { return fxObj; }
      void SetObject(TObject *obj) { fxObj = obj; }
      int ObjectType() const { return fiObjectType; }
      int WidgetType() const { return fiWidgetType; }
@@ -39,7 +39,7 @@ class QFitItem : public QTreeWidgetItem {
 
    protected:
      TGo4FitPanel* fxPanel{nullptr};
-     TObject*      fxObj{nullptr};
+     TObject *     fxObj{nullptr};
      int           fiObjectType{0};
      int           fiWidgetType{0};
      int           fiPopupMenuType{0};

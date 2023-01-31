@@ -43,7 +43,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
 
       Bool_t IsAcceptObject(TClass *cl) const override;
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
-      TObject* GetAssignedObject() override;
+      TObject *GetAssignedObject() override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TCanvas *canv, const char *name);
       static TGo4LevelIter* ProduceIter(TCanvas *canv);

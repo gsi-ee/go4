@@ -244,7 +244,7 @@ void TGo4BrowserItem::DrawClass() const
    TFolder::DrawClass();
 }
 
-TObject* TGo4BrowserItem::DrawClone(Option_t* option) const
+TObject *TGo4BrowserItem::DrawClone(Option_t* option) const
 {
    return TFolder::DrawClone(option);
 }

@@ -24,7 +24,7 @@
 class TGo4HStackLevelIter : public TGo4LevelIter {
    protected:
       TIterator*     fIter{nullptr};     //!
-      TObject*       fCurrent{nullptr};  //!
+      TObject *      fCurrent{nullptr};  //!
    public:
       TGo4HStackLevelIter(THStack *hs) :
          TGo4LevelIter(),
@@ -176,7 +176,7 @@ Bool_t TGo4HStackProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    return fHS != nullptr;
 }
 
-TObject* TGo4HStackProxy::GetAssignedObject()
+TObject *TGo4HStackProxy::GetAssignedObject()
 {
    return fHS;
 }

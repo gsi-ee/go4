@@ -31,11 +31,11 @@ class TGo4DrawCloneProxy : public TGo4LinkProxy {
       Bool_t RemoveRegisteredObject(TObject *obj) override;
       void Initialize(TGo4Slot *slot) override;
       void Finalize(TGo4Slot *slot) override;
-      TObject* GetAssignedObject() override;
+      TObject *GetAssignedObject() override;
       Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param) override;
 
    protected:
-      TObject*  fClone{nullptr}; //!
+      TObject * fClone{nullptr}; //!
       TGo4ViewPanel* fPanel{nullptr}; //!
       TGo4Slot *fParentSlot{nullptr}; //!
 };

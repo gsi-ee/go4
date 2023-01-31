@@ -25,14 +25,14 @@ Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
       return kFALSE;
    }
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1=go4->GetObject(fullname1,1000);
+   TObject *ob1=go4->GetObject(fullname1,1000);
    if(!ob1 || !ob1->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
    TH1 *his1 = (TH1*)ob1;
    TString fullname2 = go4->FindItem(name2);
-   TObject* ob2=go4->GetObject(fullname2,1000);
+   TObject *ob2=go4->GetObject(fullname2,1000);
    if(!ob2 || !ob2->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<<fullname2 << std::endl;
       return kFALSE;

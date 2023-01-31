@@ -78,8 +78,8 @@ class TGo4Picture : public TNamed {
       void AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOption = nullptr);
 
       // add condition (name) to picture or subpicture
-      void AddCondition(TNamed* cond = nullptr);
-      void AddCondition(Int_t posy, Int_t posx, TNamed* cond = nullptr);
+      void AddCondition(TNamed *cond = nullptr);
+      void AddCondition(Int_t posy, Int_t posx, TNamed *cond = nullptr);
 
       // clear names of any objects (include histos and conditions) from subpicture (may be recursive)
       void ClearObjNames(Bool_t recursive = kFALSE);

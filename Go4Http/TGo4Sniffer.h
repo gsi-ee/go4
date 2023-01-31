@@ -99,7 +99,7 @@ class TGo4Sniffer : public TRootSnifferFull,
                             const char *varexpr,
                             const char *cutexpr);
 
-      TObject* CreateItemStatus(const char *itemname);
+      TObject *CreateItemStatus(const char *itemname);
 
       /** Method called by logger with every string, going to output */
       void SetTitle(const char *title = "") override;

@@ -159,7 +159,7 @@ class TGo4DabcAccess : public TGo4Access {
 
       Bool_t CanGetObject() const override { return kFALSE; }
 
-      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
+      Bool_t GetObject(TObject *&obj, Bool_t &owner) const override { return kFALSE; }
 
       TClass *GetObjectClass() const override
       {

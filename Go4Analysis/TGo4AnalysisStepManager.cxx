@@ -295,7 +295,7 @@ Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Fitter* fit)
    return step ? step->Store(fit) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder* folder)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder *folder)
 {
    TGo4AnalysisStep* step = GetAnalysisStep(name);
    return step ? step->Store(folder) : 1;

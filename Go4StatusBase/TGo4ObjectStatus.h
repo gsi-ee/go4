@@ -33,7 +33,7 @@ class TGo4ObjectStatus : public TGo4Status {
       /** Create status information from given TObject.
         * Flag withtime indicates if the status creation time
         * shall be noted inside the status object. */
-      TGo4ObjectStatus(TObject* object, Bool_t withtime=kTRUE);
+      TGo4ObjectStatus(TObject *object, Bool_t withtime=kTRUE);
 
       virtual ~TGo4ObjectStatus();
 

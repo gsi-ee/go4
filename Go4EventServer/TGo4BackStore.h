@@ -50,7 +50,7 @@ class TGo4BackStore : public TGo4EventStore {
     Int_t Store(TGo4Fitter* fitter) override;
 
     /** Saves a folder correlated with the current event into the storage. */
-    Int_t Store(TFolder* fold) override;
+    Int_t Store(TFolder *fold) override;
 
     /** Access to the Tree structure, for framework */
     TTree *GetTree() override { return fxTree; }

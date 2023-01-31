@@ -44,9 +44,9 @@ class TGo4RemoteCommand : public TGo4Command {
       /** Wrap any object ob into this command container. May
        * be any parameter, condition, or other status object to
        * be used for command execution.*/
-      void SetAggregate(TObject* ob);
+      void SetAggregate(TObject *ob);
 
-      TObject* GetAggregate(Bool_t chown = kTRUE);
+      TObject *GetAggregate(Bool_t chown = kTRUE);
 
       /** Set Go4 Name of command to be executed on the
        * command receiver side*/
@@ -87,7 +87,7 @@ class TGo4RemoteCommand : public TGo4Command {
 
       /** Optional aggregated parameter object. May be a condition,
         * status, canvas etc. to apply on slave node. */
-      TObject* fxAggregate{nullptr};
+      TObject *fxAggregate{nullptr};
 
       static const char *fgxREMCOMEMPTYSTRING; //!
 

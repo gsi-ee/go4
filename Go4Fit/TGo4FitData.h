@@ -174,7 +174,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Creates object, which can be drawn on canvas by ROOT.
        * This method creates either TH1 (in case of histogram data) or TGraph object and fills bins by content of data.
        */
-      TObject* CreateDrawObject(const char *ObjName);
+      TObject *CreateDrawObject(const char *ObjName);
 
       /**
        * Return scales minimum and maximum for specified axis.
@@ -565,7 +565,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Create either histogram or graph object.
        */
-      TObject* CreateDrawObject(const char *ObjName);
+      TObject *CreateDrawObject(const char *ObjName);
 
    protected:
 

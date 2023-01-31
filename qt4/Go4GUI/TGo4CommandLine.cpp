@@ -194,7 +194,7 @@ void TGo4CommandLine::PrintHelp()
    std::cout <<"--" << std::endl;
    std::cout <<"- Some useful Go4 GUI command functions:" << std::endl;
 
-   std::cout <<"\t- TObject* go4->GetObject(const char *itemname);"<< std::endl;
+   std::cout <<"\t- TObject *go4->GetObject(const char *itemname);"<< std::endl;
    std::cout <<"\t\t: get browser object by full pathname. " << std::endl;
    std::cout <<"\t- TString go4->FindItem(const char *name); " << std::endl;
    std::cout <<"\t\t: get full pathname of browser object by name " << std::endl;

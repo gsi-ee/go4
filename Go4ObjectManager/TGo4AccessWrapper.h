@@ -21,10 +21,10 @@ class TGo4AccessWrapper {
       TGo4AccessWrapper() {}
       virtual ~TGo4AccessWrapper() {}
 
-      TObject* GetObject(const char *name = nullptr)
+      TObject *GetObject(const char *name = nullptr)
       {
          auto proxy = ProvideAccess(name);
-         TObject* res = nullptr;
+         TObject *res = nullptr;
          Bool_t owner = kFALSE;
          if (proxy) proxy->GetObject(res, owner);
          return res;

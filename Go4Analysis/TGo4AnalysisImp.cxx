@@ -1209,7 +1209,7 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char *te
 
 }
 
-void TGo4Analysis::SendObjectToGUI(TObject* ob)
+void TGo4Analysis::SendObjectToGUI(TObject *ob)
 {
    if (!ob) return;
 
@@ -1587,7 +1587,7 @@ void TGo4Analysis::PrintDynamicList()
    fxObjectManager->PrintDynamicList();
 }
 
-TObject* TGo4Analysis::NextMatchingObject(const char *expr, const char *folder, Bool_t reset)
+TObject *TGo4Analysis::NextMatchingObject(const char *expr, const char *folder, Bool_t reset)
 {
    return fxObjectManager->NextMatchingObject(expr,folder,reset);
 }
@@ -1695,14 +1695,14 @@ Int_t TGo4Analysis::StoreFitter(const char *name, TGo4Fitter* fit)
    return fxStepManager->Store(name, fit);
 }
 
-Int_t TGo4Analysis::StoreFolder(const char *name, TFolder* folder)
+Int_t TGo4Analysis::StoreFolder(const char *name, TFolder *folder)
 {
    return fxStepManager->Store(name, folder);
 }
 
 Int_t TGo4Analysis::StoreFolder(const char *stepname, const char *foldername)
 {
-   TFolder* myfolder = fxObjectManager->FindSubFolder(GetObjectFolder(), foldername, kFALSE);
+   TFolder *myfolder = fxObjectManager->FindSubFolder(GetObjectFolder(), foldername, kFALSE);
    return myfolder ? fxStepManager->Store(stepname, myfolder) : 2;
 }
 

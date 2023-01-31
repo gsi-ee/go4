@@ -60,7 +60,7 @@ class TGo4FitNamed : public TNamed {
       /**
        * Return owner of object.
        */
-      TNamed* GetOwner() { return fxOwner; }
+      TNamed *GetOwner() { return fxOwner; }
 
       void Print(Option_t *option = "") const override;
 
@@ -69,7 +69,7 @@ class TGo4FitNamed : public TNamed {
       /**
        * Owner of object
        */
-      TNamed* fxOwner{nullptr};         //!
+      TNamed *fxOwner{nullptr};         //!
 
       /**
        * String, containing full name of object.

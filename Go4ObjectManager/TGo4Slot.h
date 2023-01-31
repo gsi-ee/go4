@@ -97,7 +97,7 @@ class TGo4Slot : public TNamed  {
 
       Bool_t IsAcceptObject(TClass *cl) const;
       Bool_t AssignObject(TObject *obj, Bool_t owner);
-      TObject* GetAssignedObject();
+      TObject *GetAssignedObject();
       virtual void Update(Bool_t strong = kFALSE);
       Int_t GetAssignFlag() const { return fAssignFlag; }
       void ResetAssignFlag() { fAssignFlag = -1; }

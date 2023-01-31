@@ -103,7 +103,7 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char *base,
 }
 
 
-TObject* TGo4ObjClient::RequestObject(const char *objectname,
+TObject *TGo4ObjClient::RequestObject(const char *objectname,
                                        const char *base,
                                        const char *passwd,
                                        const char *host,
@@ -127,7 +127,7 @@ TObject* TGo4ObjClient::RequestObject(const char *objectname,
 }
 
 
-TObject* TGo4ObjClient::ReceiveObject()
+TObject *TGo4ObjClient::ReceiveObject()
 {
    TObject *obj = nullptr;
    // check for OK signal (object is existing on server)

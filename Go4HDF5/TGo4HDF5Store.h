@@ -54,7 +54,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
     Int_t Store(TGo4Fitter* fitter) override;
 
     /** Saves a complete objects folder correlated with the current event into the storage. */
-    Int_t Store(TFolder* fold) override;
+    Int_t Store(TFolder *fold) override;
 
   protected:
 
@@ -65,7 +65,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
 //    virtual void CloseFile();
 
     /** used by all Store methods to write with referencing event number in name */
-    void WriteToStore(TNamed* ob);
+    void WriteToStore(TNamed *ob);
 
     /** initialize dataset from event structure*/
     void BuildDataSet(TGo4EventElement* event) override;

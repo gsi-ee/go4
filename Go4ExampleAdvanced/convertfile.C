@@ -107,7 +107,7 @@ void convertgraph(TGraph *graph)
   gSystem->cd(StartDir.Data());
 }
 
-void convertobject(TObject* myobject)
+void convertobject(TObject *myobject)
 {
   TString objectname=myobject->GetName();
   TString outname=objectname+".dat";
@@ -118,7 +118,7 @@ void convertobject(TObject* myobject)
     }
   else if (myobject->InheritsFrom("TFolder"))
     {
-      TFolder* subfold=(TFolder*) myobject;
+      TFolder *subfold=(TFolder*) myobject;
       convertfolder(subfold);
     }
   else if(myobject->InheritsFrom("TH1"))
@@ -140,7 +140,7 @@ void convertobject(TObject* myobject)
 }
 
 
-void convertfolder(TFolder* fold)
+void convertfolder(TFolder *fold)
 {
   std::cout <<"Converting contents of folder "<<fold->GetName())<<"..."  << std::endl;
   TString dirname=fold->GetName();
@@ -149,8 +149,8 @@ void convertfolder(TFolder* fold)
   gSystem->Exec(com);
   gSystem->cd(dirname.Data());
   CurrentDir=gSystem->WorkingDirectory();
-  TObject* myobject = nullptr;
-  TObject* ob = nullptr;
+  TObject *myobject = nullptr;
+  TObject *ob = nullptr;
   TIter iter(fold->GetListOfFolders());
   while((myobject = iter()) != nullptr)
     {
@@ -174,7 +174,7 @@ void convertdir(TDirectory* source)
     gSystem->cd(dirname.Data());
     CurrentDir=gSystem->WorkingDirectory();
   }
-  TObject* myobject = nullptr;
+  TObject *myobject = nullptr;
   source->cd();
   gSystem->cd(StartDir.Data());
   TIter iter(source->GetListOfKeys());

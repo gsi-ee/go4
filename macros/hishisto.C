@@ -26,7 +26,7 @@ Bool_t hishisto(const char *name1, Int_t bins, Bool_t draw)
      return kFALSE;
   }
   TString fullname1 = go4->FindItem(name1);
-  TObject* ob1 = go4->GetObject(fullname1,1000);
+  TObject *ob1 = go4->GetObject(fullname1,1000);
   if(!ob1 || !ob1->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<< fullname1 << std::endl;
       return kFALSE;

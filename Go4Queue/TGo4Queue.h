@@ -45,9 +45,9 @@ class TGo4Queue : public TNamed {
       void SetMaxEntries(Int_t max) { fiMaxEntries = max; }
 
    protected:
-      TObject* Next();
-      TObject* Wait();
-      void Add(TObject* ob);
+      TObject *Next();
+      TObject *Wait();
+      void Add(TObject *ob);
 
    private:
       TMutex* fxMutex{nullptr};          //!

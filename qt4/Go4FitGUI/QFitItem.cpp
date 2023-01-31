@@ -18,7 +18,7 @@
 #include <QtCore/QString>
 
 
-QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
+QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject *iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
    QTreeWidgetItem()
 {
    setText(0, QString());

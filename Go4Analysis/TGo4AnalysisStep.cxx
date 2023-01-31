@@ -235,7 +235,7 @@ Int_t TGo4AnalysisStep::Store(TGo4Fitter* fitter)
    return -1;
 }
 
-Int_t TGo4AnalysisStep::Store(TFolder* fold)
+Int_t TGo4AnalysisStep::Store(TFolder *fold)
 {
    if (fxEventStore && fbStoreEnabled)
       return fxEventStore->Store(fold);

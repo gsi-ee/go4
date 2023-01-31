@@ -18,7 +18,7 @@
 #include "TGo4ObjectManager.h"
 
 
-Bool_t TGo4Access::GetObject(TObject* &obj, Bool_t &owner) const
+Bool_t TGo4Access::GetObject(TObject *&obj, Bool_t &owner) const
 {
    obj = nullptr;
    owner = kFALSE;

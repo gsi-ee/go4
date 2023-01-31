@@ -350,7 +350,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Create object (TH1 or TGraph), which can be drawn.
        * Object can contain data bins (IsModel = kFALSE), full data model (IsModel = kTRUE, ModelName = nullptr) or specific model component (IsModel = kTRUE, ModelName specify component name)
        */
-      TObject* CreateDrawObject(const char *ObjName, const char *DataName, Bool_t IsModel = kFALSE, const char *ModelName = nullptr);
+      TObject *CreateDrawObject(const char *ObjName, const char *DataName, Bool_t IsModel = kFALSE, const char *ModelName = nullptr);
 
       /**
        * Draw fitter on current canvas.

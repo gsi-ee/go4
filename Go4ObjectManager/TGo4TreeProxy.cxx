@@ -57,7 +57,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
       Bool_t next() override
       {
          do {
-            TObject* res = fIter->Next();
+            TObject *res = fIter->Next();
             if (!res) return kFALSE;
             fCurrent = dynamic_cast<TBranch*> (res);
          } while (!fCurrent);

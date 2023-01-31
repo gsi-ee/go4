@@ -99,7 +99,7 @@ Bool_t TGo4LinkProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    return fLink ? fLink->AssignObject(obj, owner) : kFALSE;
 }
 
-TObject* TGo4LinkProxy::GetAssignedObject()
+TObject *TGo4LinkProxy::GetAssignedObject()
 {
    return fLink ? fLink->GetAssignedObject() : nullptr;
 }

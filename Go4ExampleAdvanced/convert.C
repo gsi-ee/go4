@@ -27,11 +27,11 @@ TString histoname="Cr1Ch02";
 TString outname=histoname+".dat";
 
 TFile myfile(filename.Data(),"READ");
-TFolder* topfold=(TFolder*) myfile.Get("Go4");
+TFolder *topfold=(TFolder*) myfile.Get("Go4");
 if(topfold)
 {
   std::cout <<"Got go4 folder of file "<<filename.Data() << std::endl;
-  TObject* myobject=topfold->FindObjectAny(histoname.Data());
+  TObject *myobject=topfold->FindObjectAny(histoname.Data());
   if(myobject)
     {
       std::ofstream outfile(outname.Data());

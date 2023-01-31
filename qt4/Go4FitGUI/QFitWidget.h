@@ -48,7 +48,7 @@ class QFitWidget : public QWidget {
       ~QFitWidget();
 
       virtual QFitItem* GetItem();
-      virtual TObject* GetObject();
+      virtual TObject *GetObject();
       virtual TGo4Fitter* GetFitter();
       virtual void SetItem(TGo4FitPanel* panel, QFitItem* iItem);
       virtual void FillWidget();

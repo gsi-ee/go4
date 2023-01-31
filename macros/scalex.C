@@ -24,7 +24,7 @@ Bool_t scalex(const char *name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
    }
 
    TString fullname1 = go4->FindItem(name1);
-   TObject* ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TObject *ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH1 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
       his1 = (TH1*)ob1;

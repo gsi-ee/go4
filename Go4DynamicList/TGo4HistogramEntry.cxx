@@ -126,7 +126,7 @@ void TGo4HistogramEntry::Reset()
    fbNeedInitialisation = kTRUE;
 }
 
-void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset)
+void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset)
 {
    if ((ix<0) || (ix>=__MAXHISDIM__)) return;
    fxHistPtr[ix] = nullptr;
@@ -136,7 +136,7 @@ void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject* event, TDataMember* 
    fxHistType[ix] = member->GetDataType()->GetType();
 }
 
-void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject* event, TDataMember* member, Long_t offset)
+void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset)
 {
    if ((ix<0) || (ix>=__MAXCONDIM__)) return;
    fxCondPtr[ix] = nullptr;

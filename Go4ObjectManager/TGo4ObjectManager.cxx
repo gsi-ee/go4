@@ -61,10 +61,10 @@ class TGo4ObjManCleanup : public TObject {
          fSlot(slot)
       {
       }
-      TObject* GetObject() const { return fObject; }
+      TObject *GetObject() const { return fObject; }
       TGo4Slot *GetSlot() const { return fSlot; }
    protected:
-      TObject*   fObject{nullptr}; //!
+      TObject *  fObject{nullptr}; //!
       TGo4Slot * fSlot{nullptr};   //!
 };
 
@@ -122,7 +122,7 @@ TGo4Slot *TGo4ObjectManager::Add(const char *pathname, TObject *obj, Bool_t owne
 
    if (slot) {
       if (canrename && (strcmp(obj->GetName(),slot->GetName()) != 0)) {
-         TNamed* n = dynamic_cast<TNamed*> (obj);
+         TNamed *n = dynamic_cast<TNamed*> (obj);
          if (n) n->SetName(slot->GetName());
       }
 
@@ -175,7 +175,7 @@ void TGo4ObjectManager::AddTree(const char *pathname, TTree *tree, Bool_t owner)
      slot->SetProxy(new TGo4TreeProxy(tree, owner));
 }
 
-void TGo4ObjectManager::AddFolder(const char *pathname, TFolder* f, Bool_t owner)
+void TGo4ObjectManager::AddFolder(const char *pathname, TFolder *f, Bool_t owner)
 {
    if (!f) return;
 
@@ -186,7 +186,7 @@ void TGo4ObjectManager::AddFolder(const char *pathname, TFolder* f, Bool_t owner
 
 void TGo4ObjectManager::AddROOTFolder(const char *pathname, const char *foldername)
 {
-   TFolder* f = TGo4FolderProxy::LocateROOTFolder(foldername);
+   TFolder *f = TGo4FolderProxy::LocateROOTFolder(foldername);
    if (!f) return;
 
    TGo4Slot *slot = MakeObjSlot(pathname, f->GetName(), f->ClassName());

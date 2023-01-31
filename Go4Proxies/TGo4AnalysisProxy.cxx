@@ -141,7 +141,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
    public:
       TGo4AnalysisLevelIter() {}
 
-      TGo4AnalysisLevelIter(TFolder* folder, Bool_t istree = kFALSE) :
+      TGo4AnalysisLevelIter(TFolder *folder, Bool_t istree = kFALSE) :
          TGo4LevelIter(),
          fIsTree(istree)
       {
@@ -231,7 +231,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return EntryClassName(fCurrent);
       }
 
-      static const char *EntryClassName(TObject* entry)
+      static const char *EntryClassName(TObject *entry)
       {
          if (!entry) return nullptr;
 
@@ -528,7 +528,7 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    if (status) delete status;
 }
 
-void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
+void TGo4AnalysisProxy::ReceiveObject(TNamed *obj)
 {
    // object should be cleaned at the end
 
@@ -540,7 +540,7 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
       if (!proxy) proxy = fxDefaultProxy;
 
       if (proxy) {
-         TObject* envelopeobj = envelope->TakeObject();
+         TObject *envelopeobj = envelope->TakeObject();
          if (envelopeobj && envelopeobj->InheritsFrom(TH1::Class()))
             ((TH1*) envelopeobj)->SetDirectory(nullptr);
          proxy->ReceiveObject(envelopeobj, envelope->GetObjFolder(), envelope->GetObjName(), kTRUE);
@@ -607,7 +607,7 @@ std::unique_ptr<TGo4Access> TGo4AnalysisProxy::ProvideAccess(const char *name)
 {
    if (!name || !*name || !fAnalysisNames) return nullptr;
 
-   TObject* entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
+   TObject *entry = fAnalysisNames->GetNamesFolder()->FindObjectAny(name);
 
    const char *classname = TGo4AnalysisLevelIter::EntryClassName(entry);
 

@@ -32,7 +32,7 @@ Bool_t TGo4ObjectAccess::CanGetObject() const
    return kTRUE;
 }
 
-Bool_t TGo4ObjectAccess::GetObject(TObject* &obj, Bool_t &owner) const
+Bool_t TGo4ObjectAccess::GetObject(TObject *&obj, Bool_t &owner) const
 {
    obj = fObject;
    owner = kFALSE;
@@ -179,7 +179,7 @@ Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    return kTRUE;
 }
 
-TObject* TGo4ObjectProxy::GetAssignedObject()
+TObject *TGo4ObjectProxy::GetAssignedObject()
 {
    return fObject;
 }

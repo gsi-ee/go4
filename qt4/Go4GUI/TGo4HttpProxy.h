@@ -95,7 +95,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
       Bool_t CanGetObject() const override { return kFALSE; }
 
-      Bool_t GetObject(TObject* &obj, Bool_t &owner) const override { return kFALSE; }
+      Bool_t GetObject(TObject *&obj, Bool_t &owner) const override { return kFALSE; }
 
       TClass *GetObjectClass() const override;
 
@@ -171,7 +171,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
 
       Int_t GetObjectKind() const override {  return TGo4Access::kndFolder; }
       const char *GetContainedClassName() const override { return ClassName(); }
-      TObject* GetAssignedObject() override { return this; }
+      TObject *GetAssignedObject() override { return this; }
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() const override { return -1; }
 

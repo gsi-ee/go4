@@ -39,7 +39,7 @@ TGo4ExampleApplication::~TGo4ExampleApplication()
    TGo4CommandInvoker::UnRegister(this);
 }
 
-void TGo4ExampleApplication::SendData(TNamed* data)
+void TGo4ExampleApplication::SendData(TNamed *data)
 {
    GO4TRACE((12,"TGo4ExampleApplication::SendData(TNamed*)",__LINE__, __FILE__));
    if(fxDataQ)

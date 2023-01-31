@@ -46,7 +46,7 @@ void TGo4Queue::Clear(Option_t *)
    fxList->Clear();
 }
 
-TObject* TGo4Queue::Wait()
+TObject *TGo4Queue::Wait()
 {
    if (IsEmpty()) {
       // std::cout <<"WWWWWWWWWWWWWWWWWW --- TGo4Queue "<< GetName() <<" is in Condition Wait..." << std::endl;
@@ -59,13 +59,13 @@ TObject* TGo4Queue::Wait()
    return Next();
 }
 
-TObject* TGo4Queue::Next()
+TObject *TGo4Queue::Next()
 {
    TGo4LockGuard qguard(fxMutex);
    return fxList->Remove(fxList->LastLink());
 }
 
-void TGo4Queue::Add(TObject* ob)
+void TGo4Queue::Add(TObject *ob)
 {
    {
       TGo4LockGuard qguard(fxMutex);

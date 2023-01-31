@@ -44,7 +44,7 @@ class TGo4ExampleApplication : public TGo4CommandReceiver, public TNamed {
      * put named data object into the current data queue;
      * will be sent to the gui server
      */
-    void SendData(TNamed* data);
+    void SendData(TNamed *data);
 
   private:
 

@@ -160,7 +160,7 @@ public:
     virtual void FillModelTypesList(QMenu* menu, int id, bool extend, const QString &handler = "");
     virtual void FillDataTypesList(QMenu* menu, int id, const QString &handler = "");
     virtual void FillParsList(QFitItem* item);
-    virtual void FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject* owner);
+    virtual void FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject *owner);
     virtual void FillDependencyList(QFitItem* parent);
     virtual void PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update);
     virtual bool PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item);

@@ -41,9 +41,9 @@ TList* TGo4TreeStructure::GetFolderList()
    return !fxTopFolder ? nullptr : dynamic_cast<TList*> (fxTopFolder->GetListOfFolders());
 }
 
-TFolder* TGo4TreeStructure::GetNamesFolder(Bool_t chown)
+TFolder *TGo4TreeStructure::GetNamesFolder(Bool_t chown)
 {
-   TFolder* reval = fxTopFolder;
+   TFolder *reval = fxTopFolder;
    if(chown) fxTopFolder = nullptr;
    return reval;
 }

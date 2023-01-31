@@ -85,7 +85,7 @@ TGo4BufferQueue::~TGo4BufferQueue()
 TBuffer * TGo4BufferQueue::WaitBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
-   TObject* ob = Wait();
+   TObject *ob = Wait();
    return dynamic_cast<TBuffer*> ( ob );
 }
 
@@ -230,7 +230,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 //            {
 //               std::cout << "classname "<< cl->GetName() << std::endl;
 //
-//               TObject* ob=entry->ReadObject(cl);
+//               TObject *ob=entry->ReadObject(cl);
 //               std::cout << "read object "<< ob << std::endl;
 //               if(ob)
 //                  std::cout << "read object "<< ob->GetName() << std::endl;
@@ -291,7 +291,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
    TGo4LockGuard mainguard;
    TBuffer* buf = new TBufferFile(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
-   TNamed* dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
+   TNamed *dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
    TFile *filsav = gFile;
    gFile = nullptr;
    buf->WriteObject(dummy);

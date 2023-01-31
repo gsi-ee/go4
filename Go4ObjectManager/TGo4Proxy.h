@@ -51,7 +51,7 @@ class TGo4Access {
       /** Returns kTRUE, when object can be directly obtained with GetObject() method */
       virtual Bool_t CanGetObject() const { return kFALSE; }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const;
+      virtual Bool_t GetObject(TObject *&obj, Bool_t &owner) const;
       virtual TClass *GetObjectClass() const;
       virtual const char *GetObjectName() const;
       virtual const char *GetObjectClassName() const;

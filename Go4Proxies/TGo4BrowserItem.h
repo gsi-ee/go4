@@ -67,7 +67,7 @@ class TGo4BrowserItem : public TFolder {
       void SaveAs(const char *filename = "", Option_t *option = "") const override; // *MENU*
 
       void DrawClass() const override;
-      TObject* DrawClone(Option_t* option = "") const override;
+      TObject *DrawClone(Option_t* option = "") const override;
       void Dump() const override;
       void Inspect() const override;
       void SetDrawOption(Option_t* option = "") override;

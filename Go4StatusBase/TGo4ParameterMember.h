@@ -47,7 +47,7 @@ class TGo4ParameterMember : public TNamed {
       void SetVisible(Bool_t on = kTRUE) { fVisible = on; }
       Bool_t IsVisible() const { return fVisible; }
 
-      TObject* GetObject() const { return fObject; }
+      TObject *GetObject() const { return fObject; }
       void SetObject(TObject *obj, Bool_t owner);
 
       void SetValue(char* addr);
@@ -67,7 +67,7 @@ class TGo4ParameterMember : public TNamed {
       TString   fValue;               ///< value of data member
       Int_t     fIndex1{-1};          ///< first array index
       Int_t     fIndex2{-1};          ///< second array index
-      TObject*  fObject{nullptr};     ///< place for objects like fitter
+      TObject * fObject{nullptr};     ///< place for objects like fitter
       Bool_t    fObjectOwner{kTRUE};  ///<! flag indicating ownership of object
       Bool_t    fVisible{kTRUE};      ///<  is visible, used by GUI
 

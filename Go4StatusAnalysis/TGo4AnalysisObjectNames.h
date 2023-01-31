@@ -37,7 +37,7 @@ class TGo4AnalysisObjectNames : public TGo4Status {
 
       virtual ~TGo4AnalysisObjectNames();
 
-      void SetTopFolder(TFolder* f) { fxTopFolder = f; }
+      void SetTopFolder(TFolder *f) { fxTopFolder = f; }
 
       /** Access to the list of the names folder structure. */
       TList *GetFolderList();
@@ -50,7 +50,7 @@ class TGo4AnalysisObjectNames : public TGo4Status {
       void Print(Option_t* = "") const override;
 
       /** Print names of the objects in given nameslist folder into buffer. */
-      void PrintFolder(TFolder* fold) const;
+      void PrintFolder(TFolder *fold) const;
 
   private:
 

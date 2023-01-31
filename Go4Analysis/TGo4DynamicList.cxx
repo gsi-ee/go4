@@ -31,7 +31,7 @@
 #include "TGo4Status.h"
 #include "TGo4AnalysisImp.h"
 
-void TGo4DynamicList::ResetEntries(TFolder* folder)
+void TGo4DynamicList::ResetEntries(TFolder *folder)
 {
    if (!folder) return;
 
@@ -42,7 +42,7 @@ void TGo4DynamicList::ResetEntries(TFolder* folder)
    }
 }
 
-void TGo4DynamicList::PrintEntries(TFolder* folder)
+void TGo4DynamicList::PrintEntries(TFolder *folder)
 {
    if (!folder) return;
 
@@ -53,7 +53,7 @@ void TGo4DynamicList::PrintEntries(TFolder* folder)
    }
 }
 
-void TGo4DynamicList::CleanupPointerInEntries(TFolder* folder, TObject* objtoremove)
+void TGo4DynamicList::CleanupPointerInEntries(TFolder *folder, TObject *objtoremove)
 {
    if (!folder) return;
 
@@ -65,7 +65,7 @@ void TGo4DynamicList::CleanupPointerInEntries(TFolder* folder, TObject* objtorem
 }
 
 
-void TGo4DynamicList::ProcessEntries(TFolder* folder, Bool_t processtrees, Int_t interval)
+void TGo4DynamicList::ProcessEntries(TFolder *folder, Bool_t processtrees, Int_t interval)
 {
    if (!folder) return;
 

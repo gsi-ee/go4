@@ -151,7 +151,7 @@ private:
       /** returns name of item, which was linked in that slot */
       const char *GetLinkedName(TGo4Slot *slot);
 
-      TObject* GetLinked(const char *linkname, int updatelevel = 0);
+      TObject *GetLinked(const char *linkname, int updatelevel = 0);
 
       template<class T>
       T* GetLinkedCast(const char *linkname, int updatelevel = 0) { return dynamic_cast<T *>(GetLinked(linkname, updatelevel)); }

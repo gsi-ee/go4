@@ -25,12 +25,12 @@ class TGo4ObjEnvelope : public TNamed {
       const char *GetObjName() const { return fxObjName.Data(); }
       const char *GetObjFolder() const { return fxObjFolder.Data(); }
 
-      TObject* GetObject() const { return fxObject; }
-      TObject* TakeObject();
+      TObject *GetObject() const { return fxObject; }
+      TObject *TakeObject();
 
    protected:
 
-      TObject*  fxObject{nullptr};
+      TObject * fxObject{nullptr};
       TString   fxObjName;
       TString   fxObjFolder;
 

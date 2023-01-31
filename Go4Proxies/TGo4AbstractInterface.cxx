@@ -250,7 +250,7 @@ void TGo4AbstractInterface::RedrawItem(const char *itemname)
    Browser()->RedrawItem(itemname);
 }
 
-TObject* TGo4AbstractInterface::GetObject(const char *itemname, Int_t updatelevel)
+TObject *TGo4AbstractInterface::GetObject(const char *itemname, Int_t updatelevel)
 {
    if (!itemname || (strlen(itemname) == 0)) return nullptr;
 

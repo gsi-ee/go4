@@ -64,7 +64,7 @@ TGo4Display::~TGo4Display()
    TGo4Log::Info("------- TGO4DISPLAY DESTRUCTOR FINISHED. ------");
 }
 
-void TGo4Display::DisplayData(TObject* data)
+void TGo4Display::DisplayData(TObject *data)
 {
    if (fxAnalysis)
      fxAnalysis->ReceiveObject(dynamic_cast<TNamed*>(data));

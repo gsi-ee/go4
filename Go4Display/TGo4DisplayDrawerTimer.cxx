@@ -25,7 +25,7 @@ TGo4DisplayDrawerTimer::TGo4DisplayDrawerTimer(TGo4Display *display, Long_t mspe
 
 Bool_t TGo4DisplayDrawerTimer::Notify ()
 {
-   TObject* data = nullptr;
+   TObject *data = nullptr;
    TGo4Task* task = fxDisplay->GetTask();
 
    Int_t cnt = 100;

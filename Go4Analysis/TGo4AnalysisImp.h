@@ -230,7 +230,7 @@ public:
     * pointer to object. If
     * object of that name does not exist, null is returned.
     * Optionally, folder may be specified to search in. */
-   TNamed* GetObject(const char *name, const char *folder = nullptr);
+   TNamed *GetObject(const char *name, const char *folder = nullptr);
 
    /** Removes object from user object folder by name. Returns kFALSE if no
     * such histogram. Object is deleted on heap only if del is true.
@@ -269,9 +269,9 @@ public:
     * all names with expr. If reset is false, the next object of a
     * previously created matching list is returned. Optionally the
     * search can be limited to a given folder. */
-   TObject* NextMatchingObject(const char *expr = nullptr,
+   TObject *NextMatchingObject(const char *expr = nullptr,
                                const char *folder = nullptr,
-                               Bool_t reset=kFALSE);
+                               Bool_t reset = kFALSE);
 
    /** Create a tree structure for a certain tree by name */
    TGo4TreeStructure *CreateTreeStructure(const char *treename);
@@ -405,7 +405,7 @@ public:
    TGo4AnalysisObjectNames *CreateNamesList();
 
    /** Access to top level go4 folder. For histogram server. */
-   TFolder* GetObjectFolder();
+   TFolder *GetObjectFolder();
 
    /** Create a copy of the analysis internal state. To be sent to the Display. */
    void UpdateStatus(TGo4AnalysisStatus *state);

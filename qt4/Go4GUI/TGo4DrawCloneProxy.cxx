@@ -72,8 +72,8 @@ void TGo4DrawCloneProxy::CleanupClone(TGo4Slot *slot)
 
 void TGo4DrawCloneProxy::ChangeTitle(TObject *obj)
 {
-   TNamed* src = dynamic_cast<TNamed*> (obj);
-   TNamed* tgt = dynamic_cast<TNamed*> (fClone);
+   TNamed *src = dynamic_cast<TNamed*> (obj);
+   TNamed *tgt = dynamic_cast<TNamed*> (fClone);
 
    TGo4Picture *padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
 
@@ -135,7 +135,7 @@ void TGo4DrawCloneProxy::Finalize(TGo4Slot *slot)
    fParentSlot = nullptr;
 }
 
-TObject* TGo4DrawCloneProxy::GetAssignedObject()
+TObject *TGo4DrawCloneProxy::GetAssignedObject()
 {
    return fClone ? fClone : TGo4LinkProxy::GetAssignedObject();
 }
