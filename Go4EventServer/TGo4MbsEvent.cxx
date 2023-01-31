@@ -374,7 +374,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
       subtarget->fbIsDataOwner = kFALSE;
       subtarget->fiAllocLen = fieldlength;
       if(datalength>2)
-         subtarget->fiData = (Int_t*) data;
+         subtarget->fiData = (Int_t *) data;
       else
          subtarget->fiData = nullptr; // reset for empty subevent
    }// if(fbDataCopyMode)

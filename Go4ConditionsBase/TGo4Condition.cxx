@@ -601,8 +601,6 @@ void TGo4Condition::Paint(Option_t* opt)
 
 void TGo4Condition::Draw(Option_t* opt)
 {
-   // std::cout<<"TGo4Condition::Draw of instance:"<<(long) this  << " with visible="<< TGo4Condition::IsVisible()<<
-   // std::endl;
    if (TGo4Condition::IsVisible()) {
       if (gPad && !gPad->GetListOfPrimitives()->FindObject(this)) {
 
@@ -611,7 +609,6 @@ void TGo4Condition::Draw(Option_t* opt)
       }
       SetPainted(kTRUE);
    } else {
-      // std::cout<<"TGo4Condition::Draw does undraw"<< std::endl;
       UnDraw(opt);
    }
 }
@@ -620,7 +617,6 @@ void TGo4Condition::UnDraw(Option_t* opt)
 {
    SetPainted(kFALSE);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
-   //std::cout<<"TGo4Condition::UnDraw of instance:"<<(long) this  << std::endl;
    if(!fxPainter) fxPainter = CreatePainter();
    // condition subclass may not provide a real painter, then we skip unpainting:
    if(fxPainter) {

@@ -62,7 +62,6 @@ TGo4PolyCond::TGo4PolyCond(const char *name, const char *title) :
 // ----------------------------------------------------------
 TGo4PolyCond::~TGo4PolyCond()
 {
-   // std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<", threadid="<< (long) pthread_self()<< std::endl;
    // UnDraw(); // JAM 2016 - do it before cut has vanished!
 
    ClearCutHis();

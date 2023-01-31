@@ -46,8 +46,6 @@ void TGo4WinCondPainter::PaintCondition(Option_t* opt)
    if (!gPad)
       return;
    TObject *boxinpad = gPad->GetListOfPrimitives()->FindObject(fxBox);
-   // std::cout<<"TGo4WinCondPainter::PaintCondition with fxBox= "<<(long) fxBox<<",
-   // isatexecutemousevent="<<(fxBox?fxBox->IsAtExecuteMouseEvent():0) << std::endl;
    if (fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent())
       return; // JAM suppress resetting coordinates during mouse modification of box
    double xpmin = 0, xpmax = 0, ypmin = 0, ypmax = 0;
@@ -87,7 +85,6 @@ void TGo4WinCondPainter::PaintCondition(Option_t* opt)
       // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
       if (!fxBox) {
          fxBox = new TGo4WinCondView(xpmin, ypmin, xpmax, ypmax);
-         // std::cout <<"TGo4WinCondPainter::PaintCondition creates new fxBox." <<std::endl;
       } else {
          fxBox->SetX1(xpmin);
          fxBox->SetY1(ypmin);

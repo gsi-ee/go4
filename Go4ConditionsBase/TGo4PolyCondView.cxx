@@ -35,14 +35,12 @@ TGo4PolyCondView::TGo4PolyCondView() :
 {
    SetBit(kMustCleanup);
    //SetBit(kCanDelete, kFALSE);
-  //std::cout<< "TGo4PolyCondView"<< (long) this <<" default ctor"<< std::endl;
    TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
 }
 
 
 TGo4PolyCondView::~TGo4PolyCondView()
 {
- // std::cout<< "TGo4PolyCondView "<< (long) this <<" dtor"<< std::endl;
 }
 
 void TGo4PolyCondView::Paint(Option_t* opt)
@@ -78,56 +76,44 @@ Int_t TGo4PolyCondView::RemovePoint()
 
 void TGo4PolyCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
-
- // std::cout<<"TGo4PolyCondView::ExecuteEvent, Threadid="<< (long) pthread_self()<< std::endl;
 // TODO: do we really need this for newer ROOT versions?
 #if 1
-////// begin button double workaround JA
-// the following is necessary to avoid bug in ROOT TGraph::ExecuteEvent
-// that does not handle the kButton1Up after kButton1Double
-// (temporary coordinates array not allocated for button double,
-// thus crash in button up)
-// we suppress the button up event after button double for the moment...
-static Bool_t ignoreNext=kFALSE;
-if(ignoreNext)
-   {
-      //std::cout <<"PolyCondView suppressing event "<<event << std::endl;
-      ignoreNext=kFALSE;
+   ////// begin button double workaround JA
+   // the following is necessary to avoid bug in ROOT TGraph::ExecuteEvent
+   // that does not handle the kButton1Up after kButton1Double
+   // (temporary coordinates array not allocated for button double,
+   // thus crash in button up)
+   // we suppress the button up event after button double for the moment...
+   static Bool_t ignoreNext = kFALSE;
+   if (ignoreNext) {
+      ignoreNext = kFALSE;
       return;
    }
-if(event==kButton1Double)
-   {
-      //std::cout <<"PolyCondView suppressing double click" << std::endl;
-      ignoreNext=kTRUE;
-      fbExecutesMouseEvent=kTRUE;
+   if (event == kButton1Double) {
+      ignoreNext = kTRUE;
+      fbExecutesMouseEvent = kTRUE;
       return;
    }
 /////// end button double workaround JA
 #endif
 
-// JAM2016: try same mouse event locking as for window condition.
-if(event==kButton1Down && fxPolyCondition)
-{
-  //std::cout <<"PolyCondView ExecuteEvent for button 1 down" << std::endl;
-  fbExecutesMouseEvent=kTRUE; // only lock painting if we really touch the polygon JAM
-}
+   // JAM2016: try same mouse event locking as for window condition.
+   if (event == kButton1Down && fxPolyCondition) {
+      fbExecutesMouseEvent = kTRUE; // only lock painting if we really touch the polygon JAM
+   }
 
-
-//TGo4PolyCond::CleanupSpecials(); // JAM2016
-TCutG::ExecuteEvent(event,px,py);
-//TGo4PolyCond::CleanupSpecials(); // JAM 2016 avoid some intermediate TCutG objects in global list? NO!
-if(event==kButton1Up && fxPolyCondition)
-   {
-      //std::cout <<"PolyCondView ExecuteEvent for button 1 up" << std::endl;
+   // TGo4PolyCond::CleanupSpecials(); // JAM2016
+   TCutG::ExecuteEvent(event, px, py);
+   // TGo4PolyCond::CleanupSpecials(); // JAM 2016 avoid some intermediate TCutG objects in global list? NO!
+   if (event == kButton1Up && fxPolyCondition) {
       Pop(); // do condition under edit into foreground, for condarray
-      if(!fbExecutesMouseMenu && IsCutChanged())
-         {
-            UpdateCondition();
-         }
+      if (!fbExecutesMouseMenu && IsCutChanged()) {
+         UpdateCondition();
+      }
       fxPolyCondition->ResetLabel("pop"); // always pop our label to foreground
 
-      fbExecutesMouseEvent=kFALSE; //end update lock
-  }// if(event==...)
+      fbExecutesMouseEvent = kFALSE; // end update lock
+   }                                 // if(event==...)
 }
 
 Bool_t TGo4PolyCondView::IsCutChanged() const

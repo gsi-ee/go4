@@ -181,7 +181,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
                   break;
                }
                Int_t * subeventid= (Int_t *) (subevent) + 2; // full id starts 2 ints after subevent head anyway
-               //Int_t *subeventid= (Int_t*) &(subevent->i_procid); // full id is lw from control, subcrate, procid fields - some compilers complain here!
+               //Int_t *subeventid= (Int_t *) &(subevent->i_procid); // full id is lw from control, subcrate, procid fields - some compilers complain here!
                Short_t* data = (Short_t*) (subevent+1); // data starts after subevent header
                subtarget = target->AddSubEvent(*subeventid, data, datalength, fbDataCopyMode); // find subevent that matches id and fill it
                subtarget->SetType(subevent->i_type); // need to set ids manually afterwards
@@ -190,7 +190,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
                      datalength * fguSHORTBYCHAR + fguEVHEBYCHAR;
                subevent = (s_ves10_1*) subevtpointer;
                if ((Char_t*) subevent >= endofevent) {
-                  //std::cout << "found end of event, breaking.."<< std::endl;
+                  // found end of event, breaking
                   break;
                }
             } // while((datalength=subevent->l_dlen) >0)

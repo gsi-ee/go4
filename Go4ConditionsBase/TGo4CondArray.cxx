@@ -221,7 +221,6 @@ void TGo4CondArray::Enable()
    TGo4Condition::Enable();
    if (IsMultiEdit()) {
       Int_t ii = condarr->GetLast() + 1;
-      // std::cout << GetName() << ": Enable " <<ii<<" conditions " << std::endl;
       for (Int_t i = 0; i < ii; i++) {
          TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Enable();
@@ -238,7 +237,6 @@ void TGo4CondArray::Disable(Bool_t result)
    TGo4Condition::Disable(result);
    if (IsMultiEdit()) {
       Int_t ii = condarr->GetLast() + 1;
-      // std::cout << GetName() << ": Disable " <<ii<<" conditions " << " " << result << std::endl;
       for (Int_t i = 0; i < ii; i++) {
          TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Disable(result);
@@ -255,7 +253,6 @@ void TGo4CondArray::Invert(Bool_t on)
    TGo4Condition::Invert(on);
    if (IsMultiEdit()) {
       Int_t ii = condarr->GetLast() + 1;
-      // std::cout << GetName() << ": Invert " <<ii<<" conditions " << " " << on << std::endl;
       for (Int_t i = 0; i < ii; i++) {
          TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);
          cond->Invert(on);
@@ -304,7 +301,6 @@ void TGo4CondArray::ResetCounts()
 {
    TGo4Condition::ResetCounts();
    if (IsMultiEdit()) {
-      // std::cout << GetName() << ": Reset " <<ii<<" conditions " << " " << on << std::endl;
       Int_t ii = condarr->GetLast() + 1;
       for (Int_t i = 0; i < ii; i++) {
          TGo4Condition *cond = (TGo4Condition *)condarr->UncheckedAt(i);

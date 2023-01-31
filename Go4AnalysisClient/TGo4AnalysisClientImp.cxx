@@ -503,7 +503,6 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
       strtok((char*) buffer.Data(), ":"); // first find the command itself
       TString base = strtok(nullptr, ":");
       TString pass = strtok(nullptr, ":");
-      // std::cout << "ExecuteString found base " << base << ",  passwd " << pass << std::endl;
       StartObjectServer(base.Data(), pass.Data());
    } else
    if (!strcmp(command,"ANHServStop")) {

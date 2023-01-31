@@ -2458,13 +2458,11 @@ Long64_t TGo4Analysis::ExecuteLine(const char *command, Int_t *errcode)
         Ssiz_t len = strlen(cursor);
         at = strstr(cursor, "@");
         if (at) {
-           // std::cout <<"Found at: "<<at << std::endl;
            len = (Ssiz_t)(at - cursor);
            comstring.Append(cursor, len);
            comstring.Append("TGo4Analysis::Instance()->");
            cursor = at + 1;
         } else {
-           // std::cout <<"Appended "<<cursor << std::endl;
            comstring.Append(cursor);
         }
      } while (at);

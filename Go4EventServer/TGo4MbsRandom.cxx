@@ -87,7 +87,6 @@ Int_t TGo4MbsRandom::NextEvent()
    fxEvent->l_dlen = 0;
    s_ves10_1* subevt = (s_ves10_1*) clearfield;
    for (Int_t i = 0; i < fiNumSub; ++i) {
-      // std::cout <<"\tSubevt "<<i <<" at "<< subevt<< std::endl;
       int l_val_num = (int)(get_int(1., 7.)+0.5); // random number for number of data longwords
       if(l_val_num>fiNumDat) l_val_num=fiNumDat; // never exceed allocated field
       // setup subevent header:
@@ -100,12 +99,9 @@ Int_t TGo4MbsRandom::NextEvent()
       subevt->l_dlen=l_val_num*2+2; // subevent length in short units + 2
       fxEvent->l_dlen+=(l_val_num*sizeof(Int_t)) / 2 ; // add datalength to total length in shorts
 
-      //std::cout <<"\t dlen="<<subevt->l_dlen << std::endl;
-      Int_t *subdata= (Int_t*) (subevt+1); // data starts after subevt
-      //std::cout <<"\t data="<<subdata << std::endl;
+      Int_t *subdata = (Int_t *) (subevt+1); // data starts after subevt
       for (Int_t j = 0; j < l_val_num; ++j) {
          *(subdata + j) = rand_event(j + 1); // later use random generator here
-         // std::cout <<"\t\t"<<"filled "<<j<<" with "<<*(subdata+j) <<"at "<<(subdata+j) << std::endl;
       }                                        // for (... numdat ...)
       subevt=(s_ves10_1*) (subdata+l_val_num); // next subheader after last data
    }                                           // for(...numsub)

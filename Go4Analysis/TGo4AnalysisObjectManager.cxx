@@ -1304,11 +1304,9 @@ Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile *obfile)
       TFolder *top = dynamic_cast<TFolder *>(ob);
       if (top) {
          // kept for backward compatibility: read folder struct directly
-         // std::cout << "found top go4 folder "<< std::endl;
          rev = LoadFolder(top, fxGo4Dir, kFALSE);
       } else {
          // new: convert directory structure of file into folders
-         // std::cout <<"LoadObjects with Dirscan..." << std::endl;
          rev = LoadFolder(obfile, fxGo4Dir, kFALSE);
       }
       TGo4PolyCond::CleanupSpecials(); // remove references to file cuts
@@ -1505,14 +1503,8 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject *ob,
          // remove old reference before adding new one:
          fold->RecursiveRemove(oldob);
          CleanupDynamicLists(oldob);
-
-         // std::cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpad = " << (oldob == gPad) << std::endl;
-
          delete oldob;
       } else {
-
-         //std::cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
-
          return kFALSE; // do not overwrite old one
       }
    }
@@ -1565,7 +1557,6 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder *source, TFolder *destinati
       if (ob->InheritsFrom(TFolder::Class())) {
          TFolder *subfolder = dynamic_cast<TFolder *>(ob);
          if (subfolder) {
-            // std::cout <<"LLLLLL Load folder scanning subfolder "<< subfolder->GetName() << std::endl;
             TFolder *subdest = FindSubFolder(destination, subfolder->GetName(), kTRUE);
             LoadFolder(subfolder, subdest, replace); // recursively scan all subfolders
          }
@@ -1592,7 +1583,6 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder *destin
          TGo4Analysis::Instance()->Message(3, "Analysis LoadFolder: ZERO key in directory %s", source->GetName());
          return kFALSE;
       }
-      // std::cout <<"Reading key "<<key->GetName() << std::endl;
       TObject *ob = key->ReadObj();
       if (!ob) {
          TGo4Analysis::Instance()->Message(2, "Analysis LoadFolder: Retrying to read key %s ...", key->GetName());
@@ -1606,7 +1596,6 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder *destin
       if (ob->InheritsFrom(TDirectory::Class())) {
          TDirectory *subdir = dynamic_cast<TDirectory *>(ob);
          if (subdir) {
-            // std::cout <<"LLLLLL Load folder dir scanning for subdir "<< subdir->GetName() << std::endl;
             Bool_t inpicturefolder = kFALSE;
             if (!strcmp(subdir->GetName(), fgcPICTFOLDER))
                inpicturefolder = kTRUE;
@@ -1700,12 +1689,10 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder *source)
             TDirectory *subdir = dynamic_cast<TDirectory *>(currentdir->Get(subfoldername));
             if (!subdir) {
                subdir = currentdir->mkdir(subfoldername, "subdir");
-               // std::cout <<"SSSS Save folder created subdir "<<subfoldername << std::endl;
             }
 
             if (subdir) {
                subdir->cd();
-               // std::cout <<"SSSS Save folder scanning subfolder "<< subfolder->GetName() << std::endl;
                SaveFolder(subfolder); // recursively scan all subfolders
             } else {
                TGo4Analysis::Instance()->Message(2, "Analysis SaveFolder: Could not assign subdirectory %s to folder.",
@@ -1715,7 +1702,7 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder *source)
          }
       } else
          AppendToDir(ob, gDirectory);
-   } // while(..)
+   }
    return rev;
 }
 

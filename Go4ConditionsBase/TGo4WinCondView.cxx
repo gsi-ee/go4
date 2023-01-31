@@ -76,7 +76,6 @@ void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
          // check if update is needed:
          if ((TMath::Abs(xmin - X1) > epsilon) || (TMath::Abs(xmax - X2) > epsilon) ||
              (TMath::Abs(ymin - Y1) > epsilon) || (TMath::Abs(ymax - Y2) > epsilon)) {
-            // std::cout <<"ExecuteEvent modified 2d condition with colors, epsilon="<<epsilon << std::endl;
             fxWinCondition->SetValues(X1, X2, Y1, Y2);
             fxWinCondition->SetLineColor(GetLineColor());
             fxWinCondition->SetLineWidth(GetLineWidth());
@@ -87,7 +86,6 @@ void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
          }
       } else {
          if ((TMath::Abs(xmin - X1) > epsilon) || (TMath::Abs(xmax - X2) > epsilon)) {
-            // std::cout <<"ExecuteEvent modified 1d condition with colors, epsilon="<<epsilon << std::endl;
             fxWinCondition->SetValues(X1, X2);
             fxWinCondition->SetLineColor(GetLineColor());
             fxWinCondition->SetLineWidth(GetLineWidth());

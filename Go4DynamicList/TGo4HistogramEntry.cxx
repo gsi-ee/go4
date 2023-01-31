@@ -142,7 +142,7 @@ void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject *event, TDataMember* 
    fxCondPtr[ix] = nullptr;
    fxConEvents[ix] = event;
    if (!event || !member || !member->IsBasic()) return;
-   fxCondPtr[ix] = (char*) event+ offset;
+   fxCondPtr[ix] = (char *) event+ offset;
    fxCondType[ix] = member->GetDataType()->GetType();
 }
 
@@ -150,20 +150,20 @@ Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void* ptr)
 {
    if (!ptr) return 0.;
    switch (type) {
-       case kUInt_t:     return *((UInt_t*)ptr);
-       case kInt_t:      return *((Int_t*)ptr);
-       case kULong_t:    return *((ULong_t*)ptr);
-       case kLong_t:     return *((Long_t*)ptr);
-       case kULong64_t:  return *((ULong64_t*)ptr);
-       case kLong64_t:   return *((Long64_t*)ptr);
-       case kUShort_t:   return *((UShort_t*)ptr);
-       case kShort_t:    return *((Short_t*)ptr);
-       case kUChar_t:    return *((UChar_t*)ptr);
-       case kChar_t:     return *((Char_t*)ptr);
-       case kBool_t:     return *((Bool_t*)ptr);
-       case kFloat_t:    return *((Float_t*)ptr);
-       case kDouble_t:   return *((Double_t*)ptr);
-       case kDouble32_t: return *((Double32_t*)ptr);
+       case kUInt_t:     return *((UInt_t *)ptr);
+       case kInt_t:      return *((Int_t *)ptr);
+       case kULong_t:    return *((ULong_t *)ptr);
+       case kLong_t:     return *((Long_t *)ptr);
+       case kULong64_t:  return *((ULong64_t *)ptr);
+       case kLong64_t:   return *((Long64_t *)ptr);
+       case kUShort_t:   return *((UShort_t *)ptr);
+       case kShort_t:    return *((Short_t *)ptr);
+       case kUChar_t:    return *((UChar_t *)ptr);
+       case kChar_t:     return *((Char_t *)ptr);
+       case kBool_t:     return *((Bool_t *)ptr);
+       case kFloat_t:    return *((Float_t *)ptr);
+       case kDouble_t:   return *((Double_t *)ptr);
+       case kDouble32_t: return *((Double32_t *)ptr);
    }
    return 0.;
 }

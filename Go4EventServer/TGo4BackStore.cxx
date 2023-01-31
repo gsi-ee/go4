@@ -127,7 +127,6 @@ Int_t TGo4BackStore::Store(TGo4EventElement* event)
    fxEvent = event; // address of next event into event pointer
    if (!fbBranchExists) {
       // first call of Store, create new branch
-      // std::cout << "**********************Creating new branch!"<< std::endl;
       if (fxEvent) {
          TString topbranchname(fxEvent->GetName());
          topbranchname += ".";
