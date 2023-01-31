@@ -42,7 +42,6 @@ Bool_t TGo4TaskHandlerRunnable::CheckStopBuffer(TBuffer* buf, Int_t *result)
 {
    if (!buf)
       return kFALSE;
-   // std::cout <<"CCCCCCCCCC CheckStopBuffer in "<< GetName() << std::endl;
    Int_t val = TGo4BufferQueue::DecodeValueBuffer(buf);
    if (result)
       *result = val;
@@ -50,11 +49,9 @@ Bool_t TGo4TaskHandlerRunnable::CheckStopBuffer(TBuffer* buf, Int_t *result)
       return kFALSE; // no valid message in buffer
    Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t)(val);
    if (comvalue == kComCloseInput) {
-      // std::cout <<"CCCCCCCCCC CheckStopBuffer has close input in "<< GetName() << std::endl;
       GetThread()->Stop();
       return kTRUE;
    } else if (comvalue == kComAbortTask) {
-      // std::cout <<"CCCCCCCCCC CheckStopBuffer has task abort command in "<< GetName() << std::endl;
       TGo4Log::Debug(" !!!Receiving taskhandler abort buffer in %s !!!", GetName());
       throw TGo4TaskHandlerAbortException(this);
 

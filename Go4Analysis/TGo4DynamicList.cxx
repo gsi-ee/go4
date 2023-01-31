@@ -149,8 +149,6 @@ TDataMember* FindDataMember(TClass *eventclass,
                *totaloffset+=baseclass->GetDelta();
                // inc total offset to this by baseclass offset
                // member offset is relative to TClass (i.e. baseclass here)
-               //std::cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << std::endl;
-               //std::cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << std::endl;
                break;
             }
          } // if(baseclass)
@@ -169,20 +167,12 @@ TDataMember* FindDataMember(TClass *eventclass,
       {
          Int_t datasize = eventmember->GetDataType()->Size();
          *totaloffset += indexoffset*datasize;
-         //std::cout <<"totaloffset:"<< *totaloffset<< std::endl;
       }
       else
       {
          throw TGo4DynamicListException(nullptr,
                TString::Format("Index %ld for array member:%s out of range %s[%d]", indexoffset, memname, tname, maxindex).Data());
       }
-      // for now, we only handle 1d arrays
-      // root allows to check higher dimensions, maybe later...?
-      //for(Int_t ii = 0; ii < 4; ++ii)
-      //{
-      //   Int_t maxindex=eventmember->GetMaxIndex(ii);
-      //   std::cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << std::endl;
-      //}
    }
 
    return eventmember;

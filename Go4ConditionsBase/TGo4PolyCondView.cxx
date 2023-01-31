@@ -45,8 +45,6 @@ TGo4PolyCondView::~TGo4PolyCondView()
 
 void TGo4PolyCondView::Paint(Option_t* opt)
 {
-
-    //std::cout<<"TGo4PolyCondView::Paint, this="<< (long) this <<", Threadid="<< (long) pthread_self()<<", polycondition:"<< (long) fxPolyCondition<< std::endl;
     if(fxPolyCondition) TCutG::Paint(opt);
    // we have a valid condition set from painter.Otherwise,
    // suppress painting of condition view without owner. This case
@@ -58,7 +56,6 @@ void TGo4PolyCondView::Paint(Option_t* opt)
 Int_t TGo4PolyCondView::InsertPoint()
 {
    fbExecutesMouseMenu=kTRUE;
-   //std::cout<<"TGo4PolyCondView::InsertPoint, this="<< (long) this <<", Threadid="<< (long) pthread_self()<< std::endl;
    Int_t rev = TGraph::InsertPoint();
    UpdateCondition();
    fbExecutesMouseMenu=kFALSE;

@@ -2871,7 +2871,6 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    if(blankbg) {
       panel->ResetPadFillColors(can,0);
-      // std::cout <<"Reset pad fill colors for blank bg option with canvas "<<can->GetName() <<std::endl;
       gROOT->SetBatch(kTRUE); // force ROOT to make memory print of canvas instead of using actual window display for image formats.
    }
 

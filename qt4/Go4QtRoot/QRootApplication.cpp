@@ -103,7 +103,6 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
     QObject::connect( timer, &QTimer::timeout, this, &QRootApplication::execute);
     timer->setSingleShot(false);
     timer->start(20);
-
   }
   // install a msg-handler
   qInstallMessageHandler( q5MessageOutput );
@@ -115,8 +114,10 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
   const char *env = gSystem->Getenv("ROOT_CANVAS");
   int flag = 0;
   if (env) {
-     if ((strcmp(env,"yes") == 0) || (strcmp(env,"YES") == 0)) flag = 1; else
-     if ((strcmp(env,"no") == 0) || (strcmp(env,"NO") == 0)) flag = -1;
+    if ((strcmp(env, "yes") == 0) || (strcmp(env, "YES") == 0))
+       flag = 1;
+    else if ((strcmp(env, "no") == 0) || (strcmp(env, "NO") == 0))
+       flag = -1;
   }
 
 #ifdef _MSC_VER
@@ -139,7 +140,7 @@ void QRootApplication::execute()
 {
    //call the inner loop of ROOT
 
-    //gSystem->InnerLoop();
+   // gSystem->InnerLoop();
 
    // SL 28.5.2015: use ProcessEvents instead of InnerLoop to avoid total block of the qt event loop
    gSystem->ProcessEvents();
@@ -147,8 +148,7 @@ void QRootApplication::execute()
 
 void QRootApplication::quit()
 {
-   // std::cout <<"QRootApplication::quit()" << std::endl;
-//   gSystem->Exit( 0 );
+   // gSystem->Exit( 0 );
 }
 
 bool QRootApplication::IsRootCanvasMenuEnabled()

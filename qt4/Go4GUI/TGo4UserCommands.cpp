@@ -134,7 +134,6 @@ void TGo4UserCommands::ConfigureAnalysisMacros()
       tip.append(": ");
       tip.append(fAnalysisMacroButtons[id]->shortcut().toString());
       go4sett->setAnalysisMacroTip(id, tip);
-      // std::cout<<"ConfigureAnalysisMacros - index"<<id<<" set command "<<com.toLatin1 ().constData ()<<",
       // tip:"<<tip.toLatin1 ().constData ()<< std::endl;
 
       bool execute = setup.GetAutoExecute(id);
@@ -206,7 +205,6 @@ void TGo4UserCommands::ExecuteAnalysisMacro(int id)
    QString cmd = fAnalysisMacroCommands[id];
    if (cmd.isEmpty())
       return;
-   // std::cout << "Invoke custom analysis command: "<< cmd.toLatin1().constData() <<std::endl;
    StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
    TGo4ServerProxy *serv = Browser()->FindServer();
    if (serv) {

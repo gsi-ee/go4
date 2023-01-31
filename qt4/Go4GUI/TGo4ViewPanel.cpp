@@ -3741,7 +3741,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad *tgtpad, TPad *srcpad, const char *s
          kind = 4;
          h1 = Get_fHistogram(obj);
       } else {
-         // std::cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << std::endl;
+         // Add other object ???
       }
 
       // only first object is added,

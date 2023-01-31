@@ -427,7 +427,6 @@ Bool_t TGo4Task::SubmitCommand(const char *name)
       // try simple command with remote command envelope:
       TGo4LockGuard mainlock;
       com = new TGo4RemoteCommand(name);
-      // std::cout <<"submitted remote command of "<<name << std::endl;
    }
    return SubmitCommand(com);
 }
@@ -469,7 +468,6 @@ Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char *rece
       {
          TBuffer* commandbuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
          queue->AddBuffer(commandbuffer); // put command into queue
-         //std::cout <<"UUUUUUUU SubmitEmergencyData to "<<receiver << std::endl;
       }
       return kTRUE;
    }

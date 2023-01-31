@@ -68,8 +68,7 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
    TGo4AnalysisStep* step = nullptr;
    fxStepIterator->Reset();
    fiCurrentStepIndex = 0;
-   //std::cout <<"IIIIIIII InitEventClasses with checking: "<<IsStepChecking() << std::endl;
-   while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
+   while((step = dynamic_cast<TGo4AnalysisStep*>(fxStepIterator->Next())) != nullptr)
    {
       step->InitEventClasses();
       // last enabled step:
@@ -103,9 +102,8 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
       // Test for steps valid:
       fxStepIterator->Reset();
       fiCurrentStepIndex = 0;
-      while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
+      while((step = dynamic_cast<TGo4AnalysisStep*>(fxStepIterator->Next())) != nullptr)
       {
-         //std::cout << "match testing of analysis step " << step->GetName() << std::endl;
          if(! step->IsMatchingPrevious() )
          {
             rev = kFALSE;
@@ -242,22 +240,18 @@ Bool_t TGo4AnalysisStepManager::NewStepSource(const char *name, TGo4EventSourceP
    TGo4AnalysisStep* step = nullptr;
    if(!name) {
       // zero name: use first step
-      step=dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(fiFirstStepIndex));
-      //std::cout << "new step source: zero name"<< std::endl;
+      step = dynamic_cast<TGo4AnalysisStep*> (fxStepList->At(fiFirstStepIndex));
    } else {
       // step specified by name:
-      step=GetAnalysisStep(name);
-      //std::cout << "new step source: name="<< name << std::endl;
+      step = GetAnalysisStep(name);
    }
 
    if(step) {
       //step->SetEventSource(par); // remember parameter for next init
       step->NewEventSource(par); // delete old, and create the new source now
-      result=kTRUE;
-      //std::cout << "new step source: step found"<< std::endl;
+      result = kTRUE;
    } else {
-      result=kFALSE;
-      //std::cout << "new step source: step not found"<< std::endl;
+      result = kFALSE;
    }
    return result;
 }

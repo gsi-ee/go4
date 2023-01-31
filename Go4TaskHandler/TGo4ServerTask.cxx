@@ -171,7 +171,6 @@ Bool_t TGo4ServerTask::RemoveClient(const char *name, Bool_t clientwait, Bool_t 
 Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
 {
    Int_t rev = 0; // return value is number of removed clients
-   // std::cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << std::endl;
    //// new: first figure out all existing names, then remove one by one:
    TObjArray names;
    Bool_t reset = kTRUE;
@@ -227,13 +226,11 @@ void TGo4ServerTask::SetCurrentTask(const char *name)
          if (!name) {
             // zero name given, set pointer to last handler still in list
             fxCurrentTaskHandler = fxTaskManager->GetLastTaskHandler();
-            // std::cout << "**** set current th from get lastth:"<< fxCurrentTaskHandler << std::endl;
          } else {
             // name specified, search for it
             han = fxTaskManager->GetTaskHandler(name);
             if (han) {
                fxCurrentTaskHandler = han;
-               // std::cout << "**** set current th from name:"<< fxCurrentTaskHandler << std::endl;
             } else {
                TGo4Log::Debug(" ServerTask: FAILED setting current task to %s-- no such client! ", name);
             }
@@ -291,7 +288,6 @@ Int_t TGo4ServerTask::TimerConnect()
          // we have a transport instance to disconnect
          fxDisConnectTransport->Close();
          // delete fxDisConnectTransport; // new
-         // std::cout << "++++++++Timer closed transport"<< std::endl;
          fbConnectIsClose = kTRUE;
          fbDisConnectRequest = kFALSE; // we served the request, reset it
          rev += 1;

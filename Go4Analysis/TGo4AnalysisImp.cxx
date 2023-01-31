@@ -299,7 +299,6 @@ TGo4Analysis::~TGo4Analysis()
    TGo4CommandInvoker::UnRegister(this);
    fxInstance = nullptr; // reset static singleton instance pointer
    gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()).Data());
-   //std::cout <<"end of dtor" << std::endl;
 }
 
 
@@ -1144,8 +1143,6 @@ void TGo4Analysis::CloseAutoSaveFile()
 void TGo4Analysis::UpdateNamesList()
 {
    GO4TRACE((11,"TGo4Analysis::UpdateNamesList()",__LINE__, __FILE__));
-   //
-   //std::cout <<"UpdateNamesList: current dir:"<< gDirectory->GetName() << std::endl;
    // first try: update all
    delete fxObjectNames;
    fxObjectNames = CreateNamesList();
