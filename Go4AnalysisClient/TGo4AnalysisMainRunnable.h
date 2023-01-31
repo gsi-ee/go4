@@ -30,7 +30,7 @@ class TGo4Analysis;
 class TGo4AnalysisMainRunnable : public TGo4Runnable {
   public:
 
-    TGo4AnalysisMainRunnable(const char *name, TGo4AnalysisClient* cli);
+    TGo4AnalysisMainRunnable(const char *name, TGo4AnalysisClient *cli);
 
     virtual ~TGo4AnalysisMainRunnable();
 

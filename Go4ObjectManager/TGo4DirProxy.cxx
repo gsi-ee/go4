@@ -268,7 +268,7 @@ const char *TGo4DirProxy::GetContainedObjectInfo()
 
 Int_t TGo4DirProxy::GetObjectSizeInfo() const
 {
-    TFile* f = dynamic_cast<TFile*> (fDir);
+    TFile *f = dynamic_cast<TFile*> (fDir);
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();
 }
 
@@ -359,7 +359,7 @@ void TGo4DirProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
    const char *groot = slot->GetPar("DirProxy::gROOT");
 
    if (filename) {
-     TFile* f = TFile::Open(filename);
+     TFile *f = TFile::Open(filename);
      if (f) SetDir(f, kTRUE, kTRUE);
    } else if (groot)
      SetDir(gROOT, kFALSE, kFALSE);
@@ -369,7 +369,7 @@ Bool_t TGo4DirProxy::UpdateObjectInFile(const char *filepath, TObject *obj)
 {
    if (!filepath || !fDir) return kFALSE;
 
-   TFile* f = dynamic_cast<TFile*> (fDir);
+   TFile *f = dynamic_cast<TFile*> (fDir);
    if (!f) return kFALSE;
 
    if (f->ReOpen("UPDATE")<0) return kFALSE;

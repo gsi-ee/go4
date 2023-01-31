@@ -187,7 +187,7 @@ public:
    virtual Bool_t InitEventClasses();
 
    /** Returns pointer on analysis object manager */
-   TGo4AnalysisObjectManager* ObjectManager() const { return fxObjectManager; }
+   TGo4AnalysisObjectManager *ObjectManager() const { return fxObjectManager; }
 
    /** Add (create) new dynamic histogram entry which connects an existing
     * histogram with existing condition and data.
@@ -735,7 +735,7 @@ public:
     * fullname specifies name of condition (optionally with subfolder name)
     * xmin, xmax - condition range
     * HistoName - name of histogram, to which condition is assigned */
-   TGo4WinCond* MakeWinCond(const char *fullname,
+   TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             const char *HistoName = nullptr);
 
@@ -744,7 +744,7 @@ public:
     * xmin, xmax - X condition range
     * ymin, ymax - Y condition range
     * HistoName - name of histogram, to which condition is assigned */
-   TGo4WinCond* MakeWinCond(const char *fullname,
+   TGo4WinCond *MakeWinCond(const char *fullname,
                             Double_t xmin, Double_t xmax,
                             Double_t ymin, Double_t ymax,
                             const char *HistoName = nullptr);
@@ -758,7 +758,7 @@ public:
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
-   TGo4PolyCond* MakePolyCond(const char *fullname,
+   TGo4PolyCond *MakePolyCond(const char *fullname,
                               Int_t npoints,
                               Double_t (*points) [2],
                               const char *HistoName = nullptr,
@@ -771,7 +771,7 @@ public:
     * a1,a2 - width of ellipse half axes
     * theta - ellipse tilt angle
     * HistoName - name of histogram, to which condition is assigned  */
-   TGo4ShapedCond* MakeEllipseCond(const char *fullname,
+   TGo4ShapedCond *MakeEllipseCond(const char *fullname,
                                    Int_t npoints,
                                    Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0.,
                                    const char *HistoName = nullptr);
@@ -782,7 +782,7 @@ public:
     * cx,cy   - circle center coordinates
     * r       - circle radius
     * HistoName - name of histogram, to which condition is assigned */
-   TGo4ShapedCond* MakeCircleCond(const char *fullname,
+   TGo4ShapedCond *MakeCircleCond(const char *fullname,
                                   Int_t npoints, Double_t cx, Double_t cy, Double_t r,
                                   const char *HistoName = nullptr);
 
@@ -792,7 +792,7 @@ public:
     *  a1,a2 - width of box half axes
     *  theta - tilt angle
     *  HistoName - name of histogram, to which condition is assigned */
-   TGo4ShapedCond* MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
+   TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy,
                                Double_t a1, Double_t a2, Double_t theta,
                                const char *HistoName = nullptr);
 
@@ -806,7 +806,7 @@ public:
     * To use method, array should be declared as following:
     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
     * cond = MakePolyCond("Folder/CondName", 4, points); */
-   TGo4ShapedCond* MakeFreeShapeCond(const char *fullname, Int_t npoints,
+   TGo4ShapedCond *MakeFreeShapeCond(const char *fullname, Int_t npoints,
                                      Double_t (*points)[2], const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
@@ -815,7 +815,7 @@ public:
     * num - number of values in array
     * values - 1d array with values
     * HistoName - name of histogram, to which condition is assigned */
-   TGo4ListCond* MakeListCond(const char *fullname, const Int_t num,
+   TGo4ListCond *MakeListCond(const char *fullname, const Int_t num,
                               const Int_t *values, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to test against
@@ -825,14 +825,14 @@ public:
     * stop - last value in list
     * step - distance between list entries
     * HistoName - name of histogram, to which condition is assigned */
-   TGo4ListCond* MakeListCond(const char *fullname, const Int_t start,
+   TGo4ListCond *MakeListCond(const char *fullname, const Int_t start,
                               const Int_t stop, const Int_t step = 1, const char *HistoName = nullptr);
 
    /** Create "whitlelist" condition with separate values to tes against
     * condition is true if any of the values matches
     * This method creates empty list condition of specified name and title to be set by the user,
     * or already defined condition from previous autosave*/
-   TGo4ListCond* MakeListCond(const char *fullname, const char *title,
+   TGo4ListCond *MakeListCond(const char *fullname, const char *title,
                               const char *HistoName = nullptr);
 
    /** Create a TGraph with initial values as specified by points, xvalues and yvalues.
@@ -851,7 +851,7 @@ public:
     * If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a rolling graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-   TGo4RollingGraph* MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
+   TGo4RollingGraph *MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
    /** Create parameter of specified class,
     * fullname specifies name of condition (optionally with subfolder name)
@@ -893,13 +893,13 @@ public:
    void ProcessCrtlCSignal();
 
    /** Set pointer on sniffer object */
-   void SetSniffer(TGo4AnalysisSniffer* sniff) { fSniffer = sniff; }
+   void SetSniffer(TGo4AnalysisSniffer *sniff) { fSniffer = sniff; }
 
    /** Returns pointer on current sniffer */
-   TGo4AnalysisSniffer* GetSniffer() const { return fSniffer; }
+   TGo4AnalysisSniffer *GetSniffer() const { return fSniffer; }
 
    /** Returns pointer on analysis client */
-   TGo4AnalysisClient* GetAnalysisClient() const { return fxAnalysisSlave; }
+   TGo4AnalysisClient *GetAnalysisClient() const { return fxAnalysisSlave; }
 
    /** Stop analysis event loop, works in both batch and gui-controlled mode */
    void StopAnalysis();

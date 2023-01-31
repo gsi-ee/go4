@@ -265,13 +265,13 @@ class TGo4EventProcessor: public TGo4EventSource {
         * If theses parameters are missing, an empty graph is created to be specified by the user.
         * If a rolling graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGo4RollingGraph* MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
+      TGo4RollingGraph *MakeRollingGraph(const char *fullname, const char *title, Int_t points = 0, Int_t average = 1);
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
        * xmin, xmax - condition range
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4WinCond* MakeWinCond(const char *fullname,
+      TGo4WinCond *MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
                                const char *HistoName = nullptr);
 
@@ -280,7 +280,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * xmin, xmax - X condition range
        * ymin, ymax - Y condition range
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4WinCond* MakeWinCond(const char *fullname,
+      TGo4WinCond *MakeWinCond(const char *fullname,
                                Double_t xmin, Double_t xmax,
                                Double_t ymin, Double_t ymax,
                                const char *HistoName = nullptr);
@@ -294,7 +294,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
        * cond = MakePolyCond("Folder/CondName", 4, points);
        */
-      TGo4PolyCond* MakePolyCond(const char *fullname,
+      TGo4PolyCond *MakePolyCond(const char *fullname,
                                  Int_t npoints,
                                  Double_t (*points) [2],
                                  const char *HistoName = nullptr);
@@ -307,7 +307,7 @@ class TGo4EventProcessor: public TGo4EventSource {
                * theta - ellipse tilt angle
                * HistoName - name of histogram, to which condition is assigned
                */
-      TGo4ShapedCond* MakeEllipseCond(const char *fullname,
+      TGo4ShapedCond *MakeEllipseCond(const char *fullname,
                                       Int_t npoints,
                                       Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta = 0,
                                       const char *HistoName = nullptr);
@@ -318,9 +318,9 @@ class TGo4EventProcessor: public TGo4EventSource {
         * cx,cy   - circle center coordinates
        * r       - circle radius
        * HistoName - name of histogram, to which condition is assigned  */
-      TGo4ShapedCond* MakeCircleCond(const char *fullname,
-                  Int_t npoints, Double_t cx, Double_t cy, Double_t r,
-                  const char *HistoName = nullptr);
+      TGo4ShapedCond *MakeCircleCond(const char *fullname,
+                                     Int_t npoints, Double_t cx, Double_t cy, Double_t r,
+                                     const char *HistoName = nullptr);
 
       /** Create tilted rectangular box shaped polygon condition.
                  * fullname specifies name of condition (optionally with subfolder name)
@@ -330,7 +330,7 @@ class TGo4EventProcessor: public TGo4EventSource {
                  * theta - tilt angle
                  * HistoName - name of histogram, to which condition is assigned
                  */
-      TGo4ShapedCond* MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+      TGo4ShapedCond *MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                                   const char *HistoName = nullptr);
 
       /** Create free shaped (polygon) condition.
@@ -344,34 +344,34 @@ class TGo4EventProcessor: public TGo4EventSource {
            * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
            * cond = MakePolyCond("Folder/CondName", 4, points);
            */
-     TGo4ShapedCond* MakeFreeShapeCond(const char *fullname,
+     TGo4ShapedCond *MakeFreeShapeCond(const char *fullname,
                                      Int_t npoints,
                                      Double_t (*points) [2],
                                      const char *HistoName = nullptr);
 
-     /** Create "whitlelist" condition with separate values to test against
+      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches
        * fullname specifies name of condition (optionally with subfolder name)
        * num - number of values in array
        * values - 1d array with values
        * HistoName - name of histogram, to which condition is assigned
        */
-      TGo4ListCond* MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName = nullptr);
+      TGo4ListCond *MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName = nullptr);
 
-     /** Create "whitlelist" condition with separate values to test against
+      /** Create "whitlelist" condition with separate values to test against
        * condition is true if any of the values matches
        * fullname specifies name of condition (optionally with subfolder name)
        * start - first value in list
        * stop - last value in list
        * step - distance between list entries
        * HistoName - name of histogram, to which condition is assigned */
-      TGo4ListCond* MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char *HistoName = nullptr);
+      TGo4ListCond *MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step = 1,  const char *HistoName = nullptr);
 
       /** Create "whitlelist" condition with separate values to tes against
         * condition is true if any of the values matches
         * This method creates empty list condition of specified name and title to be set by the user,
         * or already defined condition from previous autosave*/
-      TGo4ListCond* MakeListCond(const char *fullname, const char *title, const char *HistoName = nullptr);
+      TGo4ListCond *MakeListCond(const char *fullname, const char *title, const char *HistoName = nullptr);
 
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)
@@ -438,7 +438,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** @link aggregation */
       TGo4EventCalibration *fxCalibration{nullptr};
 
-      /** flag to steer reprocessing of same input event */
+      /** flag to steer re-processing of same input event */
       Bool_t fbKeepInputEvent{kFALSE}; //!
 
       /** flag to steer continue filling of same output event */

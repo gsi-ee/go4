@@ -28,7 +28,7 @@ class TGo4AnalysisClient;
  */
 class TGo4AnalysisWatchRunnable : public TGo4Runnable {
   public:
-     TGo4AnalysisWatchRunnable(const char *name, TGo4AnalysisClient* cli);
+     TGo4AnalysisWatchRunnable(const char *name, TGo4AnalysisClient *cli);
 
      virtual ~TGo4AnalysisWatchRunnable();
 

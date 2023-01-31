@@ -53,7 +53,7 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
    if(fxCutView && cutinpad && fxCutView->IsAtExecuteMouseEvent()) return; // do not repaint during mouse move on polygon
    if(fxCutView && fxCutView->IsAtExecuteMouseMenu()) return;
 
-   TGo4PolyCond* pconny=dynamic_cast<TGo4PolyCond*>(fxCondition);
+   TGo4PolyCond *pconny=dynamic_cast<TGo4PolyCond*>(fxCondition);
    if(pconny && pconny->IsVisible()) {
       TCutG* cutg = pconny->GetCut(kFALSE);
       if(!cutg) return; // case of empty polygon condition

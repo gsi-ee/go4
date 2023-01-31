@@ -27,7 +27,7 @@ Bool_t projectionY(const char *name1, const char *polyname, Int_t firstxbin, Int
       std::cout <<"projectionY could not get 2d histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
-   TGo4PolyCond* poly = nullptr;
+   TGo4PolyCond *poly = nullptr;
    TCutG *cut = nullptr;
    if(polyname && strlen(polyname) > 0){
       TString fullname2 = go4->FindItem(polyname);

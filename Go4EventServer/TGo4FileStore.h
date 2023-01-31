@@ -97,7 +97,7 @@ class TGo4FileStore : public TGo4EventStore {
     /** used by all Store methods to write with referencing event number in name */
     void WriteToStore(TNamed *ob);
 
-    TFile* fxFile{nullptr}; //!
+    TFile *fxFile{nullptr}; //!
 
     TTree * fxTree{nullptr}; //!
 

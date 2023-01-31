@@ -1,7 +1,7 @@
 void testr() {
    std::cout << "Read object manager from file " << std::endl << std::endl;
 
-   TFile* f2 = TFile::Open("objm.root");
+   TFile *f2 = TFile::Open("objm.root");
    TGo4ObjectManager* objm2 = nullptr;
    f2->GetObject("ObjectManager", objm2);
    if (objm2) objm2->ReadDataFromFile(f2);

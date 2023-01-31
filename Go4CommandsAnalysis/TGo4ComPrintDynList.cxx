@@ -26,7 +26,7 @@ TGo4ComPrintDynList::TGo4ComPrintDynList() :
 
 Int_t TGo4ComPrintDynList::ExeCom()
 {
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (!cli) {
       TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
       return 1;

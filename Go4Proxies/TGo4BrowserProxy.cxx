@@ -1156,7 +1156,7 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filena
    TObject *obj = slot->GetAssignedObject();
    if (!obj) return kFALSE;
 
-   TFile* f = TFile::Open(filename,"UPDATE");
+   TFile *f = TFile::Open(filename,"UPDATE");
    if (!f) return kFALSE;
 
    TDirectory* dir = f;
@@ -1266,7 +1266,7 @@ Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char *filename,
    if (prefetch)
       FetchItem(selectedpath, 2000);
 
-   TFile* f = TFile::Open(filename, "recreate", description);
+   TFile *f = TFile::Open(filename, "recreate", description);
    if (!f) return kFALSE;
 
    fxOM->SaveDataToFile(f, kTRUE, toppath);

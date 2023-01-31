@@ -28,7 +28,7 @@ void test() {
    objm.Print("");
 
 //   std::cout << "Saving OM to file" << std::endl;
-//   TFile* f = TFile::Open("objm.root","recreate");
+//   TFile *f = TFile::Open("objm.root","recreate");
 //   objm.SaveDataToFile(f);
 //   objm.Write("ObjectManager");
 //   delete f;
@@ -36,7 +36,7 @@ void test() {
    //return;
 
 /*
-   TFile* fa = TFile::Open("asf.root");
+   TFile *fa = TFile::Open("asf.root");
    fa->Get("Histograms");
    fa->Get("Histograms/Crate1");
    fa->Get("Histograms/Crate2");

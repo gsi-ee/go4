@@ -565,7 +565,7 @@ TGo4AnalysisStatus *TGo4AnalysisWebStatus::CreateStatus()
 Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus *status)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
+   TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (!an || !status) return kFALSE;
 

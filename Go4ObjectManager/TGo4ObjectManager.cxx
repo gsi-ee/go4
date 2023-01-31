@@ -353,7 +353,7 @@ void TGo4ObjectManager::Event(TGo4Slot *source, Int_t id, void* param)
    TGo4Slot::Event(source, id, param);
 }
 
-void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot *startslot)
+void TGo4ObjectManager::SaveDataToFile(TFile *f, Bool_t onlyobjs, TGo4Slot *startslot)
 {
    Bool_t usefile = (f != nullptr);
 
@@ -391,7 +391,7 @@ void TGo4ObjectManager::SaveDataToFile(TFile* f, Bool_t onlyobjs, TGo4Slot *star
    if (olddir) olddir->cd();
 }
 
-void TGo4ObjectManager::ReadDataFromFile(TFile* f)
+void TGo4ObjectManager::ReadDataFromFile(TFile *f)
 {
    Bool_t usefile = (f != nullptr);
 

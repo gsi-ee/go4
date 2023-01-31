@@ -40,7 +40,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
       TGo4HistogramServer();
 
-      TGo4HistogramServer(TGo4AnalysisClient* owner,
+      TGo4HistogramServer(TGo4AnalysisClient *owner,
                           const char *servername = "localhost",
                           const char *password = "go4",
                           Bool_t useobjectserver = kFALSE);
@@ -58,7 +58,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
         * the connection process itself is handled by the connector runnable */
       virtual Int_t TimerConnect();
 
-      TGo4AnalysisClient* GetAnalysisClient() const { return fxAnalysisClient; }
+      TGo4AnalysisClient *GetAnalysisClient() const { return fxAnalysisClient; }
 
       TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
 

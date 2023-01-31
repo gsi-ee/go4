@@ -29,7 +29,7 @@ Int_t TGo4ComPrintConditions::ExeCom()
 {
    GO4TRACE((12,"TGo4ComPrintConditions::ExeCom() dtor",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (!cli) {
       GO4TRACE((11,"TGo4ComPrintConditions::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());

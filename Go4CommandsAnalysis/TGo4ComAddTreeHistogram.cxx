@@ -52,7 +52,7 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
 {
    GO4TRACE((12,"TGo4ComAddTreeHistogram::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli) {
       TGo4Analysis *ana = TGo4Analysis::Instance();
       if (ana) {

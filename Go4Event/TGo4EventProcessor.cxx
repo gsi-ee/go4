@@ -193,8 +193,7 @@ TH2 *TGo4EventProcessor::MakeTH2(char type, const char *fullname, const char *ti
                                             xtitle, ytitle, ztitle);
 }
 
-
-TGraph*TGo4EventProcessor:: MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues,
+TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues,
     Double_t* yvalues)
 {
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
@@ -205,20 +204,20 @@ TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, T
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
 }
 
-TGo4RollingGraph* TGo4EventProcessor::MakeRollingGraph(const char *fullname, const char *title, Int_t points, Int_t average)
+TGo4RollingGraph *TGo4EventProcessor::MakeRollingGraph(const char *fullname, const char *title, Int_t points, Int_t average)
 {
    return TGo4Analysis::Instance()->MakeRollingGraph(fullname, title, points, average);
 }
 
 
-TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char *fullname,
+TGo4WinCond *TGo4EventProcessor::MakeWinCond(const char *fullname,
                                              Double_t xmin, Double_t xmax,
                                              const char *HistoName)
 {
    return TGo4Analysis::Instance()->MakeWinCond(fullname, xmin, xmax, HistoName);
 }
 
-TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char *fullname,
+TGo4WinCond *TGo4EventProcessor::MakeWinCond(const char *fullname,
                                              Double_t xmin, Double_t xmax,
                                              Double_t ymin, Double_t ymax,
                                              const char *HistoName)
@@ -229,7 +228,7 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char *fullname,
                                                 HistoName);
 }
 
-TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char *fullname,
+TGo4PolyCond *TGo4EventProcessor::MakePolyCond(const char *fullname,
                                                Int_t npoints,
                                                Double_t (*points) [2],
                                                const char *HistoName)
@@ -238,26 +237,26 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char *fullname,
 }
 
 
-TGo4ShapedCond* TGo4EventProcessor::MakeEllipseCond(const char *fullname, Int_t npoints, Double_t cx, Double_t cy,
+TGo4ShapedCond *TGo4EventProcessor::MakeEllipseCond(const char *fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t a1, Double_t a2, Double_t theta, const char *HistoName)
 {
    return TGo4Analysis::Instance()->MakeEllipseCond(fullname, npoints, cx, cy, a1, a2, theta, HistoName);
 }
 
-TGo4ShapedCond* TGo4EventProcessor::MakeCircleCond(const char *fullname, Int_t npoints, Double_t cx, Double_t cy,
+TGo4ShapedCond *TGo4EventProcessor::MakeCircleCond(const char *fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t r, const char *HistoName)
 {
    return TGo4Analysis::Instance()->MakeCircleCond(fullname, npoints, cx, cy, r, HistoName);
 }
 
-TGo4ShapedCond* TGo4EventProcessor::MakeBoxCond(const char *fullname,
+TGo4ShapedCond *TGo4EventProcessor::MakeBoxCond(const char *fullname,
                Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char *HistoName )
 {
    return TGo4Analysis::Instance()->MakeBoxCond(fullname, cx, cy, a1, a2, theta,HistoName);
 }
 
-TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char *fullname,
+TGo4ShapedCond *TGo4EventProcessor::MakeFreeShapeCond(const char *fullname,
                                           Int_t npoints,
                                           Double_t (*points) [2],
                                           const char *HistoName)
@@ -266,19 +265,19 @@ TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char *fullname,
 }
 
 
-TGo4ListCond* TGo4EventProcessor::MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName)
+TGo4ListCond *TGo4EventProcessor::MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName)
 {
    return TGo4Analysis::Instance()->MakeListCond(fullname, num, values,  HistoName);
 }
 
 
-TGo4ListCond* TGo4EventProcessor::MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step,  const char *HistoName)
+TGo4ListCond *TGo4EventProcessor::MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step,  const char *HistoName)
 {
   return TGo4Analysis::Instance()->MakeListCond(fullname, start, stop, step,HistoName);
 }
 
 
-TGo4ListCond* TGo4EventProcessor::MakeListCond(const char *fullname, const char *title, const char *HistoName)
+TGo4ListCond *TGo4EventProcessor::MakeListCond(const char *fullname, const char *title, const char *HistoName)
 {
   return TGo4Analysis::Instance()->MakeListCond(fullname, title, HistoName);
 }

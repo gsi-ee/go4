@@ -50,7 +50,7 @@ Int_t TGo4ComSaveAnalysisStatus::ExeCom()
 {
    GO4TRACE((12,"TGo4ComSaveAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli)
    {
       GO4TRACE((11,"TGo4ComSaveAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));

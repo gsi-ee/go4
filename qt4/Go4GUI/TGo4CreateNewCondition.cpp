@@ -74,19 +74,19 @@ TGo4Condition *TGo4CreateNewCondition::MakeCondition()
 
    switch (ctype) {
       case 0: {
-         TGo4WinCond* wcond = new TGo4WinCond(cname, "1-D window condition");
+         TGo4WinCond *wcond = new TGo4WinCond(cname, "1-D window condition");
          wcond->SetValues(0.,100.);
          cond = wcond;
          break;
       }
       case 1: {
-         TGo4WinCond* wcond = new TGo4WinCond(cname, "2-D window condition");
+         TGo4WinCond *wcond = new TGo4WinCond(cname, "2-D window condition");
          wcond->SetValues(0.,100.,0.,100.);
          cond = wcond;
          break;
       }
       case 2: {
-         TGo4PolyCond* pcond = new TGo4PolyCond(cname, "Polygon condition");
+         TGo4PolyCond *pcond = new TGo4PolyCond(cname, "Polygon condition");
          Double_t xx[5] = {0, 100, 100,   0, 0};
          Double_t yy[5] = {0, 0,   100, 100, 0};
          pcond->SetValues(xx, yy, 5);
@@ -94,7 +94,7 @@ TGo4Condition *TGo4CreateNewCondition::MakeCondition()
          break;
       }
       case 3: {
-        TGo4ShapedCond* econd = new TGo4ShapedCond(cname, "Shaped condition");
+        TGo4ShapedCond *econd = new TGo4ShapedCond(cname, "Shaped condition");
         econd->SetEllipse(50,50,50,50,0,32);
         cond = econd;
         break;

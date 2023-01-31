@@ -90,7 +90,7 @@ class TGo4MainTree : public TObject {
 
     static TGo4MainTree * fxInstance; //!
 
-    TFile* fxFile{nullptr}; //!
+    TFile *fxFile{nullptr}; //!
 
     TTree * fxTree{nullptr}; //!
 

@@ -73,7 +73,7 @@ class TGo4TreeStore : public TGo4EventStore {
 
     /** Optional file where our branches are located. By
       * default, branches are written to the same file as the main tree. */
-    TFile* fxFile{nullptr}; //!
+    TFile *fxFile{nullptr}; //!
 
     /** Reference to external tree singleton wrapper instance.
       * Is initialized once at the start and used to access

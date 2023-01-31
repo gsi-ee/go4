@@ -50,7 +50,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
    TGo4Log::Debug(" Executing %s : Event %s requested, isoutput=%d, printoutonly=%d ",
          GetName(), GetObjectName(), IsOutputEvent(), IsPrintoutOnly() );
 
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
 
    if (!cli) {
       GO4TRACE((11,"TGo4ComGetCurrentEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));

@@ -123,7 +123,7 @@ TGo4Fitter* BuildFitter()
 // store fitter with all supplied objects
 void StoreFitter(TGo4Fitter* fitter)
 {
-   TFile* f = TFile::Open("Example7.root","recreate");
+   TFile *f = TFile::Open("Example7.root","recreate");
    if (f) fitter->Write("Fitter");
    delete f;
 }
@@ -131,7 +131,7 @@ void StoreFitter(TGo4Fitter* fitter)
 // read fitter from file
 TGo4Fitter* RestoreFitter()
 {
-   TFile* f = TFile::Open("Example7.root");
+   TFile *f = TFile::Open("Example7.root");
    if (!f) return nullptr;
    TGo4Fitter* fitter = nullptr;
    f->GetObject("Fitter", fitter);

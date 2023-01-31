@@ -296,7 +296,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4WinCond* MakeWindowCond(const char *foldername,
+      TGo4WinCond *MakeWindowCond(const char *foldername,
                                   const char *conditionname,
                                   Double_t      xlow,
                                   Double_t      xup,
@@ -319,7 +319,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4WinCond* MakeWindowCond(const char *foldername,
+      TGo4WinCond *MakeWindowCond(const char *foldername,
             const char *conditionname,
             Double_t      xlow,
             Double_t      xup,
@@ -351,7 +351,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    invert         - invert condition
        */
 
-      TGo4PolyCond* MakePolyCond(const char *foldername,
+      TGo4PolyCond *MakePolyCond(const char *foldername,
             const char *conditionname,
             Int_t         size,
             Float_t       (*points)[2],
@@ -526,13 +526,13 @@ class TGo4AnalysisObjectManager : public TNamed {
       void CloseAnalysis();
 
       /** Save folder structure to given file. */
-      void SaveObjects(TFile* file);
+      void SaveObjects(TFile *file);
 
       /**
        * Load objects from file. File should be opened and closed by the
        * caller.
        */
-      Bool_t LoadObjects(TFile* statusfile);
+      Bool_t LoadObjects(TFile *statusfile);
 
       /** Adds entry to object manager */
       Bool_t AddDynamicEntry(TGo4DynamicEntry* entry);

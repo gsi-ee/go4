@@ -35,7 +35,7 @@ public:
 
     void SetCondition(TGo4PolyCond *condition) { fxPolyCondition = condition; }
 
-    TGo4PolyCond* GetCondition() { return fxPolyCondition; }
+    TGo4PolyCond *GetCondition() { return fxPolyCondition; }
 
     /** Set this view to values of cut source*/
     void SetCut(TCutG* source);
@@ -91,7 +91,7 @@ private:
     Bool_t fbExecutesMouseMenu{kFALSE};
 
     /** pointer to viewed condition for update after graphical action */
-    TGo4PolyCond* fxPolyCondition{nullptr}; //!
+    TGo4PolyCond *fxPolyCondition{nullptr}; //!
 
     ClassDefOverride(TGo4PolyCondView,7)
 };

@@ -403,7 +403,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
       TDatime dt;
       fxRatemeter->SetDateTime(dt.AsSQLString());
 
-      TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
+      auto sniff = fxAnalysis->GetSniffer();
       if (sniff) sniff->RatemeterUpdate(fxRatemeter);
 
       if (fbShowRate)
@@ -550,6 +550,6 @@ void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const T
 {
     TGo4Slave::SendStatusMessage(level, printout, text);
 
-    TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
+    auto sniff = fxAnalysis->GetSniffer();
     if (sniff) sniff->StatusMessage(level, printout, text);
 }

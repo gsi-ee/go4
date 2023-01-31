@@ -31,7 +31,7 @@ Int_t TGo4ComInitAnalysis::ExeCom()
 {
    GO4TRACE((12,"TGo4ComInitAnalysis::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (!cli) {
       GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ComInitAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());

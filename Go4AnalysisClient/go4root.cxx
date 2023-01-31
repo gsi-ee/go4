@@ -36,7 +36,7 @@ int main(int argc, char **argv)
                                // set this to 3 to get errors only
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
    // use demo with internal dummy analysis base class
-   TGo4AnalysisClient* myclient = new TGo4AnalysisClient(
+   TGo4AnalysisClient *myclient = new TGo4AnalysisClient(
                                              "Go4CintServer", // name
                                              0, // external analysis (use internal if 0)
                                              "localhost", // node (dummy)

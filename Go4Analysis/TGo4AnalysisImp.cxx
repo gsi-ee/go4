@@ -854,7 +854,7 @@ Bool_t TGo4Analysis::LoadStatus(const char *filename)
    // file suffix if not given by user
    if(!fname.Contains(fgcDEFAULTFILESUF)) fname.Append(fgcDEFAULTFILESUF);
 
-   TFile* statusfile = TFile::Open(fname.Data(), "READ");
+   TFile *statusfile = TFile::Open(fname.Data(), "READ");
    if(statusfile && statusfile->IsOpen()) {
       TGo4AnalysisStatus *state=
          dynamic_cast<TGo4AnalysisStatus*>(statusfile->Get(GetName()));
@@ -902,7 +902,7 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
       strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-10);
    if(!strstr(buffer, fgcDEFAULTFILESUF))
       strncat(buffer, fgcDEFAULTFILESUF, sizeof(buffer)-10); // file suffix if not given by user
-   TFile* statusfile = TFile::Open(buffer,"RECREATE");
+   auto statusfile = TFile::Open(buffer,"RECREATE");
    if(statusfile && statusfile->IsOpen()) {
       fxConfigFilename=buffer; // remember name of status
       statusfile->cd();
@@ -1011,7 +1011,7 @@ Int_t TGo4Analysis::PostLoop()
    Int_t rev = 0;
    ////////////////////////Test of single event tree
    //   TTree *mytree = CreateSingleEventTree("Unpack");
-   //   TFile* myfile = TFile::Open("eventsample.root","RECREATE");
+   //   auto myfile = TFile::Open("eventsample.root","RECREATE");
    //   mytree->SetDirectory(myfile);
    //   mytree->Write();
    //   delete myfile;
@@ -1905,7 +1905,7 @@ TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
    return newh;
 }
 
-TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
+TGo4WinCond *TGo4Analysis::MakeWinCond(const char *fullname,
                                        Double_t xmin, Double_t xmax,
                                        const char *HistoName)
 {
@@ -1926,7 +1926,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4WinCond* wcond = new TGo4WinCond(condname);
+   TGo4WinCond *wcond = new TGo4WinCond(condname);
    wcond->SetValues(xmin, xmax);
    wcond->SetHistogram(HistoName);
    wcond->Enable();
@@ -1941,7 +1941,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
    return wcond;
 }
 
-TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
+TGo4WinCond *TGo4Analysis::MakeWinCond(const char *fullname,
                                        Double_t xmin, Double_t xmax,
                                        Double_t ymin, Double_t ymax,
                                        const char *HistoName)
@@ -1963,7 +1963,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
       RemoveAnalysisCondition(fullname);
    }
 
-   TGo4WinCond* wcond = new TGo4WinCond(condname);
+   TGo4WinCond *wcond = new TGo4WinCond(condname);
    wcond->SetValues(xmin, xmax, ymin, ymax);
    wcond->SetHistogram(HistoName);
    wcond->Enable();
@@ -1978,7 +1978,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
    return wcond;
 }
 
-TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
+TGo4PolyCond *TGo4Analysis::MakePolyCond(const char *fullname,
                                          Int_t npoints,
                                          Double_t (*points) [2],
                                          const char *HistoName,
@@ -2017,7 +2017,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
     }
 
    TCutG mycat("initialcut", npoints, fullx.GetArray(), fully.GetArray());
-   TGo4PolyCond* pcond;
+   TGo4PolyCond *pcond;
    if(shapedcond)
        pcond = new TGo4ShapedCond(condname);
      else
@@ -2038,7 +2038,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
 }
 
 
-TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char *fullname,
+TGo4ShapedCond *TGo4Analysis::MakeEllipseCond(const char *fullname,
        Int_t npoints,
        Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
        const char *HistoName)
@@ -2075,7 +2075,7 @@ TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char *fullname,
    return econd;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char *fullname,
+TGo4ShapedCond *TGo4Analysis::MakeCircleCond(const char *fullname,
            Int_t npoints, Double_t cx, Double_t cy, Double_t r,
            const char *HistoName)
 {
@@ -2084,7 +2084,7 @@ TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char *fullname,
    return elli;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+TGo4ShapedCond *TGo4Analysis::MakeBoxCond(const char *fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char *HistoName)
 {
    TGo4ShapedCond *elli = MakeEllipseCond(fullname, 4, cx, cy, a1, a2, theta, HistoName);
@@ -2092,17 +2092,17 @@ TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char *fullname, Double_t cx, Dou
    return elli;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char *fullname,
+TGo4ShapedCond *TGo4Analysis::MakeFreeShapeCond(const char *fullname,
                                    Int_t npoints,
                                    Double_t (*points) [2],
                                    const char *HistoName)
 {
-   TGo4ShapedCond* elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
+   TGo4ShapedCond *elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
    elli->SetFreeShape();
    return elli;
 }
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const char *title, const char *HistoName)
+TGo4ListCond *TGo4Analysis::MakeListCond(const char *fullname, const char *title, const char *HistoName)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -2136,17 +2136,17 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const char *title
    return lcond;
 }
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName)
+TGo4ListCond *TGo4Analysis::MakeListCond(const char *fullname, const Int_t num, const Int_t * values,  const char *HistoName)
 {
-   TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+   TGo4ListCond *lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
    if(fbObjMade) lcond->SetValues(num,values);
    return lcond;
 }
 
 
-TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step,  const char *HistoName)
+TGo4ListCond *TGo4Analysis::MakeListCond(const char *fullname, const Int_t start, const Int_t stop, const Int_t step,  const char *HistoName)
 {
-   TGo4ListCond* lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
+   TGo4ListCond *lcond=MakeListCond(fullname, "Go4 valuelist condition", HistoName);
    if(fbObjMade) lcond->SetValues(start,stop,step);
    return lcond;
 }
@@ -2203,7 +2203,7 @@ TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1* fu
    return graph;
 }
 
-TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char *fullname, const char *title, Int_t points, Int_t average)
+TGo4RollingGraph *TGo4Analysis::MakeRollingGraph(const char *fullname, const char *title, Int_t points, Int_t average)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;

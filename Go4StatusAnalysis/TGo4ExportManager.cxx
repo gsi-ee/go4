@@ -444,7 +444,7 @@ void TGo4ExportManager::ExportXML(TObject *ob)
    TString fname=ob->GetName();
    fname += ".xml";
 
-   TFile* f = TFile::Open(fname.Data(), "recreate");
+   TFile *f = TFile::Open(fname.Data(), "recreate");
    if (!f) return;
    f->cd();
    ob->Write();
@@ -460,7 +460,7 @@ void TGo4ExportManager::ExportRoot(TObject *ob)
    TString fname=fxOutFile;
    TString ftitle=fxOutFileComment;
    if(!fname.Contains(".root")) fname.Append(".root");
-   TFile* f = TFile::Open(fname.Data(), "recreate");
+   TFile *f = TFile::Open(fname.Data(), "recreate");
    if (!f) return;
    f->SetTitle(ftitle.Data());
    f->cd();

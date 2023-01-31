@@ -48,7 +48,7 @@ Int_t TGo4ComSetPrintEvent::ExeCom()
 {
    TGo4Log::Debug(" Executing %s : Printout for requested for %d events of subid %d, long:%d, hex:%d, data:%d",
          GetObjectName(), fxPrintPar.fiNum, fxPrintPar.fiSid, fxPrintPar.fiLong, fxPrintPar.fiHex, fxPrintPar.fiData);
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   TGo4AnalysisClient *cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
 
    if (!cli) {
       GO4TRACE((11,"TGo4ComSetPrintEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));

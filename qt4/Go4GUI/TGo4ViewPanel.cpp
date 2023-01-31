@@ -1336,7 +1336,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
       case kMousePickLimits: {
          gROOT->SetEditorMode("");
-         TGo4WinCond* conny = nullptr;
+         TGo4WinCond *conny = nullptr;
          Double_t xmin(x), xmax(x), ymin(y), ymax(y);
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
@@ -1400,7 +1400,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 
       case kMousePickPolygon: {
          gROOT->SetEditorMode("");
-         TGo4PolyCond* cond = nullptr;
+         TGo4PolyCond *cond = nullptr;
 
          if (fiPickCounter == 0) {
             // pick the first time after enabling limits record:
@@ -1582,7 +1582,7 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
    switch (fiMouseMode) {
       case kMousePickLimits: {
          if (fiPickCounter > 0) {
-            TGo4WinCond* cond = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
+            TGo4WinCond *cond = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
             if (cond) {
                if (candelete) DeleteDrawObject(pad, cond);
                needredraw = true;

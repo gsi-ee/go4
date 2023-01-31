@@ -262,7 +262,7 @@ void TGo4PolyCond::PrintCondition(Bool_t points)
 // PrintBar switch is handled in condition baseclass now.
 //void TGo4PolyCond::Print(Option_t* opt) const{
 //// this trick is needed since root defines Print as const function...
-//   TGo4PolyCond* const localthis= const_cast<TGo4PolyCond* const>(this);
+//   TGo4PolyCond *const localthis= const_cast<TGo4PolyCond *const>(this);
 //   localthis->PrintBar();
 //}
 // ----------------------------------------------------------
@@ -290,7 +290,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
           }
 #else
        /* JAM2016: try to avoid streaming the cut multiple times when updating condition:*/
-       TGo4PolyCond* source=(TGo4PolyCond*)cond;
+       TGo4PolyCond *source=(TGo4PolyCond*)cond;
        TCutG * srccut = source->GetCut(false);
        //std::cout << "TGo4PolyCond::UpdateFrom without Clone of" << GetName() << ", srccut="<<(long )srccut<<", fxCut="<< (long)fxCut << std::endl;
 

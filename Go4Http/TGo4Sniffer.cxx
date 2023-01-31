@@ -233,7 +233,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 
    TRootSnifferFull::ScanRoot(rec);
 
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
+   TGo4AnalysisObjectManager *om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
 
    if (!om) return;
 
@@ -343,7 +343,7 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
 {
    Info("CmdOpenFile", "Open ROOT file %s", fname);
 
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
+   TGo4AnalysisObjectManager *om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
 
    if (om) {
       TFolder *main = om->GetObjectFolder();
@@ -354,7 +354,7 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
          files_fold->SetOwner(kTRUE);
       }
 
-      TFile* f = dynamic_cast<TFile*> (files_fold->FindObject(fname));
+      auto f = dynamic_cast<TFile *> (files_fold->FindObject(fname));
       if (f) { files_fold->Remove(f); delete f; }
 
       f = TFile::Open(fname);
@@ -369,7 +369,7 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
 Bool_t TGo4Sniffer::CmdCloseFiles()
 {
    Info("CmdCloseFiles", "Close all opened files");
-   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
+   TGo4AnalysisObjectManager *om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
    if (om) {
       TFolder *main = om->GetObjectFolder();
       TFolder *files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
@@ -397,7 +397,7 @@ Bool_t TGo4Sniffer::CmdClear()
 Bool_t TGo4Sniffer::CmdRestart()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
+   TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
       cli->Stop();
@@ -422,7 +422,7 @@ Bool_t TGo4Sniffer::CmdRestart()
 Bool_t TGo4Sniffer::CmdClose()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
+   TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
       cli->Stop();
@@ -442,7 +442,7 @@ Bool_t TGo4Sniffer::CmdClose()
 Bool_t TGo4Sniffer::CmdExit()
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
-   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : nullptr;
+   TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
       cli->Stop();

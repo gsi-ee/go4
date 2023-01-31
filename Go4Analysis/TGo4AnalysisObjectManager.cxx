@@ -808,14 +808,14 @@ TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name
    return cond;
 }
 
-TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
+TGo4WinCond *TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
       const char *conditionname,
       Double_t      xlow,
       Double_t      xup,
       const char *bindhistogram,
       Bool_t        invert)
 {
-   TGo4WinCond* wcond = (TGo4WinCond*)
+   TGo4WinCond *wcond = (TGo4WinCond*)
       TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
 
    if (wcond) return wcond;
@@ -829,7 +829,7 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
    return wcond;
 }
 
-TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
+TGo4WinCond *TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
       const char *conditionname,
       Double_t      xlow,
       Double_t      xup,
@@ -838,7 +838,7 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
       const char *bindhistogram,
       Bool_t      invert)
 {
-   TGo4WinCond* wcond = (TGo4WinCond*)
+   TGo4WinCond *wcond = (TGo4WinCond*)
       TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
 
    if (wcond) return wcond;
@@ -852,14 +852,14 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char *foldername,
    return wcond;
 }
 
-TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char *foldername,
+TGo4PolyCond *TGo4AnalysisObjectManager::MakePolyCond(const char *foldername,
       const char *conditionname,
       Int_t         size,
       Float_t      (*points)[2],
       const char *bindhistogram,
       Bool_t        invert)
 {
-   TGo4PolyCond* pcond = (TGo4PolyCond*)
+   TGo4PolyCond *pcond = (TGo4PolyCond*)
       TestObject(fxConditionDir, foldername, conditionname, TGo4PolyCond::Class());
 
    if (pcond) return pcond;
@@ -1112,7 +1112,7 @@ void TGo4AnalysisObjectManager::CloseAnalysis()
    TGo4Analysis::Instance()->Message(0,"Analysis Object Manager  --  Dynamic List was reset.");
 }
 
-void TGo4AnalysisObjectManager::SaveObjects(TFile* file)
+void TGo4AnalysisObjectManager::SaveObjects(TFile *file)
 {
    if(!file) return;
    TGo4Analysis::Instance()->Message(0,"Analysis Object Manager  --  Saving objects to file %s",file->GetName());
@@ -1295,7 +1295,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char *name)
    return RemoveObjectFromFolder(name, fxCanvasDir, kTRUE);
 }
 
-Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
+Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile *obfile)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;

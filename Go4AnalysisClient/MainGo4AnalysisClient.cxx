@@ -47,7 +47,7 @@ int main(int argc, char **argv)
    //         TEbAnalysis* myanalysis= new TEbAnalysis;
    //         myanalysis->SetAutoSaveFile("EbAutoSave");
    //         myanalysis->SetAutoSaveInterval(200000);
-   //         TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
+   //         TGo4AnalysisClient *myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
 
    std::cout << "Created AnalysisClient Instance: " << myclient->GetName() << std::endl; // dummy action for warnings
    theApp.Run();

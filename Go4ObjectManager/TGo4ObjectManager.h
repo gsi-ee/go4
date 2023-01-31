@@ -71,9 +71,9 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void DeleteSlot(const char *pathname);
 
-      void SaveDataToFile(TFile* f, Bool_t onlyobjs = kFALSE, TGo4Slot *startslot = nullptr);
+      void SaveDataToFile(TFile *f, Bool_t onlyobjs = kFALSE, TGo4Slot *startslot = nullptr);
 
-      void ReadDataFromFile(TFile* f);
+      void ReadDataFromFile(TFile *f);
 
       void RegisterLink(TGo4Slot *source, TGo4Slot *target, Bool_t exapndchilds = kFALSE);
       void UnregisterLink(TGo4Slot *target);

@@ -462,7 +462,7 @@ void TGo4ParaEdit::saveFile()
       QStringList flst = fd.selectedFiles();
       if (flst.isEmpty()) return;
 
-      TFile* f = TFile::Open(flst[0].toLatin1().constData(),"UPDATE");
+      TFile *f = TFile::Open(flst[0].toLatin1().constData(),"UPDATE");
       if (f) {
          f->WriteTObject(par, par->GetName(), "WriteDelete");
          delete f;

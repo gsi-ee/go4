@@ -141,7 +141,7 @@ void TGo4ConditionInfo::RefreshWidget(TGo4Condition *cond)
    PropertyBox->item(CONCLASS)->setText(cond->ClassName());
    int dimension = 0;
    if(cond->InheritsFrom(TGo4WinCond::Class())) {
-       TGo4WinCond* wcon = (TGo4WinCond*) cond;
+       TGo4WinCond *wcon = (TGo4WinCond*) cond;
        double xmin, xmax, ymin, ymax;
        wcon->GetValues(dimension, xmin, xmax, ymin, ymax);
        str.Form("X: [%.1f,%.1f]",xmin, xmax);

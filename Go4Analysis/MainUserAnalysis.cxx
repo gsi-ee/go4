@@ -356,9 +356,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
       if (meth) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char**)", an_cl->GetName(), an_cl->GetName());
 
-         if ((user_argc > 0) && user_argv)
+         if ((user_argc > 0) && user_argv) {
             user_argv[0] = (char*) name;
-         else {
+         } else {
             user_argc = 1;
             user_argv = (char**) &name;
          }
@@ -1309,7 +1309,7 @@ int main(int argc, char **argv)
 
       if (canrun < 0) autorun = false;
 
-      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
+      TGo4AnalysisClient *client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
 
       TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
       TGo4Log::Info("Main: Run application loop");

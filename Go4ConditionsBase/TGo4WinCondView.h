@@ -30,8 +30,8 @@ public:
     void Paint(Option_t* opt="") override;
     void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
-    void SetCondition(TGo4WinCond* condition) { fxWinCondition = condition; }
-    TGo4WinCond* GetCondition() { return fxWinCondition; }
+    void SetCondition(TGo4WinCond *condition) { fxWinCondition = condition; }
+    TGo4WinCond *GetCondition() { return fxWinCondition; }
     const char *GetName() const override;
     void SetName(const char *nam); // *MENU*
     /** Delete condition instead of view: */
@@ -61,7 +61,7 @@ private:
     Bool_t fbExecutesMouseEvent{kFALSE};
 
     /** pointer to viewed condition for update after graphical action */
-    TGo4WinCond* fxWinCondition{nullptr}; //!
+    TGo4WinCond *fxWinCondition{nullptr}; //!
 
     ClassDefOverride(TGo4WinCondView,7)
 };
