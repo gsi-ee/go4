@@ -434,22 +434,18 @@ char* TGo4Socket::RecvRaw(const char *name)
 }
 
 
-
 TObject *TGo4Socket::Recv(const char *name)
 {
    // note: optional parameter const char *name is left for compatibility, has no effect!
    GO4TRACE((12,"TGo4Socket::Recv(const char *name)", __LINE__, __FILE__));
 
    TObject *obj = nullptr;
-   if(IsOpen())
-   {
-      if(fxSocket)
-      {
+   if(IsOpen()) {
+      if(fxSocket) {
          TMessage *mess = nullptr;
          fxSocket->Recv(mess);
 
          if (!mess) {
-            // std::cout << "TGo4SocketTransportImp: zero mess" << std::endl;
             obj = nullptr;
          } else {
             TGo4LockGuard socker;
@@ -458,15 +454,10 @@ TObject *TGo4Socket::Recv(const char *name)
             }
             delete mess;
          }
-
-      } // if (fxSocket)
-      else
-      {
+      } else {
          TGo4Log::Debug(" !!! Socket: Recv(TMessage*) ERROR : no TSocket! ");
-      } // end if (fxSocket)
-   }
-   else // if(IsOpen())
-   {
+      }
+   } else {
       TGo4Log::Debug(" !!! Socket: Recv(TMessage*) ERROR : not open or not active! ");
    }
    return obj;

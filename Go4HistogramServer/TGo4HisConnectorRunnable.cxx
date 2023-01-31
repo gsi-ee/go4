@@ -96,7 +96,6 @@ Int_t TGo4HisConnectorRunnable::Run(void *)
          if (his) {
             hisname = his->GetName();
             ana->Message(0, "Histogram server is sending histogram %s", hisname);
-            // std::cout <<"Histogram Server is sending histogram "<< hisname << std::endl;
          } else {
             hisname = "No such histogram";
          }
@@ -124,7 +123,6 @@ Int_t TGo4HisConnectorRunnable::Run(void *)
       } break;
       default:
          ana->Message(0, "Histogram server: got unknown command");
-         // std::cout <<"Histogram Server: got unknown command" << std::endl;
          break;
       } // switch
    } else {

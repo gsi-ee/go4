@@ -91,7 +91,7 @@ Bool_t TGo4ClientTask::ConnectServer(const char *node, UInt_t negport,
       fxTaskHandler->ClearQueues(); // do not clear queues on slave side,
                                     // because analysis status might be already in it!
 
-   // std::cout <<"TGo4ClientTask::ConnectServer with role "<<role<<" and passwd "<<passwd << std::endl;
+   TGo4Log::Info("TGo4ClientTask::ConnectServer with role %d and passwd %s", role, passwd);
    if (passwd) {
       fxTaskHandler->SetRole(role);
       if (role == kGo4ComModeObserver) {

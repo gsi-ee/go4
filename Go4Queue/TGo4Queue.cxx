@@ -49,7 +49,6 @@ void TGo4Queue::Clear(Option_t *)
 TObject *TGo4Queue::Wait()
 {
    if (IsEmpty()) {
-      // std::cout <<"WWWWWWWWWWWWWWWWWW --- TGo4Queue "<< GetName() <<" is in Condition Wait..." << std::endl;
       fxCondition->Wait();
       if (fbWakeUpCall) {
          fbWakeUpCall = kFALSE;
@@ -71,12 +70,10 @@ void TGo4Queue::Add(TObject *ob)
       TGo4LockGuard qguard(fxMutex);
       if (fxList->GetSize() <= fiMaxEntries) {
          fxList->AddFirst(ob);
-         // std::cout <<"QA Queue " <<GetName() <<" added obj, size="<<fxList->GetSize()<< std::endl;
       } else {
-         // std::cout <<" Queue Add Error: queue "<< GetName() <<" is full !!!"<< std::endl;
          throw TGo4RuntimeException();
       }
-   } // TGo4LockGuard qguard(fxMutex);
+   }
    fxCondition->Signal();
 }
 

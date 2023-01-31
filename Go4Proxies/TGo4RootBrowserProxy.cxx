@@ -59,7 +59,7 @@ Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_
       if (strcmp(source->GetName(), "AnalRateMeter") == 0)
          UpdateRatemeter(source->GetAssignedObject());
    } else if ((id == TGo4Slot::evDelete) || (id == TGo4Slot::evObjDeleted)) {
-      // std::cout << "Slot deleted " << source->GetName() << std::endl;
+      // Slot deleted
    }
 
    return id == TGo4Slot::evDelete;

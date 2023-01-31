@@ -55,13 +55,10 @@ void TMeshB1AnlProc::Analysis(TMeshB1OutputEvent* poutevt)
       // provider with partial io delivers just our component
    }
    if (fxInput) {
-      // std::cout <<"Dump of event "<<fxInput->GetName() << std::endl <<"   ";
       //  do the processing here:
       for (Int_t i = 0; i < 4; i++) {
          poutevt->frData[i] = (Float_t)fxInput->fiCrate1[i];
-         // std::cout << fxInput->fiCrate1[i]<<" ";
       }
-      // std::cout << std::endl;
    } else {
       throw TGo4UserException(3, "Error: no input event for processor %s", GetName());
    }

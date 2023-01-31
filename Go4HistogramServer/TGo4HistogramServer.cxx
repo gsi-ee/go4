@@ -70,7 +70,6 @@ TGo4HistogramServer::TGo4HistogramServer(TGo4AnalysisClient *owner, const char *
       fxServerPass = password;
       TGo4Analysis::Instance()->Message(1, "Created Histogram server %s on port %d", servername, fiServerPort);
    } else {
-      // std::cout <<"ERROR on creation of Histogram server: "<< result << std::endl;
       TGo4Analysis::Instance()->Message(3, "ERROR %d on creation of Histogram server", result);
    }
    // start connector thread:
@@ -232,7 +231,6 @@ Bool_t TGo4HistogramServer::CheckLogin()
 {
    ///////// check connected client:
    // check for basename:
-   // std::cout <<"##### check login " << std::endl;
    const char *recvchar = fxTransport->RecvRaw("dummy");
    if (recvchar && !strcmp(recvchar, fxServerName.Data())) {
       fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // handshake to assure the client
@@ -299,7 +297,6 @@ Bool_t TGo4HistogramServer::SendObject(TObject *object)
       fxTransport->SendBuffer(rootbuffer);
       delete rootbuffer;
    } else {
-      // std::cout <<"Error: object not found in analysis!" << std::endl;
       fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
       retval = kFALSE;
    }
@@ -311,7 +308,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject *object)
       TGo4Log::Debug(" HistogramServer: ERROR on finishing object client channel ");
       retval = kFALSE;
    } else {
-      // std::cout <<"##### send object is finished with ok." << std::endl;
+      // send object is finished with ok
    }
    return retval;
 }
@@ -367,7 +364,6 @@ Int_t TGo4HistogramServer::TimerConnect()
             GO4TRACE((10, "TGo4HistogramServer::TimerConnect()--transport is not open", __LINE__, __FILE__));
             // transport is not open, so do it
             fbConnectIsOpen = kTRUE; // tell connector thread that we try to open
-            // std::cout <<"TimerConnect: connect before open" << std::endl;
             Int_t result = fxConnectTransport->Open(ConnectHost(), fuConnectPort, kTRUE);
             if (result == 0) {
                fbConnectIsDone = kTRUE;   // tell connector thread we returned from open
@@ -414,7 +410,6 @@ Int_t TGo4HistogramServer::WaitForOpen()
          TGo4Thread::Sleep(TGo4HistogramServer::fguOPENWAITCYCLETIME);
          ++count;
       }
-      // std::cout << "*****WaitForOpen()"<< std::endl;
    }
    fbConnectIsOpen = kFALSE; //  reset for next time
    return count;
@@ -425,16 +420,14 @@ Int_t TGo4HistogramServer::WaitForClose()
    GO4TRACE((12, "TGo4HistogramServer::WaitForClose()", __LINE__, __FILE__));
    Int_t count = 0;
    while (!fbConnectIsClose) {
-      // std::cout <<"Waiting for close..." << std::endl;
+      // Waiting for close...
       if (count > TGo4HistogramServer::fgiCLOSEWAITCYCLES) {
-         // std::cout <<"reached closewaitcycles "<< count << std::endl;
          count = -1; // timeout
          break;
       } else {
          TGo4Thread::Sleep(TGo4HistogramServer::fguCLOSEWAITCYCLETIME);
          ++count;
       }
-      // std::cout << "*****WaitForClose() "<<count<< std::endl;
    }
    fbConnectIsClose = kFALSE; //  reset for next time
    return count;
@@ -454,7 +447,6 @@ Int_t TGo4HistogramServer::WaitForConnection()
          TGo4Thread::Sleep(TGo4HistogramServer::fguCONNECTWAITCYCLETIME);
          ++count;
       }
-      // std::cout << "*****WaitForConnection()"<< std::endl;
    }
    fbConnectIsDone = kFALSE; //  reset for next time
    return count;

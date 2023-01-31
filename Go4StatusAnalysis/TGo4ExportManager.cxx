@@ -405,8 +405,6 @@ void TGo4ExportManager::ExportRadware(TH1 *histo)
          outfile.write((char *)&charnum, sizeof(Int_t));
          Int_t hislen = l_chan * 4 + 40;
          Int_t byteswritten = outfile.tellp();
-         // std::cout <<"position in stream is "<<byteswritten << std::endl;
-         // std::cout <<"datalength was"<<hislen << std::endl;
          //  consistency check: chars written are data field+header size
          if (byteswritten == hislen) {
             TGo4Log::Message(1, "Histogram %s:  %d bytes (data %d) written to %s", hname.Data(), byteswritten, hislen,

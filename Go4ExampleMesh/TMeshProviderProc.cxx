@@ -47,7 +47,6 @@ void TMeshProviderProc::SetRealInput()
       // since object name is used as pointer name in the processline call
       TString eventname = GetName();
       eventname.Resize(eventname.Index("_", 1)); //
-      // std::cout <<"SetRealInput of"<<GetName()<<" sees eventname "<<eventname.Data() << std::endl;
       myinput = TGo4Analysis::Instance()->GetEventStructure(eventname.Data());
       if (!myinput)
          throw TGo4UserException(3, "Error setting real input event %s", GetName());

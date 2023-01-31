@@ -102,12 +102,9 @@ void TGo4MbsHist::PrepareHeader(TH1 *source, const char *path, s_his_head* targe
 {
    if (!source || !target)
       return;
-   // std::cout <<"MMMMMMMM Preparing header for histogram "<< source->GetName() << std::endl;
    s_his_head *dest = target; // use local pointer to avoid changes by snprintf
    dest->l_bins_1 = source->GetNbinsX();
    dest->l_bins_2 = source->GetNbinsY();
-   // std::cout <<" \tMMMMMMMM Prepare header - bins1="<< dest->l_bins_1 << std::endl;
-   // std::cout <<"\tMMMMMMMM Prepare header - bins2="<< dest->l_bins_2 << std::endl;
    // display of path enabled again to test Origin problems JA
    if (path)
       snprintf(dest->c_name, 64, "%s%s", path, source->GetName());
@@ -120,17 +117,11 @@ void TGo4MbsHist::PrepareHeader(TH1 *source, const char *path, s_his_head* targe
    dest->r_limits_up = source->GetXaxis()->GetXmax();
    dest->r_limits_low_2 = source->GetYaxis()->GetXmin();
    dest->r_limits_up_2 = source->GetYaxis()->GetXmax();
-   // std::cout <<" \tMMMMMMMM Prepare header - 1low="<< dest->r_limits_low << std::endl;
-   // std::cout <<"\tMMMMMMMM Prepare header - 1up ="<< dest->r_limits_up << std::endl;
-   // std::cout <<" \tMMMMMMMM Prepare header - 2low="<< dest->r_limits_low_2 << std::endl;
-   // std::cout <<"\tMMMMMMMM Prepare header - 2up ="<< dest->r_limits_up_2 << std::endl;
 
    if (source->InheritsFrom(TH1D::Class()) || source->InheritsFrom(TH1F::Class()) ||
        source->InheritsFrom(TH2D::Class()) || source->InheritsFrom(TH2F::Class())) {
-      // std::cout <<" \tMMMMMMMM Prepare header has float histo" << std::endl;
       strcpy(dest->c_dtype, "r");
    } else {
-      // std::cout <<" \tMMMMMMMM Prepare header has int histo" << std::endl;
       strcpy(dest->c_dtype, "i");
    }
    TTimeStamp now;
@@ -191,7 +182,6 @@ void TGo4MbsHist::ScanGo4Folder(TFolder *folder, const char *superfolders, const
          } else if (!strcmp(foldname, TGo4AnalysisObjectManager::GetANALYSISFOLDER())) {
 
          } else {
-            // std::cout <<"##### parsing folder "<< foldname << std::endl;
             snprintf(cursor, edge, "%s", foldname);
             TFolder *subobj = dynamic_cast<TFolder *>(entry);
             ScanGo4Folder(subobj, pathbuffer, filter);
@@ -214,7 +204,6 @@ void TGo4MbsHist::ScanGo4Folder(TFolder *folder, const char *superfolders, const
             ismatching = kFALSE;
 
          if (ismatching) {
-            // std::cout <<"found matching:" << entryname << std::endl;
             TH1 *hist = dynamic_cast<TH1 *>(entry);
             if (!hist) {
                TGraph *graf = dynamic_cast<TGraph *>(entry);
@@ -227,9 +216,7 @@ void TGo4MbsHist::ScanGo4Folder(TFolder *folder, const char *superfolders, const
             PrepareHeader(hist, pathbuffer, fxCursor);
             fxCursor++;
             fiHisNum++;
-            // std::cout <<"MMMMMMMM found histogram "<< entry->GetName()<<" cr="<<(Int_t) fxCursor<< std::endl;
             if ((char *)(fxCursor) > (char *)(fiBuffer) + fiBufLen * sizeof(Int_t) - sizeof(s_his_head)) {
-               // std::cout <<"MMMMMMM Realloc buffer cursor "<< (Int_t) fxCursor << std::endl;
                Int_t oldbuflen = fiBufLen;
                fiBufLen += fgiLISTLEN;
                Int_t *otherbuf = new Int_t[fiBufLen];

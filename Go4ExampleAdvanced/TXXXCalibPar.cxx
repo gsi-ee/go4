@@ -123,7 +123,6 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       fiLinesChannel[ix] = from->fiLinesChannel[ix];
       ffLinesEnergy[ix] = from->ffLinesEnergy[ix];
       fxLinesNames[ix] = from->fxLinesNames[ix];
-      // std::cout <<"updated line:"<<fxLinesNames[ix].Data() << std::endl;
    }
    std::cout << "Updated Parameter:" << std::endl;
    //Print();
