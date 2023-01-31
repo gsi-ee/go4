@@ -49,8 +49,8 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       // browser functionality
 
-      void DataSlotName(const char *item, TString &res);
-      void BrowserSlotName(const char *item, TString &res);
+      void DataSlotName(const char *item, TString &res) const;
+      void BrowserSlotName(const char *item, TString &res) const;
       TGo4Slot *BrowserSlot(const char *item = nullptr);
       TGo4Slot *DataSlot(const char *item);
       TGo4Slot *BrowserMemorySlot();

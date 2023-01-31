@@ -506,11 +506,11 @@ Bool_t TGo4Slot::ShiftSlotBefore(TGo4Slot *slot, TGo4Slot *before)
    if (!fChilds) return kFALSE;
    Int_t indx1 = !before ? -1 : fChilds->IndexOf(before);
    Int_t indx2 = !slot ? -1 : fChilds->IndexOf(slot);
-   if ((indx1<0) || (indx2<0) || (indx1>indx2)) return kFALSE;
-   if (indx1==indx2) return kTRUE;
+   if ((indx1 < 0) || (indx2 < 0) || (indx1 > indx2)) return kFALSE;
+   if (indx1 == indx2) return kTRUE;
 
-   for (int n=indx2;n>indx1;n--)
-     (*fChilds)[n] = (*fChilds)[n-1];
+   for (int n = indx2; n > indx1; n--)
+      (*fChilds)[n] = (*fChilds)[n - 1];
 
    (*fChilds)[indx1] = slot;
 

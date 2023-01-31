@@ -255,14 +255,14 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id
    return kTRUE;
 }
 
-void TGo4BrowserProxy::DataSlotName(const char *item, TString& res)
+void TGo4BrowserProxy::DataSlotName(const char *item, TString& res) const
 {
    res = fxDataPath;
    res += "/";
    res += item;
 }
 
-void TGo4BrowserProxy::BrowserSlotName(const char *item, TString& res)
+void TGo4BrowserProxy::BrowserSlotName(const char *item, TString& res) const
 {
    res = fxBrowserPath;
    res += "/";
