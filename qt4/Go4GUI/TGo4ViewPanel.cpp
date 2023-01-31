@@ -3595,7 +3595,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char *picitemname, TPad* pad, TGo
 
    padopt->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
 
-   TGo4BrowserProxy* brcont = Browser();
+   TGo4BrowserProxy *brcont = Browser();
 
    Option_t* drawopt = pic->GetDrawOption(TGo4Picture::PictureIndex);
    if (drawopt)

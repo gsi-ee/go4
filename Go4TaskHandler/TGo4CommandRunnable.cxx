@@ -51,7 +51,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
       Int_t rev=fxTransport->ReceiveBuffer();
       if(rev >= 0)
       {
-         TBuffer* buffer=const_cast<TBuffer*> (fxTransport->GetBuffer());
+         TBuffer *buffer = const_cast<TBuffer *> (fxTransport->GetBuffer());
          Int_t val = 0;
          if(CheckStopBuffer(buffer,&val)) return 0; // stop for disconnect mode
          if(val >= 0)
@@ -130,7 +130,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
    else
    {
       // get next command from queue or wait for it
-      TBuffer* buf= fxBufferQueue->WaitBuffer();
+      TBuffer *buf= fxBufferQueue->WaitBuffer();
       if (buf)
          // check if there is really an object from queue
       {

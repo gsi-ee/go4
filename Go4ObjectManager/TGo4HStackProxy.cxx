@@ -109,13 +109,13 @@ const char *TGo4HStackProxy::GetContainedClassName() const
 
 void TGo4HStackProxy::Initialize(TGo4Slot *slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
+   TGo4ObjectManager *om = slot->GetOM();
    if (om) om->RegisterObjectWith(fHS, slot);
 }
 
 void TGo4HStackProxy::Finalize(TGo4Slot *slot)
 {
-   TGo4ObjectManager* om = slot->GetOM();
+   TGo4ObjectManager *om = slot->GetOM();
    if (om) om->UnregisterObject(fHS, slot);
 }
 

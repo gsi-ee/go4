@@ -33,7 +33,7 @@
 
 Int_t TGo4RootBrowserProxy::fCanvasCounter = 0;
 
-TGo4RootBrowserProxy::TGo4RootBrowserProxy(TGo4BrowserProxy* br) :
+TGo4RootBrowserProxy::TGo4RootBrowserProxy(TGo4BrowserProxy *br) :
    TGo4Proxy(),
    fBrowser(br),
    fLockMessage(kFALSE)

@@ -45,7 +45,7 @@ class TGo4Socket {
       * as a TMessage, i.e. the receiving side should be able to receive it by
       * root TSocket message protocol.
       */
-     Int_t SendBuffer(TBuffer* buf);
+     Int_t SendBuffer(TBuffer *buf);
 
      /**
       * Receive raw buffer and fill the internal TBuffer of this socket instance
@@ -80,7 +80,7 @@ class TGo4Socket {
     TGo4Socket() = delete;  // not implemented, only for compiler to avoid calling of default
 
     /** Reallocate the fixed input buffer if necessary */
-    void ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize);
+    void ReallocBuffer(TBuffer *buffer, Int_t oldsize, Int_t newsize);
 
   private:
 

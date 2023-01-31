@@ -36,7 +36,7 @@ class TGo4ObjectQueue : public TGo4Queue {
        * To be used for streaming the receiving socket contents into the queue.
        * Operation should be thread locked by the calling user.
        */
-      void AddObjectFromBuffer(TBuffer* buffer);
+      void AddObjectFromBuffer(TBuffer *buffer);
 
       /**
        * Add object pointer to queue. We Renamed the protected baseclass method

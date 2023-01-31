@@ -50,8 +50,8 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
 }
 
 TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
-                           Char_t* subcrates,
-                           Char_t* controls,
+                           Char_t *subcrates,
+                           Char_t *controls,
                            Short_t* procids,
                            UInt_t *datasizes) :
    TGo4EventElement("MbsEvent101"),

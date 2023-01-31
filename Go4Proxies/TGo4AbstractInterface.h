@@ -78,18 +78,18 @@ enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4
 
 class TGo4AbstractInterface : public TObject {
    private:
-      TGo4ObjectManager* fOM{nullptr};
-      TGo4BrowserProxy*  fBrowser{nullptr};
+      TGo4ObjectManager *fOM{nullptr};
+      TGo4BrowserProxy * fBrowser{nullptr};
       TList              fxCommands;
 
    protected:
       /** Constructor */
       TGo4AbstractInterface();
 
-      static TGo4AbstractInterface* fgInstance;        //!
+      static TGo4AbstractInterface *fgInstance;        //!
       static TString                fInitSharedLibs;   //! list of shared libraries when application is started
 
-      void Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* br);
+      void Initialize(TGo4ObjectManager *om, TGo4BrowserProxy *br);
 
       virtual void ProcessEvents(Int_t timeout = -1) = 0;
 
@@ -115,7 +115,7 @@ class TGo4AbstractInterface : public TObject {
       /** Return pointer on instance of implementation of TGo4AbstractInterface class
         * Normally, inside CINT script one should use "go4" variable,
         * which contains TGo4AbstractInterface::Instance() value. */
-      static TGo4AbstractInterface* Instance();
+      static TGo4AbstractInterface *Instance();
 
       /** Delete instance of interface class */
       static void DeleteInstance();
@@ -129,13 +129,13 @@ class TGo4AbstractInterface : public TObject {
       /** Returns pointer on object manager.
         * TGo4ObjectManager class should only be used when standard interface
         * does not provide required functionality. Can be accessed directly via "om" variable. */
-      TGo4ObjectManager* OM() const { return fOM; }
+      TGo4ObjectManager *OM() const { return fOM; }
 
       /** Returns pointer on browser proxy.
         * TGo4BrowserProxy class provides complete interface to Go4 browser functionality.
         * Should only be used when interface does not provide required functionality.
         * Can be accessed directly via "br" variable. */
-      TGo4BrowserProxy* Browser() const { return fBrowser; }
+      TGo4BrowserProxy *Browser() const { return fBrowser; }
 
       /** Returns pointer on analysis proxy.
         * TGo4AnalysisProxy class provide access to analysis controlling instance in program.

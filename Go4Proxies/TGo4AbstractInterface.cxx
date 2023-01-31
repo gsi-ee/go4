@@ -26,12 +26,12 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4ServerProxy.h"
 
-TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = nullptr;
+TGo4AbstractInterface *TGo4AbstractInterface::fgInstance = nullptr;
 
 TString TGo4AbstractInterface::fInitSharedLibs = "";
 
 
-TGo4AbstractInterface* TGo4AbstractInterface::Instance()
+TGo4AbstractInterface *TGo4AbstractInterface::Instance()
 {
    return fgInstance;
 }
@@ -73,15 +73,15 @@ TGo4AbstractInterface::TGo4AbstractInterface() :
    fgInstance = this;
 }
 
-void TGo4AbstractInterface::Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* br)
+void TGo4AbstractInterface::Initialize(TGo4ObjectManager *om, TGo4BrowserProxy *br)
 {
    fOM = om;
    fBrowser = br;
 
    Int_t error = 0;
-   gROOT->ProcessLineSync("TGo4AbstractInterface* go4 = TGo4AbstractInterface::Instance();", &error);
-   gROOT->ProcessLineSync("TGo4ObjectManager* om = TGo4AbstractInterface::Instance()->OM();", &error);
-   gROOT->ProcessLineSync("TGo4BrowserProxy* br = TGo4AbstractInterface::Instance()->Browser();", &error);
+   gROOT->ProcessLineSync("TGo4AbstractInterface *go4 = TGo4AbstractInterface::Instance();", &error);
+   gROOT->ProcessLineSync("TGo4ObjectManager *om = TGo4AbstractInterface::Instance()->OM();", &error);
+   gROOT->ProcessLineSync("TGo4BrowserProxy *br = TGo4AbstractInterface::Instance()->Browser();", &error);
    gROOT->ProcessLineSync(TString::Format(".x %s", TGo4Log::subGO4SYS("macros/go4macroinit.C").Data()).Data());
 }
 

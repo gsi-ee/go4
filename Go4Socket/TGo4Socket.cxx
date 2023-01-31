@@ -217,9 +217,9 @@ Int_t TGo4Socket::Close(Option_t *opt)
    return 0;
 }
 
-Int_t TGo4Socket::SendBuffer(TBuffer* buf)
+Int_t TGo4Socket::SendBuffer(TBuffer *buf)
 {
-   GO4TRACE((12,"TGo4Socket::SendBuffer(TBuffer*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Socket::SendBuffer( *)", __LINE__, __FILE__));
 
    if(!buf) {
       TGo4Log::Debug(" !!! Socket: SendBuffer() ERROR : no buffer  !!! ");
@@ -458,7 +458,7 @@ TObject *TGo4Socket::Recv(const char *name)
 }
 
 
-void TGo4Socket::ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize)
+void TGo4Socket::ReallocBuffer(TBuffer *buffer, Int_t oldsize, Int_t newsize)
 {
    if(!buffer) return;
    TGo4LockGuard mainguard;

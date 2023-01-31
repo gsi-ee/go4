@@ -102,7 +102,7 @@ void TGo4EditDynEntry::RefreshWidget()
 {
    auto entry = GetLinkedCast<TGo4DynamicEntry>("Entry");
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
 
    if (!entry || !br) return;
 
@@ -432,7 +432,7 @@ void TGo4EditDynEntry::ProcessTreeDropEvent(QGo4LineEdit* edt)
 
    QString value = edt->text();
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
 
    EntryChangedSlot();
 

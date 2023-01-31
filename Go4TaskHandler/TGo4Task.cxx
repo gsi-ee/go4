@@ -443,7 +443,7 @@ Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
       }
       else
       {
-         TBuffer* commandbuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
+         TBuffer *commandbuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
          queue->AddBuffer(commandbuffer); // put command into queue
       }
 
@@ -465,7 +465,7 @@ Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char *rece
       }
       else
       {
-         TBuffer* commandbuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
+         TBuffer *commandbuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
          queue->AddBuffer(commandbuffer); // put command into queue
       }
       return kTRUE;

@@ -151,7 +151,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fxOM->MakeFolder(fOMDataPath.toLatin1().constData());
 
    // create entry for browser
-   TGo4BrowserProxy* br = new TGo4BrowserProxy(fOMDataPath.toLatin1().constData(), fOMEditorsPath.toLatin1().constData(), kFALSE);
+   TGo4BrowserProxy *br = new TGo4BrowserProxy(fOMDataPath.toLatin1().constData(), fOMEditorsPath.toLatin1().constData(), kFALSE);
    fxOM->AddProxy("", br, fOMBrowserPath.toLatin1().constData(), "Place for gui slots");
    br->CreateMemoryFolder();
 
@@ -2649,7 +2649,7 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 
 TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char *drawopt)
 {
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
 
    TGo4Slot *guislot = br->BrowserSlot(itemname);
@@ -2687,7 +2687,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4View
 
 bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char *subfolder)
 {
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    if (!br || !itemname) return false;
 
    TString fileslotname;
@@ -2878,12 +2878,12 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    }
 }
 
-TGo4ObjectManager* TGo4MainWindow::OM()
+TGo4ObjectManager *TGo4MainWindow::OM()
 {
    return fxOM;
 }
 
-TGo4BrowserProxy* TGo4MainWindow::Browser()
+TGo4BrowserProxy *TGo4MainWindow::Browser()
 {
    return (TGo4BrowserProxy*) fxOM->GetProxy(fOMBrowserPath.toLatin1().constData());
 }

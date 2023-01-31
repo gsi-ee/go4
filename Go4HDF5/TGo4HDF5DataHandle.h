@@ -236,7 +236,7 @@ protected:
 
 
    /** secondary read bounce buffer for hdf5 */
-     Char_t* fxReadBuffer{nullptr}; //!
+     Char_t *fxReadBuffer{nullptr}; //!
 
 };
 

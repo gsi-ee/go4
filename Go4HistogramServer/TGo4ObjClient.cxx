@@ -134,7 +134,7 @@ TObject *TGo4ObjClient::ReceiveObject()
    char* recvchar = fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    {
-      TBuffer* buffer=ReceiveBuffer();
+      TBuffer *buffer=ReceiveBuffer();
       if(buffer)
       {
          // reconstruct object from buffer
@@ -202,7 +202,7 @@ Int_t TGo4ObjClient::DisconnectServer()
    return 0;
 }
 
-TBuffer* TGo4ObjClient::ReceiveBuffer()
+TBuffer *TGo4ObjClient::ReceiveBuffer()
 {
    TBuffer *rev = nullptr;
    Int_t state = fxTransport->ReceiveBuffer();

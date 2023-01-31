@@ -103,7 +103,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
       const char *GetObjectClassName() const override;
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override;
+      Int_t AssignObjectTo(TGo4ObjectManager *rcv, const char *path) override;
 
 };
 

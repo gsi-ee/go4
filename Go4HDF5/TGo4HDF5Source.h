@@ -68,7 +68,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
   private:
 
     /** read buffer for hdf5*/
-    Char_t* fxReadBuffer{nullptr}; //!
+    Char_t *fxReadBuffer{nullptr}; //!
 
     /** begin of real eventdata payload after event object pointer**/
     size_t fiReadOffset{0};

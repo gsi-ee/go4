@@ -61,7 +61,7 @@ class TGo4Slot : public TNamed  {
 
       virtual void ProduceFullName(TString &name, TGo4Slot *toparent = nullptr);
       TString GetFullName(TGo4Slot *toparent = nullptr);
-      virtual TGo4ObjectManager* GetOM() const;
+      virtual TGo4ObjectManager *GetOM() const;
 
       const char *GetInfo();
       Int_t GetSizeInfo();

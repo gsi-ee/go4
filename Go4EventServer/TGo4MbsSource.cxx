@@ -157,7 +157,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
       // Event Type 10:
       if(fxEvent->i_type==10) {
          s_ves10_1* subevent; // pointer to subevent
-         Char_t* subevtpointer; // dito, in bytes
+         Char_t *subevtpointer; // dito, in bytes
          target->SetTrigger(fxEvent->i_trigger);
          target->SetCount(fxEvent->l_count);
          target->SetDummy(fxEvent->i_dummy);

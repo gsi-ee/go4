@@ -62,7 +62,7 @@ class TGo4FitAssignment : public TNamed {
        /**
         * Array of boolean values, selected model bins.
         */
-       Char_t* fxModelMask{nullptr};         //!
+       Char_t *fxModelMask{nullptr};         //!
 
        /**
         * Array of model bins for assigned data.

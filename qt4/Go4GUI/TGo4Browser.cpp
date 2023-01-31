@@ -188,7 +188,7 @@ void TGo4Browser::ResetWidget()
 {
 }
 
-TGo4BrowserProxy* TGo4Browser::BrowserProxy()
+TGo4BrowserProxy *TGo4Browser::BrowserProxy()
 {
    return GetLinkedCast<TGo4BrowserProxy>("Browser");
 }
@@ -208,7 +208,7 @@ QString TGo4Browser::FullItemName(QTreeWidgetItem* item)
 
 QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot *slot)
 {
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
    if (!br) return nullptr;
 
    TString itemname;
@@ -227,7 +227,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot *itemslot, QTreeWidgetItem* ite
 {
    if (!itemslot || !item) return;
 
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
 
    bool mon = br->IsItemMonitored(itemslot);
    bool remote = br->IsItemRemote(itemslot);
@@ -322,7 +322,7 @@ void TGo4Browser::updateListViewItems()
    for (int indx = 0; indx < NColumns; indx++)
       ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
 
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
    if (!br) return;
 
    ServiceCall("UpdateGuiLayout");
@@ -513,7 +513,7 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 
    QString fullname = FullItemName(item);
 
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
 
    int cando = br->ItemCanDo(fullname.toLatin1().constData());
 
@@ -566,7 +566,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint &pos)
 
    QMenu menu;
 
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
    TGo4Slot *memslot = br->BrowserMemorySlot();
    TGo4Slot *analslot = br->FindServerSlot(false, 1);
 
@@ -817,7 +817,7 @@ void TGo4Browser::ContextMenuActivated(int id)
       case 142: ExportSelectedItems("Radware format"); return;
    }
 
-   TGo4BrowserProxy* br = BrowserProxy();
+   TGo4BrowserProxy *br = BrowserProxy();
 
    TGo4ServerProxy* anrefresh = nullptr;
    TGo4ServerProxy* servrefresh = nullptr;

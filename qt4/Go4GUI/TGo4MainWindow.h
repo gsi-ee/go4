@@ -92,8 +92,8 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewCondition(bool forothereditor = false);
       void CreateNewDynEntry(bool forothereditor = false);
 
-      TGo4ObjectManager* OM();
-      TGo4BrowserProxy* Browser();
+      TGo4ObjectManager *OM();
+      TGo4BrowserProxy *Browser();
 
    public slots:
 
@@ -233,7 +233,7 @@ class TGo4MainWindow : public QMainWindow {
       QMenu*             windowsMenu{nullptr};
       TGo4MdiArea*       fxMdiArea{nullptr};
       TGo4Style*         fxStyle{nullptr};
-      TGo4ObjectManager* fxOM{nullptr};
+      TGo4ObjectManager *fxOM{nullptr};
       QString            fOMDataPath;
       QString            fOMBrowserPath;
       QString            fOMEditorsPath;

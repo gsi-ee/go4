@@ -126,7 +126,7 @@ void TGo4ParaEdit::WorkWithParameter(const char *itemname, bool isrefresh)
 
    if (BrowserItemRemote(itemname)) {
       TGo4Slot *tgtslot = AddSlot("ParStatus");
-      TGo4BrowserProxy* br = Browser();
+      TGo4BrowserProxy *br = Browser();
       if (br) br->RequestObjectStatus(itemname, tgtslot);
       // add dummy link to be informed when parameter is disappear
       AddLink(itemname, "ParameterLock");
@@ -188,7 +188,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 {
    RefreshButton->setEnabled(status != nullptr);
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    TGo4ServerProxy* serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : nullptr;
    ApplyButton->setEnabled(serv && serv->CanSubmitObjects());
 

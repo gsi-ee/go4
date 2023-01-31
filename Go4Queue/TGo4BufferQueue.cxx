@@ -86,14 +86,14 @@ TBuffer * TGo4BufferQueue::WaitBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
    TObject *ob = Wait();
-   return dynamic_cast<TBuffer*> ( ob );
+   return dynamic_cast<TBuffer *>(ob);
 }
 
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
    TObject *obj = nullptr;
-   TBuffer* buffer = WaitBuffer();
+   TBuffer *buffer = WaitBuffer();
    if(buffer) {
       {
          TGo4LockGuard mainguard;
@@ -126,14 +126,14 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 
 void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 {
-   GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
+   GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer *, Bool_t)", __LINE__, __FILE__));
 
-   TBuffer* entry = nullptr;
+   TBuffer *entry = nullptr;
    Bool_t entryisnew = kFALSE;
    if(clone)
       {
       TGo4LockGuard qguard(fxBufferMutex);
-         entry = dynamic_cast<TBuffer*>(fxFreeList->Remove(fxFreeList->First()));
+         entry = dynamic_cast<TBuffer *>(fxFreeList->Remove(fxFreeList->First()));
          // get next free buffer
          if(!entry)
           {
@@ -196,7 +196,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
    GO4TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject*)", __LINE__, __FILE__));
    if(!object) return;
    TGo4LockGuard mainguard;
-   TBuffer* entry = new TBufferFile(TBuffer::kWrite);
+   TBuffer *entry = new TBufferFile(TBuffer::kWrite);
    TFile *filsav = gFile;
    gFile = nullptr;
    entry->WriteObject(object);
@@ -237,7 +237,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 
 void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
 {
-   GO4TRACE((19, "TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
+   GO4TRACE((19, "TGo4BufferQueue::FreeBuffer(TBuffer *, Bool_t)", __LINE__, __FILE__));
    TGo4LockGuard qguard(fxBufferMutex);
    // does buffer belong to our internal buffers?
    if (fxBufferList->FindObject(buffer)) {
@@ -258,10 +258,10 @@ void TGo4BufferQueue::FreeBuffer(TBuffer *buffer)
 void TGo4BufferQueue::Clear(Option_t *)
 {
    while(auto ob = Next())
-      FreeBuffer(dynamic_cast<TBuffer*>(ob));
+      FreeBuffer(dynamic_cast<TBuffer *>(ob));
 }
 
-void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
+void TGo4BufferQueue::Realloc(TBuffer *buffer, Int_t oldsize, Int_t newsize)
 {
    if(!buffer) return;
    TGo4LockGuard mainguard;
@@ -269,7 +269,7 @@ void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
    buffer->Expand(newsize); // JAM2021- always use framework method to avoid recent check byte count problems
 }
 
-TBuffer* TGo4BufferQueue::NewEntry()
+TBuffer *TGo4BufferQueue::NewEntry()
 {
    TGo4LockGuard mainguard;
    TBuffer *buf = new TBufferFile(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
@@ -282,7 +282,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
    return buf;
 }
 
-TBuffer* TGo4BufferQueue::CreateValueBuffer(UInt_t val)
+TBuffer *TGo4BufferQueue::CreateValueBuffer(UInt_t val)
 {
    TBuffer *buf = new TBufferFile(TBuffer::kWrite);
    char *field= buf->Buffer() + sizeof(UInt_t);
@@ -293,7 +293,7 @@ TBuffer* TGo4BufferQueue::CreateValueBuffer(UInt_t val)
 }
 
 
-Int_t TGo4BufferQueue::DecodeValueBuffer(TBuffer* buf)
+Int_t TGo4BufferQueue::DecodeValueBuffer(TBuffer *buf)
 {
    if(!buf) return -1;
    UInt_t len = buf->Length();

@@ -47,7 +47,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
         * taskhandler threads into parking position when
         * connection is discarded. Value of buffer is
         * set to external variable result optionally. */
-      Bool_t CheckStopBuffer(TBuffer* buf, Int_t *result = nullptr);
+      Bool_t CheckStopBuffer(TBuffer *buf, Int_t *result = nullptr);
 
       /** Test if socket transport exists and is open.
         * If not open, sleep a while to avoid deadlooping of Run() */

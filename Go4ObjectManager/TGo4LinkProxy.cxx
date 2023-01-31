@@ -121,7 +121,7 @@ Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, v
 //       delete slot;
        // we delete slot with timer afterwards
 
-//       TGo4ObjectManager* om = slot->GetOM();
+//       TGo4ObjectManager *om = slot->GetOM();
        // om->UnregisterLink(slot);
 //       om->DeleteObject(slot);
 

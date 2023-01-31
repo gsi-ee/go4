@@ -39,7 +39,7 @@ class TGo4BrowserItem : public TFolder {
 
       TGo4BrowserItem* GetParent() const { return fParent; }
 
-      void SetBrowser(TGo4BrowserProxy* br, TGo4RootBrowserProxy* br2);
+      void SetBrowser(TGo4BrowserProxy *br, TGo4RootBrowserProxy* br2);
 
       TGo4BrowserItem* firstChild();
       TGo4BrowserItem* nextChild();

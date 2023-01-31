@@ -195,7 +195,7 @@ const char *TGo4HttpAccess::GetObjectClassName() const
    return clname ? clname : "TObject";
 }
 
-Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
+Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager *rcv, const char *path)
 {
    if (!rcv) return 0;
 

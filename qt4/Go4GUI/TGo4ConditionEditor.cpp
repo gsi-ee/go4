@@ -254,7 +254,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : nullptr;
    UpdateCon->setEnabled(!serv || serv->CanSubmitObjects());
 
@@ -778,7 +778,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
       hname = cond->GetLinkedHistogram();
    TString hitemname;
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
 
    if (hname && br->DefineRelatedObject(conditemname, hname, hitemname)) {
       panel = DrawItem(hitemname.Data(), nullptr);

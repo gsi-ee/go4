@@ -664,8 +664,8 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
 //                   "TGo4HDF5VectorDataHandle::Read has collection size: %ld capacity: %ld pointer to buffer 0x%lx, end: 0x%lx cap: 0x%lx\n",
 //                   len, cap, (unsigned long) *p_begin_ptr, (unsigned long) *p_end_ptr, (unsigned long) *p_cap_ptr);
 //          // here copy data from our hdf5 bounce buffer to actual event object:
-//          Char_t* target = *p_begin_ptr;
-//          Char_t* source = (Char_t*) fxVarHandle.fxArray.p; //(Char_t*) (fxReadBuffer);
+//          Char_t *target = *p_begin_ptr;
+//          Char_t *source = (Char_t*) fxVarHandle.fxArray.p; //(Char_t*) (fxReadBuffer);
 //          size_t copylen = fxVarHandle.fxArray.len * fiElementSize;
 //          go4hdfdbg(
 //                  "TGo4HDF5VectorDataHandle::Read before memcopy from 0x%x to 0x%x with length %ld (element size is :%ld)\n",
@@ -688,8 +688,8 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
 
           if(fxVarHandle.fxArray.len >0)
           {
-          Char_t* first =(Char_t*) fxVarHandle.fxArray.p;
-          Char_t* last = (Char_t*) fxVarHandle.fxArray.p + (fxVarHandle.fxArray.len) * fiElementSize;
+          Char_t *first =(Char_t*) fxVarHandle.fxArray.p;
+          Char_t *last = (Char_t*) fxVarHandle.fxArray.p + (fxVarHandle.fxArray.len) * fiElementSize;
 
           TString vectorhandle = TString::Format("myevent->%s",fxMemberHandle.Data());
           TString copycom = TString::Format("%s * myevent= (%s *) %ld; %s.insert(%s.end(), (%s *) %ld, (%s *) %ld)",

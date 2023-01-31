@@ -75,7 +75,7 @@ void TGo4HistogramInfo::WorkWithHistogram(const char *itemname)
 {
    ResetWidget();
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    if (!br) return;
 
    HisnameLbl->setText(itemname);

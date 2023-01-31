@@ -47,7 +47,7 @@ private:
    bool   fResetWidgetShooted{false};   //! indicates that reset widget timer is shoot
    bool   fBlockUpdate{false};          //! set when automatic reset must be blocked
 
-   TGo4BrowserProxy* fBrowserProxy{nullptr}; //! pointer on browser proxy
+   TGo4BrowserProxy *fBrowserProxy{nullptr}; //! pointer on browser proxy
 
    public:
       enum { service_DragEnter        = 1,
@@ -161,7 +161,7 @@ private:
       void RemoveLinksMasked(const char *startedwith = nullptr, bool blockreset = true);
 
       bool BrowserItemRemote(const char *itemname);
-      TGo4BrowserProxy* Browser();
+      TGo4BrowserProxy *Browser();
 
       void StatusMessage(const QString& message);
 

@@ -269,7 +269,7 @@ public:
 
     /** Use preallocated abort buffer to stop remote socket wait
      * from taskhandler itself */
-    TBuffer* GetAbortBuffer(){return fxAbortBuffer;}
+    TBuffer *GetAbortBuffer(){return fxAbortBuffer;}
 
     static Int_t Get_fgiTERMID();
 
@@ -299,7 +299,7 @@ public:
     TMutex *fxStatusMutex{nullptr}; //!
 
     /** Buffer containing the analysis status which is  updated by the main thread */
-    TBuffer* fxStatusBuffer{nullptr}; //!
+    TBuffer *fxStatusBuffer{nullptr}; //!
 
   private:
 
@@ -334,13 +334,13 @@ public:
     Bool_t fbWorkIsStopped{kFALSE};
 
     /** this buffer is used for stop message for threads */
-    TBuffer* fxStopBuffer{nullptr}; //!
+    TBuffer *fxStopBuffer{nullptr}; //!
 
      /** this buffer is used for quit command  */
-    TBuffer* fxQuitBuffer{nullptr}; //!
+    TBuffer *fxQuitBuffer{nullptr}; //!
 
      /** this buffer is used for emergency socket aborting  */
-    TBuffer* fxAbortBuffer{nullptr}; //!
+    TBuffer *fxAbortBuffer{nullptr}; //!
 
     /** Id number of dummy command that wakes the command queue on termination */
     static const Int_t fgiTERMID;

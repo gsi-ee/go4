@@ -79,7 +79,7 @@ class TGo4BufferQueue : public TGo4Queue {
        * sockets. Also used to indicate disconnect mode for
        * the taskhandler threads.
        */
-      static TBuffer* CreateValueBuffer(UInt_t val);
+      static TBuffer *CreateValueBuffer(UInt_t val);
 
       /**
        * Extract value from buffer that was created by
@@ -88,7 +88,7 @@ class TGo4BufferQueue : public TGo4Queue {
        * received from queue or socket connection.
        * Negative value means no valid value buffer.
        */
-      static Int_t DecodeValueBuffer(TBuffer* buf);
+      static Int_t DecodeValueBuffer(TBuffer *buf);
 
    private:
       /**
@@ -99,12 +99,12 @@ class TGo4BufferQueue : public TGo4Queue {
       /**
        * Reallocate buffer of TBuffer to newsize.
        */
-      void Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize);
+      void Realloc(TBuffer *buffer, Int_t oldsize, Int_t newsize);
 
       /**
        * Create dummy buffer for queue.
        */
-      TBuffer* NewEntry();
+      TBuffer *NewEntry();
 
       /**
        * List of preallocated buffer TBuffers which

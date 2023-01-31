@@ -24,7 +24,7 @@ class TCanvas;
 
 class TGo4RootBrowserProxy : public TGo4Proxy {
    public:
-      TGo4RootBrowserProxy(TGo4BrowserProxy* br = nullptr);
+      TGo4RootBrowserProxy(TGo4BrowserProxy *br = nullptr);
 
       virtual ~TGo4RootBrowserProxy();
 
@@ -49,7 +49,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       void SyncRootBrowserSlots();
 
-      TGo4BrowserProxy*  fBrowser{nullptr}; //!
+      TGo4BrowserProxy * fBrowser{nullptr}; //!
 
       Bool_t  fLockMessage{kFALSE};  //!
 

@@ -207,7 +207,7 @@ class TGo4FitData : public TGo4FitComponent {
        * But not full data range can be used for explicit model evaluation. This functions fill model mask (array of chars) inside data range, where model should be evaluated.
        * Can be used only after Initialize() method.
        */
-      void ApplyRangesForModelMask(TGo4FitComponent* model, Char_t* ModelMask);
+      void ApplyRangesForModelMask(TGo4FitComponent* model, Char_t *ModelMask);
 
      /**
        * Copy pointers on all slots of data object to list.

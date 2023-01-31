@@ -279,7 +279,7 @@ TString TGo4Slot::GetFullName(TGo4Slot *toparent)
 }
 
 
-TGo4ObjectManager* TGo4Slot::GetOM() const
+TGo4ObjectManager *TGo4Slot::GetOM() const
 {
   return GetParent() ? GetParent()->GetOM() : nullptr;
 }

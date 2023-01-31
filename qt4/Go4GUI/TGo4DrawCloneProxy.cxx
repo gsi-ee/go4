@@ -51,7 +51,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot *slot)
    fClone = obj->Clone();
    if (fClone->InheritsFrom(TH1::Class()))
      ((TH1*) fClone)->SetDirectory(nullptr);
-   TGo4ObjectManager* om = slot->GetOM();
+   TGo4ObjectManager *om = slot->GetOM();
    if (om && fClone)
      om->RegisterObjectWith(fClone, slot);
 
@@ -61,7 +61,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot *slot)
 void TGo4DrawCloneProxy::CleanupClone(TGo4Slot *slot)
 {
    if (!fClone) return;
-   TGo4ObjectManager* om = slot->GetOM();
+   TGo4ObjectManager *om = slot->GetOM();
    if (om) {
       om->RecursiveRemove(fClone);
       om->UnregisterObject(fClone, slot);

@@ -35,7 +35,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
       void ResetWidget() override;
 
-      TGo4BrowserProxy* BrowserProxy();
+      TGo4BrowserProxy *BrowserProxy();
 
       QString FullItemName(QTreeWidgetItem* item);
 

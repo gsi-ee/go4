@@ -90,7 +90,7 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
 {
    QString value = edt->text();
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    if (!br) return;
 
    if (fxTreeName.isEmpty()) {
@@ -141,7 +141,7 @@ void TGo4TreeViewer::TreeDrawBtn_clicked()
       return;
    }
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    if (!br) return;
 
    QApplication::setOverrideCursor(Qt::WaitCursor);

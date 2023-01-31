@@ -81,7 +81,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       const char *GetPathName() const { return fxFullPath.Data(); }
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override
+      Int_t AssignObjectTo(TGo4ObjectManager *rcv, const char *path) override
       {
          if (!rcv || !fxAnalProxy) return 0;
          fxReceiver = rcv;
@@ -117,7 +117,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
          }
       }
 
-      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char *path)
+      void SetDefaultReceiver(TGo4ObjectManager *rcv, const char *path)
       {
          fxReceiver = rcv;
          fxReceiverPath = path;
@@ -129,7 +129,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       TString                 fxObjName;                 //!
       TString                 fxObjClassName;            //!
       TString                 fxFullPath;                //!
-      TGo4ObjectManager*      fxReceiver{nullptr};       //!
+      TGo4ObjectManager *     fxReceiver{nullptr};       //!
       TString                 fxReceiverPath;            //!
       TTime                   fxSubmitTime;              //!
 };
@@ -1088,7 +1088,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
    return kFALSE;
 }
 
-void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager* rcv, const char *path)
+void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager *rcv, const char *path)
 {
    if (!rcv) {
       delete fxDefaultProxy;

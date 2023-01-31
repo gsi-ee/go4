@@ -43,7 +43,7 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
       Int_t  rev = fxTransport->ReceiveBuffer();
       if(rev >= 0)
          {
-            TBuffer* buf=const_cast<TBuffer*> (fxTransport->GetBuffer());
+            TBuffer *buf = const_cast<TBuffer *> (fxTransport->GetBuffer());
             if(CheckStopBuffer(buf)) return 0; // stop for disconnect mode
             fxBufferQueue->AddBuffer(buf, kTRUE);
          } ////if(rev >= 0)
@@ -74,7 +74,7 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
       {
       // client side: send status buffer to server
          // get next status buffer from queue or wait for it
-         TBuffer* buf= fxBufferQueue->WaitBuffer();
+         TBuffer *buf= fxBufferQueue->WaitBuffer();
          if (buf)
             // check if there is really an object from queue
             {

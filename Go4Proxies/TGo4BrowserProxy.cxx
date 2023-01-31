@@ -112,7 +112,7 @@ class TGo4BrowserObjProxy : public TGo4ObjectProxy {
          if (!fObject && !strong) return;
 
          TGo4Slot *parent = slot->GetParent();
-         TGo4BrowserProxy* browser = nullptr;
+         TGo4BrowserProxy *browser = nullptr;
 
          while(parent)  {
             browser = dynamic_cast<TGo4BrowserProxy*> (parent->GetProxy());

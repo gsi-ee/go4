@@ -36,7 +36,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       virtual ~TGo4ObjectManager();
 
       void ProduceFullName(TString &name, TGo4Slot *toparent = nullptr) override;
-      TGo4ObjectManager* GetOM() const override;
+      TGo4ObjectManager *GetOM() const override;
 
       void MakeFolder(const char *pathname);
 

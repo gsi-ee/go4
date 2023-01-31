@@ -52,7 +52,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * create. Subevent number subnum must not extend
        * the length of subids field. Array datasizes contains preallocated size of
        * each subevent data field. */
-      TGo4MbsEvent(UInt_t subnum, Char_t* subcrates, Char_t* controls, Short_t* procids, UInt_t *datasizes);
+      TGo4MbsEvent(UInt_t subnum, Char_t *subcrates, Char_t *controls, Short_t* procids, UInt_t *datasizes);
 
       /** Ctor expecting just a name. Auxiliary to support
        * mbs event in the generic step factory. */

@@ -96,7 +96,7 @@ void TGo4EventInfo::RefreshClicked()
 
    TGo4Slot *tgtslot = isremote ? nullptr : AddSlot("Event");
 
-   TGo4BrowserProxy* br = Browser();
+   TGo4BrowserProxy *br = Browser();
    if (!br) return;
 
    TString objname;

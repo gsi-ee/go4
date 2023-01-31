@@ -51,24 +51,17 @@ void TGo4ObjectQueue::AddObject(TObject * object, Bool_t clone)
    Add(entry);
 }
 
-void TGo4ObjectQueue::AddObjectFromBuffer(TBuffer* buffer)
+void TGo4ObjectQueue::AddObjectFromBuffer(TBuffer *buffer)
 {
-   GO4TRACE((12,"TGo4ObjectQueue::AddObjectFromBuffer(TBuffer*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ObjectQueue::AddObjectFromBuffer(TBuffer *)", __LINE__, __FILE__));
    TObject *entry = nullptr;
    if (buffer) {
       buffer->SetReadMode();
       buffer->Reset();
       buffer->InitMap();
       TClass *cl = buffer->ReadClass();
-      //         std::cout <<"object queue: read class "  << cl << std::endl;
-      //         if(cl)
-      //            std::cout <<"object queue: class name "  << cl->GetName() << std::endl;
       buffer->Reset();
       entry = buffer->ReadObject(cl);
-
-      //         std::cout <<"object queue: read object "  << entry << std::endl;
-      //         if(entry)
-      //            std::cout <<"object queue: classname "  << entry->ClassName() << std::endl;
    }
    Add(entry);
 }

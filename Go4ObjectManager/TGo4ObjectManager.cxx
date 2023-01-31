@@ -103,7 +103,7 @@ void TGo4ObjectManager::ProduceFullName(TString &name, TGo4Slot *toparent)
    name = "";
 }
 
-TGo4ObjectManager* TGo4ObjectManager::GetOM() const
+TGo4ObjectManager *TGo4ObjectManager::GetOM() const
 {
    return (TGo4ObjectManager*) this;
 }

@@ -64,7 +64,7 @@ TGo4BrowserItem::~TGo4BrowserItem()
    if (fIter) delete fIter;
 }
 
-void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy* br, TGo4RootBrowserProxy* br2)
+void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy *br, TGo4RootBrowserProxy* br2)
 {
    fBrowser = br;
    fRootBrowser = br2;

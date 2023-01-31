@@ -88,7 +88,7 @@ class TGo4DabcAccess : public TGo4Access {
       std::string      fMasterItemName;
       bool             fIsRate{false};
       int              fHistoryLength{0};
-      TGo4ObjectManager* fxReceiver{nullptr};
+      TGo4ObjectManager *fxReceiver{nullptr};
       TString          fxRecvPath;
       dabc::Buffer     fRawData;     //! raw data, get from command
       Bool_t           fCompression{false};   //! request compression from server
@@ -180,7 +180,7 @@ class TGo4DabcAccess : public TGo4Access {
          return "dabc::Hierarchy";
       }
 
-      Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char *path) override
+      Int_t AssignObjectTo(TGo4ObjectManager *rcv, const char *path) override
       {
          if (!rcv) return 0;
 

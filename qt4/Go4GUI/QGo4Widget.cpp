@@ -216,11 +216,11 @@ bool QGo4Widget::BrowserItemRemote(const char *itemname)
    return isremote;
 }
 
-TGo4BrowserProxy* QGo4Widget::Browser()
+TGo4BrowserProxy *QGo4Widget::Browser()
 {
    if (fBrowserProxy) return fBrowserProxy;
 
-   TGo4BrowserProxy* br = nullptr;
+   TGo4BrowserProxy *br = nullptr;
    emit widgetService(this, service_Browser, "", (void*) &br);
    fBrowserProxy = br;
    return br;

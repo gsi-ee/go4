@@ -50,7 +50,7 @@ TGo4Interface::TGo4Interface() :
    fWaitCounter(0)
 {
    // create object manager
-   TGo4ObjectManager* om =
+   TGo4ObjectManager *om =
       new TGo4ObjectManager("GUI_OM","Gui object manager");
    fOMDataPath    = "data";
    fOMBrowserPath = "gui";
@@ -60,7 +60,7 @@ TGo4Interface::TGo4Interface() :
    om->MakeFolder(fOMDataPath.Data());
 
    // create entry for browser
-   TGo4BrowserProxy* br =
+   TGo4BrowserProxy *br =
       new TGo4BrowserProxy(fOMDataPath.Data(), fOMEditorsPath.Data(), kTRUE);
    om->AddProxy("", br, fOMBrowserPath.Data(), "Place for gui slots");
    br->CreateMemoryFolder();
@@ -86,7 +86,7 @@ TGo4Interface::~TGo4Interface()
       gSystem->Sleep(100);
    }
 
-   TGo4ObjectManager* om = OM();
+   TGo4ObjectManager *om = OM();
    delete om;
 }
 

@@ -41,7 +41,7 @@ const char *TGo4Access::GetObjectClassName() const
    return nullptr;
 }
 
-Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char *path)
+Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager *rcv, const char *path)
 {
    if (!rcv || IsRemote()) return 0;
    TObject *obj = nullptr;
@@ -60,7 +60,7 @@ Int_t TGo4Access::AssignObjectToSlot(TGo4Slot *slot)
    return AssignObjectTo(slot->GetOM(), tgtname.Data());
 }
 
-void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
+void TGo4Access::DoObjectAssignement(TGo4ObjectManager *mgr,
                                      const char *path,
                                      TObject *obj,
                                      Bool_t owner)
