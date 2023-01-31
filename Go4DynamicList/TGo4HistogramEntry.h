@@ -101,7 +101,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
       Bool_t TestConditionNew();
 
-      void ProcessNew(Bool_t* evvalid);
+      void ProcessNew(Bool_t *evvalid);
 
    private:
 

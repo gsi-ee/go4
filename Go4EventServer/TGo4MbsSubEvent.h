@@ -83,7 +83,7 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       /** Direct access to the fiData field pointer. User has to care
        * about allocated range as specified in fiAllocLen. */
-      Int_t* GetDataField() { return fiData; }
+      Int_t *GetDataField() { return fiData; }
 
       /** Returns the value at position i in the fiData field.
        * If Index i is out of DLen range, zero is returned. */
@@ -124,7 +124,7 @@ class TGo4MbsSubEvent : public TGo4EventElement {
        * subevent data. Length of this field may be changed
        * dynamically depending on the maximum length
        * of the incoming subevent of this type. */
-      Int_t* fiData{nullptr}; //[fiAllocLen]
+      Int_t *fiData{nullptr}; //[fiAllocLen]
 
    ClassDefOverride(TGo4MbsSubEvent,2)
 };

@@ -113,7 +113,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Fitter should be initialized before.
        * Instead of using values of parameters (from parameters list) array of values can be sets directly.
        */
-      Double_t CalculateFitFunction(Double_t* pars = nullptr);
+      Double_t CalculateFitFunction(Double_t *pars = nullptr);
 
       /**
        * Add action to action list.
@@ -307,7 +307,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Execute dependency equations.
        */
-      void RunDependenciesList(TObjArray& Dependencies, Double_t* pars);
+      void RunDependenciesList(TObjArray& Dependencies, Double_t *pars);
 
       /**
        * Relese memory, allocated for dependency executions.
@@ -317,7 +317,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Execute dependencies in currently associated configuration (if exist).
        */
-      void ExecuteDependencies(Double_t* pars);
+      void ExecuteDependencies(Double_t *pars);
 
       /**
        * Initialize fitter data.

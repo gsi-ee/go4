@@ -21,7 +21,7 @@ class TModelTemplate : public TGo4FitModel {
       TModelTemplate(const char *iName, Int_t iNPars, Bool_t AddAmplitude = kFALSE);
 
    protected:
-      Double_t UserFunction(Double_t* Coordinates, Double_t* Parameters) override;
+      Double_t UserFunction(Double_t *Coordinates, Double_t *Parameters) override;
 
    ClassDefOverride(TModelTemplate,1)
 };

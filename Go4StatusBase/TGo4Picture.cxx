@@ -231,7 +231,7 @@ TGo4Picture *TGo4Picture::Pic(Int_t posy, Int_t posx)
    return sub;
 }
 
-void TGo4Picture::SetLinesDivision(Int_t numlines, const Int_t* numbers)
+void TGo4Picture::SetLinesDivision(Int_t numlines, const Int_t *numbers)
 {
    SetDivision(numlines,1);
    for (Int_t n = 0; n < numlines; n++)

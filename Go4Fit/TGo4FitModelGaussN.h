@@ -97,7 +97,7 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       void Print(Option_t *option = "") const override;
 
       Bool_t BeforeEval(Int_t) override;
-      Double_t EvalN(const Double_t* v) override;
+      Double_t EvalN(const Double_t *v) override;
 
    protected:
       TString GetPosParName(Int_t naxis);
@@ -124,7 +124,7 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Temporary variable for EvalN() function.
        */
-      Int_t* Par_indx{nullptr};                //!
+      Int_t *Par_indx{nullptr};                //!
 
       /**
        * Temporary variable for EvalN() function.

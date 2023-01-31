@@ -263,7 +263,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    inp_evt->ResetIterator();
    while (auto psubevt = inp_evt->NextSubEvent()) // subevent loop
    {
-	 Int_t* pdata = psubevt->GetDataField();
+	 Int_t *pdata = psubevt->GetDataField();
 	 Int_t lwords = psubevt->GetIntLen();
 	 Int_t subcrate=psubevt->GetSubcrate();
 	 if(subcrate<0 || subcrate> XXX_NUM_CRATES)

@@ -2152,7 +2152,7 @@ TGo4ListCond *TGo4Analysis::MakeListCond(const char *fullname, const Int_t start
 }
 
 
-TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
+TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t *xvalues, Double_t *yvalues)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2409,7 +2409,7 @@ Long64_t TGo4Analysis::ExecuteScript(const char *macro_name)
    return res;
 }
 
-Long64_t TGo4Analysis::ExecutePython(const char *macro_name, Int_t* errcode)
+Long64_t TGo4Analysis::ExecutePython(const char *macro_name, Int_t *errcode)
 {
   if (!macro_name || (strlen(macro_name) == 0)) return -1;
   TString comstring=macro_name;
@@ -2418,7 +2418,7 @@ Long64_t TGo4Analysis::ExecutePython(const char *macro_name, Int_t* errcode)
 }
 
 
-Long64_t TGo4Analysis::ExecuteLine(const char *command, Int_t* errcode)
+Long64_t TGo4Analysis::ExecuteLine(const char *command, Int_t *errcode)
 {
   TString comstring;
   if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::fgcPYPROMPT) == strrchr(command,TGo4Analysis::fgcPYPROMPT))) {

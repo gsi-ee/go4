@@ -2076,7 +2076,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 }
 
 
-Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_t* hasrebinx, Int_t* hasrebiny)
+Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_t *hasrebinx, Int_t *hasrebiny)
 {
    Bool_t tdisp = kFALSE;
    TString tform;

@@ -92,8 +92,8 @@ Bool_t TGo4FitDataGraphIter::ReadCurrentPoint()
    TGraph *gr = fxData->GetGraph();
    if (!gr) return kFALSE;
 
-   Double_t* xx = gr->GetX();
-   Double_t* yy = gr->GetY();
+   auto xx = gr->GetX();
+   auto yy = gr->GetY();
    if (!xx || !yy) return kFALSE;
 
    Double_t xvalue = xx[fxIndexes[0]];

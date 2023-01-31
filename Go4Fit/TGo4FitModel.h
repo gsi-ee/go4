@@ -69,7 +69,7 @@ class TGo4FitAssignment : public TNamed {
         * Size of models and data bins are the same.
         * According to mask values some of models bins not used for calculation (always 0).
         */
-       Double_t* fxModelBins{nullptr};       //!
+       Double_t *fxModelBins{nullptr};       //!
 
     ClassDefOverride(TGo4FitAssignment,1);
 };
@@ -190,7 +190,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Calculates value of model for given axis values.
        */
-      virtual Double_t Evaluate(Double_t* v, Int_t ndim);
+      virtual Double_t Evaluate(Double_t *v, Int_t ndim);
 
       /**
        * Calculates integral of model component
@@ -245,7 +245,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * Calculates value of model according current parameters values and provided axes values.
        * BeforeEval(), EvalN() & AfterEval() virtual methods provides general interface, where user-specific code should be situated.
        */
-      virtual Double_t EvalN(const Double_t* v);
+      virtual Double_t EvalN(const Double_t *v);
 
       /**
        * Clear buffers, which were created by BeforeEval() method.
@@ -281,7 +281,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Make integration of model inside given point, if integration specified.
        */
-      Double_t EvaluateAndIntegrate(Int_t NumScales, const Double_t* Scales, const Double_t* Widths);
+      Double_t EvaluateAndIntegrate(Int_t NumScales, const Double_t *Scales, const Double_t *Widths);
 
       /**
        * Initialize model object.
@@ -313,7 +313,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Get model bins for specified data (if exists)
        */
-      Double_t* GetModelBins(const char *DataName) const;
+      Double_t *GetModelBins(const char *DataName) const;
 
       /**
        * Sets flag, that shape bins should be refilled next time, when RebuildShape() routine will be called.
@@ -349,7 +349,7 @@ class TGo4FitModel : public TGo4FitComponent {
       virtual TGo4FitParameter* GetWidthPar(Int_t naxis = 0)
         { return Get(GetWidthParIndex(naxis)); }
 
-      const Int_t* GetDataFullIndex(TGo4FitData* data, Int_t nbin);
+      const Int_t *GetDataFullIndex(TGo4FitData* data, Int_t nbin);
       Int_t GetDataIndexesSize(TGo4FitData* data);
 
       /**
@@ -418,7 +418,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Pointer on array of parameters values.
        */
-      Double_t* fxCurrentParsArray{nullptr};     //!
+      Double_t *fxCurrentParsArray{nullptr};     //!
 
       /**
        * Internal flag. Signals, when object should be rebuild.

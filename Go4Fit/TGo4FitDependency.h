@@ -44,7 +44,7 @@ class TGo4FitDependency : public TObject {
       Bool_t IsInitValue() const { return fxExpression.IsNull(); }
 
       void Initialize(Int_t iNumPar, const char *iFormula);
-      Double_t ExecuteDependency(Double_t* Params);
+      Double_t ExecuteDependency(Double_t *Params);
       void Finalize();
 
       void Print(Option_t *option = "") const override;

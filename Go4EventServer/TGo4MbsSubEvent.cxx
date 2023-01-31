@@ -67,7 +67,7 @@ void TGo4MbsSubEvent::PrintEvent()
 
    //// new style just with std::cout:
    /*   Bool_t printhexa=kFALSE;
-      Int_t* pData = (Int_t *) GetDataField();
+      Int_t *pData = (Int_t *) GetDataField();
       std::cout << "   Mbs Subevent    t/s "
            <<      dec << std::setw(4) << (Int_t)GetType()
            << " "      << std::setw(4) << (Int_t)GetSubtype()

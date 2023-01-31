@@ -94,7 +94,7 @@ Double_t TGo4PolyCond::GetXLow() const
 {
    if(!fxCut) return 0.;
    Int_t n = fxCut->GetN();
-   Double_t* xarr = fxCut->GetX();
+   auto xarr = fxCut->GetX();
    fxCut->SetBit(kMustCleanup,0);
    Int_t nxmin = TMath::LocMin(n,xarr);
    return xarr[nxmin];
@@ -104,7 +104,7 @@ Double_t TGo4PolyCond::GetXUp() const
 {
    if(!fxCut) return 0.;
    Int_t n=fxCut->GetN();
-   Double_t* xarr=fxCut->GetX();
+   auto xarr=fxCut->GetX();
    Int_t nxmax=TMath::LocMax(n,xarr);
    return xarr[nxmax];
 }
@@ -113,7 +113,7 @@ Double_t TGo4PolyCond::GetYLow() const
 {
    if(!fxCut) return 0;
    Int_t n=fxCut->GetN();
-   Double_t* yarr=fxCut->GetY();
+   auto yarr=fxCut->GetY();
    Int_t nymin=TMath::LocMin(n,yarr);
    return yarr[nymin];
 }
@@ -122,7 +122,7 @@ Double_t TGo4PolyCond::GetYUp() const
 {
    if(!fxCut) return 0.;
    Int_t n = fxCut->GetN();
-   Double_t* yarr = fxCut->GetY();
+   auto yarr = fxCut->GetY();
    Int_t nymax = TMath::LocMax(n,yarr);
    return yarr[nymax];
 }

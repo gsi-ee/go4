@@ -108,14 +108,14 @@ class TGo4FitModelPolynom : public TGo4FitModel {
       void Print(Option_t *option = "") const override;
 
       Bool_t BeforeEval(Int_t NDimension) override;
-      Double_t EvalN(const Double_t* v) override;
+      Double_t EvalN(const Double_t *v) override;
       void AfterEval() override;
 
    protected:
       TString GetOrderParName(Int_t naxis) const;
 
    private:
-      void CreateOrdersPars(const Double_t* orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx = -1);
+      void CreateOrdersPars(const Double_t *orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx = -1);
 
       /**
        * Temporary variable for EvalN() function.
@@ -130,7 +130,7 @@ class TGo4FitModelPolynom : public TGo4FitModel {
       /**
        * Temporary variable for EvalN() function.
        */
-      Double_t* Par_orders{nullptr};              //!
+      Double_t *Par_orders{nullptr};              //!
 
    ClassDefOverride(TGo4FitModelPolynom,1)
 };

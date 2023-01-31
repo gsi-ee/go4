@@ -45,7 +45,7 @@ class TGo4MbsHist : public TObject {
       virtual ~TGo4MbsHist();
 
       s_his_head* GetHead() { return &fxHistoHead; }
-      Int_t* GetBuffer() { return fiBuffer; }
+      Int_t *GetBuffer() { return fiBuffer; }
       Int_t GetBufLen() const { return fiBufLen; }
       Int_t GetHisNum() const { return fiHisNum; }
 
@@ -67,7 +67,7 @@ class TGo4MbsHist : public TObject {
 
       s_his_head fxHistoHead;
       Int_t   fiBufLen{0};
-      Int_t*  fiBuffer{nullptr}; //!
+      Int_t * fiBuffer{nullptr}; //!
 
       /* Points to next histogram header in buffer in case of nameslist */
       s_his_head* fxCursor{nullptr}; //!

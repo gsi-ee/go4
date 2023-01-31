@@ -45,7 +45,7 @@ void TGo4FitLinearTrans::SetCoefByPoints(Double_t n1, Double_t y1, Double_t n2, 
   SetCoef(k,b);
 }
 
-void TGo4FitLinearTrans::Transformation(Double_t* scales, Int_t naxis)
+void TGo4FitLinearTrans::Transformation(Double_t *scales, Int_t naxis)
 {
   if (scales && (naxis > GetAxis()))
     scales[GetAxis()] = GetCoefK() * scales[GetAxis()] + GetCoefB();

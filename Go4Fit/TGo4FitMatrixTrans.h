@@ -35,7 +35,7 @@ class TGo4FitMatrixTrans : public TGo4FitAxisTrans {
       Int_t GetNumAxis();
       void SetNumAxis(Int_t NumAxis);
 
-      void Transformation(Double_t* scales, Int_t naxis) override;
+      void Transformation(Double_t *scales, Int_t naxis) override;
 
       void Print(Option_t *option = "") const override;
 

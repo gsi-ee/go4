@@ -101,7 +101,7 @@ Int_t TGo4MbsRandom::NextEvent()
       fxEvent->l_dlen+=(l_val_num*sizeof(Int_t)) / 2 ; // add datalength to total length in shorts
 
       //std::cout <<"\t dlen="<<subevt->l_dlen << std::endl;
-      Int_t* subdata= (Int_t*) (subevt+1); // data starts after subevt
+      Int_t *subdata= (Int_t*) (subevt+1); // data starts after subevt
       //std::cout <<"\t data="<<subdata << std::endl;
       for (Int_t j = 0; j < l_val_num; ++j) {
          *(subdata + j) = rand_event(j + 1); // later use random generator here

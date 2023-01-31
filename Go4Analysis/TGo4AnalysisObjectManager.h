@@ -138,7 +138,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       TFolder * CreateCompositeBranchFolder(TObjArray* branchlist,
             TGo4CompositeEvent* compevent,
-            Int_t startindex, Int_t* skip,
+            Int_t startindex, Int_t *skip,
             const char *name, const char *title);
 
       /**

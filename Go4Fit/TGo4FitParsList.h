@@ -99,12 +99,12 @@ class TGo4FitParsList: public TGo4FitNamed {
        * Copy values of all parameters in list to provided array.
        * Array should have at lest NumPars() elements, otherwise routine can cause error.
        */
-      void GetParsValues(Double_t* pars);
+      void GetParsValues(Double_t *pars);
 
       /**
        * Set value for all parameters from array.
        */
-      void SetParsValues(Double_t* pars);
+      void SetParsValues(Double_t *pars);
 
       /**
        * Get error value for parameter with given name.

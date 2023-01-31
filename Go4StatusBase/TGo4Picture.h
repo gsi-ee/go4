@@ -60,7 +60,7 @@ class TGo4Picture : public TNamed {
 
       // GOOSY style of picture division
 
-      void SetLinesDivision(Int_t numlines, const Int_t* numbers);
+      void SetLinesDivision(Int_t numlines, const Int_t *numbers);
       void SetLinesDivision(Int_t numlines, Int_t n0=1, Int_t n1=1, Int_t n2=1, Int_t n3=1, Int_t n4=1,
                                             Int_t n5=1, Int_t n6=1, Int_t n7=1, Int_t n8=1, Int_t n9=1);
       TGo4Picture *LPic(Int_t nline, Int_t ncol);

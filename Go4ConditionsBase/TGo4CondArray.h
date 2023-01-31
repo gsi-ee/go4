@@ -160,8 +160,8 @@ class TGo4CondArray : public TGo4Condition {
     Int_t TrueCounts() override;
 
     /** Sets values of internal boolean flags to external variables. */
-    void GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
-                  Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue) override;
+    void GetFlags(Bool_t *enabled, Bool_t *lastresult, Bool_t *markreset,
+                  Bool_t *result, Bool_t *truevalue, Bool_t *falsevalue) override;
 
     /** we overwrite single condition visibility setter */
     void SetVisible(Bool_t on) override;

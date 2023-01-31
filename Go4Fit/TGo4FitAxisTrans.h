@@ -26,7 +26,7 @@ class TGo4FitAxisTrans : public TGo4FitParsList {
       TGo4FitAxisTrans(const char *iName, const char *iTitle);
       virtual ~TGo4FitAxisTrans();
 
-      virtual void Transformation(Double_t* scales, Int_t naxis) = 0;
+      virtual void Transformation(Double_t *scales, Int_t naxis) = 0;
 
    ClassDefOverride(TGo4FitAxisTrans,1)
 };

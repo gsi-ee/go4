@@ -73,7 +73,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       void SetWidthParIndex(Int_t naxis, Int_t indx = -1);
 
       Bool_t BeforeEval(Int_t ndim) override;
-      Double_t EvalN(const Double_t* v) override;
+      Double_t EvalN(const Double_t *v) override;
       void AfterEval() override;
 
       /**

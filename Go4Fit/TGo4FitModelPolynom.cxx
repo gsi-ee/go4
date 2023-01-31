@@ -56,7 +56,7 @@ TGo4FitModelPolynom::~TGo4FitModelPolynom()
   if (fxAllOrders) delete fxAllOrders;
 }
 
-void TGo4FitModelPolynom::CreateOrdersPars(const Double_t* orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx)
+void TGo4FitModelPolynom::CreateOrdersPars(const Double_t *orders, Int_t startaxis, Int_t maxaxis, Int_t AtIndx)
 {
    for(Int_t n=startaxis;n<=maxaxis;n++) {
       TString infostr;
@@ -116,7 +116,7 @@ Bool_t TGo4FitModelPolynom::BeforeEval(Int_t NDimension)
    return kTRUE;
 }
 
-Double_t TGo4FitModelPolynom::EvalN(const Double_t* v)
+Double_t TGo4FitModelPolynom::EvalN(const Double_t *v)
 {
    Double_t zn = 1.;
    for (Int_t n = 0; n < Par_ndim; n++)

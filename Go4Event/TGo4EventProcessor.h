@@ -253,8 +253,8 @@ class TGo4EventProcessor: public TGo4EventSource {
        * If theses parameters are missing, an empty graph is created to be specified by the user.
        * If a graph of this name already exists in the autosave file,
        * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph *MakeGraph(const char *fullname, const char *title, Int_t points = 0, Double_t* xvalues = nullptr,
-                        Double_t* yvalues = nullptr);
+      TGraph *MakeGraph(const char *fullname, const char *title, Int_t points = 0, Double_t *xvalues = nullptr,
+                        Double_t *yvalues = nullptr);
 
       /** Create a TGraph with values initialized by a function object TF1l.
         * If a graph of this name already exists in the autosave file,
@@ -396,7 +396,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** Executes Python script in ROOT interpreter.
        * Will bind TGo4Analysis object to python go4 Symbol
        * Errcode may be used to check ROOT interpreter error code.*/
-      Long64_t ExecutePython(const char *macro_name, Int_t* errcode = nullptr);
+      Long64_t ExecutePython(const char *macro_name, Int_t *errcode = nullptr);
 
       /** Process ROOT command line. Optionally provide pyroot binding:
           *  a leading '$' will try to load and execute python script.

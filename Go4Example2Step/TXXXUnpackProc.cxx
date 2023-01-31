@@ -345,7 +345,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    {
       if( psubevt->GetSubcrate() == 1)
       {
-         Int_t* pdata = psubevt->GetDataField();
+         Int_t *pdata = psubevt->GetDataField();
          Int_t lwords = psubevt->GetIntLen();
          if(lwords > XXX_NUM_CHAN) lwords = XXX_NUM_CHAN; // take only first 8 lwords
          Int_t lastvalue = 0;
@@ -388,7 +388,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       } // if (subcrate)
       if( psubevt->GetSubcrate() == 2)
       {
-         Int_t* pdata = psubevt->GetDataField();
+         Int_t *pdata = psubevt->GetDataField();
          Int_t lwords = psubevt->GetIntLen();
          if(lwords > XXX_NUM_CHAN) lwords=XXX_NUM_CHAN;
          for(Int_t i = 0; i<lwords; ++i) {

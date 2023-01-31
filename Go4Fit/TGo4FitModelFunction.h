@@ -16,19 +16,19 @@
 
 #include "TGo4FitModel.h"
 
-typedef Double_t (*TUserFunction)(Double_t*, Double_t*);
+typedef Double_t (*TUserFunction)(Double_t *, Double_t *);
 
 /**
  * Model objects, which uses external user function to calculate model values.
  *
  * The function should has such signature:
  *
- * Double_t Func(Double_t* coord, Int_t ncoord, Double_t* pars, Int_t npars) {
+ * Double_t Func(Double_t *coord, Int_t ncoord, Double_t *pars, Int_t npars) {
  *     // coord - array of axis values, ncoord - number of axis values
  *     // pars - model parameters values, npars - number of parameters
  *    return (coord[0]-pars[0])*(coord[1]-pars[1])*(coord[2]-pars[2]);
  * }
- * In constructer user should define name and title of object, pointer to user function, number of parameters and, optionally, using additional amplitude parameters. For instance, user function with three parameters and amplitude:
+ * In constructor user should define name and title of object, pointer to user function, number of parameters and, optionally, using additional amplitude parameters. For instance, user function with three parameters and amplitude:
  *
  *   TGo4FitModelFunction *f = new TGo4FitModelFunction("func", "user function Func",&Func, 3, kTRUE);
  *
@@ -145,7 +145,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       Int_t GetPosParIndex(Int_t naxis) override;
       Int_t GetWidthParIndex(Int_t naxis) override;
 
-      Double_t UserFunction(Double_t* Coordinates, Double_t* Parameters) override;
+      Double_t UserFunction(Double_t *Coordinates, Double_t *Parameters) override;
 
       Bool_t LoadLibrary(Bool_t CloseFirst);
       void CloseLibrary();

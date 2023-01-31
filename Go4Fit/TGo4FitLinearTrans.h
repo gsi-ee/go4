@@ -51,7 +51,7 @@ class TGo4FitLinearTrans : public TGo4FitAxisTrans {
       void SetCoefByRange(Int_t nbins, Double_t y1, Double_t y2);
       void SetCoefByPoints(Double_t n1, Double_t y1, Double_t n2, Double_t y2);
 
-      void Transformation(Double_t* scales, Int_t naxis) override;
+      void Transformation(Double_t *scales, Int_t naxis) override;
 
       void Print(Option_t *option = "") const override;
 

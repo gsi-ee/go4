@@ -98,7 +98,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
        */
       Bool_t Initialize(Int_t UseBuffers = -1) override;
 
-      Double_t FindDataPoint(Int_t NumIndexes, const Int_t* Indexes);
+      Double_t FindDataPoint(Int_t NumIndexes, const Int_t *Indexes);
 
       /**
        * Slot for TGo4FitData object, which is used as model component.

@@ -201,8 +201,8 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** Sets values of internal boolean flags to external variables.
       * Overwritten in TGo4CondArray. */
-    virtual void GetFlags(Bool_t* enabled, Bool_t* lastresult, Bool_t* markreset,
-                   Bool_t* result, Bool_t* truevalue, Bool_t* falsevalue);
+    virtual void GetFlags(Bool_t *enabled, Bool_t *lastresult, Bool_t *markreset,
+                   Bool_t *result, Bool_t *truevalue, Bool_t *falsevalue);
 
     /** Set/Unset visibility. Overloaded for subclasses!*/
     virtual void SetVisible(Bool_t on) { fbVisible = on; }

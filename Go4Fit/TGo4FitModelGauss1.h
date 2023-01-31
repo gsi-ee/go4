@@ -66,7 +66,7 @@ class TGo4FitModelGauss1 : public TGo4FitModel {
       Double_t Integral() override;
 
       Bool_t BeforeEval(Int_t ndim) override;
-      Double_t EvalN(const Double_t* v) override;
+      Double_t EvalN(const Double_t *v) override;
 
    protected:
       Int_t GetPosParIndex(Int_t naxis) override { return (naxis==fiNaxis) ? 1 : -1; }

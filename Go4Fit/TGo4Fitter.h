@@ -308,7 +308,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Calculate value of fit function for given set of parameters and specified type of fit function (it can not correspond to minimized fit function type). If DataName not specified (default), fitfunction calculates for all data objects.
        */
-      Double_t CalculateFitFunction(Double_t* pars = nullptr, Int_t FitFunctionType = -1, const char *DataName = nullptr);
+      Double_t CalculateFitFunction(Double_t *pars = nullptr, Int_t FitFunctionType = -1, const char *DataName = nullptr);
 
       /**
        * Calculates number of degree of freedom (NDF).

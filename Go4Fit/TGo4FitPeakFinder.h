@@ -132,14 +132,14 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
                                Int_t MinimasOrder = -1);
 
       static void DefinePolynom(Int_t size,                    // number of experimental points
-                                Double_t* bins,                // array of bins
-                                Double_t* scales,              // array of scale values
+                                Double_t *bins,                // array of bins
+                                Double_t *scales,              // array of scale values
                                 TArrayD& Coef,                 // array of polynomial coefficients
-                                Double_t* weight = nullptr,    // statistical weight of each bin
-                                Double_t* backgr = nullptr,    // background values
+                                Double_t *weight = nullptr,    // statistical weight of each bin
+                                Double_t *backgr = nullptr,    // background values
                                 Char_t* use = nullptr);        // usage of each points
 
-      static void DefinePolynomEx(Int_t size, Double_t* bins, Double_t* scales, Double_t* weight, Double_t* backgr,
+      static void DefinePolynomEx(Int_t size, Double_t *bins, Double_t *scales, Double_t *weight, Double_t *backgr,
                                   Int_t lbound, Int_t rbound, TArrayD& Coef);
 
 

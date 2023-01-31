@@ -44,7 +44,7 @@ Bool_t TGo4FitModelGauss1::BeforeEval(Int_t ndim)
    return kTRUE;
 }
 
-Double_t TGo4FitModelGauss1::EvalN(const Double_t* v)
+Double_t TGo4FitModelGauss1::EvalN(const Double_t *v)
 {
    return TMath::Exp(Par_k*(v[fiNaxis]-Par_x0)*(v[fiNaxis]-Par_x0));
 }

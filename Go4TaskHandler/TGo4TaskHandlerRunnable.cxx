@@ -38,7 +38,7 @@ TGo4TaskHandler* TGo4TaskHandlerRunnable::GetTaskHandler()
    return fxTaskHandler;
 }
 
-Bool_t TGo4TaskHandlerRunnable::CheckStopBuffer(TBuffer* buf, Int_t* result)
+Bool_t TGo4TaskHandlerRunnable::CheckStopBuffer(TBuffer* buf, Int_t *result)
 {
    if (!buf)
       return kFALSE;

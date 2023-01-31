@@ -258,37 +258,37 @@ class TGo4FitData : public TGo4FitComponent {
        * Returns pointer on buffer with data bins values.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsValues() const { return fxValues; }
+      Double_t *GetBinsValues() const { return fxValues; }
 
       /**
        * Returns pointer on buffer with standard deviations for each data bins.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsDevs() const { return fxStandDev; }
+      Double_t *GetBinsDevs() const { return fxStandDev; }
 
       /**
        * Returns pointer on buffer with complete model of data bins.
        * Buffer has GetBinsSize() values. Return 0, if buffers were not allocated.
        */
-      Double_t* GetBinsResult() const { return fxBinsResult; }
+      Double_t *GetBinsResult() const { return fxBinsResult; }
 
       /**
        * Return scale values for specified index from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Double_t* GetScaleValues(Int_t nbin) const;
+      const Double_t *GetScaleValues(Int_t nbin) const;
 
       /**
        * Return scales width values for specified index from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Double_t* GetWidthValues(Int_t nbin) const;
+      const Double_t *GetWidthValues(Int_t nbin) const;
 
       /**
        * Return indexes values for specified data bin from buffer.
        * Can be used only if buffers were allocated, otherwise return nullptr. nbin should be from 0 to GetBinsSize()-1
        */
-      const Int_t* GetFullIndex(Int_t nbin) const;
+      const Int_t *GetFullIndex(Int_t nbin) const;
 
       /**
        * Returns dimension of indexes arrays.
@@ -467,7 +467,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Return indexes for current data point.
        */
-      const Int_t* Indexes() const { return fxIndexes.GetArray(); }
+      const Int_t *Indexes() const { return fxIndexes.GetArray(); }
 
       /**
        * Iterate over all data points and returns maximum value for indexes.
@@ -482,7 +482,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Return scale values for current data points.
        */
-      const Double_t* Scales() const { return fxScales.GetSize() > 0 ? fxScales.GetArray() : nullptr; }
+      const Double_t *Scales() const { return fxScales.GetSize() > 0 ? fxScales.GetArray() : nullptr; }
 
       /**
        * Return current x coordinate if exists, otherwise 0
@@ -507,7 +507,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Return scales widths values.
        */
-      const Double_t* Widths() const { return fxWidths.GetSize() > 0 ? fxWidths.GetArray() : nullptr; }
+      const Double_t *Widths() const { return fxWidths.GetSize() > 0 ? fxWidths.GetArray() : nullptr; }
 
       /**
        * Return production of all width parameters (1 if no widths)
@@ -602,13 +602,13 @@ class TGo4FitDataIter : public TObject {
       /**
        * Transform scales values, using transformation objects in data.
        */
-     void TransformScales(Double_t* scales);
+     void TransformScales(Double_t *scales);
 
       /**
        * Converts scale values.
        * Involved when usage of binary number instead scales or axis calibration objects specified to data.
        */
-     Bool_t ProduceScales(const Int_t* index, const Double_t* ownscales, const Double_t* ownwidths);
+     Bool_t ProduceScales(const Int_t *index, const Double_t *ownscales, const Double_t *ownwidths);
 
       /**
        * Producing next indexes set according limits values.

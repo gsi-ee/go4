@@ -214,7 +214,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Check all range conditions for specified point.
        */
-      Bool_t CheckRangeConditions(const Double_t* values, Int_t numaxis);
+      Bool_t CheckRangeConditions(const Double_t *values, Int_t numaxis);
 
       /**
        * Collect all parameters to provided parameters list object.

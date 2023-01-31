@@ -84,7 +84,7 @@ class TGo4FitModelGauss2 : public TGo4FitModel {
       void Print(Option_t *option = "") const override;
 
       Bool_t BeforeEval(Int_t ndim) override;
-      Double_t EvalN(const Double_t* v) override;
+      Double_t EvalN(const Double_t *v) override;
 
    protected:
       Int_t GetPosParIndex(Int_t naxis) override { return (naxis==fiNaxis1) ? 1 : (naxis==fiNaxis2) ? 2 : -1; }

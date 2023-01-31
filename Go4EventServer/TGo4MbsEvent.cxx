@@ -53,7 +53,7 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
                            Char_t* subcrates,
                            Char_t* controls,
                            Short_t* procids,
-                           UInt_t* datasizes) :
+                           UInt_t *datasizes) :
    TGo4EventElement("MbsEvent101"),
    fxHeader(),
    fiSubEvIndex(0),
@@ -329,7 +329,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
    ResetIterator();
    while (auto subtargetindex = NextSubEvent(kTRUE)) {
       // get pointer to complete id longword in structures:
-      Int_t* subtargetid= &((subtargetindex->fxHeader).fiFullid);
+      Int_t *subtargetid= &((subtargetindex->fxHeader).fiFullid);
       if(*subtargetid == fullID) {
          // subevent ids match:
          if(!subtargetindex->fbIsFilled) {
@@ -347,7 +347,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
    if(!subtarget) {
       // we found no matching id, create new TObjArray entry
       subtarget = new TGo4MbsSubEvent(fieldlength);
-      Int_t* newsubtargetid= &((subtarget->fxHeader).fiFullid);
+      Int_t *newsubtargetid= &((subtarget->fxHeader).fiFullid);
       if(!copydata) {
          subtarget->fbIsDataOwner = kFALSE;
          delete [] (subtarget->fiData); // remove default field

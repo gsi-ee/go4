@@ -206,7 +206,7 @@ Bool_t TGo4HistogramEntry::TestConditionNew()
    return rev;
 }
 
-void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
+void TGo4HistogramEntry::ProcessNew(Bool_t *evvalid)
 {
    if (!fxHistogram) return;
 
