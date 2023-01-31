@@ -75,10 +75,10 @@ class TGo4Slot : public TNamed  {
 
       Int_t NumChilds() const { return fChilds ? fChilds->GetLast()+1 : 0; }
       TGo4Slot *GetChild(Int_t n) const { return fChilds ? (TGo4Slot *) fChilds->At(n) : nullptr; }
-      TGo4Slot *FindChild(const char *name);
-      Int_t GetIndexOf(TGo4Slot *child);
-      TGo4Slot *GetNextChild(TGo4Slot *child);
-      TGo4Slot *GetNext();
+      TGo4Slot *FindChild(const char *name) const;
+      Int_t GetIndexOf(const TGo4Slot *child) const;
+      TGo4Slot *GetNextChild(const TGo4Slot *child) const;
+      TGo4Slot *GetNext() const;
       void DeleteChild(const char *name);
       void DeleteChilds(const char *startedwith = nullptr);
       void Delete(Option_t *opt = "") override;

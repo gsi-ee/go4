@@ -223,7 +223,7 @@ void TGo4Slot::DeleteChilds(const char *startedwith)
    }
 }
 
-Int_t TGo4Slot::GetIndexOf(TGo4Slot *child)
+Int_t TGo4Slot::GetIndexOf(const TGo4Slot *child) const
 {
    if (!child) return -1;
    for (int n = 0; n < NumChilds(); n++)
@@ -233,7 +233,7 @@ Int_t TGo4Slot::GetIndexOf(TGo4Slot *child)
 }
 
 
-TGo4Slot *TGo4Slot::GetNextChild(TGo4Slot *child)
+TGo4Slot *TGo4Slot::GetNextChild(const TGo4Slot *child) const
 {
    if (!child) return nullptr;
    for (int n = 0; n < NumChilds() - 1; n++)
@@ -242,19 +242,20 @@ TGo4Slot *TGo4Slot::GetNextChild(TGo4Slot *child)
    return nullptr;
 }
 
-TGo4Slot *TGo4Slot::FindChild(const char *name)
+TGo4Slot *TGo4Slot::FindChild(const char *name) const
 {
    if (!name || !*name) return nullptr;
    Int_t num = NumChilds();
    for (Int_t n = 0; n < num; n++) {
       TGo4Slot *slot = GetChild(n);
-      if (strcmp(slot->GetName(), name) == 0) return slot;
+      if (strcmp(slot->GetName(), name) == 0)
+         return slot;
    }
    return nullptr;
 }
 
 
-TGo4Slot *TGo4Slot::GetNext()
+TGo4Slot *TGo4Slot::GetNext() const
 {
    TGo4Slot *parent = GetParent();
    return !parent ? nullptr : parent->GetNextChild(this);
@@ -556,7 +557,7 @@ void TGo4Slot::Event(TGo4Slot *source, Int_t id, void* param)
    Bool_t doforward = kTRUE;
 
    if (fProxy)
-     doforward = fProxy->ProcessEvent(this, source, id, param);
+      doforward = fProxy->ProcessEvent(this, source, id, param);
 
    if (doforward) ForwardEvent(source, id, param);
 }
