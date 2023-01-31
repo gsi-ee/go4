@@ -74,28 +74,28 @@ class TGo4WinCond : public TGo4Condition {
       Bool_t UpdateFromUrl(const char *rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
+      Double_t GetIntegral(TH1 *histo, Option_t* opt="") override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetMean(TH1* histo, Int_t axis=1) override;
+      Double_t GetMean(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetRMS(TH1* histo, Int_t axis=1) override;
+      Double_t GetRMS(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
+      Double_t GetSkewness(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
+      Double_t GetCurtosis(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetXMax(TH1* histo) override;
+      Double_t GetXMax(TH1 *histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetYMax(TH1* histo) override;
+      Double_t GetYMax(TH1 *histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetCMax(TH1* histo) override;
+      Double_t GetCMax(TH1 *histo) override;
 
       Bool_t IsPolygonType() const override { return kFALSE; }
 
@@ -140,10 +140,10 @@ class TGo4WinCond : public TGo4Condition {
       Int_t fiSaveYMax{0};
 
       /** Remember ranges of current histo and set range to active window. */
-      void SetHistogramRanges(TH1* histo);
+      void SetHistogramRanges(TH1 *histo);
 
       /** Restore original ranges of current histo. */
-      void RestoreHistogramRanges(TH1* histo);
+      void RestoreHistogramRanges(TH1 *histo);
 
    ClassDefOverride(TGo4WinCond,7)
 };

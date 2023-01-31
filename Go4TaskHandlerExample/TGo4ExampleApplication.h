@@ -38,7 +38,7 @@ class TGo4ExampleApplication : public TGo4CommandReceiver, public TNamed {
 
     void FillHistograms();
 
-    TH1* GetHistogram();
+    TH1 *GetHistogram();
 
     /**
      * put named data object into the current data queue;

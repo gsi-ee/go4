@@ -21,7 +21,7 @@ class THStack;
 class TGo4HStackProxy : public TGo4Proxy {
    public:
       TGo4HStackProxy();
-      TGo4HStackProxy(THStack* hs, Bool_t owner = kFALSE);
+      TGo4HStackProxy(THStack *hs, Bool_t owner = kFALSE);
       virtual ~TGo4HStackProxy();
 
       Bool_t HasSublevels() const override { return fHS!=nullptr; }
@@ -45,11 +45,11 @@ class TGo4HStackProxy : public TGo4Proxy {
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject *GetAssignedObject() override;
 
-      static std::unique_ptr<TGo4Access> CreateAccess(THStack* canv, const char *name);
-      static TGo4LevelIter* ProduceIter(THStack* canv);
+      static std::unique_ptr<TGo4Access> CreateAccess(THStack *canv, const char *name);
+      static TGo4LevelIter* ProduceIter(THStack *canv);
 
    protected:
-      THStack* fHS{nullptr};     //!
+      THStack *fHS{nullptr};     //!
       Bool_t   fOwner{kFALSE};   //!
 
    ClassDefOverride(TGo4HStackProxy, 1);

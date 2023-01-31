@@ -23,7 +23,7 @@ TGo4HistogramStatus::TGo4HistogramStatus() : TGo4ObjectStatus()
 {
 }
 
-TGo4HistogramStatus::TGo4HistogramStatus(TH1* his, Bool_t allstatistics)
+TGo4HistogramStatus::TGo4HistogramStatus(TH1 *his, Bool_t allstatistics)
    : TGo4ObjectStatus(his, allstatistics)
 
 {

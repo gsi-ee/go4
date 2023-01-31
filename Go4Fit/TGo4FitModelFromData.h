@@ -26,14 +26,14 @@ class TH1;
  *
  * In constructor one should just specify data object (it may be TGo4FitDataHistogram or other), which will be used as model. Optionally, amplitude parameter can be created. For instance:
  *
- *   TH1* histo = GetHistogramSomewhere();
+ *   TH1 *histo = GetHistogramSomewhere();
  *   TGo4FitDataHistogram *h = new TGo4FitDataHistogram("hdata", histo, kFALSE);
  *   TGo4FitModelFromData *m = new TGo4FitModelFromData("hmodel", h, kFALSE);
  *
  * The dimensions and bins number on each axis of data object, used in model, should be absolutely the same, as in data object, which should be fitted. Assigned data object will be owned by TGo4FitModelFromData object. But data source object (histogram "histo" in example) may not be owned by object and may be provided later by SetObject() method of fitter.
  *
  *   TGo4Fitter *fitter = GetFitterSomewhere();
- *   TH1* histo = GetHistogramSomewhere();
+ *   TH1 *histo = GetHistogramSomewhere();
  *   fitter->SetObject(histo, "hdata");
  *
  * The name of data object "hdata" instead of model object "hmodel" should be used, when assigning data to TGo4FitModelFromData object via SetObject() method of fitter.

@@ -551,7 +551,7 @@ class TGo4FitDataIter : public TObject {
        * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
-      TH1* CreateHistogram(const char *HistoName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
+      TH1 *CreateHistogram(const char *HistoName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
 
       /**
        * Create TGraph object with appropriate to data object size.
@@ -560,7 +560,7 @@ class TGo4FitDataIter : public TObject {
        * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
-      TGraph* CreateGraph(const char *GraphName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
+      TGraph *CreateGraph(const char *GraphName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
 
       /**
        * Create either histogram or graph object.

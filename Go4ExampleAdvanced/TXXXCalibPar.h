@@ -29,7 +29,7 @@ class TGo4Fitter;
 class TXXXCalibPar : public TGo4Parameter {
    public:
       TXXXCalibPar();
-      TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve);
+      TXXXCalibPar(const char *name, TH1 *spectrum, TGraph *curve);
       virtual ~TXXXCalibPar();
 
       Bool_t UpdateFrom(TGo4Parameter *) override;
@@ -38,7 +38,7 @@ class TXXXCalibPar : public TGo4Parameter {
       void ReadDatabase();
 
       /** Reset reference to calibration spectrum in fitter*/
-      void SetCalibSpectrum(TH1* h1);
+      void SetCalibSpectrum(TH1 *h1);
 
       /** calculate energy from channel number using the current polynom  */
       Double_t Energy(Int_t channel);
@@ -65,12 +65,12 @@ class TXXXCalibPar : public TGo4Parameter {
       TGo4Fitter* fxCalibrator{nullptr}; // Fitter for calibration of channel/energies with polynom
 
       /** Reference to graph containing the calibration points */
-      TGraph* fxCalibCurve{nullptr}; //! Reference to graph containing the calibration points
+      TGraph *fxCalibCurve{nullptr}; //! Reference to graph containing the calibration points
       /** Name of the graph to contain the calibration points */
       TString fxGraphName; // Name of the graph to contain the calibration points
 
      /** Reference to histogram containing the calibration spectrum */
-      TH1* fxCalibSpectrum{nullptr}; //! Reference to histogram containing the calibration spectrum
+      TH1 *fxCalibSpectrum{nullptr}; //! Reference to histogram containing the calibration spectrum
 
       /** Name of the calibration spectrum histogram */
       TString fxSpectrumName; //Name of the calibration spectrum histogram

@@ -89,7 +89,7 @@ Bool_t TGo4FitDataGraphIter::StartReset()
 Bool_t TGo4FitDataGraphIter::ReadCurrentPoint()
 {
    if (!fxData) return kFALSE;
-   TGraph* gr = fxData->GetGraph();
+   TGraph *gr = fxData->GetGraph();
    if (!gr) return kFALSE;
 
    Double_t* xx = gr->GetX();

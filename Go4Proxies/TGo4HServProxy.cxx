@@ -228,7 +228,7 @@ Bool_t TGo4HServProxy::RefreshNamesList()
    return kTRUE;
 }
 
-TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
+TH1 *TGo4HServProxy::GetHistogram(const char *remotehistoname)
 {
    s_his_head* ps_his_head = nullptr;
    INTS4* pl_all = nullptr;
@@ -252,7 +252,7 @@ TH1* TGo4HServProxy::GetHistogram(const char *remotehistoname)
    REAL4* pr_all = strstr(ps_his_head->c_dtype,"r") ? (REAL4 *) pl_all : nullptr;
    INTS4* pl_start = pl_all;
 
-   TH1* h1 = nullptr;
+   TH1 *h1 = nullptr;
    Double_t entries = 0;
 
    if(i2==1) {    // 1-Dimensional histogram

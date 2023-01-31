@@ -119,10 +119,10 @@ Int_t TYYYAnalysis::UserPostLoop()
    TGo4Log::Info("Total events: %d", fEvents);
    TCanvas* can = GetCanvas("TestCanvas");
    if(can) {
-      TH1* hx = GetHistogram("Xfinal");
-      TH1* hy = GetHistogram("Yfinal");
-      TH1* hvx = GetHistogram("Vxfinal");
-      TH1* hvy = GetHistogram("Vyfinal");
+      TH1 *hx = GetHistogram("Xfinal");
+      TH1 *hy = GetHistogram("Yfinal");
+      TH1 *hvx = GetHistogram("Vxfinal");
+      TH1 *hvy = GetHistogram("Vyfinal");
       can->cd(1);
       if(hx) hx->Draw();
       can->cd(2);

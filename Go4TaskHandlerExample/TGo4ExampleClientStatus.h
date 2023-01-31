@@ -47,7 +47,7 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
      void SetNames(const char *main, const char *watch);
 
      /** Set histogram status */
-     void SetHistoStatus(TH1* histogram);
+     void SetHistoStatus(TH1 *histogram);
 
      TGo4ExampleClientStatus(const char *name);
 

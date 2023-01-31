@@ -42,7 +42,7 @@ convertdir(&myfile);
 }
 
 
-void converthisto(TH1* histo)
+void converthisto(TH1 *histo)
 {
   TString objectname=histo->GetName();
   TString outname=objectname+".hdat";
@@ -81,7 +81,7 @@ void converthisto(TH1* histo)
   gSystem->cd(StartDir.Data());
 }
 
-void convertgraph(TGraph* graph)
+void convertgraph(TGraph *graph)
 {
   TString objectname=graph->GetName();
   TString outname=objectname+".gdat";
@@ -124,12 +124,12 @@ void convertobject(TObject* myobject)
   else if(myobject->InheritsFrom("TH1"))
     {
 
-      TH1* histo= (TH1*) myobject;
+      TH1 *histo= (TH1*) myobject;
       converthisto(histo);
     }
   else if (myobject->InheritsFrom("TGraph"))
     {
-      TGraph* graph= (TGraph*) myobject;
+      TGraph *graph= (TGraph*) myobject;
       convertgraph(graph);
     }
   else

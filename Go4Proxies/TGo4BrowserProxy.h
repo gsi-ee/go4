@@ -224,11 +224,11 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void CheckPictureMonitor(TGo4Slot *slot);
       void CheckPictureMonitor(TGo4Picture* pic, const char *picitemname);
 
-      static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format);
-      static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format);
+      static void SaveAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format);
+      static void RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format);
 
       /** preserve fit result functions contained in any graph-like objects*/
-      static void UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr);
+      static void UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr);
 
       TString            fxDataPath;                 //!
       TString            fxBrowserPath;              //!

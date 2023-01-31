@@ -66,16 +66,16 @@ class TGo4Picture : public TNamed {
       TGo4Picture* LPic(Int_t nline, Int_t ncol);
 
       // add histogram (name) to picture or subpicture
-      void AddH1(TH1* histo, Option_t *DrawOption = nullptr);
-      void AddH1(Int_t posy, Int_t posx, TH1* histo, Option_t* DrawOption = nullptr);
+      void AddH1(TH1 *histo, Option_t *DrawOption = nullptr);
+      void AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t* DrawOption = nullptr);
 
       // add stack (name) to picture or subpicture
-      void AddHStack(THStack* st, Option_t* DrawOption = nullptr);
-      void AddHStack(Int_t posy, Int_t posx, THStack* st, Option_t* DrawOption = nullptr);
+      void AddHStack(THStack *st, Option_t* DrawOption = nullptr);
+      void AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t* DrawOption = nullptr);
 
       // add TGraph object (name) to picture
-      void AddGraph(TGraph* gr, Option_t* DrawOption = nullptr);
-      void AddGraph(Int_t posy, Int_t posx, TGraph* gr, Option_t* DrawOption = nullptr);
+      void AddGraph(TGraph *gr, Option_t* DrawOption = nullptr);
+      void AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOption = nullptr);
 
       // add condition (name) to picture or subpicture
       void AddCondition(TNamed* cond = nullptr);
@@ -352,8 +352,8 @@ class TGo4Picture : public TNamed {
 
       void PrintPic(int shift, Bool_t showopt);
 
-      void SetH1Att(TH1* h1, Int_t index = UndefIndex);
-      void GetH1Att(TH1* h1, Int_t index = UndefIndex) const;
+      void SetH1Att(TH1 *h1, Int_t index = UndefIndex);
+      void GetH1Att(TH1 *h1, Int_t index = UndefIndex) const;
       void SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex);
       void GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex) const;
       void SetPadAtt(TPad* pad, Int_t index = UndefIndex);

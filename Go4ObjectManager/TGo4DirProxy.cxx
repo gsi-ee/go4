@@ -322,7 +322,7 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t r
       if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 
-      THStack* hs = dynamic_cast<THStack*> (obj);
+      THStack *hs = dynamic_cast<THStack*> (obj);
       if (hs)
          return TGo4HStackProxy::CreateAccess(hs, curname);
 

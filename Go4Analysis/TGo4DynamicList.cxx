@@ -267,7 +267,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
                TString::Format("Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName()).Data());
    }
 
-   TH1* histo = TGo4Analysis::Instance()->GetHistogram(hname);
+   TH1 *histo = TGo4Analysis::Instance()->GetHistogram(hname);
    //if(!histo) std::cout <<"ProcessTEntry do did not find histo "<<hname << std::endl;
    if (!tentry->fbNewHistogram && !histo) {
       throw TGo4DynamicListException(tentry,

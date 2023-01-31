@@ -198,28 +198,28 @@ class TGo4CondArray : public TGo4Condition {
 
    /** Calculate value for histogram inside condition limits.
      * Option may specify "width" to scale channel sum with axes*/
-    Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
+    Double_t GetIntegral(TH1 *histo, Option_t* opt="") override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetMean(TH1* histo, Int_t axis=1) override;
+    Double_t GetMean(TH1 *histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetRMS(TH1* histo, Int_t axis=1) override;
+    Double_t GetRMS(TH1 *histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
+    Double_t GetSkewness(TH1 *histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
+    Double_t GetCurtosis(TH1 *histo, Int_t axis=1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetXMax(TH1* histo) override;
+    Double_t GetXMax(TH1 *histo) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetYMax(TH1* histo) override;
+    Double_t GetYMax(TH1 *histo) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetCMax(TH1* histo) override;
+    Double_t GetCMax(TH1 *histo) override;
 
     Bool_t IsPolygonType() const override;
     Bool_t IsArrayType() const override { return kTRUE; }

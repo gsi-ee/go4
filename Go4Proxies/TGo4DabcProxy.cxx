@@ -270,7 +270,7 @@ class TGo4DabcAccess : public TGo4Access {
 
             if (cnt == 0) return kFALSE;
 
-            TGraph* gr = new TGraph(cnt);
+            TGraph *gr = new TGraph(cnt);
             gr->SetName(fObjName.c_str());
             gr->SetTitle(TString::Format("%s ratemeter", fItemName.c_str()).Data());
             int i = 0;

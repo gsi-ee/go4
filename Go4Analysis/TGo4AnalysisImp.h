@@ -300,7 +300,7 @@ public:
    Bool_t AddTreeHistogram(const char *hisname, const char *treename, const char *varexp, const char *cutexp);
 
    /** Search histogram in histogram list (directory). */
-   TH1* GetHistogram(const char *name);
+   TH1 *GetHistogram(const char *name);
 
    /** Search tree in tree folder. */
    TTree* GetTree(const char *name);
@@ -709,7 +709,7 @@ public:
     * xtitle, ytitle - title for X and Y axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
-   TH1* MakeTH1(char type, const char *fullname, const char *title,
+   TH1 *MakeTH1(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr);
 
@@ -726,7 +726,7 @@ public:
     * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
     * If histogram exactly with same name and type already exists in  autosave file,
     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave. */
-   TH2* MakeTH2(char type, const char *fullname, const char *title,
+   TH2 *MakeTH2(char type, const char *fullname, const char *title,
                 Int_t nbinsx, Double_t xlow, Double_t xup,
                 Int_t nbinsy, Double_t ylow, Double_t yup,
                 const char *xtitle = nullptr, const char *ytitle = nullptr, const char *ztitle = nullptr);
@@ -839,13 +839,13 @@ public:
     * If theses parameters are missing, an empty graph is created to be specified by the user.
     * If a graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-   TGraph* MakeGraph(const char *fullname, const char *title, Int_t points = 0,
+   TGraph *MakeGraph(const char *fullname, const char *title, Int_t points = 0,
                      Double_t *xvalues = nullptr, Double_t *yvalues = nullptr);
 
    /** Create a TGraph with values initialized by a function object TF1l.
     * If a graph of this name already exists in the autosave file,
     * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-   TGraph* MakeGraph(const char *fullname, const char *title, TF1 *function);
+   TGraph *MakeGraph(const char *fullname, const char *title, TF1 *function);
 
    /** Create a go4 rolling graph (generic trending plot) with properties points and average.
     * If theses parameters are missing, an empty graph is created to be specified by the user.

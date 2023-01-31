@@ -262,7 +262,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    fiLastChangeValue = cond->IsChanged();
 
    QString hitemname;
-   TH1* histo = nullptr;
+   TH1 *histo = nullptr;
    if (panel && pad) {
       histo = panel->GetPadHistogram(pad);
       hitemname = panel->GetDrawObjectLinkName(pad, histo);

@@ -162,7 +162,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search histogram in histogram list (directory).
        */
-      TH1* GetHistogram(const char *name);
+      TH1 *GetHistogram(const char *name);
 
       /**
        * Removes histogram from histogram dir by name. Returns kFALSE if no
@@ -178,7 +178,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If type of existing histogram does not match with provided, old histogram
        * will be removed and new proper will be created.
        * Parameters are:
-       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1* types
+       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1 *types
        *    folderame - name of folder, where histogram should be created
        *    histoname - name of histogram
        *    nbinsx    - number of histogram bins
@@ -189,7 +189,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    ytitle    - title on y axis [optional]
        */
 
-      TH1* MakeTH1(const char *histotype,
+      TH1 *MakeTH1(const char *histotype,
             const char *foldername,
             const char *histoname,
             Int_t         nbinsx,
@@ -205,7 +205,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * If type of existing histogram does not match with provided, old histogram
        * will be removed and new proper will be created.
        * Parameters are:
-       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1* types
+       *    histotype = "C", "D", "F", "I", "S" corresponds to different TH1 *types
        *    folderame - name of folder, where histogram should be created
        *    histoname - name of histogram
        *    nbinsx    - number of bins on x axis
@@ -219,7 +219,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        *    ytitle    - title on y axis [optional]
        */
 
-      TH2* MakeTH2(const char *histotype,
+      TH2 *MakeTH2(const char *histotype,
             const char *foldername,
             const char *histoname,
             Int_t         nbinsx,

@@ -36,7 +36,7 @@ TGo4MbsHist::TGo4MbsHist() :
    fiBuffer = new Int_t[fiBufLen];
 }
 
-TGo4MbsHist::TGo4MbsHist(TH1* histo) :
+TGo4MbsHist::TGo4MbsHist(TH1 *histo) :
    TObject(),
    fiBufLen(1),
    fiBuffer(nullptr),
@@ -98,7 +98,7 @@ TGo4MbsHist::~TGo4MbsHist()
    delete [] fiBuffer;
 }
 
-void TGo4MbsHist::PrepareHeader(TH1* source, const char *path, s_his_head* target)
+void TGo4MbsHist::PrepareHeader(TH1 *source, const char *path, s_his_head* target)
 {
    if (!source || !target)
       return;

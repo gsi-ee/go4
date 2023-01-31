@@ -652,7 +652,7 @@ TObject* TGo4Sniffer::CreateItemStatus(const char *itemname)
 {
    TObject *obj = FindTObjectInHierarchy(itemname);
 
-   TH1* h1 = dynamic_cast<TH1*> (obj);
+   TH1 *h1 = dynamic_cast<TH1*> (obj);
 
    // printf("CreateItemStatus %s h1 = %p\n", itemname, h1);
 

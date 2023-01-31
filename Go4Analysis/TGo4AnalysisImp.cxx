@@ -1417,7 +1417,7 @@ TGo4EventElement * TGo4Analysis::GetEventStructure(const char *name) const
    return fxObjectManager->GetEventStructure(name);
 }
 
-TH1* TGo4Analysis::GetHistogram(const char *name)
+TH1 *TGo4Analysis::GetHistogram(const char *name)
 {
    return fxObjectManager->GetHistogram(name);
 }
@@ -1741,7 +1741,7 @@ Bool_t  TGo4Analysis::EvaluateFolderpath(const char *fullname, TString &objectna
    return kTRUE;
 }
 
-TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
+TH1 *TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            const char *xtitle, const char *ytitle)
 {
@@ -1769,7 +1769,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
-   TH1* oldh = GetHistogram(fullname);
+   TH1 *oldh = GetHistogram(fullname);
 
    if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
@@ -1790,7 +1790,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
       oldh->SetName("___");
    }
 
-   TH1* newh = nullptr;
+   TH1 *newh = nullptr;
 
    switch (itype) {
       case 0: newh = new TH1I(histoname, title, nbinsx, xlow, xup); break;
@@ -1821,7 +1821,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char *fullname, const char *title,
    return newh;
 }
 
-TH2* TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
+TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
                            Int_t nbinsx, Double_t xlow, Double_t xup,
                            Int_t nbinsy, Double_t ylow, Double_t yup,
                            const char *xtitle, const char *ytitle, const char *ztitle)
@@ -1852,7 +1852,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
       default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
-   TH1* oldh = GetHistogram(fullname);
+   TH1 *oldh = GetHistogram(fullname);
 
    if (oldh) {
       if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
@@ -1873,7 +1873,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
       oldh->SetName("___");
    }
 
-   TH2* newh = nullptr;
+   TH2 *newh = nullptr;
 
    switch (itype) {
       case 0: newh = new TH2I(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
@@ -2152,7 +2152,7 @@ TGo4ListCond* TGo4Analysis::MakeListCond(const char *fullname, const Int_t start
 }
 
 
-TGraph* TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
+TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t points, Double_t* xvalues, Double_t* yvalues)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;
@@ -2180,7 +2180,7 @@ TGraph* TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t p
    return graph;
 }
 
-TGraph* TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1* function)
+TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1* function)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;

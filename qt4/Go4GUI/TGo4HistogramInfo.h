@@ -48,7 +48,7 @@ public:
    void linkedObjectUpdated(const char *linkname, TObject *obj) override;
    virtual void WorkWithHistogram(const char *itemname);
    void ResetWidget() override;
-   virtual void RefreshHistogramInfo(TH1* h1);
+   virtual void RefreshHistogramInfo(TH1 *h1);
    virtual void RefreshHistogramInfo(TGo4HistogramStatus* hstate);
 
 public slots:

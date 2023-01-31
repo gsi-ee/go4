@@ -38,7 +38,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
      TGo4MBSViewer(QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~TGo4MBSViewer();
 
-    TH1* TrendHisto(QString & refname, const QString & name, const QString & title, int value);
+    TH1 *TrendHisto(QString & refname, const QString & name, const QString & title, int value);
 
  public slots:
 
@@ -73,7 +73,7 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
     bool fbRunning{false};
     bool fbTrendingForward{false};
     QString fxHistokBAccessName;
-    TH1* fxRatekBTrend{nullptr};
+    TH1 *fxRatekBTrend{nullptr};
     bool fbTrendingInit{false};
     QString fxHistoAccessName;
     bool fbTrending{false};
@@ -90,13 +90,13 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
     s_setup fxSetup;
     s_set_ml fxSetupML;
     QMovie* fxRunMovie{nullptr};
-    TH1* fxRateTrend{nullptr};
+    TH1 *fxRateTrend{nullptr};
     int fiTrendBins{0};
     bool fbShowMore{false};
     QTimer* fxMovieResetTimer{nullptr};
     int fiEvRatio{0};
     QString fxHistoEvRatioAccessName;
-    TH1* fxEvRatio{nullptr};
+    TH1 *fxEvRatio{nullptr};
     QString fxServerLabel;
     bool fbGetSetMO{false};
     int fiCalcedDataRate{0};

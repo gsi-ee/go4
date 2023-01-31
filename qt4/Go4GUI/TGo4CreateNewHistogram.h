@@ -32,7 +32,7 @@ public:
 
    int GetSelectedCmd();
 
-   TH1* MakeHistogram();
+   TH1 *MakeHistogram();
 
 public slots:
 

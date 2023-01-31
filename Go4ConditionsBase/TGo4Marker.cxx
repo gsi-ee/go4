@@ -71,7 +71,7 @@ Bool_t TGo4Marker::CheckDrawPad() const
    return fxDrawPad != nullptr;
 }
 
-void TGo4Marker::SetHistogram(TH1* histo)
+void TGo4Marker::SetHistogram(TH1 *histo)
 {
    fxHisto = histo;
 }

@@ -55,7 +55,7 @@ class TGo4HServProxy : public TGo4ServerProxy {
 
       const char *GetServerName() const override { return fServerName.Data(); }
       Bool_t RefreshNamesList() override;
-      TH1* GetHistogram(const char *remotehistoname);
+      TH1 *GetHistogram(const char *remotehistoname);
 
    protected:
 

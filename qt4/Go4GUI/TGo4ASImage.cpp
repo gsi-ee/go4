@@ -29,7 +29,7 @@ TGo4ASImage::~TGo4ASImage()
    ClosePaletteEditor();
 }
 
-void TGo4ASImage::SetHistogramContent(TH2* histo)
+void TGo4ASImage::SetHistogramContent(TH2 *histo)
 {
    if (!histo) return;
 
@@ -48,7 +48,7 @@ void TGo4ASImage::SetHistogramContent(TH2* histo)
    fdHeight = numy;
 }
 
-void TGo4ASImage::SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad)
+void TGo4ASImage::SetDrawData(TH2 *histo, TGo4ViewPanel* panel, TPad* pad)
 {
    fxPanel = panel;
    fxPad = pad;

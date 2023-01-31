@@ -21,7 +21,7 @@ Bool_t profileY(const char *name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)
    }
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-   TH2* his1 = nullptr;
+   TH2 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2"))
       his1 = (TH2*) ob1;
    if(!his1) {
@@ -35,7 +35,7 @@ Bool_t profileY(const char *name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)
    soper.Form("(xlo=%d, xup=%d)",firstxbin,lastxbin);
    TString finalname = TString("Y-Profile of ")+n1;
    TString finaltitle = TString("Y-Prof.")+soper+" of "+t1;
-   TH1* result = his1->ProfileY(finalname.Data(),firstxbin,lastxbin);
+   TH1 *result = his1->ProfileY(finalname.Data(),firstxbin,lastxbin);
    result->SetTitle(finaltitle);
    result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Profiles", result, kTRUE);

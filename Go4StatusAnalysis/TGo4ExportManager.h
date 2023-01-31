@@ -61,10 +61,10 @@ class TGo4ExportManager : public TNamed {
     void Export(TObject* ob);
 
     /**  Conversion of histogram into filter format file */
-    void Export(TH1* histo);
+    void Export(TH1 *histo);
 
     /**  Conversion of graph into filter file*/
-    void Export(TGraph* graph);
+    void Export(TGraph *graph);
 
     /**  Recursive conversion of all objects in fold specified filter files.
       * folder structure will be represented by subdirs on file system.*/
@@ -96,19 +96,19 @@ class TGo4ExportManager : public TNamed {
       * If channels is true, x/y/z coordinates are in absolute
       * bin channel numbers. Otherwise, export value of bincenters,
       * with respect to axis scale. */
-    void ExportASCII(TH1* histo, Bool_t channels=kTRUE);
+    void ExportASCII(TH1 *histo, Bool_t channels=kTRUE);
 
     /**  Conversion of graph into ascii file*/
-    void ExportASCII(TGraph* graph);
+    void ExportASCII(TGraph *graph);
 
     /**  Conversion of histogram into radware file */
-    void ExportRadware(TH1* histo);
+    void ExportRadware(TH1 *histo);
 
     /**  Conversion of 2d histogram into radware file */
-    void ExportRadware(TH2* histo);
+    void ExportRadware(TH2 *histo);
 
     /**  Conversion of graph into radware file*/
-    void ExportRadware(TGraph* graph);
+    void ExportRadware(TGraph *graph);
 
     /**  Store object into root file. Filename can be set by SetOutFile()*/
     void ExportRoot(TObject* ob);

@@ -30,7 +30,7 @@ class TGo4Sniffer : public TRootSnifferFull,
 
       TGo4AnalysisWebStatus*  fAnalysisStatus{nullptr};
 
-      TGraph* fEventRate{nullptr};
+      TGraph *fEventRate{nullptr};
 
       TGo4Ratemeter* fRatemeter{nullptr};
 

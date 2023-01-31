@@ -85,7 +85,7 @@ int TGo4CreateNewHistogram::GetSelectedCmd()
    return fSelectedCmd;
 }
 
-TH1* TGo4CreateNewHistogram::MakeHistogram()
+TH1 *TGo4CreateNewHistogram::MakeHistogram()
 {
    QByteArray bname = HisName->text().toLatin1();
    QByteArray btitle = HisTitle->text().toLatin1();
@@ -115,7 +115,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
 
    TDirectory* savdir = gDirectory;
    gROOT->cd();
-   TH1* h = nullptr;
+   TH1 *h = nullptr;
    switch(htype) {
       case 11: h = new TH1S(hname, htitle, nxbins, xmin, xmax); break;
       case 12: h = new TH1D(hname, htitle, nxbins, xmin, xmax); break;

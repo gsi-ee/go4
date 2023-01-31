@@ -139,7 +139,7 @@ void TGo4WinCond::PrintCondition(Bool_t limits)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
+Double_t TGo4WinCond::GetIntegral(TH1 *histo, Option_t* opt)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -149,7 +149,7 @@ Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
+Double_t TGo4WinCond::GetMean(TH1 *histo, Int_t axis)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -159,7 +159,7 @@ Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
+Double_t TGo4WinCond::GetRMS(TH1 *histo, Int_t axis)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -169,7 +169,7 @@ Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
+Double_t TGo4WinCond::GetSkewness(TH1 *histo, Int_t axis)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -179,7 +179,7 @@ Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
+Double_t TGo4WinCond::GetCurtosis(TH1 *histo, Int_t axis)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -189,7 +189,7 @@ Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetXMax(TH1* histo)
+Double_t TGo4WinCond::GetXMax(TH1 *histo)
 {
    if(!histo) return 0;
    Double_t result = 0.;
@@ -209,7 +209,7 @@ Double_t TGo4WinCond::GetXMax(TH1* histo)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetYMax(TH1* histo)
+Double_t TGo4WinCond::GetYMax(TH1 *histo)
 {
    if(!histo) return 0;
    Double_t result = 0;
@@ -229,7 +229,7 @@ Double_t TGo4WinCond::GetYMax(TH1* histo)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetCMax(TH1* histo)
+Double_t TGo4WinCond::GetCMax(TH1 *histo)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -239,7 +239,7 @@ Double_t TGo4WinCond::GetCMax(TH1* histo)
 }
 
 // -----------------------------------------------
-void TGo4WinCond::SetHistogramRanges(TH1* histo)
+void TGo4WinCond::SetHistogramRanges(TH1 *histo)
 {
    if(!histo) return;
    Double_t xmin = fLow1;
@@ -267,7 +267,7 @@ void TGo4WinCond::SetHistogramRanges(TH1* histo)
 }
 
 // -----------------------------------------------
-void TGo4WinCond::RestoreHistogramRanges(TH1* histo)
+void TGo4WinCond::RestoreHistogramRanges(TH1 *histo)
 {
    if(!histo) return;
    TAxis* xax=histo->GetXaxis();

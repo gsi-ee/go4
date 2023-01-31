@@ -34,9 +34,9 @@ class TGo4ASImage : public TASImage {
       TGo4ASImage();
       virtual ~TGo4ASImage();
 
-      void SetHistogramContent(TH2* histo);
+      void SetHistogramContent(TH2 *histo);
 
-      void SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad);
+      void SetDrawData(TH2 *histo, TGo4ViewPanel* panel, TPad* pad);
 
       void SetSelectedRange(double rxmin, double rxmax, double rymin, double rymax);
 
@@ -50,7 +50,7 @@ class TGo4ASImage : public TASImage {
       // old code
       TGo4ASImage(TH2*) {}
 
-      TH2* GetHistogram() const { return nullptr; }
+      TH2 *GetHistogram() const { return nullptr; }
 
       /** sets limits of histo according to current zoom scale of image */
       void SetHistogramRanges(TH2*) {}

@@ -411,7 +411,7 @@ void TGo4HttpAccess::httpFinished()
          chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);
       }
 
-      TGraph* gr = new TGraph(cnt);
+      TGraph *gr = new TGraph(cnt);
       gr->SetName(xml->GetAttr(top, "_name"));
       gr->SetTitle(TString::Format("%s ratemeter", xml->GetAttr(top, "_name")).Data());
 

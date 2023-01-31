@@ -56,7 +56,7 @@ Go4 Script control methods:
    After this call, variable "go4" can access any method of the
    analysis framework.
    Object registration:
-      - go4->AddHistogram(his); // make script histogram TH1* his available
+      - go4->AddHistogram(his); // make script histogram TH1 *his available
                                 // in the Go4 GUI
       - go4->AddAnalysisCondition(conny); // dito for TGo4Conditions
       - go4->AddParameter(par); // dito for TGo4Parameters

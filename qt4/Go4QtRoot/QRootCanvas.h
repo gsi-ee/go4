@@ -218,7 +218,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       QFrame*           fEditorFrame{nullptr};        // frame to show editor
       TVirtualPadEditor* fxPeditor{nullptr};          // ROOT editor
       QRootWindow*      fxRooteditor{nullptr};        // QtRoot window to embed ROOT editor
-      TH1*              fDummyHisto{nullptr};         // dummy histogram used for editor cleanup
+      TH1 *             fDummyHisto{nullptr};         // dummy histogram used for editor cleanup
 
       QStatusBar       *fStatusBar{nullptr};
 

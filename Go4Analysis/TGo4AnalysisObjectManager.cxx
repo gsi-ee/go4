@@ -531,7 +531,7 @@ Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char *subfolder,
    return rev;
 }
 
-TH1* TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
+TH1 *TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
       const char *foldername,
       const char *histoname,
       Int_t         nbinsx,
@@ -555,7 +555,7 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
       default : cl = TH1I::Class();
    }
 
-   TH1* histo = (TH1 *) TestObject(fxHistogramDir, foldername, histoname, cl);
+   TH1 *histo = (TH1 *) TestObject(fxHistogramDir, foldername, histoname, cl);
 
    if (histo) return histo;
 
@@ -575,7 +575,7 @@ TH1* TGo4AnalysisObjectManager::MakeTH1(const char *histotype,
    return histo;
 }
 
-TH2* TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
+TH2 *TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
       const char *foldername,
       const char *histoname,
       Int_t         nbinsx,
@@ -602,7 +602,7 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
       default : cl = TH2I::Class();
    }
 
-   TH2* histo = (TH2 *) TestObject(fxHistogramDir, foldername, histoname, cl);
+   TH2 *histo = (TH2 *) TestObject(fxHistogramDir, foldername, histoname, cl);
 
    if (histo) return histo;
 
@@ -717,10 +717,10 @@ Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char *stepname)
    return kTRUE;
 }
 
-TH1* TGo4AnalysisObjectManager::GetHistogram(const char *name)
+TH1 *TGo4AnalysisObjectManager::GetHistogram(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(char *)",__LINE__, __FILE__));
-   TH1* rev = dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
+   TH1 *rev = dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
    if(!rev) rev = dynamic_cast<TH1*> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
    return rev;
 }
@@ -1655,7 +1655,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
    if(ob->InheritsFrom(TH1::Class())) {
       if(fbSuppressLoadHistograms) return kFALSE;
       // test: do not clone histos, but change dir from asf file to memory
-      TH1* his = dynamic_cast<TH1*>(ob);
+      TH1 *his = dynamic_cast<TH1*>(ob);
       if(AddObjectToFolder(his,destination,nullptr,replace,kFALSE,kFALSE)) {
          his->SetDirectory(gROOT); // set directory for histos, needed for TTree::Draw
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Histogram %s was loaded.",

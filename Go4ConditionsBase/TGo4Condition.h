@@ -224,10 +224,10 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** Set reference to work histogram for statistics functions. Note
       * that this method does not change the histogram link definitions! */
-    virtual void SetWorkHistogram(TH1* histo) { fxHisto = histo; }
+    virtual void SetWorkHistogram(TH1 *histo) { fxHisto = histo; }
 
     /** access work histogram reference */
-    TH1* GetWorkHistogram() const { return fxHisto; }
+    TH1 *GetWorkHistogram() const { return fxHisto; }
 
     /** Replace default painter of this condition by external one.
       * if different views of this condition shall exist for different TPads,

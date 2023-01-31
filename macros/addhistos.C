@@ -43,7 +43,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
        std::cout <<"addhistos could not add histograms of different dimensions "<< std::endl;
        return kFALSE;
    }
-   TH1* result = (TH1*) his1->Clone();
+   TH1 *result = (TH1*) his1->Clone();
    TString n1 = his1->GetName();
    TString n2 = his2->GetName();
    TString t1 = his1->GetTitle();

@@ -301,7 +301,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic
 
    pic->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
 
-   TH1* h1 = nullptr;
+   TH1 *h1 = nullptr;
 
    for (Int_t indx = 0; indx < pic->GetNumObjNames(); indx++) {
       Option_t *drawopt = pic->GetDrawOption(indx);
@@ -341,7 +341,7 @@ void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition* co
    const char *hname = con->GetLinkedHistogram();
    TString hitemname;
 
-   TH1* h1 = nullptr;
+   TH1 *h1 = nullptr;
 
    if (hname && fBrowser->DefineRelatedObject(itemname, hname, hitemname))
       h1 = dynamic_cast<TH1 *>(fBrowser->GetBrowserObject(hitemname.Data(), 5000));

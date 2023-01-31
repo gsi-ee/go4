@@ -67,7 +67,7 @@ Bool_t divhistos(const char *name1, const char *name2, Bool_t draw, Bool_t float
       std::cout <<"divhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
    }
-   TH1* result = nullptr;
+   TH1 *result = nullptr;
    Int_t dim = his1->GetDimension();
    if (float_division) {
        if(dim==1)

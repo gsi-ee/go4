@@ -185,13 +185,13 @@ void TGo4DrawCloneProxy::PerformRebin()
    if (rebinx == 0) rebinx = 1;
    if (rebiny == 0) rebiny = 1;
 
-   TH2* h2 = dynamic_cast<TH2*> (fClone);
+   TH2 *h2 = dynamic_cast<TH2*> (fClone);
    if (h2) {
       h2->Rebin2D(rebinx, rebiny);
       return;
    }
 
-   TH1* h1 = dynamic_cast<TH1*> (fClone);
+   TH1 *h1 = dynamic_cast<TH1*> (fClone);
    if (h1) h1->Rebin(rebinx);
 }
 

@@ -25,7 +25,7 @@ Bool_t scalex(const char *name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
 
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-   TH1* his1 = nullptr;
+   TH1 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
       his1 = (TH1*)ob1;
    if(!his1) {
@@ -49,7 +49,7 @@ Bool_t scalex(const char *name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
    for (Int_t i = 0; i <= nbins; ++i)
       binarray[i] = a1 * (his1->GetXaxis()->GetBinUpEdge(i)) + a0;
 
-   TH1* result = new TH1I(finalname, finaltitle, nbins, binarray);
+   TH1 *result = new TH1I(finalname, finaltitle, nbins, binarray);
    for (Int_t i = 0; i < nbins; ++i)
       result->SetBinContent(i, his1->GetBinContent(i)); // copy contents to scaled bin
    delete[] binarray;

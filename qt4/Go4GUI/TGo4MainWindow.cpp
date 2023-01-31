@@ -2572,7 +2572,7 @@ void TGo4MainWindow::CreateNewHist(int isremote)
    dlg.SetLocalAvaliable(isremote != 1);
 
    if (dlg.exec() != QDialog::Accepted) return;
-   TH1* h1 = dlg.MakeHistogram();
+   TH1 *h1 = dlg.MakeHistogram();
    if (!h1) return;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();

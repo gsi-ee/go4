@@ -37,7 +37,7 @@ TXXXCalibPar::TXXXCalibPar() :
    }
 }
 //***********************************************************
-TXXXCalibPar::TXXXCalibPar(const char *name, TH1* spectrum, TGraph* curve) :
+TXXXCalibPar::TXXXCalibPar(const char *name, TH1 *spectrum, TGraph *curve) :
    TGo4Parameter(name),
    fbRecalibrate(kFALSE),
    fbReadDatabase(kFALSE),
@@ -89,7 +89,7 @@ TXXXCalibPar::~TXXXCalibPar()
 }
 
 //***********************************************************
- void TXXXCalibPar::SetCalibSpectrum(TH1* h1)
+ void TXXXCalibPar::SetCalibSpectrum(TH1 *h1)
  {
    fxCalibSpectrum = h1;
    if(fxLinesFinder)

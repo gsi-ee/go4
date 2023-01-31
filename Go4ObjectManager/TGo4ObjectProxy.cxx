@@ -116,7 +116,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
    dir->cd();
 
    if (fObject->InheritsFrom(TH1::Class())) {
-      TH1* h1 = (TH1*) fObject;
+      TH1 *h1 = (TH1*) fObject;
       TDirectory* olddir = h1->GetDirectory();
       h1->Write(objname);
       h1->SetDirectory(olddir);
@@ -191,7 +191,7 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject *obj)
    Long_t sz = obj->IsA()->Size();
 
    if (obj->InheritsFrom(TH1::Class())) {
-      TH1* histo = dynamic_cast<TH1*> (obj);
+      TH1 *histo = dynamic_cast<TH1*> (obj);
       Int_t nbins = histo->GetNbinsX()+2;
       if (histo->GetDimension()>1)
          nbins = nbins*(histo->GetNbinsY()+2);

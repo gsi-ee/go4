@@ -28,7 +28,7 @@ class TGo4PolyCond : public TGo4Condition {
       virtual ~TGo4PolyCond();
 
       /** Set reference to work histogram for statistics functions */
-      void SetWorkHistogram(TH1* histo) override;
+      void SetWorkHistogram(TH1 *histo) override;
 
       /** Factory method to generate the subclass implementation for painter */
       TGo4ConditionPainter* CreatePainter() override;
@@ -85,28 +85,28 @@ class TGo4PolyCond : public TGo4Condition {
       Bool_t UpdateFromUrl(const char *rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetIntegral(TH1* histo, Option_t* opt="") override;
+      Double_t GetIntegral(TH1 *histo, Option_t* opt="") override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetMean(TH1* histo, Int_t axis=1) override;
+      Double_t GetMean(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetRMS(TH1* histo, Int_t axis=1) override;
+      Double_t GetRMS(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetSkewness(TH1* histo, Int_t axis=1) override;
+      Double_t GetSkewness(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetCurtosis(TH1* histo, Int_t axis=1) override;
+      Double_t GetCurtosis(TH1 *histo, Int_t axis=1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetXMax(TH1* histo) override;
+      Double_t GetXMax(TH1 *histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetYMax(TH1* histo) override;
+      Double_t GetYMax(TH1 *histo) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetCMax(TH1* histo) override;
+      Double_t GetCMax(TH1 *histo) override;
 
       Bool_t IsPolygonType() const override;
 
@@ -139,7 +139,7 @@ class TGo4PolyCond : public TGo4Condition {
       void ClearCutHis();
 
       /** Returns true if fxCutHis can be used, create if possible */
-      Bool_t IsCutHis(TH1* source);
+      Bool_t IsCutHis(TH1 *source);
 
       /** Cut pointer. */
       TCutG *fxCut{nullptr};

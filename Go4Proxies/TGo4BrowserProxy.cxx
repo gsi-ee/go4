@@ -648,7 +648,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    BrowserSlotName(hname, hslotname);
    TGo4Slot *hslot = fxOM->GetSlot(hslotname.Data());
 
-   TH1* histo = nullptr;
+   TH1 *histo = nullptr;
 
    if (hslot && !IsItemRemote(hslot)) {
        histo = dynamic_cast<TH1*> (GetBrowserObject(hname, 1));
@@ -1566,7 +1566,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
    if (!ob) return;
 
    if(ob->InheritsFrom(TH1::Class())) {
-      TH1* his = dynamic_cast<TH1*>(ob);
+      TH1 *his = dynamic_cast<TH1*>(ob);
       if (his) his->Reset(); // histogram has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGo4DynamicEntry::Class())) {
@@ -1578,7 +1578,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
       if (pic) pic->Reset(); // picture has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGraph::Class())) {
-      TGraph* gr = dynamic_cast<TGraph*>(ob);
+      TGraph *gr = dynamic_cast<TGraph *>(ob);
       if (gr) {
          Int_t pn = gr->GetN();
          gr->Set(0); // clear array of points
@@ -1586,7 +1586,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
       }
    } else
    if(ob->InheritsFrom(TMultiGraph::Class())) {
-     TMultiGraph* mg = dynamic_cast<TMultiGraph*>(ob);
+     TMultiGraph *mg = dynamic_cast<TMultiGraph *>(ob);
      if (mg) {
         TIter liter(mg->GetListOfGraphs());
         while(auto gr = (TGraph*) liter()) {
@@ -2096,8 +2096,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       profile2->Copy(*profile);
       return kTRUE;
    } else if (obj->InheritsFrom(TH1::Class())) {
-      TH1* histo = dynamic_cast<TH1*> (obj);
-      TH1* histo2 = dynamic_cast<TH1*> (newobj);
+      TH1 *histo = dynamic_cast<TH1*> (obj);
+      TH1 *histo2 = dynamic_cast<TH1*> (newobj);
       if (!histo || !histo2) return kFALSE;
 
       if (dynamic_cast<TProfile*>(obj) || dynamic_cast<TProfile2D*>(obj)) return kFALSE;
@@ -2121,7 +2121,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       if ((rebinx>1) || (rebiny>1)) {
          if (!hasrebinx || !hasrebiny) return kFALSE;
 
-         TH1* clon = (TH1*) histo2->Clone("____dummyhisto____");
+         TH1 *clon = (TH1*) histo2->Clone("____dummyhisto____");
          if (!clon) return kFALSE;
          clon->SetDirectory(nullptr);
          Bool_t rebinres = kFALSE;
@@ -2192,7 +2192,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       return kTRUE;
    } else if (obj->InheritsFrom(TGraphAsymmErrors::Class())) {
       TGraphAsymmErrors* gr = dynamic_cast<TGraphAsymmErrors*> (obj);
-      TGraph* newgr = dynamic_cast<TGraph*> (newobj);
+      TGraph *newgr = dynamic_cast<TGraph*> (newobj);
       if (!gr || !newgr) return kFALSE;
       SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
@@ -2215,7 +2215,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
       return kTRUE;
    } else if (obj->InheritsFrom(TGraphErrors::Class())) {
       TGraphErrors* gr = dynamic_cast<TGraphErrors*> (obj);
-      TGraph* newgr = dynamic_cast<TGraph*> (newobj);
+      TGraph *newgr = dynamic_cast<TGraph*> (newobj);
       if (!gr || !newgr) return kFALSE;
       SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
@@ -2236,8 +2236,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
 
       return kTRUE;
    } else if (obj->InheritsFrom(TGraph::Class())) {
-      TGraph* gr = dynamic_cast<TGraph*> (obj);
-      TGraph* newgr = dynamic_cast<TGraph*> (newobj);
+      TGraph *gr = dynamic_cast<TGraph*> (obj);
+      TGraph *newgr = dynamic_cast<TGraph*> (newobj);
       if (!gr || !newgr) return kFALSE;
       // JAM: save axis time properties of currently displayed histo
       SaveAxisTimeProperties(gr,tdisp,tform);
@@ -2275,16 +2275,16 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
    return kFALSE;
 }
 
-void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format)
+void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format)
 {
    if(!gr) return;
-   TH1* h1 = gr->GetHistogram();
+   TH1 *h1 = gr->GetHistogram();
    TAxis* xax = h1->GetXaxis();
    timedisplay = xax->GetTimeDisplay();
    format = xax->GetTimeFormat();
 }
 
-void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString &format)
+void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format)
 {
    if(!gr) return;
    TH1*h1=gr->GetHistogram();
@@ -2294,7 +2294,7 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay
 }
 
 
-void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
+void TGo4BrowserProxy::UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr)
 {
    if(!oldgr || !newgr) return;
    TList* theFunctions=oldgr->GetListOfFunctions();
@@ -2313,8 +2313,8 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
    }
 
    // also restore graph axis titles here:
-   TH1* oldhis = oldgr->GetHistogram();
-   TH1* newhis = newgr->GetHistogram();
+   TH1 *oldhis = oldgr->GetHistogram();
+   TH1 *newhis = newgr->GetHistogram();
    if(oldhis && newhis) {
       oldhis->GetXaxis()->SetTitle(newhis->GetXaxis()->GetTitle());
       oldhis->GetYaxis()->SetTitle(newhis->GetYaxis()->GetTitle());

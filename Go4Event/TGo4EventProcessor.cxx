@@ -52,7 +52,7 @@ Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char *subfolder)
    return TGo4Analysis::Instance()->AddObject(any,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddHistogram(TH1* his, const char *subfolder, Bool_t replace)
+Bool_t TGo4EventProcessor::AddHistogram(TH1 *his, const char *subfolder, Bool_t replace)
 {
    return TGo4Analysis::Instance()->AddHistogram(his,subfolder,replace);
 }
@@ -107,7 +107,7 @@ TNamed* TGo4EventProcessor::GetObject(const char *name, const char *folder)
    return TGo4Analysis::Instance()->GetObject(name,folder);
 }
 
-TH1* TGo4EventProcessor::GetHistogram(const char *name)
+TH1 *TGo4EventProcessor::GetHistogram(const char *name)
 {
    return TGo4Analysis::Instance()->GetHistogram(name);
 }
@@ -173,7 +173,7 @@ Bool_t TGo4EventProcessor::IsObjMade() const
    return TGo4Analysis::Instance()->IsObjMade();
 }
 
-TH1* TGo4EventProcessor::MakeTH1(char type, const char *fullname, const char *title,
+TH1 *TGo4EventProcessor::MakeTH1(char type, const char *fullname, const char *title,
                                  Int_t nbinsx, Double_t xlow, Double_t xup,
                                  const char *xtitle, const char *ytitle)
 {
@@ -182,7 +182,7 @@ TH1* TGo4EventProcessor::MakeTH1(char type, const char *fullname, const char *ti
                                             xtitle, ytitle);
 }
 
-TH2* TGo4EventProcessor::MakeTH2(char type, const char *fullname, const char *title,
+TH2 *TGo4EventProcessor::MakeTH2(char type, const char *fullname, const char *title,
                                  Int_t nbinsx, Double_t xlow, Double_t xup,
                                  Int_t nbinsy, Double_t ylow, Double_t yup,
                                  const char *xtitle, const char *ytitle, const char *ztitle)
@@ -200,7 +200,7 @@ TGraph*TGo4EventProcessor:: MakeGraph(const char *fullname, const char *title, I
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
 }
 
-TGraph* TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, TF1* function)
+TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, TF1* function)
 {
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
 }

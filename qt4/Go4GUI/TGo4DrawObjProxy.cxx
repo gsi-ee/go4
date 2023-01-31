@@ -38,12 +38,11 @@ void TGo4DrawObjProxy::TryToClearObject()
 {
    if (!fObject) return;
    if (fObject->InheritsFrom(THStack::Class())) {
-      THStack* hs = (THStack*) fObject;
+      THStack *hs = (THStack*) fObject;
       if (hs->GetHists())
           hs->GetHists()->Clear();
-   } else
-   if (fObject->InheritsFrom(TMultiGraph::Class())) {
-      TMultiGraph* mgr = (TMultiGraph*) fObject;
+   } else if (fObject->InheritsFrom(TMultiGraph::Class())) {
+      TMultiGraph *mgr = (TMultiGraph *) fObject;
       if (mgr->GetListOfGraphs())
          mgr->GetListOfGraphs()->Clear();
     }

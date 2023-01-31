@@ -145,22 +145,22 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Create TGo4FitDataHistogram object and adds its to fitter.
        */
-      TGo4FitDataHistogram* AddH1(const char *DataName, TH1* histo, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
+      TGo4FitDataHistogram* AddH1(const char *DataName, TH1 *histo, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Set histogram to existing TGo4FitDataHistogram object
        */
-      TGo4FitDataHistogram* SetH1(const char *DataName, TH1* histo, Bool_t Owned = kFALSE);
+      TGo4FitDataHistogram* SetH1(const char *DataName, TH1 *histo, Bool_t Owned = kFALSE);
 
       /**
        * Create TGo4FitDataGraph object and adds its to fitter.
        */
-      TGo4FitDataGraph* AddGraph(const char *DataName, TGraph* gr, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
+      TGo4FitDataGraph* AddGraph(const char *DataName, TGraph *gr, Bool_t Owned = kFALSE, Double_t lrange = 0., Double_t rrange = 0.);
 
       /**
        * Set graph to existing TGo4FitDataGraph object
        */
-      TGo4FitDataGraph* SetGraph(const char *DataName, TGraph* gr, Bool_t Owned = kFALSE);
+      TGo4FitDataGraph* SetGraph(const char *DataName, TGraph *gr, Bool_t Owned = kFALSE);
 
       /**
        * Remove data object from fitter. If IsDel flag is set,  object will be destroyed, otherwise (by default) function return pointer on this object.

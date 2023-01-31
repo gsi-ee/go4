@@ -40,7 +40,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
        * Pointer on histogram (derived from TH1 class) and ownership flag can be sets up in constructor.
        * Scaling factor for bins (amplitude) can be added.
        */
-      TGo4FitDataHistogram(const char *iName, TH1* iHistogram = nullptr, Bool_t iHistogramOwned = kFALSE, Bool_t AddAmpl = kFALSE);
+      TGo4FitDataHistogram(const char *iName, TH1 *iHistogram = nullptr, Bool_t iHistogramOwned = kFALSE, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitDataHistogram object.
@@ -50,7 +50,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Return pointer on assigned histogram.
        */
-      TH1* GetHistogram() { return (TH1*) fxHistogram.GetObject(); }
+      TH1 *GetHistogram() { return (TH1*) fxHistogram.GetObject(); }
 
       /**
        * Set histogram to object.

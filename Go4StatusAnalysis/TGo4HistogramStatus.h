@@ -35,7 +35,7 @@ class TGo4HistogramStatus : public TGo4ObjectStatus {
      *  If argument allstatistics is kTRUE, system time and mean/rms
      *  is calculated as well. Default is disabled, since
      *  2d histograms are very time consuming here! */
-    TGo4HistogramStatus(TH1* his, Bool_t allstatistics=kFALSE);
+    TGo4HistogramStatus(TH1 *his, Bool_t allstatistics=kFALSE);
 
     virtual ~TGo4HistogramStatus();
 

@@ -54,7 +54,7 @@ void TGo4ExampleApplication::SendData(TNamed* data)
       }
 
 }
-TH1* TGo4ExampleApplication::GetHistogram()
+TH1 *TGo4ExampleApplication::GetHistogram()
 {
    GO4TRACE((12,"TGo4ExampleApplication::GetHistogram",__LINE__, __FILE__));
    return fxDemoHistogram;

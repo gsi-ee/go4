@@ -128,7 +128,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     TString fxConEventName[__MAXCONDIM__];
 
     /** The (histogram) object kept by this entry. */
-    TH1* fxHistogram{nullptr}; //!
+    TH1 *fxHistogram{nullptr}; //!
 
     /** Condition to be checked on processing this entry. */
     TGo4Condition* fxCondition{nullptr};                  //!

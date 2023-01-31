@@ -168,7 +168,7 @@ Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetHis(TH1* his)
+Int_t TGo4ComSetObject::ExeSetHis(TH1 *his)
 {
    if(!his) return -1;
    TString buf;

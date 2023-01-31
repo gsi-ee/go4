@@ -115,7 +115,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    fFitCounter++;
 
    if ((fFitCounter % 500000 == 0) && fFitter) {
-      TH1* histo1 = GetHistogram("Crate1/Cr1Ch04");
+      TH1 *histo1 = GetHistogram("Crate1/Cr1Ch04");
 
       if (histo1) {
          fFitter->SetH1("data", histo1, kFALSE);
@@ -127,7 +127,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
          fFitSrc->SetBins(histo1->GetNbinsX(), histo1->GetXaxis()->GetXmin(), histo1->GetXaxis()->GetXmax());
          fFitSrc->Add(histo1);
 
-         TH1* histo2 = (TH1*) fFitter->CreateDrawObject("FitResult", "data", kTRUE);
+         TH1 *histo2 = (TH1*) fFitter->CreateDrawObject("FitResult", "data", kTRUE);
          fFitRes->Reset();
          if (histo2) {
             fFitRes->SetBins(histo2->GetNbinsX(), histo2->GetXaxis()->GetXmin(), histo2->GetXaxis()->GetXmax());

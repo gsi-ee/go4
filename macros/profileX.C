@@ -35,7 +35,7 @@ Bool_t profileX(const char *name1, Int_t firstybin, Int_t lastybin, Bool_t draw)
    soper.Form("(ylo=%d, yup=%d)",firstybin,lastybin);
    TString finalname = TString("X-Profile of ")+n1;
    TString finaltitle = TString("X-Prof.") + soper+" of "+t1;
-   TH1* result = his1->ProfileX(finalname.Data(),firstybin,lastybin);
+   TH1 *result = his1->ProfileX(finalname.Data(),firstybin,lastybin);
    result->SetTitle(finaltitle);
    result->SetDirectory(nullptr);
    TString rname = go4->SaveToMemory("Profiles", result, kTRUE);

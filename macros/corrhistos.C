@@ -30,14 +30,14 @@ Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
       std::cout <<"corr could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
-   TH1* his1 = (TH1*)ob1;
+   TH1 *his1 = (TH1*)ob1;
    TString fullname2 = go4->FindItem(name2);
    TObject* ob2=go4->GetObject(fullname2,1000);
    if(!ob2 || !ob2->InheritsFrom("TH1")) {
       std::cout <<"corr could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
    }
-   TH1* his2 = (TH1*) ob2;
+   TH1 *his2 = (TH1*) ob2;
 #else
    // Get histograms from file
    Bool_t corrhistos(const char *file, const char *name1, const char *name2, Bool_t draw)
@@ -47,12 +47,12 @@ Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
          std::cout <<"corrhistos could not open file " << file << std::endl;
          return kFALSE;
       }
-      TH1* his1 = f->Get(name1);
+      TH1 *his1 = f->Get(name1);
       if(!his1) {
          std::cout <<"corrhistos could not get histogram "<< name1 << " in file " << file << std::endl;
          return kFALSE;
       }
-      TH1* his2 = f->Get(name2);
+      TH1 *his2 = f->Get(name2);
       if(!his2) {
          std::cout <<"corrhistos could not get histogram "<< name2 << " in file " << file << std::endl;
          return kFALSE;
@@ -74,7 +74,7 @@ Bool_t corrhistos(const char *name1, const char *name2, Bool_t draw)
          x->AddAt(his1->GetBinContent(i+1),i);
          y->AddAt(his2->GetBinContent(i+1),i);
       }
-      TGraph* result = new TGraph(n,x->GetArray(),y->GetArray());
+      TGraph *result = new TGraph(n,x->GetArray(),y->GetArray());
       result->SetNameTitle(finalname,finaltitle);
       result->SetMarkerColor(4);
       result->SetMarkerSize(0.3);

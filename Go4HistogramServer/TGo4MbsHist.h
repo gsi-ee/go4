@@ -35,7 +35,7 @@ class TGo4MbsHist : public TObject {
       /** Create queue object from a single histogram
         *   in this case, histogram header will fill s_his_head,
         * and data is copied to fiBuffer */
-      TGo4MbsHist(TH1* histo);
+      TGo4MbsHist(TH1 *histo);
 
       /** Create queue object with header information from a folder of histograms.
         * headers of histograms will be put into fiBuffer, the s_his_head is empty.
@@ -55,7 +55,7 @@ class TGo4MbsHist : public TObject {
    private:
 
       /** extract header information from histogram to mbs header structur */
-      void PrepareHeader(TH1* source, const char *path, s_his_head* target);
+      void PrepareHeader(TH1 *source, const char *path, s_his_head* target);
 
       /** Scan go4 folders containing histograms and subfolders of histograms
         *  header information is exctracted to buffer. filter may be applied*/

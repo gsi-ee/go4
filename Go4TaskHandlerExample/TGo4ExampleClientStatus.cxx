@@ -27,7 +27,7 @@ TGo4ExampleClientStatus::~TGo4ExampleClientStatus()
   GO4TRACE((12,"TGo4ExampleClientStatus::~TGo4ExampleClientStatus()",__LINE__, __FILE__));
 }
 
-void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
+void TGo4ExampleClientStatus::SetHistoStatus(TH1 *histogram)
 {
    GO4TRACE((12,"TGo4ClientStatus::SetHistoStatus(TH1*)",__LINE__, __FILE__));
    fxHistogramName = histogram->GetName();

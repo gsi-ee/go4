@@ -266,32 +266,32 @@ Bool_t TGo4Picture::CheckPosition(Int_t posy, Int_t posx) const
    return (fiPosX == posx) && (fiPosY == posy);
 }
 
-void TGo4Picture::AddH1(TH1* histo, Option_t* DrawOption)
+void TGo4Picture::AddH1(TH1 *histo, Option_t* DrawOption)
 {
    AddObject(histo, DrawOption);
 }
 
-void TGo4Picture::AddH1(Int_t posy, Int_t posx, TH1* histo, Option_t* DrawOption)
+void TGo4Picture::AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t* DrawOption)
 {
    AddObject(posy, posx, histo, DrawOption);
 }
 
-void TGo4Picture::AddHStack(THStack* st, Option_t* DrawOption)
+void TGo4Picture::AddHStack(THStack *st, Option_t* DrawOption)
 {
    AddObject(st, DrawOption);
 }
 
-void TGo4Picture::AddHStack(Int_t posy, Int_t posx, THStack* st, Option_t* DrawOption)
+void TGo4Picture::AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t* DrawOption)
 {
     AddObject(posy, posx, st, DrawOption);
 }
 
-void TGo4Picture::AddGraph(TGraph* gr, Option_t* DrawOption)
+void TGo4Picture::AddGraph(TGraph *gr, Option_t* DrawOption)
 {
    AddObject(gr, DrawOption);
 }
 
-void TGo4Picture::AddGraph(Int_t posy, Int_t posx, TGraph* gr, Option_t* DrawOption)
+void TGo4Picture::AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOption)
 {
    AddObject(posy, posx, gr, DrawOption);
 }
@@ -674,7 +674,7 @@ void TGo4Picture::SetDrawAttributes(TObject *obj, Int_t index)
    SetPadAtt(Cast<TPad>(obj), index);
 }
 
-void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
+void TGo4Picture::SetH1Att(TH1 *h1, Int_t index)
 {
    if (!h1) return;
    CheckIndex(index);
@@ -683,7 +683,7 @@ void TGo4Picture::SetH1Att(TH1* h1, Int_t index)
    SetAxisAtt(2, h1->GetZaxis(), index);
 }
 
-void TGo4Picture::GetH1Att(TH1* h1, Int_t index) const
+void TGo4Picture::GetH1Att(TH1 *h1, Int_t index) const
 {
    if (!h1) return;
    CheckIndex(index);

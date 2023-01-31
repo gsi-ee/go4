@@ -94,8 +94,8 @@ public:
    /** Initialize label setup from static default variables */
    void InitLabelStyle();
 
-   void SetHistogram(TH1* histo);
-   TH1* GetHistogram() const { return fxHisto; }
+   void SetHistogram(TH1 *histo);
+   TH1 *GetHistogram() const { return fxHisto; }
 
    /** TMarker is not TNamed, so we implement name ourself*/
    const char *GetName() const override { return fxName.Data(); }
@@ -206,7 +206,7 @@ private:
    TString fxNumFormat;
 
    /** Reference to currently used histogram (for bin contents). */
-   TH1* fxHisto{nullptr}; //!
+   TH1 *fxHisto{nullptr}; //!
 
    /** Remember last pad used for Draw. Needed for condition editor to
     * prevent displaying marker on pad other than the working pad. */

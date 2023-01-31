@@ -194,7 +194,7 @@ void TGo4ExportManager::Export(TCollection* col)
        Export(ob);
 }
 
-void TGo4ExportManager::Export(TH1* histo)
+void TGo4ExportManager::Export(TH1 *histo)
 {
 switch(fiFilter)
    {
@@ -220,7 +220,7 @@ switch(fiFilter)
 
 }
 
-void TGo4ExportManager::Export(TGraph* gra)
+void TGo4ExportManager::Export(TGraph *gra)
 {
 switch(fiFilter)
    {
@@ -244,7 +244,7 @@ switch(fiFilter)
 
 }
 
-void TGo4ExportManager::ExportASCII(TH1* histo, Bool_t channels)
+void TGo4ExportManager::ExportASCII(TH1 *histo, Bool_t channels)
 {
 if(!histo) return;
 try{
@@ -321,7 +321,7 @@ catch(...)
 
 }
 
-void TGo4ExportManager::ExportASCII(TGraph* graph)
+void TGo4ExportManager::ExportASCII(TGraph *graph)
 {
    if (!graph)
       return;
@@ -356,7 +356,7 @@ void TGo4ExportManager::ExportASCII(TGraph* graph)
    } // catch
 }
 
-void TGo4ExportManager::ExportRadware(TH1* histo)
+void TGo4ExportManager::ExportRadware(TH1 *histo)
 {
    if (histo->InheritsFrom(TH2::Class())) {
       TH2 *map = dynamic_cast<TH2 *>(histo);
@@ -429,11 +429,11 @@ void TGo4ExportManager::ExportRadware(TH1* histo)
    } // if(histo->InheritsFrom...)
 }
 
-void TGo4ExportManager::ExportRadware(TH2* histo)
+void TGo4ExportManager::ExportRadware(TH2 *histo)
 {
    TGo4Log::Message(2,"ExportManager: Converting 2d histo %s to radware not supported yet!",histo->GetName());
 }
-void TGo4ExportManager::ExportRadware(TGraph* graph)
+void TGo4ExportManager::ExportRadware(TGraph *graph)
 {
    TGo4Log::Message(2,"ExportManager: Converting graph %s to radware not supported yet!",graph->GetName());
 }

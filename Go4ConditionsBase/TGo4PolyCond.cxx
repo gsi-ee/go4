@@ -74,7 +74,7 @@ TGo4PolyCond::~TGo4PolyCond()
 }
 
 // ----------------------------------------------------------
-void TGo4PolyCond::SetWorkHistogram(TH1* histo)
+void TGo4PolyCond::SetWorkHistogram(TH1 *histo)
 {
    TGo4Condition::SetWorkHistogram(histo);
    ClearCutHis(); // discard internal cut histogram
@@ -352,12 +352,12 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
    return kTRUE;
 }
 
-Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
+Double_t TGo4PolyCond::GetIntegral(TH1 *histo, Option_t* opt)
 {
    return fxCut ? fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt) : 0.;
 }
 
-Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)
+Double_t TGo4PolyCond::GetMean(TH1 *histo, Int_t axis)
 {
    if (IsCutHis(histo))
       return fxCutHis->GetMean(axis);
@@ -365,7 +365,7 @@ Double_t TGo4PolyCond::GetMean(TH1* histo, Int_t axis)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetRMS(TH1* histo, Int_t axis)
+Double_t TGo4PolyCond::GetRMS(TH1 *histo, Int_t axis)
 {
    if (IsCutHis(histo))
       return fxCutHis->GetRMS(axis);
@@ -373,7 +373,7 @@ Double_t TGo4PolyCond::GetRMS(TH1* histo, Int_t axis)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetSkewness(TH1* histo, Int_t axis)
+Double_t TGo4PolyCond::GetSkewness(TH1 *histo, Int_t axis)
 {
    if (IsCutHis(histo))
       return fxCutHis->GetSkewness(axis);
@@ -381,7 +381,7 @@ Double_t TGo4PolyCond::GetSkewness(TH1* histo, Int_t axis)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetCurtosis(TH1* histo, Int_t axis)
+Double_t TGo4PolyCond::GetCurtosis(TH1 *histo, Int_t axis)
 {
    if (IsCutHis(histo))
       return fxCutHis->GetKurtosis(axis);
@@ -389,7 +389,7 @@ Double_t TGo4PolyCond::GetCurtosis(TH1* histo, Int_t axis)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetXMax(TH1* histo)
+Double_t TGo4PolyCond::GetXMax(TH1 *histo)
 {
    if (IsCutHis(histo)) {
       TAxis *xax = fxCutHis->GetXaxis();
@@ -400,7 +400,7 @@ Double_t TGo4PolyCond::GetXMax(TH1* histo)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetYMax(TH1* histo)
+Double_t TGo4PolyCond::GetYMax(TH1 *histo)
 {
    if (IsCutHis(histo)) {
       TAxis *yax = fxCutHis->GetYaxis();
@@ -412,7 +412,7 @@ Double_t TGo4PolyCond::GetYMax(TH1* histo)
    return -1;
 }
 
-Double_t TGo4PolyCond::GetCMax(TH1* histo)
+Double_t TGo4PolyCond::GetCMax(TH1 *histo)
 {
    if (IsCutHis(histo))
       return fxCutHis->GetMaximum();
@@ -444,7 +444,7 @@ TGo4ConditionPainter* TGo4PolyCond::CreatePainter()
 }
 
 
-Bool_t TGo4PolyCond::IsCutHis(TH1* source)
+Bool_t TGo4PolyCond::IsCutHis(TH1 *source)
 {
    if (fxCutHis)
       return kTRUE;

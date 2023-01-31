@@ -219,7 +219,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //         if(fitter)
 //         {
 //            //std::cout <<"Fitter setting histogram and fitting..." << std::endl;
-//            TH1* his=GetHistogram("Sum2");
+//            TH1 *his=GetHistogram("Sum2");
 //            fitter->SetObject("spectrum", his, kFALSE);
 //            fitter->DoActions();
 //            fitter->PrintLines();

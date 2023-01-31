@@ -26,7 +26,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
       TIterator*     fIter{nullptr};     //!
       TObject*       fCurrent{nullptr};  //!
    public:
-      TGo4HStackLevelIter(THStack* hs) :
+      TGo4HStackLevelIter(THStack *hs) :
          TGo4LevelIter(),
          fIter(nullptr),
          fCurrent(nullptr)
@@ -85,7 +85,7 @@ TGo4HStackProxy::TGo4HStackProxy() :
 {
 }
 
-TGo4HStackProxy::TGo4HStackProxy(THStack* hs, Bool_t owner) :
+TGo4HStackProxy::TGo4HStackProxy(THStack *hs, Bool_t owner) :
    TGo4Proxy(),
    fHS(hs),
    fOwner(owner)
@@ -181,7 +181,7 @@ TObject* TGo4HStackProxy::GetAssignedObject()
    return fHS;
 }
 
-std::unique_ptr<TGo4Access> TGo4HStackProxy::CreateAccess(THStack* hs, const char *name)
+std::unique_ptr<TGo4Access> TGo4HStackProxy::CreateAccess(THStack *hs, const char *name)
 {
    if (!hs) return nullptr;
    if (!name || !*name)
@@ -192,7 +192,7 @@ std::unique_ptr<TGo4Access> TGo4HStackProxy::CreateAccess(THStack* hs, const cha
    return obj ? std::make_unique<TGo4ObjectAccess>(obj) : nullptr;
 }
 
-TGo4LevelIter* TGo4HStackProxy::ProduceIter(THStack* hs)
+TGo4LevelIter* TGo4HStackProxy::ProduceIter(THStack *hs)
 {
    return new TGo4HStackLevelIter(hs);
 }

@@ -222,14 +222,14 @@ void TGo4HistogramEntry::ProcessNew(Bool_t* evvalid)
         break;
      case 2:
         if(evvalid[0] && evvalid[1]) {
-           TH2* his2 = dynamic_cast<TH2*>(fxHistogram);
+           TH2 *his2 = dynamic_cast<TH2 *>(fxHistogram);
            if(his2) his2->Fill(dat[0],dat[1]);
         }
         break;
      case 3:
         if(evvalid[0] && evvalid[1] && evvalid[2]) {
-           TH3* his3 = dynamic_cast<TH3*>(fxHistogram);
-           if(his3) his3->Fill(dat[0],dat[1],dat[2]);
+           TH3 *his3 = dynamic_cast<TH3 *>(fxHistogram);
+           if (his3) his3->Fill(dat[0], dat[1], dat[2]);
         }
         break;
      default:

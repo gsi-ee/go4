@@ -87,7 +87,7 @@ void TGo4HistogramInfo::WorkWithHistogram(const char *itemname)
       AddLink(itemname, "HistogramLock");
    } else {
       AddLink(itemname, "Histogram");
-      TH1* h1 = GetLinkedCast<TH1>("Histogram", 2);
+      TH1 *h1 = GetLinkedCast<TH1>("Histogram", 2);
       RefreshHistogramInfo(h1);
   }
   setFocus();
@@ -117,7 +117,7 @@ void TGo4HistogramInfo::ResetWidget()
    raise();
 }
 
-void TGo4HistogramInfo::RefreshHistogramInfo(TH1* h1)
+void TGo4HistogramInfo::RefreshHistogramInfo(TH1 *h1)
 {
   if (!h1) {
     ResetWidget();

@@ -21,7 +21,7 @@ Bool_t projectionY(const char *name1, const char *polyname, Int_t firstxbin, Int
    }
    TString fullname1 = go4->FindItem(name1);
    TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-   TH2* his1 = nullptr;
+   TH2 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2"))   his1 = (TH2*) ob1;
    if(!his1) {
       std::cout <<"projectionY could not get 2d histogram "<<fullname1 << std::endl;
@@ -49,7 +49,7 @@ Bool_t projectionY(const char *name1, const char *polyname, Int_t firstxbin, Int
       cut = (TCutG*) poly->GetCut(kFALSE)->Clone("tempcut");  // therefore create clone
       options.Form("[%s]",cut->GetName());
    }
-   TH1* result = his1->ProjectionY(finalname.Data(),firstxbin,lastxbin);
+   TH1 *result = his1->ProjectionY(finalname.Data(),firstxbin,lastxbin);
    if(poly) delete cut; // clone
    result->SetTitle(finaltitle);
    result->SetDirectory(nullptr);
