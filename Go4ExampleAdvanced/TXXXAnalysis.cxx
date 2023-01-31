@@ -241,7 +241,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //         StoreFitter("Analysis",fitter);
 //     }
 //
-//   TGo4Condition* winar=GetAnalysisCondition("winconar");
+//   TGo4Condition *winar=GetAnalysisCondition("winconar");
 //   if(winar)
 //      {
 //         std::cout <<"Storing condition"<< winar->GetName()<<"to analysis" << std::endl;

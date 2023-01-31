@@ -49,7 +49,7 @@ void go4RegisterAll()
    TGo4Analysis* go4 = TGo4Analysis::Instance();
    TDirectory* gdir = gDirectory;
    //   TIter caniter(gROOT->GetListOfCanvases());
-   //   TCanvas* can = nullptr;
+   //   TCanvas *can = nullptr;
    //   while (can = caniter())
    //      go4->AddCanvas(can);
 

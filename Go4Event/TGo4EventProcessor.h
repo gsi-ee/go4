@@ -126,16 +126,16 @@ class TGo4EventProcessor: public TGo4EventSource {
       Bool_t AddHistogram(TH1 *his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
       /** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddParameter(TGo4Parameter* par, const char *subfolder = nullptr);
+      Bool_t AddParameter(TGo4Parameter *par, const char *subfolder = nullptr);
 
       /** Register condition to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddAnalysisCondition(TGo4Condition* con, const char *subfolder = nullptr);
+      Bool_t AddAnalysisCondition(TGo4Condition *con, const char *subfolder = nullptr);
 
       /** Register picture to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddPicture(TGo4Picture* pic, const char *subfolder = nullptr);
+      Bool_t AddPicture(TGo4Picture *pic, const char *subfolder = nullptr);
 
       /** Register TCanvas to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddCanvas(TCanvas* can, const char *subfolder = nullptr);
+      Bool_t AddCanvas(TCanvas *can, const char *subfolder = nullptr);
 
       /** UnRegister histogram from go4 framework and delete it. Shortcut forwarded to analysis instance */
       Bool_t RemoveHistogram(const char *name);
@@ -159,16 +159,16 @@ class TGo4EventProcessor: public TGo4EventSource {
       TH1 *GetHistogram(const char *name);
 
       /** Get parameter from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Parameter* GetParameter(const char *name, const char *par_class = nullptr);
+      TGo4Parameter *GetParameter(const char *name, const char *par_class = nullptr);
 
       /** Get condition from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Condition* GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
+      TGo4Condition *GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
       /** Get picture from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Picture* GetPicture(const char *name);
+      TGo4Picture *GetPicture(const char *name);
 
       /** Get TCanvas from go4 framework. Shortcut forwarded to analysis instance */
-      TCanvas* GetCanvas(const char *name);
+      TCanvas *GetCanvas(const char *name);
 
       /**
        * Returns the input event structure of analysis step. Argument indicates
@@ -385,7 +385,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        *       creation (or loading from auto-save file) and thus overwrites parameters value.
        *       Macro name should be always starting with "set_" like "set_RocPar.C"
        */
-      TGo4Parameter* MakeParameter(const char *fullname,
+      TGo4Parameter *MakeParameter(const char *fullname,
                                    const char *classname,
                                    const char *newcmd = nullptr);
 

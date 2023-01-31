@@ -56,7 +56,7 @@ void TGo4MbsFileParameter::Print(Option_t*) const
    TGo4Status::PrintLine("Tagfile: %s", GetTagName());
 }
 
-Bool_t TGo4MbsFileParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4MbsFileParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4MbsFileParameter::Class())) {
       auto mbspar = dynamic_cast<TGo4MbsFileParameter*>(rhs);

@@ -114,7 +114,7 @@ void TGo4PolyCondPainter::DisplayToFront(Option_t* opt)
    TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost
 }
 
-void TGo4PolyCondPainter::SetCondition(TGo4Condition* con)
+void TGo4PolyCondPainter::SetCondition(TGo4Condition *con)
 {
    fxCondition = con;
    if (fxCutView)

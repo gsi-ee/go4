@@ -79,7 +79,7 @@ void plothistos(const char *file, Stat_t lo, Stat_t up, Bool_t ylog)
 //  gStyle->SetLabelSize(0.04,"Y")
 
 //TString filename="test_ASF.root";
- TCanvas* mycan=new TCanvas("printout","myhistograms",1);
+ TCanvas *mycan=new TCanvas("printout","myhistograms",1);
  Int_t DivX,DivY;
  DivX=(int)sqrt(NUMHIS);
  DivY=DivX;

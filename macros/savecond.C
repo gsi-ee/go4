@@ -97,7 +97,7 @@ TString MakeCondFuncName(const char *main, const char *objname)
 Bool_t save1cond(TObject *obj, const char *prefix)
 {
   if(!obj || !obj->InheritsFrom("TGo4Condition")) return kFALSE;
-  TGo4Condition* cond = (TGo4Condition*) obj;
+  TGo4Condition *cond = (TGo4Condition*) obj;
 
   TString funcname = MakeCondFuncName(prefix, cond->GetName());
 

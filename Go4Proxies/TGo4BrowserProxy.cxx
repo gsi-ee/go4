@@ -641,7 +641,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    // tree pointer is not stored in browser slots
    TString treeslotname;
    DataSlotName(treename, treeslotname);
-   TTree* SelectedTree = dynamic_cast<TTree*> (fxOM->GetObject(treeslotname.Data()));
+   TTree *SelectedTree = dynamic_cast<TTree*> (fxOM->GetObject(treeslotname.Data()));
    if (!SelectedTree) return;
 
    TString histoname(hname), hslotname;
@@ -1574,7 +1574,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
       if (entry) entry->Reset(); // dynamic entry has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGo4Picture::Class())) {
-      TGo4Picture* pic = dynamic_cast<TGo4Picture*>(ob);
+      TGo4Picture *pic = dynamic_cast<TGo4Picture*>(ob);
       if (pic) pic->Reset(); // picture has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGraph::Class())) {
@@ -1641,7 +1641,7 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot *slot)
    TObject *obj = slot->GetAssignedObject();
    if (!obj) return;
 
-   TGo4Picture* pic = dynamic_cast<TGo4Picture*> (obj);
+   TGo4Picture *pic = dynamic_cast<TGo4Picture*> (obj);
    if (!pic) return;
 
    if (!IsItemMonitored(slot)) return;
@@ -1652,7 +1652,7 @@ void TGo4BrowserProxy::CheckPictureMonitor(TGo4Slot *slot)
    CheckPictureMonitor(pic, picitemname.Data());
 }
 
-void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture* pic, const char *picitemname)
+void TGo4BrowserProxy::CheckPictureMonitor(TGo4Picture *pic, const char *picitemname)
 {
    if (!pic) return;
 
@@ -2182,8 +2182,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject* newobj, Int_
 
       return kTRUE;
    } else if (obj->InheritsFrom(TGo4Condition::Class())) {
-      TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
-      TGo4Condition* newcond = dynamic_cast<TGo4Condition*> (newobj);
+      TGo4Condition *cond = dynamic_cast<TGo4Condition*> (obj);
+      TGo4Condition *newcond = dynamic_cast<TGo4Condition*> (newobj);
       if (!cond || !newcond) return kFALSE;
 
       cond->UpdateFrom(newcond, kTRUE);

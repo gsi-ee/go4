@@ -238,7 +238,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to subfolder, e.g. dedicated to analysis step. If subfolder is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t AddTree(TTree* tree, const char *subfolder = nullptr);
+      Bool_t AddTree(TTree *tree, const char *subfolder = nullptr);
 
       /**
        * Search tree in tree folder.
@@ -267,7 +267,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. optional parent folder can be
        * specified. By default, condition is searched relative to Conditions folder.
        */
-      Bool_t SetAnalysisCondition(const char *name, TGo4Condition* con,
+      Bool_t SetAnalysisCondition(const char *name, TGo4Condition *con,
                                   Bool_t counter=kTRUE, TFolder* parent = nullptr);
 
       /**

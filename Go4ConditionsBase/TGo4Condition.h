@@ -107,7 +107,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
      * by dtor, thus one condition instance may be chained to
      * several others.
      */
-    virtual void AddCondition(TGo4Condition* next);
+    virtual void AddCondition(TGo4Condition *next);
 
     /** Increment the test counter. User has to take care
       * that this method is called within his/her Test method. */
@@ -187,7 +187,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Double_t GetCMax(TH1*) { return 0.; }
 
     /** To be overwritten for condition array. By default, it returns this. */
-    virtual const TGo4Condition* GetActiveCondition() const { return this; }
+    virtual const TGo4Condition *GetActiveCondition() const { return this; }
 
     /** defines if condition counters shall be reset in UpdateFrom method*/
     virtual void MarkReset(Bool_t on);

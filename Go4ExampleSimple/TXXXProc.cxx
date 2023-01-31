@@ -90,7 +90,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
 
 /*
    // this is example of creating canvas, which can be observed in the gui" << std::endl;
-   TCanvas* mycan = new TCanvas("TestCanvas","Does this work?", 3);
+   TCanvas *mycan = new TCanvas("TestCanvas","Does this work?", 3);
    std::cout << "Did Creating canvas " << std::endl;
    mycan->Divide(2,2);
    mycan->cd(1);

@@ -57,11 +57,11 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override
       {
-         TTree* tr = dynamic_cast<TTree*>(fCurrent);
+         TTree *tr = dynamic_cast<TTree*>(fCurrent);
          if (tr) return TGo4TreeProxy::ProduceIter(tr);
          TDirectory* dir = dynamic_cast<TDirectory*>(fCurrent);
          if (dir) return TGo4DirProxy::ProduceIter(dir, kFALSE);
-         TCanvas* canv = dynamic_cast<TCanvas*>(fCurrent);
+         TCanvas *canv = dynamic_cast<TCanvas*>(fCurrent);
          if (canv) return TGo4CanvasProxy::ProduceIter(canv);
          THStack *hs = dynamic_cast<THStack*> (fCurrent);
          if (hs)  return TGo4HStackProxy::ProduceIter(hs);
@@ -178,7 +178,7 @@ std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder* folder, const
 
       curname = slash+1;
 
-      TTree* tr = dynamic_cast<TTree*> (obj);
+      TTree *tr = dynamic_cast<TTree*> (obj);
       if (tr)
          return TGo4TreeProxy::CreateAccess(tr, curname);
 
@@ -186,7 +186,7 @@ std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder* folder, const
       if (dir)
          return TGo4DirProxy::CreateAccess(dir, kFALSE, curname);
 
-      TCanvas* canv = dynamic_cast<TCanvas*> (obj);
+      TCanvas *canv = dynamic_cast<TCanvas*> (obj);
       if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 

@@ -46,7 +46,7 @@ TGo4Parameter::TGo4Parameter(const char *name, const char *title) :
 void TGo4Parameter::Print(Option_t* dummy) const
 {
    // this trick is needed since root defines Print as const function...
-   TGo4Parameter* const localthis= const_cast<TGo4Parameter* const>(this);
+   TGo4Parameter *const localthis= const_cast<TGo4Parameter *const>(this);
    localthis->PrintParameter();
 }
 
@@ -74,7 +74,7 @@ TGo4Parameter::~TGo4Parameter()
    GO4TRACE((12,"TGo4Parameter ::~TGo4Parameter ()",__LINE__, __FILE__));
 }
 
-Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if (!rhs) return kFALSE;
 
@@ -94,7 +94,7 @@ Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 
 Bool_t TGo4Parameter::UpdateFromUrl(const char *rest_url_opt)
 {
-   TGo4Parameter* clone = (TGo4Parameter*) Clone();
+   TGo4Parameter *clone = (TGo4Parameter*) Clone();
 
    TObjArray items;
    clone->GetMemberValues(&items);

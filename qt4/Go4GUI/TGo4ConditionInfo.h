@@ -52,7 +52,7 @@ public:
 
    void ResetWidget() override;
 
-   virtual void RefreshWidget(TGo4Condition* cond);
+   virtual void RefreshWidget(TGo4Condition *cond);
 
 public slots:
 

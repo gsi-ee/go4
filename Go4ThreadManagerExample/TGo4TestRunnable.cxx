@@ -60,7 +60,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
    TGo4ThreadHandler *han = nullptr;
    TGo4TestRunnable* th1run = nullptr;
    TGo4Thread* go4thr = nullptr;
-   TCanvas* can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
+   TCanvas *can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
    TPad* pad1=((TGo4TestThreadManager*)fxManager)->GetPad1();
    TPad* pad2=((TGo4TestThreadManager*)fxManager)->GetPad2();
 

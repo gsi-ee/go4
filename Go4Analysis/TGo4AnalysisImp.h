@@ -274,7 +274,7 @@ public:
                                Bool_t reset=kFALSE);
 
    /** Create a tree structure for a certain tree by name */
-   TGo4TreeStructure* CreateTreeStructure(const char *treename);
+   TGo4TreeStructure *CreateTreeStructure(const char *treename);
 
    /** Add external histogram to go4 histogram directory. Histogram will be owned
     * and streamed by go4 histogram list afterwards. */
@@ -303,7 +303,7 @@ public:
    TH1 *GetHistogram(const char *name);
 
    /** Search tree in tree folder. */
-   TTree* GetTree(const char *name);
+   TTree *GetTree(const char *name);
 
    /** Removes histogram from histogram dir by name. Returns kFALSE if no
     * such index. Histogram object is deleted on heap.
@@ -324,7 +324,7 @@ public:
    /** Retrieves an analysis condition  from list by name.
     * Optionally, condition could be checked if it inherits from specified class.
     * Returns 0 if no such condition found. */
-   TGo4Condition* GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
+   TGo4Condition *GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
    /** Removes analysis condition from list by name. Returns 0 if no
     * such condition. Condition object is deleted on heap. */
@@ -350,7 +350,7 @@ public:
    /** Retrieves a parameter object by name from the object folder.
     * Optionally expected class of parameter object could be specified.
     * Returns 0 if no such parameter found (or class not match). */
-   TGo4Parameter* GetParameter(const char *name, const char *parameter_class = nullptr);
+   TGo4Parameter *GetParameter(const char *name, const char *parameter_class = nullptr);
 
    /** Removes parameter by name. Returns 0 if no
     * such parameter. Parameter object is deleted on heap. */
@@ -369,7 +369,7 @@ public:
 
    /** Retrieves a picture object by name from the object folder.
     * Returns 0 if no such picture. */
-   TGo4Picture* GetPicture(const char *name);
+   TGo4Picture *GetPicture(const char *name);
 
    /** Removes picture by name. Returns 0 if no
     * such picture. Picture object is deleted on heap. */
@@ -382,7 +382,7 @@ public:
 
    /** Retrieves a TCanvas by name from the Canvases folder.
     * Returns 0 if no such object. */
-   TCanvas* GetCanvas(const char *name);
+   TCanvas *GetCanvas(const char *name);
 
    /** Removes TCanvas by name. Returns 0 if no
     * such canvas. TCanvas object is deleted on heap. */
@@ -390,19 +390,19 @@ public:
 
    /** Create a copy of the analysis internal state.
     * To be sent to the Display. */
-   TGo4AnalysisStatus* CreateStatus();
+   TGo4AnalysisStatus *CreateStatus();
 
    /** Create a copy of the analysis internal state.
     * To be sent to the Web interface. */
-   TGo4AnalysisWebStatus* CreateWebStatus();
+   TGo4AnalysisWebStatus *CreateWebStatus();
 
    /** Find Object of name in the folder structure
     * and create a complete status object of it.
     * Used by GUI command to get updated information on certain object. */
-   TGo4ObjectStatus* CreateObjectStatus(const char *name, const char *folder = nullptr);
+   TGo4ObjectStatus *CreateObjectStatus(const char *name, const char *folder = nullptr);
 
    /** Creates a list of names (keys) of all objects in analysis directories. */
-   TGo4AnalysisObjectNames* CreateNamesList();
+   TGo4AnalysisObjectNames *CreateNamesList();
 
    /** Access to top level go4 folder. For histogram server. */
    TFolder* GetObjectFolder();
@@ -864,7 +864,7 @@ public:
     *    2) macro name to set parameter value. Macro executed immediately after parameter
     *       creation (or loading from auto-save file) and thus overwrites parameters value.
     *       Macro name should be always starting with "set_" */
-   TGo4Parameter* MakeParameter(const char *fullname,
+   TGo4Parameter *MakeParameter(const char *fullname,
                                  const char *classname,
                                  const char *cmd = nullptr);
 
@@ -948,10 +948,10 @@ private:
     * If no analysis step of that name exists, the event is
     * searched by object name in the eventstructure folder
     * of the object manager. */
-   TTree* CreateSingleEventTree(const char *name, Bool_t isoutput = kTRUE);
+   TTree *CreateSingleEventTree(const char *name, Bool_t isoutput = kTRUE);
 
    /** Create a tree that is filled with one single event sample. To be sent to the gui. */
-   TTree* CreateSingleEventTree(TGo4EventElement *event);
+   TTree *CreateSingleEventTree(TGo4EventElement *event);
 
    /** Update the internal list of object names. To be used internally and by analysis client. */
    void UpdateNamesList();

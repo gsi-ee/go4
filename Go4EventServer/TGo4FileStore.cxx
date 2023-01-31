@@ -213,13 +213,13 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
    return 0;
 }
 
-Int_t TGo4FileStore::Store(TGo4Parameter* cali)
+Int_t TGo4FileStore::Store(TGo4Parameter *cali)
 {
    WriteToStore(cali);
    return 0;
 }
 
-Int_t TGo4FileStore::Store(TGo4Condition* conny)
+Int_t TGo4FileStore::Store(TGo4Condition *conny)
 {
    WriteToStore(conny);
    return 0;

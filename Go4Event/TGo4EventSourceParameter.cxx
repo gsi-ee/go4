@@ -40,7 +40,7 @@ void TGo4EventSourceParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  ID: \t\t%d",GetID());
 }
 
-Bool_t TGo4EventSourceParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4EventSourceParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    auto srcpar = dynamic_cast<TGo4EventSourceParameter*>(rhs);
    if (!srcpar) return kFALSE;

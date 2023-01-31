@@ -222,7 +222,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t CalculateFolderSizes(TGo4Slot *topslot);
 
       void CheckPictureMonitor(TGo4Slot *slot);
-      void CheckPictureMonitor(TGo4Picture* pic, const char *picitemname);
+      void CheckPictureMonitor(TGo4Picture *pic, const char *picitemname);
 
       static void SaveAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format);
       static void RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format);

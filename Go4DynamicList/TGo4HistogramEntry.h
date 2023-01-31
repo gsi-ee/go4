@@ -131,7 +131,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     TH1 *fxHistogram{nullptr}; //!
 
     /** Condition to be checked on processing this entry. */
-    TGo4Condition* fxCondition{nullptr};                  //!
+    TGo4Condition *fxCondition{nullptr};                  //!
 
     Bool_t fbNeedInitialisation{kFALSE};  //!
 

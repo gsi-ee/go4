@@ -176,7 +176,7 @@ class TGo4Script : public TGo4AbstractInterface {
       void SetMainWindowGeometry(int qtversion, const char *val) override;
 
       ViewPanelHandle StartViewPanel() override;
-      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = nullptr) override;
+      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) override;
       TString GetViewPanelName(ViewPanelHandle panel) override;
       ViewPanelHandle FindViewPanel(const char *name) override;
       Bool_t SetViewPanelName(ViewPanelHandle panel, const char *newname) override;
@@ -184,7 +184,7 @@ class TGo4Script : public TGo4AbstractInterface {
       void RedrawPanel(ViewPanelHandle handle) override;
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
       TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
-      TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) override;
+      TGo4Picture *GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) override;
       void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) override;
       void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE) override;
 

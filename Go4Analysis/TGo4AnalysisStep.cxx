@@ -153,7 +153,7 @@ void TGo4AnalysisStep::CloseEventStore()
 {
    GO4TRACE((14,"TGo4AnalysisStep::CloseEventStore()",__LINE__, __FILE__));
    if(fxEventStore) {
-      TTree* atree = fxEventStore->GetTree();
+      TTree *atree = fxEventStore->GetTree();
       fxOwner->RemoveTree(atree);
       fxOwner->RemoveEventStore(fxEventStore);
       delete fxEventStore;
@@ -214,14 +214,14 @@ void TGo4AnalysisStep::StoreCalibration()
       fxEventStore->Store(cali);
 }
 
-Int_t TGo4AnalysisStep::Store(TGo4Parameter* cali)
+Int_t TGo4AnalysisStep::Store(TGo4Parameter *cali)
 {
    if (fxEventStore && fbStoreEnabled)
       return fxEventStore->Store(cali);
    return -1;
 }
 
-Int_t TGo4AnalysisStep::Store(TGo4Condition* conny)
+Int_t TGo4AnalysisStep::Store(TGo4Condition *conny)
 {
    if (fxEventStore && fbStoreEnabled)
       return fxEventStore->Store(conny);
@@ -339,7 +339,7 @@ void TGo4AnalysisStep::NewEventStore(TGo4EventStoreParameter * kind)
 
       if(fxEventStore) {
          fbStoreImplemented=kTRUE;
-         TTree* atree= fxEventStore->GetTree();
+         TTree *atree= fxEventStore->GetTree();
          fxOwner->AddTree(atree); // reference to tree
          fxOwner->AddEventStore(fxEventStore); // reference to storage class
       } else {

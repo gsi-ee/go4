@@ -71,7 +71,7 @@ void TGo4TreeHistogramEntry::Reset()
    fbNewHistogram = kTRUE;
 }
 
-void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
+void TGo4TreeHistogramEntry::ProcessTreeNew(TTree *tree, Int_t times)
 {
    if(times <= 0) times = 1;
 

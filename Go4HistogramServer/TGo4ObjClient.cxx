@@ -77,7 +77,7 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char *base,
                                                Int_t port)
 {
    //
-   TGo4AnalysisObjectNames* nameslist = nullptr;
+   TGo4AnalysisObjectNames *nameslist = nullptr;
    SetParms(base,passwd,host,port);
    if(ConnectServer() == 0)
    {

@@ -165,7 +165,7 @@ void TGo4ObjectManager::AddDir(const char *pathname, TDirectory* dir, Bool_t own
 }
 
 
-void TGo4ObjectManager::AddTree(const char *pathname, TTree* tree, Bool_t owner)
+void TGo4ObjectManager::AddTree(const char *pathname, TTree *tree, Bool_t owner)
 {
    if (!tree) return;
 

@@ -552,7 +552,7 @@ class TGo4AbstractInterface : public TObject {
       virtual TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
 
       /** Returns pad options for pad with specified number */
-      virtual TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return nullptr; }
+      virtual TGo4Picture *GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return nullptr; }
 
       /** Set superimpose flag for active pad of viewpanel. */
       virtual void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) {}

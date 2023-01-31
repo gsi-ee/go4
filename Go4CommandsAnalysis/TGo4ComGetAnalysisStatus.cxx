@@ -42,7 +42,7 @@ Int_t TGo4ComGetAnalysisStatus::ExeCom()
    // just use analysis and taskhandler classes
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if (ana) {
-      TGo4AnalysisStatus* state = ana->CreateStatus();
+      TGo4AnalysisStatus *state = ana->CreateStatus();
       cli->SendStatus(state, GetTaskName());
       delete state;
    }

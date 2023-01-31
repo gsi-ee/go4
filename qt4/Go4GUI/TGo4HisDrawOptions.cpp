@@ -67,7 +67,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          break;
       case QGo4Widget::panel_Activated:
       case QGo4Widget::panel_ActiveUpdated: {
-         TGo4Picture* padopt = panel->GetPadOptions(pad);
+         TGo4Picture *padopt = panel->GetPadOptions(pad);
          if (!padopt) break;
 
          int ndim = padopt->GetFullRangeDim();

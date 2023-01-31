@@ -856,7 +856,7 @@ Bool_t TGo4Analysis::LoadStatus(const char *filename)
 
    TFile* statusfile = TFile::Open(fname.Data(), "READ");
    if(statusfile && statusfile->IsOpen()) {
-      TGo4AnalysisStatus* state=
+      TGo4AnalysisStatus *state=
          dynamic_cast<TGo4AnalysisStatus*>(statusfile->Get(GetName()));
       if (!state) {
          TIter iter(statusfile->GetListOfKeys());
@@ -906,7 +906,7 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
    if(statusfile && statusfile->IsOpen()) {
       fxConfigFilename=buffer; // remember name of status
       statusfile->cd();
-      TGo4AnalysisStatus* state = CreateStatus();
+      TGo4AnalysisStatus *state = CreateStatus();
       if(state) {
          state->Write();
          delete state;
@@ -925,23 +925,23 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
    return rev;
 }
 
-TGo4AnalysisStatus* TGo4Analysis::CreateStatus()
+TGo4AnalysisStatus *TGo4Analysis::CreateStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
    TDirectory* filsav = gDirectory;
    gROOT->cd();
-   TGo4AnalysisStatus* state= new TGo4AnalysisStatus(GetName());
+   TGo4AnalysisStatus *state= new TGo4AnalysisStatus(GetName());
    UpdateStatus(state);
    filsav->cd();
    return state;
 }
 
-TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
+TGo4AnalysisWebStatus *TGo4Analysis::CreateWebStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateWebStatus()",__LINE__, __FILE__));
    TDirectory* filsav = gDirectory;
    gROOT->cd();
-   TGo4AnalysisWebStatus* state= new TGo4AnalysisWebStatus(GetName());
+   TGo4AnalysisWebStatus *state= new TGo4AnalysisWebStatus(GetName());
    UpdateStatus(state);
    filsav->cd();
    return state;
@@ -950,19 +950,19 @@ TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
 void TGo4Analysis::Print(Option_t*) const
 {
    TGo4Analysis* localthis = const_cast<TGo4Analysis*>(this);
-   TGo4AnalysisStatus* state = localthis->CreateStatus();
+   TGo4AnalysisStatus *state = localthis->CreateStatus();
    state->Print();
    delete state;
 }
 
-TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
+TTree *TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
 
    return event ? event->CreateSampleTree(&fxSampleEvent) : nullptr;
 }
 
-TTree* TGo4Analysis::CreateSingleEventTree(const char *name, Bool_t isoutput)
+TTree *TGo4Analysis::CreateSingleEventTree(const char *name, Bool_t isoutput)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
@@ -1010,7 +1010,7 @@ Int_t TGo4Analysis::PostLoop()
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Int_t rev = 0;
    ////////////////////////Test of single event tree
-   //   TTree* mytree = CreateSingleEventTree("Unpack");
+   //   TTree *mytree = CreateSingleEventTree("Unpack");
    //   TFile* myfile = TFile::Open("eventsample.root","RECREATE");
    //   mytree->SetDirectory(myfile);
    //   mytree->Write();
@@ -1381,7 +1381,7 @@ Bool_t TGo4Analysis::AddCanvas(TCanvas *can, const char *subfolder)
    return fxObjectManager->AddCanvas(can,subfolder);
 }
 
-Bool_t TGo4Analysis::AddTree(TTree* tree, const char *subfolder)
+Bool_t TGo4Analysis::AddTree(TTree *tree, const char *subfolder)
 {
    if(tree) tree->ResetBit(TGo4Status::kGo4BackStoreReset);
    return fxObjectManager->AddTree(tree, subfolder);
@@ -1542,12 +1542,12 @@ Bool_t  TGo4Analysis::ResetBackStores(Bool_t clearflag)
    return fxObjectManager->ResetBackStores(clearflag);
 }
 
-Bool_t TGo4Analysis::SetAnalysisCondition(const char *name, TGo4Condition* con, Bool_t counter)
+Bool_t TGo4Analysis::SetAnalysisCondition(const char *name, TGo4Condition *con, Bool_t counter)
 {
    return fxObjectManager->SetAnalysisCondition(name, con, counter);
 }
 
-Bool_t TGo4Analysis::SetParameter(const char *name, TGo4Parameter* par)
+Bool_t TGo4Analysis::SetParameter(const char *name, TGo4Parameter *par)
 {
    return fxObjectManager->SetParameter(name, par);
 }
@@ -1680,12 +1680,12 @@ void TGo4Analysis::SetOutputEvent(TGo4EventElement * event)
    fxStepManager->SetOutputEvent(event);
 }
 
-Int_t TGo4Analysis::StoreParameter(const char *name, TGo4Parameter* par)
+Int_t TGo4Analysis::StoreParameter(const char *name, TGo4Parameter *par)
 {
    return fxStepManager->Store(name, par);
 }
 
-Int_t TGo4Analysis::StoreCondition(const char *name, TGo4Condition* con)
+Int_t TGo4Analysis::StoreCondition(const char *name, TGo4Condition *con)
 {
    return fxStepManager->Store(name, con);
 }
@@ -1916,7 +1916,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
       TGo4Log::Error("Condition name not specified, can be a hard error");
       return nullptr;
    }
-   TGo4Condition* cond = GetAnalysisCondition(fullname);
+   TGo4Condition *cond = GetAnalysisCondition(fullname);
 
    if (cond) {
       if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
@@ -1953,7 +1953,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char *fullname,
       TGo4Log::Error("Condition name not specified, can be a hard error");
       return nullptr;
    }
-   TGo4Condition* cond = GetAnalysisCondition(fullname);
+   TGo4Condition *cond = GetAnalysisCondition(fullname);
 
    if (cond) {
       if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
@@ -1992,7 +1992,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char *fullname,
       return nullptr;
    }
 
-   TGo4Condition* cond = GetAnalysisCondition(fullname);
+   TGo4Condition *cond = GetAnalysisCondition(fullname);
 
    if (cond) {
       if (cond->InheritsFrom(TGo4PolyCond::Class()) && fbMakeWithAutosave) {
@@ -2225,7 +2225,7 @@ TGo4RollingGraph* TGo4Analysis::MakeRollingGraph(const char *fullname, const cha
    return graph;
 }
 
-TGo4Parameter* TGo4Analysis::MakeParameter(const char *fullname,
+TGo4Parameter *TGo4Analysis::MakeParameter(const char *fullname,
                                            const char *classname,
                                            const char *newcmd)
 {

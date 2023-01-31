@@ -105,7 +105,7 @@ class TGo4EventElement : public TNamed {
 
       virtual Int_t activateBranch(TBranch *branch, Int_t index = 0, TGo4EventElement **var_ptr = nullptr);
 
-      virtual TTree* CreateSampleTree(TGo4EventElement **sample = nullptr);
+      virtual TTree *CreateSampleTree(TGo4EventElement **sample = nullptr);
 
       void ShowSampleTree();
 

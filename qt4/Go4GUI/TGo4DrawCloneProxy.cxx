@@ -75,7 +75,7 @@ void TGo4DrawCloneProxy::ChangeTitle(TObject *obj)
    TNamed* src = dynamic_cast<TNamed*> (obj);
    TNamed* tgt = dynamic_cast<TNamed*> (fClone);
 
-   TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
+   TGo4Picture *padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
 
    if (!tgt || !src || !padopt) return;
    TString title = src->GetTitle();

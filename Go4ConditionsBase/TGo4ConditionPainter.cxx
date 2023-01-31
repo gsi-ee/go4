@@ -141,7 +141,7 @@ void TGo4ConditionPainter::PaintLabel(Option_t* opt)
    }
 }
 
-void TGo4ConditionPainter::SetCondition(TGo4Condition* con)
+void TGo4ConditionPainter::SetCondition(TGo4Condition *con)
 {
    fxCondition = con;
 }

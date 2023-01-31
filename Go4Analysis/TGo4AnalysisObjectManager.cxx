@@ -319,7 +319,7 @@ TFolder *TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray *branc
 
    TFolder* subnames = nullptr;
    TList* nameslist = new TList;
-   TGo4ObjectStatus* state;
+   TGo4ObjectStatus *state;
    TObjArray* csubevents = compevent->getListOfComposites();
 
    Int_t skippedentries = 0;
@@ -424,11 +424,11 @@ TFolder *TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray *branc
    return fold;
 }
 
-TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetree)
+TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree *thetree)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(TTree*)",__LINE__, __FILE__));
    //
-   TGo4TreeStructure* tstructure = nullptr;
+   TGo4TreeStructure *tstructure = nullptr;
    if(thetree) {
       const char *treename=thetree->GetName();
       const char *treetitle=thetree->GetTitle();
@@ -444,7 +444,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetre
 TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char *treename)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(const char *)",__LINE__, __FILE__));
-   TTree* thetree = nullptr;
+   TTree *thetree = nullptr;
    if(fxTreeDir)
       thetree = dynamic_cast<TTree*> (fxTreeDir->FindObjectAny(treename));
    return CreateTreeStructure(thetree);
@@ -631,7 +631,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
    if (!branchlist) return nullptr;
 
    TList* nameslist = new TList;
-   TGo4ObjectStatus* state;
+   TGo4ObjectStatus *state;
    Int_t cursor = 0;
    TIter iter(branchlist);
    while(auto entry = iter()) {
@@ -701,7 +701,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
    return fold;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char *subfolder)
+Bool_t TGo4AnalysisObjectManager::AddTree(TTree *tree, const char *subfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddTree(TTree*, char*)",__LINE__, __FILE__));
    return AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE);
@@ -744,7 +744,7 @@ Bool_t TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition * con, cons
    return(AddObjectToFolder(con,fxConditionDir,subfolder,kTRUE));
 }
 
-Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Condition* con,
+Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Condition *con,
       Bool_t counter, TFolder* parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetAnalysisCondition(char*, TGo4Condition*, Bool_t)",__LINE__, __FILE__));
@@ -763,7 +763,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
    if(!searchresult)
       searchresult=fxUserDir->FindObjectAny(name);
    // condition may be under user objects folder if not found in topfolder
-   TGo4Condition* oldcon = nullptr;
+   TGo4Condition *oldcon = nullptr;
    if(searchresult && searchresult->InheritsFrom(TGo4Condition::Class())) {
       oldcon = dynamic_cast<TGo4Condition *> (searchresult);
    } else
@@ -780,7 +780,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
       //oldcon->PrintCondition(true);
    } else {
       // condition not yet existing, add external condition
-      TGo4Condition* clonedcon = dynamic_cast<TGo4Condition*>(con->Clone());
+      TGo4Condition *clonedcon = dynamic_cast<TGo4Condition*>(con->Clone());
 
       TGo4PolyCond::CleanupSpecials(); // remove reference to cloned cut
 
@@ -798,7 +798,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char *name, TGo4Con
 TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
-   TGo4Condition* cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
+   TGo4Condition *cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
    // some users have their conditions rather in user folder...
    if(!cond) cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxUserDir, name));
 
@@ -919,7 +919,7 @@ TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesList()",__LINE__, __FILE__));
    TGo4LockGuard   listguard(fxDirMutex);
-   TGo4AnalysisObjectNames* namesobject = nullptr;
+   TGo4AnalysisObjectNames *namesobject = nullptr;
    //fxTempFolder->Clear();
    const char *name = TGo4Analysis::Instance()->GetName();
    if (!name || (strlen(name) == 0)) name = "Go4NamesList";
@@ -947,8 +947,8 @@ TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
 
       if (entry->InheritsFrom(TTree::Class())) {
          // treestructure should be ObjectStatus?
-         TTree* subobj= dynamic_cast<TTree*> (entry);
-         TGo4TreeStructure* treestruct=CreateTreeStructure(subobj);
+         TTree *subobj= dynamic_cast<TTree*> (entry);
+         TGo4TreeStructure *treestruct=CreateTreeStructure(subobj);
          nameslist->AddLast(treestruct);
       } else
 
@@ -1149,7 +1149,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter *
 
    Bool_t rev = kFALSE;
    TFolder* topfolder = parent ? parent : fxParameterDir;
-   TGo4Parameter* oldpar = dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
+   TGo4Parameter *oldpar = dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
    if(oldpar) {
       // update existing parameter of given name
       rev = oldpar->UpdateFrom(par);
@@ -1157,7 +1157,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter *
       //oldpar->Print();
    } else {
       // parameter not yet existing, add external parameter as a copy:
-      TGo4Parameter* clonedpar=dynamic_cast<TGo4Parameter*>(par->Clone());
+      TGo4Parameter *clonedpar=dynamic_cast<TGo4Parameter*>(par->Clone());
 
       const char *separ = strrchr(name, '/');
       if (separ) {
@@ -1179,13 +1179,13 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
    Bool_t rev = kFALSE;
    TFolder* topfolder = parent ? parent : fxParameterDir;
 
-   TGo4Parameter* oldpar= dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
+   TGo4Parameter *oldpar= dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
    if(oldpar) {
       // update existing parameter of given name
       rev = status->UpdateParameterValues(oldpar);
    } else {
       // parameter not yet existing, add external parameter as a copy:
-      TGo4Parameter* clonedpar = status->CreateParameter();
+      TGo4Parameter *clonedpar = status->CreateParameter();
       // find out destination folder for new parameter from name:
 
       const char *separ = strrchr(name, '/');
@@ -1202,7 +1202,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4Param
 TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char *name, const char *parameter_class)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
-   TGo4Parameter* rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir, name));
+   TGo4Parameter *rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir, name));
    if(!rev) rev = dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxUserDir, name));
    if (rev && parameter_class && !rev->InheritsFrom(parameter_class))
       rev = nullptr;
@@ -1233,14 +1233,14 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture * pic
    Bool_t rev = kTRUE;
    TFolder* topfolder = parent ? parent : fxPictureDir;
 
-   TGo4Picture* oldpic = dynamic_cast<TGo4Picture *> (topfolder->FindObjectAny(name));
+   TGo4Picture *oldpic = dynamic_cast<TGo4Picture *> (topfolder->FindObjectAny(name));
    if(oldpic) {
       // update existing picture of given name
       oldpic->UpdateFrom(pic);
       //            std::cout << "++++ Updated picture "<< name<<" from picture "<< pic->GetName() << std::endl;
    } else {
       // picture not yet existing, add external as a copy:
-      TGo4Picture* clonedpic = dynamic_cast<TGo4Picture*>(pic->Clone());
+      TGo4Picture *clonedpic = dynamic_cast<TGo4Picture*>(pic->Clone());
       // find out destination folder for new pic from name:
 
       const char *separ = strrchr(name, '/');
@@ -1256,7 +1256,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture * pic
 TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
-   TGo4Picture* rev = dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxPictureDir, name));
+   TGo4Picture *rev = dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxPictureDir, name));
    if(!rev) rev = dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxUserDir, name));
    return rev;
 }
@@ -1284,7 +1284,7 @@ Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char *subfolder
 TCanvas *TGo4AnalysisObjectManager::GetCanvas(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
-   TCanvas* rev = dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
+   TCanvas *rev = dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
    if(!rev) rev = dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
    return rev;
 }
@@ -1638,18 +1638,18 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
    } else
    if(ob->InheritsFrom(TGo4Parameter::Class())) {
       // parameters never replaced, but updated
-      TGo4Parameter* par = dynamic_cast<TGo4Parameter*>(ob);
+      TGo4Parameter *par = dynamic_cast<TGo4Parameter*>(ob);
       SetParameter(ob->GetName(),par,destination);
    } else
    if(ob->InheritsFrom(TGo4Picture::Class())) {
       // pictures never replaced, but updated
-      TGo4Picture* pic =dynamic_cast<TGo4Picture*>(ob);
+      TGo4Picture *pic =dynamic_cast<TGo4Picture*>(ob);
       //std::cout <<"LLLLLoad Folder SetsPicture!!!!!" << std::endl;
       SetPicture(ob->GetName(),pic,destination);
    } else
    if(ob->InheritsFrom(TGo4Condition::Class())) {
       // conditions not replaced, but updated
-      TGo4Condition* con =dynamic_cast<TGo4Condition*>(ob);
+      TGo4Condition *con =dynamic_cast<TGo4Condition*>(ob);
       SetAnalysisCondition(ob->GetName(),con,kTRUE, destination);
    } else
    if(ob->InheritsFrom(TH1::Class())) {

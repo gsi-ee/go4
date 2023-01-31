@@ -25,7 +25,7 @@ TGo4ParameterStatus::TGo4ParameterStatus() :
 {
 }
 
-TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues) :
+TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter *par, Bool_t membervalues) :
    TGo4ObjectStatus(par)
 {
    if (par && membervalues) {
@@ -60,13 +60,13 @@ TObjArray* TGo4ParameterStatus::GetMemberValues(Bool_t takeit)
    return res;
 }
 
-Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
+Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter *par)
 {
    if (!par || !fxMemberValues) return kFALSE;
    if (strcmp(GetObjectClass(), par->ClassName()) != 0) return kFALSE;
 
    if (par->CustomUpdateFrom()) {
-      TGo4Parameter* copypar = CreateParameter();
+      TGo4Parameter *copypar = CreateParameter();
       par->UpdateFrom(copypar);
       delete copypar;
    } else {
@@ -77,12 +77,12 @@ Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
 
 }
 
-TGo4Parameter* TGo4ParameterStatus::CreateParameter()
+TGo4Parameter *TGo4ParameterStatus::CreateParameter()
 {
    auto parclass = gROOT->GetClass(GetObjectClass());
    if (!parclass || !fxMemberValues) return nullptr;
 
-   TGo4Parameter* par = (TGo4Parameter*) parclass->New();
+   TGo4Parameter *par = (TGo4Parameter*) parclass->New();
 
    if (!par) return nullptr;
 

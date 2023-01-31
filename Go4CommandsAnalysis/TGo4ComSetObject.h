@@ -52,11 +52,11 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
   private:
 
     Int_t ExeSetParStatus(TGo4ParameterStatus* par);
-    Int_t ExeSetPar(TGo4Parameter* par);
-    Int_t ExeSetCon(TGo4Condition* con);
+    Int_t ExeSetPar(TGo4Parameter *par);
+    Int_t ExeSetCon(TGo4Condition *con);
     Int_t ExeSetHis(TH1 *his);
     Int_t ExeSetDyn(TGo4DynamicEntry* dyn);
-    Int_t ExeSetPic(TGo4Picture* pic);
+    Int_t ExeSetPic(TGo4Picture *pic);
     Int_t ExeSetObj(TObject* ob);
 
     /**The object to be set. */

@@ -42,7 +42,7 @@ class TGo4ObjClient : public TNamed {
       /**  Get nameslist object from client.
         *  basename, password,host and portnumber may be specified at any time new
         * if left out (default), the previously stored values are used */
-      TGo4AnalysisObjectNames* RequestNamesList(const char *base = nullptr,
+      TGo4AnalysisObjectNames *RequestNamesList(const char *base = nullptr,
                                                 const char *passwd = nullptr,
                                                 const char *host = nullptr,
                                                 Int_t port = 0);

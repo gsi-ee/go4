@@ -314,7 +314,7 @@ void TGo4Interface::RefreshNamesList(int tmout)
 }
 
 
-TGo4AnalysisStatus* TGo4Interface::GetAnalStatus()
+TGo4AnalysisStatus *TGo4Interface::GetAnalStatus()
 {
    TGo4ServerProxy* anal = Server();
    if (!anal) return nullptr;
@@ -330,7 +330,7 @@ void TGo4Interface::AnalysisAutoSave(const char *filename,
                                          Bool_t enabled,
                                          Bool_t overwrite)
 {
-   TGo4AnalysisStatus* status  = GetAnalStatus();
+   TGo4AnalysisStatus *status  = GetAnalStatus();
    if (!status) return;
 
    status->SetAutoFileName(filename);
@@ -342,14 +342,14 @@ void TGo4Interface::AnalysisAutoSave(const char *filename,
 
 void TGo4Interface::AnalysisConfigName(const char *filename)
 {
-   TGo4AnalysisStatus* status  = GetAnalStatus();
+   TGo4AnalysisStatus *status  = GetAnalStatus();
    if (status)
      status->SetConfigFileName(filename);
 }
 
 TGo4AnalysisStepStatus* TGo4Interface::GetStepStatus(const char *stepname)
 {
-   TGo4AnalysisStatus* status = GetAnalStatus();
+   TGo4AnalysisStatus *status = GetAnalStatus();
    return !status ? nullptr : status->GetStepStatus(stepname);
 }
 
@@ -551,14 +551,14 @@ ViewPanelHandle TGo4Interface::StartViewPanel()
    return StartViewPanel(10,10, 500, 300, 1, nullptr);
 }
 
-ViewPanelHandle TGo4Interface::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture* pic)
+ViewPanelHandle TGo4Interface::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture *pic)
 {
    static Int_t cancounter = 0;
 
    TString cname = "Panel";
    cname+=cancounter++;
 
-   TCanvas* c = new TCanvas(cname.Data(), TString("Drawing of ") + cname, width, height);
+   TCanvas *c = new TCanvas(cname.Data(), TString("Drawing of ") + cname, width, height);
 
    fRootBrowser->DrawPicture("", pic, c);
 
@@ -569,7 +569,7 @@ ViewPanelHandle TGo4Interface::StartViewPanel(int x, int y, int width, int heigh
 
 TString TGo4Interface::GetViewPanelName(ViewPanelHandle handle)
 {
-   TCanvas* c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas*) handle;
    return TString(c ? c->GetName() : "");
 }
 
@@ -580,7 +580,7 @@ ViewPanelHandle TGo4Interface::FindViewPanel(const char *name)
 
 Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char *newname)
 {
-   TCanvas* c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas*) handle;
    if (!c || !newname || (strlen(newname) == 0)) return kFALSE;
 
    if (gROOT->GetListOfCanvases()->FindObject(newname)) {
@@ -602,7 +602,7 @@ ViewPanelHandle TGo4Interface::GetActiveViewPanel()
 
 void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 {
-   TCanvas* c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas*) handle;
    if (c) {
       c->Modified();
       c->Update();
@@ -611,13 +611,13 @@ void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 
 void TGo4Interface::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
 {
-    TCanvas* c = (TCanvas*) handle;
+    TCanvas *c = (TCanvas*) handle;
     if (c) c->Divide(numX, numY);
 }
 
 TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
 {
-    TCanvas* c = (TCanvas*) handle;
+    TCanvas *c = (TCanvas*) handle;
     if (c) return (TPad*) c->cd(number);
     return nullptr;
 }

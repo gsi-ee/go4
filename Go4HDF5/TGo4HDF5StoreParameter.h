@@ -30,7 +30,7 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
       void Print(Option_t* = "") const override;
 
       /** update contents of parameter class with external object. */
-      Bool_t UpdateFrom(TGo4Parameter* rhs) override;
+      Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
       Go4_H5_File_Flags GetHDF5Flags() const { return fiFlags; }
       void SetHDF5Flags(Go4_H5_File_Flags flags) { fiFlags=flags; }

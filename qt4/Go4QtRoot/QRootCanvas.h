@@ -64,7 +64,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       QRootCanvas(QWidget *parent = nullptr);
       virtual ~QRootCanvas();
 
-      TCanvas*          getCanvas() { return fCanvas; }
+      TCanvas *         getCanvas() { return fCanvas; }
       int               getRootWid() { return fRootWindowId; }
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
 
@@ -209,7 +209,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              activateRepaint(int act);
 
-      TCanvas*          fCanvas{nullptr};
+      TCanvas *         fCanvas{nullptr};
       Int_t             fRootWindowId{0};
       WId               fQtWindowId; // current id of embedded canvas
       QTimer*           fRepaintTimer{nullptr}; // do not draw canvas immediately, postpone this on few miliseconds

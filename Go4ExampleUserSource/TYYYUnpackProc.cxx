@@ -79,7 +79,7 @@ TYYYUnpackProc::TYYYUnpackProc(const char *name) :
    fPolyConEmit->PrintCondition(true);
 
    if (!GetCanvas("TestCanvas2")) {
-      TCanvas* mycan = new TCanvas("TestCanvas2","Does this work2?");
+      TCanvas *mycan = new TCanvas("TestCanvas2","Does this work2?");
       mycan->Divide(2,2);
       mycan->cd(1);
          fX->Draw();

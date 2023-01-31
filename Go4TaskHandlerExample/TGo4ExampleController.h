@@ -42,7 +42,7 @@ class TGo4ExampleController {
   private:
     TObject* fxPreviousData{nullptr};
 
-    TCanvas* fxCanvas{nullptr};
+    TCanvas *fxCanvas{nullptr};
 };
 
 #endif //TGO4EXAMPLECONTROLLER_H

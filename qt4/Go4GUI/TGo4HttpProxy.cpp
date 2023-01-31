@@ -877,7 +877,7 @@ void TGo4HttpProxy::RequestAnalysisSettings()
 
 void TGo4HttpProxy::SubmitAnalysisSettings()
 {
-   TGo4AnalysisStatus* status = nullptr;
+   TGo4AnalysisStatus *status = nullptr;
    if (SettingsSlot())
       status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
 

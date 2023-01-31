@@ -29,7 +29,7 @@ go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 //TFile* myfile= TFile::Open("Example2StepAnl.root");
 TFile myfile(fname.Data());
 //myfile.ls();
-TTree* theTree = nullptr;
+TTree *theTree = nullptr;
 TKey* kee = nullptr;
 TIter iter(myfile.GetListOfKeys());
    while ( ( kee=dynamic_cast<TKey*>(iter()) ) != nullptr ) {

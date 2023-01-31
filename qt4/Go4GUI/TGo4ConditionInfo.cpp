@@ -132,7 +132,7 @@ void TGo4ConditionInfo::ResetWidget()
    raise();
 }
 
-void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
+void TGo4ConditionInfo::RefreshWidget(TGo4Condition *cond)
 {
    if(!cond) return;
 

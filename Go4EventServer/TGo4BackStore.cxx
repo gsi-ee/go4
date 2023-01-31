@@ -99,12 +99,12 @@ void TGo4BackStore::Reset(Bool_t onlyclearflag)
    }
 }
 
-Int_t TGo4BackStore::Store(TGo4Parameter* cali)
+Int_t TGo4BackStore::Store(TGo4Parameter *cali)
 {
    return 0;
 }
 
-Int_t TGo4BackStore::Store(TGo4Condition* conny)
+Int_t TGo4BackStore::Store(TGo4Condition *conny)
 {
    return 0;
 }

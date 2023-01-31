@@ -28,7 +28,7 @@ class TGo4ComSetAnalysisStatus : public TGo4AnalysisCommand {
 
     TGo4ComSetAnalysisStatus();
 
-    TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings);
+    TGo4ComSetAnalysisStatus(TGo4AnalysisStatus *settings);
 
     virtual ~TGo4ComSetAnalysisStatus();
 

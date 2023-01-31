@@ -72,7 +72,7 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     static const char *fgcENTRYSUF; //!
 
   protected:
-     void ProcessTreeNew(TTree* tree, Int_t times);
+     void ProcessTreeNew(TTree *tree, Int_t times);
 
   private:
 

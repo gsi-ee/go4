@@ -44,7 +44,7 @@ class TGo4CondArray : public TGo4Condition {
     void SetPainter(TGo4ConditionPainter* painter) override;
 
     /** Access to the currently selected condition. */
-    const TGo4Condition* GetActiveCondition() const override;
+    const TGo4Condition *GetActiveCondition() const override;
 
    /**
      * Returns condition object i from object array.

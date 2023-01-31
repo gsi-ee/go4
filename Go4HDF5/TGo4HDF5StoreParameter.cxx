@@ -39,7 +39,7 @@ void TGo4HDF5StoreParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  File flags: \t%d", fiFlags);
 }
 
-Bool_t TGo4HDF5StoreParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4HDF5StoreParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    auto filepar = dynamic_cast<TGo4HDF5StoreParameter*>(rhs);
    if (!filepar) return kFALSE;

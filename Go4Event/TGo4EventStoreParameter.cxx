@@ -38,7 +38,7 @@ void TGo4EventStoreParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  ID:  \t\t%d", GetID());
 }
 
-Bool_t TGo4EventStoreParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4EventStoreParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    auto storpar = dynamic_cast<TGo4EventStoreParameter*>(rhs);
    if (!storpar) return kFALSE;

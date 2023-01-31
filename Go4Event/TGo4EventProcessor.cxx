@@ -57,22 +57,22 @@ Bool_t TGo4EventProcessor::AddHistogram(TH1 *his, const char *subfolder, Bool_t 
    return TGo4Analysis::Instance()->AddHistogram(his,subfolder,replace);
 }
 
-Bool_t TGo4EventProcessor::AddParameter(TGo4Parameter* par,const char *subfolder)
+Bool_t TGo4EventProcessor::AddParameter(TGo4Parameter *par,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddParameter(par,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddPicture(TGo4Picture* pic,const char *subfolder)
+Bool_t TGo4EventProcessor::AddPicture(TGo4Picture *pic,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddPicture(pic,subfolder);
 }
 
-Bool_t TGo4EventProcessor::AddCanvas(TCanvas* can, const char *subfolder)
+Bool_t TGo4EventProcessor::AddCanvas(TCanvas *can, const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddCanvas(can,subfolder);
 }
 
-Bool_t  TGo4EventProcessor::AddAnalysisCondition(TGo4Condition* con,const char *subfolder)
+Bool_t  TGo4EventProcessor::AddAnalysisCondition(TGo4Condition *con,const char *subfolder)
 {
    return TGo4Analysis::Instance()->AddAnalysisCondition(con,subfolder);
 }
@@ -112,22 +112,22 @@ TH1 *TGo4EventProcessor::GetHistogram(const char *name)
    return TGo4Analysis::Instance()->GetHistogram(name);
 }
 
-TGo4Parameter* TGo4EventProcessor::GetParameter(const char *name, const char *par_class)
+TGo4Parameter *TGo4EventProcessor::GetParameter(const char *name, const char *par_class)
 {
    return TGo4Analysis::Instance()->GetParameter(name, par_class);
 }
 
-TGo4Picture* TGo4EventProcessor::GetPicture(const char *name)
+TGo4Picture *TGo4EventProcessor::GetPicture(const char *name)
 {
    return TGo4Analysis::Instance()->GetPicture(name);
 }
 
-TCanvas* TGo4EventProcessor::GetCanvas(const char *name)
+TCanvas *TGo4EventProcessor::GetCanvas(const char *name)
 {
    return TGo4Analysis::Instance()->GetCanvas(name);
 }
 
-TGo4Condition*  TGo4EventProcessor::GetAnalysisCondition(const char *name, const char *cond_cl)
+TGo4Condition * TGo4EventProcessor::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    return TGo4Analysis::Instance()->GetAnalysisCondition(name, cond_cl);
 }
@@ -284,7 +284,7 @@ TGo4ListCond* TGo4EventProcessor::MakeListCond(const char *fullname, const char 
 }
 
 
-TGo4Parameter* TGo4EventProcessor::MakeParameter(const char *fullname,
+TGo4Parameter *TGo4EventProcessor::MakeParameter(const char *fullname,
                                                  const char *classname,
                                                  const char *newcmd)
 {

@@ -34,11 +34,11 @@ class TGo4ConditionPainter : public TGo4LabelPainter {
     void PaintLabel(Option_t* opt="") override;
 
     /** Not inline, because we overwrite this for polygon condition. */
-    virtual void SetCondition(TGo4Condition* con);
+    virtual void SetCondition(TGo4Condition *con);
 
   protected:
     /** Condition to be painted.*/
-    TGo4Condition* fxCondition{nullptr};
+    TGo4Condition *fxCondition{nullptr};
 
   ClassDefOverride(TGo4ConditionPainter,6)
 };

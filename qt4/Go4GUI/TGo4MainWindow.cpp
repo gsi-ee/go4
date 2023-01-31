@@ -2607,7 +2607,7 @@ void TGo4MainWindow::CreateNewCondition(bool forothereditor)
 
    if (dlg.exec() != QDialog::Accepted) return;
 
-   TGo4Condition* cond = dlg.MakeCondition();
+   TGo4Condition *cond = dlg.MakeCondition();
    if (!cond) return;
 
    cond->SetBit(TGo4Status::kGo4CanDelete);
@@ -2743,7 +2743,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 {
    if (!panel) return;
 
-   TCanvas* can = panel->GetCanvas();
+   TCanvas *can = panel->GetCanvas();
 
    QFileDialog fd( this, QString("Save ") + panel->objectName() + " As", fLastFileDir);
    fd.setFileMode( QFileDialog::AnyFile );

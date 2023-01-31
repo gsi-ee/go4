@@ -314,11 +314,11 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t r
 
       if (!obj) return nullptr;
 
-      TTree* tr = dynamic_cast<TTree*> (obj);
+      TTree *tr = dynamic_cast<TTree*> (obj);
       if (tr)
          return TGo4TreeProxy::CreateAccess(tr, curname);
 
-      TCanvas* canv = dynamic_cast<TCanvas*> (obj);
+      TCanvas *canv = dynamic_cast<TCanvas*> (obj);
       if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 

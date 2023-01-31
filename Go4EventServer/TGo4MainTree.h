@@ -36,7 +36,7 @@ class TGo4MainTree : public TObject {
   protected:
     /** Access to the tree. For friends only, i.e
       * TreeSource and TreeStore. */
-    TTree* GetTree() { return fxTree; }
+    TTree *GetTree() { return fxTree; }
 
     TGo4MainTree();
 

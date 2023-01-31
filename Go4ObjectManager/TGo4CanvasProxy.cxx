@@ -125,7 +125,7 @@ TGo4CanvasProxy::TGo4CanvasProxy() :
 {
 }
 
-TGo4CanvasProxy::TGo4CanvasProxy(TCanvas* c, Bool_t owner) :
+TGo4CanvasProxy::TGo4CanvasProxy(TCanvas *c, Bool_t owner) :
    TGo4Proxy(),
    fCanvas(c),
    fOwner(owner)
@@ -221,7 +221,7 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
    return fCanvas;
 }
 
-std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char *name)
+std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas *canv, const char *name)
 {
    if (!canv) return nullptr;
    if (!name || !*name)
@@ -257,7 +257,7 @@ std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas* canv, const c
    return nullptr;
 }
 
-TGo4LevelIter* TGo4CanvasProxy::ProduceIter(TCanvas* canv)
+TGo4LevelIter* TGo4CanvasProxy::ProduceIter(TCanvas *canv)
 {
    return new TGo4CanvasLevelIter(canv);
 }

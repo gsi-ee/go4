@@ -298,7 +298,7 @@ void TGo4AnalysisClient::SendAnalysisStatus()
    TGo4Analysis* ana = GetAnalysis();
    TGo4Log::Debug(" AnalysisClient -  sending current analysis settings ");
    if(ana) {
-      TGo4AnalysisStatus* state = ana->CreateStatus();
+      TGo4AnalysisStatus *state = ana->CreateStatus();
       SendStatus(state);
       delete state;
    } else {
@@ -325,7 +325,7 @@ void TGo4AnalysisClient::SendNamesList()
    GO4TRACE((12,"TGo4AnalysisClient::SendNamesList()",__LINE__, __FILE__));
 
    fxAnalysis->UpdateNamesList();
-   TGo4AnalysisObjectNames* state= fxAnalysis->GetNamesList();
+   TGo4AnalysisObjectNames *state= fxAnalysis->GetNamesList();
    if(state)
       {
          TGo4Log::Debug(" AnalysisClient - sending names list ");

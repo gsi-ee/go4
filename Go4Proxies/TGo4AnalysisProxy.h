@@ -33,7 +33,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
    protected:
       Bool_t                    fIsServer;           //!
       TGo4AnalysisDummySlot*    fDummySlot;          //!
-      TGo4AnalysisObjectNames*  fAnalysisNames;      //!
+      TGo4AnalysisObjectNames * fAnalysisNames;      //!
       TObjArray                 fxSubmittedProxy;    //!
       TGo4AnalysisObjectAccess* fxDefaultProxy;      //!
       Bool_t                    fbNamesListReceived; //!
@@ -49,7 +49,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       TGo4AnalysisObjectAccess* FindSubmittedProxy(const char *pathname, const char *objname);
       void DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxy);
 
-      void AssignNewNamesList(TGo4AnalysisObjectNames* objnames);
+      void AssignNewNamesList(TGo4AnalysisObjectNames *objnames);
 
       void CallSlotUpdate();
 

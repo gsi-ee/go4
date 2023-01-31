@@ -37,7 +37,7 @@ class TGo4BranchAccess : public TGo4Access {
 
 class TGo4TreeLevelIter : public TGo4LevelIter {
    public:
-      TGo4TreeLevelIter(TTree* tree) :
+      TGo4TreeLevelIter(TTree *tree) :
          TGo4LevelIter()
       {
          fIter = tree->GetListOfBranches()->MakeIterator();
@@ -108,7 +108,7 @@ TGo4TreeProxy::TGo4TreeProxy() :
 {
 }
 
-TGo4TreeProxy::TGo4TreeProxy(TTree* tree, Bool_t owner) :
+TGo4TreeProxy::TGo4TreeProxy(TTree *tree, Bool_t owner) :
    TGo4Proxy(),
    fTree(tree),
    fOwner(owner)
@@ -130,7 +130,7 @@ const char *TGo4TreeProxy::GetContainedClassName() const
    return fTree ? fTree->ClassName() : nullptr;
 }
 
-std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree* tree, const char *name)
+std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree *tree, const char *name)
 {
    if (!tree) return nullptr;
 
@@ -160,7 +160,7 @@ std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree* tree, const char 
    return nullptr;
 }
 
-TGo4LevelIter* TGo4TreeProxy::ProduceIter(TTree* tree)
+TGo4LevelIter* TGo4TreeProxy::ProduceIter(TTree *tree)
 {
    return new TGo4TreeLevelIter(tree);
 }

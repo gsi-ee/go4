@@ -21,7 +21,7 @@ class TTree;
 class TGo4TreeProxy : public TGo4Proxy {
    public:
       TGo4TreeProxy();
-      TGo4TreeProxy(TTree* tree, Bool_t owner = kFALSE);
+      TGo4TreeProxy(TTree *tree, Bool_t owner = kFALSE);
       virtual ~TGo4TreeProxy();
 
       Bool_t HasSublevels() const override { return fTree!=nullptr; }
@@ -35,11 +35,11 @@ class TGo4TreeProxy : public TGo4Proxy {
       Int_t GetObjectKind() const override;
       const char *GetContainedClassName() const override;
 
-      static std::unique_ptr<TGo4Access> CreateAccess(TTree* tree, const char *name);
-      static TGo4LevelIter* ProduceIter(TTree* tree);
+      static std::unique_ptr<TGo4Access> CreateAccess(TTree *tree, const char *name);
+      static TGo4LevelIter* ProduceIter(TTree *tree);
 
    protected:
-      TTree*   fTree{nullptr};   //!
+      TTree *  fTree{nullptr};   //!
       Bool_t   fOwner{kFALSE};  //!
 
    ClassDefOverride(TGo4TreeProxy, 1);

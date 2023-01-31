@@ -54,10 +54,10 @@ class TGo4FileStore : public TGo4EventStore {
     Int_t Store(TGo4EventElement* event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
-    Int_t Store(TGo4Parameter* cali) override;
+    Int_t Store(TGo4Parameter *cali) override;
 
     /** Saves a condition correlated with the current event into the storage. */
-    Int_t Store(TGo4Condition* conny) override;
+    Int_t Store(TGo4Condition *conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
     Int_t Store(TGo4Fitter* fitter) override;
@@ -90,7 +90,7 @@ class TGo4FileStore : public TGo4EventStore {
     static Long64_t fgiFILESPLITSIZE;
 
     /** Access to the Tree structure, for framework */
-    TTree* GetTree() override { return fxTree; }
+    TTree *GetTree() override { return fxTree; }
 
   private:
 

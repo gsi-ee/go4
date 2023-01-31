@@ -35,7 +35,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
     void Print(Option_t* = "") const override;
 
     /** update contents of parameter class with external object. */
-    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
+    Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
   private:
     Int_t fiSplit{1};

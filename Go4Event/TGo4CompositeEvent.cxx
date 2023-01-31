@@ -88,7 +88,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
    if (fDebug)
       TGo4Log::Debug("##### TGo4CompositeEvent::activateBranch called from obj:%s",this->GetName());
 
-   TTree* tree = branch->GetTree();
+   TTree *tree = branch->GetTree();
    TObjArray *br = tree->GetListOfBranches();
 
    Int_t i = init;
@@ -321,13 +321,13 @@ void TGo4CompositeEvent::ProvideArray()
 }
 
 
-TTree* TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
+TTree *TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
 {
    TDirectory* filsav = gDirectory;
    gROOT->cd();
    if (sample) delete *sample;
    TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();
-   TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
+   TTree *thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;
    TBranch *topbranch =

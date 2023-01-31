@@ -145,7 +145,7 @@ Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 }
 
 
-Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
+Int_t TGo4TreeStore::Store(TGo4Parameter *cali)
 {
    GO4TRACE((12,"TGo4TreeStore::Store(TGo4Parameter*)", __LINE__, __FILE__));
    if(cali) {

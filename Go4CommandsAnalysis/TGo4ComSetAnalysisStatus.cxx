@@ -19,7 +19,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings) :
+TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus *settings) :
    TGo4AnalysisCommand("ANSetStatus","Set Analysis to given Status ")
 {
    GO4TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
@@ -48,7 +48,7 @@ TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus()
 void TGo4ComSetAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
    if(!remcom) return;
-   TGo4AnalysisStatus* stat = dynamic_cast<TGo4AnalysisStatus* >(remcom->GetAggregate());
+   TGo4AnalysisStatus *stat = dynamic_cast<TGo4AnalysisStatus *>(remcom->GetAggregate());
 
    if(stat) {
       delete fxAnalysisStatus;

@@ -48,7 +48,7 @@ class TGo4CompositeEvent : public TGo4EventElement {
 
      Bool_t addEventElement(TGo4EventElement* aElement, Bool_t reading = kFALSE);
 
-     TTree* CreateSampleTree(TGo4EventElement** sample = nullptr) override;
+     TTree *CreateSampleTree(TGo4EventElement** sample = nullptr) override;
 
      TGo4EventElement *getEventElement(Int_t idx);
      TGo4EventElement *getEventElement(const char *name, Int_t final_element = 0);

@@ -277,13 +277,13 @@ Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char *name, TGo4EventProc
    return result;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Parameter* par)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Parameter *par)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(par) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Condition* con)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Condition *con)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    return step ? step->Store(con) : 1;
@@ -469,7 +469,7 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
    return 0;
 }
 
-void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus* state)
+void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus *state)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    if(state) {

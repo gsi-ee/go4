@@ -32,8 +32,8 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       void UnblockStatusOutput();
 
-      void DrawPicture(const char *itemname, TGo4Picture* pic, TPad* pad);
-      void DrawCondition(const char *itemname, TGo4Condition* con);
+      void DrawPicture(const char *itemname, TGo4Picture *pic, TPad* pad);
+      void DrawCondition(const char *itemname, TGo4Condition *con);
       void DrawItem(const char *itemname);
 
       void Message(const char *str1, const char *str2, Int_t blockdelay);
@@ -45,7 +45,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
       void UpdateRatemeter(TObject *obj);
       void UpdateLoginfo(TObject *obj);
 
-      TCanvas* MakeCanvas(const char *title = nullptr);
+      TCanvas *MakeCanvas(const char *title = nullptr);
 
       void SyncRootBrowserSlots();
 

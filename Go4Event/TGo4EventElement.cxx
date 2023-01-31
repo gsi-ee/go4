@@ -110,7 +110,7 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
 
    TString cad = branch->GetName();
 
-   TTree* tree = branch->GetTree();
+   TTree *tree = branch->GetTree();
 
    if (var_ptr) {
       // SL 23.08.2013 - seems to be, at some point TTree::SetBranchAddress() signature was changed
@@ -183,7 +183,7 @@ Int_t TGo4EventElement::Fill()
 }
 
 
-TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
+TTree *TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
 {
    // create sample tree with event element as entry
    // to be able use such tree later, one should provide 'sample' pointer to keep
@@ -196,7 +196,7 @@ TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
       *sample = nullptr;
    }
    TGo4EventElement* clone = (TGo4EventElement*) Clone();
-   TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
+   TTree *thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;
    thetree->Branch("Go4EventSample", clone->ClassName(), sample ? sample : &clone, 64000, 99);
@@ -210,7 +210,7 @@ void TGo4EventElement::ShowSampleTree()
 {
    TGo4EventElement *sample = nullptr;
 
-   TTree* tr = CreateSampleTree(&sample);
+   TTree *tr = CreateSampleTree(&sample);
 
    if (tr) tr->Show(0);
    std::cout << std::endl;

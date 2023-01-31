@@ -35,14 +35,14 @@ TGo4EventStore::~TGo4EventStore()
 
 Int_t TGo4EventStore::Store(TGo4Parameter *cali)
 {
-   MayNotUse("TGo4EventStore::Store(TGo4Parameter* cali)");
+   MayNotUse("TGo4EventStore::Store(TGo4Parameter *cali)");
    TGo4Log::Debug(" EventStore::Store Parameter not implemented for %s", ClassName());
    return 0;
 }
 
 Int_t TGo4EventStore::Store(TGo4Condition *)
 {
-   MayNotUse("TGo4EventStore::Store(TGo4Condition* conny)");
+   MayNotUse("TGo4EventStore::Store(TGo4Condition *conny)");
    TGo4Log::Debug(" EventStore::Store Condition not implemented for %s", ClassName());
    return 0;
 }

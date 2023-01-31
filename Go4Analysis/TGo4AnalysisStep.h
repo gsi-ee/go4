@@ -246,10 +246,10 @@ class TGo4AnalysisStep : public TNamed {
     void StoreCalibration();
 
     /** Saves a parameter correlated with the current event into the storage. */
-    Int_t Store(TGo4Parameter* cali);
+    Int_t Store(TGo4Parameter *cali);
 
     /** Saves a condition correlated with the current event into the storage. */
-    Int_t Store(TGo4Condition* conny);
+    Int_t Store(TGo4Condition *conny);
 
     /** Saves a fitter correlated with the current event into the storage. */
     Int_t Store(TGo4Fitter* fitter);

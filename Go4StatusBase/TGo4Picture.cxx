@@ -183,7 +183,7 @@ void TGo4Picture::SetDivision(Int_t ndivy, Int_t ndivx)
    fiNDivY = (ndivy < 1) ? 1 : ndivy;
 }
 
-TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
+TGo4Picture *TGo4Picture::FindPic(Int_t posy, Int_t posx)
 {
    if (!fxSubPictures) return nullptr;
    if (posx < 0)
@@ -206,7 +206,7 @@ TGo4Picture* TGo4Picture::FindPic(Int_t posy, Int_t posx)
    return nullptr;
 }
 
-TGo4Picture* TGo4Picture::Pic(Int_t posy, Int_t posx)
+TGo4Picture *TGo4Picture::Pic(Int_t posy, Int_t posx)
 {
    if (!IsDivided())
       return this;
@@ -247,10 +247,10 @@ void TGo4Picture::SetLinesDivision(Int_t numlines,
    SetLinesDivision(numlines, numbers);
 }
 
-TGo4Picture* TGo4Picture::LPic(Int_t nline, Int_t ncol)
+TGo4Picture *TGo4Picture::LPic(Int_t nline, Int_t ncol)
 {
    if (!IsDivided()) return this;
-   TGo4Picture* sub = Pic(nline, 0);
+   TGo4Picture *sub = Pic(nline, 0);
    if (!sub) return nullptr;
    if (sub->IsDivided()) return sub->Pic(0,ncol);
                     else return sub;
@@ -1336,7 +1336,7 @@ void TGo4Picture::ClearFullRange(Int_t naxis)
    ClearOption(PictureIndex, op+1);
 }
 
-void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass *selectedobjclass)
+void TGo4Picture::UpdateFrom(TGo4Picture *source, TClass *selectedobjclass)
 {
    if (!source) return;
    Clear();
@@ -1372,7 +1372,7 @@ void TGo4Picture::UpdateFrom(TGo4Picture* source, TClass *selectedobjclass)
    }
 }
 
-void TGo4Picture::CopyOptionsFrom(TGo4Picture* source)
+void TGo4Picture::CopyOptionsFrom(TGo4Picture *source)
 {
    fiOptSize = source->fiOptSize;
    source->fxOptIndex.Copy(fxOptIndex);
@@ -1693,7 +1693,7 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
 
 void TGo4Picture::Draw(Option_t* option)
 {
-   TCanvas* c = nullptr;
+   TCanvas *c = nullptr;
    if (!gPad) {
       c = new TCanvas();
       c->cd();
@@ -1767,7 +1767,7 @@ void TGo4Picture::Print(Option_t* option) const
    ((TGo4Picture*)this)->PrintPic(2, (strstr(option,"attr") != nullptr));
 }
 
-void TGo4Picture::AddSubPicture(TGo4Picture* pic)
+void TGo4Picture::AddSubPicture(TGo4Picture *pic)
 {
    if (!pic) return;
    if (!fxSubPictures) {

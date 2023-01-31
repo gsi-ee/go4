@@ -169,12 +169,12 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
       {
          if (strcmp(flagname,"IsRemote") == 0) return 1;
          if (strcmp(flagname,"IsDeleteProtect") == 0) {
-            TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
+            TGo4ObjectStatus *sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
             if (sts)
               return sts->IsDeleteProtect() ? 1 : 0;
          }
          if (strcmp(flagname,"IsResetProtect") == 0) {
-            TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
+            TGo4ObjectStatus *sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
             if (sts)
                return sts->IsResetProtect() ? 1 : 0;
          }
@@ -184,7 +184,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
 
       TGo4LevelIter* subiterator() override
       {
-         TGo4TreeStructure* tr = dynamic_cast<TGo4TreeStructure*>(fCurrent);
+         TGo4TreeStructure *tr = dynamic_cast<TGo4TreeStructure *>(fCurrent);
          if (tr) return new TGo4AnalysisLevelIter(tr->GetNamesFolder(), kTRUE);
          return new TGo4AnalysisLevelIter((TFolder*)fCurrent, fIsTree);
       }
@@ -231,38 +231,41 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return EntryClassName(fCurrent);
       }
 
-    static const char *EntryClassName(TObject* entry)
-    {
-       if (!entry) return nullptr;
+      static const char *EntryClassName(TObject* entry)
+      {
+         if (!entry) return nullptr;
 
-       if (entry->InheritsFrom(TGo4TreeStructure::Class()))
-          return TTree::Class()->GetName();
+         if (entry->InheritsFrom(TGo4TreeStructure::Class()))
+            return TTree::Class()->GetName();
 
-       if(entry->InheritsFrom(TGo4BranchStatus::Class())) {
-          TGo4BranchStatus* status = dynamic_cast <TGo4BranchStatus*> (entry);
-          if (status) return status->GetObjectClass();
-       }
+         if (entry->InheritsFrom(TGo4BranchStatus::Class())) {
+            TGo4BranchStatus *status = dynamic_cast<TGo4BranchStatus *>(entry);
+            if (status)
+               return status->GetObjectClass();
+         }
 
-       if (entry->InheritsFrom(TGo4ParameterStatus::Class())) {
-          TGo4ParameterStatus* status = dynamic_cast<TGo4ParameterStatus*> (entry);
-          if (status) return status->GetObjectClass();
-       }
+         if (entry->InheritsFrom(TGo4ParameterStatus::Class())) {
+            TGo4ParameterStatus *status = dynamic_cast<TGo4ParameterStatus *>(entry);
+            if (status)
+               return status->GetObjectClass();
+         }
 
-       if(entry->InheritsFrom(TGo4AnalysisStatus::Class()))
-           return TGo4AnalysisStatus::Class()->GetName();
+         if (entry->InheritsFrom(TGo4AnalysisStatus::Class()))
+            return TGo4AnalysisStatus::Class()->GetName();
 
-       if(entry->InheritsFrom(TGo4ObjectStatus::Class())) {
-          TGo4ObjectStatus* status =  dynamic_cast <TGo4ObjectStatus*> (entry);
-          if (status) return status->GetObjectClass();
-       }
+         if (entry->InheritsFrom(TGo4ObjectStatus::Class())) {
+            TGo4ObjectStatus *status = dynamic_cast<TGo4ObjectStatus *>(entry);
+            if (status)
+               return status->GetObjectClass();
+         }
 
-       return entry->ClassName();
-    }
+         return entry->ClassName();
+      }
 
    protected:
-      TIterator*     fIter{nullptr};     //!
-      TObject*       fCurrent{nullptr};  //!
-      Bool_t         fIsTree{kFALSE};    //!
+      TIterator  *fIter{nullptr};     //!
+      TObject    *fCurrent{nullptr};  //!
+      Bool_t      fIsTree{kFALSE};    //!
 };
 
 // **********************************************************************
@@ -549,7 +552,7 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
       return;
    }
 
-   TGo4AnalysisObjectNames* objnames = dynamic_cast<TGo4AnalysisObjectNames*> (obj);
+   TGo4AnalysisObjectNames *objnames = dynamic_cast<TGo4AnalysisObjectNames*> (obj);
    if (objnames) {
       AssignNewNamesList(objnames);
       return;
@@ -565,7 +568,7 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
    delete obj;
 }
 
-void TGo4AnalysisProxy::AssignNewNamesList(TGo4AnalysisObjectNames* objnames)
+void TGo4AnalysisProxy::AssignNewNamesList(TGo4AnalysisObjectNames *objnames)
 {
    delete fAnalysisNames;
    fAnalysisNames = objnames;
@@ -866,7 +869,7 @@ void TGo4AnalysisProxy::RequestAnalysisSettings()
 
 void TGo4AnalysisProxy::SubmitAnalysisSettings()
 {
-   TGo4AnalysisStatus* status = nullptr;
+   TGo4AnalysisStatus *status = nullptr;
    if (SettingsSlot())
       status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
    if (status) {

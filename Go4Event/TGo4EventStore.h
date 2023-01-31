@@ -47,11 +47,11 @@ class TGo4EventStore : public TNamed {
 
     /** Saves a parameter (e.g. calibration object) correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    virtual Int_t Store(TGo4Parameter* cali);
+    virtual Int_t Store(TGo4Parameter *cali);
 
     /** Saves a condition correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    virtual Int_t Store(TGo4Condition* conny);
+    virtual Int_t Store(TGo4Condition *conny);
 
     /** Saves a fitter correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
@@ -63,7 +63,7 @@ class TGo4EventStore : public TNamed {
 
     /** Access to a tree that might belong to this storage implementation.
       * To be overridden. */
-    virtual TTree* GetTree() { return nullptr; }
+    virtual TTree *GetTree() { return nullptr; }
 
     /** We overwrite the default TNamed::Clear that would
       *  erase our name and title!

@@ -34,7 +34,7 @@ class TGo4PolyCondPainter : public TGo4ConditionPainter {
         /** pop all components to the front of the pad*/
       void DisplayToFront(Option_t* opt="") override;
 
-      void SetCondition(TGo4Condition* con) override;
+      void SetCondition(TGo4Condition *con) override;
 
    private:
       /** Cut used for polygon display. This is buffered copy of condition cutg*/

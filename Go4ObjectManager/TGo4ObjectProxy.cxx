@@ -205,10 +205,10 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject *obj)
       if (strchr(histo->ClassName(),'C')) binsize = sizeof(Char_t);
       sz += binsize * nbins;
    } else if (obj->InheritsFrom(TTree::Class())) {
-      TTree* t = (TTree*) obj;
+      TTree *t = (TTree*) obj;
       sz += t->GetZipBytes();
    } else if (obj->InheritsFrom(TGo4Picture::Class())) {
-      TGo4Picture* pic = (TGo4Picture*) obj;
+      TGo4Picture *pic = (TGo4Picture*) obj;
       sz = pic->GetTotalSize();
    }
 

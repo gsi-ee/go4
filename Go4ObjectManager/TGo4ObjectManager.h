@@ -58,7 +58,7 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
 
       void AddDir(const char *pathname, TDirectory* dir, Bool_t owner = kFALSE, Bool_t readright = kFALSE);
 
-      void AddTree(const char *pathname, TTree* tree, Bool_t owner = kFALSE);
+      void AddTree(const char *pathname, TTree *tree, Bool_t owner = kFALSE);
 
       void AddFolder(const char *pathname, TFolder* folder, Bool_t owner = kFALSE);
 

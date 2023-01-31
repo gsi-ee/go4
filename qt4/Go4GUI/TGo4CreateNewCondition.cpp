@@ -30,7 +30,7 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget *parent)
    ArraySizeSpin->setValue(1);
 }
 
-TGo4Condition* TGo4CreateNewCondition::MakeCondition()
+TGo4Condition *TGo4CreateNewCondition::MakeCondition()
 {
    QByteArray ba = CondName->text().toLatin1();
 
@@ -40,7 +40,7 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
    int arrsize = ArraySizeSpin->value();
    int ctype = ClassnameCombo->currentIndex();
 
-   TGo4Condition* cond = nullptr;
+   TGo4Condition *cond = nullptr;
 
    if (arrsize>1 && ctype!=3) {
        TGo4CondArray* arr = nullptr;

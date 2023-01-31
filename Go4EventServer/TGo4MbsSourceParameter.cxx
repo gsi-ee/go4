@@ -41,7 +41,7 @@ void TGo4MbsSourceParameter::Print(Option_t*) const
       TGo4Status::PrintLine("  Retry cnt: \t%d",GetRetryCnt());
 }
 
-Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4MbsSourceParameter::Class())) {
       auto mbspar = dynamic_cast<TGo4MbsSourceParameter*>(rhs);

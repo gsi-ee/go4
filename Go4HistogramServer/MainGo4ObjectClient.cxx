@@ -25,7 +25,7 @@
 * time an object or the list of names is requested from the server,
 * and disconnected again after the object is received.
 * Method
-*      TGo4AnalysisObjectNames* TGo4ObjectClient::RequestNamesList()
+*      TGo4AnalysisObjectNames *TGo4ObjectClient::RequestNamesList()
 * requests the go4 nameslist object from the specified object server
 + and delivers pointer to the object when received. Nameslist object
 * has to be deleted by the user of the client object afterwards.

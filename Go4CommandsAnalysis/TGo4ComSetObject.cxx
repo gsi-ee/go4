@@ -99,7 +99,7 @@ Int_t TGo4ComSetObject::ExeCom()
       ExeSetObj(fxObject);
 
    fxAna->UpdateNamesList();
-   TGo4AnalysisObjectNames* state = fxAna->GetNamesList();
+   TGo4AnalysisObjectNames *state = fxAna->GetNamesList();
    fxResult->SetNamesList(state); // note: nameslist is not owned by result object!
    if(fxResult->Action() != kGo4ActionError) {
       TFolder* top = fxAna->GetObjectFolder();
@@ -130,7 +130,7 @@ Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
+Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter *par)
 {
    if(!par) return -1;
    TString buf;
@@ -149,7 +149,7 @@ Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
+Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition *conny)
 {
    if(!conny) return -1;
    TString buf;
@@ -209,7 +209,7 @@ Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
+Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture *pic)
 {
    if(!pic) return -1;
    TString buf;

@@ -41,7 +41,7 @@ void TGo4EventProcessorParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  ID: \t%d", GetID());
 }
 
-Bool_t TGo4EventProcessorParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4EventProcessorParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    GO4TRACE((12,"TGo4EventProcessorParameter::UpdateFrom()",__LINE__, __FILE__));
    auto procpar = dynamic_cast<TGo4EventProcessorParameter*>(rhs);

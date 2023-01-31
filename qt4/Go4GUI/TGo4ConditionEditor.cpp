@@ -149,7 +149,7 @@ void TGo4ConditionEditor::DropItem(const char *itemname, TClass *cl, int kind)
 void TGo4ConditionEditor::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname,"Condition") == 0) {
-      TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
+      TGo4Condition *cond = dynamic_cast<TGo4Condition*> (obj);
       if (cond) cond->SetChanged(kFALSE);
    }
 
@@ -483,7 +483,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    fbNewWindow = false;
 }
 
-TGo4Condition* TGo4ConditionEditor::SelectedCondition()
+TGo4Condition *TGo4ConditionEditor::SelectedCondition()
 {
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return nullptr;
@@ -526,7 +526,7 @@ void TGo4ConditionEditor::ArrayAll()
 
 void TGo4ConditionEditor::SetResultMode( int mode )
 {
-   TGo4Condition* cond = SelectedCondition();
+   TGo4Condition *cond = SelectedCondition();
    if (!fbTypingMode || !cond) return;
    switch (mode) {
       case 0: cond->Enable(); break;
@@ -539,7 +539,7 @@ void TGo4ConditionEditor::SetResultMode( int mode )
 
 void TGo4ConditionEditor::SetInvertMode( int mode )
 {
-   TGo4Condition* cond = SelectedCondition();
+   TGo4Condition *cond = SelectedCondition();
    if (!fbTypingMode || !cond) return;
    cond->Invert(mode==1);
    PleaseUpdateSlot();
@@ -578,7 +578,7 @@ void TGo4ConditionEditor::LimitsReturnPressed()
 
 bool TGo4ConditionEditor::UpdateLimits()
 {
-   TGo4Condition* cond = SelectedCondition();
+   TGo4Condition *cond = SelectedCondition();
    if (!fbTypingMode || !cond) return false;
 
    bool okx1, okx2, res = false;
@@ -604,7 +604,7 @@ bool TGo4ConditionEditor::UpdateLimits()
 
 void TGo4ConditionEditor::ChangeConditionProperty(int id, bool on)
 {
-   TGo4Condition* cond = SelectedCondition();
+   TGo4Condition *cond = SelectedCondition();
    if (!fbTypingMode || !cond) return;
    switch(id) {
      case 0: cond->SetLabelDraw(on); break;

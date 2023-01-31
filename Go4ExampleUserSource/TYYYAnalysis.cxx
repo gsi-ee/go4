@@ -78,7 +78,7 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    AddParameter(fPar);
 
    if (!GetCanvas("TestCanvas")) {
-      TCanvas* mycan =  new TCanvas("TestCanvas","Does this work?");
+      TCanvas *mycan =  new TCanvas("TestCanvas","Does this work?");
       mycan->Divide(2,2);
       AddCanvas(mycan);
    }
@@ -117,7 +117,7 @@ Int_t TYYYAnalysis::UserPostLoop()
 {
    TGo4Log::Info("TYYYAnalysis: PostLoop");
    TGo4Log::Info("Total events: %d", fEvents);
-   TCanvas* can = GetCanvas("TestCanvas");
+   TCanvas *can = GetCanvas("TestCanvas");
    if(can) {
       TH1 *hx = GetHistogram("Xfinal");
       TH1 *hy = GetHistogram("Yfinal");

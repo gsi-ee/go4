@@ -164,7 +164,7 @@ void TGo4ParaEdit::ResetWidget()
    PleaseUpdateLabel->setVisible(false);
 }
 
-void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
+void TGo4ParaEdit::RefreshWidget(TGo4Parameter *par)
 {
    RefreshButton->setEnabled(par != nullptr);
    ApplyButton->setEnabled(par != nullptr);
@@ -444,7 +444,7 @@ void TGo4ParaEdit::saveFile()
 
       TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
-      TGo4Parameter* par = status.CreateParameter();
+      TGo4Parameter *par = status.CreateParameter();
 
       if (!par) {
          QMessageBox::warning(this, "Parameter editor",

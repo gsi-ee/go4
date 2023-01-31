@@ -31,7 +31,7 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       TGo4ParameterStatus();
 
-      TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues = kFALSE);
+      TGo4ParameterStatus(TGo4Parameter *par, Bool_t membervalues = kFALSE);
 
       TGo4ParameterStatus(const char *parname, const char *parclass, TObjArray* items);
 
@@ -41,8 +41,8 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       TObjArray* GetMemberValues(Bool_t takeit = kFALSE);
 
-      Bool_t UpdateParameterValues(TGo4Parameter* par);
-      TGo4Parameter* CreateParameter();
+      Bool_t UpdateParameterValues(TGo4Parameter *par);
+      TGo4Parameter *CreateParameter();
 
    protected:
       TObjArray*  fxMemberValues{nullptr};

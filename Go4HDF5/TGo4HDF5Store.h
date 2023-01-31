@@ -45,10 +45,10 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
     Int_t Store(TGo4EventElement* event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
-    Int_t Store(TGo4Parameter* cali) override;
+    Int_t Store(TGo4Parameter *cali) override;
 
     /** Saves a condition correlated with the current event into the storage. */
-    Int_t Store(TGo4Condition* conny) override;
+    Int_t Store(TGo4Condition *conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
     Int_t Store(TGo4Fitter* fitter) override;

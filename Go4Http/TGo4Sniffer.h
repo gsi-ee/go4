@@ -28,7 +28,7 @@ class TGo4Sniffer : public TRootSnifferFull,
 
    protected:
 
-      TGo4AnalysisWebStatus*  fAnalysisStatus{nullptr};
+      TGo4AnalysisWebStatus * fAnalysisStatus{nullptr};
 
       TGraph *fEventRate{nullptr};
 

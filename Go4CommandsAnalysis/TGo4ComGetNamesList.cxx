@@ -44,7 +44,7 @@ Int_t TGo4ComGetNamesList::ExeCom()
    //cli->SendNamesList();
    TGo4Analysis* ana = TGo4Analysis::Instance();
    ana->UpdateNamesList();
-   TGo4AnalysisObjectNames* state = ana->GetNamesList();
+   TGo4AnalysisObjectNames *state = ana->GetNamesList();
    cli->SendObject(state, GetTaskName());
    return -1;
 

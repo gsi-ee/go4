@@ -43,7 +43,7 @@ class TGo4Parameter : public TNamed {
 
       /** Update contents of parameter class with external object.
         * to be implemented in subclass */
-      virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+      virtual Bool_t UpdateFrom(TGo4Parameter *rhs);
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char *rest_url_opt);

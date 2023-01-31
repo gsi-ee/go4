@@ -47,7 +47,7 @@ void TGo4TreeStoreParameter::Print(Option_t*) const
       TGo4Status::PrintLine("  Branch file name: \t%s", fxBranchFile.Data());
 }
 
-Bool_t TGo4TreeStoreParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4TreeStoreParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4TreeStoreParameter::Class())) {
       auto treepar = dynamic_cast<TGo4TreeStoreParameter*>(rhs);

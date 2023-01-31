@@ -60,7 +60,7 @@ int main(int argc, char **argv)
      Int_t maxevents = atoi(num);
      Int_t value = 0;
 
-     TCanvas* can = new TCanvas("MyCanvas","MainGo4EventServer");
+     TCanvas *can = new TCanvas("MyCanvas","MainGo4EventServer");
      can->Divide(1,2);
      TH1D* histo1 = new TH1D ("histogram 1", "mbsevent data",400,0,4000);
      TH1D* histo2 = new TH1D ("histogram 2", "simpleevent data",400,0,4000);

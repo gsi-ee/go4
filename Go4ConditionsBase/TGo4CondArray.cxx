@@ -168,7 +168,7 @@ void TGo4CondArray::PrintCondition(Bool_t points)
 {
    // all entries are used!
    Int_t ii = condarr->GetLast()+1;
-   TGo4Condition* cond = (TGo4Condition*) condarr->At(0);
+   TGo4Condition *cond = (TGo4Condition*) condarr->At(0);
    std::cout << GetName() << " has " << ii << " " << cond->ClassName() << " conditions" << std::endl;
    for(Int_t i = 0; i < ii; i++) {
       cond = dynamic_cast<TGo4Condition*> (condarr->UncheckedAt(i));
@@ -184,7 +184,7 @@ void TGo4CondArray::PrintBar()
    //TROOT::IncreaseDirLevel();
    for(Int_t i = 0; i < ii; i++)
    {
-      TGo4Condition* cond = dynamic_cast<TGo4Condition*> (condarr->UncheckedAt(i));
+      TGo4Condition *cond = dynamic_cast<TGo4Condition*> (condarr->UncheckedAt(i));
       TROOT::IndentLevel();
       if (cond) cond->PrintBar();
    }

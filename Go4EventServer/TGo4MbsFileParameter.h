@@ -36,7 +36,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     void Print(Option_t* = "") const override;
 
     /** update contents of parameter class with external object. */
-    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
+    Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
     /** Add more file names in to the parameter */
     void AddMoreFile(const char *more);

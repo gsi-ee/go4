@@ -36,7 +36,7 @@ class TGo4EventStoreParameter : public TGo4Parameter {
     void Print(Option_t* = "") const override;
 
     /** update contents of parameter class with external object. */
-    Bool_t UpdateFrom(TGo4Parameter* rhs) override;
+    Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
   private:
     /** Identity number to specify the kind. Optional, default is 0. */

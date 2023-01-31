@@ -55,15 +55,15 @@ class TGo4Picture : public TNamed {
       Bool_t IsDivided() const { return (GetDivX()!=1) || (GetDivY()!=1); }
 
       TGo4Picture& operator()(int posy, int posx) { return *Pic(posy,posx); }
-      TGo4Picture* Pic(Int_t posy, Int_t posx);
-      TGo4Picture* FindPic(Int_t posy, Int_t posx);
+      TGo4Picture *Pic(Int_t posy, Int_t posx);
+      TGo4Picture *FindPic(Int_t posy, Int_t posx);
 
       // GOOSY style of picture division
 
       void SetLinesDivision(Int_t numlines, const Int_t* numbers);
       void SetLinesDivision(Int_t numlines, Int_t n0=1, Int_t n1=1, Int_t n2=1, Int_t n3=1, Int_t n4=1,
                                             Int_t n5=1, Int_t n6=1, Int_t n7=1, Int_t n8=1, Int_t n9=1);
-      TGo4Picture* LPic(Int_t nline, Int_t ncol);
+      TGo4Picture *LPic(Int_t nline, Int_t ncol);
 
       // add histogram (name) to picture or subpicture
       void AddH1(TH1 *histo, Option_t *DrawOption = nullptr);
@@ -222,8 +222,8 @@ class TGo4Picture : public TNamed {
       void Reset() {}
 
       // move content from source picture
-      void UpdateFrom(TGo4Picture* source, TClass *selectedobjclass = nullptr);
-      void CopyOptionsFrom(TGo4Picture* source);
+      void UpdateFrom(TGo4Picture *source, TClass *selectedobjclass = nullptr);
+      void CopyOptionsFrom(TGo4Picture *source);
 
       Int_t GetNumObjNames() const;
       const char *GetObjName(Int_t n) const;
@@ -314,7 +314,7 @@ class TGo4Picture : public TNamed {
 
    protected:
       TGo4Picture(TGo4Picture& picture);
-      void AddSubPicture(TGo4Picture* pic);
+      void AddSubPicture(TGo4Picture *pic);
 
       Int_t GetObjAttIndex(TObject *obj) const;
 

@@ -268,11 +268,11 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
    testedClasses.Delete();
 }
 
-TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char *title)
+TCanvas *TGo4RootBrowserProxy::MakeCanvas(const char *title)
 {
    TString cname = "Canvas_";
    cname += fCanvasCounter++;
-   TCanvas* c1 = nullptr;
+   TCanvas *c1 = nullptr;
 
    if (!title) c1 = new TCanvas(cname, cname+" title");
           else c1 = new TCanvas(cname, title);
@@ -281,7 +281,7 @@ TCanvas* TGo4RootBrowserProxy::MakeCanvas(const char *title)
    return c1;
 }
 
-void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic, TPad* pad)
+void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture *pic, TPad* pad)
 {
    if (!pad || !pic) return;
 
@@ -321,7 +321,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic
       pic->GetDrawAttributes(obj, indx);
 
       if (obj->InheritsFrom(TGo4Condition::Class())) {
-         TGo4Condition* con = (TGo4Condition*) obj;
+         TGo4Condition *con = (TGo4Condition*) obj;
          con->SetWorkHistogram(h1);
          con->SetLineColor(2);
          con->SetFillColor(2);
@@ -334,7 +334,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture* pic
    pad->Modified();
 }
 
-void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition* con)
+void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition *con)
 {
    if (!con || !fBrowser) return;
 
@@ -348,7 +348,7 @@ void TGo4RootBrowserProxy::DrawCondition(const char *itemname, TGo4Condition* co
 
    if (!h1) return;
 
-   TCanvas* c1 = MakeCanvas(TString("Condition ") + con->GetName() + " on histo " + h1->GetName());
+   TCanvas *c1 = MakeCanvas(TString("Condition ") + con->GetName() + " on histo " + h1->GetName());
 
    h1->Draw();
    con->SetWorkHistogram(h1);

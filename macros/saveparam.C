@@ -94,7 +94,7 @@ Bool_t save1param(TObject *obj, const char *prefix)
 {
   if (!obj || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
 
-  TGo4Parameter* param = (TGo4Parameter*) obj;
+  TGo4Parameter *param = (TGo4Parameter*) obj;
 
   TString funcname = MakeParamFuncName(prefix, param->GetName());
 

@@ -35,9 +35,9 @@ TGo4AnalysisObjectResult::~TGo4AnalysisObjectResult()
    // fxNamesList = nullptr;
 }
 
-TGo4AnalysisObjectNames* TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)
+TGo4AnalysisObjectNames *TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)
 {
-   TGo4AnalysisObjectNames* reval = fxNamesList;
+   TGo4AnalysisObjectNames *reval = fxNamesList;
    if(chown) fxNamesList = nullptr;
    return reval;
 }

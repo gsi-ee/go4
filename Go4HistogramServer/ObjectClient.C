@@ -24,7 +24,7 @@ TCanvas mycanvas("Object client", "Go4 object client test");
 mycanvas.cd();
 TGo4ObjClient myclient("TestClient", "XXX", "demo", "localhost",5001);
 cout <<"getting nameslist" << std::endl;
-TGo4AnalysisObjectNames* list = myclient.RequestNamesList();
+TGo4AnalysisObjectNames *list = myclient.RequestNamesList();
 
 if(list)
    list->Print();
@@ -35,7 +35,7 @@ cout <<"myclient.SetHost('name') sets hostname" << std::endl;
 cout <<"myclient.SetPort(int) sets port" << std::endl;
 cout <<"myclient.SetBase('name') sets basename" << std::endl;
 cout <<"myclient.SetPasswd('name') sets password" << std::endl;
-cout <<"Use TGo4AnalysisObjectNames* dir=myclient.RequestNamesList() to receive dir" << std::endl;
+cout <<"Use TGo4AnalysisObjectNames *dir=myclient.RequestNamesList() to receive dir" << std::endl;
 cout <<"Use TObject* ob=myclient.RequestObject('name') to receive object" << std::endl;
 // now testing repeated access in short time:
 TObject* arr[20];

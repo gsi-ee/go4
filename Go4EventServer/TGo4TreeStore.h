@@ -64,7 +64,7 @@ class TGo4TreeStore : public TGo4EventStore {
 
     /** Saves a calibration object correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    Int_t Store(TGo4Parameter* cali) override;
+    Int_t Store(TGo4Parameter *cali) override;
 
     /** Standard suffix for file name */
     static const char *fgcFILESUF; //!

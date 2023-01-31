@@ -71,7 +71,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
          // only display event content on terminal
          ana->ShowEvent(GetObjectName(), IsOutputEvent());
       } else {
-         TTree* sampletree = ana->CreateSingleEventTree(GetObjectName(), IsOutputEvent());
+         TTree *sampletree = ana->CreateSingleEventTree(GetObjectName(), IsOutputEvent());
          if(sampletree) {
             cli->SendObject(sampletree, GetTaskName());
             delete sampletree;

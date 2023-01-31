@@ -50,7 +50,7 @@ class TGo4AnalysisObjectResult : public TGo4Status {
 
       virtual ~TGo4AnalysisObjectResult();
 
-      void SetNamesList(TGo4AnalysisObjectNames* n) { fxNamesList = n;}
+      void SetNamesList(TGo4AnalysisObjectNames *n) { fxNamesList = n;}
 
       /** Take out the nameslist. */
       TGo4AnalysisObjectNames * GetNamesList(Bool_t chown=kTRUE);
@@ -72,7 +72,7 @@ class TGo4AnalysisObjectResult : public TGo4Status {
    private:
 
       /** Last state of the objects in analysis after modification*/
-      TGo4AnalysisObjectNames* fxNamesList{nullptr}; //! not streamed, valid only inside analysis
+      TGo4AnalysisObjectNames *fxNamesList{nullptr}; //! not streamed, valid only inside analysis
 
       /** Full name and path of the object last modified*/
       TString fxFullName;

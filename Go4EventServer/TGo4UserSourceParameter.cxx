@@ -38,7 +38,7 @@ void TGo4UserSourceParameter::Print(Option_t*) const
    TGo4Status::PrintLine(" Expression: %s", GetExpression());
 }
 
-Bool_t TGo4UserSourceParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4UserSourceParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    if(rhs && rhs->InheritsFrom(TGo4UserSourceParameter::Class())) {
       auto userpar = dynamic_cast<TGo4UserSourceParameter*>(rhs);

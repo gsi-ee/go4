@@ -45,7 +45,7 @@ class TGo4TestThreadManager : public TGo4ThreadManager
        **/
       virtual Int_t TestAction();
 
-      TCanvas* GetCanvas () { return fxCanvas; }
+      TCanvas *GetCanvas () { return fxCanvas; }
 
       TPad* GetPad1 () { return fxPad1; }
 

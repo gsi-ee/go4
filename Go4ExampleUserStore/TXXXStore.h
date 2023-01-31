@@ -45,7 +45,7 @@ class TXXXStore : public TGo4EventStore {
     Int_t Store(TFolder*) override { return 0; }
 
     /** Access to the Tree structure, for framework */
-    TTree* GetTree() override { return fxTree; }
+    TTree *GetTree() override { return fxTree; }
 
   private:
 

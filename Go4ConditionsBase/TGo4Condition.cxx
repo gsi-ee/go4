@@ -132,7 +132,7 @@ Bool_t TGo4Condition::Test()
 }
 // ---------------------------------------------------------
 
-void TGo4Condition::AddCondition(TGo4Condition* next)
+void TGo4Condition::AddCondition(TGo4Condition *next)
 {
    GO4TRACE((14,"TGo4Condition::AddCondition(TGo4Condition*)",__LINE__, __FILE__));
 }
@@ -225,7 +225,7 @@ void TGo4Condition::PrintBar()
 void TGo4Condition::Print(Option_t* opt) const
 {
    //std::cout <<"MyPrint:"<<GetName() << std::endl;
-   TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
+   TGo4Condition *localthis=const_cast<TGo4Condition*>(this);
    TString option = opt;
    option.ToLower();
    if (option.IsNull() || option == "*") {

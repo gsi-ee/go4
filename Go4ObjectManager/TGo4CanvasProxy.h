@@ -21,7 +21,7 @@ class TCanvas;
 class TGo4CanvasProxy : public TGo4Proxy {
    public:
       TGo4CanvasProxy();
-      TGo4CanvasProxy(TCanvas* c, Bool_t owner = kFALSE);
+      TGo4CanvasProxy(TCanvas *c, Bool_t owner = kFALSE);
       virtual ~TGo4CanvasProxy();
 
       Bool_t HasSublevels() const override { return fCanvas != nullptr; }
@@ -45,11 +45,11 @@ class TGo4CanvasProxy : public TGo4Proxy {
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject* GetAssignedObject() override;
 
-      static std::unique_ptr<TGo4Access> CreateAccess(TCanvas* canv, const char *name);
-      static TGo4LevelIter* ProduceIter(TCanvas* canv);
+      static std::unique_ptr<TGo4Access> CreateAccess(TCanvas *canv, const char *name);
+      static TGo4LevelIter* ProduceIter(TCanvas *canv);
 
    protected:
-      TCanvas* fCanvas{nullptr}; //!
+      TCanvas *fCanvas{nullptr}; //!
       Bool_t   fOwner{kFALSE};   //!
 
    ClassDefOverride(TGo4CanvasProxy, 1);

@@ -144,7 +144,7 @@ class TGo4Interface : public TGo4AbstractInterface {
 
      // windows management
       ViewPanelHandle StartViewPanel() override;
-      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = nullptr) override;
+      ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture *pic = nullptr) override;
       TString GetViewPanelName(ViewPanelHandle handle) override;
       ViewPanelHandle FindViewPanel(const char *name) override;
       Bool_t SetViewPanelName(ViewPanelHandle handle, const char *newname) override;
@@ -162,7 +162,7 @@ class TGo4Interface : public TGo4AbstractInterface {
 
    protected:
       TGo4AnalysisProxy*  AddAnalysisProxy(Bool_t isserver);
-      TGo4AnalysisStatus* GetAnalStatus();
+      TGo4AnalysisStatus *GetAnalStatus();
       TGo4AnalysisStepStatus* GetStepStatus(const char *stepname);
 
       TGo4RootBrowserProxy* fRootBrowser{nullptr}; //!

@@ -717,7 +717,7 @@ ViewPanelHandle TGo4Script::StartViewPanel()
    return fMainWin->MakeNewPanel(1);
 }
 
-ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture* pic)
+ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture *pic)
 {
    TGo4ViewPanel* panel = fMainWin->MakeNewPanel(1);
    if (!panel) return (ViewPanelHandle) nullptr;
@@ -802,7 +802,7 @@ TPad* TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
    return nullptr;
 }
 
-TGo4Picture* TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
+TGo4Picture *TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (!panel) return nullptr;

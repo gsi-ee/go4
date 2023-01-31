@@ -39,7 +39,7 @@ void TGo4UserStoreParameter::Print(Option_t*) const
 }
 
 
-Bool_t TGo4UserStoreParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4UserStoreParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    auto filepar = dynamic_cast<TGo4UserStoreParameter*>(rhs);
 

@@ -42,7 +42,7 @@ void TGo4BackStoreParameter::Print(Option_t*) const
    TGo4Status::PrintLine("  Buffer size: \t%d bytes", fiBufsize);
 }
 
-Bool_t TGo4BackStoreParameter::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4BackStoreParameter::UpdateFrom(TGo4Parameter *rhs)
 {
    auto backpar = dynamic_cast<TGo4BackStoreParameter*>(rhs);
    if(!backpar) return kFALSE;

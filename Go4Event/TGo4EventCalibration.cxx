@@ -32,7 +32,7 @@ TGo4EventCalibration::~TGo4EventCalibration()
 GO4TRACE((15,"TGo4EventCalibration::~TGo4EventCalibration()",__LINE__, __FILE__));
 }
 
-Bool_t TGo4EventCalibration::UpdateFrom(TGo4Parameter* rhs)
+Bool_t TGo4EventCalibration::UpdateFrom(TGo4Parameter *rhs)
 {
    GO4TRACE((12,"TGo4EventCalibration::UpdateFrom()",__LINE__, __FILE__));
    auto calipar = dynamic_cast<TGo4EventCalibration*>(rhs);
