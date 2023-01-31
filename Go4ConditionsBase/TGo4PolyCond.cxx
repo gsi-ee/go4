@@ -132,10 +132,9 @@ Bool_t TGo4PolyCond::IsPolygonType() const
 }
 
 // ----------------------------------------------------------
-TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
+TCutG *TGo4PolyCond::GetCut(Bool_t changeowner)
 {
-  //std::cout <<"TGo4PolyCond "<<(long) this <<" ::GetCut for cut "<< (long) fxCut << std::endl;
-   TCutG* tempcut = fxCut;
+   TCutG *tempcut = fxCut;
 
    if(changeowner) {
       fxCut = nullptr;
@@ -145,13 +144,12 @@ TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
 }
 
 // ----------------------------------------------------------
-TCutG * TGo4PolyCond::CloneCut(TGo4PolyCond * source)
+TCutG *TGo4PolyCond::CloneCut(TGo4PolyCond *source)
 {
-  TCutG * tempcut = source->GetCut(false); // get fxCut pointer
-  //std::cout <<"TGo4PolyCond  "<<(long) this <<" CloneCut "<< (long) tempcut<<"from polycond "<< (long) source << std::endl;
+  TCutG *tempcut = source->GetCut(false); // get fxCut pointer
   if(tempcut) {
     CleanupSpecials(); // JAM2016: Clone might delete cut of same name from list of specials, remove it first
-    TCutG* ret= (TCutG *)tempcut->Clone(GetName());
+    TCutG *ret= (TCutG *)tempcut->Clone(GetName());
     CleanupSpecials();
     return ret;
   }
@@ -159,7 +157,7 @@ TCutG * TGo4PolyCond::CloneCut(TGo4PolyCond * source)
   return nullptr;
 }
 // ----------------------------------------------------------
-void TGo4PolyCond::SetValues(TCutG * newcut)
+void TGo4PolyCond::SetValues(TCutG *newcut)
 {
    if(!newcut) return;
 #ifdef POLYCOND_UPDATE_WITHCLONE
@@ -277,7 +275,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
        //std::cout << "Update " << GetName() << " from " << temp << std::endl;
        if(temp)
           {
-             TCutG* old=fxCut; // JAM2016 change cut before deleting the old one!
+             TCutG *old=fxCut; // JAM2016 change cut before deleting the old one!
              fxCut = temp;
              if(old) delete old;
              ClearCutHis();

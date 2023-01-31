@@ -54,7 +54,7 @@ void AddRangeCut(TGo4FitComponent* comp)
 {
    Double_t x[] = { 2,3,8,7,2 };
    Double_t y[] = { 8,3,2,7,8 };
-   TCutG* cut = new TCutG("cut1",5,x,y);
+   TCutG *cut = new TCutG("cut1",5,x,y);
    comp->AddRangeCut(cut);
 }
 

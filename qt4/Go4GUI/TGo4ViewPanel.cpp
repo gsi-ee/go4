@@ -1417,7 +1417,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                cond = dynamic_cast<TGo4PolyCond*>(GetActiveObj(pad, kind_Poly));
                // start region from the beginning
                if (cond) {
-                  TCutG* cut = cond->GetCut(kTRUE);
+                  TCutG *cut = cond->GetCut(kTRUE);
                   delete cut;
                }
             }

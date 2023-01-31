@@ -21,7 +21,7 @@ class TGo4PolyCondView : public TCutG {
 
 public:
 
-    TGo4PolyCondView(TCutG* source);
+    TGo4PolyCondView(TCutG *source);
     TGo4PolyCondView();
     virtual ~TGo4PolyCondView();
 
@@ -38,10 +38,10 @@ public:
     TGo4PolyCond *GetCondition() { return fxPolyCondition; }
 
     /** Set this view to values of cut source*/
-    void SetCut(TCutG* source);
+    void SetCut(TCutG *source);
 
     /** create plain cutg from this view. */
-    TCutG* CreateCut();
+    TCutG *CreateCut();
 
     const char *GetName() const override;
     void SetName(const char *nam) override; // *MENU*

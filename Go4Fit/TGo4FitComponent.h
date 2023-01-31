@@ -127,7 +127,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Add TCutG object as range condition for two-dimensional case.
        * Region, defined by TCutG object, can be included or excluded from consideration according value of exclude flag.
        */
-      void AddRangeCut(TCutG* cut, Bool_t exclude = kFALSE);
+      void AddRangeCut(TCutG *cut, Bool_t exclude = kFALSE);
 
       /**
        * Clear all range conditions for given axis.
@@ -194,7 +194,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Returns specified range cut.
        */
-      TCutG* GetRangeCut(Int_t n) const;
+      TCutG *GetRangeCut(Int_t n) const;
 
       /**
        * Return kTRUE if cut exclude range

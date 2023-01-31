@@ -49,7 +49,6 @@ void TGo4LabelPainter::InitAttributes()
 
 TGo4LabelPainter::~TGo4LabelPainter()
 {
-  //std::cout <<"TGo4LabelPainter dtor of "<< (long)this <<" will delete label"<< fxLabel << std::endl;
    if (fxLabel) {
       delete fxLabel;
       fxLabel = nullptr;
@@ -96,9 +95,6 @@ void TGo4LabelPainter::PaintLabel(Option_t* opt)
    fxLabel->AddText(fxCaption.Data());
    fxLabel->AddText(" "); // dummy for automatic position of next line
    fxLabel->AddLine(0,0,0,0);
-
-   //std::cout <<"TGo4LabelPainter::PaintLabel of this="<< (long)this <<" with label "<<(long) fxLabel << std::endl;
-
 }
 
 void TGo4LabelPainter::UnPaintLabel(Option_t* opt)
@@ -223,10 +219,8 @@ void TGo4Label::ExecuteEvent(Int_t event, Int_t px, Int_t py)
    TPaveText::ExecuteEvent(event,px,py);
    if(event == kButton1Up)  {
       TGo4LabelPainter* painter = dynamic_cast<TGo4LabelPainter*>(fxOwner);
-      if(painter) {
+      if(painter)
          painter->DisplayToFront();
-         //std::cout <<"TGo4Label::ExecuteEvent with Display to front for "<<painter->GetName() << std::endl;
-      }
    }
 }
 

@@ -376,16 +376,12 @@ void TGo4AnalysisClient::Stop()
 
    //SendAnalysisClientStatus(); // JAM15 deadlock danger in analysis server mode! never do this from main thread
 
-   //std::cout<<"AAAAAAAAAAAA TGo4AnalysisClient::Stop() after SendAnalysisClientStatus "<< std::endl;
 //   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
 //      if (IsCintMode()) {
 //         fxAnalysis->ResumeWorking();
-//      }
-////      else {
-//    	 std::cout <<"TGo4AnalysisClient::Stop() before close analysis" << std::endl;
+//      }  else {
 //         TGo4Log::StartTracing(); // debug
-//    	 fxAnalysis->CloseAnalysis();
-//         std::cout <<"TGo4AnalysisClient::Stop() after close analysis" << std::endl;
+//         fxAnalysis->CloseAnalysis();
 //         TGo4Log::CloseLogfile();
 //         exit(0);
 //      }
@@ -440,10 +436,9 @@ Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()
 void TGo4AnalysisClient::StartObjectServer(const char *basename,  const char *passwd)
 {
     StopObjectServer(); // shutdown existing one with old basename/passwd
-    fxHistoServer= new TGo4HistogramServer(this,basename,passwd,kFALSE);
-      // switch last boolean true if you want to use Go4 object server support
-      // default will only enable gsi histogram server JA 9/2005
-    //std::cout <<"--------StartObjectServer started histoserver" << std::endl;
+    fxHistoServer = new TGo4HistogramServer(this,basename,passwd,kFALSE);
+    // switch last boolean true if you want to use Go4 object server support
+    // default will only enable gsi histogram server JA 9/2005
     //SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s Started Object server.",GetName()));
 }
 
@@ -458,10 +453,9 @@ void TGo4AnalysisClient::StopObjectServer()
 
 void TGo4AnalysisClient::Quit()
 {
-	  Stop();
-	  fxAnalysis->CloseAnalysis();
+   Stop();
+   fxAnalysis->CloseAnalysis();
 }
-
 
 void TGo4AnalysisClient::Terminate(Bool_t termapp)
 {
@@ -489,11 +483,11 @@ void TGo4AnalysisClient::TerminateFast()
 
 void TGo4AnalysisClient::SubmitShutdown()
 {
-	if(GetTask()) {
-		TGo4ComServerQuit* com = new TGo4ComServerQuit();
-		//TGo4Log::StartTracing(); // debug
-		GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
-	}
+   if(GetTask()) {
+      TGo4ComServerQuit* com = new TGo4ComServerQuit();
+      //TGo4Log::StartTracing(); // debug
+      GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
+   }
 }
 
 void TGo4AnalysisClient::ExecuteString(const char *command)
@@ -515,7 +509,6 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
 
 Int_t TGo4AnalysisClient::StartWorkThreads()
 {
-   //std::cout <<"++++++++TGo4AnalysisClient::StartWorkThreads()" << std::endl;
    TGo4TaskOwner::StartWorkThreads();
    if(GetThreadHandler()) {
       GetThreadHandler()->Start(fcMainName.Data());
@@ -526,7 +519,6 @@ Int_t TGo4AnalysisClient::StartWorkThreads()
 
 Int_t TGo4AnalysisClient::StopWorkThreads()
 {
-   //std::cout <<"++++++++TGo4AnalysisClient::StopWorkThreads()" << std::endl;
    TGo4TaskOwner::StopWorkThreads();
    if(GetThreadHandler()) {
       GetThreadHandler()->Stop(fcMainName.Data());

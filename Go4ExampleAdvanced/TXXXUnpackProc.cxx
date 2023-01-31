@@ -94,7 +94,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char *name) :
       TGo4Log::Info("TXXXProc: Create condition");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
       Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
-      TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
+      TCutG *mycut = new TCutG("cut2", 4, xvalues, yvalues);
       fConArr2 = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
       fConArr2->SetValues(mycut);
       fConArr2->Disable(true);   // means: condition check always returns true

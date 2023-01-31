@@ -856,7 +856,7 @@ void TGo4ConditionEditor::ModifyButton_clicked()
    panel->StartConditionEditing(pad);
 }
 
-void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
+void TGo4ConditionEditor::FillCutWidget(TCutG *cut)
 {
    bool old = fbTypingMode;
    fbTypingMode = false;

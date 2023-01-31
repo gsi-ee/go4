@@ -37,7 +37,7 @@ int QFitRangeCutWidget::GetCutIndex()
   return GetItem()->Tag();
 }
 
-TCutG* QFitRangeCutWidget::GetCut()
+TCutG *QFitRangeCutWidget::GetCut()
 {
   return dynamic_cast<TCutG*> (GetObject());
 }
@@ -46,7 +46,7 @@ void QFitRangeCutWidget::FillSpecificData()
 {
   QFitNamedWidget::FillSpecificData();
   TGo4FitComponent* comp = GetComp();
-  TCutG* cut = GetCut();
+  TCutG *cut = GetCut();
   if (comp && cut) {
      ExcludeCutChk->setChecked(comp->IsRangeCutExcluding(GetCutIndex()));
      NumPointsSpin->setValue(cut->GetN());
@@ -56,7 +56,7 @@ void QFitRangeCutWidget::FillSpecificData()
 
 void QFitRangeCutWidget::FillXYPointsTable()
 {
-   TCutG* cut = GetCut();
+   TCutG *cut = GetCut();
    if (!cut) return;
 
    XYTable->setRowCount(cut->GetN());
@@ -74,7 +74,7 @@ void QFitRangeCutWidget::FillXYPointsTable()
 void QFitRangeCutWidget::NumPointsSpin_valueChanged( int npoint )
 {
   if(!fbFillWidget && GetCut()) {
-      TCutG* cut = GetCut();
+      TCutG *cut = GetCut();
       int old = cut->GetN();
       Double_t x = 0., y = 0.;
       if (old > 1)
@@ -103,7 +103,7 @@ void QFitRangeCutWidget::ExcludeCutChk_toggled( bool chk)
 void QFitRangeCutWidget::XYTable_valueChanged( int nrow, int ncol)
 {
   if(!fbFillWidget && GetCut()) {
-     TCutG* cut = GetCut();
+     TCutG *cut = GetCut();
      bool ok;
      double zn = XYTable->item(nrow, ncol)->text().toDouble(&ok);
      if(ok) {

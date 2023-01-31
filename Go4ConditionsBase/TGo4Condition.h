@@ -159,7 +159,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual Double_t GetXUp() const { return 0.; }
     virtual Double_t GetYLow() const { return 0.; }
     virtual Double_t GetYUp() const { return 0.; }
-    virtual TCutG* GetCut(Bool_t owner) { return nullptr; }
+    virtual TCutG *GetCut(Bool_t owner) { return nullptr; }
 
     /** Calculate value for histogram inside condition limits.
       * Option may specify "width" to scale channel sum with axes*/

@@ -20,7 +20,7 @@
 //#define POLYCONDVIEW_UPDATE_WITHCLONE 1
 
 
-TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
+TGo4PolyCondView::TGo4PolyCondView(TCutG *source) :
    TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE), fxPolyCondition(nullptr)
 {
    SetCut(source);
@@ -151,7 +151,7 @@ void TGo4PolyCondView::UpdateCondition()
 
 #ifdef POLYCONDVIEW_UPDATE_WITHCLONE
 
-   TCutG* ccut = CreateCut();
+   TCutG *ccut = CreateCut();
    fxPolyCondition->SetValues(ccut);
    delete ccut;
    //std::cout<< "TGo4PolyCondView::UpdateCondition has deleted intermediate TCutG "<< (long) ccut<< std::endl;
@@ -164,7 +164,7 @@ void TGo4PolyCondView::UpdateCondition()
 }
 
 
-void TGo4PolyCondView::SetCut(TCutG* source)
+void TGo4PolyCondView::SetCut(TCutG *source)
 {
    if (!source) {
       Set(0);            // clear array of points
@@ -181,7 +181,7 @@ void TGo4PolyCondView::SetCut(TCutG* source)
    }
 }
 
-TCutG* TGo4PolyCondView::CreateCut()
+TCutG *TGo4PolyCondView::CreateCut()
 {
    TCutG *result = new TCutG;
    result->SetBit(kMustCleanup);

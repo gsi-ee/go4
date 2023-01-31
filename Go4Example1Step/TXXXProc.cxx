@@ -88,7 +88,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
       TGo4Log::Info("TXXXProc: Create condition array");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
       Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
-      TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
+      TCutG *mycut = new TCutG("cut2", 4, xvalues, yvalues);
       fConArr = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
       fConArr->SetValues(mycut);
       fConArr->Disable(true);   // means: condition check always returns true

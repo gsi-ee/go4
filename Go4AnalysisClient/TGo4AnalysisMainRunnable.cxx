@@ -43,9 +43,8 @@ TGo4AnalysisMainRunnable::~TGo4AnalysisMainRunnable()
 {
 }
 
-Int_t TGo4AnalysisMainRunnable::PostRun(void * )
+Int_t TGo4AnalysisMainRunnable::PostRun(void *)
 {
-   //std::cout << "test of main runnable postrun "<< std::endl;
    if (fxAnalysisClient && fxAnalysisClient->MainIsRunning() && !fxAnalysisClient->IsServer()) fxAnalysis->PostLoop();
    // only execute postloop here if client was quit without stopping before
    // otherwise, TGo4AnalysisClient::Stop() has already called PostLoop
@@ -55,17 +54,16 @@ Int_t TGo4AnalysisMainRunnable::PostRun(void * )
    return 0;
 }
 
-Int_t TGo4AnalysisMainRunnable::PreRun(void * )
+Int_t TGo4AnalysisMainRunnable::PreRun(void *)
 {
    GO4TRACE((12,"TGo4AnalysisMainRunnable::PreRun()",__LINE__, __FILE__));
-   //std::cout << "test of main runnable prerun "<< std::endl;
    //fxAnalysis->PreLoop();
    // this thread will never be stopped during analysis lifetime!
    // preloop execution is obsolete here now, because AnalysisClient::Start will do that for us!
    return 0;
 }
 
-Int_t TGo4AnalysisMainRunnable::Run(void*)
+Int_t TGo4AnalysisMainRunnable::Run(void *)
 {
    //GO4TRACE((12,"TGo4AnalysisMainRunnable::Run()",__LINE__, __FILE__));
    //
@@ -94,7 +92,6 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
          else
          {
             // terminate dummy command: do not execute, but stop this thread
-            //std::cout <<"Analysis main runnable got termid command" << std::endl;
             GetThread()->Stop();
          }
 
@@ -105,13 +102,13 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
           // must be executed before main cycle
           // otherwise we will never get back control after timeout exceptions etc!!!
           {
-                    // JAM 2015: same lockguards here as for command execution
-                   TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
-                   TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
-                   TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
-                   TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
-                   //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
-                   fxAnalysis->ProcessEvents();
+             // JAM 2015: same lockguards here as for command execution
+             TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+             TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
+             TMutex* tmutex = fxAnalysisClient->GetTaskManagerMutex();
+             TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
+             //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
+             fxAnalysis->ProcessEvents();
           } // lockguard scope
 
 
@@ -126,7 +123,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
          }
          else
          {
-            //std::cout <<"main runnable: analysis is not running" << std::endl;
+            // main runnable: analysis is not running
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 

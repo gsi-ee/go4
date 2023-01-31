@@ -270,21 +270,14 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    tentry->ProcessTreeNew(tree, TGo4Analysis::Instance()->GetDynListInterval());
 
    if (tentry->fbNewHistogram) {
-      //// debug
-      //        std::cout <<"gDirectory is "<<gDirectory->GetName() << std::endl;
-      //        std::cout <<"gROOT is "<<gROOT->GetName() << std::endl;
       histo = dynamic_cast<TH1*>(gROOT->FindObject(hname));
       if(!histo)
-      {
-         //            std::cout <<"not found by FindObject, try FindObjectAny..." << std::endl;
          histo = dynamic_cast<TH1*>(gROOT->FindObjectAny(hname));
-      }
       // note JA: FindObject fails with histogram created in hsimple.C on Cintserver when gDirectory was different from gRoot
       // in this case, histogram is only available in TRoot::fList via scan over root folders
       // note2: second fix is in TGo4Analysis::Process() which explicitely resets gDirectory to gROOT
       // before entering the MainCycle(); so FindObjectAny should be never necessary now
       if(histo) {
-         //std::cout <<"ProcessTEntry did FIND NEW histo "<<hname << std::endl;
          TGo4Analysis::Instance()->AddHistogram(histo); // we put the new histogram into our histo folder!
          histo->SetBit(TGo4Status::kGo4CanDelete);
          tentry->fbNewHistogram=kFALSE;

@@ -55,7 +55,7 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
 
    TGo4PolyCond *pconny=dynamic_cast<TGo4PolyCond*>(fxCondition);
    if(pconny && pconny->IsVisible()) {
-      TCutG* cutg = pconny->GetCut(kFALSE);
+      TCutG *cutg = pconny->GetCut(kFALSE);
       if(!cutg) return; // case of empty polygon condition
       // JAM2016: deletion from canvas is suppressed inside Go4 by QtROOT interface. Just create if not already there:
       if(!fxCutView) {
