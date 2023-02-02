@@ -57,7 +57,7 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    TString parname = TString::Format("%sOutput", argv[0]);
    TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(parname.Data());
    store1->SetOverwriteMode(kTRUE);
-   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack", factory1, source1, store1, nullptr);
+   TGo4AnalysisStep *       step1    = new TGo4AnalysisStep("Unpack", factory1, source1, store1, nullptr);
 
    step1->SetSourceEnabled(kTRUE);
    step1->SetStoreEnabled(kFALSE);  // disable output

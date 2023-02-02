@@ -23,7 +23,7 @@ Bool_t profileY(const char *name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)
    TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH2 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2"))
-      his1 = (TH2*) ob1;
+      his1 = (TH2 *) ob1;
    if(!his1) {
       std::cout <<"profileY could not get 2d histogram "<<fullname1 << std::endl;
       return kFALSE;

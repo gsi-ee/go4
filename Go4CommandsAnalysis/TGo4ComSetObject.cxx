@@ -112,7 +112,7 @@ Int_t TGo4ComSetObject::ExeCom()
    return -1;
 }
 
-Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
+Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus *par)
 {
    if (!par) return -1;
    TString buf;
@@ -188,11 +188,11 @@ Int_t TGo4ComSetObject::ExeSetHis(TH1 *his)
    return 0;
 }
 
-Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
+Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry *dyn)
 {
    if(!dyn) return -1;
    TString buf;
-   if(fxAna->AddDynamicEntry((TGo4DynamicEntry*)dyn->Clone())) {
+   if(fxAna->AddDynamicEntry((TGo4DynamicEntry *)dyn->Clone())) {
       TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (dyn);
       if (tentry && tentry->IsEnabledProcessing())
          fxAna->SetDynListInterval(tentry->GetDynListInterval());

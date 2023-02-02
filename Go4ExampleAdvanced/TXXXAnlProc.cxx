@@ -50,7 +50,7 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
    fFitSrc   = MakeTH1('I', "FitSource","Copy of fit data", 1000, 0., 1000.);
    fFitRes   = MakeTH1('I', "FitTarget","Copy of fit result", 1000, 0., 1000.);
 
-   fCaligraph = (TGraph*) GetObject("Calibration");
+   fCaligraph = (TGraph *) GetObject("Calibration");
    if (!fCaligraph) {
       fCaligraph = new TGraph;
       fCaligraph->SetName("Calibration");

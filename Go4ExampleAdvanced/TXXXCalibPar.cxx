@@ -128,7 +128,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
    //Print();
    // get references to graph and histogram from analysis:
    // note that updatefrom is only used on analysis side here!
-   fxCalibCurve = dynamic_cast<TGraph*>(TGo4Analysis::Instance()->GetObject(fxGraphName.Data()));
+   fxCalibCurve = dynamic_cast<TGraph *>(TGo4Analysis::Instance()->GetObject(fxGraphName.Data()));
 
    if(!fxCalibCurve)
    {

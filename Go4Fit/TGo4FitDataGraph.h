@@ -51,7 +51,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Return pointer on TGraph object.
        */
-      TGraph *GetGraph() { return (TGraph*) fxGraph.GetObject(); }
+      TGraph *GetGraph() { return (TGraph *) fxGraph.GetObject(); }
 
       /**
        * Set TGraph object.

@@ -245,7 +245,7 @@ Int_t TGo4AnalysisStep::Store(TFolder *fold)
 
 Bool_t TGo4AnalysisStep::IsMatchingPrevious() const
 {
-   GO4TRACE((14,"TGo4AnalysisStep::IsMatchingPrevious(TGo4AnalysisStep*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::IsMatchingPrevious(TGo4AnalysisStep *)",__LINE__, __FILE__));
    if(!IsProcessEnabled()) return kTRUE;
       // only check if this step is active, otherwise no event classes are initialized!
 

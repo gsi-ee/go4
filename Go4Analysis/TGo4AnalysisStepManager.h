@@ -52,13 +52,13 @@ class TGo4AnalysisStepManager : public TNamed {
 
       /** Access to certain analysis step by name. For analysis internal usage.
        * if name == nullptr, first step is returned */
-      TGo4AnalysisStep* GetAnalysisStep(const char *name) const;
+      TGo4AnalysisStep *GetAnalysisStep(const char *name) const;
 
       /** Returns number of analysis steps */
       Int_t GetNumberOfAnalysisSteps() const;
 
       /** Access to certain analysis step by number. */
-      TGo4AnalysisStep* GetAnalysisStepNum(Int_t number) const;
+      TGo4AnalysisStep *GetAnalysisStepNum(Int_t number) const;
 
       /** Method for user analysis constructor to setup the list
         * of analysis steps. Each call of this method will add a new
@@ -67,7 +67,7 @@ class TGo4AnalysisStepManager : public TNamed {
         * are matching! Analysis steps cannot be removed, since the
         * steplist is not intended to be dynamic. This is a pure creational method.
         * Analysis steps are owned by the steplist once they have been added. */
-      Bool_t AddAnalysisStep(TGo4AnalysisStep* next);
+      Bool_t AddAnalysisStep(TGo4AnalysisStep *next);
 
       /** Finish the analysis run and close all event sources/storages.
         * The analysis instance and the setup of the analysis steps is not deleted. */

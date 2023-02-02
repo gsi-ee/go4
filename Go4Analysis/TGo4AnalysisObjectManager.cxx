@@ -1057,7 +1057,7 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name)
    return curr;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry* entry)
+Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry *entry)
 {
    if (entry) entry->Reset();
    return AddObjectToFolder(entry, fxDynListDir, nullptr, kTRUE, kFALSE, kFALSE);
@@ -1141,7 +1141,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char *name, TGo4Parameter *
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4ParameterStatus* status, TFolder *parent)
+Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char *name, TGo4ParameterStatus *status, TFolder *parent)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(char*, TGo4Parameter*)",__LINE__, __FILE__));
 
@@ -1590,7 +1590,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject *ob, TFolder *destination,
    Bool_t rev = kTRUE;
    if (ob->InheritsFrom(TGo4DynamicEntry::Class())) {
       // new autosave file structure will save dynamic entries independently:
-      TGo4DynamicEntry* dentry = dynamic_cast<TGo4DynamicEntry *> (ob->Clone()); // deep copy of source object!
+      TGo4DynamicEntry *dentry = dynamic_cast<TGo4DynamicEntry *> (ob->Clone()); // deep copy of source object!
       AddDynamicEntry(dentry);
    } else if(ob->InheritsFrom(TGo4Parameter::Class())) {
       // parameters never replaced, but updated

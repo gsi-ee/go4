@@ -23,7 +23,7 @@ class TGo4AnalysisStepException : public TGo4RuntimeException {
 
   public:
 
-     TGo4AnalysisStepException (TGo4AnalysisStep* step);
+     TGo4AnalysisStepException (TGo4AnalysisStep *step);
 
      virtual ~TGo4AnalysisStepException();
 

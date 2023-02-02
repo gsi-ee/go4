@@ -48,15 +48,15 @@ class TGo4ASImage : public TASImage {
       void ClosePaletteEditor();
 
       // old code
-      TGo4ASImage(TH2*) {}
+      TGo4ASImage(TH2 *) {}
 
       TH2 *GetHistogram() const { return nullptr; }
 
       /** sets limits of histo according to current zoom scale of image */
-      void SetHistogramRanges(TH2*) {}
+      void SetHistogramRanges(TH2 *) {}
 
       /** sets zoom of image according to current limits of histo */
-      void SetZoom(TH2*) {}
+      void SetZoom(TH2 *) {}
 
    private:
 
@@ -84,9 +84,9 @@ class TGo4ASImage : public TObject {
       TGo4ASImage() {}
       virtual ~TGo4ASImage() {}
 
-      void SetHistogramContent(TH2*) {}
+      void SetHistogramContent(TH2 *) {}
 
-      void SetDrawData(TH2*, TGo4ViewPanel*, TPad*) {}
+      void SetDrawData(TH2 *, TGo4ViewPanel *, TPad *) {}
 
       void SetSelectedRange(double, double, double, double) {}
 

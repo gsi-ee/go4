@@ -521,7 +521,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
       // if special input event is required, try to detect it
       if (src && !src->CheckEventClass(TGo4MbsEvent::Class())) {
          for (int n = 0; n <= evnt_classes.GetLast(); n++) {
-            TClass *cl = (TClass*) evnt_classes.At(n);
+            TClass *cl = (TClass *) evnt_classes.At(n);
             if (!src->CheckEventClass(cl)) continue;
 
             // if more than two classes are suited - ignore any of them
@@ -588,7 +588,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
    TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter(analysis->GetDefaultTestFileName());
 
-   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
+   TGo4AnalysisStep *step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
 
    step->SetSourceEnabled(kTRUE);
    step->SetStoreEnabled(evstore_cl != nullptr);
@@ -733,7 +733,7 @@ int main(int argc, char **argv)
    delete lst0; lst0 = nullptr;
    delete lst1; lst1 = nullptr;
 
-   TGo4AnalysisStep* step = analysis->GetAnalysisStep(nullptr);
+   TGo4AnalysisStep *step = analysis->GetAnalysisStep(nullptr);
    if (!step) {
       std::cerr << "No active step in analysis found" << std::endl;
       return -1;

@@ -31,7 +31,7 @@ TFolder *topfold=(TFolder*) myfile.Get("Go4");
 if(topfold)
 {
   std::cout <<"Got go4 folder of file "<<filename.Data() << std::endl;
-  TObject *myobject=topfold->FindObjectAny(histoname.Data());
+  TObject *myobject = topfold->FindObjectAny(histoname.Data());
   if(myobject)
     {
       std::ofstream outfile(outname.Data());
@@ -67,7 +67,7 @@ if(topfold)
         }
       else if (myobject->InheritsFrom("TGraph"))
         {
-          TGraph *graph= (TGraph*) myobject;
+          TGraph *graph= (TGraph *) myobject;
           std::cout <<"Found graph "<< graph->GetName() << std::endl;
           Int_t maxpoints=graph->GetN();
 

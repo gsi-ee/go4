@@ -679,10 +679,10 @@ public:
 
    /** Access to certain analysis step by name. If name == nullptr,
     * this will return the first active step. */
-   TGo4AnalysisStep* GetAnalysisStep(const char *name);
+   TGo4AnalysisStep *GetAnalysisStep(const char *name);
 
    /** Access to certain analysis step by number. */
-   TGo4AnalysisStep* GetAnalysisStepNum(Int_t number);
+   TGo4AnalysisStep *GetAnalysisStepNum(Int_t number);
 
    /** Define passwords, which should be used for analysis access when analysis runs in server mode */
    void DefineServerPasswords(const char *admin, const char *controller, const char *observer);

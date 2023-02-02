@@ -347,9 +347,9 @@ void TGo4ExportManager::ExportASCII(TGraph *graph)
 
    catch (std::exception &ex) // treat standard library exceptions
    {
-      TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportASCII(TGraph*)", ex.what());
+      TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportASCII(TGraph *)", ex.what());
    } catch (...) {
-      TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportASCII(TGraph*)!!!");
+      TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportASCII(TGraph *)!!!");
    } // catch
 }
 

@@ -23,7 +23,7 @@ class TGo4DynamicListException : public TGo4RuntimeException {
 
   public:
 
-    TGo4DynamicListException (TGo4DynamicEntry* entry, const char *message);
+    TGo4DynamicListException (TGo4DynamicEntry *entry, const char *message);
 
     virtual ~TGo4DynamicListException() {}
 

@@ -79,21 +79,21 @@ TClass *TGo4Proxy::GetClass(const char *classname, Bool_t load)
 
    if (!classname || (*classname == 0)) return nullptr;
 
-   TClass *cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
+   TClass *cl = (TClass *) gROOT->GetListOfClasses()->FindObject(classname);
 
    if (cl) return cl;
 
    if (!load)
-      load = (strstr(classname,"TGo4")==classname) ||
-             (strstr(classname,"TH1")==classname) ||
-             (strstr(classname,"TH2")==classname) ||
-             (strstr(classname,"TH3")==classname) ||
-             (strstr(classname,"TGraph")==classname) ||
-             !strcmp(classname,"TProfile") ||
-             !strcmp(classname,"TProfile2D") ||
-             !strcmp(classname,"TCanvas") ||
-             !strcmp(classname,"TTree") ||
-             !strcmp(classname,"THStack");
+      load = (strstr(classname, "TGo4") == classname) ||
+             (strstr(classname, "TH1") == classname) ||
+             (strstr(classname, "TH2") == classname) ||
+             (strstr(classname, "TH3") == classname) ||
+             (strstr(classname, "TGraph") == classname) ||
+             !strcmp(classname, "TProfile") ||
+             !strcmp(classname, "TProfile2D") ||
+             !strcmp(classname, "TCanvas") ||
+             !strcmp(classname, "TTree") ||
+             !strcmp(classname, "THStack");
 
    return load ? gROOT->GetClass(classname, kTRUE, kTRUE) : nullptr;
 }

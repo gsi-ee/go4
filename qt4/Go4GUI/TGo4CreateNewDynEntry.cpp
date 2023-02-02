@@ -27,9 +27,9 @@ TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget *parent )
    EntryType->setCurrentIndex(0);
 }
 
-TGo4DynamicEntry* TGo4CreateNewDynEntry::MakeEntry()
+TGo4DynamicEntry *TGo4CreateNewDynEntry::MakeEntry()
 {
-   TGo4DynamicEntry* entry = nullptr;
+   TGo4DynamicEntry *entry = nullptr;
 
    if (EntryType->currentIndex() == 0)
       entry = new TGo4HistogramEntry();

@@ -25,7 +25,7 @@ Bool_t rebin(const char *name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0, Bool_t dra
 
    TH1 *result = nullptr;
    if(ob1 && ob1->InheritsFrom("TH2")){  // 2d rebin
-      TH2 *his1 = (TH2*)ob1;
+      TH2 *his1 = (TH2 *)ob1;
       TString n1 = his1->GetName();
       TString t1 = his1->GetTitle();
       newname.Form("_rebinned_%d_%d",ngroup1,ngroup2);

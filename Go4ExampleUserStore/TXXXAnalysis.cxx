@@ -51,7 +51,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TString parname = TString::Format("%sOutput", argv[0]);
    TGo4UserStoreParameter* storepar = new TGo4UserStoreParameter(parname.Data());
 
-   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
+   TGo4AnalysisStep *step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
 
    step->SetSourceEnabled(kTRUE);
    step->SetStoreEnabled(kTRUE);

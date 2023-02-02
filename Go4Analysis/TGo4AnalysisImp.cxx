@@ -631,7 +631,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                TDatime dt;
                fxRate->SetDateTime(dt.AsSQLString());
 
-               TGo4AnalysisStep* firststep = GetAnalysisStep(nullptr);
+               TGo4AnalysisStep *firststep = GetAnalysisStep(nullptr);
                if(firststep)
                   fxRate->SetCurrentSource(firststep->GetEventSourceName());
                else
@@ -994,7 +994,7 @@ Int_t TGo4Analysis::PreLoop()
    fiAutoSaveCount = 0;
    Int_t rev = UserPreLoop();
    for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
-      TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
+      TGo4AnalysisStep *step = fxStepManager->GetAnalysisStepNum(num);
       TGo4EventProcessor* proc = step ? step->GetEventProcessor() : nullptr;
       if (proc) proc->UserPreLoop();
    }
@@ -1018,7 +1018,7 @@ Int_t TGo4Analysis::PostLoop()
    /////////////////////
    if(fbInitIsDone) {
       for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
-         TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
+         TGo4AnalysisStep *step = fxStepManager->GetAnalysisStepNum(num);
          TGo4EventProcessor* proc = step ? step->GetEventProcessor() : nullptr;
          if (proc) proc->UserPostLoop();
       }
@@ -1394,12 +1394,12 @@ TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char 
    return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
 
-TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char *name)
+TGo4AnalysisStep *TGo4Analysis::GetAnalysisStep(const char *name)
 {
    return fxStepManager->GetAnalysisStep(name);
 }
 
-TGo4AnalysisStep* TGo4Analysis::GetAnalysisStepNum(Int_t number)
+TGo4AnalysisStep *TGo4Analysis::GetAnalysisStepNum(Int_t number)
 {
    return fxStepManager->GetAnalysisStepNum(number);
 }
@@ -1549,12 +1549,12 @@ Bool_t TGo4Analysis::SetParameter(const char *name, TGo4Parameter *par)
    return fxObjectManager->SetParameter(name, par);
 }
 
-Bool_t TGo4Analysis::SetParameterStatus(const char *name, TGo4ParameterStatus* par)
+Bool_t TGo4Analysis::SetParameterStatus(const char *name, TGo4ParameterStatus *par)
 {
    return fxObjectManager->SetParameterStatus(name, par);
 }
 
-Bool_t TGo4Analysis::SetPicture(const char *name, TGo4Picture * pic)
+Bool_t TGo4Analysis::SetPicture(const char *name, TGo4Picture *pic)
 {
    return fxObjectManager->SetPicture(name, pic);
 }
@@ -1617,22 +1617,22 @@ TGo4EventElement* TGo4Analysis::GetOutputEvent(const char *stepname) const
    return fxStepManager->GetOutputEvent(stepname);
 }
 
-Bool_t TGo4Analysis::NewStepProcessor(const char *name, TGo4EventProcessorParameter * par)
+Bool_t TGo4Analysis::NewStepProcessor(const char *name, TGo4EventProcessorParameter *par)
 {
    return fxStepManager->NewStepProcessor(name,par);
 }
 
-Bool_t TGo4Analysis::NewStepSource(const char *name, TGo4EventSourceParameter * par)
+Bool_t TGo4Analysis::NewStepSource(const char *name, TGo4EventSourceParameter *par)
 {
    return fxStepManager->NewStepSource(name,par);
 }
 
-Bool_t TGo4Analysis::NewStepStore(const char *name, TGo4EventStoreParameter* par)
+Bool_t TGo4Analysis::NewStepStore(const char *name, TGo4EventStoreParameter *par)
 {
    return fxStepManager->NewStepStore(name,par);
 }
 
-Bool_t TGo4Analysis::AddDynamicEntry(TGo4DynamicEntry* entry)
+Bool_t TGo4Analysis::AddDynamicEntry(TGo4DynamicEntry *entry)
 {
    return fxObjectManager->AddDynamicEntry(entry);
 }
@@ -1662,7 +1662,7 @@ Int_t TGo4Analysis::IsErrorStopEnabled() const
    return fxStepManager->IsErrorStopEnabled();
 }
 
-Bool_t TGo4Analysis::AddAnalysisStep(TGo4AnalysisStep* next)
+Bool_t TGo4Analysis::AddAnalysisStep(TGo4AnalysisStep *next)
 {
    return fxStepManager->AddAnalysisStep(next);
 }
@@ -1672,7 +1672,7 @@ Int_t TGo4Analysis::ProcessAnalysisSteps()
    return fxStepManager->ProcessAnalysisSteps();
 }
 
-void TGo4Analysis::SetOutputEvent(TGo4EventElement * event)
+void TGo4Analysis::SetOutputEvent(TGo4EventElement *event)
 {
    fxStepManager->SetOutputEvent(event);
 }
@@ -1856,7 +1856,7 @@ TH2 *TGo4Analysis::MakeTH2(char type, const char *fullname, const char *title,
          if (title) oldh->SetTitle(title);
          if (xtitle) oldh->GetXaxis()->SetTitle(xtitle);
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
-         return (TH2*) oldh;
+         return (TH2 *) oldh;
       }
 
       if (fbMakeWithAutosave)

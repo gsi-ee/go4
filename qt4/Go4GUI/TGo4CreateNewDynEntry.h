@@ -25,7 +25,7 @@ class TGo4CreateNewDynEntry : public QDialog, public Ui::TGo4CreateNewDynEntry
 
 public:
    TGo4CreateNewDynEntry(QWidget *parent = nullptr);
-   TGo4DynamicEntry* MakeEntry();
+   TGo4DynamicEntry *MakeEntry();
 };
 
 #endif

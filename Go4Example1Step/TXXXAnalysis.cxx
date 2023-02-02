@@ -50,7 +50,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(parname.Data());
    storepar->SetOverwriteMode(kTRUE);
 
-   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
+   TGo4AnalysisStep *step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
 
    step->SetSourceEnabled(kTRUE);
    step->SetStoreEnabled(kFALSE);

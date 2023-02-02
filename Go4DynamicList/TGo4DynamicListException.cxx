@@ -53,7 +53,7 @@ Int_t TGo4DynamicListException::Handle()
 
 TGo4DynamicListException::TGo4DynamicListException(TGo4DynamicEntry *entry, const char *message)
 {
-   GO4TRACE((14, "TGo4DynamicListException:TGo4DynamicListException (TGo4DynamicEntry*,..)", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4DynamicListException:TGo4DynamicListException (TGo4DynamicEntry *,..)", __LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Dynamic List Exception --!!!";
 
    fxEntry = entry;

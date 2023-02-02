@@ -85,7 +85,7 @@ void TGo4ParaEdit::linkedObjectUpdated(const char *linkname, TObject *obj)
       RefreshWidget(dynamic_cast<TGo4Parameter*> (obj));
    else
    if (strcmp(linkname,"ParStatus") == 0)
-      RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
+      RefreshWidget(dynamic_cast<TGo4ParameterStatus *> (obj));
 }
 
 void TGo4ParaEdit::linkedObjectRemoved(const char *linkname)
@@ -184,7 +184,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter *par)
 }
 
 
-void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
+void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus *status)
 {
    RefreshButton->setEnabled(status != nullptr);
 

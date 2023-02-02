@@ -46,7 +46,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
    factory1->DefOutputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
-   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack", factory1, nullptr, nullptr, nullptr);
+   TGo4AnalysisStep *step1 = new TGo4AnalysisStep("Unpack", factory1, nullptr, nullptr, nullptr);
    step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
 // These settings will be overwritten by setup.C
@@ -59,7 +59,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    factory2->DefInputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
    factory2->DefEventProcessor("AnlProc", "TXXXAnlProc"); // object name, class name
    factory2->DefOutputEvent("AnlEvent", "TXXXAnlEvent"); // object name, class name
-   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis", factory2, nullptr, nullptr, nullptr);
+   TGo4AnalysisStep *step2    = new TGo4AnalysisStep("Analysis", factory2, nullptr, nullptr, nullptr);
    step2->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step2);
 // These settings will be overwritten by setup.C

@@ -2526,7 +2526,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot *padslot,
       TH1 *h1 = dynamic_cast<TH1 *>(link->GetObject());
       // access axis properties of graphs
       if(!h1) {
-         TGraph *gr = dynamic_cast<TGraph*> (link->GetObject());
+         TGraph *gr = dynamic_cast<TGraph *> (link->GetObject());
          if(gr) h1 = Get_fHistogram(gr);
       }
 
@@ -2802,7 +2802,7 @@ TObject *TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture 
       }
 
       for (int n = 0; n <= objs->GetLast(); n++) {
-         TGraph *gr = (TGraph*) objs->At(n);
+         TGraph *gr = (TGraph *) objs->At(n);
          TGo4Slot *objslot = (TGo4Slot *) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
@@ -3184,7 +3184,7 @@ TH1 *TGo4ViewPanel::GetPadHistogram(TPad *pad)
          if (h) return h;
 
          TIter iter(mg->GetListOfGraphs());
-         while (auto gr = (TGraph*) iter()) {
+         while (auto gr = (TGraph *) iter()) {
             h = Get_fHistogram(gr, true);
             if (h) return h;
          }
@@ -3999,7 +3999,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    }
 
    if (doasiimage) {
-      asihisto = dynamic_cast<TH2*>(drawobj);
+      asihisto = dynamic_cast<TH2 *>(drawobj);
       if (!asihisto)
          doasiimage = false;
       else {
@@ -4203,7 +4203,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture *padopt, TMultiGraph
    TIter iter(mg->GetListOfGraphs());
    TGraph *firstgr = nullptr;
    bool first = true;
-   while (auto gr = (TGraph*) iter()) {
+   while (auto gr = (TGraph *) iter()) {
       if (scancontent) {
          gr->SetEditable(kFALSE);
          TakeFullRangeFromGraph(gr, padopt, first);

@@ -22,7 +22,7 @@ Bool_t projectionX(const char *name1, const char *polyname, Int_t firstybin, Int
    TString fullname1 = go4->FindItem(name1);
    TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH2 *his1 = nullptr;
-   if(ob1 && ob1->InheritsFrom("TH2")) his1 = (TH2*) ob1;
+   if(ob1 && ob1->InheritsFrom("TH2")) his1 = (TH2 *) ob1;
    if(!his1) {
       std::cout <<"projectionX could not get 2d histogram "<<fullname1 << std::endl;
       return kFALSE;

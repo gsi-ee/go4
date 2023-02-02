@@ -176,7 +176,7 @@ class TGo4AnalysisStep : public TNamed {
     void SetPreviousStep(TGo4AnalysisStep * pre) { fxPrevious=pre; }
 
     /** Get previous analysis step. Returns 0 if there is none. */
-    TGo4AnalysisStep* GetPreviousStep() const { return fxPrevious; }
+    TGo4AnalysisStep *GetPreviousStep() const { return fxPrevious; }
 
     /** Access to the output event which has been filled last. Is used to
       * pass the output to the next analysis step, or to the main analysis

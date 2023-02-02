@@ -615,7 +615,7 @@ Bool_t TGo4Sniffer::AddAnalysisObject(TObject *obj)
 
    Bool_t res = ana->AddHistogram(dynamic_cast<TH1 *>(obj));
    if (!res) res = ana->AddAnalysisCondition(dynamic_cast<TGo4Condition *>(obj));
-   if (!res) res = ana->AddDynamicEntry(dynamic_cast<TGo4DynamicEntry*>(obj));
+   if (!res) res = ana->AddDynamicEntry(dynamic_cast<TGo4DynamicEntry *>(obj));
 
    if(res) {
       SendStatusMessage(1, kFALSE, TString::Format("Added new object %s to Go4 folders.", obj->GetName()));

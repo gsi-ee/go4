@@ -107,7 +107,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
          // shall be read; this  was working in 3.03/09
          // therefore, we put in our own check again from revision 1.23
          TClass *cl = buffer->ReadClass();
-         if(cl == (TClass*) -1)
+         if(cl == (TClass *) -1)
          {
             // case of unknown class
             std::cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<std::endl;

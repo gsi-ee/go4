@@ -81,16 +81,16 @@ void QGo4Widget::CloseMDIParentSlot()
    ShootCloseWidget(true);
 }
 
-bool QGo4Widget::IsAcceptDrag(const char*, TClass*, int)
+bool QGo4Widget::IsAcceptDrag(const char *, TClass *, int)
 {
    return false;
 }
 
-void QGo4Widget::DropItem(const char*, TClass*, int)
+void QGo4Widget::DropItem(const char *, TClass *, int)
 {
 }
 
-void QGo4Widget::closeEvent(QCloseEvent* e)
+void QGo4Widget::closeEvent(QCloseEvent *e)
 {
    if (fCanDestroyWidget) {
       e->accept();

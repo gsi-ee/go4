@@ -37,7 +37,7 @@ void TGo4DynamicList::ResetEntries(TFolder *folder)
 
    TIter iter(folder->GetListOfFolders());
    while(auto obj = iter()) {
-      TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
+      TGo4DynamicEntry *entry = dynamic_cast<TGo4DynamicEntry *> (obj);
       if (entry) entry->Reset();
    }
 }
@@ -48,7 +48,7 @@ void TGo4DynamicList::PrintEntries(TFolder *folder)
 
    TIter iter(folder->GetListOfFolders());
    while(auto obj = iter()) {
-      TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
+      TGo4DynamicEntry *entry = dynamic_cast<TGo4DynamicEntry *> (obj);
       if (entry) entry->Print("*");
    }
 }
@@ -59,7 +59,7 @@ void TGo4DynamicList::CleanupPointerInEntries(TFolder *folder, TObject *objtorem
 
    TIter iter(folder->GetListOfFolders());
    while(auto obj = iter()) {
-      TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
+      TGo4DynamicEntry *entry = dynamic_cast<TGo4DynamicEntry *> (obj);
       if (entry) entry->RecursiveRemove(objtoremove);
    }
 }
@@ -69,12 +69,12 @@ void TGo4DynamicList::ProcessEntries(TFolder *folder, Bool_t processtrees, Int_t
 {
    if (!folder) return;
 
-   TGo4DynamicEntry* errorentry = nullptr;
+   TGo4DynamicEntry *errorentry = nullptr;
    TIter iter(folder->GetListOfFolders());
 
    try {
       while(auto obj = iter()) {
-         TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*> (obj);
+         TGo4DynamicEntry *entry = dynamic_cast<TGo4DynamicEntry *> (obj);
          if (!entry) continue;
 
          try {
@@ -92,7 +92,7 @@ void TGo4DynamicList::ProcessEntries(TFolder *folder, Bool_t processtrees, Int_t
          }
          catch(TGo4DynamicListException& ex) {
            ex.Handle(); // will disable the error causing entry, continue other entries
-           errorentry = (TGo4DynamicEntry*) entry;
+           errorentry = (TGo4DynamicEntry *) entry;
          }
       } // while
       //if(processtrees) TGo4Analysis::Instance()->ResetBackStores(kTRUE); // clear backstore reset bits

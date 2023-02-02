@@ -244,7 +244,7 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
       // new: set true running state
       anstate->SetRunning(fxAnalysis->IsRunning());
       // new: set name of current eventsource
-      TGo4AnalysisStep* firststep = fxAnalysis->GetAnalysisStep(nullptr);
+      TGo4AnalysisStep *firststep = fxAnalysis->GetAnalysisStep(nullptr);
       if(firststep) {
          anstate->SetCurrentSource(firststep->GetEventSourceName());
          fxRatemeter->SetCurrentSource(firststep->GetEventSourceName());

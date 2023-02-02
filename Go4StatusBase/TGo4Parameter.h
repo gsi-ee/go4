@@ -69,10 +69,10 @@ class TGo4Parameter : public TNamed {
       void SavePrimitive(std::ostream& fs, Option_t* opt= "") override;
 
       /** Creates parameter status object. It should be destroyed by the user */
-      TGo4ParameterStatus* CreateStatus();
+      TGo4ParameterStatus *CreateStatus();
 
       /** Set status object - apply member values to the parameter */
-      Bool_t SetStatus(TGo4ParameterStatus* status);
+      Bool_t SetStatus(TGo4ParameterStatus *status);
 
    protected:
 

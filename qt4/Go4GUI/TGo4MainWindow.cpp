@@ -2628,7 +2628,7 @@ void TGo4MainWindow::CreateNewDynEntry(bool forothereditor)
 
    if (dlg.exec() != QDialog::Accepted) return;
 
-   TGo4DynamicEntry* entry = dlg.MakeEntry();
+   TGo4DynamicEntry *entry = dlg.MakeEntry();
    if (!entry) return;
 
    entry->SetBit(TGo4Status::kGo4CanDelete);
@@ -2970,7 +2970,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_DropEvent: {
-         QDropEvent* event = (QDropEvent*) par;
+         QDropEvent *event = (QDropEvent *) par;
 
          if (!event || !event->mimeData()->hasText()) return;
 
@@ -2994,7 +2994,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_CreateItem: {
-         TClass *cl = (TClass*) par;
+         TClass *cl = (TClass *) par;
          int id = str ? QString(str).toInt() : 0;
          if (cl) {
            if (cl->InheritsFrom(TH1::Class()))

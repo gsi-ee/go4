@@ -58,28 +58,28 @@ Bool_t TMeshParameter::UpdateFrom(TGo4Parameter *pp)
    fbCollectorOn=from->fbCollectorOn;
    std::cout <<"Updated Parameter "<<GetName() << std::endl;
    TGo4Analysis *ana=TGo4Analysis::Instance();
-   TGo4AnalysisStep* unpack=ana->GetAnalysisStep("Unpack");
+   TGo4AnalysisStep *unpack=ana->GetAnalysisStep("Unpack");
    if(unpack)
       unpack->SetProcessEnabled(fbUnpackOn);
 
-   TGo4AnalysisStep* pror1=ana->GetAnalysisStep("Input1Provider");
-   TGo4AnalysisStep* ex1=ana->GetAnalysisStep("Exec1");
+   TGo4AnalysisStep *pror1=ana->GetAnalysisStep("Input1Provider");
+   TGo4AnalysisStep *ex1=ana->GetAnalysisStep("Exec1");
    if(pror1 && ex1)
    {
       pror1->SetProcessEnabled(fbExec1On);
       pror1->SetSourceEnabled(!fbUnpackOn);
       ex1->SetProcessEnabled(fbExec1On);
    }
-   TGo4AnalysisStep* pror2=ana->GetAnalysisStep("Input2Provider");
-   TGo4AnalysisStep* ex2=ana->GetAnalysisStep("Exec2");
+   TGo4AnalysisStep *pror2=ana->GetAnalysisStep("Input2Provider");
+   TGo4AnalysisStep *ex2=ana->GetAnalysisStep("Exec2");
    if(pror2 && ex2)
    {
       pror2->SetProcessEnabled(fbExec2On);
       pror2->SetSourceEnabled(!fbUnpackOn);
       ex2->SetProcessEnabled(fbExec2On);
    }
-   TGo4AnalysisStep* pror3=ana->GetAnalysisStep("Input3Provider");
-   TGo4AnalysisStep* ex3=ana->GetAnalysisStep("Exec3");
+   TGo4AnalysisStep *pror3=ana->GetAnalysisStep("Input3Provider");
+   TGo4AnalysisStep *ex3=ana->GetAnalysisStep("Exec3");
    if(pror3 && ex3)
    {
       pror3->SetProcessEnabled(fbExec3On);
@@ -87,10 +87,10 @@ Bool_t TMeshParameter::UpdateFrom(TGo4Parameter *pp)
       ex3->SetProcessEnabled(fbExec3On);
    }
 
-   TGo4AnalysisStep* pro1=ana->GetAnalysisStep("Output1Provider");
-   TGo4AnalysisStep* pro2=ana->GetAnalysisStep("Output2Provider");
-   TGo4AnalysisStep* pro3=ana->GetAnalysisStep("Output3Provider");
-   TGo4AnalysisStep* ex12=ana->GetAnalysisStep("Exec12");
+   TGo4AnalysisStep *pro1=ana->GetAnalysisStep("Output1Provider");
+   TGo4AnalysisStep *pro2=ana->GetAnalysisStep("Output2Provider");
+   TGo4AnalysisStep *pro3=ana->GetAnalysisStep("Output3Provider");
+   TGo4AnalysisStep *ex12=ana->GetAnalysisStep("Exec12");
    if(pro1 && pro2 && pro3 && ex12)
    {
       pro1->SetProcessEnabled(fbExec12On | fbCollectorOn);
@@ -101,8 +101,8 @@ Bool_t TMeshParameter::UpdateFrom(TGo4Parameter *pp)
       pro3->SetSourceEnabled(!fbExec3On);
       ex12->SetProcessEnabled(fbExec12On);
    }
-   TGo4AnalysisStep* pro12=ana->GetAnalysisStep("Output12Provider");
-   TGo4AnalysisStep* fin=ana->GetAnalysisStep("Final");
+   TGo4AnalysisStep *pro12=ana->GetAnalysisStep("Output12Provider");
+   TGo4AnalysisStep *fin=ana->GetAnalysisStep("Final");
    if(pro12 && fin)
    {
       pro12->SetProcessEnabled(fbCollectorOn);

@@ -380,7 +380,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus* par, TFolder *parent = nullptr);
+      Bool_t SetParameterStatus(const char *name, TGo4ParameterStatus *par, TFolder *parent = nullptr);
 
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
@@ -535,7 +535,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t LoadObjects(TFile *statusfile);
 
       /** Adds entry to object manager */
-      Bool_t AddDynamicEntry(TGo4DynamicEntry* entry);
+      Bool_t AddDynamicEntry(TGo4DynamicEntry *entry);
 
       /** Reset the current dynamic list. */
       void ResetCurrentDynList();
