@@ -473,7 +473,7 @@ void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus *state)
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
       state->ClearStepStatus();
-      while(fxCurrentStep = dynamic_cast<TGo4AnalysisStep *>(fxStepIterator->Next())) {
+      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep *>(fxStepIterator->Next())) != nullptr) {
          TGo4AnalysisStepStatus* stepstate = fxCurrentStep->CreateStatus();
          state->AddStepStatus(stepstate);
       }
@@ -492,7 +492,7 @@ void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus *state)
       // update internal states of steps:
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
-      while(fxCurrentStep = dynamic_cast<TGo4AnalysisStep *>(fxStepIterator->Next())) {
+      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep *>(fxStepIterator->Next())) != nullptr) {
          const char *name = fxCurrentStep->GetName();
          TGo4AnalysisStepStatus *stepstate = state->GetStepStatus(name);
          fxCurrentStep->SetStatus(stepstate);
