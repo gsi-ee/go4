@@ -47,7 +47,7 @@ class TGo4BackStore : public TGo4EventStore {
     Int_t Store(TGo4Condition *conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
-    Int_t Store(TGo4Fitter* fitter) override;
+    Int_t Store(TGo4Fitter *fitter) override;
 
     /** Saves a folder correlated with the current event into the storage. */
     Int_t Store(TFolder *fold) override;

@@ -39,7 +39,7 @@ class TGo4FileSource : public TGo4EventSource {
 
     TGo4FileSource();
 
-    TGo4FileSource(TGo4FileSourceParameter* par);
+    TGo4FileSource(TGo4FileSourceParameter *par);
 
     TGo4FileSource(const char *name);
 

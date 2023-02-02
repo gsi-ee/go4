@@ -100,7 +100,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
 
     private:
 
-      void ROOTPeakFinder(TGo4Fitter* fitter,
+      void ROOTPeakFinder(TGo4Fitter *fitter,
                           TGo4FitData* data,
                           Int_t PolynomOrder,
                           Double_t Sigma);
@@ -112,7 +112,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        * Only selected by range conditions data part will be used by peak finder.
        * Appropriate number of gaussians will be placed in list of models and associate with data.
        */
-      void SergeyLinevPeakFinder(TGo4Fitter* fitter,
+      void SergeyLinevPeakFinder(TGo4Fitter *fitter,
                                  TGo4FitData* data,
                                  Int_t PolOrder,
                                  Double_t AmplThreshold,
@@ -123,7 +123,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        * Hans Essel (c) peak finder.
        *
        */
-      void HansEsselPeakFinder(TGo4Fitter* fitter,
+      void HansEsselPeakFinder(TGo4Fitter *fitter,
                                TGo4FitData* data,
                                Int_t MaxNumPeaks = 50,
                                Int_t ChannelSum = 1,

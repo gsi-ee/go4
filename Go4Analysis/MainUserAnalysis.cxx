@@ -213,7 +213,7 @@ void usage(const char *subtopic = nullptr)
    std::cout << "  -outevt-class name   :  (re)define class name of output event" << std::endl;
    std::cout << std::endl;
    std::cout << "USER: user-defined arguments" << std::endl;
-   std::cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << std::endl;
+   std::cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char **argv) signature" << std::endl;
    std::cout << "                          all following arguments will be provided as array of strings, first argument - analysis name" << std::endl;
    std::cout << std::endl;
 }

@@ -25,7 +25,7 @@ class TGo4BranchStatus : public TGo4ObjectStatus {
       /**
        * Create status information from given TBranch object.
        * For reconstruction of TTree structure for display in remote browser. */
-      TGo4BranchStatus(TBranch* branch);
+      TGo4BranchStatus(TBranch *branch);
 
       virtual ~TGo4BranchStatus();
 

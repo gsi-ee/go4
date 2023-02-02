@@ -59,7 +59,7 @@ void QFitDataWidget::FillSpecificData()
 
      QString info("Models:");
 
-     TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (GetItem()->Parent()->Object());
+     TGo4Fitter *fitter = dynamic_cast<TGo4Fitter*> (GetItem()->Parent()->Object());
      if (fitter)
         for (Int_t nmodel = 0; nmodel < fitter->GetNumModel(); nmodel++) {
            TGo4FitModel *model = fitter->GetModel(nmodel);

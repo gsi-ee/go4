@@ -30,7 +30,7 @@ void QFitTableWidget::FillSpecificData()
    Table->setEnabled(false);
    if (GetItem())
      if (GetItem()->ObjectType()==FitGui::ot_results) {
-        TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (GetObject());
+        TGo4Fitter *fitter = dynamic_cast<TGo4Fitter*> (GetObject());
         if (!fitter) return;
         Table->setColumnCount(1);
         Table->setHorizontalHeaderItem(0, new QTableWidgetItem("Value"));

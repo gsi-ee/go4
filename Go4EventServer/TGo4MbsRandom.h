@@ -33,7 +33,7 @@ class TGo4MbsRandom : public TGo4MbsSource {
 
     TGo4MbsRandom();
 
-    TGo4MbsRandom(TGo4MbsRandomParameter* par);
+    TGo4MbsRandom(TGo4MbsRandomParameter *par);
 
     virtual ~TGo4MbsRandom();
 
@@ -62,7 +62,7 @@ class TGo4MbsRandom : public TGo4MbsSource {
     Int_t fiNumDat{0};
 
     /** Memory allocated for the current random event */
-    Short_t* fxEventMem{nullptr}; //!
+    Short_t *fxEventMem{nullptr}; //!
 
     UInt_t fuSeed{0};
 

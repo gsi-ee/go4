@@ -25,25 +25,25 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     virtual ~TGo4MbsSourceParameter();
 
     /** Define the Start index for the NextEvent */
-    void SetStartEvent(UInt_t firstindex) { fuStartEvent=firstindex; }
+    void SetStartEvent(UInt_t firstindex) { fuStartEvent = firstindex; }
 
     /** Returns the Start index for the NextEvent */
     UInt_t GetStartEvent() const { return fuStartEvent; }
 
     /** Define the index of Stop event */
-    void SetStopEvent(UInt_t lastindex) { fuStopEvent=lastindex; }
+    void SetStopEvent(UInt_t lastindex) { fuStopEvent = lastindex; }
 
     /** Returns the index of Stop event */
     UInt_t GetStopEvent() const { return fuStopEvent; }
 
     /** Defines event interval */
-    void SetEventInterval(UInt_t skipinterval) { fuEventInterval=skipinterval; }
+    void SetEventInterval(UInt_t skipinterval) { fuEventInterval = skipinterval; }
 
     /** Returns event interval */
     UInt_t GetEventInterval() const { return fuEventInterval; }
 
     /** Set optional port number, 0 or negative value means that default port number will be used */
-    void SetPort(Int_t port) { fiPort=port; }
+    void SetPort(Int_t port) { fiPort = port; }
 
     /** Return optional port number, 0 or negative value means that default port number will be used */
     Int_t GetPort() const { return fiPort; }

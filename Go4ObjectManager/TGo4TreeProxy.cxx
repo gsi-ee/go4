@@ -21,7 +21,7 @@
 
 class TGo4BranchAccess : public TGo4Access {
    public:
-      TGo4BranchAccess(TBranch* br) : TGo4Access(), fBranch(br) {}
+      TGo4BranchAccess(TBranch *br) : TGo4Access(), fBranch(br) {}
 
       const char *GetObjectName() const override
         { return fBranch->GetName(); }
@@ -30,7 +30,7 @@ class TGo4BranchAccess : public TGo4Access {
         { return fBranch->ClassName(); }
 
    private:
-      TBranch*   fBranch{nullptr};  //!
+      TBranch   *fBranch{nullptr};  //!
 };
 
 // ****************************************************************
@@ -43,7 +43,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          fIter = tree->GetListOfBranches()->MakeIterator();
       }
 
-      TGo4TreeLevelIter(TBranch* branch) :
+      TGo4TreeLevelIter(TBranch *branch) :
          TGo4LevelIter()
       {
          fIter = branch->GetListOfBranches()->MakeIterator();
@@ -59,7 +59,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          do {
             TObject *res = fIter->Next();
             if (!res) return kFALSE;
-            fCurrent = dynamic_cast<TBranch*> (res);
+            fCurrent = dynamic_cast<TBranch *> (res);
          } while (!fCurrent);
          return kTRUE;
       }
@@ -148,7 +148,7 @@ std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree *tree, const char 
       while ((obj = iter()) != nullptr)
          if ((strlen(obj->GetName()) == len) &&
              (strncmp(obj->GetName(), curname, len) == 0)) break;
-      TBranch* br = dynamic_cast<TBranch*> (obj);
+      TBranch *br = dynamic_cast<TBranch *> (obj);
       if (!br) return nullptr;
 
       if (slash) {

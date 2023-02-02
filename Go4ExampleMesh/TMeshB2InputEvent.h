@@ -26,7 +26,7 @@ class TMeshB2InputEvent : public TGo4EventElement {
       virtual ~TMeshB2InputEvent();
 
       Int_t Fill() override;
-      void Clear(Option_t *t = "") override;
+      void Clear(Option_t *opt = "") override;
       Int_t Init() override;
 
       Int_t fiCrate2[16];

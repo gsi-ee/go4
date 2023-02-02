@@ -23,7 +23,7 @@ class TH1D;
 class TMeshAnalysis : public TGo4Analysis {
    public:
       TMeshAnalysis();
-      TMeshAnalysis(int argc, char** argv);
+      TMeshAnalysis(int argc, char **argv);
       virtual ~TMeshAnalysis();
       Int_t UserPreLoop() override;
       Int_t UserEventFunc() override;

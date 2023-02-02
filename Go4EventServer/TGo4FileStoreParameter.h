@@ -22,10 +22,10 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
       TGo4FileStoreParameter();
 
       TGo4FileStoreParameter(const char *name,
-                             Int_t splitlevel=99,
-                             Int_t bufsize=32000,
-                             Int_t compression=5,
-                             Int_t autosave=10000);
+                             Int_t splitlevel = 99,
+                             Int_t bufsize = 32000,
+                             Int_t compression = 5,
+                             Int_t autosave = 10000);
 
       virtual ~TGo4FileStoreParameter();
 
@@ -35,19 +35,19 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
       Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
       Int_t GetSplitlevel() const { return fiSplit; }
-      void SetSplitlevel(Int_t split) { fiSplit=split; }
+      void SetSplitlevel(Int_t split) { fiSplit = split; }
 
       Int_t GetBufsize() const { return fiBufsize; }
-      void SetBufsize(Int_t bufsize) { fiBufsize=bufsize; }
+      void SetBufsize(Int_t bufsize) { fiBufsize = bufsize; }
 
       Int_t GetCompression() const { return fiCompression; }
-      void SetCompression(Int_t comp) { fiCompression=comp; }
+      void SetCompression(Int_t comp) { fiCompression = comp; }
 
       Int_t GetAutosaveSize() const { return fiAutosavesize; }
-      void SetAutosaveSize(Int_t interval) { fiAutosavesize=interval; }
+      void SetAutosaveSize(Int_t interval) { fiAutosavesize = interval; }
 
       Int_t IsOverwriteMode() const { return fbOverwrite; }
-      void SetOverwriteMode(Bool_t over=kTRUE) { fbOverwrite = over ? 1 : 0; }
+      void SetOverwriteMode(Bool_t over = kTRUE) { fbOverwrite = over ? 1 : 0; }
 
    private:
 

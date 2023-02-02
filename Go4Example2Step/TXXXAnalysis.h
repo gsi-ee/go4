@@ -26,7 +26,7 @@ class TXXXParameter;
 class TXXXAnalysis : public TGo4Analysis  {
    public:
       TXXXAnalysis();
-      TXXXAnalysis(int argc, char** argv);
+      TXXXAnalysis(int argc, char **argv);
       virtual ~TXXXAnalysis();
       Int_t UserPreLoop() override;
       Int_t UserEventFunc() override;

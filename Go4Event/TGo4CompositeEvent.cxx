@@ -104,7 +104,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
 
    while (i < init + all_branches) {
       i++;
-      TBranch* b = (TBranch*) br->At(i);
+      TBranch *b = (TBranch *) br->At(i);
       Bool_t readentry = kFALSE;
       if (!b) continue;
 

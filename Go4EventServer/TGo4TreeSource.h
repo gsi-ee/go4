@@ -37,7 +37,7 @@ class TGo4TreeSource : public TGo4EventSource {
 
     virtual ~TGo4TreeSource();
 
-    TGo4TreeSource(TGo4TreeSourceParameter* par);
+    TGo4TreeSource(TGo4TreeSourceParameter *par);
 
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter

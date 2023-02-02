@@ -77,8 +77,8 @@ public:
     virtual bool WorkingWithOnlyPad();
     virtual TGo4ViewPanel* ActivePanel();
     virtual TPad *ActivePad();
-    virtual TGo4Fitter* GetFitter();
-    virtual TGo4Fitter* CloneFitter();
+    virtual TGo4Fitter *GetFitter();
+    virtual TGo4Fitter *CloneFitter();
     virtual void RemoveFitterLink();
     virtual void SetFitter(TGo4Fitter*);
     virtual void Fitter_New();
@@ -142,8 +142,8 @@ public:
     virtual void UpdateWizardPage();
     virtual void UpdateExtendedPage();
     virtual void RemovePrimitives();
-    virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad *pad, const char *name);
-    virtual void CreateDataFor(TGo4ViewPanel* panel, TPad *pad, TGo4Fitter* fitter);
+    virtual TGo4Fitter *CreateFitterFor(TGo4ViewPanel* panel, TPad *pad, const char *name);
+    virtual void CreateDataFor(TGo4ViewPanel* panel, TPad *pad, TGo4Fitter *fitter);
     virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
     virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
@@ -162,9 +162,9 @@ public:
     virtual void FillParsList(QFitItem* item);
     virtual void FillSlotsList(QFitItem* parent, const TObjArray *lst, TObject *owner);
     virtual void FillDependencyList(QFitItem* parent);
-    virtual void PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update);
+    virtual void PaintFitter(TGo4Fitter *fitter, QFitItem* item, bool update);
     virtual bool PaintModel(TGo4FitModel* model, TPad *pad, QFitItem* item);
-    virtual bool PaintModelsFor(TGo4Fitter* fitter, TGo4FitData* data, QFitItem* item, bool update);
+    virtual bool PaintModelsFor(TGo4Fitter *fitter, TGo4FitData* data, QFitItem* item, bool update);
     virtual bool PaintRange(TGo4FitComponent* comp, int nrange, TPad *pad, QFitItem* item);
     virtual TGo4FitPeakFinder* GetPeakFinder(bool autocreate);
     virtual TGo4FitData* Wiz_SelectedData();
@@ -185,7 +185,7 @@ public:
     virtual TPad *FindPadWhereModel(TGo4FitModel* model);
     virtual TPad *FindPadWhereComp(TGo4FitComponent* comp);
     virtual TGo4FitData* CreateData(int id, const char *name);
-    virtual TGo4FitModel* CreateModel(int id, const char *namebase, TGo4Fitter* fitter, TGo4FitData* data);
+    virtual TGo4FitModel* CreateModel(int id, const char *namebase, TGo4Fitter *fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
     virtual int DefineModelWidgetType(TObject *obj);
     virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink);

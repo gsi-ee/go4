@@ -47,7 +47,7 @@ class TGo4AnalysisClient : public TGo4Slave {
                        Bool_t loadprefs = kTRUE,
                        Bool_t showrate = kFALSE);
 
-    TGo4AnalysisClient(int argc, char** argv,
+    TGo4AnalysisClient(int argc, char **argv,
                        TGo4Analysis *analysis,
                        Bool_t histoserver = kFALSE,
                        const char *basename = "Go4",

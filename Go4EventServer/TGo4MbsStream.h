@@ -32,7 +32,7 @@ class TGo4MbsStream : public TGo4MbsSource {
 
     TGo4MbsStream();
 
-    TGo4MbsStream(TGo4MbsStreamParameter* par);
+    TGo4MbsStream(TGo4MbsStreamParameter *par);
 
     ~TGo4MbsStream();
 

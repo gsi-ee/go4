@@ -84,7 +84,7 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement **var_p
 {
    if (!tree) return;
 
-   TBranch* topb = nullptr;
+   TBranch *topb = nullptr;
    TString searchname = GetName();
    if (searchname.Length()>0) {
       searchname += ".";
@@ -93,7 +93,7 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement **var_p
 
    // if no appropriate branches found, use first branch for the event
    // TODO: should we check class name of the branch?
-   if (!topb) topb = (TBranch*) tree->GetListOfBranches()->First();
+   if (!topb) topb = (TBranch *) tree->GetListOfBranches()->First();
 
    Int_t index = tree->GetListOfBranches()->IndexOf(topb);
 

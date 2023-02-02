@@ -51,7 +51,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
     Int_t Store(TGo4Condition *conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
-    Int_t Store(TGo4Fitter* fitter) override;
+    Int_t Store(TGo4Fitter *fitter) override;
 
     /** Saves a complete objects folder correlated with the current event into the storage. */
     Int_t Store(TFolder *fold) override;

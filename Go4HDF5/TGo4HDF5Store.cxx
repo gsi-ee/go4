@@ -152,7 +152,7 @@ Int_t TGo4HDF5Store::Store(TGo4Condition *conny)
    return 0;
 }
 
-Int_t TGo4HDF5Store::Store(TGo4Fitter* fitter)
+Int_t TGo4HDF5Store::Store(TGo4Fitter *fitter)
 {
    WriteToStore(fitter);
    return 0;

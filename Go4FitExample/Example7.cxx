@@ -67,7 +67,7 @@ TGo4FitAxisTrans* ConstructTrans()
    return trans;
 }
 
-TGo4Fitter* BuildFitter()
+TGo4Fitter *BuildFitter()
 {
 // create fitter and select function to fit
    TGo4Fitter *fitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kFALSE);
@@ -121,7 +121,7 @@ TGo4Fitter* BuildFitter()
 }
 
 // store fitter with all supplied objects
-void StoreFitter(TGo4Fitter* fitter)
+void StoreFitter(TGo4Fitter *fitter)
 {
    TFile *f = TFile::Open("Example7.root","recreate");
    if (f) fitter->Write("Fitter");
@@ -129,11 +129,11 @@ void StoreFitter(TGo4Fitter* fitter)
 }
 
 // read fitter from file
-TGo4Fitter* RestoreFitter()
+TGo4Fitter *RestoreFitter()
 {
    TFile *f = TFile::Open("Example7.root");
    if (!f) return nullptr;
-   TGo4Fitter* fitter = nullptr;
+   TGo4Fitter *fitter = nullptr;
    f->GetObject("Fitter", fitter);
    delete f;
    return fitter;
@@ -142,7 +142,7 @@ TGo4Fitter* RestoreFitter()
 void Example7()
 {
 // create fitter
-   TGo4Fitter* fitter = BuildFitter();
+   TGo4Fitter *fitter = BuildFitter();
 
 // store empty fitter to file and restore again
    StoreFitter(fitter);

@@ -59,10 +59,10 @@ class TXXXCalibPar : public TGo4Parameter {
       TString fxLinesNames[__LINESNUMBER__]; // Database names of calibration lines.
 
       /** Fitter to search lines*/
-      TGo4Fitter* fxLinesFinder{nullptr}; // Fitter to search lines
+      TGo4Fitter *fxLinesFinder{nullptr}; // Fitter to search lines
 
       /** Fitter for calibration of channel/energies with polynom */
-      TGo4Fitter* fxCalibrator{nullptr}; // Fitter for calibration of channel/energies with polynom
+      TGo4Fitter *fxCalibrator{nullptr}; // Fitter for calibration of channel/energies with polynom
 
       /** Reference to graph containing the calibration points */
       TGraph *fxCalibCurve{nullptr}; //! Reference to graph containing the calibration points

@@ -283,7 +283,7 @@ Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Condition *con)
    return step ? step->Store(con) : 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Fitter* fit)
+Int_t TGo4AnalysisStepManager::Store(const char *name, TGo4Fitter *fit)
 {
    TGo4AnalysisStep *step=GetAnalysisStep(name);
    return step ? step->Store(fit) : 1;

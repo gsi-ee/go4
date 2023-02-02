@@ -252,7 +252,7 @@ class TGo4AnalysisStep : public TNamed {
     Int_t Store(TGo4Condition *conny);
 
     /** Saves a fitter correlated with the current event into the storage. */
-    Int_t Store(TGo4Fitter* fitter);
+    Int_t Store(TGo4Fitter *fitter);
 
     /** Saves a folder correlated with the current event into the storage. */
     Int_t Store(TFolder *fold);

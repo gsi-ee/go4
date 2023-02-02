@@ -109,7 +109,7 @@ Int_t TGo4BackStore::Store(TGo4Condition *conny)
    return 0;
 }
 
-Int_t TGo4BackStore::Store(TGo4Fitter* fitty)
+Int_t TGo4BackStore::Store(TGo4Fitter *fitty)
 {
    return 0;
 }

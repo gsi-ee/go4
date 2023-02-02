@@ -22,8 +22,8 @@ class TGo4BackStoreParameter : public TGo4EventStoreParameter {
       TGo4BackStoreParameter();
 
       TGo4BackStoreParameter(const char *name,
-                              Int_t splitlevel=99,
-                              Int_t bufsize=32000);
+                              Int_t splitlevel = 99,
+                              Int_t bufsize = 32000);
 
       virtual ~TGo4BackStoreParameter();
 
@@ -33,10 +33,10 @@ class TGo4BackStoreParameter : public TGo4EventStoreParameter {
       Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
       Int_t GetSplitlevel() const { return fiSplit; }
-      void SetSplitlevel(Int_t split) { fiSplit=split; }
+      void SetSplitlevel(Int_t split) { fiSplit = split; }
 
       Int_t GetBufsize() const { return fiBufsize; }
-      void SetBufsize(Int_t bufsize) { fiBufsize=bufsize; }
+      void SetBufsize(Int_t bufsize) { fiBufsize = bufsize; }
 
    private:
 

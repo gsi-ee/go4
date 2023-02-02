@@ -42,13 +42,13 @@ class TGo4FitterEnvelope : public TGo4Parameter {
       * If change owner is kTRUE, this fitter envelope will lose
       * its fitter to the invoking client and is empty after
       * this call. */
-    TGo4Fitter* GetFitter(Bool_t chown = kFALSE);
+    TGo4Fitter *GetFitter(Bool_t chown = kFALSE);
 
      /** Set new fitter into envelope. Previous fitter is deleted. */
-     void SetFitter(TGo4Fitter* fitter);
+     void SetFitter(TGo4Fitter *fitter);
 
   private:
-    TGo4Fitter* fxFitter{nullptr};
+    TGo4Fitter *fxFitter{nullptr};
 
   ClassDefOverride(TGo4FitterEnvelope,1)
 };

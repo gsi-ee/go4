@@ -39,13 +39,13 @@ class TGo4FileStore : public TGo4EventStore {
     TGo4FileStore();
 
     TGo4FileStore(const char *name,
-                  Int_t splitlevel=1,
-                  Int_t compression=1,
-                  Bool_t overwrite=kFALSE,
-                  Int_t autosavesize=10000, // positive: entries, negative: bytes
-                  Int_t bufsize=64000);
+                  Int_t splitlevel = 1,
+                  Int_t compression = 1,
+                  Bool_t overwrite = kFALSE,
+                  Int_t autosavesize = 10000, // positive: entries, negative: bytes
+                  Int_t bufsize = 64000);
 
-    TGo4FileStore(TGo4FileStoreParameter* par);
+    TGo4FileStore(TGo4FileStoreParameter *par);
 
     virtual ~TGo4FileStore();
 
@@ -60,7 +60,7 @@ class TGo4FileStore : public TGo4EventStore {
     Int_t Store(TGo4Condition *conny) override;
 
     /** Saves a fitter correlated with the current event into the storage. */
-    Int_t Store(TGo4Fitter* fitter) override;
+    Int_t Store(TGo4Fitter *fitter) override;
 
     /** Saves a complete objects folder correlated with the current event into the storage. */
     Int_t Store(TFolder *fold) override;

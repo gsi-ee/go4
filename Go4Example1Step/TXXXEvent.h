@@ -23,7 +23,7 @@ class TXXXEvent : public TGo4EventElement {
       virtual ~TXXXEvent();
 
       /** Method called by the framework to clear the event element. */
-      void Clear(Option_t *t = "") override;
+      void Clear(Option_t *opt = "") override;
 
       Float_t fCrate1[8];
       Float_t fCrate2[8];

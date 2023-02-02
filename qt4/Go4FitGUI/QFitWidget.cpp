@@ -54,7 +54,7 @@ TObject * QFitWidget::GetObject()
    return nullptr;
 }
 
-TGo4Fitter* QFitWidget::GetFitter()
+TGo4Fitter *QFitWidget::GetFitter()
 {
    return !fxPanel ? nullptr : fxPanel->GetFitter();
 }

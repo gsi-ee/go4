@@ -55,7 +55,7 @@ class TGo4EventStore : public TNamed {
 
     /** Saves a fitter correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */
-    virtual Int_t Store(TGo4Fitter* fitter);
+    virtual Int_t Store(TGo4Fitter *fitter);
 
     /** Saves a folder correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */

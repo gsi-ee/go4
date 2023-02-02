@@ -177,9 +177,9 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
                   target->SetValid(kFALSE);
                   break;
                }
-               Int_t * subeventid= (Int_t *) (subevent) + 2; // full id starts 2 ints after subevent head anyway
+               Int_t *subeventid= (Int_t *) (subevent) + 2; // full id starts 2 ints after subevent head anyway
                //Int_t *subeventid= (Int_t *) &(subevent->i_procid); // full id is lw from control, subcrate, procid fields - some compilers complain here!
-               Short_t* data = (Short_t*) (subevent+1); // data starts after subevent header
+               Short_t *data = (Short_t *) (subevent+1); // data starts after subevent header
                subtarget = target->AddSubEvent(*subeventid, data, datalength, fbDataCopyMode); // find subevent that matches id and fill it
                subtarget->SetType(subevent->i_type); // need to set ids manually afterwards
                subtarget->SetSubtype(subevent->i_subtype);
@@ -214,9 +214,9 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
             target->SetCount(1);
             target->SetDummy(0);
             if(fxEvent->l_dlen > 0) {
-               Int_t subeventid= 4; // arbitrarily defined here for type 4,1
-               Short_t* data = (Short_t*) (eventfourone+1); // data starts after subevent header
-               Int_t datalength=eventfourone->l_dlen+2; // length of later subevent header  (in Short_t!)
+               Int_t subeventid = 4; // arbitrarily defined here for type 4,1
+               Short_t *data = (Short_t *) (eventfourone+1); // data starts after subevent header
+               Int_t datalength = eventfourone->l_dlen+2; // length of later subevent header  (in Short_t!)
                // add 2 to direct dlen from 4,1 event header to account subevent header
                subtarget = target->AddSubEvent(subeventid, data, datalength, fbDataCopyMode); // find subevent that matches id and fill it
                subtarget->SetType(4);
@@ -240,7 +240,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
 }
 
 
-TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fullID, Short_t* source, Int_t datalength)
+TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength)
 {
    // code moved into TGo4MbsEvent class, method kept for compatibility
 

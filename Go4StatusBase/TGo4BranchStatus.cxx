@@ -22,7 +22,7 @@ TGo4BranchStatus::TGo4BranchStatus() :
 {
 }
 
-TGo4BranchStatus::TGo4BranchStatus(TBranch* branch) :
+TGo4BranchStatus::TGo4BranchStatus(TBranch *branch) :
    TGo4ObjectStatus(branch, kFALSE)
 {
    if (branch) {

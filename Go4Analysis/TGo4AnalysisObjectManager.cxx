@@ -323,11 +323,11 @@ TFolder *TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray *branc
       TObject *entry = branchlist->At(i+offset);
       if(entry && entry->InheritsFrom(TBranch::Class()))  {
          // found subfolder, process it recursively
-         TBranch* currentbranch = dynamic_cast<TBranch*> (entry);
+         TBranch *currentbranch = dynamic_cast<TBranch *> (entry);
          TObjArray *currentbranchlist = nullptr;
          if (currentbranch) {
             currentbranchlist = currentbranch->GetListOfBranches();
-            cl=gROOT->GetClass(currentbranch->GetClassName());
+            cl = gROOT->GetClass(currentbranch->GetClassName());
          }
          if(cl && cl->InheritsFrom(TGo4CompositeEvent::Class())) {
             // subevent is also composite event, treat next n branches as subbranches:
@@ -619,12 +619,12 @@ TFolder *TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray *branchlist,
    while(auto entry = iter()) {
       if(entry->InheritsFrom(TBranch::Class())) {
          // found subfolder, process it recursively
-         TBranch* subbranch= dynamic_cast<TBranch*> (entry);
+         TBranch *subbranch = dynamic_cast<TBranch*> (entry);
          TObjArray *subbranchlist = subbranch->GetListOfBranches();
          if(subbranchlist) {
             if(subbranchlist->IsEmpty()) {
                // subbranchlist is empty, add status object to folder
-               state=new TGo4BranchStatus(subbranch);
+               state = new TGo4BranchStatus(subbranch);
                nameslist->AddLast(state);
             } else {
                // found subbranchlist

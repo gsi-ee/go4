@@ -45,14 +45,14 @@ class TGo4MbsEvent : public TGo4EventElement {
        * an array which specifies the subevent ids (procids) to
        * create. Subevent number subnum must not extend
        * the length of subids field. */
-      TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize=100);
+      TGo4MbsEvent(UInt_t subnum, Short_t *subids, UInt_t datasize = 100);
 
       /** Ctor expecting the number of subevents to initialize and
        * arrays which specify the subevent ids (subcrate, ctrl, procid) to
        * create. Subevent number subnum must not extend
        * the length of subids field. Array datasizes contains preallocated size of
        * each subevent data field. */
-      TGo4MbsEvent(UInt_t subnum, Char_t *subcrates, Char_t *controls, Short_t* procids, UInt_t *datasizes);
+      TGo4MbsEvent(UInt_t subnum, Char_t *subcrates, Char_t *controls, Short_t *procids, UInt_t *datasizes);
 
       /** Ctor expecting just a name. Auxiliary to support
        * mbs event in the generic step factory. */
@@ -126,7 +126,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * /param copydata if true data will be copied into internal allocated buffer,
        *        otherwise pointer on provided buffer will be used */
       TGo4MbsSubEvent* AddSubEvent(Int_t fullID,
-                                   Short_t* source,
+                                   Short_t *source,
                                    Int_t datalength,
                                    Bool_t copydata = kFALSE);
 

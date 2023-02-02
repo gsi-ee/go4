@@ -32,13 +32,13 @@ TGo4MbsEvent::TGo4MbsEvent() :
    //TGo4Log::Info( "MBS Event default ctor");
 }
 
-TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
+TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t *subids, UInt_t datasize) :
    TGo4EventElement("MbsEvent101"),
    fxHeader(),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t *, UInt_t)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t = 0; t < subnum; ++t) {
@@ -52,14 +52,14 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
 TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
                            Char_t *subcrates,
                            Char_t *controls,
-                           Short_t* procids,
+                           Short_t *procids,
                            UInt_t *datasizes) :
    TGo4EventElement("MbsEvent101"),
    fxHeader(),
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t *, Char_t *, Short_t *, UInt_t *)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t = 0; t < subnum; ++t) {

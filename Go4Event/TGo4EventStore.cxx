@@ -49,7 +49,7 @@ Int_t TGo4EventStore::Store(TGo4Condition *)
 
 Int_t TGo4EventStore::Store(TGo4Fitter *)
 {
-   MayNotUse("TGo4EventStore::Store(TGo4Fitter* fitter)");
+   MayNotUse("TGo4EventStore::Store(TGo4Fitter *fitter)");
    TGo4Log::Debug(" EventStore::Store Fitter not implemented for %s", ClassName());
    return 0;
 }

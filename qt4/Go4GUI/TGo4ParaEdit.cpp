@@ -344,7 +344,7 @@ void TGo4ParaEdit::TableContextMenu(const QPoint& pnt)
 
         contextMenu.addAction( "Edit...",  this, &TGo4ParaEdit::EditFitter);
 
-        TGo4Fitter* fitter = nullptr;
+        TGo4Fitter *fitter = nullptr;
         ServiceCall("GetFitterFromFitPanel", &fitter);
         if (fitter && (info->GetObject() != fitter))
            contextMenu.addAction( "Get from FitPanel",  this, &TGo4ParaEdit::GetFitterFromEditor);
@@ -393,7 +393,7 @@ void TGo4ParaEdit::DecArrayIndex()
 void TGo4ParaEdit::EditFitter()
 {
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
-   TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (info->GetObject());
+   TGo4Fitter *fitter = dynamic_cast<TGo4Fitter*> (info->GetObject());
 
    if(!fitter) {
       fitter = new TGo4Fitter("Fitter","Fitter from parameter editor");
@@ -411,7 +411,7 @@ void TGo4ParaEdit::GetFitterFromEditor()
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(fiCurrentRow);
    if (!info || !info->IsFitterItem()) return;
 
-   TGo4Fitter* fitter = nullptr;
+   TGo4Fitter *fitter = nullptr;
    ServiceCall("CloneFitterFromFitPanel", &fitter);
 
    if (fitter) info->SetObject(fitter, kTRUE);

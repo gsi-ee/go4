@@ -80,7 +80,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
    SetCintMode(cintmode);
 }
 
-TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
+TGo4AnalysisClient::TGo4AnalysisClient(int argc, char **argv,
                                        TGo4Analysis *analysis,
                                        Bool_t histoserver,
                                        const char *basename,

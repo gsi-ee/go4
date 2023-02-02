@@ -20,7 +20,7 @@ TGo4FitterEnvelope::TGo4FitterEnvelope()
 {
 }
 
-TGo4FitterEnvelope::TGo4FitterEnvelope(const char *name, TGo4Fitter* fitter)
+TGo4FitterEnvelope::TGo4FitterEnvelope(const char *name, TGo4Fitter *fitter)
 : TGo4Parameter(name)
 {
    fxFitter = fitter;
@@ -55,14 +55,14 @@ void TGo4FitterEnvelope::Clear(Option_t *opt)
    if(fxFitter) fxFitter->Clear(opt);
 }
 
-TGo4Fitter* TGo4FitterEnvelope::GetFitter(Bool_t chown)
+TGo4Fitter *TGo4FitterEnvelope::GetFitter(Bool_t chown)
 {
-   TGo4Fitter* rev=fxFitter;
+   TGo4Fitter *rev=fxFitter;
    if(chown) fxFitter = nullptr;
    return rev;
 }
 
-void TGo4FitterEnvelope::SetFitter(TGo4Fitter* fitter)
+void TGo4FitterEnvelope::SetFitter(TGo4Fitter *fitter)
 {
    if(fxFitter) delete fxFitter;
    fxFitter = fitter;

@@ -65,7 +65,7 @@ class TGo4MbsSource : public TGo4EventSource {
 
     TGo4MbsSource(const char *name, Int_t mode);
 
-    TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode);
+    TGo4MbsSource(TGo4MbsSourceParameter *par, Int_t mode);
 
     virtual ~TGo4MbsSource();
 
@@ -89,29 +89,29 @@ class TGo4MbsSource : public TGo4EventSource {
       * from source, therefore one source event may be used
       * to fill several TGo4MbsEvent classes. To get a new
       * event call NextEvent() before this method.*/
-    void BuildMbsEvent(TGo4MbsEvent * target);
+    void BuildMbsEvent(TGo4MbsEvent *target);
 
     /** Auxiliary function to fill datalength words (Short_t) from source
      * into the next subevent of target with matching header fullID longword.
      * Returns handle to this subevent. */
-    TGo4MbsSubEvent* BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fullID, Short_t* source, Int_t datalength);
+    TGo4MbsSubEvent* BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength);
 
     /** Define the Start index for the NextEvent */
-    void SetStartEvent(UInt_t firstindex) { fuStartEvent=firstindex; }
+    void SetStartEvent(UInt_t firstindex) { fuStartEvent = firstindex; }
 
-    void SetStopEvent(UInt_t lastindex) { fuStopEvent=lastindex; }
+    void SetStopEvent(UInt_t lastindex) { fuStopEvent = lastindex; }
 
-    void SetEventInterval(UInt_t skipinterval) { fuEventInterval=skipinterval; }
+    void SetEventInterval(UInt_t skipinterval) { fuEventInterval = skipinterval; }
 
-    void SetTimeout(Int_t time) { fiTimeout=time; }
+    void SetTimeout(Int_t time) { fiTimeout = time; }
 
-    void SetPort(Int_t port) { fiPort=port; }
+    void SetPort(Int_t port) { fiPort = port; }
 
     /** User access to info header. May contain additional run information */
-    s_filhe * GetInfoHeader() { return fxInfoHeader; }
+    s_filhe *GetInfoHeader() { return fxInfoHeader; }
 
     /** User access to current event buffer header. */
-    virtual s_bufhe * GetBufferHeader();
+    virtual s_bufhe *GetBufferHeader();
 
     /** ratio sizeof(long) by sizeof(char). */
     static const UInt_t fguLONGBYCHAR;//!

@@ -33,7 +33,7 @@ TYYYAnalysis::TYYYAnalysis() :
 
 //***********************************************************
 // this constructor is used
-TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
+TYYYAnalysis::TYYYAnalysis(int argc, char **argv) :
    TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {

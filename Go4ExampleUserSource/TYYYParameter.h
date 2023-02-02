@@ -32,7 +32,7 @@ class TYYYParameter : public TGo4Parameter {
       Float_t frP1{0.};
       Float_t frP2{0.};
       Int_t fiDataArray[__ARRAYSIZE__] = {0,0,0,0,0};
-      TGo4Fitter* fxFitArray[__ARRAYSIZE__] = {nullptr,nullptr,nullptr,nullptr,nullptr};
+      TGo4Fitter *fxFitArray[__ARRAYSIZE__] = {nullptr,nullptr,nullptr,nullptr,nullptr};
 
    ClassDefOverride(TYYYParameter,1)
 };

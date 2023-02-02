@@ -183,7 +183,7 @@ TGo4Analysis::TGo4Analysis(const char *name) :
 }
 
 
-TGo4Analysis::TGo4Analysis(int argc, char** argv) :
+TGo4Analysis::TGo4Analysis(int argc, char **argv) :
    TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
@@ -1687,7 +1687,7 @@ Int_t TGo4Analysis::StoreCondition(const char *name, TGo4Condition *con)
    return fxStepManager->Store(name, con);
 }
 
-Int_t TGo4Analysis::StoreFitter(const char *name, TGo4Fitter* fit)
+Int_t TGo4Analysis::StoreFitter(const char *name, TGo4Fitter *fit)
 {
    return fxStepManager->Store(name, fit);
 }

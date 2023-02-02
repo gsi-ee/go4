@@ -67,8 +67,8 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
     private:
 
        Double_t PointWeight(Int_t niter, Int_t FFtype, Double_t value, Double_t modelvalue, Double_t standdev);
-       Bool_t CalculateWithBuffers(TGo4Fitter* fitter);
-       Bool_t CalculateWithIterators(TGo4Fitter* fitter);
+       Bool_t CalculateWithBuffers(TGo4Fitter *fitter);
+       Bool_t CalculateWithIterators(TGo4Fitter *fitter);
 
        /**
         * Number of iterations, used for amplitude estimation.

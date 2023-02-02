@@ -26,7 +26,7 @@ class TMeshB2OutputEvent : public TGo4EventElement {
       virtual ~TMeshB2OutputEvent();
       Int_t Init() override;
       Int_t Fill() override;
-      void  Clear(Option_t *t = "") override;
+      void  Clear(Option_t *opt = "") override;
 
       Float_t frData[16];
    private:

@@ -32,7 +32,7 @@ TXXXAnalysis::TXXXAnalysis() :
 
 //***********************************************************
 // this constructor is called by go4analysis executable
-TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
+TXXXAnalysis::TXXXAnalysis(int argc, char **argv) :
    TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {

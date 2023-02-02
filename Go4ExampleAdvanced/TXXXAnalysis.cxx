@@ -33,7 +33,7 @@ TXXXAnalysis::TXXXAnalysis() :
 
 //***********************************************************
 // this constructor is called by go4analysis executable
-TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
+TXXXAnalysis::TXXXAnalysis(int argc, char **argv) :
    TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
@@ -154,7 +154,7 @@ Int_t TXXXAnalysis::UserPreLoop()
    // we use a fitter envelope parameters to exchange fit results:
    fFitEnvSize = (TGo4FitterEnvelope*) GetParameter("sizefitter");
    if(!fFitEnvSize) {
-      TGo4Fitter* fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);
+      TGo4Fitter *fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted
       fitter->AddH1("data1", fSize, kFALSE);
       // create polynom of first order
@@ -166,7 +166,7 @@ Int_t TXXXAnalysis::UserPreLoop()
    }
    fFitEnvSpectrum=(TGo4FitterEnvelope*) GetParameter("specfitter");
    if(!fFitEnvSpectrum) {
-      TGo4Fitter* fitter = new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);
+      TGo4Fitter *fitter = new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted
       fitter->AddH1("spectrum", fSize, kFALSE);
       // create polynom of first order
@@ -201,7 +201,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //  if(fFitEnvSize)
 //     {
 //         std::cout <<"Fitting event size..." << std::endl;
-//         TGo4Fitter* fitter=fFitEnvSize->GetFitter();
+//         TGo4Fitter *fitter = fFitEnvSize->GetFitter();
 //         if(fitter)
 //         {
 //            // Fitter setting histogram and fitting...
@@ -215,7 +215,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //   if(fFitEnvSpectrum)
 //     {
 //         std::cout <<"Fitting sum spectrum..." << std::endl;
-//         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
+//         TGo4Fitter *fitter = fFitEnvSpectrum->GetFitter();
 //         if(fitter)
 //         {
 //            // Fitter setting histogram and fitting...
@@ -237,7 +237,7 @@ Int_t TXXXAnalysis::UserPostLoop()
 //   if(fFitEnvSpectrum)
 //     {
 //         std::cout <<"Storing fitter"<<fFitEnvSpectrum->GetName() <<" to analysis" << std::endl;
-//         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
+//         TGo4Fitter *fitter = fFitEnvSpectrum->GetFitter();
 //         StoreFitter("Analysis",fitter);
 //     }
 //

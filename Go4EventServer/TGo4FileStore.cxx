@@ -185,7 +185,7 @@ Int_t TGo4FileStore::Store(TGo4EventElement *event)
       // first call of Store, create new branch
       if(fxEvent) {
          TString topbranchname = TString::Format("%s.", fxEvent->GetName());
-         TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());
+         TBranch *go4branch = fxTree->GetBranch(topbranchname.Data());
          if(go4branch) {
             // tree already had branch of our name, check it
             TGo4Log::Debug(" FileStore: Found existing branch %s, continue filling ", fgcEVBRANCHNAME);
@@ -224,7 +224,7 @@ Int_t TGo4FileStore::Store(TGo4Condition *conny)
    return 0;
 }
 
-Int_t TGo4FileStore::Store(TGo4Fitter* fitter)
+Int_t TGo4FileStore::Store(TGo4Fitter *fitter)
 {
    WriteToStore(fitter);
    return 0;

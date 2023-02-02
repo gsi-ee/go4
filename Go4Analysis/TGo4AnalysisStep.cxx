@@ -228,7 +228,7 @@ Int_t TGo4AnalysisStep::Store(TGo4Condition *conny)
    return -1;
 }
 
-Int_t TGo4AnalysisStep::Store(TGo4Fitter* fitter)
+Int_t TGo4AnalysisStep::Store(TGo4Fitter *fitter)
 {
    if (fxEventStore && fbStoreEnabled)
       return fxEventStore->Store(fitter);

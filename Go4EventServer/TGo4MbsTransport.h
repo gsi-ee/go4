@@ -32,7 +32,7 @@ class TGo4MbsTransport : public TGo4MbsSource {
 
     TGo4MbsTransport();
 
-    TGo4MbsTransport(TGo4MbsTransportParameter* par);
+    TGo4MbsTransport(TGo4MbsTransportParameter *par);
 
     ~TGo4MbsTransport();
 

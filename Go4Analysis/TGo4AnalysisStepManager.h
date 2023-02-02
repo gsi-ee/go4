@@ -153,7 +153,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const char *name, TGo4Fitter* fit);
+      Int_t Store(const char *name, TGo4Fitter *fit);
 
       /**
        * Write folder  into eventstore of the step specified by name.

@@ -33,7 +33,7 @@ class TGo4MbsEventServer : public TGo4MbsSource {
 
     TGo4MbsEventServer();
 
-    TGo4MbsEventServer(TGo4MbsEventServerParameter* par);
+    TGo4MbsEventServer(TGo4MbsEventServerParameter *par);
 
     ~TGo4MbsEventServer();
 

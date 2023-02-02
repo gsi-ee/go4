@@ -26,9 +26,10 @@ TMeshAnalysis::TMeshAnalysis() :
 {
    TGo4Log::Error("Wrong constructor TMeshAnalysis()!");
 }
+
 //***********************************************************
 // this constructor is used
-TMeshAnalysis::TMeshAnalysis(int argc, char** argv) :
+TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4Analysis(argc, argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
