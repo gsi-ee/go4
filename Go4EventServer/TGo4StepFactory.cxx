@@ -92,7 +92,7 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
    if(fnewOutputEvent.IsNull())
       TGo4Log::Error("No output event was specified!");
    else
-      event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewOutputEvent.Data());
+      event = (TGo4EventElement *) gROOT->ProcessLineFast(fnewOutputEvent.Data());
    if(!event)
       TGo4Log::Error("Cannot create output event: %s", fOutputEventName.Data());
    return event;
@@ -106,14 +106,14 @@ void TGo4StepFactory::DefInputEvent(const char *Iname, const char *Iclass)
 }
 
 //-----------------------------------------------------------
-TGo4EventElement* TGo4StepFactory::CreateInputEvent()
+TGo4EventElement *TGo4StepFactory::CreateInputEvent()
 {
    TGo4Log::Info("%s: Create input event %s", GetName(), fInputEventName.Data());
 
    if(fnewInputEvent.IsNull())
       return TGo4EventServerFactory::CreateInputEvent();
 
-   TGo4EventElement* event = (TGo4EventElement*) gROOT->ProcessLineFast(fnewInputEvent.Data());
+   TGo4EventElement *event = (TGo4EventElement *) gROOT->ProcessLineFast(fnewInputEvent.Data());
    if(!event)
       TGo4Log::Error("Cannot create input event: %s", fInputEventName.Data());
    return event;

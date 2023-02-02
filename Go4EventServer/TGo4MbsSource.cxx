@@ -114,7 +114,7 @@ Bool_t TGo4MbsSource::CheckEventClass(TClass *cl)
    return cl->InheritsFrom(TGo4MbsEvent::Class());
 }
 
-Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement* dest)
+Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement *dest)
 {
    Int_t rev = NextEvent();
    if(rev != GETEVT__SUCCESS) {

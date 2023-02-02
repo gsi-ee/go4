@@ -231,7 +231,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    Bool_t evvalid[__MAXHISDIM__];
    for (Int_t n = 0; n < __MAXHISDIM__; n++) {
       evvalid[n] = kFALSE;
-      TGo4EventElement* event = (TGo4EventElement*) hentry->fxHisEvents[n];
+      TGo4EventElement *event = (TGo4EventElement *) hentry->fxHisEvents[n];
       if (event)
          evvalid[n] = event->IsValid();
    }

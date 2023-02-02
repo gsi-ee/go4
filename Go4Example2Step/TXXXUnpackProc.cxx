@@ -263,7 +263,7 @@ TXXXUnpackProc::~TXXXUnpackProc()
 }
 
 //-----------------------------------------------------------
-Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
+Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement *dest)
 {
    Bool_t isValid = kFALSE; // validity of output event
 

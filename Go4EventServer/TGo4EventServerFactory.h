@@ -44,11 +44,11 @@ class TGo4EventServerFactory : public TGo4EventFactory {
 
       /** For usersubclass: set pointer to user output event. Required by create event store for
         * the TreeStore TTree. */
-      void SetOutputEvent(TGo4EventElement* eve) { fxEvent = eve; }
+      void SetOutputEvent(TGo4EventElement *eve) { fxEvent = eve; }
 
    private:
       /** remember pointer to output event for tree store ctor */
-      TGo4EventElement* fxEvent{nullptr}; //!
+      TGo4EventElement *fxEvent{nullptr}; //!
 
    ClassDefOverride(TGo4EventServerFactory,1)
 };

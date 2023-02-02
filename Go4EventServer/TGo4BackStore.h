@@ -38,7 +38,7 @@ class TGo4BackStore : public TGo4EventStore {
     virtual ~TGo4BackStore();
 
     /** Stores eventelement event into the storage implementation. */
-    Int_t Store(TGo4EventElement* event) override;
+    Int_t Store(TGo4EventElement *event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
     Int_t Store(TGo4Parameter *cali) override;

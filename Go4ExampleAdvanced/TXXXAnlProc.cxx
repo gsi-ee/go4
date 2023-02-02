@@ -82,7 +82,7 @@ TXXXAnlProc::~TXXXAnlProc()
 
 //-----------------------------------------------------------
 
-Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
+Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement *dest)
 {
    TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
    TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;

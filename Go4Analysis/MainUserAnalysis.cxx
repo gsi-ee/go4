@@ -229,9 +229,9 @@ class TGo4PrintProcessor : public TGo4EventProcessor {
       static Bool_t fFileHead;
       static Bool_t fBufHead;
 
-      Bool_t BuildEvent(TGo4EventElement* dest) override
+      Bool_t BuildEvent(TGo4EventElement *dest) override
       {
-         TGo4EventElement* evnt = GetInputEvent();
+         TGo4EventElement *evnt = GetInputEvent();
 
          TGo4MbsEvent* mbs = dynamic_cast<TGo4MbsEvent*> (evnt);
          if (mbs) mbs->PrintMbsEvent(fSubId, fLong, fHex, fData, fBufHead, fFileHead);

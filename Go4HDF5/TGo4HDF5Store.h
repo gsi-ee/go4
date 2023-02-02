@@ -42,7 +42,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    Int_t Store(TGo4EventElement* event) override;
+    Int_t Store(TGo4EventElement *event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
     Int_t Store(TGo4Parameter *cali) override;
@@ -68,7 +68,7 @@ class TGo4HDF5Store : public TGo4EventStore, public TGo4HDF5Adapter {
     void WriteToStore(TNamed *ob);
 
     /** initialize dataset from event structure*/
-    void BuildDataSet(TGo4EventElement* event) override;
+    void BuildDataSet(TGo4EventElement *event) override;
 
 
   ClassDefOverride(TGo4HDF5Store,1)

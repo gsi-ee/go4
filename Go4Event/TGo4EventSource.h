@@ -59,7 +59,7 @@ class TGo4EventSource : public TNamed {
       virtual Bool_t CheckEventClass(TClass *cl);
 
       /** Fill the destination event dest. */
-      virtual Bool_t BuildEvent(TGo4EventElement* dest) { return kTRUE; }
+      virtual Bool_t BuildEvent(TGo4EventElement *dest) { return kTRUE; }
 
       /** Default timeout in seconds for event input. */
       static const Int_t fgiTIMEOUTDEFAULT;

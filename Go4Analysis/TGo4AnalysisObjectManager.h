@@ -78,7 +78,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Optionally, name of folder may be specified; object is
        * only searched within that folder then.
        */
-      TNamed * GetObject(const char *name, const char *folder = nullptr);
+      TNamed *GetObject(const char *name, const char *folder = nullptr);
 
       /**
        * Searches for object by name in all go4 folders. Returns

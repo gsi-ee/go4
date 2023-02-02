@@ -204,7 +204,7 @@ void TGo4AnalysisObjectManager::RecursiveRemove(TObject *obj)
 }
 
 
-Bool_t TGo4AnalysisObjectManager::AddObject(TNamed * anything, const char *subfolder, Bool_t replace)
+Bool_t TGo4AnalysisObjectManager::AddObject(TNamed *anything, const char *subfolder, Bool_t replace)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddObject(TNamed *)",__LINE__, __FILE__));
    // unspecified objects are only allowed to put into userdir
@@ -1004,13 +1004,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
 
 Bool_t TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement * ev)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement *)",__LINE__, __FILE__));
    return AddObjectToFolder(ev, fxEventDir, nullptr, kFALSE);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement *)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(ev) {
       TGo4LockGuard listguard(fxDirMutex);
@@ -1024,12 +1024,12 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
 
 TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name) const
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(const char *)",__LINE__, __FILE__));
 
    if (!name || (strlen(name) == 0)) return nullptr;
 
    TString path = name;
-   TGo4EventElement* curr = nullptr;
+   TGo4EventElement *curr = nullptr;
 
    while (path.Length()>0) {
       Int_t pos = path.Index("/");
@@ -1039,10 +1039,10 @@ TGo4EventElement *TGo4AnalysisObjectManager::GetEventStructure(const char *name)
       if (pos > 0) { sub.Resize(pos); path.Remove(0, pos+1); }
               else { path.Clear(); }
 
-      if (!curr)
-         curr = dynamic_cast<TGo4EventElement*> (FindObjectInFolder(fxEventDir, sub.Data()));
-      else {
-         TGo4EventElement* chld = curr->GetChild(sub.Data());
+      if (!curr) {
+         curr = dynamic_cast<TGo4EventElement *> (FindObjectInFolder(fxEventDir, sub.Data()));
+      } else {
+         TGo4EventElement *chld = curr->GetChild(sub.Data());
          // this is artefact of folder structures in go4 browser
          // event can have subfolder which corresponds to the subevent
          // but it also could have subfolder which corresponds to parent class

@@ -180,7 +180,7 @@ void TGo4HDF5Source::OpenFile(const char *fname)
    }
 }
 
-void TGo4HDF5Source::BuildDataSet(TGo4EventElement* event)
+void TGo4HDF5Source::BuildDataSet(TGo4EventElement *event)
 {
    // TODO: all hdf5 file and dataset treatment in adapter class common to source and store
    if (fbDataSetExists)
@@ -211,7 +211,7 @@ void TGo4HDF5Source::DeleteDataSet()
   TGo4HDF5Adapter::DeleteDataSet();
 }
 
-Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement* dest)
+Bool_t TGo4HDF5Source::BuildEvent(TGo4EventElement *dest)
 {
    if (!dest)
       ThrowError(0, 22, "!!! ERROR BuildEvent: no destination event!!!");

@@ -98,7 +98,7 @@ void TGo4HDF5Store::OpenFile(const char*)
 }
 
 
-void TGo4HDF5Store::BuildDataSet(TGo4EventElement* event)
+void TGo4HDF5Store::BuildDataSet(TGo4EventElement *event)
 {
    if (fbDataSetExists)
       return;
@@ -119,9 +119,9 @@ void TGo4HDF5Store::BuildDataSet(TGo4EventElement* event)
    }
 }
 
-Int_t TGo4HDF5Store::Store(TGo4EventElement* event)
+Int_t TGo4HDF5Store::Store(TGo4EventElement *event)
 {
-   GO4TRACE((12,"TGo4HDF5Store::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HDF5Store::Store(TGo4EventElement *)", __LINE__, __FILE__));
 
    fxEvent = event; // address of next event into event pointer
    BuildDataSet(event);

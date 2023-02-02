@@ -114,13 +114,13 @@ class TGo4EventProcessor: public TGo4EventSource {
       virtual Bool_t CheckCalibration(const char *classname);
 
       /* implemented by subclass to assign correct event structures*/
-      virtual void InitEvent(TGo4EventElement*) {}
+      virtual void InitEvent(TGo4EventElement *) {}
 
       /* implemented by subclass to do actual processing. For second step processors!*/
       virtual void FinalizeEvent() {}
 
       /** Register user object to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddObject(TNamed * anything, const char *subfolder = nullptr);
+      Bool_t AddObject(TNamed *anything, const char *subfolder = nullptr);
 
       /** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
       Bool_t AddHistogram(TH1 *his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
@@ -153,7 +153,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       Bool_t RemoveCanvas(const char *name);
 
       /** Get any object from go4 framework. Shortcut forwarded to analysis instance */
-      TNamed * GetObject(const char *name, const char *folder = nullptr);
+      TNamed *GetObject(const char *name, const char *folder = nullptr);
 
       /** Get histogram from go4 framework. Shortcut forwarded to analysis instance */
       TH1 *GetHistogram(const char *name);
@@ -174,13 +174,13 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Returns the input event structure of analysis step. Argument indicates
        * the step by name. Shortcut forwarded to analysis instance
        */
-      TGo4EventElement* GetInputEvent(const char *stepname);
+      TGo4EventElement *GetInputEvent(const char *stepname);
 
       /**
        * Returns the output event structure of analysis step. Argument indicates
        * the step by name. Shortcut forwarded to analysis instance
        */
-      TGo4EventElement* GetOutputEvent(const char *stepname);
+      TGo4EventElement *GetOutputEvent(const char *stepname);
 
       /**
        * Display a user message. Argument pri defines message priority:

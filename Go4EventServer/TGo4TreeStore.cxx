@@ -26,7 +26,7 @@
 const char *TGo4TreeStore::fgcFILESUF = ".root";
 
 TGo4TreeStore::TGo4TreeStore(const char *name,
-                             TGo4EventElement* event,
+                             TGo4EventElement *event,
                              Int_t splitlevel,
                              Int_t bufsize,
                              const char *filename,
@@ -67,7 +67,7 @@ TGo4TreeStore::TGo4TreeStore(const char *name,
    } // if(fxEvent)
 }
 
-TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* event)
+TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement *event)
 : TGo4EventStore("dummy"),fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
 {
    GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
@@ -119,9 +119,9 @@ TGo4TreeStore::~TGo4TreeStore()
    //delete fxFile; // closes File <- done by maintree dtor
 }
 
-Int_t TGo4TreeStore::Store(TGo4EventElement* event)
+Int_t TGo4TreeStore::Store(TGo4EventElement *event)
 {
-   GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventElement *)", __LINE__, __FILE__));
 
    Int_t rev = -1;
    // check if new event is of the right class

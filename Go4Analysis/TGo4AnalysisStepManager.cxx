@@ -295,10 +295,10 @@ Int_t TGo4AnalysisStepManager::Store(const char *name, TFolder *folder)
    return step ? step->Store(folder) : 1;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname) const
+TGo4EventElement *TGo4AnalysisStepManager::GetInputEvent(const char *stepname) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev = nullptr;
+   TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step = GetAnalysisStep(stepname);
    if(step) {
       TGo4EventProcessor* pro = step->GetEventProcessor();
@@ -309,10 +309,10 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(const char *stepname) c
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
+TGo4EventElement *TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetInputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev = nullptr;
+   TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step = dynamic_cast<TGo4AnalysisStep *> (fxStepList->At(stepindex));
    if(step) {
       TGo4EventProcessor* pro = step->GetEventProcessor();
@@ -324,10 +324,10 @@ TGo4EventElement* TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname) const
+TGo4EventElement *TGo4AnalysisStepManager::GetOutputEvent(const char *stepname) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char*)",__LINE__, __FILE__));
-   TGo4EventElement* rev = nullptr;
+   TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step=GetAnalysisStep(stepname);
    if(step) {
       rev = step->GetOutputEvent();
@@ -337,10 +337,10 @@ TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(const char *stepname) 
    return rev;
 }
 
-TGo4EventElement* TGo4AnalysisStepManager::GetOutputEvent(Int_t stepindex) const
+TGo4EventElement *TGo4AnalysisStepManager::GetOutputEvent(Int_t stepindex) const
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(Int_t)",__LINE__, __FILE__));
-   TGo4EventElement* rev = nullptr;
+   TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step = nullptr;
    step= dynamic_cast<TGo4AnalysisStep *> ( fxStepList->At(stepindex) );
    if(step) {

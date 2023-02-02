@@ -36,7 +36,7 @@ class TXXXStore : public TGo4EventStore {
     virtual ~TXXXStore();
 
     /** Stores eventelement event into the storage implementation. */
-    Int_t Store(TGo4EventElement* event) override;
+    Int_t Store(TGo4EventElement *event) override;
 
     /** Ignore store of parameter or one can provide some action */
     Int_t Store(TGo4Parameter*) override { return 0; }

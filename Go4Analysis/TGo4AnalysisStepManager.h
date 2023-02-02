@@ -169,7 +169,7 @@ class TGo4AnalysisStepManager : public TNamed {
         * For internal usage in the user defined event function
         * UserEventFunc, and is used by analysis steps to get result of previous steps.
         */
-      TGo4EventElement* GetInputEvent(const char *stepname) const;
+      TGo4EventElement *GetInputEvent(const char *stepname) const;
 
       /**
        * Returns the input event structure of analysis step. Argument number indicates
@@ -178,7 +178,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to access event sources of previous steps.
        */
-      TGo4EventElement* GetInputEvent(Int_t stepindex) const;
+      TGo4EventElement *GetInputEvent(Int_t stepindex) const;
 
       /**
        * Returns the output event (detector) structure of analysis step. Argument indicates
@@ -186,7 +186,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent(const char *stepname) const;
+      TGo4EventElement *GetOutputEvent(const char *stepname) const;
 
       /**
        * Returns the output event (detector) structure of analysis step. Argument number indicates
@@ -197,14 +197,14 @@ class TGo4AnalysisStepManager : public TNamed {
        * For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent(Int_t stepindex) const;
+      TGo4EventElement *GetOutputEvent(Int_t stepindex) const;
 
       /**
        * Returns the output event (detector) structure of analysis step.  Is set by
        * SetOutputEvent method. For internal usage in the user defined event function
        * UserEventFunc, and is used by analysis steps to get result of previous steps.
        */
-      TGo4EventElement* GetOutputEvent() const { return fxOutputEvent; }
+      TGo4EventElement *GetOutputEvent() const { return fxOutputEvent; }
 
       void SetOutputEvent(TGo4EventElement * event) {  fxOutputEvent=event; }
 

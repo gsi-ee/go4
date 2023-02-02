@@ -68,7 +68,7 @@ TXXXStore::~TXXXStore()
 
 Int_t TXXXStore::Store(TGo4EventElement *event)
 {
-   GO4TRACE((12,"TXXXStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TXXXStore::Store(TGo4EventElement *)", __LINE__, __FILE__));
 
    TXXXEvent *custom = dynamic_cast<TXXXEvent *>(event); // address of next event into event pointer
    if (!custom) return 1; // error

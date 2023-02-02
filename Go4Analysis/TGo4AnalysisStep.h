@@ -170,7 +170,7 @@ class TGo4AnalysisStep : public TNamed {
       * this input event at the next call of process. I this analysis
       * step is the first in the chain, the input event will be taken from
       * the event source of this step. */
-    void SetInputEvent(TGo4EventElement* in) { fxInputEvent=in; }
+    void SetInputEvent(TGo4EventElement *in) { fxInputEvent=in; }
 
     /** Sets reference to previous analysis step. */
     void SetPreviousStep(TGo4AnalysisStep * pre) { fxPrevious=pre; }
@@ -181,13 +181,13 @@ class TGo4AnalysisStep : public TNamed {
     /** Access to the output event which has been filled last. Is used to
       * pass the output to the next analysis step, or to the main analysis
       * user event function. */
-    TGo4EventElement* GetOutputEvent() const { return fxOutputEvent; }
+    TGo4EventElement *GetOutputEvent() const { return fxOutputEvent; }
 
     /** Access to the input event of this step. Useful to
       * pass incoming event from event source to a
       * subsequent step or to user event function,
       * without processing it. */
-    TGo4EventElement* GetInputEvent() const { return fxInputEvent; }
+    TGo4EventElement *GetInputEvent() const { return fxInputEvent; }
 
     /** Access to the event processor.
       * Useful if processor has own data to be displayed, e.g. histograms. */

@@ -66,7 +66,7 @@ Bool_t TYYYEventSource::CheckEventClass(TClass *cl)
    return cl->InheritsFrom(TYYYRawEvent::Class());
 }
 
-Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
+Bool_t TYYYEventSource::BuildEvent(TGo4EventElement *dest)
 {
    TYYYRawEvent* evnt = (TYYYRawEvent*) dest;
    if (!evnt) return kFALSE;

@@ -27,7 +27,7 @@ class TXXXAnlProc : public TGo4EventProcessor {
       TXXXAnlProc(const char *name);
       virtual ~TXXXAnlProc();
 
-      Bool_t BuildEvent(TGo4EventElement* dest) override;
+      Bool_t BuildEvent(TGo4EventElement *dest) override;
 
       TH1              *fSum1{nullptr};
       TH1              *fSum2{nullptr};

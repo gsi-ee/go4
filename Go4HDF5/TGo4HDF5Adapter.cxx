@@ -43,7 +43,7 @@ void TGo4HDF5Adapter::DeleteDataSet()
   fxHandle = nullptr;
 }
 
-size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement* event)
+size_t TGo4HDF5Adapter::ScanEventSize(TGo4EventElement *event)
 {
    if (!event)
       return 0;
@@ -358,7 +358,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle *handle, TClass *rootclass
    } // switch()
  }
 
-void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent, Int_t index)
+void TGo4HDF5Adapter::BuildDataType(TGo4EventElement *event, TGo4HDF5DataHandle* parent, Int_t index)
 {
   TClass *evclass = event->Class();
   if (!evclass) {

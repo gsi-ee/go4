@@ -103,7 +103,7 @@ void TGo4AnalysisStep::Process()
       throw TGo4AnalysisStepException(this);
    }
 
-   TGo4EventElement* input = nullptr;
+   TGo4EventElement *input = nullptr;
    fiProcessStatus = 0;
    ////////// source part:
    if (fbSourceEnabled && fxEventSource) {

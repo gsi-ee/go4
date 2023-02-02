@@ -59,7 +59,7 @@ TXXXAnlProc::~TXXXAnlProc()
 }
 
 //-----------------------------------------------------------
-Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
+Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement *dest)
 {
 	Bool_t isValid = kFALSE; // validity of output event
 

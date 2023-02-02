@@ -49,7 +49,7 @@ void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent* subevt)
 }
 
 
-Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
+Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement *outevnt)
 {
    // if there is no container event as output, subclass may run in standalone mode
    InitEvent(outevnt); // for plain subclass mode

@@ -49,12 +49,12 @@ TGo4CompositeEvent::~TGo4CompositeEvent()
    }
 }
 
-TGo4EventElement* TGo4CompositeEvent::GetChild(const char *name)
+TGo4EventElement *TGo4CompositeEvent::GetChild(const char *name)
 {
-   TGo4EventElement* res = TGo4EventElement::GetChild(name);
+   TGo4EventElement *res = TGo4EventElement::GetChild(name);
 
    if (!res && fEventElements)
-      res = dynamic_cast<TGo4EventElement*> (fEventElements->FindObject(name));
+      res = dynamic_cast<TGo4EventElement *> (fEventElements->FindObject(name));
 
    return res;
 }
@@ -75,7 +75,7 @@ void TGo4CompositeEvent::makeBranch(TBranch *parent)
    TGo4EventElement::makeBranch(parent);
 }
 
-Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
+Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventElement **var_ptr)
 {
    // first read event itself
    TGo4EventElement::activateBranch(branch, init, var_ptr);
@@ -110,7 +110,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
 
       TString sub = b->GetName();
       sub.Remove(sub.Length()-1);
-      TGo4EventElement* par = getEventElement(sub.Data());
+      TGo4EventElement *par = getEventElement(sub.Data());
 
       if (fDebug)
          TGo4Log::Debug("-I TGo4CompositeEvent::activateBranch use subbranch %s", b->GetName());
@@ -123,7 +123,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
             continue;
          }
 
-         par = (TGo4EventElement*) cl->New();
+         par = (TGo4EventElement *) cl->New();
          // need to set correct object name:
          par->SetName(sub.Data());
          if(fDebug)
@@ -152,7 +152,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
          TGo4Log::Debug("Add branch %s event %s offset %d", b->GetName(), par->GetName(), offset);
 
       if (addEventElement(par, kTRUE)) {
-         TGo4EventElement** par_ptr = (TGo4EventElement**) &((*fEventElements)[par->getId()]);
+         TGo4EventElement ** par_ptr = (TGo4EventElement **) &((*fEventElements)[par->getId()]);
          tree->SetBranchAddress(b->GetName(), par_ptr);
       }
 
@@ -183,7 +183,7 @@ void TGo4CompositeEvent::Clear(Option_t *opt)
       ev->Clear(opt);
 }
 
-Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t reading)
+Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement *aElement, Bool_t reading)
 {
    // if Identifiers  are needed for fast retrieval of elements
    // one should use:
@@ -227,7 +227,7 @@ Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t re
 }
 
 
-TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
+TGo4EventElement *TGo4CompositeEvent::getEventElement(Int_t idx)
 {
    // Returns a pointer to the partial event with array location idx.
 
@@ -236,13 +236,13 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
    return (TGo4EventElement *)fEventElements->At(idx);
 }
 
-TGo4EventElement* TGo4CompositeEvent::getEventElement(const char *name, Int_t final_element)
+TGo4EventElement *TGo4CompositeEvent::getEventElement(const char *name, Int_t final_element)
 {
    TIter next(fEventElements);
    while (auto ev = (TGo4EventElement *)next()) {
       if(strcmp(name,ev->GetName()) == 0) return ev;
       if (ev->isComposed()) {
-         TGo4EventElement* inter= ((TGo4CompositeEvent *) ev)->getEventElement(name,1);
+         TGo4EventElement *inter= ((TGo4CompositeEvent *) ev)->getEventElement(name,1);
          if (inter) return inter;
       }
    }
@@ -267,7 +267,7 @@ void TGo4CompositeEvent::activate()
    TGo4EventElement::activate();
 
    TIter next(fEventElements);
-   while (auto ev = (TGo4EventElement*)next())
+   while (auto ev = (TGo4EventElement *)next())
       ev->activate();
 }
 
@@ -301,7 +301,7 @@ TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
       return *this;
    }
 
-   return * ((TGo4EventElement*) (fEventElements->At(i)));
+   return * ((TGo4EventElement *) (fEventElements->At(i)));
 }
 
 
@@ -321,7 +321,7 @@ void TGo4CompositeEvent::ProvideArray()
 }
 
 
-TTree *TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
+TTree *TGo4CompositeEvent::CreateSampleTree(TGo4EventElement **sample)
 {
    TDirectory *filsav = gDirectory;
    gROOT->cd();

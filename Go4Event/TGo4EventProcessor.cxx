@@ -132,12 +132,12 @@ TGo4Condition *TGo4EventProcessor::GetAnalysisCondition(const char *name, const 
    return TGo4Analysis::Instance()->GetAnalysisCondition(name, cond_cl);
 }
 
-TGo4EventElement* TGo4EventProcessor::GetInputEvent(const char *stepname)
+TGo4EventElement *TGo4EventProcessor::GetInputEvent(const char *stepname)
 {
    return TGo4Analysis::Instance()->GetInputEvent(stepname);
 }
 
-TGo4EventElement* TGo4EventProcessor::GetOutputEvent(const char *stepname)
+TGo4EventElement *TGo4EventProcessor::GetOutputEvent(const char *stepname)
 {
    return TGo4Analysis::Instance()->GetOutputEvent(stepname);
 }

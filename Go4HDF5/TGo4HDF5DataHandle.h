@@ -79,7 +79,7 @@ public:
 
    /** pass the top level event element down the member hierarchy.
     * Note that this is the "local" top event, e.g. the current Go4 composite subevent that owns the member*/
-   void SetTopEvent(TGo4EventElement* eve);
+   void SetTopEvent(TGo4EventElement *eve);
 
 
    /** pass the top level event element class down the member hierarchy.
@@ -178,7 +178,7 @@ protected:
     TString fxMemberClass;
 
     /** the top level event element to access the current data member from outside*/
-    TGo4EventElement* fxEvent{nullptr}; //!
+    TGo4EventElement *fxEvent{nullptr}; //!
 
     /**  the top level event element classname to access the current data member from outside**/
     TString fxEventClass; //!

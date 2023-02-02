@@ -196,7 +196,7 @@ Bool_t TGo4FileSource::CloseCurrentFile()
    return kTRUE;
 }
 
-Bool_t TGo4FileSource::BuildEvent(TGo4EventElement* dest)
+Bool_t TGo4FileSource::BuildEvent(TGo4EventElement *dest)
 {
    if(!dest) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
    if (!fxTree) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");

@@ -57,9 +57,9 @@ class TGo4EventElement : public TNamed {
 
       void SetKeepContents(Bool_t on=kTRUE) { fbKeepContents = on; }
 
-      inline TGo4EventElement* GetParent() const { return fxParent; }
+      inline TGo4EventElement *GetParent() const { return fxParent; }
 
-      virtual TGo4EventElement* GetChild(const char *name);
+      virtual TGo4EventElement *GetChild(const char *name);
 
       inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
 

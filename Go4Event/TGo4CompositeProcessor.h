@@ -32,10 +32,10 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
       virtual ~TGo4CompositeProcessor();
 
       /* Can be overwritten by subclass, but is not recommended! use ProcessEvent or ProcessSubevent instead*/
-      Bool_t BuildEvent(TGo4EventElement*) override;
+      Bool_t BuildEvent(TGo4EventElement *) override;
 
       /* implemented by subclass to assign correct event structures*/
-      void InitEvent(TGo4EventElement*) override {}
+      void InitEvent(TGo4EventElement *) override {}
 
       /* implemented by subclass to do actual processing. For second step processors!*/
       void FinalizeEvent() override {}

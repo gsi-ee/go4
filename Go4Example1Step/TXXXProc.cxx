@@ -160,7 +160,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
 }
 //-----------------------------------------------------------
 // event function
-Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
+Bool_t TXXXProc::BuildEvent(TGo4EventElement *target)
 {
    // called by framework from TXXXEvent to fill it
 

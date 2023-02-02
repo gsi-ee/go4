@@ -65,10 +65,10 @@ void TGo4EventElement::PrintEvent()
 
 void TGo4EventElement::Print(Option_t *option) const
 {
-   ((TGo4EventElement*)this)->PrintEvent();
+   const_cast<TGo4EventElement *>(this)->PrintEvent();
 }
 
-TGo4EventElement* TGo4EventElement::GetChild(const char *name)
+TGo4EventElement *TGo4EventElement::GetChild(const char *name)
 {
    if (!name || (strlen(name) == 0)) return this;
 
@@ -80,7 +80,7 @@ TGo4EventElement* TGo4EventElement::GetChild(const char *name)
 }
 
 
-void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
+void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement **var_ptr)
 {
    if (!tree) return;
 
@@ -104,7 +104,7 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_p
    activateBranch(topb, index, var_ptr);
 }
 
-Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
+Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventElement **var_ptr)
 {
    if (!branch) return 0;
 
@@ -183,7 +183,7 @@ Int_t TGo4EventElement::Fill()
 }
 
 
-TTree *TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
+TTree *TGo4EventElement::CreateSampleTree(TGo4EventElement **sample)
 {
    // create sample tree with event element as entry
    // to be able use such tree later, one should provide 'sample' pointer to keep
@@ -195,7 +195,7 @@ TTree *TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
       delete *sample;
       *sample = nullptr;
    }
-   TGo4EventElement* clone = (TGo4EventElement*) Clone();
+   TGo4EventElement *clone = (TGo4EventElement *) Clone();
    TTree *thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;

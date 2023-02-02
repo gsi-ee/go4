@@ -104,7 +104,7 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
 
 //-----------------------------------------------------------
 // event function
-Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
+Bool_t TXXXProc::BuildEvent(TGo4EventElement *)
 {  // called by framework. We dont fill any output event here at all
 
    if (!GetInputEvent() || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {

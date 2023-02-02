@@ -48,7 +48,7 @@ class TYYYEventSource : public TGo4EventSource {
         * from source, therefore one source event may be used
         * to fill several TYYYEvent classes. To get a new
         * event call NextEvent() before this method.*/
-      Bool_t BuildEvent(TGo4EventElement* dest) override;
+      Bool_t BuildEvent(TGo4EventElement *dest) override;
 
       const char *GetArgs() const { return fxArgs.Data(); }
 

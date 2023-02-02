@@ -51,7 +51,7 @@ class TGo4FileStore : public TGo4EventStore {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    Int_t Store(TGo4EventElement* event) override;
+    Int_t Store(TGo4EventElement *event) override;
 
     /** Saves a calibration object correlated with the current event into the storage. */
     Int_t Store(TGo4Parameter *cali) override;

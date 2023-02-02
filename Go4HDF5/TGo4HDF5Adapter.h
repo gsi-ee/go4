@@ -68,7 +68,7 @@ protected:
     virtual void CloseFile();
 
     /** initialize dataset from event structure*/
-    virtual void BuildDataSet(TGo4EventElement* event) = 0;
+    virtual void BuildDataSet(TGo4EventElement *event) = 0;
 
     /** delete dataset resource*/
     virtual void DeleteDataSet();
@@ -76,10 +76,10 @@ protected:
     /** Prepare data type from event structure for hdf5.
      * Return value is name of ROOT class that was used to compose the hdf5 type.
      * In case of composite subevents, the current parent data handle and the index in array may be passed.*/
-     void BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle* parent = nullptr, Int_t index = 0);
+     void BuildDataType(TGo4EventElement *event, TGo4HDF5DataHandle* parent = nullptr, Int_t index = 0);
 
     /** evaluate total memory size of event object regarding composite subevents*/
-    size_t ScanEventSize(TGo4EventElement* event);
+    size_t ScanEventSize(TGo4EventElement *event);
 
     /** Convert common go4 filemode flags to hdf5 flags: **/
     UInt_t ConvertFileMode(Go4_H5_File_Flags flags);

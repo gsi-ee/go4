@@ -198,7 +198,7 @@ void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
 }
 
 //-----------------------------------------------------------
-Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
+Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement *dest)
 {
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;

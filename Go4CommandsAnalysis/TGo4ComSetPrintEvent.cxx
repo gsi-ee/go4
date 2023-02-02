@@ -64,7 +64,7 @@ Int_t TGo4ComSetPrintEvent::ExeCom()
    }
 
    // request for event by name from folder
-   TGo4EventElement* eve = ana->GetEventStructure(GetObjectName());
+   TGo4EventElement *eve = ana->GetEventStructure(GetObjectName());
    if (!eve) {
       cli->SendStatusMessage(2, kTRUE,TString::Format(" Event %s was not found to set printout mode!",GetObjectName()));
       return -1;

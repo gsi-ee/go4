@@ -80,9 +80,9 @@ Int_t TGo4TreeSource::Open()
 
 
 
-Bool_t TGo4TreeSource::BuildEvent(TGo4EventElement* dest)
+Bool_t TGo4TreeSource::BuildEvent(TGo4EventElement *dest)
 {
-   GO4TRACE((12,"TGo4TreeSource::BuildEvent(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeSource::BuildEvent(TGo4EventElement *)",__LINE__, __FILE__));
    //
    Bool_t rev=kTRUE;
    if(!dest) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");

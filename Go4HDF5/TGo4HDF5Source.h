@@ -49,7 +49,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    Bool_t BuildEvent(TGo4EventElement* dest) override;
+    Bool_t BuildEvent(TGo4EventElement *dest) override;
 
     static TList *ProducesFilesList(const char *mask);
 
@@ -60,7 +60,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
     void OpenFile(const char *fname) override;
 
     /** initialize dataset from event structure*/
-    void BuildDataSet(TGo4EventElement* event) override;
+    void BuildDataSet(TGo4EventElement *event) override;
 
     /** delete dataset resource*/
     void DeleteDataSet() override;

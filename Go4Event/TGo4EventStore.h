@@ -43,7 +43,7 @@ class TGo4EventStore : public TNamed {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    virtual Int_t Store(TGo4EventElement* event) = 0;
+    virtual Int_t Store(TGo4EventElement *event) = 0;
 
     /** Saves a parameter (e.g. calibration object) correlated with the current event into the storage.
       * This method is optional, i.e. it needs not to be implemented for all subclasses. */

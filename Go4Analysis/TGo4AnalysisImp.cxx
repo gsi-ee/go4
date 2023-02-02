@@ -954,9 +954,9 @@ void TGo4Analysis::Print(Option_t *) const
    delete state;
 }
 
-TTree *TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
+TTree *TGo4Analysis::CreateSingleEventTree(TGo4EventElement *event)
 {
-   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement *)",__LINE__, __FILE__));
 
    return event ? event->CreateSampleTree(&fxSampleEvent) : nullptr;
 }
@@ -965,7 +965,7 @@ TTree *TGo4Analysis::CreateSingleEventTree(const char *name, Bool_t isoutput)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
-   TGo4EventElement* event = nullptr;
+   TGo4EventElement *event = nullptr;
    if(isoutput) event = GetOutputEvent(name);
            else event = GetInputEvent(name);
    if(!event) event = GetEventStructure(name);
@@ -1592,27 +1592,27 @@ TObject *TGo4Analysis::NextMatchingObject(const char *expr, const char *folder, 
 /////////////////////////////////////////////////////////////////////////////////
 // Methods that forward to stepmanager:
 
-TGo4EventElement* TGo4Analysis::GetInputEvent(Int_t stepindex) const
+TGo4EventElement *TGo4Analysis::GetInputEvent(Int_t stepindex) const
 {
    return fxStepManager->GetInputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetInputEvent(const char *stepname) const
+TGo4EventElement *TGo4Analysis::GetInputEvent(const char *stepname) const
 {
    return fxStepManager->GetInputEvent(stepname);
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent() const
+TGo4EventElement *TGo4Analysis::GetOutputEvent() const
 {
    return fxStepManager->GetOutputEvent();
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent(Int_t stepindex) const
+TGo4EventElement *TGo4Analysis::GetOutputEvent(Int_t stepindex) const
 {
    return fxStepManager->GetOutputEvent(stepindex);
 }
 
-TGo4EventElement* TGo4Analysis::GetOutputEvent(const char *stepname) const
+TGo4EventElement *TGo4Analysis::GetOutputEvent(const char *stepname) const
 {
    return fxStepManager->GetOutputEvent(stepname);
 }

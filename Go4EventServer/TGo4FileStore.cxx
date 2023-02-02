@@ -176,9 +176,9 @@ void TGo4FileStore::SetCompression(Int_t comp)
    fxFile->SetCompressionLevel(comp);
 }
 
-Int_t TGo4FileStore::Store(TGo4EventElement* event)
+Int_t TGo4FileStore::Store(TGo4EventElement *event)
 {
-   GO4TRACE((12,"TGo4FileStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4FileStore::Store(TGo4EventElement *)", __LINE__, __FILE__));
 
    fxEvent = event; // address of next event into event pointer
    if(!fbBranchExists) {

@@ -42,7 +42,7 @@ class TGo4TreeSource : public TGo4EventSource {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    Bool_t BuildEvent(TGo4EventElement* dest) override;
+    Bool_t BuildEvent(TGo4EventElement *dest) override;
 
   private:
 

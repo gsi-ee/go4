@@ -40,7 +40,7 @@ class TGo4TreeStore : public TGo4EventStore {
   public:
 
     TGo4TreeStore(const char *name,
-                  TGo4EventElement* event,
+                  TGo4EventElement *event,
                   Int_t splitlevel = 1,
                   Int_t bufsize = 64000,
                   const char *filename = nullptr,
@@ -48,7 +48,7 @@ class TGo4TreeStore : public TGo4EventStore {
 
     TGo4TreeStore();
 
-    TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* event);
+    TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement *event);
 
     virtual ~TGo4TreeStore();
 
@@ -57,7 +57,7 @@ class TGo4TreeStore : public TGo4EventStore {
 
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
-    Int_t Store(TGo4EventElement* event) override;
+    Int_t Store(TGo4EventElement *event) override;
 
     /** Set the file compression level. May be changed on the fly. */
     void SetCompression(Int_t comp);

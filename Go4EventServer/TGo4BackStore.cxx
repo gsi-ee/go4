@@ -120,9 +120,9 @@ Int_t TGo4BackStore::Store(TFolder *foldy)
 }
 
 
-Int_t TGo4BackStore::Store(TGo4EventElement* event)
+Int_t TGo4BackStore::Store(TGo4EventElement *event)
 {
-   GO4TRACE((12, "TGo4BackStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12, "TGo4BackStore::Store(TGo4EventElement *)", __LINE__, __FILE__));
 
    fxEvent = event; // address of next event into event pointer
    if (!fbBranchExists) {
