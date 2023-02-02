@@ -39,7 +39,7 @@ TGo4BranchStatus::~TGo4BranchStatus()
 {
 }
 
-void TGo4BranchStatus::Print(Option_t*) const
+void TGo4BranchStatus::Print(Option_t *) const
 {
    TGo4ObjectStatus::Print();
    PrintLine("G-OOOO-> TreeBranch Status Class Printout <-OOOO-G");

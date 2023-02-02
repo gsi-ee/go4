@@ -31,7 +31,7 @@ TMeshParameter::~TMeshParameter()
 {
 }
 
-void TMeshParameter::Print(Option_t*) const
+void TMeshParameter::Print(Option_t *) const
 {
    TGo4Status::PrintLine("Parameter %s:", GetName());
    TGo4Status::PrintLine(" fbUnpackOn=%s",fbUnpackOn ? "true" : "false");

@@ -31,7 +31,7 @@ TGo4FitterEnvelope::~TGo4FitterEnvelope()
    if(fxFitter) delete fxFitter;
 }
 
-void TGo4FitterEnvelope::Print(Option_t*) const
+void TGo4FitterEnvelope::Print(Option_t *) const
 {
    TGo4Parameter::Print();
    if(fxFitter)

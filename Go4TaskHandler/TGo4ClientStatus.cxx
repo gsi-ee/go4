@@ -28,7 +28,7 @@ TGo4ClientStatus::~TGo4ClientStatus()
 {
 }
 
-void TGo4ClientStatus::Print(Option_t*) const
+void TGo4ClientStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO->    Client Status Class %s Printout:  <-OOOO-G", GetName());
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");

@@ -62,20 +62,20 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       TGo4CommandInvoker();
 
-      static TGo4CommandReceiver * Lookup(const char *name);
+      static TGo4CommandReceiver *Lookup(const char *name);
 
    private:
 
       /** @link aggregation */
-      TGo4Command * fxCommand{nullptr};       //!
+      TGo4Command *fxCommand{nullptr};       //!
 
       /** For remote commands, invoker will create the requested
        * slave commands from own command list */
       static TGo4CommandProtoList* fxCommandList;  //!
 
       static TGo4CommandInvoker *fxInstance;  //!
-      static TObjArray * fxArray;             //!
-      static TMutex * fxMutex;                //!
+      static TObjArray *fxArray;              //!
+      static TMutex *fxMutex;                 //!
 
    ClassDefOverride(TGo4CommandInvoker, 2)
 };

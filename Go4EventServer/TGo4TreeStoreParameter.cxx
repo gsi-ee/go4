@@ -37,7 +37,7 @@ TGo4TreeStoreParameter::~TGo4TreeStoreParameter()
 {
 }
 
-void TGo4TreeStoreParameter::Print(Option_t*) const
+void TGo4TreeStoreParameter::Print(Option_t *) const
 {
    TGo4EventStoreParameter::Print();
    TGo4Status::PrintLine("  Split level: \t%d", fiSplit);

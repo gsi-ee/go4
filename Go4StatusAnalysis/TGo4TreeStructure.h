@@ -45,7 +45,7 @@ class TGo4TreeStructure : public TGo4Status {
   private:
 
     /** Folder containing the tree structure */
-    TFolder * fxTopFolder{nullptr};
+    TFolder *fxTopFolder{nullptr};
 
     /** private ctor can only invoked by Go4Analysis class, which is friend. */
     TGo4TreeStructure(const char *name);

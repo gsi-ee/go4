@@ -29,7 +29,7 @@ TGo4MbsSourceParameter::~TGo4MbsSourceParameter()
 {
 }
 
-void TGo4MbsSourceParameter::Print(Option_t*) const
+void TGo4MbsSourceParameter::Print(Option_t *) const
 {
    TGo4EventSourceParameter::Print();
    TGo4Status::PrintLine("  Startevent: \t%d",GetStartEvent());

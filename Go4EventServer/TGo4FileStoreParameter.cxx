@@ -38,7 +38,7 @@ TGo4FileStoreParameter::~TGo4FileStoreParameter()
 {
 }
 
-void TGo4FileStoreParameter::Print(Option_t*) const
+void TGo4FileStoreParameter::Print(Option_t *) const
 {
    TGo4EventStoreParameter::Print();
    TGo4Status::PrintLine("  Split level: \t%d", fiSplit);

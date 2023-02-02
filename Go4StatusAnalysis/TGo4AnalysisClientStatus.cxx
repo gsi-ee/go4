@@ -29,7 +29,7 @@ TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()
 {
 }
 
-void TGo4AnalysisClientStatus::Print(Option_t*) const
+void TGo4AnalysisClientStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO->    Analysis Client Status Class %s Printout:  <-OOOO-G", GetName());
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");

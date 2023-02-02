@@ -30,7 +30,7 @@ TGo4MemberStatus::~TGo4MemberStatus()
 {
 }
 
-void TGo4MemberStatus::Print(Option_t*) const
+void TGo4MemberStatus::Print(Option_t *) const
 {
    TGo4ObjectStatus::Print();
    PrintLine("G-OOOO-> Datamember Status Class Printout <-OOOO-G");

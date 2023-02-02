@@ -184,7 +184,7 @@ void TGo4ParameterMember::Clear(Option_t *)
    SetToZero();
 }
 
-void TGo4ParameterMember::Print(Option_t*) const
+void TGo4ParameterMember::Print(Option_t *) const
 {
    TString value = fValue;
 

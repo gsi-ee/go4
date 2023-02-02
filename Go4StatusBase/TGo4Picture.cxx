@@ -1561,7 +1561,7 @@ void TGo4Picture::SetDrawOption(Option_t *option, Int_t index)
 Option_t *TGo4Picture::GetDrawOption(Int_t index) const
 {
    CheckIndex(index);
-   return (Option_t*) GetStrOption(index, op_Draw);
+   return (Option_t *) GetStrOption(index, op_Draw);
 }
 
 void TGo4Picture::SetStyle(TStyle* style, Int_t index)
@@ -1836,7 +1836,7 @@ Long_t TGo4Picture::GetTotalSize()
 }
 
 
-void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t*)
+void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t *)
 {
    fs << "TGo4Picture *" << GetName() << " = new TGo4Picture(\"" << GetName()
       << "\", \"" << GetTitle() << "\");" << std::endl;

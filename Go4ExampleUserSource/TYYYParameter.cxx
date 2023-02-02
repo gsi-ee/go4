@@ -49,7 +49,7 @@ TYYYParameter::~TYYYParameter()
       }
 }
 
-void TYYYParameter::Print(Option_t*) const
+void TYYYParameter::Print(Option_t *) const
 {
   TGo4Status::PrintLine("Parameter %s:", GetName());
   TGo4Status::PrintLine(" P1 = %f", frP1);

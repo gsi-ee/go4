@@ -466,7 +466,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Access to top folder of all objects.
        */
-      TFolder * GetObjectFolder();
+      TFolder *GetObjectFolder();
 
       /**
        * Add reference to event store object to Go4 Folder structure. To be used by framework only!
@@ -628,7 +628,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Get pointer to subfolder of parent specified by name. If create is true, create it
        */
-      TFolder *FindSubFolder(TFolder *parent, const char *subfolder, Bool_t create=kTRUE);
+      TFolder *FindSubFolder(TFolder *parent, const char *subfolder, Bool_t create = kTRUE);
 
       /** Return full path name to object, relative to specified folder */
       Bool_t FindObjectPathName(TObject *obj, TString &pathname, TFolder *fold = nullptr);
@@ -714,94 +714,94 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Top level Go4 Directory (root folder)
        */
-      TFolder * fxGo4Dir{nullptr};
+      TFolder *fxGo4Dir{nullptr};
 
 
       /**
        * Directory containing all histogram objects to be used by dynamic list
        * and user analysis.
        */
-      TFolder * fxHistogramDir{nullptr};
+      TFolder *fxHistogramDir{nullptr};
 
       /**
        * Directory containing all condition objects to be used by dynamic list
        * and by user analysis.
        */
-      TFolder * fxConditionDir{nullptr};
+      TFolder *fxConditionDir{nullptr};
 
       /**
        * Directory containing user parameter objects
        */
-      TFolder * fxParameterDir{nullptr};
+      TFolder *fxParameterDir{nullptr};
 
       /**
        * Directory containing all action objects to be used by dynamic list
        * and by user analysis.
        */
-      TFolder * fxDynListDir{nullptr};
+      TFolder *fxDynListDir{nullptr};
 
       /**
        * Directory containing all user objects.
        */
-      TFolder * fxUserDir{nullptr};
+      TFolder *fxUserDir{nullptr};
 
       /**
        * Directory containing references to trees.
        */
-      TFolder * fxTreeDir{nullptr};
+      TFolder *fxTreeDir{nullptr};
 
       /**
        * Directory containing the pictures.
        */
-      TFolder * fxPictureDir{nullptr};
+      TFolder *fxPictureDir{nullptr};
 
       /**
        * Directory containing TCanvases.
        */
-      TFolder * fxCanvasDir{nullptr};
+      TFolder *fxCanvasDir{nullptr};
 
       /**
        * Directory containing references to event stores.
        */
-      TFolder * fxStoreDir{nullptr};
+      TFolder *fxStoreDir{nullptr};
 
       /**
        * Directory containing references to event sources.
        */
-      TFolder * fxSourceDir{nullptr};
+      TFolder *fxSourceDir{nullptr};
 
       /**
        * Directory containing references to event processors.
        */
-      TFolder * fxProcessorDir{nullptr};
+      TFolder *fxProcessorDir{nullptr};
 
       /**
        * Directory containing references to event structures.
        */
-      TFolder * fxEventDir{nullptr};
+      TFolder *fxEventDir{nullptr};
 
       /**
        * Top Directory for all references to event classes.
        */
-      TFolder * fxAnalysisDir{nullptr};
+      TFolder *fxAnalysisDir{nullptr};
 
       /**
        * Temporary folder for nameslist objects.
        */
-      TFolder * fxTempFolder{nullptr};
+      TFolder *fxTempFolder{nullptr};
 
       /**
        * Mutex protecting the object directories.
        */
-      TMutex * fxDirMutex{nullptr};
+      TMutex *fxDirMutex{nullptr};
 
       /**
        * List of matching objects for name expression.
        */
-      TList * fxMatchList{nullptr};//!
+      TList *fxMatchList{nullptr};//!
 
       /** Iterator for list of matching objects. */
-      TIterator * fxMatchIterator{nullptr}; //!
+      TIterator *fxMatchIterator{nullptr}; //!
 
       /**
        * Event counter for dynamic list processing.
@@ -845,9 +845,9 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t AddObjectToFolder(TObject *ob,
                                TFolder *fold,
                                const char *subfolder = nullptr,
-                               Bool_t replace=kTRUE,
-                               Bool_t uniquename=kFALSE,
-                               Bool_t resetbits=kTRUE);
+                               Bool_t replace = kTRUE,
+                               Bool_t uniquename = kFALSE,
+                               Bool_t resetbits = kTRUE);
 
       /**
        * Remove object specified by full name ("subfolder/subssubfolder/name") from folder fold.
@@ -878,7 +878,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t PutToFolder(TObject *ob, TFolder *destination, Bool_t replace = kFALSE);
 
-
       /**
        * Save this folder as a new subdirectory (TDirectory) of the current directory
        * i.e. the currently open file.
@@ -899,7 +898,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       void AppendToDir(TObject *ob, TDirectory *dir);
 
-
       /**
        * Printout all objects in folder fold on the terminal. Option for root Print can be specified.
        * Optionally, a filtering expression can be defined. Return value
@@ -919,7 +917,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t ClearObject(TObject *ob);
 
-
       /**
        * Delete all objects in folder fold only if the kGo4CanDelete bit
        * is set. Usually, only objects created from the gui may be deleted.
@@ -932,7 +929,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t DeleteObject(TObject *ob);
 
-
       /**
        * Change protection properties of all objects in this folder as specified.
        * Flags may contain key letters like:
@@ -943,7 +939,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t ProtectFolder(TFolder *fold, const Option_t *flags);
 
-
       /**
        * Change protection properties of object name as specified.
        * Flags may contain key letters like:
@@ -953,7 +948,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Properties not appearing in flags are not changed.
        */
       Bool_t ProtectObject(TObject *ob, const Option_t *flags);
-
 
       /**
        * Remove reference to object from all dynamic lists.Object type is noticed automatically.

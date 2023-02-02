@@ -92,7 +92,7 @@ TGo4Parameter *TGo4ParameterStatus::CreateParameter()
    return par;
 }
 
-void TGo4ParameterStatus::Print(Option_t*) const
+void TGo4ParameterStatus::Print(Option_t *) const
 {
    TGo4ObjectStatus::Print();
    PrintLine("G-OOOO-> Parameter Status Class Printout <-OOOO-G");

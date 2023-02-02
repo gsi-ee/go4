@@ -30,7 +30,7 @@ TGo4UserSourceParameter::~TGo4UserSourceParameter()
 {
 }
 
-void TGo4UserSourceParameter::Print(Option_t*) const
+void TGo4UserSourceParameter::Print(Option_t *) const
 {
    TGo4EventSourceParameter::Print();
    if (GetPort() > 0)

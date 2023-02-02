@@ -35,7 +35,7 @@ TGo4BackStoreParameter::~TGo4BackStoreParameter()
 {
 }
 
-void TGo4BackStoreParameter::Print(Option_t*) const
+void TGo4BackStoreParameter::Print(Option_t *) const
 {
    TGo4EventStoreParameter::Print();
    TGo4Status::PrintLine("  Split level: \t%d", fiSplit);

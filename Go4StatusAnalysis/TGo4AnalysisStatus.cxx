@@ -43,7 +43,7 @@ TGo4AnalysisStatus::~TGo4AnalysisStatus()
    delete fxStepArray; fxStepArray = nullptr;
 }
 
-void TGo4AnalysisStatus::Print(Option_t*) const
+void TGo4AnalysisStatus::Print(Option_t *) const
 {
    PrintLine("----------------------------------------------");
    PrintLine("++++++ Status of %s ++++++", GetName());

@@ -33,7 +33,7 @@ TGo4HDF5StoreParameter::~TGo4HDF5StoreParameter()
 {
 }
 
-void TGo4HDF5StoreParameter::Print(Option_t*) const
+void TGo4HDF5StoreParameter::Print(Option_t *) const
 {
    TGo4EventStoreParameter::Print();
    TGo4Status::PrintLine("  File flags: \t%d", fiFlags);

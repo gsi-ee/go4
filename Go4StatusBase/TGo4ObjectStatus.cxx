@@ -57,7 +57,7 @@ TGo4ObjectStatus::~TGo4ObjectStatus()
 
 }
 
-void TGo4ObjectStatus::Print(Option_t*) const
+void TGo4ObjectStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO-> Object Status Class Printout <-OOOO-G");
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");

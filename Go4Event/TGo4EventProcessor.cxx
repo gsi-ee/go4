@@ -157,7 +157,7 @@ void TGo4EventProcessor::SendObjectToGUI(TNamed *ob)
    return TGo4Analysis::Instance()->SendObjectToGUI(ob);
 }
 
-void TGo4EventProcessor::Clear(Option_t*)
+void TGo4EventProcessor::Clear(Option_t *)
 {
     TGo4Log::Info("Default Clear of event processor %s", GetName());
     // dummy clear, may be implemented by user

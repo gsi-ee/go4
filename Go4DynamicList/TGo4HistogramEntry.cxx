@@ -255,7 +255,7 @@ void TGo4HistogramEntry::RecursiveRemove(TObject *obj)
          Reset();
 }
 
-void TGo4HistogramEntry::Print(Option_t*) const
+void TGo4HistogramEntry::Print(Option_t *) const
 {
    // this trick is needed since root defines Print as const function...
    TROOT::IndentLevel();

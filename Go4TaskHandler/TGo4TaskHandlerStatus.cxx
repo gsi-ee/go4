@@ -27,7 +27,7 @@ TGo4TaskHandlerStatus::~TGo4TaskHandlerStatus()
 {
 }
 
-void TGo4TaskHandlerStatus::Print(Option_t*) const
+void TGo4TaskHandlerStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO-> TaskHandler Status Class %s Printout: <-OOOO-G",GetName());
    PrintLine("G-OOOO-> --------------------------------------------------------------------- <-OOOO-G");

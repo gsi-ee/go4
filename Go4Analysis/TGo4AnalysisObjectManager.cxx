@@ -604,7 +604,7 @@ TH2 *TGo4AnalysisObjectManager::MakeTH2(const char *histotype,
    return histo;
 }
 
-TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray *branchlist,
+TFolder *TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray *branchlist,
       const char *name,
       const char *title,
       Bool_t istopbranch)
@@ -902,7 +902,7 @@ TGo4AnalysisObjectNames *TGo4AnalysisObjectManager::CreateNamesList()
    return namesobject;
 }
 
-TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
+TFolder *TGo4AnalysisObjectManager::CreateNamesFolder(TFolder *objectfolder)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesFolder(TFolder*)",__LINE__, __FILE__));
    if (!objectfolder) return nullptr;
@@ -1698,7 +1698,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder *fold, Option_t *opt, const
 {
    if(!fold) return 0;
 
-   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t *)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    Int_t totalsize = 0;
    TROOT::IndentLevel();
@@ -1725,7 +1725,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder *fold, Option_t *opt, const
 
 Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder *fold)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearFolder(TFolder*, Option_t *)",__LINE__, __FILE__));
    if(!fold) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    TIter iter(fold->GetListOfFolders());
@@ -1790,7 +1790,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject *ob)
 
 Bool_t TGo4AnalysisObjectManager::DeleteFolder(TFolder *fold)
 {
-   GO4TRACE((11, "TGo4AnalysisObjectManager::DeleteFolder(TFolder*, Option_t*)", __LINE__, __FILE__));
+   GO4TRACE((11, "TGo4AnalysisObjectManager::DeleteFolder(TFolder*, Option_t *)", __LINE__, __FILE__));
    if (!fold)
       return kFALSE;
 

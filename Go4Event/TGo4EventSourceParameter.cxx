@@ -30,7 +30,7 @@ TGo4EventSourceParameter::~TGo4EventSourceParameter()
 {
 }
 
-void TGo4EventSourceParameter::Print(Option_t*) const
+void TGo4EventSourceParameter::Print(Option_t *) const
 {
    TString woparam = ClassName();
    woparam.ReplaceAll("Parameter","");

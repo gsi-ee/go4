@@ -42,7 +42,7 @@ TGo4AnalysisObjectNames *TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)
    return reval;
 }
 
-void TGo4AnalysisObjectResult::Print(Option_t*) const
+void TGo4AnalysisObjectResult::Print(Option_t *) const
 {
    gROOT->SetDirLevel(0);
    PrintLine("G-OOOO-> Analysis Object Result Printout <-OOOO-G");

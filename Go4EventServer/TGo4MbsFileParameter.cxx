@@ -50,7 +50,7 @@ const char *TGo4MbsFileParameter::GetMoreName(Int_t n) const
    return (n >= 0) && (n <= fxMoreFiles.GetLast()) ? fxMoreFiles.At(n)->GetName() : nullptr;
 }
 
-void TGo4MbsFileParameter::Print(Option_t*) const
+void TGo4MbsFileParameter::Print(Option_t *) const
 {
    TGo4MbsSourceParameter::Print();
    TGo4Status::PrintLine("Tagfile: %s", GetTagName());

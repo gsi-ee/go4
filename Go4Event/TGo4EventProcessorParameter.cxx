@@ -34,7 +34,7 @@ TGo4EventProcessorParameter::~TGo4EventProcessorParameter()
    GO4TRACE((12,"TGo4EventProcessorParameter::~TGo4EventProcessorParameter()",__LINE__, __FILE__));
 }
 
-void TGo4EventProcessorParameter::Print(Option_t*) const
+void TGo4EventProcessorParameter::Print(Option_t *) const
 {
    TGo4Status::PrintLine("EventProcessor: %s", ClassName());
    TGo4Status::PrintLine("  Name: \t%s", GetName());

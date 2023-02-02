@@ -121,7 +121,7 @@ class TGo4BufferQueue : public TGo4Queue {
 
       /** List of buffers which are free for the next add. */
       TList *fxFreeList{nullptr};   //!
-      TMutex * fxBufferMutex{nullptr}; //!
+      TMutex *fxBufferMutex{nullptr}; //!
 
       /**
        * Number of preallocated buffer TBuffers

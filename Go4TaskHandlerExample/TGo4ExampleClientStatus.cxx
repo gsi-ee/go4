@@ -42,7 +42,7 @@ void TGo4ExampleClientStatus::SetNames(const char *main, const char *watch)
    fxWatchName = watch;
 }
 
-void TGo4ExampleClientStatus::Print(Option_t*) const
+void TGo4ExampleClientStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO->    ExampleClient Status Class %s Printout:  <-OOOO-G", GetName());
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");

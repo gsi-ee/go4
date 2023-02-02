@@ -35,11 +35,11 @@ TGo4ConditionPainter::~TGo4ConditionPainter()
    UnPaintCondition();
 }
 
-void TGo4ConditionPainter::PaintCondition(Option_t*)
+void TGo4ConditionPainter::PaintCondition(Option_t *)
 {
 }
 
-void TGo4ConditionPainter::UnPaintCondition(Option_t*)
+void TGo4ConditionPainter::UnPaintCondition(Option_t *)
 {
 }
 

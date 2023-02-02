@@ -946,7 +946,7 @@ TGo4AnalysisWebStatus *TGo4Analysis::CreateWebStatus()
    return state;
 }
 
-void TGo4Analysis::Print(Option_t*) const
+void TGo4Analysis::Print(Option_t *) const
 {
    TGo4Analysis *localthis = const_cast<TGo4Analysis*>(this);
    TGo4AnalysisStatus *state = localthis->CreateStatus();

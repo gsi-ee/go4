@@ -32,7 +32,7 @@ TGo4UserStoreParameter::~TGo4UserStoreParameter()
 {
 }
 
-void TGo4UserStoreParameter::Print(Option_t*) const
+void TGo4UserStoreParameter::Print(Option_t *) const
 {
    TGo4EventStoreParameter::Print();
    TGo4Status::PrintLine("  Expression: %s", GetExpression());

@@ -126,7 +126,7 @@ TGo4HistogramStatus::~TGo4HistogramStatus()
    GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
 }
 
-void TGo4HistogramStatus::Print(Option_t*) const
+void TGo4HistogramStatus::Print(Option_t *) const
 {
    TGo4ObjectStatus::Print();
    PrintLine("G-OOOO-> Histogram Status Class Printout <-OOOO-G");

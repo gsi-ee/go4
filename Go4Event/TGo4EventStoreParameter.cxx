@@ -29,7 +29,7 @@ TGo4EventStoreParameter::TGo4EventStoreParameter()
 {
 }
 
-void TGo4EventStoreParameter::Print(Option_t*) const
+void TGo4EventStoreParameter::Print(Option_t *) const
 {
    TString woparam = ClassName();
    woparam.ReplaceAll("Parameter","");

@@ -49,7 +49,7 @@ void TGo4TaskStatus::SetTaskHandlerStatus(TGo4TaskHandlerStatus* thstate)
    fxTaskHandlerStatus = thstate;
 }
 
-void TGo4TaskStatus::Print(Option_t*) const
+void TGo4TaskStatus::Print(Option_t *) const
 {
    PrintLine("G-OOOO->    Client Status Class %s Printout:  <-OOOO-G",GetName());
    PrintLine("G-OOOO-> ---------------------------------------------- <-OOOO-G");
