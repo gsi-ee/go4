@@ -110,7 +110,7 @@ void plothistos(const char *file, Stat_t lo, Stat_t up, Bool_t ylog)
            gPad->SetLogy(ylog);
            //gPad->SetGridx(kTRUE); // grid background for pad
            //gPad->SetGridy(kTRUE);
-           TAxis* xax = his[i]->GetXaxis();
+           TAxis *xax = his[i]->GetXaxis();
            if(lo >= 0) xax->SetRangeUser(lo,up);
            //xax->SetNdivisions(20,kTRUE); // specify axis divisions
            //xax->SetTicks("+-"); // ticks on which side of the axis
@@ -125,7 +125,7 @@ void plothistos(const char *file, Stat_t lo, Stat_t up, Bool_t ylog)
            //xax->SetLabelOffset(1); // 1 is default distance from axis
            //xax->SetLabelSize(0.05); // ratio of pad width
            //xax->SetLabelFont(62);
-           TAxis* yax = his[i]->GetYaxis();
+           TAxis *yax = his[i]->GetYaxis();
            //yax->SetRangeUser(0,1000);
            //xax->SetNdivisions(10,kTRUE); // specify axis divisions
            //yax->SetTicks("+-");// ticks on which side of the axis

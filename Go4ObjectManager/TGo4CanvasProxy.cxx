@@ -204,7 +204,7 @@ Bool_t TGo4CanvasProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    Finalize(slot);
    if (fCanvas && fOwner) delete fCanvas;
 
-   fCanvas = dynamic_cast<TCanvas*> (obj);
+   fCanvas = dynamic_cast<TCanvas *>(obj);
    fOwner = owner && fCanvas;
 
    if (!fCanvas && obj && owner) delete obj;

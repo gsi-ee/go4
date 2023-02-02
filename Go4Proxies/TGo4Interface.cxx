@@ -569,7 +569,7 @@ ViewPanelHandle TGo4Interface::StartViewPanel(int x, int y, int width, int heigh
 
 TString TGo4Interface::GetViewPanelName(ViewPanelHandle handle)
 {
-   TCanvas *c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas *) handle;
    return TString(c ? c->GetName() : "");
 }
 
@@ -580,7 +580,7 @@ ViewPanelHandle TGo4Interface::FindViewPanel(const char *name)
 
 Bool_t TGo4Interface::SetViewPanelName(ViewPanelHandle handle, const char *newname)
 {
-   TCanvas *c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas *) handle;
    if (!c || !newname || (strlen(newname) == 0)) return kFALSE;
 
    if (gROOT->GetListOfCanvases()->FindObject(newname)) {
@@ -602,7 +602,7 @@ ViewPanelHandle TGo4Interface::GetActiveViewPanel()
 
 void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 {
-   TCanvas *c = (TCanvas*) handle;
+   TCanvas *c = (TCanvas *) handle;
    if (c) {
       c->Modified();
       c->Update();
@@ -611,14 +611,14 @@ void TGo4Interface::RedrawPanel(ViewPanelHandle handle)
 
 void TGo4Interface::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
 {
-    TCanvas *c = (TCanvas*) handle;
+    TCanvas *c = (TCanvas *) handle;
     if (c) c->Divide(numX, numY);
 }
 
 TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
 {
-    TCanvas *c = (TCanvas*) handle;
-    if (c) return (TPad*) c->cd(number);
+    TCanvas *c = (TCanvas *) handle;
+    if (c) return (TPad *) c->cd(number);
     return nullptr;
 }
 

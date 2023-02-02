@@ -25,7 +25,7 @@ using namespace std;
 // In case of GO4 GUI objects fetched from analysis
 // In case of analysis the object pointers taken from TGo4Analysis instance
 
-void namiter(TDirectory *dir, const char *wildcard, TList* found, int classmask = 11)
+void namiter(TDirectory *dir, const char *wildcard, TList *found, int classmask = 11)
 {
 #ifdef __GO4MACRO__
    TRegexp wild(wildcard, kTRUE);

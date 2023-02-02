@@ -117,10 +117,10 @@ class TGo4BufferQueue : public TGo4Queue {
        * use, no further buffer is allowed to be added as
        * clone.
        */
-      TList* fxBufferList{nullptr}; //!
+      TList *fxBufferList{nullptr}; //!
 
       /** List of buffers which are free for the next add. */
-      TList* fxFreeList{nullptr};   //!
+      TList *fxFreeList{nullptr};   //!
       TMutex * fxBufferMutex{nullptr}; //!
 
       /**

@@ -149,7 +149,7 @@ void TGo4ConditionEditor::DropItem(const char *itemname, TClass *cl, int kind)
 void TGo4ConditionEditor::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
    if (strcmp(linkname,"Condition") == 0) {
-      TGo4Condition *cond = dynamic_cast<TGo4Condition*> (obj);
+      TGo4Condition *cond = dynamic_cast<TGo4Condition *> (obj);
       if (cond) cond->SetChanged(kFALSE);
    }
 

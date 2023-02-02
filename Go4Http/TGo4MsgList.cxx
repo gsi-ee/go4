@@ -64,7 +64,7 @@ void TGo4MsgList::AddMsg(const char *msg)
    fCounter++;
 }
 
-TList* TGo4MsgList::Select(Int_t max, Long64_t id)
+TList *TGo4MsgList::Select(Int_t max, Long64_t id)
 {
    TIter iter(&fMsgs);
    TObject *obj = nullptr;

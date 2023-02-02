@@ -812,7 +812,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis,
    SetOption (index, op+11, bits);
 }
 
-void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
+void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis *axis, Int_t index)
 {
    if (axis)
       SetAxisAtt(naxis,
@@ -837,7 +837,7 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
     }
 }
 
-void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)  const
+void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis *axis, Int_t index)  const
 {
    if (!axis || (naxis<0) || (naxis>2)) return;
    CheckIndex(index);
@@ -1353,7 +1353,7 @@ void TGo4Picture::UpdateFrom(TGo4Picture *source, TClass *selectedobjclass)
       AddObjName(source->GetObjName(n));
 
    if (source->GetSpecialObjects())
-      fxSpecialObjects = (TList*) source->GetSpecialObjects()->Clone();
+      fxSpecialObjects = (TList *) source->GetSpecialObjects()->Clone();
 
    CopyOptionsFrom(source);
 
@@ -1362,7 +1362,7 @@ void TGo4Picture::UpdateFrom(TGo4Picture *source, TClass *selectedobjclass)
       fxSubPictures->SetOwner(kTRUE);
       for (Int_t n = 0; n <= source->fxSubPictures->GetLast(); n++) {
          TGo4Picture *sub =
-            dynamic_cast<TGo4Picture*>(source->fxSubPictures->At(n));
+            dynamic_cast<TGo4Picture *>(source->fxSubPictures->At(n));
          if (sub) {
             TGo4Picture *newsub = new TGo4Picture;
             newsub->UpdateFrom(sub, selectedobjclass);
@@ -1764,7 +1764,7 @@ void TGo4Picture::PrintPic(int shift, Bool_t showopt)
 void TGo4Picture::Print(Option_t* option) const
 {
    std::cout << "Picture  " << GetName() << std::endl;
-   ((TGo4Picture*)this)->PrintPic(2, (strstr(option,"attr") != nullptr));
+   const_cast<TGo4Picture *>(this)->PrintPic(2, strstr(option,"attr") != nullptr);
 }
 
 void TGo4Picture::AddSubPicture(TGo4Picture *pic)

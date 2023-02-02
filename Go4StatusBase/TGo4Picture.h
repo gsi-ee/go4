@@ -234,7 +234,7 @@ class TGo4Picture : public TNamed {
       // This must be objects like markers, labels and so on
       void AddSpecialObject(TObject *obj, Option_t* drawopt = nullptr);
       void AddSpecialObjectXml(const char *xmlcode, Option_t* drawopt = nullptr);
-      TList* GetSpecialObjects() const { return fxSpecialObjects; }
+      TList *GetSpecialObjects() const { return fxSpecialObjects; }
 
       // set style object
       void SetStyle(TStyle* style, Int_t index = UndefIndex);
@@ -354,8 +354,8 @@ class TGo4Picture : public TNamed {
 
       void SetH1Att(TH1 *h1, Int_t index = UndefIndex);
       void GetH1Att(TH1 *h1, Int_t index = UndefIndex) const;
-      void SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex);
-      void GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index = UndefIndex) const;
+      void SetAxisAtt(Int_t naxis, TAxis *axis, Int_t index = UndefIndex);
+      void GetAxisAtt(Int_t naxis, TAxis *axis, Int_t index = UndefIndex) const;
       void SetPadAtt(TPad* pad, Int_t index = UndefIndex);
       void GetPadAtt(TPad* pad, Int_t index = UndefIndex) const;
 
@@ -381,7 +381,7 @@ class TGo4Picture : public TNamed {
       TArrayL fxOptValue;
       TObjArray* fxOptObjects{nullptr};
 
-      TList* fxSpecialObjects{nullptr};
+      TList *fxSpecialObjects{nullptr};
 
       Int_t fiLastIndex{0};        //!
 

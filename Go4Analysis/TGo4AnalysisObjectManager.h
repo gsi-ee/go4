@@ -966,10 +966,10 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Create a list of objects which names are matching expression expr.
        * optionally, the search can be limited to given subfolder of
        * Go4. By default, all registered objects are compared.*/
-      TList* CreateObjectList(const char *expr, const char *folder = nullptr);
+      TList *CreateObjectList(const char *expr, const char *folder = nullptr);
 
       /** For recursive search for objects in folder fold that match expression. */
-      TList* CreateObjectList(const char *expr, TFolder *fold);
+      TList *CreateObjectList(const char *expr, TFolder *fold);
 
       /** Finds out if  string is matching the expression */
       Bool_t IsMatching(const char *string, const char *expression) const;

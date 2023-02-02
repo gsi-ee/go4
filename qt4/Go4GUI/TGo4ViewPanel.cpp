@@ -587,7 +587,7 @@ TGo4Slot *TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
             continue;
 
          if (drawkind == kind_Condition) {
-            TGo4Condition *selcond = dynamic_cast<TGo4Condition*>(obj);
+            TGo4Condition *selcond = dynamic_cast<TGo4Condition *>(obj);
             if (obj->InheritsFrom(TGo4CondArray::Class())) {
                TGo4CondArray* arr = (TGo4CondArray*) obj;
                selcond = nullptr;
@@ -916,7 +916,7 @@ void TGo4ViewPanel::RefreshButtons()
    SetConditionBtn->setVisible(iscondition);
    if (iscondition) {
       TGo4Slot *slot = GetSelectedSlot(GetActivePad(), nullptr, nullptr);
-      TGo4Condition *cond = !slot ? nullptr : dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
+      TGo4Condition *cond = !slot ? nullptr : dynamic_cast<TGo4Condition *>(slot->GetAssignedObject());
       ModifyConditionBtn->setVisible(cond && (cond->IsChanged() != 0));
 
       QString iconname = ":/icons/right.png";
@@ -1200,7 +1200,7 @@ void TGo4ViewPanel::SetConditionBtn_clicked()
    const char *itemname = GetLinkedName(slot);
    if (itemname) {
       UpdateItemInAnalysis(itemname);
-      TGo4Condition *cond = dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
+      TGo4Condition *cond = dynamic_cast<TGo4Condition *>(slot->GetAssignedObject());
       if(cond) cond->SetChanged(kFALSE);
       RefreshButtons();
    }
@@ -1385,7 +1385,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          TGo4Slot *condslot = GetSelectedSlot(pad, nullptr, nullptr);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition *maincond =
-                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
+                  dynamic_cast<TGo4Condition *>(condslot->GetAssignedObject());
             if (maincond) maincond->SetChanged();
          }
 
@@ -1455,7 +1455,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
          TGo4Slot *condslot = GetSelectedSlot(pad, nullptr, nullptr);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition *maincond =
-                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
+                  dynamic_cast<TGo4Condition *>(condslot->GetAssignedObject());
             if (maincond) maincond->SetChanged();
          }
 
@@ -1475,7 +1475,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                   "Enter new LaTeX label text:", name, QLineEdit::Normal,
                   QString(), &ok);
             if (ok && (txt.length() > 0)) {
-               TLatex* latex = new TLatex(x, y, name.toLatin1().constData());
+               TLatex *latex = new TLatex(x, y, name.toLatin1().constData());
                latex->SetName(name.toLatin1().constData());
                latex->SetTitle(txt.toLatin1().constData());
                AddMarkerObj(pad, kind_Latex, latex);
@@ -1484,7 +1484,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
                fiMouseMode = kMouseROOT;
             }
          } else {
-            TLatex* latex = dynamic_cast<TLatex*>(GetActiveObj(pad, kind_Latex));
+            TLatex *latex = dynamic_cast<TLatex *>(GetActiveObj(pad, kind_Latex));
             if(latex) {
                latex->SetX(x);
                latex->SetY(y);
@@ -1860,7 +1860,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture *pic, TPad* pad, bool useitemn
          const char *drawopt = GetSpecialDrawOption(subslot);
 
          if (obj) {
-            if (dynamic_cast<TLatex*>(obj) || dynamic_cast<TF1*>(obj)) {
+            if (dynamic_cast<TLatex *>(obj) || dynamic_cast<TF1 *>(obj)) {
                // test here if we have local object or monitored remote one
                if (dynamic_cast<TGo4ObjectProxy*>(subslot->GetProxy())) {
                   // make clone when really needed
@@ -1877,7 +1877,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture *pic, TPad* pad, bool useitemn
 
                TGo4Marker* mark = dynamic_cast<TGo4Marker*>(obj);
                if (mark) mark->DeletePainter();
-               TGo4Condition *cond = dynamic_cast<TGo4Condition*>(obj);
+               TGo4Condition *cond = dynamic_cast<TGo4Condition *>(obj);
                if (cond) cond->DeletePainter();
 
                pic->AddSpecialObject(obj, drawopt);
@@ -2540,7 +2540,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot *padslot,
             pic->SetStatsAttr(stats);
          }
          // test: set here time display
-         TAxis* xax = h1->GetXaxis();
+         TAxis *xax = h1->GetXaxis();
          pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
       }
 
@@ -3143,7 +3143,7 @@ TGo4Picture *TGo4ViewPanel::GetPadOptions(TGo4Slot *padslot)
    if (!padslot)
       return nullptr;
    TGo4Slot *tgtslot = padslot->FindChild("::PadOptions");
-   return !tgtslot ? nullptr : (TGo4Picture*) tgtslot->GetAssignedObject();
+   return !tgtslot ? nullptr : (TGo4Picture *) tgtslot->GetAssignedObject();
 }
 
 TH1 *TGo4ViewPanel::GetPadHistogram(TPad *pad)
@@ -3428,11 +3428,11 @@ void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
       // reset condition and marker histogram
       if ((kind >= kind_Specials) && (kind < kind_Other)) {
          if (obj->InheritsFrom(TGo4Condition::Class()))
-            cond = (TGo4Condition*) obj;
+            cond = (TGo4Condition *) obj;
          else if (obj->InheritsFrom(TGo4Marker::Class()))
             mark = (TGo4Marker*) obj;
       } else if (kind == kind_Condition)
-         cond = dynamic_cast<TGo4Condition*>(obj);
+         cond = dynamic_cast<TGo4Condition *>(obj);
 
       TH1 *oldhisto = nullptr;
 
@@ -3493,7 +3493,7 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot *padslot)
       // change drawkind of condition which is drawn as normal object
       if (obj->InheritsFrom(TGo4Condition::Class())) {
          numcond++;
-         TGo4Condition *cond = static_cast<TGo4Condition*>(obj);
+         TGo4Condition *cond = static_cast<TGo4Condition *>(obj);
          cond->SetLineColor(GetAutoColor(numcond));
          cond->SetFillColor(GetAutoColor(numcond));
          cond->SetFillStyle(3444);
@@ -3511,13 +3511,13 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot *padslot)
          continue;
       }
       if (!pic) {
-         pic = dynamic_cast<TGo4Picture*>(obj);
+         pic = dynamic_cast<TGo4Picture *>(obj);
          if (pic)
             picslot = subslot;
       }
 
       if (!canv) {
-         canv = dynamic_cast<TCanvas*>(obj);
+         canv = dynamic_cast<TCanvas *>(obj);
          if (canv)
             canvslot = subslot;
       }
@@ -3714,8 +3714,8 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad *tgtpad, TPad *srcpad, const char *s
          SetSlotPad(subpadslot, tgtsubpad);
 
          ProcessCanvasAdopt(tgtsubpad, srcsubpad, itemname.Data());
-      } else if (dynamic_cast<TGo4Condition*>(obj)) {
-         TGo4Condition *cond = (TGo4Condition*) obj->Clone();
+      } else if (dynamic_cast<TGo4Condition *>(obj)) {
+         TGo4Condition *cond = (TGo4Condition *) obj->Clone();
          cond->SetWorkHistogram(nullptr);
          AddDrawObject(tgtpad, kind_Condition, cond->GetName(), cond, kTRUE, nullptr);
       } else if (dynamic_cast<TGo4Marker*>(obj)) {
@@ -4326,7 +4326,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot *padslot)
       if(obj->InheritsFrom(TF1::Class())){
          if(!pad->GetListOfPrimitives()->IsEmpty())
             drawopt.Append("LSAME"); // for correct overlay of TF1 objects JAM
-         TF1* func = dynamic_cast<TF1*>(obj);
+         TF1 *func = dynamic_cast<TF1 *>(obj);
          Int_t objindx = padslot->GetIndexOf(subslot);
          func->SetLineColor(GetAutoColor(((objindx+7) % 9) + 1)); // 9 basic colors for superimpose of tf1, like for other superimpose
       }
@@ -4780,7 +4780,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
          if (naxis >= ndim) break;
 
-         TAxis* axis = padhist->GetXaxis();
+         TAxis *axis = padhist->GetXaxis();
          if (naxis==1) axis = padhist->GetYaxis();
          if (naxis==2) axis = padhist->GetZaxis();
 
@@ -4865,9 +4865,9 @@ void TGo4ViewPanel::TakeFullRangeFromHisto(TH1 *h1, TGo4Picture *padopt, bool is
 {
    if (!h1 || !padopt) return;
 
-   TAxis* xax = h1->GetXaxis();
-   TAxis* yax = h1->GetYaxis();
-   TAxis* zax = h1->GetZaxis();
+   TAxis *xax = h1->GetXaxis();
+   TAxis *yax = h1->GetYaxis();
+   TAxis *zax = h1->GetZaxis();
    int ndim = h1->GetDimension();
 
    if (isfirsthisto) {
@@ -4963,7 +4963,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
 
    double hmin = 0., hmax = 0., umin, umax;
 
-   TAxis* ax = h1->GetXaxis();
+   TAxis *ax = h1->GetXaxis();
 
    if (IsAutoZoomFlag() && isthishisto) {
       MoveSingleScale(1., 6, 0, padopt, h1);
@@ -4982,7 +4982,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
       ax->UnZoom();
    }
 
-   TAxis* ay = h1->GetYaxis();
+   TAxis *ay = h1->GetYaxis();
 
    if (padopt->GetRange(1, umin, umax)) {
       if (!autoscale && (ndim == 1)) {
@@ -5012,7 +5012,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
       }
    }
 
-   TAxis* az = h1->GetZaxis();
+   TAxis *az = h1->GetZaxis();
 
    if (padopt->GetRange(2, umin, umax) && (ndim > 1)) {
       if (!autoscale && (ndim == 2)) {
@@ -5065,7 +5065,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
                   // note: go4 range was full visible range of histogram
                   // in new ROOT automatic shift of ranges can appear,
                   // to prevent this, center of each bin should be used
-                  TAxis* ax = hs_h1->GetXaxis();
+                  TAxis *ax = hs_h1->GetXaxis();
                   Int_t i1 = ax->FindFixBin(umin);
                   Int_t i2 = ax->FindFixBin(umax);
                   if (i1<i2) { ax->SetRange(i1,i2); }
@@ -5169,7 +5169,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
    }
 
    // add here setting the time format properties:
-   TAxis* xax = h1->GetXaxis();
+   TAxis *xax = h1->GetXaxis();
    xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
@@ -5238,7 +5238,7 @@ bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture *padopt,
    return changed;
 }
 
-bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture *padopt, TAxis* ax)
+bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture *padopt, TAxis *ax)
 {
    Double_t selmin, selmax;
 

@@ -52,7 +52,7 @@ class TGo4Queue : public TNamed {
    private:
       TMutex* fxMutex{nullptr};          //!
       TCondition* fxCondition{nullptr};  //!
-      TList* fxList{nullptr};            //!
+      TList *fxList{nullptr};            //!
       Int_t fiEntries{0};                //!
       Int_t fiMaxEntries{0};             //!
       Bool_t fbWakeUpCall{kFALSE};       //!

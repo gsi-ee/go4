@@ -70,7 +70,7 @@ TGo4HDF5Source::~TGo4HDF5Source()
    }
 }
 
-TList* TGo4HDF5Source::ProducesFilesList(const char *mask)
+TList *TGo4HDF5Source::ProducesFilesList(const char *mask)
 {
    if (!mask || (strlen(mask) == 0)) return nullptr;
 
@@ -82,7 +82,7 @@ TList* TGo4HDF5Source::ProducesFilesList(const char *mask)
       if(!strstr(basename.Data(),TGo4HDF5Adapter::fgcFILESUF))
          basename += TGo4HDF5Adapter::fgcFILESUF;
 
-      TList* lst = new TList();
+      TList *lst = new TList();
       lst->SetOwner(kTRUE);
       lst->Add(new TObjString(basename));
       return lst;
@@ -107,7 +107,7 @@ TList* TGo4HDF5Source::ProducesFilesList(const char *mask)
 
    if (!dir) return nullptr;
 
-   TList* lst = nullptr;
+   TList *lst = nullptr;
 
    TRegexp re(basename, kTRUE);
    while (const char *file = gSystem->GetDirEntry(dir)) {

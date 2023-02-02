@@ -115,7 +115,7 @@ void TGo4MbsFile::AddFileName(const char *name, const char *tagname, bool isonly
       read_multi = true;
    } else if(fname.Contains("*") || fname.Contains("?")) {
       // name indicates wildcard expression
-      TList* lst = TGo4FileSource::ProducesFilesList(fname.Data());
+      TList *lst = TGo4FileSource::ProducesFilesList(fname.Data());
 
       if (!lst) {
          SetCreateStatus(GETEVT__NOFILE);

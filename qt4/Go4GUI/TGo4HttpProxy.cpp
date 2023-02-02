@@ -1155,8 +1155,8 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          if (n > 0) {
             TGo4Slot *subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
-            TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
-            TList* next = dynamic_cast<TList*> (obj);
+            TList *curr = subslot ? dynamic_cast<TList *> (subslot->GetAssignedObject()) : nullptr;
+            TList *next = dynamic_cast<TList *> (obj);
             if (curr && curr->First() && next && next->First()) {
                if (strcmp(curr->First()->GetName(), next->First()->GetName()) == 0) {
                   // this is protection against sending same info many times
@@ -1196,7 +1196,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
    req.Append("Msg/exe.bin?method=Select&max=10000");
    TGo4Slot *subslot = LoginfoSlot();
-   TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
+   TList *curr = subslot ? dynamic_cast<TList *> (subslot->GetAssignedObject()) : nullptr;
    if (curr && curr->First()) {
       req.Append("&id=");
       req.Append(curr->First()->GetName());
@@ -1206,7 +1206,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
    req.Append("Log/exe.bin?method=Select&max=10000");
    subslot = DebugOutputSlot();
-   curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : nullptr;
+   curr = subslot ? dynamic_cast<TList *> (subslot->GetAssignedObject()) : nullptr;
    if (curr && curr->First()) {
       req.Append("&id=");
       req.Append(curr->First()->GetName());
@@ -1263,7 +1263,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
 
    subslot = LoginfoSlot();
    if (subslot && IsConnected()) {
-      TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
+      TList *curr = dynamic_cast<TList *> (subslot->GetAssignedObject());
       if (!curr || (fStatusCnt != subslot->GetAssignCnt())) {
          TString arg;
          if (curr && curr->First()) {
@@ -1277,7 +1277,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
 
    subslot = DebugOutputSlot();
    if (subslot && IsConnected()) {
-      TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
+      TList *curr = dynamic_cast<TList *> (subslot->GetAssignedObject());
       if (!curr || (fDebugCnt != subslot->GetAssignCnt())) {
          TString arg;
          if (curr && curr->First()) {

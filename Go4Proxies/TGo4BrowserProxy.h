@@ -216,7 +216,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void AddWaitingList(TGo4Slot *itemslot, const char *destination = nullptr);
       void CheckWaitingList(TGo4Slot *source);
 
-      static Int_t CompareAxis(TAxis* ax1, TAxis* ax2);
+      static Int_t CompareAxis(TAxis *ax1, TAxis *ax2);
       static Bool_t CompareAxisValues(Double_t v1, Double_t v2, Double_t scale);
 
       Int_t CalculateFolderSizes(TGo4Slot *topslot);
@@ -241,7 +241,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       TTimer*            fxMonitorTimer{nullptr};    //!
       Bool_t             fbBlockMonitoring{kFALSE};  //!
       Int_t              fiFilterIndex{0};           //!
-      TList*             fxWaitingList{nullptr};     //!
+      TList *            fxWaitingList{nullptr};     //!
       TObjArray*         fxClipboard{nullptr};       //!
       TTimer*            fxSyncTimer{nullptr};       //!
       Bool_t             fbBlockSync{kFALSE};        //!

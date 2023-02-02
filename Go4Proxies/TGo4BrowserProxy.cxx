@@ -2026,7 +2026,7 @@ Bool_t TGo4BrowserProxy::CompareAxisValues(Double_t v1, Double_t v2, Double_t sc
    return (fabs(v1-v2) <= scale);
 }
 
-Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
+Int_t TGo4BrowserProxy::CompareAxis(TAxis *ax1, TAxis *ax2)
 {
    // return rebin factor
    // 0 - axis are different
@@ -2182,8 +2182,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
 
       return kTRUE;
    } else if (obj->InheritsFrom(TGo4Condition::Class())) {
-      TGo4Condition *cond = dynamic_cast<TGo4Condition*> (obj);
-      TGo4Condition *newcond = dynamic_cast<TGo4Condition*> (newobj);
+      TGo4Condition *cond = dynamic_cast<TGo4Condition *> (obj);
+      TGo4Condition *newcond = dynamic_cast<TGo4Condition *> (newobj);
       if (!cond || !newcond) return kFALSE;
 
       cond->UpdateFrom(newcond, kTRUE);
@@ -2256,16 +2256,16 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
 
       return kTRUE;
    } else if (obj->InheritsFrom(TLatex::Class())) {
-      TLatex* l0 = dynamic_cast<TLatex*> (obj);
-      TLatex* l1 = dynamic_cast<TLatex*> (newobj);
+      TLatex *l0 = dynamic_cast<TLatex *> (obj);
+      TLatex *l1 = dynamic_cast<TLatex *> (newobj);
       if (!l1 || !l0) return kFALSE;
 
       l0->SetTitle(l1->GetTitle());
 
       return kTRUE;
    } else if (obj->InheritsFrom(TF1::Class())) {
-      TF1* f0 = dynamic_cast<TF1*> (obj);
-      TF1* f1 = dynamic_cast<TF1*> (newobj);
+      TF1 *f0 = dynamic_cast<TF1 *> (obj);
+      TF1 *f1 = dynamic_cast<TF1 *> (newobj);
       if (!f1 || !f0) return kFALSE;
       f1->Copy(*f0);
       return kTRUE;
@@ -2278,7 +2278,7 @@ void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, T
 {
    if(!gr) return;
    TH1 *h1 = gr->GetHistogram();
-   TAxis* xax = h1->GetXaxis();
+   TAxis *xax = h1->GetXaxis();
    timedisplay = xax->GetTimeDisplay();
    format = xax->GetTimeFormat();
 }
@@ -2287,7 +2287,7 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay
 {
    if(!gr) return;
    TH1 *h1 = gr->GetHistogram();
-   TAxis* xax = h1->GetXaxis();
+   TAxis *xax = h1->GetXaxis();
    xax->SetTimeDisplay(timedisplay);
    xax->SetTimeFormat(format.Data());
 }
@@ -2296,17 +2296,17 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay
 void TGo4BrowserProxy::UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr)
 {
    if(!oldgr || !newgr) return;
-   TList* theFunctions=oldgr->GetListOfFunctions();
+   TList *theFunctions = oldgr->GetListOfFunctions();
    TObject *obj = nullptr;
    while ((obj  = theFunctions->First()) != nullptr) {
       while (theFunctions->Remove(obj)) { }
       delete obj;
    }
 
-   TList* newFunctions = newgr->GetListOfFunctions();
+   TList *newFunctions = newgr->GetListOfFunctions();
    TListIter fiter(newFunctions);
-   while(auto fun = dynamic_cast<TF1*>(fiter())) {
-     TF1* fclon = dynamic_cast<TF1*>(fun->Clone());
+   while(auto fun = dynamic_cast<TF1 *>(fiter())) {
+     TF1 *fclon = dynamic_cast<TF1 *>(fun->Clone());
      theFunctions->Add(fclon);
      fclon->SetParent(oldgr);
    }

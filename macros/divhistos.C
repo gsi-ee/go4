@@ -16,7 +16,7 @@
 
 TH1F* CloneTHI2F(TH1 * horig)
 {
-   TAxis* ax = horig->GetXaxis();
+   TAxis *ax = horig->GetXaxis();
 
    Int_t nbins   = ax->GetNbins();
    Double_t vmin = ax->GetXmin();
@@ -30,11 +30,11 @@ TH1F* CloneTHI2F(TH1 * horig)
 
 TH2F* CloneTHI2F_2D(TH1 * horig)
 {
-   TAxis* ax = horig->GetXaxis();
+   TAxis *ax = horig->GetXaxis();
    Int_t xnbins   = ax->GetNbins();
    Double_t xvmin = ax->GetXmin();
    Double_t xvmax = ax->GetXmax();
-   TAxis* ay = horig->GetYaxis();
+   TAxis *ay = horig->GetYaxis();
    Int_t ynbins   = ay->GetNbins();
    Double_t yvmin = ay->GetXmin();
    Double_t yvmax = ay->GetXmax();

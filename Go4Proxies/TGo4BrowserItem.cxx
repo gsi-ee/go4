@@ -53,7 +53,7 @@ TGo4BrowserItem::TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previ
 {
    SetOwner(kTRUE);
    if (parent) {
-      TList* list = (TList*) parent->GetListOfFolders();
+      TList *list = (TList *) parent->GetListOfFolders();
       if (!previtem) list->AddFirst(this);
                 else list->AddAfter(previtem, this);
    }

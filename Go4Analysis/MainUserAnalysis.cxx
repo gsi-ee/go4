@@ -290,12 +290,12 @@ const char *GetArgValue(int argc, char **argv, const char *argname, int* pos = n
    return nullptr;
 }
 
-TList* GetClassesList(TList* prev = nullptr)
+TList *GetClassesList(TList *prev = nullptr)
 {
    TClassTable::Init();
    char* name = nullptr;
 
-   TList* lst = new TList;
+   TList *lst = new TList;
    lst->SetOwner(kTRUE);
 
    if (prev) TGo4Log::Debug("Search user classes in loaded library");
@@ -311,7 +311,7 @@ TList* GetClassesList(TList* prev = nullptr)
    return lst;
 }
 
-TGo4Analysis *CreateDefaultAnalysis(TList* lst, const char *name, int user_argc, char** user_argv, bool doprint)
+TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
 
@@ -695,7 +695,7 @@ int main(int argc, char **argv)
    if (!analysis_name) analysis_name = GetArgValue(argc, argv, "-name");
    if (!analysis_name) analysis_name = "Go4Analysis";
 
-   TList* lst0 = GetClassesList();
+   TList *lst0 = GetClassesList();
 
    int argpos = 0;
    bool isanylib = false;
@@ -713,7 +713,7 @@ int main(int argc, char **argv)
       if (gSystem->Load(libname)<0) return -1;
    }
 
-   TList* lst1 = GetClassesList(lst0);
+   TList *lst1 = GetClassesList(lst0);
 
    TGo4Analysis *analysis = nullptr;
 

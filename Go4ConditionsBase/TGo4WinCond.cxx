@@ -194,7 +194,7 @@ Double_t TGo4WinCond::GetXMax(TH1 *histo)
    if(!histo) return 0;
    Double_t result = 0.;
    SetHistogramRanges(histo);
-   TAxis* xax = histo->GetXaxis();
+   TAxis *xax = histo->GetXaxis();
    Int_t maxbin = histo->GetMaximumBin();
    if (histo->GetDimension() == 1) {
       result = xax->GetBinCenter(maxbin);
@@ -270,8 +270,8 @@ void TGo4WinCond::SetHistogramRanges(TH1 *histo)
 void TGo4WinCond::RestoreHistogramRanges(TH1 *histo)
 {
    if(!histo) return;
-   TAxis* xax=histo->GetXaxis();
-   TAxis* yax=histo->GetYaxis();
+   TAxis *xax=histo->GetXaxis();
+   TAxis *yax=histo->GetYaxis();
    xax->SetRange(fiSaveXMin,fiSaveXMax);
    if(yax&& histo->GetDimension()>1)
       yax->SetRange(fiSaveYMin,fiSaveYMax);

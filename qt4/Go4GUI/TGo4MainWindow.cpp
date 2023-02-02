@@ -2790,7 +2790,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    bool blankbg = go4sett->getSavePadWhiteBackground();
    if(blankbg) {
-      can = (TCanvas*) panel->GetCanvas()->Clone();
+      can = (TCanvas *) panel->GetCanvas()->Clone();
       can->SetName("PrintoutPad");
    }
    QStringList flst = fd.selectedFiles();

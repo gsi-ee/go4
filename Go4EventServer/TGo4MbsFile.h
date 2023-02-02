@@ -96,7 +96,7 @@ class TGo4MbsFile : public TGo4MbsSource {
 
     /** file that contains the list of mbs filenames.
       * format should be: "filename.lmd tagfilename" for each line. */
-    TList* fxMultiFile{nullptr}; //!
+    TList *fxMultiFile{nullptr}; //!
 
     /** This indicates if the current file is open or not */
     Bool_t fbFileOpen{kFALSE};

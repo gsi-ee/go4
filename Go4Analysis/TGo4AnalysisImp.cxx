@@ -2177,7 +2177,7 @@ TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, Int_t p
    return graph;
 }
 
-TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1* function)
+TGraph *TGo4Analysis::MakeGraph(const char *fullname, const char *title, TF1 *function)
 {
    fbObjMade = kFALSE;
    TString foldername, graphname;

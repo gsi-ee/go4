@@ -36,9 +36,9 @@ TGo4TreeStructure::~TGo4TreeStructure()
    delete fxTopFolder;
 }
 
-TList* TGo4TreeStructure::GetFolderList()
+TList *TGo4TreeStructure::GetFolderList()
 {
-   return !fxTopFolder ? nullptr : dynamic_cast<TList*> (fxTopFolder->GetListOfFolders());
+   return !fxTopFolder ? nullptr : dynamic_cast<TList *> (fxTopFolder->GetListOfFolders());
 }
 
 TFolder *TGo4TreeStructure::GetNamesFolder(Bool_t chown)

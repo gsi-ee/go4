@@ -34,13 +34,13 @@ TGo4ObjectStatus::TGo4ObjectStatus(TObject *object, Bool_t withtime) :
       fxObjectClass = object->ClassName();
       fiObjectSize = object->IsA()->Size();
       if (object->InheritsFrom(TGo4Picture::Class()))
-         fiObjectSize = ((TGo4Picture*) object)->GetTotalSize();
+         fiObjectSize = ((TGo4Picture *) object)->GetTotalSize();
       fbDeleteProtect = !object->TestBit(TGo4Status::kGo4CanDelete);
       fbResetProtect = object->TestBit(TGo4Status::kGo4NoReset);
    } else {
       SetName("Unknown Name");
       SetTitle("Unknown Title");
-      fxObjectClass="Unknown Class";
+      fxObjectClass = "Unknown Class";
    }
 
    if (withtime) {

@@ -228,7 +228,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       double            fMousePosY{0};    // mouse position in user coordinate when activate menu
 
       TObject *         fMenuObj{nullptr};      // object use to fill menu
-      TList*            fMenuMethods{nullptr};  // list of menu methods
+      TList *           fMenuMethods{nullptr};  // list of menu methods
       bool              fxShowEventStatus{false};
 
       double            fQtScalingfactor{0};

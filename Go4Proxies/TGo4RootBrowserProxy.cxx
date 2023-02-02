@@ -321,7 +321,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture *pic
       pic->GetDrawAttributes(obj, indx);
 
       if (obj->InheritsFrom(TGo4Condition::Class())) {
-         TGo4Condition *con = (TGo4Condition*) obj;
+         TGo4Condition *con = (TGo4Condition *) obj;
          con->SetWorkHistogram(h1);
          con->SetLineColor(2);
          con->SetFillColor(2);
@@ -375,7 +375,7 @@ void TGo4RootBrowserProxy::DrawItem(const char *itemname)
    if (!obj) return;
 
    if (obj->InheritsFrom(TGo4Condition::Class())) {
-      DrawCondition(itemname, (TGo4Condition*) obj);
+      DrawCondition(itemname, (TGo4Condition *) obj);
       return;
    }
 
@@ -384,7 +384,7 @@ void TGo4RootBrowserProxy::DrawItem(const char *itemname)
         else pad->Clear();
 
    if (obj->InheritsFrom(TGo4Picture::Class()))
-      DrawPicture(itemname, (TGo4Picture*) obj, pad);
+      DrawPicture(itemname, (TGo4Picture *) obj, pad);
    else
      obj->Draw();
 

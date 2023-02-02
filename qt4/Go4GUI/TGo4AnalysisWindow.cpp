@@ -516,7 +516,7 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char *linkname, TObject *obj)
 
    if (strcmp(linkname, "DebugOutput") == 0) {
 
-      TList* lst = dynamic_cast<TList*> (obj);
+      TList *lst = dynamic_cast<TList *> (obj);
 
       TListIter iter(lst, kFALSE);
 

@@ -284,15 +284,15 @@ try{
               else
                {
                   Axis_t xval = 0;
-                  TAxis* xax = histo->GetXaxis();
+                  TAxis *xax = histo->GetXaxis();
                   //if(xax) xval=xax->GetBinCenter(x);
                   if(xax) xval=xax->GetBinLowEdge(x);
                   Axis_t yval = 0;
-                  TAxis* yax = histo->GetYaxis();
+                  TAxis *yax = histo->GetYaxis();
                   //if(yax) yval=yax->GetBinCenter(y);
                   if(yax) yval = yax->GetBinLowEdge(y);
                   Axis_t zval = 0;
-                  TAxis* zax = histo->GetZaxis();
+                  TAxis *zax = histo->GetZaxis();
                   //if(zax) zval=zax->GetBinCenter(z);
                   if(zax) zval = zax->GetBinLowEdge(z);
                   outfile <<xval<<" \t"<<yval<<" \t"<<zval<<" \t"<<cont<< std::endl;

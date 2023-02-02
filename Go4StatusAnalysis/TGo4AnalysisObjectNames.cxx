@@ -35,10 +35,10 @@ TGo4AnalysisObjectNames::~TGo4AnalysisObjectNames()
    }
 }
 
-TList* TGo4AnalysisObjectNames::GetFolderList()
+TList *TGo4AnalysisObjectNames::GetFolderList()
 {
    if(fxTopFolder)
-      return dynamic_cast<TList*> (fxTopFolder->GetListOfFolders());
+      return dynamic_cast<TList *> (fxTopFolder->GetListOfFolders());
 
    return nullptr;
 }

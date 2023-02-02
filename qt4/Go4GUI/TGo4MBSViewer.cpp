@@ -500,7 +500,7 @@ TH1 *TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
          up = 0;
       }
       his = new TH1F(name.toLatin1(), title.toLatin1(), fiTrendBins, lo, up);
-      TAxis* xax = his->GetXaxis();
+      TAxis *xax = his->GetXaxis();
       xax->SetTitle("s");
       xax->CenterTitle();
       //xax->SetLimits(0,lo,up);

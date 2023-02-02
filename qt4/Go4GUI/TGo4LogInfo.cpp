@@ -81,7 +81,7 @@ void TGo4LogInfo::AddMessage(const QDateTime& dt, int level, QString msg)
 
 void TGo4LogInfo::linkedObjectUpdated(const char *linkname, TObject *linkobj)
 {
-   TList* lst = dynamic_cast<TList*>(linkobj);
+   TList *lst = dynamic_cast<TList *>(linkobj);
    if (lst) {
       TListIter iter(lst, kFALSE);
       while (auto obj = iter()) {

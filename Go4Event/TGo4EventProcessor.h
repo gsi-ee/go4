@@ -259,7 +259,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** Create a TGraph with values initialized by a function object TF1l.
         * If a graph of this name already exists in the autosave file,
         * it will be returned. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.*/
-      TGraph *MakeGraph(const char *fullname, const char *title, TF1* function);
+      TGraph *MakeGraph(const char *fullname, const char *title, TF1 *function);
 
       /** Create a go4 rolling graph (generic trending plot) with properties points and average.
         * If theses parameters are missing, an empty graph is created to be specified by the user.

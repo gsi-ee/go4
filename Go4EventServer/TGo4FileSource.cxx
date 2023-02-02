@@ -86,7 +86,7 @@ TGo4FileSource::~TGo4FileSource()
    }
 }
 
-TList* TGo4FileSource::ProducesFilesList(const char *mask)
+TList *TGo4FileSource::ProducesFilesList(const char *mask)
 {
    if (!mask || (strlen(mask) == 0)) return nullptr;
 
@@ -98,7 +98,7 @@ TList* TGo4FileSource::ProducesFilesList(const char *mask)
       if(!strstr(basename.Data(),TGo4FileStore::fgcFILESUF))
          basename += TGo4FileStore::fgcFILESUF;
 
-      TList* lst = new TList();
+      TList *lst = new TList();
       lst->SetOwner(kTRUE);
       lst->Add(new TObjString(basename));
       return lst;
@@ -123,7 +123,7 @@ TList* TGo4FileSource::ProducesFilesList(const char *mask)
 
    if (!dir) return nullptr;
 
-   TList* lst = nullptr;
+   TList *lst = nullptr;
 
    TRegexp re(basename, kTRUE);
    const char *file = nullptr;

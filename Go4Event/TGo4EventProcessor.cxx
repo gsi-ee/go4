@@ -199,7 +199,7 @@ TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, I
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, points, xvalues, yvalues);
 }
 
-TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, TF1* function)
+TGraph *TGo4EventProcessor::MakeGraph(const char *fullname, const char *title, TF1 *function)
 {
    return TGo4Analysis::Instance()->MakeGraph(fullname, title, function);
 }

@@ -28,7 +28,7 @@ using namespace std;
 // In case of GO4 GUI parameter names are in TList
 // In case of analysis the object pointers are in the TList
 
-void paramiter(TDirectory *dir, const char *wildcard, TList* found)
+void paramiter(TDirectory *dir, const char *wildcard, TList *found)
 {
 #ifdef __GO4MACRO__
    TRegexp wild(wildcard, kTRUE);

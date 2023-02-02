@@ -51,7 +51,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
       * is reset and a kFALSE value is returned. */
     Bool_t BuildEvent(TGo4EventElement* dest) override;
 
-    static TList* ProducesFilesList(const char *mask);
+    static TList *ProducesFilesList(const char *mask);
 
 
   protected:
@@ -74,7 +74,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
     size_t fiReadOffset{0};
 
     /** list of files names */
-    TList* fxFilesNames{nullptr}; //!
+    TList *fxFilesNames{nullptr}; //!
 
     /** current name of the file */
     TString fxCurrentFileName;  //!

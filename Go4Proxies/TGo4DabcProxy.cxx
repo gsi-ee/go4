@@ -58,12 +58,12 @@ TString GetRootClassName(const dabc::Hierarchy& item)
 // we use fake file only to correctly reconstruct streamer infos
 class TFakeFile : public TMemFile {
    protected:
-      TList*  mylist{nullptr};
+      TList *mylist{nullptr};
 
       InfoListRet GetStreamerInfoListImpl(bool) override
       {
          ROOT::Internal::RConcurrentHashColl::HashValue hash;
-         return { (TList*) mylist->Clone(), 0, hash};
+         return { (TList *) mylist->Clone(), 0, hash };
       }
 
    public:
@@ -393,7 +393,7 @@ class TGo4DabcAccess : public TGo4Access {
                 tobj && tobj->InheritsFrom(TList::Class()) &&
                 fMasterName.empty()) {
 
-               TFakeFile fff((TList*) tobj);
+               TFakeFile fff((TList *) tobj);
                fff.ReadStreamerInfo();
 
                TGo4Log::Debug("Get streamer infos from remote");
