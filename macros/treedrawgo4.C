@@ -21,7 +21,7 @@ gSystem->Load("$GO4SYS/Go4Example2Step/libGo4UserAnalysis.so");
 
 TString fname(filename);
 if(!fname.EndsWith(".root")) fname.Append(".root");
-TGo4Analysis* go4=TGo4Analysis::Instance();
+TGo4Analysis *go4 = TGo4Analysis::Instance();
 go4->CloseAnalysis(); // make this macro reentrant: cleanup dynamic list, etc
 go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 

@@ -48,7 +48,7 @@ Int_t TGo4ComGetObjectStatus::ExeCom()
 
    GO4TRACE((11,"TGo4ComGetObjectStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
    TGo4Log::Debug(" Executing %s : Object %s Status requested ", GetName(), GetObjectName());
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    TGo4ObjectStatus *state = ana ? ana->CreateObjectStatus(GetObjectName(), GetFolderName()) : nullptr;
    if(state) {
       TString name = state->GetName();      // workaround for the case that

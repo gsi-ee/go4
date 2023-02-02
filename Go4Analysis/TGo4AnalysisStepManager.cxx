@@ -355,7 +355,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
 {
    GO4TRACE((14,"TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
    //
-   Bool_t rev=kFALSE;
+   Bool_t rev = kFALSE;
    if (next) {
       if(!fxStepList->FindObject(next))
          // is object already in list?
@@ -374,8 +374,8 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
          {
             next->SetPreviousStep(nullptr);
          }
-         fiLastStepIndex=ix;
-         rev=kTRUE;
+         fiLastStepIndex = ix;
+         rev = kTRUE;
          TGo4Analysis::Instance()->Message(1,"Analysis: Added analysis step %s",
                next->GetName());
       }
@@ -473,33 +473,30 @@ void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus *state)
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
       state->ClearStepStatus();
-      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
-      {
-         TGo4AnalysisStepStatus* stepstate= fxCurrentStep->CreateStatus();
+      while(fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>(fxStepIterator->Next())) {
+         TGo4AnalysisStepStatus* stepstate = fxCurrentStep->CreateStatus();
          state->AddStepStatus(stepstate);
-      } // while(fxCurrentStep..)
+      }
    }
 }
 
-void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
+void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus *state)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    if(state) {
-      fiFirstStepIndex=state->GetFirstStepIndex();
-      fiLastStepIndex=state->GetLastStepIndex();
-      fbStepCheckingMode=state->IsStepChecking();
+      fiFirstStepIndex = state->GetFirstStepIndex();
+      fiLastStepIndex = state->GetLastStepIndex();
+      fbStepCheckingMode = state->IsStepChecking();
       // note: the step indices are not used for
       // initialization of analysis any more!
       // update internal states of steps:
       fxCurrentStep = nullptr;
       fxStepIterator->Reset();
-      while((fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) != nullptr)
-      {
-         const char *name= fxCurrentStep->GetName();
-         TGo4AnalysisStepStatus* stepstate= state->GetStepStatus(name);
+      while(fxCurrentStep = dynamic_cast<TGo4AnalysisStep*>(fxStepIterator->Next())) {
+         const char *name = fxCurrentStep->GetName();
+         TGo4AnalysisStepStatus *stepstate = state->GetStepStatus(name);
          fxCurrentStep->SetStatus(stepstate);
-
-      } // while(fxCurrentStep..)
+      }
    }
 }
 

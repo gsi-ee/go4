@@ -258,7 +258,7 @@ class TGo4PrintFactory : public TGo4StepFactory {
 };
 
 
-typedef TGo4Analysis* (UserCreateFunc)(const char *name);
+typedef TGo4Analysis *(UserCreateFunc)(const char *name);
 
 int FindArg(int argc, char **argv, const char *argname)
 {
@@ -311,7 +311,7 @@ TList* GetClassesList(TList* prev = nullptr)
    return lst;
 }
 
-TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc, char** user_argv, bool doprint)
+TGo4Analysis *CreateDefaultAnalysis(TList* lst, const char *name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
 
@@ -372,7 +372,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
          TGo4Log::Info("Process: %s", cmd.Data());
 
-         TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+         TGo4Analysis *analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
          if (analysis && (err == 0)) return analysis;
 
@@ -391,7 +391,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
          TGo4Log::Info("Process: %s", cmd.Data());
 
-         TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+         TGo4Analysis *analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
          if (analysis && (err == 0)) return analysis;
 
@@ -410,8 +410,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
       if (!meth) {
          TGo4Log::Error("Cannot find non-default constructor for class %s", an_cl->GetName());
-         TGo4Log::Error("Implement analysis constructor with (const char*) or (int,char**) signature");
-         TGo4Log::Error("Or define TGo4Analysis* CreateUserAnalysis(const char*) function in user library");
+         TGo4Log::Error("Implement analysis constructor with (const char *) or (int, char **) signature");
+         TGo4Log::Error("Or define TGo4Analysis *CreateUserAnalysis(const char *) function in user library");
          exit(1);
       }
 
@@ -467,7 +467,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
 
       Int_t err = 0;
       TGo4Log::Info("Process: %s", cmd.Data());
-      TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+      TGo4Analysis *analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
       if (analysis && (err == 0)) return analysis;
 
       TGo4Log::Error("Cannot create analysis class %s instance", an_cl->GetName());
@@ -560,7 +560,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char *name, int user_argc,
    if (inpev_cl)
       TGo4Log::Info("Use class %s as input event", inpev_cl->GetName());
 
-   TGo4Analysis* analysis = TGo4Analysis::Instance();
+   TGo4Analysis *analysis = TGo4Analysis::Instance();
    analysis->SetAnalysisName(name);
 
    TGo4StepFactory* factory = nullptr;
@@ -715,7 +715,7 @@ int main(int argc, char **argv)
 
    TList* lst1 = GetClassesList(lst0);
 
-   TGo4Analysis* analysis = nullptr;
+   TGo4Analysis *analysis = nullptr;
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);

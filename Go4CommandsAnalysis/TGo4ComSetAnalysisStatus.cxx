@@ -64,7 +64,7 @@ Int_t TGo4ComSetAnalysisStatus::ExeCom()
    if (cli) {
       GO4TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
       //TGo4Log::Debug(" Executing SetAnalysisStatus...  ");
-      TGo4Analysis* ana = TGo4Analysis::Instance();
+      TGo4Analysis *ana = TGo4Analysis::Instance();
       if(ana) {
          if(cli->MainIsRunning()) ana->PostLoop(); // if submit is done on running analysis,
          // execute postloop before closing previous objects

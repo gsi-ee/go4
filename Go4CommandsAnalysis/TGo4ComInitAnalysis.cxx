@@ -39,7 +39,7 @@ Int_t TGo4ComInitAnalysis::ExeCom()
    }
 
    GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if(ana) {
       cli->SendStatusMessage(2, kTRUE,"INITIALISING submitted settings, PLEASE WAIT...");
       TGo4Thread::Sleep(1000);

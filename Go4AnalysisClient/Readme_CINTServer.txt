@@ -52,7 +52,7 @@ Go4 Script control methods:
 
    The Go4 framework is available from the CINTServer environment
    by the global method
-   TGo4Analysis* go4= TGo4Analysis::Instance();
+   TGo4Analysis *go4 = TGo4Analysis::Instance();
    After this call, variable "go4" can access any method of the
    analysis framework.
    Object registration:

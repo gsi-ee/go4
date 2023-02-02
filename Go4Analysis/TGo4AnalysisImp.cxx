@@ -96,7 +96,7 @@ namespace {
 
 // _________________________________________________________________________________
 
-TGo4Analysis* TGo4Analysis::fxInstance = nullptr;
+TGo4Analysis *TGo4Analysis::fxInstance = nullptr;
 Bool_t TGo4Analysis::fbExists = kFALSE;
 Int_t TGo4Analysis::fiRunningMode = 0;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS = 500;
@@ -109,7 +109,7 @@ const char *TGo4Analysis::fgcDEFAULTFILESUF = ".root";
 const char TGo4Analysis::fgcPYPROMPT = '$';
 const char *TGo4Analysis::fgcPYINIT = "python/go4init.py";
 
-TGo4Analysis* TGo4Analysis::Instance()
+TGo4Analysis *TGo4Analysis::Instance()
 {
    GO4TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
    if(!fxInstance) {
@@ -948,7 +948,7 @@ TGo4AnalysisWebStatus *TGo4Analysis::CreateWebStatus()
 
 void TGo4Analysis::Print(Option_t*) const
 {
-   TGo4Analysis* localthis = const_cast<TGo4Analysis*>(this);
+   TGo4Analysis *localthis = const_cast<TGo4Analysis*>(this);
    TGo4AnalysisStatus *state = localthis->CreateStatus();
    state->Print();
    delete state;

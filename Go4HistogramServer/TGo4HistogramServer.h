@@ -60,7 +60,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
       TGo4AnalysisClient *GetAnalysisClient() const { return fxAnalysisClient; }
 
-      TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
+      TGo4Analysis *GetAnalysis() const { return fxAnalysis; }
 
       /** histogram server connector thread name */
       static const char *fgcCONTHREADNAME; //!

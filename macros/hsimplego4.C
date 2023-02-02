@@ -24,7 +24,7 @@
 //gROOT->Reset();
 //gROOT->SetBatch(kTRUE);
 
-TGo4Analysis* go4=TGo4Analysis::Instance();
+TGo4Analysis *go4 = TGo4Analysis::Instance();
 go4->CloseAnalysis(); // make this macro reentrant: cleanup dynamic list, etc
 go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 // Create a new canvas.

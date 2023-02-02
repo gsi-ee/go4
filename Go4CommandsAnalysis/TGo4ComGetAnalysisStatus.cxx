@@ -40,7 +40,7 @@ Int_t TGo4ComGetAnalysisStatus::ExeCom()
    cli->SendStatusMessage(1,kFALSE,"Analysis status was requested from client...");
    //cli->SendAnalysisStatus(); // we avoid using analysisclient method
    // just use analysis and taskhandler classes
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if (ana) {
       TGo4AnalysisStatus *state = ana->CreateStatus();
       cli->SendStatus(state, GetTaskName());

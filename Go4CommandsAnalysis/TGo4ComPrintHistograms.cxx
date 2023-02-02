@@ -32,7 +32,7 @@ Int_t TGo4ComPrintHistograms::ExeCom()
    TGo4AnalysisClient *cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli)   {
       GO4TRACE((11,"TGo4ComPrintHistograms::ExeCom() - found valid receiver",__LINE__, __FILE__));
-         TGo4Analysis* ana= TGo4Analysis::Instance();
+         TGo4Analysis *ana= TGo4Analysis::Instance();
          if(ana)
             {
                ana->PrintHistograms();

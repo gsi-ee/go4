@@ -15,14 +15,14 @@ go4StartServer();
 
 void go4StartServer()
 {
-    TDirectory* savdir=gDirectory;
+    TDirectory* savdir = gDirectory;
     TGo4Log::Instance(); // init logger object
     TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
                                // set this to 2 to get warnings and errors only
                                // set this to 3 to get errors only
     TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
 
-    TGo4Analysis* go4 = nullptr;
+    TGo4Analysis *go4 = nullptr;
 
     if (TGo4Analysis::Exists()) {
        go4 = TGo4Analysis::Instance();
@@ -46,7 +46,7 @@ void go4StartServer()
 
 void go4RegisterAll()
 {
-   TGo4Analysis* go4 = TGo4Analysis::Instance();
+   TGo4Analysis *go4 = TGo4Analysis::Instance();
    TDirectory* gdir = gDirectory;
    //   TIter caniter(gROOT->GetListOfCanvases());
    //   TCanvas *can = nullptr;

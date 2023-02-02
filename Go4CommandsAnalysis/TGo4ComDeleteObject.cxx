@@ -47,7 +47,7 @@ Int_t TGo4ComDeleteObject::ExeCom()
       return 1;
    }
 
-   TGo4Analysis* ana =TGo4Analysis::Instance();
+   TGo4Analysis *ana =TGo4Analysis::Instance();
    if(ana)
    {
       const char *obname = GetObjectName();

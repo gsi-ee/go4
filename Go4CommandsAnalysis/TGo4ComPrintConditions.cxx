@@ -37,7 +37,7 @@ Int_t TGo4ComPrintConditions::ExeCom()
    }
 
    GO4TRACE((11,"TGo4ComPrintConditions::ExeCom() - found valid receiver",__LINE__, __FILE__));
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if(ana) {
       ana->PrintConditions();
       cli->SendStatusMessage(1, kFALSE,TString::Format(

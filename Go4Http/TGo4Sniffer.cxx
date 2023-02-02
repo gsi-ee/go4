@@ -319,7 +319,7 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
 
 Bool_t TGo4Sniffer::CmdStart()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    if (an) {
       an->StartAnalysis();
       StatusMessage(0, kTRUE, "Resume analysis loop");
@@ -330,7 +330,7 @@ Bool_t TGo4Sniffer::CmdStart()
 
 Bool_t TGo4Sniffer::CmdStop()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    if (an) {
       an->StopAnalysis();
       StatusMessage(0, kTRUE, "Suspend analysis loop");
@@ -385,7 +385,7 @@ Bool_t TGo4Sniffer::CmdCloseFiles()
 
 Bool_t TGo4Sniffer::CmdClear()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    if (an) {
       an->ClearObjects("Histograms");
       an->ClearObjects("Conditions");
@@ -396,7 +396,7 @@ Bool_t TGo4Sniffer::CmdClear()
 
 Bool_t TGo4Sniffer::CmdRestart()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
@@ -421,7 +421,7 @@ Bool_t TGo4Sniffer::CmdRestart()
 
 Bool_t TGo4Sniffer::CmdClose()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
@@ -441,7 +441,7 @@ Bool_t TGo4Sniffer::CmdClose()
 
 Bool_t TGo4Sniffer::CmdExit()
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4Analysis *an = TGo4Analysis::Instance();
    TGo4AnalysisClient *cli = an ? an->GetAnalysisClient() : nullptr;
 
    if (cli) {
@@ -460,7 +460,7 @@ Bool_t TGo4Sniffer::CmdExit()
 
 Bool_t TGo4Sniffer::CmdClearObject(const char *objname)
 {
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
 
    if(!ana) {
       SendStatusMessage(3, kTRUE,"CmdClearObject - analysis missing");
@@ -487,7 +487,7 @@ Bool_t TGo4Sniffer::CmdClearObject(const char *objname)
 
 Bool_t TGo4Sniffer::CmdDeleteObject(const char *objname)
 {
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
 
    if(!ana) {
       SendStatusMessage(3, kTRUE,"CmdDeleteObject - missing analysis ");
@@ -514,7 +514,7 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char *objname)
 Bool_t TGo4Sniffer::CmdExecute(const char *exeline)
 {
    if (!exeline || (*exeline == 0)) return kFALSE;
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if (!ana) {
       SendStatusMessage(3, kTRUE, "CmdExecute - missing analysis ");
       return kFALSE;
@@ -606,7 +606,7 @@ void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString 
 
 Bool_t TGo4Sniffer::AddAnalysisObject(TObject *obj)
 {
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if (!ana) {
       SendStatusMessage(3, kFALSE, "Analysis not exists to set object");
       delete obj;
@@ -632,7 +632,7 @@ Bool_t TGo4Sniffer::RemoteTreeDraw(const char *histoname,
                                    const char *varexpr,
                                    const char *cutexpr)
 {
-   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4Analysis *ana = TGo4Analysis::Instance();
    if (!ana) {
       SendStatusMessage(3, kTRUE, "No analysis in RemoteTreeDraw");
       return kFALSE;

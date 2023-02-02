@@ -113,7 +113,7 @@ public:
    /** default name of go4 python init script*/
    static const char *fgcPYINIT;
 
-   static TGo4Analysis* Instance();
+   static TGo4Analysis *Instance();
 
    static Bool_t Exists();
 

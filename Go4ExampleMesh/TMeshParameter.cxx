@@ -57,7 +57,7 @@ Bool_t TMeshParameter::UpdateFrom(TGo4Parameter *pp)
    fbExec12On=from->fbExec12On;
    fbCollectorOn=from->fbCollectorOn;
    std::cout <<"Updated Parameter "<<GetName() << std::endl;
-   TGo4Analysis* ana=TGo4Analysis::Instance();
+   TGo4Analysis *ana=TGo4Analysis::Instance();
    TGo4AnalysisStep* unpack=ana->GetAnalysisStep("Unpack");
    if(unpack)
       unpack->SetProcessEnabled(fbUnpackOn);
