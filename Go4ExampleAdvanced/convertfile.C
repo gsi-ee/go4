@@ -26,8 +26,8 @@ void convertfile(const char *file)
 
 
 //TString filename="test_ASF.root";
-TString filename=file;
-TString com1= "mkdir "+filename;
+TString filename = file;
+TString com1 = "mkdir "+filename;
 
 StartDir=gSystem->WorkingDirectory();
 filenameroot = filename+".root";
@@ -44,15 +44,14 @@ convertdir(&myfile);
 
 void converthisto(TH1 *histo)
 {
-  TString objectname=histo->GetName();
-  TString outname=objectname+".hdat";
+  TString objectname = histo->GetName();
+  TString outname = objectname+".hdat";
   gSystem->cd(CurrentDir.Data());
   std::ofstream outfile(outname.Data());
-  if(!outfile)
-    {
-      std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
+  if(!outfile) {
+      std::cout <<"Error opening outputfile "<< outname << std::endl;
       return;
-    }
+  }
 
   std::cout <<"Converting histogram "<< histo->GetName() << std::endl;
   Int_t maxbinX=histo->GetNbinsX();
@@ -83,57 +82,40 @@ void converthisto(TH1 *histo)
 
 void convertgraph(TGraph *graph)
 {
-  TString objectname=graph->GetName();
-  TString outname=objectname+".gdat";
+  TString objectname = graph->GetName();
+  TString outname = objectname+".gdat";
   gSystem->cd(CurrentDir.Data());
   std::ofstream outfile(outname.Data());
-  if(!outfile)
-    {
-              std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
-              return;
-    }
+  if(!outfile) {
+      std::cout <<"Error opening outputfile " << outname << std::endl;
+      return;
+  }
   std::cout <<"Converting graph "<< graph->GetName() << std::endl;
   Int_t maxpoints=graph->GetN();
   outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
   outfile <<"# Point \tX \tY"<< std::endl;
-  for(Int_t point = 0; point < maxpoints; ++point)
-    {
+  for(Int_t point = 0; point < maxpoints; ++point) {
       Double_t xg = 0;
       Double_t yg = 0;
       graph->GetPoint(point,xg,yg);
       outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
-    }
+  }
   outfile.close();
   gSystem->cd(StartDir.Data());
 }
 
 void convertobject(TObject *myobject)
 {
-  TString objectname=myobject->GetName();
-  TString outname=objectname+".dat";
-  if(myobject->InheritsFrom("TDirectory"))
-    {
-      TDirectory* subdir=(TDirectory*) myobject;
-      convertdir(subdir);
-    }
-  else if (myobject->InheritsFrom("TFolder"))
-    {
-      TFolder *subfold=(TFolder*) myobject;
-      convertfolder(subfold);
-    }
-  else if(myobject->InheritsFrom("TH1"))
-    {
-
-      TH1 *histo= (TH1*) myobject;
-      converthisto(histo);
-    }
-  else if (myobject->InheritsFrom("TGraph"))
-    {
-      TGraph *graph= (TGraph*) myobject;
-      convertgraph(graph);
-    }
-  else
-    {
+  TString objectname = myobject->GetName();
+  if(myobject->InheritsFrom("TDirectory")) {
+     convertdir((TDirectory *) myobject);
+  } else if (myobject->InheritsFrom("TFolder")) {
+     convertfolder((TFolder *) myobject);
+  } else if(myobject->InheritsFrom("TH1")) {
+     converthisto((TH1 *) myobject);
+  } else if (myobject->InheritsFrom("TGraph")) {
+     convertgraph((TGraph *) myobject);
+  } else {
       std::cout <<"NOT converting object"<< myobject->GetName();
       std::cout <<" of class "<<myobject->ClassName() <<" to ASCII."<< std::endl;
     }
@@ -152,10 +134,9 @@ void convertfolder(TFolder *fold)
   TObject *myobject = nullptr;
   TObject *ob = nullptr;
   TIter iter(fold->GetListOfFolders());
-  while((myobject = iter()) != nullptr)
-    {
+  while((myobject = iter()) != nullptr) {
       convertobject(myobject);
-    }
+  }
   gSystem->cd(CurrentDir.Data());
   gSystem->cd("..");
   CurrentDir=gSystem->WorkingDirectory(); // go up one directory level again
@@ -168,11 +149,11 @@ void convertdir(TDirectory* source)
   std::cout <<"Converting contents of directory "<<source->GetName()<<"..." << std::endl;
   TString dirname=source->GetName();
   if(!dirname.Contains(".root")) {
-    gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
-    TString com="mkdir "+dirname;
-    gSystem->Exec(com);
-    gSystem->cd(dirname.Data());
-    CurrentDir=gSystem->WorkingDirectory();
+     gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
+     TString com="mkdir "+dirname;
+     gSystem->Exec(com);
+     gSystem->cd(dirname.Data());
+     CurrentDir=gSystem->WorkingDirectory();
   }
   TObject *myobject = nullptr;
   source->cd();
