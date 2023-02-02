@@ -115,21 +115,21 @@ class TGo4AnalysisStepManager : public TNamed {
        * one specified by parameter par. To be used in online mode to
        * switch output files.
        */
-      Bool_t NewStepStore(const char *name, TGo4EventStoreParameter* par);
+      Bool_t NewStepStore(const char *name, TGo4EventStoreParameter *par);
 
       /**
        * Shuts down the old analysis step event source and creates a new
        * one specified by parameter par. To be used in online mode to
        * switch input.
        */
-      Bool_t NewStepSource(const char *name, TGo4EventSourceParameter * par);
+      Bool_t NewStepSource(const char *name, TGo4EventSourceParameter *par);
 
       /**
        * Shuts down the old analysis step processor and creates a new
        * one specified by parameter par. To be used in online mode to
        * switch event processing.
        */
-      Bool_t NewStepProcessor(const char *name, TGo4EventProcessorParameter * par);
+      Bool_t NewStepProcessor(const char *name, TGo4EventProcessorParameter *par);
 
       /**
        * Write object obj into eventstore of the step specified by name.
@@ -206,11 +206,11 @@ class TGo4AnalysisStepManager : public TNamed {
        */
       TGo4EventElement *GetOutputEvent() const { return fxOutputEvent; }
 
-      void SetOutputEvent(TGo4EventElement * event) {  fxOutputEvent=event; }
+      void SetOutputEvent(TGo4EventElement *event) { fxOutputEvent = event; }
 
       Int_t IsErrorStopEnabled() const;
 
-      void SetStepChecking(Bool_t on=kTRUE) { fbStepCheckingMode=on; }
+      void SetStepChecking(Bool_t on = kTRUE) { fbStepCheckingMode = on; }
 
       Bool_t IsStepChecking() const { return fbStepCheckingMode; }
 

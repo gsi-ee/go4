@@ -53,7 +53,7 @@ class TGo4EventElement : public TNamed {
       void SetEventSource(TGo4EventSource * src) { fxEventSource = src; }
 
       /** Setter for the parent event structure reference. */
-      void SetParent(TGo4EventElement * par) { fxParent = par; }
+      void SetParent(TGo4EventElement *par) { fxParent = par; }
 
       void SetKeepContents(Bool_t on=kTRUE) { fbKeepContents = on; }
 

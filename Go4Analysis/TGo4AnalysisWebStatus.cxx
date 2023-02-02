@@ -318,7 +318,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
       message.Append(TString::Format(", %s=%d", theKey.Data(), storetype));
 
       // extract values of old store parameter and save them into the new if matching:
-      TGo4EventStoreParameter* oldstorepar = step->GetStorePar();
+      TGo4EventStoreParameter *oldstorepar = step->GetStorePar();
       TString storename = oldstorepar->GetName();
       TGo4FileStoreParameter* oldfilepar = dynamic_cast<TGo4FileStoreParameter*>(oldstorepar);
       TGo4BackStoreParameter* oldbackpar = dynamic_cast<TGo4BackStoreParameter*>(oldstorepar);
@@ -389,7 +389,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       TString storename = url.GetValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%s", theKey.Data(), storename.Data()));
-      TGo4EventStoreParameter* storepar = step->GetStorePar();
+      TGo4EventStoreParameter *storepar = step->GetStorePar();
       storepar->SetName(storename.Data());
     }    // fgxURL_STORE_NAME
 
@@ -398,7 +398,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t split = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), split));
-      TGo4EventStoreParameter* storepar = step->GetStorePar();
+      TGo4EventStoreParameter *storepar = step->GetStorePar();
       TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
       TGo4BackStoreParameter* backpar = dynamic_cast<TGo4BackStoreParameter*>(storepar);
       if (filepar)
@@ -417,7 +417,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t bufsize = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), bufsize));
-      TGo4EventStoreParameter* storepar = step->GetStorePar();
+      TGo4EventStoreParameter *storepar = step->GetStorePar();
       TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
       TGo4BackStoreParameter* backpar = dynamic_cast<TGo4BackStoreParameter*>(storepar);
       if (filepar)
@@ -435,7 +435,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t bufsize = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), bufsize));
-      TGo4EventStoreParameter* storepar = step->GetStorePar();
+      TGo4EventStoreParameter *storepar = step->GetStorePar();
       TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
       if (filepar)
         filepar->SetBufsize(bufsize);
@@ -450,7 +450,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
        {
          Int_t treeautosave = url.GetIntValueFromOptions(theKey.Data());
          message.Append(TString::Format(", %s=%d", theKey.Data(), treeautosave));
-         TGo4EventStoreParameter* storepar = step->GetStorePar();
+         TGo4EventStoreParameter *storepar = step->GetStorePar();
          TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
          if (filepar)
            filepar->SetAutosaveSize(treeautosave);
@@ -465,7 +465,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t overwrite = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), overwrite));
-      TGo4EventStoreParameter* storepar = step->GetStorePar();
+      TGo4EventStoreParameter *storepar = step->GetStorePar();
       TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
       if (filepar)
         filepar->SetOverwriteMode(overwrite);

@@ -62,7 +62,7 @@ TGo4EventServerFactory::~TGo4EventServerFactory()
    GO4TRACE((15,"TGo4EventServerFactory::~TGo4EventServerFactory()",__LINE__, __FILE__));
 }
 
-TGo4EventElement * TGo4EventServerFactory::CreateInputEvent()
+TGo4EventElement *TGo4EventServerFactory::CreateInputEvent()
 {
    GO4TRACE((14,"TGo4EventServerFactory::CreateInputEvent()",__LINE__, __FILE__));
 
@@ -78,7 +78,7 @@ TGo4EventElement * TGo4EventServerFactory::CreateInputEvent()
    return event;
 }
 
-TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter* par)
+TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter *par)
 {
    GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
 

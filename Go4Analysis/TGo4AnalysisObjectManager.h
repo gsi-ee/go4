@@ -501,17 +501,17 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Add reference to event structure object to Go4 Folder structure. To be used by framework only!
        */
-      Bool_t AddEventStructure(TGo4EventElement * ev);
+      Bool_t AddEventStructure(TGo4EventElement *ev);
 
       /**
        * Remove reference to event structure from go4 folder structure.
        */
-      Bool_t RemoveEventStructure(TGo4EventElement * ev);
+      Bool_t RemoveEventStructure(TGo4EventElement *ev);
 
       /**
        * Search reference to event structure in  folder.
        */
-      TGo4EventElement * GetEventStructure(const char *name) const;
+      TGo4EventElement *GetEventStructure(const char *name) const;
 
       /**
        * Reset all registered backstore instances.Called by dynamic list processing.

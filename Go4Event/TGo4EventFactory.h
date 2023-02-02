@@ -44,13 +44,13 @@ class TGo4EventFactory : public TNamed {
 
       virtual ~TGo4EventFactory();
 
-      virtual TGo4EventElement * CreateInputEvent() = 0;
+      virtual TGo4EventElement *CreateInputEvent() = 0;
 
       virtual TGo4EventSource * CreateEventSource(TGo4EventSourceParameter* par) = 0;
 
-      virtual TGo4EventElement * CreateOutputEvent() = 0;
+      virtual TGo4EventElement *CreateOutputEvent() = 0;
 
-      virtual TGo4EventStore * CreateEventStore(TGo4EventStoreParameter* par) = 0;
+      virtual TGo4EventStore * CreateEventStore(TGo4EventStoreParameter *par) = 0;
 
       virtual TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter* par) = 0;
 

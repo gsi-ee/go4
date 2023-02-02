@@ -32,7 +32,7 @@
 #include "TGo4EventFactory.h"
 #include "TGo4EventStore.h"
 
-TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter* storetype, TGo4EventProcessorParameter* processortype)
+TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter *storetype, TGo4EventProcessorParameter* processortype)
 :TNamed(name,"This is a Go4 analysis step"),
    fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
    fxInputEvent(nullptr), fxOutputEvent(nullptr),
@@ -476,7 +476,7 @@ Bool_t TGo4AnalysisStep::IsEventSourceParam() const
    return fxSourceType != nullptr;
 }
 
-void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
+void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter *kind)
 {
    if(kind == fxStoreType) return; // avoid deleting valid parameter
    if (fxStoreType)

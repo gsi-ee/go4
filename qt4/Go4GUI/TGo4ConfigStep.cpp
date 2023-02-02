@@ -304,7 +304,7 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
     //----------------------------------------------------//
     //Store
 
-    TGo4EventStoreParameter* StorePar = fStepStatus->GetStorePar();
+    TGo4EventStoreParameter *StorePar = fStepStatus->GetStorePar();
 
     if (StorePar)
       switch(StorePar->GetID()) {
@@ -670,7 +670,7 @@ void TGo4ConfigStep::OutputFileDialog()
 {
    QString filters;
    if(fStepStatus) {
-        TGo4EventStoreParameter* storepar = fStepStatus->GetStorePar();
+        TGo4EventStoreParameter *storepar = fStepStatus->GetStorePar();
         if(storepar->InheritsFrom(TGo4FileStoreParameter::Class()))
            filters = "Go4FileSource  (*.root)";
         else if (storepar->InheritsFrom(TGo4UserStoreParameter::Class()))

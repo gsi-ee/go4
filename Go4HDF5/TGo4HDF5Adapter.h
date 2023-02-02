@@ -98,7 +98,7 @@ protected:
     Bool_t fbDataSetExists{kFALSE};
 
     /** Points to event structure to be filled into dataset. */
-    TGo4EventElement * fxEvent{nullptr}; //!
+    TGo4EventElement *fxEvent{nullptr}; //!
 
     /** remember file property flags?. */
     UInt_t fiFlags{0};

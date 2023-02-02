@@ -208,9 +208,9 @@ Bool_t TGo4AnalysisStepManager::SetStepStorage(const char *name, Bool_t on)
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::NewStepStore(const char *name, TGo4EventStoreParameter* par)
+Bool_t TGo4AnalysisStepManager::NewStepStore(const char *name, TGo4EventStoreParameter *par)
 {
-   GO4TRACE((12,"TGo4AnalysisStepManager::NewStepStore(const char *, TGo4EventStoreParameter*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStepManager::NewStepStore(const char *, TGo4EventStoreParameter *)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
    TGo4AnalysisStep *step = nullptr;
 

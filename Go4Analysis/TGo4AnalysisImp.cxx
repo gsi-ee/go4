@@ -1409,7 +1409,7 @@ Int_t TGo4Analysis::GetDynListInterval() const
    return fxObjectManager->GetDynListInterval();
 }
 
-TGo4EventElement * TGo4Analysis::GetEventStructure(const char *name) const
+TGo4EventElement *TGo4Analysis::GetEventStructure(const char *name) const
 {
    return fxObjectManager->GetEventStructure(name);
 }
@@ -1474,7 +1474,7 @@ Bool_t TGo4Analysis::RemoveEventStore(TGo4EventStore * store)
    return fxObjectManager->RemoveEventStore(store);
 }
 
-Bool_t TGo4Analysis::RemoveEventStructure(TGo4EventElement * ev)
+Bool_t TGo4Analysis::RemoveEventStructure(TGo4EventElement *ev)
 {
    return fxObjectManager->RemoveEventStructure(ev);
 }

@@ -1002,13 +1002,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement * ev)
+Bool_t TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement *ev)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement *)",__LINE__, __FILE__));
    return AddObjectToFolder(ev, fxEventDir, nullptr, kFALSE);
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
+Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement *ev)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement *)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;

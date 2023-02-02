@@ -50,7 +50,7 @@ TGo4AnalysisStepException::TGo4AnalysisStepException(const TGo4AnalysisStepExcep
    : TGo4RuntimeException(right)
 {
    GO4TRACE((14, "TGo4AnalysisStepException:TGo4AnalysisStepException(right)", __LINE__, __FILE__));
-   ;
+
    fxStep = right.fxStep;
    fxStepName = right.fxStepName;
    fxStatusMessage = right.fxStatusMessage;

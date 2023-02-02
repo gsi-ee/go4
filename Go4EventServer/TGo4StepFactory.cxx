@@ -83,7 +83,7 @@ void TGo4StepFactory::DefOutputEvent(const char *Oname, const char *Oclass)
 }
 
 //-----------------------------------------------------------
-TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
+TGo4EventElement *TGo4StepFactory::CreateOutputEvent()
 {
    TGo4EventElement *event = nullptr;
 

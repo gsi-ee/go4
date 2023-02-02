@@ -51,7 +51,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     /** Sets the event store parameter which is used on intitialization
       * of this step. */
-    void SetStorePar(TGo4EventStoreParameter* kind);
+    void SetStorePar(TGo4EventStoreParameter *kind);
 
     /** Returns the event store parameter which was
       * put into this status object. */
@@ -106,7 +106,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventStoreParameter* fxStoreType{nullptr};
+    TGo4EventStoreParameter *fxStoreType{nullptr};
 
     /** Parameter object of next event processor to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning

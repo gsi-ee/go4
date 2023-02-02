@@ -88,7 +88,7 @@ TGo4EventSourceParameter* TGo4AnalysisStepStatus::TakeSourcePar()
    return res;
 }
 
-void TGo4AnalysisStepStatus::SetStorePar(TGo4EventStoreParameter* kind)
+void TGo4AnalysisStepStatus::SetStorePar(TGo4EventStoreParameter *kind)
 {
     if(fxStoreType) delete fxStoreType;
     if(kind)

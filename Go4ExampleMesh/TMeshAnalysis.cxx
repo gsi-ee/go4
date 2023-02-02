@@ -46,7 +46,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    factory1->DefOutputEvent("RawEvent", "TMeshRawEvent");
    factory1->DefEventProcessor("Unpacker","TMeshUnpackProc");
    TGo4EventSourceParameter* source1 = new TGo4MbsFileParameter(GetDefaultTestFileName());
-   TGo4EventStoreParameter* store1   = new TGo4FileStoreParameter("MeshRawEvent");
+   TGo4EventStoreParameter *store1   = new TGo4FileStoreParameter("MeshRawEvent");
    TGo4AnalysisStep *step1  = new TGo4AnalysisStep("Unpack",factory1,source1,store1,nullptr);
    AddAnalysisStep(step1);
    step1->SetSourceEnabled(kTRUE);
@@ -97,7 +97,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4StepFactory* factory5 = new TGo4StepFactory("Branch1Factory");
    factory5->DefOutputEvent("EventB1", "TMeshB1OutputEvent");
    factory5->DefEventProcessor("Branch1","TMeshB1AnlProc");
-   TGo4EventStoreParameter* store5   = new TGo4FileStoreParameter("MeshB1");
+   TGo4EventStoreParameter *store5   = new TGo4FileStoreParameter("MeshB1");
    TGo4AnalysisStep *step5 = new TGo4AnalysisStep("Exec1",factory5,nullptr,store5,nullptr);
    // no own event source for execution step
    AddAnalysisStep(step5);
@@ -109,7 +109,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4StepFactory* factory6 = new TGo4StepFactory("Branch2Factory");
    factory6->DefOutputEvent("EventB2", "TMeshB2OutputEvent");
    factory6->DefEventProcessor("Branch2","TMeshB2AnlProc");
-   TGo4EventStoreParameter* store6   = new TGo4FileStoreParameter("MeshB2");
+   TGo4EventStoreParameter *store6   = new TGo4FileStoreParameter("MeshB2");
    TGo4AnalysisStep *step6  = new TGo4AnalysisStep("Exec2",factory6,nullptr,store6,nullptr);
    // no own event source for execution step
    AddAnalysisStep(step6);
@@ -121,7 +121,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4StepFactory* factory7 = new TGo4StepFactory("Branch3Factory");
    factory7->DefOutputEvent("EventB3", "TMeshB3OutputEvent");
    factory7->DefEventProcessor("Branch3","TMeshB3AnlProc");
-   TGo4EventStoreParameter* store7   = new TGo4FileStoreParameter("MeshB3");
+   TGo4EventStoreParameter *store7   = new TGo4FileStoreParameter("MeshB3");
    TGo4AnalysisStep *step7 = new TGo4AnalysisStep("Exec3",factory7,nullptr,store7,nullptr);
    // no own event source for execution step
    AddAnalysisStep(step7);
@@ -167,7 +167,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4StepFactory* factory11 = new TGo4StepFactory("Branch12Factory");
    factory11->DefOutputEvent("EventB12", "TMeshB12OutputEvent");
    factory11->DefEventProcessor("Branch12","TMeshB12AnlProc");
-   TGo4EventStoreParameter* store11 = new TGo4FileStoreParameter("MeshB12");
+   TGo4EventStoreParameter *store11 = new TGo4FileStoreParameter("MeshB12");
    TGo4AnalysisStep *step11 = new TGo4AnalysisStep("Exec12",factory11,nullptr,store11,nullptr);
    // no own event source for execution step
    AddAnalysisStep(step11);
@@ -190,7 +190,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char **argv) :
    TGo4StepFactory* factory13 = new TGo4StepFactory("Branch13Factory");
    factory13->DefOutputEvent("FinalEvent", "TMeshFinalEvent");
    factory13->DefEventProcessor("Collector","TMeshFinalProc");
-   TGo4EventStoreParameter* store13 = new TGo4FileStoreParameter("MeshFinal");
+   TGo4EventStoreParameter *store13 = new TGo4FileStoreParameter("MeshFinal");
    TGo4AnalysisStep *step13 = new TGo4AnalysisStep("Final",factory13,nullptr,store13,nullptr);
    // no own event source for execution step
    AddAnalysisStep(step13);

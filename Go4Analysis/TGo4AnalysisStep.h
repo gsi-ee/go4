@@ -63,10 +63,10 @@ class TGo4AnalysisStep : public TNamed {
     /** Normal ctor. Note: factory and parameter objects are adopted by analysis step,
       * i.e. they are deleted by dtor. */
     TGo4AnalysisStep(const char *name,
-                     TGo4EventFactory* eventfactory,
-                     TGo4EventSourceParameter* sourcetype = nullptr,
-                     TGo4EventStoreParameter* storetype = nullptr,
-                     TGo4EventProcessorParameter* processortype = nullptr);
+                     TGo4EventFactory *eventfactory,
+                     TGo4EventSourceParameter *sourcetype = nullptr,
+                     TGo4EventStoreParameter *storetype = nullptr,
+                     TGo4EventProcessorParameter *processortype = nullptr);
 
     virtual ~TGo4AnalysisStep();
 
@@ -74,7 +74,7 @@ class TGo4AnalysisStep : public TNamed {
       * of this step. The event source will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventSource() method on the fly. */
-    void SetEventSource(TGo4EventSourceParameter* kind);
+    void SetEventSource(TGo4EventSourceParameter *kind);
 
     /** Return kTRUE, if event source parameter specified */
     Bool_t IsEventSourceParam() const;
@@ -85,10 +85,10 @@ class TGo4AnalysisStep : public TNamed {
       * the analysis, or may called on the fly to switch the
       * source from event server to file. Parameter is passed to
       * factory method for user specification of source. */
-    void NewEventSource(TGo4EventSourceParameter * kind);
+    void NewEventSource(TGo4EventSourceParameter *kind);
 
     /** Return current event source parameter */
-    TGo4EventSourceParameter* GetEventSource() const { return fxSourceType; }
+    TGo4EventSourceParameter *GetEventSource() const { return fxSourceType; }
 
     /** Unregister and close eventsource, if existing. */
     void CloseEventSource();
@@ -97,10 +97,10 @@ class TGo4AnalysisStep : public TNamed {
       * of this step. The event store will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventStore() method on the fly. */
-    void SetEventStore(TGo4EventStoreParameter* kind);
+    void SetEventStore(TGo4EventStoreParameter *kind);
 
     /** Return current event store parameter */
-    TGo4EventStoreParameter* GetEventStore() const { return fxStoreType; }
+    TGo4EventStoreParameter *GetEventStore() const { return fxStoreType; }
 
     /** Return kTRUE, if event store parameter specified */
     Bool_t IsEventStoreParam() const;
@@ -111,7 +111,7 @@ class TGo4AnalysisStep : public TNamed {
       * the analysis, or may called on the fly to switch the
       * store. Parameter is passed to
       * factory method for user specification of store. */
-    void NewEventStore(TGo4EventStoreParameter * kind);
+    void NewEventStore(TGo4EventStoreParameter *kind);
 
     /** Unregister and close eventstore, if existing. */
     void CloseEventStore();
@@ -120,7 +120,7 @@ class TGo4AnalysisStep : public TNamed {
       * of this step. The event processor will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventProcessor() method on the fly. */
-    void SetEventProcessor(TGo4EventProcessorParameter* kind);
+    void SetEventProcessor(TGo4EventProcessorParameter *kind);
 
     /** For lazy initialization of event processor. Uses
       * the CreateEventProcessor method of the specialized event factory.
@@ -128,7 +128,7 @@ class TGo4AnalysisStep : public TNamed {
       * the analysis, or may called on the fly to switch the
       * processing algorithm. Parameter is passed to
       * factory method for user specification of processor. */
-    void NewEventProcessor(TGo4EventProcessorParameter * kind);
+    void NewEventProcessor(TGo4EventProcessorParameter *kind);
 
     /** Unregister and close eventprocessor, if existing. */
     void CloseEventProcessor();
@@ -150,16 +150,16 @@ class TGo4AnalysisStep : public TNamed {
     virtual void InitEventClasses();
 
     /** Enables or disables the event source. */
-    void SetSourceEnabled(Bool_t on=kTRUE) { fbSourceEnabled=on; }
+    void SetSourceEnabled(Bool_t on = kTRUE) { fbSourceEnabled = on; }
 
     /** Enables or disables the event store. */
-    void SetStoreEnabled(Bool_t on=kTRUE) { fbStoreEnabled=on; }
+    void SetStoreEnabled(Bool_t on = kTRUE) { fbStoreEnabled = on; }
 
     /** Enables or disables the event processing. */
-    void SetProcessEnabled(Bool_t on=kTRUE) { fbProcessEnabled=on; }
+    void SetProcessEnabled(Bool_t on = kTRUE) { fbProcessEnabled = on; }
 
     /** Enables or disables the stop-on-error mode. */
-    void SetErrorStopEnabled(Bool_t on) { fbErrorStopEnabled=on; }
+    void SetErrorStopEnabled(Bool_t on) { fbErrorStopEnabled = on; }
 
     /** Reset the stopped-after-error state of this
       * analysis step object. May be used to restart
@@ -170,10 +170,10 @@ class TGo4AnalysisStep : public TNamed {
       * this input event at the next call of process. I this analysis
       * step is the first in the chain, the input event will be taken from
       * the event source of this step. */
-    void SetInputEvent(TGo4EventElement *in) { fxInputEvent=in; }
+    void SetInputEvent(TGo4EventElement *in) { fxInputEvent = in; }
 
     /** Sets reference to previous analysis step. */
-    void SetPreviousStep(TGo4AnalysisStep * pre) { fxPrevious=pre; }
+    void SetPreviousStep(TGo4AnalysisStep *pre) { fxPrevious = pre; }
 
     /** Get previous analysis step. Returns 0 if there is none. */
     TGo4AnalysisStep *GetPreviousStep() const { return fxPrevious; }
@@ -191,11 +191,11 @@ class TGo4AnalysisStep : public TNamed {
 
     /** Access to the event processor.
       * Useful if processor has own data to be displayed, e.g. histograms. */
-    TGo4EventProcessor * GetEventProcessor() const { return fxEventProcessor; }
+    TGo4EventProcessor *GetEventProcessor() const { return fxEventProcessor; }
 
     /** Access to step factory.
-      * Useful in setup macros */
-    TGo4EventFactory * GetStepFactory() const { return fxEventFactory; }
+     * Useful in setup macros */
+    TGo4EventFactory *GetStepFactory() const { return fxEventFactory; }
 
     Bool_t IsStoreEnabled() const { return fbStoreEnabled; }
 
