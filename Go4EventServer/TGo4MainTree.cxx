@@ -37,7 +37,7 @@ TGo4MainTree::TGo4MainTree() :
    fxFile = TFile::Open(fgcFILENAME, "UPDATE", "File for main Go4 tree", fgiCOMPRESS);
    TGo4Log::Info("TGo4MainTree: Open file %s UPDATE", fgcFILENAME);
    // check if tree already exists...
-   fxTree = dynamic_cast<TTree*> (fxFile->Get(fgcTREENAME));
+   fxTree = dynamic_cast<TTree *> (fxFile->Get(fgcTREENAME));
    if(fxTree) {
       TGo4Log::Debug(" MainTree has been found in file %s ",fgcFILENAME);
    } else {

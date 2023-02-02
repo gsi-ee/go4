@@ -30,10 +30,9 @@ go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 TFile myfile(fname.Data());
 //myfile.ls();
 TTree *theTree = nullptr;
-TKey* kee = nullptr;
-TIter iter(myfile.GetListOfKeys());
-   while ( ( kee=dynamic_cast<TKey*>(iter()) ) != nullptr ) {
-      theTree = dynamic_cast<TTree*>(kee->ReadObj());
+TKey *kee = nullptr;
+   while (auto kee = dynamic_cast<TKey *>(iter())) {
+      theTree = dynamic_cast<TTree *>(kee->ReadObj());
       if (theTree)
          break; // we take first Tree in file, disregarding its name...
    }
@@ -66,7 +65,7 @@ if(theTree)
     // and perform dynamic tree draw on registered tree
     go4->Message(1,"Please create dynamic entry for tree and press go4 start.");
     while(1) {
-       if(go4->WaitForStart()<0) break; // negative value means root canvas interrupt, leave loop
+       if(go4->WaitForStart() < 0) break; // negative value means root canvas interrupt, leave loop
        while(go4->Process() == 0) {} // inner event loop, returns -1 if go4 is stopped
     } // outer go4 loop
     gROOT->SetInterrupt(kFALSE); // reset interrupt flag after leaving loop

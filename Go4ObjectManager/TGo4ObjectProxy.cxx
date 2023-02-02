@@ -191,7 +191,7 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject *obj)
    Long_t sz = obj->IsA()->Size();
 
    if (obj->InheritsFrom(TH1::Class())) {
-      TH1 *histo = dynamic_cast<TH1*> (obj);
+      TH1 *histo = dynamic_cast<TH1 *> (obj);
       Int_t nbins = histo->GetNbinsX()+2;
       if (histo->GetDimension()>1)
          nbins = nbins*(histo->GetNbinsY()+2);
@@ -205,10 +205,10 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject *obj)
       if (strchr(histo->ClassName(),'C')) binsize = sizeof(Char_t);
       sz += binsize * nbins;
    } else if (obj->InheritsFrom(TTree::Class())) {
-      TTree *t = (TTree*) obj;
+      TTree *t = (TTree *) obj;
       sz += t->GetZipBytes();
    } else if (obj->InheritsFrom(TGo4Picture::Class())) {
-      TGo4Picture *pic = (TGo4Picture*) obj;
+      TGo4Picture *pic = (TGo4Picture *) obj;
       sz = pic->GetTotalSize();
    }
 

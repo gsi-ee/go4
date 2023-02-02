@@ -58,8 +58,7 @@ void paramiter(TDirectory *dir, const char *wildcard, TList* found)
    // found->SetOwner(kTRUE);
    TRegexp wild(wildcard, kTRUE);
    TIter next(dir->GetListOfKeys());
-   TKey *key = nullptr;
-   while((key=(TKey*)next()) != nullptr) {
+   while(auto key = (TKey *)next()) {
       if(strcmp(key->GetClassName(),"TDirectoryFile") == 0)
          paramiter(dir->GetDirectory(key->GetName()), wildcard, found);
       else

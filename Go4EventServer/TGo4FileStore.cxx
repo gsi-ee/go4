@@ -84,7 +84,7 @@ TGo4FileStore::TGo4FileStore(const char *name,
    }
    buffer = oldname;
    buffer += fgcTREESUF;
-   fxTree = dynamic_cast<TTree*> (fxFile->Get(buffer.Data()));
+   fxTree = dynamic_cast<TTree *> (fxFile->Get(buffer.Data()));
    if (fxTree) {
       TGo4Log::Debug(" Tree %s has been found in file %s ", buffer.Data(), fxFile->GetName());
       fiFillCount = (Int_t)(fxTree->GetEntries());
@@ -138,10 +138,10 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
 
    buffer = oldname;
    buffer += fgcTREESUF;
-   fxTree = dynamic_cast<TTree*> (fxFile->Get(buffer.Data()));
+   fxTree = dynamic_cast<TTree *> (fxFile->Get(buffer.Data()));
    if(fxTree) {
       TGo4Log::Debug(" Tree %s has been found in file %s ", buffer.Data(), fxFile->GetName());
-      fiFillCount= (Int_t) (fxTree->GetEntries());
+      fiFillCount = (Int_t) fxTree->GetEntries();
    } else {
       fxTree = new TTree(buffer.Data(), "Go4FileStore");
       fxTree->SetAutoSave(par->GetAutosaveSize());

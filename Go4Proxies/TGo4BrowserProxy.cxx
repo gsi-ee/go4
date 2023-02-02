@@ -641,7 +641,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    // tree pointer is not stored in browser slots
    TString treeslotname;
    DataSlotName(treename, treeslotname);
-   TTree *SelectedTree = dynamic_cast<TTree*> (fxOM->GetObject(treeslotname.Data()));
+   TTree *SelectedTree = dynamic_cast<TTree *> (fxOM->GetObject(treeslotname.Data()));
    if (!SelectedTree) return;
 
    TString histoname(hname), hslotname;

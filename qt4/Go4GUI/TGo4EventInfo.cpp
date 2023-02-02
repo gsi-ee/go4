@@ -68,7 +68,7 @@ void TGo4EventInfo::ResetWidget()
 
 void TGo4EventInfo::linkedObjectUpdated(const char *linkname, TObject *obj)
 {
-   TTree *tr = dynamic_cast<TTree*>(obj);
+   TTree *tr = dynamic_cast<TTree *>(obj);
    if (tr) {
       tr->Show(0);
       return;

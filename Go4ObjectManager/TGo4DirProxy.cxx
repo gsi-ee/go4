@@ -29,7 +29,7 @@
 
 class TGo4KeyAccess : public TGo4Access {
    public:
-      TGo4KeyAccess(TDirectory *dir, TKey* key) : TGo4Access(), fDir(dir), fKey(key) {}
+      TGo4KeyAccess(TDirectory *dir, TKey *key) : TGo4Access(), fDir(dir), fKey(key) {}
 
       Bool_t CanGetObject() const override
         { return kTRUE; }
@@ -61,7 +61,7 @@ class TGo4KeyAccess : public TGo4Access {
 
    private:
       TDirectory * fDir{nullptr};     //!
-      TKey*        fKey{nullptr};     //!
+      TKey *       fKey{nullptr};     //!
 };
 
 // ************************************************************************
@@ -114,7 +114,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
             donext = kFALSE;
 
             if (!fIsKeyIter) {
-               TKey* key = fDir->FindKey(fCurrent->GetName());
+               TKey *key = fDir->FindKey(fCurrent->GetName());
                if (key)
                  if (strcmp(fCurrent->ClassName(), key->GetClassName()) == 0) donext = kTRUE;
             }
@@ -135,7 +135,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
       {
          TClass *cl = nullptr;
          if (fIsKeyIter) {
-            TKey* key = (TKey*) fCurrent;
+            TKey *key = (TKey *) fCurrent;
             TObject *obj = fDir->FindObject(key->GetName());
             if (obj) cl = obj->IsA();
             // if (fReadRight)
@@ -169,7 +169,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
       const char *name() override
       {
          if (!fIsKeyIter) return fCurrent->GetName();
-         TKey* key = (TKey*) fCurrent;
+         TKey *key = (TKey *) fCurrent;
          // if (isfolder() || (key->GetCycle()==1)) return key->GetName();
          fNameBuf.Form("%s;%d",key->GetName(),(int) key->GetCycle());
          return fNameBuf.Data();
@@ -185,7 +185,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          TClass *cl = nullptr;
          Int_t sz = 0;
          if (fIsKeyIter) {
-            TKey* key = (TKey*) fCurrent;
+            TKey *key = (TKey *) fCurrent;
             cl = TGo4Proxy::GetClass(key->GetClassName());
             sz = key->GetNbytes();
             TObject *obj = fDir->FindObject(key->GetName());
@@ -203,7 +203,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          if (isfolder()) return TGo4Access::kndFolder;
 
          if (fIsKeyIter && fReadRight) {
-            TKey* key = (TKey*) fCurrent;
+            TKey *key = (TKey *) fCurrent;
             TClass *cl = TGo4Proxy::GetClass(key->GetClassName());
             if (!cl) cl = gROOT->GetClass(key->GetClassName(), kTRUE, kTRUE);
             if (IsContainerClass(cl)) return TGo4Access::kndMoreFolder;
@@ -214,7 +214,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
       const char *GetClassName() override
       {
-          return fIsKeyIter ? ((TKey*) fCurrent)->GetClassName() : fCurrent->ClassName();
+          return fIsKeyIter ? ((TKey *) fCurrent)->GetClassName() : fCurrent->ClassName();
       }
 };
 
@@ -301,7 +301,7 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory *dir, Bool_t r
 
       TObject *obj = curdir->GetList()->FindObject(namebuf);
       if (!obj) {
-         TKey* key = curdir->GetKey(namebuf, cyclebuf);
+         TKey *key = curdir->GetKey(namebuf, cyclebuf);
          if (!key) return nullptr;
          if (!readright)
             return std::make_unique<TGo4KeyAccess>(curdir, key);
@@ -314,15 +314,15 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory *dir, Bool_t r
 
       if (!obj) return nullptr;
 
-      TTree *tr = dynamic_cast<TTree*> (obj);
+      TTree *tr = dynamic_cast<TTree *> (obj);
       if (tr)
          return TGo4TreeProxy::CreateAccess(tr, curname);
 
-      TCanvas *canv = dynamic_cast<TCanvas*> (obj);
+      TCanvas *canv = dynamic_cast<TCanvas *> (obj);
       if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 
-      THStack *hs = dynamic_cast<THStack*> (obj);
+      THStack *hs = dynamic_cast<THStack *> (obj);
       if (hs)
          return TGo4HStackProxy::CreateAccess(hs, curname);
 
