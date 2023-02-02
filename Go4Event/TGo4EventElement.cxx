@@ -189,7 +189,7 @@ TTree *TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
    // to be able use such tree later, one should provide 'sample' pointer to keep
    // event instance associated with tree branch
 
-   TDirectory* filsav = gDirectory;
+   TDirectory *filsav = gDirectory;
    gROOT->cd();
    if (sample) {
       delete *sample;

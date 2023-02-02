@@ -108,8 +108,8 @@ class TGo4Slot : public TNamed  {
       TGo4LevelIter* MakeLevelIter() const;
       std::unique_ptr<TGo4Access> ProvideSlotAccess(const char *name);
 
-      void SaveData(TDirectory* dir, Bool_t onlyobjs = kFALSE);
-      void ReadData(TDirectory* dir);
+      void SaveData(TDirectory *dir, Bool_t onlyobjs = kFALSE);
+      void ReadData(TDirectory *dir);
 
       // method required to be virtual for object manager
       virtual void Event(TGo4Slot *source, Int_t id, void *param = nullptr);

@@ -141,7 +141,7 @@ TObject *TGo4ObjClient::ReceiveObject()
          {
             TGo4LockGuard mainguard;
             // lock go4 main mutex for streaming
-            TDirectory* savdir = gDirectory;
+            TDirectory *savdir = gDirectory;
             gROOT->cd(); // be sure to be in the top directory when creating histo
             buffer->SetReadMode();
             buffer->Reset();

@@ -151,7 +151,7 @@ void TGo4ObjectManager::CloseFiles(const char *pathname)
 }
 
 
-void TGo4ObjectManager::AddDir(const char *pathname, TDirectory* dir, Bool_t owner, Bool_t readright)
+void TGo4ObjectManager::AddDir(const char *pathname, TDirectory *dir, Bool_t owner, Bool_t readright)
 {
    if (!dir) return;
 
@@ -357,9 +357,9 @@ void TGo4ObjectManager::SaveDataToFile(TFile *f, Bool_t onlyobjs, TGo4Slot *star
 {
    Bool_t usefile = (f != nullptr);
 
-   TDirectory* olddir = gDirectory;
+   TDirectory *olddir = gDirectory;
 
-   TDirectory* curdir = f;
+   TDirectory *curdir = f;
 
    if (!startslot) startslot = this;
 
@@ -373,7 +373,7 @@ void TGo4ObjectManager::SaveDataToFile(TFile *f, Bool_t onlyobjs, TGo4Slot *star
          Int_t levelchange = iter.levelchange();
 
          while ((levelchange++<0) && curdir) {
-             curdir = dynamic_cast<TDirectory*> (curdir->GetMother());
+             curdir = dynamic_cast<TDirectory *> (curdir->GetMother());
          }
          if (!curdir) break;
 
@@ -395,9 +395,9 @@ void TGo4ObjectManager::ReadDataFromFile(TFile *f)
 {
    Bool_t usefile = (f != nullptr);
 
-   TDirectory* olddir = gDirectory;
+   TDirectory *olddir = gDirectory;
 
-   TDirectory* curdir = f;
+   TDirectory *curdir = f;
 
    TGo4Iter iter(this, kTRUE);
 
@@ -405,7 +405,7 @@ void TGo4ObjectManager::ReadDataFromFile(TFile *f)
       if (usefile) {
          Int_t levelchange = iter.levelchange();
          while ((levelchange++<0) && curdir)
-             curdir = dynamic_cast<TDirectory*> (curdir->GetMother());
+             curdir = dynamic_cast<TDirectory *> (curdir->GetMother());
          if (!curdir) break;
          if (iter.isfolder())
              curdir->GetObject(iter.getname(), curdir);

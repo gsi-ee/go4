@@ -24,10 +24,11 @@
 //gROOT->Reset();
 //gROOT->SetBatch(kTRUE);
 
-TGo4Analysis *go4 = TGo4Analysis::Instance();
-go4->CloseAnalysis(); // make this macro reentrant: cleanup dynamic list, etc
-go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
-// Create a new canvas.
+   TGo4Analysis *go4 = TGo4Analysis::Instance();
+   go4->CloseAnalysis(); // make this macro reentrant: cleanup dynamic list, etc
+   go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
+
+  // Create a new canvas.
   c1 = new TCanvas("c1","Dynamic Filling Example",200,10,700,500);
   c1->SetFillColor(42);
   c1->GetFrame()->SetFillColor(21);
@@ -39,8 +40,8 @@ go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 // pictures, graphics objects, detector geometries, tracks, events, etc..
 // This file is now becoming the current directory.
 
-   TFile *hfile = (TFile*)gROOT->FindObject("hsimple.root"); if (hfile) hfile->Close();
-   hfile = TFile::Open("hsimple.root","RECREATE","Demo ROOT file with histograms");
+  TFile *hfile = (TFile *)gROOT->FindObject("hsimple.root"); if (hfile) hfile->Close();
+  hfile = TFile::Open("hsimple.root","RECREATE","Demo ROOT file with histograms");
 
 // Create some histograms, a profile histogram and an ntuple
   hpx    = new TH1F("hpx","This is the px distribution",100,-4,4);

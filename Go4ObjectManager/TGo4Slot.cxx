@@ -407,13 +407,13 @@ std::unique_ptr<TGo4Access> TGo4Slot::ProvideSlotAccess(const char *name)
    return !subslot ? nullptr : subslot->ProvideSlotAccess(subname);
 }
 
-void TGo4Slot::SaveData(TDirectory* dir, Bool_t onlyobjs)
+void TGo4Slot::SaveData(TDirectory *dir, Bool_t onlyobjs)
 {
    if (fProxy)
      fProxy->WriteData(this, dir, onlyobjs);
 }
 
-void TGo4Slot::ReadData(TDirectory* dir)
+void TGo4Slot::ReadData(TDirectory *dir)
 {
    CleanProxy();
 

@@ -104,7 +104,7 @@ std::unique_ptr<TGo4Access> TGo4ObjectProxy::ProvideAccess(const char *name)
    return nullptr;
 }
 
-void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    const char *objname = fObject ? fObject->GetName() : nullptr;
 
@@ -117,7 +117,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
 
    if (fObject->InheritsFrom(TH1::Class())) {
       TH1 *h1 = (TH1*) fObject;
-      TDirectory* olddir = h1->GetDirectory();
+      TDirectory *olddir = h1->GetDirectory();
       h1->Write(objname);
       h1->SetDirectory(olddir);
    } else {
@@ -125,7 +125,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
    }
 }
 
-void TGo4ObjectProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4ObjectProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    const char *objname = slot ? slot->GetPar("ObjectProxy::ObjName") : nullptr;
    if (!objname || !dir) return;

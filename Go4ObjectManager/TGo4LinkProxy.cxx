@@ -61,7 +61,7 @@ TGo4LevelIter* TGo4LinkProxy::MakeIter()
    return fLink ? fLink->MakeLevelIter() : nullptr;
 }
 
-void TGo4LinkProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4LinkProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       TString linkname;
@@ -72,7 +72,7 @@ void TGo4LinkProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
    }
 }
 
-void TGo4LinkProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4LinkProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    const char *linkname = slot->GetPar("LinkProxy::LinkName");
    if (linkname)

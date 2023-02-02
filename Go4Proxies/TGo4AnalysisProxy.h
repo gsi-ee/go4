@@ -68,8 +68,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
 
-      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory *dir) override;
 
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectKind() const override { return TGo4Access::kndFolder; }

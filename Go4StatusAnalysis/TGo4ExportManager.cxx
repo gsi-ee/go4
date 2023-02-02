@@ -30,7 +30,7 @@
 TGo4ExportManager::TGo4ExportManager(const char *name)
    : TNamed(name,"This is a Go4 export manager"),fiFilter(GO4EX_ROOT)
 {
-  fxOutFile="Go4Export";
+  fxOutFile = "Go4Export";
 }
 
 TGo4ExportManager::TGo4ExportManager()
@@ -78,19 +78,19 @@ void TGo4ExportManager::Export(TObject *myobject)
   if(!myobject) return;
 
   if (myobject->InheritsFrom(TDirectory::Class())) {
-      TDirectory *subdir = dynamic_cast<TDirectory*>(myobject);
+      TDirectory *subdir = dynamic_cast<TDirectory *>(myobject);
       Export(subdir);
    } else if (myobject->InheritsFrom(TFolder::Class())) {
-      TFolder *subfold = dynamic_cast<TFolder*>(myobject);
+      TFolder *subfold = dynamic_cast<TFolder *>(myobject);
       Export(subfold);
    } else if (myobject->InheritsFrom(TCollection::Class())) {
-      TCollection *col = dynamic_cast<TCollection*>(myobject);
+      TCollection *col = dynamic_cast<TCollection *>(myobject);
       Export(col);
    } else if (myobject->InheritsFrom(TH1::Class())) {
-      TH1 *histo = dynamic_cast<TH1*>(myobject);
+      TH1 *histo = dynamic_cast<TH1 *>(myobject);
       Export(histo);
    } else if (myobject->InheritsFrom(TGraph::Class())) {
-      TGraph *graph = dynamic_cast<TGraph*>(myobject);
+      TGraph *graph = dynamic_cast<TGraph *>(myobject);
       Export(graph);
    } else {
       switch (fiFilter) {
@@ -139,7 +139,7 @@ void TGo4ExportManager::Export(TFolder *fold)
    gSystem->cd(fxStartDir.Data());
 }
 
-void TGo4ExportManager::Export(TDirectory* source)
+void TGo4ExportManager::Export(TDirectory *source)
 {
    if (!source)
       return;

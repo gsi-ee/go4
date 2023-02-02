@@ -323,7 +323,7 @@ void TGo4CompositeEvent::ProvideArray()
 
 TTree *TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
 {
-   TDirectory* filsav = gDirectory;
+   TDirectory *filsav = gDirectory;
    gROOT->cd();
    if (sample) delete *sample;
    TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();

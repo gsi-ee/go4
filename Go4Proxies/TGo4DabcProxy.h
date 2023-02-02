@@ -47,8 +47,8 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       const char *GetContainedObjectInfo() override { return nullptr; }
       Int_t GetObjectSizeInfo() const override { return -1; }
 
-      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory *dir) override;
 
       void Update(TGo4Slot *slot, Bool_t strong) override;
 

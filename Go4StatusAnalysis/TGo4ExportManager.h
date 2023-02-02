@@ -72,7 +72,7 @@ class TGo4ExportManager : public TNamed {
 
     /**  Recursive conversion of all objects in directory into filter format.
       * folder structure will be represented by subdirs on file system.*/
-    void Export(TDirectory* dir);
+    void Export(TDirectory *dir);
 
     /**  Recursive conversion of all objects in collection into ascii files.
       * folder structure will be represented by subdirs on file system.*/

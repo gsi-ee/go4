@@ -678,8 +678,8 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    varexp += ">>+";
    varexp += hobjectname;
 
-   TDirectory* oldhisdir = histo ? histo->GetDirectory() : nullptr;
-   TDirectory* savdir = gDirectory;
+   TDirectory *oldhisdir = histo ? histo->GetDirectory() : nullptr;
+   TDirectory *savdir = gDirectory;
    gDirectory = nullptr;
    TDirectory dummydir("DummyTreeDraw","Dummy directory to call tree draw");
    dummydir.cd();
@@ -1159,10 +1159,10 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filena
    TFile *f = TFile::Open(filename,"UPDATE");
    if (!f) return kFALSE;
 
-   TDirectory* dir = f;
+   TDirectory *dir = f;
 
    if (subfolder && *subfolder) {
-      dir = dynamic_cast<TDirectory*> (f->Get(subfolder));
+      dir = dynamic_cast<TDirectory *> (f->Get(subfolder));
       if (!dir) dir = f;
    }
 

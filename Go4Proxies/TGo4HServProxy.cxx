@@ -157,11 +157,11 @@ std::unique_ptr<TGo4Access> TGo4HServProxy::ProvideAccess(const char *name)
    return std::make_unique<TGo4HServObjectAccess>(this, itemslot->GetName(), name, itemslot->GetPar("::HistoClass"));
 }
 
-void TGo4HServProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HServProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4HServProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4HServProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
 }
 

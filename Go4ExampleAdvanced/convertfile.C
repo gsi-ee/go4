@@ -144,7 +144,7 @@ void convertfolder(TFolder *fold)
 }
 
 
-void convertdir(TDirectory* source)
+void convertdir(TDirectory *source)
 {
   std::cout <<"Converting contents of directory "<<source->GetName()<<"..." << std::endl;
   TString dirname=source->GetName();

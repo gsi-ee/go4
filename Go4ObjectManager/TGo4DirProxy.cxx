@@ -29,7 +29,7 @@
 
 class TGo4KeyAccess : public TGo4Access {
    public:
-      TGo4KeyAccess(TDirectory* dir, TKey* key) : TGo4Access(), fDir(dir), fKey(key) {}
+      TGo4KeyAccess(TDirectory *dir, TKey* key) : TGo4Access(), fDir(dir), fKey(key) {}
 
       Bool_t CanGetObject() const override
         { return kTRUE; }
@@ -60,7 +60,7 @@ class TGo4KeyAccess : public TGo4Access {
         { return fKey->GetClassName(); }
 
    private:
-      TDirectory*  fDir{nullptr};     //!
+      TDirectory * fDir{nullptr};     //!
       TKey*        fKey{nullptr};     //!
 };
 
@@ -68,7 +68,7 @@ class TGo4KeyAccess : public TGo4Access {
 
 class TGo4DirLevelIter : public TGo4LevelIter {
    protected:
-      TDirectory*    fDir{nullptr};        //!
+      TDirectory *   fDir{nullptr};        //!
       Bool_t         fReadRight{kFALSE};   //!
       TIterator*     fIter{nullptr};       //!
       Bool_t         fIsKeyIter{kFALSE};   //!
@@ -76,7 +76,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
       TString        fNameBuf;             //!
 
    public:
-      TGo4DirLevelIter(TDirectory* dir, Bool_t readright) :
+      TGo4DirLevelIter(TDirectory *dir, Bool_t readright) :
          TGo4LevelIter(),
          fDir(dir),
          fReadRight(readright),
@@ -154,15 +154,15 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          if (!obj) return nullptr;
 
          if (obj->InheritsFrom(TTree::Class()))
-            return TGo4TreeProxy::ProduceIter((TTree*)obj);
+            return TGo4TreeProxy::ProduceIter((TTree *)obj);
 
          if (obj->InheritsFrom(TCanvas::Class()))
-            return TGo4CanvasProxy::ProduceIter((TCanvas*)obj);
+            return TGo4CanvasProxy::ProduceIter((TCanvas *)obj);
 
          if (obj->InheritsFrom(THStack::Class()))
-            return TGo4HStackProxy::ProduceIter((THStack*)obj);
+            return TGo4HStackProxy::ProduceIter((THStack *)obj);
 
-         TDirectory* subdir = dynamic_cast<TDirectory*> (obj);
+         TDirectory *subdir = dynamic_cast<TDirectory *> (obj);
          return !subdir ? nullptr : new TGo4DirLevelIter(subdir, fReadRight);
       }
 
@@ -225,7 +225,7 @@ TGo4DirProxy::TGo4DirProxy() :
 {
 }
 
-TGo4DirProxy::TGo4DirProxy(TDirectory* dir, Bool_t readright, Bool_t owner) :
+TGo4DirProxy::TGo4DirProxy(TDirectory *dir, Bool_t readright, Bool_t owner) :
    TGo4Proxy()
 {
    SetDir(dir, readright, owner);
@@ -236,7 +236,7 @@ TGo4DirProxy::~TGo4DirProxy()
    ClearDir();
 }
 
-void TGo4DirProxy::SetDir(TDirectory* dir, Bool_t readright, Bool_t owner)
+void TGo4DirProxy::SetDir(TDirectory *dir, Bool_t readright, Bool_t owner)
 {
    ClearDir();
    fDir = dir;
@@ -268,18 +268,18 @@ const char *TGo4DirProxy::GetContainedObjectInfo()
 
 Int_t TGo4DirProxy::GetObjectSizeInfo() const
 {
-    TFile *f = dynamic_cast<TFile*> (fDir);
+    TFile *f = dynamic_cast<TFile *> (fDir);
     return !f ? TGo4Proxy::GetObjectSizeInfo() : f->GetSize();
 }
 
-std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot)
+std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory *dir, Bool_t readright, const char *name, TGo4Slot *browser_slot)
 {
    if (!dir) return nullptr;
 
    if (!name || !*name)
       return std::make_unique<TGo4ObjectAccess>(dir);
 
-   TDirectory* curdir = dir;
+   TDirectory *curdir = dir;
    const char *curname = name;
 
    while (curdir && curname) {
@@ -326,7 +326,7 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t r
       if (hs)
          return TGo4HStackProxy::CreateAccess(hs, curname);
 
-      curdir = dynamic_cast<TDirectory*>(obj);
+      curdir = dynamic_cast<TDirectory *>(obj);
 
       if (!curdir)
          return std::make_unique<TGo4ObjectAccess>(obj);
@@ -334,12 +334,12 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t r
    return nullptr;
 }
 
-TGo4LevelIter* TGo4DirProxy::ProduceIter(TDirectory* dir, Bool_t readright)
+TGo4LevelIter* TGo4DirProxy::ProduceIter(TDirectory *dir, Bool_t readright)
 {
    return new TGo4DirLevelIter(dir, readright);
 }
 
-void TGo4DirProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DirProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       const char *filename = nullptr;
@@ -351,7 +351,7 @@ void TGo4DirProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
    }
 }
 
-void TGo4DirProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4DirProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    ClearDir();
 
@@ -369,18 +369,18 @@ Bool_t TGo4DirProxy::UpdateObjectInFile(const char *filepath, TObject *obj)
 {
    if (!filepath || !fDir) return kFALSE;
 
-   TFile *f = dynamic_cast<TFile*> (fDir);
+   TFile *f = dynamic_cast<TFile *> (fDir);
    if (!f) return kFALSE;
 
-   if (f->ReOpen("UPDATE")<0) return kFALSE;
+   if (f->ReOpen("UPDATE") < 0) return kFALSE;
 
    TString foldername, objname;
    TGo4Slot::ProduceFolderAndName(filepath, foldername, objname);
 
-   TDirectory* objdir = f;
+   TDirectory *objdir = f;
 
    if (foldername.Length() > 0)
-      objdir = dynamic_cast<TDirectory*> (f->Get(foldername));
+      objdir = dynamic_cast<TDirectory *> (f->Get(foldername));
 
    char namebuf[10000];
    Short_t cyclebuf;
@@ -399,7 +399,7 @@ Bool_t TGo4DirProxy::UpdateObjectInFile(const char *filepath, TObject *obj)
 
 Bool_t TGo4DirProxy::IsFile() const
 {
-   return dynamic_cast<TFile*>(fDir) != nullptr;
+   return dynamic_cast<TFile *>(fDir) != nullptr;
 }
 
 const char *TGo4DirProxy::GetFileName() const

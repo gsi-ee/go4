@@ -1095,7 +1095,7 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile *file)
    //fxGo4Dir->Write(0, TObject::kOverwrite);
    /////// end old implementation ///////////////////////////////
    ////// begin new implementation: transform folder into subdirectories of output file
-   TDirectory* savdir = gDirectory;
+   TDirectory *savdir = gDirectory;
    file->cd();
    // file->Delete("T*;*"); // remove old contents (get rid of deleted dynamic objects)
    // note: we always use RECREATE option on saving now. No need to cleanup old file!
@@ -1270,7 +1270,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char *name)
 
 Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile *obfile)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile *)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if (obfile) {
       TObject *ob = obfile->Get(TGo4AnalysisObjectManager::fgcTOPFOLDER);
@@ -1539,13 +1539,13 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder *source, TFolder *destinati
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder *destination, Bool_t replace)
+Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory *source, TFolder *destination, Bool_t replace)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TDirectory*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TDirectory *, TFolder *, Bool_t replace)",__LINE__, __FILE__));
    if(!source || !destination) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    Bool_t rev = kTRUE;
-   TDirectory* savdir=gDirectory;
+   TDirectory *savdir = gDirectory;
    source->cd(); // this is necessary to let the TKey::ReadObj work!
    source->ReadKeys();
    TIter keyiter(source->GetListOfKeys());
@@ -1667,7 +1667,7 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder *source)
    return rev;
 }
 
-void TGo4AnalysisObjectManager::AppendToDir(TObject *ob, TDirectory* dir)
+void TGo4AnalysisObjectManager::AppendToDir(TObject *ob, TDirectory *dir)
 {
    if(!ob || !dir) return;
    // note: we do not check for old objects anymore, because
@@ -1681,7 +1681,7 @@ void TGo4AnalysisObjectManager::AppendToDir(TObject *ob, TDirectory* dir)
    dir->Append(ob);
 }
 
-void TGo4AnalysisObjectManager::RemoveFromDir(TFolder *fold, TDirectory* dir)
+void TGo4AnalysisObjectManager::RemoveFromDir(TFolder *fold, TDirectory *dir)
 {
    if(!fold || !dir) return;
 

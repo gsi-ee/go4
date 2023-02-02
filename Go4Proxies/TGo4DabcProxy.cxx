@@ -715,11 +715,11 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
    return hierarchy.null() ? nullptr : new TGo4DabcLevelIter(hierarchy);
 }
 
-void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
 }
 
@@ -795,12 +795,12 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
    return nullptr;
 }
 
-void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4DabcProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
 
 }
 
-void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4DabcProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
 
 }

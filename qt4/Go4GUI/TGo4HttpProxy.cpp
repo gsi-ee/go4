@@ -793,11 +793,11 @@ TGo4LevelIter* TGo4HttpProxy::MakeIter()
    return !top ? nullptr : new TGo4HttpLevelIter(fXML, top);
 }
 
-void TGo4HttpProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HttpProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4HttpProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4HttpProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
 }
 

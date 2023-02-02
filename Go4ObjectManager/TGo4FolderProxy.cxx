@@ -48,24 +48,24 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         return (dynamic_cast<TFolder*>(fCurrent) != nullptr) ||
-                (dynamic_cast<TDirectory*>(fCurrent) != nullptr) ||
-                (dynamic_cast<TTree*>(fCurrent) != nullptr) ||
-                (dynamic_cast<TCanvas*>(fCurrent) != nullptr) ||
-                (dynamic_cast<THStack*>(fCurrent) != nullptr);
+         return (dynamic_cast<TFolder *>(fCurrent) != nullptr) ||
+                (dynamic_cast<TDirectory *>(fCurrent) != nullptr) ||
+                (dynamic_cast<TTree *>(fCurrent) != nullptr) ||
+                (dynamic_cast<TCanvas *>(fCurrent) != nullptr) ||
+                (dynamic_cast<THStack *>(fCurrent) != nullptr);
       }
 
       TGo4LevelIter* subiterator() override
       {
-         TTree *tr = dynamic_cast<TTree*>(fCurrent);
+         TTree *tr = dynamic_cast<TTree *>(fCurrent);
          if (tr) return TGo4TreeProxy::ProduceIter(tr);
-         TDirectory* dir = dynamic_cast<TDirectory*>(fCurrent);
+         TDirectory *dir = dynamic_cast<TDirectory *>(fCurrent);
          if (dir) return TGo4DirProxy::ProduceIter(dir, kFALSE);
-         TCanvas *canv = dynamic_cast<TCanvas*>(fCurrent);
+         TCanvas *canv = dynamic_cast<TCanvas *>(fCurrent);
          if (canv) return TGo4CanvasProxy::ProduceIter(canv);
-         THStack *hs = dynamic_cast<THStack*> (fCurrent);
+         THStack *hs = dynamic_cast<THStack *> (fCurrent);
          if (hs)  return TGo4HStackProxy::ProduceIter(hs);
-         return new TGo4FolderLevelIter((TFolder*)fCurrent);
+         return new TGo4FolderLevelIter((TFolder *)fCurrent);
       }
 
       const char *name() override
@@ -123,7 +123,7 @@ const char *TGo4FolderProxy::GetContainedClassName() const
    return fFolder ? fFolder->ClassName() : nullptr;
 }
 
-void TGo4FolderProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4FolderProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    if (!onlyobjs) {
       const char *foldername = fRootFolderName.Length() > 0 ? fRootFolderName.Data() : nullptr;
@@ -131,7 +131,7 @@ void TGo4FolderProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
    }
 }
 
-void TGo4FolderProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4FolderProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    const char *foldername = slot->GetPar("FolderProxy::RootFolder");
 
@@ -178,23 +178,23 @@ std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder *folder, const
 
       curname = slash+1;
 
-      TTree *tr = dynamic_cast<TTree*> (obj);
+      TTree *tr = dynamic_cast<TTree *> (obj);
       if (tr)
          return TGo4TreeProxy::CreateAccess(tr, curname);
 
-      TDirectory* dir = dynamic_cast<TDirectory*> (obj);
+      TDirectory *dir = dynamic_cast<TDirectory *> (obj);
       if (dir)
          return TGo4DirProxy::CreateAccess(dir, kFALSE, curname);
 
-      TCanvas *canv = dynamic_cast<TCanvas*> (obj);
+      TCanvas *canv = dynamic_cast<TCanvas *> (obj);
       if (canv)
          return TGo4CanvasProxy::CreateAccess(canv, curname);
 
-      THStack *hs = dynamic_cast<THStack*> (obj);
+      THStack *hs = dynamic_cast<THStack *> (obj);
       if (hs)
          return TGo4HStackProxy::CreateAccess(hs, curname);
 
-      curfold = dynamic_cast<TFolder*>(obj);
+      curfold = dynamic_cast<TFolder *>(obj);
    }
 
    return nullptr;

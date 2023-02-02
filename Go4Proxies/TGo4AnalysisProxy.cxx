@@ -364,11 +364,11 @@ TGo4LevelIter* TGo4AnalysisProxy::MakeIter()
    return new TGo4AnalysisLevelIter(fAnalysisNames->GetNamesFolder(), kFALSE);
 }
 
-void TGo4AnalysisProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4AnalysisProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
 }
 
-void TGo4AnalysisProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4AnalysisProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
 }
 

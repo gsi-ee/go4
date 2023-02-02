@@ -113,7 +113,7 @@ TH1 *TGo4CreateNewHistogram::MakeHistogram()
    go4sett->setHistAxisPars(1, nybins, ymin, ymax);
    go4sett->setHistAxisPars(2, nzbins, zmin, zmax);
 
-   TDirectory* savdir = gDirectory;
+   TDirectory *savdir = gDirectory;
    gROOT->cd();
    TH1 *h = nullptr;
    switch(htype) {

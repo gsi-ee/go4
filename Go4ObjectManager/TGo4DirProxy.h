@@ -21,17 +21,17 @@ class TDirectory;
 
 class TGo4DirProxy : public TGo4Proxy {
    protected:
-      TDirectory*  fDir{nullptr};          //!
+      TDirectory * fDir{nullptr};          //!
       Bool_t       fOwner{kFALSE};         //!
       Bool_t       fReadRight{kFALSE};     //!
       TGo4Slot    *fxParentSlot{nullptr};  //!
 
-      void SetDir(TDirectory* dir, Bool_t readright, Bool_t owner);
+      void SetDir(TDirectory *dir, Bool_t readright, Bool_t owner);
       void ClearDir();
 
    public:
       TGo4DirProxy();
-      TGo4DirProxy(TDirectory* dir, Bool_t readright, Bool_t owner);
+      TGo4DirProxy(TDirectory *dir, Bool_t readright, Bool_t owner);
       virtual ~TGo4DirProxy();
 
       void Initialize(TGo4Slot *slot) override { fxParentSlot = slot; }
@@ -45,16 +45,16 @@ class TGo4DirProxy : public TGo4Proxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
         { return CreateAccess(fDir, fReadRight, name, fxParentSlot); }
 
-      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory *dir) override;
 
       Int_t GetObjectKind() const override;
       const char *GetContainedClassName() const override;
       const char *GetContainedObjectInfo() override;
       Int_t GetObjectSizeInfo() const override;
 
-      static std::unique_ptr<TGo4Access> CreateAccess(TDirectory* dir, Bool_t readright, const char *name, TGo4Slot *browser_slot = nullptr);
-      static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
+      static std::unique_ptr<TGo4Access> CreateAccess(TDirectory *dir, Bool_t readright, const char *name, TGo4Slot *browser_slot = nullptr);
+      static TGo4LevelIter* ProduceIter(TDirectory *dir, Bool_t readright);
 
       Bool_t UpdateObjectInFile(const char *filepath, TObject *obj);
 

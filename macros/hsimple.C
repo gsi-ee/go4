@@ -14,7 +14,7 @@
 //*-*
 //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-gROOT->Reset();
+  gROOT->Reset();
 
 // Create a new canvas.
   c1 = new TCanvas("c1","Dynamic Filling Example",200,10,700,500);
@@ -28,7 +28,7 @@ gROOT->Reset();
 // pictures, graphics objects, detector geometries, tracks, events, etc..
 // This file is now becoming the current directory.
 
-  TFile *hfile = (TFile*)gROOT->FindObject("hsimple.root"); if (hfile) hfile->Close();
+  TFile *hfile = (TFile *)gROOT->FindObject("hsimple.root"); if (hfile) hfile->Close();
   hfile = TFile::Open("hsimple.root","RECREATE","Demo ROOT file with histograms");
 
 // Create some histograms, a profile histogram and an ntuple

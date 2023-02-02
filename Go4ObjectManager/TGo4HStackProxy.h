@@ -38,8 +38,8 @@ class TGo4HStackProxy : public TGo4Proxy {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
         { return CreateAccess(fHS, name); }
 
-      void WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs) override;
-      void ReadData(TGo4Slot *slot, TDirectory* dir) override;
+      void WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs) override;
+      void ReadData(TGo4Slot *slot, TDirectory *dir) override;
 
       Bool_t IsAcceptObject(TClass *cl) const override;
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;

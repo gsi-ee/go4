@@ -872,7 +872,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * structure of source is converted into subfolder of destination, but existing objects are not
        * replaced/deleted unless replace==kTRUE
        */
-      Bool_t LoadFolder(TDirectory* source, TFolder *destination, Bool_t replace = kFALSE);
+      Bool_t LoadFolder(TDirectory *source, TFolder *destination, Bool_t replace = kFALSE);
 
       /**
        * Method used by both LoadFolder variants to assign object ob into destination
@@ -894,13 +894,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Prevents the deletion of all objects in memory folders after SaveFolder,
        * when dir is closed.
        */
-      void RemoveFromDir(TFolder *fold, TDirectory* dir);
+      void RemoveFromDir(TFolder *fold, TDirectory *dir);
 
       /**
        * Append object ob to directory dir. If object of same name
        * already existed there, it is replaced.
        */
-      void AppendToDir(TObject *ob, TDirectory* dir);
+      void AppendToDir(TObject *ob, TDirectory *dir);
 
 
       /**

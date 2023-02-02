@@ -125,7 +125,7 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree *tree, Int_t times)
    drawexp += ">>+";
    drawexp += GetHistogramName();
 
-   TDirectory* savdir = gDirectory;
+   TDirectory *savdir = gDirectory;
    gROOT->cd(); // be sure to be in the top directory when processing
    tree->Draw(drawexp.Data(), fxCutExp.Data(), "goff", times, startindex);
    savdir->cd();

@@ -168,7 +168,7 @@ Bool_t TGo4CanvasProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-void TGo4CanvasProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4CanvasProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    const char *objname = nullptr;
    if (fCanvas)
@@ -184,7 +184,7 @@ void TGo4CanvasProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
    fCanvas->Write(objname);
 }
 
-void TGo4CanvasProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4CanvasProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    const char *objname = slot->GetPar("CanvasProxy::CanvasName");
    if (!objname || !dir) return;

@@ -436,7 +436,7 @@ Int_t TGo4Analysis::Process()
          //return -1;
          else
          {
-            TDirectory* savdir = gDirectory;
+            TDirectory *savdir = gDirectory;
             gROOT->cd(); // necessary for dynamic list scope
             MainCycle();
             savdir->cd();
@@ -927,7 +927,7 @@ Bool_t TGo4Analysis::SaveStatus(const char *filename)
 TGo4AnalysisStatus *TGo4Analysis::CreateStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
-   TDirectory* filsav = gDirectory;
+   TDirectory *filsav = gDirectory;
    gROOT->cd();
    TGo4AnalysisStatus *state= new TGo4AnalysisStatus(GetName());
    UpdateStatus(state);
@@ -938,7 +938,7 @@ TGo4AnalysisStatus *TGo4Analysis::CreateStatus()
 TGo4AnalysisWebStatus *TGo4Analysis::CreateWebStatus()
 {
    GO4TRACE((11,"TGo4Analysis::CreateWebStatus()",__LINE__, __FILE__));
-   TDirectory* filsav = gDirectory;
+   TDirectory *filsav = gDirectory;
    gROOT->cd();
    TGo4AnalysisWebStatus *state= new TGo4AnalysisWebStatus(GetName());
    UpdateStatus(state);

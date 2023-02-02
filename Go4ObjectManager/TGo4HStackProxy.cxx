@@ -128,7 +128,7 @@ Bool_t TGo4HStackProxy::RemoveRegisteredObject(TObject *obj)
    return kFALSE;
 }
 
-void TGo4HStackProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs)
+void TGo4HStackProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs)
 {
    const char *objname = nullptr;
    if (fHS)
@@ -144,7 +144,7 @@ void TGo4HStackProxy::WriteData(TGo4Slot *slot, TDirectory* dir, Bool_t onlyobjs
    fHS->Write(objname);
 }
 
-void TGo4HStackProxy::ReadData(TGo4Slot *slot, TDirectory* dir)
+void TGo4HStackProxy::ReadData(TGo4Slot *slot, TDirectory *dir)
 {
    const char *objname = slot->GetPar("HStackProxy::StackName");
    if (!objname || !dir) return;
