@@ -32,7 +32,7 @@ class TGo4Status : public TNamed {
         * on stdout; to be overridden by specific subclass  */
       virtual Int_t PrintStatus(Text_t *buffer = nullptr, Int_t buflen = 0);
 
-      void Print(Option_t * dummy="") const override;
+      void Print(Option_t *opt = "") const override;
 
       /**
        * Insert indentation blanks into text buffer. Uses TROOT::DirLevel,

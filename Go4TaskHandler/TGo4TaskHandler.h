@@ -187,7 +187,7 @@ class TGo4TaskHandler : public TNamed {
    /** Close transport channels and clear queues.
      * Option may indicate root TSocket Close option, e.g.
      * "force" to force socket close */
-    void CloseChannels(Option_t *opt="");
+    void CloseChannels(Option_t *opt = "");
 
     /** Clear all entries of queues. */
     void ClearQueues();

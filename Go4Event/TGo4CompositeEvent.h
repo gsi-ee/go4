@@ -52,7 +52,7 @@ class TGo4CompositeEvent : public TGo4EventElement {
 
      TGo4EventElement *getEventElement(Int_t idx);
      TGo4EventElement *getEventElement(const char *name, Int_t final_element = 0);
-     void Clear(Option_t *opt="") override;
+     void Clear(Option_t *opt = "") override;
      Short_t getNElements() const { return fNElements; }
      Short_t getMaxIndex() const { return fMaxIndex; }
      Bool_t isComposed() override { return kTRUE; }

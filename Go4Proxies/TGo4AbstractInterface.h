@@ -97,7 +97,7 @@ class TGo4AbstractInterface : public TObject {
       Bool_t IsHotStart() const;
       const char *NextHotStartCmd();
       void FreeHotStartCmds();
-      static void ProduceLoadLibs(std::ostream& fs);
+      static void ProduceLoadLibs(std::ostream &fs);
 
       /** Returns default hotstart file extension */
       static const char *DefaultPicTitle();

@@ -319,7 +319,7 @@ void TGo4AbstractInterface::FreeHotStartCmds()
    fxCommands.Delete();
 }
 
-void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
+void TGo4AbstractInterface::ProduceLoadLibs(std::ostream &fs)
 {
    TString rootsys;
    if (gSystem->Getenv("ROOTSYS") != nullptr) {

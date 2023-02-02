@@ -40,7 +40,7 @@ class TMeshRawEvent : public TGo4EventElement {
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
       Int_t Init() override;
 
       /** we compose data structure from subbranches: */

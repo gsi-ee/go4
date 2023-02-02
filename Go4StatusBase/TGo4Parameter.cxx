@@ -398,7 +398,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass
    return kTRUE;
 }
 
-void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t *opt)
+void TGo4Parameter::SavePrimitive(std::ostream &out, Option_t *opt)
 {
    static int cnt = 0;
    TString varname = TString::Format("param%d", cnt++);

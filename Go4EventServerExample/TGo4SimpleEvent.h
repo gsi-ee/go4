@@ -56,7 +56,7 @@ class TGo4SimpleEvent : public TGo4EventElement {
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
       /**
        * Set the internal iterator of the subevent array to the beginning of
        * the array.

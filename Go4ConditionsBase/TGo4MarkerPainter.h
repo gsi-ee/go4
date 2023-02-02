@@ -25,11 +25,11 @@ public:
    virtual ~TGo4MarkerPainter();
 
    /** Display coordinate label for this marker. */
-   void PaintLabel(Option_t *opt="") override;
-   void UnPaintLabel(Option_t *opt="") override;
-   void PaintConnector(Option_t *opt="");
-   void UnPaintConnector(Option_t *opt="");
-   void DisplayToFront(Option_t *opt="") override;
+   void PaintLabel(Option_t *opt = "") override;
+   void UnPaintLabel(Option_t *opt = "") override;
+   void PaintConnector(Option_t *opt = "");
+   void UnPaintConnector(Option_t *opt = "");
+   void DisplayToFront(Option_t *opt = "") override;
 
    virtual void SetMarker(TGo4Marker* mark) { fxMarker=mark; }
 

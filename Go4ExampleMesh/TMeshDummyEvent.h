@@ -29,7 +29,7 @@ class TMeshDummyEvent : public TGo4EventElement {
       virtual ~TMeshDummyEvent();
 
       Int_t Fill() override;
-      void  Clear(Option_t *t="") override;
+      void  Clear(Option_t *opt = "") override;
       Int_t Init() override;
 
    private:

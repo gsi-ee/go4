@@ -38,16 +38,16 @@ public:
 
    /** Implement standard root print.
      *  If option is "go4log", print to TGo4Log::Message. Otherwise use cout */
-   void Print(Option_t *opt="") const  override;
+   void Print(Option_t *opt = "") const  override;
 
    /** Display marker with plain root canvas and in go4 viewpanel */
-   void Paint(Option_t *opt="")  override;
+   void Paint(Option_t *opt = "")  override;
 
    /** Draw this marker on current pad */
-   void Draw(Option_t *opt="")  override;
+   void Draw(Option_t *opt = "")  override;
 
    /** Erase view of this marker from the pad */
-   virtual void UnDraw(Option_t *opt="");
+   virtual void UnDraw(Option_t *opt = "");
 
     /** Re-implement TObject method to pop all our views to front*/
     void Pop() override;

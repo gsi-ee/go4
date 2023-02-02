@@ -150,17 +150,17 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              Iconify();
       Bool_t            IsBatch();
       Bool_t            IsRetained();
-      virtual void      ls(Option_t *option="");
+      virtual void      ls(Option_t *option = "");
       void              Modified(Bool_t=1);
       void              MoveOpaque(Int_t set=1);
       Bool_t            OpaqueMoving();
       Bool_t            OpaqueResizing();
-      virtual void      Paint(Option_t *option="");
+      virtual void      Paint(Option_t *option = "");
       virtual TPad     *Pick(Int_t px, Int_t py, TObjLink *&pickobj);
       virtual TPad     *Pick(Int_t px, Int_t py, TObject *prevSelObj);
-      virtual void      Resize(Option_t *option="");
+      virtual void      Resize(Option_t *option = "");
       void              ResizeOpaque(Int_t set=1);
-      void              SaveSource(const char *filename="", Option_t *option="");
+      void              SaveSource(const char *filename = "", Option_t *option = "");
       virtual void      SetCursor(ECursor cursor);
       virtual void      SetDoubleBuffer(Int_t mode=1);
       void              SetWindowPosition(Int_t x, Int_t y);
@@ -173,7 +173,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      Size(Float_t xsizeuser = 0, Float_t ysizeuser = 0);
       void              SetBatch(Bool_t batch=kTRUE);
       void              SetRetained(Bool_t retained=kTRUE);
-      void              SetTitle(const char *title="");
+      void              SetTitle(const char *title = "");
       virtual void      ToggleEventStatus();
       virtual void      ToggleAutoExec();
       virtual void      Update();
@@ -204,8 +204,8 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       QPaintEngine * paintEngine () const override { return nullptr; }
 
-      void              methodDialog(TObject *object, TMethod* method);
-      QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
+      void              methodDialog(TObject *object, TMethod *method);
+      QAction*          addMenuAction(QMenu *menu, QSignalMapper *map, const QString &text, int id);
 
       void              activateRepaint(int act);
 

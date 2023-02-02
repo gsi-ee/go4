@@ -34,7 +34,7 @@ class TYYYRawEvent : public TGo4EventElement {
         * Method called by the event owner (analysis step) to clear the
         * event element.
         */
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
 
       /** Expand data field if necessary */
       void ReAllocate(Int_t newsize);

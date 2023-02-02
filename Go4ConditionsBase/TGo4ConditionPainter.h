@@ -25,13 +25,13 @@ class TGo4ConditionPainter : public TGo4LabelPainter {
     virtual ~TGo4ConditionPainter();
 
     /** Display condition with plain root canvas and in go4 viewpanel */
-    virtual void PaintCondition(Option_t *opt="");
+    virtual void PaintCondition(Option_t *opt = "");
 
     /** Display condition with plain root canvas and in go4 viewpanel */
-    virtual void UnPaintCondition(Option_t *opt="");
+    virtual void UnPaintCondition(Option_t *opt = "");
 
     /** Display statistics label for this condition with respect to working histogram */
-    void PaintLabel(Option_t *opt="") override;
+    void PaintLabel(Option_t *opt = "") override;
 
     /** Not inline, because we overwrite this for polygon condition. */
     virtual void SetCondition(TGo4Condition *con);

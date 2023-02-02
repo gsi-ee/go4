@@ -571,28 +571,28 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
    if (fiLastView==view_Histo1) {
 
     switch (HisDrawStyle) {
-       case  0: buf="";      break;
-       case  1: buf="ah";    break;
-       case  2: buf="*h";    break;
-       case  3: buf="l";     break;
-       case  4: buf="lf2";   break;
-       case  5: buf="c";     break;
-       case  6: buf="b";     break;
-       case  7: buf="p";     break;
-       case  8: buf="p0";    break;
-       case  9: buf="9h";    break;
-       case 10: buf="][";    break;
-       case 11: buf="text";  break;
-       case 12: buf="bar";   break;
-       case 13: buf="lego3"; break; // for geditor, "lego"
-       case 14: buf="lego1"; break;
-       case 15: buf="lego2"; break;
-       case 16: buf="surf";  break;
-       case 17: buf="surf1"; break;
-       case 18: buf="surf2"; break;
-       case 19: buf="surf3"; break;
-       case 20: buf="surf4"; break;
-       case 21: buf="surf5"; break;
+       case  0: buf = "";      break;
+       case  1: buf = "ah";    break;
+       case  2: buf = "*h";    break;
+       case  3: buf = "l";     break;
+       case  4: buf = "lf2";   break;
+       case  5: buf = "c";     break;
+       case  6: buf = "b";     break;
+       case  7: buf = "p";     break;
+       case  8: buf = "p0";    break;
+       case  9: buf = "9h";    break;
+       case 10: buf = "][";    break;
+       case 11: buf = "text";  break;
+       case 12: buf = "bar";   break;
+       case 13: buf = "lego3"; break; // for geditor, "lego"
+       case 14: buf = "lego1"; break;
+       case 15: buf = "lego2"; break;
+       case 16: buf = "surf";  break;
+       case 17: buf = "surf1"; break;
+       case 18: buf = "surf2"; break;
+       case 19: buf = "surf3"; break;
+       case 20: buf = "surf4"; break;
+       case 21: buf = "surf5"; break;
     }
     if ((HisDrawStyle >= 16) && ((HisCoordStyle == 0) || (HisCoordStyle == 2)))
        HisCoordStyle = 1;
@@ -601,17 +601,17 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
       switch (HisDrawStyle) {
       case 0: buf = "hist"; break;
       case 1: buf = "col"; break;
-      case 9: buf = "lego3"; break;
-      case 8: buf = "lego1"; break;
-      case 3: buf = "lego2"; break;
       case 2: buf = "cont0"; break;
+      case 3: buf = "lego2"; break;
+      case 4: buf = "surf2"; break;
+      case 5: buf = "surf1"; break;
       case 6: buf = "cont1"; break;
+      case 7: buf = "cont4"; break;
+      case 8: buf = "lego1"; break;
+      case 9: buf = "lego3"; break;
       case 10: buf = "cont2"; break;
       case 11: buf = "cont3"; break;
-      case 7: buf = "cont4"; break;
       case 12: buf = "surf"; break;
-      case 5: buf = "surf1"; break;
-      case 4: buf = "surf2"; break;
       case 13: buf = "surf3"; break;
       case 14: buf = "surf4"; break;
       case 15: buf = "surf5"; break;
@@ -619,39 +619,39 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
       case 17: buf = "box"; break;
       case 18: buf = "text"; break;
 #ifndef __NOGO4ASI__
-       case 19: buf="asimage"; break;
+       case 19: buf = "asimage"; break;
 #else
-       case 19: buf=""; break;
+       case 19: buf = ""; break;
 #endif
     }
 
     switch (HisCoordStyle) {
-       case 0:  break;
-       case 1:  buf.Append(",pol"); break;
-       case 2:  buf.Append(",sph"); break;
-       case 3:  buf.Append(",psr"); break;
-       case 4:  buf.Append(",cyl"); break;
+       case 0: break;
+       case 1: buf.Append(",pol"); break;
+       case 2: buf.Append(",sph"); break;
+       case 3: buf.Append(",psr"); break;
+       case 4: buf.Append(",cyl"); break;
     }
 
     if (fiLastView==view_Histo1)
        switch (HisErrorStyle) {
-          case 0:  break;
-          case 1:  buf.Append("E"); break;
-          case 2:  buf.Append("E1"); break;
-          case 3:  buf.Append("E2"); break;
-          case 4:  buf.Append("E3"); break;
-          case 5:  buf.Append("E4"); break;
+          case 0: break;
+          case 1: buf.Append("E"); break;
+          case 2: buf.Append("E1"); break;
+          case 3: buf.Append("E2"); break;
+          case 4: buf.Append("E3"); break;
+          case 5: buf.Append("E4"); break;
        }
     else
        switch (HisErrorStyle) {
-          case 0:  break;
-          case 1:  buf.Append("Z"); break;
-          case 2:  buf.Append("FB"); break;
-          case 3:  buf.Append("BB"); break;
-          case 4:  buf.Append("BBFB"); break;
-          case 5:  buf.Append("ZFB"); break;
-          case 6:  buf.Append("ZBB"); break;
-          case 7:  buf.Append("ZBBFB"); break;
+          case 0: break;
+          case 1: buf.Append("Z"); break;
+          case 2: buf.Append("FB"); break;
+          case 3: buf.Append("BB"); break;
+          case 4: buf.Append("BBFB"); break;
+          case 5: buf.Append("ZFB"); break;
+          case 6: buf.Append("ZBB"); break;
+          case 7: buf.Append("ZBBFB"); break;
        }
 }
 

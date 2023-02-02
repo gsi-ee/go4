@@ -91,7 +91,7 @@ class TGo4EventElement : public TNamed {
       virtual void deactivate();
       virtual void activate();
 
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
       virtual void clearAll(Int_t) {}
       virtual Bool_t isComposed() { return kFALSE; }
       virtual Short_t getId() { return fIdentifier; }

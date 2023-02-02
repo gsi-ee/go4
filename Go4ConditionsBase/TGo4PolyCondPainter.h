@@ -26,13 +26,13 @@ class TGo4PolyCondPainter : public TGo4ConditionPainter {
       virtual ~TGo4PolyCondPainter();
 
       /** Display condition with plain root canvas and in go4 viewpanel */
-      void PaintCondition(Option_t *opt="") override;
+      void PaintCondition(Option_t *opt = "") override;
 
       /** Erase condition view */
-      void UnPaintCondition(Option_t *opt="") override;
+      void UnPaintCondition(Option_t *opt = "") override;
 
         /** pop all components to the front of the pad*/
-      void DisplayToFront(Option_t *opt="") override;
+      void DisplayToFront(Option_t *opt = "") override;
 
       void SetCondition(TGo4Condition *con) override;
 

@@ -61,7 +61,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       virtual ~TGo4MbsEvent();
 
       /** Method called by the event owner (analysis step) to clear the event element. */
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
 
       /* Declare this mbs event object as "reference" to another.
        * This will just set event header accordingly and will use

@@ -25,7 +25,7 @@ class TMeshB3InputEvent : public TGo4EventElement {
       TMeshB3InputEvent(const char *name);
       virtual ~TMeshB3InputEvent();
       Int_t Fill() override;
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
       Int_t Init() override;
 
       Int_t fiCrate3[16];

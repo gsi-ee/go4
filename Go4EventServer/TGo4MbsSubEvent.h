@@ -37,7 +37,7 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       Int_t Fill() override { return -1; } // method not used
 
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
 
       /** Print event with default arguments */
       void PrintEvent() override;

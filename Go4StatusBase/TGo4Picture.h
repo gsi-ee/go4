@@ -207,7 +207,7 @@ class TGo4Picture : public TNamed {
 
       void Print(Option_t *option = "") const override;    //  *MENU*
 
-      void SavePrimitive(std::ostream& fs, Option_t *opt = "") override;
+      void SavePrimitive(std::ostream &fs, Option_t *opt = "") override;
 
       // ====== end of USER FUNCTIONS ========================
 
@@ -359,9 +359,9 @@ class TGo4Picture : public TNamed {
       void SetPadAtt(TPad *pad, Int_t index = UndefIndex);
       void GetPadAtt(TPad *pad, Int_t index = UndefIndex) const;
 
-      void MakeScript(std::ostream& fs, const char *name);
+      void MakeScript(std::ostream &fs, const char *name);
 
-      void MakeAxisScript(std::ostream& fs, const char *name, Int_t indx, Int_t naxis);
+      void MakeAxisScript(std::ostream &fs, const char *name, Int_t indx, Int_t naxis);
 
    private:
       Int_t fiNDivX{1};

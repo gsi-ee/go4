@@ -23,7 +23,7 @@ class TXXXAnlEvent : public TGo4EventElement {
       TXXXAnlEvent(const char *name) : TGo4EventElement(name) {}
       virtual ~TXXXAnlEvent() {}
 
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
 
       Float_t frData[XXX_NUM_CHAN];
 

@@ -496,7 +496,7 @@ Int_t TGo4PolyCond::GetMemorySize() const
    return size;
 }
 
-void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t *opt)
+void TGo4PolyCond::SavePrimitive(std::ostream &out, Option_t *opt)
 {
    static int cnt = 0;
    TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);

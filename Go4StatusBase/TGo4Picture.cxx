@@ -1836,7 +1836,7 @@ Long_t TGo4Picture::GetTotalSize()
 }
 
 
-void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t *)
+void TGo4Picture::SavePrimitive(std::ostream &fs, Option_t *)
 {
    fs << "TGo4Picture *" << GetName() << " = new TGo4Picture(\"" << GetName()
       << "\", \"" << GetTitle() << "\");" << std::endl;
@@ -1848,7 +1848,7 @@ void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t *)
    MakeScript(fs, name.Data());
 }
 
-void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index, Int_t naxis)
+void TGo4Picture::MakeAxisScript(std::ostream &fs, const char *name, Int_t index, Int_t naxis)
 {
    if ((naxis<0) || (naxis>2)) return;
    const char *axisname = "X";
@@ -1913,7 +1913,7 @@ void TGo4Picture::MakeAxisScript(std::ostream& fs, const char *name, Int_t index
 
 }
 
-void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
+void TGo4Picture::MakeScript(std::ostream &fs, const char *name)
 {
    for (Int_t naxis = 0; naxis < 3; naxis++)
       if (GetLogScale(naxis) > 0)

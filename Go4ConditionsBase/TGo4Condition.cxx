@@ -716,7 +716,7 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-const char *TGo4Condition::MakeScript(std::ostream& out, const char *varname, Option_t *opt, const char *arrextraargs)
+const char *TGo4Condition::MakeScript(std::ostream &out, const char *varname, Option_t *opt, const char *arrextraargs)
 {
    Bool_t savemacro = opt && strstr(opt,"savemacro");
    Bool_t saveprefix = savemacro;

@@ -21,7 +21,7 @@ class TXXXAnlEvent : public TGo4EventElement {
       TXXXAnlEvent();
       TXXXAnlEvent(const char *name);
       virtual ~TXXXAnlEvent();
-      void Clear(Option_t *t="") override;
+      void Clear(Option_t *opt = "") override;
 
       Float_t frData[16];
 

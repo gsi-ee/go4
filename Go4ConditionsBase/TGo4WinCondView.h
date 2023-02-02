@@ -27,7 +27,7 @@ public:
 
     virtual ~TGo4WinCondView();
 
-    void Paint(Option_t *opt="") override;
+    void Paint(Option_t *opt = "") override;
     void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
     void SetCondition(TGo4WinCond *condition) { fxWinCondition = condition; }

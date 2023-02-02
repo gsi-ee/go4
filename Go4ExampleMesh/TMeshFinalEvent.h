@@ -31,7 +31,7 @@ class TMeshFinalEvent : public TGo4EventElement {
       ~TMeshFinalEvent();
       Int_t Init() override;
       Int_t Fill() override;
-      void  Clear(Option_t *t="") override;
+      void  Clear(Option_t *opt = "") override;
 
       /** in this example, we include just copies of our sources here:*/
       TMeshB1OutputEvent fxB1;
