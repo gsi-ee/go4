@@ -524,7 +524,7 @@ Bool_t TGo4BrowserProxy::ConnectHServer(const char *servername,
    return res;
 }
 
-void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
+void TGo4BrowserProxy::MakeFilesList(TObjArray *arr)
 {
    if (!arr) return;
    arr->Clear();
@@ -539,7 +539,7 @@ void TGo4BrowserProxy::MakeFilesList(TObjArray* arr)
    }
 }
 
-void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
+void TGo4BrowserProxy::MakeHServerList(TObjArray *arr)
 {
    if (!arr) return;
    arr->Clear();
@@ -553,7 +553,7 @@ void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
    }
 }
 
-void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
+void TGo4BrowserProxy::MakeDabcList(TObjArray *arr)
 {
    if (!arr) return;
    arr->Clear();
@@ -567,7 +567,7 @@ void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
    }
 }
 
-void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
+void TGo4BrowserProxy::MakeHttpList(TObjArray *arr)
 {
    if (!arr) return;
    arr->Clear();
@@ -1177,7 +1177,7 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filena
    return res;
 }
 
-void TGo4BrowserProxy::ExportItemsTo(TObjArray* items,  // array of TObjString
+void TGo4BrowserProxy::ExportItemsTo(TObjArray *items,  // array of TObjString
                                      Bool_t fetchitems,
                                      const char *filename,
                                      const char *filedir,
@@ -1762,7 +1762,7 @@ Int_t TGo4BrowserProxy::UpdateAllMonitoredObjects()
    return nrequests;
 }
 
-Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
+Bool_t TGo4BrowserProxy::HandleTimer(TTimer *timer)
 {
    if (timer==fxSyncTimer) {
       SyncBrowserSlots();

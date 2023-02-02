@@ -31,7 +31,7 @@ class TGo4CounterCond : public TGo4Condition {
 
     void PrintCondition(Bool_t full) override;
 
-    Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
+    Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts) override;
 
   ClassDefOverride(TGo4CounterCond,1);
 };

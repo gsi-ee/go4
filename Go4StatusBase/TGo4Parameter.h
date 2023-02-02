@@ -60,8 +60,8 @@ class TGo4Parameter : public TNamed {
       * eraser button in the gui remote browser*/
       void Clear(Option_t* opt="") override;
 
-      void GetMemberValues(TObjArray* fItems);
-      Bool_t SetMemberValues(TObjArray* fItems);
+      void GetMemberValues(TObjArray *fItems);
+      Bool_t SetMemberValues(TObjArray *fItems);
 
       /** Standard way to store parameter in form of macro,
        * If \param opt == "savemacro", parameter saved in form of macro,
@@ -76,11 +76,11 @@ class TGo4Parameter : public TNamed {
 
    protected:
 
-      void GetMemberValues(TObjArray* fItems, TClass *cl, char* ptr, unsigned long int cloffset);
+      void GetMemberValues(TObjArray *fItems, TClass *cl, char* ptr, unsigned long int cloffset);
 
-      Bool_t SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass *cl, char* ptr, unsigned long int cloffset);
+      Bool_t SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass *cl, char* ptr, unsigned long int cloffset);
 
-      Int_t FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMember* member);
+      Int_t FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMember* member);
 
    ClassDefOverride(TGo4Parameter,1)
 };

@@ -1380,7 +1380,7 @@ void TGo4Picture::CopyOptionsFrom(TGo4Picture *source)
    if (fxOptObjects) delete fxOptObjects;
    fxOptObjects = nullptr;
    if (source->fxOptObjects)
-      fxOptObjects = (TObjArray*) source->fxOptObjects->Clone();
+      fxOptObjects = (TObjArray *) source->fxOptObjects->Clone();
 }
 
 

@@ -31,20 +31,20 @@ enum EGo4AnalysisCodeKind { Go4_exe = 0, Go4_lib = 1 };
 
 class TGo4AnalysisProxy : public TGo4ServerProxy {
    protected:
-      Bool_t                    fIsServer;           //!
-      TGo4AnalysisDummySlot*    fDummySlot;          //!
-      TGo4AnalysisObjectNames * fAnalysisNames;      //!
-      TObjArray                 fxSubmittedProxy;    //!
-      TGo4AnalysisObjectAccess* fxDefaultProxy;      //!
-      Bool_t                    fbNamesListReceived; //!
-      Bool_t                    fbAnalysisReady;     //!
-      Bool_t                    fbAnalysisRunning;    //!
-      Int_t                     fDisconectCounter;   //!
-      TGo4Display*              fxDisplay;          //!
-      Int_t                     fActualRole;        //!
-      TTimer*                   fxRefreshTimer;     //!
-      TTimer*                   fxConnectionTimer;     //!
-      Int_t                     fNumberOfWaitingProxyes;  //!
+      Bool_t                    fIsServer{kFALSE};            //!
+      TGo4AnalysisDummySlot    *fDummySlot{nullptr};          //!
+      TGo4AnalysisObjectNames  *fAnalysisNames{nullptr};      //!
+      TObjArray                 fxSubmittedProxy;             //!
+      TGo4AnalysisObjectAccess *fxDefaultProxy{nullptr};      //!
+      Bool_t                    fbNamesListReceived{kFALSE};  //!
+      Bool_t                    fbAnalysisReady{kFALSE};      //!
+      Bool_t                    fbAnalysisRunning{kFALSE};    //!
+      Int_t                     fDisconectCounter{0};         //!
+      TGo4Display              *fxDisplay{nullptr};           //!
+      Int_t                     fActualRole{0};               //!
+      TTimer                   *fxRefreshTimer{nullptr};      //!
+      TTimer                   *fxConnectionTimer{nullptr};   //!
+      Int_t                     fNumberOfWaitingProxyes{0};   //!
 
       TGo4AnalysisObjectAccess* FindSubmittedProxy(const char *pathname, const char *objname);
       void DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxy);
@@ -193,14 +193,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
         *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
       void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) override;
 
-      Bool_t HandleTimer(TTimer* timer) override;
+      Bool_t HandleTimer(TTimer *timer) override;
 
       /**  Set receiver for object envelopes, which coming from analysis without request  */
       void SetDefaultReceiver(TGo4ObjectManager *rcv, const char *path);
 
    ClassDefOverride(TGo4AnalysisProxy, 1);
 };
-
-
 
 #endif

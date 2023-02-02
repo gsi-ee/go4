@@ -2579,7 +2579,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot *padslot,
 }
 
 void TGo4ViewPanel::ScanObjectsDrawOptions(bool onlyscan, TGo4Slot *padslot,
-      TObjArray* objs, TObjArray* objslots)
+      TObjArray *objs, TObjArray *objslots)
 {
    TGo4Picture *pic = GetPadOptions(padslot);
 
@@ -2728,7 +2728,7 @@ int TGo4ViewPanel::GetAutoColor(int indx)
 
 
 TObject *TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture *padopt,
-                             TGo4Slot *sislot, TGo4Slot *legslot, TObjArray* objs,
+                             TGo4Slot *sislot, TGo4Slot *legslot, TObjArray *objs,
                              TObjArray * objslots, bool showitems)
 {
    if (!sislot || !objs || !padopt) return nullptr;
@@ -3022,7 +3022,7 @@ TPad* TGo4ViewPanel::GetSubPad(TPad* toppad, int num, bool onlytoplevel)
    return nullptr;
 }
 
-void TGo4ViewPanel::ProducePadsList(TObjArray* arr, TPad* toppad)
+void TGo4ViewPanel::ProducePadsList(TObjArray *arr, TPad* toppad)
 {
    if (!arr)
       return;
@@ -4916,7 +4916,7 @@ void TGo4ViewPanel::TakeFullRangeFromHisto(TH1 *h1, TGo4Picture *padopt, bool is
    padopt->SetFullRange(dimindx, minimum, maximum);
 }
 
-void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bool isfirst)
+void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph *gr, TGo4Picture *padopt, bool isfirst)
 {
    if (!gr || !padopt) return;
 

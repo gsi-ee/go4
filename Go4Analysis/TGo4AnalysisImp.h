@@ -958,7 +958,7 @@ private:
 
    /** Returns the nameslist of the go4 object directory structure. Is used
     * by analysis client to send the current object names to the gui. */
-   TGo4AnalysisObjectNames * GetNamesList() const { return fxObjectNames; }
+   TGo4AnalysisObjectNames *GetNamesList() const { return fxObjectNames; }
 
    /** Sets the current output event (detector) structure.
     * For internal usage by the chain of analysis steps, since

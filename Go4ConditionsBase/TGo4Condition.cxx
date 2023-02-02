@@ -290,7 +290,7 @@ void TGo4Condition::Print(Option_t* opt) const
 }
 
 // ---------------------------------------------------------
-Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4Condition::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
     fbTrue    = cond->TGo4Condition::IsTrue();
     fbFalse   = cond->TGo4Condition::IsFalse();

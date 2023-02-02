@@ -896,14 +896,14 @@ TGo4HDF5DataHandle* TGo4HDF5DataHandleFactory::CreateDataHandle(const char *name
     theName += "]";
     TGo4HDF5SubVectorDataHandle* vrev = new TGo4HDF5SubVectorDataHandle(theName.Data(), datasize);
     vrev->SetElementSize(datasize);
-    TObjArray* tokens = theCollection.Tokenize("<");
+    TObjArray *tokens = theCollection.Tokenize("<");
     if (tokens)
     {
       TObjString* part = dynamic_cast<TObjString*>(tokens->At(2));
       if (part)
       {
         TString rtype = part->GetString();
-        TObjArray* stokens = rtype.Tokenize(">");
+        TObjArray *stokens = rtype.Tokenize(">");
         if (stokens)
         {
           TObjString* spart = dynamic_cast<TObjString*>(stokens->At(0));

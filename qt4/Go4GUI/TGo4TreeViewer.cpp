@@ -121,7 +121,7 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
    }
    // count number of [ and replace by []
    // this means, by default accumulate over all members
-   TObjArray* it=leafname.Tokenize("[");
+   TObjArray *it = leafname.Tokenize("[");
    leafname=((TObjString *)it->First())->GetName();
    for(Int_t i=1;i<it->GetEntriesFast();i++) leafname.Append("[]");
    edt->setText(leafname.Data());

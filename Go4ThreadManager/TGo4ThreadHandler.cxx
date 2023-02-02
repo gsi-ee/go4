@@ -28,7 +28,7 @@ TGo4ThreadHandler::TGo4ThreadHandler(const TGo4ThreadHandler &right)
    fxManager = right.fxManager;
    fxListMutex=new TMutex;
    fxOperMutex=new TMutex;
-   fxArray= (TObjArray*) ((right.fxArray)->Clone());
+   fxArray= (TObjArray *) ((right.fxArray)->Clone());
    fxIterator=fxArray->MakeIterator();
 }
 

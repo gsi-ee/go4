@@ -64,7 +64,7 @@ public slots:
 
  protected:
    int fiCurrentRow{0};
-   TObjArray* fItems{nullptr};
+   TObjArray *fItems{nullptr};
    QString fItemName;
    bool fFillingTable{false};
 };

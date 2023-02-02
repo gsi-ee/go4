@@ -1056,7 +1056,7 @@ void TGo4AnalysisProxy::CallSlotUpdate()
       fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjUpdated);
 }
 
-Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
+Bool_t TGo4AnalysisProxy::HandleTimer(TTimer *timer)
 {
    if (timer == fxRefreshTimer) {
       RefreshNamesList();

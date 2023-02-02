@@ -127,7 +127,7 @@ TCanvas *TGo4EventProcessor::GetCanvas(const char *name)
    return TGo4Analysis::Instance()->GetCanvas(name);
 }
 
-TGo4Condition * TGo4EventProcessor::GetAnalysisCondition(const char *name, const char *cond_cl)
+TGo4Condition *TGo4EventProcessor::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    return TGo4Analysis::Instance()->GetAnalysisCondition(name, cond_cl);
 }

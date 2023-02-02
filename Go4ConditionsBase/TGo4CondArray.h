@@ -69,7 +69,7 @@ class TGo4CondArray : public TGo4Condition {
      * Returns condition object i from object array. Same as At().
      * Must cast for window or polygon condition methods!
      */
-    TGo4Condition * operator[](Int_t i) const;
+    TGo4Condition *operator[](Int_t i) const;
 
     using TGo4Condition::Test;
     /**
@@ -227,7 +227,7 @@ class TGo4CondArray : public TGo4Condition {
     void SetCurrentIndex(Int_t ix) override;
     Int_t GetCurrentIndex() const override;
 
-    Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
+    Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts) override;
 
     Int_t GetMemorySize() const override;
 

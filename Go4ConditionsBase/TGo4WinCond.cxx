@@ -278,7 +278,7 @@ void TGo4WinCond::RestoreHistogramRanges(TH1 *histo)
 }
 
 // -----------------------------------------------
-Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4WinCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
    if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
    if(!cond->InheritsFrom(TGo4WinCond::Class())) {

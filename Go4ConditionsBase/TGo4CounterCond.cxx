@@ -39,7 +39,7 @@ void TGo4CounterCond::PrintCondition(Bool_t full)
    TGo4Condition::PrintCondition();
 }
 
-Bool_t TGo4CounterCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4CounterCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
    return (TGo4Condition::UpdateFrom(cond,counts));
 }

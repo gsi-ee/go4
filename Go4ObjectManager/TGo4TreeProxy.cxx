@@ -137,7 +137,7 @@ std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree *tree, const char 
    if (!name || !*name)
       return std::make_unique<TGo4ObjectAccess>(tree);
 
-   TObjArray* list = tree->GetListOfBranches();
+   TObjArray *list = tree->GetListOfBranches();
    const char *curname = name;
 
    while (list) {

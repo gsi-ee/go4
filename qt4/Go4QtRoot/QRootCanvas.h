@@ -64,7 +64,7 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       QRootCanvas(QWidget *parent = nullptr);
       virtual ~QRootCanvas();
 
-      TCanvas *         getCanvas() { return fCanvas; }
+      TCanvas          *getCanvas() { return fCanvas; }
       int               getRootWid() { return fRootWindowId; }
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
 
@@ -209,16 +209,16 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              activateRepaint(int act);
 
-      TCanvas *         fCanvas{nullptr};
+      TCanvas          *fCanvas{nullptr};
       Int_t             fRootWindowId{0};
       WId               fQtWindowId; // current id of embedded canvas
-      QTimer*           fRepaintTimer{nullptr}; // do not draw canvas immediately, postpone this on few miliseconds
+      QTimer           *fRepaintTimer{nullptr}; // do not draw canvas immediately, postpone this on few miliseconds
       int               fRepaintMode{0}; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
 
-      QFrame*           fEditorFrame{nullptr};        // frame to show editor
-      TVirtualPadEditor* fxPeditor{nullptr};          // ROOT editor
-      QRootWindow*      fxRooteditor{nullptr};        // QtRoot window to embed ROOT editor
-      TH1 *             fDummyHisto{nullptr};         // dummy histogram used for editor cleanup
+      QFrame           *fEditorFrame{nullptr};        // frame to show editor
+      TVirtualPadEditor *fxPeditor{nullptr};          // ROOT editor
+      QRootWindow      *fxRooteditor{nullptr};        // QtRoot window to embed ROOT editor
+      TH1              *fDummyHisto{nullptr};         // dummy histogram used for editor cleanup
 
       QStatusBar       *fStatusBar{nullptr};
 
@@ -227,8 +227,8 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
       double            fMousePosX{0};    // mouse position in user coordinate when activate menu
       double            fMousePosY{0};    // mouse position in user coordinate when activate menu
 
-      TObject *         fMenuObj{nullptr};      // object use to fill menu
-      TList *           fMenuMethods{nullptr};  // list of menu methods
+      TObject          *fMenuObj{nullptr};      // object use to fill menu
+      TList            *fMenuMethods{nullptr};  // list of menu methods
       bool              fxShowEventStatus{false};
 
       double            fQtScalingfactor{0};

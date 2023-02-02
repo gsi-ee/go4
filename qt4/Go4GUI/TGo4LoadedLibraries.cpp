@@ -67,7 +67,7 @@ void TGo4LoadedLibraries::RefreshLibs()
 {
    LoadedLibsD->clear();
 
-   TObjArray* libs = TString(gInterpreter->GetSharedLibs()).Tokenize(" ,\t\n");
+   TObjArray *libs = TString(gInterpreter->GetSharedLibs()).Tokenize(" ,\t\n");
 
    if (libs)
       for (int n = 0; n <= libs->GetLast(); n++) {

@@ -124,7 +124,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * TGo4ObjectStatus class.
        * Flag istopbranch is used to indicate top level call for composite event.
        */
-      TFolder *CreateBranchFolder(TObjArray* branchlist,
+      TFolder *CreateBranchFolder(TObjArray *branchlist,
                                   const char *name,
                                   const char *title,
                                   Bool_t istopbranch = kFALSE);
@@ -136,19 +136,19 @@ class TGo4AnalysisObjectManager : public TNamed {
        * without subbranches occur. The latter will be put into a
        * TGo4ObjectStatus class.
        */
-      TFolder * CreateCompositeBranchFolder(TObjArray* branchlist,
-            TGo4CompositeEvent* compevent,
-            Int_t startindex, Int_t *skip,
-            const char *name, const char *title);
+      TFolder *CreateCompositeBranchFolder(TObjArray *branchlist,
+                                           TGo4CompositeEvent *compevent,
+                                           Int_t startindex, Int_t *skip,
+                                           const char *name, const char *title);
 
       /**
        * Create a tree structure
        * object that maps the TBranchelements into a TFolder hierarchy
        */
-      TGo4TreeStructure * CreateTreeStructure(TTree * thetree);
+      TGo4TreeStructure *CreateTreeStructure(TTree *thetree);
 
       /** Create a tree structure for a certain tree by name */
-      TGo4TreeStructure * CreateTreeStructure(const char *treename);
+      TGo4TreeStructure *CreateTreeStructure(const char *treename);
 
       /** Create a folder with members of this class */
       TFolder *CreateMembersFolder(TObject *obj, const char *membrfoldername, TClass *cl);
@@ -157,7 +157,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Add external histogram to go4 histogram directory. Histogram will be owned
        * and streamed by go4 histogram list afterwards.
        */
-      Bool_t AddHistogram(TH1 * his, const char *subfolder = nullptr, Bool_t replace=kTRUE);
+      Bool_t AddHistogram(TH1 *his, const char *subfolder = nullptr, Bool_t replace = kTRUE);
 
       /**
        * Search histogram in histogram list (directory).
@@ -170,7 +170,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Otherwise, user owns the histogram afterwards.
        * Dynamic list entry for that histogram object is also removed.
        */
-      Bool_t RemoveHistogram(const char *name, Bool_t del=kTRUE);
+      Bool_t RemoveHistogram(const char *name, Bool_t del = kTRUE);
 
       /**
        * Create 1-dim histogram in histogram folder.
@@ -190,14 +190,14 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
 
       TH1 *MakeTH1(const char *histotype,
-            const char *foldername,
-            const char *histoname,
-            Int_t         nbinsx,
-            Axis_t        xlow,
-            Axis_t        xup,
-            const char *title = nullptr,
-            const char *xtitle = nullptr,
-            const char *ytitle = nullptr);
+                   const char *foldername,
+                   const char *histoname,
+                   Int_t       nbinsx,
+                   Axis_t      xlow,
+                   Axis_t      xup,
+                   const char *title = nullptr,
+                   const char *xtitle = nullptr,
+                   const char *ytitle = nullptr);
 
       /**
        * Create 2-dim histogram in histogram folder.
@@ -220,17 +220,17 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
 
       TH2 *MakeTH2(const char *histotype,
-            const char *foldername,
-            const char *histoname,
-            Int_t         nbinsx,
-            Axis_t        xlow,
-            Axis_t        xup,
-            Int_t         nbinsy,
-            Axis_t        ylow,
-            Axis_t        yup,
-            const char *title = nullptr,
-            const char *xtitle = nullptr,
-            const char *ytitle = nullptr);
+                   const char *foldername,
+                   const char *histoname,
+                   Int_t       nbinsx,
+                   Axis_t      xlow,
+                   Axis_t      xup,
+                   Int_t       nbinsy,
+                   Axis_t      ylow,
+                   Axis_t      yup,
+                   const char *title = nullptr,
+                   const char *xtitle = nullptr,
+                   const char *ytitle = nullptr);
 
       /**
        * Add reference to a tree in the go4 folder structure.
@@ -243,7 +243,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Search tree in tree folder.
        */
-      TTree * GetTree(const char *name);
+      TTree *GetTree(const char *name);
 
       /**
        * Remove reference to a tree in the go4 folder structure.
@@ -251,14 +251,14 @@ class TGo4AnalysisObjectManager : public TNamed {
        * to folder dedicated to that step. In stepname is zero,
        * the tree will be put into general tree folder.
        */
-      Bool_t RemoveTree(TTree * tree, const char *stepname = nullptr);
+      Bool_t RemoveTree(TTree *tree, const char *stepname = nullptr);
 
       /**
        * Puts a new analysis condition object in corresponding list.
        * Object is owned by list afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddAnalysisCondition(TGo4Condition * con, const char *subfolder = nullptr);
+      Bool_t AddAnalysisCondition(TGo4Condition *con, const char *subfolder = nullptr);
 
       /**
        * Set existing analysis condition of name to the values
@@ -268,13 +268,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * specified. By default, condition is searched relative to Conditions folder.
        */
       Bool_t SetAnalysisCondition(const char *name, TGo4Condition *con,
-                                  Bool_t counter=kTRUE, TFolder *parent = nullptr);
+                                  Bool_t counter = kTRUE, TFolder *parent = nullptr);
 
       /**
        * Retrieves an analysis condition  from list by name. Returns 0 if no
        * such condition.
        */
-      TGo4Condition * GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
+      TGo4Condition *GetAnalysisCondition(const char *name, const char *cond_cl = nullptr);
 
       /**
        * Removes analysis condition from list by name. Returns 0 if no
@@ -298,10 +298,10 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       TGo4WinCond *MakeWindowCond(const char *foldername,
                                   const char *conditionname,
-                                  Double_t      xlow,
-                                  Double_t      xup,
+                                  Double_t    xlow,
+                                  Double_t    xup,
                                   const char *bindhistogram = nullptr,
-                                  Bool_t        invert = kFALSE);
+                                  Bool_t      invert = kFALSE);
 
       /**
        * Create 2-dim window condition in conditions folder.
@@ -320,13 +320,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
 
       TGo4WinCond *MakeWindowCond(const char *foldername,
-            const char *conditionname,
-            Double_t      xlow,
-            Double_t      xup,
-            Double_t      ylow,
-            Double_t      yup,
-            const char *bindhistogram = nullptr,
-            Bool_t        invert = kFALSE);
+                                  const char *conditionname,
+                                  Double_t    xlow,
+                                  Double_t    xup,
+                                  Double_t    ylow,
+                                  Double_t    yup,
+                                  const char *bindhistogram = nullptr,
+                                  Bool_t      invert = kFALSE);
 
       /**
        * Create polygon 2-dim condition in conditions folder.
@@ -352,17 +352,17 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
 
       TGo4PolyCond *MakePolyCond(const char *foldername,
-            const char *conditionname,
-            Int_t         size,
-            Float_t       (*points)[2],
-            const char *bindhistogram = nullptr,
-            Bool_t        invert = kFALSE);
+                                 const char *conditionname,
+                                 Int_t       size,
+                                 Float_t     (*points)[2],
+                                 const char *bindhistogram = nullptr,
+                                 Bool_t      invert = kFALSE);
       /**
        * Puts a new parameter object in corresponding folder.
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddParameter(TGo4Parameter * par, const char *subfolder = nullptr);
+      Bool_t AddParameter(TGo4Parameter *par, const char *subfolder = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -371,7 +371,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, parameter is searched relative to Parameters folder.
        */
-      Bool_t SetParameter(const char *name, TGo4Parameter * par, TFolder *parent = nullptr);
+      Bool_t SetParameter(const char *name, TGo4Parameter *par, TFolder *parent = nullptr);
 
       /**
        * Set existing parameter of name to the values
@@ -385,7 +385,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       /** Retrieves a parameter object by name from the object folder.
         * Optionally expected class of parameter object could be specified.
         * Returns 0 if no such parameter found (or class not match). */
-      TGo4Parameter * GetParameter(const char *name, const char *parameter_class = nullptr);
+      TGo4Parameter *GetParameter(const char *name, const char *parameter_class = nullptr);
 
       /**
        * Removes parameter by name. Returns 0 if no
@@ -398,7 +398,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddPicture(TGo4Picture * pic, const char *subfolder = nullptr);
+      Bool_t AddPicture(TGo4Picture *pic, const char *subfolder = nullptr);
 
       /**
        * Set existing picture of name to the values
@@ -407,13 +407,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * that were saved to the autosave file. Optional parent folder can be specified.
        * by default, picture is searched relative to Pictures folder.
        */
-      Bool_t SetPicture(const char *name, TGo4Picture * pic, TFolder *parent = nullptr);
+      Bool_t SetPicture(const char *name, TGo4Picture *pic, TFolder *parent = nullptr);
 
       /**
        * Retrieves a picture object by name from the object folder. Returns 0 if no
        * such picture.
        */
-      TGo4Picture * GetPicture(const char *name);
+      TGo4Picture *GetPicture(const char *name);
 
       /**
        * Removes picture by name. Returns 0 if no
@@ -421,19 +421,18 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t RemovePicture(const char *name);
 
-
       /**
        * Puts a new TCanvas in corresponding folder.
        * Object is owned by folder afterwards. Returns false if object
        * of that name already exists in list.
        */
-      Bool_t AddCanvas(TCanvas * can, const char *subfolder = nullptr);
+      Bool_t AddCanvas(TCanvas *can, const char *subfolder = nullptr);
 
       /**
        * Retrieves a TCanvas by name from the Canvases folder. Returns 0 if no
        * such object.
        */
-      TCanvas * GetCanvas(const char *name);
+      TCanvas *GetCanvas(const char *name);
 
       /**
        * Removes TCanvas by name. Returns 0 if no
@@ -445,25 +444,24 @@ class TGo4AnalysisObjectManager : public TNamed {
        * Find Object of name in the folder structure and create a complete status object of it. Used by GUI command to get updated information on certain object.
        * Optionally, name of search folder may be given.
        */
-      TGo4ObjectStatus * CreateObjectStatus(const char *name, const char *folder = nullptr);
+      TGo4ObjectStatus *CreateObjectStatus(const char *name, const char *folder = nullptr);
 
       /** Create status object for object ob. If fullinfo flag is false,
        * skip time consuming parts of the status (case of nameslist) */
-      TGo4ObjectStatus * CreateObjectStatus(TObject *ob, Bool_t fullinfo=kTRUE);
-
+      TGo4ObjectStatus *CreateObjectStatus(TObject *ob, Bool_t fullinfo = kTRUE);
 
       /**
        * Creates a list of names (keys) of all objects in analysis
        * directories.
        */
-      TGo4AnalysisObjectNames * CreateNamesList();
+      TGo4AnalysisObjectNames *CreateNamesList();
 
       /**
        * Conversion of the TFolder of objects into a TFolder containing
        * the object names as TObjectStrings. Subfolders are translated to
        * subfolders containing subfolder names.
        */
-      TFolder * CreateNamesFolder(TFolder * objectfolder);
+      TFolder *CreateNamesFolder(TFolder *objectfolder);
 
       /**
        * Access to top folder of all objects.

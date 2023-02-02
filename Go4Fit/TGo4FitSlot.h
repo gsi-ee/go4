@@ -274,7 +274,7 @@ class TGo4FitSlotList {
       * This list should be permanently updated in inherited class by SetUpdateSlotList()
       * method to keep list of slots actual.
       */
-     const TObjArray* GetSlotList(Bool_t ForceUpdate = kFALSE);
+     const TObjArray *GetSlotList(Bool_t ForceUpdate = kFALSE);
 
      /**
       * Returns number of slots in list.
@@ -369,7 +369,7 @@ class TGo4FitSlotList {
 
      void PrepareSlotsForWriting();
 
-     TObjArray* fxSlotList{nullptr};     //!
+     TObjArray *fxSlotList{nullptr};     //!
      Bool_t fbUpdateSlotList{kFALSE};    //!
 
 

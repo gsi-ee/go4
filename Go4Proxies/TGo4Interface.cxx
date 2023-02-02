@@ -650,7 +650,7 @@ void TGo4Interface::RedrawItem(const char *itemname)
    }
 }
 
-Bool_t TGo4Interface::HandleTimer(TTimer* timer)
+Bool_t TGo4Interface::HandleTimer(TTimer *timer)
 {
    // if there is no commands remains, just exit
    if (!IsHotStart()) return kTRUE;

@@ -263,7 +263,7 @@ void TGo4PolyCond::PrintCondition(Bool_t points)
 //   localthis->PrintBar();
 //}
 // ----------------------------------------------------------
-Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
   if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
   if(cond->InheritsFrom(TGo4PolyCond::Class())) {

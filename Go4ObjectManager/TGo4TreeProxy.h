@@ -39,7 +39,7 @@ class TGo4TreeProxy : public TGo4Proxy {
       static TGo4LevelIter* ProduceIter(TTree *tree);
 
    protected:
-      TTree *  fTree{nullptr};   //!
+      TTree   *fTree{nullptr};   //!
       Bool_t   fOwner{kFALSE};  //!
 
    ClassDefOverride(TGo4TreeProxy, 1);

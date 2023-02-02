@@ -149,7 +149,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     Bool_t GetLast() const { return fbLastResult; }
 
     /** Copy values from cond to this. When counts is true, copy also counters. */
-    virtual Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+    virtual Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts);
 
     /** Method used by HTTP server to update some fields, specified in URL syntax */
     virtual Bool_t UpdateFromUrl(const char *rest_url_opt);
@@ -400,7 +400,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     TGo4ConditionPainter* fxPainter{nullptr};
 
     /** array with TObjStrings evaluated by UpdateFromUrl*/
-    TObjArray* fxUrlOptionArray{nullptr}; //!
+    TObjArray *fxUrlOptionArray{nullptr}; //!
 
     /** re-build the list of url options from string*/
     void BuildUrlOptionArray(const char *rest_url_opt);

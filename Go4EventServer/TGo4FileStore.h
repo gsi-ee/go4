@@ -99,14 +99,14 @@ class TGo4FileStore : public TGo4EventStore {
 
     TFile *fxFile{nullptr}; //!
 
-    TTree * fxTree{nullptr}; //!
+    TTree *fxTree{nullptr}; //!
 
     /** True if branch already exists. Used for automatic creation
       * of new event branch within Store method. */
     Bool_t fbBranchExists{kFALSE};
 
     /** Points to event structure to be filled into branch. */
-    TGo4EventElement * fxEvent{nullptr}; //!
+    TGo4EventElement *fxEvent{nullptr}; //!
 
     /** TBranch splitlevel. */
     Int_t fiSplit{0};

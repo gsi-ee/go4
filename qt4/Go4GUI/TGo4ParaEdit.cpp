@@ -442,7 +442,7 @@ void TGo4ParaEdit::saveFile()
       TString foldname, parname;
       TGo4Slot::ProduceFolderAndName(fItemName.toLatin1().constData(), foldname, parname);
 
-      TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
+      TGo4ParameterStatus status(parname, parclass, (TObjArray *)fItems->Clone());
 
       TGo4Parameter *par = status.CreateParameter();
 
@@ -487,7 +487,7 @@ void TGo4ParaEdit::ApplyClicked()
    const char *parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
    if (!parclass) return;
 
-   TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
+   TGo4ParameterStatus status(parname, parclass, (TObjArray *)fItems->Clone());
 
    if (UpdateItemInAnalysis(fItemName.toLatin1().constData(), &status)) {
      if (BrowserItemRemote(fItemName.toLatin1().constData()))

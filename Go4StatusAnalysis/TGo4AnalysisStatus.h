@@ -95,13 +95,13 @@ class TGo4AnalysisStatus : public TGo4Status {
 
     /** Array containing all analysis steps. The steplist is iterated by
       * the maincycle from start to end index to process the active steps. */
-    TObjArray* fxStepArray{nullptr};
+    TObjArray *fxStepArray{nullptr};
 
     /** Mutex protecting the analysis step list. */
-    TMutex * fxStepMutex{nullptr}; //!
+    TMutex *fxStepMutex{nullptr}; //!
 
     /** Iterator used for analysis step list. */
-    TIterator* fxStepIterator{nullptr}; //!
+    TIterator *fxStepIterator{nullptr}; //!
 
     /** True if chain of steps is checked for consistency of input and output events.
       * Default is true. Can be disabled for steps working in non-subsequent manner.

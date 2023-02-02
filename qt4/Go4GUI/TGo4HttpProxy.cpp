@@ -379,13 +379,13 @@ void TGo4HttpAccess::httpFinished()
          if (ytitle)
            ((TH1 *)obj)->GetYaxis()->SetTitle(ytitle);
          if (xlabels) {
-            TObjArray* arr = TString(xlabels).Tokenize(",");
+            TObjArray *arr = TString(xlabels).Tokenize(",");
             for (int n = 0; n <= (arr ? arr->GetLast() : -1); n++)
                ((TH1 *)obj)->GetXaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
             delete arr;
          }
          if (ylabels) {
-            TObjArray* arr = TString(ylabels).Tokenize(",");
+            TObjArray *arr = TString(ylabels).Tokenize(",");
             for (int n = 0; n <= (arr ? arr->GetLast() : -1); n++)
                ((TH1 *)obj)->GetYaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
             delete arr;

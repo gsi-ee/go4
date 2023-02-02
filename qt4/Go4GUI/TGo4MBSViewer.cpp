@@ -450,14 +450,14 @@ void TGo4MBSViewer::TrendSwitched( bool on )
 
 void TGo4MBSViewer::UpdateTrending()
 {
-   TrendHisto(fxHistoAccessName,"MbsEventRate","Events/s",fiCalcedEventRate);
-   TrendHisto(fxHistokBAccessName,"MbsDataRate","kB/s",fiCalcedDataRate);
-   TrendHisto(fxHistoEvRatioAccessName,fxServerLabel.section(' ',0,0),"% Events served",fiEvRatio);
-   fbTrendingInit=false;
+   TrendHisto(fxHistoAccessName, "MbsEventRate", "Events/s", fiCalcedEventRate);
+   TrendHisto(fxHistokBAccessName, "MbsDataRate", "kB/s", fiCalcedDataRate);
+   TrendHisto(fxHistoEvRatioAccessName, fxServerLabel.section(' ',0,0), "% Events served", fiEvRatio);
+   fbTrendingInit = false;
 }
 
 
-void TGo4MBSViewer::IncTrending( TH1 * histo, int value, bool forwards )
+void TGo4MBSViewer::IncTrending( TH1 *histo, int value, bool forwards )
 {
    if(!histo) return;
    int bins=histo->GetNbinsX();

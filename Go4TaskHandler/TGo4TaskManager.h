@@ -139,36 +139,24 @@ class TGo4TaskManager : public TNamed {
 
       TGo4Socket* fxTransport{nullptr}; //!
 
-      /** @link aggregation
-       *  @supplierCardinality 1..n */
-      TObjArray* fxTaskList{nullptr};    //!
+      TObjArray *fxTaskList{nullptr};    //!
 
       TMutex* fxListMutex{nullptr};      //!
 
       /** Iterator over list of tasks.*/
       TIterator* fxTaskIter{nullptr}; //!
 
-      /** @link aggregation
-       * @directed
-       * @supplierCardinality 1..*
-       * @clientCardinality 1
-       * @label TObjArray*/
-      /*#  TGo4TaskHandler lnkTGo4TaskHandler1; */
       UInt_t fuTaskCount{0};
 
-      /**
-       * port number for the server client negotiation connections
-       */
+      /** port number for the server client negotiation connections  */
       UInt_t fuNegotiationPort{0};
 
-      /**
-       * True if the last specified client is removed from server.
+      /** True if the last specified client is removed from server.
        * flag is set by connector thread who performs the DisconnectClient
-       * of TaskManager; is reset by WaitForClientRemoved method.
-       */
+       * of TaskManager; is reset by WaitForClientRemoved method.  */
       Bool_t fbClientIsRemoved{kFALSE};
 
-      /** true if this server already has one connection to a
+      /** True if this server already has one connection to a
        * master client that has the controller role. Only one
        * controller or administrator taskhandler is allowed per server. */
       Bool_t fbHasControllerConnection{kFALSE};

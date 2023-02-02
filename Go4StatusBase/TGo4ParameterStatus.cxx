@@ -35,7 +35,7 @@ TGo4ParameterStatus::TGo4ParameterStatus(TGo4Parameter *par, Bool_t membervalues
    }
 }
 
-TGo4ParameterStatus::TGo4ParameterStatus(const char *parname, const char *parclass, TObjArray* items) :
+TGo4ParameterStatus::TGo4ParameterStatus(const char *parname, const char *parclass, TObjArray *items) :
    TGo4ObjectStatus()
 {
    fxMemberValues = items;
@@ -53,9 +53,9 @@ TGo4ParameterStatus::~TGo4ParameterStatus()
    }
 }
 
-TObjArray* TGo4ParameterStatus::GetMemberValues(Bool_t takeit)
+TObjArray *TGo4ParameterStatus::GetMemberValues(Bool_t takeit)
 {
-   TObjArray* res = fxMemberValues;
+   TObjArray *res = fxMemberValues;
    if (takeit) fxMemberValues = nullptr;
    return res;
 }

@@ -54,7 +54,7 @@ void TGo4ShapedCond::PrintCondition(Bool_t points)
 }
 
 // ----------------------------------------------------------
-Bool_t TGo4ShapedCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+Bool_t TGo4ShapedCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
    if (!TGo4PolyCond::UpdateFrom(cond, counts))
       return kFALSE;

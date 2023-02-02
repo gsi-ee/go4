@@ -121,7 +121,7 @@ class TGo4ShapedCond : public TGo4PolyCond {
 
       /** Copy values from cond to this.
        * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */
-      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts)  override;
+      Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts)  override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char *rest_url_opt)  override;

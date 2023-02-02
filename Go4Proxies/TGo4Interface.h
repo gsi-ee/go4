@@ -158,19 +158,19 @@ class TGo4Interface : public TGo4AbstractInterface {
 
       void ProcessHotStart();
 
-      Bool_t HandleTimer(TTimer* timer) override;
+      Bool_t HandleTimer(TTimer *timer) override;
 
    protected:
       TGo4AnalysisProxy*  AddAnalysisProxy(Bool_t isserver);
       TGo4AnalysisStatus *GetAnalStatus();
       TGo4AnalysisStepStatus* GetStepStatus(const char *stepname);
 
-      TGo4RootBrowserProxy* fRootBrowser{nullptr}; //!
+      TGo4RootBrowserProxy *fRootBrowser{nullptr}; //!
       TString fOMDataPath;                         //!
       TString fOMBrowserPath;                      //!
       TString fOMEditorsPath;                      //!
       Bool_t fCmdFinished{kFALSE};                 //!
-      TTimer* fCmdTimer{nullptr};                  //!
+      TTimer *fCmdTimer{nullptr};                  //!
       Int_t   fWaitCounter{0};                     //!
 
 

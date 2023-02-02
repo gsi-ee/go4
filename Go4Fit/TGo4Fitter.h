@@ -443,7 +443,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        */
       TUserFitFunction fxUserFitFunction{nullptr};    //!
 
-      TObjArray* fxDrawObjs{nullptr};                //!
+      TObjArray *fxDrawObjs{nullptr};                //!
 
    ClassDefOverride(TGo4Fitter,1)
 };

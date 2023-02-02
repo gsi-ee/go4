@@ -34,12 +34,12 @@ TGo4PolyCond *TGo4CondArray::Poly(Int_t i) const
    return (TGo4PolyCond*) At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::operator[](Int_t i) const
+TGo4Condition *TGo4CondArray::operator[](Int_t i) const
 {
    return (TGo4Condition *) condarr->At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::At(Int_t i) const
+TGo4Condition *TGo4CondArray::At(Int_t i) const
 {
    // boundary check by TObjArray, returns [0] in case
    return (TGo4Condition *) condarr->At(i);

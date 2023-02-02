@@ -242,7 +242,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(const char *name, Int_t fi
    while (auto ev = (TGo4EventElement *)next()) {
       if(strcmp(name,ev->GetName()) == 0) return ev;
       if (ev->isComposed()) {
-         TGo4EventElement* inter= ((TGo4CompositeEvent*) ev)->getEventElement(name,1);
+         TGo4EventElement* inter= ((TGo4CompositeEvent *) ev)->getEventElement(name,1);
          if (inter) return inter;
       }
    }
@@ -272,7 +272,7 @@ void TGo4CompositeEvent::activate()
 }
 
 
-TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
+TObjArray *TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 {
    TObjArray *comp = new TObjArray(12);
    if (toplevel) comp->Add(this);
@@ -282,7 +282,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
    while (auto ev = (TGo4EventElement *)next()) {
       if (ev->isComposed()) {
          comp->Add( ev );
-         TObjArray* dump = ((TGo4CompositeEvent *) ev)->getListOfComposites(kFALSE);
+         TObjArray *dump = ((TGo4CompositeEvent *) ev)->getListOfComposites(kFALSE);
 
          comp->AddAll(dump);
 
@@ -326,12 +326,12 @@ TTree *TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
    TDirectory *filsav = gDirectory;
    gROOT->cd();
    if (sample) delete *sample;
-   TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();
+   TGo4CompositeEvent *clone = (TGo4CompositeEvent *) Clone();
    TTree *thetree = new TTree(clone->GetName(), "Single Event Tree");
    thetree->SetDirectory(nullptr);
    if (sample) *sample = clone;
    TBranch *topbranch =
-      thetree->Branch("Go4EventSample", clone->ClassName(), sample ? (TGo4CompositeEvent**) sample : &clone, 64000, 99);
+      thetree->Branch("Go4EventSample", clone->ClassName(), sample ? (TGo4CompositeEvent **) sample : &clone, 64000, 99);
    clone->makeBranch(topbranch);
    thetree->Fill();
    filsav->cd();

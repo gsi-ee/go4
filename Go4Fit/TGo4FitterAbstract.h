@@ -160,7 +160,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Alternative array with actions can also be specified to function.
        * In the end Finalize() method close all buffers.
        */
-      void DoActions(Bool_t AllowFitterChange = kFALSE, TObjArray* Actions = nullptr);
+      void DoActions(Bool_t AllowFitterChange = kFALSE, TObjArray *Actions = nullptr);
 
       /**
        * Executes specified action.
@@ -173,7 +173,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       void DoAction(Int_t indx);
 
 
-      TObjArray* ProcessObjects(TObjArray* objs, Bool_t CloneFitter = kTRUE, Bool_t OnlyRequired = kTRUE, TObjArray* rownames = nullptr, TObjArray* colnames = nullptr);
+      TObjArray *ProcessObjects(TObjArray *objs, Bool_t CloneFitter = kTRUE, Bool_t OnlyRequired = kTRUE, TObjArray *rownames = nullptr, TObjArray *colnames = nullptr);
 
       /**
        * Creates and add TGo4FitMinuit object to actions list.

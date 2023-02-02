@@ -109,7 +109,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
                                Bool_t prefetch = kFALSE,
                                const char *selectedpath = nullptr,
                                const char *description = nullptr);
-      void ExportItemsTo(TObjArray* items,  // array of TObjString
+      void ExportItemsTo(TObjArray *items,  // array of TObjString
                          Bool_t fetchitems,
                          const char *filename,
                          const char *filedir,
@@ -207,7 +207,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void SyncBrowserSlots();
 
-      Bool_t HandleTimer(TTimer* timer) override;
+      Bool_t HandleTimer(TTimer *timer) override;
 
    protected:
 
@@ -230,22 +230,22 @@ class TGo4BrowserProxy : public TGo4Proxy {
       /** preserve fit result functions contained in any graph-like objects*/
       static void UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr);
 
-      TString            fxDataPath;                 //!
-      TString            fxBrowserPath;              //!
-      TString            fxViewPath;                 //!
-      Bool_t             fbWithRootBrowser{kFALSE};  //!
-      TString            fxMemoryPath;               //!
-      TGo4ObjectManager *fxOM{nullptr};              //!
-      TGo4Slot *         fxBrowserSlot{nullptr};     //!
-      Int_t              fiMonitoringPeriod{0};      //!
-      TTimer*            fxMonitorTimer{nullptr};    //!
-      Bool_t             fbBlockMonitoring{kFALSE};  //!
-      Int_t              fiFilterIndex{0};           //!
-      TList *            fxWaitingList{nullptr};     //!
-      TObjArray*         fxClipboard{nullptr};       //!
-      TTimer*            fxSyncTimer{nullptr};       //!
-      Bool_t             fbBlockSync{kFALSE};        //!
-      TVirtualTreePlayer* fDummyTreePlayer{nullptr}; //!  to overcome problem in ROOT
+      TString             fxDataPath;                 //!
+      TString             fxBrowserPath;              //!
+      TString             fxViewPath;                 //!
+      Bool_t              fbWithRootBrowser{kFALSE};  //!
+      TString             fxMemoryPath;               //!
+      TGo4ObjectManager  *fxOM{nullptr};              //!
+      TGo4Slot           *fxBrowserSlot{nullptr};     //!
+      Int_t               fiMonitoringPeriod{0};      //!
+      TTimer             *fxMonitorTimer{nullptr};    //!
+      Bool_t              fbBlockMonitoring{kFALSE};  //!
+      Int_t               fiFilterIndex{0};           //!
+      TList              *fxWaitingList{nullptr};     //!
+      TObjArray          *fxClipboard{nullptr};       //!
+      TTimer             *fxSyncTimer{nullptr};       //!
+      Bool_t              fbBlockSync{kFALSE};        //!
+      TVirtualTreePlayer *fDummyTreePlayer{nullptr}; //!  to overcome problem in ROOT
 
    ClassDefOverride(TGo4BrowserProxy,1);
 };

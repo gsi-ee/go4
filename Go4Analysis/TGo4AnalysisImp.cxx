@@ -1384,12 +1384,12 @@ Bool_t TGo4Analysis::AddTree(TTree *tree, const char *subfolder)
    return fxObjectManager->AddTree(tree, subfolder);
 }
 
-Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char *subfolder)
+Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition *con, const char *subfolder)
 {
    return fxObjectManager->AddAnalysisCondition(con,subfolder);
 }
 
-TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char *name, const char *cond_cl)
+TGo4Condition *TGo4Analysis::GetAnalysisCondition(const char *name, const char *cond_cl)
 {
    return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
@@ -1419,47 +1419,47 @@ TH1 *TGo4Analysis::GetHistogram(const char *name)
    return fxObjectManager->GetHistogram(name);
 }
 
-TNamed * TGo4Analysis::GetObject(const char *name, const char *folder)
+TNamed *TGo4Analysis::GetObject(const char *name, const char *folder)
 {
    return fxObjectManager->GetObject(name,folder);
 }
 
-TGo4Parameter * TGo4Analysis::GetParameter(const char *name, const char *par_class)
+TGo4Parameter *TGo4Analysis::GetParameter(const char *name, const char *par_class)
 {
    return fxObjectManager->GetParameter(name, par_class);
 }
 
-TGo4Picture * TGo4Analysis::GetPicture(const char *name)
+TGo4Picture *TGo4Analysis::GetPicture(const char *name)
 {
    return fxObjectManager->GetPicture(name);
 }
 
-TCanvas * TGo4Analysis::GetCanvas(const char *name)
+TCanvas *TGo4Analysis::GetCanvas(const char *name)
 {
    return fxObjectManager->GetCanvas(name);
 }
 
-TTree * TGo4Analysis::GetTree(const char *name)
+TTree *TGo4Analysis::GetTree(const char *name)
 {
    return fxObjectManager->GetTree(name);
 }
 
-TGo4AnalysisObjectNames * TGo4Analysis::CreateNamesList()
+TGo4AnalysisObjectNames *TGo4Analysis::CreateNamesList()
 {
    return fxObjectManager->CreateNamesList();
 }
 
-TFolder * TGo4Analysis::GetObjectFolder()
+TFolder *TGo4Analysis::GetObjectFolder()
 {
    return fxObjectManager->GetObjectFolder();
 }
 
-TGo4ObjectStatus * TGo4Analysis::CreateObjectStatus(const char *name, const char *folder)
+TGo4ObjectStatus *TGo4Analysis::CreateObjectStatus(const char *name, const char *folder)
 {
    return fxObjectManager->CreateObjectStatus(name,folder);
 }
 
-TGo4TreeStructure * TGo4Analysis::CreateTreeStructure(const char *treename)
+TGo4TreeStructure *TGo4Analysis::CreateTreeStructure(const char *treename)
 {
    return fxObjectManager->CreateTreeStructure(treename);
 }
@@ -1504,7 +1504,7 @@ Bool_t TGo4Analysis::RemoveCanvas(const char *name)
    return fxObjectManager->RemoveCanvas(name);
 }
 
-Bool_t TGo4Analysis::RemoveTree(TTree * tree, const char *stepname)
+Bool_t TGo4Analysis::RemoveTree(TTree *tree, const char *stepname)
 {
    return fxObjectManager->RemoveTree(tree, stepname);
 }
@@ -1514,7 +1514,7 @@ Bool_t TGo4Analysis::RemoveAnalysisCondition(const char *name)
    return fxObjectManager->RemoveAnalysisCondition(name);
 }
 
-Bool_t TGo4Analysis::RemoveEventProcessor(TGo4EventProcessor * pro)
+Bool_t TGo4Analysis::RemoveEventProcessor(TGo4EventProcessor *pro)
 {
    return fxObjectManager->RemoveEventProcessor(pro);
 }

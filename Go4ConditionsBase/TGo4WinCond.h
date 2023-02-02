@@ -68,7 +68,7 @@ class TGo4WinCond : public TGo4Condition {
       void PrintCondition(Bool_t full = kTRUE) override;
 
       /** Copy values from cond to this. When counts is true, copy also counters. */
-      Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts) override;
+      Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts) override;
 
       /** Method used by HTTP server to update some fields, specified in URL syntax */
       Bool_t UpdateFromUrl(const char *rest_url_opt) override;

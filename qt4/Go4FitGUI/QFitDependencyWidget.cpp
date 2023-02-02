@@ -35,7 +35,7 @@ void QFitDependencyWidget::FillSpecificData()
 {
    if(GetDepen()) {
        if (GetDepen()->IsResultDepend()) {
-          TObjArray* lst = dynamic_cast<TObjArray*> (GetItem()->Parent()->Object());
+          TObjArray *lst = dynamic_cast<TObjArray *> (GetItem()->Parent()->Object());
           ParamEdit->setText(QString("Result ")+QString::number(lst->IndexOf(GetObject())));
           ParamEdit->setReadOnly(true);
           ParamEdit->setEnabled(false);

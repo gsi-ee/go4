@@ -169,7 +169,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       TGo4EventHeader10 fxHeader;
 
       /** dynamic array of subevents. */
-      TObjArray* fxSubEvArray{nullptr};
+      TObjArray *fxSubEvArray{nullptr};
 
       /** Subevent index in array, replacement for Iterator. */
       Int_t fiSubEvIndex{0}; //!

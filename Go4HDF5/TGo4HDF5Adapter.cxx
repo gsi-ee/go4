@@ -403,8 +403,8 @@ void TGo4HDF5Adapter::BuildDataType(TGo4EventElement* event, TGo4HDF5DataHandle*
 
   }
 
-// need to scan components of composite event here:
-    TGo4CompositeEvent* comp= dynamic_cast<TGo4CompositeEvent*>(event);
+   // need to scan components of composite event here:
+    TGo4CompositeEvent *comp = dynamic_cast<TGo4CompositeEvent *>(event);
     if(comp)
     {
       go4hdfdbg("TGo4HDF5Adapter::BuildDataType evaluates members of Go4 composite event %s\n",

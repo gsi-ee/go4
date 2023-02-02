@@ -167,7 +167,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
    protected:
       TGo4FitParameter* MakeParForProperties(const char *ParName);
 
-      TGo4FitDependency* FindDepen(const char *FullName, TObjArray* list);
+      TGo4FitDependency* FindDepen(const char *FullName, TObjArray *list);
 
       /**
        * List of parameters objects, used for alternative configuration of parameters, which should be fitted.

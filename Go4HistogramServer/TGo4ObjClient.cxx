@@ -71,10 +71,10 @@ void TGo4ObjClient::SetParms(const char *base,
 
 
 
-TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char *base,
-                                               const char *passwd,
-                                               const char *host,
-                                               Int_t port)
+TGo4AnalysisObjectNames *TGo4ObjClient::RequestNamesList(const char *base,
+                                                         const char *passwd,
+                                                         const char *host,
+                                                         Int_t port)
 {
    //
    TGo4AnalysisObjectNames *nameslist = nullptr;

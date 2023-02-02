@@ -370,16 +370,16 @@ class TGo4Picture : public TNamed {
       Int_t fiPosX{0};
       Int_t fiPosY{0};
 
-      TObjArray* fxNames{nullptr};
+      TObjArray *fxNames{nullptr};
 
-      TObjArray* fxObjects{nullptr};
+      TObjArray *fxObjects{nullptr};
 
-      TObjArray* fxSubPictures{nullptr};
+      TObjArray *fxSubPictures{nullptr};
 
       Int_t fiOptSize{0};
       TArrayL fxOptIndex;
       TArrayL fxOptValue;
-      TObjArray* fxOptObjects{nullptr};
+      TObjArray *fxOptObjects{nullptr};
 
       TList *fxSpecialObjects{nullptr};
 

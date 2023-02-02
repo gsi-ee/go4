@@ -88,11 +88,11 @@ class TGo4MainTree : public TObject {
 
   private:
 
-    static TGo4MainTree * fxInstance; //!
+    static TGo4MainTree *fxInstance; //!
 
     TFile *fxFile{nullptr}; //!
 
-    TTree * fxTree{nullptr}; //!
+    TTree *fxTree{nullptr}; //!
 
     /** Number of events stored in the Tree. Used to check if
       * the complete tree is already read. */
