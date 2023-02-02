@@ -35,7 +35,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
   public:
     TGo4AnalysisClient(const char *name,
-                       TGo4Analysis* analysis,
+                       TGo4Analysis *analysis,
                        const char *host = "localhost",
                        UInt_t negport = 0,
                        Bool_t histoserver = kFALSE,
@@ -48,7 +48,7 @@ class TGo4AnalysisClient : public TGo4Slave {
                        Bool_t showrate = kFALSE);
 
     TGo4AnalysisClient(int argc, char** argv,
-                       TGo4Analysis* analysis,
+                       TGo4Analysis *analysis,
                        Bool_t histoserver = kFALSE,
                        const char *basename = "Go4",
                        const char *passwd = "abcd",
@@ -57,7 +57,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     virtual ~TGo4AnalysisClient();
 
-    TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
+    TGo4Analysis *GetAnalysis() const { return fxAnalysis; }
 
     void Start() override;
 
@@ -167,7 +167,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
   private:
 
-    void Constructor(Bool_t starthistserv=kFALSE, const char *basename="Go4", const char *passwd="abcd");
+    void Constructor(Bool_t starthistserv = kFALSE, const char *basename = "Go4", const char *passwd = "abcd");
 
     /** Method needed by method CreateStatus of any status subclasses to
       * set the values of the clienttask specific part of the status object. */
@@ -179,7 +179,7 @@ private:
       * @link aggregationByValue
       * @supplierCardinality 1
       * @clientCardinality 0..1*/
-    TGo4Analysis* fxAnalysis{nullptr};                   //!
+    TGo4Analysis *fxAnalysis{nullptr};                   //!
 
     /** remember name of main thread */
     TString fcMainName;                          //!
@@ -204,7 +204,7 @@ private:
     Bool_t fbAutoStart{kFALSE};
 
     /** If true, this slave runs to control CINT macro.
-      * Will have effect on some initialization behaviour. */
+      * Will have effect on some initialization behavior. */
     Bool_t fbCintMode{kFALSE};
 
     /** If true, this slave load preferences for analysis from default file. */

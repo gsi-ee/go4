@@ -39,15 +39,15 @@
 #include "TGo4AnalysisWatchRunnable.h"
 #include "TGo4Ratemeter.h"
 
-const char *TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
-const char *TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
+const char *TGo4AnalysisClient::fgcWATCHTHREAD = "WATCH-";
+const char *TGo4AnalysisClient::fgcMAINTHREAD = "MAIN-";
 const UInt_t TGo4AnalysisClient::fguSTATUSUPDATE = 1000; // events between two updates
 const Double_t TGo4AnalysisClient::fgdSTATUSTIMEOUT = 2; // maximum seconds between two updates
 const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer for cint lock
 
 
 TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
-                                       TGo4Analysis* analysis,
+                                       TGo4Analysis *analysis,
                                        const char *host,
                                        UInt_t negport,
                                        Bool_t histoserver,
@@ -75,13 +75,13 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char *name,
    }
    fxAnalysis->SetAnalysisClient(this);
 
-   Constructor(histoserver,basename,passwd);
+   Constructor(histoserver, basename, passwd);
 
    SetCintMode(cintmode);
 }
 
 TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
-                                       TGo4Analysis* analysis,
+                                       TGo4Analysis *analysis,
                                        Bool_t histoserver,
                                        const char *basename,
                                        const char *passwd,
@@ -112,7 +112,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
       fxAnalysis = analysis;
    }
    fxAnalysis->SetAnalysisClient(this);
-   Constructor(histoserver,basename,passwd);
+   Constructor(histoserver, basename, passwd);
 }
 
 void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char *basename,  const char *passwd)
@@ -161,16 +161,18 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
 //         GetTask()->GetTaskHandler()->SetAborting(); // for superclass dtor: set fast abort mode
 //      }
    fxAnalysis->LockAutoSave();   // wait until mainthread finishes the
-      {                              // final autosaving before we cancel
-         StopObjectServer(); // first cancel histoserver and its thread!
-         if(GetThreadHandler()) GetThreadHandler()->CancelAll(); // make sure threads wont work on application when its deleted
-      }
+                                 // final autosaving before we cancel
+   StopObjectServer(); // first cancel histoserver and its thread!
+   if(GetThreadHandler()) // make sure threads wont work on application when its deleted
+       GetThreadHandler()->CancelAll();
+
    fxAnalysis->UnLockAutoSave();
 
    delete fxRatemeter;
    delete fxAnalysis;
    TGo4CommandInvoker::UnRegister(this);
 }
+
 
 Int_t TGo4AnalysisClient::Initialization()
 {
@@ -230,7 +232,6 @@ Int_t TGo4AnalysisClient::Initialization()
    SendStatusMessage(1,kFALSE, TString::Format("AnalysisClient %s has finished initialization.",GetName()));
    return 0;
 }
-
 
 
 void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
@@ -295,7 +296,7 @@ void TGo4AnalysisClient::SendAnalysisObject(const char *name)
 void TGo4AnalysisClient::SendAnalysisStatus()
 {
    GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisStatus()",__LINE__, __FILE__));
-   TGo4Analysis* ana = GetAnalysis();
+   TGo4Analysis *ana = GetAnalysis();
    TGo4Log::Debug(" AnalysisClient -  sending current analysis settings ");
    if(ana) {
       TGo4AnalysisStatus *state = ana->CreateStatus();
@@ -393,7 +394,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
    GO4TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
    if (fxRatemeter->Update(counts)) {
 
-      TGo4Analysis* an = TGo4Analysis::Instance();
+      TGo4Analysis *an = TGo4Analysis::Instance();
       fxRatemeter->SetRunning(an ? an->IsRunning() : kFALSE);
 
       TDatime dt;
@@ -470,7 +471,7 @@ void TGo4AnalysisClient::TerminateFast()
    StopObjectServer(); // shutdown objectserver and its threads properly
    TGo4Log::Debug("TGo4AnalysisClient::TerminateFast with delete analysis");
    if(GetThreadHandler()) {
-      GetThreadHandler()->StopAll(); // this will not stop immeadeately, therefor:
+      GetThreadHandler()->StopAll(); // this will not stop immediately, therefore:
       GetThreadHandler()->Cancel(fcWatchName.Data());
       GetThreadHandler()->Cancel(fcMainName.Data()); // maybe we not need this...
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetDatName());
@@ -484,7 +485,7 @@ void TGo4AnalysisClient::TerminateFast()
 void TGo4AnalysisClient::SubmitShutdown()
 {
    if(GetTask()) {
-      TGo4ComServerQuit* com = new TGo4ComServerQuit();
+      TGo4ComServerQuit *com = new TGo4ComServerQuit();
       //TGo4Log::StartTracing(); // debug
       GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
    }
@@ -498,12 +499,11 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
       TString base = strtok(nullptr, ":");
       TString pass = strtok(nullptr, ":");
       StartObjectServer(base.Data(), pass.Data());
-   } else
-   if (!strcmp(command,"ANHServStop")) {
+   } else if (!strcmp(command,"ANHServStop")) {
       StopObjectServer();
    } else{
-     fxAnalysis->ExecuteLine(command); // all scripting is handled in analysis singleton
-     fflush(stdout);
+      fxAnalysis->ExecuteLine(command); // all scripting is handled in analysis singleton
+      fflush(stdout);
    }
 }
 
