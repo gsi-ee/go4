@@ -34,9 +34,10 @@ TGo4FitterOutput::~TGo4FitterOutput() {
 void TGo4FitterOutput::DoAction(TGo4FitterAbstract* Fitter)
 {
    if (!Fitter) return;
-   if (fxCommand=="Print") Fitter->Print(fxOptions.Data()); else
-   if (fxCommand=="Draw") {
-     TVirtualPad* old = gPad;
+   if (fxCommand == "Print")
+      Fitter->Print(fxOptions.Data());
+   else if (fxCommand == "Draw") {
+     TVirtualPad *old = gPad;
      if (fxPad) fxPad->cd();
      Fitter->Draw(fxOptions.Data());
      if (fxPad) fxPad->Update();

@@ -615,7 +615,7 @@ void TGo4Interface::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t nu
     if (c) c->Divide(numX, numY);
 }
 
-TPad* TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
+TPad *TGo4Interface::SelectPad(ViewPanelHandle handle, Int_t number)
 {
     TCanvas *c = (TCanvas *) handle;
     if (c) return (TPad *) c->cd(number);
@@ -638,12 +638,11 @@ void TGo4Interface::RedrawItem(const char *itemname)
    TGo4AbstractInterface::RedrawItem(itemname);
 
    TIter next(gROOT->GetListOfCanvases());
-   while (auto pad = (TPad*) next()) {
+   while (auto pad = (TPad *) next()) {
       pad->Modified();
 
-      TVirtualPad* subpad = nullptr;
       Int_t number = 0;
-      while ((subpad = pad->GetPad(number++)) != nullptr)
+      while (auto subpad = pad->GetPad(number++))
         subpad->Modified();
 
       pad->Update();

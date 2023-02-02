@@ -76,7 +76,7 @@ public:
     virtual bool WorkingWithPanel();
     virtual bool WorkingWithOnlyPad();
     virtual TGo4ViewPanel* ActivePanel();
-    virtual TPad* ActivePad();
+    virtual TPad *ActivePad();
     virtual TGo4Fitter* GetFitter();
     virtual TGo4Fitter* CloneFitter();
     virtual void RemoveFitterLink();
@@ -142,8 +142,8 @@ public:
     virtual void UpdateWizardPage();
     virtual void UpdateExtendedPage();
     virtual void RemovePrimitives();
-    virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char *name);
-    virtual void CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter);
+    virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad *pad, const char *name);
+    virtual void CreateDataFor(TGo4ViewPanel* panel, TPad *pad, TGo4Fitter* fitter);
     virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
     virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
@@ -163,9 +163,9 @@ public:
     virtual void FillSlotsList(QFitItem* parent, const TObjArray *lst, TObject *owner);
     virtual void FillDependencyList(QFitItem* parent);
     virtual void PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update);
-    virtual bool PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item);
+    virtual bool PaintModel(TGo4FitModel* model, TPad *pad, QFitItem* item);
     virtual bool PaintModelsFor(TGo4Fitter* fitter, TGo4FitData* data, QFitItem* item, bool update);
-    virtual bool PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFitItem* item);
+    virtual bool PaintRange(TGo4FitComponent* comp, int nrange, TPad *pad, QFitItem* item);
     virtual TGo4FitPeakFinder* GetPeakFinder(bool autocreate);
     virtual TGo4FitData* Wiz_SelectedData();
     virtual TGo4FitModel* Wiz_SelectedModel();
@@ -180,10 +180,10 @@ public:
     virtual void ArrowChanged(TGo4FitGuiArrow* arr);
     virtual void DeleteModelWithPrimit(TGo4FitGuiArrow* arr);
     virtual int GetPadIndexForSlot(TGo4FitSlot* slot);
-    virtual TPad* FindPadForSlot(TGo4FitSlot* slot);
-    virtual TPad* FindPadWhereData(TGo4FitData* data);
-    virtual TPad* FindPadWhereModel(TGo4FitModel* model);
-    virtual TPad* FindPadWhereComp(TGo4FitComponent* comp);
+    virtual TPad *FindPadForSlot(TGo4FitSlot* slot);
+    virtual TPad *FindPadWhereData(TGo4FitData* data);
+    virtual TPad *FindPadWhereModel(TGo4FitModel* model);
+    virtual TPad *FindPadWhereComp(TGo4FitComponent* comp);
     virtual TGo4FitData* CreateData(int id, const char *name);
     virtual TGo4FitModel* CreateModel(int id, const char *namebase, TGo4Fitter* fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
@@ -205,13 +205,13 @@ public:
     virtual void UpdateWizStackWidget();
     virtual void UpdateWizPaint(int mode);
     virtual void FillParsTable(QTableWidget *table, TGo4Fitter *fitter, TGo4FitModel *model, bool LinesView, TObjArray *TableList);
-    virtual void FillNamedWidget(QFitNamedWidget* w);
-    virtual void ChangeObjectName(QFitNamedWidget* w, const char *newname);
-    virtual void ChangeObjectTitle(QFitNamedWidget* w, const char *newtitle);
-    virtual void ChangeModelPar(QFitModelWidget* w, int npar, int value);
+    virtual void FillNamedWidget(QFitNamedWidget *w);
+    virtual void ChangeObjectName(QFitNamedWidget *w, const char *newname);
+    virtual void ChangeObjectTitle(QFitNamedWidget *w, const char *newtitle);
+    virtual void ChangeModelPar(QFitModelWidget *w, int npar, int value);
 
 public slots:
-    virtual void panelSlot(TGo4ViewPanel*, TPad*, int);
+    virtual void panelSlot(TGo4ViewPanel *, TPad *, int);
     virtual void FitList_customContextMenuRequested(const QPoint &);
     virtual void FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*);
     virtual void AboutToShowViewMenu();
@@ -283,28 +283,28 @@ public slots:
     virtual void PF_MinNoiseEdit_returnPressed();
 
 public:
-   QFitItem* CurrFitItem{nullptr};
+   QFitItem *CurrFitItem{nullptr};
 
 protected:
-    QMenuBar* MenuBar{nullptr};
-    QMenu* FitterMenu{nullptr};
-    QSignalMapper* FitterMap{nullptr};
-    QMenu* ViewMenu{nullptr};
-    QSignalMapper* ViewMap{nullptr};
-    QMenu* SettMenu{nullptr};
-    QSignalMapper* SettMap{nullptr};
-    QMenu* ItemMenu{nullptr};
+    QMenuBar *MenuBar{nullptr};
+    QMenu *FitterMenu{nullptr};
+    QSignalMapper *FitterMap{nullptr};
+    QMenu *ViewMenu{nullptr};
+    QSignalMapper *ViewMap{nullptr};
+    QMenu *SettMenu{nullptr};
+    QSignalMapper *SettMap{nullptr};
+    QMenu *ItemMenu{nullptr};
 
     bool fbFillingWidget{false};
     int fiPaintMode{0};
     TObjArray *fxWizPars{nullptr};
     TObjArray *fxWizSlots{nullptr};
     TObjArray *fxParsTableList{nullptr};
-    TGo4ViewPanel* fxActivePanel{nullptr};
-    TPad* fxActivePad{nullptr};
-    TGo4ViewPanel* fxDrawNewPanel{nullptr};
+    TGo4ViewPanel *fxActivePanel{nullptr};
+    TPad *fxActivePad{nullptr};
+    TGo4ViewPanel *fxDrawNewPanel{nullptr};
     bool fbDrawPanelCreation{false};
-    QFitItem* fxCurrentItem{nullptr};
+    QFitItem *fxCurrentItem{nullptr};
     QWidget *fxCurrentItemWidget{nullptr};
     bool fbNeedConfirmation{false};
     bool fbShowPrimitives{false};

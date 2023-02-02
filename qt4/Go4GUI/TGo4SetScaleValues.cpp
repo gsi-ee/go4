@@ -120,7 +120,7 @@ void TGo4SetScaleValues::refreshView(bool force)
 }
 
 
-void TGo4SetScaleValues::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
+void TGo4SetScaleValues::panelSlot(TGo4ViewPanel* panel, TPad *pad, int signalid)
 {
    switch (signalid) {
       case QGo4Widget::panel_Activated:

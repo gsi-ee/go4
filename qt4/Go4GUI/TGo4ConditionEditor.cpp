@@ -202,7 +202,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char *itemname)
       fbDrawOnNextRefresh = true;
       fiSelectedIndex = -1;
    } else {
-      TPad* pad = panel->FindPadWithItem(itemname);
+      TPad *pad = panel->FindPadWithItem(itemname);
       fiSelectedIndex = panel->GetSelectedMarkerIndex(pad);
       panel->setFocus();
    }
@@ -252,7 +252,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (!cond) return;
    const char *conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
-   TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
+   TPad *pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    TGo4BrowserProxy *br = Browser();
    TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : nullptr;
@@ -348,7 +348,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
         infolbl += "  ";
      infolbl += "Drawn: ";
      infolbl += panel->objectName();
-     if (pad && (pad != (TPad*)panel->GetCanvas())) {
+     if (pad && (pad != (TPad *) panel->GetCanvas())) {
         infolbl += ", ";
         infolbl += pad->GetName();
      }
@@ -757,7 +757,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
    }
 
    panel = WhereItemDrawn(conditemname);
-   TPad* pad = panel ? panel->FindPadWithItem(conditemname) : nullptr;
+   TPad *pad = panel ? panel->FindPadWithItem(conditemname) : nullptr;
 
    if (panel) {
       if (pad)
@@ -803,7 +803,7 @@ void TGo4ConditionEditor::RedrawCondition()
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    if (!panel) return;
 
-   TPad* pad = panel->FindPadWithItem(conditemname);
+   TPad *pad = panel->FindPadWithItem(conditemname);
    if (!pad) return;
 
    panel->SetSelectedMarker(pad, cond->GetName(), fiSelectedIndex);
@@ -843,7 +843,7 @@ void TGo4ConditionEditor::ModifyButton_clicked()
 
    const char *conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
-   TPad* pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
+   TPad *pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    if (!panel || !pad) return;
 

@@ -203,7 +203,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * If pad will not be set or command will not create new pad, current gPad object will be used for output.
        * Thus, if several "Draw" command occur, result of last command will be seen on current pad.
        */
-      void SetPad(Int_t indx, TVirtualPad* pad);
+      void SetPad(Int_t indx, TVirtualPad *pad);
 
       /**
        * Return kTRUE, if parameters were taken as result values.

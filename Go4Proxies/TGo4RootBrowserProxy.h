@@ -32,7 +32,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       void UnblockStatusOutput();
 
-      void DrawPicture(const char *itemname, TGo4Picture *pic, TPad* pad);
+      void DrawPicture(const char *itemname, TGo4Picture *pic, TPad *pad);
       void DrawCondition(const char *itemname, TGo4Condition *con);
       void DrawItem(const char *itemname);
 
@@ -49,7 +49,7 @@ class TGo4RootBrowserProxy : public TGo4Proxy {
 
       void SyncRootBrowserSlots();
 
-      TGo4BrowserProxy * fBrowser{nullptr}; //!
+      TGo4BrowserProxy *fBrowser{nullptr}; //!
 
       Bool_t  fLockMessage{kFALSE};  //!
 

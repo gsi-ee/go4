@@ -36,26 +36,26 @@ class TGo4MdiArea : public QMdiArea {
 
       TGo4ViewPanel *FindOtherPanel(TGo4ViewPanel *not_this);
 
-      TPad* GetSelectedPad();
-      void SetSelectedPad(TPad* pad);
+      TPad *GetSelectedPad();
+      void SetSelectedPad(TPad *pad);
 
       /** this method allows to set general properties for all go4 subwindows JAM*/
       QMdiSubWindow* AddGo4SubWindow(QWidget *widget, Qt::WindowFlags flags = Qt::Widget);
 
-      void ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad);
+      void ResponseOnPanelEvent(int funcid, TGo4ViewPanel *panel, TPad *pad);
 
       static TGo4MdiArea* Instance();
 
    signals:
-      void panelSignal(TGo4ViewPanel*, TPad*, int);
+      void panelSignal(TGo4ViewPanel *, TPad *, int);
 
    protected slots:
-      void subWindowActivatedSlot(QMdiSubWindow * window);
+      void subWindowActivatedSlot(QMdiSubWindow *window);
 
    private:
-      TGo4ViewPanel*  fxActivePanel{nullptr};
-      TPad*           fxActivePad{nullptr};
-      TPad*           fxSelectedPad{nullptr};
+      TGo4ViewPanel  *fxActivePanel{nullptr};
+      TPad           *fxActivePad{nullptr};
+      TPad           *fxSelectedPad{nullptr};
 
       static TGo4MdiArea* gInstance;
 };

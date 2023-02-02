@@ -226,12 +226,12 @@ TGo4BrowserProxy *QGo4Widget::Browser()
    return br;
 }
 
-void QGo4Widget::ConnectPad(TPad* pad)
+void QGo4Widget::ConnectPad(TPad *pad)
 {
    emit widgetService(this, service_ConnectPad, "", (void*) pad);
 }
 
-void QGo4Widget::CallPanelFunc(int func, TPad* pad)
+void QGo4Widget::CallPanelFunc(int func, TPad *pad)
 {
    emit widgetService(this, func, "", (void*) pad);
 }
@@ -302,7 +302,7 @@ TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
    return res;
 }
 
-TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel)
+TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* panel, TPad *pad, bool activate, int updatelevel)
 {
    void *res[4];
    res[0] = panel;

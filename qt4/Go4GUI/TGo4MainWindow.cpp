@@ -2647,7 +2647,7 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
    GetWidgetTopSlot(editor, true);
 }
 
-TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char *drawopt)
+TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad *pad, bool activate, int updatelevel, const char *drawopt)
 {
    TGo4BrowserProxy *br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
@@ -2984,7 +2984,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
              TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
              TGo4FitPanel* fitpanel = dynamic_cast<TGo4FitPanel*> (editor);
              if (panel)
-                panel->DropOnPad((TPad*)str, eventstr.toLatin1().constData(), cl, kind);
+                panel->DropOnPad((TPad *)str, eventstr.toLatin1().constData(), cl, kind);
              else if (fitpanel)
                 fitpanel->DropOnPanel(event, eventstr.toLatin1().constData(), cl, kind);
              else
@@ -3008,23 +3008,23 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
       case QGo4Widget::service_DrawItem: {
          void** res = (void**) par;
-         res[0] = DisplayBrowserItem(str, (TGo4ViewPanel*) res[0], (TPad*) res[1], *((bool*)res[2]), *((int*) res[3]), nullptr);
+         res[0] = DisplayBrowserItem(str, (TGo4ViewPanel *) res[0], (TPad *) res[1], *((bool *)res[2]), *((int *) res[3]), nullptr);
          break;
       }
 
       case QGo4Widget::service_WhereItemDrawn: {
-         TGo4ViewPanel** res = (TGo4ViewPanel**) par;
+         TGo4ViewPanel **res = (TGo4ViewPanel **) par;
          *res = nullptr;
          TGo4Slot *topslot = fxOM->GetSlot(fOMEditorsPath.toLatin1().constData());
          for (int n = 0; n < topslot->NumChilds(); n++) {
             TGo4Slot *subslot = topslot->GetChild(n);
 
-            TGo4WidgetProxy* wproxy =
-               dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
+            TGo4WidgetProxy *wproxy =
+               dynamic_cast<TGo4WidgetProxy *> (subslot->GetProxy());
             if (!wproxy) continue;
 
-            TGo4ViewPanel* panel =
-               dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
+            TGo4ViewPanel *panel =
+               dynamic_cast<TGo4ViewPanel *> (wproxy->GetWidget());
 
             if (panel)
               if (panel->FindPadWithItem(str)) {
@@ -3310,9 +3310,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (!edslot) break;
 
          TGo4WidgetProxy* proxy =
-           dynamic_cast<TGo4WidgetProxy*> (edslot->GetProxy());
+           dynamic_cast<TGo4WidgetProxy *> (edslot->GetProxy());
          if (proxy)
-            proxy->ConnectPad((TPad*) par);
+            proxy->ConnectPad((TPad *) par);
          break;
       }
 
@@ -3407,8 +3407,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::panel_ActiveUpdated:
       case QGo4Widget::panel_PadDeleted:
       case QGo4Widget::panel_Deleted: {
-         TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
-         TPad* pad = (TPad*) par;
+         TGo4ViewPanel *panel = (TGo4ViewPanel *) editor;
+         TPad *pad = (TPad *) par;
          fxMdiArea->ResponseOnPanelEvent(serviceid, panel, pad);
          break;
       }

@@ -151,7 +151,7 @@ class TGo4Interface : public TGo4AbstractInterface {
       ViewPanelHandle GetActiveViewPanel() override;
       void RedrawPanel(ViewPanelHandle panel) override;
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
-      TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
+      TPad *SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
 
       Bool_t DrawItem(const char *itemname, ViewPanelHandle panel = nullptr, const char *drawopt = nullptr) override;
       void RedrawItem(const char *itemname) override;
@@ -161,9 +161,9 @@ class TGo4Interface : public TGo4AbstractInterface {
       Bool_t HandleTimer(TTimer *timer) override;
 
    protected:
-      TGo4AnalysisProxy*  AddAnalysisProxy(Bool_t isserver);
+      TGo4AnalysisProxy  *AddAnalysisProxy(Bool_t isserver);
       TGo4AnalysisStatus *GetAnalStatus();
-      TGo4AnalysisStepStatus* GetStepStatus(const char *stepname);
+      TGo4AnalysisStepStatus *GetStepStatus(const char *stepname);
 
       TGo4RootBrowserProxy *fRootBrowser{nullptr}; //!
       TString fOMDataPath;                         //!

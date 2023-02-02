@@ -87,19 +87,19 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
    signals:
       /** signal which will be emitted when root selected pad is changed
         * via clicking the mid-mouse button (M. al-Turany) */
-      void              SelectedPadChanged(TPad*);
+      void              SelectedPadChanged(TPad *);
 
       /** signal emitted when mouse clicks on pad  */
-      void              PadClicked(TPad*, int, int);
+      void              PadClicked(TPad *, int, int);
 
       /** signal emitted when user produce left mouse double-click on pad  */
-      void              PadDoubleClicked(TPad*, int, int);
+      void              PadDoubleClicked(TPad *, int, int);
 
-      void              MenuCommandExecuted(TObject*, const char*);
+      void              MenuCommandExecuted(TObject *, const char *);
 
-      void              CanvasStatusEvent(const char*);
+      void              CanvasStatusEvent(const char *);
 
-      void              CanvasDropEvent(QDropEvent*, TPad*);
+      void              CanvasDropEvent(QDropEvent *, TPad *);
 
       void              CanvasLeaveEvent();
 
@@ -235,9 +235,3 @@ class GO4_WIDGET_EXPORT QRootCanvas : public QWidget {
 };
 
 #endif
-
-
-
-
-
-

@@ -89,8 +89,8 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
       }
 
    protected:
-      TIterator*     fIter{nullptr};     //!
-      TObject *      fCurrent{nullptr};  //!
+      TIterator  *fIter{nullptr};     //!
+      TObject    *fCurrent{nullptr};  //!
 };
 
 // ****************************************************************

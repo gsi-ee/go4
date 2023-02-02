@@ -154,8 +154,8 @@ class TGo4Picture : public TNamed {
       Bool_t IsHisStats() const;
 
       void SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom);
-      void SetFrameAttr(TPad* pad);
-      Bool_t GetFrameAttr(TPad* pad) const;
+      void SetFrameAttr(TPad *pad);
+      Bool_t GetFrameAttr(TPad *pad) const;
 
       void SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
                         Int_t optstat = 1111, const char *statformat = "6.4g",
@@ -348,7 +348,7 @@ class TGo4Picture : public TNamed {
 
       void CheckIndex(Int_t &index) const;
 
-      void DrawPic(TVirtualPad* pad);
+      void DrawPic(TVirtualPad *pad);
 
       void PrintPic(int shift, Bool_t showopt);
 
@@ -356,8 +356,8 @@ class TGo4Picture : public TNamed {
       void GetH1Att(TH1 *h1, Int_t index = UndefIndex) const;
       void SetAxisAtt(Int_t naxis, TAxis *axis, Int_t index = UndefIndex);
       void GetAxisAtt(Int_t naxis, TAxis *axis, Int_t index = UndefIndex) const;
-      void SetPadAtt(TPad* pad, Int_t index = UndefIndex);
-      void GetPadAtt(TPad* pad, Int_t index = UndefIndex) const;
+      void SetPadAtt(TPad *pad, Int_t index = UndefIndex);
+      void GetPadAtt(TPad *pad, Int_t index = UndefIndex) const;
 
       void MakeScript(std::ostream& fs, const char *name);
 

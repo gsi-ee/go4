@@ -60,19 +60,19 @@ class TGo4KeyAccess : public TGo4Access {
         { return fKey->GetClassName(); }
 
    private:
-      TDirectory * fDir{nullptr};     //!
-      TKey *       fKey{nullptr};     //!
+      TDirectory *fDir{nullptr};     //!
+      TKey       *fKey{nullptr};     //!
 };
 
 // ************************************************************************
 
 class TGo4DirLevelIter : public TGo4LevelIter {
    protected:
-      TDirectory *   fDir{nullptr};        //!
+      TDirectory    *fDir{nullptr};        //!
       Bool_t         fReadRight{kFALSE};   //!
-      TIterator*     fIter{nullptr};       //!
+      TIterator     *fIter{nullptr};       //!
       Bool_t         fIsKeyIter{kFALSE};   //!
-      TObject *      fCurrent{nullptr};    //!
+      TObject       *fCurrent{nullptr};    //!
       TString        fNameBuf;             //!
 
    public:

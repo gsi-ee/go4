@@ -61,9 +61,9 @@ TGo4Marker::~TGo4Marker()
 //   if(fguInstanceCounter>0) --fguInstanceCounter;
 }
 
-void TGo4Marker::SetDrawPad(TVirtualPad* pad)
+void TGo4Marker::SetDrawPad(TVirtualPad *pad)
 {
-   fxDrawPad=pad;
+   fxDrawPad = pad;
 }
 
 Bool_t TGo4Marker::CheckDrawPad() const

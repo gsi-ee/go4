@@ -47,9 +47,9 @@ class TGo4TestThreadManager : public TGo4ThreadManager
 
       TCanvas *GetCanvas () { return fxCanvas; }
 
-      TPad* GetPad1 () { return fxPad1; }
+      TPad *GetPad1 () { return fxPad1; }
 
-      TPad* GetPad2 () { return fxPad1; }
+      TPad *GetPad2 () { return fxPad1; }
 
 
   protected:

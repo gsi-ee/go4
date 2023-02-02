@@ -36,7 +36,7 @@ class TGo4ASImage : public TASImage {
 
       void SetHistogramContent(TH2 *histo);
 
-      void SetDrawData(TH2 *histo, TGo4ViewPanel* panel, TPad* pad);
+      void SetDrawData(TH2 *histo, TGo4ViewPanel* panel, TPad *pad);
 
       void SetSelectedRange(double rxmin, double rxmax, double rymin, double rymax);
 
@@ -60,17 +60,17 @@ class TGo4ASImage : public TASImage {
 
    private:
 
-      TGo4ViewPanel* fxPanel{nullptr}; //!
+      TGo4ViewPanel *fxPanel{nullptr}; //!
 
-      TPad*         fxPad{nullptr};   //!
+      TPad          *fxPad{nullptr};   //!
 
-      double        fxMinX{0.};  //!
-      double        fxMaxX{1.};  //!
-      double        fxMinY{0.};  //!
-      double        fxMaxY{1.};  //!
+      double         fxMinX{0.};  //!
+      double         fxMaxX{1.};  //!
+      double         fxMinY{0.};  //!
+      double         fxMaxY{1.};  //!
 
-      double        fdWidth{0.};  //!  original width of image (histogram)
-      double        fdHeight{0.}; //!  original height of image (histogram)
+      double         fdWidth{0.};  //!  original width of image (histogram)
+      double         fdHeight{0.}; //!  original height of image (histogram)
 
 };
 

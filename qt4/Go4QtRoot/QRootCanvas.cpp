@@ -275,7 +275,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
     */
 
 
-   TPad* pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
+   TPad *pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
    TObject *selected = fCanvas->GetSelected();
 
    switch(e->button()) {
@@ -396,7 +396,7 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
          if (!fMaskDoubleClick)
             fCanvas->HandleInput(kButton1Double, scaled.x(), scaled.y());
          TObjLink* pickobj = nullptr;
-         TPad* pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
+         TPad *pad = fCanvas->Pick(scaled.x(), scaled.y(), pickobj);
          emit PadDoubleClicked(pad, scaled.x(), scaled.y());
          // prevent crash on following release event
          // if new canvas will be created in between
@@ -764,12 +764,12 @@ void QRootCanvas::Paint(Option_t *option)
    fCanvas->Paint(option);
 }
 
-TPad* QRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
+TPad *QRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
 {
    return fCanvas->Pick(px, py, pickobj);
 }
 
-TPad* QRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
+TPad *QRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
 {
    return fCanvas->Pick(px, py, prevSelObj);
 }
@@ -1113,7 +1113,7 @@ void QRootCanvas::executeMenu(int id)
 
       // save global to Pad before calling TObject::Execute()
 
-      TVirtualPad* psave = gROOT->GetSelectedPad();
+      TVirtualPad *psave = gROOT->GetSelectedPad();
       TMethod *method = (TMethod *) fMenuMethods->At(id);
 
       /// test: do this in any case!
@@ -1122,9 +1122,8 @@ void QRootCanvas::executeMenu(int id)
       // change current dir that all new histograms appear here
       gROOT->cd();
 
-
-      if (method->GetListOfMethodArgs()->First()){
-        if (strstr(method->GetName(), "Delete")){
+      if (method->GetListOfMethodArgs()->First()) {
+        if (strstr(method->GetName(), "Delete")) {
           // JAM2016: do not allow mouse menu delete in Go4
         } else {
           methodDialog(fMenuObj, method);

@@ -789,11 +789,11 @@ void TGo4Script::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
    if (panel) panel->Divide(numX, numY);
 }
 
-TPad* TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
+TPad *TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (panel) {
-      TPad* pad = panel->GetSubPad(nullptr, number, false);
+      TPad *pad = panel->GetSubPad(nullptr, number, false);
       if (!pad) pad = panel->GetCanvas();
       panel->SetActivePad(pad);
       ProcessEvents();
@@ -807,7 +807,7 @@ TGo4Picture *TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (!panel) return nullptr;
 
-   TPad* pad = panel->GetSubPad(nullptr, padnumber, false);
+   TPad *pad = panel->GetSubPad(nullptr, padnumber, false);
    if (!pad) pad = panel->GetCanvas();
    return panel->GetPadOptions(pad);
 }

@@ -34,7 +34,7 @@ public:
 
 public slots:
 
-   virtual void panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid);
+   virtual void panelSlot(TGo4ViewPanel* panel, TPad *pad, int signalid);
 
    virtual void ApplyValues();
 

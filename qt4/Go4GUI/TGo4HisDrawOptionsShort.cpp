@@ -138,7 +138,7 @@ void TGo4HisDrawOptionsShort::ChangeColor(int kind)
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
 
-   TPad* pad = panel->GetActivePad();
+   TPad *pad = panel->GetActivePad();
    TObject *obj = panel->GetSelectedObject(pad, nullptr);
 
    Color_t icol = 0;

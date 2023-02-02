@@ -191,7 +191,7 @@ void QWebCanvas::dropEvent(QDropEvent* event)
 #else
    QPoint pos = event->position().toPoint();
 #endif
-   TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+   TPad *pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    printf("Drop on pad %s\n", pad ? pad->GetName() : "---");
 
@@ -206,7 +206,7 @@ void QWebCanvas::dropView(QDropEvent* event)
 #else
    QPoint pos = event->position().toPoint();
 #endif
-   TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+   TPad *pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    printf("Drop on view %s\n", pad ? pad->GetName() : "---");
 

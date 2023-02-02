@@ -2358,12 +2358,11 @@ void TGo4BrowserProxy::CheckWaitingList(TGo4Slot *source)
 void TGo4BrowserProxy::UpdateAllCanvases()
 {
    TIter next(gROOT->GetListOfCanvases());
-   while (auto pad = (TPad*) next()) {
+   while (auto pad = (TPad *) next()) {
       pad->Modified();
 
-      TVirtualPad* subpad = nullptr;
       Int_t number = 0;
-      while ((subpad = pad->GetPad(number++)) != nullptr)
+      while (auto subpad = pad->GetPad(number++))
         subpad->Modified();
 
       pad->Update();

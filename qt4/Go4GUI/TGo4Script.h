@@ -183,7 +183,7 @@ class TGo4Script : public TGo4AbstractInterface {
       ViewPanelHandle GetActiveViewPanel() override;
       void RedrawPanel(ViewPanelHandle handle) override;
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY) override;
-      TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
+      TPad *SelectPad(ViewPanelHandle panel, Int_t number = 0) override;
       TGo4Picture *GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) override;
       void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) override;
       void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE) override;

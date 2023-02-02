@@ -471,7 +471,7 @@ void TGo4Browser::DisplaySelectedItems()
    if (npads == 0) return;
 
    TGo4ViewPanel* newpanel = CreateViewPanel(npads);
-   TPad* subpad = nullptr;
+   TPad *subpad = nullptr;
 
    int cnt = 0;
    QTreeWidgetItemIterator it(ListView);

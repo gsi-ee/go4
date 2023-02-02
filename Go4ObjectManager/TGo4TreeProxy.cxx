@@ -95,8 +95,8 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
       }
 
    protected:
-      TIterator*     fIter{nullptr};     //!
-      TBranch*       fCurrent{nullptr};  //!
+      TIterator   *fIter{nullptr};     //!
+      TBranch     *fCurrent{nullptr};  //!
 };
 
 // ***********************************************************************

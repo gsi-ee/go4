@@ -45,12 +45,12 @@ TGo4MdiArea::~TGo4MdiArea()
       gInstance = nullptr;
 }
 
-TPad* TGo4MdiArea::GetSelectedPad()
+TPad *TGo4MdiArea::GetSelectedPad()
 {
    return fxSelectedPad;
 }
 
-void TGo4MdiArea::SetSelectedPad(TPad* pad)
+void TGo4MdiArea::SetSelectedPad(TPad *pad)
 {
    fxSelectedPad = pad;
    gROOT->SetSelectedPad(pad);
@@ -92,7 +92,7 @@ TGo4ViewPanel *TGo4MdiArea::FindOtherPanel(TGo4ViewPanel *not_this)
    return nullptr;
 }
 
-void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad)
+void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad *pad)
 {
    if (!panel)
       return;

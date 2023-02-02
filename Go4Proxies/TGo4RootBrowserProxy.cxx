@@ -281,7 +281,7 @@ TCanvas *TGo4RootBrowserProxy::MakeCanvas(const char *title)
    return c1;
 }
 
-void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture *pic, TPad* pad)
+void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture *pic, TPad *pad)
 {
    if (!pad || !pic) return;
 
@@ -379,7 +379,7 @@ void TGo4RootBrowserProxy::DrawItem(const char *itemname)
       return;
    }
 
-   TPad* pad = (TPad*) gPad;
+   TPad *pad = (TPad *) gPad;
    if (!pad) pad = MakeCanvas(TString("Drawing of ") + obj->GetName());
         else pad->Clear();
 

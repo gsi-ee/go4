@@ -166,7 +166,7 @@ protected:
    void SetPainted(Bool_t on) { fbIsPainted=on; }
    Bool_t IsPainted() const { return fbIsPainted; }
 
-   void SetDrawPad(TVirtualPad* pad);
+   void SetDrawPad(TVirtualPad *pad);
 
 
 private:
@@ -210,7 +210,7 @@ private:
 
    /** Remember last pad used for Draw. Needed for condition editor to
     * prevent displaying marker on pad other than the working pad. */
-   TVirtualPad* fxDrawPad{nullptr}; //!
+   TVirtualPad *fxDrawPad{nullptr}; //!
 
    /** use this counter for automatic naming and coloring*/
    static UInt_t fguInstanceCounter;

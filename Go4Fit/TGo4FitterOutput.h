@@ -50,12 +50,12 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Sets pad, which can be used for command output.
        */
-      void SetPad(TVirtualPad* iPad) { fxPad = iPad; }
+      void SetPad(TVirtualPad *iPad) { fxPad = iPad; }
 
       /**
        * Returns assigned pad.
        */
-      TVirtualPad* GetPad() const { return fxPad; }
+      TVirtualPad *GetPad() const { return fxPad; }
 
       /**
        * Return kTRUE, if pad required for output.
@@ -93,20 +93,14 @@ class TGo4FitterOutput : public TGo4FitterAction {
       void Print(Option_t *option = "") const override;
     private:
 
-      /**
-       * Command name.
-       */
+      /** Command name. */
       TString fxCommand;
 
-      /**
-       * Command options.
-       */
+      /** Command options. */
       TString fxOptions;
 
-      /**
-       * TPad, which can be used for output.
-       */
-      TVirtualPad* fxPad{nullptr};                   //!
+      /** TPad, which can be used for output.  */
+      TVirtualPad *fxPad{nullptr};           //!
 
    ClassDefOverride(TGo4FitterOutput,1)
 };

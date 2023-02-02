@@ -26,7 +26,7 @@ class TGo4WidgetProxyBase : public TGo4Proxy {
 
       Bool_t Use() const override { return kFALSE; }
 
-      void ConnectPad(TPad* pad);
+      void ConnectPad(TPad *pad);
 
       virtual void PadRangeAxisChanged() {}
 

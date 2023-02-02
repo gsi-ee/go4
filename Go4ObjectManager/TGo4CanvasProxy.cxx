@@ -29,11 +29,11 @@
 
 class TGo4CanvasLevelIter : public TGo4LevelIter {
    protected:
-      TIterator*     fIter{nullptr};     //!
-      TObject *      fCurrent{nullptr};  //!
+      TIterator     *fIter{nullptr};     //!
+      TObject       *fCurrent{nullptr};  //!
       TObjArray      fStacks;   //!
    public:
-      TGo4CanvasLevelIter(TPad* pad) :
+      TGo4CanvasLevelIter(TPad *pad) :
          TGo4LevelIter(),
          fIter(nullptr),
          fCurrent(nullptr),
@@ -84,15 +84,15 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         return dynamic_cast<TPad*>(fCurrent) ||
-                dynamic_cast<THStack*>(fCurrent);
+         return dynamic_cast<TPad *>(fCurrent) ||
+                dynamic_cast<THStack *>(fCurrent);
       }
 
       TGo4LevelIter* subiterator() override
       {
-         TPad* subpad = dynamic_cast<TPad*>(fCurrent);
+         TPad *subpad = dynamic_cast<TPad *>(fCurrent);
          if (subpad) return new TGo4CanvasLevelIter(subpad);
-         THStack *hs = dynamic_cast<THStack*> (fCurrent);
+         THStack *hs = dynamic_cast<THStack *>(fCurrent);
          if (hs) return TGo4HStackProxy::ProduceIter(hs);
          return nullptr;
       }
@@ -227,7 +227,7 @@ std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas *canv, const c
    if (!name || !*name)
       return std::make_unique<TGo4ObjectAccess>(canv);
 
-   TPad* curpad = canv;
+   TPad *curpad = canv;
    const char *curname = name;
 
    while (curpad) {
@@ -245,7 +245,7 @@ std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas *canv, const c
 
       curname = slash+1;
 
-      curpad = dynamic_cast<TPad*>(obj);
+      curpad = dynamic_cast<TPad *>(obj);
 
       if (!curpad) {
          THStack *hs = dynamic_cast<THStack*> (obj);

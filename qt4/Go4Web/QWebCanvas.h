@@ -41,15 +41,15 @@ public:
 
 signals:
 
-   void CanvasDropEvent(QDropEvent*, TPad*);
+   void CanvasDropEvent(QDropEvent *, TPad *);
 
    void CanvasUpdated();
 
-   void SelectedPadChanged(TPad*);
+   void SelectedPadChanged(TPad *);
 
-   void PadClicked(TPad*,int,int);
+   void PadClicked(TPad *, int, int);
 
-   void PadDblClicked(TPad*,int,int);
+   void PadDblClicked(TPad *, int, int);
 
 public slots:
 
@@ -70,7 +70,7 @@ protected:
 
    void resizeEvent(QResizeEvent *event) override;
 
-   void dropEvent(QDropEvent* event) override;
+   void dropEvent(QDropEvent *event) override;
 
    double scaledPosition(int p) { return (double) p * fQtScalingfactor; }
 

@@ -140,5 +140,4 @@ class TGo4ServerProxy : public TGo4Proxy {
    ClassDefOverride(TGo4ServerProxy, 1);
 };
 
-
 #endif

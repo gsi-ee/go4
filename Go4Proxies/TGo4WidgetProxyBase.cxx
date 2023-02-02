@@ -15,7 +15,7 @@
 
 #include "TPad.h"
 
-void TGo4WidgetProxyBase::ConnectPad(TPad* pad)
+void TGo4WidgetProxyBase::ConnectPad(TPad *pad)
 {
    if (pad) {
       pad->Connect("RangeAxisChanged()", "TGo4WidgetProxyBase", this, "PadRangeAxisChanged()");

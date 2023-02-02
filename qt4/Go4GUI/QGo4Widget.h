@@ -172,7 +172,7 @@ private:
       void AskToCreateObject(TClass *cl, int isremote);
       void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
-      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad* pad = nullptr, bool activate = true, int updatelevel = -1);
+      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad *pad = nullptr, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char *itemname);
       void HelpWindow(const char *filename, const char *msg = nullptr);
       void UndrawItem(const char *itemname);
@@ -187,7 +187,7 @@ private:
       void StartHotstart(const char *filename);
 
       /** connect pad axis change signals to react on such signals */
-      void ConnectPad(TPad* pad);
+      void ConnectPad(TPad *pad);
 
       void CallServiceFunc(int id, const char *str = nullptr, void *par = nullptr);
       void ServiceCall(const char *name, void* par = nullptr);
@@ -200,7 +200,7 @@ private:
 
       void setCanDestroyWidget(bool on = true) { fCanDestroyWidget = on; }
 
-      void CallPanelFunc(int id, TPad* pad = nullptr);
+      void CallPanelFunc(int id, TPad *pad = nullptr);
 
       void ShootResetWidget();
       void ShootCloseWidget(bool closeparent = false);

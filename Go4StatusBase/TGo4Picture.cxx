@@ -495,7 +495,7 @@ Int_t TGo4Picture::GetLogScale(Int_t nscale) const
    return 0;
 }
 
-void TGo4Picture::GetLogScales(TVirtualPad* pad)
+void TGo4Picture::GetLogScales(TVirtualPad *pad)
 {
    if (!pad) return;
    Long_t zn;
@@ -900,7 +900,7 @@ void TGo4Picture::SetPadAtt(Int_t BorderMode,
    SetOption (index, op_Pad+ 7, Ticky);
 }
 
-void TGo4Picture::SetPadAtt(TPad* pad, Int_t index)
+void TGo4Picture::SetPadAtt(TPad *pad, Int_t index)
 {
    if (!pad) return;
    CheckIndex(index);
@@ -916,7 +916,7 @@ void TGo4Picture::SetPadAtt(TPad* pad, Int_t index)
    SetDrawAttributes(pad->GetFrame(), index);
 }
 
-void TGo4Picture::GetPadAtt(TPad* pad, Int_t index)  const
+void TGo4Picture::GetPadAtt(TPad *pad, Int_t index)  const
 {
    if (!pad) return;
    CheckIndex(index);
@@ -942,7 +942,7 @@ void TGo4Picture::SetFrameAttr(Double_t left, Double_t top, Double_t right, Doub
    SetOptionD(PictureIndex, op_FrameBottom, bottom);
 }
 
-void TGo4Picture::SetFrameAttr(TPad* pad)
+void TGo4Picture::SetFrameAttr(TPad *pad)
 {
    if (!pad) return;
 
@@ -953,7 +953,7 @@ void TGo4Picture::SetFrameAttr(TPad* pad)
        SetFrameAttr(pad->GetLeftMargin(), pad->GetTopMargin(), pad->GetRightMargin(), pad->GetBottomMargin());
 }
 
-Bool_t TGo4Picture::GetFrameAttr(TPad* pad) const
+Bool_t TGo4Picture::GetFrameAttr(TPad *pad) const
 {
    if (!pad) return kFALSE;
 
@@ -1657,7 +1657,7 @@ Int_t TGo4Picture::GetObjAttIndex(TObject *obj) const
    return UndefIndex;
 }
 
-void TGo4Picture::DrawPic(TVirtualPad* pad)
+void TGo4Picture::DrawPic(TVirtualPad *pad)
 {
    if (!pad) return;
    double txt_y = 0.9;

@@ -216,7 +216,7 @@ void QUserPanel::PrintObject(TObject *obj)
 #endif
 }
 
-void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
+void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad *pad)
 {
    if (!event->mimeData()->hasText()) return;
    QString eventstr = event->mimeData()->text();

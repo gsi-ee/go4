@@ -527,7 +527,7 @@ public:
    Int_t IsErrorStopEnabled() const;
 
    /** Set flag that input file has changed */
-   void SetNewInputFile(Bool_t on=kTRUE) { fbNewInputFile = on; }
+   void SetNewInputFile(Bool_t on = kTRUE) { fbNewInputFile = on; }
 
    /** True if input filelist has changed to a new lmd file. */
    Bool_t IsNewInputFile() const { return fbNewInputFile; }

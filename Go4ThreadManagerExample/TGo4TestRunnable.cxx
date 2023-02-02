@@ -58,11 +58,11 @@ Int_t TGo4TestRunnable::Run (void* ptr)
    static Int_t loops = 0;
    Axis_t x = 0;
    TGo4ThreadHandler *han = nullptr;
-   TGo4TestRunnable* th1run = nullptr;
-   TGo4Thread* go4thr = nullptr;
-   TCanvas *can=((TGo4TestThreadManager*)fxManager)->GetCanvas();
-   TPad* pad1=((TGo4TestThreadManager*)fxManager)->GetPad1();
-   TPad* pad2=((TGo4TestThreadManager*)fxManager)->GetPad2();
+   TGo4TestRunnable *th1run = nullptr;
+   TGo4Thread *go4thr = nullptr;
+   TCanvas *can = ((TGo4TestThreadManager*)fxManager)->GetCanvas();
+   TPad *pad1 = ((TGo4TestThreadManager*)fxManager)->GetPad1();
+   TPad *pad2 = ((TGo4TestThreadManager*)fxManager)->GetPad2();
 
   switch(fiMode)
    {

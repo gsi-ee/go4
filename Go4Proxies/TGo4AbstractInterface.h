@@ -549,7 +549,7 @@ class TGo4AbstractInterface : public TObject {
         * If number == 0, main pad (canvas) will be set as active,
         * otherwise one of subpads will be activated.
         * Most of methods, working with viewpanel, acting with active pad of this panel. */
-      virtual TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
+      virtual TPad *SelectPad(ViewPanelHandle panel, Int_t number = 0) { return nullptr; }
 
       /** Returns pad options for pad with specified number */
       virtual TGo4Picture *GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0) { return nullptr; }

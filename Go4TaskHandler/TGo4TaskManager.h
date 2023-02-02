@@ -135,16 +135,16 @@ class TGo4TaskManager : public TNamed {
 
       // private members:
 
-      TGo4ServerTask* fxServer{nullptr}; //!
+      TGo4ServerTask *fxServer{nullptr}; //!
 
-      TGo4Socket* fxTransport{nullptr}; //!
+      TGo4Socket *fxTransport{nullptr}; //!
 
       TObjArray *fxTaskList{nullptr};    //!
 
-      TMutex* fxListMutex{nullptr};      //!
+      TMutex  *fxListMutex{nullptr};      //!
 
       /** Iterator over list of tasks.*/
-      TIterator* fxTaskIter{nullptr}; //!
+      TIterator  *fxTaskIter{nullptr}; //!
 
       UInt_t fuTaskCount{0};
 
