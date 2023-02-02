@@ -1066,7 +1066,7 @@ void TGo4CondArray::SavePrimitive(std::ostream &out, Option_t *opt)
 {
    static int cnt = 0;
    TString extraargs = TString::Format(", %d, \"%s\"", GetNumber(), GetType());
-   TString varname = MakeScript(out, Form("condarr%d", cnt++), opt, extraargs.Data());
+   TString varname = MakeScript(out, TString::Format("condarr%d", cnt++).Data(), opt, extraargs.Data());
 
    // exclude name: options
    TString options = opt;
