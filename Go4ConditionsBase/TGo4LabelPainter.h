@@ -101,16 +101,16 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
     virtual ~TGo4LabelPainter();
 
     /** Draw the label */
-    virtual void PaintLabel(Option_t* opt="");
+    virtual void PaintLabel(Option_t *opt="");
 
     /** Erase the label */
-    virtual void UnPaintLabel(Option_t* opt="");
+    virtual void UnPaintLabel(Option_t *opt="");
 
     /** refresh painting of label with current attributes */
-    virtual void RePaintLabel(Option_t* opt="");
+    virtual void RePaintLabel(Option_t *opt="");
 
     /** pop all components to the front of the pad*/
-    virtual void DisplayToFront(Option_t* opt="");
+    virtual void DisplayToFront(Option_t *opt="");
 
     void SetCaption(const char *txt) { fxCaption=txt; }
     void SetX0(Double_t x = 0.) { fdX0 = x; }

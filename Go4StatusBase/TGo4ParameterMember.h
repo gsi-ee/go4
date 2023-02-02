@@ -55,9 +55,9 @@ class TGo4ParameterMember : public TNamed {
 
       void SetToZero();
 
-      void Clear(Option_t* opt="") override;
+      void Clear(Option_t *opt = "") override;
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    protected:
 

@@ -23,7 +23,7 @@ class TMeshParameter : public TGo4Parameter {
       TMeshParameter();
       TMeshParameter(const char *name);
       virtual ~TMeshParameter();
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
       Bool_t UpdateFrom(TGo4Parameter *) override;
 
       Bool_t fbUnpackOn{kTRUE}; // switch on unpack step

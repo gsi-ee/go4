@@ -37,7 +37,7 @@ class TGo4ParameterStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4ParameterStatus();
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
       TObjArray *GetMemberValues(Bool_t takeit = kFALSE);
 

@@ -34,7 +34,7 @@ class TGo4Queue : public TNamed {
 
       virtual ~TGo4Queue();
 
-      void Clear(Option_t* opt="") override;
+      void Clear(Option_t *opt="") override;
 
       virtual void Wake();
 

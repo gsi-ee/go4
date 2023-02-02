@@ -204,7 +204,7 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Implement this method in your parameter class
        * if you would like to reset any values with the
        * eraser button in the gui remote browser*/
-      void Clear(Option_t* opt = "") override;
+      void Clear(Option_t *opt = "") override;
 
       /** Set flag to use data from autosave file in Make... methods (default true) */
       void SetMakeWithAutosave(Bool_t on = kTRUE);

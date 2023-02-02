@@ -36,7 +36,7 @@ TGo4WinCondView::~TGo4WinCondView()
 }
 
 
-void TGo4WinCondView::Paint(Option_t* opt)
+void TGo4WinCondView::Paint(Option_t *opt)
 {
 if(fxWinCondition) TBox::Paint(opt);
 // we have a valid condition set from painter. Otherwise,

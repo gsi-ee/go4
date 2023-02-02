@@ -85,7 +85,7 @@ class TGo4PolyCond : public TGo4Condition {
       Bool_t UpdateFromUrl(const char *rest_url_opt) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetIntegral(TH1 *histo, Option_t* opt="") override;
+      Double_t GetIntegral(TH1 *histo, Option_t *opt="") override;
 
       /** Calculate value for histogram inside condition limits. */
       Double_t GetMean(TH1 *histo, Int_t axis=1) override;
@@ -113,7 +113,7 @@ class TGo4PolyCond : public TGo4Condition {
       Int_t GetMemorySize() const override;
 
       /** Standard way to store parameter in form of macro */
-      void SavePrimitive(std::ostream& fs, Option_t* = "") override;
+      void SavePrimitive(std::ostream& fs, Option_t *opt = "") override;
 
       /** Remove all references to any TCutGs from ROOT list of specials.
         * To be used after loading condition from file, updating contition, or setting of cut. */

@@ -117,7 +117,7 @@ class TGo4Slot : public TNamed  {
 
       void RecursiveRemove(TObject *obj) override;
 
-      void Print(Option_t* option="") const override;
+      void Print(Option_t *option="") const override;
 
       static const char *FindFolderSeparator(const char *name);
       static void ProduceFolderAndName(const char *fullname, TString &foldername, TString &objectname);

@@ -63,7 +63,7 @@ void TGo4EventElement::PrintEvent()
       TGo4Log::Info( "NO EventSource");
 }
 
-void TGo4EventElement::Print(Option_t* option) const
+void TGo4EventElement::Print(Option_t *option) const
 {
    ((TGo4EventElement*)this)->PrintEvent();
 }

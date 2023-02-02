@@ -39,7 +39,7 @@ class TGo4EventHeader10 : public TObject {
       virtual ~TGo4EventHeader10() {}
 
       /** Reset all members to zero. */
-      void Clear(Option_t* ="") override
+      void Clear(Option_t * = "") override
       {
          fxGSIHeader.Clear();
          fsDummy = 0;

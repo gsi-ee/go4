@@ -222,7 +222,7 @@ void TGo4Condition::PrintBar()
 }
 
 // -----------------------------------------------
-void TGo4Condition::Print(Option_t* opt) const
+void TGo4Condition::Print(Option_t *opt) const
 {
    TGo4Condition *localthis=const_cast<TGo4Condition *>(this);
    TString option = opt;
@@ -578,7 +578,7 @@ void TGo4Condition::SetPainter(TGo4ConditionPainter*)
 }
 
 
-void TGo4Condition::Paint(Option_t* opt)
+void TGo4Condition::Paint(Option_t *opt)
 {
    /////// check for streamed canvas markers that were not Draw()n:
    if (fbStreamedCondition) {
@@ -598,7 +598,7 @@ void TGo4Condition::Paint(Option_t* opt)
    }
 }
 
-void TGo4Condition::Draw(Option_t* opt)
+void TGo4Condition::Draw(Option_t *opt)
 {
    if (TGo4Condition::IsVisible()) {
       if (gPad && !gPad->GetListOfPrimitives()->FindObject(this)) {
@@ -612,7 +612,7 @@ void TGo4Condition::Draw(Option_t* opt)
    }
 }
 
-void TGo4Condition::UnDraw(Option_t* opt)
+void TGo4Condition::UnDraw(Option_t *opt)
 {
    SetPainted(kFALSE);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
@@ -700,7 +700,7 @@ void TGo4Condition::GetGlobalStyle(Bool_t &LABELDRAW, Bool_t &LIMITSDRAW, Bool_t
 }
 
 
-void TGo4Condition::ResetLabel(Option_t* opt)
+void TGo4Condition::ResetLabel(Option_t *opt)
 {
    if(fxPainter) {
       fxPainter->UnPaintLabel(opt);
@@ -716,7 +716,7 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-const char *TGo4Condition::MakeScript(std::ostream& out, const char *varname, Option_t* opt, const char *arrextraargs)
+const char *TGo4Condition::MakeScript(std::ostream& out, const char *varname, Option_t *opt, const char *arrextraargs)
 {
    Bool_t savemacro = opt && strstr(opt,"savemacro");
    Bool_t saveprefix = savemacro;

@@ -41,7 +41,7 @@ class TGo4TaskStatus : public TGo4Status {
       TGo4TaskHandlerStatus* GetTaskHandlerStatus() const { return fxTaskHandlerStatus; }
 
       /** method to printout status information on stdout; */
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    protected:
 

@@ -629,12 +629,12 @@ TObject *QRootCanvas::GetSelected()
    return fCanvas->GetSelected();
 }
 
-Option_t* QRootCanvas::GetSelectedOpt()
+Option_t *QRootCanvas::GetSelectedOpt()
 {
    return fCanvas->GetSelectedOpt();
 }
 
-TVirtualPad* QRootCanvas::GetSelectedPad()
+TVirtualPad *QRootCanvas::GetSelectedPad()
 {
    return fCanvas->GetSelectedPad();
 }

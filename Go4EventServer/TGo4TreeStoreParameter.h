@@ -32,7 +32,7 @@ class TGo4TreeStoreParameter : public TGo4EventStoreParameter {
     virtual ~TGo4TreeStoreParameter();
 
     /** basic method to printout object */
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     /** update contents of parameter class with external object. */
     Bool_t UpdateFrom(TGo4Parameter *rhs) override;

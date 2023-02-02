@@ -33,7 +33,7 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     /** Name of the Tagfile */
     void SetTagName(const char *name) { fxTagFile = name; }
 
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     /** update contents of parameter class with external object. */
     Bool_t UpdateFrom(TGo4Parameter *rhs) override;

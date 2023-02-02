@@ -56,7 +56,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Clear fitter.
        * Removes and delete all actions from actions list.
        */
-      void Clear(Option_t* option = "") override;
+      void Clear(Option_t *option = "") override;
 
       /**
        * Return total number of parameters, which should be fitted.

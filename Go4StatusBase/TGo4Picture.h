@@ -67,15 +67,15 @@ class TGo4Picture : public TNamed {
 
       // add histogram (name) to picture or subpicture
       void AddH1(TH1 *histo, Option_t *DrawOption = nullptr);
-      void AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t* DrawOption = nullptr);
+      void AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t *DrawOption = nullptr);
 
       // add stack (name) to picture or subpicture
-      void AddHStack(THStack *st, Option_t* DrawOption = nullptr);
-      void AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t* DrawOption = nullptr);
+      void AddHStack(THStack *st, Option_t *DrawOption = nullptr);
+      void AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t *DrawOption = nullptr);
 
       // add TGraph object (name) to picture
-      void AddGraph(TGraph *gr, Option_t* DrawOption = nullptr);
-      void AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOption = nullptr);
+      void AddGraph(TGraph *gr, Option_t *DrawOption = nullptr);
+      void AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t *DrawOption = nullptr);
 
       // add condition (name) to picture or subpicture
       void AddCondition(TNamed *cond = nullptr);
@@ -135,19 +135,19 @@ class TGo4Picture : public TNamed {
       void GetDrawAttributes(TObject *obj, Int_t index = UndefIndex) const;
 
       // set string draw options
-      void SetDrawOption(Option_t* option = "") override
+      void SetDrawOption(Option_t *option = "") override
       {
          SetDrawOption(option, UndefIndex);
       }
 
-      virtual void SetDrawOption(Option_t* option, Int_t index);
+      virtual void SetDrawOption(Option_t *option, Int_t index);
 
-      Option_t* GetDrawOption() const  override
+      Option_t *GetDrawOption() const  override
       {
          return GetDrawOption(UndefIndex);
       }
 
-      virtual Option_t* GetDrawOption(Int_t index) const;
+      virtual Option_t *GetDrawOption(Int_t index) const;
 
       // set draw style (Go4GUI index like)
       void SetHisStats(Bool_t on);
@@ -201,23 +201,23 @@ class TGo4Picture : public TNamed {
       void SetAutoZoom(bool on);
       bool IsAutoZoom() const;
 
-      void Draw(Option_t* option = "") override;     //  *MENU*
+      void Draw(Option_t *option = "") override;     //  *MENU*
 
-      void Clear(Option_t* option = "") override;    //  *MENU*
+      void Clear(Option_t *option = "") override;    //  *MENU*
 
-      void Print(Option_t* option = "") const override;    //  *MENU*
+      void Print(Option_t *option = "") const override;    //  *MENU*
 
-      void SavePrimitive(std::ostream& fs, Option_t* = "") override;
+      void SavePrimitive(std::ostream& fs, Option_t *opt = "") override;
 
       // ====== end of USER FUNCTIONS ========================
 
       // add name of any object, which should be drawn in picture or sub-picture
-      void AddObjName(const char *name, Option_t* DrawOption = nullptr);
-      void AddObjName(Int_t posy, Int_t posx, const char *name, Option_t* DrawOption = nullptr);
+      void AddObjName(const char *name, Option_t *DrawOption = nullptr);
+      void AddObjName(Int_t posy, Int_t posx, const char *name, Option_t *DrawOption = nullptr);
 
       // adds only name of provided object
-      void AddObject(TObject *obj, Option_t* DrawOption = nullptr);
-      void AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t* DrawOption = nullptr);
+      void AddObject(TObject *obj, Option_t *DrawOption = nullptr);
+      void AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t *DrawOption = nullptr);
 
       void Reset() {}
 
@@ -232,8 +232,8 @@ class TGo4Picture : public TNamed {
       // manipulation with special objects,
       // which must be drawn on the panel / canvas
       // This must be objects like markers, labels and so on
-      void AddSpecialObject(TObject *obj, Option_t* drawopt = nullptr);
-      void AddSpecialObjectXml(const char *xmlcode, Option_t* drawopt = nullptr);
+      void AddSpecialObject(TObject *obj, Option_t *drawopt = nullptr);
+      void AddSpecialObjectXml(const char *xmlcode, Option_t *drawopt = nullptr);
       TList *GetSpecialObjects() const { return fxSpecialObjects; }
 
       // set style object

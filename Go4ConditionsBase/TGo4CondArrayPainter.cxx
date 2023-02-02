@@ -33,7 +33,7 @@ TGo4CondArrayPainter::~TGo4CondArrayPainter()
    UnPaintCondition();
 }
 
-void TGo4CondArrayPainter::PaintCondition(Option_t* opt)
+void TGo4CondArrayPainter::PaintCondition(Option_t *opt)
 {
    if (!gPad)
       return;
@@ -68,7 +68,7 @@ void TGo4CondArrayPainter::PaintCondition(Option_t* opt)
    } // if(arconny)
 }
 
-void TGo4CondArrayPainter::UnPaintCondition(Option_t* opt)
+void TGo4CondArrayPainter::UnPaintCondition(Option_t *opt)
 {
    if (!gPad)
       return;
@@ -83,7 +83,7 @@ void TGo4CondArrayPainter::UnPaintCondition(Option_t* opt)
    }
 }
 
-void TGo4CondArrayPainter::PaintLabel(Option_t* )
+void TGo4CondArrayPainter::PaintLabel(Option_t *)
 {
     // do not create a label for the complete array
 }

@@ -50,7 +50,7 @@ void TGo4FitDataProfile::FillSlotList(TSeqCollection* list)
    list->Add(&fxProfile);
 }
 
-void TGo4FitDataProfile::Print(Option_t* option) const
+void TGo4FitDataProfile::Print(Option_t *option) const
 {
    TGo4FitData::Print(option);
    std::cout << "   ";

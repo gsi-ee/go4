@@ -98,7 +98,7 @@ class TGo4EventElement : public TNamed {
       virtual void setDebug (Bool_t debug) { fDebug = debug; }
       virtual TGo4EventElement& operator[](Int_t) { return *this; }
 
-      void Print(Option_t* option = "") const override;
+      void Print(Option_t *option = "") const override;
 
       /** Use this method to map event structure with the Tree branch(es) */
       virtual void synchronizeWithTree(TTree *tree, TGo4EventElement **var_ptr = nullptr);

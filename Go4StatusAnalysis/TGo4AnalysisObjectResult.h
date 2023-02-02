@@ -67,7 +67,7 @@ class TGo4AnalysisObjectResult : public TGo4Status {
 
       Go4ResultAction_t Action() const { return fiAction; }
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    private:
 

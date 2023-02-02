@@ -52,7 +52,7 @@ class TGo4ObjectStatus : public TGo4Status {
       /** Creation time string; sql format. */
       const char *GetTimeString() const { return fxStatusTime.Data(); }
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    protected:
       /** Size of the described object in byte. */

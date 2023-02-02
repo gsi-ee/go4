@@ -27,7 +27,7 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
       virtual ~TGo4HDF5StoreParameter();
 
       /** basic method to printout object */
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
       /** update contents of parameter class with external object. */
       Bool_t UpdateFrom(TGo4Parameter *rhs) override;

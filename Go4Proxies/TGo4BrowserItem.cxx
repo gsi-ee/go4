@@ -214,7 +214,7 @@ void TGo4BrowserItem::StopAnalysis()
 }
 
 
-void TGo4BrowserItem::Delete(Option_t* option)
+void TGo4BrowserItem::Delete(Option_t *option)
 {
     DeleteItem();
 }
@@ -229,7 +229,7 @@ void TGo4BrowserItem::SetTitle(const char *title)
    TFolder::SetTitle(title);
 }
 
-void TGo4BrowserItem::ls(Option_t* option) const
+void TGo4BrowserItem::ls(Option_t *option) const
 {
    TFolder::ls(option);
 }
@@ -244,7 +244,7 @@ void TGo4BrowserItem::DrawClass() const
    TFolder::DrawClass();
 }
 
-TObject *TGo4BrowserItem::DrawClone(Option_t* option) const
+TObject *TGo4BrowserItem::DrawClone(Option_t *option) const
 {
    return TFolder::DrawClone(option);
 }
@@ -259,7 +259,7 @@ void TGo4BrowserItem::Inspect() const
    TFolder::Inspect();
 }
 
-void TGo4BrowserItem::SetDrawOption(Option_t* option)
+void TGo4BrowserItem::SetDrawOption(Option_t *option)
 {
    TFolder::SetDrawOption(option);
 }

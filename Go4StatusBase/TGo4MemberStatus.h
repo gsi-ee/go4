@@ -27,7 +27,7 @@ class TGo4MemberStatus : public TGo4ObjectStatus {
 
       virtual ~TGo4MemberStatus();
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    ClassDefOverride(TGo4MemberStatus,1)
 };

@@ -266,32 +266,32 @@ Bool_t TGo4Picture::CheckPosition(Int_t posy, Int_t posx) const
    return (fiPosX == posx) && (fiPosY == posy);
 }
 
-void TGo4Picture::AddH1(TH1 *histo, Option_t* DrawOption)
+void TGo4Picture::AddH1(TH1 *histo, Option_t *DrawOption)
 {
    AddObject(histo, DrawOption);
 }
 
-void TGo4Picture::AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t* DrawOption)
+void TGo4Picture::AddH1(Int_t posy, Int_t posx, TH1 *histo, Option_t *DrawOption)
 {
    AddObject(posy, posx, histo, DrawOption);
 }
 
-void TGo4Picture::AddHStack(THStack *st, Option_t* DrawOption)
+void TGo4Picture::AddHStack(THStack *st, Option_t *DrawOption)
 {
    AddObject(st, DrawOption);
 }
 
-void TGo4Picture::AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t* DrawOption)
+void TGo4Picture::AddHStack(Int_t posy, Int_t posx, THStack *st, Option_t *DrawOption)
 {
     AddObject(posy, posx, st, DrawOption);
 }
 
-void TGo4Picture::AddGraph(TGraph *gr, Option_t* DrawOption)
+void TGo4Picture::AddGraph(TGraph *gr, Option_t *DrawOption)
 {
    AddObject(gr, DrawOption);
 }
 
-void TGo4Picture::AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t* DrawOption)
+void TGo4Picture::AddGraph(Int_t posy, Int_t posx, TGraph *gr, Option_t *DrawOption)
 {
    AddObject(posy, posx, gr, DrawOption);
 }
@@ -306,7 +306,7 @@ void TGo4Picture::AddCondition(Int_t posy, Int_t posx, TNamed *cond)
    AddObject(posy, posx, cond);
 }
 
-void TGo4Picture::AddObjName(const char *name, Option_t* DrawOption)
+void TGo4Picture::AddObjName(const char *name, Option_t *DrawOption)
 {
    if (!name) return;
    if (!fxNames) {
@@ -321,7 +321,7 @@ void TGo4Picture::AddObjName(const char *name, Option_t* DrawOption)
    fiLastIndex = fxNames->GetLast();
 }
 
-void TGo4Picture::AddObjName(Int_t posy, Int_t posx, const char *name, Option_t* DrawOption)
+void TGo4Picture::AddObjName(Int_t posy, Int_t posx, const char *name, Option_t *DrawOption)
 {
    if (name)
      Pic(posy,posx)->AddObjName(name, DrawOption);
@@ -368,13 +368,13 @@ const char *TGo4Picture::GetObjName(Int_t n) const
   return str ? str->String().Data() : nullptr;
 }
 
-void TGo4Picture::AddObject(TObject *obj, Option_t* DrawOption)
+void TGo4Picture::AddObject(TObject *obj, Option_t *DrawOption)
 {
    if (obj)
       AddObjName(obj->GetName(), DrawOption);
 }
 
-void TGo4Picture::AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t* DrawOption)
+void TGo4Picture::AddObject(Int_t posy, Int_t posx, TObject *obj, Option_t *DrawOption)
 {
    if (obj)
       AddObjName(posy, posx, obj->GetName(), DrawOption);
@@ -1551,14 +1551,14 @@ const char *TGo4Picture::GetStrOption(Short_t index, Short_t typ, const char *de
   return ostr->String().Data();
 }
 
-void TGo4Picture::SetDrawOption(Option_t* option, Int_t index)
+void TGo4Picture::SetDrawOption(Option_t *option, Int_t index)
 {
    CheckIndex(index);
    if (!option) ClearOption(index, op_Draw);
            else SetStrOption(index, op_Draw, option);
 }
 
-Option_t* TGo4Picture::GetDrawOption(Int_t index) const
+Option_t *TGo4Picture::GetDrawOption(Int_t index) const
 {
    CheckIndex(index);
    return (Option_t*) GetStrOption(index, op_Draw);
@@ -1691,7 +1691,7 @@ void TGo4Picture::DrawPic(TVirtualPad* pad)
       }
 }
 
-void TGo4Picture::Draw(Option_t* option)
+void TGo4Picture::Draw(Option_t *option)
 {
    TCanvas *c = nullptr;
    if (!gPad) {
@@ -1761,7 +1761,7 @@ void TGo4Picture::PrintPic(int shift, Bool_t showopt)
    }
 }
 
-void TGo4Picture::Print(Option_t* option) const
+void TGo4Picture::Print(Option_t *option) const
 {
    std::cout << "Picture  " << GetName() << std::endl;
    const_cast<TGo4Picture *>(this)->PrintPic(2, strstr(option,"attr") != nullptr);
@@ -1777,7 +1777,7 @@ void TGo4Picture::AddSubPicture(TGo4Picture *pic)
    fxSubPictures->Add(pic);
 }
 
-void TGo4Picture::AddSpecialObject(TObject *obj, Option_t* drawopt)
+void TGo4Picture::AddSpecialObject(TObject *obj, Option_t *drawopt)
 {
    if (!fxSpecialObjects) {
       fxSpecialObjects = new TList;
@@ -1787,7 +1787,7 @@ void TGo4Picture::AddSpecialObject(TObject *obj, Option_t* drawopt)
    fxSpecialObjects->Add(obj, drawopt);
 }
 
-void TGo4Picture::AddSpecialObjectXml(const char *xmlcode, Option_t* drawopt)
+void TGo4Picture::AddSpecialObjectXml(const char *xmlcode, Option_t *drawopt)
 {
    TObject *obj = TBufferXML::ConvertFromXML(xmlcode);
    if (obj) AddSpecialObject(obj, drawopt);
@@ -2104,7 +2104,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char *name)
 
       fs << name << "AddSpecialObjectXml(" << buf;
 
-      Option_t* opt = iter.GetOption();
+      Option_t *opt = iter.GetOption();
 
       if (opt && (*opt != 0))
          fs << ", \"" << opt << "\"";

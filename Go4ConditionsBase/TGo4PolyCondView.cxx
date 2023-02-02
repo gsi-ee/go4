@@ -42,7 +42,7 @@ TGo4PolyCondView::~TGo4PolyCondView()
 {
 }
 
-void TGo4PolyCondView::Paint(Option_t* opt)
+void TGo4PolyCondView::Paint(Option_t *opt)
 {
     if(fxPolyCondition) TCutG::Paint(opt);
    // we have a valid condition set from painter.Otherwise,

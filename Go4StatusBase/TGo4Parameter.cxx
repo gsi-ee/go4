@@ -43,7 +43,7 @@ TGo4Parameter::TGo4Parameter(const char *name, const char *title) :
    GO4TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));
 }
 
-void TGo4Parameter::Print(Option_t* dummy) const
+void TGo4Parameter::Print(Option_t *dummy) const
 {
    // this trick is needed since root defines Print as const function...
    TGo4Parameter *const localthis= const_cast<TGo4Parameter *const>(this);
@@ -398,7 +398,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass
    return kTRUE;
 }
 
-void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
+void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t *opt)
 {
    static int cnt = 0;
    TString varname = TString::Format("param%d", cnt++);

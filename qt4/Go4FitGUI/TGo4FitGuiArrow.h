@@ -28,8 +28,8 @@ public:
    enum { at_none, at_pos, at_width, at_range };
 
    TGo4FitGuiArrow();
-   TGo4FitGuiArrow(Float_t arrowsize, Option_t* option);
-   TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t* option);
+   TGo4FitGuiArrow(Float_t arrowsize, Option_t *option);
+   TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t *option);
    virtual ~TGo4FitGuiArrow();
 
    void SetForPosition(TGo4FitModel* model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl);
@@ -48,7 +48,7 @@ public:
    Bool_t IsAssignTo(TObject *obj);
 
    void ClearOther() { fxOther = nullptr; }
-   void Delete(Option_t* option = "") override;   //  *MENU*
+   void Delete(Option_t *option = "") override;   //  *MENU*
 
    void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 

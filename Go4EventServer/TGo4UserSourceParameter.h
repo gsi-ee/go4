@@ -32,7 +32,7 @@ class TGo4UserSourceParameter : public TGo4EventSourceParameter {
     const char *GetExpression() const { return fxExpression.Data(); }
     void SetExpression(const char *name) { fxExpression=name; }
 
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     /** update contents of parameter class with external object. */
     Bool_t UpdateFrom(TGo4Parameter *rhs) override;

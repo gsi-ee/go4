@@ -57,7 +57,7 @@ class TGo4BufferQueue : public TGo4Queue {
       void FreeBuffer(TBuffer * buffer);
 
       /** Empty the queue and give free buffers back */
-      void Clear(Option_t* opt="") override;
+      void Clear(Option_t *opt="") override;
 
       /**
        * Wait for buffer object from queue. We Renamed the protected baseclass method

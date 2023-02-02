@@ -35,7 +35,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     virtual ~TGo4AnalysisStepStatus();
 
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     /** Sets the event source parameter which is used on intitialization
       * of this step. */

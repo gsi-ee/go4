@@ -81,7 +81,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
       /** Resets this entry to an initial status. */
       void Reset() override;
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
       void RecursiveRemove(TObject *obj) override;
 

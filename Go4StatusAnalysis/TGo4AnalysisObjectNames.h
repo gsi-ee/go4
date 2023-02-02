@@ -43,11 +43,11 @@ class TGo4AnalysisObjectNames : public TGo4Status {
       TList *GetFolderList();
 
       /** Access to the folder containing the names objects. */
-      TFolder * GetNamesFolder(Bool_t chown=kFALSE);
+      TFolder *GetNamesFolder(Bool_t chown = kFALSE);
 
       /** basic method to printout status information
         * on stdout; to be overridden by specific subclass */
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
       /** Print names of the objects in given nameslist folder into buffer. */
       void PrintFolder(TFolder *fold) const;

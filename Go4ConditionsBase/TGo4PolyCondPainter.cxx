@@ -40,7 +40,7 @@ TGo4PolyCondPainter::~TGo4PolyCondPainter()
 }
 
 
-void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
+void TGo4PolyCondPainter::PaintCondition(Option_t *opt)
 {
    if(!gPad) return;
    TObject *cutinpad = gPad->GetListOfPrimitives()->FindObject(fxCutView);
@@ -89,7 +89,7 @@ else
    UnPaintCondition();
 }
 
-void TGo4PolyCondPainter::UnPaintCondition(Option_t* opt)
+void TGo4PolyCondPainter::UnPaintCondition(Option_t *opt)
 {
    if(!fxCutView) return; // JAM2016
    gROOT->GetListOfCanvases()->RecursiveRemove(fxCutView);
@@ -101,7 +101,7 @@ void TGo4PolyCondPainter::UnPaintCondition(Option_t* opt)
    }
 }
 
-void TGo4PolyCondPainter::DisplayToFront(Option_t* opt)
+void TGo4PolyCondPainter::DisplayToFront(Option_t *opt)
 {
    if(fxCutView) fxCutView->Pop(); // box to front
    TGo4LabelPainter::DisplayToFront(opt); // label itself will be frontmost

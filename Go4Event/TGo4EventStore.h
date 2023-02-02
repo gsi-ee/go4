@@ -70,7 +70,7 @@ class TGo4EventStore : public TNamed {
       * Implement this method in your parameter class
       * if you would like to reset any values with the
       * eraser button in the gui remote browser*/
-    void Clear(Option_t* opt="") override;
+    void Clear(Option_t *opt="") override;
 
   protected:
      /** text length */

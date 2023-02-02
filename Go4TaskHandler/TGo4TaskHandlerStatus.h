@@ -43,7 +43,7 @@ class TGo4TaskHandlerStatus : public TGo4Status {
 
       Bool_t IsAborting() const { return fbIsAborting; }
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    private:
       TGo4TaskHandlerStatus(const char*);

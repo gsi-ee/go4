@@ -31,7 +31,7 @@ TGo4FitGuiArrow::TGo4FitGuiArrow(Float_t arrowsize, Option_t *option) :
 {
 }
 
-TGo4FitGuiArrow::TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t* option) :
+TGo4FitGuiArrow::TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t *option) :
     TArrow(x1,y1,x2,y2,arrowsize,option), fxType(at_none), fxModel(nullptr), fxOther(nullptr), fdLineAmpl(0.), fxComp(nullptr), fiRangeNum(0),
     fdRangeY(0.), fdShiftX(0.), fxItem(nullptr), fxPanel(nullptr)
 {
@@ -113,7 +113,7 @@ Bool_t TGo4FitGuiArrow::IsAssignTo(TObject *obj)
    return obj && ((obj==fxModel) || (obj==fxComp));
 }
 
-void TGo4FitGuiArrow::Delete(Option_t* option)
+void TGo4FitGuiArrow::Delete(Option_t *option)
 {
    if ((fxType==at_pos) && fxPanel)
       fxPanel->DeleteModelWithPrimit(this);

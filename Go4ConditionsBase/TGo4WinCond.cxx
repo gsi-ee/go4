@@ -139,7 +139,7 @@ void TGo4WinCond::PrintCondition(Bool_t limits)
 }
 
 // -----------------------------------------------
-Double_t TGo4WinCond::GetIntegral(TH1 *histo, Option_t* opt)
+Double_t TGo4WinCond::GetIntegral(TH1 *histo, Option_t *opt)
 {
    if(!histo) return 0;
    SetHistogramRanges(histo);
@@ -357,7 +357,7 @@ Int_t TGo4WinCond::GetMemorySize() const
    return size;
 }
 
-void TGo4WinCond::SavePrimitive(std::ostream& out, Option_t* opt)
+void TGo4WinCond::SavePrimitive(std::ostream& out, Option_t *opt)
 {
    static int cnt = 0;
 

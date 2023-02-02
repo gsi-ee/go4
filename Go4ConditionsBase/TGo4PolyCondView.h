@@ -25,7 +25,7 @@ public:
     TGo4PolyCondView();
     virtual ~TGo4PolyCondView();
 
-    void Paint(Option_t* opt) override;
+    void Paint(Option_t *opt) override;
     void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
     /** Check if cut on pad is changed compared with condition */

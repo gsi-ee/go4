@@ -40,7 +40,7 @@ TGo4MarkerPainter::~TGo4MarkerPainter()
 }
 
 
-void TGo4MarkerPainter::PaintLabel(Option_t* opt)
+void TGo4MarkerPainter::PaintLabel(Option_t *opt)
 {
    if (!gPad)
       return;
@@ -92,7 +92,7 @@ void TGo4MarkerPainter::PaintLabel(Option_t* opt)
    }
 }
 
-void TGo4MarkerPainter::UnPaintLabel(Option_t* opt)
+void TGo4MarkerPainter::UnPaintLabel(Option_t *opt)
 {
    if(!gPad) return;
    TGo4LabelPainter::UnPaintLabel(opt);
@@ -118,7 +118,7 @@ Bool_t TGo4MarkerPainter::CheckConnector()
    return fxConnector != nullptr;
 }
 
-void TGo4MarkerPainter::PaintConnector(Option_t* opt)
+void TGo4MarkerPainter::PaintConnector(Option_t *opt)
 {
    if(!gPad) return;
    if(fxMarker && fxMarker->HasConnector()) {
@@ -211,7 +211,7 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
    }
 }
 
-void TGo4MarkerPainter::UnPaintConnector(Option_t* opt)
+void TGo4MarkerPainter::UnPaintConnector(Option_t *opt)
 {
    TString option = opt;
    if (option.Contains("reset")) {
@@ -223,7 +223,7 @@ void TGo4MarkerPainter::UnPaintConnector(Option_t* opt)
    }
 }
 
-void TGo4MarkerPainter::DisplayToFront(Option_t* opt)
+void TGo4MarkerPainter::DisplayToFront(Option_t *opt)
 {
    UnPaintConnector();
    PaintConnector(); // pop line to front if enabled

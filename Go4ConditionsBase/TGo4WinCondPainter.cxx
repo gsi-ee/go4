@@ -41,7 +41,7 @@ TGo4WinCondPainter::~TGo4WinCondPainter()
 }
 
 
-void TGo4WinCondPainter::PaintCondition(Option_t* opt)
+void TGo4WinCondPainter::PaintCondition(Option_t *opt)
 {
    if (!gPad)
       return;

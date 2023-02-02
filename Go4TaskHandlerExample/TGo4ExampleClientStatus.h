@@ -30,7 +30,7 @@ class TGo4ExampleClientStatus : public TGo4ClientStatus {
 
      virtual ~TGo4ExampleClientStatus();
 
-     void Print(Option_t* = "") const override;
+     void Print(Option_t *opt = "") const override;
 
   private:
 

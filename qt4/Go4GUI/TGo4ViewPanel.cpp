@@ -3597,14 +3597,14 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char *picitemname, TPad* pad, TGo
 
    TGo4BrowserProxy *brcont = Browser();
 
-   Option_t* drawopt = pic->GetDrawOption(TGo4Picture::PictureIndex);
+   Option_t *drawopt = pic->GetDrawOption(TGo4Picture::PictureIndex);
    if (drawopt)
       pic->SetDrawOption(drawopt, TGo4Picture::PictureIndex);
 
    Int_t ndraw = 0;
 
    for (Int_t n = 0; n < pic->GetNumObjNames(); n++) {
-      Option_t* drawopt = pic->GetDrawOption(n);
+      Option_t *drawopt = pic->GetDrawOption(n);
       if (drawopt)
          pic->SetDrawOption(drawopt, n);
 

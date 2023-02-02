@@ -55,7 +55,7 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     Int_t GetRetryCnt() const { return fiRetryCnt; }
 
     /** basic method to printout object */
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     /** update contents of parameter class with external object. */
     Bool_t UpdateFrom(TGo4Parameter *rhs) override;

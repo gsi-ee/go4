@@ -45,13 +45,13 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual ~TGo4Condition();
 
     /** Display condition with plain root canvas and in go4 viewpanel */
-    void Paint(Option_t* opt="") override;
+    void Paint(Option_t *opt="") override;
 
     /** Draw this condition on current pad */
-    void Draw(Option_t* opt="") override;
+    void Draw(Option_t *opt="") override;
 
     /** Erase view of this condition from the pad */
-    virtual void UnDraw(Option_t* opt="");
+    virtual void UnDraw(Option_t *opt="");
 
     /** Re-implement TObject method to pop all our views to front*/
     void Pop() override;
@@ -139,7 +139,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void PrintBar();
 
     /** Default printout for root object lists */
-    void Print(Option_t* opt="") const override;
+    void Print(Option_t *opt="") const override;
 
     /** Can be used in Test to store the result. Is retrieved by GetLast()
       * without further test. */
@@ -192,7 +192,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** defines if condition counters shall be reset in UpdateFrom method*/
     virtual void MarkReset(Bool_t on);
 
-    void Clear(Option_t* opt="") override;
+    void Clear(Option_t *opt="") override;
 
     /** Sets values of external boolean flags to internal variables.
       * Overwritten in TGo4CondArray. */
@@ -423,7 +423,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetPainted(Bool_t on) { fbIsPainted = on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
-    const char *MakeScript(std::ostream& out, const char *varname, Option_t* opt = "", const char *arrextraargs = nullptr);
+    const char *MakeScript(std::ostream& out, const char *varname, Option_t *opt = "", const char *arrextraargs = nullptr);
 
   private:
 

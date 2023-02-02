@@ -50,7 +50,7 @@ void TGo4FitDataGraph::FillSlotList(TSeqCollection* list)
    list->Add(&fxGraph);
 }
 
-void TGo4FitDataGraph::Print(Option_t* option) const
+void TGo4FitDataGraph::Print(Option_t *option) const
 {
    TGo4FitData::Print(option);
    std::cout << "   ";

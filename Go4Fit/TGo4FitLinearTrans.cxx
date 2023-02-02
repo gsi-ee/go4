@@ -51,7 +51,7 @@ void TGo4FitLinearTrans::Transformation(Double_t *scales, Int_t naxis)
     scales[GetAxis()] = GetCoefK() * scales[GetAxis()] + GetCoefB();
 }
 
-void TGo4FitLinearTrans::Print(Option_t* option) const
+void TGo4FitLinearTrans::Print(Option_t *option) const
 {
    std::cout << "Linear transformation of " << fiAxis << " axis" << std::endl;
    TGo4FitAxisTrans::Print(option);

@@ -32,7 +32,7 @@ class TGo4ClientStatus : public TGo4TaskStatus {
        * on stdout; to be overridden by specific
        * subclass
        */
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    protected:
 

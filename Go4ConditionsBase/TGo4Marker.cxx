@@ -82,7 +82,7 @@ Bool_t TGo4Marker::CheckHistogram() const
 }
 
 
-void TGo4Marker::Paint(Option_t* opt)
+void TGo4Marker::Paint(Option_t *opt)
 {
    //if(!IsPainted() || GetDrawPad()!=gPad) return;
    /////// check for streamed canvas markers that were not Draw()n:
@@ -98,7 +98,7 @@ void TGo4Marker::Paint(Option_t* opt)
    if(fxPainter) fxPainter->PaintLabel(opt);
 }
 
-void TGo4Marker::Draw(Option_t* opt)
+void TGo4Marker::Draw(Option_t *opt)
 {
    if(IsVisible()) {
       if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==nullptr) {
@@ -112,7 +112,7 @@ void TGo4Marker::Draw(Option_t* opt)
    SetDrawPad(gPad); // need this to calculate coords even for invisible marker
 }
 
-void TGo4Marker::UnDraw(Option_t* opt)
+void TGo4Marker::UnDraw(Option_t *opt)
 {
    SetPainted(kFALSE);
    SetDrawPad(nullptr);

@@ -39,7 +39,7 @@ class TGo4Parameter : public TNamed {
         * to be overridden by specific subclass  */
       virtual Int_t PrintParameter(Text_t *buffer = nullptr, Int_t buflen = 0);
 
-      void Print(Option_t* dummy="") const override;
+      void Print(Option_t *dummy="") const override;
 
       /** Update contents of parameter class with external object.
         * to be implemented in subclass */
@@ -58,7 +58,7 @@ class TGo4Parameter : public TNamed {
       * Implement this method in your parameter class
       * if you would like to reset any values with the
       * eraser button in the gui remote browser*/
-      void Clear(Option_t* opt="") override;
+      void Clear(Option_t *opt = "") override;
 
       void GetMemberValues(TObjArray *fItems);
       Bool_t SetMemberValues(TObjArray *fItems);
@@ -66,7 +66,7 @@ class TGo4Parameter : public TNamed {
       /** Standard way to store parameter in form of macro,
        * If \param opt == "savemacro", parameter saved in form of macro,
        * which can be rerun in analysis-  see saveparam.C macro for example */
-      void SavePrimitive(std::ostream& fs, Option_t* opt= "") override;
+      void SavePrimitive(std::ostream& fs, Option_t *opt= "") override;
 
       /** Creates parameter status object. It should be destroyed by the user */
       TGo4ParameterStatus *CreateStatus();

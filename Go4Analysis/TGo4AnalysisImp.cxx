@@ -1529,7 +1529,7 @@ Bool_t TGo4Analysis::ClearObjects(const char *name)
    return fxObjectManager->ClearObjects(name);
 }
 
-Bool_t TGo4Analysis::ProtectObjects(const char *name, const Option_t* flags)
+Bool_t TGo4Analysis::ProtectObjects(const char *name, const Option_t *flags)
 {
    return fxObjectManager->ProtectObjects(name, flags);
 }

@@ -43,7 +43,7 @@ TGo4Status::~TGo4Status()
    GO4TRACE((12,"TGo4Status::~TGo4Status()",__LINE__, __FILE__));
 }
 
-void TGo4Status::Print(Option_t* dummy) const
+void TGo4Status::Print(Option_t *dummy) const
 {
    // this trick is needed since root defines Print as const function...
    // keep code here to support by chance old objects with implemented PrintStatus

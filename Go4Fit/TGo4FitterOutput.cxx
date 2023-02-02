@@ -44,7 +44,7 @@ void TGo4FitterOutput::DoAction(TGo4FitterAbstract* Fitter)
    }
 }
 
-void TGo4FitterOutput::Print(Option_t* option) const
+void TGo4FitterOutput::Print(Option_t *option) const
 {
    TGo4FitterAction::Print(option);
    std::cout << "  command: " << fxCommand;

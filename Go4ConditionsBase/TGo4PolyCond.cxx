@@ -257,7 +257,7 @@ void TGo4PolyCond::PrintCondition(Bool_t points)
 
 // -----------------------------------------------
 // PrintBar switch is handled in condition baseclass now.
-//void TGo4PolyCond::Print(Option_t* opt) const{
+//void TGo4PolyCond::Print(Option_t *opt) const{
 //// this trick is needed since root defines Print as const function...
 //   TGo4PolyCond *const localthis= const_cast<TGo4PolyCond *const>(this);
 //   localthis->PrintBar();
@@ -346,7 +346,7 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char *rest_url_opt)
    return kTRUE;
 }
 
-Double_t TGo4PolyCond::GetIntegral(TH1 *histo, Option_t* opt)
+Double_t TGo4PolyCond::GetIntegral(TH1 *histo, Option_t *opt)
 {
    return fxCut ? fxCut->IntegralHist(dynamic_cast<TH2 *>(histo),opt) : 0.;
 }
@@ -496,7 +496,7 @@ Int_t TGo4PolyCond::GetMemorySize() const
    return size;
 }
 
-void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
+void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t *opt)
 {
    static int cnt = 0;
    TString line, varname = MakeScript(out, TString::Format("polycond%d", cnt++).Data(), opt);

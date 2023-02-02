@@ -55,7 +55,7 @@ TGo4LabelPainter::~TGo4LabelPainter()
    }
 }
 
-void TGo4LabelPainter::PaintLabel(Option_t* opt)
+void TGo4LabelPainter::PaintLabel(Option_t *opt)
 {
    if(!gPad) return;
    Double_t xrange = (gPad->GetUxmax()-gPad->GetUxmin());
@@ -97,7 +97,7 @@ void TGo4LabelPainter::PaintLabel(Option_t* opt)
    fxLabel->AddLine(0,0,0,0);
 }
 
-void TGo4LabelPainter::UnPaintLabel(Option_t* opt)
+void TGo4LabelPainter::UnPaintLabel(Option_t *opt)
 {
    gROOT->GetListOfCanvases()->RecursiveRemove(fxLabel);
 
@@ -118,7 +118,7 @@ void TGo4LabelPainter::RePaintLabel(Option_t *opt)
       fxLabel->Paint(opt);
 }
 
-void TGo4LabelPainter::DisplayToFront(Option_t* opt)
+void TGo4LabelPainter::DisplayToFront(Option_t *opt)
 {
    if(fxLabel)
       fxLabel->Pop();
@@ -229,7 +229,7 @@ void TGo4Label::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 const void *TGo4LabelConnector::fxLastDeleted = nullptr;
 
 ///////////// treat painting of the text label connector:
-void TGo4LabelConnector::Paint(Option_t* opt)
+void TGo4LabelConnector::Paint(Option_t *opt)
 {
    if (!gPad)
       return;

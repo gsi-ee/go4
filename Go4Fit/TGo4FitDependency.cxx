@@ -75,7 +75,7 @@ void TGo4FitDependency::Finalize()
    }
 }
 
-void TGo4FitDependency::Print(Option_t* option) const
+void TGo4FitDependency::Print(Option_t *option) const
 {
    std::cout << "Pars dependency:   " << fxParameter << "  =  ";
    if (fxExpression.Length()>0) std::cout << fxExpression << std::endl;

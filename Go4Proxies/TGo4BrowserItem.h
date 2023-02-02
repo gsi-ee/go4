@@ -59,18 +59,18 @@ class TGo4BrowserItem : public TFolder {
       TString GetFullName();
 
       const char *ClassName() const override { return GetItemClass(); }
-      void Delete(Option_t* option = "") override;
+      void Delete(Option_t *option = "") override;
       void SetName(const char *name) override;
       void SetTitle(const char *title = "") override;
-      void ls(Option_t* option = "*") const override;
+      void ls(Option_t *option = "*") const override;
 
       void SaveAs(const char *filename = "", Option_t *option = "") const override; // *MENU*
 
       void DrawClass() const override;
-      TObject *DrawClone(Option_t* option = "") const override;
+      TObject *DrawClone(Option_t *option = "") const override;
       void Dump() const override;
       void Inspect() const override;
-      void SetDrawOption(Option_t* option = "") override;
+      void SetDrawOption(Option_t *option = "") override;
    protected:
 
       void SetMonitorFlag(Bool_t on);

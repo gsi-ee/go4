@@ -36,7 +36,7 @@ class TGo4CondArray : public TGo4Condition {
     TGo4ConditionPainter* CreatePainter() override;
 
     /** Reimplement Draw to set painted flag for all array conditions */
-    void Draw(Option_t* opt="") override;
+    void Draw(Option_t *opt="") override;
 
     /** Replace default painter of this condition by external one.
     * if different views of this condition shall exist for different TPads,
@@ -198,19 +198,19 @@ class TGo4CondArray : public TGo4Condition {
 
    /** Calculate value for histogram inside condition limits.
      * Option may specify "width" to scale channel sum with axes*/
-    Double_t GetIntegral(TH1 *histo, Option_t* opt="") override;
+    Double_t GetIntegral(TH1 *histo, Option_t *opt = "") override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetMean(TH1 *histo, Int_t axis=1) override;
+    Double_t GetMean(TH1 *histo, Int_t axis = 1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetRMS(TH1 *histo, Int_t axis=1) override;
+    Double_t GetRMS(TH1 *histo, Int_t axis = 1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetSkewness(TH1 *histo, Int_t axis=1) override;
+    Double_t GetSkewness(TH1 *histo, Int_t axis = 1) override;
 
     /** Calculate value for histogram inside condition limits. */
-    Double_t GetCurtosis(TH1 *histo, Int_t axis=1) override;
+    Double_t GetCurtosis(TH1 *histo, Int_t axis = 1) override;
 
     /** Calculate value for histogram inside condition limits. */
     Double_t GetXMax(TH1 *histo) override;
@@ -232,7 +232,7 @@ class TGo4CondArray : public TGo4Condition {
     Int_t GetMemorySize() const override;
 
     /** Standard way to store parameter in form of macro */
-    void SavePrimitive(std::ostream& fs, Option_t* = "") override;
+    void SavePrimitive(std::ostream& fs, Option_t *opt = "") override;
 
   private:
     /** The object array of conditions */

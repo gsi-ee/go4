@@ -39,7 +39,7 @@ class TGo4HistogramStatus : public TGo4ObjectStatus {
 
     virtual ~TGo4HistogramStatus();
 
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
     Int_t GetDimension() const { return fiDim; }
 

@@ -33,10 +33,10 @@ class TGo4FitterEnvelope : public TGo4Parameter {
     TGo4FitterEnvelope(const char *name, TGo4Fitter *fitter = nullptr);
     virtual ~TGo4FitterEnvelope();
 
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
     Bool_t UpdateFrom(TGo4Parameter *) override;
 
-    void Clear(Option_t* opt="") override;
+    void Clear(Option_t *opt = "") override;
 
     /** Access to the contained fitter object.
       * If change owner is kTRUE, this fitter envelope will lose

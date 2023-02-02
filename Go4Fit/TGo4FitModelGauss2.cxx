@@ -69,7 +69,7 @@ Double_t TGo4FitModelGauss2::EvalN(const Double_t *v)
    return TMath::Exp(z);
 }
 
-void TGo4FitModelGauss2::Print(Option_t* option) const
+void TGo4FitModelGauss2::Print(Option_t *option) const
 {
     TGo4FitModel::Print(option);
     std::cout << "   2-dimensional Gauss for axis " << fiNaxis1 << " & " << fiNaxis2 << std::endl;

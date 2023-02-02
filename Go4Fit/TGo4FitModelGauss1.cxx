@@ -49,7 +49,7 @@ Double_t TGo4FitModelGauss1::EvalN(const Double_t *v)
    return TMath::Exp(Par_k*(v[fiNaxis]-Par_x0)*(v[fiNaxis]-Par_x0));
 }
 
-void TGo4FitModelGauss1::Print(Option_t* option) const
+void TGo4FitModelGauss1::Print(Option_t *option) const
 {
    TGo4FitModel::Print(option);
    std::cout << "   1-dimensional Gauss for axis " << fiNaxis << std::endl;

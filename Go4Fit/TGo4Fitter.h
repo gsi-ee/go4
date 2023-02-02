@@ -115,7 +115,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Remove all data, all models and all actions
        */
-      void Clear(Option_t* option = "") override;
+      void Clear(Option_t *option = "") override;
 
       /**
        * Return number of data objects in fitter.
@@ -360,7 +360,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        *    Draw("data1,Gauss1,Gauss2") - draw data object "data1", full model and model components with names "Gauss1" and "Gauss2"
        * All objects is created via CreateDrawObject() method and stored in internal list. They will be moved to ROOT when fitter will be destroyed.
        */
-      void Draw(Option_t* option) override;
+      void Draw(Option_t *option) override;
 
       /**
        * Copy pointer on drawn object after last command to specified TObjArray.

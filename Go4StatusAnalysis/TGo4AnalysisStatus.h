@@ -85,11 +85,11 @@ class TGo4AnalysisStatus : public TGo4Status {
     Int_t GetNumberOfSteps() const;
 
     /** Gives analysis step status with provided index. */
-    TGo4AnalysisStepStatus* GetStepStatus(Int_t indx) const;
+    TGo4AnalysisStepStatus *GetStepStatus(Int_t indx) const;
 
     /** basic method to printout status information
       * on stdout; to be overridden by specific subclass */
-    void Print(Option_t* = "") const override;
+    void Print(Option_t *opt = "") const override;
 
   protected:
 

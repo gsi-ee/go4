@@ -280,7 +280,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteObjects(const char *name)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char *name, const Option_t* flags)
+Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char *name, const Option_t *flags)
 {
    Bool_t rev = kFALSE;
    TGo4LockGuard dirguard(fxDirMutex);
@@ -1694,7 +1694,7 @@ void TGo4AnalysisObjectManager::RemoveFromDir(TFolder *fold, TDirectory *dir)
    }
 }
 
-Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder *fold, Option_t* opt, const char *expression)
+Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder *fold, Option_t *opt, const char *expression)
 {
    if(!fold) return 0;
 
@@ -1814,7 +1814,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteObject(TObject *ob)
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisObjectManager::ProtectFolder(TFolder *fold, const Option_t* flags)
+Bool_t TGo4AnalysisObjectManager::ProtectFolder(TFolder *fold, const Option_t *flags)
 {
    if (!fold)
       return kFALSE;
@@ -1828,7 +1828,7 @@ Bool_t TGo4AnalysisObjectManager::ProtectFolder(TFolder *fold, const Option_t* f
    return kTRUE;
 }
 
-Bool_t TGo4AnalysisObjectManager::ProtectObject(TObject *ob, const Option_t* flags)
+Bool_t TGo4AnalysisObjectManager::ProtectObject(TObject *ob, const Option_t *flags)
 {
    if(!ob || !flags) return kFALSE;
    TString opt = flags;

@@ -382,7 +382,7 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
    return kTRUE;
 }
 
-void TGo4TaskHandler::CloseChannels(Option_t* opt)
+void TGo4TaskHandler::CloseChannels(Option_t *opt)
 {
    //TString option=opt;
    //if(option=="force")

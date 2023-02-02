@@ -26,7 +26,7 @@ class TYYYParameter : public TGo4Parameter {
       TYYYParameter(const char *name);
       virtual ~TYYYParameter();
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
       Bool_t UpdateFrom(TGo4Parameter *) override;
 
       Float_t frP1{0.};

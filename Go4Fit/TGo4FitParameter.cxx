@@ -55,7 +55,7 @@ void TGo4FitParameter::SetRange(Double_t iRangeMin, Double_t iRangeMax) {
 TGo4FitParameter::~TGo4FitParameter() {
 }
 
-void TGo4FitParameter::Print(Option_t* option) const
+void TGo4FitParameter::Print(Option_t *option) const
 {
    std::cout << "   Name: " << ((TGo4FitParameter*) this) -> GetFullName();
    std::cout << "   value=" << fdValue << "  error = " << fdError;

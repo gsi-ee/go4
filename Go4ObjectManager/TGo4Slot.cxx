@@ -575,7 +575,7 @@ void TGo4Slot::RecursiveRemove(TObject *obj)
         delete this;
 }
 
-void TGo4Slot::Print(Option_t* option) const
+void TGo4Slot::Print(Option_t *option) const
 {
    TGo4Iter iter((TGo4Slot *)this);
    while (iter.next()) {

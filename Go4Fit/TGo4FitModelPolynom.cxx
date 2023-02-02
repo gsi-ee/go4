@@ -132,7 +132,7 @@ void TGo4FitModelPolynom::AfterEval()
    }
 }
 
-void TGo4FitModelPolynom::Print(Option_t* option) const
+void TGo4FitModelPolynom::Print(Option_t *option) const
 {
    TGo4FitModel::Print(option);
 }

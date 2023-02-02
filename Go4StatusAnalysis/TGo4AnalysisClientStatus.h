@@ -44,7 +44,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
 
-      void Print(Option_t* = "") const override;
+      void Print(Option_t *opt = "") const override;
 
    private:
       void SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time);

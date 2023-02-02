@@ -559,13 +559,13 @@ class TGo4AnalysisObjectManager : public TNamed {
        * events cevx, cevy with members cmemx, cmemy
        */
       Bool_t AddDynamicHistogram(const char *name,
-            const char *histo,
-            const char *hevx, const char *hmemx,
-            const char *hevy = nullptr, const char *hmemy = nullptr,
-            const char *hevz = nullptr, const char *hmemz = nullptr,
-            const char *condition = nullptr,
-            const char *cevx = nullptr, const char *cmemx = nullptr,
-            const char *cevy = nullptr, const char *cmemy = nullptr);
+                                 const char *histo,
+                                 const char *hevx, const char *hmemx,
+                                 const char *hevy = nullptr, const char *hmemy = nullptr,
+                                 const char *hevz = nullptr, const char *hmemz = nullptr,
+                                 const char *condition = nullptr,
+                                 const char *cevx = nullptr, const char *cmemx = nullptr,
+                                 const char *cevy = nullptr, const char *cmemy = nullptr);
 
       /**
        * Add Histogram into the dynamic list which is linked to a tree.
@@ -607,7 +607,6 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t ClearObjects(const char *name);
 
-
       /**
        * Change protection properties of object name as specified.
        * Flags may contain key letters like:
@@ -616,7 +615,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectObjects(const char *name, const Option_t* flags);
+      Bool_t ProtectObjects(const char *name, const Option_t *flags);
 
       /**
        * Remove entry of that name from dynamic list of listname.
@@ -942,7 +941,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectFolder(TFolder *fold, const Option_t* flags);
+      Bool_t ProtectFolder(TFolder *fold, const Option_t *flags);
 
 
       /**
@@ -953,7 +952,7 @@ class TGo4AnalysisObjectManager : public TNamed {
        * For example flags="+C-D", "+C+D", "-D-C"
        * Properties not appearing in flags are not changed.
        */
-      Bool_t ProtectObject(TObject *ob, const Option_t* flags);
+      Bool_t ProtectObject(TObject *ob, const Option_t *flags);
 
 
       /**
