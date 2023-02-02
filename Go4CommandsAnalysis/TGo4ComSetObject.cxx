@@ -83,20 +83,21 @@ Int_t TGo4ComSetObject::ExeCom()
    fxAna = TGo4Analysis::Instance();
    fxResult = new TGo4AnalysisObjectResult(GetObjectName());
    // evaluate object type here:
-   if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus*>(fxObject)) == 0)
+   if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus *>(fxObject)) == 0) {
       ;
-   else if(ExeSetPar(dynamic_cast<TGo4Parameter*>(fxObject)) == 0)
+   } else if(ExeSetPar(dynamic_cast<TGo4Parameter *>(fxObject)) == 0) {
       ;
-   else if(ExeSetCon(dynamic_cast<TGo4Condition*>(fxObject)) == 0)
+   } else if(ExeSetCon(dynamic_cast<TGo4Condition *>(fxObject)) == 0) {
       ;
-   else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry*>(fxObject)) == 0)
+   } else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry *>(fxObject)) == 0) {
       ;
-   else if(ExeSetHis(dynamic_cast<TH1*>(fxObject)) == 0)
+   } else if(ExeSetHis(dynamic_cast<TH1 *>(fxObject)) == 0) {
       ;
-   else if(ExeSetPic(dynamic_cast<TGo4Picture*>(fxObject)) == 0)
+   } else if(ExeSetPic(dynamic_cast<TGo4Picture *>(fxObject)) == 0) {
       ;
-   else
+   } else {
       ExeSetObj(fxObject);
+   }
 
    fxAna->UpdateNamesList();
    TGo4AnalysisObjectNames *state = fxAna->GetNamesList();

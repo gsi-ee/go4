@@ -1766,7 +1766,7 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject *obj, const char *cmdname)
          if (framehisto->GetXaxis() != obj) continue;
 
          TIter next(hs->GetHists());
-         while (auto hs_h1 = (TH1*) next())
+         while (auto hs_h1 = (TH1 *) next())
             hs_h1->GetXaxis()->UnZoom();
 
          return;
@@ -2523,7 +2523,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot *padslot,
             pic->SetDrawOption(newopt.Data(), drawoptindx);
          }
 
-      TH1 *h1 = dynamic_cast<TH1*>(link->GetObject());
+      TH1 *h1 = dynamic_cast<TH1 *>(link->GetObject());
       // access axis properties of graphs
       if(!h1) {
          TGraph *gr = dynamic_cast<TGraph*> (link->GetObject());
@@ -2768,7 +2768,7 @@ TObject *TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot *padslot, TGo4Picture 
       }
 
       for (int n = 0; n <= objs->GetLast(); n++) {
-         TH1 *histo = (TH1*) objs->At(n);
+         TH1 *histo = (TH1 *) objs->At(n);
          TGo4Slot *objslot = (TGo4Slot *) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
@@ -3165,7 +3165,7 @@ TH1 *TGo4ViewPanel::GetPadHistogram(TPad *pad)
       return nullptr;
 
    if (obj->InheritsFrom(TH1::Class()))
-      return (TH1*) obj;
+      return (TH1 *) obj;
 
    TPadGuard lock(fxWCanvas ? nullptr : gPad); // replace gPad to avoid redrawing of canvas
 
@@ -3412,7 +3412,7 @@ void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
    int indx = GetSelectedObjectIndex(padslot);
    if (indx < 0) indx = 0;
 
-   TH1 *selhisto = dynamic_cast<TH1*>((indx <= objs.GetLast()) ? objs.At(indx) : nullptr);
+   TH1 *selhisto = dynamic_cast<TH1 *>((indx <= objs.GetLast()) ? objs.At(indx) : nullptr);
    if (!selhisto)
       selhisto = GetPadHistogram(pad);
 
@@ -4029,7 +4029,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
       if (drawobj->InheritsFrom(TH1::Class())) {
-         TH1 *h1 = (TH1*) drawobj;
+         TH1 *h1 = (TH1 *) drawobj;
          h1->SetBit(kCanDelete, kFALSE);
          RedrawHistogram(pad, padopt, h1, updatecontent, first_draw);
       } else if (drawobj->InheritsFrom(THStack::Class())) {
@@ -4104,7 +4104,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture *padopt, THStack *hs,
    if (scancontent) {
       TIter iter(hs->GetHists());
       bool first = true;
-      while (auto h1 = (TH1*) iter()) {
+      while (auto h1 = (TH1 *) iter()) {
          TakeFullRangeFromHisto(h1, padopt, first);
          first = false;
       }
@@ -4126,7 +4126,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture *padopt, THStack *hs,
 
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
-   TH1 *h1 = hs->GetHists() ? dynamic_cast<TH1*>(hs->GetHists()->First()) : nullptr;
+   TH1 *h1 = hs->GetHists() ? dynamic_cast<TH1 *>(hs->GetHists()->First()) : nullptr;
    if (h1) {
       hs->SetTitle(h1->GetTitle());
       framehisto->SetTitle(h1->GetTitle());
@@ -4774,7 +4774,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
       case 5:   // Auto-zoom
       case 6: { // Auto zoom, but ignore selected range
-         TH1 *padhist = dynamic_cast<TH1*>(padobj);
+         TH1 *padhist = dynamic_cast<TH1 *>(padobj);
 
          if (!padhist) break;
 
@@ -5060,7 +5060,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1 *h1, THStack *hs,
       if (hs) {
          if (ndim == 1) {
             TIter next(hs->GetHists());
-            while (auto hs_h1 = (TH1*) next()) {
+            while (auto hs_h1 = (TH1 *) next()) {
                if (padopt->GetRange(0, umin, umax)) {
                   // note: go4 range was full visible range of histogram
                   // in new ROOT automatic shift of ranges can appear,

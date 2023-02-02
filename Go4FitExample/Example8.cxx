@@ -74,7 +74,7 @@ void Example8()
    AddRangeCut(model);
 
 // create result model without optimization, using initial parameters values
-   TH1 *res = (TH1*) fitter->CreateDrawObject("GaussModel","data",kTRUE);
+   TH1 *res = (TH1 *) fitter->CreateDrawObject("GaussModel","data",kTRUE);
    delete fitter;
 
 

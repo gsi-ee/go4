@@ -29,7 +29,7 @@ TGo4ExampleClientStatus::~TGo4ExampleClientStatus()
 
 void TGo4ExampleClientStatus::SetHistoStatus(TH1 *histogram)
 {
-   GO4TRACE((12,"TGo4ClientStatus::SetHistoStatus(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ClientStatus::SetHistoStatus(TH1 *)",__LINE__, __FILE__));
    fxHistogramName = histogram->GetName();
    // here the complete internal histogram information may be stored; we leave that
    // as an exercise for the reader!

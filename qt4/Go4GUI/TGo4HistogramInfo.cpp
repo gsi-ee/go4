@@ -68,7 +68,7 @@ void TGo4HistogramInfo::linkedObjectUpdated(const char *linkname, TObject *obj)
    if (hstate)
       RefreshHistogramInfo(hstate);
    else
-      RefreshHistogramInfo(dynamic_cast<TH1*> (obj));
+      RefreshHistogramInfo(dynamic_cast<TH1 *> (obj));
 }
 
 void TGo4HistogramInfo::WorkWithHistogram(const char *itemname)

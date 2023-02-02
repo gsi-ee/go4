@@ -505,7 +505,7 @@ TFolder *TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
 
 Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char *subfolder, Bool_t replace)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1 *)",__LINE__, __FILE__));
    Bool_t rev = AddObjectToFolder(his, fxHistogramDir, subfolder, replace, kTRUE);
    // for histograms: add with unique object names within histogramdir
    // to avoid errors in TTree::Draw()
@@ -696,8 +696,8 @@ Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char *stepname)
 TH1 *TGo4AnalysisObjectManager::GetHistogram(const char *name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(const char *)",__LINE__, __FILE__));
-   TH1 *rev = dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
-   if(!rev) rev = dynamic_cast<TH1*> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
+   TH1 *rev = dynamic_cast<TH1 *> (FindObjectInFolder(fxHistogramDir, name));
+   if(!rev) rev = dynamic_cast<TH1 *> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
    return rev;
 }
 
@@ -880,7 +880,7 @@ TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject *obj, B
    if(!obj) return nullptr;
 
    if(obj->InheritsFrom(TH1::Class()))
-      return new TGo4HistogramStatus(dynamic_cast<TH1*> (obj),fullinfo);
+      return new TGo4HistogramStatus(dynamic_cast<TH1 *> (obj),fullinfo);
 
    if(obj->InheritsFrom(TGo4Parameter::Class()))
       return new TGo4ParameterStatus(dynamic_cast<TGo4Parameter*> (obj), fullinfo);
@@ -1607,7 +1607,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject *ob, TFolder *destination,
    } else if(ob->InheritsFrom(TH1::Class())) {
       if(fbSuppressLoadHistograms) return kFALSE;
       // test: do not clone histos, but change dir from asf file to memory
-      TH1 *his = dynamic_cast<TH1*>(ob);
+      TH1 *his = dynamic_cast<TH1 *>(ob);
       if(AddObjectToFolder(his,destination,nullptr,replace,kFALSE,kFALSE)) {
          his->SetDirectory(gROOT); // set directory for histos, needed for TTree::Draw
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Histogram %s was loaded.",

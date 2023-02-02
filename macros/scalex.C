@@ -27,7 +27,7 @@ Bool_t scalex(const char *name1, Double_t a1 = 1, Double_t a0= 0, Bool_t draw = 
    TObject *ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH1 *his1 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
-      his1 = (TH1*)ob1;
+      his1 = (TH1 *) ob1;
    if(!his1) {
       std::cout <<"rebin could not get histogram "<<fullname1 << std::endl;
       return kFALSE;

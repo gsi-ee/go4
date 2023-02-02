@@ -99,7 +99,7 @@ void plothistos(const char *file, Stat_t lo, Stat_t up, Bool_t ylog)
      //hname[i]="Ge7_0";
      hname[i]="Cr1Ch0"; // specify "name pattern" for histograms here
        hname[i]+=i+1;   // Cr1Ch01 to Cr1Ch06
-       his[i]= (TH1*) myfile->FindObjectAny(hname[i].Data());
+       his[i]= (TH1 *) myfile->FindObjectAny(hname[i].Data());
        if(his[i])
          {
            std::cout <<"Loaded "<<hname[i].Data() << std::endl;

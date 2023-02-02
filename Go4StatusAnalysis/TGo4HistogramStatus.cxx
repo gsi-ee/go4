@@ -27,7 +27,7 @@ TGo4HistogramStatus::TGo4HistogramStatus(TH1 *his, Bool_t allstatistics)
    : TGo4ObjectStatus(his, allstatistics)
 
 {
-   GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus(TH1 *)",__LINE__, __FILE__));
 
    if (his) {
       fiDim = his->GetDimension();

@@ -1080,7 +1080,7 @@ void QRootCanvas::executeMenu(int id)
             break;
         }
         case 101: {
-           TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
+           TH1 *h1 = dynamic_cast<TH1 *> (fMenuObj);
            if (h1) {
               QColor col = QColorDialog::getColor();
               if (col.isValid()) {
@@ -1092,7 +1092,7 @@ void QRootCanvas::executeMenu(int id)
            break;
         }
         case 102: {
-           TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
+           TH1 *h1 = dynamic_cast<TH1 *> (fMenuObj);
            if (h1) {
               QColor col = QColorDialog::getColor();
               if (col.isValid()) {

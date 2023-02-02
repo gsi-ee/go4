@@ -316,7 +316,7 @@ void TGo4RootBrowserProxy::DrawPicture(const char *picitemname, TGo4Picture *pic
       if (!obj) continue;
 
       if (!h1)
-        h1 = dynamic_cast<TH1*>(obj);
+        h1 = dynamic_cast<TH1 *>(obj);
 
       pic->GetDrawAttributes(obj, indx);
 

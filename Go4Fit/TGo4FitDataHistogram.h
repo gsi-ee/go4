@@ -50,7 +50,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Return pointer on assigned histogram.
        */
-      TH1 *GetHistogram() { return (TH1*) fxHistogram.GetObject(); }
+      TH1 *GetHistogram() { return (TH1 *) fxHistogram.GetObject(); }
 
       /**
        * Set histogram to object.
@@ -77,7 +77,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
 
       /**
        * Slot for storing pointer on TH1 object
-       * @label slot for TH1*
+       * @label slot for TH1 *
        */
       TGo4FitSlot fxHistogram;
 

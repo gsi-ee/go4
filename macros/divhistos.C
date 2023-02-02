@@ -54,7 +54,7 @@ Bool_t divhistos(const char *name1, const char *name2, Bool_t draw, Bool_t float
    TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH1 *his1 = nullptr, *his2 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
-      his1 = (TH1*)ob1;
+      his1 = (TH1 *) ob1;
    if(!his1) {
       std::cout <<"divhistos could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
@@ -62,7 +62,7 @@ Bool_t divhistos(const char *name1, const char *name2, Bool_t draw, Bool_t float
    TString fullname2 = go4->FindItem(name2);
    TObject *ob2 = go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
    if(ob2 && ob2->InheritsFrom("TH1"))
-      his2 = (TH1*)ob2;
+      his2 = (TH1 *) ob2;
    if(!his2) {
       std::cout <<"divhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
@@ -75,9 +75,9 @@ Bool_t divhistos(const char *name1, const char *name2, Bool_t draw, Bool_t float
        else if (dim==2)
          result = CloneTHI2F_2D(his1);
        else
-         result = (TH1*) his1->Clone();
+         result = (TH1 *) his1->Clone();
    } else {
-       result = (TH1*) his1->Clone();
+       result = (TH1 *) his1->Clone();
    }
 
    TString n1 = his1->GetName();

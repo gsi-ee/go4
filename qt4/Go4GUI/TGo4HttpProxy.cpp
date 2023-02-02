@@ -375,9 +375,9 @@ void TGo4HttpAccess::httpFinished()
 
       if (obj) {
          if (xtitle)
-           ((TH1*)obj)->GetXaxis()->SetTitle(xtitle);
+           ((TH1 *)obj)->GetXaxis()->SetTitle(xtitle);
          if (ytitle)
-           ((TH1*)obj)->GetYaxis()->SetTitle(ytitle);
+           ((TH1 *)obj)->GetYaxis()->SetTitle(ytitle);
          if (xlabels) {
             TObjArray* arr = TString(xlabels).Tokenize(",");
             for (int n = 0; n <= (arr ? arr->GetLast() : -1); n++)

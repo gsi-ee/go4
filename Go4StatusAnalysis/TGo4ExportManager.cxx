@@ -306,12 +306,12 @@ try{
 }// try
 catch(std::exception& ex) // treat standard library exceptions
 {
-  TGo4Log::Message(3,"standard exception %s in TGo4ExportManager::ExportASCII(TH1*)",
+  TGo4Log::Message(3,"standard exception %s in TGo4ExportManager::ExportASCII(TH1 *)",
             ex.what());
 }
 catch(...)
 {
-  TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportASCII(TH1*)!!!");
+  TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportASCII(TH1 *)!!!");
 } // catch
 
 
@@ -416,9 +416,9 @@ void TGo4ExportManager::ExportRadware(TH1 *histo)
 
       catch (std::exception &ex) // treat standard library exceptions
       {
-         TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportRadware(TH1*)", ex.what());
+         TGo4Log::Message(3, "standard exception %s in TGo4ExportManager::ExportRadware(TH1 *)", ex.what());
       } catch (...) {
-         TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportRadware(TH1*)!!!");
+         TGo4Log::Message(3, "!!! Unexpected exception in TGo4ExportManager::ExportRadware(TH1 *)!!!");
       } // catch
 
    } // if(histo->InheritsFrom...)

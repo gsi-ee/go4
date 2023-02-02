@@ -542,7 +542,7 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed *obj)
       if (proxy) {
          TObject *envelopeobj = envelope->TakeObject();
          if (envelopeobj && envelopeobj->InheritsFrom(TH1::Class()))
-            ((TH1*) envelopeobj)->SetDirectory(nullptr);
+            ((TH1 *) envelopeobj)->SetDirectory(nullptr);
          proxy->ReceiveObject(envelopeobj, envelope->GetObjFolder(), envelope->GetObjName(), kTRUE);
 
 

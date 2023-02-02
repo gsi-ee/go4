@@ -61,7 +61,7 @@ void go4RegisterAll()
       TObject *obj = nullptr;
       while ((obj = iter()) != nullptr) {
          if (obj->InheritsFrom(TH1::Class()))
-           go4->AddHistogram((TH1*)obj);
+           go4->AddHistogram((TH1 *)obj);
       }
    }
 }

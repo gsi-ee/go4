@@ -42,7 +42,7 @@ if(topfold)
         }
       if(myobject->InheritsFrom("TH1"))
         {
-          TH1 *histo= (TH1*) myobject;
+          TH1 *histo = (TH1 *) myobject;
           std::cout <<"Found histogram "<< histo->GetName() << std::endl;
           Int_t maxbinX=histo->GetNbinsX();
           Int_t maxbinY=histo->GetNbinsY();

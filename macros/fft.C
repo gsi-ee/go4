@@ -31,7 +31,7 @@ Bool_t fft(const char *name1, Option_t*  opt = "R2C M", Bool_t draw=kTRUE)
       return kFALSE;
    }
 
-   TH1 *his1=(TH1*) ob1;
+   TH1 *his1=(TH1 *) ob1;
    TString n1 = his1->GetName();
    TString t1 = his1->GetTitle();
    newname.Form("_fft_%s",opt);

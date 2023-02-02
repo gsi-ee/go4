@@ -24,7 +24,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
    TObject *ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
    TH1 *his1 = nullptr, *his2 = nullptr;
    if(ob1 && ob1->InheritsFrom("TH1"))
-      his1 = (TH1*) ob1;
+      his1 = (TH1 *) ob1;
    if(!his1) {
       std::cout <<"addhistos could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
@@ -33,7 +33,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
    TString fullname2 = go4->FindItem(name2);
    TObject *ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
    if(ob2 && ob2->InheritsFrom("TH1"))
-      his2 = (TH1*)ob2;
+      his2 = (TH1 *) ob2;
    if(!his2) {
       std::cout <<"addhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
@@ -43,7 +43,7 @@ Bool_t addhistos(const char *name1, const char *name2, Double_t factor, Bool_t d
        std::cout <<"addhistos could not add histograms of different dimensions "<< std::endl;
        return kFALSE;
    }
-   TH1 *result = (TH1*) his1->Clone();
+   TH1 *result = (TH1 *) his1->Clone();
    TString n1 = his1->GetName();
    TString n2 = his2->GetName();
    TString t1 = his1->GetTitle();

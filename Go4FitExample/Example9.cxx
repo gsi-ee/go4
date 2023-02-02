@@ -78,19 +78,19 @@ void Example9()
 
 
    // create result model without optimization, using initial parameters values
-   TH1 *res1 = (TH1*) fitter->CreateDrawObject("Large", "data", kTRUE);
+   TH1 *res1 = (TH1 *) fitter->CreateDrawObject("Large", "data", kTRUE);
 
    histo = new TH2D("histo2","dummy histogram",10,0.,10.,10,0.,10.);
    fitter->SetObject("data", histo, kTRUE);
 
-   TH1 *res2 = (TH1*) fitter->CreateDrawObject("Small", "data", kTRUE);
+   TH1 *res2 = (TH1 *) fitter->CreateDrawObject("Small", "data", kTRUE);
 
    model1->SetIntegrationsProperty(5);
    model2->SetIntegrationsProperty(5);
    model3->SetIntegrationsProperty(5);
    model4->SetIntegrationsProperty(5);
 
-   TH1 *res3 = (TH1*) fitter->CreateDrawObject("SmallI", "data", kTRUE);
+   TH1 *res3 = (TH1 *) fitter->CreateDrawObject("SmallI", "data", kTRUE);
 
    delete fitter;
 

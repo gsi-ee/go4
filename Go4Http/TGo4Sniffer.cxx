@@ -613,7 +613,7 @@ Bool_t TGo4Sniffer::AddAnalysisObject(TObject *obj)
       return kFALSE;
    }
 
-   Bool_t res = ana->AddHistogram(dynamic_cast<TH1*>(obj));
+   Bool_t res = ana->AddHistogram(dynamic_cast<TH1 *>(obj));
    if (!res) res = ana->AddAnalysisCondition(dynamic_cast<TGo4Condition*>(obj));
    if (!res) res = ana->AddDynamicEntry(dynamic_cast<TGo4DynamicEntry*>(obj));
 
@@ -652,7 +652,7 @@ TObject *TGo4Sniffer::CreateItemStatus(const char *itemname)
 {
    TObject *obj = FindTObjectInHierarchy(itemname);
 
-   TH1 *h1 = dynamic_cast<TH1*> (obj);
+   TH1 *h1 = dynamic_cast<TH1 *> (obj);
 
    // printf("CreateItemStatus %s h1 = %p\n", itemname, h1);
 

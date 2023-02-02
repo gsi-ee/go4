@@ -651,7 +651,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    TH1 *histo = nullptr;
 
    if (hslot && !IsItemRemote(hslot)) {
-       histo = dynamic_cast<TH1*> (GetBrowserObject(hname, 1));
+       histo = dynamic_cast<TH1 *> (GetBrowserObject(hname, 1));
        if (histo && (drawdim != histo->GetDimension())) {
           histo = nullptr;
           histoname = "";
@@ -689,7 +689,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char *treename,
    SelectedTree->Draw(varexp, cutcond, "goff", 10000000, 0);
 
    if (!histo) { // when new histogram created by Tree::Draw
-      histo = dynamic_cast<TH1*> (dummydir.FindObject(hobjectname));
+      histo = dynamic_cast<TH1 *> (dummydir.FindObject(hobjectname));
       if(histo) {
          histo->SetDirectory(nullptr);
          createdhistoname = SaveToMemory(nullptr, histo, kTRUE);
@@ -1170,7 +1170,7 @@ Bool_t TGo4BrowserProxy::SaveItemToFile(const char *itemname, const char *filena
    bool res = dir->WriteTObject(obj, obj->GetName(), "Overwrite") > 0;
 
    if (obj->InheritsFrom(TH1::Class()))
-     ((TH1*) obj)->SetDirectory(nullptr);
+     ((TH1 *) obj)->SetDirectory(nullptr);
 
    delete f;
 
@@ -1566,7 +1566,7 @@ void TGo4BrowserProxy::ClearMemoryItem(const char *itemname)
    if (!ob) return;
 
    if(ob->InheritsFrom(TH1::Class())) {
-      TH1 *his = dynamic_cast<TH1*>(ob);
+      TH1 *his = dynamic_cast<TH1 *>(ob);
       if (his) his->Reset(); // histogram has no Clear implementation!
    } else
    if(ob->InheritsFrom(TGo4DynamicEntry::Class())) {
@@ -2096,8 +2096,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
       profile2->Copy(*profile);
       return kTRUE;
    } else if (obj->InheritsFrom(TH1::Class())) {
-      TH1 *histo = dynamic_cast<TH1*> (obj);
-      TH1 *histo2 = dynamic_cast<TH1*> (newobj);
+      TH1 *histo = dynamic_cast<TH1 *> (obj);
+      TH1 *histo2 = dynamic_cast<TH1 *> (newobj);
       if (!histo || !histo2) return kFALSE;
 
       if (dynamic_cast<TProfile*>(obj) || dynamic_cast<TProfile2D*>(obj)) return kFALSE;
@@ -2121,7 +2121,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
       if ((rebinx>1) || (rebiny>1)) {
          if (!hasrebinx || !hasrebiny) return kFALSE;
 
-         TH1 *clon = (TH1*) histo2->Clone("____dummyhisto____");
+         TH1 *clon = (TH1 *) histo2->Clone("____dummyhisto____");
          if (!clon) return kFALSE;
          clon->SetDirectory(nullptr);
          Bool_t rebinres = kFALSE;
@@ -2286,8 +2286,8 @@ void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, T
 void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph *gr, Bool_t& timedisplay, TString &format)
 {
    if(!gr) return;
-   TH1*h1=gr->GetHistogram();
-   TAxis* xax=h1->GetXaxis();
+   TH1 *h1 = gr->GetHistogram();
+   TAxis* xax = h1->GetXaxis();
    xax->SetTimeDisplay(timedisplay);
    xax->SetTimeFormat(format.Data());
 }

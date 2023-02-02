@@ -50,7 +50,7 @@ Bool_t TGo4DrawCloneProxy::AssignClone(TObject *obj, TGo4Slot *slot)
 
    fClone = obj->Clone();
    if (fClone->InheritsFrom(TH1::Class()))
-     ((TH1*) fClone)->SetDirectory(nullptr);
+     ((TH1 *) fClone)->SetDirectory(nullptr);
    TGo4ObjectManager *om = slot->GetOM();
    if (om && fClone)
      om->RegisterObjectWith(fClone, slot);
@@ -191,7 +191,7 @@ void TGo4DrawCloneProxy::PerformRebin()
       return;
    }
 
-   TH1 *h1 = dynamic_cast<TH1*> (fClone);
+   TH1 *h1 = dynamic_cast<TH1 *> (fClone);
    if (h1) h1->Rebin(rebinx);
 }
 

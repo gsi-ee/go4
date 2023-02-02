@@ -67,7 +67,7 @@ TGo4ObjectProxy::TGo4ObjectProxy(TObject *obj, Bool_t owner) :
    fOwner(owner)
 {
    if (fObject && fOwner && fObject->InheritsFrom(TH1::Class()))
-     ((TH1*) fObject)->SetDirectory(nullptr);
+     ((TH1 *) fObject)->SetDirectory(nullptr);
 }
 
 TGo4ObjectProxy::~TGo4ObjectProxy()
@@ -116,7 +116,7 @@ void TGo4ObjectProxy::WriteData(TGo4Slot *slot, TDirectory *dir, Bool_t onlyobjs
    dir->cd();
 
    if (fObject->InheritsFrom(TH1::Class())) {
-      TH1 *h1 = (TH1*) fObject;
+      TH1 *h1 = (TH1 *) fObject;
       TDirectory *olddir = h1->GetDirectory();
       h1->Write(objname);
       h1->SetDirectory(olddir);
@@ -170,7 +170,7 @@ Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner)
    fOwner = owner;
 
    if (fObject && fOwner && fObject->InheritsFrom(TH1::Class()))
-     ((TH1*) fObject)->SetDirectory(nullptr);
+     ((TH1 *) fObject)->SetDirectory(nullptr);
 
    Initialize(slot);
 

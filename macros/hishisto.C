@@ -32,7 +32,7 @@ Bool_t hishisto(const char *name1, Int_t bins, Bool_t draw)
       return kFALSE;
    }
 
-  TH1 *his1 = (TH1*)ob1;
+  TH1 *his1 = (TH1 *) ob1;
 
 #else
   // Get histograms from file
@@ -43,7 +43,7 @@ Bool_t hishisto(const char *file, const char *name1, Int_t bins, Bool_t draw)
      std::cout <<"corrhistos could not open file " << file << std::endl;
      return kFALSE;
   }
-  TH1 *his1 = dynamic_cast<TH1*> (f->Get(name1));
+  TH1 *his1 = dynamic_cast<TH1 *> (f->Get(name1));
   if(!his1) {
     std::cout <<"corrhistos could not get histogram "<<name1 << " in file " << file << std::endl;
     return kFALSE;

@@ -163,28 +163,28 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** Calculate value for histogram inside condition limits.
       * Option may specify "width" to scale channel sum with axes*/
-    virtual Double_t GetIntegral(TH1*, Option_t* = "") { return 0.; }
+    virtual Double_t GetIntegral(TH1 *, Option_t * = "") { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetMean(TH1*, Int_t=1)  { return 0.; }
+    virtual Double_t GetMean(TH1 *, Int_t = 1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetRMS(TH1*, Int_t=1)  { return 0.; }
+    virtual Double_t GetRMS(TH1 *, Int_t = 1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetSkewness(TH1*, Int_t=1)  { return 0.; }
+    virtual Double_t GetSkewness(TH1 *, Int_t = 1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCurtosis(TH1*, Int_t=1)  { return 0.; }
+    virtual Double_t GetCurtosis(TH1 *, Int_t = 1)  { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetXMax(TH1*) { return 0.; }
+    virtual Double_t GetXMax(TH1 *) { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetYMax(TH1*) { return 0.; }
+    virtual Double_t GetYMax(TH1 *) { return 0.; }
 
     /** Calculate value for histogram inside condition limits. */
-    virtual Double_t GetCMax(TH1*) { return 0.; }
+    virtual Double_t GetCMax(TH1 *) { return 0.; }
 
     /** To be overwritten for condition array. By default, it returns this. */
     virtual const TGo4Condition *GetActiveCondition() const { return this; }

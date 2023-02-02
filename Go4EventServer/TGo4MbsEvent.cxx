@@ -315,7 +315,7 @@ s_bufhe *TGo4MbsEvent::GetMbsBufferHeader()
    return src ? src->GetBufferHeader() : nullptr;
 }
 
-TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t datalength, Bool_t copydata)
+TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t *source, Int_t datalength, Bool_t copydata)
 {
    Int_t fieldlength = 0;
    TGo4MbsSubEvent* subtarget = nullptr; // the subevent in use
@@ -361,7 +361,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
    }
    ////     fill header:
    subtarget->SetDlen(datalength);
-   void* data = (void*) source;
+   void *data = (void *) source;
    if(copydata) {
       subtarget->fbIsDataOwner = kTRUE;
       subtarget->ReAllocate(fieldlength); // reallocate field if necessary
