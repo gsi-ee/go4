@@ -39,7 +39,7 @@ Int_t TGo4MainRunnable::Run(void *)
    TGo4ExampleClient* cli= dynamic_cast<TGo4ExampleClient*> (fxManager);
    if(!cli)
      throw TGo4LogicException();
-   TGo4Command* com = cli->NextCommand();
+   TGo4Command *com = cli->NextCommand();
    if (com) {
       TGo4LockGuard mainlock;                      // protect command invocation!
       TGo4CommandInvoker::Instance()->Invoke(com); // execute command by invoker

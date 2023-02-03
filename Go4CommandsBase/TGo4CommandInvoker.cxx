@@ -23,7 +23,7 @@
 
 class TGo4Pair : public TObject {
   public:
-     TGo4Pair(const char *name, TGo4CommandReceiver* p) :
+     TGo4Pair(const char *name, TGo4CommandReceiver *p) :
         TObject(),
         fxName(name),
         fxReceiver(p)
@@ -32,11 +32,11 @@ class TGo4Pair : public TObject {
 
      const char *GetName() const override { return fxName.Data(); }
 
-     TGo4CommandReceiver* GetReceiver() const { return fxReceiver; }
+     TGo4CommandReceiver *GetReceiver() const { return fxReceiver; }
 
   private:
      TString fxName;         //!
-     TGo4CommandReceiver* fxReceiver{nullptr}; //!
+     TGo4CommandReceiver *fxReceiver{nullptr}; //!
 };
 
 TMutex *TGo4CommandInvoker::fxMutex = nullptr;
@@ -66,13 +66,12 @@ TGo4CommandInvoker::~TGo4CommandInvoker()
    delete fxArray;
 }
 
-
-TGo4CommandInvoker * TGo4CommandInvoker::Instance()
+TGo4CommandInvoker *TGo4CommandInvoker::Instance()
 {
-    GO4TRACE((10,"TGo4CommandInvoker * TGo4CommandInvoker::Instance()", __LINE__, __FILE__));
-    if (!fxInstance)
+   GO4TRACE((10,"TGo4CommandInvoker *TGo4CommandInvoker::Instance()", __LINE__, __FILE__));
+   if (!fxInstance)
       fxInstance = new TGo4CommandInvoker();
-    return fxInstance;
+   return fxInstance;
 }
 
 void TGo4CommandInvoker::Register(const char *name, TGo4CommandReceiver *p)
@@ -105,10 +104,10 @@ void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)
 
 TGo4CommandReceiver *TGo4CommandInvoker::Lookup(const char *name)
 {
-  GO4TRACE((10,"static TGo4CommandReceiver * TGo4CommandInvoker::Lookup(const char *name)", __LINE__, __FILE__));
-  TGo4Pair* pair = (TGo4Pair*) fxArray->FindObject(name);
+   GO4TRACE((10,"static TGo4CommandReceiver *TGo4CommandInvoker::Lookup(const char *name)", __LINE__, __FILE__));
+   TGo4Pair* pair = (TGo4Pair*) fxArray->FindObject(name);
 
-  return pair ? pair->GetReceiver() : nullptr;
+   return pair ? pair->GetReceiver() : nullptr;
 }
 
 void TGo4CommandInvoker::Invoke(TGo4Command *com)
@@ -133,7 +132,7 @@ void TGo4CommandInvoker::Invoke()
    if(!fxCommand) return;
    TGo4LockGuard lockguard(fxMutex);
 
-   TGo4CommandReceiver* rcv = Lookup(fxCommand->GetReceiverName());
+   TGo4CommandReceiver *rcv = Lookup(fxCommand->GetReceiverName());
 
    if(rcv) {
       fxCommand->SetReceiver(rcv);
@@ -143,16 +142,16 @@ void TGo4CommandInvoker::Invoke()
    fxCommand = nullptr;
 }
 
-void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList* list)
+void TGo4CommandInvoker::SetCommandList(TGo4CommandProtoList *list)
 {
    delete fxCommandList;
    fxCommandList = list;
 }
 
-Int_t TGo4CommandInvoker::ExecuteFromRemote(TGo4RemoteCommand* remcom)
+Int_t TGo4CommandInvoker::ExecuteFromRemote(TGo4RemoteCommand *remcom)
 {
    if(!fxCommandList) return -1;
-   TGo4Command* realcommand = fxCommandList->MakeCommand(remcom);
+   TGo4Command *realcommand = fxCommandList->MakeCommand(remcom);
    realcommand->SetTaskName(remcom->GetTaskName());
    realcommand->SetMode(remcom->GetMode());
    Invoke(realcommand);

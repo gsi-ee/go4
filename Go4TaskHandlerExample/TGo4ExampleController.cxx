@@ -68,10 +68,10 @@ void TGo4ExampleController::DisplayLog(TGo4Status* status)
    }
 }
 
-TGo4Command* TGo4ExampleController::GetCommand()
+TGo4Command *TGo4ExampleController::GetCommand()
 {
    GO4TRACE((12,"TGo4ExampleController::GetCommand()",__LINE__, __FILE__));
    // this function simulates a user input of a command, e.g. using a cli or a gui
-   TGo4Command* com = new TGo4ComAction1();
+   TGo4Command *com = new TGo4ComAction1();
    return com;
 }

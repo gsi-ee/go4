@@ -38,11 +38,11 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
    public:
 
-      static TGo4CommandInvoker * Instance();
+      static TGo4CommandInvoker *Instance();
 
       static void Register(const char *name, TGo4CommandReceiver *p);
 
-      static void UnRegister(TGo4CommandReceiver* p);
+      static void UnRegister(TGo4CommandReceiver *p);
 
       virtual void Invoke(TGo4Command *com);
 
@@ -52,11 +52,11 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       /** Application may exchange standard command list by
         * own subclass with specialized commands, e.g. for analysis control */
-      static void SetCommandList(TGo4CommandProtoList* list);
+      static void SetCommandList(TGo4CommandProtoList *list);
 
       /** Create real command from remote command and invoke it.
         * Used when remote command acts on this invoker as receiver */
-      Int_t ExecuteFromRemote(TGo4RemoteCommand* remcom);
+      Int_t ExecuteFromRemote(TGo4RemoteCommand *remcom);
 
    protected:
 
@@ -71,7 +71,7 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       /** For remote commands, invoker will create the requested
        * slave commands from own command list */
-      static TGo4CommandProtoList* fxCommandList;  //!
+      static TGo4CommandProtoList *fxCommandList;  //!
 
       static TGo4CommandInvoker *fxInstance;  //!
       static TObjArray *fxArray;              //!

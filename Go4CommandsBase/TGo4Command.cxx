@@ -113,6 +113,7 @@ void TGo4Command::SetDescription(const char *txt)
    GO4TRACE((10,"void TGo4Command::SetDescription(const char*)", __LINE__, __FILE__));
    fxDescription = txt;
 }
+
 const char *TGo4Command::What() const
 {
    GO4TRACE((10,"const char *TGo4Command::What()", __LINE__, __FILE__));
@@ -158,9 +159,9 @@ Bool_t TGo4Command::IsLocal() const
 }
 
 
-void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)
+void TGo4Command::SetReceiver(TGo4CommandReceiver *rec)
 {
-   GO4TRACE((12,"void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)", __LINE__, __FILE__));
+   GO4TRACE((12,"void TGo4Command::SetReceiver(TGo4CommandReceiver *)", __LINE__, __FILE__));
    fxReceiverBase = rec;
 }
 
@@ -172,7 +173,7 @@ const char *TGo4Command::GetModeDescription(Go4CommandMode_t mode)
 }
 
 
-void TGo4Command::Set(TGo4RemoteCommand*)
+void TGo4Command::Set(TGo4RemoteCommand *)
 {
 // please override this function!
 

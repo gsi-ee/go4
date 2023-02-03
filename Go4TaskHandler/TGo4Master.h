@@ -37,7 +37,7 @@ class TGo4Master :  public TGo4TaskOwner {
 
     /** send given command to the current slave task. Command object is deleted after
       * this call internally! */
-    Bool_t SubmitCommand(TGo4Command* com);
+    Bool_t SubmitCommand(TGo4Command *com);
 
     /** factory method for command list; overridden by implementation */
     virtual TGo4TaskHandlerCommandList*  CreateCommandList();

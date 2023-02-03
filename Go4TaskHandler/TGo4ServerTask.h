@@ -71,7 +71,7 @@ class TGo4ServerTask : public TGo4Task {
        *  command queues of all existing connections. Command is labeled
        *  with name of ordering task, so data may be returned to
        *  command sender only.*/
-      TGo4Command* NextCommand() override;
+      TGo4Command *NextCommand() override;
 
 
       /** Send status object via status channel to the master. Master name

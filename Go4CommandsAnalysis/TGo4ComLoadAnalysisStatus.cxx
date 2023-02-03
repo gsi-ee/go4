@@ -39,7 +39,7 @@ TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() :
    SetProtection(kGo4ComModeController);
 }
 
-void TGo4ComLoadAnalysisStatus::Set(TGo4RemoteCommand* remcom)
+void TGo4ComLoadAnalysisStatus::Set(TGo4RemoteCommand *remcom)
 {
    if(remcom)
       SetFileName(remcom->GetString(0));

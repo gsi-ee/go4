@@ -203,7 +203,7 @@ TObject * TGo4Task::NextObject(Bool_t wait)
    return obj;
 }
 
-void TGo4Task::AddUserCommand(TGo4Command* com)
+void TGo4Task::AddUserCommand(TGo4Command *com)
 {
    fxCommandPrototype->AddCommand(com);
 }
@@ -322,7 +322,7 @@ void TGo4Task::UpdateStatusBuffer()
    delete state; // avoid memory leak!!
 }
 
-TGo4Command* TGo4Task::NextCommand()
+TGo4Command *TGo4Task::NextCommand()
 {
    if(IsMaster()) return nullptr;
    TGo4BufferQueue *comq = GetCommandQueue();
@@ -338,7 +338,7 @@ TGo4Command* TGo4Task::NextCommand()
       {
          if(obj->InheritsFrom(TGo4Command::Class()))
          {
-            com = dynamic_cast<TGo4Command*>(obj);
+            com = dynamic_cast<TGo4Command *>(obj);
             com->SetTaskName("current");
             com->SetMode(kGo4ComModeController);
          }
@@ -473,7 +473,7 @@ Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char *rece
    return kFALSE;
 }
 
-Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
+Bool_t TGo4Task::SubmitCommand(TGo4Command *com)
 {
    if (!com) return kFALSE;
 
@@ -499,13 +499,13 @@ TGo4TaskHandlerCommandList* TGo4Task::CreateCommandList()
    return new TGo4TaskHandlerCommandList("Go4ServerTaskDefaultCommandList");
 }
 
-TGo4Command* TGo4Task::MakeCommand(const char *name)
+TGo4Command *TGo4Task::MakeCommand(const char *name)
 {
    TGo4LockGuard mainlock;
    return fxCommandPrototype->MakeCommand(name);
 }
 
-Bool_t TGo4Task::SubmitLocalCommand(TGo4Command* com)
+Bool_t TGo4Task::SubmitLocalCommand(TGo4Command *com)
 {
    if(!com) return kFALSE;
    com->SetMode(kGo4ComModeAdministrator); // everything is allowed here...
@@ -525,7 +525,7 @@ void TGo4Task::WakeCommandQueue(Int_t id)
    if(th && th->IsAborting()) return;
 
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
-   TGo4Command* com = new TGo4Command("dummy","this wakes up queue",id);
+   TGo4Command *com = new TGo4Command("dummy","this wakes up queue",id);
    SubmitCommand(com); // wake up main command queue (to taskhandler)
    com = new TGo4Command("dummy","this wakes up queue",id);
    SubmitLocalCommand(com); // wake up local command queue

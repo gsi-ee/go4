@@ -53,7 +53,7 @@ TGo4ComSetObject::~TGo4ComSetObject()
    delete fxResult; //
 }
 
-void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
+void TGo4ComSetObject::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);

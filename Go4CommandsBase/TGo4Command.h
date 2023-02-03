@@ -70,17 +70,17 @@ class TGo4Command  : public TNamed {
       const char *What() const;
       void SetDescription(const char*);
 
-      virtual void SetReceiver(TGo4CommandReceiver * rec);
+      virtual void SetReceiver(TGo4CommandReceiver *rec);
 
-      Go4CommandMode_t GetProtection(){return fiProtection;}
-      Go4CommandMode_t GetMode(){return fiMode;}
+      Go4CommandMode_t GetProtection() const { return fiProtection; }
+      Go4CommandMode_t GetMode() const { return fiMode; }
 
       /** Set internals of this command from specification of external
         * remote command (command container). Must be overloaded
         * for each specific command! */
-       virtual void Set(TGo4RemoteCommand* remcon);
+       virtual void Set(TGo4RemoteCommand *remcon);
 
-       void SetMode(Go4CommandMode_t m){fiMode=m;}
+       void SetMode(Go4CommandMode_t m) { fiMode = m; }
 
        /** text description of current execution mode*/
        static const char *GetModeDescription(Go4CommandMode_t mode);

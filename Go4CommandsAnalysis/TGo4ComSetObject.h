@@ -46,7 +46,7 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    void Set(TGo4RemoteCommand* remcon) override;
+    void Set(TGo4RemoteCommand *remcon) override;
 
     void SetObject(TObject *ob) { fxObject = ob; }
   private:

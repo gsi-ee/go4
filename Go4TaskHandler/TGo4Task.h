@@ -109,7 +109,7 @@ public:
      * Command receiver name of user command must match "Analysis", "AnalysisClient",
      * or the name of the user analysis to be executed on the remote side.
      */
-    void AddUserCommand(TGo4Command* com);
+    void AddUserCommand(TGo4Command *com);
 
     /**
      * Add a user command list to the existing command list. This can be done on the fly.
@@ -134,7 +134,7 @@ public:
     TObject * NextObject(Bool_t wait = kTRUE);
 
     /** Delivers next command from command queue. */
-    virtual TGo4Command* NextCommand();
+    virtual TGo4Command *NextCommand();
 
     /** Send object via data channel to the master. Master name
      * may be specified, if more than one master is connected.
@@ -206,17 +206,17 @@ public:
 
     /** Send given command to the current client task. Command object is deleted after
       * this call internally! */
-    Bool_t SubmitLocalCommand(TGo4Command* com);
+    Bool_t SubmitLocalCommand(TGo4Command *com);
 
     /** send given command to the current client task. Command object is deleted after
       * this call internally! */
-    Bool_t SubmitCommand(TGo4Command* com);
+    Bool_t SubmitCommand(TGo4Command *com);
 
     /**
      * Method using internal command prototype list to produce a clone
      * of the specified command
      */
-    TGo4Command* MakeCommand(const char *name);
+    TGo4Command *MakeCommand(const char *name);
 
     /**
      * Put dummy object into command queue

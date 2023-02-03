@@ -38,7 +38,7 @@ TGo4ComSetProtections::TGo4ComSetProtections() :
    SetProtection(kGo4ComModeController);
 }
 
-void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)
+void TGo4ComSetProtections::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);

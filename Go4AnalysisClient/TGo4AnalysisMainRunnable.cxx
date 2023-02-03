@@ -69,8 +69,8 @@ Int_t TGo4AnalysisMainRunnable::Run(void *)
    //
    try
    {
-      TGo4Command* com = fxAnalysisClient->NextCommand();
-      //if(com== (TGo4Command*) -1) return 0; // for command memleak debug: no execute, no mainloop
+      TGo4Command *com = fxAnalysisClient->NextCommand();
+      //if(com== (TGo4Command *) -1) return 0; // for command memleak debug: no execute, no mainloop
       if(com)
       {
          if( com->GetCommandID() != TGo4Task::Get_fgiTERMID() )

@@ -31,7 +31,7 @@ class TGo4ExampleController {
 
     TGo4ExampleController();
 
-    TGo4Command* GetCommand();
+    TGo4Command *GetCommand();
 
     void DisplayLog(TGo4Status*);
 

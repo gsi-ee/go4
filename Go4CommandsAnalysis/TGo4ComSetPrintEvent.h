@@ -35,7 +35,7 @@ class TGo4ComSetPrintEvent : public TGo4AnalysisObjectCommand {
       /** Set internals of this command from specification of external
      * remote command (command container). Must be overloaded
      * for each specific command! */
-    void Set(TGo4RemoteCommand* remcon) override;
+    void Set(TGo4RemoteCommand *remcon) override;
 
     void SetEventNum(Int_t i) { fxPrintPar.fiNum = i; }
     void SetSubId(Int_t i) { fxPrintPar.fiSid = i; }

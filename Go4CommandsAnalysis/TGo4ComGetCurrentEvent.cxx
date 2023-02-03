@@ -111,7 +111,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
    return -1;
 }
 
-void TGo4ComGetCurrentEvent::Set(TGo4RemoteCommand* remcom)
+void TGo4ComGetCurrentEvent::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    TGo4AnalysisObjectCommand::Set(remcom);

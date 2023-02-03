@@ -40,7 +40,7 @@ class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      void Set(TGo4RemoteCommand* remcon) override;
+      void Set(TGo4RemoteCommand *remcon) override;
 
       Bool_t IsOutputEvent() const { return fbOutputEvent; }
 

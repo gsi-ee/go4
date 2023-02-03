@@ -15,15 +15,12 @@
 
 #include "TGo4Log.h"
 
-TGo4CommandReceiver::~TGo4CommandReceiver()
-{
-  GO4TRACE((12,"TGo4CommandReceiver::~TGo4CommandReceiver()", __LINE__, __FILE__));
-}
-
 TGo4CommandReceiver::TGo4CommandReceiver()
 {
   GO4TRACE((12,"TGo4CommandReceiver::TGo4CommandReceiver()", __LINE__, __FILE__));
 }
 
-
-
+TGo4CommandReceiver::~TGo4CommandReceiver()
+{
+  GO4TRACE((12,"TGo4CommandReceiver::~TGo4CommandReceiver()", __LINE__, __FILE__));
+}

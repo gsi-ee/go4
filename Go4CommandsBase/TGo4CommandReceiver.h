@@ -22,7 +22,6 @@ class TGo4CommandReceiver {
       TGo4CommandReceiver();
 
       virtual ~TGo4CommandReceiver();
-
 };
 
 #endif //TGO4COMMANDRECEIVER_H

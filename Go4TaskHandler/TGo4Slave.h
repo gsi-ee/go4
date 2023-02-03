@@ -95,7 +95,7 @@ class TGo4Slave : public TGo4TaskOwner {
       Bool_t MainIsRunning() const { return fbMainIsRunning; }
 
       /** Delivers next command from command queue. */
-      TGo4Command* NextCommand();
+      TGo4Command *NextCommand();
 
       /** Send object via data channel to the server. */
       void SendObject(TObject * obj, const char *receiver = nullptr);

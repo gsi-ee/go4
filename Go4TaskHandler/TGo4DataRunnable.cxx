@@ -52,7 +52,7 @@ Int_t TGo4DataRunnable::Run(void *ptr)
             if(val >= 0 && comvalue == kComQuit)
                {
                   GetThread()->Stop();
-                  TGo4Command* qcommand = new TGo4ComDisconnectSlave;
+                  TGo4Command *qcommand = new TGo4ComDisconnectSlave;
                   TGo4Task* cli = dynamic_cast<TGo4Task*>(fxManager);
                   if(cli) cli->SubmitLocalCommand(qcommand);
                   return 0;

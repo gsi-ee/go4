@@ -29,7 +29,7 @@ TGo4ComAutosave::TGo4ComAutosave() :
 }
 
 
-void TGo4ComAutosave::Set(TGo4RemoteCommand* remcom)
+void TGo4ComAutosave::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    SetAutoSaveCompression(remcom->GetValue(0));

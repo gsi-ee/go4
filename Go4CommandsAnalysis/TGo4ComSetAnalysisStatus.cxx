@@ -45,7 +45,7 @@ TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus()
    delete fxAnalysisStatus;
 }
 
-void TGo4ComSetAnalysisStatus::Set(TGo4RemoteCommand* remcom)
+void TGo4ComSetAnalysisStatus::Set(TGo4RemoteCommand *remcom)
 {
    if(!remcom) return;
    TGo4AnalysisStatus *stat = dynamic_cast<TGo4AnalysisStatus *>(remcom->GetAggregate());

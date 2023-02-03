@@ -40,7 +40,7 @@ Int_t TGo4LocalCommandRunnable::Run(void *ptr)
    TGo4ObjectQueue* fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : nullptr;
 
    if(fxQueue) {
-      TGo4Command* com = dynamic_cast<TGo4Command*> (fxQueue->WaitObject());
+      TGo4Command *com = dynamic_cast<TGo4Command *> (fxQueue->WaitObject());
       if(com) {
          if( com->GetCommandID() != TGo4Task::Get_fgiTERMID() ) {
             // normal operation if we have not a terminate dummy command

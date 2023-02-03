@@ -466,7 +466,7 @@ TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char *name)
    return queue;
 }
 
-TGo4Command* TGo4ServerTask::NextCommand()
+TGo4Command *TGo4ServerTask::NextCommand()
 {
    if (IsMaster())
       return nullptr;

@@ -37,19 +37,19 @@ class TGo4CommandProtoList : public TNamed {
     virtual void ShowCommands();
 
     /** Creates a Clone of the specified command by name */
-    TGo4Command* MakeCommand(const char *name);
+    TGo4Command *MakeCommand(const char *name);
 
     /** Creates command by specifications in remote command  */
-    TGo4Command* MakeCommand(TGo4RemoteCommand* remcon);
+    TGo4Command *MakeCommand(TGo4RemoteCommand *remcon);
 
     /** removes command from list */
     void RemoveCommand(const char *name);
 
     /** Adds a Command to the list */
-    void AddCommand(TGo4Command* com);
+    void AddCommand(TGo4Command *com);
 
     /** Adds second command list to this */
-    TGo4CommandProtoList& operator+=(const TGo4CommandProtoList& two);
+    TGo4CommandProtoList &operator+=(const TGo4CommandProtoList &two);
 
   private:
     TGo4CommandProtoList();

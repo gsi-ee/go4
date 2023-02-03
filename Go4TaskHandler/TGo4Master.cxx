@@ -69,7 +69,7 @@ Bool_t TGo4Master::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
    return GetTask()->SubmitEmergencyCommand(val);
 }
 
-Bool_t TGo4Master::SubmitCommand(TGo4Command* com)
+Bool_t TGo4Master::SubmitCommand(TGo4Command *com)
 {
    if (!GetTask()) return kFALSE;
    return GetTask()->SubmitCommand(com);

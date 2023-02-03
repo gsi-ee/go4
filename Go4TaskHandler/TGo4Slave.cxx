@@ -107,7 +107,7 @@ void TGo4Slave::UpdateStatus(TGo4TaskStatus *state)
       GetTask()->UpdateStatus(state);
 }
 
-TGo4Command* TGo4Slave::NextCommand()
+TGo4Command *TGo4Slave::NextCommand()
 {
    return GetTask() ? GetTask()->NextCommand() : nullptr;
 }

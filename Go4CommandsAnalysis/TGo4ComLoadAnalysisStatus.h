@@ -33,7 +33,7 @@ class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      void Set(TGo4RemoteCommand* remcon) override;
+      void Set(TGo4RemoteCommand *remcon) override;
 
       /** Access to the object name under command. */
       const char *GetFileName() const { return fxFileName.Data(); }

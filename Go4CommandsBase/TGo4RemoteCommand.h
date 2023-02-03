@@ -58,7 +58,7 @@ class TGo4RemoteCommand : public TGo4Command {
        * to be used in executed command.
        * Index 0 is usually reserved for object name to be modified.
        * higher indices are used variably depending on command */
-      void SetString(const char *txt,Int_t i);
+      void SetString(const char *txt, Int_t i);
 
       const char *GetString(Int_t i) const;
 
@@ -90,7 +90,6 @@ class TGo4RemoteCommand : public TGo4Command {
       TObject *fxAggregate{nullptr};
 
       static const char *fgxREMCOMEMPTYSTRING; //!
-
 
    ClassDefOverride(TGo4RemoteCommand,1)
 };

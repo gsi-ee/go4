@@ -42,7 +42,7 @@ class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
       /** Set internals of this command from specification of external
        * remote command (command container). Must be overloaded
        * for each specific command! */
-      void Set(TGo4RemoteCommand* remcon) override;
+      void Set(TGo4RemoteCommand *remcon) override;
 
       /** Set histogram (dynamic entry) name. */
       void SetHistogramName(const char *name) { fxHistoName = name; }
