@@ -35,7 +35,7 @@ class TGo4FitterAction : public TGo4FitNamed {
       TGo4FitterAction(const char *Name, const char *Title, TNamed *Owner = nullptr);
       virtual ~TGo4FitterAction();
 
-      virtual void DoAction(TGo4FitterAbstract *Fitter) = 0;
+      virtual void DoAction(TGo4FitterAbstract *) = 0;
 
       virtual Bool_t CanChangeFitter() const { return kFALSE; }
       virtual Bool_t NeedBuffers() const { return kFALSE; }

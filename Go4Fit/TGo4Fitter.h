@@ -125,7 +125,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return data object with given index. If index out of valid range, return 0.
        */
-      TGo4FitData* GetData(Int_t n);
+      TGo4FitData *GetData(Int_t n);
 
       /**
        * Return name of data object with given index. If index not valid, return 0.
@@ -135,12 +135,12 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return data object with given name. if no corresponding objects, return 0.
        */
-      TGo4FitData* FindData(const char *DataName);
+      TGo4FitData *FindData(const char *DataName);
 
       /**
        * Add data object to fitter. Data object owned by fitter and will be destroyed together with fitter.
        */
-      TGo4FitData* AddData(TGo4FitData* d);
+      TGo4FitData *AddData(TGo4FitData *d);
 
       /**
        * Create TGo4FitDataHistogram object and adds its to fitter.
@@ -165,7 +165,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Remove data object from fitter. If IsDel flag is set,  object will be destroyed, otherwise (by default) function return pointer on this object.
        */
-      TGo4FitData* RemoveData(const char *DataName, Bool_t IsDel = kFALSE);
+      TGo4FitData *RemoveData(const char *DataName, Bool_t IsDel = kFALSE);
 
       /**
        * Delete all data objects from fitter.
@@ -180,22 +180,22 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Return model component with given index. If index out of valid range, return 0.
        */
-      TGo4FitModel* GetModel(Int_t n);
+      TGo4FitModel *GetModel(Int_t n);
 
       /**
        * Return model component with given name. If no such model name exists, return 0.
        */
-      TGo4FitModel* FindModel(const char *ModelName);
+      TGo4FitModel *FindModel(const char *ModelName);
 
       /**
        * Add model component to fitter. Model already should be assigned to at least one data object.
        */
-      TGo4FitModel* AddModel(TGo4FitModel* m);
+      TGo4FitModel *AddModel(TGo4FitModel *m);
 
       /**
        * Add model component to fitter and assign it to specified data object.
        */
-      TGo4FitModel* AddModel(const char *DataName, TGo4FitModel* m);
+      TGo4FitModel *AddModel(const char *DataName, TGo4FitModel *m);
 
       /**
        * Construct 1-dim polynom for specified data object for x scale.
@@ -226,7 +226,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Add 1-dim gaussian model to fitter.
        */
-      TGo4FitModelGauss1* AddGauss1(const char *DataName, const char *ModelName, Double_t iPosition, Double_t iWidth, Double_t iAmpl = 1., Int_t Axis = 0);
+      TGo4FitModelGauss1 *AddGauss1(const char *DataName, const char *ModelName, Double_t iPosition, Double_t iWidth, Double_t iAmpl = 1., Int_t Axis = 0);
 
       /**
        * Counts models associated with specific data.
@@ -236,14 +236,14 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Clones specified model.
        */
-      TGo4FitModel* CloneModel(const char *ModelName, const char *NewName = nullptr);
+      TGo4FitModel *CloneModel(const char *ModelName, const char *NewName = nullptr);
 
       /**
        * Remove model component from fitter.
        * If IsDel flag specified, component is delete, otherwise (by default)
        * function return pointer on this model component.
        */
-      TGo4FitModel* RemoveModel(const char *ModelName, Bool_t IsDel = kFALSE);
+      TGo4FitModel *RemoveModel(const char *ModelName, Bool_t IsDel = kFALSE);
 
       /**
        * Remove models associated with specific data.
@@ -278,14 +278,14 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * Return total number of TGo4FitComponent (data and model) objects in fitter.
        * This is just a sum GetNumData()+GetNumModel().
        */
-      Int_t GetNumComp() const { return GetNumData()+GetNumModel(); }
+      Int_t GetNumComp() const { return GetNumData() + GetNumModel(); }
 
       /**
        * Return TGo4FitComponent object with given index.
        * If index < GetNumData() return data object, else return model component.
        * If index not valid, return 0.
        */
-      TGo4FitComponent* GetComp(Int_t n);
+      TGo4FitComponent *GetComp(Int_t n);
 
       /**
        * Estimate amplitude of all model components.
@@ -402,7 +402,6 @@ class TGo4Fitter : public TGo4FitterAbstract {
        */
       void RebuildAll(Bool_t ForceBuild = kFALSE);
 
-
       void CollectAllPars() override;
 
       Double_t DoCalculation() override;
@@ -436,7 +435,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
    private:
 
       void MoveDrawObjectsToROOT();
-      void CheckSlotsBeforeDelete(TGo4FitComponent* comp);
+      void CheckSlotsBeforeDelete(TGo4FitComponent *comp);
 
       /**
        * Pointer on user fit function.

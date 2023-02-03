@@ -51,7 +51,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Return pointer on TGraph object.
        */
-      TGraph *GetGraph() { return (TGraph *) fxGraph.GetObject(); }
+      TGraph *GetGraph() const { return (TGraph *) fxGraph.GetObject(); }
 
       /**
        * Set TGraph object.
@@ -67,7 +67,7 @@ class TGo4FitDataGraph : public TGo4FitData {
       /**
        * Add pointer on slot, which should contain TGraph object, to slots list.
        */
-      void FillSlotList(TSeqCollection* list) override;
+      void FillSlotList(TSeqCollection *list) override;
 
       /**
        * Print information on standard output.
@@ -90,17 +90,17 @@ class TGo4FitDataGraph : public TGo4FitData {
 class TGo4FitDataGraphIter : public TGo4FitDataIter {
    public:
       TGo4FitDataGraphIter();
-      TGo4FitDataGraphIter(TGo4FitDataGraph* Data);
+      TGo4FitDataGraphIter(TGo4FitDataGraph *Data);
       ~TGo4FitDataGraphIter();
 
    protected:
-      TGo4FitData* GetData() const override { return fxData; }
+      TGo4FitData *GetData() const override { return fxData; }
       Bool_t StartReset() override;
       Bool_t ReadCurrentPoint() override;
       Bool_t ShiftToNextPoint() override;
 
    private:
-      TGo4FitDataGraph* fxData{nullptr};
+      TGo4FitDataGraph *fxData{nullptr};
       Int_t fiNumPoints{0};
 
    ClassDefOverride(TGo4FitDataGraphIter,1)

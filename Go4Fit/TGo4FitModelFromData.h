@@ -67,17 +67,17 @@ class TGo4FitModelFromData : public TGo4FitModel {
       /**
        * Return pointer on TGo4FitData object, which is used as model component.
        */
-      TGo4FitData* GetDataAsModel() const;
+      TGo4FitData *GetDataAsModel() const;
 
       /**
        * Sets pointer on TGo4FitData object with ownership flag.
        */
-      void SetDataAsModel(TGo4FitData* iData, Bool_t iOwned);
+      void SetDataAsModel(TGo4FitData *iData, Bool_t iOwned);
 
       /**
        * Add pointer on slot, which should contain TGo4FitData object, to a slots list.
        */
-      void FillSlotList(TSeqCollection* list) override;
+      void FillSlotList(TSeqCollection *list) override;
 
       /**
        * Print information on standard output.
@@ -88,7 +88,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
       Double_t EvalN(const Double_t*) override { return 0.; }
       void AfterEval() override;
 
-      Double_t EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges = kTRUE) override;
+      Double_t EvaluateAtPoint(TGo4FitData *data, Int_t nbin, Bool_t UseRanges = kTRUE) override;
       Double_t EvaluateAtPoint(std::unique_ptr<TGo4FitDataIter> &iter, Bool_t UseRanges = kTRUE) override;
 
    protected:
@@ -107,7 +107,7 @@ class TGo4FitModelFromData : public TGo4FitModel {
       TGo4FitSlot fxData;
 
    private:
-     std::unique_ptr<TGo4FitDataIter> fxIter;     //!
+      std::unique_ptr<TGo4FitDataIter> fxIter;     //!
 
    ClassDefOverride(TGo4FitModelFromData,1)
 };

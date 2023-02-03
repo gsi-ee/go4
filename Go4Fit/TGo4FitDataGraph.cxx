@@ -44,7 +44,7 @@ void TGo4FitDataGraph::SetGraph(TGraph *iGraph, Bool_t iGraphOwned)
    fxGraph.SetObject(iGraph,iGraphOwned);
 }
 
-void TGo4FitDataGraph::FillSlotList(TSeqCollection* list)
+void TGo4FitDataGraph::FillSlotList(TSeqCollection *list)
 {
    TGo4FitData::FillSlotList(list);
    list->Add(&fxGraph);

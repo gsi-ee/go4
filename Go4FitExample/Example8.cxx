@@ -50,7 +50,7 @@ void DrawHistogram(TH1 *histo, const char *CanvasName, const char *DrawOption)
    fCanvas->Update();
 }
 
-void AddRangeCut(TGo4FitComponent* comp)
+void AddRangeCut(TGo4FitComponent *comp)
 {
    Double_t x[] = { 2,3,8,7,2 };
    Double_t y[] = { 8,3,2,7,8 };
@@ -68,7 +68,7 @@ void Example8()
    fitter->AddData(new TGo4FitDataHistogram("data",histo,kTRUE));
 
 // create models component and assign them to fitter
-   TGo4FitModel* model = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss",5.,5.,1.,1.,-0.5) );
+   TGo4FitModel *model = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss",5.,5.,1.,1.,-0.5) );
    model->SetAmplValue(1000.);
 // only selected range will be used for modeling
    AddRangeCut(model);
@@ -85,7 +85,7 @@ void Example8()
    fitter = new TGo4Fitter("Fitter2",TGo4Fitter::ff_ML_Poisson,kFALSE);
 
 // use modeled histogram as data
-   TGo4FitData* data = fitter->AddData(new TGo4FitDataHistogram("data",res));
+   TGo4FitData *data = fitter->AddData(new TGo4FitDataHistogram("data",res));
 // only selected range will be used for data extracting and modeling
    AddRangeCut(data);
 

@@ -44,7 +44,7 @@ std::unique_ptr<TGo4FitDataIter> TGo4FitDataProfile::MakeIter()
   return std::make_unique<TGo4FitDataProfileIter>(this);
 }
 
-void TGo4FitDataProfile::FillSlotList(TSeqCollection* list)
+void TGo4FitDataProfile::FillSlotList(TSeqCollection *list)
 {
    TGo4FitData::FillSlotList(list);
    list->Add(&fxProfile);
@@ -86,7 +86,7 @@ Bool_t TGo4FitDataProfileIter::StartReset()
 Bool_t TGo4FitDataProfileIter::ReadCurrentPoint()
 {
    if (!fxData) return kFALSE;
-   TProfile* pr = fxData->GetProfile();
+   TProfile *pr = fxData->GetProfile();
    if (!pr) return kFALSE;
 
    Double_t xvalue = pr->GetXaxis()->GetBinCenter(fxIndexes[0]+1);

@@ -37,7 +37,7 @@ class TGo4FitDataProfile : public TGo4FitData {
        * Pointer on TProfile object and ownership flag can be specified.
        * Scaling factor (amplitude) also can be added.
        */
-      TGo4FitDataProfile(const char *iName, TProfile* iProfile = nullptr, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
+      TGo4FitDataProfile(const char *iName, TProfile *iProfile = nullptr, Bool_t iGraphOwned = kFALSE, Bool_t AddAmpl = kFALSE);
 
       /**
        * Destroys TGo4FitDataProfile object.
@@ -47,7 +47,7 @@ class TGo4FitDataProfile : public TGo4FitData {
       /**
        * Returns pointer on TProfile object.
        */
-      TProfile* GetProfile() { return (TProfile*) fxProfile.GetObject(); }
+      TProfile *GetProfile() const { return (TProfile *) fxProfile.GetObject(); }
 
       /**
        * Set pointer on TProfile object.
@@ -63,7 +63,7 @@ class TGo4FitDataProfile : public TGo4FitData {
       /**
        * Add pointer on slot, which should contain TProfile object, to list of slots.
        */
-      void FillSlotList(TSeqCollection* list)  override;
+      void FillSlotList(TSeqCollection *list)  override;
 
       /**
        * Print information on standard output.
@@ -86,17 +86,17 @@ class TGo4FitDataProfile : public TGo4FitData {
 class TGo4FitDataProfileIter : public TGo4FitDataIter {
    public:
       TGo4FitDataProfileIter();
-      TGo4FitDataProfileIter(TGo4FitDataProfile* Data);
+      TGo4FitDataProfileIter(TGo4FitDataProfile *Data);
       ~TGo4FitDataProfileIter();
 
    protected:
-      TGo4FitData* GetData() const override { return fxData; }
+      TGo4FitData *GetData() const override { return fxData; }
       Bool_t StartReset() override;
       Bool_t ReadCurrentPoint() override;
       Bool_t ShiftToNextPoint() override;
 
    private:
-      TGo4FitDataProfile* fxData{nullptr};
+      TGo4FitDataProfile *fxData{nullptr};
       Int_t fiNumPoints{0};
 
    ClassDefOverride(TGo4FitDataProfileIter,1)

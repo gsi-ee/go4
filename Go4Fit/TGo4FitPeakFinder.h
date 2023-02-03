@@ -101,7 +101,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
     private:
 
       void ROOTPeakFinder(TGo4Fitter *fitter,
-                          TGo4FitData* data,
+                          TGo4FitData *data,
                           Int_t PolynomOrder,
                           Double_t Sigma);
 
@@ -113,7 +113,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        * Appropriate number of gaussians will be placed in list of models and associate with data.
        */
       void SergeyLinevPeakFinder(TGo4Fitter *fitter,
-                                 TGo4FitData* data,
+                                 TGo4FitData *data,
                                  Int_t PolOrder,
                                  Double_t AmplThreshold,
                                  Double_t MinWidth,
@@ -124,7 +124,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
        *
        */
       void HansEsselPeakFinder(TGo4Fitter *fitter,
-                               TGo4FitData* data,
+                               TGo4FitData *data,
                                Int_t MaxNumPeaks = 50,
                                Int_t ChannelSum = 1,
                                Double_t NoiseFactor = 2.,
@@ -134,7 +134,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       static void DefinePolynom(Int_t size,                    // number of experimental points
                                 Double_t *bins,                // array of bins
                                 Double_t *scales,              // array of scale values
-                                TArrayD& Coef,                 // array of polynomial coefficients
+                                TArrayD &Coef,                 // array of polynomial coefficients
                                 Double_t *weight = nullptr,    // statistical weight of each bin
                                 Double_t *backgr = nullptr,    // background values
                                 Char_t *use = nullptr);        // usage of each points
@@ -142,8 +142,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
       static void DefinePolynomEx(Int_t size, Double_t *bins, Double_t *scales, Double_t *weight, Double_t *backgr,
                                   Int_t lbound, Int_t rbound, TArrayD& Coef);
 
-
-      static Double_t CalcPolynom(const TArrayD& Coef, Double_t x);
+      static Double_t CalcPolynom(const TArrayD &Coef, Double_t x);
 
 
       Int_t fiPeakFinderType{0};   // 0 - by S.Linev,  1 - ROOT TSpectrum, 2 - by H.Essel

@@ -331,7 +331,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Called during Finalize() method.
        * Should be reimplemented in derived classes.
        */
-      virtual void FinalizeFitterData() { return; }
+      virtual void FinalizeFitterData() {}
 
       /**
        * Array of actions objects (inherited from TGo4FitterAction).

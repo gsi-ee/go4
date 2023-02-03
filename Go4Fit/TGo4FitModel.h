@@ -57,7 +57,7 @@ class TGo4FitAssignment : public TNamed {
        /**
         * Pointer on assigned data.
         */
-       TGo4FitData* fxData{nullptr};         //!
+       TGo4FitData *fxData{nullptr};         //!
 
        /**
         * Array of boolean values, selected model bins.
@@ -159,7 +159,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Check, if model assigned to such a data (via name) and store pointer on this data object.
        */
-      void ConnectToDataIfAssigned(TGo4FitData* data);
+      void ConnectToDataIfAssigned(TGo4FitData *data);
 
       /**
        * Returns ratio value for specified data object.
@@ -233,7 +233,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Returns kTRUE, if integration properties were specified.
        */
-      Bool_t NeedIntegration() { return (fiMinIntegrDepth>0) || (fiMaxIntegrDepth>0); }
+      Bool_t NeedIntegration() const { return (fiMinIntegrDepth > 0) || (fiMaxIntegrDepth > 0); }
 
        /**
        * Prepares (if necessary) some intermediate variables to be able calculate values of model via EvalN() function.
@@ -250,13 +250,13 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Clear buffers, which were created by BeforeEval() method.
        */
-      virtual void AfterEval() { return; }
+      virtual void AfterEval() {}
 
       /**
        * Evaluate model value for specified data point.
        * All scales values will be take from data buffers, therefore data should be initialized.
        */
-      virtual Double_t EvaluateAtPoint(TGo4FitData* data, Int_t nbin, Bool_t UseRanges = kTRUE);
+      virtual Double_t EvaluateAtPoint(TGo4FitData *data, Int_t nbin, Bool_t UseRanges = kTRUE);
 
       /**
        * Evaluate model value for point, specified by current values of iterator.
@@ -267,7 +267,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * Evaluate model values for all data point and add them to result buffer.
        * Data should be initialized.
        */
-      Bool_t AddModelToDataResult(TGo4FitData* data);
+      Bool_t AddModelToDataResult(TGo4FitData *data);
 
       Int_t NumPars() override;
 
@@ -298,7 +298,7 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Return pointer on assigned data.
        */
-      TGo4FitData* GetAssignedConnection(Int_t n);
+      TGo4FitData *GetAssignedConnection(Int_t n);
 
       /**
        * Checks if model allocate buffers for calculations
@@ -325,7 +325,7 @@ class TGo4FitModel : public TGo4FitComponent {
        * Function gets as parameter array of Coordinates and array of Parameters values.
        * Only user-specific calculation should  be done and result value should be return.
        */
-      virtual Double_t UserFunction(Double_t*, Double_t*) { return 0; }
+      virtual Double_t UserFunction(Double_t *, Double_t *) { return 0.; }
 
       /**
        * Return index of parameter (if exist), which represent position of model for given axis.
@@ -349,8 +349,8 @@ class TGo4FitModel : public TGo4FitComponent {
       virtual TGo4FitParameter *GetWidthPar(Int_t naxis = 0)
         { return Get(GetWidthParIndex(naxis)); }
 
-      const Int_t *GetDataFullIndex(TGo4FitData* data, Int_t nbin);
-      Int_t GetDataIndexesSize(TGo4FitData* data);
+      const Int_t *GetDataFullIndex(TGo4FitData *data, Int_t nbin);
+      Int_t GetDataIndexesSize(TGo4FitData *data);
 
       /**
        * Minimum depth of integration.

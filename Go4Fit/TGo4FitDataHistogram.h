@@ -66,7 +66,7 @@ class TGo4FitDataHistogram : public TGo4FitData {
       /**
        * Add pointer on slot, which should contains histogram, to list.
        */
-      void FillSlotList(TSeqCollection* list) override;
+      void FillSlotList(TSeqCollection *list) override;
 
       /**
        * Print information to standard output.
@@ -89,17 +89,17 @@ class TGo4FitDataHistogram : public TGo4FitData {
 class TGo4FitDataHistogramIter : public TGo4FitDataIter {
   public:
     TGo4FitDataHistogramIter();
-    TGo4FitDataHistogramIter(TGo4FitDataHistogram* data);
+    TGo4FitDataHistogramIter(TGo4FitDataHistogram *data);
     ~TGo4FitDataHistogramIter();
 
   protected:
-    TGo4FitData* GetData() const override { return fxData; }
+    TGo4FitData *GetData() const override { return fxData; }
     Bool_t StartReset() override;
     Bool_t ReadCurrentPoint() override;
     Bool_t ShiftToNextPoint() override;
 
   private:
-    TGo4FitDataHistogram* fxData{nullptr};  //!
+    TGo4FitDataHistogram *fxData{nullptr};  //!
     TArrayI fxLimits;                   //!
     TArrayD fxOwnScales;                //!
     TArrayD fxOwnWidths;                //!

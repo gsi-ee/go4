@@ -88,10 +88,10 @@ TGo4Fitter *BuildFitter()
 
    fitter->ConnectSlots("data1.Trans0","data2.Trans0");
 
-   TGo4FitModel* gauss1 = new TGo4FitModelGauss1("Gauss1",2.553,0.015);
+   TGo4FitModel *gauss1 = new TGo4FitModelGauss1("Gauss1",2.553,0.015);
    gauss1->AssignToData("data1"); gauss1->AssignToData("data2",1.2);
 
-   TGo4FitModel* gauss2 = new TGo4FitModelGauss1("Gauss2",2.672,0.015);
+   TGo4FitModel *gauss2 = new TGo4FitModelGauss1("Gauss2",2.672,0.015);
    gauss2->AssignToData("data1"); gauss2->AssignToData("data2",1.2);
 
    fitter->AddModel( "data1", new TGo4FitModelPolynom("Pol1_0",0.) );

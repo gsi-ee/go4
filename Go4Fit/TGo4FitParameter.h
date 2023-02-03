@@ -130,7 +130,7 @@ class TGo4FitParameter : public TGo4FitNamed {
        * Return range left (minimum) and right (maximum) values.
        * If range was not specified before, return kFALSE.
        */
-      Bool_t GetRange(Double_t& min, Double_t& max) const { min = fdRangeMin; max = fdRangeMax; return fbRange; }
+      Bool_t GetRange(Double_t &min, Double_t &max) const { min = fdRangeMin; max = fdRangeMax; return fbRange; }
 
       /**
        * Set range minimum and maximum values.

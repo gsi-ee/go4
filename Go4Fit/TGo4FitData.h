@@ -203,7 +203,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Used, when one data objects used to be a model component of another data object.
        * Should be used only after Initialize() method for current data object.
        */
-      Bool_t IsCompatibleData(TGo4FitData* data);
+      Bool_t IsCompatibleData(TGo4FitData *data);
 
       /**
        * Exclude points from model according model range conditions.
@@ -211,12 +211,12 @@ class TGo4FitData : public TGo4FitComponent {
        * But not full data range can be used for explicit model evaluation. This functions fill model mask (array of chars) inside data range, where model should be evaluated.
        * Can be used only after Initialize() method.
        */
-      void ApplyRangesForModelMask(TGo4FitComponent* model, Char_t *ModelMask);
+      void ApplyRangesForModelMask(TGo4FitComponent *model, Char_t *ModelMask);
 
      /**
        * Copy pointers on all slots of data object to list.
        */
-      void FillSlotList(TSeqCollection* list) override;
+      void FillSlotList(TSeqCollection *list) override;
 
       /**
        * Display information about data object on standard output.
@@ -401,16 +401,6 @@ class TGo4FitData : public TGo4FitComponent {
        */
       Int_t *fxFullIndex{nullptr};                     //!
 
-      /** @link aggregation
-       * @supplierCardinality 0..**/
-      /*#  TGo4FitAxisTrans AxisTrans; */
-
-      /** @link aggregation
-       * @supplierCardinality 0..*
-       * @label TObjArray fxCalibrations*/
-      /*#  TGo4FitSlot lnkTGo4FitData; */
-
-
     ClassDefOverride(TGo4FitData,1)
 };
 
@@ -577,7 +567,7 @@ class TGo4FitDataIter : public TObject {
        * Return pointer on correspondent TGo4FitData object, which create iterator.
        * Should be implemented in derived classes.
        */
-     virtual TGo4FitData* GetData() const = 0;
+     virtual TGo4FitData *GetData() const = 0;
 
       /**
        * Reset pointer and other specific values to the beginning of data.

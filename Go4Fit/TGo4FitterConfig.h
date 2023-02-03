@@ -131,27 +131,27 @@ class TGo4FitterConfig : public TGo4FitterAction {
       /**
        * Get list of TGo4FitParameter objects, used as explicit configuration for minimizing.
        */
-      TGo4FitParsList& GetParsCfg() { return fxParsCfg; }
+      TGo4FitParsList &GetParsCfg() { return fxParsCfg; }
 
       /**
        * Get list of TGo4FitParameter objects, which can be used in minimization and dependency calculations.
        */
-      TGo4FitParsList& GetParsNew() { return fxParsNew; }
+      TGo4FitParsList &GetParsNew() { return fxParsNew; }
 
       /**
        * Returns list of TGo4FitDependency objects, used for parameters initialization.
        */
-      TObjArray& GetParsInit() { return fxParsInit; }
+      TObjArray &GetParsInit() { return fxParsInit; }
 
       /**
        * Returns list of TGo4FitDependency objects, used for dependencies calculations.
        */
-      TObjArray& GetParsDepend() { return fxParsDepend; }
+      TObjArray &GetParsDepend() { return fxParsDepend; }
 
       /**
        * Returns list of TGo4FitDependency objects, used for calculating result values for fitter.
        */
-      TObjArray& GetResults() { return fxResults; }
+      TObjArray &GetResults() { return fxResults; }
 
       /**
        * Do configuration action.
@@ -174,12 +174,10 @@ class TGo4FitterConfig : public TGo4FitterAction {
        */
       TGo4FitParsList fxParsCfg;         // configurations for some of parameters
 
-
       /**
        * List of parameters object, which can be used in dependency calculations and minimization.
        */
       TGo4FitParsList fxParsNew;         // newly create parameters
-
 
       /**
        * Array of dependencies for parameters initialization.

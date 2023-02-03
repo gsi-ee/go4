@@ -262,7 +262,7 @@ class TGo4FitSlotList {
       * Fill list of TGo4FitSlot objects to provided collection.
       * This function should be implemented in every derived object, which would provide slots for outside.
       */
-     virtual void FillSlotList(TSeqCollection* lst);
+     virtual void FillSlotList(TSeqCollection *lst);
 
      /**
       * Update internal list of slots (if exists).

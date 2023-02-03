@@ -87,8 +87,8 @@ class TGo4FitModelGauss2 : public TGo4FitModel {
       Double_t EvalN(const Double_t *v) override;
 
    protected:
-      Int_t GetPosParIndex(Int_t naxis) override { return (naxis==fiNaxis1) ? 1 : (naxis==fiNaxis2) ? 2 : -1; }
-      Int_t GetWidthParIndex(Int_t naxis) override { return (naxis==fiNaxis1) ? 3 : (naxis==fiNaxis2) ? 4 : -1; }
+      Int_t GetPosParIndex(Int_t naxis) override { return (naxis == fiNaxis1) ? 1 : (naxis == fiNaxis2) ? 2 : -1; }
+      Int_t GetWidthParIndex(Int_t naxis) override { return (naxis == fiNaxis1) ? 3 : (naxis == fiNaxis2) ? 4 : -1; }
 
       /**
        * Number of first selected axis.

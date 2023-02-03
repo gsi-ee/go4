@@ -125,7 +125,7 @@ class TGo4FitModelPolynom : public TGo4FitModel {
       /**
        * Temporary variable for EvalN() function.
        */
-      TArrayD* fxAllOrders{nullptr};             //!
+      TArrayD *fxAllOrders{nullptr};             //!
 
       /**
        * Temporary variable for EvalN() function.

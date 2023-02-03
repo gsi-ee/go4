@@ -103,12 +103,12 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Add result object to results list.
        */
-      void AddResult(TGo4FitMinuitResult* res);
+      void AddResult(TGo4FitMinuitResult *res);
 
       /**
        * Remove result from results list and delete it.
        */
-      void RemoveResult(TGo4FitMinuitResult* res);
+      void RemoveResult(TGo4FitMinuitResult *res);
 
       /**
        * Delete all results objects.

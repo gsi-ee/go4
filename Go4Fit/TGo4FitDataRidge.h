@@ -41,7 +41,7 @@ class TGo4FitDataRidge : public TGo4FitData {
        * Pointer on TGo4FitData object, which should provide histogramic data, can be specified.
        * Also axis number, which uses as ridge coordinate, can be specified. By default y-axis is used as ridge.
        */
-      TGo4FitDataRidge(const char *iName, TGo4FitData* Data = nullptr, Int_t SelectedAxis = 1);
+      TGo4FitDataRidge(const char *iName, TGo4FitData *Data = nullptr, Int_t SelectedAxis = 1);
 
       /**
        * Destroys TGo4FitDataRidge object
@@ -51,12 +51,12 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Sets pointer on TGo4FitData object and ownership flag.
        */
-      void SetData(TGo4FitData* iData, Bool_t Owned) { fxData.SetObject(iData,Owned); }
+      void SetData(TGo4FitData *iData, Bool_t Owned) { fxData.SetObject(iData,Owned); }
 
       /**
        * Returns pointer on TGo4FitData object.
        */
-      TGo4FitData* GetData() const { return dynamic_cast<TGo4FitData*> (fxData.GetObject()); }
+      TGo4FitData *GetData() const { return dynamic_cast<TGo4FitData *>(fxData.GetObject()); }
 
       /**
        * Sets number of axis, which selected as "ridge altitude".
@@ -76,7 +76,7 @@ class TGo4FitDataRidge : public TGo4FitData {
       /**
        * Add pointer on slot, which should contain TGo4FitData object, to list of slots.
        */
-      void FillSlotList(TSeqCollection* list) override;
+      void FillSlotList(TSeqCollection *list) override;
 
       /**
        * Print information to standard output.
@@ -103,17 +103,17 @@ class TGo4FitDataRidge : public TGo4FitData {
 class TGo4FitDataRidgeIter : public TGo4FitDataIter {
   public:
     TGo4FitDataRidgeIter();
-    TGo4FitDataRidgeIter(TGo4FitDataRidge* data);
+    TGo4FitDataRidgeIter(TGo4FitDataRidge *data);
     ~TGo4FitDataRidgeIter();
 
   protected:
-    TGo4FitData* GetData() const override { return fxData; }
+    TGo4FitData *GetData() const override { return fxData; }
     Bool_t StartReset() override;
     Bool_t ReadCurrentPoint() override;
     Bool_t ShiftToNextPoint() override;
 
   private:
-    TGo4FitDataRidge* fxData{nullptr};           //!
+    TGo4FitDataRidge *fxData{nullptr};           //!
     std::unique_ptr<TGo4FitDataIter> iter;       //!
     TArrayD fxOwnScales;                         //!
 

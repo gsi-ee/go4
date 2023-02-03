@@ -84,12 +84,12 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Fills vector of gaussian position from parameters values.
        */
-      void FillMuVector(TVectorD& Mu);
+      void FillMuVector(TVectorD &Mu);
 
       /**
        * Fill covariance matrix from parameters values.
        */
-      void FillSigmaMatrix(TMatrixD& Sigma);
+      void FillSigmaMatrix(TMatrixD &Sigma);
 
       /**
        * Print information on standard output.
@@ -129,22 +129,22 @@ class TGo4FitModelGaussN : public TGo4FitModel {
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_mu{nullptr};          //!
+      TVectorD *Vect_mu{nullptr};          //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TMatrixD* Matr_sig{nullptr};         //!
+      TMatrixD *Matr_sig{nullptr};         //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_x{nullptr};           //!
+      TVectorD *Vect_x{nullptr};           //!
 
       /**
        * Temporary variable for EvalN() function.
        */
-      TVectorD* Vect_dx{nullptr};          //!
+      TVectorD *Vect_dx{nullptr};          //!
 
    ClassDefOverride(TGo4FitModelGaussN,1)
 };

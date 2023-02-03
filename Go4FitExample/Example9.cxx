@@ -59,21 +59,21 @@ void Example9()
 
    // create dummy histogram and set with ownership flag
    TH2D *histo = new TH2D("histo","dummy histogram",1000,0.,10.,1000,0.,10.);
-   TGo4FitData* data = fitter->AddData(new TGo4FitDataHistogram("data",histo,kTRUE));
+   TGo4FitData *data = fitter->AddData(new TGo4FitDataHistogram("data",histo,kTRUE));
    data->SetRange(0,1.,3.); data->SetRange(0,7.,9.);
    data->SetRange(1,1.,3.); data->SetRange(1,7.,9.);
 
     // create models component and assign them to fitter
-   TGo4FitModel* model1 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss1",2.,8.,.5,.5,0.) );
+   TGo4FitModel *model1 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss1",2.,8.,.5,.5,0.) );
    model1->SetAmplValue(1000.);
 
-   TGo4FitModel* model2 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss2",8.,8.,.5,.5,0.) );
+   TGo4FitModel *model2 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss2",8.,8.,.5,.5,0.) );
    model2->SetAmplValue(1000.);
 
-   TGo4FitModel* model3 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss3",8.,2.,.5,.5,0.) );
+   TGo4FitModel *model3 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss3",8.,2.,.5,.5,0.) );
    model3->SetAmplValue(1000.);
 
-   TGo4FitModel* model4 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss4",2.,2.,.5,.5,0.) );
+   TGo4FitModel *model4 = fitter->AddModel( "data", new TGo4FitModelGauss2("Gauss4",2.,2.,.5,.5,0.) );
    model4->SetAmplValue(1000.);
 
 
