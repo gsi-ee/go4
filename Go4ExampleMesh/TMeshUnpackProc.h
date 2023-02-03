@@ -28,10 +28,10 @@ class TMeshUnpackProc : public TGo4EventProcessor {
       TMeshUnpackProc(const char *name);
       virtual ~TMeshUnpackProc();
 
-      void Unpack(TMeshRawEvent* target);
-      void UnpackBranch1(TMeshB1InputEvent* target);
-      void UnpackBranch2(TMeshB2InputEvent* target);
-      void UnpackBranch3(TMeshB3InputEvent* target);
+      void Unpack(TMeshRawEvent *target);
+      void UnpackBranch1(TMeshB1InputEvent *target);
+      void UnpackBranch2(TMeshB2InputEvent *target);
+      void UnpackBranch3(TMeshB3InputEvent *target);
 
    private:
       TGo4MbsEvent  *fInput{nullptr};

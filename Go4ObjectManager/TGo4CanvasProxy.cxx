@@ -88,7 +88,7 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
                 dynamic_cast<THStack *>(fCurrent);
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          TPad *subpad = dynamic_cast<TPad *>(fCurrent);
          if (subpad) return new TGo4CanvasLevelIter(subpad);
@@ -257,7 +257,7 @@ std::unique_ptr<TGo4Access> TGo4CanvasProxy::CreateAccess(TCanvas *canv, const c
    return nullptr;
 }
 
-TGo4LevelIter* TGo4CanvasProxy::ProduceIter(TCanvas *canv)
+TGo4LevelIter *TGo4CanvasProxy::ProduceIter(TCanvas *canv)
 {
    return new TGo4CanvasLevelIter(canv);
 }

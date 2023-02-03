@@ -147,7 +147,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return IsContainerClass(cl);
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          TObject *obj = fIsKeyIter ? fDir->Get(fCurrent->GetName()) : fCurrent;
 
@@ -334,7 +334,7 @@ std::unique_ptr<TGo4Access> TGo4DirProxy::CreateAccess(TDirectory *dir, Bool_t r
    return nullptr;
 }
 
-TGo4LevelIter* TGo4DirProxy::ProduceIter(TDirectory *dir, Bool_t readright)
+TGo4LevelIter *TGo4DirProxy::ProduceIter(TDirectory *dir, Bool_t readright)
 {
    return new TGo4DirLevelIter(dir, readright);
 }

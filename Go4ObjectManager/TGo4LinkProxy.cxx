@@ -56,7 +56,7 @@ std::unique_ptr<TGo4Access> TGo4LinkProxy::ProvideAccess(const char *name)
    return fLink ? fLink->ProvideSlotAccess(name) : nullptr;
 }
 
-TGo4LevelIter* TGo4LinkProxy::MakeIter()
+TGo4LevelIter *TGo4LinkProxy::MakeIter()
 {
    return fLink ? fLink->MakeLevelIter() : nullptr;
 }

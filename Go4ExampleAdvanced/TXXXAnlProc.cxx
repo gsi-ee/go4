@@ -38,8 +38,8 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
 {
    TGo4Log::Info("TXXXAnlProc: Create %s", name);
    //// init user analysis objects:
-   fParam1 = (TXXXParameter*)  GetParameter("XXXPar1");
-   fParam2 = (TXXXParameter*)  GetParameter("XXXPar2");
+   fParam1 = (TXXXParameter *)  GetParameter("XXXPar1");
+   fParam2 = (TXXXParameter *)  GetParameter("XXXPar2");
    fWinCon = (TGo4WinCond *)   GetAnalysisCondition("wincon1");
 
    fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
@@ -58,7 +58,7 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
       AddObject(fCaligraph);
    }
 
-   fFitter = (TGo4Fitter*) GetObject("Fitter");
+   fFitter = (TGo4Fitter *) GetObject("Fitter");
    if (!fFitter) {
       fFitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_chi_square, kTRUE);
       fFitter->AddH1("data", nullptr, kFALSE, 100., 1000.);
@@ -66,7 +66,7 @@ TXXXAnlProc::TXXXAnlProc(const char *name) :
       AddObject(fFitter);
    }
 
-   fCalipar = (TXXXCalibPar*) GetParameter("CaliPar");
+   fCalipar = (TXXXCalibPar *) GetParameter("CaliPar");
    if (!fCalipar) {
       // calibration parameter not yet existing, we set it up:
       fCalipar = new TXXXCalibPar("CaliPar",GetHistogram("Cr1Ch01"),fCaligraph);

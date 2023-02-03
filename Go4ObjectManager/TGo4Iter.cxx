@@ -49,7 +49,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
 
    Int_t lastlevel = level();
 
-   TGo4LevelIter* iter = nullptr;
+   TGo4LevelIter *iter = nullptr;
 
    Bool_t wasfolder = kFALSE;
 
@@ -62,7 +62,7 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
       wasfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
 
       if (iter && wasfolder && goesinto) {
-         TGo4LevelIter* subiter = iter->subiterator();
+         TGo4LevelIter *subiter = iter->subiterator();
          if (subiter) {
             fLevels.Add(subiter);
             iter = subiter;
@@ -108,43 +108,43 @@ Bool_t TGo4Iter::nextobj()
 
 Bool_t TGo4Iter::isfolder()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? kFALSE : (fOnlySlots ? iter->isslotsfolder() : iter->isfolder());
 }
 
 const char *TGo4Iter::getname()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? nullptr : iter->name();
 }
 
 const char *TGo4Iter::getinfo()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? nullptr : iter->info();
 }
 
 Int_t TGo4Iter::getsizeinfo()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? 0 : iter->sizeinfo();
 }
 
 Int_t TGo4Iter::getflag(const char *flagname)
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return (!iter || !flagname) ? -1 : iter->getflag(flagname);
 }
 
 Int_t TGo4Iter::getkindofitem()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? -1 : iter->GetKind();
 }
 
 const char *TGo4Iter::getclassname()
 {
-   TGo4LevelIter* iter = currentiter();
+   TGo4LevelIter *iter = currentiter();
    return !iter ? nullptr : iter->GetClassName();
 }
 
@@ -167,6 +167,6 @@ TGo4Slot *TGo4Iter::getslot() const
 {
    if (fStatus != 0)
       return nullptr;
-   TGo4LevelIter* iter = (TGo4LevelIter*) fLevels.Last();
+   TGo4LevelIter *iter = (TGo4LevelIter*) fLevels.Last();
    return !iter ? nullptr : iter->getslot();
 }

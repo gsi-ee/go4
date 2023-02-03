@@ -39,7 +39,7 @@ class TGo4DirProxy : public TGo4Proxy {
 
       Bool_t HasSublevels() const override { return fDir; }
 
-      TGo4LevelIter* MakeIter() override
+      TGo4LevelIter *MakeIter() override
         { return fDir ? ProduceIter(fDir, fReadRight) : nullptr; }
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
@@ -54,7 +54,7 @@ class TGo4DirProxy : public TGo4Proxy {
       Int_t GetObjectSizeInfo() const override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TDirectory *dir, Bool_t readright, const char *name, TGo4Slot *browser_slot = nullptr);
-      static TGo4LevelIter* ProduceIter(TDirectory *dir, Bool_t readright);
+      static TGo4LevelIter *ProduceIter(TDirectory *dir, Bool_t readright);
 
       Bool_t UpdateObjectInFile(const char *filepath, TObject *obj);
 

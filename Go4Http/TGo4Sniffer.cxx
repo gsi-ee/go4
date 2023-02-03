@@ -241,16 +241,16 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 
    TFolder *main = om->GetObjectFolder();
 
-   TFolder *hist_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetHISTFOLDER()));
-   TFolder *par_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetPARAFOLDER()));
-   TFolder *cond_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetCONDFOLDER()));
-   TFolder *pic_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetPICTFOLDER()));
-   TFolder *tree_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetTREEFOLDER()));
-   TFolder *canv_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetCANVFOLDER()));
-   TFolder *anal_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetANALYSISFOLDER()));
-   TFolder *even_fold = dynamic_cast<TFolder*> (anal_fold->FindObject(TGo4AnalysisObjectManager::GetEVENTFOLDER()));
-   TFolder *user_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::GetUSRFOLDER()));
-   TFolder *files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
+   TFolder *hist_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetHISTFOLDER()));
+   TFolder *par_fold  = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetPARAFOLDER()));
+   TFolder *cond_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetCONDFOLDER()));
+   TFolder *pic_fold  = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetPICTFOLDER()));
+   TFolder *tree_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetTREEFOLDER()));
+   TFolder *canv_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetCANVFOLDER()));
+   TFolder *anal_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetANALYSISFOLDER()));
+   TFolder *even_fold = dynamic_cast<TFolder *>(anal_fold->FindObject(TGo4AnalysisObjectManager::GetEVENTFOLDER()));
+   TFolder *user_fold = dynamic_cast<TFolder *>(main->FindObject(TGo4AnalysisObjectManager::GetUSRFOLDER()));
+   TFolder *files_fold = dynamic_cast<TFolder *>(main->FindObject("Files"));
 
    ScanCollection(rec, hist_fold->GetListOfFolders(), TGo4AnalysisObjectManager::GetHISTFOLDER());
    ScanCollection(rec, par_fold->GetListOfFolders(), TGo4AnalysisObjectManager::GetPARAFOLDER());
@@ -348,7 +348,7 @@ Bool_t TGo4Sniffer::CmdOpenFile(const char *fname)
    if (om) {
       TFolder *main = om->GetObjectFolder();
 
-      TFolder *files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
+      TFolder *files_fold = dynamic_cast<TFolder *>(main->FindObject("Files"));
       if (!files_fold) {
          files_fold = main->AddFolder("Files","ROOT files");
          files_fold->SetOwner(kTRUE);
@@ -372,7 +372,7 @@ Bool_t TGo4Sniffer::CmdCloseFiles()
    TGo4AnalysisObjectManager *om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : nullptr;
    if (om) {
       TFolder *main = om->GetObjectFolder();
-      TFolder *files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
+      TFolder *files_fold = dynamic_cast<TFolder *>(main->FindObject("Files"));
       if (files_fold) {
          files_fold->Clear();
          main->Remove(files_fold);

@@ -39,10 +39,10 @@ class TXXXStore : public TGo4EventStore {
     Int_t Store(TGo4EventElement *event) override;
 
     /** Ignore store of parameter or one can provide some action */
-    Int_t Store(TGo4Parameter*) override { return 0; }
+    Int_t Store(TGo4Parameter *) override { return 0; }
     Int_t Store(TGo4Condition *) override { return 0; }
-    Int_t Store(TGo4Fitter*) override { return 0; }
-    Int_t Store(TFolder*) override { return 0; }
+    Int_t Store(TGo4Fitter *) override { return 0; }
+    Int_t Store(TFolder *) override { return 0; }
 
     /** Access to the Tree structure, for framework */
     TTree *GetTree() override { return fxTree; }

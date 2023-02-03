@@ -50,7 +50,7 @@ class TGo4HStackLevelIter : public TGo4LevelIter {
          return kFALSE;
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          return nullptr;
       }
@@ -192,7 +192,7 @@ std::unique_ptr<TGo4Access> TGo4HStackProxy::CreateAccess(THStack *hs, const cha
    return obj ? std::make_unique<TGo4ObjectAccess>(obj) : nullptr;
 }
 
-TGo4LevelIter* TGo4HStackProxy::ProduceIter(THStack *hs)
+TGo4LevelIter *TGo4HStackProxy::ProduceIter(THStack *hs)
 {
    return new TGo4HStackLevelIter(hs);
 }

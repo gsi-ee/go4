@@ -43,7 +43,7 @@ class TMeshFinalEvent : public TGo4EventElement {
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
       TMeshFinalProc    *fxFinalProc{nullptr};  //! Don't put this to file
-      TGo4FileSource    *fxFile{nullptr};  //! Don't put this to file
+      TGo4FileSource    *fxFile{nullptr};       //! Don't put this to file
 
    ClassDefOverride(TMeshFinalEvent,1)
 };

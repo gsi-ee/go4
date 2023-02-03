@@ -32,7 +32,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       void Finalize(TGo4Slot *slot) override;
       Bool_t RemoveRegisteredObject(TObject *obj) override;
 
-      TGo4LevelIter* MakeIter() override
+      TGo4LevelIter *MakeIter() override
         { return fCanvas ? ProduceIter(fCanvas) : nullptr; }
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
@@ -46,7 +46,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       TObject *GetAssignedObject() override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TCanvas *canv, const char *name);
-      static TGo4LevelIter* ProduceIter(TCanvas *canv);
+      static TGo4LevelIter *ProduceIter(TCanvas *canv);
 
    protected:
       TCanvas *fCanvas{nullptr}; //!

@@ -161,20 +161,21 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
 
       Bool_t isfolder() override
       {
-         return dynamic_cast<TFolder*>(fCurrent) ||
-                dynamic_cast<TGo4TreeStructure*>(fCurrent);
+         return dynamic_cast<TFolder *>(fCurrent) ||
+                dynamic_cast<TGo4TreeStructure *>(fCurrent);
       }
 
       Int_t getflag(const char *flagname) override
       {
-         if (strcmp(flagname,"IsRemote") == 0) return 1;
-         if (strcmp(flagname,"IsDeleteProtect") == 0) {
-            TGo4ObjectStatus *sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
+         if (strcmp(flagname, "IsRemote") == 0)
+            return 1;
+         if (strcmp(flagname, "IsDeleteProtect") == 0) {
+            auto sts = dynamic_cast<TGo4ObjectStatus *> (fCurrent);
             if (sts)
               return sts->IsDeleteProtect() ? 1 : 0;
          }
          if (strcmp(flagname,"IsResetProtect") == 0) {
-            TGo4ObjectStatus *sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
+            auto sts = dynamic_cast<TGo4ObjectStatus *> (fCurrent);
             if (sts)
                return sts->IsResetProtect() ? 1 : 0;
          }
@@ -182,11 +183,11 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
-         TGo4TreeStructure *tr = dynamic_cast<TGo4TreeStructure *>(fCurrent);
+         auto tr = dynamic_cast<TGo4TreeStructure *>(fCurrent);
          if (tr) return new TGo4AnalysisLevelIter(tr->GetNamesFolder(), kTRUE);
-         return new TGo4AnalysisLevelIter((TFolder*)fCurrent, fIsTree);
+         return new TGo4AnalysisLevelIter((TFolder *)fCurrent, fIsTree);
       }
 
       const char *name() override
@@ -357,7 +358,7 @@ Bool_t TGo4AnalysisProxy::HasSublevels() const
    return fAnalysisNames != nullptr;
 }
 
-TGo4LevelIter* TGo4AnalysisProxy::MakeIter()
+TGo4LevelIter *TGo4AnalysisProxy::MakeIter()
 {
    if (!fAnalysisNames) return nullptr;
 

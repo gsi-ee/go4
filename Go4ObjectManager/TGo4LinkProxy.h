@@ -28,7 +28,7 @@ class TGo4LinkProxy : public TGo4Proxy {
       void Finalize(TGo4Slot *slot) override;
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
-      TGo4LevelIter* MakeIter() override;
+      TGo4LevelIter *MakeIter() override;
 
       Int_t GetObjectKind() const override;
       const char *GetContainedClassName() const override;

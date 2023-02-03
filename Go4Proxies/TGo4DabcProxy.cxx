@@ -530,7 +530,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : nullptr;
       }
@@ -706,7 +706,7 @@ std::unique_ptr<TGo4Access> TGo4DabcProxy::ProvideAccess(const char *name)
    return child.null() ? nullptr : std::make_unique<TGo4DabcAccess>(fNodeName.Data(), child);
 }
 
-TGo4LevelIter* TGo4DabcProxy::MakeIter()
+TGo4LevelIter *TGo4DabcProxy::MakeIter()
 {
    if (!fxHierarchy) return nullptr;
 
@@ -790,7 +790,7 @@ std::unique_ptr<TGo4Access> TGo4DabcProxy::ProvideAccess(const char *name)
    return nullptr;
 }
 
-TGo4LevelIter* TGo4DabcProxy::MakeIter()
+TGo4LevelIter *TGo4DabcProxy::MakeIter()
 {
    return nullptr;
 }

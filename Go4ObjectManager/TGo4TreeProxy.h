@@ -26,7 +26,7 @@ class TGo4TreeProxy : public TGo4Proxy {
 
       Bool_t HasSublevels() const override { return fTree!=nullptr; }
 
-      TGo4LevelIter* MakeIter() override
+      TGo4LevelIter *MakeIter() override
         { return !fTree ? nullptr : ProduceIter(fTree); }
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
@@ -36,7 +36,7 @@ class TGo4TreeProxy : public TGo4Proxy {
       const char *GetContainedClassName() const override;
 
       static std::unique_ptr<TGo4Access> CreateAccess(TTree *tree, const char *name);
-      static TGo4LevelIter* ProduceIter(TTree *tree);
+      static TGo4LevelIter *ProduceIter(TTree *tree);
 
    protected:
       TTree   *fTree{nullptr};   //!

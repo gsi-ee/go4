@@ -72,7 +72,7 @@ void TGo4AnalysisObjectNames::PrintFolder(TFolder *fold) const
 
    while(auto entry = iter()) {
       if(entry->InheritsFrom(TFolder::Class())) {
-         PrintFolder(dynamic_cast<TFolder*> (entry));
+         PrintFolder(dynamic_cast<TFolder *>(entry));
       } else if (entry->InheritsFrom(TGo4Status::Class())) {
          entry->Print();
       } else {

@@ -27,7 +27,7 @@ class TGo4FolderProxy : public TGo4Proxy {
 
       Bool_t HasSublevels() const override { return fFolder; }
 
-      TGo4LevelIter* MakeIter() override
+      TGo4LevelIter *MakeIter() override
         { return fFolder ? ProduceIter(fFolder) : nullptr; }
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override
@@ -41,7 +41,7 @@ class TGo4FolderProxy : public TGo4Proxy {
 
       static TFolder *LocateROOTFolder(const char *rootfolder);
       static std::unique_ptr<TGo4Access> CreateAccess(TFolder *folder, const char *name);
-      static TGo4LevelIter* ProduceIter(TFolder *folder);
+      static TGo4LevelIter *ProduceIter(TFolder *folder);
 
    protected:
       TFolder *fFolder{nullptr}; //!

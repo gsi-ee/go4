@@ -528,7 +528,7 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return -1;
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          if (!isfolder()) return nullptr;
          return new TGo4HttpLevelIter(fXML,fChild);
@@ -785,7 +785,7 @@ std::unique_ptr<TGo4Access> TGo4HttpProxy::ProvideAccess(const char *name)
    return std::make_unique<TGo4HttpAccess>(this, item, kind);
 }
 
-TGo4LevelIter* TGo4HttpProxy::MakeIter()
+TGo4LevelIter *TGo4HttpProxy::MakeIter()
 {
    if (!fxHierarchy) return nullptr;
    XMLNodePointer_t top = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));

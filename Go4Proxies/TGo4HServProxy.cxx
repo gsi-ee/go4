@@ -36,7 +36,7 @@ class TGo4HServIter : public TGo4LevelIter {
 
       Bool_t isfolder() override { return curSlot()->HasSlotsSubLevels(); }
 
-      TGo4LevelIter* subiterator() override { return new TGo4HServIter(curSlot()); }
+      TGo4LevelIter *subiterator() override { return new TGo4HServIter(curSlot()); }
 
       const char *name() override { return curSlot()->GetName();  }
 
@@ -145,7 +145,7 @@ Bool_t TGo4HServProxy::HasSublevels() const
    return fxStructure != nullptr;
 }
 
-TGo4LevelIter* TGo4HServProxy::MakeIter()
+TGo4LevelIter *TGo4HServProxy::MakeIter()
 {
    return fxStructure ? new TGo4HServIter(fxStructure) : nullptr;
 }

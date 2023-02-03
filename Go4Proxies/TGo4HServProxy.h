@@ -41,7 +41,7 @@ class TGo4HServProxy : public TGo4ServerProxy {
 
       Bool_t HasSublevels() const override;
 
-      TGo4LevelIter* MakeIter() override;
+      TGo4LevelIter *MakeIter() override;
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
 

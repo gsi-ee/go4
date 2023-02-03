@@ -80,7 +80,7 @@ Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
          fxFitArray[ix] = nullptr;
       }
       if (from->fxFitArray[ix])
-         fxFitArray[ix] = (TGo4Fitter*) from->fxFitArray[ix]->Clone();
+         fxFitArray[ix] = (TGo4Fitter *) from->fxFitArray[ix]->Clone();
    }
    return kTRUE;
 }

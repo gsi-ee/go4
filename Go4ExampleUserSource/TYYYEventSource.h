@@ -29,7 +29,7 @@ class TYYYEventSource : public TGo4EventSource {
       TYYYEventSource(const char *name, const char *args, Int_t port);
 
       /** Create source from setup within usersource parameter object */
-      TYYYEventSource(TGo4UserSourceParameter* par);
+      TYYYEventSource(TGo4UserSourceParameter *par);
 
       virtual ~TYYYEventSource();
 
@@ -52,11 +52,11 @@ class TYYYEventSource : public TGo4EventSource {
 
       const char *GetArgs() const { return fxArgs.Data(); }
 
-      void SetArgs(const char *arg) { fxArgs=arg; }
+      void SetArgs(const char *arg) { fxArgs = arg; }
 
       Int_t GetPort() const { return fiPort; }
 
-      void SetPort(Int_t val) { fiPort=val; }
+      void SetPort(Int_t val) { fiPort = val; }
 
    private:
 

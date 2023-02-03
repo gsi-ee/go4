@@ -69,7 +69,7 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
          return fCurrent->GetListOfBranches()->GetEntries() > 0;
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
         return new TGo4TreeLevelIter(fCurrent);
       }
@@ -160,7 +160,7 @@ std::unique_ptr<TGo4Access> TGo4TreeProxy::CreateAccess(TTree *tree, const char 
    return nullptr;
 }
 
-TGo4LevelIter* TGo4TreeProxy::ProduceIter(TTree *tree)
+TGo4LevelIter *TGo4TreeProxy::ProduceIter(TTree *tree)
 {
    return new TGo4TreeLevelIter(tree);
 }

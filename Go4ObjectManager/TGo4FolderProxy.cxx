@@ -55,7 +55,7 @@ class TGo4FolderLevelIter : public TGo4LevelIter {
                 (dynamic_cast<THStack *>(fCurrent) != nullptr);
       }
 
-      TGo4LevelIter* subiterator() override
+      TGo4LevelIter *subiterator() override
       {
          TTree *tr = dynamic_cast<TTree *>(fCurrent);
          if (tr) return TGo4TreeProxy::ProduceIter(tr);
@@ -148,7 +148,7 @@ TFolder *TGo4FolderProxy::LocateROOTFolder(const char *rootfolder)
      if (strcmp(rootfolder,"//root/") == 0)
         res = gROOT->GetRootFolder();
      else
-       res = dynamic_cast<TFolder*> (gROOT->GetRootFolder()->FindObject(rootfolder));
+       res = dynamic_cast<TFolder *>(gROOT->GetRootFolder()->FindObject(rootfolder));
    }
    return res;
 }
@@ -200,7 +200,7 @@ std::unique_ptr<TGo4Access> TGo4FolderProxy::CreateAccess(TFolder *folder, const
    return nullptr;
 }
 
-TGo4LevelIter* TGo4FolderProxy::ProduceIter(TFolder *folder)
+TGo4LevelIter *TGo4FolderProxy::ProduceIter(TFolder *folder)
 {
    return new TGo4FolderLevelIter(folder);
 }

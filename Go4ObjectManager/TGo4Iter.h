@@ -47,7 +47,7 @@ class TGo4Iter : public TGo4AccessWrapper {
    protected:
       TGo4Iter();
 
-      TGo4LevelIter* currentiter() const
+      TGo4LevelIter *currentiter() const
        { return fStatus != 0 ? nullptr : (TGo4LevelIter*) fLevels.Last(); }
 
       TGo4Slot *fSlot{nullptr};      //!

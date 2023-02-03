@@ -33,7 +33,7 @@ class TMeshDummyEvent : public TGo4EventElement {
       Int_t Init() override;
 
    private:
-      TMeshProviderProc* fxProviderProc{nullptr};//!
+      TMeshProviderProc  *fxProviderProc{nullptr};//!
 
    ClassDefOverride(TMeshDummyEvent,1)
 };

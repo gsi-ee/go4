@@ -40,7 +40,7 @@ class TGo4DabcProxy : public TGo4ServerProxy {
 
       Bool_t HasSublevels() const override;
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
-      TGo4LevelIter* MakeIter() override;
+      TGo4LevelIter *MakeIter() override;
 
       Int_t GetObjectKind() const override {  return TGo4Access::kndFolder; }
       const char *GetContainedClassName() const override { return "TGo4DabcProxy"; }

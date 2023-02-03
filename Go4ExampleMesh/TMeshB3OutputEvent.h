@@ -33,7 +33,7 @@ class TMeshB3OutputEvent : public TGo4EventElement {
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
       TMeshB3AnlProc  *fxProcessor{nullptr};  //! Don't put this to file
-      TGo4FileSource  * fxFile{nullptr};      //! Don't put this to file
+      TGo4FileSource  *fxFile{nullptr};       //! Don't put this to file
 
    ClassDefOverride(TMeshB3OutputEvent,1)
 };

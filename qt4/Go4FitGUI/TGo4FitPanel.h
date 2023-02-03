@@ -80,7 +80,7 @@ public:
     virtual TGo4Fitter *GetFitter();
     virtual TGo4Fitter *CloneFitter();
     virtual void RemoveFitterLink();
-    virtual void SetFitter(TGo4Fitter*);
+    virtual void SetFitter(TGo4Fitter *);
     virtual void Fitter_New();
     virtual void Fitter_NewForActivePad(bool overwrite);
     virtual void Fitter_Delete();

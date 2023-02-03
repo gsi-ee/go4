@@ -34,7 +34,7 @@ class TGo4SlotIter : public TGo4LevelIter {
 
       Bool_t isslotsfolder() override { return curSlot()->HasSlotsSubLevels(); }
 
-      TGo4LevelIter* subiterator() override { return curSlot()->MakeLevelIter(); }
+      TGo4LevelIter *subiterator() override { return curSlot()->MakeLevelIter(); }
 
       TGo4Slot *getslot() override { return curSlot(); }
 
@@ -379,9 +379,9 @@ Bool_t TGo4Slot::HasSlotsSubLevels() const
    return NumChilds() > 0;
 }
 
-TGo4LevelIter* TGo4Slot::MakeLevelIter() const
+TGo4LevelIter *TGo4Slot::MakeLevelIter() const
 {
-   TGo4LevelIter* res = nullptr;
+   TGo4LevelIter *res = nullptr;
 
    if (fProxy && fProxy->Use())
      res = fProxy->MakeIter();

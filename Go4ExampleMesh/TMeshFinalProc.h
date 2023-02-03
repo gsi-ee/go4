@@ -27,7 +27,7 @@ class TMeshFinalProc : public TGo4EventProcessor {
    public:
       TMeshFinalProc();
       TMeshFinalProc(const char *name);
-      void Analysis(TMeshFinalEvent* target);
+      void Analysis(TMeshFinalEvent *target);
       virtual ~TMeshFinalProc();
 
       TMeshB1OutputEvent  *fxInput1{nullptr};

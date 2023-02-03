@@ -42,7 +42,7 @@ class TGo4ObjectProxy : public TGo4Proxy {
       Bool_t RemoveRegisteredObject(TObject *obj) override;
 
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name) override;
-      TGo4LevelIter* MakeIter() override { return nullptr; }
+      TGo4LevelIter *MakeIter() override { return nullptr; }
 
       Int_t GetObjectKind() const override;
       const char *GetContainedClassName() const override;
