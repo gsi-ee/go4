@@ -40,7 +40,7 @@ Qt::DropActions QGo4BrowserTreeWidget::supportedDropActions () const
 
 bool QGo4BrowserTreeWidget::dropMimeData(QTreeWidgetItem *item, int, const QMimeData *data, Qt::DropAction)
 {
-   emit ItemDropProcess((void*)item, (void*)data);
+   emit ItemDropProcess((void *)item, (void *)data);
 
    return true;
 }

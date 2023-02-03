@@ -67,9 +67,9 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
       void RequestDragObjectSlot(QDrag**);
 
-      void ItemDropAcceptSlot(void* item, void* mime, bool* res);
+      void ItemDropAcceptSlot(void *item, void *mime, bool* res);
 
-      void ItemDropProcessSlot(void* item, void* e);
+      void ItemDropProcessSlot(void *item, void *e);
 
       void updateListViewItems();
 

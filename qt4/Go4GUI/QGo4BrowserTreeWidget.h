@@ -36,8 +36,8 @@ class QGo4BrowserTreeWidget : public QTreeWidget {
 
    signals:
 
-      void RequestDragObject(QDrag**);
-      void ItemDropProcess(void*, void*);
+      void RequestDragObject(QDrag **);
+      void ItemDropProcess(void *, void *);
 };
 
 #endif

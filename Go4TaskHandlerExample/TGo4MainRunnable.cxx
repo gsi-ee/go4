@@ -32,7 +32,7 @@ TGo4MainRunnable::~TGo4MainRunnable()
    GO4TRACE((15,"TGo4MainRunnable::~TGo4MainRunnable() destructor",__LINE__, __FILE__));
 }
 
-Int_t TGo4MainRunnable::Run(void*)
+Int_t TGo4MainRunnable::Run(void *)
 {
    GO4TRACE((12,"TGo4MainRunnable::Run()",__LINE__, __FILE__));
    // first test: simply wait for command, then execute it and send back an object

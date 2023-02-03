@@ -116,54 +116,54 @@ void QGo4Widget::dropEvent(QDropEvent* e)
 
 void QGo4Widget::AddLink(const char *itemname, const char *linkname)
 {
-   emit widgetService(this, service_AddEditorLink, linkname, (void*) itemname);
+   emit widgetService(this, service_AddEditorLink, linkname, (void *) itemname);
 }
 
 void QGo4Widget::AddLink(TGo4Slot *slot, const char *linkname)
 {
-   emit widgetService(this, service_AddDirectLink, linkname, (void*) slot);
+   emit widgetService(this, service_AddDirectLink, linkname, (void *) slot);
 }
 
 TGo4Slot *QGo4Widget::AddLink(const char *itemname, TGo4Slot *parent)
 {
    TGo4Slot *res = parent;
-   emit widgetService(this, service_AddLinkInSlot, itemname, (void*) &res);
+   emit widgetService(this, service_AddLinkInSlot, itemname, (void *) &res);
    return res;
 }
 
 TGo4Slot *QGo4Widget::GetTopSlot(bool force)
 {
    TGo4Slot *res = nullptr;
-   emit widgetService(this, service_GetTopSlot, force ? "force" : "normal", (void*) &res);
+   emit widgetService(this, service_GetTopSlot, force ? "force" : "normal", (void *) &res);
    return res;
 }
 
 TGo4Slot *QGo4Widget::AddSlot(const char *slotname)
 {
    TGo4Slot *res =  nullptr;
-   emit widgetService(this, service_AddEditorSlot, slotname, (void*) &res);
+   emit widgetService(this, service_AddEditorSlot, slotname, (void *) &res);
    return res;
 }
 
 void QGo4Widget::SetLinkedName(TGo4Slot *slot, const char *itemname)
 {
-   emit widgetService(this, service_SetLinkedName, itemname, (void*) slot);
+   emit widgetService(this, service_SetLinkedName, itemname, (void *) slot);
 }
 
 const char *QGo4Widget::GetLinkedName(const char *linkname)
 {
    const char *res = nullptr;
 
-   emit widgetService(this, service_GetLinkedName, linkname, (void*) &res);
+   emit widgetService(this, service_GetLinkedName, linkname, (void *) &res);
 
    return res;
 }
 
 const char *QGo4Widget::GetLinkedName(TGo4Slot *slot)
 {
-   void* res = slot;
+   void *res = slot;
 
-   emit widgetService(this, service_GetLinkedName2, "", (void*) &res);
+   emit widgetService(this, service_GetLinkedName2, "", (void *) &res);
 
    return (const char*) res;
 }
@@ -180,7 +180,7 @@ TObject *QGo4Widget::GetLinked(const char *linkname, int updatelevel)
       default: func = service_GetLinked1; break;
    }
 
-   emit widgetService(this, func, linkname, (void*) &res);
+   emit widgetService(this, func, linkname, (void *) &res);
 
    return res;
 }
@@ -212,7 +212,7 @@ void QGo4Widget::RemoveLinksMasked(const char *startedwith, bool blockreset)
 bool QGo4Widget::BrowserItemRemote(const char *itemname)
 {
    bool isremote = false;
-   emit widgetService(this, service_BrowserItemRemote, itemname, (void*) &isremote);
+   emit widgetService(this, service_BrowserItemRemote, itemname, (void *) &isremote);
    return isremote;
 }
 
@@ -221,19 +221,19 @@ TGo4BrowserProxy *QGo4Widget::Browser()
    if (fBrowserProxy) return fBrowserProxy;
 
    TGo4BrowserProxy *br = nullptr;
-   emit widgetService(this, service_Browser, "", (void*) &br);
+   emit widgetService(this, service_Browser, "", (void *) &br);
    fBrowserProxy = br;
    return br;
 }
 
 void QGo4Widget::ConnectPad(TPad *pad)
 {
-   emit widgetService(this, service_ConnectPad, "", (void*) pad);
+   emit widgetService(this, service_ConnectPad, "", (void *) pad);
 }
 
 void QGo4Widget::CallPanelFunc(int func, TPad *pad)
 {
-   emit widgetService(this, func, "", (void*) pad);
+   emit widgetService(this, func, "", (void *) pad);
 }
 
 void QGo4Widget::StatusMessage(const QString& message)
@@ -276,7 +276,7 @@ void QGo4Widget::AskToCreateObject(TClass *cl, int isremote)
 {
    fWaitsForObjectCreation = (isremote >= 0);
    QString str = QString::number(isremote);
-   emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void*) cl);
+   emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void *) cl);
 }
 
 void QGo4Widget::InformThatObjectCreated(const char *itemname, TClass *cl)
@@ -298,7 +298,7 @@ TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
    TGo4ViewPanel* res = nullptr;
-   emit widgetService(this, service_CreateViewPanel, str.toLatin1().constData(), (void*)&res);
+   emit widgetService(this, service_CreateViewPanel, str.toLatin1().constData(), (void *)&res);
    return res;
 }
 
@@ -327,7 +327,7 @@ void QGo4Widget::UndrawItem(const char *itemname)
 
 void QGo4Widget::HelpWindow(const char *filename, const char *msg)
 {
-   emit widgetService(this, service_HelpWindow, filename, (void*)msg);
+   emit widgetService(this, service_HelpWindow, filename, (void *)msg);
 }
 
 void QGo4Widget::StartHotstart(const char *filename)
@@ -338,7 +338,7 @@ void QGo4Widget::StartHotstart(const char *filename)
 TGo4ViewPanel* QGo4Widget::LastActivePanel()
 {
    TGo4ViewPanel* res = nullptr;
-   emit widgetService(this, service_LastActivePanel, "", (void*)&res);
+   emit widgetService(this, service_LastActivePanel, "", (void *)&res);
    return res;
 }
 
@@ -349,13 +349,13 @@ void QGo4Widget::EditItem(const QString& itemname)
 
 void QGo4Widget::EditObjectInSlot(TGo4Slot *slot)
 {
-   emit widgetService(this, service_EditInSlot, "", (void*) slot);
+   emit widgetService(this, service_EditInSlot, "", (void *) slot);
 }
 
 QString QGo4Widget::SaveObjectInMemory(const char *foldername, TObject *obj)
 {
-   void* par = obj;
-   emit widgetService(this, service_SaveToMemory, foldername, (void*) &par);
+   void *par = obj;
+   emit widgetService(this, service_SaveToMemory, foldername, (void *) &par);
    QString itemname = "";
    if ((par != obj) && par) {
       QString* res = (QString*) par;
@@ -372,30 +372,30 @@ bool QGo4Widget::SaveItemToFile(const char *itemname, const char *subfolder)
       strcpy(buf, "");
    else
       strncpy(buf, subfolder, sizeof(buf));
-   emit widgetService(this, service_SaveItem, itemname, (void*) buf);
+   emit widgetService(this, service_SaveItem, itemname, (void *) buf);
    return buf[0] != 0;
 }
 
 bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject *obj)
 {
    TObject *res = obj;
-   emit widgetService(this, service_UpdateAnalysisItem, itemname, (void*) &res);
+   emit widgetService(this, service_UpdateAnalysisItem, itemname, (void *) &res);
    return res != nullptr;
 }
 
 TGo4ServerProxy* QGo4Widget::GetAnalysis(const char *itemname)
 {
    TGo4ServerProxy* res = nullptr;
-   emit widgetService(this, service_GetAnalysis, itemname, (void*) &res);
+   emit widgetService(this, service_GetAnalysis, itemname, (void *) &res);
    return res;
 }
 
-void QGo4Widget::CallServiceFunc(int func, const char *str, void* par)
+void QGo4Widget::CallServiceFunc(int func, const char *str, void *par)
 {
    emit widgetService(this, func, str, par);
 }
 
-void QGo4Widget::ServiceCall(const char *name, void* par)
+void QGo4Widget::ServiceCall(const char *name, void *par)
 {
    CallServiceFunc(service_General, name, par);
 }

@@ -552,7 +552,7 @@ void TGo4Slot::RemoveChild(TGo4Slot *child)
     }
 }
 
-void TGo4Slot::Event(TGo4Slot *source, Int_t id, void* param)
+void TGo4Slot::Event(TGo4Slot *source, Int_t id, void *param)
 {
    Bool_t doforward = kTRUE;
 
@@ -562,7 +562,7 @@ void TGo4Slot::Event(TGo4Slot *source, Int_t id, void* param)
    if (doforward) ForwardEvent(source, id, param);
 }
 
-void TGo4Slot::ForwardEvent(TGo4Slot *source, Int_t id, void* param)
+void TGo4Slot::ForwardEvent(TGo4Slot *source, Int_t id, void *param)
 {
   if (GetParent())
      GetParent()->Event(source, id, param);

@@ -96,13 +96,13 @@ public:
      *  mode, depending on owner type */
     void SetOwner(TGo4TaskOwner* owner);
 
-    virtual TGo4TaskHandler* GetTaskHandler() { return nullptr; }
+    virtual TGo4TaskHandler *GetTaskHandler() { return nullptr; }
 
-    virtual TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) { return nullptr; }
+    virtual TGo4BufferQueue *GetCommandQueue(const char *task = nullptr) { return nullptr; }
 
-    virtual TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) { return nullptr; }
+    virtual TGo4BufferQueue *GetStatusQueue(const char *task = nullptr) { return nullptr; }
 
-    virtual TGo4BufferQueue* GetDataQueue(const char *task = nullptr) { return nullptr; }
+    virtual TGo4BufferQueue *GetDataQueue(const char *task = nullptr) { return nullptr; }
 
    /**
      * Add a user command object to the existing command list. This can be done on the fly.
@@ -185,7 +185,7 @@ public:
      * master or may be used to restore current status by
      * memento mechanism
      */
-    virtual TGo4TaskStatus* CreateStatus();
+    virtual TGo4TaskStatus *CreateStatus();
 
     /**
      * send command specified by name to the current client task
@@ -287,7 +287,7 @@ public:
      * set the values of the clienttask specific
      * part of the status object.
      */
-    virtual void UpdateStatus(TGo4TaskStatus* state);
+    virtual void UpdateStatus(TGo4TaskStatus *state);
 
     TGo4ObjectQueue* GetLocalCommandQueue() { return fxLocalCommandQueue; }
 

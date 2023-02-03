@@ -146,7 +146,7 @@ void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject *event, TDataMember* 
    fxCondType[ix] = member->GetDataType()->GetType();
 }
 
-Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void* ptr)
+Double_t TGo4HistogramEntry::GetPtrValue(Int_t type, void *ptr)
 {
    if (!ptr) return 0.;
    switch (type) {

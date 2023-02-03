@@ -81,8 +81,8 @@ class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
       std::unique_ptr<TGo4Access> ProvideAccess(const char *name = nullptr) override
           { return ProvideSlotAccess(name); }
 
-      void Event(TGo4Slot *source, Int_t id, void* param = nullptr) override;
-      void RetranslateEvent(TGo4Slot *source, Int_t id, void* param = nullptr);
+      void Event(TGo4Slot *source, Int_t id, void *param = nullptr) override;
+      void RetranslateEvent(TGo4Slot *source, Int_t id, void *param = nullptr);
       void RegisterObjectWith(TObject *obj, TGo4Slot *slot);
       void UnregisterObject(TObject *obj, TGo4Slot *slot);
 

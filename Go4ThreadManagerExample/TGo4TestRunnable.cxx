@@ -49,7 +49,7 @@ TGo4TestRunnable::~TGo4TestRunnable()
    GO4TRACE((14,"TGo4TestRunnable::~TGo4TestRunnable() destructor",__LINE__, __FILE__));
 }
 
-Int_t TGo4TestRunnable::Run (void* ptr)
+Int_t TGo4TestRunnable::Run (void *ptr)
 {
    GO4TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
 

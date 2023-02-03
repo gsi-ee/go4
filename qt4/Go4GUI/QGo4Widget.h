@@ -116,7 +116,7 @@ private:
       static QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 
    signals:
-      void widgetService(QGo4Widget* editor, int serviceid, const char *str, void* par);
+      void widgetService(QGo4Widget* editor, int serviceid, const char *str, void *par);
 
    public slots:
       void CloseMDIParentSlot();
@@ -190,7 +190,7 @@ private:
       void ConnectPad(TPad *pad);
 
       void CallServiceFunc(int id, const char *str = nullptr, void *par = nullptr);
-      void ServiceCall(const char *name, void* par = nullptr);
+      void ServiceCall(const char *name, void *par = nullptr);
 
       virtual void requestedObjectCreated(const char *itemname, TClass *cl);
       virtual void linkedObjectUpdated(const char *linkname, TObject *obj);

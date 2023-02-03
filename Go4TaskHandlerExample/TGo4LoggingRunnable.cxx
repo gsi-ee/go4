@@ -30,10 +30,10 @@ TGo4LoggingRunnable::~TGo4LoggingRunnable()
    GO4TRACE((15,"TGo4LoggingRunnable::TGo4LoggingRunnable() constructor",__LINE__, __FILE__));
 }
 
-Int_t TGo4LoggingRunnable::Run(void*)
+Int_t TGo4LoggingRunnable::Run(void *)
 {
    GO4TRACE((12,"TGo4LoggingRunnable::Run()",__LINE__, __FILE__));
-   TGo4TaskHandler* currenttask=fxServer->GetCurrentTaskHandler();
+   TGo4TaskHandler *currenttask=fxServer->GetCurrentTaskHandler();
    if(!currenttask) {
       GO4TRACE((11,"TGo4LoggingRunnable::Run()-- no current client existing",__LINE__, __FILE__));
       TGo4Thread::Sleep(5000);

@@ -305,7 +305,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
    }
 }
 
-void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
+void *TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
 {
    if (path && (strcmp(path,"Status/Analysis") == 0)) {
       TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);

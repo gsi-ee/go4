@@ -316,7 +316,7 @@ Int_t TGo4Socket::ReceiveBuffer()
 #ifdef Linux
    rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), buf, len, MSG_NOSIGNAL);
 #else
-   rev = fxSocket->RecvRaw((void*) buf, len);
+   rev = fxSocket->RecvRaw((void *) buf, len);
 #endif
    if(rev <= 0) {
       // error on receive

@@ -38,7 +38,7 @@ class TGo4ConnectorRunnable : public TGo4Runnable {
 
       virtual ~TGo4ConnectorRunnable() {}
 
-      Int_t Run(void* ptr) override;
+      Int_t Run(void *ptr) override;
 
    private:
       TGo4ConnectorRunnable();

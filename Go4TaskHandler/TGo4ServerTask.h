@@ -53,19 +53,19 @@ class TGo4ServerTask : public TGo4Task {
       TGo4TaskManager* GetTaskManager();
 
       /** Get task handler of the currently activated client connection */
-      TGo4TaskHandler* GetCurrentTaskHandler();
+      TGo4TaskHandler *GetCurrentTaskHandler();
 
       /** Get task handler for client specified by name */
-      TGo4TaskHandler* GetTaskHandler() override;
+      TGo4TaskHandler *GetTaskHandler() override;
 
       /** Get task handler for client specified by name */
-      TGo4TaskHandler* GetTaskHandler(const char *name);
+      TGo4TaskHandler *GetTaskHandler(const char *name);
 
-      TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetCommandQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetStatusQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetDataQueue(const char *task = nullptr) override;
 
       /** Delivers next command. This implementation will poll over
        *  command queues of all existing connections. Command is labeled

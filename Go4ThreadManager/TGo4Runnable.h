@@ -50,13 +50,13 @@ class TGo4Runnable : public TNamed {
       TGo4Runnable() {}
 
       /** The working function which runs in the thread */
-      virtual Int_t Run (void* ptr) = 0;
+      virtual Int_t Run (void *ptr) = 0;
 
       /** Function which is called once before the Run() method on threadstart */
-      virtual Int_t PreRun (void* ptr);
+      virtual Int_t PreRun (void *ptr);
 
       /** Function which is called once after the Run()method on threadstop */
-      virtual Int_t PostRun (void* ptr);
+      virtual Int_t PostRun (void *ptr);
 
       /** catch for exceptions occurring in workfunc */
       virtual void ThreadCatch(TGo4Exception& ex);

@@ -313,7 +313,7 @@ void TGo4Task::UpdateStatusBuffer()
    TFile *filsav = gFile;
    gFile = nullptr;
 
-   TGo4TaskStatus* state = fxSlave ? fxSlave->CreateStatus() : CreateStatus();
+   TGo4TaskStatus *state = fxSlave ? fxSlave->CreateStatus() : CreateStatus();
 
    fxStatusBuffer->Reset();
    fxStatusBuffer->InitMap();
@@ -390,7 +390,7 @@ Int_t TGo4Task::Initialization()
    return rev;
 }
 
-void TGo4Task::UpdateStatus(TGo4TaskStatus* state)
+void TGo4Task::UpdateStatus(TGo4TaskStatus *state)
 {
    TGo4TaskHandlerStatus *taskhandlerstatus = nullptr;
    TGo4TaskHandler *th = GetTaskHandler();
@@ -399,9 +399,9 @@ void TGo4Task::UpdateStatus(TGo4TaskStatus* state)
    state->SetFlags(fbAppBlocking, fbAutoCreate, fbAutoStart, fbTerminating, fbInitDone);
 }
 
-TGo4TaskStatus* TGo4Task::CreateStatus()
+TGo4TaskStatus *TGo4Task::CreateStatus()
 {
-   TGo4TaskStatus* stat = new TGo4TaskStatus(GetName());
+   TGo4TaskStatus *stat = new TGo4TaskStatus(GetName());
    UpdateStatus(stat); // set the internals
    return stat;
 }
@@ -432,7 +432,7 @@ Bool_t TGo4Task::SubmitCommand(const char *name)
 
 Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 {
-   TGo4BufferQueue* queue = GetCommandQueue();
+   TGo4BufferQueue *queue = GetCommandQueue();
    if(queue)
    {
       // we have an active command queue...
@@ -454,7 +454,7 @@ Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 
 Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char *receiver)
 {
-   TGo4BufferQueue* queue=GetDataQueue(receiver);
+   TGo4BufferQueue *queue=GetDataQueue(receiver);
    if(queue)
    {
       // we have an active data queue...
@@ -482,7 +482,7 @@ Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
       SubmitLocalCommand(com);
    else {
       // command for remote client, put into actual client queue
-      TGo4BufferQueue* queue=GetCommandQueue();
+      TGo4BufferQueue *queue=GetCommandQueue();
       if(queue) {
          // we have an active command queue...
          TGo4LockGuard mainlock; // protect the streamer!
@@ -536,12 +536,12 @@ void TGo4Task::WakeCommandQueue(Int_t id)
 void TGo4Task::GetStatus()
 {
    TGo4Log::Debug(" Task ''%s'' Send Status to Command Master ",GetName());
-   TGo4BufferQueue* queue = GetStatusQueue();
+   TGo4BufferQueue *queue = GetStatusQueue();
    if(!queue) return;
 
    TGo4LockGuard mainguard;
    //         std::cout << "Mainlock acquired by clienttask: GetStatus"<< std::endl;
-   TGo4TaskStatus* state = CreateStatus();
+   TGo4TaskStatus *state = CreateStatus();
    queue->AddBufferFromObject(state);
 }
 
@@ -559,7 +559,7 @@ Int_t TGo4Task::StopWorkThreads()
 
 void TGo4Task::SendStopBuffers(const char *taskname)
 {
-   TGo4TaskHandler* th = GetTaskHandler();
+   TGo4TaskHandler *th = GetTaskHandler();
    if(!th || th->IsAborting()) return;
 
    if(IsMaster())

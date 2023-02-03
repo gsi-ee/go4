@@ -236,7 +236,7 @@ Int_t TGo4AnalysisClient::Initialization()
 
 void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
 {
-   GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *)",__LINE__, __FILE__));
    TGo4Slave::UpdateStatus(state); // fill superclass attributes
    TGo4AnalysisClientStatus* anstate = dynamic_cast<TGo4AnalysisClientStatus*> (state);
    if (anstate) {
@@ -255,7 +255,7 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus *state)
    }
 }
 
-TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
+TGo4TaskStatus *TGo4AnalysisClient::CreateStatus()
 {
    GO4TRACE((12,"TGo4AnalysisClient::CreateStatus()",__LINE__, __FILE__));
    // note: ratemeter update done by mainthread loop

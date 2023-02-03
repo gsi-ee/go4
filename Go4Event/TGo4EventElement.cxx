@@ -32,7 +32,7 @@ TGo4EventElement::TGo4EventElement() :
 TGo4EventElement::TGo4EventElement(const char *name) :
    TNamed(name,"This is a Go4 EventElement")
 {
-   GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char *)",__LINE__, __FILE__));
 }
 
 TGo4EventElement::TGo4EventElement(const char *aName, const char *aTitle, Short_t aBaseCat) :
@@ -48,7 +48,7 @@ TGo4EventElement::~TGo4EventElement()
 
 Bool_t TGo4EventElement::CheckEventSource(const char *classname)
 {
-   GO4TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventElement::CheckEventSource(const char *)",__LINE__, __FILE__));
    return fxEventSource ? fxEventSource->InheritsFrom(classname) : kFALSE;
 }
 
@@ -122,11 +122,11 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
 
       TClass *cl = *var_ptr ? (*var_ptr)->IsA() : nullptr;
       tree->SetBranchAddress(cad.Data(), var_ptr, nullptr, cl, kOther_t, true);
-      //tree->SetBranchAddress(cad.Data(), (void**) var_ptr);
+      //tree->SetBranchAddress(cad.Data(), (void **) var_ptr);
    }
 
    tree->SetBranchStatus(cad.Data(), 1);
-   cad+="*";
+   cad += "*";
    tree->SetBranchStatus(cad.Data(), 1);
 
    return 0;

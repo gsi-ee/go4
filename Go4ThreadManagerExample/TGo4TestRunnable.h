@@ -79,7 +79,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
       *   The working function which runs in the
       *   thread
       */
-      Int_t Run (void* ptr) override;
+      Int_t Run (void *ptr) override;
 
        /**
          *   catch for exceptions occurring in workfunc

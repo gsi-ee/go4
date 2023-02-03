@@ -77,7 +77,7 @@ class TGo4AnalysisClient : public TGo4Slave {
       * current client state. this object may be sent to the
       * server or may be used to restore current status by
       * memento mechanism. Overridden from superclass */
-    TGo4TaskStatus* CreateStatus() override;
+    TGo4TaskStatus *CreateStatus() override;
 
     /** Override the ClientTask/ThreadManager  Initialization used by AppControlTimer
       * to init event classes before the threads are started. */
@@ -100,7 +100,7 @@ class TGo4AnalysisClient : public TGo4Slave {
     void SendNamesList();
 
     /** Update ratemeter. To be used from main thread. */
-    void UpdateRate(Int_t counts=1);
+    void UpdateRate(Int_t counts = 1);
 
     /** Number of currently processed events since last start. */
     UInt_t GetCurrentCount() const;

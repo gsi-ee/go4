@@ -49,7 +49,7 @@ TGo4RootBrowserProxy::~TGo4RootBrowserProxy()
    }
 }
 
-Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
+Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
    if ((id == TGo4Slot::evObjAssigned) || (id == TGo4Slot::evObjUpdated)) {
       if (strcmp(source->GetName(), "Go4Browser") == 0)

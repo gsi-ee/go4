@@ -527,7 +527,7 @@ TGo4HDF5VectorDataHandle::~TGo4HDF5VectorDataHandle()
     delete fxCollection;
 }
 
-void TGo4HDF5VectorDataHandle::SetObjectPointer(void* memptr)
+void TGo4HDF5VectorDataHandle::SetObjectPointer(void *memptr)
 {
 
   TGo4HDF5DataHandle::SetObjectPointer(memptr);
@@ -760,7 +760,7 @@ TGo4HDF5SubVectorDataHandle::~TGo4HDF5SubVectorDataHandle()
    go4hdfdbg("TGo4HDF5SubVectorDataHandle  is deleted %s \n", fxTypeName.Data());
 }
 
-void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
+void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void *memptr)
 {
 
   TGo4HDF5VectorDataHandle::SetObjectPointer(memptr);
@@ -816,7 +816,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void* memptr)
       subhandle->SetActive(true);
     }
 
-    void* super = Data(); // everything is relative to immediate mother element
+    void *super = Data(); // everything is relative to immediate mother element
     // pointer to the subvector is content of cursor:
 
 //    char** psubvector = (char**) cursor;

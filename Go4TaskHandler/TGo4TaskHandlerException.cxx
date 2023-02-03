@@ -16,7 +16,7 @@
 #include "TGo4TaskHandler.h"
 #include "TGo4TaskHandlerRunnable.h"
 
-TGo4TaskHandlerException::TGo4TaskHandlerException (TGo4TaskHandler* taskhandler)
+TGo4TaskHandlerException::TGo4TaskHandlerException (TGo4TaskHandler *taskhandler)
 {
    fxDescription= "!!!-- Go4 TaskHandler Exception --!!!";
    fxTaskHandler = taskhandler;

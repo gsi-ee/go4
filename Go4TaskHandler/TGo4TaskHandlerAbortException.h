@@ -28,7 +28,7 @@ class TGo4TaskHandlerAbortException : public TGo4TaskHandlerException {
     *   Exception to Disconnect client belonging to taskhandler from server task (servermode)
     *    or shut down the client task (clientmode)
     */
-   TGo4TaskHandlerAbortException (TGo4TaskHandler* taskhandler);
+   TGo4TaskHandlerAbortException (TGo4TaskHandler *taskhandler);
 
    /**
     * ctor to call exception from within a taskhandler runnable;

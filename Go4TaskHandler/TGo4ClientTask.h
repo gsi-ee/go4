@@ -65,20 +65,20 @@ class TGo4ClientTask : public TGo4Task {
        * server or may be used to restore current status by
        * memento mechanism
        */
-      TGo4TaskStatus* CreateStatus() override;
+      TGo4TaskStatus *CreateStatus() override;
 
-      TGo4TaskHandler* GetTaskHandler() override;
+      TGo4TaskHandler *GetTaskHandler() override;
 
       /**
        * Put command into the command queue for local execution in main thread
        */
-      void AddLocalCommand(TGo4Command * com);
+      void AddLocalCommand(TGo4Command *com);
 
-      TGo4BufferQueue* GetCommandQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetCommandQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetStatusQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetStatusQueue(const char *task = nullptr) override;
 
-      TGo4BufferQueue* GetDataQueue(const char *task = nullptr) override;
+      TGo4BufferQueue *GetDataQueue(const char *task = nullptr) override;
 
       /**
        * Connect this client to a waiting server task on node with
@@ -109,18 +109,18 @@ class TGo4ClientTask : public TGo4Task {
        * set the values of the clienttask specific
        * part of the status object.
        */
-      void UpdateStatus(TGo4TaskStatus* state) override;
+      void UpdateStatus(TGo4TaskStatus *state) override;
 
    private:
-      TGo4BufferQueue* fxStatusQ{nullptr}; //!
-      TGo4BufferQueue* fxDataQ{nullptr}; //!
-      TGo4BufferQueue* fxCommandQ{nullptr}; //!
+      TGo4BufferQueue *fxStatusQ{nullptr}; //!
+      TGo4BufferQueue *fxDataQ{nullptr}; //!
+      TGo4BufferQueue *fxCommandQ{nullptr}; //!
 
       /** @link aggregationByValue
        * @directed
        * @clientCardinality 1
        * @supplierCardinality 1*/
-      TGo4TaskHandler* fxTaskHandler{nullptr}; //!
+      TGo4TaskHandler *fxTaskHandler{nullptr}; //!
 
       /** hostname of server machine */
       TString fxServerHostname;

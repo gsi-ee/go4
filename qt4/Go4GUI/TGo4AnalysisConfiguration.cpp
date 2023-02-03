@@ -375,7 +375,7 @@ void TGo4AnalysisConfiguration::GetAnalysisConfigFile(QString& filename)
 
 void TGo4AnalysisConfiguration::DisplayMbsMonitor(const QString& mbsname )
 {
-   ServiceCall("DisplayMbsMonitor", (void*) mbsname.toLatin1().constData());
+   ServiceCall("DisplayMbsMonitor", (void *) mbsname.toLatin1().constData());
 }
 
 void TGo4AnalysisConfiguration::closeEvent(QCloseEvent* e)

@@ -225,7 +225,7 @@ void TGo4BrowserProxy::Finalize(TGo4Slot *slot)
    fxBrowserPath = "";
 }
 
-Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
+Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
    bool ischildevent = source->IsParent(slot);
 
@@ -247,7 +247,7 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id
    } else if ((source != slot) && ischildevent) {
       if ((id == TGo4Slot::evObjUpdated) || (id == TGo4Slot::evObjAssigned)) {
          CheckWaitingList(source);
-         slot->ForwardEvent(slot, TGo4Slot::evSubslotUpdated, (void*) source);
+         slot->ForwardEvent(slot, TGo4Slot::evSubslotUpdated, (void *) source);
          CheckPictureMonitor(source);
       }
    }

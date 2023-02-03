@@ -200,7 +200,7 @@ Int_t TGo4MbsFile::NextEvent()
          } else {
             skip = (Int_t) fuEventInterval;
          }
-         void* evptr = &fxEvent; // some new compilers may warn if we directly dereference member variable in function argument
+         void *evptr = &fxEvent; // some new compilers may warn if we directly dereference member variable in function argument
          Int_t status = f_evt_get_tagnext(fxInputChannel, skip, (Int_t **) evptr);
          if(skip)
             fuEventCounter+=skip;
@@ -384,7 +384,7 @@ Int_t TGo4MbsFile::OpenFile()
       tagfile = nullptr;
       fxCurrentTag = "none"; // looks better in display message
    }
-   void* headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
+   void *headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
    Int_t status = f_evt_get_tagopen(fxInputChannel,
                                     const_cast<char*>(tagfile),
                                     const_cast<char*>(GetCurrentFileName()),

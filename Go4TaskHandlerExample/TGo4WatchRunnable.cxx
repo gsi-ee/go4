@@ -31,7 +31,7 @@ TGo4WatchRunnable::~TGo4WatchRunnable()
 
 }
 
-Int_t TGo4WatchRunnable::Run(void*)
+Int_t TGo4WatchRunnable::Run(void *)
 {
    GO4TRACE((12,"TGo4WatchRunnable::Run()",__LINE__, __FILE__));
    TGo4ClientTask* cli= dynamic_cast<TGo4ClientTask*> (fxManager);

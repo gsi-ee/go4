@@ -515,7 +515,7 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
      if (message.Contains("is shutting down now!")) {
          fActualRole = -1;
          TGo4Task* task = fxDisplay ? fxDisplay->GetTask() : nullptr;
-         TGo4BufferQueue* qu = task ? task->GetCommandQueue() : nullptr;
+         TGo4BufferQueue *qu = task ? task->GetCommandQueue() : nullptr;
          if(qu) qu->Clear();
      }
 

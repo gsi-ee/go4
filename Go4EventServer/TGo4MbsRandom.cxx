@@ -77,7 +77,7 @@ Int_t TGo4MbsRandom::NextEvent()
 {
    GO4TRACE((12,"TGo4MbsRandom::NextEvent()",__LINE__, __FILE__));
    // here we fill mbs event structure at fxEvent ptr.
-   void *clearfield = (void*) (fxEvent+1); // we skip header and clear the rest
+   void *clearfield = (void *) (fxEvent+1); // we skip header and clear the rest
    size_t clearlen = fiDLen*2 - 8;
    memset(clearfield, 0, clearlen); // clear old values
    fxEvent->l_count++;

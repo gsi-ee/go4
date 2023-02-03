@@ -62,7 +62,7 @@ TGo4TaskStatus * TGo4ExampleClient::CreateStatus()
    return stat;
 
 }
-void TGo4ExampleClient::UpdateStatus(TGo4TaskStatus* state)
+void TGo4ExampleClient::UpdateStatus(TGo4TaskStatus *state)
 {
    GO4TRACE((12,"TGo4ExampleClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
    TGo4ClientTask::UpdateStatus(state); // fill superclass attributes

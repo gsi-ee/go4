@@ -69,6 +69,6 @@ Int_t TMeshB12OutputEvent::Fill()
 //-----------------------------------------------------------
 void TMeshB12OutputEvent::Clear(Option_t *)
 {
-   void* destfield = (void*) &frData[0];
+   void *destfield = (void *) &frData[0];
    memset(destfield,0, sizeof(frData));
 }

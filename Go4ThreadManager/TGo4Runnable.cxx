@@ -61,7 +61,7 @@ void TGo4Runnable::UnexpectedCatch ()
    //gApplication->Terminate(0);
 }
 
-Int_t TGo4Runnable::PreRun (void* arg)
+Int_t TGo4Runnable::PreRun (void *arg)
 {
    GO4TRACE((12,"TGo4Runnable::PreRun()",__LINE__, __FILE__));
 
@@ -69,7 +69,7 @@ Int_t TGo4Runnable::PreRun (void* arg)
    return 0;
 }
 
-Int_t TGo4Runnable::PostRun (void* arg)
+Int_t TGo4Runnable::PostRun (void *arg)
 {
    GO4TRACE((12,"TGo4Runnable::PostRun()",__LINE__, __FILE__));
 

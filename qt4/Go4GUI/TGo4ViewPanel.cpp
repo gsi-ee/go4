@@ -558,7 +558,7 @@ int TGo4ViewPanel::GetSelectedMarkerIndex(TPad *pad)
    return selindex;
 }
 
-TGo4Slot *TGo4ViewPanel::GetSelectedSlot(TPad *pad, int* selkind, TObject** selobj)
+TGo4Slot *TGo4ViewPanel::GetSelectedSlot(TPad *pad, int* selkind, TObject **selobj)
 {
    if (selkind) *selkind = kind_None;
    if (selobj) *selobj = nullptr;

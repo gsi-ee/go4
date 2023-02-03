@@ -70,12 +70,12 @@ class TGo4TaskManager : public TNamed {
      /**
       * adds external task handler to array
       */
-      Bool_t AddTaskHandler(TGo4TaskHandler* han);
+      Bool_t AddTaskHandler(TGo4TaskHandler *han);
 
       /**
       * creates new task handler with given name and adds it into array
       */
-      TGo4TaskHandler* NewTaskHandler(const char *name);
+      TGo4TaskHandler *NewTaskHandler(const char *name);
 
       /**
       * removes task handler from array by name
@@ -85,12 +85,12 @@ class TGo4TaskManager : public TNamed {
       /**
       * returns certain task handler by name
       */
-      TGo4TaskHandler* GetTaskHandler(const char *name);
+      TGo4TaskHandler *GetTaskHandler(const char *name);
 
       /**
       * returns last task handler in list
       */
-      TGo4TaskHandler* GetLastTaskHandler();
+      TGo4TaskHandler *GetLastTaskHandler();
 
      /**
       * For iteration over all connected task handlers. If
@@ -98,7 +98,7 @@ class TGo4TaskManager : public TNamed {
       * continue iterating list until last entry. Returns 0 when
       * iteration finishes.
       */
-      TGo4TaskHandler* NextTaskHandler(Bool_t reset=kFALSE);
+      TGo4TaskHandler *NextTaskHandler(Bool_t reset=kFALSE);
 
       TMutex* GetMutex(){return fxListMutex;}
 

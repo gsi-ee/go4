@@ -616,7 +616,7 @@ Bool_t TGo4DabcProxy::Connect(const char *nodename)
    return UpdateHierarchy(kTRUE);
 }
 
-Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
+Bool_t TGo4DabcProxy::ReplyCommand(void *_cmd)
 {
    dabc::Command cmd = *((dabc::Command*)_cmd);
 
@@ -766,7 +766,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
    return kFALSE;
 }
 
-Bool_t TGo4DabcProxy::ReplyCommand(void* cmd)
+Bool_t TGo4DabcProxy::ReplyCommand(void *cmd)
 {
    return kFALSE;
 }

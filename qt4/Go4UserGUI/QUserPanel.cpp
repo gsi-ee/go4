@@ -33,7 +33,7 @@
 
 
 // this function called by Go4 GUI to start user panel
-extern "C" Q_DECL_EXPORT void* StartUserPanel(void *parent)
+extern "C" Q_DECL_EXPORT void *StartUserPanel(void *parent)
 {
    return new QUserPanel((QWidget *) parent);
 

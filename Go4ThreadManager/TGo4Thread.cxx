@@ -72,9 +72,9 @@ TGo4Thread::~TGo4Thread()
 
 }
 
-void TGo4Thread::Threadfunc (void* arg)
+void TGo4Thread::Threadfunc (void *arg)
 {
-   GO4TRACE((2,"TGo4Thread::Threadfunc(void*)",__LINE__, __FILE__));
+   GO4TRACE((2,"TGo4Thread::Threadfunc(void *)",__LINE__, __FILE__));
    TGo4Thread* go4th= (TGo4Thread*) arg; // we need reference to calling class instance
    TGo4Runnable* runnable = go4th->GetRunnable();
 
@@ -91,13 +91,13 @@ for(;;) // loop keeps thread alive after exception has occured...
    {
    try
       {
-      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) try block",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void *) try block",__LINE__, __FILE__));
       while(1)
          {
             TThread::CancelPoint();
             if( !(go4th->IsRunning()) )
                {
-                  GO4TRACE((1,"TGo4Thread::Threadfunc(void*) waiting mode",__LINE__, __FILE__));
+                  GO4TRACE((1,"TGo4Thread::Threadfunc(void *) waiting mode",__LINE__, __FILE__));
                   TGo4Log::Debug(" Go4Thread ``%s'' (PID:%d) waiting...\n",
                            go4th->GetName(), go4th->GetPID());
                    go4th->SetWaiting(kTRUE);
@@ -114,22 +114,22 @@ for(;;) // loop keeps thread alive after exception has occured...
             if(go4th->IsCreated())
                // normal  mode: enter runnable
                {
-               GO4TRACE((1,"TGo4Thread::Threadfunc(void*) entering running mode",__LINE__, __FILE__));
+               GO4TRACE((1,"TGo4Thread::Threadfunc(void *) entering running mode",__LINE__, __FILE__));
                   // call runnable prerun method before running:
-               runnable->PreRun((void*) 0); // we are runnable's friend, can call protected method...
+               runnable->PreRun((void *) 0); // we are runnable's friend, can call protected method...
                while(go4th->IsRunning())
                   {
                      TThread::CancelPoint();
-                     runnable->Run((void*) 0); // we are runnable's friend, can call protected method...
+                     runnable->Run((void *) 0); // we are runnable's friend, can call protected method...
                   }
                    // call runnable postrun method before stopping
-               runnable->PostRun((void*) 0); // we are runnable's friend, can call protected method...
+               runnable->PostRun((void *) 0); // we are runnable's friend, can call protected method...
 
                }
             else
                // aborting mode after condition release: loop cancel point
                {
-                  GO4TRACE((1,"TGo4Thread::Threadfunc(void*) entering Cancel loop",__LINE__, __FILE__));
+                  GO4TRACE((1,"TGo4Thread::Threadfunc(void *) entering Cancel loop",__LINE__, __FILE__));
                   TGo4Log::Debug(" Go4Thread ``%s''  entering Cancel loop\n ", go4th->GetName());
                   while(!(go4th->IsCreated()))
                      {
@@ -137,7 +137,7 @@ for(;;) // loop keeps thread alive after exception has occured...
                         #ifdef _MSC_VER
                            return; // cancel point does not work on windows; escape to root thread framework...
                         #else
-                           GO4TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
+                           GO4TRACE((1,"TGo4Thread::Threadfunc(void *) in Cancel loop",__LINE__, __FILE__));
                            Sleep(500);
                            TThread::CancelPoint();
                         #endif
@@ -148,14 +148,14 @@ for(;;) // loop keeps thread alive after exception has occured...
     }// try
   catch(TGo4Exception& ex)
     {
-      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) Go4Exception Catch",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void *) Go4Exception Catch",__LINE__, __FILE__));
       runnable->ThreadCatch(ex);
       TThread::CancelPoint();
     }
 
   catch(...)
     {
-      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) Unexpected Catch",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void *) Unexpected Catch",__LINE__, __FILE__));
       //runnable->UnexpectedCatch(); // do not handle alien exceptions!
       TThread::CancelPoint();
       throw; // otherwise, we have trouble with newer pthread
@@ -174,7 +174,7 @@ Bool_t TGo4Thread::Create ()
 
    fxThread= new TThread(GetName(),
                          (void(*) (void *)) &Threadfunc ,
-                         (void*) this);
+                         (void *) this);
    fxThread->Run();
    fbIsCreated = kTRUE;
    return kTRUE;
@@ -232,7 +232,7 @@ Bool_t TGo4Thread::ReCreate ()
             // first start new TThread of same Threadfunc and runnable:
             fxThread= new TThread(GetName(),
                                (void(*) (void *)) &Threadfunc ,
-                               (void*) this);
+                               (void *) this);
 
             // then kill the old TThread, so Threadfunc may ReCreate() itself
             fbIsCreated=kFALSE;

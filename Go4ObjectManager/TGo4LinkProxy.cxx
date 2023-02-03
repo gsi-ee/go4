@@ -104,7 +104,7 @@ TObject *TGo4LinkProxy::GetAssignedObject()
    return fLink ? fLink->GetAssignedObject() : nullptr;
 }
 
-Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
+Bool_t TGo4LinkProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
     if ((id == TGo4Slot::evDelete) && (source == fLink)) {
        // next line very important.

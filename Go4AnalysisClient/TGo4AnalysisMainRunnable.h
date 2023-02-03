@@ -34,7 +34,7 @@ class TGo4AnalysisMainRunnable : public TGo4Runnable {
 
     virtual ~TGo4AnalysisMainRunnable();
 
-    Int_t Run(void*) override;
+    Int_t Run(void *) override;
 
     Int_t PreRun(void *) override;
 
@@ -53,7 +53,7 @@ class TGo4AnalysisMainRunnable : public TGo4Runnable {
     /** @supplierCardinality 1
       * @directed
       * @clientCardinality 0..1*/
-    TGo4AnalysisClient * fxAnalysisClient{nullptr};                   //!
+    TGo4AnalysisClient *fxAnalysisClient{nullptr};                   //!
 
     TGo4AnalysisMainRunnable();
 };

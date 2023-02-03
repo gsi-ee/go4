@@ -580,7 +580,7 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
    fxThreadHandler->Stop(GetComName());
    if(IsMasterMode())
    {
-      TGo4BufferQueue* comq= dynamic_cast<TGo4BufferQueue*>(GetCommandQueue());
+      TGo4BufferQueue *comq= dynamic_cast<TGo4BufferQueue*>(GetCommandQueue());
       if(comq)
          comq->Wake();
    }

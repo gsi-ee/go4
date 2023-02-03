@@ -48,7 +48,7 @@ There are several limitations, which should be kept in mind:
 1. User main widget should always be inherited from QGo4Widget class.
    This class provide interface to functionality of main go4 gui.
 
-2. User gui library should always include StartUserPanel(void*)
+2. User gui library should always include StartUserPanel(void *)
    function, which called by main gui once when library is loaded.
    This function should create main user widget and return its pointer
    back. In provided example this function situated in the beginning

@@ -56,7 +56,7 @@ class TGo4ExampleClient : public TGo4ClientTask {
      * set the values of the clienttask specific
      * part of the status object.
      */
-    void UpdateStatus(TGo4TaskStatus* state) override;
+    void UpdateStatus(TGo4TaskStatus *state) override;
 
   public:
     /**

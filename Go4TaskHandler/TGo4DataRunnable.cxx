@@ -25,7 +25,7 @@
 
 TGo4DataRunnable::TGo4DataRunnable(const char *name,
                                    TGo4ThreadManager* man,
-                                   TGo4TaskHandler* hand,
+                                   TGo4TaskHandler *hand,
                                    Bool_t receivermode)
    :TGo4TaskHandlerRunnable(name,man,hand,receivermode)
 {
@@ -37,7 +37,7 @@ TGo4DataRunnable::~TGo4DataRunnable()
 {
 }
 
-Int_t TGo4DataRunnable::Run(void* ptr)
+Int_t TGo4DataRunnable::Run(void *ptr)
 {
    if(!CheckTransportOpen()) return 0;
    if(fbReceiverMode)

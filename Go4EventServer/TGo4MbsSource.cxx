@@ -287,8 +287,8 @@ frombegin:
       while (eventstep > 0) {
          // retrieve the event, skip all events until end of the step
          Int_t status = f_evt_get_event(fxInputChannel,
-                                         (Int_t **) (void*) &fxEvent,
-                                         (Int_t **) (void*) &fxBuffer);
+                                         (Int_t **) (void *) &fxEvent,
+                                         (Int_t **) (void *) &fxBuffer);
 
          if (fbPollingMode && (status == GETEVT__TIMEOUT))
             HandleAnlysisEvents();
@@ -380,7 +380,7 @@ Int_t TGo4MbsSource::Open()
          fiMode,
          name,
          fxInputChannel,
-         (Char_t**) ((void*) &fxInfoHeader), // suppress type-punned pointer warning
+         (Char_t**) ((void *) &fxInfoHeader), // suppress type-punned pointer warning
          0,
          0);
    SetCreateStatus(status);

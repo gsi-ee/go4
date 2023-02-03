@@ -21,7 +21,7 @@
 #include "TGo4Log.h"
 #include "TGo4CommandInvoker.h"
 
-TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue* datq)
+TGo4ExampleApplication::TGo4ExampleApplication(TGo4BufferQueue *datq)
 : TNamed("My example application","Go4 Taskhandler example")
    {
    GO4TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() constructor",__LINE__, __FILE__));

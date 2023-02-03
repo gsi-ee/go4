@@ -23,7 +23,7 @@ TGo4ConnectorRunnable::TGo4ConnectorRunnable(const char *name, TGo4ServerTask* m
    fxTaskManager = man->GetTaskManager();
 }
 
-Int_t TGo4ConnectorRunnable::Run(void* ptr)
+Int_t TGo4ConnectorRunnable::Run(void *ptr)
 {
    // create new taskhandler and connect server to  client:
    Int_t rev = fxTaskManager->ServeClient();

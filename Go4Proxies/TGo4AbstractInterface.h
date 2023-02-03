@@ -27,7 +27,7 @@ class TGo4ServerProxy;
 class TPad;
 class TGo4Picture;
 
-typedef void* ViewPanelHandle;
+typedef void *ViewPanelHandle;
 
 
 /** Generic interface to GUI functionality.

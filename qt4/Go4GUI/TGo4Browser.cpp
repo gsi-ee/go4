@@ -156,7 +156,7 @@ void TGo4Browser::RequestDragObjectSlot(QDrag** res)
    (*res)->setMimeData(mimeData);
 }
 
-void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
+void TGo4Browser::ItemDropAcceptSlot(void *item, void *d, bool* res)
 {
    *res = false;
    QString tgtname = FullItemName((QTreeWidgetItem*) item);
@@ -176,7 +176,7 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
    *res = true;
 }
 
-void TGo4Browser::ItemDropProcessSlot(void* item, void* d)
+void TGo4Browser::ItemDropProcessSlot(void *item, void *d)
 {
    QString tgtname = FullItemName((QTreeWidgetItem*) item);
    const QMimeData* mime = (const QMimeData*) d;

@@ -22,7 +22,7 @@
 #include "TGo4Thread.h"
 #include "Go4EmergencyCommands.h"
 
-TGo4TaskHandlerRunnable::TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode)
+TGo4TaskHandlerRunnable::TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler *hand, Bool_t receivermode)
    :TGo4Runnable(name,man), fxTransport(nullptr), fbReceiverMode(0)
 {
    fxTaskHandler = hand;
@@ -33,7 +33,7 @@ TGo4TaskHandlerRunnable::~TGo4TaskHandlerRunnable()
 {
 }
 
-TGo4TaskHandler* TGo4TaskHandlerRunnable::GetTaskHandler()
+TGo4TaskHandler *TGo4TaskHandlerRunnable::GetTaskHandler()
 {
    return fxTaskHandler;
 }

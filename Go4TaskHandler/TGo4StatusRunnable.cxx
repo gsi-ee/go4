@@ -22,7 +22,7 @@
 #include "TGo4TaskHandler.h"
 #include "TGo4TaskHandlerAbortException.h"
 
-TGo4StatusRunnable::TGo4StatusRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode) :
+TGo4StatusRunnable::TGo4StatusRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler *hand, Bool_t receivermode) :
    TGo4TaskHandlerRunnable(name,man,hand,receivermode)
 {
    fxBufferQueue = dynamic_cast<TGo4BufferQueue*> (fxTaskHandler->GetStatusQueue() );
@@ -34,7 +34,7 @@ TGo4StatusRunnable::~TGo4StatusRunnable()
 {
 }
 
-Int_t TGo4StatusRunnable::Run(void* ptr)
+Int_t TGo4StatusRunnable::Run(void *ptr)
 {
    if(!CheckTransportOpen()) return 0;
    if(fbReceiverMode)

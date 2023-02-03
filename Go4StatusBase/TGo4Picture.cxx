@@ -1798,7 +1798,7 @@ Long_t TGo4Picture::GetTotalSize()
    Long_t sz = IsA()->Size();
 
    if (fxNames) {
-      sz += TObjArray::Class()->Size() + fxNames->GetSize() * sizeof(void*);
+      sz += TObjArray::Class()->Size() + fxNames->GetSize() * sizeof(void *);
       for (int n = 0; n <= fxNames->GetLast(); n++) {
          TObjString *str = (TObjString *)fxNames->At(n);
          if (str) sz += str->IsA()->Size() + str->GetString().Length();
@@ -1806,10 +1806,10 @@ Long_t TGo4Picture::GetTotalSize()
    }
 
    if (fxSubPictures)
-      sz += TObjArray::Class()->Size() + fxSubPictures->GetSize() * sizeof(void*);
+      sz += TObjArray::Class()->Size() + fxSubPictures->GetSize() * sizeof(void *);
 
    if (fxOptObjects) {
-      sz += TObjArray::Class()->Size() + fxOptObjects->GetSize() * sizeof(void*);
+      sz += TObjArray::Class()->Size() + fxOptObjects->GetSize() * sizeof(void *);
       for (int n = 0; n <= fxOptObjects->GetLast(); n++) {
          TObject *obj = fxOptObjects->At(n);
          if (obj) sz += obj->IsA()->Size();

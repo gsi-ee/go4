@@ -94,14 +94,14 @@ void TGo4Slave::TerminateFast ()
    Terminate();
 }
 
-TGo4TaskStatus* TGo4Slave::CreateStatus()
+TGo4TaskStatus *TGo4Slave::CreateStatus()
 {
-   TGo4TaskStatus* stat= new TGo4TaskStatus(GetName());
+   TGo4TaskStatus *stat= new TGo4TaskStatus(GetName());
    UpdateStatus(stat); // set the internals
    return stat;
 }
 
-void TGo4Slave::UpdateStatus(TGo4TaskStatus* state)
+void TGo4Slave::UpdateStatus(TGo4TaskStatus *state)
 {
    if(GetTask())
       GetTask()->UpdateStatus(state);

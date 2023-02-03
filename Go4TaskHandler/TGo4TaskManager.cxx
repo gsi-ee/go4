@@ -300,7 +300,7 @@ Int_t TGo4TaskManager::DisConnectClient(const char *name, Bool_t clientwait)
       // in case of timeout: command thread inits disconnect by client request
       // but if this fails, connector thread itself wants to finish disconnection hard
    Int_t rev = 0;
-   TGo4TaskHandler* han = GetTaskHandler(name);
+   TGo4TaskHandler *han = GetTaskHandler(name);
    rev = DisConnectClient(han,clientwait);
    return rev;
 }
@@ -347,7 +347,7 @@ Int_t TGo4TaskManager::DisConnectClient(TGo4TaskHandler * taskhandler, Bool_t cl
 
 Bool_t TGo4TaskManager::AddClient(const char *client, const char *host, Go4CommandMode_t role)
 {
-  TGo4TaskHandler* han = NewTaskHandler(client);
+  TGo4TaskHandler *han = NewTaskHandler(client);
   if (!han) {
        TGo4Log::Warn(" !!! TaskManager::AddClient ERROR: client of name %s is already existing !!! ",client);
        fxTransport->Send(TGo4TaskHandler::Get_fgcERROR()); // tell client we refuse connection
@@ -373,7 +373,7 @@ Bool_t TGo4TaskManager::AddClient(const char *client, const char *host, Go4Comma
 }
 
 
-Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler* han)
+Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler *han)
 {
    Bool_t rev = kFALSE;
    {
@@ -392,9 +392,9 @@ Bool_t TGo4TaskManager::AddTaskHandler(TGo4TaskHandler* han)
 }
 
 
-TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char *name)
+TGo4TaskHandler *TGo4TaskManager::NewTaskHandler(const char *name)
 {
-   TGo4TaskHandler* han=new TGo4TaskHandler(name,fxServer,kFALSE, fxServer->IsMaster());
+   TGo4TaskHandler *han=new TGo4TaskHandler(name,fxServer,kFALSE, fxServer->IsMaster());
    // success, taskhandler was not already existing
    if(AddTaskHandler(han)) return han;
 
@@ -406,7 +406,7 @@ TGo4TaskHandler* TGo4TaskManager::NewTaskHandler(const char *name)
 Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
 {
    Bool_t rev=kTRUE;
-   TGo4TaskHandler* taskhandler = nullptr;
+   TGo4TaskHandler *taskhandler = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
       TObject *obj = fxTaskList->FindObject(name);
@@ -432,9 +432,9 @@ Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
    return rev;
 }
 
-TGo4TaskHandler* TGo4TaskManager::GetTaskHandler(const char *name)
+TGo4TaskHandler *TGo4TaskManager::GetTaskHandler(const char *name)
 {
-   TGo4TaskHandler* th = nullptr;
+   TGo4TaskHandler *th = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
       th = (TGo4TaskHandler*) fxTaskList->FindObject(name);
@@ -442,9 +442,9 @@ TGo4TaskHandler* TGo4TaskManager::GetTaskHandler(const char *name)
    return th;
 }
 
-TGo4TaskHandler* TGo4TaskManager::GetLastTaskHandler()
+TGo4TaskHandler *TGo4TaskManager::GetLastTaskHandler()
 {
-   TGo4TaskHandler* th = nullptr;
+   TGo4TaskHandler *th = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
       th = (TGo4TaskHandler*) fxTaskList->Last();
@@ -452,7 +452,7 @@ TGo4TaskHandler* TGo4TaskManager::GetLastTaskHandler()
    return th;
 }
 
-TGo4TaskHandler* TGo4TaskManager::NextTaskHandler(Bool_t reset)
+TGo4TaskHandler *TGo4TaskManager::NextTaskHandler(Bool_t reset)
 {
    TGo4LockGuard listguard(fxListMutex);
    if(reset) fxTaskIter->Reset();

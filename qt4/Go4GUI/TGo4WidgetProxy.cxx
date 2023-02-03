@@ -16,7 +16,7 @@
 #include "TGo4Slot.h"
 #include "QGo4Widget.h"
 
-Bool_t TGo4WidgetProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
+Bool_t TGo4WidgetProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
    if (!fWidget) return kTRUE;
 

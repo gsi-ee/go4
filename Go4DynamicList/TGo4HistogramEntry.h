@@ -97,7 +97,7 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
       void InitCondPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset);
 
-      Double_t GetPtrValue(Int_t type, void* ptr);
+      Double_t GetPtrValue(Int_t type, void *ptr);
 
       Bool_t TestConditionNew();
 
@@ -144,11 +144,11 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
     /** Array of pointers and data types to fill histogram */
     Int_t fxHistType[__MAXHISDIM__]; //!
-    void* fxHistPtr[__MAXHISDIM__]; //!
+    void *fxHistPtr[__MAXHISDIM__]; //!
 
     /** Array of pointers and data types to check condition */
     Int_t fxCondType[__MAXCONDIM__]; //!
-    void* fxCondPtr[__MAXCONDIM__]; //!
+    void *fxCondPtr[__MAXCONDIM__]; //!
 
     /** Text to indicate that no condition is used */
     static const char *fgcNOCONDITION;

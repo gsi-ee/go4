@@ -100,7 +100,7 @@ TGo4ServerTask::~TGo4ServerTask()
 Bool_t TGo4ServerTask::RemoveClient(const char *name, Bool_t clientwait, Bool_t isterminating)
 {
    Bool_t rev=kTRUE;
-   TGo4TaskHandler* taskhandler = nullptr;
+   TGo4TaskHandler *taskhandler = nullptr;
    if(name && strstr(name,"current"))
       taskhandler=GetCurrentTaskHandler();
    else
@@ -192,7 +192,7 @@ Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
 Bool_t TGo4ServerTask::RemoveCurrentClient()
 {
    Bool_t rev=kTRUE;
-   TGo4TaskHandler* taskhandler=GetCurrentTaskHandler();
+   TGo4TaskHandler *taskhandler=GetCurrentTaskHandler();
    if (taskhandler) {
       // we have a current client, remove it
       TGo4Log::Debug(" Server task -- removing current client %s ", taskhandler->GetName());
@@ -241,17 +241,17 @@ void TGo4ServerTask::SetCurrentTask(const char *name)
    }
 }
 
-TGo4TaskHandler* TGo4ServerTask::GetTaskHandler(const char *name)
+TGo4TaskHandler *TGo4ServerTask::GetTaskHandler(const char *name)
 {
    return fxTaskManager->GetTaskHandler(name);
 }
 
-TGo4TaskHandler* TGo4ServerTask::GetTaskHandler()
+TGo4TaskHandler *TGo4ServerTask::GetTaskHandler()
 {
    return GetCurrentTaskHandler();
 }
 
-TGo4TaskHandler* TGo4ServerTask::GetCurrentTaskHandler()
+TGo4TaskHandler *TGo4ServerTask::GetCurrentTaskHandler()
 {
    return fxCurrentTaskHandler;
 }
@@ -427,10 +427,10 @@ TGo4Socket* TGo4ServerTask::GetConnectTransport()
    return fxConnectTransport;
 }
 
-TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char *name)
+TGo4BufferQueue *TGo4ServerTask::GetCommandQueue(const char *name)
 {
-   TGo4BufferQueue* queue = nullptr;
-   TGo4TaskHandler* currenttask = nullptr;
+   TGo4BufferQueue *queue = nullptr;
+   TGo4TaskHandler *currenttask = nullptr;
    if(!name || strstr(name,"current"))
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else
@@ -442,8 +442,8 @@ TGo4BufferQueue* TGo4ServerTask::GetCommandQueue(const char *name)
 
 TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char *name)
 {
-   TGo4BufferQueue* queue = nullptr;
-   TGo4TaskHandler* currenttask = nullptr;
+   TGo4BufferQueue *queue = nullptr;
+   TGo4TaskHandler *currenttask = nullptr;
    if(!name)
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else
@@ -455,8 +455,8 @@ TGo4BufferQueue * TGo4ServerTask::GetStatusQueue(const char *name)
 
 TGo4BufferQueue * TGo4ServerTask::GetDataQueue(const char *name)
 {
-   TGo4BufferQueue* queue = nullptr;
-   TGo4TaskHandler* currenttask = nullptr;
+   TGo4BufferQueue *queue = nullptr;
+   TGo4TaskHandler *currenttask = nullptr;
    if(!name || strstr(name,"current"))
       currenttask=GetCurrentTaskHandler(); // find out the current client
    else

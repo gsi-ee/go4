@@ -65,7 +65,7 @@ public:
 
    const char *GetTypeName() const { return fxTypeName.Data(); }
 
-   void* Data() const { return fxData; }
+   void *Data() const { return fxData; }
 
    /** wrapper function to define contained structure member. Will also keep the offset to first assigned member*/
    void InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member);
@@ -75,7 +75,7 @@ public:
 
 
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-   virtual void SetObjectPointer(void* memptr);
+   virtual void SetObjectPointer(void *memptr);
 
    /** pass the top level event element down the member hierarchy.
     * Note that this is the "local" top event, e.g. the current Go4 composite subevent that owns the member*/
@@ -154,7 +154,7 @@ protected:
 #endif
 
        /** pointer to begin of data in memory */
-       void* fxData{nullptr}; //!
+       void *fxData{nullptr}; //!
 
        /** offset of this data structure relative to top level event object*/
        size_t fiParentOffset{0}; //!
@@ -311,7 +311,7 @@ public:
    void SetElementSize(size_t len) {fiElementSize=len;}
 
     /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-   void SetObjectPointer(void* memptr) override;
+   void SetObjectPointer(void *memptr) override;
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
@@ -376,7 +376,7 @@ public:
    virtual ~TGo4HDF5SubVectorDataHandle();
 
    /** define location of corresponding object in memory. This is base pointer for all member specific offsets.*/
-   void SetObjectPointer(void* memptr) override;
+   void SetObjectPointer(void *memptr) override;
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/

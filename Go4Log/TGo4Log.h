@@ -206,7 +206,7 @@ class TGo4Log {
       static char fgcMessagetext[__MESSAGETEXTLENGTH__]; //!
 
       /** optional logfile to store messages with time */
-      static void* fgxLogfile;   //!
+      static void *fgxLogfile;   //!
 
       /** Name of last logfile set*/
       static TString fgxLogName;    //!

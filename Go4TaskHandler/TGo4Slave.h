@@ -44,7 +44,7 @@ class TGo4Slave : public TGo4TaskOwner {
        * set the values of the clienttask specific
        * part of the status object.
        */
-      virtual void UpdateStatus(TGo4TaskStatus* state);
+      virtual void UpdateStatus(TGo4TaskStatus *state);
 
 
    public:
@@ -90,7 +90,7 @@ class TGo4Slave : public TGo4TaskOwner {
        * master or may be used to restore current status by
        * memento mechanism
        */
-      virtual TGo4TaskStatus* CreateStatus();
+      virtual TGo4TaskStatus *CreateStatus();
 
       Bool_t MainIsRunning() const { return fbMainIsRunning; }
 

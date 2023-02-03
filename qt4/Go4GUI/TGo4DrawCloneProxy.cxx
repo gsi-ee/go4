@@ -140,7 +140,7 @@ TObject *TGo4DrawCloneProxy::GetAssignedObject()
    return fClone ? fClone : TGo4LinkProxy::GetAssignedObject();
 }
 
-Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void* param)
+Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param)
 {
    if (id==TGo4Slot::evObjAssigned) {
       TObject *obj = GetLink()->GetAssignedObject();

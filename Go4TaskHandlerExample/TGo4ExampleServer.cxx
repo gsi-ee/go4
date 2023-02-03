@@ -76,8 +76,8 @@ Int_t TGo4ExampleServer::StopWorkThreads()
    TGo4Log::Debug(" Example Server is stopping work threads ");
    Int_t rev = 0;
    TGo4ThreadHandler* threadhandler = GetWorkHandler();
-   TGo4BufferQueue* dataq=GetDataQueue();
-   TGo4BufferQueue* statusq=GetStatusQueue();
+   TGo4BufferQueue *dataq=GetDataQueue();
+   TGo4BufferQueue *statusq=GetStatusQueue();
   // stop my own threads, put dummies into queues to release semaphores
    threadhandler->Stop(fcControlName.Data());
    if(dataq)

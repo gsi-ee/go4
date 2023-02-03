@@ -24,7 +24,7 @@
 #include "TGo4ComRemoveClient.h"
 #include "TGo4ComDisconnectSlave.h"
 
-TGo4TaskHandlerAbortException::TGo4TaskHandlerAbortException (TGo4TaskHandler* taskhandler)
+TGo4TaskHandlerAbortException::TGo4TaskHandlerAbortException (TGo4TaskHandler *taskhandler)
 : TGo4TaskHandlerException(taskhandler)
 {
    fxDescription= "!!!-- Go4 TaskHandler Abort Exception --!!!";

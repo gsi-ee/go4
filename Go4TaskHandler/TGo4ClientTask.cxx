@@ -54,7 +54,7 @@ TGo4ClientTask::~TGo4ClientTask()
    delete fxTaskHandler;
 }
 
-TGo4TaskHandler* TGo4ClientTask::GetTaskHandler()
+TGo4TaskHandler *TGo4ClientTask::GetTaskHandler()
 {
    return fxTaskHandler;
 }
@@ -151,14 +151,14 @@ void TGo4ClientTask::Quit()
    Terminate(!IsMaster()); // never terminate master process
 }
 
-TGo4TaskStatus* TGo4ClientTask::CreateStatus()
+TGo4TaskStatus *TGo4ClientTask::CreateStatus()
 {
    TGo4ClientStatus* stat= new TGo4ClientStatus(GetName());
    UpdateStatus(stat); // set the internals
    return stat;
 }
 
-void TGo4ClientTask::UpdateStatus(TGo4TaskStatus* state)
+void TGo4ClientTask::UpdateStatus(TGo4TaskStatus *state)
 {
    TGo4Task::UpdateStatus(state);
    TGo4ClientStatus* clstate=dynamic_cast<TGo4ClientStatus*>(state);
@@ -166,7 +166,7 @@ void TGo4ClientTask::UpdateStatus(TGo4TaskStatus* state)
       clstate->SetNames(GetServerHostName());
 }
 
-void TGo4ClientTask::AddLocalCommand(TGo4Command * com)
+void TGo4ClientTask::AddLocalCommand(TGo4Command *com)
 {
    if (!com)
       return;
@@ -177,7 +177,7 @@ void TGo4ClientTask::AddLocalCommand(TGo4Command * com)
    }
 }
 
-TGo4BufferQueue* TGo4ClientTask::GetCommandQueue(const char*)
+TGo4BufferQueue *TGo4ClientTask::GetCommandQueue(const char*)
 {
    return fxCommandQ;
 }

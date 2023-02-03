@@ -44,7 +44,7 @@ class TGo4CommandInvoker : public TObject, public TGo4CommandReceiver {
 
       static void UnRegister(TGo4CommandReceiver* p);
 
-      virtual void Invoke(TGo4Command * com);
+      virtual void Invoke(TGo4Command *com);
 
       virtual void Invoke();
 

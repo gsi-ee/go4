@@ -319,7 +319,7 @@ void TGo4ObjectManager::RemoveFromLinks(const TGo4Slot *slot)
      fLinks.Compress();
 }
 
-void TGo4ObjectManager::RetranslateEvent(TGo4Slot *source, Int_t id, void* param)
+void TGo4ObjectManager::RetranslateEvent(TGo4Slot *source, Int_t id, void *param)
 {
    if (!source) return;
 
@@ -338,7 +338,7 @@ void TGo4ObjectManager::RetranslateEvent(TGo4Slot *source, Int_t id, void* param
    }
 }
 
-void TGo4ObjectManager::Event(TGo4Slot *source, Int_t id, void* param)
+void TGo4ObjectManager::Event(TGo4Slot *source, Int_t id, void *param)
 {
    if (gDebug>2)
       Info("Event","src %s id %d", source->GetFullName().Data(), id);

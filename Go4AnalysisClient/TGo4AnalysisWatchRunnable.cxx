@@ -33,7 +33,7 @@ TGo4AnalysisWatchRunnable::~TGo4AnalysisWatchRunnable()
 
 }
 
-Int_t TGo4AnalysisWatchRunnable::Run(void*)
+Int_t TGo4AnalysisWatchRunnable::Run(void *)
 {
   // check if ratemeter was updated
   if (fxAnalysis)

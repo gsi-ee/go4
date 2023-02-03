@@ -70,6 +70,6 @@ Int_t TMeshB2InputEvent::Fill()
 //-----------------------------------------------------------
 void  TMeshB2InputEvent::Clear(Option_t *)
 {
-   void* destfield = (void*) &fiCrate2[0];
+   void *destfield = (void *) &fiCrate2[0];
    memset(destfield,0, sizeof(fiCrate2));
 }

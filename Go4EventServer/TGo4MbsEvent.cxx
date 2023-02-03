@@ -367,7 +367,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t *source, Int_t 
       subtarget->ReAllocate(fieldlength); // reallocate field if necessary
       //// fill data into target field:
       if(datalength>2)
-         memcpy((void*) (subtarget->fiData),
+         memcpy((void *) (subtarget->fiData),
                data, (datalength-2)*sizeof(Short_t));
    } else {
       // set reference to external data field in subevent

@@ -31,7 +31,7 @@ class TGo4DabcProxy : public TGo4ServerProxy {
 
       Bool_t Connect(const char *nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
-      Bool_t ReplyCommand(void* cmd);
+      Bool_t ReplyCommand(void *cmd);
 
       const char *GetServerName() const override { return fNodeName.Data(); }
 

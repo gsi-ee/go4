@@ -32,7 +32,7 @@ TGo4ControllerRunnable::~TGo4ControllerRunnable()
    GO4TRACE((15,"TGo4ControllerRunnable::~TGo4ControllerRunnable() destructor",__LINE__, __FILE__));
 }
 
-Int_t TGo4ControllerRunnable::Run(void*)
+Int_t TGo4ControllerRunnable::Run(void *)
 {
    GO4TRACE((12,"TGo4ControllerRunnable::Run()",__LINE__, __FILE__));
 

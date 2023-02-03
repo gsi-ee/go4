@@ -29,7 +29,7 @@
 
 
 TGo4CommandRunnable::TGo4CommandRunnable(const char *name, TGo4ThreadManager* man,
-                                         TGo4TaskHandler* hand, Bool_t receivermode) :
+                                         TGo4TaskHandler *hand, Bool_t receivermode) :
    TGo4TaskHandlerRunnable(name,man,hand,receivermode)
 {
    fxBufferQueue = dynamic_cast<TGo4BufferQueue*> (fxTaskHandler->GetCommandQueue() );
@@ -42,7 +42,7 @@ TGo4CommandRunnable::~TGo4CommandRunnable()
 {
 }
 
-Int_t TGo4CommandRunnable::Run(void* ptr)
+Int_t TGo4CommandRunnable::Run(void *ptr)
 {
    if(!CheckTransportOpen()) return 0;
    if(fbReceiverMode)

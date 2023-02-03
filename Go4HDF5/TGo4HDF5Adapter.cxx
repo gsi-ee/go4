@@ -388,7 +388,7 @@ void TGo4HDF5Adapter::BuildDataType(TGo4EventElement *event, TGo4HDF5DataHandle*
     TString compname=TString::Format("%s_%s(%d)",parent->GetTypeName(), actualclassname.Data(), index);
     TString comptype="Go4CompEv"; // do we need to tag the subhandles here?
     theHandle=parent->AddSubMember(compname.Data(), eventsize, comptype.Data());
-    void* super=parent->Data(); // everything is relative to immediate mother element
+    void *super=parent->Data(); // everything is relative to immediate mother element
     size_t delta= (char*) event - (char*) super;
     go4hdfdbg("TGo4HDF5Adapter::BuildDataType sets parent offset %ld (event:0x%lx, super:0x%lx)\n",
          delta, (unsigned long) event, (unsigned long) super);

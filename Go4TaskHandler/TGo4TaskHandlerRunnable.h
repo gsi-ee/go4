@@ -32,13 +32,13 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
 
    public:
 
-      TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler* hand, Bool_t receivermode=kTRUE);
+      TGo4TaskHandlerRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler *hand, Bool_t receivermode=kTRUE);
 
       virtual ~TGo4TaskHandlerRunnable();
 
-      Int_t Run(void* ptr) override = 0;
+      Int_t Run(void *ptr) override = 0;
 
-      TGo4TaskHandler* GetTaskHandler();
+      TGo4TaskHandler *GetTaskHandler();
 
    protected:
 
@@ -59,7 +59,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
       /** link to external task handler (for server mode)
         * @supplierCardinality 1
         * @clientCardinality 1 */
-      TGo4TaskHandler* fxTaskHandler{nullptr}; //!
+      TGo4TaskHandler *fxTaskHandler{nullptr}; //!
 
       /** flag indicating operation mode of runnable,
         * depending on client or server mode of task handler */

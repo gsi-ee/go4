@@ -111,9 +111,9 @@ TGo4CommandReceiver *TGo4CommandInvoker::Lookup(const char *name)
   return pair ? pair->GetReceiver() : nullptr;
 }
 
-void TGo4CommandInvoker::Invoke(TGo4Command * com)
+void TGo4CommandInvoker::Invoke(TGo4Command *com)
 {
-    GO4TRACE((12,"void TGo4CommandInvoker::Invoke(TGo4Command * com)", __LINE__, __FILE__));
+    GO4TRACE((12,"void TGo4CommandInvoker::Invoke(TGo4Command *com)", __LINE__, __FILE__));
     if(!com) return;
     TGo4LockGuard lockguard(fxMutex);
     TGo4CommandReceiver *rec = Lookup(com->GetReceiverName());

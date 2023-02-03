@@ -93,7 +93,7 @@ class TGo4Thread : public TNamed {
         *  Contains a loop that is controlled by Go4Thread own TCondition and
         *  by "function shall run" flag.
         *  Within the loop the virtual working function is called. **/
-      static void Threadfunc (void* arg);
+      static void Threadfunc (void *arg);
 
       /** We need this to have access to instance runnable from static Threadfunc: **/
       TGo4Runnable* GetRunnable() const { return fxRunnable; }

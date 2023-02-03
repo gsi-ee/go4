@@ -23,7 +23,7 @@ class TGo4ThreadManager;
 class TGo4TaskHandlerException : public TGo4ControlException {
    public:
      TGo4TaskHandlerException() = delete;
-     TGo4TaskHandlerException (TGo4TaskHandler* taskhandler);
+     TGo4TaskHandlerException (TGo4TaskHandler *taskhandler);
 
      TGo4TaskHandlerException(TGo4TaskHandlerRunnable* run);
 

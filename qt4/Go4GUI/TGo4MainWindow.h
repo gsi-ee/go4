@@ -173,7 +173,7 @@ class TGo4MainWindow : public QMainWindow {
       void ScaleFactorSlot();
 
       // slots connected to editors
-      void editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void* par);
+      void editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void *par);
 
       void ProcessHotStart();
       void StopGUIScriptSlot();

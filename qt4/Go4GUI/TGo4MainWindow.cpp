@@ -794,7 +794,7 @@ void TGo4MainWindow::WindowActivated(int id)
    }
 }
 
-typedef void* (*TStartUserGuiFunc)(QWidget *parent);
+typedef void *(*TStartUserGuiFunc)(QWidget *parent);
 
 bool TGo4MainWindow::startUserGUI(const char *usergui)
 {
@@ -2942,7 +2942,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    Browser()->SetMonitorBlockingFlag(kFALSE);
 }
 
-void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void* par)
+void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const char *str, void *par)
 {
    if (!editor) return;
 
@@ -3007,7 +3007,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          break;
       }
       case QGo4Widget::service_DrawItem: {
-         void** res = (void**) par;
+         void ** res = (void **) par;
          res[0] = DisplayBrowserItem(str, (TGo4ViewPanel *) res[0], (TPad *) res[1], *((bool *)res[2]), *((int *) res[3]), nullptr);
          break;
       }
@@ -3136,7 +3136,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_UpdateAnalysisItem: {
-         TObject** obj = (TObject**) par;
+         TObject **obj = (TObject **) par;
          Bool_t res = Browser()->UpdateAnalysisItem(str, *obj);
          *obj = res ? (TObject*) 1 : nullptr;
          break;
@@ -3160,15 +3160,15 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_Browser: {
-         TGo4BrowserProxy** res = (TGo4BrowserProxy**) par;
+         TGo4BrowserProxy **res = (TGo4BrowserProxy **) par;
          *res= Browser();
          break;
       }
 
       case QGo4Widget::service_SaveToMemory: {
-          TObject** obj = (TObject**) par;
+          TObject **obj = (TObject **) par;
           TString itemname = Browser()->SaveToMemory(str, *obj, true);
-          QString** res = (QString**) par;
+          QString **res = (QString **) par;
           *res = nullptr;
           if (itemname.Length() > 0)
             *res = new QString(itemname.Data());
@@ -3176,13 +3176,13 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_GetAnalysis: {
-         TGo4ServerProxy** res = (TGo4ServerProxy**) par;
+         TGo4ServerProxy ** res = (TGo4ServerProxy **) par;
          *res = Browser()->FindServer(str);
          break;
       }
 
       case QGo4Widget::service_AddEditorLink: {
-         TGo4Slot *brslot = Browser()->BrowserSlot((const char*)par);
+         TGo4Slot *brslot = Browser()->BrowserSlot((const char *)par);
 
          QByteArray ba = editor->objectName().toLatin1();
 
@@ -3254,9 +3254,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_GetLinkedName2: {
-         void** res = (void**) par;
+         void ** res = (void **) par;
          TGo4Slot *link = (TGo4Slot *) *res;
-         *res = (void*) TGo4BrowserProxy::GetLinkedName(link);
+         *res = (void *) TGo4BrowserProxy::GetLinkedName(link);
          break;
       }
 
@@ -3267,7 +3267,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          TGo4Slot *link = edslot->FindChild(str);
          if (!link) return;
          const char *itemname = TGo4BrowserProxy::GetLinkedName(link);
-         TObject** res = (TObject**) par;
+         TObject **res = (TObject **) par;
          int updatelevel = serviceid - QGo4Widget::service_GetLinked0;
          if (itemname)
             *res = Browser()->GetBrowserObject(itemname, updatelevel);
