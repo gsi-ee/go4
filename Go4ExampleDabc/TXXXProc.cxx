@@ -118,7 +118,7 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement *)
       return kFALSE;
    }
 
-   TGo4MbsEvent* evnt = (TGo4MbsEvent*) GetInputEvent();
+   TGo4MbsEvent *evnt = (TGo4MbsEvent *) GetInputEvent();
 
    if(evnt->GetTrigger() > 11) {
       std::cout << "**** TXXXProc: Skip trigger event" << std::endl;

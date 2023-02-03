@@ -144,14 +144,14 @@ TXXXProc::TXXXProc(const char *name) : TGo4EventProcessor(name)
       AddPicture(fPicture);
    }
 
-   fProfile = dynamic_cast<TProfile*>(GetObject("profile"));
+   fProfile = dynamic_cast<TProfile *>(GetObject("profile"));
    if (!fProfile) {
       fProfile = new TProfile("profile","Example of TProfile usage", 5000, 1., 5001., 1., 5001.);
       fProfile->SetDirectory(nullptr);
       AddObject(fProfile);
    }
 
-   fProfile2D = dynamic_cast<TProfile2D*>(GetObject("profile2d"));
+   fProfile2D = dynamic_cast<TProfile2D *>(GetObject("profile2d"));
    if (!fProfile2D) {
       fProfile2D = new TProfile2D("profile2d","Example of TProfile2D usage", 200, 1., 5001., 200, 1., 5001., 1., 5001.);
       fProfile2D->SetDirectory(nullptr);
@@ -164,9 +164,9 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement *target)
 {
    // called by framework from TXXXEvent to fill it
 
-   TXXXEvent* XXXEvent = (TXXXEvent*) target;
+   TXXXEvent *XXXEvent = (TXXXEvent *) target;
 
-   TGo4MbsEvent* source = (TGo4MbsEvent*) GetInputEvent();
+   TGo4MbsEvent *source = (TGo4MbsEvent *) GetInputEvent();
    if(!source) {
       TGo4Log::Error("TXXXProc: no input event!");
       return kFALSE;

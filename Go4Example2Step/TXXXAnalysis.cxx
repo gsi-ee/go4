@@ -84,9 +84,9 @@ Int_t TXXXAnalysis::UserPreLoop()
    TGo4Log::Info("TXXXAnalysis: PreLoop");
    Print(); // printout the step settings
    // we update the pointers to the current event structures here:
-   fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
-   fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
-   fCalEvent = dynamic_cast<TXXXAnlEvent*>    (GetOutputEvent("Analysis"));
+   fMbsEvent = dynamic_cast<TGo4MbsEvent *>    (GetInputEvent("Unpack"));   // of step "Unpack"
+   fRawEvent = dynamic_cast<TXXXUnpackEvent *> (GetOutputEvent("Unpack"));
+   fCalEvent = dynamic_cast<TXXXAnlEvent *>    (GetOutputEvent("Analysis"));
    fEvents = 0;
    fLastEvent = 0;
 

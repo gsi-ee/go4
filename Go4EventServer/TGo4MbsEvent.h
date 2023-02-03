@@ -68,7 +68,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * reference to subevents of original mbs event. No ownership is adopted!
        * Use case: Mbsevent as Go4 output event that just uses input event data
        * without copying, purpose: store to Go4 event store (root file)*/
-      void AssignReference(TGo4MbsEvent* ref);
+      void AssignReference(TGo4MbsEvent *ref);
 
       /* remove reference to external mbsevent object
        * afterwards, this object will contain new subevtarray*/

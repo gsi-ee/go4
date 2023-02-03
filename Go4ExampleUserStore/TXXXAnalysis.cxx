@@ -85,7 +85,7 @@ Int_t TXXXAnalysis::UserPreLoop()
    // all this is optional:
    TGo4Log::Info("TXXXAnalysis: PreLoop");
    // get pointer to input event (used in postloop and event function):
-   fMbsEvent = dynamic_cast<TGo4MbsEvent*> (GetInputEvent("Analysis"));   // of step "Analysis"
+   fMbsEvent = dynamic_cast<TGo4MbsEvent *>(GetInputEvent("Analysis"));   // of step "Analysis"
    if(fMbsEvent) fMbsEvent->PrintMbsFileHeader();
       // fileheader structure (lmd file only):
 

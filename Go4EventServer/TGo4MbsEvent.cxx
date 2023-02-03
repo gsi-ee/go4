@@ -122,7 +122,7 @@ void TGo4MbsEvent::Clear(Option_t *)
    }
 }
 
-void TGo4MbsEvent::AssignReference(TGo4MbsEvent* ref)
+void TGo4MbsEvent::AssignReference(TGo4MbsEvent *ref)
 {
    if(!ref) return;
    if(!fbIsReference) {

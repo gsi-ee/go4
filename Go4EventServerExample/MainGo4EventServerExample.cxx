@@ -73,7 +73,7 @@ int main(int argc, char **argv)
      Short_t idfield[2] = {0,3}; // this array defines the procids for the subevents
                                 // note: if other procids are found during read,
                                 // subevents of theses procids will be added dynamically
-     TGo4MbsEvent* event = new TGo4MbsEvent(2, idfield, 1);
+     TGo4MbsEvent *event = new TGo4MbsEvent(2, idfield, 1);
                                 // create initial mbs event with 2 subevents
                                 // having the procids giving in the idfield (0 and 3)
                                 // initial size for each subevent data field is 1 longword

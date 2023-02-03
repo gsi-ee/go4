@@ -267,7 +267,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement *dest)
 {
    Bool_t isValid = kFALSE; // validity of output event
 
-   TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
+   TGo4MbsEvent *inp_evt = (TGo4MbsEvent *) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
    if (!inp_evt) {

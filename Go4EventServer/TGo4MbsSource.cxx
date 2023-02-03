@@ -122,14 +122,14 @@ Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement *dest)
       return kFALSE;
    }
 
-   BuildMbsEvent((TGo4MbsEvent*) dest);
+   BuildMbsEvent((TGo4MbsEvent *) dest);
    return kTRUE;
 }
 
 
-void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
+void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent *target)
 {
-   GO4TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent *)",__LINE__, __FILE__));
    TGo4MbsSubEvent *subtarget = nullptr;
    if(fxEvent && (GetEventStatus() == GETEVT__SUCCESS)) {
       // check for printevent mode here:

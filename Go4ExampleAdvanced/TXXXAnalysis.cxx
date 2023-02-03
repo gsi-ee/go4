@@ -137,24 +137,24 @@ Int_t TXXXAnalysis::UserPreLoop()
    TGo4Log::Info("TXXXAnalysis: PreLoop");
    Print(); // printout the step settings
    // we update the pointers to the current event structures here:
-   fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
-   fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
-   fCalEvent = dynamic_cast<TXXXAnlEvent*>    (GetOutputEvent("Analysis"));
+   fMbsEvent = dynamic_cast<TGo4MbsEvent *>    (GetInputEvent("Unpack"));   // of step "Unpack"
+   fRawEvent = dynamic_cast<TXXXUnpackEvent *> (GetOutputEvent("Unpack"));
+   fCalEvent = dynamic_cast<TXXXAnlEvent *>    (GetOutputEvent("Analysis"));
    fEvents = 0;
    fLastEvent = 0;
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored from autosave file if any.
-   fSize = (TH1D*)GetHistogram("Eventsize");
+   fSize = (TH1D *)GetHistogram("Eventsize");
    if(!fSize) {
      // no autosave read, create new and register
      fSize = new TH1D ("Eventsize", "Event size [b]",160,1,160);
      AddHistogram(fSize);
    }
    // we use a fitter envelope parameters to exchange fit results:
-   fFitEnvSize = (TGo4FitterEnvelope*) GetParameter("sizefitter");
+   fFitEnvSize = (TGo4FitterEnvelope *) GetParameter("sizefitter");
    if(!fFitEnvSize) {
-      TGo4Fitter *fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);
+      TGo4Fitter *fitter = new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted
       fitter->AddH1("data1", fSize, kFALSE);
       // create polynom of first order
@@ -164,7 +164,7 @@ Int_t TXXXAnalysis::UserPreLoop()
       fFitEnvSize=new TGo4FitterEnvelope("sizefitter",fitter);
       AddParameter(fFitEnvSize);
    }
-   fFitEnvSpectrum=(TGo4FitterEnvelope*) GetParameter("specfitter");
+   fFitEnvSpectrum = (TGo4FitterEnvelope *) GetParameter("specfitter");
    if(!fFitEnvSpectrum) {
       TGo4Fitter *fitter = new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);
       // add histogram to fitter, which should be fitted

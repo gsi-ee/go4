@@ -63,7 +63,7 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement *outevnt)
    }                            // while
 
    // treat mbs input if we are in the first step:
-   fMbsInput = dynamic_cast<TGo4MbsEvent*>(GetInputEvent());
+   fMbsInput = dynamic_cast<TGo4MbsEvent *>(GetInputEvent());
 
 //   printf("TGo4CompositeProcessor::BuildEvent this = %p name = %s evnt = %p \n", this, GetName(), fMbsInput);
 

@@ -55,7 +55,7 @@ void TMeshUnpackProc::Unpack(TMeshRawEvent* poutevt)
 
 void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
 {
-   fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
+   fInput = dynamic_cast<TGo4MbsEvent *>(GetInputEvent()); // from this
    if(!fInput) {
       TGo4Log::Error("UnpackBranch1: no input event !");
       return;
@@ -87,9 +87,9 @@ void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
    poutevt->SetValid(kTRUE); // to store
 }
 
-void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
+void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent *poutevt)
 {
-  fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
+  fInput = dynamic_cast<TGo4MbsEvent *>(GetInputEvent()); // from this
   if(!fInput) {
      TGo4Log::Error("UnpackBranch2: no input event !");
      return;
@@ -122,7 +122,7 @@ void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
 
 void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
 {
-  fInput = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
+  fInput = dynamic_cast<TGo4MbsEvent *>(GetInputEvent()); // from this
   if(!fInput) {
      TGo4Log::Error("UnpackBranch3: no input event !");
      return;
