@@ -34,7 +34,7 @@ class TGo4DisplayLoggerTimer : public TTimer {
       Bool_t Notify() override;
 
   private:
-      TGo4Display* fxDisplay{nullptr};  //!
+      TGo4Display   *fxDisplay{nullptr};  //!
 
 };
 

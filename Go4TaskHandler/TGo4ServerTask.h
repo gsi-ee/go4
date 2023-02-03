@@ -77,7 +77,7 @@ class TGo4ServerTask : public TGo4Task {
       /** Send status object via status channel to the master. Master name
        * may be specified, if more than one master is connected.
        * By default, object is send to all connected tasks */
-      void SendStatus(TGo4Status * stat, const char *receiver = nullptr) override;
+      void SendStatus(TGo4Status *stat, const char *receiver = nullptr) override;
 
       /** Send internal status buffer to the master(s). */
       void SendStatusBuffer() override;

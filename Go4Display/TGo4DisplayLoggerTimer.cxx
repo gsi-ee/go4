@@ -17,7 +17,7 @@
 #include "TGo4Task.h"
 #include "TGo4Display.h"
 
-TGo4DisplayLoggerTimer::TGo4DisplayLoggerTimer (TGo4Display* display, Long_t msperiod) :
+TGo4DisplayLoggerTimer::TGo4DisplayLoggerTimer(TGo4Display *display, Long_t msperiod) :
    TTimer(msperiod,kTRUE),fxDisplay(display)
 {
    TGo4Log::Debug(" Display logger Timer is started with %ld ms period.",msperiod);
@@ -25,9 +25,8 @@ TGo4DisplayLoggerTimer::TGo4DisplayLoggerTimer (TGo4Display* display, Long_t msp
 
 Bool_t TGo4DisplayLoggerTimer::Notify ()
 {
-   TGo4Status* stat = nullptr;
    TGo4Task *task = fxDisplay->GetTask();
-   while((stat = task->NextStatus(kFALSE)) != nullptr) {
+   while(auto stat = task->NextStatus(kFALSE)) {
       //TGo4Log::Debug(" Display logger Timer displaying log...");
       fxDisplay->DisplayLog(stat);
    }

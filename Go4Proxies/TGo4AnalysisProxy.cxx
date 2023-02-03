@@ -451,7 +451,7 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
      fxSubmittedProxy.Compress();
 }
 
-void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
+void TGo4AnalysisProxy::ReceiveStatus(TGo4Status *status)
 {
    if (dynamic_cast<TGo4AnalysisStatus*> (status)) {
       SetAnalysisReady(kTRUE);
@@ -1039,12 +1039,12 @@ Bool_t TGo4AnalysisProxy::IsConnected() const
    return !IsAnalysisServer() || (fActualRole >= 0);
 }
 
-void TGo4AnalysisProxy::DisplayDeleted(TGo4Display* displ)
+void TGo4AnalysisProxy::DisplayDeleted(TGo4Display *displ)
 {
    if (fxDisplay==displ) fxDisplay = nullptr;
 }
 
-void TGo4AnalysisProxy::DisplayDisconnected(TGo4Display* displ)
+void TGo4AnalysisProxy::DisplayDisconnected(TGo4Display *displ)
 {
    if ((fxDisplay == displ) && displ)
       DisconnectAnalysis(5, false);

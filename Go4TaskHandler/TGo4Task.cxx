@@ -151,13 +151,13 @@ void TGo4Task::ExecuteString(const char *command)
       gROOT->ProcessLineSync(command);
 }
 
-TGo4TaskHandlerCommandList * TGo4Task::GetPrototype()
+TGo4TaskHandlerCommandList *TGo4Task::GetPrototype()
 {
    // keep this method for compatibility reasons, user should not need access to list
    return fxCommandPrototype;
 }
 
-TGo4Status * TGo4Task::NextStatus(Bool_t wait)
+TGo4Status *TGo4Task::NextStatus(Bool_t wait)
 {
    if (!IsMaster())
       return nullptr;
@@ -299,7 +299,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char *text,
    TGo4Log::OutputEnable(previousmode); // restore old state of messaging
    if((level > 0) && go4mess)  {
       // do not send debug-level output to gui, and do not send suppressed messages as empty string!
-      TGo4Status* message = new TGo4Status(go4mess);
+      auto message = new TGo4Status(go4mess);
       SendStatus(message, dest);
       delete message;
    }

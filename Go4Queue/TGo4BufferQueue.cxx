@@ -124,7 +124,7 @@ TObject *TGo4BufferQueue::WaitObjectFromBuffer()
    return obj;
 }
 
-void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
+void TGo4BufferQueue::AddBuffer(TBuffer *buffer, Bool_t clone)
 {
    GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer *, Bool_t)", __LINE__, __FILE__));
 

@@ -490,7 +490,7 @@ TGo4Command *TGo4ServerTask::NextCommand()
    return com;
 }
 
-void TGo4ServerTask::SendStatus(TGo4Status * stat, const char *receiver)
+void TGo4ServerTask::SendStatus(TGo4Status *stat, const char *receiver)
 {
    if(IsMaster()) return;
    if(!stat) return;
@@ -503,7 +503,7 @@ void TGo4ServerTask::SendStatus(TGo4Status * stat, const char *receiver)
    Bool_t reset = kTRUE;
    while(auto han = fxTaskManager->NextTaskHandler(reset)) {
       reset = kFALSE;
-      TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
+      auto statq = dynamic_cast<TGo4BufferQueue *>(han->GetStatusQueue());
       if(!statq) continue; //NEVER COME HERE!
       TGo4Log::Debug(" Task - sending status %s to task %s", stat->ClassName(), han->GetName());
       statq->AddBufferFromObject(stat);

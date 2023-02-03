@@ -40,7 +40,7 @@ Int_t TGo4LoggingRunnable::Run(void *)
       // no client has connected to server so far, we do nothing!
    } else {
       GO4TRACE((11,"TGo4LoggingRunnable::Run()-- working on client's taskhandler queues",__LINE__, __FILE__));
-      TGo4Status* status= fxServer->NextStatus();
+      TGo4Status *status= fxServer->NextStatus();
       fxController->DisplayLog(status);
    }
    return 0;

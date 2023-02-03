@@ -118,7 +118,7 @@ void TGo4Slave::SendObject(TObject *obj, const char *receiver)
       GetTask()->SendObject(obj, receiver);
 }
 
-void TGo4Slave::SendStatus(TGo4Status * stat, const char *receiver)
+void TGo4Slave::SendStatus(TGo4Status *stat, const char *receiver)
 {
    if(GetTask())
       GetTask()->SendStatus(stat, receiver);

@@ -63,7 +63,7 @@ class TGo4BufferQueue : public TGo4Queue {
        * Wait for buffer object from queue. We Renamed the protected baseclass method
        * to avoid user confusion.
        */
-      TBuffer * WaitBuffer();
+      TBuffer *WaitBuffer();
 
       /**
        * Wait for buffer object from queue. When buffer is received, object is

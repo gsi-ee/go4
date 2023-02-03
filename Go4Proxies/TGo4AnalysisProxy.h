@@ -148,8 +148,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Int_t GetRole() const;
 
       void ReceiveObject(TNamed *obj);
-      void ReceiveStatus(TGo4Status* status);
-      Bool_t SubmitProxy(TGo4AnalysisObjectAccess* proxy);
+      void ReceiveStatus(TGo4Status *status);
+      Bool_t SubmitProxy(TGo4AnalysisObjectAccess *proxy);
 
       Int_t NumberOfWaitingProxyes() override { return fNumberOfWaitingProxyes; }
 
@@ -183,9 +183,9 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       Bool_t WaitForConnection(Int_t seconds);
 
-      void DisplayDeleted(TGo4Display* displ);
+      void DisplayDeleted(TGo4Display *displ);
 
-      void DisplayDisconnected(TGo4Display* displ);
+      void DisplayDisconnected(TGo4Display *displ);
 
       /**  Close connection to analysis and destroys proxy with
         *  correspondent slot. Wait waittime (in sec) for safe

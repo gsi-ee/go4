@@ -52,9 +52,9 @@ void TGo4ExampleController::DisplayData(TObject *data)
    }
 }
 
-void TGo4ExampleController::DisplayLog(TGo4Status* status)
+void TGo4ExampleController::DisplayLog(TGo4Status *status)
 {
-   GO4TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status *)",__LINE__, __FILE__));
    if (status) {
       std::cout << "ExampleController received status object:" << std::endl;
       if (status->InheritsFrom("TGo4ExampleClientStatus")) {

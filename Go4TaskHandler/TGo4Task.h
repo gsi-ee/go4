@@ -123,7 +123,7 @@ public:
      * Streamer is decoupled from queue wait and sets global lockguard.
      * If wait=kFALSE, queue will be polled once instead of condition wait.
      */
-    TGo4Status* NextStatus(Bool_t wait = kTRUE);
+    TGo4Status *NextStatus(Bool_t wait = kTRUE);
 
     /**
      * Delivers next object  from data queue.

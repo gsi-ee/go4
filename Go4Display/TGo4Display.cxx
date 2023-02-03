@@ -70,7 +70,7 @@ void TGo4Display::DisplayData(TObject *data)
       delete data;
 }
 
-void TGo4Display::DisplayLog(TGo4Status * status)
+void TGo4Display::DisplayLog(TGo4Status *status)
 {
    if (fxAnalysis)
       fxAnalysis->ReceiveStatus(status);

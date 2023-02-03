@@ -29,7 +29,7 @@ class TGo4DisplayDrawerTimer : public TTimer {
 
   public:
 
-      TGo4DisplayDrawerTimer (TGo4Display* display, Long_t msperiod = 3000);
+      TGo4DisplayDrawerTimer(TGo4Display *display, Long_t msperiod = 3000);
 
       Bool_t Notify() override;
 

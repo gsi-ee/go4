@@ -56,7 +56,7 @@ class TGo4Socket {
      /**
       * Access the internal receiving buffer of this socket.
       */
-     const TBuffer * GetBuffer() const { return fxBuffer; }
+     const TBuffer *GetBuffer() const { return fxBuffer; }
 
      /** Time to sleep between client open retries */
      static const Int_t fguOPENWAIT;
