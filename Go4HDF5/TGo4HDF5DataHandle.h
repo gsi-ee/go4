@@ -41,7 +41,6 @@ public:
 };
 
 
-
 /**
  * The base class to access a datatype with substructures  in hdf5.
  * datahandle may contain other datahandles as direct subcomponents
@@ -51,9 +50,6 @@ public:
  */
 class TGo4HDF5DataHandle {
 
-
-
-
 public:
 
    /** create new data handle*/
@@ -61,14 +57,14 @@ public:
    virtual ~TGo4HDF5DataHandle();
 
    /** return handle for type descriptor. Currently this is filled from external routine of adapter class*/
-   H5::CompType* GetType() const { return fxType; }
+   H5::CompType *GetType() const { return fxType; }
 
    const char *GetTypeName() const { return fxTypeName.Data(); }
 
    void *Data() const { return fxData; }
 
    /** wrapper function to define contained structure member. Will also keep the offset to first assigned member*/
-   void InsertTypeMember(const H5std_string& name, size_t offset, const H5::DataType& new_member);
+   void InsertTypeMember(const H5std_string &name, size_t offset, const H5::DataType &new_member);
 
    /** remember location of this object relative to upper level object.*/
    void SetParentOffset(size_t off) { fiParentOffset = off; }
@@ -87,51 +83,44 @@ public:
    void SetTopEventClass(const char *classname);
 
    /** identifier for the member to access from outside using the top event handle*/
-   void SetMemberName(const char *name) {fxMemberHandle=name;}
+   void SetMemberName(const char *name) { fxMemberHandle = name; }
 
    /** type of the member to access from outside*/
-   void SetMemberClass(const char *clname) {fxMemberClass=clname;}
-
+   void SetMemberClass(const char *clname) { fxMemberClass = clname; }
 
    /** create datasets and buffers for reading this structure from hdf5 file.
     * parent pointer is given for error handling case*/
-   virtual void BuildReadDataset(H5::H5File*file, TGo4HDF5Source* parent);
+   virtual void BuildReadDataset(H5::H5File *file, TGo4HDF5Source* parent);
 
    /** create datasets for writing memory structure of type into file.*/
-   virtual void BuildWriteDataset(H5::H5File* file);
-
+   virtual void BuildWriteDataset(H5::H5File *file);
 
    /** Read event of sequence number from file*/
-   virtual void Read(hsize_t sequencenum,  H5::H5File* file);
+   virtual void Read(hsize_t sequencenum,  H5::H5File *file);
 
    /** Write event of sequence number from file*/
-    virtual void Write(hsize_t sequencenum,  H5::H5File* file);
+    virtual void Write(hsize_t sequencenum,  H5::H5File *file);
 
    /** create new subhandle for complex member component on heap.
     * Each complex component has separate dataset in file. returns the currently added handle to submember.
     * If submember is part of a collection like std::vector, the name of collection is also passed.*/
-   TGo4HDF5DataHandle* AddSubMember(const char *name, size_t datasize, const char *collectiontype = nullptr);
+    TGo4HDF5DataHandle *AddSubMember(const char *name, size_t datasize, const char *collectiontype = nullptr);
 
+    TGo4HDF5DataHandle *GetSubMember(UInt_t ix) { return ix < fxSubcomponents.size() ? fxSubcomponents[ix] : nullptr; }
 
+    /** lookup if subcomponent of name already is in list. returns 0 pointer if no match of name, otherwise th matching
+     * subhandle*/
+    TGo4HDF5DataHandle *FindSubMember(const char *name);
 
-   TGo4HDF5DataHandle* GetSubMember(UInt_t ix){ return (ix< fxSubcomponents.size() ? fxSubcomponents[ix] : nullptr);}
+    void SetActive(Bool_t on) { fbDataSetActive = on; }
 
-   /** lookup if subcomponent of name already is in list. returns 0 pointer if no match of name, otherwise th matching subhandle*/
-   TGo4HDF5DataHandle* FindSubMember(const char *name);
+    void SetAllSubMembersActive(Bool_t on);
 
-   void SetActive(Bool_t on){fbDataSetActive=on;}
+    static TGo4HDF5DataHandleFactory fxFactory;
 
-   void SetAllSubMembersActive(Bool_t on);
-
-
-   static TGo4HDF5DataHandleFactory fxFactory;
-
-
-protected:
-
-
-   /** identifier of the dataset*/
-   TString fxTypeName;
+ protected:
+    /** identifier of the dataset*/
+    TString fxTypeName;
 
 #ifndef __CINT__
 

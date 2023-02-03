@@ -33,7 +33,7 @@ class TGo4HDF5StoreParameter : public TGo4EventStoreParameter {
       Bool_t UpdateFrom(TGo4Parameter *rhs) override;
 
       Go4_H5_File_Flags GetHDF5Flags() const { return fiFlags; }
-      void SetHDF5Flags(Go4_H5_File_Flags flags) { fiFlags=flags; }
+      void SetHDF5Flags(Go4_H5_File_Flags flags) { fiFlags = flags; }
 
    private:
 

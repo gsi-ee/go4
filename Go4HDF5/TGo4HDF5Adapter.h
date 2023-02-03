@@ -16,6 +16,7 @@
 
 
 #include "Go4HDF5.h"
+
 #include "RtypesCore.h"
 #include "TString.h"
 
@@ -35,8 +36,8 @@ class TGo4HDF5Adapter {
   public:
 
    TGo4HDF5Adapter() :
-         fxFile(nullptr), fxHandle(nullptr), fbDataSetExists(kFALSE), fxEvent(nullptr),
-         fiFlags(H5F_ACC_TRUNC), fiFillCount(0) {
+         fxFile(nullptr), fxHandle(nullptr), fiFillCount(0), fbDataSetExists(kFALSE), fxEvent(nullptr),
+         fiFlags(H5F_ACC_TRUNC) {
    }
 
     virtual ~TGo4HDF5Adapter() {}
@@ -87,10 +88,13 @@ protected:
 #ifndef __CINT__
 
     /** the currently open hdf5 file*/
-    H5::H5File* fxFile{nullptr}; //!
+    H5::H5File *fxFile{nullptr}; //!
 
     /** handle object to recursively treat the io of nested event components*/
     TGo4HDF5DataHandle* fxHandle{nullptr}; //!
+
+    /** counter of filled events. */
+    hsize_t fiFillCount{0}; //!
 
 #endif
     /** True if branch already exists. Used for automatic creation
@@ -102,11 +106,6 @@ protected:
 
     /** remember file property flags?. */
     UInt_t fiFlags{0};
-
-#ifndef __CINT__
-    /** counter of filled events. */
-    hsize_t fiFillCount{0}; //!
-#endif
 
 };
 

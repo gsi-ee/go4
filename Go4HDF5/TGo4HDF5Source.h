@@ -40,7 +40,7 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
 
     TGo4HDF5Source();
 
-    TGo4HDF5Source(TGo4HDF5SourceParameter* par);
+    TGo4HDF5Source(TGo4HDF5SourceParameter *par);
 
     TGo4HDF5Source(const char *name);
 
@@ -52,7 +52,6 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
     Bool_t BuildEvent(TGo4EventElement *dest) override;
 
     static TList *ProducesFilesList(const char *mask);
-
 
   protected:
 
@@ -87,6 +86,5 @@ class TGo4HDF5Source : public TGo4EventSource, public TGo4HDF5Adapter {
 
   ClassDefOverride(TGo4HDF5Source,2)
 };
-
 
 #endif //TGO4HDF5SOURCE_H
