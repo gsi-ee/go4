@@ -547,7 +547,7 @@ Bool_t TGo4ServerTask::StopConnectorThread()
 
 Bool_t TGo4ServerTask::ConnectorThreadIsStopped()
 {
-   TGo4Thread* conny = GetWorkHandler()->GetThread(GetConnectorName());
+   TGo4Thread *conny = GetWorkHandler()->GetThread(GetConnectorName());
    return conny->IsWaiting();
 }
 

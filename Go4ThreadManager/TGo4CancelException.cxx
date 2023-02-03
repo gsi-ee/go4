@@ -26,10 +26,10 @@ TGo4CancelException::TGo4CancelException(const TGo4CancelException &right)
    GO4TRACE((14,"TGo4CancelException::TGo4CancelException() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4CancelException::TGo4CancelException (TGo4Runnable* runnable, const char *threadname)
+TGo4CancelException::TGo4CancelException (TGo4Runnable *runnable, const char *threadname)
 : TGo4ThreadException(runnable, threadname)
 {
-   GO4TRACE((14,"TGo4CancelException::TGo4CancelException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CancelException::TGo4CancelException(TGo4Runnable *, const char*) constructor",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Cancel Exception --!!!";
 }
 

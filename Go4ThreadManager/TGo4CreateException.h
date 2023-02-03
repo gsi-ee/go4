@@ -29,11 +29,11 @@ class TGo4CreateException : public TGo4ThreadException {
 
       TGo4CreateException(const TGo4CreateException &right);
 
-      TGo4CreateException (TGo4Runnable* runnable, const char *threadname = nullptr);
+      TGo4CreateException(TGo4Runnable *runnable, const char *threadname = nullptr);
 
       virtual ~TGo4CreateException();
 
-      TGo4CreateException & operator=(const TGo4CreateException &right);
+      TGo4CreateException &operator=(const TGo4CreateException &right);
 
       /**
        * This is a default handler function for the respective exception type.

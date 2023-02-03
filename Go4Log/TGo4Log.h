@@ -185,10 +185,10 @@ class TGo4Log {
 
       static void ProcessRedirection(int kind = 0);
 
-      static TGo4Log* fgxInstance; //!
+      static TGo4Log *fgxInstance; //!
 
       /** we use own mutex to protect the logging instance */
-      static TMutex* fgxMutex; //!
+      static TMutex *fgxMutex; //!
 
       /** all Messages with lower level are suppressed */
       static Int_t fgiIgnoreLevel;  //!

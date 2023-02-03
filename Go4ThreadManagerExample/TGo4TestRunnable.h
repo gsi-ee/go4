@@ -69,7 +69,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
 
       TGo4TestRunnable(const TGo4TestRunnable &right);
 
-      TGo4TestRunnable(const char *name, TGo4ThreadManager* man, Int_t mode = 0);
+      TGo4TestRunnable(const char *name, TGo4ThreadManager *man, Int_t mode = 0);
 
       virtual ~TGo4TestRunnable();
 
@@ -84,7 +84,7 @@ class TGo4TestRunnable : public TGo4Runnable  {
        /**
          *   catch for exceptions occurring in workfunc
         **/
-      void ThreadCatch (TGo4Exception& ex) override;
+      void ThreadCatch(TGo4Exception &ex) override;
 
        /**
          *          catch for all unexcpected exceptions happening in
@@ -109,4 +109,3 @@ class TGo4TestRunnable : public TGo4Runnable  {
 };
 
 #endif
-

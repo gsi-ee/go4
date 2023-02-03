@@ -100,7 +100,7 @@ class TGo4TaskManager : public TNamed {
       */
       TGo4TaskHandler *NextTaskHandler(Bool_t reset=kFALSE);
 
-      TMutex* GetMutex(){return fxListMutex;}
+      TMutex *GetMutex(){return fxListMutex;}
 
       /** Number of entries in taskhandler list, i.e. number of connected clients */
       UInt_t GetTaskCount() const { return fuTaskCount; }

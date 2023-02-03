@@ -333,11 +333,6 @@ class TGo4FitData : public TGo4FitComponent {
        */
       TObjArray fxAxisTrans;
 
-      /**
-       * @label Array of slots for calibrations
-       * @supplierCardinality MaxDimension
-       */
-
    private:
 
       /**

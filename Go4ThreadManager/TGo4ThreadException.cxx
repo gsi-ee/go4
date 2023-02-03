@@ -26,11 +26,11 @@ TGo4ThreadException::TGo4ThreadException(const TGo4ThreadException &right)
       fxRunnable=right.fxRunnable;
 }
 
-TGo4ThreadException::TGo4ThreadException (TGo4Runnable* runnable, const char *threadname)
+TGo4ThreadException::TGo4ThreadException (TGo4Runnable *runnable, const char *threadname)
 {
-   GO4TRACE((14,"TGo4ThreadException::TGo4ThreadException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadException::TGo4ThreadException(TGo4Runnable *, const char*) constructor",__LINE__, __FILE__));
    fxRunnable = runnable;
-   TGo4ThreadManager* man = fxRunnable->GetThreadManager();
+   TGo4ThreadManager *man = fxRunnable->GetThreadManager();
    fxThreadHandler = man->GetWorkHandler();
    if(!threadname)
       // default: use thread belonging to runnable

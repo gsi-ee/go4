@@ -42,19 +42,19 @@ class TGo4ThreadHandler : public TNamed {
    public:
       TGo4ThreadHandler(const TGo4ThreadHandler &right);
 
-      TGo4ThreadHandler (const char *name, TGo4ThreadManager* parent);
+      TGo4ThreadHandler (const char *name, TGo4ThreadManager *parent);
 
       virtual ~TGo4ThreadHandler();
 
       /** Adds Reference to (externally created) thread to Thread List **/
-      Bool_t AddThread (TGo4Thread* gthr);
+      Bool_t AddThread (TGo4Thread *gthr);
 
       /** Remove thread by name from Thread List */
       Bool_t RemoveThread (const char *name);
 
       /** Creates new internal Go4 Thread with name and adds it to the List
         * External runnable is passed to specify the threaded actions **/
-      Bool_t NewThread(const char *name, TGo4Runnable* runnable);
+      Bool_t NewThread(const char *name, TGo4Runnable *runnable);
 
       /** Launch all Threads in the thread list. */
       Int_t CreateAll();
@@ -96,7 +96,7 @@ class TGo4ThreadHandler : public TNamed {
       Int_t DumpThreads(Int_t mode = 0);
 
       /** Access to Go4Thread by name. */
-      TGo4Thread* GetThread(const char *name);
+      TGo4Thread *GetThread(const char *name);
 
       /** Number of threads in list **/
       Int_t GetEntries() const;
@@ -124,23 +124,23 @@ class TGo4ThreadHandler : public TNamed {
       /** Backlink to threadmanager who owns this thread handler.
         * @supplierCardinality 1
         * @clientCardinality 1 */
-      TGo4ThreadManager *fxManager;
+      TGo4ThreadManager *fxManager{nullptr};
 
    private:
 
       /** kTRUE, if threadhandler performs any action that
         * requires gSystem support. Flag is checked by Manager
         * before Blocking the System using IsOperating() method **/
-      Bool_t fbIsOperating;
+      Bool_t fbIsOperating{kFALSE};
 
       /** Mutex protecting thread array */
-      TMutex *fxListMutex;
+      TMutex *fxListMutex{nullptr};
 
       /** Iterator for Thread Array */
-      TIterator *fxIterator;
+      TIterator *fxIterator{nullptr};
 
       /** Array of Go4Threads */
-      TObjArray *fxArray;
+      TObjArray *fxArray{nullptr};
 
       /** Mutex to protect IsOperating flag, flag is set kTRUE to
         * indicate that AppControl timer must not block, since
@@ -148,7 +148,7 @@ class TGo4ThreadHandler : public TNamed {
         * thread handler. This state is checked by threadmanager in
         * BlockApp() method before enabling timer wait.
         * Mechanism should prevent timer deadlocks. */
-      TMutex *fxOperMutex;
+      TMutex *fxOperMutex{nullptr};
 
       TGo4ThreadHandler();
 };

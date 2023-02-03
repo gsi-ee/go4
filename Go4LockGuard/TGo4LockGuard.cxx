@@ -15,12 +15,12 @@
 
 #include "TMutex.h"
 
-TMutex* TGo4LockGuard::fgxMainMutex = nullptr;
+TMutex *TGo4LockGuard::fgxMainMutex = nullptr;
 
 Int_t TGo4LockGuard::fgiLockCount = 0;
 
 
-TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t)
+TGo4LockGuard::TGo4LockGuard (TMutex *mutex, Bool_t)
 {
    // first call: create main mutex
 	//  std::cout <<"G-----TGo4LockGuard ctor" << std::endl;

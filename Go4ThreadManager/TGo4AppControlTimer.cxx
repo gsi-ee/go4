@@ -26,12 +26,12 @@ UInt_t TGo4AppControlTimer::fguTERMWAIT = 3000;
 
 Int_t TGo4AppControlTimer::fgiTERMWAITCYCLES = 5;
 
-TGo4AppControlTimer::TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msperiod, Bool_t mode)
+TGo4AppControlTimer::TGo4AppControlTimer (TGo4ThreadManager *manager, Long_t msperiod, Bool_t mode)
    :TTimer(msperiod,mode),
    fxManager(manager),
    fbApplicationRun(kFALSE)
 {
-   GO4TRACE((15,"TGo4AppControlTimer::TGo4AppControlTimer(TGo4ThreadManager*, Long_t, Bool_t) ctor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AppControlTimer::TGo4AppControlTimer(TGo4ThreadManager *, Long_t, Bool_t) ctor",__LINE__, __FILE__));
    fxCondition = new TCondition();
 }
 
@@ -47,9 +47,7 @@ TGo4AppControlTimer::~TGo4AppControlTimer()
 
 Bool_t TGo4AppControlTimer::Notify ()
 {
-   //GO4TRACE((12,"TGo4AppControlTimer::Notify()",__LINE__, __FILE__));
-
-//   TurnOff();
+   // TurnOff();
    if(!fxManager)
       {
          TGo4Log::Error("TGo4AppControlTimer::Notify () NEVER COME HERE!!!");

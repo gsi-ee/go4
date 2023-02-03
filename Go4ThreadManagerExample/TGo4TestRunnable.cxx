@@ -41,7 +41,7 @@ TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right) : TGo4Runnable
 TGo4TestRunnable::TGo4TestRunnable(const char *name, TGo4ThreadManager *man, Int_t mode)
    : TGo4Runnable(name, man), fiMode(mode)
 {
-   GO4TRACE((14, "TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4TestRunnable::TGo4TestRunnable(const char *,TGo4ThreadManager *, Int_t) constructor", __LINE__, __FILE__));
 }
 
 TGo4TestRunnable::~TGo4TestRunnable()
@@ -49,7 +49,7 @@ TGo4TestRunnable::~TGo4TestRunnable()
    GO4TRACE((14,"TGo4TestRunnable::~TGo4TestRunnable() destructor",__LINE__, __FILE__));
 }
 
-Int_t TGo4TestRunnable::Run (void *ptr)
+Int_t TGo4TestRunnable::Run(void *ptr)
 {
    GO4TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
 
@@ -64,8 +64,7 @@ Int_t TGo4TestRunnable::Run (void *ptr)
    TPad *pad1 = ((TGo4TestThreadManager*)fxManager)->GetPad1();
    TPad *pad2 = ((TGo4TestThreadManager*)fxManager)->GetPad2();
 
-  switch(fiMode)
-   {
+   switch(fiMode) {
       case 0:
          {
          GO4TRACE((11,"TGo4TestRunnable::Run() mode 0",__LINE__, __FILE__));
@@ -310,10 +309,10 @@ Int_t TGo4TestRunnable::Run (void *ptr)
 
 }
 
-void TGo4TestRunnable::ThreadCatch (TGo4Exception& ex)
+void TGo4TestRunnable::ThreadCatch (TGo4Exception &ex)
 {
-GO4TRACE((12,"TGo4TestRunnable::ThreadCatch()",__LINE__, __FILE__));
-TGo4Runnable::ThreadCatch(ex); // we use parent method
+   GO4TRACE((12,"TGo4TestRunnable::ThreadCatch()",__LINE__, __FILE__));
+   TGo4Runnable::ThreadCatch(ex); // we use parent method
 
 //   std::cout  << "TGo4TestRunnable "<< GetName() << ":ThreadCatch --"
 //   << std::endl<< "\t"
@@ -324,11 +323,11 @@ TGo4Runnable::ThreadCatch(ex); // we use parent method
 //   ex.Handle();
 }
 
-void TGo4TestRunnable::UnexpectedCatch ()
+void TGo4TestRunnable::UnexpectedCatch()
 {
-GO4TRACE((12,"TGo4TestRunnable::UnexpectedCatch()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TestRunnable::UnexpectedCatch()",__LINE__, __FILE__));
 
-TGo4Runnable::UnexpectedCatch();
+   TGo4Runnable::UnexpectedCatch();
 
 //   std::cout  << "TGo4TestRunnable "<< GetName() << ":UnexpectedCatch --"
 //         << std::endl<< "\t"

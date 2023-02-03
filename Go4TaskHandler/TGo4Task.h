@@ -151,7 +151,7 @@ public:
 
     /** Access to the mutex of status buffer. To be locked
      * outside any command, otherwise deadlocking possible*/
-    TMutex* GetStatusBufferMutex(){return fxStatusMutex;}
+    TMutex *GetStatusBufferMutex(){return fxStatusMutex;}
 
     /**
      * Send message string in a status object to the gui.

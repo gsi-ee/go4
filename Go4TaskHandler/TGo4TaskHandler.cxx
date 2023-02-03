@@ -61,7 +61,7 @@ TNamed TGo4TaskHandler::fgxOBSERVERACCOUNT("observer","go4view");
 TNamed TGo4TaskHandler::fgxCONTROLLERACCOUNT("controller","go4ctrl");
 TNamed TGo4TaskHandler::fgxADMINISTRATORACCOUNT("admin","go4super");
 
-TGo4TaskHandler::TGo4TaskHandler(const char *name, TGo4ThreadManager* threadmanager, Bool_t clientmode, Bool_t mastermode,UInt_t negotiationport)
+TGo4TaskHandler::TGo4TaskHandler(const char *name, TGo4ThreadManager *threadmanager, Bool_t clientmode, Bool_t mastermode,UInt_t negotiationport)
 :TNamed(name,"This is a Go4 Task Handler"),
 fbIsAborting(kFALSE), fiComPort(0),fiStatPort(0),fiDatPort(0),fiRole(kGo4ComModeController)
 {
@@ -598,7 +598,7 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
 Bool_t TGo4TaskHandler::WaitThreadStop(const char *name)
 {
    if(!name) return kFALSE;
-   TGo4Thread* thread=fxThreadHandler->GetThread(name);
+   TGo4Thread *thread=fxThreadHandler->GetThread(name);
    if(!thread) return kFALSE;
    Int_t t = 0;
    Bool_t timeout = kFALSE;

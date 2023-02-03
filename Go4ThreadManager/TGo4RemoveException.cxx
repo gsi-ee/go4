@@ -28,7 +28,7 @@ TGo4RemoveException::TGo4RemoveException(const TGo4RemoveException &right) : TGo
 TGo4RemoveException::TGo4RemoveException(TGo4Runnable *runnable, const char *threadname)
    : TGo4ThreadException(runnable, threadname)
 {
-   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException(TGo4Runnable*, const char*) constructor", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4RemoveException::TGo4RemoveException(TGo4Runnable *, const char*) constructor", __LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Remove Exception --!!!";
 }
 

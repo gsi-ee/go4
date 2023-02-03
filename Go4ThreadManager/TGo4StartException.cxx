@@ -24,10 +24,10 @@ TGo4StartException::TGo4StartException(const TGo4StartException &right)
    GO4TRACE((14,"TGo4StartException::TGo4StartException() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4StartException::TGo4StartException (TGo4Runnable* runnable, const char *threadname)
+TGo4StartException::TGo4StartException (TGo4Runnable *runnable, const char *threadname)
 : TGo4ThreadException(runnable,threadname)
 {
-   GO4TRACE((14,"TGo4StartException::TGo4StartException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4StartException::TGo4StartException(TGo4Runnable *, const char*) constructor",__LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Start Exception --!!!";
 }
 

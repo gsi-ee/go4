@@ -32,7 +32,7 @@ TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
 TGo4Runnable::TGo4Runnable(const char *name, TGo4ThreadManager *man) :
    TNamed(name,"This is a TGo4Runnable")
 {
-   GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const char*,TGo4ThreadManager*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Runnable::TGo4Runnable(const char *,TGo4ThreadManager *) constructor",__LINE__, __FILE__));
    fxManager = man;
 }
 
@@ -41,7 +41,7 @@ TGo4Runnable::~TGo4Runnable()
    GO4TRACE((14,"TGo4Runnable::~TGo4Runnable() destructor",__LINE__, __FILE__));
 }
 
-void TGo4Runnable::ThreadCatch (TGo4Exception& ex)
+void TGo4Runnable::ThreadCatch (TGo4Exception &ex)
 {
    GO4TRACE((12,"TGo4Runnable::ThreadCatch()",__LINE__, __FILE__));
 

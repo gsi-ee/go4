@@ -66,7 +66,7 @@ class TGo4LockGuard {
         * any memory critical operations. This mutex is
         * applied if lockguard is called without giving
         * external mutex. */
-      static TMutex* fgxMainMutex;   //!
+      static TMutex *fgxMainMutex;   //!
 
       /** Counts the numbers of locks of the recursive main mutex. **/
       static Int_t fgiLockCount;     //!

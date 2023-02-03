@@ -79,9 +79,9 @@ Int_t TGo4AnalysisMainRunnable::Run(void *)
             ////////////
             //// note JA: mutex order needs to be preserved in any thread:
             //// statusmutex,taskmanagermutex,queuemutex(locally in each queue),   mainmutex(root streamer etc.)
-            TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+            TMutex *smutex = fxAnalysisClient->GetTask()->GetStatusBufferMutex();
             TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
-            TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
+            TMutex *tmutex = fxAnalysisClient->GetTaskManagerMutex();
             TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server task
             // if tmutex or smutex == 0, these will be just a dummy mainmutex
             TGo4LockGuard mainlock; // protect command invocation!
@@ -103,9 +103,9 @@ Int_t TGo4AnalysisMainRunnable::Run(void *)
           // otherwise we will never get back control after timeout exceptions etc!!!
           {
              // JAM 2015: same lockguards here as for command execution
-             TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+             TMutex *smutex = fxAnalysisClient->GetTask()->GetStatusBufferMutex();
              TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
-             TMutex* tmutex = fxAnalysisClient->GetTaskManagerMutex();
+             TMutex *tmutex = fxAnalysisClient->GetTaskManagerMutex();
              TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
              //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
              fxAnalysis->ProcessEvents();

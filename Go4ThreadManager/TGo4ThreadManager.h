@@ -70,19 +70,17 @@ class TGo4ThreadManager : public TNamed {
       /** Returns true if threadmanager works in root system blocking mode **/
       Bool_t IsAppBlocking() const { return fbAppBlocking; }
 
-
       /** Returns true if threadmanager works in root system blocking mode **/
       Bool_t IsBeingQuit() const { return fbBeingQuit; }
 
-      void SetBeingQuit(Bool_t on) {fbBeingQuit=on;}
-
+      void SetBeingQuit(Bool_t on) { fbBeingQuit = on; }
 
       /** This Method has to be called to create the startup threads and to
         * turn on the application control timer.
         * Usually this is done at the end of the user's threadmanager constructor.
         * The idea is that no thread should be started unless the user initializations
         * are done; therefore, its up to the user to define when to Launch. **/
-      void Launch ();
+      void Launch();
 
       /** deletes the Manager instance via Control timer.
         *   If termap is true, also

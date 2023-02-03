@@ -45,7 +45,7 @@ class TGo4TaskHandler : public TNamed {
 
     friend class TGo4TaskManager;
 
-    TGo4TaskHandler(const char *name, TGo4ThreadManager* threadmanager, Bool_t clientmode = kFALSE, Bool_t mastermode = kTRUE, UInt_t negotiationport = 0);
+    TGo4TaskHandler(const char *name, TGo4ThreadManager *threadmanager, Bool_t clientmode = kFALSE, Bool_t mastermode = kTRUE, UInt_t negotiationport = 0);
 
     virtual ~TGo4TaskHandler();
 
@@ -85,7 +85,7 @@ class TGo4TaskHandler : public TNamed {
      */
     Bool_t DisConnect(Bool_t waitforclient = kTRUE);
 
-    TGo4ThreadManager* GetThreadManager() const { return fxThreadManager; }
+    TGo4ThreadManager *GetThreadManager() const { return fxThreadManager; }
 
     /**
      * Get actual local port number of specified
@@ -313,7 +313,7 @@ class TGo4TaskHandler : public TNamed {
     Bool_t fbIsAborting{kFALSE};
 
    /** Link to threadmanager that owns the task handler, used for runnable ctors */
-    TGo4ThreadManager* fxThreadManager{nullptr}; //!
+    TGo4ThreadManager *fxThreadManager{nullptr}; //!
 
     /**
      * link to external threadhandler which is used for the transport service threads (runnables);

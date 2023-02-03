@@ -31,7 +31,7 @@ class TGo4DataRunnable : public TGo4TaskHandlerRunnable {
 
   public:
 
-      TGo4DataRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler *hand, Bool_t receivermode=kTRUE);
+      TGo4DataRunnable(const char *name, TGo4ThreadManager *man, TGo4TaskHandler *hand, Bool_t receivermode=kTRUE);
 
       virtual ~TGo4DataRunnable();
 

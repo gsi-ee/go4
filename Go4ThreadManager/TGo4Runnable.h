@@ -35,34 +35,34 @@ class TGo4Runnable : public TNamed {
   public:
       TGo4Runnable(const TGo4Runnable &right);
 
-      TGo4Runnable (const char *name, TGo4ThreadManager* man);
+      TGo4Runnable (const char *name, TGo4ThreadManager *man);
 
       virtual ~TGo4Runnable();
 
       void SetThread (TGo4Thread *gthread) { fxGo4Thread = gthread; }
 
-      TGo4Thread* GetThread() const { return fxGo4Thread; }
+      TGo4Thread *GetThread() const { return fxGo4Thread; }
 
-      TGo4ThreadManager* GetThreadManager() const { return fxManager; }
+      TGo4ThreadManager *GetThreadManager() const { return fxManager; }
 
    protected:
 
       TGo4Runnable() {}
 
       /** The working function which runs in the thread */
-      virtual Int_t Run (void *ptr) = 0;
+      virtual Int_t Run(void *ptr) = 0;
 
       /** Function which is called once before the Run() method on threadstart */
-      virtual Int_t PreRun (void *ptr);
+      virtual Int_t PreRun(void *ptr);
 
       /** Function which is called once after the Run()method on threadstop */
-      virtual Int_t PostRun (void *ptr);
+      virtual Int_t PostRun(void *ptr);
 
       /** catch for exceptions occurring in workfunc */
-      virtual void ThreadCatch(TGo4Exception& ex);
+      virtual void ThreadCatch(TGo4Exception &ex);
 
       /** catch for all unexpected exceptions happening in workfunc */
-      virtual void UnexpectedCatch ();
+      virtual void UnexpectedCatch();
 
       /** The threadmanager which is responsible for our thread.
         * @supplierCardinality 1

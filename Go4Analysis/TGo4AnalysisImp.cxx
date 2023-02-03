@@ -779,11 +779,11 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          PostLoop();
    } //  try
 
-   catch(TGo4Exception& ex) {
+   catch(TGo4Exception &ex) {
       Message(1, "%s appeared in %d cycle.", ex.What(), cnt);
       ex.Handle();
    }
-   catch(std::exception& ex) { // treat standard library exceptions
+   catch(std::exception &ex) { // treat standard library exceptions
       Message(1, "standard exception %s appeared in %d cycle.", ex.what(), cnt);
    }
    catch(...) {

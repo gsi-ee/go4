@@ -36,13 +36,13 @@ class TGo4RestartException : public TGo4ThreadException  {
        * Restart thread associated with runnable or with threadname.
        * Old thread will be canceled and created again.
        */
-      TGo4RestartException (TGo4Runnable* runnable, const char *threadname = nullptr);
+      TGo4RestartException (TGo4Runnable *runnable, const char *threadname = nullptr);
 
       virtual ~TGo4RestartException();
 
       TGo4RestartException & operator=(const TGo4RestartException &right);
 
-      Int_t Handle () override;
+      Int_t Handle() override;
 
 };
 

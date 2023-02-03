@@ -34,9 +34,9 @@ class TGo4TerminateException : public TGo4ControlException {
 
       TGo4TerminateException(const TGo4TerminateException &right);
 
-      TGo4TerminateException (TGo4ThreadManager* man);
+      TGo4TerminateException (TGo4ThreadManager *man);
 
-      TGo4TerminateException (TGo4Runnable* runnable);
+      TGo4TerminateException (TGo4Runnable *runnable);
 
       virtual ~TGo4TerminateException();
 
@@ -50,11 +50,4 @@ class TGo4TerminateException : public TGo4ControlException {
 
 };
 
-
-
-
-
 #endif
-
-
-

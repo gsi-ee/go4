@@ -50,8 +50,8 @@ class TGo4Queue : public TNamed {
       void Add(TObject *ob);
 
    private:
-      TMutex* fxMutex{nullptr};          //!
-      TCondition* fxCondition{nullptr};  //!
+      TMutex *fxMutex{nullptr};          //!
+      TCondition *fxCondition{nullptr};  //!
       TList *fxList{nullptr};            //!
       Int_t fiEntries{0};                //!
       Int_t fiMaxEntries{0};             //!

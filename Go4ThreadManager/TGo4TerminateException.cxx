@@ -19,16 +19,16 @@
 #include "TGo4ThreadManager.h"
 #include "TGo4Runnable.h"
 
-TGo4TerminateException::TGo4TerminateException (TGo4Runnable* runnable)
+TGo4TerminateException::TGo4TerminateException (TGo4Runnable *runnable)
 {
-   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4Runnable*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4Runnable *)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Terminate Exception --!!!";
    fxThreadManager=runnable->GetThreadManager();
 }
 
-TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager* man)
+TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager *man)
 {
-   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException(TGo4ThreadManager *)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Terminate Exception --!!!";
    fxThreadManager=man;
 }
@@ -36,7 +36,7 @@ TGo4TerminateException::TGo4TerminateException (TGo4ThreadManager* man)
 TGo4TerminateException::TGo4TerminateException(const TGo4TerminateException &right)
   :TGo4ControlException(right)
 {
-   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (const TGo4TerminateException*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TerminateException::TGo4TerminateException (const TGo4TerminateException &)", __LINE__, __FILE__));
    fxThreadManager=right.fxThreadManager;
 }
 

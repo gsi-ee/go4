@@ -25,7 +25,7 @@ class TGo4HisConnectorRunnable : public TGo4Runnable {
 
       TGo4HisConnectorRunnable();
 
-      TGo4HisConnectorRunnable(const char *name, TGo4HistogramServer* hserv);
+      TGo4HisConnectorRunnable(const char *name, TGo4HistogramServer *hserv);
 
       virtual ~TGo4HisConnectorRunnable();
 
@@ -35,7 +35,7 @@ class TGo4HisConnectorRunnable : public TGo4Runnable {
 
       /** @supplierCardinality 1
        * @clientCardinality 1*/
-      TGo4HistogramServer * fxHistogramServer{nullptr};  //!
+      TGo4HistogramServer *fxHistogramServer{nullptr};  //!
 };
 
 #endif //TGO4HISCONNECTORRUNNABLE_H

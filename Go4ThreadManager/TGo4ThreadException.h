@@ -33,7 +33,7 @@ class TGo4ThreadException : public TGo4ControlException {
 
       TGo4ThreadException(const TGo4ThreadException &right);
 
-      TGo4ThreadException (TGo4Runnable* runnable, const char *threadname = nullptr);
+      TGo4ThreadException (TGo4Runnable *runnable, const char *threadname = nullptr);
 
       virtual ~TGo4ThreadException();
 

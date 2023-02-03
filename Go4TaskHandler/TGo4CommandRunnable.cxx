@@ -28,7 +28,7 @@
 #include "TGo4ComQuit.h"
 
 
-TGo4CommandRunnable::TGo4CommandRunnable(const char *name, TGo4ThreadManager* man,
+TGo4CommandRunnable::TGo4CommandRunnable(const char *name, TGo4ThreadManager *man,
                                          TGo4TaskHandler *hand, Bool_t receivermode) :
    TGo4TaskHandlerRunnable(name,man,hand,receivermode)
 {

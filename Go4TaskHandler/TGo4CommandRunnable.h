@@ -33,7 +33,7 @@ class TGo4CommandInvoker;
 class TGo4CommandRunnable : public TGo4TaskHandlerRunnable {
    public:
 
-      TGo4CommandRunnable(const char *name, TGo4ThreadManager* man, TGo4TaskHandler *hand, Bool_t receivermode=kTRUE);
+      TGo4CommandRunnable(const char *name, TGo4ThreadManager *man, TGo4TaskHandler *hand, Bool_t receivermode=kTRUE);
 
       virtual ~TGo4CommandRunnable();
 

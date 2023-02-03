@@ -42,7 +42,7 @@ class TGo4Thread : public TNamed {
         *   runnable:    external user runnable to be executed from TThread.
         *   internal:    define if thread shall be owned by threadmanager,
         *            or if it belongs to other aggregation **/
-      TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t internal = kTRUE);
+      TGo4Thread (const char *name, TGo4Runnable *runnable, Bool_t internal = kTRUE);
 
       virtual ~TGo4Thread();
 
@@ -96,9 +96,9 @@ class TGo4Thread : public TNamed {
       static void Threadfunc (void *arg);
 
       /** We need this to have access to instance runnable from static Threadfunc: **/
-      TGo4Runnable* GetRunnable() const { return fxRunnable; }
+      TGo4Runnable *GetRunnable() const { return fxRunnable; }
 
-      TCondition* GetCondition() const { return fxCondition; }
+      TCondition *GetCondition() const { return fxCondition; }
 
       void SetPID();
 

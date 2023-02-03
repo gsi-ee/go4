@@ -99,7 +99,7 @@ Bool_t TGo4TaskOwner::IsBeingQuit()
    return fxTask ? fxTask->IsBeingQuit() : kFALSE;
 }
 
-TMutex* TGo4TaskOwner::GetTaskManagerMutex()
+TMutex *TGo4TaskOwner::GetTaskManagerMutex()
 {
    if(IsServer()) {
       TGo4ServerTask* serv = dynamic_cast<TGo4ServerTask*>(GetTask());

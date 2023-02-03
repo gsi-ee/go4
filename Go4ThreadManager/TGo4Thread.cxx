@@ -30,7 +30,7 @@ TGo4Thread::TGo4Thread(const TGo4Thread &right)
    fxCondition = new TCondition();
 }
 
-TGo4Thread::TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t internal)
+TGo4Thread::TGo4Thread (const char *name, TGo4Runnable *runnable, Bool_t internal)
    :TNamed(name,"This is a TGo4Thread"),
    fbIsCreated(kFALSE),
    fbIsRunning(kFALSE),
@@ -39,7 +39,7 @@ TGo4Thread::TGo4Thread (const char *name, TGo4Runnable* runnable, Bool_t interna
    fbIsWaiting(kFALSE),
    fxThread(nullptr)
 {
-   GO4TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable *, Bool_t) constructor",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Go4Thread ``%s'' created ",name);
    fxRunnable = runnable;
@@ -72,11 +72,11 @@ TGo4Thread::~TGo4Thread()
 
 }
 
-void TGo4Thread::Threadfunc (void *arg)
+void TGo4Thread::Threadfunc(void *arg)
 {
    GO4TRACE((2,"TGo4Thread::Threadfunc(void *)",__LINE__, __FILE__));
-   TGo4Thread* go4th= (TGo4Thread*) arg; // we need reference to calling class instance
-   TGo4Runnable* runnable = go4th->GetRunnable();
+   TGo4Thread *go4th = (TGo4Thread *) arg; // we need reference to calling class instance
+   TGo4Runnable *runnable = go4th->GetRunnable();
 
   // this is the function running as pthread...
   // initializations:
@@ -146,7 +146,7 @@ for(;;) // loop keeps thread alive after exception has occured...
                }
         } // while(1)
     }// try
-  catch(TGo4Exception& ex)
+  catch(TGo4Exception &ex)
     {
       GO4TRACE((1,"TGo4Thread::Threadfunc(void *) Go4Exception Catch",__LINE__, __FILE__));
       runnable->ThreadCatch(ex);

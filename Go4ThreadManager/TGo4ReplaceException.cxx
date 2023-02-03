@@ -27,23 +27,19 @@ TGo4ReplaceException::TGo4ReplaceException(const TGo4ReplaceException &right)
    fxNewRunnable=right.fxNewRunnable;
 }
 
-TGo4ReplaceException::TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable, const char *oldthreadname)
+TGo4ReplaceException::TGo4ReplaceException (TGo4Runnable *runnable, TGo4Runnable *newrunnable, const char *oldthreadname)
  :TGo4ThreadException(runnable, oldthreadname)
 {
-   GO4TRACE((14,"TGo4ReplaceException::TGo4ReplaceException(TGo4Runnable*,TGo4Runnable*,const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ReplaceException::TGo4ReplaceException(TGo4Runnable *,TGo4Runnable *,const char*) constructor",__LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Replace Exception --!!!";
-   if(!newrunnable)
-      {
+   if(!newrunnable) {
       GO4TRACE((13,"TGo4ReplaceException constructor -- new runnable same as old runnable",__LINE__, __FILE__));
-         fxNewRunnable=(TGo4Runnable*) runnable->Clone(); // deep copy
-         *fxNewRunnable=*runnable;   // pointers to manager and thread are not streamed,
-                                     // must be handed over by operator= of base class
-      }
-   else
-      {
+      fxNewRunnable = (TGo4Runnable *) runnable->Clone(); // deep copy
+      *fxNewRunnable=*runnable;   // pointers to manager and thread are not streamed,
+   } else {
       GO4TRACE((13,"TGo4ReplaceException constructor -- new runnable specified",__LINE__, __FILE__));
-         fxNewRunnable=newrunnable;
-      }
+      fxNewRunnable = newrunnable;
+   }
 }
 
 

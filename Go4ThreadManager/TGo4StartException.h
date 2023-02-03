@@ -30,7 +30,7 @@ class TGo4StartException : public TGo4ThreadException {
 
       TGo4StartException(const TGo4StartException &right);
 
-      TGo4StartException (TGo4Runnable* runnable, const char *threadname = nullptr);
+      TGo4StartException (TGo4Runnable *runnable, const char *threadname = nullptr);
 
       virtual ~TGo4StartException();
 

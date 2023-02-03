@@ -64,7 +64,7 @@ class TGo4TaskOwner : public TGo4CommandReceiver {
       Bool_t IsBeingQuit();
 
       /** Access to taskmanager mutex; to be locked outside main mutex */
-      TMutex* GetTaskManagerMutex();
+      TMutex *GetTaskManagerMutex();
 
 
    protected:

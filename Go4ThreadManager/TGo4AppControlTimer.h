@@ -42,21 +42,21 @@ class TGo4AppControlTimer : public TTimer {
       TGo4AppControlTimer() = delete;
 
 
-      TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msperiod = 3000, Bool_t mode = kTRUE);
+      TGo4AppControlTimer(TGo4ThreadManager *manager, Long_t msperiod = 3000, Bool_t mode = kTRUE);
 
       virtual ~TGo4AppControlTimer();
 
      /** Sets reference to new thread manager */
-      void SetManager (TGo4ThreadManager* parent) { fxManager=parent; }
+      void SetManager(TGo4ThreadManager *parent) { fxManager = parent; }
 
      /** Routine called from TTimer on timeout */
-      Bool_t Notify () override;
+      Bool_t Notify() override;
 
       /**
        *   Returns handle for internal condition which is
        *   used to block the gSystem.
        **/
-      const TCondition* GetCondition () const { return fxCondition;}
+      const TCondition *GetCondition() const { return fxCondition;}
 
      /**
       *   Switches between blocking and non blocking mode of the timer.
@@ -64,7 +64,7 @@ class TGo4AppControlTimer : public TTimer {
       * to kFALSE, timer will suspend in a condition wait and therefore the
       * InnerLoop() of root is blocked.
       **/
-      void SetApplicationRun (Bool_t flag = kTRUE) { fbApplicationRun=flag; }
+      void SetApplicationRun(Bool_t flag = kTRUE) { fbApplicationRun=flag; }
 
      /**
       *   Status of the application run flag. If true, root application is _not_ blocked.
