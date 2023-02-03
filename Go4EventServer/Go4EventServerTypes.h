@@ -16,7 +16,6 @@
 #ifndef GO4EVENTSERVERTYPES_H
 #define GO4EVENTSERVERTYPES_H
 
-
 /*
 *    Enumeration specifying the id values for the standard event sources/ event stores.
 *    To be checked in the event factories.
@@ -36,7 +35,6 @@ enum
    GO4EV_MBS_RANDOM,         // random generated mbs event
    GO4EV_HDF5                // HDF5 file format
 };
-
 
 #endif //GO4EVENTSERVERTYPES_H
 

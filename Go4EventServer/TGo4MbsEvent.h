@@ -109,15 +109,15 @@ class TGo4MbsEvent : public TGo4EventElement {
        * Returns zero if no subevent of these ids is found. If event has subevents with
        * identical ids, the first in order will be returned (use NextSubEvent() to access all
        * in this case). */
-      TGo4MbsSubEvent * GetSubEvent(Char_t subcrate,
-                                    Char_t ctrl,
-                                    Short_t procid);
+      TGo4MbsSubEvent *GetSubEvent(Char_t subcrate,
+                                   Char_t ctrl,
+                                   Short_t procid);
 
       /** Access to subevent in list by procid.
        * Returns zero if no subevent of this id is found. If event has subevents with
        * identical procid, the first in order will be returned (use NextSubEvent() to access all
        * in this case). Not recommended to use, left for compatibility! */
-      TGo4MbsSubEvent * GetSubEvent(Short_t procid);
+      TGo4MbsSubEvent *GetSubEvent(Short_t procid);
 
       /** Add new subevent to mbs event.
        * /param fullID - 32-bit combination of subcrate, ctrl, procid values
@@ -151,7 +151,7 @@ class TGo4MbsEvent : public TGo4EventElement {
       Int_t GetCount() const { return fxHeader.fiCount; }
 
       /** Access to the info header of the current mbs source */
-      s_filhe * GetMbsSourceHeader();
+      s_filhe *GetMbsSourceHeader();
 
       /** Method to print MBS source header */
       void PrintMbsFileHeader();
@@ -161,7 +161,6 @@ class TGo4MbsEvent : public TGo4EventElement {
 
       /** Method to print MBS buffer header */
       void PrintMbsBufferHeader();
-
 
    private:
 
@@ -179,7 +178,6 @@ class TGo4MbsEvent : public TGo4EventElement {
 
       /* initialize this event with a simple dummy subevent*/
       void SimpleInit();
-
 
    ClassDefOverride(TGo4MbsEvent,3)
 };

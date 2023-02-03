@@ -108,7 +108,7 @@ class TGo4MbsSource : public TGo4EventSource {
     void SetPort(Int_t port) { fiPort = port; }
 
     /** User access to info header. May contain additional run information */
-    s_filhe *GetInfoHeader() { return fxInfoHeader; }
+    s_filhe *GetInfoHeader() const { return fxInfoHeader; }
 
     /** User access to current event buffer header. */
     virtual s_bufhe *GetBufferHeader();

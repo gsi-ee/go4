@@ -29,11 +29,11 @@ class TGo4GSIEventHeader : public TObject {
 
     /** Reset all members to zero. */
     void Clear(Option_t * = "") override
-      {
-         fiDlen = 0;
-         fsType = 0;
-         fsSubtype = 0;
-      }
+    {
+       fiDlen = 0;
+       fsType = 0;
+       fsSubtype = 0;
+    }
 
     /** Length (16 bit words) of the data field following this header.
       * (i.e. datalenth+2 for events, datalength+4 for subevents).
@@ -51,6 +51,3 @@ class TGo4GSIEventHeader : public TObject {
 };
 
 #endif //TGO4GSIEVENTHEADER_H
-
-
-

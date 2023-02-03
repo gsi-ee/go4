@@ -51,28 +51,28 @@ class TGo4MbsSubEvent : public TGo4EventElement {
       void Set(Int_t dlen, Short_t type = 10, Short_t subtype = 1,
                Short_t procid = 0, Char_t subcrate = 0, Char_t ctrl = 0);
 
-      void  SetDlen(Int_t dlen) { fxHeader.fxGSIHeader.fiDlen = dlen; }
-      Int_t  GetDlen() const { return fxHeader.fxGSIHeader.fiDlen; }
+      void SetDlen(Int_t dlen) { fxHeader.fxGSIHeader.fiDlen = dlen; }
+      Int_t GetDlen() const { return fxHeader.fxGSIHeader.fiDlen; }
 
       /** Return raw data length in bytes */
-      Int_t  GetByteLen() const { return (GetDlen()-2) * 2; }
+      Int_t GetByteLen() const { return (GetDlen()-2) * 2; }
 
       /** Return raw data length in int (4-bytes) */
-      Int_t  GetIntLen() const { return GetByteLen() / 4; }
+      Int_t GetIntLen() const { return GetByteLen() / 4; }
 
-      void  SetType(Short_t type) { fxHeader.fxGSIHeader.fsType  = type; }
+      void SetType(Short_t type) { fxHeader.fxGSIHeader.fsType  = type; }
       Short_t GetType() const { return fxHeader.fxGSIHeader.fsType; }
 
-      void  SetSubtype(Short_t subtype) { fxHeader.fxGSIHeader.fsSubtype = subtype; }
+      void SetSubtype(Short_t subtype) { fxHeader.fxGSIHeader.fsSubtype = subtype; }
       Short_t GetSubtype() const { return fxHeader.fxGSIHeader.fsSubtype; }
 
-      void  SetProcid(Short_t procid) { fxHeader.fsProcid = procid; }
+      void SetProcid(Short_t procid) { fxHeader.fsProcid = procid; }
       Short_t GetProcid() const { return fxHeader.fsProcid; }
 
-      void  SetSubcrate(Char_t subcrate) { fxHeader.fcSubcrate = subcrate; }
+      void SetSubcrate(Char_t subcrate) { fxHeader.fcSubcrate = subcrate; }
       Char_t GetSubcrate() const { return fxHeader.fcSubcrate; }
 
-      void  SetControl(Char_t control) { fxHeader.fcControl = control; }
+      void SetControl(Char_t control) { fxHeader.fcControl = control; }
       Char_t GetControl() const { return fxHeader.fcControl; }
 
       void SetFullId(Int_t fullid) { fxHeader.fiFullid = fullid; }
@@ -83,12 +83,11 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       /** Direct access to the fiData field pointer. User has to care
        * about allocated range as specified in fiAllocLen. */
-      Int_t *GetDataField() { return fiData; }
+      Int_t *GetDataField() const { return fiData; }
 
       /** Returns the value at position i in the fiData field.
        * If Index i is out of DLen range, zero is returned. */
-      Int_t Data(Int_t i) const
-         { return ((i<0) || (i>=GetAllocatedLength())) ? 0 : fiData[i]; }
+      Int_t Data(Int_t i) const { return ((i < 0) || (i >= GetAllocatedLength())) ? 0 : fiData[i]; }
 
       /** true if this subevent was filled since the last Clear() */
       Bool_t IsFilled() const { return fbIsFilled; }

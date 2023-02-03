@@ -36,7 +36,7 @@ class TGo4MainTree : public TObject {
   protected:
     /** Access to the tree. For friends only, i.e
       * TreeSource and TreeStore. */
-    TTree *GetTree() { return fxTree; }
+    TTree *GetTree() const { return fxTree; }
 
     TGo4MainTree();
 
@@ -56,7 +56,7 @@ class TGo4MainTree : public TObject {
     /** Default tree autosave size */
     static const Int_t fgiAUTOSAVESIZE; //!
 
-    static TGo4MainTree * Instance();
+    static TGo4MainTree *Instance();
 
     /** True if instance of tree already exists. Used by framework to check if MainTree
       * was created by any treestore/source instance, before the instance is

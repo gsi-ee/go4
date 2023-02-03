@@ -58,7 +58,7 @@ class TGo4BackStore : public TGo4EventStore {
     /** Dynamic list might reset backstore after processing.
      * If onlyclearflag is true, do not reset tree, but just
      * unmark the "backstore was reset" bit. */
-    void Reset(Bool_t onlyclearflag=kFALSE);
+    void Reset(Bool_t onlyclearflag = kFALSE);
 
     /** Standard go4 name of the branch used in all treestore
       * and treesource implementations. */

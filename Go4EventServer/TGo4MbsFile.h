@@ -19,7 +19,6 @@
 class TGo4MbsFileParameter;
 class TList;
 
-
 /**
  * Implements the gsi mbs stream server into the
  * go4 classes. This is an alias for the MbsSource
