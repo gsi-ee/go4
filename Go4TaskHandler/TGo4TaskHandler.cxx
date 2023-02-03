@@ -142,12 +142,12 @@ TGo4TaskHandler::~TGo4TaskHandler()
    delete fxDataQueue;
 }
 
-TGo4Socket* TGo4TaskHandler::ServerRequest(const char *host)
+TGo4Socket *TGo4TaskHandler::ServerRequest(const char *host)
 {
    if(fbClientMode)
    {
       // we are client and want access to the server task (connector runnable)
-      TGo4Socket* connector=new TGo4Socket(kTRUE); // raw socket transport
+      TGo4Socket *connector=new TGo4Socket(kTRUE); // raw socket transport
       connector->Open(host,fuNegPort); // open connection to server's connector runnable
       if(ServerLogin(connector, GetRole()))
       {
@@ -178,7 +178,7 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char *host)
 }
 
 
-Bool_t TGo4TaskHandler::Connect(const char *host, TGo4Socket* connector)
+Bool_t TGo4TaskHandler::Connect(const char *host, TGo4Socket *connector)
 // establish connection of all three channels
 {
    TGo4Log::Debug(" TaskHandler %s connecting to host %s ...",GetName(),host);
@@ -277,7 +277,7 @@ Bool_t TGo4TaskHandler::Connect(const char *host, TGo4Socket* connector)
    return kTRUE;
 }
 
-Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket* connector, Go4CommandMode_t account)
+Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket *connector, Go4CommandMode_t account)
 {
    if(!connector) return kFALSE;
    //std::cout <<"ServerLogin with mode "<<account << std::endl;
@@ -333,7 +333,7 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
       {
          // normal DisConnect mode:
          // we are client, have to tell server to let us go...
-         TGo4Socket* connector=ServerRequest(GetHostName()); // get negotiation channel from server
+         TGo4Socket *connector=ServerRequest(GetHostName()); // get negotiation channel from server
          if(connector)
          {
             // request was successful, we keep talking:
@@ -428,7 +428,7 @@ TGo4TaskHandlerStatus * TGo4TaskHandler::CreateStatus()
 
 
 
-Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char *host)
+Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket *negotiator, TGo4Socket *channel, const char *host)
 {
    char *revchar = nullptr;
    Int_t waitresult = 0;
@@ -542,7 +542,7 @@ Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket *negot
    } // if(!strcmp(recvchar,fgcOK))
 }
 
-Int_t TGo4TaskHandler::WaitGetPort(TGo4Socket* sock)
+Int_t TGo4TaskHandler::WaitGetPort(TGo4Socket *sock)
 {
    Int_t count = 0, port = 0;
    while(port == 0)

@@ -70,7 +70,7 @@ class TGo4Slot : public TNamed  {
       const char *GetPar(const char *name) const;
       void RemovePar(const char *name);
       void SetIntPar(const char *name, Int_t value);
-      Bool_t GetIntPar(const char *name, Int_t& value) const;
+      Bool_t GetIntPar(const char *name, Int_t &value) const;
       void PrintPars(Int_t level = 3);
 
       Int_t NumChilds() const { return fChilds ? fChilds->GetLast()+1 : 0; }

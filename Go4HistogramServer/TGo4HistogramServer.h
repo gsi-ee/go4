@@ -103,9 +103,9 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
 
       const char *ConnectHost() const { return fcConnectHost.Data(); }
 
-      void SetConnect(TGo4Socket * trans, const char *host, UInt_t port);
+      void SetConnect(TGo4Socket *trans, const char *host, UInt_t port);
 
-      void SetDisConnect(TGo4Socket * trans);
+      void SetDisConnect(TGo4Socket *trans);
 
       Int_t WaitForOpen();
 
@@ -149,7 +149,7 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       Int_t fiServerPort{0};
 
       /** socket for object server **/
-      TGo4Socket* fxTransport{nullptr}; //!
+      TGo4Socket  *fxTransport{nullptr}; //!
 
       /** port number for the object server connections */
       UInt_t fuObjectPort{0};

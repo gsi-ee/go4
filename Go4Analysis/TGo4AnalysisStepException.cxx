@@ -18,7 +18,7 @@
 
 TGo4AnalysisStepException::TGo4AnalysisStepException(TGo4AnalysisStep *step) : fxStep(nullptr)
 {
-   GO4TRACE((14, "TGo4AnalysisStepException:TGo4AnalysisStepException (TGo4TaskHandler*)", __LINE__, __FILE__));
+   GO4TRACE((14, "TGo4AnalysisStepException:TGo4AnalysisStepException (TGo4TaskHandler *)", __LINE__, __FILE__));
    fxDescription = "!!!-- Go4 Analysis Step Exception --!!!";
    if (step) {
       fxStep = step;

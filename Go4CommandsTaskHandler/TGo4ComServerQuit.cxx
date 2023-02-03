@@ -28,7 +28,7 @@ TGo4ComServerQuit::TGo4ComServerQuit() :
 
 Int_t TGo4ComServerQuit::ExeCom()
 {
-   TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
+   TGo4ServerTask *server = dynamic_cast<TGo4ServerTask *>(fxReceiverBase);
    if (server) {
       server->Quit(); // Quit will disconnect clients one by one
       //server->Shutdown(); // Shutdown will terminate without waiting for clients removed properly

@@ -1812,7 +1812,7 @@ void TGo4BrowserProxy::SetProtectionBits(TGo4Slot *slot, Int_t delprot, Int_t cl
       slot->RemovePar("GUI::ResetProtect");
 }
 
-void TGo4BrowserProxy::GetProtectionBits(TGo4Slot *slot, Int_t& delprot, Int_t& clearprot)
+void TGo4BrowserProxy::GetProtectionBits(TGo4Slot *slot, Int_t &delprot, Int_t &clearprot)
 {
    delprot = -1; clearprot = -1;
    if (!slot) return;

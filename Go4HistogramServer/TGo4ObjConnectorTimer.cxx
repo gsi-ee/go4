@@ -19,7 +19,7 @@
 TGo4ObjConnectorTimer::TGo4ObjConnectorTimer(TGo4HistogramServer *server, Long_t msperiod)
    : TTimer(msperiod, kTRUE), fxServer(server)
 {
-   GO4TRACE((15, "TGo4ObjConnectorTimer::TGo4ObjConnectorTimer(TGo4ServerTask*,Long_t)", __LINE__, __FILE__));
+   GO4TRACE((15, "TGo4ObjConnectorTimer::TGo4ObjConnectorTimer(TGo4ServerTask *, Long_t)", __LINE__, __FILE__));
 }
 
 TGo4ObjConnectorTimer::~TGo4ObjConnectorTimer()

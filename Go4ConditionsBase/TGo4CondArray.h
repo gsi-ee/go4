@@ -134,7 +134,7 @@ class TGo4CondArray : public TGo4Condition {
     const char *GetType() const;
 
     /** Returns condition type ID (kGO4CONDWINDOW=1 or kGO4CONDPOLYGON=2). */
-    void GetType(Int_t& type) const;
+    void GetType(Int_t &type) const;
 
     /** Calls Enable for all conditions (multi edit mode) or for currently selected (single edit mode) */
     void Enable() override;

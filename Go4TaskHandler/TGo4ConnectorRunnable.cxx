@@ -17,7 +17,7 @@
 #include "TGo4ServerTask.h"
 #include "TGo4TaskManager.h"
 
-TGo4ConnectorRunnable::TGo4ConnectorRunnable(const char *name, TGo4ServerTask* man) :
+TGo4ConnectorRunnable::TGo4ConnectorRunnable(const char *name, TGo4ServerTask *man) :
    TGo4Runnable(name,man)
 {
    fxTaskManager = man->GetTaskManager();

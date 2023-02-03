@@ -31,13 +31,13 @@ const Int_t TGo4TaskManager::fgiDISCONCYCLES=360; // wait cycles 180
 const UInt_t TGo4TaskManager::fguDISCONTIME=500; // time in ms 1000
 
 TGo4TaskManager::TGo4TaskManager(const char *name,
-                                 TGo4ServerTask * server,
+                                 TGo4ServerTask *server,
                                  UInt_t negotiationport,
                                  Bool_t createconnector)
 : TNamed(name,"This is a Go4TaskManager"),
    fuTaskCount(0),fuNegotiationPort(0), fbClientIsRemoved(kFALSE), fbHasControllerConnection(kFALSE)
 {
-   fxServer=server;
+   fxServer = server;
  // set port number for the client server negotiation channel:
    if(negotiationport == 0)
       {
@@ -62,7 +62,7 @@ TGo4TaskManager::TGo4TaskManager(const char *name,
        fxTransport->Open( "Server mode does not need hostname", negotiationport, kTRUE);
        // note: Open() return value is not 0 here, since we do not have
        // accept finished yet! but portnumber is ready after this...
-      }
+    }
 }
 
 TGo4TaskManager::~TGo4TaskManager()
@@ -410,7 +410,7 @@ Bool_t TGo4TaskManager::RemoveTaskHandler(const char *name)
    {
       TGo4LockGuard listguard(fxListMutex);
       TObject *obj = fxTaskList->FindObject(name);
-      taskhandler = (TGo4TaskHandler*) fxTaskList->Remove(obj);
+      taskhandler = (TGo4TaskHandler *) fxTaskList->Remove(obj);
       // Remove will do nothing if obj == 0; on success, it returns pointer to
       // removed object
    } //TGo4LockGuard
@@ -437,7 +437,7 @@ TGo4TaskHandler *TGo4TaskManager::GetTaskHandler(const char *name)
    TGo4TaskHandler *th = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
-      th = (TGo4TaskHandler*) fxTaskList->FindObject(name);
+      th = (TGo4TaskHandler *) fxTaskList->FindObject(name);
    } //TGo4LockGuard
    return th;
 }
@@ -447,7 +447,7 @@ TGo4TaskHandler *TGo4TaskManager::GetLastTaskHandler()
    TGo4TaskHandler *th = nullptr;
    {
       TGo4LockGuard listguard(fxListMutex);
-      th = (TGo4TaskHandler*) fxTaskList->Last();
+      th = (TGo4TaskHandler *) fxTaskList->Last();
    } //TGo4LockGuard
    return th;
 }
@@ -456,7 +456,7 @@ TGo4TaskHandler *TGo4TaskManager::NextTaskHandler(Bool_t reset)
 {
    TGo4LockGuard listguard(fxListMutex);
    if(reset) fxTaskIter->Reset();
-   return dynamic_cast<TGo4TaskHandler*>(fxTaskIter->Next());
+   return dynamic_cast<TGo4TaskHandler *>(fxTaskIter->Next());
 }
 
 Int_t TGo4TaskManager::WaitForClientRemoved()

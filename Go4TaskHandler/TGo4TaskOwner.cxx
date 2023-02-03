@@ -77,7 +77,7 @@ Int_t TGo4TaskOwner::StopWorkThreads()
 Bool_t TGo4TaskOwner::IsConnected()
 {
    if(IsServer()) {
-      TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*>(GetTask());
+      TGo4ServerTask *server = dynamic_cast<TGo4ServerTask *>(GetTask());
       if(!server) {
          std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
          return kFALSE;
@@ -102,7 +102,7 @@ Bool_t TGo4TaskOwner::IsBeingQuit()
 TMutex *TGo4TaskOwner::GetTaskManagerMutex()
 {
    if(IsServer()) {
-      TGo4ServerTask* serv = dynamic_cast<TGo4ServerTask*>(GetTask());
+      TGo4ServerTask *serv = dynamic_cast<TGo4ServerTask *>(GetTask());
       if(serv) return serv->GetTaskManager()->GetMutex();
    }
   return nullptr;

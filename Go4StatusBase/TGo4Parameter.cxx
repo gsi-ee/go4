@@ -274,7 +274,7 @@ void TGo4Parameter::GetMemberValues(TObjArray *fItems, TClass *cl, char *ptr, un
    }
 }
 
-Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMember *member)
+Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t &itemsindx, TDataMember *member)
 {
    TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
    if (!info) return -1;
@@ -285,7 +285,7 @@ Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMe
 }
 
 
-Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass *cl, char *ptr, unsigned long int cloffset)
+Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t &itemsindx, TClass *cl, char *ptr, unsigned long int cloffset)
 {
    if (!items || !cl || !ptr) return kFALSE;
 

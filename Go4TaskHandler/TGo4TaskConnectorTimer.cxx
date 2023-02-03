@@ -15,7 +15,7 @@
 
 #include "TGo4ServerTask.h"
 
-TGo4TaskConnectorTimer::TGo4TaskConnectorTimer (TGo4ServerTask* server, Long_t msperiod) :
+TGo4TaskConnectorTimer::TGo4TaskConnectorTimer (TGo4ServerTask *server, Long_t msperiod) :
    TTimer(msperiod,kTRUE),
    fxServer(server)
 {

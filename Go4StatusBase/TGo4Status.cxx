@@ -51,7 +51,7 @@ void TGo4Status::Print(Option_t *dummy) const
    localthis->PrintStatus();
 }
 
-Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
+Int_t TGo4Status::PrintStatus(Text_t *buffer, Int_t buflen)
 {
    GO4TRACE((12,"TGo4Status::PrintStatus()",__LINE__, __FILE__));
 
@@ -70,7 +70,7 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
    return size;
 }
 
-Text_t *TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
+Text_t *TGo4Status::PrintIndent(Text_t *buffer, Int_t &buflen)
 {
    if(buflen < 0 && buffer)
       return nullptr;
@@ -83,7 +83,7 @@ Text_t *TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
    return cursor;
 }
 
-Text_t *TGo4Status::PrintBuffer(char *buffer, Int_t& buflen, const char *text,...)
+Text_t *TGo4Status::PrintBuffer(char *buffer, Int_t &buflen, const char *text,...)
 {
    if(!buffer || buflen < 0)
       return nullptr;

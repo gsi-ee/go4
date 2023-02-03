@@ -78,9 +78,9 @@ class TGo4Parameter : public TNamed {
 
       void GetMemberValues(TObjArray *fItems, TClass *cl, char *ptr, unsigned long int cloffset);
 
-      Bool_t SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass *cl, char *ptr, unsigned long int cloffset);
+      Bool_t SetMemberValues(TObjArray *items, Int_t &itemsindx, TClass *cl, char *ptr, unsigned long int cloffset);
 
-      Int_t FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMember *member);
+      Int_t FindArrayLength(TObjArray *items, Int_t &itemsindx, TDataMember *member);
 
    ClassDefOverride(TGo4Parameter,1)
 };

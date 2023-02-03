@@ -40,7 +40,7 @@ void TGo4ComRemoveClient::SetWaitForClient(Bool_t wait)
 
 Int_t TGo4ComRemoveClient::ExeCom()
 {
-   TGo4ServerTask *serv = dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
+   TGo4ServerTask *serv = dynamic_cast<TGo4ServerTask *>(fxReceiverBase);
    if (!serv) {
       TGo4Log::Debug(" !!! ComRemoveClient ''%s'': NO RECEIVER ERROR!!!",
             GetName());

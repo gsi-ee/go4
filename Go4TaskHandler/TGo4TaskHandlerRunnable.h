@@ -54,7 +54,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
       Bool_t CheckTransportOpen();
 
       /** link to external inter-tasl transport channel */
-      TGo4Socket* fxTransport{nullptr};//!
+      TGo4Socket *fxTransport{nullptr};//!
 
       /** link to external task handler (for server mode)
         * @supplierCardinality 1
@@ -66,7 +66,7 @@ class TGo4TaskHandlerRunnable : public TGo4Runnable {
       Bool_t fbReceiverMode{kFALSE};
 
       /** Link to external buffer queue. For object sending mode. */
-      TGo4BufferQueue * fxBufferQueue{nullptr}; //!
+      TGo4BufferQueue *fxBufferQueue{nullptr}; //!
 
     private:
       TGo4TaskHandlerRunnable();

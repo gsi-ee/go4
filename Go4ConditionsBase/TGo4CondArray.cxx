@@ -211,7 +211,7 @@ const char *TGo4CondArray::GetType() const
 }
 
 // -----------------------------------------------
-void TGo4CondArray::GetType(Int_t& type) const
+void TGo4CondArray::GetType(Int_t &type) const
 {
   type = fiType;
 }

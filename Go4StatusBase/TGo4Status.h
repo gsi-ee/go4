@@ -39,7 +39,7 @@ class TGo4Status : public TNamed {
        * but extends IndentLevel to any text buffer. Return value is
        * buffer cursor pointer after insertion. Returns 0 if cursor exceeds
        * buffer length. */
-      static Text_t* PrintIndent(Text_t* buffer, Int_t& buflen);
+      static Text_t* PrintIndent(Text_t *buffer, Int_t &buflen);
 
       /**
        * Print text with variable expression into buffer. Returns cursor pointer
@@ -47,7 +47,7 @@ class TGo4Status : public TNamed {
        * If cursor would exceed buflen, 0 is returned. Bufferlength
        * buflen shall contain buffer size, it will be decremented by the size of
        * printed text.  */
-      static Text_t* PrintBuffer(char *buffer, Int_t& buflen, const char *text, ...)
+      static Text_t *PrintBuffer(char *buffer, Int_t &buflen, const char *text, ...)
       #if defined(__GNUC__) && !defined(__CINT__)
         __attribute__((format(printf, 3, 4)))
       #endif
@@ -60,7 +60,6 @@ class TGo4Status : public TNamed {
         __attribute__((format(printf, 1, 2)))
       #endif
       ;
-
 
     /** Go4 status bits to be used in object manager to suppress
      * resetting or deleting histograms, etc */

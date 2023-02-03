@@ -54,28 +54,27 @@ class TGo4TaskHandler : public TNamed {
      * one data transport channel (data, status, or command).
      * For server socket mode (used by taskmanager)
      */
-    Bool_t ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char *host);
+    Bool_t ConnectServerChannel(const char *name, TGo4Socket *negotiator, TGo4Socket *channel, const char *host);
 
     /**
      * method defining the connection protocol of
      * one data transport channel (data, status, or command).
      * For client socket mode (used by taskhandler)
      */
-    Bool_t ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char *host);
+    Bool_t ConnectClientChannel(const char *name, TGo4Socket *negotiator, TGo4Socket *channel, const char *host);
 
     /**
      * request to server at host to connect or disconnect us, returns negotiation channel
      */
-    TGo4Socket* ServerRequest(const char *host="localhost");
+    TGo4Socket *ServerRequest(const char *host = "localhost");
 
     /** Negotiate login to requested server channel with account type */
-    Bool_t ServerLogin(TGo4Socket* connector, Go4CommandMode_t account);
+    Bool_t ServerLogin(TGo4Socket *connector, Go4CommandMode_t account);
 
     /**
      * establishes the connections of all three transport channels and starts the service threads
      */
-    Bool_t Connect(const char *host="localhost", TGo4Socket* negotiator = nullptr);
-
+    Bool_t Connect(const char *host="localhost", TGo4Socket *negotiator = nullptr);
 
     /**
      * Closes the connections of all three transport channels.
@@ -94,24 +93,24 @@ class TGo4TaskHandler : public TNamed {
      * to that number. Used by the Connect protocol to
      * find out server port before sending it to the client.
      */
-    Int_t WaitGetPort(TGo4Socket* sock);
+    Int_t WaitGetPort(TGo4Socket *sock);
 
     /** Set port for the negotiation channel (client mode). Required
      * if connection should be done on different port after taskhandler was
      * created. */
     void SetNegotiationPort(UInt_t port){ fuNegPort=port;}
 
-    TGo4Socket* GetCommandTransport() const { return fxCommandTransport; }
+    TGo4Socket *GetCommandTransport() const { return fxCommandTransport; }
 
-    TGo4Socket* GetStatusTransport() const { return fxStatusTransport; }
+    TGo4Socket *GetStatusTransport() const { return fxStatusTransport; }
 
-    TGo4Socket* GetDataTransport() const { return fxDataTransport; }
+    TGo4Socket *GetDataTransport() const { return fxDataTransport; }
 
-    TGo4Queue* GetCommandQueue() const { return fxCommandQueue; }
+    TGo4Queue *GetCommandQueue() const { return fxCommandQueue; }
 
-    TGo4Queue* GetStatusQueue() const { return fxStatusQueue; }
+    TGo4Queue *GetStatusQueue() const { return fxStatusQueue; }
 
-    TGo4Queue * GetDataQueue() const { return fxDataQueue; }
+    TGo4Queue *GetDataQueue() const { return fxDataQueue; }
 
     const char *GetHostName() const { return fxHostName.Data(); }
 
@@ -198,25 +197,25 @@ class TGo4TaskHandler : public TNamed {
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetAdminAccount(const char *name, const char *passwd);
+    static void SetAdminAccount(const char *name, const char *passwd);
 
    /** Specify login name and password for controller account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller. Master server at slave client has always
     * controller role. */
-   static void SetCtrlAccount(const char *name, const char *passwd);
+    static void SetCtrlAccount(const char *name, const char *passwd);
 
     /** Specify login name and password for observer account.
     * This is used when client requests for a server connection.
     * For multiple master clients at a slave server, there can be
     * only one controller, but many observers with restricted command
     * rights. */
-   static void SetObservAccount(const char *name, const char *passwd);
+    static void SetObservAccount(const char *name, const char *passwd);
 
-   static const char *Get_fgcOK();
+    static const char *Get_fgcOK();
 
-   static const char *Get_fgcERROR();
+    static const char *Get_fgcERROR();
 
     static UInt_t Get_fguPORTWAITTIME();
 
@@ -251,12 +250,11 @@ class TGo4TaskHandler : public TNamed {
     /** Initial string for disconnect request (raw transport) */
     static const char *fgcDISCONNECT;         //!
 
-  /** Task identifier for client connect negotiations (raw transport) */
-    static const char *fgcMASTER;              //!
+   /** Task identifier for client connect negotiations (raw transport) */
+   static const char *fgcMASTER;              //!
 
-  /** Task identifier for client connect negotiations (raw transport) */
-    static const char *fgcSLAVE;              //!
-
+   /** Task identifier for client connect negotiations (raw transport) */
+   static const char *fgcSLAVE;              //!
 
    /** Suffix for command thread name */
    static const char *fgcCOMMANDTHREAD;       //!
@@ -271,13 +269,11 @@ class TGo4TaskHandler : public TNamed {
   private:
     TGo4TaskHandler();
 
-
 /** This keeps account for admin connection.
   * Name is accountname, title is password. May be set from outside by
   * public methods SetObservAccount and SetObservPasswd.
   * Later we might keep this with encryption...*/
     static TNamed fgxADMINISTRATORACCOUNT;
-
 
 /** This keeps account for observer connection.
   * Name is accountname, title is password. May be set from outside by
@@ -321,20 +317,20 @@ class TGo4TaskHandler : public TNamed {
      * over the responsibility for the runnables (threadhandler internal mode threads)
      * @associates <{TGo4ThreadHandler}>
      */
-    TGo4ThreadHandler* fxThreadHandler{nullptr}; //!
+    TGo4ThreadHandler  *fxThreadHandler{nullptr}; //!
 
     /** Link to external command invoker instance used for direct command in client mode: */
-    TGo4CommandInvoker* fxInvoker{nullptr}; //!
+    TGo4CommandInvoker  *fxInvoker{nullptr}; //!
 
     /** Buffers (queues) for the three transport channels: */
-    TGo4Queue* fxCommandQueue{nullptr}; //!
-    TGo4Queue* fxStatusQueue{nullptr}; //!
-    TGo4Queue* fxDataQueue{nullptr}; //!
+    TGo4Queue  *fxCommandQueue{nullptr}; //!
+    TGo4Queue  *fxStatusQueue{nullptr}; //!
+    TGo4Queue  *fxDataQueue{nullptr}; //!
 
     /** Transport channels (e.g. sockets) for command, status, data */
-    TGo4Socket* fxCommandTransport{nullptr}; //!
-    TGo4Socket* fxStatusTransport{nullptr};  //!
-    TGo4Socket* fxDataTransport{nullptr};  //!
+    TGo4Socket  *fxCommandTransport{nullptr}; //!
+    TGo4Socket  *fxStatusTransport{nullptr};  //!
+    TGo4Socket  *fxDataTransport{nullptr};  //!
 
     /** Remember name of command thread */
     TString fxComName;
@@ -369,17 +365,17 @@ class TGo4TaskHandler : public TNamed {
     /** link to status runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4StatusRunnable* fxStatusRun{nullptr}; //!
+    TGo4StatusRunnable  *fxStatusRun{nullptr}; //!
 
     /** link to data runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4DataRunnable* fxDataRun{nullptr}; //!
+    TGo4DataRunnable  *fxDataRun{nullptr}; //!
 
     /** link to command runnable which is managed by thread handler
      * @supplierCardinality 1
      * @clientCardinality 1*/
-    TGo4CommandRunnable* fxCommandRun{nullptr}; //!
+    TGo4CommandRunnable  *fxCommandRun{nullptr}; //!
 
 };
 

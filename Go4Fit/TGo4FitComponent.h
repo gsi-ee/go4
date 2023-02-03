@@ -166,7 +166,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * typ = 2: SetRangeMin()    right not defined
        * typ = 3: SetRangeMax()    left not defined
        */
-      void GetRangeCondition(Int_t n, Int_t& typ, Int_t& naxis, Double_t& left, Double_t& right) const;
+      void GetRangeCondition(Int_t n, Int_t &typ, Int_t &naxis, Double_t& left, Double_t& right) const;
 
       /**
        * Change specified range condition.

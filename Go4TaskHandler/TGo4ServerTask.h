@@ -112,11 +112,11 @@ class TGo4ServerTask : public TGo4Task {
        */
       void SetCurrentTask(const char *name);
 
-      void SetConnect(TGo4Socket * trans, const char *host, UInt_t port, Bool_t keepserv = kFALSE);
+      void SetConnect(TGo4Socket *trans, const char *host, UInt_t port, Bool_t keepserv = kFALSE);
 
-      void SetDisConnect(TGo4Socket * trans);
+      void SetDisConnect(TGo4Socket *trans);
 
-      TGo4Socket* GetConnectTransport();
+      TGo4Socket *GetConnectTransport();
 
       const char *GetConnectorName() const { return fxConnectorName.Data();}
 
@@ -133,7 +133,7 @@ class TGo4ServerTask : public TGo4Task {
        * Remove all connected client task from this server.
        * with option force=true, remove without waiting
        */
-      virtual Int_t RemoveAllClients(Bool_t force=false);
+      virtual Int_t RemoveAllClients(Bool_t force = false);
 
       /**
        * Remove the client task specified by name from this server.
@@ -191,22 +191,22 @@ private:
 
       /** @link aggregationByValue
              *   @supplierCardinality 1 */
-      TGo4TaskManager * fxTaskManager{nullptr};//!
+      TGo4TaskManager   *fxTaskManager{nullptr};//!
 
       /** @supplierCardinality 1 */
-      TGo4TaskHandler * fxCurrentTaskHandler{nullptr}; //!
+      TGo4TaskHandler   *fxCurrentTaskHandler{nullptr}; //!
 
       /**
        * link to the next TaskHandler transport instance that shall be connected
        * by the Application Control Timer with the client
        */
-      TGo4Socket * fxConnectTransport{nullptr}; //!
+      TGo4Socket    *fxConnectTransport{nullptr}; //!
 
       /**
        * link to the next TaskHandler transport instance that shall be disconnected
        * by the Application Control Timer with the client
        */
-      TGo4Socket * fxDisConnectTransport{nullptr}; //!
+      TGo4Socket    *fxDisConnectTransport{nullptr}; //!
 
       /**
        * hostname for timer connect

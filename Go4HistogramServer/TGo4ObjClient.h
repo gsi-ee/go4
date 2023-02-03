@@ -89,7 +89,7 @@ class TGo4ObjClient : public TNamed {
       Int_t fiPort{0};
 
       /**  transport socket for connection to server */
-      TGo4Socket* fxTransport{nullptr}; //!
+      TGo4Socket  *fxTransport{nullptr}; //!
 
       /**  Set server parameters if necessary */
       void SetParms(const char *base, const char *passwd,

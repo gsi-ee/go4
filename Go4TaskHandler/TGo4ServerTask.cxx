@@ -261,7 +261,7 @@ TGo4TaskManager* TGo4ServerTask::GetTaskManager()
    return fxTaskManager;
 }
 
-void TGo4ServerTask::SetConnect(TGo4Socket * trans, const char *host, UInt_t port, Bool_t keepserv)
+void TGo4ServerTask::SetConnect(TGo4Socket *trans, const char *host, UInt_t port, Bool_t keepserv)
 {
    fxConnectTransport=trans;
    fxConnectHost=host;
@@ -270,7 +270,7 @@ void TGo4ServerTask::SetConnect(TGo4Socket * trans, const char *host, UInt_t por
    fbKeepServerSocket=keepserv;
 }
 
-void TGo4ServerTask::SetDisConnect(TGo4Socket * trans)
+void TGo4ServerTask::SetDisConnect(TGo4Socket *trans)
 {
    fxDisConnectTransport = trans;
    fbDisConnectRequest = kTRUE;
@@ -422,7 +422,7 @@ Int_t TGo4ServerTask::WaitForConnection()
    return count;
 }
 
-TGo4Socket* TGo4ServerTask::GetConnectTransport()
+TGo4Socket *TGo4ServerTask::GetConnectTransport()
 {
    return fxConnectTransport;
 }
@@ -536,7 +536,7 @@ Bool_t TGo4ServerTask::StopConnectorThread()
    // now establish a dummy connection to our own server to release the listen socket:
    const char *host = gSystem->HostName();
    Int_t negotiationport = fxTaskManager->GetNegotiationPort();
-   TGo4Socket* connector = new TGo4Socket(kTRUE); // raw socket transport
+   TGo4Socket *connector = new TGo4Socket(kTRUE); // raw socket transport
    connector->Open(host,negotiationport); // open connection to server's connector runnable
    connector->Send(TGo4TaskHandler::Get_fgcERROR()); // force server to stop
    connector->Close();

@@ -922,7 +922,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString &launchcmd,
 {
    if (!fxDisplay) return kFALSE;
 
-   TGo4ServerTask* tsk = dynamic_cast<TGo4ServerTask*> (fxDisplay->GetTask());
+   TGo4ServerTask *tsk = dynamic_cast<TGo4ServerTask *> (fxDisplay->GetTask());
    if (!tsk) return kFALSE;
 
    Int_t guiport = tsk->GetTaskManager()->GetNegotiationPort();
