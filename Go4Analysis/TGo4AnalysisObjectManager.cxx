@@ -947,16 +947,16 @@ TFolder *TGo4AnalysisObjectManager::GetObjectFolder()
    return fxGo4Dir;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore * store)
+Bool_t TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore *store)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore *)",__LINE__, __FILE__));
    return AddObjectToFolder(store,fxStoreDir,nullptr,kFALSE);
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
+Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore *store)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore*)",__LINE__, __FILE__));
-   Bool_t rev=kFALSE;
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore *)",__LINE__, __FILE__));
+   Bool_t rev = kFALSE;
    if (store) {
       TGo4LockGuard listguard(fxDirMutex);
       fxStoreDir->Remove(store);

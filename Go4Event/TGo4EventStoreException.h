@@ -46,7 +46,7 @@ class TGo4EventStoreException : public TGo4RuntimeException {
 
   protected:
       /** @supplierCardinality 1 */
-      TGo4EventStore * fxEventStore{nullptr};   //!
+      TGo4EventStore  *fxEventStore{nullptr};   //!
 
       /** Error message at exception throw time*/
       TString fxErrMess; //!

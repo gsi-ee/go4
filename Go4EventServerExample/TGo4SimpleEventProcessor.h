@@ -24,7 +24,7 @@ class TGo4SimpleEventProcessor : public TGo4EventProcessor {
 
       virtual ~TGo4SimpleEventProcessor();
 
-      Bool_t BuildSimpleEvent(TGo4SimpleEvent* target);
+      Bool_t BuildSimpleEvent(TGo4SimpleEvent *target);
 
    ClassDefOverride(TGo4SimpleEventProcessor,1)
 };

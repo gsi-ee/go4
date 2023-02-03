@@ -1469,7 +1469,7 @@ Bool_t TGo4Analysis::RemoveEventSource(TGo4EventSource *source)
    return fxObjectManager->RemoveEventSource(source);
 }
 
-Bool_t TGo4Analysis::RemoveEventStore(TGo4EventStore * store)
+Bool_t TGo4Analysis::RemoveEventStore(TGo4EventStore *store)
 {
    return fxObjectManager->RemoveEventStore(store);
 }

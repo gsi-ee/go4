@@ -164,7 +164,7 @@ TGo4EventSource *TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 }
 
 //-----------------------------------------------------------
-TGo4EventStore* TGo4StepFactory::CreateEventStore(TGo4EventStoreParameter *par)
+TGo4EventStore *TGo4StepFactory::CreateEventStore(TGo4EventStoreParameter *par)
 {
    if ((fnewEventStore.Length() > 0) && par->InheritsFrom(TGo4UserStoreParameter::Class())) {
 

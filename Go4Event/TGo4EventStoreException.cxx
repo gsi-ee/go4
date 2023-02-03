@@ -16,18 +16,18 @@
 #include "TGo4EventStore.h"
 #include "TGo4Log.h"
 
-TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore* eventstore, const char *msg)
+TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore *eventstore, const char *msg)
 : fxEventStore(nullptr)
 {
-   GO4TRACE((16,"TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore*)", __LINE__, __FILE__));
-   fxDescription= "!!!-- Go4 EventStore Exception --!!!";
-   if(eventstore)
-      {
-         fxEventStore=eventstore;
-         fxStoreName=eventstore->GetName();
-         fxStoreClass=eventstore->ClassName();
-      }
-   if(msg) fxErrMess=msg;
+   GO4TRACE((16,"TGo4EventStoreException::TGo4EventStoreException (TGo4EventStore *)", __LINE__, __FILE__));
+   fxDescription = "!!!-- Go4 EventStore Exception --!!!";
+   if (eventstore) {
+      fxEventStore = eventstore;
+      fxStoreName = eventstore->GetName();
+      fxStoreClass = eventstore->ClassName();
+   }
+   if (msg)
+      fxErrMess = msg;
 }
 
 

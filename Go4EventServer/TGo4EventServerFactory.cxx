@@ -78,30 +78,30 @@ TGo4EventElement *TGo4EventServerFactory::CreateInputEvent()
    return event;
 }
 
-TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter *par)
+TGo4EventStore *TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter *par)
 {
-   GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter *)",__LINE__, __FILE__));
 
-   TGo4EventStore* rev = nullptr;
+   TGo4EventStore *rev = nullptr;
 
    if(par) {
-      if(!strcmp(par->ClassName(),"TGo4FileStoreParameter"))
+      if(!strcmp(par->ClassName(), "TGo4FileStoreParameter"))
       {
-         rev = new TGo4FileStore(dynamic_cast<TGo4FileStoreParameter* > (par) );
+         rev = new TGo4FileStore(dynamic_cast<TGo4FileStoreParameter *>(par) );
       }
-      else if(!strcmp(par->ClassName(),"TGo4TreeStoreParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4TreeStoreParameter"))
       {
-         //rev= new TGo4TreeStore(dynamic_cast<TGo4TreeStoreParameter* > (par), fxEvent );
+         //rev= new TGo4TreeStore(dynamic_cast<TGo4TreeStoreParameter *>(par), fxEvent );
          TGo4Log::Debug(" EventServer Factory: TreeStore is not recommended, PLEASE USE TGo4FileStore !!!! ");
       }
-      else if(!strcmp(par->ClassName(),"TGo4BackStoreParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4BackStoreParameter"))
       {
-         rev = new TGo4BackStore(dynamic_cast<TGo4BackStoreParameter* > (par));
+         rev = new TGo4BackStore(dynamic_cast<TGo4BackStoreParameter *>(par));
       }
 #ifdef __GO4HDF5__
-      else if(!strcmp(par->ClassName(),"TGo4HDF5StoreParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4HDF5StoreParameter"))
       {
-         rev = new TGo4HDF5Store(dynamic_cast<TGo4HDF5StoreParameter* > (par));
+         rev = new TGo4HDF5Store(dynamic_cast<TGo4HDF5StoreParameter *>(par));
       }
 #endif
    }
@@ -109,7 +109,7 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
    if(rev)
       TGo4Log::Debug(" EventServer Factory: creating event store %s ", rev->ClassName());
    else
-      TGo4Log::Debug(" EventServer Factory: Unknown eventstore parameter ");
+      TGo4Log::Debug(" EventServer Factory: Unknown eventstore parameter %s", par ? par->ClassName() : "---");
 
    return rev;
 }

@@ -68,7 +68,7 @@ class TGo4SimpleEvent : public TGo4EventElement {
        * first TObjArray slot, otherwise we continue at the position after the last
        * call of this method.
        */
-      TGo4SimpleSubEvent* NextSubEvent();
+      TGo4SimpleSubEvent *NextSubEvent();
 
       void PrintEvent() override;
 
@@ -76,14 +76,14 @@ class TGo4SimpleEvent : public TGo4EventElement {
        * Access to subevent in list by procid. Returns zero if no
        * subevent of this procid is found
        */
-      TGo4SimpleSubEvent * GetSubEvent(Short_t procid);
+      TGo4SimpleSubEvent *GetSubEvent(Short_t procid);
 
       /**
        * Add subevent ito clonesarray with new procid. The pointer to the new
        * subevent is returned. If entry for procid already existed, this entry is
        * returned and the clonesarray is left as is.
        */
-      TGo4SimpleSubEvent * AddSubEvent(Short_t procid);
+      TGo4SimpleSubEvent *AddSubEvent(Short_t procid);
 
       Int_t  GetCount() const;
 

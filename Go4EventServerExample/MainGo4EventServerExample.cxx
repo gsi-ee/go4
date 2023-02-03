@@ -84,15 +84,15 @@ int main(int argc, char **argv)
                                 // the "unpack processor" converting mbs events to user events
      TGo4EventSource *input = nullptr;
      //  TGo4EventSource *simpinput = nullptr;
-     TGo4EventStore* output = nullptr;
-     TGo4EventStore* simpoutput = nullptr;
+     TGo4EventStore *output = nullptr;
+     TGo4EventStore *simpoutput = nullptr;
 
      // Create instance of TGo4EventSource which specifies
      // the input. Please change subclass of TGo4EventSource
      // to change input type.
 /////////// MBS LISTMODE FILE /////////////////////////////////////////////
-     TString testfilename=TString::Format("%s/data/test.lmd",getenv("GO4SYS")); // this file is part of go4 distribution
-     input= new TGo4MbsFile(testfilename.Data());
+     TString testfilename = TString::Format("%s/data/test.lmd",getenv("GO4SYS")); // this file is part of go4 distribution
+     input = new TGo4MbsFile(testfilename.Data());
 //         input= new TGo4MbsFile("dat0.lmd");
         // for listmode file with given path and name
         // file will be opened in constructor and closed in destructor
