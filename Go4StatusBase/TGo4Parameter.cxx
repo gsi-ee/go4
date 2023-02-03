@@ -166,7 +166,7 @@ void TGo4Parameter::GetMemberValues(TObjArray *fItems, TClass *cl, char* ptr, un
       lastmemberid = ((TGo4ParameterMember*) fItems->Last())->GetMemberId();
 
    while (auto obj = iter()) {
-      TDataMember* member = dynamic_cast<TDataMember*>(obj);
+      auto member = dynamic_cast<TDataMember *>(obj);
       if (!member) continue;
       const char *memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;
@@ -274,7 +274,7 @@ void TGo4Parameter::GetMemberValues(TObjArray *fItems, TClass *cl, char* ptr, un
    }
 }
 
-Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMember* member)
+Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMember *member)
 {
    TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
    if (!info) return -1;
@@ -292,7 +292,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass
    TIter iter(cl->GetListOfDataMembers());
 
    while (auto obj = iter()) {
-      TDataMember* member = dynamic_cast<TDataMember*>(obj);
+      auto member = dynamic_cast<TDataMember *>(obj);
       if (!member) continue;
       const char *memtypename = member->GetFullTypeName();
       Int_t memtypeid = 0;

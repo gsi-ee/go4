@@ -22,7 +22,7 @@
 #include "TGo4Status.h"
 #include "TGo4DynamicListException.h"
 
-const char *TGo4TreeHistogramEntry::fgcENTRYSUF="-DL";
+const char *TGo4TreeHistogramEntry::fgcENTRYSUF = "-DL";
 
 TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
    TGo4DynamicEntry(),
@@ -34,7 +34,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
    fiLastEvent(0)
 {
    GO4TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry()",__LINE__, __FILE__));
-   fxTreeName="Go4Tree";
+   fxTreeName = "Go4Tree";
    EnableProcessing(kTRUE);
 }
 

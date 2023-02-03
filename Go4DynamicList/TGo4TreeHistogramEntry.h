@@ -33,7 +33,7 @@ class TTree;
 
 class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
 
-    friend class TGo4DynamicList;
+  friend class TGo4DynamicList;
 
   public:
     /** default ctor for streamer. */
@@ -76,29 +76,28 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
 
   private:
 
-   /** The target histogram name to be filled */
-   TString fxHistogramName;
+    /** The target histogram name to be filled */
+    TString fxHistogramName;
 
-   /** The Treename to find the tree */
-   TString fxTreeName;
+    /** The Treename to find the tree */
+    TString fxTreeName;
 
-   /** The varexp string needed by TTree:Draw() */
-   TString fxVarExp;
+    /** The varexp string needed by TTree:Draw() */
+    TString fxVarExp;
 
-   /** The selection string needed by TTree:Draw() */
-   TString fxCutExp;
+    /** The selection string needed by TTree:Draw() */
+    TString fxCutExp;
 
-   Int_t fiDynListInterval{0};
+    Int_t fiDynListInterval{0};
 
-   /** True before Process is called the first time. Then the histogram
-     * created by the TTree::Draw is added to the histogram folder once. */
-   Bool_t fbNewHistogram{kFALSE}; //!
+    /** True before Process is called the first time. Then the histogram
+      * created by the TTree::Draw is added to the histogram folder once. */
+    Bool_t fbNewHistogram{kFALSE}; //!
 
-   /** index of last tree entry of the previous Process() call */
-   Int_t fiLastEvent{0};     //!
+    /** index of last tree entry of the previous Process() call */
+    Int_t fiLastEvent{0};     //!
 
   ClassDefOverride(TGo4TreeHistogramEntry,3)
-
 };
 
 #endif //TGO4TREEHISTOGRAMENTRY_H

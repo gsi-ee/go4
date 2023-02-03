@@ -106,7 +106,7 @@ void TGo4DynamicList::ProcessEntries(TFolder *folder, Bool_t processtrees, Int_t
    }
 }
 
-TDataMember* FindDataMember(TClass *eventclass,
+TDataMember *FindDataMember(TClass *eventclass,
                             const char *memname,
                             Long_t* totaloffset)
 {
@@ -130,7 +130,7 @@ TDataMember* FindDataMember(TClass *eventclass,
    }
    /////////////////////////////////
 
-   TDataMember* eventmember = eventclass->GetDataMember(memname);
+   TDataMember *eventmember = eventclass->GetDataMember(memname);
    if(eventmember) {
       *totaloffset+=eventmember->GetOffset();
    } else {
@@ -209,7 +209,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
 
       for (Int_t n = 0; n < __MAXHISDIM__; n++) {
          TGo4EventElement *event = nullptr;
-         TDataMember* eventmember = nullptr;
+         TDataMember *eventmember = nullptr;
          Long_t offset = 0;
 
          const char *evname = hentry->GetHistEventName(n);

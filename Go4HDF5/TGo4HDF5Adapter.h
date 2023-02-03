@@ -56,7 +56,7 @@ class TGo4HDF5Adapter {
          /** evaluate h5 type information for basic types of memtypename*/
       static void FillTypeInfo(TGo4HDF5DataHandle* handle,
                const char *membername, const char *memtypename, size_t memberoffset = 0,
-               Int_t arraydim = 0, TDataMember* member = nullptr);
+               Int_t arraydim = 0, TDataMember *member = nullptr);
 
 
 protected:

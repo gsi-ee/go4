@@ -93,9 +93,9 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
 
    protected:
 
-      void InitHistPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset);
+      void InitHistPointer(Int_t ix, TObject *event, TDataMember *member, Long_t offset);
 
-      void InitCondPointer(Int_t ix, TObject *event, TDataMember* member, Long_t offset);
+      void InitCondPointer(Int_t ix, TObject *event, TDataMember *member, Long_t offset);
 
       Double_t GetPtrValue(Int_t type, void *ptr);
 
@@ -136,19 +136,19 @@ class TGo4HistogramEntry : public TGo4DynamicEntry {
     Bool_t fbNeedInitialisation{kFALSE};  //!
 
     /** Pointer for event objects, class does not known to entry itself */
-    TObject *fxHisEvents[__MAXHISDIM__]; //!
+    TObject *fxHisEvents[__MAXHISDIM__] = { nullptr, nullptr, nullptr }; //!
 
     /** Array of pointers to the event structure that
       * contains the data for the condition test. */
-    TObject *fxConEvents[__MAXCONDIM__]; //!
+    TObject *fxConEvents[__MAXCONDIM__] = { nullptr, nullptr }; //!
 
     /** Array of pointers and data types to fill histogram */
-    Int_t fxHistType[__MAXHISDIM__]; //!
-    void *fxHistPtr[__MAXHISDIM__]; //!
+    Int_t fxHistType[__MAXHISDIM__] = { 0, 0, 0 }; //!
+    void *fxHistPtr[__MAXHISDIM__] = { nullptr, nullptr, nullptr }; //!
 
     /** Array of pointers and data types to check condition */
-    Int_t fxCondType[__MAXCONDIM__]; //!
-    void *fxCondPtr[__MAXCONDIM__]; //!
+    Int_t fxCondType[__MAXCONDIM__] = { 0, 0 }; //!
+    void *fxCondPtr[__MAXCONDIM__] = { nullptr, nullptr }; //!
 
     /** Text to indicate that no condition is used */
     static const char *fgcNOCONDITION;

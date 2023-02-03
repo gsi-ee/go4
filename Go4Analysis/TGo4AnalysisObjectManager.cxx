@@ -459,7 +459,7 @@ TFolder *TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
    TIter miter(cl->GetListOfDataMembers());
    // scan members of this event class:
    while(auto nob = miter()) {
-      TDataMember* mem = dynamic_cast<TDataMember*>(nob);
+      auto mem = dynamic_cast<TDataMember *>(nob);
       if(!mem || mem->IsaPointer()) continue; // suppress heap aggregates
       // later, we might scan these recursively
 
@@ -467,11 +467,11 @@ TFolder *TGo4AnalysisObjectManager::CreateMembersFolder(TObject *obj, const char
 
       switch(mem->GetArrayDim()) {
          case 1:
-            sbuf = TString::Format("%s[%d]", mem->GetName(), mem->GetMaxIndex(0));
+            sbuf.Form("%s[%d]", mem->GetName(), mem->GetMaxIndex(0));
             break;
 
          case 2:
-            sbuf = TString::Format("%s[%d][%d]", mem->GetName(), mem->GetMaxIndex(0), mem->GetMaxIndex(1));
+            sbuf.Form("%s[%d][%d]", mem->GetName(), mem->GetMaxIndex(0), mem->GetMaxIndex(1));
             break;
 
          default:

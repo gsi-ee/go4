@@ -257,7 +257,7 @@ void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle *handle, TClass *rootclass
 
  void TGo4HDF5Adapter::FillTypeInfo(TGo4HDF5DataHandle* handle,
        const char *membername, const char *memtypename, size_t memberoffset,
-       Int_t arraydim, TDataMember* member)
+       Int_t arraydim, TDataMember *member)
  {
    H5::DataType theType;
    hsize_t maxindex1 = 1, maxindex2 = 1;
