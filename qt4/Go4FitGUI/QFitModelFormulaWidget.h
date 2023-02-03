@@ -29,8 +29,8 @@ public:
 
 public slots:
     virtual TGo4FitModelFormula * GetFormula();
-    virtual void ExprEdt_textChanged( const QString & );
-    virtual void NumParSpin_valueChanged( int );
+    virtual void ExprEdt_textChanged(const QString &);
+    virtual void NumParSpin_valueChanged(int);
 
 };
 

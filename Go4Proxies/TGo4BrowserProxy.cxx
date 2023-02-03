@@ -2082,27 +2082,27 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
    TString tform;
 
    if (obj->InheritsFrom(TProfile::Class())) {
-      TProfile* profile = dynamic_cast<TProfile*> (obj);
-      TProfile* profile2 = dynamic_cast<TProfile*> (newobj);
+      auto profile = dynamic_cast<TProfile *>(obj);
+      auto profile2 = dynamic_cast<TProfile *>(newobj);
       if (!profile || !profile2) return kFALSE;
       if (profile->GetNbinsX() != profile2->GetNbinsX()) return kFALSE;
       profile2->Copy(*profile);
       return kTRUE;
    } else if (obj->InheritsFrom(TProfile2D::Class())) {
-      TProfile2D* profile = dynamic_cast<TProfile2D*> (obj);
-      TProfile2D* profile2 = dynamic_cast<TProfile2D*> (newobj);
+      auto profile = dynamic_cast<TProfile2D *>(obj);
+      auto profile2 = dynamic_cast<TProfile2D *>(newobj);
       if (!profile || !profile2) return kFALSE;
       if ((profile->GetNbinsX() != profile2->GetNbinsX()) || (profile->GetNbinsY() != profile2->GetNbinsY())) return kFALSE;
       profile2->Copy(*profile);
       return kTRUE;
    } else if (obj->InheritsFrom(TH1::Class())) {
-      TH1 *histo = dynamic_cast<TH1 *> (obj);
-      TH1 *histo2 = dynamic_cast<TH1 *> (newobj);
+      auto histo = dynamic_cast<TH1 *>(obj);
+      auto histo2 = dynamic_cast<TH1 *>(newobj);
       if (!histo || !histo2) return kFALSE;
 
-      if (dynamic_cast<TProfile*>(obj) || dynamic_cast<TProfile2D*>(obj)) return kFALSE;
+      if (dynamic_cast<TProfile *>(obj) || dynamic_cast<TProfile2D *>(obj)) return kFALSE;
 
-      if (histo->GetDimension()!=histo2->GetDimension()) return kFALSE;
+      if (histo->GetDimension() != histo2->GetDimension()) return kFALSE;
 
       histo->SetTitle(histo2->GetTitle());
 

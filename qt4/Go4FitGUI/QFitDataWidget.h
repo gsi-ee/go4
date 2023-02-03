@@ -29,7 +29,7 @@ class QFitDataWidget : public QFitNamedWidget, public Ui::QFitDataWidget
 
 public slots:
     virtual TGo4FitData * GetData();
-    virtual void NumCalibrSpin_valueChanged( int num );
+    virtual void NumCalibrSpin_valueChanged(int num);
     virtual void UseBinsChk_toggled( bool zn );
     virtual void SigmaCmb_activated( int zn );
     virtual void SigmaEdt_textChanged( const QString & value );

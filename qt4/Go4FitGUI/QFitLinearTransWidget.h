@@ -30,7 +30,7 @@ public:
 
 public slots:
     virtual TGo4FitLinearTrans * GetLinearTrans();
-    virtual void NumAxisSpin_valueChanged( int );
+    virtual void NumAxisSpin_valueChanged(int);
 
  };
 

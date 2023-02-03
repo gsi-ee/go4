@@ -30,7 +30,7 @@ public:
 public slots:
     virtual TGo4FitterOutput * GetOutAct();
     virtual void OptionsEdit_textChanged( const QString & str );
-    virtual void CommandCombo_activated( int );
+    virtual void CommandCombo_activated(int);
 
 };
 

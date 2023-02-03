@@ -30,9 +30,9 @@ public:
 
 public slots:
     virtual TGo4FitModelFunction * GetFunction();
-    virtual void LibNameEdt_textChanged( const QString & );
-    virtual void FuncNameEdt_textChanged( const QString & );
-    virtual void NumParSpin_valueChanged( int );
+    virtual void LibNameEdt_textChanged(const QString &);
+    virtual void FuncNameEdt_textChanged(const QString &);
+    virtual void NumParSpin_valueChanged(int);
 
 };
 

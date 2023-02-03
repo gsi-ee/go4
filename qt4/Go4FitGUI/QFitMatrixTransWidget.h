@@ -31,7 +31,7 @@ public:
 
 public slots:
     virtual TGo4FitMatrixTrans * GetMatrixTrans();
-    virtual void NumAxisSpin_valueChanged( int );
+    virtual void NumAxisSpin_valueChanged(int);
 
  };
 

@@ -63,7 +63,7 @@ public:
     virtual void SetResultMode( int mode );
     virtual void SetInvertMode( int mode );
     virtual void ClearCounters();
-    virtual void LimitsChanged( const QString & );
+    virtual void LimitsChanged(const QString &);
     virtual void LimitsReturnPressed();
     virtual void SetLabel( bool on );
     virtual void SetDrawLimits( bool on );

@@ -233,7 +233,7 @@ class TGo4PrintProcessor : public TGo4EventProcessor {
       {
          TGo4EventElement *evnt = GetInputEvent();
 
-         TGo4MbsEvent* mbs = dynamic_cast<TGo4MbsEvent*> (evnt);
+         auto mbs = dynamic_cast<TGo4MbsEvent *> (evnt);
          if (mbs) mbs->PrintMbsEvent(fSubId, fLong, fHex, fData, fBufHead, fFileHead);
              else evnt->PrintEvent();
 

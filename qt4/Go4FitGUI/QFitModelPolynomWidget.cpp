@@ -35,7 +35,7 @@ void QFitModelPolynomWidget::FillSpecificData()
       AxisSpin->setValue(GetPolynom()->GetMaxNumAxis());
 }
 
-void QFitModelPolynomWidget::AxisSpin_valueChanged( int num )
+void QFitModelPolynomWidget::AxisSpin_valueChanged(int num)
 {
   if(!fbFillWidget && GetPolynom())
     if(GetPolynom()->SetMaxNumAxis(num))

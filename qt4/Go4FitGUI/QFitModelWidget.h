@@ -41,7 +41,7 @@ class QFitModelWidget : public QFitNamedWidget {
    public slots:
       virtual void AmplChk_toggled( bool chk );
       virtual void BuffersChk_toggled( bool chk );
-      virtual void GroupSpin_valueChanged( int );
+      virtual void GroupSpin_valueChanged(int);
 };
 
 #endif

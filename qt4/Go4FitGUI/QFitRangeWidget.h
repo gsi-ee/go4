@@ -30,12 +30,12 @@ public:
 public slots:
     virtual TGo4FitComponent *GetComp();
     virtual int GetNumRange();
-    virtual void EnableEditsForRangeType( int );
+    virtual void EnableEditsForRangeType(int);
     virtual void GetRangeData();
-    virtual void AxisNumSpin_valueChanged( int );
-    virtual void RangeTypCmb_activated( int );
-    virtual void LeftEdt_textChanged( const QString & );
-    virtual void RightEdt_textChanged( const QString & );
+    virtual void AxisNumSpin_valueChanged(int);
+    virtual void RangeTypCmb_activated(int);
+    virtual void LeftEdt_textChanged(const QString &);
+    virtual void RightEdt_textChanged(const QString &);
 };
 
 #endif

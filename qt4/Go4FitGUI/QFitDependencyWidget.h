@@ -29,8 +29,8 @@ public:
 
 public slots:
     virtual TGo4FitDependency * GetDepen();
-    virtual void ParamEdit_textChanged( const QString & );
-    virtual void ExpressionEdt_textChanged( const QString & );
+    virtual void ParamEdit_textChanged(const QString &);
+    virtual void ExpressionEdt_textChanged(const QString &);
 
 };
 

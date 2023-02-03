@@ -32,9 +32,9 @@ QFitDataWidget::QFitDataWidget(QWidget *parent, const char *name)
    QObject::connect(UseBuffersChk, &QCheckBox::toggled, this, &QFitDataWidget::UseBuffersChk_toggled);
 }
 
-TGo4FitData* QFitDataWidget::GetData()
+TGo4FitData *QFitDataWidget::GetData()
 {
-   return dynamic_cast<TGo4FitData*> (GetObject());
+   return dynamic_cast<TGo4FitData *>(GetObject());
 }
 
 void QFitDataWidget::FillSpecificData()

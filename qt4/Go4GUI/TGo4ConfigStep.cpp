@@ -774,7 +774,7 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
       filpar->SetTagName(tag.trimmed().toLatin1().constData());
 }
 
-void TGo4ConfigStep::ChangeStartEvent( int num )
+void TGo4ConfigStep::ChangeStartEvent(int num)
 {
    if (fBlocked) return;
 
@@ -784,7 +784,7 @@ void TGo4ConfigStep::ChangeStartEvent( int num )
    if (par) par->SetStartEvent(num);
 }
 
-void TGo4ConfigStep::ChangeStopEvent( int num )
+void TGo4ConfigStep::ChangeStopEvent(int num)
 {
    if (fBlocked) return;
 
@@ -794,7 +794,7 @@ void TGo4ConfigStep::ChangeStopEvent( int num )
   if (par) par->SetStopEvent(num);
 }
 
-void TGo4ConfigStep::ChangeEventInterval( int num )
+void TGo4ConfigStep::ChangeEventInterval(int num)
 {
    if (fBlocked) return;
 

@@ -41,7 +41,7 @@ TGo4FitGuiArrow::~TGo4FitGuiArrow()
 {
 }
 
-void TGo4FitGuiArrow::SetForPosition(TGo4FitModel* model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl)
+void TGo4FitGuiArrow::SetForPosition(TGo4FitModel *model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl)
 {
   fxType = at_pos;
   fxModel = model;
@@ -49,14 +49,14 @@ void TGo4FitGuiArrow::SetForPosition(TGo4FitModel* model, TGo4FitGuiArrow* forwi
   fdLineAmpl = iLineAmpl;
 }
 
-void TGo4FitGuiArrow::SetForWidth(TGo4FitModel* model, TGo4FitGuiArrow* forposition)
+void TGo4FitGuiArrow::SetForWidth(TGo4FitModel *model, TGo4FitGuiArrow* forposition)
 {
   fxType = at_width;
   fxModel = model;
   fxOther = forposition;
 }
 
-void TGo4FitGuiArrow::SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx)
+void TGo4FitGuiArrow::SetForRange(TGo4FitComponent *Comp, Int_t num, Double_t rangey, Double_t shiftx)
 {
   fxType = at_range;
   fxComp = Comp;

@@ -27,9 +27,9 @@ QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char *name)
 
 }
 
-TGo4FitComponent* QFitRangeCutWidget::GetComp()
+TGo4FitComponent *QFitRangeCutWidget::GetComp()
 {
-   return dynamic_cast<TGo4FitComponent*> (GetItem()->Parent()->Object());
+   return dynamic_cast<TGo4FitComponent *>(GetItem()->Parent()->Object());
 }
 
 int QFitRangeCutWidget::GetCutIndex()
@@ -45,7 +45,7 @@ TCutG *QFitRangeCutWidget::GetCut()
 void QFitRangeCutWidget::FillSpecificData()
 {
   QFitNamedWidget::FillSpecificData();
-  TGo4FitComponent* comp = GetComp();
+  TGo4FitComponent *comp = GetComp();
   TCutG *cut = GetCut();
   if (comp && cut) {
      ExcludeCutChk->setChecked(comp->IsRangeCutExcluding(GetCutIndex()));

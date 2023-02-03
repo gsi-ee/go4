@@ -62,13 +62,13 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
    public slots:
 
       virtual void InputArguments( const QString & Arg );
-      virtual void InputStateChanged( int );
-      virtual void InputPortChanged( int );
-      virtual void RetryCntChanged( int );
+      virtual void InputStateChanged(int);
+      virtual void InputPortChanged(int);
+      virtual void RetryCntChanged(int);
       virtual void InputSourceText( const QString & Name );
-      virtual void OutputStateChanged( int );
+      virtual void OutputStateChanged(int);
       virtual void OutputNameText( const QString & Name );
-      virtual void StepStateChanged( int );
+      virtual void StepStateChanged(int);
       virtual void SourceComboHighlighted( int kind );
       virtual void StoreComboHighlighted( int k );
       virtual void OutputFileDialog();
@@ -78,9 +78,9 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void StoreOverWrite( bool overwrite );
       virtual void StoreTreeAutoSave( int t );
       virtual void InputTagfile( const QString & tag );
-      virtual void ChangeStartEvent( int num );
-      virtual void ChangeStopEvent( int num );
-      virtual void ChangeEventInterval( int num );
+      virtual void ChangeStartEvent(int num);
+      virtual void ChangeStopEvent(int num);
+      virtual void ChangeEventInterval(int num);
       virtual void ChangeSourceTimeout( int tim );
       virtual void InputFileDialog();
       virtual void MbsMonitorBtn_clicked();

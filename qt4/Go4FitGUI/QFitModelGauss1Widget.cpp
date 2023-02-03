@@ -36,7 +36,7 @@ void QFitModelGauss1Widget::FillSpecificData()
 }
 
 
-void QFitModelGauss1Widget::AxisNumSpin_valueChanged( int num )
+void QFitModelGauss1Widget::AxisNumSpin_valueChanged(int num)
 {
     if(!fbFillWidget && GetGauss1())
       GetGauss1()->SetNumAxis(num);

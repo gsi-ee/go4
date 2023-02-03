@@ -30,7 +30,7 @@ public:
 public slots:
    virtual TGo4FitModelGaussN * GetGaussN();
    virtual void SetAxisTable();
-   virtual void AxisNumberSpin_valueChanged( int );
+   virtual void AxisNumberSpin_valueChanged(int);
    virtual void AxisTable_valueChanged( int, int );
 
 };

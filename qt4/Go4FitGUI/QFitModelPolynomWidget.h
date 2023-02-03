@@ -30,7 +30,7 @@ public:
 
 public slots:
     virtual TGo4FitModelPolynom * GetPolynom();
-    virtual void AxisSpin_valueChanged( int );
+    virtual void AxisSpin_valueChanged(int);
 };
 
 #endif // QFITMODELPOLYNOMWIDGET_H

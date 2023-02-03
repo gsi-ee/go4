@@ -65,7 +65,7 @@ TXXXCalibPar::TXXXCalibPar(const char *name, TH1 *spectrum, TGraph *curve) :
    for (Int_t i = 0; i < __POLORDER__; ++i) {
       fdA[i] = 1 / (i + 1);
       TString modname = TString::Format("A_%d",i);
-      TGo4FitModel* mod = fxCalibrator->FindModel(modname.Data());
+      TGo4FitModel *mod = fxCalibrator->FindModel(modname.Data());
       if(mod) {
          // for the beginning, disable models beyond order 1:
          if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
@@ -153,7 +153,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 
       for (Int_t i = 0; i < __LINESNUMBER__; ++i) {
          const char *linename = fxLinesNames[i];
-         TGo4FitModel* mod = fxLinesFinder->FindModel(linename);
+         TGo4FitModel *mod = fxLinesFinder->FindModel(linename);
          if(mod) {
             // check here if component is active or not
             if(mod->IsAssignTo(__DATANAME__))

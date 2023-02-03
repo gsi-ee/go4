@@ -32,9 +32,9 @@ public:
    TGo4FitGuiArrow(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Float_t arrowsize, Option_t *option);
    virtual ~TGo4FitGuiArrow();
 
-   void SetForPosition(TGo4FitModel* model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl);
-   void SetForWidth(TGo4FitModel* model, TGo4FitGuiArrow* forposition);
-   void SetForRange(TGo4FitComponent* Comp, Int_t num, Double_t rangey, Double_t shiftx);
+   void SetForPosition(TGo4FitModel *model, TGo4FitGuiArrow* forwidth, Double_t iLineAmpl);
+   void SetForWidth(TGo4FitModel *model, TGo4FitGuiArrow* forposition);
+   void SetForRange(TGo4FitComponent *Comp, Int_t num, Double_t rangey, Double_t shiftx);
    void SetItem(QFitItem* item, TGo4FitPanel* panel);
 
    QFitItem* GetItem() const { return fxItem; }
@@ -42,8 +42,8 @@ public:
    Bool_t Locate();
 
    Int_t GetType() const { return fxType; }
-   TGo4FitModel* GetModel() const { return fxModel; }
-   TGo4FitComponent* GetComp() const { return fxComp; }
+   TGo4FitModel *GetModel() const { return fxModel; }
+   TGo4FitComponent *GetComp() const { return fxComp; }
 
    Bool_t IsAssignTo(TObject *obj);
 
@@ -58,10 +58,10 @@ public:
 
 private:
    Int_t fxType{0};                          //!
-   TGo4FitModel* fxModel{nullptr};           //!
+   TGo4FitModel *fxModel{nullptr};           //!
    TGo4FitGuiArrow* fxOther{nullptr};        //!
    Double_t fdLineAmpl{0};                   //!
-   TGo4FitComponent* fxComp{nullptr};        //!
+   TGo4FitComponent *fxComp{nullptr};        //!
    Int_t fiRangeNum{0};                      //!
    Double_t fdRangeY{0};                     //!
    Double_t fdShiftX{0};                     //!

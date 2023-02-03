@@ -29,18 +29,18 @@ public:
 
 public slots:
     virtual TGo4FitPeakFinder * GetPF();
-    virtual void DataNameEdt_textChanged( const QString & );
+    virtual void DataNameEdt_textChanged(const QString &);
     virtual void ClearModelsChk_toggled( bool );
     virtual void UsePolynChk_toggled( bool );
-    virtual void PolynSpin_valueChanged( int );
-    virtual void FindersTab_currentChanged( int );
-    virtual void ThresholdEdt_textChanged( const QString & );
-    virtual void MinWidthEdt_textChanged( const QString & );
-    virtual void MaxWidthEdt_textChanged( const QString & );
-    virtual void WidthEdit_textChanged( const QString & );
-    virtual void NoiseFactorEdit_textChanged( const QString & );
-    virtual void NoiseMinEdit_textChanged( const QString & );
-    virtual void SumUpSpin_valueChanged( int );
+    virtual void PolynSpin_valueChanged(int);
+    virtual void FindersTab_currentChanged(int);
+    virtual void ThresholdEdt_textChanged(const QString &);
+    virtual void MinWidthEdt_textChanged(const QString &);
+    virtual void MaxWidthEdt_textChanged(const QString &);
+    virtual void WidthEdit_textChanged(const QString &);
+    virtual void NoiseFactorEdit_textChanged(const QString &);
+    virtual void NoiseMinEdit_textChanged(const QString &);
+    virtual void SumUpSpin_valueChanged(int);
 };
 
 #endif

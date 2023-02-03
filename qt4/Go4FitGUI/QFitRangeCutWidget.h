@@ -33,7 +33,7 @@ public slots:
     virtual int GetCutIndex();
     virtual TCutG * GetCut();
     virtual void FillXYPointsTable();
-    virtual void NumPointsSpin_valueChanged( int );
+    virtual void NumPointsSpin_valueChanged(int);
     virtual void ExcludeCutChk_toggled( bool );
     virtual void XYTable_valueChanged( int, int );
 };

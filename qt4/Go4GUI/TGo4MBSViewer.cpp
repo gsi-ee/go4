@@ -479,7 +479,7 @@ void TGo4MBSViewer::IncTrending( TH1 *histo, int value, bool forwards )
 }
 
 
-void TGo4MBSViewer::FrequencyBox_valueChanged( int )
+void TGo4MBSViewer::FrequencyBox_valueChanged(int)
 {
    fbTrendingInit=true;
 }

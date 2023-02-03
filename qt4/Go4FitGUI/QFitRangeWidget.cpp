@@ -26,9 +26,9 @@ QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char *name)
    QObject::connect(RightEdt, &QGo4LineEdit::textChanged, this, &QFitRangeWidget::RightEdt_textChanged);
 }
 
-TGo4FitComponent* QFitRangeWidget::GetComp()
+TGo4FitComponent *QFitRangeWidget::GetComp()
 {
-   return dynamic_cast<TGo4FitComponent*> (GetObject());
+   return dynamic_cast<TGo4FitComponent *>(GetObject());
 }
 
 int QFitRangeWidget::GetNumRange()
@@ -54,7 +54,7 @@ void QFitRangeWidget::FillSpecificData()
    EnableEditsForRangeType(typ);
 }
 
-void QFitRangeWidget::EnableEditsForRangeType( int num )
+void QFitRangeWidget::EnableEditsForRangeType(int num)
 {
    LeftEdt->setEnabled((num == 0) || (num == 1) || (num == 2));
    RightEdt->setEnabled((num == 0) || (num == 1) || (num == 3));
@@ -82,12 +82,12 @@ void QFitRangeWidget::GetRangeData()
   }
 }
 
-void QFitRangeWidget::AxisNumSpin_valueChanged( int )
+void QFitRangeWidget::AxisNumSpin_valueChanged(int)
 {
   GetRangeData();
 }
 
-void QFitRangeWidget::RangeTypCmb_activated( int num )
+void QFitRangeWidget::RangeTypCmb_activated(int num)
 {
   if (!fbFillWidget) {
     EnableEditsForRangeType(num);
@@ -95,12 +95,12 @@ void QFitRangeWidget::RangeTypCmb_activated( int num )
   }
 }
 
-void QFitRangeWidget::LeftEdt_textChanged( const QString & )
+void QFitRangeWidget::LeftEdt_textChanged(const QString &)
 {
   GetRangeData();
 }
 
-void QFitRangeWidget::RightEdt_textChanged( const QString & )
+void QFitRangeWidget::RightEdt_textChanged(const QString &)
 {
   GetRangeData();
 }
