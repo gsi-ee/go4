@@ -135,7 +135,7 @@ void TGo4HisDrawOptionsShort::SlotMarkerColor()
 
 void TGo4HisDrawOptionsShort::ChangeColor(int kind)
 {
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
 
    TPad *pad = panel->GetActivePad();
@@ -203,6 +203,6 @@ void TGo4HisDrawOptionsShort::ChangeColor(int kind)
 
 void TGo4HisDrawOptionsShort::SetDrawOpt(int kind, int value, const char *dropt)
 {
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel) panel->ChangeDrawOption(kind, value,dropt);
 }

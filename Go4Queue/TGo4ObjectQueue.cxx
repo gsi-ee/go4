@@ -39,9 +39,9 @@ TObject *TGo4ObjectQueue::WaitObject()
    return Wait();
 }
 
-void TGo4ObjectQueue::AddObject(TObject * object, Bool_t clone)
+void TGo4ObjectQueue::AddObject(TObject *object, Bool_t clone)
 {
-   GO4TRACE((12, "TGo4ObjectQueue::AddObject(TObject*, Bool_t)", __LINE__, __FILE__));
+   GO4TRACE((12, "TGo4ObjectQueue::AddObject(TObject *, Bool_t)", __LINE__, __FILE__));
    TObject *entry = nullptr;
    if (clone && object) {
       entry = object->Clone();

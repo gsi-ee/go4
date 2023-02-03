@@ -114,6 +114,6 @@ void TGo4ScaleOptions::AutoZoomScales()
 
 void TGo4ScaleOptions::MoveScale(int xaction, int yaction, int zaction)
 {
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel) panel->MoveScale(ExpandFactor->value(), xaction, yaction, zaction);
 }

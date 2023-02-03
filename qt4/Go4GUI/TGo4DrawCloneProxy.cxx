@@ -25,7 +25,7 @@
 #include "TGo4ViewPanel.h"
 
 
-TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot *slot, TGo4ViewPanel* panel) :
+TGo4DrawCloneProxy::TGo4DrawCloneProxy(TGo4Slot *slot, TGo4ViewPanel *panel) :
    TGo4LinkProxy(slot),
    fClone(nullptr),
    fPanel(panel),

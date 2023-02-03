@@ -294,15 +294,15 @@ void QGo4Widget::ShowItemInfo(const QString& itemname)
    emit widgetService(this, service_ShowInfo, itemname.toLatin1().constData(), nullptr);
 }
 
-TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
+TGo4ViewPanel *QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
-   TGo4ViewPanel* res = nullptr;
+   TGo4ViewPanel *res = nullptr;
    emit widgetService(this, service_CreateViewPanel, str.toLatin1().constData(), (void *)&res);
    return res;
 }
 
-TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* panel, TPad *pad, bool activate, int updatelevel)
+TGo4ViewPanel *QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel *panel, TPad *pad, bool activate, int updatelevel)
 {
    void *res[4];
    res[0] = panel;
@@ -310,12 +310,12 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* pane
    res[2] = &activate;
    res[3] = &updatelevel;
    emit widgetService(this, service_DrawItem, itemname.toLatin1().constData(), res);
-   return (TGo4ViewPanel*) res[0];
+   return (TGo4ViewPanel *) res[0];
 }
 
-TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char *itemname)
+TGo4ViewPanel *QGo4Widget::WhereItemDrawn(const char *itemname)
 {
-   TGo4ViewPanel* res = nullptr;
+   TGo4ViewPanel *res = nullptr;
    emit widgetService(this, service_WhereItemDrawn, itemname, &res);
    return res;
 }
@@ -335,9 +335,9 @@ void QGo4Widget::StartHotstart(const char *filename)
    emit widgetService(this, service_HotStart, filename, nullptr);
 }
 
-TGo4ViewPanel* QGo4Widget::LastActivePanel()
+TGo4ViewPanel *QGo4Widget::LastActivePanel()
 {
-   TGo4ViewPanel* res = nullptr;
+   TGo4ViewPanel *res = nullptr;
    emit widgetService(this, service_LastActivePanel, "", (void *)&res);
    return res;
 }

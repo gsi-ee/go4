@@ -64,8 +64,8 @@ class TGo4ObjManCleanup : public TObject {
       TObject *GetObject() const { return fObject; }
       TGo4Slot *GetSlot() const { return fSlot; }
    protected:
-      TObject *  fObject{nullptr}; //!
-      TGo4Slot * fSlot{nullptr};   //!
+      TObject   *fObject{nullptr}; //!
+      TGo4Slot  *fSlot{nullptr};   //!
 };
 
 

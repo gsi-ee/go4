@@ -171,12 +171,12 @@ private:
         *  isremote == -1 - activate creation dialog without restriction (remote or local), widget will not be informed */
       void AskToCreateObject(TClass *cl, int isremote);
       void ShowItemInfo(const QString& itemname);
-      TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
-      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = nullptr, TPad *pad = nullptr, bool activate = true, int updatelevel = -1);
-      TGo4ViewPanel* WhereItemDrawn(const char *itemname);
+      TGo4ViewPanel *CreateViewPanel(int ndiv = 0);
+      TGo4ViewPanel *DrawItem(const QString& itemname, TGo4ViewPanel *panel = nullptr, TPad *pad = nullptr, bool activate = true, int updatelevel = -1);
+      TGo4ViewPanel *WhereItemDrawn(const char *itemname);
       void HelpWindow(const char *filename, const char *msg = nullptr);
       void UndrawItem(const char *itemname);
-      TGo4ViewPanel* LastActivePanel();
+      TGo4ViewPanel *LastActivePanel();
       void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot *slot);
       QString SaveObjectInMemory(const char *foldername, TObject *obj);

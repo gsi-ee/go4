@@ -20,7 +20,7 @@ class TGo4ViewPanel;
 
 class TGo4DrawCloneProxy : public TGo4LinkProxy {
    public:
-      TGo4DrawCloneProxy(TGo4Slot *slot, TGo4ViewPanel* panel);
+      TGo4DrawCloneProxy(TGo4Slot *slot, TGo4ViewPanel *panel);
       virtual ~TGo4DrawCloneProxy();
       Bool_t AssignClone(TObject *obj, TGo4Slot *slot);
       void CleanupClone(TGo4Slot *slot);
@@ -35,9 +35,9 @@ class TGo4DrawCloneProxy : public TGo4LinkProxy {
       Bool_t ProcessEvent(TGo4Slot *slot, TGo4Slot *source, Int_t id, void *param) override;
 
    protected:
-      TObject * fClone{nullptr}; //!
-      TGo4ViewPanel* fPanel{nullptr}; //!
-      TGo4Slot *fParentSlot{nullptr}; //!
+      TObject        *fClone{nullptr}; //!
+      TGo4ViewPanel  *fPanel{nullptr}; //!
+      TGo4Slot       *fParentSlot{nullptr}; //!
 };
 
 #endif

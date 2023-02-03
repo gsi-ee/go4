@@ -75,7 +75,7 @@ public:
     virtual void WorkWithFitterInSlot(TGo4Slot *slot);
     virtual bool WorkingWithPanel();
     virtual bool WorkingWithOnlyPad();
-    virtual TGo4ViewPanel* ActivePanel();
+    virtual TGo4ViewPanel *ActivePanel();
     virtual TPad *ActivePad();
     virtual TGo4Fitter *GetFitter();
     virtual TGo4Fitter *CloneFitter();
@@ -142,8 +142,8 @@ public:
     virtual void UpdateWizardPage();
     virtual void UpdateExtendedPage();
     virtual void RemovePrimitives();
-    virtual TGo4Fitter *CreateFitterFor(TGo4ViewPanel* panel, TPad *pad, const char *name);
-    virtual void CreateDataFor(TGo4ViewPanel* panel, TPad *pad, TGo4Fitter *fitter);
+    virtual TGo4Fitter *CreateFitterFor(TGo4ViewPanel *panel, TPad *pad, const char *name);
+    virtual void CreateDataFor(TGo4ViewPanel *panel, TPad *pad, TGo4Fitter *fitter);
     virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
     virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);

@@ -719,7 +719,7 @@ ViewPanelHandle TGo4Script::StartViewPanel()
 
 ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, int mode, TGo4Picture *pic)
 {
-   TGo4ViewPanel* panel = fMainWin->MakeNewPanel(1);
+   TGo4ViewPanel *panel = fMainWin->MakeNewPanel(1);
    if (!panel) return (ViewPanelHandle) nullptr;
 
    if (mode == 0)
@@ -745,7 +745,7 @@ ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, 
 
 TString TGo4Script::GetViewPanelName(ViewPanelHandle handle)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (!panel) return TString();
    return TString(panel->objectName().toLatin1().constData());
 }
@@ -757,7 +757,7 @@ ViewPanelHandle TGo4Script::FindViewPanel(const char *name)
 
 Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char *newname)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (!handle || !newname || (strlen(newname) == 0)) return kFALSE;
 
    if (fMainWin->FindViewPanel(newname)) {
@@ -779,19 +779,19 @@ ViewPanelHandle TGo4Script::GetActiveViewPanel()
 
 void TGo4Script::RedrawPanel(ViewPanelHandle handle)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (panel) panel->RedrawPanel(panel->GetCanvas(), true);
 }
 
 void TGo4Script::DivideViewPanel(ViewPanelHandle handle, Int_t numX, Int_t numY)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (panel) panel->Divide(numX, numY);
 }
 
 TPad *TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (panel) {
       TPad *pad = panel->GetSubPad(nullptr, number, false);
       if (!pad) pad = panel->GetCanvas();
@@ -804,7 +804,7 @@ TPad *TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
 
 TGo4Picture *TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (!panel) return nullptr;
 
    TPad *pad = panel->GetSubPad(nullptr, padnumber, false);
@@ -814,13 +814,13 @@ TGo4Picture *TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
 
 void TGo4Script::SetSuperimpose(ViewPanelHandle handle, Bool_t on)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (panel) panel->SetPadSuperImpose(panel->GetActivePad(), on);
 }
 
 void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
    if (panel) panel->SetApplyToAllFlag(on);
 }
 
@@ -837,7 +837,7 @@ Bool_t TGo4Script::DrawItem(const char *itemname, ViewPanelHandle handle, const 
 
 const char *TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
 {
-   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   TGo4ViewPanel *panel = (TGo4ViewPanel *) handle;
 
    return panel ? panel->GetDrawItemName(cnt) : nullptr;
 }

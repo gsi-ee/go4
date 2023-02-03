@@ -59,7 +59,7 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget *parent, const char *name, Qt::W
    fbSettingPanelData = false;
 }
 
-void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad *pad, int signalid)
+void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel *panel, TPad *pad, int signalid)
 {
    switch (signalid) {
       case QGo4Widget::panel_Modified:
@@ -673,7 +673,7 @@ void TGo4HisDrawOptions::SetMarkerColor()
 
 void TGo4HisDrawOptions::ChangeColor(int kind)
 {
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
 
    TPad *pad = panel->GetActivePad();

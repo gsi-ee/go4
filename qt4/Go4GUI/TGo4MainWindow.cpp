@@ -884,7 +884,7 @@ void TGo4MainWindow::UserPanelSlot()
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }
 
-TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
+TGo4ViewPanel *TGo4MainWindow::MakeNewPanel(int ndiv)
 {
    QString name;
 
@@ -896,7 +896,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
       name = QString("Panel") + QString::number(n);
    } while (edslot && edslot->FindChild(name.toLatin1().constData()));
 
-   TGo4ViewPanel* panel = new TGo4ViewPanel(fxMdiArea, name.toLatin1().constData());
+   TGo4ViewPanel *panel = new TGo4ViewPanel(fxMdiArea, name.toLatin1().constData());
    QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
 
@@ -2647,7 +2647,7 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
    GetWidgetTopSlot(editor, true);
 }
 
-TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel* panel, TPad *pad, bool activate, int updatelevel, const char *drawopt)
+TGo4ViewPanel *TGo4MainWindow::DisplayBrowserItem(const char *itemname, TGo4ViewPanel *panel, TPad *pad, bool activate, int updatelevel, const char *drawopt)
 {
    TGo4BrowserProxy *br = Browser();
     if (!br || !itemname || strlen(itemname) == 0) return nullptr;
@@ -2736,7 +2736,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char *itemname, const char *sub
    return res;
 }
 
-void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
+void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel *panel)
 {
    if (!panel) return;
 
@@ -2913,7 +2913,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    fbPanelTimerActive = false;
 
    // first check if active viewpnael need update its content
-   TGo4ViewPanel* actpanel = fxMdiArea->GetActivePanel();
+   TGo4ViewPanel *actpanel = fxMdiArea->GetActivePanel();
    if (actpanel && actpanel->IsRepaintTimerActive())
       actpanel->checkRepaintSlot();
 
@@ -2924,12 +2924,12 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    for (int n = 0; n < topslot->NumChilds(); n++) {
       TGo4Slot *subslot = topslot->GetChild(n);
 
-      TGo4WidgetProxy* wproxy =
+      TGo4WidgetProxy *wproxy =
           dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
       if (!wproxy) continue;
 
-      TGo4ViewPanel* panel =
-        dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
+      TGo4ViewPanel *panel =
+        dynamic_cast<TGo4ViewPanel *> (wproxy->GetWidget());
 
       if (panel && (panel != actpanel))
         if (panel->IsRepaintTimerActive()) {
@@ -2981,8 +2981,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
              int kind = Browser()->ItemKind(eventstr.toLatin1().constData());
              TClass *cl = Browser()->ItemClass(eventstr.toLatin1().constData());
 
-             TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
-             TGo4FitPanel* fitpanel = dynamic_cast<TGo4FitPanel*> (editor);
+             auto panel = dynamic_cast<TGo4ViewPanel *>(editor);
+             auto fitpanel = dynamic_cast<TGo4FitPanel *>(editor);
              if (panel)
                 panel->DropOnPad((TPad *)str, eventstr.toLatin1().constData(), cl, kind);
              else if (fitpanel)
@@ -3041,13 +3041,10 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          for (int n = 0; n < topslot->NumChilds(); n++) {
             TGo4Slot *subslot = topslot->GetChild(n);
 
-            TGo4WidgetProxy* wproxy =
-               dynamic_cast<TGo4WidgetProxy*> (subslot->GetProxy());
+            auto wproxy = dynamic_cast<TGo4WidgetProxy *> (subslot->GetProxy());
             if (!wproxy) continue;
 
-            TGo4ViewPanel* panel =
-               dynamic_cast<TGo4ViewPanel*> (wproxy->GetWidget());
-
+            auto panel = dynamic_cast<TGo4ViewPanel *> (wproxy->GetWidget());
             if (panel)
               panel->UndrawItemOnPanel(str);
          }
@@ -3075,19 +3072,19 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (!cl) return;
 
          if (cl->InheritsFrom(TGo4Fitter::Class())) {
-            TGo4FitPanel* fitpanel = StartFitPanel();
-            TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
+            TGo4FitPanel *fitpanel = StartFitPanel();
+            TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *> (editor);
             fitpanel->WorkWithFitter(str, panel, !panel ? nullptr : panel->GetActivePad());
          } else if (cl->InheritsFrom(TGo4Parameter::Class())) {
             StartParaEdit(str);
          } else if (cl->InheritsFrom(TH1::Class())) {
-            TGo4HistogramInfo* hinfo = StartHistogramInfo();
+            auto hinfo = StartHistogramInfo();
             hinfo->WorkWithHistogram(str);
          } else if (cl->InheritsFrom(TGo4Condition::Class())) {
-            TGo4ConditionEditor* wedit = StartConditionEditor();
+            auto wedit = StartConditionEditor();
             wedit->WorkWithCondition(str);
          } else if (cl->InheritsFrom(TGo4DynamicEntry::Class())) {
-            TGo4EditDynEntry* dedit = StartEditDynEntry();
+            auto dedit = StartEditDynEntry();
             dedit->WorkWithEntry(str);
          } else if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) {
             // use central editor, later can control many analysis at once
@@ -3138,7 +3135,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_UpdateAnalysisItem: {
          TObject **obj = (TObject **) par;
          Bool_t res = Browser()->UpdateAnalysisItem(str, *obj);
-         *obj = res ? (TObject*) 1 : nullptr;
+         *obj = res ? (TObject *) 1 : nullptr;
          break;
       }
 
@@ -3148,7 +3145,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_CreateViewPanel: {
-         TGo4ViewPanel** res = (TGo4ViewPanel**) par;
+         TGo4ViewPanel **res = (TGo4ViewPanel **) par;
          *res = MakeNewPanel(QString(str).toInt());
          break;
       }
@@ -3317,7 +3314,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_LastActivePanel: {
-         TGo4ViewPanel** res = (TGo4ViewPanel**) par;
+         TGo4ViewPanel **res = (TGo4ViewPanel **) par;
          *res = fxMdiArea->GetActivePanel();
          break;
       }
@@ -3328,17 +3325,17 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
             // and it is create problem in sequence,
            QTimer::singleShot(100, this, &TGo4MainWindow::CloseAnalysisWindow);
         } else if (strcmp(str,"PrintAnalysisHistograms") == 0) {
-           TGo4AnalysisWindow* anw = FindAnalysisWindow();
+           auto anw = FindAnalysisWindow();
            if (anw) anw->PrintHistograms();
         } else if (strcmp(str,"PrintAnalysisConditions") == 0) {
-           TGo4AnalysisWindow* anw = FindAnalysisWindow();
+           auto anw = FindAnalysisWindow();
            if (anw) anw->PrintConditions();
         } else if (strcmp(str,"DisplayMbsMonitor") == 0) {
-           ToggleMbsMonitor((const char*) par);
+           ToggleMbsMonitor((const char *) par);
         } else if (strcmp(str,"SubmitAnalysisSettings") == 0) {
            SubmitAnalysisSettings();
         } else if (strcmp(str,"CloseAnalysisSettings") == 0) {
-           TGo4ServerProxy* anal = Browser()->FindServer();
+           auto anal = Browser()->FindServer();
            if (anal) {
               anal->CloseAnalysisSettings();
               anal->RefreshNamesList();
@@ -3363,17 +3360,17 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
               w->RefreshWidget(true);
            }
         } else if (strcmp(str, "SavePanelCanvas") == 0) {
-           SavePanelCanvas(dynamic_cast<TGo4ViewPanel*>(editor));
+           SavePanelCanvas(dynamic_cast<TGo4ViewPanel *>(editor));
         } else if (strcmp(str, "ToggleScaleValues") == 0) {
            ToggleScaleValues();
         } else if (strcmp(str, "GetFitterFromFitPanel") == 0) {
-           TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
-           TGo4Fitter** res = (TGo4Fitter**) par;
+           TGo4FitPanel *panel = (TGo4FitPanel *) FindGo4Widget("FitPanel", false);
+           TGo4Fitter **res = (TGo4Fitter **) par;
            if (panel && res)
               *res = panel->GetFitter();
         } else if (strcmp(str, "CloneFitterFromFitPanel") == 0) {
-           TGo4FitPanel* panel = (TGo4FitPanel*) FindGo4Widget("FitPanel", false);
-           TGo4Fitter** res = (TGo4Fitter**) par;
+           auto panel = (TGo4FitPanel *) FindGo4Widget("FitPanel", false);
+           TGo4Fitter **res = (TGo4Fitter **) par;
            if (panel && res)
               *res = panel->CloneFitter();
         }
@@ -3382,7 +3379,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_PanelTimer: {
-         // TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
+         // TGo4ViewPanel *panel = (TGo4ViewPanel *) editor;
          if (!fbPanelTimerActive) {
             fbPanelTimerActive = true;
             QTimer::singleShot(0, this, &TGo4MainWindow::checkPanelRepaintSlot);
@@ -3494,11 +3491,11 @@ void TGo4MainWindow::ProcessQtEvents()
    if (fApp) fApp->processEvents(QEventLoop::AllEvents, TGo4AbstractInterface::DelayMillisec());
 }
 
-TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char *name)
+TGo4ViewPanel *TGo4MainWindow::FindViewPanel(const char *name)
 {
    if (!name || !*name) return nullptr;
 
-   TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (FindGo4Widget(name, false));
+   TGo4ViewPanel *panel = dynamic_cast<TGo4ViewPanel *> (FindGo4Widget(name, false));
 
    if (panel) return panel;
 

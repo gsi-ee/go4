@@ -352,15 +352,15 @@ class TGo4DabcAccess : public TGo4Access {
                return -1;
             }
 
-            TObject *tobj = (TObject*)(pobj+baseOffset);
+            TObject *tobj = (TObject *) (pobj+baseOffset);
               // Create an instance of this class
 
-            char* rawbuf = nullptr;
+            char *rawbuf = nullptr;
             Int_t rawbuflen = 0;
 
             if (fCompression) {
 
-               int sizeinp(fRawData.GetTotalSize()), sizeout(0), irep(0);
+               int sizeinp = fRawData.GetTotalSize(), sizeout = 0, irep = 0;
 
                if (R__unzip_header(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout)) {
                   printf("Fail to decode zip header\n");
@@ -450,7 +450,7 @@ class TReplyTimer : public TTimer {
             }
          }
 
-         if (res_tm<0)  {
+         if (res_tm < 0)  {
             fCmd.Release();
             if (acc) delete acc;
             Remove();

@@ -1739,7 +1739,7 @@ Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder *fold)
 
 Bool_t TGo4AnalysisObjectManager::ClearObject(TObject *ob)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearObject(TObject*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearObject(TObject *)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
    if (ob) {
       if (ob->TestBit(TGo4Status::kGo4NoReset))
@@ -1806,7 +1806,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteFolder(TFolder *fold)
 
 Bool_t TGo4AnalysisObjectManager::DeleteObject(TObject *ob)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::DeleteObject(TObject*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::DeleteObject(TObject *)",__LINE__, __FILE__));
    if(!ob || !ob->TestBit(TGo4Status::kGo4CanDelete) ) return kFALSE;
    fxGo4Dir->RecursiveRemove(ob);
    CleanupDynamicLists(ob);

@@ -82,14 +82,14 @@ TGo4BufferQueue::~TGo4BufferQueue()
    //printf ("JAM*************** DTOR of TGo4BufferQueue %s END\n", GetName());
 }
 
-TBuffer * TGo4BufferQueue::WaitBuffer()
+TBuffer *TGo4BufferQueue::WaitBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
    TObject *ob = Wait();
    return dynamic_cast<TBuffer *>(ob);
 }
 
-TObject * TGo4BufferQueue::WaitObjectFromBuffer()
+TObject *TGo4BufferQueue::WaitObjectFromBuffer()
 {
    GO4TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
    TObject *obj = nullptr;
@@ -191,9 +191,9 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
       }
 }
 
-void TGo4BufferQueue::AddBufferFromObject(TObject * object)
+void TGo4BufferQueue::AddBufferFromObject(TObject *object)
 {
-   GO4TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject *)", __LINE__, __FILE__));
    if(!object) return;
    TGo4LockGuard mainguard;
    TBuffer *entry = new TBufferFile(TBuffer::kWrite);

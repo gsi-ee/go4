@@ -32,7 +32,7 @@ class TGo4MdiArea : public QMdiArea {
       TGo4MdiArea(QWidget *parent = nullptr);
       virtual ~TGo4MdiArea();
 
-      TGo4ViewPanel* GetActivePanel();
+      TGo4ViewPanel *GetActivePanel();
 
       TGo4ViewPanel *FindOtherPanel(TGo4ViewPanel *not_this);
 

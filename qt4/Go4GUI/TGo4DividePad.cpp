@@ -26,7 +26,7 @@ TGo4DividePad::TGo4DividePad( QWidget *parent, const char *name, Qt::WindowFlags
 
 void TGo4DividePad::DivideCanvas()
 {
-  TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+  TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
 
   if (panel)
      panel->Divide(SpinBoxX->value(), SpinBoxY->value());

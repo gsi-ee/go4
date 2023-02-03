@@ -38,14 +38,14 @@ class TGo4BufferQueue : public TGo4Queue {
        * To be used for streaming the receiving socket contents into the queue.
        * Operation should be thread locked by the calling user.
        */
-      void AddBufferFromObject(TObject * object);
+      void AddBufferFromObject(TObject *object);
 
       /**
        * Add buffer pointer to queue. We Renamed the protected baseclass method
        * to avoid user confusion. If clone is true, a clone (deep streamer copy)
        * of the given buffer will be done and this clone is added to the queue.
        */
-      void AddBuffer(TBuffer * buffer, Bool_t clone=kFALSE);
+      void AddBuffer(TBuffer *buffer, Bool_t clone=kFALSE);
 
       /**
        * Free internal buffer to be re-used by the AddBuffer as clone
@@ -54,7 +54,7 @@ class TGo4BufferQueue : public TGo4Queue {
        * belong to the internal buffers list of this queue, it is _not_
        * added to the free buffer list.
        */
-      void FreeBuffer(TBuffer * buffer);
+      void FreeBuffer(TBuffer *buffer);
 
       /** Empty the queue and give free buffers back */
       void Clear(Option_t *opt = "") override;

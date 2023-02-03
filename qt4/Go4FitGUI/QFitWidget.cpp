@@ -42,12 +42,12 @@ void QFitWidget::SetItem(TGo4FitPanel* panel, QFitItem * item)
    FillWidget();
 }
 
-QFitItem* QFitWidget::GetItem()
+QFitItem *QFitWidget::GetItem()
 {
    return fxItem;
 }
 
-TObject * QFitWidget::GetObject()
+TObject *QFitWidget::GetObject()
 {
    if(GetItem())
       return GetItem()->Object();

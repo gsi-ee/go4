@@ -33,9 +33,9 @@ class TGo4ExampleController {
 
     TGo4Command *GetCommand();
 
-    void DisplayLog(TGo4Status*);
+    void DisplayLog(TGo4Status *);
 
-    void DisplayData(TObject*);
+    void DisplayData(TObject *);
 
     virtual ~TGo4ExampleController();
 

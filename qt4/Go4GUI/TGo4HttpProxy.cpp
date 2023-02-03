@@ -286,7 +286,7 @@ void TGo4HttpAccess::httpFinished()
 
    if (fKind == 0) {
 
-      TXMLEngine* xml = fProxy->fXML;
+      TXMLEngine *xml = fProxy->fXML;
 
       XMLDocPointer_t doc = xml->ParseString(res.data());
 
@@ -441,7 +441,7 @@ void TGo4HttpAccess::httpFinished()
 
       if (!obj_cl || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
 
-      obj = (TObject*) obj_cl->New();
+      obj = (TObject *) obj_cl->New();
       if (!obj) {
          printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
          return;

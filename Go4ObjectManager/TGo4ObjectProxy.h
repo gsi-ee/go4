@@ -26,7 +26,7 @@ class TGo4ObjectAccess : public TGo4Access {
       const char *GetObjectClassName() const override;
 
    private:
-      TObject * fObject{nullptr};    //!
+      TObject   *fObject{nullptr};    //!
 };
 
 // **************************************************************
@@ -60,7 +60,7 @@ class TGo4ObjectProxy : public TGo4Proxy {
 
    protected:
 
-      TObject *     fObject{nullptr}; //!
+      TObject      *fObject{nullptr}; //!
       Bool_t        fOwner{kFALSE};   //!
 
    ClassDefOverride(TGo4ObjectProxy, 1);

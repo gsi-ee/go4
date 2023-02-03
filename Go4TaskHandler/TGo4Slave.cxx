@@ -112,7 +112,7 @@ TGo4Command *TGo4Slave::NextCommand()
    return GetTask() ? GetTask()->NextCommand() : nullptr;
 }
 
-void TGo4Slave::SendObject(TObject * obj, const char *receiver)
+void TGo4Slave::SendObject(TObject *obj, const char *receiver)
 {
    if(GetTask())
       GetTask()->SendObject(obj, receiver);

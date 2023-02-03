@@ -54,7 +54,7 @@ void TGo4SetScaleValues::refreshView(bool force)
       ZmaxV->setModified(false);
    }
 
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
 
    setEnabled(panel != nullptr);
 
@@ -120,7 +120,7 @@ void TGo4SetScaleValues::refreshView(bool force)
 }
 
 
-void TGo4SetScaleValues::panelSlot(TGo4ViewPanel* panel, TPad *pad, int signalid)
+void TGo4SetScaleValues::panelSlot(TGo4ViewPanel *panel, TPad *pad, int signalid)
 {
    switch (signalid) {
       case QGo4Widget::panel_Activated:
@@ -137,7 +137,7 @@ void TGo4SetScaleValues::ApplyValues()
 {
    if (fbDoingRefresh) return;
 
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
 
    double Xmin = XminV->text().toDouble();
@@ -161,7 +161,7 @@ void TGo4SetScaleValues::ApplyValues()
 void TGo4SetScaleValues::AutoscaleChanged(bool on)
 {
    if (fbDoingRefresh) return;
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (!panel) return;
 
    fbDoingRefresh = true;

@@ -313,7 +313,7 @@ class TGo4FitSlotList {
       /**
        * Set object to first suitable slot, which have PlaceName name or owner of which
        * has PlaceName full name with defined ownership flag.
-       * If PlaceName == nullptr, SetObject(TObject*, Bool_t) method will be called.
+       * If PlaceName == nullptr, SetObject(TObject *, Bool_t) method will be called.
        * If only slot suits to defined condition, object in slot will be overwritten.
        * Return pointer on slot, to which object was assigned
        */

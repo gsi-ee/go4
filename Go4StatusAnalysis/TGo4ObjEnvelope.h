@@ -30,7 +30,7 @@ class TGo4ObjEnvelope : public TNamed {
 
    protected:
 
-      TObject * fxObject{nullptr};
+      TObject  *fxObject{nullptr};
       TString   fxObjName;
       TString   fxObjFolder;
 
@@ -41,6 +41,5 @@ class TGo4ObjEnvelope : public TNamed {
 
    ClassDefOverride(TGo4ObjEnvelope, 1);
 };
-
 
 #endif

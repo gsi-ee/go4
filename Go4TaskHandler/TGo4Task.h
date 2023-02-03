@@ -131,7 +131,7 @@ public:
      * Streamer is decoupled from queue wait and sets global lockguard.
      * If wait=kFALSE, queue will be polled once instead of condition wait.
      */
-    TObject * NextObject(Bool_t wait = kTRUE);
+    TObject *NextObject(Bool_t wait = kTRUE);
 
     /** Delivers next command from command queue. */
     virtual TGo4Command *NextCommand();
@@ -139,12 +139,12 @@ public:
     /** Send object via data channel to the master. Master name
      * may be specified, if more than one master is connected.
      * By default, object is send to current active task */
-    void SendObject(TObject * obj, const char *receiver = nullptr);
+    void SendObject(TObject *obj, const char *receiver = nullptr);
 
     /** Send status object via status channel to the master. Master name
      * may be specified, if more than one master is connected.
      * By default, object is send to all connected tasks */
-    virtual void SendStatus(TGo4Status * stat, const char *receiver = nullptr);
+    virtual void SendStatus(TGo4Status *stat, const char *receiver = nullptr);
 
     /** Send internal status buffer to the master(s). */
     virtual void SendStatusBuffer();

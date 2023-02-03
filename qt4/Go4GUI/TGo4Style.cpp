@@ -149,7 +149,7 @@ void TGo4Style::SetPadColor()
    QColor c = QColorDialog::getColor();
    if (!c.isValid()) return;
    Int_t color = TColor::GetColor(c.red(), c.green(), c.blue());
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel)
       panel->ChangeDrawOption(101, color, nullptr);
 }
@@ -211,12 +211,12 @@ void TGo4Style::SetContourLevels(int nlvl)
 {
    if (fbSettingPanelData) return;
 
-   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   TGo4ViewPanel *panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel)
       panel->ChangeDrawOption(18, nlvl, nullptr);
 }
 
-void TGo4Style::panelSlot(TGo4ViewPanel* panel, TPad *pad, int signalid)
+void TGo4Style::panelSlot(TGo4ViewPanel *panel, TPad *pad, int signalid)
 {
    switch (signalid) {
       case QGo4Widget::panel_Modified:

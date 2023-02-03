@@ -186,7 +186,7 @@ TGo4Status * TGo4Task::NextStatus(Bool_t wait)
    return stat;
 }
 
-TObject * TGo4Task::NextObject(Bool_t wait)
+TObject *TGo4Task::NextObject(Bool_t wait)
 {
    if (!IsMaster())
       return nullptr;
@@ -208,7 +208,7 @@ void TGo4Task::AddUserCommand(TGo4Command *com)
    fxCommandPrototype->AddCommand(com);
 }
 
-void TGo4Task::AddUserCommandList(TGo4CommandProtoList * comlist)
+void TGo4Task::AddUserCommandList(TGo4CommandProtoList *comlist)
 {
    if(comlist)
    {
@@ -219,7 +219,7 @@ void TGo4Task::AddUserCommandList(TGo4CommandProtoList * comlist)
    }
 }
 
-void TGo4Task::SendObject(TObject * obj, const char *receiver)
+void TGo4Task::SendObject(TObject *obj, const char *receiver)
 {
    if(IsMaster()) return;
    if(obj) {
@@ -243,7 +243,7 @@ void TGo4Task::SendObject(TObject * obj, const char *receiver)
    }
 }
 
-void TGo4Task::SendStatus(TGo4Status * stat, const char *receiver)
+void TGo4Task::SendStatus(TGo4Status *stat, const char *receiver)
 {
    if(IsMaster()) return;
    if(stat) {

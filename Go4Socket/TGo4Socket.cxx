@@ -358,7 +358,7 @@ Int_t TGo4Socket::Send(TObject *obj)
    } // end   if(IsOpen() && IsActive())
 
    if(rev < 0)
-      TGo4Log::Debug(" !!! Socket: Send(TObject*) ERROR # %d !!! ",rev);
+      TGo4Log::Debug(" !!! Socket: Send(TObject *) ERROR # %d !!! ",rev);
 
    return rev;
 }

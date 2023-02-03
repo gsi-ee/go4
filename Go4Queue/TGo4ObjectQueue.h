@@ -42,7 +42,7 @@ class TGo4ObjectQueue : public TGo4Queue {
        * Add object pointer to queue. We Renamed the protected baseclass method
        * to avoid user confusion.
        */
-      void AddObject(TObject * object, Bool_t clone=kFALSE);
+      void AddObject(TObject *object, Bool_t clone = kFALSE);
 
       /**
        * Wait for object from queue. We Renamed the protected baseclass method

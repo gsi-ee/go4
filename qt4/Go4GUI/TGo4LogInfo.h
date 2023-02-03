@@ -28,7 +28,7 @@ public:
 
    void WorkWithInfo(TGo4Slot *slot);
 
-   void linkedObjectUpdated(const char *linkname, TObject * obj) override;
+   void linkedObjectUpdated(const char *linkname, TObject *obj) override;
 
    void AddMessage(const QDateTime& dt, int level, QString msg);
 

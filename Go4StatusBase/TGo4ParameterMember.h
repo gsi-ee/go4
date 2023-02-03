@@ -37,7 +37,7 @@ class TGo4ParameterMember : public TNamed {
       void SetIntValue(Int_t value) { fValue.Form("%d", value); }
       const char *GetStrValue() const { return fValue.Data(); }
       Int_t GetIntValue() const { return fValue.Atoi();  };
-      Bool_t CanStrEdit() const { return (fTypeId!=kTGo4Fitter_t) && (fTypeId!=kTArray_t); }
+      Bool_t CanStrEdit() const { return (fTypeId != kTGo4Fitter_t) && (fTypeId != kTArray_t); }
 
       void SetArrayIndexes(Int_t ndim = 0, Int_t indx1 = -1, Int_t indx2 = -1);
       Bool_t CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t indx2);
@@ -50,8 +50,8 @@ class TGo4ParameterMember : public TNamed {
       TObject *GetObject() const { return fObject; }
       void SetObject(TObject *obj, Bool_t owner);
 
-      void SetValue(char* addr);
-      void GetValue(char* addr);
+      void SetValue(char *addr);
+      void GetValue(char *addr);
 
       void SetToZero();
 
@@ -67,7 +67,7 @@ class TGo4ParameterMember : public TNamed {
       TString   fValue;               ///< value of data member
       Int_t     fIndex1{-1};          ///< first array index
       Int_t     fIndex2{-1};          ///< second array index
-      TObject * fObject{nullptr};     ///< place for objects like fitter
+      TObject  *fObject{nullptr};     ///< place for objects like fitter
       Bool_t    fObjectOwner{kTRUE};  ///<! flag indicating ownership of object
       Bool_t    fVisible{kTRUE};      ///<  is visible, used by GUI
 

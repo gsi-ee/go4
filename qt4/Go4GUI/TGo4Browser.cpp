@@ -470,7 +470,7 @@ void TGo4Browser::DisplaySelectedItems()
 
    if (npads == 0) return;
 
-   TGo4ViewPanel* newpanel = CreateViewPanel(npads);
+   TGo4ViewPanel *newpanel = CreateViewPanel(npads);
    TPad *subpad = nullptr;
 
    int cnt = 0;
@@ -489,7 +489,7 @@ void TGo4Browser::DisplaySelectedItems()
 
 void TGo4Browser::SuperImposeSelectedItems()
 {
-   TGo4ViewPanel* newpanel = nullptr;
+   TGo4ViewPanel *newpanel = nullptr;
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
@@ -518,7 +518,7 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    int cando = br->ItemCanDo(fullname.toLatin1().constData());
 
    if (go4sett->getDrawOnceFlag()) {
-      TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
+      TGo4ViewPanel *panel = WhereItemDrawn(fullname.toLatin1().constData());
 
       QWidget *mdi = panel ? panel->parentWidget() : nullptr;
 

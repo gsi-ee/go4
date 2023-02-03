@@ -28,9 +28,9 @@ class TGo4Display : public TGo4Master {
     virtual ~TGo4Display();
 
     void DisplayLog(TGo4Status *Status);
-    void DisplayData(TObject*);
+    void DisplayData(TObject *);
 
-    void SetAnalysis(TGo4AnalysisProxy* an) { fxAnalysis = an; }
+    void SetAnalysis(TGo4AnalysisProxy *an) { fxAnalysis = an; }
 
  /** Add functionality to reset gui appearance here:*/
     Bool_t DisconnectSlave(const char *name = nullptr,
@@ -39,12 +39,12 @@ class TGo4Display : public TGo4Master {
   private:
 
     /** Timer for drawing job */
-    TGo4DisplayDrawerTimer* fxDrawTimer{nullptr};         //!
+    TGo4DisplayDrawerTimer  *fxDrawTimer{nullptr};         //!
 
     /** Timer for status logging job */
-    TGo4DisplayLoggerTimer* fxLogTimer{nullptr};          //!
+    TGo4DisplayLoggerTimer  *fxLogTimer{nullptr};          //!
 
-    TGo4AnalysisProxy*      fxAnalysis{nullptr};          //!
+    TGo4AnalysisProxy       *fxAnalysis{nullptr};          //!
 };
 
 #endif //TGO4DISPLAY_H

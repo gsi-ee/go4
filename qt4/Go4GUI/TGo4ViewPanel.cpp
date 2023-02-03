@@ -1697,7 +1697,7 @@ void TGo4ViewPanel::ProcessPadDoubleClick()
 
    if (pic.GetNumObjNames() == 0) return;
 
-   TGo4ViewPanel* newpanel = CreateViewPanel();
+   TGo4ViewPanel *newpanel = CreateViewPanel();
    newpanel->ProcessPictureRedraw("", newpanel->GetCanvas(), &pic);
    newpanel->ShootRepaintTimer();
 }

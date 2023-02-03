@@ -195,7 +195,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char *itemname)
    RefreshButton->setIcon( QIcon(iconname) );
    RefreshButton->setToolTip(tooltip);
 
-   TGo4ViewPanel* panel = WhereItemDrawn(itemname);
+   TGo4ViewPanel *panel = WhereItemDrawn(itemname);
 
    if (!panel) {
       GetLinked("Condition", 2);
@@ -251,7 +251,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
    const char *conditemname = GetLinkedName("Condition");
-   TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
+   TGo4ViewPanel *panel = WhereItemDrawn(conditemname);
    TPad *pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    TGo4BrowserProxy *br = Browser();
@@ -743,7 +743,7 @@ void TGo4ConditionEditor::DrawCondition(bool useactive)
    const char *conditemname = GetLinkedName("Condition");
    if (!conditemname) return;
 
-   TGo4ViewPanel* panel = nullptr;
+   TGo4ViewPanel *panel = nullptr;
 
    if (useactive)
       panel = LastActivePanel();
@@ -800,7 +800,7 @@ void TGo4ConditionEditor::RedrawCondition()
    auto cond = GetLinkedCast<TGo4Condition>("Condition");
    if (!cond) return;
 
-   TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
+   TGo4ViewPanel *panel = WhereItemDrawn(conditemname);
    if (!panel) return;
 
    TPad *pad = panel->FindPadWithItem(conditemname);
@@ -842,7 +842,7 @@ void TGo4ConditionEditor::ModifyButton_clicked()
    if (!cond) return;
 
    const char *conditemname = GetLinkedName("Condition");
-   TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
+   TGo4ViewPanel *panel = WhereItemDrawn(conditemname);
    TPad *pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    if (!panel || !pad) return;
