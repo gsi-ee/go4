@@ -414,7 +414,7 @@ Double_t TGo4PolyCond::GetCMax(TH1 *histo)
    return -1;
 }
 
-void TGo4PolyCond::SetPainter(TGo4ConditionPainter* painter)
+void TGo4PolyCond::SetPainter(TGo4ConditionPainter *painter)
 {
    if (!painter)
       return;
@@ -429,9 +429,9 @@ void TGo4PolyCond::SetPainter(TGo4ConditionPainter* painter)
 }
 
 
-TGo4ConditionPainter* TGo4PolyCond::CreatePainter()
+TGo4ConditionPainter *TGo4PolyCond::CreatePainter()
 {
-   TGo4ConditionPainter* painter=new TGo4PolyCondPainter(GetName());
+   TGo4ConditionPainter *painter=new TGo4PolyCondPainter(GetName());
    painter->SetCondition(this);
    return painter;
 }

@@ -57,7 +57,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void Pop() override;
 
     /** Factory method to generate the subclass implementation for painter */
-    virtual TGo4ConditionPainter* CreatePainter();
+    virtual TGo4ConditionPainter *CreatePainter();
 
     /** Return number of calls of the Test method. */
     virtual Int_t Counts();
@@ -154,7 +154,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Method used by HTTP server to update some fields, specified in URL syntax */
     virtual Bool_t UpdateFromUrl(const char *rest_url_opt);
 
-    virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
+    virtual void GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2);
     virtual Double_t GetXLow() const { return 0.; }
     virtual Double_t GetXUp() const { return 0.; }
     virtual Double_t GetYLow() const { return 0.; }
@@ -232,7 +232,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Replace default painter of this condition by external one.
       * if different views of this condition shall exist for different TPads,
       * the painter (i.e. view) can be exchanged before pad is updated. */
-    virtual void SetPainter(TGo4ConditionPainter* painter);
+    virtual void SetPainter(TGo4ConditionPainter *painter);
 
     /** Configure graphical update tolerance for this condition individually.
       * by default, update tolerance is set to static value fgdUPDATEEPSILON */
@@ -353,8 +353,6 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** default setting for all conditions with format string for numbers. */
    static TString fgxNUMFORMAT;
-
-
    /** web condition editor keyword used in UpdateFromUrl. */
    static TString fgxURL_RESET;
    /** web condition editor keyword used in UpdateFromUrl. */
@@ -397,7 +395,7 @@ class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** Painter instance to display the condition in root pad. To
       * be used in Paint() which is called on TPad::Update automatically for
       * all TObjects appended to the pad. */
-    TGo4ConditionPainter* fxPainter{nullptr};
+    TGo4ConditionPainter *fxPainter{nullptr};
 
     /** array with TObjStrings evaluated by UpdateFromUrl*/
     TObjArray *fxUrlOptionArray{nullptr}; //!

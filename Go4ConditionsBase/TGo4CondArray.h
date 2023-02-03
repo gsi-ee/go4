@@ -33,7 +33,7 @@ class TGo4CondArray : public TGo4Condition {
     virtual ~TGo4CondArray();
 
     /** Factory method to generate the subclass implementation for painter */
-    TGo4ConditionPainter* CreatePainter() override;
+    TGo4ConditionPainter *CreatePainter() override;
 
     /** Reimplement Draw to set painted flag for all array conditions */
     void Draw(Option_t *opt = "") override;
@@ -41,7 +41,7 @@ class TGo4CondArray : public TGo4Condition {
     /** Replace default painter of this condition by external one.
     * if different views of this condition shall exist for different TPads,
     * the painter (i.e. view) can be exchanged before pad is updated. */
-    void SetPainter(TGo4ConditionPainter* painter) override;
+    void SetPainter(TGo4ConditionPainter *painter) override;
 
     /** Access to the currently selected condition. */
     const TGo4Condition *GetActiveCondition() const override;

@@ -31,12 +31,12 @@ class TGo4PolyCond : public TGo4Condition {
       void SetWorkHistogram(TH1 *histo) override;
 
       /** Factory method to generate the subclass implementation for painter */
-      TGo4ConditionPainter* CreatePainter() override;
+      TGo4ConditionPainter *CreatePainter() override;
 
       /** Replace default painter of this condition by external one.
         * if different views of this condition shall exist for different TPads,
         * the painter (i.e. view) can be exchanged before pad is updated. */
-      void SetPainter(TGo4ConditionPainter* painter) override;
+      void SetPainter(TGo4ConditionPainter *painter) override;
 
       using TGo4Condition::SetValues;
 
@@ -88,16 +88,16 @@ class TGo4PolyCond : public TGo4Condition {
       Double_t GetIntegral(TH1 *histo, Option_t *opt = "") override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetMean(TH1 *histo, Int_t axis=1) override;
+      Double_t GetMean(TH1 *histo, Int_t axis = 1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetRMS(TH1 *histo, Int_t axis=1) override;
+      Double_t GetRMS(TH1 *histo, Int_t axis = 1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetSkewness(TH1 *histo, Int_t axis=1) override;
+      Double_t GetSkewness(TH1 *histo, Int_t axis = 1) override;
 
       /** Calculate value for histogram inside condition limits. */
-      Double_t GetCurtosis(TH1 *histo, Int_t axis=1) override;
+      Double_t GetCurtosis(TH1 *histo, Int_t axis = 1) override;
 
       /** Calculate value for histogram inside condition limits. */
       Double_t GetXMax(TH1 *histo) override;
@@ -116,7 +116,7 @@ class TGo4PolyCond : public TGo4Condition {
       void SavePrimitive(std::ostream &fs, Option_t *opt = "") override;
 
       /** Remove all references to any TCutGs from ROOT list of specials.
-        * To be used after loading condition from file, updating contition, or setting of cut. */
+        * To be used after loading condition from file, updating condition, or setting of cut. */
       static void CleanupSpecials();
 
       static TString NextAvailableName();

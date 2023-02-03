@@ -35,17 +35,16 @@ TGo4WinCondView::~TGo4WinCondView()
 {
 }
 
-
 void TGo4WinCondView::Paint(Option_t *opt)
 {
-if(fxWinCondition) TBox::Paint(opt);
-// we have a valid condition set from painter. Otherwise,
-// suppress painting of condition view without owner. This case
-// happens after insert canvas in go4 (separate cloning
-// of lists of primitive members), thus leading to a
-// second "ghost condition box"
-
+   if(fxWinCondition) TBox::Paint(opt);
+   // we have a valid condition set from painter. Otherwise,
+   // suppress painting of condition view without owner. This case
+   // happens after insert canvas in go4 (separate cloning
+   // of lists of primitive members), thus leading to a
+   // second "ghost condition box"
 }
+
 void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
    // note: This method is never called in ROOT>=4.03/02 when
@@ -104,7 +103,6 @@ const char *TGo4WinCondView::GetName() const
 {
    return fxWinCondition ? fxWinCondition->GetName() : nullptr;
 }
-
 
 void TGo4WinCondView::SetName(const char *nam)
 {
@@ -171,12 +169,10 @@ void TGo4WinCondView::SetCMaxDraw(Bool_t on)
    if(fxWinCondition) fxWinCondition->SetCMaxDraw(on);
 }
 
-
 void TGo4WinCondView::SetNumFormat(const char *fmt)
 {
    if(fxWinCondition) fxWinCondition->SetLabelNumFormat(fmt);
 }
-
 
 //void TGo4WinCondView::DeleteRegion()
 //{
@@ -195,4 +191,3 @@ void TGo4WinCondView::ResetLabel()
 {
    if(fxWinCondition) fxWinCondition->ResetLabel();
 }
-

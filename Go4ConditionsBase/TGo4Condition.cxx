@@ -494,7 +494,7 @@ Bool_t TGo4Condition::UpdateFromUrl(const char *rest_url_opt)
 }
 
 
-void TGo4Condition::GetValues(Int_t & dim, Double_t & xmin, Double_t & xmax, Double_t & ymin, Double_t & ymax)
+void TGo4Condition::GetValues(Int_t &dim, Double_t &xmin, Double_t &xmax, Double_t &ymin, Double_t &ymax)
 {
    xmin  = GetXLow();
    xmax  = GetXUp();
@@ -630,7 +630,7 @@ void TGo4Condition::Pop()
    if(fxPainter) fxPainter->DisplayToFront();
 }
 
-TGo4ConditionPainter* TGo4Condition::CreatePainter()
+TGo4ConditionPainter *TGo4Condition::CreatePainter()
 {
    return nullptr;
 }

@@ -85,7 +85,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Return kTRUE, if parameter ParName has explicit configuration for valid range in minimization.
        * ParName may be standard or full name of parameter.
        */
-      virtual Bool_t GetParRange(const char *ParName, Double_t & RangeMin, Double_t & RangeMax);
+      virtual Bool_t GetParRange(const char *ParName, Double_t &RangeMin, Double_t &RangeMax);
 
       /**
        * Return kTRUE, if parameter ParName has explicit configuration for epsilon value in minimization.

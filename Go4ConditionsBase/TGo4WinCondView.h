@@ -31,7 +31,7 @@ public:
     void ExecuteEvent(Int_t event, Int_t px, Int_t py) override;
 
     void SetCondition(TGo4WinCond *condition) { fxWinCondition = condition; }
-    TGo4WinCond *GetCondition() { return fxWinCondition; }
+    TGo4WinCond *GetCondition() const { return fxWinCondition; }
     const char *GetName() const override;
     void SetName(const char *nam); // *MENU*
     /** Delete condition instead of view: */
@@ -47,7 +47,7 @@ public:
     void SetXMaxDraw(Bool_t on); // *MENU*
     void SetYMaxDraw(Bool_t on); // *MENU*
     void SetCMaxDraw(Bool_t on); // *MENU*
-    void SetNumFormat(const char *fmt="%.4E"); // *MENU*
+    void SetNumFormat(const char *fmt = "%.4E"); // *MENU*
     /** This will save draw flags into  static default setup */
     void SaveLabelStyle();// *MENU*
     /** Will reset label position to defaults */

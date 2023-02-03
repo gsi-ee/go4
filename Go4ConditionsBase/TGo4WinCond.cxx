@@ -117,7 +117,7 @@ void TGo4WinCond::SetValues(Double_t low1, Double_t up1)
 }
 
 // -----------------------------------------------
-void TGo4WinCond::GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2)
+void TGo4WinCond::GetValues(Int_t &dim, Double_t &x1, Double_t &y1, Double_t &x2, Double_t &y2)
 {
    x1  = fLow1;
    y1  = fUp1;
@@ -327,7 +327,7 @@ Bool_t TGo4WinCond::UpdateFromUrl(const char *rest_url_opt)
   return kTRUE;
 }
 
-void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
+void TGo4WinCond::SetPainter(TGo4ConditionPainter *painter)
 {
    // delete old painter, replace by the new one
    // overwritten method in subclass may check if painter is correct type
@@ -342,7 +342,7 @@ void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
    }
 }
 
-TGo4ConditionPainter* TGo4WinCond::CreatePainter()
+TGo4ConditionPainter *TGo4WinCond::CreatePainter()
 {
    auto painter = new TGo4WinCondPainter(GetName());
    painter->SetCondition(this);

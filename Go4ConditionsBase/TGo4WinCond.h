@@ -27,12 +27,12 @@ class TGo4WinCond : public TGo4Condition {
       virtual ~TGo4WinCond();
 
       /** Factory method to generate the subclass implementation for painter */
-      TGo4ConditionPainter* CreatePainter() override;
+      TGo4ConditionPainter *CreatePainter() override;
 
       /** Replace default painter of this condition by external one.
         * if different views of this condition shall exist for different TPads,
         * the painter (i.e. view) can be exchanged before pad is updated. */
-      void SetPainter(TGo4ConditionPainter* painter) override;
+      void SetPainter(TGo4ConditionPainter *painter) override;
 
       using TGo4Condition::SetValues;
 

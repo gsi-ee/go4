@@ -19,37 +19,36 @@
 class TGo4Marker;
 
 class TGo4MarkerPainter : public TGo4LabelPainter {
-public:
-   TGo4MarkerPainter();
-   TGo4MarkerPainter(const char *name, const char *title="Go4 MarkerPainter");
-   virtual ~TGo4MarkerPainter();
+   public:
+      TGo4MarkerPainter();
+      TGo4MarkerPainter(const char *name, const char *title="Go4 MarkerPainter");
+      virtual ~TGo4MarkerPainter();
 
-   /** Display coordinate label for this marker. */
-   void PaintLabel(Option_t *opt = "") override;
-   void UnPaintLabel(Option_t *opt = "") override;
-   void PaintConnector(Option_t *opt = "");
-   void UnPaintConnector(Option_t *opt = "");
-   void DisplayToFront(Option_t *opt = "") override;
+      /** Display coordinate label for this marker. */
+      void PaintLabel(Option_t *opt = "") override;
+      void UnPaintLabel(Option_t *opt = "") override;
+      void PaintConnector(Option_t *opt = "");
+      void UnPaintConnector(Option_t *opt = "");
+      void DisplayToFront(Option_t *opt = "") override;
 
-   virtual void SetMarker(TGo4Marker* mark) { fxMarker=mark; }
+      virtual void SetMarker(TGo4Marker* mark) { fxMarker=mark; }
 
-protected:
+   protected:
 
-     /** Check if connector is still existing. Uses root list of cleanups. */
-    Bool_t CheckConnector();
+      /** Check if connector is still existing. Uses root list of cleanups. */
+      Bool_t CheckConnector();
 
-   /** Marker to be painted.*/
-   TGo4Marker *fxMarker{nullptr};
+      /** Marker to be painted.*/
+      TGo4Marker *fxMarker{nullptr};
 
-   /** Connection line between marker and label */
-   TGo4LabelConnector *fxConnector{nullptr};
+      /** Connection line between marker and label */
+      TGo4LabelConnector *fxConnector{nullptr};
 
-private:
-    /** Flag to handle streamed connector from file correctly*/
-    Bool_t fbIsConStreamed{kFALSE}; //!
+   private:
+       /** Flag to handle streamed connector from file correctly*/
+       Bool_t fbIsConStreamed{kFALSE}; //!
 
-
-ClassDefOverride(TGo4MarkerPainter,1)
+   ClassDefOverride(TGo4MarkerPainter,1)
 };
 
 #endif //TGO4MARKERPAINTER_H

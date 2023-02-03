@@ -44,20 +44,21 @@ public:
   Bool_t UpdateFrom(TGo4Condition *cond, Bool_t counts) override;
 
   UInt_t GetNumValues() const { return fxValues.size(); }
+
   Int_t GetValue(UInt_t ix) const { return ix < fxValues.size() ? fxValues[ix] : 0; }
 
   void SetValue(UInt_t ix, Int_t val)
   {
-    if(ix>=fxValues.size()) fxValues.resize(ix);
-    fxValues[ix]=val;
+     if (ix >= fxValues.size())
+        fxValues.resize(ix);
+     fxValues[ix] = val;
   }
-  void InsertValue(UInt_t ix, Int_t val)
-  {
-    fxValues.insert(fxValues.begin()+ix,val);
-  }
-  void RemoveValue(UInt_t ix){fxValues.erase(fxValues.begin() +ix);}
 
-  void Resize(size_t newsize){fxValues.resize(newsize);}
+  void InsertValue(UInt_t ix, Int_t val) { fxValues.insert(fxValues.begin() + ix, val); }
+
+  void RemoveValue(UInt_t ix) { fxValues.erase(fxValues.begin() + ix); }
+
+  void Resize(size_t newsize) { fxValues.resize(newsize); }
 
   /** For base class displays: minimum value of test list.  */
   Double_t GetXLow() const override;
@@ -74,7 +75,7 @@ public:
   /** Factory method to generate the subclass implementation for painter
    * TODO: do we need graphical representation of whitelist, e.g. by set of point markers in working histogram?
    * For the moment, no graphics for list conditions 1-2019*/
-  /*      virtual TGo4ConditionPainter* CreatePainter();*/
+  /*      virtual TGo4ConditionPainter *CreatePainter();*/
 
 private:
 

@@ -36,7 +36,7 @@ class TGo4WinCondPainter : public TGo4ConditionPainter {
   private:
 
     /** Window marker box. */
-    TGo4WinCondView* fxBox{nullptr};
+    TGo4WinCondView *fxBox{nullptr};
 
     ClassDefOverride(TGo4WinCondPainter,6)
 };

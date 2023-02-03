@@ -30,7 +30,6 @@ class TGo4ComMasterQuit : public TGo4TaskHandlerCommand {
 
     Int_t ExeCom() override;
 
-
   ClassDefOverride(TGo4ComMasterQuit,1);
 };
 
