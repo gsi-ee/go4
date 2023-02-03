@@ -238,14 +238,14 @@ Int_t TGo4Socket::SendBuffer(TBuffer *buf)
 
 
    UInt_t len = buf->Length();
-   char* field = buf->Buffer();
+   char *field = buf->Buffer();
 
    if(!field) {
       TGo4Log::Debug(" !!! Socket: SendBuffer() ERROR : no data field !!! ");
       return -5;
     }
 
-   char* temp = field;
+   char *temp = field;
    tobuf(temp, (UInt_t)(len - sizeof(UInt_t))); // tobuf changes pointer!
    //set length into first word of buffer (see TMessage)
    ////// debug://///////////////////////////////////////////////////////////////////////
@@ -311,7 +311,7 @@ Int_t TGo4Socket::ReceiveBuffer()
       ReallocBuffer(fxBuffer, oldsize, newsize);
    }
    // read object buffer into receive buffer:
-   char* buf = fxBuffer->Buffer()+sizeof(UInt_t);
+   char *buf = fxBuffer->Buffer() + sizeof(UInt_t);
    // skip first word, see TMessage transport
 #ifdef Linux
    rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), buf, len, MSG_NOSIGNAL);
@@ -398,7 +398,7 @@ Int_t TGo4Socket::Send(const char *name)
    return rev;
 }
 
-char* TGo4Socket::RecvRaw(const char *name)
+char *TGo4Socket::RecvRaw(const char *name)
 {
 // note: optional parameter const char *name is left for compatibility, has no effect!
    GO4TRACE((12,"TGo4Socket::RecvRaw(const char *name)", __LINE__, __FILE__));

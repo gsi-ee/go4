@@ -116,7 +116,7 @@ void TGo4ParameterMember::SetToZero()
    }
 }
 
-void TGo4ParameterMember::SetValue(char* addr)
+void TGo4ParameterMember::SetValue(char *addr)
 {
    fValue = "";
    switch (fTypeId) {
@@ -144,7 +144,7 @@ void TGo4ParameterMember::SetValue(char* addr)
    }
 }
 
-void TGo4ParameterMember::GetValue(char* addr)
+void TGo4ParameterMember::GetValue(char *addr)
 {
    const char *value = fValue.Data();
    switch (fTypeId) {

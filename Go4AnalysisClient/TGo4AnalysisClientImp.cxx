@@ -288,7 +288,7 @@ void TGo4AnalysisClient::Start()
 
 void TGo4AnalysisClient::SendAnalysisObject(const char *name)
 {
-   GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(char* name)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(const char *name)",__LINE__, __FILE__));
    TNamed *ob = fxAnalysis->GetObject(name);
    SendObject(ob);
 }
@@ -495,7 +495,7 @@ void TGo4AnalysisClient::ExecuteString(const char *command)
 {
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;
-      strtok((char*) buffer.Data(), ":"); // first find the command itself
+      strtok((char *) buffer.Data(), ":"); // first find the command itself
       TString base = strtok(nullptr, ":");
       TString pass = strtok(nullptr, ":");
       StartObjectServer(base.Data(), pass.Data());

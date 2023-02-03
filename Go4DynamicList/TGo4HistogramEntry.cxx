@@ -132,7 +132,7 @@ void TGo4HistogramEntry::InitHistPointer(Int_t ix, TObject *event, TDataMember *
    fxHistPtr[ix] = nullptr;
    fxHisEvents[ix] = event;
    if (!event || !member || !member->IsBasic()) return;
-   fxHistPtr[ix] = (char*) event+ offset;
+   fxHistPtr[ix] = (char *) event + offset;
    fxHistType[ix] = member->GetDataType()->GetType();
 }
 
@@ -142,7 +142,7 @@ void TGo4HistogramEntry::InitCondPointer(Int_t ix, TObject *event, TDataMember *
    fxCondPtr[ix] = nullptr;
    fxConEvents[ix] = event;
    if (!event || !member || !member->IsBasic()) return;
-   fxCondPtr[ix] = (char *) event+ offset;
+   fxCondPtr[ix] = (char *) event + offset;
    fxCondType[ix] = member->GetDataType()->GetType();
 }
 

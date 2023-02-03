@@ -293,7 +293,7 @@ const char *GetArgValue(int argc, char **argv, const char *argname, int* pos = n
 TList *GetClassesList(TList *prev = nullptr)
 {
    TClassTable::Init();
-   char* name = nullptr;
+   char *name = nullptr;
 
    TList *lst = new TList;
    lst->SetOwner(kTRUE);
@@ -311,7 +311,7 @@ TList *GetClassesList(TList *prev = nullptr)
    return lst;
 }
 
-TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc, char** user_argv, bool doprint)
+TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc, char **user_argv, bool doprint)
 {
    TIter iter(lst);
 
@@ -354,19 +354,19 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
       TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "int,char**");
       if (meth) {
-         TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char**)", an_cl->GetName(), an_cl->GetName());
+         TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char **)", an_cl->GetName(), an_cl->GetName());
 
          if ((user_argc > 0) && user_argv) {
             user_argv[0] = (char*) name;
          } else {
             user_argc = 1;
-            user_argv = (char**) &name;
+            user_argv = (char **) &name;
          }
 
 	 #ifdef _MSC_VER
-         TString cmd = TString::Format("new %s(%d, (char**)0x%x)", an_cl->GetName(), user_argc, user_argv);
+         TString cmd = TString::Format("new %s(%d, (char **)0x%x)", an_cl->GetName(), user_argc, user_argv);
     #else
-         TString cmd = TString::Format("new %s(%d, (char**)%p)", an_cl->GetName(), user_argc, user_argv);
+         TString cmd = TString::Format("new %s(%d, (char **)%p)", an_cl->GetName(), user_argc, user_argv);
 	 #endif
          Int_t err = 0;
 
@@ -376,7 +376,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
          if (analysis && (err == 0)) return analysis;
 
-         TGo4Log::Error("Cannot create analysis class %s instance with (int, char**) prototype", an_cl->GetName());
+         TGo4Log::Error("Cannot create analysis class %s instance with (int, char **) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
          exit(1);
       }
@@ -628,7 +628,7 @@ int main(int argc, char **argv)
    }
 
    int user_argc = 0;
-   char** user_argv = nullptr;
+   char **user_argv = nullptr;
 
    int userargspos = FindArg(argc, argv, "-args");
    if (userargspos<0) userargspos = FindArg(argc, argv, "-x");
@@ -740,7 +740,7 @@ int main(int argc, char **argv)
    }
 
    int app_argc = 1;
-   // char* app_argv[] = { argv[0], (char*) "-l" };
+   // char *app_argv[] = { argv[0], (char *) "-l" };
    // TApplication theApp("Go4App", &app_argc, argv);
 
    gROOT->SetBatch(kTRUE);

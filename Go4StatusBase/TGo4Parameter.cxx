@@ -143,7 +143,7 @@ void TGo4Parameter::GetMemberValues(TObjArray *fItems)
    if (!fItems)
       return;
    fItems->SetOwner(kTRUE); // created objects owned by collection
-   GetMemberValues(fItems, IsA(), (char*) this, 0);
+   GetMemberValues(fItems, IsA(), (char *) this, 0);
 }
 
 Bool_t TGo4Parameter::SetMemberValues(TObjArray *items)
@@ -152,11 +152,11 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray *items)
 
    Int_t indx = 0;
 
-   return SetMemberValues(items, indx, IsA(), (char*) this, 0);
+   return SetMemberValues(items, indx, IsA(), (char *) this, 0);
 }
 
 
-void TGo4Parameter::GetMemberValues(TObjArray *fItems, TClass *cl, char* ptr, unsigned long int cloffset)
+void TGo4Parameter::GetMemberValues(TObjArray *fItems, TClass *cl, char *ptr, unsigned long int cloffset)
 {
    if (!fItems || !cl || !ptr) return;
 
@@ -285,7 +285,7 @@ Int_t TGo4Parameter::FindArrayLength(TObjArray *items, Int_t& itemsindx, TDataMe
 }
 
 
-Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass *cl, char* ptr, unsigned long int cloffset)
+Bool_t TGo4Parameter::SetMemberValues(TObjArray *items, Int_t& itemsindx, TClass *cl, char *ptr, unsigned long int cloffset)
 {
    if (!items || !cl || !ptr) return kFALSE;
 

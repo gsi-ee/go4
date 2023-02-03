@@ -3127,7 +3127,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_SaveItem: {
          const char *subfolder = (const char *) par;
          bool res = SaveBrowserItemToFile(str, subfolder);
-         * ((char*) par) = res ? 1 : 0;
+         *((char *) par) = res ? 1 : 0;
          break;
       }
 

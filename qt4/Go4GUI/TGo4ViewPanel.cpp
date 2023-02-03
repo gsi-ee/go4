@@ -1711,7 +1711,7 @@ TH1 *TGo4ViewPanel::Get_fHistogram(TObject *obj, bool force)
    Long_t offset =obj->IsA()->GetDataMemberOffset("fHistogram");
    if (offset <= 0) return nullptr;
 
-   TH1 **hist = (TH1 **)((char*) obj + offset);
+   TH1 **hist = (TH1 **)((char *) obj + offset);
 
    if (!force || IsWebCanvas()) return *hist;
 

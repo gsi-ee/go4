@@ -548,10 +548,10 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void *memptr)
     //                           // Allocator state might be stored here (most allocators are stateless)
     //                         };
 
-    char** p_collection = (char**) fxData;
-    char** p_begin_ptr = p_collection;
-    char** p_end_ptr = p_collection + 1;
-    //char** p_cap_ptr = p_collection + 2;
+    char **p_collection = (char **) fxData;
+    char **p_begin_ptr = p_collection;
+    char **p_end_ptr = p_collection + 1;
+    //char **p_cap_ptr = p_collection + 2;
 
     go4hdfdbg("TGo4HDF5VectorDataHandle SetObjectPointer has fxData=0x%lx elementsize=%ld\n",
         (unsigned long) fxData, fiElementSize);
@@ -566,7 +566,7 @@ void TGo4HDF5VectorDataHandle::SetObjectPointer(void *memptr)
 
 #ifdef GO4HDF5_DEBUG
     static unsigned debugcount = 0;
-    char** p_cap_ptr = p_collection + 2;
+    char **p_cap_ptr = p_collection + 2;
     size_t cap = (*p_cap_ptr - *p_begin_ptr) / fiElementSize;
     if (debugcount < 10000)
     {
@@ -652,10 +652,10 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
 //          go4hdfdbg("TGo4HDF5VectorDataHandle::Read  will use command: %s \n", resizecom.Data());
 //          gROOT->ProcessLineFast(resizecom.Data());
 //
-//          char** p_collection = (char**) fxData;
-//          char** p_begin_ptr = p_collection;
-//          char** p_end_ptr = p_collection + 1;
-//          char** p_cap_ptr = p_collection + 2;
+//          char **p_collection = (char **) fxData;
+//          char **p_begin_ptr = p_collection;
+//          char **p_end_ptr = p_collection + 1;
+//          char **p_cap_ptr = p_collection + 2;
 //
 //          size_t len = (*p_end_ptr - *p_begin_ptr) / fiElementSize;
 //          size_t cap = (*p_cap_ptr - *p_begin_ptr) / fiElementSize;
@@ -702,10 +702,10 @@ void TGo4HDF5VectorDataHandle::Read(hsize_t sequencenum, H5::H5File* file)
          // now check if vector has changed:
 #ifdef GO4HDF5_DEBUG
 
-          char** p_collection = (char**) fxData;
-          char** p_begin_ptr = p_collection;
-          char** p_end_ptr = p_collection + 1;
-          char** p_cap_ptr = p_collection + 2;
+          char **p_collection = (char **) fxData;
+          char **p_begin_ptr = p_collection;
+          char **p_end_ptr = p_collection + 1;
+          char **p_cap_ptr = p_collection + 2;
 
           size_t len = (*p_end_ptr - *p_begin_ptr) / fiElementSize;
           size_t cap = (*p_cap_ptr - *p_begin_ptr) / fiElementSize;
@@ -777,7 +777,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void *memptr)
 
   for(unsigned int ix = 0; ix < fxVarHandle.fxArray.len; ++ix)
   {
-    char* cursor = (char*)(fxVarHandle.fxArray.p) + ix * fiElementSize;
+    char *cursor = (char *) (fxVarHandle.fxArray.p) + ix * fiElementSize;
     //TGo4HDF5VectorProxy* prox = (TGo4HDF5VectorProxy*) cursor;
 
     TString fullname= TString::Format("%s[%d]", GetTypeName(), ix ); // full name of dataset
@@ -819,15 +819,15 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void *memptr)
     void *super = Data(); // everything is relative to immediate mother element
     // pointer to the subvector is content of cursor:
 
-//    char** psubvector = (char**) cursor;
-//    char* subvector = *psubvector;
-//       size_t delta= (char*) subvector - (char*) super;
+//    char **psubvector = (char **)cursor;
+//    char *subvector = *psubvector;
+//    size_t delta = (char *) subvector - (char *) super;
 
 
 #ifdef GO4HDF5_DEBUG
-       char* subvector = cursor;
+       char *subvector = cursor;
 #endif
-       size_t delta= (char*) cursor - (char*) super;
+       size_t delta = (char *) cursor - (char *) super;
        go4hdfdbg("TGo4HDF5SubVectorDataHandle SetObjectPointer sets parent offset %ld (subvector:0x%lx, super:0x%lx) cursor was 0x%lx\n",
                delta, (unsigned long) subvector, (unsigned long) super, (unsigned long) cursor);
 
@@ -840,7 +840,7 @@ void TGo4HDF5SubVectorDataHandle::SetObjectPointer(void *memptr)
 
 }
 
- void TGo4HDF5SubVectorDataHandle::BuildReadDataset(H5::H5File* file, TGo4HDF5Source* parent)
+ void TGo4HDF5SubVectorDataHandle::BuildReadDataset(H5::H5File *file, TGo4HDF5Source *parent)
  {
    TGo4HDF5DataHandle::BuildReadDataset(file, parent);
    SetActive(false);

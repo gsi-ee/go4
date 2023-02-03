@@ -163,8 +163,8 @@ void TGo4BufferQueue::AddBuffer(TBuffer *buffer, Bool_t clone)
                   {
                      // buffer big enough, proceed
                   }
-           char* source= buffer->Buffer();
-           char* destination= entry->Buffer();
+           char *source = buffer->Buffer();
+           char *destination = entry->Buffer();
             memcpy(destination,source,srcsize);
             Int_t messlen = buffer->Length(); // compatible with root TMessage protocol
             entry->SetBufferOffset(messlen);
@@ -172,7 +172,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer *buffer, Bool_t clone)
       } // if(clone)
    else
       {
-         entry=buffer;
+         entry = buffer;
       }
 
    try

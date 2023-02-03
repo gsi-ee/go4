@@ -281,13 +281,13 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char *text,
    va_end(args);
    // figure out here possible destination for message in string:
    const char *dest;
-   char* curs = txtbuf;
+   char *curs = txtbuf;
    TString receiver = txtbuf;
    Ssiz_t pos = receiver.Index("::",2,0,TString::kExact);
    if(pos != kNPOS) {
       // before this we have receiver:
       receiver.Resize(pos);
-      dest=receiver.Data();
+      dest = receiver.Data();
       curs += ((size_t) pos);
       curs +=2; // skip separator
    } else {

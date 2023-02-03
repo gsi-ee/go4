@@ -115,7 +115,7 @@ void TGo4AbstractInterface::LoadLibrary(const char *fname)
 
    TString libs = gInterpreter->GetSharedLibs();
 
-   const char *token = strtok((char*) libs.Data(), " ,\t\n");
+   const char *token = strtok((char *) libs.Data(), " ,\t\n");
 
    while(token != nullptr) {
       if (strcmp(token, fname) == 0) return;
@@ -330,7 +330,7 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream &fs)
    TString go4sys = TGo4Log::GO4SYS();
 
    TString libs = gInterpreter->GetSharedLibs();
-   const char *token = strtok((char*) libs.Data(), " ,\t\n");
+   const char *token = strtok((char *) libs.Data(), " ,\t\n");
    while(token != nullptr) {
       if ((fInitSharedLibs.Index(token) == kNPOS)
 //           !strstr(token,"libGX11.") &&

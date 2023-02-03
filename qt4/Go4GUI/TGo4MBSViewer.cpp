@@ -209,7 +209,7 @@ void TGo4MBSViewer::Refresh()
 {
    // for the ratemeter and running state, we always get status block
    if(fxNode.isEmpty()) return;
-   int state=f_mbs_status(const_cast<char*>(fxNode.toLatin1().constData()), &fxDaqStat);
+   int state=f_mbs_status(const_cast<char *>(fxNode.toLatin1().constData()), &fxDaqStat);
    if(state!=STC__SUCCESS) {
       fxMessage = QString("MBS Status refresh node %1 returned error %2 at ").arg(fxNode).arg(state);
       fxMessage += QDateTime::currentDateTime().toString();
@@ -398,7 +398,7 @@ void TGo4MBSViewer::PrintState()
    {
       // request setup if selected
 
-      int state = f_mbs_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetup);
+      int state = f_mbs_setup(const_cast<char *>(fxNode.toLatin1().constData()), &fxSetup);
       if(state)
       {
          fxMessage = QString("MBS Setup refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
@@ -411,7 +411,7 @@ void TGo4MBSViewer::PrintState()
    else if(fbGetSetML)
    {
       // request setup multilayer if selected
-      int state = f_mbs_ml_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupML);
+      int state = f_mbs_ml_setup(const_cast<char *>(fxNode.toLatin1().constData()), &fxSetupML);
       if(state != 0)
       {
          fxMessage = QString("MBS Setup ML refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());
@@ -423,7 +423,7 @@ void TGo4MBSViewer::PrintState()
    else if(fbGetSetMO)
    {
       // request setup MO if selected
-      int state = f_mbs_mo_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupMO);
+      int state = f_mbs_mo_setup(const_cast<char *>(fxNode.toLatin1().constData()), &fxSetupMO);
       if(state != 0)
       {
          fxMessage = QString("MBS Setup MO refresh returned error %1 at %2").arg(state).arg(QDateTime::currentDateTime().toString());

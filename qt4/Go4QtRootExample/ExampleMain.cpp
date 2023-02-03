@@ -23,7 +23,7 @@ int main(int argc, char **argv)
    argc = 1; // hide all additional parameters from ROOT and Qt
    TApplication app("uno", &argc, argv); // ROOT application
 
-   char* argv2[2];
+   cha r argv2[2];
    argv2[0] = argv[0];
    argv2[argc] = 0;
 

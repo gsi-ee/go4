@@ -229,7 +229,7 @@ int main(int argc, char **argv)
 
    TApplication app("uno", &argc, argv); // ROOT application
 
-   char* argv2[3];
+   char *argv2[3];
    argv2[0] = argv[0];
 #ifdef __GO4WEB__
    argv2[argc++] = (char *) "--ignore-gpu-blacklist";

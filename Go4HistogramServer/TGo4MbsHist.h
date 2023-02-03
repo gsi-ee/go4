@@ -63,14 +63,14 @@ class TGo4MbsHist : public TObject {
 
       /** set value to adress in histogram buffer. Check
         * histogram format in header for correct cast to int or float */
-      void SetValue(char* address, Stat_t value);
+      void SetValue(char *address, Stat_t value);
 
       s_his_head fxHistoHead;
-      Int_t   fiBufLen{0};
-      Int_t * fiBuffer{nullptr}; //!
+      Int_t      fiBufLen{0};
+      Int_t     *fiBuffer{nullptr}; //!
 
       /* Points to next histogram header in buffer in case of nameslist */
-      s_his_head* fxCursor{nullptr}; //!
+      s_his_head *fxCursor{nullptr}; //!
 
       /** Number of histogram headers (1 in case of single his) */
       Int_t fiHisNum{0};

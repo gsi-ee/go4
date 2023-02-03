@@ -131,7 +131,7 @@ TObject *TGo4ObjClient::ReceiveObject()
 {
    TObject *obj = nullptr;
    // check for OK signal (object is existing on server)
-   char* recvchar = fxTransport->RecvRaw("dummy");
+   char *recvchar = fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    {
       TBuffer *buffer=ReceiveBuffer();

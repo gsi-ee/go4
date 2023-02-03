@@ -182,7 +182,7 @@ Bool_t TGo4TaskHandler::Connect(const char *host, TGo4Socket* connector)
 // establish connection of all three channels
 {
    TGo4Log::Debug(" TaskHandler %s connecting to host %s ...",GetName(),host);
-   char* recvchar;
+   char *recvchar;
    if(fbClientMode)
    {
       /////////////////// CLIENT MODE /////////////////////////////////////////////
@@ -430,9 +430,9 @@ TGo4TaskHandlerStatus * TGo4TaskHandler::CreateStatus()
 
 Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negotiator, TGo4Socket* channel, const char *host)
 {
-   char* revchar = nullptr;
+   char *revchar = nullptr;
    Int_t waitresult = 0;
-   TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(fxThreadManager);
+   TGo4ServerTask *server = dynamic_cast<TGo4ServerTask *>(fxThreadManager);
    if(!server)
    {
       TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no server task ",name);
@@ -440,12 +440,12 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negot
    }
    if(!negotiator || !negotiator->IsOpen())
    {
-      TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no negotiation channel ",name);
+      TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no negotiation channel", name);
       return kFALSE;
    }
    if(!channel)
    {
-      TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no TGo4Socket instance ",name);
+      TGo4Log::Debug(" TaskHandler: Channel %s open ERROR: no TGo4Socket instance", name);
       return kFALSE;
    }
    const char *client = GetName(); // taskhandler name is client name
@@ -504,10 +504,10 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char *name, TGo4Socket* negot
    return kTRUE;
 }
 
-Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket * negotiator, TGo4Socket * channel, const char *host)
+Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket *negotiator, TGo4Socket *channel, const char *host)
 {
    //
-   char* recvchar = nullptr;
+   char *recvchar = nullptr;
    Int_t port = 0;
    if(!negotiator || !negotiator->IsOpen())
    {
@@ -520,7 +520,7 @@ Bool_t TGo4TaskHandler::ConnectClientChannel(const char *name, TGo4Socket * nego
       return kFALSE;
    }
 
-   recvchar=negotiator->RecvRaw("dummy");// get OK from server to connect first channel
+   recvchar = negotiator->RecvRaw("dummy");// get OK from server to connect first channel
    if(recvchar && !strcmp(recvchar,fgcOK))
    {
       // get portnumber  from server:

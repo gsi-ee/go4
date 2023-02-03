@@ -386,13 +386,13 @@ Int_t TGo4MbsFile::OpenFile()
    }
    void *headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
    Int_t status = f_evt_get_tagopen(fxInputChannel,
-                                    const_cast<char*>(tagfile),
-                                    const_cast<char*>(GetCurrentFileName()),
+                                    const_cast<char *>(tagfile),
+                                    const_cast<char *>(GetCurrentFileName()),
                                     (Char_t**) headptr, 0);
    SetCreateStatus(status);
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
-      f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
+      f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
       SetErrMess(TString::Format("%s file:%s", buffer, GetCurrentFileName()).Data());
       fbFileOpen = kFALSE;
       throw TGo4EventErrorException(this);

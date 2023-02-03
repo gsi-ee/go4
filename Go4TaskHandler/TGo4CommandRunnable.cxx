@@ -139,7 +139,7 @@ Int_t TGo4CommandRunnable::Run(void *ptr)
          fxTransport->SendBuffer(buf);
          fxBufferQueue->FreeBuffer(buf);
          if(stopmode) return 0; // no handshake after stop buffer
-         char* revchar = fxTransport->RecvRaw("dummy"); // wait for o.k. string
+         char *revchar = fxTransport->RecvRaw("dummy"); // wait for o.k. string
          if(!revchar)
          {
             // error, received garbage

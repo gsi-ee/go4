@@ -1305,10 +1305,10 @@ void TGo4BrowserProxy::SetItemTimeDate(TGo4Slot *slot, const char *stime, const 
 
    TDatime t;
    const char *datetime = t.AsSQLString();
-   char* time = (char*) strchr(datetime, ' ');
+   char *time = (char *) strchr(datetime, ' ');
    if (!time) {
-     slot->SetPar("GUI::Time",datetime);
-     slot->SetPar("GUI::Date",datetime);
+     slot->SetPar("GUI::Time", datetime);
+     slot->SetPar("GUI::Date", datetime);
    } else {
      slot->SetPar("GUI::Time", time+1);
      *time = 0;

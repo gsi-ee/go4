@@ -355,7 +355,7 @@ Int_t TGo4MbsSource::Open()
    strncpy(name, GetName(), sizeof(name) - 1);
    int nport = fiPort;
 
-   char* separ = strrchr(name, ':');
+   char *separ = strrchr(name, ':');
    if ((nport <= 0) && separ && (GetMode() != GETEVT__FILE)) {
       if ((sscanf(separ+1,"%d",&nport)==1) && (nport>0)) {
          *separ = 0;

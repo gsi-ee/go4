@@ -335,7 +335,7 @@ class TGo4DabcAccess : public TGo4Access {
 
             TGo4Log::Debug("Item %s raw_data size %u master_version %u", fItemName.c_str(), fRawData.GetTotalSize(), cmd.GetInt("MVersion"));
 
-            char *pobj = (char*) cl->New();
+            char *pobj = (char *) cl->New();
 
             if (!pobj) {
                TGo4Log::Error("ReadObj - Cannot create new object of class %s", cl->GetName());
@@ -362,17 +362,17 @@ class TGo4DabcAccess : public TGo4Access {
 
                int sizeinp = fRawData.GetTotalSize(), sizeout = 0, irep = 0;
 
-               if (R__unzip_header(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout)) {
+               if (R__unzip_header(&sizeinp, (unsigned char *) fRawData.SegmentPtr(), &sizeout)) {
                   printf("Fail to decode zip header\n");
                } else {
                   rawbuf = (char*) malloc(sizeout);
 
-                  R__unzip(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout, (unsigned char*) rawbuf, &irep);
+                  R__unzip(&sizeinp, (unsigned char *) fRawData.SegmentPtr(), &sizeout, (unsigned char *) rawbuf, &irep);
 
                   rawbuflen = irep;
                }
             } else {
-               rawbuf = (char*) fRawData.SegmentPtr();
+               rawbuf = (char *) fRawData.SegmentPtr();
                rawbuflen = fRawData.GetTotalSize();
             }
 
