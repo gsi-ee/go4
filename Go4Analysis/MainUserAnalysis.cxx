@@ -516,7 +516,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
    // check if user event source requires special event class
    // create instance only if we have something to check
    if (evsrc_cl && !inpev_cl && (evnt_classes.GetLast() >= 0)) {
-      TGo4EventSource* src = (TGo4EventSource*) evsrc_cl->New();
+      TGo4EventSource *src = (TGo4EventSource*) evsrc_cl->New();
 
       // if special input event is required, try to detect it
       if (src && !src->CheckEventClass(TGo4MbsEvent::Class())) {

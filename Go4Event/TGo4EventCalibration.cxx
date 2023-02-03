@@ -23,13 +23,13 @@ TGo4EventCalibration::TGo4EventCalibration() :
 TGo4EventCalibration::TGo4EventCalibration(const char *name) :
    TGo4Parameter(name,"This is a Go4 event calibration object")
 {
-GO4TRACE((15,"TGo4EventCalibration::TGo4EventCalibration(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventCalibration::TGo4EventCalibration(const char *)",__LINE__, __FILE__));
 }
 
 
 TGo4EventCalibration::~TGo4EventCalibration()
 {
-GO4TRACE((15,"TGo4EventCalibration::~TGo4EventCalibration()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventCalibration::~TGo4EventCalibration()",__LINE__, __FILE__));
 }
 
 Bool_t TGo4EventCalibration::UpdateFrom(TGo4Parameter *rhs)

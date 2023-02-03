@@ -115,55 +115,54 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
 }
 
 
-TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter * par)
+TGo4EventSource *TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter *par)
 {
-   GO4TRACE((14,"TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter *)",__LINE__, __FILE__));
 
-   TGo4EventSource* rev = nullptr;
+   TGo4EventSource *rev = nullptr;
 
    if(par) {
-      if(!strcmp(par->ClassName(),"TGo4FileSourceParameter"))
+      if(!strcmp(par->ClassName(), "TGo4FileSourceParameter"))
       {
-         rev = new TGo4FileSource(dynamic_cast<TGo4FileSourceParameter* > (par) );
+         rev = new TGo4FileSource(dynamic_cast<TGo4FileSourceParameter *>(par));
       }
-      else if(!strcmp(par->ClassName(),"TGo4TreeSourceParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4TreeSourceParameter"))
       {
          //rev= new TGo4TreeSource(dynamic_cast<TGo4TreeSourceParameter* > (par) );
          TGo4Log::Debug(" EventServer Factory: TreeSource is not recommended, PLEASE USE TGo4FileSource !!!! ");
       }
-      else if(!strcmp(par->ClassName(),"TGo4MbsFileParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4MbsFileParameter"))
       {
-         rev = new TGo4MbsFile(dynamic_cast<TGo4MbsFileParameter* > (par) );
+         rev = new TGo4MbsFile(dynamic_cast<TGo4MbsFileParameter *>(par));
          //par->Print();
       }
-      else if(!strcmp(par->ClassName(),"TGo4MbsStreamParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4MbsStreamParameter"))
       {
-         rev = new TGo4MbsStream(dynamic_cast<TGo4MbsStreamParameter* > (par) );
+         rev = new TGo4MbsStream(dynamic_cast<TGo4MbsStreamParameter *>(par));
       }
-      else if(!strcmp(par->ClassName(),"TGo4MbsTransportParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4MbsTransportParameter"))
       {
-         rev = new TGo4MbsTransport(dynamic_cast<TGo4MbsTransportParameter* > (par) );
+         rev = new TGo4MbsTransport(dynamic_cast<TGo4MbsTransportParameter *>(par));
       }
-      else if(!strcmp(par->ClassName(),"TGo4MbsEventServerParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4MbsEventServerParameter"))
       {
-         rev = new TGo4MbsEventServer(dynamic_cast<TGo4MbsEventServerParameter* > (par) );
+         rev = new TGo4MbsEventServer(dynamic_cast<TGo4MbsEventServerParameter *>(par));
       }
-
-      else if(!strcmp(par->ClassName(),"TGo4RevServParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4RevServParameter"))
       {
-         rev = new TGo4RevServ(dynamic_cast<TGo4RevServParameter* > (par) );
+         rev = new TGo4RevServ(dynamic_cast<TGo4RevServParameter *>(par) );
       }
-      else if(!strcmp(par->ClassName(),"TGo4MbsRandomParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4MbsRandomParameter"))
       {
-         rev = new TGo4MbsRandom(dynamic_cast<TGo4MbsRandomParameter* > (par) );
+         rev = new TGo4MbsRandom(dynamic_cast<TGo4MbsRandomParameter *>(par) );
       }
 #ifdef __GO4HDF5__
-      else if(!strcmp(par->ClassName(),"TGo4HDF5SourceParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4HDF5SourceParameter"))
       {
-         rev = new TGo4HDF5Source(dynamic_cast<TGo4HDF5SourceParameter* > (par));
+         rev = new TGo4HDF5Source(dynamic_cast<TGo4HDF5SourceParameter *>(par));
       }
 #endif
-      else if(!strcmp(par->ClassName(),"TGo4UserSourceParameter"))
+      else if(!strcmp(par->ClassName(), "TGo4UserSourceParameter"))
       {
          rev = new TGo4MbsRandom(par->GetName());
       }
@@ -172,7 +171,7 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
    if(rev)
       TGo4Log::Debug(" EventServer Factory: creating event source %s ", rev->ClassName());
    else
-      TGo4Log::Debug(" EventServer Factory: Unknown eventsource parameter ");
+      TGo4Log::Debug(" EventServer Factory: Unknown eventsource parameter %s ", par ? par->ClassName() : "---");
 
    return rev;
 }

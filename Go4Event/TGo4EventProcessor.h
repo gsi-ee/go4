@@ -98,12 +98,12 @@ class TGo4EventProcessor: public TGo4EventSource {
        * the concrete processor to unpack the interesting
        * information.
        */
-      void SetCalibration(TGo4EventCalibration * cali) { fxCalibration = cali; }
+      void SetCalibration(TGo4EventCalibration *cali) { fxCalibration = cali; }
 
       /**
        * Access to external calibration object.
        */
-      TGo4EventCalibration * GetCalibration() { return fxCalibration; }
+      TGo4EventCalibration *GetCalibration() const { return fxCalibration; }
 
       /**
        * Check if calibration class  is valid. Tests the pointer for

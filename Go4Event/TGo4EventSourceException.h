@@ -25,7 +25,7 @@ class TGo4EventSourceException : public TGo4RuntimeException {
 
       TGo4EventSourceException() = delete;
 
-      TGo4EventSourceException (TGo4EventSource* eventsource);
+      TGo4EventSourceException (TGo4EventSource *eventsource);
 
       virtual ~TGo4EventSourceException();
 
@@ -52,7 +52,7 @@ class TGo4EventSourceException : public TGo4RuntimeException {
 
   protected:
       /** @supplierCardinality 1 */
-      TGo4EventSource * fxEventSource{nullptr};     //!
+      TGo4EventSource   *fxEventSource{nullptr};     //!
 
       /** Contains return value of eventsource open (e.g. f_evt_get_open) call. May be checked by the creating factory after return from source ctor. */
       Int_t fiCreateStatus{0};

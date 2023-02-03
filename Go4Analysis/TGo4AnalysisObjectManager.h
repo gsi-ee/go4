@@ -471,22 +471,22 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Add reference to event store object to Go4 Folder structure. To be used by framework only!
        */
-      Bool_t AddEventStore(TGo4EventStore * store);
+      Bool_t AddEventStore(TGo4EventStore *store);
 
       /**
        * Remove reference to event store from go4 folder structure.
        */
-      Bool_t RemoveEventStore(TGo4EventStore * store);
+      Bool_t RemoveEventStore(TGo4EventStore *store);
 
       /**
        * Add reference to event source object to Go4 Folder structure. To be used by framework only!
        */
-      Bool_t AddEventSource(TGo4EventSource * source);
+      Bool_t AddEventSource(TGo4EventSource *source);
 
       /**
        * Remove reference to event source from go4 folder structure.
        */
-      Bool_t RemoveEventSource(TGo4EventSource* source);
+      Bool_t RemoveEventSource(TGo4EventSource *source);
 
       /**
        * Add reference to event processor object to Go4 Folder structure. To be used by framework only!

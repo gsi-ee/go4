@@ -50,18 +50,18 @@ class TGo4EventElement : public TNamed {
       Bool_t IsValid() const { return fbIsValid; }
 
       /** Setter for the event source that is currently used by the Fill method. */
-      void SetEventSource(TGo4EventSource * src) { fxEventSource = src; }
+      void SetEventSource(TGo4EventSource *src) { fxEventSource = src; }
 
       /** Setter for the parent event structure reference. */
       void SetParent(TGo4EventElement *par) { fxParent = par; }
 
-      void SetKeepContents(Bool_t on=kTRUE) { fbKeepContents = on; }
+      void SetKeepContents(Bool_t on = kTRUE) { fbKeepContents = on; }
 
       inline TGo4EventElement *GetParent() const { return fxParent; }
 
       virtual TGo4EventElement *GetChild(const char *name);
 
-      inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
+      inline TGo4EventSource *GetEventSource() const { return fxEventSource; }
 
       /** Check if event source is valid. Tests the pointer for
        * zero, and if not zero, compares classname of the
@@ -96,7 +96,7 @@ class TGo4EventElement : public TNamed {
       virtual Bool_t isComposed() { return kFALSE; }
       virtual Short_t getId() { return fIdentifier; }
       virtual void setDebug (Bool_t debug) { fDebug = debug; }
-      virtual TGo4EventElement& operator[](Int_t) { return *this; }
+      virtual TGo4EventElement &operator[](Int_t) { return *this; }
 
       void Print(Option_t *option = "") const override;
 

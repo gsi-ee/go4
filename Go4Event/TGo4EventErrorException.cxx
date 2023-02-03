@@ -15,7 +15,7 @@
 
 #include "TGo4Log.h"
 
-TGo4EventErrorException::TGo4EventErrorException (TGo4EventSource* eventsource, Int_t prio)
+TGo4EventErrorException::TGo4EventErrorException (TGo4EventSource *eventsource, Int_t prio)
 : TGo4EventSourceException(eventsource)
 {
    GO4TRACE((16,"TGo4EventErrorException::TGo4EventErrorException (TGo4EventSource*)", __LINE__, __FILE__));

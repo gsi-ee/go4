@@ -26,13 +26,13 @@ class TGo4EventTimeoutException : public TGo4EventSourceException {
 
     TGo4EventTimeoutException() = delete;
 
-    TGo4EventTimeoutException (TGo4EventSource* eventsource);
+    TGo4EventTimeoutException (TGo4EventSource *eventsource);
 
     virtual ~TGo4EventTimeoutException();
 
     TGo4EventTimeoutException(const TGo4EventTimeoutException &right);
 
-    TGo4EventTimeoutException & operator = (const TGo4EventTimeoutException & right);
+    TGo4EventTimeoutException &operator=(const TGo4EventTimeoutException &right);
 };
 
 #endif //TGO4EVENTTIMEOUTEXCEPTION_H

@@ -90,7 +90,7 @@ class TGo4TreeStore : public TGo4EventStore {
     TGo4EventElement *fxEvent{nullptr}; //!
 
     /** Points to calibration structure to be filled into branch. */
-    TGo4EventCalibration * fxCalibration{nullptr}; //!
+    TGo4EventCalibration *fxCalibration{nullptr}; //!
 
     /** Class name of the event associated with this store. */
     TString fcEventClass; //!

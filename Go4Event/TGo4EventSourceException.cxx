@@ -16,7 +16,7 @@
 #include "TGo4EventSource.h"
 #include "TGo4Log.h"
 
-TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource* eventsource)
+TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource *eventsource)
 : fxEventSource(nullptr),  fiCreateStatus(0), fiEventStatus(0)
 {
    GO4TRACE((16,"TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource*)", __LINE__, __FILE__));

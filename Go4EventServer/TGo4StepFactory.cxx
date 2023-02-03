@@ -145,7 +145,7 @@ void TGo4StepFactory::DefUserEventStore(const char *Sclass)
 
 
 //-----------------------------------------------------------
-TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)
+TGo4EventSource *TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)
 {
    if ((fnewEventSource.Length() > 0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
 

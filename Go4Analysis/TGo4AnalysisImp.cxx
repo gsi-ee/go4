@@ -1464,7 +1464,7 @@ TGo4TreeStructure *TGo4Analysis::CreateTreeStructure(const char *treename)
    return fxObjectManager->CreateTreeStructure(treename);
 }
 
-Bool_t TGo4Analysis::RemoveEventSource(TGo4EventSource* source)
+Bool_t TGo4Analysis::RemoveEventSource(TGo4EventSource *source)
 {
    return fxObjectManager->RemoveEventSource(source);
 }

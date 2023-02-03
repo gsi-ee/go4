@@ -82,8 +82,8 @@ int main(int argc, char **argv)
                                 // user event with 2 subevents
      TGo4SimpleEventProcessor* proc = new TGo4SimpleEventProcessor();
                                 // the "unpack processor" converting mbs events to user events
-     TGo4EventSource* input = nullptr;
-     //  TGo4EventSource* simpinput = nullptr;
+     TGo4EventSource *input = nullptr;
+     //  TGo4EventSource *simpinput = nullptr;
      TGo4EventStore* output = nullptr;
      TGo4EventStore* simpoutput = nullptr;
 
