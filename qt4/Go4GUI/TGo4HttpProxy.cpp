@@ -35,7 +35,7 @@
 #include <QEventLoop>
 #include <QInputDialog>
 
-QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
+QHttpProxy::QHttpProxy(TGo4HttpProxy *p) :
    QObject(),
    qnam(),
    fHReply(nullptr),
@@ -83,7 +83,6 @@ void QHttpProxy::regularRequestFinished()
 {
    if (fProxy) fProxy->ProcessRegularMultiRequest(kTRUE);
 }
-
 
 void QHttpProxy::StartRequest(const char *url)
 {
@@ -142,7 +141,7 @@ const char *GetHttpRootClassName(const char *kind)
 
 // ============================================================================================
 
-TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind, const char *extra_arg) :
+TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy *proxy, XMLNodePointer_t node, Int_t kind, const char *extra_arg) :
    TGo4Access(),
    fProxy(proxy),
    fNode(node),

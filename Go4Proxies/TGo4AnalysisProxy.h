@@ -80,7 +80,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // server proxy functionality
 
-
       Bool_t IsGo4Analysis() const override { return kTRUE; }
       Bool_t IsAnalysisServer() const override { return fIsServer; }
 

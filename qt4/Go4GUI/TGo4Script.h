@@ -194,7 +194,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       const char *GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) override;
 
-      TGo4ServerProxy* ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) override;
+      TGo4ServerProxy *ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) override;
 
    protected:
 

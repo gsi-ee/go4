@@ -24,10 +24,10 @@ class TGo4BrowserItem : public TFolder {
    public:
       TGo4BrowserItem();
       TGo4BrowserItem(const char *name, const char *title);
-      TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem, const char *name, const char *title);
+      TGo4BrowserItem(TGo4BrowserItem *parent, TGo4BrowserItem *previtem, const char *name, const char *title);
       virtual ~TGo4BrowserItem();
 
-      void Browse(TBrowser* b) override;
+      void Browse(TBrowser *b) override;
       virtual void DrawItem();         // *MENU*
       virtual void CopyToWorkspace();  // *MENU*
       virtual void DeleteItem();       // *MENU*
@@ -37,13 +37,13 @@ class TGo4BrowserItem : public TFolder {
       virtual void StartAnalysis(); // *MENU*
       virtual void StopAnalysis(); // *MENU*
 
-      TGo4BrowserItem* GetParent() const { return fParent; }
+      TGo4BrowserItem *GetParent() const { return fParent; }
 
-      void SetBrowser(TGo4BrowserProxy *br, TGo4RootBrowserProxy* br2);
+      void SetBrowser(TGo4BrowserProxy *br, TGo4RootBrowserProxy *br2);
 
-      TGo4BrowserItem* firstChild();
-      TGo4BrowserItem* nextChild();
-      void deleteChild(TGo4BrowserItem* item);
+      TGo4BrowserItem *firstChild();
+      TGo4BrowserItem *nextChild();
+      void deleteChild(TGo4BrowserItem *item);
       void deleteChilds();
 
       void SetItemClass(const char *name) { fItemClass = name; }

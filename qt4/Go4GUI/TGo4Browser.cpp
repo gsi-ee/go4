@@ -819,8 +819,8 @@ void TGo4Browser::ContextMenuActivated(int id)
 
    TGo4BrowserProxy *br = BrowserProxy();
 
-   TGo4ServerProxy* anrefresh = nullptr;
-   TGo4ServerProxy* servrefresh = nullptr;
+   TGo4ServerProxy *anrefresh = nullptr;
+   TGo4ServerProxy *servrefresh = nullptr;
 
    if (id == 20) br->ClearClipboard();
 
@@ -882,7 +882,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 23: {  // clear
                TString objname;
-               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy *an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an) {
                   an->ClearAnalysisObject(objname.Data());
                   // if clear folder, request all objects which were requested before
@@ -903,7 +903,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 24:     // set clear protect
             case 25: {   // unset clear protect
                TString objname;
-               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy *an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an) {
                   an->ChageObjectProtection(objname.Data(), (id == 24 ? "+C" : "-C"));
                   anrefresh = an;
@@ -913,7 +913,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 26: {   // delete remote object
                TString objname;
-               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy *an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an) {
                   an->RemoveObjectFromAnalysis(objname.Data());
                   anrefresh = an;
@@ -923,9 +923,9 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 27: { // refresh
                TString objname;
-               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy *an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an) anrefresh = an;
-               TGo4ServerProxy* serv = br->DefineServerProxy(itemname.toLatin1().constData());
+               TGo4ServerProxy *serv = br->DefineServerProxy(itemname.toLatin1().constData());
                if (serv) servrefresh = serv;
                break;
             }
@@ -1082,7 +1082,7 @@ void TGo4Browser::ExecuteItem(const QString& itemname)
 {
    TString objname, arg1, arg2, arg3;
 
-   TGo4ServerProxy* serv = BrowserProxy()->DefineServerObject(itemname.toLatin1().constData(), &objname, kFALSE);
+   TGo4ServerProxy *serv = BrowserProxy()->DefineServerObject(itemname.toLatin1().constData(), &objname, kFALSE);
 
    if (!serv || objname.IsNull()) return;
 

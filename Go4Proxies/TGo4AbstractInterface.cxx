@@ -99,12 +99,12 @@ TGo4AbstractInterface::~TGo4AbstractInterface()
 
 }
 
-TGo4AnalysisProxy* TGo4AbstractInterface::Analysis()
+TGo4AnalysisProxy *TGo4AbstractInterface::Analysis()
 {
    return Browser() ? Browser()->FindAnalysis() : nullptr;
 }
 
-TGo4ServerProxy* TGo4AbstractInterface::Server()
+TGo4ServerProxy *TGo4AbstractInterface::Server()
 {
    return Browser() ? Browser()->FindServer() : nullptr;
 }
@@ -191,7 +191,7 @@ Bool_t TGo4AbstractInterface::IsAnalysisConnected()
 
 void TGo4AbstractInterface::ExecuteLine(const char *remotecmd)
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (anal && remotecmd) {
       anal->ExecuteLine(remotecmd);
       TGo4Log::Message(1, "Exec: %s", remotecmd);
@@ -200,7 +200,7 @@ void TGo4AbstractInterface::ExecuteLine(const char *remotecmd)
 
 void TGo4AbstractInterface::RequestAnalysisConfig()
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (anal)
      anal->RequestAnalysisSettings();
 }

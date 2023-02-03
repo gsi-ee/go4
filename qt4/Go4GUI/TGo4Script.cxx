@@ -189,7 +189,7 @@ Int_t TGo4Script::execGUICommands()
         return 1;
 
       case 1: { // execute launch client method
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
 
          if(anal && anal->IsAnalysisReady()) {
              doOutput("// Disconnect old analysis first");
@@ -211,13 +211,13 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 2: {  // check if analysis is ready, can continue if not ok
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
          if (anal && anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 1 : 2;
       }
 
       case 3: {   // wait while analysis is disconnected
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
          if(!anal || !anal->IsAnalysisReady()) {
             fiWaitForGUIReaction = 4;
             fiWaitCounter = getCounts(5.);
@@ -233,14 +233,14 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 5: {  // check if analysis is ready, abort if not ok
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
          if (!anal) return 0;
          if (anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 10: { // wait until submitted settings are set
-        TGo4ServerProxy* anal = Server();
+        TGo4ServerProxy *anal = Server();
         if (anal && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
           // fiWaitCounter = getCounts(20.); // counter is for complete operation
@@ -250,13 +250,13 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 11: { // wait until remote browser refresh it's data
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
          if (anal && anal->NamesListReceived()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 12: { // wait until analysis will be disconnected
-         TGo4ServerProxy* anal = Server();
+         TGo4ServerProxy *anal = Server();
          if (!anal) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
@@ -400,7 +400,7 @@ void TGo4Script::StartAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StartAnalysisSlot();
-      if (dynamic_cast<TGo4HttpProxy*>(Server()))
+      if (dynamic_cast<TGo4HttpProxy *>(Server()))
          Wait(0.1);
       else
          Wait(1.);
@@ -413,7 +413,7 @@ void TGo4Script::StopAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StopAnalysisSlot();
-      if (dynamic_cast<TGo4HttpProxy*>(Server()))
+      if (dynamic_cast<TGo4HttpProxy *>(Server()))
          Wait(0.1);
       else
          Wait(2.);
@@ -424,7 +424,7 @@ void TGo4Script::StopAnalysis()
 
 void TGo4Script::RefreshNamesList(int tmout)
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (anal) {
       anal->RefreshNamesList();
       fiWaitForGUIReaction = 11;
@@ -438,7 +438,7 @@ Bool_t TGo4Script::CanConfigureAnalysis()
 {
    if (fBlockConfigFlag == 0) {
       // once a session check if analysis was not launched from the GUI, we should not try to configure it
-      TGo4HttpProxy* serv = dynamic_cast<TGo4HttpProxy*> (Server());
+      TGo4HttpProxy* serv = dynamic_cast<TGo4HttpProxy *>(Server());
       if (serv && !serv->IsAnalysisLaunched()) fBlockConfigFlag = 1;
    }
 
@@ -847,11 +847,11 @@ void TGo4Script::StartFitPanel()
    fMainWin->StartFitPanel();
 }
 
-TGo4ServerProxy* TGo4Script::ConnectHttp(const char *servername, const char *account, const char *pass)
+TGo4ServerProxy *TGo4Script::ConnectHttp(const char *servername, const char *account, const char *pass)
 {
    if (!servername || (*servername == 0)) return nullptr;
 
-   TGo4HttpProxy* proxy = new TGo4HttpProxy();
+   TGo4HttpProxy *proxy = new TGo4HttpProxy();
    if(account) proxy->SetAccount(account, pass);
    if (!proxy->Connect(servername)) {
       delete proxy;

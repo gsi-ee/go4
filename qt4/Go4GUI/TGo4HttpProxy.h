@@ -40,7 +40,7 @@ class QHttpProxy : public QObject {
    public slots:
       void httpFinished();
       void httpHReqError(QNetworkReply::NetworkError);
-      void authenticationRequiredSlot(QNetworkReply*, QAuthenticator*);
+      void authenticationRequiredSlot(QNetworkReply *, QAuthenticator *);
 
       void updateRatemeter();
       void updateHierarchy();
@@ -49,7 +49,7 @@ class QHttpProxy : public QObject {
 
    public:
 
-      QHttpProxy(TGo4HttpProxy* p);
+      QHttpProxy(TGo4HttpProxy *p);
       virtual ~QHttpProxy();
 
       void StartRequest(const char *url);
@@ -87,7 +87,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char *extra_arg = nullptr);
+      TGo4HttpAccess(TGo4HttpProxy *proxy, XMLNodePointer_t node, Int_t kind = 1, const char *extra_arg = nullptr);
 
       virtual ~TGo4HttpAccess() { }
 

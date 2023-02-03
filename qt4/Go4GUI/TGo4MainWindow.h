@@ -66,7 +66,7 @@ class TGo4MainWindow : public QMainWindow {
       TGo4ViewPanel *FindViewPanel(const char *name);
       TGo4ViewPanel *DisplayBrowserItem(const char *itemname, TGo4ViewPanel *panel, TPad *pad, bool activate, int updatelevel, const char *drawopt);
 
-      TGo4ServerProxy* ConnectHttpServer(const char *addr = nullptr, const char *user = nullptr, const char *pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
+      TGo4ServerProxy *ConnectHttpServer(const char *addr = nullptr, const char *user = nullptr, const char *pass = nullptr, bool with_qt_process = false, bool get_analysis_config = false);
       void ConnectServer(bool interactive = true, const char *password = "");
       void PrepareForClientConnection(bool interactive = true);
       void LaunchClient(bool interactive = true);

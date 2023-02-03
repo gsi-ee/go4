@@ -183,7 +183,7 @@ private:
       bool SaveItemToFile(const char *itemname, const char *subfolder = nullptr);
       bool UpdateItemInAnalysis(const char *itemname, TObject *obj = nullptr);
       void InformThatObjectCreated(const char *itemname, TClass *cl);
-      TGo4ServerProxy* GetAnalysis(const char *itemname = nullptr);
+      TGo4ServerProxy *GetAnalysis(const char *itemname = nullptr);
       void StartHotstart(const char *filename);
 
       /** connect pad axis change signals to react on such signals */

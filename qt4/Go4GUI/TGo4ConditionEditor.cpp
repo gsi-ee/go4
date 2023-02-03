@@ -255,7 +255,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    TPad *pad = !panel ? nullptr : panel->FindPadWithItem(conditemname);
 
    TGo4BrowserProxy *br = Browser();
-   TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : nullptr;
+   TGo4ServerProxy *serv = br ? br->DefineServerObject(conditemname) : nullptr;
    UpdateCon->setEnabled(!serv || serv->CanSubmitObjects());
 
    PleaseUpdateLabel->setVisible(cond->IsChanged() != 0);
@@ -552,7 +552,7 @@ void TGo4ConditionEditor::ClearCounters()
    if (!con || !conditemname) return;
 
    TString objname;
-   TGo4ServerProxy* an = Browser()->DefineAnalysisObject(conditemname, objname);
+   TGo4ServerProxy *an = Browser()->DefineAnalysisObject(conditemname, objname);
    if (an) {
        an->ClearAnalysisObject(objname.Data());
        GetLinked("Condition", 2);

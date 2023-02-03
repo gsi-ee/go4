@@ -42,7 +42,7 @@ TGo4RootBrowserProxy::TGo4RootBrowserProxy(TGo4BrowserProxy *br) :
 
 TGo4RootBrowserProxy::~TGo4RootBrowserProxy()
 {
-   TGo4BrowserItem* topfold = (TGo4BrowserItem*) gROOT->GetListOfBrowsables()->FindObject("go4");
+   TGo4BrowserItem *topfold = (TGo4BrowserItem *) gROOT->GetListOfBrowsables()->FindObject("go4");
    if (topfold) {
       gROOT->GetListOfBrowsables()->Remove(topfold);
       delete topfold;
@@ -130,7 +130,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 {
    if (!fBrowser) return;
 
-   TGo4BrowserItem* topfold = (TGo4BrowserItem*) gROOT->GetListOfBrowsables()->FindObject("go4");
+   TGo4BrowserItem *topfold = (TGo4BrowserItem *) gROOT->GetListOfBrowsables()->FindObject("go4");
    if (!topfold) {
       topfold = new TGo4BrowserItem(nullptr, nullptr, "go4","Top go4 objects folder");
       topfold->SetTitle("Top Go4 folder");
@@ -166,9 +166,9 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       mt->AddType("go4/event", "Go4-EventElement", img + "eventobj.png", img + "eventobj.png", "->Draw()");
    }
 
-   TGo4BrowserItem* curfold = topfold;
-   TGo4BrowserItem* curitem = curfold->firstChild();
-   TGo4BrowserItem* previtem = nullptr;
+   TGo4BrowserItem *curfold = topfold;
+   TGo4BrowserItem *curitem = curfold->firstChild();
+   TGo4BrowserItem *previtem = nullptr;
 
    TObjArray testedClasses;
 
@@ -182,7 +182,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       while (levelchange++ < 0) {
 
           while (curitem) {
-            TGo4BrowserItem* next = curfold->nextChild();
+            TGo4BrowserItem *next = curfold->nextChild();
             curfold->deleteChild(curitem);
             curitem = next;
           }
@@ -198,7 +198,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
       // delete all slots in folder, which has another name
       while (curitem && (strcmp(iter.getname(), curitem->GetName()) != 0)) {
-         TGo4BrowserItem* next = curfold->nextChild();
+         TGo4BrowserItem *next = curfold->nextChild();
          curfold->deleteChild(curitem);
          curitem = next;
       }
@@ -260,7 +260,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
    }
 
    while (curitem) {
-      TGo4BrowserItem* next = curfold->nextChild();
+      TGo4BrowserItem *next = curfold->nextChild();
       curfold->deleteChild(curitem);
       curitem = next;
    }

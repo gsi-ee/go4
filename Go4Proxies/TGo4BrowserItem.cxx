@@ -42,7 +42,7 @@ TGo4BrowserItem::TGo4BrowserItem(const char *name, const char *title) :
    SetOwner(kTRUE);
 }
 
-TGo4BrowserItem::TGo4BrowserItem(TGo4BrowserItem* parent, TGo4BrowserItem* previtem,
+TGo4BrowserItem::TGo4BrowserItem(TGo4BrowserItem *parent, TGo4BrowserItem *previtem,
                                const char *name, const char *title) :
    TFolder(name, title),
    fParent(parent),
@@ -70,22 +70,22 @@ void TGo4BrowserItem::SetBrowser(TGo4BrowserProxy *br, TGo4RootBrowserProxy* br2
    fRootBrowser = br2;
 }
 
-TGo4BrowserItem* TGo4BrowserItem::firstChild()
+TGo4BrowserItem *TGo4BrowserItem::firstChild()
 {
     if (fIter) delete fIter;
     fIter = GetListOfFolders()->MakeIterator();
-    return (TGo4BrowserItem*) fIter->Next();
+    return (TGo4BrowserItem *) fIter->Next();
 }
 
-TGo4BrowserItem* TGo4BrowserItem::nextChild()
+TGo4BrowserItem *TGo4BrowserItem::nextChild()
 {
     if (!fIter) return nullptr;
-    TGo4BrowserItem* res = dynamic_cast<TGo4BrowserItem*> (fIter->Next());
+    TGo4BrowserItem *res = dynamic_cast<TGo4BrowserItem *> (fIter->Next());
     if (!res) { delete fIter; fIter = nullptr; }
     return res;
 }
 
-void TGo4BrowserItem::deleteChild(TGo4BrowserItem* item)
+void TGo4BrowserItem::deleteChild(TGo4BrowserItem *item)
 {
    if (!item) return;
    Remove(item);
@@ -113,10 +113,9 @@ TString TGo4BrowserItem::GetFullName()
    TString res;
    ProduceFullName(res);
    return res;
-
 }
 
-void TGo4BrowserItem::Browse(TBrowser* b)
+void TGo4BrowserItem::Browse(TBrowser *b)
 {
    if (IsFolder()) TFolder::Browse(b);
 
@@ -147,7 +146,6 @@ void TGo4BrowserItem::DeleteItem()
       TGo4Interface::DeleteInstance();
       return;
    }
-
 
    TString itemname;
    ProduceFullName(itemname);
@@ -201,14 +199,14 @@ void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 
 void TGo4BrowserItem::StartAnalysis()
 {
-   TGo4ServerProxy* anal = fBrowser->FindServer();
+   TGo4ServerProxy *anal = fBrowser->FindServer();
    if (anal)
       anal->StartAnalysis();
 }
 
 void TGo4BrowserItem::StopAnalysis()
 {
-   TGo4ServerProxy* anal = fBrowser->FindServer();
+   TGo4ServerProxy *anal = fBrowser->FindServer();
    if (anal)
       anal->StopAnalysis();
 }

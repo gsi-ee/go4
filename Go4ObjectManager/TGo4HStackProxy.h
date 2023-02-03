@@ -45,8 +45,8 @@ class TGo4HStackProxy : public TGo4Proxy {
       Bool_t AssignObject(TGo4Slot *slot, TObject *obj, Bool_t owner) override;
       TObject *GetAssignedObject() override;
 
-      static std::unique_ptr<TGo4Access> CreateAccess(THStack *canv, const char *name);
-      static TGo4LevelIter *ProduceIter(THStack *canv);
+      static std::unique_ptr<TGo4Access> CreateAccess(THStack *hs, const char *name);
+      static TGo4LevelIter *ProduceIter(THStack *hs);
 
    protected:
       THStack *fHS{nullptr};     //!

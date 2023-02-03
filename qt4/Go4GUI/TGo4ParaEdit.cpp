@@ -189,7 +189,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus *status)
    RefreshButton->setEnabled(status != nullptr);
 
    TGo4BrowserProxy *br = Browser();
-   TGo4ServerProxy* serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : nullptr;
+   TGo4ServerProxy *serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : nullptr;
    ApplyButton->setEnabled(serv && serv->CanSubmitObjects());
 
    delete fItems;

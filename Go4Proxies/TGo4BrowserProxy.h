@@ -188,9 +188,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateVisibleAnalysisObjects(bool checkmonitor);
       Int_t UpdateAllMonitoredObjects();
 
-      TGo4ServerProxy* DefineServerProxy(const char *itemname);
-      TGo4ServerProxy* DefineServerObject(const char *itemname, TString* objname = nullptr, Bool_t onlyanalysis = kTRUE);
-      TGo4ServerProxy* DefineAnalysisObject(const char *itemname, TString &analysisname);
+      TGo4ServerProxy *DefineServerProxy(const char *itemname);
+      TGo4ServerProxy *DefineServerObject(const char *itemname, TString *objname = nullptr, Bool_t onlyanalysis = kTRUE);
+      TGo4ServerProxy *DefineAnalysisObject(const char *itemname, TString &analysisname);
 
       static bool CanExecuteItem(int cando);
       static bool CanExpandItem(int cando);

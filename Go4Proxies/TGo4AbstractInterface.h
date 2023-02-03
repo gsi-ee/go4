@@ -140,12 +140,12 @@ class TGo4AbstractInterface : public TObject {
       /** Returns pointer on analysis proxy.
         * TGo4AnalysisProxy class provide access to analysis controlling instance in program.
         * Normally should not be used in GUI script. */
-      TGo4AnalysisProxy* Analysis();
+      TGo4AnalysisProxy *Analysis();
 
       /** Returns pointer on more generic server proxy
         * TGo4ServerProxy class provide access to analysis controlling instance in program.
         * Normally should not be used in GUI script. */
-      TGo4ServerProxy* Server();
+      TGo4ServerProxy *Server();
 
       /** Executes hotstart file, generated in go4 GUI.
         * Hot start files can not be executed as normal CINT scripts,
@@ -244,17 +244,17 @@ class TGo4AbstractInterface : public TObject {
         *    filter   - filter for historgams names
         * Several connections to different histogram servers are allowed */
       virtual void ConnectHServer(const char *servername,
-                          Int_t portnumber,
-                          const char *basename,
-                          const char *userpass,
-                          const char *filter);
+                                  Int_t portnumber,
+                                  const char *basename,
+                                  const char *userpass,
+                                  const char *filter);
 
       /** Connect to DABC server. Address like dabc://host:port */
       virtual void ConnectDabc(const char *servername);
 
       /** Connect to HTTP server. Address like http://host:port/subfolder/
        * authentication may be specified by username account and password pass*/
-      virtual TGo4ServerProxy* ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) { return nullptr; }
+      virtual TGo4ServerProxy *ConnectHttp(const char *servername, const char *account = nullptr, const char *pass = nullptr) { return nullptr; }
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
@@ -294,9 +294,9 @@ class TGo4AbstractInterface : public TObject {
         *    UserMode   - mode of user operation : 0 - observer, 1 - controller, 2 - administrator
         *    password   - access password, which should correspond to specified UserMode */
       virtual void ConnectAnalysis(const char *ServerNode,
-                           Int_t ServerPort,
-                           Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
-                           const char *password = nullptr)  {}
+                                   Int_t ServerPort,
+                                   Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
+                                   const char *password = nullptr)  {}
 
       /** Waits, until connection to analysis is established.
         * Method must be called before any other action like configuration,
@@ -384,10 +384,10 @@ class TGo4AbstractInterface : public TObject {
 
       /** Configure autosave properties of analysis */
       virtual void AnalysisAutoSave(const char *filename,
-                            Int_t interval,
-                            Int_t compression,
-                            Bool_t enabled,
-                            Bool_t overwrite) {}
+                                    Int_t interval,
+                                    Int_t compression,
+                                    Bool_t enabled,
+                                    Bool_t overwrite) {}
 
       /** Configure name of file, where analysis configuration will be saved */
       virtual void AnalysisConfigName(const char *filename) {}
@@ -396,39 +396,39 @@ class TGo4AbstractInterface : public TObject {
 
       /** Set basic step property */
       virtual void ConfigStep(const char *stepname,
-                      Bool_t enableprocess,
-                      Bool_t enablesource,
-                      Bool_t enablestore) {}
+                              Bool_t enableprocess,
+                              Bool_t enablesource,
+                              Bool_t enablestore) {}
 
       /** Set file source as step data source */
       virtual void StepFileSource(const char *stepname,
-                          const char *sourcename,
-                          int timeout) {}
+                                  const char *sourcename,
+                                  int timeout) {}
 
       /** Set MBS file source as step data source */
       virtual void StepMbsFileSource(const char *stepname,
-                             const char *sourcename,
-                             int timeout,
-                             const char *TagFile,
-                             int start = 0,
-                             int stop = 0,
-                             int interval = 0) {}
+                                     const char *sourcename,
+                                     int timeout,
+                                     const char *TagFile,
+                                     int start = 0,
+                                     int stop = 0,
+                                     int interval = 0) {}
 
       /** Set MBS stream server as step data source */
       virtual void StepMbsStreamSource(const char *stepname,
-                               const char *sourcename,
-                               int timeout,
-                               int start = 0,
-                               int stop = 0,
-                               int interval = 0) {}
+                                       const char *sourcename,
+                                       int timeout,
+                                       int start = 0,
+                                       int stop = 0,
+                                       int interval = 0) {}
 
       /** Set MBS transport server as step data source */
       virtual void StepMbsTransportSource(const char *stepname,
-                                  const char *sourcename,
-                                  int timeout,
-                                  int start = 0,
-                                  int stop = 0,
-                                  int interval = 0) {}
+                                          const char *sourcename,
+                                          int timeout,
+                                          int start = 0,
+                                          int stop = 0,
+                                          int interval = 0) {}
 
       /** Set MBS event server as step data source */
       virtual void StepMbsEventServerSource(const char *stepname,
@@ -475,9 +475,8 @@ class TGo4AbstractInterface : public TObject {
 
       /** Set hdf5 data source as step data source */
       virtual void StepHDF5Source(const char *stepname,
-                              const char *sourcename,
-                              int timeout) {}
-
+                                  const char *sourcename,
+                                  int timeout) {}
 
       /** Set file as step data storage */
       virtual void StepFileStore(const char *stepname,

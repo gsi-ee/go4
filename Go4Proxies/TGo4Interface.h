@@ -165,13 +165,13 @@ class TGo4Interface : public TGo4AbstractInterface {
       TGo4AnalysisStatus *GetAnalStatus();
       TGo4AnalysisStepStatus *GetStepStatus(const char *stepname);
 
-      TGo4RootBrowserProxy *fRootBrowser{nullptr}; //!
-      TString fOMDataPath;                         //!
-      TString fOMBrowserPath;                      //!
-      TString fOMEditorsPath;                      //!
-      Bool_t fCmdFinished{kFALSE};                 //!
-      TTimer *fCmdTimer{nullptr};                  //!
-      Int_t   fWaitCounter{0};                     //!
+      TGo4RootBrowserProxy *fRootBrowser{nullptr};  //!
+      TString               fOMDataPath;            //!
+      TString               fOMBrowserPath;         //!
+      TString               fOMEditorsPath;         //!
+      Bool_t                fCmdFinished{kFALSE};   //!
+      TTimer               *fCmdTimer{nullptr};     //!
+      Int_t                 fWaitCounter{0};        //!
 
 
    ClassDefOverride(TGo4Interface, 1);

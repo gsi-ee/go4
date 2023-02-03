@@ -383,9 +383,9 @@ bool QGo4Widget::UpdateItemInAnalysis(const char *itemname, TObject *obj)
    return res != nullptr;
 }
 
-TGo4ServerProxy* QGo4Widget::GetAnalysis(const char *itemname)
+TGo4ServerProxy *QGo4Widget::GetAnalysis(const char *itemname)
 {
-   TGo4ServerProxy* res = nullptr;
+   TGo4ServerProxy *res = nullptr;
    emit widgetService(this, service_GetAnalysis, itemname, (void *) &res);
    return res;
 }

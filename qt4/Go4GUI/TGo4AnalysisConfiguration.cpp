@@ -85,7 +85,7 @@ void TGo4AnalysisConfiguration::linkedObjectRemoved(const char *linkname)
    ShootCloseWidget(true);
 }
 
-void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy* anal)
+void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy *anal)
 {
    ResetWidget();
 

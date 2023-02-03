@@ -54,7 +54,7 @@ enum { cmdEnvelope, cmdStatus, cmdEvStatus, cmdDefualtEnvelope };
 class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
    public:
 
-      TGo4AnalysisObjectAccess(TGo4AnalysisProxy* cont,
+      TGo4AnalysisObjectAccess(TGo4AnalysisProxy *cont,
                               Int_t proxykind,
                               const char *name,
                               const char *classname,
@@ -124,7 +124,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       }
 
    protected:
-      TGo4AnalysisProxy*      fxAnalProxy{nullptr};      //!
+      TGo4AnalysisProxy *     fxAnalProxy{nullptr};      //!
       Int_t                   fProxyKind{0};             //!
       TString                 fxObjName;                 //!
       TString                 fxObjClassName;            //!

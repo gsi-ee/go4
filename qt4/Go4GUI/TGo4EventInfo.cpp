@@ -100,7 +100,7 @@ void TGo4EventInfo::RefreshClicked()
    if (!br) return;
 
    TString objname;
-   TGo4ServerProxy* an = br->DefineAnalysisObject(evname.toLatin1().constData(), objname);
+   TGo4ServerProxy *an = br->DefineAnalysisObject(evname.toLatin1().constData(), objname);
    if (an) an->RequestEventStatus(objname.Data(), istree, tgtslot);
 }
 
@@ -111,7 +111,7 @@ void TGo4EventInfo::PrintEventClicked()
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(EventLbl->text().toLatin1().constData(), folder, name);
 
-   TGo4ServerProxy* anal = GetAnalysis(EventLbl->text().toLatin1().constData());
+   TGo4ServerProxy *anal = GetAnalysis(EventLbl->text().toLatin1().constData());
 
    if (anal)
      anal->RemotePrintEvent(name.Data(),

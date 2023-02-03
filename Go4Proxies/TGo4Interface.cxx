@@ -124,21 +124,21 @@ void TGo4Interface::LaunchAnalysis()
    // work in Qt GUI while parameters can be taken from the QSettings
 }
 
-TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
+TGo4AnalysisProxy *TGo4Interface::AddAnalysisProxy(Bool_t isserver)
 {
    const char *analisysitem = "Analysis";
 
    TGo4Slot *analslot = Browser()->DataSlot(analisysitem);
 
    if (!analslot) {
-      TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
+      TGo4AnalysisProxy *anal = new TGo4AnalysisProxy(isserver);
       OM()->AddProxy(fOMDataPath.Data(), anal, analisysitem, "Analysis proxy");
       analslot = Browser()->DataSlot(analisysitem);
       anal->SetDefaultReceiver(OM(), TString("gui/") + analisysitem + "/");
    }
 
-   TGo4AnalysisProxy* anal = !analslot ? nullptr :
-      dynamic_cast<TGo4AnalysisProxy*> (analslot->GetProxy());
+   TGo4AnalysisProxy *anal = !analslot ? nullptr :
+      dynamic_cast<TGo4AnalysisProxy *> (analslot->GetProxy());
 
    if (anal)
      anal->SetAnalysisReady(kFALSE);
@@ -163,7 +163,7 @@ void TGo4Interface::LaunchAnalysis(const char *ClientName,
 {
    TString launchcmd, killcmd;
 
-   TGo4AnalysisProxy* anal = AddAnalysisProxy(kFALSE);
+   TGo4AnalysisProxy *anal = AddAnalysisProxy(kFALSE);
    if (!anal) return;
 
    anal->LaunchAsClient(launchcmd, killcmd,
@@ -186,7 +186,7 @@ void TGo4Interface::ConnectAnalysis(const char *ServerNode,
                                     Int_t ControllerMode,
                                     const char *password)
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4AnalysisProxy *anal = Analysis();
    if (!anal) anal = AddAnalysisProxy(kTRUE);
 
    if (!anal) return;
@@ -210,7 +210,7 @@ void TGo4Interface::WaitAnalysis(Int_t delay_sec)
       return;
    }
 
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4AnalysisProxy *anal = Analysis();
    if (!anal) {
        Error("WaitAnalysis","Analysis not found");
        return;
@@ -229,7 +229,7 @@ void TGo4Interface::WaitAnalysis(Int_t delay_sec)
 
 void TGo4Interface::DisconnectAnalysis()
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4AnalysisProxy *anal = Analysis();
    if (!anal) return;
 
    Browser()->ToggleMonitoring(0);
@@ -241,7 +241,7 @@ void TGo4Interface::DisconnectAnalysis()
 
 void TGo4Interface::ShutdownAnalysis()
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4AnalysisProxy *anal = Analysis();
    if (!anal) return;
 
    Browser()->ToggleMonitoring(0);
@@ -255,7 +255,7 @@ void TGo4Interface::ShutdownAnalysis()
 
 void TGo4Interface::SubmitAnalysisConfig(int tmout)
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (!anal) return;
 
    anal->SubmitAnalysisSettings();
@@ -273,7 +273,7 @@ void TGo4Interface::SubmitAnalysisConfig(int tmout)
 
 void TGo4Interface::StartAnalysis()
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (!anal) return;
 
    anal->StartAnalysis();
@@ -287,7 +287,7 @@ void TGo4Interface::StartAnalysis()
 
 void TGo4Interface::StopAnalysis()
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (!anal) return;
 
    anal->StopAnalysis();
@@ -299,7 +299,7 @@ void TGo4Interface::StopAnalysis()
 
 void TGo4Interface::RefreshNamesList(int tmout)
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (!anal) return;
 
    anal->RefreshNamesList();
@@ -316,7 +316,7 @@ void TGo4Interface::RefreshNamesList(int tmout)
 
 TGo4AnalysisStatus *TGo4Interface::GetAnalStatus()
 {
-   TGo4ServerProxy* anal = Server();
+   TGo4ServerProxy *anal = Server();
    if (!anal) return nullptr;
    if (!anal->SettingsSlot()) return nullptr;
 
@@ -661,7 +661,7 @@ Bool_t TGo4Interface::HandleTimer(TTimer *timer)
 
    if (fWaitCounter>0) {
        fWaitCounter--;
-       TGo4AnalysisProxy* anal = Analysis();
+       TGo4AnalysisProxy *anal = Analysis();
        if (anal && anal->IsAnalysisReady())
           fWaitCounter = 0;
        else
