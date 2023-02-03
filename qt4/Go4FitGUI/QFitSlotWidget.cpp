@@ -25,15 +25,15 @@ QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char *name) : QFitNamedWid
    QObject::connect(SaveCmb, QOverload<int>::of(&QComboBox::activated), this, &QFitSlotWidget::SaveCmb_activated);
 }
 
-TGo4FitSlot* QFitSlotWidget::GetSlot()
+TGo4FitSlot *QFitSlotWidget::GetSlot()
 {
-   return dynamic_cast<TGo4FitSlot*> (GetObject());
+   return dynamic_cast<TGo4FitSlot *>(GetObject());
 }
 
 void QFitSlotWidget::FillSpecificData()
 {
    QFitNamedWidget::FillSpecificData();
-   TGo4FitSlot* slot = GetSlot();
+   TGo4FitSlot *slot = GetSlot();
    if (slot) {
      NameEdt->setReadOnly(true);
      NameEdt->setDisabled(true);
@@ -69,7 +69,6 @@ void QFitSlotWidget::RequirementChk_toggled( bool req)
   if(!fbFillWidget && GetSlot())
      GetSlot()->SetNeeded(req);
 }
-
 
 void QFitSlotWidget::SaveCmb_activated( int typ )
 {

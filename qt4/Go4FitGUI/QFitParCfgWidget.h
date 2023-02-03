@@ -29,13 +29,13 @@ public:
     void FillSpecificData() override;
 
 public slots:
-    virtual TGo4FitParameter * GetPar();
+    virtual TGo4FitParameter *GetPar();
     virtual void AnalyzeRangeValues();
-    virtual void ParNameEdit_textChanged( const QString & );
-    virtual void ParFixedChk_toggled( bool );
-    virtual void RangeMinEdit_textChanged( const QString & );
-    virtual void RangeMaxEdit_textChanged( const QString & );
-    virtual void EpsilonEdit_textChanged( const QString & );
+    virtual void ParNameEdit_textChanged(const QString &);
+    virtual void ParFixedChk_toggled(bool);
+    virtual void RangeMinEdit_textChanged(const QString &);
+    virtual void RangeMaxEdit_textChanged(const QString &);
+    virtual void EpsilonEdit_textChanged(const QString &);
 };
 
 #endif

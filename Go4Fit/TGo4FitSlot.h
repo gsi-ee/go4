@@ -110,17 +110,17 @@ class TGo4FitSlot : public TGo4FitNamed {
        * Class of slots should be compatible
        * Returns kTRUE, if operation successful
        */
-      Bool_t ConnectToSlot(TGo4FitSlot* slot);
+      Bool_t ConnectToSlot(TGo4FitSlot *slot);
 
       /**
        * Checks, if slot can be connected to other
        */
-      Bool_t CanConnectToSlot(TGo4FitSlot* slot);
+      Bool_t CanConnectToSlot(TGo4FitSlot *slot);
 
       /**
        * Returns pointer to connected slot or 0, if not connected
        */
-      TGo4FitSlot* GetConnectedSlot() const { return !fbOwned && fbConnected && fxObject ? dynamic_cast<TGo4FitSlot*>(fxObject) : nullptr; }
+      TGo4FitSlot *GetConnectedSlot() const { return !fbOwned && fbConnected && fxObject ? dynamic_cast<TGo4FitSlot *>(fxObject) : nullptr; }
 
       /**
        * Returns kTRUE, if slot connected to another slot
@@ -284,18 +284,18 @@ class TGo4FitSlotList {
      /**
       * Returns slots from list with specified index
       */
-     TGo4FitSlot* GetSlot(Int_t nslot);
+     TGo4FitSlot *GetSlot(Int_t nslot);
 
      /**
       * Find slot in list with given full name;
       */
-     TGo4FitSlot* FindSlot(const char *FullSlotName);
+     TGo4FitSlot *FindSlot(const char *FullSlotName);
 
      /**
       * Connects first slot to second.
       * Return kFALSE, if failed
       */
-     Bool_t ConnectSlots(TGo4FitSlot* slot1, TGo4FitSlot* slot2);
+     Bool_t ConnectSlots(TGo4FitSlot *slot1, TGo4FitSlot *slot2);
 
      /**
       * Connects first slot to second.
@@ -308,7 +308,7 @@ class TGo4FitSlotList {
        * Slot must be empty
        * Return pointer on slot, to which object was assigned
        */
-     TGo4FitSlot* SetObject(TObject *obj, Bool_t iOwned = kFALSE);
+     TGo4FitSlot *SetObject(TObject *obj, Bool_t iOwned = kFALSE);
 
       /**
        * Set object to first suitable slot, which have PlaceName name or owner of which
@@ -317,13 +317,13 @@ class TGo4FitSlotList {
        * If only slot suits to defined condition, object in slot will be overwritten.
        * Return pointer on slot, to which object was assigned
        */
-     TGo4FitSlot* SetObject(const char *PlaceName, TObject *obj, Bool_t iOwned = kFALSE);
+     TGo4FitSlot *SetObject(const char *PlaceName, TObject *obj, Bool_t iOwned = kFALSE);
 
       /**
        * Checks, if object assign to one of slots.
        * Return pointer on slot, to which object is assigned, otherwise 0.
        */
-     TGo4FitSlot* IsObjectInSlots(TObject *obj);
+     TGo4FitSlot *IsObjectInSlots(TObject *obj);
 
       /**
        * Check, if all necessary objects are provided.
@@ -348,7 +348,7 @@ class TGo4FitSlotList {
        * Checks, if same object is assign to another slot.
        * Used by ClearObjects() method.
        */
-     void ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned);
+     void ClearSlot(TGo4FitSlot *slot, Bool_t NonOwned);
 
       /**
        * Set save flag for object(s), assigned to fitter.

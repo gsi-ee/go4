@@ -57,7 +57,7 @@ class TGo4FitAmplEstimation : public TGo4FitterAction {
        * Perform amplitude estimations.
        * See Go4Fit tutorial to more details.
        */
-      void DoAction(TGo4FitterAbstract* Fitter) override;
+      void DoAction(TGo4FitterAbstract *Fitter) override;
 
       /**
        * Print information on standard output.

@@ -157,7 +157,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
        * Do configuration action.
        * Calls TGoFitterAbstract::ApplyConfig(this) method.
        */
-      void DoAction(TGo4FitterAbstract* Fitter) override;
+      void DoAction(TGo4FitterAbstract *Fitter) override;
 
       /**
        * Print information on standard output.
@@ -165,7 +165,7 @@ class TGo4FitterConfig : public TGo4FitterAction {
       void Print(Option_t *option = "") const override;
 
    protected:
-      TGo4FitParameter* MakeParForProperties(const char *ParName);
+      TGo4FitParameter *MakeParForProperties(const char *ParName);
 
       TGo4FitDependency* FindDepen(const char *FullName, TObjArray *list);
 

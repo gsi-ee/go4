@@ -120,7 +120,7 @@ class TGo4FitMinuit : public TGo4FitterAction {
       /**
        * Execute all Minuit commands.
        */
-      void DoAction(TGo4FitterAbstract* Fitter) override;
+      void DoAction(TGo4FitterAbstract *Fitter) override;
 
       /**
        * Print information on standard output.

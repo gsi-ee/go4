@@ -77,7 +77,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * If provided fitter has a same list of parameters, their values will be copied to fitter.
        */
-      void CopyParsValuesFrom(TGo4FitterAbstract* fitter);
+      void CopyParsValuesFrom(TGo4FitterAbstract *fitter);
 
       /**
        * Return kTRUE, if parameter should be fixed.
@@ -276,7 +276,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
        * Return pointer on parameter of given index.
        * First check, if parameters should be recollected.
        */
-      TGo4FitParameter* Get(Int_t n) override
+      TGo4FitParameter *Get(Int_t n) override
       {
          CheckParsListChanging();
          return TGo4FitParsList::Get(n);

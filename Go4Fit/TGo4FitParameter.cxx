@@ -57,7 +57,7 @@ TGo4FitParameter::~TGo4FitParameter() {
 
 void TGo4FitParameter::Print(Option_t *option) const
 {
-   std::cout << "   Name: " << ((TGo4FitParameter*) this) -> GetFullName();
+   std::cout << "   Name: " << const_cast<TGo4FitParameter *>(this)->GetFullName();
    std::cout << "   value=" << fdValue << "  error = " << fdError;
    if (GetFixed()) std::cout << "  fixed";
    if (fbRange) std::cout << "   range=[" << fdRangeMin << "," << fdRangeMax << "]";

@@ -31,7 +31,7 @@ TGo4FitterOutput::TGo4FitterOutput(const char *Command, const char *Options) :
 TGo4FitterOutput::~TGo4FitterOutput() {
 }
 
-void TGo4FitterOutput::DoAction(TGo4FitterAbstract* Fitter)
+void TGo4FitterOutput::DoAction(TGo4FitterAbstract *Fitter)
 {
    if (!Fitter) return;
    if (fxCommand == "Print")

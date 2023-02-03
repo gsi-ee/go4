@@ -30,9 +30,9 @@ QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char *name)
 }
 
 
-TGo4FitParameter * QFitParCfgWidget::GetPar()
+TGo4FitParameter *QFitParCfgWidget::GetPar()
 {
-   return dynamic_cast<TGo4FitParameter*> (GetObject());
+   return dynamic_cast<TGo4FitParameter *>(GetObject());
 }
 
 void QFitParCfgWidget::FillSpecificData()

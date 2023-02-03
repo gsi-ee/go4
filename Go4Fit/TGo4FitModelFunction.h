@@ -140,7 +140,7 @@ class TGo4FitModelFunction : public TGo4FitModel {
       void Finalize() override;
 
       virtual TString GetFuncParName(Int_t n);
-      TGo4FitParameter* GetFuncPar(Int_t n);
+      TGo4FitParameter *GetFuncPar(Int_t n);
 
       Int_t GetPosParIndex(Int_t naxis) override;
       Int_t GetWidthParIndex(Int_t naxis) override;

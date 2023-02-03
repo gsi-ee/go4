@@ -70,7 +70,7 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * If kTRUE, binary numbers will be used as scale values.
        */
-      void SetUseBinScale(Bool_t iUseBinScale) { fbUseBinScale=iUseBinScale; }
+      void SetUseBinScale(Bool_t iUseBinScale) { fbUseBinScale = iUseBinScale; }
 
       /**
        * Always return kTRUE.
@@ -99,7 +99,11 @@ class TGo4FitData : public TGo4FitComponent {
        * For description see GetSigmaSource() function.
        */
       void SetSigmaSource(Int_t TakeFrom, Double_t SigmaValue = 1.)
-         { fiTakeSigmasFrom = TakeFrom; if ((TakeFrom==2) && (SigmaValue>0)) fdSigmaValue = SigmaValue; }
+      {
+         fiTakeSigmasFrom = TakeFrom;
+         if ((TakeFrom == 2) && (SigmaValue > 0))
+            fdSigmaValue = SigmaValue;
+      }
 
       /**
        * Set constant sigma value.
@@ -134,24 +138,24 @@ class TGo4FitData : public TGo4FitComponent {
       /**
        * Return slot for transformation object.
        */
-      TGo4FitSlot* GetAxisTransSlot(Int_t nslot) const;
+      TGo4FitSlot *GetAxisTransSlot(Int_t nslot) const;
 
      /**
        * Return transformation object for given slot.
        */
-      TGo4FitAxisTrans* GetAxisTrans(Int_t nslot) const;
+      TGo4FitAxisTrans *GetAxisTrans(Int_t nslot) const;
 
       /**
        * Sets transformation object for given slot.
        * If not enough slots was reserved, SetNumberOfTransSlots(nslot+1) will be called first.
        */
-      void SetAxisTrans(Int_t nslot, TGo4FitAxisTrans* Trans, Bool_t TransOwned = kFALSE);
+      void SetAxisTrans(Int_t nslot, TGo4FitAxisTrans *Trans, Bool_t TransOwned = kFALSE);
 
       /**
        * Add transformation object to data.
        * First new slot reserved for this object.
        */
-      void AddAxisTrans(TGo4FitAxisTrans* Trans, Bool_t TransOwned = kFALSE);
+      void AddAxisTrans(TGo4FitAxisTrans *Trans, Bool_t TransOwned = kFALSE);
 
       /**
        * Specified, when iNeeded = kTRUE, that transformation object should always be provided to data.

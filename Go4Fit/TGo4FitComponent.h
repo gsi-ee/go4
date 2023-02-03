@@ -48,7 +48,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
        * Return amplitude parameter object.
        * If amplitude not exists, return nullptr.
        */
-      TGo4FitParameter* GetAmplPar();
+      TGo4FitParameter *GetAmplPar();
 
       /**
        * Returns name of amplitude parameter.
@@ -245,12 +245,12 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Create new parameter with provided properties and add to parameters list.
        */
-      TGo4FitParameter* NewParameter(const char *Name, const char *Title, Double_t iValue = 0., Bool_t Fixed = kFALSE, Int_t AtIndx = -1);
+      TGo4FitParameter *NewParameter(const char *Name, const char *Title, Double_t iValue = 0., Bool_t Fixed = kFALSE, Int_t AtIndx = -1);
 
       /**
        * Create amplitude parameter with specified properties.
        */
-      TGo4FitParameter* NewAmplitude(const char *Name = nullptr, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
+      TGo4FitParameter *NewAmplitude(const char *Name = nullptr, Double_t iValue = 0., Bool_t IsFixed = kFALSE, Int_t AtIndx = 0);
 
       /**
        * Returns index of amplitude parameter.

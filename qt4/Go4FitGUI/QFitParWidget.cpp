@@ -29,15 +29,15 @@ QFitParWidget::QFitParWidget(QWidget *parent, const char *name)
    QObject::connect(EpsilonChk, &QCheckBox::toggled, this, &QFitParWidget::EpsilonChk_toggled);
 }
 
-TGo4FitParameter* QFitParWidget::GetPar()
+TGo4FitParameter *QFitParWidget::GetPar()
 {
-   return dynamic_cast<TGo4FitParameter*> (GetObject());
+   return dynamic_cast<TGo4FitParameter *>(GetObject());
 }
 
 void QFitParWidget::FillSpecificData()
 {
    QFitNamedWidget::FillSpecificData();
-   TGo4FitParameter* fxParameter = GetPar();
+   TGo4FitParameter *fxParameter = GetPar();
    if (!fxParameter) return;
 
    ValueEdt->setText(QString::number(fxParameter->GetValue()));

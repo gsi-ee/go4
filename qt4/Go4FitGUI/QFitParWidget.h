@@ -28,16 +28,15 @@ public:
     void FillSpecificData() override;
 
 public slots:
-    virtual TGo4FitParameter * GetPar();
-    virtual void ValueEdt_textChanged( const QString & value );
-    virtual void ErrorEdt_textChanged( const QString & value );
-    virtual void RangeMinEdt_textChanged( const QString & value );
-    virtual void RangeMaxEdt_textChanged( const QString & value );
-    virtual void EpsilonEdt_textChanged( const QString & value );
-    virtual void FixedChk_toggled( bool zn );
-    virtual void RangeChk_toggled( bool zn );
-    virtual void EpsilonChk_toggled( bool zn );
-
+   virtual TGo4FitParameter *GetPar();
+   virtual void ValueEdt_textChanged(const QString &value);
+   virtual void ErrorEdt_textChanged(const QString &value);
+   virtual void RangeMinEdt_textChanged(const QString &value);
+   virtual void RangeMaxEdt_textChanged(const QString &value);
+   virtual void EpsilonEdt_textChanged(const QString &value);
+   virtual void FixedChk_toggled(bool zn);
+   virtual void RangeChk_toggled(bool zn);
+   virtual void EpsilonChk_toggled(bool zn);
 };
 
 #endif

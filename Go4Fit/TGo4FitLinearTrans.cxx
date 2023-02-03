@@ -22,7 +22,7 @@ TGo4FitLinearTrans::TGo4FitLinearTrans() : TGo4FitAxisTrans() {}
 TGo4FitLinearTrans::TGo4FitLinearTrans(const char *iName, const char *iTitle, Int_t iAxis) :
  TGo4FitAxisTrans(iName, iTitle), fiAxis(iAxis)
 {
-   TGo4FitParameter* par = new TGo4FitParameter("CoefK","linear coefficient of calibration", 1.);
+   TGo4FitParameter *par = new TGo4FitParameter("CoefK","linear coefficient of calibration", 1.);
    par->SetFixed(kTRUE);
    AddPar(par);
 

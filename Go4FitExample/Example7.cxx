@@ -60,7 +60,7 @@ TH1D* GetHistogram(const char *HistogramName)
 
 // construct transformation object, which recalculate bin numbers to new scale values
 // here simple linear transformation  is used
-TGo4FitAxisTrans* ConstructTrans()
+TGo4FitAxisTrans *ConstructTrans()
 {
    TGo4FitLinearTrans* trans = new TGo4FitLinearTrans("trans","linear axis transformation");
    trans->SetCoefByRange(3800,0.,3.8);

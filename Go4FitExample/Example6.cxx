@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char *HistogramName)
+TH1D *GetHistogram(const char *HistogramName)
 {
    TFile *f = TFile::Open("histograms.root");
    if (!f) return nullptr;
@@ -59,7 +59,7 @@ TH1D* GetHistogram(const char *HistogramName)
 
 // construct transformation object, which recalculate bin numbers to new scale values
 // here simple linear transformation  is used
-TGo4FitAxisTrans* ConstructTrans()
+TGo4FitAxisTrans *ConstructTrans()
 {
    TGo4FitLinearTrans* trans = new TGo4FitLinearTrans("trans","linear axis transformation");
    trans->SetCoefByRange(3800,0.,3.8);
@@ -144,7 +144,7 @@ void Example6()
    TGo4Fitter *fitter = BuildFitter();
 
 // construct axis transformation object and set it for both data object, first will be owner
-   TGo4FitAxisTrans* trans = ConstructTrans();
+   auto trans = ConstructTrans();
    fitter->FindData("data1")->AddAxisTrans(trans, kTRUE);
    fitter->FindData("data2")->AddAxisTrans(trans, kFALSE);
 

@@ -145,8 +145,8 @@ public:
     virtual TGo4Fitter *CreateFitterFor(TGo4ViewPanel *panel, TPad *pad, const char *name);
     virtual void CreateDataFor(TGo4ViewPanel *panel, TPad *pad, TGo4Fitter *fitter);
     virtual bool FillPopupForItem(QFitItem* item, QMenu* menu);
-    virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu);
-    virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
+    virtual bool FillPopupForSlot(TGo4FitSlot *slot, QMenu* menu);
+    virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot *slot, int id);
     virtual QFitItem* GetFitterItem();
     virtual QFitItem* FindItem(TObject *obj, int ObjectType, QFitItem* parent);
     virtual bool ShowItem(QFitItem* item, bool force);
@@ -176,11 +176,11 @@ public:
     virtual void Wiz_UseSelectedRange();
     virtual void Wiz_TakeCurrentRange();
     virtual void Wiz_GetModelInfo(TGo4FitModel* model, QString* info);
-    virtual QString Wiz_GetSlotSourceInfo(TGo4FitSlot* slot);
+    virtual QString Wiz_GetSlotSourceInfo(TGo4FitSlot *slot);
     virtual void ArrowChanged(TGo4FitGuiArrow* arr);
     virtual void DeleteModelWithPrimit(TGo4FitGuiArrow* arr);
-    virtual int GetPadIndexForSlot(TGo4FitSlot* slot);
-    virtual TPad *FindPadForSlot(TGo4FitSlot* slot);
+    virtual int GetPadIndexForSlot(TGo4FitSlot *slot);
+    virtual TPad *FindPadForSlot(TGo4FitSlot *slot);
     virtual TPad *FindPadWhereData(TGo4FitData* data);
     virtual TPad *FindPadWhereModel(TGo4FitModel* model);
     virtual TPad *FindPadWhereComp(TGo4FitComponent* comp);
@@ -188,7 +188,7 @@ public:
     virtual TGo4FitModel* CreateModel(int id, const char *namebase, TGo4Fitter *fitter, TGo4FitData* data);
     virtual void LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad);
     virtual int DefineModelWidgetType(TObject *obj);
-    virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink);
+    virtual bool UpdateObjectReferenceInSlot(TGo4FitSlot *slot, bool createlink);
     virtual bool UpdateObjectReferenceInSlots();
     virtual void ClearObjectReferenceInSlots();
     virtual void RemoveDrawObjects();    //virtual void windowActivationChange( bool OldActive );

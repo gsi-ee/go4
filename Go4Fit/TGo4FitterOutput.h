@@ -85,7 +85,7 @@ class TGo4FitterOutput : public TGo4FitterAction {
       /**
        * Execute proper output of fitter, Print() or Draw(), with specified options.
        */
-      void DoAction(TGo4FitterAbstract* Fitter) override;
+      void DoAction(TGo4FitterAbstract *Fitter) override;
 
       /**
        * Print information on standard output.

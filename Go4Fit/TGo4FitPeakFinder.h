@@ -60,7 +60,7 @@ class TGo4FitPeakFinder : public TGo4FitterAction {
 
       void SetupForThird(Double_t NoiseFactor, Double_t NoiseMinimum, Int_t ChannelSum);
 
-      void DoAction(TGo4FitterAbstract* Fitter) override;
+      void DoAction(TGo4FitterAbstract *Fitter) override;
 
       Bool_t CanChangeFitter() const override { return kTRUE; }
 

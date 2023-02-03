@@ -52,7 +52,7 @@ class TGo4FitAssignment : public TNamed {
        /**
         * Parameter for ratio value
         */
-       TGo4FitParameter* fxRatio{nullptr};
+       TGo4FitParameter *fxRatio{nullptr};
 
        /**
         * Pointer on assigned data.
@@ -340,13 +340,13 @@ class TGo4FitModel : public TGo4FitComponent {
       /**
        * Return parameter (if exist), which represent position of model for given axis.
        */
-      virtual TGo4FitParameter* GetPosPar(Int_t naxis = 0)
+      virtual TGo4FitParameter *GetPosPar(Int_t naxis = 0)
         { return Get(GetPosParIndex(naxis)); }
 
       /**
        * Return parameter (if exist), which represent width of model component for given axis.
        */
-      virtual TGo4FitParameter* GetWidthPar(Int_t naxis = 0)
+      virtual TGo4FitParameter *GetWidthPar(Int_t naxis = 0)
         { return Get(GetWidthParIndex(naxis)); }
 
       const Int_t *GetDataFullIndex(TGo4FitData* data, Int_t nbin);

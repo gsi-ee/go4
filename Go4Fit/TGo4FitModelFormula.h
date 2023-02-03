@@ -86,7 +86,7 @@ class TGo4FitModelFormula : public TGo4FitModel {
       Bool_t Initialize(Int_t UseBuffers = -1) override;
       void Finalize() override;
 
-      TGo4FitParameter* GetExprPar(Int_t n);
+      TGo4FitParameter *GetExprPar(Int_t n);
       TString GetExprParName(Int_t n);
 
       Bool_t CompileFormula();
