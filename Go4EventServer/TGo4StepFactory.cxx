@@ -57,9 +57,9 @@ void TGo4StepFactory::DefEventProcessor(const char *Pname, const char *Pclass)
 }
 
 //-----------------------------------------------------------
-TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorParameter* par)
+TGo4EventProcessor *TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorParameter *par)
 {
-   TGo4EventProcessor * proc = nullptr;
+   TGo4EventProcessor *proc = nullptr;
 
    // par is the object specified as last argument creating the step in TAnalysis
    // only info we can get is an ID
@@ -68,7 +68,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
       TGo4Log::Error("No event processor was specified!");
    else
       // create event processor by macro
-      proc = (TGo4EventProcessor*) gROOT->ProcessLineFast(fnewProcessor.Data());
+      proc = (TGo4EventProcessor *) gROOT->ProcessLineFast(fnewProcessor.Data());
    if(!proc)
       TGo4Log::Error("Cannot create event processor: %s", fProcessorName.Data());
    return proc;

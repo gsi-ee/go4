@@ -130,7 +130,7 @@ Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement *dest)
 void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
 {
    GO4TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent*)",__LINE__, __FILE__));
-   TGo4MbsSubEvent* subtarget = nullptr;
+   TGo4MbsSubEvent *subtarget = nullptr;
    if(fxEvent && (GetEventStatus() == GETEVT__SUCCESS)) {
       // check for printevent mode here:
       if(fxPrEventPar.fiNum>0) {
@@ -240,7 +240,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
 }
 
 
-TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength)
+TGo4MbsSubEvent *TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength)
 {
    // code moved into TGo4MbsEvent class, method kept for compatibility
 

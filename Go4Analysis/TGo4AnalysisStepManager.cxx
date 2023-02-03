@@ -301,7 +301,7 @@ TGo4EventElement *TGo4AnalysisStepManager::GetInputEvent(const char *stepname) c
    TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step = GetAnalysisStep(stepname);
    if(step) {
-      TGo4EventProcessor* pro = step->GetEventProcessor();
+      TGo4EventProcessor *pro = step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
    } else {
       rev = nullptr;
@@ -315,7 +315,7 @@ TGo4EventElement *TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
    TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step = dynamic_cast<TGo4AnalysisStep *> (fxStepList->At(stepindex));
    if(step) {
-      TGo4EventProcessor* pro = step->GetEventProcessor();
+      TGo4EventProcessor *pro = step->GetEventProcessor();
       if(pro) rev = pro->GetInputEvent(); // get true input event
       //rev=step->GetInputEvent();
    } else {

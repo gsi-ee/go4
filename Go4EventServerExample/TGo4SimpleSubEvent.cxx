@@ -38,7 +38,7 @@ TGo4SimpleSubEvent::TGo4SimpleSubEvent()
    //   fxMbsSubEventArray=new TClonesArray("TGo4MbsSubEvent", subevtnum);
    //   fxMbsSubEventArray->BypassStreamer(kFALSE);
    //
-   //   TGo4MbsSubEvent* subeve;
+   //   TGo4MbsSubEvent *subeve;
    //   for (Int_t t = 0; t < subevtnum; ++t)
    //      {
    //         //subeve= new( (*fxMbsSubEventArray) [t] ) TGo4MbsSubEvent();

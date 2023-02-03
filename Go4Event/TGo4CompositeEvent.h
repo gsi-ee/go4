@@ -56,14 +56,13 @@ class TGo4CompositeEvent : public TGo4EventElement {
      Short_t getNElements() const { return fNElements; }
      Short_t getMaxIndex() const { return fMaxIndex; }
      Bool_t isComposed() override { return kTRUE; }
-     TObjArray *getElements() { return fEventElements;}
+     TObjArray *getElements() const { return fEventElements;}
      TObjArray *getListOfComposites(Bool_t toplevel=kTRUE);
      TGo4EventElement& operator[](Int_t i) override;
 
   protected:
 
      void ProvideArray();
-
 
   ClassDefOverride(TGo4CompositeEvent,2)
 };

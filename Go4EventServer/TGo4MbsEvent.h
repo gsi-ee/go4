@@ -103,7 +103,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * call of this method. /param all specifies if all available
        * subevents are delivered, or only subevents which were filled
        * in the previous cycle. */
-      TGo4MbsSubEvent* NextSubEvent(Bool_t all=kFALSE);
+      TGo4MbsSubEvent *NextSubEvent(Bool_t all=kFALSE);
 
       /** Access to subevent in list by procid, subcrate and ctrl identifiers.
        * Returns zero if no subevent of these ids is found. If event has subevents with
@@ -125,7 +125,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * /param datalength - total length of subevent in DWORDS (2-bytes)
        * /param copydata if true data will be copied into internal allocated buffer,
        *        otherwise pointer on provided buffer will be used */
-      TGo4MbsSubEvent* AddSubEvent(Int_t fullID,
+      TGo4MbsSubEvent *AddSubEvent(Int_t fullID,
                                    Short_t *source,
                                    Int_t datalength,
                                    Bool_t copydata = kFALSE);

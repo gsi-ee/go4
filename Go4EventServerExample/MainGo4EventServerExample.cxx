@@ -65,7 +65,7 @@ int main(int argc, char **argv)
      TH1D* histo1 = new TH1D ("histogram 1", "mbsevent data",400,0,4000);
      TH1D* histo2 = new TH1D ("histogram 2", "simpleevent data",400,0,4000);
 
-     TGo4MbsSubEvent* sub = nullptr;
+     TGo4MbsSubEvent *sub = nullptr;
      TGo4SimpleSubEvent* simpsub = nullptr;
 
      // create the event structure objects:

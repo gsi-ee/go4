@@ -94,7 +94,7 @@ class TGo4MbsSource : public TGo4EventSource {
     /** Auxiliary function to fill datalength words (Short_t) from source
      * into the next subevent of target with matching header fullID longword.
      * Returns handle to this subevent. */
-    TGo4MbsSubEvent* BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength);
+    TGo4MbsSubEvent *BuildMbsSubEvent(TGo4MbsEvent *target, Int_t fullID, Short_t *source, Int_t datalength);
 
     /** Define the Start index for the NextEvent */
     void SetStartEvent(UInt_t firstindex) { fuStartEvent = firstindex; }

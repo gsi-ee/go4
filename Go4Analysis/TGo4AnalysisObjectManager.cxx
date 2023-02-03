@@ -967,15 +967,15 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
    return rev;
 }
 
-Bool_t TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource * source)
+Bool_t TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource *source)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource *)",__LINE__, __FILE__));
    return AddObjectToFolder(source,fxSourceDir,nullptr,kFALSE);
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
+Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource *source)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource *)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
    if (source) {
       TGo4LockGuard listguard(fxDirMutex);
@@ -984,15 +984,15 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
    }
    return rev;
 }
-Bool_t TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor * pro)
+Bool_t TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor *pro)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor *)",__LINE__, __FILE__));
    return AddObjectToFolder(pro,fxProcessorDir,nullptr,kFALSE);
 }
 
-Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
+Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor *pro)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessr*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor *)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
    if (pro) {
       TGo4LockGuard listguard(fxDirMutex);

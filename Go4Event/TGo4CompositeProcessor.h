@@ -41,7 +41,7 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
       void FinalizeEvent() override {}
 
       /* implemented by subclass to process incoming subevent. For first step processors only! */
-      virtual void ProcessSubevent(TGo4MbsSubEvent* subevt);
+      virtual void ProcessSubevent(TGo4MbsSubEvent *subevt);
 
       /** Returns trigger number of main MBS event */
       Short_t GetTriggerNumber() const { return fMbsTriggerNumber; }
@@ -51,14 +51,14 @@ class TGo4CompositeProcessor : public TGo4EventProcessor {
 
    protected:
 
-      void AddSubProcessor(TGo4EventProcessor* );
+      void AddSubProcessor(TGo4EventProcessor *);
 
       TGo4MbsEvent        *fMbsInput{nullptr}; //!
       Short_t              fMbsTriggerNumber{0};
       Int_t                fMbsEventNumber{0};
 
    private:
-      TObjArray   fSubProcessors; //!
+      TObjArray            fSubProcessors; //!
 
       ClassDefOverride(TGo4CompositeProcessor,1)
 };

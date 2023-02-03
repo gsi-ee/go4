@@ -251,7 +251,7 @@ Bool_t TGo4PrintProcessor::fBufHead = kFALSE;
 class TGo4PrintFactory : public TGo4StepFactory {
    public:
       TGo4PrintFactory(const char *name) : TGo4StepFactory(name) {}
-      TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter* par)
+      TGo4EventProcessor *CreateEventProcessor(TGo4EventProcessorParameter *par)
       {
          return new TGo4PrintProcessor("PrintProc");
       }

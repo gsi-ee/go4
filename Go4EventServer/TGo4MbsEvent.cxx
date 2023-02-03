@@ -89,7 +89,7 @@ void TGo4MbsEvent::SimpleInit()
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
    // we just add one arbitrary subevent to the array.
    // actually subevents will be appended dynamically later
-   TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(1024);
+   TGo4MbsSubEvent *subeve = new TGo4MbsSubEvent(1024);
    fxSubEvArray->AddLast(subeve);
    subeve->SetSubcrate(0);
    subeve->SetControl(0);
@@ -315,10 +315,10 @@ s_bufhe *TGo4MbsEvent::GetMbsBufferHeader()
    return src ? src->GetBufferHeader() : nullptr;
 }
 
-TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t *source, Int_t datalength, Bool_t copydata)
+TGo4MbsSubEvent *TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t *source, Int_t datalength, Bool_t copydata)
 {
    Int_t fieldlength = 0;
-   TGo4MbsSubEvent* subtarget = nullptr; // the subevent in use
+   TGo4MbsSubEvent *subtarget = nullptr; // the subevent in use
    if(datalength > 2)
       fieldlength = (datalength-2) / (sizeof(Int_t) / sizeof(Short_t)); // field is Int_t
    else {

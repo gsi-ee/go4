@@ -37,12 +37,12 @@ TGo4CompositeProcessor::~TGo4CompositeProcessor()
    fSubProcessors.Delete();
 }
 
-void TGo4CompositeProcessor::AddSubProcessor(TGo4EventProcessor* proc)
+void TGo4CompositeProcessor::AddSubProcessor(TGo4EventProcessor *proc)
 {
    if (proc) fSubProcessors.AddLast(proc);
 }
 
-void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent* subevt)
+void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent *subevt)
 {
    // std::cout << "Dummy, should be reimplemented " << std::endl;
    // but must not if this is the top beamtime event JAM

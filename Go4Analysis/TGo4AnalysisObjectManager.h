@@ -491,12 +491,12 @@ class TGo4AnalysisObjectManager : public TNamed {
       /**
        * Add reference to event processor object to Go4 Folder structure. To be used by framework only!
        */
-      Bool_t AddEventProcessor(TGo4EventProcessor * pro);
+      Bool_t AddEventProcessor(TGo4EventProcessor *pro);
 
       /**
        * Remove reference to event processor from go4 folder structure.
        */
-      Bool_t RemoveEventProcessor(TGo4EventProcessor * pro);
+      Bool_t RemoveEventProcessor(TGo4EventProcessor *pro);
 
       /**
        * Add reference to event structure object to Go4 Folder structure. To be used by framework only!
