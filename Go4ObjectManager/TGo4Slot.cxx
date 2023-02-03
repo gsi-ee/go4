@@ -350,7 +350,7 @@ Bool_t TGo4Slot::AssignObject(TObject *obj, Bool_t owner)
    else if (owner)
       delete obj;
 
-   return (fAssignFlag == (Int_t) kTRUE);
+   return fAssignFlag == (Int_t) kTRUE;
 }
 
 TObject *TGo4Slot::GetAssignedObject()

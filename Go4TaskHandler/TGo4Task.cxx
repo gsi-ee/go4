@@ -410,15 +410,15 @@ Bool_t TGo4Task::SubmitCommand(const char *name)
 {
    if(!strcmp(name,"THEMQuit"))
    {
-      return (SubmitEmergencyCommand(kComQuit));
+      return SubmitEmergencyCommand(kComQuit);
    }
    else if (!strcmp(name,"THEMKill"))
    {
-      return (SubmitEmergencyCommand(kComKillMain));
+      return SubmitEmergencyCommand(kComKillMain);
    }
    else if (!strcmp(name,"THEMRestart"))
    {
-      return (SubmitEmergencyCommand(kComRestartMain));
+      return SubmitEmergencyCommand(kComRestartMain);
    }
 
    TGo4Command *com = MakeCommand(name);

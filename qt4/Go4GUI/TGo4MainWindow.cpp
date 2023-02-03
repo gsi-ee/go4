@@ -2448,7 +2448,7 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
 
 TGo4AnalysisConfiguration* TGo4MainWindow::FindAnalysisConfiguration()
 {
-   return (TGo4AnalysisConfiguration*) FindGo4Widget("AnalysisConfiguration", false);
+   return (TGo4AnalysisConfiguration *) FindGo4Widget("AnalysisConfiguration", false);
 }
 
 void TGo4MainWindow::ToggleAnalysisConfiguration()
@@ -2885,7 +2885,7 @@ TGo4ObjectManager *TGo4MainWindow::OM()
 
 TGo4BrowserProxy *TGo4MainWindow::Browser()
 {
-   return (TGo4BrowserProxy*) fxOM->GetProxy(fOMBrowserPath.toLatin1().constData());
+   return (TGo4BrowserProxy *) fxOM->GetProxy(fOMBrowserPath.toLatin1().constData());
 }
 
 TGo4Slot *TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)

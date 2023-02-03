@@ -52,7 +52,7 @@ class TGo4Picture : public TNamed {
       void SetDivision(Int_t ndivy, Int_t ndivx);
       Int_t GetDivX() const { return fiNDivX; }
       Int_t GetDivY() const { return fiNDivY; }
-      Bool_t IsDivided() const { return (GetDivX()!=1) || (GetDivY()!=1); }
+      Bool_t IsDivided() const { return (GetDivX() != 1) || (GetDivY() != 1); }
 
       TGo4Picture& operator()(int posy, int posx) { return *Pic(posy,posx); }
       TGo4Picture *Pic(Int_t posy, Int_t posx);
@@ -86,13 +86,13 @@ class TGo4Picture : public TNamed {
 
       // sets viewable range for X and Y axis
       void SetRangeX(Double_t min, Double_t max);
-      Bool_t GetRangeX(Double_t& min, Double_t& max) const;
+      Bool_t GetRangeX(Double_t &min, Double_t &max) const;
       void ClearRangeX();
       void SetRangeY(Double_t min, Double_t max);
-      Bool_t GetRangeY(Double_t& min, Double_t& max) const;
+      Bool_t GetRangeY(Double_t &min, Double_t &max) const;
       void ClearRangeY();
       void SetRangeZ(Double_t min, Double_t max);
-      Bool_t GetRangeZ(Double_t& min, Double_t& max) const;
+      Bool_t GetRangeZ(Double_t &min, Double_t &max) const;
       void ClearRangeZ();
 
       // set logarithmic scale for selected axis
@@ -106,20 +106,20 @@ class TGo4Picture : public TNamed {
 
       // sets line attributes
       void SetLineAtt(Color_t color, Style_t style, Width_t width, Int_t index = UndefIndex);
-      void SetLineAtt(TAttLine* line, Int_t index = UndefIndex);
-      Bool_t GetLineAtt(TAttLine* line, Int_t index = UndefIndex) const;
+      void SetLineAtt(TAttLine *line, Int_t index = UndefIndex);
+      Bool_t GetLineAtt(TAttLine *line, Int_t index = UndefIndex) const;
       void ClearLineAtt(Int_t index = UndefIndex);
 
       // sets fill attributes
       void SetFillAtt(Color_t color, Style_t style, Int_t index = UndefIndex);
-      void SetFillAtt(TAttFill* fill, Int_t index = UndefIndex);
-      Bool_t GetFillAtt(TAttFill* fill, Int_t index = UndefIndex) const;
+      void SetFillAtt(TAttFill *fill, Int_t index = UndefIndex);
+      Bool_t GetFillAtt(TAttFill *fill, Int_t index = UndefIndex) const;
       void ClearFillAtt(Int_t index = UndefIndex);
 
       // set marker attributes
       void SetMarkerAtt(Color_t color, Size_t size, Style_t style, Int_t index = UndefIndex);
-      void SetMarkerAtt(TAttMarker* marker, Int_t index = UndefIndex);
-      Bool_t GetMarkerAtt(TAttMarker* marker, Int_t index = UndefIndex) const;
+      void SetMarkerAtt(TAttMarker *marker, Int_t index = UndefIndex);
+      Bool_t GetMarkerAtt(TAttMarker *marker, Int_t index = UndefIndex) const;
       void ClearMarkerAtt(Int_t index = UndefIndex);
 
       // set rebin attributes

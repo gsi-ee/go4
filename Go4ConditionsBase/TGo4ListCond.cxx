@@ -112,10 +112,9 @@ Bool_t TGo4ListCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
    if (!from)
       return kFALSE;
    fxValues.clear();
-   for (size_t i = 0; i < from->GetNumValues(); ++i) {
+   for (size_t i = 0; i < from->GetNumValues(); ++i)
       fxValues.push_back(from->GetValue(i));
-   }
-   return (TGo4Condition::UpdateFrom(cond, counts));
+   return TGo4Condition::UpdateFrom(cond, counts);
 }
 
 Double_t TGo4ListCond::GetXUp() const

@@ -4392,7 +4392,7 @@ bool TGo4FitPanel::ShowItem(QFitItem *item, bool force)
 
    bool txt = ShowItemAsText(item, force);
 
-   return (gr || txt);
+   return gr || txt;
 }
 
 bool TGo4FitPanel::ShowItemAsText(QFitItem *item, bool force)

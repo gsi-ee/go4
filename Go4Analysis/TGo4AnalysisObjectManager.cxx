@@ -208,7 +208,7 @@ Bool_t TGo4AnalysisObjectManager::AddObject(TNamed *anything, const char *subfol
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddObject(TNamed *)",__LINE__, __FILE__));
    // unspecified objects are only allowed to put into userdir
-   return (AddObjectToFolder(anything,fxUserDir,subfolder,replace));
+   return AddObjectToFolder(anything,fxUserDir,subfolder,replace);
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveObject(const char *name, Bool_t del)
@@ -1188,7 +1188,7 @@ Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture *pic, const char *subfo
    if(!pic) return kFALSE;
 
    //pic->LocateObjectsFrom(fxGo4Dir);
-   return (AddObjectToFolder(pic,fxPictureDir,subfolder,kTRUE));
+   return AddObjectToFolder(pic,fxPictureDir,subfolder,kTRUE);
 }
 
 Bool_t TGo4AnalysisObjectManager::SetPicture(const char *name, TGo4Picture *pic, TFolder *parent)
@@ -1890,7 +1890,7 @@ TList *TGo4AnalysisObjectManager::CreateObjectList(const char *expr, const char 
       searchfold = fxGo4Dir; // default: search topfolder
    else
       searchfold = FindSubFolder(fxGo4Dir, folder, kFALSE);
-   return (CreateObjectList(expr, searchfold));
+   return CreateObjectList(expr, searchfold);
 }
 
 

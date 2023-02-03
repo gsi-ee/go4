@@ -82,7 +82,7 @@ Bool_t TGo4TaskOwner::IsConnected()
          std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
          return kFALSE;
       }
-      return (server->GetCurrentTaskHandler() != nullptr);
+      return server->GetCurrentTaskHandler() != nullptr;
    }
 
    TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*>(GetTask());

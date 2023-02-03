@@ -41,6 +41,6 @@ void TGo4CounterCond::PrintCondition(Bool_t full)
 
 Bool_t TGo4CounterCond::UpdateFrom(TGo4Condition *cond, Bool_t counts)
 {
-   return (TGo4Condition::UpdateFrom(cond,counts));
+    return TGo4Condition::UpdateFrom(cond,counts);
 }
 

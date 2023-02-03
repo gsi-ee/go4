@@ -188,16 +188,14 @@ TGo4Picture *TGo4Picture::FindPic(Int_t posy, Int_t posx)
    if (!fxSubPictures) return nullptr;
    if (posx < 0)
       posx = 0;
-   else {
-      if (posx >= GetDivX())
-         posx = GetDivX() - 1;
-   }
+   else if (posx >= GetDivX())
+      posx = GetDivX() - 1;
+
    if (posy < 0)
       posy = 0;
-   else {
-      if (posy >= GetDivY())
-         posy = GetDivY() - 1;
-   }
+   else if (posy >= GetDivY())
+      posy = GetDivY() - 1;
+
    for (Int_t n = 0; n <= fxSubPictures->GetLast(); n++) {
       TGo4Picture *sub = dynamic_cast<TGo4Picture *>(fxSubPictures->At(n));
       if (sub && sub->CheckPosition(posy,posx))
