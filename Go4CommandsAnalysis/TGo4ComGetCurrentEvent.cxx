@@ -27,7 +27,7 @@ TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char *obname) :
    fbPrintoutOnly(kFALSE),
    fbTreeMode(kTRUE)
 {
-   GO4TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char *) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
 }

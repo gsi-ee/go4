@@ -83,7 +83,7 @@ class TGo4LevelIter : public TObject {
       virtual Bool_t next() { return kFALSE; }
       virtual Bool_t isfolder() { return kFALSE; }
       virtual Bool_t isslotsfolder() { return kFALSE; }
-      virtual Int_t getflag(const char*) { return -1; }
+      virtual Int_t getflag(const char *) { return -1; }
       virtual TGo4LevelIter *subiterator() { return nullptr; }
       virtual TGo4Slot *getslot() { return nullptr; }
       virtual const char *name() { return nullptr; }
@@ -108,7 +108,7 @@ class TGo4Proxy : public TObject {
       virtual Bool_t Use() const { return kTRUE; }
 
       virtual Bool_t HasSublevels() const { return kFALSE; }
-      virtual std::unique_ptr<TGo4Access> ProvideAccess(const char*) { return nullptr; }
+      virtual std::unique_ptr<TGo4Access> ProvideAccess(const char *) { return nullptr; }
       virtual TGo4LevelIter *MakeIter() { return nullptr; }
 
       virtual Int_t GetObjectKind() const {  return TGo4Access::kndNone; }

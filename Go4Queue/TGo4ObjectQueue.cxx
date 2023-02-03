@@ -25,7 +25,7 @@ TGo4ObjectQueue::TGo4ObjectQueue() :
 TGo4ObjectQueue::TGo4ObjectQueue(const char *name) :
    TGo4Queue(name)
 {
-   GO4TRACE((14,"TGo4ObjectQueue::TGo4ObjectQueue(const char*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ObjectQueue::TGo4ObjectQueue(const char *)", __LINE__, __FILE__));
 }
 
 TGo4ObjectQueue::~TGo4ObjectQueue()

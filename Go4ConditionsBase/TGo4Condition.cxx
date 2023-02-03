@@ -88,7 +88,7 @@ TGo4Condition::TGo4Condition(const char *name, const char *title) :
    TAttFill(),
    fiIsChanged(0)
 {
-   GO4TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Condition::TGo4Condition(const char *)",__LINE__, __FILE__));
    fiDim = 0;
    fbEnabled = false;
    fbResult = true;

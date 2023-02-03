@@ -27,7 +27,7 @@ TGo4TreeStructure::TGo4TreeStructure(const char *name) :
    TGo4Status(name),
    fxTopFolder(nullptr)
 {
-   GO4TRACE((15,"TGo4TreeStructure::TGo4TreeStructure(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStructure::TGo4TreeStructure(const char *)",__LINE__, __FILE__));
 }
 
 TGo4TreeStructure::~TGo4TreeStructure()

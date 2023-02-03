@@ -63,12 +63,11 @@ class TLogTimer : public TTimer {
 };
 
 
-TLogTimer* TGo4Log::fgTimer = nullptr;
+TLogTimer *TGo4Log::fgTimer = nullptr;
 
 TGo4Log::TGo4Log()
 {
    if (!fgxMutex) fgxMutex = new TMutex(kTRUE);
-
 
    // initialization at first time we call logger
    // we use recursive mode for cascading lockguards

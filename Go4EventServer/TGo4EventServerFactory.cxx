@@ -48,7 +48,7 @@
 TGo4EventServerFactory::TGo4EventServerFactory(const char *name) :
    TGo4EventFactory(name), fxEvent(nullptr)
 {
-   GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char *)",__LINE__, __FILE__));
 }
 
 TGo4EventServerFactory::TGo4EventServerFactory() :

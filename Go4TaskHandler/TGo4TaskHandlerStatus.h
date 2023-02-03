@@ -46,7 +46,7 @@ class TGo4TaskHandlerStatus : public TGo4Status {
       void Print(Option_t *opt = "") const override;
 
    private:
-      TGo4TaskHandlerStatus(const char*);
+      TGo4TaskHandlerStatus(const char *);
 
       void SetFlags(Bool_t isaborting);
 

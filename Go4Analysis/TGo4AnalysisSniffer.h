@@ -30,9 +30,9 @@ class TGo4AnalysisSniffer {
       virtual ~TGo4AnalysisSniffer() {}
 
       /**Method called by analysis when ratemeter is updated */
-      virtual void RatemeterUpdate(TGo4Ratemeter*) {}
+      virtual void RatemeterUpdate(TGo4Ratemeter *) {}
 
-      virtual void StatusMessage(int level, Bool_t printout, const TString&) {}
+      virtual void StatusMessage(int level, Bool_t printout, const TString &) {}
 
       /** Hook function to execute action in context of analysis thread */
       virtual void ProcessSnifferEvents() {}

@@ -19,7 +19,7 @@
 
 TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char *name) : TGo4ClientStatus(name)
 {
-  GO4TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char*)",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char *)",__LINE__, __FILE__));
 }
 
 TGo4ExampleClientStatus::~TGo4ExampleClientStatus()

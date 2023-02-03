@@ -1100,7 +1100,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char *itemname, const char *o
    return kFALSE;
 }
 
-Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString &fitemname, const char** filepath)
+Bool_t TGo4BrowserProxy::DefineFileObject(const char *itemname, TString &fitemname, const char **filepath)
 {
    TGo4Slot *slot = BrowserSlot(itemname);
    if (!slot) return kFALSE;

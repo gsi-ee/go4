@@ -19,7 +19,7 @@
 TGo4MbsStreamParameter::TGo4MbsStreamParameter(const char *name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_STREAM)
 {
-   GO4TRACE((14,"TGo4MbsStreamParameter::TGo4MbsStreamParameter(const char*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsStreamParameter::TGo4MbsStreamParameter(const char *)", __LINE__, __FILE__));
 }
 
 TGo4MbsStreamParameter::TGo4MbsStreamParameter() :

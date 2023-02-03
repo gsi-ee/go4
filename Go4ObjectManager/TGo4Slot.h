@@ -85,7 +85,7 @@ class TGo4Slot : public TNamed  {
 
       TGo4Slot *DefineSubSlot(const char *name, const char *&subname) const;
       TGo4Slot *GetSlot(const char *name, Bool_t force = kFALSE);
-      TGo4Slot *FindSlot(const char *fullpath, const char** subname = nullptr);
+      TGo4Slot *FindSlot(const char *fullpath, const char **subname = nullptr);
       Bool_t ShiftSlotBefore(TGo4Slot *slot, TGo4Slot *before);
       Bool_t ShiftSlotAfter(TGo4Slot *slot, TGo4Slot *after);
 

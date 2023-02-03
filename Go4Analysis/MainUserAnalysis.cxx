@@ -384,7 +384,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
       meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
       if (meth) {
-         TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
+         TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char *)", an_cl->GetName(), an_cl->GetName());
 
          TString cmd = TString::Format("new %s(\"%s\")", an_cl->GetName(), name);
          Int_t err = 0;
@@ -395,7 +395,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
          if (analysis && (err == 0)) return analysis;
 
-         TGo4Log::Error("Cannot create analysis class %s instance with (const char*) prototype", an_cl->GetName());
+         TGo4Log::Error("Cannot create analysis class %s instance with (const char *) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
          exit(1);
       }
@@ -444,7 +444,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
 
          if (!datatype && !isptr) {
             TGo4Log::Error("Cannot specify any value for argument %s of class %s constructor", argument->GetName(), an_cl->GetName());
-            TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+            TGo4Log::Error("Add CreateUserAnalysis(const char *) function in user library");
             exit(1);
          }
 
@@ -471,7 +471,7 @@ TGo4Analysis *CreateDefaultAnalysis(TList *lst, const char *name, int user_argc,
       if (analysis && (err == 0)) return analysis;
 
       TGo4Log::Error("Cannot create analysis class %s instance", an_cl->GetName());
-      TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+      TGo4Log::Error("Add CreateUserAnalysis(const char *) function in user library");
 
       exit(1);
    }
@@ -725,7 +725,7 @@ int main(int argc, char **argv)
       std::cerr << "!!! Analysis instance cannot be created" << std::endl;
       std::cerr << "!!! PLEASE check your analysis library " << libname << std::endl;
       std::cerr << "!!! One requires user subclass for TGo4Analysis class in user library" << std::endl;
-      std::cerr << "!!! Alternatively, CreateUserAnalysis(const char*) function can be implemented" << std::endl;
+      std::cerr << "!!! Alternatively, CreateUserAnalysis(const char *) function can be implemented" << std::endl;
       std::cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << std::endl;
       return -1;
    }

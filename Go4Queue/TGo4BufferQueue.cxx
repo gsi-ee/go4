@@ -44,7 +44,7 @@ TGo4BufferQueue::TGo4BufferQueue(const char *name) :
    fxBufferMutex(nullptr),
    fiMaxBuffers(10)
 {
-   GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char *)", __LINE__, __FILE__));
 
    InitBuffers();
 }

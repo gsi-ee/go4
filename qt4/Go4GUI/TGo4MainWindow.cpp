@@ -3188,7 +3188,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          TGo4Slot *link = fxOM->AddLink(brslot, edslot->GetFullName(),
                                         str, "link to browser item");
          if (link)
-            editor->SetLinkedName(link, (const char*)par);
+            editor->SetLinkedName(link, (const char *)par);
 
          break;
       }
@@ -3245,7 +3245,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_GetLinkedName: {
          if (!edslot) return;
-         const char** res = (const char**) par;
+         const char **res = (const char **) par;
          *res = TGo4BrowserProxy::GetLinkedName(edslot->FindChild(str));
          break;
       }
@@ -3389,7 +3389,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_HelpWindow: {
-         HelpWindow(str, (const char*) par);
+         HelpWindow(str, (const char *) par);
          break;
       }
 

@@ -25,7 +25,7 @@ TGo4AnalysisStepStatus::TGo4AnalysisStepStatus() :
 TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char *name) :
    TGo4Status(name, "Go4 AnalysisStep Status Object")
 {
-   GO4TRACE((15,"TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char *)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()

@@ -28,11 +28,11 @@ class TGo4Sniffer : public TRootSnifferFull,
 
    protected:
 
-      TGo4AnalysisWebStatus * fAnalysisStatus{nullptr};
+      TGo4AnalysisWebStatus *fAnalysisStatus{nullptr};
 
       TGraph *fEventRate{nullptr};
 
-      TGo4Ratemeter* fRatemeter{nullptr};
+      TGo4Ratemeter *fRatemeter{nullptr};
 
       TGo4MsgList fDebugOutput;
 
@@ -61,18 +61,18 @@ class TGo4Sniffer : public TRootSnifferFull,
       /** Wrapper for new method in TRootSniffer */
       Bool_t SetAutoLoadGo4(const char *script);
 
-      static THttpServer* gHttpServer;
+      static THttpServer *gHttpServer;
 
    public:
 
-      static THttpServer* GetHttpServer() { return gHttpServer; }
+      static THttpServer *GetHttpServer();
 
       static Bool_t CreateEngine(const char *name);
 
       TGo4Sniffer(const char *name);
       virtual ~TGo4Sniffer();
 
-      void ScanRoot(TRootSnifferScanRec& rec) override;
+      void ScanRoot(TRootSnifferScanRec &rec) override;
 
       void *FindInHierarchy(const char *path, TClass **cl = nullptr, TDataMember **member = nullptr, Int_t *chld = nullptr) override;
 
@@ -105,10 +105,10 @@ class TGo4Sniffer : public TRootSnifferFull,
       void SetTitle(const char *title = "") override;
 
       /** Method from analysis sniffer */
-      void RatemeterUpdate(TGo4Ratemeter*) override;
+      void RatemeterUpdate(TGo4Ratemeter *) override;
 
       /** Method from analysis sniffer */
-      void StatusMessage(int level, Bool_t printout, const TString&) override;
+      void StatusMessage(int level, Bool_t printout, const TString &) override;
 
       /** Method called in go4 analysis thread, used to executed server commands */
       void ProcessSnifferEvents() override;

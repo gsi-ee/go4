@@ -1678,7 +1678,7 @@ void TGo4ViewPanel::PadDoubleClickedSlot(TPad *pad, int, int)
 
 void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad *pad)
 {
-   emit widgetService(this, service_DropEvent, (const char*) pad, event);
+   emit widgetService(this, service_DropEvent, (const char *) pad, event);
 }
 
 void TGo4ViewPanel::ProcessPadDoubleClick()
@@ -3039,7 +3039,7 @@ void TGo4ViewPanel::ProducePadsList(TObjArray *arr, TPad *toppad)
    }
 }
 
-const char *TGo4ViewPanel::GetDrawObjectLinkName(TPad * pad, TObject *obj)
+const char *TGo4ViewPanel::GetDrawObjectLinkName(TPad *pad, TObject *obj)
 {
    TGo4Slot *slot = GetPadSlot(pad);
    if (!pad || !slot || !obj)
@@ -3112,7 +3112,7 @@ void TGo4ViewPanel::CanvasUpdate(bool modify)
    }
 }
 
-TPad * TGo4ViewPanel::GetActivePad()
+TPad *TGo4ViewPanel::GetActivePad()
 {
    return fxActivePad;
 }
@@ -3339,7 +3339,7 @@ int TGo4ViewPanel::GetSelectedObjectIndex(TGo4Slot *slot)
    return indx;
 }
 
-TObject *TGo4ViewPanel::GetSelectedObject(TPad * pad, const char** drawopt)
+TObject *TGo4ViewPanel::GetSelectedObject(TPad *pad, const char **drawopt)
 {
    TGo4Slot *slot = GetPadSlot(pad);
    TGo4Picture *padopt = GetPadOptions(slot);
@@ -3375,7 +3375,7 @@ TObject *TGo4ViewPanel::GetSelectedObject(TPad * pad, const char** drawopt)
    return objs.At(indx);
 }
 
-bool TGo4ViewPanel::ShiftSelectedObjectToEnd(TPad * pad)
+bool TGo4ViewPanel::ShiftSelectedObjectToEnd(TPad *pad)
 {
    TGo4Slot *slot = GetPadSlot(pad);
    TGo4Picture *padopt = GetPadOptions(slot);
@@ -3402,7 +3402,7 @@ bool TGo4ViewPanel::ShiftSelectedObjectToEnd(TPad * pad)
    return true;
 }
 
-void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
+void TGo4ViewPanel::CheckObjectsAssigments(TPad *pad, TGo4Slot * padslot)
 {
    if (!pad || !padslot) return;
 
@@ -4493,7 +4493,7 @@ void TGo4ViewPanel::ClearPadItems(TGo4Slot *padslot, TGo4Slot *remain)
    }
 }
 
-void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems, bool removesubpads)
+void TGo4ViewPanel::ProcessPadClear(TPad *pad, bool removeitems, bool removesubpads)
 {
    TGo4Slot *slot = GetPadSlot(pad);
    TGo4Picture *padopt = GetPadOptions(slot);
@@ -4626,7 +4626,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad *pad)
    }
 }
 
-void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
+void TGo4ViewPanel::DisplayPadStatus(TPad *pad)
 {
    if (!pad)
       return;
@@ -5758,7 +5758,7 @@ void TGo4ViewPanel::AutoScaleToggled(bool on)
    SetAutoScale(on, nullptr);
 }
 
-void TGo4ViewPanel::panelSlot(TGo4ViewPanel * panel, TPad * pad, int signalid)
+void TGo4ViewPanel::panelSlot(TGo4ViewPanel * panel, TPad *pad, int signalid)
 {
    if (panel != this)
       return;

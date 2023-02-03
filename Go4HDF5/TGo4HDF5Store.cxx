@@ -71,7 +71,7 @@ TGo4HDF5Store::~TGo4HDF5Store()
    CloseFile();
 }
 
-void TGo4HDF5Store::OpenFile(const char*)
+void TGo4HDF5Store::OpenFile(const char *)
 {
    TString buffer(GetName());
    if (!strstr(buffer.Data(), fgcFILESUF))

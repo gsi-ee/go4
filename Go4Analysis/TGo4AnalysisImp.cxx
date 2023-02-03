@@ -175,7 +175,7 @@ TGo4Analysis::TGo4Analysis(const char *name) :
    fSniffer(nullptr),
    fxRate(nullptr)
 {
-   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char *)",__LINE__, __FILE__));
 
    if (name) SetAnalysisName(name);
 
@@ -214,7 +214,7 @@ TGo4Analysis::TGo4Analysis(int argc, char **argv) :
    fSniffer(nullptr),
    fxRate(nullptr)
 {
-   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char *)",__LINE__, __FILE__));
 
    if ((argc > 0) && argv[0]) SetAnalysisName(argv[0]);
 
@@ -891,7 +891,7 @@ Bool_t TGo4Analysis::LoadStatus(const char *filename)
 
 Bool_t TGo4Analysis::SaveStatus(const char *filename)
 {
-   GO4TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::SaveStatus(const char *)",__LINE__, __FILE__));
    Bool_t rev = kFALSE;
    char buffer[1024];
    memset(buffer, 0, sizeof(buffer));
@@ -963,7 +963,7 @@ TTree *TGo4Analysis::CreateSingleEventTree(TGo4EventElement *event)
 
 TTree *TGo4Analysis::CreateSingleEventTree(const char *name, Bool_t isoutput)
 {
-   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char *, Bool_t)",__LINE__, __FILE__));
    //
    TGo4EventElement *event = nullptr;
    if(isoutput) event = GetOutputEvent(name);

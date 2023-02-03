@@ -62,13 +62,13 @@ class TGo4Command  : public TNamed {
       Bool_t IsSynchron() const;
 
       const char *GetReceiverName() const;
-      void SetReceiverName(const char*);
+      void SetReceiverName(const char *);
 
       const char *GetTaskName() const;
-      void SetTaskName(const char*);
+      void SetTaskName(const char *);
 
       const char *What() const;
-      void SetDescription(const char*);
+      void SetDescription(const char *);
 
       virtual void SetReceiver(TGo4CommandReceiver *rec);
 

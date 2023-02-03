@@ -124,7 +124,7 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
 
 Bool_t TGo4AnalysisStepManager::SetFirstStep(const char *name)
 {
-   GO4TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char *)",__LINE__, __FILE__));
    //
    Bool_t result = kFALSE;
    if (!name) {
@@ -155,7 +155,7 @@ Bool_t TGo4AnalysisStepManager::SetFirstStep(const char *name)
 
 Bool_t TGo4AnalysisStepManager::SetLastStep(const char *name)
 {
-   GO4TRACE((12,"TGo4AnalysisStepManager::SetLastStep(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStepManager::SetLastStep(const char *)",__LINE__, __FILE__));
    //
    Bool_t result=kTRUE;
    if(!name) {
@@ -195,7 +195,7 @@ Bool_t TGo4AnalysisStepManager::SetLastStep(const char *name)
 
 Bool_t TGo4AnalysisStepManager::SetStepStorage(const char *name, Bool_t on)
 {
-   GO4TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char*,Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char *, Bool_t)",__LINE__, __FILE__));
    Bool_t result = kFALSE;
    TGo4AnalysisStep *step = GetAnalysisStep(name);
    if (step) {
@@ -326,7 +326,7 @@ TGo4EventElement *TGo4AnalysisStepManager::GetInputEvent(Int_t stepindex) const
 
 TGo4EventElement *TGo4AnalysisStepManager::GetOutputEvent(const char *stepname) const
 {
-   GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisStepManager::GetOutputEvent(const char *)",__LINE__, __FILE__));
    TGo4EventElement *rev = nullptr;
    TGo4AnalysisStep *step=GetAnalysisStep(stepname);
    if(step) {

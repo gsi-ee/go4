@@ -177,16 +177,16 @@ void TGo4ClientTask::AddLocalCommand(TGo4Command *com)
    }
 }
 
-TGo4BufferQueue *TGo4ClientTask::GetCommandQueue(const char*)
+TGo4BufferQueue *TGo4ClientTask::GetCommandQueue(const char *)
 {
    return fxCommandQ;
 }
 
-TGo4BufferQueue * TGo4ClientTask::GetStatusQueue(const char*)
+TGo4BufferQueue * TGo4ClientTask::GetStatusQueue(const char *)
 {
    return fxStatusQ;
 }
-TGo4BufferQueue * TGo4ClientTask::GetDataQueue(const char*)
+TGo4BufferQueue * TGo4ClientTask::GetDataQueue(const char *)
 {
    return fxDataQ;
 }

@@ -25,7 +25,7 @@
 TGo4TreeSource::TGo4TreeSource(const char *name)
 : TGo4EventSource(name)
 {
-   GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char *)",__LINE__, __FILE__));
    Open();
 }
 

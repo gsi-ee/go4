@@ -218,7 +218,7 @@ class TGo4Log {
       static int fgStdPipe[2]; //! redirected pipe for stdout
       static int fgStdSave; //! saved file for stdout
 
-      static TLogTimer* fgTimer;  //! timer used to analyze buffer content
+      static TLogTimer *fgTimer;  //! timer used to analyze buffer content
 
    ClassDef(TGo4Log,1)
 };

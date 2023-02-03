@@ -28,7 +28,7 @@ TGo4ComClearObject::TGo4ComClearObject() : TGo4AnalysisObjectCommand("ANClearObj
 TGo4ComClearObject::TGo4ComClearObject(const char *name)
    : TGo4AnalysisObjectCommand("ANClearObject", "clears object by name", name)
 {
-   GO4TRACE((12, "TGo4ComClearObject::TGo4ComClearObject(const char*) ctor", __LINE__, __FILE__));
+   GO4TRACE((12, "TGo4ComClearObject::TGo4ComClearObject(const char *) ctor", __LINE__, __FILE__));
    SetReceiverName("AnalysisClient"); // this command needs client as receiver
                                       // to send back status message
    SetProtection(kGo4ComModeController);

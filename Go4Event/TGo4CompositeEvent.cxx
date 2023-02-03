@@ -29,7 +29,7 @@ TGo4CompositeEvent::TGo4CompositeEvent() :
 {
 }
 
-TGo4CompositeEvent::TGo4CompositeEvent(const char*aName, const char *aTitle, Short_t aBaseCat) :
+TGo4CompositeEvent::TGo4CompositeEvent(const char *aName, const char *aTitle, Short_t aBaseCat) :
    TGo4EventElement(aName,aTitle, aBaseCat),
    fNElements(0),
    fEventElements(nullptr),

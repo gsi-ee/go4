@@ -19,7 +19,7 @@
 TGo4EventStore::TGo4EventStore(const char *name) :
    TNamed(name, "This is a Go4 Event Store")
 {
-   GO4TRACE((15,"TGo4EventStore::TGo4EventStore(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventStore::TGo4EventStore(const char *)",__LINE__, __FILE__));
 }
 
 TGo4EventStore::TGo4EventStore() :

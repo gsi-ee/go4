@@ -466,7 +466,7 @@ TGo4Slot *TGo4Slot::GetSlot(const char *name, Bool_t force)
    return !subslot ? nullptr : subslot->GetSlot(subname, force);
 }
 
-TGo4Slot *TGo4Slot::FindSlot(const char *fullpath, const char** subname)
+TGo4Slot *TGo4Slot::FindSlot(const char *fullpath, const char **subname)
 {
    // exclude current dir and process parent dir
    while (fullpath && (strlen(fullpath) > 2)) {

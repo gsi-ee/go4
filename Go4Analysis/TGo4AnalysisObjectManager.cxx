@@ -219,7 +219,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveObject(const char *name, Bool_t del)
 
 TObject *TGo4AnalysisObjectManager::GetAsTObject(const char *name, const char *folder)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char *, const char *)",__LINE__, __FILE__));
    //
    TObject *ob = nullptr;
    TFolder *searchfold = fxGo4Dir;
@@ -1849,7 +1849,7 @@ void TGo4AnalysisObjectManager::CleanupDynamicLists(TObject *oldobject)
 
 void TGo4AnalysisObjectManager::PrintConditions(const char *expression)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char *)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxConditionDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all conditions is: " << totalsize << " bytes." << std::endl;
@@ -1857,7 +1857,7 @@ void TGo4AnalysisObjectManager::PrintConditions(const char *expression)
 
 void TGo4AnalysisObjectManager::PrintHistograms(const char *expression)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char *)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxHistogramDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all histograms is: " << totalsize << " bytes." << std::endl;
@@ -1865,7 +1865,7 @@ void TGo4AnalysisObjectManager::PrintHistograms(const char *expression)
 
 void TGo4AnalysisObjectManager::PrintParameters(const char *expression)
 {
-   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char *)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxParameterDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all parameters is: " << totalsize << " bytes." << std::endl;

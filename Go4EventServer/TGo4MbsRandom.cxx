@@ -60,7 +60,7 @@ TGo4MbsRandom::TGo4MbsRandom(const char *name) :
    fiNumSub(0),
    fiNumDat(0)
 {
-   GO4TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(const char *)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",name);
    Open();

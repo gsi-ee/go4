@@ -165,7 +165,7 @@ const char *QGo4Widget::GetLinkedName(TGo4Slot *slot)
 
    emit widgetService(this, service_GetLinkedName2, "", (void *) &res);
 
-   return (const char*) res;
+   return (const char *) res;
 }
 
 

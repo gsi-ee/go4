@@ -32,7 +32,7 @@
 #include "TGo4EventFactory.h"
 #include "TGo4EventStore.h"
 
-TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory* eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter *storetype, TGo4EventProcessorParameter* processortype)
+TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory *eventfactory, TGo4EventSourceParameter* sourcetype, TGo4EventStoreParameter *storetype, TGo4EventProcessorParameter* processortype)
 :TNamed(name,"This is a Go4 analysis step"),
    fxPrevious(nullptr), fxEventStore(nullptr), fxEventSource(nullptr), fxEventProcessor(nullptr),
    fxInputEvent(nullptr), fxOutputEvent(nullptr),
@@ -43,7 +43,7 @@ TGo4AnalysisStep::TGo4AnalysisStep(const char *name, TGo4EventFactory* eventfact
    fbErrorStopEnabled(kFALSE), fbErrorStopped(kFALSE)
 
 {
-   GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char *, TGo4EventFactory *)",__LINE__, __FILE__));
    fxOwner = TGo4Analysis::Instance(); // note: we always have the analysis framework!
    fxEventFactory = eventfactory;
    if(fxStoreType)

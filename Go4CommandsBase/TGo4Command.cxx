@@ -92,7 +92,7 @@ const char *TGo4Command::GetReceiverName() const
 
 void TGo4Command::SetReceiverName(const char *name)
 {
-  GO4TRACE((10,"void TGo4Command::SetReceiverName(const char*)", __LINE__, __FILE__));
+  GO4TRACE((10,"void TGo4Command::SetReceiverName(const char *)", __LINE__, __FILE__));
   fxReceiverName = name;
 }
 
@@ -104,13 +104,13 @@ const char *TGo4Command::GetTaskName() const
 
 void TGo4Command::SetTaskName(const char *name)
 {
-  GO4TRACE((10,"void TGo4Command::SetTaskName(const char*)", __LINE__, __FILE__));
+  GO4TRACE((10,"void TGo4Command::SetTaskName(const char *)", __LINE__, __FILE__));
   fxTaskName=name;
 }
 
 void TGo4Command::SetDescription(const char *txt)
 {
-   GO4TRACE((10,"void TGo4Command::SetDescription(const char*)", __LINE__, __FILE__));
+   GO4TRACE((10,"void TGo4Command::SetDescription(const char *)", __LINE__, __FILE__));
    fxDescription = txt;
 }
 

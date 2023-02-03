@@ -373,7 +373,7 @@ Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
 7. Graphical Markers and Conditions: Added possibility to define a "printf style"
      format string in for the float number display in marker/condition label box
      (default is %.4E). When selecting the marker/the condition display on TPad via mouse button,
-     the ROOT context menu provides method SetNumFormat(const char*) to change the
+     the ROOT context menu provides method SetNumFormat(const char *) to change the
      settings of current marker. Context menu function SaveLabelStyle() will set current
      format as default for all markers/conditions. MainWindow menu "Settings/Panel Defaults/MarkerLabels..."
      also has new field to set this format string. These defaults can be saved to go4 settings.
@@ -521,7 +521,7 @@ Changes in Go4 v4.4.2 (October 2010)
 10. Added possibility that output event of first analysis step can be declared as MbsEvent and
     just save the incoming mbs event into ROOT tree without copying the data:
     added method TGo4MbsEvent::AssignReference() allows to use TGo4MbsEvent as a "reference" to another
-    TGo4MbsEvent; added constructor TGo4MbsEvent(const char*) to use it with standard factory
+    TGo4MbsEvent; added constructor TGo4MbsEvent(const char *) to use it with standard factory
 11. Bugfix in TGo4MbsEvent: memory leak in subevent array when reading back from TTree
 12. Bug fix: when loading analysis preference file, check all appropriate keys in the file.
     Before analysis object name was fixed and name of status object also was fixed.
@@ -637,12 +637,12 @@ Changes in Go4 v4.4.0 (November 09)
    which event class and how it fills. Cleanup all sources class in go4 and
    examples. Old code will work as is.
 16.go4analysis executable search user library for new classes and create user
-   analysis instance, using predefined signatures: (const char*) or (int, char**).
+   analysis instance, using predefined signatures: (const char *) or (int, char**).
    Constructor  signature (int, char**) like for main() function allows to
    deliver arbitrary arguments to user code (see Example2Step).
    If standard signature not found, any non-default constructor will be tried -
    most old examples and codes should work. Alternatively, one can define
-   CreateUserAnalisys(const char*) function to create analysis instance.
+   CreateUserAnalisys(const char *) function to create analysis instance.
 17.Improve saveparam.C and savecond.C macros - better readable code.
    SavePrimitive() methods are used, implemented for parameter and condition classes.
    New saveall.C macro to store all conditions and parameters in single macro file.

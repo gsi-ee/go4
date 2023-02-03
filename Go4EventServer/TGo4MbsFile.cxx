@@ -56,7 +56,7 @@ TGo4MbsFile::TGo4MbsFile(const char *name) :
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
-   GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char *)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ", GetName());
    fxTagFile = fgcNOTAGFILE;

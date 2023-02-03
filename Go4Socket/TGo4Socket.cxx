@@ -393,7 +393,7 @@ Int_t TGo4Socket::Send(const char *name)
 
    if(rev < 0)
       {
-         TGo4Log::Debug(" !!! Socket: Send(const char*) ERROR # %d !!! ",rev);
+         TGo4Log::Debug(" !!! Socket: Send(const char *) ERROR # %d !!! ",rev);
       }
    return rev;
 }
@@ -404,12 +404,12 @@ char* TGo4Socket::RecvRaw(const char *name)
    GO4TRACE((12,"TGo4Socket::RecvRaw(const char *name)", __LINE__, __FILE__));
 
    if(!IsOpen()) {
-      TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : not open or not active !!! ");
+      TGo4Log::Debug(" !!! Socket: Recv(const char *) ERROR : not open or not active !!! ");
       return nullptr;
    }
 
    if (!fxSocket) {
-      TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
+      TGo4Log::Debug(" !!! Socket: Recv(const char *) ERROR : no TSocket !!! ");
       return nullptr;
    }
 #ifdef Linux
@@ -420,7 +420,7 @@ char* TGo4Socket::RecvRaw(const char *name)
 
    if(rev <= 0) {
       // error on receive
-      TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
+      TGo4Log::Debug(" !!! Socket: RecvRaw(const char *) ERROR # %d !!! ",rev);
       return nullptr;
    }
 

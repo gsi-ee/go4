@@ -39,7 +39,14 @@
 #include "TGo4Ratemeter.h"
 #include "TGo4DynamicEntry.h"
 
-THttpServer* TGo4Sniffer::gHttpServer = nullptr;
+THttpServer *TGo4Sniffer::gHttpServer = nullptr;
+
+THttpServer *TGo4Sniffer::GetHttpServer()
+{
+   return gHttpServer;
+}
+
+
 
 Bool_t TGo4Sniffer::CreateEngine(const char *args)
 {
