@@ -63,11 +63,11 @@ class QRootWindow : public QWidget {
         * translating them in MapQMouseEvent. Note that root grabs gui buttons
         * via x11 directly, thus this mechanism is not used for the regular
         *  root widgets! */
-      bool eventFilter( QObject *, QEvent * ) override;
-      void paintEvent( QPaintEvent *e ) override;
-      void closeEvent( QCloseEvent * e) override;
+      bool eventFilter(QObject *, QEvent *) override;
+      void paintEvent(QPaintEvent *e) override;
+      void closeEvent(QCloseEvent *e) override;
 
-      //virtual QPaintEngine * paintEngine () const {return nullptr;}
+      //virtual QPaintEngine * paintEngine() const { return nullptr; }
 
       /** translate Qt mouse event into root event structure. */
       Bool_t MapQMouseEvent(QMouseEvent *e, Event_t* rev);

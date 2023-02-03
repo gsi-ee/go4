@@ -91,10 +91,10 @@ class TGo4Socket {
     Bool_t fbOpen{kFALSE};
 
     /** root TSocket class doing the work */
-    TSocket * fxSocket{nullptr};
+    TSocket *fxSocket{nullptr};
 
     /** Server Socket (server mode only) */
-    TServerSocket * fxServerSocket{nullptr};
+    TServerSocket *fxServerSocket{nullptr};
 
     /** Connected port number (of server socket which opened with portnumberscan) */
     Int_t fiPort{0};

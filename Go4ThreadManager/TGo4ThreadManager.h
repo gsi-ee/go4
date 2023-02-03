@@ -63,7 +63,7 @@ class TGo4ThreadManager : public TNamed {
       Bool_t IsInitDone() const { return fbInitDone; }
 
       /** returns termination status of Threadmanager */
-      Bool_t IsTerminating () const { return fbTerminating; }
+      Bool_t IsTerminating() const { return fbTerminating; }
 
       Bool_t IsTerminateApp() const { return fbTerminateApplication; }
 

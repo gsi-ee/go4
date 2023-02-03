@@ -32,8 +32,8 @@ class TGo4RollingGraph : public TGraphErrors
       virtual void   Fill (Double_t value, Double_t xerror=-1, Double_t yerror=-1);
       void   Clear (Option_t *option = "") override;
 
-      Int_t   GetNumPoints () const   { return fiNumPoints; }   ///< Returns number of displayed points
-      Int_t   GetUpdateInterval () const   { return fiUpdateInterval; }   ///< Returns interval of entries when a new bin is opened
+      Int_t   GetNumPoints() const  { return fiNumPoints; }   ///< Returns number of displayed points
+      Int_t   GetUpdateInterval() const  { return fiUpdateInterval; }   ///< Returns interval of entries when a new bin is opened
 
    protected :
       void   NextBin ();

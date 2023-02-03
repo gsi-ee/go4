@@ -136,7 +136,7 @@ TGo4ConfigStep::~TGo4ConfigStep()
 
 void TGo4ConfigStep::InputArguments(const QString& Arg)
 {
-    TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
+    TGo4EventSourceParameter *SourcePar=fStepStatus->GetSourcePar();
     int ParId=SourcePar->GetID();
     if (ParId==GO4EV_USER){                    // user defined source class
         TGo4UserSourceParameter* usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
@@ -160,7 +160,7 @@ void TGo4ConfigStep::InputPortChanged(int port)
 {
    if (fBlocked) return;
 
-   TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
+   TGo4EventSourceParameter *SourcePar = fStepStatus->GetSourcePar();
 
    switch (SourcePar->GetID()) {
 
@@ -192,7 +192,7 @@ void TGo4ConfigStep::RetryCntChanged(int cnt)
 {
    if (fBlocked) return;
 
-   TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
+   TGo4EventSourceParameter *SourcePar = fStepStatus->GetSourcePar();
 
    switch (SourcePar->GetID()) {
 
@@ -376,7 +376,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
 {
    if (!fStepStatus) return;
 
-   TGo4EventSourceParameter* srcpar = fStepStatus->TakeSourcePar();
+   TGo4EventSourceParameter *srcpar = fStepStatus->TakeSourcePar();
    bool delsrcpar = true;
    TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
 
@@ -419,7 +419,7 @@ void TGo4ConfigStep::ChangeSourceParameter(int kind)
          break;
    }
 
-   TGo4EventSourceParameter* newpar = nullptr;
+   TGo4EventSourceParameter *newpar = nullptr;
 
    switch (kind) {
       case kind_RootFile:
@@ -527,7 +527,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
    // evaluate previous source if existing
 
-   TGo4EventSourceParameter* srcpar = fStepStatus->GetSourcePar();
+   TGo4EventSourceParameter *srcpar = fStepStatus->GetSourcePar();
 
    SourceNameEdit->setText(srcpar->GetName());
    SpinBoxTimeout->setValue(srcpar->GetTimeout());
@@ -760,7 +760,7 @@ void TGo4ConfigStep::StoreTreeAutoSave( int t )
 void TGo4ConfigStep::InputTagfile( const QString & tag )
 {
    if (fBlocked) return;
-   TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
+   TGo4EventSourceParameter *SourcePar=fStepStatus->GetSourcePar();
    int ParId=SourcePar->GetID();
    if (ParId!=GO4EV_MBS_FILE) return;
                 // tagfile only for mbs lmd file
@@ -808,7 +808,7 @@ void TGo4ConfigStep::ChangeSourceTimeout( int tim )
 {
    if (fBlocked) return;
 
-   TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
+   TGo4EventSourceParameter *sourcepar = fStepStatus->GetSourcePar();
    if (sourcepar)
       sourcepar->SetTimeout(tim);
 }
@@ -818,7 +818,7 @@ void TGo4ConfigStep::InputFileDialog()
    QString filters;
    bool mbsfilemode = false;
    if(fStepStatus) {
-       TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
+       TGo4EventSourceParameter *sourcepar = fStepStatus->GetSourcePar();
        if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
           filters = "Go4FileSource  (*.root)";
        else

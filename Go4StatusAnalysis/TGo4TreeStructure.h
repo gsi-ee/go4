@@ -40,7 +40,7 @@ class TGo4TreeStructure : public TGo4Status {
     TList *GetFolderList();
 
     /** Access to the folder containing the names objects. */
-    TFolder *GetNamesFolder(Bool_t chown=kFALSE);
+    TFolder *GetNamesFolder(Bool_t chown = kFALSE);
 
   private:
 

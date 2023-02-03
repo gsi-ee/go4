@@ -25,14 +25,14 @@ QGo4BrowserTreeWidget::~QGo4BrowserTreeWidget()
 {
 }
 
-QStringList QGo4BrowserTreeWidget::mimeTypes () const
+QStringList QGo4BrowserTreeWidget::mimeTypes() const
 {
    QStringList qstrList;
    qstrList.append("text");
    return qstrList;
 }
 
-Qt::DropActions QGo4BrowserTreeWidget::supportedDropActions () const
+Qt::DropActions QGo4BrowserTreeWidget::supportedDropActions() const
 {
    // returns what actions are supported when dropping
    return Qt::CopyAction | Qt::MoveAction;

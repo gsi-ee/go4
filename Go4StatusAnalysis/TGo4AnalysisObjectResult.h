@@ -41,7 +41,6 @@ enum Go4ResultAction_t
 
 class TGo4AnalysisObjectResult : public TGo4Status {
 
-
    public:
 
       TGo4AnalysisObjectResult();

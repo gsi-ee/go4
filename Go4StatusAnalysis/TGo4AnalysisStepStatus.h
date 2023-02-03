@@ -39,15 +39,15 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     /** Sets the event source parameter which is used on intitialization
       * of this step. */
-    void SetSourcePar(TGo4EventSourceParameter* kind);
+    void SetSourcePar(TGo4EventSourceParameter *kind);
 
     /** Returns the event source parameter which was
       * put into this status object. */
-    TGo4EventSourceParameter* GetSourcePar() const { return fxSourceType; }
+    TGo4EventSourceParameter *GetSourcePar() const { return fxSourceType; }
 
     /** Removes source parameter from the step and return it back to the user
      * User is responsible to cleanup this object */
-    TGo4EventSourceParameter* TakeSourcePar();
+    TGo4EventSourceParameter *TakeSourcePar();
 
     /** Sets the event store parameter which is used on intitialization
       * of this step. */
@@ -55,7 +55,7 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     /** Returns the event store parameter which was
       * put into this status object. */
-    TGo4EventStoreParameter * GetStorePar() const {  return fxStoreType; }
+    TGo4EventStoreParameter *GetStorePar() const {  return fxStoreType; }
 
     /** Sets the event processor parameter
       * which is used on intitialization of this step. */
@@ -63,22 +63,22 @@ class TGo4AnalysisStepStatus : public TGo4Status {
 
     /** Returns the event processor parameter which was
       * put into this status object. */
-    TGo4EventProcessorParameter * GetProcessorPar() const { return fxProcessorType; }
+    TGo4EventProcessorParameter *GetProcessorPar() const { return fxProcessorType; }
 
     /** Enables or disables the event source. */
-    void SetSourceEnabled(Bool_t on=kTRUE) { fbSourceEnabled = on; }
+    void SetSourceEnabled(Bool_t on = kTRUE) { fbSourceEnabled = on; }
     Bool_t IsSourceEnabled() const { return fbSourceEnabled; }
 
     /** Enables or disables the event store. */
-    void SetStoreEnabled(Bool_t on=kTRUE) { fbStoreEnabled = on; }
+    void SetStoreEnabled(Bool_t on = kTRUE) { fbStoreEnabled = on; }
     Bool_t IsStoreEnabled() const { return fbStoreEnabled; }
 
     /** Enables or disables the event processing. */
-    void SetProcessEnabled(Bool_t on=kTRUE) { fbProcessEnabled = on; }
+    void SetProcessEnabled(Bool_t on = kTRUE) { fbProcessEnabled = on; }
     Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
 
     /** Enables or disables the stop-on-error mode. */
-    void SetErrorStopEnabled(Bool_t on=kTRUE) { fbErrorStopEnabled = on; }
+    void SetErrorStopEnabled(Bool_t on = kTRUE) { fbErrorStopEnabled = on; }
     /** True if analysis step shall stop on error. */
     Bool_t IsErrorStopEnabled() const { return fbErrorStopEnabled; }
 
@@ -88,19 +88,19 @@ class TGo4AnalysisStepStatus : public TGo4Status {
     Bool_t IsErrorStopped() const { return fbErrorStopped; }
 
     /** Sets status value of processor, user defined. */
-    void SetProcessStatus(Int_t val) { fiProcessStatus=val; }
+    void SetProcessStatus(Int_t val) { fiProcessStatus = val; }
 
     /** Returns status value of processor. Meaning
-      * of value may be user defined. */
+     * of value may be user defined. */
     Int_t GetProcessStatus() const { return fiProcessStatus; }
 
-  private:
+ private:
 
     /** Parameter object of next event source to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning
       * is defined in actual user event factory.
       * @link aggregation */
-    TGo4EventSourceParameter* fxSourceType{nullptr};
+    TGo4EventSourceParameter *fxSourceType{nullptr};
 
     /** Parameter object of next event storage to be activated. Is used by
       * eventfactory as parameter for factory method. Meaning

@@ -52,5 +52,3 @@ class TGo4ObjectQueue : public TGo4Queue {
 };
 
 #endif //TGO4OBJECTQUEUE_H
-
-

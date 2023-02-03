@@ -76,7 +76,7 @@ class TGo4ExportManager : public TNamed {
 
     /**  Recursive conversion of all objects in collection into ascii files.
       * folder structure will be represented by subdirs on file system.*/
-    void Export(TCollection* dir);
+    void Export(TCollection *dir);
 
     void SetFilter(Go4Export_t format);
 

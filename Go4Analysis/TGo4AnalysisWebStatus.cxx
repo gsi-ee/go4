@@ -147,7 +147,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
       message.Append(TString::Format(", %s=%d", theKey.Data(), srctype));
 
       // extract values of old source parameter and save them into the new if matching:
-      TGo4EventSourceParameter* oldsrcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *oldsrcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* oldmbspar = dynamic_cast<TGo4MbsSourceParameter*>(oldsrcpar);
       TGo4UserSourceParameter* olduserpar = dynamic_cast<TGo4UserSourceParameter*>(oldsrcpar);
       TString srcname = oldsrcpar->GetName();
@@ -157,7 +157,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
       // JAM: the above shows that event source hierarchy interface is still not optimized
       // however, currently (March 2015) no manpower to improve or redesign Go4 if it is working...
 
-      TGo4EventSourceParameter* newpar = nullptr;
+      TGo4EventSourceParameter *newpar = nullptr;
       switch (srctype)
       {
         case GO4EV_FILE:
@@ -214,7 +214,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       TString srcname = url.GetValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%s", theKey.Data(), srcname.Data()));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       srcpar->SetName(srcname.Data());
     }    // fgxURL_SOURCE_NAME;
 
@@ -222,7 +222,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       TString tagname = url.GetValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%s", theKey.Data(), tagname.Data()));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsFileParameter* mbsfilepar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
       if (mbsfilepar)
          mbsfilepar->SetTagName(tagname.Data());
@@ -234,7 +234,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       Int_t port = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), port));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*>(srcpar);
       TGo4UserSourceParameter* userpar = dynamic_cast<TGo4UserSourceParameter*>(srcpar);
       if (mbspar)
@@ -249,7 +249,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       Int_t timeout = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), timeout));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       srcpar->SetTimeout(timeout);
     }    //fgxURL_SOURCE_TIMEOUT;
 
@@ -257,7 +257,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       Int_t retry = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), retry));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*>(srcpar);
       if (mbspar)
         mbspar->SetRetryCnt(retry);
@@ -271,7 +271,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     if (url.HasOption(theKey.Data())) {
       Int_t startevent = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), startevent));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*>(srcpar);
       if (mbspar)
         mbspar->SetStartEvent(startevent);
@@ -286,7 +286,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t stopevent = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), stopevent));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*>(srcpar);
       if (mbspar)
         mbspar->SetStopEvent(stopevent);
@@ -301,7 +301,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char *rest_url_opt)
     {
       Int_t skipevents = url.GetIntValueFromOptions(theKey.Data());
       message.Append(TString::Format(", %s=%d", theKey.Data(), skipevents));
-      TGo4EventSourceParameter* srcpar = step->GetSourcePar();
+      TGo4EventSourceParameter *srcpar = step->GetSourcePar();
       TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*>(srcpar);
       if (mbspar)
         mbspar->SetEventInterval(skipevents);

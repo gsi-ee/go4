@@ -40,7 +40,7 @@ class TGo4RemoveException : public TGo4ThreadException {
 
       TGo4RemoveException &operator=(const TGo4RemoveException &right);
 
-      Int_t Handle () override;
+      Int_t Handle() override;
 
 };
 

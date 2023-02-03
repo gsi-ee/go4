@@ -43,8 +43,8 @@ TXXXAnalysis::TXXXAnalysis(int argc, char **argv) :
 
 //   Text_t lmdfile[512]; // source file
 //   sprintf(lmdfile,"%s/data/test.lmd",getenv("GO4SYS"));
-   // TGo4EventSourceParameter* sourcepar = new TGo4MbsTransportParameter("r3b");
-   TGo4EventSourceParameter* sourcepar = new TGo4MbsFileParameter(GetDefaultTestFileName());
+   // TGo4EventSourceParameter *sourcepar = new TGo4MbsTransportParameter("r3b");
+   TGo4EventSourceParameter *sourcepar = new TGo4MbsFileParameter(GetDefaultTestFileName());
 
    TString parname = TString::Format("%sOutput", argv[0]);
    TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(parname.Data());

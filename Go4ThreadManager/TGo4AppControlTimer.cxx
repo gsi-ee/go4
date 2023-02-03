@@ -45,13 +45,13 @@ TGo4AppControlTimer::~TGo4AppControlTimer()
    }
 }
 
-Bool_t TGo4AppControlTimer::Notify ()
+Bool_t TGo4AppControlTimer::Notify()
 {
    // TurnOff();
    if(!fxManager)
       {
-         TGo4Log::Error("TGo4AppControlTimer::Notify () NEVER COME HERE!!!");
-         TGo4Log::Error("TGo4AppControlTimer::Notify () with  zero threadmanager!!!");
+         TGo4Log::Error("TGo4AppControlTimer::Notify() NEVER COME HERE!!!");
+         TGo4Log::Error("TGo4AppControlTimer::Notify() with  zero threadmanager!!!");
          return kFALSE;
 
       }

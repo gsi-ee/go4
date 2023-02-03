@@ -178,11 +178,11 @@ void TGo4ExportManager::Export(TDirectory *source)
    }
 }
 
-void TGo4ExportManager::Export(TCollection* col)
+void TGo4ExportManager::Export(TCollection *col)
 {
   if(!col) return;
   TGo4Log::Message(0,"ExportManager: Converting contents of collection %s",col->GetName());
-  if(fiFilter==GO4EX_ROOT) {
+  if(fiFilter == GO4EX_ROOT) {
      // root filter will write collection completely into one root file
      // otherwise, each object would be written separately into flat hierarchy
      ExportRoot(col);
@@ -191,13 +191,12 @@ void TGo4ExportManager::Export(TCollection* col)
 
    TIter iter(col);
    while(auto ob = iter())
-       Export(ob);
+      Export(ob);
 }
 
 void TGo4ExportManager::Export(TH1 *histo)
 {
-switch(fiFilter)
-   {
+   switch(fiFilter) {
       case GO4EX_ASCII:
          ExportASCII(histo,kFALSE);
          break;
@@ -222,8 +221,7 @@ switch(fiFilter)
 
 void TGo4ExportManager::Export(TGraph *gra)
 {
-switch(fiFilter)
-   {
+   switch(fiFilter) {
       case GO4EX_ASCII:
       case GO4EX_ASCII_CHANNELS:
          ExportASCII(gra);
@@ -313,8 +311,6 @@ catch(...)
 {
   TGo4Log::Message(3,"!!! Unexpected exception in TGo4ExportManager::ExportASCII(TH1 *)!!!");
 } // catch
-
-
 
 }
 

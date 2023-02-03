@@ -40,22 +40,22 @@ class TGo4AnalysisStatus : public TGo4Status {
 
     virtual ~TGo4AnalysisStatus();
 
-    void SetStepChecking(Int_t on) { fbStepCheckingMode=on; }
+    void SetStepChecking(Int_t on) { fbStepCheckingMode = on; }
     Int_t IsStepChecking() const { return fbStepCheckingMode; }
 
-    void SetFirstStepIndex(Int_t i) { fiFirstStepIndex=i; }
+    void SetFirstStepIndex(Int_t i) { fiFirstStepIndex = i; }
     Int_t GetFirstStepIndex() const { return fiFirstStepIndex; }
 
-    void SetLastStepIndex(Int_t i) { fiLastStepIndex=i; }
+    void SetLastStepIndex(Int_t i) { fiLastStepIndex = i; }
     Int_t GetLastStepIndex() const { return fiLastStepIndex; }
 
-    void SetAutoSaveInterval(Int_t i) { fiAutoSaveInterval=i; }
+    void SetAutoSaveInterval(Int_t i) { fiAutoSaveInterval = i; }
     Int_t GetAutoSaveInterval() const { return fiAutoSaveInterval; }
 
-    void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression=i; }
+    void SetAutoSaveCompression(Int_t i = 5) { fiAutoSaveCompression = i; }
     Int_t GetAutoSaveCompression() const { return fiAutoSaveCompression; }
 
-    void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
+    void SetAutoSaveOverwrite(Bool_t over = kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
     Int_t IsAutoSaveOverwrite() const { return fbAutoSaveOverwrite; }
 
     void SetAutoFileName(const char *name) { fxAutoFileName = name; }
@@ -64,7 +64,7 @@ class TGo4AnalysisStatus : public TGo4Status {
     void SetConfigFileName(const char *name) { fxConfigFileName = name; }
     const char *GetConfigFileName() const { return fxConfigFileName.Data(); }
 
-    void SetAutoSaveOn(Bool_t on=kTRUE) { fbAutoSaveOn=on; }
+    void SetAutoSaveOn(Bool_t on = kTRUE) { fbAutoSaveOn = on; }
     Int_t IsAutoSaveOn() const { return fbAutoSaveOn; }
 
     /** Access to certain analysis step status by name. */

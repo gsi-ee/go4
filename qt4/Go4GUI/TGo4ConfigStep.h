@@ -97,7 +97,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       enum { ParsSize = 9 };
 
       // array of parameters which are used to preserved once edited values
-      TGo4EventSourceParameter* fPars[ParsSize] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+      TGo4EventSourceParameter *fPars[ParsSize] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
       void ChangeSourceParameter(int kind);
       int CurrentSourceKind();

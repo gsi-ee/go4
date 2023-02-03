@@ -72,7 +72,7 @@ void TGo4AnalysisStepStatus::Print(Option_t *) const
    PrintLine("---------------------------------------------- ");
 }
 
-void TGo4AnalysisStepStatus::SetSourcePar(TGo4EventSourceParameter* kind)
+void TGo4AnalysisStepStatus::SetSourcePar(TGo4EventSourceParameter *kind)
 {
     if(fxSourceType) delete fxSourceType;
     if(kind)
@@ -81,9 +81,9 @@ void TGo4AnalysisStepStatus::SetSourcePar(TGo4EventSourceParameter* kind)
         fxSourceType = nullptr;
 }
 
-TGo4EventSourceParameter* TGo4AnalysisStepStatus::TakeSourcePar()
+TGo4EventSourceParameter *TGo4AnalysisStepStatus::TakeSourcePar()
 {
-   TGo4EventSourceParameter* res = fxSourceType;
+   TGo4EventSourceParameter *res = fxSourceType;
    fxSourceType = nullptr;
    return res;
 }
