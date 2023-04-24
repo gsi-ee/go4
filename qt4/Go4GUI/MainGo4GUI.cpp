@@ -140,7 +140,9 @@ int main(int argc, char **argv)
 
       if (argv[narg][0]=='-') {
          if ((curr == "--web") || (curr == "-web")) {
+#ifdef __GO4WEB__
             useweb = true;
+#endif
          } else if (curr == "-debug") {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
