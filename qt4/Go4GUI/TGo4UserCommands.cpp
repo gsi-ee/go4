@@ -82,11 +82,8 @@ void TGo4UserCommands::AssignShortcuts()
 {
 	// try to redefine shortcuts here after this widget was adopted by mainwindow toolbar
 	// seems that Qt5 overrides initial definitions:
-   for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i) {
-      int butid = i + 1;
-      fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
-      // fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
-   }
+   for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i)
+      fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(i+1));
 }
 
 void TGo4UserCommands::AnalysisMacroMonitorBtn_clicked()

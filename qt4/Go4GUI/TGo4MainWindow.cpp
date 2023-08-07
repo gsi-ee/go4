@@ -306,15 +306,15 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    menuBar()->addSeparator();
 
    QMenu* helpMenu = menuBar()->addMenu("&Help");
-   helpMenu->addAction("&Introduction (user manual)", this, &TGo4MainWindow::IntroHelpSlot)->setShortcut(Key_F1);
+   helpMenu->addAction("&Introduction (user manual)", this, &TGo4MainWindow::IntroHelpSlot)->setShortcut(Qt::Key_F1);
    helpMenu->addAction("&Reference manual", this, &TGo4MainWindow::RefHelpSlot);
    helpMenu->addAction("&Fit Tutorial", this, &TGo4MainWindow::FitHelpSlot);
    helpMenu->addSeparator();
-   helpMenu->addAction("About &Qt", this, &TGo4MainWindow::aboutQt)->setShortcut(Key_F2);
-   helpMenu->addAction("About R&OOT", this, &TGo4MainWindow::aboutROOT)->setShortcut(Key_F3);
+   helpMenu->addAction("About &Qt", this, &TGo4MainWindow::aboutQt)->setShortcut(Qt::Key_F2);
+   helpMenu->addAction("About R&OOT", this, &TGo4MainWindow::aboutROOT)->setShortcut(Qt::Key_F3);
    if (TGo4DabcProxy::GetDabcVersion())
       helpMenu->addAction("About &DABC", this, &TGo4MainWindow::aboutDABC);
-   helpMenu->addAction("About &Go4", this, &TGo4MainWindow::about)->setShortcut(Key_F4);
+   helpMenu->addAction("About &Go4", this, &TGo4MainWindow::about)->setShortcut(Qt::Key_F4);
 
    const char *libs = gSystem->Getenv("GO4USERLIBRARY");
 
@@ -719,7 +719,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     windowsMenu->addAction("&Close all", fxMdiArea, &TGo4MdiArea::closeAllSubWindows)->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, &TGo4MainWindow::MinAllWindows)->setEnabled(on);
 
-    windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, &TGo4MainWindow::ToggleFullScreenSlot)->setShortcut(Key_F11);
+    windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, &TGo4MainWindow::ToggleFullScreenSlot)->setShortcut(Qt::Key_F11);
 
     windowsMenu->addSeparator();
 
