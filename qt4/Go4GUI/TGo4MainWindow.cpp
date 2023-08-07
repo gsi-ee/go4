@@ -528,11 +528,7 @@ void TGo4MainWindow::AddSettingMenu()
    }
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#define CtrlKey(key) (CTRL+key)
-#else
-#define CtrlKey(key) (CTRL|key)
-#endif
+#define CtrlKey(key) ((int)Qt::CTRL | key)
 
 
 void TGo4MainWindow::AddFileMenu()
