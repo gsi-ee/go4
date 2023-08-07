@@ -536,9 +536,9 @@ void TGo4MainWindow::AddFileMenu()
    QMenu* fileMenu = menuBar()->addMenu("&File");
 
    fileMenu->addAction(QIcon( ":/icons/open.png" ), "&Open...",
-             this, &TGo4MainWindow::OpenFileSlot)->setShortcut(CtrlKey(Key_O));
+             this, &TGo4MainWindow::OpenFileSlot)->setShortcut(CtrlKey(Qt::Key_O));
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
-             this, &TGo4MainWindow::OpenRemoteFileSlot)->setShortcut(CtrlKey(Key_R) );
+             this, &TGo4MainWindow::OpenRemoteFileSlot)->setShortcut(CtrlKey(Qt::Key_R) );
    if (TGo4DabcProxy::GetDabcVersion())
       fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
                 this, &TGo4MainWindow::ConnectDabcSlot);
@@ -547,11 +547,11 @@ void TGo4MainWindow::AddFileMenu()
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
              this, &TGo4MainWindow::ConnectHServerSlot);
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
-             this, &TGo4MainWindow::SaveFileSlot)->setShortcut(CtrlKey(Key_Y) );
+             this, &TGo4MainWindow::SaveFileSlot)->setShortcut(CtrlKey(Qt::Key_Y) );
    fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
-             this, &TGo4MainWindow::CloseAllFilesSlot)->setShortcut(CtrlKey(Key_Q));
+             this, &TGo4MainWindow::CloseAllFilesSlot)->setShortcut(CtrlKey(Qt::Key_Q));
    fileMenu->addAction(QIcon( ":/icons/exit.png" ), "E&xit",
-             this, &TGo4MainWindow::close)->setShortcut(CtrlKey(Key_X));
+             this, &TGo4MainWindow::close)->setShortcut(CtrlKey(Qt::Key_X));
 }
 
 void TGo4MainWindow::AddFileToolBar()
@@ -590,13 +590,13 @@ void TGo4MainWindow::AddToolsMenu()
    QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
    toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View panel",
-                [this]() { MakeNewPanel(); })->setShortcut(CtrlKey(Key_V) );
+                [this]() { MakeNewPanel(); })->setShortcut(CtrlKey(Qt::Key_V) );
    toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit panel...",
-                [this]() { StartFitPanel(); })->setShortcut(CtrlKey(Key_F) );
+                [this]() { StartFitPanel(); })->setShortcut(CtrlKey(Qt::Key_F) );
    toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
                this, &TGo4MainWindow::StartHistogramInfo);
    toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&istogram...",
-               [this]() { CreateNewHist(); })->setShortcut(CtrlKey(Key_I) );
+               [this]() { CreateNewHist(); })->setShortcut(CtrlKey(Qt::Key_I) );
    toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
                this, &TGo4MainWindow::StartConditionInfo);
    toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &condition...",
@@ -604,11 +604,11 @@ void TGo4MainWindow::AddToolsMenu()
    toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event printout...",
                this, &TGo4MainWindow::StartEventInfo);
    toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &dyn. list entry ...",
-               [this]() { CreateNewDynEntry(); })->setShortcut(CtrlKey(Key_D) );
+               [this]() { CreateNewDynEntry(); })->setShortcut(CtrlKey(Qt::Key_D) );
    toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load li&braries ...",
-               this, &TGo4MainWindow::LoadLibrarySlot)->setShortcut(CtrlKey(Key_B) );
+               this, &TGo4MainWindow::LoadLibrarySlot)->setShortcut(CtrlKey(Qt::Key_B) );
    toolMenu->addAction(QIcon(":/icons/user.png" ), "&User GUI ...",
-               this, &TGo4MainWindow::UserPanelSlot)->setShortcut(CtrlKey(Key_U));
+               this, &TGo4MainWindow::UserPanelSlot)->setShortcut(CtrlKey(Qt::Key_U));
 }
 
 void TGo4MainWindow::AddToolsBar()
@@ -653,39 +653,39 @@ void TGo4MainWindow::AddAnalysisMenu()
 
    faLaunchAnal =
       anMenu->addAction(QIcon(":/icons/launchanal.png"), "Lau&nch analysis...", [this]() { LaunchClient(); });
-   faLaunchAnal->setShortcut(CtrlKey(Key_N));
+   faLaunchAnal->setShortcut(CtrlKey(Qt::Key_N));
    faConnectAnal =
       anMenu->addAction(QIcon(":/icons/connect.png"), "&Connect to running server...", [this]() { ConnectServer(); });
-   faConnectAnal->setShortcut(CtrlKey(Key_C));
+   faConnectAnal->setShortcut(CtrlKey(Qt::Key_C));
 
    faPrepareAnal = anMenu->addAction(QIcon(":/icons/connect.png"), "&Prepare for client connection...",
                                      [this]() { PrepareForClientConnection(); });
 
    faDisconnectAnal = anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",
                                         [this]() { DisconnectAnalysis(); });
-   faDisconnectAnal->setShortcut(CtrlKey(Key_M));
+   faDisconnectAnal->setShortcut(CtrlKey(Qt::Key_M));
 
    faShutdownAnal = anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis",
                                      [this]() { ShutdownAnalysis(); });
-   faShutdownAnal->setShortcut(CtrlKey(Key_M));
+   faShutdownAnal->setShortcut(CtrlKey(Qt::Key_M));
 
    faSumbStartAnal =
       anMenu->addAction(QIcon(":/icons/restart.png"), "Submit+S&tart", this, &TGo4MainWindow::SubmitStartAnalysisSlot);
-   faSumbStartAnal->setShortcut(CtrlKey(Key_T));
+   faSumbStartAnal->setShortcut(CtrlKey(Qt::Key_T));
 
    faStartAnal = anMenu->addAction(QIcon(":/icons/start.png"), "&Start", this, &TGo4MainWindow::StartAnalysisSlot);
-   faStartAnal->setShortcut(CtrlKey(Key_S));
+   faStartAnal->setShortcut(CtrlKey(Qt::Key_S));
 
    faStopAnal = anMenu->addAction(QIcon(":/icons/Stop.png"), "Stop (&Halt)", this, &TGo4MainWindow::StopAnalysisSlot);
-   faStopAnal->setShortcut(CtrlKey(Key_H));
+   faStopAnal->setShortcut(CtrlKey(Qt::Key_H));
 
    faAnalConfig = anMenu->addAction(QIcon(":/icons/control.png"), "Confi&guration...", this,
                                     &TGo4MainWindow::ToggleAnalysisConfiguration);
-   faAnalConfig->setShortcut(CtrlKey(Key_G));
+   faAnalConfig->setShortcut(CtrlKey(Qt::Key_G));
 
    faAnalTermin = anMenu->addAction(QIcon(":/icons/analysiswin.png"), "Analysis &Window", this,
                                     &TGo4MainWindow::ToggleAnalysisWindow);
-   faAnalTermin->setShortcut(CtrlKey(Key_W));
+   faAnalTermin->setShortcut(CtrlKey(Qt::Key_W));
 }
 
 void TGo4MainWindow::AddAnalysisBar()
