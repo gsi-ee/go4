@@ -920,38 +920,38 @@ lmdoff_t fLmdOffsetGet(sLmdControl *pLmdControl, uint32_t index)
 }
 //===============================================================
 void fLmdOffsetResize(sLmdControl *pLmdControl, uint32_t firstValue){
-  lmdoff_t *new;
+  lmdoff_t *newOffset;
   uint32_t oldEntries,newEntries;
 
   oldEntries=pLmdControl->iOffsetEntries;
   newEntries=oldEntries+OFFSET__ENTRIES;
-  new=(lmdoff_t *)malloc(newEntries*pLmdControl->iOffsetSize);
-  memset(new,0,newEntries*pLmdControl->iOffsetSize);
+  newOffset = (lmdoff_t *)malloc(newEntries*pLmdControl->iOffsetSize);
+  memset(newOffset,0,newEntries*pLmdControl->iOffsetSize);
   if(oldEntries > 0){ //table was expanded
     //printf("Resize table %d to %d entries\n",oldEntries,newEntries);
     if(pLmdControl->pOffset8){
-      memcpy(new,pLmdControl->pOffset8,oldEntries*pLmdControl->iOffsetSize);
+      memcpy(newOffset,pLmdControl->pOffset8,oldEntries*pLmdControl->iOffsetSize);
       free(pLmdControl->pOffset8);
-      pLmdControl->pOffset8=new;
+      pLmdControl->pOffset8 = newOffset;
     }
     if(pLmdControl->pOffset4){
-      memcpy(new,pLmdControl->pOffset4,oldEntries*pLmdControl->iOffsetSize);
+      memcpy(newOffset,pLmdControl->pOffset4,oldEntries*pLmdControl->iOffsetSize);
       free(pLmdControl->pOffset4);
-      pLmdControl->pOffset4=(uint32_t *)new;
+      pLmdControl->pOffset4 = (uint32_t *)newOffset;
     }
   }
   else { // table was new
     //printf("Create table %d entries, first offset %d\n",newEntries,firstValue);
     if(pLmdControl->iOffsetSize==8){
-      pLmdControl->pOffset8=new;
-      *pLmdControl->pOffset8=(lmdoff_t)firstValue;
+      pLmdControl->pOffset8 = newOffset;
+      *pLmdControl->pOffset8 = (lmdoff_t)firstValue;
     }
     if(pLmdControl->iOffsetSize==4){
-      pLmdControl->pOffset4=(uint32_t *)new;
-      *pLmdControl->pOffset4=firstValue;
+      pLmdControl->pOffset4 = (uint32_t *)newOffset;
+      *pLmdControl->pOffset4 = firstValue;
     }
   }
-  pLmdControl->iOffsetEntries=newEntries;
+  pLmdControl->iOffsetEntries = newEntries;
 }
 //===============================================================
 void fLmdPrintBufferHeader(uint32_t iVerbose, sMbsBufferHeader *pMbsBufferHeader)
