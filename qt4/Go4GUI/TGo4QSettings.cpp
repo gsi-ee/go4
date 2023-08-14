@@ -851,9 +851,9 @@ void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& fi
 
 void TGo4QSettings::getRemoteFileSett(QString& hostname, QString& filename, QString& protocol)
 {
-   hostname = getStr( "/OpenRemoteFile/Host", "machine.gsi.de");
-   filename = getStr( "/OpenRemoteFile/File", "tmp/hsimple.root");
-   protocol = getStr( "/OpenRemoteFile/Type", "root:");
+   hostname = getStr( "/OpenRemoteFile/Host", "jsroot.gsi.de");
+   filename = getStr( "/OpenRemoteFile/File", "files/hsimple.root");
+   protocol = getStr( "/OpenRemoteFile/Type", "http:");
 }
 
 void TGo4QSettings::setPrinterSett(const QString& name, const QString& cmd)
