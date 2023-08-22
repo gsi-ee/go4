@@ -109,10 +109,17 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    web->SetPadDblClickedHandler([this](TPad *pad, int x, int y) { ProcessPadDblClicked(pad, x, y); });
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-   ROOT::Experimental::RWebDisplayArgs args("qt6");
+   const char *kind = "qt6";
 #else
-   ROOT::Experimental::RWebDisplayArgs args("qt5");
+   const char *kind = "qt5";
 #endif
+
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,39,0)
+   ROOT::RWebDisplayArgs args(kind);
+#else
+   ROOT::Experimental::RWebDisplayArgs args(kind);
+#endif
+
    args.SetDriverData(this); // it is parent widget for created QWebEngineView element
    args.SetUrlOpt("noopenui");
 
