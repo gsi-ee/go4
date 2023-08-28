@@ -114,7 +114,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    const char *kind = "qt5";
 #endif
 
-#if ROOT_VERSION_CODE > ROOT_VERSION(6,39,0)
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,29,0)
    ROOT::RWebDisplayArgs args(kind);
 #else
    ROOT::Experimental::RWebDisplayArgs args(kind);
