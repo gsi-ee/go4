@@ -14,6 +14,9 @@ endif
 ifneq ($(findstring -std=c++17,$(ROOTCFLAGS)),)
     QMAKEOPTFLAGS := "CONFIG+=c++17"
 endif
+ifneq ($(findstring -std=c++20,$(ROOTCFLAGS)),)
+    QMAKEOPTFLAGS := "CONFIG+=c++20"
+endif
 
 WITHGED = yes
 
