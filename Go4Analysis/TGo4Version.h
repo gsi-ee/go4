@@ -21,8 +21,8 @@
 // to check the user analysis against framework version on runtime
 // 10205 means Version 1.02.05 or release number  1.2-5,
 
-#define __GO4BUILDVERSION__ 60299
-#define __GO4RELEASE__ "v6.2.99"
+#define __GO4BUILDVERSION__ 60300
+#define __GO4RELEASE__ "v6.3.00"
 
 class TGo4Version {
    protected:
