@@ -1,7 +1,7 @@
 ```
 --------------------------------------------------------------
-         Go4 Release Package v6.3.0 (build 60300)
-                      11-January-2024
+         Go4 Release Package v6.3.x (build 60399)
+                      spring 2024
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
