@@ -314,7 +314,11 @@ install(FILES CHANGES.txt Go4License.txt README.md DESTINATION ${GO4_INSTALL_MAI
 install(FILES ${CMAKE_SOURCE_DIR}/data/test.lmd DESTINATION ${GO4_INSTALL_MAINDIR}/data COMPONENT tests)
 
 if(MSVC)
-   get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
+   if(qt6)
+      get_filename_component(_qt_dir_ "${Qt6_DIR}/../../.." ABSOLUTE)
+   else()
+      get_filename_component(_qt_dir_ "${Qt5_DIR}/../../.." ABSOLUTE)
+   endif()
 
    configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/go4login.bat.in
                   ${CMAKE_BINARY_DIR}/go4login.bat @ONLY NEWLINE_STYLE CRLF)
@@ -331,33 +335,59 @@ if(MSVC)
    get_filename_component(_root_dir_ "${ROOT_DIR}/.." ABSOLUTE)
    install(DIRECTORY ${_root_dir_}/ DESTINATION ${GO4_INSTALL_MAINDIR}/root COMPONENT root)
 
-   # install selected files from Qt5 - only run go4gui
+   if(qt6)
+      # install selected files from Qt6 - only run go4gui
+      install(FILES ${_qt_dir_}/bin/opengl32sw.dll
+                    ${_qt_dir_}/bin/qt.conf
+                    ${_qt_dir_}/bin/Qt6Core.dll
+                    ${_qt_dir_}/bin/Qt6Gui.dll
+                    ${_qt_dir_}/bin/Qt6Network.dll
+                    ${_qt_dir_}/bin/Qt6Positioning.dll
+                    ${_qt_dir_}/bin/Qt6PrintSupport.dll
+                    ${_qt_dir_}/bin/Qt6Qml.dll
+                    ${_qt_dir_}/bin/Qt6QmlModels.dll
+                    ${_qt_dir_}/bin/Qt6Quick.dll
+                    ${_qt_dir_}/bin/Qt6QuickWidgets.dll
+                    ${_qt_dir_}/bin/Qt6WebChannel.dll
+                    ${_qt_dir_}/bin/Qt6WebEngineCore.dll
+                    ${_qt_dir_}/bin/Qt6WebEngineWidgets.dll
+                    ${_qt_dir_}/bin/Qt6Widgets.dll
+                    ${_qt_dir_}/bin/QtWebEngineProcess.exe
+                    ${_qt_dir_}/bin/QtWebEngineProcessd.exe
+                    DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/bin
+                    COMPONENT qt6)
 
-   install(FILES ${_qt_dir_}/bin/libEGL.dll
-                 ${_qt_dir_}/bin/libGLESv2.dll
-                 ${_qt_dir_}/bin/qt.conf
-                 ${_qt_dir_}/bin/Qt5Core.dll
-                 ${_qt_dir_}/bin/Qt5Gui.dll
-                 ${_qt_dir_}/bin/Qt5Network.dll
-                 ${_qt_dir_}/bin/Qt5Positioning.dll
-                 ${_qt_dir_}/bin/Qt5PrintSupport.dll
-                 ${_qt_dir_}/bin/Qt5Qml.dll
-                 ${_qt_dir_}/bin/Qt5QmlModels.dll
-                 ${_qt_dir_}/bin/Qt5Quick.dll
-                 ${_qt_dir_}/bin/Qt5QuickWidgets.dll
-                 ${_qt_dir_}/bin/Qt5WebChannel.dll
-                 ${_qt_dir_}/bin/Qt5WebEngine.dll
-                 ${_qt_dir_}/bin/Qt5WebEngineCore.dll
-                 ${_qt_dir_}/bin/Qt5WebEngineWidgets.dll
-                 ${_qt_dir_}/bin/Qt5Widgets.dll
-                 ${_qt_dir_}/bin/QtWebEngineProcess.exe
-                 ${_qt_dir_}/bin/QtWebEngineProcessd.exe
-                 DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin
-                 COMPONENT qt5)
+      install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/plugins COMPONENT qt6)
+      install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/resources COMPONENT qt6)
+      install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt6/translations COMPONENT qt6)
+   else()
+      # install selected files from Qt5 - only run go4gui
+      install(FILES ${_qt_dir_}/bin/libEGL.dll
+                     ${_qt_dir_}/bin/libGLESv2.dll
+                     ${_qt_dir_}/bin/qt.conf
+                     ${_qt_dir_}/bin/Qt5Core.dll
+                     ${_qt_dir_}/bin/Qt5Gui.dll
+                     ${_qt_dir_}/bin/Qt5Network.dll
+                     ${_qt_dir_}/bin/Qt5Positioning.dll
+                     ${_qt_dir_}/bin/Qt5PrintSupport.dll
+                     ${_qt_dir_}/bin/Qt5Qml.dll
+                     ${_qt_dir_}/bin/Qt5QmlModels.dll
+                     ${_qt_dir_}/bin/Qt5Quick.dll
+                     ${_qt_dir_}/bin/Qt5QuickWidgets.dll
+                     ${_qt_dir_}/bin/Qt5WebChannel.dll
+                     ${_qt_dir_}/bin/Qt5WebEngine.dll
+                     ${_qt_dir_}/bin/Qt5WebEngineCore.dll
+                     ${_qt_dir_}/bin/Qt5WebEngineWidgets.dll
+                     ${_qt_dir_}/bin/Qt5Widgets.dll
+                     ${_qt_dir_}/bin/QtWebEngineProcess.exe
+                     ${_qt_dir_}/bin/QtWebEngineProcessd.exe
+                     DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/bin
+                     COMPONENT qt5)
 
-   install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins COMPONENT qt5)
-   install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
-   install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
+      install(DIRECTORY ${_qt_dir_}/plugins/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/plugins COMPONENT qt5)
+      install(DIRECTORY ${_qt_dir_}/resources/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/resources COMPONENT qt5)
+      install(DIRECTORY ${_qt_dir_}/translations/ DESTINATION ${GO4_INSTALL_MAINDIR}/qt5/translations COMPONENT qt5)
+   endif()
 
    # add all tests sources
    foreach(ex ${examples})
