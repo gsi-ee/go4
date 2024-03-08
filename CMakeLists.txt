@@ -253,7 +253,7 @@ foreach(ex ${examples})
    ExternalProject_Add(${ex}
                        DEPENDS Go4Analysis Go4AnalBase Go4Fit
                        BUILD_ALWAYS true
-                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR}
+                       CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_BINARY_DIR} -DBUILDING_GO4=ON
                        SOURCE_DIR ${CMAKE_SOURCE_DIR}/${ex}
                        BINARY_DIR ${ex}
                        INSTALL_COMMAND "")

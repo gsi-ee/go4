@@ -241,4 +241,10 @@ function(GO4_USER_ANALYSIS)
      endforeach()
   endif()
 
+  if(MSVC AND BUILDING_GO4)
+     add_custom_command(TARGET ${libname}${tgt} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${tgtdir}/Release/lib${libname}.dll ${tgtdir})
+     add_custom_command(TARGET ${libname}${tgt} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${tgtdir}/Release/lib${libname}.lib ${tgtdir})
+     add_custom_command(TARGET ${libname}${tgt} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${tgtdir}/Release/lib${libname}.exp ${tgtdir})
+  endif()
+
 endfunction()
