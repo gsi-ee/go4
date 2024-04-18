@@ -4,7 +4,6 @@ project(Go4UserGui)
 
 find_package(Go4)
 
-include(${ROOT_USE_FILE})
 include(${GO4_USE_FILE})
 
 set(CMAKE_AUTOMOC ON)
