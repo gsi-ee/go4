@@ -29,30 +29,30 @@ This package was tested on
   * openSUSE Leap 42.2, openSUSE Tumblweed 10.2022
   * Debian 7.0, Debian 8.10 (32 bit and 64bit), Debian 9, Debian 11
   * macOS 10.14.6
-  * compilers: gcc8.2, gcc 10.2, gcc 11.2, gcc 12.2
+  * compilers: gcc 10.2, gcc 11.2, gcc 12.2, gcc 13.2
 
 ## REQUIREMENTS
-   * ROOT 6.24 or higher (recommended 6.26)
+   * ROOT 6.28 or higher (recommended 6.30)
    * Qt5.12 or higher (recommended 5.15)
-   * or Qt6.2 or higher (experimental)
+   * or Qt6.4 or higher (experimental)
 
 
 ## ROOT INSTALLATION
 
-Install the ROOT framework Version >=6.24/00.
-See instruction how download and compile ROOT on http://root.cern.ch.
+Install the ROOT framework Version >=6.28/00.
+See instruction how download and compile ROOT on http://root.cern
 Recommended way to build ROOT - compile it and use from compilation path:
 
-     [shell] tar xzf root_v6.24.00.source.tar.gz
-     [shell] mkdir build_624
-     [shell] cd build_624
-     [shell] cmake ../root_v6.24.00
+     [shell] tar xzf root_v6.28.00.source.tar.gz
+     [shell] mkdir build_628
+     [shell] cd build_628
+     [shell] cmake ../root_v6.28.00
      [shell] make -j
      [shell] source bin/thisroot.sh
 
 To use web-based graphics (required for Mac) qt5web option should be enabled:
 
-     shell> cmake ../root_v6.24.00 -Droot7=ON -Dqt5web=ON
+     shell> cmake ../root_v6.28.00 -Dwebgui=ON -Dqt5web=ON
 
 Check after ROOT compilation that everything is fine by calling:
 
@@ -68,7 +68,7 @@ If command fails, one should configure environment call
 
 This Go4 distribution can be built with following Qt versions:
 * qt5 - Qt 5.6.x and higher (recommended 5.15.2)
-* qt6 - Qt 6.2.x and higher
+* qt6 - Qt 6.4.x and higher
 Most modern Linux distributions provide Qt libraries, utilities and include files.
 Typically one should install libqt5-devel packages.
 Normally Go4 able to detect major version of such Qt installation
