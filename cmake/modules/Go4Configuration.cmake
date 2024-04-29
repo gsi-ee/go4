@@ -43,6 +43,10 @@ endif()
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
 
+if(MSVC)
+   set(SETTING_GO4_ROOT_DIR "set(GO4_ROOT_DIR \"../root\")")
+endif()
+
 configure_file(${CMAKE_SOURCE_DIR}/cmake/scripts/Go4Config.cmake.in
                ${CMAKE_BINARY_DIR}/_install/Go4Config.cmake @ONLY NEWLINE_STYLE UNIX)
 

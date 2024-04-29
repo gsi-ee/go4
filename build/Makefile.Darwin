@@ -34,7 +34,7 @@ MV            = mv
 #### Linker definitions: ####
 LD            = clang++
 
-SOFLAGS       = -dynamiclib -single_module -undefined dynamic_lookup -install_name
+SOFLAGS       = -dynamiclib -single_module -undefined dynamic_lookup -install_name 
 DllSuf        = so
 
 ifeq ($(GO4WITHRPATH),true)

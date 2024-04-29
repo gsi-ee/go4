@@ -43,6 +43,10 @@ else()
    message(FATAL_ERROR "Not find ROOTConfig.cmake")
 endif()
 
+if(DEFINED ROOT_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD ${ROOT_CXX_STANDARD})
+endif()
+
 #----------------------------------------------------------------------------
 if(MSVC)
   set(CMAKE_FIND_LIBRARY_PREFIXES "lib")
