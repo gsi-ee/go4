@@ -2158,7 +2158,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject *obj, TObject *newobj, Int_
          sum += value;
          histo->SetBinContent(n, value);
       }
-
+      UpdateHistoListOfFunctions(histo, histo2); // JAM2024
       if (canrebin) histo->SetCanExtend(TH1::kAllAxes);
 
       histo->SetEntries(sum);
@@ -2319,6 +2319,29 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph *oldgr, TGraph *newgr)
       oldhis->GetYaxis()->SetTitle(newhis->GetYaxis()->GetTitle());
    }
 }
+
+
+void TGo4BrowserProxy::UpdateHistoListOfFunctions(TH1 *oldh, TH1 *newh)
+{
+  // JAM 26-06-2024: provide monitoring of fit results here
+   if(!oldh || !newh) return;
+   TList *theFunctions = oldh->GetListOfFunctions();
+   TObject *obj = nullptr;
+   while ((obj  = theFunctions->First()) != nullptr) {
+      while (theFunctions->Remove(obj)) { }
+      delete obj;
+   }
+
+   TList *newFunctions = newh->GetListOfFunctions();
+   TListIter fiter(newFunctions);
+   while(auto fun = dynamic_cast<TF1 *>(fiter())) {
+     TF1 *fclon = dynamic_cast<TF1 *>(fun->Clone());
+     theFunctions->Add(fclon);
+     fclon->SetParent(oldh);
+   }
+}
+
+
 
 
 void TGo4BrowserProxy::AddWaitingList(TGo4Slot *itemslot, const char *destination)
