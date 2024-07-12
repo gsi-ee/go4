@@ -34,6 +34,13 @@ enum Go4Export_t
    GO4EX_XML
 };
 
+
+enum Go4Import_t
+{
+  GO4IM_ASCII,
+  GO4IM_ORTEC_MCA
+};
+
 /**
  * This class manages all export and import conversions of
  * objects to/from different file formats like ascii, radware, etc.
@@ -89,6 +96,18 @@ class TGo4ExportManager : public TNamed {
 
     void SetOutFileComment(const char *comment = nullptr)
         { fxOutFileComment= comment ?  comment : "Saved from Go4"; }
+
+    /****** new 2024: add some most wanted import functions*****************************/
+
+    /**create imported histogram from file of given name  */
+    TH1* ImportHistogram(const char* filename, Go4Import_t format);
+
+    /** Convert from Ortec MCA (request U.Spillmann)*/
+    TH1* ImportHistogramOrtec(const char* filename);
+
+    /** Provide reading back ascii histograms exported by another go4*/
+    TH1* ImportHistogramGo4Ascii(const char *nom);
+
 
   private:
 

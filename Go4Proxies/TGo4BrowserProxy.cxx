@@ -470,6 +470,11 @@ void TGo4BrowserProxy::OpenFile(const char *fname)
    SyncBrowserSlots();
 }
 
+
+
+
+
+
 void TGo4BrowserProxy::AddServerProxy(TGo4ServerProxy *serv, const char *slotname, const char *info)
 {
    fxOM->AddProxy(fxDataPath.Data(), serv, slotname, info);
@@ -1253,6 +1258,44 @@ void TGo4BrowserProxy::ExportItemsTo(TObjArray *items,  // array of TObjString
 
    exman.Export(&objs, filter);
 }
+
+void TGo4BrowserProxy::ImportObjectFromFile(const char *filename, const char *filedir,
+    const char *format)
+{
+  TString result,folder;
+  TString convert;
+  if(!format)
+     convert="ASCII";
+  else
+     convert=format;
+
+  Go4Import_t filter;
+  if (convert.Contains("ASCII")) {
+     TGo4Log::Message(0, "Import filter is ASCII");
+     filter = GO4IM_ASCII;
+     folder = "Imports/Ascii";
+  } else if (convert.Contains("Ortec")) {
+     TGo4Log::Message(0, "Export filter is Ortec MCA");
+     filter = GO4IM_ORTEC_MCA;
+     folder = "Imports/OrtecMCA";
+  }
+
+  TGo4ExportManager impman("BrowserImport");
+  impman.SetStartDir();
+  impman.SetCurrentDir(filedir);
+
+  TH1* histo=impman.ImportHistogram(filename,filter);
+  if(histo)
+  {
+    //TGo4BrowserProxy::SaveToMemory(const char *pathname, TObject *obj, Bool_t ownership, Bool_t overwrite)
+    result=SaveToMemory(folder.Data(),histo, kTRUE, kFALSE);
+
+    TGo4Log::Message(1, "Importing %s Histogram from file %s to %s.", convert.Data(), filename ,result.Data());
+  }
+
+}
+
+
 
 Bool_t TGo4BrowserProxy::SaveBrowserToFile(const char *filename,
                                            Bool_t prefetch,

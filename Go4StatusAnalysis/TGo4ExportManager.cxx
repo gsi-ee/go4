@@ -14,6 +14,7 @@
 #include "TGo4ExportManager.h"
 
 #include <fstream>
+#include <istream>
 
 #include "TSystem.h"
 #include "TFolder.h"
@@ -25,7 +26,23 @@
 #include "TH3.h"
 #include "TGraph.h"
 
+#include "Riostream.h"
+
 #include "TGo4Log.h"
+
+// JAM7-2024:
+#define GO4_EXMAN_CREATE_HISTOGRAM(X,Y) \
+    switch(X){ \
+              case 1:\
+                 theHisto = new TH1##Y(name.Data(), title.Data(), bins[0], axmin[0], axmax[0]);\
+              break;\
+              case 2:\
+                 theHisto = new TH2##Y(name.Data(), title.Data(), bins[0], axmin[0], axmax[0], bins[1], axmin[1], axmax[1]);\
+              break;\
+              case 3:\
+                 theHisto = new TH3##Y(name.Data(), title.Data(), bins[0], axmin[0], axmax[0], bins[1], axmin[1], axmax[1], bins[2], axmin[2], axmax[2]);\
+              break;\
+    }
 
 TGo4ExportManager::TGo4ExportManager(const char *name)
    : TNamed(name,"This is a Go4 export manager"),fiFilter(GO4EX_ROOT)
@@ -460,3 +477,242 @@ void TGo4ExportManager::ExportRoot(TObject *ob)
    TGo4Log::Message(0,"ExportManager: Wrote object %s of class %s to root file %s",
       ob->GetName(), ob->ClassName(),fname.Data() );
 }
+
+
+
+TH1* TGo4ExportManager::ImportHistogram(const char *filename,
+      Go4Import_t format)
+{
+   switch (format) {
+      case GO4IM_ASCII:
+         return ImportHistogramGo4Ascii(filename);
+//         TGo4Log::Message(2,
+//               "ExportManager: not yet implemented plain ascii histogram import,could not use file %s  ",
+//               filename);
+      break;
+
+      case GO4IM_ORTEC_MCA:
+         return ImportHistogramOrtec(filename);
+         break;
+
+      default:
+         TGo4Log::Message(2,
+               "ExportManager: Can not import histogram from file %s with unknown import type %d ",
+               filename, format);
+   }
+   return nullptr;
+}
+
+
+TH1* TGo4ExportManager::ImportHistogramOrtec(const char *nom)
+{
+// here duplicate functionality of script import_spe.C:
+   TString path = nom;
+   if (!path.Contains(".Spe")) {
+      path.Append(".Spe");
+   }
+   std::ifstream in;
+   in.open(path.Data());
+   if (!in.good()) {
+      TGo4Log::Message(2,
+            "ExportManager: could not open file %s for Ortec MCA histogram import",
+            path.Data());
+      return nullptr;
+   }
+
+   Double_t value = 0;
+   Int_t numbins = 1024;
+   Int_t xmin = 0;
+   Int_t xmax = 1024;
+
+   // TODO: evaluate histogram specs from header first
+   std::string header;
+   std::string date = "unknown date";
+   std::string desc = "no id";
+   Int_t headerlines = 12;
+   for (Int_t i = 0; i < headerlines; ++i) {
+      getline(in, header);
+      //cout << "getting header "<<i<<":"<<header.c_str() << endl;
+      if (header.find("$DATA:") != std::string::npos) {
+         in >> xmin >> xmax;
+         xmax += 1; // root TH1 upper limit is exclusive...
+         numbins = xmax - xmin;
+         i++;
+         //cout << " - got xmin="<<xmin<<", xmax="<<xmax<<", numbins="<<numbins << endl;
+
+      } else if (header.find("$DATE_MEA:") != std::string::npos) {
+         getline(in, date);
+         i++;
+         //cout << " - got measurement date="<<date.c_str() << endl;
+      } else if (header.find("$SPEC_ID:") != std::string::npos) {
+         getline(in, desc);
+         i++;
+         //cout << " - got description="<<desc.c_str() << endl;
+      }
+
+   }
+
+   TString name = path;
+   // strip leading path and suffix:
+   Ssiz_t lastslash = name.Last('/');
+   name = name(lastslash + 1, name.Length());
+   Ssiz_t lastdot = name.Last('.');
+   name = name(0, lastdot);
+
+   TString title = TString::Format("%s of MCA from %s, %s", name.Data(),
+         date.c_str(), desc.c_str());
+   TH1D *theHisto = new TH1D(name.Data(), title.Data(), numbins, xmin, xmax);
+
+   for (Int_t b = 0; b < numbins; ++b) {
+      in >> value;
+      if (!in.good())
+         break;
+      //theHisto->Fill(b, value);
+      theHisto->SetBinContent(b + 1, value);
+      //cout << "got bin "<<b<<":"<<value << endl;
+   }
+   theHisto->ResetStats(); // because we do not Fill() have to calculate stats afterwards
+
+   // TODO: optionally evaluate footer infos here?
+   getline(in, header); // dummy read to handle intermediate line feed ??
+   //cout << "getting intermdiate line :"<<header.c_str()<<":" << endl;
+   Int_t footerlines = 14;
+   for (Int_t i = 0; i < footerlines; ++i) {
+      getline(in, header);
+      //cout << "getting footer "<<i<<":"<<header.c_str() << endl;
+   }
+   /////////
+
+   return theHisto;
+}
+
+
+TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
+{
+   TH1 *theHisto = nullptr;
+   TString path = nom;
+   if (!path.Contains(".hdat")) {
+      path.Append(".hdat");
+   }
+   std::ifstream in;
+   in.open(path.Data());
+   if (!in.good()) {
+      TGo4Log::Message(2,
+            "ExportManager: could not open file %s for go4 ASCII histogram import",
+            path.Data());
+      return nullptr;
+   }
+   TString name = path;
+   // strip leading path and suffix:
+   Ssiz_t lastslash = name.Last('/');
+   name = name(lastslash + 1, name.Length());
+   Ssiz_t lastdot = name.Last('.');
+   name = name(0, lastdot);
+   TString title = TString::Format("%s imported from ASCII %s.hdat",
+         name.Data(), name.Data());
+
+   // TODO: evaluate histogram specs from header first
+   std::string header, dummy;
+
+   getline(in, header);
+   std::cout << "getting header " << header.c_str() << std::endl;
+   getline(in, dummy);
+
+   Int_t hdim = 0;
+   Char_t type = '0';
+   std::size_t pos1=header.find("TH1");
+   std::size_t pos2=header.find("TH2");
+   std::size_t pos3=header.find("TH3");
+
+
+   if (pos1 != std::string::npos) {
+      hdim = 1;
+      type=header.at(pos1+3);
+   } else if (pos2 != std::string::npos) {
+      hdim = 2;
+      type=header.at(pos2+3);
+   } else if (pos3!= std::string::npos) {
+      hdim = 3;
+      type=header.at(pos3+3);
+   }
+   std::cout << "got histogram dimension " << hdim <<", type is "<< type <<std::endl;
+
+   // TODO: scan number of bins and range
+   // JAM7-2024: this works for fixed bin size histograms only. TODO: evaluate bin steps indivually?
+
+   Int_t totalbins=0;
+   //Int_t xbins = 0, ybins = 0, zbins  = 0;
+   Double_t val=0;
+   Double_t axval[3]={0.};
+   Double_t axmin[3]={0.};
+   Double_t axmax[3]={0.};
+   Int_t bins[3]={0};
+
+
+   while (in.good()) {
+      in >> axval[0]>> axval[1]>> axval[2] >> val;
+      for (Int_t i = 0; i < 3; ++i) {
+         if (axval[i] <= axmin[i]) {
+            axmin[i] = axval[i];
+         }
+         if (axval[i] > axmax[i]) {
+            axmax[i] = axval[i];
+            bins[i]++;
+         }
+      } // for
+      totalbins++;
+   } // while
+
+   // adjust ROOT upper limit: add one binsize
+   for (Int_t i = 0; i < 3; ++i) {
+      if(bins[i]==0) continue;
+      bins[i]++; // first increment is not counted as bin, add one more
+      Double_t binsize = (axmax[i] - axmin[i]) / (bins[i]);
+      axmax[i]+=binsize;
+
+      std::cout <<" -- axmin["<<i<<"]="<< axmin[i] << std::endl;
+      std::cout <<" -- axmax["<<i<<"]="<< axmax[i] << std::endl;
+      std::cout <<" -- bins["<<i<<"]="<< bins[i] << std::endl;
+   }
+
+
+
+   in.clear(); // reset eof/error flag
+   in.seekg(in.beg); // read once again
+   getline(in, dummy);
+   getline(in, dummy); // skip known headers
+
+   // create histogram of given binsize and range:
+   switch(type){
+      default:
+      case 'D':
+         GO4_EXMAN_CREATE_HISTOGRAM(hdim,D);
+      break;
+      case 'F':
+         GO4_EXMAN_CREATE_HISTOGRAM(hdim, F);
+         break;
+      case 'I':
+         GO4_EXMAN_CREATE_HISTOGRAM(hdim, I);
+         break;
+//      case 'L':
+//         GO4_EXMAN_CREATE_HISTOGRAM(hdim, L);
+//         break;
+      case 'S':
+         GO4_EXMAN_CREATE_HISTOGRAM(hdim, S);
+         break;
+      case 'C':
+         GO4_EXMAN_CREATE_HISTOGRAM(hdim, C);
+         break;
+   };
+
+   // fill histogram:
+   while (in.good()) {
+        in >> axval[0]>> axval[1] >> axval[2] >> val;
+        Int_t globalbin=theHisto->GetBin(axval[0], axval[1], axval[2]);
+        theHisto->SetBinContent(1+globalbin, val);
+     } // while
+
+   theHisto->ResetStats();
+   return theHisto;
+}
+

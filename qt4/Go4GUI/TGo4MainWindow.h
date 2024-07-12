@@ -110,6 +110,7 @@ class TGo4MainWindow : public QMainWindow {
       void ConnectDabcSlot();
       void ConnectHttpSlot();
       void ConnectHServerSlot();
+      void ImportObjectSlot();
       void SaveFileSlot();
       void CascadeSubWindows();
 

@@ -117,6 +117,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
                          const char *format,
                          const char *description);
 
+      void ImportObjectFromFile(const char *filename,const char *filedir,
+          const char *format);
+
       TObject *GetBrowserObject(const char *name, Int_t update = 0);
 
       Bool_t DeleteDataSource(TGo4Slot *itemslot);

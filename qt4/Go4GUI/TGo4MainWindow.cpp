@@ -546,6 +546,9 @@ void TGo4MainWindow::AddFileMenu()
              this, &TGo4MainWindow::ConnectHttpSlot);
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
              this, &TGo4MainWindow::ConnectHServerSlot);
+   fileMenu->addAction(QIcon( ":/icons/hiscre.png" ), "&Import histograms...",
+                this, &TGo4MainWindow::ImportObjectSlot);
+
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
              this, &TGo4MainWindow::SaveFileSlot)->setShortcut(CtrlKey(Qt::Key_Y) );
    fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
@@ -1052,6 +1055,34 @@ void TGo4MainWindow::OpenFileSlot()
       ++it;
    }
 }
+
+
+void TGo4MainWindow::ImportObjectSlot()
+{
+   QFileDialog fd( this,
+                   "Select a file for importing histogram objects",
+                   fLastFileDir,
+                   QString("ASCII/Go4 (*.hdat);;Ortec MCA (*.Spe);;All files (*.*)"));
+
+   fd.setFileMode( QFileDialog::ExistingFiles);
+
+   if ( fd.exec() != QDialog::Accepted ) return;
+
+   QStringList list = fd.selectedFiles();
+   QStringList::Iterator it = list.begin();
+   while( it != list.end() ) {
+      QString fileName = *it;
+      fLastFileDir = QFileInfo(fileName).absolutePath();
+      Browser()->ImportObjectFromFile(fileName.toLatin1().constData(),
+                                      QFileInfo(fileName).absolutePath().toLatin1().constData(),
+                                      fd.selectedNameFilter().toLatin1().constData());
+      ++it;
+   }
+
+
+
+}
+
 
 void TGo4MainWindow::OpenRemoteFileSlot()
 {
