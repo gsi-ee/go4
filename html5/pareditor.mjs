@@ -1,6 +1,6 @@
 // $Id$
 
-import { executeMethod } from './core.mjs';
+import { source_dir, executeMethod } from './core.mjs';
 
 
 if (typeof GO4 != "object") {
@@ -258,7 +258,7 @@ class ParameterEditor extends JSROOT.BasePainter {
       dom.select(".par_type").text(this.par._typename);
 
       dom.select(".buttonGetParameter")
-         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .style('background-image', `url(${source_dir}icons/right.png)`)
          .on("click", () => {
             console.log("update item = " + this.getItemName());
             if (JSROOT.hpainter)
@@ -268,7 +268,7 @@ class ParameterEditor extends JSROOT.BasePainter {
          });
 
       dom.select(".buttonSetParameter")
-         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .style('background-image', `url(${source_dir}icons/left.png)`)
          .on("click", () => {
             let options = this.evaluateChanges(""); // do not need to use name here
             console.log("set parameter " + this.getItemName() + ", options=" + options);
@@ -281,7 +281,7 @@ class ParameterEditor extends JSROOT.BasePainter {
          })
 
       dom.select(".buttonChangedParameter")
-         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+         .style('background-image', `url(${source_dir}icons/info1.png)`);
 
       this.fillMemberTable();
    }
@@ -318,7 +318,7 @@ GO4.drawParameter = function(dom, par /*, option */) {
 
    if ((h < 10) && (w > 10)) sel.style("height", Math.round(w * 0.4)+"px");
 
-   return JSROOT.httpRequest(GO4.source_dir + "html/pareditor.htm", "text").then(code => {
+   return httpRequest(`${source_dir}html5/pareditor.html`, 'text').then(code => {
       sel.html(code);
       editor.setTopPainter();
       editor.fillEditor();

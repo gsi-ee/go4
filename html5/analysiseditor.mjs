@@ -1,6 +1,7 @@
 // $Id$
 
-import { executeMethod } from './core.mjs';
+import { httpRequest } from 'jsroot';
+import { source_dir, executeMethod } from './core.mjs';
 
 GO4.EvIOType = {
          GO4EV_NULL: 0,                // no event store/source
@@ -388,13 +389,13 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
       }); // steps loop
 
       dom.select(".buttonGetAnalysis")
-         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .style('background-image', `url(${source_dir}icons/right.png)`)
          .on("click", () => {
                if (JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName());
          });
 
       dom.select(".buttonSetAnalysis")
-         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .style('background-image', `url(${source_dir}icons/left.png)`)
          .on("click", () => {
             let options = this.evaluateChanges(""); // complete option string from all changed elements
             console.log("submit analysis " + this.getItemName() + ", options=" + options);
@@ -406,11 +407,11 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          });
 
       dom.select(".buttonAnaChangeLabel")
-         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)")
+         .style('background-image', `url(${source_dir}icons/info1.png)`)
          .style('display', 'none'); // do not show at the begin
 
       dom.select(".buttonSetStartAnalysis")
-         .style('background-image', "url(" + GO4.source_dir + "icons/restart.png)")
+         .style('background-image', `url(${source_dir}icons/restart.png)`)
          .on("click", () => {
             let options = this.evaluateChanges(""); // complete option string from all changed elements
             options += "&start";
@@ -423,7 +424,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          });
 
       dom.select(".buttonCloseAnalysis")
-         .style('background-image', "url(" + GO4.source_dir + "icons/close.png)")
+         .style('background-image', `url(${source_dir}icons/close.png)`)
          .on("click", () => {
             console.log("close analysis " + this.getItemName());
             executeMethod(this, "UpdateFromUrl", "&close").then(() => {
@@ -432,7 +433,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          });
 
       dom.select(".buttonSaveAnaASF")
-         .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
+         .style('background-image', `url(${source_dir}icons/filesave.png)`);
 
       dom.select(".anaASF_name").property("value", stat.fxAutoFileName);
       dom.select(".anaASF_enabled")
@@ -482,7 +483,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
 
 
       dom.select(".buttonSaveAnaConf")
-         .style('background-image', "url(" + GO4.source_dir + "icons/filesave.png)")
+         .style('background-image', `url(${source_dir}icons/filesave.png)`)
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
                   requestmsg = "Really save analysis preferences: " + content;
@@ -497,7 +498,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          });
 
       dom.select(".buttonLoadAnaConf")
-         .style('background-image', "url(" + GO4.source_dir + "icons/fileopen.png)")
+         .style('background-image', `url(${source_dir}icons/fileopen.png)`)
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
                   requestmsg = "Really load analysis preferences: " + content;
@@ -525,10 +526,10 @@ GO4.drawGo4AnalysisStatus = function(domarg, stat) {
 
    if ((h < 10) && (w > 10)) dom.style("height", Math.round(w * 0.7)+"px");
 
-   return JSROOT.httpRequest(GO4.source_dir + "html/analysiseditor.htm", "text").then(code => {
+   return httpRequest(`${source_dir}html5/analysiseditor.htm`, 'text').then(code => {
       dom.html(code);
 
-      return JSROOT.httpRequest(GO4.source_dir + "html/stepeditor.htm", "text");
+      return httpRequest(`${source_dir}html5/stepeditor.html`, 'text');
 
    }).then(step_code => {
 

@@ -5,18 +5,8 @@ import { source_dir } from 'go4sys/html5/core.mjs';
 import { ConditionPainter } from 'go4sys/html5/go4canvas.mjs'
 
 
-
-const _src = import.meta?.url;
-
 const GO4 = { version: '6.4.0', id_counter: 1, source_dir: '' };
 
-if (_src && (typeof _src == "string")) {
-   const pos = _src.indexOf('html5/go4.mjs');
-   if (pos >= 0) {
-      GO4.source_dir = _src.slice(0, pos);
-      console.log(`Set GO4.source_dir to ${GO4.source_dir}, ${GO4.version}`);
-   }
-}
 
 // ==================================================================================
 
@@ -241,26 +231,26 @@ class AnalysisTerminalPainter extends BasePainter {
 
       dom.select(".go4_clearterm")
          .on("click", () => this.clickClear())
-         .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+         .style('background-image', `url(${source_dir}icons/clear.png)`);
 
       dom.select(".go4_startterm")
          .on("click", () => this.clickScroll(false))
-         .style('background-image', "url(" + GO4.source_dir + "icons/shiftup.png)");
+         .style('background-image', `url(${source_dir}icons/shiftup.png)`);
 
       dom.select(".go4_endterm")
          .on("click", () => this.clickScroll(true))
-         .style('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
+         .style('background-image', `url(${source_dir}icons/shiftdown.png)`);
 
       dom.select(".go4_printhistos")
          .on("click", () => this.clickCommand("@PrintHistograms()"))
-         .style('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
+         .style('background-image', `url(${source_dir}icons/hislist.png)`);
 
       dom.select(".go4_printcond")
          .on("click", () => this.clickCommand("@PrintConditions()"))
-         .style('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
+         .style('background-image', `url(${source_dir}icons/condlist.png)`);
 
       dom.select(".go4_executescript")
-         .style('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
+         .style('background-image', `url(${source_dir}icons/macro_t.png)`);
 
       dom.select(".go4_anaterm_cmd_form").on("submit", event => {
          event.preventDefault();
@@ -287,7 +277,7 @@ GO4.drawAnalysisTerminal = function(hpainter, itemname) {
 
    let player = new AnalysisTerminalPainter(frame, hpainter, itemname, url);
 
-   return httpRequest(GO4.source_dir + 'html5/terminal.html', 'text')
+   return httpRequest(`${source_dir}html5/terminal.html`, 'text')
                   .then(code => {
                   elem.html(code);
                   player.fillDisplay();
@@ -476,10 +466,10 @@ function drawGo4Picture(dom, pic) {
 
 // ==============================================================================
 
-addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: GO4.source_dir + 'html5/analysiseditor.mjs', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
+addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: `${source_dir}html5/analysiseditor.mjs`, func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
 
 addDrawFunc({ name: 'TGo4MsgList', func: drawMsgList });
-addDrawFunc({ name: 'TGo4Picture', func: drawGo4Picture, icon: GO4.source_dir + 'icons/picture.png' });
+addDrawFunc({ name: 'TGo4Picture', func: drawGo4Picture, icon: `${source_dir}icons/picture.png` });
 
 addDrawFunc({ name: 'TGo4MbsEvent', noinspect: true });
 addDrawFunc({ name: 'TGo4EventElement', noinspect: true });
