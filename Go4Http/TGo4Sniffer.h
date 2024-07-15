@@ -41,6 +41,8 @@ class TGo4Sniffer : public TRootSnifferFull,
       /** if true, python binding of go4 has already been done.*/
       Bool_t fbPythonBound{kFALSE};
 
+      TString fAutoLoadArg;
+
       void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj) override;
 
       /** Send message to gui - need to be implemented */
