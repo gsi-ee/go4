@@ -288,6 +288,11 @@ foreach(_html ${go4_html})
    file(COPY ${_html} DESTINATION ${CMAKE_BINARY_DIR}/html)
 endforeach(_html)
 
+file(GLOB go4_html5 "${CMAKE_SOURCE_DIR}/html5/*.*")
+foreach(_html5 ${go4_html5})
+   file(COPY ${_html5} DESTINATION ${CMAKE_BINARY_DIR}/html5)
+endforeach(_html5)
+
 file(GLOB go4_macros "${CMAKE_SOURCE_DIR}/macros/*.C")
 foreach(_macro ${go4_macros})
    file(COPY ${_macro} DESTINATION ${CMAKE_BINARY_DIR}/macros)
