@@ -1,4 +1,4 @@
-import { ObjectPainter, getHPainter, addDrawFunc } from 'jsrootsys/main.mjs';
+import { ObjectPainter, getHPainter, addDrawFunc } from 'jsroot';
 import { ConditionEditor } from 'go4sys/html5/condition.mjs';
 
 if (typeof GO4 == 'undefined')
@@ -599,10 +599,11 @@ function drawCondArray(dom, obj, option) {
 // =======================================================================
 
 if (GO4.web_canvas) {
-   addDrawFunc({ name: "TGo4Marker", class: MarkerPainter });
-   addDrawFunc({ name: "TGo4WinCond", class: ConditionPainter });
-   addDrawFunc({ name: "TGo4PolyCond", class: ConditionPainter });
-   addDrawFunc({ name: "TGo4ShapedCond", class: ConditionPainter });
-   addDrawFunc({ name: "TGo4CondArray", func: drawCondArray });
+   addDrawFunc({ name: 'TGo4Marker', class: MarkerPainter });
+   addDrawFunc({ name: 'TGo4WinCond', class: ConditionPainter });
+   addDrawFunc({ name: 'TGo4PolyCond', class: ConditionPainter });
+   addDrawFunc({ name: 'TGo4ShapedCond', class: ConditionPainter });
+   addDrawFunc({ name: 'TGo4CondArray', func: drawCondArray });
 }
 
+export { MarkerPainter, ConditionPainter, drawCondArray };
