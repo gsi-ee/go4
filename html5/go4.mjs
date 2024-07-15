@@ -1,6 +1,10 @@
 import { BasePainter, ObjectPainter, httpRequest, addDrawFunc, ensureTCanvas, draw, getHPainter, BIT, d3_select } from 'jsroot';
 
+import { source_dir } from 'go4sys/html5/core.mjs';
+
 import { ConditionPainter } from 'go4sys/html5/go4canvas.mjs'
+
+
 
 const _src = import.meta?.url;
 
@@ -12,18 +16,6 @@ if (_src && (typeof _src == "string")) {
       GO4.source_dir = _src.slice(0, pos);
       console.log(`Set GO4.source_dir to ${GO4.source_dir}, ${GO4.version}`);
    }
-}
-
-/** @summary Execute method for selected painter object
-    * @return {Promise} when done */
-GO4.ExecuteMethod = function(painter, method, options) {
-   let prefix = "";
-   if (painter.getItemName())
-      prefix = painter.getItemName() + "/"; // suppress / if item name is empty
-
-   let fullcom = prefix + "exe.json?method=" + method + (options || "&"); // send any arguments otherwise ROOT refuse to process it
-
-   return httpRequest(fullcom, 'text');
 }
 
 // ==================================================================================
