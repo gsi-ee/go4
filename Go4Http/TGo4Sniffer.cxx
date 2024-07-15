@@ -38,6 +38,7 @@
 #include "TGo4EventElement.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4DynamicEntry.h"
+#include "TGo4MsgList.h"
 
 THttpServer *TGo4Sniffer::gHttpServer = nullptr;
 
@@ -81,7 +82,13 @@ TGo4Sniffer::TGo4Sniffer(const char *name) :
    SetReadOnly(kFALSE);
    SetScanGlobalDir(kFALSE);
 
-   SetAutoLoadGo4("jq;go4sys/html/go4.js");
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
+   fAutoLoadArg = "go4sys/html5/go4.mjs";
+   #else
+   fAutoLoadArg = "jq;go4sys/html/go4.js";
+   #endif
+
+   SetAutoLoadGo4(fAutoLoadArg);
 
    fAnalysisStatus = TGo4Analysis::Instance()->CreateWebStatus();
 
@@ -174,10 +181,8 @@ TGo4Sniffer::TGo4Sniffer(const char *name) :
    }
 
    RegisterObject("/Control", fAnalysisStatus);
-   if (!HasAutoLoadMethod()) {
-      SetItemField("/Control/Analysis", "_prereq", "jq");
-      SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
-   }
+   if (!HasAutoLoadMethod())
+      SetItemField("/Control/Analysis", "_autoload", fAutoLoadArg);
    SetItemField("/Control/Analysis", "_icon", "go4sys/icons/control.png");
    SetItemField("/Control/Analysis", "_not_monitor", "true");
 
@@ -197,10 +202,8 @@ TGo4Sniffer::TGo4Sniffer(const char *name) :
    RestrictGo4("/Parameters", "allow=controller,admin&allow_method=CreateStatus");
 
    // set at the end when other items exists
-   if (!HasAutoLoadMethod()) {
-      SetItemField("/", "_prereq", "jq");
-      SetItemField("/", "_autoload", "go4sys/html/go4.js");
-   }
+   if (!HasAutoLoadMethod())
+      SetItemField("/", "_autoload", fAutoLoadArg);
    SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
    SetItemField("/", "_title", "GO4 analysis");
    SetItemField("/", "_analysis_name", TGo4Analysis::Instance()->GetName());
@@ -274,20 +277,20 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 {
    TRootSnifferFull::ScanObjectProperties(rec, obj);
+   if (!obj)
+      return;
 
-   if (obj && obj->TestBit(TGo4Status::kGo4CanDelete)) {
+   if (obj->TestBit(TGo4Status::kGo4CanDelete)) {
       rec.SetField("_can_delete", "true");
    }
 
-   if (obj && obj->TestBit(TGo4Status::kGo4NoReset)) {
+   if (obj->TestBit(TGo4Status::kGo4NoReset)) {
       rec.SetField("_no_reset", "true");
    }
 
-   if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
-      if (!HasAutoLoadMethod()) {
-         rec.SetField("_prereq", "jq");
-         rec.SetField("_autoload", "go4sys/html/go4.js");
-      }
+   if (obj->InheritsFrom(TGo4Parameter::Class())) {
+      if (!HasAutoLoadMethod())
+         rec.SetField("_autoload", fAutoLoadArg);
       rec.SetField("_drawfunc", "GO4.drawParameter");
       rec.SetField("_drawscript", "go4sys/html/pareditor.js");
       rec.SetField("_drawopt", "editor");
@@ -295,21 +298,29 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
       return;
    }
 
-   if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
-      if (!HasAutoLoadMethod()) {
-         rec.SetField("_prereq", "jq");
-         rec.SetField("_autoload", "go4sys/html/go4.js");
-      }
+   if (obj->InheritsFrom(TGo4Condition::Class())) {
+      if (!HasAutoLoadMethod())
+         rec.SetField("_autoload", fAutoLoadArg);
       rec.SetField("_icon", "go4sys/icons/condedit.png");
       return;
    }
 
-   if (obj && obj->InheritsFrom(TGo4EventElement::Class())) {
+   if (obj->InheritsFrom(TGo4EventElement::Class())) {
       rec.SetField("_more", "true");
       rec.SetField("_go4event", "true");
       rec.SetField("_icon", "go4sys/icons/eventobj.png");
       return;
    }
+
+   if (obj->InheritsFrom(TGo4MsgList::Class())) {
+      if (!HasAutoLoadMethod())
+         rec.SetField("_autoload", fAutoLoadArg);
+      rec.SetField("_make_request", "GO4.MakeMsgListRequest");
+      rec.SetField("_after_request", "GO4.AfterMsgListRequest");
+      rec.SetField("_icon", "img_text");
+      return;
+   }
+
 }
 
 void *TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
