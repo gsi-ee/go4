@@ -1,8 +1,8 @@
 import { ObjectPainter, getHPainter, addDrawFunc } from 'jsrootsys/main.mjs';
-import { ConditionEditor } from 'go4sys/html5/confition.mjs';
+import { ConditionEditor } from 'go4sys/html5/condition.mjs';
 
 if (typeof GO4 == 'undefined')
-   globalThis.GO4 = { version: "6.3.99", web_canvas: true, id_counter: 1 };
+   globalThis.GO4 = { version: '6.3.99', web_canvas: true, id_counter: 1 };
 
 function findPainter(painter, obj, name, typ) {
    let pp = painter.getPadPainter();

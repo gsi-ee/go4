@@ -18,6 +18,7 @@
 #include "TClass.h"
 #include "RVersion.h"
 #include "THttpServer.h"
+#include "ROOT/RWebWindowsManager.hxx"
 
 #include "TGo4Log.h"
 
@@ -76,18 +77,24 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    TWebCanvas *web = new TWebCanvas(fCanvas, "title", 0, 0, 800, 600, kFALSE);
 
-   // this is Go4-special part to provide support of custom classes
-   static std::string go4script;
 
-   if (go4script.empty()) {
-      TString fname = TGo4Log::subGO4SYS("html/go4canvas.js");
-      go4script = THttpServer::ReadFileContent(fname.Data());
-   }
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
 
+   // this is usage of new JS modules functionality
+   ROOT::RWebWindowsManager::AddServerLocation("go4sys", TGo4Log::GO4SYS());
+   web->SetCustomScripts("modules:go4sys/go4canvas.mjs");
+
+   #else
+
+   // old method to load plain JS scripts as is
+   static std::string go4script = THttpServer::ReadFileContent(TGo4Log::subGO4SYS("html/go4canvas.js"));
    web->SetCustomScripts(go4script);
+   #endif
+
    web->AddCustomClass("TGo4Marker");
    web->AddCustomClass("TGo4Condition", true);
    web->AddCustomClass("TGo4CondArray");
+
    // this is end of Go4-special part
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,26,0)
