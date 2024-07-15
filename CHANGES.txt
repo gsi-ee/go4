@@ -21,6 +21,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v6.4
+1. Support ES6 modules, requires non yet released ROOT
+
+
 Changes in Go4 v6.3
 1. Adoption to win64
 2. Skip support of old ROOT version older than 6.24
