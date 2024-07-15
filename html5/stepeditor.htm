@@ -1,0 +1,98 @@
+
+<fieldset>
+   <legend>Step Control</legend>
+   <div style="display: flex; flex-direction: row; width: 100%">
+      <label title="Enable analysis step">
+         <input class="step_box_step_enab" type="checkbox" name="enable box"> Enable Step
+      </label>
+      <label title="Enable event source">
+         <input class="step_box_source_enab" type="checkbox"> Source
+      </label>
+      <label title="Enable event store">
+         <input class="step_box_store_enab" type="checkbox"> Store
+      </label>
+   </div>
+</fieldset>
+
+<fieldset class="step_source">
+   <legend>Event Source</legend>
+   <div style="display: flex; flex-direction: column; width: 100%;">
+   <div style="display: inline; width: 100%; vertical-align: middle;">
+      <select class="step_source_select">
+         <option value="1">Go4 File Source (*.root)</option>
+         <option value="3">MBS File (*.lmd *.LMD *.lml)</option>
+         <option value="4">MBS Stream Server</option>
+         <option value="5">MBS Transport Server</option>
+         <option value="6">MBS Event Server</option>
+         <option value="7">Remote Event Server</option>
+         <option value="9">User Source</option>
+         <option value="10">MBS Random</option>
+         <option value="11">HDF5 source</option>
+      </select>
+      <label title="Show/hide extra options for event source">
+          <input class="step_source_expand" type="checkbox">more...
+      </label>
+   </div>
+   <div>
+      <label title="File name or server node name">
+         Name: <input class="step_source_name" type="text" size="35">
+      </label>
+   </div>
+   <div class="step_source_tagfile_args">
+     <label title="LMD Tag file">
+        Tagfile: <input class="step_source_tagfile" type="text">
+     </label>
+   </div>
+   <div class="step_source_port_args" style="display: inline; width: 100%; vertical-align: middle;">
+      <label title="User arguments">
+         Args: <input class="step_source_args" type="text">
+      </label>
+      <label>
+         Port: <input class="step_source_port" title="Port Number" type="number" min="0" max="99999">
+      </label>
+      <label>
+         Tmout(s): <input class="step_source_tmout" title="Timeout in seconds" type="number" min="0" max="9999">
+      </label>
+      <label>
+         Retry: <input class="step_source_retry" title="Number of retry to establish connections" type="number" min="0" max="9999">
+      </label>
+   </div>
+   <div class="step_source_number_args" style="width: 100%; vertical-align: middle;">
+      <label>
+         First:<input class="step_source_firstev" title="Sequence number of first event to process" type="number" min="0" max="2000000000" step="1000">
+      </label>
+      <label>
+         Last:<input class="step_source_lastev" title="Sequence number of last event to process" type="number" min="0" max="2000000000" step="1000">
+      </label>
+      <label>
+         Step:<input class="step_source_stepev" title="Skipping interval between 2 events to process (1=process all)" type="number" min="1" max="1000000">
+      </label>
+   </div>
+   </div>
+</fieldset>
+
+<fieldset class="step_store">
+   <legend>Event Store</legend>
+   <div style="display: flex; flex-direction: column; width: 100%;">
+      <select class="step_store_select">
+         <option value="1">Go4FileStore (*.root)</option>
+         <option value="8">Go4 BackStore</option>
+         <option value="9">User store</option>
+         <option value="11">HDF5 store</option>
+      </select>
+      <label title="Event store name" class="step_store_name_label">
+         Name: <input class="step_store_name" type="text">
+      </label>
+      <div class="step_store_pars" style="display: inline; width: 100%; vertical-align: middle;">
+         <input class="step_store_split" title="Root TTree split level." type="number" min="0" max="99">
+         <label>
+            <input class="step_store_buf" title="Root branch buffer size" type="number" min="4" max="256"> kB
+          </label>
+          <input class="step_store_comp" title="Root TFile compression level" type="number" min="0" max="9">
+          <input class="step_store_asf" title="Root TTree autosave interval (flush each number of entries)" type="text" value="10000">
+          <label style="height: 30px" class="step_store_overwrite_label" title="Overwrite old file, or append.">
+             <input class="step_store_overwrite" type="checkbox"> Overwrite
+         </label>
+      </div>
+   </div>
+</fieldset>
