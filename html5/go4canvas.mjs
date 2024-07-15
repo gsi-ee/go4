@@ -3,8 +3,8 @@ import { ConditionEditor } from 'go4sys/html5/condition.mjs';
 import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
 
 
-if (typeof GO4 == 'undefined')
-   globalThis.GO4 = { version: '6.3.99', web_canvas: true, id_counter: 1 };
+if (!globalThis.GO4)
+   globalThis.GO4 = { version: '6.4.0', web_canvas: true };
 
 function findPainter(painter, obj, name, typ) {
    let pp = painter.getPadPainter();
@@ -504,17 +504,6 @@ class ConditionPainter extends ObjectPainter {
       return this.drawLabel();
    }
 
-   getDomId() {
-      let elem = this.selectDom();
-      if (elem.empty()) return "";
-      let id = elem.attr("id");
-      if (!id) {
-         id = "go4_element_" + GO4.id_counter++;
-         elem.attr("id", id);
-      }
-      return id;
-   }
-
    static async draw(dom, cond, option) {
 
       if (!option) option = "";
@@ -560,7 +549,7 @@ class ConditionPainter extends ObjectPainter {
          hitem._kind = "ROOT.TH1I";
       }
 
-      return hpainter.display(histofullpath, 'divid:' + condpainter.getDomId()).then(hist_painter => {
+      return hpainter.display(histofullpath, '', condpainter.selectDom()).then(hist_painter => {
          if (!hist_painter)
             return console.log('fail to draw histogram ' + histofullpath);
          condpainter.drawCondition();

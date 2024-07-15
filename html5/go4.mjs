@@ -1,11 +1,11 @@
 import { BasePainter, ObjectPainter, httpRequest, addDrawFunc, ensureTCanvas, draw, getHPainter, BIT, d3_select } from 'jsroot';
 
-import { source_dir } from 'go4sys/html5/core.mjs';
+import { source_dir } from './core.mjs';
 
-import { ConditionPainter } from 'go4sys/html5/go4canvas.mjs'
+import { ConditionPainter } from './go4canvas.mjs'
 
 
-const GO4 = { version: '6.4.0', id_counter: 1, source_dir: '' };
+const GO4 = { version: '6.4.0' };
 
 
 // ==================================================================================
@@ -204,9 +204,9 @@ class AnalysisTerminalPainter extends BasePainter {
       this.draw_ready = false;
 
       if (this.log_painter)
-         this.hpainter.display(msgitem, "update:divid:" + subid).then(() => this.logReady());
+         this.hpainter.display(msgitem, 'update:', subid).then(() => this.logReady());
       else
-         this.hpainter.display(msgitem, "divid:" + subid).then(p => this.logReady(p));
+         this.hpainter.display(msgitem, '', subid).then(p => this.logReady(p));
    }
 
    clickCommand(kind) {
@@ -357,7 +357,7 @@ function drawPictureObjects(dom, pic, k) {
       opt = pic.fxOptObjects.arr[iopt].fString;
    if (k > 0) opt += " same";
 
-   return getHPainter().display(itemname, opt + "divid:" + divid).then(painter => {
+   return getHPainter().display(itemname, opt, divid).then(painter => {
       if (!painter) return;
       let need_redraw = false;
 
