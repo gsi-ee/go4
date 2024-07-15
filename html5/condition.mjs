@@ -1,6 +1,6 @@
 import { BasePainter, getHPainter, httpRequest, clone } from 'jsroot';
 
-import { sorce_dir, executeMethod } from './core.mjs';
+import { source_dir, executeMethod } from './core.mjs';
 
 
 class ConditionEditor extends BasePainter {
