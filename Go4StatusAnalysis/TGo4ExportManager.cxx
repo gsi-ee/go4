@@ -615,7 +615,7 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
    std::string header, dummy;
 
    getline(in, header);
-   std::cout << "getting header " << header.c_str() << std::endl;
+   //std::cout << "getting header " << header.c_str() << std::endl;
    getline(in, dummy);
 
    Int_t hdim = 0;
@@ -635,7 +635,7 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
       hdim = 3;
       type=header.at(pos3+3);
    }
-   std::cout << "got histogram dimension " << hdim <<", type is "<< type <<std::endl;
+   //std::cout << "got histogram dimension " << hdim <<", type is "<< type <<std::endl;
 
    // TODO: scan number of bins and range
    // JAM7-2024: this works for fixed bin size histograms only. TODO: evaluate bin steps indivually?
@@ -647,11 +647,15 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
    Double_t axmin[3]={0.};
    Double_t axmax[3]={0.};
    Int_t bins[3]={0};
-
+   Bool_t firstline=kTRUE;
 
    while (in.good()) {
       in >> axval[0]>> axval[1]>> axval[2] >> val;
       for (Int_t i = 0; i < 3; ++i) {
+         if(firstline){
+            // for negative axis values we need to initialize with actual first value instead 0
+            axmin[i] = axmax[i] = axval[i];
+         }
          if (axval[i] <= axmin[i]) {
             axmin[i] = axval[i];
          }
@@ -661,6 +665,7 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
          }
       } // for
       totalbins++;
+      firstline=kFALSE;
    } // while
 
    // adjust ROOT upper limit: add one binsize
@@ -670,9 +675,9 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
       Double_t binsize = (axmax[i] - axmin[i]) / (bins[i]);
       axmax[i]+=binsize;
 
-      std::cout <<" -- axmin["<<i<<"]="<< axmin[i] << std::endl;
-      std::cout <<" -- axmax["<<i<<"]="<< axmax[i] << std::endl;
-      std::cout <<" -- bins["<<i<<"]="<< bins[i] << std::endl;
+//      std::cout <<" -- axmin["<<i<<"]="<< axmin[i] << std::endl;
+//      std::cout <<" -- axmax["<<i<<"]="<< axmax[i] << std::endl;
+//      std::cout <<" -- bins["<<i<<"]="<< bins[i] << std::endl;
    }
 
 
@@ -708,8 +713,9 @@ TH1* TGo4ExportManager::ImportHistogramGo4Ascii(const char *nom)
    // fill histogram:
    while (in.good()) {
         in >> axval[0]>> axval[1] >> axval[2] >> val;
-        Int_t globalbin=theHisto->GetBin(axval[0], axval[1], axval[2]);
-        theHisto->SetBinContent(1+globalbin, val);
+        Int_t globalbin=theHisto->FindBin(axval[0], axval[1], axval[2]);
+        //std::cout<<"Read x:"<< axval[0]<<", y:"<<axval[1]<<", z:"<< axval[2]<<", val="<<val<<"- globalbin:"<<globalbin<<std::endl;
+        theHisto->SetBinContent(globalbin, val);
      } // while
 
    theHisto->ResetStats();
