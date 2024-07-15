@@ -16,7 +16,7 @@ JSROOT.define(["painter"], jsrp => {
       }
    }
 
-   /** @summary Exactute method for selected painter object
+   /** @summary Execute method for selected painter object
      * @return {Promise} when done */
    GO4.ExecuteMethod = function(painter, method, options) {
       let prefix = "";
