@@ -1,13 +1,7 @@
 import { BasePainter, getHPainter, httpRequest, clone } from 'jsroot';
 
+import { sorce_dir, executeMethod } from './core.mjs';
 
-//if (typeof GO4 != "object") {
-//   let e1 = new Error("condition.mjs requires GO4 to be already loaded");
-//   e1.source = "condition.mjs";
-//   throw e1;
-//}
-
-// =========================================================================================
 
 class ConditionEditor extends BasePainter {
 
@@ -416,15 +410,15 @@ class ConditionEditor extends BasePainter {
       }
 
       dom.select(".buttonGetCondition")
-         .style('background-image', "url(" + GO4.source_dir + "icons/right.png)")
+         .style('background-image', `url(${source_dir}icons/right.png)`)
          .on("click", () => getHPainter()?.display(this.getItemName()));
 
       dom.select(".buttonSetCondition")
-         .style('background-image', "url(" + GO4.source_dir + "icons/left.png)")
+         .style('background-image', `url(${source_dir}icons/left.png)`)
          .on("click", () => {
             let options = this.evaluateChanges(""); // complete option string from all changed elements
             console.log("set condition " + this.getItemName() + ", options="+options);
-            GO4.ExecuteMethod(this, "UpdateFromUrl",options)
+            executeMethod(this, "UpdateFromUrl",options)
                .then(() =>  {
                   console.log("set condition done.");
                   this.clearChanges();
@@ -434,10 +428,10 @@ class ConditionEditor extends BasePainter {
             });
 
       dom.select(".buttonChangeLabel")
-         .style('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
+         .style('background-image', `url(${source_dir}icons/info1.png)`);
 
       dom.select(".buttonDrawCondition")
-         .style('background-image', "url(" + GO4.source_dir + "icons/chart.png)")
+         .style('background-image', `url(${source_dir}icons/chart.png)`)
          .on("click", () => {
             // TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
 
@@ -462,9 +456,9 @@ class ConditionEditor extends BasePainter {
          });
 
       dom.select(".buttonClearCondition")
-         .style('background-image', "url(" + GO4.source_dir + "icons/clear.png)")
+         .style('background-image', `url(${source_dir}icons/clear.png)`)
          .on("click", () => {
-            GO4.ExecuteMethod(this, "UpdateFromUrl", "&resetcounters=1")
+            executeMethod(this, "UpdateFromUrl", "&resetcounters=1")
                .then(() => {
                   console.log("reset condition counters done.");
 
@@ -482,7 +476,7 @@ class ConditionEditor extends BasePainter {
    }
 
    drawEditor() {
-      return httpRequest(GO4.source_dir + "html/condeditor.htm", "text").then(src => {
+      return httpRequest(source_dir + "html5/condeditor.html", "text").then(src => {
          this.selectDom().html(src);
          this.fillEditor();
          return this;
