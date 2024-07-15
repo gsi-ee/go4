@@ -1,5 +1,6 @@
 import { BasePainter, ObjectPainter, httpRequest, addDrawFunc, ensureTCanvas, draw, getHPainter, BIT, d3_select } from 'jsroot';
 
+import { ConditionPainter } from 'go4sys/html5/go4canvas.mjs'
 
 const _src = import.meta?.url;
 
@@ -483,20 +484,12 @@ function drawGo4Picture(dom, pic) {
 
 // ==============================================================================
 
-let canvsrc = GO4.source_dir + 'html5/go4canvas.mjs;';
+addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: GO4.source_dir + 'html5/analysiseditor.mjs', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
 
-addDrawFunc({ name: "TGo4WinCond",  script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
-addDrawFunc({ name: "TGo4PolyCond", script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
-addDrawFunc({ name: "TGo4ShapedCond", script: canvsrc, func: 'GO4.drawGo4Cond', opt: ";editor" });
-addDrawFunc({ name: "TGo4CondArray", script: canvsrc, func: 'GO4.drawCondArray', opt: ";editor" });
-addDrawFunc({ name: "TGo4Marker", script: canvsrc, func: 'GO4.drawGo4Marker' });
+addDrawFunc({ name: 'TGo4MsgList', func: drawMsgList });
+addDrawFunc({ name: 'TGo4Picture', func: drawGo4Picture, icon: GO4.source_dir + 'icons/picture.png' });
 
-addDrawFunc({ name: "TGo4AnalysisWebStatus", script: GO4.source_dir + 'html5/analysiseditor.mjs', func: 'GO4.drawGo4AnalysisStatus', opt: "editor" });
-
-addDrawFunc({ name: "TGo4MsgList", func: drawMsgList });
-addDrawFunc({ name: "TGo4Picture", func: drawGo4Picture, icon: GO4.source_dir + 'icons/picture.png' });
-
-addDrawFunc({ name: "TGo4MbsEvent", noinspect: true });
-addDrawFunc({ name: "TGo4EventElement", noinspect: true });
+addDrawFunc({ name: 'TGo4MbsEvent', noinspect: true });
+addDrawFunc({ name: 'TGo4EventElement', noinspect: true });
 
 globalThis.GO4 = GO4;

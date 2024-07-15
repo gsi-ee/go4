@@ -1,5 +1,7 @@
-import { ObjectPainter, getHPainter, addDrawFunc } from 'jsroot';
+import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw } from 'jsroot';
 import { ConditionEditor } from 'go4sys/html5/condition.mjs';
+import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
+
 
 if (typeof GO4 == 'undefined')
    globalThis.GO4 = { version: '6.3.99', web_canvas: true, id_counter: 1 };
@@ -32,7 +34,7 @@ class MarkerPainter extends ObjectPainter{
 
    drawMarker() {
       let g = this.createG(), // can draw in complete pad
-            marker = this.getObject();
+          marker = this.getObject();
 
       this.createAttMarker({ attr: marker });
 
@@ -46,11 +48,7 @@ class MarkerPainter extends ObjectPainter{
                .attr("d", path)
                .call(this.markeratt.func);
 
-      if (typeof this.AddMove == 'function')
-         this.AddMove();
-      else
-            JSROOT.require(['interactive'])
-               .then(inter => inter.addMoveHandler(this));
+      addMoveHandler(this);
    }
 
    fillLabels(marker) {
@@ -98,7 +96,7 @@ class MarkerPainter extends ObjectPainter{
       let pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
-         this.pave = JSROOT.create("TPaveStats");
+         this.pave = create("TPaveStats");
          this.pave.fName = "stats_" + marker.fName;
 
          let pp = this.getPadPainter(),
@@ -106,11 +104,11 @@ class MarkerPainter extends ObjectPainter{
                pad_height = pp.getPadHeight();
 
          let px = this.grx / pad_width + 0.02,
-               py = this.gry / pad_height - 0.02;
-         JSROOT.extend(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+             py = this.gry / pad_height - 0.02;
+         Object.assign(this.pave, { fX1NDC: px, fY1NDC: py - 0.15, fX2NDC: px + 0.2, fY2NDC: py, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
-         let st = JSROOT.gStyle;
-         JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
+         const st = gStyle;
+         Object.assign(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
                                     fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont });
       } else {
          this.pave.Clear();
@@ -121,7 +119,7 @@ class MarkerPainter extends ObjectPainter{
          this.pave.AddText(lbls[k]);
 
       let pr = pave_painter ? pave_painter.redraw() :
-               JSROOT.draw(this.divid, this.pave, "").then(p => { if (p) p.$secondary = true; });
+               draw(this.getDrawDom(), this.pave, "").then(p => { if (p) p.$secondary = true; });
       return pr.then(() => this);
    }
 
@@ -276,7 +274,7 @@ class ConditionPainter extends ObjectPainter {
             } else {
                cond.fxCut.fFillStyle = 3006;
                cond.fxCut.fFillColor = 2;
-               JSROOT.draw(this.divid, cond.fxCut, "LF").then(p => this.afterCutDraw(p));
+               draw(this.getDrawDom(), cond.fxCut, "LF").then(p => this.afterCutDraw(p));
             }
 
          }
@@ -314,11 +312,7 @@ class ConditionPainter extends ObjectPainter {
                .call(this.lineatt.func)
                .call(this.fillatt.func);
 
-      if (typeof this.AddMove == 'function')
-         this.AddMove();
-      else
-            JSROOT.require(['interactive'])
-               .then(inter => inter.addMoveHandler(this));
+      addMoveHandler(this);
    }
 
    moveStart(x,y) {
@@ -373,12 +367,12 @@ class ConditionPainter extends ObjectPainter {
       let pave_painter = findPainter(this, this.pave);
 
       if (!pave_painter) {
-         this.pave = JSROOT.create("TPaveStats");
-         this.pave.fName = "stats_" + cond.fName;
-         JSROOT.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
+         this.pave = create('TPaveStats');
+         this.pave.fName = 'stats_' + cond.fName;
+         Object.assign(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
 
-         let st = JSROOT.gStyle;
-         JSROOT.extend(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
+         const st = gStyle;
+         Object.assign(this.pave, { fFillColor: st.fStatColor, fFillStyle: st.fStatStyle, fTextAngle: 0, fTextSize: st.fStatFontSize,
                                     fTextAlign: 12, fTextColor: st.fStatTextColor, fTextFont: st.fStatFont});
       } else {
          this.pave.Clear();
@@ -435,8 +429,7 @@ class ConditionPainter extends ObjectPainter {
 
       if (cond.fbCMaxDraw) this.pave.AddText("C max = " + jsrp.floatToString(stat.wmax, "14.7g"));
 
-      let pr = pave_painter ? pave_painter.redraw() :
-                  JSROOT.draw(this.divid, this.pave, "nofillstats");
+      let pr = pave_painter ? pave_painter.redraw() : draw(this.getDrawDom(), this.pave, "nofillstats");
       return pr.then(() => this); // ensure that condition painter is returned
    }
 
@@ -598,12 +591,10 @@ function drawCondArray(dom, obj, option) {
 
 // =======================================================================
 
-if (GO4.web_canvas) {
-   addDrawFunc({ name: 'TGo4Marker', class: MarkerPainter });
-   addDrawFunc({ name: 'TGo4WinCond', class: ConditionPainter });
-   addDrawFunc({ name: 'TGo4PolyCond', class: ConditionPainter });
-   addDrawFunc({ name: 'TGo4ShapedCond', class: ConditionPainter });
-   addDrawFunc({ name: 'TGo4CondArray', func: drawCondArray });
-}
+addDrawFunc({ name: 'TGo4Marker', class: MarkerPainter });
+addDrawFunc({ name: 'TGo4WinCond', class: ConditionPainter });
+addDrawFunc({ name: 'TGo4PolyCond', class: ConditionPainter });
+addDrawFunc({ name: 'TGo4ShapedCond', class: ConditionPainter });
+addDrawFunc({ name: 'TGo4CondArray', func: drawCondArray });
 
 export { MarkerPainter, ConditionPainter, drawCondArray };
