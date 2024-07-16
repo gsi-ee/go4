@@ -1,17 +1,11 @@
 // $Id$
 
-import { source_dir, executeMethod } from './core.mjs';
+import { BasePainter, getHPainter, httpRequest, clone } from 'jsroot';
+
+import { source_dir, executeMethod, GO4 } from './core.mjs';
 
 
-if (typeof GO4 != "object") {
-   let e1 = new Error("pareditor.js requires GO4 to be already loaded");
-   e1.source = "pareditor.js";
-   throw e1;
-}
-
-// ===========================================================================================
-
-class ParameterEditor extends JSROOT.BasePainter {
+class ParameterEditor extends BasePainter {
 
    constructor(dom, par) {
       super(dom);
@@ -87,12 +81,12 @@ class ParameterEditor extends JSROOT.BasePainter {
 
       this.xreq = true;
 
-      return JSROOT.httpRequest(this.getItemName() + "/h.json?more", 'object').then(res => {
+      return httpRequest(this.getItemName() + '/h.json?more', 'object').then(res => {
 
          tr_nodes.forEach(raw_tr => {
-            let tr = d3.select(raw_tr),
-                  name = tr.select("td").text(),
-                  title = null, arrayinfo = null, typeinfo = null;
+            let tr = d3_select(raw_tr),
+                name = tr.select("td").text(),
+                title = null, arrayinfo = null, typeinfo = null;
             for (let i in res._childs) {
                let n = res._childs[i]._name;
                let arsplit = name.split("["); // remove array information at the end, if any
@@ -110,7 +104,7 @@ class ParameterEditor extends JSROOT.BasePainter {
             if (typeinfo !== null) {
                tr.select("td.par_class").text(typeinfo).style('white-space', 'nowrap'); // member type
 
-               let par_table = d3.select(raw_tr.parentNode.parentNode);
+               let par_table = d3_select(raw_tr.parentNode.parentNode);
 
                if (par_table.classed("par_arraytable")) {
 
@@ -206,8 +200,9 @@ class ParameterEditor extends JSROOT.BasePainter {
 
             dom.select("table." + arraytableclass + " thead tr").on("click",
                function() {
-                  let prnt = d3.select(this.parentNode);
-                  while (!prnt.empty() && !prnt.classed('par_arraytable')) prnt = d3.select(prnt.node().parentNode);
+                  let prnt = d3_select(this.parentNode);
+                  while (!prnt.empty() && !prnt.classed('par_arraytable'))
+                     prnt = d3_select(prnt.node().parentNode);
 
                   let disp = prnt.select('tbody').style('display');
                   prnt.select('tbody').style('display', disp == 'none' ? null : 'none');
@@ -242,7 +237,7 @@ class ParameterEditor extends JSROOT.BasePainter {
 
       }
       // here set callbacks; referred classname must be evaluated dynamically in function!:
-      dom.select(" .par_values tbody").selectAll("input").on("change", function() { editor.markChanged(d3.select(this).attr('class')); });
+      dom.select(" .par_values tbody").selectAll("input").on("change", function() { editor.markChanged(d3_select(this).attr('class')); });
       dom.select(".par_values tbody").selectAll("td").classed("par_membertable_style", true);
       dom.selectAll(".par_values > thead th").classed("par_memberheader_style", true);
       dom.selectAll(".par_arraytable thead td").classed("par_arrayheader_style", true);
@@ -250,7 +245,7 @@ class ParameterEditor extends JSROOT.BasePainter {
       this.clearChanges();
    }
 
-   /** @summary fill basic efitor fields */
+   /** @summary fill basic editor fields */
    fillEditor() {
       let dom = this.selectDom();
 
@@ -261,10 +256,7 @@ class ParameterEditor extends JSROOT.BasePainter {
          .style('background-image', `url(${source_dir}icons/right.png)`)
          .on("click", () => {
             console.log("update item = " + this.getItemName());
-            if (JSROOT.hpainter)
-               JSROOT.hpainter.display(this.getItemName());
-            else
-               console.log("hpainter not found");
+            getHPainter()?.display(this.getItemName());
          });
 
       dom.select(".buttonSetParameter")
@@ -290,7 +282,7 @@ class ParameterEditor extends JSROOT.BasePainter {
    redrawObject(obj) {
       console.log('redraw parameter!!!');
       if (obj._typename != this.par._typename) return false;
-      this.par = JSROOT.clone(obj);
+      this.par = clone(obj);
       this.redraw(); // no need to redraw complete pad
       return true;
    }
@@ -326,3 +318,4 @@ GO4.drawParameter = function(dom, par /*, option */) {
    });
 }
 
+export { ParameterEditor };

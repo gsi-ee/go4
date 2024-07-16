@@ -1,4 +1,4 @@
-import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw } from 'jsroot';
+import { ObjectPainter, getHPainter, addDrawFunc, create, gStyle, draw, floatToString } from 'jsroot';
 
 import { addMoveHandler } from 'jsrootsys/modules/gui/utils.mjs';
 
@@ -64,10 +64,10 @@ class MarkerPainter extends ObjectPainter{
       lbls.push(marker.fxName + ((hint && hint.name) ? (" : " + hint.name) : ""));
 
       if (marker.fbXDraw)
-            lbls.push("X = " + jsrp.floatToString(marker.fX, "6.4g"));
+            lbls.push("X = " + floatToString(marker.fX, "6.4g"));
 
       if (marker.fbYDraw)
-         lbls.push("Y = " + jsrp.floatToString(marker.fY, "6.4g"));
+         lbls.push("Y = " + floatToString(marker.fY, "6.4g"));
 
       if (hint && hint.user_info) {
          if (marker.fbXbinDraw) {
@@ -412,24 +412,24 @@ class ConditionPainter extends ObjectPainter {
 
       stat = this.getMainPainter().countStat((x,y) => painter.Test(x,y));
 
-      if (cond.fbIntDraw) this.pave.AddText("Integral = " + jsrp.floatToString(stat.integral, "14.7g"));
+      if (cond.fbIntDraw) this.pave.AddText("Integral = " + floatToString(stat.integral, "14.7g"));
 
-      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + jsrp.floatToString(stat.meanx, "6.4g"));
+      if (cond.fbXMeanDraw) this.pave.AddText("Mean x = " + floatToString(stat.meanx, "6.4g"));
 
-      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + jsrp.floatToString(stat.rmsx, "6.4g"));
-
-      if (cond.fiDim==2) {
-         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + jsrp.floatToString(stat.meany, "6.4g"));
-         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + jsrp.floatToString(stat.rmsy, "6.4g"));
-      }
-
-      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + jsrp.floatToString(stat.xmax, "6.4g"));
+      if (cond.fbXRMSDraw) this.pave.AddText("RMS x = " + floatToString(stat.rmsx, "6.4g"));
 
       if (cond.fiDim==2) {
-         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + jsrp.floatToString(stat.ymax, "6.4g"));
+         if (cond.fbYMeanDraw) this.pave.AddText("Mean y = " + floatToString(stat.meany, "6.4g"));
+         if (cond.fbYRMSDraw) this.pave.AddText("RMS y = " + floatToString(stat.rmsy, "6.4g"));
       }
 
-      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + jsrp.floatToString(stat.wmax, "14.7g"));
+      if (cond.fbXMaxDraw) this.pave.AddText("X max = " + floatToString(stat.xmax, "6.4g"));
+
+      if (cond.fiDim==2) {
+         if (cond.fbYMaxDraw) this.pave.AddText("Y max = " + floatToString(stat.ymax, "6.4g"));
+      }
+
+      if (cond.fbCMaxDraw) this.pave.AddText("C max = " + floatToString(stat.wmax, "14.7g"));
 
       let pr = pave_painter ? pave_painter.redraw() : draw(this.getDrawDom(), this.pave, "nofillstats");
       return pr.then(() => this); // ensure that condition painter is returned

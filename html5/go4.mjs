@@ -4,6 +4,9 @@ import { source_dir, GO4 } from './core.mjs';
 
 import { ConditionPainter } from './go4canvas.mjs'
 
+import { AnalysisStatusEditor } from './analysiseditor.mjs';
+
+import { ParameterEditor } from './pareditor.mjs';
 
 // if this script loaded - webcanvas features are disabled
 GO4.web_canvas = false;
@@ -465,14 +468,11 @@ function drawGo4Picture(dom, pic) {
    }).then(() => painter); // return dummy painter
 }
 
-// ==============================================================================
 
-addDrawFunc({ name: 'TGo4AnalysisWebStatus', script: `${source_dir}html5/analysiseditor.mjs`, func: 'GO4.drawGo4AnalysisStatus', opt: 'editor' });
+addDrawFunc({ name: 'TGo4AnalysisWebStatus', func: AnalysisStatusEditor.draw, opt: 'editor' });
 
 addDrawFunc({ name: 'TGo4MsgList', func: drawMsgList });
 addDrawFunc({ name: 'TGo4Picture', func: drawGo4Picture, icon: `${source_dir}icons/picture.png` });
 
 addDrawFunc({ name: 'TGo4MbsEvent', noinspect: true });
 addDrawFunc({ name: 'TGo4EventElement', noinspect: true });
-
-globalThis.GO4 = GO4;
