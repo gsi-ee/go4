@@ -1,9 +1,9 @@
 // $Id$
 
-import { httpRequest } from 'jsroot';
-import { source_dir, executeMethod } from './core.mjs';
+import { httpRequest, BasePainter, createMenu, getHPainter, clone, d3_select } from 'jsroot';
+import { source_dir, executeMethod, GO4 } from './core.mjs';
 
-GO4.EvIOType = {
+const EvIOType = {
          GO4EV_NULL: 0,                // no event store/source
          GO4EV_FILE: 1,                // root file with own tree
          GO4EV_TREE: 2,                // branch of singleton tree
@@ -18,18 +18,7 @@ GO4.EvIOType = {
          GO4EV_HDF5: 11                // HDF5 file format
    };
 
-function createJSMenu(event, painter) {
-   return jsrp.createMenu(event,painter).then(menu => {
-      if (!menu.confirm)
-         menu.confirm = function(head, msg) {
-            let res = window.confirm(`${head}\n${msg}`);
-            return Promise.resolve(res);
-         }
-      return menu;
-   });
-}
-
-class AnalysisStatusEditor extends JSROOT.BasePainter {
+class AnalysisStatusEditor extends BasePainter {
    constructor(dom, stat) {
       super(dom);
       this.stat = stat;
@@ -160,17 +149,17 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
       let show_tag = false, show_ports = false, show_args = false, show_more = sourcemore.property("checked");
 
       switch (theElement.fxSourceType.fiID) {
-         case GO4.EvIOType.GO4EV_MBS_FILE:
+         case EvIOType.GO4EV_MBS_FILE:
             show_tag = show_args = show_more; break;
-         case GO4.EvIOType.GO4EV_MBS_STREAM:
-         case GO4.EvIOType.GO4EV_MBS_TRANSPORT:
-         case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
-         case GO4.EvIOType.GO4EV_MBS_REVSERV:
+         case EvIOType.GO4EV_MBS_STREAM:
+         case EvIOType.GO4EV_MBS_TRANSPORT:
+         case EvIOType.GO4EV_MBS_EVENTSERVER:
+         case EvIOType.GO4EV_MBS_REVSERV:
             show_ports = show_args = show_more; break;
-         case GO4.EvIOType.GO4EV_USER:
+         case EvIOType.GO4EV_USER:
             show_ports = show_more; break;
-         case GO4.EvIOType.GO4EV_FILE:
-         case GO4.EvIOType.GO4EV_MBS_RANDOM:
+         case EvIOType.GO4EV_FILE:
+         case EvIOType.GO4EV_MBS_RANDOM:
          default:
             // show no extra parameters
             break;
@@ -182,21 +171,21 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
 
       let enbale_store_pars = false, enbale_store_name = true;
       switch (theElement.fxStoreType.fiID) {
-         case GO4.EvIOType.GO4EV_FILE:
+         case EvIOType.GO4EV_FILE:
             enbale_store_pars = true;
             break;
-         case GO4.EvIOType.GO4EV_BACK:
+         case EvIOType.GO4EV_BACK:
             enbale_store_pars = true;
             enbale_store_name = false;
             break;
-         case GO4.EvIOType.GO4EV_USER:
+         case EvIOType.GO4EV_USER:
             break;
          default:
             break;
       };
 
       tab.select(".step_store_pars").selectAll("input").each(function() {
-         d3.select(this).attr("disabled", enbale_store_pars ? null : "true");
+         d3_select(this).attr("disabled", enbale_store_pars ? null : "true");
       });
 
       tab.select(".step_store_name").attr("disabled", enbale_store_name ? null : "true");
@@ -218,16 +207,16 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
 
          // assign tabs buttons handlers
       dom.select('.ana_step_tabs_header').selectAll("button").on("click", function() {
-         let btn = d3.select(this);
+         let btn = d3_select(this);
 
          dom.select('.ana_step_tabs_header').selectAll("button").each(function() {
-            d3.select(this).classed("active_btn", false);
+            d3_select(this).classed("active_btn", false);
          });
 
          btn.classed("active_btn", true);
 
          dom.selectAll('.ana_step_tabs_body>div').each(function() {
-            let tab = d3.select(this);
+            let tab = d3_select(this);
             tab.style('display', tab.classed(btn.attr("for")) ? null : "none");
          });
       });
@@ -391,7 +380,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
       dom.select(".buttonGetAnalysis")
          .style('background-image', `url(${source_dir}icons/right.png)`)
          .on("click", () => {
-               if (JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName());
+            getHPainter()?.display(this.getItemName());
          });
 
       dom.select(".buttonSetAnalysis")
@@ -402,7 +391,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
             executeMethod(this, "UpdateFromUrl", options).then(() => {
                console.log("setting analyis configuration done.");
                this.clearChanges();
-               if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
+               getHPainter()?.reload();
             });
          });
 
@@ -419,7 +408,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
             executeMethod(this, "UpdateFromUrl", options).then(() => {
                console.log("submit and start analyis configuration done. ");
                this.clearChanges();
-               if (JSROOT.hpainter && (typeof JSROOT.hpainter.reload == 'function')) JSROOT.hpainter.reload();
+               getHPainter()?.reload();
             });
          });
 
@@ -475,7 +464,7 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          this.markChanged("asfname", 0);
          this.stat.fxAutoFileName = content;
 
-         createJSMenu(event, this)
+         createMenu(event, this)
                .then(menu => menu.confirm("Save auto save file", content))
                .then(ok => (ok ? executeMethod(this, "UpdateFromUrl", "&saveasf=" + content) : null))
                .then(res => console.log(res ? "Writing autosave file done." : "Ignore or failed"));
@@ -486,8 +475,8 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          .style('background-image', `url(${source_dir}icons/filesave.png)`)
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
-                  requestmsg = "Really save analysis preferences: " + content;
-            createJSMenu(event, this)
+                requestmsg = "Really save analysis preferences: " + content;
+            createMenu(event, this)
                   .then(menu => menu.confirm("Saving analysis preferences", requestmsg))
                   .then(ok => {
                      if (!ok) return null;
@@ -501,43 +490,45 @@ class AnalysisStatusEditor extends JSROOT.BasePainter {
          .style('background-image', `url(${source_dir}icons/fileopen.png)`)
          .on("click", event => {
             let content = dom.select(".anaprefs_name").property("value").trim(),
-                  requestmsg = "Really load analysis preferences: " + content;
-            createJSMenu(event, this)
+                requestmsg = "Really load analysis preferences: " + content;
+            createMenu(event, this)
                   .then(menu => menu.confirm("Loading analysis preferences", requestmsg))
                   .then(ok => (ok ? executeMethod(this, "UpdateFromUrl", "&loadprefs=" + content) : null))
-                  .then(res => { if ((res!==null) && JSROOT.hpainter) JSROOT.hpainter.display(this.getItemName()); });
+                  .then(res => { if (res !== null)  getHPainter()?.display(this.getItemName()); });
          });
    }
 
    redrawObject(obj /*, opt */) {
       if (obj._typename != this.stat._typename) return false;
-      this.stat = JSROOT.clone(obj);
+      this.stat = clone(obj);
       this.clearChanges();
       this.fillEditor();
       return true;
    }
+
+   static async draw(dom, stat) {
+      let editor = new AnalysisStatusEditor(domarg, stat),
+            dom = editor.selectDom(),
+            h = dom.node().clientHeight,
+            w = dom.node().clientWidth;
+
+      if ((h < 10) && (w > 10)) dom.style("height", Math.round(w * 0.7)+"px");
+
+      return httpRequest(`${source_dir}html5/analysiseditor.htm`, 'text').then(code => {
+         dom.html(code);
+
+         return httpRequest(`${source_dir}html5/stepeditor.html`, 'text');
+
+      }).then(step_code => {
+
+         editor.stepPageHtml = step_code;
+
+         editor.fillEditor();
+
+         editor.setTopPainter();
+         return editor;
+      });
+   }
 }
 
-GO4.drawGo4AnalysisStatus = function(domarg, stat) {
-   let editor = new AnalysisStatusEditor(domarg, stat),
-         dom = editor.selectDom(),
-         h = dom.node().clientHeight,
-         w = dom.node().clientWidth;
-
-   if ((h < 10) && (w > 10)) dom.style("height", Math.round(w * 0.7)+"px");
-
-   return httpRequest(`${source_dir}html5/analysiseditor.htm`, 'text').then(code => {
-      dom.html(code);
-
-      return httpRequest(`${source_dir}html5/stepeditor.html`, 'text');
-
-   }).then(step_code => {
-
-      editor.stepPageHtml = step_code;
-
-      editor.fillEditor();
-
-      editor.setTopPainter();
-      return editor;
-   });
-}
+export { AnalysisStatusEditor };
