@@ -1,9 +1,6 @@
-// $Id$
-
-import { BasePainter, getHPainter, httpRequest, clone } from 'jsroot';
+import { BasePainter, getHPainter, httpRequest, clone, d3_select } from 'jsroot';
 
 import { source_dir, executeMethod, GO4 } from './core.mjs';
-
 
 class ParameterEditor extends BasePainter {
 

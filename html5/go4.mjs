@@ -330,7 +330,7 @@ function drawSpecialObjects(dom, pic, k) {
    if (!pic.fxSpecialObjects || (k >= pic.fxSpecialObjects.arr.length))
       return Promise.resolve(false);
 
-   return draw(dom, pic.fxSpecialObjects.arr[k], pic.fxSpecialObjects.opt[k]).then(() => drawSpecialObjects(divid, pic, k+1));
+   return draw(dom, pic.fxSpecialObjects.arr[k], pic.fxSpecialObjects.opt[k]).then(() => drawSpecialObjects(dom, pic, k+1));
 }
 
 function drawPictureObjects(dom, pic, k) {
@@ -361,7 +361,7 @@ function drawPictureObjects(dom, pic, k) {
       opt = pic.fxOptObjects.arr[iopt].fString;
    if (k > 0) opt += " same";
 
-   return getHPainter().display(itemname, opt, divid).then(painter => {
+   return getHPainter().display(itemname, opt, dom).then(painter => {
       if (!painter) return;
       let need_redraw = false;
 

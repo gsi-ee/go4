@@ -292,7 +292,11 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
       if (!HasAutoLoadMethod())
          rec.SetField("_autoload", fAutoLoadArg);
       rec.SetField("_drawfunc", "GO4.drawParameter");
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(6,33,0)
+      rec.SetField("_drawscript", "go4sys/html5/pareditor.mjs");
+   #else
       rec.SetField("_drawscript", "go4sys/html/pareditor.js");
+   #endif
       rec.SetField("_drawopt", "editor");
       rec.SetField("_icon", "go4sys/icons/parameter.png");
       return;
